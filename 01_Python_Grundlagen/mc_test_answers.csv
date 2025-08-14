@@ -1,8 +1,0 @@
-user_id_hash,user_id_display,frage_nr,frage,antwort,richtig,zeit
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,KQC,34,34. Wofür wird der Parameter `stratify` in `train_test_split` (siehe `03_QUA3CK_Prozessmodell.ipynb`) typischerweise verwendet?,"Um sicherzustellen, dass die Daten vor dem Splitten zufällig gemischt werden.",-1,2025-08-12T12:15:15
-c7582fd228667a93ca7978036d2676cefe55df6cf81bb7974fad92b6c4f2b098,Dieter,46,46. Was ist eine 'Chained Assignment'-Warnung in Pandas und wie sollte man sie laut Notebook vermeiden?,"Ein Fehler, der beim Zuweisen zu einer Kopie eines DataFrames auftritt; man sollte `.loc` für die Zuweisung verwenden.",1,2025-08-12T12:15:44
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,KQC,18,18. Was ist ein Vorteil von Docker Compose gegenüber einzelnen Docker-Kommandos?,Es kann nur einen Container gleichzeitig starten,-1,2025-08-12T12:19:24
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,KQC,50,50. Welche Metrik wird im `03_QUA3CK_Prozessmodell.ipynb` zur Bewertung des K-Means-Modells (Unsupervised) verwendet?,Accuracy,-1,2025-08-12T12:19:28
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,KQC,29,29. Was ist der Zweck von 'def' in Python?,Definition einer Variablen,-1,2025-08-12T15:55:39
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,KQC,30,30. Was ist ein Vorteil von Docker für Teamarbeit?,"Jeder arbeitet in einer eigenen, inkompatiblen Umgebung",-1,2025-08-12T15:55:43
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,KQC,8,8. Wie kann man in pandas eine CSV-Datei einlesen?,pd.read_csv(),1,2025-08-12T15:55:50
