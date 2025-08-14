@@ -120,7 +120,7 @@ docker compose up -d
 - Streamlit Slim: [http://localhost:8502](http://localhost:8502)
 
 Hinweis: Der Slim-Streamlit-Service startet direkt die MC-Test-App
-(`01_Python_Grundlagen/mc_test_app.py`).
+(`mc_test_app/mc_test_app.py`).
 
 Wechsle zu den Full-Services, wenn du TensorFlow, PyTorch, OpenCV oder
 große NLP-Modelle brauchst.
@@ -582,14 +582,16 @@ Alle Apps müssen **live deployed** und **öffentlich zugänglich** sein!
 
 ```text
 amalea/
-├── 📂 01_Python_Grundlagen/              # Python Basics, MC-Test & Übungen
+├── 📂 mc_test_app/                       # MC-Test App (ehemals in 01_Python_Grundlagen)
+│   ├── 🚀 mc_test_app.py
+│   ├── 📄 mc_test_answers.csv
+│   └── 📄 README.md
+├── 📂 01_Python_Grundlagen/              # Python Basics & Übungen
 │   ├── 📓 00_Python_in_3_Stunden.ipynb
 │   ├── 📓 01_Docker_für_Data_Science.ipynb
 │   ├── 📓 02_Glossar_Alle_Begriffe_erklärt.ipynb
 │   ├── � 03_QUA3CK_Prozessmodell.ipynb
-│   ├── � mc_test_app.py                 # Multiple-Choice-Test App
 │   ├── 🚀 uebungs_app.py                 # Übungs-/Demo-App
-│   ├── 📄 mc_test_answers.csv            # Log-Datei für MC-Test
 │   └── 📁 mlruns/                        # MLflow Tracking Artefakte (Beispiel)
 ├── 📂 02_Streamlit_und_Pandas/
 │   ├── 📓 01_Erste_Streamlit_App_fixed.ipynb
