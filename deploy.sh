@@ -7,6 +7,10 @@ set -euo pipefail
 # Voraussetzungen: Arbeitsbaum sauber, Branch main lokal aktuell.
 
 REMOTE="${1:-github}"
+AUTO_FF=0
+if [ "${2:-}" = "--auto-ff" ]; then
+  AUTO_FF=1
+fi
 PREFIX_DIR="mc_test_app"
 TMP_BRANCH="deploy-mc-test"
 TARGET_BRANCH="main"
@@ -40,7 +44,21 @@ git fetch "$REMOTE" "$TARGET_BRANCH"
 LOCAL_HASH=$(git rev-parse "$TARGET_BRANCH")
 REMOTE_HASH=$(git rev-parse "refs/remotes/$REMOTE/$TARGET_BRANCH" || echo none)
 if [ "$REMOTE_HASH" != "none" ] && [ "$LOCAL_HASH" != "$REMOTE_HASH" ]; then
-  err "Lokaler $TARGET_BRANCH ($LOCAL_HASH) != Remote ($REMOTE_HASH). Bitte zuerst synchronisieren (git pull)."
+  if [ $AUTO_FF -eq 1 ]; then
+    # Prüfen ob lokaler nur hinterher hängt (lokaler Commit ist Vorfahr des Remote)
+    if git merge-base --is-ancestor "$LOCAL_HASH" "$REMOTE_HASH"; then
+      info "Lokaler Branch hinter Remote – führe Fast-Forward Pull aus (--auto-ff)."
+      git pull --ff-only "$REMOTE" "$TARGET_BRANCH"
+      LOCAL_HASH=$(git rev-parse "$TARGET_BRANCH")
+      if [ "$LOCAL_HASH" != "$REMOTE_HASH" ]; then
+        err "Fast-Forward Pull hat Hash nicht angeglichen – Abbruch."
+      fi
+    else
+      err "Divergenz (lokal nicht Vorfahr). Manuelles Rebase/Merge nötig oder ohne --auto-ff kein Deploy."
+    fi
+  else
+    err "Lokaler $TARGET_BRANCH ($LOCAL_HASH) != Remote ($REMOTE_HASH). Bitte zuerst synchronisieren (git pull) oder --auto-ff nutzen."
+  fi
 fi
 
 if git show-ref --verify --quiet "refs/heads/$TMP_BRANCH"; then
