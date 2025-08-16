@@ -6,11 +6,13 @@ Ergebnisse.
 
 ## Kernfunktionen
 
-- Fragenkatalog aus externer JSON-Datei (`questions.json`) mit Einzel-Auswahl (Radio Buttons)
+- Fragenkatalog aus externer JSON-Datei (`questions.json`)  
+  mit Einzel-Auswahl (Radio Buttons)
 - Sofort-Feedback (richtig/falsch) pro Frage
 - Fortschrittsfortsetzung (User bleibt per Session / Browser-Tab erhalten)
 - Persistenz aller Antworten in einer CSV (append-only Log)
-- Pseudonymisierung: Hash (SHA-256) des eingegebenen Nutzernamens + gekürzte Anzeige
+- Pseudonymisierung: Hash (SHA-256) des eingegebenen Nutzernamens  
+  und gekürzte Anzeige
 - Leaderboard / Gesamtübersicht (aggregierte Punktestände)
 - Admin-Ansicht (alle Antworten + optional CSV-Reset) – hinter einfachem Flag
 - Exportierbare Rohdaten (die CSV kann direkt in Pandas / BI-Tools geladen werden)
@@ -24,7 +26,8 @@ streamlit run mc_test_app/mc_test_app.py
 ## Betrieb mit Docker
 
 ```bash
-docker compose up -d streamlit-slim  # schneller Start, Port 8502 (siehe compose)
+# schneller Start (Port 8502 laut docker-compose)
+docker compose up -d streamlit-slim
 ```
 
 Alternativ (voller Stack mit Jupyter, MLflow etc.):
