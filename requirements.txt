@@ -1,0 +1,8 @@
+# Minimal requirements for standalone subtree deployment of mc_test_app
+# (separate from root-level requirements.txt which is heavy for full course stack)
+streamlit>=1.32
+pandas>=2.2
+numpy>=1.26
+
+# Optional: remove if not needed
+python-dotenv>=1.0.0
