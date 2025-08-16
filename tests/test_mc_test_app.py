@@ -65,3 +65,31 @@ def test_calculate_leaderboard_complete_run(tmp_path, monkeypatch):
     # Bei vollständigem Durchlauf genau eine Zeile
     if not lb.empty:
         assert lb.iloc[0]['Punkte'] == 3
+
+
+def test_per_session_option_shuffle(monkeypatch):
+    m = load_module()
+    # Snapshot der Original-Optionen und richtigen Antworten
+    original_opts = [q['optionen'][:] for q in m.fragen]
+    correct_values = [q['optionen'][q['loesung']] for q in m.fragen]
+
+    # Mehrere Versuche, um mit sehr geringer Wahrscheinlichkeit identische Reihenfolgen zu vermeiden
+    changed = False
+    for _ in range(5):
+        # Session-State säubern, falls vorherige Tests Werte hinterlassen
+        for key in list(getattr(m.st.session_state, 'keys')()):  # type: ignore[attr-defined]
+            del m.st.session_state[key]  # type: ignore[attr-defined]
+        m.initialize_session_state()
+        shuffled_sets = m.st.session_state.optionen_shuffled  # type: ignore[attr-defined]
+        # Prüfen: gleiche Länge
+        assert len(shuffled_sets) == len(original_opts)
+        # Jede Frage: Optionen sind Permutation der Originale und korrektes Value enthalten
+        for i, (orig, shuffled, correct) in enumerate(zip(original_opts, shuffled_sets, correct_values)):
+            assert sorted(orig) == sorted(shuffled)
+            assert correct in shuffled
+            if orig != shuffled:
+                changed = True
+        if changed:
+            break
+    # Mit extrem geringer Wahrscheinlichkeit könnte keine Änderung auftreten; dann markiere weiches Expectation.
+    assert changed, "Erwartet, dass mindestens eine Optionsliste neu gemischt wurde"
