@@ -10,6 +10,8 @@ Ergebnisse.
 
 - Fragenkatalog aus externer JSON-Datei (`questions.json`)  
   mit Einzel-Auswahl (Radio Buttons)
+- Zufällige Reihenfolge der Antwortoptionen pro Deployment
+  (Index wird beim Laden neu gemappt)
 - Sofort-Feedback (richtig/falsch) pro Frage
 - Fortschrittsfortsetzung (User bleibt per Session / Browser-Tab erhalten)
 - Persistenz aller Antworten in einer CSV (append-only Log)
