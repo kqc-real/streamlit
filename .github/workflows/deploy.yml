@@ -17,10 +17,16 @@ jobs:
       - name: Install minimal deps
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt --no-cache-dir
+          pip install -r mc_test_app/requirements.txt --no-cache-dir
       - name: Run tests
         run: |
-          pytest -q
+          pytest -q mc_test_app/tests
       - name: Subtree deploy to main
         run: |
-          bash deploy.sh github
+          # Früher Exit falls keine Änderungen unter mc_test_app/ seit letztem Commit auf main
+          if git diff --quiet HEAD^ HEAD -- mc_test_app 2>/dev/null; then
+            echo "Keine Änderungen unter mc_test_app/ im letzten Commit – überspringe Deployment." || true
+            exit 0
+          fi
+          # Remote 'github' erwartet konfiguriertes zusätzliches Remote; Script fällt sonst auf 'origin' zurück.
+          bash mc_test_app/deploy.sh github

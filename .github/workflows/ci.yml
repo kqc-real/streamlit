@@ -7,16 +7,30 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  test-minimal:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install deps
+      - name: Install deps (minimal)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r mc_test_app/requirements.txt --no-cache-dir
+      - name: Run tests (minimal)
+        run: pytest -q mc_test_app/tests
+
+  test-full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps (full stack)
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt --no-cache-dir
-      - name: Run tests
-        run: pytest -q
+      - name: Run tests (full)
+        run: pytest -q mc_test_app/tests

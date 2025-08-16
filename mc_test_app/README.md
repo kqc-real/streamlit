@@ -95,4 +95,4 @@ Eigenschaften:
 - ML-gestützte Item-Analyse (Schwierigkeit, Trennschärfe)
 
 ---
-Letzte Änderung: 2025-08-14 (funktionale Beschreibung fokussiert)
+Letzte Änderung: 2025-08-16 (Conditional Deploy & Bereinigung Root-Skripte)
