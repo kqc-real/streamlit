@@ -9,6 +9,13 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
+# Optional: .env laden, falls vorhanden (macht python-dotenv-Abhängigkeit sinnvoll)
+try:  # pragma: no cover - trivial import
+    from dotenv import load_dotenv  # type: ignore
+    load_dotenv()
+except Exception:  # pragma: no cover
+    pass
+
 # --- SEITENKONFIGURATION ---
 st.set_page_config(
     page_title="MC-Test: Data Analytics",
@@ -372,7 +379,8 @@ def display_final_summary(num_answered: int) -> None:
     else:
         emoji, quote = (
             "🤔",
-            "**Einige Konzepte sitzen schon. Schauen Sie sich die Erklärungen zu den falschen Antworten noch einmal an.**",
+            "**Einige Konzepte sitzen schon. Schauen Sie sich die Erklärungen zu den falschen "
+            "Antworten noch einmal an.**",
         )
     st.success(
         f"### {emoji} Endstand: {aktueller_punktestand} von {len(fragen)} Punkten"
