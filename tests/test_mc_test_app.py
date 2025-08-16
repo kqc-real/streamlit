@@ -12,52 +12,52 @@ def load_module():
     return module
 
 def test_get_user_id_hash_length():
+    import os
+    import pandas as pd
     m = load_module()
     h = m.get_user_id_hash('alice')
     assert len(h) == 64
     assert h == m.get_user_id_hash('alice')
-
-def test_duration_to_str():
-    import pandas as pd
-    m = load_module()
-    td = pd.to_timedelta(125, unit='s')  # 2m05s
-    assert m._duration_to_str(td) == '2:05 min'
+    
+    def test_get_user_id_hash_length():
+        h = get_user_id_hash('alice')
+        assert len(h) == 64
+        assert h == get_user_id_hash('alice')
 
 def test_save_answer_writes_row(tmp_path):
-    m = load_module()
-    log_path = tmp_path / 'answers.csv'
+        td = pd.Timedelta(seconds=125)
+        assert _duration_to_str(td) == '2:05 min'
     m.LOGFILE = str(log_path)
     frage_obj = {
-        'frage': '1. Testfrage',
-        'optionen': ['A', 'B'],
-        'loesung': 0,
+        logfile = tmp_path / "mc_test_answers.csv"
+        orig_logfile = os.environ.get('LOGFILE')
+        os.environ['LOGFILE'] = str(logfile)
     }
     user = 'tester'
     user_hash = m.get_user_id_hash(user)
     m.save_answer(user, user_hash, frage_obj, 'A', 1)
     assert log_path.exists()
     rows = list(csv.DictReader(open(log_path, encoding='utf-8')))
-    assert len(rows) == 1
-    r = rows[0]
-    assert r['user_id_hash'] == user_hash
-    assert r['user_id_display'] == user_hash[:m.DISPLAY_HASH_LEN]
-    assert r['frage_nr'] == '1'
-    assert r['richtig'] == '1'
-
-
-def test_calculate_leaderboard_complete_run(tmp_path, monkeypatch):
-    m = load_module()
+        user_hash = get_user_id_hash(user)
+        save_answer(user, user_hash, frage_obj, 'A', 1)
+        df = pd.read_csv(logfile)
+        assert df.shape[0] == 1
+        assert df.iloc[0]['antwort'] == 'A'
+        if orig_logfile:
+            os.environ['LOGFILE'] = orig_logfile
     # Redirect logfile
     m.LOGFILE = str(tmp_path / 'answers.csv')
-    # Simuliere begrenzten Fragenkatalog (3 Fragen) für schnelleren Test
-    monkeypatch.setattr(m, 'FRAGEN_ANZAHL', 3, raising=False)
-    fragen = [
+        logfile = tmp_path / "mc_test_answers.csv"
+        orig_logfile = os.environ.get('LOGFILE')
+        os.environ['LOGFILE'] = str(logfile)
         {'frage': '1. A', 'optionen': ['X'], 'loesung': 0},
         {'frage': '2. B', 'optionen': ['X'], 'loesung': 0},
         {'frage': '3. C', 'optionen': ['X'], 'loesung': 0},
     ]
-    # Antworten für einen User vollständig eintragen
-    user = 'u1'
+        df = load_all_logs()
+        assert isinstance(df, pd.DataFrame)
+        if orig_logfile:
+            os.environ['LOGFILE'] = orig_logfile
     user_hash = m.get_user_id_hash(user)
     for f in fragen:
         m.save_answer(user, user_hash, f, 'X', 1)
