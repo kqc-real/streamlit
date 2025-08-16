@@ -93,3 +93,40 @@ def test_per_session_option_shuffle(monkeypatch):
             break
     # Mit extrem geringer Wahrscheinlichkeit könnte keine Änderung auftreten; dann markiere weiches Expectation.
     assert changed, "Erwartet, dass mindestens eine Optionsliste neu gemischt wurde"
+
+
+def test_admin_permission_no_env(monkeypatch):
+    m = load_module()
+    # Sicherstellen, dass ENV nicht gesetzt ist
+    monkeypatch.delenv('MC_TEST_ADMIN_KEY', raising=False)
+    monkeypatch.delenv('MC_TEST_ADMIN_USER', raising=False)
+    assert m.check_admin_permission('alice', 'secret') is True
+    assert m.check_admin_permission('alice', '') is False
+
+
+def test_admin_permission_only_key(monkeypatch):
+    m = load_module()
+    monkeypatch.setenv('MC_TEST_ADMIN_KEY', 'TOP')
+    monkeypatch.delenv('MC_TEST_ADMIN_USER', raising=False)
+    assert m.check_admin_permission('alice', 'TOP') is True
+    assert m.check_admin_permission('bob', 'TOP') is True  # User egal
+    assert m.check_admin_permission('alice', 'wrong') is False
+
+
+def test_admin_permission_only_user(monkeypatch):
+    m = load_module()
+    monkeypatch.delenv('MC_TEST_ADMIN_KEY', raising=False)
+    monkeypatch.setenv('MC_TEST_ADMIN_USER', 'root')
+    # Nur root mit beliebigem nicht-leerem Key
+    assert m.check_admin_permission('root', 'x') is True
+    assert m.check_admin_permission('root', '') is False
+    assert m.check_admin_permission('alice', 'x') is False
+
+
+def test_admin_permission_user_and_key(monkeypatch):
+    m = load_module()
+    monkeypatch.setenv('MC_TEST_ADMIN_USER', 'root')
+    monkeypatch.setenv('MC_TEST_ADMIN_KEY', 'TOP')
+    assert m.check_admin_permission('root', 'TOP') is True
+    assert m.check_admin_permission('root', 'x') is False
+    assert m.check_admin_permission('alice', 'TOP') is False
