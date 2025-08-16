@@ -20,9 +20,8 @@ jobs:
           pip install -r mc_test_app/requirements-test.txt --no-cache-dir
       - name: Run tests
         run: |
-          if [ -d tests ]; then TEST_DIR=tests; else TEST_DIR=mc_test_app/tests; fi
-          echo "Running tests in $TEST_DIR"
-          pytest -q "$TEST_DIR"
+          echo "Running tests in mc_test_app/tests"
+          pytest -q mc_test_app/tests
 
   smoke:
     runs-on: ubuntu-latest
