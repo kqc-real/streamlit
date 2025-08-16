@@ -27,6 +27,13 @@ streamlit run mc_test_app/mc_test_app.py
 
 ## Betrieb mit Docker
 
+> Hinweis: Dieser Abschnitt ist nur relevant, wenn du das komplette
+> Kurs-Repository mit der Datei `docker-compose.yml` lokal nutzt.
+> Für den isolierten Betrieb / das Deployment des Subtrees
+> `mc_test_app/` (z.B. Streamlit Cloud oder simples Hosting) brauchst
+> du Docker nicht – du kannst direkt
+> `streamlit run mc_test_app/mc_test_app.py` ausführen.
+
 ```bash
 # schneller Start (Port 8502 laut docker-compose)
 docker compose up -d streamlit-slim
