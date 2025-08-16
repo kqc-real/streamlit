@@ -6,7 +6,7 @@ Ergebnisse.
 
 ## Kernfunktionen
 
-- Fragenkatalog (feste Liste) mit Einzel-Auswahl (Radio Buttons)
+- Fragenkatalog aus externer JSON-Datei (`questions.json`) mit Einzel-Auswahl (Radio Buttons)
 - Sofort-Feedback (richtig/falsch) pro Frage
 - Fortschrittsfortsetzung (User bleibt per Session / Browser-Tab erhalten)
 - Persistenz aller Antworten in einer CSV (append-only Log)
@@ -37,10 +37,11 @@ docker compose up -d
 
 ```text
 mc_test_app/
-  mc_test_app.py          # Streamlit App Logik
-  mc_test_answers.csv     # Antwort-Log (automatisch erzeugt)
-  notebooks/              # Deployment / Betriebsdokumentation
-  README.md               # Diese Datei
+  mc_test_app.py           # Streamlit App Logik
+  mc_test_answers.csv      # Antwort-Log (automatisch erzeugt)
+  questions.json           # Externer Fragenkatalog
+  Cloud_Deployment.ipynb   # Deployment / Betriebs-Notizen
+  README.md                # Diese Datei
 ```
 
 ## Datenpersistenz (CSV)
@@ -51,7 +52,7 @@ Schema:
 Erläuterungen:
 
 - user_id_hash: SHA-256 Hash des Roh-Nutzernamens (Datenschutz)
-- user_id_display: Kürzere / abgeleitete Darstellung für UI
+- user_id_display: Gekürzter Hash-Prefix (Standardeinstellung: erste 10 Zeichen)
 - frage_nr: Laufende Nummer
 - frage: Volltext der Frage (für Auswertungen ohne Code)
 - antwort: Gewählte Antwortoption (als String gespeichert)
@@ -73,7 +74,7 @@ Eigenschaften:
 ## Admin / Wartung
 
 - CSV-Reset (manuell: Datei löschen, wird neu erstellt)
-- Optionale Erweiterung: Environment-Variable (z.B. `MC_TEST_ADMIN_CODE`) für Admin-Features
+- Environment-Variable `MC_TEST_ADMIN_KEY` für Admin-Features
 - Backup-Empfehlung: periodische Kopie der CSV (z.B. per Cron / CI Artifact)
 
 ## Integration in Infrastruktur
@@ -85,7 +86,7 @@ Eigenschaften:
 
 ## Erweiterungsideen (optional)
 
-- Fragen aus externer YAML / JSON statt Hardcode
+- Erweiterte Fragenquellen (z.B. YAML) oder dynamische Rotation
 - Mehrfachantworten oder gewichtete Punkte
 - Zeitlimits / Timing-Statistiken
 - ML-gestützte Item-Analyse (Schwierigkeit, Trennschärfe)
