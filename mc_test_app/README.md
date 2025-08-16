@@ -1,5 +1,7 @@
 # 📝 MC-Test Streamlit App
 
+[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
+
 Interaktive Multiple-Choice Lern- und Selbsttest-App für Kursteilnehmende.
 Ziel: schnelles Feedback, Fortschrittsanzeige und Auswertung aggregierter
 Ergebnisse.
