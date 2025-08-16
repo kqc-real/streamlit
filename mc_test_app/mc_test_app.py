@@ -229,6 +229,28 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
     frage_nr = int(frage_obj['frage'].split('.')[0])
     # Anzeige-Name ist ein gekürzter Hash-Prefix, kein Klartext-Pseudonym
     user_id_display = user_id_hash[:DISPLAY_HASH_LEN]
+    # Duplicate Guard: Falls bereits beantwortet (Session oder Log), nicht erneut schreiben
+    dup_key = f"answered_{frage_nr}"
+    if st.session_state.get(dup_key):
+        return
+    if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+        try:
+            # Schneller Check nur auf user_id_hash + frage_nr
+            partial = pd.read_csv(
+                LOGFILE,
+                usecols=['user_id_hash', 'frage_nr'],
+                dtype={'user_id_hash': str, 'frage_nr': str},
+                on_bad_lines='skip'
+            )
+            mask = (
+                (partial['user_id_hash'] == user_id_hash) &
+                (partial['frage_nr'] == str(frage_nr))
+            )
+            if not partial[mask].empty:
+                st.session_state[dup_key] = True
+                return
+        except Exception:
+            pass
     row = {
         'user_id_hash': user_id_hash,
         'user_id_display': user_id_display,
@@ -249,6 +271,7 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
                 if not file_exists_and_not_empty:
                     writer.writeheader()
                 writer.writerow(row)
+            st.session_state[dup_key] = True
             return
         except IOError as e:
             attempt += 1

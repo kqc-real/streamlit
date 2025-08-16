@@ -26,4 +26,29 @@ jobs:
           echo "Running tests in $TEST_DIR"
           pytest -q "$TEST_DIR"
 
+  smoke:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps (minimal)
+        run: |
+          pip install -r mc_test_app/requirements.txt --no-cache-dir
+      - name: Smoke run (start then exit)
+        run: |
+          python - <<'EOF'
+          import subprocess, time, sys
+          p = subprocess.Popen([
+              sys.executable, '-m', 'streamlit', 'run', 'mc_test_app/mc_test_app.py',
+              '--server.headless', 'true', '--server.port', '9999'
+          ])
+          time.sleep(5)
+          p.terminate()
+          rc = p.wait(timeout=10)
+          print('Streamlit exit code:', rc)
+          EOF
+
 # Schlanke Variante: ein Job, nur bei Änderungen unter mc_test_app/.

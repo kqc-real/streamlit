@@ -15,6 +15,7 @@ Zufällige Reihenfolge der Antwortoptionen pro Nutzer-Sitzung
 - Sofort-Feedback (richtig/falsch) pro Frage
 - Fortschrittsfortsetzung (User bleibt per Session / Browser-Tab erhalten)
 - Persistenz aller Antworten in einer CSV (append-only Log)
+Duplikat-Schutz: Eine Frage wird pro Nutzer nur einmal geloggt.
 - Pseudonymisierung: Hash (SHA-256) des eingegebenen Nutzernamens  
   und gekürzte Anzeige
 - Leaderboard / Gesamtübersicht (aggregierte Punktestände)
@@ -124,6 +125,12 @@ git subtree push --prefix mc_test_app github main
 ```
 
 Alternative Skript-/Workflow-Varianten wurden entfernt, um Verwirrung zu minimieren.
+
+## CI / Qualität
+
+- Tests (Pytest) + Smoke-Test (kurzer Headless-Start der App)
+- Schutz gegen defekte CSV-Zeilen (`on_bad_lines=skip`)
+- Retry beim Schreiben (bis zu 3 Versuche)
 
 ## Erweiterungsideen (optional)
 
