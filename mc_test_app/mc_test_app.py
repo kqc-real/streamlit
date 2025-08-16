@@ -41,6 +41,22 @@ def _load_fragen():
             data = json.load(f)
         if not isinstance(data, list):
             raise ValueError("questions.json muss eine Liste enthalten")
+        # Zufällige Position der richtigen Antwortoption herstellen.
+        # Wir shufflen einmal beim Laden (Server-Start) und passen den Index "loesung" an,
+        # damit pro Deployment die Reihenfolge variiert, aber für alle Nutzer stabil bleibt.
+        for q in data:
+            try:
+                opts = q.get('optionen')
+                correct_idx = q.get('loesung')
+                if not isinstance(opts, list) or correct_idx is None:
+                    continue
+                if 0 <= correct_idx < len(opts):
+                    correct_value = opts[correct_idx]
+                    random.shuffle(opts)
+                    q['loesung'] = opts.index(correct_value)
+            except Exception:
+                # Bei Problemen einfach original belassen
+                continue
         return data
     except Exception as e:
         st.error(f"Konnte questions.json nicht laden: {e}")
