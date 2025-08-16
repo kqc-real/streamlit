@@ -34,6 +34,14 @@ DISPLAY_HASH_LEN = 10  # Länge des Hash-Prefix für Anzeige (Pseudonymisierung)
 MAX_SAVE_RETRIES = 3  # Anzahl Schreibversuche bei transienten IO-Fehlern
 
 
+def get_rate_limit_seconds() -> int:
+    """Liest minimale Sekunden zwischen zwei gespeicherten Antworten (Throttle)."""
+    try:
+        return int(os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "0"))
+    except ValueError:
+        return 0
+
+
 def _load_fragen():
     """Lädt Fragen aus externer JSON-Datei (questions.json)."""
     questions_path = os.path.join(os.path.dirname(__file__), "questions.json")
@@ -229,6 +237,17 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
     frage_nr = int(frage_obj['frage'].split('.')[0])
     # Anzeige-Name ist ein gekürzter Hash-Prefix, kein Klartext-Pseudonym
     user_id_display = user_id_hash[:DISPLAY_HASH_LEN]
+    # Throttling: Mindestabstand zwischen zwei Antworten
+    min_delta = get_rate_limit_seconds()
+    if min_delta > 0:
+        last_ts = st.session_state.get('last_answer_ts')
+        now_ts = time.time()
+        if last_ts and (now_ts - last_ts) < min_delta:
+            remaining = int(min_delta - (now_ts - last_ts))
+            st.warning(
+                f"Bitte kurz warten ({remaining}s) bevor die nächste Antwort gespeichert wird."
+            )
+            return
     # Duplicate Guard: Falls bereits beantwortet (Session oder Log), nicht erneut schreiben
     dup_key = f"answered_{frage_nr}"
     if st.session_state.get(dup_key):
@@ -272,6 +291,8 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
                     writer.writeheader()
                 writer.writerow(row)
             st.session_state[dup_key] = True
+            if min_delta > 0:
+                st.session_state['last_answer_ts'] = time.time()
             return
         except IOError as e:
             attempt += 1

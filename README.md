@@ -96,6 +96,8 @@ Eigenschaften:
 - Backup-Empfehlung: periodische Kopie der CSV (z.B. per Cron / CI Artifact)
 Optional: Lege eine `.env` (siehe `.env.example`) ab – wird automatisch geladen
 `MC_TEST_ADMIN_USER` (optional) beschränkt Admin-Funktionen auf ein bestimmtes Pseudonym.
+`MC_TEST_MIN_SECONDS_BETWEEN` (optional) Mindestsekunden zwischen zwei
+Antworten (Rate-Limit / Throttling).
 
 ## Integration in Infrastruktur
 
