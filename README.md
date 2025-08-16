@@ -49,13 +49,14 @@ docker compose up -d
 
 ```text
 mc_test_app/
-  Cloud_Deployment.ipynb   # Leitfaden: Deployment / Betriebs-Notizen
   README.md                # App-spezifische Dokumentation
   mc_test_app.py           # Haupt-Streamlit-App (UI + Logik)
   questions.json           # Fragenkatalog (MC-Fragen + Optionen + Lösung)
   requirements.txt         # Minimale Dependencies für Cloud/Subtree-Build
   tests/                   # Pytest-Tests (Hash, Dauerformat, Logging ...)
   mc_test_answers.csv      # Antwort-Log (automatisch erzeugt; kann fehlen)
+  .github/workflows/ci.yml # CI (Tests) nur für diesen Subtree
+  .env.example             # (optional) Beispiel-ENV falls genutzt
 ```
 
 ## Datenpersistenz (CSV)
