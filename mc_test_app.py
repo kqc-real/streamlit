@@ -23,6 +23,7 @@ FIELDNAMES = [
     'antwort', 'richtig', 'zeit'
 ]
 FRAGEN_ANZAHL = 50
+DISPLAY_HASH_LEN = 10  # Länge des Hash-Prefix für Anzeige (Pseudonymisierung)
 
 
 def _load_fragen():
@@ -203,9 +204,11 @@ def load_user_progress(user_id_hash: str) -> None:
 
 def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, punkte: int) -> None:
     frage_nr = int(frage_obj['frage'].split('.')[0])
+    # Anzeige-Name ist ein gekürzter Hash-Prefix, kein Klartext-Pseudonym
+    user_id_display = user_id_hash[:DISPLAY_HASH_LEN]
     row = {
         'user_id_hash': user_id_hash,
-        'user_id_display': user_id,
+        'user_id_display': user_id_display,
         'frage_nr': frage_nr,
         'frage': frage_obj['frage'],
         'antwort': antwort,
