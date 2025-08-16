@@ -6,3 +6,6 @@ numpy>=1.26
 
 # Optional: remove if not needed
 python-dotenv>=1.0.0
+
+# Test dependency (needed by GitHub Actions CI workflow)
+pytest>=8.0,<9
