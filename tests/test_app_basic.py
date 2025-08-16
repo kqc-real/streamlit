@@ -3,8 +3,6 @@ import csv
 from pathlib import Path
 
 import importlib.util
-import sys
-from types import SimpleNamespace
 
 # We only test pure helper behaviors (no Streamlit runtime UI rendering).
 
@@ -37,19 +35,7 @@ def test_save_answer_creates_or_appends(tmp_path, monkeypatch):
     
     class DummySession(dict):
         pass
-    dummy_state = DummySession()
-    # Inject into module's st.session_state emulation: we can't import streamlit session easily in tests.
-    # Provide a lightweight fallback for streamlit session_state if streamlit missing
-    try:
-        import streamlit as st  # type: ignore
-    except Exception:  # provide shim
-        st = SimpleNamespace(session_state=dummy_state)  # type: ignore
-        sys.modules.setdefault("streamlit", st)  # type: ignore
-    # Ensure session_state reference points to dummy
-    try:
-        monkeypatch.setattr(sys.modules['streamlit'], 'session_state', dummy_state, raising=False)
-    except Exception:
-        pass
+    # No streamlit monkeypatching or stubs; use real streamlit
     frage_obj = {
         "frage": "999. Testfrage?",
         "optionen": ["A", "B"],
