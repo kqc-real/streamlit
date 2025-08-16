@@ -14,12 +14,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install deps
+      - name: Install minimal test deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then REQ=requirements.txt; else REQ=mc_test_app/requirements.txt; fi
-          echo "Using requirements file: $REQ"
-          pip install -r "$REQ" --no-cache-dir
+          pip install -r mc_test_app/requirements-test.txt --no-cache-dir
       - name: Run tests
         run: |
           if [ -d tests ]; then TEST_DIR=tests; else TEST_DIR=mc_test_app/tests; fi
