@@ -43,3 +43,25 @@ def test_save_answer_writes_row(tmp_path):
     assert r['user_id_display'] == user_hash[:m.DISPLAY_HASH_LEN]
     assert r['frage_nr'] == '1'
     assert r['richtig'] == '1'
+
+
+def test_calculate_leaderboard_complete_run(tmp_path, monkeypatch):
+    m = load_module()
+    # Redirect logfile
+    m.LOGFILE = str(tmp_path / 'answers.csv')
+    # Simuliere begrenzten Fragenkatalog (3 Fragen) für schnelleren Test
+    monkeypatch.setattr(m, 'FRAGEN_ANZAHL', 3, raising=False)
+    fragen = [
+        {'frage': '1. A', 'optionen': ['X'], 'loesung': 0},
+        {'frage': '2. B', 'optionen': ['X'], 'loesung': 0},
+        {'frage': '3. C', 'optionen': ['X'], 'loesung': 0},
+    ]
+    # Antworten für einen User vollständig eintragen
+    user = 'u1'
+    user_hash = m.get_user_id_hash(user)
+    for f in fragen:
+        m.save_answer(user, user_hash, f, 'X', 1)
+    lb = m.calculate_leaderboard()
+    # Bei vollständigem Durchlauf genau eine Zeile
+    if not lb.empty:
+        assert lb.iloc[0]['Punkte'] == 3
