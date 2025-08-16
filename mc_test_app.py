@@ -399,6 +399,25 @@ def display_final_summary(num_answered: int) -> None:
     st.markdown(quote)
 
 
+def check_admin_permission(user_id: str, provided_key: str) -> bool:
+    """Prüft Admin-Berechtigung basierend auf ENV-Konfiguration.
+
+    Regeln:
+    - MC_TEST_ADMIN_USER gesetzt: Nur genau dieses Pseudonym darf Admin werden.
+    - MC_TEST_ADMIN_KEY gesetzt: Key muss exakt passen.
+    - Wenn kein Key gesetzt ist (MC_TEST_ADMIN_KEY leer), reicht beliebige nicht-leere Eingabe,
+      sofern (falls gesetzt) der Benutzername MC_TEST_ADMIN_USER entspricht.
+    """
+    admin_user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
+    admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
+    if admin_user and user_id != admin_user:
+        return False
+    if admin_key_env:
+        return provided_key == admin_key_env
+    # Kein Key konfiguriert -> jede nicht-leere Eingabe akzeptieren
+    return provided_key != ""
+
+
 def handle_user_session():
     st.sidebar.header("👤 Nutzerkennung")
     if 'user_id' in st.session_state:
@@ -421,16 +440,31 @@ def handle_user_session():
             st.session_state['load_progress'] = False
         st.sidebar.divider()
         st.sidebar.subheader("🔐 Admin")
+        admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
         admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
-        hint = "(ENV nicht gesetzt)" if not admin_key_env else ""
-        st.sidebar.caption(f"Admin-Key {hint}")
+        user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
+        if not user_allowed:
+            st.sidebar.caption(
+                f"Admin nur für Benutzer: {admin_user_cfg}" if admin_user_cfg else ""
+            )
+        hint = []
+        if not admin_key_env:
+            hint.append("kein Admin-Key gesetzt")
+        if admin_user_cfg:
+            hint.append(f"nur Benutzer '{admin_user_cfg}'")
+        hint_text = ", ".join(hint)
+        if hint_text:
+            st.sidebar.caption(hint_text)
         admin_key_input = st.sidebar.text_input(
-            "Admin-Schlüssel", type="password", key="admin_key_input"
+            "Admin-Schlüssel", type="password", key="admin_key_input",
+            disabled=not user_allowed,
+            help=(
+                "Dieses Pseudonym ist nicht für Admin freigeschaltet." if not user_allowed else None
+            ),
         )
-        is_admin = (
-            (bool(admin_key_env) and admin_key_input == admin_key_env) or
-            (not admin_key_env and admin_key_input != "")
-        )
+        is_admin = False
+        if user_allowed:
+            is_admin = check_admin_permission(st.session_state.user_id, admin_key_input)
         if 'admin_view' not in st.session_state:
             st.session_state['admin_view'] = False
         st.sidebar.checkbox(
