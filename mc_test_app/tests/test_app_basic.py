@@ -2,9 +2,10 @@ import json
 import csv
 from pathlib import Path
 
-import importlib.util
 
-# We only test pure helper behaviors (no Streamlit runtime UI rendering).
+import os
+import pandas as pd
+from mc_test_utils import save_answer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 QUESTIONS_FILE = BASE_DIR / "questions.json"
@@ -20,34 +21,21 @@ def test_questions_file_exists_and_valid():
     assert isinstance(first["loesung"], int)
 
 
-def test_save_answer_creates_or_appends(tmp_path, monkeypatch):
-    """Patch LOGFILE to temp and verify row append semantics."""
-    # Import module
-    module_path = BASE_DIR / "mc_test_app.py"
-    spec = importlib.util.spec_from_file_location("mc_test_app_module", module_path)
-    app = importlib.util.module_from_spec(spec)  # type: ignore
-    assert spec and spec.loader
-    spec.loader.exec_module(app)  # type: ignore
-    # Patch logfile path
-    temp_log = tmp_path / "answers.csv"
-    monkeypatch.setattr(app, "LOGFILE", str(temp_log))
-    # Minimal fake state for save_answer
-    
-    class DummySession(dict):
-        pass
-    # No streamlit monkeypatching or stubs; use real streamlit
+def test_save_answer_creates_or_appends(tmp_path):
+    logfile = tmp_path / "mc_test_answers.csv"
+    orig_logfile = os.environ.get('LOGFILE')
+    os.environ['LOGFILE'] = str(logfile)
     frage_obj = {
         "frage": "999. Testfrage?",
         "optionen": ["A", "B"],
         "loesung": 0,
     }
-    # First write
-    app.save_answer("userX", "hashX", frage_obj, "A", 1)
-    assert temp_log.exists(), "Logfile sollte erzeugt werden"
-    rows = list(csv.DictReader(open(temp_log, newline="", encoding="utf-8")))
-    assert len(rows) == 1
-    assert rows[0]["frage_nr"] == "999"
-    # Duplicate guard: second call should not append
-    app.save_answer("userX", "hashX", frage_obj, "A", 1)
-    rows2 = list(csv.DictReader(open(temp_log, newline="", encoding="utf-8")))
-    assert len(rows2) == 1, "Keine zweite Zeile bei Duplicate erwartet"
+    save_answer("userX", "hashX", frage_obj, "A", 1)
+    df = pd.read_csv(logfile)
+    assert df.shape[0] == 1
+    assert df.iloc[0]["frage_nr"] == 999
+    save_answer("userX", "hashX", frage_obj, "A", 1)
+    df2 = pd.read_csv(logfile)
+    assert df2.shape[0] == 1, "Keine zweite Zeile bei Duplicate erwartet"
+    if orig_logfile:
+        os.environ['LOGFILE'] = orig_logfile
