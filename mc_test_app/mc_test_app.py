@@ -41,22 +41,6 @@ def _load_fragen():
             data = json.load(f)
         if not isinstance(data, list):
             raise ValueError("questions.json muss eine Liste enthalten")
-        # Zufällige Position der richtigen Antwortoption herstellen.
-        # Wir shufflen einmal beim Laden (Server-Start) und passen den Index "loesung" an,
-        # damit pro Deployment die Reihenfolge variiert, aber für alle Nutzer stabil bleibt.
-        for q in data:
-            try:
-                opts = q.get('optionen')
-                correct_idx = q.get('loesung')
-                if not isinstance(opts, list) or correct_idx is None:
-                    continue
-                if 0 <= correct_idx < len(opts):
-                    correct_value = opts[correct_idx]
-                    random.shuffle(opts)
-                    q['loesung'] = opts.index(correct_value)
-            except Exception:
-                # Bei Problemen einfach original belassen
-                continue
         return data
     except Exception as e:
         st.error(f"Konnte questions.json nicht laden: {e}")
@@ -78,6 +62,12 @@ def initialize_session_state():
     random.shuffle(st.session_state.frage_indices)
     st.session_state.start_zeit = None
     st.session_state.progress_loaded = False
+    # Pro Nutzer-Sitzung eigene zufällige Reihenfolge der Antwortoptionen
+    st.session_state.optionen_shuffled = []
+    for q in fragen:
+        opts = list(q.get('optionen', []))
+        random.shuffle(opts)
+        st.session_state.optionen_shuffled.append(opts)
 
 
 def _duration_to_str(x):
@@ -259,15 +249,17 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         is_disabled = st.session_state.beantwortet[frage_idx] is not None
         try:
             gespeicherte_antwort = st.session_state.get(f"frage_{frage_idx}")
+            optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
             antwort_index = (
-                frage_obj["optionen"].index(gespeicherte_antwort)
+                optionen_anzeige.index(gespeicherte_antwort)
                 if gespeicherte_antwort else None
             )
         except (ValueError, TypeError):
             antwort_index = None
+            optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
         antwort = st.radio(
             "Antwort auswählen:",
-            options=frage_obj["optionen"],
+            options=optionen_anzeige,
             key=f"frage_{frage_idx}",
             index=antwort_index,
             disabled=is_disabled,
@@ -276,6 +268,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         if antwort and not is_disabled:
             if st.session_state.start_zeit is None:
                 st.session_state.start_zeit = datetime.now()
+            # Korrektheitsprüfung gegen ursprüngliche richtige Option
             richtig = (antwort == frage_obj["optionen"][frage_obj["loesung"]])
             punkte = 1 if richtig else -1
             st.session_state.beantwortet[frage_idx] = punkte
