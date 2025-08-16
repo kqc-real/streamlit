@@ -94,6 +94,7 @@ Eigenschaften:
 - Environment-Variable `MC_TEST_ADMIN_KEY` für Admin-Features
 - Backup-Empfehlung: periodische Kopie der CSV (z.B. per Cron / CI Artifact)
 Optional: Lege eine `.env` (siehe `.env.example`) ab – wird automatisch geladen
+`MC_TEST_ADMIN_USER` (optional) beschränkt Admin-Funktionen auf ein bestimmtes Pseudonym.
 
 ## Integration in Infrastruktur
 
