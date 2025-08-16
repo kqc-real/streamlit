@@ -134,6 +134,17 @@ Alternative Skript-/Workflow-Varianten wurden entfernt, um Verwirrung zu minimie
 - Schutz gegen defekte CSV-Zeilen (`on_bad_lines=skip`)
 - Retry beim Schreiben (bis zu 3 Versuche)
 
+## Barrierefreiheit & UX
+
+- Optionaler hoher Kontrast (Sidebar Toggle)
+- Größere Schrift auf Wunsch
+- Reduzierte Animationen (für ruhigere Darstellung / Epilepsieprävention)
+- Anzeige "Frage X von N" über jeder Frage
+- Screenreader-Only Fortschritts-Text (visuell versteckt)
+- Live-Countdown bei aktivem Throttling (Wartezeit bis nächste Antwort)
+- Sticky Fortschrittsleiste am oberen Rand
+- Review-Modus nach Abschluss (alle Fragen inkl. richtiger Antwort)
+
 ## Erweiterungsideen (optional)
 
 - Erweiterte Fragenquellen (z.B. YAML) oder dynamische Rotation
@@ -141,5 +152,21 @@ Alternative Skript-/Workflow-Varianten wurden entfernt, um Verwirrung zu minimie
 - Zeitlimits / Timing-Statistiken
 - ML-gestützte Item-Analyse (Schwierigkeit, Trennschärfe)
 
+## Schnelle Tests ausführen
+
+Für reine App-Logik-Tests ohne die große ML Toolchain:
+
+```bash
+pip install -r mc_test_app/requirements-test.txt
+pytest mc_test_app/tests -q
+```
+
+Für vollständige Umgebung (TensorFlow / PyTorch etc.):
+
+```bash
+pip install -r requirements.txt
+pytest mc_test_app/tests -q
+```
+
 ---
-Letzte Änderung: 2025-08-16 (Vereinfachtes Deployment: Einzeiler git subtree push)
+Letzte Änderung: 2025-08-16 (Tests: leichter Minimal-Setup hinzugefügt)

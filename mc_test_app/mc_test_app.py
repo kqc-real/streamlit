@@ -1,56 +1,85 @@
+"""Neu geschriebene Streamlit MC-Test App (konsolidiert)."""
+
+from __future__ import annotations
+
 import os
 import csv
 import time
-import hashlib
-import random
 import json
+import random
+import hashlib
 from datetime import datetime
+from typing import List, Dict
 
 import streamlit as st
 import pandas as pd
 
-# Optional: .env laden, falls vorhanden (macht python-dotenv-Abhängigkeit sinnvoll)
-try:  # pragma: no cover - trivial import
+try:  # pragma: no cover
     from dotenv import load_dotenv  # type: ignore
     load_dotenv()
 except Exception:  # pragma: no cover
     pass
 
-# --- SEITENKONFIGURATION ---
+# ------------------------- Seiteneinstellungen -----------------------------
 st.set_page_config(
     page_title="MC-Test: Data Analytics",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# --- KONSTANTEN & FRAGENKATALOG ---
+# ---------------------------- Konstanten -----------------------------------
 LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
 FIELDNAMES = [
     'user_id_hash', 'user_id_display', 'frage_nr', 'frage',
     'antwort', 'richtig', 'zeit'
 ]
-FRAGEN_ANZAHL = 50
-DISPLAY_HASH_LEN = 10  # Länge des Hash-Prefix für Anzeige (Pseudonymisierung)
-MAX_SAVE_RETRIES = 3  # Anzahl Schreibversuche bei transienten IO-Fehlern
+FRAGEN_ANZAHL = 50  # Fallback (wird durch echte Anzahl überschrieben)
+DISPLAY_HASH_LEN = 10
+MAX_SAVE_RETRIES = 3
+
+# Sticky Bar CSS (keine langen Quellcode-Zeilen)
+STICKY_BAR_CSS = """
+<style>
+.top-progress-wrapper{
+    position:fixed;
+    top:0;left:0;width:100%;
+    z-index:1000;
+    background:rgba(0,0,0,0.05);
+    backdrop-filter:blur(4px);
+    padding:4px 12px;
+}
+.top-progress-bar{
+    height:8px;
+    border-radius:4px;
+    background:#ddd;
+    overflow:hidden;
+}
+.top-progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,#4b9fff,#0073e6);
+    transition:width .3s;
+}
+body{margin-top:60px;}
+@media (prefers-reduced-motion: reduce){
+    .top-progress-fill{transition:none}
+}
+</style>
+"""
 
 
 def get_rate_limit_seconds() -> int:
-    """Liest minimale Sekunden zwischen zwei gespeicherten Antworten (Throttle)."""
     try:
         return int(os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "0"))
     except ValueError:
         return 0
 
 
-def _load_fragen():
-    """Lädt Fragen aus externer JSON-Datei (questions.json)."""
-    questions_path = os.path.join(os.path.dirname(__file__), "questions.json")
+def _load_fragen() -> List[Dict]:
+    path = os.path.join(os.path.dirname(__file__), "questions.json")
     try:
-        with open(questions_path, "r", encoding="utf-8") as f:
+        with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        if not isinstance(data, list):
-            raise ValueError("questions.json muss eine Liste enthalten")
-        return data
+        return data if isinstance(data, list) else []
     except Exception as e:
         st.error(f"Konnte questions.json nicht laden: {e}")
         return []
@@ -58,6 +87,22 @@ def _load_fragen():
 
 fragen = _load_fragen()
 FRAGEN_ANZAHL = len(fragen) or FRAGEN_ANZAHL
+
+
+def apply_accessibility_settings() -> None:
+    css_parts = [
+        ".sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}"
+    ]
+    if st.session_state.get("high_contrast"):
+        css_parts.append(
+            "body,.stApp{background:#000 !important;color:#fff !important;}h1,h2,h3,h4,h5,h6{color:#fff !important;}"
+        )
+    if st.session_state.get("large_text"):
+        css_parts.append(
+            "html,body,.stMarkdown p,.stRadio label,label,div{font-size:1.05rem !important;}"
+        )
+    if css_parts:
+        st.markdown(f"<style>{''.join(css_parts)}</style>", unsafe_allow_html=True)
 
 
 @st.cache_data
@@ -71,7 +116,6 @@ def initialize_session_state():
     random.shuffle(st.session_state.frage_indices)
     st.session_state.start_zeit = None
     st.session_state.progress_loaded = False
-    # Pro Nutzer-Sitzung eigene zufällige Reihenfolge der Antwortoptionen
     st.session_state.optionen_shuffled = []
     for q in fragen:
         opts = list(q.get('optionen', []))
@@ -134,6 +178,22 @@ def load_all_logs() -> pd.DataFrame:
             df[c] = ''
         df = df[[c for c in FIELDNAMES if c in df.columns]]
         df['zeit'] = pd.to_datetime(df['zeit'], errors='coerce')
+        # Korrekte Typisierung / Validierung
+        df['richtig'] = pd.to_numeric(df['richtig'], errors='coerce')
+        # Frage-Nr extrahieren/validieren: muss int oder numerisch konvertierbar sein
+        df['frage_nr'] = pd.to_numeric(df['frage_nr'], errors='coerce')
+        # Entferne Zeilen mit fehlenden Pflichtfeldern oder fehlenden/ungültigen Werten
+        df = df.dropna(subset=['user_id_hash', 'user_id_display', 'frage_nr', 'frage', 'antwort', 'richtig', 'zeit'])
+        # Filter: richtig nur -1,0,1 erlaubt (0 selten, aber toleriert), realistisch 1 oder -1
+        df = df[df['richtig'].isin([-1, 0, 1])]
+        # Pflichtfelder non-empty
+        for col in ['user_id_hash', 'frage', 'antwort']:
+            df = df[df[col].astype(str).str.strip() != '']
+        # Nach Säuberung wieder frage_nr als int ausgeben (falls benötigt)
+        try:
+            df['frage_nr'] = df['frage_nr'].astype(int)
+        except Exception:
+            pass
         return df
     except Exception:
         return pd.DataFrame(columns=FIELDNAMES)
@@ -244,6 +304,8 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
         now_ts = time.time()
         if last_ts and (now_ts - last_ts) < min_delta:
             remaining = int(min_delta - (now_ts - last_ts))
+            # Zeitpunkt für nächsten erlaubten Save speichern (für Countdown-Anzeige)
+            st.session_state['next_allowed_time'] = last_ts + min_delta
             st.warning(
                 f"Bitte kurz warten ({remaining}s) bevor die nächste Antwort gespeichert wird."
             )
@@ -305,7 +367,7 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
 def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> None:
     frage_text = frage_obj['frage'].split('.', 1)[1].strip()
     with st.container(border=True):
-        st.markdown(f"### Frage {anzeige_nummer}")
+        st.markdown(f"### Frage {anzeige_nummer} von {len(fragen)}")
         st.markdown(f"**{frage_text}**")
         is_disabled = st.session_state.beantwortet[frage_idx] is not None
         try:
@@ -340,11 +402,13 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 antwort,
                 punkte,
             )
+            reduce_anim = st.session_state.get('reduce_animations', False)
             if richtig:
-                st.toast("Richtig! 🚀", icon="✅")
-                st.balloons()
+                st.toast("Richtig! ✅", icon="✅")
+                if not reduce_anim:
+                    st.balloons()
             else:
-                st.toast("Leider falsch.", icon="❌")
+                st.toast("Leider falsch. ❌", icon="❌")
             time.sleep(1.5)
             st.rerun()
         if is_disabled:
@@ -403,6 +467,16 @@ def display_sidebar_metrics(num_answered: int) -> None:
         elapsed_time = datetime.now() - st.session_state.start_zeit
         minutes, seconds = divmod(int(elapsed_time.total_seconds()), 60)
         st.sidebar.metric("⏳ Bisherige Zeit", f"{minutes:02d}:{seconds:02d}")
+    # Countdown für nächstmögliche Antwort (Throttling)
+    next_allowed = st.session_state.get('next_allowed_time')
+    if next_allowed:
+        now = time.time()
+        if now < next_allowed:
+            remaining = int(next_allowed - now)
+            st.sidebar.info(f"Wartezeit bis nächste Antwort: {remaining}s")
+        else:
+            # Abgelaufen -> entfernen
+            st.session_state.pop('next_allowed_time', None)
     if num_answered == len(fragen):
         st.sidebar.success("✅ Test abgeschlossen!")
     st.sidebar.header("🏆 Bestenliste")
@@ -431,13 +505,15 @@ def display_final_summary(num_answered: int) -> None:
     )
     prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
     emoji, quote = "", ""
+    reduce_anim = st.session_state.get('reduce_animations', False)
     if prozent == 1.0:
         emoji, quote = (
             "🌟🥇",
             "**Perfekt! Hervorragende Leistung! Alle Fragen richtig beantwortet.**",
         )
-        st.balloons()
-        st.snow()
+        if not reduce_anim:
+            st.balloons()
+            st.snow()
     elif prozent >= 0.8:
         emoji, quote = (
             "🎉👍",
@@ -458,6 +534,27 @@ def display_final_summary(num_answered: int) -> None:
         f"### {emoji} Endstand: {aktueller_punktestand} von {len(fragen)} Punkten"
     )
     st.markdown(quote)
+    # Review-Modus Toggle
+    st.divider()
+    st.subheader("🔍 Review-Modus")
+    show_review = st.checkbox(
+        "Alle Fragen & Antworten anzeigen (Review)", value=False, key="review_mode"
+    )
+    if show_review:
+        for idx, frage in enumerate(fragen):
+            user_val = st.session_state.get(f"frage_{idx}")
+            korrekt = frage["optionen"][frage["loesung"]]
+            richtig = (user_val == korrekt)
+            with st.expander(f"Frage {idx + 1}: {'✅' if richtig else '❌'}"):
+                st.markdown(f"**{frage['frage']}**")
+                st.write(f"Ihre Antwort: {user_val if user_val is not None else '—'}")
+                if not richtig:
+                    st.write(f"Korrekte Antwort: {korrekt}")
+                # Optional kurze Liste aller Optionen bei Bedarf
+                st.caption("Optionen:")
+                for opt in frage.get('optionen', []):
+                    prefix = "➡️" if opt == user_val else ("✅" if opt == korrekt else "•")
+                    st.write(f"{prefix} {opt}")
 
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
@@ -481,98 +578,107 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
 
 def handle_user_session():
     st.sidebar.header("👤 Nutzerkennung")
-    if 'user_id' in st.session_state:
-        st.sidebar.success(
-            f"Angemeldet als: **{st.session_state.user_id}**"
+    # Benutzer-Login
+    if 'user_id' not in st.session_state:
+        user_id_input = st.sidebar.text_input(
+            "Pseudonym eingeben (frei wählbar)",
+            key='user_id_input'
         )
-        current_hash = (
-            st.session_state.get('user_id_hash') or
-            get_user_id_hash(st.session_state.user_id)
-        )
-        has_progress = user_has_progress(current_hash)
-        if has_progress:
-            if 'load_progress' not in st.session_state:
-                st.session_state['load_progress'] = True
-            st.sidebar.checkbox(
-                "Fortschritt laden (falls vorhanden)",
-                key="load_progress",
-            )
-        else:
-            st.session_state['load_progress'] = False
-        st.sidebar.divider()
-        st.sidebar.subheader("🔐 Admin")
-        admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-        admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
-        user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
-        if not user_allowed:
-            st.sidebar.caption(
-                f"Admin nur für Benutzer: {admin_user_cfg}" if admin_user_cfg else ""
-            )
-        hint = []
-        if not admin_key_env:
-            hint.append("kein Admin-Key gesetzt")
-        if admin_user_cfg:
-            hint.append(f"nur Benutzer '{admin_user_cfg}'")
-        hint_text = ", ".join(hint)
-        if hint_text:
-            st.sidebar.caption(hint_text)
-        admin_key_input = st.sidebar.text_input(
-            "Admin-Schlüssel", type="password", key="admin_key_input",
-            disabled=not user_allowed,
-            help=(
-                "Dieses Pseudonym ist nicht für Admin freigeschaltet." if not user_allowed else None
-            ),
-        )
-        is_admin = False
-        if user_allowed:
-            is_admin = check_admin_permission(st.session_state.user_id, admin_key_input)
-        if 'admin_view' not in st.session_state:
-            st.session_state['admin_view'] = False
-        st.sidebar.checkbox(
-            "Admin-Ansicht anzeigen", key="admin_view",
-            disabled=not is_admin,
-            help=(
-                "Bitte gültigen Admin-Schlüssel eingeben."
-                if not is_admin else None
-            ),
-        )
-        if st.sidebar.button("Antworten dieses Nutzers zurücksetzen"):
-            reset_user_answers(current_hash)
-            st.sidebar.success(
-                "Antworten zurückgesetzt. Neuer Durchlauf gestartet."
-            )
-            st.rerun()
-        if st.sidebar.button("Ausloggen & Nutzer wechseln"):
-            current_input = st.session_state.get('user_id_input', '')
-            for key in list(st.session_state.keys()):
-                del st.session_state[key]
-            st.session_state.user_id_input = current_input
-            st.rerun()
-        return st.session_state.user_id
-    user_input = st.sidebar.text_input(
-        "Bitte gib ein Pseudonym ein:", key="user_id_input"
+        if st.sidebar.button("Starten", type="primary"):
+            if not user_id_input:
+                st.sidebar.error("Bitte ein Pseudonym eingeben.")
+            else:
+                st.session_state.user_id = user_id_input.strip()
+                st.rerun()
+        st.stop()
+    # Angemeldet
+    st.sidebar.success(f"Angemeldet als: **{st.session_state.user_id}**")
+    # Accessibility Toggles
+    st.sidebar.subheader("♿ Barrierefreiheit")
+    st.session_state['high_contrast'] = st.sidebar.checkbox(
+        "Hoher Kontrast", value=st.session_state.get('high_contrast', False)
     )
-    if st.sidebar.button("Test starten / Nutzer wechseln"):
-        if user_input:
-            for key in list(st.session_state.keys()):
-                del st.session_state[key]
-            st.session_state['user_id'] = user_input.strip()
+    st.session_state['large_text'] = st.sidebar.checkbox(
+        "Große Schrift", value=st.session_state.get('large_text', False)
+    )
+    st.session_state['reduce_animations'] = st.sidebar.checkbox(
+        "Animationen reduzieren", value=st.session_state.get('reduce_animations', False)
+    )
+    # Fortschritt laden
+    current_hash = (
+        st.session_state.get('user_id_hash') or
+        get_user_id_hash(st.session_state.user_id)
+    )
+    has_progress = user_has_progress(current_hash)
+    if has_progress:
+        if 'load_progress' not in st.session_state:
             st.session_state['load_progress'] = True
-            st.rerun()
+        st.session_state['load_progress'] = st.sidebar.checkbox(
+            "Fortschritt laden (falls vorhanden)",
+            value=st.session_state['load_progress'],
+            key="load_progress",
+        )
+    else:
+        st.session_state['load_progress'] = False
+    # Reset Button
+    if has_progress and st.sidebar.button("Fortschritt zurücksetzen", help="Alle gespeicherten Antworten löschen"):
+        reset_user_answers(current_hash)
+        st.success("Fortschritt zurückgesetzt.")
+        st.rerun()
+    st.sidebar.divider()
+    # Admin Sektion
+    st.sidebar.subheader("🔐 Admin")
+    admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
+    # Hinweis: admin_key_env wird direkt nur in check_admin_permission genutzt
+    user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
+    if not user_allowed:
+        st.sidebar.caption(
+            f"Admin nur für Benutzer: {admin_user_cfg}" if admin_user_cfg else ""
+        )
+    if user_allowed:
+        admin_key_input = st.sidebar.text_input(
+            "Admin-Key", type="password", key="admin_key_input"
+        )
+        if not st.session_state.get('admin_view'):
+            if st.sidebar.button("Admin aktivieren"):
+                if check_admin_permission(st.session_state.user_id, admin_key_input):
+                    st.session_state['admin_view'] = True
+                    st.rerun()
+                else:
+                    st.sidebar.error("Admin-Berechtigung fehlgeschlagen")
         else:
-            st.sidebar.error("Bitte gib zuerst ein Pseudonym ein.")
-    st.warning(
-        "Bitte gib im Seitenmenü ein Pseudonym ein und starte den Test."
-    )
-    st.stop()
+            if st.sidebar.button("Admin verlassen"):
+                st.session_state['admin_view'] = False
+                st.rerun()
+    return st.session_state.user_id
 
 
 def main():
     st.title("📝 MC-Test: Data Analytics & Big Data")
     user_id = handle_user_session()
+    apply_accessibility_settings()
+
+    # Sticky Progress Bar (oben)
+    if 'beantwortet' in st.session_state:
+        answered = len([p for p in st.session_state.beantwortet if p is not None])
+        pct = (answered / len(fragen)) if fragen else 0
+        if 'sticky_bar_css' not in st.session_state:
+            st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
+            st.session_state['sticky_bar_css'] = True
+        progress_html = (
+            "<div class='top-progress-wrapper' aria-label='Fortschritt insgesamt'>"
+            f"<div style='font-size:0.8rem;font-weight:600;'>Fortschritt: {answered} / "
+            f"{len(fragen)} ({int(pct*100)}%)</div>"
+            "<div class='top-progress-bar'>"
+            f"<div class='top-progress-fill' style='width:{pct*100}%;'></div>"
+            "</div></div>"
+        )
+        st.markdown(progress_html, unsafe_allow_html=True)
+
     if st.session_state.get('admin_view', False):
         admin_view()
         st.stop()
+
     if 'user_id_hash' not in st.session_state:
         st.session_state.user_id_hash = get_user_id_hash(user_id)
     if 'frage_indices' not in st.session_state:
@@ -582,27 +688,25 @@ def main():
             user_has_progress(st.session_state.user_id_hash)
         ):
             load_user_progress(st.session_state.user_id_hash)
-    st.info(
-        "**Hinweis:** Wähle die beste Antwort. Einmal beantwortete Fragen sind "
-        "final. Viel Erfolg!"
+
+    st.info("**Hinweis:** Wähle die beste Antwort. Einmal beantwortete Fragen sind final. Viel Erfolg!")
+
+    num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+    st.markdown(
+        f"<p class='sr-only'>Fortschritt: {num_answered} von {len(fragen)} Fragen beantwortet.</p>",
+        unsafe_allow_html=True,
     )
-    num_answered = len(
-        [p for p in st.session_state.beantwortet if p is not None]
-    )
+
     if num_answered == len(fragen):
         display_final_summary(num_answered)
     else:
-        quiz_container = st.container()
         only_unanswered = st.session_state.get('only_unanswered', False)
         indices = st.session_state.frage_indices
         if only_unanswered:
-            indices = [
-                idx for idx in indices
-                if st.session_state.beantwortet[idx] is None
-            ]
-        with quiz_container:
-            for i, q_idx in enumerate(indices):
-                display_question(fragen[q_idx], q_idx, i + 1)
+            indices = [i for i in indices if st.session_state.beantwortet[i] is None]
+        for i, q_idx in enumerate(indices):
+            display_question(fragen[q_idx], q_idx, i + 1)
+
     display_sidebar_metrics(num_answered)
 
 

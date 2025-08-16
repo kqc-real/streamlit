@@ -1,0 +1,6 @@
+# Minimal dependencies for running mc_test_app tests
+pandas>=2.2.0
+numpy>=1.26.0
+streamlit>=1.32.0
+pytest>=8.0.0
+python-dotenv>=1.0.0
