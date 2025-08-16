@@ -91,6 +91,7 @@ Eigenschaften:
 - CSV-Reset (manuell: Datei löschen, wird neu erstellt)
 - Environment-Variable `MC_TEST_ADMIN_KEY` für Admin-Features
 - Backup-Empfehlung: periodische Kopie der CSV (z.B. per Cron / CI Artifact)
+Optional: Lege eine `.env` (siehe `.env.example`) ab – wird automatisch geladen
 
 ## Integration in Infrastruktur
 
