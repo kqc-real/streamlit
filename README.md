@@ -40,11 +40,15 @@ docker compose up -d
 
 ```text
 mc_test_app/
-  mc_test_app.py           # Streamlit App Logik
-  mc_test_answers.csv      # Antwort-Log (automatisch erzeugt)
-  questions.json           # Externer Fragenkatalog
-  Cloud_Deployment.ipynb   # Deployment / Betriebs-Notizen
-  README.md                # Diese Datei
+  Cloud_Deployment.ipynb   # Leitfaden: Deployment / Betriebs-Notizen
+  Makefile                 # Lokales Convenience-Target für Deploy
+  README.md                # App-spezifische Dokumentation
+  deploy.sh                # Subtree Deploy Script (kein Force-Push)
+  mc_test_app.py           # Haupt-Streamlit-App (UI + Logik)
+  questions.json           # Fragenkatalog (MC-Fragen + Optionen + Lösung)
+  requirements.txt         # Minimale Dependencies für Cloud/Subtree-Build
+  tests/                   # Pytest-Tests (Hash, Dauerformat, Logging ...)
+  mc_test_answers.csv      # Antwort-Log (automatisch erzeugt; kann fehlen)
 ```
 
 ## Datenpersistenz (CSV)
