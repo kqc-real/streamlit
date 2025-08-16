@@ -342,11 +342,13 @@ def display_sidebar_metrics(num_answered: int) -> None:
     else:
         st.sidebar.dataframe(leaderboard_df)
     st.sidebar.divider()
-    if 'only_unanswered' not in st.session_state:
-        st.session_state['only_unanswered'] = False
-    st.sidebar.checkbox(
+    # Persistente Einstellung für Filter nur unbeantwortete Fragen.
+    # Explizit value setzen & Rückgabewert speichern, damit ein Rerun nach Antwort
+    # (st.rerun) den Zustand nicht zurücksetzt.
+    current_filter = st.session_state.get('only_unanswered', False)
+    st.session_state['only_unanswered'] = st.sidebar.checkbox(
         "Nur unbeantwortete Fragen anzeigen",
-        key="only_unanswered",
+        value=current_filter,
     )
 
 
