@@ -130,3 +130,21 @@ def test_admin_permission_user_and_key(monkeypatch):
     assert m.check_admin_permission('root', 'TOP') is True
     assert m.check_admin_permission('root', 'x') is False
     assert m.check_admin_permission('alice', 'TOP') is False
+
+
+def test_load_all_logs_with_malformed_line(tmp_path, monkeypatch):
+    m = load_module()
+    # Umleiten des Logfiles
+    monkeypatch.setattr(m, 'LOGFILE', str(tmp_path / 'answers.csv'), raising=False)
+    # Schreibe Header + gültige Zeile + kaputte Zeile
+    good = 'user_id_hash,user_id_display,frage_nr,frage,antwort,richtig,zeit\n'
+    row = 'abc,abc,1,1. Test?,A,1,2025-08-16T12:00:00\n'
+    bad = 'kaputte,zeile,ohne,genug,commas\n'
+    with open(m.LOGFILE, 'w', encoding='utf-8') as f:
+        f.write(good)
+        f.write(row)
+        f.write(bad)
+    df = m.load_all_logs()
+    assert 'user_id_hash' in df.columns
+    assert len(df) == 1
+    assert df.iloc[0]['user_id_hash'] == 'abc'

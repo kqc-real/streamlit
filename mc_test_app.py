@@ -31,6 +31,7 @@ FIELDNAMES = [
 ]
 FRAGEN_ANZAHL = 50
 DISPLAY_HASH_LEN = 10  # Länge des Hash-Prefix für Anzeige (Pseudonymisierung)
+MAX_SAVE_RETRIES = 3  # Anzahl Schreibversuche bei transienten IO-Fehlern
 
 
 def _load_fragen():
@@ -82,7 +83,11 @@ def user_has_progress(user_id_hash: str) -> bool:
     try:
         if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
             return False
-        df = pd.read_csv(LOGFILE, dtype={'user_id_hash': str})
+        df = pd.read_csv(
+            LOGFILE,
+            dtype={'user_id_hash': str},
+            on_bad_lines='skip'
+        )
         return not df[df['user_id_hash'] == user_id_hash].empty
     except Exception:
         return False
@@ -114,7 +119,12 @@ def load_all_logs() -> pd.DataFrame:
     if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
         return pd.DataFrame(columns=FIELDNAMES)
     try:
-        df = pd.read_csv(LOGFILE)
+        df = pd.read_csv(LOGFILE, on_bad_lines='skip')
+        # Spalten normalisieren (fehlende hinzufügen, unerwartete verwerfen)
+        missing = [c for c in FIELDNAMES if c not in df.columns]
+        for c in missing:
+            df[c] = ''
+        df = df[[c for c in FIELDNAMES if c in df.columns]]
         df['zeit'] = pd.to_datetime(df['zeit'], errors='coerce')
         return df
     except Exception:
@@ -228,17 +238,24 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
         'richtig': punkte,
         'zeit': datetime.now().isoformat(timespec='seconds'),
     }
-    try:
-        file_exists_and_not_empty = (
-            os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0
-        )
-        with open(LOGFILE, 'a', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=FIELDNAMES)
-            if not file_exists_and_not_empty:
-                writer.writeheader()
-            writer.writerow(row)
-    except IOError as e:
-        st.error(f"Konnte Antwort nicht speichern: {e}")
+    attempt = 0
+    while attempt < MAX_SAVE_RETRIES:
+        try:
+            file_exists_and_not_empty = (
+                os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0
+            )
+            with open(LOGFILE, 'a', newline='', encoding='utf-8') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=FIELDNAMES)
+                if not file_exists_and_not_empty:
+                    writer.writeheader()
+                writer.writerow(row)
+            return
+        except IOError as e:
+            attempt += 1
+            if attempt >= MAX_SAVE_RETRIES:
+                st.error(f"Konnte Antwort nicht speichern (Versuche={attempt}): {e}")
+            else:
+                time.sleep(0.1 * attempt)
 
 
 def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> None:
