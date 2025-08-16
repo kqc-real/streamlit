@@ -148,3 +148,22 @@ def test_load_all_logs_with_malformed_line(tmp_path, monkeypatch):
     assert 'user_id_hash' in df.columns
     assert len(df) == 1
     assert df.iloc[0]['user_id_hash'] == 'abc'
+
+
+def test_throttling_prevents_fast_second_answer(tmp_path, monkeypatch):
+    m = load_module()
+    monkeypatch.setenv('MC_TEST_MIN_SECONDS_BETWEEN', '5')
+    # Reset session state
+    for k in list(getattr(m.st.session_state, 'keys')()):  # type: ignore[attr-defined]
+        del m.st.session_state[k]  # type: ignore[attr-defined]
+    # Redirect logfile
+    monkeypatch.setattr(m, 'LOGFILE', str(tmp_path / 'answers.csv'), raising=False)
+    q = {'frage': '1. Testfrage', 'optionen': ['A', 'B'], 'loesung': 0}
+    user = 'u1'
+    h = m.get_user_id_hash(user)
+    m.save_answer(user, h, q, 'A', 1)
+    # Zweiter Versuch (gleiche Frage) sollte durch Duplicate Guard oder Throttle blockiert werden
+    before = tmp_path.joinpath('answers.csv').read_text(encoding='utf-8')
+    m.save_answer(user, h, q, 'B', -1)
+    after = tmp_path.joinpath('answers.csv').read_text(encoding='utf-8')
+    assert before == after
