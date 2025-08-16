@@ -14,16 +14,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install requirements from mc_test_app directory
+      - name: Install minimal test deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f mc_test_app/requirements-test.txt ]; then REQ=mc_test_app/requirements-test.txt; else REQ=mc_test_app/requirements.txt; fi
-          echo "Using requirements file: $REQ"
-          pip install -r "$REQ" --no-cache-dir
+          pip install -r requirements.txt --no-cache-dir
       - name: Run tests
         run: |
-          echo "Running tests in mc_test_app/tests"
-          pytest -q mc_test_app/tests
+          pytest -q tests
 
   smoke:
     runs-on: ubuntu-latest
@@ -35,13 +32,13 @@ jobs:
           python-version: '3.11'
       - name: Install deps (minimal)
         run: |
-          pip install -r mc_test_app/requirements.txt --no-cache-dir
+          pip install -r requirements.txt --no-cache-dir
       - name: Smoke run (start then exit)
         run: |
           python - <<'EOF'
           import subprocess, time, sys
           p = subprocess.Popen([
-              sys.executable, '-m', 'streamlit', 'run', 'mc_test_app/mc_test_app.py',
+              sys.executable, '-m', 'streamlit', 'run', 'mc_test_app.py',
               '--server.headless', 'true', '--server.port', '9999'
           ])
           time.sleep(5)
@@ -49,5 +46,3 @@ jobs:
           rc = p.wait(timeout=10)
           print('Streamlit exit code:', rc)
           EOF
-
-# Schlanke Variante: ein Job, nur bei Änderungen unter mc_test_app/.
