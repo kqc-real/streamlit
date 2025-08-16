@@ -41,9 +41,7 @@ docker compose up -d
 ```text
 mc_test_app/
   Cloud_Deployment.ipynb   # Leitfaden: Deployment / Betriebs-Notizen
-  Makefile                 # Lokales Convenience-Target für Deploy
   README.md                # App-spezifische Dokumentation
-  deploy.sh                # Subtree Deploy Script (kein Force-Push)
   mc_test_app.py           # Haupt-Streamlit-App (UI + Logik)
   questions.json           # Fragenkatalog (MC-Fragen + Optionen + Lösung)
   requirements.txt         # Minimale Dependencies für Cloud/Subtree-Build
@@ -91,6 +89,28 @@ Eigenschaften:
 - Leicht auf Streamlit Cloud deploybar (siehe Notebook im `notebooks/` Ordner)
 - Keine externen Datenbanken nötig (reduziert Betriebsaufwand)
 
+## Deployment (einfachste Variante)
+
+Nur den Unterordner `mc_test_app/` auf den Remote-Branch `main` pushen:
+
+```bash
+git subtree push --prefix mc_test_app github main
+```
+
+Voraussetzungen:
+
+- Remote heißt `github` (ansonsten `origin` einsetzen)
+- Änderungen im Unterordner sind committed
+
+Falls der Befehl wegen Divergenz scheitert und du alleiniger Committer bist:
+
+```bash
+git pull --ff-only github main
+git subtree push --prefix mc_test_app github main
+```
+
+Alternative Skript-/Workflow-Varianten wurden entfernt, um Verwirrung zu minimieren.
+
 ## Erweiterungsideen (optional)
 
 - Erweiterte Fragenquellen (z.B. YAML) oder dynamische Rotation
@@ -99,4 +119,4 @@ Eigenschaften:
 - ML-gestützte Item-Analyse (Schwierigkeit, Trennschärfe)
 
 ---
-Letzte Änderung: 2025-08-16 (Conditional Deploy & Bereinigung Root-Skripte)
+Letzte Änderung: 2025-08-16 (Vereinfachtes Deployment: Einzeiler git subtree push)
