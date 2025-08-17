@@ -489,10 +489,12 @@ def display_sidebar_metrics(num_answered: int) -> None:
     # Persistente Einstellung für Filter nur unbeantwortete Fragen.
     # Explizit value setzen & Rückgabewert speichern, damit ein Rerun nach Antwort
     # (st.rerun) den Zustand nicht zurücksetzt.
-    current_filter = st.session_state.get('only_unanswered', False)
+    # Default: Nur unbeantwortete Fragen anzeigen (beim ersten Laden)
+    if 'only_unanswered' not in st.session_state:
+        st.session_state['only_unanswered'] = True
     st.session_state['only_unanswered'] = st.sidebar.checkbox(
         "Nur unbeantwortete Fragen anzeigen",
-        value=current_filter,
+        value=st.session_state['only_unanswered'],
     )
 
 
@@ -593,17 +595,26 @@ def handle_user_session():
         st.stop()
     # Angemeldet
     st.sidebar.success(f"Angemeldet als: **{st.session_state.user_id}**")
-    # Accessibility Toggles
+    # Accessibility Dropdown
     st.sidebar.subheader("♿ Barrierefreiheit")
-    st.session_state['high_contrast'] = st.sidebar.checkbox(
-        "Hoher Kontrast", value=st.session_state.get('high_contrast', False)
+    acc_options = [
+        "Standard",
+        "Hoher Kontrast",
+        "Große Schrift",
+        "Animationen reduzieren",
+        "Hoher Kontrast + Große Schrift",
+    ]
+    acc_default = st.session_state.get('accessibility', "Standard")
+    selected = st.sidebar.selectbox(
+        "Barrierefreiheit wählen:",
+        acc_options,
+        index=acc_options.index(acc_default) if acc_default in acc_options else 0,
+        key="accessibility"
     )
-    st.session_state['large_text'] = st.sidebar.checkbox(
-        "Große Schrift", value=st.session_state.get('large_text', False)
-    )
-    st.session_state['reduce_animations'] = st.sidebar.checkbox(
-        "Animationen reduzieren", value=st.session_state.get('reduce_animations', False)
-    )
+    # Set individual flags based on selection
+    st.session_state['high_contrast'] = selected in ["Hoher Kontrast", "Hoher Kontrast + Große Schrift"]
+    st.session_state['large_text'] = selected in ["Große Schrift", "Hoher Kontrast + Große Schrift"]
+    st.session_state['reduce_animations'] = selected == "Animationen reduzieren"
     # Fortschritt laden
     current_hash = (
         st.session_state.get('user_id_hash') or
@@ -613,7 +624,7 @@ def handle_user_session():
     if has_progress:
         if 'load_progress' not in st.session_state:
             st.session_state['load_progress'] = True
-        st.session_state['load_progress'] = st.sidebar.checkbox(
+        st.sidebar.checkbox(
             "Fortschritt laden (falls vorhanden)",
             value=st.session_state['load_progress'],
             key="load_progress",
