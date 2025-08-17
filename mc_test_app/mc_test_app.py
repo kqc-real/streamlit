@@ -1,5 +1,5 @@
 """
-MC-Test App für Data Analytics & Big Data
+MC-Test App für Data Analytics
 -------------------------------------------------
 Lehrbeispiel für Multiple-Choice-Tests mit Streamlit.
 Autor: kqc
@@ -735,12 +735,12 @@ def main():
 
     # Always show header before user session is set up
     if 'user_id' not in st.session_state:
-        st.title("📝 MC-Test: Data Analytics & Big Data")
+        st.title("📝 MC-Test: Data Analytics")
     user_id = handle_user_session()
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
     if user_id and num_answered == 0:
-        st.title("📝 MC-Test: Data Analytics & Big Data")
+        st.title("📝 MC-Test: Data Analytics")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if (
