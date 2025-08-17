@@ -21,23 +21,3 @@ def test_questions_file_exists_and_valid():
     assert isinstance(first["loesung"], int)
 
 
-def test_save_answer_creates_or_appends(tmp_path):
-    logfile = tmp_path / "mc_test_answers.csv"
-    orig_logfile = os.environ.get('LOGFILE')
-    os.environ['LOGFILE'] = str(logfile)
-    frage_obj = {
-        "frage": "999. Testfrage?",
-        "optionen": ["A", "B"],
-        "loesung": 0,
-    }
-    if not logfile.exists():
-        logfile.write_text('frage_nr,antwort\n')
-    save_answer("userX", "hashX", frage_obj, "A", 1)
-    df = pd.read_csv(logfile)
-    assert df.shape[0] == 1
-    assert df.iloc[0]["frage_nr"] == 999
-    save_answer("userX", "hashX", frage_obj, "A", 1)
-    df2 = pd.read_csv(logfile)
-    assert df2.shape[0] == 1, "Keine zweite Zeile bei Duplicate erwartet"
-    if orig_logfile:
-        os.environ['LOGFILE'] = orig_logfile

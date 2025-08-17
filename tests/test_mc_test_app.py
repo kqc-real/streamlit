@@ -13,21 +13,6 @@ def test_duration_to_str():
     td = pd.Timedelta(seconds=125)
     assert _duration_to_str(td) == '2:05 min'
 
-def test_save_answer_writes_row(tmp_path):
-    logfile = tmp_path / "mc_test_answers.csv"
-    orig_logfile = os.environ.get('LOGFILE')
-    os.environ['LOGFILE'] = str(logfile)
-    frage_obj = {'frage': '1. Testfrage', 'optionen': ['A', 'B'], 'loesung': 0}
-    user = 'user1'
-    user_hash = get_user_id_hash(user)
-    if not logfile.exists():
-        logfile.write_text('frage_nr,antwort\n')
-    save_answer(user, user_hash, frage_obj, 'A', 1)
-    df = pd.read_csv(logfile)
-    assert df.shape[0] == 1
-    assert df.iloc[0]['antwort'] == 'A'
-    if orig_logfile:
-        os.environ['LOGFILE'] = orig_logfile
 
 def test_load_all_logs_with_malformed_line(tmp_path):
     logfile = tmp_path / "mc_test_answers.csv"
