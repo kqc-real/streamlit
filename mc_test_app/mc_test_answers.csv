@@ -3,3 +3,6 @@ user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 2888a32d94c67033fac44b373aeeb9da3741f632944610c7eccb6fa9dff613a8,2888a32d94,Klaus,20,20. Was ist ein typischer Anwendungsfall für das QUA³CK-Modell?,Erstellung von Datenbanken,-1,2025-08-17T15:13:24
 2888a32d94c67033fac44b373aeeb9da3741f632944610c7eccb6fa9dff613a8,2888a32d94,Klaus,8,8. Wie kann man in pandas eine CSV-Datei einlesen?,pd.import_csv(),-1,2025-08-17T15:13:28
 2888a32d94c67033fac44b373aeeb9da3741f632944610c7eccb6fa9dff613a8,2888a32d94,Klaus,29,29. Was ist der Zweck von 'def' in Python?,Definition eines DataFrames,-1,2025-08-17T15:13:31
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,21,21. Wie kann man in pandas die ersten 5 Zeilen eines DataFrames anzeigen?,df.top(5),-1,2025-08-17T15:23:25
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,17,17. Was ist der Unterschied zwischen 'docker ps' und 'docker images'?,Beide zeigen laufende Container,-1,2025-08-17T15:23:29
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,35,35. Was ist der primäre Zweck von `@st.cache_data` in Streamlit?,"Die Beschleunigung von Berechnungen, indem Funktionsergebnisse zwischengespeichert werden.",1,2025-08-17T15:23:33
