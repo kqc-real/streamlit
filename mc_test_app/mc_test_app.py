@@ -32,8 +32,25 @@ except Exception:  # pragma: no cover
 
 st.set_page_config(
     page_title="MC-Test: Data Analytics",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="expanded",
+)
+
+# Force dark mode via theme config
+st.markdown(
+    """
+    <style>
+    body, .main, .block-container, .stApp {
+        background-color: #181818 !important;
+        color: #e0e0e0 !important;
+    }
+    .sidebar .sidebar-content {
+        background-color: #222 !important;
+        color: #e0e0e0 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 
