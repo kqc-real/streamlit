@@ -52,13 +52,14 @@ docker compose up -d
 
 ```text
 mc_test_app/
-  README.md                # App-spezifische Dokumentation
+  README.md                # App-Dokumentation
   mc_test_app.py           # Haupt-Streamlit-App (UI + Logik)
+  core.py                  # Kernfunktionen (Hash, Fragen, Zeitformat)
   questions.json           # Fragenkatalog (MC-Fragen + Optionen + Lösung)
-  requirements.txt         # Minimale Dependencies für Cloud/Subtree-Build
-  tests/                   # Pytest-Tests (Hash, Dauerformat, Logging ...)
+  requirements.txt         # Alle Dependencies für App & Tests
+  tests/                   # Pytest-Tests für Kernfunktionen
   mc_test_answers.csv      # Antwort-Log (automatisch erzeugt; kann fehlen)
-  .github/workflows/ci.yml # CI (Tests) nur für diesen Subtree
+  .github/workflows/ci.yml # CI (Tests) für diesen Subtree
   .env.example             # (optional) Beispiel-ENV falls genutzt
 ```
 
@@ -152,21 +153,15 @@ Alternative Skript-/Workflow-Varianten wurden entfernt, um Verwirrung zu minimie
 - Zeitlimits / Timing-Statistiken
 - ML-gestützte Item-Analyse (Schwierigkeit, Trennschärfe)
 
-## Schnelle Tests ausführen
 
-Für reine App-Logik-Tests ohne die große ML Toolchain:
+## Tests ausführen
 
-```bash
-pip install -r mc_test_app/requirements-test.txt
-pytest mc_test_app/tests -q
-```
-
-Für vollständige Umgebung (TensorFlow / PyTorch etc.):
+Installiere die Abhängigkeiten und führe die Tests aus:
 
 ```bash
-pip install -r requirements.txt
+pip install -r mc_test_app/requirements.txt
 pytest mc_test_app/tests -q
 ```
 
 ---
-Letzte Änderung: 2025-08-16 (Tests: leichter Minimal-Setup hinzugefügt)
+Letzte Änderung: 2025-08-16 (Tests und README aktualisiert)
