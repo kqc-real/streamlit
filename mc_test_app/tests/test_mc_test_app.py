@@ -38,6 +38,11 @@ def test_load_all_logs_with_malformed_line(tmp_path):
     df = load_all_logs()
     assert isinstance(df, pd.DataFrame)
     if orig_logfile:
+        os.environ['LOGFILE'] = orig_logfile
+
+
+def test_admin_permission(monkeypatch):
+    import mc_test_utils as m
     monkeypatch.setenv('MC_TEST_ADMIN_USER', 'root')
     monkeypatch.setenv('MC_TEST_ADMIN_KEY', 'TOP')
     assert m.check_admin_permission('root', 'TOP') is True
@@ -45,38 +50,17 @@ def test_load_all_logs_with_malformed_line(tmp_path):
     assert m.check_admin_permission('alice', 'TOP') is False
 
 
-def test_load_all_logs_with_malformed_line(tmp_path, monkeypatch):
-    m = load_module()
-    # Umleiten des Logfiles
-    monkeypatch.setattr(m, 'LOGFILE', str(tmp_path / 'answers.csv'), raising=False)
-    # Schreibe Header + gültige Zeile + kaputte Zeile
-    good = 'user_id_hash,user_id_display,frage_nr,frage,antwort,richtig,zeit\n'
-    row = 'abc,abc,1,1. Test?,A,1,2025-08-16T12:00:00\n'
-    bad = 'kaputte,zeile,ohne,genug,commas\n'
-    with open(m.LOGFILE, 'w', encoding='utf-8') as f:
-        f.write(good)
-        f.write(row)
-        f.write(bad)
-    df = m.load_all_logs()
-    assert 'user_id_hash' in df.columns
-    assert len(df) == 1
-    assert df.iloc[0]['user_id_hash'] == 'abc'
 
 
 def test_throttling_prevents_fast_second_answer(tmp_path, monkeypatch):
-    m = load_module()
     monkeypatch.setenv('MC_TEST_MIN_SECONDS_BETWEEN', '5')
-    # Reset session state
-    for k in list(getattr(m.st.session_state, 'keys')()):  # type: ignore[attr-defined]
-        del m.st.session_state[k]  # type: ignore[attr-defined]
-    # Redirect logfile
-    monkeypatch.setattr(m, 'LOGFILE', str(tmp_path / 'answers.csv'), raising=False)
+    logfile = tmp_path / 'answers.csv'
+    monkeypatch.setenv('LOGFILE', str(logfile))
     q = {'frage': '1. Testfrage', 'optionen': ['A', 'B'], 'loesung': 0}
     user = 'u1'
-    h = m.get_user_id_hash(user)
-    m.save_answer(user, h, q, 'A', 1)
-    # Zweiter Versuch (gleiche Frage) sollte durch Duplicate Guard oder Throttle blockiert werden
-    before = tmp_path.joinpath('answers.csv').read_text(encoding='utf-8')
-    m.save_answer(user, h, q, 'B', -1)
-    after = tmp_path.joinpath('answers.csv').read_text(encoding='utf-8')
+    h = get_user_id_hash(user)
+    save_answer(user, h, q, 'A', 1)
+    before = logfile.read_text(encoding='utf-8')
+    save_answer(user, h, q, 'B', -1)
+    after = logfile.read_text(encoding='utf-8')
     assert before == after
