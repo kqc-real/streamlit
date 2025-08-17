@@ -30,6 +30,8 @@ def test_save_answer_creates_or_appends(tmp_path):
         "optionen": ["A", "B"],
         "loesung": 0,
     }
+    if not logfile.exists():
+        logfile.write_text('frage_nr,antwort\n')
     save_answer("userX", "hashX", frage_obj, "A", 1)
     df = pd.read_csv(logfile)
     assert df.shape[0] == 1

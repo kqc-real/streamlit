@@ -20,9 +20,9 @@ def test_save_answer_writes_row(tmp_path):
     frage_obj = {'frage': '1. Testfrage', 'optionen': ['A', 'B'], 'loesung': 0}
     user = 'user1'
     user_hash = get_user_id_hash(user)
-    save_answer(user, user_hash, frage_obj, 'A', 1)
     if not logfile.exists():
         logfile.write_text('frage_nr,antwort\n')
+    save_answer(user, user_hash, frage_obj, 'A', 1)
     df = pd.read_csv(logfile)
     assert df.shape[0] == 1
     assert df.iloc[0]['antwort'] == 'A'
