@@ -141,7 +141,7 @@ mlflow.db
 models/large_models/
 
 # Streamlit cache
-.streamlit/
+# (Removed .streamlit/ from ignore to allow tracking of config files)
 
 # -----------------------------------------------------------------------------
 # Docker & Development
