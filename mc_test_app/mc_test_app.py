@@ -43,8 +43,14 @@ st.set_page_config(
 # ---------------------------- Konstanten -----------------------------------
 LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
 FIELDNAMES = [
-    'user_id_hash', 'user_id_display', 'frage_nr', 'frage',
-    'antwort', 'richtig', 'zeit'
+    'user_id_hash',
+    'user_id_display',
+    'user_id_plain',
+    'frage_nr',
+    'frage',
+    'antwort',
+    'richtig',
+    'zeit',
 ]
 FRAGEN_ANZAHL = 50  # Fallback (wird durch echte Anzahl überschrieben)
 DISPLAY_HASH_LEN = 10
@@ -232,12 +238,12 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
             Antworten=('frage_nr', 'count'),
             Start=('zeit', 'min'),
             Ende=('zeit', 'max'),
-            Name=('user_id_display', 'first'),
+            Pseudonym=('user_id_plain', 'first'),
         ).reset_index(drop=True)
         agg_df['Dauer'] = agg_df['Ende'] - agg_df['Start']
         agg_df = agg_df.sort_values(by=['Punkte', 'Dauer'], ascending=[False, True])
         agg_df['Zeit'] = agg_df['Dauer'].apply(_duration_to_str)
-        return agg_df[['Name', 'Punkte', 'Antworten', 'Zeit', 'Start', 'Ende']]
+        return agg_df[['Pseudonym', 'Punkte', 'Antworten', 'Zeit', 'Start', 'Ende']]
     except Exception:
         return pd.DataFrame()
 
@@ -275,7 +281,7 @@ def admin_view():
             )
     with tabs[2]:
         show_cols = [
-            'user_id_display', 'user_id_hash', 'frage_nr',
+            'user_id_plain', 'user_id_display', 'user_id_hash', 'frage_nr',
             'antwort', 'richtig', 'zeit',
         ]
         df_show = df_logs.copy()
@@ -318,6 +324,7 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
     frage_nr = int(frage_obj['frage'].split('.')[0])
     # Anzeige-Name ist ein gekürzter Hash-Prefix, kein Klartext-Pseudonym
     user_id_display = user_id_hash[:DISPLAY_HASH_LEN]
+    user_id_plain = user_id
     # Throttling: Mindestabstand zwischen zwei Antworten
     min_delta = get_rate_limit_seconds()
     if min_delta > 0:
@@ -356,6 +363,7 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
     row = {
         'user_id_hash': user_id_hash,
         'user_id_display': user_id_display,
+    'user_id_plain': user_id_plain,
         'frage_nr': frage_nr,
         'frage': frage_obj['frage'],
         'antwort': antwort,
@@ -456,7 +464,8 @@ def calculate_leaderboard() -> pd.DataFrame:
             Anzahl_Antworten=('frage_nr', 'count'),
             Startzeit=('zeit', 'min'),
             Endzeit=('zeit', 'max'),
-            Anzeige_Name=('user_id_display', 'first')
+            Anzeige_Name=('user_id_display', 'first'),
+            Pseudonym=('user_id_plain', 'first'),
         ).reset_index()
         completed_df = agg_df[agg_df['Anzahl_Antworten'] >= FRAGEN_ANZAHL].copy()
         if completed_df.empty:
@@ -466,8 +475,8 @@ def calculate_leaderboard() -> pd.DataFrame:
             by=['Punkte', 'Dauer'], ascending=[False, True]
         )
         leaderboard['Zeit'] = leaderboard['Dauer'].apply(_duration_to_str)
-        leaderboard = leaderboard[['Anzeige_Name', 'Punkte', 'Zeit']].head(5)
-        leaderboard.rename(columns={'Anzeige_Name': 'Name'}, inplace=True)
+        leaderboard = leaderboard[['Pseudonym', 'Anzeige_Name', 'Punkte', 'Zeit']].head(5)
+        leaderboard.rename(columns={'Anzeige_Name': 'Hash', 'Pseudonym': 'Pseudonym'}, inplace=True)
         leaderboard.reset_index(drop=True, inplace=True)
         leaderboard.index += 1
         return leaderboard
