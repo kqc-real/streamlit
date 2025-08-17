@@ -493,8 +493,7 @@ def calculate_leaderboard() -> pd.DataFrame:
             by=['Punkte', 'Dauer'], ascending=[False, True]
         )
         leaderboard['Zeit'] = leaderboard['Dauer'].apply(_duration_to_str)
-        leaderboard = leaderboard[['Pseudonym', 'Anzeige_Name', 'Punkte', 'Zeit']].head(5)
-        leaderboard.rename(columns={'Anzeige_Name': 'Hash', 'Pseudonym': 'Pseudonym'}, inplace=True)
+        leaderboard = leaderboard[['Pseudonym', 'Punkte', 'Zeit']].head(5)
         leaderboard.reset_index(drop=True, inplace=True)
         leaderboard.index += 1
         return leaderboard
