@@ -11,16 +11,13 @@ Provides fast feedback, progress tracking, and aggregated results.
 ## Features
 
 - 60-minute test time limit with automatic finish and evaluation
-- Single-question display (one question at a time)
-- Review mode after test completion (shows all questions, answers, highlights correct/incorrect, filter for wrong answers)
-- Test repetition blocked for same pseudonym (results remain visible, no retake)
-- Question catalog from external JSON file (`questions.json`), single selection (radio buttons), randomized answer order per session
+- One-question-at-a-time display with stepwise navigation
+- Immediate didactic explanation after each answer
+- User-controlled navigation with "Weiter zur nächsten Frage" button
 - Instant feedback (correct/incorrect) per question
-- Progress continuation (session/browser tab)
-- Persistent answer log in CSV (append-only, duplicate protection)
-- Pseudonymization: SHA-256 hash of username, shortened display
-- Leaderboard / overall score overview
-- Admin view (all answers, CSV reset, raw data export) with key/pseudonym
+- Persistent answer log and progress tracking
+- Leaderboard and review mode after test completion
+- Pseudonymization and admin view
 
 ---
 
