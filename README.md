@@ -1,162 +1,159 @@
+
 # 📝 MC-Test Streamlit App
 
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
-Interaktive Multiple-Choice Lern- und Selbsttest-App für Kursteilnehmende.
-Ziel: schnelles Feedback, Fortschrittsanzeige und Auswertung aggregierter
-Ergebnisse.
+An interactive multiple-choice learning and self-test app for course participants.
+Provides fast feedback, progress tracking, and aggregated results.
 
-## Kernfunktionen
+---
 
-- Fragenkatalog aus externer JSON-Datei (`questions.json`)  
-  mit Einzel-Auswahl (Radio Buttons)
-Zufällige Reihenfolge der Antwortoptionen pro Nutzer-Sitzung
-(Shuffling in Session State, Korrektheits-Index bleibt stabil)
-- Sofort-Feedback (richtig/falsch) pro Frage
-- Fortschrittsfortsetzung (User bleibt per Session / Browser-Tab erhalten)
-- Persistenz aller Antworten in einer CSV (append-only Log)
-Duplikat-Schutz: Eine Frage wird pro Nutzer nur einmal geloggt.
-- Pseudonymisierung: Hash (SHA-256) des eingegebenen Nutzernamens  
-  und gekürzte Anzeige
-- Leaderboard / Gesamtübersicht (aggregierte Punktestände)
-- Admin-Ansicht (alle Antworten + optional CSV-Reset) – hinter einfachem Flag
-- Exportierbare Rohdaten (die CSV kann direkt in Pandas / BI-Tools geladen werden)
+## Features
 
-## Start (lokal)
+- 60-minute test time limit with automatic finish and evaluation
+- Single-question display (one question at a time)
+- Review mode after test completion (shows all questions, answers, highlights correct/incorrect, filter for wrong answers)
+- Test repetition blocked for same pseudonym (results remain visible, no retake)
+- Question catalog from external JSON file (`questions.json`), single selection (radio buttons), randomized answer order per session
+- Instant feedback (correct/incorrect) per question
+- Progress continuation (session/browser tab)
+- Persistent answer log in CSV (append-only, duplicate protection)
+- Pseudonymization: SHA-256 hash of username, shortened display
+- Leaderboard / overall score overview
+- Admin view (all answers, CSV reset, raw data export) with key/pseudonym
+
+---
+
+## Getting Started (Local)
 
 ```bash
 streamlit run mc_test_app/mc_test_app.py
 ```
 
-## Betrieb mit Docker
+## Docker Usage
 
-> Hinweis: Dieser Abschnitt ist nur relevant, wenn du das komplette
-> Kurs-Repository mit der Datei `docker-compose.yml` lokal nutzt.
-> Für den isolierten Betrieb / das Deployment des Subtrees
-> `mc_test_app/` (z.B. Streamlit Cloud oder simples Hosting) brauchst
-> du Docker nicht – du kannst direkt
-> `streamlit run mc_test_app/mc_test_app.py` ausführen.
+> Use Docker only if running the full course repository with `docker-compose.yml`.
+> For isolated operation or deployment of the `mc_test_app/` subtree (e.g. Streamlit Cloud, simple hosting), Docker is not required.
+
+Quick start (port 8502 as per docker-compose):
 
 ```bash
-# schneller Start (Port 8502 laut docker-compose)
 docker compose up -d streamlit-slim
 ```
 
-Alternativ (voller Stack mit Jupyter, MLflow etc.):
+Full stack (Jupyter, MLflow, etc.):
 
 ```bash
 docker compose up -d
 ```
 
-## Verzeichnisstruktur
+## Directory Structure
 
 ```text
 mc_test_app/
-  README.md                # App-Dokumentation
-  mc_test_app.py           # Haupt-Streamlit-App (UI + Logik)
-  core.py                  # Kernfunktionen (Hash, Fragen, Zeitformat)
-  questions.json           # Fragenkatalog (MC-Fragen + Optionen + Lösung)
-  requirements.txt         # Alle Dependencies für App & Tests
-  tests/                   # Pytest-Tests für Kernfunktionen
-  mc_test_answers.csv      # Antwort-Log (automatisch erzeugt; kann fehlen)
-  .github/workflows/ci.yml # CI (Tests) für diesen Subtree
-  .env.example             # (optional) Beispiel-ENV falls genutzt
+  README.md                # App documentation
+  mc_test_app.py           # Main Streamlit app (UI + logic)
+  core.py                  # Core functions (hash, questions, time format)
+  questions.json           # Question catalog (MC questions + options + solution)
+  requirements.txt         # All dependencies for app & tests
+  tests/                   # Pytest tests for core functions
+  mc_test_answers.csv      # Answer log (auto-generated; may be missing)
+  .github/workflows/ci.yml # CI (tests) for this subtree
+  .env.example             # (optional) Example ENV if used
 ```
 
-## Datenpersistenz (CSV)
+## Data Persistence (CSV)
 
 Schema:
 `user_id_hash,user_id_display,frage_nr,frage,antwort,richtig,zeit`
 
-Erläuterungen:
+Field explanations:
 
-- user_id_hash: SHA-256 Hash des Roh-Nutzernamens (Datenschutz)
-- user_id_display: Gekürzter Hash-Prefix (Standardeinstellung: erste 10 Zeichen)
-- frage_nr: Laufende Nummer
-- frage: Volltext der Frage (für Auswertungen ohne Code)
-- antwort: Gewählte Antwortoption (als String gespeichert)
-- richtig: 1 (korrekt) oder -1 (falsch)
-- zeit: ISO8601 Zeitstempel (UTC oder lokale Zeit)
+- `user_id_hash`: SHA-256 hash of raw username (privacy)
+- `user_id_display`: Shortened hash prefix (default: first 10 chars)
+- `frage_nr`: Question number
+- `frage`: Full question text (for analysis without code)
+- `antwort`: Selected answer option (stored as string)
+- `richtig`: 1 (correct) or -1 (incorrect)
+- `zeit`: ISO8601 timestamp (UTC or local time)
 
-Eigenschaften:
+Properties:
 
-- Append-only: Keine Überschreibung historischer Antworten
-- Einfach versionierbar via Git oder extern backupbar
-- Kompatibel mit Pandas: `pd.read_csv('mc_test_app/mc_test_answers.csv')`
+- Append-only: No overwriting of historical answers
+- Easy to version via Git or external backup
+- Compatible with Pandas: `pd.read_csv('mc_test_app/mc_test_answers.csv')`
 
-## Datenschutz / Sicherheit
+## Data Privacy & Security
 
-- Keine Klartext-Namen in der CSV (nur Hash + abgeleiteter Kurzname)
-- Kein Tracking über Browser hinaus; Wechsel des Namens erzeugt neuen Hash
-- CSV kann leicht anonym weitergegeben werden
+- No plain-text names in CSV (only hash + derived short name)
+- No tracking beyond browser; changing name creates new hash
+- CSV can be easily shared anonymously
 
-## Admin / Wartung
+## Admin & Maintenance
 
-- CSV-Reset (manuell: Datei löschen, wird neu erstellt)
-- Environment-Variable `MC_TEST_ADMIN_KEY` für Admin-Features
-- Backup-Empfehlung: periodische Kopie der CSV (z.B. per Cron / CI Artifact)
-Optional: Lege eine `.env` (siehe `.env.example`) ab – wird automatisch geladen
-`MC_TEST_ADMIN_USER` (optional) beschränkt Admin-Funktionen auf ein bestimmtes Pseudonym.
-`MC_TEST_MIN_SECONDS_BETWEEN` (optional) Mindestsekunden zwischen zwei
-Antworten (Rate-Limit / Throttling).
+- CSV reset (manual: delete file, it will be recreated)
+- Environment variable `MC_TEST_ADMIN_KEY` for admin features
+- Backup recommendation: periodic copy of CSV (e.g. via cron or CI artifact)
+- Optional: add a `.env` (see `.env.example`) – auto-loaded if present
+- `MC_TEST_ADMIN_USER` (optional): restricts admin functions to a specific pseudonym
+- `MC_TEST_MIN_SECONDS_BETWEEN` (optional): minimum seconds between two answers (rate-limit/throttling)
 
-## Integration in Infrastruktur
+## Infrastructure Integration
 
-- Läuft als eigenständiger Streamlit-Service (siehe `docker-compose.yml`)
-- Kombinierbar mit Jupyter-Umgebungen (z.B. für Auswertung der CSV-Daten)
-- Einfach auf Streamlit Cloud oder andere Hosting-Plattformen deploybar
-- Keine externen Datenbanken nötig (reduziert Betriebsaufwand)
+- Runs as standalone Streamlit service (see `docker-compose.yml`)
+- Can be combined with Jupyter environments (e.g. for CSV data analysis)
+- Easy deployment to Streamlit Cloud or other hosting platforms
+- No external databases required (lowers operational effort)
 
-## Deployment (einfachste Variante)
+## Deployment (Simple Variant)
 
-Nur den Unterordner `mc_test_app/` auf den Remote-Branch `main` pushen:
+Push only the `mc_test_app/` subfolder to the remote `main` branch:
 
 ```bash
 git subtree push --prefix mc_test_app github main
 ```
 
-Voraussetzungen:
+Requirements:
 
-- Remote heißt `github` (ansonsten `origin` einsetzen)
-- Änderungen im Unterordner sind committed
+- Remote is named `github` (otherwise use `origin`)
+- Changes in the subfolder are committed
 
-Falls der Befehl wegen Divergenz scheitert und du alleiniger Committer bist:
+If the command fails due to divergence and you are the sole committer:
 
 ```bash
 git pull --ff-only github main
 git subtree push --prefix mc_test_app github main
 ```
 
-Alternative Skript-/Workflow-Varianten wurden entfernt, um Verwirrung zu minimieren.
+Alternative script/workflow variants have been removed for clarity.
 
-## CI / Qualität
+## CI / Quality
 
-- Tests (Pytest) + Smoke-Test (kurzer Headless-Start der App)
-- Schutz gegen defekte CSV-Zeilen (`on_bad_lines=skip`)
-- Retry beim Schreiben (bis zu 3 Versuche)
+- Tests (Pytest) + smoke test (short headless app start)
+- Protection against broken CSV lines (`on_bad_lines=skip`)
+- Retry on write (up to 3 attempts)
 
-## Barrierefreiheit & UX
+## Accessibility & UX
 
-- Optionaler hoher Kontrast (Sidebar Toggle)
-- Größere Schrift auf Wunsch
-- Reduzierte Animationen (für ruhigere Darstellung / Epilepsieprävention)
-- Anzeige "Frage X von N" über jeder Frage
-- Screenreader-Only Fortschritts-Text (visuell versteckt)
-- Live-Countdown bei aktivem Throttling (Wartezeit bis nächste Antwort)
-- Sticky Fortschrittsleiste am oberen Rand
-- Review-Modus nach Abschluss (alle Fragen inkl. richtiger Antwort)
+- Optional high contrast (sidebar toggle)
+- Larger font on request
+- Reduced animations (for calmer display / epilepsy prevention)
+- Display "Question X of N" above each question
+- Screenreader-only progress text (visually hidden)
+- Live countdown for active throttling (wait time until next answer)
+- Sticky progress bar at the top
+- Review mode after completion (all questions incl. correct answer)
 
-## Erweiterungsideen (optional)
+## Extension Ideas (Optional)
 
-- Erweiterte Fragenquellen (z.B. YAML) oder dynamische Rotation
-- Mehrfachantworten oder gewichtete Punkte
-- Zeitlimits / Timing-Statistiken
-- ML-gestützte Item-Analyse (Schwierigkeit, Trennschärfe)
+- Extended question sources (e.g. YAML) or dynamic rotation
+- Multiple answers or weighted points
+- Time limits / timing statistics
+- ML-based item analysis (difficulty, discrimination)
 
+## Running Tests
 
-## Tests ausführen
-
-Installiere die Abhängigkeiten und führe die Tests aus:
+Install dependencies and run tests:
 
 ```bash
 pip install -r mc_test_app/requirements.txt
@@ -164,4 +161,4 @@ PYTHONPATH=. pytest mc_test_app/tests -q
 ```
 
 ---
-Letzte Änderung: 2025-08-16 (Tests und README aktualisiert)
+Last updated: 2025-08-16 (tests and README updated)
