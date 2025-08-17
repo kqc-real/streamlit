@@ -160,7 +160,7 @@ Installiere die Abhängigkeiten und führe die Tests aus:
 
 ```bash
 pip install -r mc_test_app/requirements.txt
-pytest mc_test_app/tests -q
+PYTHONPATH=. pytest mc_test_app/tests -q
 ```
 
 ---
