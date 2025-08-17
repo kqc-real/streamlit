@@ -480,22 +480,17 @@ def calculate_leaderboard() -> pd.DataFrame:
         agg_df = df.groupby('user_id_hash').agg(
             Punkte=('richtig', 'sum'),
             Anzahl_Antworten=('frage_nr', 'count'),
-            Startzeit=('zeit', 'min'),
-            Endzeit=('zeit', 'max'),
-            Anzeige_Name=('user_id_display', 'first'),
             Pseudonym=('user_id_plain', 'first'),
         ).reset_index()
         completed_df = agg_df[agg_df['Anzahl_Antworten'] >= FRAGEN_ANZAHL].copy()
         if completed_df.empty:
             return pd.DataFrame()
-        completed_df['Dauer'] = completed_df['Endzeit'] - completed_df['Startzeit']
         leaderboard = completed_df.sort_values(
-            by=['Punkte', 'Dauer'], ascending=[False, True]
+            by=['Punkte'], ascending=[False]
         )
-        leaderboard['Zeit'] = leaderboard['Dauer'].apply(_duration_to_str)
-        leaderboard = leaderboard[['Pseudonym', 'Punkte', 'Zeit']].head(5)
+        leaderboard = leaderboard[['Pseudonym', 'Punkte']].head(5)
         leaderboard.reset_index(drop=True, inplace=True)
-        leaderboard.index += 1
+        leaderboard.insert(0, 'Platz', leaderboard.index + 1)
         return leaderboard
     except Exception:
         return pd.DataFrame()
@@ -531,7 +526,13 @@ def display_sidebar_metrics(num_answered: int) -> None:
     )
     if not leaderboard_df.empty:
         st.sidebar.header("🏆 Bestenliste")
-        st.sidebar.dataframe(leaderboard_df)
+        # Render leaderboard as markdown table with HTML centering
+        table_md = "| Platz | Pseudonym | Punkte |\n|:---:|:---:|:---:|\n"
+        for _, row in leaderboard_df.iterrows():
+            table_md += f"| <div style='text-align:center'>{row['Platz']}</div> "
+            table_md += f"| <div style='text-align:center'>{row['Pseudonym']}</div> "
+            table_md += f"| <div style='text-align:center'>{row['Punkte']}</div> |\n"
+        st.sidebar.markdown(table_md, unsafe_allow_html=True)
     elif user_is_admin:
         st.sidebar.info("Noch keine abgeschlossenen Tests.")
 
