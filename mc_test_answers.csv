@@ -6,3 +6,9 @@ user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,21,21. Wie kann man in pandas die ersten 5 Zeilen eines DataFrames anzeigen?,df.top(5),-1,2025-08-17T15:23:25
 6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,17,17. Was ist der Unterschied zwischen 'docker ps' und 'docker images'?,Beide zeigen laufende Container,-1,2025-08-17T15:23:29
 6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,35,35. Was ist der primäre Zweck von `@st.cache_data` in Streamlit?,"Die Beschleunigung von Berechnungen, indem Funktionsergebnisse zwischengespeichert werden.",1,2025-08-17T15:23:33
+f9e012396be65db022bd11de9308a9b40e04e492cc4ee8636c09fb83df4aa27b,f9e012396b,ll,23,23. Was ist der Unterschied zwischen 'docker stop' und 'docker rm'?,"'docker stop' löscht Container, 'docker rm' stoppt sie",-1,2025-08-17T15:43:53
+d3f3fa6892497db10a2417fce9b553464cc5d07718419de8b67e73e460c7daab,d3f3fa6892,kl,65,65. Was ist ein typischer Einsatzbereich für K-Means?,Regression,-1,2025-08-17T15:44:11
+d3f3fa6892497db10a2417fce9b553464cc5d07718419de8b67e73e460c7daab,d3f3fa6892,kl,60,60. Was zeigt ein Knoten im Entscheidungsbaum?,Eine Ja/Nein-Frage,1,2025-08-17T15:44:16
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,59,59. Was ist die Elbow-Methode?,Methode zur Feature-Auswahl,-1,2025-08-17T15:53:45
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,30,30. Was ist ein Vorteil von Docker für Teamarbeit?,"Jeder arbeitet in einer eigenen, inkompatiblen Umgebung",-1,2025-08-17T15:53:48
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,64,64. Was ist ein typischer Einsatzbereich für KNN?,Zeitreihenanalyse,-1,2025-08-17T15:53:54
