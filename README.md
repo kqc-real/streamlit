@@ -64,13 +64,16 @@ mc_test_app/
 
 ## Data Persistence (CSV)
 
-Schema:
-`user_id_hash,user_id_display,frage_nr,frage,antwort,richtig,zeit`
+
+Schema (ab August 2025):
+`user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit`
+
 
 Field explanations:
 
 - `user_id_hash`: SHA-256 hash of raw username (privacy)
 - `user_id_display`: Shortened hash prefix (default: first 10 chars)
+- `user_id_plain`: Entered pseudonym (plain text, for feedback/leaderboard)
 - `frage_nr`: Question number
 - `frage`: Full question text (for analysis without code)
 - `antwort`: Selected answer option (stored as string)
@@ -85,9 +88,16 @@ Properties:
 
 ## Data Privacy & Security
 
-- No plain-text names in CSV (only hash + derived short name)
-- No tracking beyond browser; changing name creates new hash
-- CSV can be easily shared anonymously
+### Privacy Change (August 2025)
+
+- The entered pseudonym is now stored in plain text in the CSV (`user_id_plain`).
+- This enables direct feedback and leaderboard display for teachers/admins.
+- Pseudonyms are visible in the admin view and leaderboard, but are not linked to real names.
+- Data remains local and is not shared externally.
+- For anonymity, choose a pseudonym that does not reveal your identity.
+
+- No tracking beyond browser; changing name creates new hash and pseudonym.
+- CSV can be easily shared anonymously (if pseudonym is chosen accordingly).
 
 ## Admin & Maintenance
 
