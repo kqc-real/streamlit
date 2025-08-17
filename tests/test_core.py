@@ -2,7 +2,7 @@ import pytest
 import hashlib
 import os
 import json
-from mc_test_app.core import get_user_id_hash, _load_fragen, _duration_to_str
+from core import get_user_id_hash, _load_fragen, _duration_to_str
 
 def test_get_user_id_hash():
     user_id = "testuser"
