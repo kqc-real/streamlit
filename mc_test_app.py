@@ -1,4 +1,3 @@
-
 """
 MC-Test App für Data Analytics & Big Data
 -------------------------------------------------
@@ -737,7 +736,10 @@ def main():
             minutes, seconds = divmod(remaining, 60)
             st.metric("⏳ Verbleibende Testzeit", f"{minutes:02d}:{seconds:02d}")
             if remaining <= 5 * 60:
-                st.warning(f"Nur noch {minutes} Minuten!")
+                if minutes == 0:
+                    st.warning(f"Nur noch {seconds} Sekunden!")
+                else:
+                    st.warning(f"Nur noch {minutes} Minuten und {seconds} Sekunden!")
         else:
             st.session_state.test_time_expired = True
             st.error("⏰ Zeit abgelaufen! Test wird beendet.")
