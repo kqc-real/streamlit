@@ -16,9 +16,11 @@ import hashlib
 from datetime import datetime
 from typing import List, Dict
 
+
 # Drittanbieter-Bibliotheken
 import streamlit as st
 import pandas as pd
+
 
 try:  # pragma: no cover
     from dotenv import load_dotenv  # type: ignore
@@ -27,11 +29,16 @@ except Exception:  # pragma: no cover
     pass
 
 # ------------------------- Seiteneinstellungen -----------------------------
+
+
 st.set_page_config(
     page_title="MC-Test: Data Analytics",
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+
+# Automatischer Refresh alle Sekunde für Live-Countdown
 
 # ---------------------------- Konstanten -----------------------------------
 LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
@@ -126,6 +133,8 @@ def initialize_session_state():
     st.session_state.start_zeit = None
     st.session_state.progress_loaded = False
     st.session_state.optionen_shuffled = []
+    st.session_state.test_time_limit = 60 * 60  # 60 Minuten in Sekunden
+    st.session_state.test_time_expired = False
     for q in fragen:
         opts = list(q.get('optionen', []))
         random.shuffle(opts)
@@ -379,7 +388,8 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
 def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> None:
     frage_text = frage_obj['frage'].split('.', 1)[1].strip()
     with st.container(border=True):
-        st.markdown(f"### Frage {anzeige_nummer} von {len(fragen)}")
+        num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+        st.markdown(f"### Frage {num_answered + 1} von {len(fragen)}")
         st.markdown(f"**{frage_text}**")
         is_disabled = st.session_state.beantwortet[frage_idx] is not None
         try:
@@ -416,11 +426,11 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             )
             reduce_anim = st.session_state.get('reduce_animations', False)
             if richtig:
-                st.toast("Richtig! ✅", icon="✅")
+                st.toast("Richtig!", icon="✅")
                 if not reduce_anim:
                     st.balloons()
             else:
-                st.toast("Leider falsch. ❌", icon="❌")
+                st.toast("Leider falsch.", icon="❌")
             time.sleep(1.5)
             st.rerun()
         if is_disabled:
@@ -466,7 +476,7 @@ def calculate_leaderboard() -> pd.DataFrame:
 
 
 def display_sidebar_metrics(num_answered: int) -> None:
-    st.sidebar.header("📊 Fortschritt & Score")
+    st.sidebar.header("📊 Fortschritt & Punktestand")
     st.sidebar.progress(num_answered / len(fragen))
     aktueller_punktestand = sum(
         [p for p in st.session_state.beantwortet if p is not None]
@@ -475,10 +485,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
         "Aktueller Punktestand",
         f"{aktueller_punktestand} / {len(fragen)}",
     )
-    if st.session_state.start_zeit and num_answered < len(fragen):
-        elapsed_time = datetime.now() - st.session_state.start_zeit
-        minutes, seconds = divmod(int(elapsed_time.total_seconds()), 60)
-        st.sidebar.metric("⏳ Bisherige Zeit", f"{minutes:02d}:{seconds:02d}")
+        # Countdown wird nur im Hauptbereich angezeigt
     # Countdown für nächstmögliche Antwort (Throttling)
     next_allowed = st.session_state.get('next_allowed_time')
     if next_allowed:
@@ -509,10 +516,16 @@ def display_sidebar_metrics(num_answered: int) -> None:
     # Default: Nur unbeantwortete Fragen anzeigen (beim ersten Laden)
     if 'only_unanswered' not in st.session_state:
         st.session_state['only_unanswered'] = True
-    st.session_state['only_unanswered'] = st.sidebar.checkbox(
-        "Nur unbeantwortete Fragen anzeigen",
-        value=st.session_state['only_unanswered'],
-    )
+    # Checkbox nur anzeigen, wenn kein gespeicherter Test existiert
+    has_progress = st.session_state.get('load_progress', False)
+    if not has_progress:
+        user_key = st.session_state.get('user_id', '')
+        checkbox_key = f"sidebar_only_unanswered_checkbox_{user_key}_{random.randint(0,99999)}"
+        st.session_state['only_unanswered'] = st.sidebar.checkbox(
+            "Nur unbeantwortete Fragen anzeigen",
+            value=st.session_state['only_unanswered'],
+            key=checkbox_key
+        )
 
 
 def display_final_summary(num_answered: int) -> None:
@@ -559,24 +572,32 @@ def display_final_summary(num_answered: int) -> None:
     show_review = st.checkbox(
         "Alle Fragen & Antworten anzeigen (Review)", value=False, key="review_mode"
     )
+    filter_wrong = False
     if show_review:
+        filter_wrong = st.checkbox("Nur falsch beantwortete Fragen anzeigen", value=False, key="review_only_wrong")
         for idx, frage in enumerate(fragen):
             user_val = st.session_state.get(f"frage_{idx}")
             korrekt = frage["optionen"][frage["loesung"]]
             richtig = (user_val == korrekt)
+            if filter_wrong and richtig:
+                continue
             with st.expander(f"Frage {idx + 1}: {'✅' if richtig else '❌'}"):
                 st.markdown(f"**{frage['frage']}**")
-                if user_val is not None:
-                    st.write(f"Ihre Antwort: {user_val}")
-                else:
-                    st.write("Ihre Antwort: —")
-                if not richtig:
-                    st.write(f"Korrekte Antwort: {korrekt}")
-                # Optional kurze Liste aller Optionen bei Bedarf
+                # Optionen farblich hervorheben, besserer Kontrast
                 st.caption("Optionen:")
                 for opt in frage.get('optionen', []):
-                    prefix = "➡️" if opt == user_val else ("✅" if opt == korrekt else "•")
-                    st.write(f"{prefix} {opt}")
+                    style = ""
+                    prefix = "•"
+                    if opt == user_val and not richtig:
+                        style = "background-color:#c82333;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelrot
+                        prefix = "❌"
+                    elif opt == user_val and richtig:
+                        style = "background:linear-gradient(90deg,#fff3cd 50%,#218838 50%);color:#111;padding:2px 8px;border-radius:6px;"
+                        prefix = "✅"
+                    elif opt == korrekt:
+                        style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
+                        prefix = "✅"
+                    st.markdown(f"<span style='{style}'>{prefix} {opt}</span>", unsafe_allow_html=True)
 
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
@@ -625,10 +646,22 @@ def handle_user_session():
     has_progress = user_has_progress(current_hash)
     st.session_state['load_progress'] = has_progress
 
+    # Fortschritt laden, falls vorhanden
+    if has_progress:
+        if 'progress_loaded' not in st.session_state or not st.session_state.progress_loaded:
+            load_user_progress(current_hash)
+            st.session_state.progress_loaded = True
+        num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+        # Fortschritt & Score nur im Review-Modus anzeigen
+        if st.session_state.get('force_review', False):
+            display_sidebar_metrics(num_answered)
+        st.sidebar.info("Ein Test mit diesem Pseudonym wurde bereits durchgeführt. Das Ergebnis bleibt gespeichert und kann nicht wiederholt werden.")
+        # Review weiterhin möglich
+        st.session_state['force_review'] = True
+        return st.session_state.user_id
     # Ensure session state is initialized before sidebar metrics
     if 'beantwortet' not in st.session_state or 'frage_indices' not in st.session_state:
         initialize_session_state()
-
     # 2. Fortschritt & Score direkt nach Nutzerkennung
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
@@ -661,8 +694,44 @@ def handle_user_session():
 
 
 def main():
+    # Session-State initialisieren, falls nötig
+    if 'beantwortet' not in st.session_state or 'frage_indices' not in st.session_state:
+        initialize_session_state()
+    # Countdown ganz oben anzeigen
+    num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+    # UX-freundlicher Hinweis zur maximalen Testzeit, erst nach Anmeldung
+    user_id = None
+    if 'user_id' in st.session_state:
+        user_id = st.session_state.user_id
+
     st.title("📝 MC-Test: Data Analytics & Big Data")
     user_id = handle_user_session()
+
+    num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+    if (
+        user_id
+        and num_answered == 0
+        and num_answered < len(fragen)
+        and not st.session_state.get('test_time_expired', False)
+        and not st.session_state.get('force_review', False)
+        and not st.session_state.get('load_progress', False)
+        and not user_has_progress(st.session_state.get('user_id_hash', ''))
+    ):
+        st.info(
+            "Maximale Testzeit: 60 Minuten. Die Zeit startet mit der ersten Antwort. "
+            "Die verbleibende Zeit wird nach jeder beantworteten Frage aktualisiert."
+        )
+    if st.session_state.start_zeit and num_answered < len(fragen):
+        elapsed_time = (datetime.now() - st.session_state.start_zeit).total_seconds()
+        remaining = int(st.session_state.test_time_limit - elapsed_time)
+        if remaining > 0:
+            minutes, seconds = divmod(remaining, 60)
+            st.metric("⏳ Verbleibende Testzeit", f"{minutes:02d}:{seconds:02d}")
+            if remaining <= 5 * 60:
+                st.warning(f"Nur noch {minutes} Minuten!")
+        else:
+            st.session_state.test_time_expired = True
+            st.error("⏰ Zeit abgelaufen! Test wird beendet.")
 
     # Sticky Progress Bar (oben)
     if 'beantwortet' in st.session_state:
@@ -695,23 +764,28 @@ def main():
         ):
             load_user_progress(st.session_state.user_id_hash)
 
-    st.info("Wähle die beste Antwort. Einmal beantwortete Fragen sind final. Viel Erfolg!")
-
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
-    st.markdown(
-        f"<p class='sr-only'>Fortschritt: {num_answered} von {len(fragen)} Fragen beantwortet.</p>",
-        unsafe_allow_html=True,
-    )
+    if num_answered == 0:
+        st.info("Wähle die beste Antwort. Einmal beantwortete Fragen sind final. Viel Erfolg!")
+        st.markdown(
+            f"<p class='sr-only'>Fortschritt: {num_answered} von {len(fragen)} Fragen beantwortet.</p>",
+            unsafe_allow_html=True,
+        )
 
-    if num_answered == len(fragen):
+    # Test automatisch beenden, wenn Zeitlimit überschritten
+    if st.session_state.get('test_time_expired', False):
+        st.warning("Die Testzeit ist abgelaufen. Ihre Antworten wurden gespeichert. Die Auswertung folgt.")
+        display_final_summary(num_answered)
+    elif num_answered == len(fragen):
         display_final_summary(num_answered)
     else:
         only_unanswered = st.session_state.get('only_unanswered', False)
         indices = st.session_state.frage_indices
         if only_unanswered:
             indices = [i for i in indices if st.session_state.beantwortet[i] is None]
-        for i, q_idx in enumerate(indices):
-            display_question(fragen[q_idx], q_idx, i + 1)
+        # Zeige nur die erste unbeantwortete Frage an
+        if indices:
+            display_question(fragen[indices[0]], indices[0], 1)
     # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
 
 
