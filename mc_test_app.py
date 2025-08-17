@@ -1,7 +1,12 @@
-"""Neu geschriebene Streamlit MC-Test App (konsolidiert)."""
 
-from __future__ import annotations
+"""
+MC-Test App für Data Analytics & Big Data
+-------------------------------------------------
+Lehrbeispiel für Multiple-Choice-Tests mit Streamlit.
+Autor: kqc
+"""
 
+# Standardbibliotheken
 import os
 import csv
 import time
@@ -11,6 +16,7 @@ import hashlib
 from datetime import datetime
 from typing import List, Dict
 
+# Drittanbieter-Bibliotheken
 import streamlit as st
 import pandas as pd
 
@@ -68,6 +74,7 @@ body{margin-top:60px;}
 
 
 def get_rate_limit_seconds() -> int:
+    """Liefert die minimale Wartezeit zwischen Antworten (Sekunden)."""
     try:
         return int(os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "0"))
     except ValueError:
@@ -75,6 +82,7 @@ def get_rate_limit_seconds() -> int:
 
 
 def _load_fragen() -> List[Dict]:
+    """Lädt die Fragen aus der JSON-Datei."""
     path = os.path.join(os.path.dirname(__file__), "questions.json")
     try:
         with open(path, 'r', encoding='utf-8') as f:
@@ -111,6 +119,7 @@ def get_user_id_hash(user_id: str) -> str:
 
 
 def initialize_session_state():
+    """Initialisiert den Session-State für einen neuen Testlauf."""
     st.session_state.beantwortet = [None] * len(fragen)
     st.session_state.frage_indices = list(range(len(fragen)))
     random.shuffle(st.session_state.frage_indices)
@@ -124,6 +133,7 @@ def initialize_session_state():
 
 
 def _duration_to_str(x):
+    """Formatiert eine Zeitspanne als mm:ss."""
     if pd.isna(x):
         return ''
     mins = int(x.total_seconds() // 60)
@@ -132,6 +142,7 @@ def _duration_to_str(x):
 
 
 def user_has_progress(user_id_hash: str) -> bool:
+    """Prüft, ob für den Nutzer bereits Fortschritt existiert."""
     try:
         if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
             return False
@@ -146,6 +157,7 @@ def user_has_progress(user_id_hash: str) -> bool:
 
 
 def reset_user_answers(user_id_hash: str) -> None:
+    """Setzt alle Antworten des Nutzers zurück und initialisiert den Session-State neu."""
     try:
         if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
             df = pd.read_csv(LOGFILE, dtype={'user_id_hash': str})
@@ -683,7 +695,7 @@ def main():
         ):
             load_user_progress(st.session_state.user_id_hash)
 
-    st.info("**Hinweis:** Wähle die beste Antwort. Einmal beantwortete Fragen sind final. Viel Erfolg!")
+    st.info("Wähle die beste Antwort. Einmal beantwortete Fragen sind final. Viel Erfolg!")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     st.markdown(
@@ -701,6 +713,8 @@ def main():
         for i, q_idx in enumerate(indices):
             display_question(fragen[q_idx], q_idx, i + 1)
     # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
+
+
 
 if __name__ == "__main__":
     main()
