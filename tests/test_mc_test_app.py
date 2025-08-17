@@ -2,7 +2,7 @@ import importlib.util
 import pathlib
 import os
 import pandas as pd
-from mc_test_app.mc_test_utils import get_user_id_hash, _duration_to_str, save_answer, load_all_logs
+from mc_test_utils import get_user_id_hash, _duration_to_str, save_answer, load_all_logs
 
 def test_get_user_id_hash_length():
     h = get_user_id_hash('alice')

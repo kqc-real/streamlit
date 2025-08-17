@@ -5,7 +5,7 @@ from pathlib import Path
 
 import os
 import pandas as pd
-from mc_test_app.mc_test_utils import save_answer
+from mc_test_utils import save_answer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 QUESTIONS_FILE = BASE_DIR / "questions.json"
