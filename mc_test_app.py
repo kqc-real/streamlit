@@ -362,13 +362,15 @@ def save_answer(user_id: str, user_id_hash: str, frage_obj: dict, antwort: str, 
     row = {
         'user_id_hash': user_id_hash,
         'user_id_display': user_id_display,
-    'user_id_plain': user_id_plain,
+        'user_id_plain': user_id_plain,
         'frage_nr': frage_nr,
         'frage': frage_obj['frage'],
         'antwort': antwort,
         'richtig': punkte,
         'zeit': datetime.now().isoformat(timespec='seconds'),
     }
+    # Only keep keys in FIELDNAMES
+    row = {k: row[k] for k in FIELDNAMES}
     attempt = 0
     while attempt < MAX_SAVE_RETRIES:
         try:
@@ -399,28 +401,35 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         st.markdown(f"### Frage {num_answered + 1} von {len(fragen)}")
         st.markdown(f"**{frage_text}**")
         is_disabled = st.session_state.beantwortet[frage_idx] is not None
-        try:
-            gespeicherte_antwort = st.session_state.get(f"frage_{frage_idx}")
-            optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
-            antwort_index = (
-                optionen_anzeige.index(gespeicherte_antwort)
-                if gespeicherte_antwort else None
-            )
-        except (ValueError, TypeError):
-            antwort_index = None
-            optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
+        optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
+        # Add placeholder if unanswered
+        if st.session_state.beantwortet[frage_idx] is None:
+            optionen_anzeige = ["Bitte auswählen..."] + optionen_anzeige
+            default_val = "Bitte auswählen..."
+        else:
+            default_val = st.session_state.get(f"frage_{frage_idx}", None)
+        radio_kwargs = {
+            "options": optionen_anzeige,
+            "key": f"frage_{frage_idx}",
+            "disabled": is_disabled,
+            "label_visibility": "collapsed",
+        }
+        # Only set index if no session state value exists for this widget
+        if (
+            default_val in optionen_anzeige and
+            f"frage_{frage_idx}" not in st.session_state
+        ):
+            radio_kwargs["index"] = optionen_anzeige.index(default_val)
         antwort = st.radio(
             "Antwort auswählen:",
-            options=optionen_anzeige,
-            key=f"frage_{frage_idx}",
-            index=antwort_index,
-            disabled=is_disabled,
-            label_visibility="collapsed",
+            **radio_kwargs
         )
+        # Only allow answering if a real option is chosen
+        if antwort == "Bitte auswählen...":
+            antwort = None
         if antwort and not is_disabled:
             if st.session_state.start_zeit is None:
                 st.session_state.start_zeit = datetime.now()
-            # Korrektheitsprüfung gegen ursprüngliche richtige Option
             richtig = (antwort == frage_obj["optionen"][frage_obj["loesung"]])
             punkte = 1 if richtig else -1
             st.session_state.beantwortet[frage_idx] = punkte
@@ -438,16 +447,26 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     st.balloons()
             else:
                 st.toast("Leider falsch.", icon="❌")
-            time.sleep(1.5)
+            st.session_state[f"show_explanation_{frage_idx}"] = True
+            st.session_state[f"disable_radio_{frage_idx}"] = True
             st.rerun()
-        if is_disabled:
+        if st.session_state.get(f"show_explanation_{frage_idx}", False):
             if st.session_state.beantwortet[frage_idx] == 1:
                 st.success("Ihre Antwort ist richtig! (+1 Punkt)")
+                reduce_anim = st.session_state.get('reduce_animations', False)
+                if not reduce_anim:
+                    st.balloons()
             else:
                 st.error(
                     "Ihre Antwort war leider falsch (-1 Punkt). Die korrekte Antwort "
                     f"lautet: **{frage_obj['optionen'][frage_obj['loesung']]}**"
                 )
+            erklaerung = frage_obj.get("erklaerung")
+            if erklaerung:
+                st.info(erklaerung)
+            if st.button("Weiter zur nächsten Frage"):
+                st.session_state[f"show_explanation_{frage_idx}"] = False
+                st.rerun()
 
 
 @st.cache_data
@@ -493,7 +512,6 @@ def display_sidebar_metrics(num_answered: int) -> None:
         "Aktueller Punktestand",
         f"{aktueller_punktestand} / {len(fragen)}",
     )
-        # Countdown wird nur im Hauptbereich angezeigt
     # Countdown für nächstmögliche Antwort (Throttling)
     next_allowed = st.session_state.get('next_allowed_time')
     if next_allowed:
@@ -517,23 +535,6 @@ def display_sidebar_metrics(num_answered: int) -> None:
         st.sidebar.dataframe(leaderboard_df)
     elif user_is_admin:
         st.sidebar.info("Noch keine abgeschlossenen Tests.")
-    st.sidebar.divider()
-    # Persistente Einstellung für Filter nur unbeantwortete Fragen.
-    # Explizit value setzen & Rückgabewert speichern, damit ein Rerun nach Antwort
-    # (st.rerun) den Zustand nicht zurücksetzt.
-    # Default: Nur unbeantwortete Fragen anzeigen (beim ersten Laden)
-    if 'only_unanswered' not in st.session_state:
-        st.session_state['only_unanswered'] = True
-    # Checkbox nur anzeigen, wenn kein gespeicherter Test existiert
-    has_progress = st.session_state.get('load_progress', False)
-    if not has_progress:
-        user_key = st.session_state.get('user_id', '')
-        checkbox_key = f"sidebar_only_unanswered_checkbox_{user_key}_{random.randint(0,99999)}"
-        st.session_state['only_unanswered'] = st.sidebar.checkbox(
-            "Nur unbeantwortete Fragen anzeigen",
-            value=st.session_state['only_unanswered'],
-            key=checkbox_key
-        )
 
 
 def display_final_summary(num_answered: int) -> None:
@@ -663,7 +664,9 @@ def handle_user_session():
         # Fortschritt & Score nur im Review-Modus anzeigen
         if st.session_state.get('force_review', False):
             display_sidebar_metrics(num_answered)
-        st.sidebar.info("Ein Test mit diesem Pseudonym wurde bereits durchgeführt. Das Ergebnis bleibt gespeichert und kann nicht wiederholt werden.")
+        # Show info only if test is fully completed
+        if num_answered == len(st.session_state.beantwortet):
+            st.sidebar.info("Ein Test mit diesem Pseudonym wurde bereits durchgeführt. Das Ergebnis bleibt gespeichert und kann nicht wiederholt werden.")
         # Review weiterhin möglich
         st.session_state['force_review'] = True
         return st.session_state.user_id
@@ -712,8 +715,15 @@ def main():
     if 'user_id' in st.session_state:
         user_id = st.session_state.user_id
 
-    st.title("📝 MC-Test: Data Analytics & Big Data")
+
+    # Always show header before user session is set up
+    if 'user_id' not in st.session_state:
+        st.title("📝 MC-Test: Data Analytics & Big Data")
     user_id = handle_user_session()
+    num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+    # Hide header after first answer
+    if user_id and num_answered == 0:
+        st.title("📝 MC-Test: Data Analytics & Big Data")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if (
@@ -790,13 +800,23 @@ def main():
     elif num_answered == len(fragen):
         display_final_summary(num_answered)
     else:
-        only_unanswered = st.session_state.get('only_unanswered', False)
         indices = st.session_state.frage_indices
-        if only_unanswered:
-            indices = [i for i in indices if st.session_state.beantwortet[i] is None]
-        # Zeige nur die erste unbeantwortete Frage an
-        if indices:
-            display_question(fragen[indices[0]], indices[0], 1)
+        next_idx = None
+        for idx in indices:
+            if st.session_state.get(f"show_explanation_{idx}", False):
+                next_idx = idx
+                break
+        if next_idx is None:
+            for idx in indices:
+                if st.session_state.beantwortet[idx] is None:
+                    next_idx = idx
+                    break
+        # Reset all explanation flags except for the current question
+        for idx in indices:
+            if idx != next_idx:
+                st.session_state[f"show_explanation_{idx}"] = False
+        if next_idx is not None:
+            display_question(fragen[next_idx], next_idx, 1)
     # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
 
 
