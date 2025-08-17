@@ -479,12 +479,17 @@ def display_sidebar_metrics(num_answered: int) -> None:
             st.session_state.pop('next_allowed_time', None)
     if num_answered == len(fragen):
         st.sidebar.success("✅ Test abgeschlossen!")
-    st.sidebar.header("🏆 Bestenliste")
     leaderboard_df = calculate_leaderboard()
-    if leaderboard_df.empty:
-        st.sidebar.info("Noch keine abgeschlossenen Tests.")
-    else:
+    admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
+    user_is_admin = (
+        (not admin_user_cfg or st.session_state.get('user_id') == admin_user_cfg)
+        and st.session_state.get('admin_view', False)
+    )
+    if not leaderboard_df.empty:
+        st.sidebar.header("🏆 Bestenliste")
         st.sidebar.dataframe(leaderboard_df)
+    elif user_is_admin:
+        st.sidebar.info("Noch keine abgeschlossenen Tests.")
     st.sidebar.divider()
     # Persistente Einstellung für Filter nur unbeantwortete Fragen.
     # Explizit value setzen & Rückgabewert speichern, damit ein Rerun nach Antwort
@@ -549,7 +554,10 @@ def display_final_summary(num_answered: int) -> None:
             richtig = (user_val == korrekt)
             with st.expander(f"Frage {idx + 1}: {'✅' if richtig else '❌'}"):
                 st.markdown(f"**{frage['frage']}**")
-                st.write(f"Ihre Antwort: {user_val if user_val is not None else '—'}")
+                if user_val is not None:
+                    st.write(f"Ihre Antwort: {user_val}")
+                else:
+                    st.write("Ihre Antwort: —")
                 if not richtig:
                     st.write(f"Korrekte Antwort: {korrekt}")
                 # Optional kurze Liste aller Optionen bei Bedarf
@@ -579,68 +587,44 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
 
 
 def handle_user_session():
+    # 1. Nutzerkennung
     st.sidebar.header("👤 Nutzerkennung")
-    # Benutzer-Login
     if 'user_id' not in st.session_state:
-        user_id_input = st.sidebar.text_input(
-            "Pseudonym eingeben (frei wählbar)",
-            key='user_id_input'
-        )
-        if st.sidebar.button("Starten", type="primary"):
+        def start_mc_test():
+            user_id_input = st.session_state.get('user_id_input', '').strip()
             if not user_id_input:
                 st.sidebar.error("Bitte ein Pseudonym eingeben.")
             else:
-                st.session_state.user_id = user_id_input.strip()
-                st.rerun()
-        st.stop()
-    # Angemeldet
+                st.session_state.user_id = user_id_input
+                st.session_state['mc_test_started'] = True
+
+        st.sidebar.text_input(
+            "Pseudonym eingeben (frei wählbar)",
+            key='user_id_input',
+            on_change=start_mc_test
+        )
+        if not st.session_state.get('mc_test_started'):
+            st.stop()
     st.sidebar.success(f"Angemeldet als: **{st.session_state.user_id}**")
-    # Accessibility Dropdown
-    st.sidebar.subheader("♿ Barrierefreiheit")
-    acc_options = [
-        "Standard",
-        "Hoher Kontrast",
-        "Große Schrift",
-        "Animationen reduzieren",
-        "Hoher Kontrast + Große Schrift",
-    ]
-    acc_default = st.session_state.get('accessibility', "Standard")
-    selected = st.sidebar.selectbox(
-        "Barrierefreiheit wählen:",
-        acc_options,
-        index=acc_options.index(acc_default) if acc_default in acc_options else 0,
-        key="accessibility"
-    )
-    # Set individual flags based on selection
-    st.session_state['high_contrast'] = selected in ["Hoher Kontrast", "Hoher Kontrast + Große Schrift"]
-    st.session_state['large_text'] = selected in ["Große Schrift", "Hoher Kontrast + Große Schrift"]
-    st.session_state['reduce_animations'] = selected == "Animationen reduzieren"
-    # Fortschritt laden
     current_hash = (
         st.session_state.get('user_id_hash') or
         get_user_id_hash(st.session_state.user_id)
     )
     has_progress = user_has_progress(current_hash)
-    if has_progress:
-        if 'load_progress' not in st.session_state:
-            st.session_state['load_progress'] = True
-        st.sidebar.checkbox(
-            "Fortschritt laden (falls vorhanden)",
-            value=st.session_state['load_progress'],
-            key="load_progress",
-        )
-    else:
-        st.session_state['load_progress'] = False
-    # Reset Button
-    if has_progress and st.sidebar.button("Fortschritt zurücksetzen", help="Alle gespeicherten Antworten löschen"):
-        reset_user_answers(current_hash)
-        st.success("Fortschritt zurückgesetzt.")
-        st.rerun()
+    st.session_state['load_progress'] = has_progress
+
+    # Ensure session state is initialized before sidebar metrics
+    if 'beantwortet' not in st.session_state or 'frage_indices' not in st.session_state:
+        initialize_session_state()
+
+    # 2. Fortschritt & Score direkt nach Nutzerkennung
+    num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+    display_sidebar_metrics(num_answered)
+
+    # 3. Admin Sektion
     st.sidebar.divider()
-    # Admin Sektion
     st.sidebar.subheader("🔐 Admin")
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-    # Hinweis: admin_key_env wird direkt nur in check_admin_permission genutzt
     user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
     if not user_allowed:
         st.sidebar.caption(
@@ -667,7 +651,6 @@ def handle_user_session():
 def main():
     st.title("📝 MC-Test: Data Analytics & Big Data")
     user_id = handle_user_session()
-    apply_accessibility_settings()
 
     # Sticky Progress Bar (oben)
     if 'beantwortet' in st.session_state:
@@ -717,9 +700,7 @@ def main():
             indices = [i for i in indices if st.session_state.beantwortet[i] is None]
         for i, q_idx in enumerate(indices):
             display_question(fragen[q_idx], q_idx, i + 1)
-
-    display_sidebar_metrics(num_answered)
-
+    # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
 
 if __name__ == "__main__":
     main()
