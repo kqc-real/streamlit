@@ -1,2 +1,9 @@
 user_id_hash,user_id_display,frage_nr,frage,antwort,richtig,zeit
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,12,12. Was ist ein typischer Anwendungsfall für Streamlit im Kurs?,Entwicklung von Datenbanken,-1,2025-08-16T05:52:12
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,9,9. Was ist ein typischer Fehler beim Arbeiten mit DataFrames?,SyntaxError bei DataFrame-Methoden,-1,2025-08-16T22:07:46
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,39,39. Welches Datenformat wird in `00_Python_in_3_Stunden.ipynb` als oft schneller und speichereffizienter als CSV für große Datenmengen bezeichnet?,Parquet,1,2025-08-16T22:07:50
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,20,20. Was ist ein typischer Anwendungsfall für das QUA³CK-Modell?,Erstellung von Datenbanken,-1,2025-08-16T22:07:53
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,1,1. Was ist der Hauptvorteil von Docker für Data Science?,Direkte GPU-Nutzung ohne Konfiguration,-1,2025-08-16T22:07:59
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,36,"36. Welches Problem wird durch die Verwendung von Docker-Volumes, wie in `01_Docker_für_Data_Science.ipynb` empfohlen, primär gelöst?",Die Größe des Docker-Images wird reduziert.,-1,2025-08-16T22:08:22
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,2,2. Was ist ein DataFrame in pandas?,Ein spezieller Datentyp für Zeitreihen,-1,2025-08-16T22:08:27
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,22,22. Was ist ein Vorteil von Funktionen in Python?,Sie verhindern die Nutzung von Variablen,-1,2025-08-16T22:08:30
+6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,48,48. Was bedeutet der Jupyter-Tastaturbefehl 'M' im Command Mode?,Eine neue Zelle oberhalb einfügen (More).,-1,2025-08-16T22:08:32
