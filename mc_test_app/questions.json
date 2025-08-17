@@ -698,5 +698,305 @@
       "Sie sind nur für Bilddaten geeignet"
     ],
     "loesung": 0
+  },
+  {
+    "frage": "71. Was ist ein typisches Merkmal eines neuronalen Netzes?",
+    "optionen": [
+      "Es besteht aus Schichten von Neuronen mit gewichteten Verbindungen.",
+      "Es verwendet ausschließlich lineare Regression.",
+      "Es benötigt keine Aktivierungsfunktionen.",
+      "Es kann nur für Klassifikationsaufgaben eingesetzt werden."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "72. Was ist die Hauptfunktion einer Aktivierungsfunktion im neuronalen Netz?",
+    "optionen": [
+      "Sie führt Nichtlinearität ein und ermöglicht komplexe Modellierung.",
+      "Sie berechnet die Gewichtsmatrix.",
+      "Sie verhindert Overfitting.",
+      "Sie normalisiert die Eingabedaten."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "73. Was ist ein typischer Vorteil von ReLU gegenüber Sigmoid?",
+    "optionen": [
+      "ReLU vermeidet das Vanishing Gradient Problem.",
+      "ReLU ist immer differentiierbar.",
+      "ReLU ist für Ausgaben zwischen 0 und 1 geeignet.",
+      "ReLU benötigt keine Gewichte."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "74. Was beschreibt das Backpropagation-Verfahren?",
+    "optionen": [
+      "Die Berechnung der Gradienten zur Gewichtsaktualisierung.",
+      "Die Initialisierung der Gewichte.",
+      "Die Auswahl der Aktivierungsfunktion.",
+      "Die Vorwärtsausbreitung der Eingabedaten."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "75. Was ist ein typischer Grund für Overfitting in neuronalen Netzen?",
+    "optionen": [
+      "Zu viele Parameter und zu wenig Trainingsdaten.",
+      "Zu kleine Batchgröße.",
+      "Fehlende Aktivierungsfunktion.",
+      "Verwendung von Dropout."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "76. Was ist Dropout im Kontext von Deep Learning?",
+    "optionen": [
+      "Eine Regularisierungstechnik, bei der zufällig Neuronen deaktiviert werden.",
+      "Eine Methode zur Initialisierung der Gewichte.",
+      "Eine spezielle Aktivierungsfunktion.",
+      "Ein Optimierungsalgorithmus."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "77. Was ist der Zweck eines Loss-Functions?",
+    "optionen": [
+      "Sie misst die Differenz zwischen Vorhersage und Zielwert.",
+      "Sie berechnet die Anzahl der Neuronen.",
+      "Sie legt die Lernrate fest.",
+      "Sie bestimmt die Batchgröße."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "78. Was ist ein typischer Vorteil von Batch Normalization?",
+    "optionen": [
+      "Beschleunigt das Training und stabilisiert die Lernprozesse.",
+      "Erhöht die Anzahl der Parameter.",
+      "Ersetzt die Aktivierungsfunktion.",
+      "Verhindert die Initialisierung der Gewichte."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "79. Was ist ein typischer Nachteil von zu tiefen Netzen?",
+    "optionen": [
+      "Vanishing/Exploding Gradients können auftreten.",
+      "Sie sind immer schneller als flache Netze.",
+      "Sie benötigen keine Aktivierungsfunktionen.",
+      "Sie sind immer robuster gegen Overfitting."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "80. Was ist ein typischer Anwendungsfall für Convolutional Neural Networks (CNNs)?",
+    "optionen": [
+      "Bildklassifikation und Objekterkennung.",
+      "Zeitreihenprognose.",
+      "Textübersetzung.",
+      "Reinforcement Learning."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "81. Was ist ein typischer Vorteil von Stochastic Gradient Descent (SGD)?",
+    "optionen": [
+      "Effiziente Optimierung bei großen Datensätzen.",
+      "Garantiert immer das globale Minimum.",
+      "Benötigt keine Lernrate.",
+      "Führt keine Gewichtsaktualisierung durch."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "82. Was ist der Zweck eines Hidden Layers?",
+    "optionen": [
+      "Er lernt komplexe Merkmale aus den Eingabedaten.",
+      "Er gibt die finale Vorhersage aus.",
+      "Er initialisiert die Gewichte.",
+      "Er normalisiert die Ausgaben."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "83. Was ist ein typischer Nachteil von Sigmoid als Aktivierungsfunktion?",
+    "optionen": [
+      "Vanishing Gradient Problem bei tiefen Netzen.",
+      "Sie ist nicht differentiierbar.",
+      "Sie kann keine Nichtlinearität abbilden.",
+      "Sie ist nur für Regression geeignet."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "84. Was ist ein typischer Vorteil von Adam gegenüber SGD?",
+    "optionen": [
+      "Adam passt die Lernrate adaptiv an.",
+      "Adam benötigt keine Backpropagation.",
+      "Adam ist nur für kleine Netze geeignet.",
+      "Adam verwendet keine Gradienten."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "85. Was ist ein typischer Grund für die Verwendung von Early Stopping?",
+    "optionen": [
+      "Vermeidung von Overfitting durch Abbruch bei stagnierender Validierungsleistung.",
+      "Erhöhung der Batchgröße.",
+      "Initialisierung der Gewichte.",
+      "Ersetzung der Aktivierungsfunktion."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "86. Was ist ein typischer Vorteil von Softmax im Output-Layer?",
+    "optionen": [
+      "Er wandelt die Ausgaben in Wahrscheinlichkeiten um.",
+      "Er verhindert Overfitting.",
+      "Er ersetzt die Loss-Function.",
+      "Er ist nur für Regression geeignet."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "87. Was ist ein typischer Nachteil von zu großen Lernraten?",
+    "optionen": [
+      "Das Training kann instabil werden und divergieren.",
+      "Das Training wird immer langsamer.",
+      "Die Gewichte werden nicht aktualisiert.",
+      "Die Aktivierungsfunktion wird deaktiviert."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "88. Was ist ein typischer Vorteil von Weight Initialization?",
+    "optionen": [
+      "Verhindert schlechte Konvergenz und beschleunigt das Training.",
+      "Erhöht die Anzahl der Hidden Layers.",
+      "Ersetzt die Aktivierungsfunktion.",
+      "Verhindert die Verwendung von Dropout."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "89. Was ist ein typischer Anwendungsfall für Recurrent Neural Networks (RNNs)?",
+    "optionen": [
+      "Sequenzdaten wie Text oder Zeitreihen.",
+      "Bildklassifikation.",
+      "Objekterkennung.",
+      "Clustering."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "90. Was ist ein typischer Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
+    "optionen": [
+      "Automatisches Feature Learning aus Rohdaten.",
+      "Benötigt keine Trainingsdaten.",
+      "Ist immer interpretierbar.",
+      "Funktioniert nur für kleine Datensätze."
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "91. Was ist der Hauptvorteil von Convolutional Neural Networks (CNNs) gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
+    "optionen": [
+      "Sie benötigen keine Aktivierungsfunktionen",
+      "Sie reduzieren die Anzahl der Parameter durch lokale Verbindungen und Gewichtsteilung",
+      "Sie können nur Graustufenbilder verarbeiten",
+      "Sie sind langsamer beim Training"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "92. Welche Eigenschaft ermöglicht es CNNs, Objekte unabhängig von ihrer Position im Bild zu erkennen?",
+    "optionen": [
+      "Dropout",
+      "Translation Invariance",
+      "Dense Layer",
+      "Batch Normalization"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "93. Was beschreibt ein 'Filter' (Kernel) in der Bildverarbeitung?",
+    "optionen": [
+      "Eine Methode zur Farbumwandlung",
+      "Eine kleine Matrix, die über das Bild gefaltet wird, um lokale Merkmale zu extrahieren",
+      "Ein Algorithmus zur Bildkompression",
+      "Ein Verfahren zur Bildvergrößerung"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "94. Welche Funktion hat ein Mean-Filter in der Bildverarbeitung?",
+    "optionen": [
+      "Er verstärkt Kanten",
+      "Er macht das Bild unscharf, indem er den Mittelwert der Nachbarschaft berechnet",
+      "Er erhöht die Farbsättigung",
+      "Er erkennt Gesichter"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "95. Welche Filter werden typischerweise zur Kantendetektion verwendet?",
+    "optionen": [
+      "Mean-Filter",
+      "Prewitt- und Sobel-Filter",
+      "Laplace-Filter",
+      "Gaussian-Filter"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "96. Was passiert, wenn ein Prewitt-Filter in x-Richtung auf ein Bild angewendet wird?",
+    "optionen": [
+      "Vertikale Kanten werden hervorgehoben",
+      "Horizontale Kanten werden hervorgehoben",
+      "Das Bild wird unscharf",
+      "Die Farben werden invertiert"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "97. Warum ist Weight Sharing in CNNs wichtig?",
+    "optionen": [
+      "Es erhöht die Modellkomplexität",
+      "Es reduziert die Anzahl der zu lernenden Parameter",
+      "Es verhindert Overfitting",
+      "Es ist nur für Textdaten relevant"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "98. Was ist eine Feature Map in einem CNN?",
+    "optionen": [
+      "Eine Visualisierung der Trainingsdaten",
+      "Die Ausgabe eines Filters nach der Faltung mit dem Eingabebild",
+      "Ein Datensatz zur Modellbewertung",
+      "Ein Layer zur Datenaugmentation"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "99. Welche Layer sind typischerweise in einer CNN-Architektur enthalten?",
+    "optionen": [
+      "Convolutional, Pooling, Flatten, Dense",
+      "Only Dense",
+      "Only Pooling",
+      "Only Dropout"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "100. Was ist der Unterschied zwischen klassischen Bildfiltern und CNN-Filtern?",
+    "optionen": [
+      "Klassische Filter sind fest vorgegeben, CNNs lernen die Filter automatisch",
+      "CNN-Filter sind immer größer als klassische Filter",
+      "Klassische Filter können keine Kanten erkennen",
+      "CNN-Filter benötigen keine Aktivierungsfunktion"
+    ],
+    "loesung": 0
   }
 ]
