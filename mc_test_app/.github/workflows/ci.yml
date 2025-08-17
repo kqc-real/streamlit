@@ -18,11 +18,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt --no-cache-dir
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/mc_test_app" >> $GITHUB_ENV
       - name: Run tests
         run: |
-          pytest -q tests
+          PYTHONPATH=. pytest -q mc_test_app/tests
 
   smoke:
     runs-on: ubuntu-latest
