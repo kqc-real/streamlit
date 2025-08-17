@@ -102,9 +102,9 @@ Antworten (Rate-Limit / Throttling).
 
 ## Integration in Infrastruktur
 
-- Läuft als eigenständiger Streamlit Service (siehe `docker-compose.yml`)
-- Kombinierbar mit Jupyter Services (für Auswertung / EDA der CSV)
-- Leicht auf Streamlit Cloud deploybar (siehe Notebook im `notebooks/` Ordner)
+- Läuft als eigenständiger Streamlit-Service (siehe `docker-compose.yml`)
+- Kombinierbar mit Jupyter-Umgebungen (z.B. für Auswertung der CSV-Daten)
+- Einfach auf Streamlit Cloud oder andere Hosting-Plattformen deploybar
 - Keine externen Datenbanken nötig (reduziert Betriebsaufwand)
 
 ## Deployment (einfachste Variante)
