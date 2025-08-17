@@ -37,7 +37,7 @@
       "Mit Shift+Enter",
       "Mit der Taste 'A'"
     ],
-    "loesung": 1
+    "loesung": 3
   },
   {
     "frage": "5. Was ist der Unterschied zwischen einem Docker-Image und einem Container?",
@@ -498,5 +498,205 @@
       "Root Mean Squared Error (RMSE)"
     ],
     "loesung": 1
+  },
+  {
+    "frage": "51. Was ist ein Vorteil von Decision Trees?",
+    "optionen": [
+      "Sie sind leicht interpretierbar",
+      "Sie benötigen immer Daten-Normalisierung",
+      "Sie funktionieren nur mit numerischen Daten",
+      "Sie sind immer stabil bei kleinen Datenänderungen"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "52. Was ist ein Nachteil von Decision Trees?",
+    "optionen": [
+      "Sie sind schwer zu interpretieren",
+      "Sie neigen zu Overfitting",
+      "Sie benötigen Labels",
+      "Sie sind robust gegenüber Ausreißern"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "53. Was beschreibt die Funktionsweise von K-Nearest Neighbors (KNN) am besten?",
+    "optionen": [
+      "Finde die k nächsten Nachbarn und wähle die häufigste Klasse",
+      "Erstelle einen Entscheidungsbaum",
+      "Finde die Mittelwerte aller Features",
+      "Nutze PCA zur Dimensionsreduktion"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "54. Warum sollte k bei KNN ungerade gewählt werden?",
+    "optionen": [
+      "Um Rechenzeit zu sparen",
+      "Um Unentschieden zu vermeiden",
+      "Um Overfitting zu verhindern",
+      "Um die Genauigkeit zu erhöhen"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "55. Was ist ein typischer Anwendungsfall für K-Means Clustering?",
+    "optionen": [
+      "Vorhersage von Labels",
+      "Finden von Gruppen in Daten ohne Labels",
+      "Klassifikation von Bildern",
+      "Regression"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "56. Was ist ein Unterschied zwischen Supervised und Unsupervised Learning?",
+    "optionen": [
+      "Supervised benötigt keine Labels",
+      "Unsupervised benötigt Labels",
+      "Supervised nutzt Labels, Unsupervised nicht",
+      "Beide benötigen Labels"
+    ],
+    "loesung": 2
+  },
+  {
+    "frage": "57. Was ist ein Vorteil von KNN?",
+    "optionen": [
+      "Keine Annahmen über Datenverteilung",
+      "Sehr schnelle Vorhersagen bei großen Daten",
+      "Funktioniert nur mit kategorischen Daten",
+      "Benötigt keine Skalierung"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "58. Was ist ein Nachteil von KNN?",
+    "optionen": [
+      "Braucht Skalierung",
+      "Funktioniert nicht mit numerischen Daten",
+      "Ist immer langsam",
+      "Benötigt Labels"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "59. Was ist die Elbow-Methode?",
+    "optionen": [
+      "Methode zur Wahl des optimalen k bei K-Means",
+      "Methode zur Skalierung von Daten",
+      "Methode zur Feature-Auswahl",
+      "Methode zur Visualisierung von Entscheidungsbäumen"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "60. Was zeigt ein Knoten im Entscheidungsbaum?",
+    "optionen": [
+      "Die finale Klassifikation",
+      "Eine Ja/Nein-Frage",
+      "Die Mittelwerte aller Features",
+      "Die Anzahl der Cluster"
+    ],
+    "loesung": 1
+  },
+  {
+    "frage": "61. Was ist ein typischer Vorteil von K-Means?",
+    "optionen": [
+      "Findet versteckte Muster in den Daten",
+      "Funktioniert nur mit Labels",
+      "Ist immer langsam",
+      "Benötigt immer PCA"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "62. Was ist ein typischer Nachteil von K-Means?",
+    "optionen": [
+      "k muss vorgegeben werden",
+      "Funktioniert nur mit kategorischen Daten",
+      "Benötigt Labels",
+      "Ist immer robust gegenüber Ausreißern"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "63. Was ist ein typischer Einsatzbereich für Decision Trees?",
+    "optionen": [
+      "Medizin und Finanzen",
+      "Bildklassifikation",
+      "Clustering",
+      "Regression"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "64. Was ist ein typischer Einsatzbereich für KNN?",
+    "optionen": [
+      "Empfehlungssysteme",
+      "Zeitreihenanalyse",
+      "Regression",
+      "Feature Engineering"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "65. Was ist ein typischer Einsatzbereich für K-Means?",
+    "optionen": [
+      "Customer Segmentation",
+      "Regression",
+      "Zeitreihenanalyse",
+      "Feature Engineering"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "66. Was ist ein Vorteil von Decision Trees gegenüber KNN?",
+    "optionen": [
+      "Keine Skalierung nötig",
+      "Funktioniert nur mit numerischen Daten",
+      "Benötigt Labels",
+      "Ist immer schneller"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "67. Was ist ein Vorteil von KNN gegenüber Decision Trees?",
+    "optionen": [
+      "Keine Annahmen über Datenverteilung",
+      "Funktioniert nur mit kategorischen Daten",
+      "Benötigt keine Skalierung",
+      "Ist immer schneller"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "68. Was ist ein Vorteil von K-Means gegenüber KNN?",
+    "optionen": [
+      "Findet Gruppen ohne Labels",
+      "Funktioniert nur mit Labels",
+      "Ist immer schneller",
+      "Benötigt keine Skalierung"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "69. Was ist ein typischer Pro-Tipp aus dem AMALEA-Kurs?",
+    "optionen": [
+      "Immer mehrere Algorithmen testen",
+      "Nur einen Algorithmus verwenden",
+      "Keine Cross-Validation nutzen",
+      "Feature Engineering ignorieren"
+    ],
+    "loesung": 0
+  },
+  {
+    "frage": "70. Was ist die AMALEA-Weisheit zu den \"Big 3\" Algorithmen?",
+    "optionen": [
+      "Wer sie versteht, versteht 80% aller ML-Projekte",
+      "Sie sind nur für Experten geeignet",
+      "Sie sind veraltet",
+      "Sie sind nur für Bilddaten geeignet"
+    ],
+    "loesung": 0
   }
 ]
