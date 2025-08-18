@@ -268,7 +268,7 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def admin_view():
-    st.title("�️ Admin: Bestenliste & Logs")
+    st.title("🛡️ Admin: Bestenliste & Logs")
     df_logs = load_all_logs()
     if df_logs.empty:
         st.info("Noch keine Daten am Start.")
@@ -766,7 +766,7 @@ def handle_user_session():
 
     # 3. Admin Sektion
     st.sidebar.divider()
-    st.sidebar.subheader("�️ Admin")
+    st.sidebar.subheader("🛡️ Admin")
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
     if not user_allowed:
@@ -778,7 +778,7 @@ def handle_user_session():
             admin_key_input = st.session_state.get('admin_key_input', '').strip()
             if check_admin_permission(st.session_state.user_id, admin_key_input):
                 st.session_state['admin_view'] = True
-                st.rerun()
+                # st.rerun() entfernt, da im Callback wirkungslos
             else:
                 st.sidebar.error("Nope, das war nicht der richtige Admin-Key.")
 
@@ -809,7 +809,7 @@ def main():
 
     # Always show header before user session is set up
     if 'user_id' not in st.session_state:
-        st.title("📝 MC-Test: Data Analytics")
+        st.title("🎓 MC-Test: Data Analytics")
     user_id = handle_user_session()
     # If triggered by Enter, rerun after session state is set
     if st.session_state.get('trigger_rerun'):
@@ -818,7 +818,7 @@ def main():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
     if user_id and num_answered == 0:
-        st.title("📝 MC-Test: Data Analytics")
+        st.title("🎓 MC-Test: Data Analytics")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if (
