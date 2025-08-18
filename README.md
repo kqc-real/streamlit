@@ -10,14 +10,17 @@ Provides fast feedback, progress tracking, and aggregated results.
 
 ## Features
 
-- 60-minute test time limit with automatic finish and evaluation
-- One-question-at-a-time display with stepwise navigation
-- Immediate didactic explanation after each answer
-- User-controlled navigation with "Weiter zur nächsten Frage" button
-- Instant feedback (correct/incorrect) per question
-- Persistent answer log and progress tracking
-- Leaderboard and review mode after test completion
-- Pseudonymization and admin view
+ - Multiple-choice test for Data Analytics, built with Streamlit.
+ - User login via pseudonym; answers and progress are tracked and stored per user.
+ - Questions loaded from a local JSON file, with randomized order and shuffled options for each user.
+ - Answers are saved to a CSV file (`mc_test_answers.csv`) for persistence and leaderboard calculation.
+ - Time limit of 60 minutes per test, with countdown and warnings as time runs out.
+ - Sticky progress bar at the top and sidebar metrics for progress and score.
+ - Motivational feedback after each answer and at test completion, including review mode to see all or only incorrect answers with explanations.
+ - Admin section in the sidebar, protected by environment-configured user and/or password, for viewing leaderboards and raw logs.
+ - Downloadable CSVs for top 5 scores, all participations, and raw logs.
+ - Dark mode enforced via custom CSS.
+ - Configurable via environment variables and Streamlit secrets for admin logic and minimum time between answers.
 
 ---
 
@@ -50,13 +53,25 @@ docker compose up -d
 mc_test_app/
   README.md                # App documentation
   mc_test_app.py           # Main Streamlit app (UI + logic)
-  core.py                  # Core functions (hash, questions, time format)
+  core.py                  # Core functions
   questions.json           # Question catalog (MC questions + options + solution)
   requirements.txt         # All dependencies for app & tests
-  tests/                   # Pytest tests for core functions
   mc_test_answers.csv      # Answer log (auto-generated; may be missing)
-  .github/workflows/ci.yml # CI (tests) for this subtree
+  .env                     # (optional) Environment config
   .env.example             # (optional) Example ENV if used
+  __init__.py              # Package marker
+  .devcontainer/
+    devcontainer.json      # Devcontainer config
+  .github/
+    workflows/
+      ci.yml               # CI workflow for tests
+  .streamlit/
+    config.toml            # Streamlit config
+    secrets.toml           # Streamlit secrets
+  tests/
+    test_core.py           # Pytest tests for core functions
+    __pycache__/           # Test cache
+  __pycache__/             # App cache
 ```
 
 ## Data Persistence (CSV)
