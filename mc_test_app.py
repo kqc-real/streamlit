@@ -691,22 +691,23 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
       sofern (falls gesetzt) der Benutzername MC_TEST_ADMIN_USER entspricht.
     """
     admin_user = st.secrets.get("MC_TEST_ADMIN_USER", None)
-    if admin_user is None:
+    if not admin_user:
         admin_user = os.getenv("MC_TEST_ADMIN_USER", "")
     admin_user = str(admin_user).strip()
     admin_key_env = st.secrets.get("MC_TEST_ADMIN_KEY", None)
-    if admin_key_env is None:
+    if not admin_key_env:
         admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
-    admin_key_env = str(admin_key_env)
+    admin_key_env = str(admin_key_env).strip()
     provided_key = provided_key.strip()
-    # Only allow admin if MC_TEST_ADMIN_KEY is set and matches exactly (non-empty)
-    if admin_key_env and provided_key:
+
+    # 1. Wenn Admin-Key gesetzt ist, muss er exakt passen
+    if admin_key_env:
         return provided_key == admin_key_env
-    # If no key is set, fall back to user check (legacy)
+    # 2. Wenn Admin-User gesetzt ist, muss User passen und Key nicht leer sein
     if admin_user:
         return user_id == admin_user and provided_key != ""
-    # If neither is set, accept any non-empty key
-    return False
+    # 3. Wenn nichts gesetzt ist, reicht beliebige nicht-leere Eingabe
+    return bool(provided_key)
 
 
 def handle_user_session():
