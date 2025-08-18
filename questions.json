@@ -40,7 +40,7 @@
       "Mit `Shift+Enter`",
       "Mit der Taste `A`"
     ],
-    "loesung": 3,
+    "loesung": 1,
     "erklaerung": "Mit der Taste `Y` wird eine Zelle in den Code-Modus versetzt. So kann man direkt Python-Code ausführen."
   },
   {
@@ -145,10 +145,10 @@
   {
     "frage": "14. Wie kann man in Python eine Funktion definieren?",
     "optionen": [
-      "function `meine_funktion`():",
-      "`def meine_funktion`():",
-      "func `meine_funktion`():",
-      "define `meine_funktion`():"
+      "`function meine_funktion():`",
+      "`def meine_funktion():`",
+      "`func meine_funktion():`",
+      "`define meine_funktion():`"
     ],
     "loesung": 1,
     "erklaerung": "Mit `def` wird in Python eine Funktion definiert. Das ist die Grundlage für strukturierten und wiederverwendbaren Code."

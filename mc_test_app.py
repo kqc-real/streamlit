@@ -1,6 +1,6 @@
 
 """
-MC-Test App für Data Analytics
+MC-Test Data Science
 -------------------------------------------------
 Lehrbeispiel für Multiple-Choice-Tests mit Streamlit.
 Autor: kqc
@@ -32,7 +32,7 @@ except Exception:  # pragma: no cover
 
 
 st.set_page_config(
-    page_title="MC-Test: Data Analytics",
+    page_title="MC-Test: Data Science",
     page_icon="🏆",
     layout="centered",
     initial_sidebar_state="expanded",
@@ -807,7 +807,7 @@ def main():
 
     # Always show header before user session is set up
     if 'user_id' not in st.session_state:
-        st.title("🎓 MC-Test: Data Analytics")
+        st.title("🎓 MC-Test: Data Science")
     user_id = handle_user_session()
     # If triggered by Enter, rerun after session state is set
     if st.session_state.get('trigger_rerun'):
@@ -816,7 +816,7 @@ def main():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
     if user_id and num_answered == 0:
-        st.title("🎓 MC-Test: Data Analytics")
+        st.title("🎓 MC-Test: Data Science")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if (
