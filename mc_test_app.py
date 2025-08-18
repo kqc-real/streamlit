@@ -425,21 +425,19 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         # Add placeholder if unanswered
         if st.session_state.beantwortet[frage_idx] is None:
             optionen_anzeige = ["Bitte auswählen..."] + optionen_anzeige
-            default_val = "Bitte auswählen..."
-        else:
-            default_val = st.session_state.get(f"frage_{frage_idx}", None)
+        # Determine selected value
+        selected_val = st.session_state.get(f"frage_{frage_idx}", None)
         radio_kwargs = {
             "options": optionen_anzeige,
             "key": f"frage_{frage_idx}",
             "disabled": is_disabled,
             "label_visibility": "collapsed",
         }
-        # Only set index if no session state value exists for this widget
-        if (
-            default_val in optionen_anzeige and
-            f"frage_{frage_idx}" not in st.session_state
-        ):
-            radio_kwargs["index"] = optionen_anzeige.index(default_val)
+        # Always set index to session state value if present and valid
+        if selected_val in optionen_anzeige:
+            radio_kwargs["index"] = optionen_anzeige.index(selected_val)
+        elif st.session_state.beantwortet[frage_idx] is None:
+            radio_kwargs["index"] = 0  # Default to placeholder
         antwort = st.radio(
             "Wähle deine Antwort:",
             **radio_kwargs
