@@ -105,8 +105,11 @@ body{margin-top:60px;}
 def get_rate_limit_seconds() -> int:
     """Liefert die minimale Wartezeit zwischen Antworten (Sekunden)."""
     try:
-        return int(os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "0"))
-    except ValueError:
+        val = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", None)
+        if val is None:
+            val = os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "0")
+        return int(val)
+    except Exception:
         return 0
 
 
@@ -690,8 +693,14 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
     - Wenn kein Key gesetzt ist (MC_TEST_ADMIN_KEY leer), reicht beliebige nicht-leere Eingabe,
       sofern (falls gesetzt) der Benutzername MC_TEST_ADMIN_USER entspricht.
     """
-    admin_user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-    admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
+    admin_user = st.secrets.get("MC_TEST_ADMIN_USER", None)
+    if admin_user is None:
+        admin_user = os.getenv("MC_TEST_ADMIN_USER", "")
+    admin_user = str(admin_user).strip()
+    admin_key_env = st.secrets.get("MC_TEST_ADMIN_KEY", None)
+    if admin_key_env is None:
+        admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
+    admin_key_env = str(admin_key_env)
     provided_key = provided_key.strip()
     # Only allow admin if MC_TEST_ADMIN_KEY is set and matches exactly (non-empty)
     if admin_key_env and provided_key:
