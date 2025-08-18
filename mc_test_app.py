@@ -466,7 +466,6 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             else:
                 st.toast("Leider daneben...", icon="❌")
             st.session_state[f"show_explanation_{frage_idx}"] = True
-            st.session_state[f"disable_radio_{frage_idx}"] = True
             st.rerun()
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             if st.session_state.beantwortet[frage_idx] == 1:

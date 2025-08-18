@@ -1,0 +1,8 @@
+user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,62,62. Was ist ein typischer Nachteil von `K-Means`?,Funktioniert nur mit kategorischen Daten,-1,2025-08-18T18:02:56
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,35,35. Was ist der primäre Zweck von `@st.cache_data` in Streamlit?,Das Speichern des `session_state` über verschiedene Browser-Tabs hinweg.,-1,2025-08-18T18:03:10
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,22,22. Was ist ein Vorteil von `Funktionen` in Python?,Sie machen Code weniger lesbar,-1,2025-08-18T18:03:16
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,57,57. Was ist ein Vorteil von KNN?,Funktioniert nur mit kategorischen Daten,-1,2025-08-18T18:03:21
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,63,63. Was ist ein typischer Einsatzbereich für `Decision Trees`?,Medizin und Finanzen,1,2025-08-18T18:03:24
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,81,81. Was ist ein typischer Vorteil von `Stochastic Gradient Descent (SGD)`?,Führt keine Gewichtsaktualisierung durch.,-1,2025-08-18T18:03:31
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,38,38. Was ist ein wesentlicher Unterschied zwischen `st.session_state` und einer normalen Python-Variable in einem Streamlit-Skript?,"`st.session_state` behält seinen Wert über Reruns der App hinweg, eine Variable nicht.",1,2025-08-18T18:03:43
