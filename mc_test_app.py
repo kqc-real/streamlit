@@ -265,33 +265,33 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def admin_view():
-    st.title("🔐 Admin: Leaderboard & Logs")
+    st.title("�️ Admin: Bestenliste & Logs")
     df_logs = load_all_logs()
     if df_logs.empty:
-        st.info("Keine Daten vorhanden.")
+        st.info("Noch keine Daten am Start.")
         return
-    tabs = st.tabs(["Top 5 (abgeschlossen)", "Alle Teilnahmen", "Rohdaten"])
+    tabs = st.tabs(["🥇 Top 5 (fertig)", "👥 Alle Teilnahmen", "📄 Rohdaten"])
     with tabs[0]:
         top_df = calculate_leaderboard()
         if top_df.empty:
-            st.info("Noch keine abgeschlossenen Tests.")
+            st.info("Hier ist noch niemand durch! 👀")
         else:
             st.dataframe(top_df, use_container_width=True)
             csv_bytes = top_df.to_csv(index=False).encode('utf-8')
             st.download_button(
-                "CSV herunterladen (Top 5)", csv_bytes,
+                "🥇 Top 5 als CSV runterladen", csv_bytes,
                 file_name="leaderboard_top5.csv",
                 mime="text/csv",
             )
     with tabs[1]:
         all_df = calculate_leaderboard_all(df_logs)
         if all_df.empty:
-            st.info("Keine Einträge.")
+            st.info("Noch keine Einträge. Mach du den Anfang!")
         else:
             st.dataframe(all_df, use_container_width=True)
             csv_bytes = all_df.to_csv(index=False).encode('utf-8')
             st.download_button(
-                "CSV herunterladen (Alle)", csv_bytes,
+                "👥 Alle Teilnahmen als CSV runterladen", csv_bytes,
                 file_name="leaderboard_all.csv",
                 mime="text/csv",
             )
@@ -308,7 +308,7 @@ def admin_view():
         st.dataframe(df_show, use_container_width=True, height=400)
         csv_bytes = df_logs.to_csv(index=False).encode('utf-8')
         st.download_button(
-            "CSV herunterladen (Rohdaten)", csv_bytes,
+            "📄 Rohdaten als CSV runterladen", csv_bytes,
             file_name="mc_test_raw_logs.csv",
             mime="text/csv",
         )
@@ -438,7 +438,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         ):
             radio_kwargs["index"] = optionen_anzeige.index(default_val)
         antwort = st.radio(
-            "Antwort auswählen:",
+            "Wähle deine Antwort:",
             **radio_kwargs
         )
         # Only allow answering if a real option is chosen
@@ -459,29 +459,29 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             )
             reduce_anim = st.session_state.get('reduce_animations', False)
             if richtig:
-                st.toast("Richtig!", icon="✅")
+                st.toast("Yes! Das war richtig!", icon="✅")
                 if not reduce_anim:
                     st.balloons()
             else:
-                st.toast("Leider falsch.", icon="❌")
+                st.toast("Leider daneben...", icon="❌")
             st.session_state[f"show_explanation_{frage_idx}"] = True
             st.session_state[f"disable_radio_{frage_idx}"] = True
             st.rerun()
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             if st.session_state.beantwortet[frage_idx] == 1:
-                st.success("Ihre Antwort ist richtig! (+1 Punkt)")
+                st.success("Richtig! (+1 Punkt)")
                 reduce_anim = st.session_state.get('reduce_animations', False)
                 if not reduce_anim:
                     st.balloons()
             else:
                 st.error(
-                    "Ihre Antwort war leider falsch (-1 Punkt). Die korrekte Antwort "
-                    f"lautet: **{frage_obj['optionen'][frage_obj['loesung']]}**"
+                    "Leider falsch (-1 Punkt). Die richtige Antwort ist: "
+                    f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
                 )
             erklaerung = frage_obj.get("erklaerung")
             if erklaerung:
                 st.info(erklaerung)
-            if st.button("Weiter zur nächsten Frage"):
+            if st.button("Nächste Frage!"):
                 st.session_state[f"show_explanation_{frage_idx}"] = False
                 st.rerun()
 
@@ -514,14 +514,24 @@ def calculate_leaderboard() -> pd.DataFrame:
 
 
 def display_sidebar_metrics(num_answered: int) -> None:
-    st.sidebar.header("📊 Fortschritt & Punktestand")
-    st.sidebar.progress(num_answered / len(fragen))
+    st.sidebar.header("🚀 Fortschritt")
+    progress_pct = int((num_answered / len(fragen)) * 100) if len(fragen) > 0 else 0
+    # Custom gradient progress bar (green to blue)
+    progress_html = f"""
+    <div style='width:100%;height:16px;background:#222;border-radius:8px;overflow:hidden;margin-bottom:8px;'>
+        <div style='height:100%;width:{progress_pct}%;background:linear-gradient(90deg,#00c853,#2196f3);transition:width .3s;border-radius:8px;'></div>
+    </div>
+    """
+    st.sidebar.markdown(progress_html, unsafe_allow_html=True)
+    st.sidebar.caption(f"Fortschritt: {progress_pct}%")
     aktueller_punktestand = sum(
         [p for p in st.session_state.beantwortet if p is not None]
     )
+    # Separate header for score to clearly distinguish it from progress for the user.
+    st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
-        "Aktueller Punktestand",
-        f"{aktueller_punktestand} / {len(fragen)}",
+        label="🎯 Dein Score",
+        value=f"{aktueller_punktestand} / {len(fragen)}"
     )
     # Countdown für nächstmögliche Antwort (Throttling)
     next_allowed = st.session_state.get('next_allowed_time')
@@ -529,12 +539,23 @@ def display_sidebar_metrics(num_answered: int) -> None:
         now = time.time()
         if now < next_allowed:
             remaining = int(next_allowed - now)
-            st.sidebar.info(f"Wartezeit bis nächste Antwort: {remaining}s")
+            st.sidebar.info(f"Noch {remaining}s bis zur nächsten Antwort!")
         else:
             # Abgelaufen -> entfernen
             st.session_state.pop('next_allowed_time', None)
     if num_answered == len(fragen):
-        st.sidebar.success("✅ Test abgeschlossen!")
+        # Motivational emoji/quote after test completion
+        prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
+        if aktueller_punktestand < 0:
+            st.sidebar.success("🫠 Endstand: Sehr kreativ! 😅 Nächstes Mal wird's besser!")
+        elif prozent == 1.0:
+            st.sidebar.success("🌟🥇 Mega! Alles richtig, du bist ein MC-Test-Profi! 🚀")
+        elif prozent >= 0.8:
+            st.sidebar.success("🎉👍 Sehr stark! Die meisten Konzepte sitzen. 🎯")
+        elif prozent >= 0.5:
+            st.sidebar.success("🙂 Solide Leistung! Die Basics sitzen. 👍")
+        else:
+            st.sidebar.success("🤔 Ein paar Sachen sind noch offen. Schau dir die Erklärungen an! 🔍")
     leaderboard_df = calculate_leaderboard()
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     user_is_admin = (
@@ -542,7 +563,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
         and st.session_state.get('admin_view', False)
     )
     if not leaderboard_df.empty:
-        st.sidebar.header("🏆 Bestenliste")
+        st.sidebar.header("🏅 Highscore")
         # Render leaderboard as markdown table with HTML centering
         table_md = "| Platz | Pseudonym | Punkte |\n|:---:|:---:|:---:|\n"
         for _, row in leaderboard_df.iterrows():
@@ -557,17 +578,24 @@ def display_sidebar_metrics(num_answered: int) -> None:
 def display_final_summary(num_answered: int) -> None:
     if num_answered != len(fragen):
         return
-    st.header("🎉 Test abgeschlossen!")
+    st.header("🚀 Test durchgezogen!")
     aktueller_punktestand = sum(
         [p for p in st.session_state.beantwortet if p is not None]
     )
     prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
     emoji, quote = "", ""
     reduce_anim = st.session_state.get('reduce_animations', False)
-    if prozent == 1.0:
+    if aktueller_punktestand < 0:
+        emoji = "🫠"
+        quote = (
+            f"**Endstand: {aktueller_punktestand} von {len(fragen)} Punkten.**  "
+            "Das war... kreativ! 😅  "
+            "Manchmal ist der Weg das Ziel. Schau dir die Erklärungen an und hol dir beim nächsten Mal den Highscore! 🚀"
+        )
+    elif prozent == 1.0:
         emoji, quote = (
             "🌟🥇",
-            "**Perfekt! Hervorragende Leistung! Alle Fragen richtig beantwortet.**",
+            "**Mega! Alles richtig, du bist ein MC-Test-Profi!** 🚀"
         )
         if not reduce_anim:
             st.balloons()
@@ -575,41 +603,58 @@ def display_final_summary(num_answered: int) -> None:
     elif prozent >= 0.8:
         emoji, quote = (
             "🎉👍",
-            "**Sehr stark! Sie haben ein exzellentes Verständnis der Konzepte.**",
+            "**Sehr stark! Du hast die meisten Konzepte voll drauf.** 🎯"
         )
     elif prozent >= 0.5:
         emoji, quote = (
             "🙂",
-            "**Gut gemacht! Eine solide Grundlage ist vorhanden.**",
+            "**Solide Leistung! Die Basics sitzen.** 👍"
         )
     else:
         emoji, quote = (
             "🤔",
-            "**Einige Konzepte sitzen schon. Schauen Sie sich die Erklärungen zu den falschen "
-            "Antworten noch einmal an.**",
+            "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍"
         )
     st.success(
         f"### {emoji} Endstand: {aktueller_punktestand} von {len(fragen)} Punkten"
     )
-    st.markdown(quote)
+    if quote:
+        st.markdown(quote)
     # Review-Modus Toggle
     st.divider()
-    st.subheader("🔍 Review-Modus")
+    # Nur einmal Review-Modus anzeigen
     show_review = st.checkbox(
         "Alle Fragen & Antworten anzeigen (Review)", value=False, key="review_mode"
     )
-    filter_wrong = False
     if show_review:
-        filter_wrong = st.checkbox("Nur falsch beantwortete Fragen anzeigen", value=False, key="review_only_wrong")
-        for idx, frage in enumerate(fragen):
+        filter_wrong = st.checkbox(
+            "Nur falsch beantwortete Fragen anzeigen", value=True, key="review_only_wrong"
+        )
+        # Reset active_review_idx if filter changes
+        if "last_filter_wrong" not in st.session_state or st.session_state.last_filter_wrong != filter_wrong:
+            st.session_state.active_review_idx = 0
+            st.session_state.last_filter_wrong = filter_wrong
+        # Track which review index is open
+        if "active_review_idx" not in st.session_state:
+            st.session_state.active_review_idx = 0
+        # Find all indices to show
+        indices_to_show = [
+            i for i, frage in enumerate(fragen)
+            if not (filter_wrong and (st.session_state.get(f"frage_{i}") == frage["optionen"][frage["loesung"]]))
+        ]
+        # Clamp active_review_idx
+        if st.session_state.active_review_idx >= len(indices_to_show):
+            st.session_state.active_review_idx = 0
+        for pos, idx in enumerate(indices_to_show):
+            frage = fragen[idx]
             user_val = st.session_state.get(f"frage_{idx}")
             korrekt = frage["optionen"][frage["loesung"]]
             richtig = (user_val == korrekt)
-            if filter_wrong and richtig:
-                continue
-            with st.expander(f"Frage {idx + 1}: {'✅' if richtig else '❌'}"):
+            mark_icon = "✅" if richtig else "❌"
+            expander_title = f"Frage {idx + 1}: {mark_icon}"
+            expanded = (pos == st.session_state.active_review_idx)
+            with st.expander(expander_title, expanded=expanded):
                 st.markdown(f"**{frage['frage']}**")
-                # Optionen farblich hervorheben, besserer Kontrast
                 st.caption("Optionen:")
                 for opt in frage.get('optionen', []):
                     style = ""
@@ -624,7 +669,17 @@ def display_final_summary(num_answered: int) -> None:
                         style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
                         prefix = "✅"
                     st.markdown(f"<span style='{style}'>{prefix} {opt}</span>", unsafe_allow_html=True)
-
+                erklaerung = frage.get("erklaerung")
+                if erklaerung:
+                    st.info(f"Erklärung: {erklaerung}")
+                if st.button("Weiter", key=f"review_next_{idx}"):
+                    # Move to next review index
+                    if st.session_state.active_review_idx < len(indices_to_show) - 1:
+                        st.session_state.active_review_idx += 1
+                    else:
+                        st.session_state.active_review_idx = 0
+                    st.rerun()
+    st.subheader("🧐 Review-Modus")
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
     """Prüft Admin-Berechtigung basierend auf ENV-Konfiguration.
@@ -637,34 +692,40 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
     """
     admin_user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     admin_key_env = os.getenv("MC_TEST_ADMIN_KEY", "")
-    if admin_user and user_id != admin_user:
-        return False
-    if admin_key_env:
+    provided_key = provided_key.strip()
+    # Only allow admin if MC_TEST_ADMIN_KEY is set and matches exactly (non-empty)
+    if admin_key_env and provided_key:
         return provided_key == admin_key_env
-    # Kein Key konfiguriert -> jede nicht-leere Eingabe akzeptieren
-    return provided_key != ""
+    # If no key is set, fall back to user check (legacy)
+    if admin_user:
+        return user_id == admin_user and provided_key != ""
+    # If neither is set, accept any non-empty key
+    return False
 
 
 def handle_user_session():
     # 1. Nutzerkennung
-    st.sidebar.header("👤 Nutzerkennung")
+    st.sidebar.header("🙋‍♂️ Wer bist du?")
     if 'user_id' not in st.session_state:
-        def start_mc_test():
+        def start_test():
             user_id_input = st.session_state.get('user_id_input', '').strip()
             if not user_id_input:
-                st.sidebar.error("Bitte ein Pseudonym eingeben.")
+                st.sidebar.error("Gib bitte ein Pseudonym ein!")
             else:
                 st.session_state.user_id = user_id_input
                 st.session_state['mc_test_started'] = True
+                st.session_state['trigger_rerun'] = True
 
-        st.sidebar.text_input(
-            "Pseudonym eingeben (frei wählbar)",
-            key='user_id_input',
-            on_change=start_mc_test
+        user_id_input = st.sidebar.text_input(
+            "Pseudonym eingeben",
+            value=st.session_state.get('user_id_input', ''),
+            key="user_id_input",
+            on_change=start_test
         )
-        if not st.session_state.get('mc_test_started'):
-            st.stop()
-    st.sidebar.success(f"Angemeldet als: **{st.session_state.user_id}**")
+        if st.sidebar.button("Test starten"):
+            start_test()
+        st.stop()
+    st.sidebar.success(f"👋 Angemeldet als: **{st.session_state.user_id}**")
     current_hash = (
         st.session_state.get('user_id_hash') or
         get_user_id_hash(st.session_state.user_id)
@@ -683,7 +744,7 @@ def handle_user_session():
             display_sidebar_metrics(num_answered)
         # Show info only if test is fully completed
         if num_answered == len(st.session_state.beantwortet):
-            st.sidebar.info("Ein Test mit diesem Pseudonym wurde bereits durchgeführt. Das Ergebnis bleibt gespeichert und kann nicht wiederholt werden.")
+                st.sidebar.info("Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Aber du kannst alles nochmal anschauen und lernen. 🚀")
         # Review weiterhin möglich
         st.session_state['force_review'] = True
         return st.session_state.user_id
@@ -696,24 +757,28 @@ def handle_user_session():
 
     # 3. Admin Sektion
     st.sidebar.divider()
-    st.sidebar.subheader("🔐 Admin")
+    st.sidebar.subheader("�️ Admin")
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
     if not user_allowed:
         st.sidebar.caption(
-            f"Admin nur für Benutzer: {admin_user_cfg}" if admin_user_cfg else ""
+            f"Admin nur für: {admin_user_cfg}" if admin_user_cfg else ""
         )
     if user_allowed:
+        def try_admin_activate():
+            admin_key_input = st.session_state.get('admin_key_input', '').strip()
+            if check_admin_permission(st.session_state.user_id, admin_key_input):
+                st.session_state['admin_view'] = True
+                st.rerun()
+            else:
+                st.sidebar.error("Nope, das war nicht der richtige Admin-Key.")
+
         admin_key_input = st.sidebar.text_input(
-            "Admin-Key", type="password", key="admin_key_input"
+            "Admin-Key", type="password", key="admin_key_input", on_change=try_admin_activate
         )
         if not st.session_state.get('admin_view'):
             if st.sidebar.button("Admin aktivieren"):
-                if check_admin_permission(st.session_state.user_id, admin_key_input):
-                    st.session_state['admin_view'] = True
-                    st.rerun()
-                else:
-                    st.sidebar.error("Admin-Berechtigung fehlgeschlagen")
+                try_admin_activate()
         else:
             if st.sidebar.button("Admin verlassen"):
                 st.session_state['admin_view'] = False
@@ -737,6 +802,10 @@ def main():
     if 'user_id' not in st.session_state:
         st.title("📝 MC-Test: Data Analytics")
     user_id = handle_user_session()
+    # If triggered by Enter, rerun after session state is set
+    if st.session_state.get('trigger_rerun'):
+        st.session_state['trigger_rerun'] = False
+        st.rerun()
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
     if user_id and num_answered == 0:
@@ -753,23 +822,23 @@ def main():
         and not user_has_progress(st.session_state.get('user_id_hash', ''))
     ):
         st.info(
-            "Maximale Testzeit: 60 Minuten. Die Zeit startet mit der ersten Antwort. "
-            "Die verbleibende Zeit wird nach jeder beantworteten Frage aktualisiert."
+            "Du hast 60 Minuten für den Test. Die Zeit läuft ab deiner ersten Antwort. "
+            "Wie viel Zeit noch bleibt, siehst du nach jeder Frage. Viel Erfolg!"
         )
     if st.session_state.start_zeit and num_answered < len(fragen):
         elapsed_time = (datetime.now() - st.session_state.start_zeit).total_seconds()
         remaining = int(st.session_state.test_time_limit - elapsed_time)
         if remaining > 0:
             minutes, seconds = divmod(remaining, 60)
-            st.metric("⏳ Verbleibende Testzeit", f"{minutes:02d}:{seconds:02d}")
+            st.metric("⏳ Noch Zeit", f"{minutes:02d}:{seconds:02d}")
             if remaining <= 5 * 60:
                 if minutes == 0:
-                    st.warning(f"Nur noch {seconds} Sekunden!")
+                    st.warning(f"Achtung, nur noch {seconds} Sekunden!")
                 else:
-                    st.warning(f"Nur noch {minutes} Minuten und {seconds} Sekunden!")
+                    st.warning(f"Achtung, nur noch {minutes} Minuten und {seconds} Sekunden!")
         else:
             st.session_state.test_time_expired = True
-            st.error("⏰ Zeit abgelaufen! Test wird beendet.")
+            st.error("⏰ Zeit ist rum! Test wird jetzt beendet.")
 
     # Sticky Progress Bar (oben)
     if 'beantwortet' in st.session_state:
@@ -804,7 +873,7 @@ def main():
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if num_answered == 0:
-        st.info("Wähle die beste Antwort. Einmal beantwortete Fragen sind final. Viel Erfolg!")
+        st.info("Such dir die beste Antwort aus. Einmal beantwortet = final! Viel Erfolg!")
         st.markdown(
             f"<p class='sr-only'>Fortschritt: {num_answered} von {len(fragen)} Fragen beantwortet.</p>",
             unsafe_allow_html=True,
@@ -812,7 +881,7 @@ def main():
 
     # Test automatisch beenden, wenn Zeitlimit überschritten
     if st.session_state.get('test_time_expired', False):
-        st.warning("Die Testzeit ist abgelaufen. Ihre Antworten wurden gespeichert. Die Auswertung folgt.")
+        st.warning("Die Zeit ist abgelaufen. Deine Antworten sind gespeichert. Jetzt kommt die Auswertung!")
         display_final_summary(num_answered)
     elif num_answered == len(fragen):
         display_final_summary(num_answered)
