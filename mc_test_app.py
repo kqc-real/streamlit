@@ -33,6 +33,7 @@ except Exception:  # pragma: no cover
 
 st.set_page_config(
     page_title="MC-Test: Data Analytics",
+    page_icon="🏆",
     layout="centered",
     initial_sidebar_state="expanded",
 )
