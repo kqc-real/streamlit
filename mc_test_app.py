@@ -1,3 +1,4 @@
+
 """
 MC-Test App für Data Analytics
 -------------------------------------------------
@@ -54,9 +55,7 @@ st.markdown(
 )
 
 
-# Automatischer Refresh alle Sekunde für Live-Countdown
-
-# ---------------------------- Konstanten -----------------------------------
+ # ---------------------------- Konstanten -----------------------------------
 LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
 FIELDNAMES = [
     'user_id_hash',
@@ -725,7 +724,7 @@ def handle_user_session():
                 st.session_state['mc_test_started'] = True
                 st.session_state['trigger_rerun'] = True
 
-        user_id_input = st.sidebar.text_input(
+        st.sidebar.text_input(
             "Pseudonym eingeben",
             value=st.session_state.get('user_id_input', ''),
             key="user_id_input",
@@ -753,7 +752,7 @@ def handle_user_session():
             display_sidebar_metrics(num_answered)
         # Show info only if test is fully completed
         if num_answered == len(st.session_state.beantwortet):
-                st.sidebar.info("Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Aber du kannst alles nochmal anschauen und lernen. 🚀")
+            st.sidebar.info("Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Aber du kannst alles nochmal anschauen und lernen. 🚀")
         # Review weiterhin möglich
         st.session_state['force_review'] = True
         return st.session_state.user_id
@@ -782,7 +781,7 @@ def handle_user_session():
             else:
                 st.sidebar.error("Nope, das war nicht der richtige Admin-Key.")
 
-        admin_key_input = st.sidebar.text_input(
+        st.sidebar.text_input(
             "Admin-Key", type="password", key="admin_key_input", on_change=try_admin_activate
         )
         if not st.session_state.get('admin_view'):
@@ -913,8 +912,6 @@ def main():
         if next_idx is not None:
             display_question(fragen[next_idx], next_idx, 1)
     # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
-
-
 
 if __name__ == "__main__":
     main()
