@@ -1168,7 +1168,7 @@ def main():
                 [p if p is not None else 0 for p in st.session_state.beantwortet]
             )
         answered = len([p for p in st.session_state.beantwortet if p is not None])
-        open_questions = len([p for p in st.session_state.beantwortet if p is None])
+        open_questions = max(0, len([p for p in st.session_state.beantwortet if p is None]) - 1)
         if "sticky_bar_css" not in st.session_state:
             st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
             st.session_state["sticky_bar_css"] = True
