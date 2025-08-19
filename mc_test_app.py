@@ -576,15 +576,22 @@ def display_sidebar_metrics(num_answered: int) -> None:
 
 
 def display_final_summary(num_answered: int) -> None:
-    if num_answered != len(fragen):
+    # Review-Modus auch bei abgelaufener Zeit anzeigen
+    if num_answered != len(fragen) and not st.session_state.get('test_time_expired', False):
         return
-    st.header("🚀 Test durchgezogen!")
     aktueller_punktestand = sum(
         [p for p in st.session_state.beantwortet if p is not None]
     )
     prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
-    emoji, quote = "", ""
     reduce_anim = st.session_state.get('reduce_animations', False)
+    # Unterschiedliche Nachricht je nach Test-Ende
+    if st.session_state.get('test_time_expired', False):
+        st.info(
+            f"Du kannst dir jetzt alle Fragen und Antworten ansehen."
+        )
+    else:
+        st.header("🚀 Test durchgezogen!")
+    emoji, quote = "", ""
     if aktueller_punktestand < 0:
         emoji = "🫠"
         quote = (
@@ -622,9 +629,10 @@ def display_final_summary(num_answered: int) -> None:
         st.markdown(quote)
     # Review-Modus Toggle
     st.divider()
+    st.subheader("🧐 Review-Modus")
     # Nur einmal Review-Modus anzeigen
     show_review = st.checkbox(
-        "Alle Fragen & Antworten anzeigen (Review)", value=False, key="review_mode"
+        "Alle Fragen & Antworten anzeigen (Review)", key="review_mode"
     )
     if show_review:
         filter_wrong = st.checkbox(
@@ -638,10 +646,19 @@ def display_final_summary(num_answered: int) -> None:
         if "active_review_idx" not in st.session_state:
             st.session_state.active_review_idx = 0
         # Find all indices to show
-        indices_to_show = [
-            i for i, frage in enumerate(fragen)
-            if not (filter_wrong and (st.session_state.get(f"frage_{i}") == frage["optionen"][frage["loesung"]]))
-        ]
+        indices_to_show = []
+        for i, frage in enumerate(fragen):
+            user_val = st.session_state.get(f"frage_{i}")
+            korrekt = frage["optionen"][frage["loesung"]]
+            if filter_wrong:
+                # Nur falsch beantwortete Fragen, aber keine unbeantworteten
+                if user_val is None:
+                    continue
+                if user_val == korrekt:
+                    continue
+                indices_to_show.append(i)
+            else:
+                indices_to_show.append(i)
         # Clamp active_review_idx
         if st.session_state.active_review_idx >= len(indices_to_show):
             st.session_state.active_review_idx = 0
@@ -649,8 +666,11 @@ def display_final_summary(num_answered: int) -> None:
             frage = fragen[idx]
             user_val = st.session_state.get(f"frage_{idx}")
             korrekt = frage["optionen"][frage["loesung"]]
-            richtig = (user_val == korrekt)
-            mark_icon = "✅" if richtig else "❌"
+            if user_val is None:
+                mark_icon = "❓"  # Unbeantwortet
+            else:
+                richtig = (user_val == korrekt)
+                mark_icon = "✅" if richtig else "❌"
             expander_title = f"Frage {idx + 1}: {mark_icon}"
             expanded = (pos == st.session_state.active_review_idx)
             with st.expander(expander_title, expanded=expanded):
@@ -659,6 +679,12 @@ def display_final_summary(num_answered: int) -> None:
                 for opt in frage.get('optionen', []):
                     style = ""
                     prefix = "•"
+                    if user_val is None:
+                        if opt == korrekt:
+                            style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
+                            prefix = "✅"
+                        st.markdown(f"<span style='{style}'>{prefix} {opt}</span>", unsafe_allow_html=True)
+                        continue
                     if opt == user_val and not richtig:
                         style = "background-color:#c82333;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelrot
                         prefix = "❌"
@@ -679,7 +705,6 @@ def display_final_summary(num_answered: int) -> None:
                     else:
                         st.session_state.active_review_idx = 0
                     st.rerun()
-    st.subheader("🧐 Review-Modus")
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
     """Prüft Admin-Berechtigung basierend auf ENV-Konfiguration.
@@ -845,7 +870,7 @@ def main():
                     st.warning(f"Achtung, nur noch {minutes} Minuten und {seconds} Sekunden!")
         else:
             st.session_state.test_time_expired = True
-            st.error("⏰ Zeit ist rum! Test wird jetzt beendet.")
+            st.header("⏰ Testzeit abgelaufen!")
 
     # Sticky Progress Bar (oben)
     if 'beantwortet' in st.session_state:
@@ -888,7 +913,9 @@ def main():
 
     # Test automatisch beenden, wenn Zeitlimit überschritten
     if st.session_state.get('test_time_expired', False):
-        st.warning("Die Zeit ist abgelaufen. Deine Antworten sind gespeichert. Jetzt kommt die Auswertung!")
+        st.warning("Jetzt kommt die Auswertung!")
+        # Nach Ablauf der Zeit: Review-Modus aktivieren
+        st.session_state['force_review'] = True
         display_final_summary(num_answered)
     elif num_answered == len(fragen):
         display_final_summary(num_answered)
