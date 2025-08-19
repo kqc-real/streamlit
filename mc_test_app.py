@@ -487,16 +487,23 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             st.session_state[f"show_explanation_{frage_idx}"] = True
             st.rerun()
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
+            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
             if st.session_state.beantwortet[frage_idx] == 1:
                 st.success("Richtig! (+1 Punkt)")
                 reduce_anim = st.session_state.get("reduce_animations", False)
                 if not reduce_anim:
                     st.balloons()
             else:
-                st.error(
-                    "Leider falsch (-1 Punkt). Die richtige Antwort ist: "
-                    f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
-                )
+                if scoring_mode == "positive_only":
+                    st.error(
+                        "Leider falsch. Die richtige Antwort ist: "
+                        f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
+                    )
+                else:
+                    st.error(
+                        "Leider falsch (-1 Punkt). Die richtige Antwort ist: "
+                        f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
+                    )
             erklaerung = frage_obj.get("erklaerung")
             if erklaerung:
                 st.info(erklaerung)
@@ -535,9 +542,8 @@ def calculate_leaderboard() -> pd.DataFrame:
 
 
 def display_sidebar_metrics(num_answered: int) -> None:
-    st.sidebar.header("🚀 Fortschritt")
+    st.sidebar.header("📋 Beantwortet")
     progress_pct = int((num_answered / len(fragen)) * 100) if len(fragen) > 0 else 0
-    # Custom gradient progress bar (green to blue)
     progress_html = f"""
     <div style='width:100%;height:16px;background:#222;border-radius:8px;overflow:hidden;margin-bottom:8px;'>
         <div style='height:100%;width:{progress_pct}%;background:linear-gradient(90deg,#00c853,#2196f3);transition:width .3s;border-radius:8px;'></div>
@@ -545,10 +551,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
     """
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
-    aktueller_punktestand = sum(
-        [p for p in st.session_state.beantwortet if p is not None]
-    )
-    # Separate header for score to clearly distinguish it from progress for the user.
+    scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+    if scoring_mode == "positive_only":
+        aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
+    else:
+        aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
     st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
         label="Dein Score:", value=f"{aktueller_punktestand} / {len(fragen)}"
@@ -566,22 +573,35 @@ def display_sidebar_metrics(num_answered: int) -> None:
     if num_answered == len(fragen):
         # Motivational emoji/quote after test completion
         prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
-        if aktueller_punktestand < 0:
-            st.sidebar.success(
-                "🫠 Endstand: Sehr kreativ! 😅 Nächstes Mal wird's besser!"
-            )
-        elif prozent == 1.0:
-            st.sidebar.success(
-                "🌟🥇 Mega! Alles richtig, du bist ein MC-Test-Profi! 🚀"
-            )
-        elif prozent >= 0.8:
-            st.sidebar.success("🎉👍 Sehr stark! Die meisten Konzepte sitzen. 🎯")
-        elif prozent >= 0.5:
-            st.sidebar.success("🙂 Solide Leistung! Die Basics sitzen. 👍")
+        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+        if scoring_mode == "positive_only":
+            if prozent == 1.0:
+                st.sidebar.success("💥 Granate! Alles richtig, du bist ein MC-Test-Profi! 🚀")
+            elif prozent >= 0.9:
+                st.sidebar.success("🌟 Sehr gut! Über 90% richtig.")
+            elif prozent >= 0.7:
+                st.sidebar.success("🎉 Gut! Über 70% richtig.")
+            elif prozent >= 0.5:
+                st.sidebar.success("🙂 Ausreichend! Über 50% richtig.")
+            else:
+                st.sidebar.success("🤔 Noch Luft nach oben. Schau dir die Erklärungen an!")
         else:
-            st.sidebar.success(
-                "🤔 Ein paar Sachen sind noch offen. Schau dir die Erklärungen an! 🔍"
-            )
+            if aktueller_punktestand < 0:
+                st.sidebar.success(
+                    "🫠 Endstand: Sehr kreativ! 😅 Nächstes Mal wird's besser!"
+                )
+            elif prozent == 1.0:
+                st.sidebar.success(
+                    "🌟🥇 Mega! Alles richtig, du bist ein MC-Test-Profi! 🚀"
+                )
+            elif prozent >= 0.8:
+                st.sidebar.success("🎉👍 Sehr stark! Die meisten Konzepte sitzen. 🎯")
+            elif prozent >= 0.5:
+                st.sidebar.success("🙂 Solide Leistung! Die Basics sitzen. 👍")
+            else:
+                st.sidebar.success(
+                    "🤔 Ein paar Sachen sind noch offen. Schau dir die Erklärungen an! 🔍"
+                )
     leaderboard_df = calculate_leaderboard()
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     user_is_admin = (
@@ -608,44 +628,61 @@ def display_final_summary(num_answered: int) -> None:
         "test_time_expired", False
     ):
         return
-    aktueller_punktestand = sum(
-        [p for p in st.session_state.beantwortet if p is not None]
-    )
+    scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+    if scoring_mode == "positive_only":
+        aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
+    else:
+        aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
     prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
     if st.session_state.get("test_time_expired", False):
-        st.info(f"Du kannst dir alle Fragen und Antworten ansehen.")
+        st.info("Du kannst dir alle Fragen und Antworten ansehen.")
     else:
         st.header("🚀 Test durchgezogen!")
     emoji, quote = "", ""
-    if aktueller_punktestand < 0:
-        emoji = "🫠"
-        quote = (
-            f"**Endstand: {aktueller_punktestand} von {len(fragen)} Punkten.**  "
-            "Das war... kreativ! 😅  "
-            "Manchmal ist der Weg das Ziel. Schau dir die Erklärungen an und hol dir beim nächsten Mal den Highscore! 🚀"
-        )
-    elif prozent == 1.0:
-        emoji, quote = (
-            "🌟🥇",
-            "**Mega! Alles richtig, du bist ein MC-Test-Profi!** 🚀",
-        )
-        if not reduce_anim:
-            st.balloons()
-            st.snow()
-    elif prozent >= 0.8:
-        emoji, quote = (
-            "🎉👍",
-            "**Sehr stark! Du hast die meisten Konzepte voll drauf.** 🎯",
-        )
-    elif prozent >= 0.5:
-        emoji, quote = ("🙂", "**Solide Leistung! Die Basics sitzen.** 👍")
+    if scoring_mode == "positive_only":
+        if prozent == 1.0:
+            emoji, quote = ("💥", "**Granate! Alles richtig, du bist ein MC-Test-Profi!** 🚀")
+            if not reduce_anim:
+                st.balloons()
+                st.snow()
+        elif prozent >= 0.9:
+            emoji, quote = ("🌟", "**Sehr gut! Über 90% richtig.**")
+        elif prozent >= 0.7:
+            emoji, quote = ("🎉", "**Gut! Über 70% richtig.**")
+        elif prozent >= 0.5:
+            emoji, quote = ("🙂", "**Ausreichend! Über 50% richtig.**")
+        else:
+            emoji, quote = ("🤔", "**Noch Luft nach oben. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍")
     else:
-        emoji, quote = (
-            "🤔",
-            "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
-        )
+        if aktueller_punktestand < 0:
+            emoji = "🫠"
+            quote = (
+                f"**Endstand: {aktueller_punktestand} von {len(fragen)} Punkten.**  "
+                "Das war... kreativ! 😅  "
+                "Manchmal ist der Weg das Ziel. Schau dir die Erklärungen an und hol dir beim nächsten Mal den Highscore! 🚀"
+            )
+        elif prozent == 1.0:
+            emoji, quote = (
+                "🌟🥇",
+                "**Mega! Alles richtig, du bist ein MC-Test-Profi!** 🚀",
+            )
+            if not reduce_anim:
+                st.balloons()
+                st.snow()
+        elif prozent >= 0.8:
+            emoji, quote = (
+                "🎉👍",
+                "**Sehr stark! Du hast die meisten Konzepte voll drauf.** 🎯",
+            )
+        elif prozent >= 0.5:
+            emoji, quote = ("🙂", "**Solide Leistung! Die Basics sitzen.** 👍")
+        else:
+            emoji, quote = (
+                "🤔",
+                "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
+            )
     st.success(
         f"### {emoji} Endstand: {aktueller_punktestand} von {len(fragen)} Punkten"
     )
@@ -689,6 +726,7 @@ def display_final_summary(num_answered: int) -> None:
         # Clamp active_review_idx
         if st.session_state.active_review_idx >= len(indices_to_show):
             st.session_state.active_review_idx = 0
+        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
         for pos, idx in enumerate(indices_to_show):
             frage = fragen[idx]
             user_val = st.session_state.get(f"frage_{idx}")
@@ -733,6 +771,12 @@ def display_final_summary(num_answered: int) -> None:
                 erklaerung = frage.get("erklaerung")
                 if erklaerung:
                     st.info(f"Erklärung: {erklaerung}")
+                # Show feedback for wrong answer
+                if user_val is not None and user_val != korrekt:
+                    if scoring_mode == "positive_only":
+                        st.error(f"Leider falsch. Die richtige Antwort ist: **{korrekt}**")
+                    else:
+                        st.error(f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**")
                 if st.button("Weiter", key=f"review_next_{idx}"):
                     # Move to next review index
                     if st.session_state.active_review_idx < len(indices_to_show) - 1:
@@ -858,6 +902,39 @@ def handle_user_session():
                 if st.button("Management aktivieren"):
                     try_admin_activate()
             else:
+                # Admin: Scoring mode selection
+                scoring_modes = {
+                    "positive_only": "Nur positive Punkte (kein Abzug)",
+                    "negative": "Mit Punktabzug bei falscher Antwort",
+                }
+                default_mode = st.session_state.get("scoring_mode", "positive_only")
+                selected_mode = st.radio(
+                    "Punktebewertung wählen:",
+                    list(scoring_modes.keys()),
+                    format_func=lambda k: scoring_modes[k],
+                    index=list(scoring_modes.keys()).index(default_mode),
+                    key="scoring_mode_radio"
+                )
+                st.session_state["scoring_mode"] = selected_mode
+                st.caption("Die Änderung gilt sofort für die Auswertung und Anzeige.")
+                # Option to delete all answers with confirmation
+                st.divider()
+                st.subheader("⚠️ Antworten aller Teilnehmer löschen")
+                if st.button("Alle Antworten löschen"):
+                    st.session_state["show_delete_confirm"] = True
+                if st.session_state.get("show_delete_confirm", False):
+                    st.warning("Bist du sicher? Das löscht alle Antworten unwiderruflich!", icon="⚠️")
+                    if st.button("Ja, wirklich löschen!", key="delete_confirmed"):
+                        try:
+                            logfile_path = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
+                            if os.path.isfile(logfile_path):
+                                os.remove(logfile_path)
+                            st.success("Alle Antworten wurden gelöscht.")
+                        except Exception as e:
+                            st.error(f"Fehler beim Löschen: {e}")
+                        st.session_state["show_delete_confirm"] = False
+                    if st.button("Abbrechen", key="delete_cancel"):
+                        st.session_state["show_delete_confirm"] = False
                 if st.button("Management verlassen"):
                     st.session_state["admin_view"] = False
                     st.rerun()
@@ -932,22 +1009,23 @@ def main():
             st.session_state.test_time_expired = True
             st.header("⏰ Zeit ist um!")
 
-    # Sticky Progress Bar (oben)
+    # Sticky Bar: show current score before the question in question mode
     if "beantwortet" in st.session_state:
+        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+        if scoring_mode == "positive_only":
+            aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
+        else:
+            aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
         answered = len([p for p in st.session_state.beantwortet if p is not None])
-        pct = (answered / len(fragen)) if fragen else 0
         if "sticky_bar_css" not in st.session_state:
             st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
             st.session_state["sticky_bar_css"] = True
-        progress_html = (
-            "<div class='top-progress-wrapper' aria-label='Fortschritt insgesamt'>"
-            f"<div style='font-size:0.8rem;font-weight:600;'>Fortschritt: {answered} / "
-            f"{len(fragen)} ({int(pct*100)} %)</div>"
-            "<div class='top-progress-bar'>"
-            f"<div class='top-progress-fill' style='width:{pct*100}%;'></div>"
-            "</div></div>"
+        score_html = (
+            "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
+            f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {len(fragen)}</div>"
+            "</div>"
         )
-        st.markdown(progress_html, unsafe_allow_html=True)
+        st.markdown(score_html, unsafe_allow_html=True)
 
     if st.session_state.get("admin_view", False):
         admin_view()
