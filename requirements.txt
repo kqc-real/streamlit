@@ -4,6 +4,9 @@ streamlit>=1.32
 pandas>=2.2
 numpy>=1.26
 
+# Für interaktive Visualisierungen (Plotly-Bar-Chart)
+plotly>=5.18
+
 # Optional: remove if not needed
 python-dotenv>=1.0.0
 
