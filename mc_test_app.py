@@ -989,7 +989,7 @@ def main():
     if "user_id" not in st.session_state:
         st.markdown(
             """
-<div style='display:flex;justify-content:center;align-items:center;min-height:70vh;'>
+<div style='display:flex;justify-content:center;align-items:center;'>
   <div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
     <h2 style='color:#4b9fff;'>Willkommen zu 100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
@@ -1003,6 +1003,48 @@ def main():
 """,
             unsafe_allow_html=True,
         )
+        # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
+        import matplotlib.pyplot as plt
+        df_fragen = pd.DataFrame(fragen)
+        if "gewichtung" not in df_fragen.columns:
+            df_fragen["gewichtung"] = 1
+        if "thema" not in df_fragen.columns:
+            df_fragen["thema"] = "Unbekannt"
+        def gewicht_to_schwierig(gewicht):
+            try:
+                g = int(gewicht)
+                if g == 1:
+                    return "Leicht"
+                elif g == 2:
+                    return "Mittel"
+                else:
+                    return "Schwer"
+            except Exception:
+                return "Leicht"
+        df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
+        pivot = df_fragen.pivot_table(index="thema", columns="Schwierigkeit", values="frage", aggfunc="count", fill_value=0)
+        st.divider()
+        fig, ax = plt.subplots(figsize=(10, 6))
+        # Farben für Dark Theme
+        dark_bg = "#181818"
+        text_color = "#e0e0e0"
+        bar_colors = ["#4b9fff", "#00c853", "#ffb300"]
+        # Plot mit Farben
+        pivot.plot(kind="bar", stacked=True, ax=ax, color=bar_colors)
+        fig.patch.set_facecolor(dark_bg)
+        ax.set_facecolor(dark_bg)
+        ax.set_title("Fragenverteilung nach Thema und Schwierigkeitsgrad", color=text_color)
+        ax.set_xlabel("Thema", color=text_color)
+        ax.set_ylabel("Anzahl Fragen", color=text_color)
+        ax.tick_params(axis="x", colors=text_color)
+        ax.tick_params(axis="y", colors=text_color)
+        ax.legend(title="Schwierigkeit", facecolor=dark_bg, edgecolor=dark_bg, labelcolor=text_color, title_fontsize=12)
+        for spine in ax.spines.values():
+            spine.set_color(text_color)
+        # Balkenbeschriftungen ebenfalls hell
+        for label in ax.get_xticklabels() + ax.get_yticklabels():
+            label.set_color(text_color)
+        st.pyplot(fig)
     user_id = handle_user_session()
     # If triggered by Enter, rerun after session state is set
     if st.session_state.get("trigger_rerun"):
@@ -1068,6 +1110,37 @@ def main():
             "</div>"
         )
         st.markdown(score_html, unsafe_allow_html=True)
+
+    # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
+    if "user_id" not in st.session_state:
+        import matplotlib.pyplot as plt
+        df_fragen = pd.DataFrame(fragen)
+        if "gewichtung" not in df_fragen.columns:
+            df_fragen["gewichtung"] = 1
+        if "thema" not in df_fragen.columns:
+            df_fragen["thema"] = "Unbekannt"
+        def gewicht_to_schwierig(gewicht):
+            try:
+                g = int(gewicht)
+                if g == 1:
+                    return "Leicht"
+                elif g == 2:
+                    return "Mittel"
+                else:
+                    return "Schwer"
+            except Exception:
+                return "Leicht"
+        df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
+        pivot = df_fragen.pivot_table(index="thema", columns="Schwierigkeit", values="frage", aggfunc="count", fill_value=0)
+        st.divider()
+        st.subheader("Fragenverteilung nach Thema und Schwierigkeitsgrad")
+        fig, ax = plt.subplots(figsize=(10, 6))
+        pivot.plot(kind="bar", stacked=True, ax=ax)
+        ax.set_title("Fragenverteilung nach Thema und Schwierigkeitsgrad")
+        ax.set_xlabel("Thema")
+        ax.set_ylabel("Anzahl Fragen")
+        ax.legend(title="Schwierigkeit")
+        st.pyplot(fig)
 
     if st.session_state.get("admin_view", False):
         admin_view()
