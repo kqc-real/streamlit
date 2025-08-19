@@ -436,11 +436,20 @@ def save_answer(
 
 def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> None:
     frage_text = frage_obj["frage"].split(".", 1)[1].strip()
+    gewichtung = frage_obj.get("gewichtung", 1)
+    try:
+        gewichtung = int(gewichtung)
+    except Exception:
+        gewichtung = 1
+    thema = frage_obj.get("thema", "")
     with st.container(border=True):
         # Fragennummer im Fragenmodus: Position im Shuffle (fortlaufend ab 1)
         indices = st.session_state.frage_indices
         pos = indices.index(frage_idx) if frage_idx in indices else frage_idx
-        st.markdown(f"### Frage {pos + 1} von {len(fragen)}")
+        header = f"### Frage {pos + 1} von {len(fragen)}  <span style='color:#888;font-size:0.9em;'>({gewichtung} Punkt{'e' if gewichtung > 1 else ''})</span>"
+        if thema:
+            header += f"<br><span style='color:#4b9fff;font-size:0.95em;'>Thema: {thema}</span>"
+        st.markdown(header, unsafe_allow_html=True)
         st.markdown(f"**{frage_text}**")
         is_disabled = st.session_state.beantwortet[frage_idx] is not None
         optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
@@ -468,7 +477,16 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             if st.session_state.start_zeit is None:
                 st.session_state.start_zeit = datetime.now()
             richtig = antwort == frage_obj["optionen"][frage_obj["loesung"]]
-            punkte = 1 if richtig else -1
+            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+            gewichtung = frage_obj.get("gewichtung", 1)
+            try:
+                gewichtung = int(gewichtung)
+            except Exception:
+                gewichtung = 1
+            if scoring_mode == "positive_only":
+                punkte = gewichtung if richtig else 0
+            else:
+                punkte = gewichtung if richtig else -1
             st.session_state.beantwortet[frage_idx] = punkte
             save_answer(
                 st.session_state.user_id,
@@ -488,22 +506,32 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             st.rerun()
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-            if st.session_state.beantwortet[frage_idx] == 1:
-                st.success("Richtig! (+1 Punkt)")
-                reduce_anim = st.session_state.get("reduce_animations", False)
-                if not reduce_anim:
-                    st.balloons()
-            else:
-                if scoring_mode == "positive_only":
+            gewichtung = frage_obj.get("gewichtung", 1)
+            try:
+                gewichtung = int(gewichtung)
+            except Exception:
+                gewichtung = 1
+            punkte = st.session_state.beantwortet[frage_idx]
+            if scoring_mode == "positive_only":
+                if punkte == gewichtung:
+                    st.success(f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})")
+                    reduce_anim = st.session_state.get("reduce_animations", False)
+                    if not reduce_anim:
+                        st.balloons()
+                else:
                     st.error(
                         "Leider falsch. Die richtige Antwort ist: "
                         f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
                     )
+            else:
+                if punkte == gewichtung:
+                    st.success(f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})")
+                    reduce_anim = st.session_state.get("reduce_animations", False)
+                    if not reduce_anim:
+                        st.balloons()
                 else:
                     st.error(
-                        "Leider falsch (-1 Punkt). Die richtige Antwort ist: "
-                        f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
-                    )
+                        f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{frage_obj['optionen'][frage_obj['loesung']]}**")
             erklaerung = frage_obj.get("erklaerung")
             if erklaerung:
                 st.info(erklaerung)
@@ -552,13 +580,20 @@ def display_sidebar_metrics(num_answered: int) -> None:
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
     if scoring_mode == "positive_only":
-        aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
+        aktueller_punktestand = sum([
+            frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+            for p, frage in zip(st.session_state.beantwortet, fragen)
+        ])
     else:
-        aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
+        aktueller_punktestand = sum([
+            p if p is not None else 0
+            for p in st.session_state.beantwortet
+        ])
     st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
-        label="Dein Score:", value=f"{aktueller_punktestand} / {len(fragen)}"
+        label="Dein Score:", value=f"{aktueller_punktestand} / {max_punkte}"
     )
     # Countdown für nächstmögliche Antwort (Throttling)
     next_allowed = st.session_state.get("next_allowed_time")
@@ -1012,17 +1047,24 @@ def main():
     # Sticky Bar: show current score before the question in question mode
     if "beantwortet" in st.session_state:
         scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+        max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
         if scoring_mode == "positive_only":
-            aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
+            aktueller_punktestand = sum([
+                frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                for p, frage in zip(st.session_state.beantwortet, fragen)
+            ])
         else:
-            aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
+            aktueller_punktestand = sum([
+                p if p is not None else 0
+                for p in st.session_state.beantwortet
+            ])
         answered = len([p for p in st.session_state.beantwortet if p is not None])
         if "sticky_bar_css" not in st.session_state:
             st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
             st.session_state["sticky_bar_css"] = True
         score_html = (
             "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
-            f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {len(fragen)}</div>"
+            f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
             "</div>"
         )
         st.markdown(score_html, unsafe_allow_html=True)

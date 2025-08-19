@@ -8,7 +8,9 @@
       "Direkte GPU-Nutzung ohne Konfiguration"
     ],
     "loesung": 1,
-    "erklaerung": "Docker sorgt für reproduzierbare und isolierte Umgebungen. So kann jeder im Team mit denselben Voraussetzungen arbeiten und Fehler durch unterschiedliche Setups werden vermieden."
+    "erklaerung": "Docker sorgt für reproduzierbare und isolierte Umgebungen. So kann jeder im Team mit denselben Voraussetzungen arbeiten und Fehler durch unterschiedliche Setups werden vermieden.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "2. Was ist ein DataFrame in pandas?",
@@ -19,7 +21,9 @@
       "Ein spezieller Datentyp für Zeitreihen"
     ],
     "loesung": 1,
-    "erklaerung": "Ein DataFrame ist die zentrale Datenstruktur in pandas. Er ermöglicht die übersichtliche und effiziente Verarbeitung tabellarischer Daten."
+    "erklaerung": "Ein DataFrame ist die zentrale Datenstruktur in pandas. Er ermöglicht die übersichtliche und effiziente Verarbeitung tabellarischer Daten.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "3. Was beschreibt ein Dockerfile?",
@@ -30,7 +34,9 @@
       "Die Benutzerrechte im Container"
     ],
     "loesung": 1,
-    "erklaerung": "Ein Dockerfile enthält alle Anweisungen, um ein Docker-Image zu bauen. So wird die Umgebung für ein Projekt klar und nachvollziehbar definiert."
+    "erklaerung": "Ein Dockerfile enthält alle Anweisungen, um ein Docker-Image zu bauen. So wird die Umgebung für ein Projekt klar und nachvollziehbar definiert.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "4. Wie kann man in Jupyter Notebooks eine Zelle in Code umwandeln?",
@@ -41,7 +47,9 @@
       "Mit der Taste `A`"
     ],
     "loesung": 1,
-    "erklaerung": "Mit der Taste `Y` wird eine Zelle in den Code-Modus versetzt. So kann man direkt Python-Code ausführen."
+    "erklaerung": "Mit der Taste `Y` wird eine Zelle in den Code-Modus versetzt. So kann man direkt Python-Code ausführen.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "5. Was ist der Unterschied zwischen einem Docker-Image und einem Container?",
@@ -52,10 +60,12 @@
       "Ein Image enthält nur Daten, kein Code"
     ],
     "loesung": 1,
-    "erklaerung": "Ein Image ist die Vorlage, ein Container die laufende Instanz. So können aus einem Image beliebig viele Container gestartet werden."
+    "erklaerung": "Ein Image ist die Vorlage, ein Container die laufende Instanz. So können aus einem Image beliebig viele Container gestartet werden.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
-  "frage": "6. Was ist der Zweck von `docker-compose.yml` im amalea-Projekt?",
+    "frage": "6. Was ist der Zweck von `docker-compose.yml` im amalea-Projekt?",
     "optionen": [
       "Verwaltung von Python-Paketen",
       "Orchestrierung mehrerer Services und Container",
@@ -63,7 +73,9 @@
       "Automatische Code-Formatierung"
     ],
     "loesung": 1,
-  "erklaerung": "Mit `docker-compose.yml` werden mehrere Container und Services gemeinsam gestartet und verwaltet. Das erleichtert komplexe Projekte."
+    "erklaerung": "Mit `docker-compose.yml` werden mehrere Container und Services gemeinsam gestartet und verwaltet. Das erleichtert komplexe Projekte.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "7. Was ist das Ziel der Q-Phase im QUA³CK-Modell?",
@@ -74,18 +86,22 @@
       "Visualisierung der Ergebnisse"
     ],
     "loesung": 1,
-    "erklaerung": "Die Q-Phase steht für die genaue Definition der Fragestellung und der Ziele. Das ist die Basis für jedes erfolgreiche Data-Science-Projekt."
+    "erklaerung": "Die Q-Phase steht für die genaue Definition der Fragestellung und der Ziele. Das ist die Basis für jedes erfolgreiche Data-Science-Projekt.",
+    "gewichtung": 2,
+    "thema": "QUA3CK & MLOps"
   },
   {
     "frage": "8. Wie kann man in pandas eine CSV-Datei einlesen?",
-      "optionen": [
-        "`pd.read_table()`",
-        "`pd.read_csv()`",
-        "`pd.load_csv()`",
-        "`pd.import_csv()`"
+    "optionen": [
+      "`pd.read_table()`",
+      "`pd.read_csv()`",
+      "`pd.load_csv()`",
+      "`pd.import_csv()`"
     ],
     "loesung": 1,
-    "erklaerung": "Mit pd.read_csv() werden CSV-Dateien einfach und schnell in einen DataFrame geladen. Das ist die Standardmethode in pandas."
+    "erklaerung": "Mit pd.read_csv() werden CSV-Dateien einfach und schnell in einen DataFrame geladen. Das ist die Standardmethode in pandas.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "9. Was ist ein typischer Fehler beim Arbeiten mit DataFrames?",
@@ -96,10 +112,12 @@
       "ImportError bei der Nutzung von .head()"
     ],
     "loesung": 0,
-    "erklaerung": "Ein KeyError entsteht, wenn ein Spaltenname falsch geschrieben ist. Sorgfältige Kontrolle der Spaltennamen ist wichtig."
+    "erklaerung": "Ein KeyError entsteht, wenn ein Spaltenname falsch geschrieben ist. Sorgfältige Kontrolle der Spaltennamen ist wichtig.",
+    "gewichtung": 2,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "10. Was ist der Unterschied zwischen `pip` und `conda`?",
+    "frage": "10. Was ist der Unterschied zwischen `pip` und `conda`?",
     "optionen": [
       "pip installiert nur Systempakete, conda nur Python-Pakete",
       "pip ist für Python-Pakete, conda kann auch Umgebungen verwalten",
@@ -107,7 +125,9 @@
       "conda ist ausschließlich für Windows verfügbar"
     ],
     "loesung": 1,
-  "erklaerung": "`pip` installiert Python-Pakete, `conda` kann zusätzlich ganze Umgebungen verwalten. Das macht `conda` besonders flexibel."
+    "erklaerung": "`pip` installiert Python-Pakete, `conda` kann zusätzlich ganze Umgebungen verwalten. Das macht `conda` besonders flexibel.",
+    "gewichtung": 2,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "11. Was ist ein Vorteil von Jupyter Notebooks für Data Science?",
@@ -118,7 +138,9 @@
       "Sie laufen ausschließlich in der Cloud"
     ],
     "loesung": 1,
-    "erklaerung": "Jupyter Notebooks erlauben die Kombination von Code, Text und Visualisierungen. Das macht sie ideal für explorative Analysen."
+    "erklaerung": "Jupyter Notebooks erlauben die Kombination von Code, Text und Visualisierungen. Das macht sie ideal für explorative Analysen.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "12. Was ist ein typischer Anwendungsfall für Streamlit im Kurs?",
@@ -129,7 +151,9 @@
       "Kompilierung von C++-Code"
     ],
     "loesung": 1,
-    "erklaerung": "Mit Streamlit lassen sich ML-Modelle und Analysen als interaktive Web-Apps präsentieren. Das erleichtert die Kommunikation von Ergebnissen."
+    "erklaerung": "Mit Streamlit lassen sich ML-Modelle und Analysen als interaktive Web-Apps präsentieren. Das erleichtert die Kommunikation von Ergebnissen.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "13. Was ist der Unterschied zwischen einer Liste und einem Dictionary in Python?",
@@ -140,7 +164,9 @@
       "Dictionaries können keine Zahlen speichern"
     ],
     "loesung": 1,
-    "erklaerung": "Listen sind geordnet und speichern Werte, Dictionaries sind ungeordnet und speichern Schlüssel-Wert-Paare. Das macht sie flexibel für verschiedene Aufgaben."
+    "erklaerung": "Listen sind geordnet und speichern Werte, Dictionaries sind ungeordnet und speichern Schlüssel-Wert-Paare. Das macht sie flexibel für verschiedene Aufgaben.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "14. Wie kann man in Python eine Funktion definieren?",
@@ -151,10 +177,12 @@
       "`define meine_funktion():`"
     ],
     "loesung": 1,
-    "erklaerung": "Mit `def` wird in Python eine Funktion definiert. Das ist die Grundlage für strukturierten und wiederverwendbaren Code."
+    "erklaerung": "Mit `def` wird in Python eine Funktion definiert. Das ist die Grundlage für strukturierten und wiederverwendbaren Code.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "15. Was ist der Zweck von `requirements.txt`?",
+    "frage": "15. Was ist der Zweck von `requirements.txt`?",
     "optionen": [
       "Enthält die Docker-Konfiguration",
       "Listet alle Python-Abhängigkeiten für ein Projekt auf",
@@ -162,29 +190,35 @@
       "Definiert die Netzwerkports für Streamlit"
     ],
     "loesung": 1,
-  "erklaerung": "`requirements.txt` listet alle benötigten Python-Pakete auf. So kann die Umgebung einfach und reproduzierbar installiert werden."
+    "erklaerung": "`requirements.txt` listet alle benötigten Python-Pakete auf. So kann die Umgebung einfach und reproduzierbar installiert werden.",
+    "gewichtung": 2,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "16. Was ist ein typischer Fehler beim Import von pandas?",
     "optionen": [
-  "ModuleNotFoundError: Kein Modul namens `pandas`",
+      "ModuleNotFoundError: Kein Modul namens `pandas`",
       "ValueError: Falscher Datentyp",
       "KeyError: Spalte nicht gefunden",
       "IndexError: Index außerhalb des Bereichs"
     ],
     "loesung": 0,
-  "erklaerung": "Der `ModuleNotFoundError` tritt auf, wenn `pandas` nicht installiert ist. Die Installation erfolgt mit `pip install pandas`."
+    "erklaerung": "Der `ModuleNotFoundError` tritt auf, wenn `pandas` nicht installiert ist. Die Installation erfolgt mit `pip install pandas`.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "17. Was ist der Unterschied zwischen `docker ps` und `docker images`?",
+    "frage": "17. Was ist der Unterschied zwischen `docker ps` und `docker images`?",
     "optionen": [
-  "`docker ps` zeigt laufende Container, `docker images` zeigt verfügbare Images",
+      "`docker ps` zeigt laufende Container, `docker images` zeigt verfügbare Images",
       "Beide zeigen laufende Container",
-  "`docker images` startet Container, `docker ps` löscht sie",
+      "`docker images` startet Container, `docker ps` löscht sie",
       "Beide zeigen nur gestoppte Container"
     ],
     "loesung": 0,
-  "erklaerung": "Mit `docker ps` sieht man alle laufenden Container, mit `docker images` alle verfügbaren Images. Das hilft beim Management der Umgebung."
+    "erklaerung": "Mit `docker ps` sieht man alle laufenden Container, mit `docker images` alle verfügbaren Images. Das hilft beim Management der Umgebung.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "18. Was ist ein Vorteil von Docker Compose gegenüber einzelnen Docker-Kommandos?",
@@ -195,10 +229,12 @@
       "Es ist ausschließlich für Windows verfügbar"
     ],
     "loesung": 1,
-    "erklaerung": "Mit Docker Compose können mehrere Services und Container mit einem einzigen Befehl gestartet werden. Das spart Zeit und Aufwand."
+    "erklaerung": "Mit Docker Compose können mehrere Services und Container mit einem einzigen Befehl gestartet werden. Das spart Zeit und Aufwand.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
-  "frage": "19. Was ist der Zweck von `st.sidebar` in Streamlit?",
+    "frage": "19. Was ist der Zweck von `st.sidebar` in Streamlit?",
     "optionen": [
       "Anzeige von Fehlermeldungen",
       "Platz für interaktive Filter und Navigationselemente",
@@ -206,7 +242,9 @@
       "Definition von DataFrames"
     ],
     "loesung": 1,
-    "erklaerung": "Mit st.sidebar können interaktive Elemente wie Filter und Navigation übersichtlich am Rand der App platziert werden."
+    "erklaerung": "Mit st.sidebar können interaktive Elemente wie Filter und Navigation übersichtlich am Rand der App platziert werden.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "20. Was ist ein typischer Anwendungsfall für das QUA³CK-Modell?",
@@ -217,21 +255,25 @@
       "Erstellung von Datenbanken"
     ],
     "loesung": 1,
-    "erklaerung": "Das QUA³CK-Modell hilft, ML-Projekte systematisch zu strukturieren und alle wichtigen Phasen zu berücksichtigen."
+    "erklaerung": "Das QUA³CK-Modell hilft, ML-Projekte systematisch zu strukturieren und alle wichtigen Phasen zu berücksichtigen.",
+    "gewichtung": 2,
+    "thema": "QUA3CK & MLOps"
   },
   {
     "frage": "21. Wie kann man in pandas die ersten 5 Zeilen eines DataFrames anzeigen?",
-      "optionen": [
-        "`df.show(5)`",
-        "`df.head()`",
-        "`df.top(5)`",
-        "`df.first(5)`"
+    "optionen": [
+      "`df.show(5)`",
+      "`df.head()`",
+      "`df.top(5)`",
+      "`df.first(5)`"
     ],
     "loesung": 1,
-  "erklaerung": "Mit `df.head()` werden die ersten 5 Zeilen eines DataFrames angezeigt. Das ist die Standardmethode für einen schnellen Überblick über die Daten."
+    "erklaerung": "Mit `df.head()` werden die ersten 5 Zeilen eines DataFrames angezeigt. Das ist die Standardmethode für einen schnellen Überblick über die Daten.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "22. Was ist ein Vorteil von `Funktionen` in Python?",
+    "frage": "22. Was ist ein Vorteil von `Funktionen` in Python?",
     "optionen": [
       "Sie machen Code weniger lesbar",
       "Sie ermöglichen Wiederverwendbarkeit und Struktur",
@@ -239,18 +281,22 @@
       "Sie sind nur für mathematische Berechnungen geeignet"
     ],
     "loesung": 1,
-  "erklaerung": "`Funktionen` helfen, Code zu strukturieren und wiederzuverwenden. Das macht Programme übersichtlicher und vermeidet Redundanz."
+    "erklaerung": "`Funktionen` helfen, Code zu strukturieren und wiederzuverwenden. Das macht Programme übersichtlicher und vermeidet Redundanz.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "23. Was ist der Unterschied zwischen `docker stop` und `docker rm`?",
+    "frage": "23. Was ist der Unterschied zwischen `docker stop` und `docker rm`?",
     "optionen": [
-  "`docker stop` löscht Container, `docker rm` stoppt sie",
-  "`docker stop` hält Container an, `docker rm` entfernt sie",
+      "`docker stop` löscht Container, `docker rm` stoppt sie",
+      "`docker stop` hält Container an, `docker rm` entfernt sie",
       "Beide Befehle sind identisch",
-  "`docker rm` startet Container neu"
+      "`docker rm` startet Container neu"
     ],
     "loesung": 1,
-  "erklaerung": "Mit `docker stop` wird ein Container angehalten, mit `docker rm` wird er endgültig entfernt. Das ist wichtig für das Ressourcenmanagement."
+    "erklaerung": "Mit `docker stop` wird ein Container angehalten, mit `docker rm` wird er endgültig entfernt. Das ist wichtig für das Ressourcenmanagement.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "24. Was ist ein typischer Fehler bei der Nutzung von Streamlit?",
@@ -261,18 +307,22 @@
       "IndexError bei der Sidebar"
     ],
     "loesung": 0,
-  "erklaerung": "Die StreamlitAPIException tritt auf, wenn Widgets falsch verwendet werden. Das ist der häufigste Fehler bei der Entwicklung mit Streamlit."
+    "erklaerung": "Die StreamlitAPIException tritt auf, wenn Widgets falsch verwendet werden. Das ist der häufigste Fehler bei der Entwicklung mit Streamlit.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "25. Was ist der Zweck von `st.metric` in Streamlit?",
+    "frage": "25. Was ist der Zweck von `st.metric` in Streamlit?",
     "optionen": [
       "Anzeige von Metriken und Kennzahlen",
-  "Erstellung von `DataFrames`",
-  "Definition von `Funktionen`",
+      "Erstellung von `DataFrames`",
+      "Definition von `Funktionen`",
       "Verwaltung von Docker-Containern"
     ],
     "loesung": 0,
-  "erklaerung": "Mit `st.metric` werden Kennzahlen und Metriken übersichtlich dargestellt. Das ist besonders für Dashboards und Monitoring nützlich."
+    "erklaerung": "Mit `st.metric` werden Kennzahlen und Metriken übersichtlich dargestellt. Das ist besonders für Dashboards und Monitoring nützlich.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "26. Was ist ein Vorteil von Markdown in Jupyter Notebooks?",
@@ -283,10 +333,12 @@
       "Es ist nur für Überschriften geeignet"
     ],
     "loesung": 1,
-    "erklaerung": "Mit Markdown kann man Notebooks klar und übersichtlich dokumentieren. Das hilft, Ergebnisse und Vorgehen verständlich zu machen."
+    "erklaerung": "Mit Markdown kann man Notebooks klar und übersichtlich dokumentieren. Das hilft, Ergebnisse und Vorgehen verständlich zu machen.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "27. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?",
+    "frage": "27. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?",
     "optionen": [
       "Beide importieren pandas identisch",
       "`import pandas as pd` gibt einen Alias, `from pandas import *` importiert alle Namen direkt",
@@ -294,10 +346,12 @@
       "`import pandas as pd` importiert nur DataFrames"
     ],
     "loesung": 1,
-  "erklaerung": "Mit `import pandas as pd` wird ein Alias vergeben, was den Code lesbarer macht. `from pandas import *` importiert alle Namen direkt und kann zu Konflikten führen."
+    "erklaerung": "Mit `import pandas as pd` wird ein Alias vergeben, was den Code lesbarer macht. `from pandas import *` importiert alle Namen direkt und kann zu Konflikten führen.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "28. Was ist ein typischer Anwendungsfall für `st.file_uploader` in Streamlit?",
+    "frage": "28. Was ist ein typischer Anwendungsfall für `st.file_uploader` in Streamlit?",
     "optionen": [
       "Hochladen und Einlesen eigener Datendateien",
       "Visualisierung von DataFrames",
@@ -305,10 +359,12 @@
       "Definition von Funktionen"
     ],
     "loesung": 0,
-    "erklaerung": "Mit st.file_uploader können Nutzer eigene Dateien hochladen und direkt in der App weiterverarbeiten. Das ist praktisch für interaktive Analysen."
+    "erklaerung": "Mit st.file_uploader können Nutzer eigene Dateien hochladen und direkt in der App weiterverarbeiten. Das ist praktisch für interaktive Analysen.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "29. Was ist der Zweck von `def` in Python?",
+    "frage": "29. Was ist der Zweck von `def` in Python?",
     "optionen": [
       "Definition einer Variablen",
       "Definition einer Funktion mit `def`",
@@ -316,7 +372,9 @@
       "Definition eines Containers"
     ],
     "loesung": 1,
-  "erklaerung": "Mit `def` werden in Python Funktionen definiert. Das ist die Basis für strukturierten und wiederverwendbaren Code."
+    "erklaerung": "Mit `def` werden in Python Funktionen definiert. Das ist die Basis für strukturierten und wiederverwendbaren Code.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "30. Was ist ein Vorteil von Docker für Teamarbeit?",
@@ -327,29 +385,35 @@
       "Docker ist nur für Einzelpersonen geeignet"
     ],
     "loesung": 1,
-  "erklaerung": "Mit Docker kann ein ganzes Team in exakt der gleichen Umgebung arbeiten. Das vermeidet `It works on my machine`-Probleme."
+    "erklaerung": "Mit Docker kann ein ganzes Team in exakt der gleichen Umgebung arbeiten. Das vermeidet `It works on my machine`-Probleme.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
-  "frage": "31. Was ist laut `00_Python_in_3_Stunden.ipynb` eine Best Practice, um die Performance von Filter- und Join-Operationen in Pandas zu beschleunigen?",
+    "frage": "31. Was ist laut `00_Python_in_3_Stunden.ipynb` eine Best Practice, um die Performance von Filter- und Join-Operationen in Pandas zu beschleunigen?",
     "optionen": [
       "Daten immer als CSV statt Parquet speichern",
-  "Einen sinnvollen Index mit `set_index()` setzen",
-  "Operationen in Python-For-Schleifen statt als Vektoroperationen schreiben",
-  "Die `pipe()`-Methode für alle Transformationen verwenden"
+      "Einen sinnvollen Index mit `set_index()` setzen",
+      "Operationen in Python-For-Schleifen statt als Vektoroperationen schreiben",
+      "Die `pipe()`-Methode für alle Transformationen verwenden"
     ],
     "loesung": 1,
-    "erklaerung": "Ein sinnvoller Index beschleunigt Filter- und Join-Operationen erheblich, da pandas intern schneller auf die Daten zugreifen kann."
+    "erklaerung": "Ein sinnvoller Index beschleunigt Filter- und Join-Operationen erheblich, da pandas intern schneller auf die Daten zugreifen kann.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "32. Welchen Hauptvorteil bietet ein Multi-Stage-Build in einem `Dockerfile`, wie in den Notebooks beschrieben?",
     "optionen": [
-  "Automatisches Erstellen einer `.dockerignore`-Datei",
-  "Starten von dev, test und prod-Containern mit einem Befehl",
-  "Reduzierung der finalen Image-Größe durch Trennung von Build- und Runtime-Umgebung",
-  "Sichere Verwaltung von Umgebungsvariablen im Image"
+      "Automatisches Erstellen einer `.dockerignore`-Datei",
+      "Starten von dev, test und prod-Containern mit einem Befehl",
+      "Reduzierung der finalen Image-Größe durch Trennung von Build- und Runtime-Umgebung",
+      "Sichere Verwaltung von Umgebungsvariablen im Image"
     ],
     "loesung": 2,
-    "erklaerung": "Multi-Stage-Builds erlauben es, nur die wirklich benötigten Dateien ins finale Image zu übernehmen. Das spart Speicher und erhöht die Sicherheit."
+    "erklaerung": "Multi-Stage-Builds erlauben es, nur die wirklich benötigten Dateien ins finale Image zu übernehmen. Das spart Speicher und erhöht die Sicherheit.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "33. Wie wird die A³-Phase des QUA³CK-Prozessmodells im Kurs `AMALEA 2025` modern interpretiert?",
@@ -360,18 +424,22 @@
       "Durch Experiment-Tracking mit MLflow zur systematischen Verwaltung"
     ],
     "loesung": 3,
-    "erklaerung": "Die moderne Interpretation der A³-Phase ist das systematische Experiment-Tracking mit MLflow. So werden Experimente nachvollziehbar und reproduzierbar."
+    "erklaerung": "Die moderne Interpretation der A³-Phase ist das systematische Experiment-Tracking mit MLflow. So werden Experimente nachvollziehbar und reproduzierbar.",
+    "gewichtung": 2,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "34. Wofür wird der Parameter `stratify` in `train_test_split` (siehe `03_QUA3CK_Prozessmodell.ipynb`) typischerweise verwendet?",
+    "frage": "34. Wofür wird der Parameter `stratify` in `train_test_split` (siehe `03_QUA3CK_Prozessmodell.ipynb`) typischerweise verwendet?",
     "optionen": [
       "Um sicherzustellen, dass die Daten vor dem Splitten zufällig gemischt werden.",
       "Um die gleiche Verteilung der Zielklassen in Trainings- und Test-Set beizubehalten.",
       "Um eine exakte Aufteilung von 70% Trainings- und 30% Testdaten zu garantieren.",
-  "Um den `random_state` für reproduzierbare Splits zu ersetzen."
+      "Um den `random_state` für reproduzierbare Splits zu ersetzen."
     ],
     "loesung": 1,
-    "erklaerung": "Mit stratify wird sichergestellt, dass die Klassenverteilung im Trainings- und Testset gleich bleibt. Das ist wichtig für faire Modellbewertung."
+    "erklaerung": "Mit stratify wird sichergestellt, dass die Klassenverteilung im Trainings- und Testset gleich bleibt. Das ist wichtig für faire Modellbewertung.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "35. Was ist der primäre Zweck von `@st.cache_data` in Streamlit?",
@@ -382,7 +450,9 @@
       "Die automatische Umwandlung von Pandas DataFrames in schnelle Apache Arrow Tabellen."
     ],
     "loesung": 1,
-  "erklaerung": "Mit `@st.cache_data` werden die Ergebnisse von Funktionen zwischengespeichert. Das beschleunigt die App und spart Ressourcen."
+    "erklaerung": "Mit `@st.cache_data` werden die Ergebnisse von Funktionen zwischengespeichert. Das beschleunigt die App und spart Ressourcen.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "36. Welches Problem wird durch die Verwendung von Docker-Volumes, wie in `01_Docker_für_Data_Science.ipynb` empfohlen, primär gelöst?",
@@ -393,18 +463,22 @@
       "Python-Abhängigkeiten werden direkt im Container installiert."
     ],
     "loesung": 1,
-    "erklaerung": "Docker-Volumes sorgen dafür, dass Daten auch nach dem Löschen eines Containers erhalten bleiben. Das ist wichtig für die Datensicherheit."
+    "erklaerung": "Docker-Volumes sorgen dafür, dass Daten auch nach dem Löschen eines Containers erhalten bleiben. Das ist wichtig für die Datensicherheit.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
-  "frage": "37. In welcher Phase des QUA³CK-Modells findet die `Conclude and Compare` Aktivität hauptsächlich statt?",
+    "frage": "37. In welcher Phase des QUA³CK-Modells findet die `Conclude and Compare` Aktivität hauptsächlich statt?",
     "optionen": [
       "Phase Q (Question)",
       "Phase U (Understanding)",
       "Phase A³ (Algorithm, Adapting, Adjusting)",
-        "Phase C (`Conclude and Compare`)"
+      "Phase C (`Conclude and Compare`)"
     ],
     "loesung": 3,
-      "erklaerung": "Die `Conclude and Compare`-Aktivität gehört zur C-Phase. Hier werden Ergebnisse verglichen und Schlussfolgerungen gezogen."
+    "erklaerung": "Die `Conclude and Compare`-Aktivität gehört zur C-Phase. Hier werden Ergebnisse verglichen und Schlussfolgerungen gezogen.",
+    "gewichtung": 2,
+    "thema": "QUA3CK & MLOps"
   },
   {
     "frage": "38. Was ist ein wesentlicher Unterschied zwischen `st.session_state` und einer normalen Python-Variable in einem Streamlit-Skript?",
@@ -415,7 +489,9 @@
       "`st.session_state` ist nur innerhalb von Funktionen sichtbar."
     ],
     "loesung": 2,
-    "erklaerung": "st.session_state speichert Werte über Reruns hinweg. Das ist wichtig für interaktive Apps, damit der Zustand erhalten bleibt."
+    "erklaerung": "st.session_state speichert Werte über Reruns hinweg. Das ist wichtig für interaktive Apps, damit der Zustand erhalten bleibt.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "39. Welches Datenformat wird in `00_Python_in_3_Stunden.ipynb` als oft schneller und speichereffizienter als CSV für große Datenmengen bezeichnet?",
@@ -426,10 +502,12 @@
       "SQL"
     ],
     "loesung": 2,
-  "erklaerung": "`Parquet` ist ein spaltenbasiertes Format, das große Datenmengen effizient speichern und schneller laden kann als CSV."
+    "erklaerung": "`Parquet` ist ein spaltenbasiertes Format, das große Datenmengen effizient speichern und schneller laden kann als CSV.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "40. Was beschreibt der Begriff `Vektorisierung` in Pandas, der als Performance-Tipp genannt wird?",
+    "frage": "40. Was beschreibt der Begriff `Vektorisierung` in Pandas, der als Performance-Tipp genannt wird?",
     "optionen": [
       "Das Umwandeln von Daten in grafische Vektoren für die Visualisierung.",
       "Das Anwenden von Operationen auf ganze Arrays statt auf einzelne Elemente in einer Schleife.",
@@ -437,29 +515,35 @@
       "Das Erstellen von Feature-Vektoren für Machine-Learning-Modelle."
     ],
     "loesung": 1,
-  "erklaerung": "`Vektorisierung` bedeutet, Operationen direkt auf ganze Arrays anzuwenden. Das ist viel schneller als Schleifen und ein zentraler Performance-Tipp."
+    "erklaerung": "`Vektorisierung` bedeutet, Operationen direkt auf ganze Arrays anzuwenden. Das ist viel schneller als Schleifen und ein zentraler Performance-Tipp.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "41. Welche MLOps-Praxis wird im `03_QUA3CK_Prozessmodell.ipynb` mit der K-Phase (Knowledge Transfer) in Verbindung gebracht?",
     "optionen": [
-  "`MLFlow` Experiment Tracking",
+      "`MLFlow` Experiment Tracking",
       "Interaktive Streamlit Apps zur Datenexploration",
       "Cloud-Deployment und die Erstellung eines Portfolios",
       "Automatisierte Modellvergleiche in einem Dashboard"
     ],
     "loesung": 2,
-  "erklaerung": "Die K-Phase steht für Knowledge Transfer. Cloud-Deployment und Portfolio-Erstellung sorgen dafür, dass Wissen und Modelle nachhaltig weitergegeben werden."
+    "erklaerung": "Die K-Phase steht für Knowledge Transfer. Cloud-Deployment und Portfolio-Erstellung sorgen dafür, dass Wissen und Modelle nachhaltig weitergegeben werden.",
+    "gewichtung": 2,
+    "thema": "QUA3CK & MLOps"
   },
   {
-  "frage": "42. Welchen Zweck erfüllt der Befehl `docker-compose down`?",
+    "frage": "42. Welchen Zweck erfüllt der Befehl `docker-compose down`?",
     "optionen": [
-  "Er startet alle in der `docker-compose.yml` definierten Services im Hintergrund.",
+      "Er startet alle in der `docker-compose.yml` definierten Services im Hintergrund.",
       "Er zeigt die Logs aller laufenden Services an.",
-  "Er stoppt und entfernt die von `docker-compose up` erstellten Container und Netzwerke.",
+      "Er stoppt und entfernt die von `docker-compose up` erstellten Container und Netzwerke.",
       "Er baut die Docker-Images für alle Services neu, ohne sie zu starten."
     ],
     "loesung": 2,
-  "erklaerung": "Mit `docker-compose down` werden alle gestarteten Container und Netzwerke gestoppt und entfernt. Das ist wichtig für das Aufräumen der Umgebung."
+    "erklaerung": "Mit `docker-compose down` werden alle gestarteten Container und Netzwerke gestoppt und entfernt. Das ist wichtig für das Aufräumen der Umgebung.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "43. Was ist der Unterschied zwischen supervised und unsupervised Learning laut dem Iris-Beispiel im QUA³CK-Notebook?",
@@ -470,21 +554,25 @@
       "Unsupervised Learning kann nur mit numerischen Daten umgehen, Supervised auch mit Text."
     ],
     "loesung": 0,
-  "erklaerung": "`Supervised Learning` arbeitet mit gelabelten Daten (`Features` und `Zielwerte`), `Unsupervised Learning` erkennt Muster ohne vorgegebene Labels."
+    "erklaerung": "`Supervised Learning` arbeitet mit gelabelten Daten (`Features` und `Zielwerte`), `Unsupervised Learning` erkennt Muster ohne vorgegebene Labels.",
+    "gewichtung": 2,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "44. Welches Streamlit-Layout-Element wird verwendet, um Inhalte nebeneinander darzustellen?",
-      "optionen": [
-        "`st.expander()`",
-        "`st.tabs()`",
-        "`st.columns()`",
-        "`st.container()`"
+    "optionen": [
+      "`st.expander()`",
+      "`st.tabs()`",
+      "`st.columns()`",
+      "`st.container()`"
     ],
     "loesung": 2,
-  "erklaerung": "Mit `st.columns()` können Inhalte nebeneinander angeordnet werden. Das ist praktisch für übersichtliche Dashboards und Vergleiche."
+    "erklaerung": "Mit `st.columns()` können Inhalte nebeneinander angeordnet werden. Das ist praktisch für übersichtliche Dashboards und Vergleiche.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "45. Warum wird im `Dockerfile`-Beispiel `COPY requirements.txt .` vor `COPY . .` ausgeführt?",
+    "frage": "45. Warum wird im `Dockerfile`-Beispiel `COPY requirements.txt .` vor `COPY . .` ausgeführt?",
     "optionen": [
       "Um die Lesbarkeit des Dockerfiles zu verbessern.",
       "Weil `requirements.txt` größer ist und zuerst kopiert werden muss.",
@@ -492,10 +580,12 @@
       "Um sicherzustellen, dass die Abhängigkeiten vor dem App-Code vorhanden sind."
     ],
     "loesung": 2,
-  "erklaerung": "Durch das frühe Kopieren von `requirements.txt` kann Docker den Build-Cache optimal nutzen. Die Pakete werden nur neu installiert, wenn sich die Datei ändert."
+    "erklaerung": "Durch das frühe Kopieren von `requirements.txt` kann Docker den Build-Cache optimal nutzen. Die Pakete werden nur neu installiert, wenn sich die Datei ändert.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
-  "frage": "46. Was ist eine `Chained Assignment`-Warnung in Pandas und wie sollte man sie laut Notebook vermeiden?",
+    "frage": "46. Was ist eine `Chained Assignment`-Warnung in Pandas und wie sollte man sie laut Notebook vermeiden?",
     "optionen": [
       "Eine Warnung, die auftritt, wenn zu viele Methodenaufrufe verkettet werden; man sollte sie ignorieren.",
       "Ein Fehler, der beim Zuweisen zu einer Kopie eines DataFrames auftritt; man sollte `.loc` für die Zuweisung verwenden.",
@@ -503,21 +593,25 @@
       "Ein Hinweis, dass der DataFrame-Index neu gesetzt werden sollte, um die Performance zu verbessern."
     ],
     "loesung": 1,
-  "erklaerung": "Chained Assignment tritt auf, wenn man auf eine Kopie eines DataFrames zugreift und dort Werte zuweist. Mit `.loc` kann man gezielt und sicher zuweisen."
+    "erklaerung": "Chained Assignment tritt auf, wenn man auf eine Kopie eines DataFrames zugreift und dort Werte zuweist. Mit `.loc` kann man gezielt und sicher zuweisen.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "47. Welches Tool wird im Kurs-Setup (`01_Docker_für_Data_Science.ipynb`) für das ML-Experiment-Tracking verwendet?",
     "optionen": [
       "Streamlit",
       "Jupyter Lab",
-  "`MLflow`",
+      "`MLflow`",
       "Docker Hub"
     ],
     "loesung": 2,
-  "erklaerung": "`MLflow` ist ein Tool zum Tracken von ML-Experimenten. Es speichert Parameter, Ergebnisse und Modelle systematisch und nachvollziehbar."
+    "erklaerung": "`MLflow` ist ein Tool zum Tracken von ML-Experimenten. Es speichert Parameter, Ergebnisse und Modelle systematisch und nachvollziehbar.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "48. Was bedeutet der Jupyter-Tastaturbefehl `M` im Command Mode?",
+    "frage": "48. Was bedeutet der Jupyter-Tastaturbefehl `M` im Command Mode?",
     "optionen": [
       "Die aktuelle Zelle nach unten verschieben (Move).",
       "Eine neue Zelle oberhalb einfügen (More).",
@@ -525,10 +619,12 @@
       "Den Kernel neu starten (Master Reset)."
     ],
     "loesung": 2,
-  "erklaerung": "Mit `M` im Command Mode wird eine Zelle in eine Markdown-Zelle umgewandelt. Das ist wichtig für die Dokumentation im Notebook."
+    "erklaerung": "Mit `M` im Command Mode wird eine Zelle in eine Markdown-Zelle umgewandelt. Das ist wichtig für die Dokumentation im Notebook.",
+    "gewichtung": 1,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "49. Was ist der primäre Zweck der `EXPOSE`-Anweisung in einem Dockerfile?",
+    "frage": "49. Was ist der primäre Zweck der `EXPOSE`-Anweisung in einem Dockerfile?",
     "optionen": [
       "Den Container mit dem Internet zu verbinden.",
       "Einen Port vom Host-System in den Container weiterzuleiten.",
@@ -536,7 +632,9 @@
       "Die Firewall des Containers zu konfigurieren."
     ],
     "loesung": 2,
-  "erklaerung": "Mit `EXPOSE` wird dokumentiert, auf welchem Port der Service im Container erreichbar ist. Das hilft bei der Konfiguration und beim Verständnis des Images."
+    "erklaerung": "Mit `EXPOSE` wird dokumentiert, auf welchem Port der Service im Container erreichbar ist. Das hilft bei der Konfiguration und beim Verständnis des Images.",
+    "gewichtung": 1,
+    "thema": "Docker & Infrastruktur"
   },
   {
     "frage": "50. Welche Metrik wird im `03_QUA3CK_Prozessmodell.ipynb` zur Bewertung des K-Means-Modells (Unsupervised) verwendet?",
@@ -547,10 +645,12 @@
       "Root Mean Squared Error (RMSE)"
     ],
     "loesung": 1,
-  "erklaerung": "Der `Adjusted Rand Score` ist eine Metrik zur Bewertung von Clustering-Ergebnissen wie K-Means, da keine Labels vorhanden sind."
+    "erklaerung": "Der `Adjusted Rand Score` ist eine Metrik zur Bewertung von Clustering-Ergebnissen wie K-Means, da keine Labels vorhanden sind.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "51. Was ist ein Vorteil von `Decision Trees`?",
+    "frage": "51. Was ist ein Vorteil von `Decision Trees`?",
     "optionen": [
       "Sie sind leicht interpretierbar",
       "Sie benötigen immer Daten-Normalisierung",
@@ -558,10 +658,12 @@
       "Sie sind immer stabil bei kleinen Datenänderungen"
     ],
     "loesung": 0,
-  "erklaerung": "`Decision Trees` sind leicht interpretierbar, da man die Entscheidungswege direkt nachvollziehen kann. Das ist ein großer Vorteil gegenüber komplexeren Modellen."
+    "erklaerung": "`Decision Trees` sind leicht interpretierbar, da man die Entscheidungswege direkt nachvollziehen kann. Das ist ein großer Vorteil gegenüber komplexeren Modellen.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "52. Was ist ein Nachteil von `Decision Trees`?",
+    "frage": "52. Was ist ein Nachteil von `Decision Trees`?",
     "optionen": [
       "Sie sind schwer zu interpretieren",
       "Sie neigen zu Overfitting",
@@ -569,10 +671,12 @@
       "Sie sind robust gegenüber Ausreißern"
     ],
     "loesung": 1,
-  "erklaerung": "`Decision Trees` neigen zu Overfitting, weil sie die Trainingsdaten oft zu genau abbilden. Das kann die Generalisierbarkeit verschlechtern."
+    "erklaerung": "`Decision Trees` neigen zu Overfitting, weil sie die Trainingsdaten oft zu genau abbilden. Das kann die Generalisierbarkeit verschlechtern.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "53. Was beschreibt die Funktionsweise von `K-Nearest Neighbors (KNN)` am besten?",
+    "frage": "53. Was beschreibt die Funktionsweise von `K-Nearest Neighbors (KNN)` am besten?",
     "optionen": [
       "Finde die k nächsten Nachbarn und wähle die häufigste Klasse",
       "Erstelle einen Entscheidungsbaum",
@@ -580,7 +684,9 @@
       "Nutze PCA zur Dimensionsreduktion"
     ],
     "loesung": 0,
-  "erklaerung": "`KNN` sucht die k nächsten Nachbarn eines Punktes und nimmt die häufigste Klasse als Vorhersage. Das ist das Grundprinzip dieses Algorithmus."
+    "erklaerung": "`KNN` sucht die k nächsten Nachbarn eines Punktes und nimmt die häufigste Klasse als Vorhersage. Das ist das Grundprinzip dieses Algorithmus.",
+    "gewichtung": 1,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "54. Warum sollte k bei KNN ungerade gewählt werden?",
@@ -591,10 +697,12 @@
       "Um die Genauigkeit zu erhöhen"
     ],
     "loesung": 1,
-  "erklaerung": "Ein ungerades `k` verhindert, dass es bei der Mehrheitsentscheidung zu einem Unentschieden kommt. So ist die Klassifikation eindeutig."
+    "erklaerung": "Ein ungerades `k` verhindert, dass es bei der Mehrheitsentscheidung zu einem Unentschieden kommt. So ist die Klassifikation eindeutig.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "55. Was ist ein typischer Anwendungsfall für `K-Means Clustering`?",
+    "frage": "55. Was ist ein typischer Anwendungsfall für `K-Means Clustering`?",
     "optionen": [
       "Vorhersage von Labels",
       "Finden von Gruppen in Daten ohne Labels",
@@ -602,7 +710,9 @@
       "Regression"
     ],
     "loesung": 1,
-    "erklaerung": "K-Means wird eingesetzt, um Gruppen (Cluster) in Daten zu finden, wenn keine Labels vorhanden sind. Das ist typisch für explorative Analysen."
+    "erklaerung": "K-Means wird eingesetzt, um Gruppen (Cluster) in Daten zu finden, wenn keine Labels vorhanden sind. Das ist typisch für explorative Analysen.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "56. Was ist ein Unterschied zwischen Supervised und Unsupervised Learning?",
@@ -613,7 +723,9 @@
       "Beide benötigen Labels"
     ],
     "loesung": 2,
-    "erklaerung": "Supervised Learning nutzt bekannte Zielwerte (Labels), Unsupervised Learning arbeitet ohne Labels und sucht Muster in den Daten."
+    "erklaerung": "Supervised Learning nutzt bekannte Zielwerte (Labels), Unsupervised Learning arbeitet ohne Labels und sucht Muster in den Daten.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "57. Was ist ein Vorteil von KNN?",
@@ -624,7 +736,9 @@
       "Benötigt keine Skalierung"
     ],
     "loesung": 0,
-    "erklaerung": "KNN macht keine Annahmen über die Verteilung der Daten. Das macht ihn flexibel für verschiedene Datentypen und Probleme."
+    "erklaerung": "KNN macht keine Annahmen über die Verteilung der Daten. Das macht ihn flexibel für verschiedene Datentypen und Probleme.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "58. Was ist ein Nachteil von KNN?",
@@ -635,7 +749,9 @@
       "Benötigt Labels"
     ],
     "loesung": 0,
-    "erklaerung": "KNN ist empfindlich gegenüber unterschiedlich skalierten Features. Eine Skalierung ist nötig, damit alle Merkmale gleich gewichtet werden."
+    "erklaerung": "KNN ist empfindlich gegenüber unterschiedlich skalierten Features. Eine Skalierung ist nötig, damit alle Merkmale gleich gewichtet werden.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "59. Was ist die Elbow-Methode?",
@@ -646,10 +762,12 @@
       "Methode zur Visualisierung von Entscheidungsbäumen"
     ],
     "loesung": 0,
-  "erklaerung": "Mit der Elbow-Methode wird das optimale `k` für `K-Means` bestimmt. Man sucht den Punkt, an dem die Fehlerkurve `abknickt`."
+    "erklaerung": "Mit der Elbow-Methode wird das optimale `k` für `K-Means` bestimmt. Man sucht den Punkt, an dem die Fehlerkurve `abknickt`.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "60. Was zeigt ein Knoten im `Entscheidungsbaum`?",
+    "frage": "60. Was zeigt ein Knoten im `Entscheidungsbaum`?",
     "optionen": [
       "Die finale Klassifikation",
       "Eine Ja/Nein-Frage",
@@ -657,10 +775,12 @@
       "Die Anzahl der Cluster"
     ],
     "loesung": 1,
-  "erklaerung": "Ein Knoten im `Entscheidungsbaum` stellt eine Ja/Nein-Frage dar, anhand derer die Daten weiter aufgeteilt werden."
+    "erklaerung": "Ein Knoten im `Entscheidungsbaum` stellt eine Ja/Nein-Frage dar, anhand derer die Daten weiter aufgeteilt werden.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "61. Was ist ein typischer Vorteil von `K-Means`?",
+    "frage": "61. Was ist ein typischer Vorteil von `K-Means`?",
     "optionen": [
       "Findet versteckte Muster in den Daten",
       "Funktioniert nur mit Labels",
@@ -668,10 +788,12 @@
       "Benötigt immer PCA"
     ],
     "loesung": 0,
-  "erklaerung": "`K-Means` kann Gruppen und Muster in Daten erkennen, ohne dass vorher Labels bekannt sind. Das ist besonders für explorative Analysen nützlich."
+    "erklaerung": "`K-Means` kann Gruppen und Muster in Daten erkennen, ohne dass vorher Labels bekannt sind. Das ist besonders für explorative Analysen nützlich.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "62. Was ist ein typischer Nachteil von `K-Means`?",
+    "frage": "62. Was ist ein typischer Nachteil von `K-Means`?",
     "optionen": [
       "k muss vorgegeben werden",
       "Funktioniert nur mit kategorischen Daten",
@@ -679,10 +801,12 @@
       "Ist immer robust gegenüber Ausreißern"
     ],
     "loesung": 0,
-  "erklaerung": "Bei `K-Means` muss die Anzahl der Cluster (`k`) vorher festgelegt werden. Das ist oft schwierig und kann die Ergebnisse beeinflussen."
+    "erklaerung": "Bei `K-Means` muss die Anzahl der Cluster (`k`) vorher festgelegt werden. Das ist oft schwierig und kann die Ergebnisse beeinflussen.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "63. Was ist ein typischer Einsatzbereich für `Decision Trees`?",
+    "frage": "63. Was ist ein typischer Einsatzbereich für `Decision Trees`?",
     "optionen": [
       "Medizin und Finanzen",
       "Bildklassifikation",
@@ -690,10 +814,12 @@
       "Regression"
     ],
     "loesung": 0,
-  "erklaerung": "`Decision Trees` werden häufig in Bereichen eingesetzt, in denen Interpretierbarkeit wichtig ist, z.B. Medizin und Finanzen."
+    "erklaerung": "`Decision Trees` werden häufig in Bereichen eingesetzt, in denen Interpretierbarkeit wichtig ist, z.B. Medizin und Finanzen.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "64. Was ist ein typischer Einsatzbereich für `KNN`?",
+    "frage": "64. Was ist ein typischer Einsatzbereich für `KNN`?",
     "optionen": [
       "Empfehlungssysteme",
       "Zeitreihenanalyse",
@@ -701,10 +827,12 @@
       "Feature Engineering"
     ],
     "loesung": 0,
-  "erklaerung": "`KNN` wird oft für Empfehlungssysteme genutzt, da Ähnlichkeiten zwischen Nutzern oder Produkten einfach berechnet werden können."
+    "erklaerung": "`KNN` wird oft für Empfehlungssysteme genutzt, da Ähnlichkeiten zwischen Nutzern oder Produkten einfach berechnet werden können.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "65. Was ist ein typischer Einsatzbereich für `K-Means`?",
+    "frage": "65. Was ist ein typischer Einsatzbereich für `K-Means`?",
     "optionen": [
       "Customer Segmentation",
       "Regression",
@@ -712,10 +840,12 @@
       "Feature Engineering"
     ],
     "loesung": 0,
-  "erklaerung": "`K-Means` eignet sich besonders für die Segmentierung von Kunden, da Gruppen mit ähnlichem Verhalten automatisch erkannt werden."
+    "erklaerung": "`K-Means` eignet sich besonders für die Segmentierung von Kunden, da Gruppen mit ähnlichem Verhalten automatisch erkannt werden.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "66. Was ist ein Vorteil von `Decision Trees` gegenüber `KNN`?",
+    "frage": "66. Was ist ein Vorteil von `Decision Trees` gegenüber `KNN`?",
     "optionen": [
       "Keine Skalierung nötig",
       "Funktioniert nur mit numerischen Daten",
@@ -723,10 +853,12 @@
       "Ist immer schneller"
     ],
     "loesung": 0,
-  "erklaerung": "`Decision Trees` benötigen keine Skalierung der Daten, da sie auf Schwellenwerten und Vergleichen basieren. Das vereinfacht die Vorbereitung."
+    "erklaerung": "`Decision Trees` benötigen keine Skalierung der Daten, da sie auf Schwellenwerten und Vergleichen basieren. Das vereinfacht die Vorbereitung.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "67. Was ist ein Vorteil von `KNN` gegenüber `Decision Trees`?",
+    "frage": "67. Was ist ein Vorteil von `KNN` gegenüber `Decision Trees`?",
     "optionen": [
       "Keine Annahmen über Datenverteilung",
       "Funktioniert nur mit kategorischen Daten",
@@ -734,10 +866,12 @@
       "Ist immer schneller"
     ],
     "loesung": 0,
-  "erklaerung": "`KNN` macht keine Annahmen über die Verteilung der Daten. Das macht ihn flexibel für verschiedene Datentypen und Probleme."
+    "erklaerung": "`KNN` macht keine Annahmen über die Verteilung der Daten. Das macht ihn flexibel für verschiedene Datentypen und Probleme.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "68. Was ist ein Vorteil von `K-Means` gegenüber `KNN`?",
+    "frage": "68. Was ist ein Vorteil von `K-Means` gegenüber `KNN`?",
     "optionen": [
       "Findet Gruppen ohne Labels",
       "Funktioniert nur mit Labels",
@@ -745,7 +879,9 @@
       "Benötigt keine Skalierung"
     ],
     "loesung": 0,
-  "erklaerung": "`K-Means` kann Gruppen in Daten finden, ohne dass vorher Labels bekannt sind. Das ist ein Vorteil gegenüber `KNN`, das Labels benötigt."
+    "erklaerung": "`K-Means` kann Gruppen in Daten finden, ohne dass vorher Labels bekannt sind. Das ist ein Vorteil gegenüber `KNN`, das Labels benötigt.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "69. Was ist ein typischer Pro-Tipp aus dem AMALEA-Kurs?",
@@ -756,7 +892,9 @@
       "Feature Engineering ignorieren"
     ],
     "loesung": 0,
-  "erklaerung": "Es ist ratsam, verschiedene `Algorithmen` zu testen, um das beste Modell für die eigenen Daten zu finden. Das erhöht die Erfolgschancen."
+    "erklaerung": "Es ist ratsam, verschiedene `Algorithmen` zu testen, um das beste Modell für die eigenen Daten zu finden. Das erhöht die Erfolgschancen.",
+    "gewichtung": 2,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "70. Was ist die AMALEA-Weisheit zu den \"Big 3\" Algorithmen?",
@@ -767,10 +905,12 @@
       "Sie sind nur für Bilddaten geeignet"
     ],
     "loesung": 0,
-  "erklaerung": "Die \"Big 3\" `Algorithmen` (`Decision Tree`, `KNN`, `K-Means`) sind die Basis für viele ML-Projekte. Wer sie beherrscht, versteht die meisten Anwendungen."
+    "erklaerung": "Die \"Big 3\" `Algorithmen` (`Decision Tree`, `KNN`, `K-Means`) sind die Basis für viele ML-Projekte. Wer sie beherrscht, versteht die meisten Anwendungen.",
+    "gewichtung": 2,
+    "thema": "Klassische ML-Algorithmen"
   },
   {
-  "frage": "71. Was ist ein typisches Merkmal eines `neuronalen Netzes`?",
+    "frage": "71. Was ist ein typisches Merkmal eines `neuronalen Netzes`?",
     "optionen": [
       "Es besteht aus Schichten von Neuronen mit gewichteten Verbindungen.",
       "Es verwendet ausschließlich lineare Regression.",
@@ -778,10 +918,12 @@
       "Es kann nur für Klassifikationsaufgaben eingesetzt werden."
     ],
     "loesung": 0,
-  "erklaerung": "`Neuronale Netze` bestehen aus mehreren Schichten von Neuronen, die über gewichtete Verbindungen miteinander kommunizieren. Das ermöglicht komplexe Modellierung."
+    "erklaerung": "`Neuronale Netze` bestehen aus mehreren Schichten von Neuronen, die über gewichtete Verbindungen miteinander kommunizieren. Das ermöglicht komplexe Modellierung.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "72. Was ist die Hauptfunktion einer `Aktivierungsfunktion` im neuronalen Netz?",
+    "frage": "72. Was ist die Hauptfunktion einer `Aktivierungsfunktion` im neuronalen Netz?",
     "optionen": [
       "Sie führt Nichtlinearität ein und ermöglicht komplexe Modellierung.",
       "Sie berechnet die Gewichtsmatrix.",
@@ -789,10 +931,12 @@
       "Sie normalisiert die Eingabedaten."
     ],
     "loesung": 0,
-  "erklaerung": "`Aktivierungsfunktionen` sorgen für Nichtlinearität im Netz. Dadurch können neuronale Netze komplexe Zusammenhänge abbilden, die mit linearen Modellen nicht möglich wären."
+    "erklaerung": "`Aktivierungsfunktionen` sorgen für Nichtlinearität im Netz. Dadurch können neuronale Netze komplexe Zusammenhänge abbilden, die mit linearen Modellen nicht möglich wären.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
-  "frage": "73. Was ist ein typischer Vorteil von `ReLU` gegenüber `Sigmoid`?",
+    "frage": "73. Was ist ein typischer Vorteil von `ReLU` gegenüber `Sigmoid`?",
     "optionen": [
       "ReLU vermeidet das Vanishing Gradient Problem.",
       "ReLU ist immer differentiierbar.",
@@ -800,10 +944,12 @@
       "ReLU benötigt keine Gewichte."
     ],
     "loesung": 0,
-  "erklaerung": "`ReLU` (Rectified Linear Unit) hilft, das Vanishing Gradient Problem zu vermeiden, da die Ableitung für positive Werte konstant bleibt. Das beschleunigt das Training."
+    "erklaerung": "`ReLU` (Rectified Linear Unit) hilft, das Vanishing Gradient Problem zu vermeiden, da die Ableitung für positive Werte konstant bleibt. Das beschleunigt das Training.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "74. Was beschreibt das `Backpropagation`-Verfahren?",
+    "frage": "74. Was beschreibt das `Backpropagation`-Verfahren?",
     "optionen": [
       "Die Berechnung der Gradienten zur Gewichtsaktualisierung.",
       "Die Initialisierung der Gewichte.",
@@ -811,10 +957,12 @@
       "Die Vorwärtsausbreitung der Eingabedaten."
     ],
     "loesung": 0,
-  "erklaerung": "`Backpropagation` ist das Verfahren, mit dem die Gradienten berechnet und die Gewichte im neuronalen Netz angepasst werden. Das ist zentral für das Lernen."
+    "erklaerung": "`Backpropagation` ist das Verfahren, mit dem die Gradienten berechnet und die Gewichte im neuronalen Netz angepasst werden. Das ist zentral für das Lernen.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "75. Was ist ein typischer Grund für `Overfitting` in neuronalen Netzen?",
+    "frage": "75. Was ist ein typischer Grund für `Overfitting` in neuronalen Netzen?",
     "optionen": [
       "Zu viele Parameter und zu wenig Trainingsdaten.",
       "Zu kleine Batchgröße.",
@@ -822,10 +970,12 @@
       "Verwendung von Dropout."
     ],
     "loesung": 0,
-  "erklaerung": "`Overfitting` entsteht oft, wenn ein Netz zu viele Parameter hat und zu wenig Trainingsdaten. Das Modell lernt dann die Trainingsdaten auswendig."
+    "erklaerung": "`Overfitting` entsteht oft, wenn ein Netz zu viele Parameter hat und zu wenig Trainingsdaten. Das Modell lernt dann die Trainingsdaten auswendig.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "76. Was ist `Dropout` im Kontext von Deep Learning?",
+    "frage": "76. Was ist `Dropout` im Kontext von Deep Learning?",
     "optionen": [
       "Eine Regularisierungstechnik, bei der zufällig Neuronen deaktiviert werden.",
       "Eine Methode zur Initialisierung der Gewichte.",
@@ -833,10 +983,12 @@
       "Ein Optimierungsalgorithmus."
     ],
     "loesung": 0,
-  "erklaerung": "`Dropout` ist eine Regularisierungstechnik, bei der während des Trainings zufällig Neuronen deaktiviert werden. Das verhindert Overfitting."
+    "erklaerung": "`Dropout` ist eine Regularisierungstechnik, bei der während des Trainings zufällig Neuronen deaktiviert werden. Das verhindert Overfitting.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "77. Was ist der Zweck einer `Loss-Function`?",
+    "frage": "77. Was ist der Zweck einer `Loss-Function`?",
     "optionen": [
       "Sie misst die Differenz zwischen Vorhersage und Zielwert.",
       "Sie berechnet die Anzahl der Neuronen.",
@@ -844,10 +996,12 @@
       "Sie bestimmt die Batchgröße."
     ],
     "loesung": 0,
-  "erklaerung": "Die `Loss-Function` misst, wie weit die Vorhersage des Modells vom tatsächlichen Zielwert entfernt ist. Sie ist die Grundlage für das Training."
+    "erklaerung": "Die `Loss-Function` misst, wie weit die Vorhersage des Modells vom tatsächlichen Zielwert entfernt ist. Sie ist die Grundlage für das Training.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "78. Was ist ein typischer Vorteil von `Batch Normalization`?",
+    "frage": "78. Was ist ein typischer Vorteil von `Batch Normalization`?",
     "optionen": [
       "Beschleunigt das Training und stabilisiert die Lernprozesse.",
       "Erhöht die Anzahl der Parameter.",
@@ -855,7 +1009,9 @@
       "Verhindert die Initialisierung der Gewichte."
     ],
     "loesung": 0,
-  "erklaerung": "`Batch Normalization` sorgt für stabilere und schnellere Lernprozesse, indem die Verteilung der Eingaben für jede Schicht normalisiert wird."
+    "erklaerung": "`Batch Normalization` sorgt für stabilere und schnellere Lernprozesse, indem die Verteilung der Eingaben für jede Schicht normalisiert wird.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
     "frage": "79. Was ist ein typischer Nachteil von zu tiefen Netzen?",
@@ -866,10 +1022,12 @@
       "Sie sind immer robuster gegen Overfitting."
     ],
     "loesung": 0,
-  "erklaerung": "Bei sehr tiefen Netzen können die `Vanishing/Exploding Gradients` beim Training auftreten. Das erschwert das Lernen und die Optimierung."
+    "erklaerung": "Bei sehr tiefen Netzen können die `Vanishing/Exploding Gradients` beim Training auftreten. Das erschwert das Lernen und die Optimierung.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "80. Was ist ein typischer Anwendungsfall für `Convolutional Neural Networks (CNNs)`?",
+    "frage": "80. Was ist ein typischer Anwendungsfall für `Convolutional Neural Networks (CNNs)`?",
     "optionen": [
       "Bildklassifikation und Objekterkennung.",
       "Zeitreihenprognose.",
@@ -877,10 +1035,12 @@
       "Reinforcement Learning."
     ],
     "loesung": 0,
-  "erklaerung": "`CNNs` sind besonders für Bildklassifikation und Objekterkennung geeignet, da sie lokale Muster und Strukturen in Bildern erkennen können."
+    "erklaerung": "`CNNs` sind besonders für Bildklassifikation und Objekterkennung geeignet, da sie lokale Muster und Strukturen in Bildern erkennen können.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "81. Was ist ein typischer Vorteil von `Stochastic Gradient Descent (SGD)`?",
+    "frage": "81. Was ist ein typischer Vorteil von `Stochastic Gradient Descent (SGD)`?",
     "optionen": [
       "Effiziente Optimierung bei großen Datensätzen.",
       "Garantiert immer das globale Minimum.",
@@ -888,10 +1048,12 @@
       "Führt keine Gewichtsaktualisierung durch."
     ],
     "loesung": 0,
-  "erklaerung": "`SGD` ist besonders effizient bei großen Datensätzen, da die Gewichte nach jedem Datenpunkt aktualisiert werden. Das beschleunigt das Training."
+    "erklaerung": "`SGD` ist besonders effizient bei großen Datensätzen, da die Gewichte nach jedem Datenpunkt aktualisiert werden. Das beschleunigt das Training.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "82. Was ist der Zweck eines `Hidden Layers`?",
+    "frage": "82. Was ist der Zweck eines `Hidden Layers`?",
     "optionen": [
       "Er lernt komplexe Merkmale aus den Eingabedaten.",
       "Er gibt die finale Vorhersage aus.",
@@ -899,10 +1061,12 @@
       "Er normalisiert die Ausgaben."
     ],
     "loesung": 0,
-  "erklaerung": "`Hidden Layers` extrahieren komplexe Merkmale aus den Eingabedaten. Sie sind entscheidend für die Leistungsfähigkeit neuronaler Netze."
+    "erklaerung": "`Hidden Layers` extrahieren komplexe Merkmale aus den Eingabedaten. Sie sind entscheidend für die Leistungsfähigkeit neuronaler Netze.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "83. Was ist ein typischer Nachteil von `Sigmoid` als Aktivierungsfunktion?",
+    "frage": "83. Was ist ein typischer Nachteil von `Sigmoid` als Aktivierungsfunktion?",
     "optionen": [
       "Vanishing Gradient Problem bei tiefen Netzen.",
       "Sie ist nicht differentiierbar.",
@@ -910,10 +1074,12 @@
       "Sie ist nur für Regression geeignet."
     ],
     "loesung": 0,
-  "erklaerung": "`Sigmoid`-Funktionen führen bei tiefen Netzen oft zum `Vanishing Gradient Problem`, da die Ableitungen sehr klein werden und das Training erschweren."
+    "erklaerung": "`Sigmoid`-Funktionen führen bei tiefen Netzen oft zum `Vanishing Gradient Problem`, da die Ableitungen sehr klein werden und das Training erschweren.",
+    "gewichtung": 1,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "84. Was ist ein typischer Vorteil von `Adam` gegenüber `SGD`?",
+    "frage": "84. Was ist ein typischer Vorteil von `Adam` gegenüber `SGD`?",
     "optionen": [
       "Adam passt die Lernrate adaptiv an.",
       "Adam benötigt keine Backpropagation.",
@@ -921,10 +1087,12 @@
       "Adam verwendet keine Gradienten."
     ],
     "loesung": 0,
-  "erklaerung": "`Adam` ist ein Optimierer, der die Lernrate für jede Gewichtung adaptiv anpasst. Das führt oft zu schnellerer und stabilerer Konvergenz als `SGD`."
+    "erklaerung": "`Adam` ist ein Optimierer, der die Lernrate für jede Gewichtung adaptiv anpasst. Das führt oft zu schnellerer und stabilerer Konvergenz als `SGD`.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "85. Was ist ein typischer Grund für die Verwendung von `Early Stopping`?",
+    "frage": "85. Was ist ein typischer Grund für die Verwendung von `Early Stopping`?",
     "optionen": [
       "Vermeidung von Overfitting durch Abbruch bei stagnierender Validierungsleistung.",
       "Erhöhung der Batchgröße.",
@@ -932,10 +1100,12 @@
       "Ersetzung der Aktivierungsfunktion."
     ],
     "loesung": 0,
-  "erklaerung": "`Early Stopping` beendet das Training, wenn sich die Validierungsleistung nicht mehr verbessert. So wird `Overfitting` vermieden."
+    "erklaerung": "`Early Stopping` beendet das Training, wenn sich die Validierungsleistung nicht mehr verbessert. So wird `Overfitting` vermieden.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "86. Was ist ein typischer Vorteil von `Softmax` im Output-Layer?",
+    "frage": "86. Was ist ein typischer Vorteil von `Softmax` im Output-Layer?",
     "optionen": [
       "Er wandelt die Ausgaben in Wahrscheinlichkeiten um.",
       "Er verhindert Overfitting.",
@@ -943,10 +1113,12 @@
       "Er ist nur für Regression geeignet."
     ],
     "loesung": 0,
-  "erklaerung": "`Softmax` wandelt die Ausgaben eines Netzes in Wahrscheinlichkeiten um, sodass sie als Klassenvorhersagen interpretiert werden können."
+    "erklaerung": "`Softmax` wandelt die Ausgaben eines Netzes in Wahrscheinlichkeiten um, sodass sie als Klassenvorhersagen interpretiert werden können.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
-  "frage": "87. Was ist ein typischer Nachteil von zu großen `Lernraten`?",
+    "frage": "87. Was ist ein typischer Nachteil von zu großen `Lernraten`?",
     "optionen": [
       "Das Training kann instabil werden und divergieren.",
       "Das Training wird immer langsamer.",
@@ -954,7 +1126,9 @@
       "Die Aktivierungsfunktion wird deaktiviert."
     ],
     "loesung": 0,
-  "erklaerung": "Zu große `Lernraten` können dazu führen, dass das Training instabil wird und das Modell nicht konvergiert."
+    "erklaerung": "Zu große `Lernraten` können dazu führen, dass das Training instabil wird und das Modell nicht konvergiert.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
     "frage": "88. Was ist ein typischer Vorteil von Weight Initialization?",
@@ -965,7 +1139,9 @@
       "Verhindert die Verwendung von Dropout."
     ],
     "loesung": 0,
-    "erklaerung": "Eine gute Initialisierung der Gewichte sorgt für schnelleres und stabileres Training, da die Gradienten besser verteilt sind."
+    "erklaerung": "Eine gute Initialisierung der Gewichte sorgt für schnelleres und stabileres Training, da die Gradienten besser verteilt sind.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
     "frage": "89. Was ist ein typischer Anwendungsfall für Recurrent Neural Networks (RNNs)?",
@@ -976,7 +1152,9 @@
       "Clustering."
     ],
     "loesung": 0,
-    "erklaerung": "RNNs sind besonders für die Verarbeitung von Sequenzdaten wie Text oder Zeitreihen geeignet, da sie Informationen über die Reihenfolge speichern."
+    "erklaerung": "RNNs sind besonders für die Verarbeitung von Sequenzdaten wie Text oder Zeitreihen geeignet, da sie Informationen über die Reihenfolge speichern.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
     "frage": "90. Was ist ein typischer Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
@@ -987,7 +1165,9 @@
       "Funktioniert nur für kleine Datensätze."
     ],
     "loesung": 0,
-    "erklaerung": "Deep Learning kann automatisch relevante Merkmale aus Rohdaten lernen, ohne dass manuelle Feature-Engineering nötig ist."
+    "erklaerung": "Deep Learning kann automatisch relevante Merkmale aus Rohdaten lernen, ohne dass manuelle Feature-Engineering nötig ist.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
   },
   {
     "frage": "91. Was ist der Hauptvorteil von Convolutional Neural Networks (CNNs) gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
@@ -998,7 +1178,9 @@
       "Sie sind langsamer beim Training"
     ],
     "loesung": 1,
-    "erklaerung": "CNNs reduzieren die Anzahl der Parameter durch lokale Verbindungen und Gewichtsteilung. Das macht sie effizienter und besser für Bildverarbeitung geeignet."
+    "erklaerung": "CNNs reduzieren die Anzahl der Parameter durch lokale Verbindungen und Gewichtsteilung. Das macht sie effizienter und besser für Bildverarbeitung geeignet.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
     "frage": "92. Welche Eigenschaft ermöglicht es CNNs, Objekte unabhängig von ihrer Position im Bild zu erkennen?",
@@ -1009,10 +1191,12 @@
       "Batch Normalization"
     ],
     "loesung": 1,
-    "erklaerung": "Translation Invariance bedeutet, dass CNNs Muster erkennen können, egal wo sie im Bild auftreten. Das ist entscheidend für die Objekterkennung."
+    "erklaerung": "Translation Invariance bedeutet, dass CNNs Muster erkennen können, egal wo sie im Bild auftreten. Das ist entscheidend für die Objekterkennung.",
+    "gewichtung": 3,
+    "thema": "Jupyter & Streamlit"
   },
   {
-  "frage": "93. Was beschreibt ein `Filter` (Kernel) in der Bildverarbeitung?",
+    "frage": "93. Was beschreibt ein `Filter` (Kernel) in der Bildverarbeitung?",
     "optionen": [
       "Eine Methode zur Farbumwandlung",
       "Eine kleine Matrix, die über das Bild gefaltet wird, um lokale Merkmale zu extrahieren",
@@ -1020,7 +1204,9 @@
       "Ein Verfahren zur Bildvergrößerung"
     ],
     "loesung": 1,
-    "erklaerung": "Ein Filter (Kernel) ist eine kleine Matrix, die über das Bild gelegt wird, um lokale Merkmale wie Kanten oder Muster zu extrahieren."
+    "erklaerung": "Ein Filter (Kernel) ist eine kleine Matrix, die über das Bild gelegt wird, um lokale Merkmale wie Kanten oder Muster zu extrahieren.",
+    "gewichtung": 2,
+    "thema": "Computer Vision & Bildverarbeitung"
   },
   {
     "frage": "94. Welche Funktion hat ein Mean-Filter in der Bildverarbeitung?",
@@ -1031,7 +1217,9 @@
       "Er erkennt Gesichter"
     ],
     "loesung": 1,
-    "erklaerung": "Ein Mean-Filter berechnet den Mittelwert der Pixel in der Nachbarschaft und macht das Bild dadurch unscharf. Das wird z.B. für Rauschunterdrückung genutzt."
+    "erklaerung": "Ein Mean-Filter berechnet den Mittelwert der Pixel in der Nachbarschaft und macht das Bild dadurch unscharf. Das wird z.B. für Rauschunterdrückung genutzt.",
+    "gewichtung": 1,
+    "thema": "Pandas & Python Basics"
   },
   {
     "frage": "95. Welche Filter werden typischerweise zur Kantendetektion verwendet?",
@@ -1042,7 +1230,9 @@
       "Gaussian-Filter"
     ],
     "loesung": 1,
-    "erklaerung": "Prewitt- und Sobel-Filter sind klassische Filter zur Kantendetektion, da sie auf Gradienten reagieren und Kanten hervorheben."
+    "erklaerung": "Prewitt- und Sobel-Filter sind klassische Filter zur Kantendetektion, da sie auf Gradienten reagieren und Kanten hervorheben.",
+    "gewichtung": 2,
+    "thema": "Computer Vision & Bildverarbeitung"
   },
   {
     "frage": "96. Was passiert, wenn ein Prewitt-Filter in x-Richtung auf ein Bild angewendet wird?",
@@ -1053,7 +1243,9 @@
       "Die Farben werden invertiert"
     ],
     "loesung": 0,
-    "erklaerung": "Ein Prewitt-Filter in x-Richtung hebt vertikale Kanten hervor, da er die Intensitätsänderungen in dieser Richtung misst."
+    "erklaerung": "Ein Prewitt-Filter in x-Richtung hebt vertikale Kanten hervor, da er die Intensitätsänderungen in dieser Richtung misst.",
+    "gewichtung": 2,
+    "thema": "Computer Vision & Bildverarbeitung"
   },
   {
     "frage": "97. Warum ist Weight Sharing in CNNs wichtig?",
@@ -1064,7 +1256,9 @@
       "Es ist nur für Textdaten relevant"
     ],
     "loesung": 1,
-    "erklaerung": "Weight Sharing reduziert die Anzahl der zu lernenden Parameter, da ein Filter für das gesamte Bild verwendet wird. Das macht CNNs effizient und leistungsfähig."
+    "erklaerung": "Weight Sharing reduziert die Anzahl der zu lernenden Parameter, da ein Filter für das gesamte Bild verwendet wird. Das macht CNNs effizient und leistungsfähig.",
+    "gewichtung": 3,
+    "thema": "Jupyter & Streamlit"
   },
   {
     "frage": "98. Was ist eine Feature Map in einem CNN?",
@@ -1075,7 +1269,9 @@
       "Ein Layer zur Datenaugmentation"
     ],
     "loesung": 1,
-    "erklaerung": "Eine Feature Map ist die Ausgabe eines Filters nach der Faltung mit dem Eingabebild. Sie zeigt, wo bestimmte Merkmale im Bild erkannt wurden."
+    "erklaerung": "Eine Feature Map ist die Ausgabe eines Filters nach der Faltung mit dem Eingabebild. Sie zeigt, wo bestimmte Merkmale im Bild erkannt wurden.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
     "frage": "99. Welche Layer sind typischerweise in einer CNN-Architektur enthalten?",
@@ -1086,7 +1282,9 @@
       "Only Dropout"
     ],
     "loesung": 0,
-    "erklaerung": "Typische CNNs bestehen aus Convolutional-, Pooling-, Flatten- und Dense-Layern. Diese Kombination ermöglicht effiziente Merkmalsextraktion und Klassifikation."
+    "erklaerung": "Typische CNNs bestehen aus Convolutional-, Pooling-, Flatten- und Dense-Layern. Diese Kombination ermöglicht effiziente Merkmalsextraktion und Klassifikation.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   },
   {
     "frage": "100. Was ist der Unterschied zwischen klassischen Bildfiltern und CNN-Filtern?",
@@ -1097,6 +1295,8 @@
       "CNN-Filter benötigen keine Aktivierungsfunktion"
     ],
     "loesung": 0,
-    "erklaerung": "Klassische Filter sind fest vorgegeben (z.B. Sobel), während CNNs die Filter während des Trainings selbst lernen und an die Daten anpassen."
+    "erklaerung": "Klassische Filter sind fest vorgegeben (z.B. Sobel), während CNNs die Filter während des Trainings selbst lernen und an die Daten anpassen.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
   }
 ]
