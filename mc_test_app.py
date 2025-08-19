@@ -1059,7 +1059,7 @@ def main():
             aggfunc="count",
             fill_value=0,
         )
-        st.divider()
+
         # Farben für Dark Theme
         dark_bg = "#181818"
         text_color = "#e0e0e0"
