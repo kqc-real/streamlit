@@ -822,17 +822,26 @@ def main():
     # Session-State initialisieren, falls nötig
     if 'beantwortet' not in st.session_state or 'frage_indices' not in st.session_state:
         initialize_session_state()
-    # Countdown ganz oben anzeigen
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
-    # UX-freundlicher Hinweis zur maximalen Testzeit, erst nach Anmeldung
     user_id = None
     if 'user_id' in st.session_state:
         user_id = st.session_state.user_id
 
-
-    # Always show header before user session is set up
+    # Always show header and info before user session is set up
     if 'user_id' not in st.session_state:
-        st.title("🎓 MC-Test: Data Science")
+        st.markdown("""
+<div style='display:flex;justify-content:center;align-items:center;min-height:70vh;'>
+  <div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
+    <h2 style='color:#4b9fff;'>Willkommen!</h2>
+    <p style='font-size:1.05rem;'>
+      Teste spielerisch dein Wissen rund um Data Science, Machine Learning und KI.
+      Jede Frage bringt dich weiter – direktes Feedback, kurze Erklärungen und viele Aha-Momente inklusive.<br>
+      <br>
+      Starte jetzt 🚀 – und hol dir deinen Highscore!
+    </p>
+  </div>
+</div>
+""", unsafe_allow_html=True)
     user_id = handle_user_session()
     # If triggered by Enter, rerun after session state is set
     if st.session_state.get('trigger_rerun'):
