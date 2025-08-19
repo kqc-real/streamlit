@@ -1020,9 +1020,8 @@ def main():
   <div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
     <h2 style='color:#4b9fff;'>Willkommen zu 100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
-      Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine Learning</strong> und <strong>KI</strong>.<br><br>
-      Jede Frage bringt dich weiter – direktes Feedback, kurze Erklärungen und viele Aha-Momente inklusive.<br>
-      <br>
+      Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine Learning</strong> und <strong>KI</strong>.
+      <br><br>
       Starte jetzt 🚀 – und hol dir deinen Highscore!
     </p>
   </div>
