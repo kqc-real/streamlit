@@ -1031,8 +1031,8 @@ def main():
             unsafe_allow_html=True,
         )
         # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
-        import matplotlib.pyplot as plt
-
+        import plotly.graph_objects as go
+        import plotly.io as pio
         df_fragen = pd.DataFrame(fragen)
         if "gewichtung" not in df_fragen.columns:
             df_fragen["gewichtung"] = 1
@@ -1060,35 +1060,35 @@ def main():
             fill_value=0,
         )
         st.divider()
-        fig, ax = plt.subplots(figsize=(10, 6))
         # Farben für Dark Theme
         dark_bg = "#181818"
         text_color = "#e0e0e0"
-        bar_colors = ["#4b9fff", "#00c853", "#ffb300"]
-        # Plot mit Farben
-        pivot.plot(kind="bar", stacked=True, ax=ax, color=bar_colors)
-        fig.patch.set_facecolor(dark_bg)
-        ax.set_facecolor(dark_bg)
-        ax.set_title(
-            "Fragenverteilung nach Thema und Schwierigkeitsgrad", color=text_color
+        bar_colors = {"Leicht": "#4b9fff", "Mittel": "#00c853", "Schwer": "#ffb300"}
+        # Plotly Stacked Bar Chart
+        fig = go.Figure()
+        for schwierigkeit in ["Leicht", "Mittel", "Schwer"]:
+            if schwierigkeit in pivot.columns:
+                fig.add_trace(
+                    go.Bar(
+                        x=pivot.index,
+                        y=pivot[schwierigkeit],
+                        name=schwierigkeit,
+                        marker_color=bar_colors[schwierigkeit],
+                    )
+                )
+        fig.update_layout(
+            barmode="stack",
+            plot_bgcolor=dark_bg,
+            paper_bgcolor=dark_bg,
+            font=dict(color=text_color),
+            xaxis_title="Thema",
+            yaxis_title="Anzahl Fragen",
+            legend_title="Schwierigkeit",
+            margin=dict(l=40, r=40, t=40, b=40),
         )
-        ax.set_xlabel("Thema", color=text_color)
-        ax.set_ylabel("Anzahl Fragen", color=text_color)
-        ax.tick_params(axis="x", colors=text_color)
-        ax.tick_params(axis="y", colors=text_color)
-        ax.legend(
-            title="Schwierigkeit",
-            facecolor=dark_bg,
-            edgecolor=dark_bg,
-            labelcolor=text_color,
-            title_fontsize=12,
-        )
-        for spine in ax.spines.values():
-            spine.set_color(text_color)
-        # Balkenbeschriftungen ebenfalls hell
-        for label in ax.get_xticklabels() + ax.get_yticklabels():
-            label.set_color(text_color)
-        st.pyplot(fig)
+        fig.update_xaxes(showgrid=False, linecolor=text_color)
+        fig.update_yaxes(showgrid=False, linecolor=text_color)
+        st.plotly_chart(fig, use_container_width=True)
     user_id = handle_user_session()
     # If triggered by Enter, rerun after session state is set
     if st.session_state.get("trigger_rerun"):
