@@ -68,7 +68,7 @@ FIELDNAMES = [
     "richtig",
     "zeit",
 ]
-FRAGEN_ANZAHL = 50  # Fallback (wird durch echte Anzahl überschrieben)
+FRAGEN_ANZAHL = None  # Wird nach dem Laden der Fragen gesetzt
 DISPLAY_HASH_LEN = 10
 MAX_SAVE_RETRIES = 3
 
@@ -126,7 +126,7 @@ def _load_fragen() -> List[Dict]:
 
 
 fragen = _load_fragen()
-FRAGEN_ANZAHL = len(fragen) or FRAGEN_ANZAHL
+FRAGEN_ANZAHL = len(fragen)
 
 
 def apply_accessibility_settings() -> None:
@@ -446,16 +446,16 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         # Fragennummer im Fragenmodus: Position im Shuffle (fortlaufend ab 1)
         indices = st.session_state.frage_indices
         pos = indices.index(frage_idx) if frage_idx in indices else frage_idx
-        header = f"### Frage {pos + 1} von {len(fragen)}  <span style='color:#888;font-size:0.9em;'>({gewichtung} Punkt{'e' if gewichtung > 1 else ''})</span>"
+        header = f"### Frage {pos + 1} von {FRAGEN_ANZAHL}  <span style='color:#888;font-size:0.9em;'>({gewichtung} Punkt{'e' if gewichtung > 1 else ''})</span>"
         if thema:
             header += f"<br><span style='color:#4b9fff;font-size:0.95em;'>Thema: {thema}</span>"
         st.markdown(header, unsafe_allow_html=True)
         st.markdown(f"**{frage_text}**")
-        is_disabled = st.session_state.beantwortet[frage_idx] is not None
+        is_disabled = False if st.session_state.beantwortet[frage_idx] is None else True
         optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
         # Add placeholder if unanswered
         if st.session_state.beantwortet[frage_idx] is None:
-            optionen_anzeige = ["Bitte auswählen..."] + optionen_anzeige
+            optionen_anzeige = ["Wähle ..."] + optionen_anzeige
         # Initialisiere den Wert nur über den Widget-Key, nicht doppelt
         selected_val = st.session_state.get(f"frage_{frage_idx}", None)
         radio_kwargs = {
@@ -469,7 +469,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             radio_kwargs["index"] = 0  # Default to placeholder
         antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
         # Only allow answering if a real option is chosen
-        if antwort == "Bitte auswählen...":
+        if antwort == "Wähle ...":
             antwort = None
         if antwort and not is_disabled:
             if st.session_state.start_zeit is None:
@@ -501,7 +501,6 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             else:
                 st.toast("Leider daneben...", icon="❌")
             st.session_state[f"show_explanation_{frage_idx}"] = True
-            st.rerun()
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             scoring_mode = st.session_state.get("scoring_mode", "positive_only")
             gewichtung = frage_obj.get("gewichtung", 1)
@@ -510,6 +509,26 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             except Exception:
                 gewichtung = 1
             punkte = st.session_state.beantwortet[frage_idx]
+            num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+            # Punktestand über der Frage direkt nach Bewertung aktualisieren
+            max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+            if scoring_mode == "positive_only":
+                aktueller_punktestand = sum(
+                    [
+                        frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                        for p, frage in zip(st.session_state.beantwortet, fragen)
+                    ]
+                )
+            else:
+                aktueller_punktestand = sum(
+                    [p if p is not None else 0 for p in st.session_state.beantwortet]
+                )
+            score_html = (
+                "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
+                f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
+                "</div>"
+            )
+            st.markdown(score_html, unsafe_allow_html=True)
             if scoring_mode == "positive_only":
                 if punkte == gewichtung:
                     st.success(
@@ -735,7 +754,7 @@ def display_final_summary(num_answered: int) -> None:
                 "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
             )
     st.success(
-        f"### {emoji} Endstand: {aktueller_punktestand} von {len(fragen)} Punkten"
+        f"### {emoji} Endstand: {aktueller_punktestand} von {FRAGEN_ANZAHL} Punkten"
     )
     if quote:
         st.markdown(quote)
@@ -791,7 +810,7 @@ def display_final_summary(num_answered: int) -> None:
             expanded = pos == st.session_state.active_review_idx
             with st.expander(expander_title, expanded=expanded):
                 # Zeige im Review-Modus die korrekte Fragennummer
-                st.markdown(f"### Frage {idx + 1} von {len(fragen)}")
+                st.markdown(f"### Frage {idx + 1} von {FRAGEN_ANZAHL}")
                 st.markdown(f"**{frage['frage']}**")
                 st.caption("Optionen:")
                 for opt in frage.get("optionen", []):
@@ -878,7 +897,7 @@ def handle_user_session():
         def start_test():
             user_id_input = st.session_state.get("user_id_input", "").strip()
             if not user_id_input:
-                st.sidebar.error("Gib bitte ein Pseudonym ein!")
+                st.sidebar.error("Gib dein Pseudonym ein!")
             else:
                 st.session_state.user_id = user_id_input
                 st.session_state["mc_test_started"] = True
@@ -900,6 +919,14 @@ def handle_user_session():
     has_progress = user_has_progress(current_hash)
     st.session_state["load_progress"] = has_progress
 
+    # Session-State initialisieren, falls nötig
+    if (
+        "beantwortet" not in st.session_state
+        or "frage_indices" not in st.session_state
+        or len(st.session_state.beantwortet) != len(fragen)
+    ):
+        initialize_session_state()
+
     # Fortschritt laden, falls vorhanden
     if has_progress:
         if (
@@ -920,9 +947,6 @@ def handle_user_session():
         # Review weiterhin möglich
         st.session_state["force_review"] = True
         return st.session_state.user_id
-    # Ensure session state is initialized before sidebar metrics
-    if "beantwortet" not in st.session_state or "frage_indices" not in st.session_state:
-        initialize_session_state()
     # 2. Fortschritt & Score direkt nach Nutzerkennung
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
@@ -1030,6 +1054,7 @@ def main():
         # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
         import plotly.graph_objects as go
         import plotly.io as pio
+
         df_fragen = pd.DataFrame(fragen)
         if "gewichtung" not in df_fragen.columns:
             df_fragen["gewichtung"] = 1
@@ -1127,7 +1152,7 @@ def main():
             st.session_state.test_time_expired = True
             st.header("⏰ Zeit ist um!")
 
-    # Sticky Bar: show current score before the question in question mode
+    # Sticky Bar: show current score and open questions always, even after reload
     if "beantwortet" in st.session_state:
         scoring_mode = st.session_state.get("scoring_mode", "positive_only")
         max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
@@ -1143,12 +1168,14 @@ def main():
                 [p if p is not None else 0 for p in st.session_state.beantwortet]
             )
         answered = len([p for p in st.session_state.beantwortet if p is not None])
+        open_questions = len([p for p in st.session_state.beantwortet if p is None])
         if "sticky_bar_css" not in st.session_state:
             st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
             st.session_state["sticky_bar_css"] = True
         score_html = (
             "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
             f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
+            f"<div style='font-size:0.95rem;color:#ffb300;font-weight:500;'>Noch offen: {open_questions} Frage{'n' if open_questions != 1 else ''}</div>"
             "</div>"
         )
         st.markdown(score_html, unsafe_allow_html=True)
@@ -1225,23 +1252,33 @@ def main():
     else:
         indices = st.session_state.frage_indices
         next_idx = None
-        # Zeige immer die nächste unbeantwortete Frage, oder die mit Erklärung
-        for idx in indices:
-            if st.session_state.get(f"show_explanation_{idx}", False):
-                next_idx = idx
-                break
-        if next_idx is None:
+        # Zeige die nächste unbeantwortete Frage, falls Fortschritt geladen
+        if "progress_loaded" in st.session_state and st.session_state.progress_loaded:
             for idx in indices:
-                # Zeige auch unbeantwortete Fragen
-                next_idx = idx
                 if st.session_state.beantwortet[idx] is None:
+                    next_idx = idx
                     break
+        else:
+            # Standardverhalten: Zeige die nächste Frage mit Erklärung oder die nächste unbeantwortete
+            for idx in indices:
+                if st.session_state.get(f"show_explanation_{idx}", False):
+                    next_idx = idx
+                    break
+            if next_idx is None:
+                for idx in indices:
+                    next_idx = idx
+                    if st.session_state.beantwortet[idx] is None:
+                        break
         # Reset all explanation flags außer für die aktuelle Frage
         for idx in indices:
             if idx != next_idx:
                 st.session_state[f"show_explanation_{idx}"] = False
         if next_idx is not None:
-            display_question(fragen[next_idx], next_idx, 1)
+            pos = indices.index(next_idx) if next_idx in indices else next_idx
+            display_question(fragen[next_idx], next_idx, pos + 1)
+            # Sidebar-Metrik nach jeder Frage/Bewertung aktualisieren
+            num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+            display_sidebar_metrics(num_answered)
     # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
 
 
