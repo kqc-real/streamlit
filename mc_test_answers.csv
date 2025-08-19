@@ -1,0 +1,2 @@
+user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,74,74. Was beschreibt das `Backpropagation`-Verfahren?,Die Vorwärtsausbreitung der Eingabedaten.,0,2025-08-19T18:26:35
