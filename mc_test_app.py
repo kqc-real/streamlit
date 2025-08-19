@@ -514,7 +514,9 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             punkte = st.session_state.beantwortet[frage_idx]
             if scoring_mode == "positive_only":
                 if punkte == gewichtung:
-                    st.success(f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})")
+                    st.success(
+                        f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})"
+                    )
                     reduce_anim = st.session_state.get("reduce_animations", False)
                     if not reduce_anim:
                         st.balloons()
@@ -525,13 +527,16 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     )
             else:
                 if punkte == gewichtung:
-                    st.success(f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})")
+                    st.success(
+                        f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})"
+                    )
                     reduce_anim = st.session_state.get("reduce_animations", False)
                     if not reduce_anim:
                         st.balloons()
                 else:
                     st.error(
-                        f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{frage_obj['optionen'][frage_obj['loesung']]}**")
+                        f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{frage_obj['optionen'][frage_obj['loesung']]}**"
+                    )
             erklaerung = frage_obj.get("erklaerung")
             if erklaerung:
                 st.info(erklaerung)
@@ -582,15 +587,16 @@ def display_sidebar_metrics(num_answered: int) -> None:
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
     if scoring_mode == "positive_only":
-        aktueller_punktestand = sum([
-            frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
-            for p, frage in zip(st.session_state.beantwortet, fragen)
-        ])
+        aktueller_punktestand = sum(
+            [
+                frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                for p, frage in zip(st.session_state.beantwortet, fragen)
+            ]
+        )
     else:
-        aktueller_punktestand = sum([
-            p if p is not None else 0
-            for p in st.session_state.beantwortet
-        ])
+        aktueller_punktestand = sum(
+            [p if p is not None else 0 for p in st.session_state.beantwortet]
+        )
     st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
         label="Dein Score:", value=f"{aktueller_punktestand} / {max_punkte}"
@@ -611,7 +617,9 @@ def display_sidebar_metrics(num_answered: int) -> None:
         scoring_mode = st.session_state.get("scoring_mode", "positive_only")
         if scoring_mode == "positive_only":
             if prozent == 1.0:
-                st.sidebar.success("💥 Granate! Alles richtig, du bist ein MC-Test-Profi! 🚀")
+                st.sidebar.success(
+                    "💥 Granate! Alles richtig, du bist ein MC-Test-Profi! 🚀"
+                )
             elif prozent >= 0.9:
                 st.sidebar.success("🌟 Sehr gut! Über 90% richtig.")
             elif prozent >= 0.7:
@@ -619,7 +627,9 @@ def display_sidebar_metrics(num_answered: int) -> None:
             elif prozent >= 0.5:
                 st.sidebar.success("🙂 Ausreichend! Über 50% richtig.")
             else:
-                st.sidebar.success("🤔 Noch Luft nach oben. Schau dir die Erklärungen an!")
+                st.sidebar.success(
+                    "🤔 Noch Luft nach oben. Schau dir die Erklärungen an!"
+                )
         else:
             if aktueller_punktestand < 0:
                 st.sidebar.success(
@@ -667,7 +677,9 @@ def display_final_summary(num_answered: int) -> None:
     if scoring_mode == "positive_only":
         aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
     else:
-        aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
+        aktueller_punktestand = sum(
+            [p for p in st.session_state.beantwortet if p is not None]
+        )
     prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
@@ -678,7 +690,10 @@ def display_final_summary(num_answered: int) -> None:
     emoji, quote = "", ""
     if scoring_mode == "positive_only":
         if prozent == 1.0:
-            emoji, quote = ("💥", "**Granate! Alles richtig, du bist ein MC-Test-Profi!** 🚀")
+            emoji, quote = (
+                "💥",
+                "**Granate! Alles richtig, du bist ein MC-Test-Profi!** 🚀",
+            )
             if not reduce_anim:
                 st.balloons()
                 st.snow()
@@ -689,7 +704,10 @@ def display_final_summary(num_answered: int) -> None:
         elif prozent >= 0.5:
             emoji, quote = ("🙂", "**Ausreichend! Über 50% richtig.**")
         else:
-            emoji, quote = ("🤔", "**Noch Luft nach oben. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍")
+            emoji, quote = (
+                "🤔",
+                "**Noch Luft nach oben. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
+            )
     else:
         if aktueller_punktestand < 0:
             emoji = "🫠"
@@ -809,9 +827,13 @@ def display_final_summary(num_answered: int) -> None:
                 # Show feedback for wrong answer
                 if user_val is not None and user_val != korrekt:
                     if scoring_mode == "positive_only":
-                        st.error(f"Leider falsch. Die richtige Antwort ist: **{korrekt}**")
+                        st.error(
+                            f"Leider falsch. Die richtige Antwort ist: **{korrekt}**"
+                        )
                     else:
-                        st.error(f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**")
+                        st.error(
+                            f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
+                        )
                 if st.button("Weiter", key=f"review_next_{idx}"):
                     # Move to next review index
                     if st.session_state.active_review_idx < len(indices_to_show) - 1:
@@ -948,7 +970,7 @@ def handle_user_session():
                     list(scoring_modes.keys()),
                     format_func=lambda k: scoring_modes[k],
                     index=list(scoring_modes.keys()).index(default_mode),
-                    key="scoring_mode_radio"
+                    key="scoring_mode_radio",
                 )
                 st.session_state["scoring_mode"] = selected_mode
                 st.caption("Die Änderung gilt sofort für die Auswertung und Anzeige.")
@@ -958,10 +980,15 @@ def handle_user_session():
                 if st.button("Alle Antworten löschen"):
                     st.session_state["show_delete_confirm"] = True
                 if st.session_state.get("show_delete_confirm", False):
-                    st.warning("Bist du sicher? Das löscht alle Antworten unwiderruflich!", icon="⚠️")
+                    st.warning(
+                        "Bist du sicher? Das löscht alle Antworten unwiderruflich!",
+                        icon="⚠️",
+                    )
                     if st.button("Ja, wirklich löschen!", key="delete_confirmed"):
                         try:
-                            logfile_path = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
+                            logfile_path = os.path.join(
+                                os.path.dirname(__file__), "mc_test_answers.csv"
+                            )
                             if os.path.isfile(logfile_path):
                                 os.remove(logfile_path)
                             st.success("Alle Antworten wurden gelöscht.")
@@ -1005,11 +1032,13 @@ def main():
         )
         # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
         import matplotlib.pyplot as plt
+
         df_fragen = pd.DataFrame(fragen)
         if "gewichtung" not in df_fragen.columns:
             df_fragen["gewichtung"] = 1
         if "thema" not in df_fragen.columns:
             df_fragen["thema"] = "Unbekannt"
+
         def gewicht_to_schwierig(gewicht):
             try:
                 g = int(gewicht)
@@ -1021,8 +1050,15 @@ def main():
                     return "Schwer"
             except Exception:
                 return "Leicht"
+
         df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
-        pivot = df_fragen.pivot_table(index="thema", columns="Schwierigkeit", values="frage", aggfunc="count", fill_value=0)
+        pivot = df_fragen.pivot_table(
+            index="thema",
+            columns="Schwierigkeit",
+            values="frage",
+            aggfunc="count",
+            fill_value=0,
+        )
         st.divider()
         fig, ax = plt.subplots(figsize=(10, 6))
         # Farben für Dark Theme
@@ -1033,12 +1069,20 @@ def main():
         pivot.plot(kind="bar", stacked=True, ax=ax, color=bar_colors)
         fig.patch.set_facecolor(dark_bg)
         ax.set_facecolor(dark_bg)
-        ax.set_title("Fragenverteilung nach Thema und Schwierigkeitsgrad", color=text_color)
+        ax.set_title(
+            "Fragenverteilung nach Thema und Schwierigkeitsgrad", color=text_color
+        )
         ax.set_xlabel("Thema", color=text_color)
         ax.set_ylabel("Anzahl Fragen", color=text_color)
         ax.tick_params(axis="x", colors=text_color)
         ax.tick_params(axis="y", colors=text_color)
-        ax.legend(title="Schwierigkeit", facecolor=dark_bg, edgecolor=dark_bg, labelcolor=text_color, title_fontsize=12)
+        ax.legend(
+            title="Schwierigkeit",
+            facecolor=dark_bg,
+            edgecolor=dark_bg,
+            labelcolor=text_color,
+            title_fontsize=12,
+        )
         for spine in ax.spines.values():
             spine.set_color(text_color)
         # Balkenbeschriftungen ebenfalls hell
@@ -1091,15 +1135,16 @@ def main():
         scoring_mode = st.session_state.get("scoring_mode", "positive_only")
         max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
         if scoring_mode == "positive_only":
-            aktueller_punktestand = sum([
-                frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
-                for p, frage in zip(st.session_state.beantwortet, fragen)
-            ])
+            aktueller_punktestand = sum(
+                [
+                    frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                    for p, frage in zip(st.session_state.beantwortet, fragen)
+                ]
+            )
         else:
-            aktueller_punktestand = sum([
-                p if p is not None else 0
-                for p in st.session_state.beantwortet
-            ])
+            aktueller_punktestand = sum(
+                [p if p is not None else 0 for p in st.session_state.beantwortet]
+            )
         answered = len([p for p in st.session_state.beantwortet if p is not None])
         if "sticky_bar_css" not in st.session_state:
             st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
@@ -1114,11 +1159,13 @@ def main():
     # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
     if "user_id" not in st.session_state:
         import matplotlib.pyplot as plt
+
         df_fragen = pd.DataFrame(fragen)
         if "gewichtung" not in df_fragen.columns:
             df_fragen["gewichtung"] = 1
         if "thema" not in df_fragen.columns:
             df_fragen["thema"] = "Unbekannt"
+
         def gewicht_to_schwierig(gewicht):
             try:
                 g = int(gewicht)
@@ -1130,8 +1177,15 @@ def main():
                     return "Schwer"
             except Exception:
                 return "Leicht"
+
         df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
-        pivot = df_fragen.pivot_table(index="thema", columns="Schwierigkeit", values="frage", aggfunc="count", fill_value=0)
+        pivot = df_fragen.pivot_table(
+            index="thema",
+            columns="Schwierigkeit",
+            values="frage",
+            aggfunc="count",
+            fill_value=0,
+        )
         st.divider()
         st.subheader("Fragenverteilung nach Thema und Schwierigkeitsgrad")
         fig, ax = plt.subplots(figsize=(10, 6))

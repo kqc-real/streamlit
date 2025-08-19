@@ -17,3 +17,5 @@ user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 48965085cd4686998c5672296caed9fdbb1191bf1d3e87f644c0934303f13f13,48965085cd,wqw,15,15. Was ist der Zweck von `requirements.txt`?,Listet alle Python-Abhängigkeiten für ein Projekt auf,2,2025-08-19T17:25:03
 8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf,8e35c2cd3b,q,44,"44. Welches Streamlit-Layout-Element wird verwendet, um Inhalte nebeneinander darzustellen?",`st.tabs()`,0,2025-08-19T17:33:17
 8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf,8e35c2cd3b,q,61,61. Was ist ein typischer Vorteil von `K-Means`?,Findet versteckte Muster in den Daten,2,2025-08-19T17:33:29
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,51,51. Was ist ein Vorteil von `Decision Trees`?,Sie sind leicht interpretierbar,2,2025-08-19T17:42:30
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,26,26. Was ist ein Vorteil von Markdown in Jupyter Notebooks?,Es erlaubt strukturierte Dokumentation und Formatierung,1,2025-08-19T17:42:52
