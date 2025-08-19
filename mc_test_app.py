@@ -275,7 +275,7 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def admin_view():
-    st.title("🛡️ Admin: Bestenliste & Logs")
+    st.title("🏆 Management: Bestenliste & Logs")
     df_logs = load_all_logs()
     if df_logs.empty:
         st.info("Noch keine Daten am Start.")
@@ -437,8 +437,10 @@ def save_answer(
 def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> None:
     frage_text = frage_obj["frage"].split(".", 1)[1].strip()
     with st.container(border=True):
-        num_answered = len([p for p in st.session_state.beantwortet if p is not None])
-        st.markdown(f"### Frage {num_answered + 1} von {len(fragen)}")
+        # Fragennummer im Fragenmodus: Position im Shuffle (fortlaufend ab 1)
+        indices = st.session_state.frage_indices
+        pos = indices.index(frage_idx) if frage_idx in indices else frage_idx
+        st.markdown(f"### Frage {pos + 1} von {len(fragen)}")
         st.markdown(f"**{frage_text}**")
         is_disabled = st.session_state.beantwortet[frage_idx] is not None
         optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
@@ -542,14 +544,14 @@ def display_sidebar_metrics(num_answered: int) -> None:
     </div>
     """
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
-    st.sidebar.caption(f"Fortschritt: {progress_pct}%")
+    st.sidebar.caption(f"{progress_pct} %")
     aktueller_punktestand = sum(
         [p for p in st.session_state.beantwortet if p is not None]
     )
     # Separate header for score to clearly distinguish it from progress for the user.
     st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
-        label="🎯 Dein Score", value=f"{aktueller_punktestand} / {len(fragen)}"
+        label="Dein Score:", value=f"{aktueller_punktestand} / {len(fragen)}"
     )
     # Countdown für nächstmögliche Antwort (Throttling)
     next_allowed = st.session_state.get("next_allowed_time")
@@ -585,8 +587,8 @@ def display_sidebar_metrics(num_answered: int) -> None:
     user_is_admin = (
         not admin_user_cfg or st.session_state.get("user_id") == admin_user_cfg
     ) and st.session_state.get("admin_view", False)
+    st.sidebar.header("🏆 Highscore")
     if not leaderboard_df.empty:
-        st.sidebar.header("🏅 Highscore")
         # Render leaderboard as markdown table with HTML centering
         table_md = "| Platz | Pseudonym | Punkte |\n|:---:|:---:|:---:|\n"
         for _, row in leaderboard_df.iterrows():
@@ -594,8 +596,10 @@ def display_sidebar_metrics(num_answered: int) -> None:
             table_md += f"| <div style='text-align:center'>{row['Pseudonym']}</div> "
             table_md += f"| <div style='text-align:center'>{row['Punkte']}</div> |\n"
         st.sidebar.markdown(table_md, unsafe_allow_html=True)
-    elif user_is_admin:
-        st.sidebar.info("Noch keine abgeschlossenen Tests.")
+    else:
+        st.sidebar.info(
+            "Noch kein Eintrag in der Bestenliste – sei der oder die Erste, die den Test abschließt!"
+        )
 
 
 def display_final_summary(num_answered: int) -> None:
@@ -611,7 +615,7 @@ def display_final_summary(num_answered: int) -> None:
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
     if st.session_state.get("test_time_expired", False):
-        st.info(f"Du kannst dir jetzt alle Fragen und Antworten ansehen.")
+        st.info(f"Du kannst dir alle Fragen und Antworten ansehen.")
     else:
         st.header("🚀 Test durchgezogen!")
     emoji, quote = "", ""
@@ -649,11 +653,9 @@ def display_final_summary(num_answered: int) -> None:
         st.markdown(quote)
     # Review-Modus Toggle
     st.divider()
-    st.subheader("🧐 Review-Modus")
+    st.subheader("🧐 Review")
     # Nur einmal Review-Modus anzeigen
-    show_review = st.checkbox(
-        "Alle Fragen & Antworten anzeigen (Review)", key="review_mode"
-    )
+    show_review = st.checkbox("Alle Fragen des Tests anzeigen", key="review_mode")
     if show_review:
         filter_wrong = st.checkbox(
             "Nur falsch beantwortete Fragen anzeigen",
@@ -699,6 +701,8 @@ def display_final_summary(num_answered: int) -> None:
             expander_title = f"Frage {idx + 1}: {mark_icon}"
             expanded = pos == st.session_state.active_review_idx
             with st.expander(expander_title, expanded=expanded):
+                # Zeige im Review-Modus die korrekte Fragennummer
+                st.markdown(f"### Frage {idx + 1} von {len(fragen)}")
                 st.markdown(f"**{frage['frage']}**")
                 st.caption("Optionen:")
                 for opt in frage.get("optionen", []):
@@ -769,7 +773,7 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
 
 def handle_user_session():
     # 1. Nutzerkennung
-    st.sidebar.header("🙋‍♂️ Wer bist du?")
+    st.sidebar.header("🧑‍💻 Wer bist du?")
     if "user_id" not in st.session_state:
 
         def start_test():
@@ -824,36 +828,39 @@ def handle_user_session():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
 
-    # 3. Admin Sektion
+    # 3. Management Sektion
     st.sidebar.divider()
-    st.sidebar.subheader("🛡️ Admin")
-    admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-    user_allowed = (not admin_user_cfg) or (st.session_state.user_id == admin_user_cfg)
-    if not user_allowed:
-        st.sidebar.caption(f"Admin nur für: {admin_user_cfg}" if admin_user_cfg else "")
-    if user_allowed:
-
-        def try_admin_activate():
-            admin_key_input = st.session_state.get("admin_key_input", "").strip()
-            if check_admin_permission(st.session_state.user_id, admin_key_input):
-                st.session_state["admin_view"] = True
-                # st.rerun() entfernt, da im Callback wirkungslos
-            else:
-                st.sidebar.error("Nope, das war nicht der richtige Admin-Key.")
-
-        st.sidebar.text_input(
-            "Admin-Key",
-            type="password",
-            key="admin_key_input",
-            on_change=try_admin_activate,
+    with st.sidebar.expander("🏆 Management", expanded=False):
+        admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
+        user_allowed = (not admin_user_cfg) or (
+            st.session_state.user_id == admin_user_cfg
         )
-        if not st.session_state.get("admin_view"):
-            if st.sidebar.button("Admin aktivieren"):
-                try_admin_activate()
-        else:
-            if st.sidebar.button("Admin verlassen"):
-                st.session_state["admin_view"] = False
-                st.rerun()
+        if not user_allowed:
+            st.caption(
+                f"Management nur für: {admin_user_cfg}" if admin_user_cfg else ""
+            )
+        if user_allowed:
+
+            def try_admin_activate():
+                admin_key_input = st.session_state.get("admin_key_input", "").strip()
+                if check_admin_permission(st.session_state.user_id, admin_key_input):
+                    st.session_state["admin_view"] = True
+                else:
+                    st.error("Nope, das war nicht der richtige Management-Key.")
+
+            st.text_input(
+                "Management-Key",
+                type="password",
+                key="admin_key_input",
+                on_change=try_admin_activate,
+            )
+            if not st.session_state.get("admin_view"):
+                if st.button("Management aktivieren"):
+                    try_admin_activate()
+            else:
+                if st.button("Management verlassen"):
+                    st.session_state["admin_view"] = False
+                    st.rerun()
     return st.session_state.user_id
 
 
@@ -872,9 +879,9 @@ def main():
             """
 <div style='display:flex;justify-content:center;align-items:center;min-height:70vh;'>
   <div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
-    <h2 style='color:#4b9fff;'>Willkommen!</h2>
+    <h2 style='color:#4b9fff;'>Willkommen zu 100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
-      Teste spielerisch dein Wissen rund um Data Science, Machine Learning und KI.
+      Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine Learning</strong> und <strong>KI</strong>.<br><br>
       Jede Frage bringt dich weiter – direktes Feedback, kurze Erklärungen und viele Aha-Momente inklusive.<br>
       <br>
       Starte jetzt 🚀 – und hol dir deinen Highscore!
@@ -892,7 +899,7 @@ def main():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
     if user_id and num_answered == 0:
-        st.title("🎓 MC-Test: Data Science")
+        st.title("Los geht's!")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if (
@@ -935,7 +942,7 @@ def main():
         progress_html = (
             "<div class='top-progress-wrapper' aria-label='Fortschritt insgesamt'>"
             f"<div style='font-size:0.8rem;font-weight:600;'>Fortschritt: {answered} / "
-            f"{len(fragen)} ({int(pct*100)}%)</div>"
+            f"{len(fragen)} ({int(pct*100)} %)</div>"
             "<div class='top-progress-bar'>"
             f"<div class='top-progress-fill' style='width:{pct*100}%;'></div>"
             "</div></div>"
@@ -957,9 +964,7 @@ def main():
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     if num_answered == 0:
-        st.info(
-            "Such dir die beste Antwort aus. Einmal beantwortet = final! Viel Erfolg!"
-        )
+        st.info("Nur eine Antwort ist richtig.")
         st.markdown(
             f"<p class='sr-only'>Fortschritt: {num_answered} von {len(fragen)} Fragen beantwortet.</p>",
             unsafe_allow_html=True,
