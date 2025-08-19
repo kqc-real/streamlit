@@ -930,7 +930,7 @@ def main():
                     )
         else:
             st.session_state.test_time_expired = True
-            st.header("⏰ Testzeit abgelaufen!")
+            st.header("⏰ Zeit ist um!")
 
     # Sticky Progress Bar (oben)
     if "beantwortet" in st.session_state:
