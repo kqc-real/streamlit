@@ -1225,16 +1225,18 @@ def main():
     else:
         indices = st.session_state.frage_indices
         next_idx = None
+        # Zeige immer die nächste unbeantwortete Frage, oder die mit Erklärung
         for idx in indices:
             if st.session_state.get(f"show_explanation_{idx}", False):
                 next_idx = idx
                 break
         if next_idx is None:
             for idx in indices:
+                # Zeige auch unbeantwortete Fragen
+                next_idx = idx
                 if st.session_state.beantwortet[idx] is None:
-                    next_idx = idx
                     break
-        # Reset all explanation flags except for the current question
+        # Reset all explanation flags außer für die aktuelle Frage
         for idx in indices:
             if idx != next_idx:
                 st.session_state[f"show_explanation_{idx}"] = False

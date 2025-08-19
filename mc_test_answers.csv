@@ -1,2 +1,34 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,74,74. Was beschreibt das `Backpropagation`-Verfahren?,Die Vorwärtsausbreitung der Eingabedaten.,0,2025-08-19T18:26:35
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,73,73. Was ist ein typischer Vorteil von `ReLU` gegenüber `Sigmoid`?,Wähle eine Option...,0,2025-08-19T18:28:05
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,37,37. In welcher Phase des QUA³CK-Modells findet die `Conclude and Compare` Aktivität hauptsächlich statt?,Wähle eine Option...,0,2025-08-19T18:28:11
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,10,10. Was ist der Unterschied zwischen `pip` und `conda`?,Wähle eine Option...,0,2025-08-19T18:28:18
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,77,77. Was ist der Zweck einer `Loss-Function`?,Wähle eine Option...,0,2025-08-19T18:28:28
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,39,39. Welches Datenformat wird in `00_Python_in_3_Stunden.ipynb` als oft schneller und speichereffizienter als CSV für große Datenmengen bezeichnet?,Wähle eine Option...,0,2025-08-19T18:28:32
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,6,6. Was ist der Zweck von `docker-compose.yml` im amalea-Projekt?,Wähle eine Option...,0,2025-08-19T18:28:43
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,90,90. Was ist ein typischer Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?,Wähle eine Option...,0,2025-08-19T18:28:46
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,20,20. Was ist ein typischer Anwendungsfall für das QUA³CK-Modell?,Wähle eine Option...,0,2025-08-19T18:28:47
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,72,72. Was ist die Hauptfunktion einer `Aktivierungsfunktion` im neuronalen Netz?,Wähle eine Option...,0,2025-08-19T18:28:48
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,27,27. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?,Wähle eine Option...,0,2025-08-19T18:29:09
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,81,81. Was ist ein typischer Vorteil von `Stochastic Gradient Descent (SGD)`?,Wähle eine Option...,0,2025-08-19T18:29:10
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,67,67. Was ist ein Vorteil von `KNN` gegenüber `Decision Trees`?,Wähle eine Option...,0,2025-08-19T18:29:12
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,14,14. Wie kann man in Python eine Funktion definieren?,Wähle eine Option...,0,2025-08-19T18:29:17
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,79,79. Was ist ein typischer Nachteil von zu tiefen Netzen?,Wähle eine Option...,0,2025-08-19T18:29:19
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,85,85. Was ist ein typischer Grund für die Verwendung von `Early Stopping`?,Wähle eine Option...,0,2025-08-19T18:29:24
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,17,17. Was ist der Unterschied zwischen `docker ps` und `docker images`?,Wähle eine Option...,0,2025-08-19T18:29:27
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,61,61. Was ist ein typischer Vorteil von `K-Means`?,Wähle eine Option...,0,2025-08-19T18:29:55
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,35,35. Was ist der primäre Zweck von `@st.cache_data` in Streamlit?,Wähle eine Option...,0,2025-08-19T18:30:01
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,87,87. Was ist ein typischer Nachteil von zu großen `Lernraten`?,Wähle eine Option...,0,2025-08-19T18:30:06
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,71,71. Was ist ein typisches Merkmal eines `neuronalen Netzes`?,Wähle eine Option...,0,2025-08-19T18:30:07
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,58,58. Was ist ein Nachteil von KNN?,Benötigt Labels,0,2025-08-19T18:31:34
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,94,94. Welche Funktion hat ein Mean-Filter in der Bildverarbeitung?,Er erkennt Gesichter,0,2025-08-19T18:31:41
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,86,86. Was ist ein typischer Vorteil von `Softmax` im Output-Layer?,Er wandelt die Ausgaben in Wahrscheinlichkeiten um.,3,2025-08-19T18:31:53
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,18,18. Was ist ein Vorteil von Docker Compose gegenüber einzelnen Docker-Kommandos?,Es ermöglicht das Starten mehrerer Services mit einem Befehl,1,2025-08-19T18:32:36
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,80,80. Was ist ein typischer Anwendungsfall für `Convolutional Neural Networks (CNNs)`?,Bitte auswählen...,0,2025-08-19T18:32:38
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,62,62. Was ist ein typischer Nachteil von `K-Means`?,Bitte auswählen...,0,2025-08-19T18:32:42
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,12,12. Was ist ein typischer Anwendungsfall für Streamlit im Kurs?,Bitte auswählen...,0,2025-08-19T18:32:43
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,75,75. Was ist ein typischer Grund für `Overfitting` in neuronalen Netzen?,Bitte auswählen...,0,2025-08-19T18:32:45
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,97,97. Warum ist Weight Sharing in CNNs wichtig?,Bitte auswählen...,0,2025-08-19T18:32:46
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,44,"44. Welches Streamlit-Layout-Element wird verwendet, um Inhalte nebeneinander darzustellen?",`st.expander()`,0,2025-08-19T18:33:10
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,8,8. Wie kann man in pandas eine CSV-Datei einlesen?,`pd.import_csv()`,0,2025-08-19T18:33:16
+d2607ab3cd54242c1ad78fa35052ba7c8aafd4f4781503f2274c31063a85f560,d2607ab3cd,Dummy,15,15. Was ist der Zweck von `requirements.txt`?,Listet alle Python-Abhängigkeiten für ein Projekt auf,2,2025-08-19T18:33:26
