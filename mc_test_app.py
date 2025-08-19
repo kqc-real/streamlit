@@ -1278,8 +1278,6 @@ def main():
             display_question(fragen[next_idx], next_idx, pos + 1)
             # Sidebar-Metrik nach jeder Frage/Bewertung aktualisieren
             num_answered = len([p for p in st.session_state.beantwortet if p is not None])
-            display_sidebar_metrics(num_answered)
-    # Fortschritt & Score wird nur im Sidebar-Abschnitt angezeigt
 
 
 if __name__ == "__main__":
