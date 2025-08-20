@@ -768,7 +768,7 @@ def display_final_summary(num_answered: int) -> None:
         st.divider()
         st.subheader("🧐 Review")
         # Nur einmal Review-Modus anzeigen
-        show_review = st.checkbox("Alle Fragen des Tests anzeigen", key="review_mode")
+        show_review = st.checkbox("Fragen anzeigen", key="review_mode")
         if show_review:
             filter_option = st.selectbox(
                 "Welche Fragen anzeigen?",
