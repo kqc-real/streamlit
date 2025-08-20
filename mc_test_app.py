@@ -862,14 +862,13 @@ def display_final_summary(num_answered: int) -> None:
                         st.error(
                             f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
                         )
-            # Show 'Weiter' button only for the active review question
-            if pos == st.session_state.active_review_idx:
-                if st.button("Weiter", key="review_next_btn"):
-                    if st.session_state.active_review_idx < len(indices_to_show) - 1:
-                        st.session_state.active_review_idx += 1
-                    else:
-                        st.session_state.active_review_idx = 0
-                    st.rerun()
+            # Show 'Weiter' button in every expander
+            if st.button("Weiter", key=f"review_next_btn_{idx}"):
+                if st.session_state.active_review_idx < len(indices_to_show) - 1:
+                    st.session_state.active_review_idx += 1
+                else:
+                    st.session_state.active_review_idx = 0
+                st.rerun()
 
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
