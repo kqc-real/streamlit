@@ -857,9 +857,6 @@ def display_final_summary(num_answered: int) -> None:
                         st.error(
                             f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
                         )
-                if st.button("Weiter", key=f"review_next_{idx}"):
-                    st.session_state.active_review_idx = pos + 1 if pos + 1 < len(indices_to_show) else 0
-                    st.rerun()
 
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
