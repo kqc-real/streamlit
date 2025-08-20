@@ -697,18 +697,13 @@ def display_final_summary(num_answered: int) -> None:
     ):
         return
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
     if scoring_mode == "positive_only":
-        aktueller_punktestand = sum([
-            frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
-            for p, frage in zip(st.session_state.beantwortet, fragen)
-        ])
+        aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
     else:
-        aktueller_punktestand = sum([
-            p if p is not None else 0
-            for p in st.session_state.beantwortet
-        ])
-    prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
+        aktueller_punktestand = sum(
+            [p for p in st.session_state.beantwortet if p is not None]
+        )
+    prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
     if st.session_state.get("test_time_expired", False):
@@ -765,7 +760,7 @@ def display_final_summary(num_answered: int) -> None:
                 "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
             )
     st.success(
-        f"### {emoji} Endstand: {int(prozent * 100)} % der erreichbaren Punkte"
+        f"### {emoji} Endstand: {int(prozent * 100)} % richtig"
     )
     if quote:
         st.markdown(quote)
@@ -862,13 +857,13 @@ def display_final_summary(num_answered: int) -> None:
                         st.error(
                             f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
                         )
-            # Show 'Weiter' button in every expander
-            if st.button("Weiter", key=f"review_next_btn_{idx}"):
-                if st.session_state.active_review_idx < len(indices_to_show) - 1:
-                    st.session_state.active_review_idx += 1
-                else:
-                    st.session_state.active_review_idx = 0
-                st.rerun()
+                if st.button("Weiter", key=f"review_next_{idx}"):
+                    # Move to next review index
+                    if st.session_state.active_review_idx < len(indices_to_show) - 1:
+                        st.session_state.active_review_idx += 1
+                    else:
+                        st.session_state.active_review_idx = 0
+                    st.rerun()
 
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
