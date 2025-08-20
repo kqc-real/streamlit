@@ -760,7 +760,7 @@ def display_final_summary(num_answered: int) -> None:
                 "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
             )
     st.success(
-        f"### {emoji} Endstand: {int(prozent * 100)}% richtig"
+        f"### {emoji} Endstand: {int(prozent * 100)} % richtig"
     )
     if quote:
         st.markdown(quote)
