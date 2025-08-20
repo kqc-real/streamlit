@@ -1,5 +1,11 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
-67a619457aae3e869af3e7c92078424a773397c1520a9cec76fde54ee8350137,67a619457a,qqqqqqq,18,18. Was ist ein Vorteil von Docker Compose gegenüber einzelnen Docker-Kommandos?,Es kann nur einen Container gleichzeitig starten,0,2025-08-19T21:59:44
-67a619457aae3e869af3e7c92078424a773397c1520a9cec76fde54ee8350137,67a619457a,qqqqqqq,28,28. Was ist ein typischer Anwendungsfall für `st.file_uploader` in Streamlit?,Visualisierung von DataFrames,0,2025-08-19T21:59:51
-67a619457aae3e869af3e7c92078424a773397c1520a9cec76fde54ee8350137,67a619457a,qqqqqqq,80,80. Was ist ein typischer Anwendungsfall für `Convolutional Neural Networks (CNNs)`?,Bildklassifikation und Objekterkennung.,3,2025-08-19T21:59:59
-532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,97,97. Warum ist Weight Sharing in CNNs wichtig?,Es verhindert Overfitting,0,2025-08-20T06:58:58
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,68,68. Was ist ein Vorteil von `K-Means` gegenüber `KNN`?,Findet Gruppen ohne Labels,2,2025-08-20T07:09:25
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,1,1. Was ist der Hauptvorteil von Docker für Data Science?,Automatische Datenbereinigung,0,2025-08-20T07:24:30
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,29,29. Was ist der Zweck von `def` in Python?,Definition einer Funktion mit `def`,0,2025-08-20T07:26:09
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,5,5. Was ist der Unterschied zwischen einem Docker-Image und einem Container?,Ein Container ist eine laufende Instanz eines Images,1,2025-08-20T07:27:35
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,31,"31. Was ist laut `00_Python_in_3_Stunden.ipynb` eine Best Practice, um die Performance von Filter- und Join-Operationen in Pandas zu beschleunigen?",Einen sinnvollen Index mit `set_index()` setzen,1,2025-08-20T07:28:31
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,35,35. Was ist der primäre Zweck von `@st.cache_data` in Streamlit?,Das Speichern des `session_state` über verschiedene Browser-Tabs hinweg.,0,2025-08-20T07:29:27
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,99,99. Welche Layer sind typischerweise in einer CNN-Architektur enthalten?,"Convolutional, Pooling, Flatten, Dense",3,2025-08-20T07:29:48
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,6,6. Was ist der Zweck von `docker-compose.yml` im amalea-Projekt?,Orchestrierung mehrerer Services und Container,1,2025-08-20T07:30:07
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,59,59. Was ist die Elbow-Methode?,Methode zur Wahl des optimalen k bei K-Means,2,2025-08-20T07:30:46
+58443d7291eabd339be0ce212d586dd8e0866db7a2fba979a709deecc0334644,58443d7291,sqsq,52,52. Was ist ein Nachteil von `Decision Trees`?,Sie neigen zu Overfitting,2,2025-08-20T07:31:24

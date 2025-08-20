@@ -367,7 +367,7 @@
     "frage": "29. Was ist der Zweck von `def` in Python?",
     "optionen": [
       "Definition einer Variablen",
-      "Definition einer Funktion mit `def`",
+      "Definition einer Funktion",
       "Definition eines DataFrames",
       "Definition eines Containers"
     ],
@@ -390,7 +390,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "31. Was ist laut `00_Python_in_3_Stunden.ipynb` eine Best Practice, um die Performance von Filter- und Join-Operationen in Pandas zu beschleunigen?",
+    "frage": "31. Was ist eine Best Practice, um die Performance von Filter- und Join-Operationen in Pandas zu beschleunigen?",
     "optionen": [
       "Daten immer als CSV statt Parquet speichern",
       "Einen sinnvollen Index mit `set_index()` setzen",

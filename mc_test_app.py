@@ -1174,7 +1174,7 @@ def main():
             st.session_state["sticky_bar_css"] = True
         score_html = (
             "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
-            f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
+            f"<div style='font-size:1rem;font-weight:700;'>Letzter Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
             f"<div style='font-size:0.95rem;color:#ffb300;font-weight:500;'>Noch offen: {open_questions} Frage{'n' if open_questions != 1 else ''}</div>"
             "</div>"
         )
