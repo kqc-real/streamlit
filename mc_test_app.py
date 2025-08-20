@@ -765,7 +765,7 @@ def display_final_summary(num_answered: int) -> None:
                 "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
             )
     st.success(
-        f"### {emoji} Endstand: {int(prozent * 100)}% der erreichbaren Punkte"
+        f"### {emoji} Endstand: {int(prozent * 100)} % der erreichbaren Punkte"
     )
     if quote:
         st.markdown(quote)
@@ -862,8 +862,9 @@ def display_final_summary(num_answered: int) -> None:
                         st.error(
                             f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
                         )
-                if st.button("Weiter", key=f"review_next_{idx}"):
-                    # Move to next review index
+            # Show 'Weiter' button only for the active review question
+            if pos == st.session_state.active_review_idx:
+                if st.button("Weiter", key="review_next_btn"):
                     if st.session_state.active_review_idx < len(indices_to_show) - 1:
                         st.session_state.active_review_idx += 1
                     else:
