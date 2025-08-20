@@ -636,7 +636,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
             st.session_state.pop("next_allowed_time", None)
     if num_answered == len(fragen):
         # Motivational emoji/quote after test completion
-        prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
+        prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
         scoring_mode = st.session_state.get("scoring_mode", "positive_only")
         if scoring_mode == "positive_only":
             if prozent == 1.0:
@@ -703,7 +703,8 @@ def display_final_summary(num_answered: int) -> None:
         aktueller_punktestand = sum(
             [p for p in st.session_state.beantwortet if p is not None]
         )
-    prozent = aktueller_punktestand / len(fragen) if len(fragen) > 0 else 0
+    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+    prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
     if st.session_state.get("test_time_expired", False):
