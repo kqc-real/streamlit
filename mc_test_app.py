@@ -765,104 +765,106 @@ def display_final_summary(num_answered: int) -> None:
     if quote:
         st.markdown(quote)
     # Review-Modus Toggle
-    st.divider()
-    st.subheader("🧐 Review")
-    # Review-Modus direkt aktiv, keine Checkbox mehr
-    filter_option = st.selectbox(
-        "Welche Fragen anzeigen?",
-        [
-            "Alle Fragen",
-            "Falsch beantwortete Fragen",
-            "Richtig beantwortete Fragen",
-            "Nicht beantwortete Fragen",
-        ],
-        index=0,
-        key="review_filter_option",
-    )
-    # Build indices_to_show according to filter_option
-    indices_to_show = []
-    for i, frage in enumerate(fragen):
-        user_val = st.session_state.get(f"frage_{i}")
-        korrekt = frage["optionen"][frage["loesung"]]
-        if filter_option == "Alle Fragen":
-            indices_to_show.append(i)
-        elif filter_option == "Falsch beantwortete Fragen":
-            if user_val is not None and user_val != korrekt:
-                indices_to_show.append(i)
-        elif filter_option == "Richtig beantwortete Fragen":
-            if user_val is not None and user_val == korrekt:
-                indices_to_show.append(i)
-        elif filter_option == "Nicht beantwortete Fragen":
-            if user_val is None:
-                indices_to_show.append(i)
-    # Reset active_review_idx if filter changes
-        if (
-            "last_filter_option" not in st.session_state
-            or st.session_state.last_filter_option != filter_option
-        ):
-            st.session_state.active_review_idx = 0
-            st.session_state.last_filter_option = filter_option
-        # Track which review index is open
-        if "active_review_idx" not in st.session_state:
-            st.session_state.active_review_idx = 0
-        # Clamp active_review_idx
-        if st.session_state.active_review_idx >= len(indices_to_show):
-            st.session_state.active_review_idx = 0
-        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-        for pos, idx in enumerate(indices_to_show):
-            frage = fragen[idx]
-            user_val = st.session_state.get(f"frage_{idx}")
-            korrekt = frage["optionen"][frage["loesung"]]
-            if user_val is None:
-                mark_icon = "❓"  # Unbeantwortet
-            else:
-                richtig = user_val == korrekt
-                mark_icon = "✅" if richtig else "❌"
-            expander_title = f"Frage {idx + 1}: {mark_icon}"
-            expanded = pos == st.session_state.active_review_idx
-            with st.expander(expander_title, expanded=expanded):
-                # Zeige im Review-Modus die korrekte Fragennummer
-                st.markdown(f"### Frage {idx + 1} von {FRAGEN_ANZAHL}")
-                st.markdown(f"**{frage['frage']}**")
-                st.caption("Optionen:")
-                for opt in frage.get("optionen", []):
-                    style = ""
-                    prefix = "•"
+        st.divider()
+        st.subheader("🧐 Review")
+        # Nur einmal Review-Modus anzeigen
+        show_review = st.checkbox("Alle Fragen des Tests anzeigen", key="review_mode")
+        if show_review:
+            filter_option = st.selectbox(
+                "Welche Fragen anzeigen?",
+                [
+                    "Alle Fragen",
+                    "Falsch beantwortete Fragen",
+                    "Richtig beantwortete Fragen",
+                    "Nicht beantwortete Fragen",
+                ],
+                index=0,
+                key="review_filter_option",
+            )
+            # Build indices_to_show according to filter_option
+            indices_to_show = []
+            for i, frage in enumerate(fragen):
+                user_val = st.session_state.get(f"frage_{i}")
+                korrekt = frage["optionen"][frage["loesung"]]
+                if filter_option == "Alle Fragen":
+                    indices_to_show.append(i)
+                elif filter_option == "Falsch beantwortete Fragen":
+                    if user_val is not None and user_val != korrekt:
+                        indices_to_show.append(i)
+                elif filter_option == "Richtig beantwortete Fragen":
+                    if user_val is not None and user_val == korrekt:
+                        indices_to_show.append(i)
+                elif filter_option == "Nicht beantwortete Fragen":
                     if user_val is None:
-                        if opt == korrekt:
+                        indices_to_show.append(i)
+            # Reset active_review_idx if filter changes
+            if (
+                "last_filter_option" not in st.session_state
+                or st.session_state.last_filter_option != filter_option
+            ):
+                st.session_state.active_review_idx = 0
+                st.session_state.last_filter_option = filter_option
+            # Track which review index is open
+            if "active_review_idx" not in st.session_state:
+                st.session_state.active_review_idx = 0
+            # Clamp active_review_idx
+            if st.session_state.active_review_idx >= len(indices_to_show):
+                st.session_state.active_review_idx = 0
+            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+            for pos, idx in enumerate(indices_to_show):
+                frage = fragen[idx]
+                user_val = st.session_state.get(f"frage_{idx}")
+                korrekt = frage["optionen"][frage["loesung"]]
+                if user_val is None:
+                    mark_icon = "❓"  # Unbeantwortet
+                else:
+                    richtig = user_val == korrekt
+                    mark_icon = "✅" if richtig else "❌"
+                expander_title = f"Frage {idx + 1}: {mark_icon}"
+                expanded = pos == st.session_state.active_review_idx
+                with st.expander(expander_title, expanded=expanded):
+                    # Zeige im Review-Modus die korrekte Fragennummer
+                    st.markdown(f"### Frage {idx + 1} von {FRAGEN_ANZAHL}")
+                    st.markdown(f"**{frage['frage']}**")
+                    st.caption("Optionen:")
+                    for opt in frage.get("optionen", []):
+                        style = ""
+                        prefix = "•"
+                        if user_val is None:
+                            if opt == korrekt:
+                                style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
+                                prefix = "✅"
+                            st.markdown(
+                                f"<span style='{style}'>{prefix} {opt}</span>",
+                                unsafe_allow_html=True,
+                            )
+                            continue
+                        if opt == user_val and not richtig:
+                            style = "background-color:#c82333;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelrot
+                            prefix = "❌"
+                        elif opt == user_val and richtig:
+                            style = "background:linear-gradient(90deg,#fff3cd 50%,#218838 50%);color:#111;padding:2px 8px;border-radius:6px;"
+                            prefix = "✅"
+                        elif opt == korrekt:
                             style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
                             prefix = "✅"
                         st.markdown(
                             f"<span style='{style}'>{prefix} {opt}</span>",
                             unsafe_allow_html=True,
                         )
-                        continue
-                    if opt == user_val and not richtig:
-                        style = "background-color:#c82333;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelrot
-                        prefix = "❌"
-                    elif opt == user_val and richtig:
-                        style = "background:linear-gradient(90deg,#fff3cd 50%,#218838 50%);color:#111;padding:2px 8px;border-radius:6px;"
-                        prefix = "✅"
-                    elif opt == korrekt:
-                        style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
-                        prefix = "✅"
-                    st.markdown(
-                        f"<span style='{style}'>{prefix} {opt}</span>",
-                        unsafe_allow_html=True,
-                    )
-                erklaerung = frage.get("erklaerung")
-                if erklaerung:
-                    st.info(f"Erklärung: {erklaerung}")
-                # Show feedback for wrong answer
-                if user_val is not None and user_val != korrekt:
-                    if scoring_mode == "positive_only":
-                        st.error(
-                            f"Leider falsch. Die richtige Antwort ist: **{korrekt}**"
-                        )
-                    else:
-                        st.error(
-                            f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
-                        )
+                    erklaerung = frage.get("erklaerung")
+                    if erklaerung:
+                        st.info(f"Erklärung: {erklaerung}")
+                    # Show feedback for wrong answer
+                    if user_val is not None and user_val != korrekt:
+                        if scoring_mode == "positive_only":
+                            st.error(
+                                f"Leider falsch. Die richtige Antwort ist: **{korrekt}**"
+                            )
+                        else:
+                            st.error(
+                                f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
+                            )
 
 
 def check_admin_permission(user_id: str, provided_key: str) -> bool:
@@ -1117,10 +1119,9 @@ def main():
         fig.update_yaxes(showgrid=False, linecolor=text_color)
         st.plotly_chart(fig, use_container_width=True)
     user_id = handle_user_session()
-    # If triggered by Enter, rerun only if not already handled in this run
+    # If triggered by Enter, rerun after session state is set
     if st.session_state.get("trigger_rerun"):
         st.session_state["trigger_rerun"] = False
-        st.experimental_set_query_params(trigger_rerun_handled=True)
         st.rerun()
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
