@@ -509,13 +509,19 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             except Exception:
                 gewichtung = 1
             punkte = st.session_state.beantwortet[frage_idx]
-            num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+            num_answered = len(
+                [p for p in st.session_state.beantwortet if p is not None]
+            )
             # Punktestand über der Frage direkt nach Bewertung aktualisieren
             max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
             if scoring_mode == "positive_only":
                 aktueller_punktestand = sum(
                     [
-                        frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                        (
+                            frage.get("gewichtung", 1)
+                            if p == frage.get("gewichtung", 1)
+                            else 0
+                        )
                         for p, frage in zip(st.session_state.beantwortet, fragen)
                     ]
                 )
@@ -1168,7 +1174,9 @@ def main():
                 [p if p is not None else 0 for p in st.session_state.beantwortet]
             )
         answered = len([p for p in st.session_state.beantwortet if p is not None])
-        open_questions = max(0, len([p for p in st.session_state.beantwortet if p is None]) - 1)
+        open_questions = max(
+            0, len([p for p in st.session_state.beantwortet if p is None]) - 1
+        )
         if "sticky_bar_css" not in st.session_state:
             st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
             st.session_state["sticky_bar_css"] = True
@@ -1264,10 +1272,11 @@ def main():
                 if st.session_state.get(f"show_explanation_{idx}", False):
                     next_idx = idx
                     break
+            # Dies ist die korrigierte, stabile Version
             if next_idx is None:
                 for idx in indices:
-                    next_idx = idx
                     if st.session_state.beantwortet[idx] is None:
+                        next_idx = idx
                         break
         # Reset all explanation flags außer für die aktuelle Frage
         for idx in indices:
@@ -1277,7 +1286,9 @@ def main():
             pos = indices.index(next_idx) if next_idx in indices else next_idx
             display_question(fragen[next_idx], next_idx, pos + 1)
             # Sidebar-Metrik nach jeder Frage/Bewertung aktualisieren
-            num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+            num_answered = len(
+                [p for p in st.session_state.beantwortet if p is not None]
+            )
 
 
 if __name__ == "__main__":
