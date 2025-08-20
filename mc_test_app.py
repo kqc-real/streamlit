@@ -1117,9 +1117,10 @@ def main():
         fig.update_yaxes(showgrid=False, linecolor=text_color)
         st.plotly_chart(fig, use_container_width=True)
     user_id = handle_user_session()
-    # If triggered by Enter, rerun after session state is set
+    # If triggered by Enter, rerun only if not already handled in this run
     if st.session_state.get("trigger_rerun"):
         st.session_state["trigger_rerun"] = False
+        st.experimental_set_query_params(trigger_rerun_handled=True)
         st.rerun()
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer
