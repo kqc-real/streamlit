@@ -2,3 +2,4 @@ user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 67a619457aae3e869af3e7c92078424a773397c1520a9cec76fde54ee8350137,67a619457a,qqqqqqq,18,18. Was ist ein Vorteil von Docker Compose gegenüber einzelnen Docker-Kommandos?,Es kann nur einen Container gleichzeitig starten,0,2025-08-19T21:59:44
 67a619457aae3e869af3e7c92078424a773397c1520a9cec76fde54ee8350137,67a619457a,qqqqqqq,28,28. Was ist ein typischer Anwendungsfall für `st.file_uploader` in Streamlit?,Visualisierung von DataFrames,0,2025-08-19T21:59:51
 67a619457aae3e869af3e7c92078424a773397c1520a9cec76fde54ee8350137,67a619457a,qqqqqqq,80,80. Was ist ein typischer Anwendungsfall für `Convolutional Neural Networks (CNNs)`?,Bildklassifikation und Objekterkennung.,3,2025-08-19T21:59:59
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,97,97. Warum ist Weight Sharing in CNNs wichtig?,Es verhindert Overfitting,0,2025-08-20T06:58:58

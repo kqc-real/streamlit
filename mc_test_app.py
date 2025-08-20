@@ -1042,7 +1042,7 @@ def main():
   <div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
     <h2 style='color:#4b9fff;'>Willkommen zu 100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
-      Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine Learning</strong> und <strong>KI</strong>.
+      Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine und Deep Learning</strong>.
       <br><br>
       Starte jetzt 🚀 – und hol dir deinen Highscore!
     </p>
@@ -1085,7 +1085,7 @@ def main():
         # Farben für Dark Theme
         dark_bg = "#181818"
         text_color = "#e0e0e0"
-        bar_colors = {"Leicht": "#4b9fff", "Mittel": "#00c853", "Schwer": "#ffb300"}
+        bar_colors = {"Leicht": "#00c853", "Mittel": "#4b9fff", "Schwer": "#ffb300"}
         # Plotly Stacked Bar Chart
         fig = go.Figure()
         for schwierigkeit in ["Leicht", "Mittel", "Schwer"]:
