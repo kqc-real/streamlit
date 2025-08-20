@@ -88,7 +88,7 @@
     "loesung": 1,
     "erklaerung": "Die Q-Phase (Question) legt das Fundament des Projekts. Hier werden die genaue Fragestellung, die Ziele und die Erfolgskriterien in Absprache mit den Stakeholdern definiert.",
     "gewichtung": 2,
-    "thema": "QUA3CK & MLOps"
+    "thema": "QUA³CK & MLOps"
   },
   {
     "frage": "8. Welche Funktion wird in `pandas` standardmäßig zum Einlesen einer CSV-Datei verwendet?",
@@ -257,7 +257,7 @@
     "loesung": 1,
     "erklaerung": "Das QUA³CK-Modell bietet einen strukturierten, iterativen Rahmen für Data-Science-Projekte, um sicherzustellen, dass alle Phasen von der Fragestellung bis zur Wissensvermittlung durchlaufen werden.",
     "gewichtung": 2,
-    "thema": "QUA3CK & MLOps"
+    "thema": "QUA³CK & MLOps"
   },
   {
     "frage": "21. Welche Methode wird in `pandas` verwendet, um die ersten `n` Zeilen eines DataFrames anzuzeigen?",
@@ -478,7 +478,7 @@
     "loesung": 3,
     "erklaerung": "Die C-Phase (Conclude and Compare) ist explizit dem Vergleich der Modellergebnisse, der Ziehung von Schlussfolgerungen und der finalen Bewertung des Projekterfolgs gewidmet.",
     "gewichtung": 2,
-    "thema": "QUA3CK & MLOps"
+    "thema": "QUA³CK & MLOps"
   },
   {
     "frage": "38. Was unterscheidet `st.session_state` von einer normalen globalen Variable in Streamlit?",
@@ -530,7 +530,7 @@
     "loesung": 2,
     "erklaerung": "Die K-Phase fokussiert sich auf den Transfer des erarbeiteten Wissens. Dazu gehören das Deployment des Modells für Endanwender und die Dokumentation der Ergebnisse in einem Portfolio.",
     "gewichtung": 2,
-    "thema": "QUA3CK & MLOps"
+    "thema": "QUA³CK & MLOps"
   },
   {
     "frage": "42. Welchen Zweck erfüllt der Befehl `docker-compose down`?",
