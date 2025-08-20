@@ -858,11 +858,7 @@ def display_final_summary(num_answered: int) -> None:
                             f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
                         )
                 if st.button("Weiter", key=f"review_next_{idx}"):
-                    # Move to next review index
-                    if st.session_state.active_review_idx < len(indices_to_show) - 1:
-                        st.session_state.active_review_idx += 1
-                    else:
-                        st.session_state.active_review_idx = 0
+                    st.session_state.active_review_idx = pos + 1 if pos + 1 < len(indices_to_show) else 0
                     st.rerun()
 
 
