@@ -766,7 +766,7 @@ def display_final_summary(num_answered: int) -> None:
                 "**Ein paar Sachen sind noch offen. Schau dir die Erklärungen zu den falschen Antworten nochmal an!** 🔍",
             )
     prozent_anzeige = f"<span style='color:#ffd600;font-size:2rem;font-weight:700;'>{round(prozent * 100)} %</span>"
-    st.success(
+    st.markdown(
         f"### {emoji} Endstand: {prozent_anzeige} richtig",
         unsafe_allow_html=True
     )
