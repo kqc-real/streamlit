@@ -698,7 +698,12 @@ def display_final_summary(num_answered: int) -> None:
         return
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     if scoring_mode == "positive_only":
-        aktueller_punktestand = sum([1 for p in st.session_state.beantwortet if p == 1])
+        aktueller_punktestand = sum(
+            [
+                frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                for p, frage in zip(st.session_state.beantwortet, fragen)
+            ]
+        )
     else:
         aktueller_punktestand = sum(
             [p for p in st.session_state.beantwortet if p is not None]
