@@ -770,35 +770,43 @@ def display_final_summary(num_answered: int) -> None:
     # Nur einmal Review-Modus anzeigen
     show_review = st.checkbox("Alle Fragen des Tests anzeigen", key="review_mode")
     if show_review:
-        filter_wrong = st.checkbox(
-            "Nur falsch beantwortete Fragen anzeigen",
-            value=True,
-            key="review_only_wrong",
+        filter_option = st.selectbox(
+            "Welche Fragen anzeigen?",
+            [
+                "Alle Fragen",
+                "Falsch beantwortete Fragen",
+                "Richtig beantwortete Fragen",
+                "Nicht beantwortete Fragen",
+            ],
+            index=0,
+            key="review_filter_option",
         )
-        # Reset active_review_idx if filter changes
-        if (
-            "last_filter_wrong" not in st.session_state
-            or st.session_state.last_filter_wrong != filter_wrong
-        ):
-            st.session_state.active_review_idx = 0
-            st.session_state.last_filter_wrong = filter_wrong
-        # Track which review index is open
-        if "active_review_idx" not in st.session_state:
-            st.session_state.active_review_idx = 0
-        # Find all indices to show
+        # Build indices_to_show according to filter_option
         indices_to_show = []
         for i, frage in enumerate(fragen):
             user_val = st.session_state.get(f"frage_{i}")
             korrekt = frage["optionen"][frage["loesung"]]
-            if filter_wrong:
-                # Nur falsch beantwortete Fragen, aber keine unbeantworteten
+            if filter_option == "Alle Fragen":
+                indices_to_show.append(i)
+            elif filter_option == "Falsch beantwortete Fragen":
+                if user_val is not None and user_val != korrekt:
+                    indices_to_show.append(i)
+            elif filter_option == "Richtig beantwortete Fragen":
+                if user_val is not None and user_val == korrekt:
+                    indices_to_show.append(i)
+            elif filter_option == "Nicht beantwortete Fragen":
                 if user_val is None:
-                    continue
-                if user_val == korrekt:
-                    continue
-                indices_to_show.append(i)
-            else:
-                indices_to_show.append(i)
+                    indices_to_show.append(i)
+        # Reset active_review_idx if filter changes
+        if (
+            "last_filter_option" not in st.session_state
+            or st.session_state.last_filter_option != filter_option
+        ):
+            st.session_state.active_review_idx = 0
+            st.session_state.last_filter_option = filter_option
+        # Track which review index is open
+        if "active_review_idx" not in st.session_state:
+            st.session_state.active_review_idx = 0
         # Clamp active_review_idx
         if st.session_state.active_review_idx >= len(indices_to_show):
             st.session_state.active_review_idx = 0
