@@ -846,8 +846,11 @@ def display_final_summary(num_answered: int) -> None:
                 expander_title = f"Frage {idx + 1}: {mark_icon}"
                 expanded = pos == st.session_state.active_review_idx
                 with st.expander(expander_title, expanded=expanded):
-                    # Zeige im Review-Modus die korrekte Fragennummer
+                    # Zeige Fragennummer, dann Thema, dann Frage
                     st.markdown(f"### Frage {idx + 1} von {FRAGEN_ANZAHL}")
+                    thema = frage.get("thema", "")
+                    if thema:
+                        st.markdown(f"<span style='color:#4b9fff;font-size:1.05em;font-weight:600;'>Thema: {thema}</span>", unsafe_allow_html=True)
                     st.markdown(f"**{frage['frage']}**")
                     st.caption("Optionen:")
                     for opt in frage.get("optionen", []):
