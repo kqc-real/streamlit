@@ -785,14 +785,18 @@ def display_final_summary(num_answered: int) -> None:
         # Nur einmal Review-Modus anzeigen
         show_review = st.checkbox("Fragen anzeigen", key="review_mode")
         if show_review:
+            filter_options = [
+                "Alle Fragen",
+                "Falsch beantwortete Fragen",
+                "Richtig beantwortete Fragen",
+                "Nicht beantwortete Fragen",
+            ]
+            themen = sorted(set([frage.get("thema", "") for frage in fragen if frage.get("thema")]))
+            if themen:
+                filter_options += [f"Thema: {t}" for t in themen]
             filter_option = st.selectbox(
                 "Welche Fragen anzeigen?",
-                [
-                    "Alle Fragen",
-                    "Falsch beantwortete Fragen",
-                    "Richtig beantwortete Fragen",
-                    "Nicht beantwortete Fragen",
-                ],
+                filter_options,
                 index=0,
                 key="review_filter_option",
             )
@@ -811,6 +815,10 @@ def display_final_summary(num_answered: int) -> None:
                         indices_to_show.append(i)
                 elif filter_option == "Nicht beantwortete Fragen":
                     if user_val is None:
+                        indices_to_show.append(i)
+                elif filter_option.startswith("Thema: "):
+                    thema_name = filter_option.replace("Thema: ", "")
+                    if frage.get("thema", "") == thema_name:
                         indices_to_show.append(i)
             # Reset active_review_idx if filter changes
             if (
