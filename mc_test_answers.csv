@@ -1,2 +1,4 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,54,54. Warum sollte der Hyperparameter `k` bei KNN für eine binäre Klassifikation ungerade gewählt werden?,Um die Berechnungszeit des Algorithmus zu halbieren.,0,2025-08-20T14:37:34
+ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb,ca978112ca,a,43,43. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?,Unsupervised Learning kann nur mit numerischen Daten umgehen.,0,2025-08-21T14:33:37
+ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb,ca978112ca,a,41,41. Welche MLOps-Praxis wird mit der K-Phase (Knowledge Transfer) des QUA³CK-Modells assoziiert?,Das Deployment in der Cloud und die Erstellung eines Portfolios.,2,2025-08-21T14:33:46

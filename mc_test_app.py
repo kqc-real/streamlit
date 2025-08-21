@@ -471,6 +471,16 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         # Only allow answering if a real option is chosen
         if antwort == "Wähle ...":
             antwort = None
+            # Add 'Frage überspringen' button if unanswered
+            if st.session_state.beantwortet[frage_idx] is None:
+                if st.button("Frage überspringen", key=f"skip_{frage_idx}"):
+                    indices = st.session_state.frage_indices
+                    if frage_idx in indices:
+                        indices.remove(frage_idx)
+                        indices.append(frage_idx)
+                        st.session_state.frage_indices = indices
+                    st.session_state[f"show_explanation_{frage_idx}"] = False
+                    st.rerun()
         if antwort and not is_disabled:
             if st.session_state.start_zeit is None:
                 st.session_state.start_zeit = datetime.now()
