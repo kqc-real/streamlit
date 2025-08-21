@@ -691,6 +691,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
 
     # --- Auffälliger, horizontal zentrierter Logout-Button ---
     st.sidebar.divider()
+    st.sidebar.info("Du kannst den Test mit einem anderen Pseudonym erneut starten.")
     if st.sidebar.button("Abmelden", key="logout_btn"):
         st.session_state.clear()
         st.rerun()
@@ -963,7 +964,7 @@ def handle_user_session():
         # Show info only if test is fully completed
         if num_answered == len(st.session_state.beantwortet):
             st.sidebar.info(
-                "Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Aber du kannst alles nochmal anschauen und lernen. 🚀"
+                "Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Aber du kannst alles nochmal anschauen und lernen. 🚀\n\nTipp: Mit einem anderen Pseudonym kannst du den Test erneut machen."
             )
         # Review weiterhin möglich
         st.session_state["force_review"] = True
