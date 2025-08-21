@@ -689,6 +689,12 @@ def display_sidebar_metrics(num_answered: int) -> None:
             "Noch kein Eintrag in der Bestenliste – sei der oder die Erste, die den Test abschließt!"
         )
 
+    # --- Auffälliger, horizontal zentrierter Logout-Button ---
+    st.sidebar.markdown("<hr>", unsafe_allow_html=True)
+    if st.sidebar.button("Abmelden", key="logout_btn"):
+        st.session_state.clear()
+        st.rerun()
+
 
 def display_final_summary(num_answered: int) -> None:
     # Review-Modus auch bei abgelaufener Zeit anzeigen
