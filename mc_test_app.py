@@ -690,7 +690,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
         )
 
     # --- Auffälliger, horizontal zentrierter Logout-Button ---
-    st.sidebar.markdown("<hr>", unsafe_allow_html=True)
+    st.sidebar.divider()
     if st.sidebar.button("Abmelden", key="logout_btn"):
         st.session_state.clear()
         st.rerun()
