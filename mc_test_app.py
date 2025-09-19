@@ -38,22 +38,16 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Force dark mode via theme config
-st.markdown(
-    """
-    <style>
-    body, .main, .block-container, .stApp {
-        background-color: #181818 !important;
-        color: #e0e0e0 !important;
-    }
-    .sidebar .sidebar-content {
-        background-color: #222 !important;
-        color: #e0e0e0 !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+# Load external CSS
+def load_css():
+    css_path = os.path.join(os.path.dirname(__file__), "styles.css")
+    if os.path.exists(css_path):
+        with open(css_path, "r", encoding="utf-8") as f:
+            css = f.read()
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+# Load CSS at the beginning
+load_css()
 
 
 # ---------------------------- Konstanten -----------------------------------
@@ -73,33 +67,7 @@ DISPLAY_HASH_LEN = 10
 MAX_SAVE_RETRIES = 3
 
 # Sticky Bar CSS (keine langen Quellcode-Zeilen)
-STICKY_BAR_CSS = """
-<style>
-.top-progress-wrapper{
-    position:fixed;
-    top:0;left:0;width:100%;
-    z-index:1000;
-    background:rgba(0,0,0,0.05);
-    backdrop-filter:blur(4px);
-    padding:4px 12px;
-}
-.top-progress-bar{
-    height:8px;
-    border-radius:4px;
-    background:#ddd;
-    overflow:hidden;
-}
-.top-progress-fill{
-    height:100%;
-    background:linear-gradient(90deg,#4b9fff,#0073e6);
-    transition:width .3s;
-}
-body{margin-top:60px;}
-@media (prefers-reduced-motion: reduce){
-    .top-progress-fill{transition:none}
-}
-</style>
-"""
+STICKY_BAR_CSS = ""  # Now loaded from external CSS file
 
 
 def get_rate_limit_seconds() -> int:
@@ -130,19 +98,16 @@ FRAGEN_ANZAHL = len(fragen)
 
 
 def apply_accessibility_settings() -> None:
-    css_parts = [
-        ".sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}"
-    ]
+    # Add classes to body for CSS-based styling
     if st.session_state.get("high_contrast"):
-        css_parts.append(
-            "body,.stApp{background:#000 !important;color:#fff !important;}h1,h2,h3,h4,h5,h6{color:#fff !important;}"
-        )
+        st.markdown('<script>document.body.classList.add("high-contrast");</script>', unsafe_allow_html=True)
+    else:
+        st.markdown('<script>document.body.classList.remove("high-contrast");</script>', unsafe_allow_html=True)
+
     if st.session_state.get("large_text"):
-        css_parts.append(
-            "html,body,.stMarkdown p,.stRadio label,label,div{font-size:1.05rem !important;}"
-        )
-    if css_parts:
-        st.markdown(f"<style>{''.join(css_parts)}</style>", unsafe_allow_html=True)
+        st.markdown('<script>document.body.classList.add("large-text");</script>', unsafe_allow_html=True)
+    else:
+        st.markdown('<script>document.body.classList.remove("large-text");</script>', unsafe_allow_html=True)
 
 
 @st.cache_data
