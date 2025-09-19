@@ -1,186 +1,250 @@
-
 # 📝 MC-Test Streamlit App
 
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
-An interactive multiple-choice learning and self-test app for course participants.
-Provides fast feedback, progress tracking, and aggregated results.
+Eine interaktive Multiple-Choice-Lern- und Selbsttest-App für Kursteilnehmer.
+Bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse
+für Data Science-Themen.
 
 ---
 
-## Features
+## 🚀 Übersicht
 
- - Multiple-choice test for Data Analytics, built with Streamlit.
- - User login via pseudonym; answers and progress are tracked and stored per user.
- - Questions loaded from a local JSON file, with randomized order and shuffled options for each user.
- - Answers are saved to a CSV file (`mc_test_answers.csv`) for persistence and leaderboard calculation.
- - Time limit of 60 minutes per test, with countdown and warnings as time runs out.
- - Sticky progress bar at the top and sidebar metrics for progress and score.
- - Motivational feedback after each answer and at test completion, including review mode to see all or only incorrect answers with explanations.
- - Admin section in the sidebar, protected by environment-configured user and/or password, for viewing leaderboards and raw logs.
- - Downloadable CSVs for top 5 scores, all participations, and raw logs.
- - Dark mode enforced via custom CSS.
- - Configurable via environment variables and Streamlit secrets for admin logic and minimum time between answers.
+Diese App ist ein vollständiger MC-Test für Data Analytics, entwickelt mit Streamlit.
+Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge und Zeitlimit.
+Perfekt für Bildungsumgebungen oder Selbstlernphasen.
+
+### Hauptfunktionen
+
+- **Benutzerverwaltung:** Anmeldung mit Pseudonym; Fortschritt wird gespeichert.
+- **Testdurchführung:** 100 zufällig gemischte Fragen aus JSON-Datei,
+  mit Erklärungen und Review-Modus.
+- **Zeitmanagement:** 60-Minuten-Limit mit Countdown und Warnungen.
+- **Feedback & Analyse:** Motivationales Feedback, Leaderboard (Top 5),
+  Admin-Bereich für Logs.
+- **Datenschutz:** SHA-256-Hashing für Anonymität; lokale Speicherung.
+- **Zusätze:** Dark-Mode, Accessibility-Optionen, CSV-Exporte, Docker-Unterstützung.
 
 ---
 
-## Getting Started (Local)
+## 📋 Voraussetzungen
 
-```bash
-streamlit run mc_test_app/mc_test_app.py
-```
+- **Python:** Version 3.8 oder höher.
+- **Abhängigkeiten:** Installiere via `pip install -r requirements.txt`.
+- **Optionale Tools:** Docker für Container-Deployment; Git für Versionierung.
 
-## Docker Usage
+---
 
-> Use Docker only if running the full course repository with `docker-compose.yml`.
-> For isolated operation or deployment of the `mc_test_app/` subtree (e.g. Streamlit Cloud, simple hosting), Docker is not required.
+## 🛠️ Installation und Start
 
-Quick start (port 8502 as per docker-compose):
+### Lokaler Start (Empfohlen für Entwicklung)
+
+1. Klone das Repository oder navigiere zum `mc_test_app/`-Ordner.
+2. Installiere Abhängigkeiten:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Starte die App:
+
+   ```bash
+   streamlit run mc_test_app.py
+   ```
+
+4. Öffne [http://localhost:8501](http://localhost:8501) im Browser.
+
+### Docker-Start
 
 ```bash
 docker compose up -d streamlit-slim
 ```
 
-Full stack (Jupyter, MLflow, etc.):
+Für den vollen Stack (mit Jupyter, MLflow):
 
 ```bash
 docker compose up -d
 ```
 
-## Directory Structure
+### Deployment (z.B. Streamlit Cloud)
 
-```text
+1. Pushe nur den `mc_test_app/`-Ordner in ein separates Repo.
+2. Verwende `git subtree` für saubere Trennung:
+
+   ```bash
+   git subtree push --prefix mc_test_app origin main
+   ```
+
+3. Deploye auf Streamlit Cloud oder ähnlichen Plattformen.
+
+---
+
+## ⚙️ Konfiguration
+
+### Umgebungsvariablen (`.env`-Datei)
+
+Erstelle eine `.env`-Datei basierend auf `.env.example`:
+
+```env
+MC_TEST_ADMIN_USER=dein_admin_pseudonym  # Optional: Beschränkt Admin-Zugang
+MC_TEST_ADMIN_KEY=dein_geheimes_passwort  # Erforderlich für Admin-Features
+MC_TEST_MIN_SECONDS_BETWEEN=5  # Optional: Mindestsekunden zwischen Antworten
+```
+
+- **Admin-Zugang:** Ohne `MC_TEST_ADMIN_KEY` reicht ein beliebiges Passwort;
+  mit Key muss es exakt passen.
+- **Rate-Limiting:** Verhindert Spam; Standard: 0 (kein Limit).
+
+### Streamlit-Secrets (`.streamlit/secrets.toml`)
+
+Für Produktion:
+
+```toml
+MC_TEST_ADMIN_USER = "admin"
+MC_TEST_ADMIN_KEY = "secret123"
+MC_TEST_MIN_SECONDS_BETWEEN = 5
+```
+
+### Datenpersistenz (CSV)
+
+- **Datei:** `mc_test_answers.csv` (wird automatisch erstellt).
+- **Schema (ab August 2025):**
+
+  ```csv
+  user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
+  ```
+
+- **Felder:**
+
+  - `user_id_hash`: SHA-256-Hash des Pseudonyms (für Anonymität).
+  - `user_id_display`: Gekürzter Hash (z.B. erste 10 Zeichen).
+  - `user_id_plain`: Eingetragenes Pseudonym (für Leaderboard).
+  - `frage_nr`: Fragenummer.
+  - `frage`: Vollständiger Fragetext.
+  - `antwort`: Ausgewählte Option.
+  - `richtig`: 1 (richtig) oder -1 (falsch).
+  - `zeit`: ISO8601-Zeitstempel.
+
+- **Eigenschaften:** Append-only, Pandas-kompatibel, leicht zu sichern.
+
+---
+
+## 📁 Projektstruktur
+
+```
 mc_test_app/
-  README.md                # App documentation
-  mc_test_app.py           # Main Streamlit app (UI + logic)
-  core.py                  # Core functions
-  questions.json           # Question catalog (MC questions + options + solution)
-  requirements.txt         # All dependencies for app & tests
-  mc_test_answers.csv      # Answer log (auto-generated; may be missing)
-  .env                     # (optional) Environment config
-  .env.example             # (optional) Example ENV if used
-  __init__.py              # Package marker
-  .devcontainer/
-    devcontainer.json      # Devcontainer config
-  .github/
-    workflows/
-      ci.yml               # CI workflow for tests
-  .streamlit/
-    config.toml            # Streamlit config
-    secrets.toml           # Streamlit secrets
-  tests/
-    test_core.py           # Pytest tests for core functions
-    __pycache__/           # Test cache
-  __pycache__/             # App cache
-```
-
-## Data Persistence (CSV)
-
-
-Schema (ab August 2025):
-`user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit`
-
-
-Field explanations:
-
-- `user_id_hash`: SHA-256 hash of raw username (privacy)
-- `user_id_display`: Shortened hash prefix (default: first 10 chars)
-- `user_id_plain`: Entered pseudonym (plain text, for feedback/leaderboard)
-- `frage_nr`: Question number
-- `frage`: Full question text (for analysis without code)
-- `antwort`: Selected answer option (stored as string)
-- `richtig`: 1 (correct) or -1 (incorrect)
-- `zeit`: ISO8601 timestamp (UTC or local time)
-
-Properties:
-
-- Append-only: No overwriting of historical answers
-- Easy to version via Git or external backup
-- Compatible with Pandas: `pd.read_csv('mc_test_app/mc_test_answers.csv')`
-
-## Data Privacy & Security
-
-### Privacy Change (August 2025)
-
-- The entered pseudonym is now stored in plain text in the CSV (`user_id_plain`).
-- This enables direct feedback and leaderboard display for teachers/admins.
-- Pseudonyms are visible in the admin view and leaderboard, but are not linked to real names.
-- Data remains local and is not shared externally.
-- For anonymity, choose a pseudonym that does not reveal your identity.
-
-- No tracking beyond browser; changing name creates new hash and pseudonym.
-- CSV can be easily shared anonymously (if pseudonym is chosen accordingly).
-
-## Admin & Maintenance
-
-- CSV reset (manual: delete file, it will be recreated)
-- Environment variable `MC_TEST_ADMIN_KEY` for admin features
-- Backup recommendation: periodic copy of CSV (e.g. via cron or CI artifact)
-- Optional: add a `.env` (see `.env.example`) – auto-loaded if present
-- `MC_TEST_ADMIN_USER` (optional): restricts admin functions to a specific pseudonym
-- `MC_TEST_MIN_SECONDS_BETWEEN` (optional): minimum seconds between two answers (rate-limit/throttling)
-
-## Infrastructure Integration
-
-- Runs as standalone Streamlit service (see `docker-compose.yml`)
-- Can be combined with Jupyter environments (e.g. for CSV data analysis)
-- Easy deployment to Streamlit Cloud or other hosting platforms
-- No external databases required (lowers operational effort)
-
-## Deployment (Simple Variant)
-
-Push only the `mc_test_app/` subfolder to the remote `main` branch:
-
-```bash
-git subtree push --prefix mc_test_app github main
-```
-
-Requirements:
-
-- Remote is named `github` (otherwise use `origin`)
-- Changes in the subfolder are committed
-
-If the command fails due to divergence and you are the sole committer:
-
-```bash
-git pull --ff-only github main
-git subtree push --prefix mc_test_app github main
-```
-
-Alternative script/workflow variants have been removed for clarity.
-
-## CI / Quality
-
-- Tests (Pytest) + smoke test (short headless app start)
-- Protection against broken CSV lines (`on_bad_lines=skip`)
-- Retry on write (up to 3 attempts)
-
-## Accessibility & UX
-
-- Optional high contrast (sidebar toggle)
-- Larger font on request
-- Reduced animations (for calmer display / epilepsy prevention)
-- Display "Question X of N" above each question
-- Screenreader-only progress text (visually hidden)
-- Live countdown for active throttling (wait time until next answer)
-- Sticky progress bar at the top
-- Review mode after completion (all questions incl. correct answer)
-
-## Extension Ideas (Optional)
-
-- Extended question sources (e.g. YAML) or dynamic rotation
-- Multiple answers or weighted points
-- Time limits / timing statistics
-- ML-based item analysis (difficulty, discrimination)
-
-## Running Tests
-
-Install dependencies and run tests:
-
-```bash
-pip install -r mc_test_app/requirements.txt
-PYTHONPATH=. pytest mc_test_app/tests -q
+├── README.md                 # Diese Dokumentation
+├── mc_test_app.py            # Hauptapp (UI + Logik)
+├── core.py                   # Kernfunktionen (z.B. Hashing)
+├── questions.json            # Fragenkatalog (JSON)
+├── requirements.txt          # Abhängigkeiten
+├── mc_test_answers.csv       # Antwort-Logs (auto-generiert)
+├── .env                      # (Optional) ENV-Konfiguration
+├── .env.example              # Beispiel-ENV
+├── __init__.py               # Paket-Marker
+├── .devcontainer/
+│   └── devcontainer.json     # Dev-Container-Konfiguration
+├── .github/
+│   └── workflows/
+│       └── ci.yml            # CI-Workflow für Tests
+├── .streamlit/
+│   ├── config.toml           # Streamlit-Konfiguration
+│   └── secrets.toml          # Secrets (für Produktion)
+├── tests/
+│   ├── test_core.py          # Unit-Tests
+│   └── __pycache__/          # Cache
+└── __pycache__/              # App-Cache
 ```
 
 ---
-Last updated: 2025-08-16 (tests and README updated)
+
+## 🔒 Datenschutz & Sicherheit
+
+- **Anonymität:** Pseudonyme werden gehasht; nur Admins sehen Plaintext-Pseudonyme.
+- **Lokale Speicherung:** Keine externen Server; Daten bleiben auf dem Gerät.
+- **Admin-Schutz:** Geschützt durch ENV-Variablen; kein Zugriff ohne Key.
+- **Rate-Limiting:** Verhindert Missbrauch (konfigurierbar).
+- **Backup:** Sichere die CSV regelmäßig (z.B. via Git oder Cron).
+
+**Hinweis:** Bei sensiblen Daten teste in isolierter Umgebung.
+
+---
+
+## 🛠️ Admin & Wartung
+
+### Admin-Bereich
+
+- Zugang: Sidebar > Management > Key eingeben.
+- Funktionen: Leaderboard anzeigen, Scoring-Modus ändern,
+  alle Daten löschen (mit Bestätigung).
+- CSV-Reset: Lösche `mc_test_answers.csv` manuell (wird neu erstellt).
+
+### Tests ausführen
+
+```bash
+pip install -r requirements.txt
+PYTHONPATH=. pytest tests/ -q
+```
+
+### CI / Qualität
+
+- Automatische Tests via GitHub Actions.
+- Schutz gegen fehlerhafte CSV-Zeilen.
+- Retry-Logik bei Schreibfehlern.
+
+---
+
+## 🎨 Accessibility & UX
+
+- **Optionen:** Hoher Kontrast, große Schrift, reduzierte Animationen.
+- **Navigation:** Sticky Progress-Bar, Live-Countdown, Review-Modus.
+- **Feedback:** Motivationales Design, Erklärungen zu jeder Frage.
+
+---
+
+## 🐛 Troubleshooting
+
+### Häufige Probleme
+
+- **App startet nicht:** Prüfe Python-Version und Abhängigkeiten
+  (`pip install -r requirements.txt`).
+- **Fragen laden nicht:** Stelle sicher, dass `questions.json`
+  vorhanden und gültig ist.
+- **CSV-Fehler:** Lösche `mc_test_answers.csv` und starte neu (Daten gehen verloren).
+- **Admin-Zugang fehlt:** Prüfe `.env` oder `secrets.toml` auf korrekte Werte.
+- **Zeitlimit überschritten:** Test ohne Zeitdruck neu starten (Pseudonym ändern).
+
+### Logs prüfen
+
+- Streamlit-Logs: In der Konsole bei `streamlit run`.
+- CSV-Logs: Öffne `mc_test_answers.csv` mit Excel/Pandas.
+
+### Hilfe
+
+- Öffne ein Issue auf GitHub oder kontaktiere den Entwickler.
+
+---
+
+## 🚀 Erweiterungsideen
+
+- **Dynamische Fragen:** YAML-Quellen oder Rotation.
+- **Mehrsprachigkeit:** Englische Übersetzung.
+- **Erweiterte Analyse:** ML-basierte Schwierigkeitsanalyse.
+- **Integration:** Mit Jupyter für Datenanalyse kombinieren.
+
+---
+
+## 📝 Changelog
+
+- **2025-09-19:** README optimiert (Struktur, Klarheit, Troubleshooting hinzugefügt).
+- **2025-08-16:** Tests und README aktualisiert; Privacy-Änderungen.
+- **Früher:** Grundfunktionen, Docker-Unterstützung.
+
+---
+
+## 🤝 Contributing
+
+Beiträge willkommen! Forke das Repo, erstelle einen Branch und öffne einen Pull Request.
+Für größere Änderungen: Issue erstellen.
+
+**Letzte Aktualisierung:** 2025-09-19
