@@ -4,13 +4,18 @@ Verwendet streamlit.testing für automatisierte UI-Tests
 """
 
 import pytest
+import os
 from streamlit.testing.v1 import AppTest
 
 
 @pytest.fixture
 def app():
     """Fixture für die App-Instanz"""
-    return AppTest.from_file("/Users/kqc/amalea/mc_test_app/mc_test_app.py")
+    # Relativer Pfad von tests/ Verzeichnis zur mc_test_app.py
+    test_dir = os.path.dirname(__file__)
+    app_path = os.path.join(test_dir, "..", "mc_test_app.py")
+    app_path = os.path.abspath(app_path)
+    return AppTest.from_file(app_path)
 
 
 class TestUIComponents:
