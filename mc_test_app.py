@@ -159,6 +159,7 @@ def initialize_session_state():
     st.session_state.start_zeit = None
     st.session_state.progress_loaded = False
     st.session_state.optionen_shuffled = []
+    st.session_state.answer_outcomes = []  # Chronologische Liste der Korrektheitswerte (True/False)
     st.session_state.test_time_limit = 60 * 60  # 60 Minuten in Sekunden
     st.session_state.test_time_expired = False
     for q in fragen:
@@ -490,6 +491,11 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             else:
                 punkte = gewichtung if richtig else -1
             st.session_state.beantwortet[frage_idx] = punkte
+            # Chronologischen Verlauf ergänzen (für Streak-Badges)
+            try:
+                st.session_state.answer_outcomes.append(bool(richtig and punkte > 0) if scoring_mode == "positive_only" else bool(punkte > 0))
+            except Exception:
+                pass
             save_answer(
                 st.session_state.user_id,
                 st.session_state.user_id_hash,
@@ -617,6 +623,69 @@ def display_sidebar_metrics(num_answered: int) -> None:
     """
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
+    # --- Micro Badges (Streak / Progress Milestones) ---
+    try:
+        outcomes = st.session_state.get("answer_outcomes", [])
+        # Fallback: if outcomes list length < number of stored answers, attempt reconstruction
+        if outcomes and len(outcomes) < sum(p is not None for p in st.session_state.beantwortet):
+            # Rebuild from beantwortet for consistency
+            new_outcomes = []
+            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+            for p, frage in zip(st.session_state.beantwortet, fragen):
+                if p is None:
+                    continue
+                gewicht = int(frage.get("gewichtung", 1) or 1)
+                if scoring_mode == "positive_only":
+                    new_outcomes.append(p == gewicht)
+                else:
+                    new_outcomes.append(p == gewicht)
+            outcomes = new_outcomes
+            st.session_state.answer_outcomes = outcomes
+        elif not outcomes:
+            # First-time reconstruction if never initialized (legacy session)
+            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+            rebuilt = []
+            for p, frage in zip(st.session_state.beantwortet, fragen):
+                if p is None:
+                    continue
+                gewicht = int(frage.get("gewichtung", 1) or 1)
+                if scoring_mode == "positive_only":
+                    rebuilt.append(p == gewicht)
+                else:
+                    rebuilt.append(p == gewicht)
+            outcomes = rebuilt
+            st.session_state.answer_outcomes = outcomes
+        streak = 0
+        for outcome in reversed(outcomes):
+            if outcome:
+                streak += 1
+            else:
+                break
+        badges = []
+        # Streak tiers (show highest only)
+        if streak >= 10:
+            badges.append("⚡ 10er Streak!")
+        elif streak >= 5:
+            badges.append("🔥 5 richtige in Folge")
+        elif streak >= 3:
+            badges.append(f"🔥 {streak} richtige in Folge")
+        # Progress milestones (one-time)
+        if progress_pct >= 50 and not st.session_state.get("_badge_50_shown"):
+            badges.append("🏁 50% geschafft")
+            st.session_state._badge_50_shown = True
+        if progress_pct >= 75 and not st.session_state.get("_badge_75_shown"):
+            badges.append("🚀 75% erreicht")
+            st.session_state._badge_75_shown = True
+        if progress_pct >= 100 and not st.session_state.get("_badge_100_shown"):
+            badges.append("🏆 100% abgeschlossen!")
+            st.session_state._badge_100_shown = True
+        if badges:
+            badge_html = "".join([
+                f"<span style='display:inline-block;background:#333;padding:2px 8px;margin:2px 4px 6px 0;border-radius:12px;font-size:0.70rem;color:#eee;'>{b}</span>" for b in badges
+            ])
+            st.sidebar.markdown(badge_html, unsafe_allow_html=True)
+    except Exception:
+        pass
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     if _scoring is not None:
         max_punkte = _scoring.max_score(fragen, scoring_mode)
@@ -827,12 +896,18 @@ def display_final_summary(num_answered: int) -> None:
             themen = sorted(set([frage.get("thema", "") for frage in fragen if frage.get("thema")]))
             if themen:
                 filter_options += [f"Thema: {t}" for t in themen]
+            # Persist last chosen filter across reruns
+            default_index = 0
+            last_filter = st.session_state.get("review_last_filter")
+            if last_filter in filter_options:
+                default_index = filter_options.index(last_filter)
             filter_option = st.selectbox(
                 "Welche Fragen anzeigen?",
                 filter_options,
-                index=0,
+                index=default_index,
                 key="review_filter_option",
             )
+            st.session_state.review_last_filter = filter_option
             # Build indices_to_show according to filter_option
             indices_to_show = []
             for i, frage in enumerate(fragen):
@@ -913,7 +988,11 @@ def display_final_summary(num_answered: int) -> None:
                         )
                     erklaerung = frage.get("erklaerung")
                     if erklaerung:
-                        st.info(f"Erklärung: {erklaerung}")
+                        if len(erklaerung) > 200:
+                            with st.expander("Erklärung anzeigen"):
+                                st.markdown(erklaerung)
+                        else:
+                            st.info(f"Erklärung: {erklaerung}")
                     # Show feedback for wrong answer
                     if user_val is not None and user_val != korrekt:
                         if scoring_mode == "positive_only":
