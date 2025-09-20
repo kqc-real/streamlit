@@ -7,37 +7,27 @@ from unittest.mock import patch, mock_open
 from datetime import timedelta
 
 # Import from core.py
-from core import get_user_id_hash, _load_fragen, _duration_to_str
-
-# Import specific functions from mc_test_app.py
-# Note: These may not be directly importable; adjust as needed
+import importlib
 try:
-    import sys
-    sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-    from mc_test_app import (
-        get_rate_limit_seconds,
-        user_has_progress,
-        calculate_leaderboard,
-        save_answer,
-        initialize_session_state,
-    )
-except ImportError as e:
-    print(f"Warning: Could not import from mc_test_app: {e}")
-    # Define dummy functions for testing if import fails
-    def get_rate_limit_seconds():
-        return 0
+    # Package layout
+    from mc_test_app import core as core  # type: ignore
+    from mc_test_app import mc_test_app as app_mod  # type: ignore
+except Exception:
+    # Flat layout (repo root is the app folder)
+    import core as core  # type: ignore
+    import mc_test_app as app_mod  # type: ignore
 
-    def user_has_progress(user_id_hash):
-        return False
+get_user_id_hash = core.get_user_id_hash  # type: ignore
+_load_fragen = core._load_fragen  # type: ignore
+_duration_to_str = core._duration_to_str  # type: ignore
 
-    def calculate_leaderboard():
-        return None
+get_rate_limit_seconds = app_mod.get_rate_limit_seconds
+user_has_progress = app_mod.user_has_progress
+calculate_leaderboard = app_mod.calculate_leaderboard
+save_answer = app_mod.save_answer
+initialize_session_state = app_mod.initialize_session_state
 
-    def save_answer(*args):
-        pass
-
-    def initialize_session_state():
-        pass
+# Removed legacy fallback imports (package import now stable)
 
 
 def test_get_user_id_hash():
@@ -84,7 +74,7 @@ def test_user_has_progress():
         f.write("testhash,abcd1234,testuser,1,Test Frage,Option A,1,2025-09-19T10:00:00\n")
     
     # Mock the LOGFILE to point to our temp file
-    with patch('mc_test_app.LOGFILE', temp_file):
+    with patch.object(app_mod, 'LOGFILE', temp_file):
         # Test with existing progress
         assert user_has_progress("testhash") is True
         # Test with no progress
@@ -116,8 +106,8 @@ def test_initialize_session_state():
             pass
     
     mock_state = MockSessionState()
-    with patch('mc_test_app.st.session_state', mock_state), \
-         patch('mc_test_app.fragen', [{'frage': 'test'}]):  # Mock fragen
+    with patch('mc_test_app.mc_test_app.st.session_state', mock_state), \
+        patch('mc_test_app.mc_test_app.fragen', [{'frage': 'test'}]):  # Mock fragen
         initialize_session_state()
         assert hasattr(mock_state, 'beantwortet')
         assert hasattr(mock_state, 'frage_indices')
@@ -126,8 +116,8 @@ def test_initialize_session_state():
 
 def test_save_answer():
     # Mock dependencies
-    with patch('mc_test_app.get_user_id_hash', return_value='testhash'), \
-         patch('mc_test_app.datetime') as mock_datetime, \
+    with patch.object(app_mod, 'get_user_id_hash', return_value='testhash'), \
+        patch.object(app_mod, 'datetime') as mock_datetime, \
          patch('builtins.open', mock_open()) as mock_file, \
          patch('streamlit.session_state', {'user_id': 'testuser'}), \
          patch('os.path.isfile', return_value=False):

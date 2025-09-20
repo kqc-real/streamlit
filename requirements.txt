@@ -12,3 +12,6 @@ python-dotenv>=1.0.0
 
 # Test dependency (needed by GitHub Actions CI workflow)
 pytest>=8.0,<9
+
+# File locking for safe concurrent CSV appends
+filelock>=3.13

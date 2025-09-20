@@ -7,7 +7,6 @@ Autor: kqc
 
 # Standardbibliotheken
 import os
-import csv
 import time
 import json
 import random
@@ -19,6 +18,19 @@ from typing import List, Dict
 # Drittanbieter-Bibliotheken
 import streamlit as st
 import pandas as pd
+try:
+    from . import scoring as _scoring  # type: ignore
+except Exception:  # pragma: no cover
+    _scoring = None
+
+try:  # Support import when used as a package (tests) or as script (streamlit run)
+    from .core import append_answer_row  # type: ignore
+except Exception:  # pragma: no cover
+    import sys as _sys, os as _os
+    _here = _os.path.dirname(__file__)
+    if _here not in _sys.path:
+        _sys.path.append(_here)
+    from core import append_answer_row  # type: ignore
 
 
 try:  # pragma: no cover
@@ -71,14 +83,25 @@ STICKY_BAR_CSS = ""  # Now loaded from external CSS file
 
 
 def get_rate_limit_seconds() -> int:
-    """Liefert die minimale Wartezeit zwischen Antworten (Sekunden)."""
-    try:
-        val = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", None)
-        if val is None:
-            val = os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "0")
-        return int(val)
+    """Liefert die minimale Wartezeit zwischen Antworten (Sekunden).
+
+    Priorität: Environment-Variable > st.secrets > Default 0
+    Robust gegenüber fehlendem Streamlit-Kontext (Tests / CLI).
+    """
+    env_val = os.getenv("MC_TEST_MIN_SECONDS_BETWEEN")
+    if env_val is not None:
+        try:
+            return int(env_val)
+        except Exception:
+            return 0
+    # Fallback secrets
+    try:  # pragma: no cover - secrets meist nicht im Test
+        secrets_val = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", None)
+        if secrets_val is not None:
+            return int(secrets_val)
     except Exception:
-        return 0
+        pass
+    return 0
 
 
 def _load_fragen() -> List[Dict]:
@@ -379,19 +402,12 @@ def save_answer(
     attempt = 0
     while attempt < MAX_SAVE_RETRIES:
         try:
-            file_exists_and_not_empty = (
-                os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0
-            )
-            with open(LOGFILE, "a", newline="", encoding="utf-8") as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=FIELDNAMES)
-                if not file_exists_and_not_empty:
-                    writer.writeheader()
-                writer.writerow(row)
+            append_answer_row(row)
             st.session_state[dup_key] = True
             if min_delta > 0:
                 st.session_state["last_answer_ts"] = time.time()
             return
-        except IOError as e:
+        except Exception as e:  # broad to also catch lock timeout
             attempt += 1
             if attempt >= MAX_SAVE_RETRIES:
                 st.error(f"Konnte Antwort nicht speichern (Versuche={attempt}): {e}")
@@ -543,33 +559,10 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 st.rerun()
 
 
-@st.cache_data
 def calculate_leaderboard() -> pd.DataFrame:
-    if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
+    if _scoring is None:
         return pd.DataFrame()
-    try:
-        df = pd.read_csv(LOGFILE)
-        df["richtig"] = pd.to_numeric(df["richtig"], errors="coerce")
-        df["zeit"] = pd.to_datetime(df["zeit"], errors="coerce")
-        agg_df = (
-            df.groupby("user_id_hash")
-            .agg(
-                Punkte=("richtig", "sum"),
-                Anzahl_Antworten=("frage_nr", "count"),
-                Pseudonym=("user_id_plain", "first"),
-            )
-            .reset_index()
-        )
-        completed_df = agg_df[agg_df["Anzahl_Antworten"] >= FRAGEN_ANZAHL].copy()
-        if completed_df.empty:
-            return pd.DataFrame()
-        leaderboard = completed_df.sort_values(by=["Punkte"], ascending=[False])
-        leaderboard = leaderboard[["Pseudonym", "Punkte"]].head(5)
-        leaderboard.reset_index(drop=True, inplace=True)
-        leaderboard.insert(0, "Platz", leaderboard.index + 1)
-        return leaderboard
-    except Exception:
-        return pd.DataFrame()
+    return _scoring.leaderboard_completed(FRAGEN_ANZAHL or 0)
 
 
 def display_sidebar_metrics(num_answered: int) -> None:
@@ -583,18 +576,26 @@ def display_sidebar_metrics(num_answered: int) -> None:
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
-    if scoring_mode == "positive_only":
-        aktueller_punktestand = sum(
-            [
-                frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
-                for p, frage in zip(st.session_state.beantwortet, fragen)
-            ]
+    if _scoring is not None:
+        max_punkte = _scoring.max_score(fragen, scoring_mode)
+        aktueller_punktestand = _scoring.current_score(
+            st.session_state.beantwortet, fragen, scoring_mode
         )
-    else:
-        aktueller_punktestand = sum(
-            [p if p is not None else 0 for p in st.session_state.beantwortet]
-        )
+    else:  # fallback
+        max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+        if scoring_mode == "positive_only":
+            aktueller_punktestand = sum(
+                [
+                    frage.get("gewichtung", 1)
+                    if p == frage.get("gewichtung", 1)
+                    else 0
+                    for p, frage in zip(st.session_state.beantwortet, fragen)
+                ]
+            )
+        else:
+            aktueller_punktestand = sum(
+                [p if p is not None else 0 for p in st.session_state.beantwortet]
+            )
     st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
         label="Dein Score:", value=f"{aktueller_punktestand} / {max_punkte}"
@@ -611,7 +612,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
             st.session_state.pop("next_allowed_time", None)
     if num_answered == len(fragen):
         # Motivational emoji/quote after test completion
-        prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
+        prozent = (
+            _scoring.percentage(st.session_state.beantwortet, fragen, scoring_mode)
+            if _scoring is not None
+            else (aktueller_punktestand / max_punkte if max_punkte > 0 else 0)
+        )
         scoring_mode = st.session_state.get("scoring_mode", "positive_only")
         if scoring_mode == "positive_only":
             if prozent == 1.0:
@@ -679,19 +684,30 @@ def display_final_summary(num_answered: int) -> None:
     ):
         return
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-    if scoring_mode == "positive_only":
-        aktueller_punktestand = sum(
-            [
-                frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
-                for p, frage in zip(st.session_state.beantwortet, fragen)
-            ]
+    if _scoring is not None:
+        max_punkte = _scoring.max_score(fragen, scoring_mode)
+        aktueller_punktestand = _scoring.current_score(
+            st.session_state.beantwortet, fragen, scoring_mode
         )
-    else:
-        aktueller_punktestand = sum(
-            [p for p in st.session_state.beantwortet if p is not None]
+        prozent = _scoring.percentage(
+            st.session_state.beantwortet, fragen, scoring_mode
         )
-    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
-    prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
+    else:  # fallback
+        if scoring_mode == "positive_only":
+            aktueller_punktestand = sum(
+                [
+                    frage.get("gewichtung", 1)
+                    if p == frage.get("gewichtung", 1)
+                    else 0
+                    for p, frage in zip(st.session_state.beantwortet, fragen)
+                ]
+            )
+        else:
+            aktueller_punktestand = sum(
+                [p for p in st.session_state.beantwortet if p is not None]
+            )
+        max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+        prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
     if st.session_state.get("test_time_expired", False):

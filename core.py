@@ -4,8 +4,49 @@ Kernfunktionen für MC-Test App (lehrbeispielhaft extrahiert)
 import hashlib
 import json
 import os
+from typing import Dict, Any
+
 import pandas as pd
-from datetime import timedelta
+from filelock import FileLock
+
+
+ANSWER_FIELDNAMES = [
+    "user_id_hash",
+    "user_id_display",
+    "user_id_plain",
+    "frage_nr",
+    "frage",
+    "antwort",
+    "richtig",
+    "zeit",
+]
+
+
+def get_answers_path() -> str:
+    return os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
+
+
+def append_answer_row(row: Dict[str, Any]) -> None:
+    """Append a single answer row to the CSV with file locking.
+
+    Creates the file with header if it does not yet exist.
+    Silently ignores key errors by restricting to known columns.
+    """
+    path = get_answers_path()
+    lock_path = path + ".lock"
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    # Filter to expected columns only
+    filtered = {k: row.get(k, "") for k in ANSWER_FIELDNAMES}
+    lock = FileLock(lock_path, timeout=5)
+    with lock:  # Raises if cannot acquire within timeout
+        file_exists_and_not_empty = os.path.isfile(path) and os.path.getsize(path) > 0
+        import csv  # local import keeps core import surface minimal
+
+        with open(path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=ANSWER_FIELDNAMES)
+            if not file_exists_and_not_empty:
+                writer.writeheader()
+            writer.writerow(filtered)
 
 def get_user_id_hash(user_id: str) -> str:
     """Berechnet einen SHA256-Hash für das Pseudonym."""

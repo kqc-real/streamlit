@@ -134,27 +134,62 @@ MC_TEST_MIN_SECONDS_BETWEEN = 5
 ```
 mc_test_app/
 ├── README.md                 # Diese Dokumentation
-├── mc_test_app.py            # Hauptapp (UI + Logik)
-├── core.py                   # Kernfunktionen (z.B. Hashing)
+├── mc_test_app.py            # Hauptapp (UI + kombinierte Logik – wird schrittweise entschlackt)
+├── core.py                   # Speicher/Hash/CSV-Basisfunktionen
+├── scoring.py                # (Neu) Zentrale Score-/Leaderboard-Berechnung (Top-5 Abbildung)
 ├── questions.json            # Fragenkatalog (JSON)
 ├── requirements.txt          # Abhängigkeiten
 ├── mc_test_answers.csv       # Antwort-Logs (auto-generiert)
-├── .env                      # (Optional) ENV-Konfiguration
-├── .env.example              # Beispiel-ENV
+├── .env / .env.example       # ENV-Konfiguration
 ├── __init__.py               # Paket-Marker
 ├── .devcontainer/
 │   └── devcontainer.json     # Dev-Container-Konfiguration
 ├── .github/
 │   └── workflows/
-│       └── ci.yml            # CI-Workflow für Tests
+│       └── mc_test_app_ci.yml # Subtree-spezifischer CI-Workflow
 ├── .streamlit/
 │   ├── config.toml           # Streamlit-Konfiguration
 │   └── secrets.toml          # Secrets (für Produktion)
 ├── tests/
-│   ├── test_core.py          # Unit-Tests
-│   └── __pycache__/          # Cache
+│   ├── test_core.py          # Kern-/App-Tests (Import-fallback)
+│   ├── test_edge_cases.py    # Edge Cases (Duplicate Guard, Leaderboard leer usw.)
+│   ├── test_storage.py       # File-Locking & Parallel-Append
+│   └── test_ui.py            # UI-Sanity via streamlit.testing
 └── __pycache__/              # App-Cache
 ```
+
+### Aktueller Modularisierungsstand
+
+| Modul | Zweck | Status |
+|-------|-------|--------|
+| `core.py` | CSV-Persistenz, Locking, Hashing, Fragenladen | Stabil |
+| `scoring.py` | Score-Berechnung, Max-/Ist-Punkte, Leaderboard (abstrakt) | Neu (eingebunden) |
+| `mc_test_app.py` | UI, Session-State, Admin, Review, Frageanzeige | Wird weiter zerlegt |
+| `leaderboard.py` | (Geplant) Admin-Ansicht + Aggregationen (`calculate_leaderboard_all`) | Ausstehend |
+| `review.py` | (Geplant) Final Summary + Review-Filterlogik | Ausstehend |
+
+Nach jeder Auslagerung werden Wrapper im Hauptmodul belassen, um vorhandene Tests & externe Nutzer nicht zu brechen (Backward Compatibility Layer).
+
+### Warum Auslagerung?
+
+- Reduziert Komplexität im Hauptfile (>1000 Zeilen → besser wartbar)
+- Erleichtert gezieltes Testen (kleinere Oberflächen / klarere Verantwortlichkeiten)
+- Vorbereitung für mögliche Wiederverwendung (z.B. Headless-Auswertung, API)
+
+### Integration der neuen `scoring`-Funktionen
+
+`mc_test_app.py` verwendet jetzt interne Wrapper, die auf `scoring.max_score`, `scoring.current_score`, `scoring.percentage` sowie `scoring.leaderboard_completed` delegieren. Tests behalten ihre bestehenden Aufrufe (`calculate_leaderboard()`) bei.
+
+Fallback-Strategie: Falls Import im Sonderlayout (z.B. direktes Skript) scheitert, läuft weiterhin die frühere Inline-Logik (defensiver Pfad, sollte aber selten aktiv sein).
+
+### Geplante nächste Schritte
+
+1. Extrahieren: `calculate_leaderboard_all` + `admin_view` → `leaderboard.py`
+2. Extrahieren: `display_final_summary` + Review-Filter → `review.py`
+3. Entfernen veralteter Duplikat-Logik nach stabiler CI-Phase
+4. README-Update (diese Sektion entsprechend pflegen)
+
+> Hinweis: Falls du nur den Subtree `mc_test_app` in ein eigenes Repo pushst, bleiben die Modul-Pfade stabil.
 
 ---
 
@@ -236,6 +271,7 @@ PYTHONPATH=. pytest tests/ -q
 
 ## 📝 Changelog
 
+- **2025-09-20:** Scoring modularisiert (`scoring.py`), CI-Workflow (`mc_test_app_ci.yml`) ergänzt, README-Modularchitektur hinzugefügt.
 - **2025-09-19:** README optimiert (Struktur, Klarheit, Troubleshooting hinzugefügt).
 - **2025-08-16:** Tests und README aktualisiert; Privacy-Änderungen.
 - **Früher:** Grundfunktionen, Docker-Unterstützung.
