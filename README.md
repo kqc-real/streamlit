@@ -72,7 +72,7 @@ docker compose up -d
 2. Verwende `git subtree` für saubere Trennung:
 
    ```bash
-   git subtree push --prefix mc_test_app origin main
+   git subtree push --prefix mc_test_app github main
    ```
 
 3. Deploye auf Streamlit Cloud oder ähnlichen Plattformen.
