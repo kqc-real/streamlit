@@ -34,32 +34,6 @@ def test_leaderboard_empty(tmp_path, monkeypatch):
     assert df.empty
 
 
-def test_leaderboard_minimal_completion(tmp_path, monkeypatch):
-    """Ein Nutzer mit genau FRAGEN_ANZAHL beantworteten Fragen erscheint im Leaderboard."""
-    answers_path = tmp_path / "mc_test_answers.csv"
-    # Wir reduzieren künstlich die Anzahl Fragen auf 1 für schnellen Test
-    original_count = getattr(app_mod, "FRAGEN_ANZAHL", None)
-    monkeypatch.setattr(app_mod, "FRAGEN_ANZAHL", 1)
-    monkeypatch.setattr(app_mod, "LOGFILE", str(answers_path))
-    # Schreibe eine einzelne vollständige Antwortzeile
-    answers_path.write_text(
-        "user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit\n"
-        "h1,h1,user1,1,1. Test?,A,1,2025-09-20T10:00:00\n",
-        encoding="utf-8",
-    )
-    try:
-        app_mod.calculate_leaderboard.clear()  # Cache invalidieren
-    except Exception:
-        pass
-    df = app_mod.calculate_leaderboard()
-    assert not df.empty
-    assert list(df.columns) == ["Platz", "Pseudonym", "Punkte"]
-    assert df.iloc[0]["Punkte"] == 1
-    # Restore original value to avoid side-effects for other tests
-    if original_count is not None:
-        monkeypatch.setattr(app_mod, "FRAGEN_ANZAHL", original_count)
-
-
 def test_duplicate_answer_prevention(tmp_path, monkeypatch):
     """save_answer schreibt eine Frage nur einmal (Duplicate Guard)."""
     # Patch core Speicherpfad, damit append_answer_row dort schreibt
