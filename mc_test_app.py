@@ -319,6 +319,10 @@ def load_user_progress(user_id_hash: str) -> None:
         if user_df.empty:
             return
         st.session_state.start_zeit = pd.to_datetime(user_df["zeit"]).min()
+        # Rekonstruiere answer_outcomes (True/FALSE) in chronologischer Reihenfolge,
+        # damit Streaks nach Laden des Fortschritts korrekt funktionieren.
+        # Kriterium: Ein Eintrag zählt als korrekt (True), wenn 'richtig' > 0.
+        reconstructed_outcomes = []
         for _, row in user_df.iterrows():
             frage_nr = int(row["frage_nr"])
             original_idx = next(
@@ -332,6 +336,12 @@ def load_user_progress(user_id_hash: str) -> None:
             if original_idx is not None:
                 st.session_state.beantwortet[original_idx] = int(row["richtig"])
                 st.session_state[f"frage_{original_idx}"] = row["antwort"]
+                try:
+                    reconstructed_outcomes.append(bool(int(row["richtig"]) > 0))
+                except Exception:
+                    pass
+        if reconstructed_outcomes:
+            st.session_state.answer_outcomes = reconstructed_outcomes
     except Exception as e:
         st.error(f"Fehler beim Laden des Fortschritts: {e}")
 
@@ -487,8 +497,9 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 punkte = gewichtung if richtig else -1
             st.session_state.beantwortet[frage_idx] = punkte
             # Chronologischen Verlauf ergänzen (für Streak-Badges)
+            # Outcome nur als bool korrekte Antwort (True) oder nicht (False) speichern.
             try:
-                st.session_state.answer_outcomes.append(bool(richtig and punkte > 0) if scoring_mode == "positive_only" else bool(punkte > 0))
+                st.session_state.answer_outcomes.append(True if punkte > 0 else False)
             except Exception:
                 pass
             save_answer(
@@ -568,24 +579,69 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             erklaerung = frage_obj.get("erklaerung")
             if erklaerung:
                 st.info(erklaerung)
-            # Dynamische Motivation direkt im Fragenbereich anzeigen
+            # Dynamische Badge/Streak + Motivation jetzt im Fragenbereich
             try:
                 outcomes = st.session_state.get("answer_outcomes", [])
                 num_answered_now = len([p for p in st.session_state.beantwortet if p is not None])
-                if num_answered_now > 0:
-                    num_correct = sum(1 for o in outcomes if o)
-                    accuracy = num_correct / num_answered_now if num_answered_now else 0.0
+                if num_answered_now > 0 and max_punkte > 0:
+                    # Punkte-basiertes Verhältnis statt reine Trefferquote
+                    achieved_points = aktueller_punktestand
+                    point_ratio = achieved_points / max_punkte
                     last_correct = outcomes[-1] if outcomes else False
-                    def acc_tier(a: float) -> str:
-                        if a >= 0.9:
+                    # Streak berechnen
+                    streak = 0
+                    for o in reversed(outcomes):
+                        if o:
+                            streak += 1
+                        else:
+                            break
+                    # Fortschritts-Prozent (globaler Fortschritt über Fragen)
+                    progress_pct_local = int((num_answered_now / len(fragen)) * 100) if len(fragen) > 0 else 0
+                    # Badges / Milestones (vormals Sidebar)
+                    badges = []
+                    # Dynamische Streak-Anzeige: ab 3 fortlaufend, mit speziellen Icons für hohe Serien
+                    if streak >= 3:
+                        if streak >= 20:
+                            icon = "🏅"
+                        elif streak >= 15:
+                            icon = "⚡"
+                        elif streak >= 10:
+                            icon = "⚡"
+                        elif streak >= 5:
+                            icon = "🔥"
+                        else:
+                            icon = "🔥"
+                        badges.append(f"{icon} {streak}er Streak")
+                    if progress_pct_local >= 50 and not st.session_state.get("_badge_50_shown"):
+                        badges.append("🏁 50% geschafft")
+                        st.session_state._badge_50_shown = True
+                    if progress_pct_local >= 75 and not st.session_state.get("_badge_75_shown"):
+                        badges.append("🚀 75% erreicht")
+                        st.session_state._badge_75_shown = True
+                    if progress_pct_local >= 100 and not st.session_state.get("_badge_100_shown"):
+                        badges.append("🏆 100% abgeschlossen")
+                        st.session_state._badge_100_shown = True
+                    if badges:
+                        badge_html = "".join(
+                            [
+                                f"<span style='display:inline-block;background:#2f2f2f;padding:2px 8px;margin:2px 4px 4px 0;border-radius:12px;font-size:0.70rem;color:#eee;'>{b}</span>"
+                                for b in badges
+                            ]
+                        )
+                        st.markdown(
+                            f"<div style='margin:4px 0 2px 0;' aria-label='Leistungs-Badges'>{badge_html}</div>",
+                            unsafe_allow_html=True,
+                        )
+                    def point_tier(r: float) -> str:
+                        if r >= 0.9:
                             return "elite"
-                        if a >= 0.75:
+                        if r >= 0.75:
                             return "high"
-                        if a >= 0.55:
+                        if r >= 0.55:
                             return "mid"
                         return "low"
-                    tier = acc_tier(accuracy)
-                    progress_pct_local = int((num_answered_now / len(fragen)) * 100) if len(fragen) > 0 else 0
+                    tier = point_tier(point_ratio)
+                    # progress_pct_local existiert bereits
                     if progress_pct_local < 30:
                         band = "early"
                     elif progress_pct_local < 60:
@@ -598,112 +654,166 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                         band = "final"
                     base_phrases = {
                         ("early", "low"): [
-                            "Einstieg holprig – jetzt Muster erkennen.",
+                            "Punktestart zäh – jetzt Muster erkennen.",
                             "Analyse statt Frust – ruhig weiter.",
-                            "Fokus schärfen, Treffer kommen.",
+                            "Fokus schärfen – Punkte kommen.",
                         ],
                         ("early", "mid"): [
-                            "Guter Start – stabil halten.",
-                            "Ruhig lesen, Sicherheit ausbauen.",
-                            "Solide Basis – weiter.",
+                            "Solider Punktestart – halten.",
+                            "Ruhig lesen, Basis ausbauen.",
+                            "Guter Flow – weiter.",
                         ],
                         ("early", "high"): [
-                            "Starker Start – Fokus halten!",
-                            "Sehr sauber bis hier.",
+                            "Starker Punkte-Start – Fokus!",
+                            "Sehr effizient bisher.",
                             "Momentum stimmt – präzise weiter.",
                         ],
                         ("early", "elite"): [
-                            "Perfekter Auftakt – exzellent!",
-                            "Makellos bis hier.",
+                            "Perfekter Punkteauftakt – exzellent!",
+                            "Makellos bisher.",
                             "Elite-Quote – konzentriert bleiben.",
                         ],
                         ("mid", "low"): [
-                            "Jetzt Korrektur: Erklärungen nutzen.",
-                            "Tempo raus – Genauigkeit rein.",
+                            "Punkte anheben: Erklärungen nutzen.",
+                            "Tempo raus – Präzision rein.",
                             "Strategiewechsel: Schlüsselbegriffe markieren.",
                         ],
                         ("mid", "mid"): [
-                            "Stabile Mitte – Potenzial da.",
+                            "Stabile Punkte-Mitte – Potenzial da.",
                             "Weiter fokussiert Schritt für Schritt.",
                             "Solider Fluss – jetzt schärfen.",
                         ],
                         ("mid", "high"): [
-                            "Sehr gute Quote – halten!",
+                            "Sehr gutes Punkte-Tempo – halten!",
                             "Stark unterwegs – keine Hast.",
-                            "Hohe Präzision – weiter so.",
+                            "Hohe Effizienz – weiter so.",
                         ],
                         ("mid", "elite"): [
-                            "Exzellent konstant – beeindruckend.",
-                            "Fast fehlerfrei – Qualität sichern.",
+                            "Exzellente Punkte-Rate – beeindruckend.",
+                            "Nahe fehlerfrei – Qualität sichern.",
                             "Elite-Niveau – strukturiert bleiben.",
                         ],
                         ("late", "low"): [
-                            "Letzte Phase: Genauigkeit zählt.",
+                            "Späte Phase: Punkte noch stabilisieren.",
                             "Fehlerquellen minimieren jetzt.",
                             "Sauber rausarbeiten statt raten.",
                         ],
                         ("late", "mid"): [
-                            "Gut durchgehalten – weiter sauber.",
-                            "Stabile Quote – konzentriert.",
+                            "Gute Punktelage – weiter sauber.",
+                            "Stabil bleiben – konzentriert.",
                             "Fast im Ziel – ruhig fertig.",
                         ],
                         ("late", "high"): [
-                            "Sehr stark – finish smart.",
+                            "Sehr starker Score – smart finish.",
                             "Top-Niveau halten.",
                             "Kontrolliert ins Ziel.",
                         ],
                         ("late", "elite"): [
-                            "Elite-Run – nicht nachlassen!",
+                            "Elite-Punktestand – nicht nachlassen!",
                             "Beinahe makellos – Fokus.",
                             "Grandios – sauber fertigführen.",
                         ],
                         ("close", "low"): [
-                            "Kurz vor Ende: Sorgfalt zählt.",
-                            "Noch Chancen für Treffer.",
+                            "Kurz vor Ende: Sorgfalt für Extra-Punkte.",
+                            "Noch Chancen auf Plus.",
                             "Letzte Fragen taktisch lesen.",
                         ],
                         ("close", "mid"): [
-                            "Endspurt – Quote stabilisieren.",
+                            "Endspurt – Punkte sichern.",
                             "Keine Unsauberkeiten jetzt.",
                             "Kurz vor Ziel – sauber bleiben.",
                         ],
                         ("close", "high"): [
-                            "Sehr stark – präzise abschließen.",
+                            "Sehr starker Score – präzise abschließen.",
                             "Fast durch – keine Hektik.",
                             "Top-Level bis zuletzt.",
                         ],
                         ("close", "elite"): [
-                            "Fast perfekt – konzentriert landen.",
+                            "Fast perfekter Score – sauber landen.",
                             "Elite bis zur Ziellinie.",
                             "Makelloses Finish anvisieren.",
                         ],
                         ("final", "low"): [
-                            "Geschafft – jetzt nacharbeiten.",
-                            "Reflexion: Welche Muster fehlten?",
+                            "Geschafft – Score analysieren.",
+                            "Reflexion: Muster fehlten?",
                             "Analyse nutzen für nächste Runde.",
                         ],
                         ("final", "mid"): [
-                            "Solide beendet – Wiederholung festigt.",
+                            "Solider Score – Wiederholung festigt.",
                             "Gute Basis – Review nutzen.",
-                            "Reflektiere Unsicherheiten.",
+                            "Unsicherheiten markieren.",
                         ],
                         ("final", "high"): [
-                            "Stark abgeschlossen – fast top.",
+                            "Stark abgeschlossen – nahezu top.",
                             "Sehr gute Runde – stabil!",
-                            "Leichte Wiederholung festigt.",
+                            "Gezielte Wiederholung festigt.",
                         ],
                         ("final", "elite"): [
-                            "Exzeptionell – nahezu perfekt!",
+                            "Exzeptioneller Score – nahezu perfekt!",
                             "Elite-Ergebnis – starke Arbeit.",
                             "Top-Performance – kurz sichern.",
                         ],
                     }
+                    # Punktegewinn der letzten Antwort bestimmen
+                    last_gain = 0
+                    if st.session_state.beantwortet and st.session_state.beantwortet[num_answered_now-1] is not None:
+                        raw_last = st.session_state.beantwortet[num_answered_now-1]
+                        # positive_only => voller Gewichtungspunkt oder 0
+                        if scoring_mode == "positive_only":
+                            last_gain = raw_last if isinstance(raw_last, (int,float)) else 0
+                        else:
+                            last_gain = raw_last if isinstance(raw_last, (int,float)) else 0
+                    # Intensität nach last_gain relativ zur typischen Gewichtung (Standard 1)
+                    if last_gain >= 2:
+                        praise_level = "max"
+                    elif last_gain == 1:
+                        praise_level = "high"
+                    elif last_gain > 0:
+                        praise_level = "mid"
+                    else:
+                        praise_level = "none"
                     if last_correct and tier in {"low", "mid"}:
-                        overlay = ["Momentum nutzen!", "Starker Treffer – weiter strukturieren."]
+                        if praise_level == "max":
+                            overlay = [
+                                "Großer Punktsprung! Momentum nutzen!",
+                                "Starker Multi-Gewinn – weiter strukturieren.",
+                            ]
+                        elif praise_level == "high":
+                            overlay = [
+                                "Punkt gewonnen – weiter aufbauen.",
+                                "Treffer hebt den Score – dranbleiben.",
+                            ]
+                        else:
+                            overlay = [
+                                "Leichter Fortschritt – Fokus halten.",
+                                "Score wächst – präzise bleiben.",
+                            ]
+                    elif last_correct and tier in {"high", "elite"}:
+                        if praise_level == "max":
+                            overlay = [
+                                "Wuchtiger Treffer – Elite festigen!",
+                                "Großer Gewinn – Kurs halten.",
+                            ]
+                        elif praise_level == "high":
+                            overlay = [
+                                "Konstant starke Punkte – weiter so.",
+                                "Solider Treffer – nächste sauber setzen.",
+                            ]
+                        else:
+                            overlay = [
+                                "Mini-Gewinn – Qualität bleibt hoch.",
+                                "Feinkorrektur möglich – Score top.",
+                            ]
                     elif (not last_correct) and tier in {"high", "elite"}:
-                        overlay = ["Mini-Delle – ruhig bleiben.", "Kurz prüfen, weiter stark."]
+                        overlay = [
+                            "Mini-Delle – ruhig bleiben.",
+                            "Kurz prüfen, Score bleibt stark.",
+                        ]
                     elif not last_correct and tier == "low":
-                        overlay = ["Reset: langsam & exakt lesen.", "Kurze Pause, dann sauber weiter."]
+                        overlay = [
+                            "Reset: langsam & exakt lesen.",
+                            "Kurze Pause – Punkte konsolidieren.",
+                        ]
                     else:
                         overlay = []
                     pool = base_phrases.get((band, tier), [])
@@ -711,6 +821,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     if final_pool:
                         rotation_index = num_answered_now % len(final_pool)
                         phrase = final_pool[rotation_index]
+                        phrase = f"[{achieved_points}/{max_punkte}] {phrase}"
                         st.markdown(
                             f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {phrase}</div>",
                             unsafe_allow_html=True,
@@ -746,71 +857,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
     """
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
-    # --- Micro Badges (Streak / Progress Milestones) --- (Motivation jetzt im Fragenbereich, nicht mehr Sidebar)
-    try:
-        outcomes = st.session_state.get("answer_outcomes", [])
-        # Fallback: if outcomes list length < number of stored answers, attempt reconstruction
-        if outcomes and len(outcomes) < sum(p is not None for p in st.session_state.beantwortet):
-            # Rebuild from beantwortet for consistency
-            new_outcomes = []
-            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-            for p, frage in zip(st.session_state.beantwortet, fragen):
-                if p is None:
-                    continue
-                gewicht = int(frage.get("gewichtung", 1) or 1)
-                if scoring_mode == "positive_only":
-                    new_outcomes.append(p == gewicht)
-                else:
-                    new_outcomes.append(p == gewicht)
-            outcomes = new_outcomes
-            st.session_state.answer_outcomes = outcomes
-        elif not outcomes:
-            # First-time reconstruction if never initialized (legacy session)
-            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-            rebuilt = []
-            for p, frage in zip(st.session_state.beantwortet, fragen):
-                if p is None:
-                    continue
-                gewicht = int(frage.get("gewichtung", 1) or 1)
-                if scoring_mode == "positive_only":
-                    rebuilt.append(p == gewicht)
-                else:
-                    rebuilt.append(p == gewicht)
-            outcomes = rebuilt
-            st.session_state.answer_outcomes = outcomes
-        streak = 0
-        for outcome in reversed(outcomes):
-            if outcome:
-                streak += 1
-            else:
-                break
-        badges = []
-        # Streak tiers (show highest only)
-        if streak >= 10:
-            badges.append("⚡ 10er Streak!")
-        elif streak >= 5:
-            badges.append("🔥 5 richtige in Folge")
-        elif streak >= 3:
-            badges.append(f"🔥 {streak} richtige in Folge")
-        # Progress milestones (one-time)
-        if progress_pct >= 50 and not st.session_state.get("_badge_50_shown"):
-            badges.append("🏁 50% geschafft")
-            st.session_state._badge_50_shown = True
-        if progress_pct >= 75 and not st.session_state.get("_badge_75_shown"):
-            badges.append("🚀 75% erreicht")
-            st.session_state._badge_75_shown = True
-        if progress_pct >= 100 and not st.session_state.get("_badge_100_shown"):
-            badges.append("🏆 100% abgeschlossen!")
-            st.session_state._badge_100_shown = True
-        if badges:
-            badge_html = "".join([
-                f"<span style='display:inline-block;background:#333;padding:2px 8px;margin:2px 4px 6px 0;border-radius:12px;font-size:0.70rem;color:#eee;'>{b}</span>" for b in badges
-            ])
-            st.sidebar.markdown(badge_html, unsafe_allow_html=True)
-        # Rotierende Motivations-Phrasen erst anzeigen, nachdem mindestens eine Frage beantwortet wurde
-        # Motivationstexte nicht mehr in der Sidebar anzeigen
-    except Exception:
-        pass
+    # (Badges/Streak in Fragenbereich verlegt – Sidebar zeigt nur noch Fortschritt + Score)
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     if _scoring is not None:
         max_punkte = _scoring.max_score(fragen, scoring_mode)
