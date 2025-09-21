@@ -240,8 +240,13 @@ Fehlschlagende Importe (Spezialumgebung) aktivieren Fallbacks.
 
 ```bash
 pip install -r requirements.txt
-PYTHONPATH=. pytest tests/ -q
+# Korrektes Test-Verzeichnis (Module liegen unter mc_test_app/):
+PYTHONPATH=. pytest mc_test_app/tests -q
 ```
+
+Hinweis: Ein Aufruf mit `pytest tests/ -q` führt inzwischen zu Exit-Code 5 ("no tests collected"),
+weil das frühere Root-`tests/` Verzeichnis entfernt/geleert wurde. Falls du noch ein altes
+`tests/`-Verzeichnis siehst, kannst du es gefahrlos löschen.
 
 ### CI / Qualität
 

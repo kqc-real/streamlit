@@ -34,38 +34,6 @@ def test_leaderboard_empty(tmp_path, monkeypatch):
     assert df.empty
 
 
-def test_duplicate_answer_prevention(tmp_path, monkeypatch):
-    """save_answer schreibt eine Frage nur einmal (Duplicate Guard)."""
-    # Patch core Speicherpfad, damit append_answer_row dort schreibt
-    answers_path = tmp_path / "mc_test_answers.csv"
-
-    def fake_get_answers_path():
-        return str(answers_path)
-
-    monkeypatch.setattr(core, "get_answers_path", fake_get_answers_path)
-    monkeypatch.setattr(app_mod, "LOGFILE", str(answers_path))
-
-    # Session State vorbereiten
-    st.session_state.clear()
-    st.session_state.user_id = "tester"
-    st.session_state.user_id_hash = "hash_tester"
-    st.session_state.beantwortet = [None]
-    st.session_state.frage_indices = [0]
-    st.session_state.optionen_shuffled = [["A", "B"]]
-
-    frage_obj = {"frage": "1. Test?", "optionen": ["A", "B"], "loesung": 0, "gewichtung": 1}
-
-    # Erster Save
-    app_mod.save_answer("tester", "hash_tester", frage_obj, "A", 1)
-    # Zweiter (doppelter) Save Versuch
-    app_mod.save_answer("tester", "hash_tester", frage_obj, "A", 1)
-
-    # Datei einlesen und prüfen, dass nur eine Datenzeile existiert
-    df = pd.read_csv(answers_path)
-    assert len(df) == 1
-    assert df.iloc[0]["antwort"] == "A"
-
-
 def test_duplicate_answer_via_csv_existing(tmp_path, monkeypatch):
     """Duplicate Guard greift auch, wenn bereits Zeile im CSV steht (simulate reload)."""
     answers_path = tmp_path / "mc_test_answers.csv"

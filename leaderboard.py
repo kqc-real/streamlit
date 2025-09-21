@@ -176,9 +176,18 @@ def admin_view():
     with tabs[0]:
         top_df = calculate_leaderboard()
         if top_df.empty:
-            st.info("Hier ist noch niemand durch! 👀")
+            import pandas as _pd
+            placeholder = _pd.DataFrame([
+                {"Platz": "", "Pseudonym": "", "Punkte": ""}
+            ])
+            st.dataframe(placeholder, use_container_width=True, hide_index=True)
         else:
-            st.dataframe(top_df, use_container_width=True)
+            # Rang-Icons ergänzen
+            icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+            df_show = top_df.copy()
+            if "Platz" in df_show.columns:
+                df_show.insert(0, "Rang", df_show["Platz"].map(icons).fillna(df_show["Platz"].astype(str)))
+            st.dataframe(df_show[[c for c in ["Rang", "Platz", "Pseudonym", "Punkte"] if c in df_show.columns]], use_container_width=True, hide_index=True)
             csv_bytes = top_df.to_csv(index=False).encode("utf-8")
             st.download_button(
                 "🥇 Top 5 als CSV runterladen",
@@ -191,7 +200,7 @@ def admin_view():
         if all_df.empty:
             st.info("Noch keine Einträge. Mach du den Anfang!")
         else:
-            st.dataframe(all_df, use_container_width=True)
+            st.dataframe(all_df, use_container_width=True, hide_index=True)
             csv_bytes = all_df.to_csv(index=False).encode("utf-8")
             st.download_button(
                 "👥 Alle Teilnahmen als CSV runterladen",
@@ -214,7 +223,7 @@ def admin_view():
         for c in missing:
             df_show[c] = ""
         df_show = df_show[show_cols].sort_values("zeit", ascending=True)
-        st.dataframe(df_show, use_container_width=True, height=400)
+        st.dataframe(df_show, use_container_width=True, height=400, hide_index=True)
         csv_bytes = df_logs.to_csv(index=False).encode("utf-8")
         st.download_button(
             "📄 Rohdaten als CSV runterladen",
