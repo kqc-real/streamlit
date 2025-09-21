@@ -1,78 +1,17 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,83,83. Was ist ein Nachteil der `Sigmoid`-Aktivierungsfunktion in tiefen Netzen?,Sie ist ausschließlich für Regressionsprobleme mit positiven Zielwerten geeignet.,0,2025-09-19T17:16:22
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,88,88. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?,Sie bestimmt die endgültige Anzahl der Hidden Layers im Netzwerk.,0,2025-09-19T17:16:30
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,93,93. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?,Ein Verfahren zur künstlichen Vergrößerung des Trainingsdatensatzes (Data Augmentation).,0,2025-09-19T17:16:36
-6d5b60ad223ec47e5741009de493eb1eb332677a02088f05d57f607cef75a084,6d5b60ad22,KQC,86,86. Welche Rolle spielt die `Softmax`-Funktion typischerweise in einem neuronalen Netz?,Sie wandelt die Logits der Ausgabeschicht in eine Wahrscheinlichkeitsverteilung über die Klassen um.,3,2025-09-19T17:16:40
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,2,2. Was ist Machine Learning?,C: Daten analysieren,1,2025-09-19T17:34:18
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,49,49. Was ist der primäre Zweck der `EXPOSE`-Anweisung in einem `Dockerfile`?,"Den Port zu dokumentieren, auf dem der Service im Container lauscht.",1,2025-09-19T17:35:01
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,15,15. Welchen Zweck erfüllt die Datei `requirements.txt` in einem Python-Projekt?,Sie listet die notwendigen Python-Paketabhängigkeiten und deren Versionen auf.,2,2025-09-19T17:35:17
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,78,78. Was ist ein Hauptvorteil von `Batch Normalization`?,Sie erhöht die Anzahl der lernbaren Parameter im Modell.,0,2025-09-20T18:23:55
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,69,69. Was ist eine zentrale 'Best Practice' im Machine Learning?,Sich immer für den komplexesten verfügbaren Algorithmus wie Deep Learning entscheiden.,0,2025-09-20T18:24:04
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,19,19. Wofür wird das `st.sidebar`-Objekt in Streamlit primär verwendet?,Um den `session_state` der Anwendung persistent zu speichern.,0,2025-09-20T18:24:09
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,100,100. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern?,"Klassische Filter wie Sobel sind fest definiert, während die Filter in CNNs während des Trainings gelernt werden.",3,2025-09-20T18:24:13
-h1,h1,user1,1,1. Test?,A,1,2025-09-20T10:00:00
-h0,h0,user0,1,1. Test?,A,1,2025-09-20T10:00:00
-h6,h6,user6,1,1. Test?,A,1,2025-09-20T10:00:06
-h9,h9,user9,1,1. Test?,A,1,2025-09-20T10:00:09
-h1,h1,user1,1,1. Test?,A,1,2025-09-20T10:00:01
-h5,h5,user5,1,1. Test?,A,1,2025-09-20T10:00:05
-h8,h8,user8,1,1. Test?,A,1,2025-09-20T10:00:08
-h3,h3,user3,1,1. Test?,A,1,2025-09-20T10:00:03
-h2,h2,user2,1,1. Test?,A,1,2025-09-20T10:00:02
-h7,h7,user7,1,1. Test?,A,1,2025-09-20T10:00:07
-h4,h4,user4,1,1. Test?,A,1,2025-09-20T10:00:04
-h1,h1,user1,1,1. Test?,A,1,2025-09-20T10:00:00
-h1,h1,user1,1,1. Test?,A,1,2025-09-20T10:00:01
-h6,h6,user6,1,1. Test?,A,1,2025-09-20T10:00:06
-h0,h0,user0,1,1. Test?,A,1,2025-09-20T10:00:00
-h5,h5,user5,1,1. Test?,A,1,2025-09-20T10:00:05
-h4,h4,user4,1,1. Test?,A,1,2025-09-20T10:00:04
-h3,h3,user3,1,1. Test?,A,1,2025-09-20T10:00:03
-h8,h8,user8,1,1. Test?,A,1,2025-09-20T10:00:08
-h7,h7,user7,1,1. Test?,A,1,2025-09-20T10:00:07
-h2,h2,user2,1,1. Test?,A,1,2025-09-20T10:00:02
-h9,h9,user9,1,1. Test?,A,1,2025-09-20T10:00:09
-h1,h1,user1,1,1. Test?,A,1,2025-09-20T10:00:00
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,1,1. Was ist der Hauptvorteil von Docker im Kontext von Data Science?,Eine schnellere Datenverarbeitung durch optimierte Container.,0,2025-09-20T19:07:47
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,64,64. Was ist ein typischer Einsatzbereich für den KNN-Algorithmus?,Die Analyse von Zeitreihendaten zur Vorhersage zukünftiger Werte.,0,2025-09-20T19:07:54
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,94,94. Welche Funktion hat ein `Mean-Filter` in der klassischen Bildverarbeitung?,"Er glättet das Bild und reduziert Rauschen, indem er Pixel durch den Mittelwert ihrer Nachbarschaft ersetzt.",1,2025-09-20T19:07:57
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,57,57. Was ist ein Vorteil des KNN-Algorithmus?,Er ist unempfindlich gegenüber der Skalierung der Features.,0,2025-09-20T19:08:09
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,75,75. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?,Eine zu kleine Lernrate während des Trainings.,0,2025-09-20T19:11:51
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,3,3. Was ist der Zweck eines `Dockerfile`?,Es enthält die schrittweisen Anweisungen zum Bauen eines Docker-Images.,1,2025-09-20T19:12:10
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,71,71. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?,"Es besteht aus Schichten von Neuronen, die durch gewichtete Verbindungen miteinander verknüpft sind.",2,2025-09-20T19:12:26
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,40,40. Was beschreibt der Begriff `Vektorisierung` im Kontext von `pandas`?,Das Anwenden von Operationen auf ganze Spalten (Arrays) statt auf einzelne Elemente in einer Schleife.,1,2025-09-20T19:13:06
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,80,80. Für welche Art von Aufgaben sind `Convolutional Neural Networks (CNNs)` besonders gut geeignet?,Aufgaben mit gitterartigen Daten wie Bildklassifikation und Objekterkennung.,3,2025-09-20T19:13:40
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,67,67. Was ist ein Vorteil von KNN gegenüber Entscheidungsbäumen?,Er macht keine Annahmen über die zugrundeliegende Datenverteilung.,2,2025-09-20T19:14:14
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,48,48. Was bewirkt die Taste `M` im Command Mode eines Jupyter Notebooks?,Sie wandelt die aktuelle Zelle in eine Markdown-Zelle um.,1,2025-09-20T19:16:39
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,42,42. Welchen Zweck erfüllt der Befehl `docker-compose down`?,"Er stoppt und entfernt die von `docker-compose up` erstellten Container, Netzwerke und Volumes.",1,2025-09-20T19:16:56
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,22,22. Was ist ein wesentlicher Vorteil der Verwendung von Funktionen in der Programmierung?,Sie fördern die Wiederverwendbarkeit von Code und die logische Strukturierung.,1,2025-09-20T19:17:12
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,20,20. Was ist der Hauptzweck des QUA³CK-Prozessmodells?,Die systematische Strukturierung eines Data-Science-Projekts von der Frage bis zum Transfer.,2,2025-09-20T19:17:33
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,8,8. Welche Funktion wird in `pandas` standardmäßig zum Einlesen einer CSV-Datei verwendet?,`pd.load_csv()`,0,2025-09-20T19:19:47
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,9,"9. Welcher Fehler tritt typischerweise auf, wenn man in `pandas` auf eine nicht existierende Spalte zugreift?",Ein `KeyError`,2,2025-09-20T19:20:07
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,81,81. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?,Es benötigt keine manuelle Einstellung der Lernrate.,0,2025-09-20T19:20:26
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,44,44. Welches Streamlit-Element wird zur Darstellung von Inhalten in nebeneinanderliegenden Spalten verwendet?,`st.columns()`,1,2025-09-20T19:20:39
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,28,28. Was ist der typische Anwendungsfall für `st.file_uploader` in einer Streamlit-App?,Das Hochladen von Dateien durch den Benutzer zur interaktiven Analyse in der App.,1,2025-09-20T19:20:55
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,61,61. Was ist ein typischer Vorteil von K-Means?,"Die Fähigkeit, verborgene Gruppen oder Muster in Daten zu entdecken.",2,2025-09-20T19:21:14
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,10,10. Was ist ein wesentlicher Unterschied zwischen `pip` und `conda` als Paketmanager?,"`pip` ist auf Python-Pakete beschränkt, während `conda` auch Umgebungen und Nicht-Python-Pakete verwalten kann.",2,2025-09-20T19:21:42
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,82,82. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?,Es lernt hierarchische und zunehmend komplexe Merkmale aus den Eingabedaten.,2,2025-09-20T19:22:01
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08,9f86d08188,test,53,53. Wie funktioniert der K-Nearest-Neighbors (KNN) Algorithmus?,Er erstellt einen hierarchischen Baum von Entscheidungsregeln.,0,2025-09-20T19:22:16
-d482ba4b7d3218f3e841038c407ed1f94e9846a4dd68e56bab7718903962aa98,d482ba4b7d,qwertz,40,40. Was beschreibt der Begriff `Vektorisierung` im Kontext von `pandas`?,Das Anwenden von Operationen auf ganze Spalten (Arrays) statt auf einzelne Elemente in einer Schleife.,1,2025-09-20T19:40:16
-d482ba4b7d3218f3e841038c407ed1f94e9846a4dd68e56bab7718903962aa98,d482ba4b7d,qwertz,55,55. Was ist ein typischer Anwendungsfall für K-Means Clustering?,Die Gruppierung von Datenpunkten in Cluster ohne vordefinierte Labels.,2,2025-09-20T19:40:40
-d482ba4b7d3218f3e841038c407ed1f94e9846a4dd68e56bab7718903962aa98,d482ba4b7d,qwertz,85,85. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?,Um die anfängliche Lernrate dynamisch während der ersten Epochen zu erhöhen.,0,2025-09-20T19:41:07
-d482ba4b7d3218f3e841038c407ed1f94e9846a4dd68e56bab7718903962aa98,d482ba4b7d,qwertz,94,94. Welche Funktion hat ein `Mean-Filter` in der klassischen Bildverarbeitung?,"Er glättet das Bild und reduziert Rauschen, indem er Pixel durch den Mittelwert ihrer Nachbarschaft ersetzt.",1,2025-09-20T19:41:20
-d482ba4b7d3218f3e841038c407ed1f94e9846a4dd68e56bab7718903962aa98,d482ba4b7d,qwertz,65,65. Welches Geschäftsproblem lässt sich gut mit K-Means lösen?,Die Segmentierung eines Kundenstamms in verschiedene Marketing-Gruppen.,2,2025-09-20T19:41:37
-d482ba4b7d3218f3e841038c407ed1f94e9846a4dd68e56bab7718903962aa98,d482ba4b7d,qwertz,45,45. Warum wird im `Dockerfile` `COPY requirements.txt .` vor `COPY . .` ausgeführt?,"Um sicherzustellen, dass die Abhängigkeiten als separate, wiederverwendbare Schicht im Image existieren.",0,2025-09-20T19:41:58
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,52,52. Was ist ein bekannter Nachteil von einzelnen Entscheidungsbäumen?,Sie können ausschließlich lineare Zusammenhänge modellieren.,0,2025-09-21T14:20:26
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,58,58. Was ist ein bekannter Nachteil des KNN-Algorithmus?,Er ist empfindlich gegenüber der Skalierung der Features.,2,2025-09-21T14:20:40
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,31,31. Wie kann die Performance von Filteroperationen in `pandas` verbessert werden?,Indem man statt Vektoroperationen explizite `for`-Schleifen verwendet.,0,2025-09-21T14:21:04
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,57,57. Was ist ein Vorteil des KNN-Algorithmus?,Er ist nicht-parametrisch und macht keine Annahmen über die Datenverteilung.,2,2025-09-21T14:21:24
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,90,90. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?,Die Fähigkeit zum automatischen 'Feature Learning' direkt aus Rohdaten.,2,2025-09-21T14:21:51
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,29,29. Wofür steht das Schlüsselwort `def` in Python?,"Für 'define', um eine neue Funktion oder Methode zu definieren.",1,2025-09-21T14:25:55
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,6,6. Was ist der primäre Zweck einer `docker-compose.yml`-Datei?,Die Definition und Orchestrierung einer Multi-Container-Anwendung.,1,2025-09-21T14:26:26
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,28,28. Was ist der typische Anwendungsfall für `st.file_uploader` in einer Streamlit-App?,Das automatische Hochladen der fertigen App in die Streamlit Cloud.,0,2025-09-21T14:26:36
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,47,47. Welches Werkzeug wird im Kurs-Setup für das Experiment-Tracking eingesetzt?,`MLflow`,1,2025-09-21T14:26:44
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,38,38. Was unterscheidet `st.session_state` von einer normalen globalen Variable in Streamlit?,`st.session_state` ist in der Ausführung schneller als eine globale Variable.,0,2025-09-21T14:26:51
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,23,23. Was unterscheidet die Docker-Befehle `stop` und `rm`?,"`docker stop` hält einen laufenden Container an, während `docker rm` einen gestoppten Container entfernt.",1,2025-09-21T14:27:24
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,18,18. Was ist ein wesentlicher Vorteil von `Docker Compose` gegenüber einzelnen `docker run`-Befehlen?,Es ermöglicht die deklarative Verwaltung und Verknüpfung mehrerer Services mit einem einzigen Befehl.,1,2025-09-21T14:27:45
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,50,"50. Welche Metrik eignet sich zur Bewertung eines K-Means-Clustering-Modells, wenn die wahren Labels bekannt sind?",`Root Mean Squared Error (RMSE)`,0,2025-09-21T14:28:02
-e3b98a4da31a127d4bde6e43033f66ba274cab0eb7eb1c70ec41402bf6273dd8,e3b98a4da3,t,92,92. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?,`Dropout`,0,2025-09-21T14:28:09
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,13,13. Was unterscheidet eine Python-Liste fundamental von einem Dictionary?,"Listen können nur Elemente des gleichen Datentyps enthalten, Dictionaries beliebige.",0,2025-09-21T14:51:11
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,81,81. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?,Es benötigt keine manuelle Einstellung der Lernrate.,0,2025-09-21T14:51:23
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,36,36. Welches Problem wird durch die Verwendung von Docker-Volumes gelöst?,Python-Abhängigkeiten können ohne `pip` direkt im Container installiert werden.,0,2025-09-21T14:51:29
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,40,40. Was beschreibt der Begriff `Vektorisierung` im Kontext von `pandas`?,Das Speichern eines DataFrames in einer speziellen Vektor-Datenbank.,0,2025-09-21T14:51:35
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,41,41. Welche MLOps-Praxis wird mit der K-Phase (Knowledge Transfer) des QUA³CK-Modells assoziiert?,Das Deployment in der Cloud und die Erstellung eines Portfolios.,2,2025-09-21T14:52:02
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,98,98. Was ist eine `Feature Map` in einem CNN?,"Die Ausgabe eines Filters nach der Faltungsoperation, die die Aktivierung eines Merkmals anzeigt.",3,2025-09-21T14:52:13
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,24,24. Welcher Fehlertyp ist spezifisch für die falsche Verwendung von Streamlit-Widgets?,`ModuleNotFoundError`,0,2025-09-21T14:52:25
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,84,84. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?,"Er verwendet keine Gradienten, sondern einen genetischen Algorithmus.",0,2025-09-21T14:52:31
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,100,100. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern?,CNN-Filter benötigen keine nichtlineare Aktivierungsfunktion nach der Anwendung.,0,2025-09-21T14:52:35
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,22,22. Was ist ein wesentlicher Vorteil der Verwendung von Funktionen in der Programmierung?,Sie fördern die Wiederverwendbarkeit von Code und die logische Strukturierung.,1,2025-09-21T15:13:29
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,75,75. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?,Eine zu kleine Lernrate während des Trainings.,0,2025-09-21T15:13:51
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,77,77. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?,Sie bestimmt die maximale Anzahl der Trainingsepochen.,0,2025-09-21T15:16:38
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,20,20. Was ist der Hauptzweck des QUA³CK-Prozessmodells?,Die Erstellung und Versionierung von relationalen Datenbank-Schemata.,0,2025-09-21T15:16:42
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,71,71. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?,"Es benötigt grundsätzlich keine Trainingsdaten, um zu funktionieren.",0,2025-09-21T15:16:47
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,60,60. Was repräsentiert ein interner Knoten in einem Entscheidungsbaum?,Eine finale Klassenzuweisung (ein Blatt).,0,2025-09-21T15:17:02
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,14,14. Mit welchem Schlüsselwort wird in Python eine Funktion definiert?,`def`,1,2025-09-21T15:17:18
