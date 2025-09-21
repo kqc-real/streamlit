@@ -211,10 +211,11 @@ def display_admin_full_review():
 
 def display_admin_panel():
     st.sidebar.success("Admin-Modus aktiv")
-    tab_analysis, tab_export, tab_system = st.tabs([
+    tab_analysis, tab_export, tab_system, tab_glossary = st.tabs([
         "📊 Analyse",
         "📤 Export",
         "🛠 System",
+        "📚 Glossar",
     ])
     with tab_analysis:
         display_admin_full_review()
@@ -245,8 +246,11 @@ def display_admin_panel():
         )
         st.write("Anzahl geladene Fragen:", FRAGEN_ANZAHL)
         st.write(
-            "Antworten im Log:",
-            sum(1 for _ in open(LOGFILE, "r", encoding="utf-8")) - 1 if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0 else 0,
+            "Antworten im Log:", (
+                sum(1 for _ in open(LOGFILE, "r", encoding="utf-8")) - 1
+                if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0
+                else 0
+            ),
         )
         if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
             try:
@@ -284,3 +288,42 @@ def display_admin_panel():
                             pass
             except Exception as e:  # pragma: no cover
                 st.warning(f"Erweiterte Metriken nicht verfügbar: {e}")
+    with tab_glossary:
+        st.markdown("### Glossar Itemanalyse")
+        st.write("Kurze Referenz zu allen angezeigten Kennzahlen der Itemanalyse und deren Interpretation.")
+        glossary = [
+            {"Begriff": "Antworten (gesamt)", "Erklärung": "Alle abgegebenen Antworten zum Item."},
+            {"Begriff": "Richtig", "Erklärung": "Anzahl richtiger Antworten (richtig > 0)."},
+            {"Begriff": "Richtig % (roh)", "Erklärung": "Prozent richtiger Antworten (p-Wert)."},
+            {"Begriff": "Schwierigkeitsgrad", "Erklärung": "p<30% schwierig, 30–70% mittel, >70% leicht."},
+            {"Begriff": "Trennschärfe (r_pb)", "Erklärung": "Korrelation Item (0/1) vs. Gesamtscore (ohne Item)."},
+            {"Begriff": "Trennschärfe", "Erklärung": "≥0.40 sehr gut, ≥0.30 gut, ≥0.20 mittel, sonst schwach."},
+            {"Begriff": "Häufigste falsche Antwort", "Erklärung": "Meistgewählter Distraktor (nur falsche)."},
+            {"Begriff": "Häufigkeit dieser falschen", "Erklärung": "Absolute Häufigkeit dieses Distraktors."},
+            {"Begriff": "Domin. Distraktor %", "Erklärung": "Anteil meistgewählter Distraktor an allen Antworten."},
+            {"Begriff": "Verteilung (Detail)", "Erklärung": "Optionen mit Häufigkeit, Anteil, korrekt?"},
+            {"Begriff": "Ø Antworten je Teilnehmer", "Erklärung": "Durchschnitt Antworten pro Nutzer (System)."},
+            {"Begriff": "Gesamt-Accuracy", "Erklärung": "Globaler Prozentanteil korrekter Antworten."},
+        ]
+        st.write("**Interpretationshinweise**:")
+        st.markdown("- Günstiger p-Bereich oft 30%–85%.")
+        st.markdown("- Trennschärfe <0.20: Item kritisch prüfen.")
+        st.markdown("- >90% richtig + niedrige Trennschärfe: evtl. zu leicht.")
+        st.markdown("- Dominanter Distraktor >40% + niedriger p: Missverständnis prüfen.")
+        st.markdown("- Verteilung zeigt selten genutzte oder überdominante Optionen.")
+        st.divider()
+        df_gloss = pd.DataFrame(glossary)
+        st.dataframe(df_gloss, use_container_width=True, hide_index=True)
+        st.divider()
+        st.markdown("#### Formeln")
+        st.latex(r"p = \frac{Richtig}{Antworten\ gesamt}")
+        st.latex(r"r_{pb} = \frac{\bar{X}_1 - \bar{X}_0}{s_X} \sqrt{\frac{n_1 n_0}{n(n-1)}}")
+        st.caption(
+            "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch. "
+            "Vereinfachte Form – alternative Schreibweisen möglich."
+        )
+        st.latex(r"Dominanter\ Distraktor\ % = \frac{Häufigkeit\ stärkster\ Distraktor}{Antworten\ gesamt} \times 100")
+        st.caption(
+            "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
+        )
+        st.divider()
