@@ -914,10 +914,6 @@ def display_sidebar_metrics(num_answered: int) -> None:
                 )
     leaderboard_df = calculate_leaderboard()
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-    user_is_admin = (
-        (not admin_user_cfg or st.session_state.get("user_id") == admin_user_cfg)
-        and st.session_state.get("admin_view", False)
-    )
     st.sidebar.header("🏆 Highscore")
     if not leaderboard_df.empty:
         # Render leaderboard as markdown table with HTML centering
@@ -1350,7 +1346,6 @@ def main():
         )
         # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
         import plotly.graph_objects as go
-        import plotly.io as pio
 
         df_fragen = pd.DataFrame(fragen)
         if "gewichtung" not in df_fragen.columns:
