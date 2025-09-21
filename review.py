@@ -27,7 +27,7 @@ FRAGEN_ANZAHL = _get_main_attr("FRAGEN_ANZAHL", 0)
 
 
 def display_admin_full_review():
-    st.sidebar.success("Admin‑Analyse aktiv – Auswertung im Hauptbereich sichtbar.")
+    # Hinweis entfernt: ehem. Sidebar-Meldung 'Admin‑Analyse aktiv – Auswertung im Hauptbereich sichtbar.'
     st.markdown("## 🧪 Gesamtübersicht aller Fragen")
     st.caption(
         "Metadaten: Schwierigkeitsgrad = Lösungsquote; Trennschärfe = Punkt-Biserial (Item vs. Gesamt ohne Item)."

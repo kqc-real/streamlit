@@ -1,0 +1,6 @@
+user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,73,73. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?,`ReLU` eignet sich besser für die Ausgabeschicht bei binärer Klassifikation.,0,2025-09-21T18:48:20
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,14,14. Mit welchem Schlüsselwort wird in Python eine Funktion definiert?,`def`,1,2025-09-21T18:48:28
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,77,77. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?,Sie berechnet die optimale Anzahl der Neuronen für die gegebene Aufgabe.,0,2025-09-21T18:48:40
+f37821ce302b648ec8c02039674b0dbbfb853f4fffca0edc774bb980cfe9e213,f37821ce30,ewewe,25,25. Welchen Zweck erfüllt das `st.metric`-Widget in Streamlit?,Es dient zur Anzeige einer einzelnen Kennzahl (KPI) mit optionalem Vergleichswert.,1,2025-09-21T18:50:50
+f37821ce302b648ec8c02039674b0dbbfb853f4fffca0edc774bb980cfe9e213,f37821ce30,ewewe,64,64. Was ist ein typischer Einsatzbereich für den KNN-Algorithmus?,"Empfehlungssysteme, die 'ähnliche' Benutzer oder Artikel finden.",2,2025-09-21T18:51:04

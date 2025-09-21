@@ -1067,8 +1067,6 @@ def display_sidebar_metrics(num_answered: int) -> None:
             )
             if st.session_state.show_admin_panel:
                 display_admin_panel()
-            else:
-                st.sidebar.info("Admin-Panel ausgeblendet – Checkbox aktivieren zum Anzeigen.")
 
 
 def display_admin_panel():  # Backward compat wrapper
@@ -1487,6 +1485,25 @@ def main():
 """,
             unsafe_allow_html=True,
         )
+        # Öffentliches Leaderboard (Top 5) auch unangemeldet anzeigen
+        try:
+            ensure_logfile_exists()
+            lb_df = calculate_leaderboard()
+            st.markdown("### 🥇 Aktuelle Top 5")
+            if lb_df is not None and not lb_df.empty:
+                show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
+                icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+                to_show = lb_df[show_cols].head(5).copy()
+                if "Platz" in to_show.columns:
+                    to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                    ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
+                else:
+                    ordered = show_cols
+                st.dataframe(to_show[ordered], use_container_width=True, hide_index=True)
+            else:
+                st.caption("Noch keine vollständigen Durchläufe – sei der Erste!")
+        except Exception:
+            pass
         # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
         import plotly.graph_objects as go
 
