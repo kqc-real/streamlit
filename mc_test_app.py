@@ -33,6 +33,41 @@ except Exception:  # pragma: no cover
         _sys.path.append(_here)
     from core import append_answer_row  # type: ignore
 
+# Neue modulare Imports (Leaderboard / Review)
+try:  # pragma: no cover - robust gegen frühe Test-Kontexte
+    from .leaderboard import (
+        calculate_leaderboard as _lb_calculate_leaderboard,
+        calculate_leaderboard_all as _lb_calculate_leaderboard_all,
+        admin_view as _lb_admin_view,
+        load_all_logs as _lb_load_all_logs,
+    )  # type: ignore
+except Exception:
+    _lb_calculate_leaderboard = None  # type: ignore
+    _lb_calculate_leaderboard_all = None  # type: ignore
+    _lb_admin_view = None  # type: ignore
+    _lb_load_all_logs = None  # type: ignore
+
+try:  # Review / Admin Analyse Panel
+    from .review import (
+        display_admin_panel as _rv_display_admin_panel,
+        display_admin_full_review as _rv_display_admin_full_review,
+    )  # type: ignore
+except Exception:
+    _rv_display_admin_panel = None  # type: ignore
+    _rv_display_admin_full_review = None  # type: ignore
+    # Fallback: direkter Import wenn als Skript ausgeführt (kein Paketkontext)
+    try:  # pragma: no cover
+        import importlib as _importlib, sys as _sys
+        _mod_name = 'review'
+        if _mod_name not in _sys.modules:
+            _rv_mod = _importlib.import_module(_mod_name)
+        else:
+            _rv_mod = _sys.modules[_mod_name]
+        _rv_display_admin_panel = getattr(_rv_mod, 'display_admin_panel', None)
+        _rv_display_admin_full_review = getattr(_rv_mod, 'display_admin_full_review', None)
+    except Exception:
+        pass
+
 # ---------------------------------------------------------------------------
 # Compatibility shim:
 # If the directory containing this file was directly added to sys.path (instead
@@ -262,88 +297,17 @@ def load_all_logs() -> pd.DataFrame:
         return pd.DataFrame(columns=FIELDNAMES)
 
 
-def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
-    if df.empty:
+def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:  # Backward compat wrapper
+    if _lb_calculate_leaderboard_all is None:
         return pd.DataFrame()
-    try:
-        tmp = df.copy()
-        tmp["richtig"] = pd.to_numeric(tmp["richtig"], errors="coerce")
-        tmp["zeit"] = pd.to_datetime(tmp["zeit"], errors="coerce")
-        agg_df = (
-            tmp.groupby("user_id_hash")
-            .agg(
-                Punkte=("richtig", "sum"),
-                Antworten=("frage_nr", "count"),
-                Start=("zeit", "min"),
-                Ende=("zeit", "max"),
-                Pseudonym=("user_id_plain", "first"),
-            )
-            .reset_index(drop=True)
-        )
-        agg_df["Dauer"] = agg_df["Ende"] - agg_df["Start"]
-        agg_df = agg_df.sort_values(by=["Punkte", "Dauer"], ascending=[False, True])
-        agg_df["Zeit"] = agg_df["Dauer"].apply(_duration_to_str)
-        return agg_df[["Pseudonym", "Punkte", "Antworten", "Zeit", "Start", "Ende"]]
-    except Exception:
-        return pd.DataFrame()
+    return _lb_calculate_leaderboard_all(df)
 
 
-def admin_view():
-    st.title("🏆 Management: Bestenliste & Logs")
-    df_logs = load_all_logs()
-    if df_logs.empty:
-        st.info("Noch keine Daten am Start.")
+def admin_view():  # Backward compat wrapper
+    if _lb_admin_view is None:
+        st.info("Admin-Ansicht derzeit nicht verfügbar (Modulfehler).")
         return
-    tabs = st.tabs(["🥇 Top 5 (fertig)", "👥 Alle Teilnahmen", "📄 Rohdaten"])
-    with tabs[0]:
-        top_df = calculate_leaderboard()
-        if top_df.empty:
-            st.info("Hier ist noch niemand durch! 👀")
-        else:
-            st.dataframe(top_df, use_container_width=True)
-            csv_bytes = top_df.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                "🥇 Top 5 als CSV runterladen",
-                csv_bytes,
-                file_name="leaderboard_top5.csv",
-                mime="text/csv",
-            )
-    with tabs[1]:
-        all_df = calculate_leaderboard_all(df_logs)
-        if all_df.empty:
-            st.info("Noch keine Einträge. Mach du den Anfang!")
-        else:
-            st.dataframe(all_df, use_container_width=True)
-            csv_bytes = all_df.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                "👥 Alle Teilnahmen als CSV runterladen",
-                csv_bytes,
-                file_name="leaderboard_all.csv",
-                mime="text/csv",
-            )
-    with tabs[2]:
-        show_cols = [
-            "user_id_plain",
-            "user_id_display",
-            "user_id_hash",
-            "frage_nr",
-            "antwort",
-            "richtig",
-            "zeit",
-        ]
-        df_show = df_logs.copy()
-        missing = [c for c in show_cols if c not in df_show.columns]
-        for c in missing:
-            df_show[c] = ""
-        df_show = df_show[show_cols].sort_values("zeit", ascending=True)
-        st.dataframe(df_show, use_container_width=True, height=400)
-        csv_bytes = df_logs.to_csv(index=False).encode("utf-8")
-        st.download_button(
-            "📄 Rohdaten als CSV runterladen",
-            csv_bytes,
-            file_name="mc_test_raw_logs.csv",
-            mime="text/csv",
-        )
+    _lb_admin_view()
 
 
 def load_user_progress(user_id_hash: str) -> None:
@@ -758,35 +722,14 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 st.rerun()
 
 
-def calculate_leaderboard() -> pd.DataFrame:
-    if _scoring is None:
+def calculate_leaderboard() -> pd.DataFrame:  # Backward compat wrapper
+    if _lb_calculate_leaderboard is None:
         return pd.DataFrame()
-    # Special-case: tests may monkeypatch FRAGEN_ANZAHL to 1 and expect a single
-    # completed answer to appear. Provide a lightweight inline implementation.
-    if (FRAGEN_ANZAHL or 0) <= 1:
-        lf = LOGFILE
-        if not (os.path.isfile(lf) and os.path.getsize(lf) > 0):
-            return pd.DataFrame()
-        try:
-            df = pd.read_csv(lf)
-            if df.empty:
-                return pd.DataFrame()
-            df["richtig"] = pd.to_numeric(df["richtig"], errors="coerce")
-            agg = (
-                df.groupby("user_id_hash")
-                .agg(Punkte=("richtig", "sum"), Pseudonym=("user_id_plain", "first"))
-                .reset_index(drop=True)
-            )
-            agg = agg.sort_values(by=["Punkte"], ascending=[False]).head(5)
-            agg.insert(0, "Platz", range(1, len(agg) + 1))
-            return agg[["Platz", "Pseudonym", "Punkte"]]
-        except Exception:
-            return pd.DataFrame()
-    return _scoring.leaderboard_completed(FRAGEN_ANZAHL or 0)
+    return _lb_calculate_leaderboard()
 
 # Expose clear() for tests to invalidate cached leaderboard (compatibility)
-try:  # pragma: no cover - trivial wrapper
-    calculate_leaderboard.clear = _scoring.leaderboard_completed.clear  # type: ignore[attr-defined]
+try:  # pragma: no cover
+    calculate_leaderboard.clear = _lb_calculate_leaderboard.clear  # type: ignore[attr-defined]
 except Exception:  # pragma: no cover
     def _noop():
         return None
@@ -904,13 +847,15 @@ def display_sidebar_metrics(num_answered: int) -> None:
             # Abgelaufen -> entfernen
             st.session_state.pop("next_allowed_time", None)
     if num_answered == len(fragen):
-        # Motivational emoji/quote after test completion
-        prozent = (
-            _scoring.percentage(st.session_state.beantwortet, fragen, scoring_mode)
-            if _scoring is not None
-            else (aktueller_punktestand / max_punkte if max_punkte > 0 else 0)
-        )
-        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+        # Motivational emoji/quote after test completion (Sidebar summary only)
+        if _scoring is not None:
+            prozent = _scoring.percentage(
+                st.session_state.beantwortet, fragen, scoring_mode
+            )
+        else:
+            prozent = (
+                aktueller_punktestand / max_punkte if max_punkte > 0 else 0
+            )
         if scoring_mode == "positive_only":
             if prozent == 1.0:
                 st.sidebar.success(
@@ -936,61 +881,40 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     "🌟🥇 Mega! Alles richtig, du bist ein MC-Test-Profi! 🚀"
                 )
             elif prozent >= 0.8:
-                st.sidebar.success("🎉👍 Sehr stark! Die meisten Konzepte sitzen. 🎯")
+                st.sidebar.success(
+                    "🎉👍 Sehr stark! Die meisten Konzepte sitzen. 🎯"
+                )
             elif prozent >= 0.5:
                 st.sidebar.success("🙂 Solide Leistung! Die Basics sitzen. 👍")
             else:
                 st.sidebar.success(
                     "🤔 Ein paar Sachen sind noch offen. Schau dir die Erklärungen an! 🔍"
                 )
-    leaderboard_df = calculate_leaderboard()
-    admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-    st.sidebar.header("🏆 Highscore")
-    if not leaderboard_df.empty:
-        # Render leaderboard as markdown table with HTML centering
-        table_md = "| Platz | Pseudonym | Punkte |\n|:---:|:---:|:---:|\n"
-        for _, row in leaderboard_df.iterrows():
-            table_md += f"| <div style='text-align:center'>{row['Platz']}</div> "
-            table_md += f"| <div style='text-align:center'>{row['Pseudonym']}</div> "
-            table_md += f"| <div style='text-align:center'>{row['Punkte']}</div> |\n"
-        st.sidebar.markdown(table_md, unsafe_allow_html=True)
-    else:
-        st.sidebar.info(
-            "Noch kein Eintrag in der Bestenliste – sei der oder die Erste, die den Test abschließt!"
-        )
 
-    # --- Auffälliger, horizontal zentrierter Logout-Button ---
-    st.sidebar.divider()
-    st.sidebar.info("Du kannst den Test mit einem anderen Pseudonym erneut starten.")
-    if st.sidebar.button("Abmelden", key="logout_btn"):
-        st.session_state.clear()
-        st.rerun()
-
-    # Admin-Gesamtübersicht Toggle nur bei (User == ADMIN_USER) UND validiertem geheimen Key
+    # Admin Panel Auth (moved here to restore functionality after refactor)
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     admin_key_cfg = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
     if not admin_user_cfg and not admin_key_cfg:
-        # DEV-Fallback (nur lokale Nutzung). Generiere einmalig pseudo-random Key.
         if "_dev_admin_key" not in st.session_state:
-            import secrets
-            st.session_state._dev_admin_key = secrets.token_urlsafe(16)
+            import secrets as _secrets
+            st.session_state._dev_admin_key = _secrets.token_urlsafe(16)
         admin_user_cfg = "admin"
         admin_key_cfg = st.session_state._dev_admin_key
         st.sidebar.warning(
-            "[DEV] Standard-Admin aktiv: Benutzer 'admin' + angezeigter Key. Setze MC_TEST_ADMIN_USER / MC_TEST_ADMIN_KEY für Produktion!"
+            "[DEV] Standard-Admin aktiv: Benutzer 'admin' + Key unten. Setze MC_TEST_ADMIN_USER / MC_TEST_ADMIN_KEY für Produktion!"
         )
         with st.sidebar.expander("DEV-Admin-Key"):
             st.code(admin_key_cfg, language="text")
     current_user = st.session_state.get("user_id")
-    # Cache Flag in Session, damit Key nicht bei jedem Rerun neu eingegeben werden muss
     if "admin_auth_ok" not in st.session_state:
         st.session_state.admin_auth_ok = False
+    if "show_admin_panel" not in st.session_state:
+        st.session_state.show_admin_panel = True
     if admin_user_cfg and current_user == admin_user_cfg:
-        # 1) Authentifizierung (falls Key vorhanden)
         if admin_key_cfg and not st.session_state.admin_auth_ok:
             with st.sidebar.expander("🔐 Admin-Authentifizierung", expanded=True):
                 entered = st.text_input(
-                    "Admin-Key eingeben", type="password", key="admin_key_input"
+                    "Admin-Key eingeben", type="password", key="admin_key_input_sidebar"
                 )
                 if entered:
                     if hmac_compare(entered, admin_key_cfg):
@@ -998,13 +922,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
                         st.success("Admin-Key validiert.")
                     else:
                         st.error("Falscher Admin-Key.")
-        # 2) Panel anzeigen nach erfolgreicher Authentifizierung / oder wenn kein Key nötig
         if (not admin_key_cfg) or st.session_state.admin_auth_ok:
-            # Sichtbarkeits-Schalter für Admin-Panel Tabs
-            if "show_admin_panel" not in st.session_state:
-                st.session_state.show_admin_panel = True
             st.session_state.show_admin_panel = st.sidebar.checkbox(
-                "Admin-Panel anzeigen", value=st.session_state.show_admin_panel, key="show_admin_panel_checkbox"
+                "Admin-Panel anzeigen",
+                value=st.session_state.show_admin_panel,
+                key="show_admin_panel_checkbox_sidebar",
             )
             if st.session_state.show_admin_panel:
                 display_admin_panel()
@@ -1012,293 +934,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
                 st.sidebar.info("Admin-Panel ausgeblendet – Checkbox aktivieren zum Anzeigen.")
 
 
-def display_admin_full_review():
-    st.sidebar.success("Admin‑Analyse aktiv – Auswertung im Hauptbereich sichtbar.")
-    st.markdown("## � Gesamtübersicht aller Fragen")
-    st.caption(
-        "Metadaten: Schwierigkeitsgrad = Lösungsquote; Trennschärfe = Punkt-Biserial (Item vs. Gesamt ohne Item)."
-    )
-    # Versuche Log zu laden
-    if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
-        st.info("Noch keine Antworten erfasst – es liegen keine Daten für die Auswertung vor.")
+def display_admin_panel():  # Backward compat wrapper
+    if _rv_display_admin_panel is None:
+        st.info("Admin-Panel Modul nicht verfügbar.")
         return
-    try:
-        df = pd.read_csv(LOGFILE, on_bad_lines="skip")
-    except Exception as e:
-        st.error(f"Antwort-Log konnte nicht geladen werden: {e}")
-        return
-    if df.empty:
-        st.info("Log-Datei ist leer – noch keine Einträge vorhanden.")
-        return
-    # Grund-Validierung
-    required_cols = {"frage_nr", "frage", "antwort", "richtig", "user_id_hash"}
-    if not required_cols.issubset(set(df.columns)):
-        st.warning("Log-Datei unvollständig – Auswertung möglicherweise eingeschränkt.")
-    # Aggregationen
-    # Normalisiere korrekte Antworten (richtig>0 => korrekt)
-    df["is_correct"] = df["richtig"].apply(
-        lambda x: 1
-        if pd.to_numeric(x, errors="coerce")
-        and int(pd.to_numeric(x, errors="coerce") or 0) > 0
-        else 0
-    )
-    grouped = df.groupby(["frage_nr", "frage"], as_index=False).agg(
-        n_answers=("antwort", "count"),
-        n_correct=("is_correct", "sum"),
-    )
-    grouped["correct_pct"] = grouped.apply(
-        lambda r: (r.n_correct / r.n_answers * 100) if r.n_answers else 0, axis=1
-    )
-
-    # Zusatz: Dominanter Distraktor % wird später berechnet, sobald falsch_anzahl vorhanden ist
-
-    # Vorbereitung für Trennschärfe (point-biserial): pro User Gesamtleistung (ohne aktuelles Item)
-    user_totals = (
-        df.groupby("user_id_hash", as_index=False)["is_correct"].sum().rename(
-            columns={"is_correct": "total_correct_all"}
-        )
-    )
-    df = df.merge(user_totals, on="user_id_hash", how="left")
-    df["total_correct_excl"] = df["total_correct_all"] - df["is_correct"]
-
-    # Funktion zur Berechnung der Punkt-Biserial-Korrelation je Item
-    def _point_biserial(sub: pd.DataFrame) -> float:
-        # item variable: is_correct (0/1); total score: total_correct_excl
-        if sub["is_correct"].nunique() < 2:
-            return float("nan")
-        if sub["total_correct_excl"].nunique() < 2:
-            return float("nan")
-        try:
-            return float(sub["is_correct"].corr(sub["total_correct_excl"]))
-        except Exception:
-            return float("nan")
-
-    discrim = (
-        df.groupby("frage_nr")
-        .apply(_point_biserial)
-        .reset_index(name="discrimination_pb")
-    )
-    grouped = grouped.merge(discrim, on="frage_nr", how="left")
-
-    # Qualitätslabel für Trennschärfe
-    def _disc_label(x: float) -> str:
-        if pd.isna(x):
-            return "—"
-        if x >= 0.40:
-            return "sehr gut"
-        if x >= 0.30:
-            return "gut"
-        if x >= 0.20:
-            return "mittel"
-        return "schwach"
-
-    # Schwierigkeits-Label (basierend auf Prozent richtig)
-    def _difficulty_label(pct: float) -> str:
-        if pct < 30:
-            return "schwierig"
-        if pct <= 70:
-            return "mittel"
-        return "leicht"
-
-    # Häufigste falsche Antwort je Frage
-    wrong_df = df[df["is_correct"] == 0]
-    if not wrong_df.empty:
-        most_wrong = (
-            wrong_df.groupby(["frage_nr", "antwort"])  # type: ignore[arg-type]
-            .size()
-            .reset_index(name="count")
-        )
-        idx = most_wrong.groupby("frage_nr")["count"].idxmax()
-        most_wrong_top = most_wrong.loc[idx][["frage_nr", "antwort", "count"]]
-        grouped = grouped.merge(most_wrong_top, on="frage_nr", how="left")
-        grouped.rename(
-            columns={"antwort": "häufigste_falsche_antwort", "count": "falsch_anzahl"},
-            inplace=True,
-        )
-    else:
-        grouped["häufigste_falsche_antwort"] = None
-        grouped["falsch_anzahl"] = 0
-    grouped["dominanter_distraktor_pct"] = grouped.apply(
-        lambda r: (r.falsch_anzahl / r.n_answers * 100) if r.n_answers else 0, axis=1
-    )
-    grouped["Schwierigkeitsgrad"] = grouped["correct_pct"].map(_difficulty_label)
-    grouped["Trennschärfe"] = grouped["discrimination_pb"].map(_disc_label)
-    # Sortierung: schwierigste zuerst (niedrigste Korrektquote), dann Fragen mit wenig Daten
-    grouped = grouped.sort_values(
-        by=["correct_pct", "discrimination_pb", "n_answers"],
-        ascending=[True, False, True],
-    )
-    # Anzeige als Tabelle
-    show_cols = [
-        "frage_nr",
-        "n_answers",
-        "n_correct",
-        "correct_pct",
-        "Schwierigkeitsgrad",
-        "discrimination_pb",
-        "Trennschärfe",
-        "häufigste_falsche_antwort",
-        "falsch_anzahl",
-        "dominanter_distraktor_pct",
-    ]
-    styled = grouped[show_cols].copy()
-    styled.rename(
-        columns={
-            "frage_nr": "Frage-Nr.",
-            "n_answers": "Antworten (gesamt)",
-            "n_correct": "Richtig",
-            "correct_pct": "Richtig % (roh)",
-            "discrimination_pb": "Trennschärfe (r_pb)",
-            "häufigste_falsche_antwort": "Häufigste falsche Antwort",
-            "falsch_anzahl": "Häufigkeit dieser falschen",
-            "dominanter_distraktor_pct": "Domin. Distraktor %",
-        },
-        inplace=True,
-    )
-    styled["Richtig %"] = grouped["correct_pct"].map(lambda v: f"{v:.1f}%")
-    styled["Domin. Distraktor %"] = grouped["dominanter_distraktor_pct"].map(
-        lambda v: f"{v:.1f}%" if v else "—"
-    )
-    styled["Trennschärfe (r_pb)"] = styled["Trennschärfe (r_pb)"].map(
-        lambda v: f"{v:.2f}" if pd.notna(v) else "—"
-    )
-    st.dataframe(styled, use_container_width=True)
-    # Optionale Detailauswahl einer Frage
-    with st.expander("🔎 Detail zu einer ausgewählten Frage"):
-        frage_nums = grouped["frage_nr"].tolist()
-        sel = (
-            st.selectbox(
-                "Frage auswählen",
-                frage_nums,
-                format_func=lambda x: f"Frage {x}",
-            )
-            if frage_nums
-            else None
-        )
-        if sel is not None:
-            detail = df[df["frage_nr"] == sel].copy()
-            st.markdown(f"### Frage {sel}: Verlauf & Antworten")
-            frage_text_series = grouped[grouped["frage_nr"] == sel]["frage"]
-            if not frage_text_series.empty:
-                raw_text = frage_text_series.iloc[0]
-                # Frage Text extrahieren (nach erstem Punkt)
-                try:
-                    text_only = raw_text.split(".", 1)[1].strip()
-                except Exception:
-                    text_only = raw_text
-                st.write(f"**Fragentext:** {text_only}")
-            st.write("Antwortverlauf (chronologisch, älteste zuerst):")
-            detail_sorted = detail[["user_id_hash", "antwort", "richtig", "zeit"]].sort_values(
-                by="zeit"
-            )
-            st.dataframe(detail_sorted, use_container_width=True)
-
-            # Antwortverteilung für die Frage
-            st.write("Antwortverteilung (Optionen – Häufigkeit & Anteil):")
-            dist = (
-                detail.groupby(["antwort"], as_index=False)
-                .agg(
-                    anzahl=("antwort", "count"),
-                    korrekt=("is_correct", "max"),
-                )
-                .sort_values(by="anzahl", ascending=False)
-            )
-            total = dist["anzahl"].sum() or 1
-            dist["Anteil %"] = dist["anzahl"].map(lambda v: f"{v / total * 100:.1f}%")
-            dist.rename(
-                columns={
-                    "antwort": "Option",
-                    "anzahl": "Anzahl",
-                    "korrekt": "Ist richtig",
-                },
-                inplace=True,
-            )
-            dist["Ist richtig"] = dist["Ist richtig"].map(lambda x: "✅" if x else "❌")
-            st.dataframe(dist, use_container_width=True)
-
-
-def display_admin_panel():
-    """Zentrales Admin-Panel mit mehreren Tabs (nach Auth)."""
-    st.sidebar.success("Admin-Modus aktiv")
-    tab_analysis, tab_export, tab_system = st.tabs([
-        "📊 Analyse",
-        "📤 Export",
-        "🛠 System",
-    ])
-    with tab_analysis:
-        display_admin_full_review()
-    with tab_export:
-        st.markdown("### Export / Downloads")
-        if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
-            try:
-                df_log = pd.read_csv(LOGFILE, on_bad_lines="skip")
-                csv_bytes = df_log.to_csv(index=False).encode("utf-8")
-                st.download_button(
-                    "Antwort-Log (CSV) herunterladen",
-                    data=csv_bytes,
-                    file_name="mc_test_answers_export.csv",
-                    mime="text/csv",
-                )
-                st.write("Spalten:", ", ".join(df_log.columns))
-            except Exception as e:
-                st.error(f"Export fehlgeschlagen: {e}")
-        else:
-            st.info("Kein Log vorhanden.")
-    with tab_system:
-        st.markdown("### System / Konfiguration")
-        st.write("Benutzer (Session):", st.session_state.get("user_id"))
-        st.write("Admin-User aktiv:", bool(os.getenv("MC_TEST_ADMIN_USER")))
-        st.write(
-            "Admin-Key-Modus:",
-            "Hash/Klartext gesetzt" if os.getenv("MC_TEST_ADMIN_KEY") else "DEV / keiner gesetzt",
-        )
-        st.write("Anzahl geladene Fragen:", FRAGEN_ANZAHL)
-        st.write(
-            "Antworten im Log:",
-            sum(1 for _ in open(LOGFILE, "r", encoding="utf-8")) - 1 if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0 else 0,
-        )
-        # Erweiterte Kennzahlen
-        if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
-            try:
-                df_sys = pd.read_csv(LOGFILE, on_bad_lines="skip")
-                if not df_sys.empty:
-                    unique_users = df_sys["user_id_hash"].nunique()
-                    st.write("Eindeutige Teilnehmer (gesamt):", unique_users)
-                    # Letzte Aktivität (max Zeit) + Umwandlung
-                    if "zeit" in df_sys.columns:
-                        try:
-                            df_sys["_ts"] = pd.to_datetime(df_sys["zeit"], errors="coerce")
-                            last_ts = df_sys["_ts"].max()
-                            if pd.notna(last_ts):
-                                st.write("Letzte Aktivität:", last_ts)
-                                # Aktive Nutzer <= 10 min
-                                cutoff = last_ts - pd.Timedelta(minutes=10)
-                                active_users = df_sys[df_sys["_ts"] >= cutoff]["user_id_hash"].nunique()
-                                st.write("Aktive Nutzer (<10 min):", active_users)
-                        except Exception:
-                            pass
-                    # Durchschnittliche Antworten pro Teilnehmer
-                    ans_per_user = (
-                        df_sys.groupby("user_id_hash")["frage_nr"].count().mean()
-                        if unique_users > 0
-                        else 0
-                    )
-                    st.write("Ø Antworten je Teilnehmer:", f"{ans_per_user:.1f}")
-                    # Gesamt-Accuracy
-                    if "richtig" in df_sys.columns:
-                        try:
-                            df_sys["_corr"] = df_sys["richtig"].apply(
-                                lambda x: 1
-                                if pd.to_numeric(x, errors="coerce")
-                                and int(pd.to_numeric(x, errors="coerce") or 0) > 0
-                                else 0
-                            )
-                            overall_acc = df_sys["_corr"].mean() * 100 if len(df_sys) else 0
-                            st.write("Gesamt-Accuracy aller Antworten:", f"{overall_acc:.1f}%")
-                        except Exception:
-                            pass
-            except Exception as e:
-                st.warning(f"Erweiterte Metriken nicht verfügbar: {e}")
+    _rv_display_admin_panel()
 
 
 def display_final_summary(num_answered: int) -> None:
