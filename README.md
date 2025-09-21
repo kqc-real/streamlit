@@ -158,38 +158,60 @@ mc_test_app/
 └── __pycache__/              # App-Cache
 ```
 
-### Aktueller Modularisierungsstand
+### Modularisierungsstand (Stand 2025‑09‑21)
 
 | Modul | Zweck | Status |
 |-------|-------|--------|
 | `core.py` | CSV-Persistenz, Locking, Hashing, Fragenladen | Stabil |
-| `scoring.py` | Score-Berechnung, Max-/Ist-Punkte, Leaderboard (abstrakt) | Neu (eingebunden) |
-| `mc_test_app.py` | UI, Session-State, Admin, Review, Frageanzeige | Wird weiter zerlegt |
-| `leaderboard.py` | (Geplant) Admin-Ansicht + Aggregationen (`calculate_leaderboard_all`) | Ausstehend |
-| `review.py` | (Geplant) Final Summary + Review-Filterlogik | Ausstehend |
+| `scoring.py` | Punktestand, Prozent, abstrahiertes Leaderboard | Aktiv |
+| `leaderboard.py` | Aggregationen, Leaderboard, Log-Ansicht (Admin) | Aktiv |
+| `review.py` | Itemanalyse, Admin-Panel (4 Tabs) | Aktiv |
+| `mc_test_app.py` | UI-Orchestrierung + Wrapper | Schlank |
+| `gamification.py` | Badges, Streak, Motivation | Geplant |
 
-Nach jeder Auslagerung werden Wrapper im Hauptmodul belassen, um vorhandene Tests & externe Nutzer nicht zu brechen (Backward Compatibility Layer).
+Backward Compatibility: Wrapper-Funktionen im Hauptmodul behalten alte Namen
+(`calculate_leaderboard`, `display_admin_panel` etc.), damit bestehende Tests
+& externe Automationen nicht brechen.
 
 ### Warum Auslagerung?
 
-- Reduziert Komplexität im Hauptfile (>1000 Zeilen → besser wartbar)
-- Erleichtert gezieltes Testen (kleinere Oberflächen / klarere Verantwortlichkeiten)
-- Vorbereitung für mögliche Wiederverwendung (z.B. Headless-Auswertung, API)
+- Geringere Komplexität (maintainable, testbar, klarere Verantwortlichkeiten)
+- Saubere Trennung: UI vs. Analyse-/Aggregationslogik
+- Wiederverwendbarkeit (später ggf. Headless-Auswertung / API / Batch Reports)
+- Besseres Onboarding neuer Contributor (kleinere Module)
 
-### Integration der neuen `scoring`-Funktionen
+### Neue / Erweiterte Funktionen seit Modularisierung
 
-`mc_test_app.py` verwendet jetzt interne Wrapper, die auf `scoring.max_score`, `scoring.current_score`, `scoring.percentage` sowie `scoring.leaderboard_completed` delegieren. Tests behalten ihre bestehenden Aufrufe (`calculate_leaderboard()`) bei.
+| Bereich | Änderung | Nutzen |
+|---------|----------|-------|
+| Admin Auth | USER + KEY Pflicht (konstante Zeit) | Schutz |
+| DEV Fallback | Auto-Credentials bei fehlender ENV | Schnelles Testen |
+| Itemanalyse | p, r_pb, Qualitätslabel | Transparenz |
+| Distraktor-Analyse | Dominanter Distraktor %, häufigste falsche | Diagnose |
+| Detail-Ansicht | Verlauf + Verteilung pro Option | Item-Diagnose |
+| System-Metriken | Nutzer, aktiv <10m, Ø Antworten, Accuracy | Monitoring |
+| Export-Tab | CSV-Download + Spaltenliste | Weiterverarb. |
+| Glossar-Tab | Definitionen + Formeln | Kontext |
+| Struktur | Module + Wrapper | Klarheit |
 
-Fallback-Strategie: Falls Import im Sonderlayout (z.B. direktes Skript) scheitert, läuft weiterhin die frühere Inline-Logik (defensiver Pfad, sollte aber selten aktiv sein).
+Geplante Ergänzung: Auslagerung von Streak/Badges/Motivationslogik nach `gamification.py`.
 
-### Geplante nächste Schritte
+### Admin-Panel (Tabs)
 
-1. Extrahieren: `calculate_leaderboard_all` + `admin_view` → `leaderboard.py`
-2. Extrahieren: `display_final_summary` + Review-Filter → `review.py`
-3. Entfernen veralteter Duplikat-Logik nach stabiler CI-Phase
-4. README-Update (diese Sektion entsprechend pflegen)
+| Tab | Inhalt |
+|-----|--------|
+| 📊 Analyse | p, r_pb, Distraktor %, Details |
+| 📤 Export | Download des Antwort-Logs (`mc_test_answers.csv`) |
+| 🛠 System | Laufende Nutzungs-/Systemmetriken (Nutzer, Aktivität, Accuracy) |
+| 📚 Glossar | Kennzahlen & Formeln |
 
-> Hinweis: Falls du nur den Subtree `mc_test_app` in ein eigenes Repo pushst, bleiben die Modul-Pfade stabil.
+Glossar-Formeln: p, r_pb (vereinfachte Form), Dominanter Distraktor %.
+Hinweis: Kleine Stichproben (<20) → vorsichtige Interpretation.
+
+### Integration der modularen Funktionen
+
+`mc_test_app.py` delegiert via Wrapper an `scoring`, `leaderboard`, `review`.
+Fehlschlagende Importe (Spezialumgebung) aktivieren Fallbacks.
 
 ---
 
@@ -271,7 +293,11 @@ PYTHONPATH=. pytest tests/ -q
 
 ## 📝 Changelog
 
-- **2025-09-20:** Scoring modularisiert (`scoring.py`), CI-Workflow (`mc_test_app_ci.yml`) ergänzt, README-Modularchitektur hinzugefügt.
+- **2025-09-21:** Module `leaderboard.py`, `review.py`; Admin-Panel Tabs; neue
+Metriken (Trennschärfe, p, Distraktor %, Verteilung); System-KPIs; Glossar
+mit Formeln; DEV-Fallback; härteres Admin-Auth.
+- **2025-09-20:** Scoring modularisiert (`scoring.py`), CI-Workflow
+(`mc_test_app_ci.yml`) ergänzt, Modularchitektur dokumentiert.
 - **2025-09-19:** README optimiert (Struktur, Klarheit, Troubleshooting hinzugefügt).
 - **2025-08-16:** Tests und README aktualisiert; Privacy-Änderungen.
 - **Früher:** Grundfunktionen, Docker-Unterstützung.
@@ -283,4 +309,4 @@ PYTHONPATH=. pytest tests/ -q
 Beiträge willkommen! Forke das Repo, erstelle einen Branch und öffne einen Pull Request.
 Für größere Änderungen: Issue erstellen.
 
-**Letzte Aktualisierung:** 2025-09-19
+**Letzte Aktualisierung:** 2025-09-21
