@@ -573,6 +573,155 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             erklaerung = frage_obj.get("erklaerung")
             if erklaerung:
                 st.info(erklaerung)
+            # Dynamische Motivation direkt im Fragenbereich anzeigen
+            try:
+                outcomes = st.session_state.get("answer_outcomes", [])
+                num_answered_now = len([p for p in st.session_state.beantwortet if p is not None])
+                if num_answered_now > 0:
+                    num_correct = sum(1 for o in outcomes if o)
+                    accuracy = num_correct / num_answered_now if num_answered_now else 0.0
+                    last_correct = outcomes[-1] if outcomes else False
+                    def acc_tier(a: float) -> str:
+                        if a >= 0.9:
+                            return "elite"
+                        if a >= 0.75:
+                            return "high"
+                        if a >= 0.55:
+                            return "mid"
+                        return "low"
+                    tier = acc_tier(accuracy)
+                    progress_pct_local = int((num_answered_now / len(fragen)) * 100) if len(fragen) > 0 else 0
+                    if progress_pct_local < 30:
+                        band = "early"
+                    elif progress_pct_local < 60:
+                        band = "mid"
+                    elif progress_pct_local < 90:
+                        band = "late"
+                    elif progress_pct_local < 100:
+                        band = "close"
+                    else:
+                        band = "final"
+                    base_phrases = {
+                        ("early", "low"): [
+                            "Einstieg holprig – jetzt Muster erkennen.",
+                            "Analyse statt Frust – ruhig weiter.",
+                            "Fokus schärfen, Treffer kommen.",
+                        ],
+                        ("early", "mid"): [
+                            "Guter Start – stabil halten.",
+                            "Ruhig lesen, Sicherheit ausbauen.",
+                            "Solide Basis – weiter.",
+                        ],
+                        ("early", "high"): [
+                            "Starker Start – Fokus halten!",
+                            "Sehr sauber bis hier.",
+                            "Momentum stimmt – präzise weiter.",
+                        ],
+                        ("early", "elite"): [
+                            "Perfekter Auftakt – exzellent!",
+                            "Makellos bis hier.",
+                            "Elite-Quote – konzentriert bleiben.",
+                        ],
+                        ("mid", "low"): [
+                            "Jetzt Korrektur: Erklärungen nutzen.",
+                            "Tempo raus – Genauigkeit rein.",
+                            "Strategiewechsel: Schlüsselbegriffe markieren.",
+                        ],
+                        ("mid", "mid"): [
+                            "Stabile Mitte – Potenzial da.",
+                            "Weiter fokussiert Schritt für Schritt.",
+                            "Solider Fluss – jetzt schärfen.",
+                        ],
+                        ("mid", "high"): [
+                            "Sehr gute Quote – halten!",
+                            "Stark unterwegs – keine Hast.",
+                            "Hohe Präzision – weiter so.",
+                        ],
+                        ("mid", "elite"): [
+                            "Exzellent konstant – beeindruckend.",
+                            "Fast fehlerfrei – Qualität sichern.",
+                            "Elite-Niveau – strukturiert bleiben.",
+                        ],
+                        ("late", "low"): [
+                            "Letzte Phase: Genauigkeit zählt.",
+                            "Fehlerquellen minimieren jetzt.",
+                            "Sauber rausarbeiten statt raten.",
+                        ],
+                        ("late", "mid"): [
+                            "Gut durchgehalten – weiter sauber.",
+                            "Stabile Quote – konzentriert.",
+                            "Fast im Ziel – ruhig fertig.",
+                        ],
+                        ("late", "high"): [
+                            "Sehr stark – finish smart.",
+                            "Top-Niveau halten.",
+                            "Kontrolliert ins Ziel.",
+                        ],
+                        ("late", "elite"): [
+                            "Elite-Run – nicht nachlassen!",
+                            "Beinahe makellos – Fokus.",
+                            "Grandios – sauber fertigführen.",
+                        ],
+                        ("close", "low"): [
+                            "Kurz vor Ende: Sorgfalt zählt.",
+                            "Noch Chancen für Treffer.",
+                            "Letzte Fragen taktisch lesen.",
+                        ],
+                        ("close", "mid"): [
+                            "Endspurt – Quote stabilisieren.",
+                            "Keine Unsauberkeiten jetzt.",
+                            "Kurz vor Ziel – sauber bleiben.",
+                        ],
+                        ("close", "high"): [
+                            "Sehr stark – präzise abschließen.",
+                            "Fast durch – keine Hektik.",
+                            "Top-Level bis zuletzt.",
+                        ],
+                        ("close", "elite"): [
+                            "Fast perfekt – konzentriert landen.",
+                            "Elite bis zur Ziellinie.",
+                            "Makelloses Finish anvisieren.",
+                        ],
+                        ("final", "low"): [
+                            "Geschafft – jetzt nacharbeiten.",
+                            "Reflexion: Welche Muster fehlten?",
+                            "Analyse nutzen für nächste Runde.",
+                        ],
+                        ("final", "mid"): [
+                            "Solide beendet – Wiederholung festigt.",
+                            "Gute Basis – Review nutzen.",
+                            "Reflektiere Unsicherheiten.",
+                        ],
+                        ("final", "high"): [
+                            "Stark abgeschlossen – fast top.",
+                            "Sehr gute Runde – stabil!",
+                            "Leichte Wiederholung festigt.",
+                        ],
+                        ("final", "elite"): [
+                            "Exzeptionell – nahezu perfekt!",
+                            "Elite-Ergebnis – starke Arbeit.",
+                            "Top-Performance – kurz sichern.",
+                        ],
+                    }
+                    if last_correct and tier in {"low", "mid"}:
+                        overlay = ["Momentum nutzen!", "Starker Treffer – weiter strukturieren."]
+                    elif (not last_correct) and tier in {"high", "elite"}:
+                        overlay = ["Mini-Delle – ruhig bleiben.", "Kurz prüfen, weiter stark."]
+                    elif not last_correct and tier == "low":
+                        overlay = ["Reset: langsam & exakt lesen.", "Kurze Pause, dann sauber weiter."]
+                    else:
+                        overlay = []
+                    pool = base_phrases.get((band, tier), [])
+                    final_pool = pool + overlay if overlay else pool
+                    if final_pool:
+                        rotation_index = num_answered_now % len(final_pool)
+                        phrase = final_pool[rotation_index]
+                        st.markdown(
+                            f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {phrase}</div>",
+                            unsafe_allow_html=True,
+                        )
+            except Exception:
+                pass
             if st.button("Nächste Frage!"):
                 st.session_state[f"show_explanation_{frage_idx}"] = False
                 st.rerun()
@@ -623,7 +772,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
     """
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
-    # --- Micro Badges (Streak / Progress Milestones) ---
+    # --- Micro Badges (Streak / Progress Milestones) --- (Motivation jetzt im Fragenbereich, nicht mehr Sidebar)
     try:
         outcomes = st.session_state.get("answer_outcomes", [])
         # Fallback: if outcomes list length < number of stored answers, attempt reconstruction
@@ -685,155 +834,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
             ])
             st.sidebar.markdown(badge_html, unsafe_allow_html=True)
         # Rotierende Motivations-Phrasen erst anzeigen, nachdem mindestens eine Frage beantwortet wurde
-        if num_answered > 0:
-            try:
-                outcomes = st.session_state.get("answer_outcomes", [])
-                num_correct = sum(1 for o in outcomes if o)
-                accuracy = num_correct / num_answered if num_answered else 0.0
-                last_correct = outcomes[-1] if outcomes else False
-                # refined tiers: elite >=0.9, high >=0.75, mid >=0.55, low else
-                def acc_tier(a: float) -> str:
-                    if a >= 0.9:
-                        return "elite"
-                    if a >= 0.75:
-                        return "high"
-                    if a >= 0.55:
-                        return "mid"
-                    return "low"
-                tier = acc_tier(accuracy)
-                p = progress_pct
-                if p < 30:
-                    band = "early"
-                elif p < 60:
-                    band = "mid"
-                elif p < 90:
-                    band = "late"
-                elif p < 100:
-                    band = "close"
-                else:
-                    band = "final"
-                base_phrases = {
-                    ("early", "low"): [
-                        "Einstieg holprig – jetzt Muster erkennen.",
-                        "Nicht ärgern – Analyse statt Frust.",
-                        "Kurz fokussieren, dann treffsicher weiter.",
-                    ],
-                    ("early", "mid"): [
-                        "Guter Start – Stabilität ausbauen.",
-                        "Ruhig lesen, Sicherheit festigen.",
-                        "Solide Basis – weiter so.",
-                    ],
-                    ("early", "high"): [
-                        "Starker Start – Fokus halten!",
-                        "Sehr sauber bis hier.",
-                        "Momentum stimmt – präzise weiter.",
-                    ],
-                    ("early", "elite"): [
-                        "Perfekter Auftakt – exzellent!",
-                        "Makelloser Start. Konzentration bewahren.",
-                        "Elite-Quote bisher – weiter kontrolliert.",
-                    ],
-                    ("mid", "low"): [
-                        "Zeit für Korrektur: Erklärungen nutzen.",
-                        "Tempo raus, Genauigkeit rauf.",
-                        "Strategiewechsel: Schlüsselbegriffe markieren.",
-                    ],
-                    ("mid", "mid"): [
-                        "Stabile Mitte – Potenzial nach oben.",
-                        "Weiter fokussiert Schritt für Schritt.",
-                        "Solider Fluss – jetzt schärfen.",
-                    ],
-                    ("mid", "high"): [
-                        "Sehr gute Quote – halten!",
-                        "Stark unterwegs – keine Hast.",
-                        "Hohe Präzision. Weiter so.",
-                    ],
-                    ("mid", "elite"): [
-                        "Exzellent konstant – beeindruckend.",
-                        "Fast fehlerfrei – Qualität sichern.",
-                        "Elite-Niveau – strukturiert bleiben.",
-                    ],
-                    ("late", "low"): [
-                        "Letzte Phase: Genauigkeit vor Speed.",
-                        "Jetzt Fehlerquellen minimieren.",
-                        "Sauber rausarbeiten, nicht raten.",
-                    ],
-                    ("late", "mid"): [
-                        "Gut durchgehalten – weiter sauber.",
-                        "Stabile Quote – konzentriert bleiben.",
-                        "Fast im Ziel – ruhig fertig.",
-                    ],
-                    ("late", "high"): [
-                        "Sehr stark bis hier – finish smart.",
-                        "Top-Niveau halten bis Schluss.",
-                        "Kontrolliert ins Ziel.",
-                    ],
-                    ("late", "elite"): [
-                        "Elite-Run – nicht nachlassen!",
-                        "Beinahe makellos – Fokus halten.",
-                        "Grandios – sauber fertigführen.",
-                    ],
-                    ("close", "low"): [
-                        "Kurz vor Ende: Sorgfalt zählt jetzt.",
-                        "Noch ein paar Chancen für Treffer.",
-                        "Letzte Fragen taktisch lesen.",
-                    ],
-                    ("close", "mid"): [
-                        "Endspurt – Quote stabilisieren.",
-                        "Jetzt keine Unsauberkeiten.",
-                        "Kurz vor Ziel – sauber bleiben.",
-                    ],
-                    ("close", "high"): [
-                        "Sehr stark – präzise abschließen.",
-                        "Fast durch – keine Hektik.",
-                        "Top-Level bis zuletzt.",
-                    ],
-                    ("close", "elite"): [
-                        "Fast perfekt – konzentriert landen.",
-                        "Elite bis zur Ziellinie.",
-                        "Makelloses Finish anvisieren.",
-                    ],
-                    ("final", "low"): [
-                        "Geschafft – jetzt gezielt nacharbeiten.",
-                        "Reflexion: Welche Muster fehlten?",
-                        "Analyse nutzen für nächste Runde.",
-                    ],
-                    ("final", "mid"): [
-                        "Solide beendet – Wiederholung festigt.",
-                        "Gute Basis – Feinschliff per Review.",
-                        "Reflektiere deine Unsicherheiten.",
-                    ],
-                    ("final", "high"): [
-                        "Stark abgeschlossen – fast top.",
-                        "Sehr gute Runde – stabil!",
-                        "Leichte Wiederholung festigt alles.",
-                    ],
-                    ("final", "elite"): [
-                        "Exzeptionell – nahezu perfekt!",
-                        "Elite-Ergebnis – klasse Arbeit.",
-                        "Top-Performance. Kurz sichern & weiter.",
-                    ],
-                }
-                # Contextual overlay tweaks based on last question correctness
-                if last_correct and tier in {"low", "mid"}:
-                    overlay = ["Momentum nutzen!", "Starker Treffer – weiter strukturieren."]
-                elif (not last_correct) and tier in {"high", "elite"}:
-                    overlay = ["Mini-Delle – ruhig halten.", "Kurz prüfen, dann weiter stark."]
-                elif not last_correct and tier == "low":
-                    overlay = ["Reset: langsam & exakt lesen.", "Kurze Pause, dann sauber weiter."]
-                else:
-                    overlay = []
-                pool = base_phrases.get((band, tier), [])
-                full_pool = pool + overlay if overlay else pool
-                if full_pool:
-                    rotation_index = num_answered % len(full_pool)
-                    phrase = full_pool[rotation_index]
-                    st.sidebar.markdown(
-                        f"<div style='font-size:0.70rem;opacity:0.85;padding-top:2px;'>{phrase}</div>",
-                        unsafe_allow_html=True,
-                    )
-            except Exception:
-                pass
+        # Motivationstexte nicht mehr in der Sidebar anzeigen
     except Exception:
         pass
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
