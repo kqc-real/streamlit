@@ -196,17 +196,25 @@ Backward Compatibility: Wrapper-Funktionen im Hauptmodul behalten alte Namen
 
 Geplante Ergänzung: Auslagerung von Streak/Badges/Motivationslogik nach `gamification.py`.
 
-### Admin-Panel (Tabs)
+### Admin-Panel Übersicht
 
-| Tab | Inhalt |
-|-----|--------|
-| 📊 Analyse | p, r_pb, Distraktor %, Details |
-| 📤 Export | Download des Antwort-Logs (`mc_test_answers.csv`) |
-| 🛠 System | Laufende Nutzungs-/Systemmetriken (Nutzer, Aktivität, Accuracy) |
-| 📚 Glossar | Kennzahlen & Formeln |
+Zwei Ebenen der Verwaltung:
 
-Glossar-Formeln: p, r_pb (vereinfachte Form), Dominanter Distraktor %.
-Hinweis: Kleine Stichproben (<20) → vorsichtige Interpretation.
+Analyse-/Review (`review.py`):
+- 📊 Analyse: Itemanalyse (p, r_pb, Distraktor, Verteilung)
+- 📤 Export: CSV-Download + Spaltenliste
+- 🛠 System: Teilnehmer, Aktivität (<10m), Ø Antworten, Accuracy
+- 📚 Glossar: Definitionen, Hinweise, Formeln
+
+Leaderboard (`leaderboard.admin_view()`):
+- 🥇 Top 5: Abgeschlossene Teilnahmen (Top 3 mit Icons)
+- 👥 Alle Teilnahmen: Übersicht aller Nutzer
+- 📄 Rohdaten: Basis-Log
+
+Leeres Leaderboard: Eine leere Tabellenzeile bis erste Teilnahme fertig ist.
+
+Glossar-Formeln: p, r_pb, Dominanter Distraktor %.
+Hinweis: Kleine Stichproben (<20) vorsichtig interpretieren.
 
 ### Integration der modularen Funktionen
 
@@ -240,13 +248,15 @@ Fehlschlagende Importe (Spezialumgebung) aktivieren Fallbacks.
 
 ```bash
 pip install -r requirements.txt
-# Korrektes Test-Verzeichnis (Module liegen unter mc_test_app/):
+# Haupt-App Tests (empfohlen):
 PYTHONPATH=. pytest mc_test_app/tests -q
 ```
 
-Hinweis: Ein Aufruf mit `pytest tests/ -q` führt inzwischen zu Exit-Code 5 ("no tests collected"),
-weil das frühere Root-`tests/` Verzeichnis entfernt/geleert wurde. Falls du noch ein altes
-`tests/`-Verzeichnis siehst, kannst du es gefahrlos löschen.
+Hinweise:
+
+- Haupttests: `mc_test_app/tests` (Core, Edge, Storage, UI).
+- Deaktivierter UI-Test: `test_sidebar_leaderboard.py` (Skip).
+- Legacy Root-`tests/` ggf. ignorieren.
 
 ### CI / Qualität
 
@@ -298,11 +308,11 @@ weil das frühere Root-`tests/` Verzeichnis entfernt/geleert wurde. Falls du noc
 
 ## 📝 Changelog
 
-- **2025-09-21:** Module `leaderboard.py`, `review.py`; Admin-Panel Tabs; neue
-Metriken (Trennschärfe, p, Distraktor %, Verteilung); System-KPIs; Glossar
-mit Formeln; DEV-Fallback; härteres Admin-Auth.
+- **2025-09-21:** Module `leaderboard.py`, `review.py`; Analyse-/Glossar-Tabs; System-KPIs;
+  Itemanalyse (p, r_pb, Distraktor %, Verteilungen); DEV-Fallback; härteres Admin-Auth;
+  UI: Rang-Icons (🥇🥈🥉) für Top 3; leerer minimaler Leaderboard-Placeholder.
 - **2025-09-20:** Scoring modularisiert (`scoring.py`), CI-Workflow
-(`mc_test_app_ci.yml`) ergänzt, Modularchitektur dokumentiert.
+  (`mc_test_app_ci.yml`) ergänzt, Modularchitektur dokumentiert.
 - **2025-09-19:** README optimiert (Struktur, Klarheit, Troubleshooting hinzugefügt).
 - **2025-08-16:** Tests und README aktualisiert; Privacy-Änderungen.
 - **Früher:** Grundfunktionen, Docker-Unterstützung.
