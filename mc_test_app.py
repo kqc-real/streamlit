@@ -56,177 +56,320 @@ except Exception:  # pragma: no cover
     _here = _os.path.dirname(__file__)
     if _here not in _sys.path:
         _sys.path.append(_here)
-    from core import append_answer_row  # type: ignore
-
-# Neue modulare Imports (Leaderboard / Review)
-try:  # pragma: no cover - robust gegen frühe Test-Kontexte
-    from .leaderboard import (
-        calculate_leaderboard as _lb_calculate_leaderboard,
-        calculate_leaderboard_all as _lb_calculate_leaderboard_all,
-        admin_view as _lb_admin_view,
-        load_all_logs as _lb_load_all_logs,
-    )  # type: ignore
-except Exception:
-    _lb_calculate_leaderboard = None  # type: ignore
-    _lb_calculate_leaderboard_all = None  # type: ignore
-    _lb_admin_view = None  # type: ignore
-    _lb_load_all_logs = None  # type: ignore
-    # Fallback: direkter Import falls Paketkontext fehlt
-    try:  # pragma: no cover
-        import importlib as _importlib
-        import sys as _sys
-        _lb_mod = _importlib.import_module("leaderboard")
-        _lb_calculate_leaderboard = getattr(_lb_mod, "calculate_leaderboard", None)
-        _lb_calculate_leaderboard_all = getattr(_lb_mod, "calculate_leaderboard_all", None)
-        _lb_admin_view = getattr(_lb_mod, "admin_view", None)
-        _lb_load_all_logs = getattr(_lb_mod, "load_all_logs", None)
-    except Exception:
-        pass
-    # Zweiter Fallback: voll qualifizierter Modulname innerhalb Paketstruktur
-    if _lb_calculate_leaderboard is None:  # pragma: no cover
-        try:
-            import importlib as _importlib
-            _lb_mod = _importlib.import_module("mc_test_app.leaderboard")
-            _lb_calculate_leaderboard = getattr(_lb_mod, "calculate_leaderboard", None)
-            _lb_calculate_leaderboard_all = getattr(_lb_mod, "calculate_leaderboard_all", None)
-            _lb_admin_view = getattr(_lb_mod, "admin_view", None)
-            _lb_load_all_logs = getattr(_lb_mod, "load_all_logs", None)
-        except Exception:
-            pass
-
-try:  # Review / Admin Analyse Panel
-    from .review import (
-        display_admin_panel as _rv_display_admin_panel,
-        display_admin_full_review as _rv_display_admin_full_review,
-    )  # type: ignore
-except Exception:
-    _rv_display_admin_panel = None  # type: ignore
-    _rv_display_admin_full_review = None  # type: ignore
-    # Fallback: direkter Import wenn als Skript ausgeführt (kein Paketkontext)
-    try:  # pragma: no cover
-        import importlib as _importlib
-        import sys as _sys
-        _mod_name = 'review'
-        if _mod_name not in _sys.modules:
-            _rv_mod = _importlib.import_module(_mod_name)
-        else:
-            _rv_mod = _sys.modules[_mod_name]
-        _rv_display_admin_panel = getattr(_rv_mod, 'display_admin_panel', None)
-        _rv_display_admin_full_review = getattr(_rv_mod, 'display_admin_full_review', None)
-    except Exception:
-        pass
-    # Zweiter Fallback: voll qualifizierter Paketname
-    if _rv_display_admin_full_review is None:  # pragma: no cover
-        try:
-            import importlib as _importlib
-            _rv_mod = _importlib.import_module('mc_test_app.review')
-            _rv_display_admin_panel = getattr(_rv_mod, 'display_admin_panel', None)
-            _rv_display_admin_full_review = getattr(_rv_mod, 'display_admin_full_review', None)
-        except Exception:
-            pass
+    # Minimaler Fallback – schreibt ohne Lock, nur wenn notwendig
+    def append_answer_row(row):  # type: ignore
+        import csv
+        path = os.path.join(_here, "mc_test_answers.csv")
+        file_exists = os.path.isfile(path) and os.path.getsize(path) > 0
+        fieldnames = [
+            "user_id_hash",
+            "user_id_display",
+            "user_id_plain",
+            "frage_nr",
+            "frage",
+            "antwort",
+            "richtig",
+            "zeit",
+        ]
+        filtered = {k: row.get(k, "") for k in fieldnames}
+        with open(path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(filtered)
 
 # ---------------------------------------------------------------------------
-# Compatibility shim:
-# If the directory containing this file was directly added to sys.path (instead
-# of its parent), Python will load this file as the top-level module 'mc_test_app'
-# (not as a package). Tests and helper modules, however, reference the nested
-# path 'mc_test_app.mc_test_app'. We register an alias so that
-# 'import mc_test_app.mc_test_app' succeeds in both scenarios and dynamic imports
-# (e.g. in scoring.py) can still resolve the LOGFILE attribute.
+# Vereinheitlichte Admin-Konfiguration: single user + key aus Env / Secrets
 # ---------------------------------------------------------------------------
-if __name__ == "mc_test_app":  # executed only in the flat (module) import case
-    import sys as _sys
-    _sys.modules.setdefault("mc_test_app.mc_test_app", _sys.modules[__name__])
+def _load_env_files_once():
+    if getattr(st.session_state, "_env_loaded_once", False):
+        return
+    # Reihenfolge: Root .env dann Paket-.env (falls vorhanden)
+    candidates = [
+        os.path.join(os.getcwd(), ".env"),
+        os.path.join(os.path.dirname(__file__), ".env"),
+    ]
+    for path in candidates:
+        try:
+            if os.path.isfile(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line or line.startswith("#") or "=" not in line:
+                            continue
+                        k, v = line.split("=", 1)
+                        k = k.strip()
+                        v = v.strip().strip('"').strip("'")
+                        if k and k not in os.environ:  # nicht überschreiben
+                            os.environ[k] = v
+        except Exception:
+            pass
+    st.session_state._env_loaded_once = True
 
 
-def _manual_env_parse(path: str):  # pragma: no cover - Hilfsfunktion
-    try:
-        if not os.path.isfile(path):
-            return
-        with open(path, 'r', encoding='utf-8') as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith('#') or '=' not in line:
-                    continue
-                key, val = line.split('=', 1)
-                key = key.strip()
-                val = val.strip().strip('"')
-                if key and key not in os.environ:
-                    os.environ[key] = val
+def _get_admin_config():
+    _load_env_files_once()
+    user = ""
+    key = ""
+    # Reihenfolge: st.secrets -> .env / Environment
+    try:  # pragma: no cover - secrets selten in Tests
+        user = st.secrets.get("MC_TEST_ADMIN_USER", "").strip()
+        key = st.secrets.get("MC_TEST_ADMIN_KEY", "").strip()
     except Exception:
         pass
+    if not user:
+        user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
+    if not key:
+        key = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
+    return user, key
 
+# Lazy import abhängiger Module (leaderboard / review) mit robustem Fallback
 try:  # pragma: no cover
-    from dotenv import load_dotenv  # type: ignore
-    # Absoluter Projektwurzel-Versuch: eine Ebene über diesem File
-    _here_dir = os.path.dirname(__file__)
-    _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
-    # 1) Root .env falls vorhanden
-    load_dotenv(os.path.join(_parent_dir, '.env'))
-    # 2) Lokale .env im Paket
-    _local_env_path = os.path.join(_here_dir, ".env")
-    if os.path.isfile(_local_env_path):
-        load_dotenv(_local_env_path, override=False)
-except Exception:  # pragma: no cover
-    # Fallback: manuelles Parsen beider potentieller Orte
-    _here_dir = os.path.dirname(__file__)
-    _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
-    _manual_env_parse(os.path.join(_parent_dir, '.env'))
-    _manual_env_parse(os.path.join(_here_dir, '.env'))
-
-# Falls nach Laden kein Admin gesetzt: erneut manuell parsen (.env Fallback)
-if not os.getenv('MC_TEST_ADMIN_USER'):
-    _here_dir = os.path.dirname(__file__)
-    _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
-    _manual_env_parse(os.path.join(_parent_dir, '.env'))
-    _manual_env_parse(os.path.join(_here_dir, '.env'))
-
-# ------------------------- Seiteneinstellungen -----------------------------
-
-
-st.set_page_config(
-    page_title="MC-Test: Data Science",
-    page_icon="🏆",
-    layout="centered",
-    initial_sidebar_state="expanded",
-)
-
-# Load external CSS
-def load_css():
-    css_path = os.path.join(os.path.dirname(__file__), "styles.css")
-    if os.path.exists(css_path):
-        with open(css_path, "r", encoding="utf-8") as f:
-            css = f.read()
-        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
-    # Zusatz-CSS: Sidebar Breite begrenzen & Text besser umbrechen
-    custom_inline_css = """
-    <style>
-    section[data-testid='stSidebar'] > div:first-child {max-width:280px;}
-    section[data-testid='stSidebar'] .block-container {padding-right:0.75rem;}
-    section[data-testid='stSidebar'] p, section[data-testid='stSidebar'] .stMarkdown {word-break:break-word;}
-    </style>
-    """
-    st.markdown(custom_inline_css, unsafe_allow_html=True)
-
-# Load CSS at the beginning
-load_css()
-
-def _get_admin_config():  # pragma: no cover - kleine Hilfsfunktion
-    env_user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-    sec_user = ""
-    try:
-        sec_user = str(st.secrets.get("MC_TEST_ADMIN_USER", "")).strip()  # type: ignore
+    from . import leaderboard as _leaderboard  # type: ignore
+except Exception:
+    _leaderboard = None  # type: ignore
+try:  # pragma: no cover
+    from . import review as _review  # type: ignore
+except Exception:
+    _review = None  # type: ignore
+    # Zusätzlicher absoluter Fallback (falls Paketauflösung scheitert)
+    try:  # pragma: no cover
+        import importlib, pathlib, sys as _sys
+        pkg_dir = pathlib.Path(__file__).parent
+        if str(pkg_dir) not in _sys.path:
+            _sys.path.append(str(pkg_dir))
+        _review = importlib.import_module("review")  # type: ignore
     except Exception:
         pass
-    admin_user = sec_user or env_user
-    env_key = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
-    sec_key = ""
-    try:
-        sec_key = str(st.secrets.get("MC_TEST_ADMIN_KEY", "")).strip()  # type: ignore
-    except Exception:
-        pass
-    admin_key = sec_key or env_key
-    return admin_user, admin_key
+
+_lb_calculate_leaderboard = getattr(_leaderboard, "calculate_leaderboard", None)
+_lb_calculate_leaderboard_all = getattr(_leaderboard, "calculate_leaderboard_all", None)
+_lb_admin_view = getattr(_leaderboard, "admin_view", None)
+_rv_display_admin_full_review = getattr(_review, "display_admin_full_review", None)
+_rv_display_admin_panel = getattr(_review, "display_admin_panel", None)
+
+
+def show_motivation():  # pragma: no cover - UI Rendering
+    scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+    # Punkte berechnen
+    if _scoring is not None:
+        max_punkte = _scoring.max_score(fragen, scoring_mode)
+        aktueller_punktestand = _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode)
+    else:
+        max_punkte = sum(f.get("gewichtung", 1) for f in fragen)
+        if scoring_mode == "positive_only":
+            aktueller_punktestand = sum(
+                f.get("gewichtung", 1) if p == f.get("gewichtung", 1) else 0
+                for p, f in zip(st.session_state.beantwortet, fragen)
+            )
+        else:
+            aktueller_punktestand = sum(p if p is not None else 0 for p in st.session_state.beantwortet)
+    answered = sum(1 for p in st.session_state.beantwortet if p is not None)
+    if answered == 0 or max_punkte == 0:
+        return
+    outcomes = st.session_state.get("answer_outcomes", [])
+    last_correct = outcomes[-1] if outcomes else None
+    # Streak bestimmen
+    streak = 0
+    for o in reversed(outcomes):
+        if o:
+            streak += 1
+        else:
+            break
+    progress_pct = int((answered / len(fragen)) * 100) if len(fragen) else 0
+    ratio = aktueller_punktestand / max_punkte if max_punkte else 0
+    # Phase
+    if progress_pct < 30:
+        phase = "early"
+    elif progress_pct < 60:
+        phase = "mid"
+    elif progress_pct < 90:
+        phase = "late"
+    elif progress_pct < 100:
+        phase = "close"
+    else:
+        phase = "final"
+    # Tier
+    if ratio >= 0.9:
+        tier = "elite"
+    elif ratio >= 0.75:
+        tier = "high"
+    elif ratio >= 0.55:
+        tier = "mid"
+    else:
+        tier = "low"
+    # Badges (einmalig rendern)
+    badge_list = []
+    if streak >= 3:
+        if streak >= 20:
+            icon = "🏅"
+        elif streak >= 15:
+            icon = "⚡"
+        elif streak >= 10:
+            icon = "⚡"
+        elif streak >= 5:
+            icon = "🔥"
+        else:
+            icon = "🔥"
+        badge_list.append(f"{icon} {streak}er Streak")
+    for thr, name, keyflag in [
+        (25, "🔓 25%", "_badge25"),
+        (50, "🏁 50%", "_badge50"),
+        (75, "🚀 75%", "_badge75"),
+        (100, "🏆 100%", "_badge100"),
+    ]:
+        if progress_pct >= thr and not st.session_state.get(keyflag):
+            badge_list.append(name)
+            st.session_state[keyflag] = True
+    if badge_list:
+        html_badges = "".join(
+            f"<span style='display:inline-block;background:#2f2f2f;padding:2px 8px;margin:2px 4px 4px 0;border-radius:12px;font-size:0.70rem;color:#eee;'>{b}</span>"
+            for b in badge_list
+        )
+        st.markdown(
+            f"<div style='margin:4px 0 2px 0;' aria-label='Leistungs-Badges'>{html_badges}</div>",
+            unsafe_allow_html=True,
+        )
+    # Basis-Phrasen pro (phase, tier)
+    base = {
+        ("early", "low"): [
+            "Langsam eingrooven – Muster erkennen.",
+            "Ruhig lesen, Struktur aufbauen.",
+            "Fehler sind Daten – weiter.",
+        ],
+        ("early", "mid"): [
+            "Solider Start – Fokus halten.",
+            "Guter Einstieg – nicht überpacen.",
+            "Tempo passt – präzise bleiben.",
+        ],
+        ("early", "high"): [
+            "Starker Auftakt – Muster sichern.",
+            "Sehr sauber bisher.",
+            "Hohe Trefferquote – weiter so.",
+        ],
+        ("early", "elite"): [
+            "Makelloser Start – Elite-Niveau.",
+            "Perfekter Flow – behalten.",
+            "Fein fokussiert bleiben.",
+        ],
+        ("mid", "low"): [
+            "Kurz justieren – Genauigkeit vor Tempo.",
+            "Strategie schärfen – Erklärungen nutzen.",
+            "Jetzt bewusst lesen zahlt sich aus.",
+        ],
+        ("mid", "mid"): [
+            "Stabil in der Mitte – weiter strukturieren.",
+            "Basis sitzt – ausbauen.",
+            "Ruhig & kontrolliert bleiben.",
+        ],
+        ("mid", "high"): [
+            "Sehr effizient – Qualität halten.",
+            "Starker Kern – konsistent bleiben.",
+            "Top-Rate – keine Hektik.",
+        ],
+        ("mid", "elite"): [
+            "Nahe fehlerfrei – weiter so.",
+            "Elite-Quote – wach bleiben.",
+            "Sehr hohe Präzision.",
+        ],
+        ("late", "low"): [
+            "Jetzt stabilisieren – sauber lesen.",
+            "Konzentration kurz resetten.",
+            "Fehlerquellen reduzieren.",
+        ],
+        ("late", "mid"): [
+            "Gut dabei – Fokus durchziehen.",
+            "Letztes Drittel kontrolliert.",
+            "Weiter sauber entscheiden.",
+        ],
+        ("late", "high"): [
+            "Starker Score – halten.",
+            "Qualität bleibt hoch.",
+            "Fast durch – präzise bleiben.",
+        ],
+        ("late", "elite"): [
+            "Fast makellos – Konzentration!",
+            "Elite-Level halten.",
+            "Minifehler vermeiden.",
+        ],
+        ("close", "low"): [
+            "Kurz vor Ziel – ruhig atmen.",
+            "Letzte Punkte einsammeln.",
+            "Sorgfalt bringt noch was.",
+        ],
+        ("close", "mid"): [
+            "Endspurt strukturiert.",
+            "Nicht überhasten.",
+            "Letzte Antworten prüfen.",
+        ],
+        ("close", "high"): [
+            "Sehr starker Lauf – sauber finishen.",
+            "Score sichern – keine Hast.",
+            "Finish kontrolliert.",
+        ],
+        ("close", "elite"): [
+            "Perfektes Finish in Sicht.",
+            "Elite bis zum Schluss.",
+            "Fehlerfrei bleiben.",
+        ],
+        ("final", "low"): [
+            "Geschafft – Lernpunkte notieren.",
+            "Reflexion lohnt sich.",
+            "Analyse nutzen.",
+        ],
+        ("final", "mid"): [
+            "Solide Runde – sichern.",
+            "Guter Abschluss.",
+            "Stärken festigen.",
+        ],
+        ("final", "high"): [
+            "Sehr stark – kurz reflektieren.",
+            "Top-Ergebnis stabil.",
+            "Nahe Elite – super.",
+        ],
+        ("final", "elite"): [
+            "Exzellent – nahezu perfekt.",
+            "Elite-Runde!",
+            "Großartige Präzision.",
+        ],
+    }
+    # Overlays abhängig von Streak / letzter Antwort
+    overlay = []
+    if last_correct:
+        if streak in {2, 3}:
+            overlay.append("Flow baut sich auf.")
+        elif streak == 5:
+            overlay.append("🔥 5er Serie!")
+        elif streak == 10:
+            overlay.append("⚡ 10er Serie – stark!")
+        elif streak > 10 and streak % 5 == 0:
+            overlay.append("Konstante Treffer – beeindruckend.")
+    elif last_correct is False:
+        if streak == 0:
+            overlay.append("Reset: ruhig weiterlesen.")
+        if ratio >= 0.75:
+            overlay.append("Score weiter hoch – nicht kippen lassen.")
+        else:
+            overlay.append("Fehler = Signal. Muster prüfen.")
+    # Auswahl kombinieren
+    pool = list(base.get((phase, tier), []))
+    pool.extend(overlay)
+    if not pool:
+        return
+    # Wiederholung vermeiden: Merke letzte Phrase
+    last_phrase = st.session_state.get("_last_motivation_phrase")
+    # Rotation + Fallback auf random für Variation bei größerem Pool
+    idx = answered % len(pool)
+    candidate = pool[idx]
+    if candidate == last_phrase and len(pool) > 1:
+        import random as _rnd
+        candidate = _rnd.choice([p for p in pool if p != last_phrase])
+    full = f"[{aktueller_punktestand}/{max_punkte}] {candidate}"
+    st.session_state._last_motivation_phrase = candidate
+    st.markdown(
+        f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {full}</div>",
+        unsafe_allow_html=True,
+    )
 
 
 def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
@@ -926,277 +1069,32 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 "</div>"
             )
             st.markdown(score_html, unsafe_allow_html=True)
+            # Erfolgs-/Fehlerfeedback
             if scoring_mode == "positive_only":
                 if punkte == gewichtung:
                     st.success(
                         f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})"
                     )
-                    reduce_anim = st.session_state.get("reduce_animations", False)
-                    if not reduce_anim:
+                    if not st.session_state.get("reduce_animations", False):
                         st.balloons()
                 else:
                     st.error(
                         "Leider falsch. Die richtige Antwort ist: "
                         f"**{frage_obj['optionen'][frage_obj['loesung']]}**"
                     )
-            else:
+            else:  # negative scoring Variante
                 if punkte == gewichtung:
                     st.success(
                         f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})"
                     )
-                    reduce_anim = st.session_state.get("reduce_animations", False)
-                    if not reduce_anim:
+                    if not st.session_state.get("reduce_animations", False):
                         st.balloons()
                 else:
                     st.error(
                         f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{frage_obj['optionen'][frage_obj['loesung']]}**"
                     )
-                # Erweiterte Motivations-/Badge-Logik
-                outcomes = st.session_state.get("answer_outcomes", [])
-                num_answered_now = len([p for p in st.session_state.beantwortet if p is not None])
-                if num_answered_now > 0 and max_punkte > 0:
-                    # Punkte-basiertes Verhältnis statt reine Trefferquote
-                    achieved_points = aktueller_punktestand
-                    point_ratio = achieved_points / max_punkte
-                    last_correct = outcomes[-1] if outcomes else False
-                    # Streak berechnen
-                    streak = 0
-                    for o in reversed(outcomes):
-                        if o:
-                            streak += 1
-                        else:
-                            break
-                    # Fortschritts-Prozent (globaler Fortschritt über Fragen)
-                    progress_pct_local = int((num_answered_now / len(fragen)) * 100) if len(fragen) > 0 else 0
-                    # Badges / Milestones (vormals Sidebar)
-                    badges = []
-                    # Dynamische Streak-Anzeige: ab 3 fortlaufend, mit speziellen Icons für hohe Serien
-                    if streak >= 3:
-                        if streak >= 20:
-                            icon = "🏅"
-                        elif streak >= 15:
-                            icon = "⚡"
-                        elif streak >= 10:
-                            icon = "⚡"
-                        elif streak >= 5:
-                            icon = "🔥"
-                        else:
-                            icon = "🔥"
-                        badges.append(f"{icon} {streak}er Streak")
-                    if progress_pct_local >= 50 and not st.session_state.get("_badge_50_shown"):
-                        badges.append("🏁 50% geschafft")
-                        st.session_state._badge_50_shown = True
-                    if progress_pct_local >= 75 and not st.session_state.get("_badge_75_shown"):
-                        badges.append("🚀 75% erreicht")
-                        st.session_state._badge_75_shown = True
-                    if progress_pct_local >= 100 and not st.session_state.get("_badge_100_shown"):
-                        badges.append("🏆 100% abgeschlossen")
-                        st.session_state._badge_100_shown = True
-                    if badges:
-                        badge_html = "".join(
-                            [
-                                f"<span style='display:inline-block;background:#2f2f2f;padding:2px 8px;margin:2px 4px 4px 0;border-radius:12px;font-size:0.70rem;color:#eee;'>{b}</span>"
-                                for b in badges
-                            ]
-                        )
-                        st.markdown(
-                            f"<div style='margin:4px 0 2px 0;' aria-label='Leistungs-Badges'>{badge_html}</div>",
-                            unsafe_allow_html=True,
-                        )
-                    def point_tier(r: float) -> str:
-                        if r >= 0.9:
-                            return "elite"
-                        if r >= 0.75:
-                            return "high"
-                        if r >= 0.55:
-                            return "mid"
-                        return "low"
-                    tier = point_tier(point_ratio)
-                    # progress_pct_local existiert bereits
-                    if progress_pct_local < 30:
-                        band = "early"
-                    elif progress_pct_local < 60:
-                        band = "mid"
-                    elif progress_pct_local < 90:
-                        band = "late"
-                    elif progress_pct_local < 100:
-                        band = "close"
-                    else:
-                        band = "final"
-                    base_phrases = {
-                        ("early", "low"): [
-                            "Punktestart zäh – jetzt Muster erkennen.",
-                            "Analyse statt Frust – ruhig weiter.",
-                            "Fokus schärfen – Punkte kommen.",
-                        ],
-                        ("early", "mid"): [
-                            "Solider Punktestart – halten.",
-                            "Ruhig lesen, Basis ausbauen.",
-                            "Guter Flow – weiter.",
-                        ],
-                        ("early", "high"): [
-                            "Starker Punkte-Start – Fokus!",
-                            "Sehr effizient bisher.",
-                            "Momentum stimmt – präzise weiter.",
-                        ],
-                        ("early", "elite"): [
-                            "Perfekter Punkteauftakt – exzellent!",
-                            "Makellos bisher.",
-                            "Elite-Quote – konzentriert bleiben.",
-                        ],
-                        ("mid", "low"): [
-                            "Punkte anheben: Erklärungen nutzen.",
-                            "Tempo raus – Präzision rein.",
-                            "Strategiewechsel: Schlüsselbegriffe markieren.",
-                        ],
-                        ("mid", "mid"): [
-                            "Stabile Punkte-Mitte – Potenzial da.",
-                            "Weiter fokussiert Schritt für Schritt.",
-                            "Solider Fluss – jetzt schärfen.",
-                        ],
-                        ("mid", "high"): [
-                            "Sehr gutes Punkte-Tempo – halten!",
-                            "Stark unterwegs – keine Hast.",
-                            "Hohe Effizienz – weiter so.",
-                        ],
-                        ("mid", "elite"): [
-                            "Exzellente Punkte-Rate – beeindruckend.",
-                            "Nahe fehlerfrei – Qualität sichern.",
-                            "Elite-Niveau – strukturiert bleiben.",
-                        ],
-                        ("late", "low"): [
-                            "Späte Phase: Punkte noch stabilisieren.",
-                            "Fehlerquellen minimieren jetzt.",
-                            "Sauber rausarbeiten statt raten.",
-                        ],
-                        ("late", "mid"): [
-                            "Gute Punktelage – weiter sauber.",
-                            "Stabil bleiben – konzentriert.",
-                            "Fast im Ziel – ruhig fertig.",
-                        ],
-                        ("late", "high"): [
-                            "Sehr starker Score – smart finish.",
-                            "Top-Niveau halten.",
-                            "Kontrolliert ins Ziel.",
-                        ],
-                        ("late", "elite"): [
-                            "Elite-Punktestand – nicht nachlassen!",
-                            "Beinahe makellos – Fokus.",
-                            "Grandios – sauber fertigführen.",
-                        ],
-                        ("close", "low"): [
-                            "Kurz vor Ende: Sorgfalt für Extra-Punkte.",
-                            "Noch Chancen auf Plus.",
-                            "Letzte Fragen taktisch lesen.",
-                        ],
-                        ("close", "mid"): [
-                            "Endspurt – Punkte sichern.",
-                            "Keine Unsauberkeiten jetzt.",
-                            "Kurz vor Ziel – sauber bleiben.",
-                        ],
-                        ("close", "high"): [
-                            "Sehr starker Score – präzise abschließen.",
-                            "Fast durch – keine Hektik.",
-                            "Top-Level bis zuletzt.",
-                        ],
-                        ("close", "elite"): [
-                            "Fast perfekter Score – sauber landen.",
-                            "Elite bis zur Ziellinie.",
-                            "Makelloses Finish anvisieren.",
-                        ],
-                        ("final", "low"): [
-                            "Geschafft – Score analysieren.",
-                            "Reflexion: Muster fehlten?",
-                            "Analyse nutzen für nächste Runde.",
-                        ],
-                        ("final", "mid"): [
-                            "Solider Score – Wiederholung festigt.",
-                            "Gute Basis – Review nutzen.",
-                            "Unsicherheiten markieren.",
-                        ],
-                        ("final", "high"): [
-                            "Stark abgeschlossen – nahezu top.",
-                            "Sehr gute Runde – stabil!",
-                            "Gezielte Wiederholung festigt.",
-                        ],
-                        ("final", "elite"): [
-                            "Exzeptioneller Score – nahezu perfekt!",
-                            "Elite-Ergebnis – starke Arbeit.",
-                            "Top-Performance – kurz sichern.",
-                        ],
-                    }
-                    # Punktegewinn der letzten Antwort bestimmen
-                    last_gain = 0
-                    if st.session_state.beantwortet and st.session_state.beantwortet[num_answered_now-1] is not None:
-                        raw_last = st.session_state.beantwortet[num_answered_now-1]
-                        # positive_only => voller Gewichtungspunkt oder 0
-                        if scoring_mode == "positive_only":
-                            last_gain = raw_last if isinstance(raw_last, (int,float)) else 0
-                        else:
-                            last_gain = raw_last if isinstance(raw_last, (int,float)) else 0
-                    # Intensität nach last_gain relativ zur typischen Gewichtung (Standard 1)
-                    if last_gain >= 2:
-                        praise_level = "max"
-                    elif last_gain == 1:
-                        praise_level = "high"
-                    elif last_gain > 0:
-                        praise_level = "mid"
-                    else:
-                        praise_level = "none"
-                    if last_correct and tier in {"low", "mid"}:
-                        if praise_level == "max":
-                            overlay = [
-                                "Großer Punktsprung! Momentum nutzen!",
-                                "Starker Multi-Gewinn – weiter strukturieren.",
-                            ]
-                        elif praise_level == "high":
-                            overlay = [
-                                "Punkt gewonnen – weiter aufbauen.",
-                                "Treffer hebt den Score – dranbleiben.",
-                            ]
-                        else:
-                            overlay = [
-                                "Leichter Fortschritt – Fokus halten.",
-                                "Score wächst – präzise bleiben.",
-                            ]
-                    elif last_correct and tier in {"high", "elite"}:
-                        if praise_level == "max":
-                            overlay = [
-                                "Wuchtiger Treffer – Elite festigen!",
-                                "Großer Gewinn – Kurs halten.",
-                            ]
-                        elif praise_level == "high":
-                            overlay = [
-                                "Konstant starke Punkte – weiter so.",
-                                "Solider Treffer – nächste sauber setzen.",
-                            ]
-                        else:
-                            overlay = [
-                                "Mini-Gewinn – Qualität bleibt hoch.",
-                                "Feinkorrektur möglich – Score top.",
-                            ]
-                    elif (not last_correct) and tier in {"high", "elite"}:
-                        overlay = [
-                            "Mini-Delle – ruhig bleiben.",
-                            "Kurz prüfen, Score bleibt stark.",
-                        ]
-                    elif not last_correct and tier == "low":
-                        overlay = [
-                            "Reset: langsam & exakt lesen.",
-                            "Kurze Pause – Punkte konsolidieren.",
-                        ]
-                    else:
-                        overlay = []
-                    pool = base_phrases.get((band, tier), [])
-                    final_pool = pool + overlay if overlay else pool
-                    if final_pool:
-                        rotation_index = num_answered_now % len(final_pool)
-                        phrase = final_pool[rotation_index]
-                        phrase = f"[{achieved_points}/{max_punkte}] {phrase}"
-                        st.markdown(
-                            f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {phrase}</div>",
-                            unsafe_allow_html=True,
-                        )
+            # Motivation anzeigen
+            show_motivation()
             if st.button("Nächste Frage!"):
                 st.session_state[f"show_explanation_{frage_idx}"] = False
                 st.rerun()
@@ -1253,12 +1151,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
         label="Dein Score:", value=f"{aktueller_punktestand} / {max_punkte}"
     )
     # Allgemeiner Session-Abbruch (setzt Nutzer zurück auf Startansicht)
-    with st.sidebar.expander("⚠️ Session beenden / neu starten", expanded=False):
+    with st.sidebar.expander("⚠️ Session beenden", expanded=False):
         st.caption(
-            "Setzt NUR deinen lokalen Fortschritt (Timer, Antworten, Auswahl) zurück. "
-            "Bereits protokollierte Antworten bleiben dauerhaft im CSV-Log / Leaderboard."
+            "Antworten bleiben erhalten."
         )
-        if st.button("Session zurücksetzen", key="abort_session_user"):
+        if st.button("Session beenden", key="abort_session_user"):
             preserve = {"_admin_sidebar_rendered"}
             for k in list(st.session_state.keys()):
                 if k not in preserve:
@@ -1401,10 +1298,31 @@ def display_sidebar_metrics(num_answered: int) -> None:
 
 
 def display_admin_panel():  # Backward compat wrapper
+    global _rv_display_admin_panel
+    if _rv_display_admin_panel is None:
+        # Versuch eines nachträglichen Lazy-Reimports (Namenskonflikt mit zweitem mc_test_app.py möglich)
+        try:
+            import importlib
+            try:
+                from . import review as _rv  # type: ignore
+            except Exception:
+                # absoluter Fallback
+                import pathlib, sys as _sys
+                pkg_dir = pathlib.Path(__file__).parent
+                if str(pkg_dir) not in _sys.path:
+                    _sys.path.append(str(pkg_dir))
+                _rv = importlib.import_module("review")  # type: ignore
+            importlib.reload(_rv)
+            _rv_display_admin_panel = getattr(_rv, "display_admin_panel", None)
+        except Exception:
+            pass
     if _rv_display_admin_panel is None:
         st.info("Admin-Panel Modul nicht verfügbar.")
         return
-    _rv_display_admin_panel()
+    try:
+        _rv_display_admin_panel()
+    except Exception as e:
+        st.error(f"Admin-Panel Fehler: {e}")
 
 
 def display_final_summary(num_answered: int) -> None:
