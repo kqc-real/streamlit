@@ -260,9 +260,8 @@ Fehlschlagende Importe (Spezialumgebung) aktivieren Fallbacks.
   (nur spezifizierter Admin-User sieht das Eingabefeld).
 - Tabs: Leaderboard (Top / Alle / Rohdaten), Analyse (Itemanalyse),
   Export (CSV), System (Status/KPIs), Glossar.
-- Scoring-Modus-Umschaltung & optionaler CSV-Reset direkt im UI
-  (sofern implementiert); andernfalls Datei löschen
-  (`mc_test_answers.csv`).
+- Scoring-Modus-Umschaltung & globaler CSV-Reset (System-Tab > *Globaler Reset*).
+  Falls Button fehlt: Datei manuell löschen (`mc_test_answers.csv`).
 
 ### Tests ausführen
 

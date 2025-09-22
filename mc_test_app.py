@@ -134,13 +134,15 @@ except Exception:
     _review = None  # type: ignore
     # Zusätzlicher absoluter Fallback (falls Paketauflösung scheitert)
     try:  # pragma: no cover
-        import importlib, pathlib, sys as _sys
+        import importlib
+        import pathlib
+        import sys as _sys
         pkg_dir = pathlib.Path(__file__).parent
         if str(pkg_dir) not in _sys.path:
             _sys.path.append(str(pkg_dir))
         _review = importlib.import_module("review")  # type: ignore
     except Exception:
-        pass
+        _review = None  # final fallback
 
 _lb_calculate_leaderboard = getattr(_leaderboard, "calculate_leaderboard", None)
 _lb_calculate_leaderboard_all = getattr(_leaderboard, "calculate_leaderboard_all", None)
@@ -223,7 +225,12 @@ def show_motivation():  # pragma: no cover - UI Rendering
             st.session_state[keyflag] = True
     if badge_list:
         html_badges = "".join(
-            f"<span style='display:inline-block;background:#2f2f2f;padding:2px 8px;margin:2px 4px 4px 0;border-radius:12px;font-size:0.70rem;color:#eee;'>{b}</span>"
+            (
+                "<span style='display:inline-block;"
+                "background:#2f2f2f;padding:2px 8px;margin:2px 4px 4px 0;"
+                "border-radius:12px;font-size:0.70rem;color:#eee;'>"
+                f"{b}</span>"
+            )
             for b in badge_list
         )
         st.markdown(
@@ -491,6 +498,28 @@ FRAGEN_ANZAHL = None  # Wird nach dem Laden der Fragen gesetzt
 DISPLAY_HASH_LEN = 10
 MAX_SAVE_RETRIES = 3
 
+
+def reset_all_answers() -> bool:
+    """Löscht die komplette Antworten-CSV (globaler Admin-Reset).
+
+    Rückgabe True bei Erfolg / False bei Fehler. Erstellt danach leere Datei mit Header,
+    damit weitere Saves nicht scheitern. Schlanker Helper statt Nutzung von Pandas
+    (robuster falls beschädigte Datei).
+    """
+    try:
+        if os.path.isfile(LOGFILE):
+            os.remove(LOGFILE)
+        # Neue leere Datei mit Header anlegen
+        with open(LOGFILE, "w", encoding="utf-8") as f:
+            f.write(",".join(FIELDNAMES) + "\n")
+        return True
+    except Exception as e:  # pragma: no cover
+        try:
+            st.error(f"Globaler Reset fehlgeschlagen: {e}")
+        except Exception:
+            pass
+        return False
+
 # Sticky Bar CSS (keine langen Quellcode-Zeilen)
 STICKY_BAR_CSS = ""  # Now loaded from external CSS file
 
@@ -707,6 +736,7 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
         "📤 Export",
         "🛡 System",
         "📚 Glossar",
+        "🥇 Highscore",
     ])
     # Tab 0: Leaderboard (nutzt ursprüngliche Funktionen)
     with tabs[0]:
@@ -821,6 +851,47 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
         st.caption(
             "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
         )
+
+    # Tab 5: Highscore – Gesamtrangliste aller Pseudonyme
+    with tabs[5]:
+        st.markdown("### Highscore – Gesamtrangliste aller Pseudonyme")
+        if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+            try:
+                df_hs = pd.read_csv(LOGFILE, on_bad_lines="skip")
+                if df_hs.empty:
+                    st.info("Noch keine Einträge.")
+                else:
+                    df_hs = df_hs.dropna(subset=["user_id_plain", "richtig", "frage_nr"])  # minimaler Filter
+                    df_hs["richtig"] = pd.to_numeric(df_hs["richtig"], errors="coerce").fillna(0)
+                    agg = (
+                        df_hs.groupby("user_id_hash")
+                        .agg(
+                            Pseudonym=("user_id_plain", "first"),
+                            Punkte=("richtig", "sum"),
+                            Antworten=("frage_nr", "count"),
+                        )
+                        .reset_index(drop=True)
+                    )
+                    if agg.empty:
+                        st.info("Noch keine aggregierbaren Daten.")
+                    else:
+                        agg = agg.sort_values(by=["Punkte", "Antworten"], ascending=[False, False])
+                        agg.insert(0, "Rang", range(1, len(agg) + 1))
+                        st.dataframe(
+                            agg[[c for c in ["Rang", "Pseudonym", "Punkte", "Antworten"] if c in agg.columns]],
+                            use_container_width=True,
+                            hide_index=True,
+                        )
+                        st.download_button(
+                            "Highscore als CSV herunterladen",
+                            data=agg.to_csv(index=False).encode("utf-8"),
+                            file_name="highscore.csv",
+                            mime="text/csv",
+                        )
+            except Exception as e:  # pragma: no cover
+                st.error(f"Highscore Berechnung fehlgeschlagen: {e}")
+        else:
+            st.info("Kein Log vorhanden.")
 
 
 def load_user_progress(user_id_hash: str) -> None:
@@ -1119,7 +1190,14 @@ def display_sidebar_metrics(num_answered: int) -> None:
     progress_pct = int((num_answered / len(fragen)) * 100) if len(fragen) > 0 else 0
     progress_html = f"""
     <div style='width:100%;height:16px;background:#222;border-radius:8px;overflow:hidden;margin-bottom:8px;'>
-        <div style='height:100%;width:{progress_pct}%;background:linear-gradient(90deg,#00c853,#2196f3);transition:width .3s;border-radius:8px;'></div>
+        <div
+            style='
+                height:100%;
+                width:{progress_pct}%;
+                background:linear-gradient(90deg,#00c853,#2196f3);
+                transition:width .3s;
+                border-radius:8px;'
+        ></div>
     </div>
     """
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
@@ -1307,7 +1385,8 @@ def display_admin_panel():  # Backward compat wrapper
                 from . import review as _rv  # type: ignore
             except Exception:
                 # absoluter Fallback
-                import pathlib, sys as _sys
+                import pathlib
+                import sys as _sys
                 pkg_dir = pathlib.Path(__file__).parent
                 if str(pkg_dir) not in _sys.path:
                     _sys.path.append(str(pkg_dir))
@@ -1819,7 +1898,8 @@ def main():
         score_html = (
             "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
             f"<div style='font-size:1rem;font-weight:700;'>Letzter Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
-            f"<div style='font-size:0.95rem;color:#ffb300;font-weight:500;'>Noch offen: {open_questions} Frage{'n' if open_questions != 1 else ''}</div>"
+            f"<div style='font-size:0.95rem;color:#ffb300;font-weight:500;'>Noch offen: {open_questions} Frage"
+            f"{'n' if open_questions != 1 else ''}</div>"
             "</div>"
         )
         st.markdown(score_html, unsafe_allow_html=True)

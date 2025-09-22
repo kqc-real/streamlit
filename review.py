@@ -11,15 +11,42 @@ from __future__ import annotations
 import os
 import pandas as pd
 import streamlit as st
+import importlib
+import sys
+from types import ModuleType
+from datetime import datetime
+
+
+def _import_main_module() -> ModuleType | None:  # pragma: no cover - defensive
+    """Versucht das Hauptmodul `mc_test_app` sowohl relativ als auch absolut zu laden.
+
+    Szenario: Wird `streamlit run mc_test_app/mc_test_app.py` ausgeführt, kann
+    `review.py` als loses Modul ohne Paketkontext geladen werden und
+    `from . import mc_test_app` schlägt fehl ("no known parent package").
+    Dieser Helper ergänzt einen absoluten Fallback.
+    """
+    # 1) Relativer Versuch (normaler Paketbetrieb)
+    try:
+        from . import mc_test_app as _app  # type: ignore
+        return _app  # type: ignore
+    except Exception:
+        pass
+    # 2) Absoluter Versuch: Verzeichnis dieses Files in sys.path sichern
+    try:
+        base_dir = os.path.dirname(__file__)
+        if base_dir not in sys.path:
+            sys.path.append(base_dir)
+        return importlib.import_module("mc_test_app")
+    except Exception:
+        return None
 
 # Lazy access helpers -------------------------------------------------------
 
 def _get_main_attr(name: str, default=None):  # pragma: no cover - defensive
-    try:
-        from . import mc_test_app as _app  # type: ignore
-        return getattr(_app, name, default)
-    except Exception:
+    mod = _import_main_module()
+    if mod is None:
         return default
+    return getattr(mod, name, default)
 
 
 LOGFILE = _get_main_attr("LOGFILE", os.path.join(os.path.dirname(__file__), "mc_test_answers.csv"))
@@ -211,14 +238,118 @@ def display_admin_full_review():
 
 def display_admin_panel():
     st.sidebar.success("Admin-Modus aktiv")
-    tab_analysis, tab_export, tab_system, tab_glossary = st.tabs([
+    tab_analysis, tab_highscore, tab_export, tab_system, tab_glossary = st.tabs([
         "📊 Analyse",
+        "🥇 Highscore",
         "📤 Export",
         "🛠 System",
         "📚 Glossar",
     ])
+    # Analyse Tab (Item-Statistiken)
     with tab_analysis:
         display_admin_full_review()
+    # Highscore Tab – alle User aggregiert
+    with tab_highscore:
+        st.markdown("### Highscore – Gesamtrangliste aller Pseudonyme")
+        if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
+            st.info("Kein Log vorhanden.")
+        else:
+            try:
+                df_hs = pd.read_csv(LOGFILE, on_bad_lines="skip")
+            except Exception as e:  # pragma: no cover
+                st.error(f"Log konnte nicht geladen werden: {e}")
+                df_hs = None
+            if df_hs is not None:
+                if df_hs.empty:
+                    st.info("Noch keine Einträge.")
+                elif not {"user_id_plain", "richtig", "frage_nr", "user_id_hash"}.issubset(df_hs.columns):
+                    st.warning("Log-Datei unvollständig – Highscore nicht berechenbar.")
+                else:
+                    # Basisbereinigung
+                    df_hs = df_hs.dropna(subset=["user_id_plain", "richtig", "frage_nr", "user_id_hash"]).copy()
+                    df_hs["richtig"] = pd.to_numeric(df_hs["richtig"], errors="coerce").fillna(0)
+                    df_hs["frage_nr"] = pd.to_numeric(df_hs["frage_nr"], errors="coerce")
+                    df_hs = df_hs.dropna(subset=["frage_nr"])  # entferne Zeilen ohne gültige Frage-Nr
+                    if df_hs.empty:
+                        st.info("Keine gültigen Daten nach Bereinigung.")
+                    else:
+                        # Zeitspalten konvertieren für erste/letzte Aktivität
+                        if "zeit" in df_hs.columns:
+                            df_hs["_ts"] = pd.to_datetime(df_hs["zeit"], errors="coerce")
+                        else:
+                            df_hs["_ts"] = pd.NaT
+                        # Absolute Login-Sessions bestimmen: Sortiere pro Nutzer nach Zeit
+                        # Neue Session beginnt, wenn Abstand > 30 Minuten oder erste Zeile
+                        session_gap = pd.Timedelta(minutes=30)
+                        if "_ts" in df_hs.columns:
+                            df_hs = df_hs.sort_values(["user_id_hash", "_ts"])  # chronologisch
+                            def _assign_sessions(sub: pd.DataFrame) -> pd.DataFrame:
+                                times = sub["_ts"].tolist()
+                                session_ids = []
+                                current_session = 0
+                                prev_t = None
+                                for t in times:
+                                    if prev_t is None or pd.isna(prev_t) or pd.isna(t) or (t - prev_t) > session_gap:
+                                        current_session += 1
+                                    session_ids.append(current_session)
+                                    prev_t = t
+                                sub["_session_id"] = session_ids
+                                return sub
+                            df_hs = df_hs.groupby("user_id_hash", group_keys=False).apply(_assign_sessions)
+                        else:
+                            df_hs["_session_id"] = 0
+                        agg = (
+                            df_hs.groupby("user_id_hash")
+                            .agg(
+                                Pseudonym=("user_id_plain", "first"),
+                                Punkte=("richtig", "sum"),
+                                Antworten=("frage_nr", "count"),
+                                Erster_Login=("_ts", "min"),
+                                Letzter_Login=("_ts", "max"),
+                                Logins=("_session_id", lambda s: s.nunique()),
+                            )
+                            .reset_index(drop=True)
+                        )
+                        if agg.empty:
+                            st.info("Noch keine aggregierbaren Daten.")
+                        else:
+                            agg = agg.sort_values(by=["Punkte", "Antworten", "Pseudonym"], ascending=[False, False, True])
+                            agg.insert(0, "Rang", range(1, len(agg) + 1))
+                            # Formatierung der Zeitspalten
+                            def _fmt_dt(x):
+                                try:
+                                    if pd.isna(x):
+                                        return "—"
+                                    return str(x) if isinstance(x, str) else x.strftime("%Y-%m-%d %H:%M:%S")
+                                except Exception:
+                                    return "—"
+                            if "Erster_Login" in agg.columns:
+                                agg["Erster_Login"] = agg["Erster_Login"].map(_fmt_dt)
+                            if "Letzter_Login" in agg.columns:
+                                agg["Letzter_Login"] = agg["Letzter_Login"].map(_fmt_dt)
+                            cols_show = [
+                                c for c in [
+                                    "Rang",
+                                    "Pseudonym",
+                                    "Punkte",
+                                    "Antworten",
+                                    "Logins",
+                                    "Erster_Login",
+                                    "Letzter_Login",
+                                ] if c in agg.columns
+                            ]
+                            st.dataframe(
+                                agg[cols_show],
+                                use_container_width=True,
+                                hide_index=True,
+                            )
+                            st.download_button(
+                                "Highscore als CSV herunterladen",
+                                data=agg.to_csv(index=False).encode("utf-8"),
+                                file_name="highscore.csv",
+                                mime="text/csv",
+                            )
+    # Export Tab
     with tab_export:
         st.markdown("### Export / Downloads")
         if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
@@ -238,6 +369,11 @@ def display_admin_panel():
             st.info("Kein Log vorhanden.")
     with tab_system:
         st.markdown("### System / Konfiguration")
+        # Hinweis nach globalem Reset anzeigen (persistiert über Session-State)
+        if st.session_state.get("_global_reset_notice"):
+            st.info(
+                f"Antwort-Log wurde zurückgesetzt – Zeit: {st.session_state.get('_global_reset_notice')}"
+            )
         st.write("Benutzer (Session):", st.session_state.get("user_id"))
         st.write("Admin-User aktiv:", bool(os.getenv("MC_TEST_ADMIN_USER")))
         st.write(
@@ -252,6 +388,49 @@ def display_admin_panel():
                 else 0
             ),
         )
+        # Globaler Reset (immer anzeigen, auch wenn Funktion fehlt – bessere Diagnose)
+        _reset_fn = None
+        _reset_error = None
+        _app = _import_main_module()
+        if _app is not None:
+            _reset_fn = getattr(_app, "reset_all_answers", None)
+        else:
+            _reset_error = "Hauptmodul konnte nicht geladen werden"
+        with st.expander("⚠️ Globaler Reset", expanded=False):
+            st.caption(
+                "Löscht alle gespeicherten Antworten unwiderruflich (CSV wird geleert und neu initialisiert)."
+            )
+            if _reset_error:
+                st.warning(f"Reset-Funktion konnte nicht geladen werden: {_reset_error}")
+            if _reset_fn is None and not _reset_error:
+                st.info("Reset-Funktion nicht verfügbar (evtl. alte Version oder Importproblem).")
+            col_r1, col_r2 = st.columns([1, 2])
+            with col_r1:
+                confirm = st.checkbox("Ich verstehe", key="confirm_global_reset")
+            with col_r2:
+                disabled = not confirm or _reset_fn is None
+                if st.button("Alle Antworten löschen", type="primary", disabled=disabled):
+                    try:
+                        ok = _reset_fn() if _reset_fn else False
+                    except Exception as e:  # pragma: no cover
+                        ok = False
+                        st.error(f"Fehler beim Reset: {e}")
+                    else:
+                        if ok:
+                            # Flag setzen für nachfolgenden Reload-Hinweis
+                            st.session_state["_global_reset_notice"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            st.success("Alle Antworten gelöscht. Seite wird neu geladen …")
+                            try:
+                                st.rerun()
+                            except Exception:  # pragma: no cover
+                                try:
+                                    import time as _t
+                                    st.warning("Automatisches Reload nicht verfügbar – bitte Seite manuell neu laden.")
+                                    _t.sleep(0.5)
+                                except Exception:
+                                    pass
+                        else:
+                            st.error("Reset fehlgeschlagen oder Funktion nicht verfügbar.")
         if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
             try:
                 df_sys = pd.read_csv(LOGFILE, on_bad_lines="skip")
