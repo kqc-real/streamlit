@@ -110,9 +110,9 @@ Hinweise (Streamlit Cloud / TOML Parser):
 - Schlüssel UND Werte als Strings konsequent quoten (robusteste Variante): `"KEY" = "wert"`.
 - Numerische Werte (z.B. `5`) können ohne Quotes, dürfen aber auch mit `"5"` – intern wird gecastet.
 - Keine `.env`-Syntax (`KEY=value` ohne Leerzeichen) in `secrets.toml` verwenden – immer `KEY = VALUE` mit Leerzeichen.
-- Pro Zeile genau ein Key. Keine Inline-Kommentare direkt hinter dem Wert, falls der Parser meckert.
-- Unsichtbare Sonderzeichen (geschützte Leerzeichen, typografische Bindestriche) vermeiden – bei Copy/Paste aus Office-Quellen ggf. in einem Plain-Text-Editor säubern.
-- Wenn du einen "invalid TOML" Fehler siehst: Prüfe Anführungszeichen, `=` Abstände und dass keine Tabs enthalten sind (nur Spaces).
+- Pro Zeile genau ein Key. Keine Inline-Kommentare direkt hinter dem Wert.
+- Unsichtbare Sonderzeichen vermeiden (non-breaking space, typogr. Bindestrich) – bei Copy/Paste ggf. säubern.
+- Bei "invalid TOML": Quotes, `=` Abstände und Tabs (verboten) prüfen.
 
 Minimalvariante (alle Strings explizit in Quotes):
 
