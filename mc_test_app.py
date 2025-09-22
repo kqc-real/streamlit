@@ -646,7 +646,7 @@ def initialize_session_state():
         # Einmaliger Hinweis nach lokalem Reset; nutzt getattr für Test-Mocks ohne __contains__
         if getattr(st.session_state, "session_aborted", False):
             st.success(
-                "Hinweis: Deine bisherigen Antworten wurden nicht gelöscht und bleiben im Log/Leaderboard erhalten."
+                "Hinweis: Deine Antworten wurden nicht gelöscht."
             )
             try:
                 del st.session_state["session_aborted"]  # type: ignore[index]
@@ -1361,56 +1361,29 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     del st.session_state[k]
             st.session_state["session_aborted"] = True
             st.rerun()
-    # Leaderboard (Top 5) zusätzlich in der Sidebar anzeigen (Test-Erwartung)
+    # Leaderboard (Top 5) nur anzeigen, wenn echte Daten vorhanden
     try:
         ensure_logfile_exists()
-        # Optionaler forcierter Refresh (Tests können Flag setzen)
-        if hasattr(calculate_leaderboard, "clear"):
-            if st.session_state.get("_force_lb_refresh"):
-                try:
-                    calculate_leaderboard.clear()  # type: ignore[attr-defined]
-                except Exception:
-                    pass
+        if hasattr(calculate_leaderboard, "clear") and st.session_state.get("_force_lb_refresh"):
+            try:
+                calculate_leaderboard.clear()  # type: ignore[attr-defined]
+            except Exception:
+                pass
         lb_df = calculate_leaderboard()
-        show_cols = ["Platz", "Pseudonym", "Punkte"]
-        if lb_df.empty:
-            import pandas as _pd
-            placeholder_df = _pd.DataFrame([
-                {"Platz": "", "Pseudonym": "", "Punkte": ""}
-            ])
-            st.sidebar.caption("Top 5 Leaderboard")
-            st.sidebar.dataframe(placeholder_df[show_cols], use_container_width=True, hide_index=True)
-        else:
-            existing = [c for c in show_cols if c in lb_df.columns]
-            if existing:
+        if lb_df is not None and not lb_df.empty:
+            show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
+            if show_cols:
                 st.sidebar.caption("Top 5 Leaderboard")
-                to_show = lb_df[existing].head(5).copy()
-                # Rang-Icons hinzufügen (neue Spalte 'Rang')
+                to_show = lb_df[show_cols].head(5).copy()
                 icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-                to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                if "Platz" in to_show.columns:
+                    to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                cols_final = [c for c in ["Rang"] + show_cols if c != "Platz"]
                 st.sidebar.dataframe(
-                    to_show[[c for c in ["Rang"] + existing if c != "Platz"]],
+                    to_show[cols_final],
                     use_container_width=True,
                     hide_index=True,
                 )
-    except Exception:
-        pass
-    # Small Top-5 Leaderboard (optional, falls Daten vorhanden) direkt darunter
-    try:
-        lb_df = calculate_leaderboard()
-        if lb_df is not None and not lb_df.empty:
-            st.sidebar.markdown("---")
-            st.sidebar.subheader("🥇 Top 5")
-            show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
-            compact = lb_df[show_cols].copy()
-            icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-            compact.insert(0, "Rang", compact["Platz"].map(icons).fillna(compact["Platz"].astype(str)))
-            st.sidebar.dataframe(
-                compact[[c for c in ["Rang"] + show_cols if c != "Platz"]],
-                use_container_width=True,
-                height=200,
-                hide_index=True,
-            )
     except Exception:
         pass
     # Countdown für nächstmögliche Antwort (Throttling)
@@ -1872,7 +1845,7 @@ def main():
 <div style='display:flex;justify-content:center;align-items:center;'>
     <div style='max-width:600px;text-align:center;padding:24px;"
     "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
-    <h2 style='color:#4b9fff;'>Willkommen zu 100 Fragen!</h2>
+    <h2 style='color:#4b9fff;'>100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
       Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine und Deep Learning</strong>.
       <br><br>
@@ -1883,23 +1856,22 @@ def main():
 """,
             unsafe_allow_html=True,
         )
-        # Öffentliches Leaderboard (Top 5) auch unangemeldet anzeigen
+        # Öffentliches Leaderboard (Top 5) nur anzeigen, wenn Daten vorhanden
         try:
             ensure_logfile_exists()
             lb_df = calculate_leaderboard()
-            st.markdown("### 🥇 Aktuelle Top 5")
             if lb_df is not None and not lb_df.empty:
+                st.markdown("### 🥇 Aktuelle Top 5")
                 show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
-                icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-                to_show = lb_df[show_cols].head(5).copy()
-                if "Platz" in to_show.columns:
-                    to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
-                    ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
-                else:
-                    ordered = show_cols
-                st.dataframe(to_show[ordered], use_container_width=True, hide_index=True)
-            else:
-                st.caption("Noch keine vollständigen Durchläufe – sei der Erste!")
+                if show_cols:
+                    icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+                    to_show = lb_df[show_cols].head(5).copy()
+                    if "Platz" in to_show.columns:
+                        to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                        ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
+                    else:
+                        ordered = show_cols
+                    st.dataframe(to_show[ordered], use_container_width=True, hide_index=True)
         except Exception:
             pass
         # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
