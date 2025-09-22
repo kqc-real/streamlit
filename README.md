@@ -14,16 +14,24 @@ Diese App ist ein vollständiger MC-Test für Data Analytics, entwickelt mit Str
 Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge und Zeitlimit.
 Perfekt für Bildungsumgebungen oder Selbstlernphasen.
 
-### Hauptfunktionen
+### Hauptfunktionen (Kurz)
 
-- **Benutzerverwaltung:** Anmeldung mit Pseudonym; Fortschritt wird gespeichert.
-- **Testdurchführung:** 100 zufällig gemischte Fragen aus JSON-Datei,
-  mit Erklärungen und Review-Modus.
-- **Zeitmanagement:** 60-Minuten-Limit mit Countdown und Warnungen.
-- **Feedback & Analyse:** Motivationales Feedback, Leaderboard (Top 5),
-  kompakter Admin-Bereich (Leaderboard-Ansicht, Itemanalyse, Export, System, Glossar).
-- **Datenschutz:** SHA-256-Hashing für Anonymität; lokale Speicherung.
-- **Zusätze:** Dark-Mode, Accessibility-Optionen, CSV-Exporte, Docker-Unterstützung.
+| Kategorie | Funktion |
+|-----------|----------|
+| Zugang | Pseudonym-Login (anonymisiert via Hash) |
+| Fragen | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen |
+| Scoring-Modi | "Nur +Punkte" (falsch = 0) · "+/- Punkte" (falsch = -Gewichtung) |
+| Feedback | Sofortiges Ergebnis + Erklärung, dynamische Motivation |
+| Fortschritt | Persistenz pro Pseudonym (Session lokal) |
+| Zeitlimit | Optionales 60-Minuten-Fenster (abschaltbar durch Code-Anpassung) |
+| Leaderboard | Öffentliches Top‑5 vor Login; vollständige Ansicht für Admin |
+| Analyse | Itemanalyse (p, r_pb, Distraktor, Verteilungen) |
+| Export | CSV-Download über Admin-Panel |
+| Reset | Globaler CSV-Reset mit Hinweisbanner (System-Tab) |
+| Sicherheit | Hashing + Admin-Key + Rate-Limit (optional) |
+| Accessibility | Reduzierte Animationen, hoher Kontrast |
+
+> Neu (2025-09-22): Negatives Scoring zieht jetzt die volle *Gewichtung* einer Frage ab (nicht mehr pauschal -1).
 
 ---
 
@@ -124,8 +132,8 @@ Minimalvariante (alle Strings explizit in Quotes):
 
 ### Datenpersistenz (CSV)
 
-- **Datei:** `mc_test_answers.csv` (wird automatisch erstellt).
-- **Schema (ab August 2025):**
+- **Datei:** `mc_test_answers.csv` (automatische Erstellung).
+- **Schema (seit Sept 2025, kompatibel rückwärts):**
 
   ```csv
   user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
@@ -139,7 +147,7 @@ Minimalvariante (alle Strings explizit in Quotes):
   - `frage_nr`: Fragenummer.
   - `frage`: Vollständiger Fragetext.
   - `antwort`: Ausgewählte Option.
-  - `richtig`: 1 (richtig) oder -1 (falsch).
+  - `richtig`: Punktwert der Antwort. `positive_only`: +Gewichtung oder 0. `+/-`: +Gewichtung oder -Gewichtung.
   - `zeit`: ISO8601-Zeitstempel.
 
 - **Eigenschaften:** Append-only, Pandas-kompatibel, leicht zu sichern.
@@ -212,6 +220,19 @@ Backward Compatibility: Wrapper-Funktionen im Hauptmodul behalten alte Namen
 | Struktur | Module + Wrapper | Klarheit |
 
 Geplante Ergänzung: Auslagerung von Streak/Badges/Motivationslogik nach `gamification.py`.
+
+### Scoring & Gewichtung
+
+| Modus | Richtig | Falsch | Motivation |
+|-------|---------|--------|------------|
+| Nur +Punkte | +Gewichtung | 0 | Risikoarmes Üben |
+| +/- Punkte | +Gewichtung | -Gewichtung | Fördert sorgfältiges Antworten |
+
+Hinweise:
+- Gewichtung fehlt? → Standard = 1.
+- Prozentanzeige = aktueller Score / Summe aller Gewichtungen.
+- Negative Gesamtwerte sind erlaubt (kein Floor). Optional konfigurierbar (Code-Anpassung in `current_score`).
+- Vorschau-Abzüge (Vorwarnung) können leicht ergänzt werden (siehe Developer Guide Roadmap).
 
 ### Admin-Panel Übersicht
 
@@ -327,6 +348,7 @@ Hinweise:
 
 ## 📝 Changelog
 
+- **2025-09-22:** Scoring überarbeitet (Abzug = volle Gewichtung), README restrukturiert (Feature-Tabelle, Scoring-Abschnitt ergänzt).
 - **2025-09-22:** Aufräumarbeiten: Entfernte veraltete "Highscore"-Texte,
   README aktualisiert (vereinheitlichte Admin-Bereich Beschreibung,
   klare Trennung öffentliche Ansicht vs. Admin-Tabs).
