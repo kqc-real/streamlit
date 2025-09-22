@@ -369,6 +369,33 @@ def display_admin_panel():
             st.info("Kein Log vorhanden.")
     with tab_system:
         st.markdown("### System / Konfiguration")
+        # Scoring-Modus Umschalter (Legacy-Panel) – nur Admin sichtbar
+        current_mode = st.session_state.get("scoring_mode", "positive_only")
+        col_sc1, col_sc2 = st.columns([1.2, 2.8])
+        with col_sc1:
+            new_mode_legacy = st.radio(
+                "Scoring-Modus",
+                options=["positive_only", "negative"],
+                index=0 if current_mode == "positive_only" else 1,
+                format_func=lambda v: "Nur +Punkte" if v == "positive_only" else "+/- Punkte",
+                key="scoring_mode_radio_legacy_system",
+                horizontal=False,
+            )
+            if new_mode_legacy != current_mode:
+                st.session_state["scoring_mode"] = new_mode_legacy
+                try:
+                    st.rerun()
+                except Exception:
+                    pass
+        with col_sc2:
+            st.caption(
+                "'Nur +Punkte': falsch = 0. '+/- Punkte': falsch = -Gewichtung (volle Punktzahl als Abzug)."
+            )
+            if current_mode == "positive_only":
+                st.caption("Aktiv: Nur +Punkte (falsch = 0)")
+            else:
+                st.caption("Aktiv: +/- Punkte (falsch = -Gewichtung)")
+        st.divider()
         # Hinweis nach globalem Reset anzeigen (persistiert über Session-State)
         if st.session_state.get("_global_reset_notice"):
             st.info(

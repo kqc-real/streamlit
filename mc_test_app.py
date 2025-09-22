@@ -385,11 +385,17 @@ def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
     try:
         params = st.query_params  # Streamlit neue API
         debug_param = params.get("debug") if isinstance(params, dict) else None
+        force_admin_param = params.get("admin") if isinstance(params, dict) else None
+        force_scoring_param = params.get("force_scoring") if isinstance(params, dict) else None
         if isinstance(debug_param, list):
             debug_val = debug_param[0]
         else:
             debug_val = str(debug_param) if debug_param is not None else "0"
         debug_flag = os.getenv("MC_TEST_DEBUG_ADMIN", "0") == "1" or debug_val == "1"
+        # Sofort forcieren falls ?admin=1 über URL
+        if force_admin_param in ("1", ["1"]):
+            st.session_state["admin_view"] = True
+            # Kein sofortiges rerun erzwingen – UI zeigt dann aktive Sektion
     except Exception:
         debug_flag = os.getenv("MC_TEST_DEBUG_ADMIN", "0") == "1"
 
@@ -458,6 +464,22 @@ def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
                         if k not in keep:
                             del st.session_state[k]
                     st.rerun()
+        # Optional: Sofort Scoring-Modus einblendbar über ?force_scoring=1 (Debug / Notfall)
+        try:
+            if force_scoring_param in ("1", ["1"]):
+                current_mode = st.session_state.get("scoring_mode", "positive_only")
+                new_mode = st.sidebar.radio(
+                    "Scoring-Modus (forced)",
+                    options=["positive_only", "negative"],
+                    index=0 if current_mode == "positive_only" else 1,
+                    format_func=lambda v: "Nur +Punkte" if v == "positive_only" else "+/- Punkte",
+                    key="scoring_mode_radio_forced",
+                )
+                if new_mode != current_mode:
+                    st.session_state["scoring_mode"] = new_mode
+                    st.rerun()
+        except Exception:
+            pass
         return
 
     # reason == login_possible → Login anzeigen
@@ -788,6 +810,28 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
     # Tab 3: System
     with tabs[3]:
         st.markdown("### System / Konfiguration")
+        # Scoring-Modus ganz oben platzieren (sichtbar & eindeutig)
+        current_mode = st.session_state.get("scoring_mode", "positive_only")
+        new_mode_top_sys = st.radio(
+            "Scoring-Modus (System)",
+            options=["positive_only", "negative"],
+            index=0 if current_mode == "positive_only" else 1,
+            format_func=lambda v: "Nur +Punkte" if v == "positive_only" else "+/- Punkte",
+            key="scoring_mode_radio_system_top_v2",
+            horizontal=True,
+        )
+        if new_mode_top_sys != current_mode:
+            st.session_state["scoring_mode"] = new_mode_top_sys
+            try:
+                st.rerun()
+            except Exception:
+                pass
+        else:
+            if current_mode == "positive_only":
+                st.caption("Aktiv: Nur +Punkte (falsch = 0)")
+            else:
+                st.caption("Aktiv: +/- Punkte (falsch = -Gewichtung)")
+        st.divider()
         st.write("Benutzer (Session):", st.session_state.get("user_id"))
         st.write("Admin-User aktiv:", bool(os.getenv("MC_TEST_ADMIN_USER")))
         st.write(
@@ -1057,7 +1101,41 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         # Setze index nur, wenn noch keine Antwort im Session State existiert
         if selected_val is None and st.session_state.beantwortet[frage_idx] is None:
             radio_kwargs["index"] = 0  # Default to placeholder
-        antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
+        # Bookmark Toggle (nur solange Frage nicht beantwortet oder auch nachträglich zum Wiederfinden)
+        if "bookmarked_questions" not in st.session_state:
+            st.session_state.bookmarked_questions = []
+        is_marked = frage_idx in st.session_state.bookmarked_questions
+        col_bm1, col_bm2 = st.columns([1,4])
+        with col_bm1:
+            if st.toggle("🔖", value=is_marked, key=f"bm_toggle_{frage_idx}"):
+                if not is_marked:
+                    st.session_state.bookmarked_questions.append(frage_idx)
+            else:
+                if is_marked:
+                    try:
+                        st.session_state.bookmarked_questions.remove(frage_idx)
+                    except ValueError:
+                        pass
+        with col_bm2:
+            antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
+        # Resume-UI (inline, ohne Expander)
+        if "resume_next_idx" in st.session_state:
+            resume_target = st.session_state.resume_next_idx
+            if resume_target == frage_idx:
+                del st.session_state["resume_next_idx"]
+                st.session_state["jump_to_idx_active"] = False
+            elif st.session_state.get("jump_to_idx_active", False):
+                st.markdown(
+                    f"<div style='margin:4px 0 8px 0;font-size:0.85rem;opacity:0.8;'>Regulärer Fortschritt: Frage {resume_target + 1}</div>",
+                    unsafe_allow_html=True,
+                )
+                if st.button(
+                    "Fortsetzen am ursprünglichen Punkt", key=f"resume_btn_{frage_idx}"
+                ):
+                    st.session_state["jump_to_idx"] = resume_target
+                    del st.session_state["resume_next_idx"]
+                    st.session_state["jump_to_idx_active"] = False
+                    st.rerun()
         # Only allow answering if a real option is chosen
         if antwort == "Wähle ...":
             antwort = None
@@ -1167,6 +1245,15 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     st.error(
                         f"Leider falsch (-{gw} Punkt{plural}). Richtige Antwort: **{richtige_antw}**"
                     )
+            # Erklärungstext (falls vorhanden) anzeigen
+            erklaerung = frage_obj.get("erklaerung") or frage_obj.get("erklaerung_text")
+            if erklaerung:
+                st.markdown(
+                    f"<div style='margin-top:8px;padding:8px 10px;border-left:4px solid #4b9fff;background:#0e1a25;border-radius:3px;'>"
+                    f"<span style='font-weight:600;color:#4b9fff;'>Erklärung:</span><br>{erklaerung}"
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
             # Motivation anzeigen
             show_motivation()
             if st.button("Nächste Frage!"):
@@ -1189,6 +1276,37 @@ except Exception:  # pragma: no cover
 
 
 def display_sidebar_metrics(num_answered: int) -> None:
+    # Bookmark Sidebar (oben, bevor Standard-Metriken)
+    if "bookmarked_questions" not in st.session_state:
+        st.session_state.bookmarked_questions = []  # store original indices (0-based)
+    with st.sidebar.expander("🔖 Markierte Fragen", expanded=False):
+        bms = st.session_state.bookmarked_questions
+        if not bms:
+            st.caption("Keine Fragen markiert.")
+        else:
+            # Sortiere und liste Buttons zum Springen
+            for q_idx in sorted(set(bms)):
+                label = f"Frage {q_idx+1}"
+                if st.button(label, key=f"bm_jump_{q_idx}"):
+                    # Falls noch kein Resume-Ziel gesetzt ist: zukünftigen Standard-Fortschritt sichern
+                    if "resume_next_idx" not in st.session_state:
+                        # Berechne, was ohne Jump als nächstes dran wäre
+                        default_next = None
+                        for idx in st.session_state.frage_indices:
+                            if st.session_state.beantwortet[idx] is None:
+                                default_next = idx
+                                break
+                        if default_next is not None:
+                            st.session_state["resume_next_idx"] = default_next
+                    # Flag setzen, dass wir uns in einem Jump-Kontext befinden
+                    st.session_state["jump_to_idx_active"] = True
+                    # Setze Jump-Ziel für Haupt-Navigationslogik
+                    st.session_state["jump_to_idx"] = q_idx
+                    st.rerun()
+            # Entfernen aller Bookmarks
+            if st.button("Alle entfernen", key="bm_clear_all"):
+                st.session_state.bookmarked_questions = []
+                st.rerun()
     st.sidebar.header("📋 Beantwortet")
     progress_pct = int((num_answered / len(fragen)) * 100) if len(fragen) > 0 else 0
     progress_html = f"""
@@ -1728,22 +1846,12 @@ def handle_user_session():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
     st.sidebar.divider()
-    # Scoring-Modus Umschaltung (positiv vs. negativ)
+    # Scoring-Modus Anzeige (nur Info in Sidebar; Umschalten im System-Tab)
     current_mode = st.session_state.get("scoring_mode", "positive_only")
-    new_mode = st.sidebar.radio(
-        "Scoring-Modus",
-        options=["positive_only", "negative"],
-        index=0 if current_mode == "positive_only" else 1,
-        format_func=lambda v: "Nur +Punkte" if v == "positive_only" else "+/- Punkte",
-        key="scoring_mode_radio",
-    )
-    if new_mode != current_mode:
-        st.session_state["scoring_mode"] = new_mode
-        # Bereits berechnete Motivations- oder Score-Elemente neu zeichnen
-        st.rerun()
-    st.sidebar.caption(
-        "'Nur +Punkte': falsch = 0. '+/- Punkte': falsch = -Gewichtung (volle Punktzahl der Frage als Abzug)."
-    )
+    label = "Nur +Punkte" if current_mode == "positive_only" else "+/- Punkte"
+    st.sidebar.markdown(f"**Scoring-Modus:** {label}")
+    if current_mode != "positive_only":
+        st.sidebar.caption("'+/- Punkte': falsch = -Gewichtung der Frage")
     render_admin_sidebar(st.session_state.get("user_id"))
     return st.session_state.user_id
 
@@ -1997,18 +2105,26 @@ def main():
     else:
         indices = st.session_state.frage_indices
         next_idx = None
+        # Priorisierte Navigation: Falls ein Bookmark-Sprung angefordert wurde
+        if "jump_to_idx" in st.session_state:
+            candidate = st.session_state.jump_to_idx
+            if isinstance(candidate, int) and 0 <= candidate < len(fragen):
+                next_idx = candidate
+            # einmalig verwenden
+            del st.session_state["jump_to_idx"]
         # Zeige die nächste unbeantwortete Frage, falls Fortschritt geladen
-        if "progress_loaded" in st.session_state and st.session_state.progress_loaded:
+        if next_idx is None and "progress_loaded" in st.session_state and st.session_state.progress_loaded:
             for idx in indices:
                 if st.session_state.beantwortet[idx] is None:
                     next_idx = idx
                     break
         else:
             # Standardverhalten: Zeige die nächste Frage mit Erklärung oder die nächste unbeantwortete
-            for idx in indices:
-                if st.session_state.get(f"show_explanation_{idx}", False):
-                    next_idx = idx
-                    break
+            if next_idx is None:
+                for idx in indices:
+                    if st.session_state.get(f"show_explanation_{idx}", False):
+                        next_idx = idx
+                        break
             # Dies ist die korrigierte, stabile Version
             if next_idx is None:
                 for idx in indices:
