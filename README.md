@@ -21,7 +21,7 @@ Perfekt für Bildungsumgebungen oder Selbstlernphasen.
   mit Erklärungen und Review-Modus.
 - **Zeitmanagement:** 60-Minuten-Limit mit Countdown und Warnungen.
 - **Feedback & Analyse:** Motivationales Feedback, Leaderboard (Top 5),
-  Admin-Bereich für Logs.
+  kompakter Admin-Bereich (Leaderboard-Ansicht, Itemanalyse, Export, System, Glossar).
 - **Datenschutz:** SHA-256-Hashing für Anonymität; lokale Speicherung.
 - **Zusätze:** Dark-Mode, Accessibility-Optionen, CSV-Exporte, Docker-Unterstützung.
 
@@ -182,7 +182,7 @@ mc_test_app/
 | `core.py` | CSV-Persistenz, Locking, Hashing, Fragenladen | Stabil |
 | `scoring.py` | Punktestand, Prozent, abstrahiertes Leaderboard | Aktiv |
 | `leaderboard.py` | Aggregationen, Leaderboard, Log-Ansicht (Admin) | Aktiv |
-| `review.py` | Itemanalyse, Admin-Panel (4 Tabs) | Aktiv |
+| `review.py` | Itemanalyse (Analyse / Export / System / Glossar Tabs) | Aktiv |
 | `mc_test_app.py` | UI-Orchestrierung + Wrapper | Schlank |
 | `gamification.py` | Badges, Streak, Motivation | Geplant |
 
@@ -223,12 +223,12 @@ Analyse-/Review (`review.py`):
 - 🛠 System: Teilnehmer, Aktivität (<10m), Ø Antworten, Accuracy
 - 📚 Glossar: Definitionen, Hinweise, Formeln
 
-Leaderboard (`leaderboard.admin_view()`):
+Leaderboard (Admin):
 - 🥇 Top 5: Abgeschlossene Teilnahmen (Top 3 mit Icons)
 - 👥 Alle Teilnahmen: Übersicht aller Nutzer
 - 📄 Rohdaten: Basis-Log
 
-Leeres Leaderboard: Eine leere Tabellenzeile bis erste Teilnahme fertig ist.
+Öffentlich (nicht angemeldet) sichtbar: Eine kompakte Top‑5 Liste (ohne Detail-Logs).
 
 Glossar-Formeln: p, r_pb, Dominanter Distraktor %.
 Hinweis: Kleine Stichproben (<20) vorsichtig interpretieren.
@@ -256,10 +256,13 @@ Fehlschlagende Importe (Spezialumgebung) aktivieren Fallbacks.
 
 ### Admin-Bereich
 
-- Zugang: Sidebar > Management > Key eingeben.
-- Funktionen: Leaderboard anzeigen, Scoring-Modus ändern,
-  alle Daten löschen (mit Bestätigung).
-- CSV-Reset: Lösche `mc_test_answers.csv` manuell (wird neu erstellt).
+- Zugang: Sidebar > Management > Key eingeben
+  (nur spezifizierter Admin-User sieht das Eingabefeld).
+- Tabs: Leaderboard (Top / Alle / Rohdaten), Analyse (Itemanalyse),
+  Export (CSV), System (Status/KPIs), Glossar.
+- Scoring-Modus-Umschaltung & optionaler CSV-Reset direkt im UI
+  (sofern implementiert); andernfalls Datei löschen
+  (`mc_test_answers.csv`).
 
 ### Tests ausführen
 
@@ -325,9 +328,13 @@ Hinweise:
 
 ## 📝 Changelog
 
-- **2025-09-21:** Module `leaderboard.py`, `review.py`; Analyse-/Glossar-Tabs; System-KPIs;
-  Itemanalyse (p, r_pb, Distraktor %, Verteilungen); DEV-Fallback; härteres Admin-Auth;
-  UI: Rang-Icons (🥇🥈🥉) für Top 3; leerer minimaler Leaderboard-Placeholder.
+- **2025-09-22:** Aufräumarbeiten: Entfernte veraltete "Highscore"-Texte,
+  README aktualisiert (vereinheitlichte Admin-Bereich Beschreibung,
+  klare Trennung öffentliche Ansicht vs. Admin-Tabs).
+- **2025-09-21:** Module `leaderboard.py`, `review.py`; Analyse-/Glossar-Tabs;
+  System-KPIs; Itemanalyse (p, r_pb, Distraktor %, Verteilungen);
+  DEV-Fallback; härteres Admin-Auth; UI: Rang-Icons (🥇🥈🥉) für Top 3;
+  leerer minimaler Leaderboard-Placeholder.
 - **2025-09-20:** Scoring modularisiert (`scoring.py`), CI-Workflow
   (`mc_test_app_ci.yml`) ergänzt, Modularchitektur dokumentiert.
 - **2025-09-19:** README optimiert (Struktur, Klarheit, Troubleshooting hinzugefügt).

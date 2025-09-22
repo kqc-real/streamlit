@@ -28,8 +28,13 @@ import pandas as pd
 # So können nachträgliche Imports (importlib.import_module("mc_test_app.scoring"))
 # trotzdem funktionieren. Ohne Nebenwirkungen wenn normal als Paket geladen.
 # ---------------------------------------------------------------------------
-if (__package__ in (None, "") and __name__ == "mc_test_app" and "__file__" in globals()):  # pragma: no cover - Test-Szenario
-    import os as _os, sys as _sys
+if (
+    __package__ in (None, "")
+    and __name__ == "mc_test_app"
+    and "__file__" in globals()
+):  # pragma: no cover - Test-Szenario
+    import os as _os
+    import sys as _sys
     _pkg_dir = _os.path.dirname(__file__)
     if _pkg_dir not in _sys.path:
         _sys.path.append(_pkg_dir)
@@ -46,7 +51,8 @@ except Exception:  # pragma: no cover
 try:  # Support import when used as a package (tests) or as script (streamlit run)
     from .core import append_answer_row  # type: ignore
 except Exception:  # pragma: no cover
-    import sys as _sys, os as _os
+    import sys as _sys
+    import os as _os
     _here = _os.path.dirname(__file__)
     if _here not in _sys.path:
         _sys.path.append(_here)
@@ -67,7 +73,8 @@ except Exception:
     _lb_load_all_logs = None  # type: ignore
     # Fallback: direkter Import falls Paketkontext fehlt
     try:  # pragma: no cover
-        import importlib as _importlib, sys as _sys
+        import importlib as _importlib
+        import sys as _sys
         _lb_mod = _importlib.import_module("leaderboard")
         _lb_calculate_leaderboard = getattr(_lb_mod, "calculate_leaderboard", None)
         _lb_calculate_leaderboard_all = getattr(_lb_mod, "calculate_leaderboard_all", None)
@@ -97,7 +104,8 @@ except Exception:
     _rv_display_admin_full_review = None  # type: ignore
     # Fallback: direkter Import wenn als Skript ausgeführt (kein Paketkontext)
     try:  # pragma: no cover
-        import importlib as _importlib, sys as _sys
+        import importlib as _importlib
+        import sys as _sys
         _mod_name = 'review'
         if _mod_name not in _sys.modules:
             _rv_mod = _importlib.import_module(_mod_name)
@@ -137,14 +145,14 @@ def _manual_env_parse(path: str):  # pragma: no cover - Hilfsfunktion
             return
         with open(path, 'r', encoding='utf-8') as f:
             for line in f:
-                line=line.strip()
+                line = line.strip()
                 if not line or line.startswith('#') or '=' not in line:
                     continue
-                key, val = line.split('=',1)
-                key=key.strip()
-                val=val.strip().strip('"')
+                key, val = line.split('=', 1)
+                key = key.strip()
+                val = val.strip().strip('"')
                 if key and key not in os.environ:
-                    os.environ[key]=val
+                    os.environ[key] = val
     except Exception:
         pass
 
@@ -166,7 +174,7 @@ except Exception:  # pragma: no cover
     _manual_env_parse(os.path.join(_parent_dir, '.env'))
     _manual_env_parse(os.path.join(_here_dir, '.env'))
 
-# Falls nach Laden noch kein Admin gesetzt ist, letzter Versuch: manuell parsen (falls dotenv importiert aber Variablen leer blieben)
+# Falls nach Laden kein Admin gesetzt: erneut manuell parsen (.env Fallback)
 if not os.getenv('MC_TEST_ADMIN_USER'):
     _here_dir = os.path.dirname(__file__)
     _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
@@ -441,6 +449,13 @@ def initialize_session_state():
         opts = list(q.get("optionen", []))
         random.shuffle(opts)
         st.session_state.optionen_shuffled.append(opts)
+        if "session_aborted" in st.session_state:
+            if st.session_state.get("session_aborted"):
+                st.success(
+                    "Hinweis: Deine bisherigen Antworten wurden nicht gelöscht und bleiben im Log/Leaderboard erhalten."
+                )
+                # Nur einmal anzeigen
+                del st.session_state["session_aborted"]
 
 
 def _duration_to_str(x):
@@ -653,9 +668,11 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
         st.latex(r"p = \\frac{Richtig}{Antworten\\ gesamt}")
         st.latex(r"r_{pb} = \\frac{\\bar{X}_1 - \\bar{X}_0}{s_X} \\sqrt{\\frac{n_1 n_0}{n(n-1)}}")
         st.caption(
-            "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch. Vereinfachte Form – alternative Schreibweisen möglich."
+            "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch."
         )
-        st.latex(r"Dominanter\\ Distraktor\\ % = \\frac{Häufigkeit\\ stärkster\\ Distraktor}{Antworten\\ gesamt} \\times 100")
+        st.latex(
+            r"Dominanter\\ Distraktor\\ % = \\frac{Häufigkeit\\ stärkster\\ Distraktor}{Antworten\\ gesamt} \\times 100"
+        )
         st.caption(
             "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
         )
@@ -799,7 +816,11 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         # Fragennummer im Fragenmodus: Position im Shuffle (fortlaufend ab 1)
         indices = st.session_state.frage_indices
         pos = indices.index(frage_idx) if frage_idx in indices else frage_idx
-        header = f"### Frage {pos + 1} von {FRAGEN_ANZAHL}  <span style='color:#888;font-size:0.9em;'>({gewichtung} Punkt{'e' if gewichtung > 1 else ''})</span>"
+        header = (
+            f"### Frage {pos + 1} von {FRAGEN_ANZAHL}  "
+            f"<span style='color:#888;font-size:0.9em;'>({gewichtung} Punkt"
+            f"{'e' if gewichtung > 1 else ''})</span>"
+        )
         if thema:
             header += f"<br><span style='color:#4b9fff;font-size:0.95em;'>Thema: {thema}</span>"
         st.markdown(header, unsafe_allow_html=True)
@@ -878,9 +899,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             except Exception:
                 gewichtung = 1
             punkte = st.session_state.beantwortet[frage_idx]
-            num_answered = len(
-                [p for p in st.session_state.beantwortet if p is not None]
-            )
+            # num_answered lokal nicht weiterverwendet (Score unten berechnet)
             # Punktestand über der Frage direkt nach Bewertung aktualisieren
             max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
             if scoring_mode == "positive_only":
@@ -898,6 +917,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 aktueller_punktestand = sum(
                     [p if p is not None else 0 for p in st.session_state.beantwortet]
                 )
+            # Kompakte Zwischenanzeige direkt nach Antwort
             score_html = (
                 "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
                 f"<div style='font-size:1rem;font-weight:700;'>Aktueller Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
@@ -929,11 +949,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     st.error(
                         f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{frage_obj['optionen'][frage_obj['loesung']]}**"
                     )
-            erklaerung = frage_obj.get("erklaerung")
-            if erklaerung:
-                st.info(erklaerung)
-            # Dynamische Badge/Streak + Motivation jetzt im Fragenbereich
-            try:
+                # Erweiterte Motivations-/Badge-Logik
                 outcomes = st.session_state.get("answer_outcomes", [])
                 num_answered_now = len([p for p in st.session_state.beantwortet if p is not None])
                 if num_answered_now > 0 and max_punkte > 0:
@@ -1179,8 +1195,6 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                             f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {phrase}</div>",
                             unsafe_allow_html=True,
                         )
-            except Exception:
-                pass
             if st.button("Nächste Frage!"):
                 st.session_state[f"show_explanation_{frage_idx}"] = False
                 st.rerun()
@@ -1236,6 +1250,19 @@ def display_sidebar_metrics(num_answered: int) -> None:
     st.sidebar.metric(
         label="Dein Score:", value=f"{aktueller_punktestand} / {max_punkte}"
     )
+    # Allgemeiner Session-Abbruch (setzt Nutzer zurück auf Startansicht)
+    with st.sidebar.expander("⚠️ Session beenden / neu starten", expanded=False):
+        st.caption(
+            "Setzt NUR deinen lokalen Fortschritt (Timer, Antworten, Auswahl) zurück. "
+            "Bereits protokollierte Antworten bleiben dauerhaft im CSV-Log / Leaderboard."
+        )
+        if st.button("Session zurücksetzen", key="abort_session_user"):
+            preserve = {"_admin_sidebar_rendered"}
+            for k in list(st.session_state.keys()):
+                if k not in preserve:
+                    del st.session_state[k]
+            st.session_state["session_aborted"] = True
+            st.rerun()
     # Leaderboard (Top 5) zusätzlich in der Sidebar anzeigen (Test-Erwartung)
     try:
         ensure_logfile_exists()
@@ -1263,7 +1290,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
                 # Rang-Icons hinzufügen (neue Spalte 'Rang')
                 icons = {1: "🥇", 2: "🥈", 3: "🥉"}
                 to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
-                st.sidebar.dataframe(to_show[[c for c in ["Rang"] + existing if c != "Platz"]], use_container_width=True, hide_index=True)
+                st.sidebar.dataframe(
+                    to_show[[c for c in ["Rang"] + existing if c != "Platz"]],
+                    use_container_width=True,
+                    hide_index=True,
+                )
     except Exception:
         pass
     # Small Top-5 Leaderboard (optional, falls Daten vorhanden) direkt darunter
@@ -1276,7 +1307,12 @@ def display_sidebar_metrics(num_answered: int) -> None:
             compact = lb_df[show_cols].copy()
             icons = {1: "🥇", 2: "🥈", 3: "🥉"}
             compact.insert(0, "Rang", compact["Platz"].map(icons).fillna(compact["Platz"].astype(str)))
-            st.sidebar.dataframe(compact[[c for c in ["Rang"] + show_cols if c != "Platz"]], use_container_width=True, height=200, hide_index=True)
+            st.sidebar.dataframe(
+                compact[[c for c in ["Rang"] + show_cols if c != "Platz"]],
+                use_container_width=True,
+                height=200,
+                hide_index=True,
+            )
     except Exception:
         pass
     # Countdown für nächstmögliche Antwort (Throttling)
@@ -1433,7 +1469,7 @@ def display_final_summary(num_answered: int) -> None:
             quote = (
                 f"**Endstand: {aktueller_punktestand} von {len(fragen)} Punkten.**  "
                 "Das war... kreativ! 😅  "
-                "Manchmal ist der Weg das Ziel. Erklärungen lesen & nächstes Mal Highscore holen! 🚀"
+                "Manchmal ist der Weg das Ziel. Erklärungen lesen & beim nächsten Versuch steigern! 🚀"
             )
         elif prozent == 1.0:
             emoji, quote = (
@@ -1539,7 +1575,10 @@ def display_final_summary(num_answered: int) -> None:
                     st.markdown(f"### Frage {idx + 1} von {FRAGEN_ANZAHL}")
                     thema = frage.get("thema", "")
                     if thema:
-                        st.markdown(f"<span style='color:#4b9fff;font-size:1.05em;font-weight:600;'>Thema: {thema}</span>", unsafe_allow_html=True)
+                        st.markdown(
+                            f"<span style='color:#4b9fff;font-size:1.05em;font-weight:600;'>Thema: {thema}</span>",
+                            unsafe_allow_html=True,
+                        )
                     st.markdown(f"**{frage['frage']}**")
                     st.caption("Optionen:")
                     for opt in frage.get("optionen", []):
@@ -1547,7 +1586,9 @@ def display_final_summary(num_answered: int) -> None:
                         prefix = "•"
                         if user_val is None:
                             if opt == korrekt:
-                                style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
+                                style = (
+                                    "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"
+                                )  # Dunkelgrün
                                 prefix = "✅"
                             st.markdown(
                                 f"<span style='{style}'>{prefix} {opt}</span>",
@@ -1555,13 +1596,20 @@ def display_final_summary(num_answered: int) -> None:
                             )
                             continue
                         if opt == user_val and not richtig:
-                            style = "background-color:#c82333;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelrot
+                            style = (
+                                "background-color:#c82333;color:#fff;padding:2px 8px;border-radius:6px;"
+                            )  # Dunkelrot
                             prefix = "❌"
                         elif opt == user_val and richtig:
-                            style = "background:linear-gradient(90deg,#fff3cd 50%,#218838 50%);color:#111;padding:2px 8px;border-radius:6px;"
+                            style = (
+                                "background:linear-gradient(90deg,#fff3cd 50%,#218838 50%);"
+                                "color:#111;padding:2px 8px;border-radius:6px;"
+                            )
                             prefix = "✅"
                         elif opt == korrekt:
-                            style = "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"  # Dunkelgrün
+                            style = (
+                                "background-color:#218838;color:#fff;padding:2px 8px;border-radius:6px;"
+                            )  # Dunkelgrün
                             prefix = "✅"
                         st.markdown(
                             f"<span style='{style}'>{prefix} {opt}</span>",
@@ -1667,7 +1715,10 @@ def handle_user_session():
         # Info falls komplett
         if num_answered_saved == len(st.session_state.beantwortet):
             st.sidebar.info(
-                "Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Review-Modus aktiv."
+                (
+                    "Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – "
+                    "nochmal starten geht leider nicht. Review-Modus aktiv."
+                )
             )
     # Fortschrittsanzeige (immer)
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
@@ -1691,12 +1742,13 @@ def main():
         st.markdown(
             """
 <div style='display:flex;justify-content:center;align-items:center;'>
-  <div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
+    <div style='max-width:600px;text-align:center;padding:24px;"
+    "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
     <h2 style='color:#4b9fff;'>Willkommen zu 100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
       Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine und Deep Learning</strong>.
       <br><br>
-      Starte jetzt 🚀 – und hol dir deinen Highscore!
+    Starte jetzt 🚀 – und verbessere deinen Score!
     </p>
   </div>
 </div>
@@ -1837,7 +1889,7 @@ def main():
             aktueller_punktestand = sum(
                 [p if p is not None else 0 for p in st.session_state.beantwortet]
             )
-        answered = len([p for p in st.session_state.beantwortet if p is not None])
+    # answered = len([p for p in st.session_state.beantwortet if p is not None])  # entfernt (ungenutzt)
         open_questions = max(
             0, len([p for p in st.session_state.beantwortet if p is None]) - 1
         )
