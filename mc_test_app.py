@@ -449,13 +449,15 @@ def initialize_session_state():
         opts = list(q.get("optionen", []))
         random.shuffle(opts)
         st.session_state.optionen_shuffled.append(opts)
-        if "session_aborted" in st.session_state:
-            if st.session_state.get("session_aborted"):
-                st.success(
-                    "Hinweis: Deine bisherigen Antworten wurden nicht gelöscht und bleiben im Log/Leaderboard erhalten."
-                )
-                # Nur einmal anzeigen
-                del st.session_state["session_aborted"]
+        # Einmaliger Hinweis nach lokalem Reset; nutzt getattr für Test-Mocks ohne __contains__
+        if getattr(st.session_state, "session_aborted", False):
+            st.success(
+                "Hinweis: Deine bisherigen Antworten wurden nicht gelöscht und bleiben im Log/Leaderboard erhalten."
+            )
+            try:
+                del st.session_state["session_aborted"]  # type: ignore[index]
+            except Exception:
+                pass
 
 
 def _duration_to_str(x):
