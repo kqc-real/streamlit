@@ -75,6 +75,17 @@ except Exception:
         _lb_load_all_logs = getattr(_lb_mod, "load_all_logs", None)
     except Exception:
         pass
+    # Zweiter Fallback: voll qualifizierter Modulname innerhalb Paketstruktur
+    if _lb_calculate_leaderboard is None:  # pragma: no cover
+        try:
+            import importlib as _importlib
+            _lb_mod = _importlib.import_module("mc_test_app.leaderboard")
+            _lb_calculate_leaderboard = getattr(_lb_mod, "calculate_leaderboard", None)
+            _lb_calculate_leaderboard_all = getattr(_lb_mod, "calculate_leaderboard_all", None)
+            _lb_admin_view = getattr(_lb_mod, "admin_view", None)
+            _lb_load_all_logs = getattr(_lb_mod, "load_all_logs", None)
+        except Exception:
+            pass
 
 try:  # Review / Admin Analyse Panel
     from .review import (
@@ -96,6 +107,15 @@ except Exception:
         _rv_display_admin_full_review = getattr(_rv_mod, 'display_admin_full_review', None)
     except Exception:
         pass
+    # Zweiter Fallback: voll qualifizierter Paketname
+    if _rv_display_admin_full_review is None:  # pragma: no cover
+        try:
+            import importlib as _importlib
+            _rv_mod = _importlib.import_module('mc_test_app.review')
+            _rv_display_admin_panel = getattr(_rv_mod, 'display_admin_panel', None)
+            _rv_display_admin_full_review = getattr(_rv_mod, 'display_admin_full_review', None)
+        except Exception:
+            pass
 
 # ---------------------------------------------------------------------------
 # Compatibility shim:
@@ -530,76 +550,93 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
     ])
     # Tab 0: Leaderboard (nutzt ursprüngliche Funktionen)
     with tabs[0]:
+        st.markdown("### Übersicht Top-Leistungen")
+        top_df = pd.DataFrame()
         if lb_ok:
             try:
-                _lb_admin_view()
-            except Exception as e:  # pragma: no cover
-                st.error(f"Fehler im Leaderboard Modul: {e}")
+                top_df = _lb_calculate_leaderboard()  # type: ignore
+            except Exception as e:
+                st.error(f"Top-5 Berechnung fehlgeschlagen: {e}")
+        if top_df is not None and not top_df.empty:
+            icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+            df_show = top_df.copy()
+            if "Platz" in df_show.columns:
+                df_show.insert(0, "Rang", df_show["Platz"].map(icons).fillna(df_show["Platz"].astype(str)))
+            keep = [c for c in ["Rang", "Platz", "Pseudonym", "Punkte"] if c in df_show.columns]
+            st.dataframe(df_show[keep], use_container_width=True, hide_index=True)
         else:
-            st.warning("Leaderboard-Modul nicht geladen.")
+            st.info("Noch keine vollständigen Durchläufe.")
         st.divider()
-        st.subheader("🔎 Highscore Review")
+        st.markdown("### 🔎 Highscore Review (Detail je Nutzer)")
         log_path = LOGFILE
-        if not (os.path.isfile(log_path) and os.path.getsize(log_path) > 0):
-            st.info("Noch keine Log-Daten für Review vorhanden.")
-        else:
-            try:
+        try:
+            if os.path.isfile(log_path) and os.path.getsize(log_path) > 0:
                 df_log = pd.read_csv(log_path, on_bad_lines="skip")
-                # Basisbereinigung wie oben
-                if not df_log.empty and {"user_id_hash","richtig","frage","antwort","zeit","frage_nr"}.issubset(df_log.columns):
-                    # Score je User
-                    score_df = (
-                        df_log.groupby(["user_id_hash","user_id_display"], dropna=False)["richtig"]
-                        .sum()
-                        .reset_index()
-                        .rename(columns={"richtig":"punkte"})
-                    )
-                    score_df = score_df.sort_values("punkte", ascending=False)
-                    user_options = [
-                        f"{row.user_id_display} | {row.punkte} Pkt" for row in score_df.itertuples()
-                    ]
-                    selected = st.selectbox(
-                        "Teilnehmer auswählen",
-                        options=user_options,
-                        index=0 if user_options else None,
-                        placeholder="Nutzer wählen",
-                    ) if user_options else None
-                    if selected:
-                        sel_name = selected.split("|")[0].strip()
-                        sel_hash_row = score_df[score_df["user_id_display"]==sel_name].head(1)
-                        if not sel_hash_row.empty:
-                            sel_hash = sel_hash_row.iloc[0]["user_id_hash"]
-                            user_rows = df_log[df_log["user_id_hash"]==sel_hash].copy()
-                            user_rows.sort_values("frage_nr", inplace=True)
-                            total = int(user_rows["richtig"].sum())
-                            answered = user_rows["frage_nr"].nunique()
-                            st.markdown(f"**Pseudonym:** {sel_name}  ")
-                            st.markdown(f"**Punkte:** {total}  | **Beantwortete Fragen:** {answered}")
-                            # Tabelle für Antworten
-                            show_cols = [c for c in ["frage_nr","frage","antwort","richtig","zeit"] if c in user_rows.columns]
-                            # Kürzen der Fragen (nur Text nach Nummer) falls lang
-                            def _clean_q(q):
-                                try:
-                                    return q.split(".",1)[1].strip()
-                                except Exception:
-                                    return q
-                            user_rows["frage_kurz"] = user_rows["frage"].apply(_clean_q)
-                            if "frage" in show_cols:
-                                show_cols = [c if c!="frage" else "frage_kurz" for c in show_cols]
-                            disp = user_rows[show_cols].rename(columns={"frage_kurz":"Frage","frage_nr":"Nr","antwort":"Antwort","richtig":"R","zeit":"Zeit"})
-                            # Mapping richtig
-                            if "R" in disp.columns:
-                                disp["R"] = disp["R"].map(lambda v: "✓" if v>0 else ("✗" if v<0 else "·"))
-                            st.dataframe(disp, height=400, use_container_width=True, hide_index=True)
-                            # Einzel-CSV Download
-                            csv_user = user_rows.to_csv(index=False).encode("utf-8")
-                            st.download_button(
-                                "CSV dieses Nutzers", data=csv_user, file_name=f"review_{sel_name}.csv", mime="text/csv"
-                            )
-                else:
-                    st.info("Log-Datei enthält nicht alle erwarteten Spalten für das Review.")
-            except Exception as e:  # pragma: no cover
-                st.error(f"Fehler beim Laden der Logdaten: {e}")
+            else:
+                df_log = pd.DataFrame()
+        except Exception as e:
+            st.error(f"Log konnte nicht geladen werden: {e}")
+            df_log = pd.DataFrame()
+        required = {"user_id_hash", "richtig", "frage", "antwort", "zeit", "frage_nr", "user_id_display"}
+        structure_ok = df_log.empty or required.issubset(df_log.columns)
+        col_filter, col_select = st.columns([1, 2])
+        with col_filter:
+            only_full = st.checkbox("Nur vollständige Durchläufe", value=True, disabled=not structure_ok)
+        total_q = FRAGEN_ANZAHL if isinstance(FRAGEN_ANZAHL, int) and FRAGEN_ANZAHL else None
+        agg = None
+        if not df_log.empty and structure_ok:
+            total_q = (
+                FRAGEN_ANZAHL if isinstance(FRAGEN_ANZAHL, int) and FRAGEN_ANZAHL > 0 else df_log["frage_nr"].nunique()
+            )
+            agg = (
+                df_log.groupby(["user_id_hash", "user_id_display"], dropna=False)
+                .agg(punkte=("richtig", "sum"), anzahl=("frage_nr", "nunique"))
+                .reset_index()
+            )
+            agg["vollständig"] = agg["anzahl"] >= total_q
+            if only_full:
+                agg = agg[agg["vollständig"]]
+            agg = agg.sort_values(["punkte", "anzahl"], ascending=[False, False])
+        if agg is None:
+            agg = pd.DataFrame(columns=["user_id_hash", "user_id_display", "punkte", "anzahl", "vollständig"])
+        user_options = [
+            f"{r.user_id_display} | {int(r.punkte) if str(r.punkte).isdigit() else r.punkte} Pkt | {r.anzahl}/{total_q if total_q else '?'}"
+            for r in agg.itertuples()
+        ] if not agg.empty else []
+        with col_select:
+            selected = st.selectbox("Teilnehmer", options=user_options if user_options else ["(keine Daten)"])
+        if df_log.empty:
+            st.info("Noch keine Antworten gespeichert – sobald Teilnehmer starten, erscheinen hier Details.")
+        elif not structure_ok:
+            st.warning("Log-Datei unvollständig – benötigte Spalten fehlen für Review.")
+        elif user_options and selected in user_options:
+            sel_display = selected.split("|")[0].strip()
+            row = agg[agg["user_id_display"] == sel_display].head(1)
+            if not row.empty:
+                sel_hash = row.iloc[0]["user_id_hash"]
+                rows = df_log[df_log["user_id_hash"] == sel_hash].copy()
+                rows.sort_values("frage_nr", inplace=True)
+                def _trim(q):
+                    try:
+                        return q.split(".", 1)[1].strip()
+                    except Exception:
+                        return q
+                rows["Frage"] = rows["frage"].apply(_trim)
+                rows["R"] = rows["richtig"].map(lambda v: "✓" if v > 0 else ("✗" if v < 0 else "·"))
+                display_cols = [c for c in ["frage_nr", "Frage", "antwort", "R", "zeit"] if c in rows.columns]
+                disp = rows[display_cols].rename(columns={"frage_nr": "Nr", "antwort": "Antwort", "zeit": "Zeit"})
+                st.markdown(f"**Pseudonym:** {sel_display}")
+                st.markdown(
+                    f"**Punkte:** {int(row.iloc[0]['punkte'])} | **Beantwortet:** {row.iloc[0]['anzahl']}/{total_q} | "
+                    f"{'✅ vollständig' if row.iloc[0]['vollständig'] else '⚠️ unvollständig'}"
+                )
+                st.dataframe(disp, height=420, use_container_width=True, hide_index=True)
+                csv_user = rows.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    "CSV dieses Nutzers", data=csv_user, file_name=f"review_{sel_display}.csv", mime="text/csv"
+                )
+        else:
+            st.caption("Keine Auswahl möglich.")
     # Tab 1: Analyse (Item-Statistiken)
     with tabs[1]:
         if review_ok:
@@ -1926,8 +1963,15 @@ def main():
         st.pyplot(fig)
 
     if st.session_state.get("admin_view", False):
-        admin_view()
-        st.stop()
+        with st.container():
+            admin_view()
+            show_test = st.checkbox(
+                "Testbereich darunter anzeigen (Overlay)",
+                value=False,
+                help="Blendet den normalen Testfluss unter dem Admin-Dashboard ein statt hart zu stoppen.",
+            )
+        if not show_test:
+            return
 
     if "user_id_hash" not in st.session_state:
         st.session_state.user_id_hash = get_user_id_hash(user_id)
