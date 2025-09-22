@@ -451,19 +451,7 @@ def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
     # Wenn bereits aktiv
     if reason == "active":
         with st.sidebar.expander("🔐 Admin aktiv", expanded=False):
-            col_a, col_b = st.columns(2)
-            with col_a:
-                if st.button("Admin-Ansicht verlassen", key="admin_leave_admin_view"):
-                    st.session_state["admin_view"] = False
-                    st.rerun()
-            with col_b:
-                if st.button("Logout", key="admin_full_logout"):
-                    # Session weitgehend zurücksetzen
-                    keep = {"_admin_sidebar_rendered"}
-                    for k in list(st.session_state.keys()):
-                        if k not in keep:
-                            del st.session_state[k]
-                    st.rerun()
+            st.success("Admin-Modus aktiv.")
         # Optional: Sofort Scoring-Modus einblendbar über ?force_scoring=1 (Debug / Notfall)
         try:
             if force_scoring_param in ("1", ["1"]):
@@ -1107,15 +1095,14 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         is_marked = frage_idx in st.session_state.bookmarked_questions
         col_bm1, col_bm2 = st.columns([1,4])
         with col_bm1:
-            if st.toggle("🔖", value=is_marked, key=f"bm_toggle_{frage_idx}"):
-                if not is_marked:
-                    st.session_state.bookmarked_questions.append(frage_idx)
-            else:
-                if is_marked:
-                    try:
-                        st.session_state.bookmarked_questions.remove(frage_idx)
-                    except ValueError:
-                        pass
+            toggled = st.toggle("🔖 Merken", value=is_marked, key=f"bm_toggle_{frage_idx}")
+            if toggled and not is_marked:
+                st.session_state.bookmarked_questions.append(frage_idx)
+            if (not toggled) and is_marked:
+                try:
+                    st.session_state.bookmarked_questions.remove(frage_idx)
+                except ValueError:
+                    pass
         with col_bm2:
             antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
         # Resume-UI (inline, ohne Expander)
@@ -1760,7 +1747,7 @@ def check_admin_permission(user_id: str, provided_key: str) -> bool:
 
 def handle_user_session():
     # 1. Nutzerkennung
-    st.sidebar.header("🧑‍💻 Wer bist du?")
+    st.sidebar.header("Wer bist du?")
     ensure_logfile_exists()  # Früh sicherstellen (relevanter für Tests)
     if "user_id" not in st.session_state:
 
@@ -1849,7 +1836,7 @@ def main():
     <p style='font-size:1.05rem;'>
       Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine und Deep Learning</strong>.
       <br><br>
-    Starte jetzt 🚀 – und verbessere deinen Score!
+    Starte jetzt 🚀 – und optimiere dein Wissen!
     </p>
   </div>
 </div>
