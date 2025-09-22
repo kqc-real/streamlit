@@ -1084,7 +1084,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             if scoring_mode == "positive_only":
                 punkte = gewichtung if richtig else 0
             else:
-                punkte = gewichtung if richtig else -1
+                punkte = gewichtung if richtig else -gewichtung
             st.session_state.beantwortet[frage_idx] = punkte
             # Chronologischen Verlauf ergänzen (für Streak-Badges)
             # Outcome nur als bool korrekte Antwort (True) oder nicht (False) speichern.
@@ -1161,8 +1161,11 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     if not st.session_state.get("reduce_animations", False):
                         st.balloons()
                 else:
+                    gw = frage_obj.get('gewichtung', 1) or 1
+                    plural = 'e' if gw != 1 else ''
+                    richtige_antw = frage_obj['optionen'][frage_obj['loesung']]
                     st.error(
-                        f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{frage_obj['optionen'][frage_obj['loesung']]}**"
+                        f"Leider falsch (-{gw} Punkt{plural}). Richtige Antwort: **{richtige_antw}**"
                     )
             # Motivation anzeigen
             show_motivation()
@@ -1628,8 +1631,10 @@ def display_final_summary(num_answered: int) -> None:
                                 f"Leider falsch. Die richtige Antwort ist: **{korrekt}**"
                             )
                         else:
+                            gw = frage.get('gewichtung', 1) or 1
+                            plural = 'e' if gw != 1 else ''
                             st.error(
-                                f"Leider falsch (-1 Punkt). Die richtige Antwort ist: **{korrekt}**"
+                                f"Leider falsch (-{gw} Punkt{plural}). Richtige Antwort: **{korrekt}**"
                             )
 
 
@@ -1723,6 +1728,22 @@ def handle_user_session():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
     st.sidebar.divider()
+    # Scoring-Modus Umschaltung (positiv vs. negativ)
+    current_mode = st.session_state.get("scoring_mode", "positive_only")
+    new_mode = st.sidebar.radio(
+        "Scoring-Modus",
+        options=["positive_only", "negative"],
+        index=0 if current_mode == "positive_only" else 1,
+        format_func=lambda v: "Nur +Punkte" if v == "positive_only" else "+/- Punkte",
+        key="scoring_mode_radio",
+    )
+    if new_mode != current_mode:
+        st.session_state["scoring_mode"] = new_mode
+        # Bereits berechnete Motivations- oder Score-Elemente neu zeichnen
+        st.rerun()
+    st.sidebar.caption(
+        "'Nur +Punkte': falsch = 0. '+/- Punkte': falsch = -Gewichtung (volle Punktzahl der Frage als Abzug)."
+    )
     render_admin_sidebar(st.session_state.get("user_id"))
     return st.session_state.user_id
 

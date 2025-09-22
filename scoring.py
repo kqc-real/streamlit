@@ -33,6 +33,8 @@ def current_score(beantwortet: List[int | None], fragen: List[Dict], scoring_mod
             if p == gewicht:
                 total += gewicht
         return total
+    # Negative Modus: Punkte enthalten +gewichtung bei richtiger Antwort oder -gewichtung bei falscher Antwort.
+    # beantwortet-Liste speichert bereits die tatsächlichen Punktwerte (+/- gewichtung) oder None.
     return sum([p if p is not None else 0 for p in beantwortet])
 
 

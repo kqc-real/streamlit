@@ -1,3 +1,5 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
 282a9a2d4e9b273f6874000a93d030aefc1c622a128be6a9c4c254e494be721c,282a9a2d4e,qwqw,30,30. Welchen Vorteil bietet Docker für die Zusammenarbeit in einem Data-Science-Team?,"Jeder Entwickler kann seine bevorzugten, inkompatiblen Bibliotheksversionen verwenden.",0,2025-09-22T16:02:38
 282a9a2d4e9b273f6874000a93d030aefc1c622a128be6a9c4c254e494be721c,282a9a2d4e,qwqw,1,1. Was ist der Hauptvorteil von Docker im Kontext von Data Science?,Eine schnellere Datenverarbeitung durch optimierte Container.,0,2025-09-22T16:02:51
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,6,6. Was ist der primäre Zweck einer `docker-compose.yml`-Datei?,Die Verwaltung von Python-Paketabhängigkeiten ähnlich einer `requirements.txt`.,0,2025-09-22T16:03:56
+c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f,c1c224b03c,Admin,66,66. Was ist ein Vorteil von Entscheidungsbäumen gegenüber KNN?,Sie erfordern keine Skalierung der Features.,2,2025-09-22T16:16:36
