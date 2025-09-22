@@ -100,9 +100,26 @@ MC_TEST_MIN_SECONDS_BETWEEN=5  # Optional: Mindestsekunden zwischen Antworten
 Für Produktion:
 
 ```toml
-MC_TEST_ADMIN_USER = "admin"
-MC_TEST_ADMIN_KEY = "secret123"
-MC_TEST_MIN_SECONDS_BETWEEN = 5
+"MC_TEST_ADMIN_USER" = "admin"
+"MC_TEST_ADMIN_KEY" = "secret123"
+"MC_TEST_MIN_SECONDS_BETWEEN" = 5
+```
+
+Hinweise (Streamlit Cloud / TOML Parser):
+
+- Schlüssel UND Werte als Strings konsequent quoten (robusteste Variante): `"KEY" = "wert"`.
+- Numerische Werte (z.B. `5`) können ohne Quotes, dürfen aber auch mit `"5"` – intern wird gecastet.
+- Keine `.env`-Syntax (`KEY=value` ohne Leerzeichen) in `secrets.toml` verwenden – immer `KEY = VALUE` mit Leerzeichen.
+- Pro Zeile genau ein Key. Keine Inline-Kommentare direkt hinter dem Wert, falls der Parser meckert.
+- Unsichtbare Sonderzeichen (geschützte Leerzeichen, typografische Bindestriche) vermeiden – bei Copy/Paste aus Office-Quellen ggf. in einem Plain-Text-Editor säubern.
+- Wenn du einen "invalid TOML" Fehler siehst: Prüfe Anführungszeichen, `=` Abstände und dass keine Tabs enthalten sind (nur Spaces).
+
+Minimalvariante (alle Strings explizit in Quotes):
+
+```toml
+"MC_TEST_ADMIN_USER" = "Admin"
+"MC_TEST_ADMIN_KEY" = "Admin"
+"MC_TEST_MIN_SECONDS_BETWEEN" = 1
 ```
 
 ### Datenpersistenz (CSV)
