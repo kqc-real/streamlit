@@ -65,6 +65,16 @@ except Exception:
     _lb_calculate_leaderboard_all = None  # type: ignore
     _lb_admin_view = None  # type: ignore
     _lb_load_all_logs = None  # type: ignore
+    # Fallback: direkter Import falls Paketkontext fehlt
+    try:  # pragma: no cover
+        import importlib as _importlib, sys as _sys
+        _lb_mod = _importlib.import_module("leaderboard")
+        _lb_calculate_leaderboard = getattr(_lb_mod, "calculate_leaderboard", None)
+        _lb_calculate_leaderboard_all = getattr(_lb_mod, "calculate_leaderboard_all", None)
+        _lb_admin_view = getattr(_lb_mod, "admin_view", None)
+        _lb_load_all_logs = getattr(_lb_mod, "load_all_logs", None)
+    except Exception:
+        pass
 
 try:  # Review / Admin Analyse Panel
     from .review import (
@@ -101,12 +111,47 @@ if __name__ == "mc_test_app":  # executed only in the flat (module) import case
     _sys.modules.setdefault("mc_test_app.mc_test_app", _sys.modules[__name__])
 
 
+def _manual_env_parse(path: str):  # pragma: no cover - Hilfsfunktion
+    try:
+        if not os.path.isfile(path):
+            return
+        with open(path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line=line.strip()
+                if not line or line.startswith('#') or '=' not in line:
+                    continue
+                key, val = line.split('=',1)
+                key=key.strip()
+                val=val.strip().strip('"')
+                if key and key not in os.environ:
+                    os.environ[key]=val
+    except Exception:
+        pass
+
 try:  # pragma: no cover
     from dotenv import load_dotenv  # type: ignore
-
-    load_dotenv()
+    # Absoluter Projektwurzel-Versuch: eine Ebene über diesem File
+    _here_dir = os.path.dirname(__file__)
+    _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
+    # 1) Root .env falls vorhanden
+    load_dotenv(os.path.join(_parent_dir, '.env'))
+    # 2) Lokale .env im Paket
+    _local_env_path = os.path.join(_here_dir, ".env")
+    if os.path.isfile(_local_env_path):
+        load_dotenv(_local_env_path, override=False)
 except Exception:  # pragma: no cover
-    pass
+    # Fallback: manuelles Parsen beider potentieller Orte
+    _here_dir = os.path.dirname(__file__)
+    _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
+    _manual_env_parse(os.path.join(_parent_dir, '.env'))
+    _manual_env_parse(os.path.join(_here_dir, '.env'))
+
+# Falls nach Laden noch kein Admin gesetzt ist, letzter Versuch: manuell parsen (falls dotenv importiert aber Variablen leer blieben)
+if not os.getenv('MC_TEST_ADMIN_USER'):
+    _here_dir = os.path.dirname(__file__)
+    _parent_dir = os.path.abspath(os.path.join(_here_dir, '..'))
+    _manual_env_parse(os.path.join(_parent_dir, '.env'))
+    _manual_env_parse(os.path.join(_here_dir, '.env'))
 
 # ------------------------- Seiteneinstellungen -----------------------------
 
@@ -137,6 +182,126 @@ def load_css():
 
 # Load CSS at the beginning
 load_css()
+
+def _get_admin_config():  # pragma: no cover - kleine Hilfsfunktion
+    env_user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
+    sec_user = ""
+    try:
+        sec_user = str(st.secrets.get("MC_TEST_ADMIN_USER", "")).strip()  # type: ignore
+    except Exception:
+        pass
+    admin_user = sec_user or env_user
+    env_key = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
+    sec_key = ""
+    try:
+        sec_key = str(st.secrets.get("MC_TEST_ADMIN_KEY", "")).strip()  # type: ignore
+    except Exception:
+        pass
+    admin_key = sec_key or env_key
+    return admin_user, admin_key
+
+
+def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
+    admin_user, admin_key = _get_admin_config()
+    # Debug Flag bestimmen
+    try:
+        params = st.query_params  # Streamlit neue API
+        debug_param = params.get("debug") if isinstance(params, dict) else None
+        if isinstance(debug_param, list):
+            debug_val = debug_param[0]
+        else:
+            debug_val = str(debug_param) if debug_param is not None else "0"
+        debug_flag = os.getenv("MC_TEST_DEBUG_ADMIN", "0") == "1" or debug_val == "1"
+    except Exception:
+        debug_flag = os.getenv("MC_TEST_DEBUG_ADMIN", "0") == "1"
+
+    # Doppel-Rendering verhindern (falls Funktion unerwartet mehrfach pro Run aufgerufen wird)
+    if st.session_state.get("_admin_sidebar_rendered"):
+        if debug_flag:
+            with st.sidebar.expander("🛠 Admin Debug (cached)", expanded=False):
+                st.write({
+                    "note": "second_call_skipped",
+                    "admin_view": st.session_state.get("admin_view"),
+                })
+        return
+
+    reason = None
+    searched_paths = []
+    if not user_id:
+        reason = "user_id_not_set"
+    elif not admin_user:
+        reason = "no_admin_configured"
+        # Sammle Info wo gesucht wurde
+        searched_paths.append(os.path.abspath(os.getcwd()))
+        searched_paths.append(os.path.dirname(os.path.abspath(__file__)))
+        local_env = os.path.join(os.path.dirname(__file__), ".env")
+        if os.path.isfile(local_env):
+            searched_paths.append(local_env + " (exists)")
+        else:
+            searched_paths.append(local_env + " (missing)")
+    elif user_id.casefold() != admin_user.casefold():
+        reason = "user_mismatch"
+    elif st.session_state.get("admin_view"):
+        reason = "active"
+    else:
+        reason = "login_possible"
+
+    # Immer Debug anzeigen, wenn Flag aktiv – auch bei Reasons
+    if debug_flag:
+        with st.sidebar.expander("🛠 Admin Debug", expanded=True):
+            info = {
+                "admin_user_config": admin_user,
+                "admin_key_configured": bool(admin_key),
+                "current_user": user_id,
+                "admin_view": st.session_state.get("admin_view"),
+                "reason": reason,
+            }
+            if reason == "no_admin_configured":
+                info["searched_paths"] = searched_paths
+            st.write(info)
+
+    # Falls nicht alle Bedingungen für Anzeige erfüllt, vorzeitig raus (nach Debug)
+    if reason in {"user_id_not_set", "no_admin_configured", "user_mismatch"}:
+        return
+
+    # Wenn bereits aktiv
+    if reason == "active":
+        with st.sidebar.expander("🔐 Admin aktiv", expanded=False):
+            col_a, col_b = st.columns(2)
+            with col_a:
+                if st.button("Admin-Ansicht verlassen", key="admin_leave_admin_view"):
+                    st.session_state["admin_view"] = False
+                    st.rerun()
+            with col_b:
+                if st.button("Logout", key="admin_full_logout"):
+                    # Session weitgehend zurücksetzen
+                    keep = {"_admin_sidebar_rendered"}
+                    for k in list(st.session_state.keys()):
+                        if k not in keep:
+                            del st.session_state[k]
+                    st.rerun()
+        return
+
+    # reason == login_possible → Login anzeigen
+    with st.sidebar.expander("🔐 Admin Login", expanded=False):
+        key_required = bool(admin_key)
+        label = "Admin-Key" if key_required else "Admin aktivieren"
+        entered = st.text_input(label, type="password" if key_required else "default", key="admin_key_input_unified")
+        trigger = st.button("Aktivieren", key="admin_activate_btn") or (entered and not key_required)
+        if trigger:
+            if key_required:
+                if entered and hmac.compare_digest(entered, admin_key):
+                    st.session_state["admin_view"] = True
+                    st.success("Admin aktiviert.")
+                    st.rerun()
+                elif entered:
+                    st.error("Falscher Key.")
+            else:
+                if entered.strip():
+                    st.session_state["admin_view"] = True
+                    st.success("Admin aktiviert.")
+                    st.rerun()
+    st.session_state["_admin_sidebar_rendered"] = True
 
 
 # ---------------------------- Konstanten -----------------------------------
@@ -348,11 +513,185 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:  # Backward com
     return _lb_calculate_leaderboard_all(df)
 
 
-def admin_view():  # Backward compat wrapper
-    if _lb_admin_view is None:
-        st.info("Admin-Ansicht derzeit nicht verfügbar (Modulfehler).")
+def admin_view():  # Vereinheitlichte Admin-Ansicht
+    # Verfügbarkeit prüfen
+    lb_ok = _lb_admin_view is not None and _lb_calculate_leaderboard is not None
+    review_ok = _rv_display_admin_full_review is not None
+    if not (lb_ok or review_ok):
+        st.info("Admin-Ansicht derzeit nicht verfügbar (Module fehlen).")
         return
-    _lb_admin_view()
+    st.title("🛠 Admin Dashboard")
+    tabs = st.tabs([
+        "🏆 Leaderboard",
+        "📊 Analyse",
+        "📤 Export",
+        "🛡 System",
+        "📚 Glossar",
+    ])
+    # Tab 0: Leaderboard (nutzt ursprüngliche Funktionen)
+    with tabs[0]:
+        if lb_ok:
+            try:
+                _lb_admin_view()
+            except Exception as e:  # pragma: no cover
+                st.error(f"Fehler im Leaderboard Modul: {e}")
+        else:
+            st.warning("Leaderboard-Modul nicht geladen.")
+        st.divider()
+        st.subheader("🔎 Highscore Review")
+        log_path = LOGFILE
+        if not (os.path.isfile(log_path) and os.path.getsize(log_path) > 0):
+            st.info("Noch keine Log-Daten für Review vorhanden.")
+        else:
+            try:
+                df_log = pd.read_csv(log_path, on_bad_lines="skip")
+                # Basisbereinigung wie oben
+                if not df_log.empty and {"user_id_hash","richtig","frage","antwort","zeit","frage_nr"}.issubset(df_log.columns):
+                    # Score je User
+                    score_df = (
+                        df_log.groupby(["user_id_hash","user_id_display"], dropna=False)["richtig"]
+                        .sum()
+                        .reset_index()
+                        .rename(columns={"richtig":"punkte"})
+                    )
+                    score_df = score_df.sort_values("punkte", ascending=False)
+                    user_options = [
+                        f"{row.user_id_display} | {row.punkte} Pkt" for row in score_df.itertuples()
+                    ]
+                    selected = st.selectbox(
+                        "Teilnehmer auswählen",
+                        options=user_options,
+                        index=0 if user_options else None,
+                        placeholder="Nutzer wählen",
+                    ) if user_options else None
+                    if selected:
+                        sel_name = selected.split("|")[0].strip()
+                        sel_hash_row = score_df[score_df["user_id_display"]==sel_name].head(1)
+                        if not sel_hash_row.empty:
+                            sel_hash = sel_hash_row.iloc[0]["user_id_hash"]
+                            user_rows = df_log[df_log["user_id_hash"]==sel_hash].copy()
+                            user_rows.sort_values("frage_nr", inplace=True)
+                            total = int(user_rows["richtig"].sum())
+                            answered = user_rows["frage_nr"].nunique()
+                            st.markdown(f"**Pseudonym:** {sel_name}  ")
+                            st.markdown(f"**Punkte:** {total}  | **Beantwortete Fragen:** {answered}")
+                            # Tabelle für Antworten
+                            show_cols = [c for c in ["frage_nr","frage","antwort","richtig","zeit"] if c in user_rows.columns]
+                            # Kürzen der Fragen (nur Text nach Nummer) falls lang
+                            def _clean_q(q):
+                                try:
+                                    return q.split(".",1)[1].strip()
+                                except Exception:
+                                    return q
+                            user_rows["frage_kurz"] = user_rows["frage"].apply(_clean_q)
+                            if "frage" in show_cols:
+                                show_cols = [c if c!="frage" else "frage_kurz" for c in show_cols]
+                            disp = user_rows[show_cols].rename(columns={"frage_kurz":"Frage","frage_nr":"Nr","antwort":"Antwort","richtig":"R","zeit":"Zeit"})
+                            # Mapping richtig
+                            if "R" in disp.columns:
+                                disp["R"] = disp["R"].map(lambda v: "✓" if v>0 else ("✗" if v<0 else "·"))
+                            st.dataframe(disp, height=400, use_container_width=True, hide_index=True)
+                            # Einzel-CSV Download
+                            csv_user = user_rows.to_csv(index=False).encode("utf-8")
+                            st.download_button(
+                                "CSV dieses Nutzers", data=csv_user, file_name=f"review_{sel_name}.csv", mime="text/csv"
+                            )
+                else:
+                    st.info("Log-Datei enthält nicht alle erwarteten Spalten für das Review.")
+            except Exception as e:  # pragma: no cover
+                st.error(f"Fehler beim Laden der Logdaten: {e}")
+    # Tab 1: Analyse (Item-Statistiken)
+    with tabs[1]:
+        if review_ok:
+            try:
+                _rv_display_admin_full_review()
+            except Exception as e:  # pragma: no cover
+                st.error(f"Fehler in der Analyse: {e}")
+        else:
+            st.warning("Analyse-Modul nicht geladen.")
+    # Tab 2: Export (aus review.display_admin_panel übernommen)
+    with tabs[2]:
+        st.markdown("### Export / Downloads")
+        log_path = LOGFILE
+        if os.path.isfile(log_path) and os.path.getsize(log_path) > 0:
+            try:
+                df_log = pd.read_csv(log_path, on_bad_lines="skip")
+                csv_bytes = df_log.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    "Antwort-Log (CSV) herunterladen",
+                    data=csv_bytes,
+                    file_name="mc_test_answers_export.csv",
+                    mime="text/csv",
+                )
+                st.write("Spalten:", ", ".join(df_log.columns))
+            except Exception as e:  # pragma: no cover
+                st.error(f"Export fehlgeschlagen: {e}")
+        else:
+            st.info("Kein Log vorhanden.")
+    # Tab 3: System
+    with tabs[3]:
+        st.markdown("### System / Konfiguration")
+        st.write("Benutzer (Session):", st.session_state.get("user_id"))
+        st.write("Admin-User aktiv:", bool(os.getenv("MC_TEST_ADMIN_USER")))
+        st.write(
+            "Admin-Key-Modus:",
+            "gesetzt" if os.getenv("MC_TEST_ADMIN_KEY") else "nicht gesetzt",
+        )
+        st.write("Anzahl geladene Fragen:", FRAGEN_ANZAHL)
+        if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+            try:
+                df_sys = pd.read_csv(LOGFILE, on_bad_lines="skip")
+                if not df_sys.empty:
+                    unique_users = df_sys["user_id_hash"].nunique()
+                    st.write("Eindeutige Teilnehmer (gesamt):", unique_users)
+                    if "zeit" in df_sys.columns:
+                        try:
+                            df_sys["_ts"] = pd.to_datetime(df_sys["zeit"], errors="coerce")
+                            last_ts = df_sys["_ts"].max()
+                            if pd.notna(last_ts):
+                                st.write("Letzte Aktivität:", last_ts)
+                        except Exception:
+                            pass
+            except Exception as e:  # pragma: no cover
+                st.warning(f"Erweiterte Metriken nicht verfügbar: {e}")
+    # Tab 4: Glossar (aus review)
+    with tabs[4]:
+        # Vollständiges Glossar analog ursprünglichem Panel
+        st.markdown("### Glossar Itemanalyse")
+        glossary = [
+            {"Begriff": "Antworten (gesamt)", "Erklärung": "Alle abgegebenen Antworten zum Item."},
+            {"Begriff": "Richtig", "Erklärung": "Anzahl richtiger Antworten (richtig > 0)."},
+            {"Begriff": "Richtig % (roh)", "Erklärung": "Prozent richtiger Antworten (p-Wert)."},
+            {"Begriff": "Schwierigkeitsgrad", "Erklärung": "p<30% schwierig, 30–70% mittel, >70% leicht."},
+            {"Begriff": "Trennschärfe (r_pb)", "Erklärung": "Korrelation Item (0/1) vs. Gesamtscore (ohne Item)."},
+            {"Begriff": "Trennschärfe", "Erklärung": "≥0.40 sehr gut, ≥0.30 gut, ≥0.20 mittel, sonst schwach."},
+            {"Begriff": "Häufigste falsche Antwort", "Erklärung": "Meistgewählter Distraktor (nur falsche)."},
+            {"Begriff": "Häufigkeit dieser falschen", "Erklärung": "Absolute Häufigkeit dieses Distraktors."},
+            {"Begriff": "Domin. Distraktor %", "Erklärung": "Anteil meistgewählter Distraktor an allen Antworten."},
+            {"Begriff": "Verteilung (Detail)", "Erklärung": "Optionen mit Häufigkeit, Anteil, korrekt?"},
+            {"Begriff": "Ø Antworten je Teilnehmer", "Erklärung": "Durchschnitt Antworten pro Nutzer (System)."},
+            {"Begriff": "Gesamt-Accuracy", "Erklärung": "Globaler Prozentanteil korrekter Antworten."},
+        ]
+        st.write("**Interpretationshinweise**:")
+        st.markdown("- Günstiger p-Bereich oft 30%–85%.")
+        st.markdown("- Trennschärfe <0.20: Item kritisch prüfen.")
+        st.markdown("- >90% richtig + niedrige Trennschärfe: evtl. zu leicht.")
+        st.markdown("- Dominanter Distraktor >40% + niedriger p: Missverständnis prüfen.")
+        st.markdown("- Verteilung zeigt selten genutzte oder überdominante Optionen.")
+        import pandas as _pd
+        df_gloss = _pd.DataFrame(glossary)
+        st.dataframe(df_gloss, use_container_width=True, hide_index=True)
+        st.divider()
+        st.markdown("#### Formeln")
+        st.latex(r"p = \\frac{Richtig}{Antworten\\ gesamt}")
+        st.latex(r"r_{pb} = \\frac{\\bar{X}_1 - \\bar{X}_0}{s_X} \\sqrt{\\frac{n_1 n_0}{n(n-1)}}")
+        st.caption(
+            "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch. Vereinfachte Form – alternative Schreibweisen möglich."
+        )
+        st.latex(r"Dominanter\\ Distraktor\\ % = \\frac{Häufigkeit\\ stärkster\\ Distraktor}{Antworten\\ gesamt} \\times 100")
+        st.caption(
+            "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
+        )
 
 
 def load_user_progress(user_id_hash: str) -> None:
@@ -1028,38 +1367,25 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     "🤔 Ein paar Sachen sind noch offen. Schau dir die Erklärungen an! 🔍"
                 )
 
-    # Admin Panel Auth (moved here to restore functionality after refactor)
+    # Vereinfachte Admin-Authentifizierung: Nur feste Credentials aus .env
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     admin_key_cfg = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
-    if not admin_user_cfg and not admin_key_cfg:
-        if "_dev_admin_key" not in st.session_state:
-            import secrets as _secrets
-            st.session_state._dev_admin_key = _secrets.token_urlsafe(16)
-        admin_user_cfg = "admin"
-        admin_key_cfg = st.session_state._dev_admin_key
-        st.sidebar.warning(
-            "[DEV] Standard-Admin aktiv: Benutzer 'admin' + Key unten. Setze MC_TEST_ADMIN_USER / MC_TEST_ADMIN_KEY für Produktion!"
-        )
-        with st.sidebar.expander("DEV-Admin-Key"):
-            st.code(admin_key_cfg, language="text")
     current_user = st.session_state.get("user_id")
     if "admin_auth_ok" not in st.session_state:
         st.session_state.admin_auth_ok = False
     if "show_admin_panel" not in st.session_state:
         st.session_state.show_admin_panel = True
-    if admin_user_cfg and current_user == admin_user_cfg:
-        if admin_key_cfg and not st.session_state.admin_auth_ok:
-            with st.sidebar.expander("🔐 Admin-Authentifizierung", expanded=True):
-                entered = st.text_input(
-                    "Admin-Key eingeben", type="password", key="admin_key_input_sidebar"
-                )
+    if admin_user_cfg and admin_key_cfg and current_user == admin_user_cfg:
+        if not st.session_state.admin_auth_ok:
+            with st.sidebar.expander("🔐 Admin-Login", expanded=True):
+                entered = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
                 if entered:
                     if hmac_compare(entered, admin_key_cfg):
                         st.session_state.admin_auth_ok = True
-                        st.success("Admin-Key validiert.")
+                        st.success("Admin verifiziert.")
                     else:
                         st.error("Falscher Admin-Key.")
-        if (not admin_key_cfg) or st.session_state.admin_auth_ok:
+        if st.session_state.admin_auth_ok:
             st.session_state.show_admin_panel = st.sidebar.checkbox(
                 "Admin-Panel anzeigen",
                 value=st.session_state.show_admin_panel,
@@ -1361,7 +1687,7 @@ def handle_user_session():
     ):
         initialize_session_state()
 
-    # Fortschritt laden, falls vorhanden
+    # Fortschritt laden, falls vorhanden (aber keinen frühen Return mehr, damit Admin-Panel möglich bleibt)
     if has_progress:
         if (
             "progress_loaded" not in st.session_state
@@ -1369,93 +1695,18 @@ def handle_user_session():
         ):
             load_user_progress(current_hash)
             st.session_state.progress_loaded = True
-        num_answered = len([p for p in st.session_state.beantwortet if p is not None])
-        # Fortschritt & Score nur im Review-Modus anzeigen
-        if st.session_state.get("force_review", False):
-            display_sidebar_metrics(num_answered)
-        # Show info only if test is fully completed
-        if num_answered == len(st.session_state.beantwortet):
-            st.sidebar.info(
-                "Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Aber du kannst alles nochmal anschauen und lernen. 🚀\n\nTipp: Mit einem anderen Pseudonym kannst du den Test erneut machen."
-            )
-        # Review weiterhin möglich
+        num_answered_saved = len([p for p in st.session_state.beantwortet if p is not None])
         st.session_state["force_review"] = True
-        return st.session_state.user_id
-    # 2. Fortschritt & Score direkt nach Nutzerkennung
+        # Info falls komplett
+        if num_answered_saved == len(st.session_state.beantwortet):
+            st.sidebar.info(
+                "Mit diesem Namen hast du den Test schon gemacht! Dein Ergebnis bleibt gespeichert – nochmal starten geht leider nicht. Review-Modus aktiv."
+            )
+    # Fortschrittsanzeige (immer)
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
-
-    # 3. Management Sektion
     st.sidebar.divider()
-    with st.sidebar.expander("🏆 Management", expanded=False):
-        admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
-        user_allowed = (not admin_user_cfg) or (
-            st.session_state.user_id == admin_user_cfg
-        )
-        if not user_allowed:
-            st.caption(
-                f"Management nur für: {admin_user_cfg}" if admin_user_cfg else ""
-            )
-        if user_allowed:
-
-            def try_admin_activate():
-                admin_key_input = st.session_state.get("admin_key_input", "").strip()
-                if check_admin_permission(st.session_state.user_id, admin_key_input):
-                    st.session_state["admin_view"] = True
-                else:
-                    st.error("Nope, das war nicht der richtige Management-Key.")
-
-            st.text_input(
-                "Management-Key",
-                type="password",
-                key="admin_key_input",
-                on_change=try_admin_activate,
-            )
-            if not st.session_state.get("admin_view"):
-                if st.button("Management aktivieren"):
-                    try_admin_activate()
-            else:
-                # Admin: Scoring mode selection
-                scoring_modes = {
-                    "positive_only": "Nur positive Punkte (kein Abzug)",
-                    "negative": "Mit Punktabzug bei falscher Antwort",
-                }
-                default_mode = st.session_state.get("scoring_mode", "positive_only")
-                selected_mode = st.radio(
-                    "Punktebewertung wählen:",
-                    list(scoring_modes.keys()),
-                    format_func=lambda k: scoring_modes[k],
-                    index=list(scoring_modes.keys()).index(default_mode),
-                    key="scoring_mode_radio",
-                )
-                st.session_state["scoring_mode"] = selected_mode
-                st.caption("Die Änderung gilt sofort für die Auswertung und Anzeige.")
-                # Option to delete all answers with confirmation
-                st.divider()
-                st.subheader("⚠️ Antworten aller Teilnehmer löschen")
-                if st.button("Alle Antworten löschen"):
-                    st.session_state["show_delete_confirm"] = True
-                if st.session_state.get("show_delete_confirm", False):
-                    st.warning(
-                        "Bist du sicher? Das löscht alle Antworten unwiderruflich!",
-                        icon="⚠️",
-                    )
-                    if st.button("Ja, wirklich löschen!", key="delete_confirmed"):
-                        try:
-                            logfile_path = os.path.join(
-                                os.path.dirname(__file__), "mc_test_answers.csv"
-                            )
-                            if os.path.isfile(logfile_path):
-                                os.remove(logfile_path)
-                            st.success("Alle Antworten wurden gelöscht.")
-                        except Exception as e:
-                            st.error(f"Fehler beim Löschen: {e}")
-                        st.session_state["show_delete_confirm"] = False
-                    if st.button("Abbrechen", key="delete_cancel"):
-                        st.session_state["show_delete_confirm"] = False
-                if st.button("Management verlassen"):
-                    st.session_state["admin_view"] = False
-                    st.rerun()
+    render_admin_sidebar(st.session_state.get("user_id"))
     return st.session_state.user_id
 
 

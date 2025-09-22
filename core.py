@@ -7,7 +7,22 @@ import os
 from typing import Dict, Any
 
 import pandas as pd
-from filelock import FileLock
+
+# Robuster Import von FileLock mit Fallback (damit App auch ohne Abhängigkeit startet)
+try:  # pragma: no cover - simpler import guard
+    from filelock import FileLock  # type: ignore
+except Exception:  # noqa: BLE001
+    class _NoOpFileLock:
+        def __init__(self, *_, **__):  # noqa: D401
+            pass
+
+        def __enter__(self):  # noqa: D401
+            return self
+
+        def __exit__(self, *exc_info):  # noqa: D401
+            return False
+
+    FileLock = _NoOpFileLock  # type: ignore
 
 
 ANSWER_FIELDNAMES = [
