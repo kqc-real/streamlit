@@ -681,64 +681,6 @@ def reset_user_answers(user_id_hash: str) -> None:
     initialize_session_state()
 
 
-def reset_single_question(user_id_hash: str, frage_idx: int) -> None:
-    """Setzt eine einzelne beantwortete (oder markierte Placeholder-)Frage zurück.
-
-    Entfernt alle Log-Zeilen für diese Frage (inkl. __bookmark__ Placeholder) und
-    räumt Session-State-Einträge, damit die Frage wieder beantwortet werden kann.
-    """
-    try:
-        if 0 <= frage_idx < len(fragen):
-            frage_nr = int(fragen[frage_idx]["frage"].split(".")[0])
-        else:
-            return
-        # Log anpassen
-        if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
-            df = pd.read_csv(LOGFILE, on_bad_lines="skip")
-            if "frage_nr" in df.columns:
-                try:
-                    df["frage_nr"] = pd.to_numeric(df["frage_nr"], errors="coerce")
-                except Exception:
-                    pass
-            mask_drop = (
-                (df.get("user_id_hash") == user_id_hash)
-                & (df.get("frage_nr") == frage_nr)
-            )
-            if mask_drop.any():
-                df = df[~mask_drop]
-                df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
-        # Session-State bereinigen
-        st.session_state.beantwortet[frage_idx] = None
-        key = f"frage_{frage_idx}"
-        if key in st.session_state:
-            del st.session_state[key]
-        if "answers_text" in st.session_state and frage_idx in st.session_state.answers_text:
-            try:
-                del st.session_state.answers_text[frage_idx]
-            except Exception:
-                pass
-        # Falls Explanation-Flag gesetzt -> entfernen
-        exp_key = f"show_explanation_{frage_idx}"
-        if exp_key in st.session_state:
-            del st.session_state[exp_key]
-        # Falls Frage in celebrated_questions auftaucht -> entfernen (erneutes Feiern erlauben)
-        if "celebrated_questions" in st.session_state:
-            try:
-                st.session_state.celebrated_questions = [
-                    q for q in st.session_state.celebrated_questions if q != frage_idx
-                ]
-            except Exception:
-                pass
-        # Placeholder für Bookmark nach Reset wieder persistieren, falls sie gemerkt ist
-        if (
-            "bookmarked_questions" in st.session_state
-            and frage_idx in st.session_state.bookmarked_questions
-        ):
-            persist_bookmark_snapshot(user_id_hash)
-        st.toast("Frage zurückgesetzt.", icon="↩️")
-    except Exception as e:
-        st.error(f"Fehler beim Zurücksetzen der Frage: {e}")
-
 
 def unbookmark_question(frage_idx: int) -> None:
     """Entfernt ein Bookmark vollständig (Session + CSV + Placeholder) und bereinigt Duplikate.
@@ -1514,17 +1456,6 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     pass
         with col_bm2:
             antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
-        # Einzel-Frage-Reset (nur wenn beantwortet)
-        if not unanswered:
-            reset_col = st.columns([5, 1])[1]
-            with reset_col:
-                if st.button(
-                    "↩︎ Reset", key=f"reset_q_{frage_idx}", help="Diese Frage erneut beantworten"
-                ):
-                    reset_single_question(st.session_state.get("user_id_hash", ""), frage_idx)
-                    # Spezieller Fokus-Flag, der Navigation priorisiert, ohne andere Flags zu löschen
-                    st.session_state["focus_after_reset"] = frage_idx
-                    st.rerun()
         # Resume-UI (inline, ohne Expander)
         if "resume_next_idx" in st.session_state:
             resume_target = st.session_state.resume_next_idx
