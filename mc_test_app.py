@@ -109,14 +109,13 @@ def _load_env_files_once():
 
 def _get_admin_config():
     _load_env_files_once()
-    user = ""
-    key = ""
     # Reihenfolge: st.secrets -> .env / Environment
     try:  # pragma: no cover - secrets selten in Tests
         user = st.secrets.get("MC_TEST_ADMIN_USER", "").strip()
         key = st.secrets.get("MC_TEST_ADMIN_KEY", "").strip()
     except Exception:
-        pass
+        user = ""
+        key = ""
     if not user:
         user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     if not key:
@@ -503,6 +502,7 @@ FIELDNAMES = [
     "antwort",
     "richtig",
     "zeit",
+    "markiert",
 ]
 FRAGEN_ANZAHL = None  # Wird nach dem Laden der Fragen gesetzt
 DISPLAY_HASH_LEN = 10
@@ -572,8 +572,7 @@ def get_rate_limit_seconds() -> int:
             return int(env_val)
         except Exception:
             return 0
-    # Fallback secrets
-    try:  # pragma: no cover - secrets meist nicht im Test
+    try:
         secrets_val = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", None)
         if secrets_val is not None:
             return int(secrets_val)
@@ -958,8 +957,173 @@ def load_user_progress(user_id_hash: str) -> None:
                     pass
         if reconstructed_outcomes:
             st.session_state.answer_outcomes = reconstructed_outcomes
+        # Wiederherstellen gespeicherter Bookmarks (markiert)
+        try:
+            if "markiert" in user_df.columns:
+                if "bookmarked_questions" not in st.session_state:
+                    st.session_state.bookmarked_questions = []
+                marked_rows = user_df[
+                    user_df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])
+                ]
+                for _, mrow in marked_rows.iterrows():
+                    try:
+                        frage_nr = int(mrow.get("frage_nr"))
+                        # finde original index
+                        original_idx = next(
+                            (
+                                i
+                                for i, f in enumerate(fragen)
+                                if f["frage"].startswith(f"{frage_nr}.")
+                            ),
+                            None,
+                        )
+                        if (
+                            original_idx is not None
+                            and 0 <= original_idx < len(fragen)
+                            and original_idx not in st.session_state.bookmarked_questions
+                        ):
+                            st.session_state.bookmarked_questions.append(original_idx)
+                    except Exception:
+                        pass
+        except Exception:
+            pass
     except Exception as e:
         st.error(f"Fehler beim Laden des Fortschritts: {e}")
+
+
+def restore_bookmarks_light(user_id_hash: str) -> None:
+    """Stellt Bookmarks wieder her, auch wenn Nutzer seinen Fortschritt nicht explizit lädt.
+
+    Liest nur die Spalte 'markiert' für den Nutzer aus dem Log und befüllt
+    st.session_state.bookmarked_questions. Duplizierte Einträge werden vermieden.
+    """
+    try:
+        if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
+            return
+        df = pd.read_csv(LOGFILE, dtype={"user_id_hash": str}, on_bad_lines="skip")
+        df = df[df["user_id_hash"] == user_id_hash]
+        if df.empty or "markiert" not in df.columns:
+            return
+        if "bookmarked_questions" not in st.session_state:
+            st.session_state.bookmarked_questions = []
+        marked_rows = df[df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])]
+        for _, mrow in marked_rows.iterrows():
+            try:
+                frage_nr = int(mrow.get("frage_nr"))
+                original_idx = next(
+                    (
+                        i
+                        for i, f in enumerate(fragen)
+                        if f["frage"].startswith(f"{frage_nr}.")
+                    ),
+                    None,
+                )
+                if (
+                    original_idx is not None
+                    and 0 <= original_idx < len(fragen)
+                    and original_idx not in st.session_state.bookmarked_questions
+                ):
+                    st.session_state.bookmarked_questions.append(original_idx)
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+
+def persist_bookmark_snapshot(user_id_hash: str) -> None:
+    """Persistiert Bookmarks auch für unbeantwortete Fragen via Placeholder (antwort='__bookmark__')."""
+    try:
+        if "bookmarked_questions" not in st.session_state:
+            return
+        marks = st.session_state.bookmarked_questions
+        ensure_logfile_exists()
+        if not marks:
+            return
+        exists = os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0
+        if not exists:
+            with open(LOGFILE, "a", encoding="utf-8") as f:
+                for idx in marks:
+                    if 0 <= idx < len(fragen):
+                        f_nr = int(fragen[idx]["frage"].split(".")[0])
+                        base = {
+                            "user_id_hash": user_id_hash,
+                            "user_id_display": user_id_hash[:DISPLAY_HASH_LEN],
+                            "user_id_plain": st.session_state.get("user_id", ""),
+                            "frage_nr": f_nr,
+                            "frage": fragen[idx]["frage"],
+                            "antwort": "__bookmark__",
+                            "richtig": 0,
+                            "zeit": datetime.now().isoformat(timespec="seconds"),
+                        }
+                        if "markiert" in FIELDNAMES:
+                            base["markiert"] = True
+                        row = {k: base.get(k, "") for k in FIELDNAMES}
+                        f.write(",".join(str(row.get(k, "")) for k in FIELDNAMES) + "\n")
+            return
+        df = pd.read_csv(LOGFILE, on_bad_lines="skip")
+        if "markiert" in FIELDNAMES and "markiert" not in df.columns:
+            df["markiert"] = False
+        user_df = df[df.get("user_id_hash") == user_id_hash]
+        answered = set()
+        for _, r in user_df.iterrows():
+            try:
+                if str(r.get("antwort")) != "__bookmark__":
+                    answered.add(int(r.get("frage_nr")))
+            except Exception:
+                pass
+        new_rows = []
+        for idx in marks:
+            if 0 <= idx < len(fragen):
+                f_nr = int(fragen[idx]["frage"].split(".")[0])
+                if f_nr in answered:
+                    continue
+                if not user_df[(user_df.get("frage_nr") == f_nr) & (user_df.get("antwort") == "__bookmark__")].empty:
+                    continue
+                entry = {
+                    "user_id_hash": user_id_hash,
+                    "user_id_display": user_id_hash[:DISPLAY_HASH_LEN],
+                    "user_id_plain": st.session_state.get("user_id", ""),
+                    "frage_nr": f_nr,
+                    "frage": fragen[idx]["frage"],
+                    "antwort": "__bookmark__",
+                    "richtig": 0,
+                    "zeit": datetime.now().isoformat(timespec="seconds"),
+                }
+                if "markiert" in FIELDNAMES:
+                    entry["markiert"] = True
+                new_rows.append(entry)
+        if new_rows:
+            df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
+        if "markiert" in df.columns:
+            f_nrs = [int(fragen[i]["frage"].split(".")[0]) for i in marks if 0 <= i < len(fragen)]
+            df.loc[(df.get("user_id_hash") == user_id_hash) & (df.get("frage_nr").isin(f_nrs)), "markiert"] = True
+        df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
+    except Exception:
+        pass
+
+
+def purge_unbookmarked_placeholders(user_id_hash: str) -> None:
+    try:
+        if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
+            return
+        df = pd.read_csv(LOGFILE, on_bad_lines="skip")
+        if df.empty:
+            return
+        current_marks = set()
+        if "bookmarked_questions" in st.session_state:
+            current_marks = set(
+                int(fragen[i]["frage"].split(".")[0])
+                for i in st.session_state.bookmarked_questions
+                if 0 <= i < len(fragen)
+            )
+        mask_user = df.get("user_id_hash") == user_id_hash
+        ph_mask = mask_user & (df.get("antwort") == "__bookmark__")
+        drop_mask = ph_mask & (~df.get("frage_nr").isin(list(current_marks)))
+        if drop_mask.any():
+            df = df[~drop_mask]
+            df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
+    except Exception:
+        pass
 
 
 def save_answer(
@@ -1015,6 +1179,23 @@ def save_answer(
         "richtig": punkte,
         "zeit": datetime.now().isoformat(timespec="seconds"),
     }
+    # Ergänze Bookmark-Status falls Feld vorhanden
+    if "markiert" in FIELDNAMES:
+        try:
+            original_idx = next(
+                (
+                    i
+                    for i, f in enumerate(fragen)
+                    if f["frage"].startswith(f"{frage_nr}.")
+                ),
+                None,
+            )
+            row["markiert"] = bool(
+                original_idx is not None
+                and original_idx in st.session_state.get("bookmarked_questions", [])
+            )
+        except Exception:
+            row["markiert"] = False
     # Only keep keys in FIELDNAMES
     row = {k: row[k] for k in FIELDNAMES}
     attempt = 0
@@ -1093,15 +1274,49 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         if "bookmarked_questions" not in st.session_state:
             st.session_state.bookmarked_questions = []
         is_marked = frage_idx in st.session_state.bookmarked_questions
-        col_bm1, col_bm2 = st.columns([1,4])
+        col_bm1, col_bm2 = st.columns([1, 4])
         with col_bm1:
             toggled = st.toggle("🔖 Merken", value=is_marked, key=f"bm_toggle_{frage_idx}")
             if toggled and not is_marked:
                 st.session_state.bookmarked_questions.append(frage_idx)
+                # Persist 'markiert' in CSV falls Frage bereits beantwortet wurde
+                try:
+                    if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+                        df_upd = pd.read_csv(LOGFILE, on_bad_lines="skip")
+                        if "markiert" not in df_upd.columns:
+                            df_upd["markiert"] = False
+                        f_nr = int(frage_obj["frage"].split(".")[0])
+                        mask = (
+                            (df_upd.get("user_id_hash") == st.session_state.get("user_id_hash"))
+                            & (df_upd.get("frage_nr").astype(int) == f_nr)
+                        )
+                        df_upd.loc[mask, "markiert"] = True
+                        df_upd.to_csv(LOGFILE, index=False, columns=FIELDNAMES)
+                    # Snapshot für unbeantwortete gemerkte Fragen
+                    persist_bookmark_snapshot(st.session_state.get("user_id_hash", ""))
+                    purge_unbookmarked_placeholders(st.session_state.get("user_id_hash", ""))
+                except Exception:
+                    pass
             if (not toggled) and is_marked:
                 try:
                     st.session_state.bookmarked_questions.remove(frage_idx)
                 except ValueError:
+                    pass
+                try:
+                    if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+                        df_upd = pd.read_csv(LOGFILE, on_bad_lines="skip")
+                        if "markiert" not in df_upd.columns:
+                            df_upd["markiert"] = False
+                        f_nr = int(frage_obj["frage"].split(".")[0])
+                        mask = (
+                            (df_upd.get("user_id_hash") == st.session_state.get("user_id_hash"))
+                            & (df_upd.get("frage_nr").astype(int) == f_nr)
+                        )
+                        df_upd.loc[mask, "markiert"] = False
+                        df_upd.to_csv(LOGFILE, index=False, columns=FIELDNAMES)
+                    persist_bookmark_snapshot(st.session_state.get("user_id_hash", ""))
+                    purge_unbookmarked_placeholders(st.session_state.get("user_id_hash", ""))
+                except Exception:
                     pass
         with col_bm2:
             antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
@@ -1856,6 +2071,12 @@ def handle_user_session():
         ):
             load_user_progress(current_hash)
             st.session_state.progress_loaded = True
+            # Nach vollständigem Fortschrittsladen Bookmarks sicherstellen
+            restore_bookmarks_light(current_hash)
+        else:
+            # Falls schon geladen (z.B. erneuter App-Start ohne frische Session-Variablen)
+            if "bookmarked_questions" not in st.session_state or not st.session_state.bookmarked_questions:
+                restore_bookmarks_light(current_hash)
         num_answered_saved = len([p for p in st.session_state.beantwortet if p is not None])
         st.session_state["force_review"] = True
         # Info falls komplett
