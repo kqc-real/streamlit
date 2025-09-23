@@ -79,8 +79,10 @@ except Exception:  # pragma: no cover
             writer.writerow(filtered)
 
 # ---------------------------------------------------------------------------
-# Vereinheitlichte Admin-Konfiguration: single user + key aus Env / Secrets
+# Admin-/Env-Konfiguration laden (einmalig)
 # ---------------------------------------------------------------------------
+
+
 def _load_env_files_once():
     if getattr(st.session_state, "_env_loaded_once", False):
         return
@@ -464,6 +466,10 @@ def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
                 )
                 if new_mode != current_mode:
                     st.session_state["scoring_mode"] = new_mode
+                    # Persistieren
+                    cfg = _load_global_config()
+                    cfg["scoring_mode"] = new_mode
+                    _save_global_config(cfg)
                     st.rerun()
         except Exception:
             pass
@@ -507,6 +513,46 @@ FIELDNAMES = [
 FRAGEN_ANZAHL = None  # Wird nach dem Laden der Fragen gesetzt
 DISPLAY_HASH_LEN = 10
 MAX_SAVE_RETRIES = 3
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "mc_test_config.json")
+
+
+def _load_global_config():
+    try:
+        if os.path.isfile(CONFIG_PATH) and os.path.getsize(CONFIG_PATH) > 0:
+            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception:
+        pass
+    return {}
+
+
+def _save_global_config(cfg: dict) -> None:
+    try:
+        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+            json.dump(cfg, f, ensure_ascii=False, indent=2)
+    except Exception:
+        # Silent fail – UI nicht blockieren
+        pass
+
+
+def _maybe_sync_scoring_mode():
+    """Persistiert scoring_mode automatisch, falls er sich geändert hat und Config geladen wurde.
+
+    Verhindert, dass ein Wechsel über andere Pfade (z.B. zukünftige UI oder Tests) nicht
+    geschrieben wird. Speichert nur, wenn Wert wirklich differiert.
+    """
+    if "scoring_mode" not in st.session_state:
+        return
+    if "_global_config_loaded" not in st.session_state:
+        return
+    current = st.session_state.get("scoring_mode")
+    if current not in {"positive_only", "negative"}:
+        return
+    cfg = _load_global_config()
+    if cfg.get("scoring_mode") != current:
+        cfg["scoring_mode"] = current
+        _save_global_config(cfg)
+        st.session_state["_persisted_scoring_mode"] = current
 
 
 def reset_all_answers() -> bool:
@@ -547,6 +593,21 @@ def ensure_logfile_exists():
                 f.write(",".join(FIELDNAMES) + "\n")
     except Exception:
         pass
+    # Einmalig globale Konfiguration (Scoring) einlesen
+    if "_global_config_loaded" not in st.session_state:
+        cfg = _load_global_config()
+        if (
+            "scoring_mode" in cfg
+            and cfg["scoring_mode"] in {"positive_only", "negative"}
+            and "scoring_mode" not in st.session_state
+        ):
+            st.session_state["scoring_mode"] = cfg["scoring_mode"]
+        # Falls noch keine Config-Datei existiert → mit aktuellem Modus initial anlegen
+        if not os.path.exists(CONFIG_PATH):
+            _save_global_config(
+                {"scoring_mode": st.session_state.get("scoring_mode", "positive_only")}
+            )
+        st.session_state["_global_config_loaded"] = True
 
 
 def hmac_compare(a: str, b: str) -> bool:
@@ -895,6 +956,10 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
         )
         if new_mode_top_sys != current_mode:
             st.session_state["scoring_mode"] = new_mode_top_sys
+            # Global speichern
+            cfg = _load_global_config()
+            cfg["scoring_mode"] = new_mode_top_sys
+            _save_global_config(cfg)
             try:
                 st.rerun()
             except Exception:
@@ -1345,16 +1410,13 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         gewichtung = 1
     thema = frage_obj.get("thema", "")
     with st.container(border=True):
-        # Fragennummer im Fragenmodus: Position im Shuffle (fortlaufend ab 1)
-        indices = st.session_state.frage_indices
-        pos = indices.index(frage_idx) if frage_idx in indices else frage_idx
-        # Wiederaufnahmelogik: Falls Nutzer zurückkehrt und bereits Antworten existieren,
-        # aber aktuelle Anzeige bei einer frühen (oder ersten) Frage startet, zeigen wir Fortschritt.
-        # Vereinfachter Header: zeige nur noch verbleibende unbeantwortete Fragen
+        indices = st.session_state.frage_indices  # Reihenfolge der Fragen (Shuffle)
         remaining = len([p for p in st.session_state.beantwortet if p is None])
-        header = f"### Noch {remaining} Frage{'n' if remaining!=1 else ''}"
+        header = f"### Noch {remaining} Frage{'n' if remaining != 1 else ''}"
         if thema:
-            header += f"<br><span style='color:#4b9fff;font-size:0.95em;'>Thema: {thema}</span>"
+            header += (
+                f"<br><span style='color:#4b9fff;font-size:0.95em;'>Thema: {thema}</span>"
+            )
         st.markdown(header, unsafe_allow_html=True)
         st.markdown(
             f"**{frage_text}**  <span style='color:#888;'>(Gewicht {gewichtung})</span>",
@@ -1508,7 +1570,11 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 if "header_open_count_snapshot" not in st.session_state:
                     st.session_state.header_open_count_snapshot = {}
                 indices_local = st.session_state.frage_indices
-                unanswered_local = [i for i in indices_local if st.session_state.beantwortet[i] is None or i == frage_idx]
+                unanswered_local = [
+                    i
+                    for i in indices_local
+                    if st.session_state.beantwortet[i] is None or i == frage_idx
+                ]
                 # relative Position inkl. aktueller Frage innerhalb des (gleich vor Abschluss) offenen Sets
                 if frage_idx in unanswered_local:
                     rel_pos_snapshot = unanswered_local.index(frage_idx) + 1
@@ -1889,7 +1955,11 @@ def display_sidebar_metrics(num_answered: int) -> None:
             st.session_state.show_user_review = False
         with st.expander("🔎 Review / Nachbereitung", expanded=False):
             st.caption("Persönliche Auswertung – Filter & Erklärungen erneut ansehen.")
-            toggle = st.checkbox("Review aktivieren", value=st.session_state.show_user_review, key="activate_user_review")
+            toggle = st.checkbox(
+                "Review aktivieren",
+                value=st.session_state.show_user_review,
+                key="activate_user_review",
+            )
             if toggle and not st.session_state.show_user_review:
                 st.session_state.show_user_review = True
             elif (not toggle) and st.session_state.show_user_review:
@@ -1914,14 +1984,25 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     answer_df = answer_df[answer_df.get("antwort") != "__bookmark__"].copy()
                     # Markiert-Spalte sicherstellen
                     if "markiert" in answer_df.columns:
-                        answer_df["markiert_bool"] = answer_df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])
+                        answer_df["markiert_bool"] = (
+                            answer_df["markiert"].astype(str)
+                            .str.lower()
+                            .isin(["true", "1", "yes"])
+                        )
                     else:
                         # Fallback: Session-State Bookmarks
                         bms = set(st.session_state.get("bookmarked_questions", []))
                         def _is_markiert_row(row):
                             try:
                                 f_nr = int(row.get("frage_nr"))
-                                idx_local = next((i for i,f in enumerate(fragen) if f["frage"].startswith(f"{f_nr}.")), None)
+                                idx_local = next(
+                                    (
+                                        i
+                                        for i, f in enumerate(fragen)
+                                        if f["frage"].startswith(f"{f_nr}.")
+                                    ),
+                                    None,
+                                )
                                 return idx_local in bms
                             except Exception:
                                 return False
@@ -1955,7 +2036,14 @@ def display_sidebar_metrics(num_answered: int) -> None:
                         def _correct_answer(row):
                             try:
                                 f_nr = int(row.get("frage_nr"))
-                                q_idx = next((i for i,f in enumerate(fragen) if f["frage"].startswith(f"{f_nr}.")), None)
+                                q_idx = next(
+                                    (
+                                        i
+                                        for i, f in enumerate(fragen)
+                                        if f["frage"].startswith(f"{f_nr}.")
+                                    ),
+                                    None,
+                                )
                                 if q_idx is None:
                                     return "?"
                                 return fragen[q_idx]["optionen"][fragen[q_idx]["loesung"]]
@@ -1963,7 +2051,18 @@ def display_sidebar_metrics(num_answered: int) -> None:
                                 return "?"
                         filtered["korrekte_antwort"] = filtered.apply(_correct_answer, axis=1)
                         filtered["Status"] = filtered["richtig_num"].map(lambda v: "✅" if v > 0 else "❌")
-                        show_cols = [c for c in ["frage_nr", "Status", "antwort", "korrekte_antwort", "markiert_bool", "Fragentext"] if c in filtered.columns]
+                        show_cols = [
+                            c
+                            for c in [
+                                "frage_nr",
+                                "Status",
+                                "antwort",
+                                "korrekte_antwort",
+                                "markiert_bool",
+                                "Fragentext",
+                            ]
+                            if c in filtered.columns
+                        ]
                         display_df = filtered[show_cols].copy()
                         display_df.rename(columns={
                             "frage_nr": "Frage",
@@ -1976,12 +2075,21 @@ def display_sidebar_metrics(num_answered: int) -> None:
                         unique_fragen = filtered["frage_nr"].dropna().astype(int).unique().tolist()
                         unique_fragen.sort()
                         jump_sel = st.selectbox(
-                            "Erklärung zu Frage öffnen", ["–"] + [str(n) for n in unique_fragen], key="user_review_jump_to"
+                            "Erklärung zu Frage öffnen",
+                            ["–"] + [str(n) for n in unique_fragen],
+                            key="user_review_jump_to",
                         )
                         if jump_sel != "–":
                             try:
                                 target_nr = int(jump_sel)
-                                q_idx = next((i for i,f in enumerate(fragen) if f["frage"].startswith(f"{target_nr}.")), None)
+                                q_idx = next(
+                                    (
+                                        i
+                                        for i, f in enumerate(fragen)
+                                        if f["frage"].startswith(f"{target_nr}.")
+                                    ),
+                                    None,
+                                )
                                 if q_idx is not None:
                                     st.session_state["stay_on_idx"] = q_idx
                                     st.session_state[f"show_explanation_{q_idx}"] = True
@@ -2310,6 +2418,7 @@ def handle_user_session():
     # 1. Nutzerkennung
     st.sidebar.header("Wer bist du?")
     ensure_logfile_exists()  # Früh sicherstellen (relevanter für Tests)
+    _maybe_sync_scoring_mode()  # Automatisch speichern, falls Query-Param Modus gesetzt wurde
     if "user_id" not in st.session_state:
 
         def start_test():
