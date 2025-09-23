@@ -1764,16 +1764,29 @@ def display_sidebar_metrics(num_answered: int) -> None:
         if not bms:
             st.caption("Keine Fragen markiert.")
         else:
-            for q_idx in sorted(set(bms)):
-                cols = st.columns([4,1])
-                label = f"Frage {q_idx+1}"
+            # Erhalte Reihenfolge, in der Bookmarks gesetzt wurden (keine Sortierung), entferne Duplikate stabil
+            ordered = []
+            seen = set()
+            for idx in bms:
+                if idx not in seen and 0 <= idx < len(fragen):
+                    seen.add(idx)
+                    ordered.append(idx)
+            # Optische Nummerierung 1..n unabhängig von ursprünglicher Fragennummer
+            for bm_num, q_idx in enumerate(ordered, start=1):
+                cols = st.columns([4, 1])
+                try:
+                    original_nr = str(fragen[q_idx]["frage"]).split(".", 1)[0]
+                except Exception:
+                    original_nr = str(q_idx + 1)
+                # Optische laufende Nummer (sichtbar) mit Icon
+                label = f"🔖 {bm_num}"
                 with cols[0]:
-                    if st.button(label, key=f"bm_jump_{q_idx}"):
+                    if st.button(label, key=f"bm_jump_{q_idx}", help=f"Springe zu Frage {original_nr}"):
                         if "resume_next_idx" not in st.session_state:
                             default_next = None
-                            for idx in st.session_state.frage_indices:
-                                if st.session_state.beantwortet[idx] is None:
-                                    default_next = idx
+                            for idx2 in st.session_state.frage_indices:
+                                if st.session_state.beantwortet[idx2] is None:
+                                    default_next = idx2
                                     break
                             if default_next is not None:
                                 st.session_state["resume_next_idx"] = default_next
