@@ -1402,7 +1402,28 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         for f in fragen[-fehlende:]:
             raw_opts = f.get("optionen") or f.get("antworten") or []
             st.session_state.optionen_shuffled.append(list(raw_opts))
-    frage_text = frage_obj["frage"].split(".", 1)[1].strip()
+    def _smart_quotes_de(text: str) -> str:
+        # Einfache heuristische Umsetzung: öffnendes ", wenn vorher Start oder Whitespace / ( ; sonst schließendes
+        out = []
+        open_expected = True
+        for i, ch in enumerate(text):
+            if ch == '"':
+                # Kontext bestimmen
+                if open_expected:
+                    out.append("„")
+                else:
+                    out.append("“")
+                open_expected = not open_expected
+            else:
+                out.append(ch)
+        return ''.join(out)
+    raw_frage_full = frage_obj["frage"]
+    # Originalformat: '12. Frage...' – nach erster Punkt getrennt, Rest typografisch behandeln
+    teile = raw_frage_full.split(".", 1)
+    if len(teile) == 2:
+        frage_text = _smart_quotes_de(teile[1].strip())
+    else:
+        frage_text = _smart_quotes_de(raw_frage_full)
     gewichtung = frage_obj.get("gewichtung", 1)
     try:
         gewichtung = int(gewichtung)
@@ -1739,6 +1760,22 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                         erklaerung_html = _re.sub(r"'([^']+)'", _apostroph_repl, erklaerung_html)
                 except Exception:
                     erklaerung_html = erklaerung  # Fallback ohne Transformation / Semantik
+                # Markdown-Bold (**...**) wird innerhalb eines umschließenden HTML-Blocks
+                # von Streamlit nicht geparst. Deshalb hier vorab nach <strong> konvertieren.
+                try:
+                    import re as _re_bold
+                    if "**" in erklaerung_html:
+                        _bold_pat = _re_bold.compile(r"\*\*(.+?)\*\*")
+                        erklaerung_html = _bold_pat.sub(r"<strong>\1</strong>", erklaerung_html)
+                    # Kursiv: einfache *text* oder _text_ (nicht innerhalb already converted HTML tags)
+                    if "*" in erklaerung_html or "_" in erklaerung_html:
+                        # Verhindere Konflikt mit bereits ersetzten <strong>
+                        _italic_pat_aster = _re_bold.compile(r"(?<!\\)\*(?!\*)([^*\n]{1,200}?)\*(?!\*)")
+                        _italic_pat_under = _re_bold.compile(r"(?<![A-Za-z0-9])_([^_\n]{1,200}?)_(?![A-Za-z0-9])")
+                        erklaerung_html = _italic_pat_aster.sub(r"<em>\1</em>", erklaerung_html)
+                        erklaerung_html = _italic_pat_under.sub(r"<em>\1</em>", erklaerung_html)
+                except Exception:
+                    pass
                 st.markdown(
                     (
                         "<div style='margin-top:8px;padding:8px 10px;border-left:4px solid #4b9fff;"
@@ -2328,7 +2365,29 @@ def display_final_summary(num_answered: int) -> None:
                             f"<span style='color:#4b9fff;font-size:1.05em;font-weight:600;'>Thema: {thema}</span>",
                             unsafe_allow_html=True,
                         )
-                    st.markdown(f"**{frage['frage']}**")
+                    # Typografische Anführungszeichen auch im Review anwenden
+                    try:
+                        _rq = frage['frage']
+                        # Gleiche Logik wie in display_question: nur Textteil nach der Nummer behandeln
+                        parts = _rq.split('.',1)
+                        if len(parts)==2:
+                            body = parts[1].strip()
+                        else:
+                            body = _rq
+                        def _smart_quotes_de(text: str) -> str:
+                            out=[]; open_expected=True
+                            for ch in text:
+                                if ch=='"':
+                                    out.append('„' if open_expected else '“')
+                                    open_expected = not open_expected
+                                else:
+                                    out.append(ch)
+                            return ''.join(out)
+                        body = _smart_quotes_de(body)
+                        nummer = parts[0]+'. ' if len(parts)==2 else ''
+                        st.markdown(f"**{nummer}{body}**")
+                    except Exception:
+                        st.markdown(f"**{frage['frage']}**")
                     st.caption("Optionen:")
                     for opt in frage.get("optionen", []):
                         style = ""
@@ -2366,11 +2425,35 @@ def display_final_summary(num_answered: int) -> None:
                         )
                     erklaerung = frage.get("erklaerung")
                     if erklaerung:
+                        # Gleiche Render-Logik wie in Haupt-Fragenanzeige: Code / Bold / Italic
+                        try:
+                            import re as _re_r
+                            _code_pat = _re_r.compile(r"`([^`]+)`")
+                            def _code_sub(m):
+                                inner = m.group(1).strip()
+                                inner = (inner.replace("&","&amp;")
+                                                .replace("<","&lt;")
+                                                .replace(">","&gt;"))
+                                return f"<code>{inner}</code>"
+                            html = _code_pat.sub(_code_sub, str(erklaerung))
+                            if "**" in html:
+                                html = _re_r.sub(r"\*\*(.+?)\*\*", r"<strong>\\1</strong>", html)
+                            if "*" in html or "_" in html:
+                                ital_a = _re_r.compile(r"(?<!\\)\*(?!\*)([^*\n]{1,200}?)\*(?!\*)")
+                                ital_b = _re_r.compile(r"(?<![A-Za-z0-9])_([^_\n]{1,200}?)_(?![A-Za-z0-9])")
+                                html = ital_a.sub(r"<em>\1</em>", html)
+                                html = ital_b.sub(r"<em>\1</em>", html)
+                        except Exception:
+                            html = erklaerung
                         if len(erklaerung) > 200:
                             with st.expander("Erklärung anzeigen"):
-                                st.markdown(erklaerung)
+                                st.markdown(html, unsafe_allow_html=True)
                         else:
-                            st.info(f"Erklärung: {erklaerung}")
+                            st.markdown(
+                                f"<div style='margin:4px 0;padding:6px 8px;border-left:4px solid #4b9fff;"
+                                f"background:#102331;border-radius:3px;'><span style='font-weight:600;color:#4b9fff;'>Erklärung:</span><br>{html}</div>",
+                                unsafe_allow_html=True,
+                            )
                     # Show feedback for wrong answer
                     if user_val is not None and user_val != korrekt:
                         if scoring_mode == "positive_only":

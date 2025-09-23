@@ -1,1302 +1,1302 @@
 [
   {
-    "frage": "1. Was ist der Hauptvorteil von Docker im Kontext von Data Science?",
+    "frage": "1. Welches der folgenden Prinzipien beschreibt den **empirischen Ansatz** von Scrum am präzisesten?",
     "optionen": [
-      "Eine schnellere Datenverarbeitung durch optimierte Container.",
-      "Die Erstellung reproduzierbarer und isolierter Projektumgebungen.",
-      "Eine automatische Bereinigung von inkonsistenten Datensätzen.",
-      "Die direkte GPU-Nutzung ohne spezielle Treiberkonfiguration."
-    ],
-    "loesung": 1,
-    "erklaerung": "Docker kapselt Anwendungen und ihre Abhängigkeiten in Container. Dies garantiert, dass alle Teammitglieder mit einer identischen, reproduzierbaren Umgebung arbeiten, was Fehler durch unterschiedliche Systemkonfigurationen vermeidet.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "2. Was ist ein DataFrame in der `pandas`-Bibliothek?",
-    "optionen": [
-      "Ein Datentyp zur Speicherung von Zeitreihen in einer Dimension.",
-      "Eine zweidimensionale, tabellarische Datenstruktur mit benannten Spalten und Zeilen.",
-      "Ein Container zur Speicherung beliebiger Python-Objekte in einer Liste.",
-      "Ein Python-Modul, das ausschließlich für die Datenvisualisierung genutzt wird."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein `DataFrame` ist die zentrale Datenstruktur in `pandas`. Er repräsentiert Daten in einer tabellarischen Form, ähnlich einer SQL-Tabelle oder einem Spreadsheet, und ist für die Datenmanipulation optimiert.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "3. Was ist der Zweck eines `Dockerfile`?",
-    "optionen": [
-      "Es konfiguriert die Netzwerkeinstellungen zwischen laufenden Containern.",
-      "Es enthält die schrittweisen Anweisungen zum Bauen eines Docker-Images.",
-      "Es verwaltet die Benutzerrechte und Passwörter innerhalb eines Containers.",
-      "Es listet alle verfügbaren Docker-Images aus einer Registry auf."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein `Dockerfile` ist ein Textdokument, das alle Befehle enthält, die notwendig sind, um ein Docker-Image zu assemblieren. Es dient als Bauplan für die Container-Umgebung.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "4. Welcher Befehl wandelt eine Zelle in einem Jupyter Notebook in eine Code-Zelle um?",
-    "optionen": [
-      "Die Taste `M` im Command Mode",
-      "Die Taste `Y` im Command Mode",
-      "Die Tastenkombination `Shift+Enter`",
-      "Die Taste `A` im Command Mode"
-    ],
-    "loesung": 1,
-    "erklaerung": "Im Command Mode (erreichbar durch Drücken von `Esc`) wandelt die Taste `Y` eine Zelle in eine ausführbare Code-Zelle um. `M` wandelt sie in eine Markdown-Zelle um.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "5. Was ist der fundamentale Unterschied zwischen einem Docker-Image und einem Docker-Container?",
-    "optionen": [
-      "Ein Image ist eine laufende Instanz, während ein Container eine schreibgeschützte Vorlage ist.",
-      "Ein Container ist eine laufende, beschreibbare Instanz, die aus einem schreibgeschützten Image erstellt wird.",
-      "Es gibt keinen fundamentalen Unterschied; die Begriffe sind austauschbar.",
-      "Ein Image enthält nur den Anwendungscode, ein Container enthält zusätzlich die Daten."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein Image ist eine unveränderliche Vorlage (Blueprint), die alles Nötige für eine Anwendung enthält. Ein Container ist eine aktive, laufende Instanz dieses Images.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "6. Was ist der primäre Zweck einer `docker-compose.yml`-Datei?",
-    "optionen": [
-      "Die Verwaltung von Python-Paketabhängigkeiten ähnlich einer `requirements.txt`.",
-      "Die Definition und Orchestrierung einer Multi-Container-Anwendung.",
-      "Die Konfiguration der Docker-Engine auf dem Host-System.",
-      "Die automatische Formatierung von Code innerhalb eines Containers."
-    ],
-    "loesung": 1,
-    "erklaerung": "`Docker Compose` ist ein Werkzeug zur Definition und Ausführung von Anwendungen, die aus mehreren Containern bestehen. Die `docker-compose.yml` beschreibt die Services, Netzwerke und Volumes.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "7. Was ist das Kernziel der Q-Phase im QUA³CK-Modell?",
-    "optionen": [
-      "Die Bereinigung und Vorverarbeitung der Rohdaten.",
-      "Die präzise Formulierung der geschäftlichen Fragestellung und der Projektziele.",
-      "Die Auswahl und das Training des finalen Machine-Learning-Algorithmus.",
-      "Die Visualisierung und Präsentation der finalen Ergebnisse."
-    ],
-    "loesung": 1,
-    "erklaerung": "Die Q-Phase (Question) legt das Fundament des Projekts. Hier werden die genaue Fragestellung, die Ziele und die Erfolgskriterien in Absprache mit den Stakeholdern definiert.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
-  },
-  {
-    "frage": "8. Welche Funktion wird in `pandas` standardmäßig zum Einlesen einer CSV-Datei verwendet?",
-    "optionen": [
-      "`pd.read_table()`",
-      "`pd.read_csv()`",
-      "`pd.load_csv()`",
-      "`pd.import_file()`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Die Funktion `pd.read_csv()` ist die flexible und performante Standardmethode in `pandas`, um Daten aus CSV-Dateien in einen DataFrame zu laden.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "9. Welcher Fehler tritt typischerweise auf, wenn man in `pandas` auf eine nicht existierende Spalte zugreift?",
-    "optionen": [
-      "Ein `KeyError`",
-      "Ein `SyntaxError`",
-      "Ein `ValueError`",
-      "Ein `ImportError`"
-    ],
-    "loesung": 0,
-    "erklaerung": "Ein `KeyError` wird ausgelöst, wenn versucht wird, auf einen Spalten- oder Zeilen-Index zuzugreifen, der im DataFrame nicht existiert. Dies geschieht oft durch Tippfehler im Spaltennamen.",
-    "gewichtung": 2,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "10. Was ist ein wesentlicher Unterschied zwischen `pip` und `conda` als Paketmanager?",
-    "optionen": [
-      "`pip` kann nur Pakete deinstallieren, während `conda` sie auch installiert.",
-      "`pip` ist auf Python-Pakete beschränkt, während `conda` auch Umgebungen und Nicht-Python-Pakete verwalten kann.",
-      "`conda` ist der offizielle Paketmanager für PyPI, während `pip` für Anaconda entwickelt wurde.",
-      "`pip` ist ausschließlich für Windows verfügbar, `conda` für Linux und macOS."
-    ],
-    "loesung": 1,
-    "erklaerung": "Während `pip` sich auf die Installation von Python-Paketen aus dem Python Package Index (PyPI) konzentriert, ist `conda` ein sprachunabhängiger Paket- und Umgebungsmanager.",
-    "gewichtung": 2,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "11. Was ist ein zentraler Vorteil von Jupyter Notebooks für die explorative Datenanalyse?",
-    "optionen": [
-      "Sie erzwingen eine strikt lineare Ausführung des gesamten Codes.",
-      "Sie ermöglichen die interaktive Ausführung von Code in Zellen, kombiniert mit Text und Visualisierungen.",
-      "Sie sind ausschließlich für die Programmiersprache R optimiert.",
-      "Sie laufen nativ als hochperformante Desktop-Anwendungen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Jupyter Notebooks sind ideal für die explorative Analyse, da sie es erlauben, Code in kleinen, isolierten Blöcken auszuführen, die Ergebnisse sofort zu inspizieren und den Prozess mit Markdown zu dokumentieren.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "12. Was ist der primäre Anwendungsfall für Streamlit im Data-Science-Kontext?",
-    "optionen": [
-      "Das Training von neuronalen Netzen direkt im Browser.",
-      "Die Erstellung interaktiver Web-Anwendungen zur Visualisierung von Analysen und Modellen.",
-      "Die Verwaltung von Python-Umgebungen ähnlich wie `conda`.",
-      "Die direkte Ausführung von SQL-Abfragen auf Big-Data-Clustern."
-    ],
-    "loesung": 1,
-    "erklaerung": "`Streamlit` ist ein Framework, das es ermöglicht, aus Datenanalyse-Skripten mit wenigen Zeilen Python-Code interaktive und ansprechende Web-Anwendungen zu erstellen.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "13. Was unterscheidet eine Python-Liste fundamental von einem Dictionary?",
-    "optionen": [
-      "Listen speichern Schlüssel-Wert-Paare, Dictionaries nur geordnete Werte.",
-      "Listen sind geordnete Sammlungen mit numerischem Index, Dictionaries speichern ungeordnete Schlüssel-Wert-Paare.",
-      "Listen können nur Elemente des gleichen Datentyps enthalten, Dictionaries beliebige.",
-      "Dictionaries sind in ihrer Größe beschränkt, während Listen dynamisch wachsen können."
-    ],
-    "loesung": 1,
-    "erklaerung": "Eine Liste ist eine geordnete Sequenz, auf die über einen Integer-Index zugegriffen wird. Ein Dictionary ist eine ungeordnete Sammlung von Paaren aus einem eindeutigen Schlüssel und einem Wert.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "14. Mit welchem Schlüsselwort wird in Python eine Funktion definiert?",
-    "optionen": [
-      "`function`",
-      "`def`",
-      "`fun`",
-      "`define`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Das Schlüsselwort `def` (für 'define') leitet die Definition einer Funktion in Python ein, gefolgt vom Funktionsnamen und den Parametern in Klammern.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "15. Welchen Zweck erfüllt die Datei `requirements.txt` in einem Python-Projekt?",
-    "optionen": [
-      "Sie enthält den Quellcode der Hauptanwendung.",
-      "Sie listet die notwendigen Python-Paketabhängigkeiten und deren Versionen auf.",
-      "Sie speichert Konfigurationsparameter wie Datenbank-Zugangsdaten.",
-      "Sie definiert die Befehle zum Starten des Projekts in einem Docker-Container."
-    ],
-    "loesung": 1,
-    "erklaerung": "Eine `requirements.txt`-Datei ermöglicht es, alle externen Python-Pakete, die ein Projekt benötigt, mit einem einzigen Befehl (`pip install -r requirements.txt`) zu installieren und so die Umgebung reproduzierbar zu machen.",
-    "gewichtung": 2,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "16. Welcher Fehler tritt auf, wenn man versucht, ein nicht installiertes Python-Modul zu importieren?",
-    "optionen": [
-      "`ModuleNotFoundError`",
-      "`ValueError`",
-      "`KeyError`",
-      "`TypeError`"
-    ],
-    "loesung": 0,
-    "erklaerung": "Ein `ModuleNotFoundError` (in älteren Python-Versionen `ImportError`) wird ausgelöst, wenn der Python-Interpreter ein importiertes Modul nicht in den konfigurierten Pfaden finden kann, meist weil es nicht installiert ist.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "17. Was ist der Unterschied zwischen den Docker-Befehlen `ps` und `images`?",
-    "optionen": [
-      "`docker ps` zeigt alle laufenden Container an, während `docker images` alle lokal verfügbaren Images auflistet.",
-      "`docker ps` listet alle Images auf, während `docker images` alle gestoppten Container anzeigt.",
-      "`docker images` startet einen Container, während `docker ps` dessen Status prüft.",
-      "Beide Befehle zeigen die gleiche Liste aller laufenden und gestoppten Container an."
-    ],
-    "loesung": 0,
-    "erklaerung": "Mit `docker ps` (process status) inspiziert man die laufenden Container. Mit `docker images` verwaltet man die lokal heruntergeladenen Image-Vorlagen.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "18. Was ist ein wesentlicher Vorteil von `Docker Compose` gegenüber einzelnen `docker run`-Befehlen?",
-    "optionen": [
-      "Es kann nur einen Container pro Konfigurationsdatei verwalten.",
-      "Es ermöglicht die deklarative Verwaltung und Verknüpfung mehrerer Services mit einem einzigen Befehl.",
-      "Es macht die Erstellung von Docker-Images überflüssig.",
-      "Es ist ausschließlich für die lokale Entwicklungsumgebung konzipiert."
-    ],
-    "loesung": 1,
-    "erklaerung": "`Docker Compose` vereinfacht die Verwaltung von komplexen Anwendungen, die aus mehreren miteinander verbundenen Containern (z.B. App, Datenbank, Cache) bestehen, über eine einzige `yml`-Datei.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "19. Wofür wird das `st.sidebar`-Objekt in Streamlit primär verwendet?",
-    "optionen": [
-      "Um kritische Fehlermeldungen und Warnungen anzuzeigen.",
-      "Um Steuerelemente und Navigationsoptionen in einer Seitenleiste zu platzieren.",
-      "Um den `session_state` der Anwendung persistent zu speichern.",
-      "Um den Hauptinhalt der Seite horizontal zu zentrieren."
-    ],
-    "loesung": 1,
-    "erklaerung": "Mit `st.sidebar` können Widgets wie Slider, Selectboxen oder Buttons in einer separaten Leiste am linken Rand der App platziert werden, um die Hauptansicht aufgeräumt zu halten.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "20. Was ist der Hauptzweck des QUA³CK-Prozessmodells?",
-    "optionen": [
-      "Die Optimierung der Hardware-Auslastung bei Deep-Learning-Aufgaben.",
-      "Die systematische Strukturierung eines Data-Science-Projekts von der Frage bis zum Transfer.",
-      "Die Verwaltung von Python-Abhängigkeiten in großen Teams.",
-      "Die Erstellung und Versionierung von relationalen Datenbank-Schemata."
-    ],
-    "loesung": 1,
-    "erklaerung": "Das QUA³CK-Modell bietet einen strukturierten, iterativen Rahmen für Data-Science-Projekte, um sicherzustellen, dass alle Phasen von der Fragestellung bis zur Wissensvermittlung durchlaufen werden.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
-  },
-  {
-    "frage": "21. Welche Methode wird in `pandas` verwendet, um die ersten `n` Zeilen eines DataFrames anzuzeigen?",
-    "optionen": [
-      "`df.show(n)`",
-      "`df.head(n)`",
-      "`df.top(n)`",
-      "`df.first(n)`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Die Methode `df.head()` (standardmäßig n=5) ist ein unverzichtbares Werkzeug für einen ersten schnellen Blick auf die Struktur und den Inhalt eines DataFrames.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "22. Was ist ein wesentlicher Vorteil der Verwendung von Funktionen in der Programmierung?",
-    "optionen": [
-      "Sie erhöhen die Komplexität und Laufzeit des Codes.",
-      "Sie fördern die Wiederverwendbarkeit von Code und die logische Strukturierung.",
-      "Sie verhindern die Verwendung von lokalen Variablen innerhalb ihres Gültigkeitsbereichs.",
-      "Sie sind ausschließlich für komplexe mathematische Berechnungen vorgesehen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Funktionen kapseln eine bestimmte Logik, die dann beliebig oft wiederverwendet werden kann. Dies reduziert Codeduplizierung und verbessert die Lesbarkeit und Wartbarkeit.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "23. Was unterscheidet die Docker-Befehle `stop` und `rm`?",
-    "optionen": [
-      "`docker stop` löscht einen Container permanent, während `docker rm` ihn nur anhält.",
-      "`docker stop` hält einen laufenden Container an, während `docker rm` einen gestoppten Container entfernt.",
-      "Beide Befehle sind Aliase und haben exakt die gleiche Funktion.",
-      "`docker rm` startet einen gestoppten Container neu, während `docker stop` einen neuen erstellt."
-    ],
-    "loesung": 1,
-    "erklaerung": "Mit `docker stop` wird ein Container ordnungsgemäß beendet, sein Zustand bleibt aber erhalten. `docker rm` löscht den Container und alle damit verbundenen Daten (außer in Volumes) endgültig.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "24. Welcher Fehlertyp ist spezifisch für die falsche Verwendung von Streamlit-Widgets?",
-    "optionen": [
-      "`StreamlitAPIException`",
-      "`KeyError`",
-      "`ValueError`",
-      "`ModuleNotFoundError`"
-    ],
-    "loesung": 0,
-    "erklaerung": "Eine `StreamlitAPIException` wird oft ausgelöst, wenn die Regeln der Streamlit-API verletzt werden, z.B. durch doppelte Widget-Keys oder das Platzieren von Elementen an der falschen Stelle.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "25. Welchen Zweck erfüllt das `st.metric`-Widget in Streamlit?",
-    "optionen": [
-      "Es dient zur Anzeige einer einzelnen Kennzahl (KPI) mit optionalem Vergleichswert.",
-      "Es wandelt eine gegebene Metrik von imperialen in metrische Einheiten um.",
-      "Es definiert die Metrik für die Bewertung eines Machine-Learning-Modells.",
-      "Es misst die Performance und Ladezeit der Streamlit-Anwendung."
-    ],
-    "loesung": 0,
-    "erklaerung": "Mit `st.metric` können wichtige Kennzahlen wie Umsätze, Fehlerraten oder Zuwächse prominent und übersichtlich in einem Dashboard dargestellt werden.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "26. Was ist ein Hauptvorteil der Verwendung von Markdown in Jupyter Notebooks?",
-    "optionen": [
-      "Es ermöglicht die Ausführung von Shell-Befehlen direkt im Browser.",
-      "Es erlaubt die reichhaltige Formatierung von Text zur Dokumentation des Analyseprozesses.",
-      "Es ersetzt die Notwendigkeit von Python-Code für die Datenmanipulation.",
-      "Es wird automatisch in eine interaktive Streamlit-Anwendung umgewandelt."
-    ],
-    "loesung": 1,
-    "erklaerung": "Markdown-Zellen sind essenziell, um den Gedankengang, die Methodik und die Schlussfolgerungen einer Datenanalyse direkt neben dem ausführenden Code zu dokumentieren.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "27. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?",
-    "optionen": [
-      "Es gibt keinen Unterschied, beide haben das gleiche Ergebnis.",
-      "`import pandas as pd` importiert die Bibliothek unter einem Alias, während `from pandas import *` alle Namen in den globalen Namensraum importiert.",
-      "`from pandas import *` ist die empfohlene Standardmethode für bessere Performance.",
-      "`import pandas as pd` importiert nur die DataFrame-Klasse, nicht die restlichen Funktionen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Die Verwendung eines Alias wie `pd` ist eine weit verbreitete Konvention, die den Code lesbar hält. Ein `import *` (Wildcard-Import) ist fehleranfällig, da er den Namensraum unübersichtlich macht, und sollte vermieden werden.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "28. Was ist der typische Anwendungsfall für `st.file_uploader` in einer Streamlit-App?",
-    "optionen": [
-      "Das Hochladen von Dateien durch den Benutzer zur interaktiven Analyse in der App.",
-      "Das automatische Hochladen der fertigen App in die Streamlit Cloud.",
-      "Die Visualisierung der Dateistruktur des Servers in der App.",
-      "Der Download von Ergebnis-Dateien aus der App heraus."
-    ],
-    "loesung": 0,
-    "erklaerung": "Das `st.file_uploader`-Widget ermöglicht es Benutzern, ihre eigenen Datendateien (z.B. CSV, Bilder) hochzuladen, die dann serverseitig von der Streamlit-App verarbeitet werden können.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "29. Wofür steht das Schlüsselwort `def` in Python?",
-    "optionen": [
-      "Für 'default', um einen Standardwert für eine Variable festzulegen.",
-      "Für 'define', um eine neue Funktion oder Methode zu definieren.",
-      "Für 'defer', um die Ausführung eines Code-Blocks zu verzögern.",
-      "Für 'delete file', um eine Datei aus dem System zu entfernen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Das Schlüsselwort `def` leitet in Python eine Funktionsdefinition ein. Es ist eines der grundlegendsten Konstrukte der Sprache für die Erstellung von wiederverwendbarem Code.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "30. Welchen Vorteil bietet Docker für die Zusammenarbeit in einem Data-Science-Team?",
-    "optionen": [
-      "Jeder Entwickler kann seine bevorzugten, inkompatiblen Bibliotheksversionen verwenden.",
-      "Alle Teammitglieder arbeiten in einer identischen, versionierten und portablen Umgebung.",
-      "Docker erzwingt die Verwendung der Programmiersprache Java anstelle von Python.",
-      "Die Notwendigkeit einer Versionskontrolle wie Git wird durch Docker ersetzt."
-    ],
-    "loesung": 1,
-    "erklaerung": "Docker eliminiert das 'works on my machine'-Problem, indem es sicherstellt, dass die gesamte Entwicklungsumgebung (Betriebssystem, Bibliotheken, Konfiguration) für alle Teammitglieder exakt gleich ist.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "31. Wie kann die Performance von Filteroperationen in `pandas` verbessert werden?",
-    "optionen": [
-      "Durch die Konvertierung aller Spalten in den `object`-Datentyp.",
-      "Durch das Setzen einer relevanten Spalte als Index mit `set_index()`.",
-      "Indem man statt Vektoroperationen explizite `for`-Schleifen verwendet.",
-      "Durch das Speichern von Daten im JSON-Format anstelle von Parquet."
-    ],
-    "loesung": 1,
-    "erklaerung": "Das Setzen eines Indexes auf eine häufig gefilterte Spalte ermöglicht `pandas` den Einsatz optimierter, hash-basierter Zugriffsmechanismen, was die Filterung erheblich beschleunigt.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "32. Was ist der Hauptvorteil eines Multi-Stage-Builds in einem `Dockerfile`?",
-    "optionen": [
-      "Automatisches Erstellen einer `.dockerignore`-Datei zur besseren Cache-Nutzung.",
-      "Paralleles Starten von dev-, test- und prod-Containern mit einem einzigen Befehl.",
-      "Reduzierung der finalen Image-Größe durch Trennung von Build- und Runtime-Abhängigkeiten.",
-      "Sichere Verwaltung von Umgebungsvariablen durch Integration in den Docker-Daemon."
+      "Entscheidende Entscheidungen auf einer umfassenden Vorabplanung basieren.",
+      "Ein Projekt wird anhand strikter Vorgaben und Meilensteine gesteuert.",
+      "Entscheidungen basieren auf beobachtbaren Ergebnissen und kontinuierlicher Anpassung.",
+      "Der Projekterfolg wird allein durch hierarchische Genehmigungen sichergestellt."
     ],
     "loesung": 2,
-    "erklaerung": "Multi-Stage-Builds erlauben es, in einer ersten 'Build'-Stufe Pakete zu kompilieren oder zu installieren und in einer zweiten 'Final'-Stufe nur die notwendigen Artefakte zu übernehmen, was zu schlankeren und sichereren Images führt.",
+    "erklaerung": "Das zentrale Grundprinzip von **Scrum** ist die **Empirie**. Diese besagt, dass Wissen aus Erfahrung gewonnen und Entscheidungen auf Basis von beobachteten Ergebnissen getroffen werden. Das agile Vorgehen in kurzen, iterativen Zyklen ermöglicht es, kontinuierlich zu lernen, **Risiken zu reduzieren** und das Produkt schrittweise anzupassen. Die anderen Optionen beschreiben Ansätze, die dem traditionellen, planungsgetriebenen Projektmanagement entstammen und dem empirischen Ansatz widersprechen.",
     "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "33. Wie wird die A³-Phase des QUA³CK-Modells im Kurs modern interpretiert?",
+    "frage": "2. Welche Aussage passt **NICHT** zu den **Scrum-Werten**?",
     "optionen": [
-      "Durch interaktive Datenexploration in einer Streamlit-App.",
-      "Durch das Deployment des finalen Modells in die Streamlit Cloud.",
-      "Durch die Erstellung eines automatisierten MLOps-Dashboards.",
-      "Durch systematisches Experiment-Tracking mit `MLflow`."
+      "Der Respekt im Team fördert Vertrauen und nachhaltige Zusammenarbeit.",
+      "Der Fokus richtet die Energie des Teams auf das **Sprint-Ziel**.",
+      "Kontrolle über Menschen ist wichtiger als die **Selbstverantwortung** des Teams.",
+      "Mut unterstützt das offene Ansprechen von Problemen und Hindernissen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Scrum-Werte** (Commitment, Fokus, Offenheit, Respekt, Mut) bilden die Grundlage für die Zusammenarbeit im Team. Das agile Prinzip betont die **Selbstorganisation** und **Selbstverantwortung** der Teammitglieder, wodurch starre Kontrolle durch eine vorgesetzte Person überflüssig wird. ",
+    "gewichtung": 1,
+    "thema": "Scrum & Grundlagen"
+  },
+  {
+    "frage": "3. Welche der folgenden ist **KEINE** der drei empirischen Säulen von Scrum?",
+    "optionen": [
+      "Transparenz für Arbeit, Artefakte und Ziele.",
+      "Inspektion von Fortschritt und Ergebnissen.",
+      "Detaillierte Dokumentation vor jeder Umsetzung.",
+      "Anpassung von Plan, Umfang und Methoden."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die drei Säulen der **Empirie** in Scrum sind **Transparenz**, **Inspektion** und **Adaption** (Anpassung). Detaillierte Dokumentation im Voraus steht im Widerspruch zum agilen Grundsatz der **Iterativität** und des Lernens aus der Erfahrung.",
+    "gewichtung": 1,
+    "thema": "Scrum & Grundlagen"
+  },
+  {
+    "frage": "4. Wozu dienen **kurze Sprints** in einer komplexen Arbeitsumgebung?",
+    "optionen": [
+      "Einmalige Abnahmen bündeln und Veränderungen vermeiden.",
+      "Detaillierte Dokumente erstellen und Vorhersagen fixieren.",
+      "Arbeit strikt sequenziell trennen und Übergaben verlängern.",
+      "**Risiken reduzieren**, schnelles Feedback einholen und Lernen beschleunigen."
     ],
     "loesung": 3,
-    "erklaerung": "Die A³-Phase (Algorithm, Adapting, Adjusting) wird modern durch MLOps-Praktiken wie das Experiment-Tracking mit `MLflow` umgesetzt, um Modellvarianten systematisch zu verwalten und zu vergleichen.",
+    "erklaerung": "In komplexen Projekten sind Vorhersagen schwierig. Kurze **Sprints** reduzieren das Risiko, indem sie es dem Team ermöglichen, den Plan häufig zu überprüfen und anzupassen. Jede Iteration liefert ein potenziell auslieferbares **Inkrement**, das frühzeitig validiert werden kann. Die anderen Optionen sind typische Praktiken des traditionellen Projektmanagements.",
     "gewichtung": 2,
-    "thema": "Werkzeuge & Ökosystem"
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "34. Wofür wird der `stratify`-Parameter in `train_test_split` verwendet?",
+    "frage": "5. Welcher Ansatz ist ein geeigneter Umgang mit **Unsicherheit** im agilen Projektmanagement?",
     "optionen": [
-      "Um sicherzustellen, dass die Daten vor dem Splitten zufällig gemischt werden.",
-      "Um die relative Häufigkeit der Klassen in Trainings- und Test-Set beizubehalten.",
-      "Um eine exakte Aufteilung von 80% Trainings- und 20% Testdaten zu garantieren.",
-      "Um den `random_state` für reproduzierbare Splits zu ersetzen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Bei Klassifikationsproblemen, besonders mit unbalancierten Klassen, sorgt `stratify` dafür, dass die prozentuale Verteilung der Zielklassen in Trainings- und Testdaten identisch ist.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "35. Was ist der primäre Zweck des Dekorators `@st.cache_data` in Streamlit?",
-    "optionen": [
-      "Das Zwischenspeichern von UI-Elementen wie Buttons oder Slidern.",
-      "Die Beschleunigung der App durch Caching von datenintensiven Funktionsergebnissen.",
-      "Das Speichern des `session_state` über verschiedene Browser-Tabs hinweg.",
-      "Die automatische Konvertierung von CSV-Dateien in das Parquet-Format."
-    ],
-    "loesung": 1,
-    "erklaerung": "`@st.cache_data` speichert das Ergebnis einer Funktion. Wird die Funktion erneut mit den gleichen Argumenten aufgerufen, wird das Ergebnis aus dem Cache geholt, was Operationen wie das Laden von Daten beschleunigt.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "36. Welches Problem wird durch die Verwendung von Docker-Volumes gelöst?",
-    "optionen": [
-      "Die initiale Build-Zeit des Docker-Images wird signifikant reduziert.",
-      "Daten bleiben persistent erhalten, auch wenn der zugehörige Container gelöscht wird.",
-      "Die Netzwerkkommunikation zwischen voneinander isolierten Containern wird ermöglicht.",
-      "Python-Abhängigkeiten können ohne `pip` direkt im Container installiert werden."
-    ],
-    "loesung": 1,
-    "erklaerung": "Volumes entkoppeln die Lebensdauer von Daten von der Lebensdauer eines Containers. Sie mappen ein Verzeichnis auf dem Host-System in den Container und sorgen so für Persistenz.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "37. In welcher Phase des QUA³CK-Modells findet die Aktivität 'Conclude and Compare' statt?",
-    "optionen": [
-      "Phase Q (Question)",
-      "Phase U (Understanding)",
-      "Phase A³ (Algorithm, Adapting, Adjusting)",
-      "Phase C (Conclude and Compare)"
+      "Annahmen einfrieren und Änderungen verhindern.",
+      "Abhängigkeiten verbergen und Eskalationen verzögern.",
+      "Alle Aufgaben parallel maximieren, um die Auslastung zu optimieren.",
+      "Hypothesen testen, **Ergebnisse messen** und die nächsten Schritte anpassen."
     ],
     "loesung": 3,
-    "erklaerung": "Die C-Phase (Conclude and Compare) ist explizit dem Vergleich der Modellergebnisse, der Ziehung von Schlussfolgerungen und der finalen Bewertung des Projekterfolgs gewidmet.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
+    "erklaerung": "Im agilen Vorgehen wird **Unsicherheit** nicht ignoriert, sondern aktiv gemanagt. Anstatt einen starren Plan zu verteidigen, werden Annahmen als **Hypothesen** behandelt, die in kurzen Iterationen getestet werden. Das auf Daten basierende Feedback ermöglicht eine fundierte Entscheidungsfindung.",
+    "gewichtung": 3,
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "38. Was unterscheidet `st.session_state` von einer normalen globalen Variable in Streamlit?",
+    "frage": "6. Was ist das primäre Ziel eines **Sprints**?",
     "optionen": [
-      "`st.session_state` ist in der Ausführung schneller als eine globale Variable.",
-      "`st.session_state` kann komplexe Objekte speichern, globale Variablen nicht.",
-      "`st.session_state` behält seinen Wert über die Reruns einer Benutzersession hinweg, eine Variable nicht.",
-      "`st.session_state` ist nur innerhalb der Funktion sichtbar, in der es definiert wurde."
+      "Alle Stakeholder-Features gleichzeitig parallel beginnen.",
+      "Alle angefangenen Aufgaben unabhängig von ihrem Nutzen abschließen.",
+      "Ein **nutzbares Inkrement** liefern und einen Plan zur Zielerreichung verfolgen.",
+      "Ein detailliertes Pflichtenheft für die nächsten Sprints erstellen."
     ],
     "loesung": 2,
-    "erklaerung": "Da Streamlit das Skript bei jeder Interaktion neu ausführt, werden normale Variablen zurückgesetzt. `st.session_state` ist ein Mechanismus, um Zustandsinformationen über diese Reruns hinweg zu speichern.",
+    "erklaerung": "Das Ziel eines jeden **Sprints** ist die Erstellung eines potenziell auslieferbaren **Inkrements**. Dieses **Inkrement** ist das Ergebnis der Arbeit, das alle Qualitätsanforderungen erfüllt und dem Team ermöglicht, wertvolles Feedback zu sammeln. Die anderen Optionen fokussieren auf interne Aktivitäten anstatt auf den messbaren Wert.",
     "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "39. Welches Datenformat ist oft performanter als CSV für die Speicherung großer DataFrames?",
+    "frage": "7. Welche Aussage zu **Komplexität** trifft zu?",
     "optionen": [
-      "JSON",
-      "Excel (.xlsx)",
-      "Parquet",
-      "Text (.txt)"
+      "Vorhersagbarkeit ist durch mehr Dokumente immer erreichbar.",
+      "Vorhersage wird durch späte Tests zuverlässig und genau.",
+      "Vorhersagbarkeit ist begrenzt; **Lernen durch kurze Feedbackzyklen** wirkt.",
+      "Komplexität sinkt automatisch mit größerem Team und mehr Meetings."
     ],
     "loesung": 2,
-    "erklaerung": "`Parquet` ist ein spaltenbasiertes Speicherformat, das eine hohe Kompression und schnelle Lesezeiten ermöglicht, da nur die tatsächlich benötigten Spalten geladen werden müssen.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
+    "erklaerung": "In komplexen Projekten ist die vollständige Vorhersage des Endergebnisses unmöglich. Stattdessen nutzt man agile Methoden, um die Unsicherheit zu reduzieren, indem man in kurzen Zyklen **lernt und anpasst**. Ein größeres Team oder mehr Meetings erhöhen in der Regel die Komplexität und den Kommunikationsaufwand.",
+    "gewichtung": 2,
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "40. Was beschreibt der Begriff `Vektorisierung` im Kontext von `pandas`?",
+    "frage": "8. Was ist ein **Anti-Pattern** im agilen Arbeiten?",
     "optionen": [
-      "Die Umwandlung von Textdaten in numerische Vektoren mittels Word Embeddings.",
-      "Das Anwenden von Operationen auf ganze Spalten (Arrays) statt auf einzelne Elemente in einer Schleife.",
-      "Das Speichern eines DataFrames in einer speziellen Vektor-Datenbank.",
-      "Die Visualisierung von Daten als Vektorgrafiken anstelle von Rastergrafiken."
+      "Scheinpräzision durch überfeine **Upfront-Schätzungen** erzeugen.",
+      "Unklarheiten früh adressieren und Entscheidungshilfen einholen.",
+      "Die Transparenz über Boards, Metriken und gemeinsame Ziele erhöhen.",
+      "Den **Kundennutzen** über reine Outputs stellen."
     ],
-    "loesung": 1,
-    "erklaerung": "`Vektorisierung` nutzt optimierte, in C oder Cython implementierte Routinen, um Operationen auf ganzen Daten-Arrays gleichzeitig auszuführen. Dies ist fundamental schneller als eine manuelle Iteration in Python.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
+    "loesung": 0,
+    "erklaerung": "Ein **Anti-Pattern** beschreibt eine schlechte Praxis, die dem agilen Geist widerspricht. Die Fokussierung auf überfeine Vorab-Schätzungen erzeugt lediglich eine Illusion von Sicherheit, verschwendet Zeit und ist in komplexen Projekten nicht zielführend. Agiles Arbeiten strebt stattdessen nach **adaptiver Planung**.",
+    "gewichtung": 3,
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "41. Welche MLOps-Praxis wird mit der K-Phase (Knowledge Transfer) des QUA³CK-Modells assoziiert?",
+    "frage": "9. Welcher Nutzen entsteht durch das **Timeboxing** von Events?",
     "optionen": [
-      "Das Tracking von Experimenten mit `MLflow`.",
-      "Die interaktive Datenexploration mit `Streamlit`.",
-      "Das Deployment in der Cloud und die Erstellung eines Portfolios.",
-      "Die automatisierte Gegenüberstellung von Modellen in einem Dashboard."
+      "Starre Termine ohne Lerneffekte, feste Outputs ohne Feedback.",
+      "Priorisierung entfällt, Planung wird einmalig, Änderungen entfallen.",
+      "Fokus, Verbindlichkeit und ein fester Takt für **Inspektion und Anpassung**.",
+      "Ein unbegrenzter Puffer, maximale Auslastung und reduzierte Transparenz."
     ],
     "loesung": 2,
-    "erklaerung": "Die K-Phase fokussiert sich auf den Transfer des erarbeiteten Wissens. Dazu gehören das Deployment des Modells für Endanwender und die Dokumentation der Ergebnisse in einem Portfolio.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
+    "erklaerung": "**Timeboxing** bedeutet, dass ein Event eine feste, maximale Dauer hat. Dies stellt sicher, dass alle Events des **Scrum-Frameworks** effizient ablaufen, einen klaren Fokus haben und einen regelmäßigen Takt für die Überprüfung (`Inspektion`) und Anpassung (`Adaption`) des Prozesses schaffen. ",
+    "gewichtung": 1,
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "42. Welchen Zweck erfüllt der Befehl `docker-compose down`?",
+    "frage": "10. Was charakterisiert ein **Inspect-&-Adapt-Vorgehen**?",
     "optionen": [
-      "Er lädt die neuesten Versionen der Images aus der Docker-Registry herunter.",
-      "Er zeigt die aggregierten Logs aller laufenden Services in Echtzeit an.",
-      "Er stoppt und entfernt die von `docker-compose up` erstellten Container, Netzwerke und Volumes.",
-      "Er baut alle Docker-Images neu, ohne die zugehörigen Container zu starten."
+      "Entscheidungen nur nach Hierarchieebenen und Stabsstellen treffen.",
+      "Eine einmalige Planung und deren konsequentes Einhalten ohne Abweichung.",
+      "Eine Kontrolle über Dokumente statt Kontrolle über Ergebnisse.",
+      "Regelmäßige Überprüfung und informierte **Kurskorrekturen**."
+    ],
+    "loesung": 3,
+    "erklaerung": "Das **Inspect-&-Adapt-Vorgehen** ist das Herzstück der **Empirie**. Es beschreibt einen Prozess des kontinuierlichen Lernens und der Verbesserung. Anstatt sich an einen starren Plan zu halten, wird der Fortschritt regelmäßig überprüft und der Kurs bei Bedarf angepasst, um den bestmöglichen **Geschäftswert** zu liefern.",
+    "gewichtung": 2,
+    "thema": "Scrum & Grundlagen"
+  },
+  {
+    "frage": "11. Welche **Haltung** fördert Agilität am stärksten?",
+    "optionen": [
+      "Planfixierung und ein Verbot von Änderungen reduzieren alle Risiken.",
+      "Silo-Denken und viele Übergabestellen sichern die Qualität am besten.",
+      "Autorität, Befehlsketten und späte Abnahmen sind überlegen.",
+      "**Neugier**, Experimentieren und Respekt vor Daten statt Meinungen."
+    ],
+    "loesung": 3,
+    "erklaerung": "Agilität beruht auf einem **Mindset**, das durch Offenheit, Anpassungsfähigkeit und eine positive Einstellung gegenüber Veränderungen geprägt ist. Statt sich auf Pläne und Meinungen zu verlassen, werden **Hypothesen** aufgestellt und durch Experimente und Daten validiert. ",
+    "gewichtung": 3,
+    "thema": "Scrum & Grundlagen"
+  },
+  {
+    "frage": "12. Welches ist ein sinnvolles Ergebnis eines **Sprint-Ziels**?",
+    "optionen": [
+      "Formale Abnahmebedingungen für Budget und Einkauf.",
+      "Sanktionsgrundlagen für Nichteinhaltung von Plänen.",
+      "Eine gemeinsame Richtung und eine Entscheidungshilfe für **Trade-offs**.",
+      "Ein erweiterter Pflichtenkatalog für alle beteiligten Abteilungen."
     ],
     "loesung": 2,
-    "erklaerung": "`docker-compose down` ist der komplementäre Befehl zu `up` und dient dazu, die gesamte Anwendungslandschaft sauber zu beenden und die erstellten Ressourcen freizugeben.",
+    "erklaerung": "Das **Sprint-Ziel** ist ein gemeinsames Commitment des **Scrum-Teams**. Es gibt dem Team eine klare Richtung für den Sprint vor und dient als Leitfaden für Entscheidungen, insbesondere wenn es um die Abwägung zwischen verschiedenen Optionen (`Trade-offs`) geht. Es ist nicht als starres Pflichtenheft zu verstehen.",
     "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "43. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
+    "frage": "13. Welche Aussage zu **Transparenz** ist korrekt?",
     "optionen": [
-      "Supervised Learning benötigt gelabelte Zieldaten, Unsupervised Learning nicht.",
-      "Unsupervised Learning liefert immer genauere Ergebnisse als Supervised Learning.",
-      "Supervised Learning wird für Clustering verwendet, Unsupervised für Klassifikation.",
-      "Unsupervised Learning kann nur mit numerischen Daten umgehen."
+      "Sie wird durch mehr Dokumente automatisch erreicht.",
+      "Sie ersetzt Qualitätssicherung und Tests vollständig.",
+      "Sie ist optional, wenn das Team klein genug ist.",
+      "Sie ist **Voraussetzung**, damit **Inspektion** sinnvoll funktioniert."
+    ],
+    "loesung": 3,
+    "erklaerung": "**Transparenz** ist die erste Säule der **Empirie** in Scrum. Sie ist der Grundstein für das agile Arbeiten. Ohne Transparenz – also ohne einen offenen, verständlichen und geteilten Blick auf die Arbeit – ist es unmöglich, den Fortschritt oder das Produkt zu inspizieren und daraufhin sinnvolle Anpassungen vorzunehmen.",
+    "gewichtung": 2,
+    "thema": "Scrum & Grundlagen"
+  },
+  {
+    "frage": "14. Welche These zur **Komplexitätsreduktion** ist stichhaltig?",
+    "optionen": [
+      "Kleine, testbare Schritte mit echter Nutzer-Validierung helfen.",
+      "Große Arbeitspakete und späte Zusammenführung sind überlegen.",
+      "Selteneres Feedback erhöht die Lerngeschwindigkeit erheblich.",
+      "Mehr Prozessebenen erzeugen Verlässlichkeit ohne Kosten."
     ],
     "loesung": 0,
-    "erklaerung": "Der fundamentale Unterschied liegt in den Daten: Supervised Learning lernt eine Abbildung von Eingabedaten auf bekannte Ausgabedaten (Labels). Unsupervised Learning sucht nach Mustern in Daten ohne vordefinierte Labels.",
-    "gewichtung": 1,
-    "thema": "Klassische ML-Algorithmen"
+    "erklaerung": "Das agile Vorgehen zielt darauf ab, **Komplexität** zu reduzieren, indem große Probleme in kleine, handhabbare Einheiten zerlegt werden. Diese kleinen Schritte ermöglichen es, frühzeitig Feedback von Nutzern einzuholen, Annahmen zu validieren und das Risiko zu minimieren. Die anderen Optionen stehen im Widerspruch zu diesem Prinzip.",
+    "gewichtung": 3,
+    "thema": "Scrum & Grundlagen"
   },
   {
-    "frage": "44. Welches Streamlit-Element wird zur Darstellung von Inhalten in nebeneinanderliegenden Spalten verwendet?",
+    "frage": "15. Wer maximiert den **Wert** des Produkts?",
     "optionen": [
-      "`st.expander()`",
-      "`st.tabs()`",
-      "`st.columns()`",
-      "`st.container()`"
+      "Das Team berichtet täglich den Pflichtenheft-Fortschritt schriftlich.",
+      "Der **Product Owner** verantwortet das Ziel, die Ordnung und die Priorität des **Product Backlogs**.",
+      "Das Management verteilt Aufgaben an Einzelpersonen direkt.",
+      "Der **Scrum Master** genehmigt Architekturentscheidungen zentral."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der **Product Owner** ist die zentrale Schnittstelle zwischen dem **Scrum-Team** und den Stakeholdern. Seine Hauptaufgabe ist es, den **Geschäftswert** des Produkts zu maximieren, indem er sicherstellt, dass die wichtigsten und wertvollsten Aufgaben zuerst bearbeitet werden. Die anderen Rollen sind dafür nicht primär verantwortlich.",
+    "gewichtung": 1,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "16. Welche Hauptaufgabe hat der **Scrum Master**?",
+    "optionen": [
+      "Das **Product Backlog** priorisieren, Abnahmen steuern, Budget freigeben.",
+      "Rollen zuweisen, Leistung bewerten, Urlaub genehmigen.",
+      "Technische Reviews abnehmen, Design freigeben, Tests genehmigen.",
+      "Abläufe coachen, Hindernisse (`Impediments`) adressieren, **Scrum-Verständnis** fördern."
+    ],
+    "loesung": 3,
+    "erklaerung": "Der **Scrum Master** ist als **Servant-Leader** für die Förderung und Sicherstellung des **Scrum-Frameworks** verantwortlich. Seine Hauptaufgaben umfassen das Coaching des Teams, die Beseitigung von Hindernissen, die den Arbeitsfluss behindern, und die Stärkung des agilen Mindsets in der Organisation.",
+    "gewichtung": 2,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "17. Welches Ziel hat das **Sprint Planning**?",
+    "optionen": [
+      "Das Budget festschreiben und Beschaffungen langfristig fixieren.",
+      "Das Lastenheft verfeinern und Genehmigungen einholen.",
+      "Ein **Sprint-Ziel** definieren und einen gangbaren Plan zur Erreichung erstellen.",
+      "Ein detailliertes Pflichtenheft für die nächsten Sprints erstellen."
     ],
     "loesung": 2,
-    "erklaerung": "Mit `st.columns()` kann das Layout in mehrere vertikale Spalten aufgeteilt werden, um beispielsweise Kennzahlen, Diagramme oder Steuerelemente nebeneinander zu positionieren.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
+    "erklaerung": "Das **Sprint Planning** ist ein Event, bei dem sich das **Scrum-Team** auf das **Sprint-Ziel** committet und gemeinsam einen Plan erstellt, um dieses Ziel zu erreichen. Das Team zieht hierfür die wertvollsten Einträge aus dem **Product Backlog**, die für den aktuellen **Sprint** am wichtigsten sind. ",
+    "gewichtung": 3,
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "45. Warum wird im `Dockerfile` `COPY requirements.txt .` vor `COPY . .` ausgeführt?",
+    "frage": "18. Wozu dient das **Daily Scrum**?",
     "optionen": [
-      "Um die Lesbarkeit durch die Priorisierung von Konfigurationsdateien zu verbessern.",
-      "Weil `COPY . .` eine sehr langsame Operation ist, die man ans Ende stellen sollte.",
-      "Um Docker's Layer-Caching zu nutzen, sodass Abhängigkeiten nur bei Änderung der `requirements.txt` neu installiert werden.",
-      "Um sicherzustellen, dass die Abhängigkeiten als separate, wiederverwendbare Schicht im Image existieren."
+      "Abnahmen und Abrechnungen mit externen Lieferanten.",
+      "Detaillierte Design-Diskussionen mit Architekturentscheidungen.",
+      "Statusberichte an das Management mit Minutenprotokoll.",
+      "Sich auf das **Sprint-Ziel** ausrichten und den Plan anpassen."
+    ],
+    "loesung": 3,
+    "erklaerung": "Das **Daily Scrum** ist ein kurzes, tägliches Meeting, das dem **Entwicklungsteam** dient. Ziel ist die gegenseitige Abstimmung über den Fortschritt zum **Sprint-Ziel**, das Identifizieren von Hindernissen und die Planung der nächsten 24 Stunden, um den Fokus aufrechtzuerhalten.",
+    "gewichtung": 1,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "19. Was ist der Zweck des **Sprint Reviews**?",
+    "optionen": [
+      "Das **Inkrement** zeigen, Feedback sammeln und das nächste **Product Backlog** ausrichten.",
+      "Mängel verbergen und Planabweichungen rechtfertigen.",
+      "Verträge verhandeln, Budgets erhöhen und Festpreise bestätigen.",
+      "Ressourcenauslastung besprechen und Urlaubspläne synchronisieren."
+    ],
+    "loesung": 0,
+    "erklaerung": "Das **Sprint Review** ist ein Event, um mit den **Stakeholdern** zusammenzukommen, das geschaffene **Inkrement** zu demonstrieren und wertvolles Feedback zu sammeln. Das Ergebnis ist eine gemeinsame Basis für die zukünftige Ausrichtung des **Product Backlogs**. Es ist keine formelle Abnahme, sondern ein kollaborativer Austausch.",
+    "gewichtung": 2,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "20. Worum geht es in der **Retrospektive**?",
+    "optionen": [
+      "Die Zusammenarbeit reflektieren, Experimente planen und **Verbesserungen** beschließen.",
+      "Qualitätsmetriken auditieren und Sanktionen definieren.",
+      "Die Architektur freigeben und Design-Standards genehmigen.",
+      "Liefergegenstände formell abnehmen und ausschließen."
+    ],
+    "loesung": 0,
+    "erklaerung": "In der **Retrospektive** reflektiert das gesamte **Scrum-Team** den vergangenen **Sprint**. Ziel ist es, die Zusammenarbeit, die Tools und den Prozess zu **inspektieren** und **anzupassen**, um kontinuierliche Verbesserung zu ermöglichen. Es ist ein internes Team-Meeting, das sich auf den Prozess fokussiert.",
+    "gewichtung": 3,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "21. Welche Aussage zur **Verantwortung des Teams** ist korrekt?",
+    "optionen": [
+      "Das Team entscheidet, wie Arbeit erledigt wird, um das Ziel zu erreichen.",
+      "Der **Scrum Master** weist Aufgaben zu und überwacht die Berichte.",
+      "Der **Product Owner** bestimmt die technische Umsetzung im Detail.",
+      "Das Management entscheidet täglich, wer welche Aufgabe übernimmt."
+    ],
+    "loesung": 0,
+    "erklaerung": "Das **Scrum-Team** ist **selbstorganisierend** und trifft Entscheidungen über die Ausführung der Arbeit, um das **Sprint-Ziel** zu erreichen. Dies ist ein fundamentales Prinzip agiler Methoden, das die Eigenverantwortung und das **Engagement** des Teams stärkt.",
+    "gewichtung": 1,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "22. Welche **Timebox** ist typisch für ein Scrum-Event?",
+    "optionen": [
+      "Retrospektive maximal fünf Minuten, optional nach Bedarf.",
+      "**Planning** exakt drei Stunden, unabhängig von Sprintlänge.",
+      "Review strikt zehn Minuten, ausschließlich interne Teilnehmer.",
+      "**Daily Scrum** höchstens fünfzehn Minuten, zielorientiert ausgerichtet."
+    ],
+    "loesung": 3,
+    "erklaerung": "Das **Daily Scrum** ist auf maximal 15 Minuten begrenzt. Dies ist eine **Timebox**, die den Fokus auf die tägliche Abstimmung und **Planung** legt und verhindert, dass das Meeting zu einer langwierigen Statusbesprechung verkommt. Alle anderen Events haben ebenfalls **Timeboxes** im **Scrum Guide**.",
+    "gewichtung": 2,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "23. Welches Ergebnis **MUSS** ein Sprint liefern?",
+    "optionen": [
+      "Eine Liste von offenen Change Requests und Genehmigungen.",
+      "Ein ausführliches Pflichtenheft mit Unterschriften.",
+      "Ein **nutzbares Inkrement**, das alle Qualitätsmaßstäbe erfüllt.",
+      "Eine vollständige Roadmap der nächsten sechs Quartale."
     ],
     "loesung": 2,
-    "erklaerung": "Docker baut Images in Schichten (Layers). Ändert sich eine Zeile, werden alle nachfolgenden Schichten neu gebaut. Da sich die `requirements.txt` seltener ändert als der App-Code, wird durch diese Reihenfolge der zeitintensive `pip install`-Schritt oft aus dem Cache geladen.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
+    "erklaerung": "Ein **Sprint** muss am Ende ein **nutzbares Inkrement** liefern, das alle Kriterien der **Definition of Done (DoD)** erfüllt und potenziell an Kunden ausgeliefert werden kann. Dies ist der Beweis für den Fortschritt und die Wertschöpfung in der Iteration.",
+    "gewichtung": 3,
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "46. Was ist eine `Chained Assignment`-Warnung in `pandas`?",
+    "frage": "24. Welche Aussage zur **Zielklarheit** ist richtig?",
     "optionen": [
-      "Eine Warnung, die bei der Verkettung von zu vielen Methodenaufrufen (`.pipe()...`) auftritt.",
-      "Ein Hinweis auf eine potenziell fehlerhafte Zuweisung auf eine Kopie statt auf die Originaldaten; `.loc` sollte verwendet werden.",
-      "Eine reine Information, dass eine Zuweisung auf eine Kette von Indizes erfolgreich war.",
-      "Ein Fehler, der auftritt, wenn der DataFrame-Index nicht korrekt sortiert ist."
+      "Ein **Sprint Goal** ist identisch mit dem gesamten **Product Backlog**.",
+      "Ein **Sprint Goal** gibt eine klare Richtung und hilft bei **Entscheidungs-Trade-offs**.",
+      "Ein **Sprint Goal** ist optional und kann entfallen.",
+      "Ein **Sprint Goal** ersetzt das **Product Goal** vollständig."
     ],
     "loesung": 1,
-    "erklaerung": "Die 'SettingWithCopyWarning' deutet darauf hin, dass eine Operation möglicherweise auf einer temporären Kopie eines DataFrames stattfindet. Um sicherzustellen, dass die Zuweisung im Original-DataFrame ankommt, sollte man `.loc` für den gleichzeitigen Zugriff und die Zuweisung verwenden.",
+    "erklaerung": "Das **Sprint-Ziel** ist die gemeinsame Absicht, die das **Scrum-Team** für den **Sprint** festlegt. Es gibt dem Team Fokus und leitet die Entscheidungen, wenn es um Abwägungen (`Trade-offs`) bei der Umsetzung geht. Es ist nicht optional, sondern ein zentrales **Commitment**.",
     "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "47. Welches Werkzeug wird im Kurs-Setup für das Experiment-Tracking eingesetzt?",
+    "frage": "25. Wie unterstützt der **Scrum Master** das **Daily Scrum**?",
     "optionen": [
-      "`Streamlit`",
-      "`Jupyter Lab`",
-      "`MLflow`",
-      "`Docker Hub`"
+      "Er sammelt detaillierte Statuszahlen für das Management.",
+      "Er protokolliert Entscheidungen und genehmigt Maßnahmen.",
+      "Er fördert die **Selbstorganisation** des Teams und vermeidet Statusberichte an ihn.",
+      "Er vergibt Aufgaben erneut, um die Auslastung zu maximieren."
     ],
     "loesung": 2,
-    "erklaerung": "`MLflow` ist eine Open-Source-Plattform zur Verwaltung des gesamten Machine-Learning-Lebenszyklus, einschließlich des Trackings von Experimenten, Parametern, Metriken und Modellen.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
+    "erklaerung": "Die Rolle des **Scrum Masters** im **Daily Scrum** ist die eines **Coaches**. Er stellt sicher, dass das Team das Event effektiv nutzt, um den **Sprint-Plan** anzupassen. Die Berichterstattung an den **Scrum Master** oder das Management widerspricht dem Prinzip der **Selbstorganisation**.",
+    "gewichtung": 2,
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "48. Was bewirkt die Taste `M` im Command Mode eines Jupyter Notebooks?",
+    "frage": "26. Was charakterisiert ein gutes **Review**?",
     "optionen": [
-      "Sie verschiebt die aktuelle Zelle eine Position nach unten (Move).",
-      "Sie fügt eine neue Zelle oberhalb der aktuellen ein (More).",
-      "Sie wandelt die aktuelle Zelle in eine Markdown-Zelle um.",
-      "Sie startet den Kernel der Anwendung neu (Master Reset)."
+      "Reine Metrikdiskussion ohne **Inkrement-Demo**.",
+      "Nur interne Abnahmen ohne **Stakeholder-Sicht**.",
+      "Lange Folienpräsentationen ohne Produktnutzung.",
+      "Reales Feedback von Nutzenden und **datenbasierte Entscheidungen**."
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein erfolgreiches **Sprint Review** ist ein kollaboratives Meeting, bei dem das Team den Stakeholdern das neue **Inkrement** präsentiert. Dies ermöglicht es, wertvolles Feedback zu sammeln und **datenbasierte Entscheidungen** über die zukünftige Produktentwicklung zu treffen. Die Qualität eines Reviews bemisst sich nicht an der Länge von Präsentationen, sondern am Wert des Feedbacks.",
+    "gewichtung": 3,
+    "thema": "Rollen & Events"
+  },
+  {
+    "frage": "27. Wer verantwortet die **Prozesshygiene**?",
+    "optionen": [
+      "Der **Product Owner** weist Aufgaben zu und bewertet die Leistung.",
+      "Externe Auditoren leiten die **Daily-Agenda** vor.",
+      "Der **Scrum Master** sorgt für die **Rahmenbedingungen** und das Coaching.",
+      "Das Management priorisiert das **Backlog** und erstellt Ziele."
     ],
     "loesung": 2,
-    "erklaerung": "Im Command Mode wandelt die Taste `M` eine Zelle in eine `Markdown`-Zelle um, was für die Dokumentation innerhalb eines Notebooks essenziell ist. `Y` wandelt sie zurück in eine Code-Zelle.",
+    "erklaerung": "Der **Scrum Master** ist verantwortlich für die Förderung und Unterstützung des **Scrum-Frameworks**. Er coacht das Team, beseitigt Hindernisse und stellt sicher, dass der Prozess effizient und reibungslos verläuft. Er trägt somit die Verantwortung für die **Prozesshygiene**.",
     "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "49. Was ist der primäre Zweck der `EXPOSE`-Anweisung in einem `Dockerfile`?",
+    "frage": "28. Wozu dient eine klare **Rollenabgrenzung**?",
     "optionen": [
-      "Den Container aktiv mit dem Internet zu verbinden.",
-      "Einen Port vom Host-System auf einen Port im Container zu mappen.",
-      "Den Port zu dokumentieren, auf dem der Service im Container lauscht.",
-      "Die interne Firewall des Containers für einen bestimmten Port zu öffnen."
+      "Abhängigkeiten verbergen und Silos stärken.",
+      "Dokumentation verlängern und Genehmigungen vermehren.",
+      "**Konflikte reduzieren**, den Fokus stärken und Entscheidungen beschleunigen.",
+      "Statusgespräche erhöhen und die Auslastung maximieren."
     ],
     "loesung": 2,
-    "erklaerung": "`EXPOSE` hat rein dokumentarischen Charakter. Es teilt dem Benutzer des Images mit, auf welchem Port die Anwendung im Container standardmäßig lauscht. Die tatsächliche Port-Veröffentlichung geschieht erst beim `docker run` mit dem `-p`-Flag.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "50. Welche Metrik eignet sich zur Bewertung eines K-Means-Clustering-Modells, wenn die wahren Labels bekannt sind?",
-    "optionen": [
-      "`Accuracy`",
-      "`Adjusted Rand Score`",
-      "`F1-Score`",
-      "`Root Mean Squared Error (RMSE)`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Der `Adjusted Rand Score` ist eine Metrik, die die Ähnlichkeit zwischen den gefundenen Clustern und den wahren Klassen misst. Im Gegensatz zur `Accuracy` ist sie unabhängig von der absoluten Benennung der Cluster.",
+    "erklaerung": "Klare Verantwortlichkeiten in agilen Teams helfen, **Konflikte** und Missverständnisse zu vermeiden. Jede Rolle hat ein spezifisches **Verantwortungsgebiet**, was die Entscheidungsfindung beschleunigt und es dem Team ermöglicht, sich auf das Erreichen des Ziels zu fokussieren, ohne in Zuständigkeitsdebatten verwickelt zu sein.",
     "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "51. Was ist ein wesentlicher Vorteil von Entscheidungsbäumen?",
+    "frage": "29. Welche Aussage zu den **Ereignissen** (`Events`) trifft zu?",
     "optionen": [
-      "Ihre hohe Interpretierbarkeit durch visualisierbare Regeln.",
-      "Ihre angeborene Robustheit gegenüber Overfitting.",
-      "Ihre Unempfindlichkeit gegenüber der Wahl der Hyperparameter.",
-      "Ihre Fähigkeit, ohne gelabelte Daten zu lernen."
+      "Sie sind **Inspektionspunkte**, die Anpassungen ermöglichen.",
+      "Sie sind Berichtsrunden mit fixen Statusfolien.",
+      "Sie sind Kontrollpunkte für Pflichtenhefte.",
+      "Sie sind Abnahmeslots für Change Requests."
     ],
     "loesung": 0,
-    "erklaerung": "Entscheidungsbäume sind 'White-Box'-Modelle. Die gelernten Wenn-Dann-Regeln können leicht visualisiert und von Menschen nachvollzogen werden, was in vielen Anwendungsbereichen eine Anforderung ist.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
+    "erklaerung": "Die **Ereignisse** im **Scrum-Framework** (`Sprint`, **Sprint Planning**, **Daily Scrum**, **Sprint Review**, **Retrospektive**) sind **Timeboxes**, die dem Team einen regelmäßigen Takt für die **Inspektion** und **Adaption** geben. Sie sind keine reinen Berichtsrunden, sondern bieten eine Struktur für das kollaborative, agile Arbeiten.",
+    "gewichtung": 3,
+    "thema": "Rollen & Events"
   },
   {
-    "frage": "52. Was ist ein bekannter Nachteil von einzelnen Entscheidungsbäumen?",
+    "frage": "30. Welches **Artefakt** bündelt ALLE verbleibenden Produktideen?",
     "optionen": [
-      "Sie sind rechnerisch extrem aufwendig im Training.",
-      "Sie neigen dazu, die Trainingsdaten zu überanpassen (Overfitting).",
-      "Sie können ausschließlich lineare Zusammenhänge modellieren.",
-      "Sie erfordern eine aufwendige Normalisierung der Eingabedaten."
+      "Das **Increment** beschreibt das Ergebnis des vergangenen Sprints.",
+      "Das **Product Backlog** aggregiert alle bekannten Anforderungen.",
+      "Die Roadmap ist ein unverbindlicher Kommunikationsplan.",
+      "Das **Sprint Backlog** enthält nur den Plan des laufenden Sprints."
     ],
     "loesung": 1,
-    "erklaerung": "Einzelne, ungestutzte Entscheidungsbäume neigen dazu, sehr komplexe Strukturen zu bilden, die die Trainingsdaten perfekt lernen, aber schlecht auf neue, unbekannte Daten generalisieren.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
+    "erklaerung": "Das **Product Backlog** ist eine dynamische, priorisierte Liste aller bekannten Anforderungen, Ideen und Wünsche für ein Produkt. Es dient als einzige, zentrale Informationsquelle für alle Arbeiten, die am Produkt vorgenommen werden müssen.",
+    "gewichtung": 1,
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "53. Wie funktioniert der K-Nearest-Neighbors (KNN) Algorithmus?",
+    "frage": "31. Wofür steht die **Definition of Done (DoD)**?",
     "optionen": [
-      "Er klassifiziert einen Datenpunkt basierend auf der Mehrheitsklasse seiner k nächsten Nachbarn.",
-      "Er erstellt einen hierarchischen Baum von Entscheidungsregeln.",
-      "Er teilt den Datenraum in k Cluster basierend auf deren Mittelpunkten auf.",
-      "Er passt eine lineare Funktion an die Daten an, um den Fehler zu minimieren."
+      "Ein gemeinsames, verbindliches Qualitätskriterium für die Fertigstellung eines Inkrements.",
+      "Ein individuelles Statusdokument in einer Tabellenzelle.",
+      "Ein formaler Abnahmevertrag, der vom Einkauf erstellt wird.",
+      "Ein technisches Template für die Code-Commits von Entwicklern."
     ],
     "loesung": 0,
-    "erklaerung": "KNN ist ein 'lazy learner'. Für eine Vorhersage sucht er die k ähnlichsten Datenpunkte aus dem Trainingsdatensatz und lässt sie über die Klasse 'abstimmen'.",
-    "gewichtung": 1,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "54. Warum sollte der Hyperparameter `k` bei KNN für eine binäre Klassifikation ungerade gewählt werden?",
-    "optionen": [
-      "Um die Berechnungszeit des Algorithmus zu halbieren.",
-      "Um eine eindeutige Mehrheitsentscheidung zu ermöglichen und Unentschieden zu vermeiden.",
-      "Um die Anfälligkeit des Modells für Overfitting zu reduzieren.",
-      "Weil der Algorithmus mit geraden Zahlen einen Fehler auslöst."
-    ],
-    "loesung": 1,
-    "erklaerung": "Wenn `k` bei einer binären Klassifikation (z.B. Klasse A vs. B) gerade ist, könnte es zu einem Patt kommen (z.B. 2 Nachbarn für A, 2 für B). Ein ungerades `k` stellt eine klare Mehrheit sicher.",
+    "erklaerung": "Die **Definition of Done** oder kurz **DoD** ist ein zentrales **Scrum-Artefakt**. Sie stellt ein kollektives, teamweit geteiltes und verbindliches Kriterium dar, das festlegt, wann ein **Inkrement** als potenziell auslieferbar und somit als **\"fertig\"** betrachtet werden kann. Eine individuelle oder formale Definition, die von außerhalb des Teams kommt, würde das Prinzip der **Selbstorganisation** und der gemeinsamen Verantwortung untergraben.",
     "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "55. Was ist ein typischer Anwendungsfall für K-Means Clustering?",
+    "frage": "32. Welche Aussage zum **Sprint Backlog** ist korrekt?",
     "optionen": [
-      "Die Vorhersage von numerischen Zielwerten wie Aktienkursen.",
-      "Die Gruppierung von Datenpunkten in Cluster ohne vordefinierte Labels.",
-      "Die Klassifikation von Bildern in vordefinierte Kategorien.",
-      "Die Reduzierung der Dimensionalität eines Datensatzes."
+      "Es ist der umsetzbare Plan, das **Sprint Goal** zu erreichen.",
+      "Es ist die Liste aller Anforderungen des gesamten Produkts.",
+      "Es ist eine Sammlung genehmigter Change Requests.",
+      "Es ist ein Bericht über vergangene **Velocity-Trends**."
     ],
-    "loesung": 1,
-    "erklaerung": "K-Means ist ein Unsupervised-Learning-Algorithmus, der verwendet wird, um inhärente Gruppen oder Cluster in einem Datensatz zu entdecken, z.B. für die Kundensegmentierung.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
+    "loesung": 0,
+    "erklaerung": "Das **Sprint Backlog** ist das **Commitment** des **Entwicklerteams** für den aktuellen **Sprint**. Es besteht aus dem **Sprint-Ziel** und den **Product Backlog Items**, die das Team zur Erreichung dieses Ziels ausgewählt hat. Es ist ein dynamischer, detaillierter Plan und nicht eine starre Liste.",
+    "gewichtung": 3,
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "56. Was unterscheidet Supervised von Unsupervised Learning?",
+    "frage": "33. Was kennzeichnet ein **‚Done‘ Inkrement**?",
     "optionen": [
-      "Supervised Learning wird für Regression, Unsupervised für Klassifikation verwendet.",
-      "Supervised Learning erfordert mehr Rechenleistung, ist aber immer genauer.",
-      "Supervised Learning lernt von Daten mit Zielwerten (Labels), Unsupervised Learning von Daten ohne.",
-      "Unsupervised Learning ist ein Teilgebiet von Deep Learning, Supervised Learning nicht."
+      "Es ist konzeptionell beschrieben, aber noch nicht integrierbar.",
+      "Es ist nur dokumentiert, die Implementierung folgt im nächsten Sprint.",
+      "Es ist nutzbar, integriert, getestet und potenziell auslieferbar.",
+      "Es ist nur teilweise implementiert, Tests auf später verschoben."
     ],
     "loesung": 2,
-    "erklaerung": "Der fundamentale Unterschied liegt in den Daten: Supervised Learning lernt eine Abbildung von Eingabedaten auf bekannte Ausgabedaten (Labels). Unsupervised Learning sucht nach Mustern in Daten ohne vordefinierte Labels.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "57. Was ist ein Vorteil des KNN-Algorithmus?",
-    "optionen": [
-      "Er ist nicht-parametrisch und macht keine Annahmen über die Datenverteilung.",
-      "Die Vorhersage ist bei sehr großen Trainingsdatensätzen extrem schnell.",
-      "Er ist unempfindlich gegenüber der Skalierung der Features.",
-      "Er funktioniert am besten mit hochdimensionalen Datensätzen."
-    ],
-    "loesung": 0,
-    "erklaerung": "KNN ist ein nicht-parametrischer Algorithmus, das heißt, er macht keine Annahmen über die funktionale Form der zugrundeliegenden Datenverteilung, was ihn sehr flexibel macht.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "58. Was ist ein bekannter Nachteil des KNN-Algorithmus?",
-    "optionen": [
-      "Er ist empfindlich gegenüber der Skalierung der Features.",
-      "Er kann keine nicht-linearen Entscheidungsgrenzen lernen.",
-      "Die Trainingsphase ist sehr rechenintensiv.",
-      "Er ist nur für binäre Klassifikationsprobleme geeignet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Da KNN auf Distanzmaßen basiert, können Features mit großen Wertebereichen die Distanzberechnung dominieren. Daher ist eine Skalierung (z.B. Normalisierung) der Daten meist erforderlich.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "59. Wozu dient die 'Ellbogenmethode' (Elbow Method) im Kontext von K-Means?",
-    "optionen": [
-      "Sie hilft bei der Bestimmung einer geeigneten Anzahl von Clustern (k).",
-      "Sie ist eine Technik zur Skalierung der Daten vor dem Clustering.",
-      "Sie dient der Visualisierung der Cluster in einem zweidimensionalen Raum.",
-      "Sie beschleunigt die Konvergenz des Algorithmus erheblich."
-    ],
-    "loesung": 0,
-    "erklaerung": "Bei der Ellbogenmethode wird die Summe der quadrierten Abstände zu den Cluster-Zentren für verschiedene Werte von `k` aufgetragen. Das 'Knie' oder der 'Ellbogen' der Kurve deutet auf einen guten Kompromiss für `k` hin.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "60. Was repräsentiert ein interner Knoten in einem Entscheidungsbaum?",
-    "optionen": [
-      "Eine finale Klassenzuweisung (ein Blatt).",
-      "Eine Entscheidungsregel basierend auf einem Feature-Wert.",
-      "Den Mittelwert aller Features in den Daten.",
-      "Die Wahrscheinlichkeit für das Auftreten einer Klasse."
-    ],
-    "loesung": 1,
-    "erklaerung": "Jeder interne Knoten in einem Entscheidungsbaum repräsentiert einen 'Test' für ein bestimmtes Feature (z.B. 'Alter > 30?'), der die Daten in die entsprechenden Kind-Knoten aufteilt.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "61. Was ist ein typischer Vorteil von K-Means?",
-    "optionen": [
-      "Die Fähigkeit, verborgene Gruppen oder Muster in Daten zu entdecken.",
-      "Die Garantie, immer die global optimale Cluster-Lösung zu finden.",
-      "Die Robustheit gegenüber nicht-sphärischen Cluster-Formen.",
-      "Die Notwendigkeit, keine Hyperparameter wie `k` festlegen zu müssen."
-    ],
-    "loesung": 0,
-    "erklaerung": "K-Means ist ein leistungsfähiges Werkzeug für die explorative Datenanalyse, um ohne Vorwissen über Klassen eine erste Segmentierung der Daten vorzunehmen und Hypothesen zu generieren.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "62. Was ist ein typischer Nachteil von K-Means?",
-    "optionen": [
-      "Die Anzahl der Cluster (k) muss a priori festgelegt werden.",
-      "Der Algorithmus ist nur für kategorische Daten geeignet.",
-      "Er benötigt gelabelte Daten für das Training.",
-      "Er ist im Vergleich zu anderen Algorithmen sehr rechenintensiv."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die Notwendigkeit, die Anzahl der Cluster `k` im Voraus zu bestimmen, ist eine der größten Herausforderungen bei der Anwendung von K-Means, da die Wahl von `k` das Ergebnis stark beeinflusst.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "63. In welchen Anwendungsbereichen werden Entscheidungsbäume oft bevorzugt?",
-    "optionen": [
-      "In regulierten Branchen wie Finanzen oder Medizin, wo Interpretierbarkeit gefordert ist.",
-      "Bei hochdimensionalen Bilderkennungsaufgaben mit Millionen von Pixeln.",
-      "Für die Verarbeitung von sequenziellen Daten wie natürlicher Sprache.",
-      "Wenn die zugrundeliegenden Zusammenhänge stark nicht-linear sind."
-    ],
-    "loesung": 0,
-    "erklaerung": "Aufgrund ihrer 'White-Box'-Natur werden Entscheidungsbäume oft dort eingesetzt, wo die Gründe für eine Entscheidung nachvollziehbar sein müssen, z.B. bei der Kreditwürdigkeitsprüfung.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "64. Was ist ein typischer Einsatzbereich für den KNN-Algorithmus?",
-    "optionen": [
-      "Empfehlungssysteme, die 'ähnliche' Benutzer oder Artikel finden.",
-      "Die Analyse von Zeitreihendaten zur Vorhersage zukünftiger Werte.",
-      "Die Segmentierung von Kunden in verschiedene Kaufverhaltensgruppen.",
-      "Das Training von tiefen neuronalen Netzen zur Objekterkennung."
-    ],
-    "loesung": 0,
-    "erklaerung": "KNN eignet sich gut für Empfehlungssysteme (Collaborative Filtering), da das Konzept der 'Ähnlichkeit' zwischen Datenpunkten (z.B. Benutzern mit ähnlichem Geschmack) zentral ist.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "65. Welches Geschäftsproblem lässt sich gut mit K-Means lösen?",
-    "optionen": [
-      "Die Segmentierung eines Kundenstamms in verschiedene Marketing-Gruppen.",
-      "Die Vorhersage des genauen Umsatzes für das nächste Quartal.",
-      "Die Erkennung von betrügerischen Transaktionen in Echtzeit.",
-      "Die automatische Übersetzung von Kundenrezensionen."
-    ],
-    "loesung": 0,
-    "erklaerung": "K-Means ist ideal für die Kundensegmentierung, da es basierend auf Merkmalen wie Kaufverhalten oder demografischen Daten automatisch Gruppen von ähnlichen Kunden identifizieren kann.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "66. Was ist ein Vorteil von Entscheidungsbäumen gegenüber KNN?",
-    "optionen": [
-      "Sie erfordern keine Skalierung der Features.",
-      "Sie können besser mit hochdimensionalen Daten umgehen.",
-      "Die Vorhersage ist bei großen Datensätzen schneller.",
-      "Sie sind unempfindlicher gegenüber irrelevanten Features."
-    ],
-    "loesung": 0,
-    "erklaerung": "Da Entscheidungsbäume auf regelbasierten Aufteilungen (z.B. 'Feature X > 5') basieren, sind sie unempfindlich gegenüber der Skalierung der Eingabedaten, im Gegensatz zum distanzbasierten KNN.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "67. Was ist ein Vorteil von KNN gegenüber Entscheidungsbäumen?",
-    "optionen": [
-      "Er macht keine Annahmen über die zugrundeliegende Datenverteilung.",
-      "Er ist leichter zu interpretieren und zu visualisieren.",
-      "Er benötigt keine Einstellung von Hyperparametern wie `k`.",
-      "Die Trainingsphase ist rechenintensiver, aber genauer."
-    ],
-    "loesung": 0,
-    "erklaerung": "Als nicht-parametrischer Algorithmus kann KNN komplexe Entscheidungsgrenzen lernen, ohne eine spezifische Form (wie achsenparallele Splits bei Bäumen) anzunehmen.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "68. Was ist ein Vorteil von K-Means gegenüber KNN?",
-    "optionen": [
-      "Er kann Gruppen in Daten ohne bekannte Labels finden (Unsupervised).",
-      "Er ist ein Supervised-Learning-Algorithmus für Klassifikation.",
-      "Er ist robuster gegenüber der Wahl des Hyperparameters `k`.",
-      "Er kann Cluster beliebiger, nicht-sphärischer Formen erkennen."
-    ],
-    "loesung": 0,
-    "erklaerung": "K-Means ist ein Unsupervised-Algorithmus, der für die Entdeckung von Strukturen in ungelabelten Daten konzipiert ist, während KNN ein Supervised-Algorithmus ist, der gelabelte Trainingsdaten benötigt.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "69. Was ist eine zentrale 'Best Practice' im Machine Learning?",
-    "optionen": [
-      "Immer mehrere Algorithmen evaluieren, um das beste Modell für das spezifische Problem zu finden.",
-      "Sich immer für den komplexesten verfügbaren Algorithmus wie Deep Learning entscheiden.",
-      "Die Aufteilung in Trainings- und Testdaten vermeiden, um alle Daten zum Training zu nutzen.",
-      "Das Feature Engineering ignorieren und die Rohdaten direkt verwenden."
-    ],
-    "loesung": 0,
-    "erklaerung": "Es gibt keinen 'einen besten' Algorithmus. Eine gute Praxis ist es, mehrere Modelle (von einfach bis komplex) zu testen und ihre Leistung systematisch zu vergleichen, um die beste Lösung zu finden.",
-    "gewichtung": 2,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "70. Was besagt die 'AMALEA-Weisheit' zu den 'Big 3' Algorithmen (DT, KNN, K-Means)?",
-    "optionen": [
-      "Wer ihre Prinzipien versteht, kann etwa 80% aller klassischen ML-Projekte konzeptionell einordnen.",
-      "Diese drei Algorithmen sind veraltet und sollten nicht mehr verwendet werden.",
-      "Alle modernen Deep-Learning-Architekturen basieren direkt auf diesen drei Algorithmen.",
-      "Sie sind nur für sehr kleine Datensätze mit weniger als 1000 Zeilen geeignet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die 'Big 3' repräsentieren drei grundlegende Paradigmen des maschinellen Lernens (regelbasiert, distanzbasiert, clusterbasiert). Ihr Verständnis bildet eine solide Basis für das Verständnis der meisten anderen ML-Methoden.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "71. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?",
-    "optionen": [
-      "Es besteht aus Schichten von Neuronen, die durch gewichtete Verbindungen miteinander verknüpft sind.",
-      "Es verwendet einen einzelnen Entscheidungsbaum, um Vorhersagen zu treffen.",
-      "Es benötigt grundsätzlich keine Trainingsdaten, um zu funktionieren.",
-      "Es kann ausschließlich lineare Regressionen durchführen."
-    ],
-    "loesung": 0,
-    "erklaerung": "Neuronale Netze sind von der Struktur des Gehirns inspiriert und bestehen aus miteinander verbundenen Knoten (Neuronen), die in Schichten angeordnet sind. Die Stärke der Verbindungen (Gewichte) wird im Training gelernt.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "72. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem neuronalen Netz?",
-    "optionen": [
-      "Sie führt Nichtlinearität ein, was dem Netz ermöglicht, komplexe Muster zu lernen.",
-      "Sie berechnet den Gradienten für die Backpropagation.",
-      "Sie initialisiert die Gewichte der Neuronen vor dem Training.",
-      "Sie normalisiert die Eingabedaten auf einen Bereich zwischen 0 und 1."
-    ],
-    "loesung": 0,
-    "erklaerung": "Ohne nichtlineare Aktivierungsfunktionen wäre ein neuronales Netz, egal wie viele Schichten es hat, nur in der Lage, lineare Zusammenhänge zu modellieren. Die Nichtlinearität ist entscheidend für seine Mächtigkeit.",
+    "erklaerung": "Ein **Inkrement** gilt als **\"Done\"**, wenn es alle Kriterien der **Definition of Done (DoD)** erfüllt. Es muss vollständig integriert, getestet und **potenziell auslieferbar** sein. Das bedeutet, es könnte theoretisch in die Hände der Endnutzer übergeben werden, um deren Feedback zu erhalten. Dies ist die Grundlage für die **Inspektion** im **Sprint Review**.",
     "gewichtung": 1,
-    "thema": "Deep Learning"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "73. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?",
+    "frage": "34. Was ist ein **Anti-Pattern** bei der **DoD**?",
     "optionen": [
-      "`ReLU` leidet weniger unter dem 'Vanishing Gradient'-Problem.",
-      "`ReLU` ist über den gesamten Definitionsbereich stetig differenzierbar.",
-      "`ReLU` eignet sich besser für die Ausgabeschicht bei binärer Klassifikation.",
-      "`ReLU` ist rechenintensiver, aber genauer."
+      "Die **DoD** ist ein gemeinsam getragenes Qualitätskriterium für alle Elemente.",
+      "Sie wird kontinuierlich gepflegt und anhand von Erfahrungen geschärft.",
+      "Versteckte Zusatz-Definitionen existieren je Teammitglied statt einer gemeinsamen **DoD**.",
+      "Der Abgleich der **DoD** erfolgt im **Review** und in der **Retro**."
     ],
-    "loesung": 0,
-    "erklaerung": "Die Ableitung der `Sigmoid`-Funktion ist in vielen Bereichen nahe null, was bei tiefen Netzen zum 'Verschwinden' der Gradienten führen kann. `ReLU` hat für positive Eingaben eine konstante Ableitung von 1, was den Gradientenfluss erleichtert.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "74. Was beschreibt das Backpropagation-Verfahren?",
-    "optionen": [
-      "Die effiziente Berechnung der Gradienten des Fehlers bezüglich der Gewichte.",
-      "Die zufällige Initialisierung der Gewichte vor dem ersten Trainingsschritt.",
-      "Die Auswahl der optimalen Anzahl von Neuronen für ein Hidden Layer.",
-      "Die schichtweise Vorwärtsausbreitung der Eingabedaten durch das Netz."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Backpropagation` ist der Algorithmus, mit dem die Gewichte eines neuronalen Netzes trainiert werden. Er propagiert den Fehler von der Ausgabeschicht rückwärts durch das Netz, um die Gradienten für die Gewichtsaktualisierung zu berechnen.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "75. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?",
-    "optionen": [
-      "Ein zu komplexes Modell (zu viele Parameter) im Verhältnis zu wenigen Trainingsdaten.",
-      "Eine zu kleine Lernrate während des Trainings.",
-      "Die Verwendung von Regularisierungstechniken wie `Dropout`.",
-      "Das Fehlen einer nichtlinearen Aktivierungsfunktion in den Hidden Layers."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Overfitting` tritt auf, wenn ein Modell so flexibel ist, dass es beginnt, das Rauschen in den Trainingsdaten auswendig zu lernen, anstatt das zugrundeliegende Muster zu generalisieren.",
+    "loesung": 2,
+    "erklaerung": "Ein **Anti-Pattern** ist eine wiederkehrende schlechte Praxis. Eine geteilte **Definition of Done** ist essenziell für die **Transparenz** im Team. Wenn einzelne Teammitglieder versteckte Qualitätskriterien anwenden, wird die gemeinsame Verantwortung untergraben und es entsteht **Intransparenz**, die den Prozess behindert. ",
     "gewichtung": 2,
-    "thema": "Deep Learning"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "76. Was ist `Dropout` im Kontext von Deep Learning?",
+    "frage": "35. Wie unterstützt das **Product Goal**?",
     "optionen": [
-      "Eine Regularisierungstechnik, bei der während des Trainings zufällig Neuronen 'ausgeschaltet' werden.",
-      "Eine Methode zur Beschleunigung des Trainings durch Reduzierung der Batch-Größe.",
-      "Eine spezielle Aktivierungsfunktion für die Ausgabeschicht.",
-      "Ein Optimierungsalgorithmus, der die Lernrate adaptiv anpasst."
+      "Es dient der formalen Genehmigung von Overhead und Dokumentenablage.",
+      "Es optimiert die Auslastung durch parallele Aufgabenvergabe.",
+      "Es legt eine einmalige Jahresplanung ohne Anpassungsmöglichkeit fest.",
+      "Es gibt eine längere Richtung für **Backlog-Entscheidungen** und die Schwerpunktsetzung."
     ],
-    "loesung": 0,
-    "erklaerung": "Durch das zufällige Deaktivieren von Neuronen in jedem Trainingsschritt zwingt `Dropout` das Netzwerk, robustere und weniger voneinander abhängige Features zu lernen, was Overfitting entgegenwirkt.",
+    "loesung": 3,
+    "erklaerung": "Das **Product Goal** ist das **langfristige Ziel** für das Produkt. Es dient als **Commitment** für das **Product Backlog**. Es ermöglicht dem **Product Owner** und dem **Scrum-Team**, kurzfristige Entscheidungen über die Priorität der Aufgaben zu treffen, die sich an einem übergeordneten, strategischen Ziel orientieren.",
     "gewichtung": 3,
-    "thema": "Deep Learning"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "77. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?",
+    "frage": "36. Wozu dienen die **Backlog-Transparenzregeln** (**DEEP**)?",
     "optionen": [
-      "Sie quantifiziert den Fehler zwischen der Modellvorhersage und dem wahren Zielwert.",
-      "Sie berechnet die optimale Anzahl der Neuronen für die gegebene Aufgabe.",
-      "Sie legt die Lernrate für den Optimierungsalgorithmus fest.",
-      "Sie bestimmt die maximale Anzahl der Trainingsepochen."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die Verlustfunktion ist das Signal, das der Optimierungsalgorithmus (z.B. SGD) zu minimieren versucht. Ein kleinerer Verlustwert bedeutet eine bessere Anpassung des Modells an die Trainingsdaten.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "78. Was ist ein Hauptvorteil von `Batch Normalization`?",
-    "optionen": [
-      "Sie beschleunigt und stabilisiert den Trainingsprozess.",
-      "Sie erhöht die Anzahl der lernbaren Parameter im Modell.",
-      "Sie ersetzt die Notwendigkeit von Aktivierungsfunktionen.",
-      "Sie funktioniert nur in der ersten Schicht eines Netzwerks."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Batch Normalization` normalisiert die Aktivierungen zwischen den Schichten. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "79. Was ist ein potenzielles Problem bei sehr tiefen neuronalen Netzen?",
-    "optionen": [
-      "Das Auftreten von 'Vanishing' oder 'Exploding Gradients'.",
-      "Sie sind prinzipiell schneller zu trainieren als flache Netze.",
-      "Sie können keine nichtlinearen Aktivierungsfunktionen verwenden.",
-      "Sie sind von Natur aus robuster gegen Overfitting."
-    ],
-    "loesung": 0,
-    "erklaerung": "Bei der `Backpropagation` in sehr tiefen Netzen kann der Gradient, der rückwärts propagiert wird, exponentiell klein ('vanishing') oder groß ('exploding') werden, was das Lernen verhindert oder destabilisiert.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "80. Für welche Art von Aufgaben sind `Convolutional Neural Networks (CNNs)` besonders gut geeignet?",
-    "optionen": [
-      "Aufgaben mit gitterartigen Daten wie Bildklassifikation und Objekterkennung.",
-      "Die Verarbeitung von sequenziellen Daten wie Zeitreihen oder Text.",
-      "Das Finden von Clustern in ungelabelten Datensätzen.",
-      "Probleme des Reinforcement Learning in Spielumgebungen."
-    ],
-    "loesung": 0,
-    "erklaerung": "`CNNs` sind darauf spezialisiert, lokale räumliche Muster in Daten wie Bildern durch Faltungsoperationen (Convolutions) zu erkennen, was sie für Computer-Vision-Aufgaben prädestiniert.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "81. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?",
-    "optionen": [
-      "Es ist speichereffizient und ermöglicht das Training mit sehr großen Datensätzen.",
-      "Es konvergiert garantiert immer zum globalen Minimum der Verlustfunktion.",
-      "Es benötigt keine manuelle Einstellung der Lernrate.",
-      "Es führt im Vergleich zu anderen Methoden zu einer schnelleren Konvergenz."
-    ],
-    "loesung": 0,
-    "erklaerung": "Da `SGD` die Gewichte nach jedem einzelnen Datenpunkt (oder einem kleinen Batch) aktualisiert, muss nicht der gesamte Datensatz im Speicher gehalten werden. Die 'rauschhaften' Updates können auch helfen, lokalen Minima zu entkommen.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "82. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?",
-    "optionen": [
-      "Es lernt hierarchische und zunehmend komplexe Merkmale aus den Eingabedaten.",
-      "Es dient ausschließlich dazu, die finale Vorhersage des Netzes auszugeben.",
-      "Es initialisiert die Gewichte für die Eingabeschicht.",
-      "Es normalisiert die Ausgabewerte auf einen Bereich zwischen 0 und 1."
-    ],
-    "loesung": 0,
-    "erklaerung": "Versteckte Schichten (Hidden Layers) sind die Kernkomponenten, in denen das Netzwerk lernt, aus den Rohdaten der vorherigen Schicht abstraktere und nützlichere Repräsentationen zu extrahieren.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "83. Was ist ein Nachteil der `Sigmoid`-Aktivierungsfunktion in tiefen Netzen?",
-    "optionen": [
-      "Ihre Ableitung ist oft nahe null, was zum 'Vanishing Gradient'-Problem führt.",
-      "Sie ist nicht stetig differenzierbar und kann nicht für `Backpropagation` verwendet werden.",
-      "Sie kann keine nichtlinearen Zusammenhänge im Netzwerk abbilden.",
-      "Sie ist ausschließlich für Regressionsprobleme mit positiven Zielwerten geeignet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die `Sigmoid`-Funktion 'sättigt' bei großen positiven oder negativen Eingaben, was bedeutet, dass ihre Ableitung nahe null wird. Dies verlangsamt oder stoppt den Lernprozess in den unteren Schichten tiefer Netzwerke.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "84. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?",
-    "optionen": [
-      "Er passt die Lernrate für jeden Parameter individuell und adaptiv an.",
-      "Er benötigt keine `Backpropagation` zur Berechnung der Gradienten.",
-      "Er ist speziell für sehr kleine Netzwerke mit wenigen Parametern optimiert.",
-      "Er verwendet keine Gradienten, sondern einen genetischen Algorithmus."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Adam` (Adaptive Moment Estimation) kombiniert die Ideen von Momentum und RMSprop. Er pflegt eine adaptive Lernrate für jedes Gewicht, was oft zu einer schnelleren und stabileren Konvergenz führt als Standard-SGD.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "85. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?",
-    "optionen": [
-      "Um Overfitting zu vermeiden, indem das Training beendet wird, wenn sich der Validierungsfehler nicht mehr verbessert.",
-      "Um die anfängliche Lernrate dynamisch während der ersten Epochen zu erhöhen.",
-      "Um die Gewichte des Netzwerks auf einen bekannten, guten Zustand zurückzusetzen.",
-      "Um das Training zu stoppen, sobald eine Genauigkeit von 100% auf den Trainingsdaten erreicht ist."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Early Stopping` ist eine Form der Regularisierung, bei der die Leistung des Modells auf einem separaten Validierungsdatensatz überwacht wird. Das Training wird abgebrochen, sobald diese Leistung stagniert oder schlechter wird, um Overfitting zu verhindern.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "86. Welche Rolle spielt die `Softmax`-Funktion typischerweise in einem neuronalen Netz?",
-    "optionen": [
-      "Sie wandelt die Logits der Ausgabeschicht in eine Wahrscheinlichkeitsverteilung über die Klassen um.",
-      "Sie dient als Regularisierungstechnik, um Overfitting in den Hidden Layers zu reduzieren.",
-      "Sie ersetzt die Verlustfunktion bei Regressionsproblemen.",
-      "Sie wird als Aktivierungsfunktion in den Hidden Layers von CNNs verwendet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die `Softmax`-Funktion ist ideal für die Ausgabeschicht bei Multi-Klassen-Klassifikationsproblemen, da sie sicherstellt, dass die Summe der Ausgaben 1 beträgt und jeder Wert als die Wahrscheinlichkeit für die jeweilige Klasse interpretiert werden kann.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "87. Was ist ein potenzieller Nachteil einer zu großen Lernrate?",
-    "optionen": [
-      "Das Training kann instabil werden, da das Optimum 'übersprungen' wird.",
-      "Das Training konvergiert extrem langsam gegen ein lokales Minimum.",
-      "Die Gewichte des Netzwerks werden während des Trainings nicht aktualisiert.",
-      "Die Aktivierungsfunktionen in den Hidden Layers werden deaktiviert."
-    ],
-    "loesung": 0,
-    "erklaerung": "Eine zu große Lernrate kann dazu führen, dass die Gewichtsaktualisierungen so groß sind, dass der Optimierungsprozess über das Minimum der Verlustfunktion hinwegschießt und der Fehler wieder ansteigt (Divergenz).",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "88. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?",
-    "optionen": [
-      "Sie hilft, Probleme wie 'Vanishing/Exploding Gradients' zu vermeiden und beschleunigt die Konvergenz.",
-      "Sie bestimmt die endgültige Anzahl der Hidden Layers im Netzwerk.",
-      "Sie ersetzt die Notwendigkeit einer nichtlinearen Aktivierungsfunktion.",
-      "Sie verhindert die Verwendung von Regularisierungstechniken wie `Dropout`."
-    ],
-    "loesung": 0,
-    "erklaerung": "Eine schlechte Initialisierung (z.B. alle Gewichte auf null) kann den Lernprozess verhindern. Techniken wie Xavier/Glorot-Initialisierung sorgen für eine gute Varianz der Aktivierungen und einen stabilen Gradientenfluss zu Beginn des Trainings.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "89. Für welche Art von Daten sind `Recurrent Neural Networks (RNNs)` besonders geeignet?",
-    "optionen": [
-      "Für Sequenzdaten, bei denen die Reihenfolge der Elemente von Bedeutung ist (z.B. Text, Zeitreihen).",
-      "Für gitterartige Daten ohne zeitliche Komponente wie statische Bilder.",
-      "Für tabellarische Daten mit unabhängigen Zeilen wie in einer CSV-Datei.",
-      "Für das Finden von Clustern in ungelabelten Datensätzen."
-    ],
-    "loesung": 0,
-    "erklaerung": "`RNNs` besitzen interne Schleifen, die es ihnen ermöglichen, einen 'Gedächtnis'-Zustand zu pflegen. Dies macht sie ideal für Aufgaben, bei denen der Kontext aus vorherigen Schritten in einer Sequenz wichtig ist.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "90. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
-    "optionen": [
-      "Die Fähigkeit zum automatischen 'Feature Learning' direkt aus Rohdaten.",
-      "Die Garantie, dass kein Overfitting auf den Trainingsdaten stattfindet.",
-      "Die hohe Interpretierbarkeit der gelernten Modelle ('White-Box').",
-      "Der geringere Bedarf an Trainingsdaten für komplexe Aufgaben."
-    ],
-    "loesung": 0,
-    "erklaerung": "Während bei klassischen ML-Ansätzen oft aufwendiges, manuelles Feature Engineering nötig ist, können tiefe neuronale Netze eine Hierarchie von Merkmalen direkt aus den Rohdaten (z.B. Pixeln eines Bildes) lernen.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "91. Was ist der Hauptvorteil von CNNs gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
-    "optionen": [
-      "Sie sind unempfindlich gegenüber der Farbe der Pixel.",
-      "Sie reduzieren die Anzahl der Parameter drastisch durch lokale Verbindungen und Gewichtsteilung.",
-      "Sie können ausschließlich Graustufenbilder effizient verarbeiten.",
-      "Sie konvergieren beim Training grundsätzlich schneller."
+      "Einträge sind geheim, grob, unverändert, alphabetisch sortiert.",
+      "Einträge sind detailliert genug, geschätzt, auf emergentem Stand und priorisiert.",
+      "Einträge sind statisch, fixiert, formal und nur intern sichtbar.",
+      "Einträge sind beliebig, unklar, unverbunden, unpriorisiert."
     ],
     "loesung": 1,
-    "erklaerung": "Ein Fully-Connected Network für ein Bild hätte für jedes Pixel eine Verbindung zu jedem Neuron der nächsten Schicht, was zu Millionen von Parametern führt. CNNs nutzen kleine Filter, deren Gewichte über das gesamte Bild geteilt werden, was rechnerisch effizienter ist.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "92. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?",
-    "optionen": [
-      "`Dropout`",
-      "`Translation Invariance`",
-      "`Dense Layer`",
-      "`Batch Normalization`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Durch die Anwendung desselben Filters (Gewichtsteilung) über das gesamte Bild und die anschließende Abstraktion durch Pooling-Layer lernt ein CNN, ein Merkmal (z.B. ein Auge) zu erkennen, egal ob es links oben oder rechts unten im Bild erscheint.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "93. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?",
-    "optionen": [
-      "Eine Methode zur Umwandlung eines Farbbildes in ein Graustufenbild.",
-      "Eine kleine Matrix von Gewichten, die über das Eingabebild gefaltet wird, um Merkmale zu extrahieren.",
-      "Ein Algorithmus zur Kompression der Bilddaten vor der Verarbeitung.",
-      "Ein Verfahren zur künstlichen Vergrößerung des Trainingsdatensatzes (Data Augmentation)."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein Filter ist der zentrale Baustein eines Convolutional Layers. Er fungiert als Merkmalsdetektor (z.B. für Kanten, Ecken, Texturen), dessen Gewichte während des Trainings gelernt werden.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "94. Welche Funktion hat ein `Mean-Filter` in der klassischen Bildverarbeitung?",
-    "optionen": [
-      "Er schärft die Kanten in einem Bild durch die Betonung von Gradienten.",
-      "Er glättet das Bild und reduziert Rauschen, indem er Pixel durch den Mittelwert ihrer Nachbarschaft ersetzt.",
-      "Er erhöht die Farbsättigung, um das Bild lebendiger erscheinen zu lassen.",
-      "Er erkennt und markiert die hellsten und dunkelsten Bereiche im Bild."
-    ],
-    "loesung": 1,
-    "erklaerung": "Der `Mean-Filter` ist ein einfacher Weichzeichner (Blurring-Filter). Er wird oft zur Rauschunterdrückung eingesetzt, führt aber auch zu einem Verlust von Bilddetails.",
+    "erklaerung": "**DEEP** ist ein Akronym für die Qualitätsmerkmale eines gut gepflegten **Product Backlogs**: **D**etailliert genug, **E**mergent, **E**stimated (geschätzt) und **P**riorisiert. Diese Kriterien stellen sicher, dass das **Product Backlog** stets transparent, relevant und für die Planung nutzbar ist.",
     "gewichtung": 1,
-    "thema": "Deep Learning"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "95. Welche Filter werden typischerweise zur Kantendetektion eingesetzt?",
+    "frage": "37. Welche Aussage zur **Artefakt-Transparenz** ist richtig?",
     "optionen": [
-      "Der Median-Filter zur Rauschunterdrückung.",
-      "Der Prewitt- oder Sobel-Filter zur Berechnung von Gradienten.",
-      "Der Gauß-Filter zur Weichzeichnung des Bildes.",
-      "Der Box-Filter als einfache Form des Mittelwertfilters."
+      "Ohne Transparenz ist **Inspektion** wenig wirksam.",
+      "Mehr Text erzeugt automatisch Transparenz.",
+      "Transparenz ist ein Luxus bei kleinen Teams.",
+      "Transparenz ersetzt Integrationstests vollständig."
     ],
-    "loesung": 1,
-    "erklaerung": "Filter wie `Sobel` und `Prewitt` sind darauf ausgelegt, die Ableitung (den Gradienten) der Bildintensität zu approximieren. Starke Gradienten deuten auf Kanten hin und werden durch diese Filter hervorgehoben.",
+    "loesung": 0,
+    "erklaerung": "Die drei **Scrum-Artefakte** (**Product Backlog**, **Sprint Backlog**, **Increment**) müssen **transparent** sein, d. h., sie müssen für alle Beteiligten verständlich und nachvollziehbar sein. Nur wenn der Status der Arbeit und das Ergebnis transparent sind, kann eine **sinnvolle Inspektion** und darauf aufbauend eine Anpassung erfolgen.",
     "gewichtung": 2,
-    "thema": "Deep Learning"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "96. Was passiert, wenn ein Prewitt-Filter in x-Richtung auf ein Bild angewendet wird?",
+    "frage": "38. Welche Beziehung zwischen **Artefakt** und **Commitment** ist korrekt?",
     "optionen": [
-      "Vertikale Kanten werden stark hervorgehoben.",
-      "Horizontale Kanten werden stark hervorgehoben.",
-      "Das Bild wird in der x-Richtung unscharf.",
-      "Die Farben werden in ihr Komplementär invertiert."
+      "Sprint Backlog ↔ Product Goal als Commitment.",
+      "**Product Backlog** ↔ **Product Goal** als Commitment.",
+      "Roadmap ↔ Product Goal als Commitment.",
+      "**Increment** ↔ **Sprint Goal** als Commitment."
     ],
-    "loesung": 0,
-    "erklaerung": "Ein Filter in x-Richtung misst die Intensitätsänderungen entlang der horizontalen Achse. Eine starke Änderung tritt bei einer vertikalen Kante auf, weshalb diese detektiert wird.",
+    "loesung": 1,
+    "erklaerung": "In **Scrum** gibt es eine klare Beziehung zwischen den drei **Artefakten** und den zugehörigen **Commitments**. Das **Product Goal** ist das langfristige Commitment für das **Product Backlog**. Das **Sprint Goal** ist das Commitment für das **Sprint Backlog**. Die **Definition of Done (DoD)** ist das Commitment für das **Increment**.",
+    "gewichtung": 3,
+    "thema": "Artefakte & DoD"
+  },
+  {
+    "frage": "39. Wozu dient eine **einheitliche DoD** historisch?",
+    "optionen": [
+      "Abnahmen bündeln, Feedback verringern und Lernen verzögern.",
+      "Aufgaben länger offen halten, Flexibilität erhöhen und das Tempo senken.",
+      "Dokumentation priorisieren, die Ausführung verzögern und die Kontrolle stärken.",
+      "Die **Qualität sichern**, Risiken senken und die **Auslieferbarkeit** erhalten."
+    ],
+    "loesung": 3,
+    "erklaerung": "Eine **einheitliche Definition of Done** stellt sicher, dass alle Mitglieder des **Entwicklerteams** die gleiche Vorstellung davon haben, wann eine Aufgabe wirklich abgeschlossen ist. Dies schafft eine gemeinsame Qualitätsbasis und reduziert das Risiko, dass am Ende des **Sprints** unfertige Arbeit übergeben wird.",
+    "gewichtung": 1,
+    "thema": "Artefakte & DoD"
+  },
+  {
+    "frage": "40. Was ist ein guter Indikator für **schwache Artefakte**?",
+    "optionen": [
+      "Aktuelle Inhalte, gemeinsame Nutzung und klare Verantwortlichkeiten.",
+      "Konsistente Quellen, klare Felder und einheitliche Begriffe.",
+      "Hohe **Intransparenz**, widersprüchliche Quellen und wechselnde Wahrheiten.",
+      "Ein gemeinsames Verständnis, gepflegte Boards und offene Daten."
+    ],
+    "loesung": 2,
+    "erklaerung": "Wenn die **Scrum-Artefakte** schlecht gepflegt werden, führt dies zu **Intransparenz**. Widersprüchliche Informationen und unterschiedliche \"Wahrheiten\" im Team sind ein deutliches Zeichen dafür, dass das **Product Backlog**, das **Sprint Backlog** oder das **Increment** nicht allen Beteiligten eine klare Sicht auf den Status des Produkts geben.",
     "gewichtung": 2,
-    "thema": "Deep Learning"
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "97. Warum ist `Weight Sharing` (Gewichtsteilung) in CNNs so wichtig?",
+    "frage": "41. Welche Aussage zur Pflege von **Artefakten** trifft zu?",
     "optionen": [
-      "Es erhöht die Komplexität des Modells, um Overfitting zu vermeiden.",
-      "Es reduziert die Anzahl der zu lernenden Parameter drastisch.",
-      "Es stellt sicher, dass alle Gewichte im Netzwerk positiv bleiben.",
-      "Es wird ausschließlich bei der Verarbeitung von Textdaten angewendet."
+      "Die Pflege ist ausschließlich Aufgabe des **Product Owners**.",
+      "Die Pflege erfolgt nur zu Projektstart und zum Meilenstein.",
+      "Regelmäßige Pflege ist Teil der laufenden Arbeit, nicht eine Extra-Last.",
+      "Die Pflege ersetzt Tests und Reviews vollständig."
+    ],
+    "loesung": 2,
+    "erklaerung": "Alle drei **Scrum-Artefakte** (`Product Backlog`, `Sprint Backlog`, `Increment`) müssen kontinuierlich gepflegt und aktualisiert werden, um ihre **Transparenz** und Relevanz zu gewährleisten. Die Arbeit an den Artefakten ist ein wesentlicher Teil der täglichen Arbeit des Teams.",
+    "gewichtung": 3,
+    "thema": "Artefakte & DoD"
+  },
+  {
+    "frage": "42. Wozu dient das **Increment** im **Review**?",
+    "optionen": [
+      "Abnahmen fremder Projekte formalisieren.",
+      "Planstände und Budgettabellen präsentieren.",
+      "Zielvereinbarungen und Jahresgespräche durchführen.",
+      "Das **reale Produkt** zeigen, Feedback sammeln und die nächsten Schritte ableiten."
+    ],
+    "loesung": 3,
+    "erklaerung": "Das **Increment** ist das Ergebnis der Arbeit im **Sprint**. Im **Sprint Review** wird dieses reale, **potenziell auslieferbare Inkrement** den **Stakeholdern** präsentiert, um Feedback zu erhalten. Dies ermöglicht es dem Team, zu lernen, ob das entwickelte Produkt auch tatsächlich den Bedürfnissen der Nutzer entspricht.",
+    "gewichtung": 1,
+    "thema": "Artefakte & DoD"
+  },
+  {
+    "frage": "43. Welches **Missverständnis** ist verbreitet?",
+    "optionen": [
+      "Die **DoD** gilt für alle **Product Backlog Items**.",
+      "Die **DoD** ist ein einzelnes Dokument statt ein gelebter **Team-Standard**.",
+      "Die **DoD** wird regelmäßig geschärft und angepasst.",
+      "Die **DoD** ist ein gemeinsam definierter Qualitätsstandard."
     ],
     "loesung": 1,
-    "erklaerung": "Beim `Weight Sharing` wird derselbe Filter (derselbe Satz von Gewichten) an jeder Position des Bildes angewendet. Dadurch muss das Netzwerk nicht für jede Position separate Merkmalsdetektoren lernen, was die Anzahl der Parameter massiv reduziert.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
+    "erklaerung": "Ein verbreitetes **Missverständnis** ist, dass die **Definition of Done (DoD)** ein statisches Dokument ist, das einmal erstellt und dann abgelegt wird. In Wirklichkeit ist sie ein lebendiger **Team-Standard**, der kontinuierlich überprüft und an die Bedürfnisse und das Umfeld des Teams angepasst wird.",
+    "gewichtung": 2,
+    "thema": "Artefakte & DoD"
   },
   {
-    "frage": "98. Was ist eine `Feature Map` in einem CNN?",
+    "frage": "44. Welche Eigenschaft gehört zum Akronym **INVEST**?",
     "optionen": [
-      "Eine grafische Darstellung der wichtigsten Features im Trainingsdatensatz.",
-      "Die Ausgabe eines Filters nach der Faltungsoperation, die die Aktivierung eines Merkmals anzeigt.",
-      "Ein spezieller Datensatz, der ausschließlich zur Bewertung der Merkmalsextraktion verwendet wird.",
-      "Ein Layer, der neue Features durch die Kombination bestehender Features erzeugt."
+      "User Stories sind groß, technisch geschnitten und vage beschrieben.",
+      "User Stories sind klein, **wertorientiert** und **testbar** formuliert.",
+      "User Stories sind geheim, silobezogen und schwer überprüfbar.",
+      "User Stories sind fix, unverhandelbar und ohne Nutzenbezug."
     ],
     "loesung": 1,
-    "erklaerung": "Eine `Feature Map` ist das Ergebnis der Anwendung eines Filters auf eine Eingabe. Sie ist eine 2D-Karte, deren Werte anzeigen, wie stark das vom Filter gesuchte Merkmal an der jeweiligen Position der Eingabe vorhanden ist.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
+    "erklaerung": "**INVEST** ist ein Akronym, das die Qualität von **User Stories** beschreibt: **I**ndependent, **N**egotiable, **V**aluable (wertorientiert), **E**stimatable (schätzbar), **S**mall (klein) und **T**estable (testbar). Eine gute User Story ist ein winziges, wertvolles, testbares Stück Arbeit.",
+    "gewichtung": 1,
+    "thema": "Stories & AK"
   },
   {
-    "frage": "99. Aus welchen Layern besteht eine typische CNN-Architektur?",
+    "frage": "45. Was ist der Zweck von **Akzeptanzkriterien** (**AK**)?",
     "optionen": [
-      "`Convolutional`, `Pooling`, `Flatten` und `Dense` Layers.",
-      "Ausschließlich aus `Dense` (Fully-Connected) Layers.",
-      "Nur aus `Pooling`- und `Dropout`-Layern.",
-      "Einer Abfolge von `RNN`- und `LSTM`-Layern."
+      "Ablaufvorschriften unabhängig vom Nutzen definieren.",
+      "Verifizieren, wann die **User Story** die Nutzerbedürfnisse erfüllt.",
+      "Teamgrenzen und Zuständigkeiten formal festlegen.",
+      "Den Planaufwand erhöhen, ohne Mehrwert zu liefern."
     ],
-    "loesung": 0,
-    "erklaerung": "Eine klassische CNN-Architektur besteht aus einer Abfolge von `Convolutional`-Layern (zur Merkmalsextraktion) und `Pooling`-Layern (zur Dimensionsreduktion), gefolgt von einem `Flatten`-Layer und `Dense`-Layern für die finale Klassifikation.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
+    "loesung": 1,
+    "erklaerung": "**Akzeptanzkriterien** sind eine Liste von Bedingungen, die eine **User Story** erfüllen muss, um vom **Product Owner** als fertig (`Done`) akzeptiert zu werden. Sie dienen der präzisen Definition der Anforderungen und helfen, die Erwartungen zwischen dem Team und den Stakeholdern abzugleichen. ",
+    "gewichtung": 2,
+    "thema": "Stories & AK"
   },
   {
-    "frage": "100. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern?",
+    "frage": "46. Welche Formulierung ist **Story-konform**?",
     "optionen": [
-      "Klassische Filter wie Sobel sind fest definiert, während die Filter in CNNs während des Trainings gelernt werden.",
-      "CNN-Filter sind immer signifikant größer als klassische Filter, um globale Merkmale zu erfassen.",
-      "Klassische Filter können keine Kanten oder Texturen im Bild erkennen.",
-      "CNN-Filter benötigen keine nichtlineare Aktivierungsfunktion nach der Anwendung."
+      "Als Projekt will ich X, um Pläne zu erfüllen.",
+      "Als Entwickler will ich X, damit ich Code vereinheitliche.",
+      "Als Manager will ich X, um Budgets zu optimieren.",
+      "Als **Nutzer** will ich X, um **Y zu erreichen**."
+    ],
+    "loesung": 3,
+    "erklaerung": "Eine **User Story** beschreibt ein Bedürfnis aus der Perspektive des Endnutzers. Der typische Aufbau folgt dem Format: **„Als [Rolle], möchte ich [Funktion], um [Nutzen] zu erreichen.“** Dieser Fokus auf den Nutzen hilft dem Team zu verstehen, warum die Arbeit getan wird.",
+    "gewichtung": 3,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "47. Welcher Schnitt einer User Story ist typisch **vertikal**?",
+    "optionen": [
+      "Ein großer Backend-Refactor ohne sichtbaren Nutzen.",
+      "Eine reine Datenbankmigration ohne Nutzerwirkung.",
+      "Ein **End-to-end Nutzenpfad** von der **UI** bis zu den Daten mit kleinem Umfang.",
+      "Ein Design-Workshop ohne Produktänderung."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein **vertikaler Schnitt** einer **User Story** beschreibt eine vollständige, nutzbare Funktion, die alle Ebenen des Produkts durchdringt (z. B. Benutzeroberfläche, Logik, Datenbank). Dies steht im Gegensatz zu **horizontalen Schnitten**, die sich nur auf eine technische Schicht konzentrieren und keinen unmittelbaren Mehrwert für den Endnutzer liefern. ",
+    "gewichtung": 1,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "48. Was ist ein **Anti-Pattern** bei **Akzeptanzkriterien**?",
+    "optionen": [
+      "Kriterien durch automatisierte Tests ausführbar machen.",
+      "**Nachträgliches Erraten** von Kriterien erst beim **Sprint Review**.",
+      "Kriterien früh klären und gemeinsam verifizieren.",
+      "Kriterien durch Beispiele konkretisieren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **Anti-Pattern** des nachträglichen Erratens von **Akzeptanzkriterien** tritt auf, wenn die Anforderungen nicht vor der Entwicklung geklärt werden. Dies führt zu Missverständnissen, Unklarheiten und dem Risiko, dass das Team Arbeit liefert, die nicht den Erwartungen des **Product Owners** entspricht. ",
+    "gewichtung": 2,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "49. Wozu dient eine **Referenz-Story**?",
+    "optionen": [
+      "Formale Abnahme bei Einkauf und Rechtsabteilung.",
+      "Sanktionsgrundlage bei Planabweichungen.",
+      "Ersatz für die **Definition of Done** insgesamt.",
+      "**Gemeinsame Kalibrierung** und Skalierung für die **Schätzung**."
+    ],
+    "loesung": 3,
+    "erklaerung": "Eine **Referenz-Story** ist eine typische, gut verstandene **User Story**, die als Orientierungspunkt für die **Schätzung** anderer Stories dient. Das Team vergleicht neue Aufgaben mit der **Referenz-Story**, um eine einheitliche und relative Einschätzung des Aufwands zu ermöglichen und den **Bias** bei der Schätzung zu reduzieren.",
+    "gewichtung": 3,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "50. Welche Aussage zu **DoR** trifft zu?",
+    "optionen": [
+      "**DoR** macht das **Refinement** überflüssig und optional.",
+      "**DoR** ist ein zwingendes Vertragswerk mit externen Partnern.",
+      "**DoR** ersetzt die **Akzeptanzkriterien** und die **DoD** vollständig in Scrum.",
+      "**DoR** unterstützt, dass eine Story startklar und verstehbar ist."
+    ],
+    "loesung": 3,
+    "erklaerung": "**DoR** steht für **Definition of Ready** und beschreibt die Kriterien, die eine **User Story** erfüllen muss, bevor sie vom Team in einen **Sprint** aufgenommen werden kann. Sie stellt sicher, dass die Story klar und verständlich ist, um einen reibungslosen Ablauf der Arbeit zu gewährleisten.",
+    "gewichtung": 1,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "51. Was hilft gegen **Gold Plating**?",
+    "optionen": [
+      "Mehr Komfortfunktionen unabhängig vom Bedarf einbauen.",
+      "Funktionen vorziehen, weil sie technisch attraktiv sind.",
+      "Zusatzarbeit ohne Mehrwert zur Auslastung erzeugen.",
+      "Ein klarer **Nutzenbezug** und die strikte Ausrichtung am **Sprint-Ziel**."
+    ],
+    "loesung": 3,
+    "erklaerung": "**Gold Plating** beschreibt die Praxis, unnötige Funktionen oder Perfektionismus in eine Aufgabe zu stecken, der keinen Mehrwert für den Kunden liefert. Dagegen hilft eine konsequente Fokussierung auf den vom **Product Owner** definierten **Nutzen** und das **Sprint-Ziel**.",
+    "gewichtung": 2,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "52. Welche Aussage zu **Beispielen** ist korrekt?",
+    "optionen": [
+      "Beispiele konkretisieren die **Akzeptanzkriterien** und fördern ein **geteiltes Verständnis**.",
+      "Beispiele erhöhen **Silos** und Missverständnisse.",
+      "Beispiele sind optional und eher hinderlich.",
+      "Beispiele ersetzen die **Akzeptanzkriterien** vollständig und sind ausreichend."
     ],
     "loesung": 0,
-    "erklaerung": "Der entscheidende Unterschied ist, dass die Werte der Filtermatrizen in einem CNN nicht von einem Menschen entworfen, sondern durch `Backpropagation` gelernt werden. Das Netzwerk findet so selbst die optimalen Filter für die gegebene Aufgabe.",
+    "erklaerung": "In der agilen Entwicklung werden oft **Akzeptanzkriterien** durch konkrete **Beispiele** ergänzt. Dies hilft dem **Entwicklerteam** und dem **Product Owner**, ein einheitliches Verständnis für die Anforderungen zu entwickeln und Interpretationsspielraum zu reduzieren. Sie sind eine wertvolle Ergänzung, ersetzen aber nicht die Kriterien selbst.",
     "gewichtung": 3,
-    "thema": "Deep Learning"
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "53. Was ist ein gutes **Story-Antimuster**?",
+    "optionen": [
+      "Ein vorgegebenes **Lösungsdesign** statt einer Problembeschreibung oder eines Nutzens.",
+      "**Wertefluss** fokussieren statt einer Komponentenliste.",
+      "**Nutzerperspektive** sichtbar machen und testen.",
+      "Das **Outcome** beschreiben und den Lösungsweg offen lassen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Ein häufiges **Anti-Pattern** bei **User Stories** ist es, die Lösung vorzuschreiben, anstatt das Problem aus der **Nutzerperspektive** zu beschreiben. Dies schränkt die Kreativität des **Entwicklerteams** ein und kann zu suboptimalen Lösungen führen. Agiles Arbeiten legt den Fokus auf den **Nutzen** (`Outcome`), nicht auf die Lösung.",
+    "gewichtung": 1,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "54. Was bedeutet **testbar** bei **Stories**?",
+    "optionen": [
+      "Die Erfüllung ist erst nach den Deployments diskutierbar.",
+      "Die Erfüllung lässt sich objektiv prüfen und **automatisieren**.",
+      "Die Erfüllung basiert auf Schätzungen statt auf Ergebnissen.",
+      "Die Erfüllung bleibt subjektiv und verhandelbar."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Eigenschaft **'Testable'** (`testbar`) aus dem **INVEST**-Akronym bedeutet, dass eine **User Story** so formuliert ist, dass ihre Fertigstellung objektiv überprüft werden kann. Idealerweise können die **Akzeptanzkriterien** durch automatisierte Tests verifiziert werden, was die Qualitätssicherung beschleunigt und objektiv macht.",
+    "gewichtung": 2,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "55. Welche Rolle haben **Beispiele** im **Refinement**?",
+    "optionen": [
+      "Sie kalibrieren das Verständnis und verringern den Interpretationsspielraum.",
+      "Sie dienen dem Auditing statt der Umsetzung.",
+      "Sie ersetzen Entscheidungen und Verantwortlichkeiten vollständig.",
+      "Sie erhöhen primär den Umfang der Dokumentation."
+    ],
+    "loesung": 0,
+    "erklaerung": "Das **Refinement** ist der Prozess der Detaillierung von **Product Backlog Items**. In diesem Prozess helfen **Beispiele**, die **Akzeptanzkriterien** zu konkretisieren und eine gemeinsame Vorstellung von der Funktionalität zu schaffen. Dies minimiert Missverständnisse und stellt sicher, dass das Team die Anforderungen vollständig versteht.",
+    "gewichtung": 3,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "56. Warum sind **kleine Stories** vorteilhaft?",
+    "optionen": [
+      "Sie ermöglichen schnelleres Feedback, geringeres Risiko und bessere Prognosen.",
+      "Sie erfordern mehr Koordinationsaufwand und längere Wartezeiten.",
+      "Sie führen zu mehr Übergaben und höheren Risiken.",
+      "Sie erzeugen mehr Unschärfen und spätere Tests."
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Zerlegung großer, komplexer Aufgaben in **kleine, unabhängige User Stories** ist ein grundlegendes agiles Prinzip. Kleine Stories können schneller umgesetzt werden, was wiederum zu schnellerem **Feedback** von Kunden, einem geringeren **Risiko** und einer besseren Vorhersagbarkeit der Lieferzeit führt.",
+    "gewichtung": 1,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "57. Wie verhindern **Akzeptanzkriterien** Überraschungen im **Review**?",
+    "optionen": [
+      "Erwartungen offen lassen und später entscheiden.",
+      "Erwartungen als Randnotiz ohne Prüfung notieren.",
+      "Erwartungen an externe Stellen delegieren.",
+      "Erwartungen explizit machen und vorab abgleichen."
+    ],
+    "loesung": 3,
+    "erklaerung": "Das **Sprint Review** dient der **Inspektion** des **Inkrements** und der Sammlung von Feedback. Wenn die Erwartungen an die Funktionalität vorher nicht klar waren, kann dies zu Enttäuschungen führen. **Akzeptanzkriterien** helfen, die Erwartungen explizit zu machen und stellen sicher, dass alle Beteiligten die gleiche Vorstellung von der Fertigstellung haben.",
+    "gewichtung": 2,
+    "thema": "Stories & AK"
+  },
+  {
+    "frage": "58. Wozu dient **DEEP** im **Backlog**?",
+    "optionen": [
+      "Minimale Informationen, zufällig, geheim und unpriorisiert.",
+      "Reine Dokumente, späte Pflege, formale Freigaben.",
+      "Maximale Detailtiefe, fixiert, unveränderlich und alphabetisch.",
+      "**Sinnvolle Detailtiefe**, **geschätzt**, emergent und **priorisiert**."
+    ],
+    "loesung": 3,
+    "erklaerung": "**DEEP** ist ein Akronym für die Qualitätsmerkmale eines gut gepflegten **Product Backlogs**: **D**etailliert genug, **E**mergent, **E**stimated (geschätzt) und **P**riorized (priorisiert). Diese Kriterien stellen sicher, dass das **Product Backlog** stets transparent, relevant und für die Planung nutzbar ist.",
+    "gewichtung": 1,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "59. Was ist **Planning Poker** primär?",
+    "optionen": [
+      "Bestimmung exakter Stunden je Subtask upfront.",
+      "**Relatives Schätzen** auf Basis einer **Referenz-Story**.",
+      "Verhandlung von Budgetpositionen im Einkauf.",
+      "Abstimmung über Pflichtenheft-Formulierungen."
+    ],
+    "loesung": 1,
+    "erklaerung": "**Planning Poker** ist eine kollaborative Technik, die vom **Entwicklerteam** zum **Schätzen** des relativen Aufwands von **Product Backlog Items** genutzt wird. Das Team verwendet dabei eine Skala (oft die **Fibonacci-Folge**), um den Aufwand im Vergleich zu einer bekannten **Referenz-Story** zu bewerten.",
+    "gewichtung": 2,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "60. Wozu dient eine **Referenz-Story** beim Schätzen?",
+    "optionen": [
+      "Individuelle Maßstäbe und Geheimhaltung fördern.",
+      "**Story-Punkte** in Stunden festzuschreiben.",
+      "Technische Präferenzen durchzusetzen.",
+      "**Gemeinsame Kalibrierung** und Vergleichbarkeit für die Schätzung."
+    ],
+    "loesung": 3,
+    "erklaerung": "Eine **Referenz-Story** dient als gemeinsamer, stabiler Ankerpunkt für das **Team**. Indem alle neuen Aufgaben mit dieser **Referenz** verglichen werden, kann ein einheitliches Verständnis für die Größe und Komplexität der Aufgaben geschaffen und der **Bias** bei der Schätzung reduziert werden.",
+    "gewichtung": 3,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "61. Welche Aussage zu **Story Points** stimmt?",
+    "optionen": [
+      "Sie sind **Performance-Metriken** einzelner Personen.",
+      "Sie sind Budgeteinheiten für Beschaffungsvorgänge.",
+      "Sie messen Aufwand/Komplexität **relativ**, nicht die Zeit exakt.",
+      "Sie sind Arbeitsstunden plus Puffer und Zuschläge."
+    ],
+    "loesung": 2,
+    "erklaerung": "**Story Points** sind eine Maßeinheit, die den relativen Aufwand einer **User Story** abbildet. Sie berücksichtigen Komplexität, Unsicherheit und den reinen Arbeitsaufwand. Im Gegensatz zu Stunden sind sie nicht exakt, sondern dienen dem **Team** als Schätzgröße zur internen **Planung**.",
+    "gewichtung": 1,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "62. Was ist ein **Anti-Pattern** beim Schätzen?",
+    "optionen": [
+      "Das Team kalibriert Schätzungen und nutzt sie für **Forecasts**.",
+      "Vergleiche an **Referenz-Items** ausrichten.",
+      "An Personen koppeln und für **Leistungsmessung** missbrauchen.",
+      "Unsicherheiten diskutieren und transparent machen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Schätzungen wie **Story Points** sind eine kollektiv erstellte Größe, die nur innerhalb des Teams für die **Planung** nützlich ist. Das Missbrauchen von **Story Points** zur individuellen Leistungsbewertung ist ein **Anti-Pattern**, das das Team demotiviert und zu verfälschten Schätzungen führt.",
+    "gewichtung": 2,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "63. Wie verbessert man die **Schätzqualität**?",
+    "optionen": [
+      "Annahmen explizit machen und **Beispiele** prüfen.",
+      "Widersprüche ignorieren und Zahlen anpassen.",
+      "Auslastung maximieren und **WIP** erhöhen.",
+      "Diskussionen vermeiden und schnell festlegen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Eine Schätzung ist immer mit Unsicherheit verbunden. Um die Qualität zu verbessern, ist es entscheidend, Annahmen offen zu legen und zu überprüfen. Die Diskussion im Team über die **User Story** und das Klären von **Beispielen** trägt wesentlich zum gemeinsamen Verständnis bei und verbessert die Schätzung.",
+    "gewichtung": 3,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "64. Wozu dient das **Splitten großer Items**?",
+    "optionen": [
+      "Spezialisierung verstärken und Silos fördern.",
+      "**Risiko senken**, Feedback beschleunigen und den **Flow** verbessern.",
+      "Abhängigkeiten verstecken und Übergaben verlängern.",
+      "Dokumentation erhöhen und Änderungen vermeiden."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Zerlegung großer, komplexer Aufgaben in **kleine, unabhängige User Stories** ist ein grundlegendes agiles Prinzip. Kleine Stories können schneller umgesetzt werden, was wiederum zu schnellerem **Feedback** von Kunden, einem geringeren **Risiko** und einer besseren Vorhersagbarkeit der Lieferzeit führt.",
+    "gewichtung": 1,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "65. Welche Größe ist für **Forecasts** nützlich?",
+    "optionen": [
+      "Stundenlisten pro Person als Sanktion.",
+      "Einzelgeschwindigkeiten als harte Zielwerte.",
+      "Die **Team-Velocity** als empirischer Trend mit Unsicherheit.",
+      "Plan-Ist-Abweichungen ohne Kontext."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Velocity** ist eine **empirische Kennzahl**, die die durchschnittliche Menge der abgeschlossenen **Story Points** pro Sprint misst. Sie dient dem **Scrum-Team** als Grundlage für die **Forecast-Planung** und gibt eine realistische Einschätzung darüber, wie viele Aufgaben in den nächsten Sprints voraussichtlich erledigt werden können. Sie sollte niemals als harte Zusage oder zur Leistungsbewertung verwendet werden.",
+    "gewichtung": 2,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "66. Was ist ein guter **Refinement-Indikator**?",
+    "optionen": [
+      "Seltene Mega-Items mit viel Unschärfe.",
+      "Stark schwankende Größen ohne **Referenz**.",
+      "Ein stetiger **Fluss kleiner, klarer, bewerteter Items**.",
+      "Versteckte Annahmen ohne **Beispiele**."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein reibungsloser Ablauf im Team wird durch ein gut gepflegtes **Product Backlog** ermöglicht. Ein guter Indikator dafür ist ein kontinuierlicher Strom von Aufgaben, die gut verstanden, bewertet und bereit für die Umsetzung sind. Große, unklare Items und schwankende Schätzungen deuten auf einen ineffizienten **Refinement-Prozess** hin.",
+    "gewichtung": 3,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "67. Wie geht man mit hoher **Unsicherheit** bei einer Schätzung um?",
+    "optionen": [
+      "Die Aufgabe delegieren, ohne Ergebnisrückfluss.",
+      "Die Unsicherheit verdrängen und die Schätzung später anpassen.",
+      "Ignorieren, bis die Deadline naht.",
+      "**Explizit** markieren, einen **Spike** planen und Erkenntnisse einspeisen."
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein **Spike** ist eine spezielle Art von **User Story**, die dazu dient, Unsicherheit zu reduzieren, indem eine kleine Recherche oder ein Experiment durchgeführt wird. Anstatt eine Aufgabe blind zu schätzen, wird ein **Spike** eingeplant, um die notwendigen Informationen zu sammeln und die Unsicherheit zu minimieren, bevor die eigentliche Entwicklungsarbeit beginnt.",
+    "gewichtung": 1,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "68. Was ist das Ziel von **Schätzungen**?",
+    "optionen": [
+      "Ein gemeinsames Verständnis und ein brauchbarer **Forecast**, nicht Exaktheit.",
+      "Präzision ohne empirische Grundlage.",
+      "Individuelle Messung und Vergleich von Personen.",
+      "Vertragsfeste Zahlen für späte Abnahmen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Das Hauptziel der Schätzung ist nicht, einen exakten Wert zu liefern, sondern ein **gemeinsames Verständnis** für die Komplexität und den Umfang einer Aufgabe im Team zu schaffen. Die daraus abgeleiteten Daten (`Velocity`) können für die Erstellung eines **Forecasts** verwendet werden, um eine realistische Zeitspanne für die Fertigstellung zu prognostizieren.",
+    "gewichtung": 2,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "69. Welche **Skalierungstechnik** passt?",
+    "optionen": [
+      "Exakte Minutenwerte je Anforderung für die nächsten Jahre.",
+      "**Relatives** **T-Shirt-Sizing** zur groben Portfolio-Ausrichtung.",
+      "Schätzung durch Einzelpersonen ohne Austausch.",
+      "Fixe Stundensätze als Proxy für Komplexität."
+    ],
+    "loesung": 1,
+    "erklaerung": "**T-Shirt-Sizing** ist eine Methode zur **relativen Schätzung** des Aufwands von Aufgaben. Anstelle von genauen Zahlen werden abstrakte Größen wie XS, S, M, L, XL verwendet. Diese Technik eignet sich besonders gut für die frühe **Produktplanung**, da sie eine schnelle, grobe Einschätzung des Umfangs ermöglicht.",
+    "gewichtung": 3,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "70. Was spricht gegen **Anchoring** beim **Planning Poker**?",
+    "optionen": [
+      "Lautes Vorlesen erzeugt bessere Gruppenentscheidungen.",
+      "Zahlen früh zu nennen spart Zeit und fördert den Mut.",
+      "Der Einfluss von Hierarchien macht Bewertungen neutraler.",
+      "Die frühe Veröffentlichung von Zahlen **verzerrt die Diskussion** spürbar."
+    ],
+    "loesung": 3,
+    "erklaerung": "**Anchoring** ist ein kognitiver Bias, bei dem sich Menschen bei ihren Entscheidungen zu stark an einem Anfangswert orientieren. Beim **Planning Poker** wird dies vermieden, indem alle Teammitglieder ihre Schätzungen gleichzeitig aufdecken, um sicherzustellen, dass die Diskussion nicht durch die erste oder die ranghöchste Person beeinflusst wird.",
+    "gewichtung": 1,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "71. Wie wirkt die **Referenz-Story** über die Zeit?",
+    "optionen": [
+      "Einmal wählen und nie wieder anpassen.",
+      "Pro Person individuell definieren.",
+      "**Ein stabiler Anker**, der gelegentlich geprüft und bei Bedarf neu kalibriert wird.",
+      "Monatlich wechseln, um Vergleichbarkeit zu vermeiden."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine **Referenz-Story** ist ein grundlegendes Instrument zur **Schätzung** in agilen Teams. Sie sollte ein relativ stabiler Ankerpunkt bleiben, um eine verlässliche Basis für den Vergleich zu bieten. Es ist jedoch sinnvoll, sie in regelmäßigen Abständen zu überprüfen und bei Bedarf neu zu kalibrieren, falls sich die Arbeitsweise des Teams ändert.",
+    "gewichtung": 2,
+    "thema": "Backlog & Schätzung"
+  },
+  {
+    "frage": "72. Was misst ein **Sprint Burndown** sinnvoll?",
+    "optionen": [
+      "Die Anzahl der Meetings und Protokollseiten.",
+      "Die Personalauslastung pro Hierarchieebene.",
+      "Den **Restaufwand** zum **Sprint-Ziel** über die Zeit.",
+      "Die Gesamtbudgets und die Einkaufsausgaben je Quartal."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein **Sprint Burndown Chart** ist eine grafische Darstellung des verbleibenden Aufwands zur Erreichung des **Sprint-Ziels**. Die Y-Achse zeigt den Aufwand (z. B. in **Story Points**), die X-Achse die Tage des Sprints. Es dient dem Team zur **Selbstorganisation** und gibt einen schnellen, transparenten Überblick über den Fortschritt.",
+    "gewichtung": 1,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "73. Wozu dient eine **Velocity-Entwicklung**?",
+    "optionen": [
+      "Individuelle Leistungsbewertung einzelner Personen.",
+      "**Ein empirischer Trend** zur groben Kapazitätsplanung.",
+      "Ein Strafmaßstab für Plan-Ist-Abweichungen.",
+      "Eine exakte Zusage für feste Liefertermine ohne Puffer."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die **Velocity** ist eine **empirische Kennzahl**, die die durchschnittliche Menge an Arbeit (gemessen in **Story Points**), die ein Team pro Sprint erledigt, misst. Sie ist nicht dazu gedacht, eine exakte Prognose zu erstellen oder die Leistung zu bewerten, sondern dient als hilfreicher Trendwert für die realistische **Kapazitätsplanung**.",
+    "gewichtung": 2,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "74. Welches Risiko birgt **Velocity-Missbrauch**?",
+    "optionen": [
+      "Mehr Kundennutzen durch harte Zielwerte.",
+      "**Gaming**, Qualitätseinbußen und Fokus auf Punkte statt Nutzen.",
+      "Höhere Qualität, bessere Zusammenarbeit und weniger Risiken.",
+      "Transparenz, Lernen und realistische Prognosen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Wenn die **Velocity** von externen Stellen zur Leistungsbewertung genutzt wird, neigen Teams dazu, **Story Points** künstlich aufzublähen (`Gaming`), um \"gut\" auszusehen. Dies führt zu einem Verlust an **Transparenz**, schlechterer Qualität und einer Abkehr vom Fokus auf den **Kundennutzen**.",
+    "gewichtung": 3,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "75. Welche Metrik zeigt den **Fluss** am ehesten?",
+    "optionen": [
+      "Personentagelisten pro Abteilung und Team.",
+      "Budgetkorridore mit jährlichen Freigaben.",
+      "Roadmap-Gantt mit Meilensteinen und Abnahmen.",
+      "Ein **Cumulative Flow Diagram** (**WIP**, Durchsatz, Wartezeiten)."
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein **Cumulative Flow Diagram (CFD)** ist eine grafische Darstellung des Arbeitsflusses. Es zeigt, wie sich Aufgaben durch die verschiedenen Phasen des Prozesses bewegen und visualisiert wichtige Metriken wie **Work in Progress** (**WIP**), **Durchsatz** und **Wartezeiten**. Es ist ein ideales Werkzeug zur Erkennung von Engpässen.",
+    "gewichtung": 1,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "76. Wie plant man die **Sprint-Kapazität** praktikabel?",
+    "optionen": [
+      "100% Auslastung ansetzen, Puffer ignorieren, Tempo maximieren.",
+      "Vorab alles zusagen, dann nachträglich priorisieren.",
+      "Alle Risiken ausblenden und den Plan verteidigen.",
+      "**Verfügbare Tage**, Abwesenheiten und Fokusquoten realistisch berücksichtigen."
+    ],
+    "loesung": 3,
+    "erklaerung": "Die **Sprint-Kapazität** sollte realistisch geplant werden. Anstatt von einer idealen 100%igen Auslastung auszugehen, werden Puffer für unvorhergesehene Ereignisse, Abwesenheiten (z. B. Urlaub, Krankheit) und den geschätzten **Fokus** auf die geplanten Aufgaben miteinberechnet. Dies führt zu einer zuverlässigeren **Planung**.",
+    "gewichtung": 2,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "77. Was ist ein sinnvolles **Review-Signal**?",
+    "optionen": [
+      "Der Umfang der Folien und die Redezeit belegen den Erfolg zuverlässig.",
+      "Abnahmeprotokolle ersetzen Nutzungsbelege vollständig.",
+      "Stundenzettel beweisen den **Kundennutzen** am besten.",
+      "**Gebrauchsdaten** und Feedback zeigen den echten **Outcome**."
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein erfolgreiches **Sprint Review** ist ein kollaboratives Meeting, bei dem das Team den Stakeholdern das neue **Inkrement** präsentiert. Dies ermöglicht es, wertvolles Feedback zu sammeln und **datenbasierte Entscheidungen** über die zukünftige Produktentwicklung zu treffen. Die Qualität eines Reviews bemisst sich nicht an der Länge von Präsentationen, sondern am Wert des Feedbacks.",
+    "gewichtung": 3,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "78. Was zeigt ein **Burn-Up-Chart** oft besser als ein **Burndown-Chart**?",
+    "optionen": [
+      "Geschaffenen **Wert** bzw. die Umfangszunahme relativ zum Ziel.",
+      "Budgetverbräuche je Lieferant in Echtzeit.",
+      "Individuelle Auslastung einzelner Entwickler.",
+      "Präzise Fehlerlokationen im Quellcode."
+    ],
+    "loesung": 0,
+    "erklaerung": "Ein **Burn-Up-Chart** visualisiert den Fortschritt in Richtung eines Ziels und zeigt gleichzeitig Änderungen im Gesamtumfang. Im Gegensatz zum **Burndown-Chart**, das nur den Restaufwand anzeigt, macht ein **Burn-Up-Chart** transparent, wenn zusätzliche Aufgaben oder Anforderungen hinzukommen, und ist daher besser geeignet, den wachsenden **Umfang** zu veranschaulichen.",
+    "gewichtung": 1,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "79. Welche Aussage zur **Prognosequalität** ist solide?",
+    "optionen": [
+      "Unsicherheit ausblenden, um Vertrauen zu erzeugen.",
+      "**Bandbreiten** kommunizieren und mit Erfahrungsdaten kalibrieren.",
+      "Komplexität ignorieren, um Geschwindigkeit zu zeigen.",
+      "Ein-Zahl-Versprechen geben und strikt verteidigen."
+    ],
+    "loesung": 1,
+    "erklaerung": "In komplexen Umgebungen ist eine exakte Vorhersage unmöglich. Eine verlässliche **Prognose** kommuniziert stattdessen **Bandbreiten** (z. B. 80 % Wahrscheinlichkeit, dass die Aufgabe zwischen zwei und vier Wochen dauert). Diese **Forescasts** basieren auf **empirischen Daten** (wie der **Velocity**) und berücksichtigen die inhärente Unsicherheit. ",
+    "gewichtung": 2,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "80. Was ist ein **Anti-Pattern** bei **Metriken**?",
+    "optionen": [
+      "Metriken sparsam wählen und regelmäßig prüfen.",
+      "**Viele Kennzahlen** ohne Bezug zu Zielen und Entscheidungen sammeln.",
+      "Kontext und Limitationen offen kommunizieren.",
+      "Wirkmeßgrößen für den **Outcome** sichtbar machen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Sammlung von Kennzahlen ohne einen klaren Zweck wird als **\"Vanity Metrics\"** bezeichnet. Sie liefern keinen Mehrwert, da sie nicht dazu dienen, Hypothesen zu überprüfen oder Entscheidungen zu stützen. Ein gutes **Metrik-System** ist schlank und fokussiert sich auf wenige, relevante Kennzahlen, die dem Team und den Stakeholdern bei der Entscheidungsfindung helfen.",
+    "gewichtung": 3,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "81. Welche Ableitung aus **Daten** ist legitim?",
+    "optionen": [
+      "Ein **Trend mit Unsicherheit** statt deterministische Exaktheit.",
+      "Zielwerte rückwirkend optimal anpassen.",
+      "Einzelpunkte ohne Kontext als Beweis nehmen.",
+      "Nur passende Daten zeigen und andere verbergen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Ein Trend mit Unsicherheit ist eine legitime Ableitung, weil **Daten** aus agilen Metriken, wie der **Velocity**, als **Trends** und mit dem Wissen um ihre **Unsicherheit** interpretiert werden sollten. Sie bieten eine Orientierung für die **Planung** und **Prognose**, sind jedoch keine exakten, deterministischen Werte. Jede andere Interpretation ist ein Missbrauch der Metrik.",
+    "gewichtung": 1,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "82. Was kennzeichnet gute **Sprint-Ziele**?",
+    "optionen": [
+      "Eine greifbare **Wirkung**, überprüfbar und eine klare Richtung für Entscheidungen.",
+      "Reine Aktivitätslisten ohne **Outcome-Bezug**.",
+      "Generische Formeln, die politisch angenehm, aber nicht messbar sind.",
+      "Sehr viele Ziele parallel, die alle gleich wichtig sind."
+    ],
+    "loesung": 0,
+    "erklaerung": "Ein gutes **Sprint-Ziel** ist spezifisch und messbar. Es beschreibt, welcher **Nutzen** oder welches **Outcome** am Ende des Sprints erreicht werden soll. Dies gibt dem **Entwicklerteam** eine klare Mission und dient als Leitfaden bei der täglichen Arbeit. Reine Aktivitätslisten oder generische Ziele eignen sich hierfür nicht.",
+    "gewichtung": 2,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "83. Welche Aussage zur **Planbarkeit** trifft zu?",
+    "optionen": [
+      "Planbarkeit steigt linear mit der Dokumentenmenge.",
+      "Planbarkeit ist unabhängig von der Komplexität.",
+      "**Kurzfristig planbarer**, langfristig breitere Bandbreiten.",
+      "Langfristig exakter, kurzfristig völlig zufällig."
+    ],
+    "loesung": 2,
+    "erklaerung": "In komplexen Projekten ist die **Planbarkeit** nur über kurze Zeiträume präzise. Je weiter man in die Zukunft blickt, desto größer wird die Unsicherheit. Daher ist es in der **agilen Planung** üblich, nur den nächsten **Sprint** im Detail zu planen und für die ferne Zukunft mit größeren **Bandbreiten** und **Forecasts** zu arbeiten.",
+    "gewichtung": 3,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "84. Wie nutzt man **Metriken** verantwortungsvoll?",
+    "optionen": [
+      "Erfolge darstellen, Probleme ausblenden.",
+      "Narrative untermauern, unabhängig von Daten.",
+      "**Hypothesen prüfen**, Entscheidungen stützen und **Lernen** ermöglichen.",
+      "Leistungsträger vergleichen und sanktionieren."
+    ],
+    "loesung": 2,
+    "erklaerung": "Verantwortungsvoller Umgang mit **Metriken** bedeutet, dass sie als Werkzeuge für die kontinuierliche Verbesserung genutzt werden. Sie dienen nicht der Kontrolle von Personen, sondern der **Validierung von Hypothesen** und der Unterstützung von Entscheidungen, um den **Prozess** und das **Produkt** zu verbessern.",
+    "gewichtung": 1,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "85. Welche Visualisierung hilft bei Engpässen?",
+    "optionen": [
+      "Hierarchie-Charts mit Berichtslinien.",
+      "Tabellen mit Personalauslastung.",
+      "**WIP-Limits** sichtbar machen und den **Flow** aufzeigen.",
+      "Kartei-Reiter mit Budgetfreigaben."
+    ],
+    "loesung": 2,
+    "erklaerung": "**WIP** steht für **Work in Progress**. **WIP-Limits** sind eine Methode, die Anzahl der Aufgaben, die gleichzeitig in Arbeit sind, zu begrenzen. Die Visualisierung dieser Limits auf einem Board macht Engpässe sofort sichtbar und hilft dem Team, sich auf die Fertigstellung der Aufgaben zu konzentrieren, bevor neue begonnen werden.",
+    "gewichtung": 2,
+    "thema": "Planung & Metrik"
+  },
+  {
+    "frage": "86. Was ist die primäre Aufgabe des **Business Value Managements** im agilen Kontext?",
+    "optionen": [
+      "Die Einhaltung des Budgets sicherstellen.",
+      "**Den maximalen geschäftlichen Wert für den Kunden und das Unternehmen erzielen**.",
+      "Die Auslastung der Teammitglieder optimieren.",
+      "Alle Funktionen bis zur Deadline umsetzen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Im agilen Projektmanagement liegt der Fokus auf der kontinuierlichen Lieferung von **geschäftlichem Wert**. Das **Business Value Management** umfasst alle Aktivitäten, die darauf abzielen, den größten Nutzen für den Kunden zu identifizieren und zu priorisieren. Dies ist die Hauptverantwortung des **Product Owners**.",
+    "gewichtung": 3,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "87. Was versteht man unter dem Begriff **‚Empowerment‘** im agilen Kontext?",
+    "optionen": [
+      "Die Kontrolle über alle Entscheidungen an die Führungsebene zurückgeben.",
+      "Dem Team die **Autorität** und **Verantwortung** für die Umsetzung geben.",
+      "Die Teammitglieder anhand ihrer individuellen Leistung bewerten und belohnen.",
+      "Einen strikten Plan vorgeben, der exakt eingehalten werden muss."
+    ],
+    "loesung": 1,
+    "erklaerung": "**Empowerment** ist ein zentrales Prinzip der agilität. Es bedeutet, dass das Management dem **agilen Team** die **Autorität** gibt, Entscheidungen über die Ausführung der Arbeit zu treffen. Dies stärkt das **Commitment** und die **Motivation** des Teams und führt zu besseren und schnelleren Ergebnissen.",
+    "gewichtung": 1,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "88. Was bedeutet **\"Iteratives und inkrementelles Vorgehen\"**?",
+    "optionen": [
+      "Das gesamte Produkt in einem einzigen, großen Schritt planen und umsetzen.",
+      "**Funktionen** in kleinen, sich wiederholenden Schritten entwickeln und nach und nach hinzufügen.",
+      "Jeden Teil des Produkts unabhängig voneinander entwickeln, ohne Integration.",
+      "Das Produkt erst nach vollständiger Dokumentation der Anforderungen umsetzen."
+    ],
+    "loesung": 1,
+    "erklaerung": "**Iteratives Vorgehen** bedeutet, dass das Produkt in sich wiederholenden Zyklen entwickelt wird. **Inkrementelles Vorgehen** bedeutet, dass in jedem Zyklus ein zusätzlicher, nutzbarer Teil zum Produkt hinzugefügt wird. Dies ermöglicht eine kontinuierliche Wertschöpfung und Anpassung an neue Erkenntnisse.",
+    "gewichtung": 2,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "89. Welcher **Stakeholder-Typ** ist für den Erfolg agiler Projekte am wichtigsten?",
+    "optionen": [
+      "Stakeholder, die formelle Abnahmeprozesse durchsetzen.",
+      "**Stakeholder**, die sich aktiv engagieren und frühzeitig Feedback geben.",
+      "Stakeholder, die das Team nicht stören und nur auf das finale Ergebnis warten.",
+      "Stakeholder, die ausschließlich per E-Mail kommunizieren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **agile Manifest** betont die **aktive Einbeziehung der Stakeholder**. Indem sie regelmäßig in den **Sprint Review** und andere Events eingebunden werden, kann das Team wertvolles **Feedback** sammeln, **Risiken** minimieren und sicherstellen, dass das Produkt den tatsächlichen Bedürfnissen entspricht.",
+    "gewichtung": 2,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "90. Was ist ein **Anti-Pattern** in der agilen **Führung**?",
+    "optionen": [
+      "Das Team coachen und zur **Selbstorganisation** befähigen.",
+      "Dem Team vertrauen und es vor Störungen schützen.",
+      "Die Verantwortung und Kontrolle für die Entscheidungen an sich reißen.",
+      "Das **Commitment** des Teams fördern und unterstützen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein **agiles Führungskonzept** basiert auf **Vertrauen** und der Befähigung des Teams zur **Selbstorganisation**. Das Übernehmen der Kontrolle und die Mikromanagement-Ansätze sind ein **Anti-Pattern**, das die **Agilität** und das **Engagement** des Teams hemmt.",
+    "gewichtung": 3,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "91. Welches **Ziel** verfolgt die **agile Kommunikation**?",
+    "optionen": [
+      "Alle Informationen in detaillierten schriftlichen Berichten festhalten.",
+      "Die Kommunikation auf formelle, wöchentliche Statusmeetings beschränken.",
+      "**Schnelles, direktes Feedback** über offene Kanäle ermöglichen.",
+      "Die Kommunikation ausschließlich über zentrale Gatekeeper steuern."
+    ],
+    "loesung": 2,
+    "erklaerung": "Das **agile Manifest** betont \"Individuen und Interaktionen\" über \"Prozesse und Werkzeuge\". Agilität fördert eine offene, direkte und **transparente Kommunikation** zwischen allen Beteiligten, um den Informationsfluss zu beschleunigen und Missverständnisse zu reduzieren. Dies ist essenziell für schnelle Entscheidungen.",
+    "gewichtung": 1,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "92. Was ist der größte Vorteil des **agilen Risikomanagements**?",
+    "optionen": [
+      "Das Vermeiden jeglicher Risiken durch umfassende Vorausplanung.",
+      "Die Übertragung aller Risiken auf den Kunden über Verträge.",
+      "Die **Risikofrüherkennung** durch kurze **Feedbackzyklen** und Lernschleifen.",
+      "Die Verschiebung von Risiken auf das Ende des Projekts."
+    ],
+    "loesung": 2,
+    "erklaerung": "Das **agile Risikomanagement** ist proaktiv. Durch die **kurzen Iterationen** und regelmäßigen Feedbackschleifen werden potenzielle Probleme frühzeitig erkannt, anstatt sie am Ende des Projekts zu entdecken. Dies ermöglicht eine agile Anpassung des Plans und eine effektive Risikobewältigung.",
+    "gewichtung": 2,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "93. Was ist der primäre Fokus eines agilen Teams?",
+    "optionen": [
+      "Die Maximierung der Anzahl der ausgelieferten Funktionen.",
+      "**Die Erstellung von Wert für den Kunden und das Unternehmen**.",
+      "Das Einhalten des ursprünglichen Zeit- und Budgetplans.",
+      "Die Minimierung des Umfangs, um schneller fertig zu werden."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der ultimative Fokus agiler Teams liegt auf der **Wertschöpfung**. Sie streben danach, dem Kunden regelmäßig nutzbare Produkte (`Inkremente`) zu liefern, die einen echten **Mehrwert** bieten. Die Anzahl der Funktionen oder die Einhaltung eines starren Plans sind sekundär gegenüber der Wertlieferung.",
+    "gewichtung": 2,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "94. Was bedeutet **\"fail fast\"** im agilen Kontext?",
+    "optionen": [
+      "Projekte so schnell wie möglich scheitern lassen, ohne zu lernen.",
+      "Fehler so schnell wie möglich machen, um sie schnell zu vertuschen.",
+      "**Frühes Scheitern von Annahmen** in einem kontrollierten Umfeld, um daraus zu lernen.",
+      "Ein Projekt nicht beginnen, da ein Scheitern wahrscheinlich ist."
+    ],
+    "loesung": 2,
+    "erklaerung": "**\"Fail fast\"** ist ein Prinzip, das die **agile Denkweise** widerspiegelt. Es bedeutet, dass Annahmen, die nicht den Bedürfnissen des Kunden entsprechen, frühzeitig und mit geringen Kosten verworfen werden sollten. Dies ermöglicht ein schnelles **Lernen** und eine Neuausrichtung des Projekts auf einen **wertvolleren Pfad**.",
+    "gewichtung": 3,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "95. Welche Aussage beschreibt die Rolle des **Managements** im agilen Projektmanagement am besten?",
+    "optionen": [
+      "Das Management vergibt täglich Aufgaben an die Entwickler.",
+      "Das Management setzt starre Pläne durch und genehmigt jede Änderung.",
+      "Das Management dient als **Enabler**, der das Team unterstützt und Hindernisse beseitigt.",
+      "Das Management ist für die technische Umsetzung verantwortlich."
+    ],
+    "loesung": 2,
+    "erklaerung": "In agilen Organisationen verschiebt sich die Rolle des Managements von der strikten Kontrolle hin zur Befähigung. Manager dienen als **\"Enabler\"**, die dem Team die notwendigen **Ressourcen** und **Autorität** geben, um selbstorganisiert und effizient zu arbeiten. Sie unterstützen das Team bei der Beseitigung von organisatorischen Hindernissen.",
+    "gewichtung": 3,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "96. Was ist das Gegenteil von agilem Projektmanagement?",
+    "optionen": [
+      "Lean Management.",
+      "**Wasserfall-Modell**.",
+      "Kanban.",
+      "Scrum."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **Wasserfall-Modell** steht im direkten Gegensatz zum agilen Projektmanagement. Während agile Methoden **iterativ und inkrementell** vorgehen und auf die Anpassung an Veränderungen Wert legen, ist das **Wasserfall-Modell** ein sequenzielles Vorgehen mit einer umfassenden **Planung** zu Beginn und einer starren Abfolge von Phasen.",
+    "gewichtung": 1,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "97. Wann ist das Wasserfall-Modell vorteilhaft?",
+    "optionen": [
+      "In komplexen Projekten mit sich schnell ändernden Anforderungen.",
+      "**In Projekten mit klaren, stabilen Anforderungen** und niedrigem Risiko.",
+      "In Projekten mit hoher Unsicherheit und Bedarf an schnellem Feedback.",
+      "In Projekten, die eine kontinuierliche Anpassung erfordern."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **Wasserfall-Modell** ist nicht per se schlecht, es ist für bestimmte Projektarten besser geeignet als agile Methoden. Für Projekte mit einem sehr **klaren und stabilen Umfang**, bei denen alle Anforderungen zu Beginn bekannt sind, kann das **Wasserfall-Modell** eine effiziente und transparente Vorgehensweise sein.",
+    "gewichtung": 2,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "98. Was bedeutet **Time-to-Market** im agilen Projektmanagement?",
+    "optionen": [
+      "Die Zeit bis zur Fertigstellung der gesamten Produktdokumentation.",
+      "Die Zeit, die für die monatliche Budgetplanung benötigt wird.",
+      "**Die Zeit, die ein Produkt benötigt, um vom Start der Entwicklung bis zur Markteinführung zu gelangen**.",
+      "Die Zeit für die Erstellung eines detaillierten Projektplans."
+    ],
+    "loesung": 2,
+    "erklaerung": "**Time-to-Market** ist eine wichtige betriebswirtschaftliche Kennzahl, die die Geschwindigkeit misst, mit der ein Unternehmen ein neues Produkt oder eine neue Dienstleistung auf den Markt bringt. Agile Methoden zielen darauf ab, die **Time-to-Market** durch die kontinuierliche Lieferung von **Inkrementen** zu verkürzen.",
+    "gewichtung": 3,
+    "thema": "Agiles Projektmanagement"
+  },
+  {
+    "frage": "99. Was ist der größte Vorteil von **Kanban** im Vergleich zu **Scrum**?",
+    "optionen": [
+      "Es gibt feste Rollen und Events, die eine strenge Kontrolle ermöglichen.",
+      "Es erfordert einen langen Vorbereitungszyklus, um alle Aufgaben zu planen.",
+      "**Der Fokus liegt auf dem Fluss und der visuellen Darstellung von Engpässen**.",
+      "Es gibt feste Sprints, die die Teamproduktivität messen."
+    ],
+    "loesung": 2,
+    "erklaerung": "**Kanban** ist ein agiles Framework, das sich auf die Optimierung des Arbeitsflusses konzentriert. Im Gegensatz zu **Scrum** gibt es keine festen Iterationen oder Rollen. Stattdessen nutzt **Kanban** ein Board mit **WIP-Limits** und visualisiert den Fluss der Arbeit, um Engpässe zu identifizieren und zu beseitigen. ",
+    "gewichtung": 2,
+    "thema": "Kanban"
+  },
+  {
+    "frage": "100. Was ist das primäre Ziel der **WIP-Limits** im Kanban-System?",
+    "optionen": [
+      "Die maximale Auslastung aller Teammitglieder sicherstellen.",
+      "Ein starres Budget festlegen, das nicht überschritten werden darf.",
+      "Die Anzahl der gleichzeitig bearbeiteten Aufgaben begrenzen, um **Fokus** und **Durchsatz** zu verbessern.",
+      "Die Gesamtdauer eines Projekts vorhersagen."
+    ],
+    "loesung": 2,
+    "erklaerung": "**WIP-Limits** (**Work in Progress Limits**) sind ein zentrales Element von **Kanban**. Sie beschränken die Anzahl der Aufgaben, die sich gleichzeitig in einem bestimmten Arbeitsstatus befinden dürfen. Dies fördert die Fertigstellung von Aufgaben, bevor neue begonnen werden, reduziert Kontextwechsel und verbessert somit den **Wertfluss** durch das System.",
+    "gewichtung": 2,
+    "thema": "Kanban"
   }
 ]
