@@ -662,8 +662,42 @@ def get_rate_limit_seconds() -> int:
     return 0
 
 
+def get_package_dir() -> str:
+    """Return the package directory where mc_test_app files live.
+
+    Robust fallback order:
+    - dirname(__file__) if available and not empty
+    - pkgutil.get_loader("mc_test_app") filespec (if installed)
+    - current working directory
+    """
+    # 1) try __file__
+    try:
+        dp = os.path.dirname(__file__)
+        if dp:
+            return dp
+    except Exception:
+        pass
+    # 2) try importlib / pkgutil
+    try:
+        import pkgutil
+
+        spec = pkgutil.get_loader("mc_test_app")
+        if spec and hasattr(spec, "get_filename"):
+            try:
+                fn = spec.get_filename()
+                dp = os.path.dirname(fn)
+                if dp:
+                    return dp
+            except Exception:
+                pass
+    except Exception:
+        pass
+    # 3) fallback to cwd
+    return os.getcwd()
+
+
 def list_question_files() -> List[str]:
-    base = os.path.dirname(__file__)
+    base = get_package_dir()
     files = []
     try:
         for fn in os.listdir(base):
@@ -676,7 +710,7 @@ def list_question_files() -> List[str]:
 
 
 def _load_fragen(filename: str) -> List[Dict]:
-    path = os.path.join(os.path.dirname(__file__), filename)
+    path = os.path.join(get_package_dir(), filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -689,7 +723,7 @@ def _load_fragen(filename: str) -> List[Dict]:
 _question_files = list_question_files()
 
 # Falls klassische 'questions.json' existiert, aber nicht gematcht wurde (weil kein Prefix), aufnehmen
-if os.path.exists(os.path.join(os.path.dirname(__file__), "questions.json")) and "questions.json" not in _question_files:
+if os.path.exists(os.path.join(get_package_dir(), "questions.json")) and "questions.json" not in _question_files:
     _question_files.insert(0, "questions.json")
 
 # Initiale Auswahl setzen, wenn noch nichts gewählt ODER gewählte Datei nicht (mehr) existiert
