@@ -681,6 +681,150 @@ def reset_user_answers(user_id_hash: str) -> None:
     initialize_session_state()
 
 
+def reset_single_question(user_id_hash: str, frage_idx: int) -> None:
+    """Setzt eine einzelne beantwortete (oder markierte Placeholder-)Frage zurück.
+
+    Entfernt alle Log-Zeilen für diese Frage (inkl. __bookmark__ Placeholder) und
+    räumt Session-State-Einträge, damit die Frage wieder beantwortet werden kann.
+    """
+    try:
+        if 0 <= frage_idx < len(fragen):
+            frage_nr = int(fragen[frage_idx]["frage"].split(".")[0])
+        else:
+            return
+        # Log anpassen
+        if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+            df = pd.read_csv(LOGFILE, on_bad_lines="skip")
+            if "frage_nr" in df.columns:
+                try:
+                    df["frage_nr"] = pd.to_numeric(df["frage_nr"], errors="coerce")
+                except Exception:
+                    pass
+            mask_drop = (
+                (df.get("user_id_hash") == user_id_hash)
+                & (df.get("frage_nr") == frage_nr)
+            )
+            if mask_drop.any():
+                df = df[~mask_drop]
+                df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
+        # Session-State bereinigen
+        st.session_state.beantwortet[frage_idx] = None
+        key = f"frage_{frage_idx}"
+        if key in st.session_state:
+            del st.session_state[key]
+        if "answers_text" in st.session_state and frage_idx in st.session_state.answers_text:
+            try:
+                del st.session_state.answers_text[frage_idx]
+            except Exception:
+                pass
+        # Falls Explanation-Flag gesetzt -> entfernen
+        exp_key = f"show_explanation_{frage_idx}"
+        if exp_key in st.session_state:
+            del st.session_state[exp_key]
+        # Falls Frage in celebrated_questions auftaucht -> entfernen (erneutes Feiern erlauben)
+        if "celebrated_questions" in st.session_state:
+            try:
+                st.session_state.celebrated_questions = [
+                    q for q in st.session_state.celebrated_questions if q != frage_idx
+                ]
+            except Exception:
+                pass
+        # Placeholder für Bookmark nach Reset wieder persistieren, falls sie gemerkt ist
+        if (
+            "bookmarked_questions" in st.session_state
+            and frage_idx in st.session_state.bookmarked_questions
+        ):
+            persist_bookmark_snapshot(user_id_hash)
+        st.toast("Frage zurückgesetzt.", icon="↩️")
+    except Exception as e:
+        st.error(f"Fehler beim Zurücksetzen der Frage: {e}")
+
+
+def unbookmark_question(frage_idx: int) -> None:
+    """Entfernt ein Bookmark vollständig (Session + CSV + Placeholder) und bereinigt Duplikate.
+
+    Wird sowohl vom Sidebar-Remove-Button als auch vom Inline-Remove der Frage benutzt.
+    """
+    try:
+        if "bookmarked_questions" in st.session_state:
+            # Alle Vorkommen entfernen (falls Duplikate entstanden sind)
+            st.session_state.bookmarked_questions = [
+                q for q in st.session_state.bookmarked_questions if q != frage_idx
+            ]
+        user_hash = st.session_state.get("user_id_hash")
+        if user_hash and os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+            try:
+                df_upd = pd.read_csv(LOGFILE, on_bad_lines="skip")
+            except Exception:
+                df_upd = None
+            if df_upd is not None and not df_upd.empty:
+                if "markiert" not in df_upd.columns and "markiert" in FIELDNAMES:
+                    df_upd["markiert"] = False
+                try:
+                    f_nr = int(fragen[frage_idx]["frage"].split(".")[0])
+                except Exception:
+                    f_nr = None
+                if f_nr is not None:
+                    try:
+                        df_upd["frage_nr"] = pd.to_numeric(df_upd["frage_nr"], errors="coerce")
+                    except Exception:
+                        pass
+                    mask = (
+                        (df_upd.get("user_id_hash") == user_hash)
+                        & (df_upd.get("frage_nr") == f_nr)
+                    )
+                    if mask.any():
+                        # markiert Flag entfernen
+                        if "markiert" in df_upd.columns:
+                            df_upd.loc[mask, "markiert"] = False
+                        # Placeholder-Zeilen für diese Frage entfernen
+                        ph_mask = mask & (df_upd.get("antwort") == "__bookmark__")
+                        if ph_mask.any():
+                            df_upd = df_upd[~ph_mask]
+                        # Schreiben (nur bekannte Spalten)
+                        df_upd.to_csv(
+                            LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df_upd.columns]
+                        )
+            # Nach Entfernen alte Placeholder anderer Fragen bereinigen
+            purge_unbookmarked_placeholders(user_hash)
+        # Fokus auf dieser Frage halten
+        st.session_state["stay_on_idx"] = frage_idx
+    except Exception:
+        pass
+
+
+def unbookmark_all(user_id_hash: str) -> None:
+    """Entfernt alle Bookmarks des Nutzers vollständig (Session + CSV + Placeholder)."""
+    try:
+        # Session-Liste leeren
+        if "bookmarked_questions" in st.session_state:
+            st.session_state.bookmarked_questions = []
+        if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
+            return
+        df = pd.read_csv(LOGFILE, on_bad_lines="skip")
+        if df.empty:
+            return
+        if "markiert" not in df.columns and "markiert" in FIELDNAMES:
+            df["markiert"] = False
+        # Frage-Nr in numerisch konvertieren für robuste Filter
+        if "frage_nr" in df.columns:
+            try:
+                df["frage_nr"] = pd.to_numeric(df["frage_nr"], errors="coerce")
+            except Exception:
+                pass
+        mask_user = df.get("user_id_hash") == user_id_hash
+        # Setze markiert=False für alle Nutzerzeilen
+        if "markiert" in df.columns:
+            df.loc[mask_user, "markiert"] = False
+        # Entferne alle Placeholder-Zeilen dieses Nutzers
+        ph_mask = mask_user & (df.get("antwort") == "__bookmark__")
+        if ph_mask.any():
+            df = df[~ph_mask]
+        df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
+    except Exception:
+        pass
+
+
 def load_all_logs() -> pd.DataFrame:
     # Sicherstellen, dass Datei existiert (Tests mit frischem tmp_path)
     ensure_logfile_exists()
@@ -934,11 +1078,17 @@ def load_user_progress(user_id_hash: str) -> None:
         if user_df.empty:
             return
         st.session_state.start_zeit = pd.to_datetime(user_df["zeit"]).min()
+        # Sicherstellen, dass answers_text Struktur existiert
+        if "answers_text" not in st.session_state:
+            st.session_state.answers_text = {}
         # Rekonstruiere answer_outcomes (True/FALSE) in chronologischer Reihenfolge,
         # damit Streaks nach Laden des Fortschritts korrekt funktionieren.
         # Kriterium: Ein Eintrag zählt als korrekt (True), wenn 'richtig' > 0.
         reconstructed_outcomes = []
         for _, row in user_df.iterrows():
+            # Placeholder Bookmark-Zeilen nicht als beantwortet behandeln
+            if str(row.get("antwort")) == "__bookmark__":
+                continue
             frage_nr = int(row["frage_nr"])
             original_idx = next(
                 (
@@ -950,7 +1100,8 @@ def load_user_progress(user_id_hash: str) -> None:
             )
             if original_idx is not None:
                 st.session_state.beantwortet[original_idx] = int(row["richtig"])
-                st.session_state[f"frage_{original_idx}"] = row["antwort"]
+                # Nur in answers_text speichern; Widget-Key wird bei Anzeige gesetzt
+                st.session_state.answers_text[original_idx] = row["antwort"]
                 try:
                     reconstructed_outcomes.append(bool(int(row["richtig"]) > 0))
                 except Exception:
@@ -1003,10 +1154,12 @@ def restore_bookmarks_light(user_id_hash: str) -> None:
         df = pd.read_csv(LOGFILE, dtype={"user_id_hash": str}, on_bad_lines="skip")
         df = df[df["user_id_hash"] == user_id_hash]
         if df.empty or "markiert" not in df.columns:
+            # Keine Bookmarks -> Session-Liste leeren, falls vorhanden
+            if "bookmarked_questions" in st.session_state:
+                st.session_state.bookmarked_questions = []
             return
-        if "bookmarked_questions" not in st.session_state:
-            st.session_state.bookmarked_questions = []
         marked_rows = df[df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])]
+        new_set = set()
         for _, mrow in marked_rows.iterrows():
             try:
                 frage_nr = int(mrow.get("frage_nr"))
@@ -1018,14 +1171,11 @@ def restore_bookmarks_light(user_id_hash: str) -> None:
                     ),
                     None,
                 )
-                if (
-                    original_idx is not None
-                    and 0 <= original_idx < len(fragen)
-                    and original_idx not in st.session_state.bookmarked_questions
-                ):
-                    st.session_state.bookmarked_questions.append(original_idx)
+                if original_idx is not None and 0 <= original_idx < len(fragen):
+                    new_set.add(original_idx)
             except Exception:
                 pass
+        st.session_state.bookmarked_questions = sorted(list(new_set))
     except Exception:
         pass
 
@@ -1154,15 +1304,17 @@ def save_answer(
         return
     if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
         try:
-            # Schneller Check nur auf user_id_hash + frage_nr
+            # Schneller Check nur auf user_id_hash + frage_nr, aber Placeholder ignorieren
             partial = pd.read_csv(
                 LOGFILE,
-                usecols=["user_id_hash", "frage_nr"],
-                dtype={"user_id_hash": str, "frage_nr": str},
+                usecols=["user_id_hash", "frage_nr", "antwort"],
+                dtype={"user_id_hash": str, "frage_nr": str, "antwort": str},
                 on_bad_lines="skip",
             )
-            mask = (partial["user_id_hash"] == user_id_hash) & (
-                partial["frage_nr"] == str(frage_nr)
+            mask = (
+                (partial["user_id_hash"] == user_id_hash)
+                & (partial["frage_nr"] == str(frage_nr))
+                & (partial["antwort"] != "__bookmark__")
             )
             if not partial[mask].empty:
                 st.session_state[dup_key] = True
@@ -1216,6 +1368,15 @@ def save_answer(
 
 def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> None:
     # Defensive Initialisierung falls Tests / frische Session keinen Shuffle erzeugt haben
+    # Einmalige Erfolgsanimation pro Frage steuern
+    if "celebrated_questions" not in st.session_state:
+        # Verwende Liste (serialisierbar); wir prüfen mit 'in'
+        st.session_state.celebrated_questions = []
+    else:
+        # Falls aus älterer Session noch ein Set / Tuple existiert → nach Liste konvertieren
+        cq = st.session_state.celebrated_questions
+        if isinstance(cq, (set, tuple)):
+            st.session_state.celebrated_questions = list(cq)
     if "optionen_shuffled" not in st.session_state:
         opts_list = []
         for f in fragen:
@@ -1256,29 +1417,48 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         st.markdown(f"**{frage_text}**")
         is_disabled = False if st.session_state.beantwortet[frage_idx] is None else True
         optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
-        # Add placeholder if unanswered
-        if st.session_state.beantwortet[frage_idx] is None:
+        unanswered = st.session_state.beantwortet[frage_idx] is None
+        if unanswered:
             optionen_anzeige = ["Wähle ..."] + optionen_anzeige
-        # Initialisiere den Wert nur über den Widget-Key, nicht doppelt
-        selected_val = st.session_state.get(f"frage_{frage_idx}", None)
+        # Persistierte Antworttexte
+        if "answers_text" not in st.session_state:
+            st.session_state.answers_text = {}
+        existing_answer = st.session_state.answers_text.get(frage_idx)
+        value_key = f"frage_{frage_idx}"
+        # Fallback: wenn answers_text leer aber ein Wert durch Ladefunktion gesetzt wurde
+        if existing_answer is None and value_key in st.session_state:
+            existing_answer = st.session_state[value_key]
+            st.session_state.answers_text[frage_idx] = existing_answer
+        # Beantwortete Frage: immer korrekten Wert setzen (falls vorhanden & gültig)
+        if not unanswered and existing_answer and existing_answer in optionen_anzeige:
+            st.session_state[value_key] = existing_answer
+        # Falls unanswered aber Key existiert mit ungültigem Wert -> löschen, damit index greift
+        if unanswered and value_key in st.session_state and st.session_state[value_key] not in optionen_anzeige:
+            del st.session_state[value_key]
         radio_kwargs = {
             "options": optionen_anzeige,
-            "key": f"frage_{frage_idx}",
+            "key": value_key,
             "disabled": is_disabled,
             "label_visibility": "collapsed",
         }
-        # Setze index nur, wenn noch keine Antwort im Session State existiert
-        if selected_val is None and st.session_state.beantwortet[frage_idx] is None:
-            radio_kwargs["index"] = 0  # Default to placeholder
+        # Placeholder index nur dann explizit setzen, wenn unanswered und Key noch nicht existiert
+        if unanswered and value_key not in st.session_state:
+            radio_kwargs["index"] = 0
         # Bookmark Toggle (nur solange Frage nicht beantwortet oder auch nachträglich zum Wiederfinden)
         if "bookmarked_questions" not in st.session_state:
             st.session_state.bookmarked_questions = []
         is_marked = frage_idx in st.session_state.bookmarked_questions
         col_bm1, col_bm2 = st.columns([1, 4])
         with col_bm1:
-            toggled = st.toggle("🔖 Merken", value=is_marked, key=f"bm_toggle_{frage_idx}")
+            if is_marked:
+                st.caption("🔖 Markiert (Löschen in Sidebar)")
+                toggled = True  # treat as already marked; no inline removal
+            else:
+                toggled = st.toggle("🔖 Merken", value=False, key=f"bm_toggle_{frage_idx}")
             if toggled and not is_marked:
                 st.session_state.bookmarked_questions.append(frage_idx)
+                if st.session_state.beantwortet[frage_idx] is not None:
+                    st.session_state["stay_on_idx"] = frage_idx
                 # Persist 'markiert' in CSV falls Frage bereits beantwortet wurde
                 try:
                     if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
@@ -1302,6 +1482,8 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     st.session_state.bookmarked_questions.remove(frage_idx)
                 except ValueError:
                     pass
+                if st.session_state.beantwortet[frage_idx] is not None:
+                    st.session_state["stay_on_idx"] = frage_idx
                 try:
                     if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
                         df_upd = pd.read_csv(LOGFILE, on_bad_lines="skip")
@@ -1320,6 +1502,17 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     pass
         with col_bm2:
             antwort = st.radio("Wähle deine Antwort:", **radio_kwargs)
+        # Einzel-Frage-Reset (nur wenn beantwortet)
+        if not unanswered:
+            reset_col = st.columns([5, 1])[1]
+            with reset_col:
+                if st.button(
+                    "↩︎ Reset", key=f"reset_q_{frage_idx}", help="Diese Frage erneut beantworten"
+                ):
+                    reset_single_question(st.session_state.get("user_id_hash", ""), frage_idx)
+                    # Spezieller Fokus-Flag, der Navigation priorisiert, ohne andere Flags zu löschen
+                    st.session_state["focus_after_reset"] = frage_idx
+                    st.rerun()
         # Resume-UI (inline, ohne Expander)
         if "resume_next_idx" in st.session_state:
             resume_target = st.session_state.resume_next_idx
@@ -1361,15 +1554,12 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 gewichtung = int(gewichtung)
             except Exception:
                 gewichtung = 1
-            if scoring_mode == "positive_only":
-                punkte = gewichtung if richtig else 0
-            else:
-                punkte = gewichtung if richtig else -gewichtung
+            punkte = gewichtung if richtig else (0 if scoring_mode == "positive_only" else -gewichtung)
             st.session_state.beantwortet[frage_idx] = punkte
-            # Chronologischen Verlauf ergänzen (für Streak-Badges)
-            # Outcome nur als bool korrekte Antwort (True) oder nicht (False) speichern.
+            # Antworttext separat speichern (für zukünftige Pre-Selection vor Widget-Erstellung)
+            st.session_state.answers_text[frage_idx] = antwort
             try:
-                st.session_state.answer_outcomes.append(True if punkte > 0 else False)
+                st.session_state.answer_outcomes.append(punkte > 0)
             except Exception:
                 pass
             save_answer(
@@ -1379,14 +1569,20 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 antwort,
                 punkte,
             )
-            reduce_anim = st.session_state.get("reduce_animations", False)
             if richtig:
                 st.toast("Yes! Das war richtig!", icon="✅")
-                if not reduce_anim:
-                    st.balloons()
+                if not st.session_state.get("reduce_animations", False):
+                    # Merken, dass wir nach dem Rerun (Erklärungsphase) feiern sollen
+                    st.session_state["pending_celebration"] = frage_idx
             else:
                 st.toast("Leider daneben...", icon="❌")
             st.session_state[f"show_explanation_{frage_idx}"] = True
+            st.session_state["stay_on_idx"] = frage_idx
+            try:
+                st.rerun()
+            except Exception:
+                pass
+            return
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             scoring_mode = st.session_state.get("scoring_mode", "positive_only")
             gewichtung = frage_obj.get("gewichtung", 1)
@@ -1395,6 +1591,16 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             except Exception:
                 gewichtung = 1
             punkte = st.session_state.beantwortet[frage_idx]
+            # Nach Rerun: ggf. einmalig Ballons auslösen
+            if (
+                not st.session_state.get("reduce_animations", False)
+                and st.session_state.get("pending_celebration") == frage_idx
+                and frage_idx not in st.session_state.celebrated_questions
+                and punkte == gewichtung  # korrekt beantwortet
+            ):
+                st.balloons()
+                st.session_state.celebrated_questions.append(frage_idx)
+                del st.session_state["pending_celebration"]
             # num_answered lokal nicht weiterverwendet (Score unten berechnet)
             # Punktestand über der Frage direkt nach Bewertung aktualisieren
             max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
@@ -1426,8 +1632,6 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     st.success(
                         f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})"
                     )
-                    if not st.session_state.get("reduce_animations", False):
-                        st.balloons()
                 else:
                     st.error(
                         "Leider falsch. Die richtige Antwort ist: "
@@ -1438,8 +1642,6 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     st.success(
                         f"Richtig! (+{gewichtung} Punkt{'e' if gewichtung > 1 else ''})"
                     )
-                    if not st.session_state.get("reduce_animations", False):
-                        st.balloons()
                 else:
                     gw = frage_obj.get('gewichtung', 1) or 1
                     plural = 'e' if gw != 1 else ''
@@ -1550,28 +1752,29 @@ def display_sidebar_metrics(num_answered: int) -> None:
         if not bms:
             st.caption("Keine Fragen markiert.")
         else:
-            # Sortiere und liste Buttons zum Springen
             for q_idx in sorted(set(bms)):
+                cols = st.columns([4,1])
                 label = f"Frage {q_idx+1}"
-                if st.button(label, key=f"bm_jump_{q_idx}"):
-                    # Falls noch kein Resume-Ziel gesetzt ist: zukünftigen Standard-Fortschritt sichern
-                    if "resume_next_idx" not in st.session_state:
-                        # Berechne, was ohne Jump als nächstes dran wäre
-                        default_next = None
-                        for idx in st.session_state.frage_indices:
-                            if st.session_state.beantwortet[idx] is None:
-                                default_next = idx
-                                break
-                        if default_next is not None:
-                            st.session_state["resume_next_idx"] = default_next
-                    # Flag setzen, dass wir uns in einem Jump-Kontext befinden
-                    st.session_state["jump_to_idx_active"] = True
-                    # Setze Jump-Ziel für Haupt-Navigationslogik
-                    st.session_state["jump_to_idx"] = q_idx
-                    st.rerun()
+                with cols[0]:
+                    if st.button(label, key=f"bm_jump_{q_idx}"):
+                        if "resume_next_idx" not in st.session_state:
+                            default_next = None
+                            for idx in st.session_state.frage_indices:
+                                if st.session_state.beantwortet[idx] is None:
+                                    default_next = idx
+                                    break
+                            if default_next is not None:
+                                st.session_state["resume_next_idx"] = default_next
+                        st.session_state["jump_to_idx_active"] = True
+                        st.session_state["jump_to_idx"] = q_idx
+                        st.rerun()
+                with cols[1]:
+                    if st.button("✖", key=f"bm_del_{q_idx}", help="Bookmark entfernen"):
+                        unbookmark_question(q_idx)
+                        st.rerun()
             # Entfernen aller Bookmarks
             if st.button("Alle entfernen", key="bm_clear_all"):
-                st.session_state.bookmarked_questions = []
+                unbookmark_all(st.session_state.get("user_id_hash", ""))
                 st.rerun()
     st.sidebar.header("📋 Beantwortet")
     progress_pct = int((num_answered / len(fragen)) * 100) if len(fragen) > 0 else 0
@@ -2349,32 +2552,37 @@ def main():
     else:
         indices = st.session_state.frage_indices
         next_idx = None
+        # Spezifischer Fokus nach Reset einer einzelnen Frage
+        if next_idx is None and "focus_after_reset" in st.session_state:
+            candidate = st.session_state.get("focus_after_reset")
+            if isinstance(candidate, int) and 0 <= candidate < len(fragen):
+                next_idx = candidate
+            del st.session_state["focus_after_reset"]
+        # Falls ein Bookmark nachträglich gesetzt/entfernt wurde und wir auf der Frage bleiben sollen
+        if next_idx is None and "stay_on_idx" in st.session_state:
+            candidate = st.session_state.get("stay_on_idx")
+            if isinstance(candidate, int) and 0 <= candidate < len(fragen):
+                next_idx = candidate
+            del st.session_state["stay_on_idx"]
         # Priorisierte Navigation: Falls ein Bookmark-Sprung angefordert wurde
-        if "jump_to_idx" in st.session_state:
+        if next_idx is None and "jump_to_idx" in st.session_state:
             candidate = st.session_state.jump_to_idx
             if isinstance(candidate, int) and 0 <= candidate < len(fragen):
                 next_idx = candidate
             # einmalig verwenden
             del st.session_state["jump_to_idx"]
-        # Zeige die nächste unbeantwortete Frage, falls Fortschritt geladen
-        if next_idx is None and "progress_loaded" in st.session_state and st.session_state.progress_loaded:
+        # Erklärung hat Vorrang: Falls irgendeine Frage im Erklärungsmodus ist, bleibe dort
+        if next_idx is None:
+            for idx in indices:
+                if st.session_state.get(f"show_explanation_{idx}", False):
+                    next_idx = idx
+                    break
+        # Falls noch nichts gewählt: nächste unbeantwortete Frage
+        if next_idx is None:
             for idx in indices:
                 if st.session_state.beantwortet[idx] is None:
                     next_idx = idx
                     break
-        else:
-            # Standardverhalten: Zeige die nächste Frage mit Erklärung oder die nächste unbeantwortete
-            if next_idx is None:
-                for idx in indices:
-                    if st.session_state.get(f"show_explanation_{idx}", False):
-                        next_idx = idx
-                        break
-            # Dies ist die korrigierte, stabile Version
-            if next_idx is None:
-                for idx in indices:
-                    if st.session_state.beantwortet[idx] is None:
-                        next_idx = idx
-                        break
         # Reset all explanation flags außer für die aktuelle Frage
         for idx in indices:
             if idx != next_idx:
