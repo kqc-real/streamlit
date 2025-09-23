@@ -1935,6 +1935,111 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     "🤔 Ein paar Sachen sind noch offen. Schau dir die Erklärungen an! 🔍"
                 )
 
+        # User Review (nicht Admin) – eigener Bereich im Haupt-Content
+        if st.session_state.get("show_user_review") is None:
+            st.session_state.show_user_review = False
+        with st.expander("🔎 Review / Nachbereitung", expanded=False):
+            st.caption("Persönliche Auswertung – Filter & Erklärungen erneut ansehen.")
+            toggle = st.checkbox("Review aktivieren", value=st.session_state.show_user_review, key="activate_user_review")
+            if toggle and not st.session_state.show_user_review:
+                st.session_state.show_user_review = True
+            elif (not toggle) and st.session_state.show_user_review:
+                st.session_state.show_user_review = False
+            if st.session_state.show_user_review:
+                import pandas as _pd
+                # Laden der Antworten des aktuellen Users
+                user_hash = st.session_state.get("user_id_hash")
+                answer_df = _pd.DataFrame()
+                try:
+                    if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
+                        raw_df = _pd.read_csv(LOGFILE, on_bad_lines="skip")
+                        if not raw_df.empty:
+                            answer_df = raw_df[raw_df.get("user_id_hash") == user_hash].copy()
+                except Exception:
+                    answer_df = _pd.DataFrame()
+                if answer_df.empty:
+                    st.info("Keine gespeicherten Antworten gefunden.")
+                else:
+                    # Grundbereinigung
+                    answer_df["richtig_num"] = _pd.to_numeric(answer_df.get("richtig"), errors="coerce").fillna(0)
+                    answer_df = answer_df[answer_df.get("antwort") != "__bookmark__"].copy()
+                    # Markiert-Spalte sicherstellen
+                    if "markiert" in answer_df.columns:
+                        answer_df["markiert_bool"] = answer_df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])
+                    else:
+                        # Fallback: Session-State Bookmarks
+                        bms = set(st.session_state.get("bookmarked_questions", []))
+                        def _is_markiert_row(row):
+                            try:
+                                f_nr = int(row.get("frage_nr"))
+                                idx_local = next((i for i,f in enumerate(fragen) if f["frage"].startswith(f"{f_nr}.")), None)
+                                return idx_local in bms
+                            except Exception:
+                                return False
+                        answer_df["markiert_bool"] = answer_df.apply(_is_markiert_row, axis=1)
+                    filter_options = ["Alle", "Nur falsch", "Nur markiert", "Nur falsch & markiert"]
+                    sel_mode = st.selectbox(
+                        "Filter", filter_options, index=0, key="user_review_filter",
+                        help="Antwortliste entsprechend einschränken."
+                    )
+                    mask = _pd.Series([True]*len(answer_df))
+                    wrong_mask = answer_df["richtig_num"] <= 0
+                    marked_mask = answer_df["markiert_bool"]
+                    if sel_mode == "Nur falsch":
+                        mask = wrong_mask
+                    elif sel_mode == "Nur markiert":
+                        mask = marked_mask
+                    elif sel_mode == "Nur falsch & markiert":
+                        mask = wrong_mask & marked_mask
+                    filtered = answer_df[mask].copy()
+                    if filtered.empty:
+                        st.warning("Keine Einträge für diesen Filter.")
+                    else:
+                        # Ergänze Fragentext ohne führende Nummer
+                        def _clean_txt(raw):
+                            try:
+                                return raw.split(".", 1)[1].strip()
+                            except Exception:
+                                return raw
+                        filtered["Fragentext"] = filtered["frage"].map(_clean_txt)
+                        # Korrekte Lösung aus Fragenpool bestimmen
+                        def _correct_answer(row):
+                            try:
+                                f_nr = int(row.get("frage_nr"))
+                                q_idx = next((i for i,f in enumerate(fragen) if f["frage"].startswith(f"{f_nr}.")), None)
+                                if q_idx is None:
+                                    return "?"
+                                return fragen[q_idx]["optionen"][fragen[q_idx]["loesung"]]
+                            except Exception:
+                                return "?"
+                        filtered["korrekte_antwort"] = filtered.apply(_correct_answer, axis=1)
+                        filtered["Status"] = filtered["richtig_num"].map(lambda v: "✅" if v > 0 else "❌")
+                        show_cols = [c for c in ["frage_nr", "Status", "antwort", "korrekte_antwort", "markiert_bool", "Fragentext"] if c in filtered.columns]
+                        display_df = filtered[show_cols].copy()
+                        display_df.rename(columns={
+                            "frage_nr": "Frage",
+                            "antwort": "Deine Antwort",
+                            "korrekte_antwort": "Richtig",
+                            "markiert_bool": "Markiert",
+                        }, inplace=True)
+                        st.dataframe(display_df, use_container_width=True, hide_index=True)
+                        # Auswahl zur direkten Frage-Anzeige
+                        unique_fragen = filtered["frage_nr"].dropna().astype(int).unique().tolist()
+                        unique_fragen.sort()
+                        jump_sel = st.selectbox(
+                            "Erklärung zu Frage öffnen", ["–"] + [str(n) for n in unique_fragen], key="user_review_jump_to"
+                        )
+                        if jump_sel != "–":
+                            try:
+                                target_nr = int(jump_sel)
+                                q_idx = next((i for i,f in enumerate(fragen) if f["frage"].startswith(f"{target_nr}.")), None)
+                                if q_idx is not None:
+                                    st.session_state["stay_on_idx"] = q_idx
+                                    st.session_state[f"show_explanation_{q_idx}"] = True
+                                    st.experimental_rerun()
+                            except Exception:
+                                pass
+
     # Vereinfachte Admin-Authentifizierung: Nur feste Credentials aus .env
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     admin_key_cfg = os.getenv("MC_TEST_ADMIN_KEY", "").strip()

@@ -70,6 +70,150 @@ def display_admin_full_review():
     if df.empty:
         st.info("Log-Datei ist leer – noch keine Einträge vorhanden.")
         return
+    # Zusatz-Ansicht: Lernmodus (nur markierte Fragen, aggregiert über alle Nutzer)
+    has_mark_col_global = "markiert" in df.columns
+    has_any_marked_global = False
+    mark_mask_global = None
+    if has_mark_col_global:
+        try:
+            mark_mask_global = df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])
+            has_any_marked_global = mark_mask_global.any()
+        except Exception:
+            has_any_marked_global = False
+    view_mode_options = ["Analyse"] + (["Lernmodus (nur markierte Fragen)"] if has_any_marked_global else [])
+    view_mode = st.selectbox(
+        "Ansicht",
+        view_mode_options,
+        index=0,
+        key="review_view_mode",
+        help="Zwischen vollständiger Analyse und Lernmodus (nur markierte Fragen) wechseln.",
+    )
+    if view_mode.startswith("Lernmodus") and has_any_marked_global and mark_mask_global is not None:
+        # Aggregation: pro Frage einmal anzeigen
+        df_mark = df[mark_mask_global].copy()
+        # Richtigkeitsberechnung nur auf echten Antworten (keine Placeholder '__bookmark__')
+        df_mark["is_correct"] = pd.to_numeric(df_mark.get("richtig"), errors="coerce").fillna(0).map(lambda v: 1 if v > 0 else 0)
+        # Placeholder-Zeilen nicht für Lösungsquote zählen
+        answered_mask = df_mark.get("antwort") != "__bookmark__"
+        grouped_mark = (
+            df_mark[answered_mask]
+            .groupby(["frage_nr", "frage"], as_index=False)
+            .agg(
+                n_answers=("antwort", "count"),
+                n_correct=("is_correct", "sum"),
+                markierungen=("user_id_hash", lambda s: s.nunique()),
+            )
+        )
+        if grouped_mark.empty:
+            st.info("Es existieren markierte Fragen, aber noch keine beantworteten Daten dazu.")
+        else:
+            # Zusätzliche Filter im Lernmodus: Nur falsch / Nur falsch & markiert (semantisch identisch hier)
+            wrong_group_mask = grouped_mark["n_correct"] < grouped_mark["n_answers"]
+            if wrong_group_mask.any():
+                lm_filter = st.selectbox(
+                    "Filter (Lernmodus)",
+                    [
+                        "Alle markierten",
+                        "Nur falsch",
+                        "Nur falsch & markiert",
+                    ],
+                    index=0,
+                    help="Begrenze die Liste markierter Fragen auf solche mit mindestens einer falschen Antwort.",
+                    key="lernmodus_filter_mode",
+                )
+                if lm_filter in ("Nur falsch", "Nur falsch & markiert"):
+                    grouped_mark = grouped_mark[wrong_group_mask].copy()
+                    if grouped_mark.empty:
+                        st.info("Keine falsch beantworteten markierten Fragen vorhanden.")
+                        return
+                    st.caption("Lernmodus-Filter aktiv: Nur markierte Fragen mit falschen Antworten.")
+            grouped_mark["correct_pct"] = grouped_mark.apply(
+                lambda r: (r.n_correct / r.n_answers * 100) if r.n_answers else 0, axis=1
+            )
+            # Fragentext kürzen (entferne führende Nummer für Anzeige)
+            def _plain_text(raw: str) -> str:
+                try:
+                    return raw.split(".", 1)[1].strip()
+                except Exception:
+                    return raw
+            grouped_mark["Frage (Text)"] = grouped_mark["frage"].map(_plain_text)
+            show_cols_lern = [
+                "frage_nr",
+                "Frage (Text)",
+                "markierungen",
+                "n_answers",
+                "n_correct",
+                "correct_pct",
+            ]
+            st.markdown("### Lernmodus – Markierte Fragen")
+            st.caption("Übersicht aller markierten Fragen (über alle Nutzer) mit Lösungsquote.")
+            grouped_mark_display = grouped_mark[show_cols_lern].copy()
+            grouped_mark_display.rename(
+                columns={
+                    "frage_nr": "Frage-Nr.",
+                    "markierungen": "Markierungen (unique Nutzer)",
+                    "n_answers": "Antworten",
+                    "n_correct": "Richtig",
+                    "correct_pct": "Richtig %",
+                },
+                inplace=True,
+            )
+            grouped_mark_display["Richtig %"] = grouped_mark_display["Richtig %"].map(lambda v: f"{v:.1f}%")
+            st.dataframe(grouped_mark_display, use_container_width=True, hide_index=True)
+            csv_lern = grouped_mark_display.to_csv(index=False).encode("utf-8")
+            st.download_button(
+                "Tabelle (Lernmodus) als CSV",
+                data=csv_lern,
+                file_name="lernmodus_markierte_fragen.csv",
+                mime="text/csv",
+            )
+        # Lernmodus beendet hier – keine normale Analyse darunter anzeigen
+        return
+    # Einheitliche Filter-Selectbox
+    wrong_numeric_all = pd.to_numeric(df.get("richtig"), errors="coerce").fillna(0)
+    has_mark_col = "markiert" in df.columns
+    has_any_marked = False
+    mark_bool = None
+    marked_wrong_mask = None
+    if has_mark_col:
+        try:
+            mark_bool = df["markiert"].astype(str).str.lower().isin(["true", "1", "yes"])
+            has_any_marked = mark_bool.any()
+        except Exception:
+            has_any_marked = False
+        if has_any_marked:
+            try:
+                marked_wrong_mask = mark_bool & (wrong_numeric_all <= 0) & (df.get("antwort") != "__bookmark__")
+            except Exception:
+                marked_wrong_mask = mark_bool & (df.get("antwort") != "__bookmark__")
+    options = ["Alle", "Nur falsch"]
+    if has_any_marked:
+        options.extend(["Nur markiert", "Nur falsch & markiert"])
+    selected_mode = st.selectbox(
+        "Filter",
+        options,
+        index=0,
+        help="Begrenze die Auswertung auf eine Teilmenge der Fragen / Antworten.",
+        key="review_filter_mode",
+    )
+    if selected_mode == "Nur falsch":
+        df = df[(wrong_numeric_all <= 0) & (df.get("antwort") != "__bookmark__")].copy()
+        if df.empty:
+            st.info("Keine falsch beantworteten Fragen vorhanden.")
+            return
+        st.caption("Gefiltert: Nur falsch beantwortete Fragen.")
+    elif selected_mode == "Nur markiert" and has_any_marked and mark_bool is not None:
+        df = df[mark_bool].copy()
+        if df.empty:
+            st.info("Es sind aktuell keine markierten Fragen mit Antworten vorhanden.")
+            return
+        st.caption("Gefiltert: Nur markierte Fragen.")
+    elif selected_mode == "Nur falsch & markiert" and has_any_marked and marked_wrong_mask is not None:
+        df = df[marked_wrong_mask].copy()
+        if df.empty:
+            st.info("Keine falsch beantworteten markierten Fragen vorhanden.")
+            return
+        st.caption("Gefiltert: Nur falsch beantwortete markierte Fragen.")
     required_cols = {"frage_nr", "frage", "antwort", "richtig", "user_id_hash"}
     if not required_cols.issubset(set(df.columns)):
         st.warning("Log-Datei unvollständig – Auswertung möglicherweise eingeschränkt.")
