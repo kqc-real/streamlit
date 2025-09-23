@@ -1457,8 +1457,8 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 toggled = st.toggle("🔖 Merken", value=False, key=f"bm_toggle_{frage_idx}")
             if toggled and not is_marked:
                 st.session_state.bookmarked_questions.append(frage_idx)
-                if st.session_state.beantwortet[frage_idx] is not None:
-                    st.session_state["stay_on_idx"] = frage_idx
+                # Immer auf aktueller Frage bleiben nach Bookmark (auch wenn unbeantwortet)
+                st.session_state["stay_on_idx"] = frage_idx
                 # Persist 'markiert' in CSV falls Frage bereits beantwortet wurde
                 try:
                     if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
@@ -1475,6 +1475,18 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                     # Snapshot für unbeantwortete gemerkte Fragen
                     persist_bookmark_snapshot(st.session_state.get("user_id_hash", ""))
                     purge_unbookmarked_placeholders(st.session_state.get("user_id_hash", ""))
+                except Exception:
+                    pass
+                # Unmittelbar neu rendern, damit Sidebar den Bookmark sofort zeigt
+                try:
+                    # Toggle-Key bereinigen, damit beim Rerun keine Inkonsistenz entsteht
+                    toggle_key = f"bm_toggle_{frage_idx}"
+                    if toggle_key in st.session_state:
+                        del st.session_state[toggle_key]
+                except Exception:
+                    pass
+                try:
+                    st.rerun()
                 except Exception:
                     pass
             if (not toggled) and is_marked:
