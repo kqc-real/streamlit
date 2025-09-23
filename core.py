@@ -6,6 +6,8 @@ import json
 import os
 from typing import Dict, Any
 
+from ._paths import get_package_dir
+
 import pandas as pd
 
 # Robuster Import von FileLock mit Fallback (damit App auch ohne Abhängigkeit startet)
@@ -38,7 +40,7 @@ ANSWER_FIELDNAMES = [
 
 
 def get_answers_path() -> str:
-    return os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
+    return os.path.join(get_package_dir(), "mc_test_answers.csv")
 
 
 def append_answer_row(row: Dict[str, Any]) -> None:
@@ -69,7 +71,7 @@ def get_user_id_hash(user_id: str) -> str:
 
 def _load_fragen() -> list:
     """Lädt die Fragen aus der JSON-Datei im App-Verzeichnis."""
-    path = os.path.join(os.path.dirname(__file__), "questions.json")
+    path = os.path.join(get_package_dir(), "questions.json")
     try:
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)

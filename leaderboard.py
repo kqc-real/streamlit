@@ -17,7 +17,9 @@ except Exception:  # pragma: no cover
     _scoring = None  # type: ignore
 
 # Standard-Logfile-Pfad (identisch zu mc_test_app.LOGFILE)
-LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
+from ._paths import get_package_dir
+
+LOGFILE = os.path.join(get_package_dir(), "mc_test_answers.csv")
 FIELDNAMES = [
     "user_id_hash",
     "user_id_display",
@@ -42,7 +44,7 @@ def _get_total_questions() -> int:
     """Lädt einmalig questions.json um die Gesamtzahl zu ermitteln.
     Fallback, falls FRAGEN_ANZAHL nicht aus Hauptmodul gelesen werden kann.
     """
-    path = os.path.join(os.path.dirname(__file__), "questions.json")
+    path = os.path.join(get_package_dir(), "questions.json")
     try:
         import json
         with open(path, "r", encoding="utf-8") as f:

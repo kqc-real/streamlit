@@ -1,5 +1,6 @@
 import os
 from typing import List, Dict
+from ._paths import get_package_dir
 import pandas as pd
 import streamlit as st
 
@@ -15,7 +16,7 @@ FIELDNAMES = [
     "zeit",
 ]
 
-LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")  # default fallback
+LOGFILE = os.path.join(get_package_dir(), "mc_test_answers.csv")  # default fallback
 
 
 def max_score(fragen: List[Dict], scoring_mode: str) -> int:

@@ -15,6 +15,7 @@ import importlib
 import sys
 from types import ModuleType
 from datetime import datetime
+from ._paths import get_package_dir
 
 
 def _import_main_module() -> ModuleType | None:  # pragma: no cover - defensive
@@ -49,7 +50,7 @@ def _get_main_attr(name: str, default=None):  # pragma: no cover - defensive
     return getattr(mod, name, default)
 
 
-LOGFILE = _get_main_attr("LOGFILE", os.path.join(os.path.dirname(__file__), "mc_test_answers.csv"))
+LOGFILE = _get_main_attr("LOGFILE", os.path.join(get_package_dir(), "mc_test_answers.csv"))
 FRAGEN_ANZAHL = _get_main_attr("FRAGEN_ANZAHL", 0)
 
 

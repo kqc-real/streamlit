@@ -20,6 +20,22 @@ from typing import List, Dict
 import streamlit as st
 import pandas as pd
 
+# Robust import for get_package_dir: prefer relative import when package context
+# exists, otherwise load the helper module by path so `streamlit run mc_test_app/mc_test_app.py`
+# (script mode) also works.
+try:
+    from ._paths import get_package_dir
+except Exception:
+    import importlib.util
+    import os
+
+    _paths_path = os.path.join(os.path.dirname(__file__), "_paths.py")
+    spec = importlib.util.spec_from_file_location("mc_test_app._paths", _paths_path)
+    _paths = importlib.util.module_from_spec(spec)  # type: ignore
+    if spec and spec.loader:
+        spec.loader.exec_module(_paths)  # type: ignore
+    get_package_dir = getattr(_paths, "get_package_dir")
+
 # ---------------------------------------------------------------------------
 # Fallback: Falls dieses File fälschlich als Top-Level Modul 'mc_test_app'
 # (statt als Paket-Verzeichnis mit __init__.py) geladen wurde und dadurch
@@ -35,7 +51,7 @@ if (
 ):  # pragma: no cover - Test-Szenario
     import os as _os
     import sys as _sys
-    _pkg_dir = _os.path.dirname(__file__)
+    _pkg_dir = get_package_dir()
     if _pkg_dir not in _sys.path:
         _sys.path.append(_pkg_dir)
     try:
@@ -53,7 +69,7 @@ try:  # Support import when used as a package (tests) or as script (streamlit ru
 except Exception:  # pragma: no cover
     import sys as _sys
     import os as _os
-    _here = _os.path.dirname(__file__)
+    _here = get_package_dir()
     if _here not in _sys.path:
         _sys.path.append(_here)
     # Minimaler Fallback – schreibt ohne Lock, nur wenn notwendig
@@ -89,7 +105,7 @@ def _load_env_files_once():
     # Reihenfolge: Root .env dann Paket-.env (falls vorhanden)
     candidates = [
         os.path.join(os.getcwd(), ".env"),
-        os.path.join(os.path.dirname(__file__), ".env"),
+        os.path.join(get_package_dir(), ".env"),
     ]
     for path in candidates:
         try:
@@ -418,8 +434,8 @@ def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
         reason = "no_admin_configured"
         # Sammle Info wo gesucht wurde
         searched_paths.append(os.path.abspath(os.getcwd()))
-        searched_paths.append(os.path.dirname(os.path.abspath(__file__)))
-        local_env = os.path.join(os.path.dirname(__file__), ".env")
+        searched_paths.append(os.path.abspath(get_package_dir()))
+        local_env = os.path.join(get_package_dir(), ".env")
         if os.path.isfile(local_env):
             searched_paths.append(local_env + " (exists)")
         else:
@@ -498,7 +514,7 @@ def render_admin_sidebar(user_id: str | None):  # pragma: no cover - UI Logik
 
 
 # ---------------------------- Konstanten -----------------------------------
-LOGFILE = os.path.join(os.path.dirname(__file__), "mc_test_answers.csv")
+LOGFILE = os.path.join(get_package_dir(), "mc_test_answers.csv")
 FIELDNAMES = [
     "user_id_hash",
     "user_id_display",
@@ -513,7 +529,7 @@ FIELDNAMES = [
 FRAGEN_ANZAHL = None  # Wird nach dem Laden der Fragen gesetzt
 DISPLAY_HASH_LEN = 10
 MAX_SAVE_RETRIES = 3
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "mc_test_config.json")
+CONFIG_PATH = os.path.join(get_package_dir(), "mc_test_config.json")
 
 
 def _load_global_config():
@@ -660,40 +676,6 @@ def get_rate_limit_seconds() -> int:
     except Exception:
         pass
     return 0
-
-
-def get_package_dir() -> str:
-    """Return the package directory where mc_test_app files live.
-
-    Robust fallback order:
-    - dirname(__file__) if available and not empty
-    - pkgutil.get_loader("mc_test_app") filespec (if installed)
-    - current working directory
-    """
-    # 1) try __file__
-    try:
-        dp = os.path.dirname(__file__)
-        if dp:
-            return dp
-    except Exception:
-        pass
-    # 2) try importlib / pkgutil
-    try:
-        import pkgutil
-
-        spec = pkgutil.get_loader("mc_test_app")
-        if spec and hasattr(spec, "get_filename"):
-            try:
-                fn = spec.get_filename()
-                dp = os.path.dirname(fn)
-                if dp:
-                    return dp
-            except Exception:
-                pass
-    except Exception:
-        pass
-    # 3) fallback to cwd
-    return os.getcwd()
 
 
 def list_question_files() -> List[str]:
