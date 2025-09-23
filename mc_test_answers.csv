@@ -1,1 +1,2 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit,markiert
+532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25,532eaabd95,Test,12,12. Was ist der primäre Anwendungsfall für Streamlit im Data-Science-Kontext?,Die direkte Ausführung von SQL-Abfragen auf Big-Data-Clustern.,0,2025-09-23T14:15:04,True
