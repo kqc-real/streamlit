@@ -662,20 +662,57 @@ def get_rate_limit_seconds() -> int:
     return 0
 
 
-def _load_fragen() -> List[Dict]:
-    """Lädt die Fragen aus der JSON-Datei."""
-    path = os.path.join(os.path.dirname(__file__), "questions.json")
+def list_question_files() -> List[str]:
+    base = os.path.dirname(__file__)
+    files = []
+    try:
+        for fn in os.listdir(base):
+            if fn.startswith("questions_") and fn.endswith(".json"):
+                files.append(fn)
+    except Exception:
+        pass
+    files.sort()
+    return files
+
+
+def _load_fragen(filename: str) -> List[Dict]:
+    path = os.path.join(os.path.dirname(__file__), filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, list) else []
     except Exception as e:
-        st.error(f"Konnte questions.json nicht laden: {e}")
+        st.error(f"Konnte {filename} nicht laden: {e}")
         return []
 
 
-fragen = _load_fragen()
-FRAGEN_ANZAHL = len(fragen)
+_question_files = list_question_files()
+
+# Falls klassische 'questions.json' existiert, aber nicht gematcht wurde (weil kein Prefix), aufnehmen
+if os.path.exists(os.path.join(os.path.dirname(__file__), "questions.json")) and "questions.json" not in _question_files:
+    _question_files.insert(0, "questions.json")
+
+# Initiale Auswahl setzen, wenn noch nichts gewählt ODER gewählte Datei nicht (mehr) existiert
+if (
+    "selected_questions_file" not in st.session_state
+    or st.session_state.selected_questions_file not in _question_files
+):
+    if _question_files:
+        st.session_state.selected_questions_file = _question_files[0]
+    else:
+        st.session_state.selected_questions_file = None  # Wird abgefangen
+
+def _ensure_questions_loaded():
+    global fragen, FRAGEN_ANZAHL
+    sel = st.session_state.selected_questions_file
+    if not sel:
+        fragen = []
+        FRAGEN_ANZAHL = 0
+        return
+    fragen = _load_fragen(sel)
+    FRAGEN_ANZAHL = len(fragen)
+
+_ensure_questions_loaded()
 
 
 def apply_accessibility_settings() -> None:
@@ -2563,10 +2600,101 @@ def handle_user_session():
     current_mode = st.session_state.get("scoring_mode", "positive_only")
     label = "Nur +Punkte" if current_mode == "positive_only" else "+/- Punkte"
     st.sidebar.markdown(f"**Scoring-Modus:** {label}")
+    try:
+        _sidebar_total_pts = compute_total_points(fragen)
+        st.sidebar.caption(f"Max. Punkte: {_sidebar_total_pts}")
+    except Exception:
+        pass
     if current_mode != "positive_only":
         st.sidebar.caption("'+/- Punkte': falsch = -Gewichtung der Frage")
     render_admin_sidebar(st.session_state.get("user_id"))
     return st.session_state.user_id
+
+
+def render_fragen_distribution(fragen):
+    """Render stacked bar chart of question distribution by topic and difficulty.
+
+    Robust against missing columns (e.g. legacy question files without 'frage').
+    Uses Plotly for a dark-theme friendly stacked bar visualization.
+    """
+    import plotly.graph_objects as go
+    df_fragen = pd.DataFrame(fragen)
+    if df_fragen.empty:
+        df_fragen = pd.DataFrame({"thema": [], "gewichtung": [], "frage_placeholder": []})
+    if "gewichtung" not in df_fragen.columns:
+        df_fragen["gewichtung"] = 1
+    if "thema" not in df_fragen.columns:
+        df_fragen["thema"] = "Unbekannt"
+    # Ensure a counting column exists
+    count_col = "frage"
+    if count_col not in df_fragen.columns:
+        df_fragen[count_col] = 1
+
+    def gewicht_to_schwierig(gewicht):
+        try:
+            g = int(gewicht)
+            if g == 1:
+                return "Leicht"
+            elif g == 2:
+                return "Mittel"
+            else:
+                return "Schwer"
+        except Exception:
+            return "Leicht"
+
+    df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
+    try:
+        pivot = df_fragen.pivot_table(
+            index="thema",
+            columns="Schwierigkeit",
+            values=count_col,
+            aggfunc="count",
+            fill_value=0,
+        )
+    except KeyError:
+        pivot = pd.DataFrame()
+
+    dark_bg = "#181818"
+    text_color = "#e0e0e0"
+    bar_colors = {"Leicht": "#00c853", "Mittel": "#4b9fff", "Schwer": "#ffb300"}
+    fig = go.Figure()
+    for schwierigkeit in ["Leicht", "Mittel", "Schwer"]:
+        if schwierigkeit in pivot.columns:
+            fig.add_trace(
+                go.Bar(
+                    x=pivot.index,
+                    y=pivot[schwierigkeit],
+                    name=schwierigkeit,
+                    marker_color=bar_colors[schwierigkeit],
+                )
+            )
+    fig.update_layout(
+        barmode="stack",
+        plot_bgcolor=dark_bg,
+        paper_bgcolor=dark_bg,
+        font=dict(color=text_color),
+        xaxis_title="Thema",
+        yaxis_title="Anzahl Fragen",
+        legend_title="Schwierigkeit",
+        margin=dict(l=40, r=40, t=40, b=40),
+    )
+    fig.update_xaxes(showgrid=False, linecolor=text_color)
+    fig.update_yaxes(showgrid=False, linecolor=text_color)
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def compute_total_points(fragen_list: List[Dict]) -> int:
+    """Compute total achievable points for the currently loaded questions.
+
+    Falls 'gewichtung' fehlt, wird 1 angenommen. Leere oder fehlerhafte Einträge werden ignoriert.
+    """
+    total = 0
+    for q in fragen_list:
+        try:
+            total += int(q.get("gewichtung", 1))
+        except Exception:
+            total += 1
+    return total
 
 
 def main():
@@ -2587,8 +2715,6 @@ def main():
     "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
     <h2 style='color:#4b9fff;'>100 Fragen!</h2>
     <p style='font-size:1.05rem;'>
-      Teste dein Wissen rund um <strong>Data Science</strong>, <strong>Machine und Deep Learning</strong>.
-      <br><br>
     Starte jetzt 🚀 – und optimiere dein Wissen!
     </p>
   </div>
@@ -2596,6 +2722,86 @@ def main():
 """,
             unsafe_allow_html=True,
         )
+        # Auswahl der Fragen-Datei (nur vor Start) – direkte Übernahme ohne Button
+        if _question_files:
+            current = st.session_state.get("selected_questions_file", _question_files[0])
+
+            # Mapping: Original Dateiname -> Schönes Label
+            def _pretty_label(fn: str) -> str:
+                base = fn
+                if base.startswith("questions_"):
+                    base = base[len("questions_"):]
+                if base.endswith(".json"):
+                    base = base[:-5]
+                base = base.replace("_", " ")
+                # Spezieller Fall klassische Datei
+                if base == "questions" and fn == "questions.json":
+                    return "Standard"
+                return base.strip().title()
+
+            # Labels mit maximaler Punktzahl je Pool
+            pool_label_map = {}
+            for fn in _question_files:
+                try:
+                    qs = _load_fragen(fn)
+                    pts = 0
+                    for q in qs:
+                        try:
+                            pts += int(q.get("gewichtung", 1))
+                        except Exception:
+                            pts += 1
+                except Exception:
+                    pts = 0
+                base_label = _pretty_label(fn)
+                einheit = "Punkt" if pts == 1 else "Punkte"
+                pool_label_map[f"{base_label} ({pts} {einheit})"] = fn
+            labels = list(pool_label_map.keys())
+            # Aktuelles Label bestimmen
+            current_label = None
+            for lbl, fn in pool_label_map.items():
+                if fn == current:
+                    current_label = lbl
+                    break
+            if current_label is None and labels:
+                current_label = labels[0]
+            current_label_index = labels.index(current_label) if current_label in labels else 0
+
+            def _on_pool_change():
+                sel_new = st.session_state.__selected_pool_tmp
+                if sel_new != st.session_state.selected_questions_file:
+                    st.session_state.selected_questions_file = sel_new
+                    # Reset relevanter States
+                    for k in [
+                        "beantwortet", "frage_indices", "optionen_shuffled", "answers_text", "answer_outcomes",
+                        "celebrated_questions", "start_zeit", "test_time_expired"
+                    ]:
+                        if k in st.session_state:
+                            del st.session_state[k]
+                    _ensure_questions_loaded()
+                    initialize_session_state()
+                    # Kein explizites st.rerun() nötig: Streamlit führt nach Callback ohnehin einen Re-Run aus.
+
+            # Temporär gespeicherter Wert soll weiterhin der Dateiname bleiben
+            # Daher setzen wir vor dem Rendern den passenden Originalwert falls nicht vorhanden
+            if "__selected_pool_tmp" not in st.session_state:
+                st.session_state.__selected_pool_tmp = current
+            # Selectbox mit schönen Labels anzeigen
+            
+            def _apply_pool_change():
+                chosen_label = st.session_state.__selected_pool_label_tmp
+                st.session_state.__selected_pool_tmp = pool_label_map[chosen_label]
+                _on_pool_change()
+
+            st.selectbox(
+                label=" ",
+                options=labels,
+                index=current_label_index,
+                key="__selected_pool_label_tmp",
+                on_change=_apply_pool_change,
+            )
+        else:
+            st.info("Keine questions_*.json Dateien gefunden – benutze Standard 'questions.json'.")
+
         # Öffentliches Leaderboard (Top 5) nur anzeigen, wenn Daten vorhanden
         try:
             ensure_logfile_exists()
@@ -2614,65 +2820,8 @@ def main():
                     st.dataframe(to_show[ordered], use_container_width=True, hide_index=True)
         except Exception:
             pass
-        # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
-        import plotly.graph_objects as go
-
-        df_fragen = pd.DataFrame(fragen)
-        if "gewichtung" not in df_fragen.columns:
-            df_fragen["gewichtung"] = 1
-        if "thema" not in df_fragen.columns:
-            df_fragen["thema"] = "Unbekannt"
-
-        def gewicht_to_schwierig(gewicht):
-            try:
-                g = int(gewicht)
-                if g == 1:
-                    return "Leicht"
-                elif g == 2:
-                    return "Mittel"
-                else:
-                    return "Schwer"
-            except Exception:
-                return "Leicht"
-
-        df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
-        pivot = df_fragen.pivot_table(
-            index="thema",
-            columns="Schwierigkeit",
-            values="frage",
-            aggfunc="count",
-            fill_value=0,
-        )
-
-        # Farben für Dark Theme
-        dark_bg = "#181818"
-        text_color = "#e0e0e0"
-        bar_colors = {"Leicht": "#00c853", "Mittel": "#4b9fff", "Schwer": "#ffb300"}
-        # Plotly Stacked Bar Chart
-        fig = go.Figure()
-        for schwierigkeit in ["Leicht", "Mittel", "Schwer"]:
-            if schwierigkeit in pivot.columns:
-                fig.add_trace(
-                    go.Bar(
-                        x=pivot.index,
-                        y=pivot[schwierigkeit],
-                        name=schwierigkeit,
-                        marker_color=bar_colors[schwierigkeit],
-                    )
-                )
-        fig.update_layout(
-            barmode="stack",
-            plot_bgcolor=dark_bg,
-            paper_bgcolor=dark_bg,
-            font=dict(color=text_color),
-            xaxis_title="Thema",
-            yaxis_title="Anzahl Fragen",
-            legend_title="Schwierigkeit",
-            margin=dict(l=40, r=40, t=40, b=40),
-        )
-        fig.update_xaxes(showgrid=False, linecolor=text_color)
-        fig.update_yaxes(showgrid=False, linecolor=text_color)
-        st.plotly_chart(fig, use_container_width=True)
+        # Fragenverteilung anzeigen
+        render_fragen_distribution(fragen)
     user_id = handle_user_session()
     # If triggered by Enter, rerun after session state is set
     if st.session_state.get("trigger_rerun"):
@@ -2741,45 +2890,7 @@ def main():
             )
             st.markdown(score_html, unsafe_allow_html=True)
 
-    # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
-    if "user_id" not in st.session_state:
-        import matplotlib.pyplot as plt
-
-        df_fragen = pd.DataFrame(fragen)
-        if "gewichtung" not in df_fragen.columns:
-            df_fragen["gewichtung"] = 1
-        if "thema" not in df_fragen.columns:
-            df_fragen["thema"] = "Unbekannt"
-
-        def gewicht_to_schwierig(gewicht):
-            try:
-                g = int(gewicht)
-                if g == 1:
-                    return "Leicht"
-                elif g == 2:
-                    return "Mittel"
-                else:
-                    return "Schwer"
-            except Exception:
-                return "Leicht"
-
-        df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierig)
-        pivot = df_fragen.pivot_table(
-            index="thema",
-            columns="Schwierigkeit",
-            values="frage",
-            aggfunc="count",
-            fill_value=0,
-        )
-        st.divider()
-        st.subheader("Fragenverteilung nach Thema und Schwierigkeitsgrad")
-        fig, ax = plt.subplots(figsize=(10, 6))
-        pivot.plot(kind="bar", stacked=True, ax=ax)
-        ax.set_title("Fragenverteilung nach Thema und Schwierigkeitsgrad")
-        ax.set_xlabel("Thema")
-        ax.set_ylabel("Anzahl Fragen")
-        ax.legend(title="Schwierigkeit")
-        st.pyplot(fig)
+    # (Chart bereits oben für nicht eingeloggte Nutzer gerendert)
 
     if st.session_state.get("admin_view", False):
         admin_view()
