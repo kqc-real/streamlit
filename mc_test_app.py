@@ -1725,7 +1725,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
                         st.session_state["jump_to_idx"] = q_idx
                         st.rerun()
                 with cols[1]:
-                    if st.button("✖", key=f"bm_del_{q_idx}", help="Bookmark entfernen"):
+                    if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen"):
                         unbookmark_question(q_idx)
                         st.rerun()
             # Entfernen aller Bookmarks
