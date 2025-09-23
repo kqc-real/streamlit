@@ -2698,6 +2698,9 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 
 def main():
+    # Debug: Zeige alle Dateien im aktuellen Verzeichnis (hilft bei Deployment-Problemen)
+    import os
+    st.write("Dateien im mc_test_app:", os.listdir(os.path.dirname(__file__)))
     # Session-State initialisieren, falls nötig
     if "beantwortet" not in st.session_state or "frage_indices" not in st.session_state:
         initialize_session_state()
