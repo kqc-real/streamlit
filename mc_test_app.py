@@ -1235,10 +1235,74 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             # Erklärungstext (falls vorhanden) anzeigen
             erklaerung = frage_obj.get("erklaerung") or frage_obj.get("erklaerung_text")
             if erklaerung:
+                # Sanitize / convert simple backtick code spans to <code> tags for reliable rendering
+                # (Nur einfache Inline-Spans: `code`; keine mehrzeiligen Blöcke erwartet.)
+                try:
+                    import re as _re
+
+                    def _code_span_repl(m):
+                        inner = m.group(1).strip()
+                        inner = (inner
+                                 .replace("&", "&amp;")
+                                 .replace("<", "&lt;")
+                                 .replace(">", "&gt;"))
+                        return f"<code>{inner}</code>"
+
+                    erklaerung_html = _re.sub(r"`([^`]+)`", _code_span_repl, str(erklaerung))
+
+                    # Variante B: Semantische Umwandlung von einfachen Hochkommata '...'
+                    code_like = {
+                        "settingwithcopywarning",
+                        "internal covariate shift",
+                        "vanishing gradient",
+                        "vanishing/exploding gradients",
+                        "exploding gradients",
+                        "vanishing",
+                        "weight initialization",
+                        "feature learning",
+                        "lazy learner",
+                    }
+                    italic_like = {
+                        "works on my machine",
+                        "white-box",
+                        "big 3",
+                        "best practice",
+                        "amalea-weisheit",
+                    }
+
+                    def _apostroph_repl(m):
+                        phrase = m.group(1)
+                        raw = phrase.strip()
+                        key = raw.lower()
+                        if raw.startswith("<code>") and raw.endswith("</code>"):
+                            return raw
+                        if key in code_like:
+                            esc = (raw.replace("&", "&amp;")
+                                    .replace("<", "&lt;")
+                                    .replace(">", "&gt;"))
+                            return f"<code>{esc}</code>"
+                        if key in italic_like:
+                            esc = (raw.replace("&", "&amp;")
+                                    .replace("<", "&lt;")
+                                    .replace(">", "&gt;"))
+                            return f"<em>{esc}</em>"
+                        if any(ch in raw for ch in [">", "?", "=", "/"]):
+                            return f"„{raw}“"
+                        return f"„{raw}“"
+
+                    # Nur anwenden, wenn noch einfache Quotes vorhanden
+                    if "'" in erklaerung_html:
+                        erklaerung_html = _re.sub(r"'([^']+)'", _apostroph_repl, erklaerung_html)
+                except Exception:
+                    erklaerung_html = erklaerung  # Fallback ohne Transformation / Semantik
                 st.markdown(
-                    f"<div style='margin-top:8px;padding:8px 10px;border-left:4px solid #4b9fff;background:#0e1a25;border-radius:3px;'>"
-                    f"<span style='font-weight:600;color:#4b9fff;'>Erklärung:</span><br>{erklaerung}"
-                    f"</div>",
+                    (
+                        "<div style='margin-top:8px;padding:8px 10px;border-left:4px solid #4b9fff;"
+                        "background:#0e1a25;border-radius:3px;'>"
+                        "<span style='font-weight:600;color:#4b9fff;'>Erklärung:</span><br>"
+                        f"{erklaerung_html}"
+                        "</div>"
+                    ),
                     unsafe_allow_html=True,
                 )
             # Motivation anzeigen
