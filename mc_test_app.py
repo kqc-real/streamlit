@@ -555,6 +555,26 @@ def _maybe_sync_scoring_mode():
         st.session_state["_persisted_scoring_mode"] = current
 
 
+# ---------------------- Text / Format Utilities ----------------------
+def smart_quotes_de(text: str) -> str:
+    """Wandelt gerade doppelte Anführungszeichen in deutsche „…“/“…” um.
+
+    Heuristik: Toggle open/close bei jedem Vorkommen. Einfach, aber ausreichend
+    für typische Fragetexte. Bereits vorhandene typografische Quotes bleiben unberührt.
+    """
+    if not text or '"' not in text:
+        return text
+    out = []
+    open_expected = True
+    for ch in text:
+        if ch == '"':
+            out.append('„' if open_expected else '“')
+            open_expected = not open_expected
+        else:
+            out.append(ch)
+    return ''.join(out)
+
+
 def reset_all_answers() -> bool:
     """Löscht die komplette Antworten-CSV (globaler Admin-Reset).
 
@@ -1402,28 +1422,13 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         for f in fragen[-fehlende:]:
             raw_opts = f.get("optionen") or f.get("antworten") or []
             st.session_state.optionen_shuffled.append(list(raw_opts))
-    def _smart_quotes_de(text: str) -> str:
-        # Einfache heuristische Umsetzung: öffnendes ", wenn vorher Start oder Whitespace / ( ; sonst schließendes
-        out = []
-        open_expected = True
-        for i, ch in enumerate(text):
-            if ch == '"':
-                # Kontext bestimmen
-                if open_expected:
-                    out.append("„")
-                else:
-                    out.append("“")
-                open_expected = not open_expected
-            else:
-                out.append(ch)
-        return ''.join(out)
     raw_frage_full = frage_obj["frage"]
     # Originalformat: '12. Frage...' – nach erster Punkt getrennt, Rest typografisch behandeln
     teile = raw_frage_full.split(".", 1)
     if len(teile) == 2:
-        frage_text = _smart_quotes_de(teile[1].strip())
+        frage_text = smart_quotes_de(teile[1].strip())
     else:
-        frage_text = _smart_quotes_de(raw_frage_full)
+        frage_text = smart_quotes_de(raw_frage_full)
     gewichtung = frage_obj.get("gewichtung", 1)
     try:
         gewichtung = int(gewichtung)
@@ -2367,25 +2372,14 @@ def display_final_summary(num_answered: int) -> None:
                         )
                     # Typografische Anführungszeichen auch im Review anwenden
                     try:
-                        _rq = frage['frage']
-                        # Gleiche Logik wie in display_question: nur Textteil nach der Nummer behandeln
-                        parts = _rq.split('.',1)
-                        if len(parts)==2:
-                            body = parts[1].strip()
+                        _rq = frage["frage"]
+                        parts = _rq.split(".", 1)
+                        if len(parts) == 2:
+                            body = smart_quotes_de(parts[1].strip())
+                            nummer = parts[0] + ". "
+                            st.markdown(f"**{nummer}{body}**")
                         else:
-                            body = _rq
-                        def _smart_quotes_de(text: str) -> str:
-                            out=[]; open_expected=True
-                            for ch in text:
-                                if ch=='"':
-                                    out.append('„' if open_expected else '“')
-                                    open_expected = not open_expected
-                                else:
-                                    out.append(ch)
-                            return ''.join(out)
-                        body = _smart_quotes_de(body)
-                        nummer = parts[0]+'. ' if len(parts)==2 else ''
-                        st.markdown(f"**{nummer}{body}**")
+                            st.markdown(f"**{smart_quotes_de(_rq)}**")
                     except Exception:
                         st.markdown(f"**{frage['frage']}**")
                     st.caption("Optionen:")
