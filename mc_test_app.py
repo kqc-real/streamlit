@@ -154,8 +154,8 @@ def show_motivation():  # pragma: no cover - UI Rendering
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     # Punkte berechnen
     if _scoring is not None:
-        max_punkte = _scoring.max_score(fragen, scoring_mode)
-        aktueller_punktestand = _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode)
+            max_punkte = _scoring.max_score(fragen, scoring_mode) if fragen else 0
+            aktueller_punktestand = _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode) if fragen else 0
     else:
         max_punkte = sum(f.get("gewichtung", 1) for f in fragen)
         if scoring_mode == "positive_only":
@@ -1348,15 +1348,18 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
         # Fragennummer im Fragenmodus: Position im Shuffle (fortlaufend ab 1)
         indices = st.session_state.frage_indices
         pos = indices.index(frage_idx) if frage_idx in indices else frage_idx
-        header = (
-            f"### Frage {pos + 1} von {FRAGEN_ANZAHL}  "
-            f"<span style='color:#888;font-size:0.9em;'>({gewichtung} Punkt"
-            f"{'e' if gewichtung > 1 else ''})</span>"
-        )
+        # Wiederaufnahmelogik: Falls Nutzer zurückkehrt und bereits Antworten existieren,
+        # aber aktuelle Anzeige bei einer frühen (oder ersten) Frage startet, zeigen wir Fortschritt.
+        # Vereinfachter Header: zeige nur noch verbleibende unbeantwortete Fragen
+        remaining = len([p for p in st.session_state.beantwortet if p is None])
+        header = f"### Noch {remaining} Frage{'n' if remaining!=1 else ''}"
         if thema:
             header += f"<br><span style='color:#4b9fff;font-size:0.95em;'>Thema: {thema}</span>"
         st.markdown(header, unsafe_allow_html=True)
-        st.markdown(f"**{frage_text}**")
+        st.markdown(
+            f"**{frage_text}**  <span style='color:#888;'>(Gewicht {gewichtung})</span>",
+            unsafe_allow_html=True,
+        )
         is_disabled = False if st.session_state.beantwortet[frage_idx] is None else True
         optionen_anzeige = st.session_state.optionen_shuffled[frage_idx]
         unanswered = st.session_state.beantwortet[frage_idx] is None
@@ -1463,10 +1466,7 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                 del st.session_state["resume_next_idx"]
                 st.session_state["jump_to_idx_active"] = False
             elif st.session_state.get("jump_to_idx_active", False):
-                st.markdown(
-                    f"<div style='margin:4px 0 8px 0;font-size:0.85rem;opacity:0.8;'>Regulärer Fortschritt: Frage {resume_target + 1}</div>",
-                    unsafe_allow_html=True,
-                )
+                # Entfernt: visueller Fortschritts-Hinweis
                 if st.button(
                     "Fortsetzen am ursprünglichen Punkt", key=f"resume_btn_{frage_idx}"
                 ):
@@ -1501,6 +1501,24 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
             st.session_state.beantwortet[frage_idx] = punkte
             # Antworttext separat speichern (für zukünftige Pre-Selection vor Widget-Erstellung)
             st.session_state.answers_text[frage_idx] = antwort
+            # Snapshot für Header (REST-Ansicht) einfrieren, bevor Frage aus den offenen fällt
+            try:
+                if "header_rel_pos_snapshot" not in st.session_state:
+                    st.session_state.header_rel_pos_snapshot = {}
+                if "header_open_count_snapshot" not in st.session_state:
+                    st.session_state.header_open_count_snapshot = {}
+                indices_local = st.session_state.frage_indices
+                unanswered_local = [i for i in indices_local if st.session_state.beantwortet[i] is None or i == frage_idx]
+                # relative Position inkl. aktueller Frage innerhalb des (gleich vor Abschluss) offenen Sets
+                if frage_idx in unanswered_local:
+                    rel_pos_snapshot = unanswered_local.index(frage_idx) + 1
+                else:
+                    rel_pos_snapshot = 1
+                open_count_snapshot = len([i for i in indices_local if st.session_state.beantwortet[i] is None]) + 1
+                st.session_state.header_rel_pos_snapshot[frage_idx] = rel_pos_snapshot
+                st.session_state.header_open_count_snapshot[frage_idx] = open_count_snapshot
+            except Exception:
+                pass
             try:
                 st.session_state.answer_outcomes.append(punkte > 0)
             except Exception:
@@ -2510,36 +2528,32 @@ def main():
             st.session_state.test_time_expired = True
             st.header("⏰ Zeit ist um!")
 
-    # Sticky Bar: show current score and open questions always, even after reload
+    # Sticky-Bar Anzeige erst nach erster beantworteter Frage
     if "beantwortet" in st.session_state:
-        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-        max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
-        if scoring_mode == "positive_only":
-            aktueller_punktestand = sum(
-                [
-                    frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
-                    for p, frage in zip(st.session_state.beantwortet, fragen)
-                ]
+        answered_count_temp = len([p for p in st.session_state.beantwortet if p is not None])
+        if answered_count_temp > 0 and answered_count_temp < len(fragen):
+            scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+            max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+            if scoring_mode == "positive_only":
+                aktueller_punktestand = sum(
+                    [
+                        frage.get("gewichtung", 1) if p == frage.get("gewichtung", 1) else 0
+                        for p, frage in zip(st.session_state.beantwortet, fragen)
+                    ]
+                )
+            else:
+                aktueller_punktestand = sum(
+                    [p if p is not None else 0 for p in st.session_state.beantwortet]
+                )
+            if "sticky_bar_css" not in st.session_state:
+                st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
+                st.session_state["sticky_bar_css"] = True
+            score_html = (
+                "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
+                f"<div style='font-size:1rem;font-weight:700;'>Letzter Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
+                "</div>"
             )
-        else:
-            aktueller_punktestand = sum(
-                [p if p is not None else 0 for p in st.session_state.beantwortet]
-            )
-    # answered = len([p for p in st.session_state.beantwortet if p is not None])  # entfernt (ungenutzt)
-        open_questions = max(
-            0, len([p for p in st.session_state.beantwortet if p is None]) - 1
-        )
-        if "sticky_bar_css" not in st.session_state:
-            st.markdown(STICKY_BAR_CSS, unsafe_allow_html=True)
-            st.session_state["sticky_bar_css"] = True
-        score_html = (
-            "<div class='top-progress-wrapper' aria-label='Punktestand insgesamt'>"
-            f"<div style='font-size:1rem;font-weight:700;'>Letzter Punktestand: {aktueller_punktestand} / {max_punkte}</div>"
-            f"<div style='font-size:0.95rem;color:#ffb300;font-weight:500;'>Noch offen: {open_questions} Frage"
-            f"{'n' if open_questions != 1 else ''}</div>"
-            "</div>"
-        )
-        st.markdown(score_html, unsafe_allow_html=True)
+            st.markdown(score_html, unsafe_allow_html=True)
 
     # --- Gestapeltes Balkendiagramm: Fragenverteilung nach Thema und Gewichtung ---
     if "user_id" not in st.session_state:
@@ -2595,12 +2609,27 @@ def main():
             load_user_progress(st.session_state.user_id_hash)
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
+    # Entfernt: visuelle Fortschrittsanzeige zu Beginn
     if num_answered == 0:
-        st.info("Nur eine Antwort ist richtig.")
-        st.markdown(
-            f"<p class='sr-only'>Fortschritt: {num_answered} von {len(fragen)} Fragen beantwortet.</p>",
-            unsafe_allow_html=True,
+        scoring_mode = st.session_state.get("scoring_mode", "positive_only")
+        if scoring_mode == "positive_only":
+            scoring_text = (
+                "Für eine richtige Antwort erhältst du die volle Gewichtung (z. B. 2 Punkte), "
+                "falsche Antworten geben 0 Punkte."
+            )
+        else:
+            scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
+        info_html = (
+            "<div style='padding:10px 14px; background:#1f1f1f80;'>"
+            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
+            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">✅ 1 richtige Option</span> "
+            "Wähle mit Bedacht, du hast keine zweite Chance pro Frage.<br><br>"
+            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
+            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">🎯 Punktelogik</span> "
+            f"{scoring_text}<br><br>"
+            "</div>"
         )
+        st.markdown(info_html.strip(), unsafe_allow_html=True)
 
     # Test automatisch beenden, wenn Zeitlimit überschritten
     if st.session_state.get("test_time_expired", False):
