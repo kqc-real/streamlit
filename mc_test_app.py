@@ -122,48 +122,35 @@ def _get_admin_config():
         key = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
     return user, key
 
-# Lazy import abhängiger Module (leaderboard / review) mit robustem Fallback
 
+# Lazy import abhängiger Module (leaderboard / review) mit robustem Fallback
 _leaderboard = None
 _review = None
 try:
-    from . import leaderboard as _leaderboard  # type: ignore
+    import mc_test_app.leaderboard as _leaderboard
 except Exception:
     try:
-        _leaderboard = importlib.import_module("leaderboard")
+        import leaderboard as _leaderboard
     except Exception:
         try:
-            _leaderboard = importlib.import_module("mc_test_app.leaderboard")
+            from . import leaderboard as _leaderboard  # type: ignore
         except Exception:
-            _leaderboard = None
+            try:
+                _leaderboard = importlib.import_module("leaderboard")
+            except Exception:
+                _leaderboard = None
 
 try:
-    from . import review as _review  # type: ignore
+    import mc_test_app.review as _review
 except Exception:
-    # Try absolute import by module name
     try:
-        _review = importlib.import_module("review")
+        import review as _review
     except Exception:
-        # Try package import
         try:
-            _review = importlib.import_module("mc_test_app.review")
+            from . import review as _review  # type: ignore
         except Exception:
-            # Try loading by file path as last resort
             try:
-                pkg_dir = pathlib.Path(__file__).parent
-                review_path = pkg_dir / "review.py"
-                if review_path.is_file():
-                    import importlib.util
-                    spec = importlib.util.spec_from_file_location("mc_test_app.review", str(review_path))
-                    if spec and spec.loader:
-                        module = importlib.util.module_from_spec(spec)
-                        _sys.modules["mc_test_app.review"] = module
-                        spec.loader.exec_module(module)  # type: ignore[attr-defined]
-                        _review = module
-                    else:
-                        _review = None
-                else:
-                    _review = None
+                _review = importlib.import_module("review")
             except Exception:
                 _review = None
 
