@@ -719,15 +719,17 @@ _question_files = list_question_files()
 if os.path.exists(os.path.join(get_package_dir(), "questions.json")) and "questions.json" not in _question_files:
     _question_files.insert(0, "questions.json")
 
-# Initiale Auswahl setzen, wenn noch nichts gewählt ODER gewählte Datei nicht (mehr) existiert
-if (
-    "selected_questions_file" not in st.session_state
-    or st.session_state.selected_questions_file not in _question_files
-):
-    if _question_files:
-        st.session_state.selected_questions_file = _question_files[0]
-    else:
-        st.session_state.selected_questions_file = None  # Wird abgefangen
+
+def setup_initial_questions_file():
+    # Initiale Auswahl setzen, wenn noch nichts gewählt ODER gewählte Datei nicht (mehr) existiert
+    if (
+        "selected_questions_file" not in st.session_state
+        or st.session_state.selected_questions_file not in _question_files
+    ):
+        if _question_files:
+            st.session_state.selected_questions_file = _question_files[0]
+        else:
+            st.session_state.selected_questions_file = None  # Wird abgefangen
 
 def _ensure_questions_loaded():
     global fragen, FRAGEN_ANZAHL
@@ -739,7 +741,7 @@ def _ensure_questions_loaded():
     fragen = _load_fragen(sel)
     FRAGEN_ANZAHL = len(fragen)
 
-_ensure_questions_loaded()
+# Only call these in main() or Streamlit context!
 
 
 def apply_accessibility_settings() -> None:
@@ -1016,7 +1018,7 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
             if "Platz" in df_show.columns:
                 df_show.insert(0, "Rang", df_show["Platz"].map(icons).fillna(df_show["Platz"].astype(str)))
             keep = [c for c in ["Rang", "Platz", "Pseudonym", "Punkte"] if c in df_show.columns]
-            st.dataframe(df_show[keep], use_container_width=True, hide_index=True)
+            st.dataframe(df_show[keep], width='stretch', hide_index=True)
         else:
             st.info("Noch keine vollständigen Durchläufe.")
         # (Highscore Review entfernt auf Nutzerwunsch)
@@ -1145,20 +1147,20 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
         st.markdown("- Verteilung zeigt selten genutzte oder überdominante Optionen.")
         import pandas as _pd
         df_gloss = _pd.DataFrame(glossary)
-        st.dataframe(df_gloss, use_container_width=True, hide_index=True)
-        st.divider()
-        st.markdown("#### Formeln")
-        st.latex(r"p = \\frac{Richtig}{Antworten\\ gesamt}")
-        st.latex(r"r_{pb} = \\frac{\\bar{X}_1 - \\bar{X}_0}{s_X} \\sqrt{\\frac{n_1 n_0}{n(n-1)}}")
-        st.caption(
-            "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch."
-        )
-        st.latex(
-            r"Dominanter\\ Distraktor\\ % = \\frac{Häufigkeit\\ stärkster\\ Distraktor}{Antworten\\ gesamt} \\times 100"
-        )
-        st.caption(
-            "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
-        )
+        st.dataframe(df_gloss, width='stretch', hide_index=True)
+    st.divider()
+    st.markdown("#### Formeln")
+    st.latex(r"p = \frac{Richtig}{Antworten\ gesamt}")
+    st.latex(r"r_{pb} = \frac{\bar{X}_1 - \bar{X}_0}{s_X} \sqrt{\frac{n_1 n_0}{n(n-1)}}")
+    st.caption(
+        "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch."
+    )
+    st.latex(
+        r"Dominanter\ Distraktor\ % = \frac{Häufigkeit\ stärkster\ Distraktor}{Antworten\ gesamt} \times 100"
+    )
+    st.caption(
+        "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
+    )
 
     # Tab 5: Highscore – Gesamtrangliste aller Pseudonyme
     with tabs[5]:
@@ -1187,7 +1189,7 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
                         agg.insert(0, "Rang", range(1, len(agg) + 1))
                         st.dataframe(
                             agg[[c for c in ["Rang", "Pseudonym", "Punkte", "Antworten"] if c in agg.columns]],
-                            use_container_width=True,
+                            width='stretch',
                             hide_index=True,
                         )
                         if "questions_file" not in agg.columns:
@@ -2078,7 +2080,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
                 cols_final = [c for c in ["Rang"] + show_cols if c != "Platz"]
                 st.sidebar.dataframe(
                     to_show[cols_final],
-                    use_container_width=True,
+                    width='stretch',
                     hide_index=True,
                 )
     except Exception:
@@ -2258,7 +2260,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
                             "korrekte_antwort": "Richtig",
                             "markiert_bool": "Markiert",
                         }, inplace=True)
-                        st.dataframe(display_df, use_container_width=True, hide_index=True)
+                        st.dataframe(display_df, width='stretch', hide_index=True)
                         # Auswahl zur direkten Frage-Anzeige
                         unique_fragen = filtered["frage_nr"].dropna().astype(int).unique().tolist()
                         unique_fragen.sort()
@@ -2798,7 +2800,7 @@ def render_fragen_distribution(fragen):
     )
     fig.update_xaxes(showgrid=False, linecolor=text_color)
     fig.update_yaxes(showgrid=False, linecolor=text_color)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 
 def compute_total_points(fragen_list: List[Dict]) -> int:
@@ -2816,6 +2818,9 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 
 def main():
+    # Initialisiere Fragenpool-Auswahl und lade Fragen
+    setup_initial_questions_file()
+    _ensure_questions_loaded()
     # Session-State initialisieren, falls nötig
     if "beantwortet" not in st.session_state or "frage_indices" not in st.session_state:
         initialize_session_state()
@@ -2961,7 +2966,7 @@ def main():
                         ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
                     else:
                         ordered = show_cols
-                    st.dataframe(to_show[ordered], use_container_width=True, hide_index=True)
+                    st.dataframe(to_show[ordered], width='stretch', hide_index=True)
         except Exception:
             pass
         # Fragenverteilung anzeigen
