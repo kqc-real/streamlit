@@ -66,12 +66,20 @@ def _get_total_questions() -> int:
 
 
 def _get_total_questions_prefer_main() -> int:
-    # Versuche dynamisch FRAGEN_ANZAHL aus Hauptmodul zu lesen, sonst Fallback
-    try:  # pragma: no cover - defensive
-        from . import mc_test_app as _app  # type: ignore
-        val = getattr(_app, "FRAGEN_ANZAHL", None)
-        if isinstance(val, int) and val >= 0:
-            return val
+    # Immer die Fragenanzahl für das aktuell gewählte Fragenset bestimmen
+    try:
+        import streamlit as st
+        sel = st.session_state.get("selected_questions_file", None)
+        if sel:
+            import os
+            import json
+            from ._paths import get_package_dir
+            path = os.path.join(get_package_dir(), sel)
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, list):
+                    return len(data)
     except Exception:
         pass
     return _get_total_questions()

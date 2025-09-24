@@ -3026,9 +3026,12 @@ def main():
             try:
                 ensure_logfile_exists()
                 if st.session_state.get("leaderboard_mode", "strict") == "relaxed":
-                    # Alle Teilnahmen nach Punkten (ohne Mindestanzahl)
+                    # Alle Teilnahmen nach Punkten (ohne Mindestanzahl), aber nur für das aktuelle Fragenset
                     import mc_test_app.leaderboard as lb_mod
                     df = lb_mod.load_all_logs()
+                    sel = st.session_state.get("selected_questions_file")
+                    if sel and "questions_file" in df.columns:
+                        df = df[df["questions_file"] == sel]
                     lb_df = lb_mod.calculate_leaderboard_all(df)
                     # Top 5 nach Punkten
                     if not lb_df.empty:
