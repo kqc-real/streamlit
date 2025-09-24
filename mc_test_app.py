@@ -2841,6 +2841,24 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 
 def main():
+    # --- Fallback: Zeige Top 5 direkt aus CSV, unabhängig von Session-State ---
+    import pandas as _pd
+    import os as _os
+    _csv_path = _os.path.join(_here, "mc_test_answers.csv")
+    if _os.path.exists(_csv_path):
+        _df = _pd.read_csv(_csv_path)
+        _df["richtig"] = _pd.to_numeric(_df["richtig"], errors="coerce")
+        _leaderboard = (
+            _df.groupby("user_id_hash")
+            .agg(Punkte=("richtig", "sum"), Pseudonym=("user_id_plain", "first"))
+            .reset_index(drop=True)
+            .sort_values(by="Punkte", ascending=False)
+            .head(5)
+        )
+        st.markdown("### 🥇 Top 5 (direkt aus CSV, Fallback)")
+        st.dataframe(_leaderboard)
+    else:
+        st.warning("Keine mc_test_answers.csv gefunden.")
     # --- Robust defaults for session state (fixes leaderboard display issues in all environments) ---
     if "selected_questions_file" not in st.session_state or not st.session_state.get("selected_questions_file"):
         if _question_files:
