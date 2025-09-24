@@ -2993,24 +2993,26 @@ def main():
         else:
             st.info("Keine questions_*.json Dateien gefunden – benutze Standard 'questions.json'.")
 
-        # Öffentliches Leaderboard (Top 5) nur anzeigen, wenn Daten vorhanden
-        try:
-            ensure_logfile_exists()
-            lb_df = calculate_leaderboard()
-            if lb_df is not None and not lb_df.empty:
-                st.markdown("### 🥇 Aktuelle Top 5")
-                show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
-                if show_cols:
-                    icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-                    to_show = lb_df[show_cols].head(5).copy()
-                    if "Platz" in to_show.columns:
-                        to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
-                        ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
-                    else:
-                        ordered = show_cols
-                    st.dataframe(to_show[ordered], width='stretch', hide_index=True)
-        except Exception:
-            pass
+        # Öffentliches Leaderboard (Top 5) nur anzeigen, wenn in Config aktiviert und Daten vorhanden
+        cfg = _load_global_config()
+        if cfg.get("show_top5_public", True):
+            try:
+                ensure_logfile_exists()
+                lb_df = calculate_leaderboard()
+                if lb_df is not None and not lb_df.empty:
+                    st.markdown("### 🥇 Aktuelle Top 5")
+                    show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
+                    if show_cols:
+                        icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+                        to_show = lb_df[show_cols].head(5).copy()
+                        if "Platz" in to_show.columns:
+                            to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                            ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
+                        else:
+                            ordered = show_cols
+                        st.dataframe(to_show[ordered], width='stretch', hide_index=True)
+            except Exception:
+                pass
         # Fragenverteilung anzeigen
         render_fragen_distribution(fragen)
     user_id = handle_user_session()

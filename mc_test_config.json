@@ -1,3 +1,4 @@
 {
-  "scoring_mode": "negative"
+  "scoring_mode": "negative",
+  "show_top5_public": true
 }
