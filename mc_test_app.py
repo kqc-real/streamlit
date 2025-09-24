@@ -1063,6 +1063,21 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
     # Tab 3: System
     with tabs[3]:
         st.markdown("### System / Konfiguration")
+        # Sichtbarkeit Top 5 Leaderboard (öffentlich)
+        cfg = _load_global_config()
+        show_top5_val = cfg.get("show_top5_public", True)
+        checkbox_key = f"show_top5_public_admin_{show_top5_val}"
+        show_top5 = st.checkbox(
+            "Top 5 Leaderboard öffentlich auf Startseite anzeigen",
+            value=show_top5_val,
+            key=checkbox_key
+        )
+        # Persistiere Änderung
+        if show_top5 != show_top5_val:
+            cfg["show_top5_public"] = show_top5
+            _save_global_config(cfg)
+            st.success("Einstellung gespeichert. Die Änderung wird nach Neuladen aktiv.")
+        st.divider()
         # Scoring-Modus ganz oben platzieren (sichtbar & eindeutig)
         current_mode = st.session_state.get("scoring_mode", "positive_only")
         new_mode_top_sys = st.radio(
@@ -2996,9 +3011,33 @@ def main():
         # Öffentliches Leaderboard (Top 5) nur anzeigen, wenn in Config aktiviert und Daten vorhanden
         cfg = _load_global_config()
         if cfg.get("show_top5_public", True):
+            # Auswahlmenü für Leaderboard-Modus
+            lb_mode = st.radio(
+                "Leaderboard zeigt:",
+                options=[
+                    ("strict", "Nur vollständige Testdurchläufe"),
+                    ("relaxed", "Alle Teilnehmenden nach Punkten")
+                ],
+                format_func=lambda x: x[1],
+                index=0 if st.session_state.get("leaderboard_mode", "strict") == "strict" else 1,
+                key="leaderboard_mode_public"
+            )
+            st.session_state["leaderboard_mode"] = lb_mode[0]
             try:
                 ensure_logfile_exists()
-                lb_df = calculate_leaderboard()
+                if st.session_state.get("leaderboard_mode", "strict") == "relaxed":
+                    # Alle Teilnahmen nach Punkten (ohne Mindestanzahl)
+                    import mc_test_app.leaderboard as lb_mod
+                    df = lb_mod.load_all_logs()
+                    lb_df = lb_mod.calculate_leaderboard_all(df)
+                    # Top 5 nach Punkten
+                    if not lb_df.empty:
+                        lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(5)
+                        lb_df = lb_df.reset_index(drop=True)
+                        lb_df.insert(0, "Platz", lb_df.index + 1)
+                        lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
+                else:
+                    lb_df = calculate_leaderboard()
                 if lb_df is not None and not lb_df.empty:
                     st.markdown("### 🥇 Aktuelle Top 5")
                     show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]

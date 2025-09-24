@@ -1,34 +1,3 @@
 user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit,markiert,questions_file
-8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918,8c6976e5b5,admin,26,26. Was ist ein Hauptvorteil der Verwendung von Markdown in Jupyter Notebooks?,Reine Metrikdiskussion ohne **Inkrement-Demo**.,-1,2025-09-24T09:52:33,False,questions_Data_Science.json
-53ddd800a3ef24a55414bd607d995fe121836375b71ecbeb9d8d0eba710cce4f,53ddd800a3,qwq,5,5. Was ist der fundamentale Unterschied zwischen einem Docker-Image und einem Docker-Container?,Abhängigkeiten verbergen und Eskalationen verzögern.,-1,2025-09-24T09:53:25,False,questions_Data_Science.json
-ef395bbd0a8c1af1a97b47014e95c6247f47666c4f4f769c03efe5ffbc4debd7,ef395bbd0a,asas,15,15. Wer maximiert den **Wert** des Produkts?,Das Management verteilt Aufgaben an Einzelpersonen direkt.,-1,2025-09-24T09:58:25,False,questions_Agiles_Projektmanagement.json
-ef395bbd0a8c1af1a97b47014e95c6247f47666c4f4f769c03efe5ffbc4debd7,ef395bbd0a,asas,33,33. Wie wird die A³-Phase des QUA³CK-Modells im Kurs modern interpretiert?,Durch systematisches Experiment-Tracking mit `MLflow`.,2,2025-09-24T09:58:55,False,questions_Data_Science.json
-d876d59095f13054c120f77202c5378aa25d7787d4adf70980dbb3f2a7125ac1,d876d59095,qw,22,22. Welche **Timebox** ist typisch für ein Scrum-Event?,"**Planning** exakt drei Stunden, unabhängig von Sprintlänge.",-2,2025-09-24T10:00:30,True,questions_Agiles_Projektmanagement.json
-d876d59095f13054c120f77202c5378aa25d7787d4adf70980dbb3f2a7125ac1,d876d59095,qw,45,45. Was ist der Zweck von **Akzeptanzkriterien** (**AK**)?,"Verifizieren, wann die **User Story** die Nutzerbedürfnisse erfüllt.",2,2025-09-24T10:00:50,True,questions_Agiles_Projektmanagement.json
-d876d59095f13054c120f77202c5378aa25d7787d4adf70980dbb3f2a7125ac1,d876d59095,qw,79,79. Welche Aussage zur **Prognosequalität** ist solide?,**Bandbreiten** kommunizieren und mit Erfahrungsdaten kalibrieren.,2,2025-09-24T10:02:05,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:05:22,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,27,27. Wer verantwortet die **Prozesshygiene**?,Externe Auditoren leiten die **Daily-Agenda** vor.,-1,2025-09-24T10:05:23,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:05:34,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,47,47. Welcher Schnitt einer User Story ist typisch **vertikal**?,Ein **End-to-end Nutzenpfad** von der **UI** bis zu den Daten mit kleinem Umfang.,1,2025-09-24T10:05:35,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:26:53,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,95,95. Welche Aussage beschreibt die Rolle des **Managements** im agilen Projektmanagement am besten?,Das Management ist für die technische Umsetzung verantwortlich.,-3,2025-09-24T10:26:54,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:29:20,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,26,26. Was charakterisiert ein gutes **Review**?,Reales Feedback von Nutzenden und **datenbasierte Entscheidungen**.,3,2025-09-24T10:29:22,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:42:02,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,7,7. Welche Aussage zu **Komplexität** trifft zu?,Vorhersage wird durch späte Tests zuverlässig und genau.,-2,2025-09-24T10:42:03,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:43:17,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,43,43. Welches **Missverständnis** ist verbreitet?,Die **DoD** gilt für alle **Product Backlog Items**.,-2,2025-09-24T10:43:19,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:47:52,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,99,99. Was ist der größte Vorteil von **Kanban** im Vergleich zu **Scrum**?,"Es gibt feste Sprints, die die Teamproduktivität messen.",-2,2025-09-24T10:47:53,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:52:14,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,71,71. Wie wirkt die **Referenz-Story** über die Zeit?,"Monatlich wechseln, um Vergleichbarkeit zu vermeiden.",-2,2025-09-24T10:52:15,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:56:29,False,
-eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,14,14. Welche These zur **Komplexitätsreduktion** ist stichhaltig?,Große Arbeitspakete und späte Zusammenführung sind überlegen.,-3,2025-09-24T10:56:31,False,questions_Agiles_Projektmanagement.json
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T11:05:03,False,
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T11:10:17,False,
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T11:13:43,False,
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T11:22:13,False,
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T11:24:17,False,
-hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T13:23:37,False,
-8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918,8c6976e5b5,admin,44,44. Welche Eigenschaft gehört zum Akronym **INVEST**?,"User Stories sind klein, **wertorientiert** und **testbar** formuliert.",1,2025-09-24T15:16:55,False,questions_Agiles_Projektmanagement.json
-8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918,8c6976e5b5,admin,39,39. Wozu dient eine **einheitliche DoD** historisch?,"Dokumentation priorisieren, die Ausführung verzögern und die Kontrolle stärken.",-1,2025-09-24T15:17:03,False,questions_Agiles_Projektmanagement.json
+48965085cd4686998c5672296caed9fdbb1191bf1d3e87f644c0934303f13f13,48965085cd,wqw,43,43. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?,Unsupervised Learning liefert immer genauere Ergebnisse als Supervised Learning.,-1,2025-09-24T15:24:35,False,questions_Data_Science.json
+48965085cd4686998c5672296caed9fdbb1191bf1d3e87f644c0934303f13f13,48965085cd,wqw,42,42. Welchen Zweck erfüllt der Befehl `docker-compose down`?,"Er stoppt und entfernt die von `docker-compose up` erstellten Container, Netzwerke und Volumes.",1,2025-09-24T15:27:41,False,questions_Data_Science.json
