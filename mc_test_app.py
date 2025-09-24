@@ -760,7 +760,8 @@ def apply_accessibility_settings() -> None:
         st.markdown('<script>document.body.classList.remove("large-text");</script>', unsafe_allow_html=True)
 
 
-@st.cache
+def get_user_id_hash(user_id: str) -> str:
+    return hashlib.sha256(user_id.encode()).hexdigest()
 def get_user_id_hash(user_id: str) -> str:
     return hashlib.sha256(user_id.encode()).hexdigest()
 

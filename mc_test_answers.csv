@@ -22,3 +22,5 @@ hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:47:52,False,
 eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,99,99. Was ist der größte Vorteil von **Kanban** im Vergleich zu **Scrum**?,"Es gibt feste Sprints, die die Teamproduktivität messen.",-2,2025-09-24T10:47:53,False,questions_Agiles_Projektmanagement.json
 hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:52:14,False,
 eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,71,71. Wie wirkt die **Referenz-Story** über die Zeit?,"Monatlich wechseln, um Vergleichbarkeit zu vermeiden.",-2,2025-09-24T10:52:15,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:56:29,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,14,14. Welche These zur **Komplexitätsreduktion** ist stichhaltig?,Große Arbeitspakete und späte Zusammenführung sind überlegen.,-3,2025-09-24T10:56:31,False,questions_Agiles_Projektmanagement.json
