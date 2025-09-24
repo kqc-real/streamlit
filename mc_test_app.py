@@ -1,6 +1,18 @@
 
 # --- Patch sys.path for robust imports (works on Streamlit Cloud and locally) ---
-import sys, os
+import sys
+import os
+import time
+import json
+import random
+import hashlib
+import hmac
+from datetime import datetime
+from typing import List, Dict
+import streamlit as st
+import pandas as pd
+import importlib
+import pathlib
 _this_dir = os.path.dirname(__file__)
 _ws_root = os.path.abspath(os.path.join(_this_dir, '..'))
 if _this_dir not in sys.path:
@@ -48,13 +60,12 @@ except Exception:
 
 # Minimaler Fallback – schreibt ohne Lock, nur wenn notwendig
 import sys as _sys
-import os as _os  # (may be used elsewhere, but remove if truly unused)
-import importlib
-import pathlib
 import sys as _sys
 _here = get_package_dir()
 if _here not in _sys.path:
     _sys.path.append(_here)
+
+
 
 def append_answer_row(row):  # type: ignore
     import csv
@@ -173,7 +184,10 @@ def show_motivation():  # pragma: no cover - UI Rendering
     # Punkte berechnen
     if _scoring is not None:
         max_punkte = _scoring.max_score(fragen, scoring_mode) if fragen else 0
-        aktueller_punktestand = _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode) if fragen else 0
+        aktueller_punktestand = (
+            _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode)
+            if fragen else 0
+        )
     else:
         max_punkte = sum(f.get("gewichtung", 1) for f in fragen)
         if scoring_mode == "positive_only":
@@ -391,7 +405,7 @@ def show_motivation():  # pragma: no cover - UI Rendering
     full = f"[{aktueller_punktestand}/{max_punkte}] {candidate}"
     st.session_state._last_motivation_phrase = candidate
     st.markdown(
-        f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {full}</div>",
+    f"<div style='margin-top:4px;font-size:0.8rem;opacity:0.85;padding:4px 6px;border-left:3px solid #444;'>💬 {full}</div>",
         unsafe_allow_html=True,
     )
 
@@ -2831,11 +2845,35 @@ def main():
         if isinstance(qs_file, list):
             qs_file = qs_file[0]
         if qs_file and qs_file in _question_files:
-            st.session_state["selected_questions_file"] = qs_file
-            _ensure_questions_loaded()
+            if st.session_state.get("selected_questions_file") != qs_file:
+                # Reset all fragenset-dependent session state
+                for k in [
+                    "beantwortet", "frage_indices", "optionen_shuffled", "answers_text", "answer_outcomes",
+                    "celebrated_questions", "start_zeit", "test_time_expired", "progress_loaded", "force_review"
+                ]:
+                    if k in st.session_state:
+                        del st.session_state[k]
+                st.session_state["selected_questions_file"] = qs_file
+                _ensure_questions_loaded()
+                initialize_session_state()
 
     # Always ensure questions are loaded for the selected set
     _ensure_questions_loaded()
+    # On first load or if fragenset changed, ensure session state is fresh
+    if (
+        "user_id" not in st.session_state or
+        "beantwortet" not in st.session_state or
+        len(st.session_state.get("beantwortet", [])) != len(fragen)
+    ):
+        # Reset all fragenset-dependent session state
+        for k in [
+            "beantwortet", "frage_indices", "optionen_shuffled", "answers_text", "answer_outcomes",
+            "celebrated_questions", "start_zeit", "test_time_expired", "progress_loaded", "force_review"
+        ]:
+            if k in st.session_state:
+                del st.session_state[k]
+        initialize_session_state()
+
     # Always show header and info before user session is set up
     if "user_id" not in st.session_state:
         selected_set = st.session_state.get("selected_questions_file", None)
@@ -2852,14 +2890,22 @@ def main():
                 set_label = "Standard"
             else:
                 set_label = base.strip().title()
-        set_label_html = f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>" if set_label else ""
+        set_label_html = (
+            f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>"
+            if set_label else ""
+        )
         st.markdown(
-            f"<div style='display:flex;justify-content:center;align-items:center;'><div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'><h2 style='color:#4b9fff;'>100 Fragen!</h2><p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>{set_label_html}</div></div>",
+            (
+                "<div style='display:flex;justify-content:center;align-items:center;'>"
+                "<div style='max-width:600px;text-align:center;padding:24px;"
+                "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>"
+                "<h2 style='color:#4b9fff;'>100 Fragen!</h2>"
+                "<p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>"
+                f"{set_label_html}</div></div>"
+            ),
             unsafe_allow_html=True,
         )
-
-                    # Auswahl der Fragen-Datei (nur vor Start) – direkte Übernahme ohne Button
-        # Auswahl der Fragen-Datei (nur vor Start) – direkte Übernahme ohne Button
+    # Auswahl der Fragen-Datei (nur vor Start) – direkte Übernahme ohne Button
         if _question_files:
             # Use session_state or fallback to first file
             current = st.session_state.get("selected_questions_file", _question_files[0])
