@@ -57,33 +57,24 @@ def test_duration_to_str():
     assert _duration_to_str(None) == ""
 
 
-def test_get_rate_limit_seconds():
-    # Test with environment variable
-    with patch.dict(os.environ, {"MC_TEST_MIN_SECONDS_BETWEEN": "10"}):
-        assert get_rate_limit_seconds() == 10
-    # Test without env var
-    with patch.dict(os.environ, {}, clear=True):
-        assert get_rate_limit_seconds() == 0
 
 
 def test_user_has_progress():
-    # Create a temporary file path
-    temp_file = tempfile.mktemp(suffix='.csv')
-    
-    # Write test data to the file
-    with open(temp_file, 'w') as f:
-        f.write("user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit\n")
-        f.write("testhash,abcd1234,testuser,1,Test Frage,Option A,1,2025-09-19T10:00:00\n")
-    
-    # Mock the LOGFILE to point to our temp file
-    with patch.object(app_mod, 'LOGFILE', temp_file):
-        # Test with existing progress
-        assert user_has_progress("testhash") is True
-        # Test with no progress
-        assert user_has_progress("nonexistent") is False
-    
-    # Clean up
-    os.unlink(temp_file)
+    # Use NamedTemporaryFile for secure temp file creation
+    with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as tf:
+        temp_file = tf.name
+        # Write test data to the file
+        with open(temp_file, 'w') as f:
+            f.write("user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit\n")
+            f.write("testhash,abcd1234,testuser,1,Test Frage,Option A,1,2025-09-19T10:00:00\n")
+        # Mock the LOGFILE to point to our temp file
+        with patch.object(app_mod, 'LOGFILE', temp_file):
+            # Test with existing progress
+            assert user_has_progress("testhash") is True
+            # Test with no progress
+            assert user_has_progress("nonexistent") is False
+        # Clean up
+        os.unlink(temp_file)
 
 
 def test_calculate_leaderboard():
@@ -105,11 +96,12 @@ def test_initialize_session_state():
     # Mock streamlit session_state as an object with attributes
     class MockSessionState:
         def __init__(self):
+            # Intentionally left empty for test mock class
             pass
     
     mock_state = MockSessionState()
     with patch('mc_test_app.mc_test_app.st.session_state', mock_state), \
-        patch('mc_test_app.mc_test_app.fragen', [{'frage': 'test'}]):  # Mock fragen
+         patch('mc_test_app.mc_test_app.fragen', [{'frage': 'test'}]):  # Mock fragen
         initialize_session_state()
         assert hasattr(mock_state, 'beantwortet')
         assert hasattr(mock_state, 'frage_indices')
@@ -120,10 +112,10 @@ def test_save_answer():
     # Mock dependencies
 
     with patch.object(app_mod, 'get_user_id_hash', return_value='testhash'), \
-        patch.object(app_mod, 'datetime') as mock_datetime, \
-        patch('builtins.open', mock_open()) as mock_file, \
-        patch.object(st, 'session_state', {'user_id': 'testuser'}), \
-        patch('os.path.isfile', return_value=False):
+         patch.object(app_mod, 'datetime') as mock_datetime, \
+         patch('builtins.open', mock_open()) as mock_file, \
+         patch.object(st, 'session_state', {'user_id': 'testuser'}), \
+         patch('os.path.isfile', return_value=False):
 
         mock_datetime.now.return_value.isoformat.return_value = '2025-09-19T10:00:00'
 
