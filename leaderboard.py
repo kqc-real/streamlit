@@ -26,7 +26,7 @@ except Exception:
 
 
 # Standard-Logfile-Pfad (identisch zu mc_test_app.LOGFILE)
-from mc_test_app._paths import get_package_dir
+from _paths import get_package_dir
 
 LOGFILE = os.path.join(get_package_dir(), "mc_test_answers.csv")
 FIELDNAMES = [
