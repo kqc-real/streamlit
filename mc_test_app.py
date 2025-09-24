@@ -1,9 +1,9 @@
-"""
-MC-Test Data Science
--------------------------------------------------
-Lehrbeispiel für Multiple-Choice-Tests mit Streamlit.
-Autor: kqc
-"""
+import sys
+import os
+# Ensure workspace root is in sys.path for robust package imports
+_ws_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if _ws_root not in sys.path:
+    sys.path.insert(0, _ws_root)
 
 # Standardbibliotheken
 import os
@@ -45,7 +45,10 @@ except Exception:
 
 # Minimaler Fallback – schreibt ohne Lock, nur wenn notwendig
 import sys as _sys
-import os as _os
+import os as _os  # (may be used elsewhere, but remove if truly unused)
+import importlib
+import pathlib
+import sys as _sys
 _here = get_package_dir()
 if _here not in _sys.path:
     _sys.path.append(_here)
@@ -120,25 +123,49 @@ def _get_admin_config():
     return user, key
 
 # Lazy import abhängiger Module (leaderboard / review) mit robustem Fallback
-try:  # pragma: no cover
+
+_leaderboard = None
+_review = None
+try:
     from . import leaderboard as _leaderboard  # type: ignore
 except Exception:
-    _leaderboard = None  # type: ignore
-try:  # pragma: no cover
+    try:
+        _leaderboard = importlib.import_module("leaderboard")
+    except Exception:
+        try:
+            _leaderboard = importlib.import_module("mc_test_app.leaderboard")
+        except Exception:
+            _leaderboard = None
+
+try:
     from . import review as _review  # type: ignore
 except Exception:
-    _review = None  # type: ignore
-    # Zusätzlicher absoluter Fallback (falls Paketauflösung scheitert)
-    try:  # pragma: no cover
-        import importlib
-        import pathlib
-        import sys as _sys
-        pkg_dir = pathlib.Path(__file__).parent
-        if str(pkg_dir) not in _sys.path:
-            _sys.path.append(str(pkg_dir))
-        _review = importlib.import_module("review")  # type: ignore
+    # Try absolute import by module name
+    try:
+        _review = importlib.import_module("review")
     except Exception:
-        _review = None  # final fallback
+        # Try package import
+        try:
+            _review = importlib.import_module("mc_test_app.review")
+        except Exception:
+            # Try loading by file path as last resort
+            try:
+                pkg_dir = pathlib.Path(__file__).parent
+                review_path = pkg_dir / "review.py"
+                if review_path.is_file():
+                    import importlib.util
+                    spec = importlib.util.spec_from_file_location("mc_test_app.review", str(review_path))
+                    if spec and spec.loader:
+                        module = importlib.util.module_from_spec(spec)
+                        _sys.modules["mc_test_app.review"] = module
+                        spec.loader.exec_module(module)  # type: ignore[attr-defined]
+                        _review = module
+                    else:
+                        _review = None
+                else:
+                    _review = None
+            except Exception:
+                _review = None
 
 _lb_calculate_leaderboard = getattr(_leaderboard, "calculate_leaderboard", None)
 _lb_calculate_leaderboard_all = getattr(_leaderboard, "calculate_leaderboard_all", None)
@@ -155,8 +182,8 @@ def show_motivation():  # pragma: no cover - UI Rendering
     scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     # Punkte berechnen
     if _scoring is not None:
-            max_punkte = _scoring.max_score(fragen, scoring_mode) if fragen else 0
-            aktueller_punktestand = _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode) if fragen else 0
+        max_punkte = _scoring.max_score(fragen, scoring_mode) if fragen else 0
+        aktueller_punktestand = _scoring.current_score(st.session_state.beantwortet, fragen, scoring_mode) if fragen else 0
     else:
         max_punkte = sum(f.get("gewichtung", 1) for f in fragen)
         if scoring_mode == "positive_only":
@@ -1033,7 +1060,7 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
             options=["positive_only", "negative"],
             index=0 if current_mode == "positive_only" else 1,
             format_func=lambda v: "Nur +Punkte" if v == "positive_only" else "+/- Punkte",
-            key="scoring_mode_radio_system_top_v2",
+            key="scoring_mode_radio_system_top_v2_admin_tab3",
             horizontal=True,
         )
         if new_mode_top_sys != current_mode:
@@ -2241,14 +2268,16 @@ def display_sidebar_metrics(num_answered: int) -> None:
                             except Exception:
                                 pass
 
-    # Vereinfachte Admin-Authentifizierung: Nur feste Credentials aus .env
+    # Admin-Panel-Logik jetzt ausschließlich in der Sidebar
+    pass  # Siehe render_admin_sidebar für Admin-Panel-Handling
+    # Admin-Authentifizierung und Panel-Toggle zentralisieren
     admin_user_cfg = os.getenv("MC_TEST_ADMIN_USER", "").strip()
     admin_key_cfg = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
     current_user = st.session_state.get("user_id")
     if "admin_auth_ok" not in st.session_state:
         st.session_state.admin_auth_ok = False
     if "show_admin_panel" not in st.session_state:
-        st.session_state.show_admin_panel = True
+        st.session_state.show_admin_panel = False
     if admin_user_cfg and admin_key_cfg and current_user == admin_user_cfg:
         if not st.session_state.admin_auth_ok:
             with st.sidebar.expander("🔐 Admin-Login", expanded=True):
@@ -2260,13 +2289,15 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     else:
                         st.error("Falscher Admin-Key.")
         if st.session_state.admin_auth_ok:
-            st.session_state.show_admin_panel = st.sidebar.checkbox(
+            show_panel = st.sidebar.checkbox(
                 "Admin-Panel anzeigen",
                 value=st.session_state.show_admin_panel,
                 key="show_admin_panel_checkbox_sidebar",
             )
-            if st.session_state.show_admin_panel:
-                display_admin_panel()
+            st.session_state.show_admin_panel = show_panel
+            st.session_state.admin_view = show_panel  # always sync
+            if show_panel:
+                admin_view()
 
 
 def display_admin_panel():  # Backward compat wrapper
@@ -2898,8 +2929,8 @@ def main():
         st.session_state["trigger_rerun"] = False
         st.rerun()
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
-    # Hide header after first answer
-    if user_id and num_answered == 0:
+    # Hide header after first answer, and do not show in admin view
+    if user_id and num_answered == 0 and not st.session_state.get("admin_view", False):
         st.title("Los geht's!")
 
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
@@ -2962,9 +2993,7 @@ def main():
 
     # (Chart bereits oben für nicht eingeloggte Nutzer gerendert)
 
-    if st.session_state.get("admin_view", False):
-        admin_view()
-        return
+    # Admin-Ansicht wird ausschließlich über die Sidebar-Logik gerendert
 
     if "user_id_hash" not in st.session_state:
         st.session_state.user_id_hash = get_user_id_hash(user_id)

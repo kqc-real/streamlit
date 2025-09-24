@@ -41,7 +41,6 @@ def _import_main_module() -> ModuleType | None:  # pragma: no cover - defensive
     except Exception:
         return None
 
-# Lazy access helpers -------------------------------------------------------
 
 def _get_main_attr(name: str, default=None):  # pragma: no cover - defensive
     mod = _import_main_module()
@@ -54,15 +53,13 @@ LOGFILE = _get_main_attr("LOGFILE", os.path.join(get_package_dir(), "mc_test_ans
 FRAGEN_ANZAHL = _get_main_attr("FRAGEN_ANZAHL", 0)
 
 
+  
 def display_admin_full_review():
     # Hinweis entfernt: ehem. Sidebar-Meldung 'Admin‑Analyse aktiv – Auswertung im Hauptbereich sichtbar.'
     st.markdown("## 🧪 Gesamtübersicht aller Fragen")
     st.caption(
         "Metadaten: Schwierigkeitsgrad = Lösungsquote; Trennschärfe = Punkt-Biserial (Item vs. Gesamt ohne Item)."
     )
-    if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
-        st.info("Noch keine Antworten erfasst – es liegen keine Daten für die Auswertung vor.")
-        return
     try:
         df = pd.read_csv(LOGFILE, on_bad_lines="skip")
         # Filter by selected question-file/pool when present
@@ -100,7 +97,8 @@ def display_admin_full_review():
         # Aggregation: pro Frage einmal anzeigen
         df_mark = df[mark_mask_global].copy()
         # Richtigkeitsberechnung nur auf echten Antworten (keine Placeholder '__bookmark__')
-        df_mark["is_correct"] = pd.to_numeric(df_mark.get("richtig"), errors="coerce").fillna(0).map(lambda v: 1 if v > 0 else 0)
+        df_mark["is_correct"] = pd.to_numeric(df_mark.get("richtig"), errors="coerce") \
+            .fillna(0).map(lambda v: 1 if v > 0 else 0)
         # Placeholder-Zeilen nicht für Lösungsquote zählen
         answered_mask = df_mark.get("antwort") != "__bookmark__"
         grouped_mark = (
@@ -139,6 +137,7 @@ def display_admin_full_review():
                 lambda r: (r.n_correct / r.n_answers * 100) if r.n_answers else 0, axis=1
             )
             # Fragentext kürzen (entferne führende Nummer für Anzeige)
+            
             def _plain_text(raw: str) -> str:
                 try:
                     return raw.split(".", 1)[1].strip()
@@ -440,6 +439,7 @@ def display_admin_panel():
                         session_gap = pd.Timedelta(minutes=30)
                         if "_ts" in df_hs.columns:
                             df_hs = df_hs.sort_values(["user_id_hash", "_ts"])  # chronologisch
+                            
                             def _assign_sessions(sub: pd.DataFrame) -> pd.DataFrame:
                                 times = sub["_ts"].tolist()
                                 session_ids = []
@@ -473,6 +473,7 @@ def display_admin_panel():
                             agg = agg.sort_values(by=["Punkte", "Antworten", "Pseudonym"], ascending=[False, False, True])
                             agg.insert(0, "Rang", range(1, len(agg) + 1))
                             # Formatierung der Zeitspalten
+                            
                             def _fmt_dt(x):
                                 try:
                                     if pd.isna(x):
