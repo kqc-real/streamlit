@@ -2823,7 +2823,7 @@ def render_fragen_distribution(fragen):
     )
     fig.update_xaxes(showgrid=False, linecolor=text_color)
     fig.update_yaxes(showgrid=False, linecolor=text_color)
-    st.plotly_chart(fig, width='stretch')
+    st.plotly_chart(fig, config={'responsive': True})
 
 
 def compute_total_points(fragen_list: List[Dict]) -> int:
@@ -2842,9 +2842,9 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 def main():
     # --- Robust defaults for session state (fixes leaderboard display issues in all environments) ---
-    if "selected_questions_file" not in st.session_state or not st.session_state.selected_questions_file:
+    if "selected_questions_file" not in st.session_state or not st.session_state.get("selected_questions_file"):
         if _question_files:
-            st.session_state.selected_questions_file = _question_files[0]
+            st.session_state["selected_questions_file"] = _question_files[0]
     # Always keep leaderboard_mode and leaderboard_mode_public in sync
     lb_modes = ["strict", "relaxed"]
     # Always set leaderboard_mode to a valid value
