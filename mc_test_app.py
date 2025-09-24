@@ -2841,6 +2841,21 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 
 def main():
+    # --- Robust defaults for session state (fixes leaderboard display issues in all environments) ---
+    if "selected_questions_file" not in st.session_state or not st.session_state.selected_questions_file:
+        if _question_files:
+            st.session_state.selected_questions_file = _question_files[0]
+    # Always keep leaderboard_mode and leaderboard_mode_public in sync
+    lb_modes = ["strict", "relaxed"]
+    # Always set leaderboard_mode to a valid value
+    if "leaderboard_mode" not in st.session_state or st.session_state.leaderboard_mode not in lb_modes:
+        st.session_state.leaderboard_mode = "strict"
+    # Always set leaderboard_mode_public to the correct index, fallback to 0 if mode not found
+    try:
+        idx = lb_modes.index(st.session_state.leaderboard_mode)
+    except Exception:
+        idx = 0
+    st.session_state.leaderboard_mode_public = idx
     # Initialisiere Fragenpool-Auswahl und lade Fragen
     setup_initial_questions_file()
     _ensure_questions_loaded()
@@ -3012,15 +3027,22 @@ def main():
         cfg = _load_global_config()
         if cfg.get("show_top5_public", True):
             # Auswahlmenü für Leaderboard-Modus
+            lb_mode_options = [
+                ("strict", "Nur vollständige Testdurchläufe"),
+                ("relaxed", "Alle Teilnehmenden nach Punkten")
+            ]
+            # Set index to match current mode
+            current_mode = st.session_state.get("leaderboard_mode", "strict")
+            try:
+                current_index = [x[0] for x in lb_mode_options].index(current_mode)
+            except Exception:
+                current_index = 0
+            # Do NOT use a key for the radio, use a local variable for index
             lb_mode = st.radio(
                 "Leaderboard zeigt:",
-                options=[
-                    ("strict", "Nur vollständige Testdurchläufe"),
-                    ("relaxed", "Alle Teilnehmenden nach Punkten")
-                ],
+                options=lb_mode_options,
                 format_func=lambda x: x[1],
-                index=0 if st.session_state.get("leaderboard_mode", "strict") == "strict" else 1,
-                key="leaderboard_mode_public"
+                index=current_index
             )
             st.session_state["leaderboard_mode"] = lb_mode[0]
             try:
