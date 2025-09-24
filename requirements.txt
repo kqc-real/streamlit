@@ -1,6 +1,6 @@
 # Minimal requirements for standalone subtree deployment of mc_test_app
 # (separate from root-level requirements.txt which is heavy for full course stack)
-streamlit>=1.32
+streamlit>=1.25,<2.0
 pandas>=2.2
 numpy>=1.26
 
