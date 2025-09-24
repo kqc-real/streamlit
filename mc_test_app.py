@@ -2807,24 +2807,41 @@ def main():
     if "user_id" in st.session_state:
         user_id = st.session_state.user_id
 
+    # --- Persist and restore Fragenset-Auswahl (selected_questions_file) ---
+    # On first load, check query params for 'fragenset' and restore selection
+    params = st.query_params if hasattr(st, "query_params") else {}
+    if "fragenset" in params:
+        qs_file = params["fragenset"]
+        if isinstance(qs_file, list):
+            qs_file = qs_file[0]
+        if qs_file and qs_file in _question_files:
+            st.session_state["selected_questions_file"] = qs_file
+
     # Always show header and info before user session is set up
     if "user_id" not in st.session_state:
+        selected_set = st.session_state.get("selected_questions_file", None)
+        set_label = ""
+        if selected_set:
+            # Try to make a pretty label as in the selectbox logic
+            base = selected_set
+            if base.startswith("questions_"):
+                base = base[len("questions_"):]
+            if base.endswith(".json"):
+                base = base[:-5]
+            base = base.replace("_", " ")
+            if base == "questions" and selected_set == "questions.json":
+                set_label = "Standard"
+            else:
+                set_label = base.strip().title()
         st.markdown(
-            """
-<div style='display:flex;justify-content:center;align-items:center;'>
-    <div style='max-width:600px;text-align:center;padding:24px;"
-    "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>
-    <h2 style='color:#4b9fff;'>100 Fragen!</h2>
-    <p style='font-size:1.05rem;'>
-    Starte jetzt 🚀 – und optimiere dein Wissen!
-    </p>
-  </div>
-</div>
-""",
+            f"<div style='display:flex;justify-content:center;align-items:center;'><div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'><h2 style='color:#4b9fff;'>100 Fragen!</h2><p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>{f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>" if set_label else ''}</div></div>",
             unsafe_allow_html=True,
         )
+
+                    # Auswahl der Fragen-Datei (nur vor Start) – direkte Übernahme ohne Button
         # Auswahl der Fragen-Datei (nur vor Start) – direkte Übernahme ohne Button
         if _question_files:
+            # Use session_state or fallback to first file
             current = st.session_state.get("selected_questions_file", _question_files[0])
 
             # Mapping: Original Dateiname -> Schönes Label
@@ -2871,6 +2888,11 @@ def main():
                 sel_new = st.session_state.__selected_pool_tmp
                 if sel_new != st.session_state.selected_questions_file:
                     st.session_state.selected_questions_file = sel_new
+                    # Persist selection in query params for reload-persistence
+                    try:
+                        st.query_params["fragenset"] = sel_new
+                    except Exception:
+                        pass
                     # Reset relevanter States
                     for k in [
                         "beantwortet", "frage_indices", "optionen_shuffled", "answers_text", "answer_outcomes",
