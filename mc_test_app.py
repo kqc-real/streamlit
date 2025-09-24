@@ -677,13 +677,13 @@ def get_rate_limit_seconds() -> int:
     env_val = os.getenv("MC_TEST_MIN_SECONDS_BETWEEN")
     if env_val is not None:
         try:
-            return int(env_val)
+            return int(env_val or 0)
         except Exception:
             return 0
     try:
         secrets_val = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", None)
         if secrets_val is not None:
-            return int(secrets_val)
+            return int(secrets_val or 0)
     except Exception:
         pass
     return 0
