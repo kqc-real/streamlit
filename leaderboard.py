@@ -215,14 +215,14 @@ def admin_view():
             placeholder = _pd.DataFrame([
                 {"Platz": "", "Pseudonym": "", "Punkte": ""}
             ])
-            st.dataframe(placeholder, use_container_width=True, hide_index=True)
+            st.dataframe(placeholder, width='stretch', hide_index=True)
         else:
             # Rang-Icons ergänzen
             icons = {1: "🥇", 2: "🥈", 3: "🥉"}
             df_show = top_df.copy()
             if "Platz" in df_show.columns:
                 df_show.insert(0, "Rang", df_show["Platz"].map(icons).fillna(df_show["Platz"].astype(str)))
-            st.dataframe(df_show[[c for c in ["Rang", "Platz", "Pseudonym", "Punkte"] if c in df_show.columns]], use_container_width=True, hide_index=True)
+            st.dataframe(df_show[[c for c in ["Rang", "Platz", "Pseudonym", "Punkte"] if c in df_show.columns]], width='stretch', hide_index=True)
             if "questions_file" not in top_df.columns:
                 try:
                     top_df["questions_file"] = st.session_state.get("selected_questions_file", "")
@@ -240,7 +240,7 @@ def admin_view():
         if all_df.empty:
             st.info("Noch keine Einträge. Mach du den Anfang!")
         else:
-            st.dataframe(all_df, use_container_width=True, hide_index=True)
+            st.dataframe(all_df, width='stretch', hide_index=True)
             if "questions_file" not in all_df.columns:
                 try:
                     all_df["questions_file"] = st.session_state.get("selected_questions_file", "")
@@ -268,7 +268,7 @@ def admin_view():
         for c in missing:
             df_show[c] = ""
         df_show = df_show[show_cols].sort_values("zeit", ascending=True)
-        st.dataframe(df_show, use_container_width=True, height=400, hide_index=True)
+        st.dataframe(df_show, width='stretch', height=400, hide_index=True)
         if "questions_file" not in df_logs.columns:
             try:
                 df_logs["questions_file"] = st.session_state.get("selected_questions_file", "")

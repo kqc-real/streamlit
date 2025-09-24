@@ -177,7 +177,7 @@ def display_admin_full_review():
                 inplace=True,
             )
             grouped_mark_display["Richtig %"] = grouped_mark_display["Richtig %"].map(lambda v: f"{v:.1f}%")
-            st.dataframe(grouped_mark_display, use_container_width=True, hide_index=True)
+            st.dataframe(grouped_mark_display, width='stretch', hide_index=True)
             if "questions_file" not in grouped_mark_display.columns:
                 try:
                     grouped_mark_display["questions_file"] = st.session_state.get("selected_questions_file", "")
@@ -213,35 +213,22 @@ def display_admin_full_review():
     if has_any_marked:
         options.extend(["Nur markiert", "Nur falsch & markiert"])
     selected_mode = st.selectbox(
-        "Filter",
-        options,
-        index=0,
-        help="Begrenze die Auswertung auf eine Teilmenge der Fragen / Antworten.",
-        key="review_filter_mode",
-    )
-    if selected_mode == "Nur falsch":
-        df = df[(wrong_numeric_all <= 0) & (df.get("antwort") != "__bookmark__")].copy()
-        if df.empty:
-            st.info("Keine falsch beantworteten Fragen vorhanden.")
-            return
-        st.caption("Gefiltert: Nur falsch beantwortete Fragen.")
-    elif selected_mode == "Nur markiert" and has_any_marked and mark_bool is not None:
-        df = df[mark_bool].copy()
-        if df.empty:
-            st.info("Es sind aktuell keine markierten Fragen mit Antworten vorhanden.")
-            return
-        st.caption("Gefiltert: Nur markierte Fragen.")
-    elif selected_mode == "Nur falsch & markiert" and has_any_marked and marked_wrong_mask is not None:
-        df = df[marked_wrong_mask].copy()
-        if df.empty:
-            st.info("Keine falsch beantworteten markierten Fragen vorhanden.")
-            return
-        st.caption("Gefiltert: Nur falsch beantwortete markierte Fragen.")
-    required_cols = {"frage_nr", "frage", "antwort", "richtig", "user_id_hash"}
-    if not required_cols.issubset(set(df.columns)):
-        st.warning("Log-Datei unvollständig – Auswertung möglicherweise eingeschränkt.")
-    df["is_correct"] = df["richtig"].apply(
-        lambda x: 1
+        st.divider()
+        df_gloss = pd.DataFrame(glossary)
+        st.dataframe(df_gloss, width='stretch', hide_index=True)
+        st.divider()
+        st.markdown("#### Formeln")
+        st.latex(r"p = \\frac{Richtig}{Antworten\\ gesamt}")
+        st.latex(r"r_{pb} = \\frac{\\bar{X}_1 - \\bar{X}_0}{s_X} \\sqrt{\\frac{n_1 n_0}{n(n-1)}}")
+        st.caption(
+            "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch. "
+            "Vereinfachte Form – alternative Schreibweisen möglich."
+        )
+        st.latex(r"Dominanter\\ Distraktor\\ % = \\frac{Häufigkeit\\ stärkster\\ Distraktor}{Antworten\\ gesamt} \\times 100")
+        st.caption(
+            "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
+        )
+        st.divider()
         if pd.to_numeric(x, errors="coerce") and int(pd.to_numeric(x, errors="coerce") or 0) > 0
         else 0
     )
@@ -352,7 +339,7 @@ def display_admin_full_review():
     styled["Trennschärfe (r_pb)"] = styled["Trennschärfe (r_pb)"].map(
         lambda v: f"{v:.2f}" if pd.notna(v) else "—"
     )
-    st.dataframe(styled, use_container_width=True)
+    st.dataframe(styled, width='stretch')
     with st.expander("🔎 Detail zu einer ausgewählten Frage"):
         frage_nums = grouped["frage_nr"].tolist()
         sel = (
@@ -379,7 +366,7 @@ def display_admin_full_review():
             detail_sorted = detail[["user_id_hash", "antwort", "richtig", "zeit"]].sort_values(
                 by="zeit"
             )
-            st.dataframe(detail_sorted, use_container_width=True)
+            st.dataframe(detail_sorted, width='stretch')
             st.write("Antwortverteilung (Optionen – Häufigkeit & Anteil):")
             dist = (
                 detail.groupby(["antwort"], as_index=False)
@@ -400,7 +387,7 @@ def display_admin_full_review():
                 inplace=True,
             )
             dist["Ist richtig"] = dist["Ist richtig"].map(lambda x: "✅" if x else "❌")
-            st.dataframe(dist, use_container_width=True)
+            st.dataframe(dist, width='stretch')
 
 
 def display_admin_panel():
@@ -509,7 +496,7 @@ def display_admin_panel():
                             ]
                             st.dataframe(
                                 agg[cols_show],
-                                use_container_width=True,
+                                width='stretch',
                                 hide_index=True,
                             )
                             if "questions_file" not in agg.columns:
@@ -699,7 +686,20 @@ def display_admin_panel():
         st.markdown("- Verteilung zeigt selten genutzte oder überdominante Optionen.")
         st.divider()
         df_gloss = pd.DataFrame(glossary)
-        st.dataframe(df_gloss, use_container_width=True, hide_index=True)
+            st.dataframe(df_gloss, width='stretch', hide_index=True)
+            st.divider()
+            st.markdown("#### Formeln")
+            st.latex(r"p = \frac{Richtig}{Antworten\ gesamt}")
+            st.latex(r"r_{pb} = \frac{\bar{X}_1 - \bar{X}_0}{s_X} \sqrt{\frac{n_1 n_0}{n(n-1)}}")
+            st.caption(
+                "r_{pb}: punkt-biseriale Korrelation; X ohne aktuelles Item; n_1 korrekt, n_0 falsch. "
+                "Vereinfachte Form – alternative Schreibweisen möglich."
+            )
+            st.latex(r"Dominanter\ Distraktor\ % = \frac{Häufigkeit\ stärkster\ Distraktor}{Antworten\ gesamt} \times 100")
+            st.caption(
+                "Bei sehr kleinem n (<20) Kennzahlen mit Vorsicht interpretieren; Varianz und Korrelationen sind instabil."
+            )
+            st.divider()
         st.divider()
         st.markdown("#### Formeln")
         st.latex(r"p = \frac{Richtig}{Antworten\ gesamt}")

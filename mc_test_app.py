@@ -2823,7 +2823,7 @@ def render_fragen_distribution(fragen):
     )
     fig.update_xaxes(showgrid=False, linecolor=text_color)
     fig.update_yaxes(showgrid=False, linecolor=text_color)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 
 def compute_total_points(fragen_list: List[Dict]) -> int:
