@@ -2,6 +2,84 @@
 
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
+Eine interaktive Multiple-Choice-Lern- und Selbsttest-App für Kursteilnehmer/innen.
+Bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse
+für diverse Fragensets.
+
+---
+
+## 🚀 Übersicht
+
+Diese App ist ein vollständiger MC-Test für Kursinhalte, entwickelt mit Streamlit.
+Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge und Zeitlimit.
+Perfekt für Bildungsumgebungen oder Selbstlernphasen.
+
+
+### Hauptfunktionen (Stand 2025-09-24, verifiziert)
+
+| Kategorie      | Funktion (verifiziert)                                                                                 |
+|---------------|--------------------------------------------------------------------------------------------------------|
+| Zugang        | Pseudonym-Login (anonymisiert via Hash)                                                                |
+| Fragen        | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen, **strikte Trennung nach Fragenset**           |
+| Fragenset     | Auswahl & Persistenz des Fragensets (Fragenpool) auf Startseite, Query-Param-Sync, keine Vermischung   |
+| Scoring-Modi  | "Nur +Punkte" (falsch = 0) · "+/- Punkte" (falsch = -Gewichtung, ab 2025-09-22 volle Gewichtung)     |
+| Feedback      | Sofortiges Ergebnis + Erklärung, dynamische Motivation                                                 |
+| Fortschritt   | Persistenz pro Pseudonym (Session lokal, pro Fragenset getrennt)                                       |
+| Zeitlimit     | Optionales 60-Minuten-Fenster (abschaltbar durch Code-Anpassung)                                      |
+| Leaderboard   | Öffentliches Top‑5 vor Login; vollständige Ansicht für Admin                                           |
+| Analyse       | Itemanalyse (p, r_pb, Distraktor, Verteilungen)                                                        |
+| Export        | CSV-Download über Admin-Panel, **normiertes Schema**                                                   |
+| Reset         | Globaler CSV-Reset mit Hinweisbanner & Bestätigungsdialog (System-Tab, Admin)                         |
+| Admin-Panel   | Sichtbar & funktionsfähig nach Login, Session-Handling, keine doppelten Widget-Keys                    |
+| Sicherheit    | Hashing + Admin-Key + Rate-Limit (optional), DEV-Fallback                                              |
+| Accessibility | Reduzierte Animationen, hoher Kontrast                                                                |
+
+**Neu (2025-09-22 bis 2025-09-24, verifiziert):**
+
+- Strikte Trennung & Persistenz der Antworten, Bookmarks und Exporte pro Fragenset (kein Pool-Mix mehr möglich)
+- Admin-Panel: Sichtbarkeit, Session-Handling und Reset-Button mit Bestätigung verbessert
+- CSV-Export: Spaltenreihenfolge und Schema sind jetzt immer konsistent
+- Fragenset-Auswahl: Persistenz via Query-Param und Session, keine Vermischung nach Wechsel
+- Bugfixes: Keine doppelten Widget-Keys, keine unerwünschten Titel im Admin-Panel, keine Frage-Mischung
+
+Alle Features wurden am 2025-09-24 getestet und funktionieren wie dokumentiert.
+
+---
+
+## 👨‍💻 Entwickler-Info: Session State Variablen
+
+Die App verwendet `st.session_state` intensiv zur Steuerung von UI, Fortschritt, Authentifizierung und Pool-Logik. Nachfolgend eine Übersicht der wichtigsten Session-Variablen und ihrer Bedeutung (Stand 2025-09-24):
+
+| Variable                  | Typ         | Bedeutung                                                                                 |
+|---------------------------|-------------|------------------------------------------------------------------------------------------|
+| user_id                   | str         | Aktuelles Pseudonym (Plaintext, für Leaderboard & Anzeige)                               |
+| user_id_hash              | str         | SHA-256-Hash des Pseudonyms (für Anonymität, als Key für Antworten)                      |
+| user_id_display           | str         | Gekürzter Hash (z.B. erste 10 Zeichen, für Leaderboard)                                  |
+| selected_questions_file   | str         | Aktuell gewähltes Fragenset (Dateiname, z.B. `questions_Data_Science.json`)              |
+| beantwortet               | list[bool]  | Liste, ob jede Frage beantwortet wurde (Index = Frage)                                   |
+| frage_indices             | list[int]   | Reihenfolge der Fragen (zufällig permutiert)                                             |
+| optionen_shuffled         | list[list]  | Für jede Frage: zufällig permutierte Antwortoptionen                                     |
+| answers_text              | list[str]   | Vom User gewählte Antworttexte (Index = Frage)                                           |
+| answer_outcomes           | list[int]   | Punktwert pro Frage (Index = Frage)                                                      |
+| celebrated_questions      | set/int     | IDs der Fragen, für die bereits ein Motivationsbanner gezeigt wurde                      |
+| start_zeit                | str/dt      | ISO8601-Startzeit des Tests (für Zeitlimit)                                              |
+| test_time_expired         | bool        | True, wenn Zeitlimit überschritten                                                       |
+| bookmarks                 | set/int     | Vom User markierte Fragen (Bookmark-Feature)                                             |
+| admin_auth_ok             | bool        | True, wenn Admin-Login erfolgreich                                                       |
+| show_admin_panel          | bool        | True, wenn Admin-Panel angezeigt werden soll                                              |
+| admin_view                | str         | Aktueller Tab im Admin-Panel (z.B. "Leaderboard", "Analyse", "System")               |
+| __selected_pool_tmp       | str         | Zwischenspeicher für Fragenset-Auswahl (Selectbox)                                       |
+| __admin_reset_confirm     | bool        | True, wenn Admin-Reset bestätigt wurde                                                   |
+| __admin_reset_pending     | bool        | True, wenn Admin-Reset-Dialog angezeigt wird                                             |
+| __admin_reset_done        | bool        | True, wenn Admin-Reset durchgeführt wurde                                                |
+
+Weitere temporäre oder Feature-spezifische Variablen können im Code ergänzt werden. Die wichtigsten States werden beim Fragenset-Wechsel und beim globalen Reset gezielt gelöscht oder neu initialisiert.
+
+**Hinweis:** Die Session-State-Keys sind bewusst sprechend gewählt und können sich bei neuen Features erweitern. Für robuste Feature-Entwicklung empfiehlt sich die Nutzung von `st.session_state.get("key")` mit Defaultwerten.
+# 📝 MC-Test Streamlit App
+
+[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
+
 Eine interaktive Multiple-Choice-Lern- und Selbsttest-App für Kursteilnehmer.
 Bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse
 für Data Science-Themen.
@@ -14,24 +92,35 @@ Diese App ist ein vollständiger MC-Test für Data Analytics, entwickelt mit Str
 Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge und Zeitlimit.
 Perfekt für Bildungsumgebungen oder Selbstlernphasen.
 
-### Hauptfunktionen (Kurz)
 
-| Kategorie | Funktion |
-|-----------|----------|
-| Zugang | Pseudonym-Login (anonymisiert via Hash) |
-| Fragen | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen |
-| Scoring-Modi | "Nur +Punkte" (falsch = 0) · "+/- Punkte" (falsch = -Gewichtung) |
-| Feedback | Sofortiges Ergebnis + Erklärung, dynamische Motivation |
-| Fortschritt | Persistenz pro Pseudonym (Session lokal) |
-| Zeitlimit | Optionales 60-Minuten-Fenster (abschaltbar durch Code-Anpassung) |
-| Leaderboard | Öffentliches Top‑5 vor Login; vollständige Ansicht für Admin |
-| Analyse | Itemanalyse (p, r_pb, Distraktor, Verteilungen) |
-| Export | CSV-Download über Admin-Panel |
-| Reset | Globaler CSV-Reset mit Hinweisbanner (System-Tab) |
-| Sicherheit | Hashing + Admin-Key + Rate-Limit (optional) |
-| Accessibility | Reduzierte Animationen, hoher Kontrast |
+### Hauptfunktionen (Stand 2025-09-24, verifiziert)
 
-> Neu (2025-09-22): Negatives Scoring zieht jetzt die volle *Gewichtung* einer Frage ab (nicht mehr pauschal -1).
+| Kategorie      | Funktion (verifiziert)                                                                                 |
+|---------------|--------------------------------------------------------------------------------------------------------|
+| Zugang        | Pseudonym-Login (anonymisiert via Hash)                                                                |
+| Fragen        | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen, **strikte Trennung nach Fragenset**           |
+| Fragenset     | Auswahl & Persistenz des Fragensets (Fragenpool) auf Startseite, Query-Param-Sync, keine Vermischung   |
+| Scoring-Modi  | "Nur +Punkte" (falsch = 0) · "+/- Punkte" (falsch = -Gewichtung, ab 2025-09-22 volle Gewichtung)     |
+| Feedback      | Sofortiges Ergebnis + Erklärung, dynamische Motivation                                                 |
+| Fortschritt   | Persistenz pro Pseudonym (Session lokal, pro Fragenset getrennt)                                       |
+| Zeitlimit     | Optionales 60-Minuten-Fenster (abschaltbar durch Code-Anpassung)                                      |
+| Leaderboard   | Öffentliches Top‑5 vor Login; vollständige Ansicht für Admin                                           |
+| Analyse       | Itemanalyse (p, r_pb, Distraktor, Verteilungen)                                                        |
+| Export        | CSV-Download über Admin-Panel, **normiertes Schema**                                                   |
+| Reset         | Globaler CSV-Reset mit Hinweisbanner & Bestätigungsdialog (System-Tab, Admin)                         |
+| Admin-Panel   | Sichtbar & funktionsfähig nach Login, Session-Handling, keine doppelten Widget-Keys                    |
+| Sicherheit    | Hashing + Admin-Key + Rate-Limit (optional), DEV-Fallback                                              |
+| Accessibility | Reduzierte Animationen, hoher Kontrast                                                                |
+
+**Neu (2025-09-22 bis 2025-09-24, verifiziert):**
+
+- Strikte Trennung & Persistenz der Antworten, Bookmarks und Exporte pro Fragenset (kein Pool-Mix mehr möglich)
+- Admin-Panel: Sichtbarkeit, Session-Handling und Reset-Button mit Bestätigung verbessert
+- CSV-Export: Spaltenreihenfolge und Schema sind jetzt immer konsistent
+- Fragenset-Auswahl: Persistenz via Query-Param und Session, keine Vermischung nach Wechsel
+- Bugfixes: Keine doppelten Widget-Keys, keine unerwünschten Titel im Admin-Panel, keine Frage-Mischung
+
+Alle Features wurden am 2025-09-24 getestet und funktionieren wie dokumentiert.
 
 ---
 
@@ -136,7 +225,7 @@ Minimalvariante (alle Strings explizit in Quotes):
 - **Schema (seit Sept 2025, kompatibel rückwärts):**
 
   ```csv
-  user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit
+  user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit,markiert,questions_file
   ```
 
 - **Felder:**

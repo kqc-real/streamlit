@@ -6,3 +6,11 @@ ef395bbd0a8c1af1a97b47014e95c6247f47666c4f4f769c03efe5ffbc4debd7,ef395bbd0a,asas
 d876d59095f13054c120f77202c5378aa25d7787d4adf70980dbb3f2a7125ac1,d876d59095,qw,22,22. Welche **Timebox** ist typisch für ein Scrum-Event?,"**Planning** exakt drei Stunden, unabhängig von Sprintlänge.",-2,2025-09-24T10:00:30,True,questions_Agiles_Projektmanagement.json
 d876d59095f13054c120f77202c5378aa25d7787d4adf70980dbb3f2a7125ac1,d876d59095,qw,45,45. Was ist der Zweck von **Akzeptanzkriterien** (**AK**)?,"Verifizieren, wann die **User Story** die Nutzerbedürfnisse erfüllt.",2,2025-09-24T10:00:50,True,questions_Agiles_Projektmanagement.json
 d876d59095f13054c120f77202c5378aa25d7787d4adf70980dbb3f2a7125ac1,d876d59095,qw,79,79. Welche Aussage zur **Prognosequalität** ist solide?,**Bandbreiten** kommunizieren und mit Erfahrungsdaten kalibrieren.,2,2025-09-24T10:02:05,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:05:22,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,27,27. Wer verantwortet die **Prozesshygiene**?,Externe Auditoren leiten die **Daily-Agenda** vor.,-1,2025-09-24T10:05:23,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:05:34,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,47,47. Welcher Schnitt einer User Story ist typisch **vertikal**?,Ein **End-to-end Nutzenpfad** von der **UI** bis zu den Daten mit kleinem Umfang.,1,2025-09-24T10:05:35,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:26:53,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,95,95. Welche Aussage beschreibt die Rolle des **Managements** im agilen Projektmanagement am besten?,Das Management ist für die technische Umsetzung verantwortlich.,-3,2025-09-24T10:26:54,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:29:20,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,26,26. Was charakterisiert ein gutes **Review**?,Reales Feedback von Nutzenden und **datenbasierte Entscheidungen**.,3,2025-09-24T10:29:22,False,questions_Agiles_Projektmanagement.json

@@ -2853,8 +2853,9 @@ def main():
                 set_label = "Standard"
             else:
                 set_label = base.strip().title()
+        set_label_html = f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>" if set_label else ""
         st.markdown(
-            f"<div style='display:flex;justify-content:center;align-items:center;'><div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'><h2 style='color:#4b9fff;'>100 Fragen!</h2><p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>{f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>" if set_label else ''}</div></div>",
+            f"<div style='display:flex;justify-content:center;align-items:center;'><div style='max-width:600px;text-align:center;padding:24px;background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'><h2 style='color:#4b9fff;'>100 Fragen!</h2><p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>{set_label_html}</div></div>",
             unsafe_allow_html=True,
         )
 
