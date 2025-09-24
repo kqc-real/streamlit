@@ -1,39 +1,18 @@
 
+
 # --- Patch sys.path for robust imports (works on Streamlit Cloud and locally) ---
-import sys
-import os
-import time
-import json
-import random
-import hashlib
-import hmac
+import sys, os, time, json, random, hashlib, hmac
 from datetime import datetime
 from typing import List, Dict
 import streamlit as st
 import pandas as pd
-import importlib
-import pathlib
+import importlib, pathlib
 _this_dir = os.path.dirname(__file__)
 _ws_root = os.path.abspath(os.path.join(_this_dir, '..'))
 if _this_dir not in sys.path:
     sys.path.insert(0, _this_dir)
 if _ws_root not in sys.path:
     sys.path.insert(0, _ws_root)
-
-# Standardbibliotheken
-import os
-import time
-import json
-import random
-import hashlib
-import hmac
-from datetime import datetime
-from typing import List, Dict
-
-
-# Drittanbieter-Bibliotheken
-import streamlit as st
-import pandas as pd
 
 # Robust import for get_package_dir: prefer relative import when package context
 # exists, otherwise load the helper module by path so `streamlit run mc_test_app/mc_test_app.py`
