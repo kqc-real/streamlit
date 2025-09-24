@@ -741,6 +741,9 @@ def _ensure_questions_loaded():
     fragen = _load_fragen(sel)
     FRAGEN_ANZAHL = len(fragen)
 
+
+# Always define 'fragen' at module level for testability
+fragen = []
 # Only call these in main() or Streamlit context!
 
 

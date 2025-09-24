@@ -14,3 +14,7 @@ hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:26:53,False,
 eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,95,95. Welche Aussage beschreibt die Rolle des **Managements** im agilen Projektmanagement am besten?,Das Management ist für die technische Umsetzung verantwortlich.,-3,2025-09-24T10:26:54,False,questions_Agiles_Projektmanagement.json
 hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:29:20,False,
 eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,26,26. Was charakterisiert ein gutes **Review**?,Reales Feedback von Nutzenden und **datenbasierte Entscheidungen**.,3,2025-09-24T10:29:22,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:42:02,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,7,7. Welche Aussage zu **Komplexität** trifft zu?,Vorhersage wird durch späte Tests zuverlässig und genau.,-2,2025-09-24T10:42:03,False,questions_Agiles_Projektmanagement.json
+hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T10:43:17,False,
+eb97d409396a3e5392936dad92b909da6f08d8c121a45e1f088fe9768b0c0339,eb97d40939,TestUser,43,43. Welches **Missverständnis** ist verbreitet?,Die **DoD** gilt für alle **Product Backlog Items**.,-2,2025-09-24T10:43:19,False,questions_Agiles_Projektmanagement.json
