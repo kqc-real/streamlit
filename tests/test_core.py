@@ -7,7 +7,9 @@ from unittest.mock import patch, mock_open
 from datetime import timedelta
 
 # Import from core.py
+
 import importlib
+import streamlit as st
 try:
     # Package layout
     from mc_test_app import core as core  # type: ignore
@@ -116,11 +118,12 @@ def test_initialize_session_state():
 
 def test_save_answer():
     # Mock dependencies
+
     with patch.object(app_mod, 'get_user_id_hash', return_value='testhash'), \
         patch.object(app_mod, 'datetime') as mock_datetime, \
-         patch('builtins.open', mock_open()) as mock_file, \
-         patch('streamlit.session_state', {'user_id': 'testuser'}), \
-         patch('os.path.isfile', return_value=False):
+        patch('builtins.open', mock_open()) as mock_file, \
+        patch.object(st, 'session_state', {'user_id': 'testuser'}), \
+        patch('os.path.isfile', return_value=False):
 
         mock_datetime.now.return_value.isoformat.return_value = '2025-09-19T10:00:00'
 
