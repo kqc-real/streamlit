@@ -2844,7 +2844,7 @@ def main():
     # --- Robust, filterable Top 5 Leaderboard (cloud compatible) ---
     cfg = _load_global_config()
     if cfg.get("show_top5_public", True):
-        import mc_test_app.leaderboard as lb_mod
+        import leaderboard as lb_mod
         # Fragenset-Auswahl (robust, fallback to first if missing)
         selected_set = st.session_state.get("selected_questions_file")
         if not selected_set and '_question_files' in globals() and _question_files:
@@ -2885,7 +2885,8 @@ def main():
                 total_q = 0
                 # Try to get question count for selected set
                 if selected_set:
-                    import os, json
+                    import os
+                    import json
                     qpath = os.path.join(get_package_dir(), selected_set)
                     if os.path.exists(qpath):
                         with open(qpath, "r", encoding="utf-8") as f:
