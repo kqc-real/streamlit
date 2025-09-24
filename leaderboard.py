@@ -109,7 +109,7 @@ def load_all_logs() -> pd.DataFrame:
                 "zeit",
             ]
         )
-        df = df[df["richtig"].isin([-1, 0, 1])]
+    # Remove filter: allow all integer values for 'richtig' (including negative scores)
         for col in ["user_id_hash", "frage", "antwort"]:
             df = df[df[col].astype(str).str.strip() != ""]
         try:
@@ -128,8 +128,12 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
         tmp = df.copy()
         tmp["richtig"] = pd.to_numeric(tmp["richtig"], errors="coerce")
         tmp["zeit"] = pd.to_datetime(tmp["zeit"], errors="coerce")
+        # Gruppiere nach user_id_hash und questions_file (Fragenset), falls vorhanden
+        group_cols = ["user_id_hash"]
+        if "questions_file" in tmp.columns:
+            group_cols.append("questions_file")
         agg_df = (
-            tmp.groupby("user_id_hash")
+            tmp.groupby(group_cols)
             .agg(
                 Punkte=("richtig", "sum"),
                 Antworten=("frage_nr", "count"),
@@ -142,7 +146,8 @@ def calculate_leaderboard_all(df: pd.DataFrame) -> pd.DataFrame:
         agg_df["Dauer"] = agg_df["Ende"] - agg_df["Start"]
         agg_df = agg_df.sort_values(by=["Punkte", "Dauer"], ascending=[False, True])
         agg_df["Zeit"] = agg_df["Dauer"].apply(_duration_to_str)
-        return agg_df[["Pseudonym", "Punkte", "Antworten", "Zeit", "Start", "Ende"]]
+        # Zeige nur die wichtigsten Spalten für das Leaderboard
+        return agg_df[["Pseudonym", "Punkte", "Antworten", "Zeit"]]
     except Exception:  # pragma: no cover
         return pd.DataFrame()
 

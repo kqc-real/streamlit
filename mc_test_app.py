@@ -1528,6 +1528,7 @@ def save_answer(
             st.session_state[dup_key] = True
             if min_delta > 0:
                 st.session_state["last_answer_ts"] = time.time()
+            # Kein sofortiges experimental_rerun mehr! Rerun erfolgt nach Abschluss der UI-Logik.
             return
         except Exception as e:  # broad to also catch lock timeout
             attempt += 1
@@ -2025,27 +2026,10 @@ def display_sidebar_metrics(num_answered: int) -> None:
     st.sidebar.markdown(progress_html, unsafe_allow_html=True)
     st.sidebar.caption(f"{progress_pct} %")
     # (Badges/Streak in Fragenbereich verlegt – Sidebar zeigt nur noch Fortschritt + Score)
-    scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-    if _scoring is not None:
-        max_punkte = _scoring.max_score(fragen, scoring_mode)
-        aktueller_punktestand = _scoring.current_score(
-            st.session_state.beantwortet, fragen, scoring_mode
-        )
-    else:  # fallback
-        max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
-        if scoring_mode == "positive_only":
-            aktueller_punktestand = sum(
-                [
-                    frage.get("gewichtung", 1)
-                    if p == frage.get("gewichtung", 1)
-                    else 0
-                    for p, frage in zip(st.session_state.beantwortet, fragen)
-                ]
-            )
-        else:
-            aktueller_punktestand = sum(
-                [p if p is not None else 0 for p in st.session_state.beantwortet]
-            )
+    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+    aktueller_punktestand = sum(
+        [p if p is not None else 0 for p in st.session_state.beantwortet]
+    )
     st.sidebar.header("🎯 Punktestand")
     st.sidebar.metric(
         label="Dein Score:", value=f"{aktueller_punktestand} / {max_punkte}"
@@ -2361,31 +2345,9 @@ def display_final_summary(num_answered: int) -> None:
         "test_time_expired", False
     ):
         return
-    scoring_mode = st.session_state.get("scoring_mode", "positive_only")
-    if _scoring is not None:
-        max_punkte = _scoring.max_score(fragen, scoring_mode)
-        aktueller_punktestand = _scoring.current_score(
-            st.session_state.beantwortet, fragen, scoring_mode
-        )
-        prozent = _scoring.percentage(
-            st.session_state.beantwortet, fragen, scoring_mode
-        )
-    else:  # fallback
-        if scoring_mode == "positive_only":
-            aktueller_punktestand = sum(
-                [
-                    frage.get("gewichtung", 1)
-                    if p == frage.get("gewichtung", 1)
-                    else 0
-                    for p, frage in zip(st.session_state.beantwortet, fragen)
-                ]
-            )
-        else:
-            aktueller_punktestand = sum(
-                [p for p in st.session_state.beantwortet if p is not None]
-            )
-        max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
-        prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
+    max_punkte = sum([frage.get("gewichtung", 1) for frage in fragen])
+    aktueller_punktestand = sum([p for p in st.session_state.beantwortet if p is not None])
+    prozent = aktueller_punktestand / max_punkte if max_punkte > 0 else 0
     reduce_anim = st.session_state.get("reduce_animations", False)
     # Unterschiedliche Nachricht je nach Test-Ende
     if st.session_state.get("test_time_expired", False):
@@ -2393,54 +2355,25 @@ def display_final_summary(num_answered: int) -> None:
     else:
         st.header("🚀 Test durchgezogen!")
     emoji, quote = "", ""
-    if scoring_mode == "positive_only":
-        if prozent == 1.0:
-            emoji, quote = (
-                "💥",
-                "**Granate! Alles richtig, du bist ein MC-Test-Profi!** 🚀",
-            )
-            if not reduce_anim:
-                st.balloons()
-                st.snow()
-        elif prozent >= 0.9:
-            emoji, quote = ("🌟", "**Sehr gut! Über 90% richtig.**")
-        elif prozent >= 0.7:
-            emoji, quote = ("🎉", "**Gut! Über 70% richtig.**")
-        elif prozent >= 0.5:
-            emoji, quote = ("🙂", "**Ausreichend! Über 50% richtig.**")
-        else:
-            emoji, quote = (
-                "🤔",
-                "**Noch Luft nach oben. Erklärungen zu falschen Antworten lesen!** 🔍",
-            )
+    if prozent == 1.0:
+        emoji, quote = (
+            "💥",
+            "**Granate! Alles richtig, du bist ein MC-Test-Profi!** 🚀",
+        )
+        if not reduce_anim:
+            st.balloons()
+            st.snow()
+    elif prozent >= 0.9:
+        emoji, quote = ("🌟", "**Sehr gut! Über 90% richtig.**")
+    elif prozent >= 0.7:
+        emoji, quote = ("🎉", "**Gut! Über 70% richtig.**")
+    elif prozent >= 0.5:
+        emoji, quote = ("🙂", "**Ausreichend! Über 50% richtig.**")
     else:
-        if aktueller_punktestand < 0:
-            emoji = "🫠"
-            quote = (
-                f"**Endstand: {aktueller_punktestand} von {len(fragen)} Punkten.**  "
-                "Das war... kreativ! 😅  "
-                "Manchmal ist der Weg das Ziel. Erklärungen lesen & beim nächsten Versuch steigern! 🚀"
-            )
-        elif prozent == 1.0:
-            emoji, quote = (
-                "🌟🥇",
-                "**Mega! Alles richtig, du bist ein MC-Test-Profi!** 🚀",
-            )
-            if not reduce_anim:
-                st.balloons()
-                st.snow()
-        elif prozent >= 0.8:
-            emoji, quote = (
-                "🎉👍",
-                "**Sehr stark! Du hast die meisten Konzepte voll drauf.** 🎯",
-            )
-        elif prozent >= 0.5:
-            emoji, quote = ("🙂", "**Solide Leistung! Die Basics sitzen.** 👍")
-        else:
-            emoji, quote = (
-                "🤔",
-                "**Ein paar Sachen sind noch offen. Erklärungen zu falschen Antworten ansehen!** 🔍",
-            )
+        emoji, quote = (
+            "🤔",
+            "**Noch Luft nach oben. Erklärungen zu falschen Antworten lesen!** 🔍",
+        )
     prozent_anzeige = f"<span style='color:#ffd600;font-size:2rem;font-weight:700;'>{round(prozent * 100)} %</span>"
     st.markdown(
         f"### {emoji} Endstand: {prozent_anzeige} richtig",
@@ -2718,17 +2651,11 @@ def handle_user_session():
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     display_sidebar_metrics(num_answered)
     st.sidebar.divider()
-    # Scoring-Modus Anzeige (nur Info in Sidebar; Umschalten im System-Tab)
-    current_mode = st.session_state.get("scoring_mode", "positive_only")
-    label = "Nur +Punkte" if current_mode == "positive_only" else "+/- Punkte"
-    st.sidebar.markdown(f"**Scoring-Modus:** {label}")
     try:
         _sidebar_total_pts = compute_total_points(fragen)
         st.sidebar.caption(f"Max. Punkte: {_sidebar_total_pts}")
     except Exception:
         pass
-    if current_mode != "positive_only":
-        st.sidebar.caption("'+/- Punkte': falsch = -Gewichtung der Frage")
     render_admin_sidebar(st.session_state.get("user_id"))
     return st.session_state.user_id
 
@@ -2860,60 +2787,18 @@ def main():
     cfg = _load_global_config()
     if "user_id" not in st.session_state and cfg.get("show_top5_public", True):
         import leaderboard as lb_mod
-        # Fragenset-Auswahl (robust, fallback to first if missing)
         selected_set = st.session_state.get("selected_questions_file")
-        if not selected_set and '_question_files' in globals() and _question_files:
-            selected_set = _question_files[0]
-        # Leaderboard-Modus-Auswahl (robust, fallback to strict)
-        lb_mode_options = [
-            ("strict", "Nur vollständige Testdurchläufe"),
-            ("relaxed", "Alle Teilnehmenden nach Punkten")
-        ]
-        current_mode = st.session_state.get("leaderboard_mode", "strict")
-        try:
-            current_index = [x[0] for x in lb_mode_options].index(current_mode)
-        except Exception:
-            current_index = 0
-        lb_mode = st.radio(
-            "Leaderboard zeigt:",
-            options=lb_mode_options,
-            format_func=lambda x: x[1],
-            index=current_index,
-            key="public_leaderboard_mode_radio"
-        )
-        st.session_state["leaderboard_mode"] = lb_mode[0]
-        # Load logs and filter by fragenset
         try:
             df = lb_mod.load_all_logs()
             if selected_set and "questions_file" in df.columns:
                 df = df[df["questions_file"] == selected_set]
-            if lb_mode[0] == "relaxed":
-                lb_df = lb_mod.calculate_leaderboard_all(df)
-                if not lb_df.empty:
-                    lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(5)
-                    lb_df = lb_df.reset_index(drop=True)
-                    lb_df.insert(0, "Platz", lb_df.index + 1)
-                    lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
-            else:
-                # Strict: only full runs
-                import scoring as scoring_mod
-                total_q = 0
-                # Try to get question count for selected set
-                if selected_set:
-                    import os
-                    import json
-                    qpath = os.path.join(get_package_dir(), selected_set)
-                    if os.path.exists(qpath):
-                        with open(qpath, "r", encoding="utf-8") as f:
-                            data = json.load(f)
-                        if isinstance(data, list):
-                            total_q = len(data)
-                if total_q <= 0:
-                    total_q = 100  # fallback
-                lb_df = scoring_mod.leaderboard_completed(total_q)
-                if not lb_df.empty:
-                    lb_df = lb_df.reset_index(drop=True)
-            if lb_df is not None and not lb_df.empty:
+            # Zeige immer die Highscore-Liste: letzte Punktzahl pro User, egal ob Test beendet oder abgebrochen
+            lb_df = lb_mod.calculate_leaderboard_all(df)
+            if not lb_df.empty:
+                lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(5)
+                lb_df = lb_df.reset_index(drop=True)
+                lb_df.insert(0, "Platz", lb_df.index + 1)
+                lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
                 st.markdown("### 🥇 Aktuelle Top 5")
                 show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
                 if show_cols:
@@ -2926,7 +2811,7 @@ def main():
                         ordered = show_cols
                     st.dataframe(to_show[ordered], width='stretch', hide_index=True)
             else:
-                st.info("Noch keine vollständigen Teilnahmen für dieses Fragenset.")
+                st.info("Noch keine Einträge für dieses Fragenset.")
         except Exception as e:
             st.warning(f"Top 5 Leaderboard konnte nicht geladen werden: {e}")
     # --- End Top 5 robust block ---
