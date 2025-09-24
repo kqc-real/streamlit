@@ -2833,7 +2833,10 @@ def main():
             qs_file = qs_file[0]
         if qs_file and qs_file in _question_files:
             st.session_state["selected_questions_file"] = qs_file
+            _ensure_questions_loaded()
 
+    # Always ensure questions are loaded for the selected set
+    _ensure_questions_loaded()
     # Always show header and info before user session is set up
     if "user_id" not in st.session_state:
         selected_set = st.session_state.get("selected_questions_file", None)
