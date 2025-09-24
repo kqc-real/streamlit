@@ -2881,7 +2881,7 @@ def main():
                     lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
             else:
                 # Strict: only full runs
-                from mc_test_app import scoring as scoring_mod
+                import scoring as scoring_mod
                 total_q = 0
                 # Try to get question count for selected set
                 if selected_set:

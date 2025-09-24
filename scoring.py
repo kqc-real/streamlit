@@ -1,6 +1,6 @@
 import os
 from typing import List, Dict
-from ._paths import get_package_dir
+from _paths import get_package_dir
 import pandas as pd
 import streamlit as st
 
