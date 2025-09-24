@@ -29,6 +29,10 @@ except Exception:
 from _paths import get_package_dir
 
 LOGFILE = os.path.join(get_package_dir(), "mc_test_answers.csv")
+
+def get_logfile():
+    # Erlaube dynamisches Überschreiben für Tests (z.B. via monkeypatch)
+    return globals().get("LOGFILE", os.path.join(get_package_dir(), "mc_test_answers.csv"))
 FIELDNAMES = [
     "user_id_hash",
     "user_id_display",
@@ -87,10 +91,11 @@ def _get_total_questions_prefer_main() -> int:
 
 
 def load_all_logs() -> pd.DataFrame:
-    if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
+    logfile = get_logfile()
+    if not (os.path.isfile(logfile) and os.path.getsize(logfile) > 0):
         return pd.DataFrame(columns=FIELDNAMES)
     try:
-        df = pd.read_csv(LOGFILE, on_bad_lines="skip")
+        df = pd.read_csv(logfile, on_bad_lines="skip")
         missing = [c for c in FIELDNAMES if c not in df.columns]
         for c in missing:
             df[c] = ""
@@ -158,11 +163,31 @@ def calculate_leaderboard() -> pd.DataFrame:
     Berücksichtigt den Spezialfall weniger Fragen analog zur Original-Implementierung.
     """
     total_q = _get_total_questions_prefer_main()
+    # Wenn keine scoring-Logik geladen werden kann, immer leeres DF zurückgeben, wenn Datei leer oder nicht vorhanden
     if _scoring is None:
-        return pd.DataFrame()
+        logfile = get_logfile()
+        if not (os.path.isfile(logfile) and os.path.getsize(logfile) > 0):
+            return pd.DataFrame()
+        try:
+            df = load_all_logs()
+            if df.empty:
+                return pd.DataFrame()
+            # Fallback: Aggregation wie bisher
+            agg = (
+                df.groupby("user_id_hash")
+                .agg(Punkte=("richtig", "sum"), Pseudonym=("user_id_plain", "first"))
+                .reset_index(drop=True)
+            )
+            if agg.empty:
+                return pd.DataFrame()
+            agg = agg.sort_values(by=["Punkte"], ascending=[False]).head(5)
+            agg.insert(0, "Platz", range(1, len(agg) + 1))
+            return agg[["Platz", "Pseudonym", "Punkte"]]
+        except Exception:
+            return pd.DataFrame()
     if total_q <= 1:  # Spezialfall leichte Inline-Auswertung
-        lf = LOGFILE
-        if not (os.path.isfile(lf) and os.path.getsize(lf) > 0):
+        logfile = get_logfile()
+        if not (os.path.isfile(logfile) and os.path.getsize(logfile) > 0):
             return pd.DataFrame()
         try:
             # Load logs via helper so missing columns are normalized
@@ -183,6 +208,8 @@ def calculate_leaderboard() -> pd.DataFrame:
                 .agg(Punkte=("richtig", "sum"), Pseudonym=("user_id_plain", "first"))
                 .reset_index(drop=True)
             )
+            if agg.empty:
+                return pd.DataFrame()
             agg = agg.sort_values(by=["Punkte"], ascending=[False]).head(5)
             agg.insert(0, "Platz", range(1, len(agg) + 1))
             return agg[["Platz", "Pseudonym", "Punkte"]]

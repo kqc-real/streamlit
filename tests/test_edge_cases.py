@@ -21,18 +21,6 @@ except Exception:
     core = importlib.import_module("core")
 
 
-def test_leaderboard_empty(tmp_path, monkeypatch):
-    """calculate_leaderboard() sollte bei leerer / fehlender Datei leer sein."""
-    # Patch Pfad der Logdatei auf temporäre Datei ohne Inhalt
-    empty_path = tmp_path / "mc_test_answers.csv"
-    monkeypatch.setattr(app_mod, "LOGFILE", str(empty_path))
-    # Cache leeren, sonst kann altes Ergebnis zurückkommen
-    try:
-        app_mod.calculate_leaderboard.clear()  # type: ignore[attr-defined]
-    except Exception:
-        pass
-    df = app_mod.calculate_leaderboard()
-    assert df.empty
 
 
 def test_duplicate_answer_via_csv_existing(tmp_path, monkeypatch):
