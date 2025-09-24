@@ -1079,6 +1079,23 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
             else:
                 st.caption("Aktiv: +/- Punkte (falsch = -Gewichtung)")
         st.divider()
+        # --- Admin: Reset all answers for all users ---
+        st.markdown("#### Antworten aller Nutzer zurücksetzen")
+        with st.expander("⚠️ Globaler Reset: Alle Antworten und Bookmarks löschen", expanded=False):
+            st.warning("Achtung: Diese Aktion löscht unwiderruflich alle Antworten und Bookmarks aller Nutzer. Dies kann nicht rückgängig gemacht werden!")
+            confirm = st.checkbox("Ich bin sicher und möchte alle Antworten löschen.", key="admin_confirm_reset_all")
+            if st.button("Alle Antworten und Bookmarks unwiderruflich löschen", key="admin_reset_all_answers", disabled=not confirm):
+                if reset_all_answers():
+                    # Nach Reset: Session-State für alle Nutzer (inkl. Admin) leeren, damit keine alten Scores angezeigt werden
+                    preserve = {"_admin_sidebar_rendered"}
+                    for k in list(st.session_state.keys()):
+                        if k not in preserve:
+                            del st.session_state[k]
+                    st.success("Alle Antworten und Bookmarks wurden gelöscht. Bitte neu anmelden.")
+                    st.rerun()
+                else:
+                    st.error("Fehler beim Zurücksetzen der Antworten.")
+        st.divider()
         st.write("Benutzer (Session):", st.session_state.get("user_id"))
         st.write("Admin-User aktiv:", bool(os.getenv("MC_TEST_ADMIN_USER")))
         st.write(
