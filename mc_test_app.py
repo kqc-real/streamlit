@@ -2928,6 +2928,15 @@ def main():
     if st.session_state.get("trigger_rerun"):
         st.session_state["trigger_rerun"] = False
         st.rerun()
+
+    # --- NEW: Auto-load progress/bookmarks for returning users ---
+    if user_id and not st.session_state.get("progress_loaded", False):
+        user_hash = st.session_state.get("user_id_hash")
+        if user_hash and user_has_progress(user_hash):
+            load_user_progress(user_hash)
+            st.session_state.progress_loaded = True
+            restore_bookmarks_light(user_hash)
+
     num_answered = len([p for p in st.session_state.beantwortet if p is not None])
     # Hide header after first answer, and do not show in admin view
     if user_id and num_answered == 0 and not st.session_state.get("admin_view", False):
