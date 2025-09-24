@@ -6,7 +6,18 @@ import json
 import os
 from typing import Dict, Any
 
-from ._paths import get_package_dir
+try:
+    from ._paths import get_package_dir
+except Exception:
+    try:
+        # Try top-level import (flat layout)
+        from _paths import get_package_dir
+    except Exception:
+        # Last-resort fallback: derive package dir from this file location
+        import os
+
+        def get_package_dir():
+            return os.path.dirname(__file__)
 
 import pandas as pd
 
@@ -36,6 +47,7 @@ ANSWER_FIELDNAMES = [
     "antwort",
     "richtig",
     "zeit",
+    "questions_file",
 ]
 
 
@@ -52,7 +64,7 @@ def append_answer_row(row: Dict[str, Any]) -> None:
     path = get_answers_path()
     lock_path = path + ".lock"
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    # Filter to expected columns only
+    # Filter to expected columns only. If caller didn't provide questions_file, leave empty.
     filtered = {k: row.get(k, "") for k in ANSWER_FIELDNAMES}
     lock = FileLock(lock_path, timeout=5)
     with lock:  # Raises if cannot acquire within timeout

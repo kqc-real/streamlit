@@ -29,6 +29,7 @@ FIELDNAMES = [
     "antwort",
     "richtig",
     "zeit",
+    "questions_file",
 ]
 
 
@@ -142,7 +143,16 @@ def calculate_leaderboard() -> pd.DataFrame:
         if not (os.path.isfile(lf) and os.path.getsize(lf) > 0):
             return pd.DataFrame()
         try:
-            df = pd.read_csv(lf)
+            # Load logs via helper so missing columns are normalized
+            df = load_all_logs()
+            # Filter by selected question-file/pool when present
+            sel = None
+            try:
+                sel = st.session_state.get("selected_questions_file")
+            except Exception:
+                sel = None
+            if "questions_file" in df.columns and sel:
+                df = df[df.get("questions_file") == sel]
             if df.empty:
                 return pd.DataFrame()
             df["richtig"] = pd.to_numeric(df["richtig"], errors="coerce")
@@ -171,6 +181,13 @@ def admin_view():
     """Originale Admin-Leaderboard-Ansicht (Tabs) extrahiert."""
     st.title("🏆 Management: Bestenliste & Logs")
     df_logs = load_all_logs()
+    # Apply selected question-file/pool filter so admin views are pool-specific
+    try:
+        sel = st.session_state.get("selected_questions_file")
+    except Exception:
+        sel = None
+    if "questions_file" in df_logs.columns and sel:
+        df_logs = df_logs[df_logs.get("questions_file") == sel]
     if df_logs.empty:
         st.info("Noch keine Daten am Start.")
         return
@@ -190,6 +207,11 @@ def admin_view():
             if "Platz" in df_show.columns:
                 df_show.insert(0, "Rang", df_show["Platz"].map(icons).fillna(df_show["Platz"].astype(str)))
             st.dataframe(df_show[[c for c in ["Rang", "Platz", "Pseudonym", "Punkte"] if c in df_show.columns]], use_container_width=True, hide_index=True)
+            if "questions_file" not in top_df.columns:
+                try:
+                    top_df["questions_file"] = st.session_state.get("selected_questions_file", "")
+                except Exception:
+                    top_df["questions_file"] = ""
             csv_bytes = top_df.to_csv(index=False).encode("utf-8")
             st.download_button(
                 "🥇 Top 5 als CSV runterladen",
@@ -203,6 +225,11 @@ def admin_view():
             st.info("Noch keine Einträge. Mach du den Anfang!")
         else:
             st.dataframe(all_df, use_container_width=True, hide_index=True)
+            if "questions_file" not in all_df.columns:
+                try:
+                    all_df["questions_file"] = st.session_state.get("selected_questions_file", "")
+                except Exception:
+                    all_df["questions_file"] = ""
             csv_bytes = all_df.to_csv(index=False).encode("utf-8")
             st.download_button(
                 "👥 Alle Teilnahmen als CSV runterladen",
@@ -226,6 +253,11 @@ def admin_view():
             df_show[c] = ""
         df_show = df_show[show_cols].sort_values("zeit", ascending=True)
         st.dataframe(df_show, use_container_width=True, height=400, hide_index=True)
+        if "questions_file" not in df_logs.columns:
+            try:
+                df_logs["questions_file"] = st.session_state.get("selected_questions_file", "")
+            except Exception:
+                df_logs["questions_file"] = ""
         csv_bytes = df_logs.to_csv(index=False).encode("utf-8")
         st.download_button(
             "📄 Rohdaten als CSV runterladen",

@@ -26,73 +26,52 @@ import pandas as pd
 try:
     from ._paths import get_package_dir
 except Exception:
-    import importlib.util
-    import os
-
-    _paths_path = os.path.join(os.path.dirname(__file__), "_paths.py")
-    spec = importlib.util.spec_from_file_location("mc_test_app._paths", _paths_path)
-    _paths = importlib.util.module_from_spec(spec)  # type: ignore
-    if spec and spec.loader:
-        spec.loader.exec_module(_paths)  # type: ignore
-    get_package_dir = getattr(_paths, "get_package_dir")
-
-# ---------------------------------------------------------------------------
-# Fallback: Falls dieses File fälschlich als Top-Level Modul 'mc_test_app'
-# (statt als Paket-Verzeichnis mit __init__.py) geladen wurde und dadurch
-# Submodule wie 'mc_test_app.scoring' in Tests nicht gefunden werden,
-# machen wir dieses Modul zu einem pseudo-package, indem wir __path__ setzen.
-# So können nachträgliche Imports (importlib.import_module("mc_test_app.scoring"))
-# trotzdem funktionieren. Ohne Nebenwirkungen wenn normal als Paket geladen.
-# ---------------------------------------------------------------------------
-if (
-    __package__ in (None, "")
-    and __name__ == "mc_test_app"
-    and "__file__" in globals()
-):  # pragma: no cover - Test-Szenario
-    import os as _os
-    import sys as _sys
-    _pkg_dir = get_package_dir()
-    if _pkg_dir not in _sys.path:
-        _sys.path.append(_pkg_dir)
+    # Fallback: ensure package dir on sys.path and provide get_package_dir if missing
     try:
-        __path__  # type: ignore  # noqa: F821
-    except Exception:  # define only if absent
-        __path__ = [_pkg_dir]  # type: ignore
+        import sys as _sys
+        import pathlib
+        pkg_dir = pathlib.Path(__file__).parent
+        if str(pkg_dir) not in _sys.path:
+            _sys.path.append(str(pkg_dir))
+        # Try to import helper absolutely
+        from _paths import get_package_dir as _gp  # type: ignore
+        get_package_dir = _gp  # type: ignore
+    except Exception:
+        # Last resort: return current package directory
+        def get_package_dir():
+            import pathlib as _pathlib
 
-try:
-    from . import scoring as _scoring  # type: ignore
-except Exception:  # pragma: no cover
-    _scoring = None
+            return str(_pathlib.Path(__file__).parent)
 
-try:  # Support import when used as a package (tests) or as script (streamlit run)
-    from .core import append_answer_row  # type: ignore
-except Exception:  # pragma: no cover
-    import sys as _sys
-    import os as _os
-    _here = get_package_dir()
-    if _here not in _sys.path:
-        _sys.path.append(_here)
-    # Minimaler Fallback – schreibt ohne Lock, nur wenn notwendig
-    def append_answer_row(row):  # type: ignore
-        import csv
-        path = os.path.join(_here, "mc_test_answers.csv")
-        file_exists = os.path.isfile(path) and os.path.getsize(path) > 0
-        fieldnames = [
-            "user_id_hash",
-            "user_id_display",
-            "user_id_plain",
-            "frage_nr",
-            "frage",
-            "antwort",
-            "richtig",
-            "zeit",
-        ]
-        filtered = {k: row.get(k, "") for k in fieldnames}
-        with open(path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            if not file_exists:
-                writer.writeheader()
-            writer.writerow(filtered)
+# Minimaler Fallback – schreibt ohne Lock, nur wenn notwendig
+import sys as _sys
+import os as _os
+_here = get_package_dir()
+if _here not in _sys.path:
+    _sys.path.append(_here)
+
+def append_answer_row(row):  # type: ignore
+    import csv
+    path = os.path.join(_here, "mc_test_answers.csv")
+    file_exists = os.path.isfile(path) and os.path.getsize(path) > 0
+    fieldnames = [
+        "user_id_hash",
+        "user_id_display",
+        "user_id_plain",
+        "frage_nr",
+        "frage",
+        "antwort",
+        "richtig",
+        "zeit",
+        "markiert",
+        "questions_file",
+    ]
+    filtered = {k: row.get(k, "") for k in fieldnames}
+    with open(path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(filtered)
 
 # ---------------------------------------------------------------------------
 # Admin-/Env-Konfiguration laden (einmalig)
@@ -166,6 +145,10 @@ _lb_calculate_leaderboard_all = getattr(_leaderboard, "calculate_leaderboard_all
 _lb_admin_view = getattr(_leaderboard, "admin_view", None)
 _rv_display_admin_full_review = getattr(_review, "display_admin_full_review", None)
 _rv_display_admin_panel = getattr(_review, "display_admin_panel", None)
+try:  # scoring optional
+    from . import scoring as _scoring  # type: ignore
+except Exception:
+    _scoring = None  # type: ignore
 
 
 def show_motivation():  # pragma: no cover - UI Rendering
@@ -525,6 +508,7 @@ FIELDNAMES = [
     "richtig",
     "zeit",
     "markiert",
+    "questions_file",
 ]
 FRAGEN_ANZAHL = None  # Wird nach dem Laden der Fragen gesetzt
 DISPLAY_HASH_LEN = 10
@@ -790,6 +774,9 @@ def user_has_progress(user_id_hash: str) -> bool:
         if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
             return False
         df = pd.read_csv(LOGFILE, dtype={"user_id_hash": str}, on_bad_lines="skip")
+        sel = st.session_state.get("selected_questions_file")
+        if "questions_file" in df.columns and sel:
+            df = df[df.get("questions_file") == sel]
         return not df[df["user_id_hash"] == user_id_hash].empty
     except Exception:
         return False
@@ -801,6 +788,13 @@ def reset_user_answers(user_id_hash: str) -> None:
         if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
             df = pd.read_csv(LOGFILE, dtype={"user_id_hash": str})
             df = df[df["user_id_hash"] != user_id_hash]
+            # Ensure questions_file column exists to keep CSV schema stable
+            sel = st.session_state.get("selected_questions_file")
+            if "questions_file" not in df.columns:
+                df["questions_file"] = sel if sel is not None else ""
+            sel = st.session_state.get("selected_questions_file")
+            if "questions_file" not in df.columns:
+                df["questions_file"] = sel if sel is not None else ""
             df.to_csv(LOGFILE, index=False, columns=FIELDNAMES)
     except Exception as e:
         st.error(f"Konnte Antworten nicht zurücksetzen: {e}")
@@ -813,7 +807,7 @@ def reset_user_answers(user_id_hash: str) -> None:
         ):
             del st.session_state[key]
     initialize_session_state()
-
+    # continue
 
 
 def unbookmark_question(frage_idx: int) -> None:
@@ -858,6 +852,14 @@ def unbookmark_question(frage_idx: int) -> None:
                         if ph_mask.any():
                             df_upd = df_upd[~ph_mask]
                         # Schreiben (nur bekannte Spalten)
+                        sel = st.session_state.get("selected_questions_file")
+                        if "questions_file" not in df_upd.columns:
+                            df_upd["questions_file"] = sel if sel is not None else ""
+                        sel = st.session_state.get("selected_questions_file")
+                        if "questions_file" not in df_upd.columns:
+                            df_upd["questions_file"] = sel if sel is not None else ""
+                        if "questions_file" not in df_upd.columns:
+                            df_upd["questions_file"] = st.session_state.get("selected_questions_file", "")
                         df_upd.to_csv(
                             LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df_upd.columns]
                         )
@@ -896,6 +898,11 @@ def unbookmark_all(user_id_hash: str) -> None:
         ph_mask = mask_user & (df.get("antwort") == "__bookmark__")
         if ph_mask.any():
             df = df[~ph_mask]
+        sel = st.session_state.get("selected_questions_file")
+        if "questions_file" not in df.columns:
+            df["questions_file"] = sel if sel is not None else ""
+        if "questions_file" not in df.columns:
+            df["questions_file"] = st.session_state.get("selected_questions_file", "")
         df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
     except Exception:
         pass
@@ -1002,6 +1009,8 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
         if os.path.isfile(log_path) and os.path.getsize(log_path) > 0:
             try:
                 df_log = pd.read_csv(log_path, on_bad_lines="skip")
+                if "questions_file" not in df_log.columns:
+                    df_log["questions_file"] = st.session_state.get("selected_questions_file", "")
                 csv_bytes = df_log.to_csv(index=False).encode("utf-8")
                 st.download_button(
                     "Antwort-Log (CSV) herunterladen",
@@ -1137,9 +1146,12 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
                             use_container_width=True,
                             hide_index=True,
                         )
+                        if "questions_file" not in agg.columns:
+                            agg["questions_file"] = st.session_state.get("selected_questions_file", "")
+                        csv_bytes = agg.to_csv(index=False).encode("utf-8")
                         st.download_button(
                             "Highscore als CSV herunterladen",
-                            data=agg.to_csv(index=False).encode("utf-8"),
+                            data=csv_bytes,
                             file_name="highscore.csv",
                             mime="text/csv",
                         )
@@ -1154,6 +1166,9 @@ def load_user_progress(user_id_hash: str) -> None:
         return
     try:
         df = pd.read_csv(LOGFILE, dtype={"user_id_hash": str})
+        sel = st.session_state.get("selected_questions_file")
+        if "questions_file" in df.columns and sel:
+            df = df[df.get("questions_file") == sel]
         user_df = df[df["user_id_hash"] == user_id_hash]
         if user_df.empty:
             return
@@ -1232,6 +1247,9 @@ def restore_bookmarks_light(user_id_hash: str) -> None:
         if not (os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0):
             return
         df = pd.read_csv(LOGFILE, dtype={"user_id_hash": str}, on_bad_lines="skip")
+        sel = st.session_state.get("selected_questions_file")
+        if "questions_file" in df.columns and sel:
+            df = df[df.get("questions_file") == sel]
         df = df[df["user_id_hash"] == user_id_hash]
         if df.empty or "markiert" not in df.columns:
             # Keine Bookmarks -> Session-Liste leeren, falls vorhanden
@@ -1285,6 +1303,10 @@ def persist_bookmark_snapshot(user_id_hash: str) -> None:
                             "richtig": 0,
                             "zeit": datetime.now().isoformat(timespec="seconds"),
                         }
+                        try:
+                            base["questions_file"] = st.session_state.get("selected_questions_file")
+                        except Exception:
+                            base["questions_file"] = ""
                         if "markiert" in FIELDNAMES:
                             base["markiert"] = True
                         row = {k: base.get(k, "") for k in FIELDNAMES}
@@ -1293,7 +1315,10 @@ def persist_bookmark_snapshot(user_id_hash: str) -> None:
         df = pd.read_csv(LOGFILE, on_bad_lines="skip")
         if "markiert" in FIELDNAMES and "markiert" not in df.columns:
             df["markiert"] = False
+        sel = st.session_state.get("selected_questions_file")
         user_df = df[df.get("user_id_hash") == user_id_hash]
+        if "questions_file" in df.columns and sel:
+            user_df = user_df[user_df.get("questions_file") == sel]
         answered = set()
         for _, r in user_df.iterrows():
             try:
@@ -1321,12 +1346,20 @@ def persist_bookmark_snapshot(user_id_hash: str) -> None:
                 }
                 if "markiert" in FIELDNAMES:
                     entry["markiert"] = True
+                try:
+                    entry["questions_file"] = st.session_state.get("selected_questions_file")
+                except Exception:
+                    entry["questions_file"] = ""
                 new_rows.append(entry)
         if new_rows:
             df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
         if "markiert" in df.columns:
             f_nrs = [int(fragen[i]["frage"].split(".")[0]) for i in marks if 0 <= i < len(fragen)]
             df.loc[(df.get("user_id_hash") == user_id_hash) & (df.get("frage_nr").isin(f_nrs)), "markiert"] = True
+        # Ensure questions_file column present so pool is recorded for placeholders
+        sel = st.session_state.get("selected_questions_file")
+        if "questions_file" not in df.columns:
+            df["questions_file"] = sel if sel is not None else ""
         df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
     except Exception:
         pass
@@ -1346,11 +1379,17 @@ def purge_unbookmarked_placeholders(user_id_hash: str) -> None:
                 for i in st.session_state.bookmarked_questions
                 if 0 <= i < len(fragen)
             )
+        sel = st.session_state.get("selected_questions_file")
         mask_user = df.get("user_id_hash") == user_id_hash
+        if "questions_file" in df.columns and sel:
+            mask_user = mask_user & (df.get("questions_file") == sel)
         ph_mask = mask_user & (df.get("antwort") == "__bookmark__")
         drop_mask = ph_mask & (~df.get("frage_nr").isin(list(current_marks)))
         if drop_mask.any():
             df = df[~drop_mask]
+            sel = st.session_state.get("selected_questions_file")
+            if "questions_file" not in df.columns:
+                df["questions_file"] = sel if sel is not None else ""
             df.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df.columns])
     except Exception:
         pass
@@ -1385,12 +1424,11 @@ def save_answer(
     if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
         try:
             # Schneller Check nur auf user_id_hash + frage_nr, aber Placeholder ignorieren
-            partial = pd.read_csv(
-                LOGFILE,
-                usecols=["user_id_hash", "frage_nr", "antwort"],
-                dtype={"user_id_hash": str, "frage_nr": str, "antwort": str},
-                on_bad_lines="skip",
-            )
+            partial = pd.read_csv(LOGFILE, dtype={"user_id_hash": str}, on_bad_lines="skip")
+            # Filter to same question-file if column present
+            sel = st.session_state.get("selected_questions_file")
+            if "questions_file" in partial.columns and sel:
+                partial = partial[partial.get("questions_file") == sel]
             mask = (
                 (partial["user_id_hash"] == user_id_hash)
                 & (partial["frage_nr"] == str(frage_nr))
@@ -1428,6 +1466,11 @@ def save_answer(
             )
         except Exception:
             row["markiert"] = False
+    # Record which question-file/pool this answer belongs to
+    try:
+        row["questions_file"] = st.session_state.get("selected_questions_file")
+    except Exception:
+        row["questions_file"] = ""
     # Only keep keys in FIELDNAMES
     row = {k: row[k] for k in FIELDNAMES}
     attempt = 0
@@ -1557,7 +1600,10 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                             & (df_upd.get("frage_nr").astype(int) == f_nr)
                         )
                         df_upd.loc[mask, "markiert"] = True
-                        df_upd.to_csv(LOGFILE, index=False, columns=FIELDNAMES)
+                        sel = st.session_state.get("selected_questions_file")
+                        if "questions_file" not in df_upd.columns:
+                            df_upd["questions_file"] = sel if sel is not None else ""
+                        df_upd.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df_upd.columns])
                     # Snapshot für unbeantwortete gemerkte Fragen
                     persist_bookmark_snapshot(st.session_state.get("user_id_hash", ""))
                     purge_unbookmarked_placeholders(st.session_state.get("user_id_hash", ""))
@@ -1593,7 +1639,10 @@ def display_question(frage_obj: dict, frage_idx: int, anzeige_nummer: int) -> No
                             & (df_upd.get("frage_nr").astype(int) == f_nr)
                         )
                         df_upd.loc[mask, "markiert"] = False
-                        df_upd.to_csv(LOGFILE, index=False, columns=FIELDNAMES)
+                        sel = st.session_state.get("selected_questions_file")
+                        if "questions_file" not in df_upd.columns:
+                            df_upd["questions_file"] = sel if sel is not None else ""
+                        df_upd.to_csv(LOGFILE, index=False, columns=[c for c in FIELDNAMES if c in df_upd.columns])
                     persist_bookmark_snapshot(st.session_state.get("user_id_hash", ""))
                     purge_unbookmarked_placeholders(st.session_state.get("user_id_hash", ""))
                 except Exception:
@@ -2240,13 +2289,18 @@ def display_admin_panel():  # Backward compat wrapper
             _rv_display_admin_panel = getattr(_rv, "display_admin_panel", None)
         except Exception:
             pass
-    if _rv_display_admin_panel is None:
-        st.info("Admin-Panel Modul nicht verfügbar.")
-        return
-    try:
-        _rv_display_admin_panel()
-    except Exception as e:
-        st.error(f"Admin-Panel Fehler: {e}")
+
+
+# Ensure package attribute is set so tests and mocking can patch
+# `mc_test_app.mc_test_app` reliably when the package is imported.
+try:
+    import sys
+
+    _pkg = sys.modules.get("mc_test_app")
+    if _pkg is not None and not getattr(_pkg, "mc_test_app", None):
+        setattr(_pkg, "mc_test_app", sys.modules.get(__name__))
+except Exception:
+    pass
 
 
 def display_final_summary(num_answered: int) -> None:
@@ -3001,3 +3055,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# Ensure package attribute is set so tests and mocking can patch
+# `mc_test_app.mc_test_app` reliably when the package is imported.
+try:
+    import sys
+
+    _pkg = sys.modules.get("mc_test_app")
+    if _pkg is not None and not getattr(_pkg, "mc_test_app", None):
+        setattr(_pkg, "mc_test_app", sys.modules.get(__name__))
+except Exception:
+    pass

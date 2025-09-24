@@ -65,6 +65,13 @@ def display_admin_full_review():
         return
     try:
         df = pd.read_csv(LOGFILE, on_bad_lines="skip")
+        # Filter by selected question-file/pool when present
+        try:
+            sel = st.session_state.get("selected_questions_file")
+        except Exception:
+            sel = None
+        if "questions_file" in df.columns and sel:
+            df = df[df.get("questions_file") == sel]
     except Exception as e:  # pragma: no cover
         st.error(f"Antwort-Log konnte nicht geladen werden: {e}")
         return
@@ -161,6 +168,11 @@ def display_admin_full_review():
             )
             grouped_mark_display["Richtig %"] = grouped_mark_display["Richtig %"].map(lambda v: f"{v:.1f}%")
             st.dataframe(grouped_mark_display, use_container_width=True, hide_index=True)
+            if "questions_file" not in grouped_mark_display.columns:
+                try:
+                    grouped_mark_display["questions_file"] = st.session_state.get("selected_questions_file", "")
+                except Exception:
+                    grouped_mark_display["questions_file"] = ""
             csv_lern = grouped_mark_display.to_csv(index=False).encode("utf-8")
             st.download_button(
                 "Tabelle (Lernmodus) als CSV",
@@ -488,9 +500,15 @@ def display_admin_panel():
                                 use_container_width=True,
                                 hide_index=True,
                             )
+                            if "questions_file" not in agg.columns:
+                                try:
+                                    agg["questions_file"] = st.session_state.get("selected_questions_file", "")
+                                except Exception:
+                                    agg["questions_file"] = ""
+                            csv_bytes = agg.to_csv(index=False).encode("utf-8")
                             st.download_button(
                                 "Highscore als CSV herunterladen",
-                                data=agg.to_csv(index=False).encode("utf-8"),
+                                csv_bytes,
                                 file_name="highscore.csv",
                                 mime="text/csv",
                             )
@@ -500,6 +518,11 @@ def display_admin_panel():
         if os.path.isfile(LOGFILE) and os.path.getsize(LOGFILE) > 0:
             try:
                 df_log = pd.read_csv(LOGFILE, on_bad_lines="skip")
+                if "questions_file" not in df_log.columns:
+                    try:
+                        df_log["questions_file"] = st.session_state.get("selected_questions_file", "")
+                    except Exception:
+                        df_log["questions_file"] = ""
                 csv_bytes = df_log.to_csv(index=False).encode("utf-8")
                 st.download_button(
                     "Antwort-Log (CSV) herunterladen",
