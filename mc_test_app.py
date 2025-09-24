@@ -2844,13 +2844,7 @@ def main():
     # --- Robust, filterable Top 5 Leaderboard (cloud compatible) ---
     cfg = _load_global_config()
     if cfg.get("show_top5_public", True):
-        try:
-            import mc_test_app.leaderboard as lb_mod
-        except ModuleNotFoundError:
-            try:
-                from . import leaderboard as lb_mod
-            except ImportError:
-                import leaderboard as lb_mod
+        import mc_test_app.leaderboard as lb_mod
         # Fragenset-Auswahl (robust, fallback to first if missing)
         selected_set = st.session_state.get("selected_questions_file")
         if not selected_set and '_question_files' in globals() and _question_files:
