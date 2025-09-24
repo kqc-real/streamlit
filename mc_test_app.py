@@ -2941,6 +2941,8 @@ def main():
             # Selectbox mit schönen Labels anzeigen
             
             def _apply_pool_change():
+                if "__selected_pool_label_tmp" not in st.session_state:
+                    st.session_state.__selected_pool_label_tmp = labels[current_label_index]
                 chosen_label = st.session_state.__selected_pool_label_tmp
                 st.session_state.__selected_pool_tmp = pool_label_map[chosen_label]
                 _on_pool_change()
