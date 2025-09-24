@@ -1,7 +1,10 @@
-import sys
-import os
-# Ensure workspace root is in sys.path for robust package imports
-_ws_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# --- Patch sys.path for robust imports (works on Streamlit Cloud and locally) ---
+import sys, os
+_this_dir = os.path.dirname(__file__)
+_ws_root = os.path.abspath(os.path.join(_this_dir, '..'))
+if _this_dir not in sys.path:
+    sys.path.insert(0, _this_dir)
 if _ws_root not in sys.path:
     sys.path.insert(0, _ws_root)
 
