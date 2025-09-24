@@ -3097,60 +3097,7 @@ def main():
         else:
             st.info("Keine questions_*.json Dateien gefunden – benutze Standard 'questions.json'.")
 
-        # Öffentliches Leaderboard (Top 5) nur anzeigen, wenn in Config aktiviert und Daten vorhanden
-        cfg = _load_global_config()
-        if cfg.get("show_top5_public", True):
-            # Auswahlmenü für Leaderboard-Modus
-            lb_mode_options = [
-                ("strict", "Nur vollständige Testdurchläufe"),
-                ("relaxed", "Alle Teilnehmenden nach Punkten")
-            ]
-            # Set index to match current mode
-            current_mode = st.session_state.get("leaderboard_mode", "strict")
-            try:
-                current_index = [x[0] for x in lb_mode_options].index(current_mode)
-            except Exception:
-                current_index = 0
-            # Do NOT use a key for the radio, use a local variable for index
-            lb_mode = st.radio(
-                "Leaderboard zeigt:",
-                options=lb_mode_options,
-                format_func=lambda x: x[1],
-                index=current_index
-            )
-            st.session_state["leaderboard_mode"] = lb_mode[0]
-            try:
-                ensure_logfile_exists()
-                if st.session_state.get("leaderboard_mode", "strict") == "relaxed":
-                    # Alle Teilnahmen nach Punkten (ohne Mindestanzahl), aber nur für das aktuelle Fragenset
-                    import mc_test_app.leaderboard as lb_mod
-                    df = lb_mod.load_all_logs()
-                    sel = st.session_state.get("selected_questions_file")
-                    if sel and "questions_file" in df.columns:
-                        df = df[df["questions_file"] == sel]
-                    lb_df = lb_mod.calculate_leaderboard_all(df)
-                    # Top 5 nach Punkten
-                    if not lb_df.empty:
-                        lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(5)
-                        lb_df = lb_df.reset_index(drop=True)
-                        lb_df.insert(0, "Platz", lb_df.index + 1)
-                        lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
-                else:
-                    lb_df = calculate_leaderboard()
-                if lb_df is not None and not lb_df.empty:
-                    st.markdown("### 🥇 Aktuelle Top 5")
-                    show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
-                    if show_cols:
-                        icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-                        to_show = lb_df[show_cols].head(5).copy()
-                        if "Platz" in to_show.columns:
-                            to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
-                            ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
-                        else:
-                            ordered = show_cols
-                        st.dataframe(to_show[ordered], width='stretch', hide_index=True)
-            except Exception:
-                pass
+        # ...existing code...
         # Fragenverteilung anzeigen
         render_fragen_distribution(fragen)
     user_id = handle_user_session()
