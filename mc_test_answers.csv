@@ -4,3 +4,4 @@ user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit,m
 48965085cd4686998c5672296caed9fdbb1191bf1d3e87f644c0934303f13f13,48965085cd,wqw,9,"9. Welcher Fehler tritt typischerweise auf, wenn man in `pandas` auf eine nicht existierende Spalte zugreift?",Ein `SyntaxError`,-2,2025-09-24T15:30:51,False,questions_Data_Science.json
 282a9a2d4e9b273f6874000a93d030aefc1c622a128be6a9c4c254e494be721c,282a9a2d4e,qwqw,75,75. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?,Eine zu kleine Lernrate während des Trainings.,-2,2025-09-24T15:36:17,False,questions_Data_Science.json
 hash_tester,hash_teste,tester,1,1. Test?,A,1,2025-09-24T15:36:55,False,
+f8abd93fd752f8f2f798c1dc43cd040f32927509dbb2a1d2e8860e3609cba44d,f8abd93fd7,wqwqw,21,"21. Welche Methode wird in `pandas` verwendet, um die ersten `n` Zeilen eines DataFrames anzuzeigen?",`df.first(n)`,-1,2025-09-24T18:37:08,False,questions_Data_Science.json

@@ -2821,43 +2821,44 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 def main():
     # --- TITELBLOCK: KEIN STREAMLIT-OUTPUT DARF DAVOR KOMMEN! ---
-    title_container = st.empty()
-    selected_set = st.session_state.get("selected_questions_file", None)
-    set_label = ""
-    if selected_set:
-        base = selected_set
-        if base.startswith("questions_"):
-            base = base[len("questions_"):]
-        if base.endswith(".json"):
-            base = base[:-5]
-        base = base.replace("_", " ")
-        if base == "questions" and selected_set == "questions.json":
-            set_label = "Standard"
-        else:
-            set_label = base.strip().title()
-    set_label_html = (
-        f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>"
-        if set_label else ""
-    )
-    title_container.markdown(
-        (
-            "<div style='display:flex;justify-content:center;align-items:center;'>"
-            "<div style='max-width:600px;text-align:center;padding:24px;"
-            "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>"
-            "<h2 style='color:#4b9fff;'>100 Fragen!</h2>"
-            "<p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>"
-            f"{set_label_html}</div></div>"
-        ),
-        unsafe_allow_html=True,
-    )
-    # --- Deutlicher Abstand zwischen Titel und Leaderboard ---
-    st.markdown("<div style='height:36px;'></div>", unsafe_allow_html=True)
+    if "user_id" not in st.session_state:
+        title_container = st.empty()
+        selected_set = st.session_state.get("selected_questions_file", None)
+        set_label = ""
+        if selected_set:
+            base = selected_set
+            if base.startswith("questions_"):
+                base = base[len("questions_"):]
+            if base.endswith(".json"):
+                base = base[:-5]
+            base = base.replace("_", " ")
+            if base == "questions" and selected_set == "questions.json":
+                set_label = "Standard"
+            else:
+                set_label = base.strip().title()
+        set_label_html = (
+            f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>"
+            if set_label else ""
+        )
+        title_container.markdown(
+            (
+                "<div style='display:flex;justify-content:center;align-items:center;'>"
+                "<div style='max-width:600px;text-align:center;padding:24px;"
+                "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>"
+                "<h2 style='color:#4b9fff;'>100 Fragen!</h2>"
+                "<p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>"
+                f"{set_label_html}</div></div>"
+            ),
+            unsafe_allow_html=True,
+        )
+        # --- Deutlicher Abstand zwischen Titel und Leaderboard ---
+        st.markdown("<div style='height:36px;'></div>", unsafe_allow_html=True)
     # --- AB HIER KEIN STREAMLIT-OUTPUT MEHR VOR DEM TITELBLOCK! ---
     # ...existing code...
     # (entfernt: doppelter Titelblock)
     # --- Robust, filterable Top 5 Leaderboard (cloud compatible) ---
     cfg = _load_global_config()
-    if cfg.get("show_top5_public", True):
+    if "user_id" not in st.session_state and cfg.get("show_top5_public", True):
         import leaderboard as lb_mod
         # Fragenset-Auswahl (robust, fallback to first if missing)
         selected_set = st.session_state.get("selected_questions_file")
