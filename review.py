@@ -15,7 +15,18 @@ import importlib
 import sys
 from types import ModuleType
 from datetime import datetime
-from ._paths import get_package_dir
+
+# Robust import for get_package_dir (absolute first, then relative, then local)
+try:
+    from mc_test_app._paths import get_package_dir
+except Exception:
+    try:
+        from ._paths import get_package_dir
+    except Exception:
+        try:
+            from _paths import get_package_dir
+        except Exception:
+            get_package_dir = None
 
 
 def _import_main_module() -> ModuleType | None:  # pragma: no cover - defensive

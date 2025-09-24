@@ -11,10 +11,18 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 
-try:  # scoring ist optional im Test-Kontext
-    from . import scoring as _scoring  # type: ignore
-except Exception:  # pragma: no cover
-    _scoring = None  # type: ignore
+
+# Robust import for scoring module (absolute first, then relative, then local)
+try:
+    import mc_test_app.scoring as _scoring
+except Exception:
+    try:
+        from . import scoring as _scoring  # type: ignore
+    except Exception:
+        try:
+            import scoring as _scoring
+        except Exception:
+            _scoring = None  # type: ignore
 
 # Standard-Logfile-Pfad (identisch zu mc_test_app.LOGFILE)
 from ._paths import get_package_dir
