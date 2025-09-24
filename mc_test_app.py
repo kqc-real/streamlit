@@ -2841,24 +2841,79 @@ def compute_total_points(fragen_list: List[Dict]) -> int:
 
 
 def main():
-    # --- Fallback: Zeige Top 5 direkt aus CSV, unabhängig von Session-State ---
-    import pandas as _pd
-    import os as _os
-    _csv_path = _os.path.join(_here, "mc_test_answers.csv")
-    if _os.path.exists(_csv_path):
-        _df = _pd.read_csv(_csv_path)
-        _df["richtig"] = _pd.to_numeric(_df["richtig"], errors="coerce")
-        _leaderboard = (
-            _df.groupby("user_id_hash")
-            .agg(Punkte=("richtig", "sum"), Pseudonym=("user_id_plain", "first"))
-            .reset_index(drop=True)
-            .sort_values(by="Punkte", ascending=False)
-            .head(5)
+    # --- Robust, filterable Top 5 Leaderboard (cloud compatible) ---
+    cfg = _load_global_config()
+    if cfg.get("show_top5_public", True):
+        import mc_test_app.leaderboard as lb_mod
+        # Fragenset-Auswahl (robust, fallback to first if missing)
+        selected_set = st.session_state.get("selected_questions_file")
+        if not selected_set and '_question_files' in globals() and _question_files:
+            selected_set = _question_files[0]
+        # Leaderboard-Modus-Auswahl (robust, fallback to strict)
+        lb_mode_options = [
+            ("strict", "Nur vollständige Testdurchläufe"),
+            ("relaxed", "Alle Teilnehmenden nach Punkten")
+        ]
+        current_mode = st.session_state.get("leaderboard_mode", "strict")
+        try:
+            current_index = [x[0] for x in lb_mode_options].index(current_mode)
+        except Exception:
+            current_index = 0
+        lb_mode = st.radio(
+            "Leaderboard zeigt:",
+            options=lb_mode_options,
+            format_func=lambda x: x[1],
+            index=current_index,
+            key="public_leaderboard_mode_radio"
         )
-        st.markdown("### 🥇 Top 5 (direkt aus CSV, Fallback)")
-        st.dataframe(_leaderboard)
-    else:
-        st.warning("Keine mc_test_answers.csv gefunden.")
+        st.session_state["leaderboard_mode"] = lb_mode[0]
+        # Load logs and filter by fragenset
+        try:
+            df = lb_mod.load_all_logs()
+            if selected_set and "questions_file" in df.columns:
+                df = df[df["questions_file"] == selected_set]
+            if lb_mode[0] == "relaxed":
+                lb_df = lb_mod.calculate_leaderboard_all(df)
+                if not lb_df.empty:
+                    lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(5)
+                    lb_df = lb_df.reset_index(drop=True)
+                    lb_df.insert(0, "Platz", lb_df.index + 1)
+                    lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
+            else:
+                # Strict: only full runs
+                from mc_test_app import scoring as scoring_mod
+                total_q = 0
+                # Try to get question count for selected set
+                if selected_set:
+                    import os, json
+                    qpath = os.path.join(get_package_dir(), selected_set)
+                    if os.path.exists(qpath):
+                        with open(qpath, "r", encoding="utf-8") as f:
+                            data = json.load(f)
+                        if isinstance(data, list):
+                            total_q = len(data)
+                if total_q <= 0:
+                    total_q = 100  # fallback
+                lb_df = scoring_mod.leaderboard_completed(total_q)
+                if not lb_df.empty:
+                    lb_df = lb_df.reset_index(drop=True)
+            if lb_df is not None and not lb_df.empty:
+                st.markdown("### 🥇 Aktuelle Top 5")
+                show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
+                if show_cols:
+                    icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+                    to_show = lb_df[show_cols].head(5).copy()
+                    if "Platz" in to_show.columns:
+                        to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                        ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
+                    else:
+                        ordered = show_cols
+                    st.dataframe(to_show[ordered], width='stretch', hide_index=True)
+            else:
+                st.info("Noch keine vollständigen Teilnahmen für dieses Fragenset.")
+        except Exception as e:
+            st.warning(f"Top 5 Leaderboard konnte nicht geladen werden: {e}")
+    # --- End Top 5 robust block ---
     # --- Robust defaults for session state (fixes leaderboard display issues in all environments) ---
     if "selected_questions_file" not in st.session_state or not st.session_state.get("selected_questions_file"):
         if _question_files:
