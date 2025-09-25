@@ -1,0 +1,41 @@
+[
+  {
+  "frage": "1. Was ist die Ableitung von $f(x) = x^2$?",
+  "thema": "Ableitungen",
+  "gewichtung": 3,
+  "optionen": [
+      "$2x$",
+      "$x^2$",
+      "$2$",
+      "$x$"
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Ableitung von $f(x) = x^2$ ist $f'(x) = 2x$."
+    },
+    {
+    "frage": "2. Berechne das Integral $\\int_0^1 x \\, dx$.",
+    "thema": "Integrale",
+    "gewichtung": 2,
+  "optionen": [
+      "$1/2$",
+      "$1$",
+      "$0$",
+      "$2$"
+    ],
+    "loesung": 0,
+    "erklaerung": "Das bestimmte Integral ergibt $[x^2/2]_0^1 = 1/2$."
+  },
+  {
+  "frage": "3. Welche Gleichung beschreibt den Satz des Pythagoras?",
+  "thema": "Geometrie",
+  "gewichtung": 1,
+  "optionen": [
+      "$a^2 + b^2 = c^2$",
+      "$a + b = c$",
+      "$a^2 - b^2 = c^2$",
+      "$a^2 + b = c^2$"
+    ],
+    "loesung": 0,
+    "erklaerung": "Der Satz des Pythagoras lautet: $a^2 + b^2 = c^2$."
+  }
+]
