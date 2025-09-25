@@ -1042,12 +1042,12 @@ def admin_view():  # Vereinheitlichte Admin-Ansicht
     # Tab 3: System
     with tabs[3]:
         st.markdown("### System / Konfiguration")
-        # Sichtbarkeit Top 5 Leaderboard (öffentlich)
+    # Sichtbarkeit Top Ten Leaderboard (öffentlich)
         cfg = _load_global_config()
         show_top5_val = cfg.get("show_top5_public", True)
         checkbox_key = f"show_top5_public_admin_{show_top5_val}"
         show_top5 = st.checkbox(
-            "Top 5 Leaderboard öffentlich auf Startseite anzeigen",
+            "Top Ten Leaderboard öffentlich auf Startseite anzeigen",
             value=show_top5_val,
             key=checkbox_key
         )
@@ -2046,7 +2046,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
                     del st.session_state[k]
             st.session_state["session_aborted"] = True
             st.rerun()
-    # Leaderboard (Top 5) nur anzeigen, wenn echte Daten vorhanden
+    # Leaderboard (Top Ten) nur anzeigen, wenn echte Daten vorhanden
     try:
         ensure_logfile_exists()
         if hasattr(calculate_leaderboard, "clear") and st.session_state.get("_force_lb_refresh"):
@@ -2058,7 +2058,7 @@ def display_sidebar_metrics(num_answered: int) -> None:
         if lb_df is not None and not lb_df.empty:
             show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
             if show_cols:
-                st.sidebar.caption("Top 5 Leaderboard")
+                st.sidebar.caption("Top Ten Leaderboard")
                 to_show = lb_df[show_cols].head(5).copy()
                 icons = {1: "🥇", 2: "🥈", 3: "🥉"}
                 if "Platz" in to_show.columns:
@@ -2783,7 +2783,7 @@ def main():
     # --- AB HIER KEIN STREAMLIT-OUTPUT MEHR VOR DEM TITELBLOCK! ---
     # ...existing code...
     # (entfernt: doppelter Titelblock)
-    # --- Robust, filterable Top 5 Leaderboard (cloud compatible) ---
+    # --- Robust, filterable Top Ten Leaderboard (cloud compatible) ---
     cfg = _load_global_config()
     if "user_id" not in st.session_state and cfg.get("show_top5_public", True):
         import leaderboard as lb_mod
@@ -2794,27 +2794,27 @@ def main():
                 df = df[df["questions_file"] == selected_set]
             # Zeige immer die Highscore-Liste: letzte Punktzahl pro User, egal ob Test beendet oder abgebrochen
             lb_df = lb_mod.calculate_leaderboard_all(df)
-            if not lb_df.empty:
-                lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(5)
-                lb_df = lb_df.reset_index(drop=True)
-                lb_df.insert(0, "Platz", lb_df.index + 1)
-                lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
-                st.markdown("### 🥇 Aktuelle Top 5")
-                show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
-                if show_cols:
-                    icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-                    to_show = lb_df[show_cols].head(5).copy()
-                    if "Platz" in to_show.columns:
-                        to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
-                        ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
-                    else:
-                        ordered = show_cols
-                    st.dataframe(to_show[ordered], width='stretch', hide_index=True)
-            else:
-                st.info("Noch keine Einträge für dieses Fragenset.")
+            with st.expander("🥇 Aktuelle Top Ten (Leaderboard)", expanded=False):
+                if not lb_df.empty:
+                    lb_df = lb_df.sort_values(by=["Punkte"], ascending=[False]).head(10)
+                    lb_df = lb_df.reset_index(drop=True)
+                    lb_df.insert(0, "Platz", lb_df.index + 1)
+                    lb_df = lb_df[[c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]]
+                    show_cols = [c for c in ["Platz", "Pseudonym", "Punkte"] if c in lb_df.columns]
+                    if show_cols:
+                        icons = {1: "🥇", 2: "🥈", 3: "🥉"}
+                        to_show = lb_df[show_cols].head(10).copy()
+                        if "Platz" in to_show.columns:
+                            to_show.insert(0, "Rang", to_show["Platz"].map(icons).fillna(to_show["Platz"].astype(str)))
+                            ordered = [c for c in ["Rang"] + show_cols if c != "Platz"]
+                        else:
+                            ordered = show_cols
+                        st.dataframe(to_show[ordered], width='stretch', hide_index=True)
+                else:
+                    st.info("Noch keine Einträge für dieses Fragenset.")
         except Exception as e:
-            st.warning(f"Top 5 Leaderboard konnte nicht geladen werden: {e}")
-    # --- End Top 5 robust block ---
+            st.warning(f"Top Ten Leaderboard konnte nicht geladen werden: {e}")
+    # --- End Top Ten robust block ---
     # --- Robust defaults for session state (fixes leaderboard display issues in all environments) ---
     if "selected_questions_file" not in st.session_state or not st.session_state.get("selected_questions_file"):
         if _question_files:

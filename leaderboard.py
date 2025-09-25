@@ -240,7 +240,7 @@ def admin_view():
     if df_logs.empty:
         st.info("Noch keine Daten am Start.")
         return
-    tabs = st.tabs(["🥇 Top 5 (fertig)", "👥 Alle Teilnahmen", "📄 Rohdaten"])
+    tabs = st.tabs(["🥇 Top Ten (fertig)", "👥 Alle Teilnahmen", "📄 Rohdaten"])
     with tabs[0]:
         top_df = calculate_leaderboard()
         if top_df.empty:
@@ -263,7 +263,7 @@ def admin_view():
                     top_df["questions_file"] = ""
             csv_bytes = top_df.to_csv(index=False).encode("utf-8")
             st.download_button(
-                "🥇 Top 5 als CSV runterladen",
+                "🥇 Top Ten als CSV runterladen",
                 csv_bytes,
                 file_name="leaderboard_top5.csv",
                 mime="text/csv",
