@@ -1964,6 +1964,8 @@ except Exception:  # pragma: no cover
 
 
 def display_sidebar_metrics(num_answered: int) -> None:
+    # Scoring-Mode global auslesen
+    scoring_mode = st.session_state.get("scoring_mode", "positive_only")
     # Bookmark Sidebar (oben, bevor Standard-Metriken)
     if "bookmarked_questions" not in st.session_state:
         st.session_state.bookmarked_questions = []  # store original indices (0-based)
@@ -2197,7 +2199,8 @@ def display_sidebar_metrics(num_answered: int) -> None:
                         mask = marked_mask
                     elif sel_mode == "Nur falsch & markiert":
                         mask = wrong_mask & marked_mask
-                    filtered = answer_df[mask].copy()
+                    # Ensure mask aligns with answer_df index
+                    filtered = answer_df[mask.values].copy()
                     if filtered.empty:
                         st.warning("Keine Einträge für diesen Filter.")
                     else:
