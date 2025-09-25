@@ -2765,7 +2765,7 @@ def main():
         title_container.markdown(
             (
                 "<div style='display:flex;justify-content:center;align-items:center;'>"
-                "<div style='width:100vw;max-width:420px;text-align:center;padding:10px 8px 18px 8px;"
+                "<div style='width:100vw;max-width:420px;text-align:center;padding:10px 8px 24px 8px;"
                 "background:rgba(40,40,40,0.97);border-radius:16px;box-shadow:0 2px 12px #0002;'>"
                 "<h2 style='color:#4b9fff;font-size:2.1rem;'>100 Fragen</h2>"
                 "<p style='font-size:1.08rem;margin:0;'>Starte jetzt 🚀 • Optimiere dein Wissen!</p>"
