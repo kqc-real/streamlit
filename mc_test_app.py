@@ -2761,20 +2761,15 @@ def main():
             base = base.replace("_", " ")
             if base == "questions" and selected_set == "questions.json":
                 set_label = "Standard"
-            else:
-                set_label = base.strip().title()
-        set_label_html = (
-            f"<div style='margin-top:8px;font-size:0.95rem;color:#aaa;'>Fragenset: <b>{set_label}</b></div>"
-            if set_label else ""
-        )
+        # Mobile-optimierter, kompakter Titel ohne Fragenset
         title_container.markdown(
             (
                 "<div style='display:flex;justify-content:center;align-items:center;'>"
-                "<div style='max-width:600px;text-align:center;padding:24px;"
-                "background:rgba(40,40,40,0.95);border-radius:18px;box-shadow:0 2px 16px #0003;'>"
-                "<h2 style='color:#4b9fff;'>100 Fragen!</h2>"
-                "<p style='font-size:1.05rem;'>Starte jetzt 🚀 – und optimiere dein Wissen!</p>"
-                f"{set_label_html}</div></div>"
+                "<div style='width:100vw;max-width:420px;text-align:center;padding:10px 8px 18px 8px;"
+                "background:rgba(40,40,40,0.97);border-radius:16px;box-shadow:0 2px 12px #0002;'>"
+                "<h2 style='color:#4b9fff;font-size:2.1rem;'>100 Fragen</h2>"
+                "<p style='font-size:1.08rem;margin:0;'>Starte jetzt 🚀 • Optimiere dein Wissen!</p>"
+                "</div></div>"
             ),
             unsafe_allow_html=True,
         )
