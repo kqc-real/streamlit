@@ -83,5 +83,39 @@
     "erklaerung": "Die Inverse einer 2x2-Matrix $C = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ wird berechnet mit der Formel $C^{-1} = \\frac{1}{ad-bc} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$. 1. Berechnen Sie die Determinante: $$ ad-bc = 4\\cdot3 - 7\\cdot2 = 12-14 = -2 $$ 2. Wenden Sie die Inversen-Formel an: $$ C^{-1} = \\frac{1}{-2} \\begin{pmatrix} 3 & -7 \\\\ -2 & 4 \\end{pmatrix} = -\\frac{1}{2} \\begin{pmatrix} 3 & -7 \\\\ -2 & 4 \\end{pmatrix} $$",
     "gewichtung": 3,
     "thema": "Lineare Algebra"
+  },
+  {
+    "frage": "7. Welche Gleichung stellt die Maxwell-Faraday-Gleichung in integraler Form dar, die die elektromagnetische Induktion beschreibt?",
+    "thema": "Elektrodynamik",
+    "gewichtung": 3,
+    "optionen": [
+      "$$ \\oint_C \\mathbf{E} \\cdot d\\mathbf{l} = - \\frac{d}{dt} \\int_S \\mathbf{B} \\cdot d\\mathbf{A} $$",
+      "$$ \\oint_S \\mathbf{D} \\cdot d\\mathbf{A} = Q_{\\text{frei}} $$",
+      "$$ \\oint_S \\mathbf{B} \\cdot d\\mathbf{A} = 0 $$",
+      "$$ \\oint_C \\mathbf{H} \\cdot d\\mathbf{l} = I_{\\text{frei}} + \\frac{d}{dt} \\int_S \\mathbf{D} \\cdot d\\mathbf{A} $$"
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Maxwell-Faraday-Gleichung beschreibt, wie ein zeitlich veränderliches Magnetfeld (rechte Seite) ein elektrisches Wirbelfeld (linke Seite) erzeugt. Dies ist das fundamentale Prinzip der elektromagnetischen Induktion."
+  },
+  {
+    "frage": "8. Welche Gleichung repräsentiert die Impulserhaltung (Momentum Equation) der Navier-Stokes-Gleichungen für ein inkompressibles, newtonsches Fluid?",
+    "thema": "Fluidmechanik",
+    "gewichtung": 3,
+    "optionen": [
+      "$$ \\nabla \\cdot \\mathbf{v} = 0 $$",
+      "$$ \\rho \\left( \\frac{\\partial \\mathbf{v}}{\\partial t} + (\\mathbf{v} \\cdot \\nabla) \\mathbf{v} \\right) = - \\nabla p + \\mu \\nabla^2 \\mathbf{v} + \\mathbf{f} $$",
+      "$$ E = mc^2 $$",
+      "$$ \\frac{\\partial \\rho}{\\partial t} + \\nabla \\cdot (\\rho \\mathbf{v}) = 0 $$"
+    ],
+    "loesung": 1,
+    "erklaerung": {
+      "titel": "Die Navier-Stokes-Gleichung für Impulserhaltung beschreibt die Kräfte, die auf ein Fluid wirken:",
+      "schritte": [
+        "$$ \\rho \\frac{D\\mathbf{v}}{Dt} $$: Trägheit (Masse mal Beschleunigung) pro Volumeneinheit.",
+        "$$ - \\nabla p $$: Druckgradientenkraft.",
+        "$$ \\mu \\nabla^2 \\mathbf{v} $$: Viskose Kräfte (Reibung).",
+        "$$ \\mathbf{f} $$: Äußere Kräfte (z.B. Schwerkraft)."
+      ]
+    }
   }
 ]
