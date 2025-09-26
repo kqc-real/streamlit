@@ -68,93 +68,55 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
         log_state(f"User '{st.session_state.user_id}' found in session_state")
         return st.session_state.user_id
 
-    st.title("Willkommen zum MC-Test")
-    st.write("Bitte melde dich an, um zu beginnen.")
+    if "session_aborted" in st.session_state:
+        st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
+        del st.session_state["session_aborted"]
 
-    login_type = st.radio(
-        "Login-Typ",
-        ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
-        key="login_type",
-        horizontal=True,
-        label_visibility="collapsed"
+    # --- Login-Prozess für neue Teilnehmer (jetzt der einzige Weg) ---
+    st.sidebar.header("Neuen Test starten")
+    st.sidebar.info("Wähle ein Pseudonym, um eine neue Testrunde zu beginnen. Jede Runde ist einmalig.")
+
+    # Stelle sicher, dass der Admin-Benutzer immer als "Alan C. Kay" auswählbar ist.
+    admin_user = app_config.admin_user
+    admin_display_name = ""
+    if admin_user:
+        # Alan C. Kay: Pionier der objektorientierten Programmierung und grafischen Benutzeroberflächen.
+        admin_display_name = "Alan C. Kay (Pionier der OOP & GUIs)"
+        # Entferne den Admin aus der Liste, falls er als normaler User vorhanden ist
+        available_scientists = [s for s in available_scientists if not s.startswith(admin_user) and not s.startswith("Alan C. Kay")]
+        # Füge den Admin-Eintrag ganz vorne hinzu
+        available_scientists.insert(0, admin_display_name)
+
+    if not available_scientists:
+        st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
+        st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
+        return None
+
+    selected_name_formatted = st.selectbox(
+        "Wähle dein Pseudonym für diese Runde:",
+        options=[""] + available_scientists,
+        key="new_user_id_input",
+        format_func=lambda x: "Bitte wählen..." if x == "" else x,
     )
 
-    if login_type == "Neuer Teilnehmer":
-        scientists = load_scientists()
-        used_pseudonyms = get_used_pseudonyms()
+    if st.sidebar.button("Test starten", key="start_new"):
+        if not selected_name_formatted:
+            st.sidebar.error("Bitte wähle ein Pseudonym aus.")
+            st.rerun()
+
+        # Spezielle Behandlung für den Admin-Login
+        if selected_name_formatted == admin_display_name:
+            user_name = admin_user
+        else:
+            user_name = selected_name_formatted.split(" (")[0]
+
+        st.session_state.user_id = user_name
+        st.session_state.user_id_hash = get_user_id_hash(user_name)
         
-        available_scientists = [
-            f"{s['name']} ({s['contribution']})" for s in scientists 
-            if s['name'] not in used_pseudonyms
-        ]
-
-        if not available_scientists:
-            st.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
-            st.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
-            return None
-
-        selected_name_formatted = st.selectbox(
-            "Wähle dein Pseudonym für diese Runde:",
-            options=[""] + available_scientists,
-            key="new_user_id_input",
-            format_func=lambda x: "Bitte wählen..." if x == "" else x,
-        )
-
-        if st.button("Test starten", key="start_new"):
-            if not selected_name_formatted:
-                st.error("Bitte wähle ein Pseudonym aus.")
-            else:
-                user_name = selected_name_formatted.split(" (")[0]
-                st.session_state.user_id = user_name
-                st.session_state.user_id_hash = get_user_id_hash(user_name)
-                st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-                st.session_state.show_pseudonym_reminder = True
-                initialize_session_state(questions)
-                log_state("New user login -> RERUN")
-                st.rerun()
-
-    else: # Wiederkehrender Teilnehmer
-        used_pseudonyms = get_used_pseudonyms()
-        if not used_pseudonyms:
-            st.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
-            return None
-
-        if 'login_attempts' not in st.session_state:
-            st.session_state.login_attempts = 0
+        st.session_state.show_pseudonym_reminder = True
         
-        MAX_LOGIN_ATTEMPTS = 5
-        is_locked = st.session_state.login_attempts >= MAX_LOGIN_ATTEMPTS
-
-        entered_name = st.text_input(
-            "Gib dein bisheriges Pseudonym ein (genaue Schreibweise beachten):",
-            key="returning_user_id_input",
-            disabled=is_locked,
-        )
-
-        if st.button("Test fortsetzen", key="continue", disabled=is_locked):
-            clean_entered_name = entered_name.strip()
-            if not clean_entered_name:
-                st.error("Bitte gib dein Pseudonym ein.")
-            
-            elif clean_entered_name not in used_pseudonyms:
-                st.session_state.login_attempts += 1
-                remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
-                log_state(f"Wrong pseudonym: '{clean_entered_name}'")
-                if remaining_attempts > 0:
-                    st.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
-                else:
-                    st.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
-            else:
-                st.session_state.login_attempts = 0
-                st.session_state.user_id = clean_entered_name
-                st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
-                st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-                initialize_session_state(questions)
-                log_state(f"Returning user login: '{clean_entered_name}' -> RERUN")
-                st.rerun()
-            
-        if is_locked:
-            st.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
+        initialize_session_state(questions)
+        st.rerun()
 
     log_state("Exit handle_user_session without login")
     return None
@@ -173,19 +135,3 @@ def check_admin_key(provided_key: str, app_config: AppConfig) -> bool:
     if not provided_key or not app_config.admin_key:
         return False
     return hmac.compare_digest(provided_key.encode(), app_config.admin_key.encode())
-
-
-def handle_admin_login(app_config: AppConfig):
-    """Zeigt das Admin-Login-Formular in der Sidebar an."""
-    with st.sidebar.expander("🔐 Admin Login", expanded=False):
-        if not app_config.admin_key:
-            st.caption("Kein Admin-Key konfiguriert.")
-            return
-
-        entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input")
-        if st.button("Aktivieren", key="admin_activate_btn"):
-            if check_admin_key(entered_key, app_config):
-                st.session_state["show_admin_panel"] = True
-                st.rerun()
-            else:
-                st.error("Falscher Key.")

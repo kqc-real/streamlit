@@ -75,8 +75,16 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         for frage_nr in pivot_df.columns:
             valid_users = pivot_df[frage_nr].dropna().index
             if len(valid_users) > 1:
-                corr = pivot_df.loc[valid_users, frage_nr].corr(user_scores.loc[valid_users])
-                correlations[frage_nr] = corr
+                item_responses = pivot_df.loc[valid_users, frage_nr]
+                total_scores = user_scores.loc[valid_users]
+
+                # Prüfe auf Standardabweichung von Null, um Division-by-Zero-Warnung zu vermeiden
+                if item_responses.std() == 0 or total_scores.std() == 0:
+                    correlations[frage_nr] = 0.0
+                else:
+                    # Berechne die Korrelation nur, wenn die Daten variieren
+                    corr = item_responses.corr(total_scores)
+                    correlations[frage_nr] = corr
             else:
                 correlations[frage_nr] = None
 
@@ -100,7 +108,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         }
         if show_correlation:
             trennschaerfe = correlations.get(frage_nr)
-            row["Trennschärfe (r_it)"] = f"{trennschaerfe:.2f}" if trennschaerfe is not None else "n/a"
+            row["Trennschärfe (r_it)"] = f"{trennschaerfe:.2f}" if pd.notna(trennschaerfe) else "0.00"
         
         analysis_data.append(row)
 

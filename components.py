@@ -12,8 +12,7 @@ import pandas as pd
 
 from config import AppConfig
 from logic import calculate_score, is_test_finished
-from auth import handle_admin_login
-from data_manager import update_bookmarks_for_user
+from data_manager import update_bookmarks_for_user, load_all_logs
 
 
 def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
@@ -40,23 +39,55 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
     st.sidebar.divider()
 
     if is_admin:
-        handle_admin_login(app_config)
+        render_admin_switch(app_config)
 
     with st.sidebar.expander("⚠️ Session beenden"):
-        if st.button("Abmelden", key="abort_session_btn"):
+        st.warning(
+            "Dein Punktestand wird gespeichert und der Test beendet. "
+            "Für einen weiteren Versuch wähle ein neues Pseudonym."
+        )
+
+        if st.button("Session beenden", key="abort_session_btn", type="primary", use_container_width=True):
             # Speichere Bookmarks vor dem Abmelden
             update_bookmarks_for_user(
                 st.session_state.user_id_hash,
                 st.session_state.get("bookmarked_questions", []),
                 questions
             )
-            # Lösche alle Session-Keys außer den Admin-spezifischen und der Fragenset-Auswahl
+            # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
             for key in list(st.session_state.keys()):
                 if not key.startswith("_admin") and key != "selected_questions_file":
                     del st.session_state[key]
-            # Flag setzen, um nach dem nächsten Login einen Hinweis anzuzeigen
+            # Flag für Hinweis nach dem nächsten Login setzen
             st.session_state["session_aborted"] = True
             st.rerun()
+        st.button("Weiter im Test", key="cancel_abort_btn", use_container_width=True)
+
+def render_admin_switch(app_config: AppConfig):
+    """Rendert den Umschalter für das Admin-Panel in der Sidebar."""
+    from auth import check_admin_key
+
+    is_panel_active = st.session_state.get("show_admin_panel", False)
+
+    if is_panel_active:
+        if st.sidebar.button("⬅️ Zurück zum Test", use_container_width=True):
+            st.session_state.show_admin_panel = False
+            st.rerun()
+    else:
+        with st.sidebar.expander("🔐 Admin Panel"):
+            if not app_config.admin_key:
+                st.caption("Kein Admin-Key konfiguriert.")
+                return
+
+            entered_key = st.text_input(
+                "Admin-Key", type="password", key="admin_key_input_sidebar"
+            )
+            if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
+                if check_admin_key(entered_key, app_config):
+                    st.session_state.show_admin_panel = True
+                    st.rerun()
+                else:
+                    st.error("Falscher Key.")
 
 
 def render_bookmarks(questions: list):
@@ -99,7 +130,7 @@ def render_bookmarks(questions: list):
                     )
                     st.rerun()
 
-        if st.button("Alle entfernen", key="bm_clear_all"):
+        if st.button("🗑️ Alle entfernen", key="bm_clear_all"):
             st.session_state.bookmarked_questions = []
             update_bookmarks_for_user(
                 st.session_state.user_id_hash,
