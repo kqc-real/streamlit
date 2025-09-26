@@ -59,29 +59,26 @@ def render_leaderboard_tab(df: pd.DataFrame):
 def render_analysis_tab(df: pd.DataFrame, questions: list):
     """Rendert den Item-Analyse-Tab."""
     st.header("Item-Analyse")
-    if df.empty or df['user_id_hash'].nunique() < 2:
-        st.info("Nicht genügend Daten für eine aussagekräftige Analyse vorhanden (mind. 2 Teilnehmer).")
+    if df.empty:
+        st.info("Noch keine Antworten für eine Analyse vorhanden.")
         return
 
-    # --- Berechnung der Trennschärfe (r_it) ---
-    # 1. Score pro Nutzer berechnen
-    user_scores = df.groupby('user_id_hash')['richtig'].sum()
-
-    # 2. Antworten pro Frage und Nutzer vorbereiten
-    df['correct'] = (df['richtig'] > 0).astype(int)
-    pivot_df = df.pivot_table(index='user_id_hash', columns='frage_nr', values='correct')
-
-    # 3. Korrelation für jede Frage berechnen
+    # --- Erweiterte Analyse (Trennschärfe) nur bei >1 Teilnehmer ---
+    show_correlation = df['user_id_hash'].nunique() >= 2
     correlations = {}
-    for frage_nr in pivot_df.columns:
-        # Nur Nutzer berücksichtigen, die die Frage beantwortet haben
-        valid_users = pivot_df[frage_nr].dropna().index
-        if len(valid_users) > 1:
-            # Korrelation zwischen der korrekten Beantwortung der Frage und dem Gesamtscore des Nutzers
-            corr = pivot_df.loc[valid_users, frage_nr].corr(user_scores.loc[valid_users])
-            correlations[frage_nr] = corr
-        else:
-            correlations[frage_nr] = None
+    if show_correlation:
+        # --- Berechnung der Trennschärfe (r_it) ---
+        user_scores = df.groupby('user_id_hash')['richtig'].sum()
+        df['correct'] = (df['richtig'] > 0).astype(int)
+        pivot_df = df.pivot_table(index='user_id_hash', columns='frage_nr', values='correct')
+
+        for frage_nr in pivot_df.columns:
+            valid_users = pivot_df[frage_nr].dropna().index
+            if len(valid_users) > 1:
+                corr = pivot_df.loc[valid_users, frage_nr].corr(user_scores.loc[valid_users])
+                correlations[frage_nr] = corr
+            else:
+                correlations[frage_nr] = None
 
     # --- Statistiken pro Frage sammeln ---
     analysis_data = []
@@ -95,15 +92,17 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         correct_answers = frage_df[frage_df["richtig"] > 0].shape[0]
         difficulty = (correct_answers / total_answers) * 100 if total_answers > 0 else 0
         
-        trennschaerfe = correlations.get(frage_nr)
-
-        analysis_data.append({
+        row = {
             "Frage-Nr.": frage_nr,
             "Frage": frage["frage"].split(".", 1)[1].strip(),
             "Antworten": total_answers,
             "Richtig (%)": f"{difficulty:.1f}",
-            "Trennschärfe (r_it)": f"{trennschaerfe:.2f}" if trennschaerfe is not None else "n/a",
-        })
+        }
+        if show_correlation:
+            trennschaerfe = correlations.get(frage_nr)
+            row["Trennschärfe (r_it)"] = f"{trennschaerfe:.2f}" if trennschaerfe is not None else "n/a"
+        
+        analysis_data.append(row)
 
     if not analysis_data:
         st.info("Noch keine Antworten für eine Analyse vorhanden.")
@@ -116,12 +115,16 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         st.markdown("""
         - **Antworten**: Gesamtzahl der abgegebenen Antworten für diese Frage.
         - **Richtig (%)**: Prozentsatz der korrekten Antworten (Schwierigkeitsindex `p`). Ein Wert nahe 100% bedeutet eine leichte Frage, ein Wert nahe 0% eine schwere Frage.
-        - **Trennschärfe (r_it)**: Korrelation zwischen der korrekten Beantwortung dieser Frage und dem Gesamtergebnis im Test.
-            - `r_it > 0.3`: Die Frage trennt gut zwischen starken und schwachen Teilnehmern.
-            - `0.1 < r_it < 0.3`: Die Frage trennt noch akzeptabel.
-            - `r_it < 0.1`: Die Frage trennt schlecht. Möglicherweise ist sie missverständlich, zu einfach/schwer oder hat einen Fehler in der Antwort.
         """)
-
+        if show_correlation:
+            st.markdown("""
+            - **Trennschärfe (r_it)**: Korrelation zwischen der korrekten Beantwortung dieser Frage und dem Gesamtergebnis im Test.
+                - `r_it > 0.3`: Die Frage trennt gut zwischen starken und schwachen Teilnehmern.
+                - `0.1 < r_it < 0.3`: Die Frage trennt noch akzeptabel.
+                - `r_it < 0.1`: Die Frage trennt schlecht. Möglicherweise ist sie missverständlich, zu einfach/schwer oder hat einen Fehler in der Antwort.
+            """)
+        else:
+            st.info("Für die Berechnung der Trennschärfe sind mindestens 2 Teilnehmer erforderlich.")
 
 def render_export_tab(df: pd.DataFrame):
     """Rendert den Export-Tab."""
