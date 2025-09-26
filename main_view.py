@@ -53,8 +53,8 @@ def render_welcome_page(app_config: AppConfig):
     dynamic_title = format_filename(selected_file)
     st.markdown(f"""
         <div style='text-align: center; padding: 0 0 10px 0;'>
-            <h2 style='color:#4b9fff; font-size: 2.1rem; margin-bottom: 0.5rem;'>Multiple-Choice-Test</h2>
-            <h1 style='font-size: 2.8rem; margin-top: 0; line-height: 1.2;'>{dynamic_title}</h1>
+            <h2 style='color:#4b9fff; font-size: clamp(1.5rem, 5vw, 2.1rem); margin-bottom: 0.5rem;'>Multiple-Choice-Test</h2>
+            <h1 style='font-size: clamp(1.8rem, 7vw, 2.8rem); margin-top: 0; line-height: 1.2;'>{dynamic_title}</h1>
         </div>
     """, unsafe_allow_html=True)
 
