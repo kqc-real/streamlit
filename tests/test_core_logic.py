@@ -18,6 +18,7 @@ import pytest
 # importiert werden kann, ohne dass Streamlit tatsächlich läuft.
 mock_st = MagicMock()
 del mock_st.pytest_plugins
+mock_st.__test__ = False
 
  
 
