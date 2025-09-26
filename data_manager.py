@@ -13,7 +13,7 @@ from typing import Dict, Any
 import pandas as pd
 import streamlit as st
 
-from mc_test_app.config import get_package_dir
+from config import get_package_dir
 
 LOGFILE = os.path.join(get_package_dir(), "mc_test_answers.csv")
 FIELDNAMES = [

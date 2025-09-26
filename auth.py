@@ -10,8 +10,8 @@ import streamlit as st
 import random
 import hmac
 
-from mc_test_app.config import AppConfig
-from mc_test_app.helpers import get_user_id_hash
+from config import AppConfig
+from helpers import get_user_id_hash
 
 
 def initialize_session_state(questions: list):

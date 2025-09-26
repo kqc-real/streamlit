@@ -9,7 +9,7 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 
-from mc_test_app.data_manager import load_all_logs
+from data_manager import load_all_logs
 
 
 def calculate_score(answered_mask: list, questions: list, scoring_mode: str) -> tuple[int, int]:

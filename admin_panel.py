@@ -8,8 +8,8 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 
-from mc_test_app.config import AppConfig
-from mc_test_app.data_manager import load_all_logs, reset_all_answers
+from config import AppConfig
+from data_manager import load_all_logs, reset_all_answers
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):

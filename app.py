@@ -9,7 +9,7 @@ Struktur:
 2. Benutzer-Authentifizierung und Session-Management.
 3. Hauptansicht rendern (Start, Frage, Ende oder Admin-Panel).
 
-Ausführung: streamlit run mc_test_app/app.py
+Ausführung: streamlit run app.py
 """
 import streamlit as st
 import sys
@@ -23,20 +23,20 @@ _parent_dir = os.path.abspath(os.path.join(_this_dir, '..'))
 if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
-from mc_test_app.config import AppConfig, load_questions, list_question_files
-from mc_test_app.auth import handle_user_session, is_admin_user
-from mc_test_app.logic import (
+from config import AppConfig, load_questions, list_question_files
+from auth import handle_user_session, is_admin_user
+from logic import (
     get_current_question_index,
     is_test_finished,
     load_user_progress,
 )
-from mc_test_app.main_view import (
+from main_view import (
     render_welcome_page,
     render_question_view,
     render_final_summary,
 )
-from mc_test_app.admin_panel import render_admin_panel
-from mc_test_app.components import render_sidebar
+from admin_panel import render_admin_panel
+from components import render_sidebar
 
 
 def set_custom_theme():

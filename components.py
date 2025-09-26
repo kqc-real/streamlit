@@ -10,10 +10,10 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 
-from mc_test_app.config import AppConfig
-from mc_test_app.logic import calculate_score, is_test_finished
-from mc_test_app.auth import handle_admin_login
-from mc_test_app.data_manager import update_bookmarks_for_user
+from config import AppConfig
+from logic import calculate_score, is_test_finished
+from auth import handle_admin_login
+from data_manager import update_bookmarks_for_user
 
 
 def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):

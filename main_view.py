@@ -9,16 +9,16 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 
-from mc_test_app.config import AppConfig, list_question_files, load_questions
-from mc_test_app.logic import (
+from config import AppConfig, list_question_files, load_questions
+from logic import (
     calculate_score,
     set_question_as_answered,
     get_answer_for_question,
     is_test_finished,
 )
-from mc_test_app.helpers import smart_quotes_de, format_explanation_text
-from mc_test_app.data_manager import save_answer, update_bookmarks_for_user, load_all_logs
-from mc_test_app.components import show_motivation, render_question_distribution_chart
+from helpers import smart_quotes_de, format_explanation_text
+from data_manager import save_answer, update_bookmarks_for_user, load_all_logs
+from components import show_motivation, render_question_distribution_chart
 
 
 def render_welcome_page(app_config: AppConfig):

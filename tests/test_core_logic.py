@@ -40,8 +40,8 @@ sys.modules["streamlit"] = mock_st
 
 # --- Echte Modul-Imports (nach dem Mocking) ---
 # Jetzt können die Module der App sicher importiert werden.
-from mc_test_app import config
-from mc_test_app import logic
+import config
+import logic
 
 
 # --- Test-Setup ---
