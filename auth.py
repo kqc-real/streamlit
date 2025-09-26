@@ -69,7 +69,7 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
             return None
 
-        selected_name = st.selectbox(
+        selected_name_formatted = st.selectbox(
             "Wähle dein Pseudonym für diese Runde:",
             options=[""] + available_scientists,
             key="new_user_id_input",
@@ -77,14 +77,17 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
         )
 
         if st.sidebar.button("Test starten", key="start_new"):
-            if not selected_name:
+            if not selected_name_formatted:
                 st.sidebar.error("Bitte wähle ein Pseudonym aus.")
                 return None
 
-            user_name = selected_name.split(" (")[0]
+            user_name = selected_name_formatted.split(" (")[0]
             st.session_state.user_id = user_name
             st.session_state.user_id_hash = get_user_id_hash(user_name)
             st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+            
+            st.info(f"Du hast das Pseudonym '{user_name}' gewählt. Bitte merke es dir gut, um deinen Test später fortsetzen zu können.")
+            
             initialize_session_state(questions)
             st.rerun()
 
@@ -94,20 +97,22 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             st.sidebar.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
             return None
 
-        selected_name = st.selectbox(
-            "Wähle dein bisheriges Pseudonym:",
-            options=[""] + used_pseudonyms,
+        entered_name = st.text_input(
+            "Gib dein bisheriges Pseudonym ein:",
             key="returning_user_id_input",
-            format_func=lambda x: "Bitte wählen..." if x == "" else x,
         )
 
         if st.sidebar.button("Test fortsetzen", key="continue"):
-            if not selected_name:
-                st.sidebar.error("Bitte wähle ein Pseudonym aus.")
+            if not entered_name:
+                st.sidebar.error("Bitte gib dein Pseudonym ein.")
+                return None
+            
+            if entered_name not in used_pseudonyms:
+                st.sidebar.error("Dieses Pseudonym wurde nicht gefunden. Überprüfe die Schreibweise oder registriere dich als neuer Teilnehmer.")
                 return None
 
-            st.session_state.user_id = selected_name
-            st.session_state.user_id_hash = get_user_id_hash(selected_name)
+            st.session_state.user_id = entered_name
+            st.session_state.user_id_hash = get_user_id_hash(entered_name)
             st.session_state.user_id_display = st.session_state.user_id_hash[:10]
             # Do not initialize, progress will be loaded in app.py
             st.rerun()
