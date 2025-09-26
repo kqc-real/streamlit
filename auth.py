@@ -42,97 +42,48 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     if "user_id" in st.session_state:
         return st.session_state.user_id
 
-    st.sidebar.header("Wer bist du?")
-
-    login_type = st.radio(
-        "Bist du ein neuer oder ein wiederkehrender Teilnehmer?",
-        ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
-        key="login_type",
-        horizontal=True,
-    )
-
     if "session_aborted" in st.session_state:
         st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
         del st.session_state["session_aborted"]
 
-    if login_type == "Neuer Teilnehmer":
-        scientists = load_scientists()
-        used_pseudonyms = get_used_pseudonyms()
-        
-        available_scientists = [
-            f"{s['name']} ({s['contribution']})" for s in scientists 
-            if s['name'] not in used_pseudonyms
-        ]
+    # --- Login-Prozess für neue Teilnehmer (jetzt der einzige Weg) ---
+    st.sidebar.header("Neuen Test starten")
+    st.sidebar.info("Wähle ein Pseudonym, um eine neue Testrunde zu beginnen. Jede Runde ist einmalig.")
 
-        if not available_scientists:
-            st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
-            st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
-            return None
+    scientists = load_scientists()
+    used_pseudonyms = get_used_pseudonyms()
+    
+    available_scientists = [
+        f"{s['name']} ({s['contribution']})" for s in scientists 
+        if s['name'] not in used_pseudonyms
+    ]
 
-        selected_name_formatted = st.selectbox(
-            "Wähle dein Pseudonym für diese Runde:",
-            options=[""] + available_scientists,
-            key="new_user_id_input",
-            format_func=lambda x: "Bitte wählen..." if x == "" else x,
-        )
+    if not available_scientists:
+        st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
+        st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
+        return None
 
-        if st.sidebar.button("Test starten", key="start_new"):
-            if not selected_name_formatted:
-                st.sidebar.error("Bitte wähle ein Pseudonym aus.")
-                st.rerun()
+    selected_name_formatted = st.selectbox(
+        "Wähle dein Pseudonym für diese Runde:",
+        options=[""] + available_scientists,
+        key="new_user_id_input",
+        format_func=lambda x: "Bitte wählen..." if x == "" else x,
+    )
 
-            user_name = selected_name_formatted.split(" (")[0]
-            st.session_state.user_id = user_name
-            st.session_state.user_id_hash = get_user_id_hash(user_name)
-            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-            
-            st.session_state.show_pseudonym_reminder = True
-            
-            initialize_session_state(questions)
+    if st.sidebar.button("Test starten", key="start_new"):
+        if not selected_name_formatted:
+            st.sidebar.error("Bitte wähle ein Pseudonym aus.")
             st.rerun()
 
-    else: # Wiederkehrender Teilnehmer
-        used_pseudonyms = get_used_pseudonyms()
-        if not used_pseudonyms:
-            st.sidebar.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
-            return None
-
-        if 'login_attempts' not in st.session_state:
-            st.session_state.login_attempts = 0
+        user_name = selected_name_formatted.split(" (")[0]
+        st.session_state.user_id = user_name
+        st.session_state.user_id_hash = get_user_id_hash(user_name)
+        st.session_state.user_id_display = st.session_state.user_id_hash[:10]
         
-        MAX_LOGIN_ATTEMPTS = 5
-        is_locked = st.session_state.login_attempts >= MAX_LOGIN_ATTEMPTS
-
-        entered_name = st.text_input(
-            "Gib dein bisheriges Pseudonym ein (genaue Schreibweise beachten):",
-            key="returning_user_id_input",
-            disabled=is_locked,
-        )
-
-        if st.sidebar.button("Test fortsetzen", key="continue", disabled=is_locked):
-            clean_entered_name = entered_name.strip()
-            if not clean_entered_name:
-                st.sidebar.error("Bitte gib dein Pseudonym ein.")
-                st.rerun()
-            
-            if clean_entered_name not in used_pseudonyms:
-                st.session_state.login_attempts += 1
-                remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
-                if remaining_attempts > 0:
-                    st.sidebar.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
-                else:
-                    st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
-                st.rerun()
-            
-            # On successful login, reset attempts and log in
-            st.session_state.login_attempts = 0
-            st.session_state.user_id = clean_entered_name
-            st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
-            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-            st.rerun()
-            
-        if is_locked:
-            st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
+        st.session_state.show_pseudonym_reminder = True
+        
+        initialize_session_state(questions)
+        st.rerun()
 
     return None
 

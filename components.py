@@ -43,7 +43,14 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
         handle_admin_login(app_config)
 
     with st.sidebar.expander("⚠️ Session beenden"):
-        if st.button("Abmelden", key="abort_session_btn"):
+        st.warning(
+            "**Achtung:** Wenn du die Session beendest, wird dein **aktueller Punktestand** "
+            "unter deinem Pseudonym im Leaderboard gespeichert. Du kannst diese Runde danach aber "
+            "**nicht wieder aufnehmen**. Für einen neuen Versuch musst du ein neues Pseudonym wählen."
+            "Dein Punktestand wird gespeichert und der aktuelle Test beendet. "
+            "Für einen weiteren Versuch wähle ein neues Pseudonym."
+        )
+        if st.button("Runde abschließen & abmelden", key="abort_session_btn", type="primary"):
             # Speichere Bookmarks vor dem Abmelden
             update_bookmarks_for_user(
                 st.session_state.user_id_hash,
