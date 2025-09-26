@@ -39,9 +39,16 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     Verwaltet die User-Session. Zeigt Login an, wenn kein User angemeldet ist.
     Initialisiert die Session und gibt die `user_id` zurück.
     """
+    # Schritt 2: Wenn user_id gesetzt ist, vervollständige den Login und gib die ID zurück
     if "user_id" in st.session_state:
+        if "user_id_hash" not in st.session_state:
+            # Dies geschieht beim ersten Durchlauf nach einem erfolgreichen Login
+            st.session_state.login_attempts = 0
+            st.session_state.user_id_hash = get_user_id_hash(st.session_state.user_id)
+            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
         return st.session_state.user_id
 
+    # Schritt 1: Zeige das Login-Formular an
     st.sidebar.header("Wer bist du?")
 
     login_type = st.radio(
@@ -82,13 +89,11 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.rerun()
 
             user_name = selected_name_formatted.split(" (")[0]
-            st.session_state.user_id = user_name
-            st.session_state.user_id_hash = get_user_id_hash(user_name)
-            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-            
             st.session_state.show_pseudonym_reminder = True
-            
             initialize_session_state(questions)
+            
+            # Setze nur die user_id und starte neu
+            st.session_state.user_id = user_name
             st.rerun()
 
     else: # Wiederkehrender Teilnehmer
@@ -124,11 +129,8 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                     st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
                 st.rerun()
             
-            # On successful login, reset attempts and log in
-            st.session_state.login_attempts = 0
+            # Bei Erfolg, setze nur die user_id und starte neu
             st.session_state.user_id = clean_entered_name
-            st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
-            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
             st.rerun()
             
         if is_locked:
