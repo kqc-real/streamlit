@@ -106,3 +106,14 @@ def load_questions(filename: str) -> List[Dict[str, Any]]:
     except (IOError, json.JSONDecodeError) as e:
         st.error(f"Fehler beim Laden von '{filename}': {e}")
         return []
+
+@st.cache_data
+def load_scientists() -> List[Dict[str, str]]:
+    """Lädt die Liste der Wissenschaftler aus der JSON-Datei."""
+    path = os.path.join(get_package_dir(), "scientists.json")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (IOError, json.JSONDecodeError) as e:
+        st.error(f"Fehler beim Laden von 'scientists.json': {e}")
+        return []

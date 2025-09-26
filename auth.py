@@ -10,8 +10,9 @@ import streamlit as st
 import random
 import hmac
 
-from config import AppConfig
+from config import AppConfig, load_scientists
 from helpers import get_user_id_hash
+from data_manager import get_used_pseudonyms
 
 
 def initialize_session_state(questions: list):
@@ -41,33 +42,45 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     if "user_id" in st.session_state:
         return st.session_state.user_id
 
-    # --- Login-Formular ---
     st.sidebar.header("Wer bist du?")
 
+    # Lade verfügbare und benutzte Namen
+    scientists = load_scientists()
+    used_pseudonyms = get_used_pseudonyms()
+    
+    available_scientists = [
+        f"{s['name']} ({s['contribution']})" for s in scientists 
+        if s['name'] not in used_pseudonyms
+    ]
+
+    if not available_scientists:
+        st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
+        st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
+        return None
+
     def start_test():
-        user_id_input = st.session_state.get("user_id_input", "").strip()
+        user_id_input = st.session_state.get("user_id_input")
         if not user_id_input:
-            st.sidebar.error("Bitte gib ein Pseudonym ein!")
             return
 
-        st.session_state.user_id = user_id_input
-        st.session_state.user_id_hash = get_user_id_hash(user_id_input)
+        user_name = user_id_input.split(" (")[0]
+
+        st.session_state.user_id = user_name
+        st.session_state.user_id_hash = get_user_id_hash(user_name)
         st.session_state.user_id_display = st.session_state.user_id_hash[:10]
 
-        # Initialisiere den State für den neuen User
         initialize_session_state(questions)
 
-    # Zeige Hinweis nach dem Abmelden
     if "session_aborted" in st.session_state:
         st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
-        # Flag entfernen, damit es nicht erneut angezeigt wird
         del st.session_state["session_aborted"]
 
-    st.sidebar.text_input(
-        "Pseudonym eingeben",
+    st.selectbox(
+        "Wähle dein Pseudonym für diese Runde:",
+        options=[""] + available_scientists,
         key="user_id_input",
         on_change=start_test,
-        help="Dein Fortschritt wird unter diesem Namen gespeichert.",
+        format_func=lambda x: "Bitte wählen..." if x == "" else x,
     )
     st.sidebar.button("Test starten", on_click=start_test)
 

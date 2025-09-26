@@ -9,7 +9,7 @@ Verantwortlichkeiten:
 import os
 import csv
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, List
 import pandas as pd
 import streamlit as st
 
@@ -60,6 +60,14 @@ def load_all_logs() -> pd.DataFrame:
         return df[FIELDNAMES]  # Korrekte Spaltenreihenfolge
     except (IOError, pd.errors.EmptyDataError):
         return pd.DataFrame(columns=FIELDNAMES)
+
+
+def get_used_pseudonyms() -> List[str]:
+    """Gibt eine Liste aller bereits verwendeten Pseudonyme zurück."""
+    df = load_all_logs()
+    if df.empty:
+        return []
+    return df["user_id_plain"].unique().tolist()
 
 
 def save_all_logs(df: pd.DataFrame):

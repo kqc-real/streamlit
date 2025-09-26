@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Marie Curie",
+        "contribution": "Pionierin der Radioaktivitätsforschung"
+    },
+    {
+        "name": "Albert Einstein",
+        "contribution": "Entwickler der Relativitätstheorie"
+    },
+    {
+        "name": "Isaac Newton",
+        "contribution": "Formulierte die Gesetze der Bewegung und der universellen Gravitation"
+    },
+    {
+        "name": "Charles Darwin",
+        "contribution": "Begründer der Evolutionstheorie durch natürliche Selektion"
+    },
+    {
+        "name": "Galileo Galilei",
+        "contribution": "Unterstützer des heliozentrischen Weltbildes"
+    },
+    {
+        "name": "Nikola Tesla",
+        "contribution": "Entwickler des Wechselstromsystems"
+    },
+    {
+        "name": "Louis Pasteur",
+        "contribution": "Entwickler der Pasteurisierung und von Impfstoffen"
+    },
+    {
+        "name": "Rosalind Franklin",
+        "contribution": "Wichtige Beiträge zum Verständnis der DNA-Struktur"
+    },
+    {
+        "name": "Ada Lovelace",
+        "contribution": "Gilt als die erste Computerprogrammiererin der Welt"
+    },
+    {
+        "name": "Alan Turing",
+        "contribution": "Vater der theoretischen Informatik und künstlichen Intelligenz"
+    },
+    {
+        "name": "Stephen Hawking",
+        "contribution": "Beiträge zur Kosmologie und zu Schwarzen Löchern"
+    },
+    {
+        "name": "Jane Goodall",
+        "contribution": "Primatologin, bekannt für ihre Langzeitstudie über Schimpansen"
+    },
+    {
+        "name": "Katherine Johnson",
+        "contribution": "NASA-Mathematikerin, berechnete Flugbahnen für bemannte Raumflüge"
+    },
+    {
+        "name": "Grace Hopper",
+        "contribution": "Pionierin der Computerprogrammierung, Erfinderin des ersten Compilers"
+    },
+    {
+        "name": "Emmy Noether",
+        "contribution": "Bahnbrechende Beiträge zur abstrakten Algebra (Noether-Theorem)"
+    },
+    {
+        "name": "Jonas Salk",
+        "contribution": "Entwickler eines der ersten erfolgreichen Polio-Impfstoffe"
+    },
+    {
+        "name": "Alexander Fleming",
+        "contribution": "Entdecker des Penicillins"
+    },
+    {
+        "name": "Lise Meitner",
+        "contribution": "Physikerin, Mitentdeckerin der Kernspaltung"
+    },
+    {
+        "name": "Chien-Shiung Wu",
+        "contribution": "Physikerin, bekannt für das Wu-Experiment zur Paritätsverletzung"
+    },
+    {
+        "name": "Vera Rubin",
+        "contribution": "Arbeiten zur Rotationsgeschwindigkeit von Galaxien, lieferte Beweise für Dunkle Materie"
+    }
+]
