@@ -50,9 +50,9 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
                 st.session_state.get("bookmarked_questions", []),
                 questions
             )
-            # Lösche alle Session-Keys außer den Admin-spezifischen
+            # Lösche alle Session-Keys außer den Admin-spezifischen und der Fragenset-Auswahl
             for key in list(st.session_state.keys()):
-                if not key.startswith("_admin"):
+                if not key.startswith("_admin") and key != "selected_questions_file":
                     del st.session_state[key]
             # Flag setzen, um nach dem nächsten Login einen Hinweis anzuzeigen
             st.session_state["session_aborted"] = True
