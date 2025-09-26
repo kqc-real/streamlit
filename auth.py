@@ -54,11 +54,11 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     st.sidebar.header("Wer bist du?")
 
     login_type = st.radio(
-        "Login-Typ",  # Label hinzugefügt, um Warnung zu beheben
+        "Login-Typ",
         ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
         key="login_type",
         horizontal=True,
-        label_visibility="collapsed"  # Label für die UI ausblenden
+        label_visibility="collapsed"
     )
 
     if "session_aborted" in st.session_state:
