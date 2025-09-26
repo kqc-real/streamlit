@@ -79,14 +79,14 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
         if st.sidebar.button("Test starten", key="start_new"):
             if not selected_name_formatted:
                 st.sidebar.error("Bitte wähle ein Pseudonym aus.")
-                return None
+                st.rerun()
 
             user_name = selected_name_formatted.split(" (")[0]
             st.session_state.user_id = user_name
             st.session_state.user_id_hash = get_user_id_hash(user_name)
             st.session_state.user_id_display = st.session_state.user_id_hash[:10]
             
-            st.info(f"Du hast das Pseudonym '{user_name}' gewählt. Bitte merke es dir gut, um deinen Test später fortsetzen zu können.")
+            st.session_state.show_pseudonym_reminder = True
             
             initialize_session_state(questions)
             st.rerun()
@@ -97,25 +97,41 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             st.sidebar.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
             return None
 
+        if 'login_attempts' not in st.session_state:
+            st.session_state.login_attempts = 0
+        
+        MAX_LOGIN_ATTEMPTS = 5
+        is_locked = st.session_state.login_attempts >= MAX_LOGIN_ATTEMPTS
+
         entered_name = st.text_input(
             "Gib dein bisheriges Pseudonym ein:",
             key="returning_user_id_input",
+            disabled=is_locked,
         )
 
-        if st.sidebar.button("Test fortsetzen", key="continue"):
+        if st.sidebar.button("Test fortsetzen", key="continue", disabled=is_locked):
             if not entered_name:
                 st.sidebar.error("Bitte gib dein Pseudonym ein.")
-                return None
+                st.rerun()
             
             if entered_name not in used_pseudonyms:
-                st.sidebar.error("Dieses Pseudonym wurde nicht gefunden. Überprüfe die Schreibweise oder registriere dich als neuer Teilnehmer.")
-                return None
-
+                st.session_state.login_attempts += 1
+                remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
+                if remaining_attempts > 0:
+                    st.sidebar.error(f"Pseudonym nicht gefunden. Du hast noch {remaining_attempts} Versuche.")
+                else:
+                    st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
+                st.rerun()
+            
+            # On successful login, reset attempts and log in
+            st.session_state.login_attempts = 0
             st.session_state.user_id = entered_name
             st.session_state.user_id_hash = get_user_id_hash(entered_name)
             st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-            # Do not initialize, progress will be loaded in app.py
             st.rerun()
+            
+        if is_locked:
+            st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
 
     return None
 
