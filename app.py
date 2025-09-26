@@ -1,6 +1,7 @@
 """
 Haupt-App-Datei für den MC-Test.
 
+
 Diese Datei orchestriert den App-Ablauf, indem sie Funktionen aus den
 modularen Komponenten aufruft. Sie enthält selbst kaum noch Logik.
 
@@ -13,6 +14,7 @@ Ausführung: streamlit run app.py
 """
 import streamlit as st
 import sys
+from dotenv import load_dotenv
 import os
 
 # --- Pfad-Setup für robuste Imports (Workaround für ältere Streamlit-Versionen) ---
@@ -84,6 +86,9 @@ def set_custom_theme():
 def main():
     """Hauptfunktion der Streamlit-Anwendung."""
     st.set_page_config(page_title="MC-Test AMALEA")
+
+    # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
+    load_dotenv()
     set_custom_theme()
 
     # --- 1. Initialisierung & Konfiguration ---

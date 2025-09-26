@@ -58,6 +58,17 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
         if s['name'] not in used_pseudonyms
     ]
 
+    # Stelle sicher, dass der Admin-Benutzer immer als "Alan C. Kay" auswählbar ist.
+    admin_user = app_config.admin_user
+    admin_display_name = ""
+    if admin_user:
+        # Alan C. Kay: Pionier der objektorientierten Programmierung und grafischen Benutzeroberflächen.
+        admin_display_name = "Alan C. Kay (Pionier der OOP & GUIs)"
+        # Entferne den Admin aus der Liste, falls er als normaler User vorhanden ist
+        available_scientists = [s for s in available_scientists if not s.startswith(admin_user) and not s.startswith("Alan C. Kay")]
+        # Füge den Admin-Eintrag ganz vorne hinzu
+        available_scientists.insert(0, admin_display_name)
+
     if not available_scientists:
         st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
         st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
@@ -75,10 +86,15 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             st.sidebar.error("Bitte wähle ein Pseudonym aus.")
             st.rerun()
 
-        user_name = selected_name_formatted.split(" (")[0]
+        # Spezielle Behandlung für den Admin-Login
+        if selected_name_formatted == admin_display_name:
+            user_name = admin_user
+        else:
+            user_name = selected_name_formatted.split(" (")[0]
+
         st.session_state.user_id = user_name
         st.session_state.user_id_hash = get_user_id_hash(user_name)
-        st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+        # st.session_state.user_id_display = st.session_state.user_id_hash[:10]
         
         st.session_state.show_pseudonym_reminder = True
         
@@ -101,19 +117,3 @@ def check_admin_key(provided_key: str, app_config: AppConfig) -> bool:
     if not provided_key or not app_config.admin_key:
         return False
     return hmac.compare_digest(provided_key.encode(), app_config.admin_key.encode())
-
-
-def handle_admin_login(app_config: AppConfig):
-    """Zeigt das Admin-Login-Formular in der Sidebar an."""
-    with st.sidebar.expander("🔐 Admin Login", expanded=False):
-        if not app_config.admin_key:
-            st.caption("Kein Admin-Key konfiguriert.")
-            return
-
-        entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input")
-        if st.button("Aktivieren", key="admin_activate_btn"):
-            if check_admin_key(entered_key, app_config):
-                st.session_state["show_admin_panel"] = True
-                st.rerun()
-            else:
-                st.error("Falscher Key.")
