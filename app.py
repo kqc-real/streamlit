@@ -138,19 +138,22 @@ def main():
         # A) Admin-Panel anzeigen
         render_admin_panel(app_config, questions)
 
+    elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
+        # B) Test ist beendet oder Zeit abgelaufen.
+        #    Prüfe, ob von hier aus zu einem Lesezeichen gesprungen wird.
+        if current_idx is not None:
+            render_question_view(questions, current_idx, app_config)
+        else:
+            # Standardfall: Zeige die finale Zusammenfassung.
+            render_final_summary(questions, app_config)
+
     elif current_idx is not None:
-        # B) Eine Frage soll angezeigt werden (entweder im Test oder per Bookmark-Sprung)
+        # C) Test läuft -> Zeige die aktuelle Frage.
         render_question_view(questions, current_idx, app_config)
 
-    elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
-        # C) Test ist beendet und es gibt keinen Sprung -> Zeige die finale Zusammenfassung
-        render_final_summary(questions, app_config)
-
     else:
-        # D) Fallback: Wenn keine Frage angezeigt werden kann, aber der Test noch nicht
-        #    offiziell beendet ist, deutet das auf einen Übergangszustand hin.
-        #    Ein Rerun löst das Problem normalerweise.
-        st.info("Lade nächste Ansicht...")
+        # D) Fallback: Sollte nur im Übergangszustand auftreten (z.B. nach der letzten Frage).
+        #    Ein Rerun bringt die App in den korrekten "Test beendet"-Zustand.
         st.rerun()
 
 
