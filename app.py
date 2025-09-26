@@ -31,7 +31,6 @@ from logic import (
     load_user_progress,
 )
 from main_view import (
-    render_welcome_page,
     render_question_view,
     render_final_summary,
 )
