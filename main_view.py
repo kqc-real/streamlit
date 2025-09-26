@@ -16,10 +16,122 @@ from logic import (
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import smart_quotes_de, format_explanation_text
+from helpers import smart_quotes_de, format_explanation_text, get_user_id_hash
 from data_manager import save_answer, update_bookmarks_for_user, load_all_logs
 from components import show_motivation, render_question_distribution_chart
 
+
+def render_welcome_page(app_config: AppConfig):
+    """Zeigt die Startseite für nicht eingeloggte Nutzer."""
+
+    # --- Auswahl des Fragensets ---
+    question_files = list_question_files()
+    if not question_files:
+        st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
+        return
+
+    current_selection = st.session_state.get("selected_questions_file", question_files[0])
+    
+    # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
+    def format_filename(filename):
+        return filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+
+    selected_file = st.selectbox(
+        "Wähle ein Fragenset:",
+        options=question_files,
+        index=question_files.index(current_selection) if current_selection in question_files else 0,
+        format_func=format_filename,
+        key="main_view_question_file_selector"
+    )
+
+    if selected_file != st.session_state.get("selected_questions_file"):
+        st.session_state.selected_questions_file = selected_file
+        st.rerun()
+
+    # --- Dynamischer Titel und Willkommensnachricht ---
+    # Der Titel wird aus dem ausgewählten Dateinamen generiert.
+    dynamic_title = format_filename(selected_file)
+    st.markdown(f"""
+        <div style='text-align: center; padding: 0 0 10px 0;'>
+            <h2 style='color:#4b9fff; font-size: 2.1rem; margin-bottom: 0.5rem;'>Multiple-Choice-Test</h2>
+            <h1 style='font-size: 2.8rem; margin-top: 0; line-height: 1.2;'>{dynamic_title}</h1>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # --- Diagramm zur Verteilung der Fragen ---
+    with st.expander("Verteilung der Fragen im Set anzeigen", expanded=True):
+        questions = load_questions(selected_file)
+        if questions:
+            render_question_distribution_chart(questions)
+        else:
+            st.warning("Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
+
+    # --- Öffentliches Leaderboard ---
+    if app_config.show_top5_public:
+        with st.expander("🏆 Aktuelle Top 10", expanded=False):
+            df_logs = load_all_logs()
+            
+            # Filtere Logs auf das aktuell ausgewählte Fragenset
+            if not df_logs.empty and "questions_file" in df_logs.columns:
+                df_logs = df_logs[df_logs["questions_file"] == selected_file].copy()
+
+            if df_logs.empty:
+                st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
+            else:
+                scores = (
+                    df_logs.groupby("user_id_hash")
+                    .agg(
+                        Pseudonym=("user_id_plain", "first"),
+                        Punkte=("richtig", "sum"),
+                    )
+                    .sort_values("Punkte", ascending=False)
+                    .head(10)
+                )
+                st.dataframe(scores[["Pseudonym", "Punkte"]], use_container_width=True)
+
+    st.divider()
+
+    # --- Login-Formular im Hauptbereich ---
+    from auth import initialize_session_state, is_admin_user
+    from config import load_scientists
+    from data_manager import get_used_pseudonyms
+
+    st.header("Neuen Test starten")
+    st.info("Wähle ein Pseudonym, um eine neue Testrunde zu beginnen. Jede Runde ist einmalig.")
+
+    scientists = load_scientists()
+    used_pseudonyms = get_used_pseudonyms()
+    
+    available_scientists = [
+        f"{s['name']} ({s['contribution']})" for s in scientists 
+        if s['name'] not in used_pseudonyms
+    ]
+
+    # Admin-Login-Option hinzufügen
+    admin_user = app_config.admin_user
+    admin_display_name = ""
+    if admin_user:
+        admin_display_name = "Alan C. Kay (Pionier der OOP & GUIs)"
+        available_scientists = [s for s in available_scientists if not s.startswith(admin_user) and not s.startswith("Alan C. Kay")]
+        available_scientists.insert(0, admin_display_name)
+
+    selected_name_formatted = st.selectbox(
+        "Wähle dein Pseudonym für diese Runde:",
+        options=available_scientists,
+        placeholder="Bitte wählen...",
+        index=None,
+    )
+
+    if st.button("Test starten", type="primary"):
+        if not selected_name_formatted:
+            st.error("Bitte wähle ein Pseudonym aus.")
+        else:
+            user_name = admin_user if selected_name_formatted == admin_display_name else selected_name_formatted.split(" (")[0]
+            st.session_state.user_id = user_name
+            st.session_state.user_id_hash = get_user_id_hash(user_name)
+            st.session_state.show_pseudonym_reminder = True
+            initialize_session_state(questions)
+            st.rerun()
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""

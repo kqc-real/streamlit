@@ -35,6 +35,7 @@ from logic import (
 from main_view import (
     render_question_view,
     render_final_summary,
+    render_welcome_page,
 )
 from admin_panel import render_admin_panel
 from components import render_sidebar
@@ -92,15 +93,15 @@ def main():
 
     # --- 1. Lade Konfiguration und Fragen (wird für Login benötigt) ---
     app_config = AppConfig()
-    question_files = list_question_files()
+    
+    # Initialisiere das Fragenset, falls noch nicht geschehen.
     if "selected_questions_file" not in st.session_state:
-        st.session_state.selected_questions_file = (
-            question_files[0] if question_files else None
-        )
-    if st.session_state.selected_questions_file:
-        questions = load_questions(st.session_state.selected_questions_file)
+        question_files = list_question_files()
+        st.session_state.selected_questions_file = question_files[0] if question_files else None
+
+    if st.session_state.get("selected_questions_file"):
+        questions = load_questions(st.session_state.get("selected_questions_file"))
     else:
-        questions = []
         st.error("Keine Fragensets (questions_*.json) gefunden.")
         st.stop()
 
@@ -109,7 +110,8 @@ def main():
 
     if not user_id:
         # handle_user_session rendert die Login-Seite, hier abbrechen.
-        return
+        render_welcome_page(app_config)
+        st.stop()
 
     # --- 3. Hauptanwendung für eingeloggte Benutzer ---
     # Lade Fortschritt, zeige Sidebar und die entsprechende Hauptansicht
