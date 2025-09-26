@@ -44,45 +44,73 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
 
     st.sidebar.header("Wer bist du?")
 
-    # Lade verfügbare und benutzte Namen
-    scientists = load_scientists()
-    used_pseudonyms = get_used_pseudonyms()
-    
-    available_scientists = [
-        f"{s['name']} ({s['contribution']})" for s in scientists 
-        if s['name'] not in used_pseudonyms
-    ]
-
-    if not available_scientists:
-        st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
-        st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
-        return None
-
-    def start_test():
-        user_id_input = st.session_state.get("user_id_input")
-        if not user_id_input:
-            return
-
-        user_name = user_id_input.split(" (")[0]
-
-        st.session_state.user_id = user_name
-        st.session_state.user_id_hash = get_user_id_hash(user_name)
-        st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-
-        initialize_session_state(questions)
+    login_type = st.radio(
+        "Bist du ein neuer oder ein wiederkehrender Teilnehmer?",
+        ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
+        key="login_type",
+        horizontal=True,
+    )
 
     if "session_aborted" in st.session_state:
         st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
         del st.session_state["session_aborted"]
 
-    st.selectbox(
-        "Wähle dein Pseudonym für diese Runde:",
-        options=[""] + available_scientists,
-        key="user_id_input",
-        on_change=start_test,
-        format_func=lambda x: "Bitte wählen..." if x == "" else x,
-    )
-    st.sidebar.button("Test starten", on_click=start_test)
+    if login_type == "Neuer Teilnehmer":
+        scientists = load_scientists()
+        used_pseudonyms = get_used_pseudonyms()
+        
+        available_scientists = [
+            f"{s['name']} ({s['contribution']})" for s in scientists 
+            if s['name'] not in used_pseudonyms
+        ]
+
+        if not available_scientists:
+            st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
+            st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
+            return None
+
+        selected_name = st.selectbox(
+            "Wähle dein Pseudonym für diese Runde:",
+            options=[""] + available_scientists,
+            key="new_user_id_input",
+            format_func=lambda x: "Bitte wählen..." if x == "" else x,
+        )
+
+        if st.sidebar.button("Test starten", key="start_new"):
+            if not selected_name:
+                st.sidebar.error("Bitte wähle ein Pseudonym aus.")
+                return None
+
+            user_name = selected_name.split(" (")[0]
+            st.session_state.user_id = user_name
+            st.session_state.user_id_hash = get_user_id_hash(user_name)
+            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+            initialize_session_state(questions)
+            st.rerun()
+
+    else: # Wiederkehrender Teilnehmer
+        used_pseudonyms = get_used_pseudonyms()
+        if not used_pseudonyms:
+            st.sidebar.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
+            return None
+
+        selected_name = st.selectbox(
+            "Wähle dein bisheriges Pseudonym:",
+            options=[""] + used_pseudonyms,
+            key="returning_user_id_input",
+            format_func=lambda x: "Bitte wählen..." if x == "" else x,
+        )
+
+        if st.sidebar.button("Test fortsetzen", key="continue"):
+            if not selected_name:
+                st.sidebar.error("Bitte wähle ein Pseudonym aus.")
+                return None
+
+            st.session_state.user_id = selected_name
+            st.session_state.user_id_hash = get_user_id_hash(selected_name)
+            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+            # Do not initialize, progress will be loaded in app.py
+            st.rerun()
 
     return None
 
