@@ -9,14 +9,29 @@ Verantwortlichkeiten:
 import streamlit as st
 import random
 import hmac
+import json
+from datetime import datetime
 
 from config import AppConfig, load_scientists
 from helpers import get_user_id_hash
 from data_manager import get_used_pseudonyms
 
+def log_state(event: str):
+    """Schreibt den aktuellen Session State zur Fehlersuche in eine Log-Datei."""
+    with open("debug.log", "a", encoding="utf-8") as f:
+        f.write(f"--- {event} at {datetime.now()} ---\n")
+        state_copy = {}
+        for k, v in st.session_state.items():
+            try:
+                json.dumps({k: v})
+                state_copy[k] = v
+            except (TypeError, OverflowError):
+                state_copy[k] = f"NOT_SERIALIZABLE: {type(v)}"
+        f.write(json.dumps(state_copy, indent=2, ensure_ascii=False) + "\n")
 
 def initialize_session_state(questions: list):
     """Initialisiert den Session-State für einen neuen Testlauf."""
+    log_state("Initializing new session state")
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
     for key in list(st.session_state.keys()):
         if key.startswith("frage_") or key in [
@@ -48,17 +63,20 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
     Rendert die Login-Seite, wenn kein Benutzer eingeloggt ist.
     Gibt die user_id zurück, wenn der Login erfolgreich war.
     """
+    log_state("Enter handle_user_session")
     if "user_id" in st.session_state:
+        log_state(f"User '{st.session_state.user_id}' found in session_state")
         return st.session_state.user_id
 
     st.title("Willkommen zum MC-Test")
     st.write("Bitte melde dich an, um zu beginnen.")
 
     login_type = st.radio(
-        "Bist du ein neuer oder ein wiederkehrender Teilnehmer?",
+        "Login-Typ",
         ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
         key="login_type",
         horizontal=True,
+        label_visibility="collapsed"
     )
 
     if login_type == "Neuer Teilnehmer":
@@ -92,6 +110,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
                 st.session_state.user_id_display = st.session_state.user_id_hash[:10]
                 st.session_state.show_pseudonym_reminder = True
                 initialize_session_state(questions)
+                log_state("New user login -> RERUN")
                 st.rerun()
 
     else: # Wiederkehrender Teilnehmer
@@ -120,6 +139,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
             elif clean_entered_name not in used_pseudonyms:
                 st.session_state.login_attempts += 1
                 remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
+                log_state(f"Wrong pseudonym: '{clean_entered_name}'")
                 if remaining_attempts > 0:
                     st.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
                 else:
@@ -129,11 +149,14 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
                 st.session_state.user_id = clean_entered_name
                 st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
                 st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+                initialize_session_state(questions)
+                log_state(f"Returning user login: '{clean_entered_name}' -> RERUN")
                 st.rerun()
             
         if is_locked:
             st.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
 
+    log_state("Exit handle_user_session without login")
     return None
 
 
