@@ -87,7 +87,6 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 ```
 .
 ├── .github/                # GitHub Actions Workflows (CI)
-├── .streamlit/             # Streamlit Konfiguration (config.toml)
 ├── tests/                  # Pytest-Tests
 ├── __init__.py
 ├── admin_panel.py          # Logik für das Admin-Panel
@@ -110,8 +109,8 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 
 ### Admin-Bereich
 
--   **Zugang:** Über das "Admin Login" in der Sidebar.
--   **Tabs:**
+-   **Zugang:** Der Admin meldet sich über die normale Pseudonym-Auswahl an (z.B. "Alan C. Kay"). Danach erscheint in der Sidebar der Bereich "Admin Panel", wo mit dem Admin-Key der Zugang freigeschaltet wird.
+-   **Funktionen (Tabs):**
     -   **Leaderboard:** Zeigt die Highscores an.
     -   **Analyse:** Bietet eine detaillierte Item- und Distraktor-Analyse.
     -   **Export:** Ermöglicht den Download aller Antwortdaten als CSV.
