@@ -126,6 +126,52 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         else:
             st.info("Für die Berechnung der Trennschärfe sind mindestens 2 Teilnehmer erforderlich.")
 
+    # --- Distraktor-Analyse ---
+    st.divider()
+    st.header("Detail-Analyse: Distraktoren")
+
+    question_titles = [q["frage"] for q in questions]
+    selected_question_title = st.selectbox(
+        "Wähle eine Frage für die Detail-Analyse:",
+        options=question_titles,
+        index=0
+    )
+
+    if selected_question_title:
+        selected_question = next((q for q in questions if q["frage"] == selected_question_title), None)
+        if selected_question:
+            frage_nr = int(selected_question["frage"].split(".", 1)[0])
+            frage_df = df[df["frage_nr"] == frage_nr]
+
+            if frage_df.empty:
+                st.info("Für diese Frage liegen noch keine Antworten vor.")
+            else:
+                answer_counts = frage_df["antwort"].value_counts().reset_index()
+                answer_counts.columns = ["Antwort", "Anzahl"]
+
+                all_options = pd.DataFrame({"Antwort": selected_question["optionen"]})
+                merged_df = pd.merge(all_options, answer_counts, on="Antwort", how="left").fillna(0)
+                merged_df["Anzahl"] = merged_df["Anzahl"].astype(int)
+
+                correct_answer = selected_question["optionen"][selected_question["loesung"]]
+                merged_df["Korrekt"] = merged_df["Antwort"].apply(lambda x: "✅" if x == correct_answer else "")
+
+                st.write("Antwortverteilung:")
+                st.dataframe(merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False), use_container_width=True)
+
+                if st.checkbox("Zeige als Balkendiagramm", key=f"distractor_chart_{frage_nr}"):
+                    import plotly.express as px
+                    fig = px.bar(
+                        merged_df,
+                        x="Anzahl",
+                        y="Antwort",
+                        orientation='h',
+                        title="Antwortverteilung",
+                        color="Korrekt",
+                        color_discrete_map={"": "grey", "✅": "green"}
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+
 def render_export_tab(df: pd.DataFrame):
     """Rendert den Export-Tab."""
     st.header("Datenexport")
