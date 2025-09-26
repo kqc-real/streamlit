@@ -1,2 +1,5 @@
 [theme]
 base = "dark"
+
+[server]
+folderWatchBlacklist = [".git", "__pycache__", ".devcontainer", "tests"]
