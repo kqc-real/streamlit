@@ -212,16 +212,15 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         gespeicherte_antwort = get_answer_for_question(frage_idx)
 
         # Wir verwenden st.radio, um die Auswahl zu steuern.
-        # Die `captions` werden verwendet, um KaTeX-Formeln korrekt darzustellen.
+        # Die `format_func` wird verwendet, um KaTeX-Formeln korrekt darzustellen.
         selected_index = st.radio(
-            "Wähle deine Antwort:",  # Label ist für Screenreader, aber unsichtbar
-            options=range(len(optionen)),  # Optionen sind die Indizes 0, 1, 2, ...
+            "Wähle deine Antwort:",
+            options=range(len(optionen)),
             key=widget_key,
             index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
             disabled=is_answered,
             label_visibility="collapsed",
-            captions=optionen,  # Hier werden die Optionen mit KaTeX-Unterstützung übergeben
-            format_func=lambda x: "",  # Verhindert die Anzeige der Index-Zahlen
+            format_func=lambda x: optionen[x],
         )
 
         antwort = optionen[selected_index] if selected_index is not None else None
