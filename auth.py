@@ -54,10 +54,11 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     st.sidebar.header("Wer bist du?")
 
     login_type = st.radio(
-        "",
+        "Login-Typ",  # Label hinzugefügt, um Warnung zu beheben
         ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
         key="login_type",
         horizontal=True,
+        label_visibility="collapsed"  # Label für die UI ausblenden
     )
 
     if "session_aborted" in st.session_state:
@@ -98,7 +99,7 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.session_state.show_pseudonym_reminder = True
                 initialize_session_state(questions)
                 user_id = user_name
-                st.rerun() # Rerun, um den Login-Zustand sofort zu übernehmen
+                st.rerun()
 
     else: # Wiederkehrender Teilnehmer
         used_pseudonyms = get_used_pseudonyms()
@@ -122,7 +123,6 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             clean_entered_name = entered_name.strip()
             if not clean_entered_name:
                 st.sidebar.error("Bitte gib dein Pseudonym ein.")
-                st.rerun()
             
             elif clean_entered_name not in used_pseudonyms:
                 st.session_state.login_attempts += 1
@@ -131,14 +131,13 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                     st.sidebar.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
                 else:
                     st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
-                st.rerun()
             else:
                 st.session_state.login_attempts = 0
                 st.session_state.user_id = clean_entered_name
                 st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
                 st.session_state.user_id_display = st.session_state.user_id_hash[:10]
                 user_id = clean_entered_name
-                st.rerun() # Rerun, um den Login-Zustand sofort zu übernehmen
+                st.rerun()
             
         if is_locked:
             st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
