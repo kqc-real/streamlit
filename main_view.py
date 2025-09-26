@@ -271,10 +271,9 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             render_explanation(frage_obj, app_config, questions)
 
-
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     """Rendert den Feedback- und Erklärungsblock nach einer Antwort."""
-    st.divider()
+    st.divider() 
     
     # Feedback (richtig/falsch)
     richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
@@ -286,9 +285,9 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         if "celebrated_questions" not in st.session_state:
             st.session_state.celebrated_questions = []
         st.balloons()
-        st.success(f"Richtig! Die Antwort war: **{richtige_antwort_text}**")
+        st.markdown(f"Richtig! Die Antwort war: **{richtige_antwort_text}**")
     else:
-        st.error(f"Leider falsch. Deine Antwort war '{gegebene_antwort}'. Richtig ist: **{richtige_antwort_text}**")
+        st.markdown(f"Leider falsch. Deine Antwort war: {gegebene_antwort}. Richtig ist: **{richtige_antwort_text}**")
 
     # Erklärungstext
     erklaerung = frage_obj.get("erklaerung")

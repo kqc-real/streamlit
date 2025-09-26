@@ -194,29 +194,15 @@ MC_TEST_MIN_SECONDS_BETWEEN=5  # Optional: Mindestsekunden zwischen Antworten
 
 ### Streamlit-Secrets (`.streamlit/secrets.toml`)
 
-Für Produktion:
+Für die Produktion auf Streamlit Cloud, hinterlege die Secrets im Dashboard deiner App. Die Struktur ist dieselbe wie in der `.env.example`-Datei, aber im TOML-Format.
 
+**Wichtig:** Füge diese Datei nicht zu Git hinzu, sondern konfiguriere die Secrets direkt in der Weboberfläche von Streamlit Cloud.
+
+Beispiel für die Eingabe im Secret-Management von Streamlit Cloud:
 ```toml
-"MC_TEST_ADMIN_USER" = "admin"
-"MC_TEST_ADMIN_KEY" = "secret123"
-"MC_TEST_MIN_SECONDS_BETWEEN" = 5
-```
-
-Hinweise (Streamlit Cloud / TOML Parser):
-
-- Schlüssel UND Werte als Strings konsequent quoten (robusteste Variante): `"KEY" = "wert"`.
-- Numerische Werte (z.B. `5`) können ohne Quotes, dürfen aber auch mit `"5"` – intern wird gecastet.
-- Keine `.env`-Syntax (`KEY=value` ohne Leerzeichen) in `secrets.toml` verwenden – immer `KEY = VALUE` mit Leerzeichen.
-- Pro Zeile genau ein Key. Keine Inline-Kommentare direkt hinter dem Wert.
-- Unsichtbare Sonderzeichen vermeiden (non-breaking space, typogr. Bindestrich) – bei Copy/Paste ggf. säubern.
-- Bei "invalid TOML": Quotes, `=` Abstände und Tabs (verboten) prüfen.
-
-Minimalvariante (alle Strings explizit in Quotes):
-
-```toml
-"MC_TEST_ADMIN_USER" = "Admin"
-"MC_TEST_ADMIN_KEY" = "Admin"
-"MC_TEST_MIN_SECONDS_BETWEEN" = 1
+MC_TEST_ADMIN_USER = "dein_admin_user"
+MC_TEST_ADMIN_KEY = "dein_geheimes_passwort"
+MC_TEST_MIN_SECONDS_BETWEEN = "5"
 ```
 
 ### Datenpersistenz (CSV)
