@@ -8,6 +8,7 @@ Verantwortlichkeiten:
 """
 import streamlit as st
 import pandas as pd
+import time
 
 from config import AppConfig, list_question_files, load_questions
 from logic import (
@@ -239,6 +240,15 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         # --- Antwort auswerten ---
         if antwort and not is_answered:
             if st.button("Antworten", key=f"submit_{frage_idx}"):
+                # --- Rate Limiting ---
+                last_answer_time = st.session_state.get("last_answer_time", 0)
+                current_time = time.time()
+                if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
+                    st.warning(f"Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
+                    return
+                
+                st.session_state.last_answer_time = current_time
+
                 if st.session_state.start_zeit is None:
                     st.session_state.start_zeit = pd.Timestamp.now()
 

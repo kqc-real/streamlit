@@ -25,6 +25,7 @@ class AppConfig:
         self.admin_key: str = ""
         self.scoring_mode: str = "positive_only"
         self.show_top5_public: bool = True
+        self.min_seconds_between_answers: int = 3
 
         self._load_from_env_and_secrets()
         self._load_from_json()
@@ -42,6 +43,21 @@ class AppConfig:
             self.admin_user = os.getenv("MC_TEST_ADMIN_USER", "").strip()
         if not self.admin_key:
             self.admin_key = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
+
+        min_seconds_str = ""
+        try:
+            min_seconds_str = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", "").strip()
+        except Exception:
+            pass
+        
+        if not min_seconds_str:
+            min_seconds_str = os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "").strip()
+
+        if min_seconds_str:
+            try:
+                self.min_seconds_between_answers = int(min_seconds_str)
+            except ValueError:
+                pass # Behalte Defaultwert bei Fehler
 
     def _load_from_json(self):
         """Lädt Konfiguration aus der JSON-Datei und überschreibt ggf. Defaults."""

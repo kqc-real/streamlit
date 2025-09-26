@@ -73,10 +73,12 @@ Die App wird über Umgebungsvariablen konfiguriert. Für die lokale Entwicklung 
 # Beispiel für .env oder Streamlit Cloud Secrets
 MC_TEST_ADMIN_USER="dein_admin_user"
 MC_TEST_ADMIN_KEY="dein_geheimes_passwort"
+MC_TEST_MIN_SECONDS_BETWEEN="3"
 ```
 
 - **`MC_TEST_ADMIN_USER`**: Der Benutzername, der für den Admin-Login erforderlich ist.
 - **`MC_TEST_ADMIN_KEY`**: Das Passwort für den Admin-Login.
+- **`MC_TEST_MIN_SECONDS_BETWEEN`**: Die Mindestanzahl an Sekunden, die zwischen zwei Antworten vergehen muss. Verhindert Spam. Ein Wert von `0` deaktiviert das Limit. (Default: `3`)
 
 ---
 
