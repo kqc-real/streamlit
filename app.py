@@ -132,23 +132,26 @@ def main():
     render_sidebar(questions, app_config, is_admin)
 
     # Entscheide, welche Hauptansicht gezeigt wird.
+    current_idx = get_current_question_index()
+
     if st.session_state.get("show_admin_panel", False) and is_admin:
         # A) Admin-Panel anzeigen
         render_admin_panel(app_config, questions)
 
+    elif current_idx is not None:
+        # B) Eine Frage soll angezeigt werden (entweder im Test oder per Bookmark-Sprung)
+        render_question_view(questions, current_idx, app_config)
+
     elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
-        # B) Test ist beendet -> Zeige die finale Zusammenfassung
+        # C) Test ist beendet und es gibt keinen Sprung -> Zeige die finale Zusammenfassung
         render_final_summary(questions, app_config)
 
     else:
-        # C) Test läuft -> Zeige die aktuelle Frage
-        current_idx = get_current_question_index()
-        if current_idx is not None:
-            render_question_view(questions, current_idx, app_config)
-        else:
-            # Sollte nicht passieren, aber als Fallback
-            st.info("Alle Fragen beantwortet. Lade die Zusammenfassung...")
-            st.rerun()
+        # D) Fallback: Wenn keine Frage angezeigt werden kann, aber der Test noch nicht
+        #    offiziell beendet ist, deutet das auf einen Übergangszustand hin.
+        #    Ein Rerun löst das Problem normalerweise.
+        st.info("Lade nächste Ansicht...")
+        st.rerun()
 
 
 if __name__ == "__main__":
