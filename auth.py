@@ -48,27 +48,25 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     Verwaltet die User-Session. Zeigt Login an, wenn kein User angemeldet ist.
     Initialisiert die Session und gibt die `user_id` zurück.
     """
-    # Schritt 1: Versuche, den Benutzer über URL-Parameter einzuloggen
-    if "user" in st.query_params:
+    # Verarbeite Login via URL-Parameter, falls vorhanden
+    if "user" in st.query_params and "user_id" not in st.session_state:
         user_id = st.query_params["user"]
         st.session_state.user_id = user_id
         st.session_state.user_id_hash = get_user_id_hash(user_id)
         st.session_state.user_id_display = st.session_state.user_id_hash[:10]
         
-        # Wenn es ein neuer Benutzer ist, initialisiere den Testzustand
         if st.query_params.get("new_user") == "true":
             st.session_state.show_pseudonym_reminder = True
             initialize_session_state(questions)
         
-        # Bereinige die URL und lade die Seite neu, um den Login abzuschließen
+        # Bereinige die URL für den nächsten Klick
         st.query_params.clear()
-        st.rerun()
 
-    # Schritt 2: Wenn Benutzer bereits eingeloggt ist, gib die ID zurück
+    # Wenn Benutzer eingeloggt ist (entweder durch URL oder bereits bestehende Session), gib ID zurück
     if "user_id" in st.session_state:
         return st.session_state.user_id
 
-    # Schritt 3: Zeige das Login-Formular an
+    # Zeige das Login-Formular an, wenn kein Benutzer eingeloggt ist
     st.sidebar.header("Wer bist du?")
 
     login_type = st.radio(
@@ -141,7 +139,7 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.session_state.login_attempts += 1
                 remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
                 if remaining_attempts > 0:
-                    st.sidebar.error(f"Pseudonym nicht gefunden. Du hast noch {remaining_attempts} Versuche.")
+                    st.sidebar.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
                 else:
                     st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
                 st.rerun()
