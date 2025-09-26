@@ -125,7 +125,7 @@ def render_welcome_page(app_config: AppConfig):
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
     if st.session_state.get("show_pseudonym_reminder", False):
-        st.info(f"Dein Pseudonym für diese Runde ist **{st.session_state.user_id}**. Bitte merke es dir gut, um den Test später fortsetzen zu können.")
+        st.success(f"**Willkommen, {st.session_state.user_id}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.")
         del st.session_state.show_pseudonym_reminder
 
     frage_obj = questions[frage_idx]

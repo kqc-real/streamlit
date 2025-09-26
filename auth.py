@@ -17,6 +17,15 @@ from data_manager import get_used_pseudonyms
 
 def initialize_session_state(questions: list):
     """Initialisiert den Session-State für einen neuen Testlauf."""
+    # Lösche alte Test-spezifische Schlüssel, falls vorhanden
+    for key in list(st.session_state.keys()):
+        if key.startswith("frage_") or key in [
+            "beantwortet", "frage_indices", "start_zeit", "progress_loaded", 
+            "optionen_shuffled", "answer_outcomes", "bookmarked_questions", 
+            "test_time_expired", "show_pseudonym_reminder", "login_attempts"
+        ]:
+            del st.session_state[key]
+
     st.session_state.beantwortet = [None] * len(questions)
     st.session_state.frage_indices = list(range(len(questions)))
     random.shuffle(st.session_state.frage_indices)
@@ -39,20 +48,31 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     Verwaltet die User-Session. Zeigt Login an, wenn kein User angemeldet ist.
     Initialisiert die Session und gibt die `user_id` zurück.
     """
-    # Schritt 2: Wenn user_id gesetzt ist, vervollständige den Login und gib die ID zurück
+    # Schritt 1: Versuche, den Benutzer über URL-Parameter einzuloggen
+    if "user" in st.query_params:
+        user_id = st.query_params["user"]
+        st.session_state.user_id = user_id
+        st.session_state.user_id_hash = get_user_id_hash(user_id)
+        st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+        
+        # Wenn es ein neuer Benutzer ist, initialisiere den Testzustand
+        if st.query_params.get("new_user") == "true":
+            st.session_state.show_pseudonym_reminder = True
+            initialize_session_state(questions)
+        
+        # Bereinige die URL und lade die Seite neu, um den Login abzuschließen
+        st.query_params.clear()
+        st.rerun()
+
+    # Schritt 2: Wenn Benutzer bereits eingeloggt ist, gib die ID zurück
     if "user_id" in st.session_state:
-        if "user_id_hash" not in st.session_state:
-            # Dies geschieht beim ersten Durchlauf nach einem erfolgreichen Login
-            st.session_state.login_attempts = 0
-            st.session_state.user_id_hash = get_user_id_hash(st.session_state.user_id)
-            st.session_state.user_id_display = st.session_state.user_id_hash[:10]
         return st.session_state.user_id
 
-    # Schritt 1: Zeige das Login-Formular an
+    # Schritt 3: Zeige das Login-Formular an
     st.sidebar.header("Wer bist du?")
 
     login_type = st.radio(
-        "Bist du ein neuer oder ein wiederkehrender Teilnehmer?",
+        "",
         ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
         key="login_type",
         horizontal=True,
@@ -89,11 +109,8 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.rerun()
 
             user_name = selected_name_formatted.split(" (")[0]
-            st.session_state.show_pseudonym_reminder = True
-            initialize_session_state(questions)
-            
-            # Setze nur die user_id und starte neu
-            st.session_state.user_id = user_name
+            st.query_params["user"] = user_name
+            st.query_params["new_user"] = "true"
             st.rerun()
 
     else: # Wiederkehrender Teilnehmer
@@ -124,13 +141,12 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.session_state.login_attempts += 1
                 remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
                 if remaining_attempts > 0:
-                    st.sidebar.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
+                    st.sidebar.error(f"Pseudonym nicht gefunden. Du hast noch {remaining_attempts} Versuche.")
                 else:
                     st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
                 st.rerun()
             
-            # Bei Erfolg, setze nur die user_id und starte neu
-            st.session_state.user_id = clean_entered_name
+            st.query_params["user"] = clean_entered_name
             st.rerun()
             
         if is_locked:
