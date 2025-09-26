@@ -43,29 +43,23 @@ def initialize_session_state(questions: list):
         st.session_state.optionen_shuffled.append(opts)
 
 
-def handle_user_session(questions: list, app_config: AppConfig, question_files: list) -> str | None:
+def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
     """
-    Verwaltet die User-Session. Zeigt Login an, wenn kein User angemeldet ist.
-    Initialisiert die Session und gibt die `user_id` zurück.
+    Rendert die Login-Seite, wenn kein Benutzer eingeloggt ist.
+    Gibt die user_id zurück, wenn der Login erfolgreich war.
     """
     if "user_id" in st.session_state:
         return st.session_state.user_id
 
-    st.sidebar.header("Wer bist du?")
+    st.title("Willkommen zum MC-Test")
+    st.write("Bitte melde dich an, um zu beginnen.")
 
     login_type = st.radio(
-        "Login-Typ",
+        "Bist du ein neuer oder ein wiederkehrender Teilnehmer?",
         ["Neuer Teilnehmer", "Wiederkehrender Teilnehmer"],
         key="login_type",
         horizontal=True,
-        label_visibility="collapsed"
     )
-
-    if "session_aborted" in st.session_state:
-        st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
-        del st.session_state["session_aborted"]
-
-    user_id = None
 
     if login_type == "Neuer Teilnehmer":
         scientists = load_scientists()
@@ -77,8 +71,8 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
         ]
 
         if not available_scientists:
-            st.sidebar.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
-            st.sidebar.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
+            st.warning("Alle verfügbaren Pseudonyme sind bereits vergeben.")
+            st.info("Bitte kontaktiere den Autor der App, um die Liste zu erweitern.")
             return None
 
         selected_name_formatted = st.selectbox(
@@ -88,9 +82,9 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             format_func=lambda x: "Bitte wählen..." if x == "" else x,
         )
 
-        if st.sidebar.button("Test starten", key="start_new"):
+        if st.button("Test starten", key="start_new"):
             if not selected_name_formatted:
-                st.sidebar.error("Bitte wähle ein Pseudonym aus.")
+                st.error("Bitte wähle ein Pseudonym aus.")
             else:
                 user_name = selected_name_formatted.split(" (")[0]
                 st.session_state.user_id = user_name
@@ -98,13 +92,12 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.session_state.user_id_display = st.session_state.user_id_hash[:10]
                 st.session_state.show_pseudonym_reminder = True
                 initialize_session_state(questions)
-                user_id = user_name
                 st.rerun()
 
     else: # Wiederkehrender Teilnehmer
         used_pseudonyms = get_used_pseudonyms()
         if not used_pseudonyms:
-            st.sidebar.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
+            st.info("Es gibt noch keine wiederkehrenden Teilnehmer.")
             return None
 
         if 'login_attempts' not in st.session_state:
@@ -119,30 +112,29 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
             disabled=is_locked,
         )
 
-        if st.sidebar.button("Test fortsetzen", key="continue", disabled=is_locked):
+        if st.button("Test fortsetzen", key="continue", disabled=is_locked):
             clean_entered_name = entered_name.strip()
             if not clean_entered_name:
-                st.sidebar.error("Bitte gib dein Pseudonym ein.")
+                st.error("Bitte gib dein Pseudonym ein.")
             
             elif clean_entered_name not in used_pseudonyms:
                 st.session_state.login_attempts += 1
                 remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
                 if remaining_attempts > 0:
-                    st.sidebar.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
+                    st.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
                 else:
-                    st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
+                    st.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
             else:
                 st.session_state.login_attempts = 0
                 st.session_state.user_id = clean_entered_name
                 st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
                 st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-                user_id = clean_entered_name
                 st.rerun()
             
         if is_locked:
-            st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
+            st.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
 
-    return user_id
+    return None
 
 
 def is_admin_user(user_id: str, app_config: AppConfig) -> bool:

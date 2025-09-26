@@ -86,18 +86,13 @@ def main():
     st.set_page_config(page_title="MC-Test AMALEA")
     set_custom_theme()
 
-    # --- 1. Initialisierung & Konfiguration ---
-    # Lade App-Konfiguration (Scoring-Modus etc.) und verfügbare Fragensets
+    # --- 1. Lade Konfiguration und Fragen (wird für Login benötigt) ---
     app_config = AppConfig()
     question_files = list_question_files()
-
-    # Initialisiere `selected_questions_file` im Session State, falls nicht vorhanden
     if "selected_questions_file" not in st.session_state:
         st.session_state.selected_questions_file = (
             question_files[0] if question_files else None
         )
-
-    # Lade die Fragen für das aktuell ausgewählte Set
     if st.session_state.selected_questions_file:
         questions = load_questions(st.session_state.selected_questions_file)
     else:
@@ -105,55 +100,34 @@ def main():
         st.error("Keine Fragensets (questions_*.json) gefunden.")
         st.stop()
 
-    # --- 2. Benutzer-Authentifizierung & Session-Management ---
-    # `handle_user_session` kümmert sich um Login, Session-Initialisierung
-    # und das Laden von Fortschritt. Gibt `user_id` zurück oder None.
-    user_id = handle_user_session(questions, app_config, question_files)
+    # --- 2. Authentifizierung: Zeigt Login-Seite oder gibt user_id zurück ---
+    user_id = handle_user_session(questions, app_config)
 
     if not user_id:
-        # Wenn kein Nutzer angemeldet ist, zeige nur die Startseite.
-        # Die Login-Logik befindet sich in `handle_user_session`.
-        render_welcome_page(app_config)
-        st.stop()
+        # handle_user_session rendert die Login-Seite, hier abbrechen.
+        return
 
-    # --- 3. Hauptansicht rendern ---
-    # Ab hier ist ein Nutzer (oder Admin) angemeldet.
-
-    # Lade den Fortschritt des Nutzers, falls vorhanden.
-    # Dies geschieht nur einmal pro Session, um unnötige Lesezugriffe zu vermeiden.
+    # --- 3. Hauptanwendung für eingeloggte Benutzer ---
+    # Lade Fortschritt, zeige Sidebar und die entsprechende Hauptansicht
     if not st.session_state.get("progress_loaded", False):
         load_user_progress(st.session_state.user_id_hash, questions)
         st.session_state.progress_loaded = True
 
-    # Überprüfe, ob der angemeldete Nutzer Admin-Rechte hat.
     is_admin = is_admin_user(user_id, app_config)
-
-    # Zeige die Sidebar mit Fortschritt, Bookmarks und Admin-Login an.
     render_sidebar(questions, app_config, is_admin)
 
-    # Entscheide, welche Hauptansicht gezeigt wird.
     current_idx = get_current_question_index()
 
     if st.session_state.get("show_admin_panel", False) and is_admin:
-        # A) Admin-Panel anzeigen
         render_admin_panel(app_config, questions)
-
     elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
-        # B) Test ist beendet oder Zeit abgelaufen.
-        #    Prüfe, ob von hier aus zu einem Lesezeichen gesprungen wird.
         if current_idx is not None:
             render_question_view(questions, current_idx, app_config)
         else:
-            # Standardfall: Zeige die finale Zusammenfassung.
             render_final_summary(questions, app_config)
-
     elif current_idx is not None:
-        # C) Test läuft -> Zeige die aktuelle Frage.
         render_question_view(questions, current_idx, app_config)
-
     else:
-        # D) Fallback: Sollte nur im Übergangszustand auftreten (z.B. nach der letzten Frage).
-        #    Ein Rerun bringt die App in den korrekten "Test beendet"-Zustand.
         st.rerun()
 
 

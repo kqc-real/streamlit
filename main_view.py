@@ -2,7 +2,6 @@
 Modul für die Hauptansichten der Nutzer-Interaktion.
 
 Verantwortlichkeiten:
-- Rendern der Willkommensseite.
 - Rendern der Fragenansicht.
 - Rendern der finalen Zusammenfassung.
 """
@@ -20,106 +19,6 @@ from logic import (
 from helpers import smart_quotes_de, format_explanation_text
 from data_manager import save_answer, update_bookmarks_for_user, load_all_logs
 from components import show_motivation, render_question_distribution_chart
-
-
-def render_welcome_page(app_config: AppConfig):
-    """Zeigt die Startseite für nicht eingeloggte Nutzer."""
-    st.markdown("""
-        <div style='text-align: center; padding: 0 0 10px 0;'>
-            <h2 style='color:#4b9fff; font-size: 2.1rem; margin-bottom: 0.5rem;'>100 Fragen</h2>
-            <p style='font-size: 1.08rem; margin-bottom: 20px;'>Starte jetzt 🚀 • Optimiere dein Wissen!</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    
-
-    # --- Öffentliches Leaderboard ---
-    if app_config.show_top5_public:
-        with st.expander("🥇 Aktuelle Top Ten (Leaderboard)", expanded=False):
-            df_logs = load_all_logs()
-            selected_set = st.session_state.get("selected_questions_file")
-
-            if not df_logs.empty and "questions_file" in df_logs.columns and selected_set:
-                df_logs = df_logs[df_logs["questions_file"] == selected_set]
-
-            if df_logs.empty:
-                st.info("Noch keine Einträge für dieses Fragenset.")
-            else:
-                scores = (
-                    df_logs.groupby("user_id_hash")
-                    .agg(
-                        Pseudonym=("user_id_plain", "first"),
-                        Punkte=("richtig", "sum"),
-                    )
-                    .sort_values("Punkte", ascending=False)
-                    .head(10)
-                    .reset_index()
-                )
-                scores.insert(0, "Platz", scores.index + 1)
-                
-                icons = {1: "🥇", 2: "🥈", 3: "🥉"}
-                scores["Rang"] = scores["Platz"].map(icons).fillna(scores["Platz"].astype(str))
-                
-                st.dataframe(
-                    scores[["Rang", "Pseudonym", "Punkte"]], 
-                    use_container_width=True, hide_index=True
-                )
-
-    # Fügt einen visuellen Abstand hinzu
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
-
-    # --- Auswahl des Fragensets ---
-    question_files = list_question_files()
-    if not question_files:
-        return
-
-    def format_pool_name(filename: str) -> str:
-        """Formatiert den Dateinamen zu einem lesbaren Label."""
-        base = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
-        return base.title()
-
-    # Aktuell ausgewähltes Set finden
-    selected_file = st.session_state.get("selected_questions_file", question_files[0])
-    try:
-        current_index = question_files.index(selected_file)
-    except ValueError:
-        current_index = 0
-
-    # Selectbox für die Auswahl des Fragensets
-    new_selection = st.selectbox(
-        "Wähle ein Fragenset:",
-        options=question_files,
-        index=current_index,
-        format_func=format_pool_name,
-        key="welcome_pool_selector",
-    )
-
-    # Wenn sich die Auswahl ändert, Session State aktualisieren und neu laden
-    if new_selection != selected_file:
-        st.session_state.selected_questions_file = new_selection
-        # Wichtige, vom Fragenset abhängige States zurücksetzen
-        for key in [
-            "beantwortet",
-            "frage_indices",
-            "optionen_shuffled",
-            "answers_text",
-            "answer_outcomes",
-            "celebrated_questions",
-            "start_zeit",
-            "test_time_expired",
-            "progress_loaded",
-        ]:
-            if key in st.session_state:
-                del st.session_state[key]
-        st.rerun()
-
-    # --- Diagramm zur Fragenverteilung ---
-    questions_for_chart = load_questions(new_selection)
-    if questions_for_chart:
-        render_question_distribution_chart(questions_for_chart)
-    else:
-        st.warning("Fragenset konnte nicht geladen werden, um die Übersicht anzuzeigen.")
 
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
