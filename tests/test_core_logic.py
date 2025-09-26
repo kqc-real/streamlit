@@ -16,9 +16,9 @@ import pytest
 # --- Mocking von Streamlit ---
 # Erstelle ein Mock-Objekt für das `streamlit`-Modul, damit die App-Logik
 # importiert werden kann, ohne dass Streamlit tatsächlich läuft.
-mock_st = MagicMock()
-del mock_st.pytest_plugins
-mock_st.__test__ = False
+class StMock:
+    pass
+mock_st = StMock()
 
  
 
