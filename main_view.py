@@ -78,16 +78,32 @@ def render_welcome_page(app_config: AppConfig):
             if df_logs.empty:
                 st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
             else:
+                # Stelle sicher, dass die 'zeit'-Spalte ein Datumsformat hat
+                if 'zeit' in df_logs.columns:
+                    df_logs['zeit'] = pd.to_datetime(df_logs['zeit'], errors='coerce')
+
                 scores = (
                     df_logs.groupby("user_id_hash")
                     .agg(
                         Pseudonym=("user_id_plain", "first"),
                         Punkte=("richtig", "sum"),
+                        Datum=("zeit", "max"),
                     )
                     .sort_values("Punkte", ascending=False)
                     .head(10)
+                    .reset_index()  # Verhindert, dass der Hash als Index angezeigt wird
                 )
-                st.dataframe(scores[["Pseudonym", "Punkte"]], use_container_width=True)
+
+                # Formatiere das Datum
+                scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+
+                # Dekoriere die Top 3 mit Icons
+                icons = ["🥇", "🥈", "🥉"]
+                for i, icon in enumerate(icons):
+                    if i < len(scores):
+                        scores.loc[i, "Pseudonym"] = f"{icon} {scores.loc[i, 'Pseudonym']}"
+
+                st.dataframe(scores[["Pseudonym", "Punkte", "Datum"]], use_container_width=True, hide_index=True)
 
     st.divider()
 
@@ -96,8 +112,7 @@ def render_welcome_page(app_config: AppConfig):
     from config import load_scientists
     from data_manager import get_used_pseudonyms
 
-    st.header("Neuen Test starten")
-    st.info("Wähle ein Pseudonym, um eine neue Testrunde zu beginnen. Jede Runde ist einmalig.")
+    st.markdown("<h3 style='text-align: center;'>Neuen Test starten</h3>", unsafe_allow_html=True)
 
     scientists = load_scientists()
     used_pseudonyms = get_used_pseudonyms()
@@ -122,16 +137,19 @@ def render_welcome_page(app_config: AppConfig):
         index=None,
     )
 
-    if st.button("Test starten", type="primary"):
-        if not selected_name_formatted:
-            st.error("Bitte wähle ein Pseudonym aus.")
-        else:
-            user_name = admin_user if selected_name_formatted == admin_display_name else selected_name_formatted.split(" (")[0]
-            st.session_state.user_id = user_name
-            st.session_state.user_id_hash = get_user_id_hash(user_name)
-            st.session_state.show_pseudonym_reminder = True
-            initialize_session_state(questions)
-            st.rerun()
+    # Zentriere den Button mit Spalten
+    _, col2, _ = st.columns([2, 1.5, 2])
+    with col2:
+        if st.button("Test starten", type="primary", use_container_width=True):
+            if not selected_name_formatted:
+                st.error("Bitte wähle ein Pseudonym aus.")
+            else:
+                user_name = admin_user if selected_name_formatted == admin_display_name else selected_name_formatted.split(" (")[0]
+                st.session_state.user_id = user_name
+                st.session_state.user_id_hash = get_user_id_hash(user_name)
+                st.session_state.show_pseudonym_reminder = True
+                initialize_session_state(questions)
+                st.rerun()
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""

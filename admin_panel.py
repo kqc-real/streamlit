@@ -41,19 +41,32 @@ def render_leaderboard_tab(df: pd.DataFrame):
         st.info("Noch keine Antworten aufgezeichnet.")
         return
 
+    # Stelle sicher, dass die 'zeit'-Spalte ein Datumsformat hat
+    if 'zeit' in df.columns:
+        df['zeit'] = pd.to_datetime(df['zeit'], errors='coerce')
+
     # Berechne den Score pro Nutzer
     scores = (
         df.groupby("user_id_hash")
         .agg(
             Pseudonym=("user_id_plain", "first"),
             Punkte=("richtig", "sum"),
-            Antworten=("frage_nr", "nunique"),
+            Datum=("zeit", "max"),
         )
         .sort_values("Punkte", ascending=False)
         .reset_index()
     )
 
-    st.dataframe(scores[["Pseudonym", "Punkte", "Antworten"]], use_container_width=True)
+    # Formatiere das Datum
+    scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+
+    # Dekoriere die Top 3 mit Icons
+    icons = ["🥇", "🥈", "🥉"]
+    for i, icon in enumerate(icons):
+        if i < len(scores):
+            scores.loc[i, "Pseudonym"] = f"{icon} {scores.loc[i, 'Pseudonym']}"
+
+    st.dataframe(scores[["Pseudonym", "Punkte", "Datum"]], use_container_width=True, hide_index=True)
 
 
 def render_analysis_tab(df: pd.DataFrame, questions: list):
