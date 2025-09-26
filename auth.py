@@ -48,25 +48,9 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     Verwaltet die User-Session. Zeigt Login an, wenn kein User angemeldet ist.
     Initialisiert die Session und gibt die `user_id` zurück.
     """
-    # Verarbeite Login via URL-Parameter, falls vorhanden
-    if "user" in st.query_params and "user_id" not in st.session_state:
-        user_id = st.query_params["user"]
-        st.session_state.user_id = user_id
-        st.session_state.user_id_hash = get_user_id_hash(user_id)
-        st.session_state.user_id_display = st.session_state.user_id_hash[:10]
-        
-        if st.query_params.get("new_user") == "true":
-            st.session_state.show_pseudonym_reminder = True
-            initialize_session_state(questions)
-        
-        # Bereinige die URL für den nächsten Klick
-        st.query_params.clear()
-
-    # Wenn Benutzer eingeloggt ist (entweder durch URL oder bereits bestehende Session), gib ID zurück
     if "user_id" in st.session_state:
         return st.session_state.user_id
 
-    # Zeige das Login-Formular an, wenn kein Benutzer eingeloggt ist
     st.sidebar.header("Wer bist du?")
 
     login_type = st.radio(
@@ -79,6 +63,8 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
     if "session_aborted" in st.session_state:
         st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
         del st.session_state["session_aborted"]
+
+    user_id = None
 
     if login_type == "Neuer Teilnehmer":
         scientists = load_scientists()
@@ -104,12 +90,15 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
         if st.sidebar.button("Test starten", key="start_new"):
             if not selected_name_formatted:
                 st.sidebar.error("Bitte wähle ein Pseudonym aus.")
-                st.rerun()
-
-            user_name = selected_name_formatted.split(" (")[0]
-            st.query_params["user"] = user_name
-            st.query_params["new_user"] = "true"
-            st.rerun()
+            else:
+                user_name = selected_name_formatted.split(" (")[0]
+                st.session_state.user_id = user_name
+                st.session_state.user_id_hash = get_user_id_hash(user_name)
+                st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+                st.session_state.show_pseudonym_reminder = True
+                initialize_session_state(questions)
+                user_id = user_name
+                st.rerun() # Rerun, um den Login-Zustand sofort zu übernehmen
 
     else: # Wiederkehrender Teilnehmer
         used_pseudonyms = get_used_pseudonyms()
@@ -135,7 +124,7 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 st.sidebar.error("Bitte gib dein Pseudonym ein.")
                 st.rerun()
             
-            if clean_entered_name not in used_pseudonyms:
+            elif clean_entered_name not in used_pseudonyms:
                 st.session_state.login_attempts += 1
                 remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
                 if remaining_attempts > 0:
@@ -143,14 +132,18 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
                 else:
                     st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
                 st.rerun()
-            
-            st.query_params["user"] = clean_entered_name
-            st.rerun()
+            else:
+                st.session_state.login_attempts = 0
+                st.session_state.user_id = clean_entered_name
+                st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
+                st.session_state.user_id_display = st.session_state.user_id_hash[:10]
+                user_id = clean_entered_name
+                st.rerun() # Rerun, um den Login-Zustand sofort zu übernehmen
             
         if is_locked:
             st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
 
-    return None
+    return user_id
 
 
 def is_admin_user(user_id: str, app_config: AppConfig) -> bool:
