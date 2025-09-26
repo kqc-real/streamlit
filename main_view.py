@@ -97,11 +97,13 @@ def render_welcome_page(app_config: AppConfig):
                 # Formatiere das Datum
                 scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
 
-                # Dekoriere die Top 3 mit Icons
+                # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                 icons = ["🥇", "🥈", "🥉"]
-                for i, icon in enumerate(icons):
-                    if i < len(scores):
-                        scores.loc[i, "Pseudonym"] = f"{icon} {scores.loc[i, 'Pseudonym']}"
+                for i in range(len(scores)):
+                    if i < len(icons):
+                        scores.loc[i, "Pseudonym"] = f"{icons[i]} {scores.loc[i, 'Pseudonym']}"
+                    else:
+                        scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
                 st.dataframe(scores[["Pseudonym", "Punkte", "Datum"]], use_container_width=True, hide_index=True)
 

@@ -11634,3 +11634,11 @@
 {
   "selected_questions_file": "questions_Agiles_Projektmanagement.json"
 }
+--- Enter handle_user_session at 2025-09-26 20:07:24.987006 ---
+{
+  "selected_questions_file": "questions_Agiles_Projektmanagement.json"
+}
+--- Exit handle_user_session without login at 2025-09-26 20:07:24.987295 ---
+{
+  "selected_questions_file": "questions_Agiles_Projektmanagement.json"
+}
