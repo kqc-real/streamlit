@@ -44,26 +44,28 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
 
     with st.sidebar.expander("⚠️ Session beenden"):
         st.warning(
-            "**Achtung:** Wenn du die Session beendest, wird dein **aktueller Punktestand** "
-            "unter deinem Pseudonym im Leaderboard gespeichert. Du kannst diese Runde danach aber "
-            "**nicht wieder aufnehmen**. Für einen neuen Versuch musst du ein neues Pseudonym wählen."
-            "Dein Punktestand wird gespeichert und der aktuelle Test beendet. "
+            "Dein Punktestand wird gespeichert und der Test beendet. "
             "Für einen weiteren Versuch wähle ein neues Pseudonym."
         )
-        if st.button("Runde abschließen & abmelden", key="abort_session_btn", type="primary"):
-            # Speichere Bookmarks vor dem Abmelden
-            update_bookmarks_for_user(
-                st.session_state.user_id_hash,
-                st.session_state.get("bookmarked_questions", []),
-                questions
-            )
-            # Lösche alle Session-Keys außer den Admin-spezifischen und der Fragenset-Auswahl
-            for key in list(st.session_state.keys()):
-                if not key.startswith("_admin") and key != "selected_questions_file":
-                    del st.session_state[key]
-            # Flag setzen, um nach dem nächsten Login einen Hinweis anzuzeigen
-            st.session_state["session_aborted"] = True
-            st.rerun()
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Beenden", key="abort_session_btn", type="primary", use_container_width=True):
+                # Speichere Bookmarks vor dem Abmelden
+                update_bookmarks_for_user(
+                    st.session_state.user_id_hash,
+                    st.session_state.get("bookmarked_questions", []),
+                    questions
+                )
+                # Lösche alle Session-Keys außer den Admin-spezifischen und der Fragenset-Auswahl
+                for key in list(st.session_state.keys()):
+                    if not key.startswith("_admin") and key != "selected_questions_file":
+                        del st.session_state[key]
+                # Flag setzen, um nach dem nächsten Login einen Hinweis anzuzeigen
+                st.session_state["session_aborted"] = True
+                st.rerun()
+        with col2:
+            st.button("Abbrechen", key="cancel_abort_btn", use_container_width=True)
 
 
 def render_bookmarks(questions: list):
