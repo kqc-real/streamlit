@@ -104,29 +104,30 @@ def handle_user_session(questions: list, app_config: AppConfig, question_files: 
         is_locked = st.session_state.login_attempts >= MAX_LOGIN_ATTEMPTS
 
         entered_name = st.text_input(
-            "Gib dein bisheriges Pseudonym ein:",
+            "Gib dein bisheriges Pseudonym ein (genaue Schreibweise beachten):",
             key="returning_user_id_input",
             disabled=is_locked,
         )
 
         if st.sidebar.button("Test fortsetzen", key="continue", disabled=is_locked):
-            if not entered_name:
+            clean_entered_name = entered_name.strip()
+            if not clean_entered_name:
                 st.sidebar.error("Bitte gib dein Pseudonym ein.")
                 st.rerun()
             
-            if entered_name not in used_pseudonyms:
+            if clean_entered_name not in used_pseudonyms:
                 st.session_state.login_attempts += 1
                 remaining_attempts = MAX_LOGIN_ATTEMPTS - st.session_state.login_attempts
                 if remaining_attempts > 0:
-                    st.sidebar.error(f"Pseudonym nicht gefunden. Du hast noch {remaining_attempts} Versuche.")
+                    st.sidebar.error(f"Pseudonym nicht gefunden. Achte auf die genaue Schreibweise. Du hast noch {remaining_attempts} Versuche.")
                 else:
                     st.sidebar.error("Zu viele Fehlversuche. Der Login ist gesperrt.")
                 st.rerun()
             
             # On successful login, reset attempts and log in
             st.session_state.login_attempts = 0
-            st.session_state.user_id = entered_name
-            st.session_state.user_id_hash = get_user_id_hash(entered_name)
+            st.session_state.user_id = clean_entered_name
+            st.session_state.user_id_hash = get_user_id_hash(clean_entered_name)
             st.session_state.user_id_display = st.session_state.user_id_hash[:10]
             st.rerun()
             

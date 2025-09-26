@@ -126,7 +126,7 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     """Rendert die Ansicht für eine einzelne Frage."""
     if st.session_state.get("show_pseudonym_reminder", False):
         st.info(f"Dein Pseudonym für diese Runde ist **{st.session_state.user_id}**. Bitte merke es dir gut, um den Test später fortsetzen zu können.")
-        st.session_state.show_pseudonym_reminder = False
+        del st.session_state.show_pseudonym_reminder
 
     frage_obj = questions[frage_idx]
     frage_text = smart_quotes_de(frage_obj["frage"])
