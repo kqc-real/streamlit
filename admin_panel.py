@@ -132,7 +132,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         return
 
     analysis_df = pd.DataFrame(analysis_data)
-    st.dataframe(analysis_df, use_container_width=True)
+    st.dataframe(analysis_df, use_container_width=True, hide_index=True)
 
     with st.expander("Glossar der Metriken"):
         st.markdown("""
