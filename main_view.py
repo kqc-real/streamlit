@@ -413,6 +413,39 @@ def render_final_summary(questions: list, app_config: AppConfig):
     else:
         st.warning("Da ist noch Luft nach oben. Nutze den Review-Modus zum Lernen!")
 
+    # --- Performance-Analyse pro Thema ---
+    st.subheader("Deine Leistung nach Themen")
+
+    topic_performance = {}
+    for i, frage in enumerate(questions):
+        thema = frage.get("thema", "Allgemein")
+        if thema not in topic_performance:
+            topic_performance[thema] = {"erreicht": 0, "maximal": 0}
+
+        max_punkte = frage.get("gewichtung", 1)
+        topic_performance[thema]["maximal"] += max_punkte
+
+        punkte = st.session_state.get(f"frage_{i}_beantwortet")
+        if punkte is not None:
+            # Nur positive Punkte für die Leistungsanalyse zählen, um negative Scores zu vermeiden.
+            erreichte_punkte = max(0, punkte)
+            topic_performance[thema]["erreicht"] += erreichte_punkte
+
+    # DataFrame für die Visualisierung erstellen
+    performance_data = []
+    for thema, scores in topic_performance.items():
+        if scores["maximal"] > 0:
+            prozent = (scores["erreicht"] / scores["maximal"]) * 100
+            performance_data.append({"Thema": thema, "Leistung (%)": prozent})
+
+    if performance_data:
+        df_performance = pd.DataFrame(performance_data)
+        df_performance = df_performance.set_index("Thema")
+        st.bar_chart(df_performance, color="#4b9fff")
+    else:
+        st.info("Keine Daten für eine themenspezifische Analyse verfügbar.")
+
+
     st.divider()
     render_review_mode(questions)
 
