@@ -193,5 +193,590 @@
     "erklaerung": "Ein **Homomorphismus** ist eine strukturerhaltende Abbildung. Das bedeutet, dass es egal ist, ob man zuerst in $G$ verknüpft und dann abbildet, oder zuerst abbildet und dann in $H$ verknüpft – das Ergebnis ist dasselbe.",
     "gewichtung": 3,
     "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "41. Was ist die **Mächtigkeit** der Potenzmenge einer Menge mit $n$ Elementen?",
+    "optionen": [
+      "$n^2$",
+      "$2n$",
+      "$2^n$",
+      "$n!$"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Mächtigkeit** (Anzahl der Elemente) der **Potenzmenge** $\\mathcal{P}(A)$ einer endlichen Menge $A$ mit $|A|=n$ Elementen ist $2^n$. Jedes Element kann entweder in einer Teilmenge enthalten sein oder nicht (2 Möglichkeiten), was bei $n$ Elementen zu $2^n$ Kombinationen führt.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "42. Welche der folgenden Relationen auf der Menge der ganzen Zahlen $\\mathbb{Z}$ ist **antisymmetrisch**?",
+    "optionen": [
+      "$x \\sim y \\iff x = y$",
+      "$x \\sim y \\iff x \\neq y$",
+      "$x \\sim y \\iff x \\cdot y = 1$",
+      "$x \\sim y \\iff x \\le y$"
+    ],
+    "loesung": 3,
+    "erklaerung": "Eine Relation $R$ ist **antisymmetrisch**, wenn aus $aRb$ und $bRa$ folgt, dass $a=b$ sein muss. Für die Kleiner-Gleich-Relation gilt: Wenn $x \\le y$ und $y \\le x$, dann muss $x=y$ sein.",
+    "gewichtung": 3,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "43. Was ist das **Komplement** der Menge $A = \\{1, 3, 5\\}$ bezüglich der Grundmenge $G = \\{1, 2, 3, 4, 5, 6\\}$?",
+    "optionen": [
+      "$\\{1, 3, 5\\}$",
+      "$\\{2, 4, 6\\}$",
+      "$\\{1, 2, 3, 4, 5, 6\\}$",
+      "$\\emptyset$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **Komplement** $\\bar{A}$ (oder $A^c$) einer Menge $A$ bezüglich einer Grundmenge $G$ enthält alle Elemente von $G$, die nicht in $A$ sind. Hier also $G \\setminus A = \\{2, 4, 6\\}$.",
+    "gewichtung": 1,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "44. Was ist eine **Partition** (oder Zerlegung) einer Menge $A$?",
+    "optionen": [
+      "Jede beliebige Teilmenge von $A$.",
+      "Eine Menge von nicht-leeren, paarweise disjunkten Teilmengen von $A$, deren Vereinigung wieder $A$ ergibt.",
+      "Die Menge aller Elemente, die nicht in $A$ sind.",
+      "Eine geordnete Liste der Elemente von $A$."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine **Partition** zerlegt eine Menge vollständig in sich nicht überschneidende (disjunkte) Teile. Jedes Element der ursprünglichen Menge gehört zu genau einer Teilmenge der Partition.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "45. Was ist das **Urbild** von $Y = \\{4, 9\\}$ unter der Abbildung $f: \\mathbb{N} \\to \\mathbb{N}, f(x) = x^2$?",
+    "optionen": [
+      "$\\{16, 81\\}$",
+      "$\\{2, 3\\}$",
+      "$\\{-3, -2, 2, 3\\}$",
+      "$\\{2\\}$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **Urbild** $f^{-1}(Y)$ enthält alle Elemente aus der Definitionsmenge (hier $\\mathbb{N}$), die auf Elemente in $Y$ abgebildet werden. Da $f(2)=4$ und $f(3)=9$, ist das Urbild $\\{2, 3\\}$. Negative Zahlen sind nicht in $\\mathbb{N}$.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "46. Was ist die **Wahrheitstafel** für die logische Äquivalenz $A \\iff B$?",
+    "optionen": [
+      "Wahr, wenn $A$ und $B$ verschieden sind.",
+      "Wahr, wenn $A$ wahr ist.",
+      "Wahr, wenn $A$ und $B$ denselben Wahrheitswert haben.",
+      "Immer falsch."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Äquivalenz** (genau dann, wenn) ist wahr, wenn beide Teilaussagen entweder beide wahr oder beide falsch sind. Sie ist äquivalent zu $(A \\implies B) \\land (B \\implies A)$.",
+    "gewichtung": 2,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "47. Was ist die Negation der Aussage 'Es gibt eine schwarze Katze' ($\\exists x: S(x) \\land K(x)$)?",
+    "optionen": [
+      "Alle Katzen sind nicht schwarz.",
+      "Es gibt keine schwarze Katze.",
+      "Alle schwarzen Dinge sind Katzen.",
+      "Es gibt eine Katze, die nicht schwarz ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Negation einer **Existenzaussage** ist eine **Allaussage**. Die Negation von 'es existiert ein x, für das P gilt' ist 'für alle x gilt nicht P'. 'Es gibt keine schwarze Katze' ist gleichbedeutend mit 'Alle Katzen sind nicht schwarz' (wenn wir uns auf Katzen beschränken). Die formal korrekte Negation ist 'Für alle Dinge gilt: wenn es eine Katze ist, dann ist sie nicht schwarz'. Option 1 ist die beste umgangssprachliche Entsprechung.",
+    "gewichtung": 3,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "48. Was ist eine **konjunktive Normalform (KNF)**?",
+    "optionen": [
+      "Eine Konjunktion von Disjunktionen von Literalen.",
+      "Eine Disjunktion von Konjunktionen von Literalen.",
+      "Eine Formel, die nur Implikationen enthält.",
+      "Eine Formel ohne Negationen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Eine Formel ist in **KNF**, wenn sie eine UND-Verknüpfung (Konjunktion) von Klauseln ist, wobei jede Klausel eine ODER-Verknüpfung (Disjunktion) von Literalen (Variablen oder deren Negation) ist. Beispiel: $(A \\lor B) \\land (\\neg A \\lor C)$.",
+    "gewichtung": 3,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "49. Was ist eine **Schleifeninvariante** beim Testen von Programmen?",
+    "optionen": [
+      "Eine Bedingung, die sich bei jedem Schleifendurchlauf ändert.",
+      "Eine Bedingung, die vor dem ersten und nach jedem weiteren Schleifendurchlauf wahr ist.",
+      "Die Abbruchbedingung der Schleife.",
+      "Die Anzahl der Durchläufe einer Schleife."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine **Schleifeninvariante** ist eine Eigenschaft, die ihre Gültigkeit während der gesamten Ausführung einer Schleife beibehält. Sie wird verwendet, um die Korrektheit von Algorithmen formal zu beweisen.",
+    "gewichtung": 3,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "50. Was ist der Unterschied zwischen **Aussagenlogik** und **Prädikatenlogik**?",
+    "optionen": [
+      "Aussagenlogik verwendet Variablen, Prädikatenlogik nicht.",
+      "Prädikatenlogik kann über Objekte und deren Eigenschaften sprechen und Quantoren verwenden.",
+      "Aussagenlogik ist komplexer als Prädikatenlogik.",
+      "Es gibt keinen Unterschied."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die **Aussagenlogik** behandelt nur ganze Sätze als atomare Einheiten. Die **Prädikatenlogik** ist ausdrucksstärker: Sie führt Prädikate (Eigenschaften), Variablen für Objekte und Quantoren ($\\forall, \\exists$) ein, um komplexere Beziehungen zu modellieren.",
+    "gewichtung": 2,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "51. Was ist der Fehler im folgenden **Induktionsbeweis** für 'Alle Pferde haben dieselbe Farbe'?",
+    "optionen": [
+      "Der Induktionsanfang für $n=1$ ist falsch.",
+      "Die Induktionsvoraussetzung ist unzulässig.",
+      "Der Induktionsschritt von $n=1$ auf $n=2$ funktioniert nicht.",
+      "Der Beweis ist korrekt."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Beweis scheitert beim Übergang von einer Menge mit einem Pferd zu einer Menge mit zwei Pferden. Die Argumentation, dass sich die Teilmengen überlappen, funktioniert hier nicht, da die Teilmengen disjunkt sind. Dies ist ein klassisches Beispiel für einen fehlerhaften Induktionsbeweis.",
+    "gewichtung": 3,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "52. Was ist die **Ackermannfunktion**?",
+    "optionen": [
+      "Eine einfache lineare Funktion.",
+      "Eine Funktion, die nicht rekursiv definiert werden kann.",
+      "Eine berechenbare Funktion, die nicht **primitiv-rekursiv** ist.",
+      "Eine Funktion, die die Fakultät berechnet."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Ackermannfunktion** ist ein bekanntes Beispiel aus der theoretischen Informatik. Sie ist total berechenbar, wächst aber so extrem schnell, dass sie nicht in die Klasse der **primitiv-rekursiven** Funktionen fällt.",
+    "gewichtung": 3,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "53. Was besagt das **Schubfachprinzip** (Pigeonhole Principle)?",
+    "optionen": [
+      "Wenn man $n$ Objekte in $m$ Fächer verteilt und $n > m$, dann enthält mindestens ein Fach mehr als ein Objekt.",
+      "Jedes Objekt muss in genau einem Fach sein.",
+      "Die Anzahl der Objekte muss immer gleich der Anzahl der Fächer sein.",
+      "Man kann beliebig viele Objekte in einem Fach unterbringen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Das **Schubfachprinzip** ist ein einfaches, aber mächtiges kombinatorisches Prinzip. Es garantiert, dass bei der Verteilung von mehr Objekten als Fächern mindestens ein Fach eine Kollision (mehr als ein Objekt) aufweisen muss.",
+    "gewichtung": 2,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "54. Wie viele **Permutationen** (Anordnungen) der Buchstaben des Wortes 'HAUS' gibt es?",
+    "optionen": [
+      "4",
+      "12",
+      "24",
+      "256"
+    ],
+    "loesung": 2,
+    "erklaerung": "Für ein Wort mit $n$ verschiedenen Buchstaben gibt es $n!$ (**Fakultät**) mögliche Anordnungen. Für 'HAUS' mit 4 Buchstaben sind das $4! = 4 \\cdot 3 \\cdot 2 \\cdot 1 = 24$ Permutationen.",
+    "gewichtung": 2,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "55. Was ist das **multiplikative Inverse** von 3 im Restklassenring $\\mathbb{Z}_7$?",
+    "optionen": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "loesung": 3,
+    "erklaerung": "Gesucht ist eine Zahl $x$, sodass $3 \\cdot x \\equiv 1 \\pmod 7$. Durch Probieren findet man $3 \\cdot 5 = 15$. Da $15 \\equiv 1 \\pmod 7$ ist, ist 5 das multiplikative Inverse von 3 in $\\mathbb{Z}_7$.",
+    "gewichtung": 3,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "56. Was ist eine **zyklische Gruppe**?",
+    "optionen": [
+      "Eine Gruppe, die als Diagramm einen Kreis bildet.",
+      "Eine Gruppe, die von einem einzigen Element erzeugt werden kann.",
+      "Eine Gruppe, die unendlich viele Elemente hat.",
+      "Eine Gruppe, in der die Verknüpfung nicht kommutativ ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Gruppe $G$ heißt **zyklisch**, wenn es ein Element $g \\in G$ (den Erzeuger) gibt, sodass jedes andere Element in $G$ als eine Potenz von $g$ (oder ein Vielfaches, bei additiver Schreibweise) dargestellt werden kann.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "57. Was besagt der **Satz von Lagrange** in der Gruppentheorie?",
+    "optionen": [
+      "Jede endliche Gruppe ist abelsch.",
+      "Die Ordnung jeder Untergruppe einer endlichen Gruppe teilt die Ordnung der Gruppe.",
+      "Jede Gruppe hat mindestens eine Untergruppe.",
+      "Die Ordnung eines Elements ist immer eine Primzahl."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der **Satz von Lagrange** ist ein zentraler Satz der endlichen Gruppentheorie. Er schränkt die möglichen Größen von Untergruppen stark ein. Wenn eine Gruppe $|G|=n$ Elemente hat, kann eine Untergruppe $H$ nur eine Größe $|H|$ haben, die ein Teiler von $n$ ist.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "58. Was ist ein **irreduzibles Polynom** über einem Körper $K$?",
+    "optionen": [
+      "Ein Polynom, das keine Nullstellen in $K$ hat.",
+      "Ein Polynom, das sich nicht als Produkt von zwei nicht-konstanten Polynomen aus $K[x]$ schreiben lässt.",
+      "Ein Polynom vom Grad 1.",
+      "Ein Polynom, dessen Koeffizienten alle 1 sind."
+    ],
+    "loesung": 1,
+    "erklaerung": "**Irreduzible Polynome** sind das Analogon zu Primzahlen im Ring der Polynome. Sie sind 'unteilbar' in dem Sinne, dass sie nicht in Polynome kleineren Grades zerlegt werden können. Z.B. ist $x^2+1$ irreduzibel über $\\mathbb{R}$, aber nicht über $\\mathbb{C}$.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "59. Was ist die Grundoperation auf einer **elliptischen Kurve**, die für die Kryptographie genutzt wird?",
+    "optionen": [
+      "Multiplikation von Punkten.",
+      "Division von Punkten.",
+      "Addition von Punkten.",
+      "Potenzieren von Punkten."
+    ],
+    "loesung": 2,
+    "erklaerung": "Auf den Punkten einer **elliptischen Kurve** lässt sich eine spezielle **Addition** definieren, die geometrisch konstruiert wird. Diese Addition bildet eine abelsche Gruppe und ist die Grundlage für kryptographische Verfahren wie ECC, die auf dem Problem des diskreten Logarithmus auf elliptischen Kurven basieren.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "60. Was ist ein **Isomorphismus** zwischen zwei Gruppen?",
+    "optionen": [
+      "Ein Homomorphismus, der nur surjektiv ist.",
+      "Ein Homomorphismus, der nur injektiv ist.",
+      "Ein bijektiver Homomorphismus.",
+      "Jede beliebige Abbildung zwischen den Gruppen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein **Isomorphismus** ist ein strukturerhaltender (Homomorphismus) und bijektiver (eins-zu-eins) Zusammenhang zwischen zwei algebraischen Strukturen. Zwei isomorphe Gruppen sind aus algebraischer Sicht 'ununterscheidbar'.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "16. Was ist die **Potenzmenge** $\\mathcal{P}(A)$ der Menge $A = \\{a, b\\}$?",
+    "optionen": [
+      "$\\{\\{a\\}, \\{b\\}\\}$",
+      "$\\{\\emptyset, \\{a\\}, \\{b\\}\\}$",
+      "$\\{\\emptyset, \\{a\\}, \\{b\\}, \\{a, b\\}\\}$",
+      "$\\{a, b, \\{a, b\\}\\}$"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Potenzmenge** einer Menge $A$ ist die Menge aller Teilmengen von $A$. Für $A = \\{a, b\\}$ sind die Teilmengen die leere Menge $\\emptyset$, die einelementigen Mengen $\\{a\\}$ und $\\{b\\}$, sowie die Menge selbst $\\{a, b\\}$.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "17. Eine Abbildung $f: A \\to B$ heißt **injektiv**, wenn...",
+    "optionen": [
+      "jedes Element in $B$ mindestens einmal als Funktionswert auftritt.",
+      "aus $f(x_1) = f(x_2)$ immer $x_1 = x_2$ folgt.",
+      "die Menge $A$ eine Teilmenge von $B$ ist.",
+      "die Abbildung umkehrbar ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "**Injektivität** bedeutet, dass jedes Element der Zielmenge $B$ höchstens einmal als Funktionswert getroffen wird. Anders ausgedrückt: Verschiedene Elemente aus $A$ werden immer auf verschiedene Elemente in $B$ abgebildet.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "18. Was ist eine **Tautologie** in der Aussagenlogik?",
+    "optionen": [
+      "Eine Aussage, die immer falsch ist.",
+      "Eine Aussage, die von bestimmten Variablen abhängt.",
+      "Eine Aussage, die immer wahr ist, unabhängig von den Wahrheitswerten ihrer Variablen.",
+      "Eine Aussage, die genau zwei Variablen enthält."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine **Tautologie** ist eine allgemeingültige Aussage. Ein klassisches Beispiel ist der 'Satz vom ausgeschlossenen Dritten': $A \\lor \\neg A$. Diese Aussage ist immer wahr, egal ob $A$ wahr oder falsch ist.",
+    "gewichtung": 1,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "19. Welcher der folgenden Ausdrücke ist eine logische Äquivalenz nach den **De Morgan'schen Regeln**?",
+    "optionen": [
+      "$\\neg(A \\land B) \\equiv (\\neg A \\land \\neg B)$",
+      "$\\neg(A \\lor B) \\equiv (\\neg A \\lor \\neg B)$",
+      "$\\neg(A \\land B) \\equiv (\\neg A \\lor \\neg B)$",
+      "$\\neg(A \\implies B) \\equiv (\\neg A \\implies \\neg B)$"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **De Morgan'schen Regeln** beschreiben, wie die Negation auf Konjunktionen und Disjunktionen wirkt. Es gilt: $\\neg(A \\land B) \\equiv (\\neg A \\lor \\neg B)$ und $\\neg(A \\lor B) \\equiv (\\neg A \\land \\neg B)$.",
+    "gewichtung": 2,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "20. Was besagt das **Peano-Axiom** über die Nachfolgerfunktion $N(n)$ für natürliche Zahlen?",
+    "optionen": [
+      "Jede natürliche Zahl hat genau einen Nachfolger.",
+      "Die 0 ist Nachfolger keiner natürlichen Zahl.",
+      "Zwei verschiedene natürliche Zahlen haben verschiedene Nachfolger.",
+      "Alle oben genannten Aussagen sind Teil der Peano-Axiome."
+    ],
+    "loesung": 3,
+    "erklaerung": "Die **Peano-Axiome** definieren die natürlichen Zahlen. Sie beinhalten, dass 0 eine natürliche Zahl ist, jede Zahl einen eindeutigen Nachfolger hat, 0 kein Nachfolger ist und die Nachfolgerfunktion injektiv ist.",
+    "gewichtung": 3,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "21. Die Fibonacci-Folge ist rekursiv definiert durch $f(0)=0, f(1)=1$ und $f(n) = f(n-1) + f(n-2)$ für $n > 1$. Was ist $f(6)$?",
+    "optionen": [
+      "5",
+      "8",
+      "13",
+      "21"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Folge lautet: $f(0)=0, f(1)=1, f(2)=1, f(3)=2, f(4)=3, f(5)=5, f(6)=8$. Jeder Wert ist die Summe der beiden vorhergehenden.",
+    "gewichtung": 1,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "22. Was ist die **Primfaktorzerlegung** der Zahl 60?",
+    "optionen": [
+      "$2 \\cdot 30$",
+      "$4 \\cdot 15$",
+      "$2^2 \\cdot 3 \\cdot 5$",
+      "$6 \\cdot 10$"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Primfaktorzerlegung** einer Zahl ist die Darstellung als Produkt von Primzahlen. $60 = 2 \\cdot 30 = 2 \\cdot 2 \\cdot 15 = 2^2 \\cdot 3 \\cdot 5$.",
+    "gewichtung": 1,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "23. Was ist das Ergebnis von $(7 + 8) \\pmod{12}$ in der **Restklassenarithmetik**?",
+    "optionen": [
+      "15",
+      "5",
+      "3",
+      "1"
+    ],
+    "loesung": 2,
+    "erklaerung": "$7 + 8 = 15$. Um den Rest bei Division durch 12 zu finden, berechnen wir $15 \\pmod{12}$. Da $15 = 1 \\cdot 12 + 3$, ist der Rest 3.",
+    "gewichtung": 1,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "24. Was ist das **neutrale Element** in der Gruppe $(\\mathbb{Z}, +)$?",
+    "optionen": [
+      "1",
+      "0",
+      "Es gibt kein neutrales Element.",
+      "-1"
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **neutrale Element** der Addition ist die 0, da für jede ganze Zahl $a$ gilt: $a + 0 = 0 + a = a$.",
+    "gewichtung": 1,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "25. Was ist eine **abelsche Gruppe**?",
+    "optionen": [
+      "Eine Gruppe mit unendlich vielen Elementen.",
+      "Eine Gruppe, in der die Verknüpfung **kommutativ** ist.",
+      "Eine Gruppe, die nur positive Zahlen enthält.",
+      "Eine Gruppe, in der jedes Element sein eigenes Inverses ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Gruppe $(G, *)$ wird als **abelsch** (oder kommutativ) bezeichnet, wenn für alle Elemente $a, b \\in G$ das Kommutativgesetz gilt: $a * b = b * a$.",
+    "gewichtung": 2,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "26. Was ist das **kartesische Produkt** $A \\times B$ der Mengen $A = \\{1, 2\\}$ und $B = \\{x, y\\}$?",
+    "optionen": [
+      "$\\{(1, x), (2, y)\\}$",
+      "$\\{(1, x), (1, y), (2, x), (2, y)\\}$",
+      "$\\{1, 2, x, y\\}$",
+      "$\\{(x, 1), (y, 2)\\}$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Das **kartesische Produkt** $A \\times B$ ist die Menge aller geordneten Paare $(a, b)$, wobei $a \\in A$ und $b \\in B$. Man kombiniert jedes Element aus A mit jedem Element aus B.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "27. Eine Abbildung $f: A \\to B$, die sowohl **injektiv** als auch **surjektiv** ist, nennt man...",
+    "optionen": [
+      "**partiell**.",
+      "**total**.",
+      "**bijektiv**.",
+      "**reflexiv**."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine **bijektive** Abbildung ist eine Eins-zu-eins-Entsprechung zwischen den Elementen zweier Mengen. Jedes Element der Zielmenge wird genau einmal getroffen. Solche Abbildungen sind umkehrbar.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "28. Was ist die Negation der Aussage 'Alle Vögel können fliegen' ($\"\\forall v: V(v) \\implies F(v)\"$) ?",
+    "optionen": [
+      "Kein Vogel kann fliegen.",
+      "Alle Vögel können nicht fliegen.",
+      "Es gibt mindestens einen Vogel, der nicht fliegen kann.",
+      "Wenn etwas nicht fliegen kann, ist es kein Vogel."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die Negation einer All-Aussage ist eine Existenz-Aussage. Die Negation von 'für alle gilt P' ist 'es existiert eines, für das P nicht gilt'. Also: $\\neg (\\forall v: P(v)) \\equiv \\exists v: \\neg P(v)$.",
+    "gewichtung": 3,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "29. Was ist der Hauptzweck von **Hashing** in der Informatik?",
+    "optionen": [
+      "Daten zu verschlüsseln, sodass sie nicht mehr lesbar sind.",
+      "Daten zu komprimieren, um Speicherplatz zu sparen.",
+      "Eine große Datenmenge auf einen kleinen, festen Wert abzubilden, um schnellen Zugriff zu ermöglichen.",
+      "Daten alphabetisch zu sortieren."
+    ],
+    "loesung": 2,
+    "erklaerung": "**Hashing** wird verwendet, um Daten (z.B. einen String) auf einen Index in einer Tabelle (Hash-Tabelle) abzubilden. Dies ermöglicht einen sehr schnellen Zugriff (im Idealfall $O(1)$) auf die Daten, anstatt sie linear durchsuchen zu müssen.",
+    "gewichtung": 2,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "30. Was ist ein **Ideal** in einem Ring $(R, +, \\cdot)$?",
+    "optionen": [
+      "Eine Untergruppe von $(R, +)$, die 'absorbierend' bezüglich der Multiplikation mit Ringelementen ist.",
+      "Jede beliebige Teilmenge des Rings.",
+      "Ein Element, das kein multiplikatives Inverses hat.",
+      "Ein Synonym für einen Unterring."
+    ],
+    "loesung": 0,
+    "erklaerung": "Ein **Ideal** $I$ ist eine spezielle Untermenge eines Rings. Es muss eine Untergruppe bezüglich der Addition sein und die 'absorbierende' Eigenschaft erfüllen: Für jedes $i \\in I$ und jedes $r \\in R$ muss sowohl $r \\cdot i$ als auch $i \\cdot r$ wieder in $I$ liegen.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "31. Was ist die **Komposition** $g \\circ f$ der Abbildungen $f(x) = x+1$ und $g(x) = x^2$?",
+    "optionen": [
+      "$x^2 + 1$",
+      "$(x+1)^2$",
+      "$x^2 + x + 1$",
+      "$2x+1$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die **Komposition** $(g \\circ f)(x)$ bedeutet 'wende zuerst $f$ an, dann $g$'. Also: $(g \\circ f)(x) = g(f(x)) = g(x+1) = (x+1)^2$.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "32. Was ist eine **partielle Ordnung** auf einer Menge?",
+    "optionen": [
+      "Eine Relation, die reflexiv, symmetrisch und transitiv ist.",
+      "Eine Relation, die reflexiv, antisymmetrisch und transitiv ist.",
+      "Eine Relation, bei der jedes Element mit jedem anderen vergleichbar ist.",
+      "Eine Relation, die nur für einen Teil der Menge definiert ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine **partielle Ordnung** (wie die Teilbarkeitsrelation 'a teilt b' auf $\\mathbb{N}$) muss **reflexiv**, **antisymmetrisch** ($aRb \\land bRa \\implies a=b$) und **transitiv** sein. Nicht alle Elemente müssen miteinander vergleichbar sein.",
+    "gewichtung": 3,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "33. Was ist eine **Kontradiktion** (Widerspruch) in der Aussagenlogik?",
+    "optionen": [
+      "Eine Aussage, die immer wahr ist.",
+      "Eine Aussage, die immer falsch ist, unabhängig von den Wahrheitswerten ihrer Variablen.",
+      "Eine Aussage, die wahr oder falsch sein kann.",
+      "Zwei Aussagen, die das Gleiche bedeuten."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine **Kontradiktion** ist eine Aussage, die unter jeder möglichen Belegung ihrer Variablen falsch ist. Das klassische Beispiel ist $A \\land \\neg A$.",
+    "gewichtung": 1,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "34. Was ist der Zweck des **Allquantors** $\\forall$ in der Prädikatenlogik?",
+    "optionen": [
+      "Er besagt, dass eine Eigenschaft für mindestens ein Element gilt.",
+      "Er besagt, dass eine Eigenschaft für alle Elemente eines bestimmten Bereichs gilt.",
+      "Er negiert eine Aussage.",
+      "Er verbindet zwei Aussagen mit 'oder'."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der **Allquantor** $\\forall$ (gelesen als 'für alle') wird verwendet, um Aussagen über alle Elemente einer Menge zu treffen. Z.B. bedeutet $\\forall x \\in \\mathbb{N}: x \\ge 0$, dass alle natürlichen Zahlen größer oder gleich Null sind.",
+    "gewichtung": 2,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "35. Was ist die Grundidee der **strukturellen Induktion**?",
+    "optionen": [
+      "Sie wird nur für Summenformeln über natürliche Zahlen verwendet.",
+      "Sie beweist Aussagen für rekursiv definierte Strukturen wie Bäume oder Listen.",
+      "Sie ist ein Synonym für den direkten Beweis.",
+      "Sie beginnt immer mit dem Induktionsanfang bei $n=0$."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die **strukturelle Induktion** ist eine Verallgemeinerung der vollständigen Induktion. Sie wird verwendet, um Eigenschaften von rekursiv definierten Objekten (wie Listen, Bäume, Formeln) zu beweisen, indem man die Eigenschaft für die Basisfälle und dann für die rekursive Konstruktion zeigt.",
+    "gewichtung": 3,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "36. Was besagt der **kleine Satz von Fermat**?",
+    "optionen": [
+      "Für jede Primzahl $p$ und jede ganze Zahl $a$ gilt $a^p \\equiv a \\pmod p$.",
+      "Die Gleichung $x^n + y^n = z^n$ hat keine ganzzahligen Lösungen für $n > 2$.",
+      "Es gibt unendlich viele Primzahlen.",
+      "Jede gerade Zahl größer als 2 ist die Summe zweier Primzahlen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Der **kleine Satz von Fermat** ist ein fundamentales Ergebnis der Zahlentheorie und eine Grundlage für viele Kryptosysteme, einschließlich RSA. Er besagt, dass für eine Primzahl $p$ die Zahl $a^p - a$ immer durch $p$ teilbar ist.",
+    "gewichtung": 3,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "37. Was ist ein **nullteilerfreier Ring**?",
+    "optionen": [
+      "Ein Ring, der die Zahl 0 nicht enthält.",
+      "Ein Ring, in dem aus $a \\cdot b = 0$ folgt, dass $a=0$ oder $b=0$ sein muss.",
+      "Ein Ring, in dem jedes Element ein multiplikatives Inverses hat.",
+      "Ein Ring, in dem die Addition nicht kommutativ ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein **nullteilerfreier Ring** (auch Integritätsbereich genannt) ist ein kommutativer Ring, in dem das Produkt zweier von Null verschiedener Elemente niemals Null ergibt. Das bekannteste Beispiel ist der Ring der ganzen Zahlen $(\\mathbb{Z}, +, \\cdot)$.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "38. Was ist die Grundidee des **Diffie-Hellman-Schlüsselaustauschs**?",
+    "optionen": [
+      "Zwei Parteien tauschen einen geheimen Schlüssel über einen unsicheren Kanal aus, ohne ihn jemals direkt zu senden.",
+      "Eine Partei verschlüsselt eine Nachricht mit einem öffentlichen Schlüssel, die nur mit einem privaten Schlüssel entschlüsselt werden kann.",
+      "Eine Nachricht wird mit demselben Schlüssel ver- und entschlüsselt.",
+      "Eine zentrale Autorität verteilt geheime Schlüssel an alle Kommunikationsteilnehmer."
+    ],
+    "loesung": 0,
+    "erklaerung": "Beim **Diffie-Hellman-Verfahren** können zwei Parteien über einen öffentlichen Kanal einen gemeinsamen geheimen Schlüssel vereinbaren. Die Sicherheit beruht auf der Schwierigkeit, den diskreten Logarithmus zu berechnen.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "39. Was ist der Unterschied zwischen **symmetrischer** und **asymmetrischer Kryptographie**?",
+    "optionen": [
+      "Symmetrische Verfahren sind immer sicherer als asymmetrische.",
+      "Bei symmetrischen Verfahren wird derselbe Schlüssel zum Ver- und Entschlüsseln verwendet, bei asymmetrischen ein Schlüsselpaar (public/private).",
+      "Asymmetrische Verfahren sind schneller als symmetrische.",
+      "Symmetrische Kryptographie wird für Signaturen, asymmetrische für Verschlüsselung verwendet."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das ist der fundamentale Unterschied. **Symmetrische Verfahren** (z.B. AES) sind schnell, haben aber das Problem des Schlüsselaustauschs. **Asymmetrische Verfahren** (z.B. RSA) lösen das Schlüsselproblem mit einem öffentlichen und einem privaten Schlüssel, sind aber langsamer.",
+    "gewichtung": 2,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "40. Was ist eine **Hash-Kollision**?",
+    "optionen": [
+      "Ein Fehler, bei dem eine Hash-Funktion keine Ausgabe erzeugt.",
+      "Der Fall, dass zwei verschiedene Eingaben denselben Hash-Wert erzeugen.",
+      "Ein Verfahren, um den ursprünglichen Wert aus einem Hash-Wert wiederherzustellen.",
+      "Ein besonders sicherer Hash-Wert."
+    ],
+    "loesung": 1,
+    "erklaerung": "Da eine Hash-Funktion eine unendlich große Eingabemenge auf eine endliche Ausgabemenge abbildet, ist es unvermeidlich, dass verschiedene Eingaben denselben Hash-Wert ergeben. Dies nennt man eine **Kollision**. Gute Hash-Funktionen sind so konzipiert, dass es extrem schwierig ist, Kollisionen gezielt zu finden.",
+    "gewichtung": 2,
+    "thema": "4. Etwas Zahlentheorie"
   }
 ]

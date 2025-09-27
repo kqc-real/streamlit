@@ -102,7 +102,27 @@ def load_questions(filename: str) -> List[Dict[str, Any]]:
     path = os.path.join(get_package_dir(), filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+            if not isinstance(data, list):
+                st.error(f"Fehler in '{filename}': Die Datei muss eine Liste von Fragen enthalten.")
+                return []
+            
+            questions = data
+            # Sortiere die Fragen nach ihrer Nummer, um eine konsistente Reihenfolge sicherzustellen.
+            try:
+                questions.sort(key=lambda q: int(q.get("frage", "0").split(".", 1)[0]))
+            except (ValueError, IndexError):
+                # Fallback, falls das Format unerwartet ist.
+                pass
+
+            # Validiere und nummeriere die Fragen neu, um Konsistenz zu garantieren.
+            for i, q in enumerate(questions):
+                frage_text = q.get("frage", "")
+                # Entferne alte Nummerierung, falls vorhanden
+                if "." in frage_text:
+                    frage_text = frage_text.split(".", 1)[1].strip()
+                q["frage"] = f"{i + 1}. {frage_text}"
+            return questions
     except (IOError, json.JSONDecodeError) as e:
         st.error(f"Fehler beim Laden von '{filename}': {e}")
         return []

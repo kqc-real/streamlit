@@ -136,6 +136,10 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
         return
 
     analysis_df = pd.DataFrame(analysis_data)
+    
+    # Sortiere den DataFrame nach der Frage-Nummer, um eine konsistente Anzeige zu gewährleisten.
+    analysis_df = analysis_df.sort_values(by="Frage-Nr.").reset_index(drop=True)
+    
     st.dataframe(analysis_df, use_container_width=True, hide_index=True)
 
     with st.expander("Glossar der Metriken"):
