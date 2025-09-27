@@ -71,7 +71,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
     
     if "session_aborted" in st.session_state:
         user_name = st.session_state.get("aborted_user_id", "Dein")
-        toast_message = f"Dein Ergebnis für '{user_name}' wurde im Leaderboard gespeichert."
+        toast_message = f"Dein Ergebnis für »{user_name}« wurde im Leaderboard gespeichert."
         st.toast(toast_message, icon="🏆")
         del st.session_state["session_aborted"]
         if "aborted_user_id" in st.session_state:

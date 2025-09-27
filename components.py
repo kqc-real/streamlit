@@ -17,7 +17,7 @@ from data_manager import update_bookmarks_for_user, load_all_logs
 
 def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
     """Rendert die komplette Sidebar der Anwendung."""
-    st.sidebar.success(f"👋 Angemeldet als: **{st.session_state.user_id}**")
+    st.sidebar.success(f"👋 **{st.session_state.user_id}**")
 
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
