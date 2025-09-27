@@ -100,6 +100,11 @@ def render_welcome_page(app_config: AppConfig):
                     .reset_index()  # Verhindert, dass der Hash als Index angezeigt wird
                 )
 
+                # Berechne die maximale Punktzahl für dieses Set
+                questions_for_max_score = load_questions(selected_file)
+                max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_max_score)
+                scores["Max. Punkte"] = max_score_for_set
+
                 # Formatiere das Datum
                 scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
 
@@ -111,7 +116,7 @@ def render_welcome_page(app_config: AppConfig):
                     else:
                         scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
-                st.dataframe(scores[["Pseudonym", "Punkte", "Datum"]], use_container_width=True, hide_index=True)
+                st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
 
     st.divider()
 

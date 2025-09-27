@@ -25,7 +25,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📤 Export", "⚙️ System"])
 
     with tabs[0]:
-        render_leaderboard_tab(df_logs)
+        render_leaderboard_tab(df_logs, questions)
     with tabs[1]:
         render_analysis_tab(df_logs, questions)
     with tabs[2]:
@@ -34,7 +34,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
         render_system_tab(app_config, df_logs)
 
 
-def render_leaderboard_tab(df: pd.DataFrame):
+def render_leaderboard_tab(df: pd.DataFrame, questions: list):
     """Rendert den Leaderboard-Tab."""
     st.header("Highscore - Alle Teilnahmen")
     if df.empty:
@@ -57,6 +57,10 @@ def render_leaderboard_tab(df: pd.DataFrame):
         .reset_index()
     )
 
+    # Berechne die maximale Punktzahl
+    max_score_for_set = sum(q.get("gewichtung", 1) for q in questions)
+    scores["Max. Punkte"] = max_score_for_set
+
     # Formatiere das Datum
     scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
 
@@ -68,7 +72,7 @@ def render_leaderboard_tab(df: pd.DataFrame):
         else:
             scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
-    st.dataframe(scores[["Pseudonym", "Punkte", "Datum"]], use_container_width=True, hide_index=True)
+    st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
 
 
 def render_analysis_tab(df: pd.DataFrame, questions: list):
