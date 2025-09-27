@@ -34,7 +34,13 @@ def render_welcome_page(app_config: AppConfig):
     
     # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
     def format_filename(filename):
-        return filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+        name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+        try:
+            # Lade die Fragen, um die Anzahl zu ermitteln.
+            num_questions = len(load_questions(filename))
+            return f"{name} ({num_questions} Fragen)"
+        except Exception:
+            return f"{name} (Fehler)"
 
     selected_file = st.selectbox(
         "Wähle ein Fragenset:",
