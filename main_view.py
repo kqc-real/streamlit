@@ -200,7 +200,19 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
             1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
         )
         remaining = len(questions) - num_answered
-        st.markdown(f"### Noch {remaining} Frage{'n' if remaining != 1 else ''}")
+        
+        # Logik für die Fortschrittsanzeige
+        if num_answered == 0:
+            st.markdown(f"### {len(questions)} Fragen insgesamt")
+        elif remaining == 0:
+            # Dieser Fall tritt nur nach der letzten Antwort auf, bevor die Zusammenfassung kommt.
+            # Hier ist keine Anzeige mehr nötig.
+            pass
+        elif remaining == 1 and not is_test_finished(questions):
+            st.markdown("### Letzte Frage")
+        else:
+            st.markdown(f"### Noch {remaining} Frage{'n' if remaining > 1 else ''}")
+
 
         # Zeige Willkommensnachricht und Scoring-Info nur bei der ersten Frage
         if num_answered == 0:

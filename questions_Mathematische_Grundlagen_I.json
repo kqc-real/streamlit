@@ -1,0 +1,197 @@
+[
+  {
+    "frage": "1. Was ist das Ergebnis der Mengenoperation $A \\setminus (B \\cap C)$ für die Mengen $A = \\{1, 2, 3, 4\\}$, $B = \\{3, 4, 5\\}$ und $C = \\{4, 5, 6\\}$?",
+    "optionen": [
+      "$\\{1, 2\\}$",
+      "$\\{1, 2, 3\\}$",
+      "$\\{1, 2, 4\\}$",
+      "$\\{3, 4\\}$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Zuerst wird die **Schnittmenge** von B und C gebildet: $B \\cap C = \\{4\\}$. Anschließend wird diese Schnittmenge von A abgezogen (**Differenzmenge**): $A \\setminus \\{4\\} = \\{1, 2, 3\\}$.",
+    "gewichtung": 1,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "2. Eine Abbildung $f: A \\to B$ heißt **surjektiv**, wenn...",
+    "optionen": [
+      "jedes Element in B höchstens einmal als Funktionswert auftritt.",
+      "jedes Element in B mindestens einmal als Funktionswert auftritt.",
+      "jedes Element in A auf ein eindeutiges Element in B abgebildet wird.",
+      "die Mengen A und B gleich viele Elemente haben."
+    ],
+    "loesung": 1,
+    "erklaerung": "**Surjektivität** bedeutet, dass die **Bildmenge** von $f$ gleich der **Zielmenge** $B$ ist. Das heißt, für jedes $y \\in B$ gibt es mindestens ein $x \\in A$, sodass $f(x) = y$.",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "3. Welche Eigenschaft muss eine Relation $R$ auf einer Menge $M$ erfüllen, um eine **Äquivalenzrelation** zu sein?",
+    "optionen": [
+      "Reflexiv, symmetrisch und antisymmetrisch.",
+      "Reflexiv, antisymmetrisch und transitiv.",
+      "Reflexiv, symmetrisch und transitiv.",
+      "Symmetrisch, transitiv und total."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine **Äquivalenzrelation** muss drei Eigenschaften erfüllen: **Reflexivität** ($aRa$), **Symmetrie** ($aRb \\implies bRa$) und **Transitivität** ($aRb \\land bRc \\implies aRc$).",
+    "gewichtung": 2,
+    "thema": "1. Mengen und Abbildungen"
+  },
+  {
+    "frage": "4. Was ist die **Kontraposition** der Aussage 'Wenn es regnet, ist die Straße nass' ($A \\implies B$)?",
+    "optionen": [
+      "Wenn es nicht regnet, ist die Straße nicht nass.",
+      "Wenn die Straße nass ist, hat es geregnet.",
+      "Wenn die Straße nicht nass ist, hat es nicht geregnet.",
+      "Es regnet und die Straße ist nicht nass."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Kontraposition** einer Implikation $A \\implies B$ ist die logisch äquivalente Aussage $\\neg B \\implies \\neg A$. In diesem Fall: 'Wenn die Straße nicht nass ist ($\\neg B$), dann hat es nicht geregnet ($\\neg A$)'.",
+    "gewichtung": 1,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "5. Welches Beweisprinzip wird angewendet, wenn man annimmt, dass eine Aussage falsch ist, und daraus einen Widerspruch herleitet?",
+    "optionen": [
+      "**Vollständige Induktion**",
+      "**Direkter Beweis**",
+      "**Beweis durch Widerspruch** (reductio ad absurdum)",
+      "**Beweis durch Kontraposition**"
+    ],
+    "loesung": 2,
+    "erklaerung": "Beim **Beweis durch Widerspruch** nimmt man das Gegenteil der zu beweisenden Aussage an und zeigt, dass diese Annahme zu einem logischen Widerspruch führt. Daraus schließt man, dass die ursprüngliche Annahme falsch und die Aussage somit wahr sein muss.",
+    "gewichtung": 2,
+    "thema": "2. Logik"
+  },
+  {
+    "frage": "6. Was ist der **Induktionsschritt** bei einem Beweis durch **vollständige Induktion**?",
+    "optionen": [
+      "Der Beweis der Aussage für den Startwert $n=1$ (**Induktionsanfang**).",
+      "Die Annahme, dass die Aussage für ein beliebiges, aber festes $n$ gilt (**Induktionsvoraussetzung**).",
+      "Der Beweis, dass aus der Gültigkeit der Aussage für $n$ die Gültigkeit für $n+1$ folgt.",
+      "Die Schlussfolgerung, dass die Aussage für alle natürlichen Zahlen gilt."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der **Induktionsschritt** (oder Induktionsschluss) ist der Kern des Beweises. Hier zeigt man, dass die Aussage auch für den Nachfolger $n+1$ gilt, unter der Annahme, dass sie für $n$ bereits wahr ist.",
+    "gewichtung": 2,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "7. Welchen Wert hat $5!$ (5 **Fakultät**)?",
+    "optionen": [
+      "15",
+      "25",
+      "120",
+      "720"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die **Fakultät** $n!$ ist das Produkt aller natürlichen Zahlen von 1 bis $n$. Also ist $5! = 5 \\cdot 4 \\cdot 3 \\cdot 2 \\cdot 1 = 120$.",
+    "gewichtung": 1,
+    "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
+  },
+  {
+    "frage": "8. Wie viele Möglichkeiten gibt es, 3 Personen aus einer Gruppe von 10 auszuwählen, wenn die Reihenfolge keine Rolle spielt?",
+    "optionen": [
+      "30",
+      "120",
+      "720",
+      "1000"
+    ],
+    "loesung": 1,
+    "erklaerung": "Dies ist ein klassisches Problem der **Kombinatorik**, das mit dem **Binomialkoeffizienten** $\\binom{10}{3}$ gelöst wird: $\\frac{10 \\cdot 9 \\cdot 8}{3 \\cdot 2 \\cdot 1} = 120$.",
+    "gewichtung": 2,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "9. Was ist der **größte gemeinsame Teiler** (ggT) von 105 und 70?",
+    "optionen": [
+      "5",
+      "7",
+      "10",
+      "35"
+    ],
+    "loesung": 3,
+    "erklaerung": "Mit dem **Euklidischen Algorithmus**: $105 = 1 \\cdot 70 + 35$. Dann $70 = 2 \\cdot 35 + 0$. Der letzte Rest ungleich Null ist der ggT, also 35.",
+    "gewichtung": 2,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "10. Welchen Wert hat $17 \\pmod 5$?",
+    "optionen": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die **Modulo-Operation** gibt den Rest einer Division an. 17 geteilt durch 5 ist 3 mit einem Rest von 2. Also ist $17 \\pmod 5 = 2$.",
+    "gewichtung": 1,
+    "thema": "4. Etwas Zahlentheorie"
+  },
+  {
+    "frage": "11. Welche der folgenden algebraischen Strukturen ist NICHT zwingend eine **Gruppe**?",
+    "optionen": [
+      "$(\\mathbb{Z}, +)$ - Die ganzen Zahlen mit Addition.",
+      "$(\\mathbb{Q}\\setminus\\{0\\}, \\cdot)$ - Die rationalen Zahlen ohne Null mit Multiplikation.",
+      "$(\\mathbb{N}, +)$ - Die natürlichen Zahlen mit Addition.",
+      "Die Menge der Drehungen eines Quadrats mit Hintereinanderausführung."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine **Gruppe** erfordert für jedes Element ein **inverses Element**. In $(\\mathbb{N}, +)$ hat z.B. die Zahl 3 kein inverses Element (-3), da -3 keine natürliche Zahl ist.",
+    "gewichtung": 2,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "12. Was unterscheidet einen **Körper** von einem **Ring**?",
+    "optionen": [
+      "Ein Körper hat zwei Verknüpfungen, ein Ring nur eine.",
+      "In einem Körper ist die Multiplikation immer kommutativ.",
+      "In einem Körper besitzt jedes Element außer der Null ein multiplikatives Inverses.",
+      "Ein Ring kann keine negativen Zahlen enthalten."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein **Körper** ist ein kommutativer **Ring**, in dem zusätzlich jedes von Null verschiedene Element ein **multiplikatives Inverses** hat. Dies ermöglicht die Division. $(\\mathbb{Q}, +, \\cdot)$ ist ein Körper, $(\\mathbb{Z}, +, \\cdot)$ ist nur ein Ring.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "13. Was ist das Ergebnis der **Polynomdivision** $(x^3 - 2x^2 + 4) : (x - 2)$?",
+    "optionen": [
+      "$x^2 + 4$",
+      "$x^2$ mit Rest 4",
+      "$x^2 - 2$",
+      "$x^2 + x + 2$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die **Polynomdivision** $(x^3 - 2x^2 + 4) : (x - 2)$ ergibt $x^2$ mit einem Rest von 4. Man kann dies auch durch Einsetzen der Nullstelle des Divisors ($x=2$) in das Polynom prüfen: $2^3 - 2 \\cdot 2^2 + 4 = 8 - 8 + 4 = 4$. Der Wert ist der Rest.",
+    "gewichtung": 2,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "14. Welches Prinzip liegt dem **RSA-Kryptosystem** zugrunde?",
+    "optionen": [
+      "Das Problem der Faktorisierung großer Zahlen ist schwierig.",
+      "Das Problem des diskreten Logarithmus ist schwierig.",
+      "Symmetrische Verschlüsselung ist unsicher.",
+      "Die Berechnung von Polynomdivisionen ist aufwendig."
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Sicherheit von **RSA** beruht darauf, dass es einfach ist, zwei große Primzahlen zu multiplizieren, aber extrem schwierig, das Produkt wieder in seine **Primfaktoren** zu zerlegen. Der öffentliche Schlüssel enthält das Produkt, der private die Faktoren.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  },
+  {
+    "frage": "15. Was ist ein **Homomorphismus** zwischen zwei Gruppen $(G, *)$ und $(H, \\circ)$?",
+    "optionen": [
+      "Eine bijektive Abbildung $f: G \\to H$.",
+      "Eine Abbildung $f: G \\to H$, die die Gruppenstruktur erhält, d.h. $f(a * b) = f(a) \\circ f(b)$.",
+      "Eine Abbildung, die jedes Element auf das neutrale Element von $H$ abbildet.",
+      "Eine Abbildung, die nur für endliche Gruppen definiert ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein **Homomorphismus** ist eine strukturerhaltende Abbildung. Das bedeutet, dass es egal ist, ob man zuerst in $G$ verknüpft und dann abbildet, oder zuerst abbildet und dann in $H$ verknüpft – das Ergebnis ist dasselbe.",
+    "gewichtung": 3,
+    "thema": "5. Algebraische Strukturen"
+  }
+]
