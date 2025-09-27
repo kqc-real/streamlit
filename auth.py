@@ -70,8 +70,12 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
         return st.session_state.user_id
     
     if "session_aborted" in st.session_state:
-        st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
+        user_name = st.session_state.get("aborted_user_id", "Dein")
+        toast_message = f"Dein Ergebnis für '{user_name}' wurde im Leaderboard gespeichert."
+        st.toast(toast_message, icon="🏆")
         del st.session_state["session_aborted"]
+        if "aborted_user_id" in st.session_state:
+            del st.session_state["aborted_user_id"]
 
     # log_state("Exit handle_user_session without login")
     return None

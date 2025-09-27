@@ -54,12 +54,16 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
                 st.session_state.get("bookmarked_questions", []),
                 questions
             )
+            # Speichere das Pseudonym für die Toast-Nachricht, bevor die Session gelöscht wird.
+            aborted_user_id = st.session_state.get("user_id")
+
             # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
             for key in list(st.session_state.keys()):
                 if not key.startswith("_admin") and key != "selected_questions_file":
                     del st.session_state[key]
-            # Flag für Hinweis nach dem nächsten Login setzen
+            # Setze die Flags für die Toast-Nachricht nach dem Rerun
             st.session_state["session_aborted"] = True
+            st.session_state["aborted_user_id"] = aborted_user_id
             st.rerun()
 
 def render_admin_switch(app_config: AppConfig):
