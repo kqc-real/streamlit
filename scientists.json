@@ -158,5 +158,245 @@
     {
         "name": "Tim Berners-Lee",
         "contribution": "Informatiker, Erfinder des WWW und Turing-Preisträger"
+    },
+    {
+        "name": "Leonardo da Vinci",
+        "contribution": "Universalgelehrter, Künstler und Erfinder der Renaissance"
+    },
+    {
+        "name": "Nikolaus Kopernikus",
+        "contribution": "Astronom, formulierte das heliozentrische Weltbild"
+    },
+    {
+        "name": "Johannes Kepler",
+        "contribution": "Astronom, entdeckte die Gesetze der Planetenbewegung"
+    },
+    {
+        "name": "Antoine Lavoisier",
+        "contribution": "Chemiker, gilt als Vater der modernen Chemie"
+    },
+    {
+        "name": "Dmitri Mendelejew",
+        "contribution": "Chemiker, entwickelte das Periodensystem der Elemente"
+    },
+    {
+        "name": "Robert Hooke",
+        "contribution": "Universalgelehrter, prägte den Begriff 'Zelle' in der Biologie"
+    },
+    {
+        "name": "Antonie van Leeuwenhoek",
+        "contribution": "Mikrobiologe, verbesserte das Mikroskop und entdeckte Mikroorganismen"
+    },
+    {
+        "name": "Carl von Linné",
+        "contribution": "Biologe, Begründer der modernen Taxonomie (Systematik)"
+    },
+    {
+        "name": "Alexander von Humboldt",
+        "contribution": "Naturforscher und Entdecker, Mitbegründer der Geographie als empirische Wissenschaft"
+    },
+    {
+        "name": "Mary Anning",
+        "contribution": "Paläontologin, machte bedeutende Fossilienfunde in England"
+    },
+    {
+        "name":- "George Washington Carver",
+        "contribution": "Botaniker und Erfinder, entwickelte hunderte Produkte aus Erdnüssen und Süßkartoffeln"
+    },
+    {
+        "name": "Srinivasa Ramanujan",
+        "contribution": "Mathematiker, Autodidakt mit außergewöhnlichen Beiträgen zur Zahlentheorie"
+    },
+    {
+        "name": "John von Neumann",
+        "contribution": "Mathematiker, Pionier der Spieltheorie und der Von-Neumann-Architektur für Computer"
+    },
+    {
+        "name": "Claude Shannon",
+        "contribution": "Mathematiker und Elektroingenieur, Begründer der Informationstheorie"
+    },
+    {
+        "name": "Edsger W. Dijkstra",
+        "contribution": "Informatiker, Beiträge zu Algorithmen (z.B. Dijkstra-Algorithmus) und strukturierter Programmierung"
+    },
+    {
+        "name": "Donald Knuth",
+        "contribution": "Informatiker, Autor von 'The Art of Computer Programming' und Schöpfer von TeX"
+    },
+    {
+        "name": "Francis Crick",
+        "contribution": "Molekularbiologe, Mitentdecker der DNA-Struktur"
+    },
+    {
+        "name": "James Watson",
+        "contribution": "Molekularbiologe, Mitentdecker der DNA-Struktur"
+    },
+    {
+        "name": "J. Robert Oppenheimer",
+        "contribution": "Theoretischer Physiker, wissenschaftlicher Leiter des Manhattan-Projekts"
+    },
+    {
+        "name": "Enrico Fermi",
+        "contribution": "Physiker, baute den ersten Kernreaktor und Nobelpreisträger"
+    },
+    {
+        "name": "Edwin Hubble",
+        "contribution": "Astronom, bewies die Expansion des Universums (Hubble-Gesetz)"
+    },
+    {
+        "name": "Cecilia Payne-Gaposchkin",
+        "contribution": "Astronomin, entdeckte, dass Sterne hauptsächlich aus Wasserstoff und Helium bestehen"
+    },
+    {
+        "name": "Jocelyn Bell Burnell",
+        "contribution": "Astrophysikerin, Mitentdeckerin der ersten Pulsare"
+    },
+    {
+        "name": "Mae Jemison",
+        "contribution": "Ärztin und NASA-Astronautin, erste afroamerikanische Frau im Weltraum"
+    },
+    {
+        "name": "Sally Ride",
+        "contribution": "Physikerin und Astronautin, erste amerikanische Frau im Weltraum"
+    },
+    {
+        "name": "Hypatia",
+        "contribution": "Mathematikerin, Astronomin und Philosophin im antiken Alexandria"
+    },
+    {
+        "name": "Florence Nightingale",
+        "contribution": "Pionierin der modernen Krankenpflege und Statistikerin"
+    },
+    {
+        "name": "Geoffrey Hinton",
+        "contribution": "Informatiker, 'Pate der KI', Pionier der Deep-Learning-Forschung"
+    },
+    {
+        "name": "Yann LeCun",
+        "contribution": "Informatiker, Pionier der Convolutional Neural Networks (CNNs)"
+    },
+    {
+        "name": "Yoshua Bengio",
+        "contribution": "Informatiker, Pionier der Deep-Learning-Forschung"
+    },
+    {
+        "name": "Archimedes",
+        "contribution": "Griechischer Mathematiker, Physiker und Ingenieur der Antike"
+    },
+    {
+        "name": "Euklid",
+        "contribution": "Griechischer Mathematiker, oft als 'Vater der Geometrie' bezeichnet"
+    },
+    {
+        "name": "Pythagoras",
+        "contribution": "Griechischer Mathematiker und Philosoph, bekannt für den Satz des Pythagoras"
+    },
+    {
+        "name": "Aristoteles",
+        "contribution": "Griechischer Philosoph und Universalgelehrter, prägte die westliche Wissenschaft"
+    },
+    {
+        "name": "Ibn al-Haytham",
+        "contribution": "Arabischer Mathematiker und Physiker, Pionier der Optik"
+    },
+    {
+        "name": "Al-Chwarizmi",
+        "contribution": "Persischer Mathematiker, dessen Name zum Wort 'Algorithmus' wurde"
+    },
+    {
+        "name": "Fibonacci",
+        "contribution": "Italienischer Mathematiker, bekannt für die Fibonacci-Folge"
+    },
+    {
+        "name": "Blaise Pascal",
+        "contribution": "Französischer Mathematiker, Physiker und Erfinder"
+    },
+    {
+        "name": "Gottfried Wilhelm Leibniz",
+        "contribution": "Deutscher Universalgelehrter, Miterfinder der Infinitesimalrechnung"
+    },
+    {
+        "name": "Leonhard Euler",
+        "contribution": "Schweizer Mathematiker, einer der produktivsten Mathematiker der Geschichte"
+    },
+    {
+        "name": "Carl Friedrich Gauß",
+        "contribution": "Deutscher Mathematiker, 'Fürst der Mathematiker'"
+    },
+    {
+        "name": "Bernhard Riemann",
+        "contribution": "Deutscher Mathematiker, Beiträge zur Differentialgeometrie und Zahlentheorie"
+    },
+    {
+        "name": "David Hilbert",
+        "contribution": "Deutscher Mathematiker, bekannt für seine 23 Probleme"
+    },
+    {
+        "name": "Kurt Gödel",
+        "contribution": "Logiker und Mathematiker, bekannt für seine Unvollständigkeitssätze"
+    },
+    {
+        "name": "Paul Dirac",
+        "contribution": "Britischer Physiker, einer der Väter der Quantenmechanik"
+    },
+    {
+        "name": "Wolfgang Pauli",
+        "contribution": "Österreichischer Physiker, bekannt für das Pauli-Ausschlussprinzip"
+    },
+    {
+        "name": "Max Born",
+        "contribution": "Deutscher Physiker, Nobelpreisträger für seine Arbeiten zur Quantenmechanik"
+    },
+    {
+        "name": "Satyendra Nath Bose",
+        "contribution": "Indischer Physiker, bekannt für die Bose-Einstein-Statistik"
+    },
+    {
+        "name": "John Bardeen",
+        "contribution": "Amerikanischer Physiker, einziger zweifacher Nobelpreisträger in Physik (Transistor, Supraleitung)"
+    },
+    {
+        "name": "Charles Babbage",
+        "contribution": "Britischer Mathematiker, gilt als 'Vater des Computers'"
+    },
+    {
+        "name": "George Boole",
+        "contribution": "Britischer Mathematiker, Begründer der Booleschen Algebra"
+    },
+    {
+        "name": "Marvin Minsky",
+        "contribution": "Amerikanischer Informatiker, Mitbegründer der künstlichen Intelligenz"
+    },
+    {
+        "name": "John McCarthy",
+        "contribution": "Amerikanischer Informatiker, prägte den Begriff 'künstliche Intelligenz' und erfand Lisp"
+    },
+    {
+        "name": "Vinton Cerf",
+        "contribution": "Amerikanischer Informatiker, einer der 'Väter des Internets' (TCP/IP)"
+    },
+    {
+        "name": "Robert Kahn",
+        "contribution": "Amerikanischer Informatiker, einer der 'Väter des Internets' (TCP/IP)"
+    },
+    {
+        "name": "Linus Torvalds",
+        "contribution": "Finnisch-amerikanischer Softwareentwickler, Schöpfer des Linux-Kernels"
+    },
+    {
+        "name": "Richard Stallman",
+        "contribution": "Amerikanischer Softwareentwickler, Gründer des GNU-Projekts und der Free Software Foundation"
+    },
+    {
+        "name": "Margaret Hamilton",
+        "contribution": "Amerikanische Informatikerin, leitete die Softwareentwicklung für das Apollo-Programm"
+    },
+    {
+        "name": "Radia Perlman",
+        "contribution": "Amerikanische Informatikerin, bekannt als 'Mutter des Internets' für ihre Erfindung des Spanning Tree Protocol"
+    },
+    {
+        "name": "Sophie Germain",
+        "contribution": "Französische Mathematikerin, Pionierin der Elastizitätstheorie und Zahlentheorie"
     }
 ]
