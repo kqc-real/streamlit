@@ -249,7 +249,7 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         if resume_target_idx is not None:
             # Wenn wir auf einer gebookmarkten Frage sind (und nicht dort, wo wir sein sollten)
             if resume_target_idx != frage_idx and st.session_state.get("jump_to_idx_active"):
-                if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}"):
+                if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}", type="primary"):
                     st.session_state.jump_to_idx = resume_target_idx
                     # Resume-Status zurücksetzen
                     del st.session_state.resume_next_idx

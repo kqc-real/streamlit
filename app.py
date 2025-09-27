@@ -79,15 +79,22 @@ def main():
     is_admin = is_admin_user(user_id, app_config)
     render_sidebar(questions, app_config, is_admin)
 
-    current_idx = get_current_question_index()
+    # --- 4. Bestimme, welche Frage angezeigt werden soll ---
+    # Priorisiere Sprünge von Bookmarks.
+    if "jump_to_idx" in st.session_state:
+        current_idx = st.session_state.jump_to_idx
+        # Entferne den Sprungbefehl, damit beim nächsten Rerun normal weitergemacht wird.
+        del st.session_state.jump_to_idx
+    else:
+        current_idx = get_current_question_index()
 
+    # --- 5. Rendere die passende Hauptansicht ---
     if st.session_state.get("show_admin_panel", False) and is_admin:
         render_admin_panel(app_config, questions)
     elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
-        if current_idx is not None:
-            render_question_view(questions, current_idx, app_config)
-        else:
-            render_final_summary(questions, app_config)
+        # Wenn der Test beendet ist, zeige immer die Zusammenfassung.
+        # Die Logik für den Review-Modus ist in render_final_summary enthalten.
+        render_final_summary(questions, app_config)
     elif current_idx is not None:
         render_question_view(questions, current_idx, app_config)
     else:
