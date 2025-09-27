@@ -1,0 +1,1302 @@
+[
+  {
+    "frage": "1. Wie viele Zähne hat ein erwachsener Mensch normalerweise (inklusive Weisheitszähnen)?",
+    "optionen": [
+      "28",
+      "30",
+      "32",
+      "34"
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein vollständiges Gebiss eines Erwachsenen umfasst 32 Zähne, einschließlich der vier Weisheitszähne. Es besteht aus 8 Schneidezähnen, 4 Eckzähnen, 8 Prämolaren und 12 Molaren.",
+    "gewichtung": 1,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "2. Was ist die Hauptursache für Karies?",
+    "optionen": [
+      "Genetische Veranlagung",
+      "Säureangriffe durch bakterielle Stoffwechselprodukte",
+      "Zu hartes Zähneputzen",
+      "Mangel an Vitamin D"
+    ],
+    "loesung": 1,
+    "erklaerung": "Karies entsteht, wenn Bakterien im Zahnbelag (Plaque) Zucker aus der Nahrung in Säure umwandeln. Diese Säure demineralisiert den Zahnschmelz und führt zu Löchern.",
+    "gewichtung": 1,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "3. Womit befasst sich die Endodontie?",
+    "optionen": [
+      "Zahnfleischerkrankungen",
+      "Zahnfehlstellungen",
+      "Erkrankungen des Zahninneren (Pulpa)",
+      "Zahnersatz"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die Endodontie ist ein Teilgebiet der Zahnheilkunde, das sich mit der Behandlung von Erkrankungen des Zahnmarks (Pulpa) und des Gewebes um die Wurzelspitze befasst. Die bekannteste Behandlung ist die Wurzelkanalbehandlung.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "4. Welches Material wird am häufigsten für Zahnimplantate verwendet?",
+    "optionen": [
+      "Gold",
+      "Amalgam",
+      "Keramik",
+      "Titan"
+    ],
+    "loesung": 3,
+    "erklaerung": "Titan ist aufgrund seiner hohen Biokompatibilität (es wird vom Körper sehr gut angenommen und verwächst mit dem Knochen - Osseointegration) und seiner Festigkeit das am weitesten verbreitete Material für Zahnimplantate.",
+    "gewichtung": 2,
+    "thema": "Werkstoffkunde"
+  },
+  {
+    "frage": "5. Was ist die empfohlene Mindestdauer für das Zähneputzen?",
+    "optionen": [
+      "30 Sekunden",
+      "1 Minute",
+      "2 Minuten",
+      "5 Minuten"
+    ],
+    "loesung": 2,
+    "erklaerung": "Zahnärztliche Organisationen empfehlen, die Zähne mindestens zwei Minuten lang zu putzen, um sicherzustellen, dass alle Zahnoberflächen gründlich von Plaque gereinigt werden.",
+    "gewichtung": 1,
+    "thema": "Prophylaxe & Prävention"
+  },
+  {
+    "frage": "6. Welches Bakterium wird am häufigsten mit aggressiver Parodontitis in Verbindung gebracht?",
+    "optionen": [
+      "Streptococcus mutans",
+      "Aggregatibacter actinomycetemcomitans",
+      "Lactobacillus acidophilus",
+      "Porphyromonas gingivalis"
+    ],
+    "loesung": 1,
+    "erklaerung": "Aggregatibacter actinomycetemcomitans (oft als 'Aa' abgekürzt) ist ein gramnegatives Bakterium, das stark mit lokalisierten aggressiven Formen der Parodontitis, insbesondere bei jungen Patienten, assoziiert ist.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "7. Was beschreibt die Angle-Klasse II/1?",
+    "optionen": [
+      "Neutro-Okklusion mit Engstand im Frontzahnbereich.",
+      "Distal-Okklusion mit protrudierten (nach vorne gekippten) oberen Schneidezähnen.",
+      "Mesial-Okklusion, bei der die unteren Schneidezähne vor den oberen stehen (Vorbiss).",
+      "Distal-Okklusion mit retrudierten (nach hinten gekippten) oberen Schneidezähnen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Angle-Klasse II/1 ist durch eine Distalokklusion (Rückbiss des Unterkiefers) gekennzeichnet, bei der die oberen Frontzähne nach vorne gekippt sind, was zu einer vergrößerten Frontzahnstufe führt.",
+    "gewichtung": 2,
+    "thema": "Kieferorthopädie"
+  },
+  {
+    "frage": "8. Was ist eine Alveolitis sicca (trockene Alveole)?",
+    "optionen": [
+      "Eine Infektion des Kieferknochens nach einer Wurzelbehandlung.",
+      "Eine allergische Reaktion auf Lokalanästhetika.",
+      "Eine Wundheilungsstörung nach einer Zahnextraktion, bei der das Blutgerinnsel verloren geht.",
+      "Eine chronische Entzündung des Zahnfleisches."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die Alveolitis sicca ist eine schmerzhafte Komplikation nach einer Zahnextraktion. Sie entsteht, wenn das schützende Blutkoagulum in der Alveole (Zahnfach) zerfällt oder ausgespült wird, wodurch der Knochen freiliegt.",
+    "gewichtung": 2,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "9. Welcher Werkstoff wird für die Herstellung von e.max-Kronen (Lithium-Disilikat) primär verwendet?",
+    "optionen": [
+      "Zirkonoxid",
+      "Feldspatkeramik",
+      "Glaskeramik",
+      "Aluminiumoxid"
+    ],
+    "loesung": 2,
+    "erklaerung": "Lithium-Disilikat (Handelsname z.B. IPS e.max) ist eine hochfeste Glaskeramik, die sich durch exzellente Ästhetik und gute Stabilität auszeichnet und häufig für Einzelkronen und Veneers verwendet wird.",
+    "gewichtung": 3,
+    "thema": "Werkstoffkunde"
+  },
+  {
+    "frage": "10. Was ist der Hauptzweck einer Kofferdam-Anlage in der Zahnmedizin?",
+    "optionen": [
+      "Den Patienten vor lauten Bohrgeräuschen zu schützen.",
+      "Ein trockenes und sauberes Arbeitsfeld zu schaffen und den Patienten vor Aspiration zu schützen.",
+      "Die Behandlungszeit zu verkürzen, indem der Mund offengehalten wird.",
+      "Die Zähne vor dem Austrocknen während der Behandlung zu bewahren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Kofferdam ist ein Spanngummi, der einzelne Zähne isoliert. Dies hält das Arbeitsfeld frei von Speichel und Blut und schützt gleichzeitig den Patienten davor, kleine Instrumente oder Spülflüssigkeiten zu verschlucken.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "11. Welche Röntgenaufnahme eignet sich am besten zur Kariesdiagnostik im Seitenzahnbereich?",
+    "optionen": [
+      "Orthopantomogramm (OPG)",
+      "Zahnfilm (periapikale Aufnahme)",
+      "Bissflügelaufnahme (Bitewing)",
+      "Fernröntgenseitenbild (FRS)"
+    ],
+    "loesung": 2,
+    "erklaerung": "Bissflügelaufnahmen sind speziell dafür konzipiert, die Zahnzwischenräume (Approximalkaries) und die Kronen der Seitenzähne überlagerungsfrei darzustellen, was sie zur Methode der Wahl für die Kariesdiagnostik macht.",
+    "gewichtung": 2,
+    "thema": "Radiologie"
+  },
+  {
+    "frage": "12. Was versteht man unter 'Scaling and Root Planing' (SRP)?",
+    "optionen": [
+      "Eine Methode zur Zahnaufhellung (Bleaching).",
+      "Die chirurgische Entfernung von Weisheitszähnen.",
+      "Die nicht-chirurgische Basistherapie bei Parodontitis zur Entfernung von Plaque und Zahnstein.",
+      "Das Anbringen von kieferorthopädischen Brackets."
+    ],
+    "loesung": 2,
+    "erklaerung": "Scaling and Root Planing (SRP) ist die professionelle, mechanische Reinigung der Zahn- und Wurzeloberflächen unterhalb des Zahnfleischrands, um bakterielle Beläge und Konkremente zu entfernen. Es ist der Goldstandard der nicht-chirurgischen Parodontitistherapie.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "13. Welches Anästhetikum wird in der Zahnmedizin häufig mit einem Vasokonstriktor (z.B. Adrenalin) kombiniert?",
+    "optionen": [
+      "Paracetamol",
+      "Ibuprofen",
+      "Articain",
+      "Penicillin"
+    ],
+    "loesung": 2,
+    "erklaerung": "Lokalanästhetika wie Articain oder Lidocain werden oft mit einem Vasokonstriktor (gefäßverengenden Mittel) wie Adrenalin versetzt. Dies verlangsamt die Aufnahme des Anästhetikums in den Blutkreislauf, was die Wirkdauer verlängert und die Wirkung am Injektionsort verstärkt.",
+    "gewichtung": 3,
+    "thema": "Pharmakologie"
+  },
+  {
+    "frage": "14. Was ist eine Gingivektomie?",
+    "optionen": [
+      "Die chirurgische Entfernung von Zahnfleisch.",
+      "Eine Transplantation von Knochenmaterial in den Kiefer.",
+      "Die Spaltung eines mehrwurzeligen Zahnes.",
+      "Das Einsetzen einer Zahnfüllung."
+    ],
+    "loesung": 0,
+    "erklaerung": "Eine Gingivektomie ist ein chirurgischer Eingriff, bei dem Zahnfleisch (Gingiva) entfernt wird, z.B. zur Korrektur von Zahnfleischwucherungen oder zur Verbesserung der Ästhetik ('Gummy Smile').",
+    "gewichtung": 2,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "15. Was beschreibt der Begriff 'Attrition' in der Zahnmedizin?",
+    "optionen": [
+      "Zahnhartsubstanzverlust durch chemische Einflüsse (Säure).",
+      "Zahnhartsubstanzverlust durch Reibung mit Fremdkörpern (z.B. Zahnbürste).",
+      "Zahnhartsubstanzverlust durch direkten Zahn-zu-Zahn-Kontakt.",
+      "Eine angeborene Fehlbildung des Zahnschmelzes."
+    ],
+    "loesung": 2,
+    "erklaerung": "Attrition ist der physiologische oder pathologische Abrieb von Zahnhartsubstanz, der durch den direkten Kontakt der Zähne miteinander entsteht, z.B. beim Kauen oder bei Bruxismus (Zähneknirschen).",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "16. Welches ist die Hauptfunktion des Parodontalen Ligaments (Wurzelhaut)?",
+    "optionen": [
+      "Die Produktion von Zahnschmelz.",
+      "Die Versorgung des Zahnes mit Blutgefäßen und Nerven.",
+      "Die Verankerung des Zahnes im Kieferknochen und die Dämpfung von Kaukräften.",
+      "Die Abwehr von Bakterien im Mundraum."
+    ],
+    "loesung": 2,
+    "erklaerung": "Das Parodontale Ligament (PDL) besteht aus Faserbündeln, die den Zahn elastisch in seinem Knochenfach (Alveole) aufhängen. Es wandelt Druckkräfte beim Kauen in Zugkräfte auf den Knochen um und enthält Rezeptoren für die taktile Wahrnehmung.",
+    "gewichtung": 2,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "17. Was ist eine Apikotomie (Wurzelspitzenresektion)?",
+    "optionen": [
+      "Die vollständige Entfernung eines Zahnes.",
+      "Ein chirurgischer Eingriff, bei dem die Spitze einer Zahnwurzel entfernt wird.",
+      "Das Einsetzen eines künstlichen Zahnes.",
+      "Eine kieferorthopädische Behandlung zur Korrektur von Zahnfehlstellungen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Apikotomie ist ein oralchirurgischer Eingriff, der durchgeführt wird, wenn eine Entzündung an der Wurzelspitze durch eine konventionelle Wurzelkanalbehandlung nicht ausheilt. Dabei wird die Wurzelspitze gekappt und das entzündete Gewebe entfernt.",
+    "gewichtung": 2,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "18. Was versteht man unter dem Begriff 'Okklusion'?",
+    "optionen": [
+      "Die Farbe und Transluzenz eines Zahnes.",
+      "Der Kontakt der Zähne des Ober- und Unterkiefers beim Zubeißen.",
+      "Die Entzündung des Zahnfleisches.",
+      "Der Prozess der Zahnentwicklung im Kindesalter."
+    ],
+    "loesung": 1,
+    "erklaerung": "Okklusion bezeichnet jeden Kontakt zwischen den Zähnen des Oberkiefers und des Unterkiefers. Die statische Okklusion beschreibt den Kontakt im Schlussbiss, die dynamische Okklusion die Kontakte während der Kieferbewegungen.",
+    "gewichtung": 2,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "19. Welches Vitamin ist essentiell für die Kollagensynthese und somit entscheidend für ein gesundes Zahnfleisch?",
+    "optionen": [
+      "Vitamin A",
+      "Vitamin D",
+      "Vitamin C",
+      "Vitamin B12"
+    ],
+    "loesung": 2,
+    "erklaerung": "Vitamin C (Ascorbinsäure) ist ein entscheidender Kofaktor für die Synthese von Kollagen, dem Hauptbestandteil des Bindegewebes im Zahnfleisch. Ein schwerer Mangel kann zu Skorbut führen, was mit Zahnfleischbluten und Zahnausfall einhergeht.",
+    "gewichtung": 2,
+    "thema": "Prophylaxe & Prävention"
+  },
+  {
+    "frage": "20. Was ist der Zweck eines Retainers nach einer kieferorthopädischen Behandlung?",
+    "optionen": [
+      "Die Zähne weiter in die gewünschte Position zu bewegen.",
+      "Die Zähne aufzuhellen und Verfärbungen zu entfernen.",
+      "Das erreichte Behandlungsergebnis zu stabilisieren und ein Rezidiv (Rückfall) zu verhindern.",
+      "Den Zahnschmelz vor Säureangriffen zu schützen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Nach der aktiven Phase einer kieferorthopädischen Behandlung haben die Zähne die Tendenz, in ihre ursprüngliche Position zurückzuwandern. Ein Retainer (festsitzend oder herausnehmbar) hält die Zähne in der neuen Position und stabilisiert das Ergebnis langfristig.",
+    "gewichtung": 2,
+    "thema": "Kieferorthopädie"
+  },
+  {
+    "frage": "21. Was ist eine 'Leukoplakie'?",
+    "optionen": [
+      "Eine harmlose Pigmentstörung der Mundschleimhaut.",
+      "Eine Pilzinfektion im Mundraum (Soor).",
+      "Eine weiße, nicht abwischbare Läsion der Mundschleimhaut, die als Präkanzerose gilt.",
+      "Eine bakterielle Entzündung der Zunge."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Leukoplakie ist eine klinische Diagnose für einen weißen Fleck auf der Schleimhaut, der keiner anderen Krankheit zugeordnet werden kann. Da ein Teil dieser Läsionen bösartig entarten kann, gelten sie als fakultative Präkanzerose und müssen biopsiert werden.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "22. Was ist der Hauptunterschied zwischen einer Krone und einem Veneer?",
+    "optionen": [
+      "Kronen sind immer aus Metall, Veneers immer aus Keramik.",
+      "Eine Krone umfasst den gesamten Zahn, während ein Veneer nur die Vorderseite bedeckt.",
+      "Veneers werden zur Behandlung von Karies eingesetzt, Kronen nur aus ästhetischen Gründen.",
+      "Es gibt keinen Unterschied, die Begriffe sind synonym."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Veneer ist eine dünne Verblendschale, die auf die sichtbare Vorderseite des Zahnes geklebt wird, um Form oder Farbe zu korrigieren. Eine Krone hingegen ist eine Kappe, die den gesamten sichtbaren Teil eines stark zerstörten oder geschwächten Zahnes umfasst, um ihn zu stabilisieren.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "23. Was misst der 'Parodontale Screening Index' (PSI)?",
+    "optionen": [
+      "Die genaue Tiefe jeder einzelnen Zahnfleischtasche.",
+      "Den Behandlungsbedarf für eine Parodontitis in einem schnellen Screening-Verfahren.",
+      "Die Menge an Zahnbelag auf den Zähnen.",
+      "Die Speichelfließrate des Patienten."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der PSI ist ein schnelles und einfaches Screening-Verfahren, um festzustellen, ob ein Patient weiterführende parodontale Untersuchungen benötigt. Anhand von Sondierungstiefen und Blutungen wird ein Code von 0 bis 4 vergeben, der den Behandlungsbedarf anzeigt.",
+    "gewichtung": 2,
+    "thema": "Diagnostik"
+  },
+  {
+    "frage": "24. Was ist der Zweck eines 'Sinuslifts'?",
+    "optionen": [
+      "Die Anhebung der Mundwinkel für ein jüngeres Aussehen.",
+      "Die chirurgische Vergrößerung der Nasennebenhöhlen zur besseren Atmung.",
+      "Der Aufbau von Knochen im seitlichen Oberkiefer, um die Implantation zu ermöglichen.",
+      "Die Entfernung von Polypen aus der Kieferhöhle."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein Sinuslift (oder Sinusboden-Elevation) ist ein Knochenaufbauverfahren. Wenn im seitlichen Oberkiefer nicht genügend Knochenhöhe für ein Implantat vorhanden ist, wird der Boden der Kieferhöhle (Sinus maxillaris) angehoben und der entstandene Hohlraum mit Knochenersatzmaterial aufgefüllt.",
+    "gewichtung": 3,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "25. Was ist die häufigste Ursache für einen Zahnverlust bei Erwachsenen über 35?",
+    "optionen": [
+      "Karies",
+      "Unfälle und Traumata",
+      "Parodontitis",
+      "Zähneknirschen (Bruxismus)"
+    ],
+    "loesung": 2,
+    "erklaerung": "Während Karies bei Kindern und jungen Erwachsenen die Hauptursache für Zahnverlust ist, ist es bei Erwachsenen über 35 Jahren die Parodontitis. Diese chronische Entzündung des Zahnhalteapparates führt zum Abbau von Kieferknochen und letztendlich zur Lockerung und zum Verlust der Zähne.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "26. Was beschreibt die 'biologische Breite'?",
+    "optionen": [
+      "Die durchschnittliche Breite eines menschlichen Zahnes.",
+      "Der Abstand zwischen dem tiefsten Punkt des Zahnfleischsulkus und dem Alveolarknochen.",
+      "Die maximale Mundöffnung eines Patienten.",
+      "Der Mindestabstand zwischen zwei Zahnimplantaten."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die biologische Breite bezeichnet den Verbund aus supraalveolärem bindegewebigem und epithelialem Attachment des Zahnes. Ihre Verletzung, z.B. durch zu tief liegende Kronenränder, kann zu chronischen Entzündungen führen.",
+    "gewichtung": 3,
+    "thema": "Parodontologie"
+  },
+  {
+    "frage": "27. Welcher Nerv ist für die sensible Versorgung der Unterkieferzähne verantwortlich?",
+    "optionen": [
+      "Nervus facialis",
+      "Nervus alveolaris inferior",
+      "Nervus infraorbitalis",
+      "Nervus lingualis"
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Nervus alveolaris inferior, ein Ast des Nervus mandibularis (V3), verläuft im Mandibularkanal und innerviert die Zähne des Unterkiefers sensibel. Bei einer Leitungsanästhesie wird dieser Nerv betäubt.",
+    "gewichtung": 2,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "28. Was versteht man unter einer 'craniomandibulären Dysfunktion' (CMD)?",
+    "optionen": [
+      "Eine angeborene Fehlbildung des Unterkiefers.",
+      "Eine Sammelbezeichnung für Störungen der Kaumuskulatur und/oder des Kiefergelenks.",
+      "Eine Entzündung der Speicheldrüsen.",
+      "Ein bösartiger Tumor im Kieferbereich."
+    ],
+    "loesung": 1,
+    "erklaerung": "CMD ist ein Überbegriff für eine Reihe von klinischen Problemen, die die Kaumuskulatur, die Kiefergelenke und zugehörige Strukturen betreffen. Symptome können Schmerzen, Knackgeräusche und Bewegungseinschränkungen sein.",
+    "gewichtung": 2,
+    "thema": "Diagnostik"
+  },
+  {
+    "frage": "29. Was ist der Zweck einer Gesichtsbogenübertragung in der Prothetik?",
+    "optionen": [
+      "Die exakte Bestimmung der Zahnfarbe.",
+      "Die Vermessung der Gesichtssymmetrie für ästhetische Korrekturen.",
+      "Die Übertragung der individuellen Lage des Oberkiefers zur Schädelbasis in einen Artikulator.",
+      "Die digitale Planung von Implantatpositionen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Gesichtsbogen erfasst die räumliche Beziehung des Oberkiefers zur Schädelachse (Scharnierachse). Diese Information wird in einen Artikulator übertragen, um die Kaubewegungen des Patienten möglichst genau zu simulieren und passgenauen Zahnersatz herzustellen.",
+    "gewichtung": 3,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "30. Was ist eine 'Ankylose' eines Zahnes?",
+    "optionen": [
+      "Eine extreme Lockerung des Zahnes im Kiefer.",
+      "Eine direkte, starre Verbindung der Zahnwurzel mit dem Alveolarknochen ohne Parodontalligament.",
+      "Eine vollständige Verlagerung des Zahnes aus seinem Fach.",
+      "Eine bakterielle Infektion der Zahnwurzel."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei einer Ankylose fehlt das Parodontale Ligament, wodurch die Zahnwurzel direkt mit dem Kieferknochen verwächst. Der Zahn ist dadurch starr und kann nicht mehr kieferorthopädisch bewegt werden.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "31. Was ist die Hauptfunktion von Fluorid bei der Kariesprävention?",
+    "optionen": [
+      "Es tötet alle Bakterien im Mundraum ab.",
+      "Es macht den Zahnschmelz widerstandsfähiger gegen Säureangriffe.",
+      "Es hellt die Zähne auf und entfernt Verfärbungen.",
+      "Es regt den Speichelfluss an."
+    ],
+    "loesung": 1,
+    "erklaerung": "Fluorid wird in den Zahnschmelz (Hydroxylapatit) eingebaut und wandelt ihn in Fluorapatit um. Fluorapatit ist chemisch stabiler und löst sich bei Säureangriffen langsamer auf, was den Zahn vor Karies schützt (Remineralisation).",
+    "gewichtung": 2,
+    "thema": "Prophylaxe & Prävention"
+  },
+  {
+    "frage": "32. Was ist eine 'Frenektomie'?",
+    "optionen": [
+      "Die Entfernung eines Weisheitszahnes.",
+      "Die chirurgische Entfernung oder Kürzung eines Lippen- oder Zungenbändchens.",
+      "Eine Wurzelkanalbehandlung.",
+      "Das Einsetzen einer Zahnfüllung."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Frenektomie ist ein kleiner chirurgischer Eingriff, bei dem ein zu kurzes oder straffes Lippen- oder Zungenbändchen (Frenulum) durchtrennt oder entfernt wird, z.B. um eine Zahnlücke (Diastema) zu schließen oder die Zungenbeweglichkeit zu verbessern.",
+    "gewichtung": 2,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "33. Was ist der Unterschied zwischen einem Inlay und einem Onlay?",
+    "optionen": [
+      "Ein Inlay ist aus Gold, ein Onlay aus Keramik.",
+      "Ein Inlay liegt innerhalb der Zahnhöcker, während ein Onlay einen oder mehrere Höcker überdeckt.",
+      "Ein Inlay wird direkt im Mund gefertigt, ein Onlay immer im Labor.",
+      "Es gibt keinen Unterschied."
+    ],
+    "loesung": 1,
+    "erklaerung": "Beide sind laborgefertigte Einlagefüllungen. Der Unterschied liegt im Ausmaß: Ein Inlay füllt ein Loch innerhalb der Kaufläche. Ein Onlay ist größer und bedeckt zusätzlich einen oder mehrere Zahnhöcker, um den Zahn zu stabilisieren.",
+    "gewichtung": 2,
+    "thema": "Zahnerhaltung"
+  },
+  {
+    "frage": "34. Eine 'Gingivahyperplasie' (Zahnfleischwucherung) wird häufig als Nebenwirkung welches Medikaments beobachtet?",
+    "optionen": [
+      "Aspirin",
+      "Penicillin",
+      "Phenytoin (Antiepileptikum)",
+      "Ibuprofen"
+    ],
+    "loesung": 2,
+    "erklaerung": "Bestimmte Medikamente, insbesondere Antiepileptika wie Phenytoin, Kalziumkanalblocker (z.B. Nifedipin) und Immunsuppressiva (z.B. Cyclosporin), können als Nebenwirkung zu einer Wucherung des Zahnfleisches führen.",
+    "gewichtung": 3,
+    "thema": "Pharmakologie"
+  },
+  {
+    "frage": "35. Was ist der Zweck der Säure-Ätz-Technik in der adhäsiven Zahnheilkunde?",
+    "optionen": [
+      "Die Desinfektion der Kavität vor dem Füllen.",
+      "Die Betäubung des Zahnnervs.",
+      "Die Erzeugung eines mikroskopisch rauen Musters im Zahnschmelz für eine bessere Haftung.",
+      "Die chemische Aufhellung des Dentins."
+    ],
+    "loesung": 2,
+    "erklaerung": "Durch das Ätzen des Zahnschmelzes mit Phosphorsäure wird eine mikroporöse Oberfläche geschaffen. In diese Poren kann der flüssige Kunststoff (Bonding) eindringen und sich nach dem Aushärten mikromechanisch verkrallen, was einen starken Haftverbund ermöglicht.",
+    "gewichtung": 2,
+    "thema": "Zahnerhaltung"
+  },
+  {
+    "frage": "36. Was ist eine 'radikuläre Zyste'?",
+    "optionen": [
+      "Eine mit Flüssigkeit gefüllte Blase am Zahnfleisch.",
+      "Eine Zyste, die von einem abgestorbenen Zahn ausgeht und sich an der Wurzelspitze befindet.",
+      "Eine angeborene Fehlbildung im Kieferknochen.",
+      "Eine Zyste, die sich aus den Resten der Zahnentwicklung bildet (follikuläre Zyste)."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die radikuläre (oder periapikale) Zyste ist die häufigste Zystenform im Kiefer. Sie entsteht als chronische Entzündungsreaktion auf eine bakterielle Infektion im Wurzelkanal eines avitalen (toten) Zahnes.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "37. Wofür wird die 'Frankfurter Horizontale' in der Kieferorthopädie verwendet?",
+    "optionen": [
+      "Zur Bestimmung der idealen Position für Zahnimplantate.",
+      "Als Referenzebene bei der Analyse von Fernröntgenseitenbildern (FRS).",
+      "Zur Messung der Kiefergelenksbewegung.",
+      "Zur Festlegung der Schneidekantenlänge von Frontzähnen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Frankfurter Horizontale ist eine definierte Linie am Schädel (von Porion zu Orbitale), die in der kephalometrischen Analyse als Referenzebene dient, um die Position und Neigung von Kiefern und Zähnen zu bewerten.",
+    "gewichtung": 3,
+    "thema": "Kieferorthopädie"
+  },
+  {
+    "frage": "38. Was ist die Hauptindikation für eine Pulpotomie an einem Milchzahn?",
+    "optionen": [
+      "Der Zahn ist bereits abgestorben (nekrotisch).",
+      "Die Karies hat nur den Schmelz erreicht.",
+      "Die Karies hat die Pulpa im Kronenbereich eröffnet, die Wurzelpulpa ist aber noch vital.",
+      "Der Zahn hat eine Wurzelfraktur."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Pulpotomie ist eine Vitalerhaltungstherapie bei Milchzähnen. Dabei wird der infizierte Teil der Pulpa in der Zahnkrone entfernt, während die gesunde Pulpa in der Wurzel erhalten bleibt, um den Zahn bis zum natürlichen Zahnwechsel zu erhalten.",
+    "gewichtung": 2,
+    "thema": "Kinderzahnheilkunde"
+  },
+  {
+    "frage": "39. Was bedeutet 'Xerostomie'?",
+    "optionen": [
+      "Übermäßiger Speichelfluss.",
+      "Mundtrockenheit.",
+      "Schlechter Atem (Halitosis).",
+      "Zähneknirschen (Bruxismus)."
+    ],
+    "loesung": 1,
+    "erklaerung": "Xerostomie ist der medizinische Fachbegriff für Mundtrockenheit, die durch eine verminderte Speichelproduktion verursacht wird. Sie kann eine Nebenwirkung von Medikamenten, eine Folge von Bestrahlungen oder ein Symptom von Krankheiten (z.B. Sjögren-Syndrom) sein.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "40. Was ist die 'Arbeitslänge' in der Endodontie?",
+    "optionen": [
+      "Die Gesamtlänge des Zahnes von der Krone bis zur Wurzelspitze.",
+      "Die Dauer einer durchschnittlichen Wurzelkanalbehandlung.",
+      "Der Abstand von einem koronalen Referenzpunkt bis zu dem Punkt, an dem die Kanalaufbereitung und -füllung enden soll.",
+      "Die Länge der verwendeten Wurzelfeile."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die exakte Bestimmung der Arbeitslänge ist entscheidend für den Erfolg einer Wurzelkanalbehandlung. Sie stellt sicher, dass der Wurzelkanal bis kurz vor die Wurzelspitze (Apex) gereinigt und gefüllt wird, ohne das umliegende Gewebe zu verletzen.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "41. Was ist eine 'Guided Bone Regeneration' (GBR)?",
+    "optionen": [
+      "Eine kieferorthopädische Methode zur Steuerung des Zahnwachstums.",
+      "Ein Verfahren zum Knochenaufbau, bei dem eine Membran verwendet wird, um das Einwachsen von Weichgewebe zu verhindern.",
+      "Eine Technik zur Zahnaufhellung mit speziellen Schienen.",
+      "Die natürliche Heilung des Kieferknochens nach einer Extraktion."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei der GBR wird ein Knochendefekt mit Knochenersatzmaterial aufgefüllt und mit einer biokompatiblen Membran abgedeckt. Die Membran dient als Barriere und gibt den langsamer wachsenden Knochenzellen Zeit, den Defekt zu regenerieren, ohne dass schneller wachsendes Weichgewebe einsprosst.",
+    "gewichtung": 3,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "42. Was ist die Hauptursache für dentale Erosion?",
+    "optionen": [
+      "Bakterielle Plaque.",
+      "Mechanischer Abrieb durch Zähneputzen.",
+      "Direkter Kontakt mit Säuren, die nicht bakteriellen Ursprungs sind.",
+      "Genetische Defekte im Zahnschmelz."
+    ],
+    "loesung": 2,
+    "erklaerung": "Erosion ist der Verlust von Zahnhartsubstanz durch direkte Säureeinwirkung, z.B. aus säurehaltigen Getränken (Cola, Säfte), Lebensmitteln (Zitrusfrüchte) oder durch Magensäure bei Reflux. Im Gegensatz zur Karies sind hier keine Bakterien beteiligt.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "43. Was beschreibt die 'Spee-Kurve'?",
+    "optionen": [
+      "Die ideale Form eines Zahnbogens.",
+      "Die sagittale Okklusionskurve, die die Höckerspitzen der Seitenzähne verbindet.",
+      "Die Geschwindigkeit, mit der sich Zähne kieferorthopädisch bewegen lassen.",
+      "Ein Diagramm zur Darstellung der Kariesanfälligkeit."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Spee-Kurve ist die von der Seite (sagittal) betrachtete Linie, die entlang der bukkalen Höckerspitzen der Unterkiefer-Seitenzähne verläuft. Sie ist normalerweise leicht konkav und spielt eine wichtige Rolle für die Funktion und Stabilität der Okklusion.",
+    "gewichtung": 3,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "44. Welche Rolle spielt Chlorhexidin (CHX) in der Zahnmedizin?",
+    "optionen": [
+      "Es ist ein starkes Schmerzmittel.",
+      "Es ist ein Breitband-Antiseptikum zur Reduktion von Bakterien im Mund.",
+      "Es wird zur Ätzung des Zahnschmelzes verwendet.",
+      "Es ist der Hauptbestandteil von Zahnfüllungen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Chlorhexidin ist ein potentes Antiseptikum, das in Mundspülungen und Gelen zur vorübergehenden Kontrolle von Plaque und Gingivitis eingesetzt wird, z.B. nach chirurgischen Eingriffen, wenn die mechanische Reinigung erschwert ist.",
+    "gewichtung": 2,
+    "thema": "Pharmakologie"
+  },
+  {
+    "frage": "45. Was ist eine 'distale Keilexzision'?",
+    "optionen": [
+      "Eine Methode zur Entfernung von Karies im Zahnzwischenraum.",
+      "Ein parodontalchirurgischer Eingriff zur Reduktion von Zahnfleischtaschen hinter dem letzten Molaren.",
+      "Eine kieferorthopädische Technik zur Lückenschaffung.",
+      "Das Beschleifen eines Zahnes für eine Krone."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die distale Keilexzision ist ein chirurgisches Verfahren, bei dem ein keilförmiges Stück Zahnfleisch hinter dem letzten Zahn im Kiefer entfernt wird, um tiefe Zahnfleischtaschen in diesem Bereich zu eliminieren und die Mundhygiene zu verbessern.",
+    "gewichtung": 3,
+    "thema": "Parodontologie"
+  },
+  {
+    "frage": "46. Was ist der Hauptunterschied zwischen einer Brücke und einem Implantat zum Ersatz eines einzelnen Zahnes?",
+    "optionen": [
+      "Eine Brücke ist herausnehmbar, ein Implantat ist festsitzend.",
+      "Für eine Brücke müssen die Nachbarzähne beschliffen werden, für ein Implantat nicht.",
+      "Implantate sind nur im Unterkiefer möglich, Brücken überall.",
+      "Brücken bestehen aus Metall, Implantate aus Keramik."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein entscheidender Nachteil einer konventionellen Brücke ist, dass die gesunden Nachbarzähne als Pfeiler dienen und dafür beschliffen werden müssen, was Substanzverlust bedeutet. Ein Implantat ist eine künstliche Wurzel, die direkt in den Knochen eingesetzt wird und die Nachbarzähne unberührt lässt.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "47. Was ist 'Taurodontismus'?",
+    "optionen": [
+      "Das vollständige Fehlen von Zähnen.",
+      "Eine Entwicklungsanomalie, bei der die Zähne eine vergrößerte Pulpahöhle und kurze Wurzeln haben.",
+      "Überzählige Zähne im Gebiss.",
+      "Eine Erkrankung, die zu gelben Zahnverfärbungen führt."
+    ],
+    "loesung": 1,
+    "erklaerung": "Taurodontismus ist eine anatomische Variation, die vor allem Molaren betrifft. Der Zahnkörper ist apikalwärts verlängert, was zu einer sehr großen Pulpahöhle und kurzen Wurzeln führt. Der Name leitet sich von der Ähnlichkeit mit den Zähnen von Stieren ab.",
+    "gewichtung": 3,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "48. Was ist der Zweck eines Lückenhalters in der Kinderzahnheilkunde?",
+    "optionen": [
+      "Die Ästhetik nach einem Zahnverlust zu verbessern.",
+      "Die Kaufunktion zu erhalten.",
+      "Den Platz für den nachfolgenden bleibenden Zahn offenzuhalten und Zahnwanderungen zu verhindern.",
+      "Die Aussprache des Kindes zu unterstützen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Wenn ein Milchzahn vorzeitig verloren geht, können die Nachbarzähne in die Lücke kippen oder wandern. Ein Lückenhalter ist eine passive Apparatur, die diesen Platz für den durchbrechenden bleibenden Zahn freihält und so späteren kieferorthopädischen Problemen vorbeugt.",
+    "gewichtung": 2,
+    "thema": "Kinderzahnheilkunde"
+  },
+  {
+    "frage": "49. Was ist eine 'Bisphosphonat-assoziierte Kiefernekrose' (BPONJ)?",
+    "optionen": [
+      "Eine häufige Infektion nach einer Zahnreinigung.",
+      "Eine seltene, aber schwere Komplikation, bei der Kieferknochen nach Einnahme von Bisphosphonaten abstirbt.",
+      "Eine allergische Reaktion auf Zahnfüllungsmaterialien.",
+      "Eine angeborene Fehlbildung des Kieferknochens."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bisphosphonate sind Medikamente, die u.a. bei Osteoporose oder Knochenmetastasen eingesetzt werden. Sie hemmen den Knochenumbau, was in seltenen Fällen, oft nach zahnärztlichen Eingriffen wie Extraktionen, zu einer Nekrose (Absterben) des Kieferknochens führen kann.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "50. Was beschreibt der 'Bennett-Winkel' in der Prothetik?",
+    "optionen": [
+      "Den Winkel, in dem ein Zahn für eine Krone präpariert werden muss.",
+      "Den Winkel zwischen der Sagittalebene und der Bewegungsbahn des schwingenden Kondylus bei einer Seitwärtsbewegung des Unterkiefers.",
+      "Den idealen Neigungswinkel der Schneidezähne.",
+      "Den Winkel, in dem eine Röntgenröhre positioniert werden muss."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Bennett-Winkel ist ein wichtiger Parameter zur Einstellung eines Artikulators. Er beschreibt die seitliche und abwärts gerichtete Bewegung des Kondylus auf der Seite, zu der sich der Kiefer nicht bewegt (Nicht-Arbeitsseite oder Balanceseite).",
+    "gewichtung": 3,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "51. Was ist die häufigste Form von Mundhöhlenkrebs?",
+    "optionen": [
+      "Melanom",
+      "Adenokarzinom",
+      "Plattenepithelkarzinom",
+      "Sarkom"
+    ],
+    "loesung": 2,
+    "erklaerung": "Über 90% aller bösartigen Tumoren in der Mundhöhle sind Plattenepithelkarzinome, die von der obersten Schicht der Schleimhaut (Epithel) ausgehen. Hauptrisikofaktoren sind Tabak- und Alkoholkonsum.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "52. Was ist die Hauptfunktion des Zements (Cementum)?",
+    "optionen": [
+      "Er bildet die harte Außenschicht der Zahnkrone.",
+      "Er versorgt den Zahn mit Nährstoffen.",
+      "Er bedeckt die Zahnwurzel und dient als Ansatzpunkt für die Fasern des Parodontalen Ligaments.",
+      "Er ist für die weiße Farbe des Zahnes verantwortlich."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Zement ist eine knochenähnliche Substanz, die die Oberfläche der Zahnwurzel bedeckt. In ihm sind die Sharpey-Fasern des Parodontalen Ligaments verankert, die den Zahn im Knochenfach halten.",
+    "gewichtung": 2,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "53. Was ist eine 'Marylandbrücke'?",
+    "optionen": [
+      "Eine Brücke, die nur im Bundesstaat Maryland verwendet wird.",
+      "Eine festsitzende Brücke, die mit metallischen oder keramischen Flügeln an die Nachbarzähne geklebt wird.",
+      "Eine herausnehmbare Teilprothese.",
+      "Eine Brücke, die auf vier Implantaten befestigt ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Marylandbrücke (oder Adhäsivbrücke) ist eine minimalinvasive Art, eine kleine Lücke zu schließen. Anstatt die Nachbarzähne komplett zu überkronen, wird sie mit kleinen Flügeln an die Rückseite der Pfeilerzähne geklebt.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "54. Was bedeutet 'Hypodontie'?",
+    "optionen": [
+      "Das Vorhandensein von überzähligen Zähnen.",
+      "Eine angeborene Nichtanlage von einem oder mehreren Zähnen.",
+      "Ungewöhnlich große Zähne (Makrodontie).",
+      "Das vollständige Fehlen aller Zähne (Anodontie)."
+    ],
+    "loesung": 1,
+    "erklaerung": "Hypodontie ist der Fachbegriff für das angeborene Fehlen von Zähnen (außer den Weisheitszähnen). Fehlen sehr viele Zähne, spricht man von Oligodontie. Fehlen alle Zähne, von Anodontie.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "55. Welcher Index wird zur Beurteilung der Mundhygiene verwendet, indem Plaque angefärbt und bewertet wird?",
+    "optionen": [
+      "Gingiva-Index (GI)",
+      "Parodontaler Screening Index (PSI)",
+      "Approximalraum-Plaque-Index (API)",
+      "DMF-T Index"
+    ],
+    "loesung": 2,
+    "erklaerung": "Der API ist ein einfacher Index, bei dem nach dem Anfärben der Beläge geprüft wird, ob in den Zahnzwischenräumen Plaque vorhanden ist oder nicht. Das Ergebnis wird als Prozentsatz der betroffenen Stellen angegeben und dient der Motivation und Kontrolle der Mundhygiene.",
+    "gewichtung": 2,
+    "thema": "Diagnostik"
+  },
+  {
+    "frage": "56. Was ist der Hauptvorteil von Zirkonoxid als Material für Zahnkronen?",
+    "optionen": [
+      "Es ist das ästhetischste Material mit der höchsten Transluzenz.",
+      "Es ist sehr preisgünstig und einfach zu verarbeiten.",
+      "Es besitzt eine extrem hohe Festigkeit und Bruchzähigkeit.",
+      "Es kann direkt im Mund ohne Labor gefertigt werden."
+    ],
+    "loesung": 2,
+    "erklaerung": "Zirkonoxid ist eine Hochleistungskeramik, die sich durch ihre außergewöhnliche mechanische Stabilität auszeichnet. Sie wird daher oft für Brücken mit großer Spannweite oder für Kronen im Seitenzahnbereich verwendet, wo hohe Kaukräfte auftreten.",
+    "gewichtung": 2,
+    "thema": "Werkstoffkunde"
+  },
+  {
+    "frage": "57. Was ist eine 'Furkationsbeteiligung'?",
+    "optionen": [
+      "Eine Karies, die genau zwischen zwei Zähnen liegt.",
+      "Der parodontale Knochenabbau hat den Bereich erreicht, in dem sich die Wurzeln eines mehrwurzeligen Zahnes aufteilen.",
+      "Eine Fraktur, die durch die gesamte Zahnkrone verläuft.",
+      "Eine Infektion, die sich auf beide Kieferhälften ausgebreitet hat."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Furkation ist der Aufteilungsbereich der Wurzeln bei mehrwurzeligen Zähnen (Molaren, Prämolaren). Eine Furkationsbeteiligung (Grad I-III) bedeutet, dass der Knochenabbau durch Parodontitis diesen Bereich erreicht hat, was die Prognose des Zahnes verschlechtert.",
+    "gewichtung": 3,
+    "thema": "Parodontologie"
+  },
+  {
+    "frage": "58. Was ist der Zweck einer 'Fissurenversiegelung'?",
+    "optionen": [
+      "Die Behandlung einer bereits tiefen Karies.",
+      "Die Aufhellung von Verfärbungen in den Zahnfissuren.",
+      "Die präventive Abdeckung der tiefen Grübchen und Fissuren auf der Kaufläche, um Karies vorzubeugen.",
+      "Die Glättung der Zahnoberfläche nach einer professionellen Zahnreinigung."
+    ],
+    "loesung": 2,
+    "erklaerung": "Fissuren sind die tiefen Rillen auf den Kauflächen der Seitenzähne, die schwer zu reinigen sind. Bei einer Fissurenversiegelung werden diese Grübchen mit einem dünnfließenden Kunststoff aufgefüllt, um eine glatte, reinigungsfähige Oberfläche zu schaffen und das Entstehen von Karies zu verhindern.",
+    "gewichtung": 1,
+    "thema": "Prophylaxe & Prävention"
+  },
+  {
+    "frage": "59. Was versteht man unter 'Amelogenesis imperfecta'?",
+    "optionen": [
+      "Eine Erkrankung, die zu übermäßigem Zahnsteinwachstum führt.",
+      "Eine erbliche Entwicklungsstörung, die den Zahnschmelz betrifft und zu weichen, verfärbten Zähnen führt.",
+      "Eine Entzündung des Zahnnervs.",
+      "Das Fehlen der Weisheitszähne."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Amelogenesis imperfecta ist eine Gruppe von genetischen Erkrankungen, bei denen die Bildung des Zahnschmelzes (Amelogenese) gestört ist. Dies resultiert in einem qualitativ oder quantitativ mangelhaften Schmelz, der brüchig ist und leicht abplatzt.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "60. Welches bildgebende Verfahren ist der Goldstandard zur dreidimensionalen Darstellung des Kieferknochens?",
+    "optionen": [
+      "Orthopantomogramm (OPG)",
+      "Zahnfilm",
+      "Digitale Volumentomographie (DVT) oder Computertomographie (CT)",
+      "Bissflügelaufnahme"
+    ],
+    "loesung": 2,
+    "erklaerung": "Während 2D-Röntgenbilder wie das OPG eine gute Übersicht bieten, ermöglichen 3D-Verfahren wie DVT und CT eine überlagerungsfreie, dreidimensionale Darstellung der knöchernen Strukturen. Dies ist unerlässlich für die präzise Planung von Implantaten, die Beurteilung von verlagerten Zähnen oder die Diagnostik von Kieferpathologien.",
+    "gewichtung": 2,
+    "thema": "Radiologie"
+  },
+  {
+    "frage": "61. Was ist der 'Abutment' bei einem Zahnimplantat?",
+    "optionen": [
+      "Die künstliche Zahnwurzel, die im Knochen verankert ist.",
+      "Die sichtbare Zahnkrone, die auf dem Implantat befestigt wird.",
+      "Das Verbindungselement zwischen dem Implantat im Knochen und der darauf befestigten Krone.",
+      "Das chirurgische Instrument zum Einsetzen des Implantats."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein Zahnimplantat besteht typischerweise aus drei Teilen: dem Implantatkörper (die Schraube im Knochen), dem Abutment (dem Aufbaupfosten) und der Suprakonstruktion (der Krone oder Brücke). Das Abutment verbindet die unter der Schleimhaut liegende künstliche Wurzel mit der sichtbaren Krone.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "62. Was ist der Hauptunterschied zwischen einer Gingivitis und einer Parodontitis?",
+    "optionen": [
+      "Gingivitis ist schmerzhaft, Parodontitis nicht.",
+      "Gingivitis betrifft nur Kinder, Parodontitis nur Erwachsene.",
+      "Bei einer Gingivitis ist nur das Zahnfleisch entzündet, bei einer Parodontitis ist auch der Zahnhalteapparat betroffen und es kommt zu Knochenabbau.",
+      "Gingivitis wird durch Viren, Parodontitis durch Bakterien verursacht."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Gingivitis ist eine reversible Entzündung des Zahnfleisches. Unbehandelt kann sie in eine Parodontitis übergehen. Bei der Parodontitis kommt es zu einem irreversiblen Abbau des Kieferknochens und des Halteapparates, was zur Zahnlockerung und schließlich zum Zahnverlust führen kann.",
+    "gewichtung": 2,
+    "thema": "Parodontologie"
+  },
+  {
+    "frage": "63. Was ist ein 'autogener Knochentransfer'?",
+    "optionen": [
+      "Die Verwendung von tierischem Knochenmaterial zum Knochenaufbau.",
+      "Die Verwendung von synthetischem Knochenersatzmaterial.",
+      "Die Transplantation von patienteneigenem Knochen von einer Stelle zur anderen.",
+      "Die Verwendung von Knochen aus einer Knochenbank."
+    ],
+    "loesung": 2,
+    "erklaerung": "Beim autogenen (oder autologen) Knochentransfer wird körpereigener Knochen, z.B. aus dem Kinn- oder Kieferwinkelbereich, entnommen und an eine andere Stelle transplantiert, um einen Knochendefekt aufzufüllen. Dies gilt als Goldstandard, da keine Abstoßungsreaktionen auftreten.",
+    "gewichtung": 3,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "64. Was ist der Zweck der 'Wilson-Kurve'?",
+    "optionen": [
+      "Sie beschreibt die ideale Lachlinie.",
+      "Sie beschreibt die mediolaterale (von links nach rechts) Neigung der Seitenzähne im Ober- und Unterkiefer.",
+      "Sie misst die Abnutzung der Zähne über die Zeit.",
+      "Sie ist ein Maß für die Effektivität einer Zahnreinigung."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Wilson-Kurve ist die von vorne (frontal) betrachtete Okklusionskurve. Sie entsteht durch die Neigung der Unterkiefer-Seitenzähne nach innen (lingual) und der Oberkiefer-Seitenzähne nach außen (bukkal).",
+    "gewichtung": 3,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "65. Was versteht man unter 'selektivem Einschleifen'?",
+    "optionen": [
+      "Das gezielte Beschleifen von Zähnen, um Platz für eine kieferorthopädische Behandlung zu schaffen.",
+      "Das Entfernen von Karies mit einem Laser.",
+      "Die gezielte Korrektur von störenden Zahnkontakten (Vorkontakten) durch minimales Beschleifen der Kauflächen.",
+      "Das Polieren von Füllungen nach deren Legen."
+    ],
+    "loesung": 2,
+    "erklaerung": "Selektives Einschleifen ist eine Methode der Okklusionskorrektur. Dabei werden störende Frühkontakte, die zu Fehlbelastungen und Verspannungen führen können, durch gezieltes, minimalinvasives Abtragen von Zahnhartsubstanz beseitigt, um eine harmonische Okklusion wiederherzustellen.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "66. Was ist eine 'Odontogene Infektion'?",
+    "optionen": [
+      "Eine Infektion, die von den Mandeln ausgeht.",
+      "Eine Infektion, die ihren Ursprung an einem Zahn oder im Zahnhalteapparat hat.",
+      "Eine Pilzinfektion der Zunge.",
+      "Eine virale Infektion der Lippen (Herpes)."
+    ],
+    "loesung": 1,
+    "erklaerung": "'Odontogen' bedeutet 'von den Zähnen ausgehend'. Eine odontogene Infektion ist also eine bakterielle Infektion, die z.B. von einer tiefen Karies, einer Parodontitis oder einer infizierten Extraktionswunde ausgeht und sich in das umliegende Gewebe ausbreiten kann (z.B. Abszess).",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "67. Welches Material wird für eine 'direkte Überkappung' der Pulpa verwendet?",
+    "optionen": [
+      "Amalgam",
+      "Komposit",
+      "Kalziumhydroxid oder MTA (Mineral-Trioxid-Aggregat)",
+      "Gips"
+    ],
+    "loesung": 2,
+    "erklaerung": "Bei einer direkten Überkappung wird die bei der Kariesentfernung punktförmig eröffnete, aber gesunde Pulpa mit einem biokompatiblen Material abgedeckt. Kalziumhydroxid oder MTA regen die Pulpa zur Bildung von Tertiärdentin an, wodurch die Eröffnung wieder verschlossen und die Vitalität des Zahnes erhalten wird.",
+    "gewichtung": 3,
+    "thema": "Zahnerhaltung"
+  },
+  {
+    "frage": "68. Was ist der Hauptzweck von 'Headgear' in der Kieferorthopädie?",
+    "optionen": [
+      "Die Bewegung einzelner Zähne innerhalb eines Kiefers.",
+      "Die Korrektur von Zahnfehlstellungen bei Erwachsenen.",
+      "Die Beeinflussung des Kieferwachstums durch extraorale (außerhalb des Mundes) Krafteinwirkung.",
+      "Die Stabilisierung der Zähne nach Abschluss der Behandlung."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein Headgear ist eine herausnehmbare Apparatur, die Kräfte von außerhalb des Mundes (z.B. vom Nacken oder Kopf) auf die Zähne und Kiefer überträgt. Er wird hauptsächlich bei Kindern und Jugendlichen im Wachstum eingesetzt, um das Wachstum zu hemmen oder zu fördern (z.B. zur Korrektur eines Überbisses).",
+    "gewichtung": 2,
+    "thema": "Kieferorthopädie"
+  },
+  {
+    "frage": "69. Was ist ein 'Teleskopprothese'?",
+    "optionen": [
+      "Eine Prothese, die sich wie ein Teleskop ausfahren lässt.",
+      "Eine festsitzende Brücke.",
+      "Eine herausnehmbare Prothese, die auf speziellen Doppelkronen (Teleskopkronen) verankert ist.",
+      "Ein einzelnes Zahnimplantat."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Teleskopprothese ist ein hochwertiger, kombinierter Zahnersatz. Er besteht aus Primärkronen, die fest auf den Pfeilerzähnen zementiert sind, und Sekundärkronen, die in die herausnehmbare Prothese eingearbeitet sind. Die Prothese hält durch die Reibung zwischen den passgenauen Innen- und Außenkronen.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "70. Was ist der 'Miller-Index'?",
+    "optionen": [
+      "Ein Index zur Klassifikation von Zahnlockerungen.",
+      "Ein Index zur Messung der Kariesaktivität.",
+      "Ein Index zur Beurteilung der Ästhetik von Zahnkronen.",
+      "Ein Index zur Klassifikation von Zahnfleischrezessionen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Der Miller-Index (Grad 0-3) wird verwendet, um den Grad der Zahnbeweglichkeit (Lockerung) zu klassifizieren. Grad 0 bedeutet normale, physiologische Beweglichkeit, während Grad 3 eine starke Beweglichkeit in alle Richtungen beschreibt.",
+    "gewichtung": 3,
+    "thema": "Diagnostik"
+  },
+  {
+    "frage": "71. Was ist der Hauptbestandteil von Guttapercha, das in der Endodontie verwendet wird?",
+    "optionen": [
+      "Ein synthetischer Kunststoff.",
+      "Ein Naturkautschuk-ähnliches Material vom Guttaperchabaum.",
+      "Eine Legierung aus Silber und Zinn.",
+      "Ein keramisches Pulver."
+    ],
+    "loesung": 1,
+    "erklaerung": "Guttapercha ist ein gummiartiges, thermoplastisches Material, das aus dem Saft des Guttaperchabaumes gewonnen wird. In der Endodontie wird es in Form von Stiften verwendet, um den aufbereiteten und desinfizierten Wurzelkanal bakteriendicht zu verschließen.",
+    "gewichtung": 2,
+    "thema": "Werkstoffkunde"
+  },
+  {
+    "frage": "72. Was versteht man unter 'Dentin-Hypersensibilität'?",
+    "optionen": [
+      "Eine allergische Reaktion auf Dentin.",
+      "Ein kurzer, scharfer Schmerz an freiliegendem Dentin als Reaktion auf thermische, chemische oder taktile Reize.",
+      "Eine Infektion des Dentins.",
+      "Eine angeborene Fehlbildung des Dentins."
+    ],
+    "loesung": 1,
+    "erklaerung": "Wenn das Dentin (Zahnbein) durch Zahnfleischrückgang oder Schmelzverlust freiliegt, können äußere Reize (kalt, heiß, süß, Berührung) Flüssigkeitsbewegungen in den feinen Dentinkanälchen auslösen. Diese Bewegungen reizen die Nervenenden in der Pulpa und verursachen den typischen kurzen, scharfen Schmerz.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "73. Was ist eine 'Osteotomie' im Kontext der Oralchirurgie?",
+    "optionen": [
+      "Die Entfernung eines Knochentumors.",
+      "Die gezielte chirurgische Durchtrennung oder Entfernung von Knochen.",
+      "Das Einsetzen eines Knochenersatzmaterials.",
+      "Die Glättung von scharfen Knochenkanten."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Osteotomie ist ein allgemeiner chirurgischer Begriff für das Durchtrennen von Knochen. In der Oralchirurgie wird dies z.B. bei der Entfernung von tief verlagerten Weisheitszähnen oder bei Kieferumstellungsoperationen (Dysgnathiechirurgie) durchgeführt.",
+    "gewichtung": 2,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "74. Was ist der Zweck eines 'Pontic' bei einer Zahnbrücke?",
+    "optionen": [
+      "Es ist der Pfeilerzahn, auf dem die Brücke befestigt wird.",
+      "Es ist der künstliche Zahn, der die Lücke ersetzt.",
+      "Es ist das Verbindungselement zwischen den Brückenpfeilern.",
+      "Es ist das Material, aus dem die Brücke gefertigt ist."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Pontic (Brückenglied) ist der Teil einer Brücke, der den fehlenden Zahn ersetzt. Er ist mit den Brückenankern (Kronen auf den Pfeilerzähnen) verbunden und 'schwebt' über dem zahnlosen Kieferkamm.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "75. Was ist die 'Initialkaries'?",
+    "optionen": [
+      "Eine Karies, die bereits den Zahnnerv erreicht hat.",
+      "Eine Karies, die nur an den Frontzähnen auftritt.",
+      "Das erste Stadium der Karies, das sich als weißer Fleck (White Spot) auf dem Schmelz zeigt und noch reversibel ist.",
+      "Eine besonders schnell fortschreitende Form der Karies bei Kindern."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die Initialkaries ist eine Demineralisation des Zahnschmelzes unterhalb der Oberfläche, ohne dass es zu einem Einbruch (Kavität) gekommen ist. In diesem Stadium kann der Prozess durch intensive Fluoridierung und gute Mundhygiene gestoppt und der Schmelz remineralisiert werden.",
+    "gewichtung": 2,
+    "thema": "Zahnerhaltung"
+  },
+  {
+    "frage": "76. Was ist der 'C-Faktor' (Konfigurationsfaktor) bei Kompositfüllungen?",
+    "optionen": [
+      "Ein Maß für die Farbe der Füllung.",
+      "Ein Maß für die Aushärtezeit des Komposits.",
+      "Das Verhältnis von gebundenen zu ungebundenen Oberflächen einer Füllung, das die Polymerisationsschrumpfung beeinflusst.",
+      "Ein Index für die Komplexität der Füllungslegung."
+    ],
+    "loesung": 2,
+    "erklaerung": "Kompositmaterialien schrumpfen beim Aushärten. Der C-Faktor beschreibt das Verhältnis der geklebten (gebundenen) zu den freien Oberflächen. Ein hoher C-Faktor (z.B. in einer tiefen, allseits umschlossenen Kavität) führt zu hohem Schrumpfungsstress, was zu Randspalten oder Schmerzen führen kann.",
+    "gewichtung": 3,
+    "thema": "Werkstoffkunde"
+  },
+  {
+    "frage": "77. Was ist eine 'Sialolithiasis'?",
+    "optionen": [
+      "Eine Entzündung der Zunge.",
+      "Die Bildung von Steinen in den Speicheldrüsen oder deren Ausführungsgängen.",
+      "Eine Autoimmunerkrankung, die die Mundschleimhaut betrifft.",
+      "Mundgeruch."
+    ],
+    "loesung": 1,
+    "erklaerung": "Sialolithiasis ist die Bildung von Speichelsteinen. Diese können den Speichelfluss blockieren, was zu schmerzhaften Schwellungen der betroffenen Drüse führt, insbesondere beim Essen.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "78. Was ist der Hauptzweck einer 'Membran' bei der gesteuerten Geweberegeneration (GTR) in der Parodontologie?",
+    "optionen": [
+      "Die Wunde mit Antibiotika zu versorgen.",
+      "Das schnellere Epithelgewebe daran zu hindern, in den Defekt einzuwachsen, und so Platz für die Regeneration des Zahnhalteapparates zu schaffen.",
+      "Den Zahn während der Heilung zu schienen.",
+      "Das Zahnfleisch ästhetisch zu formen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei der GTR (Guided Tissue Regeneration) wird eine Barriere-Membran zwischen Zahnfleisch und Knochendefekt platziert. Sie verhindert, dass das schnell wachsende Zahnfleischepithel den Raum einnimmt, und gibt den langsameren Zellen des Parodontalen Ligaments und des Knochens die Möglichkeit, den Defekt zu regenerieren.",
+    "gewichtung": 3,
+    "thema": "Parodontologie"
+  },
+  {
+    "frage": "79. Was ist eine 'Turner-Zahn'?",
+    "optionen": [
+      "Ein überzähliger Zahn.",
+      "Ein Zahn mit einer ungewöhnlich gedrehten Wurzel.",
+      "Eine Schmelz- oder Dentin-Fehlbildung an einem bleibenden Zahn, verursacht durch eine Entzündung oder ein Trauma am vorangegangenen Milchzahn.",
+      "Ein Zahn, der nach dem Entdecker Dr. Turner benannt ist."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein Turner-Zahn ist eine lokale Hypoplasie (Unterentwicklung) des Zahnschmelzes. Sie entsteht, wenn der Keim des bleibenden Zahnes durch eine Infektion an der Wurzelspitze des Milchzahnes geschädigt wird.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "80. Was ist der Unterschied zwischen einem 'festsitzenden' und einem 'herausnehmbaren' kieferorthopädischen Gerät?",
+    "optionen": [
+      "Festsitzende Geräte sind immer aus Metall, herausnehmbare aus Kunststoff.",
+      "Festsitzende Geräte (z.B. Brackets) können vom Patienten nicht entfernt werden, herausnehmbare (z.B. lose Spangen) schon.",
+      "Herausnehmbare Geräte sind effektiver als festsitzende.",
+      "Festsitzende Geräte werden nur bei Kindern eingesetzt."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Hauptunterschied liegt in der Handhabung durch den Patienten. Festsitzende Apparaturen wie Brackets sind permanent auf den Zähnen befestigt und wirken 24 Stunden am Tag. Herausnehmbare Geräte wie aktive Platten oder Aligner werden vom Patienten selbst eingesetzt und herausgenommen.",
+    "gewichtung": 1,
+    "thema": "Kieferorthopädie"
+  },
+  {
+    "frage": "81. Was ist 'Dentinogenesis imperfecta'?",
+    "optionen": [
+      "Eine Störung der Schmelzbildung.",
+      "Eine erbliche Störung der Dentinbildung, die zu opaleszierenden, schwachen Zähnen führt.",
+      "Eine übermäßige Bildung von Zahnstein.",
+      "Eine Infektion des Dentins."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Dentinogenesis imperfecta ist eine genetische Erkrankung, die die Bildung des Dentins (Zahnbein) stört. Die Zähne erscheinen oft bernsteinfarben oder bläulich-grau, der Schmelz platzt leicht ab und die Zähne nutzen sich schnell ab.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "82. Welches ist das erste Anzeichen einer reversiblen Pulpitis (Entzündung des Zahnnervs)?",
+    "optionen": [
+      "Ein dumpfer, pochender Dauerschmerz.",
+      "Ein kurzer, scharfer Schmerz auf kalte oder süße Reize, der nach Entfernung des Reizes sofort aufhört.",
+      "Eine Schwellung des Zahnfleisches um den Zahn.",
+      "Der Zahn verfärbt sich dunkel."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei einer reversiblen Pulpitis ist der Nerv gereizt (z.B. durch eine nahe Karies), aber noch vital und fähig zur Heilung. Typisch ist ein provozierter, kurzer Schmerz. Ein spontaner, langanhaltender Schmerz deutet auf eine irreversible Pulpitis hin, die eine Wurzelkanalbehandlung erfordert.",
+    "gewichtung": 2,
+    "thema": "Diagnostik"
+  },
+  {
+    "frage": "83. Was ist der Zweck einer 'Matrize' beim Legen einer Füllung im Seitenzahnbereich?",
+    "optionen": [
+      "Den Zahn während der Behandlung trocken zu halten.",
+      "Die Form für die fehlende Zahnwand zu ersetzen und einen korrekten Kontaktpunkt zum Nachbarzahn herzustellen.",
+      "Das Füllungsmaterial vor dem Aushärten zu kühlen.",
+      "Den Patienten vor dem Füllungsmaterial zu schützen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Wenn eine Karies den Zahnzwischenraum betrifft, fehlt eine Seitenwand der Kavität. Eine Matrize (meist ein dünnes Metall- oder Kunststoffband) wird um den Zahn gelegt, um diese Wand temporär zu ersetzen. Dies ermöglicht das korrekte Stopfen der Füllung und die Ausbildung eines straffen Kontaktpunktes.",
+    "gewichtung": 2,
+    "thema": "Zahnerhaltung"
+  },
+  {
+    "frage": "84. Was ist ein 'Odontom'?",
+    "optionen": [
+      "Eine besonders schwere Form der Karies.",
+      "Eine gutartige, zahnähnliche Geschwulst, die aus verschiedenen Zahnhartsubstanzen besteht.",
+      "Eine Entzündung des Kieferknochens.",
+      "Ein Instrument zur Messung der Zahngröße."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Odontom ist eine hamartomartige Fehlbildung (kein echter Tumor), die aus einer ungeordneten Ansammlung von Zahngeweben wie Schmelz, Dentin und Zement besteht. Es kann den Durchbruch normaler Zähne behindern und wird meist chirurgisch entfernt.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "85. Was ist die 'Kennedy-Klassifikation'?",
+    "optionen": [
+      "Eine Klassifikation für Kieferfrakturen.",
+      "Eine Klassifikation für verschiedene Typen von Lückengebissen zur Planung von Teilprothesen.",
+      "Eine Klassifikation für den Schweregrad von Parodontitis.",
+      "Eine Klassifikation für die Ästhetik von Frontzähnen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Kennedy-Klassifikation (Klasse I-IV) ist das am weitesten verbreitete System zur Einteilung von teilbezahnten Kiefern. Sie klassifiziert die Lückensituation basierend auf der Lage der Zahnlücken und dient als Grundlage für das Design von herausnehmbarem Zahnersatz.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "86. Was ist der Hauptvorteil der 'digitalen Abformung' mit einem Intraoralscanner gegenüber der konventionellen Abformung?",
+    "optionen": [
+      "Sie ist immer kostengünstiger.",
+      "Sie erfordert keine zahntechnische Arbeit im Labor.",
+      "Sie ist für den Patienten komfortabler (kein Würgereiz) und liefert einen präzisen, sofort verfügbaren Datensatz.",
+      "Sie kann auch bei stark blutendem Zahnfleisch problemlos angewendet werden."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die digitale Abformung mit einem Intraoralscanner ersetzt die unangenehme Prozedur mit Abformmasse. Sie erzeugt ein hochpräzises 3D-Modell der Zähne, das sofort an das zahntechnische Labor gesendet oder für die direkte Fertigung (z.B. CEREC) verwendet werden kann, was den Prozess beschleunigt.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "87. Was ist eine 'Abschirm-Antibiotikagabe' (Endokarditisprophylaxe)?",
+    "optionen": [
+      "Die routinemäßige Gabe von Antibiotika vor jeder Zahnreinigung.",
+      "Die gezielte Gabe eines Antibiotikums vor bestimmten zahnärztlichen Eingriffen bei Risikopatienten, um eine bakterielle Endokarditis zu verhindern.",
+      "Die Behandlung einer bestehenden Zahninfektion mit Antibiotika.",
+      "Die Verwendung von antibiotischen Salben am Zahnfleisch."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei bestimmten zahnärztlichen Eingriffen können Bakterien in die Blutbahn gelangen (Bakteriämie). Bei Patienten mit bestimmten Herzerkrankungen (z.B. künstliche Herzklappen) können sich diese Bakterien am Herzen ansiedeln und eine lebensbedrohliche Endokarditis (Herzinnenhautentzündung) verursachen. Die prophylaktische Antibiotikagabe soll dies verhindern.",
+    "gewichtung": 3,
+    "thema": "Pharmakologie"
+  },
+  {
+    "frage": "88. Was ist der 'interokklusale Abstand' oder 'Ruheschwebe'?",
+    "optionen": [
+      "Der maximale Abstand, den der Mund geöffnet werden kann.",
+      "Der Abstand zwischen den Kauflächen der Ober- und Unterkieferzähne in entspannter Haltung der Kaumuskulatur.",
+      "Der Abstand zwischen zwei benachbarten Zähnen.",
+      "Der vertikale Überbiss der Frontzähne."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Ruheschwebe ist die Position, in der sich der Unterkiefer befindet, wenn die Kaumuskulatur entspannt ist. In dieser Position besteht ein kleiner Abstand (meist 2-4 mm) zwischen den Zähnen des Ober- und Unterkiefers. Dieser Abstand ist wichtig für die Gestaltung von Zahnersatz.",
+    "gewichtung": 2,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "89. Was ist eine 'Hemisektion'?",
+    "optionen": [
+      "Die Halbierung der Behandlungszeit.",
+      "Die chirurgische Entfernung einer Wurzelhälfte eines Unterkiefermolaren, während die andere Hälfte erhalten bleibt.",
+      "Die Teilung eines Zahnes in der Mitte zur kieferorthopädischen Bewegung.",
+      "Die Entfernung der halben Zahnkrone."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Hemisektion ist ein Zahnerhaltungsversuch bei einem Unterkiefermolar, bei dem eine Wurzel und der zugehörige Kronenanteil stark geschädigt (z.B. durch Parodontitis) sind. Die kranke Hälfte wird entfernt, und die gesunde Hälfte wird als eine Art Prämolar erhalten und überkront.",
+    "gewichtung": 3,
+    "thema": "Oralchirurgie"
+  },
+  {
+    "frage": "90. Was ist der Hauptzweck der 'vertikalen Dimension' in der Prothetik?",
+    "optionen": [
+      "Die Bestimmung der Zahnfarbe.",
+      "Die Festlegung der korrekten Bisshöhe, um Funktion und Ästhetik des Gesichts zu erhalten.",
+      "Die Messung der Breite des Zahnbogens.",
+      "Die Ausrichtung der Zähne entlang der Kauebene."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die vertikale Dimension der Okklusion beschreibt den Abstand zwischen Ober- und Unterkiefer im Schlussbiss. Bei der Anfertigung von Totalprothesen oder bei stark abgenutzten Gebissen ist die Rekonstruktion der korrekten Bisshöhe entscheidend für die Kaufunktion, die Kiefergelenksgesundheit und das Aussehen des unteren Gesichtsdrittels.",
+    "gewichtung": 2,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "91. Was ist 'MIH' (Molaren-Inzisiven-Hypomineralisation)?",
+    "optionen": [
+      "Eine seltene Form von Zahnfleischentzündung.",
+      "Eine systemisch bedingte, qualitative Störung des Zahnschmelzes, die hauptsächlich die ersten bleibenden Molaren und Schneidezähne betrifft.",
+      "Eine Methode zur Messung der Mundhygiene.",
+      "Ein Material für provisorische Füllungen."
+    ],
+    "loesung": 1,
+    "erklaerung": "MIH, auch 'Kreidezähne' genannt, ist eine Entwicklungsstörung unklarer Ursache. Der betroffene Schmelz ist porös, weich und oft gelblich-braun verfärbt. Diese Zähne sind sehr kariesanfällig und temperaturempfindlich.",
+    "gewichtung": 2,
+    "thema": "Kinderzahnheilkunde"
+  },
+  {
+    "frage": "92. Was ist der Unterschied zwischen 'Abrasion' und 'Erosion'?",
+    "optionen": [
+      "Abrasion ist chemisch, Erosion ist mechanisch.",
+      "Abrasion ist mechanischer Abrieb durch Fremdkörper (z.B. Zahnbürste), Erosion ist chemischer Verlust durch Säure.",
+      "Beide Begriffe sind synonym.",
+      "Abrasion betrifft nur den Schmelz, Erosion nur das Dentin."
+    ],
+    "loesung": 1,
+    "erklaerung": "Es handelt sich um zwei verschiedene Arten des nicht-kariösen Zahnhartsubstanzverlustes. Abrasion entsteht durch mechanische Reibung (z.B. falsche Putztechnik), während Erosion durch direkte Säureeinwirkung (z.B. aus Getränken oder Magensäure) verursacht wird.",
+    "gewichtung": 2,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "93. Was ist ein 'Periimplantitis'?",
+    "optionen": [
+      "Eine Entzündung des Zahnfleisches um einen natürlichen Zahn.",
+      "Eine Entzündung des Gewebes um ein Zahnimplantat, die mit Knochenabbau einhergeht.",
+      "Die Phase der Einheilung eines Implantats.",
+      "Eine allergische Reaktion auf das Implantatmaterial."
+    ],
+    "loesung": 1,
+    "erklaerung": "Analog zur Parodontitis am natürlichen Zahn ist die Periimplantitis eine entzündliche Erkrankung, die das Implantatbett betrifft. Sie führt zum Abbau des Kieferknochens um das Implantat und kann unbehandelt zum Verlust des Implantats führen.",
+    "gewichtung": 2,
+    "thema": "Parodontologie"
+  },
+  {
+    "frage": "94. Was ist der Zweck der 'Front-Eckzahn-Führung'?",
+    "optionen": [
+      "Sie beschreibt den Weg, den man zur Zahnarztpraxis nimmt.",
+      "Sie sorgt dafür, dass bei Seitwärtsbewegungen des Unterkiefers nur die Eckzähne Kontakt haben und die Seitenzähne schützen.",
+      "Sie ist eine kieferorthopädische Apparatur zur Bewegung der Frontzähne.",
+      "Sie bestimmt die Farbe der Eckzähne."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Front-Eckzahn-Führung ist ein Schutzmechanismus der natürlichen Okklusion. Bei Protrusions- (Vorschub-) und Laterotrusions- (Seitwärts-) Bewegungen sorgen die Front- und Eckzähne für eine Disklusion (Abheben) der Seitenzähne. Dies schützt die Seitenzähne vor schädlichen Horizontalkräften.",
+    "gewichtung": 3,
+    "thema": "Anatomie & Grundlagen"
+  },
+  {
+    "frage": "95. Was ist eine 'internal bleaching' (interne Zahnaufhellung)?",
+    "optionen": [
+      "Das Aufhellen aller Zähne mit einer Schiene.",
+      "Eine Methode zur Aufhellung eines einzelnen, wurzelkanalbehandelten Zahnes von innen.",
+      "Die Verwendung einer speziellen aufhellenden Zahnpasta.",
+      "Das Abdecken einer Verfärbung mit einem Veneer."
+    ],
+    "loesung": 1,
+    "erklaerung": "Wurzelkanalbehandelte Zähne können sich mit der Zeit dunkel verfärben. Beim internen Bleaching wird ein aufhellendes Mittel in das Innere des Zahnes (in die ehemalige Pulpahöhle) eingebracht, um die Verfärbung von innen heraus zu beseitigen.",
+    "gewichtung": 2,
+    "thema": "Behandlungen & Verfahren"
+  },
+  {
+    "frage": "96. Was ist der 'Frank-Sprech-Raum' (Donders-Raum)?",
+    "optionen": [
+      "Ein spezieller Raum für Patientengespräche.",
+      "Der Abstand zwischen den Zähnen bei maximaler Mundöffnung.",
+      "Der Raum zwischen Zungenrücken und hartem Gaumen in Ruhelage des Unterkiefers.",
+      "Der Bereich hinter dem letzten Backenzahn."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Donders-Raum ist der Hohlraum innerhalb der Mundhöhle, wenn sich der Unterkiefer in Ruheschwebelage befindet. Die Größe dieses Raumes ist wichtig für die Phonetik (Lautbildung) und muss bei der Anfertigung von Totalprothesen berücksichtigt werden.",
+    "gewichtung": 3,
+    "thema": "Prothetik"
+  },
+  {
+    "frage": "97. Was ist der Hauptvorteil von 'CAD/CAM'-Technologie in der Zahnmedizin?",
+    "optionen": [
+      "Sie macht zahnärztliche Behandlungen schmerzfrei.",
+      "Sie ermöglicht die computergestützte Konstruktion und Fertigung von präzisem Zahnersatz.",
+      "Sie ersetzt die Notwendigkeit von Röntgenbildern.",
+      "Sie ist ausschließlich für die Herstellung von Zahnspangen geeignet."
+    ],
+    "loesung": 1,
+    "erklaerung": "CAD/CAM (Computer-Aided Design/Computer-Aided Manufacturing) revolutioniert die Zahntechnik. Nach einer digitalen Abformung wird der Zahnersatz (z.B. eine Krone) am Computer designt (CAD) und anschließend aus einem Keramikblock präzise herausgefräst (CAM), oft in einer einzigen Sitzung.",
+    "gewichtung": 2,
+    "thema": "Werkstoffkunde"
+  },
+  {
+    "frage": "98. Was ist eine 'Sjögren-Syndrom' und welche orale Manifestation ist typisch?",
+    "optionen": [
+      "Eine Muskelerkrankung, die zu Kieferklemme führt.",
+      "Eine Autoimmunerkrankung, die zu schwerer Mundtrockenheit (Xerostomie) und trockenen Augen führt.",
+      "Eine Infektionskrankheit, die zu Aphthen im Mund führt.",
+      "Eine Stoffwechselstörung, die zu Zahnverlust führt."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das Sjögren-Syndrom ist eine chronische Autoimmunerkrankung, bei der das Immunsystem die eigenen Tränen- und Speicheldrüsen angreift. Das Leitsymptom in der Zahnmedizin ist die ausgeprägte Mundtrockenheit (Xerostomie), die zu einem stark erhöhten Kariesrisiko führt.",
+    "gewichtung": 3,
+    "thema": "Pathologie & Krankheiten"
+  },
+  {
+    "frage": "99. Was ist der Zweck einer 'diagnostischen Wax-up'?",
+    "optionen": [
+      "Die Entfernung von Wachs aus den Ohren.",
+      "Ein Modell aus Wachs, das das geplante Behandlungsergebnis (z.B. neue Kronen) visualisiert.",
+      "Eine Methode zur Bestimmung der Wachstumsrichtung des Kiefers.",
+      "Das Polieren von Zähnen mit einem speziellen Wachs."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Wax-up ist ein diagnostisches Werkzeug. Auf einem Gipsmodell der Patientenzähne modelliert der Zahntechniker mit Wachs die geplante zukünftige Situation. Dies dient als Kommunikationsmittel zwischen Zahnarzt, Patient und Techniker und als Vorlage für die definitive Versorgung.",
+    "gewichtung": 2,
+    "thema": "Diagnostik"
+  },
+  {
+    "frage": "100. Was ist der 'Pellikel'?",
+    "optionen": [
+      "Ein spezielles Zahnseide-Produkt.",
+      "Ein dünner, proteinhaltiger Film aus dem Speichel, der sich innerhalb von Minuten auf sauberen Zahnoberflächen bildet.",
+      "Der Fachbegriff für den Zahnnerv.",
+      "Ein Instrument zur Entfernung von Zahnstein."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das erworbene Pellikel ist eine hauchdünne Schicht aus Speichelproteinen, die die Zahnoberfläche bedeckt. Es dient einerseits als Schutzfilm, andererseits aber auch als Anheftungsstelle für die ersten Bakterien, die den Zahnbelag (Plaque) bilden.",
+    "gewichtung": 2,
+    "thema": "Anatomie & Grundlagen"
+  }
+]
