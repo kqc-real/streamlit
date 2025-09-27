@@ -249,18 +249,19 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         if resume_target_idx is not None:
             # Wenn wir auf einer gebookmarkten Frage sind (und nicht dort, wo wir sein sollten)
             if resume_target_idx != frage_idx and st.session_state.get("jump_to_idx_active"):
-                if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}", type="primary"):
+                st.warning("Du bist im Review-Modus einer markierten Frage.")
+                if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}"):
                     st.session_state.jump_to_idx = resume_target_idx
                     # Resume-Status zurücksetzen
                     del st.session_state.resume_next_idx
-                    if "jump_to_idx_active" in st.session_state:
-                        del st.session_state.jump_to_idx_active
+                    # Setze den Aktiv-Status explizit auf False, anstatt ihn zu löschen.
+                    st.session_state.jump_to_idx_active = False
                     st.rerun()
             # Wenn wir am Fortsetzungspunkt angekommen sind, Status zurücksetzen
             elif resume_target_idx == frage_idx:
                 del st.session_state.resume_next_idx
-                if "jump_to_idx_active" in st.session_state:
-                    del st.session_state.jump_to_idx_active
+                # Setze den Aktiv-Status explizit auf False, anstatt ihn zu löschen.
+                st.session_state.jump_to_idx_active = False
 
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
