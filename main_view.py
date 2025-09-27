@@ -176,7 +176,15 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         del st.session_state.show_pseudonym_reminder
 
     frage_obj = questions[frage_idx]
-    frage_text = smart_quotes_de(frage_obj["frage"])
+
+    # Ermittle die laufende Nummer der Frage im aktuellen Testdurchlauf
+    frage_indices = st.session_state.get("frage_indices", [])
+    session_local_idx = frage_indices.index(frage_idx) if frage_idx in frage_indices else -1
+    display_question_number = session_local_idx + 1
+
+    # Extrahiere den reinen Fragentext ohne die ursprüngliche Nummer
+    original_frage_text = frage_obj["frage"].split('. ', 1)[-1]
+    frage_text = smart_quotes_de(f"{display_question_number}. {original_frage_text}")
     thema = frage_obj.get("thema", "")
     gewichtung = frage_obj.get("gewichtung", 1)
 
@@ -489,7 +497,12 @@ def render_review_mode(questions: list):
                 title_text = title_text[:50].rsplit(' ', 1)[0] + "..."
         except IndexError:
             title_text = frage['frage'][:50] + "..."
-        with st.expander(f"{icon} Frage {i+1}: {title_text}"):
+
+        frage_indices = st.session_state.get("frage_indices", [])
+        session_local_idx = frage_indices.index(i) if i in frage_indices else -1
+        display_question_number = session_local_idx + 1
+
+        with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
             st.markdown(f"**{smart_quotes_de(frage['frage'])}**")
             st.markdown(f"Deine Antwort: {gegebene_antwort}")
             if not ist_richtig:

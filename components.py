@@ -101,15 +101,19 @@ def render_bookmarks(questions: list):
             st.caption("Keine Fragen markiert.")
             return
 
-        # Sortiere nach der ursprünglichen Reihenfolge der Fragen
-        sorted_bookmarks = sorted(bookmarks)
+        # Sortiere die Bookmarks nach der Reihenfolge, in der sie im Test erscheinen
+        frage_indices = st.session_state.get("frage_indices", [])
+        sorted_bookmarks = sorted(bookmarks, key=lambda q_idx: frage_indices.index(q_idx))
 
         for q_idx in sorted_bookmarks:
             cols = st.columns([4, 1])
-            frage_nr = questions[q_idx]["frage"].split(".", 1)[0]
+            # Ermittle die laufende Nummer der Frage im aktuellen Testdurchlauf
+            frage_indices = st.session_state.get("frage_indices", [])
+            session_local_idx = frage_indices.index(q_idx) if q_idx in frage_indices else -1
+            display_question_number = session_local_idx + 1
 
             with cols[0]:
-                if st.button(f"Frage {frage_nr}", key=f"bm_jump_{q_idx}"):
+                if st.button(f"Frage {display_question_number}", key=f"bm_jump_{q_idx}"):
                     # Speichere die aktuelle Position, um die Fortsetzung zu ermöglichen
                     if "resume_next_idx" not in st.session_state:
                         next_unanswered = None
