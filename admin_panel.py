@@ -8,7 +8,7 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 
-from config import AppConfig
+from config import AppConfig, load_questions, list_question_files
 from data_manager import load_all_logs, reset_all_answers
 
 
@@ -16,63 +16,74 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     """Rendert das komplette Admin-Dashboard mit Tabs."""
     st.title("🛠 Admin Dashboard")
 
-    df_logs = load_all_logs()
-    # Filtere Logs auf das aktuell ausgewählte Fragenset
+    df_all_logs = load_all_logs()
+    
+    # Filtere Logs auf das aktuell ausgewählte Fragenset für Analyse, Export etc.
     q_file = st.session_state.get("selected_questions_file")
-    if q_file and "questions_file" in df_logs.columns:
-        df_logs = df_logs[df_logs["questions_file"] == q_file].copy()
+    df_filtered_logs = df_all_logs
+    if q_file and "questions_file" in df_all_logs.columns:
+        df_filtered_logs = df_all_logs[df_all_logs["questions_file"] == q_file].copy()
 
     tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📤 Export", "⚙️ System"])
 
     with tabs[0]:
-        render_leaderboard_tab(df_logs, questions)
+        # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben.
+        render_leaderboard_tab(df_all_logs)
     with tabs[1]:
-        render_analysis_tab(df_logs, questions)
+        render_analysis_tab(df_filtered_logs, questions)
     with tabs[2]:
-        render_export_tab(df_logs)
+        render_export_tab(df_filtered_logs)
     with tabs[3]:
-        render_system_tab(app_config, df_logs)
+        render_system_tab(app_config, df_filtered_logs)
 
 
-def render_leaderboard_tab(df: pd.DataFrame, questions: list):
+def render_leaderboard_tab(df_all: pd.DataFrame):
     """Rendert den Leaderboard-Tab."""
-    st.header("Highscore - Alle Teilnahmen")
-    if df.empty:
+    st.header("Highscores nach Fragenset")
+    if df_all.empty or "questions_file" not in df_all.columns:
         st.info("Noch keine Antworten aufgezeichnet.")
         return
 
-    # Stelle sicher, dass die 'zeit'-Spalte ein Datumsformat hat
-    if 'zeit' in df.columns:
-        df['zeit'] = pd.to_datetime(df['zeit'], errors='coerce')
+    # Iteriere über jedes einzigartige Fragenset in den Logs
+    for q_file in sorted(df_all["questions_file"].unique()):
+        if not q_file:
+            continue
+        
+        title = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+        st.subheader(f"Fragenset: {title}")
 
-    # Berechne den Score pro Nutzer
-    scores = (
-        df.groupby("user_id_hash")
-        .agg(
-            Pseudonym=("user_id_plain", "first"),
-            Punkte=("richtig", "sum"),
-            Datum=("zeit", "max"),
+        df_set = df_all[df_all["questions_file"] == q_file].copy()
+        
+        if 'zeit' in df_set.columns:
+            df_set['zeit'] = pd.to_datetime(df_set['zeit'], errors='coerce')
+
+        scores = (
+            df_set.groupby("user_id_hash")
+            .agg(
+                Pseudonym=("user_id_plain", "first"),
+                Punkte=("richtig", "sum"),
+                Datum=("zeit", "max"),
+            )
+            .sort_values("Punkte", ascending=False)
+            .reset_index()
         )
-        .sort_values("Punkte", ascending=False)
-        .reset_index()
-    )
 
-    # Berechne die maximale Punktzahl
-    max_score_for_set = sum(q.get("gewichtung", 1) for q in questions)
-    scores["Max. Punkte"] = max_score_for_set
+        # Lade die Fragen, um die maximale Punktzahl zu ermitteln
+        questions_for_set = load_questions(q_file)
+        max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
+        scores["Max. Punkte"] = max_score_for_set
 
-    # Formatiere das Datum
-    scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+        scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
 
-    # Dekoriere die Top 3 mit Icons und nummeriere den Rest
-    icons = ["🥇", "🥈", "🥉"]
-    for i in range(len(scores)):
-        if i < len(icons):
-            scores.loc[i, "Pseudonym"] = f"{icons[i]} {scores.loc[i, 'Pseudonym']}"
-        else:
-            scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
+        icons = ["🥇", "🥈", "🥉"]
+        for i in range(len(scores)):
+            if i < len(icons):
+                scores.loc[i, "Pseudonym"] = f"{icons[i]} {scores.loc[i, 'Pseudonym']}"
+            else:
+                scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
-    st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
+        st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
+        st.divider()
 
 
 def render_analysis_tab(df: pd.DataFrame, questions: list):
