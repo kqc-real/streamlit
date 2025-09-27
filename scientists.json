@@ -398,5 +398,205 @@
     {
         "name": "Sophie Germain",
         "contribution": "Französische Mathematikerin, Pionierin der Elastizitätstheorie und Zahlentheorie"
+    },
+    {
+        "name": "Sigmund Freud",
+        "contribution": "Österreichischer Arzt, Begründer der Psychoanalyse"
+    },
+    {
+        "name": "Carl Jung",
+        "contribution": "Schweizer Psychiater, Begründer der analytischen Psychologie"
+    },
+    {
+        "name": "Max Weber",
+        "contribution": "Deutscher Soziologe und Ökonom, einer der Väter der modernen Soziologie"
+    },
+    {
+        "name": "Karl Marx",
+        "contribution": "Deutscher Philosoph, Ökonom und Gesellschaftstheoretiker"
+    },
+    {
+        "name": "Adam Smith",
+        "contribution": "Schottischer Philosoph und Ökonom, Begründer der klassischen Nationalökonomie"
+    },
+    {
+        "name": "John Maynard Keynes",
+        "contribution": "Britischer Ökonom, Namensgeber des Keynesianismus"
+    },
+    {
+        "name": "Noam Chomsky",
+        "contribution": "Amerikanischer Linguist, Philosoph und politischer Aktivist"
+    },
+    {
+        "name": "Margaret Mead",
+        "contribution": "Amerikanische Kulturanthropologin, bekannt für ihre Studien zu Ozeanien"
+    },
+    {
+        "name": "Simone de Beauvoir",
+        "contribution": "Französische Philosophin und Schriftstellerin, Ikone des Feminismus"
+    },
+    {
+        "name": "Immanuel Kant",
+        "contribution": "Deutscher Philosoph der Aufklärung, 'Kritik der reinen Vernunft'"
+    },
+    {
+        "name": "Friedrich Nietzsche",
+        "contribution": "Deutscher Philosoph, bekannt für seine Kritik an Moral und Religion"
+    },
+    {
+        "name": "Hannah Arendt",
+        "contribution": "Deutsch-amerikanische politische Theoretikerin, 'Elemente und Ursprünge totaler Herrschaft'"
+    },
+    {
+        "name": "Robert Boyle",
+        "contribution": "Chemiker und Physiker, bekannt für das Boyle-Mariotte-Gesetz"
+    },
+    {
+        "name": "Joseph Priestley",
+        "contribution": "Chemiker, einer der Entdecker des Sauerstoffs"
+    },
+    {
+        "name": "John Dalton",
+        "contribution": "Chemiker und Physiker, entwickelte die moderne Atomtheorie"
+    },
+    {
+        "name": "Humphry Davy",
+        "contribution": "Chemiker, isolierte Elemente wie Natrium und Kalium"
+    },
+    {
+        "name": "Jöns Jacob Berzelius",
+        "contribution": "Chemiker, entwickelte die moderne chemische Notation"
+    },
+    {
+        "name": "Justus von Liebig",
+        "contribution": "Chemiker, gilt als Vater der organischen Chemie und der Agrochemie"
+    },
+    {
+        "name": "August Kekulé",
+        "contribution": "Chemiker, bekannt für die Strukturformel des Benzolrings"
+    },
+    {
+        "name": "Alfred Nobel",
+        "contribution": "Chemiker und Erfinder des Dynamits, Stifter des Nobelpreises"
+    },
+    {
+        "name": "Svante Arrhenius",
+        "contribution": "Chemiker, Nobelpreisträger für seine Theorie der elektrolytischen Dissoziation"
+    },
+    {
+        "name": "Fritz Haber",
+        "contribution": "Chemiker, Entwickler des Haber-Bosch-Verfahrens zur Ammoniaksynthese"
+    },
+    {
+        "name": "Otto Hahn",
+        "contribution": "Chemiker und Nobelpreisträger, Pionier der Radiochemie und Entdecker der Kernspaltung"
+    },
+    {
+        "name": "Robert Koch",
+        "contribution": "Mediziner und Mikrobiologe, Entdecker der Erreger von Tuberkulose und Cholera"
+    },
+    {
+        "name": "Paul Ehrlich",
+        "contribution": "Mediziner und Immunologe, entwickelte die Chemotherapie ('Magic Bullet')"
+    },
+    {
+        "name": "Karl Landsteiner",
+        "contribution": "Biologe und Arzt, entdeckte die AB0-Blutgruppen"
+    },
+    {
+        "name": "Konrad Lorenz",
+        "contribution": "Verhaltensforscher, Nobelpreisträger für seine Studien zur Prägung bei Tieren"
+    },
+    {
+        "name": "Ivan Pavlov",
+        "contribution": "Physiologe, bekannt für seine Forschung zur klassischen Konditionierung"
+    },
+    {
+        "name": "B. F. Skinner",
+        "contribution": "Psychologe, Begründer des radikalen Behaviorismus (operante Konditionierung)"
+    },
+    {
+        "name": "Jean Piaget",
+        "contribution": "Entwicklungspsychologe, bekannt für seine Theorie der kognitiven Entwicklung bei Kindern"
+    },
+    {
+        "name": "Lev Vygotsky",
+        "contribution": "Psychologe, Begründer der soziokulturellen Theorie der Entwicklung"
+    },
+    {
+        "name": "Milton Friedman",
+        "contribution": "Ökonom, Nobelpreisträger und führender Vertreter des Monetarismus"
+    },
+    {
+        "name": "Friedrich Hayek",
+        "contribution": "Ökonom und Philosoph, Vertreter der Österreichischen Schule"
+    },
+    {
+        "name": "Daniel Kahneman",
+        "contribution": "Psychologe und Ökonom, Nobelpreisträger für seine Arbeit zur Verhaltensökonomik"
+    },
+    {
+        "name": "Amos Tversky",
+        "contribution": "Kognitionspsychologe, Pionier der Verhaltensökonomik zusammen mit Kahneman"
+    },
+    {
+        "name": "Émile Durkheim",
+        "contribution": "Soziologe, einer der Gründerväter der modernen Soziologie"
+    },
+    {
+        "name": "Michel Foucault",
+        "contribution": "Französischer Philosoph und Historiker, bekannt für seine Analysen von Macht und Wissen"
+    },
+    {
+        "name": "Jürgen Habermas",
+        "contribution": "Deutscher Philosoph und Soziologe, Hauptvertreter der Frankfurter Schule"
+    },
+    {
+        "name": "Pierre Bourdieu",
+        "contribution": "Französischer Soziologe, bekannt für seine Theorien zum sozialen Kapital und Habitus"
+    },
+    {
+        "name": "Herodot",
+        "contribution": "Griechischer Historiker, oft als 'Vater der Geschichtsschreibung' bezeichnet"
+    },
+    {
+        "name": "Thukydides",
+        "contribution": "Griechischer Historiker, Begründer der wissenschaftlichen Geschichtsschreibung"
+    },
+    {
+        "name": "Ibn Khaldun",
+        "contribution": "Arabischer Historiker und Soziologe, einer der ersten Denker der Sozialwissenschaften"
+    },
+    {
+        "name": "Leopold von Ranke",
+        "contribution": "Deutscher Historiker, Begründer der modernen, quellenkritischen Geschichtswissenschaft"
+    },
+    {
+        "name": "Fernand Braudel",
+        "contribution": "Französischer Historiker, führender Vertreter der Annales-Schule"
+    },
+    {
+        "name": "Edward Said",
+        "contribution": "Literaturtheoretiker und Kritiker, Begründer der postkolonialen Theorie"
+    },
+    {
+        "name": "Judith Butler",
+        "contribution": "Amerikanische Philosophin, zentrale Figur der Gender-Theorie und Queer-Theorie"
+    },
+    {
+        "name": "Edward O. Wilson",
+        "contribution": "Biologe, gilt als Begründer der Soziobiologie"
+    },
+    {
+        "name": "James Lovelock",
+        "contribution": "Unabhängiger Wissenschaftler, bekannt für die Gaia-Hypothese"
+    },
+    {
+        "name": "Carl Woese",
+        "contribution": "Mikrobiologe, definierte die Archaeen als eine neue Domäne des Lebens"
+    },
+    {
+        "name": "Kary Mullis",
+        "contribution": "Biochemiker, Nobelpreisträger für die Erfindung der Polymerase-Kettenreaktion (PCR)"
     }
 ]
