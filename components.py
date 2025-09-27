@@ -61,7 +61,6 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
             # Flag für Hinweis nach dem nächsten Login setzen
             st.session_state["session_aborted"] = True
             st.rerun()
-        st.button("Weiter im Test", key="cancel_abort_btn", use_container_width=True)
 
 def render_admin_switch(app_config: AppConfig):
     """Rendert den Umschalter für das Admin-Panel in der Sidebar."""

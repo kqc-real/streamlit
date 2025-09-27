@@ -31,7 +31,7 @@ def log_state(event: str):
 
 def initialize_session_state(questions: list):
     """Initialisiert den Session-State für einen neuen Testlauf."""
-    log_state("Initializing new session state")
+    # log_state("Initializing new session state")
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
     for key in list(st.session_state.keys()):
         if key.startswith("frage_") or key in [
@@ -64,16 +64,16 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
     Gibt die user_id zurück, wenn ja, sonst None.
     Die UI-Logik für den Login befindet sich in `main_view.render_welcome_page`.
     """
-    log_state("Enter handle_user_session")
+    # log_state("Enter handle_user_session")
     if "user_id" in st.session_state:
-        log_state(f"User '{st.session_state.user_id}' found in session_state")
+        # log_state(f"User '{st.session_state.user_id}' found in session_state")
         return st.session_state.user_id
     
     if "session_aborted" in st.session_state:
         st.toast("Deine Antworten und Punkte sind gespeichert.", icon="💾")
         del st.session_state["session_aborted"]
 
-    log_state("Exit handle_user_session without login")
+    # log_state("Exit handle_user_session without login")
     return None
 
 
