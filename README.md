@@ -2,9 +2,9 @@
 
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
-Eine interaktive Multiple-Choice-Lern- und Selbsttest-App für Kursteilnehmer/innen.
-Bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse
-für diverse Fragensets.
+Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
+Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse
+für verschiedene Fragensets.
 
 ---
 
@@ -12,20 +12,20 @@ für diverse Fragensets.
 
 Diese App ist ein vollständiger MC-Test für Kursinhalte, entwickelt mit Streamlit.
 Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge und Zeitlimit.
-Perfekt für Bildungsumgebungen oder Selbstlernphasen.
+Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung.
 
 ### Hauptfunktionen
 
 | Kategorie      | Funktion                                                                                      |
 |---------------|-----------------------------------------------------------------------------------------------|
-| Zugang        | Pseudonym-Login (anonymisiert via Hash)                                                       |
+| Zugang        | Pseudonym-Login (anonym, keine Registrierung)                                                 |
 | Fragen        | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen, strikte Trennung nach Fragenset      |
-| Fragenset     | Auswahl & Persistenz des Fragensets                                                           |
+| Fragenset     | Dynamische Auswahl verschiedener Fragensets (`questions_*.json`)                               |
 | Scoring-Modi  | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                            |
 | Feedback      | Sofortiges Ergebnis + Erklärung, dynamische Motivation                                        |
-| Fortschritt   | Persistenz pro Pseudonym (Session lokal, pro Fragenset getrennt)                              |
+| Fortschritt   | Fortschritt wird pro Pseudonym und Fragenset gespeichert                                      |
 | Zeitlimit     | Optionales 60-Minuten-Fenster                                                                 |
-| Leaderboard   | Öffentliches Top‑10 vor Login; vollständige Ansicht für Admin                                  |
+| Leaderboard   | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
 | Analyse       | Itemanalyse (Schwierigkeit, Trennschärfe), Distraktor-Analyse                                 |
 | Export        | CSV-Download aller Antworten über Admin-Panel                                                 |
 | Reset         | Globaler CSV-Reset im Admin-Panel                                                             |
@@ -67,7 +67,7 @@ Perfekt für Bildungsumgebungen oder Selbstlernphasen.
 
 ### Umgebungsvariablen / Secrets
 
-Die App wird über Umgebungsvariablen konfiguriert. Für die lokale Entwicklung kannst du eine `.env`-Datei (basierend auf `.env.example`) erstellen. Für das Deployment auf Streamlit Cloud müssen diese Variablen als "Secrets" im Dashboard der App hinterlegt werden.
+Die App wird über Umgebungsvariablen konfiguriert. Für die lokale Entwicklung kannst du eine `.env`-Datei erstellen. Für das Deployment auf Streamlit Cloud müssen diese Variablen als "Secrets" im Dashboard der App hinterlegt werden.
 
 ```env
 # Beispiel für .env oder Streamlit Cloud Secrets
@@ -87,6 +87,7 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 ```
 .
 ├── .github/                # GitHub Actions Workflows (CI)
+├── .streamlit/             # Streamlit Konfiguration (config.toml)
 ├── tests/                  # Pytest-Tests
 ├── __init__.py
 ├── admin_panel.py          # Logik für das Admin-Panel
@@ -109,8 +110,7 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 
 ### Admin-Bereich
 
--   **Zugang:** Der Admin meldet sich über die normale Pseudonym-Auswahl an (z.B. "Alan C. Kay"). Danach erscheint in der Sidebar der Bereich "Admin Panel", wo mit dem Admin-Key der Zugang freigeschaltet wird.
--   **Funktionen (Tabs):**
+- **Zugang:** Der Admin meldet sich über die normale Pseudonym-Auswahl an (z.B. "Alan C. Kay"). Danach erscheint in der Sidebar der Bereich "Admin Panel", wo mit dem Admin-Key der Zugang freigeschaltet wird.
     -   **Leaderboard:** Zeigt die Highscores an.
     -   **Analyse:** Bietet eine detaillierte Item- und Distraktor-Analyse.
     -   **Export:** Ermöglicht den Download aller Antwortdaten als CSV.

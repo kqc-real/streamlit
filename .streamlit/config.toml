@@ -1,5 +1,8 @@
-[theme]
-base = "dark"
+# Streamlit-Konfigurationsdatei
+# Dokumentation: https://docs.streamlit.io/library/advanced-features/configuration
 
 [server]
-folderWatchBlacklist = [".git", "__pycache__", ".devcontainer", "tests"]
+# Eine Liste von Ordnern, die vom File-Watcher ignoriert werden sollen.
+# Dies verhindert den "inotify instance reached"-Fehler bei Projekten mit vielen Dateien.
+# Die Pfade sind relativ zum Haupt-Skript (app.py).
+folderWatchBlacklist = [".git", "__pycache__", "tests"]
