@@ -518,5 +518,265 @@
     "erklaerung": "Die `Virchow-Trias` beschreibt die drei Hauptfaktoren, die zur Entstehung einer `Thrombose` beitragen: 1. Schädigung der Gefäßwand, 2. verlangsamter Blutfluss und 3. eine erhöhte Gerinnungsneigung des Blutes. `Hypertonie` ist ein Risikofaktor für `Endothelschäden`, aber nicht direkter Teil der Trias.",
     "gewichtung": 2,
     "thema": "Innere Medizin - Angiologie"
+  },
+  {
+    "frage": "41. Ein 22-jähriger Patient wird nach einem Motorradunfall mit einer `isolierten Milzruptur` eingeliefert. Er ist kreislaufstabil. Welches Vorgehen ist bei einer `Grad-II-Ruptur` nach der AAST-Klassifikation primär zu bevorzugen?",
+    "optionen": [
+      "Sofortige `Splenektomie` (Milzentfernung).",
+      "Ein `nicht-operatives Management (NOM)` unter stationärer Überwachung.",
+      "Eine `arterielle Embolisation` der Milzarterie.",
+      "Eine `Laparoskopie` zur Naht der Milz."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei hämodynamisch stabilen Patienten mit niedriggradigen Milzverletzungen (Grad I-III) ist heute das `nicht-operative Management (NOM)` der Goldstandard. Ziel ist der Organerhalt, um die wichtige immunologische Funktion der Milz zu bewahren und das Risiko eines `OPSI-Syndroms` (overwhelming post-splenectomy infection) zu minimieren.",
+    "gewichtung": 3,
+    "thema": "Chirurgie - Viszeralchirurgie"
+  },
+  {
+    "frage": "42. Welches `EKG-Zeichen` ist typisch für eine `Digitalisintoxikation`?",
+    "optionen": [
+      "Spitze, hohe T-Wellen.",
+      "Eine `Verkürzung der QT-Zeit`.",
+      "Eine `muldenförmige ST-Senkung`.",
+      "Ein `Schenkelblock`."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine klassische EKG-Veränderung unter `Digitalis` (therapeutisch oder toxisch) ist die `muldenförmige ST-Senkung`. Bei einer Intoxikation können zudem diverse Herzrhythmusstörungen, insbesondere `ventrikuläre Extrasystolen` und `AV-Blockierungen`, auftreten.",
+    "gewichtung": 2,
+    "thema": "Innere Medizin - Kardiologie / Toxikologie"
+  },
+  {
+    "frage": "43. Eine 75-jährige Patientin hat seit Jahren eine `chronische Niereninsuffizienz` Stadium 4. Welcher `Befund` ist als Komplikation am wahrscheinlichsten zu erwarten?",
+    "optionen": [
+      "Eine `metabolische Alkalose`.",
+      "Eine `renale Anämie` aufgrund von `Erythropoetin-Mangel`.",
+      "Eine `Hypophosphatämie`.",
+      "Eine `Hypokaliämie`."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Niere ist der Hauptproduktionsort für das Hormon `Erythropoetin (EPO)`, das die Bildung roter Blutkörperchen im Knochenmark stimuliert. Bei fortgeschrittener `chronischer Niereninsuffizienz` kommt es zu einem `EPO-Mangel` und folglich zu einer `renalen Anämie`.",
+    "gewichtung": 2,
+    "thema": "Innere Medizin - Nephrologie"
+  },
+  {
+    "frage": "44. Was ist die `Cushing-Trias`, ein Zeichen für einen `erhöhten Hirndruck`?",
+    "optionen": [
+      "`Hypotonie`, `Tachykardie`, `Tachypnoe`",
+      "`Hypertonie`, `Bradykardie`, `irreguläre Atmung`",
+      "`Fieber`, `Hypotonie`, `Bewusstseinsstörung`",
+      "`Kopfschmerz`, `Nackensteifigkeit`, `Lichtscheu`"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die `Cushing-Trias` ist ein spätes und bedrohliches Zeichen eines massiv erhöhten intrakraniellen Drucks. Sie besteht aus einem `Anstieg des arteriellen Blutdrucks` (Hypertonie), einem `Abfall der Herzfrequenz` (Bradykardie) und `Störungen des Atemmusters` (z.B. Cheyne-Stokes-Atmung).",
+    "gewichtung": 3,
+    "thema": "Neurologie / Notfallmedizin"
+  },
+  {
+    "frage": "45. Welches `Virus` ist der häufigste Erreger des `Zervixkarzinoms`?",
+    "optionen": [
+      "`Epstein-Barr-Virus (EBV)`",
+      "`Herpes-simplex-Virus Typ 2 (HSV-2)`",
+      "`Humanes Papillomvirus (HPV)`",
+      "`Cytomegalievirus (CMV)`"
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine persistierende Infektion mit `Hochrisiko-Typen` des `Humanen Papillomvirus (HPV)`, insbesondere `HPV 16` und `HPV 18`, ist die Hauptursache für die Entstehung des `Zervixkarzinoms` (Gebärmutterhalskrebs).",
+    "gewichtung": 1,
+    "thema": "Gynäkologie / Virologie"
+  },
+  {
+    "frage": "46. Ein Patient mit `akuter myeloischer Leukämie (AML)` erhält eine `Chemotherapie`. Er entwickelt Fieber und eine schwere `Neutropenie` (Neutrophile < 500/µl). Welches Vorgehen ist indiziert?",
+    "optionen": [
+      "Abwarten und engmaschige Temperaturkontrolle.",
+      "Gabe von Paracetamol zur Fiebersenkung.",
+      "Sofortige `kalkulierte Antibiotikatherapie` mit einem breiten Spektrum.",
+      "Gabe von `G-CSF` zur Stimulation der Neutrophilenproduktion."
+    ],
+    "loesung": 2,
+    "erklaerung": "`Febrile Neutropenie` ist ein onkologischer Notfall mit hoher Mortalität. Aufgrund des hohen Risikos für eine bakterielle Sepsis muss unverzüglich, nach Abnahme von Blutkulturen, eine `breit wirksame, empirische Antibiotikatherapie` (z.B. mit einem pseudomonas-wirksamen Betalaktam) begonnen werden.",
+    "gewichtung": 3,
+    "thema": "Innere Medizin - Hämatologie/Onkologie"
+  },
+  {
+    "frage": "47. Welches `Auskultationsphänomen` ist typisch für eine `Aortenklappenstenose`?",
+    "optionen": [
+      "Ein `holosystolisches Herzgeräusch` mit p.m. über der Herzspitze.",
+      "Ein `spindelförmiges Systolikum` mit p.m. im 2. ICR rechts und Fortleitung in die Karotiden.",
+      "Ein `hochrequentes Diastolikum` mit p.m. über Erb.",
+      "Ein `paukenschlagartiger 1. Herzton`."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das klassische Geräusch der `Aortenklappenstenose` ist ein `rauhes, spindelförmiges (crescendo-decrescendo) Systolikum`, das am besten im 2. Interkostalraum (ICR) rechts parasternal zu hören ist und typischerweise in die Halsschlagadern (Karotiden) ausstrahlt.",
+    "gewichtung": 2,
+    "thema": "Innere Medizin - Kardiologie"
+  },
+  {
+    "frage": "48. Ein Patient hat eine `tiefe Schnittwunde` am Arm. Sein letzter `Tetanus-Impfschutz` liegt mehr als 10 Jahre zurück. Welches Vorgehen ist zur `Tetanusprophylaxe` korrekt?",
+    "optionen": [
+      "Nur eine `aktive Impfung` (Tetanus-Toxoid).",
+      "Nur eine `passive Impfung` (Tetanus-Immunglobulin).",
+      "Eine `Simultanimpfung` (aktiv und passiv an unterschiedlichen Körperstellen).",
+      "Keine Impfung notwendig, da die Wunde sauber ist."
+    ],
+    "loesung": 2,
+    "erklaerung": "Bei einer unklaren oder unvollständigen Grundimmunisierung und einer `nicht sauberen, tiefen Wunde` ist eine `simultane, aktive und passive Immunisierung` indiziert. Die `passive Impfung` mit `Tetanus-Immunglobulin (TIG)` bietet einen Sofortschutz, während die `aktive Impfung` einen Langzeitschutz aufbaut.",
+    "gewichtung": 2,
+    "thema": "Infektiologie / Notfallmedizin"
+  },
+  {
+    "frage": "49. Welches `Medikament` ist ein `Protonenpumpeninhibitor (PPI)`?",
+    "optionen": [
+      "`Ranitidin`",
+      "`Sucralfat`",
+      "`Pantoprazol`",
+      "`Misoprostol`"
+    ],
+    "loesung": 2,
+    "erklaerung": "`Protonenpumpeninhibitoren` enden typischerweise auf '-prazol'. `Pantoprazol` ist ein häufig verwendeter Vertreter. Sie hemmen irreversibel die `H+/K+-ATPase` in den Belegzellen des Magens und sind die potentesten Säureblocker.",
+    "gewichtung": 1,
+    "thema": "Pharmakologie"
+  },
+  {
+    "frage": "50. Ein Patient mit `Lungenfibrose` zeigt in der `Lungenfunktionsprüfung` typischerweise welches Muster?",
+    "optionen": [
+      "Eine `obstruktive Ventilationsstörung` (FEV1/VC erniedrigt).",
+      "Eine `restriktive Ventilationsstörung` (Vitalkapazität erniedrigt, FEV1/VC normal oder erhöht).",
+      "Eine `normale Spirometrie` mit erniedrigter Diffusionskapazität.",
+      "Eine `reversible Obstruktion` nach Bronchospasmolyse."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei einer `Lungenfibrose` kommt es zu einer Vermehrung von Bindegewebe, was die Lunge 'steif' macht und ihre Dehnbarkeit einschränkt. Dies führt zu einer `restriktiven Ventilationsstörung` mit einer verminderten `Vitalkapazität (VC)` bei normalem oder sogar erhöhtem `Tiffeneau-Index (FEV1/VC)`.",
+    "gewichtung": 3,
+    "thema": "Innere Medizin - Pneumologie"
+  },
+  {
+    "frage": "51. Was ist die `Puls-Defizit` bei `Vorhofflimmern` mit schneller Überleitung?",
+    "optionen": [
+      "Die Differenz zwischen dem Blutdruck am Arm und am Bein.",
+      "Die Differenz zwischen der `auskultierten Herzfrequenz` und der `palpierten peripheren Pulsfrequenz`.",
+      "Ein Abfall der Pulsfrequenz unter Belastung.",
+      "Das Fehlen eines tastbaren Pulses bei einem Herzstillstand."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei einer `Tachyarrhythmia absoluta` bei `Vorhofflimmern` sind die Kammeraktionen so schnell und unregelmäßig, dass nicht jede Kontraktion ein ausreichendes Schlagvolumen erzeugt, um eine periphere Pulswelle auszulösen. Daher ist die am Herzen gezählte Frequenz höher als die am Handgelenk getastete.",
+    "gewichtung": 2,
+    "thema": "Innere Medizin - Kardiologie"
+  },
+  {
+    "frage": "52. Ein Patient hat einen `BMI von 36 kg/m²` und leidet an `Diabetes mellitus Typ 2`. Welche `bariatrische Operation` zeigt die besten Ergebnisse bezüglich einer Diabetes-Remission?",
+    "optionen": [
+      "`Magenband`",
+      "`Schlauchmagen (Sleeve-Gastrektomie)`",
+      "`Roux-en-Y-Magenbypass`",
+      "`Magenballon`"
+    ],
+    "loesung": 2,
+    "erklaerung": "Der `Roux-en-Y-Magenbypass` ist ein kombiniert restriktives und malabsorptives Verfahren. Er führt nicht nur zu einer signifikanten Gewichtsreduktion, sondern hat auch direkte hormonelle Effekte (z.B. auf `Inkretine` wie GLP-1), die zu einer sehr hohen Rate an `Diabetes-Remissionen` führen, oft schon vor einer wesentlichen Gewichtsabnahme.",
+    "gewichtung": 3,
+    "thema": "Chirurgie - Viszeralchirurgie"
+  },
+  {
+    "frage": "53. Welches `Symptom` ist am spezifischsten für einen `spitzen Glaukomanfall`?",
+    "optionen": [
+      "Langsam zunehmender, schmerzloser Visusverlust.",
+      "Sehen von `Blitzen` und `Rußregen`.",
+      "Plötzlich einsetzender, stärkster Augenschmerz mit `steinhartem Bulbus` und `Sehen von Farbringen`.",
+      "Ein `schmerzloser Gesichtsfelddefekt`, der sich von peripher nach zentral ausbreitet."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der `akute Glaukomanfall` ist ein augenärztlicher Notfall, der durch eine abrupte `Augeninnendrucksteigerung` verursacht wird. Die klassische Symptomatik umfasst `stärkste Schmerzen`, einen `harten, geröteten Augapfel`, `Übelkeit/Erbrechen` und `visuelle Phänomene` wie das Sehen von `Farbringen um Lichtquellen`.",
+    "gewichtung": 2,
+    "thema": "Augenheilkunde"
+  },
+  {
+    "frage": "54. Was ist der `Wirkmechanismus` von `Allopurinol` bei der Behandlung von `Gicht`?",
+    "optionen": [
+      "Es erhöht die `Ausscheidung von Harnsäure` über die Nieren.",
+      "Es hemmt das Enzym `Xanthinoxidase` und reduziert so die `Harnsäureproduktion`.",
+      "Es wirkt `entzündungshemmend` während eines akuten Gichtanfalls.",
+      "Es löst bereits abgelagerte `Uratkristalle` in den Gelenken auf."
+    ],
+    "loesung": 1,
+    "erklaerung": "`Allopurinol` ist ein `Urikostatikum`. Es hemmt die `Xanthinoxidase`, das Schlüsselenzym im Purinstoffwechsel, das für die Umwandlung von Hypoxanthin und Xanthin in Harnsäure verantwortlich ist. Dadurch wird die `Harnsäurekonzentration` im Blut gesenkt.",
+    "gewichtung": 2,
+    "thema": "Pharmakologie / Rheumatologie"
+  },
+  {
+    "frage": "55. Ein Patient mit `multipler Sklerose (MS)` leidet unter einer `spastischen Tonuserhöhung` der Beine. Welches `Medikament` ist zur symptomatischen Therapie der Spastik geeignet?",
+    "optionen": [
+      "`L-Dopa`",
+      "`Baclofen`",
+      "`Carbamazepin`",
+      "`Sumatriptan`"
+    ],
+    "loesung": 1,
+    "erklaerung": "`Baclofen` ist ein `GABA-B-Rezeptor-Agonist` und wirkt als zentrales `Muskelrelaxans`. Es ist eines der Standardmedikamente zur Behandlung von `Spastik` bei `MS` oder nach Rückenmarksverletzungen.",
+    "gewichtung": 3,
+    "thema": "Neurologie / Pharmakologie"
+  },
+  {
+    "frage": "56. Welches `klinische Zeichen` ist bei einer `Perikarditis` (Herzbeutelentzündung) typisch?",
+    "optionen": [
+      "Ein `atem- und lageabhängiger, stechender retrosternaler Schmerz`.",
+      "Ein `belastungsabhängiger Angina-pectoris-Schmerz`.",
+      "Ein `bandförmiger Schmerz` im Oberbauch.",
+      "Ein `kolikartiger Flankenschmerz`."
+    ],
+    "loesung": 0,
+    "erklaerung": "Der Schmerz bei einer `Perikarditis` ist typischerweise `atemabhängig` und verstärkt sich im Liegen, während er sich im Sitzen mit nach vorne gebeugtem Oberkörper bessert. Auskultatorisch kann ein `Perikardreiben` zu hören sein.",
+    "gewichtung": 2,
+    "thema": "Innere Medizin - Kardiologie"
+  },
+  {
+    "frage": "57. Was ist die häufigste Ursache für ein `Cushing-Syndrom`?",
+    "optionen": [
+      "Ein `ACTH-produzierender Tumor` der Hypophyse (Morbus Cushing).",
+      "Ein `Cortisol-produzierender Tumor` der Nebenniere.",
+      "Eine `langfristige, hochdosierte Glukokortikoid-Therapie` (iatrogen).",
+      "Eine `ektope ACTH-Produktion` durch einen Tumor (z.B. kleinzelliges Bronchialkarzinom)."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die mit Abstand häufigste Ursache für die Symptome eines `Hyperkortisolismus` (Cushing-Syndrom) ist die `iatrogene` Zufuhr von `Glukokortikoiden` im Rahmen der Therapie verschiedenster Erkrankungen (z.B. Asthma, rheumatoide Arthritis).",
+    "gewichtung": 2,
+    "thema": "Innere Medizin - Endokrinologie"
+  },
+  {
+    "frage": "58. Ein 18-jähriger Mann wird nach einem `Schädel-Hirn-Trauma` bewusstlos. Bei Ankunft des Notarztes hat er eine `weite, lichtstarre Pupille` auf der rechten Seite. Worauf deutet dieser Befund hin?",
+    "optionen": [
+      "Eine `Schädigung des Sehnervs` auf der linken Seite.",
+      "Eine `Einklemmung des Hirnstamms` mit Kompression des `N. oculomotorius` rechts.",
+      "Eine `Intoxikation` mit Opiaten.",
+      "Einen `Hirninfarkt` im Okzipitallappen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine `einseitige, weite und lichtstarre Pupille` ist ein alarmierendes Zeichen für eine `Einklemmung` des Gehirns, z.B. durch ein `epidurales Hämatom`. Der Druck komprimiert den `N. oculomotorius` (III. Hirnnerv), der die parasympathischen Fasern für die Pupillenverengung führt. Dies ist ein neurochirurgischer Notfall.",
+    "gewichtung": 3,
+    "thema": "Neurologie / Notfallmedizin"
+  },
+  {
+    "frage": "59. Welches `Hautphänomen` ist typisch für eine `Psoriasis vulgaris` (Schuppenflechte)?",
+    "optionen": [
+      "Ein `vesikuläres Exanthem` auf gerötetem Grund.",
+      "Scharf begrenzte, `erythematosquamöse Plaques` mit `silbrig-weißer Schuppung`.",
+      "Ein `juckendes, papulöses Exanthem` in den Beugen.",
+      "Kleine, `honiggelbe Krusten` im Gesichtsbereich."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die typische `Psoriasis-Läsion` ist eine scharf begrenzte, gerötete Plaque, die von einer dicken, silbrig-glänzenden Schuppung bedeckt ist. Prädilektionsstellen sind die Streckseiten der Extremitäten (Ellenbogen, Knie) und die behaarte Kopfhaut.",
+    "gewichtung": 2,
+    "thema": "Dermatologie"
+  },
+  {
+    "frage": "60. Was ist der `Wirkmechanismus` von `Statinen` (z.B. Simvastatin)?",
+    "optionen": [
+      "Sie hemmen die `Resorption von Cholesterin` im Darm.",
+      "Sie binden `Gallensäuren` im Darm.",
+      "Sie hemmen das Enzym `HMG-CoA-Reduktase` und senken so die `Cholesterin-Synthese`.",
+      "Sie aktivieren die `Lipoproteinlipase`."
+    ],
+    "loesung": 2,
+    "erklaerung": "`Statine` sind `CSE-Hemmer`. Sie blockieren kompetitiv die `HMG-CoA-Reduktase`, das Schlüsselenzym der `endogenen Cholesterinsynthese` in der Leber. Dies führt zu einer Hochregulation von `LDL-Rezeptoren` und einer verstärkten Aufnahme von LDL-Cholesterin aus dem Blut.",
+    "gewichtung": 2,
+    "thema": "Pharmakologie"
   }
 ]
