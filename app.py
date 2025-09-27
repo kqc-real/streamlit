@@ -41,55 +41,12 @@ from admin_panel import render_admin_panel
 from components import render_sidebar
 
 
-def set_custom_theme():
-    """Fügt benutzerdefiniertes CSS hinzu, um das Design anzupassen."""
-    st.markdown(
-        """
-<style>
-    /* Haupt-Layout und Hintergrund */
-    .stApp {
-        background-color: #0e1117;
-    }
-    /* Haupt-Textfarbe - nicht grell weiß */
-    .stApp, .stApp p, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
-        color: #d1d1d1;
-    }
-    /* Überschriften in Akzentfarbe */
-    .stApp h1, .stApp h2 {
-        color: #4b9fff;
-    }
-    .stApp h3 {
-        color: #a1cfff;
-    }
-    /* Zentriertes Layout für Mobile-First-Gefühl */
-    .main .block-container {
-        max-width: 730px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    /* Container für Fragen */
-    .st-emotion-cache-1r4qj8v {
-        border: 1px solid #2a394f;
-    }
-    /* Spezielle Klasse für scrollbare KaTeX-Blöcke in Spalten */
-    div[data-testid="column"]:has(div.scrollable-katex) {
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 5px;
-    }
-</style>
-""",
-        unsafe_allow_html=True,
-    )
-
-
 def main():
     """Hauptfunktion der Streamlit-Anwendung."""
     st.set_page_config(page_title="MC-Test AMALEA")
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
     load_dotenv()
-    set_custom_theme()
 
     # --- 1. Lade Konfiguration und Fragen (wird für Login benötigt) ---
     app_config = AppConfig()

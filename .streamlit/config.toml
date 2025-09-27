@@ -1,6 +1,20 @@
 # Streamlit-Konfigurationsdatei
 # Dokumentation: https://docs.streamlit.io/library/advanced-features/configuration
 
+[browser]
+# Legt das Standard-Layout der App fest.
+# Optionen: "centered" (Standard) oder "wide".
+gatherUsageStats = false
+layout = "centered"
+
+[theme]
+# Legt das Basis-Theme fest. Optionen: "light", "dark"
+base = "dark"
+
+# Definiert die primäre Akzentfarbe und die Haupttextfarbe.
+primaryColor = "#a21313"
+textColor = "#e4d1d1"
+
 [server]
 # Eine Liste von Ordnern, die vom File-Watcher ignoriert werden sollen.
 # Dies verhindert den "inotify instance reached"-Fehler bei Projekten mit vielen Dateien.
