@@ -495,6 +495,17 @@ def render_review_mode(questions: list):
             if not ist_richtig:
                 st.markdown(f"Richtige Antwort: {richtige_antwort_text}")
 
+            # --- Visuelles Feedback für Antworten ---
+            if gegebene_antwort is None or gegebene_antwort == "__bookmark__":
+                st.markdown("Deine Antwort: *(nicht beantwortet)*")
+                st.markdown(f"Richtige Antwort: <span style='color: #28a745;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
+            elif ist_richtig:
+                st.markdown(f"Deine Antwort: <span style='color: #28a745;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"Deine Antwort: <span style='color: #dc3545;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+                st.markdown(f"Richtige Antwort: <span style='color: #28a745;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
+
+
             erklaerung = frage.get("erklaerung")
             if erklaerung:
                 with st.container(border=True):
