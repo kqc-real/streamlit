@@ -56,7 +56,7 @@ def render_welcome_page(app_config: AppConfig):
 
     # --- Dynamischer Titel und Willkommensnachricht ---
     # Der Titel wird aus dem ausgewählten Dateinamen generiert.
-    dynamic_title = format_filename(selected_file)
+    dynamic_title = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
     st.markdown(f"""
         <div style='text-align: center; padding: 0 0 10px 0;'>
             <h2 style='color:#4b9fff; font-size: clamp(1.5rem, 5vw, 2.1rem); margin-bottom: 0.5rem;'>Multiple-Choice-Test</h2>

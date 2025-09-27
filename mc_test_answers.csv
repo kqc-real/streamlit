@@ -1,0 +1,4 @@
+user_id_hash,user_id_display,user_id_plain,frage_nr,frage,antwort,richtig,zeit,markiert,questions_file
+046cd7ecbd90abb30aba5bddf113c3111c2ba6b34e25341ece31662f2c82d2d9,046cd7ecbd,Charles Darwin,9,9. Welcher Nutzen entsteht durch das **Timeboxing** von Events?,"Starre Termine ohne Lerneffekte, feste Outputs ohne Feedback.",-1,2025-09-27T13:51:41,False,questions_Agiles_Projektmanagement.json
+046cd7ecbd90abb30aba5bddf113c3111c2ba6b34e25341ece31662f2c82d2d9,046cd7ecbd,Charles Darwin,12,12. Welches ist ein sinnvolles Ergebnis eines **Sprint-Ziels**?,__bookmark__,0,2025-09-27T13:51:53,True,questions_Agiles_Projektmanagement.json
+046cd7ecbd90abb30aba5bddf113c3111c2ba6b34e25341ece31662f2c82d2d9,046cd7ecbd,Charles Darwin,12,12. Welches ist ein sinnvolles Ergebnis eines **Sprint-Ziels**?,Eine gemeinsame Richtung und eine Entscheidungshilfe für **Trade-offs**.,1,2025-09-27T13:51:55,True,questions_Agiles_Projektmanagement.json
