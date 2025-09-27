@@ -78,5 +78,85 @@
     {
         "name": "Vera Rubin",
         "contribution": "Arbeiten zur Rotationsgeschwindigkeit von Galaxien, lieferte Beweise für Dunkle Materie"
+    },
+    {
+        "name": "Carl Sagan",
+        "contribution": "Astronom, Kosmologe und Bestsellerautor"
+    },
+    {
+        "name": "Richard Feynman",
+        "contribution": "Physiker, Nobelpreisträger für Quantenelektrodynamik"
+    },
+    {
+        "name": "Max Planck",
+        "contribution": "Physiker, Begründer der Quantentheorie"
+    },
+    {
+        "name": "Werner Heisenberg",
+        "contribution": "Physiker, einer der Hauptbegründer der Quantenmechanik"
+    },
+    {
+        "name": "Erwin Schrödinger",
+        "contribution": "Physiker, bekannt für die Schrödinger-Gleichung"
+    },
+    {
+        "name": "Niels Bohr",
+        "contribution": "Physiker, wesentliche Beiträge zum Verständnis der Atomstruktur"
+    },
+    {
+        "name": "James Clerk Maxwell",
+        "contribution": "Physiker, formulierte die Maxwell-Gleichungen"
+    },
+    {
+        "name": "Michael Faraday",
+        "contribution": "Physiker und Chemiker, Entdecker der elektromagnetischen Induktion"
+    },
+    {
+        "name": "Gregor Mendel",
+        "contribution": "Augustinerpater und Naturforscher, Begründer der Genetik"
+    },
+    {
+        "name": "Linus Pauling",
+        "contribution": "Chemiker und Friedensaktivist, einer der einflussreichsten Chemiker"
+    },
+    {
+        "name": "Dorothy Hodgkin",
+        "contribution": "Chemikerin, Nobelpreisträgerin für Strukturbestimmungen mittels Röntgenanalyse"
+    },
+    {
+        "name": "Barbara McClintock",
+        "contribution": "Genetikerin, Nobelpreisträgerin für die Entdeckung der 'springenden Gene'"
+    },
+    {
+        "name": "Rachel Carson",
+        "contribution": "Biologin und Autorin, deren Buch 'Der stumme Frühling' die Umweltbewegung anstieß"
+    },
+    {
+        "name": "Subrahmanyan Chandrasekhar",
+        "contribution": "Astrophysiker, Nobelpreisträger für Studien zur Struktur und Entwicklung von Sternen"
+    },
+    {
+        "name": "Abdus Salam",
+        "contribution": "Physiker, Nobelpreisträger für die Theorie der elektroschwachen Wechselwirkung"
+    },
+    {
+        "name": "Tu Youyou",
+        "contribution": "Pharmakologin, Nobelpreisträgerin für die Entdeckung von Artemisinin gegen Malaria"
+    },
+    {
+        "name": "Shinya Yamanaka",
+        "contribution": "Stammzellforscher, Nobelpreisträger für die Reprogrammierung reifer Zellen"
+    },
+    {
+        "name": "Jennifer Doudna",
+        "contribution": "Biochemikerin, Nobelpreisträgerin für die Entwicklung der Genschere CRISPR-Cas9"
+    },
+    {
+        "name": "Emmanuelle Charpentier",
+        "contribution": "Mikrobiologin, Nobelpreisträgerin für die Entwicklung der Genschere CRISPR-Cas9"
+    },
+    {
+        "name": "Tim Berners-Lee",
+        "contribution": "Informatiker, Erfinder des WWW und Turing-Preisträger"
     }
 ]
