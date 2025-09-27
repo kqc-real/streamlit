@@ -68,6 +68,13 @@ def render_leaderboard_tab(df_all: pd.DataFrame):
             .reset_index()
         )
 
+        # Ersetze den Admin-Benutzernamen durch das Pseudonym "Alan C. Kay"
+        # Lade die AppConfig, um den Admin-Benutzernamen zu erhalten
+        app_config_for_admin_name = AppConfig()
+        if app_config_for_admin_name.admin_user:
+            admin_mask = scores["Pseudonym"].str.lower() == app_config_for_admin_name.admin_user.lower()
+            scores.loc[admin_mask, "Pseudonym"] = "Alan C. Kay"
+
         # Lade die Fragen, um die maximale Punktzahl zu ermitteln
         questions_for_set = load_questions(q_file)
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)

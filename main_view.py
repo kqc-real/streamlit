@@ -100,6 +100,11 @@ def render_welcome_page(app_config: AppConfig):
                     .reset_index()  # Verhindert, dass der Hash als Index angezeigt wird
                 )
 
+                # Ersetze den Admin-Benutzernamen durch das Pseudonym "Alan C. Kay"
+                if app_config.admin_user:
+                    admin_mask = scores["Pseudonym"].str.lower() == app_config.admin_user.lower()
+                    scores.loc[admin_mask, "Pseudonym"] = "Alan C. Kay"
+
                 # Berechne die maximale Punktzahl für dieses Set
                 questions_for_max_score = load_questions(selected_file)
                 max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_max_score)
