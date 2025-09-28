@@ -48,13 +48,26 @@ def main():
 
     # Setze das Locale, um eine korrekte alphabetische Sortierung von Namen
     # mit Akzenten und Umlauten zu gewährleisten (z.B. 'Erwin' bei 'E').
-    try:
-        locale.setlocale(locale.LC_COLLATE, 'de_DE.UTF-8')
-    except locale.Error:
+    # Wir probieren eine Liste von Locales durch, um die Portabilität zu erhöhen.
+    # 'de_DE.UTF-8' ist ideal, aber nicht überall verfügbar (z.B. in manchen Docker-Images).
+    # 'C.UTF-8' ist ein guter, moderner Fallback in POSIX-Systemen.
+    possible_locales = [
+        'de_DE.UTF-8',  # Linux/macOS
+        'de-DE.UTF-8',  # Alternative Schreibweise
+        'German_Germany.1252',  # Windows
+        'de_DE',
+        'de',
+        'C.UTF-8',  # Moderner POSIX-Standard, guter Fallback
+        'en_US.UTF-8'  # Häufig verfügbarer Fallback
+    ]
+    for loc in possible_locales:
         try:
-            locale.setlocale(locale.LC_COLLATE, 'en_US.UTF-8')
+            locale.setlocale(locale.LC_COLLATE, loc)
+            break  # Erfolgreich, Schleife verlassen
         except locale.Error:
-            st.warning("Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert.")
+            continue  # Nächstes Locale probieren
+    else:  # Wird ausgeführt, wenn die Schleife nie durch 'break' verlassen wurde
+        st.warning("Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert.")
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
     load_dotenv()
