@@ -86,34 +86,36 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 
 ```
 .
-├── .github/                # GitHub Actions Workflows (CI)
-├── .streamlit/             # Streamlit Konfiguration (config.toml)
-├── tests/                  # Pytest-Tests
+├── .github/                # GitHub Actions Workflows (CI/CD)
+├── .streamlit/             # Streamlit-Konfiguration (z.B. Themes)
+├── data/                   # Enthält alle JSON-Dateien (Fragensets, Pseudonyme)
+├── db/                     # Speichert die SQLite-Datenbankdatei
+├── tests/                  # Pytest-Tests für die Anwendungslogik
 ├── __init__.py
 ├── admin_panel.py          # Logik für das Admin-Panel
 ├── app.py                  # Haupt-Anwendungsskript
 ├── auth.py                 # Authentifizierung und Session-Management
 ├── components.py           # Wiederverwendbare UI-Komponenten
 ├── config.py               # Laden der Konfiguration und Fragensets
+├── database.py             # Datenbankinteraktionen (SQLite)
 ├── helpers.py              # Hilfsfunktionen
 ├── logic.py                # Kernlogik der App (Scoring, etc.)
 ├── main_view.py            # UI-Logik für die Hauptansichten
+├── mc_test_config.json     # Lokale, nicht-sensible Konfiguration
 ├── requirements.txt        # Python-Abhängigkeiten
-├── *.json                  # Fragensets
 └── README.md               # Diese Dokumentation
 ```
 
----
 
-## 🛠️ Admin & Wartung
+## 🛠️ Administration & Wartung
 
 ### Admin-Bereich
 
-- **Zugang:** Der Admin meldet sich über die normale Pseudonym-Auswahl an (z.B. "Alan C. Kay"). Danach erscheint in der Sidebar der Bereich "Admin Panel", wo mit dem Admin-Key der Zugang freigeschaltet wird.
-    -   **Leaderboard:** Zeigt die Highscores an.
-    -   **Analyse:** Bietet eine detaillierte Item- und Distraktor-Analyse.
-    -   **Export:** Ermöglicht den Download aller Antwortdaten als CSV.
-    -   **System:** Erlaubt die Umschaltung des Scoring-Modus und das Zurücksetzen aller Daten.
+- **Zugang:**
+    1. Wähle auf der Startseite das Admin-Pseudonym aus (z.B. "Alan C. Kay").
+    2. Nach dem Start des Tests erscheint in der Seitenleiste der Schalter "Admin-Panel anzeigen". Aktiviere ihn.
+    3. Gib im Hauptbereich das Admin-Passwort (`MC_TEST_ADMIN_KEY`) ein, um vollen Zugriff zu erhalten.
+- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), Datenexport (CSV, SQL-Dump) und Systemeinstellungen (Scoring-Modus, Zurücksetzen aller Testdaten).
 
 ### Tests ausführen
 
@@ -126,9 +128,7 @@ PYTHONPATH=. pytest
 
 ## 🐛 Troubleshooting
 
--   **App startet nicht:** Prüfe die Python-Version und die installierten Abhängigkeiten.
--   **Fragen laden nicht:** Stelle sicher, dass die `questions_*.json`-Dateien vorhanden und gültig sind.
--   **Admin-Zugang fehlt:** Prüfe, ob die Umgebungsvariablen oder Streamlit-Secrets korrekt gesetzt sind.
+-   **App startet nicht:** Stelle sicher, dass alle Abhängigkeiten aus `requirements.txt` installiert sind.
 
 ---
 
