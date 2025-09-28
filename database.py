@@ -5,8 +5,10 @@ import sqlite3
 import os
 from config import get_package_dir
 
-# Definiert den Pfad zur Datenbank-Datei im Hauptverzeichnis des Projekts.
-DATABASE_FILE = os.path.join(get_package_dir(), "mc_test_data.db")
+# Definiert den Pfad zur Datenbank-Datei.
+# Wir legen die DB in ein dediziertes 'data'-Verzeichnis, um Pfadprobleme
+# mit Tools und in Cloud-Umgebungen zu vermeiden.
+DATABASE_FILE = os.path.join(get_package_dir(), "data", "mc_test_data.db")
 
 def get_db_connection():
     """
@@ -100,6 +102,11 @@ def init_database():
     Initialisiert die Datenbank. Diese Funktion sollte einmal beim Start
     der Hauptanwendung aufgerufen werden.
     """
+    # Stelle sicher, dass das Verzeichnis für die DB-Datei existiert, bevor
+    # versucht wird, eine Verbindung herzustellen. Dies ist besonders wichtig
+    # für Cloud-Umgebungen und vermeidet Pfad-Probleme.
+    db_dir = os.path.dirname(DATABASE_FILE)
+    os.makedirs(db_dir, exist_ok=True)
     create_tables()
 
 

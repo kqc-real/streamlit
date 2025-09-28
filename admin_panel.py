@@ -33,7 +33,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
 
     with tabs[0]:
         # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben.
-        render_leaderboard_tab(df_all_logs)
+        render_leaderboard_tab(df_all_logs, app_config)
     with tabs[1]:
         render_analysis_tab(df_filtered_logs, questions)
     with tabs[2]:
@@ -42,7 +42,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
         render_system_tab(app_config, df_filtered_logs)
 
 
-def render_leaderboard_tab(df_all: pd.DataFrame):
+def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
     """Rendert den Leaderboard-Tab."""
     st.header("Highscores nach Fragenset")
     if df_all.empty or "questions_file" not in df_all.columns:
@@ -74,10 +74,8 @@ def render_leaderboard_tab(df_all: pd.DataFrame):
         )
 
         # Ersetze den Admin-Benutzernamen durch das Pseudonym "Alan C. Kay"
-        # Lade die AppConfig, um den Admin-Benutzernamen zu erhalten
-        app_config_for_admin_name = AppConfig()
-        if app_config_for_admin_name.admin_user:
-            admin_mask = scores["Pseudonym"].str.lower() == app_config_for_admin_name.admin_user.lower()
+        if app_config.admin_user:
+            admin_mask = scores["Pseudonym"].str.lower() == app_config.admin_user.lower()
             scores.loc[admin_mask, "Pseudonym"] = "Alan C. Kay"
 
         # Lade die Fragen, um die maximale Punktzahl zu ermitteln
