@@ -263,13 +263,15 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
             # Wenn wir auf einer gebookmarkten Frage sind (und nicht dort, wo wir sein sollten)
             if resume_target_idx != frage_idx and st.session_state.get("jump_to_idx_active"):
                 st.warning("Du bist im Review-Modus einer markierten Frage.")
-                if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}"):
-                    st.session_state.jump_to_idx = resume_target_idx
-                    # Resume-Status zurücksetzen
-                    del st.session_state.resume_next_idx
-                    # Setze den Aktiv-Status explizit auf False, anstatt ihn zu löschen.
-                    st.session_state.jump_to_idx_active = False
-                    st.rerun()
+                _, col2, _ = st.columns([2, 1.5, 2])
+                with col2:
+                    if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}", type="primary", use_container_width=True):
+                        st.session_state.jump_to_idx = resume_target_idx
+                        # Resume-Status zurücksetzen
+                        del st.session_state.resume_next_idx
+                        # Setze den Aktiv-Status explizit auf False, anstatt ihn zu löschen.
+                        st.session_state.jump_to_idx_active = False
+                        st.rerun()
             # Wenn wir am Fortsetzungspunkt angekommen sind, Status zurücksetzen
             elif resume_target_idx == frage_idx:
                 del st.session_state.resume_next_idx
@@ -311,42 +313,44 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
 
         # --- Antwort auswerten ---
         if antwort and not is_answered:
-            if st.button("Antworten", key=f"submit_{frage_idx}"):
-                # --- Rate Limiting ---
-                last_answer_time = st.session_state.get("last_answer_time", 0)
-                current_time = time.time()
-                if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
-                    st.warning(f"Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
-                    return
-                
-                st.session_state.last_answer_time = current_time
+            _, col2, _ = st.columns([2, 1.5, 2])
+            with col2:
+                if st.button("Antworten", key=f"submit_{frage_idx}", type="primary", use_container_width=True):
+                    # --- Rate Limiting ---
+                    last_answer_time = st.session_state.get("last_answer_time", 0)
+                    current_time = time.time()
+                    if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
+                        st.warning(f"Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
+                        return
+                    
+                    st.session_state.last_answer_time = current_time
 
-                if st.session_state.start_zeit is None:
-                    st.session_state.start_zeit = pd.Timestamp.now()
+                    if st.session_state.start_zeit is None:
+                        st.session_state.start_zeit = pd.Timestamp.now()
 
-                richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
-                ist_richtig = antwort == richtige_antwort_text
-                gewichtung = frage_obj.get("gewichtung", 1)
-                
-                if ist_richtig:
-                    punkte = gewichtung
-                    st.toast("Richtig!", icon="✅")
-                else:
-                    punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
-                    st.toast("Leider falsch.", icon="❌")
+                    richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
+                    ist_richtig = antwort == richtige_antwort_text
+                    gewichtung = frage_obj.get("gewichtung", 1)
+                    
+                    if ist_richtig:
+                        punkte = gewichtung
+                        st.toast("Richtig!", icon="✅")
+                    else:
+                        punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
+                        st.toast("Leider falsch.", icon="❌")
 
-                set_question_as_answered(frage_idx, punkte, antwort)
-                save_answer(
-                    st.session_state.user_id_hash,
-                    st.session_state.user_id,
-                    frage_obj,
-                    antwort,
-                    punkte,
-                    is_bookmarked,
-                    st.session_state.selected_questions_file
-                )
-                st.session_state[f"show_explanation_{frage_idx}"] = True
-                st.rerun()
+                    set_question_as_answered(frage_idx, punkte, antwort)
+                    save_answer(
+                        st.session_state.user_id_hash,
+                        st.session_state.user_id,
+                        frage_obj,
+                        antwort,
+                        punkte,
+                        is_bookmarked,
+                        st.session_state.selected_questions_file
+                    )
+                    st.session_state[f"show_explanation_{frage_idx}"] = True
+                    st.rerun()
 
         # --- Erklärung anzeigen ---
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
@@ -392,9 +396,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
     show_motivation(questions, app_config)
 
-    if st.button("Nächste Frage", key=f"next_q_{questions.index(frage_obj)}"):
-        st.session_state[f"show_explanation_{questions.index(frage_obj)}"] = False
-        st.rerun()
+    _, col2, _ = st.columns([2, 1.5, 2])
+    with col2:
+        if st.button("Nächste Frage", key=f"next_q_{questions.index(frage_obj)}", type="primary", use_container_width=True):
+            st.session_state[f"show_explanation_{questions.index(frage_obj)}"] = False
+            st.rerun()
 
 
 def render_final_summary(questions: list, app_config: AppConfig):
