@@ -20,20 +20,11 @@ class StMock:
     pass
 mock_st = StMock()
 
- 
-
-# Simuliere st.cache_data als eine Decorator-Factory, die Argumente (wie ttl) akzeptiert
-def mock_cache_data(*decorator_args, **decorator_kwargs):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
-        wrapper.clear = lambda: None
-        return wrapper
-    # Ermöglicht die Verwendung von @st.cache_data ohne Klammern
-    if len(decorator_args) == 1 and callable(decorator_args[0]):
-        return decorator(decorator_args[0])
-    return decorator
-
+# Simuliere st.cache_data als einfachen Pass-Through-Decorator.
+# Für Unit-Tests der Logik ist das Caching-Verhalten irrelevant.
+def mock_cache_data(func):
+    func.clear = lambda: None
+    return func
 mock_st.cache_data = mock_cache_data
 
 # Füge den Mock zum sys.modules-Cache hinzu, damit alle nachfolgenden Imports

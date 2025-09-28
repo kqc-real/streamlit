@@ -97,14 +97,15 @@ def list_question_files() -> List[str]:
 
 
 @st.cache_data
-def load_questions(filename: str) -> List[Dict[str, Any]]:
+def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
     """Lädt ein spezifisches Fragenset aus einer JSON-Datei."""
     path = os.path.join(get_package_dir(), filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
             if not isinstance(data, list):
-                st.error(f"Fehler in '{filename}': Die Datei muss eine Liste von Fragen enthalten.")
+                if not silent:
+                    st.error(f"Fehler in '{filename}': Die Datei muss eine Liste von Fragen enthalten.")
                 return []
             
             questions = data
@@ -124,7 +125,8 @@ def load_questions(filename: str) -> List[Dict[str, Any]]:
                 q["frage"] = f"{i + 1}. {frage_text}"
             return questions
     except (IOError, json.JSONDecodeError) as e:
-        st.error(f"Fehler beim Laden von '{filename}': {e}")
+        if not silent:
+            st.error(f"Fehler beim Laden von '{filename}': {e}")
         return []
 
 @st.cache_data

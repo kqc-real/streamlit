@@ -1,6 +1,1657 @@
 [
   {
-    "frage": "1. Was ist der Hauptvorteil von Docker im Kontext von Data Science?",
+    "frage": "1. Was ist der Hauptzweck von Docker in einem Data-Science-Projekt?",
+    "optionen": [
+      "Um die Performance von Python-Skripten zu beschleunigen.",
+      "Um eine reproduzierbare und isolierte Umgebung für die Software zu schaffen.",
+      "Um Jupyter Notebooks direkt in der Cloud auszuführen.",
+      "Um die Größe von Datensätzen zu reduzieren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Docker packt eine Anwendung und ihre Abhängigkeiten in einen Container, der überall gleich läuft. Das löst das 'Bei mir funktioniert es aber'-Problem und sorgt für Reproduzierbarkeit.",
+    "gewichtung": 1,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "2. Welcher Befehl wird verwendet, um eine Streamlit-App zu starten?",
+    "optionen": [
+      "python run app.py",
+      "streamlit start app.py",
+      "streamlit run app.py",
+      "start streamlit app.py"
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Befehl 'streamlit run <dateiname>.py' startet den Streamlit-Server und öffnet die App im Browser.",
+    "gewichtung": 1,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "3. Was ist ein Pandas DataFrame?",
+    "optionen": [
+      "Eine ein-dimensionale Datenstruktur für numerische Daten.",
+      "Eine zweidimensionale, tabellarische Datenstruktur mit Spalten und Zeilen.",
+      "Eine Bibliothek zur Erstellung von interaktiven Diagrammen.",
+      "Ein Machine-Learning-Modell zur Klassifikation."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Pandas DataFrame ist die zentrale Datenstruktur in Pandas und ähnelt einer Excel-Tabelle oder einer SQL-Tabelle. Sie ist für die Handhabung und Analyse von strukturierten Daten optimiert.",
+    "gewichtung": 1,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "4. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
+    "optionen": [
+      "Supervised Learning benötigt mehr Rechenleistung.",
+      "Unsupervised Learning wird nur für Textdaten verwendet.",
+      "Supervised Learning verwendet gelabelte Daten (Input und Output), Unsupervised Learning nicht.",
+      "Unsupervised Learning ist immer genauer als Supervised Learning."
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Kernunterschied ist das Vorhandensein von 'Antworten' in den Trainingsdaten. Supervised Learning lernt von Beispielen mit bekannten Ergebnissen (Labels), während Unsupervised Learning Muster in ungelabelten Daten sucht.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "5. Welcher Algorithmus gehört zum Unsupervised Learning?",
+    "optionen": [
+      "Decision Tree",
+      "K-Nearest Neighbors (KNN)",
+      "K-Means Clustering",
+      "Logistic Regression"
+    ],
+    "loesung": 2,
+    "erklaerung": "K-Means ist ein Clustering-Algorithmus, der versucht, Datenpunkte ohne vordefinierte Labels in 'k' Gruppen (Cluster) einzuteilen. Decision Tree, KNN und Logistic Regression sind Supervised-Learning-Algorithmen.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "6. Was ist der Zweck der 'Elbow-Methode'?",
+    "optionen": [
+      "Die optimale Anzahl der 'Nachbarn' (k) für KNN zu finden.",
+      "Die optimale Anzahl der 'Cluster' (k) für K-Means zu finden.",
+      "Die optimale Tiefe eines Decision Trees zu bestimmen.",
+      "Die optimale Lernrate für ein Neuronales Netz zu finden."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Elbow-Methode plottet die 'Inertia' (Summe der quadrierten Abstände zu den Cluster-Zentren) für verschiedene k-Werte. Der 'Ellenbogen' in der Kurve deutet auf ein gutes 'k' hin, bei dem eine weitere Erhöhung der Clusteranzahl nur noch geringe Verbesserungen bringt.",
+    "gewichtung": 3,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "7. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem Neuronalen Netz?",
+    "optionen": [
+      "Sie normalisiert die Eingabedaten.",
+      "Sie führt Nichtlinearität in das Modell ein.",
+      "Sie berechnet den Fehler des Modells.",
+      "Sie initialisiert die Gewichte des Netzwerks."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ohne nichtlineare Aktivierungsfunktionen wäre ein Neuronales Netz nur eine Kaskade von linearen Operationen, was es auf die Modellierung linearer Zusammenhänge beschränken würde. Die Nichtlinearität ermöglicht das Lernen komplexer Muster.",
+    "gewichtung": 2,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "8. Welche Aktivierungsfunktion wird typischerweise in der Ausgabeschicht eines Neuronalen Netzes für eine Multi-Klassen-Klassifikation verwendet?",
+    "optionen": [
+      "ReLU",
+      "Sigmoid",
+      "Tanh",
+      "Softmax"
+    ],
+    "loesung": 3,
+    "erklaerung": "Die Softmax-Funktion wandelt die rohen Ausgabe-Scores (Logits) des Netzes in eine Wahrscheinlichkeitsverteilung über alle Klassen um, wobei die Summe der Wahrscheinlichkeiten 1 ergibt.",
+    "gewichtung": 2,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "9. Was ist der Hauptvorteil von Convolutional Neural Networks (CNNs) gegenüber normalen Neuronalen Netzen bei der Bildverarbeitung?",
+    "optionen": [
+      "Sie sind schneller zu trainieren, da sie weniger Daten benötigen.",
+      "Sie nutzen 'Weight Sharing' und 'Local Connectivity', um die Anzahl der Parameter drastisch zu reduzieren.",
+      "Sie können nur mit Graustufenbildern arbeiten.",
+      "Sie benötigen keine Aktivierungsfunktionen."
+    ],
+    "loesung": 1,
+    "erklaerung": "CNNs verwenden Filter (Kernel), deren Gewichte über das gesamte Bild geteilt werden. Das macht sie extrem parameter-effizient und gut darin, lokale räumliche Muster zu erkennen, was für Bilder ideal ist.",
+    "gewichtung": 3,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "10. Was ist Data Augmentation?",
+    "optionen": [
+      "Das manuelle Hinzufügen von neuen, gelabelten Daten zum Trainingsset.",
+      "Das künstliche Erzeugen neuer Trainingsdaten durch Transformationen der bestehenden Daten (z.B. Drehen, Spiegeln).",
+      "Eine Methode zur Beschleunigung des Modell-Trainings.",
+      "Das Entfernen von fehlerhaften Daten aus dem Datensatz."
+    ],
+    "loesung": 1,
+    "erklaerung": "Data Augmentation ist eine Technik, um Overfitting zu reduzieren, indem man dem Modell zur Trainingszeit leicht veränderte Versionen der Bilder zeigt. Dadurch lernt das Modell, robustere und allgemeinere Merkmale zu erkennen.",
+    "gewichtung": 2,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "11. Was versteht man unter Transfer Learning?",
+    "optionen": [
+      "Das Trainieren eines Modells von Grund auf mit einem sehr großen Datensatz.",
+      "Die Verwendung eines auf einer großen Aufgabe vortrainierten Modells als Ausgangspunkt für eine neue, spezifischere Aufgabe.",
+      "Die Übertragung eines Modells von einer Programmiersprache in eine andere.",
+      "Das Trainieren mehrerer Modelle auf verschiedenen Teilen eines Datensatzes."
+    ],
+    "loesung": 1,
+    "erklaerung": "Beim Transfer Learning nutzt man das 'Wissen' (die gelernten Features) eines Modells, das auf einem riesigen Datensatz (z.B. ImageNet) trainiert wurde, und passt es mit einem kleineren, aufgabenspezifischen Datensatz an. Dies spart enorm viel Zeit und Daten.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
+  },
+  {
+    "frage": "12. Was ist der Zweck des QUA³CK-Prozessmodells?",
+    "optionen": [
+      "Es ist ein spezifischer Machine-Learning-Algorithmus.",
+      "Es ist ein Framework zur Beschleunigung von Python-Code.",
+      "Es bietet eine strukturierte Vorgehensweise für Data-Science-Projekte von der Fragestellung bis zum Wissenstransfer.",
+      "Es ist eine Bibliothek zur Datenvisualisierung."
+    ],
+    "loesung": 2,
+    "erklaerung": "QUA³CK ist ein am KIT entwickeltes Prozessmodell, das die Phasen Question, Understanding, die A³-Schleife (Algorithm, Adapting, Adjusting), Conclude und Knowledge Transfer umfasst, um ML-Projekte systematisch zu bearbeiten.",
+    "gewichtung": 2,
+    "thema": "MLOps & Prozesse"
+  },
+  {
+    "frage": "13. Welches Tool wird im Kurs primär für das Experiment-Tracking und die Modell-Verwaltung (Model Registry) verwendet?",
+    "optionen": [
+      "TensorBoard",
+      "Weights & Biases",
+      "MLflow",
+      "DVC"
+    ],
+    "loesung": 2,
+    "erklaerung": "MLflow wird im Kurs als zentrales MLOps-Tool verwendet, um Experimente (Parameter, Metriken) zu tracken und trainierte Modelle in einer 'Model Registry' zu versionieren und zu verwalten.",
+    "gewichtung": 3,
+    "thema": "MLOps & Tools"
+  },
+  {
+    "frage": "14. Was ist der Hauptzweck einer `requirements.txt`-Datei?",
+    "optionen": [
+      "Sie enthält den Python-Code für die Anwendung.",
+      "Sie listet alle Python-Bibliotheken und deren Versionen auf, die für ein Projekt benötigt werden.",
+      "Sie beschreibt die Architektur eines Neuronalen Netzes.",
+      "Sie enthält die Trainingsdaten für ein Machine-Learning-Modell."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die `requirements.txt` Datei ermöglicht es, eine Python-Umgebung mit genau den richtigen Abhängigkeiten zu reproduzieren, was für die Zusammenarbeit und das Deployment entscheidend ist. Man installiert sie mit `pip install -r requirements.txt`.",
+    "gewichtung": 1,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "15. Welcher Python-Befehl wird verwendet, um eine Spalte namens 'Alter' aus einem Pandas DataFrame 'df' auszuwählen?",
+    "optionen": [
+      "df.get('Alter')",
+      "df['Alter']",
+      "df.column('Alter')",
+      "df.select('Alter')"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Standardmethode, um auf eine Spalte in einem Pandas DataFrame zuzugreifen, ist die Verwendung der eckigen Klammern mit dem Spaltennamen als String: df['Alter'].",
+    "gewichtung": 1,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "16. Was ist der Unterschied zwischen `st.write()` und `st.dataframe()` in Streamlit?",
+    "optionen": [
+      "Es gibt keinen Unterschied, beide machen das Gleiche.",
+      "`st.write()` kann nur Text anzeigen, `st.dataframe()` nur Tabellen.",
+      "`st.write()` ist ein 'magischer' Befehl, der viele Datentypen (inkl. DataFrames) anzeigen kann, während `st.dataframe()` eine interaktive Tabelle speziell für DataFrames rendert.",
+      "`st.dataframe()` ist veraltet und sollte nicht mehr verwendet werden."
+    ],
+    "loesung": 2,
+    "erklaerung": "`st.write()` ist ein Allzweck-Befehl. Wenn man ihm einen Pandas DataFrame übergibt, zeigt er eine statische Tabelle an. `st.dataframe()` hingegen rendert eine interaktive Tabelle mit Sortier- und Filterfunktionen.",
+    "gewichtung": 2,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "17. Was beschreibt der Begriff 'Overfitting' im Machine Learning?",
+    "optionen": [
+      "Das Modell ist zu einfach und kann die Muster in den Daten nicht lernen.",
+      "Das Modell lernt die Trainingsdaten 'auswendig', inklusive des Rauschens, und generalisiert schlecht auf neue Daten.",
+      "Das Training des Modells dauert zu lange.",
+      "Das Modell wurde mit zu wenigen Daten trainiert."
+    ],
+    "loesung": 1,
+    "erklaerung": "Overfitting tritt auf, wenn ein Modell zu komplex ist im Verhältnis zur Datenmenge. Es passt sich perfekt an die Trainingsdaten an, verliert aber die Fähigkeit, auf ungesehenen Daten gute Vorhersagen zu machen.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "18. Welcher der folgenden Filter wird typischerweise zur Kantenerkennung in der Bildverarbeitung verwendet?",
+    "optionen": [
+      "Mean-Filter (Blur)",
+      "Median-Filter",
+      "Gauß-Filter",
+      "Sobel-Filter"
+    ],
+    "loesung": 3,
+    "erklaerung": "Der Sobel-Filter ist ein klassischer Kantenerkennungs-Operator, der die Ableitung (den Gradienten) der Bildintensität berechnet, um Kanten hervorzuheben. Blur-Filter hingegen glätten das Bild.",
+    "gewichtung": 2,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "19. Was ist der Hauptvorteil der Verwendung von Transformer-Modellen (wie BERT oder GPT) gegenüber LSTMs für NLP-Aufgaben?",
+    "optionen": [
+      "Transformer sind einfacher zu implementieren.",
+      "Transformer können stark parallelisiert werden, was das Training auf GPUs erheblich beschleunigt.",
+      "Transformer benötigen weniger Speicher.",
+      "Transformer können nur für Textgenerierung verwendet werden."
+    ],
+    "loesung": 1,
+    "erklaerung": "LSTMs verarbeiten Sequenzen Wort für Wort, was die Parallelisierung erschwert. Transformer verarbeiten alle Wörter einer Sequenz gleichzeitig mithilfe des 'Attention'-Mechanismus, was sie ideal für moderne Hardware wie GPUs und TPUs macht.",
+    "gewichtung": 3,
+    "thema": "Natural Language Processing"
+  },
+  {
+    "frage": "20. Was ist der Zweck eines `Dockerfile`?",
+    "optionen": [
+      "Es ist ein Python-Skript zum Trainieren von ML-Modellen.",
+      "Es ist eine Konfigurationsdatei für Jupyter Notebooks.",
+      "Es ist eine Textdatei, die die Anweisungen zum Bauen eines Docker-Images enthält.",
+      "Es ist eine Log-Datei, die alle Docker-Befehle aufzeichnet."
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein Dockerfile ist wie ein Rezept. Es listet alle Schritte auf, die notwendig sind, um eine lauffähige Umgebung für eine Anwendung zu erstellen, inklusive Basis-Image, Abhängigkeiten und Startbefehlen.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "21. Welches Argument wird bei `train_test_split` von Scikit-learn verwendet, um sicherzustellen, dass die Klassenverteilung in Trainings- und Testset gleich bleibt?",
+    "optionen": [
+      "shuffle=True",
+      "stratify=y",
+      "balance=True",
+      "keep_distribution=True"
+    ],
+    "loesung": 1,
+    "erklaerung": "Das `stratify`-Argument sorgt für eine geschichtete Aufteilung. Wenn man ihm die Label-Variable `y` übergibt, stellt es sicher, dass der prozentuale Anteil jeder Klasse in Trainings- und Testdaten dem des Gesamtdatensatzes entspricht.",
+    "gewichtung": 3,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "22. Was ist der Zweck des 'Pooling'-Layers in einem CNN?",
+    "optionen": [
+      "Die Anzahl der Features (Filter) zu erhöhen.",
+      "Die räumliche Dimension der Feature Maps zu reduzieren (Downsampling).",
+      "Dem Bild Rauschen hinzuzufügen, um Overfitting zu vermeiden.",
+      "Die Farben des Bildes zu normalisieren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Pooling (z.B. Max-Pooling) reduziert die Höhe und Breite der Feature Maps (Downsampling). Dies verringert die Anzahl der Parameter und den Rechenaufwand in nachfolgenden Schichten und macht das Modell robuster gegenüber kleinen Verschiebungen im Bild.",
+    "gewichtung": 2,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "23. Welches Python-Tool wird im Kurs verwendet, um ML-Modelle als REST API bereitzustellen?",
+    "optionen": [
+      "Streamlit",
+      "Flask",
+      "Django",
+      "FastAPI"
+    ],
+    "loesung": 3,
+    "erklaerung": "FastAPI ist ein modernes, schnelles Web-Framework für Python, das sich hervorragend für die Erstellung von performanten APIs eignet, insbesondere für das Servieren von ML-Modellen.",
+    "gewichtung": 2,
+    "thema": "MLOps & Deployment"
+  },
+  {
+    "frage": "24. Was ist der Unterschied zwischen `Accuracy` und `Precision` als Metrik?",
+    "optionen": [
+      "Es gibt keinen Unterschied.",
+      "Accuracy misst den Anteil aller korrekten Vorhersagen, während Precision den Anteil der korrekten positiven Vorhersagen an allen positiven Vorhersagen misst.",
+      "Precision ist immer höher als Accuracy.",
+      "Accuracy wird für Regression verwendet, Precision für Klassifikation."
+    ],
+    "loesung": 1,
+    "erklaerung": "Accuracy = (TP+TN)/(TP+TN+FP+FN). Precision = TP/(TP+FP). Precision ist wichtig, wenn die Kosten für 'False Positives' hoch sind (z.B. Spam-Filter, der wichtige E-Mails fälschlicherweise als Spam markiert).",
+    "gewichtung": 3,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "25. Wie kann man in Streamlit interaktive Widgets wie Schieberegler oder Buttons in einer Seitenleiste platzieren?",
+    "optionen": [
+      "Man kann Widgets nicht in einer Seitenleiste platzieren.",
+      "Indem man den Befehl `st.sidebar()` verwendet.",
+      "Indem man den Befehlen das Präfix `st.sidebar.` voranstellt (z.B. `st.sidebar.slider(...)`).",
+      "Durch die CSS-Eigenschaft `position: sidebar;`."
+    ],
+    "loesung": 2,
+    "erklaerung": "Jeder Streamlit-Befehl, dem `st.sidebar.` vorangestellt wird, rendert das entsprechende Element in der Seitenleiste anstatt im Hauptbereich der App.",
+    "gewichtung": 1,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "26. Was ist ein 'Hyperparameter'?",
+    "optionen": [
+      "Ein Gewicht oder Bias, das während des Trainings gelernt wird.",
+      "Ein Parameter, der vor dem Trainingsprozess festgelegt wird und diesen steuert (z.B. Lernrate, Anzahl der Layer).",
+      "Ein Maß für die Leistung des Modells auf dem Testdatensatz.",
+      "Die Ausgabe der Verlustfunktion nach einer Trainingsepoche."
+    ],
+    "loesung": 1,
+    "erklaerung": "Hyperparameter sind die 'Stellschrauben' eines Modells, die nicht durch das Training gelernt, sondern vom Entwickler festgelegt werden. Die Suche nach den optimalen Hyperparametern ist ein wichtiger Teil des ML-Prozesses.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "27. Welcher Befehl wird in einem Dockerfile verwendet, um die notwendigen Python-Pakete zu installieren?",
+    "optionen": [
+      "INSTALL requirements.txt",
+      "RUN pip install -r requirements.txt",
+      "EXECUTE pip install -r requirements.txt",
+      "ADD requirements.txt"
+    ],
+    "loesung": 1,
+    "erklaerung": "Der `RUN`-Befehl führt Shell-Kommandos innerhalb des Docker-Images aus. `pip install -r requirements.txt` ist der Standardbefehl, um alle in der `requirements.txt`-Datei gelisteten Pakete zu installieren.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "28. Was ist der Zweck der `GlobalAveragePooling2D`-Schicht in einem CNN?",
+    "optionen": [
+      "Sie vergrößert die Feature Maps.",
+      "Sie ersetzt die `Flatten`-Schicht und reduziert die Anzahl der Parameter drastisch, indem sie den Mittelwert jeder Feature Map berechnet.",
+      "Sie führt eine Faltungsoperation über das gesamte Bild durch.",
+      "Sie normalisiert die Pixelwerte des Eingabebildes."
+    ],
+    "loesung": 1,
+    "erklaerung": "Anstatt die Feature Maps zu 'flatten' (was zu sehr vielen Parametern führt), berechnet Global Average Pooling den Durchschnitt jeder einzelnen Feature Map. Das Ergebnis ist ein Vektor, der direkt an die Dense-Layer weitergegeben werden kann, was das Modell oft robuster gegen Overfitting macht.",
+    "gewichtung": 3,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "29. Welches Problem löst der 'Attention'-Mechanismus in Transformer-Modellen?",
+    "optionen": [
+      "Das 'Vanishing Gradient'-Problem in tiefen Netzwerken.",
+      "Die Schwierigkeit von RNNs/LSTMs, Langzeitabhängigkeiten in langen Sequenzen zu lernen.",
+      "Die hohe Anzahl an Parametern in CNNs.",
+      "Die Notwendigkeit, Daten vor dem Training zu normalisieren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Attention-Mechanismus erlaubt es dem Modell, für jedes Wort in einer Sequenz die Wichtigkeit jedes anderen Wortes zu bewerten. Dadurch kann es direkte Verbindungen zwischen weit entfernten Wörtern herstellen, ein Problem, mit dem rekurrente Architekturen (RNNs) zu kämpfen haben.",
+    "gewichtung": 3,
+    "thema": "Natural Language Processing"
+  },
+  {
+    "frage": "30. Was ist der Hauptvorteil von `docker-compose` gegenüber einzelnen `docker run`-Befehlen?",
+    "optionen": [
+      "`docker-compose` ist schneller im Bauen von Images.",
+      "`docker-compose` kann mehrere voneinander abhängige Container (Services) mit einer einzigen Konfigurationsdatei und einem einzigen Befehl verwalten und starten.",
+      "`docker-compose` benötigt weniger Speicher.",
+      "`docker-compose` ist nur für Webserver geeignet."
+    ],
+    "loesung": 1,
+    "erklaerung": "`docker-compose` ist ein Orchestrierungstool. Es ermöglicht die Definition einer Multi-Container-Anwendung (z.B. eine Web-App, eine Datenbank und ein Caching-Service) in einer `docker-compose.yml`-Datei und deren gemeinsame Verwaltung.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "31. Welche Python-Bibliothek wird hauptsächlich für die Erstellung von interaktiven Web-Dashboards im Kurs verwendet?",
+    "optionen": [
+      "Flask",
+      "Django",
+      "Streamlit",
+      "Plotly"
+    ],
+    "loesung": 2,
+    "erklaerung": "Streamlit ist das zentrale Framework im Kurs, um schnell und einfach interaktive Web-Anwendungen und Dashboards für Data-Science- und ML-Projekte zu erstellen.",
+    "gewichtung": 1,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "32. Was ist der Zweck der `fit()`-Methode bei einem Scikit-learn Modell?",
+    "optionen": [
+      "Sie macht Vorhersagen auf neuen Daten.",
+      "Sie evaluiert die Genauigkeit des Modells.",
+      "Sie trainiert das Modell mit den Trainingsdaten.",
+      "Sie speichert das trainierte Modell auf der Festplatte."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die `fit(X_train, y_train)`-Methode ist der zentrale Schritt im Trainingsprozess, bei dem das Modell die Muster und Zusammenhänge aus den Trainingsdaten lernt.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "33. Welcher der 'Big 3' Algorithmen ist ein distanzbasierter Algorithmus?",
+    "optionen": [
+      "Decision Tree",
+      "K-Means Clustering",
+      "K-Nearest Neighbors (KNN)",
+      "Random Forest"
+    ],
+    "loesung": 2,
+    "erklaerung": "KNN klassifiziert einen neuen Datenpunkt basierend auf der Mehrheitsklasse seiner 'k' nächsten Nachbarn. Die 'Nähe' wird dabei durch ein Distanzmaß (z.B. Euklidischer Abstand) bestimmt.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "34. Was ist eine 'Feature Map' im Kontext von CNNs?",
+    "optionen": [
+      "Eine Landkarte, die die wichtigsten Features eines Landes zeigt.",
+      "Die Ausgabe eines Filters nach der Faltungsoperation, die die Aktivierung eines bestimmten Merkmals an verschiedenen Stellen im Bild anzeigt.",
+      "Eine Liste aller Features, die für das Training verwendet werden.",
+      "Ein Diagramm, das die Wichtigkeit der verschiedenen Features vergleicht."
+    ],
+    "loesung": 1,
+    "erklaerung": "Jeder Filter in einer Convolutional-Schicht erzeugt eine Feature Map. Diese Karte zeigt, wo im Bild das vom Filter gesuchte Muster (z.B. eine vertikale Kante, ein Auge) gefunden wurde.",
+    "gewichtung": 2,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "35. Was ist der Zweck der `requirements.cloud.txt` Datei im `07_Deployment_Portfolio` Ordner?",
+    "optionen": [
+      "Sie enthält spezielle Anforderungen für das Training in der Cloud.",
+      "Sie listet alle Python-Pakete auf, die für das Deployment der Streamlit-Apps auf Streamlit Cloud benötigt werden.",
+      "Sie ist eine Sicherungskopie der normalen `requirements.txt`.",
+      "Sie enthält die Zugangsdaten für die Cloud-Plattform."
+    ],
+    "loesung": 1,
+    "erklaerung": "Deployment-Plattformen wie Streamlit Cloud benötigen eine `requirements.txt`-Datei, um zu wissen, welche Pakete für die Ausführung der App installiert werden müssen. Die `requirements.cloud.txt` ist speziell für diesen Zweck optimiert.",
+    "gewichtung": 2,
+    "thema": "MLOps & Deployment"
+  },
+  {
+    "frage": "36. Welcher Datentyp wird in Python verwendet, um eine unveränderliche Liste von Elementen zu speichern?",
+    "optionen": [
+      "list",
+      "dict",
+      "set",
+      "tuple"
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein Tupel (`tuple`) ist ähnlich wie eine Liste, aber seine Elemente können nach der Erstellung nicht mehr geändert, hinzugefügt oder entfernt werden. Dies macht es nützlich für Daten, die konstant bleiben sollen.",
+    "gewichtung": 1,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "37. Was ist der Unterschied zwischen `iloc` und `loc` in Pandas?",
+    "optionen": [
+      "`loc` wird für die Auswahl nach Label (Index-Name, Spalten-Name) verwendet, `iloc` für die Auswahl nach Position (Integer-Index).",
+      "`iloc` ist schneller als `loc`.",
+      "`loc` kann nur Zeilen auswählen, `iloc` nur Spalten.",
+      "Es gibt keinen funktionalen Unterschied."
+    ],
+    "loesung": 0,
+    "erklaerung": "`loc` ist label-basiert, z.B. `df.loc[0, 'Alter']`. `iloc` ist integer-positions-basiert, z.B. `df.iloc[0, 1]`. Die Verwendung des falschen Indexers führt oft zu Fehlern.",
+    "gewichtung": 3,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "38. Was ist der 'Vanishing Gradient' Problem in tiefen Neuronalen Netzen?",
+    "optionen": [
+      "Ein Problem, bei dem die Gradienten während der Backpropagation so groß werden, dass das Training instabil wird.",
+      "Ein Problem, bei dem die Gradienten während der Backpropagation so klein werden, dass die unteren Schichten des Netzwerks kaum noch lernen.",
+      "Ein Problem, bei dem das Netzwerk vergisst, was es in früheren Epochen gelernt hat.",
+      "Ein Problem, bei dem die Aktivierungsfunktionen verschwinden."
+    ],
+    "loesung": 2,
+    "erklaerung": "Bei der Backpropagation wird der Fehlergradient durch das Netzwerk zurückpropagiert. Bei tiefen Netzen und bestimmten Aktivierungsfunktionen (wie Sigmoid) kann dieser Gradient exponentiell kleiner werden, was das Update der Gewichte in den vorderen Schichten verhindert oder extrem verlangsamt.",
+    "gewichtung": 3,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "39. Welche Technik wird verwendet, um das 'Vanishing Gradient'-Problem zu mildern?",
+    "optionen": [
+      "Verwendung von `Sigmoid`-Aktivierungsfunktionen.",
+      "Erhöhung der Batch-Größe.",
+      "Verwendung von `ReLU`-Aktivierungsfunktionen oder Residual Connections (ResNets).",
+      "Verringerung der Lernrate."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die ReLU-Aktivierungsfunktion hat für positive Eingaben eine konstante Ableitung von 1, was den Gradientenfluss erleichtert. Residual Connections (in ResNets) schaffen 'Kurzschlüsse', die es dem Gradienten ermöglichen, Schichten zu überspringen.",
+    "gewichtung": 3,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "40. Was ist der Zweck der Datei `.gitignore` in einem Git-Repository?",
+    "optionen": [
+      "Sie enthält eine Liste von Befehlen, die Git ignorieren soll.",
+      "Sie listet Dateien und Verzeichnisse auf, die von der Versionskontrolle ignoriert werden sollen (z.B. Log-Dateien, temporäre Dateien).",
+      "Sie ist eine Konfigurationsdatei für GitHub Actions.",
+      "Sie enthält eine Liste von Git-Benutzern, die ignoriert werden sollen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die `.gitignore`-Datei ist entscheidend, um das Repository sauber zu halten, indem man verhindert, dass generierte Dateien, Abhängigkeiten (wie `node_modules`) oder sensible Informationen versehentlich committet werden.",
+    "gewichtung": 1,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "41. Was ist der Unterschied zwischen einem `Conv2D`-Layer und einem `Dense`-Layer in Keras?",
+    "optionen": [
+      "Ein `Dense`-Layer ist nur für die Eingabeschicht, ein `Conv2D`-Layer nur für die Ausgabeschicht.",
+      "In einem `Dense`-Layer ist jedes Neuron mit jedem Neuron der vorherigen Schicht verbunden, in einem `Conv2D`-Layer nur mit einer lokalen Region (rezeptives Feld).",
+      "`Conv2D`-Layer haben immer mehr Parameter als `Dense`-Layer.",
+      "`Dense`-Layer werden für Bilder, `Conv2D`-Layer für Text verwendet."
+    ],
+    "loesung": 1,
+    "erklaerung": "Diese unterschiedliche Konnektivität ist der Kernunterschied. `Dense` (oder Fully-Connected) Layer lernen globale Muster, während `Conv2D`-Layer durch ihre lokalen rezeptiven Felder und das Weight Sharing lokale, räumliche Muster lernen.",
+    "gewichtung": 2,
+    "thema": "Deep Learning"
+  },
+  {
+    "frage": "42. Was ist eine 'Epoche' im Kontext des Trainings von Machine-Learning-Modellen?",
+    "optionen": [
+      "Die Verarbeitung eines einzelnen Datenpunktes.",
+      "Ein kompletter Durchlauf des Algorithmus durch den gesamten Trainingsdatensatz.",
+      "Die Zeit, die für das Training eines Modells benötigt wird.",
+      "Ein einzelner Schritt der Gewichtsaktualisierung."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Epoche ist abgeschlossen, wenn das Modell jeden Datenpunkt des Trainingsdatensatzes einmal gesehen hat. Das Training eines Modells erstreckt sich typischerweise über viele Epochen.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "43. Welches Streamlit-Kommando wird verwendet, um einen Schieberegler für Zahlen zu erstellen?",
+    "optionen": [
+      "st.number_input()",
+      "st.slider()",
+      "st.range()",
+      "st.numeric_selector()"
+    ],
+    "loesung": 1,
+    "erklaerung": "`st.slider()` ist das spezifische Widget in Streamlit, um einen interaktiven Schieberegler zu erstellen, mit dem Benutzer einen numerischen Wert aus einem definierten Bereich auswählen können.",
+    "gewichtung": 1,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "44. Was ist der Zweck der `predict()`-Methode bei einem trainierten Scikit-learn Modell?",
+    "optionen": [
+      "Sie trainiert das Modell neu mit neuen Daten.",
+      "Sie gibt die gelernten Parameter des Modells zurück.",
+      "Sie wendet das gelernte Modell auf neue, ungesehene Daten an, um Vorhersagen zu treffen.",
+      "Sie berechnet die Genauigkeit des Modells auf den Trainingsdaten."
+    ],
+    "loesung": 2,
+    "erklaerung": "Nachdem ein Modell mit `fit()` trainiert wurde, wird die `predict()`-Methode verwendet, um es auf neue Daten (z.B. das Testset) anzuwenden und die entsprechenden Vorhersagen (Klassen oder Werte) zu generieren.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "45. Was ist der Hauptunterschied zwischen einem `Dockerfile` und einem `docker-compose.yml`?",
+    "optionen": [
+      "Ein `Dockerfile` baut ein einzelnes Image, während `docker-compose.yml` mehrere Container (Services) definiert und orchestriert.",
+      "Ein `Dockerfile` ist für die Entwicklung, `docker-compose.yml` für die Produktion.",
+      "Ein `Dockerfile` ist in Python geschrieben, `docker-compose.yml` in YAML.",
+      "Es gibt keinen wesentlichen Unterschied."
+    ],
+    "loesung": 0,
+    "erklaerung": "Ein `Dockerfile` ist die Bauanleitung für einen einzelnen Container. `docker-compose` ist ein Werkzeug, um Multi-Container-Anwendungen zu definieren und auszuführen, wobei jeder Container auf seinem eigenen `Dockerfile` basieren kann.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "46. Welcher der folgenden Algorithmen ist ein Ensemble-Modell?",
+    "optionen": [
+      "K-Nearest Neighbors (KNN)",
+      "Decision Tree",
+      "Random Forest",
+      "Linear Regression"
+    ],
+    "loesung": 2,
+    "erklaerung": "Ein Random Forest ist ein Ensemble-Modell, das aus vielen einzelnen Decision Trees besteht. Er trifft Vorhersagen, indem er die Vorhersagen der einzelnen Bäume aggregiert (z.B. durch Mehrheitsentscheid), was oft zu robusteren und genaueren Ergebnissen führt.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "47. Was ist der Zweck der `Flatten`-Schicht in einem CNN?",
+    "optionen": [
+      "Sie glättet das Eingabebild.",
+      "Sie wandelt die mehrdimensionalen Feature Maps am Ende der Convolutional-Blöcke in einen eindimensionalen Vektor um.",
+      "Sie reduziert die Anzahl der Farben im Bild.",
+      "Sie führt eine Faltungsoperation durch."
+    ],
+    "loesung": 1,
+    "erklaerung": "Nach den Convolutional- und Pooling-Layern liegen die Daten als mehrdimensionale Tensoren (Feature Maps) vor. Um sie an die nachfolgenden `Dense`-Layer (die einen Vektor als Input erwarten) übergeben zu können, muss dieser Tensor zu einem eindimensionalen Vektor 'geglättet' oder 'plattgedrückt' werden.",
+    "gewichtung": 2,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "48. Was ist ein 'REST API'?",
+    "optionen": [
+      "Eine spezielle Art von Machine-Learning-Modell.",
+      "Eine standardisierte Schnittstelle, die es verschiedenen Softwaresystemen ermöglicht, über das HTTP-Protokoll miteinander zu kommunizieren.",
+      "Ein Tool zur Versionskontrolle von Code.",
+      "Eine Datenbank für große Datenmengen."
+    ],
+    "loesung": 2,
+    "erklaerung": "REST (Representational State Transfer) ist ein Architekturstil für verteilte Systeme. Eine REST API ermöglicht es einem Client (z.B. eine Web-App), Daten von einem Server (z.B. einem ML-Modell-Server) über Standard-HTTP-Methoden (GET, POST, etc.) anzufordern.",
+    "gewichtung": 2,
+    "thema": "MLOps & Deployment"
+  },
+  {
+    "frage": "49. Welches Python-Keyword wird verwendet, um eine Funktion zu definieren?",
+    "optionen": [
+      "function",
+      "def",
+      "fun",
+      "define"
+    ],
+    "loesung": 2,
+    "erklaerung": "In Python wird das Keyword `def` verwendet, um eine neue Funktion zu deklarieren, gefolgt vom Funktionsnamen, den Parametern in Klammern und einem Doppelpunkt.",
+    "gewichtung": 1,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "50. Was ist der Zweck der `BatchNormalization`-Schicht in einem Neuronalen Netz?",
+    "optionen": [
+      "Sie erhöht die Anzahl der lernbaren Parameter.",
+      "Sie normalisiert die Aktivierungen zwischen den Schichten, um das Training zu stabilisieren und zu beschleunigen.",
+      "Sie ersetzt die Notwendigkeit von Aktivierungsfunktionen.",
+      "Sie funktioniert nur in der ersten Schicht eines Netzwerks."
+    ],
+    "loesung": 1,
+    "erklaerung": "Batch Normalization normalisiert die Ausgaben einer Schicht, bevor sie an die nächste weitergegeben werden. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler und schneller.",
+    "gewichtung": 3,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "51. Welcher Befehl wird verwendet, um alle laufenden Docker-Container anzuzeigen?",
+    "optionen": [
+      "docker show all",
+      "docker list",
+      "docker ps",
+      "docker containers"
+    ],
+    "loesung": 2,
+    "erklaerung": "`docker ps` listet alle aktuell laufenden Container auf. Um auch gestoppte Container anzuzeigen, verwendet man `docker ps -a`.",
+    "gewichtung": 1,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "52. Wie kann man in Streamlit eine Datei-Upload-Funktion erstellen?",
+    "optionen": [
+      "st.upload_file()",
+      "st.file_uploader()",
+      "st.input(type='file')",
+      "st.load_file()"
+    ],
+    "loesung": 1,
+    "erklaerung": "Das Widget `st.file_uploader()` erstellt eine Schaltfläche, mit der Benutzer Dateien von ihrem lokalen System in die Streamlit-App hochladen können, die dann z.B. mit Pandas verarbeitet werden können.",
+    "gewichtung": 2,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "53. Was ist der Unterschied zwischen `pd.read_csv()` und `pd.read_excel()` in Pandas?",
+    "optionen": [
+      "Es gibt keinen Unterschied.",
+      "`read_csv()` liest kommagetrennte Dateien, `read_excel()` liest Excel-Dateien (.xls, .xlsx).",
+      "`read_excel()` ist schneller als `read_csv()`.",
+      "`read_csv()` kann nur Textdateien lesen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Pandas bietet spezifische Funktionen für verschiedene Dateiformate. `pd.read_csv()` ist für CSV-Dateien optimiert, während `pd.read_excel()` die komplexere Struktur von Excel-Arbeitsmappen (inkl. verschiedener Blätter) handhaben kann.",
+    "gewichtung": 1,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "54. Was ist eine 'Confusion Matrix'?",
+    "optionen": [
+      "Eine Matrix, die die Korrelation zwischen verschiedenen Features zeigt.",
+      "Eine Tabelle, die die Leistung eines Klassifikationsmodells visualisiert, indem sie die Anzahlen von True Positives, True Negatives, False Positives und False Negatives darstellt.",
+      "Eine Methode zur Visualisierung von hochdimensionalen Daten.",
+      "Eine Technik zur Hyperparameter-Optimierung."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Confusion Matrix ist ein wichtiges Werkzeug zur Evaluation von Klassifikationsmodellen. Sie zeigt detailliert, welche Klassen das Modell gut unterscheidet und wo es zu Verwechslungen kommt.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "55. Welcher der 'Big 3' Algorithmen ist am besten für die Interpretation und Erklärung von Entscheidungen geeignet?",
+    "optionen": [
+      "K-Means Clustering",
+      "K-Nearest Neighbors (KNN)",
+      "Decision Tree",
+      "Alle sind gleich gut interpretierbar."
+    ],
+    "loesung": 2,
+    "erklaerung": "Decision Trees (Entscheidungsbäume) sind von Natur aus sehr gut interpretierbar, da ihre Struktur einer Reihe von verständlichen Ja/Nein-Fragen entspricht. Man kann den Entscheidungspfad für jede Vorhersage nachvollziehen.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "56. Was ist der Zweck der `Dropout`-Schicht in einem Neuronalen Netz?",
+    "optionen": [
+      "Sie beschleunigt das Training, indem sie zufällig Datenpunkte auslässt.",
+      "Sie ist eine Regularisierungstechnik, die Overfitting verhindert, indem sie während des Trainings zufällig einen Teil der Neuronen 'ausschaltet'.",
+      "Sie fügt dem Netzwerk zusätzliche Neuronen hinzu.",
+      "Sie dient als Aktivierungsfunktion."
+    ],
+    "loesung": 1,
+    "erklaerung": "Indem in jedem Trainingsschritt zufällig Neuronen deaktiviert werden, zwingt Dropout das Netzwerk, robustere und weniger voneinander abhängige Features zu lernen. Dies wirkt Overfitting entgegen und verbessert die Generalisierungsfähigkeit.",
+    "gewichtung": 3,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "57. Was ist der Unterschied zwischen 'semantischer Segmentierung' und 'Instanzensegmentierung' in der Computer Vision?",
+    "optionen": [
+      "Es gibt keinen Unterschied.",
+      "Semantische Segmentierung klassifiziert jedes Pixel im Bild, während Instanzensegmentierung zusätzlich zwischen verschiedenen Instanzen derselben Klasse unterscheidet.",
+      "Instanzensegmentierung ist einfacher als semantische Segmentierung.",
+      "Semantische Segmentierung verwendet CNNs, Instanzensegmentierung nicht."
+    ],
+    "loesung": 1,
+    "erklaerung": "Beispiel: Bei einem Bild mit zwei Katzen würde die semantische Segmentierung alle Katzenpixel als 'Katze' markieren. Die Instanzensegmentierung würde sie als 'Katze 1' und 'Katze 2' unterscheiden.",
+    "gewichtung": 3,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "58. Was ist der Zweck der `fine-tuning`-Phase beim Transfer Learning?",
+    "optionen": [
+      "Den vortrainierten Teil des Modells komplett neu zu trainieren.",
+      "Nur den neu hinzugefügten Klassifikator zu trainieren.",
+      "Die Gewichte der oberen Schichten des vortrainierten Modells mit einer sehr kleinen Lernrate leicht anzupassen, um sie besser auf die neue Aufgabe zu spezialisieren.",
+      "Die Anzahl der Layer im Modell zu reduzieren."
+    ],
+    "loesung": 2,
+    "erklaerung": "Nachdem der neue Klassifikator trainiert wurde (Feature Extraction), werden einige der oberen Schichten des Basis-Modells 'aufgetaut'. Mit einer sehr kleinen Lernrate werden diese Gewichte dann vorsichtig an die Nuancen des neuen Datensatzes angepasst, ohne das wertvolle vortrainierte Wissen zu zerstören.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
+  },
+  {
+    "frage": "59. Welches Hugging Face Modell wird im Kurs als Beispiel für Textgenerierung verwendet?",
+    "optionen": [
+      "BERT",
+      "T5",
+      "distilgpt2",
+      "RoBERTa"
+    ],
+    "loesung": 2,
+    "erklaerung": "Im Notebook `02_NLP_und_Text_Generation.ipynb` wird `distilgpt2`, eine kleinere und schnellere Version von GPT-2, als Beispiel für eine Textgenerierungs-Pipeline mit der Hugging Face `transformers`-Bibliothek verwendet.",
+    "gewichtung": 2,
+    "thema": "Natural Language Processing"
+  },
+  {
+    "frage": "60. Was bedeutet der Begriff 'CI/CD' im Kontext von MLOps?",
+    "optionen": [
+      "'Continuous Integration / Continuous Deployment': Ein Satz von Praktiken zur Automatisierung des Build-, Test- und Deployment-Prozesses.",
+      "'Complex Intelligence / Complex Deployment': Eine Methode für sehr komplexe Modelle.",
+      "'Code Inspection / Code Delivery': Ein Werkzeug zur Code-Analyse.",
+      "'Cloud Infrastructure / Cloud Database': Bezieht sich auf die verwendete Cloud-Infrastruktur."
+    ],
+    "loesung": 0,
+    "erklaerung": "CI/CD ist ein Kernprinzip von DevOps und MLOps. Continuous Integration automatisiert das Testen bei jeder Code-Änderung, während Continuous Deployment den Prozess automatisiert, neue Versionen in die Produktion zu bringen.",
+    "gewichtung": 2,
+    "thema": "MLOps & Deployment"
+  },
+  {
+    "frage": "61. Welcher Datentyp in Python wird verwendet, um Schlüssel-Wert-Paare zu speichern?",
+    "optionen": [
+      "list",
+      "tuple",
+      "set",
+      "dict"
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein Dictionary (`dict`) ist eine ungeordnete Sammlung von Daten in einem Schlüssel-Wert-Format. Es ist optimiert für das schnelle Nachschlagen von Werten anhand ihrer Schlüssel.",
+    "gewichtung": 1,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "62. Wie kann man in Pandas alle Zeilen eines DataFrames `df` anzeigen, in denen der Wert der Spalte 'Alter' größer als 30 ist?",
+    "optionen": [
+      "df.filter('Alter' > 30)",
+      "df[df['Alter'] > 30]",
+      "df.select('Alter' > 30)",
+      "df.where('Alter' > 30)"
+    ],
+    "loesung": 1,
+    "erklaerung": "Dies wird als 'boolean indexing' oder 'boolean masking' bezeichnet. `df['Alter'] > 30` erzeugt eine Serie von `True`/`False`-Werten, die dann verwendet wird, um die entsprechenden Zeilen aus dem DataFrame zu filtern.",
+    "gewichtung": 2,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "63. Was ist der Zweck von `st.cache_data` in Streamlit?",
+    "optionen": [
+      "Es speichert die gesamte App im Browser-Cache.",
+      "Es ist ein Decorator, der das Ergebnis einer Funktion zwischenspeichert. Wenn die Funktion mit denselben Argumenten erneut aufgerufen wird, wird das Ergebnis aus dem Cache geholt, anstatt die Funktion erneut auszuführen.",
+      "Es komprimiert die Daten, die in der App angezeigt werden.",
+      "Es löscht den Cache der App."
+    ],
+    "loesung": 1,
+    "erklaerung": "Caching ist entscheidend für die Performance von Streamlit-Apps. Langsame Operationen wie das Laden großer Datensätze oder das Trainieren von Modellen sollten mit `@st.cache_data` oder `@st.cache_resource` versehen werden, um unnötige Neuberechnungen bei jedem App-Rerun zu vermeiden.",
+    "gewichtung": 3,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "64. Was ist der Unterschied zwischen Regression und Klassifikation?",
+    "optionen": [
+      "Regression wird für Bilder verwendet, Klassifikation für Text.",
+      "Regression sagt kontinuierliche Werte voraus (z.B. Preise), Klassifikation sagt diskrete Kategorien voraus (z.B. Spam/Nicht-Spam).",
+      "Regression ist immer ein Unsupervised-Learning-Problem.",
+      "Klassifikation benötigt mehr Daten als Regression."
+    ],
+    "loesung": 1,
+    "erklaerung": "Dies ist die grundlegendste Unterscheidung bei Supervised-Learning-Problemen. Die Wahl des Modells, der Verlustfunktion und der Evaluationsmetriken hängt direkt davon ab, ob man einen numerischen Wert oder eine Kategorie vorhersagen möchte.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "65. Warum ist die Skalierung von Features (z.B. mit `StandardScaler`) für den KNN-Algorithmus wichtig?",
+    "optionen": [
+      "Sie ist nicht wichtig für KNN.",
+      "Sie wandelt alle Features in Ganzzahlen um.",
+      "Da KNN auf Distanzmessungen basiert, würden Features mit großen Wertebereichen (z.B. Gehalt) die Distanzberechnung dominieren und Features mit kleinen Wertebereichen (z.B. Alter) irrelevant machen.",
+      "Sie reduziert die Anzahl der Features."
+    ],
+    "loesung": 2,
+    "erklaerung": "KNN ist ein distanzbasierter Algorithmus. Wenn die Features unterschiedliche Skalen haben, werden die Distanzen von den Features mit den größten Wertebereichen dominiert. Die Skalierung (z.B. auf einen Mittelwert von 0 und eine Standardabweichung von 1) stellt sicher, dass alle Features gleichberechtigt zur Distanzberechnung beitragen.",
+    "gewichtung": 3,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "66. Was ist ein 'Autoencoder'?",
+    "optionen": [
+      "Ein Supervised-Learning-Modell zur Klassifikation von Bildern.",
+      "Ein Neuronales Netz, das lernt, seine eigene Eingabe zu rekonstruieren, oft über eine komprimierte Repräsentation (Bottleneck).",
+      "Ein Algorithmus zur automatischen Generierung von Python-Code.",
+      "Ein spezieller Typ eines Reinforcement-Learning-Agenten."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Autoencoder besteht aus einem Encoder, der die Eingabe in einen niedrigdimensionalen Code komprimiert, und einem Decoder, der versucht, aus diesem Code die ursprüngliche Eingabe zu rekonstruieren. Er wird für Dimensionsreduktion, Feature Learning und Anomalieerkennung verwendet.",
+    "gewichtung": 3,
+    "thema": "Neuronale Netze"
+  },
+  {
+    "frage": "67. Was ist der Zweck der `padding='same'`-Einstellung in einem `Conv2D`-Layer?",
+    "optionen": [
+      "Sie fügt dem Bild einen zufälligen Rand hinzu.",
+      "Sie stellt sicher, dass die räumliche Dimension der Ausgabe (Höhe und Breite) die gleiche ist wie die der Eingabe.",
+      "Sie entfernt den Rand des Bildes.",
+      "Sie verdoppelt die Größe des Bildes."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ohne Padding würde die Größe der Feature Map bei jeder Faltung kleiner werden. `padding='same'` fügt dem Rand der Eingabe implizit Nullen hinzu (Zero-Padding), sodass die Ausgabe die gleiche Höhe und Breite wie die Eingabe hat. Dies ist nützlich, um sehr tiefe Netzwerke zu bauen.",
+    "gewichtung": 2,
+    "thema": "Computer Vision"
+  },
+  {
+    "frage": "68. Was ist ein 'Token' im Kontext von Natural Language Processing (NLP)?",
+    "optionen": [
+      "Ein spezielles Zeichen, das das Ende eines Satzes markiert.",
+      "Ein einzelnes Wort, ein Teil eines Wortes (Subword) oder ein Satzzeichen, in das ein Text aufgeteilt wird.",
+      "Ein Synonym für ein Wort.",
+      "Ein Maß für die Komplexität eines Textes."
+    ],
+    "loesung": 1,
+    "erklaerung": "Tokenisierung ist der erste Schritt in den meisten NLP-Pipelines. Dabei wird ein Rohtext in eine Liste von Tokens zerlegt, die dann in numerische Vektoren (Embeddings) umgewandelt werden können, die das Modell verarbeiten kann.",
+    "gewichtung": 2,
+    "thema": "Natural Language Processing"
+  },
+  {
+    "frage": "69. Was ist der Zweck des `EXPOSE`-Befehls in einem Dockerfile?",
+    "optionen": [
+      "Er öffnet einen Port auf dem Host-System.",
+      "Er teilt Docker mit, dass der Container an einem bestimmten Netzwerkport lauscht. Er veröffentlicht den Port aber nicht tatsächlich.",
+      "Er installiert einen Webserver im Container.",
+      "Er macht den Container im Netzwerk sichtbar."
+    ],
+    "loesung": 1,
+    "erklaerung": "`EXPOSE` ist eine Form der Dokumentation zwischen dem Ersteller des Images und der Person, die den Container ausführt. Um den Port tatsächlich zu veröffentlichen und vom Host aus zugänglich zu machen, muss man die Option `-p` oder `-P` beim `docker run`-Befehl verwenden.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "70. Was ist der Unterschied zwischen `pip` und `conda`?",
+    "optionen": [
+      "`pip` ist für Python 2, `conda` für Python 3.",
+      "`pip` installiert Python-Pakete in jeder Umgebung, während `conda` ein plattformübergreifender Paket- und Umgebungsmanager ist, der auch Nicht-Python-Pakete und ganze Umgebungen verwalten kann.",
+      "`conda` ist schneller als `pip`.",
+      "Es gibt keinen Unterschied."
+    ],
+    "loesung": 1,
+    "erklaerung": "`pip` ist der Standard-Paketmanager für Python. `conda` ist Teil der Anaconda-Distribution und kann nicht nur Python-Pakete, sondern auch komplexe Abhängigkeiten (wie C-Bibliotheken) und isolierte Umgebungen verwalten, was es in der Data Science sehr beliebt macht.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "71. Was ist der Zweck der `groupby()`-Funktion in Pandas?",
+    "optionen": [
+      "Sie sortiert den DataFrame nach einer bestimmten Spalte.",
+      "Sie gruppiert den DataFrame anhand einer oder mehrerer Spalten, um Aggregationsfunktionen (wie `sum()`, `mean()`) auf jede Gruppe anzuwenden.",
+      "Sie wählt eine Gruppe von Zeilen aus.",
+      "Sie benennt die Spalten des DataFrames um."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die `groupby()`-Operation ist ein extrem mächtiges Werkzeug für die Datenanalyse. Sie folgt dem 'Split-Apply-Combine'-Muster: Daten aufteilen, eine Funktion anwenden und die Ergebnisse wieder zusammenführen.",
+    "gewichtung": 2,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "72. Wie kann man in Streamlit den Inhalt auf mehrere Spalten aufteilen?",
+    "optionen": [
+      "Durch die Verwendung von HTML-Tabellen.",
+      "Durch die Verwendung von `st.columns()`.",
+      "Durch die Verwendung von `st.split()`.",
+      "Das ist in Streamlit nicht möglich."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Befehl `col1, col2 = st.columns(2)` erstellt zwei Spalten. Anschließend kann man mit `with col1:` und `with col2:` Inhalte in die jeweilige Spalte platzieren, um komplexere Layouts zu erstellen.",
+    "gewichtung": 2,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "73. Was ist der Unterschied zwischen `EarlyStopping` und `ModelCheckpoint` Callbacks in Keras?",
+    "optionen": [
+      "Beide machen das Gleiche.",
+      "`EarlyStopping` beendet das Training, wenn sich eine Metrik nicht mehr verbessert, während `ModelCheckpoint` das beste Modell während des Trainings speichert.",
+      "`ModelCheckpoint` beendet das Training, `EarlyStopping` speichert das Modell.",
+      "`EarlyStopping` wird für Regression verwendet, `ModelCheckpoint` für Klassifikation."
+    ],
+    "loesung": 1,
+    "erklaerung": "Beide sind nützliche Callbacks. `EarlyStopping` verhindert Overfitting, indem es das Training abbricht, wenn z.B. der Validierungsfehler nicht mehr sinkt. `ModelCheckpoint` stellt sicher, dass man am Ende nicht ein schlechteres Modell hat, nur weil das Training zu lange lief, indem es die Version mit der besten Leistung auf dem Validierungsset speichert.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
+  },
+  {
+    "frage": "74. Was ist der Zweck der `random_state`-Parameters in vielen Scikit-learn Funktionen?",
+    "optionen": [
+      "Er steuert die Zufälligkeit des Algorithmus, um die Ergebnisse reproduzierbar zu machen.",
+      "Er setzt den Zustand des Modells auf einen zufälligen Wert.",
+      "Er wählt zufällige Features für das Training aus.",
+      "Er hat keine Funktion und wird ignoriert."
+    ],
+    "loesung": 0,
+    "erklaerung": "Viele Algorithmen haben eine stochastische (zufällige) Komponente (z.B. die Initialisierung der Gewichte). Durch das Setzen von `random_state` auf einen festen Integer-Wert wird sichergestellt, dass der Zufallszahlengenerator immer im gleichen Zustand startet, was zu identischen Ergebnissen bei wiederholten Durchläufen führt.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "75. Welcher der folgenden ist KEIN Hyperparameter eines Decision Tree?",
+    "optionen": [
+      "max_depth",
+      "min_samples_split",
+      "feature_importance",
+      "criterion (gini/entropy)"
+    ],
+    "loesung": 2,
+    "erklaerung": "`max_depth`, `min_samples_split` und `criterion` sind alles Hyperparameter, die vor dem Training festgelegt werden, um die Struktur und das Verhalten des Baumes zu steuern. `feature_importance` ist ein Attribut des trainierten Modells, das nach dem Training berechnet wird.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Algorithmen"
+  },
+  {
+    "frage": "76. Was ist der Unterschied zwischen einem 'Dense' Layer und einem 'Embedding' Layer in Keras?",
+    "optionen": [
+      "Ein `Dense`-Layer ist für die Eingabe, ein `Embedding`-Layer für die Ausgabe.",
+      "Ein `Dense`-Layer führt eine Matrix-Vektor-Multiplikation durch, während ein `Embedding`-Layer eine Nachschlagetabelle für kategoriale Eingaben (wie Wörter) ist.",
+      "Ein `Embedding`-Layer hat immer mehr Parameter als ein `Dense`-Layer.",
+      "Es gibt keinen funktionalen Unterschied."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein `Embedding`-Layer ist eine effiziente Methode, um hochdimensionale, dünn besetzte kategoriale Daten (wie Wörter in einem Vokabular, die als Integer repräsentiert werden) in dichte, niedrigdimensionale Vektoren umzuwandeln. Es ist im Wesentlichen eine lernbare Nachschlagetabelle, während ein `Dense`-Layer eine vollständige lineare Transformation durchführt.",
+    "gewichtung": 3,
+    "thema": "Natural Language Processing"
+  },
+  {
+    "frage": "77. Was ist ein 'Volume' in Docker?",
+    "optionen": [
+      "Die Größe des Docker-Images.",
+      "Ein Mechanismus, um Daten persistent außerhalb des Container-Dateisystems zu speichern, sodass sie auch nach dem Löschen des Containers erhalten bleiben.",
+      "Ein Netzwerk-Interface für den Container.",
+      "Ein Maß für die Rechenleistung, die ein Container verbraucht."
+    ],
+    "loesung": 1,
+    "erklaerung": "Container sind standardmäßig zustandslos ('stateless'). Wenn ein Container entfernt wird, gehen alle darin geschriebenen Daten verloren. Volumes ermöglichen es, Daten (z.B. Datenbankdateien, Logs, hochgeladene Dateien) persistent auf dem Host-System zu speichern.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "78. Welches Diagramm eignet sich am besten, um die Beziehung zwischen zwei kontinuierlichen Variablen zu visualisieren?",
+    "optionen": [
+      "Balkendiagramm (Bar Chart)",
+      "Kreisdiagramm (Pie Chart)",
+      "Histogramm",
+      "Streudiagramm (Scatter Plot)"
+    ],
+    "loesung": 3,
+    "erklaerung": "Ein Streudiagramm plottet jeden Datenpunkt als Punkt in einem 2D-Koordinatensystem, wobei die x- und y-Positionen den Werten der beiden Variablen entsprechen. Dies macht es ideal, um Korrelationen, Cluster und Ausreißer visuell zu erkennen.",
+    "gewichtung": 1,
+    "thema": "Datenvisualisierung"
+  },
+  {
+    "frage": "79. Was ist der Zweck der `predict_proba()`-Methode bei vielen Scikit-learn Klassifikationsmodellen?",
+    "optionen": [
+      "Sie macht die gleiche Vorhersage wie `predict()`.",
+      "Sie gibt die Wahrscheinlichkeit für jede Klasse zurück, anstatt nur die wahrscheinlichste Klasse.",
+      "Sie berechnet die Wahrscheinlichkeit, dass das Modell korrekt ist.",
+      "Sie ist nur für Regressionsmodelle verfügbar."
+    ],
+    "loesung": 1,
+    "erklaerung": "Während `predict()` die 'harte' Klassenzuweisung (z.B. 0 oder 1) zurückgibt, gibt `predict_proba()` die 'weiche' Zuweisung in Form von Wahrscheinlichkeiten für jede Klasse zurück. Dies ist nützlich, um die Konfidenz des Modells zu bewerten oder eigene Entscheidungsschwellen zu definieren.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "80. Was ist der Hauptzweck der Phase 'K' (Knowledge Transfer) im QUA³CK-Modell?",
+    "optionen": [
+      "Das Sammeln von neuem Wissen über das Problem.",
+      "Das Trainieren des Modells mit mehr Wissen.",
+      "Die Überführung der Ergebnisse und des Modells in eine nutzbare Anwendung (z.B. eine Streamlit-App) und die Dokumentation des Projekts.",
+      "Das Testen des Wissens der Entwickler."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die K-Phase schließt den Kreis, indem sie sicherstellt, dass die gewonnenen Erkenntnisse und das entwickelte Modell nicht nur in einem Notebook bleiben, sondern in eine Form gebracht werden, die für Endbenutzer oder andere Systeme von Nutzen ist und das Wissen für die Zukunft bewahrt (z.B. durch eine App oder ein Portfolio).",
+    "gewichtung": 2,
+    "thema": "MLOps & Prozesse"
+  },
+  {
+    "frage": "81. Was ist der Unterschied zwischen einem Python `list` und einem `set`?",
+    "optionen": [
+      "Listen sind geordnet und können Duplikate enthalten, Sets sind ungeordnet und enthalten nur eindeutige Elemente.",
+      "Listen können nur Zahlen enthalten, Sets nur Strings.",
+      "Sets sind veränderbar, Listen nicht.",
+      "Es gibt keinen Unterschied."
+    ],
+    "loesung": 0,
+    "erklaerung": "Sets sind nützlich, wenn man schnell prüfen will, ob ein Element vorhanden ist, oder wenn man Duplikate aus einer Liste entfernen möchte. Listen behalten die Reihenfolge der Elemente bei und erlauben Duplikate.",
+    "gewichtung": 1,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "82. Welcher Pandas-Befehl wird verwendet, um fehlende Werte (NaN) in einem DataFrame `df` mit dem Wert 0 zu füllen?",
+    "optionen": [
+      "df.replace(NaN, 0)",
+      "df.remove_nan(0)",
+      "df.fillna(0)",
+      "df.set_nan(0)"
+    ],
+    "loesung": 2,
+    "erklaerung": "Die `fillna()`-Methode ist das Standardwerkzeug in Pandas, um fehlende Werte zu behandeln. Man kann sie mit einem konstanten Wert, dem Mittelwert, dem Median oder anderen Strategien verwenden.",
+    "gewichtung": 2,
+    "thema": "Pandas"
+  },
+  {
+    "frage": "83. Was ist der Zweck von `st.session_state` in Streamlit?",
+    "optionen": [
+      "Es speichert den Zustand der aktuellen Browser-Sitzung.",
+      "Es ist eine Möglichkeit, Variablen über mehrere Reruns einer App hinweg zu speichern und beizubehalten.",
+      "Es speichert die Konfiguration der Streamlit-App.",
+      "Es ist eine veraltete Funktion."
+    ],
+    "loesung": 1,
+    "erklaerung": "Streamlit führt das Skript bei jeder Interaktion neu aus. Um Informationen (wie Zähler, Benutzereingaben, Chat-Verläufe) zwischen diesen Reruns zu speichern, wird das `st.session_state`-Objekt verwendet, das wie ein Dictionary funktioniert.",
+    "gewichtung": 3,
+    "thema": "Streamlit"
+  },
+  {
+    "frage": "84. Was ist der 'Curse of Dimensionality' (Fluch der Dimensionalität)?",
+    "optionen": [
+      "Das Phänomen, dass die Leistung von ML-Modellen mit zunehmender Anzahl von Features abnimmt.",
+      "Die Tatsache, dass Daten in hochdimensionalen Räumen sehr spärlich werden und Distanzmaße ihre Aussagekraft verlieren.",
+      "Die Notwendigkeit, bei hochdimensionalen Daten immer Deep Learning zu verwenden.",
+      "Ein Fehler, der auftritt, wenn ein Datensatz mehr Spalten als Zeilen hat."
+    ],
+    "loesung": 1,
+    "erklaerung": "In hochdimensionalen Räumen liegen die Datenpunkte tendenziell weit voneinander entfernt ('sparse'). Dies macht Algorithmen, die auf Distanzmessungen basieren (wie KNN), weniger effektiv und erfordert exponentiell mehr Daten, um den Raum abzudecken.",
+    "gewichtung": 3,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "85. Was ist der Unterschied zwischen einem 'Validation Set' und einem 'Test Set'?",
+    "optionen": [
+      "Es gibt keinen Unterschied, die Begriffe sind austauschbar.",
+      "Das Validation Set wird zum Trainieren, das Test Set zum Validieren verwendet.",
+      "Das Validation Set wird zur Hyperparameter-Optimierung während der Entwicklung verwendet, das Test Set zur finalen, einmaligen Leistungsbewertung des fertigen Modells.",
+      "Das Test Set ist immer größer als das Validation Set."
+    ],
+    "loesung": 2,
+    "erklaerung": "Das Validation Set wird wiederholt während der Entwicklung verwendet, um das Modell zu justieren (z.B. für Hyperparameter-Tuning, Early Stopping). Das Test Set wird idealerweise nur ein einziges Mal am Ende verwendet, um eine unverfälschte Schätzung der Leistung des finalen Modells auf völlig neuen Daten zu erhalten.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "86. Was ist ein 'Residual Connection' (oder Skip Connection), wie sie in ResNets verwendet wird?",
+    "optionen": [
+      "Eine Verbindung, die die Ausgabeschicht direkt mit der Eingabeschicht verbindet.",
+      "Eine Verbindung, die die Eingabe eines Blocks zur Ausgabe dieses Blocks addiert und so dem Gradienten einen 'Kurzschluss' ermöglicht.",
+      "Eine Methode, um die Anzahl der Neuronen in einem Layer zu reduzieren.",
+      "Eine spezielle Art von Dropout."
+    ],
+    "loesung": 1,
+    "erklaerung": "Residual Connections ermöglichen es dem Gradienten, beim Backpropagation direkt durch einige Schichten 'hindurchzufließen'. Dies erleichtert das Training von sehr tiefen Netzwerken (z.B. mit 152 Schichten), indem es dem Vanishing-Gradient-Problem entgegenwirkt.",
+    "gewichtung": 3,
+    "thema": "Deep Learning"
+  },
+  {
+    "frage": "87. Was ist der Zweck eines 'API-Keys'?",
+    "optionen": [
+      "Er verschlüsselt die Daten, die über die API gesendet werden.",
+      "Er dient zur Authentifizierung und Autorisierung von Anfragen an eine API, um die Nutzung zu kontrollieren und zu verfolgen.",
+      "Er ist der Name des Haupt-Endpoints einer API.",
+      "Er beschleunigt die API-Anfragen."
+    ],
+    "loesung": 1,
+    "erklaerung": "Viele APIs erfordern einen API-Key, um sicherzustellen, dass nur autorisierte Benutzer oder Anwendungen darauf zugreifen können. Er wird oft verwendet, um Nutzungsquoten (Rate Limiting) durchzusetzen und die Nutzung für Abrechnungszwecke zu verfolgen.",
+    "gewichtung": 2,
+    "thema": "MLOps & Deployment"
+  },
+  {
+    "frage": "88. Welches Dateiformat wird oft für die Speicherung von großen, strukturierten Datensätzen empfohlen, da es spaltenorientiert und komprimiert ist?",
+    "optionen": [
+      "CSV",
+      "JSON",
+      "Parquet",
+      "TXT"
+    ],
+    "loesung": 2,
+    "erklaerung": "Parquet ist ein spaltenorientiertes Speicherformat, das für Big-Data-Workflows optimiert ist. Es ermöglicht eine sehr effiziente Kompression und Abfrage-Performance, da nur die benötigten Spalten gelesen werden müssen, was es CSV oft überlegen macht.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "89. Was ist der Hauptzweck von Reinforcement Learning (RL)?",
+    "optionen": [
+      "Das Finden von Mustern in ungelabelten Daten.",
+      "Die Klassifikation von Daten in vordefinierte Kategorien.",
+      "Das Trainieren eines Agenten, eine Sequenz von Aktionen in einer Umgebung auszuführen, um eine kumulative Belohnung zu maximieren.",
+      "Die Generierung neuer, realistischer Daten."
+    ],
+    "loesung": 2,
+    "erklaerung": "Beim RL lernt ein Agent durch Versuch und Irrtum (Trial and Error). Er interagiert mit einer Umgebung und erhält Belohnungen oder Bestrafungen für seine Aktionen, mit dem Ziel, eine Strategie (Policy) zu lernen, die die langfristige Belohnung maximiert.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "90. Was ist der 'Exploration-Exploitation Trade-off' im Reinforcement Learning?",
+    "optionen": [
+      "Der Kompromiss zwischen der Verwendung von viel oder wenig Speicher.",
+      "Der Kompromiss zwischen dem Ausprobieren neuer, unbekannter Aktionen (Exploration) und dem Nutzen bekannter, guter Aktionen (Exploitation).",
+      "Der Kompromiss zwischen einem einfachen und einem komplexen Modell.",
+      "Der Kompromiss zwischen Trainingszeit und Modellgenauigkeit."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein RL-Agent muss entscheiden, ob er eine Aktion wählt, von der er bereits weiß, dass sie gut ist (Exploitation), oder ob er eine neue, unbekannte Aktion ausprobiert, die potenziell noch besser sein könnte (Exploration). Dies ist eine zentrale Herausforderung im RL.",
+    "gewichtung": 3,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "91. Was ist der Unterschied zwischen einem `list` und einem `numpy.array`?",
+    "optionen": [
+      "Es gibt keinen Unterschied.",
+      "Ein `numpy.array` ist für homogene, numerische Daten optimiert und ermöglicht schnelle, vektorisierte mathematische Operationen. Eine Python-`list` ist flexibler, aber langsamer.",
+      "Listen können nur Strings enthalten.",
+      "Numpy-Arrays sind Teil der Python-Standardbibliothek."
+    ],
+    "loesung": 1,
+    "erklaerung": "NumPy ist die Grundlage für wissenschaftliches Rechnen in Python. Seine Array-Struktur ist in C implementiert, was Operationen auf großen Datenmengen um Größenordnungen schneller macht als mit reinen Python-Listen.",
+    "gewichtung": 2,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "92. Welcher Plotly Express Befehl wird verwendet, um ein interaktives Streudiagramm zu erstellen?",
+    "optionen": [
+      "px.bar()",
+      "px.line()",
+      "px.scatter()",
+      "px.histogram()"
+    ],
+    "loesung": 2,
+    "erklaerung": "`plotly.express.scatter` (üblicherweise als `px.scatter` importiert) ist die High-Level-Funktion zur Erstellung von interaktiven Streudiagrammen, die Zoom, Pan und Hover-Informationen unterstützen.",
+    "gewichtung": 1,
+    "thema": "Datenvisualisierung"
+  },
+  {
+    "frage": "93. Was ist der Zweck der `__init__`-Methode in einer Python-Klasse?",
+    "optionen": [
+      "Sie initialisiert die Klasse selbst.",
+      "Sie ist der Konstruktor der Klasse und wird aufgerufen, um ein neues Objekt (eine Instanz) zu erstellen und dessen Anfangszustand zu initialisieren.",
+      "Sie zerstört das Objekt, wenn es nicht mehr benötigt wird.",
+      "Sie ist eine normale Methode wie jede andere auch."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die `__init__`-Methode wird automatisch aufgerufen, wenn eine neue Instanz einer Klasse erzeugt wird. Sie wird verwendet, um die Attribute des Objekts mit den übergebenen Werten zu initialisieren.",
+    "gewichtung": 2,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "94. Was ist ein 'Webhook' im Kontext von CI/CD und MLOps?",
+    "optionen": [
+      "Ein spezieller Haken, um einen Server im Rack zu befestigen.",
+      "Ein Mechanismus, der es einem System ermöglicht, ein anderes System in Echtzeit über ein Ereignis zu benachrichtigen, indem es eine HTTP-Anfrage an eine vordefinierte URL sendet.",
+      "Ein Sicherheitsprotokoll für APIs.",
+      "Ein Werkzeug zur Code-Formatierung."
+    ],
+    "loesung": 1,
+    "erklaerung": "Webhooks sind der 'Klebstoff' für Automatisierung. Zum Beispiel kann GitHub einen Webhook an einen CI/CD-Server senden, wenn neuer Code gepusht wird, was dann automatisch einen neuen Build und ein neues Training auslöst.",
+    "gewichtung": 3,
+    "thema": "MLOps & Deployment"
+  },
+  {
+    "frage": "95. Was ist der Unterschied zwischen einem 'Dense' und einem 'Sparse' Vektor?",
+    "optionen": [
+      "Dense Vektoren enthalten nur Nullen, Sparse Vektoren nur Einsen.",
+      "Ein Dense Vektor speichert explizit jeden Wert, während ein Sparse Vektor nur die Nicht-Null-Werte und ihre Positionen speichert.",
+      "Dense Vektoren sind immer kürzer als Sparse Vektoren.",
+      "Sparse Vektoren können nicht für Machine Learning verwendet werden."
+    ],
+    "loesung": 1,
+    "erklaerung": "Sparse Vektoren sind sehr effizient für Daten mit vielen Nullen, wie z.B. bei der One-Hot-Kodierung von großen Vokabularen im NLP. Anstatt eines riesigen Vektors mit meist Nullen speichert man nur die Positionen der Einsen.",
+    "gewichtung": 2,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "96. Welches der folgenden ist ein Beispiel für eine Metrik zur Evaluation von Regressionsmodellen?",
+    "optionen": [
+      "Accuracy",
+      "F1-Score",
+      "Root Mean Squared Error (RMSE)",
+      "AUC-ROC"
+    ],
+    "loesung": 2,
+    "erklaerung": "RMSE misst die durchschnittliche quadratische Abweichung zwischen den vorhergesagten und den tatsächlichen Werten. Es ist eine der gebräuchlichsten Metriken für Regressionsprobleme. Accuracy, F1-Score und AUC-ROC sind Klassifikationsmetriken.",
+    "gewichtung": 1,
+    "thema": "Machine Learning Grundlagen"
+  },
+  {
+    "frage": "97. Was ist der Zweck der `self`-Variable in Python-Klassenmethoden?",
+    "optionen": [
+      "Sie ist eine globale Variable.",
+      "Sie repräsentiert die Klasse selbst, nicht die Instanz.",
+      "Sie ist eine Referenz auf die aktuelle Instanz der Klasse und ermöglicht den Zugriff auf deren Attribute und Methoden.",
+      "Sie ist optional und kann weggelassen werden."
+    ],
+    "loesung": 2,
+    "erklaerung": "`self` ist das erste Argument jeder Instanzmethode und wird von Python automatisch übergeben. Es ermöglicht der Methode, auf die Daten (Attribute) und anderen Methoden zuzugreifen, die zu diesem spezifischen Objekt gehören.",
+    "gewichtung": 2,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "98. Was ist der Hauptvorteil der Verwendung von `plotly.express` gegenüber `plotly.graph_objects`?",
+    "optionen": [
+      "`plotly.express` bietet mehr Anpassungsmöglichkeiten.",
+      "`plotly.express` ist eine High-Level-Schnittstelle, die es ermöglicht, komplexe, interaktive Diagramme mit sehr wenig Code zu erstellen.",
+      "`plotly.graph_objects` ist veraltet.",
+      "`plotly.express` kann nur statische Bilder erzeugen."
+    ],
+    "loesung": 1,
+    "erklaerung": "`plotly.express` (px) ist eine Wrapper-Bibliothek um `plotly.graph_objects`. Sie vereinfacht die Erstellung von gängigen Diagrammtypen erheblich. Für sehr komplexe oder benutzerdefinierte Visualisierungen kann man immer noch auf die detailliertere `graph_objects`-Syntax zurückgreifen.",
+    "gewichtung": 2,
+    "thema": "Datenvisualisierung"
+  },
+  {
+    "frage": "99. Was ist ein 'Container Registry' wie Docker Hub oder GitHub Container Registry?",
+    "optionen": [
+      "Ein Ort, an dem man Docker-Container ausführt.",
+      "Ein zentrales Repository zum Speichern, Verwalten und Verteilen von Docker-Images.",
+      "Ein Werkzeug zur Überwachung von laufenden Containern.",
+      "Eine Datenbank für Container-Metadaten."
+    ],
+    "loesung": 1,
+    "erklaerung": "Eine Container Registry ist wie ein 'App Store' für Docker-Images. Man kann seine eigenen Images dorthin 'pushen' (hochladen) und Images von anderen 'pullen' (herunterladen), was die Zusammenarbeit und das Deployment vereinfacht.",
+    "gewichtung": 2,
+    "thema": "Grundlagen & Tools"
+  },
+  {
+    "frage": "100. Was ist der Zweck der `main`-Block-Konstruktion `if __name__ == '__main__':` in einem Python-Skript?",
+    "optionen": [
+      "Sie definiert die Hauptfunktion des Skripts.",
+      "Sie stellt sicher, dass der Code innerhalb des Blocks nur ausgeführt wird, wenn das Skript direkt gestartet wird, und nicht, wenn es als Modul in ein anderes Skript importiert wird.",
+      "Sie ist notwendig, um globale Variablen zu deklarieren.",
+      "Sie markiert den Anfang des Python-Codes."
+    ],
+    "loesung": 1,
+    "erklaerung": "Diese Konstruktion ist eine Best Practice in Python. Sie ermöglicht es, ein Skript sowohl als eigenständiges Programm als auch als wiederverwendbares Modul zu schreiben, ohne dass beim Import sofort Code ausgeführt wird.",
+    "gewichtung": 2,
+    "thema": "Python Grundlagen"
+  },
+  {
+    "frage": "101. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?",
+    "optionen": [
+      "Es besteht aus Schichten von Neuronen, die durch gewichtete Verbindungen miteinander verknüpft sind.",
+      "Es verwendet einen einzelnen Entscheidungsbaum, um Vorhersagen zu treffen.",
+      "Es benötigt grundsätzlich keine Trainingsdaten, um zu funktionieren.",
+      "Es kann ausschließlich lineare Regressionen durchführen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Neuronale Netze sind von der Struktur des Gehirns inspiriert und bestehen aus miteinander verbundenen Knoten (Neuronen), die in Schichten angeordnet sind. Die Stärke der Verbindungen (Gewichte) wird im Training gelernt.",
+    "gewichtung": 1,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "102. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?",
+    "optionen": [
+      "`ReLU` leidet weniger unter dem 'Vanishing Gradient'-Problem.",
+      "`ReLU` ist über den gesamten Definitionsbereich stetig differenzierbar.",
+      "`ReLU` eignet sich besser für die Ausgabeschicht bei binärer Klassifikation.",
+      "`ReLU` ist rechenintensiver, aber genauer."
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Ableitung der `Sigmoid`-Funktion ist in vielen Bereichen nahe null, was bei tiefen Netzen zum 'Verschwinden' der Gradienten führen kann. `ReLU` hat für positive Eingaben eine konstante Ableitung von 1, was den Gradientenfluss erleichtert.",
+    "gewichtung": 2,
+    "thema": "Aktivierungsfunktionen"
+  },
+  {
+    "frage": "103. Was beschreibt das Backpropagation-Verfahren?",
+    "optionen": [
+      "Die effiziente Berechnung der Gradienten des Fehlers bezüglich der Gewichte.",
+      "Die zufällige Initialisierung der Gewichte vor dem ersten Trainingsschritt.",
+      "Die Auswahl der optimalen Anzahl von Neuronen für ein Hidden Layer.",
+      "Die schichtweise Vorwärtsausbreitung der Eingabedaten durch das Netz."
+    ],
+    "loesung": 0,
+    "erklaerung": "`Backpropagation` ist der Algorithmus, mit dem die Gewichte eines neuronalen Netzes trainiert werden. Er propagiert den Fehler von der Ausgabeschicht rückwärts durch das Netz, um die Gradienten für die Gewichtsaktualisierung zu berechnen.",
+    "gewichtung": 2,
+    "thema": "Training & Optimierung"
+  },
+  {
+    "frage": "104. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?",
+    "optionen": [
+      "Sie quantifiziert den Fehler zwischen der Modellvorhersage und dem wahren Zielwert.",
+      "Sie berechnet die optimale Anzahl der Neuronen für die gegebene Aufgabe.",
+      "Sie legt die Lernrate für den Optimierungsalgorithmus fest.",
+      "Sie bestimmt die maximale Anzahl der Trainingsepochen."
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Verlustfunktion ist das Signal, das der Optimierungsalgorithmus (z.B. SGD) zu minimieren versucht. Ein kleinerer Verlustwert bedeutet eine bessere Anpassung des Modells an die Trainingsdaten.",
+    "gewichtung": 1,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "105. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?",
+    "optionen": [
+      "Es ist speichereffizient und ermöglicht das Training mit sehr großen Datensätzen.",
+      "Es konvergiert garantiert immer zum globalen Minimum der Verlustfunktion.",
+      "Es benötigt keine manuelle Einstellung der Lernrate.",
+      "Es führt im Vergleich zu anderen Methoden zu einer schnelleren Konvergenz."
+    ],
+    "loesung": 0,
+    "erklaerung": "Da `SGD` die Gewichte nach jedem einzelnen Datenpunkt (oder einem kleinen Batch) aktualisiert, muss nicht der gesamte Datensatz im Speicher gehalten werden. Die 'rauschhaften' Updates können auch helfen, lokalen Minima zu entkommen.",
+    "gewichtung": 2,
+    "thema": "Training & Optimierung"
+  },
+  {
+    "frage": "106. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?",
+    "optionen": [
+      "Es lernt hierarchische und zunehmend komplexe Merkmale aus den Eingabedaten.",
+      "Es dient ausschließlich dazu, die finale Vorhersage des Netzes auszugeben.",
+      "Es initialisiert die Gewichte für die Eingabeschicht.",
+      "Es normalisiert die Ausgabewerte auf einen Bereich zwischen 0 und 1."
+    ],
+    "loesung": 0,
+    "erklaerung": "Versteckte Schichten (Hidden Layers) sind die Kernkomponenten, in denen das Netzwerk lernt, aus den Rohdaten der vorherigen Schicht abstraktere und nützlichere Repräsentationen zu extrahieren.",
+    "gewichtung": 1,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "107. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?",
+    "optionen": [
+      "Er passt die Lernrate für jeden Parameter individuell und adaptiv an.",
+      "Er benötigt keine `Backpropagation` zur Berechnung der Gradienten.",
+      "Er ist speziell für sehr kleine Netzwerke mit wenigen Parametern optimiert.",
+      "Er verwendet keine Gradienten, sondern einen genetischen Algorithmus."
+    ],
+    "loesung": 0,
+    "erklaerung": "`Adam` (Adaptive Moment Estimation) kombiniert die Ideen von Momentum und RMSprop. Er pflegt eine adaptive Lernrate für jedes Gewicht, was oft zu einer schnelleren und stabileren Konvergenz führt als Standard-SGD.",
+    "gewichtung": 2,
+    "thema": "Training & Optimierung"
+  },
+  {
+    "frage": "108. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?",
+    "optionen": [
+      "Um Overfitting zu vermeiden, indem das Training beendet wird, wenn sich der Validierungsfehler nicht mehr verbessert.",
+      "Um die anfängliche Lernrate dynamisch während der ersten Epochen zu erhöhen.",
+      "Um die Gewichte des Netzwerks auf einen bekannten, guten Zustand zurückzusetzen.",
+      "Um das Training zu stoppen, sobald eine Genauigkeit von 100% auf den Trainingsdaten erreicht ist."
+    ],
+    "loesung": 0,
+    "erklaerung": "`Early Stopping` ist eine Form der Regularisierung, bei der die Leistung des Modells auf einem separaten Validierungsdatensatz überwacht wird. Das Training wird abgebrochen, sobald diese Leistung stagniert oder schlechter wird, um Overfitting zu verhindern.",
+    "gewichtung": 2,
+    "thema": "Training & Optimierung"
+  },
+  {
+    "frage": "109. Was ist ein potenzieller Nachteil einer zu großen Lernrate?",
+    "optionen": [
+      "Das Training kann instabil werden, da das Optimum 'übersprungen' wird.",
+      "Das Training konvergiert extrem langsam gegen ein lokales Minimum.",
+      "Die Gewichte des Netzwerks werden während des Trainings nicht aktualisiert.",
+      "Die Aktivierungsfunktionen in den Hidden Layers werden deaktiviert."
+    ],
+    "loesung": 0,
+    "erklaerung": "Eine zu große Lernrate kann dazu führen, dass die Gewichtsaktualisierungen so groß sind, dass der Optimierungsprozess über das Minimum der Verlustfunktion hinwegschießt und der Fehler wieder ansteigt (Divergenz).",
+    "gewichtung": 1,
+    "thema": "Training & Optimierung"
+  },
+  {
+    "frage": "110. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?",
+    "optionen": [
+      "Sie hilft, Probleme wie 'Vanishing/Exploding Gradients' zu vermeiden und beschleunigt die Konvergenz.",
+      "Sie bestimmt die endgültige Anzahl der Hidden Layers im Netzwerk.",
+      "Sie ersetzt die Notwendigkeit einer nichtlinearen Aktivierungsfunktion.",
+      "Sie verhindert die Verwendung von Regularisierungstechniken wie `Dropout`."
+    ],
+    "loesung": 0,
+    "erklaerung": "Eine schlechte Initialisierung (z.B. alle Gewichte auf null) kann den Lernprozess verhindern. Techniken wie Xavier/Glorot-Initialisierung sorgen für eine gute Varianz der Aktivierungen und einen stabilen Gradientenfluss zu Beginn des Trainings.",
+    "gewichtung": 3,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "111. Für welche Art von Daten sind `Recurrent Neural Networks (RNNs)` besonders geeignet?",
+    "optionen": [
+      "Für Sequenzdaten, bei denen die Reihenfolge der Elemente von Bedeutung ist (z.B. Text, Zeitreihen).",
+      "Für gitterartige Daten ohne zeitliche Komponente wie statische Bilder.",
+      "Für tabellarische Daten mit unabhängigen Zeilen wie in einer CSV-Datei.",
+      "Für das Finden von Clustern in ungelabelten Datensätzen."
+    ],
+    "loesung": 0,
+    "erklaerung": "`RNNs` besitzen interne Schleifen, die es ihnen ermöglichen, einen 'Gedächtnis'-Zustand zu pflegen. Dies macht sie ideal für Aufgaben, bei denen der Kontext aus vorherigen Schritten in einer Sequenz wichtig ist.",
+    "gewichtung": 1,
+    "thema": "Architekturen (RNN)"
+  },
+  {
+    "frage": "112. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
+    "optionen": [
+      "Die Fähigkeit zum automatischen 'Feature Learning' direkt aus Rohdaten.",
+      "Die Garantie, dass kein Overfitting auf den Trainingsdaten stattfindet.",
+      "Die hohe Interpretierbarkeit der gelernten Modelle ('White-Box').",
+      "Der geringere Bedarf an Trainingsdaten für komplexe Aufgaben."
+    ],
+    "loesung": 0,
+    "erklaerung": "Während bei klassischen ML-Ansätzen oft aufwendiges, manuelles Feature Engineering nötig ist, können tiefe neuronale Netze eine Hierarchie von Merkmalen direkt aus den Rohdaten (z.B. Pixeln eines Bildes) lernen.",
+    "gewichtung": 2,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "113. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?",
+    "optionen": [
+      "`Dropout`",
+      "`Translation Invariance`",
+      "`Dense Layer`",
+      "`Batch Normalization`"
+    ],
+    "loesung": 1,
+    "erklaerung": "Durch die Anwendung desselben Filters (Gewichtsteilung) über das gesamte Bild und die anschließende Abstraktion durch Pooling-Layer lernt ein CNN, ein Merkmal (z.B. ein Auge) zu erkennen, egal ob es links oben oder rechts unten im Bild erscheint.",
+    "gewichtung": 3,
+    "thema": "Architekturen (CNN)"
+  },
+  {
+    "frage": "114. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?",
+    "optionen": [
+      "Eine Methode zur Umwandlung eines Farbbildes in ein Graustufenbild.",
+      "Eine kleine Matrix von Gewichten, die über das Eingabebild gefaltet wird, um Merkmale zu extrahieren.",
+      "Ein Algorithmus zur Kompression der Bilddaten vor der Verarbeitung.",
+      "Ein Verfahren zur künstlichen Vergrößerung des Trainingsdatensatzes (Data Augmentation)."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Filter ist der zentrale Baustein eines Convolutional Layers. Er fungiert als Merkmalsdetektor (z.B. für Kanten, Ecken, Texturen), dessen Gewichte während des Trainings gelernt werden.",
+    "gewichtung": 1,
+    "thema": "Architekturen (CNN)"
+  },
+  {
+    "frage": "115. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern wie dem Sobel-Filter?",
+    "optionen": [
+      "Klassische Filter sind fest definiert, während die Filter in CNNs während des Trainings gelernt werden.",
+      "CNN-Filter sind immer signifikant größer als klassische Filter, um globale Merkmale zu erfassen.",
+      "Klassische Filter können keine Kanten oder Texturen im Bild erkennen.",
+      "CNN-Filter benötigen keine nichtlineare Aktivierungsfunktion nach der Anwendung."
+    ],
+    "loesung": 0,
+    "erklaerung": "Der entscheidende Unterschied ist, dass die Werte der Filtermatrizen in einem CNN nicht von einem Menschen entworfen, sondern durch `Backpropagation` gelernt werden. Das Netzwerk findet so selbst die optimalen Filter für die gegebene Aufgabe.",
+    "gewichtung": 2,
+    "thema": "Architekturen (CNN)"
+  },
+  {
+    "frage": "116. Aus welchen zwei Hauptkomponenten besteht ein Generative Adversarial Network (GAN)?",
+    "optionen": [
+      "Einem Encoder und einem Decoder.",
+      "Einem Generator und einem Diskriminator.",
+      "Einem Convolutional Layer und einem Pooling Layer.",
+      "Einem Agenten und einer Umgebung."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein GAN besteht aus zwei neuronalen Netzen, die gegeneinander antreten: Der Generator versucht, realistische Daten zu erzeugen, während der Diskriminator versucht, echte von gefälschten Daten zu unterscheiden.",
+    "gewichtung": 2,
+    "thema": "Architekturen (GAN)"
+  },
+  {
+    "frage": "117. Was ist das Ziel des Generators in einem GAN?",
+    "optionen": [
+      "Die Trainingsdaten möglichst exakt zu kopieren.",
+      "Den Diskriminator zu täuschen, indem er Daten erzeugt, die von echten Daten nicht zu unterscheiden sind.",
+      "Die Wahrscheinlichkeit zu berechnen, dass eine Eingabe echt ist.",
+      "Die Dimension der Eingabedaten zu reduzieren."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das Ziel des Generators ist es, aus zufälligem Rauschen Daten zu synthetisieren, die so realistisch sind, dass der Diskriminator sie als echt klassifiziert. Er lernt dabei die zugrundeliegende Verteilung der Trainingsdaten.",
+    "gewichtung": 2,
+    "thema": "Architekturen (GAN)"
+  },
+  {
+    "frage": "118. Was ist das Hauptproblem beim Training von RNNs mit langen Sequenzen?",
+    "optionen": [
+      "Overfitting",
+      "Das Vanishing- oder Exploding-Gradient-Problem.",
+      "Hoher Speicherverbrauch.",
+      "Langsames Training."
+    ],
+    "loesung": 1,
+    "erklaerung": "Bei langen Sequenzen muss der Gradient über viele Zeitschritte zurückpropagiert werden. Dabei kann er exponentiell klein (vanishing) oder groß (exploding) werden, was das Lernen von Langzeitabhängigkeiten verhindert.",
+    "gewichtung": 2,
+    "thema": "Architekturen (RNN)"
+  },
+  {
+    "frage": "119. Wie lösen LSTMs das Vanishing-Gradient-Problem?",
+    "optionen": [
+      "Durch die Verwendung einer linearen Aktivierungsfunktion.",
+      "Durch den Einsatz von 'Gates' (Input, Forget, Output), die den Informationsfluss steuern.",
+      "Indem sie die Sequenzlänge auf ein Maximum von 10 Schritten begrenzen.",
+      "Durch die Anwendung von Batch Normalization in jedem Zeitschritt."
+    ],
+    "loesung": 1,
+    "erklaerung": "LSTMs besitzen einen 'Zellzustand' und spezielle 'Gates', die lernen, welche Informationen sie speichern, vergessen oder ausgeben sollen. Dies ermöglicht einen ungehinderten Gradientenfluss über lange Zeiträume.",
+    "gewichtung": 3,
+    "thema": "Architekturen (RNN)"
+  },
+  {
+    "frage": "120. Was ist der Kern des Attention-Mechanismus, wie er in Transformern verwendet wird?",
+    "optionen": [
+      "Er fokussiert sich nur auf das letzte Wort in einem Satz.",
+      "Er berechnet für jedes Wort eine gewichtete Summe aller anderen Wörter im Satz.",
+      "Er verwendet einen festen Kontextvektor für den gesamten Satz.",
+      "Er ersetzt alle Wörter durch ihre häufigsten Synonyme."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Self-Attention-Mechanismus erlaubt es dem Modell, die Wichtigkeit jedes anderen Wortes in der Eingabesequenz für die Repräsentation eines bestimmten Wortes zu bewerten. Dies ermöglicht die Modellierung komplexer Abhängigkeiten unabhängig von der Distanz.",
+    "gewichtung": 3,
+    "thema": "Architekturen (Transformer)"
+  },
+  {
+    "frage": "121. Was ist ein wesentlicher Vorteil von Transformern gegenüber RNNs?",
+    "optionen": [
+      "Sie sind einfacher zu implementieren und haben weniger Hyperparameter.",
+      "Sie können aufgrund des fehlenden rekurrenten Charakters stark parallelisiert werden.",
+      "Sie benötigen signifikant weniger Trainingsdaten.",
+      "Sie sind von Natur aus immun gegen Overfitting."
+    ],
+    "loesung": 1,
+    "erklaerung": "Da RNNs Sequenzen Schritt für Schritt verarbeiten müssen, ist ihre Parallelisierung schwierig. Transformer verarbeiten alle Elemente der Sequenz gleichzeitig, was das Training auf moderner Hardware (GPUs/TPUs) erheblich beschleunigt.",
+    "gewichtung": 3,
+    "thema": "Architekturen (Transformer)"
+  },
+  {
+    "frage": "122. Was ist der Zweck eines Validierungsdatensatzes (Validation Set)?",
+    "optionen": [
+      "Er wird verwendet, um die finalen Gewichte des Modells zu trainieren.",
+      "Er dient zur Abstimmung der Hyperparameter und zur Überwachung von Overfitting während des Trainings.",
+      "Er wird nur einmal ganz am Ende verwendet, um die finale, unverfälschte Leistung des Modells zu bewerten.",
+      "Er ist eine exakte Kopie des Trainingsdatensatzes zur Überprüfung der Konsistenz."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Validierungsdatensatz wird während des Trainings verwendet, um die Leistung des Modells auf ungesehenen Daten zu schätzen. Dies hilft bei der Hyperparameter-Optimierung (z.B. welche Lernrate?) und beim Early Stopping.",
+    "gewichtung": 2,
+    "thema": "Training & Optimierung"
+  },
+  {
+    "frage": "123. Was ist der Unterschied zwischen 'Padding' und 'Stride' in einem CNN?",
+    "optionen": [
+      "Padding fügt Nullen am Rand des Bildes hinzu, Stride bestimmt die Schrittweite des Filters.",
+      "Padding bestimmt die Schrittweite, Stride fügt Nullen hinzu.",
+      "Beide Begriffe beschreiben die Größe des Filters.",
+      "Padding wird vor, Stride nach der Faltungsoperation angewendet."
+    ],
+    "loesung": 0,
+    "erklaerung": "Padding wird verwendet, um die räumliche Größe der Ausgabe zu steuern (z.B. 'same' padding, um die Größe zu erhalten). Stride (Schrittweite) gibt an, um wie viele Pixel der Filter bei jeder Bewegung verschoben wird.",
+    "gewichtung": 2,
+    "thema": "Architekturen (CNN)"
+  },
+  {
+    "frage": "124. Was ist die 'Cross-Entropy Loss'?",
+    "optionen": [
+      "Eine Verlustfunktion, die typischerweise für Regressionsprobleme verwendet wird.",
+      "Eine Verlustfunktion, die für Klassifikationsprobleme verwendet wird und den Unterschied zwischen zwei Wahrscheinlichkeitsverteilungen misst.",
+      "Eine Metrik zur Messung der Ähnlichkeit zwischen zwei Bildern.",
+      "Ein Regularisierungsterm, der zur Vermeidung von Overfitting dient."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Kreuzentropie ist die Standard-Verlustfunktion für Klassifikationsaufgaben. Sie misst, wie gut die vom Modell vorhergesagte Wahrscheinlichkeitsverteilung (nach Softmax) mit der wahren Verteilung (One-Hot-Encoding) übereinstimmt.",
+    "gewichtung": 2,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "125. Was ist ein 'One-Hot-Encoding'?",
+    "optionen": [
+      "Eine Methode zur Normalisierung von numerischen Daten.",
+      "Eine Technik zur Darstellung von kategorialen Variablen als binärer Vektor.",
+      "Ein Algorithmus zur Kompression von Bilddaten.",
+      "Eine spezielle Art der Gewichtsinitialisierung."
+    ],
+    "loesung": 1,
+    "erklaerung": "Beim One-Hot-Encoding wird eine kategoriale Variable mit N Kategorien in einen Vektor der Länge N umgewandelt, der an der Stelle der jeweiligen Kategorie eine 1 und an allen anderen Stellen Nullen enthält. Dies ist die Standarddarstellung für Zielvariablen in der Klassifikation.",
+    "gewichtung": 1,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "126. Was ist der Hauptzweck eines 'Embeddings' im NLP-Kontext?",
+    "optionen": [
+      "Die Darstellung von Wörtern oder Sätzen als dichte, niedrigdimensionale Vektoren.",
+      "Die Zählung der Häufigkeit jedes Wortes in einem Text.",
+      "Die Korrektur von Rechtschreibfehlern in einem Text.",
+      "Die Übersetzung eines Textes in eine andere Sprache."
+    ],
+    "loesung": 0,
+    "erklaerung": "Word Embeddings (wie Word2Vec oder GloVe) lernen, Wörter in einem Vektorraum so darzustellen, dass Wörter mit ähnlicher Bedeutung nahe beieinander liegen. Diese dichten Vektoren sind eine weitaus reichhaltigere Repräsentation als z.B. One-Hot-Encoding.",
+    "gewichtung": 2,
+    "thema": "Anwendungen (NLP)"
+  },
+  {
+    "frage": "127. Was ist ein 'Gradient' in Bezug auf eine Verlustfunktion?",
+    "optionen": [
+      "Der maximale Wert, den die Verlustfunktion annehmen kann.",
+      "Ein Vektor, der in die Richtung des steilsten Anstiegs der Verlustfunktion zeigt.",
+      "Ein Hyperparameter, der die Komplexität des Modells steuert.",
+      "Die Anzahl der Trainingsbeispiele in einem Batch."
+    ],
+    "loesung": 1,
+    "erklaerung": "Der Gradient ist die Verallgemeinerung der Ableitung für mehrdimensionale Funktionen. Beim Gradientenabstieg (Gradient Descent) bewegt man sich in die entgegengesetzte Richtung des Gradienten, um das Minimum der Verlustfunktion zu finden.",
+    "gewichtung": 2,
+    "thema": "Grundlagen"
+  },
+  {
+    "frage": "128. Was ist der Hauptvorteil von Docker im Kontext von Data Science?",
     "optionen": [
       "Eine schnellere Datenverarbeitung durch optimierte Container.",
       "Die Erstellung reproduzierbarer und isolierter Projektumgebungen.",
@@ -13,33 +1664,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "2. Was ist ein DataFrame in der `pandas`-Bibliothek?",
-    "optionen": [
-      "Ein Datentyp zur Speicherung von Zeitreihen in einer Dimension.",
-      "Eine zweidimensionale, tabellarische Datenstruktur mit benannten Spalten und Zeilen.",
-      "Ein Container zur Speicherung beliebiger Python-Objekte in einer Liste.",
-      "Ein Python-Modul, das ausschließlich für die Datenvisualisierung genutzt wird."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein `DataFrame` ist die zentrale Datenstruktur in `pandas`. Er repräsentiert Daten in einer tabellarischen Form, ähnlich einer SQL-Tabelle oder einem Spreadsheet, und ist für die Datenmanipulation optimiert.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "3. Was ist der Zweck eines `Dockerfile`?",
-    "optionen": [
-      "Es konfiguriert die Netzwerkeinstellungen zwischen laufenden Containern.",
-      "Es enthält die schrittweisen Anweisungen zum Bauen eines Docker-Images.",
-      "Es verwaltet die Benutzerrechte und Passwörter innerhalb eines Containers.",
-      "Es listet alle verfügbaren Docker-Images aus einer Registry auf."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein `Dockerfile` ist ein Textdokument, das alle Befehle enthält, die notwendig sind, um ein Docker-Image zu assemblieren. Es dient als Bauplan für die Container-Umgebung.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "4. Welcher Befehl wandelt eine Zelle in einem Jupyter Notebook in eine Code-Zelle um?",
+    "frage": "129. Welcher Befehl wandelt eine Zelle in einem Jupyter Notebook in eine Code-Zelle um?",
     "optionen": [
       "Die Taste `M` im Command Mode",
       "Die Taste `Y` im Command Mode",
@@ -52,7 +1677,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "5. Was ist der fundamentale Unterschied zwischen einem Docker-Image und einem Docker-Container?",
+    "frage": "130. Was ist der fundamentale Unterschied zwischen einem Docker-Image und einem Docker-Container?",
     "optionen": [
       "Ein Image ist eine laufende Instanz, während ein Container eine schreibgeschützte Vorlage ist.",
       "Ein Container ist eine laufende, beschreibbare Instanz, die aus einem schreibgeschützten Image erstellt wird.",
@@ -65,7 +1690,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "6. Was ist der primäre Zweck einer `docker-compose.yml`-Datei?",
+    "frage": "131. Was ist der primäre Zweck einer `docker-compose.yml`-Datei?",
     "optionen": [
       "Die Verwaltung von Python-Paketabhängigkeiten ähnlich einer `requirements.txt`.",
       "Die Definition und Orchestrierung einer Multi-Container-Anwendung.",
@@ -78,7 +1703,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "7. Was ist das Kernziel der Q-Phase im QUA³CK-Modell?",
+    "frage": "132. Was ist das Kernziel der Q-Phase im QUA³CK-Modell?",
     "optionen": [
       "Die Bereinigung und Vorverarbeitung der Rohdaten.",
       "Die präzise Formulierung der geschäftlichen Fragestellung und der Projektziele.",
@@ -91,20 +1716,7 @@
     "thema": "QUA³CK & MLOps"
   },
   {
-    "frage": "8. Welche Funktion wird in `pandas` standardmäßig zum Einlesen einer CSV-Datei verwendet?",
-    "optionen": [
-      "`pd.read_table()`",
-      "`pd.read_csv()`",
-      "`pd.load_csv()`",
-      "`pd.import_file()`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Die Funktion `pd.read_csv()` ist die flexible und performante Standardmethode in `pandas`, um Daten aus CSV-Dateien in einen DataFrame zu laden.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "9. Welcher Fehler tritt typischerweise auf, wenn man in `pandas` auf eine nicht existierende Spalte zugreift?",
+    "frage": "133. Welcher Fehler tritt typischerweise auf, wenn man in `pandas` auf eine nicht existierende Spalte zugreift?",
     "optionen": [
       "Ein `KeyError`",
       "Ein `SyntaxError`",
@@ -117,20 +1729,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "10. Was ist ein wesentlicher Unterschied zwischen `pip` und `conda` als Paketmanager?",
-    "optionen": [
-      "`pip` kann nur Pakete deinstallieren, während `conda` sie auch installiert.",
-      "`pip` ist auf Python-Pakete beschränkt, während `conda` auch Umgebungen und Nicht-Python-Pakete verwalten kann.",
-      "`conda` ist der offizielle Paketmanager für PyPI, während `pip` für Anaconda entwickelt wurde.",
-      "`pip` ist ausschließlich für Windows verfügbar, `conda` für Linux und macOS."
-    ],
-    "loesung": 1,
-    "erklaerung": "Während `pip` sich auf die Installation von Python-Paketen aus dem Python Package Index (PyPI) konzentriert, ist `conda` ein sprachunabhängiger Paket- und Umgebungsmanager.",
-    "gewichtung": 2,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "11. Was ist ein zentraler Vorteil von Jupyter Notebooks für die explorative Datenanalyse?",
+    "frage": "134. Was ist ein zentraler Vorteil von Jupyter Notebooks für die explorative Datenanalyse?",
     "optionen": [
       "Sie erzwingen eine strikt lineare Ausführung des gesamten Codes.",
       "Sie ermöglichen die interaktive Ausführung von Code in Zellen, kombiniert mit Text und Visualisierungen.",
@@ -143,7 +1742,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "12. Was ist der primäre Anwendungsfall für Streamlit im Data-Science-Kontext?",
+    "frage": "135. Was ist der primäre Anwendungsfall für Streamlit im Data-Science-Kontext?",
     "optionen": [
       "Das Training von neuronalen Netzen direkt im Browser.",
       "Die Erstellung interaktiver Web-Anwendungen zur Visualisierung von Analysen und Modellen.",
@@ -156,7 +1755,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "13. Was unterscheidet eine Python-Liste fundamental von einem Dictionary?",
+    "frage": "136. Was unterscheidet eine Python-Liste fundamental von einem Dictionary?",
     "optionen": [
       "Listen speichern Schlüssel-Wert-Paare, Dictionaries nur geordnete Werte.",
       "Listen sind geordnete Sammlungen mit numerischem Index, Dictionaries speichern ungeordnete Schlüssel-Wert-Paare.",
@@ -169,33 +1768,7 @@
     "thema": "Pandas & Python Basics"
   },
   {
-    "frage": "14. Mit welchem Schlüsselwort wird in Python eine Funktion definiert?",
-    "optionen": [
-      "`function`",
-      "`def`",
-      "`fun`",
-      "`define`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Das Schlüsselwort `def` (für 'define') leitet die Definition einer Funktion in Python ein, gefolgt vom Funktionsnamen und den Parametern in Klammern.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "15. Welchen Zweck erfüllt die Datei `requirements.txt` in einem Python-Projekt?",
-    "optionen": [
-      "Sie enthält den Quellcode der Hauptanwendung.",
-      "Sie listet die notwendigen Python-Paketabhängigkeiten und deren Versionen auf.",
-      "Sie speichert Konfigurationsparameter wie Datenbank-Zugangsdaten.",
-      "Sie definiert die Befehle zum Starten des Projekts in einem Docker-Container."
-    ],
-    "loesung": 1,
-    "erklaerung": "Eine `requirements.txt`-Datei ermöglicht es, alle externen Python-Pakete, die ein Projekt benötigt, mit einem einzigen Befehl (`pip install -r requirements.txt`) zu installieren und so die Umgebung reproduzierbar zu machen.",
-    "gewichtung": 2,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "16. Welcher Fehler tritt auf, wenn man versucht, ein nicht installiertes Python-Modul zu importieren?",
+    "frage": "137. Welcher Fehler tritt auf, wenn man versucht, ein nicht installiertes Python-Modul zu importieren?",
     "optionen": [
       "`ModuleNotFoundError`",
       "`ValueError`",
@@ -208,7 +1781,7 @@
     "thema": "Pandas & Python Basics"
   },
   {
-    "frage": "17. Was ist der Unterschied zwischen den Docker-Befehlen `ps` und `images`?",
+    "frage": "138. Was ist der Unterschied zwischen den Docker-Befehlen `ps` und `images`?",
     "optionen": [
       "`docker ps` zeigt alle laufenden Container an, während `docker images` alle lokal verfügbaren Images auflistet.",
       "`docker ps` listet alle Images auf, während `docker images` alle gestoppten Container anzeigt.",
@@ -221,20 +1794,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "18. Was ist ein wesentlicher Vorteil von `Docker Compose` gegenüber einzelnen `docker run`-Befehlen?",
-    "optionen": [
-      "Es kann nur einen Container pro Konfigurationsdatei verwalten.",
-      "Es ermöglicht die deklarative Verwaltung und Verknüpfung mehrerer Services mit einem einzigen Befehl.",
-      "Es macht die Erstellung von Docker-Images überflüssig.",
-      "Es ist ausschließlich für die lokale Entwicklungsumgebung konzipiert."
-    ],
-    "loesung": 1,
-    "erklaerung": "`Docker Compose` vereinfacht die Verwaltung von komplexen Anwendungen, die aus mehreren miteinander verbundenen Containern (z.B. App, Datenbank, Cache) bestehen, über eine einzige `yml`-Datei.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "19. Wofür wird das `st.sidebar`-Objekt in Streamlit primär verwendet?",
+    "frage": "139. Wofür wird das `st.sidebar`-Objekt in Streamlit primär verwendet?",
     "optionen": [
       "Um kritische Fehlermeldungen und Warnungen anzuzeigen.",
       "Um Steuerelemente und Navigationsoptionen in einer Seitenleiste zu platzieren.",
@@ -247,20 +1807,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "20. Was ist der Hauptzweck des QUA³CK-Prozessmodells?",
-    "optionen": [
-      "Die Optimierung der Hardware-Auslastung bei Deep-Learning-Aufgaben.",
-      "Die systematische Strukturierung eines Data-Science-Projekts von der Frage bis zum Transfer.",
-      "Die Verwaltung von Python-Abhängigkeiten in großen Teams.",
-      "Die Erstellung und Versionierung von relationalen Datenbank-Schemata."
-    ],
-    "loesung": 1,
-    "erklaerung": "Das QUA³CK-Modell bietet einen strukturierten, iterativen Rahmen für Data-Science-Projekte, um sicherzustellen, dass alle Phasen von der Fragestellung bis zur Wissensvermittlung durchlaufen werden.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
-  },
-  {
-    "frage": "21. Welche Methode wird in `pandas` verwendet, um die ersten `n` Zeilen eines DataFrames anzuzeigen?",
+    "frage": "140. Welche Methode wird in `pandas` verwendet, um die ersten `n` Zeilen eines DataFrames anzuzeigen?",
     "optionen": [
       "`df.show(n)`",
       "`df.head(n)`",
@@ -273,7 +1820,7 @@
     "thema": "Pandas & Python Basics"
   },
   {
-    "frage": "22. Was ist ein wesentlicher Vorteil der Verwendung von Funktionen in der Programmierung?",
+    "frage": "141. Was ist ein wesentlicher Vorteil der Verwendung von Funktionen in der Programmierung?",
     "optionen": [
       "Sie erhöhen die Komplexität und Laufzeit des Codes.",
       "Sie fördern die Wiederverwendbarkeit von Code und die logische Strukturierung.",
@@ -286,7 +1833,7 @@
     "thema": "Pandas & Python Basics"
   },
   {
-    "frage": "23. Was unterscheidet die Docker-Befehle `stop` und `rm`?",
+    "frage": "142. Was unterscheidet die Docker-Befehle `stop` und `rm`?",
     "optionen": [
       "`docker stop` löscht einen Container permanent, während `docker rm` ihn nur anhält.",
       "`docker stop` hält einen laufenden Container an, während `docker rm` einen gestoppten Container entfernt.",
@@ -299,7 +1846,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "24. Welcher Fehlertyp ist spezifisch für die falsche Verwendung von Streamlit-Widgets?",
+    "frage": "143. Welcher Fehlertyp ist spezifisch für die falsche Verwendung von Streamlit-Widgets?",
     "optionen": [
       "`StreamlitAPIException`",
       "`KeyError`",
@@ -312,7 +1859,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "25. Welchen Zweck erfüllt das `st.metric`-Widget in Streamlit?",
+    "frage": "144. Welchen Zweck erfüllt das `st.metric`-Widget in Streamlit?",
     "optionen": [
       "Es dient zur Anzeige einer einzelnen Kennzahl (KPI) mit optionalem Vergleichswert.",
       "Es wandelt eine gegebene Metrik von imperialen in metrische Einheiten um.",
@@ -325,7 +1872,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "26. Was ist ein Hauptvorteil der Verwendung von Markdown in Jupyter Notebooks?",
+    "frage": "145. Was ist ein Hauptvorteil der Verwendung von Markdown in Jupyter Notebooks?",
     "optionen": [
       "Es ermöglicht die Ausführung von Shell-Befehlen direkt im Browser.",
       "Es erlaubt die reichhaltige Formatierung von Text zur Dokumentation des Analyseprozesses.",
@@ -338,7 +1885,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "27. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?",
+    "frage": "146. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?",
     "optionen": [
       "Es gibt keinen Unterschied, beide haben das gleiche Ergebnis.",
       "`import pandas as pd` importiert die Bibliothek unter einem Alias, während `from pandas import *` alle Namen in den globalen Namensraum importiert.",
@@ -351,7 +1898,7 @@
     "thema": "Pandas & Python Basics"
   },
   {
-    "frage": "28. Was ist der typische Anwendungsfall für `st.file_uploader` in einer Streamlit-App?",
+    "frage": "147. Was ist der typische Anwendungsfall für `st.file_uploader` in einer Streamlit-App?",
     "optionen": [
       "Das Hochladen von Dateien durch den Benutzer zur interaktiven Analyse in der App.",
       "Das automatische Hochladen der fertigen App in die Streamlit Cloud.",
@@ -364,20 +1911,7 @@
     "thema": "Werkzeuge & Ökosystem"
   },
   {
-    "frage": "29. Wofür steht das Schlüsselwort `def` in Python?",
-    "optionen": [
-      "Für 'default', um einen Standardwert für eine Variable festzulegen.",
-      "Für 'define', um eine neue Funktion oder Methode zu definieren.",
-      "Für 'defer', um die Ausführung eines Code-Blocks zu verzögern.",
-      "Für 'delete file', um eine Datei aus dem System zu entfernen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Das Schlüsselwort `def` leitet in Python eine Funktionsdefinition ein. Es ist eines der grundlegendsten Konstrukte der Sprache für die Erstellung von wiederverwendbarem Code.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "30. Welchen Vorteil bietet Docker für die Zusammenarbeit in einem Data-Science-Team?",
+    "frage": "148. Welchen Vorteil bietet Docker für die Zusammenarbeit in einem Data-Science-Team?",
     "optionen": [
       "Jeder Entwickler kann seine bevorzugten, inkompatiblen Bibliotheksversionen verwenden.",
       "Alle Teammitglieder arbeiten in einer identischen, versionierten und portablen Umgebung.",
@@ -390,20 +1924,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "31. Wie kann die Performance von Filteroperationen in `pandas` verbessert werden?",
-    "optionen": [
-      "Durch die Konvertierung aller Spalten in den `object`-Datentyp.",
-      "Durch das Setzen einer relevanten Spalte als Index mit `set_index()`.",
-      "Indem man statt Vektoroperationen explizite `for`-Schleifen verwendet.",
-      "Durch das Speichern von Daten im JSON-Format anstelle von Parquet."
-    ],
-    "loesung": 1,
-    "erklaerung": "Das Setzen eines Indexes auf eine häufig gefilterte Spalte ermöglicht `pandas` den Einsatz optimierter, hash-basierter Zugriffsmechanismen, was die Filterung erheblich beschleunigt.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "32. Was ist der Hauptvorteil eines Multi-Stage-Builds in einem `Dockerfile`?",
+    "frage": "149. Was ist der Hauptvorteil eines Multi-Stage-Builds in einem `Dockerfile`?",
     "optionen": [
       "Automatisches Erstellen einer `.dockerignore`-Datei zur besseren Cache-Nutzung.",
       "Paralleles Starten von dev-, test- und prod-Containern mit einem einzigen Befehl.",
@@ -416,176 +1937,7 @@
     "thema": "Docker & Infrastruktur"
   },
   {
-    "frage": "33. Wie wird die A³-Phase des QUA³CK-Modells im Kurs modern interpretiert?",
-    "optionen": [
-      "Durch interaktive Datenexploration in einer Streamlit-App.",
-      "Durch das Deployment des finalen Modells in die Streamlit Cloud.",
-      "Durch die Erstellung eines automatisierten MLOps-Dashboards.",
-      "Durch systematisches Experiment-Tracking mit `MLflow`."
-    ],
-    "loesung": 3,
-    "erklaerung": "Die A³-Phase (Algorithm, Adapting, Adjusting) wird modern durch MLOps-Praktiken wie das Experiment-Tracking mit `MLflow` umgesetzt, um Modellvarianten systematisch zu verwalten und zu vergleichen.",
-    "gewichtung": 2,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "34. Wofür wird der `stratify`-Parameter in `train_test_split` verwendet?",
-    "optionen": [
-      "Um sicherzustellen, dass die Daten vor dem Splitten zufällig gemischt werden.",
-      "Um die relative Häufigkeit der Klassen in Trainings- und Test-Set beizubehalten.",
-      "Um eine exakte Aufteilung von 80% Trainings- und 20% Testdaten zu garantieren.",
-      "Um den `random_state` für reproduzierbare Splits zu ersetzen."
-    ],
-    "loesung": 1,
-    "erklaerung": "Bei Klassifikationsproblemen, besonders mit unbalancierten Klassen, sorgt `stratify` dafür, dass die prozentuale Verteilung der Zielklassen in Trainings- und Testdaten identisch ist.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "35. Was ist der primäre Zweck des Dekorators `@st.cache_data` in Streamlit?",
-    "optionen": [
-      "Das Zwischenspeichern von UI-Elementen wie Buttons oder Slidern.",
-      "Die Beschleunigung der App durch Caching von datenintensiven Funktionsergebnissen.",
-      "Das Speichern des `session_state` über verschiedene Browser-Tabs hinweg.",
-      "Die automatische Konvertierung von CSV-Dateien in das Parquet-Format."
-    ],
-    "loesung": 1,
-    "erklaerung": "`@st.cache_data` speichert das Ergebnis einer Funktion. Wird die Funktion erneut mit den gleichen Argumenten aufgerufen, wird das Ergebnis aus dem Cache geholt, was Operationen wie das Laden von Daten beschleunigt.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "36. Welches Problem wird durch die Verwendung von Docker-Volumes gelöst?",
-    "optionen": [
-      "Die initiale Build-Zeit des Docker-Images wird signifikant reduziert.",
-      "Daten bleiben persistent erhalten, auch wenn der zugehörige Container gelöscht wird.",
-      "Die Netzwerkkommunikation zwischen voneinander isolierten Containern wird ermöglicht.",
-      "Python-Abhängigkeiten können ohne `pip` direkt im Container installiert werden."
-    ],
-    "loesung": 1,
-    "erklaerung": "Volumes entkoppeln die Lebensdauer von Daten von der Lebensdauer eines Containers. Sie mappen ein Verzeichnis auf dem Host-System in den Container und sorgen so für Persistenz.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "37. In welcher Phase des QUA³CK-Modells findet die Aktivität 'Conclude and Compare' statt?",
-    "optionen": [
-      "Phase Q (Question)",
-      "Phase U (Understanding)",
-      "Phase A³ (Algorithm, Adapting, Adjusting)",
-      "Phase C (Conclude and Compare)"
-    ],
-    "loesung": 3,
-    "erklaerung": "Die C-Phase (Conclude and Compare) ist explizit dem Vergleich der Modellergebnisse, der Ziehung von Schlussfolgerungen und der finalen Bewertung des Projekterfolgs gewidmet.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
-  },
-  {
-    "frage": "38. Was unterscheidet `st.session_state` von einer normalen globalen Variable in Streamlit?",
-    "optionen": [
-      "`st.session_state` ist in der Ausführung schneller als eine globale Variable.",
-      "`st.session_state` kann komplexe Objekte speichern, globale Variablen nicht.",
-      "`st.session_state` behält seinen Wert über die Reruns einer Benutzersession hinweg, eine Variable nicht.",
-      "`st.session_state` ist nur innerhalb der Funktion sichtbar, in der es definiert wurde."
-    ],
-    "loesung": 2,
-    "erklaerung": "Da Streamlit das Skript bei jeder Interaktion neu ausführt, werden normale Variablen zurückgesetzt. `st.session_state` ist ein Mechanismus, um Zustandsinformationen über diese Reruns hinweg zu speichern.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "39. Welches Datenformat ist oft performanter als CSV für die Speicherung großer DataFrames?",
-    "optionen": [
-      "JSON",
-      "Excel (.xlsx)",
-      "Parquet",
-      "Text (.txt)"
-    ],
-    "loesung": 2,
-    "erklaerung": "`Parquet` ist ein spaltenbasiertes Speicherformat, das eine hohe Kompression und schnelle Lesezeiten ermöglicht, da nur die tatsächlich benötigten Spalten geladen werden müssen.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "40. Was beschreibt der Begriff `Vektorisierung` im Kontext von `pandas`?",
-    "optionen": [
-      "Die Umwandlung von Textdaten in numerische Vektoren mittels Word Embeddings.",
-      "Das Anwenden von Operationen auf ganze Spalten (Arrays) statt auf einzelne Elemente in einer Schleife.",
-      "Das Speichern eines DataFrames in einer speziellen Vektor-Datenbank.",
-      "Die Visualisierung von Daten als Vektorgrafiken anstelle von Rastergrafiken."
-    ],
-    "loesung": 1,
-    "erklaerung": "`Vektorisierung` nutzt optimierte, in C oder Cython implementierte Routinen, um Operationen auf ganzen Daten-Arrays gleichzeitig auszuführen. Dies ist fundamental schneller als eine manuelle Iteration in Python.",
-    "gewichtung": 1,
-    "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "41. Welche MLOps-Praxis wird mit der K-Phase (Knowledge Transfer) des QUA³CK-Modells assoziiert?",
-    "optionen": [
-      "Das Tracking von Experimenten mit `MLflow`.",
-      "Die interaktive Datenexploration mit `Streamlit`.",
-      "Das Deployment in der Cloud und die Erstellung eines Portfolios.",
-      "Die automatisierte Gegenüberstellung von Modellen in einem Dashboard."
-    ],
-    "loesung": 2,
-    "erklaerung": "Die K-Phase fokussiert sich auf den Transfer des erarbeiteten Wissens. Dazu gehören das Deployment des Modells für Endanwender und die Dokumentation der Ergebnisse in einem Portfolio.",
-    "gewichtung": 2,
-    "thema": "QUA³CK & MLOps"
-  },
-  {
-    "frage": "42. Welchen Zweck erfüllt der Befehl `docker-compose down`?",
-    "optionen": [
-      "Er lädt die neuesten Versionen der Images aus der Docker-Registry herunter.",
-      "Er zeigt die aggregierten Logs aller laufenden Services in Echtzeit an.",
-      "Er stoppt und entfernt die von `docker-compose up` erstellten Container, Netzwerke und Volumes.",
-      "Er baut alle Docker-Images neu, ohne die zugehörigen Container zu starten."
-    ],
-    "loesung": 2,
-    "erklaerung": "`docker-compose down` ist der komplementäre Befehl zu `up` und dient dazu, die gesamte Anwendungslandschaft sauber zu beenden und die erstellten Ressourcen freizugeben.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "43. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
-    "optionen": [
-      "Supervised Learning benötigt gelabelte Zieldaten, Unsupervised Learning nicht.",
-      "Unsupervised Learning liefert immer genauere Ergebnisse als Supervised Learning.",
-      "Supervised Learning wird für Clustering verwendet, Unsupervised für Klassifikation.",
-      "Unsupervised Learning kann nur mit numerischen Daten umgehen."
-    ],
-    "loesung": 0,
-    "erklaerung": "Der fundamentale Unterschied liegt in den Daten: Supervised Learning lernt eine Abbildung von Eingabedaten auf bekannte Ausgabedaten (Labels). Unsupervised Learning sucht nach Mustern in Daten ohne vordefinierte Labels.",
-    "gewichtung": 1,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "44. Welches Streamlit-Element wird zur Darstellung von Inhalten in nebeneinanderliegenden Spalten verwendet?",
-    "optionen": [
-      "`st.expander()`",
-      "`st.tabs()`",
-      "`st.columns()`",
-      "`st.container()`"
-    ],
-    "loesung": 2,
-    "erklaerung": "Mit `st.columns()` kann das Layout in mehrere vertikale Spalten aufgeteilt werden, um beispielsweise Kennzahlen, Diagramme oder Steuerelemente nebeneinander zu positionieren.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "45. Warum wird im `Dockerfile` `COPY requirements.txt .` vor `COPY . .` ausgeführt?",
-    "optionen": [
-      "Um die Lesbarkeit durch die Priorisierung von Konfigurationsdateien zu verbessern.",
-      "Weil `COPY . .` eine sehr langsame Operation ist, die man ans Ende stellen sollte.",
-      "Um Docker's Layer-Caching zu nutzen, sodass Abhängigkeiten nur bei Änderung der `requirements.txt` neu installiert werden.",
-      "Um sicherzustellen, dass die Abhängigkeiten als separate, wiederverwendbare Schicht im Image existieren."
-    ],
-    "loesung": 2,
-    "erklaerung": "Docker baut Images in Schichten (Layers). Ändert sich eine Zeile, werden alle nachfolgenden Schichten neu gebaut. Da sich die `requirements.txt` seltener ändert als der App-Code, wird durch diese Reihenfolge der zeitintensive `pip install`-Schritt oft aus dem Cache geladen.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "46. Was ist eine `Chained Assignment`-Warnung in `pandas`?",
+    "frage": "150. Was ist eine `Chained Assignment`-Warnung in `pandas`?",
     "optionen": [
       "Eine Warnung, die bei der Verkettung von zu vielen Methodenaufrufen (`.pipe()...`) auftritt.",
       "Ein Hinweis auf eine potenziell fehlerhafte Zuweisung auf eine Kopie statt auf die Originaldaten; `.loc` sollte verwendet werden.",
@@ -596,707 +1948,5 @@
     "erklaerung": "Die 'SettingWithCopyWarning' deutet darauf hin, dass eine Operation möglicherweise auf einer temporären Kopie eines DataFrames stattfindet. Um sicherzustellen, dass die Zuweisung im Original-DataFrame ankommt, sollte man `.loc` für den gleichzeitigen Zugriff und die Zuweisung verwenden.",
     "gewichtung": 1,
     "thema": "Pandas & Python Basics"
-  },
-  {
-    "frage": "47. Welches Werkzeug wird im Kurs-Setup für das Experiment-Tracking eingesetzt?",
-    "optionen": [
-      "`Streamlit`",
-      "`Jupyter Lab`",
-      "`MLflow`",
-      "`Docker Hub`"
-    ],
-    "loesung": 2,
-    "erklaerung": "`MLflow` ist eine Open-Source-Plattform zur Verwaltung des gesamten Machine-Learning-Lebenszyklus, einschließlich des Trackings von Experimenten, Parametern, Metriken und Modellen.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "48. Was bewirkt die Taste `M` im Command Mode eines Jupyter Notebooks?",
-    "optionen": [
-      "Sie verschiebt die aktuelle Zelle eine Position nach unten (Move).",
-      "Sie fügt eine neue Zelle oberhalb der aktuellen ein (More).",
-      "Sie wandelt die aktuelle Zelle in eine Markdown-Zelle um.",
-      "Sie startet den Kernel der Anwendung neu (Master Reset)."
-    ],
-    "loesung": 2,
-    "erklaerung": "Im Command Mode wandelt die Taste `M` eine Zelle in eine `Markdown`-Zelle um, was für die Dokumentation innerhalb eines Notebooks essenziell ist. `Y` wandelt sie zurück in eine Code-Zelle.",
-    "gewichtung": 1,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "49. Was ist der primäre Zweck der `EXPOSE`-Anweisung in einem `Dockerfile`?",
-    "optionen": [
-      "Den Container aktiv mit dem Internet zu verbinden.",
-      "Einen Port vom Host-System auf einen Port im Container zu mappen.",
-      "Den Port zu dokumentieren, auf dem der Service im Container lauscht.",
-      "Die interne Firewall des Containers für einen bestimmten Port zu öffnen."
-    ],
-    "loesung": 2,
-    "erklaerung": "`EXPOSE` hat rein dokumentarischen Charakter. Es teilt dem Benutzer des Images mit, auf welchem Port die Anwendung im Container standardmäßig lauscht. Die tatsächliche Port-Veröffentlichung geschieht erst beim `docker run` mit dem `-p`-Flag.",
-    "gewichtung": 1,
-    "thema": "Docker & Infrastruktur"
-  },
-  {
-    "frage": "50. Welche Metrik eignet sich zur Bewertung eines K-Means-Clustering-Modells, wenn die wahren Labels bekannt sind?",
-    "optionen": [
-      "`Accuracy`",
-      "`Adjusted Rand Score`",
-      "`F1-Score`",
-      "`Root Mean Squared Error (RMSE)`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Der `Adjusted Rand Score` ist eine Metrik, die die Ähnlichkeit zwischen den gefundenen Clustern und den wahren Klassen misst. Im Gegensatz zur `Accuracy` ist sie unabhängig von der absoluten Benennung der Cluster.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "51. Was ist ein wesentlicher Vorteil von Entscheidungsbäumen?",
-    "optionen": [
-      "Ihre hohe Interpretierbarkeit durch visualisierbare Regeln.",
-      "Ihre angeborene Robustheit gegenüber Overfitting.",
-      "Ihre Unempfindlichkeit gegenüber der Wahl der Hyperparameter.",
-      "Ihre Fähigkeit, ohne gelabelte Daten zu lernen."
-    ],
-    "loesung": 0,
-    "erklaerung": "Entscheidungsbäume sind 'White-Box'-Modelle. Die gelernten Wenn-Dann-Regeln können leicht visualisiert und von Menschen nachvollzogen werden, was in vielen Anwendungsbereichen eine Anforderung ist.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "52. Was ist ein bekannter Nachteil von einzelnen Entscheidungsbäumen?",
-    "optionen": [
-      "Sie sind rechnerisch extrem aufwendig im Training.",
-      "Sie neigen dazu, die Trainingsdaten zu überanpassen (Overfitting).",
-      "Sie können ausschließlich lineare Zusammenhänge modellieren.",
-      "Sie erfordern eine aufwendige Normalisierung der Eingabedaten."
-    ],
-    "loesung": 1,
-    "erklaerung": "Einzelne, ungestutzte Entscheidungsbäume neigen dazu, sehr komplexe Strukturen zu bilden, die die Trainingsdaten perfekt lernen, aber schlecht auf neue, unbekannte Daten generalisieren.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "53. Wie funktioniert der K-Nearest-Neighbors (KNN) Algorithmus?",
-    "optionen": [
-      "Er klassifiziert einen Datenpunkt basierend auf der Mehrheitsklasse seiner k nächsten Nachbarn.",
-      "Er erstellt einen hierarchischen Baum von Entscheidungsregeln.",
-      "Er teilt den Datenraum in k Cluster basierend auf deren Mittelpunkten auf.",
-      "Er passt eine lineare Funktion an die Daten an, um den Fehler zu minimieren."
-    ],
-    "loesung": 0,
-    "erklaerung": "KNN ist ein 'lazy learner'. Für eine Vorhersage sucht er die k ähnlichsten Datenpunkte aus dem Trainingsdatensatz und lässt sie über die Klasse 'abstimmen'.",
-    "gewichtung": 1,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "54. Warum sollte der Hyperparameter `k` bei KNN für eine binäre Klassifikation ungerade gewählt werden?",
-    "optionen": [
-      "Um die Berechnungszeit des Algorithmus zu halbieren.",
-      "Um eine eindeutige Mehrheitsentscheidung zu ermöglichen und Unentschieden zu vermeiden.",
-      "Um die Anfälligkeit des Modells für Overfitting zu reduzieren.",
-      "Weil der Algorithmus mit geraden Zahlen einen Fehler auslöst."
-    ],
-    "loesung": 1,
-    "erklaerung": "Wenn `k` bei einer binären Klassifikation (z.B. Klasse A vs. B) gerade ist, könnte es zu einem Patt kommen (z.B. 2 Nachbarn für A, 2 für B). Ein ungerades `k` stellt eine klare Mehrheit sicher.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "55. Was ist ein typischer Anwendungsfall für K-Means Clustering?",
-    "optionen": [
-      "Die Vorhersage von numerischen Zielwerten wie Aktienkursen.",
-      "Die Gruppierung von Datenpunkten in Cluster ohne vordefinierte Labels.",
-      "Die Klassifikation von Bildern in vordefinierte Kategorien.",
-      "Die Reduzierung der Dimensionalität eines Datensatzes."
-    ],
-    "loesung": 1,
-    "erklaerung": "K-Means ist ein Unsupervised-Learning-Algorithmus, der verwendet wird, um inhärente Gruppen oder Cluster in einem Datensatz zu entdecken, z.B. für die Kundensegmentierung.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "56. Was unterscheidet Supervised von Unsupervised Learning?",
-    "optionen": [
-      "Supervised Learning wird für Regression, Unsupervised für Klassifikation verwendet.",
-      "Supervised Learning erfordert mehr Rechenleistung, ist aber immer genauer.",
-      "Supervised Learning lernt von Daten mit Zielwerten (Labels), Unsupervised Learning von Daten ohne.",
-      "Unsupervised Learning ist ein Teilgebiet von Deep Learning, Supervised Learning nicht."
-    ],
-    "loesung": 2,
-    "erklaerung": "Der fundamentale Unterschied liegt in den Daten: Supervised Learning lernt eine Abbildung von Eingabedaten auf bekannte Ausgabedaten (Labels). Unsupervised Learning sucht nach Mustern in Daten ohne vordefinierte Labels.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "57. Was ist ein Vorteil des KNN-Algorithmus?",
-    "optionen": [
-      "Er ist nicht-parametrisch und macht keine Annahmen über die Datenverteilung.",
-      "Die Vorhersage ist bei sehr großen Trainingsdatensätzen extrem schnell.",
-      "Er ist unempfindlich gegenüber der Skalierung der Features.",
-      "Er funktioniert am besten mit hochdimensionalen Datensätzen."
-    ],
-    "loesung": 0,
-    "erklaerung": "KNN ist ein nicht-parametrischer Algorithmus, das heißt, er macht keine Annahmen über die funktionale Form der zugrundeliegenden Datenverteilung, was ihn sehr flexibel macht.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "58. Was ist ein bekannter Nachteil des KNN-Algorithmus?",
-    "optionen": [
-      "Er ist empfindlich gegenüber der Skalierung der Features.",
-      "Er kann keine nicht-linearen Entscheidungsgrenzen lernen.",
-      "Die Trainingsphase ist sehr rechenintensiv.",
-      "Er ist nur für binäre Klassifikationsprobleme geeignet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Da KNN auf Distanzmaßen basiert, können Features mit großen Wertebereichen die Distanzberechnung dominieren. Daher ist eine Skalierung (z.B. Normalisierung) der Daten meist erforderlich.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "59. Wozu dient die 'Ellbogenmethode' (Elbow Method) im Kontext von K-Means?",
-    "optionen": [
-      "Sie hilft bei der Bestimmung einer geeigneten Anzahl von Clustern (k).",
-      "Sie ist eine Technik zur Skalierung der Daten vor dem Clustering.",
-      "Sie dient der Visualisierung der Cluster in einem zweidimensionalen Raum.",
-      "Sie beschleunigt die Konvergenz des Algorithmus erheblich."
-    ],
-    "loesung": 0,
-    "erklaerung": "Bei der Ellbogenmethode wird die Summe der quadrierten Abstände zu den Cluster-Zentren für verschiedene Werte von `k` aufgetragen. Das 'Knie' oder der 'Ellbogen' der Kurve deutet auf einen guten Kompromiss für `k` hin.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "60. Was repräsentiert ein interner Knoten in einem Entscheidungsbaum?",
-    "optionen": [
-      "Eine finale Klassenzuweisung (ein Blatt).",
-      "Eine Entscheidungsregel basierend auf einem Feature-Wert.",
-      "Den Mittelwert aller Features in den Daten.",
-      "Die Wahrscheinlichkeit für das Auftreten einer Klasse."
-    ],
-    "loesung": 1,
-    "erklaerung": "Jeder interne Knoten in einem Entscheidungsbaum repräsentiert einen 'Test' für ein bestimmtes Feature (z.B. 'Alter > 30?'), der die Daten in die entsprechenden Kind-Knoten aufteilt.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "61. Was ist ein typischer Vorteil von K-Means?",
-    "optionen": [
-      "Die Fähigkeit, verborgene Gruppen oder Muster in Daten zu entdecken.",
-      "Die Garantie, immer die global optimale Cluster-Lösung zu finden.",
-      "Die Robustheit gegenüber nicht-sphärischen Cluster-Formen.",
-      "Die Notwendigkeit, keine Hyperparameter wie `k` festlegen zu müssen."
-    ],
-    "loesung": 0,
-    "erklaerung": "K-Means ist ein leistungsfähiges Werkzeug für die explorative Datenanalyse, um ohne Vorwissen über Klassen eine erste Segmentierung der Daten vorzunehmen und Hypothesen zu generieren.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "62. Was ist ein typischer Nachteil von K-Means?",
-    "optionen": [
-      "Die Anzahl der Cluster (k) muss a priori festgelegt werden.",
-      "Der Algorithmus ist nur für kategorische Daten geeignet.",
-      "Er benötigt gelabelte Daten für das Training.",
-      "Er ist im Vergleich zu anderen Algorithmen sehr rechenintensiv."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die Notwendigkeit, die Anzahl der Cluster `k` im Voraus zu bestimmen, ist eine der größten Herausforderungen bei der Anwendung von K-Means, da die Wahl von `k` das Ergebnis stark beeinflusst.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "63. In welchen Anwendungsbereichen werden Entscheidungsbäume oft bevorzugt?",
-    "optionen": [
-      "In regulierten Branchen wie Finanzen oder Medizin, wo Interpretierbarkeit gefordert ist.",
-      "Bei hochdimensionalen Bilderkennungsaufgaben mit Millionen von Pixeln.",
-      "Für die Verarbeitung von sequenziellen Daten wie natürlicher Sprache.",
-      "Wenn die zugrundeliegenden Zusammenhänge stark nicht-linear sind."
-    ],
-    "loesung": 0,
-    "erklaerung": "Aufgrund ihrer 'White-Box'-Natur werden Entscheidungsbäume oft dort eingesetzt, wo die Gründe für eine Entscheidung nachvollziehbar sein müssen, z.B. bei der Kreditwürdigkeitsprüfung.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "64. Was ist ein typischer Einsatzbereich für den KNN-Algorithmus?",
-    "optionen": [
-      "Empfehlungssysteme, die 'ähnliche' Benutzer oder Artikel finden.",
-      "Die Analyse von Zeitreihendaten zur Vorhersage zukünftiger Werte.",
-      "Die Segmentierung von Kunden in verschiedene Kaufverhaltensgruppen.",
-      "Das Training von tiefen neuronalen Netzen zur Objekterkennung."
-    ],
-    "loesung": 0,
-    "erklaerung": "KNN eignet sich gut für Empfehlungssysteme (Collaborative Filtering), da das Konzept der 'Ähnlichkeit' zwischen Datenpunkten (z.B. Benutzern mit ähnlichem Geschmack) zentral ist.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "65. Welches Geschäftsproblem lässt sich gut mit K-Means lösen?",
-    "optionen": [
-      "Die Segmentierung eines Kundenstamms in verschiedene Marketing-Gruppen.",
-      "Die Vorhersage des genauen Umsatzes für das nächste Quartal.",
-      "Die Erkennung von betrügerischen Transaktionen in Echtzeit.",
-      "Die automatische Übersetzung von Kundenrezensionen."
-    ],
-    "loesung": 0,
-    "erklaerung": "K-Means ist ideal für die Kundensegmentierung, da es basierend auf Merkmalen wie Kaufverhalten oder demografischen Daten automatisch Gruppen von ähnlichen Kunden identifizieren kann.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "66. Was ist ein Vorteil von Entscheidungsbäumen gegenüber KNN?",
-    "optionen": [
-      "Sie erfordern keine Skalierung der Features.",
-      "Sie können besser mit hochdimensionalen Daten umgehen.",
-      "Die Vorhersage ist bei großen Datensätzen schneller.",
-      "Sie sind unempfindlicher gegenüber irrelevanten Features."
-    ],
-    "loesung": 0,
-    "erklaerung": "Da Entscheidungsbäume auf regelbasierten Aufteilungen (z.B. 'Feature X > 5') basieren, sind sie unempfindlich gegenüber der Skalierung der Eingabedaten, im Gegensatz zum distanzbasierten KNN.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "67. Was ist ein Vorteil von KNN gegenüber Entscheidungsbäumen?",
-    "optionen": [
-      "Er macht keine Annahmen über die zugrundeliegende Datenverteilung.",
-      "Er ist leichter zu interpretieren und zu visualisieren.",
-      "Er benötigt keine Einstellung von Hyperparametern wie `k`.",
-      "Die Trainingsphase ist rechenintensiver, aber genauer."
-    ],
-    "loesung": 0,
-    "erklaerung": "Als nicht-parametrischer Algorithmus kann KNN komplexe Entscheidungsgrenzen lernen, ohne eine spezifische Form (wie achsenparallele Splits bei Bäumen) anzunehmen.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "68. Was ist ein Vorteil von K-Means gegenüber KNN?",
-    "optionen": [
-      "Er kann Gruppen in Daten ohne bekannte Labels finden (Unsupervised).",
-      "Er ist ein Supervised-Learning-Algorithmus für Klassifikation.",
-      "Er ist robuster gegenüber der Wahl des Hyperparameters `k`.",
-      "Er kann Cluster beliebiger, nicht-sphärischer Formen erkennen."
-    ],
-    "loesung": 0,
-    "erklaerung": "K-Means ist ein Unsupervised-Algorithmus, der für die Entdeckung von Strukturen in ungelabelten Daten konzipiert ist, während KNN ein Supervised-Algorithmus ist, der gelabelte Trainingsdaten benötigt.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "69. Was ist eine zentrale 'Best Practice' im Machine Learning?",
-    "optionen": [
-      "Immer mehrere Algorithmen evaluieren, um das beste Modell für das spezifische Problem zu finden.",
-      "Sich immer für den komplexesten verfügbaren Algorithmus wie Deep Learning entscheiden.",
-      "Die Aufteilung in Trainings- und Testdaten vermeiden, um alle Daten zum Training zu nutzen.",
-      "Das Feature Engineering ignorieren und die Rohdaten direkt verwenden."
-    ],
-    "loesung": 0,
-    "erklaerung": "Es gibt keinen 'einen besten' Algorithmus. Eine gute Praxis ist es, mehrere Modelle (von einfach bis komplex) zu testen und ihre Leistung systematisch zu vergleichen, um die beste Lösung zu finden.",
-    "gewichtung": 2,
-    "thema": "Werkzeuge & Ökosystem"
-  },
-  {
-    "frage": "70. Was besagt die 'AMALEA-Weisheit' zu den 'Big 3' Algorithmen (DT, KNN, K-Means)?",
-    "optionen": [
-      "Wer ihre Prinzipien versteht, kann etwa 80% aller klassischen ML-Projekte konzeptionell einordnen.",
-      "Diese drei Algorithmen sind veraltet und sollten nicht mehr verwendet werden.",
-      "Alle modernen Deep-Learning-Architekturen basieren direkt auf diesen drei Algorithmen.",
-      "Sie sind nur für sehr kleine Datensätze mit weniger als 1000 Zeilen geeignet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die 'Big 3' repräsentieren drei grundlegende Paradigmen des maschinellen Lernens (regelbasiert, distanzbasiert, clusterbasiert). Ihr Verständnis bildet eine solide Basis für das Verständnis der meisten anderen ML-Methoden.",
-    "gewichtung": 2,
-    "thema": "Klassische ML-Algorithmen"
-  },
-  {
-    "frage": "71. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?",
-    "optionen": [
-      "Es besteht aus Schichten von Neuronen, die durch gewichtete Verbindungen miteinander verknüpft sind.",
-      "Es verwendet einen einzelnen Entscheidungsbaum, um Vorhersagen zu treffen.",
-      "Es benötigt grundsätzlich keine Trainingsdaten, um zu funktionieren.",
-      "Es kann ausschließlich lineare Regressionen durchführen."
-    ],
-    "loesung": 0,
-    "erklaerung": "Neuronale Netze sind von der Struktur des Gehirns inspiriert und bestehen aus miteinander verbundenen Knoten (Neuronen), die in Schichten angeordnet sind. Die Stärke der Verbindungen (Gewichte) wird im Training gelernt.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "72. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem neuronalen Netz?",
-    "optionen": [
-      "Sie führt Nichtlinearität ein, was dem Netz ermöglicht, komplexe Muster zu lernen.",
-      "Sie berechnet den Gradienten für die Backpropagation.",
-      "Sie initialisiert die Gewichte der Neuronen vor dem Training.",
-      "Sie normalisiert die Eingabedaten auf einen Bereich zwischen 0 und 1."
-    ],
-    "loesung": 0,
-    "erklaerung": "Ohne nichtlineare Aktivierungsfunktionen wäre ein neuronales Netz, egal wie viele Schichten es hat, nur in der Lage, lineare Zusammenhänge zu modellieren. Die Nichtlinearität ist entscheidend für seine Mächtigkeit.",
-    "gewichtung": 1,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "73. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?",
-    "optionen": [
-      "`ReLU` leidet weniger unter dem 'Vanishing Gradient'-Problem.",
-      "`ReLU` ist über den gesamten Definitionsbereich stetig differenzierbar.",
-      "`ReLU` eignet sich besser für die Ausgabeschicht bei binärer Klassifikation.",
-      "`ReLU` ist rechenintensiver, aber genauer."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die Ableitung der `Sigmoid`-Funktion ist in vielen Bereichen nahe null, was bei tiefen Netzen zum 'Verschwinden' der Gradienten führen kann. `ReLU` hat für positive Eingaben eine konstante Ableitung von 1, was den Gradientenfluss erleichtert.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "74. Was beschreibt das Backpropagation-Verfahren?",
-    "optionen": [
-      "Die effiziente Berechnung der Gradienten des Fehlers bezüglich der Gewichte.",
-      "Die zufällige Initialisierung der Gewichte vor dem ersten Trainingsschritt.",
-      "Die Auswahl der optimalen Anzahl von Neuronen für ein Hidden Layer.",
-      "Die schichtweise Vorwärtsausbreitung der Eingabedaten durch das Netz."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Backpropagation` ist der Algorithmus, mit dem die Gewichte eines neuronalen Netzes trainiert werden. Er propagiert den Fehler von der Ausgabeschicht rückwärts durch das Netz, um die Gradienten für die Gewichtsaktualisierung zu berechnen.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "75. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?",
-    "optionen": [
-      "Ein zu komplexes Modell (zu viele Parameter) im Verhältnis zu wenigen Trainingsdaten.",
-      "Eine zu kleine Lernrate während des Trainings.",
-      "Die Verwendung von Regularisierungstechniken wie `Dropout`.",
-      "Das Fehlen einer nichtlinearen Aktivierungsfunktion in den Hidden Layers."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Overfitting` tritt auf, wenn ein Modell so flexibel ist, dass es beginnt, das Rauschen in den Trainingsdaten auswendig zu lernen, anstatt das zugrundeliegende Muster zu generalisieren.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "76. Was ist `Dropout` im Kontext von Deep Learning?",
-    "optionen": [
-      "Eine Regularisierungstechnik, bei der während des Trainings zufällig Neuronen 'ausgeschaltet' werden.",
-      "Eine Methode zur Beschleunigung des Trainings durch Reduzierung der Batch-Größe.",
-      "Eine spezielle Aktivierungsfunktion für die Ausgabeschicht.",
-      "Ein Optimierungsalgorithmus, der die Lernrate adaptiv anpasst."
-    ],
-    "loesung": 0,
-    "erklaerung": "Durch das zufällige Deaktivieren von Neuronen in jedem Trainingsschritt zwingt `Dropout` das Netzwerk, robustere und weniger voneinander abhängige Features zu lernen, was Overfitting entgegenwirkt.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "77. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?",
-    "optionen": [
-      "Sie quantifiziert den Fehler zwischen der Modellvorhersage und dem wahren Zielwert.",
-      "Sie berechnet die optimale Anzahl der Neuronen für die gegebene Aufgabe.",
-      "Sie legt die Lernrate für den Optimierungsalgorithmus fest.",
-      "Sie bestimmt die maximale Anzahl der Trainingsepochen."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die Verlustfunktion ist das Signal, das der Optimierungsalgorithmus (z.B. SGD) zu minimieren versucht. Ein kleinerer Verlustwert bedeutet eine bessere Anpassung des Modells an die Trainingsdaten.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "78. Was ist ein Hauptvorteil von `Batch Normalization`?",
-    "optionen": [
-      "Sie beschleunigt und stabilisiert den Trainingsprozess.",
-      "Sie erhöht die Anzahl der lernbaren Parameter im Modell.",
-      "Sie ersetzt die Notwendigkeit von Aktivierungsfunktionen.",
-      "Sie funktioniert nur in der ersten Schicht eines Netzwerks."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Batch Normalization` normalisiert die Aktivierungen zwischen den Schichten. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "79. Was ist ein potenzielles Problem bei sehr tiefen neuronalen Netzen?",
-    "optionen": [
-      "Das Auftreten von 'Vanishing' oder 'Exploding Gradients'.",
-      "Sie sind prinzipiell schneller zu trainieren als flache Netze.",
-      "Sie können keine nichtlinearen Aktivierungsfunktionen verwenden.",
-      "Sie sind von Natur aus robuster gegen Overfitting."
-    ],
-    "loesung": 0,
-    "erklaerung": "Bei der `Backpropagation` in sehr tiefen Netzen kann der Gradient, der rückwärts propagiert wird, exponentiell klein ('vanishing') oder groß ('exploding') werden, was das Lernen verhindert oder destabilisiert.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "80. Für welche Art von Aufgaben sind `Convolutional Neural Networks (CNNs)` besonders gut geeignet?",
-    "optionen": [
-      "Aufgaben mit gitterartigen Daten wie Bildklassifikation und Objekterkennung.",
-      "Die Verarbeitung von sequenziellen Daten wie Zeitreihen oder Text.",
-      "Das Finden von Clustern in ungelabelten Datensätzen.",
-      "Probleme des Reinforcement Learning in Spielumgebungen."
-    ],
-    "loesung": 0,
-    "erklaerung": "`CNNs` sind darauf spezialisiert, lokale räumliche Muster in Daten wie Bildern durch Faltungsoperationen (Convolutions) zu erkennen, was sie für Computer-Vision-Aufgaben prädestiniert.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "81. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?",
-    "optionen": [
-      "Es ist speichereffizient und ermöglicht das Training mit sehr großen Datensätzen.",
-      "Es konvergiert garantiert immer zum globalen Minimum der Verlustfunktion.",
-      "Es benötigt keine manuelle Einstellung der Lernrate.",
-      "Es führt im Vergleich zu anderen Methoden zu einer schnelleren Konvergenz."
-    ],
-    "loesung": 0,
-    "erklaerung": "Da `SGD` die Gewichte nach jedem einzelnen Datenpunkt (oder einem kleinen Batch) aktualisiert, muss nicht der gesamte Datensatz im Speicher gehalten werden. Die 'rauschhaften' Updates können auch helfen, lokalen Minima zu entkommen.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "82. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?",
-    "optionen": [
-      "Es lernt hierarchische und zunehmend komplexe Merkmale aus den Eingabedaten.",
-      "Es dient ausschließlich dazu, die finale Vorhersage des Netzes auszugeben.",
-      "Es initialisiert die Gewichte für die Eingabeschicht.",
-      "Es normalisiert die Ausgabewerte auf einen Bereich zwischen 0 und 1."
-    ],
-    "loesung": 0,
-    "erklaerung": "Versteckte Schichten (Hidden Layers) sind die Kernkomponenten, in denen das Netzwerk lernt, aus den Rohdaten der vorherigen Schicht abstraktere und nützlichere Repräsentationen zu extrahieren.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "83. Was ist ein Nachteil der `Sigmoid`-Aktivierungsfunktion in tiefen Netzen?",
-    "optionen": [
-      "Ihre Ableitung ist oft nahe null, was zum 'Vanishing Gradient'-Problem führt.",
-      "Sie ist nicht stetig differenzierbar und kann nicht für `Backpropagation` verwendet werden.",
-      "Sie kann keine nichtlinearen Zusammenhänge im Netzwerk abbilden.",
-      "Sie ist ausschließlich für Regressionsprobleme mit positiven Zielwerten geeignet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die `Sigmoid`-Funktion 'sättigt' bei großen positiven oder negativen Eingaben, was bedeutet, dass ihre Ableitung nahe null wird. Dies verlangsamt oder stoppt den Lernprozess in den unteren Schichten tiefer Netzwerke.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "84. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?",
-    "optionen": [
-      "Er passt die Lernrate für jeden Parameter individuell und adaptiv an.",
-      "Er benötigt keine `Backpropagation` zur Berechnung der Gradienten.",
-      "Er ist speziell für sehr kleine Netzwerke mit wenigen Parametern optimiert.",
-      "Er verwendet keine Gradienten, sondern einen genetischen Algorithmus."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Adam` (Adaptive Moment Estimation) kombiniert die Ideen von Momentum und RMSprop. Er pflegt eine adaptive Lernrate für jedes Gewicht, was oft zu einer schnelleren und stabileren Konvergenz führt als Standard-SGD.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "85. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?",
-    "optionen": [
-      "Um Overfitting zu vermeiden, indem das Training beendet wird, wenn sich der Validierungsfehler nicht mehr verbessert.",
-      "Um die anfängliche Lernrate dynamisch während der ersten Epochen zu erhöhen.",
-      "Um die Gewichte des Netzwerks auf einen bekannten, guten Zustand zurückzusetzen.",
-      "Um das Training zu stoppen, sobald eine Genauigkeit von 100% auf den Trainingsdaten erreicht ist."
-    ],
-    "loesung": 0,
-    "erklaerung": "`Early Stopping` ist eine Form der Regularisierung, bei der die Leistung des Modells auf einem separaten Validierungsdatensatz überwacht wird. Das Training wird abgebrochen, sobald diese Leistung stagniert oder schlechter wird, um Overfitting zu verhindern.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "86. Welche Rolle spielt die `Softmax`-Funktion typischerweise in einem neuronalen Netz?",
-    "optionen": [
-      "Sie wandelt die Logits der Ausgabeschicht in eine Wahrscheinlichkeitsverteilung über die Klassen um.",
-      "Sie dient als Regularisierungstechnik, um Overfitting in den Hidden Layers zu reduzieren.",
-      "Sie ersetzt die Verlustfunktion bei Regressionsproblemen.",
-      "Sie wird als Aktivierungsfunktion in den Hidden Layers von CNNs verwendet."
-    ],
-    "loesung": 0,
-    "erklaerung": "Die `Softmax`-Funktion ist ideal für die Ausgabeschicht bei Multi-Klassen-Klassifikationsproblemen, da sie sicherstellt, dass die Summe der Ausgaben 1 beträgt und jeder Wert als die Wahrscheinlichkeit für die jeweilige Klasse interpretiert werden kann.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "87. Was ist ein potenzieller Nachteil einer zu großen Lernrate?",
-    "optionen": [
-      "Das Training kann instabil werden, da das Optimum 'übersprungen' wird.",
-      "Das Training konvergiert extrem langsam gegen ein lokales Minimum.",
-      "Die Gewichte des Netzwerks werden während des Trainings nicht aktualisiert.",
-      "Die Aktivierungsfunktionen in den Hidden Layers werden deaktiviert."
-    ],
-    "loesung": 0,
-    "erklaerung": "Eine zu große Lernrate kann dazu führen, dass die Gewichtsaktualisierungen so groß sind, dass der Optimierungsprozess über das Minimum der Verlustfunktion hinwegschießt und der Fehler wieder ansteigt (Divergenz).",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "88. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?",
-    "optionen": [
-      "Sie hilft, Probleme wie 'Vanishing/Exploding Gradients' zu vermeiden und beschleunigt die Konvergenz.",
-      "Sie bestimmt die endgültige Anzahl der Hidden Layers im Netzwerk.",
-      "Sie ersetzt die Notwendigkeit einer nichtlinearen Aktivierungsfunktion.",
-      "Sie verhindert die Verwendung von Regularisierungstechniken wie `Dropout`."
-    ],
-    "loesung": 0,
-    "erklaerung": "Eine schlechte Initialisierung (z.B. alle Gewichte auf null) kann den Lernprozess verhindern. Techniken wie Xavier/Glorot-Initialisierung sorgen für eine gute Varianz der Aktivierungen und einen stabilen Gradientenfluss zu Beginn des Trainings.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "89. Für welche Art von Daten sind `Recurrent Neural Networks (RNNs)` besonders geeignet?",
-    "optionen": [
-      "Für Sequenzdaten, bei denen die Reihenfolge der Elemente von Bedeutung ist (z.B. Text, Zeitreihen).",
-      "Für gitterartige Daten ohne zeitliche Komponente wie statische Bilder.",
-      "Für tabellarische Daten mit unabhängigen Zeilen wie in einer CSV-Datei.",
-      "Für das Finden von Clustern in ungelabelten Datensätzen."
-    ],
-    "loesung": 0,
-    "erklaerung": "`RNNs` besitzen interne Schleifen, die es ihnen ermöglichen, einen 'Gedächtnis'-Zustand zu pflegen. Dies macht sie ideal für Aufgaben, bei denen der Kontext aus vorherigen Schritten in einer Sequenz wichtig ist.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "90. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
-    "optionen": [
-      "Die Fähigkeit zum automatischen 'Feature Learning' direkt aus Rohdaten.",
-      "Die Garantie, dass kein Overfitting auf den Trainingsdaten stattfindet.",
-      "Die hohe Interpretierbarkeit der gelernten Modelle ('White-Box').",
-      "Der geringere Bedarf an Trainingsdaten für komplexe Aufgaben."
-    ],
-    "loesung": 0,
-    "erklaerung": "Während bei klassischen ML-Ansätzen oft aufwendiges, manuelles Feature Engineering nötig ist, können tiefe neuronale Netze eine Hierarchie von Merkmalen direkt aus den Rohdaten (z.B. Pixeln eines Bildes) lernen.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "91. Was ist der Hauptvorteil von CNNs gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
-    "optionen": [
-      "Sie sind unempfindlich gegenüber der Farbe der Pixel.",
-      "Sie reduzieren die Anzahl der Parameter drastisch durch lokale Verbindungen und Gewichtsteilung.",
-      "Sie können ausschließlich Graustufenbilder effizient verarbeiten.",
-      "Sie konvergieren beim Training grundsätzlich schneller."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein Fully-Connected Network für ein Bild hätte für jedes Pixel eine Verbindung zu jedem Neuron der nächsten Schicht, was zu Millionen von Parametern führt. CNNs nutzen kleine Filter, deren Gewichte über das gesamte Bild geteilt werden, was rechnerisch effizienter ist.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "92. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?",
-    "optionen": [
-      "`Dropout`",
-      "`Translation Invariance`",
-      "`Dense Layer`",
-      "`Batch Normalization`"
-    ],
-    "loesung": 1,
-    "erklaerung": "Durch die Anwendung desselben Filters (Gewichtsteilung) über das gesamte Bild und die anschließende Abstraktion durch Pooling-Layer lernt ein CNN, ein Merkmal (z.B. ein Auge) zu erkennen, egal ob es links oben oder rechts unten im Bild erscheint.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "93. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?",
-    "optionen": [
-      "Eine Methode zur Umwandlung eines Farbbildes in ein Graustufenbild.",
-      "Eine kleine Matrix von Gewichten, die über das Eingabebild gefaltet wird, um Merkmale zu extrahieren.",
-      "Ein Algorithmus zur Kompression der Bilddaten vor der Verarbeitung.",
-      "Ein Verfahren zur künstlichen Vergrößerung des Trainingsdatensatzes (Data Augmentation)."
-    ],
-    "loesung": 1,
-    "erklaerung": "Ein Filter ist der zentrale Baustein eines Convolutional Layers. Er fungiert als Merkmalsdetektor (z.B. für Kanten, Ecken, Texturen), dessen Gewichte während des Trainings gelernt werden.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "94. Welche Funktion hat ein `Mean-Filter` in der klassischen Bildverarbeitung?",
-    "optionen": [
-      "Er schärft die Kanten in einem Bild durch die Betonung von Gradienten.",
-      "Er glättet das Bild und reduziert Rauschen, indem er Pixel durch den Mittelwert ihrer Nachbarschaft ersetzt.",
-      "Er erhöht die Farbsättigung, um das Bild lebendiger erscheinen zu lassen.",
-      "Er erkennt und markiert die hellsten und dunkelsten Bereiche im Bild."
-    ],
-    "loesung": 1,
-    "erklaerung": "Der `Mean-Filter` ist ein einfacher Weichzeichner (Blurring-Filter). Er wird oft zur Rauschunterdrückung eingesetzt, führt aber auch zu einem Verlust von Bilddetails.",
-    "gewichtung": 1,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "95. Welche Filter werden typischerweise zur Kantendetektion eingesetzt?",
-    "optionen": [
-      "Der Median-Filter zur Rauschunterdrückung.",
-      "Der Prewitt- oder Sobel-Filter zur Berechnung von Gradienten.",
-      "Der Gauß-Filter zur Weichzeichnung des Bildes.",
-      "Der Box-Filter als einfache Form des Mittelwertfilters."
-    ],
-    "loesung": 1,
-    "erklaerung": "Filter wie `Sobel` und `Prewitt` sind darauf ausgelegt, die Ableitung (den Gradienten) der Bildintensität zu approximieren. Starke Gradienten deuten auf Kanten hin und werden durch diese Filter hervorgehoben.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "96. Was passiert, wenn ein Prewitt-Filter in x-Richtung auf ein Bild angewendet wird?",
-    "optionen": [
-      "Vertikale Kanten werden stark hervorgehoben.",
-      "Horizontale Kanten werden stark hervorgehoben.",
-      "Das Bild wird in der x-Richtung unscharf.",
-      "Die Farben werden in ihr Komplementär invertiert."
-    ],
-    "loesung": 0,
-    "erklaerung": "Ein Filter in x-Richtung misst die Intensitätsänderungen entlang der horizontalen Achse. Eine starke Änderung tritt bei einer vertikalen Kante auf, weshalb diese detektiert wird.",
-    "gewichtung": 2,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "97. Warum ist `Weight Sharing` (Gewichtsteilung) in CNNs so wichtig?",
-    "optionen": [
-      "Es erhöht die Komplexität des Modells, um Overfitting zu vermeiden.",
-      "Es reduziert die Anzahl der zu lernenden Parameter drastisch.",
-      "Es stellt sicher, dass alle Gewichte im Netzwerk positiv bleiben.",
-      "Es wird ausschließlich bei der Verarbeitung von Textdaten angewendet."
-    ],
-    "loesung": 1,
-    "erklaerung": "Beim `Weight Sharing` wird derselbe Filter (derselbe Satz von Gewichten) an jeder Position des Bildes angewendet. Dadurch muss das Netzwerk nicht für jede Position separate Merkmalsdetektoren lernen, was die Anzahl der Parameter massiv reduziert.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "98. Was ist eine `Feature Map` in einem CNN?",
-    "optionen": [
-      "Eine grafische Darstellung der wichtigsten Features im Trainingsdatensatz.",
-      "Die Ausgabe eines Filters nach der Faltungsoperation, die die Aktivierung eines Merkmals anzeigt.",
-      "Ein spezieller Datensatz, der ausschließlich zur Bewertung der Merkmalsextraktion verwendet wird.",
-      "Ein Layer, der neue Features durch die Kombination bestehender Features erzeugt."
-    ],
-    "loesung": 1,
-    "erklaerung": "Eine `Feature Map` ist das Ergebnis der Anwendung eines Filters auf eine Eingabe. Sie ist eine 2D-Karte, deren Werte anzeigen, wie stark das vom Filter gesuchte Merkmal an der jeweiligen Position der Eingabe vorhanden ist.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "99. Aus welchen Layern besteht eine typische CNN-Architektur?",
-    "optionen": [
-      "`Convolutional`, `Pooling`, `Flatten` und `Dense` Layers.",
-      "Ausschließlich aus `Dense` (Fully-Connected) Layers.",
-      "Nur aus `Pooling`- und `Dropout`-Layern.",
-      "Einer Abfolge von `RNN`- und `LSTM`-Layern."
-    ],
-    "loesung": 0,
-    "erklaerung": "Eine klassische CNN-Architektur besteht aus einer Abfolge von `Convolutional`-Layern (zur Merkmalsextraktion) und `Pooling`-Layern (zur Dimensionsreduktion), gefolgt von einem `Flatten`-Layer und `Dense`-Layern für die finale Klassifikation.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
-  },
-  {
-    "frage": "100. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern?",
-    "optionen": [
-      "Klassische Filter wie Sobel sind fest definiert, während die Filter in CNNs während des Trainings gelernt werden.",
-      "CNN-Filter sind immer signifikant größer als klassische Filter, um globale Merkmale zu erfassen.",
-      "Klassische Filter können keine Kanten oder Texturen im Bild erkennen.",
-      "CNN-Filter benötigen keine nichtlineare Aktivierungsfunktion nach der Anwendung."
-    ],
-    "loesung": 0,
-    "erklaerung": "Der entscheidende Unterschied ist, dass die Werte der Filtermatrizen in einem CNN nicht von einem Menschen entworfen, sondern durch `Backpropagation` gelernt werden. Das Netzwerk findet so selbst die optimalen Filter für die gegebene Aufgabe.",
-    "gewichtung": 3,
-    "thema": "Deep Learning"
   }
 ]

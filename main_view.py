@@ -24,13 +24,24 @@ from components import show_motivation, render_question_distribution_chart
 def render_welcome_page(app_config: AppConfig):
     """Zeigt die Startseite für nicht eingeloggte Nutzer."""
 
-    # --- Auswahl des Fragensets ---
-    question_files = list_question_files()
-    if not question_files:
+    # --- Auswahl des Fragensets (mit Filterung) ---
+    all_files = list_question_files()
+    valid_question_files = []
+    for f in all_files:
+        try:
+            # Lade die Fragen, um zu prüfen, ob die Datei gültig und nicht leer ist.
+            if load_questions(f, silent=True):
+                valid_question_files.append(f)
+        except Exception:
+            # Ignoriere fehlerhafte JSON-Dateien oder andere Lesefehler.
+            pass
+
+    if not valid_question_files:
         st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
+        st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
         return
 
-    current_selection = st.session_state.get("selected_questions_file", question_files[0])
+    current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
     
     # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
     def format_filename(filename):
@@ -44,8 +55,8 @@ def render_welcome_page(app_config: AppConfig):
 
     selected_file = st.selectbox(
         "Wähle ein Fragenset:",
-        options=question_files,
-        index=question_files.index(current_selection) if current_selection in question_files else 0,
+        options=valid_question_files,
+        index=valid_question_files.index(current_selection) if current_selection in valid_question_files else 0,
         format_func=format_filename,
         key="main_view_question_file_selector"
     )
