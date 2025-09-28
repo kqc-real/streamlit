@@ -112,10 +112,10 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 ### Admin-Bereich
 
 - **Zugang:**
-    1. Wähle auf der Startseite das Admin-Pseudonym aus (z.B. "Alan C. Kay").
-    2. Nach dem Start des Tests erscheint in der Seitenleiste der Schalter "Admin-Panel anzeigen". Aktiviere ihn.
-    3. Gib im Hauptbereich das Admin-Passwort (`MC_TEST_ADMIN_KEY`) ein, um vollen Zugriff zu erhalten.
-- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), Datenexport (CSV, SQL-Dump) und Systemeinstellungen (Scoring-Modus, Zurücksetzen aller Testdaten).
+    1. Wähle auf der Startseite das in den Secrets (`MC_TEST_ADMIN_USER`) definierte Admin-Pseudonym aus.
+    2. Nach dem Start des Tests erscheint in der Seitenleiste der Bereich "🔐 Admin Panel".
+    3. Gib dort das Admin-Passwort (`MC_TEST_ADMIN_KEY`) ein, um vollen Zugriff zu erhalten.
+- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), Datenexport (CSV, SQL-Dump) und Systemeinstellungen (Scoring-Modus, Zurücksetzen der Testdaten).
 
 ### Tests ausführen
 

@@ -15,6 +15,7 @@ Ausführung: streamlit run app.py
 import streamlit as st
 import sys
 from dotenv import load_dotenv
+import locale
 import os
 
 # --- Pfad-Setup für robuste Imports (Workaround für ältere Streamlit-Versionen) ---
@@ -44,6 +45,16 @@ from components import render_sidebar, render_admin_switch
 def main():
     """Hauptfunktion der Streamlit-Anwendung."""
     st.set_page_config(page_title="MC-Test AMALEA")
+
+    # Setze das Locale, um eine korrekte alphabetische Sortierung von Namen
+    # mit Akzenten und Umlauten zu gewährleisten (z.B. 'Erwin' bei 'E').
+    try:
+        locale.setlocale(locale.LC_COLLATE, 'de_DE.UTF-8')
+    except locale.Error:
+        try:
+            locale.setlocale(locale.LC_COLLATE, 'en_US.UTF-8')
+        except locale.Error:
+            st.warning("Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert.")
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
     load_dotenv()

@@ -231,13 +231,7 @@ def get_used_pseudonyms() -> list[str]:
     try:
         cursor = conn.cursor()
         cursor.execute("SELECT user_pseudonym FROM users")
-        
-        # Lade die AppConfig, um den Admin-Benutzernamen zu erhalten
-        from config import AppConfig
-        admin_user = AppConfig().admin_user
-        
-        # Gib alle Pseudonyme zurück, außer dem des Admins.
-        return [row['user_pseudonym'] for row in cursor.fetchall() if admin_user and row['user_pseudonym'].lower() != admin_user.lower()]
+        return [row['user_pseudonym'] for row in cursor.fetchall()]
     except sqlite3.Error as e:
         print(f"Database error in get_used_pseudonyms: {e}")
         return []

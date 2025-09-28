@@ -83,6 +83,7 @@ def render_admin_switch(app_config: AppConfig):
     is_panel_active = st.session_state.get("show_admin_panel", False)
 
     if is_panel_active:
+        st.sidebar.info("Du bist im Admin-Modus.")
         if st.sidebar.button("⬅️ Zurück zum Test", use_container_width=True):
             st.session_state.show_admin_panel = False
             st.rerun()
@@ -92,9 +93,7 @@ def render_admin_switch(app_config: AppConfig):
                 st.caption("Kein Admin-Key konfiguriert.")
                 return
 
-            entered_key = st.text_input(
-                "Admin-Key", type="password", key="admin_key_input_sidebar"
-            )
+            entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
             if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
                 if check_admin_key(entered_key, app_config):
                     st.session_state.show_admin_panel = True

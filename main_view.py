@@ -8,6 +8,7 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 import time
+import locale
 
 from config import AppConfig, list_question_files, load_questions
 from logic import (
@@ -96,11 +97,6 @@ def render_welcome_page(app_config: AppConfig):
                 scores = pd.DataFrame(leaderboard_data)
                 scores.rename(columns={'user_pseudonym': 'Pseudonym', 'total_score': 'Punkte', 'last_test_time': 'Datum'}, inplace=True)
 
-                # Ersetze den Admin-Benutzernamen durch das Pseudonym "Alan C. Kay"
-                if app_config.admin_user:
-                    admin_mask = scores["Pseudonym"].str.lower() == app_config.admin_user.lower()
-                    scores.loc[admin_mask, "Pseudonym"] = "Alan C. Kay"
-
                 # Berechne die maximale Punktzahl für dieses Set
                 questions_for_max_score = load_questions(selected_file)
                 max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_max_score)
@@ -130,19 +126,25 @@ def render_welcome_page(app_config: AppConfig):
 
     scientists = load_scientists()
     used_pseudonyms = get_used_pseudonyms()
-    
+
+    # Erstelle eine Liste aller verfügbaren Wissenschaftler, die noch nicht verwendet wurden.
     available_scientists = [
         f"{s['name']} ({s['contribution']})" for s in scientists 
         if s['name'] not in used_pseudonyms
     ]
 
-    # Admin-Login-Option hinzufügen
+    # Stelle sicher, dass der Admin-Benutzer immer auswählbar ist,
+    # auch wenn er bereits einen Test gemacht hat.
     admin_user = app_config.admin_user
-    admin_display_name = ""
     if admin_user:
-        admin_display_name = "Alan C. Kay (Pionier der OOP & GUIs)"
-        available_scientists = [s for s in available_scientists if not s.startswith(admin_user) and not s.startswith("Alan C. Kay")]
-        available_scientists.insert(0, admin_display_name)
+        admin_scientist = next((s for s in scientists if s['name'] == admin_user), None)
+        if admin_scientist:
+            admin_display_name = f"{admin_scientist['name']} ({admin_scientist['contribution']})"
+            if admin_display_name not in available_scientists:
+                available_scientists.append(admin_display_name)
+
+    # Sortiere die endgültige Liste alphabetisch, damit der Admin nicht auffällt.
+    available_scientists.sort(key=locale.strxfrm)
 
     selected_name_formatted = st.selectbox(
         "Wähle dein Pseudonym für diese Runde:",
@@ -159,7 +161,9 @@ def render_welcome_page(app_config: AppConfig):
                 st.error("Bitte wähle ein Pseudonym aus.")
             else:
                 from database import add_user, start_test_session
-                user_name = admin_user if selected_name_formatted == admin_display_name else selected_name_formatted.split(" (")[0]
+                # Korrekte Extraktion des Namens, unabhängig davon, ob es der Admin ist oder nicht.
+                # Der Admin wird durch seine geheime Konfiguration identifiziert, nicht durch den ausgewählten Namen.
+                user_name = selected_name_formatted.split(" (")[0]
                 user_id_hash = get_user_id_hash(user_name)
 
                 add_user(user_id_hash, user_name)
