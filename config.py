@@ -90,16 +90,18 @@ class AppConfig:
 @st.cache_data
 def list_question_files() -> List[str]:
     """Listet alle verfügbaren `questions_*.json` Dateien auf."""
-    base_dir = get_package_dir()
+    data_dir = os.path.join(get_package_dir(), "data")
+    if not os.path.isdir(data_dir):
+        return []
     return sorted(
-        [f for f in os.listdir(base_dir) if f.startswith("questions_") and f.endswith(".json")]
+        [f for f in os.listdir(data_dir) if f.startswith("questions_") and f.endswith(".json")]
     )
 
 
 @st.cache_data
 def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
     """Lädt ein spezifisches Fragenset aus einer JSON-Datei."""
-    path = os.path.join(get_package_dir(), filename)
+    path = os.path.join(get_package_dir(), "data", filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -132,7 +134,7 @@ def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
 @st.cache_data
 def load_scientists() -> List[Dict[str, str]]:
     """Lädt die Liste der Wissenschaftler aus der JSON-Datei."""
-    path = os.path.join(get_package_dir(), "scientists.json")
+    path = os.path.join(get_package_dir(), "data", "scientists.json")
     try:
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)

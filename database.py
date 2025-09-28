@@ -8,7 +8,7 @@ from config import get_package_dir
 # Definiert den Pfad zur Datenbank-Datei.
 # Wir legen die DB in ein dediziertes 'data'-Verzeichnis, um Pfadprobleme
 # mit Tools und in Cloud-Umgebungen zu vermeiden.
-DATABASE_FILE = os.path.join(get_package_dir(), "data", "mc_test_data.db")
+DATABASE_FILE = os.path.join(get_package_dir(), "db", "mc_test_data.db")
 
 def get_db_connection():
     """
