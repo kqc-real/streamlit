@@ -127,43 +127,49 @@ def render_welcome_page(app_config: AppConfig):
     scientists = load_scientists()
     used_pseudonyms = get_used_pseudonyms()
 
-    # Erstelle eine Liste aller verfügbaren Wissenschaftler, die noch nicht verwendet wurden.
-    available_scientists = [
-        f"{s['name']} ({s['contribution']})" for s in scientists 
-        if s['name'] not in used_pseudonyms
-    ]
+    # Erstelle eine Liste der verfügbaren Wissenschaftler-Objekte
+    available_scientists_obj = [s for s in scientists if s['name'] not in used_pseudonyms]
 
     # Stelle sicher, dass der Admin-Benutzer immer auswählbar ist,
     # auch wenn er bereits einen Test gemacht hat.
     admin_user = app_config.admin_user
     if admin_user:
         admin_scientist = next((s for s in scientists if s['name'] == admin_user), None)
-        if admin_scientist:
-            admin_display_name = f"{admin_scientist['name']} ({admin_scientist['contribution']})"
-            if admin_display_name not in available_scientists:
-                available_scientists.append(admin_display_name)
+        # Füge den Admin hinzu, falls er nicht bereits in der verfügbaren Liste ist
+        if admin_scientist and admin_scientist not in available_scientists_obj:
+            available_scientists_obj.append(admin_scientist)
 
-    # Sortiere die endgültige Liste alphabetisch, damit der Admin nicht auffällt.
-    available_scientists.sort(key=locale.strxfrm)
+    # Sortiere die Objekte alphabetisch nach dem Namen
+    # Wichtig: Die Sortierung muss nach dem Hinzufügen des Admins erfolgen.
+    available_scientists_obj.sort(key=lambda s: locale.strxfrm(s['name']))
 
-    selected_name_formatted = st.selectbox(
+    # Erstelle die Optionen für das Selectbox (nur die Namen).
+    options = [s['name'] for s in available_scientists_obj]
+    # Erstelle eine Map von allen Wissenschaftlern für die Formatierungsfunktion.
+    # Diese muss *alle* Wissenschaftler enthalten, nicht nur die verfügbaren,
+    # damit die Formatierung immer funktioniert.
+    scientist_map = {s['name']: s['contribution'] for s in scientists}
+
+    def format_scientist(name):
+        contribution = scientist_map.get(name, "")
+        return f"{name} ({contribution})" if contribution else name
+
+    selected_name_from_user = st.selectbox(
         "Wähle dein Pseudonym für diese Runde:",
-        options=available_scientists,
+        options=options,
         placeholder="Bitte wählen...",
         index=None,
+        format_func=format_scientist
     )
 
-    # Zentriere den Button mit Spalten
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
         if st.button("Test starten", type="primary", use_container_width=True):
-            if not selected_name_formatted:
+            if not selected_name_from_user:
                 st.error("Bitte wähle ein Pseudonym aus.")
             else:
                 from database import add_user, start_test_session
-                # Korrekte Extraktion des Namens, unabhängig davon, ob es der Admin ist oder nicht.
-                # Der Admin wird durch seine geheime Konfiguration identifiziert, nicht durch den ausgewählten Namen.
-                user_name = selected_name_formatted.split(" (")[0]
+                user_name = selected_name_from_user
                 user_id_hash = get_user_id_hash(user_name)
 
                 add_user(user_id_hash, user_name)
