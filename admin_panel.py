@@ -274,3 +274,24 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         st.metric("Eindeutige Teilnehmer", unique_users)
     else:
         st.info("Noch keine Metriken verfügbar.")
+
+    st.divider()
+
+    # --- Globaler Reset ---
+    st.subheader("Gefahrenzone")
+    with st.expander("🔴 Alle Testdaten unwiderruflich löschen"):
+        st.warning(
+            "**Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer "
+            "(außer dem Admin-Account) aus der Datenbank."
+        )
+        if st.checkbox("Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen."):
+            if st.button("JETZT ALLE TESTDATEN LÖSCHEN", type="primary"):
+                from database import reset_all_test_data
+                if reset_all_test_data():
+                    st.success("Alle Testdaten wurden zurückgesetzt.")
+                    # Session-State aller Nutzer invalidieren (gute Praxis)
+                    for key in list(st.session_state.keys()):
+                        del st.session_state[key]
+                    st.rerun()
+                else:
+                    st.error("Löschen fehlgeschlagen. Überprüfe die Server-Logs.")

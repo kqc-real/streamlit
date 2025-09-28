@@ -1,4 +1,4 @@
 {
-  "scoring_mode": "negative",
+  "scoring_mode": "positive_only",
   "show_top5_public": true
 }

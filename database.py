@@ -274,3 +274,31 @@ def get_all_answer_logs() -> list[dict]:
     finally:
         if conn:
             conn.close()
+
+def reset_all_test_data():
+    """
+    Löscht alle Testdaten (Antworten, Lesezeichen, Sessions, Benutzer).
+    Der Admin-Benutzer bleibt erhalten, um den Zugang nicht zu verlieren.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        from config import AppConfig
+        admin_user_pseudonym = AppConfig().admin_user
+
+        with conn:
+            # Lösche alle Einträge, die nicht zum Admin gehören
+            conn.execute("DELETE FROM bookmarks;")
+            conn.execute("DELETE FROM answers;")
+            conn.execute("DELETE FROM test_sessions;")
+            # Lösche alle Benutzer außer dem Admin
+            if admin_user_pseudonym:
+                conn.execute("DELETE FROM users WHERE user_pseudonym != ?", (admin_user_pseudonym,))
+        return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in reset_all_test_data: {e}")
+        return False
+    finally:
+        if conn:
+            conn.close()

@@ -94,16 +94,21 @@ def main():
         # Priorität 3: Finde die nächste unbeantwortete Frage
         current_idx = get_current_question_index()
 
-    # --- 5. Rendere die passende Hauptansicht ---
+    # --- 5. Rendere die passende Hauptansicht basierend auf der Priorität ---
+    
+    # Priorität 1: Admin-Panel anzeigen
     if st.session_state.get("show_admin_panel", False) and is_admin:
         render_admin_panel(app_config, questions)
+    # Priorität 2: Eine spezifische Frage anzeigen (entweder die nächste oder ein Sprungziel)
+    elif current_idx is not None:
+        render_question_view(questions, current_idx, app_config)
+    # Priorität 3: Test ist beendet (und es gibt kein Sprungziel)
     elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
         # Wenn der Test beendet ist, zeige immer die Zusammenfassung.
         # Die Logik für den Review-Modus ist in render_final_summary enthalten.
         render_final_summary(questions, app_config)
-    elif current_idx is not None:
-        render_question_view(questions, current_idx, app_config)
     else:
+        # Fallback, falls kein Zustand zutrifft (sollte selten passieren)
         st.rerun()
 
 
