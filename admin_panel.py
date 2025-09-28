@@ -9,14 +9,19 @@ import streamlit as st
 import pandas as pd
 
 from config import AppConfig, load_questions, list_question_files
-from data_manager import load_all_logs, reset_all_answers
+from database import get_all_answer_logs
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):
     """Rendert das komplette Admin-Dashboard mit Tabs."""
     st.title("🛠 Admin Dashboard")
 
-    df_all_logs = load_all_logs()
+    # Lade die Daten direkt aus der Datenbank
+    logs = get_all_answer_logs()
+    if not logs:
+        df_all_logs = pd.DataFrame()
+    else:
+        df_all_logs = pd.DataFrame(logs)
     
     # Filtere Logs auf das aktuell ausgewählte Fragenset für Analyse, Export etc.
     q_file = st.session_state.get("selected_questions_file")
@@ -269,23 +274,3 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         st.metric("Eindeutige Teilnehmer", unique_users)
     else:
         st.info("Noch keine Metriken verfügbar.")
-
-    st.divider()
-
-    # --- Globaler Reset ---
-    st.subheader("Gefahrenzone")
-    with st.expander("🔴 Alle Antworten unwiderruflich löschen"):
-        st.warning(
-            "**Achtung:** Diese Aktion löscht die gesamte `mc_test_answers.csv`-Datei. "
-            "Alle Fortschritte aller Nutzer gehen verloren."
-        )
-        if st.checkbox("Ich bin mir der Konsequenzen bewusst."):
-            if st.button("JETZT ALLE DATEN LÖSCHEN", type="primary"):
-                if reset_all_answers():
-                    st.success("Alle Antworten wurden gelöscht.")
-                    # Session-State aller Nutzer invalidieren
-                    for key in list(st.session_state.keys()):
-                        del st.session_state[key]
-                    st.rerun()
-                else:
-                    st.error("Löschen fehlgeschlagen. Überprüfe die Dateiberechtigungen.")

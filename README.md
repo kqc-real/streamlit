@@ -95,7 +95,6 @@ MC_TEST_MIN_SECONDS_BETWEEN="3"
 ├── auth.py                 # Authentifizierung und Session-Management
 ├── components.py           # Wiederverwendbare UI-Komponenten
 ├── config.py               # Laden der Konfiguration und Fragensets
-├── data_manager.py         # Speichern und Laden von Antworten (CSV)
 ├── helpers.py              # Hilfsfunktionen
 ├── logic.py                # Kernlogik der App (Scoring, etc.)
 ├── main_view.py            # UI-Logik für die Hauptansichten

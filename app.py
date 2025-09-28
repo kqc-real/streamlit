@@ -26,11 +26,11 @@ if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
 from config import AppConfig, load_questions, list_question_files
+from database import init_database
 from auth import handle_user_session, is_admin_user
 from logic import (
     get_current_question_index,
     is_test_finished,
-    load_user_progress,
 )
 from main_view import (
     render_question_view,
@@ -38,7 +38,7 @@ from main_view import (
     render_welcome_page,
 )
 from admin_panel import render_admin_panel
-from components import render_sidebar
+from components import render_sidebar, render_admin_switch
 
 
 def main():
@@ -47,6 +47,9 @@ def main():
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
     load_dotenv()
+
+    # Initialisiere die Datenbank und erstelle Tabellen, falls nicht vorhanden.
+    init_database()
 
     # --- 1. Lade Konfiguration und Fragen (wird für Login benötigt) ---
     app_config = AppConfig()
@@ -72,20 +75,23 @@ def main():
 
     # --- 3. Hauptanwendung für eingeloggte Benutzer ---
     # Lade Fortschritt, zeige Sidebar und die entsprechende Hauptansicht
-    if not st.session_state.get("progress_loaded", False):
-        load_user_progress(st.session_state.user_id_hash, questions)
-        st.session_state.progress_loaded = True
-
     is_admin = is_admin_user(user_id, app_config)
     render_sidebar(questions, app_config, is_admin)
 
-    # --- 4. Bestimme, welche Frage angezeigt werden soll ---
-    # Priorisiere Sprünge von Bookmarks.
+    # --- 4. Logik zur Bestimmung der anzuzeigenden Frage ---
+    current_idx = None
     if "jump_to_idx" in st.session_state:
+        # Priorität 1: Sprung von einem Bookmark
         current_idx = st.session_state.jump_to_idx
-        # Entferne den Sprungbefehl, damit beim nächsten Rerun normal weitergemacht wird.
         del st.session_state.jump_to_idx
+    elif "last_answered_idx" in st.session_state and st.session_state.get(f"show_explanation_{st.session_state.last_answered_idx}"):
+        # Priorität 2: Bleibe auf der letzten Frage, um die Erklärung anzuzeigen
+        current_idx = st.session_state.last_answered_idx
+        # Lösche den Marker, damit beim Klick auf "Nächste Frage" normal weitergemacht wird.
+        if not st.session_state.get(f"show_explanation_{current_idx}"):
+             del st.session_state.last_answered_idx
     else:
+        # Priorität 3: Finde die nächste unbeantwortete Frage
         current_idx = get_current_question_index()
 
     # --- 5. Rendere die passende Hauptansicht ---

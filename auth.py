@@ -14,7 +14,6 @@ from datetime import datetime
 
 from config import AppConfig, load_scientists
 from helpers import get_user_id_hash
-from data_manager import get_used_pseudonyms
 
 def log_state(event: str):
     """Schreibt den aktuellen Session State zur Fehlersuche in eine Log-Datei."""

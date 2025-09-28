@@ -78,14 +78,14 @@ def test_questions():
     return [
         {
             "frage": "1. Was ist 1+1?",
-            "antworten": ["1", "2", "3"],
-            "loesung": [1],
+            "optionen": ["1", "2", "3"],
+            "loesung": 1,
             "gewichtung": 1,
         },
         {
             "frage": "2. Was ist die Hauptstadt von Deutschland?",
-            "antworten": ["Berlin", "München", "Hamburg"],
-            "loesung": [0],
+            "optionen": ["Berlin", "München", "Hamburg"],
+            "loesung": 0,
             "gewichtung": 2,
         },
     ]
@@ -168,4 +168,3 @@ def test_test_flow_and_completion(test_questions):
     assert logic.is_test_finished(test_questions)
     # `get_current_question_index` sollte `None` zurückgeben, da keine Fragen mehr offen sind.
     assert logic.get_current_question_index() is None
-

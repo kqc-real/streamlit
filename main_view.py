@@ -16,8 +16,8 @@ from logic import (
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import smart_quotes_de, format_explanation_text, get_user_id_hash
-from data_manager import save_answer, update_bookmarks_for_user, load_all_logs
+from helpers import smart_quotes_de, get_user_id_hash
+from database import update_bookmarks
 from components import show_motivation, render_question_distribution_chart
 
 
@@ -75,30 +75,15 @@ def render_welcome_page(app_config: AppConfig):
     # --- Öffentliches Leaderboard ---
     if app_config.show_top5_public:
         with st.expander("🏆 Aktuelle Top 10", expanded=False):
-            df_logs = load_all_logs()
+            from database import get_all_logs_for_leaderboard
             
-            # Filtere Logs auf das aktuell ausgewählte Fragenset
-            if not df_logs.empty and "questions_file" in df_logs.columns:
-                df_logs = df_logs[df_logs["questions_file"] == selected_file].copy()
+            leaderboard_data = get_all_logs_for_leaderboard(selected_file)
 
-            if df_logs.empty:
+            if not leaderboard_data:
                 st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
             else:
-                # Stelle sicher, dass die 'zeit'-Spalte ein Datumsformat hat
-                if 'zeit' in df_logs.columns:
-                    df_logs['zeit'] = pd.to_datetime(df_logs['zeit'], errors='coerce')
-
-                scores = (
-                    df_logs.groupby("user_id_hash")
-                    .agg(
-                        Pseudonym=("user_id_plain", "first"),
-                        Punkte=("richtig", "sum"),
-                        Datum=("zeit", "max"),
-                    )
-                    .sort_values("Punkte", ascending=False)
-                    .head(10)
-                    .reset_index()  # Verhindert, dass der Hash als Index angezeigt wird
-                )
+                scores = pd.DataFrame(leaderboard_data)
+                scores.rename(columns={'user_pseudonym': 'Pseudonym', 'total_score': 'Punkte', 'last_test_time': 'Datum'}, inplace=True)
 
                 # Ersetze den Admin-Benutzernamen durch das Pseudonym "Alan C. Kay"
                 if app_config.admin_user:
@@ -111,7 +96,7 @@ def render_welcome_page(app_config: AppConfig):
                 scores["Max. Punkte"] = max_score_for_set
 
                 # Formatiere das Datum
-                scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+                scores["Datum"] = pd.to_datetime(scores["Datum"]).dt.strftime('%d.%m.%Y')
 
                 # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                 icons = ["🥇", "🥈", "🥉"]
@@ -128,7 +113,7 @@ def render_welcome_page(app_config: AppConfig):
     # --- Login-Formular im Hauptbereich ---
     from auth import initialize_session_state, is_admin_user
     from config import load_scientists
-    from data_manager import get_used_pseudonyms
+    from database import get_used_pseudonyms
 
     st.markdown("<h3 style='text-align: center;'>Neuen Test starten</h3>", unsafe_allow_html=True)
 
@@ -162,12 +147,22 @@ def render_welcome_page(app_config: AppConfig):
             if not selected_name_formatted:
                 st.error("Bitte wähle ein Pseudonym aus.")
             else:
+                from database import add_user, start_test_session
                 user_name = admin_user if selected_name_formatted == admin_display_name else selected_name_formatted.split(" (")[0]
-                st.session_state.user_id = user_name
-                st.session_state.user_id_hash = get_user_id_hash(user_name)
-                st.session_state.show_pseudonym_reminder = True
-                initialize_session_state(questions)
-                st.rerun()
+                user_id_hash = get_user_id_hash(user_name)
+
+                add_user(user_id_hash, user_name)
+                session_id = start_test_session(user_id_hash, st.session_state.selected_questions_file)
+
+                if session_id:
+                    st.session_state.user_id = user_name
+                    st.session_state.user_id_hash = user_id_hash
+                    st.session_state.session_id = session_id
+                    st.session_state.show_pseudonym_reminder = True
+                    initialize_session_state(questions)
+                    st.rerun()
+                else:
+                    st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
@@ -305,11 +300,15 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         if st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}"):
             if not is_bookmarked:
                 st.session_state.bookmarked_questions.append(frage_idx)
-                update_bookmarks_for_user(st.session_state.user_id_hash, st.session_state.bookmarked_questions, questions)
+                # Extrahiere die echten Fragennummern für die DB
+                bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.bookmarked_questions]
+                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
         else:
             if is_bookmarked:
                 st.session_state.bookmarked_questions.remove(frage_idx)
-                update_bookmarks_for_user(st.session_state.user_id_hash, st.session_state.bookmarked_questions, questions)
+                # Extrahiere die echten Fragennummern für die DB
+                bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.bookmarked_questions]
+                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
         # --- Antwort auswerten ---
         if antwort and not is_answered:
@@ -340,16 +339,27 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                         st.toast("Leider falsch.", icon="❌")
 
                     set_question_as_answered(frage_idx, punkte, antwort)
-                    save_answer(
-                        st.session_state.user_id_hash,
-                        st.session_state.user_id,
-                        frage_obj,
-                        antwort,
-                        punkte,
-                        is_bookmarked,
-                        st.session_state.selected_questions_file
+
+                    # Extrahiere die Frage-Nummer aus dem Fragetext
+                    try:
+                        frage_nr_str = frage_obj.get("frage", "").split(".", 1)[0]
+                        frage_nr = int(frage_nr_str)
+                    except (ValueError, IndexError):
+                        st.error("Fehler: Die Frage-Nummer konnte nicht extrahiert werden.")
+                        return
+
+                    # Speichere die Antwort in der neuen Datenbank-Struktur
+                    from database import save_answer as db_save_answer
+                    db_save_answer(
+                        session_id=st.session_state.session_id,
+                        question_nr=frage_nr,
+                        answer_text=antwort,
+                        points=punkte,
+                        is_correct=(punkte > 0)
                     )
+
                     st.session_state[f"show_explanation_{frage_idx}"] = True
+                    st.session_state.last_answered_idx = frage_idx
                     st.rerun()
 
         # --- Erklärung anzeigen ---

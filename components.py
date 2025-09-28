@@ -12,7 +12,7 @@ import pandas as pd
 
 from config import AppConfig
 from logic import calculate_score, is_test_finished
-from data_manager import update_bookmarks_for_user, load_all_logs
+from database import update_bookmarks
 
 
 def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
@@ -48,12 +48,14 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
         )
 
         if st.button("Session beenden", key="abort_session_btn", type="primary", use_container_width=True):
-            # Speichere Bookmarks vor dem Abmelden
-            update_bookmarks_for_user(
-                st.session_state.user_id_hash,
-                st.session_state.get("bookmarked_questions", []),
-                questions
-            )
+            # Speichere Bookmarks vor dem Abmelden direkt über die DB-Funktion
+            bookmarked_q_nrs = [
+                int(questions[i]['frage'].split('.')[0]) 
+                for i in st.session_state.get("bookmarked_questions", [])
+            ]
+            if "session_id" in st.session_state:
+                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
             # Speichere das Pseudonym für die Toast-Nachricht, bevor die Session gelöscht wird.
             aborted_user_id = st.session_state.get("user_id")
 
@@ -130,20 +132,18 @@ def render_bookmarks(questions: list):
             with cols[1]:
                 if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen"):
                     st.session_state.bookmarked_questions.remove(q_idx)
-                    update_bookmarks_for_user(
-                        st.session_state.user_id_hash,
-                        st.session_state.bookmarked_questions,
-                        questions
-                    )
+                    bookmarked_q_nrs = [
+                        int(questions[i]['frage'].split('.')[0]) 
+                        for i in st.session_state.bookmarked_questions
+                    ]
+                    update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
                     st.rerun()
 
         if st.button("🗑️ Alle entfernen", key="bm_clear_all"):
             st.session_state.bookmarked_questions = []
-            update_bookmarks_for_user(
-                st.session_state.user_id_hash,
-                [],
-                questions
-            )
+            # Leere Liste an die DB-Funktion übergeben
+            if "session_id" in st.session_state:
+                update_bookmarks(st.session_state.session_id, [])
             st.rerun()
 
 
