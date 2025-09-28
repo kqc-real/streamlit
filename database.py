@@ -302,3 +302,25 @@ def reset_all_test_data():
     finally:
         if conn:
             conn.close()
+
+def get_database_dump() -> str:
+    """
+    Erstellt einen SQL-Dump der gesamten Datenbank als Text.
+
+    Returns:
+        Einen String, der die SQL-Befehle zum Wiederherstellen der DB enthält.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return "-- Datenbankverbindung fehlgeschlagen."
+    
+    dump_sql = ""
+    try:
+        for line in conn.iterdump():
+            dump_sql += f"{line}\n"
+    except sqlite3.Error as e:
+        return f"-- Fehler beim Erstellen des DB-Dumps: {e}"
+    finally:
+        if conn:
+            conn.close()
+    return dump_sql

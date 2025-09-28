@@ -36,6 +36,14 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
 
     render_bookmarks(questions)
 
+    # Füge einen "Zurück zum Review"-Button hinzu, wenn der Test beendet ist,
+    # aber der Nutzer gerade eine einzelne Frage ansieht (z.B. nach Sprung von Bookmark).
+    if is_test_finished(questions) and "jump_to_idx_active" in st.session_state and st.session_state.jump_to_idx_active:
+        st.sidebar.divider()
+        if st.sidebar.button("⬅️ Zurück zum Testreview", use_container_width=True):
+            st.session_state.jump_to_idx_active = False # Deaktiviere den Review-Modus
+            st.rerun()
+
     st.sidebar.divider()
 
     if is_admin:

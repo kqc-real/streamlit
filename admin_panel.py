@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 
 from config import AppConfig, load_questions, list_question_files
-from database import get_all_answer_logs
+from database import get_all_answer_logs, DATABASE_FILE
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):
@@ -275,6 +275,22 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     else:
         st.info("Noch keine Metriken verfügbar.")
 
+    st.divider()
+
+    # --- Datenbank-Management ---
+    st.subheader("Datenbank-Management")
+    st.info("Lade einen kompletten SQL-Dump der Datenbank herunter. Diese Textdatei enthält die Struktur (Schema) und alle Inhalte und kann in jedem Texteditor oder SQLite-Tool geöffnet werden.")
+    
+    # Importiere die Funktion hier, um zyklische Importe zu vermeiden
+    from database import get_database_dump
+    
+    db_dump_data = get_database_dump()
+    st.download_button(
+        label="Datenbank-Dump herunterladen (.sql)",
+        data=db_dump_data,
+        file_name="mc_test_dump.sql",
+        mime="application/sql"
+    )
     st.divider()
 
     # --- Globaler Reset ---
