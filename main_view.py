@@ -502,6 +502,28 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 # Fallback für einfache String-Erklärungen
                 st.markdown(str(erklaerung))
 
+    # --- Optionale, detaillierte Erklärung ---
+    extended_explanation = frage_obj.get("extended_explanation")
+    if extended_explanation:
+        frage_idx = questions.index(frage_obj)
+        show_extended_key = f"show_extended_{frage_idx}"
+
+        # Zeige den Button nur an, wenn die Erklärung noch nicht sichtbar ist.
+        if not st.session_state.get(show_extended_key, False):
+            _, center_col, _ = st.columns([1, 2, 1])
+            with center_col:
+                if st.button("🧠 Zeige detaillierte Erklärung", key=f"btn_extended_{frage_idx}", use_container_width=True):
+                    st.session_state[show_extended_key] = True
+                    st.rerun()
+        
+        if st.session_state.get(show_extended_key, False):
+            with st.expander("Detaillierte Erklärung", expanded=True):
+                if isinstance(extended_explanation, dict):
+                    st.markdown(f"**{extended_explanation.get('title', '')}**")
+                    st.markdown(extended_explanation.get('content', ''))
+                else:
+                    st.markdown(str(extended_explanation))
+
     show_motivation(questions, app_config)
 
     _, col2, _ = st.columns([2, 1.5, 2])
