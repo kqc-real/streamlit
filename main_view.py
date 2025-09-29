@@ -456,11 +456,18 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     ist_richtig = gegebene_antwort == richtige_antwort_text
 
     if ist_richtig:
-        # Zeige die Ballons nur bei richtigen Antworten auf schwierige Fragen (Gewicht >= 3)
-        # um den Effekt besonders zu machen.
-        gewichtung = frage_obj.get("gewichtung", 1)
-        if gewichtung >= 3:
-            st.balloons()
+        # Gimmick: Gestaffelte Belohnung für schwierige Fragen.
+        # Wird hier platziert, damit es nicht durch ein st.rerun() unterbrochen wird.
+        frage_idx = questions.index(frage_obj)
+        if "celebrated_questions" not in st.session_state:
+            st.session_state.celebrated_questions = []
+        
+        if frage_idx not in st.session_state.celebrated_questions:
+            gewichtung = frage_obj.get("gewichtung", 1)
+            if gewichtung >= 3: st.balloons()
+            elif gewichtung == 2: st.snow()
+            st.session_state.celebrated_questions.append(frage_idx)
+
         st.markdown(f"Richtig! Die Antwort war: **{richtige_antwort_text}**")
     else:
         st.markdown(f"Leider falsch. Deine Antwort war: {gegebene_antwort}. Richtig ist: **{richtige_antwort_text}**")
