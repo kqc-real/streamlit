@@ -195,7 +195,7 @@
     "thema": "Logische Äquivalenz & Prädikatenlogik"
   },
   {
-    "frage": "16. Welcher Ausdruck entspricht der **Kontraposition** von A \\\\to B?",
+    "frage": "16. Welcher Ausdruck entspricht der **Kontraposition** von $A \\to B$?",
     "optionen": [
       "$\\lnot A \\to \\lnot B$",
       "$B \\to A$",
@@ -398,7 +398,7 @@
       "Eine Gleichung mit nur positiven Zahlen"
     ],
     "loesung": 0,
-    "erklaerung": "Lineare Kongruenzen haben die Form ax \\\\equiv b ($\\bmod\\ n$).",
+    "erklaerung": "Lineare Kongruenzen haben die Form $ax \\equiv b \\pmod{n}$.",
     "gewichtung": 1,
     "thema": "Modulo-Arithmetik, Restklassen & Hash-Funktionen"
   },

@@ -195,7 +195,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "41. Was ist die **Mächtigkeit** der Potenzmenge einer Menge mit $n$ Elementen?",
+    "frage": "16. Was ist die **Mächtigkeit** der Potenzmenge einer Menge mit $n$ Elementen?",
     "optionen": [
       "$n^2$",
       "$2n$",
@@ -208,7 +208,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "42. Welche der folgenden Relationen auf der Menge der ganzen Zahlen $\\mathbb{Z}$ ist **antisymmetrisch**?",
+    "frage": "17. Welche der folgenden Relationen auf der Menge der ganzen Zahlen $\\mathbb{Z}$ ist **antisymmetrisch**?",
     "optionen": [
       "$x \\sim y \\iff x = y$",
       "$x \\sim y \\iff x \\neq y$",
@@ -221,7 +221,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "43. Was ist das **Komplement** der Menge $A = \\{1, 3, 5\\}$ bezüglich der Grundmenge $G = \\{1, 2, 3, 4, 5, 6\\}$?",
+    "frage": "18. Was ist das **Komplement** der Menge $A = \\{1, 3, 5\\}$ bezüglich der Grundmenge $G = \\{1, 2, 3, 4, 5, 6\\}$?",
     "optionen": [
       "$\\{1, 3, 5\\}$",
       "$\\{2, 4, 6\\}$",
@@ -234,7 +234,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "44. Was ist eine **Partition** (oder Zerlegung) einer Menge $A$?",
+    "frage": "19. Was ist eine **Partition** (oder Zerlegung) einer Menge $A$?",
     "optionen": [
       "Jede beliebige Teilmenge von $A$.",
       "Eine Menge von nicht-leeren, paarweise disjunkten Teilmengen von $A$, deren Vereinigung wieder $A$ ergibt.",
@@ -247,7 +247,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "45. Was ist das **Urbild** von $Y = \\{4, 9\\}$ unter der Abbildung $f: \\mathbb{N} \\to \\mathbb{N}, f(x) = x^2$?",
+    "frage": "20. Was ist das **Urbild** von $Y = \\{4, 9\\}$ unter der Abbildung $f: \\mathbb{N} \\to \\mathbb{N}, f(x) = x^2$?",
     "optionen": [
       "$\\{16, 81\\}$",
       "$\\{2, 3\\}$",
@@ -260,7 +260,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "46. Was ist die **Wahrheitstafel** für die logische Äquivalenz $A \\iff B$?",
+    "frage": "21. Was ist die **Wahrheitstafel** für die logische Äquivalenz $A \\iff B$?",
     "optionen": [
       "Wahr, wenn $A$ und $B$ verschieden sind.",
       "Wahr, wenn $A$ wahr ist.",
@@ -273,7 +273,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "47. Was ist die Negation der Aussage 'Es gibt eine schwarze Katze' ($\\exists x: S(x) \\land K(x)$)?",
+    "frage": "22. Was ist die Negation der Aussage 'Es gibt eine schwarze Katze' ($\\exists x: S(x) \\land K(x)$)?",
     "optionen": [
       "Alle Katzen sind nicht schwarz.",
       "Es gibt keine schwarze Katze.",
@@ -286,7 +286,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "48. Was ist eine **konjunktive Normalform (KNF)**?",
+    "frage": "23. Was ist eine **konjunktive Normalform (KNF)**?",
     "optionen": [
       "Eine Konjunktion von Disjunktionen von Literalen.",
       "Eine Disjunktion von Konjunktionen von Literalen.",
@@ -299,7 +299,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "49. Was ist eine **Schleifeninvariante** beim Testen von Programmen?",
+    "frage": "24. Was ist eine **Schleifeninvariante** beim Testen von Programmen?",
     "optionen": [
       "Eine Bedingung, die sich bei jedem Schleifendurchlauf ändert.",
       "Eine Bedingung, die vor dem ersten und nach jedem weiteren Schleifendurchlauf wahr ist.",
@@ -312,7 +312,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "50. Was ist der Unterschied zwischen **Aussagenlogik** und **Prädikatenlogik**?",
+    "frage": "25. Was ist der Unterschied zwischen **Aussagenlogik** und **Prädikatenlogik**?",
     "optionen": [
       "Aussagenlogik verwendet Variablen, Prädikatenlogik nicht.",
       "Prädikatenlogik kann über Objekte und deren Eigenschaften sprechen und Quantoren verwenden.",
@@ -325,7 +325,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "51. Was ist der Fehler im folgenden **Induktionsbeweis** für 'Alle Pferde haben dieselbe Farbe'?",
+    "frage": "26. Was ist der Fehler im folgenden **Induktionsbeweis** für 'Alle Pferde haben dieselbe Farbe'?",
     "optionen": [
       "Der Induktionsanfang für $n=1$ ist falsch.",
       "Die Induktionsvoraussetzung ist unzulässig.",
@@ -333,12 +333,12 @@
       "Der Beweis ist korrekt."
     ],
     "loesung": 2,
-    "erklaerung": "Der Beweis scheitert beim Übergang von einer Menge mit einem Pferd zu einer Menge mit zwei Pferden. Die Argumentation, dass sich die Teilmengen überlappen, funktioniert hier nicht, da die Teilmengen disjunkt sind. Dies ist ein klassisches Beispiel für einen fehlerhaften Induktionsbeweis.",
+    "erklaerung": "Der Beweis scheitert beim Übergang von einer Menge mit $n=1$ Pferd zu einer Menge mit $n=2$ Pferden. Die Argumentation, dass sich die Teilmengen überlappen, funktioniert hier nicht, da die Teilmengen disjunkt sind. Dies ist ein klassisches Beispiel für einen fehlerhaften Induktionsbeweis.",
     "gewichtung": 3,
     "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
   },
   {
-    "frage": "52. Was ist die **Ackermannfunktion**?",
+    "frage": "27. Was ist die **Ackermannfunktion**?",
     "optionen": [
       "Eine einfache lineare Funktion.",
       "Eine Funktion, die nicht rekursiv definiert werden kann.",
@@ -351,7 +351,7 @@
     "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
   },
   {
-    "frage": "53. Was besagt das **Schubfachprinzip** (Pigeonhole Principle)?",
+    "frage": "28. Was besagt das **Schubfachprinzip** (Pigeonhole Principle)?",
     "optionen": [
       "Wenn man $n$ Objekte in $m$ Fächer verteilt und $n > m$, dann enthält mindestens ein Fach mehr als ein Objekt.",
       "Jedes Objekt muss in genau einem Fach sein.",
@@ -364,7 +364,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "54. Wie viele **Permutationen** (Anordnungen) der Buchstaben des Wortes 'HAUS' gibt es?",
+    "frage": "29. Wie viele **Permutationen** (Anordnungen) der Buchstaben des Wortes 'HAUS' gibt es?",
     "optionen": [
       "4",
       "12",
@@ -377,7 +377,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "55. Was ist das **multiplikative Inverse** von 3 im Restklassenring $\\mathbb{Z}_7$?",
+    "frage": "30. Was ist das **multiplikative Inverse** von 3 im Restklassenring $\\mathbb{Z}_7$?",
     "optionen": [
       "2",
       "3",
@@ -390,7 +390,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "56. Was ist eine **zyklische Gruppe**?",
+    "frage": "31. Was ist eine **zyklische Gruppe**?",
     "optionen": [
       "Eine Gruppe, die als Diagramm einen Kreis bildet.",
       "Eine Gruppe, die von einem einzigen Element erzeugt werden kann.",
@@ -403,7 +403,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "57. Was besagt der **Satz von Lagrange** in der Gruppentheorie?",
+    "frage": "32. Was besagt der **Satz von Lagrange** in der Gruppentheorie?",
     "optionen": [
       "Jede endliche Gruppe ist abelsch.",
       "Die Ordnung jeder Untergruppe einer endlichen Gruppe teilt die Ordnung der Gruppe.",
@@ -416,7 +416,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "58. Was ist ein **irreduzibles Polynom** über einem Körper $K$?",
+    "frage": "33. Was ist ein **irreduzibles Polynom** über einem Körper $K$?",
     "optionen": [
       "Ein Polynom, das keine Nullstellen in $K$ hat.",
       "Ein Polynom, das sich nicht als Produkt von zwei nicht-konstanten Polynomen aus $K[x]$ schreiben lässt.",
@@ -429,7 +429,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "59. Was ist die Grundoperation auf einer **elliptischen Kurve**, die für die Kryptographie genutzt wird?",
+    "frage": "34. Was ist die Grundoperation auf einer **elliptischen Kurve**, die für die Kryptographie genutzt wird?",
     "optionen": [
       "Multiplikation von Punkten.",
       "Division von Punkten.",
@@ -442,7 +442,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "60. Was ist ein **Isomorphismus** zwischen zwei Gruppen?",
+    "frage": "35. Was ist ein **Isomorphismus** zwischen zwei Gruppen?",
     "optionen": [
       "Ein Homomorphismus, der nur surjektiv ist.",
       "Ein Homomorphismus, der nur injektiv ist.",
@@ -455,7 +455,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "16. Was ist die **Potenzmenge** $\\mathcal{P}(A)$ der Menge $A = \\{a, b\\}$?",
+    "frage": "36. Was ist die **Potenzmenge** $\\mathcal{P}(A)$ der Menge $A = \\{a, b\\}$?",
     "optionen": [
       "$\\{\\{a\\}, \\{b\\}\\}$",
       "$\\{\\emptyset, \\{a\\}, \\{b\\}\\}$",
@@ -468,7 +468,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "17. Eine Abbildung $f: A \\to B$ heißt **injektiv**, wenn...",
+    "frage": "37. Eine Abbildung $f: A \\to B$ heißt **injektiv**, wenn...",
     "optionen": [
       "jedes Element in $B$ mindestens einmal als Funktionswert auftritt.",
       "aus $f(x_1) = f(x_2)$ immer $x_1 = x_2$ folgt.",
@@ -481,7 +481,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "18. Was ist eine **Tautologie** in der Aussagenlogik?",
+    "frage": "38. Was ist eine **Tautologie** in der Aussagenlogik?",
     "optionen": [
       "Eine Aussage, die immer falsch ist.",
       "Eine Aussage, die von bestimmten Variablen abhängt.",
@@ -494,7 +494,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "19. Welcher der folgenden Ausdrücke ist eine logische Äquivalenz nach den **De Morgan'schen Regeln**?",
+    "frage": "39. Welcher der folgenden Ausdrücke ist eine logische Äquivalenz nach den **De Morgan'schen Regeln**?",
     "optionen": [
       "$\\neg(A \\land B) \\equiv (\\neg A \\land \\neg B)$",
       "$\\neg(A \\lor B) \\equiv (\\neg A \\lor \\neg B)$",
@@ -507,7 +507,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "20. Was besagt das **Peano-Axiom** über die Nachfolgerfunktion $N(n)$ für natürliche Zahlen?",
+    "frage": "40. Was besagt das **Peano-Axiom** über die Nachfolgerfunktion $N(n)$ für natürliche Zahlen?",
     "optionen": [
       "Jede natürliche Zahl hat genau einen Nachfolger.",
       "Die 0 ist Nachfolger keiner natürlichen Zahl.",
@@ -520,7 +520,7 @@
     "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
   },
   {
-    "frage": "21. Die Fibonacci-Folge ist rekursiv definiert durch $f(0)=0, f(1)=1$ und $f(n) = f(n-1) + f(n-2)$ für $n > 1$. Was ist $f(6)$?",
+    "frage": "41. Die Fibonacci-Folge ist rekursiv definiert durch $f(0)=0, f(1)=1$ und $f(n) = f(n-1) + f(n-2)$ für $n > 1$. Was ist $f(6)$?",
     "optionen": [
       "5",
       "8",
@@ -533,7 +533,7 @@
     "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
   },
   {
-    "frage": "22. Was ist die **Primfaktorzerlegung** der Zahl 60?",
+    "frage": "42. Was ist die **Primfaktorzerlegung** der Zahl 60?",
     "optionen": [
       "$2 \\cdot 30$",
       "$4 \\cdot 15$",
@@ -546,7 +546,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "23. Was ist das Ergebnis von $(7 + 8) \\pmod{12}$ in der **Restklassenarithmetik**?",
+    "frage": "43. Was ist das Ergebnis von $(7 + 8) \\pmod{12}$ in der **Restklassenarithmetik**?",
     "optionen": [
       "15",
       "5",
@@ -559,7 +559,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "24. Was ist das **neutrale Element** in der Gruppe $(\\mathbb{Z}, +)$?",
+    "frage": "44. Was ist das **neutrale Element** in der Gruppe $(\\mathbb{Z}, +)$?",
     "optionen": [
       "1",
       "0",
@@ -572,7 +572,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "25. Was ist eine **abelsche Gruppe**?",
+    "frage": "45. Was ist eine **abelsche Gruppe**?",
     "optionen": [
       "Eine Gruppe mit unendlich vielen Elementen.",
       "Eine Gruppe, in der die Verknüpfung **kommutativ** ist.",
@@ -585,7 +585,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "26. Was ist das **kartesische Produkt** $A \\times B$ der Mengen $A = \\{1, 2\\}$ und $B = \\{x, y\\}$?",
+    "frage": "46. Was ist das **kartesische Produkt** $A \\times B$ der Mengen $A = \\{1, 2\\}$ und $B = \\{x, y\\}$?",
     "optionen": [
       "$\\{(1, x), (2, y)\\}$",
       "$\\{(1, x), (1, y), (2, x), (2, y)\\}$",
@@ -598,7 +598,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "27. Eine Abbildung $f: A \\to B$, die sowohl **injektiv** als auch **surjektiv** ist, nennt man...",
+    "frage": "47. Eine Abbildung $f: A \\to B$, die sowohl **injektiv** als auch **surjektiv** ist, nennt man...",
     "optionen": [
       "**partiell**.",
       "**total**.",
@@ -611,7 +611,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "28. Was ist die Negation der Aussage 'Alle Vögel können fliegen' ($\"\\forall v: V(v) \\implies F(v)\"$) ?",
+    "frage": "48. Was ist die Negation der Aussage 'Alle Vögel können fliegen' ($\"\\forall v: V(v) \\implies F(v)\"$) ?",
     "optionen": [
       "Kein Vogel kann fliegen.",
       "Alle Vögel können nicht fliegen.",
@@ -624,7 +624,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "29. Was ist der Hauptzweck von **Hashing** in der Informatik?",
+    "frage": "49. Was ist der Hauptzweck von **Hashing** in der Informatik?",
     "optionen": [
       "Daten zu verschlüsseln, sodass sie nicht mehr lesbar sind.",
       "Daten zu komprimieren, um Speicherplatz zu sparen.",
@@ -637,7 +637,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "30. Was ist ein **Ideal** in einem Ring $(R, +, \\cdot)$?",
+    "frage": "50. Was ist ein **Ideal** in einem Ring $(R, +, \\cdot)$?",
     "optionen": [
       "Eine Untergruppe von $(R, +)$, die 'absorbierend' bezüglich der Multiplikation mit Ringelementen ist.",
       "Jede beliebige Teilmenge des Rings.",
@@ -650,7 +650,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "31. Was ist die **Komposition** $g \\circ f$ der Abbildungen $f(x) = x+1$ und $g(x) = x^2$?",
+    "frage": "51. Was ist die **Komposition** $g \\circ f$ der Abbildungen $f(x) = x+1$ und $g(x) = x^2$?",
     "optionen": [
       "$x^2 + 1$",
       "$(x+1)^2$",
@@ -663,7 +663,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "32. Was ist eine **partielle Ordnung** auf einer Menge?",
+    "frage": "52. Was ist eine **partielle Ordnung** auf einer Menge?",
     "optionen": [
       "Eine Relation, die reflexiv, symmetrisch und transitiv ist.",
       "Eine Relation, die reflexiv, antisymmetrisch und transitiv ist.",
@@ -676,7 +676,7 @@
     "thema": "1. Mengen und Abbildungen"
   },
   {
-    "frage": "33. Was ist eine **Kontradiktion** (Widerspruch) in der Aussagenlogik?",
+    "frage": "53. Was ist eine **Kontradiktion** (Widerspruch) in der Aussagenlogik?",
     "optionen": [
       "Eine Aussage, die immer wahr ist.",
       "Eine Aussage, die immer falsch ist, unabhängig von den Wahrheitswerten ihrer Variablen.",
@@ -689,7 +689,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "34. Was ist der Zweck des **Allquantors** $\\forall$ in der Prädikatenlogik?",
+    "frage": "54. Was ist der Zweck des **Allquantors** $\\forall$ in der Prädikatenlogik?",
     "optionen": [
       "Er besagt, dass eine Eigenschaft für mindestens ein Element gilt.",
       "Er besagt, dass eine Eigenschaft für alle Elemente eines bestimmten Bereichs gilt.",
@@ -702,7 +702,7 @@
     "thema": "2. Logik"
   },
   {
-    "frage": "35. Was ist die Grundidee der **strukturellen Induktion**?",
+    "frage": "55. Was ist die Grundidee der **strukturellen Induktion**?",
     "optionen": [
       "Sie wird nur für Summenformeln über natürliche Zahlen verwendet.",
       "Sie beweist Aussagen für rekursiv definierte Strukturen wie Bäume oder Listen.",
@@ -715,7 +715,7 @@
     "thema": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
   },
   {
-    "frage": "36. Was besagt der **kleine Satz von Fermat**?",
+    "frage": "56. Was besagt der **kleine Satz von Fermat**?",
     "optionen": [
       "Für jede Primzahl $p$ und jede ganze Zahl $a$ gilt $a^p \\equiv a \\pmod p$.",
       "Die Gleichung $x^n + y^n = z^n$ hat keine ganzzahligen Lösungen für $n > 2$.",
@@ -728,7 +728,7 @@
     "thema": "4. Etwas Zahlentheorie"
   },
   {
-    "frage": "37. Was ist ein **nullteilerfreier Ring**?",
+    "frage": "57. Was ist ein **nullteilerfreier Ring**?",
     "optionen": [
       "Ein Ring, der die Zahl 0 nicht enthält.",
       "Ein Ring, in dem aus $a \\cdot b = 0$ folgt, dass $a=0$ oder $b=0$ sein muss.",
@@ -741,7 +741,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "38. Was ist die Grundidee des **Diffie-Hellman-Schlüsselaustauschs**?",
+    "frage": "58. Was ist die Grundidee des **Diffie-Hellman-Schlüsselaustauschs**?",
     "optionen": [
       "Zwei Parteien tauschen einen geheimen Schlüssel über einen unsicheren Kanal aus, ohne ihn jemals direkt zu senden.",
       "Eine Partei verschlüsselt eine Nachricht mit einem öffentlichen Schlüssel, die nur mit einem privaten Schlüssel entschlüsselt werden kann.",
@@ -754,7 +754,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "39. Was ist der Unterschied zwischen **symmetrischer** und **asymmetrischer Kryptographie**?",
+    "frage": "59. Was ist der Unterschied zwischen **symmetrischer** und **asymmetrischer Kryptographie**?",
     "optionen": [
       "Symmetrische Verfahren sind immer sicherer als asymmetrische.",
       "Bei symmetrischen Verfahren wird derselbe Schlüssel zum Ver- und Entschlüsseln verwendet, bei asymmetrischen ein Schlüsselpaar (public/private).",
@@ -767,7 +767,7 @@
     "thema": "5. Algebraische Strukturen"
   },
   {
-    "frage": "40. Was ist eine **Hash-Kollision**?",
+    "frage": "60. Was ist eine **Hash-Kollision**?",
     "optionen": [
       "Ein Fehler, bei dem eine Hash-Funktion keine Ausgabe erzeugt.",
       "Der Fall, dass zwei verschiedene Eingaben denselben Hash-Wert erzeugen.",

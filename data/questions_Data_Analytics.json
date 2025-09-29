@@ -975,7 +975,7 @@
     "thema": "Machine Learning Algorithmen"
   },
   {
-    "frage": "76. Was ist der Unterschied zwischen einem 'Dense' Layer und einem 'Embedding' Layer in Keras?",
+    "frage": "76. Was ist der Unterschied zwischen einem `Dense` und einem `Embedding` Layer in Keras?",
     "optionen": [
       "Ein `Dense`-Layer ist für die Eingabe, ein `Embedding`-Layer für die Ausgabe.",
       "Ein `Dense`-Layer führt eine Matrix-Vektor-Multiplikation durch, während ein `Embedding`-Layer eine Nachschlagetabelle für kategoriale Eingaben (wie Wörter) ist.",
@@ -996,7 +996,7 @@
       "Ein Maß für die Rechenleistung, die ein Container verbraucht."
     ],
     "loesung": 1,
-    "erklaerung": "Container sind standardmäßig zustandslos. Wenn ein Container entfernt wird, gehen alle darin geschriebenen Daten verloren. Volumes ermöglichen es, Daten (z.B. Datenbankdateien, Logs, hochgeladene Dateien) persistent auf dem Host-System zu speichern.",
+    "erklaerung": "Container sind standardmäßig zustandslos (stateless). Wenn ein Container entfernt wird, gehen alle darin geschriebenen Daten verloren. Volumes ermöglichen es, Daten (z.B. Datenbankdateien, Logs) persistent auf dem Host-System zu speichern.",
     "gewichtung": 2,
     "thema": "Grundlagen & Tools"
   },
@@ -1009,7 +1009,7 @@
       "Streudiagramm (Scatter Plot)"
     ],
     "loesung": 3,
-    "erklaerung": "Ein Streudiagramm plottet jeden Datenpunkt als Punkt in einem 2D-Koordinatensystem, wobei die x- und y-Positionen den Werten der beiden Variablen entsprechen. Dies macht es ideal, um Korrelationen, Cluster und Ausreißer zu erkennen.",
+    "erklaerung": "Ein Streudiagramm plottet jeden Datenpunkt als Punkt in einem 2D-Koordinatensystem. Dies macht es ideal, um Korrelationen, Cluster und Ausreißer zwischen zwei kontinuierlichen Variablen zu erkennen.",
     "gewichtung": 1,
     "thema": "Datenvisualisierung"
   },
@@ -1022,7 +1022,7 @@
       "Sie ist nur für Regressionsmodelle verfügbar."
     ],
     "loesung": 1,
-    "erklaerung": "Während `predict()` die 'harte' Klassenzuweisung (z.B. 0 oder 1) zurückgibt, gibt `predict_proba()` die 'weiche' Zuweisung in Form von Wahrscheinlichkeiten für jede Klasse zurück. Dies ist nützlich, um die Konfidenz des Modells zu bewerten.",
+    "erklaerung": "Während `predict()` die 'harte' Klassenzuweisung (z.B. Klasse 'Hund') zurückgibt, gibt `predict_proba()` die 'weiche' Zuweisung in Form von Wahrscheinlichkeiten für jede Klasse zurück. Dies ist nützlich, um die Konfidenz des Modells zu bewerten.",
     "gewichtung": 2,
     "thema": "Machine Learning Grundlagen"
   },
@@ -1035,7 +1035,7 @@
       "Das Testen des Wissens der Entwickler."
     ],
     "loesung": 2,
-    "erklaerung": "Die K-Phase schließt den Kreis, indem sie sicherstellt, dass die gewonnenen Erkenntnisse und das entwickelte Modell nicht nur in einem Notebook bleiben, sondern in eine Form gebracht werden, die für Endbenutzer oder andere Systeme von Nutzen ist und das Wissen für die Zukunft bewahrt.",
+    "erklaerung": "Die K-Phase schließt den Kreis, indem sie sicherstellt, dass die gewonnenen Erkenntnisse und das entwickelte Modell nicht nur in einem Notebook bleiben, sondern in eine Form gebracht werden, die für Endbenutzer oder andere Systeme von Nutzen ist.",
     "gewichtung": 2,
     "thema": "MLOps & Prozesse"
   },
@@ -1048,7 +1048,7 @@
       "Es gibt keinen Unterschied."
     ],
     "loesung": 0,
-    "erklaerung": "Sets sind nützlich, wenn man schnell prüfen will, ob ein Element vorhanden ist, oder wenn man Duplikate aus einer Liste entfernen möchte. Listen behalten die Reihenfolge der Elemente bei und erlauben Duplikate.",
+    "erklaerung": "Sets sind für schnelle Mitgliedschaftstests optimiert und entfernen automatisch Duplikate. Listen behalten die Reihenfolge der Elemente bei und erlauben Duplikate.",
     "gewichtung": 1,
     "thema": "Python Grundlagen"
   },
@@ -1087,7 +1087,7 @@
       "Ein Fehler, der auftritt, wenn ein Datensatz mehr Spalten als Zeilen hat."
     ],
     "loesung": 1,
-    "erklaerung": "In hochdimensionalen Räumen liegen die Datenpunkte tendenziell weit voneinander entfernt. Dies macht Algorithmen, die auf Distanzmessungen basieren (wie KNN), weniger effektiv und erfordert exponentiell mehr Daten, um den Raum abzudecken.",
+    "erklaerung": "In hochdimensionalen Räumen liegen die Datenpunkte tendenziell sehr weit voneinander entfernt. Dies macht Algorithmen, die auf Distanzmessungen basieren (wie KNN), weniger effektiv und erfordert exponentiell mehr Daten, um den Raum abzudecken.",
     "gewichtung": 3,
     "thema": "Machine Learning Grundlagen"
   },
@@ -1100,7 +1100,7 @@
       "Das Test Set ist immer größer als das Validation Set."
     ],
     "loesung": 2,
-    "erklaerung": "Das Validation Set wird wiederholt während der Entwicklung verwendet, um das Modell zu justieren (z.B. für Early Stopping). Das Test Set wird idealerweise nur ein einziges Mal am Ende verwendet, um eine unverfälschte Schätzung der Leistung des finalen Modells auf völlig neuen Daten zu erhalten.",
+    "erklaerung": "Das Validation Set wird wiederholt während der Entwicklung verwendet, um das Modell zu justieren (z.B. für Early Stopping). Das Test Set wird idealerweise nur ein einziges Mal am Ende verwendet, um eine unverfälschte Schätzung der Leistung des finalen Modells zu erhalten.",
     "gewichtung": 2,
     "thema": "Machine Learning Grundlagen"
   },
@@ -1113,7 +1113,7 @@
       "Eine spezielle Art von Dropout."
     ],
     "loesung": 1,
-    "erklaerung": "Residual Connections ermöglichen es dem Gradienten, beim Backpropagation direkt durch einige Schichten 'hindurchzufließen'. Dies erleichtert das Training von sehr tiefen Netzwerken (z.B. mit 152 Schichten), indem es dem Vanishing-Gradient-Problem entgegenwirkt.",
+    "erklaerung": "Residual Connections ermöglichen es dem Gradienten, beim Backpropagation direkt durch einige Schichten 'hindurchzufließen'. Dies erleichtert das Training von sehr tiefen Netzwerken (z.B. ResNet-152), indem es dem Vanishing-Gradient-Problem entgegenwirkt.",
     "gewichtung": 3,
     "thema": "Deep Learning"
   },
@@ -1126,7 +1126,7 @@
       "Er beschleunigt die API-Anfragen."
     ],
     "loesung": 1,
-    "erklaerung": "Viele APIs erfordern einen API-Key, um sicherzustellen, dass nur autorisierte Benutzer oder Anwendungen darauf zugreifen können. Er wird oft verwendet, um Nutzungsquoten (Rate Limiting) durchzusetzen und die Nutzung für Abrechnungszwecke zu verfolgen.",
+    "erklaerung": "Viele APIs erfordern einen API-Key, um sicherzustellen, dass nur autorisierte Benutzer oder Anwendungen darauf zugreifen können. Er wird oft verwendet, um Nutzungsquoten (Rate Limiting) durchzusetzen.",
     "gewichtung": 2,
     "thema": "MLOps & Deployment"
   },
@@ -1139,7 +1139,7 @@
       "TXT"
     ],
     "loesung": 2,
-    "erklaerung": "Parquet ist ein spaltenorientiertes Speicherformat, das für Big-Data-Workflows optimiert ist. Es ermöglicht eine sehr effiziente Kompression und Abfrage-Performance, da nur die benötigten Spalten gelesen werden müssen, was es CSV oft überlegen macht.",
+    "erklaerung": "Parquet ist ein spaltenorientiertes Speicherformat, das für Big-Data-Workflows optimiert ist. Es ermöglicht eine sehr effiziente Kompression und Abfrage-Performance, da nur die benötigten Spalten gelesen werden müssen.",
     "gewichtung": 2,
     "thema": "Grundlagen & Tools"
   },
@@ -1178,7 +1178,7 @@
       "Numpy-Arrays sind Teil der Python-Standardbibliothek."
     ],
     "loesung": 1,
-    "erklaerung": "NumPy ist die Grundlage für wissenschaftliches Rechnen in Python. Seine Array-Struktur ist in C implementiert, was Operationen auf großen Datenmengen um Größenordnungen schneller macht als mit reinen Python-Listen.",
+    "erklaerung": "NumPy ist die Grundlage für wissenschaftliches Rechnen in Python. Seine Array-Struktur ist in C implementiert, was Operationen auf großen Datenmengen deutlich schneller macht als mit reinen Python-Listen.",
     "gewichtung": 2,
     "thema": "Python Grundlagen"
   },
@@ -1191,7 +1191,7 @@
       "px.histogram()"
     ],
     "loesung": 2,
-    "erklaerung": "`plotly.express.scatter` (üblicherweise als `px.scatter` importiert) ist die High-Level-Funktion zur Erstellung von interaktiven Streudiagrammen, die Zoom, Pan und Hover-Informationen unterstützen.",
+    "erklaerung": "`plotly.express.scatter` (üblicherweise als `px.scatter` importiert) ist die High-Level-Funktion zur Erstellung von interaktiven Streudiagrammen.",
     "gewichtung": 1,
     "thema": "Datenvisualisierung"
   },
@@ -1204,7 +1204,7 @@
       "Sie ist eine normale Methode wie jede andere auch."
     ],
     "loesung": 1,
-    "erklaerung": "Die `__init__`-Methode wird automatisch aufgerufen, wenn eine neue Instanz einer Klasse erzeugt wird. Sie wird verwendet, um die Attribute des Objekts mit den übergebenen Werten zu initialisieren.",
+    "erklaerung": "Die `__init__`-Methode wird automatisch aufgerufen, wenn eine neue Instanz einer Klasse erzeugt wird. Sie wird verwendet, um die Attribute des Objekts zu initialisieren.",
     "gewichtung": 2,
     "thema": "Python Grundlagen"
   },
@@ -1217,7 +1217,7 @@
       "Ein Werkzeug zur Code-Formatierung."
     ],
     "loesung": 1,
-    "erklaerung": "Webhooks sind der 'Klebstoff' für Automatisierung. Zum Beispiel kann GitHub einen Webhook an einen CI/CD-Server senden, wenn neuer Code gepusht wird, was dann automatisch einen neuen Build und ein neues Training auslöst.",
+    "erklaerung": "Webhooks sind der 'Klebstoff' für Automatisierung. Zum Beispiel kann GitHub einen Webhook an einen CI/CD-Server senden, wenn neuer Code gepusht wird, was dann automatisch einen neuen Build auslöst.",
     "gewichtung": 3,
     "thema": "MLOps & Deployment"
   },
@@ -1230,7 +1230,7 @@
       "Sparse Vektoren können nicht für Machine Learning verwendet werden."
     ],
     "loesung": 1,
-    "erklaerung": "Sparse Vektoren sind sehr effizient für Daten mit vielen Nullen, wie z.B. bei der One-Hot-Kodierung von großen Vokabularen im NLP. Anstatt eines riesigen Vektors mit meist Nullen speichert man nur die Positionen der Einsen.",
+    "erklaerung": "Sparse Vektoren sind sehr effizient für Daten mit vielen Nullen, wie z.B. bei der One-Hot-Kodierung von großen Vokabularen im NLP. Anstatt eines riesigen Vektors mit meist Nullen speichert man nur die Positionen der Nicht-Null-Werte.",
     "gewichtung": 2,
     "thema": "Machine Learning Grundlagen"
   },
@@ -1243,7 +1243,7 @@
       "AUC-ROC"
     ],
     "loesung": 2,
-    "erklaerung": "RMSE misst die durchschnittliche quadratische Abweichung zwischen den vorhergesagten und den tatsächlichen Werten. Es ist eine der gebräuchlichsten Metriken für Regressionsprobleme. Accuracy, F1-Score und AUC-ROC sind Klassifikationsmetriken.",
+    "erklaerung": "RMSE misst die durchschnittliche quadratische Abweichung zwischen den vorhergesagten und den tatsächlichen Werten. Es ist eine der gebräuchlichsten Metriken für Regressionsprobleme. Accuracy, F1-Score und AUC-ROC sind hingegen Klassifikationsmetriken.",
     "gewichtung": 1,
     "thema": "Machine Learning Grundlagen"
   },
@@ -1269,7 +1269,7 @@
       "`plotly.express` kann nur statische Bilder erzeugen."
     ],
     "loesung": 1,
-    "erklaerung": "`plotly.express` (px) ist eine Wrapper-Bibliothek um `plotly.graph_objects`. Sie vereinfacht die Erstellung von gängigen Diagrammtypen erheblich. Für sehr komplexe oder benutzerdefinierte Visualisierungen kann man immer noch auf die detailliertere `graph_objects`-Syntax zurückgreifen.",
+    "erklaerung": "`plotly.express` (px) ist eine Wrapper-Bibliothek um `plotly.graph_objects`. Sie vereinfacht die Erstellung von gängigen Diagrammtypen erheblich. Für sehr komplexe Visualisierungen kann man immer noch auf die detailliertere `graph_objects`-Syntax zurückgreifen.",
     "gewichtung": 2,
     "thema": "Datenvisualisierung"
   },
