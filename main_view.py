@@ -313,6 +313,13 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         if not is_answered:
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
+                # Bookmark-Toggle
+                is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+                new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
+                if new_bookmark_state != is_bookmarked:
+                    handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
+                    st.rerun() # Rerun, um den Zustand sofort zu reflektieren
+            with col2:
                 # Überspringen-Button
                 if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", use_container_width=True):
                     # Verschiebe die aktuelle Frage ans Ende der Liste
@@ -323,18 +330,11 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                         st.session_state.frage_indices = frage_indices
                         st.toast("Frage übersprungen. Sie wird später erneut gestellt.")
                         st.rerun()
-            with col2:
+            with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
                 if st.button("Antworten", key=f"submit_{frage_idx}", type="primary", use_container_width=True, disabled=(antwort is None)):
                     # Die Logik für das Antworten wird hierhin verschoben
                     handle_answer_submission(frage_idx, antwort, frage_obj, app_config)
-            with col3:
-                # Bookmark-Toggle
-                is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-                new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
-                if new_bookmark_state != is_bookmarked:
-                    handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
-                    st.rerun() # Rerun, um den Zustand sofort zu reflektieren
         
         # --- Logik zur Anpassung des Testflusses nach einem Sprung ---
         # Dieser Block wird nur ausgeführt, wenn die Frage NICHT bereits beantwortet ist.
