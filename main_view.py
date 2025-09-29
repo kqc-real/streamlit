@@ -440,6 +440,13 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     """Rendert den Feedback- und Erklärungsblock nach einer Antwort."""
+    # --- Sonderfall: Springen zu einer bereits beantworteten Frage ---
+    # Wenn wir von einem Bookmark hierher gesprungen sind, wollen wir nicht den
+    # "Nächste Frage"-Button anzeigen, da dies den Nutzer verwirren würde.
+    # Der "Test fortsetzen"-Button wird bereits in der Hauptansicht gerendert.
+    if st.session_state.get("jump_to_idx_active"):
+        return # Breche die Funktion hier ab, um den Button zu verhindern.
+
     st.divider() 
     
     # Feedback (richtig/falsch)
