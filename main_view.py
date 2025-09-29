@@ -89,7 +89,7 @@ def render_welcome_page(app_config: AppConfig):
         st.session_state.selected_questions_file = selected_file
         st.rerun()
     # --- Diagramm zur Verteilung der Fragen ---
-    with st.expander("Verteilung der Fragen im Set anzeigen", expanded=True):
+    with st.expander("Verteilung nach Thema und Schwierigkeit", expanded=True):
         questions = load_questions(selected_file)
         if questions:
             render_question_distribution_chart(questions)
