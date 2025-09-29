@@ -19,10 +19,11 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 | Kategorie      | Funktion                                                                                      |
 |----------------|-----------------------------------------------------------------------------------------------|
 | Zugang         | Pseudonym-Login (anonym, keine Registrierung)                                                 |
-| Fragen         | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen, strikte Trennung nach Fragenset      |
+| Fragen         | Zufällige Reihenfolge, Gewichtung je Frage, strikte Trennung nach Fragenset                   |
 | Fragenset      | Dynamische Auswahl verschiedener Fragensets (`questions_*.json`)                               |
 | Scoring-Modi   | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                            |
-| Feedback       | Sofortiges Ergebnis + Erklärung, dynamische Motivation                                        |
+| Feedback       | Sofortiges Ergebnis mit optionalen, detaillierten Erklärungen zu Theorie und Herleitung       |
+| Navigation     | Fragen können markiert und übersprungen werden, mit direkter Navigation über die Seitenleiste |
 | Fortschritt    | Fortschritt wird pro Pseudonym und Fragenset in einer SQLite-Datenbank gespeichert            |
 | Zeitlimit      | Optionales 60-Minuten-Fenster                                                                 |
 | Leaderboard   | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
@@ -90,20 +91,19 @@ MC_TEST_MIN_SECONDS_BETWEEN="2"
 .
 ├── .github/                # GitHub Actions Workflows (CI/CD)
 ├── .streamlit/             # Streamlit-Konfiguration (z.B. Themes)
-├── data/                   # Enthält alle JSON-Dateien (Fragensets, Pseudonyme)
+├── data/                   # Enthält JSON-Dateien (Fragensets, Pseudonyme)
 ├── db/                     # Speichert die SQLite-Datenbankdatei
 ├── tests/                  # Pytest-Tests für die Anwendungslogik
-├── __init__.py
+├── .env.example            # Beispiel für Umgebungsvariablen
 ├── admin_panel.py          # Logik für das Admin-Panel
 ├── app.py                  # Haupt-Anwendungsskript
 ├── auth.py                 # Authentifizierung und Session-Management
 ├── components.py           # Wiederverwendbare UI-Komponenten
 ├── config.py               # Laden der Konfiguration und Fragensets
 ├── database.py             # Datenbankinteraktionen (SQLite)
-├── helpers.py              # Hilfsfunktionen
+├── helpers.py              # Kleine Hilfsfunktionen
 ├── logic.py                # Kernlogik der App (Scoring, etc.)
 ├── main_view.py            # UI-Logik für die Hauptansichten
-├── mc_test_config.json     # Lokale, nicht-sensible Konfiguration
 ├── requirements.txt        # Python-Abhängigkeiten
 └── README.md               # Diese Dokumentation
 ```
