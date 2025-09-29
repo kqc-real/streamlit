@@ -10,7 +10,7 @@ import pandas as pd
 import time
 import locale
 
-from config import AppConfig, list_question_files, load_questions
+from config import AppConfig, list_question_files, load_questions, get_question_counts
 from logic import (
     calculate_score,
     set_question_as_answered,
@@ -48,34 +48,22 @@ def render_welcome_page(app_config: AppConfig):
     """, unsafe_allow_html=True)
 
     # --- Auswahl des Fragensets (mit Filterung) ---
-    all_files = list_question_files()
-    valid_question_files = []
-    for f in all_files:
-        try:
-            # Lade die Fragen, um zu prüfen, ob die Datei gültig und nicht leer ist.
-            if load_questions(f, silent=True):
-                valid_question_files.append(f)
-        except Exception:
-            # Ignoriere fehlerhafte JSON-Dateien oder andere Lesefehler.
-            pass
+    # Nutze die optimierte Funktion, um die Anzahl der Fragen zu bekommen.
+    question_counts = get_question_counts()
+    valid_question_files = sorted(question_counts.keys())
 
     if not valid_question_files:
         st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
         st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
         return
 
-    current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
-    
     # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
     def format_filename(filename):
         name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
-        try:
-            # Lade die Fragen, um die Anzahl zu ermitteln.
-            num_questions = len(load_questions(filename))
-            return f"{name} ({num_questions} Fragen)"
-        except Exception:
-            return f"{name} (Fehler)"
+        num_questions = question_counts.get(filename)
+        return f"{name} ({num_questions} Fragen)" if num_questions else f"{name} (Fehler)"
 
+    current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
     selected_file = st.selectbox(
         "Wähle ein Fragenset:",
         options=valid_question_files,
@@ -459,12 +447,6 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     """Rendert den Feedback- und Erklärungsblock nach einer Antwort."""
-    # --- Sonderfall: Springen zu einer bereits beantworteten Frage ---
-    # Wenn wir von einem Bookmark hierher gesprungen sind, wollen wir nicht den
-    # "Nächste Frage"-Button anzeigen, da dies den Nutzer verwirren würde.
-    # Der "Test fortsetzen"-Button wird bereits in der Hauptansicht gerendert.
-    if st.session_state.get("jump_to_idx_active"):
-        return # Breche die Funktion hier ab, um den Button zu verhindern.
 
     st.divider() 
     
@@ -526,10 +508,21 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
     show_motivation(questions, app_config)
 
+    # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
+    # im Sprung-Modus eine bereits beantwortete Frage reviewt.
+    if not st.session_state.get("jump_to_idx_active"):
+        render_next_question_button(questions.index(frage_obj))
+
+
+def render_next_question_button(frage_idx: int):
+    """
+    Rendert den "Nächste Frage"-Button am Ende des Erklärungsblocks.
+    """
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
-        if st.button("Nächste Frage", key=f"next_q_{questions.index(frage_obj)}", type="primary", use_container_width=True):
-            st.session_state[f"show_explanation_{questions.index(frage_obj)}"] = False
+        if st.button("Nächste Frage", key=f"next_q_{frage_idx}", type="primary", use_container_width=True):
+            # Setze das Flag zurück, um die Erklärung bei der nächsten Anzeige nicht mehr zu zeigen.
+            st.session_state[f"show_explanation_{frage_idx}"] = False
             st.rerun()
 
 

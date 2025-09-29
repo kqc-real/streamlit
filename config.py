@@ -97,6 +97,21 @@ def list_question_files() -> List[str]:
         [f for f in os.listdir(data_dir) if f.startswith("questions_") and f.endswith(".json")]
     )
 
+@st.cache_data
+def get_question_counts() -> Dict[str, int]:
+    """
+    Gibt ein Dictionary mit der Anzahl der Fragen für jede gültige Fragenset-Datei zurück.
+    Dies ist performanter, als für jede Datei `load_questions` einzeln aufzurufen.
+    """
+    counts = {}
+    files = list_question_files()
+    for filename in files:
+        # Lade die Fragen (aus dem Cache, falls schon geladen) und zähle sie.
+        questions = load_questions(filename, silent=True)
+        if questions:
+            counts[filename] = len(questions)
+    return counts
+
 
 @st.cache_data
 def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
