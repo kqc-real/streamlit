@@ -19,6 +19,13 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
     """Rendert die komplette Sidebar der Anwendung."""
     st.sidebar.success(f"👋 **{st.session_state.user_id}**")
 
+    # Zeige das aktuell ausgewählte Fragenset an
+    selected_file = st.session_state.get("selected_questions_file")
+    if selected_file:
+        set_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+        st.sidebar.markdown(f"Fragenset: **{set_name}**")
+        st.sidebar.divider()
+
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
     )
