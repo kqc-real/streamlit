@@ -112,11 +112,11 @@ def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
             
             questions = data
             # Sortiere die Fragen nach ihrer Nummer, um eine konsistente Reihenfolge sicherzustellen.
-            try:
-                questions.sort(key=lambda q: int(q.get("frage", "0").split(".", 1)[0]))
-            except (ValueError, IndexError):
-                # Fallback, falls das Format unerwartet ist.
-                pass
+            # try:
+            #     questions.sort(key=lambda q: int(q.get("frage", "0").split(".", 1)[0]))
+            # except (ValueError, IndexError):
+            #     # Fallback, falls das Format unerwartet ist.
+            #     pass
 
             # Validiere und nummeriere die Fragen neu, um Konsistenz zu garantieren.
             for i, q in enumerate(questions):

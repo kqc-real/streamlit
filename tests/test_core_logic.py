@@ -17,7 +17,12 @@ import pytest
 # Erstelle ein Mock-Objekt für das `streamlit`-Modul, damit die App-Logik
 # importiert werden kann, ohne dass Streamlit tatsächlich läuft.
 class StMock:
-    pass
+    def __init__(self):
+        # Simuliere UI-Funktionen, die in der Logik aufgerufen werden könnten,
+        # damit sie im Fehlerfall keine AttributeErrors auslösen.
+        self.error = MagicMock()
+        self.warning = MagicMock()
+        self.info = MagicMock()
 mock_st = StMock()
 
 # Simuliere st.cache_data als einfachen Pass-Through-Decorator.
@@ -88,43 +93,75 @@ def mock_question_file(tmp_path, test_questions):
     Erstellt eine temporäre `questions_test.json`-Datei und gibt den Pfad zurück.
     `tmp_path` ist eine eingebaute pytest-Fixture für temporäre Verzeichnisse.
     """
-    questions_path = tmp_path / "questions_test.json"
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    questions_path = data_dir / "questions_test.json"
     questions_path.write_text(json.dumps(test_questions), encoding="utf-8")
-    return questions_path
+    return questions_path.name # Gib nur den Dateinamen zurück
 
 
 # --- Testfälle ---
 
-def test_load_questions_successfully(mock_question_file, test_questions):
+def test_load_questions_successfully(mock_question_file, test_questions, tmp_path):
     """
     Testet, ob `config.load_questions` eine JSON-Datei korrekt liest und parst.
     """
-    # Arrange: Patch `get_package_dir`, damit es auf unser temporäres Verzeichnis zeigt.
-    with patch.object(config, "get_package_dir", return_value=mock_question_file.parent):
+    # Arrange: Patch `get_package_dir`, damit es auf unser temporäres Verzeichnis (tmp_path) zeigt.
+    # Die Fixture `mock_question_file` hat die Testdatei unter `tmp_path/data/` erstellt.
+    # `get_package_dir` muss also auf `tmp_path` zeigen.
+    with patch.object(config, "get_package_dir", return_value=str(tmp_path)):
         # Act: Lade die Fragen aus der temporären Datei.
-        loaded_questions = config.load_questions(mock_question_file.name)
+        loaded_questions = config.load_questions(mock_question_file)
 
-        # Assert: Die geladenen Daten müssen mit den Originaldaten übereinstimmen.
-        assert loaded_questions == test_questions
+        # Assert: Die `load_questions`-Funktion nummeriert die Fragen neu.
+        # Wir müssen die Original-Testdaten ebenfalls neu nummerieren, um sie vergleichen zu können.
+        expected_questions = []
+        for i, q in enumerate(test_questions):
+            new_q = q.copy()
+            new_q["frage"] = f"{i + 1}. {q['frage'].split('.', 1)[-1].strip()}"
+            expected_questions.append(new_q)
+
+        assert loaded_questions == expected_questions
 
 
-def test_scoring_logic_positive_only(test_questions):
+@pytest.mark.parametrize(
+    "scoring_mode, answered_scores, expected_current, expected_maximum",
+    [
+        # Testfall 1: Modus "positive_only"
+        ("positive_only", [1, 0], 1, 3),
+        # Testfall 2: Modus "negative"
+        ("negative", [1, -2], -1, 3),
+        # Testfall 3: Keine Antworten gegeben
+        ("positive_only", [None, None], 0, 3),
+        # Testfall 4: Alle richtig
+        ("positive_only", [1, 2], 3, 3),
+    ],
+)
+def test_scoring_logic(
+    scoring_mode, answered_scores, expected_current, expected_maximum, test_questions
+):
     """
-    Testet die Punkteberechnung aus logic.py im Modus "positive_only".
-    Punkte gibt es nur für richtige Antworten.
+    Testet die Punkteberechnung aus logic.py mit verschiedenen Szenarien.
+    Verwendet pytest.mark.parametrize, um mehrere Fälle abzudecken.
     """
-    # Arrange
-    scoring_mode = "positive_only"
-    # Simuliere, dass Frage 1 richtig (Gewichtung 1) und Frage 2 falsch (0 Punkte) beantwortet wurde.
-    # Die `beantwortet`-Liste speichert die erzielten Punkte pro Frage.
-    answered_scores = [1, 0]
-
     # Act
     current, maximum = logic.calculate_score(answered_scores, test_questions, scoring_mode)
 
     # Assert
-    assert current == 1  # Nur die 1 Punkt von der ersten Frage.
-    assert maximum == 3  # 1 (Frage 1) + 2 (Frage 2)
+    assert current == expected_current
+    assert maximum == expected_maximum
+
+
+def test_load_questions_file_not_found():
+    """
+    Testet das Verhalten von `load_questions`, wenn die Datei nicht existiert.
+    Der Fehler sollte abgefangen und eine leere Liste zurückgegeben werden.
+    """
+    # Act: Versuche, eine nicht existierende Datei zu laden.
+    loaded_questions = config.load_questions("non_existent_file.json")
+    # Assert: Es sollte eine leere Liste zurückkommen und st.error aufgerufen werden.
+    assert loaded_questions == []
+    mock_st.error.assert_called_once()
 
 
 def test_test_flow_and_completion(test_questions):
