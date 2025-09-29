@@ -309,6 +309,13 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
 
         antwort = optionen[selected_index] if selected_index is not None else None
 
+        # --- Logik zur Anpassung des Testflusses nach einem Sprung ---
+        # Wenn wir zu einer unbeantworteten Frage springen, passen wir die Reihenfolge
+        # der Fragen an, damit der Test von hier aus nahtlos weitergeht.
+        # Das Flag wird danach zurückgesetzt.
+        if not is_answered and st.session_state.get("jump_to_idx_active"):
+            handle_jump_to_unanswered_question(frage_idx)
+
         # --- Buttons: Antworten, Überspringen und Merken ---
         if not is_answered:
             col1, col2, col3 = st.columns([1, 1, 1])
@@ -341,19 +348,6 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                     # Die Logik für das Antworten wird hierhin verschoben
                     handle_answer_submission(frage_idx, antwort, frage_obj, app_config)
         
-        # --- Logik zur Anpassung des Testflusses nach einem Sprung ---
-        # Dieser Block wird nur ausgeführt, wenn die Frage NICHT bereits beantwortet ist.
-        # Andernfalls würde er den "Test fortsetzen"-Button im else-Block unten verhindern.
-        if not is_answered and st.session_state.get("jump_to_idx_active"):
-            # Wenn ein Sprung aktiv ist, passen wir die Reihenfolge der Fragen an,
-            # damit der Test von hier aus nahtlos weitergeht.
-            frage_indices = st.session_state.get("frage_indices", [])
-            if frage_idx in frage_indices:
-                # Entferne die angesprungene Frage von ihrer alten Position
-                frage_indices.remove(frage_idx)
-                # Füge sie an der aktuellen Position (vorne) wieder ein
-                frage_indices.insert(0, frage_idx)
-                st.session_state.frage_indices = frage_indices
         else:
             # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
             # Wenn die Frage beantwortet ist UND wir gerade von einem Bookmark hierher gesprungen sind,
@@ -376,6 +370,19 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         # --- Erklärung anzeigen ---
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             render_explanation(frage_obj, app_config, questions)
+
+
+def handle_jump_to_unanswered_question(frage_idx: int):
+    """Passt die Reihenfolge der Fragen an, wenn zu einer unbeantworteten Frage gesprungen wird."""
+    frage_indices = st.session_state.get("frage_indices", [])
+    if frage_idx in frage_indices:
+        # Entferne die angesprungene Frage von ihrer alten Position
+        frage_indices.remove(frage_idx)
+        # Füge sie an der aktuellen Position (vorne) wieder ein
+        frage_indices.insert(0, frage_idx)
+        st.session_state.frage_indices = frage_indices
+    # Setze das Flag zurück, da der Sprung nun verarbeitet wurde.
+    st.session_state.jump_to_idx_active = False
 
 
 def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
