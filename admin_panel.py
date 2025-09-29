@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 
 from config import AppConfig, load_questions, list_question_files
-from database import get_all_answer_logs, DATABASE_FILE
+from database import get_all_answer_logs, get_all_feedback, DATABASE_FILE
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):
@@ -29,7 +29,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     if q_file and "questions_file" in df_all_logs.columns:
         df_filtered_logs = df_all_logs[df_all_logs["questions_file"] == q_file].copy()
 
-    tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📤 Export", "⚙️ System"])
+    tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📢 Feedback", "📤 Export", "⚙️ System"])
 
     with tabs[0]:
         # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben.
@@ -37,8 +37,10 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     with tabs[1]:
         render_analysis_tab(df_filtered_logs, questions)
     with tabs[2]:
-        render_export_tab(df_filtered_logs)
+        render_feedback_tab() # Diese Funktion holt sich ihre Daten jetzt selbst
     with tabs[3]:
+        render_export_tab(df_filtered_logs)
+    with tabs[4]:
         render_system_tab(app_config, df_filtered_logs)
 
 
@@ -218,6 +220,66 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
                     st.plotly_chart(fig, use_container_width=True)
+
+def render_feedback_tab():
+    """Rendert den Feedback-Tab."""
+    st.header("Gemeldete Probleme")
+    
+    feedback_data = get_all_feedback()
+    if not feedback_data:
+        st.info("Bisher wurden keine Probleme gemeldet.")
+        return
+
+    df_all_feedback = pd.DataFrame(feedback_data)
+    df_all_feedback.rename(columns={
+        'timestamp': 'Gemeldet am',
+        'question_nr': 'Frage-Nr.',
+        'feedback_type': 'Problem-Typ',
+        'questions_file': 'Fragenset',
+        'user_pseudonym': 'Gemeldet von'
+    }, inplace=True)
+
+    # Ersetze den technischen Standardwert durch einen verständlicheren Text für die Anzeige.
+    df_all_feedback['Problem-Typ'] = df_all_feedback['Problem-Typ'].replace(
+        'Unbekannt', 'Veraltet (ohne Typ)'
+    )
+
+    # --- Filter für das Feedback ---
+    st.write("Filtere die Meldungen:")
+    
+    # Erstelle eine Hilfsfunktion und ein Mapping für saubere Namen
+    def format_q_filename(filename):
+        return filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+
+    unique_files = sorted(df_all_feedback['Fragenset'].unique())
+    file_display_map = {format_q_filename(f): f for f in unique_files}
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        display_name = st.selectbox("Fragenset:", options=["Alle"] + list(file_display_map.keys()), key="feedback_qfile_filter")
+        selected_q_file = file_display_map.get(display_name) if display_name != "Alle" else "Alle"
+    with col2:
+        selected_f_type = st.selectbox("Problem-Typ:", options=["Alle"] + sorted(df_all_feedback['Problem-Typ'].unique()), key="feedback_type_filter")
+
+    df_feedback = df_all_feedback.copy()
+    if selected_q_file != "Alle":
+        df_feedback = df_feedback[df_feedback['Fragenset'] == selected_q_file]
+    if selected_f_type != "Alle":
+        df_feedback = df_feedback[df_feedback['Problem-Typ'] == selected_f_type]
+
+    # Lade alle Fragen, um den Fragentext zuzuordnen
+    all_questions = {}
+    unique_files = df_feedback['Fragenset'].unique()
+    for q_file in unique_files:
+        questions = load_questions(q_file, silent=True)
+        for q in questions:
+            q_nr = int(q['frage'].split('.', 1)[0])
+            all_questions[(q_file, q_nr)] = q['frage'].split('.', 1)[1].strip()
+
+    df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row['Fragenset'], row['Frage-Nr.']), "Frage nicht gefunden"), axis=1)
+    df_feedback['Gemeldet am'] = pd.to_datetime(df_feedback['Gemeldet am']).dt.strftime('%d.%m.%Y %H:%M')
+
+    st.dataframe(df_feedback[['Gemeldet am', 'Fragenset', 'Frage-Nr.', 'Problem-Typ', 'Frage', 'Gemeldet von']], use_container_width=True, hide_index=True)
 
 def render_export_tab(df: pd.DataFrame):
     """Rendert den Export-Tab."""

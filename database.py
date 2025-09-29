@@ -112,11 +112,34 @@ def create_tables():
                 );
             """)
 
+            # Tabelle für gemeldete Probleme
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS feedback (
+                    feedback_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    session_id INTEGER NOT NULL,
+                    question_nr INTEGER NOT NULL,
+                    feedback_type TEXT NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (session_id) REFERENCES test_sessions (session_id)
+                );
+            """)
+
+            # --- Schema-Migration für bestehende Datenbanken ---
+            # Prüfe, ob die Spalte 'feedback_type' in der 'feedback'-Tabelle existiert.
+            # Wenn nicht, füge sie hinzu. Dies verhindert Fehler, wenn die App mit einer
+            # älteren Datenbankversion gestartet wird.
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA table_info(feedback)")
+            columns = [info[1] for info in cursor.fetchall()]
+            if 'feedback_type' not in columns:
+                conn.execute("ALTER TABLE feedback ADD COLUMN feedback_type TEXT NOT NULL DEFAULT 'Unbekannt';")
+
             # Indizes zur Beschleunigung von Abfragen
             conn.execute("CREATE INDEX IF NOT EXISTS idx_answers_session_id ON answers (session_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_bookmarks_session_question ON bookmarks (session_id, question_nr);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_id ON test_sessions (user_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_session_id ON feedback (session_id);")
             
     except sqlite3.Error as e:
         print(f"Fehler bei der Tabellenerstellung: {e}")
@@ -184,6 +207,23 @@ def save_answer(session_id: int, question_nr: int, answer_text: str, points: int
             )
     except sqlite3.Error as e:
         print(f"Datenbankfehler in save_answer: {e}")
+
+@with_db_retry
+def add_feedback(session_id: int, question_nr: int, feedback_types: list[str]):
+    """Speichert das Feedback zu einer Frage in der Datenbank."""
+    conn = get_db_connection()
+    if conn is None:
+        return
+    try:
+        with conn:
+            feedback_to_insert = [(session_id, question_nr, f_type) for f_type in feedback_types]
+            conn.executemany(
+                "INSERT INTO feedback (session_id, question_nr, feedback_type) VALUES (?, ?, ?)",
+                feedback_to_insert
+            )
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in add_feedback: {e}")
+
 
 @with_db_retry
 def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
@@ -281,6 +321,34 @@ def get_all_answer_logs() -> list[dict]:
         return [dict(row) for row in cursor.fetchall()]
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_all_answer_logs: {e}")
+        return []
+
+def get_all_feedback() -> list[dict]:
+    """
+    Ruft alle Feedbacks aus der Datenbank für das Admin-Panel ab.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return []
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT
+                f.timestamp,
+                f.question_nr,
+                f.feedback_type,
+                s.questions_file,
+                u.user_pseudonym
+            FROM feedback f
+            JOIN test_sessions s ON f.session_id = s.session_id
+            JOIN users u ON s.user_id = u.user_id
+            ORDER BY f.timestamp DESC
+            """
+        )
+        return [dict(row) for row in cursor.fetchall()]
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_all_feedback: {e}")
         return []
 
 @with_db_retry

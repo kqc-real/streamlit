@@ -450,15 +450,16 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
     st.divider() 
     
+    # Ermittle den Index der aktuellen Frage. Dies wird an mehreren Stellen benötigt.
+    frage_idx = questions.index(frage_obj)
+
     # Feedback (richtig/falsch)
     richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
-    gegebene_antwort = get_answer_for_question(questions.index(frage_obj))
+    gegebene_antwort = get_answer_for_question(frage_idx)
     ist_richtig = gegebene_antwort == richtige_antwort_text
 
     if ist_richtig:
         # Gimmick: Gestaffelte Belohnung für schwierige Fragen.
-        # Wird hier platziert, damit es nicht durch ein st.rerun() unterbrochen wird.
-        frage_idx = questions.index(frage_obj)
         if "celebrated_questions" not in st.session_state:
             st.session_state.celebrated_questions = []
         
@@ -495,7 +496,6 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     # --- Optionale, detaillierte Erklärung ---
     extended_explanation = frage_obj.get("extended_explanation")
     if extended_explanation:
-        frage_idx = questions.index(frage_obj)
         show_extended_key = f"show_extended_{frage_idx}"
 
         # Zeige den Button nur an, wenn die Erklärung noch nicht sichtbar ist.
@@ -513,6 +513,39 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     st.markdown(extended_explanation.get('content', ''))
                 else:
                     st.markdown(str(extended_explanation))
+
+    # --- Feedback-Mechanismus ---
+    st.markdown("---")
+    feedback_options = [
+        "Inhaltlicher Fehler",
+        "Tippfehler/Grammatik",
+        "Frage unklar formuliert",
+        "Antwortoptionen unpassend",
+        "Erklärung falsch/unverständlich",
+        "Technisches Problem (z.B. Anzeige)",
+        "Sonstiges"
+    ]
+    feedback_key = f"feedback_reported_{frage_idx}"
+
+    if st.session_state.get(feedback_key, False):
+        st.success("✔️ Danke, dein Feedback wurde übermittelt.")
+    else:
+        with st.popover("Problem mit dieser Frage melden"):
+            st.markdown("**Welche Probleme sind dir aufgefallen?** (Mehrfachauswahl möglich)")
+            selected_feedback_types = st.multiselect(
+                "Problemtyp:", options=feedback_options, key=f"ms_feedback_{frage_idx}",
+                placeholder="Problem(e) auswählen...", label_visibility="collapsed"
+            )
+            # Deaktiviere den Button, wenn keine Option ausgewählt wurde
+            if st.button("Feedback senden", key=f"btn_submit_feedback_{frage_idx}", disabled=not selected_feedback_types):
+                from database import add_feedback
+                frage_nr = int(frage_obj.get("frage", "0").split(".", 1)[0])
+                session_id = st.session_state.get("session_id")
+                if session_id and frage_nr > 0:
+                    add_feedback(session_id, frage_nr, selected_feedback_types)
+                    st.session_state[feedback_key] = True
+                    st.toast("Feedback gesendet!")
+                    st.rerun()
 
     show_motivation(questions, app_config)
 
