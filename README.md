@@ -3,8 +3,8 @@
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
 Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
-Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse
-für verschiedene Fragensets.
+Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse für verschiedene Fragensets.
+Die App ist modular aufgebaut und nutzt eine SQLite-Datenbank zur persistenten Speicherung von Testergebnissen.
 
 ---
 
@@ -17,14 +17,14 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 ### Hauptfunktionen
 
 | Kategorie      | Funktion                                                                                      |
-|---------------|-----------------------------------------------------------------------------------------------|
-| Zugang        | Pseudonym-Login (anonym, keine Registrierung)                                                 |
-| Fragen        | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen, strikte Trennung nach Fragenset      |
-| Fragenset     | Dynamische Auswahl verschiedener Fragensets (`questions_*.json`)                               |
-| Scoring-Modi  | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                            |
-| Feedback      | Sofortiges Ergebnis + Erklärung, dynamische Motivation                                        |
-| Fortschritt   | Fortschritt wird pro Pseudonym und Fragenset gespeichert                                      |
-| Zeitlimit     | Optionales 60-Minuten-Fenster                                                                 |
+|----------------|-----------------------------------------------------------------------------------------------|
+| Zugang         | Pseudonym-Login (anonym, keine Registrierung)                                                 |
+| Fragen         | Zufällige Reihenfolge, Gewichtung je Frage, Erklärungen, strikte Trennung nach Fragenset      |
+| Fragenset      | Dynamische Auswahl verschiedener Fragensets (`questions_*.json`)                               |
+| Scoring-Modi   | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                            |
+| Feedback       | Sofortiges Ergebnis + Erklärung, dynamische Motivation                                        |
+| Fortschritt    | Fortschritt wird pro Pseudonym und Fragenset in einer SQLite-Datenbank gespeichert            |
+| Zeitlimit      | Optionales 60-Minuten-Fenster                                                                 |
 | Leaderboard   | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
 | Analyse       | Itemanalyse (Schwierigkeit, Trennschärfe), Distraktor-Analyse                                 |
 | Export        | CSV-Download aller Antworten über Admin-Panel                                                 |
@@ -35,7 +35,7 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 
 ## 📋 Voraussetzungen
 
-- **Python:** Version 3.8 oder höher.
+- **Python:** Version 3.9 oder höher.
 - **Abhängigkeiten:** Installiere via `pip install -r requirements.txt`.
 
 ---
@@ -67,13 +67,15 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 
 ### Umgebungsvariablen / Secrets
 
-Die App wird über Umgebungsvariablen konfiguriert. Für die lokale Entwicklung kannst du eine `.env`-Datei erstellen. Für das Deployment auf Streamlit Cloud müssen diese Variablen als "Secrets" im Dashboard der App hinterlegt werden.
+Die App wird über Umgebungsvariablen (für sensible Daten) und eine Konfigurationsdatei (für nicht-sensible Daten) konfiguriert.
+
+Für die lokale Entwicklung kannst du eine `.env`-Datei erstellen. Für das Deployment auf Streamlit Cloud müssen diese Variablen als "Secrets" im Dashboard der App hinterlegt werden.
 
 ```env
 # Beispiel für .env oder Streamlit Cloud Secrets
 MC_TEST_ADMIN_USER="dein_admin_user"
 MC_TEST_ADMIN_KEY="dein_geheimes_passwort"
-MC_TEST_MIN_SECONDS_BETWEEN="3"
+MC_TEST_MIN_SECONDS_BETWEEN="2"
 ```
 
 - **`MC_TEST_ADMIN_USER`**: Der Benutzername, der für den Admin-Login erforderlich ist.
