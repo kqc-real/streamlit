@@ -1,6 +1,7 @@
 """
 Modul für alle Datenbank-Interaktionen mit SQLite.
 """
+import streamlit as st
 import sqlite3
 import os
 from config import get_package_dir
@@ -10,6 +11,7 @@ from config import get_package_dir
 # mit Tools und in Cloud-Umgebungen zu vermeiden.
 DATABASE_FILE = os.path.join(get_package_dir(), "db", "mc_test_data.db")
 
+@st.cache_resource
 def get_db_connection():
     """
     Stellt eine Verbindung zur SQLite-Datenbank her und aktiviert den WAL-Modus.
@@ -21,14 +23,10 @@ def get_db_connection():
     Returns:
         Ein sqlite3.Connection-Objekt oder None bei einem Fehler.
     """
-    try:
-        conn = sqlite3.connect(DATABASE_FILE)
-        conn.execute("PRAGMA journal_mode=WAL;")
-        conn.row_factory = sqlite3.Row  # Ermöglicht den Zugriff auf Spalten nach Namen
-        return conn
-    except sqlite3.Error as e:
-        print(f"Fehler bei der Datenbankverbindung: {e}")
-        return None
+    conn = sqlite3.connect(DATABASE_FILE, check_same_thread=False)
+    conn.execute("PRAGMA journal_mode=WAL;")
+    conn.row_factory = sqlite3.Row  # Ermöglicht den Zugriff auf Spalten nach Namen
+    return conn
 
 def create_tables():
     """
@@ -88,14 +86,12 @@ def create_tables():
 
             # Indizes zur Beschleunigung von Abfragen
             conn.execute("CREATE INDEX IF NOT EXISTS idx_answers_session_id ON answers (session_id);")
-            conn.execute("CREATE INDEX IF NOT EXISTS idx_bookmarks_session_id ON bookmarks (session_id);")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_bookmarks_session_question ON bookmarks (session_id, question_nr);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_id ON test_sessions (user_id);")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")
             
     except sqlite3.Error as e:
         print(f"Fehler bei der Tabellenerstellung: {e}")
-    finally:
-        if conn:
-            conn.close()
 
 def init_database():
     """
@@ -123,9 +119,6 @@ def add_user(user_id: str, pseudonym: str):
             )
     except sqlite3.Error as e:
         print(f"Datenbankfehler in add_user: {e}")
-    finally:
-        if conn:
-            conn.close()
 
 def start_test_session(user_id: str, questions_file: str) -> int | None:
     """Erstellt eine neue Test-Session für einen Benutzer und gibt die session_id zurück."""
@@ -143,9 +136,6 @@ def start_test_session(user_id: str, questions_file: str) -> int | None:
     except sqlite3.Error as e:
         print(f"Datenbankfehler in start_test_session: {e}")
         return None
-    finally:
-        if conn:
-            conn.close()
 
 def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool):
     """Speichert die Antwort eines Nutzers in der Datenbank."""
@@ -163,9 +153,6 @@ def save_answer(session_id: int, question_nr: int, answer_text: str, points: int
             )
     except sqlite3.Error as e:
         print(f"Datenbankfehler in save_answer: {e}")
-    finally:
-        if conn:
-            conn.close()
 
 def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
     """Aktualisiert die Lesezeichen für eine gegebene Test-Session atomar."""
@@ -185,9 +172,6 @@ def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
                 )
     except sqlite3.Error as e:
         print(f"Datenbankfehler in update_bookmarks: {e}")
-    finally:
-        if conn:
-            conn.close()
 
 def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
     """
@@ -219,9 +203,6 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
     except sqlite3.Error as e:
         print(f"Database error in get_all_logs_for_leaderboard: {e}")
         return []
-    finally:
-        if conn:
-            conn.close()
 
 def get_used_pseudonyms() -> list[str]:
     """Gibt eine Liste aller bereits verwendeten Pseudonyme aus der Datenbank zurück."""
@@ -235,9 +216,6 @@ def get_used_pseudonyms() -> list[str]:
     except sqlite3.Error as e:
         print(f"Database error in get_used_pseudonyms: {e}")
         return []
-    finally:
-        if conn:
-            conn.close()
 
 def get_all_answer_logs() -> list[dict]:
     """
@@ -272,9 +250,6 @@ def get_all_answer_logs() -> list[dict]:
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_all_answer_logs: {e}")
         return []
-    finally:
-        if conn:
-            conn.close()
 
 def reset_all_test_data():
     """
@@ -300,9 +275,6 @@ def reset_all_test_data():
     except sqlite3.Error as e:
         print(f"Datenbankfehler in reset_all_test_data: {e}")
         return False
-    finally:
-        if conn:
-            conn.close()
 
 def get_database_dump() -> str:
     """
@@ -321,7 +293,4 @@ def get_database_dump() -> str:
             dump_sql += f"{line}\n"
     except sqlite3.Error as e:
         return f"-- Fehler beim Erstellen des DB-Dumps: {e}"
-    finally:
-        if conn:
-            conn.close()
     return dump_sql
