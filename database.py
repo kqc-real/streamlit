@@ -3,6 +3,7 @@ Modul für alle Datenbank-Interaktionen mit SQLite.
 """
 import streamlit as st
 import sqlite3
+import time
 import os
 from config import get_package_dir
 
@@ -27,6 +28,33 @@ def get_db_connection():
     conn.execute("PRAGMA journal_mode=WAL;")
     conn.row_factory = sqlite3.Row  # Ermöglicht den Zugriff auf Spalten nach Namen
     return conn
+
+def with_db_retry(func):
+    """
+    Ein Decorator, der eine Datenbankoperation bei einem "database is locked"-Fehler
+    mehrmals mit einer kurzen Verzögerung wiederholt. Dies erhöht die Robustheit
+    unter hoher Last bei gleichzeitigen Schreibzugriffen.
+    """
+    def wrapper(*args, **kwargs):
+        max_retries = 5
+        delay = 0.1  # 100ms
+        for attempt in range(max_retries):
+            try:
+                return func(*args, **kwargs)
+            except sqlite3.OperationalError as e:
+                if "database is locked" in str(e):
+                    if attempt < max_retries - 1:
+                        time.sleep(delay)
+                        delay *= 2  # Exponential backoff
+                        continue
+                    else:
+                        st.error("Die Datenbank ist momentan stark ausgelastet. Bitte versuche es später erneut.")
+                        print(f"Datenbankfehler nach {max_retries} Versuchen: {e}")
+                        # Gib einen neutralen Wert zurück, um einen App-Absturz zu verhindern
+                        return None if "start_test_session" in func.__name__ else False
+                else:
+                    raise  # Andere OperationalErrors weiterwerfen
+    return wrapper
 
 def create_tables():
     """
@@ -106,6 +134,7 @@ def init_database():
     create_tables()
 
 
+@with_db_retry
 def add_user(user_id: str, pseudonym: str):
     """Fügt einen neuen Benutzer hinzu. Ignoriert, falls der Benutzer bereits existiert."""
     conn = get_db_connection()
@@ -120,6 +149,7 @@ def add_user(user_id: str, pseudonym: str):
     except sqlite3.Error as e:
         print(f"Datenbankfehler in add_user: {e}")
 
+@with_db_retry
 def start_test_session(user_id: str, questions_file: str) -> int | None:
     """Erstellt eine neue Test-Session für einen Benutzer und gibt die session_id zurück."""
     conn = get_db_connection()
@@ -137,6 +167,7 @@ def start_test_session(user_id: str, questions_file: str) -> int | None:
         print(f"Datenbankfehler in start_test_session: {e}")
         return None
 
+@with_db_retry
 def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool):
     """Speichert die Antwort eines Nutzers in der Datenbank."""
     conn = get_db_connection()
@@ -154,6 +185,7 @@ def save_answer(session_id: int, question_nr: int, answer_text: str, points: int
     except sqlite3.Error as e:
         print(f"Datenbankfehler in save_answer: {e}")
 
+@with_db_retry
 def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
     """Aktualisiert die Lesezeichen für eine gegebene Test-Session atomar."""
     conn = get_db_connection()
@@ -251,6 +283,7 @@ def get_all_answer_logs() -> list[dict]:
         print(f"Datenbankfehler in get_all_answer_logs: {e}")
         return []
 
+@with_db_retry
 def reset_all_test_data():
     """
     Löscht alle Testdaten (Antworten, Lesezeichen, Sessions, Benutzer).
