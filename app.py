@@ -44,7 +44,11 @@ from components import render_sidebar, render_admin_switch
 
 def main():
     """Hauptfunktion der Streamlit-Anwendung."""
-    st.set_page_config(page_title="MC-Test AMALEA")
+    st.set_page_config(
+        page_title="MC-Test AMALEA",
+        # Legt den initialen Zustand der Sidebar fest.
+        initial_sidebar_state="expanded"  # "collapsed" oder "expanded"
+    )
 
     # Setze das Locale, um eine korrekte alphabetische Sortierung von Namen
     # mit Akzenten und Umlauten zu gewährleisten (z.B. 'Erwin' bei 'E').
