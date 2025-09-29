@@ -25,6 +25,28 @@ from components import show_motivation, render_question_distribution_chart
 def render_welcome_page(app_config: AppConfig):
     """Zeigt die Startseite für nicht eingeloggte Nutzer."""
 
+    # --- Dynamischer Titel und Willkommensnachricht ---
+    # Der Titel wird aus dem ausgewählten Dateinamen generiert, der im Session State liegt.
+    # Falls noch kein Set ausgewählt wurde, wird das erste verfügbare als Default genommen.
+    if "selected_questions_file" not in st.session_state:
+        all_files = list_question_files()
+        if all_files:
+            st.session_state.selected_questions_file = all_files[0]
+        else:
+            st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
+            st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
+            return
+
+    selected_file = st.session_state.get("selected_questions_file")
+    dynamic_title = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    st.markdown(f"""
+        <div style='text-align: center; padding: 0 0 10px 0;'>
+            <h2 style='color:#4b9fff; font-size: clamp(1.5rem, 5vw, 2.1rem);'>MC-Tests zu IU-Kursen</h2>
+            <h2 style='color:#4b9fff; font-size: clamp(1.0rem, 2vw, 1.5rem); margin-top: -1.5rem;'>App & Fragen KI generiert</h2>
+            <h1 style='font-size: clamp(1.8rem, 7vw, 2.8rem); margin-top: -1.0rem;'>{dynamic_title}</h1>
+        </div>
+    """, unsafe_allow_html=True)
+
     # --- Auswahl des Fragensets (mit Filterung) ---
     all_files = list_question_files()
     valid_question_files = []
@@ -59,24 +81,13 @@ def render_welcome_page(app_config: AppConfig):
         options=valid_question_files,
         index=valid_question_files.index(current_selection) if current_selection in valid_question_files else 0,
         format_func=format_filename,
-        key="main_view_question_file_selector"
+        key="main_view_question_file_selector",
+        label_visibility="collapsed"
     )
 
     if selected_file != st.session_state.get("selected_questions_file"):
         st.session_state.selected_questions_file = selected_file
         st.rerun()
-
-    # --- Dynamischer Titel und Willkommensnachricht ---
-    # Der Titel wird aus dem ausgewählten Dateinamen generiert.
-    dynamic_title = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    st.markdown(f"""
-        <div style='text-align: center; padding: 0 0 10px 0;'>
-            <h2 style='color:#4b9fff; font-size: clamp(1.5rem, 5vw, 2.1rem);'>MC-Tests zu IU-Kursen</h2>
-            <h2 style='color:#4b9fff; font-size: clamp(1.0rem, 2vw, 1.5rem); margin-top: -1.5rem;'>App & Fragen KI generiert</h2>
-            <h1 style='font-size: clamp(1.8rem, 7vw, 2.8rem); margin-top: -1.0rem;'>{dynamic_title}</h1>
-        </div>
-    """, unsafe_allow_html=True)
-
     # --- Diagramm zur Verteilung der Fragen ---
     with st.expander("Verteilung der Fragen im Set anzeigen", expanded=True):
         questions = load_questions(selected_file)
@@ -123,7 +134,7 @@ def render_welcome_page(app_config: AppConfig):
     from config import load_scientists
     from database import get_used_pseudonyms
 
-    st.markdown("<h3 style='text-align: center;'>Neuen Test starten</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
 
     scientists = load_scientists()
     used_pseudonyms = get_used_pseudonyms()
@@ -155,36 +166,39 @@ def render_welcome_page(app_config: AppConfig):
         contribution = scientist_map.get(name, "")
         return f"{name} ({contribution})" if contribution else name
 
-    selected_name_from_user = st.selectbox(
-        "Wähle dein Pseudonym für diese Runde:",
-        options=options,
-        placeholder="Bitte wählen...",
-        index=None,
-        format_func=format_scientist
-    )
+    # Prüfe, ob überhaupt Optionen verfügbar sind, bevor das selectbox gerendert wird.
+    if not options:
+        st.warning("Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.")
+        selected_name_from_user = None
+    else:
+        selected_name_from_user = st.selectbox(
+            "Wähle dein Pseudonym für diese Runde:",
+            options=options,
+            index=0,  # Wählt das erste Element als Standard aus
+            format_func=format_scientist,
+            label_visibility="collapsed" # Optional: Blendet das Label aus, falls gewünscht
+        )
 
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
-        if st.button("Test starten", type="primary", use_container_width=True):
-            if not selected_name_from_user:
-                st.error("Bitte wähle ein Pseudonym aus.")
+        # Deaktiviere den Button, wenn keine Auswahl möglich ist.
+        if st.button("Test starten", type="primary", use_container_width=True, disabled=(not selected_name_from_user)):
+            from database import add_user, start_test_session
+            user_name = selected_name_from_user
+            user_id_hash = get_user_id_hash(user_name)
+
+            add_user(user_id_hash, user_name)
+            session_id = start_test_session(user_id_hash, st.session_state.selected_questions_file)
+
+            if session_id:
+                st.session_state.user_id = user_name
+                st.session_state.user_id_hash = user_id_hash
+                st.session_state.session_id = session_id
+                st.session_state.show_pseudonym_reminder = True
+                initialize_session_state(questions)
+                st.rerun()
             else:
-                from database import add_user, start_test_session
-                user_name = selected_name_from_user
-                user_id_hash = get_user_id_hash(user_name)
-
-                add_user(user_id_hash, user_name)
-                session_id = start_test_session(user_id_hash, st.session_state.selected_questions_file)
-
-                if session_id:
-                    st.session_state.user_id = user_name
-                    st.session_state.user_id_hash = user_id_hash
-                    st.session_state.session_id = session_id
-                    st.session_state.show_pseudonym_reminder = True
-                    initialize_session_state(questions)
-                    st.rerun()
-                else:
-                    st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
+                st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
