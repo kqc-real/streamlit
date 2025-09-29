@@ -127,14 +127,13 @@ def render_welcome_page(app_config: AppConfig):
 
                 st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
 
-    st.divider()
 
     # --- Login-Formular im Hauptbereich ---
     from auth import initialize_session_state, is_admin_user
     from config import load_scientists
     from database import get_used_pseudonyms
 
-    st.markdown("<h3 style='text-align: center;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
 
     scientists = load_scientists()
     used_pseudonyms = get_used_pseudonyms()
