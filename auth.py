@@ -30,19 +30,22 @@ def log_state(event: str):
 
 def initialize_session_state(questions: list):
     """Initialisiert den Session-State für einen neuen Testlauf."""
-    # log_state("Initializing new session state")
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
+    # Dies ist wichtig, wenn ein Nutzer einen neuen Test startet, ohne die Session komplett zu beenden.
     for key in list(st.session_state.keys()):
         if key.startswith("frage_") or key in [
-            "beantwortet", "frage_indices", "start_zeit", "progress_loaded", 
-            "optionen_shuffled", "answer_outcomes", "bookmarked_questions", 
-            "test_time_expired", "show_pseudonym_reminder", "login_attempts"
+            "beantwortet", "frage_indices", "initial_frage_indices", "start_zeit",
+            "progress_loaded", "optionen_shuffled", "answer_outcomes",
+            "bookmarked_questions", "test_time_expired", "show_pseudonym_reminder",
+            "login_attempts", "last_answered_idx", "resume_next_idx", "jump_to_idx_active"
         ]:
             del st.session_state[key]
 
     st.session_state.beantwortet = [None] * len(questions)
-    st.session_state.frage_indices = list(range(len(questions)))
-    random.shuffle(st.session_state.frage_indices)
+    frage_indices = list(range(len(questions)))
+    random.shuffle(frage_indices)
+    st.session_state.frage_indices = frage_indices
+    st.session_state.initial_frage_indices = list(frage_indices)  # Stabile Kopie für Nummerierung
     st.session_state.start_zeit = None
     st.session_state.progress_loaded = False
     st.session_state.optionen_shuffled = []

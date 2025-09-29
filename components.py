@@ -111,30 +111,26 @@ def render_bookmarks(questions: list):
             return
 
         # Sortiere die Bookmarks nach der Reihenfolge, in der sie im Test erscheinen
-        frage_indices = st.session_state.get("frage_indices", [])
-        sorted_bookmarks = sorted(bookmarks, key=lambda q_idx: frage_indices.index(q_idx))
+        initial_indices = st.session_state.get("initial_frage_indices", [])
+        sorted_bookmarks = sorted(bookmarks, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
 
         for q_idx in sorted_bookmarks:
             cols = st.columns([4, 1])
-            # Ermittle die laufende Nummer der Frage im aktuellen Testdurchlauf
-            frage_indices = st.session_state.get("frage_indices", [])
-            session_local_idx = frage_indices.index(q_idx) if q_idx in frage_indices else -1
-            display_question_number = session_local_idx + 1
 
             with cols[0]:
+                # Korrekte Ermittlung der laufenden Nummer der Frage im Testdurchlauf.
+                # Wir verwenden die *initiale* Reihenfolge für eine stabile Nummerierung.
+                session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
+                display_question_number = session_local_idx + 1
                 if st.button(f"Frage {display_question_number}", key=f"bm_jump_{q_idx}"):
-                    # Speichere die aktuelle Position, um die Fortsetzung zu ermöglichen
-                    if "resume_next_idx" not in st.session_state:
-                        next_unanswered = None
-                        # Finde die nächste unbeantwortete Frage in der zufälligen Reihenfolge
-                        for idx in st.session_state.get("frage_indices", []):
-                            if st.session_state.get(f"frage_{idx}_beantwortet") is None:
-                                next_unanswered = idx
-                                break
-                        if next_unanswered is not None:
-                            st.session_state["resume_next_idx"] = next_unanswered
-                    st.session_state["jump_to_idx_active"] = True
+                    # Setze den Sprung-Index. Die Haupt-App-Logik wird diesen als
+                    # nächste anzuzeigende Frage verwenden.
                     st.session_state["jump_to_idx"] = q_idx
+                    
+                    # Setze ein Flag, das anzeigt, dass ein Sprung aktiv ist.
+                    # Dies wird in der Hauptansicht verwendet, um den Testfluss anzupassen.
+                    st.session_state.jump_to_idx_active = True
+
                     st.rerun()
             with cols[1]:
                 if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen"):

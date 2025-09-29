@@ -208,8 +208,8 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     frage_obj = questions[frage_idx]
 
     # Ermittle die laufende Nummer der Frage im aktuellen Testdurchlauf
-    frage_indices = st.session_state.get("frage_indices", [])
-    session_local_idx = frage_indices.index(frage_idx) if frage_idx in frage_indices else -1
+    initial_indices = st.session_state.get("initial_frage_indices", [])
+    session_local_idx = initial_indices.index(frage_idx) if frage_idx in initial_indices else -1
     display_question_number = session_local_idx + 1
 
     # Extrahiere den reinen Fragentext ohne die ursprüngliche Nummer
@@ -287,27 +287,6 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
             unsafe_allow_html=True,
         )
 
-        # --- Resume-Logik nach Sprung von Bookmark ---
-        resume_target_idx = st.session_state.get("resume_next_idx")
-        if resume_target_idx is not None:
-            # Wenn wir auf einer gebookmarkten Frage sind (und nicht dort, wo wir sein sollten)
-            if resume_target_idx != frage_idx and st.session_state.get("jump_to_idx_active"):
-                st.warning("Du bist im Review-Modus einer markierten Frage.")
-                _, col2, _ = st.columns([2, 1.5, 2])
-                with col2:
-                    if st.button("Test fortsetzen", key=f"resume_btn_{frage_idx}", type="primary", use_container_width=True):
-                        st.session_state.jump_to_idx = resume_target_idx
-                        # Resume-Status zurücksetzen
-                        del st.session_state.resume_next_idx
-                        # Setze den Aktiv-Status explizit auf False, anstatt ihn zu löschen.
-                        st.session_state.jump_to_idx_active = False
-                        st.rerun()
-            # Wenn wir am Fortsetzungspunkt angekommen sind, Status zurücksetzen
-            elif resume_target_idx == frage_idx:
-                del st.session_state.resume_next_idx
-                # Setze den Aktiv-Status explizit auf False, anstatt ihn zu löschen.
-                st.session_state.jump_to_idx_active = False
-
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]
@@ -330,76 +309,134 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
 
         antwort = optionen[selected_index] if selected_index is not None else None
 
-        # --- Bookmark-Logik ---
-        is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-        if st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}"):
-            if not is_bookmarked:
-                st.session_state.bookmarked_questions.append(frage_idx)
-                # Extrahiere die echten Fragennummern für die DB
-                bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.bookmarked_questions]
-                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
-        else:
-            if is_bookmarked:
-                st.session_state.bookmarked_questions.remove(frage_idx)
-                # Extrahiere die echten Fragennummern für die DB
-                bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.bookmarked_questions]
-                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
-
-        # --- Antwort auswerten ---
-        if antwort and not is_answered:
-            _, col2, _ = st.columns([2, 1.5, 2])
+        # --- Buttons: Antworten, Überspringen und Merken ---
+        if not is_answered:
+            col1, col2, col3 = st.columns([1, 1, 1])
+            with col1:
+                # Überspringen-Button
+                if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", use_container_width=True):
+                    # Verschiebe die aktuelle Frage ans Ende der Liste
+                    frage_indices = st.session_state.get("frage_indices", [])
+                    if frage_idx in frage_indices:
+                        frage_indices.remove(frage_idx)
+                        frage_indices.append(frage_idx)
+                        st.session_state.frage_indices = frage_indices
+                        st.toast("Frage übersprungen. Sie wird später erneut gestellt.")
+                        st.rerun()
             with col2:
-                if st.button("Antworten", key=f"submit_{frage_idx}", type="primary", use_container_width=True):
-                    # --- Rate Limiting ---
-                    last_answer_time = st.session_state.get("last_answer_time", 0)
-                    current_time = time.time()
-                    if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
-                        st.warning(f"Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
-                        return
-                    
-                    st.session_state.last_answer_time = current_time
+                # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
+                if st.button("Antworten", key=f"submit_{frage_idx}", type="primary", use_container_width=True, disabled=(antwort is None)):
+                    # Die Logik für das Antworten wird hierhin verschoben
+                    handle_answer_submission(frage_idx, antwort, frage_obj, app_config)
+            with col3:
+                # Bookmark-Toggle
+                is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+                new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
+                if new_bookmark_state != is_bookmarked:
+                    handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
+                    st.rerun() # Rerun, um den Zustand sofort zu reflektieren
+        
+        # --- Logik zur Anpassung des Testflusses nach einem Sprung ---
+        # Dieser Block wird nur ausgeführt, wenn die Frage NICHT bereits beantwortet ist.
+        # Andernfalls würde er den "Test fortsetzen"-Button im else-Block unten verhindern.
+        if not is_answered and st.session_state.get("jump_to_idx_active"):
+            # Wenn ein Sprung aktiv ist, passen wir die Reihenfolge der Fragen an,
+            # damit der Test von hier aus nahtlos weitergeht.
+            frage_indices = st.session_state.get("frage_indices", [])
+            if frage_idx in frage_indices:
+                # Entferne die angesprungene Frage von ihrer alten Position
+                frage_indices.remove(frage_idx)
+                # Füge sie an der aktuellen Position (vorne) wieder ein
+                frage_indices.insert(0, frage_idx)
+                st.session_state.frage_indices = frage_indices
+            
+            # Setze das Flag erst zurück, nachdem die Reihenfolge angepasst wurde.
+            # Der "Test fortsetzen"-Button für beantwortete Fragen braucht dieses Flag.
+            st.session_state.jump_to_idx_active = False
 
-                    if st.session_state.start_zeit is None:
-                        st.session_state.start_zeit = pd.Timestamp.now()
-
-                    richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
-                    ist_richtig = antwort == richtige_antwort_text
-                    gewichtung = frage_obj.get("gewichtung", 1)
-                    
-                    if ist_richtig:
-                        punkte = gewichtung
-                        st.toast("Richtig!", icon="✅")
-                    else:
-                        punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
-                        st.toast("Leider falsch.", icon="❌")
-
-                    set_question_as_answered(frage_idx, punkte, antwort)
-
-                    # Extrahiere die Frage-Nummer aus dem Fragetext
-                    try:
-                        frage_nr_str = frage_obj.get("frage", "").split(".", 1)[0]
-                        frage_nr = int(frage_nr_str)
-                    except (ValueError, IndexError):
-                        st.error("Fehler: Die Frage-Nummer konnte nicht extrahiert werden.")
-                        return
-
-                    # Speichere die Antwort in der neuen Datenbank-Struktur
-                    from database import save_answer as db_save_answer
-                    db_save_answer(
-                        session_id=st.session_state.session_id,
-                        question_nr=frage_nr,
-                        answer_text=antwort,
-                        points=punkte,
-                        is_correct=(punkte > 0)
-                    )
-
-                    st.session_state[f"show_explanation_{frage_idx}"] = True
-                    st.session_state.last_answered_idx = frage_idx
-                    st.rerun()
+        else:
+            # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
+            # Wenn die Frage beantwortet ist UND wir gerade von einem Bookmark hierher gesprungen sind,
+            # braucht der Nutzer eine Möglichkeit, zum Test zurückzukehren.
+            if st.session_state.get("jump_to_idx_active"):
+                st.info("Diese Frage wurde bereits beantwortet.")
+                _, col2, _ = st.columns([2, 1.5, 2])
+                with col2:
+                    if st.button("Test fortsetzen", key=f"resume_from_answered_bm_{frage_idx}", type="primary", use_container_width=True):
+                        # Setze das Sprung-Flag zurück, damit die App zur nächsten unbeantworteten Frage geht.
+                        st.session_state.jump_to_idx_active = False
+                        # Lösche den last_answered_idx, damit die App nicht hier hängen bleibt.
+                        if "last_answered_idx" in st.session_state:
+                            del st.session_state.last_answered_idx
+                        st.rerun()
 
         # --- Erklärung anzeigen ---
         if st.session_state.get(f"show_explanation_{frage_idx}", False):
             render_explanation(frage_obj, app_config, questions)
+
+
+def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
+    """Verarbeitet das Umschalten eines Bookmarks."""
+    is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+    if new_state and not is_bookmarked:
+        st.session_state.bookmarked_questions.append(frage_idx)
+    elif not new_state and is_bookmarked:
+        st.session_state.bookmarked_questions.remove(frage_idx)
+    
+    # Extrahiere die echten Fragennummern für die DB
+    bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.bookmarked_questions]
+    update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
+
+def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig):
+    """Verarbeitet die Abgabe einer Antwort."""
+    # --- Rate Limiting ---
+    last_answer_time = st.session_state.get("last_answer_time", 0)
+    current_time = time.time()
+    if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
+        st.warning(f"Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
+        return
+    
+    st.session_state.last_answer_time = current_time
+
+    if st.session_state.start_zeit is None:
+        st.session_state.start_zeit = pd.Timestamp.now()
+
+    richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
+    ist_richtig = antwort == richtige_antwort_text
+    gewichtung = frage_obj.get("gewichtung", 1)
+    
+    if ist_richtig:
+        punkte = gewichtung
+        st.toast("Richtig!", icon="✅")
+    else:
+        punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
+        st.toast("Leider falsch.", icon="❌")
+
+    set_question_as_answered(frage_idx, punkte, antwort)
+
+    # Extrahiere die Frage-Nummer aus dem Fragetext
+    try:
+        frage_nr_str = frage_obj.get("frage", "").split(".", 1)[0]
+        frage_nr = int(frage_nr_str)
+    except (ValueError, IndexError):
+        st.error("Fehler: Die Frage-Nummer konnte nicht extrahiert werden.")
+        return
+
+    # Speichere die Antwort in der neuen Datenbank-Struktur
+    from database import save_answer as db_save_answer
+    db_save_answer(
+        session_id=st.session_state.session_id,
+        question_nr=frage_nr,
+        answer_text=antwort,
+        points=punkte,
+        is_correct=(punkte > 0)
+    )
+
+    st.session_state[f"show_explanation_{frage_idx}"] = True
+    st.session_state.last_answered_idx = frage_idx
+    st.rerun()
+
 
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     """Rendert den Feedback- und Erklärungsblock nach einer Antwort."""
@@ -512,8 +549,10 @@ def render_final_summary(questions: list, app_config: AppConfig):
 def render_review_mode(questions: list):
     """Rendert den interaktiven Review-Modus am Ende des Tests."""
     st.subheader("🧐 Review deiner Antworten")
-
-    filter_option = st.selectbox(
+    
+    # Die `initial_frage_indices` werden für die korrekte Nummerierung im Review-Modus benötigt.
+    initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
+    filter_option = st.radio(
         "Filtere die Fragen:",
         ["Alle", "Nur falsch beantwortete", "Nur richtig beantwortete", "Nur markierte"],
     )
@@ -549,9 +588,7 @@ def render_review_mode(questions: list):
         except IndexError:
             title_text = frage['frage'][:50] + "..."
 
-        frage_indices = st.session_state.get("frage_indices", [])
-        session_local_idx = frage_indices.index(i) if i in frage_indices else -1
-        display_question_number = session_local_idx + 1
+        display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
 
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
             st.markdown(f"**{smart_quotes_de(frage['frage'])}**")
