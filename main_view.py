@@ -328,6 +328,11 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                         frage_indices.remove(frage_idx)
                         frage_indices.append(frage_idx)
                         st.session_state.frage_indices = frage_indices
+                        # Füge die Frage zur Liste der übersprungenen hinzu (falls noch nicht vorhanden)
+                        if "skipped_questions" not in st.session_state:
+                            st.session_state.skipped_questions = []
+                        if frage_idx not in st.session_state.skipped_questions:
+                            st.session_state.skipped_questions.append(frage_idx)
                         st.toast("Frage übersprungen. Sie wird später erneut gestellt.")
                         st.rerun()
             with col3:
@@ -349,18 +354,16 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                 # Füge sie an der aktuellen Position (vorne) wieder ein
                 frage_indices.insert(0, frage_idx)
                 st.session_state.frage_indices = frage_indices
-            
-            # Setze das Flag erst zurück, nachdem die Reihenfolge angepasst wurde.
-            # Der "Test fortsetzen"-Button für beantwortete Fragen braucht dieses Flag.
-            st.session_state.jump_to_idx_active = False
-
         else:
             # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
             # Wenn die Frage beantwortet ist UND wir gerade von einem Bookmark hierher gesprungen sind,
-            # braucht der Nutzer eine Möglichkeit, zum Test zurückzukehren.
-            if st.session_state.get("jump_to_idx_active"):
+            # oder von einer übersprungenen Frage, braucht der Nutzer eine Möglichkeit, zum Test zurückzukehren.
+            is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+            is_skipped = frage_idx in st.session_state.get("skipped_questions", [])
+            
+            if st.session_state.get("jump_to_idx_active") and (is_bookmarked or is_skipped):
                 st.info("Diese Frage wurde bereits beantwortet.")
-                _, col2, _ = st.columns([2, 1.5, 2])
+                _, col2, _ = st.columns([1, 1, 1])
                 with col2:
                     if st.button("Test fortsetzen", key=f"resume_from_answered_bm_{frage_idx}", type="primary", use_container_width=True):
                         # Setze das Sprung-Flag zurück, damit die App zur nächsten unbeantworteten Frage geht.
@@ -415,6 +418,11 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 
     set_question_as_answered(frage_idx, punkte, antwort)
 
+    # Entferne die Frage aus der Liste der übersprungenen, falls sie dort war
+    if "skipped_questions" in st.session_state and frage_idx in st.session_state.skipped_questions:
+        st.session_state.skipped_questions.remove(frage_idx)
+
+
     # Extrahiere die Frage-Nummer aus dem Fragetext
     try:
         frage_nr_str = frage_obj.get("frage", "").split(".", 1)[0]
@@ -432,6 +440,10 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         points=punkte,
         is_correct=(punkte > 0)
     )
+
+    # Setze das Sprung-Flag zurück, da der Nutzer nun aktiv eine Aktion ausgeführt hat.
+    # Dies verhindert, dass die Erklärung nach der Antwort fälschlicherweise blockiert wird.
+    st.session_state.jump_to_idx_active = False
 
     st.session_state[f"show_explanation_{frage_idx}"] = True
     st.session_state.last_answered_idx = frage_idx

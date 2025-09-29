@@ -36,7 +36,8 @@ def initialize_session_state(questions: list):
         if key.startswith("frage_") or key in [
             "beantwortet", "frage_indices", "initial_frage_indices", "start_zeit",
             "progress_loaded", "optionen_shuffled", "answer_outcomes",
-            "bookmarked_questions", "test_time_expired", "show_pseudonym_reminder",
+            "bookmarked_questions",
+            "test_time_expired", "show_pseudonym_reminder",
             "login_attempts", "last_answered_idx", "resume_next_idx", "jump_to_idx_active"
         ]:
             del st.session_state[key]
@@ -50,6 +51,7 @@ def initialize_session_state(questions: list):
     st.session_state.progress_loaded = False
     st.session_state.optionen_shuffled = []
     st.session_state.answer_outcomes = []
+    st.session_state.skipped_questions = []
     st.session_state.bookmarked_questions = []
     st.session_state.test_time_limit = 60 * 60  # 60 Minuten in Sekunden
     st.session_state.test_time_expired = False

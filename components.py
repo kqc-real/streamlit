@@ -35,6 +35,7 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
     st.sidebar.metric("🎯 Punktestand", f"{current_score} / {max_score}")
 
     render_bookmarks(questions)
+    render_skipped_questions(questions)
 
     # Füge einen "Zurück zum Review"-Button hinzu, wenn der Test beendet ist,
     # aber der Nutzer gerade eine einzelne Frage ansieht (z.B. nach Sprung von Bookmark).
@@ -147,6 +148,37 @@ def render_bookmarks(questions: list):
             # Leere Liste an die DB-Funktion übergeben
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, [])
+            st.rerun()
+
+
+def render_skipped_questions(questions: list):
+    """Rendert die Sektion für übersprungene Fragen in der Sidebar."""
+    with st.sidebar.expander("↪️ Übersprungen", expanded=True):
+        skipped = st.session_state.get("skipped_questions", [])
+        if not skipped:
+            st.caption("Keine Fragen übersprungen.")
+            return
+
+        # Sortiere die übersprungenen Fragen nach der Reihenfolge im Test
+        initial_indices = st.session_state.get("initial_frage_indices", [])
+        sorted_skipped = sorted(skipped, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
+
+        for q_idx in sorted_skipped:
+            # Korrekte Ermittlung der laufenden Nummer der Frage im Testdurchlauf.
+            session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
+            display_question_number = session_local_idx + 1
+            
+            if st.button(f"Frage {display_question_number}", key=f"skip_jump_{q_idx}"):
+                st.session_state["jump_to_idx"] = q_idx
+                st.session_state.jump_to_idx_active = True
+                st.rerun()
+
+        st.divider()
+        if st.button("Alle zurücksetzen", key="skip_clear_all", help="Setzt alle übersprungenen Fragen zurück, sodass sie nicht mehr in dieser Liste erscheinen."):
+            # Um sie zurückzusetzen, müssen wir sie aus der 'skipped' Liste entfernen
+            # und wieder an ihre ursprüngliche Position in 'frage_indices' bringen.
+            # Einfachere Variante: Nur die Liste leeren. Die Fragen bleiben am Ende der Warteschlange.
+            st.session_state.skipped_questions = []
             st.rerun()
 
 
