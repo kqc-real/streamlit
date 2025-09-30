@@ -1,0 +1,295 @@
+[
+  {
+    "frage": "1. Welche Aussage charakterisiert die Lösungsmenge eines homogenen Systems $A x = 0$ korrekt?",
+    "optionen": [
+      "Sie ist immer leer.",
+      "Sie besteht genau aus dem Nullvektor, wenn $\\operatorname{rang}(A)=n$.",
+      "Sie enthält genau einen Nichtnullvektor, wenn $\\operatorname{rang}(A)=n-1$.",
+      "Sie ist endlich vielelementig, wenn $\\operatorname{rang}(A)<n$."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das homogene System hat immer mindestens die triviale Lösung. Ist $\\operatorname{rang}(A)=n$, so ist der Nullraum $\\{0\\}$; sonst ist er ein Unterraum positiver Dimension und damit unendlich vielelementig.",
+    "gewichtung": 2,
+    "thema": "Homogene Systeme und Nullraum",
+    "extended_explanation": {
+      "title": "Dimension des Nullraums",
+      "content": "Nach dem Rang-Nullitätssatz gilt $\\dim(\\ker A)=n-\\operatorname{rang}(A)$. Für $\\operatorname{rang}(A)=n$ folgt $\\ker A=\\{0\\}$, sonst ist $\\dim(\\ker A)\\ge 1$ und die Lösungsmenge ist ein linearer Unterraum mit unendlich vielen Elementen."
+    }
+  },
+  {
+    "frage": "2. Unter welcher Bedingung besitzt ein inhomogenes System $A x = b$ mindestens eine Lösung?",
+    "optionen": [
+      "$\\operatorname{rang}(A)=n$",
+      "$\\operatorname{rang}(A)=\\operatorname{rang}([A\\,|\\,b])$",
+      "$\\det(A)\\ne 0$",
+      "$\\operatorname{rang}([A\\,|\\,b])=n$",
+      "Es genügt $b\\ne 0$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Konsistenzbedingung: $\\operatorname{rang}(A)=\\operatorname{rang}([A\\,|\\,b])$.",
+    "gewichtung": 2,
+    "thema": "Konsistenz von $A x = b$",
+    "extended_explanation": {
+      "title": "Rangbedingung (Rouché–Capelli)",
+      "content": "Die Lösbarkeit hängt davon ab, ob $b$ im von den Spalten von $A$ aufgespannten Bildraum liegt. Das ist äquivalent zu $\\operatorname{rang}(A)=\\operatorname{rang}([A\\,|\\,b])$."
+    }
+  },
+  {
+    "frage": "3. Welche Operationen sind im `Gauß`-Algorithmus zulässig, ohne die Lösungsmenge zu verändern?",
+    "optionen": [
+      "Vertauschen zweier Zeilen",
+      "Multiplikation einer Zeile mit einem Skalar $\\ne 0$",
+      "Addition eines Vielfachen einer Zeile zu einer anderen",
+      "Alle genannten"
+    ],
+    "loesung": 3,
+    "erklaerung": "Die drei elementaren Zeilenumformungen erzeugen ein äquivalentes Gleichungssystem.",
+    "gewichtung": 1,
+    "thema": "Elementare Zeilenumformungen"
+  },
+  {
+    "frage": "4. Was bedeutet ein `Pivot`-Element in einer Spalte während der Eliminationsphase?",
+    "optionen": [
+      "Ein Diagonalelement ist maximal",
+      "Ein von Null verschiedener Eintrag, der als Ausgangspunkt zur Elimination darunter dient",
+      "Ein Eintrag, der nur am Ende für Rückwärtseinsetzen genutzt wird",
+      "Ein Eintrag, der die Determinante direkt liefert"
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein `Pivot` ist ein von Null verschiedener Eintrag, mit dem Einträge darunter (bzw. darüber bei `Gauß`-Jordan) eliminiert werden.",
+    "gewichtung": 1,
+    "thema": "Pivot-Begriff"
+  },
+  {
+    "frage": "5. Gegeben sei $A\\in\\mathbb{R}^{m\\times n}$ mit $\\operatorname{rang}(A)=r$. Wie groß ist die Dimension der Lösungsmenge des homogenen Systems $A x = 0$?",
+    "optionen": [
+      "$m-r$",
+      "$n-r$",
+      "$r$",
+      "$m-n$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Nach Rang-Nullität: $\\dim(\\ker A)=n-r$.",
+    "gewichtung": 1,
+    "thema": "Rang-Nullität"
+  },
+  {
+    "frage": "6. Welche Aussage zur Eindeutigkeit der Lösung von $A x = b$ ist korrekt (quadratische Matrix $A\\in\\mathbb{R}^{n\\times n}$)?",
+    "optionen": [
+      "Eindeutigkeit ist äquivalent zu $\\det(A)=0$",
+      "Eindeutigkeit ist äquivalent zu $\\operatorname{rang}(A)=n$",
+      "Eindeutigkeit ist äquivalent zu $\\operatorname{rang}([A\\,|\\,b])=n-1$",
+      "Eindeutigkeit hängt nicht vom Rang ab"
+    ],
+    "loesung": 1,
+    "erklaerung": "Für quadratisches $A$ ist Eindeutigkeit äquivalent zu Invertierbarkeit, also $\\operatorname{rang}(A)=n$ (und $\\det(A)\\ne 0$).",
+    "gewichtung": 1,
+    "thema": "Eindeutigkeit der Lösung"
+  },
+  {
+    "frage": "7. Welche Form besitzt die Lösungsmenge eines konsistenten Systems $A x = b$ mit $n$ Unbekannten und $r=\\operatorname{rang}(A)<n$?",
+    "optionen": [
+      "Ein einzelner Vektor",
+      "Ein affiner Unterraum der Dimension $n-r$",
+      "Ein linearer Unterraum der Dimension $r$",
+      "Eine endliche, aber mehr als ein-elementige Menge"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die Lösungsmenge ist $x_p + \\ker A$, also ein affiner Unterraum mit $\\dim(\\ker A)=n-r$.",
+    "gewichtung": 2,
+    "thema": "Struktur der Lösungsmenge",
+    "extended_explanation": {
+      "title": "Partikulärlösung + Nullraum",
+      "content": "Für ein konsistentes System ist jede Lösung $x=x_p+z$ mit $z\\in\\ker A$. Daher ist die Menge ein affiner Raum parallel zu $\\ker A$ mit Dimension $n-r$."
+    }
+  },
+  {
+    "frage": "8. Was zeigt eine Zeile der Form $[\\,0\\;0\\;\\dots\\;0\\;|\\;c\\,]$ mit $c\\ne 0$ in der reduzierten Zeilenstufenform?",
+    "optionen": [
+      "Es gibt unendlich viele Lösungen",
+      "Das System ist eindeutig lösbar",
+      "Das System ist inkonsistent",
+      "Die Matrix hat vollen Rang"
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Nullzeile links mit Nichtnull-Rechterseite widerspricht $A x = b$ und zeigt Inkonsistenz.",
+    "gewichtung": 1,
+    "thema": "Zeilenstufenform und Konsistenz"
+  },
+  {
+    "frage": "9. Welche Spalten heißen `freie Variablen` im Kontext der Zeilenstufenform?",
+    "optionen": [
+      "Spalten mit `Pivot`-Einträgen",
+      "Spalten ohne `Pivot`-Einträge",
+      "Nur die letzte Spalte der erweiterten Matrix",
+      "Nur Diagonalspalten"
+    ],
+    "loesung": 1,
+    "erklaerung": "Spalten ohne `Pivot` definieren Freiheitsgrade; die zugehörigen Variablen sind frei wählbar.",
+    "gewichtung": 1,
+    "thema": "Freie Variablen"
+  },
+  {
+    "frage": "10. Warum wird `Pivoting` (z. B. partielles Pivoting) in numerischen Implementierungen des `Gauß`-Verfahrens verwendet?",
+    "optionen": [
+      "Um die Anzahl der Operationen exakt zu halbieren",
+      "Um Rundungsfehler und Divisionen durch kleine Zahlen zu vermeiden",
+      "Um den Rang künstlich zu erhöhen",
+      "Um die Determinante leichter zu berechnen"
+    ],
+    "loesung": 1,
+    "erklaerung": "`Pivoting` verbessert die numerische Stabilität, indem möglichst große Pivotelemente gewählt werden.",
+    "gewichtung": 2,
+    "thema": "Numerische Stabilität",
+    "extended_explanation": {
+      "title": "Stabilität durch Pivotwahl",
+      "content": "Kleine Pivote verstärken relative Fehler bei Divisionen. Partielles Pivoting (Tausch gegen das betragsgrößte Element der Spalte) reduziert diese Effekte."
+    }
+  },
+  {
+    "frage": "11. In welcher Beziehung stehen Spaltenrang und Zeilenrang einer Matrix $A$?",
+    "optionen": [
+      "Spaltenrang ist immer größer",
+      "Zeilenrang ist immer größer",
+      "Beide sind gleich",
+      "Es gibt keine allgemeine Beziehung"
+    ],
+    "loesung": 2,
+    "erklaerung": "Spaltenrang und Zeilenrang stimmen überein; beide definieren den Rang von $A$.",
+    "gewichtung": 1,
+    "thema": "Zeilen- und Spaltenrang"
+  },
+  {
+    "frage": "12. Welche Aussage zur `Gauß`-Jordan-Elimination ist korrekt?",
+    "optionen": [
+      "Sie liefert direkt die reduzierte Zeilenstufenform",
+      "Sie ist für homogene Systeme nicht anwendbar",
+      "Sie liefert weniger Information als die einfache Zeilenstufenform",
+      "Sie verändert die Lösungsmenge im Allgemeinen"
+    ],
+    "loesung": 0,
+    "erklaerung": "Die `Gauß`-Jordan-Elimination reduziert bis zur reduzierten Zeilenstufenform (alle Pivots = 1, darüber und darunter Nullen).",
+    "gewichtung": 1,
+    "thema": "Gauß–Jordan-Verfahren"
+  },
+  {
+    "frage": "13. Gegeben sei ein konsistentes System mit $\\operatorname{rang}(A)=r$ und $n$ Variablen. Wie viele freie Variablen gibt es?",
+    "optionen": [
+      "$r$",
+      "$n$",
+      "$n-r$",
+      "$r-n$"
+    ],
+    "loesung": 2,
+    "erklaerung": "Anzahl freier Variablen = $n - r$.",
+    "gewichtung": 1,
+    "thema": "Freiheitsgrade"
+  },
+  {
+    "frage": "14. Welche Aussage über die Beziehung zwischen $A x = b$ und dem zugehörigen homogenen System $A x = 0$ ist korrekt?",
+    "optionen": [
+      "Beide haben dieselbe Lösungsmenge",
+      "Die Differenz zweier Lösungen von $A x = b$ ist stets Lösung von $A x = 0$",
+      "Ist $A x = 0$ nur trivial lösbar, so hat $A x = b$ unendlich viele Lösungen",
+      "Ist $A x = 0$ nicht trivial lösbar, so ist $A x = b$ nie lösbar"
+    ],
+    "loesung": 1,
+    "erklaerung": "Für Lösungen $x_1,x_2$ gilt $A(x_1-x_2)=Ax_1-Ax_2=b-b=0$.",
+    "gewichtung": 2,
+    "thema": "Zusammenhang homogen/inhomogen",
+    "extended_explanation": {
+      "title": "Affine Struktur",
+      "content": "Ist $x_p$ eine Partikulärlösung, dann ist die gesamte Lösungsmenge $x_p+\\ker A$. Differenzen von Lösungen liegen daher im Nullraum."
+    }
+  },
+  {
+    "frage": "15. Welche Aussage zu `LU`-Zerlegungen ist korrekt (vorausgesetzt, sie existieren ohne Zeilenvertauschung)?",
+    "optionen": [
+      "Sie ersetzen die `Gauß`-Elimination vollständig ohne denselben Rechenaufwand",
+      "Sie ermöglichen, mehrere rechte Seiten $b$ effizient zu lösen, nachdem $A=LU$ bestimmt ist",
+      "Sie sind nur für symmetrische Matrizen definiert",
+      "Sie liefern direkt die Inverse von $A$ ohne weitere Schritte"
+    ],
+    "loesung": 1,
+    "erklaerung": "Nach der Zerlegung $A=LU$ kann man $A x = b$ effizient durch Vorwärts- und Rückwärtseinsetzen für viele $b$ lösen.",
+    "gewichtung": 2,
+    "thema": "`LU`-Zerlegung",
+    "extended_explanation": {
+      "title": "Mehrfachrechte Seiten",
+      "content": "Einmaliges Faktorisieren, danach Lösen von $L y = b$ (Vorwärtseinsetzen) und $U x = y$ (Rückwärtseinsetzen) für verschiedene $b$ spart Aufwand."
+    }
+  },
+  {
+    "frage": "16. Was gilt für ein unterbestimmtes System ($m<n$) mit $\\operatorname{rang}(A)=r$ und $A x = b$ konsistent?",
+    "optionen": [
+      "Eindeutige Lösung",
+      "Keine Lösung",
+      "Unendlich viele Lösungen mit mindestens $n-r\\ge 1$ Freiheitsgraden",
+      "Genau $r$ Lösungen"
+    ],
+    "loesung": 2,
+    "erklaerung": "Bei $m<n$ und Konsistenz ist $r\\le m<n$, also $n-r\\ge 1$ freie Variablen.",
+    "gewichtung": 2,
+    "thema": "Unterbestimmte Systeme",
+    "extended_explanation": {
+      "title": "Freiheitsgrade",
+      "content": "Mit $\\operatorname{rang}(A)=r$ gilt $\\dim(\\ker A)=n-r\\ge 1$. Die Lösungen bilden einen affinen Raum positiver Dimension."
+    }
+  },
+  {
+    "frage": "17. Welche Aussage trifft für überbestimmte Systeme ($m>n$) im exakten linearen Algebra-Kontext zu?",
+    "optionen": [
+      "Sie sind immer inkonsistent",
+      "Sie sind nie eindeutig lösbar",
+      "Sie können konsistent und eindeutig lösbar sein, wenn $\\operatorname{rang}(A)=n$",
+      "Sie haben stets unendlich viele Lösungen"
+    ],
+    "loesung": 2,
+    "erklaerung": "Ist $\\operatorname{rang}(A)=n$ und $\\operatorname{rang}([A\\,|\\,b])=n$, existiert genau eine Lösung trotz $m>n$.",
+    "gewichtung": 2,
+    "thema": "Überbestimmte Systeme",
+    "extended_explanation": {
+      "title": "Eindeutigkeit trotz $m>n$",
+      "content": "Voller Spaltenrang impliziert Einzigkeit der Lösung, da keine freien Variablen verbleiben."
+    }
+  },
+  {
+    "frage": "18. Welche Eigenschaft kennzeichnet die reduzierte Zeilenstufenform (RREF) einer Matrix?",
+    "optionen": [
+      "Alle Pivotelemente sind 1 und in jeder Pivotspalte sind sonst nur Nullen",
+      "Alle Diagonalelemente sind 1",
+      "Alle Nichtdiagonalelemente sind 0",
+      "Die Matrix ist symmetrisch"
+    ],
+    "loesung": 0,
+    "erklaerung": "In der RREF stehen Pivots auf 1, und die Pivotspalten haben darüber und darunter Nullen.",
+    "gewichtung": 1,
+    "thema": "RREF-Eigenschaften"
+  },
+  {
+    "frage": "19. Welche Aussage zur Berechnung der Inversen via `Gauß`-Jordan-Verfahren ist korrekt (für invertierbares $A\\in\\mathbb{R}^{n\\times n}$)?",
+    "optionen": [
+      "Man reduziert $[A\\,|\\,I]$ zu $[I\\,|\\,A^{-1}]$",
+      "Man reduziert $[I\\,|\\,A]$ zu $[A\\,|\\,I]$",
+      "Man braucht nur Vorwärtseinsetzen",
+      "Die Methode liefert nur eine Approximation"
+    ],
+    "loesung": 0,
+    "erklaerung": "Durch Zeilenumformungen von $[A\\,|\\,I]$ auf $[I\\,|\\,A^{-1}]$ erhält man die Inverse.",
+    "gewichtung": 1,
+    "thema": "Inverse per Gauß–Jordan"
+  },
+  {
+    "frage": "20. Welche inhaltliche Bedeutung hat $\\operatorname{rang}(A)=\\operatorname{rang}([A\\,|\\,b])=n$ für ein quadratisches System $A x = b$?",
+    "optionen": [
+      "Keine Lösung",
+      "Unendlich viele Lösungen",
+      "Genau eine Lösung",
+      "Die Lösungsmenge ist leer oder unendlich"
+    ],
+    "loesung": 2,
+    "erklaerung": "Voller Rang $n$ bedeutet Invertierbarkeit; damit existiert genau eine Lösung $x=A^{-1}b$.",
+    "gewichtung": 1,
+    "thema": "Voller Rang und Eindeutigkeit"
+  }
+]

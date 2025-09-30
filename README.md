@@ -198,7 +198,7 @@ Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage
 
 ### **Abschluss, Ausgabeformat und Generierung**
 
-Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die eine Liste von Frage-Objekten enthält. Jedes Objekt muss der folgenden Struktur und den nachstehenden Formatierungsregeln folgen.
+Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die direkt mit einer eckigen Klammer (`[`) beginnt und eine Liste von Frage-Objekten enthält. Alle Fragen müssen vollständig und prüfungsrelevant sein; erstelle keine Platzhalterfragen. Jedes Objekt muss der folgenden Struktur und den nachstehenden Formatierungsregeln folgen.
 
 #### **JSON-Struktur pro Frage:**
 
@@ -239,8 +239,9 @@ Beachte beim Erstellen der Fragen zusätzlich die folgenden **didaktischen Richt
 1.  **Keine Hinweise in der Frage:** Die Frage darf keine sprachlichen Hinweise enthalten, die auf die richtige Antwort schließen lassen.
 2.  **Plausible Distraktoren:** Alle falschen Antwortoptionen (Distraktoren) müssen plausibel und attraktiv sein. Sie sollten typische Missverständnisse oder häufige Fehler widerspiegeln.
 3.  **Einheitliche Antwortlänge:** Alle Antwortoptionen sollten eine ähnliche Länge und grammatikalische Struktur haben, um zu vermeiden, dass die längste oder detaillierteste Antwort automatisch als richtig erkannt wird.
-4.  **Vermeide Negationen:** Formuliere Fragen positiv (z.B. "Welche Aussage ist korrekt?") anstatt negativ ("Welche Aussage ist NICHT korrekt?").
-5.  **Zufällige Position der Lösung:** Die korrekte Antwort sollte zufällig unter den Optionen platziert werden und nicht immer an derselben Position (z.B. immer als dritte Option) stehen.
+4.  **Keine "längste Antwort"-Falle:** Die korrekte Antwort darf nicht systematisch die längste oder detaillierteste Option sein.
+5.  **Vermeide Negationen:** Formuliere Fragen positiv (z.B. "Welche Aussage ist korrekt?") anstatt negativ ("Welche Aussage ist NICHT korrekt?").
+6.  **Zufällige Position der Lösung:** Die korrekte Antwort sollte zufällig unter den Optionen platziert werden und nicht immer an derselben Position (z.B. immer als dritte Option) stehen.
 
 ---
 

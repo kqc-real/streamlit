@@ -1,0 +1,322 @@
+[
+  {
+    "frage": "1. Welche der folgenden Mengen bildet einen Vektorraum über ℝ?",
+    "optionen": [
+      "Die Menge aller Primzahlen",
+      "Die Menge aller natürlichen Zahlen",
+      "Die Menge der nichtnegativen ganzen Zahlen",
+      "Die Menge aller positiven reellen Zahlen",
+      "Die Menge aller Polynome vom Grad höchstens 2 mit Koeffizienten in ℝ"
+    ],
+    "loesung": 4,
+    "erklaerung": "Ein Vektorraum muss bezüglich Addition und Skalarmultiplikation abgeschlossen sein. Polynome mit Grad ≤ 2 erfüllen dies.",
+    "gewichtung": 1,
+    "thema": "Definition Vektorraum"
+  },
+  {
+    "frage": "2. Welche Bedingung ist notwendig, damit eine Menge von Vektoren linear unabhängig ist?",
+    "optionen": [
+      "Keine nichttriviale Linearkombination der Vektoren ergibt den Nullvektor.",
+      "Die Vektoren müssen orthogonal sein.",
+      "Alle Vektoren müssen die gleiche Länge haben.",
+      "Es darf nur ein Vektor in der Menge enthalten sein.",
+      "Alle Vektoren müssen normiert sein."
+    ],
+    "loesung": 0,
+    "erklaerung": "Linear unabhängig bedeutet, dass nur die triviale Linearkombination =0 gilt.",
+    "gewichtung": 2,
+    "thema": "Lineare Unabhängigkeit",
+    "extended_explanation": {
+      "title": "Hintergrund Lineare Unabhängigkeit",
+      "content": "Formal: Vektoren v1,…,vn ∈ V sind linear unabhängig, wenn aus $a_1v_1+…+a_nv_n=0$ stets $a_1=…=a_n=0$ folgt."
+    }
+  },
+  {
+    "frage": "3. Welche Aussage über die Dimension eines Vektorraums ist korrekt?",
+    "optionen": [
+      "Die Dimension ist die Anzahl der Vektoren einer Basis.",
+      "Die Dimension ist die Länge der längsten Vektoren.",
+      "Die Dimension ist immer gleich 3.",
+      "Die Dimension hängt nur von der Norm ab.",
+      "Die Dimension entspricht der Anzahl aller Vektoren im Raum."
+    ],
+    "loesung": 0,
+    "erklaerung": "Die Dimension eines Vektorraums ist die Kardinalität einer Basis.",
+    "gewichtung": 1,
+    "thema": "Basis und Dimension"
+  },
+  {
+    "frage": "4. Gegeben seien die Vektoren $v_1=(1,0,0)$, $v_2=(0,1,0)$, $v_3=(1,1,0)$ in ℝ³. Welche Aussage trifft zu?",
+    "optionen": [
+      "Die Vektoren sind linear abhängig.",
+      "Die Vektoren sind linear unabhängig.",
+      "Die Vektoren sind orthogonal.",
+      "Die Vektoren spannen den gesamten ℝ³ auf.",
+      "Die Vektoren bilden eine Basis von ℝ³."
+    ],
+    "loesung": 0,
+    "erklaerung": "Da $v_3 = v_1 + v_2$, sind die Vektoren linear abhängig.",
+    "gewichtung": 2,
+    "thema": "Lineare Abhängigkeit",
+    "extended_explanation": {
+      "title": "Herleitung",
+      "content": "Die Bedingung $a_1v_1 + a_2v_2 + a_3v_3 = 0$ hat nicht nur die triviale Lösung, da $(-1)(1,0,0)+(-1)(0,1,0)+(1)(1,1,0) = 0$."
+    }
+  },
+  {
+    "frage": "5. Welche Abbildung ist linear?",
+    "optionen": [
+      "f(x,y) = (x², y)",
+      "f(x,y) = (sin(x), y)",
+      "f(x,y) = (x+1, y)",
+      "f(x,y) = (2x, 3y)",
+      "f(x,y) = (x, y, 1)"
+    ],
+    "loesung": 3,
+    "erklaerung": "Lineare Abbildungen erfüllen f(u+v)=f(u)+f(v) und f(αu)=αf(u).",
+    "gewichtung": 1,
+    "thema": "Lineare Abbildungen"
+  },
+  {
+    "frage": "6. Wie viele Vektoren enthält eine Basis von ℝ⁴?",
+    "optionen": [
+      "5",
+      "3",
+      "2",
+      "4",
+      "1"
+    ],
+    "loesung": 3,
+    "erklaerung": "Die Dimension von ℝ⁴ ist 4, daher besteht jede Basis aus genau 4 Vektoren.",
+    "gewichtung": 1,
+    "thema": "Basis und Dimension"
+  },
+  {
+    "frage": "7. Welche Bedingung erfüllt ein Unterraum U ⊆ V?",
+    "optionen": [
+      "U enthält mindestens einen Vektor.",
+      "U ist abgeschlossen unter Addition und Skalarmultiplikation.",
+      "U ist orthogonal zu V.",
+      "U enthält alle Einheitsvektoren.",
+      "U enthält den Nullvektor nicht."
+    ],
+    "loesung": 1,
+    "erklaerung": "Ein Unterraum muss abgeschlossen unter Addition und Skalarmultiplikation sein und den Nullvektor enthalten.",
+    "gewichtung": 2,
+    "thema": "Unterräume",
+    "extended_explanation": {
+      "title": "Erklärung Unterräume",
+      "content": "Wenn $u,v ∈ U$ und $α∈ℝ$, dann gilt $u+v ∈ U$ und $αu ∈ U$. Außerdem gilt $0 ∈ U$."
+    }
+  },
+  {
+    "frage": "8. Welche Aussage über den Kern (Nullraum) einer linearen Abbildung ist korrekt?",
+    "optionen": [
+      "Der Kern ist ein Unterraum des Zielraums.",
+      "Der Kern ist immer eindimensional.",
+      "Der Kern ist nur bei injektiven Abbildungen definiert.",
+      "Der Kern enthält niemals den Nullvektor.",
+      "Der Kern ist ein Unterraum des Definitionsraums."
+    ],
+    "loesung": 4,
+    "erklaerung": "Der Kern ist die Menge aller Vektoren, die auf 0 abgebildet werden, und bildet stets einen Unterraum.",
+    "gewichtung": 2,
+    "thema": "Lineare Abbildungen",
+    "extended_explanation": {
+      "title": "Zusatz Kern",
+      "content": "Sei $f:V→W$ linear, dann ist $Ker(f)={v∈V|f(v)=0}$ ein Unterraum von V."
+    }
+  },
+  {
+    "frage": "9. Was gilt für die Summe zweier linearer Abbildungen f und g?",
+    "optionen": [
+      "f+g ist nur linear, wenn f injektiv ist.",
+      "f+g ist nur linear, wenn f oder g die Nullabbildung ist.",
+      "f+g ist nie linear.",
+      "f+g ist nur linear, wenn f und g identisch sind.",
+      "Auch f+g ist linear."
+    ],
+    "loesung": 4,
+    "erklaerung": "Lineare Abbildungen sind abgeschlossen unter Addition und Skalarmultiplikation.",
+    "gewichtung": 1,
+    "thema": "Lineare Abbildungen"
+  },
+  {
+    "frage": "10. Welche Aussage über die lineare Hülle einer Menge von Vektoren ist korrekt?",
+    "optionen": [
+      "Die lineare Hülle ist stets eindimensional.",
+      "Die lineare Hülle ist die Menge aller Vektoren der gleichen Länge.",
+      "Die lineare Hülle ist der größte Unterraum in V.",
+      "Die lineare Hülle ist der kleinste Unterraum, der diese Vektoren enthält.",
+      "Die lineare Hülle enthält keine Linearkombinationen."
+    ],
+    "loesung": 3,
+    "erklaerung": "Die lineare Hülle span({v1,…,vn}) ist die Menge aller Linearkombinationen dieser Vektoren.",
+    "gewichtung": 2,
+    "thema": "Lineare Hülle",
+    "extended_explanation": {
+      "title": "Vertiefung Lineare Hülle",
+      "content": "span({v1,…,vn}) = {a1v1+…+anvn | ai ∈ ℝ}. Dies ist stets ein Unterraum."
+    }
+  },
+  {
+    "frage": "11. Welche Eigenschaft haben Basen in einem Vektorraum gemeinsam?",
+    "optionen": [
+      "Basen enthalten stets orthogonale Vektoren.",
+      "Basen enthalten den Nullvektor.",
+      "Manche Basen sind größer als andere.",
+      "Alle Basen haben gleich viele Vektoren.",
+      "Basen bestehen immer aus Einheitsvektoren."
+    ],
+    "loesung": 3,
+    "erklaerung": "Die Anzahl der Vektoren in einer Basis entspricht der Dimension und ist eindeutig.",
+    "gewichtung": 1,
+    "thema": "Basis und Dimension"
+  },
+  {
+    "frage": "12. Welche Aussage über eine injektive lineare Abbildung f: V→W ist korrekt?",
+    "optionen": [
+      "f ist immer surjektiv.",
+      "f ist keine lineare Abbildung.",
+      "Das Bild von f ist trivial.",
+      "Der Kern von f ist gleich V.",
+      "Der Kern von f besteht nur aus dem Nullvektor."
+    ],
+    "loesung": 4,
+    "erklaerung": "Eine lineare Abbildung ist injektiv genau dann, wenn ihr Kern = {0} ist.",
+    "gewichtung": 2,
+    "thema": "Lineare Abbildungen",
+    "extended_explanation": {
+      "title": "Zusatz Injektivität",
+      "content": "f ist injektiv ⇔ Ker(f) = {0}."
+    }
+  },
+  {
+    "frage": "13. Welche Aussage über die Dimension einer linearen Abbildung f: V→W ist korrekt?",
+    "optionen": [
+      "Es gilt dim(W) = dim(Ker(f)) + dim(Bild(f)).",
+      "Es gilt dim(V) = dim(W) + dim(Ker(f)).",
+      "Es gilt dim(Ker(f)) = dim(Bild(f)).",
+      "Es gilt dim(V) = dim(Ker(f)) + dim(Bild(f)).",
+      "Es gilt dim(V) = dim(W)."
+    ],
+    "loesung": 3,
+    "erklaerung": "Dies ist der Rang-Nullitätssatz (Dimensionssatz).",
+    "gewichtung": 3,
+    "thema": "Rang-Nullität",
+    "extended_explanation": {
+      "title": "Rang-Nullitätssatz",
+      "content": "Für f: V→W linear gilt: dim(V) = dim(Ker(f)) + dim(Im(f))."
+    }
+  },
+  {
+    "frage": "14. Welche Eigenschaft beschreibt lineare Unabhängigkeit am besten?",
+    "optionen": [
+      "Keine Linearkombination außer der trivialen ergibt den Nullvektor.",
+      "Alle Vektoren sind orthogonal.",
+      "Es gibt mindestens zwei Vektoren in der Menge.",
+      "Alle Vektoren haben die gleiche Norm.",
+      "Die Vektoren spannen den gesamten Raum auf."
+    ],
+    "loesung": 0,
+    "erklaerung": "Linear unabhängig bedeutet: $a_1v_1+…+a_nv_n=0$ impliziert $a_1=…=a_n=0$.",
+    "gewichtung": 1,
+    "thema": "Lineare Unabhängigkeit"
+  },
+  {
+    "frage": "15. Was gilt für zwei verschiedene Basen eines Vektorraums?",
+    "optionen": [
+      "Basen müssen orthogonal sein.",
+      "Basen unterscheiden sich in der Anzahl der Vektoren.",
+      "Eine Basis kann mehr Vektoren enthalten als die andere.",
+      "Basen bestehen immer aus den gleichen Vektoren.",
+      "Beide enthalten gleich viele Vektoren."
+    ],
+    "loesung": 4,
+    "erklaerung": "Die Anzahl der Basisvektoren ist invariant und definiert die Dimension.",
+    "gewichtung": 1,
+    "thema": "Basis und Dimension"
+  },
+  {
+    "frage": "16. Gegeben sei V=ℝ³ und die Vektoren v1=(1,0,0), v2=(0,1,0), v3=(0,0,1). Welche Aussage ist korrekt?",
+    "optionen": [
+      "Sie sind nicht normiert.",
+      "Sie bilden eine Basis von ℝ³.",
+      "Sie spannen nur eine Gerade auf.",
+      "Sie spannen nur eine Ebene auf.",
+      "Sie sind linear abhängig."
+    ],
+    "loesung": 1,
+    "erklaerung": "Die drei Einheitsvektoren sind linear unabhängig und spannen den gesamten Raum auf.",
+    "gewichtung": 1,
+    "thema": "Basis in ℝ³"
+  },
+  {
+    "frage": "17. Welche Aussage über die Dimension des Bildes einer linearen Abbildung ist korrekt?",
+    "optionen": [
+      "Sie ist immer null.",
+      "Sie entspricht immer der Dimension von W.",
+      "Sie ist gleich der Dimension des Kerns.",
+      "Sie entspricht immer der Dimension von V.",
+      "Sie entspricht dem Rang der Abbildung."
+    ],
+    "loesung": 4,
+    "erklaerung": "Der Rang ist die Dimension des Bildraums.",
+    "gewichtung": 2,
+    "thema": "Rang einer Abbildung",
+    "extended_explanation": {
+      "title": "Rang",
+      "content": "Rang(f) = dim(Im(f)), wobei Im(f) die Bildmenge ist."
+    }
+  },
+  {
+    "frage": "18. Welche Eigenschaft hat der Nullvektor in einem Vektorraum?",
+    "optionen": [
+      "Er hat die Norm 1.",
+      "Er ist nicht Teil des Vektorraums.",
+      "Er ist das neutrale Element der Skalarmultiplikation.",
+      "Er ist das neutrale Element der Addition.",
+      "Er hat keine besonderen Eigenschaften."
+    ],
+    "loesung": 3,
+    "erklaerung": "0+v=v für alle v. Damit ist 0 das neutrale Element der Addition.",
+    "gewichtung": 1,
+    "thema": "Vektorraumaxiome"
+  },
+  {
+    "frage": "19. Welche Aussage gilt für die Koordinaten eines Vektors bezüglich einer Basis?",
+    "optionen": [
+      "Sie sind beliebig wählbar.",
+      "Sie hängen nur von der Länge des Vektors ab.",
+      "Sie existieren nur für orthogonale Basen.",
+      "Sie sind immer ganzzahlig.",
+      "Sie sind eindeutig bestimmt."
+    ],
+    "loesung": 4,
+    "erklaerung": "Die Darstellung eines Vektors als Linearkombination von Basisvektoren ist eindeutig.",
+    "gewichtung": 2,
+    "thema": "Koordinaten",
+    "extended_explanation": {
+      "title": "Koordinatendarstellung",
+      "content": "Ist B={b1,…,bn} eine Basis, dann existiert für v∈V genau ein Tupel (a1,…,an) mit v=∑ai bi."
+    }
+  },
+  {
+    "frage": "20. Welche Aussage über das Skalarprodukt gilt?",
+    "optionen": [
+      "Es ist bilinear, symmetrisch und positiv definit.",
+      "Es ist linear und antisymmetrisch.",
+      "Es ist surjektiv und injektiv.",
+      "Es ist multilinear und negativ definit.",
+      "Es ist invariant und normierend."
+    ],
+    "loesung": 0,
+    "erklaerung": "Das Standardskalarprodukt erfüllt die Eigenschaften: Linearität, Symmetrie, positive Definitheit.",
+    "gewichtung": 3,
+    "thema": "Skalarprodukt",
+    "extended_explanation": {
+      "title": "Vertiefung Skalarprodukt",
+      "content": "Für $⟨u,v⟩=∑u_iv_i$ gilt: $⟨u,v⟩=⟨v,u⟩$, $⟨u,u⟩≥0$, und $⟨u,u⟩=0⇔u=0$."
+    }
+  }
+]
