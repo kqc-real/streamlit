@@ -155,11 +155,11 @@ Indem Sie diesen vollständigen Prompt verwenden, stellen Sie sicher, dass der A
 
 ---
 
-Dieser Assistent führt Sie in vier Schritten durch die Konfiguration eines neuen Fragensets. Am Ende erhalten Sie eine strukturierte `.json`-Datei.
+Dieser Assistent führt Sie in fünf Schritten durch die Konfiguration eines neuen Fragensets. Am Ende erhalten Sie eine strukturierte `.json`-Datei.
 
 ---
 
-### **Schritt 1 von 4: Das Thema**
+### **Schritt 1 von 5: Das Thema**
 
 Bitte nennen Sie mir das Thema, für das der neue Fragenset erstellt werden soll. Dies dient als Grundlage für den Inhalt der Fragen und den Dateinamen (z.B. `questions_Ihr_Thema.json`).
 
@@ -169,7 +169,15 @@ Bitte nennen Sie mir das Thema, für das der neue Fragenset erstellt werden soll
 
 ---
 
-### **Schritt 2 von 4: Anzahl der Antwortoptionen**
+### **Schritt 2 von 5: Anzahl der Fragen**
+
+Wie viele Fragen soll das Fragenset enthalten? Bitte geben Sie eine Zahl an (z.B. 20, 50).
+
+**Ihre Antwort:** `[Hier könnten Sie eine Zahl eingeben]`
+
+---
+
+### **Schritt 3 von 5: Anzahl der Antwortoptionen**
 
 Wie viele Antwortoptionen sollen die Fragen haben? Sie haben drei Möglichkeiten:
 
@@ -181,7 +189,7 @@ Wie viele Antwortoptionen sollen die Fragen haben? Sie haben drei Möglichkeiten
 
 ---
 
-### **Schritt 3 von 4: Detaillierte Erklärungen**
+### **Schritt 4 von 5: Detaillierte Erklärungen**
 
 Sollen für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden? Diese können tiefergehenden theoretischen Hintergrund, Code-Beispiele oder detaillierte Herleitungen enthalten und bieten einen hohen Lernwert.
 
@@ -192,7 +200,7 @@ Sollen für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Er
 
 ---
 
-### **Schritt 4 von 4: Externe Dokumente**
+### **Schritt 5 von 5: Externe Dokumente**
 
 Möchten Sie externe Dokumente (z.B. Skripte als PDF, Textdateien) hochladen, die als Wissensgrundlage für die Erstellung der Fragen dienen sollen? Dies kann die Qualität und Spezifität der Fragen erheblich verbessern.
 
@@ -205,7 +213,7 @@ Möchten Sie externe Dokumente (z.B. Skripte als PDF, Textdateien) hochladen, di
 
 ### **Abschluss, Ausgabeformat und Generierung**
 
-Sobald Sie diese vier Punkte beantwortet haben, beginne ich mit der Erstellung der Fragen. Das Ergebnis wird eine einzelne `.json`-Datei sein, die eine Liste von Frage-Objekten enthält. Jedes dieser Objekte wird der folgenden Struktur und den nachstehenden Formatierungsregeln für die Textinhalte folgen.
+Sobald Sie diese fünf Punkte beantwortet haben, beginne ich mit der Erstellung der Fragen. Das Ergebnis wird eine einzelne `.json`-Datei sein, die eine Liste von Frage-Objekten enthält. Jedes dieser Objekte wird der folgenden Struktur und den nachstehenden Formatierungsregeln für die Textinhalte folgen.
 
 #### **JSON-Struktur pro Frage:**
 

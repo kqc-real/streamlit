@@ -1,0 +1,88 @@
+[
+  {
+    "frage": "1. Was ist die korrekte Definition der Teilbarkeit für zwei ganze Zahlen `a` und `b` (mit `b ≠ 0`), ausgedrückt als `b|a`?",
+    "optionen": [
+      "Es gibt eine ganze Zahl `q`, sodass `a = bq` gilt.",
+      "Es gibt eine ganze Zahl `q`, sodass `b = aq` gilt.",
+      "Der Rest der Division `a/b` ist immer 1.",
+      "`a` ist ein Vielfaches von `b+1`.",
+      "`a` und `b` sind teilerfremd."
+    ],
+    "loesung": 0,
+    "erklaerung": "Gemäß Definition 4.9 im Skript teilt `b` die Zahl `a`, wenn `a` als ganzzahliges Vielfaches von `b` dargestellt werden kann, also `$a = bq$` für ein `q` aus der Menge der ganzen Zahlen `$\\mathbb{Z}$` gilt.",
+    "gewichtung": 1,
+    "thema": "Teilbarkeit"
+  },
+  {
+    "frage": "2. Auf welcher zentralen Eigenschaft basiert der Euklid'sche Algorithmus zur Berechnung des `ggt(a, b)` für den Fall `$a = bq + r$` mit `$0 < r < |b|$`?",
+    "optionen": [
+      "`ggt(a, b) = ggt(a, q)`",
+      "`ggt(a, b) = b`",
+      "`ggt(a, b) = ggt(b, r)`",
+      "`ggt(a, b) = ggt(a, r)`",
+      "`ggt(a, b) = q + r`"
+    ],
+    "loesung": 2,
+    "erklaerung": "Der Euklid'sche Algorithmus nutzt die fundamentale Eigenschaft aus Hilfssatz 4.13, dass der größte gemeinsame Teiler von `a` und `b` identisch ist mit dem größten gemeinsamen Teiler von `b` und dem Rest `r` der Division von `a` durch `b`. Dieser Schritt wird rekursiv wiederholt, bis der Rest 0 ist.",
+    "gewichtung": 2,
+    "thema": "Euklid'scher Algorithmus",
+    "extended_explanation": {
+      "title": "Herleitung der Rekursionsformel des ggt",
+      "content": "Sei `d` ein **beliebiger** gemeinsamer Teiler von `a` und `b`. Dann gilt `d|a` und `d|b`. Nach den Teilbarkeitsregeln (Satz 4.10) gilt dann auch `d|(a - bq)`. Da per Definition `$r = a - bq$` ist, ist `d` somit auch ein Teiler von `r`. Also ist jeder gemeinsame Teiler von `a` und `b` auch ein gemeinsamer Teiler von `b` und `r`.\n\nUmgekehrt: Sei `d'` ein gemeinsamer Teiler von `b` und `r`. Dann gilt `d'|b` und `d'|r`. Daraus folgt `d'|(bq + r)`. Da `$a = bq + r$` ist, ist `d'` auch ein Teiler von `a`. Somit ist jeder gemeinsame Teiler von `b` und `r` auch ein gemeinsamer Teiler von `a` und `b`.\n\nDa die Mengen der gemeinsamen Teiler von `(a, b)` und `(b, r)` identisch sind, müssen auch ihre **größten** Elemente, die größten gemeinsamen Teiler, identisch sein."
+    }
+  },
+  {
+    "frage": "3. Welche Bedingung muss für ein Element `a` aus dem Restklassenring `$\\mathbb{Z}/n\\mathbb{Z}$` erfüllt sein, damit es ein **multiplikatives Inverses** besitzt?",
+    "optionen": [
+      "`a` muss eine Primzahl sein.",
+      "`n` muss eine Primzahl sein.",
+      "`a` und `n` müssen teilerfremd sein, also `ggt(a, n) = 1`.",
+      "`a` muss kleiner als `n/2` sein.",
+      "`a` muss ein Teiler von `n` sein."
+    ],
+    "loesung": 2,
+    "erklaerung": "Laut Satz 5.17 besitzt ein Element `a` in `$\\mathbb{Z}/n\\mathbb{Z}$` genau dann ein multiplikatives Inverses, wenn `a` und `n` **teilerfremd** sind, d.h. ihr größter gemeinsamer Teiler `ggt(a, n)` gleich 1 ist. Dies ist eine zentrale Eigenschaft für die Konstruktion endlicher Körper.",
+    "gewichtung": 3,
+    "thema": "Restklassenringe",
+    "extended_explanation": {
+      "title": "Anwendung des erweiterten Euklid'schen Algorithmus",
+      "content": "Die Existenz des multiplikativen Inversen `a⁻¹` bedeutet, es muss eine ganze Zahl `x` geben, sodass `$ax \\equiv 1 \\mod n$` gilt. Dies ist äquivalent zur Existenz einer ganzen Zahl `y`, für die `$ax - 1 = yn$` gilt, oder umgeformt: `$ax - yn = 1$`.\n\nNach dem **erweiterten Euklid'schen Algorithmus** (Satz 4.15) hat die diophantische Gleichung `$\\alpha a + \\beta n = d$` mit `$d = ggt(a, n)$` immer ganzzahlige Lösungen für `$\\alpha$` und `$\\beta$`. Ein multiplikatives Inverses existiert also genau dann, wenn `$ggt(a, n)$` die `1` teilen kann, was nur für `$ggt(a, n) = 1$` der Fall ist. In diesem Fall liefert der Algorithmus `$\\alpha a + \\beta n = 1$`, woraus `$\\alpha a \\equiv 1 \\mod n$` folgt. Das gesuchte Inverse ist dann `$\\alpha \\mod n$`."
+    }
+  },
+  {
+    "frage": "4. Wie lautet die rekursive Berechnungsformel für den Binomialkoeffizienten `$\\binom{n}{k}$` für den Fall `$0 < k < n$`?",
+    "optionen": [
+      "`$\\binom{n}{k} = n \\cdot \\binom{n-1}{k-1}$`",
+      "`$\\binom{n}{k} = \\binom{n}{k-1} + \\binom{n-1}{k}$`",
+      "`$\\binom{n}{k} = \\binom{n-1}{k} + \\binom{n-1}{k-1}$`",
+      "`$\\binom{n}{k} = \\frac{n!}{k!}$`",
+      "`$\\binom{n}{k} = \\binom{n-1}{k-1} - \\binom{n-1}{k}$`"
+    ],
+    "loesung": 2,
+    "erklaerung": "Diese Formel (Satz 4.4) ist die Grundlage des **Pascal'schen Dreiecks**. Sie besagt, dass die Anzahl der k-elementigen Teilmengen einer n-elementigen Menge sich aus zwei disjunkten Fällen zusammensetzt: Die Teilmengen, die ein bestimmtes Element nicht enthalten (`$\\binom{n-1}{k}$`), und die Teilmengen, die dieses Element enthalten (`$\\binom{n-1}{k-1}$`).",
+    "gewichtung": 2,
+    "thema": "Kombinatorik",
+    "extended_explanation": {
+      "title": "Kombinatorische Herleitung der Rekursionsformel",
+      "content": "Sei `$M = \\{x_1, \\dots, x_n\\}$` eine Menge mit `n` Elementen. Wir wollen die Anzahl der `$k$`-elementigen Teilmengen bestimmen. Man kann diese Teilmengen in zwei disjunkte Gruppen aufteilen:\n\n1.  **Teilmengen, die das Element `$x_n$` nicht enthalten:** Dies sind exakt die `$k$`-elementigen Teilmengen der um `$x_n$` reduzierten Menge `$\\{x_1, \\dots, x_{n-1}\\}$`. Davon gibt es per Definition `$\\binom{n-1}{k}$` Stück.\n2.  **Teilmengen, die das Element `$x_n$` enthalten:** Diese bestehen aus `$x_n$` und einer `$(k-1)`-elementigen Teilmenge der Menge `$\\{x_1, \\dots, x_{n-1}\\}$`. Davon gibt es `$\\binom{n-1}{k-1}$` Stück.\n\nDie Gesamtanzahl ist die Summe der Anzahlen aus diesen beiden sich ausschließenden Fällen, woraus die Rekursionsformel `$\\binom{n}{k} = \\binom{n-1}{k} + \\binom{n-1}{k-1}$` unmittelbar folgt."
+    }
+  },
+  {
+    "frage": "5. Was besagt der 'kleine Fermat'sche Satz' für eine Primzahl `p` und eine ganze Zahl `a`, die kein Vielfaches von `p` ist?",
+    "optionen": [
+      "`$a^p \\equiv a \\mod p$`",
+      "`$a^{p-1} \\equiv 1 \\mod p$`",
+      "`$a^p \\equiv 1 \\mod p$`",
+      "`$a^{p-1} \\equiv a \\mod p$`",
+      "`$a^p \\equiv p \\mod a$`"
+    ],
+    "loesung": 1,
+    "erklaerung": "Der kleine Fermat'sche Satz (Satz 5.20a) ist ein zentrales Ergebnis der Zahlentheorie. Er besagt, dass für eine Primzahl `p` und eine ganze Zahl `a`, die nicht von `p` geteilt wird, die Potenz `$a^{p-1}$` bei Division durch `p` immer den Rest 1 lässt. Eine äquivalente Formulierung, die auch für Vielfache von `p` gilt, ist `$a^p \\equiv a \\mod p$`.",
+    "gewichtung": 3,
+    "thema": "Endliche Körper",
+    "extended_explanation": {
+      "title": "Beweisskizze in `GF(p)`",
+      "content": "Man betrachtet die von Null verschiedenen Elemente des Körpers `GF(p)`, also die Menge `$M = \\{1, 2, \\dots, p-1\\}`. Für ein beliebiges `$a \\in M$` ist die Abbildung `$x \\mapsto ax$` eine Permutation von `M`, da in einem Körper aus `$ax = ay$` stets `$x=y$` folgt. Multipliziert man alle Elemente von `M` miteinander, erhält man dasselbe Ergebnis wie bei der Multiplikation aller Elemente der Menge `$\\{1a, 2a, \\dots, (p-1)a\\}`.\n\nDaraus folgt die Gleichung im Körper `GF(p)`:\n`$$(p-1)! \\equiv (1a)(2a)\\dots((p-1)a) \\equiv (p-1)! \\cdot a^{p-1}$$`\nDa `$(p-1)!$` in `GF(p)` nicht Null ist, kann man dadurch teilen (bzw. mit dem Inversen multiplizieren) und erhält die Aussage des Satzes:\n`$$a^{p-1} \\equiv 1$$`"
+    }
+  }
+]
