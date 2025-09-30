@@ -303,7 +303,7 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
             index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
             disabled=is_answered,
             label_visibility="collapsed",
-            format_func=lambda x: optionen[x],
+            format_func=lambda x: smart_quotes_de(optionen[x]),
         )
 
         antwort = optionen[selected_index] if selected_index is not None else None
