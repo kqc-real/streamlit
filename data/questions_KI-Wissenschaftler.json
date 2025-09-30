@@ -1,6 +1,6 @@
 [
   {
-    "frage": "1. Wofür ist Geoffrey Hinton, oft als 'Pate der KI' bezeichnet, am bekanntesten?",
+    "frage": "1. Wofür ist Geoffrey Hinton, oft als `Pate der KI` bezeichnet, am bekanntesten?",
     "optionen": [
       "Die Erfindung der Programmiersprache Lisp.",
       "Seine Pionierarbeit bei neuronalen Netzen und Deep Learning, insbesondere bei Backpropagation.",
@@ -34,7 +34,7 @@
       "Quantencomputing."
     ],
     "loesung": 1,
-    "erklaerung": "Yoshua Bengio, einer der drei 'Paten der KI', leistete fundamentale Beiträge zu Deep-Learning-Techniken, insbesondere im Bereich der Verarbeitung natürlicher Sprache (NLP) durch die Entwicklung von neuronalen Sprachmodellen und Aufmerksamkeitsmechanismen.",
+    "erklaerung": "Yoshua Bengio, einer der drei `Paten der KI`, leistete fundamentale Beiträge zu Deep-Learning-Techniken, insbesondere im Bereich der Verarbeitung natürlicher Sprache (NLP) durch die Entwicklung von neuronalen Sprachmodellen und Aufmerksamkeitsmechanismen.",
     "gewichtung": 2,
     "thema": "Deep Learning"
   },
@@ -60,7 +60,7 @@
       "Marvin Minsky"
     ],
     "loesung": 2,
-    "erklaerung": "John McCarthy prägte 1955 den Begriff 'Artificial Intelligence' und war einer der Hauptorganisatoren der Dartmouth Conference, die als Geburtsstunde der KI als eigenständiges Forschungsfeld gilt. Er erfand auch die Programmiersprache Lisp.",
+    "erklaerung": "John McCarthy prägte 1955 den Begriff `Artificial Intelligence` und war einer der Hauptorganisatoren der Dartmouth Conference, die als Geburtsstunde der KI als eigenständiges Forschungsfeld gilt. Er erfand auch die Programmiersprache Lisp.",
     "gewichtung": 2,
     "thema": "Pioniere der KI"
   },
@@ -164,7 +164,7 @@
       "Norbert Wiener"
     ],
     "loesung": 0,
-    "erklaerung": "Frank Rosenblatt entwickelte 1957 das Perzeptron, einen Algorithmus für die überwachte Klassifizierung. Es war eines der ersten künstlichen neuronalen Netze und legte den Grundstein für die spätere Forschung in diesem Bereich.",
+    "erklaerung": "Frank Rosenblatt entwickelte 1957 das `Perzeptron`, einen Algorithmus für die überwachte Klassifizierung. Es war eines der ersten künstlichen neuronalen Netze und legte den Grundstein für die spätere Forschung in diesem Bereich.",
     "gewichtung": 3,
     "thema": "Pioniere der KI"
   },
@@ -234,7 +234,7 @@
     "thema": "Pioniere der KI"
   },
   {
-    "frage": "19. Wer gilt als 'Vater der Informationstheorie' und legte damit die mathematischen Grundlagen für die digitale Kommunikation und Datenkompression?",
+    "frage": "19. Wer gilt als `Vater der Informationstheorie` und legte damit die mathematischen Grundlagen für die digitale Kommunikation und Datenkompression?",
     "optionen": [
       "John von Neumann",
       "Alan Turing",
@@ -255,7 +255,7 @@
       "Max Planck"
     ],
     "loesung": 2,
-    "erklaerung": "Herbert A. Simon, ein Ökonom und Kognitionswissenschaftler, war zusammen mit Allen Newell eine Schlüsselfigur der frühen KI. Ihr Programm 'Logic Theorist' (1956) konnte mathematische Theoreme beweisen und gilt als eines der ersten Programme der künstlichen Intelligenz.",
+    "erklaerung": "Herbert A. Simon, ein Ökonom und Kognitionswissenschaftler, war zusammen mit Allen Newell eine Schlüsselfigur der frühen KI. Ihr Programm `Logic Theorist` (1956) konnte mathematische Theoreme beweisen und gilt als eines der ersten Programme der künstlichen Intelligenz.",
     "gewichtung": 3,
     "thema": "Pioniere der KI"
   },
@@ -299,7 +299,7 @@
     "thema": "Anwendungen der KI"
   },
   {
-    "frage": "24. Welcher Turing-Preisträger ist bekannt für seine Arbeit an der Von-Neumann-Architektur, die die Grundlage moderner Computer bildet, und für seine Beiträge zur Spieltheorie?",
+    "frage": "24. Welcher Turing-Preisträger ist bekannt für seine Arbeit an der `Von-Neumann-Architektur`, die die Grundlage moderner Computer bildet, und für seine Beiträge zur Spieltheorie?",
     "optionen": [
       "Alan Turing",
       "John von Neumann",
@@ -377,7 +377,7 @@
     "thema": "Deep Learning"
   },
   {
-    "frage": "30. Wer gilt als einer der Väter der Support Vector Machines (SVMs)?",
+    "frage": "30. Wer gilt als einer der Väter der `Support Vector Machines (SVMs)`?",
     "optionen": [
       "Vladimir Vapnik",
       "Geoffrey Hinton",
