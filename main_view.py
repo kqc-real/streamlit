@@ -470,8 +470,8 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     ist_richtig = gegebene_antwort == richtige_antwort_text
 
     # Formatiere die Antworten, um Markdown (wie `...`) in HTML umzuwandeln
-    formatted_gegebene_antwort = format_explanation_text(gegebene_antwort)
-    formatted_richtige_antwort = format_explanation_text(richtige_antwort_text)
+    formatted_gegebene_antwort = format_explanation_text(smart_quotes_de(gegebene_antwort))
+    formatted_richtige_antwort = format_explanation_text(smart_quotes_de(richtige_antwort_text))
 
     if ist_richtig:
         # Gimmick: Gestaffelte Belohnung für schwierige Fragen.
@@ -667,8 +667,8 @@ def render_review_mode(questions: list):
         ist_richtig = gegebene_antwort == richtige_antwort_text
 
         # Formatiere die Antworten, um Markdown (wie `...`) in HTML umzuwandeln
-        formatted_gegebene_antwort = format_explanation_text(str(gegebene_antwort)) if gegebene_antwort else "*(nicht beantwortet)*"
-        formatted_richtige_antwort = format_explanation_text(richtige_antwort_text)
+        formatted_gegebene_antwort = format_explanation_text(smart_quotes_de(str(gegebene_antwort))) if gegebene_antwort else "*(nicht beantwortet)*"
+        formatted_richtige_antwort = format_explanation_text(smart_quotes_de(richtige_antwort_text))
 
         # Filterlogik
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
