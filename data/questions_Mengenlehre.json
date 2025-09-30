@@ -1,0 +1,173 @@
+[
+  {
+    "frage": "1. Welche der folgenden Aussagen beschreibt korrekt die Definition einer Menge nach Georg Cantor?",
+    "optionen": [
+      "Eine Menge ist eine wohlgeordnete Liste von Objekten.",
+      "Eine Menge ist eine beliebige Zusammenfassung von bestimmten wohlunterschiedenen Objekten zu einem Ganzen.",
+      "Eine Menge ist eine unendliche Folge von Zahlen.",
+      "Eine Menge ist immer endlich und durch Zählen erfassbar."
+    ],
+    "loesung": 1,
+    "erklaerung": "Cantor definierte eine Menge als eine Zusammenfassung von bestimmten wohlunterschiedenen Objekten unserer Anschauung oder unseres Denkens zu einem Ganzen.",
+    "gewichtung": 1,
+    "thema": "Grundlagen der Mengenlehre",
+    "extended_explanation": {
+      "title": "Cantors Definition",
+      "content": "Georg Cantor (1845–1918) gilt als Begründer der modernen Mengenlehre. Seine Definition hebt die Idee hervor, dass Mengen eine abstrakte Zusammenfassung darstellen. Die Präzisierung dieses Begriffs führte später zu Paradoxien wie dem Russellschen Paradoxon."
+    }
+  },
+  {
+    "frage": "2. Welche Schreibweise stellt die Menge der natürlichen Zahlen korrekt dar?",
+    "optionen": [
+      "$\\mathbb{N} = \\{1, 2, 3, \\dots\\}$",
+      "$\\mathbb{N} = \\{0, 1, 2, 3, \\dots\\}$",
+      "$\\mathbb{N} = \\{-1, 0, 1, 2, \\dots\\}$",
+      "$\\mathbb{N} = \\{2, 4, 6, \\dots\\}$"
+    ],
+    "loesung": 0,
+    "erklaerung": "Im Lehrbuch beginnt die Menge der natürlichen Zahlen mit 1, nicht mit 0.",
+    "gewichtung": 1,
+    "thema": "Natürliche Zahlen",
+    "extended_explanation": {
+      "title": "Uneinheitliche Definition",
+      "content": "In der Literatur ist die Definition nicht einheitlich. Häufig wird $\\mathbb{N}_0$ für $\\{0, 1, 2, \\dots\\}$ verwendet. Im Lehrbuch von Hartmann beginnt $\\mathbb{N}$ jedoch mit 1."
+    }
+  },
+  {
+    "frage": "3. Welche der folgenden Mengen ist die leere Menge?",
+    "optionen": [
+      "$\\{\\}$",
+      "$\\emptyset$",
+      "$\\{0\\}$",
+      "$\\{\\emptyset\\}$"
+    ],
+    "loesung": 1,
+    "erklaerung": "Die leere Menge enthält keine Elemente und wird mit $\\emptyset$ (oder $\\{\\}$) bezeichnet.",
+    "gewichtung": 1,
+    "thema": "Leere Menge",
+    "extended_explanation": {
+      "title": "Unterscheidung $\\emptyset$ und $\\{\\emptyset\\}$",
+      "content": "Die Menge $\\{\\emptyset\\}$ enthält ein Element, nämlich die leere Menge selbst. $\\emptyset$ hingegen enthält kein Element."
+    }
+  },
+  {
+    "frage": "4. Welche Aussage zur Potenzmenge $P(M)$ ist korrekt?",
+    "optionen": [
+      "$P(M)$ enthält alle Elemente von $M$.",
+      "$P(M)$ ist immer unendlich.",
+      "$P(M)$ ist die Menge aller Teilmengen von M.",
+      "$P(M)$ ist identisch mit $M$, wenn $M$ endlich ist."
+    ],
+    "loesung": 2,
+    "erklaerung": "Die Potenzmenge einer Menge $M$ ist die Menge aller Teilmengen von $M$.",
+    "gewichtung": 2,
+    "thema": "Potenzmengen",
+    "extended_explanation": {
+      "title": "Beispiel",
+      "content": "Ist $M = \\{1, 2\\}$, dann gilt $P(M) = \\{\\emptyset, \\{1\\}, \\{2\\}, \\{1,2\\}\\}$. Für eine endliche Menge $M$ mit $n$ Elementen enthält $P(M)$ genau $2^n$ Elemente."
+    }
+  },
+  {
+    "frage": "5. Welche der folgenden Aussagen über Mengenoperationen ist falsch?",
+    "optionen": [
+      "$M \\cap N = N \\cap M$",
+      "$M \\cup N = N \\cup M$",
+      "$M \\cap (N \\cup S) = (M \\cap N) \\cup (M \\cap S)$",
+      "$M \\cup (N \\cap S) = (M \\cup N) \\cap (M \\cup S)$",
+      "$M \\cap \\emptyset = M$"
+    ],
+    "loesung": 4,
+    "erklaerung": "Die Aussage $M \\cap \\emptyset = M$ ist falsch, korrekt ist $M \\cap \\emptyset = \\emptyset$.",
+    "gewichtung": 2,
+    "thema": "Rechenregeln",
+    "extended_explanation": {
+      "title": "Mengenoperationen",
+      "content": "Die Gesetze für Vereinigung und Durchschnitt sind kommutativ, assoziativ und distributiv. Besondere Beachtung verdienen die Regeln mit der leeren Menge: $M \\cup \\emptyset = M$ und $M \\cap \\emptyset = \\emptyset$."
+    }
+  },
+  {
+    "frage": "6. Welche Eigenschaft beschreibt den Unterschied zwischen einer Teilmenge und einer echten Teilmenge?",
+    "optionen": [
+      "Jede Teilmenge ist ungleich der Ausgangsmenge.",
+      "Eine echte Teilmenge enthält mindestens ein Element nicht aus der Obermenge.",
+      "Eine Teilmenge enthält nur Elemente, die auch in der Obermenge enthalten sind.",
+      "Eine echte Teilmenge ist immer die leere Menge."
+    ],
+    "loesung": 2,
+    "erklaerung": "Eine Teilmenge enthält ausschließlich Elemente der Obermenge. Eine echte Teilmenge ist zusätzlich ungleich der Obermenge.",
+    "gewichtung": 1,
+    "thema": "Teilmengen",
+    "extended_explanation": {
+      "title": "Notation",
+      "content": "Man schreibt $M \\subseteq N$ für 'M ist Teilmenge von N'. Gilt $M \\subseteq N$ und $M \\neq N$, so schreibt man $M \\subset N$ für 'M ist echte Teilmenge von N'."
+    }
+  },
+  {
+    "frage": "7. Welche Definition beschreibt korrekt das kartesische Produkt $M \\times N$?",
+    "optionen": [
+      "Die Menge aller Summen von Elementen aus $M$ und $N$.",
+      "Die Menge aller Produkte von Elementen aus $M$ und $N$.",
+      "Die Menge aller geordneten Paare $(x,y)$ mit $x \\in M$ und $y \\in N$.",
+      "Die Menge aller Teilmengen von $M$ und $N$."
+    ],
+    "loesung": 2,
+    "erklaerung": "Das kartesische Produkt $M \\times N$ ist die Menge aller geordneten Paare $(x,y)$ mit $x$ aus $M$ und $y$ aus $N$.",
+    "gewichtung": 2,
+    "thema": "Kartesisches Produkt",
+    "extended_explanation": {
+      "title": "Beispiel",
+      "content": "Seien $M = \\{1,2\\}, N = \\{a,b\\}$. Dann gilt $M \\times N = \\{(1,a), (1,b), (2,a), (2,b)\\}$."
+    }
+  },
+  {
+    "frage": "8. Welche Aussage zu disjunkten Mengen ist korrekt?",
+    "optionen": [
+      "Disjunkte Mengen enthalten genau ein gemeinsames Element.",
+      "Disjunkte Mengen haben keine gemeinsamen Elemente.",
+      "Disjunkte Mengen sind identisch.",
+      "Disjunkte Mengen müssen unendlich sein."
+    ],
+    "loesung": 1,
+    "erklaerung": "Zwei Mengen heißen disjunkt, wenn ihr Durchschnitt die leere Menge ist.",
+    "gewichtung": 1,
+    "thema": "Disjunkte Mengen",
+    "extended_explanation": {
+      "title": "Beispiel",
+      "content": "Seien $M = \\{1,2,3\\}$ und $N = \\{4,5\\}$. Dann gilt $M \\cap N = \\emptyset$, also sind $M$ und $N$ disjunkt."
+    }
+  },
+  {
+    "frage": "9. Welche der folgenden Aussagen zur Komplementbildung ist korrekt?",
+    "optionen": [
+      "Das Komplement einer Menge $M$ ist immer unendlich.",
+      "Das Komplement hängt von der gewählten Grundmenge ab.",
+      "Das Komplement einer Menge ist stets Teilmenge von $M$.",
+      "Das Komplement einer Menge enthält auch die Elemente von $M$."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das Komplement wird relativ zu einer Grundmenge definiert und hängt von dieser Wahl ab.",
+    "gewichtung": 2,
+    "thema": "Komplement",
+    "extended_explanation": {
+      "title": "Grundmenge",
+      "content": "Wenn die Grundmenge $G = \\mathbb{R}$ ist und $M = (0,1)$, dann ist das Komplement $M^c = (-\\infty,0] \\cup [1,\\infty)$. Die Definition macht nur Sinn im Bezug auf eine festgelegte Grundmenge."
+    }
+  },
+  {
+    "frage": "10. Welche Eigenschaft gilt für das Distributivgesetz bei Mengenoperationen?",
+    "optionen": [
+      "Es gilt nur für endliche Mengen.",
+      "Es gilt sowohl für Durchschnitt als auch für Vereinigung, und zwar in beide Richtungen.",
+      "Es gilt nur für Durchschnitt, nicht für Vereinigung.",
+      "Es ist bei Mengen nicht definiert."
+    ],
+    "loesung": 1,
+    "erklaerung": "Das Distributivgesetz gilt für Mengenoperationen sowohl in Bezug auf Vereinigung als auch auf Durchschnitt.",
+    "gewichtung": 3,
+    "thema": "Distributivgesetze",
+    "extended_explanation": {
+      "title": "Beweisidee",
+      "content": "Für Mengen $S, M, N$ gilt: $S \\cap (M \\cup N) = (S \\cap M) \\cup (S \\cap N)$. Der Beweis erfolgt durch Zerlegung in Teilmengen und Fallunterscheidung für die Elemente."
+    }
+  }
+]

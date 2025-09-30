@@ -129,85 +129,39 @@ PYTHONPATH=. pytest
 
 ---
 
-## 🐛 Troubleshooting
-
--   **App startet nicht:** Stelle sicher, dass alle Abhängigkeiten aus `requirements.txt` installiert sind.
-
----
-
-## 🤝 Contributing
-
-Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffne einen Pull Request.
-
 ## Interaktiver Prompt zur Erstellung von Fragensets
 
-### Anleitung: Neue Fragensets mit einem KI-Assistenten erstellen
+### **Schritt 1 von 5: Thema abfragen**
 
-Der folgende Abschnitt ist eine detaillierte Anweisung (ein "Prompt") für einen KI-Assistenten wie **Gemini Code Assist** oder andere große Sprachmodelle (LLMs). Er enthält alle notwendigen Informationen, um ein neues, qualitativ hochwertiges Fragenset im korrekten `.json`-Format für diese App zu erstellen.
-
-**Anwendung:**
-
-1.  **Kopieren Sie den gesamten folgenden Textblock**, beginnend bei `Dieser Assistent führt Sie...` bis zum Ende.
-2.  **Fügen Sie den kopierten Text** in das Eingabefeld Ihres KI-Assistenten (z.B. im Web-Chat oder in Ihrer IDE) ein.
-3.  Der Assistent wird Sie dann schrittweise durch die Konfiguration führen.
-
-Indem Sie diesen vollständigen Prompt verwenden, stellen Sie sicher, dass der Assistent alle strukturellen und formatierungstechnischen Anforderungen kennt und ein direkt verwendbares Ergebnis liefert.
+Frage mich nach dem Thema für das neue Fragenset. Erwähne, dass dies die Grundlage für den Inhalt und den Dateinamen ist (z.B. `questions_Ihr_Thema.json`). Gib mir Beispiele wie "Data Science Grundlagen", "Software-Architektur" oder "Projektmanagement nach Scrum".
 
 ---
 
-Dieser Assistent führt Sie in fünf Schritten durch die Konfiguration eines neuen Fragensets. Am Ende erhalten Sie eine strukturierte `.json`-Datei.
+### **Schritt 2 von 5: Anzahl der Fragen abfragen**
+
+Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50).
 
 ---
 
-### **Schritt 1 von 5: Das Thema**
+### **Schritt 3 von 5: Anzahl der Antwortoptionen abfragen**
 
-Bitte nennen Sie mir das Thema, für das der neue Fragenset erstellt werden soll. Dies dient als Grundlage für den Inhalt der Fragen und den Dateinamen (z.B. `questions_Ihr_Thema.json`).
-
-*Beispiele: Data Science Grundlagen, Software-Architektur, Projektmanagement nach Scrum*
-
-**Ihre Antwort:** `[Hier könnten Sie Ihr Thema eingeben]`
-
----
-
-### **Schritt 2 von 5: Anzahl der Fragen**
-
-Wie viele Fragen soll das Fragenset enthalten? Bitte geben Sie eine Zahl an (z.B. 20, 50).
-
-**Ihre Antwort:** `[Hier könnten Sie eine Zahl eingeben]`
-
----
-
-### **Schritt 3 von 5: Anzahl der Antwortoptionen**
-
-Wie viele Antwortoptionen sollen die Fragen haben? Sie haben drei Möglichkeiten:
+Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgenden drei Möglichkeiten zur Auswahl:
 
   * **A) 4 Optionen:** Ein klassisches Multiple-Choice-Format.
   * **B) 5 Optionen:** Etwas anspruchsvoller, da die Ratewahrscheinlichkeit sinkt.
   * **C) Variabel:** Die Anzahl der Optionen kann pro Frage variieren. Dies bietet die größte Flexibilität, erfordert aber bei der Erstellung mehr Aufmerksamkeit.
 
-**Ihre Antwort:** `[Hier könnten Sie A, B oder C wählen]`
+---
+
+### **Schritt 4 von 5: Detaillierte Erklärungen abfragen**
+
+Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können.
 
 ---
 
-### **Schritt 4 von 5: Detaillierte Erklärungen**
+### **Schritt 5 von 5: Externe Dokumente abfragen**
 
-Sollen für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden? Diese können tiefergehenden theoretischen Hintergrund, Code-Beispiele oder detaillierte Herleitungen enthalten und bieten einen hohen Lernwert.
-
-  * **Ja:** Für Fragen mit Gewichtung 2 oder 3 wird eine erweiterte Erklärung vorgesehen.
-  * **Nein:** Es wird nur das Standard-Erklärungsfeld für alle Fragen verwendet.
-
-**Ihre Antwort:** `[Hier könnten Sie Ja oder Nein wählen]`
-
----
-
-### **Schritt 5 von 5: Externe Dokumente**
-
-Möchten Sie externe Dokumente (z.B. Skripte als PDF, Textdateien) hochladen, die als Wissensgrundlage für die Erstellung der Fragen dienen sollen? Dies kann die Qualität und Spezifität der Fragen erheblich verbessern.
-
-  * **Ja:** Ich werde Sie nach dem Hochladen der Dateien fragen.
-  * **Nein:** Ich werde die Fragen auf Basis meines allgemeinen Wissens zum Thema erstellen.
-
-**Ihre Antwort:** `[Hier könnten Sie Ja oder Nein wählen]`
+Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage hochladen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann.
 
 ---
 
@@ -257,11 +211,28 @@ Um eine saubere und korrekte Darstellung zu gewährleisten, werden folgende Form
   * **Zitate und Titel:** Echte Zitate oder Buchtitel werden in doppelte Anführungszeichen (`"`) gesetzt.
       * *Beispiel:* `"Pate der KI"`, `"The Society of Mind"`
   * **Mathematische Ausdrücke (KaTeX):** Formeln, Variablen und mathematische Symbole werden in KaTeX-Syntax formatiert.
-      * Für Inline-Formeln wird ein einzelnes Dollarzeichen ($) verwendet: `$A \\setminus (B \\cap C)$\`.
-      * Für abgesetzte Formelblöcke werden doppelte Dollarzeichen ($$) verwendet: `$$\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$`.
-      * **Wichtig:** Backslashes (`\`) innerhalb von JSON-Strings müssen escaped werden, also `\\`. Beispiel: `$\\binom{n}{k}`.
-      * **Wichtig:** Backslashes (`\`) innerhalb von JSON-Strings müssen escaped werden, also `\\`. Beispiel: `"frage": "Was ist $\\binom{n}{k}$?"`.
+      * Für Inline-Formeln wird ein einzelnes Dollarzeichen ($) verwendet. Beispiel: `$a^2 + b^2 = c^2$`
+      * Für abgesetzte Formelblöcke werden doppelte Dollarzeichen ($$) verwendet. Beispiel: `$$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$`
+      * **Wichtig:** Backslashes (`\`) innerhalb von JSON-Strings müssen escaped werden, also `\\`. Beispiel: `"frage": "Was ist $\\binom{n}{k}$?"`
+  * **Grundregel:** Mathematische Inhalte (Formeln, Variablen wie `$a$`, `$b$`, `$\\mathbb{Z}$`) gehören **IMMER** in KaTeX (`$...$`) und **NIEMALS** in Backticks (`` ` ``).
+      * **FALSCH:** `a` und `b` sind teilerfremd.
+      * **RICHTIG:** $a$ und $b$ sind teilerfremd.
+  * **Grundregel 2:** Normaler Text, Satzzeichen und Erläuterungen gehören **IMMER außerhalb** der KaTeX-Dollarzeichen.
+      * **FALSCH:** `$M \\cap N = \\emptyset$, also sind die Mengen disjunkt.$`
+      * **RICHTIG:** `$M \\cap N = \\emptyset$, also sind die Mengen disjunkt.`
 
 ---
 
 Nach Abschluss der Generierung stelle ich Ihnen die fertige `questions_Ihr_Thema.json`-Datei direkt hier zum Download zur Verfügung.
+
+---
+
+## 🐛 Troubleshooting
+
+-   **App startet nicht:** Stelle sicher, dass alle Abhängigkeiten aus `requirements.txt` installiert sind.
+
+---
+
+## 🤝 Contributing
+
+Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffne einen Pull Request.
