@@ -17,7 +17,7 @@ from logic import (
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import smart_quotes_de, get_user_id_hash, format_explanation_text
+from helpers import smart_quotes_de, get_user_id_hash
 from database import update_bookmarks
 from components import show_motivation, render_question_distribution_chart
 
@@ -470,8 +470,8 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     ist_richtig = gegebene_antwort == richtige_antwort_text
 
     # Formatiere die Antworten, um Markdown (wie `...`) in HTML umzuwandeln
-    formatted_gegebene_antwort = format_explanation_text(smart_quotes_de(gegebene_antwort))
-    formatted_richtige_antwort = format_explanation_text(smart_quotes_de(richtige_antwort_text))
+    formatted_gegebene_antwort = smart_quotes_de(str(gegebene_antwort)) if gegebene_antwort else ""
+    formatted_richtige_antwort = smart_quotes_de(str(richtige_antwort_text))
 
     if ist_richtig:
         # Gimmick: Gestaffelte Belohnung für schwierige Fragen.
@@ -484,12 +484,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
             elif gewichtung == 2: st.snow()
             st.session_state.celebrated_questions.append(frage_idx)
 
-        st.markdown("Richtig!")
-        st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px; margin-top: 10px;'>✅ Deine Antwort: {formatted_gegebene_antwort}</div>", unsafe_allow_html=True)
+        st.success("Richtig! ✅")
     else:
         st.markdown("Leider falsch.")
-        st.markdown(f"<div style='background-color: #2b1818; border-left: 5px solid #dc3545; padding: 10px; border-radius: 5px; margin-top: 10px;'>Deine Antwort: {formatted_gegebene_antwort}</div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px; margin-top: 5px;'>Richtige Antwort: {formatted_richtige_antwort}</div>", unsafe_allow_html=True)
+        st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
+        st.markdown(f"**Richtige Antwort:** {formatted_richtige_antwort}")
 
     # Erklärungstext
     erklaerung = frage_obj.get("erklaerung")
@@ -667,8 +666,8 @@ def render_review_mode(questions: list):
         ist_richtig = gegebene_antwort == richtige_antwort_text
 
         # Formatiere die Antworten, um Markdown (wie `...`) in HTML umzuwandeln
-        formatted_gegebene_antwort = format_explanation_text(smart_quotes_de(str(gegebene_antwort))) if gegebene_antwort else "*(nicht beantwortet)*"
-        formatted_richtige_antwort = format_explanation_text(smart_quotes_de(richtige_antwort_text))
+        formatted_gegebene_antwort = smart_quotes_de(str(gegebene_antwort)) if gegebene_antwort is not None else "*(nicht beantwortet)*"
+        formatted_richtige_antwort = smart_quotes_de(str(richtige_antwort_text))
 
         # Filterlogik
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
@@ -699,13 +698,10 @@ def render_review_mode(questions: list):
 
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
             st.markdown(f"**{smart_quotes_de(frage['frage'])}**")
-
-            # --- Visuelles Feedback für Antworten ---
-            if ist_richtig:
-                st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px;'>Deine Antwort: {formatted_gegebene_antwort}</div>", unsafe_allow_html=True)
-            else:
-                st.markdown(f"<div style='background-color: #2b1818; border-left: 5px solid #dc3545; padding: 10px; border-radius: 5px;'>Deine Antwort: {formatted_gegebene_antwort}</div>", unsafe_allow_html=True)
-                st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px; margin-top: 5px;'>Richtige Antwort: {formatted_richtige_antwort}</div>", unsafe_allow_html=True)
+            
+            st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
+            if not ist_richtig:
+                st.markdown(f"**Richtige Antwort:** {formatted_richtige_antwort}")
 
 
             erklaerung = frage.get("erklaerung")

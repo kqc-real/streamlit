@@ -12,7 +12,7 @@ def get_user_id_hash(user_id: str) -> str:
 
 
 def smart_quotes_de(text: str) -> str:
-    """
+    """[Internal]
     Wandelt gerade doppelte (`"`) und einfache (`'`) Anführungszeichen in deutsche
     typografische Anführungszeichen („…“) um und behandelt
     Apostrophe korrekt.
@@ -20,41 +20,34 @@ def smart_quotes_de(text: str) -> str:
     if not text or ('"' not in text and "'" not in text):
         return text
 
-    out = []
+    # Regex, um KaTeX-Blöcke ($...$ oder $$...$$) zu finden.
+    # Dieser Ausdruck ist non-greedy (.*?) und stellt sicher, dass nur der
+    # kürzestmögliche passende Block gefunden wird, auch bei mehreren Blöcken.
+    katex_pattern = re.compile(r'(\${1,2}.*?\${1,2})')
+    parts = katex_pattern.split(text)
+    
+    result_parts = []
     open_quote_expected = True
-    text_len = len(text)
 
-    for i, ch in enumerate(text):
-        if ch == "'":
-            # Prüfe, ob es sich um einen Apostroph innerhalb eines Wortes handelt (z.B. Bayes'schen).
-            is_apostrophe = (i > 0 and text[i-1].isalpha() and
-                             i < text_len - 1 and text[i+1].isalpha())
-            if is_apostrophe:
-                out.append('’')  # Typografischer Apostroph
-            else:
-                # Behandle es als normales Anführungszeichen.
-                out.append('„' if open_quote_expected else '“')
-                open_quote_expected = not open_quote_expected
-        elif ch == '"':
-            out.append('„' if open_quote_expected else '“')
-            open_quote_expected = not open_quote_expected
-        else:
-            out.append(ch)
-    return ''.join(out)
+    for i, part in enumerate(parts):
+        if i % 2 == 0: # Text außerhalb von KaTeX
+            processed_part = []
+            for char_idx, ch in enumerate(part):
+                if ch == "'":
+                    is_apostrophe = (char_idx > 0 and part[char_idx-1].isalpha() and
+                                     char_idx < len(part) - 1 and part[char_idx+1].isalpha())
+                    if is_apostrophe:
+                        processed_part.append('’')
+                    else:
+                        processed_part.append('„' if open_quote_expected else '“')
+                        open_quote_expected = not open_quote_expected
+                elif ch == '"':
+                    processed_part.append('„' if open_quote_expected else '“')
+                    open_quote_expected = not open_quote_expected
+                else:
+                    processed_part.append(ch)
+            result_parts.append("".join(processed_part))
+        else: # KaTeX-Block, unverändert lassen
+            result_parts.append(part)
 
-
-def _apply_markdown_formatting(text_content: str) -> str:
-    """Wendet Markdown-ähnliche Syntax in HTML für einen einzelnen String an."""
-    html = text_content.replace('\n', '<br>')
-    html = re.sub(r"`([^`]+)`", r"<code>\1</code>", html)
-    html = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", html)
-    html = re.sub(r"\*(.+?)\*", r"<em>\1</em>", html)
-    return html
-
-
-def format_explanation_text(text: str) -> str:
-    """Formatiert Markdown-ähnliche Syntax in HTML für die Anzeige.
-    """
-    # Diese Funktion verarbeitet jetzt nur noch einfache Strings.
-    # Die Logik für Dictionaries wird direkt in der UI gehandhabt.
-    return _apply_markdown_formatting(text)
+    return "".join(result_parts)
