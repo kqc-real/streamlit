@@ -13,31 +13,31 @@ def get_user_id_hash(user_id: str) -> str:
 
 def smart_quotes_de(text: str) -> str:
     """
-    Wandelt gerade doppelte (`"`) und einfache (`'`) Anführungszeichen in
-    deutsche typografische Anführungszeichen („…“) um.
+    Wandelt gerade doppelte (`"`) und einfache (`'`) Anführungszeichen in deutsche
+    typografische Anführungszeichen („…“) um und behandelt
+    Apostrophe korrekt.
     """
     if not text or ('"' not in text and "'" not in text):
         return text
 
     out = []
-    open_double_quote_expected = True
+    open_quote_expected = True
     text_len = len(text)
 
     for i, ch in enumerate(text):
-        if ch == '"':
-            out.append('„' if open_double_quote_expected else '“')
-            open_double_quote_expected = not open_double_quote_expected
-        elif ch == "'":
-            # Prüfe, ob es sich um einen Apostroph innerhalb eines Wortes handelt
-            # (z.B. Bayes'schen). Heuristik: von Buchstaben umgeben.
+        if ch == "'":
+            # Prüfe, ob es sich um einen Apostroph innerhalb eines Wortes handelt (z.B. Bayes'schen).
             is_apostrophe = (i > 0 and text[i-1].isalpha() and
                              i < text_len - 1 and text[i+1].isalpha())
             if is_apostrophe:
                 out.append('’')  # Typografischer Apostroph
             else:
-                # Behandle es als Anführungszeichen (wie doppelte)
-                out.append('„' if open_double_quote_expected else '“')
-                open_double_quote_expected = not open_double_quote_expected
+                # Behandle es als normales Anführungszeichen.
+                out.append('„' if open_quote_expected else '“')
+                open_quote_expected = not open_quote_expected
+        elif ch == '"':
+            out.append('„' if open_quote_expected else '“')
+            open_quote_expected = not open_quote_expected
         else:
             out.append(ch)
     return ''.join(out)
