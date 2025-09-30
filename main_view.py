@@ -193,6 +193,17 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         st.success(f"**Willkommen, {st.session_state.user_id}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.")
         del st.session_state.show_pseudonym_reminder
 
+    # --- Sicherheitscheck und Re-Initialisierung ---
+    # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
+    # aber der session_state (insb. optionen_shuffled) noch vom alten Set stammt.
+    if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
+        from auth import initialize_session_state
+        st.warning("Erkenne Wechsel des Fragensets, initialisiere Test neu...")
+        initialize_session_state(questions)
+        time.sleep(1) # Kurze Pause, damit der Nutzer die Nachricht sieht
+        st.rerun()
+        return # Verhindert die weitere Ausführung mit inkonsistenten Daten
+
     frage_obj = questions[frage_idx]
 
     # Ermittle die laufende Nummer der Frage im aktuellen Testdurchlauf
