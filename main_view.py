@@ -470,8 +470,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
             st.session_state.celebrated_questions.append(frage_idx)
 
         st.markdown(f"Richtig! Die Antwort war: **{richtige_antwort_text}**")
+        st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px; margin-top: 10px;'>Deine Antwort: {gegebene_antwort}</div>", unsafe_allow_html=True)
     else:
-        st.markdown(f"Leider falsch. Deine Antwort war: {gegebene_antwort}. Richtig ist: **{richtige_antwort_text}**")
+        st.markdown("Leider falsch.")
+        st.markdown(f"<div style='background-color: #2b1818; border-left: 5px solid #dc3545; padding: 10px; border-radius: 5px; margin-top: 10px;'>Deine Antwort: {gegebene_antwort}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px; margin-top: 5px;'>Richtige Antwort: {richtige_antwort_text}</div>", unsafe_allow_html=True)
 
     # Erklärungstext
     erklaerung = frage_obj.get("erklaerung")
@@ -677,19 +680,13 @@ def render_review_mode(questions: list):
 
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
             st.markdown(f"**{smart_quotes_de(frage['frage'])}**")
-            st.markdown(f"Deine Antwort: {gegebene_antwort}")
-            if not ist_richtig:
-                st.markdown(f"Richtige Antwort: {richtige_antwort_text}")
 
             # --- Visuelles Feedback für Antworten ---
-            if gegebene_antwort is None or gegebene_antwort == "__bookmark__":
-                st.markdown("Deine Antwort: *(nicht beantwortet)*")
-                st.markdown(f"Richtige Antwort: <span style='color: #28a745;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
-            elif ist_richtig:
-                st.markdown(f"Deine Antwort: <span style='color: #28a745;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+            if ist_richtig:
+                st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px;'>Deine Antwort: {gegebene_antwort}</div>", unsafe_allow_html=True)
             else:
-                st.markdown(f"Deine Antwort: <span style='color: #dc3545;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
-                st.markdown(f"Richtige Antwort: <span style='color: #28a745;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
+                st.markdown(f"<div style='background-color: #2b1818; border-left: 5px solid #dc3545; padding: 10px; border-radius: 5px;'>Deine Antwort: {gegebene_antwort}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='background-color: #092914; border-left: 5px solid #28a745; padding: 10px; border-radius: 5px; margin-top: 5px;'>Richtige Antwort: {richtige_antwort_text}</div>", unsafe_allow_html=True)
 
 
             erklaerung = frage.get("erklaerung")
