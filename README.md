@@ -147,12 +147,9 @@ Der folgende Abschnitt ist eine detaillierte Anweisung (ein "Prompt") für einen
 
 **Anwendung:**
 
-1.  **Kopieren Sie den gesamten folgenden Textblock**, beginnend bei `Dieser Assistent führt Sie...` bis zum Ende.
+1.  **Kopieren Sie den gesamten folgenden Textblock**
 2.  **Fügen Sie den kopierten Text** in das Eingabefeld Ihres KI-Assistenten (z.B. im Web-Chat oder in Ihrer IDE) ein.
 3.  Der Assistent wird Sie dann schrittweise durch die Konfiguration führen.
-
-Indem Sie diesen vollständigen Prompt verwenden, stellen Sie sicher, dass der Assistent alle strukturellen und formatierungstechnischen Anforderungen kennt und ein direkt verwendbares Ergebnis liefert.
-
 ---
 
 Führe mich in den folgenden sechs Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die entsprechende Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfahren.
