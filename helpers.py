@@ -20,11 +20,24 @@ def smart_quotes_de(text: str) -> str:
         return text
 
     out = []
-    open_quote_expected = True
-    for ch in text:
-        if ch == '"' or ch == "'":
-            out.append('„' if open_quote_expected else '“')
-            open_quote_expected = not open_quote_expected
+    open_double_quote_expected = True
+    text_len = len(text)
+
+    for i, ch in enumerate(text):
+        if ch == '"':
+            out.append('„' if open_double_quote_expected else '“')
+            open_double_quote_expected = not open_double_quote_expected
+        elif ch == "'":
+            # Prüfe, ob es sich um einen Apostroph innerhalb eines Wortes handelt
+            # (z.B. Bayes'schen). Heuristik: von Buchstaben umgeben.
+            is_apostrophe = (i > 0 and text[i-1].isalpha() and
+                             i < text_len - 1 and text[i+1].isalpha())
+            if is_apostrophe:
+                out.append('’')  # Typografischer Apostroph
+            else:
+                # Behandle es als Anführungszeichen (wie doppelte)
+                out.append('„' if open_double_quote_expected else '“')
+                open_double_quote_expected = not open_double_quote_expected
         else:
             out.append(ch)
     return ''.join(out)
