@@ -12,15 +12,19 @@ def get_user_id_hash(user_id: str) -> str:
 
 
 def smart_quotes_de(text: str) -> str:
-    """Wandelt gerade doppelte Anführungszeichen in deutsche „…“ um."""
-    if not text or '"' not in text:
+    """
+    Wandelt gerade doppelte (`"`) und einfache (`'`) Anführungszeichen in
+    deutsche typografische Anführungszeichen („…“) um.
+    """
+    if not text or ('"' not in text and "'" not in text):
         return text
+
     out = []
-    open_expected = True
+    open_quote_expected = True
     for ch in text:
-        if ch == '"':
-            out.append('„' if open_expected else '“')
-            open_expected = not open_expected
+        if ch == '"' or ch == "'":
+            out.append('„' if open_quote_expected else '“')
+            open_quote_expected = not open_quote_expected
         else:
             out.append(ch)
     return ''.join(out)
