@@ -39,7 +39,7 @@
     "thema": "Deep Learning"
   },
   {
-    "frage": "4. Was ist der 'Turing-Test', den Alan Turing vorschlug?",
+    "frage": "4. Was ist der `Turing-Test`, den Alan Turing vorschlug?",
     "optionen": [
       "Ein Test zur Messung der Rechengeschwindigkeit eines Computers.",
       "Ein Test, bei dem ein Mensch beurteilt, ob sein Gesprächspartner ein Mensch oder eine Maschine ist.",
@@ -67,13 +67,13 @@
   {
     "frage": "6. Welches Konzept ist untrennbar mit dem Namen Marvin Minsky verbunden?",
     "optionen": [
-      "Die Theorie der 'Gesellschaft des Geistes' (Society of Mind).",
+      "Die Theorie der `Gesellschaft des Geistes` (Society of Mind).",
       "Die Entwicklung des World Wide Web.",
       "Die Entdeckung der DNA-Struktur.",
       "Die Erfindung der relationalen Datenbank."
     ],
     "loesung": 0,
-    "erklaerung": "Marvin Minsky, Mitbegründer des MIT AI Lab, schlug in seinem Buch 'The Society of Mind' vor, dass Intelligenz nicht aus einem einzigen Prinzip, sondern aus der Interaktion vieler einfacher, nicht-intelligenter Agenten entsteht.",
+    "erklaerung": "Marvin Minsky, Mitbegründer des MIT AI Lab, schlug in seinem Buch `The Society of Mind` vor, dass Intelligenz nicht aus einem einzigen Prinzip, sondern aus der Interaktion vieler einfacher, nicht-intelligenter Agenten entsteht.",
     "gewichtung": 3,
     "thema": "Pioniere der KI"
   },
@@ -105,6 +105,7 @@
   },
   {
     "frage": "9. Wer gilt als einer der Väter des Reinforcement Learning und ist Co-Autor des Standardwerks 'Reinforcement Learning: An Introduction'?",
+    "frage": "9. Wer gilt als einer der Väter des Reinforcement Learning und ist Co-Autor des Standardwerks `Reinforcement Learning: An Introduction`?",
     "optionen": [
       "Andrew Ng",
       "Richard Sutton",
@@ -182,7 +183,7 @@
     "thema": "Probabilistische KI"
   },
   {
-    "frage": "15. Wer war eine treibende Kraft hinter dem selbstfahrenden Auto 'Stanley', das 2005 die DARPA Grand Challenge gewann?",
+    "frage": "15. Wer war eine treibende Kraft hinter dem selbstfahrenden Auto `Stanley`, das 2005 die DARPA Grand Challenge gewann?",
     "optionen": [
       "Elon Musk",
       "Andrej Karpathy",
@@ -190,7 +191,7 @@
       "Yann LeCun"
     ],
     "loesung": 2,
-    "erklaerung": "Sebastian Thrun leitete das Team der Stanford University, das mit dem Roboterauto 'Stanley' die DARPA Grand Challenge gewann. Später gründete er Google X, wo das Projekt für selbstfahrende Autos (heute Waymo) gestartet wurde.",
+    "erklaerung": "Sebastian Thrun leitete das Team der Stanford University, das mit dem Roboterauto `Stanley` die DARPA Grand Challenge gewann. Später gründete er Google X, wo das Projekt für selbstfahrende Autos (heute Waymo) gestartet wurde.",
     "gewichtung": 2,
     "thema": "Anwendungen der KI"
   },
@@ -221,7 +222,7 @@
     "thema": "Deep Learning"
   },
   {
-    "frage": "18. Wer war der Schöpfer von ELIZA, einem der ersten Chatbots, der eine Konversation simulierte?",
+    "frage": "18. Wer war der Schöpfer von `ELIZA`, einem der ersten Chatbots, der eine Konversation simulierte?",
     "optionen": [
       "Joseph Weizenbaum",
       "John McCarthy",
@@ -229,7 +230,7 @@
       "Noam Chomsky"
     ],
     "loesung": 0,
-    "erklaerung": "Joseph Weizenbaum entwickelte in den 1960er Jahren ELIZA. Das Programm simulierte eine Psychotherapeutin, indem es einfache Mustererkennung und Umformulierungen nutzte. Es gilt als ein früher Meilenstein in der Verarbeitung natürlicher Sprache.",
+    "erklaerung": "Joseph Weizenbaum entwickelte in den 1960er Jahren `ELIZA`. Das Programm simulierte eine Psychotherapeutin, indem es einfache Mustererkennung und Umformulierungen nutzte. Es gilt als ein früher Meilenstein in der Verarbeitung natürlicher Sprache.",
     "gewichtung": 2,
     "thema": "Pioniere der KI"
   },
@@ -242,12 +243,12 @@
       "Norbert Wiener"
     ],
     "loesung": 2,
-    "erklaerung": "Claude Shannons bahnbrechende Arbeit 'A Mathematical Theory of Communication' (1948) begründete die Informationstheorie. Er definierte das 'Bit' als Grundeinheit der Information und schuf die theoretische Basis für die gesamte digitale Welt.",
+    "erklaerung": "Claude Shannons bahnbrechende Arbeit `A Mathematical Theory of Communication` (1948) begründete die Informationstheorie. Er definierte das `Bit` als Grundeinheit der Information und schuf die theoretische Basis für die gesamte digitale Welt.",
     "gewichtung": 2,
     "thema": "Pioniere der KI"
   },
   {
-    "frage": "20. Welcher Nobelpreisträger und KI-Pionier entwickelte zusammen mit Allen Newell den 'Logic Theorist', das erste Programm, das zur Nachahmung menschlicher Problemlösungsfähigkeiten entwickelt wurde?",
+    "frage": "20. Welcher Nobelpreisträger und KI-Pionier entwickelte zusammen mit Allen Newell den `Logic Theorist`, das erste Programm, das zur Nachahmung menschlicher Problemlösungsfähigkeiten entwickelt wurde?",
     "optionen": [
       "John Nash",
       "Daniel Kahneman",
@@ -273,7 +274,7 @@
     "thema": "Deep Learning"
   },
   {
-    "frage": "22. Welcher Forscher von DeepMind war der leitende Entwickler von AlphaGo, dem Programm, das den Go-Weltmeister Lee Sedol besiegte?",
+    "frage": "22. Welcher Forscher von DeepMind war der leitende Entwickler von `AlphaGo`, dem Programm, das den Go-Weltmeister Lee Sedol besiegte?",
     "optionen": [
       "David Silver",
       "Richard Sutton",
@@ -281,7 +282,7 @@
       "Shane Legg"
     ],
     "loesung": 0,
-    "erklaerung": "David Silver war der leitende Forscher des AlphaGo-Projekts bei DeepMind. Seine Arbeit kombinierte Deep Learning mit Monte-Carlo-Baumsuche und Reinforcement Learning, was zu dem historischen Sieg führte.",
+    "erklaerung": "David Silver war der leitende Forscher des `AlphaGo`-Projekts bei DeepMind. Seine Arbeit kombinierte Deep Learning mit Monte-Carlo-Baumsuche und Reinforcement Learning, was zu dem historischen Sieg führte.",
     "gewichtung": 3,
     "thema": "Reinforcement Learning"
   },
@@ -312,7 +313,7 @@
     "thema": "Pioniere der KI"
   },
   {
-    "frage": "25. Wer ist ein führender Forscher im Bereich des Unsupervised Learning und Autor des einflussreichen Lehrbuchs 'Pattern Recognition and Machine Learning'?",
+    "frage": "25. Wer ist ein führender Forscher im Bereich des Unsupervised Learning und Autor des einflussreichen Lehrbuchs `Pattern Recognition and Machine Learning`?",
     "optionen": [
       "Christopher Bishop",
       "Michael I. Jordan",
@@ -320,7 +321,7 @@
       "Trevor Hastie"
     ],
     "loesung": 0,
-    "erklaerung": "Christopher Bishops Buch 'Pattern Recognition and Machine Learning' (PRML) ist ein Standardwerk, das eine probabilistische Perspektive auf das maschinelle Lernen bietet und Generationen von Studenten und Forschern geprägt hat.",
+    "erklaerung": "Christopher Bishops Buch `Pattern Recognition and Machine Learning` (PRML) ist ein Standardwerk, das eine probabilistische Perspektive auf das maschinelle Lernen bietet und Generationen von Studenten und Forschern geprägt hat.",
     "gewichtung": 3,
     "thema": "KI-Bildung"
   },
@@ -351,7 +352,7 @@
     "thema": "Anwendungen der KI"
   },
   {
-    "frage": "28. Welcher Forscher ist bekannt für seine Arbeit an Boltzmann-Maschinen und Hopfield-Netzen?",
+    "frage": "28. Welcher Forscher ist bekannt für seine Arbeit an `Boltzmann-Maschinen` und `Hopfield-Netzen`?",
     "optionen": [
       "Terry Sejnowski",
       "Marvin Minsky",
@@ -359,7 +360,7 @@
       "Judea Pearl"
     ],
     "loesung": 0,
-    "erklaerung": "Terry Sejnowski, zusammen mit Geoffrey Hinton, entwickelte die Boltzmann-Maschine, ein frühes stochastisches rekurrierendes neuronales Netz. Seine Arbeit an der Schnittstelle von Neurowissenschaft und KI ist von großer Bedeutung.",
+    "erklaerung": "Terry Sejnowski, zusammen mit Geoffrey Hinton, entwickelte die `Boltzmann-Maschine`, ein frühes stochastisches rekurrierendes neuronales Netz. Seine Arbeit an der Schnittstelle von Neurowissenschaft und KI ist von großer Bedeutung.",
     "gewichtung": 3,
     "thema": "Pioniere der KI"
   },
