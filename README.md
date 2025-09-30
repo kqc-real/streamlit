@@ -138,3 +138,122 @@ PYTHONPATH=. pytest
 ## 🤝 Contributing
 
 Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffne einen Pull Request.
+
+## Interaktiver Prompt zur Erstellung von Fragensets
+
+### Anleitung: Neue Fragensets mit einem KI-Assistenten erstellen
+
+Der folgende Abschnitt ist eine detaillierte Anweisung (ein "Prompt") für einen KI-Assistenten wie **Gemini Code Assist** oder andere große Sprachmodelle (LLMs). Er enthält alle notwendigen Informationen, um ein neues, qualitativ hochwertiges Fragenset im korrekten `.json`-Format für diese App zu erstellen.
+
+**Anwendung:**
+
+1.  **Kopieren Sie den gesamten folgenden Textblock**, beginnend bei `Dieser Assistent führt Sie...` bis zum Ende.
+2.  **Fügen Sie den kopierten Text** in das Eingabefeld Ihres KI-Assistenten (z.B. im Web-Chat oder in Ihrer IDE) ein.
+3.  Der Assistent wird Sie dann schrittweise durch die Konfiguration führen.
+
+Indem Sie diesen vollständigen Prompt verwenden, stellen Sie sicher, dass der Assistent alle strukturellen und formatierungstechnischen Anforderungen kennt und ein direkt verwendbares Ergebnis liefert.
+
+---
+
+Dieser Assistent führt Sie in vier Schritten durch die Konfiguration eines neuen Fragensets. Am Ende erhalten Sie eine strukturierte `.json`-Datei.
+
+---
+
+### **Schritt 1 von 4: Das Thema**
+
+Bitte nennen Sie mir das Thema, für das der neue Fragenset erstellt werden soll. Dies dient als Grundlage für den Inhalt der Fragen und den Dateinamen (z.B. `questions_Ihr_Thema.json`).
+
+*Beispiele: Data Science Grundlagen, Software-Architektur, Projektmanagement nach Scrum*
+
+**Ihre Antwort:** `[Hier könnten Sie Ihr Thema eingeben]`
+
+---
+
+### **Schritt 2 von 4: Anzahl der Antwortoptionen**
+
+Wie viele Antwortoptionen sollen die Fragen haben? Sie haben drei Möglichkeiten:
+
+  * **A) 4 Optionen:** Ein klassisches Multiple-Choice-Format.
+  * **B) 5 Optionen:** Etwas anspruchsvoller, da die Ratewahrscheinlichkeit sinkt.
+  * **C) Variabel:** Die Anzahl der Optionen kann pro Frage variieren. Dies bietet die größte Flexibilität, erfordert aber bei der Erstellung mehr Aufmerksamkeit.
+
+**Ihre Antwort:** `[Hier könnten Sie A, B oder C wählen]`
+
+---
+
+### **Schritt 3 von 4: Detaillierte Erklärungen**
+
+Sollen für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden? Diese können tiefergehenden theoretischen Hintergrund, Code-Beispiele oder detaillierte Herleitungen enthalten und bieten einen hohen Lernwert.
+
+  * **Ja:** Für Fragen mit Gewichtung 2 oder 3 wird eine erweiterte Erklärung vorgesehen.
+  * **Nein:** Es wird nur das Standard-Erklärungsfeld für alle Fragen verwendet.
+
+**Ihre Antwort:** `[Hier könnten Sie Ja oder Nein wählen]`
+
+---
+
+### **Schritt 4 von 4: Externe Dokumente**
+
+Möchten Sie externe Dokumente (z.B. Skripte als PDF, Textdateien) hochladen, die als Wissensgrundlage für die Erstellung der Fragen dienen sollen? Dies kann die Qualität und Spezifität der Fragen erheblich verbessern.
+
+  * **Ja:** Ich werde Sie nach dem Hochladen der Dateien fragen.
+  * **Nein:** Ich werde die Fragen auf Basis meines allgemeinen Wissens zum Thema erstellen.
+
+**Ihre Antwort:** `[Hier könnten Sie Ja oder Nein wählen]`
+
+---
+
+### **Abschluss, Ausgabeformat und Generierung**
+
+Sobald Sie diese vier Punkte beantwortet haben, beginne ich mit der Erstellung der Fragen. Das Ergebnis wird eine einzelne `.json`-Datei sein, die eine Liste von Frage-Objekten enthält. Jedes dieser Objekte wird der folgenden Struktur und den nachstehenden Formatierungsregeln für die Textinhalte folgen.
+
+#### **JSON-Struktur pro Frage:**
+
+```json
+{
+  "frage": "1. Vollständiger Fragetext...",
+  "optionen": [
+    "Antwortoption A",
+    "Antwortoption B",
+    "Antwortoption C",
+    "Antwortoption D"
+  ],
+  "loesung": 0,
+  "erklaerung": "Eine klare und prägnante Erklärung, warum die Lösung korrekt ist.",
+  "gewichtung": 2,
+  "thema": "Zugehöriges Themengebiet",
+  "extended_explanation": {
+    "title": "Titel der erweiterten Erklärung",
+    "content": "Detaillierter Hintergrund, Code-Beispiele oder mathematische Herleitungen..."
+  }
+}
+```
+
+**Erläuterung der Felder:**
+
+  * `frage`: (string) Der vollständige Text der Frage.
+  * `optionen`: (array of strings) Eine Liste der möglichen Antworten.
+  * `loesung`: (integer) Der Index der korrekten Antwort (beginnend bei 0).
+  * `erklaerung`: (string) Die Standarderklärung für die korrekte Lösung.
+  * `gewichtung`: (integer) Eine Ganzzahl (typischerweise 1, 2 oder 3), die die Schwierigkeit und den Punktewert angibt.
+  * `thema`: (string) Das spezifische Unterthema, dem die Frage zugeordnet ist.
+  * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3.
+
+#### **Formatierungsregeln für Textinhalte:**
+
+Um eine saubere und korrekte Darstellung zu gewährleisten, werden folgende Formatierungen angewendet:
+
+  * **Fachbegriffe und Abkürzungen:** Technische Begriffe, Dateinamen, Funktionsnamen oder Abkürzungen werden in Backticks (`` ` ``) eingeschlossen, damit sie als Code formatiert erscheinen.
+      * *Beispiel:* `Docker`, `st.write()`, `requirements.txt`
+  * **Hervorhebungen:** Wichtige Schlüsselwörter im Text werden mit doppelten Sternchen für **Fettdruck** (`**Text**`) formatiert.
+  * **Zitate und Titel:** Echte Zitate oder Buchtitel werden in doppelte Anführungszeichen (`"`) gesetzt.
+      * *Beispiel:* `"Pate der KI"`, `"The Society of Mind"`
+  * **Mathematische Ausdrücke (KaTeX):** Formeln, Variablen und mathematische Symbole werden in KaTeX-Syntax formatiert.
+      * Für Inline-Formeln wird ein einzelnes Dollarzeichen ($) verwendet: `$A \\setminus (B \\cap C)$\`.
+      * Für abgesetzte Formelblöcke werden doppelte Dollarzeichen ($$) verwendet: `$$\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$`.
+      * **Wichtig:** Backslashes (`\`) innerhalb von JSON-Strings müssen escaped werden, also `\\`. Beispiel: `$\\binom{n}{k}`.
+      * **Wichtig:** Backslashes (`\`) innerhalb von JSON-Strings müssen escaped werden, also `\\`. Beispiel: `"frage": "Was ist $\\binom{n}{k}$?"`.
+
+---
+
+Nach Abschluss der Generierung stelle ich Ihnen die fertige `questions_Ihr_Thema.json`-Datei direkt hier zum Download zur Verfügung.
