@@ -199,7 +199,7 @@ Sobald Sie diese fünf Punkte beantwortet haben, beginne ich mit der Erstellung 
   * `erklaerung`: (string) Die Standarderklärung für die korrekte Lösung.
   * `gewichtung`: (integer) Eine Ganzzahl (typischerweise 1, 2 oder 3), die die Schwierigkeit und den Punktewert angibt.
   * `thema`: (string) Das spezifische Unterthema, dem die Frage zugeordnet ist.
-  * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3.
+  * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3. Es enthält die Schlüssel `title` (string) und `content` (string).
 
 #### **Formatierungsregeln für Textinhalte:**
 
