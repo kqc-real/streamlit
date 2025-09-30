@@ -138,7 +138,7 @@ def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
                 frage_text = q.get("frage", "")
                 # Entferne alte Nummerierung, falls vorhanden
                 if "." in frage_text:
-                    frage_text = frage_text.split(".", 1)[1].strip()
+                    frage_text = frage_text.split('.', 1)[-1].strip()
                 q["frage"] = f"{i + 1}. {frage_text}"
             return questions
     except (IOError, json.JSONDecodeError) as e:

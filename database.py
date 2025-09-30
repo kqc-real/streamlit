@@ -335,6 +335,7 @@ def get_all_feedback() -> list[dict]:
         cursor.execute(
             """
             SELECT
+                f.feedback_id,
                 f.timestamp,
                 f.question_nr,
                 f.feedback_type,
@@ -350,6 +351,45 @@ def get_all_feedback() -> list[dict]:
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_all_feedback: {e}")
         return []
+
+@with_db_retry
+def delete_feedback(feedback_id: int) -> bool:
+    """Löscht einen spezifischen Feedback-Eintrag anhand seiner ID."""
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        with conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM feedback WHERE feedback_id = ?", (feedback_id,))
+            # Überprüfe, ob eine Zeile gelöscht wurde
+            return cursor.rowcount > 0
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in delete_feedback: {e}")
+        return False
+
+@with_db_retry
+def delete_multiple_feedback(feedback_ids: list[int]) -> bool:
+    """Löscht mehrere Feedback-Einträge anhand ihrer IDs."""
+    if not feedback_ids:
+        return True # Nichts zu tun
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        with conn:
+            cursor = conn.cursor()
+            # Erstelle eine Kette von Platzhaltern für die IN-Klausel
+            placeholders = ','.join(['?'] * len(feedback_ids))
+            query = f"DELETE FROM feedback WHERE feedback_id IN ({placeholders})"
+            cursor.execute(query, feedback_ids)
+            return cursor.rowcount > 0
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in delete_multiple_feedback: {e}")
+        return False
+
+
+
 
 @with_db_retry
 def reset_all_test_data():

@@ -530,22 +530,25 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     if st.session_state.get(feedback_key, False):
         st.success("✔️ Danke, dein Feedback wurde übermittelt.")
     else:
-        with st.popover("Problem mit dieser Frage melden"):
-            st.markdown("**Welche Probleme sind dir aufgefallen?** (Mehrfachauswahl möglich)")
-            selected_feedback_types = st.multiselect(
-                "Problemtyp:", options=feedback_options, key=f"ms_feedback_{frage_idx}",
-                placeholder="Problem(e) auswählen...", label_visibility="collapsed"
-            )
-            # Deaktiviere den Button, wenn keine Option ausgewählt wurde
-            if st.button("Feedback senden", key=f"btn_submit_feedback_{frage_idx}", disabled=not selected_feedback_types):
-                from database import add_feedback
-                frage_nr = int(frage_obj.get("frage", "0").split(".", 1)[0])
-                session_id = st.session_state.get("session_id")
-                if session_id and frage_nr > 0:
-                    add_feedback(session_id, frage_nr, selected_feedback_types)
-                    st.session_state[feedback_key] = True
-                    st.toast("Feedback gesendet!")
-                    st.rerun()
+        # Zentriere den Popover-Button in der mittleren Spalte für ein konsistentes Layout
+        _, center_col, _ = st.columns([2, 1.5, 2])
+        with center_col:
+            with st.popover("Problem mit dieser Frage melden", use_container_width=True):
+                st.markdown("**Welche Probleme sind dir aufgefallen?** (Mehrfachauswahl möglich)")
+                selected_feedback_types = st.multiselect(
+                    "Problemtyp:", options=feedback_options, key=f"ms_feedback_{frage_idx}",
+                    placeholder="Problem(e) auswählen...", label_visibility="collapsed"
+                )
+                # Deaktiviere den Button, wenn keine Option ausgewählt wurde
+                if st.button("Feedback senden", key=f"btn_submit_feedback_{frage_idx}", disabled=not selected_feedback_types, use_container_width=True):
+                    from database import add_feedback
+                    frage_nr = int(frage_obj.get("frage", "0").split(".", 1)[0])
+                    session_id = st.session_state.get("session_id")
+                    if session_id and frage_nr > 0:
+                        add_feedback(session_id, frage_nr, selected_feedback_types)
+                        st.session_state[feedback_key] = True
+                        st.toast("Feedback gesendet!")
+                        st.rerun()
 
     show_motivation(questions, app_config)
 

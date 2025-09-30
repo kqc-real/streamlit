@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 
 from config import AppConfig, load_questions, list_question_files
-from database import get_all_answer_logs, get_all_feedback, DATABASE_FILE
+from database import get_all_answer_logs, get_all_feedback, get_all_logs_for_leaderboard, DATABASE_FILE
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):
@@ -32,7 +32,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📢 Feedback", "📤 Export", "⚙️ System"])
 
     with tabs[0]:
-        # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben.
+        # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben
         render_leaderboard_tab(df_all_logs, app_config)
     with tabs[1]:
         render_analysis_tab(df_filtered_logs, questions)
@@ -46,42 +46,43 @@ def render_admin_panel(app_config: AppConfig, questions: list):
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
     """Rendert den Leaderboard-Tab."""
-    st.header("Highscores nach Fragenset")
-    if df_all.empty or "questions_file" not in df_all.columns:
+    st.header("🏆 Highscores nach Fragenset")
+
+    # Hole alle einzigartigen Fragensets aus den Logs
+    all_question_files = sorted(df_all["questions_file"].unique()) if not df_all.empty and "questions_file" in df_all.columns else []
+
+    if not all_question_files:
         st.info("Noch keine Antworten aufgezeichnet.")
         return
 
     # Iteriere über jedes einzigartige Fragenset in den Logs
-    for q_file in sorted(df_all["questions_file"].unique()):
+    for q_file in all_question_files:
         if not q_file:
             continue
         
         title = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
         st.subheader(f"Fragenset: {title}")
 
-        df_set = df_all[df_all["questions_file"] == q_file].copy()
-        
-        if 'zeit' in df_set.columns:
-            df_set['zeit'] = pd.to_datetime(df_set['zeit'], errors='coerce')
+        # Nutze die optimierte DB-Funktion
+        leaderboard_data = get_all_logs_for_leaderboard(q_file)
+        if not leaderboard_data:
+            st.info("Für dieses Set liegen keine Ergebnisse vor.")
+            st.divider()
+            continue
 
-        scores = (
-            df_set.groupby("user_id_hash")
-            .agg(
-                Pseudonym=("user_id_plain", "first"),
-                Punkte=("richtig", "sum"),
-                Datum=("zeit", "max"),
-            )
-            .sort_values("Punkte", ascending=False)
-            .reset_index()
-        )
+        scores = pd.DataFrame(leaderboard_data)
+        scores.rename(columns={'user_pseudonym': 'Pseudonym', 'total_score': 'Punkte', 'last_test_time': 'Datum'}, inplace=True)
 
         # Lade die Fragen, um die maximale Punktzahl zu ermitteln
         questions_for_set = load_questions(q_file)
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
         scores["Max. Punkte"] = max_score_for_set
 
-        scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+        # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
+        scores["Datum"] = pd.to_datetime(scores["Datum"])
 
+        scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+        
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
             if i < len(icons):
@@ -267,6 +268,23 @@ def render_feedback_tab():
     if selected_f_type != "Alle":
         df_feedback = df_feedback[df_feedback['Problem-Typ'] == selected_f_type]
 
+    # --- Gefahrenzone: Alle sichtbaren Feedbacks löschen ---
+    if not df_feedback.empty:
+        with st.expander("🔴 Gefahrenzone: Mehrere Meldungen löschen"):
+            st.warning(
+                f"**Achtung:** Diese Aktion löscht die **{len(df_feedback)}** aktuell sichtbaren Feedback-Meldungen unwiderruflich."
+            )
+            if st.checkbox("Ich bin mir der Konsequenzen bewusst.", key="confirm_delete_all_feedback"):
+                if st.button(f"Ja, {len(df_feedback)} Meldungen endgültig löschen", type="primary"):
+                    from database import delete_multiple_feedback
+                    ids_to_delete = df_feedback['feedback_id'].tolist()
+                    if delete_multiple_feedback(ids_to_delete):
+                        st.success(f"{len(ids_to_delete)} Feedback-Meldungen wurden gelöscht.")
+                        st.rerun()
+                    else:
+                        st.error("Fehler beim Löschen der Meldungen.")
+    st.divider()
+
     # Lade alle Fragen, um den Fragentext zuzuordnen
     all_questions = {}
     unique_files = df_feedback['Fragenset'].unique()
@@ -279,7 +297,42 @@ def render_feedback_tab():
     df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row['Fragenset'], row['Frage-Nr.']), "Frage nicht gefunden"), axis=1)
     df_feedback['Gemeldet am'] = pd.to_datetime(df_feedback['Gemeldet am']).dt.strftime('%d.%m.%Y %H:%M')
 
-    st.dataframe(df_feedback[['Gemeldet am', 'Fragenset', 'Frage-Nr.', 'Problem-Typ', 'Frage', 'Gemeldet von']], use_container_width=True, hide_index=True)
+    # Ersetze das starre Dataframe durch eine interaktive Liste mit Buttons
+    for _, row in df_feedback.iterrows():
+        with st.container(border=True):
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                st.markdown(f"**Frage {row['Frage-Nr.']}:** {row['Frage']}")
+                st.caption(f"**Typ:** {row['Problem-Typ']} | **Set:** {format_q_filename(row['Fragenset'])} | **Von:** {row['Gemeldet von']} | {row['Gemeldet am']}")
+            
+            with col2:
+                # Button, um direkt zur Frage zu springen
+                if st.button("Zur Frage", key=f"jump_feedback_{row.name}", use_container_width=True):
+                    # Finde den Index der Frage im entsprechenden Fragenset
+                    q_file_to_load = row['Fragenset']
+                    questions_to_load = load_questions(q_file_to_load, silent=True)
+                    target_idx = next((i for i, q in enumerate(questions_to_load) if int(q['frage'].split('.', 1)[0]) == row['Frage-Nr.']), None)
+
+                    if target_idx is not None:
+                        st.session_state.selected_questions_file = q_file_to_load
+                        st.session_state.jump_to_idx = target_idx
+                        st.session_state.jump_to_idx_active = True
+                        st.session_state.show_admin_panel = False
+                        st.rerun()
+                    else:
+                        st.error("Frage konnte im Set nicht gefunden werden.")
+                
+                # Popover für die Löschbestätigung
+                with st.popover("Löschen", use_container_width=True):
+                    st.warning("Soll dieses Feedback wirklich gelöscht werden?")
+                    if st.button("Ja, endgültig löschen", key=f"del_feedback_{row['feedback_id']}", type="primary", use_container_width=True):
+                        from database import delete_feedback
+                        if delete_feedback(row['feedback_id']):
+                            st.toast("Feedback gelöscht.")
+                            st.rerun()
+                        else:
+                            st.error("Fehler beim Löschen.")
+
 
 def render_export_tab(df: pd.DataFrame):
     """Rendert den Export-Tab."""

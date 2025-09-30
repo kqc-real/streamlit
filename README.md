@@ -5,13 +5,14 @@
 Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
 Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse für verschiedene Fragensets.
 Die App ist modular aufgebaut und nutzt eine SQLite-Datenbank zur persistenten Speicherung von Testergebnissen.
+Die App verfügt über ein integriertes Feedback-System, das es Nutzern ermöglicht, Probleme mit Fragen zu melden, und Admins, dieses Feedback zu verwalten.
 
 ---
 
 ## 🚀 Übersicht
 
 Diese App ist ein vollständiger MC-Test für Kursinhalte, entwickelt mit Streamlit.
-Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge und Zeitlimit.
+Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge, Zeitlimit und einem integrierten Feedback-System zur kontinuierlichen Verbesserung der Fragen.
 Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung.
 
 ### Hauptfunktionen
@@ -26,11 +27,11 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 | Navigation     | Fragen können markiert und übersprungen werden, mit direkter Navigation über die Seitenleiste |
 | Fortschritt    | Fortschritt wird pro Pseudonym und Fragenset in einer SQLite-Datenbank gespeichert            |
 | Zeitlimit      | Optionales 60-Minuten-Fenster                                                                 |
-| Leaderboard   | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
-| Analyse       | Itemanalyse (Schwierigkeit, Trennschärfe), Distraktor-Analyse                                 |
-| Export        | CSV-Download aller Antworten über Admin-Panel                                                 |
-| Reset         | Globaler CSV-Reset im Admin-Panel                                                             |
-| Admin-Panel   | Passwortgeschützter Bereich für Analyse, Export und Systemeinstellungen                       |
+| Feedback       | Nutzer können Probleme mit Fragen melden (inhaltlich, technisch etc.)                         |
+| Leaderboard    | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
+| Analyse & Wartung | Itemanalyse, Distraktor-Analyse, Verwaltung von gemeldetem Feedback                         |
+| Export         | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                      |
+| Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback-Management, Export und Systemeinstellungen  |
 
 ---
 
@@ -117,7 +118,7 @@ MC_TEST_MIN_SECONDS_BETWEEN="2"
     1. Wähle auf der Startseite das in den Secrets (`MC_TEST_ADMIN_USER`) definierte Admin-Pseudonym aus.
     2. Nach dem Start des Tests erscheint in der Seitenleiste der Bereich "🔐 Admin Panel".
     3. Gib dort das Admin-Passwort (`MC_TEST_ADMIN_KEY`) ein, um vollen Zugriff zu erhalten.
-- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), Datenexport (CSV, SQL-Dump) und Systemeinstellungen (Scoring-Modus, Zurücksetzen der Testdaten).
+- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), eine Übersicht und Verwaltung für gemeldetes Feedback, Datenexport (CSV, SQL-Dump) und Systemeinstellungen (Scoring-Modus, Zurücksetzen der Testdaten).
 
 ### Tests ausführen
 
