@@ -458,8 +458,6 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     """Rendert den Feedback- und Erklärungsblock nach einer Antwort."""
-
-    st.divider() 
     
     # Ermittle den Index der aktuellen Frage. Dies wird an mehreren Stellen benötigt.
     frage_idx = questions.index(frage_obj)
@@ -486,8 +484,8 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
         st.success("Richtig! ✅")
     else:
-        st.markdown("<span style='color:#dc3545; font-weight:bold;'>Leider falsch.</span>", unsafe_allow_html=True)
-        st.markdown(f"<span style='color:#28a745; font-weight:bold;'>Richtige Antwort:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
+        st.success("Leider falsch. ❌")
+        st.markdown(f"<span style='color:#28a745; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
 
     # Erklärungstext
     erklaerung = frage_obj.get("erklaerung")
@@ -700,7 +698,7 @@ def render_review_mode(questions: list):
             
             st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
             if not ist_richtig:
-                st.markdown(f"**Richtige Antwort:** {formatted_richtige_antwort}")
+                st.markdown(f"**Richtig:** {formatted_richtige_antwort}")
 
 
             erklaerung = frage.get("erklaerung")

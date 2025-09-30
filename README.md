@@ -129,7 +129,35 @@ PYTHONPATH=. pytest
 
 ---
 
+## 🐛 Troubleshooting
+
+-   **App startet nicht:** Stelle sicher, dass alle Abhängigkeiten aus `requirements.txt` installiert sind.
+
+---
+
+## 🤝 Contributing
+
+Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffne einen Pull Request.
+
 ## Interaktiver Prompt zur Erstellung von Fragensets
+
+### Anleitung: Neue Fragensets mit einem KI-Assistenten erstellen
+
+Der folgende Abschnitt ist eine detaillierte Anweisung (ein "Prompt") für einen KI-Assistenten wie **Gemini Code Assist** oder andere große Sprachmodelle (LLMs). Er enthält alle notwendigen Informationen, um ein neues, qualitativ hochwertiges Fragenset im korrekten `.json`-Format für diese App zu erstellen.
+
+**Anwendung:**
+
+1.  **Kopieren Sie den gesamten folgenden Textblock**, beginnend bei `Dieser Assistent führt Sie...` bis zum Ende.
+2.  **Fügen Sie den kopierten Text** in das Eingabefeld Ihres KI-Assistenten (z.B. im Web-Chat oder in Ihrer IDE) ein.
+3.  Der Assistent wird Sie dann schrittweise durch die Konfiguration führen.
+
+Indem Sie diesen vollständigen Prompt verwenden, stellen Sie sicher, dass der Assistent alle strukturellen und formatierungstechnischen Anforderungen kennt und ein direkt verwendbares Ergebnis liefert.
+
+---
+
+Führe mich in den folgenden sechs Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die entsprechende Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfahren.
+
+---
 
 ### **Schritt 1 von 5: Thema abfragen**
 
@@ -137,13 +165,19 @@ Frage mich nach dem Thema für das neue Fragenset. Erwähne, dass dies die Grund
 
 ---
 
-### **Schritt 2 von 5: Anzahl der Fragen abfragen**
+### **Schritt 2 von 6: Zielgruppe abfragen**
+
+Frage mich nach der Zielgruppe für das Fragenset. Gib mir Beispiele wie "Anfänger ohne Vorkenntnisse", "Fortgeschrittene mit Grundwissen" oder "Experten zur Prüfungsvorbereitung".
+
+---
+
+### **Schritt 3 von 6: Anzahl der Fragen abfragen**
 
 Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50).
 
 ---
 
-### **Schritt 3 von 5: Anzahl der Antwortoptionen abfragen**
+### **Schritt 4 von 6: Anzahl der Antwortoptionen abfragen**
 
 Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgenden drei Möglichkeiten zur Auswahl:
 
@@ -153,13 +187,13 @@ Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgende
 
 ---
 
-### **Schritt 4 von 5: Detaillierte Erklärungen abfragen**
+### **Schritt 5 von 6: Detaillierte Erklärungen abfragen**
 
 Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können.
 
 ---
 
-### **Schritt 5 von 5: Externe Dokumente abfragen**
+### **Schritt 6 von 6: Externe Dokumente abfragen**
 
 Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage hochladen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann.
 
@@ -167,7 +201,7 @@ Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage
 
 ### **Abschluss, Ausgabeformat und Generierung**
 
-Sobald Sie diese fünf Punkte beantwortet haben, beginne ich mit der Erstellung der Fragen. Das Ergebnis wird eine einzelne `.json`-Datei sein, die eine Liste von Frage-Objekten enthält. Jedes dieser Objekte wird der folgenden Struktur und den nachstehenden Formatierungsregeln für die Textinhalte folgen.
+Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die eine Liste von Frage-Objekten enthält. Jedes Objekt muss der folgenden Struktur und den nachstehenden Formatierungsregeln folgen.
 
 #### **JSON-Struktur pro Frage:**
 
@@ -193,17 +227,27 @@ Sobald Sie diese fünf Punkte beantwortet haben, beginne ich mit der Erstellung 
 
 **Erläuterung der Felder:**
 
-  * `frage`: (string) Der vollständige Text der Frage.
+  * `frage`: (string) Der vollständige Text der Frage, beginnend mit der fortlaufenden Nummer und einem Punkt (z.B. "1. Was ist...").
   * `optionen`: (array of strings) Eine Liste der möglichen Antworten.
   * `loesung`: (integer) Der Index der korrekten Antwort (beginnend bei 0).
   * `erklaerung`: (string) Die Standarderklärung für die korrekte Lösung.
-  * `gewichtung`: (integer) Eine Ganzzahl (typischerweise 1, 2 oder 3), die die Schwierigkeit und den Punktewert angibt.
+  * `gewichtung`: (integer) Eine Ganzzahl, die die Schwierigkeit angibt: **1** für Grundlagenwissen, **2** für Transferwissen/Anwendung, **3** für Expertenwissen/Kombination.
   * `thema`: (string) Das spezifische Unterthema, dem die Frage zugeordnet ist.
-  * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3. Es enthält die Schlüssel `title` (string) und `content` (string).
+  * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3.
 
 #### **Formatierungsregeln für Textinhalte:**
 
-Um eine saubere und korrekte Darstellung zu gewährleisten, werden folgende Formatierungen angewendet:
+Beachte beim Erstellen der Fragen zusätzlich die folgenden **didaktischen Richtlinien für gute MC-Fragen**:
+
+1.  **Keine Hinweise in der Frage:** Die Frage darf keine sprachlichen Hinweise enthalten, die auf die richtige Antwort schließen lassen.
+2.  **Plausible Distraktoren:** Alle falschen Antwortoptionen (Distraktoren) müssen plausibel und attraktiv sein. Sie sollten typische Missverständnisse oder häufige Fehler widerspiegeln.
+3.  **Einheitliche Antwortlänge:** Alle Antwortoptionen sollten eine ähnliche Länge und grammatikalische Struktur haben, um zu vermeiden, dass die längste oder detaillierteste Antwort automatisch als richtig erkannt wird.
+4.  **Vermeide Negationen:** Formuliere Fragen positiv (z.B. "Welche Aussage ist korrekt?") anstatt negativ ("Welche Aussage ist NICHT korrekt?").
+5.  **Zufällige Position der Lösung:** Die korrekte Antwort sollte zufällig unter den Optionen platziert werden und nicht immer an derselben Position (z.B. immer als dritte Option) stehen.
+
+---
+
+Wende die folgenden Formatierungsregeln für alle Textinhalte an:
 
   * **Fachbegriffe und Abkürzungen:** Technische Begriffe, Dateinamen, Funktionsnamen oder Abkürzungen werden in Backticks (`` ` ``) eingeschlossen, damit sie als Code formatiert erscheinen.
       * *Beispiel:* `Docker`, `st.write()`, `requirements.txt`
@@ -223,16 +267,4 @@ Um eine saubere und korrekte Darstellung zu gewährleisten, werden folgende Form
 
 ---
 
-Nach Abschluss der Generierung stelle ich Ihnen die fertige `questions_Ihr_Thema.json`-Datei direkt hier zum Download zur Verfügung.
-
----
-
-## 🐛 Troubleshooting
-
--   **App startet nicht:** Stelle sicher, dass alle Abhängigkeiten aus `requirements.txt` installiert sind.
-
----
-
-## 🤝 Contributing
-
-Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffne einen Pull Request.
+Stelle mir nach Abschluss der Generierung die fertige `questions_Ihr_Thema.json`-Datei direkt hier zum Download zur Verfügung.
