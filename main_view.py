@@ -498,7 +498,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
             st.markdown("<span style='font-weight:600; color:#4b9fff;'>Erklärung:</span>", unsafe_allow_html=True)
             # Prüfe, ob die Erklärung ein strukturiertes Objekt ist
             if isinstance(erklaerung, dict) and "titel" in erklaerung and "schritte" in erklaerung:
-                st.markdown(f"**{erklaerung['titel']}**")
+                st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")
                 # Jeder Schritt wird in einer eigenen Spalte gerendert, um KaTeX zu parsen
                 # und bei Bedarf scrollbar zu sein.
                 for i, schritt in enumerate(erklaerung['schritte']):
@@ -506,10 +506,10 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     with cols[0]:
                         st.markdown(f"{i+1}.")
                     with cols[1]:
-                        st.markdown(f"<div class='scrollable-katex'>{schritt}</div>", unsafe_allow_html=True)
+                        st.markdown(f"<div class='scrollable-katex'>{smart_quotes_de(schritt)}</div>", unsafe_allow_html=True)
             else:
                 # Fallback für einfache String-Erklärungen
-                st.markdown(str(erklaerung))
+                st.markdown(smart_quotes_de(str(erklaerung)))
 
     # --- Optionale, detaillierte Erklärung ---
     extended_explanation = frage_obj.get("extended_explanation")
@@ -527,10 +527,10 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         if st.session_state.get(show_extended_key, False):
             with st.expander("Detaillierte Erklärung", expanded=True):
                 if isinstance(extended_explanation, dict):
-                    st.markdown(f"**{extended_explanation.get('title', '')}**")
-                    st.markdown(extended_explanation.get('content', ''))
+                    st.markdown(f"**{smart_quotes_de(extended_explanation.get('title', ''))}**")
+                    st.markdown(smart_quotes_de(extended_explanation.get('content', '')))
                 else:
-                    st.markdown(str(extended_explanation))
+                    st.markdown(smart_quotes_de(str(extended_explanation)))
 
     # --- Feedback-Mechanismus ---
     st.markdown("---")
@@ -713,7 +713,7 @@ def render_review_mode(questions: list):
                 with st.container(border=True):
                     st.markdown("<span style='font-weight:600; color:#4b9fff;'>Erklärung:</span>", unsafe_allow_html=True)
                     if isinstance(erklaerung, dict) and "titel" in erklaerung and "schritte" in erklaerung:
-                        st.markdown(f"**{erklaerung['titel']}**")
+                        st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")
                         # Jeder Schritt wird in einer eigenen Spalte gerendert, um KaTeX zu parsen
                         # und bei Bedarf scrollbar zu sein.
                         for i, schritt in enumerate(erklaerung['schritte']):
@@ -721,6 +721,6 @@ def render_review_mode(questions: list):
                             with cols[0]:
                                 st.markdown(f"{i+1}.")
                             with cols[1]:
-                                st.markdown(f"<div class='scrollable-katex'>{schritt}</div>", unsafe_allow_html=True)
+                                st.markdown(f"<div class='scrollable-katex'>{smart_quotes_de(schritt)}</div>", unsafe_allow_html=True)
                     else:
-                        st.markdown(str(erklaerung))
+                        st.markdown(smart_quotes_de(str(erklaerung)))
