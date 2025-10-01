@@ -456,22 +456,15 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     st.rerun()
 
 
-def _handle_feedback_submission(frage_idx: int, frage_obj: dict):
+def _handle_feedback_submission(frage_idx: int, frage_obj: dict, feedback_types: list[str]):
     """Kapselt die Logik zum Senden von Feedback, um Reruns zu steuern."""
     from database import add_feedback
-    feedback_types = st.session_state.get(f"selected_feedback_{frage_idx}", [])
     frage_nr = int(frage_obj.get("frage", "0").split(".", 1)[0])
     session_id = st.session_state.get("session_id")
     if session_id and frage_nr > 0 and feedback_types:
         add_feedback(session_id, frage_nr, feedback_types)
         st.session_state[f"feedback_reported_{frage_idx}"] = True
-        # Lösche den temporären State nach dem Senden
-        if f"selected_feedback_{frage_idx}" in st.session_state:
-            del st.session_state[f"selected_feedback_{frage_idx}"]
         st.toast("Feedback gesendet!")
-
-def _update_feedback_selection(frage_idx: int):
-    st.session_state[f"selected_feedback_{frage_idx}"] = st.session_state[f"ms_feedback_{frage_idx}"]
 
 
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
@@ -565,24 +558,20 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         _, center_col, _ = st.columns([2, 1.5, 2])
         with center_col:
             with st.popover("Problem mit dieser Frage melden", use_container_width=True):
-                st.markdown("**Welche Probleme sind dir aufgefallen?** (Mehrfachauswahl möglich)")
-                st.caption("Nach der Auswahl nicht vergessen, auf »Feedback senden« zu klicken.")
+                st.markdown("**Welche Probleme sind dir aufgefallen?**")
                 
-                # Die Auswahl wird nun über on_change im session_state gespeichert.
-                # Dies zwingt das Popover, sich nach der Auswahl neu zu rendern,
-                # was den gewünschten Effekt hat, dass das Dropdown schließt.
-                selected_feedback_types = st.multiselect(
-                    "Problemtyp:", options=feedback_options, key=f"ms_feedback_{frage_idx}",
-                    placeholder="Problem(e) auswählen...", label_visibility="collapsed",
-                    on_change=_update_feedback_selection, args=(frage_idx,),
-                    default=st.session_state.get(f"selected_feedback_{frage_idx}", [])
-                )
-
-                # Der Button liest die Auswahl aus dem session_state.
+                # Verwende Checkboxen statt Multiselect für eine bessere UX
+                selected_feedback_types = []
+                for option in feedback_options:
+                    # Der Key muss eindeutig pro Frage und Option sein
+                    if st.checkbox(option, key=f"cb_feedback_{frage_idx}_{option}"):
+                        selected_feedback_types.append(option)
+                
+                # Der Senden-Button ist direkt im Popover und wird aktiv, wenn eine Auswahl getroffen wurde.
                 st.button(
                     "Feedback senden", key=f"btn_submit_feedback_{frage_idx}",
-                    on_click=_handle_feedback_submission, args=(frage_idx, frage_obj),
-                    disabled=not st.session_state.get(f"selected_feedback_{frage_idx}"), use_container_width=True
+                    on_click=_handle_feedback_submission, args=(frage_idx, frage_obj, selected_feedback_types),
+                    disabled=not selected_feedback_types, use_container_width=True
                 )
 
     show_motivation(questions, app_config)
