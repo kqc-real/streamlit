@@ -495,7 +495,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
         st.success("Richtig! ✅")
     else:
-        st.success("Leider falsch. ❌")
+        st.error("Leider falsch. ❌")
         st.markdown(f"<span style='color:#28a745; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
 
     # Erklärungstext
