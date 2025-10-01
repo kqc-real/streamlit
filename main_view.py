@@ -559,6 +559,25 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         with center_col:
             with st.popover("Problem mit dieser Frage melden", use_container_width=True):
                 st.markdown("**Welche Probleme sind dir aufgefallen?**")
+
+                # --- Custom CSS für den roten Button ---
+                # Wir definieren eine CSS-Klasse für den aktiven Button und wenden sie an.
+                # Der Key des Buttons wird als Teil des CSS-Selektors verwendet.
+                button_key = f"btn_submit_feedback_{frage_idx}"
+                st.markdown(f"""
+                <style>
+                    /* Ziel: Der Streamlit-Button, wenn er nicht deaktiviert ist */
+                    div[data-testid="stButton"] > button[kind="primary"]:not(:disabled) {{
+                        background-color: #d32f2f; /* Ein kräftiges Rot */
+                        color: white;
+                        border-color: #d32f2f;
+                    }}
+                    div[data-testid="stButton"] > button[kind="primary"]:not(:disabled):hover {{
+                        background-color: #b71c1c; /* Ein dunkleres Rot beim Hover */
+                        border-color: #b71c1c;
+                    }}
+                </style>
+                """, unsafe_allow_html=True)
                 
                 # Verwende Checkboxen statt Multiselect für eine bessere UX
                 selected_feedback_types = []
@@ -569,9 +588,10 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 
                 # Der Senden-Button ist direkt im Popover und wird aktiv, wenn eine Auswahl getroffen wurde.
                 st.button(
-                    "Feedback senden", key=f"btn_submit_feedback_{frage_idx}",
+                    "Feedback senden", key=button_key,
                     on_click=_handle_feedback_submission, args=(frage_idx, frage_obj, selected_feedback_types),
-                    disabled=not selected_feedback_types, use_container_width=True
+                    disabled=not selected_feedback_types, use_container_width=True,
+                    type="primary" if selected_feedback_types else "secondary"
                 )
 
     show_motivation(questions, app_config)
