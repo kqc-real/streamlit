@@ -189,8 +189,8 @@ def render_skipped_questions(questions: list):
             st.rerun()
 
 
-def show_motivation(questions: list, app_config: AppConfig):
-    """Zeigt kontextabhängiges, motivierendes Feedback an."""
+def get_motivation_message(questions: list, app_config: AppConfig) -> str:
+    """Gibt eine kontextabhängige, motivierende Feedback-Nachricht als HTML-String zurück."""
     scoring_mode = app_config.scoring_mode
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
@@ -201,7 +201,7 @@ def show_motivation(questions: list, app_config: AppConfig):
     outcomes = st.session_state.get("answer_outcomes", [])
     num_answered = len(outcomes)
     if num_answered == 0 or not questions:
-        return
+        return ""
 
     last_correct = outcomes[-1] if outcomes else None
 
@@ -291,7 +291,7 @@ def show_motivation(questions: list, app_config: AppConfig):
     pool = list(base_phrases.get((phase, tier), []))
     pool.extend(overlay_phrases)
     if not pool:
-        return
+        return ""
 
     # Wiederholung vermeiden
     last_phrase = st.session_state.get("_last_motivation_phrase")
@@ -306,12 +306,10 @@ def show_motivation(questions: list, app_config: AppConfig):
     st.session_state._last_motivation_phrase = candidate
 
     # Anzeige
+    message_html = ""
     if candidate:
-        st.markdown(
-            f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {candidate}</div>",
-            unsafe_allow_html=True,
-        )
-
+        message_html = f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {candidate}</div>"
+    return message_html
 
 def render_question_distribution_chart(questions: list):
     """Rendert ein gestapeltes Balkendiagramm der Fragenverteilung."""

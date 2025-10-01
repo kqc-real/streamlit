@@ -19,7 +19,7 @@ from logic import (
 )
 from helpers import smart_quotes_de, get_user_id_hash
 from database import update_bookmarks
-from components import show_motivation, render_question_distribution_chart
+from components import render_question_distribution_chart
 
 
 def render_welcome_page(app_config: AppConfig):
@@ -344,8 +344,8 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
                 if st.button("Antworten", key=f"submit_{frage_idx}", type="primary", use_container_width=True, disabled=(antwort is None)):
-                    # Die Logik für das Antworten wird hierhin verschoben
-                    handle_answer_submission(frage_idx, antwort, frage_obj, app_config)
+                    # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
+                    handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         
         else:
             # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
@@ -397,7 +397,7 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
 
-def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig):
+def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
     """Verarbeitet die Abgabe einer Antwort."""
     # --- Rate Limiting ---
     last_answer_time = st.session_state.get("last_answer_time", 0)
@@ -421,6 +421,10 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     else:
         punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
         st.toast("Leider falsch.", icon="❌")
+
+    # Generiere eine neue Motivationsnachricht und speichere sie für die Anzeige.
+    from components import get_motivation_message
+    st.session_state.last_motivation_message = get_motivation_message(questions, app_config)
 
     set_question_as_answered(frage_idx, punkte, antwort)
 
@@ -594,7 +598,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     type="primary" if selected_feedback_types else "secondary"
                 )
 
-    show_motivation(questions, app_config)
+    # Zeige die Motivation nur einmalig nach der Antwort an, nicht bei jedem Rerun.
+    # Die Nachricht wird im Session State gespeichert, um stabil zu bleiben.
+    if "last_motivation_message" in st.session_state:
+        st.markdown(st.session_state.last_motivation_message, unsafe_allow_html=True)
+
 
     # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
     # im Sprung-Modus eine bereits beantwortete Frage reviewt.
