@@ -139,18 +139,17 @@ PYTHONPATH=. pytest
 
 Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffne einen Pull Request.
 
-## Interaktiver Prompt zur Erstellung von Fragensets
+---
 
-### Anleitung: Neue Fragensets mit einem KI-Assistenten erstellen
+# Interaktiver Prompt zur Erstellung von Fragensets
 
 Der folgende Abschnitt ist eine detaillierte Anweisung (ein "Prompt") für einen KI-Assistenten wie **Gemini Code Assist** oder andere große Sprachmodelle (LLMs). Er enthält alle notwendigen Informationen, um ein neues, qualitativ hochwertiges Fragenset im korrekten `.json`-Format für diese App zu erstellen.
-
-**Anwendung:**
 
 1.  **Kopieren Sie den gesamten folgenden Textblock**
 2.  **Fügen Sie den kopierten Text** in das Eingabefeld Ihres KI-Assistenten (z.B. im Web-Chat oder in Ihrer IDE) ein.
 3.  Der Assistent wird Sie dann schrittweise durch die Konfiguration führen.
----
+
+## Prompt (copy & paste)
 
 Führe mich in den folgenden sechs Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die entsprechende Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfahren.
 
@@ -241,7 +240,8 @@ Beachte beim Erstellen der Fragen zusätzlich die folgenden **didaktischen Richt
 3.  **Einheitliche Antwortlänge:** Alle Antwortoptionen sollten eine ähnliche Länge und grammatikalische Struktur haben, um zu vermeiden, dass die längste oder detaillierteste Antwort automatisch als richtig erkannt wird.
 4.  **Keine "längste Antwort"-Falle:** Die korrekte Antwort darf nicht systematisch die längste oder detaillierteste Option sein.
 5.  **Vermeide Negationen:** Formuliere Fragen positiv (z.B. "Welche Aussage ist korrekt?") anstatt negativ ("Welche Aussage ist NICHT korrekt?").
-6.  **Zufällige Position der Lösung:** Die korrekte Antwort sollte zufällig unter den Optionen platziert werden und nicht immer an derselben Position (z.B. immer als dritte Option) stehen.
+6.  **Keine Option "Alle obige Optionen"** Keine Sammeloption anbieten (z.B. "Alles trifft zu"); es soll immer nur eine inhaltliche Antwortoption richtig sein.
+7.  **Zufällige Position der Lösung:** Die korrekte Antwort sollte zufällig unter den Optionen platziert werden und nicht immer an derselben Position (z.B. immer als dritte Option) stehen.
 
 ---
 
