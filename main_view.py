@@ -86,7 +86,10 @@ def render_welcome_page(app_config: AppConfig):
 
     # --- Öffentliches Leaderboard ---
     if app_config.show_top5_public:
-        with st.expander("🏆 Aktuelle Top 10", expanded=False):
+        # Berechne die maximale Punktzahl für das ausgewählte Set
+        max_score_for_set = sum(q.get("gewichtung", 1) for q in questions)
+        leaderboard_title = f"🏆 Aktuelle Top 10 (max. {max_score_for_set} Punkte)"
+        with st.expander(leaderboard_title, expanded=False):
             from database import get_all_logs_for_leaderboard
             
             leaderboard_data = get_all_logs_for_leaderboard(selected_file)
@@ -95,15 +98,15 @@ def render_welcome_page(app_config: AppConfig):
                 st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
             else:
                 scores = pd.DataFrame(leaderboard_data)
-                scores.rename(columns={'user_pseudonym': 'Pseudonym', 'total_score': 'Punkte', 'last_test_time': 'Datum'}, inplace=True)
-
-                # Berechne die maximale Punktzahl für dieses Set
-                questions_for_max_score = load_questions(selected_file)
-                max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_max_score)
-                scores["Max. Punkte"] = max_score_for_set
+                scores.rename(columns={
+                    'user_pseudonym': 'Pseudonym',
+                    'total_score': 'Punkte',
+                    'last_test_time': 'Datum',
+                    'duration_minutes': 'Dauer (min)'
+                }, inplace=True)
 
                 # Formatiere das Datum
-                scores["Datum"] = pd.to_datetime(scores["Datum"]).dt.strftime('%d.%m.%Y')
+                scores["Datum"] = pd.to_datetime(scores["Datum"]).dt.strftime('%d.%m.%y')
 
                 # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                 icons = ["🥇", "🥈", "🥉"]
@@ -113,7 +116,7 @@ def render_welcome_page(app_config: AppConfig):
                     else:
                         scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
-                st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
+                st.dataframe(scores[["Pseudonym", "Punkte", "Dauer (min)", "Datum"]], use_container_width=True, hide_index=True)
 
 
     # --- Login-Formular im Hauptbereich ---

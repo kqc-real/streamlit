@@ -60,8 +60,12 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         if not q_file:
             continue
         
+        # Lade die Fragen, um die maximale Punktzahl zu ermitteln
+        questions_for_set = load_questions(q_file)
+        max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
+        
         title = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-        st.subheader(f"Fragenset: {title}")
+        st.subheader(f"Fragenset: {title} (max. {max_score_for_set} Punkte)")
 
         # Nutze die optimierte DB-Funktion
         leaderboard_data = get_all_logs_for_leaderboard(q_file)
@@ -71,17 +75,17 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             continue
 
         scores = pd.DataFrame(leaderboard_data)
-        scores.rename(columns={'user_pseudonym': 'Pseudonym', 'total_score': 'Punkte', 'last_test_time': 'Datum'}, inplace=True)
-
-        # Lade die Fragen, um die maximale Punktzahl zu ermitteln
-        questions_for_set = load_questions(q_file)
-        max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
-        scores["Max. Punkte"] = max_score_for_set
+        scores.rename(columns={
+            'user_pseudonym': 'Pseudonym',
+            'total_score': 'Punkte',
+            'last_test_time': 'Datum',
+            'duration_minutes': 'Dauer (min)'
+        }, inplace=True)
 
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
         scores["Datum"] = pd.to_datetime(scores["Datum"])
 
-        scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%Y')
+        scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%y')
         
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
@@ -90,7 +94,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             else:
                 scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
-        st.dataframe(scores[["Pseudonym", "Punkte", "Max. Punkte", "Datum"]], use_container_width=True, hide_index=True)
+        st.dataframe(scores[["Pseudonym", "Punkte", "Dauer (min)", "Datum"]], use_container_width=True, hide_index=True)
         st.divider()
 
 
