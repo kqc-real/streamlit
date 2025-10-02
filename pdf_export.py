@@ -22,8 +22,8 @@ import matplotlib.pyplot as plt
 # ==============================================================================
 # PAUSCHALE KONFIGURATION (wie im Beispiel vorgegeben)
 # ==============================================================================
-FORMULA_SCALE_FACTOR = 10.0 # Verdoppelt, um die Formeln deutlich größer zu machen
-FORMULA_Y_OFFSET = -2.0 # Negativer Wert, um die Formel nach oben zu schieben und an der Textbasislinie auszurichten
+FORMULA_SCALE_FACTOR = 2.0 # Faktor > 1.0 macht die Formel größer als der Text
+FORMULA_Y_OFFSET = -1.0 # Negativer Wert, um die Formel nach oben zu schieben und an der Textbasislinie auszurichten
 # ==============================================================================
 
 
@@ -72,8 +72,7 @@ class PDF(FPDF, HTMLMixin):
                 try:
                     formula_img = _render_latex(formula_str, self.font_size)
                     # Berechne die Höhe und Breite des Bildes basierend auf der Skalierung.
-                    # Die Höhe wird an die Schriftgröße gekoppelt, die Breite ergibt sich aus dem Seitenverhältnis
-                    img_height = self.font_size * FORMULA_SCALE_FACTOR / 5.0
+                    img_height = self.font_size * FORMULA_SCALE_FACTOR
                     # Lade das Bild in einen Puffer, um seine Dimensionen zu erhalten, ohne es zu speichern
                     from PIL import Image
                     pil_img = Image.open(formula_img)
@@ -98,9 +97,6 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     pdf.add_font("DejaVu", "", os.path.join(project_dir, "DejaVuSans.ttf"), uni=True)
     pdf.add_font("DejaVu", "B", os.path.join(project_dir, "DejaVuSans-Bold.ttf"), uni=True)
     pdf.add_font("DejaVu", "I", os.path.join(project_dir, "DejaVuSans-Oblique.ttf"), uni=True)
-    # Verwende für 'Courier' ebenfalls die normale DejaVu-Schriftart, um den FileNotFoundError zu vermeiden,
-    # da DejaVuSansMono.ttf nicht zwingend vorhanden ist.
-    pdf.add_font("Courier", "", os.path.join(project_dir, "DejaVuSans.ttf"), uni=True)
 
     pdf.add_page()
     pdf.set_font('DejaVu', '', 12)
