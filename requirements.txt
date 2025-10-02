@@ -7,6 +7,9 @@ numpy>=1.26
 # Für interaktive Visualisierungen (Plotly-Bar-Chart)
 plotly>=5.18
 
+# Für den PDF-Export der Ergebnisse
+fpdf2>=2.7
+
 # Optional: remove if not needed
 python-dotenv>=1.0.0
 

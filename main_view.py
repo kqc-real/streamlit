@@ -655,6 +655,24 @@ def render_final_summary(questions: list, app_config: AppConfig):
     else:
         st.warning("Da ist noch Luft nach oben. Nutze den Review-Modus zum Lernen!")
 
+    # --- PDF-Export ---
+    st.divider()
+    from pdf_export import generate_pdf_report
+    
+    # Generiere die PDF-Daten im Speicher
+    pdf_bytes = generate_pdf_report(questions, app_config)
+    
+    q_file_name = st.session_state.get("selected_questions_file", "ergebnisse").replace("questions_", "").replace(".json", "")
+    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+    
+    st.download_button(
+        label="📥 Ergebnisse als PDF herunterladen",
+        data=pdf_bytes,
+        file_name=f"ergebnisse_{q_file_name}_{user_name_file}.pdf",
+        mime="application/pdf",
+        use_container_width=True
+    )
+
     # --- Performance-Analyse pro Thema ---
     st.subheader("Deine Leistung nach Themen")
 

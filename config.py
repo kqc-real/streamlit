@@ -14,7 +14,11 @@ import streamlit as st
 
 def get_package_dir() -> str:
     """Gibt das Verzeichnis des Pakets zurück."""
-    return os.path.dirname(__file__)
+    # Gibt das Verzeichnis zurück, in dem diese Datei (config.py) liegt.
+    # Dies ist der robusteste Weg, um das Hauptverzeichnis der App zu finden.
+    # __file__ ist der Pfad zur aktuellen Datei. os.path.dirname() gibt das Verzeichnis davon zurück.
+    # Beispiel: /path/to/your/project/streamlit/config.py -> /path/to/your/project/streamlit
+    return os.path.abspath(os.path.dirname(__file__))
 
 
 class AppConfig:
