@@ -110,7 +110,28 @@ MC_TEST_MIN_SECONDS_BETWEEN="2"
 ```
 
 
-## 🛠️ Administration & Wartung
+## � PDF-Export
+
+Die App bietet einen professionellen PDF-Export der Testergebnisse mit folgenden Features:
+
+- **LaTeX-Formel-Rendering:** Mathematische Formeln werden via [QuickLaTeX API](https://quicklatex.com) als hochauflösende PNG-Bilder gerendert
+- **Markdown-Unterstützung:** Überschriften (`#`, `##`, `###`), Fettdruck (`**text**`), Listen und Code-Snippets
+- **Optimierte Darstellung:**
+  - Matrizen und mathematische Ausdrücke werden korrekt formatiert
+  - Inline-Formeln fügen sich harmonisch in den Text ein
+  - Block-Formeln werden kompakt und lesbar dargestellt
+- **Professionelles Layout:** Eingerückte Antwortoptionen, farbliche Markierung (richtig/falsch), Erklärungen in Boxen
+
+### Technische Details
+
+- **PDF-Engine:** WeasyPrint (Python-basiert, keine externen Binaries)
+- **Formel-Rendering:** QuickLaTeX API mit amsmath/amsfonts-Paketen
+- **Unterstützte LaTeX-Elemente:** Matrizen, Vektoren, Brüche, Exponenten, griechische Buchstaben, Summen, Integrale, etc.
+- **Streamlit Cloud kompatibel:** Keine Node.js- oder Chromium-Dependencies
+
+---
+
+## �🛠️ Administration & Wartung
 
 ### Admin-Bereich
 
@@ -118,7 +139,7 @@ MC_TEST_MIN_SECONDS_BETWEEN="2"
     1. Wähle auf der Startseite das in den Secrets (`MC_TEST_ADMIN_USER`) definierte Admin-Pseudonym aus.
     2. Nach dem Start des Tests erscheint in der Seitenleiste der Bereich "🔐 Admin Panel".
     3. Gib dort das Admin-Passwort (`MC_TEST_ADMIN_KEY`) ein, um vollen Zugriff zu erhalten.
-- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), eine Übersicht und Verwaltung für gemeldetes Feedback, Datenexport (CSV, SQL-Dump) und Systemeinstellungen (Scoring-Modus, Zurücksetzen der Testdaten).
+- **Funktionen:** Das Panel bietet detaillierte Analysen (Item- & Distraktoranalyse), eine Übersicht und Verwaltung für gemeldetes Feedback, Datenexport (CSV, SQL-Dump, **PDF-Export**) und Systemeinstellungen (Scoring-Modus, Zurücksetzen der Testdaten).
 
 ### Tests ausführen
 
