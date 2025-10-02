@@ -1,188 +1,301 @@
 """
 Modul zur Generierung von PDF-Berichten für die Testergebnisse.
-Nutzt fpdf2 für das Layout und Matplotlib für das Rendering von LaTeX-Formeln.
+Nutzt einen HTML-basierten Ansatz mit WeasyPrint für ein robustes Layout
+und PyKaTeX für das serverseitige Rendering von LaTeX-Formeln.
 """
-import os
 import io
 import re
-from fpdf import FPDF, HTMLMixin
+import base64
 from datetime import datetime
-import streamlit as st
 from typing import List, Dict, Any
 
+import streamlit as st
+import requests
+from weasyprint import HTML
+
 from logic import get_answer_for_question, calculate_score
-from config import AppConfig, get_package_dir
-from helpers import smart_quotes_de
-import matplotlib
-
-# Matplotlib anweisen, keinen GUI-Backend zu verwenden (wichtig für Server-Umgebungen)
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-
-# ==============================================================================
-# PAUSCHALE KONFIGURATION (wie im Beispiel vorgegeben)
-# ==============================================================================
-FORMULA_SCALE_FACTOR = 2.0 # Faktor > 1.0 macht die Formel größer als der Text
-FORMULA_Y_OFFSET = -1.0 # Negativer Wert, um die Formel nach oben zu schieben und an der Textbasislinie auszurichten
-# ==============================================================================
+from config import AppConfig
 
 
-def _render_latex(formula_str: str, pdf_font_size: int) -> io.BytesIO:
+def _render_latex_to_image(formula: str, is_block: bool) -> str:
     """
-    Rendert eine LaTeX-Formel in ein hochauflösendes, transparentes Bild.
+    Rendert LaTeX-Formel zu PNG-Bild via QuickLaTeX API.
+    Einfach und funktioniert überall!
     """
-    matplotlib_fontsize = pdf_font_size * 1.5
-    fig = plt.figure(figsize=(0.01, 0.01))
-    fig.text(0, 0, f"${formula_str}$", ha='left', va='bottom', fontsize=matplotlib_fontsize)
+    try:
+        # Größere Schrift für bessere Lesbarkeit
+        font_size = '24px' if is_block else '20px'
+        
+        # Bereite Formel vor: entferne Leerzeichen um & und \\ herum
+        # Das verhindert Pluszeichen in Matrizen!
+        import re
+        cleaned_formula = formula
+        # WICHTIG: Erst alle Newlines entfernen (bei mehrzeiligen Matrizen)
+        cleaned_formula = cleaned_formula.replace('\n', '')
+        # Entferne Leerzeichen nach \begin{pmatrix} und vor \end{pmatrix}
+        cleaned_formula = re.sub(
+            r'\\begin\{pmatrix\}\s*', r'\\begin{pmatrix}', cleaned_formula
+        )
+        cleaned_formula = re.sub(
+            r'\s*\\end\{pmatrix\}', r'\\end{pmatrix}', cleaned_formula
+        )
+        # Entferne Leerzeichen um & und \\ herum
+        cleaned_formula = re.sub(r'\s*&\s*', '&', cleaned_formula)
+        cleaned_formula = re.sub(r'\s*\\\\\s*', r'\\\\', cleaned_formula)
+        
+        # QuickLaTeX API aufrufen mit amsmath für Matrizen
+        response = requests.post(
+            'https://quicklatex.com/latex3.f',
+            data={
+                'formula': cleaned_formula,
+                'fsize': font_size,
+                'fcolor': '000000',
+                'mode': '0',
+                'out': '1',
+                'remhost': 'quicklatex.com',
+                'preamble': (r'\usepackage{amsmath}'
+                            r'\usepackage{amsfonts}'
+                            r'\usepackage{amssymb}')
+            },
+            headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            timeout=10
+        )
+        
+        if response.ok:
+            lines = response.text.strip().replace('\r', '').split('\n')
+            if len(lines) >= 2 and lines[0] == '0':
+                parts = lines[1].split()
+                image_url = parts[0]
+                
+                # Erstelle img-Tag mit besserer Skalierung
+                if is_block:
+                    return (f'<div style="text-align: center; '
+                            f'margin: 1.2em 0; '
+                            f'padding: 0.5em; '
+                            f'background-color: #f8f9fa;">'
+                            f'<img src="{image_url}" '
+                            f'alt="LaTeX formula" '
+                            f'style="max-width: 100%; height: auto; '
+                            f'vertical-align: middle;"></div>')
+                else:
+                    return (f'<img src="{image_url}" '
+                            f'alt="LaTeX formula" '
+                            f'style="vertical-align: middle; '
+                            f'margin: 0 0.15em; '
+                            f'max-height: 2em;">')
+    except Exception:
+        pass
     
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0.05, dpi=300, transparent=True)
-    plt.close(fig)
-    buf.seek(0)
-    return buf
+    # Fallback bei Fehlern
+    error = f'[Formel: {formula}]'
+    if is_block:
+        return f'<div style="text-align: center;">{error}</div>'
+    return f'<span>{error}</span>'
 
-
-class PDF(FPDF, HTMLMixin):
-    """Erweiterte FPDF-Klasse für Header und Footer."""
-    def header(self):
-        self.set_font('DejaVu', 'B', 12)
-        self.cell(0, 10, 'Test-Zusammenfassung', 0, 1, 'C')
-        self.ln(5)
-
-    def write_formatted_text(self, text: str, font_size: int):
-        """
-        Schreibt eine Zeile Text, die Markdown-Formatierungen (**fett**, `code`)
-        und LaTeX-Formeln ($...$) enthalten kann.
-        """
-        # Regex, um alle Formatierungen zu finden: **fett**, `code`, $latex$
-        pattern = r'(\*\*.*?\*\*|`.*?`|\$.*?\$)'
-        parts = re.split(pattern, text)
-
-        for part in parts:
-            if not part: continue
-
-            if part.startswith('**') and part.endswith('**'):
-                self.set_font('DejaVu', 'B', font_size)
-                self.write(5, part[2:-2])
-            elif part.startswith('`') and part.endswith('`'):
-                self.set_font('Courier', '', font_size)
-                self.write(5, part[1:-1])
-            elif part.startswith('$') and part.endswith('$'):
-                formula_str = part[1:-1]
-                try:
-                    formula_img = _render_latex(formula_str, self.font_size)
-                    # Berechne die Höhe und Breite des Bildes basierend auf der Skalierung.
-                    img_height = self.font_size * FORMULA_SCALE_FACTOR
-                    # Lade das Bild in einen Puffer, um seine Dimensionen zu erhalten, ohne es zu speichern
-                    from PIL import Image
-                    pil_img = Image.open(formula_img)
-                    img_width = img_height * pil_img.width / pil_img.height
-                    self.image(formula_img, x=self.get_x(), y=self.get_y() + FORMULA_Y_OFFSET, h=img_height)
-                    self.set_x(self.get_x() + img_width) # Setze den Cursor hinter das Bild
-                except Exception:
-                    self.set_font('DejaVu', 'I', font_size)
-                    self.write(5, f" {formula_str} ")
-            else:
-                self.set_font('DejaVu', '', font_size)
-                self.write(5, part)
-
-    def footer(self):
-        self.set_y(-15)
-        self.set_font('DejaVu', 'I', 8)
-        self.cell(0, 10, f'Seite {self.page_no()}', 0, 0, 'C')
+def _parse_text_with_formulas(text: str) -> str:
+    """
+    Konvertiert einen String mit Markdown/KaTeX in sicheres HTML.
+    Formeln werden serverseitig mit KaTeX gerendert.
+    """
+    # 1. Zuerst Formeln extrahieren und durch Platzhalter ersetzen
+    formulas = []
+    
+    # Block-Formeln $$...$$
+    def save_block_formula(match):
+        formula = match.group(1).strip()
+        placeholder = f"__FORMULA_BLOCK_{len(formulas)}__"
+        formulas.append(('block', formula))
+        return placeholder
+    
+    text = re.sub(r'\$\$(.*?)\$\$', save_block_formula, text, flags=re.DOTALL)
+    
+    # Inline-Formeln $...$
+    # WICHTIG: re.DOTALL erlaubt Newlines in Formeln (für mehrzeilige Matrizen)
+    def save_inline_formula(match):
+        formula = match.group(1).strip()
+        placeholder = f"__FORMULA_INLINE_{len(formulas)}__"
+        formulas.append(('inline', formula))
+        return placeholder
+    
+    text = re.sub(r'\$([^$]+?)\$', save_inline_formula, text, flags=re.DOTALL)
+    
+    # 2. Jetzt HTML-Escaping für normalen Text (Formeln sind bereits extrahiert)
+    text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    
+    # 3. Markdown-Formatierungen ersetzen (Überschriften, Fett, Code)
+    # Überschriften: # H1, ## H2, ### H3, etc.
+    text = re.sub(r'^#### (.+)$', r'<h4>\1</h4>', text, flags=re.MULTILINE)
+    text = re.sub(r'^### (.+)$', r'<h3>\1</h3>', text, flags=re.MULTILINE)
+    text = re.sub(r'^## (.+)$', r'<h2>\1</h2>', text, flags=re.MULTILINE)
+    text = re.sub(r'^# (.+)$', r'<h1>\1</h1>', text, flags=re.MULTILINE)
+    # Fett: **text**
+    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    # Code: `text`
+    text = re.sub(r'`(.+?)`', r'<code>\1</code>', text)
+    
+    # 4. Zeilenumbrüche und Listen verarbeiten
+    lines = text.split('\n')
+    html_lines = []
+    in_list = False
+    
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith('* '):
+            content = stripped[2:]
+            if not in_list:
+                html_lines.append('<ul>')
+                in_list = True
+            html_lines.append(f'<li>{content}</li>')
+        else:
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            if stripped:  # Nur nicht-leere Zeilen hinzufügen
+                html_lines.append(stripped)
+    
+    if in_list:
+        html_lines.append('</ul>')
+    
+    processed_text = '<br>'.join(html_lines)
+    
+    # 5. Formeln wieder einsetzen (bereits als HTML gerendert)
+    for i, (formula_type, formula) in enumerate(formulas):
+        is_block = (formula_type == 'block')
+        placeholder_block = f"__FORMULA_BLOCK_{i}__"
+        placeholder_inline = f"__FORMULA_INLINE_{i}__"
+        
+        rendered = _render_latex_to_image(formula, is_block=is_block)
+        
+        if placeholder_block in processed_text:
+            processed_text = processed_text.replace(placeholder_block, rendered)
+        if placeholder_inline in processed_text:
+            processed_text = processed_text.replace(placeholder_inline, rendered)
+    
+    return processed_text
 
 def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) -> bytes:
-    pdf = PDF()
-    project_dir = get_package_dir()
-    pdf.add_font("DejaVu", "", os.path.join(project_dir, "DejaVuSans.ttf"), uni=True)
-    pdf.add_font("DejaVu", "B", os.path.join(project_dir, "DejaVuSans-Bold.ttf"), uni=True)
-    pdf.add_font("DejaVu", "I", os.path.join(project_dir, "DejaVuSans-Oblique.ttf"), uni=True)
-
-    pdf.add_page()
-    pdf.set_font('DejaVu', '', 12)
-
-    # --- Titelseite ---
+    """
+    Generiert einen PDF-Bericht, indem zuerst ein HTML-Dokument erstellt
+    und dieses dann mit WeasyPrint in PDF konvertiert wird.
+    """
     user_name = st.session_state.get("user_id", "Unbekannt")
     q_file = st.session_state.get("selected_questions_file", "Unbekanntes Set")
     set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
-        questions,
-        app_config.scoring_mode,
+        questions, app_config.scoring_mode
     )
     prozent = (current_score / max_score * 100) if max_score > 0 else 0
-    pdf.set_font('DejaVu', 'B', 18)
-    pdf.cell(0, 10, f'Ergebnisse für: {user_name}', 0, 1, 'L')
-    pdf.set_font('DejaVu', '', 14)
-    pdf.cell(0, 10, f'Fragenset: {set_name}', 0, 1, 'L')
-    pdf.cell(0, 10, f'Datum: {datetime.now().strftime("%d.%m.%Y")}', 0, 1, 'L')
-    pdf.ln(5)
-    pdf.set_font('DejaVu', 'B', 14)
-    pdf.cell(0, 10, f'Ergebnis: {current_score} / {max_score} Punkte ({prozent:.1f}%)', 0, 1, 'L')
-    pdf.ln(10)
 
-    # --- Detaillierte Fragenauflistung ---
+    # Baue den HTML-Body
+    html_body = f'''
+        <h1>Ergebnisse für: {user_name}</h1>
+        <p><strong>Fragenset:</strong> {set_name}</p>
+        <p><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y")}</p>
+        <h2>Ergebnis: {current_score} / {max_score} Punkte ({prozent:.1f}%)</h2>
+        <hr>
+    '''
+
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
-    QUESTION_BLOCK_ESTIMATED_HEIGHT = 75
 
     for i, frage_obj in enumerate(questions):
-        if pdf.get_y() + QUESTION_BLOCK_ESTIMATED_HEIGHT > pdf.h - pdf.b_margin:
-            pdf.add_page()
-
         display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
-        frage_text = smart_quotes_de(frage_obj["frage"].split('. ', 1)[-1])
+        frage_text = _parse_text_with_formulas(frage_obj["frage"].split(". ", 1)[-1])
         
-        pdf.set_font('DejaVu', 'B', 12)
-        pdf.write(5, f'{display_question_number}. ')
-        pdf.write_formatted_text(frage_text, font_size=12)
-        pdf.ln(8)
-
+        html_body += f'<h3>{display_question_number}. {frage_text}</h3>'
+        
         gegebene_antwort = get_answer_for_question(i)
         richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
-        
+
+        html_body += '<ul class="options">'
         for option in frage_obj["optionen"]:
-            prefix = "○"
             is_correct = (option == richtige_antwort_text)
             is_selected = (option == gegebene_antwort)
-
+            
+            class_name = ''
+            prefix = '○'
             if is_correct and is_selected:
-                prefix = "✔"
-                pdf.set_text_color(0, 128, 0)
+                class_name = 'correct-selected'
+                prefix = '✔'
             elif is_correct:
-                prefix = "✔"
-                pdf.set_text_color(0, 128, 0)
+                class_name = 'correct'
+                prefix = '✔'
             elif is_selected:
-                prefix = "✗"
-                pdf.set_text_color(255, 0, 0)
-            else:
-                prefix = "○"
-                pdf.set_text_color(0, 0, 0)
+                class_name = 'wrong-selected'
+                prefix = '✗'
 
-            pdf.set_font('DejaVu', '', 11)
-            pdf.write(6, f' {prefix}  ')
-            pdf.write_formatted_text(smart_quotes_de(option), font_size=11)
-            pdf.ln(10)
-        
-        pdf.set_text_color(0, 0, 0)
-        pdf.ln(5)
+            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_parse_text_with_formulas(option)}</li>'
+        html_body += "</ul>"
 
         erklaerung = frage_obj.get("erklaerung")
         if erklaerung:
-            pdf.set_font('DejaVu', 'B', 10)
-            pdf.write(5, 'Erklärung: ')
-            pdf.ln(5)
-            pdf.write_formatted_text(smart_quotes_de(str(erklaerung)), font_size=10)
-            pdf.ln(5)
+            html_body += f'<div class="explanation"><strong>Erklärung:</strong> {_parse_text_with_formulas(erklaerung)}</div>'
 
         extended_explanation = frage_obj.get("extended_explanation")
         if extended_explanation and isinstance(extended_explanation, dict):
-            pdf.set_font('DejaVu', 'B', 10)
-            pdf.write(5, f"Detaillierte Erklärung: {smart_quotes_de(extended_explanation.get('title', ''))}")
-            pdf.ln(6)
-            pdf.write_formatted_text(smart_quotes_de(extended_explanation.get('content', '')), font_size=10)
+            title = _parse_text_with_formulas(extended_explanation.get('title', ''))
+            content = _parse_text_with_formulas(extended_explanation.get('content', ''))
+            html_body += f'<div class="explanation"><strong>Detaillierte Erklärung: {title}</strong><br>{content}</div>'
+        
+        html_body += "<hr>"
 
-        if i < len(questions) - 1:
-            pdf.line(pdf.get_x(), pdf.get_y() + 5, pdf.w - pdf.r_margin, pdf.get_y() + 5)
-            pdf.ln(12)
+    # Vollständiges HTML-Dokument (Formeln sind bereits als Bilder)
+    full_html = f'''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body {{ 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                             'Helvetica Neue', Arial, sans-serif; 
+                font-size: 11pt; 
+            }}
+            h1 {{ font-size: 20pt; color: #333; }}
+            h2 {{ font-size: 16pt; color: #444; }}
+            h3 {{ font-size: 13pt; color: #555; }}
+            ul.options {{
+                list-style-type: none; 
+                padding-left: 0;
+            }}
+            ul.options li {{
+                margin-bottom: 10px; 
+                padding-left: 25px;
+                text-indent: -25px;
+            }}
+            .prefix {{
+                display: inline-block;
+                width: 20px;
+            }}
+            li.correct-selected {{ color: green; font-weight: bold; }}
+            li.correct {{ color: green; }}
+            li.wrong-selected {{ color: red; font-weight: bold; }}
+            code {{
+                background-color: #f0f0f0; 
+                padding: 2px 4px; 
+                border-radius: 3px; 
+                font-family: 'Courier', monospace;
+            }}
+            .explanation {{ 
+                background-color: #f9f9f9; 
+                border-left: 3px solid #ccc; 
+                padding: 10px; 
+                margin-top: 10px; 
+            }}
+            hr {{
+                border: 0; 
+                border-top: 1px solid #eee; 
+                margin: 20px 0; 
+            }}
+            
+        </style>
+    </head>
+    <body>
+        {html_body}
+    </body>
+    </html>
+    '''
 
-    return bytes(pdf.output())
+    # Konvertiere HTML zu PDF mit WeasyPrint
+    return HTML(string=full_html, base_url=__file__).write_pdf()

@@ -7,11 +7,11 @@ numpy>=1.26
 # Für interaktive Visualisierungen (Plotly-Bar-Chart)
 plotly>=5.18
 
-# Für den PDF-Export der Ergebnisse
-fpdf2>=2.7
+# Für den HTML -> PDF Export der Ergebnisse
+weasyprint>=62.0
 
-# Für das Rendern von LaTeX-Formeln in den PDF-Export
-matplotlib>=3.8
+# Für das Rendern von LaTeX-Formeln via QuickLaTeX API
+requests>=2.31.0
 
 # Optional: remove if not needed
 python-dotenv>=1.0.0
