@@ -1,6 +1,32 @@
 """
 Modul zur Generierung von PDF-Berichten für die Testergebnisse.
-Nutzt einen HTML-basierten Ansatz mit WeasyPrint für ein robustes Layout
+N                # Erstelle img-Tag mit besserer Skalierung
+                if is_block:
+                    return (f'<div style="text-align: center; '
+                            f'margin: 1.2em 0; '
+                            f'padding: 0.5em; '
+                            f'background-color: #f8f9fa;">'
+                            f'<img src="{image_url}" '
+                            f'alt="LaTeX formula" '
+                            f'style="max-width: 100%; height: auto; '
+                            f'vertical-align: middle;"></div>')
+                else:
+                    # Unterscheide: Matrizen/Vektoren vs. einfache Formeln
+                    has_matrix = 'pmatrix' in cleaned_formula or 'bmatrix' in cleaned_formula
+                    if has_matrix:
+                        # Matrizen: keine Höhenbeschränkung, nur Breitenbeschränkung
+                        return (f'<img src="{image_url}" '
+                                f'alt="LaTeX formula" '
+                                f'style="vertical-align: middle; '
+                                f'margin: 0 0.15em; '
+                                f'max-width: 90%;\">')
+                    else:
+                        # Einfache Formeln: Höhe begrenzen für Textkonsistenz
+                        return (f'<img src="{image_url}" '
+                                f'alt="LaTeX formula" '
+                                f'style="vertical-align: middle; '
+                                f'margin: 0 0.15em; '
+                                f'max-height: 1.2em;\">')basierten Ansatz mit WeasyPrint für ein robustes Layout
 und PyKaTeX für das serverseitige Rendering von LaTeX-Formeln.
 """
 import io
@@ -23,25 +49,44 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
     Einfach und funktioniert überall!
     """
     try:
-        # Größere Schrift für bessere Lesbarkeit
-        font_size = '24px' if is_block else '20px'
+        # Schriftgröße: Block und Inline kompakt für bessere Lesbarkeit
+        font_size = '16px' if is_block else '18px'
         
-        # Bereite Formel vor: entferne Leerzeichen um & und \\ herum
-        # Das verhindert Pluszeichen in Matrizen!
+        # Bereite Formel vor: entferne ALLE Leerzeichen!
+        # Problem: requests.post() kodiert Leerzeichen als '+' in der URL
+        # Lösung: Entferne alle Leerzeichen komplett
         import re
         cleaned_formula = formula
-        # WICHTIG: Erst alle Newlines entfernen (bei mehrzeiligen Matrizen)
+        
+        # WICHTIG: Erst alle Newlines entfernen
         cleaned_formula = cleaned_formula.replace('\n', '')
-        # Entferne Leerzeichen nach \begin{pmatrix} und vor \end{pmatrix}
-        cleaned_formula = re.sub(
-            r'\\begin\{pmatrix\}\s*', r'\\begin{pmatrix}', cleaned_formula
-        )
-        cleaned_formula = re.sub(
-            r'\s*\\end\{pmatrix\}', r'\\end{pmatrix}', cleaned_formula
-        )
+        cleaned_formula = cleaned_formula.replace('\r', '')
+        
         # Entferne Leerzeichen um & und \\ herum
         cleaned_formula = re.sub(r'\s*&\s*', '&', cleaned_formula)
         cleaned_formula = re.sub(r'\s*\\\\\s*', r'\\\\', cleaned_formula)
+        
+        # Entferne Leerzeichen nach \begin{...}
+        cleaned_formula = re.sub(
+            r'\\begin\{([^}]+)\}\s*',
+            r'\\begin{\1}',
+            cleaned_formula
+        )
+        # Entferne Leerzeichen vor \end{...}
+        cleaned_formula = re.sub(
+            r'\s*\\end\{([^}]+)\}',
+            r'\\end{\1}',
+            cleaned_formula
+        )
+        
+        # Entferne Leerzeichen nach öffnenden Klammern
+        cleaned_formula = re.sub(r'([\(\[\{])\s+', r'\1', cleaned_formula)
+        # Entferne Leerzeichen vor schließenden Klammern
+        cleaned_formula = re.sub(r'\s+([\)\]\}])', r'\1', cleaned_formula)
+        
+        # KRITISCH: Entferne ALLE verbleibenden Leerzeichen
+        # LaTeX ignoriert einzelne Spaces sowieso, also können wir sie alle entfernen
+        cleaned_formula = cleaned_formula.replace(' ', '')
         
         # QuickLaTeX API aufrufen mit amsmath für Matrizen
         response = requests.post(
@@ -82,7 +127,7 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
                             f'alt="LaTeX formula" '
                             f'style="vertical-align: middle; '
                             f'margin: 0 0.15em; '
-                            f'max-height: 2em;">')
+                            f'max-height: 1.2em;">')
     except Exception:
         pass
     
@@ -258,15 +303,18 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             ul.options {{
                 list-style-type: none; 
                 padding-left: 0;
+                margin-left: 20px;
             }}
             ul.options li {{
-                margin-bottom: 10px; 
-                padding-left: 25px;
-                text-indent: -25px;
+                margin-bottom: 8px; 
+                padding-left: 30px;
+                text-indent: -30px;
+                line-height: 1.5;
             }}
             .prefix {{
                 display: inline-block;
-                width: 20px;
+                width: 25px;
+                text-align: center;
             }}
             li.correct-selected {{ color: green; font-weight: bold; }}
             li.correct {{ color: green; }}
