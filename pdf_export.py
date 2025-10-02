@@ -292,10 +292,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     <head>
         <meta charset="UTF-8">
         <style>
-            body {{ 
+            body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
                              'Helvetica Neue', Arial, sans-serif; 
-                font-size: 11pt; 
+                font-size: 11pt;
+                line-height: 1.5;
             }}
             h1 {{ font-size: 20pt; color: #333; }}
             h2 {{ font-size: 16pt; color: #444; }}
