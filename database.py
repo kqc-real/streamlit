@@ -262,7 +262,7 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                 SELECT
                     s.session_id,
                     s.user_id,
-                    CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 AS INTEGER) as duration
+                    CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 * 60 AS INTEGER) as duration_seconds
                 FROM test_sessions s
                 LEFT JOIN answers a ON s.session_id = a.session_id
                 WHERE s.questions_file = ?
@@ -274,7 +274,7 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                     u.user_pseudonym,
                     (SELECT SUM(points) FROM answers a JOIN test_sessions s ON a.session_id = s.session_id WHERE s.user_id = u.user_id AND s.questions_file = ?) as total_score,
                     (SELECT MAX(start_time) FROM test_sessions s WHERE s.user_id = u.user_id AND s.questions_file = ?) as last_test_time,
-                    SUM(sd.duration) as duration_minutes
+                    SUM(sd.duration_seconds) as total_duration_seconds
                 FROM users u
                 JOIN session_durations sd ON u.user_id = sd.user_id
                 GROUP BY u.user_id
@@ -283,9 +283,9 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                 user_pseudonym,
                 COALESCE(total_score, 0) as total_score,
                 last_test_time,
-                COALESCE(duration_minutes, 0) as duration_minutes
+                COALESCE(total_duration_seconds, 0) as duration_seconds
             FROM user_aggregates
-            ORDER BY total_score DESC, duration_minutes ASC
+            ORDER BY total_score DESC, total_duration_seconds ASC
             LIMIT 10
             """,
             (questions_file, questions_file, questions_file)

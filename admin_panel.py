@@ -79,8 +79,14 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             'user_pseudonym': 'Pseudonym',
             'total_score': 'Punkte',
             'last_test_time': 'Datum',
-            'duration_minutes': 'Dauer (min)'
+            'duration_seconds': 'Dauer'
         }, inplace=True)
+
+        # Formatiere die Dauer von Sekunden in MM:SS
+        def format_duration(seconds):
+            mins, secs = divmod(seconds, 60)
+            return f"{int(mins):02d}:{int(secs):02d}"
+        scores['Dauer'] = scores['Dauer'].apply(format_duration)
 
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
         scores["Datum"] = pd.to_datetime(scores["Datum"])
@@ -94,7 +100,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             else:
                 scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
-        st.dataframe(scores[["Pseudonym", "Punkte", "Dauer (min)", "Datum"]], use_container_width=True, hide_index=True)
+        st.dataframe(scores[["Pseudonym", "Punkte", "Dauer", "Datum"]], use_container_width=True, hide_index=True)
         st.divider()
 
 
