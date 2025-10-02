@@ -49,8 +49,9 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
     Einfach und funktioniert überall!
     """
     try:
-        # Schriftgröße: Block und Inline kompakt für bessere Lesbarkeit
-        font_size = '16px' if is_block else '18px'
+        # Kleinere Schriftgröße aber extrem hohe DPI für beste Qualität
+        # Vorteil: Bilder sind nicht zu groß, aber sehr scharf durch hohe DPI
+        font_size = '12px' if is_block else '14px'
         
         # Bereite Formel vor: entferne ALLE Leerzeichen!
         # Problem: requests.post() kodiert Leerzeichen als '+' in der URL
@@ -89,6 +90,7 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
         cleaned_formula = cleaned_formula.replace(' ', '')
         
         # QuickLaTeX API aufrufen mit amsmath für Matrizen
+        # Sehr hohe DPI für gestochen scharfe Bilder
         response = requests.post(
             'https://quicklatex.com/latex3.f',
             data={
@@ -98,6 +100,7 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
                 'mode': '0',
                 'out': '1',
                 'remhost': 'quicklatex.com',
+                'dpi': '1200',
                 'preamble': (r'\usepackage{amsmath}'
                             r'\usepackage{amsfonts}'
                             r'\usepackage{amssymb}')
@@ -112,6 +115,15 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
                 parts = lines[1].split()
                 image_url = parts[0]
                 
+                # Lade Bild herunter und konvertiere zu Base64 für beste Qualität
+                try:
+                    img_response = requests.get(image_url, timeout=10)
+                    if img_response.ok:
+                        img_data = base64.b64encode(img_response.content).decode()
+                        image_url = f'data:image/png;base64,{img_data}'
+                except Exception:
+                    pass  # Fallback auf direkte URL
+                
                 # Erstelle img-Tag mit besserer Skalierung
                 if is_block:
                     return (f'<div style="text-align: center; '
@@ -123,11 +135,24 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
                             f'style="max-width: 100%; height: auto; '
                             f'vertical-align: middle;"></div>')
                 else:
-                    return (f'<img src="{image_url}" '
-                            f'alt="LaTeX formula" '
-                            f'style="vertical-align: middle; '
-                            f'margin: 0 0.15em; '
-                            f'max-height: 1.2em;">')
+                    # Unterscheide: Matrizen/Vektoren vs. einfache Formeln
+                    has_matrix = ('pmatrix' in cleaned_formula or 
+                                  'bmatrix' in cleaned_formula or 
+                                  'vmatrix' in cleaned_formula)
+                    if has_matrix:
+                        # Matrizen: keine Höhenbeschränkung
+                        return (f'<img src="{image_url}" '
+                                f'alt="LaTeX formula" '
+                                f'style="vertical-align: middle; '
+                                f'margin: 0 0.15em; '
+                                f'max-width: 90%;">')
+                    else:
+                        # Einfache Formeln: Höhe begrenzen
+                        return (f'<img src="{image_url}" '
+                                f'alt="LaTeX formula" '
+                                f'style="vertical-align: middle; '
+                                f'margin: 0 0.15em; '
+                                f'max-height: 1.2em;">')
     except Exception:
         pass
     
