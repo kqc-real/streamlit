@@ -1,45 +1,15 @@
 [
   {
-    "frage": "1. Was ist der Hauptzweck von `st.write()` in Streamlit?",
+    "frage": "6. Was ist die korrekte Darstellung der **Standardabweichung** $\\sigma$ einer diskreten Zufallsvariable $X$?",
     "optionen": [
-      "Nur Text anzeigen",
-      "Nur DataFrames anzeigen",
-      "Verschiedene Datentypen 'magisch' anzeigen",
-      "Fehler im Code anzeigen"
-    ],
-    "loesung": 2,
-    "erklaerung": "`st.write()` ist ein vielseitiger Befehl, der versucht, verschiedene Datentypen wie Text, DataFrames oder Diagramme intelligent darzustellen.",
-    "gewichtung": 1,
-    "thema": "Streamlit Basics"
-  },
-  {
-    "frage": "2. Was ist die korrekte KaTeX-Syntax für die quadratische Lösungsformel?",
-    "optionen": [
-      "`$$x = {-b \\pm \\sqrt{b^2-4ac}} / {2a}$$`",
-      "`$x = (-b +- \\sqrt{b^2-4ac}) / 2a$`",
-      "`$$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$`",
-      "`<formula>x = (-b pm sqrt(b^2-4ac)) / 2a</formula>`"
-    ],
-    "loesung": 2,
-    "erklaerung": "Die korrekte Syntax verwendet `\\frac{...}{...}` für Brüche und `\\pm` für das Plus-Minus-Zeichen. **Wichtig** ist auch die Verwendung von `$$...$$` für einen abgesetzten Formelblock.",
-    "gewichtung": 3,
-    "thema": "KaTeX & Markdown"
-  },
-  {
-    "frage": "3. Was ist ein `Docker-Volume`?",
-    "optionen": [
-      "Ein schreibgeschützter Layer in einem Image.",
-      "Ein Mechanismus zur persistenten Datenspeicherung außerhalb des Containers.",
-      "Ein Netzwerk-Treiber für die Container-Kommunikation.",
-      "Ein Maß für die Größe eines Docker-Images."
+      "$\\sigma = \\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)$",
+      "$\\sigma = \\sqrt{\\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)}$",
+      "$\\sigma = \\frac{1}{n} \\sum_{i=1}^{n} x_i$",
+      "$\\sigma = E[X^2] + (E[X])^2$"
     ],
     "loesung": 1,
-    "erklaerung": "Volumes entkoppeln die Daten vom Lebenszyklus eines Containers und speichern sie auf dem Host-System.",
-    "gewichtung": 2,
-    "thema": "Docker",
-    "extended_explanation": {
-      "title": "Detaillierte Funktionsweise von Volumes",
-      "content": "Ein `Volume` wird vom Docker-Daemon verwaltet und im Docker-Host-Dateisystem gespeichert (z.B. unter `/var/lib/docker/volumes/` auf Linux). Der Hauptvorteil ist, dass die Daten auch dann erhalten bleiben, wenn der Container gestoppt und entfernt wird."
-    }
+    "erklaerung": "Die **Standardabweichung** $\\sigma$ ist die **Wurzel** aus der **Varianz** $\\sigma^2$. Die Varianz ist der Erwartungswert der quadrierten Abweichung vom Erwartungswert $\\mu$. Die korrekte Formel ist also die Wurzel aus der Summe der gewichteten quadrierten Abweichungen.",
+    "gewichtung": 3,
+    "thema": "KaTeX & Formeln"
   }
 ]

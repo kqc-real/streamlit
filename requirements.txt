@@ -10,6 +10,9 @@ plotly>=5.18
 # Für den PDF-Export der Ergebnisse
 fpdf2>=2.7
 
+# Für das Rendern von LaTeX-Formeln in den PDF-Export
+matplotlib>=3.8
+
 # Optional: remove if not needed
 python-dotenv>=1.0.0
 
