@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 
 from config import AppConfig, load_questions, list_question_files
-from database import get_all_answer_logs, get_all_feedback, get_all_logs_for_leaderboard, DATABASE_FILE
+from database import get_all_answer_logs, get_all_feedback, get_all_logs_for_leaderboard, delete_user_results_for_qset, DATABASE_FILE
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):
@@ -101,6 +101,26 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                 scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
 
         st.dataframe(scores[["Pseudonym", "Punkte", "Dauer", "Datum"]], use_container_width=True, hide_index=True)
+
+        # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
+        with st.expander("Benutzerergebnisse für dieses Set zurücksetzen"):
+            user_to_reset = st.selectbox(
+                "Wähle einen Benutzer:",
+                options=[p for p in scores["Pseudonym"]],
+                format_func=lambda x: x.split(" ", 1)[-1], # Zeige nur den Namen ohne Rang/Icon
+                key=f"reset_user_select_{q_file}"
+            )
+            
+            if user_to_reset:
+                user_name_plain = user_to_reset.split(" ", 1)[-1]
+                st.warning(f"**Achtung:** Alle Ergebnisse von **{user_name_plain}** für das Fragenset **{title}** werden unwiderruflich gelöscht.")
+                if st.checkbox("Ja, ich bin sicher.", key=f"reset_confirm_{q_file}"):
+                    if st.button("Ergebnisse jetzt löschen", type="primary", key=f"reset_btn_{q_file}"):
+                        if delete_user_results_for_qset(user_name_plain, q_file):
+                            st.success(f"Die Ergebnisse von {user_name_plain} wurden zurückgesetzt.")
+                            st.rerun()
+                        else:
+                            st.error("Fehler beim Zurücksetzen der Ergebnisse.")
         st.divider()
 
 

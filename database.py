@@ -408,6 +408,49 @@ def delete_multiple_feedback(feedback_ids: list[int]) -> bool:
         return False
 
 
+@with_db_retry
+def delete_user_results_for_qset(user_pseudonym: str, questions_file: str) -> bool:
+    """
+    Löscht alle Testdaten (Sessions, Antworten, Bookmarks, Feedback) eines bestimmten
+    Benutzers für ein spezifisches Fragenset. Der Benutzer selbst wird nicht gelöscht.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    
+    try:
+        with conn:
+            cursor = conn.cursor()
+            
+            # 1. Finde die user_id für das Pseudonym
+            cursor.execute("SELECT user_id FROM users WHERE user_pseudonym = ?", (user_pseudonym,))
+            user_row = cursor.fetchone()
+            if not user_row:
+                return True # Nichts zu tun, also erfolgreich.
+            
+            user_id = user_row['user_id']
+
+            # 2. Finde alle session_ids für diesen Benutzer und dieses Fragenset
+            cursor.execute(
+                "SELECT session_id FROM test_sessions WHERE user_id = ? AND questions_file = ?",
+                (user_id, questions_file)
+            )
+            session_ids_tuples = cursor.fetchall()
+            if not session_ids_tuples:
+                return True # Keine Sessions für dieses Set, also nichts zu tun.
+
+            session_ids = [row['session_id'] for row in session_ids_tuples]
+            placeholders = ','.join(['?'] * len(session_ids))
+
+            # 3. Lösche alle zugehörigen Daten in der richtigen Reihenfolge
+            cursor.execute(f"DELETE FROM bookmarks WHERE session_id IN ({placeholders})", session_ids)
+            cursor.execute(f"DELETE FROM feedback WHERE session_id IN ({placeholders})", session_ids)
+            cursor.execute(f"DELETE FROM answers WHERE session_id IN ({placeholders})", session_ids)
+            cursor.execute(f"DELETE FROM test_sessions WHERE session_id IN ({placeholders})", session_ids)
+            return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in delete_user_results_for_qset: {e}")
+        return False
 
 
 @with_db_retry
