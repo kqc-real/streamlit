@@ -46,6 +46,7 @@ def main():
     """Hauptfunktion der Streamlit-Anwendung."""
     st.set_page_config(
         page_title="MC-Test AMALEA",
+        layout="centered",
         # Legt den initialen Zustand der Sidebar fest.
         initial_sidebar_state="expanded"  # "collapsed" oder "expanded"
     )
