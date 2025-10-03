@@ -154,6 +154,169 @@ N                # Erstelle img-Tag mit besserer Skalierung
                 color: #667eea;
             }
             
+            /* Comparison Box */
+            .comparison-box {
+                background: #fff9e6;
+                border: 2px solid #ffc107;
+                border-radius: 8px;
+                padding: 20px 24px;
+                margin: 24px 0;
+                page-break-inside: avoid;
+            }
+            .comparison-box h3 {
+                margin: 0 0 16px 0;
+                font-size: 14pt;
+                color: #f57c00;
+                font-weight: 600;
+            }
+            .comparison-box h4 {
+                margin: 16px 0 12px 0;
+                font-size: 11pt;
+                color: #e65100;
+                font-weight: 600;
+            }
+            .comparison-stats {
+                margin-bottom: 16px;
+            }
+            .comparison-item {
+                margin-bottom: 16px;
+            }
+            .comparison-label {
+                font-size: 10pt;
+                font-weight: 600;
+                color: #495057;
+                margin-bottom: 8px;
+            }
+            .comparison-bars {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .comparison-bar {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .bar-label-you {
+                font-size: 9pt;
+                font-weight: 600;
+                color: #667eea;
+                min-width: 30px;
+            }
+            .bar-label-avg {
+                font-size: 9pt;
+                font-weight: 600;
+                color: #6c757d;
+                min-width: 30px;
+            }
+            .bar-container {
+                flex: 1;
+                height: 20px;
+                background: #e9ecef;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .bar-fill {
+                height: 100%;
+                border-radius: 10px;
+                transition: width 0.3s ease;
+            }
+            .bar-you {
+                background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            }
+            .bar-avg {
+                background: linear-gradient(90deg, #adb5bd 0%, #6c757d 100%);
+            }
+            .bar-value {
+                font-size: 10pt;
+                font-weight: 600;
+                color: #2d3748;
+                min-width: 45px;
+                text-align: right;
+            }
+            .comparison-diff {
+                margin-top: 12px;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 10pt;
+                font-weight: 600;
+                text-align: center;
+            }
+            .comparison-diff.diff-positive {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+            .comparison-diff.diff-negative {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+            .comparison-diff.diff-neutral {
+                background: #e9ecef;
+                color: #495057;
+                border: 1px solid #dee2e6;
+            }
+            .comparison-difficulty {
+                margin-top: 16px;
+            }
+            .diff-comparison-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            .diff-comp-item {
+                text-align: center;
+                padding: 16px 12px;
+                border-radius: 8px;
+                border: 2px solid;
+            }
+            .diff-comp-item.above-avg {
+                background: #d4edda;
+                border-color: #28a745;
+            }
+            .diff-comp-item.below-avg {
+                background: #fff3cd;
+                border-color: #ffc107;
+            }
+            .diff-comp-label {
+                font-size: 9pt;
+                font-weight: 600;
+                color: #495057;
+                margin-bottom: 8px;
+            }
+            .diff-comp-values {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                font-size: 12pt;
+                margin-top: 6px;
+            }
+            .diff-comp-values .you-value {
+                font-weight: bold;
+                color: #667eea;
+                font-size: 13pt;
+            }
+            .diff-comp-values .vs {
+                font-size: 9pt;
+                color: #adb5bd;
+                font-weight: 500;
+                margin: 0 2px;
+            }
+            .diff-comp-values .avg-value {
+                font-weight: 600;
+                color: #6c757d;
+                font-size: 13pt;
+            }
+            .comparison-footer {
+                margin-top: 12px;
+                font-size: 9pt;
+                color: #6c757d;
+                text-align: center;
+                font-style: italic;
+            }
+            
             /* Section Title */  has_matrix = 'pmatrix' in cleaned_formula or 'bmatrix' in cleaned_formula
                     if has_matrix:
                         # Matrizen: keine Höhenbeschränkung, nur Breitenbeschränkung
@@ -458,6 +621,136 @@ def _generate_qr_code(url: str) -> str:
         return ""
 
 
+def _calculate_average_stats(questions_file: str, questions: List[Dict[str, Any]]) -> dict:
+    """
+    Berechnet Durchschnittsstatistiken aller User für das gegebene Fragenset.
+    
+    Returns:
+        dict mit 'avg_percent', 'avg_score', 'total_users', 'avg_difficulty'
+    """
+    from database import get_db_connection
+    
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    
+    try:
+        cursor = conn.cursor()
+        
+        # Ermittle erwartete Anzahl Fragen für Vollständigkeitsprüfung
+        expected_questions = len(questions)
+        
+        # Berechne Durchschnittspunktzahl: nur beste Session pro User + nur komplette Tests
+        cursor.execute("""
+            WITH complete_sessions AS (
+                -- Nur Sessions mit allen Fragen beantwortet
+                SELECT 
+                    s.session_id,
+                    s.user_id,
+                    SUM(a.points) as session_score,
+                    COUNT(a.answer_id) as answered_questions
+                FROM test_sessions s
+                INNER JOIN answers a ON s.session_id = a.session_id
+                WHERE s.questions_file = ?
+                GROUP BY s.session_id, s.user_id
+                HAVING COUNT(a.answer_id) = ?
+            ),
+            best_per_user AS (
+                -- Nur beste Session pro User (höchste Punktzahl)
+                SELECT 
+                    user_id,
+                    MAX(session_score) as best_score
+                FROM complete_sessions
+                GROUP BY user_id
+            )
+            SELECT 
+                COUNT(DISTINCT user_id) as total_users,
+                AVG(best_score) as avg_score
+            FROM best_per_user
+        """, (questions_file, expected_questions))
+        
+        result = cursor.fetchone()
+        if result and result['total_users'] and result['total_users'] > 0:
+            # Berechne maximale Punktzahl
+            from logic import calculate_score
+            from config import AppConfig
+            app_config = AppConfig()
+            _, max_score = calculate_score([None] * len(questions), questions, app_config.scoring_mode)
+            
+            avg_score = result['avg_score'] or 0
+            avg_percent = (avg_score / max_score * 100) if max_score > 0 else 0
+            
+            # Berechne durchschnittliche Performance nach Schwierigkeit
+            # Auch hier: nur beste Sessions pro User + nur komplette Tests
+            cursor.execute("""
+                WITH complete_sessions AS (
+                    SELECT 
+                        s.session_id,
+                        s.user_id,
+                        SUM(a.points) as session_score
+                    FROM test_sessions s
+                    INNER JOIN answers a ON s.session_id = a.session_id
+                    WHERE s.questions_file = ?
+                    GROUP BY s.session_id, s.user_id
+                    HAVING COUNT(a.answer_id) = ?
+                ),
+                best_sessions AS (
+                    -- Finde beste Session-ID pro User
+                    SELECT 
+                        cs.user_id,
+                        cs.session_id,
+                        cs.session_score
+                    FROM complete_sessions cs
+                    INNER JOIN (
+                        SELECT user_id, MAX(session_score) as max_score
+                        FROM complete_sessions
+                        GROUP BY user_id
+                    ) best ON cs.user_id = best.user_id 
+                           AND cs.session_score = best.max_score
+                )
+                SELECT 
+                    a.question_nr,
+                    AVG(CASE WHEN a.is_correct = 1 THEN 1.0 ELSE 0.0 END) as success_rate
+                FROM answers a
+                INNER JOIN best_sessions bs ON a.session_id = bs.session_id
+                GROUP BY a.question_nr
+            """, (questions_file, expected_questions))
+            
+            question_rates = {row['question_nr']: row['success_rate'] for row in cursor.fetchall()}
+            
+            # Gruppiere nach Schwierigkeit
+            diff_stats = {"easy": [], "medium": [], "hard": []}
+            for i, frage in enumerate(questions):
+                gewichtung = frage.get("gewichtung", 1)
+                if i in question_rates:
+                    rate = question_rates[i] * 100
+                    if gewichtung == 1:
+                        diff_stats["easy"].append(rate)
+                    elif gewichtung == 2:
+                        diff_stats["medium"].append(rate)
+                    else:
+                        diff_stats["hard"].append(rate)
+            
+            avg_difficulty = {
+                "easy": sum(diff_stats["easy"]) / len(diff_stats["easy"]) if diff_stats["easy"] else 0,
+                "medium": sum(diff_stats["medium"]) / len(diff_stats["medium"]) if diff_stats["medium"] else 0,
+                "hard": sum(diff_stats["hard"]) / len(diff_stats["hard"]) if diff_stats["hard"] else 0
+            }
+            
+            return {
+                "avg_percent": avg_percent,
+                "avg_score": avg_score,
+                "total_users": result['total_users'],
+                "avg_difficulty": avg_difficulty
+            }
+        
+        return None
+        
+    except Exception as e:
+        print(f"Error calculating average stats: {e}")
+        return None
+
+
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     """
     Analysiert die schwächsten Themen basierend auf falschen Antworten.
@@ -564,6 +857,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     # Hole initial_indices für Lesezeichen
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
     
+    # Durchschnittsvergleich berechnen
+    avg_stats = _calculate_average_stats(q_file, questions)
+    
     # Schwierigkeits-Analyse erstellen
     difficulty_stats = {"easy": {"richtig": 0, "gesamt": 0},
                        "medium": {"richtig": 0, "gesamt": 0},
@@ -630,6 +926,96 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         difficulty_html += '</div>'
     
     difficulty_html += '</div></div>'
+    
+    # Vergleich mit Durchschnitt
+    comparison_html = ""
+    if avg_stats and avg_stats['total_users'] > 1:  # Mindestens 2 User (inkl. aktuellem)
+        comparison_html = '<div class="comparison-box">'
+        comparison_html += '<h3>Vergleich mit Durchschnitt</h3>'
+        comparison_html += '<div class="comparison-stats">'
+        
+        # Gesamt-Performance
+        comparison_html += '<div class="comparison-item">'
+        comparison_html += '<div class="comparison-label">Gesamtergebnis</div>'
+        comparison_html += '<div class="comparison-bars">'
+        comparison_html += f'<div class="comparison-bar">'
+        comparison_html += f'<span class="bar-label-you">Du:</span>'
+        comparison_html += f'<div class="bar-container">'
+        comparison_html += f'<div class="bar-fill bar-you" style="width: {prozent}%"></div>'
+        comparison_html += f'</div>'
+        comparison_html += f'<span class="bar-value">{prozent:.0f}%</span>'
+        comparison_html += f'</div>'
+        comparison_html += f'<div class="comparison-bar">'
+        comparison_html += f'<span class="bar-label-avg">Ø:</span>'
+        comparison_html += f'<div class="bar-container">'
+        comparison_html += f'<div class="bar-fill bar-avg" style="width: {avg_stats["avg_percent"]}%"></div>'
+        comparison_html += f'</div>'
+        comparison_html += f'<span class="bar-value">{avg_stats["avg_percent"]:.0f}%</span>'
+        comparison_html += f'</div>'
+        comparison_html += '</div>'
+        
+        # Differenz anzeigen
+        diff = prozent - avg_stats['avg_percent']
+        diff_class = 'diff-positive' if diff > 0 else 'diff-negative' if diff < 0 else 'diff-neutral'
+        diff_symbol = '↑' if diff > 0 else '↓' if diff < 0 else '='
+        comparison_html += f'<div class="comparison-diff {diff_class}">'
+        comparison_html += f'{diff_symbol} {abs(diff):.1f}% {"über" if diff > 0 else "unter" if diff < 0 else "gleich"} Durchschnitt'
+        comparison_html += f'</div>'
+        comparison_html += '</div>'
+        
+        # Performance nach Schwierigkeit
+        if avg_stats['avg_difficulty']:
+            comparison_html += '<div class="comparison-difficulty">'
+            comparison_html += '<h4>Nach Schwierigkeit:</h4>'
+            comparison_html += '<div class="diff-comparison-grid">'
+            
+            # Leicht
+            if difficulty_stats["easy"]["gesamt"] > 0 and avg_stats['avg_difficulty']['easy'] > 0:
+                easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
+                easy_diff = easy_percent - avg_stats['avg_difficulty']['easy']
+                easy_class = 'above-avg' if easy_diff > 0 else 'below-avg'
+                comparison_html += f'<div class="diff-comp-item {easy_class}">'
+                comparison_html += f'<div class="diff-comp-label">★ Leicht</div>'
+                comparison_html += f'<div class="diff-comp-values">'
+                comparison_html += f'<span class="you-value">{easy_percent:.0f}%</span>'
+                comparison_html += f'<span class="vs"> vs </span>'
+                comparison_html += f'<span class="avg-value">{avg_stats["avg_difficulty"]["easy"]:.0f}%</span>'
+                comparison_html += f'</div>'
+                comparison_html += f'</div>'
+            
+            # Mittel
+            if difficulty_stats["medium"]["gesamt"] > 0 and avg_stats['avg_difficulty']['medium'] > 0:
+                medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
+                medium_diff = medium_percent - avg_stats['avg_difficulty']['medium']
+                medium_class = 'above-avg' if medium_diff > 0 else 'below-avg'
+                comparison_html += f'<div class="diff-comp-item {medium_class}">'
+                comparison_html += f'<div class="diff-comp-label">★★ Mittel</div>'
+                comparison_html += f'<div class="diff-comp-values">'
+                comparison_html += f'<span class="you-value">{medium_percent:.0f}%</span>'
+                comparison_html += f'<span class="vs"> vs </span>'
+                comparison_html += f'<span class="avg-value">{avg_stats["avg_difficulty"]["medium"]:.0f}%</span>'
+                comparison_html += f'</div>'
+                comparison_html += f'</div>'
+            
+            # Schwer
+            if difficulty_stats["hard"]["gesamt"] > 0 and avg_stats['avg_difficulty']['hard'] > 0:
+                hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
+                hard_diff = hard_percent - avg_stats['avg_difficulty']['hard']
+                hard_class = 'above-avg' if hard_diff > 0 else 'below-avg'
+                comparison_html += f'<div class="diff-comp-item {hard_class}">'
+                comparison_html += f'<div class="diff-comp-label">★★★ Schwer</div>'
+                comparison_html += f'<div class="diff-comp-values">'
+                comparison_html += f'<span class="you-value">{hard_percent:.0f}%</span>'
+                comparison_html += f'<span class="vs"> vs </span>'
+                comparison_html += f'<span class="avg-value">{avg_stats["avg_difficulty"]["hard"]:.0f}%</span>'
+                comparison_html += f'</div>'
+                comparison_html += f'</div>'
+            
+            comparison_html += '</div>'
+            comparison_html += '</div>'
+        
+        comparison_html += f'<div class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n)</div>'
+        comparison_html += '</div>'
     
     # Lesezeichen-Übersicht erstellen
     bookmarked_indices = st.session_state.get("bookmarked_questions", [])
@@ -716,6 +1102,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         {weak_topics_html}
         
         {difficulty_html}
+        
+        {comparison_html}
         
         {bookmarks_html}
         
