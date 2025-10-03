@@ -561,17 +561,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 margin-right: 10px;
             }}
             li.correct-selected {{
-                background: #d4edda;
-                color: #155724;
                 font-weight: 500;
             }}
             li.correct {{
-                background: #d1ecf1;
-                color: #0c5460;
+                /* Korrekte Antwort (nicht ausgewählt) */
             }}
             li.wrong-selected {{
-                background: #fff5f5;
-                color: #c53030;
                 font-weight: 500;
             }}
             
