@@ -568,7 +568,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         st.success("✔️ Danke, dein Feedback wurde übermittelt.")
     else:
         # Zentriere den Popover-Button in der mittleren Spalte für ein konsistentes Layout
-        _, center_col, _ = st.columns([2, 1.5, 2])
+        _, center_col, _ = st.columns([1, 2, 1])
         with center_col:
             with st.popover("Problem mit dieser Frage melden", use_container_width=True):
                 st.markdown("**Welche Probleme sind dir aufgefallen?**")
