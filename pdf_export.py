@@ -458,16 +458,36 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
 
+    # Sortiere Fragen nach Testreihenfolge (initial_indices)
+    # Erstelle Liste von (test_position, original_index, frage_obj)
+    questions_with_order = []
     for i, frage_obj in enumerate(questions):
-        display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
+        if i in initial_indices:
+            test_position = initial_indices.index(i)
+            questions_with_order.append((test_position, i, frage_obj))
+    
+    # Sortiere nach test_position
+    questions_with_order.sort(key=lambda x: x[0])
+
+    # Iteriere über sortierte Fragen
+    for test_number, original_index, frage_obj in questions_with_order:
+        # test_number ist bereits 0-basiert, also +1 für Anzeige
+        display_test_number = test_number + 1
+        
+        # Original-Nummer (aus dem Fragentext)
+        try:
+            original_number = int(frage_obj["frage"].split(".", 1)[0])
+        except (ValueError, IndexError):
+            original_number = original_index + 1
+        
         frage_text = _parse_text_with_formulas(frage_obj["frage"].split(". ", 1)[-1])
         
         # Starte Question-Box (mit page-break Kontrolle)
         html_body += '<div class="question-box">'
-        html_body += f'<div class="question-header">Frage {display_question_number}</div>'
+        html_body += f'<div class="question-header">Frage {display_test_number} <span style="color:#6c757d; font-size:9pt; font-weight:400;">(Fragenset-Nr. {original_number})</span></div>'
         html_body += f'<div class="question-text">{frage_text}</div>'
         
-        gegebene_antwort = get_answer_for_question(i)
+        gegebene_antwort = get_answer_for_question(original_index)
         richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
 
         html_body += '<ul class="options">'
