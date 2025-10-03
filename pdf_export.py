@@ -258,12 +258,24 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     )
     prozent = (current_score / max_score * 100) if max_score > 0 else 0
 
+    # Hole Ranking-Position
+    from database import get_all_logs_for_leaderboard
+    leaderboard_data = get_all_logs_for_leaderboard(q_file)
+    user_rank = None
+    if leaderboard_data:
+        for idx, entry in enumerate(leaderboard_data, start=1):
+            if entry['user_pseudonym'] == user_name:
+                user_rank = idx
+                break
+    
+    rank_text = f" • Platz {user_rank} im Ranking" if user_rank else ""
+
     # Baue den HTML-Body
     html_body = f'''
         <h1>Ergebnisse für: {user_name}</h1>
         <p><strong>Fragenset:</strong> {set_name}</p>
         <p><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y")}</p>
-        <h2>Ergebnis: {current_score} / {max_score} Punkte ({prozent:.1f}%)</h2>
+        <h2>Ergebnis: {current_score} / {max_score} Punkte ({prozent:.1f}%){rank_text}</h2>
         <hr>
     '''
 
@@ -308,7 +320,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             content = _parse_text_with_formulas(extended_explanation.get('content', ''))
             html_body += f'<div class="explanation"><strong>Detaillierte Erklärung: {title}</strong><br>{content}</div>'
         
-        html_body += "<hr>"
+        # Nur Divider hinzufügen, wenn es nicht die letzte Frage ist
+        if i < len(questions) - 1:
+            html_body += "<hr>"
 
     # Vollständiges HTML-Dokument (Formeln sind bereits als Bilder)
     full_html = f'''
@@ -317,6 +331,16 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     <head>
         <meta charset="UTF-8">
         <style>
+            @page {{
+                size: A4;
+                margin: 2cm 2cm 3cm 2cm;
+                @bottom-center {{
+                    content: "Seite " counter(page) " von " counter(pages);
+                    font-size: 9pt;
+                    color: #666;
+                }}
+            }}
+            
             body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
                              'Helvetica Neue', Arial, sans-serif; 
