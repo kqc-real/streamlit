@@ -12,7 +12,149 @@ N                # Erstelle img-Tag mit besserer Skalierung
                             f'vertical-align: middle;"></div>')
                 else:
                     # Unterscheide: Matrizen/Vektoren vs. einfache Formeln
-                    has_matrix = 'pmatrix' in cleaned_formula or 'bmatrix' in cleaned_formula
+                      .weak-topics .question-refs {
+                font-size: 10pt;
+                color: #6c757d;
+                font-weight: normal;
+                font-style: italic;
+            }
+            
+            /* Bookmarks Overview Box */
+            .bookmarks-overview {
+                background: #e3f2fd;
+                border: 2px solid #2196f3;
+                border-radius: 8px;
+                padding: 20px 24px;
+                margin: 24px 0;
+                page-break-inside: avoid;
+            }
+            .bookmarks-overview h3 {
+                margin: 0 0 8px 0;
+                font-size: 14pt;
+                color: #1565c0;
+                font-weight: 600;
+            }
+            .bookmark-intro {
+                margin: 0 0 12px 0;
+                font-size: 10pt;
+                color: #1976d2;
+            }
+            .bookmark-list {
+                margin: 0;
+                padding-left: 20px;
+                list-style-type: none;
+            }
+            .bookmark-list li {
+                padding: 10px 0 10px 20px;
+                font-size: 11pt;
+                color: #1565c0;
+                line-height: 1.6;
+                list-style-type: disc;
+                list-style-position: outside;
+                margin-bottom: 12px;
+                border-bottom: 1px solid #bbdefb;
+            }
+            .bookmark-list li:last-child {
+                border-bottom: none;
+            }
+            .bookmark-ref {
+                font-size: 9pt;
+                color: #6c757d;
+                font-weight: normal;
+            }
+            .bookmark-preview {
+                display: block;
+                font-size: 10pt;
+                color: #546e7a;
+                font-weight: normal;
+                margin-top: 4px;
+                font-style: italic;
+            }
+            
+            /* Difficulty Badges */
+            .difficulty-badge {
+                display: inline-block;
+                padding: 3px 10px;
+                border-radius: 12px;
+                font-size: 8pt;
+                font-weight: 600;
+                letter-spacing: 0.3px;
+                margin-left: 8px;
+                vertical-align: middle;
+            }
+            .difficulty-badge.easy {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+            .difficulty-badge.medium {
+                background: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeaa7;
+            }
+            .difficulty-badge.hard {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+            
+            /* Difficulty Analysis */
+            .difficulty-analysis {
+                background: #f8f9fa;
+                border: 2px solid #dee2e6;
+                border-radius: 8px;
+                padding: 20px 24px;
+                margin: 24px 0;
+                page-break-inside: avoid;
+            }
+            .difficulty-analysis h3 {
+                margin: 0 0 16px 0;
+                font-size: 14pt;
+                color: #495057;
+                font-weight: 600;
+            }
+            .difficulty-stats {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+            .diff-stat-item {
+                text-align: center;
+                padding: 16px 12px;
+                border-radius: 8px;
+                border: 2px solid;
+            }
+            .diff-stat-item.diff-easy {
+                background: #d4edda;
+                border-color: #c3e6cb;
+            }
+            .diff-stat-item.diff-medium {
+                background: #fff3cd;
+                border-color: #ffeaa7;
+            }
+            .diff-stat-item.diff-hard {
+                background: #f8d7da;
+                border-color: #f5c6cb;
+            }
+            .diff-label {
+                font-size: 10pt;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #495057;
+            }
+            .diff-value {
+                font-size: 18pt;
+                font-weight: bold;
+                color: #2d3748;
+                margin-bottom: 4px;
+            }
+            .diff-percent {
+                font-size: 14pt;
+                font-weight: 600;
+                color: #667eea;
+            }
+            
+            /* Section Title */  has_matrix = 'pmatrix' in cleaned_formula or 'bmatrix' in cleaned_formula
                     if has_matrix:
                         # Matrizen: keine Höhenbeschränkung, nur Breitenbeschränkung
                         return (f'<img src="{image_url}" '
@@ -409,6 +551,116 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             weak_topics_html += f'<li><strong>{topic}</strong><br><span class="question-refs">{fragen_text}</span></li>'
         weak_topics_html += '</ul></div>'
     
+    # Hole initial_indices für Lesezeichen
+    initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
+    
+    # Schwierigkeits-Analyse erstellen
+    difficulty_stats = {"easy": {"richtig": 0, "gesamt": 0},
+                       "medium": {"richtig": 0, "gesamt": 0},
+                       "hard": {"richtig": 0, "gesamt": 0}}
+    
+    for i, frage in enumerate(questions):
+        gewichtung = frage.get("gewichtung", 1)
+        gegebene_antwort = get_answer_for_question(i)
+        richtige_antwort = frage["optionen"][frage["loesung"]]
+        ist_richtig = (gegebene_antwort == richtige_antwort)
+        
+        if gewichtung == 1:
+            difficulty_stats["easy"]["gesamt"] += 1
+            if ist_richtig:
+                difficulty_stats["easy"]["richtig"] += 1
+        elif gewichtung == 2:
+            difficulty_stats["medium"]["gesamt"] += 1
+            if ist_richtig:
+                difficulty_stats["medium"]["richtig"] += 1
+        else:  # >= 3
+            difficulty_stats["hard"]["gesamt"] += 1
+            if ist_richtig:
+                difficulty_stats["hard"]["richtig"] += 1
+    
+    # HTML für Schwierigkeits-Übersicht
+    difficulty_html = '<div class="difficulty-analysis">'
+    difficulty_html += '<h3>📊 Performance nach Schwierigkeit</h3>'
+    difficulty_html += '<div class="difficulty-stats">'
+    
+    # Leicht
+    if difficulty_stats["easy"]["gesamt"] > 0:
+        easy_percent = (difficulty_stats["easy"]["richtig"] / 
+                       difficulty_stats["easy"]["gesamt"] * 100)
+        difficulty_html += '<div class="diff-stat-item diff-easy">'
+        difficulty_html += '<div class="diff-label">⭐ Leicht</div>'
+        difficulty_html += (f'<div class="diff-value">'
+                          f'{difficulty_stats["easy"]["richtig"]}/'
+                          f'{difficulty_stats["easy"]["gesamt"]}</div>')
+        difficulty_html += f'<div class="diff-percent">{easy_percent:.0f}%</div>'
+        difficulty_html += '</div>'
+    
+    # Mittel
+    if difficulty_stats["medium"]["gesamt"] > 0:
+        medium_percent = (difficulty_stats["medium"]["richtig"] / 
+                         difficulty_stats["medium"]["gesamt"] * 100)
+        difficulty_html += '<div class="diff-stat-item diff-medium">'
+        difficulty_html += '<div class="diff-label">⭐⭐ Mittel</div>'
+        difficulty_html += (f'<div class="diff-value">'
+                          f'{difficulty_stats["medium"]["richtig"]}/'
+                          f'{difficulty_stats["medium"]["gesamt"]}</div>')
+        difficulty_html += f'<div class="diff-percent">{medium_percent:.0f}%</div>'
+        difficulty_html += '</div>'
+    
+    # Schwer
+    if difficulty_stats["hard"]["gesamt"] > 0:
+        hard_percent = (difficulty_stats["hard"]["richtig"] / 
+                       difficulty_stats["hard"]["gesamt"] * 100)
+        difficulty_html += '<div class="diff-stat-item diff-hard">'
+        difficulty_html += '<div class="diff-label">⭐⭐⭐ Schwer</div>'
+        difficulty_html += (f'<div class="diff-value">'
+                          f'{difficulty_stats["hard"]["richtig"]}/'
+                          f'{difficulty_stats["hard"]["gesamt"]}</div>')
+        difficulty_html += f'<div class="diff-percent">{hard_percent:.0f}%</div>'
+        difficulty_html += '</div>'
+    
+    difficulty_html += '</div></div>'
+    
+    # Lesezeichen-Übersicht erstellen
+    bookmarked_indices = st.session_state.get("bookmarked_questions", [])
+    bookmarks_html = ""
+    if bookmarked_indices:
+        bookmarks_html = '<div class="bookmarks-overview">'
+        bookmarks_html += '<h3>� Markierte Fragen</h3>'
+        bookmarks_html += '<p class="bookmark-intro">'
+        bookmarks_html += 'Du hast folgende Fragen zur Wiederholung markiert:'
+        bookmarks_html += '</p>'
+        bookmarks_html += '<ul class="bookmark-list">'
+        
+        for idx in bookmarked_indices:
+            if idx < len(questions):
+                # Finde die Test-Nummer für diese Frage
+                if idx in initial_indices:
+                    test_num = initial_indices.index(idx) + 1
+                else:
+                    test_num = idx + 1
+                # Original-Nummer
+                try:
+                    orig_num = int(questions[idx]["frage"].split(".", 1)[0])
+                except (ValueError, IndexError):
+                    orig_num = idx + 1
+                # Kurzer Fragen-Preview
+                frage_text = questions[idx]["frage"]
+                frage_preview = frage_text.split(".", 1)[-1].strip()
+                if len(frage_preview) > 60:
+                    frage_preview = frage_preview[:60] + "..."
+                
+                # Parse Markdown und LaTeX im Preview
+                frage_preview_parsed = _parse_text_with_formulas(frage_preview)
+                
+                bookmarks_html += f'<li><strong>Frage {test_num}</strong> '
+                bookmarks_html += f'<span class="bookmark-ref">'
+                bookmarks_html += f'(Fragenset-Nr. {orig_num})</span><br>'
+                bookmarks_html += f'<span class="bookmark-preview">'
+                bookmarks_html += f'{frage_preview_parsed}</span></li>'
+        
+        bookmarks_html += '</ul></div>'
+
     # Baue den HTML-Body mit professionellem Header
     html_body = f'''
         <div class="header">
@@ -453,11 +705,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         {weak_topics_html}
         
+        {difficulty_html}
+        
+        {bookmarks_html}
+        
         <h2 class="section-title">Detaillierte Auswertung</h2>
     '''
-
-    initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
-
+    
+    # initial_indices wurde bereits oben geholt für Lesezeichen
     # Sortiere Fragen nach Testreihenfolge (initial_indices)
     # Erstelle Liste von (test_position, original_index, frage_obj)
     questions_with_order = []
@@ -482,13 +737,30 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         frage_text = _parse_text_with_formulas(frage_obj["frage"].split(". ", 1)[-1])
         
-        # Starte Question-Box (mit page-break Kontrolle)
-        html_body += '<div class="question-box">'
-        html_body += f'<div class="question-header">Frage {display_test_number} <span style="color:#6c757d; font-size:9pt; font-weight:400;">(Fragenset-Nr. {original_number})</span></div>'
-        html_body += f'<div class="question-text">{frage_text}</div>'
-        
+        # Bestimme Farbe basierend auf richtig/falsch
         gegebene_antwort = get_answer_for_question(original_index)
         richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
+        ist_richtig = (gegebene_antwort == richtige_antwort_text)
+        border_color = "#28a745" if ist_richtig else "#dc3545"  # Grün oder Rot
+        
+        # Schwierigkeits-Badge basierend auf Gewichtung
+        gewichtung = frage_obj.get("gewichtung", 1)
+        if gewichtung == 1:
+            difficulty_badge = '<span class="difficulty-badge easy">⭐ Leicht</span>'
+        elif gewichtung == 2:
+            difficulty_badge = '<span class="difficulty-badge medium">⭐⭐ Mittel</span>'
+        else:  # gewichtung >= 3
+            difficulty_badge = '<span class="difficulty-badge hard">⭐⭐⭐ Schwer</span>'
+        
+        # Starte Question-Box mit farbigem Rahmen
+        html_body += f'<div class="question-box" style="border-left: 4px solid {border_color};">'
+        html_body += f'<div class="question-header">'
+        html_body += f'Frage {display_test_number} '
+        html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
+        html_body += f'(Fragenset-Nr. {original_number})</span> '
+        html_body += f'{difficulty_badge}'
+        html_body += f'</div>'
+        html_body += f'<div class="question-text">{frage_text}</div>'
 
         html_body += '<ul class="options">'
         for option in frage_obj["optionen"]:
