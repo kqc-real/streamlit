@@ -644,9 +644,14 @@ def render_final_summary(questions: list, app_config: AppConfig):
 
     st.metric("Dein Endergebnis", f"{current_score} / {max_score} Punkte", f"{prozent:.1f}%")
 
+    # Animation nur einmal beim ersten Laden der Ergebnisseite zeigen
+    if "celebration_shown" not in st.session_state:
+        st.session_state.celebration_shown = True
+        if prozent >= 100:
+            st.balloons()
+            st.snow()
+    
     if prozent >= 100:
-        st.balloons()
-        st.snow()
         st.success("Exzellent! Du bist ein wahrer Meister.")
     elif prozent >= 70:
         st.success("Sehr gut gemacht!")
@@ -654,24 +659,6 @@ def render_final_summary(questions: list, app_config: AppConfig):
         st.info("Gut gemacht, die Grundlagen sitzen.")
     else:
         st.warning("Da ist noch Luft nach oben. Nutze den Review-Modus zum Lernen!")
-
-    # --- PDF-Export ---
-    st.divider()
-    from pdf_export import generate_pdf_report
-    
-    # Generiere die PDF-Daten im Speicher
-    pdf_bytes = generate_pdf_report(questions, app_config)
-    
-    q_file_name = st.session_state.get("selected_questions_file", "ergebnisse").replace("questions_", "").replace(".json", "")
-    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
-    
-    st.download_button(
-        label="📥 Ergebnisse als PDF herunterladen",
-        data=pdf_bytes,
-        file_name=f"ergebnisse_{q_file_name}_{user_name_file}.pdf",
-        mime="application/pdf",
-        use_container_width=True
-    )
 
     # --- Performance-Analyse pro Thema ---
     st.subheader("Deine Leistung nach Themen")
@@ -708,6 +695,50 @@ def render_final_summary(questions: list, app_config: AppConfig):
 
     st.divider()
     render_review_mode(questions)
+    
+    # --- PDF-Export (am Ende, nach Review) ---
+    st.divider()
+    st.subheader("📄 PDF-Export")
+    
+    # Warnung über die Dauer
+    q_file_name = st.session_state.get("selected_questions_file", "")
+    anzahl_fragen = len(questions)
+    # ca. 1/2 Minute pro Frage, aufgerundet für grobe Schätzung
+    geschaetzte_dauer = round(anzahl_fragen * 0.5)
+    
+    st.warning(
+        f"⏱️ **Hinweis zur Druckvorbereitung:** "
+        f"Mathematische Fragensets benötigen ca. ½ Minute pro Frage für die "
+        f"Konvertierung der Formeln. Bei {anzahl_fragen} Fragen dauert dies etwa "
+        f"{geschaetzte_dauer} Minute{'n' if geschaetzte_dauer != 1 else ''}."
+    )
+    
+    # Button zum Generieren
+    if st.button("📥 PDF jetzt generieren", type="primary", use_container_width=True):
+        from pdf_export import generate_pdf_report
+        
+        # Fortschrittsanzeige
+        with st.spinner(f"⏳ Formeln werden konvertiert... Bitte warten ({anzahl_fragen} Fragen)"):
+            try:
+                # Generiere die PDF-Daten im Speicher
+                pdf_bytes = generate_pdf_report(questions, app_config)
+                
+                user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+                q_file_clean = q_file_name.replace("questions_", "").replace(".json", "")
+                
+                st.success("✅ PDF erfolgreich erstellt!")
+                
+                # Download-Button
+                st.download_button(
+                    label="💾 PDF herunterladen",
+                    data=pdf_bytes,
+                    file_name=f"ergebnisse_{q_file_clean}_{user_name_file}.pdf",
+                    mime="application/pdf",
+                    use_container_width=True
+                )
+            except Exception as e:
+                st.error(f"❌ Fehler beim Erstellen des PDFs: {str(e)}")
+                st.info("Versuche es bitte erneut oder kontaktiere den Support.")
 
 
 def render_review_mode(questions: list):
