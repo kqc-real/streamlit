@@ -542,33 +542,37 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             ul.options li {{
                 margin-bottom: 8px;
-                padding: 8px 12px 8px 35px;
-                text-indent: -35px;
+                padding: 8px 12px 8px 40px;
+                text-indent: -40px;
                 line-height: 1.5;
                 border-radius: 4px;
                 background: #f8f9fa;
             }}
             .prefix {{
                 display: inline-block;
-                width: 25px;
+                width: 30px;
                 text-align: center;
                 font-weight: bold;
+                margin-right: 5px;
             }}
             li.correct-selected {{
                 background: #d4edda;
                 color: #155724;
-                border-left: 3px solid #28a745;
+                border-left: 4px solid #28a745;
+                padding-left: 44px;
                 font-weight: 500;
             }}
             li.correct {{
                 background: #d1ecf1;
                 color: #0c5460;
-                border-left: 3px solid #17a2b8;
+                border-left: 4px solid #17a2b8;
+                padding-left: 44px;
             }}
             li.wrong-selected {{
-                background: #f8d7da;
-                color: #721c24;
-                border-left: 3px solid #dc3545;
+                background: #fff5f5;
+                color: #c53030;
+                border-left: 4px solid #fc8181;
+                padding-left: 44px;
                 font-weight: 500;
             }}
             
