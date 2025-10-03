@@ -34,6 +34,7 @@ import re
 import base64
 from datetime import datetime
 from typing import List, Dict, Any
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import streamlit as st
 import requests
@@ -42,21 +43,25 @@ from weasyprint import HTML
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
 
+# Cache für bereits gerenderte Formeln (spart API-Calls bei duplizierten Formeln)
+_formula_cache = {}
+
 
 def _render_latex_to_image(formula: str, is_block: bool) -> str:
     """
     Rendert LaTeX-Formel zu PNG-Bild via QuickLaTeX API.
-    Einfach und funktioniert überall!
+    Mit Caching für bessere Performance.
     """
+    # Cache-Key erstellen
+    cache_key = (formula, is_block)
+    if cache_key in _formula_cache:
+        return _formula_cache[cache_key]
+    
     try:
         # Kleinere Schriftgröße aber extrem hohe DPI für beste Qualität
-        # Vorteil: Bilder sind nicht zu groß, aber sehr scharf durch hohe DPI
         font_size = '12px' if is_block else '14px'
         
         # Bereite Formel vor: entferne ALLE Leerzeichen!
-        # Problem: requests.post() kodiert Leerzeichen als '+' in der URL
-        # Lösung: Entferne alle Leerzeichen komplett
-        import re
         cleaned_formula = formula
         
         # WICHTIG: Erst alle Newlines entfernen
@@ -148,24 +153,58 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
                                 f'max-width: 90%;">')
                     else:
                         # Einfache Formeln: Höhe begrenzen
-                        return (f'<img src="{image_url}" '
-                                f'alt="LaTeX formula" '
-                                f'style="vertical-align: middle; '
-                                f'margin: 0 0.15em; '
-                                f'max-height: 1.2em;">')
+                        result = (f'<img src="{image_url}" '
+                                  f'alt="LaTeX formula" '
+                                  f'style="vertical-align: middle; '
+                                  f'margin: 0 0.15em; '
+                                  f'max-height: 1.2em;">')
+                        _formula_cache[cache_key] = result
+                        return result
     except Exception:
         pass
     
     # Fallback bei Fehlern
     error = f'[Formel: {formula}]'
     if is_block:
-        return f'<div style="text-align: center;">{error}</div>'
-    return f'<span>{error}</span>'
+        result = f'<div style="text-align: center;">{error}</div>'
+    else:
+        result = f'<span>{error}</span>'
+    _formula_cache[cache_key] = result
+    return result
+
+def _render_formulas_parallel(formulas: List[tuple]) -> Dict[int, str]:
+    """
+    Rendert mehrere Formeln parallel für bessere Performance.
+    """
+    results = {}
+    
+    def render_one(idx, formula_type, formula):
+        is_block = (formula_type == 'block')
+        return idx, _render_latex_to_image(formula, is_block)
+    
+    # Parallele Ausführung mit ThreadPool (max 10 gleichzeitige Requests)
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = {
+            executor.submit(render_one, i, ftype, form): i
+            for i, (ftype, form) in enumerate(formulas)
+        }
+        
+        for future in as_completed(futures):
+            try:
+                idx, rendered = future.result()
+                results[idx] = rendered
+            except Exception:
+                # Fallback bei Fehler
+                idx = futures[future]
+                results[idx] = f'[Formel-Fehler]'
+    
+    return results
+
 
 def _parse_text_with_formulas(text: str) -> str:
     """
-    Konvertiert einen String mit Markdown/KaTeX in sicheres HTML.
-    Formeln werden serverseitig mit KaTeX gerendert.
+    Konvertiert einen String mit Markdown/LaTeX in sicheres HTML.
+    Formeln werden parallel gerendert für bessere Performance.
     """
     # 1. Zuerst Formeln extrahieren und durch Platzhalter ersetzen
     formulas = []
@@ -180,7 +219,6 @@ def _parse_text_with_formulas(text: str) -> str:
     text = re.sub(r'\$\$(.*?)\$\$', save_block_formula, text, flags=re.DOTALL)
     
     # Inline-Formeln $...$
-    # WICHTIG: re.DOTALL erlaubt Newlines in Formeln (für mehrzeilige Matrizen)
     def save_inline_formula(match):
         formula = match.group(1).strip()
         placeholder = f"__FORMULA_INLINE_{len(formulas)}__"
@@ -228,18 +266,19 @@ def _parse_text_with_formulas(text: str) -> str:
     
     processed_text = '<br>'.join(html_lines)
     
-    # 5. Formeln wieder einsetzen (bereits als HTML gerendert)
-    for i, (formula_type, formula) in enumerate(formulas):
-        is_block = (formula_type == 'block')
-        placeholder_block = f"__FORMULA_BLOCK_{i}__"
-        placeholder_inline = f"__FORMULA_INLINE_{i}__"
+    # 5. Formeln parallel rendern und wieder einsetzen
+    if formulas:
+        rendered_formulas = _render_formulas_parallel(formulas)
         
-        rendered = _render_latex_to_image(formula, is_block=is_block)
-        
-        if placeholder_block in processed_text:
-            processed_text = processed_text.replace(placeholder_block, rendered)
-        if placeholder_inline in processed_text:
-            processed_text = processed_text.replace(placeholder_inline, rendered)
+        for i in range(len(formulas)):
+            placeholder_block = f"__FORMULA_BLOCK_{i}__"
+            placeholder_inline = f"__FORMULA_INLINE_{i}__"
+            rendered = rendered_formulas.get(i, '[Formel-Fehler]')
+            
+            if placeholder_block in processed_text:
+                processed_text = processed_text.replace(placeholder_block, rendered)
+            if placeholder_inline in processed_text:
+                processed_text = processed_text.replace(placeholder_inline, rendered)
     
     return processed_text
 

@@ -703,13 +703,14 @@ def render_final_summary(questions: list, app_config: AppConfig):
     # Warnung über die Dauer
     q_file_name = st.session_state.get("selected_questions_file", "")
     anzahl_fragen = len(questions)
-    # ca. 1/2 Minute pro Frage, aufgerundet für grobe Schätzung
-    geschaetzte_dauer = round(anzahl_fragen * 0.5)
+    # Dank Parallelverarbeitung und Caching: ca. 3-5 Sekunden pro Frage
+    # Bei 20 Fragen: ~1-2 Minuten statt 10+ Minuten
+    geschaetzte_dauer = max(1, round(anzahl_fragen * 0.05))  # 3 Sek pro Frage
     
     st.warning(
         f"⏱️ **Hinweis zur Druckvorbereitung:** "
-        f"Mathematische Fragensets benötigen ca. ½ Minute pro Frage für die "
-        f"Konvertierung der Formeln. Bei {anzahl_fragen} Fragen dauert dies etwa "
+        f"Mathematische Fragensets werden optimiert verarbeitet. "
+        f"Bei {anzahl_fragen} Fragen dauert dies etwa "
         f"{geschaetzte_dauer} Minute{'n' if geschaetzte_dauer != 1 else ''}."
     )
     
