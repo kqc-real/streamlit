@@ -1584,6 +1584,71 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             .question-box {{ page-break-inside: avoid; }}
             .explanation {{ page-break-inside: avoid; }}
             h2, h3 {{ page-break-after: avoid; }}
+            
+            /* Glossary Section */
+            .glossary-section {{
+                margin: 32px 0;
+                padding: 28px 32px;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                border: 3px solid #667eea;
+                border-radius: 12px;
+                page-break-before: always;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }}
+            .glossary-section h2 {{
+                margin: 0 0 8px 0;
+                color: #2d3748;
+                font-size: 18pt;
+                font-weight: 700;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }}
+            .glossary-intro {{
+                font-size: 10pt;
+                color: #4a5568;
+                margin: 0 0 24px 0;
+                font-style: italic;
+                text-align: center;
+                font-weight: 500;
+            }}
+            .glossary-grid {{
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0;
+            }}
+            .glossary-item {{
+                padding: 16px 20px;
+                border-bottom: 1px solid #cbd5e0;
+            }}
+            .glossary-item:nth-child(odd) {{
+                background: #ffffff;
+            }}
+            .glossary-item:nth-child(even) {{
+                background: #f7fafc;
+            }}
+            .glossary-item:first-child {{
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }}
+            .glossary-item:last-child {{
+                border-bottom: none;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }}
+            .glossary-term {{
+                font-size: 12pt;
+                font-weight: 800;
+                color: #2d3748;
+                margin-bottom: 6px;
+                display: block;
+            }}
+            .glossary-definition {{
+                font-size: 10pt;
+                color: #4a5568;
+                line-height: 1.7;
+                font-weight: 400;
+            }}
         </style>
     </head>
     <body>
