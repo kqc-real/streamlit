@@ -309,13 +309,46 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     rank_text = f" • Platz {user_rank} im Ranking" if user_rank else ""
 
-    # Baue den HTML-Body
+    # Statistiken berechnen
+    richtige = sum(1 for i in range(len(questions)) 
+                   if get_answer_for_question(i) == questions[i]["optionen"][questions[i]["loesung"]])
+    falsche = len(questions) - richtige
+    
+    # Baue den HTML-Body mit professionellem Header
     html_body = f'''
-        <h1>Ergebnisse für: {user_name}</h1>
-        <p><strong>Fragenset:</strong> {set_name}</p>
-        <p><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y")}</p>
-        <h2>Ergebnis: {current_score} / {max_score} Punkte ({prozent:.1f}%){rank_text}</h2>
-        <hr>
+        <div class="header">
+            <h1>📊 Test-Ergebnis</h1>
+            <div class="meta-info">
+                <span><strong>Teilnehmer:</strong> {user_name}</span>
+                <span><strong>Fragenset:</strong> {set_name}</span>
+                <span><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y %H:%M")}</span>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <div class="score-main">
+                <div class="score-number">{current_score}</div>
+                <div class="score-label">von {max_score} Punkten</div>
+                <div class="score-percent">{prozent:.1f}%</div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value correct">✓ {richtige}</div>
+                    <div class="stat-label">Richtig</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value wrong">✗ {falsche}</div>
+                    <div class="stat-label">Falsch</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{len(questions)}</div>
+                    <div class="stat-label">Gesamt</div>
+                </div>
+                {f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">Ranking</div></div>' if user_rank else ''}
+            </div>
+        </div>
+        
+        <h2 class="section-title">Detaillierte Auswertung</h2>
     '''
 
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
@@ -324,7 +357,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
         frage_text = _parse_text_with_formulas(frage_obj["frage"].split(". ", 1)[-1])
         
-        html_body += f'<h3>{display_question_number}. {frage_text}</h3>'
+        # Starte Question-Box (mit page-break Kontrolle)
+        html_body += '<div class="question-box">'
+        html_body += f'<div class="question-header">Frage {display_question_number}</div>'
+        html_body += f'<div class="question-text">{frage_text}</div>'
         
         gegebene_antwort = get_answer_for_question(i)
         richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
@@ -359,9 +395,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             content = _parse_text_with_formulas(extended_explanation.get('content', ''))
             html_body += f'<div class="explanation"><strong>Detaillierte Erklärung: {title}</strong><br>{content}</div>'
         
-        # Nur Divider hinzufügen, wenn es nicht die letzte Frage ist
-        if i < len(questions) - 1:
-            html_body += "<hr>"
+        # Schließe Question-Box
+        html_body += '</div>'
 
     # Vollständiges HTML-Dokument (Formeln sind bereits als Bilder)
     full_html = f'''
@@ -381,51 +416,189 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             
             body {{
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
-                             'Helvetica Neue', Arial, sans-serif; 
-                font-size: 11pt;
-                line-height: 1.5;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                             'Helvetica Neue', Arial, sans-serif;
+                font-size: 10pt;
+                line-height: 1.6;
+                color: #333;
             }}
-            h1 {{ font-size: 20pt; color: #333; }}
-            h2 {{ font-size: 16pt; color: #444; }}
-            h3 {{ font-size: 13pt; color: #555; }}
+            
+            /* Header Styling */
+            .header {{
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px;
+                margin: -20px -20px 20px -20px;
+                border-radius: 8px 8px 0 0;
+            }}
+            .header h1 {{
+                margin: 0 0 10px 0;
+                font-size: 24pt;
+                font-weight: 600;
+            }}
+            .meta-info {{
+                display: flex;
+                justify-content: space-between;
+                font-size: 9pt;
+                opacity: 0.95;
+            }}
+            
+            /* Summary Box */
+            .summary-box {{
+                background: #f8f9fa;
+                border: 2px solid #e9ecef;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 20px 0;
+                page-break-inside: avoid;
+            }}
+            .score-main {{
+                text-align: center;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #dee2e6;
+            }}
+            .score-number {{
+                font-size: 36pt;
+                font-weight: bold;
+                color: #667eea;
+            }}
+            .score-label {{
+                font-size: 11pt;
+                color: #6c757d;
+                margin: 5px 0;
+            }}
+            .score-percent {{
+                font-size: 18pt;
+                font-weight: 600;
+                color: #495057;
+            }}
+            .stats-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 15px;
+                margin-top: 15px;
+            }}
+            .stat-item {{
+                text-align: center;
+                padding: 10px;
+                background: white;
+                border-radius: 6px;
+            }}
+            .stat-value {{
+                font-size: 20pt;
+                font-weight: bold;
+                color: #495057;
+            }}
+            .stat-value.correct {{ color: #28a745; }}
+            .stat-value.wrong {{ color: #dc3545; }}
+            .stat-value.rank {{ color: #ffc107; }}
+            .stat-label {{
+                font-size: 9pt;
+                color: #6c757d;
+                margin-top: 5px;
+            }}
+            
+            /* Section Title */
+            .section-title {{
+                font-size: 16pt;
+                color: #495057;
+                margin: 30px 0 15px 0;
+                padding-bottom: 8px;
+                border-bottom: 2px solid #e9ecef;
+            }}
+            
+            /* Question Box */
+            .question-box {{
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 15px 20px;
+                margin: 15px 0;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                page-break-inside: avoid;
+            }}
+            .question-header {{
+                font-size: 10pt;
+                font-weight: 600;
+                color: #667eea;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }}
+            .question-text {{
+                font-size: 11pt;
+                font-weight: 500;
+                color: #212529;
+                margin-bottom: 12px;
+                line-height: 1.6;
+            }}
+            
+            /* Options */
             ul.options {{
-                list-style-type: none; 
+                list-style-type: none;
                 padding-left: 0;
-                margin-left: 20px;
+                margin: 12px 0;
             }}
             ul.options li {{
-                margin-bottom: 8px; 
-                padding-left: 30px;
-                text-indent: -30px;
+                margin-bottom: 8px;
+                padding: 8px 12px 8px 35px;
+                text-indent: -35px;
                 line-height: 1.5;
+                border-radius: 4px;
+                background: #f8f9fa;
             }}
             .prefix {{
                 display: inline-block;
                 width: 25px;
                 text-align: center;
+                font-weight: bold;
             }}
-            li.correct-selected {{ color: green; font-weight: bold; }}
-            li.correct {{ color: green; }}
-            li.wrong-selected {{ color: red; font-weight: bold; }}
-            code {{
-                background-color: #f0f0f0; 
-                padding: 2px 4px; 
-                border-radius: 3px; 
-                font-family: 'Courier', monospace;
+            li.correct-selected {{
+                background: #d4edda;
+                color: #155724;
+                border-left: 3px solid #28a745;
+                font-weight: 500;
             }}
-            .explanation {{ 
-                background-color: #f9f9f9; 
-                border-left: 3px solid #ccc; 
-                padding: 10px; 
-                margin-top: 10px; 
+            li.correct {{
+                background: #d1ecf1;
+                color: #0c5460;
+                border-left: 3px solid #17a2b8;
             }}
-            hr {{
-                border: 0; 
-                border-top: 1px solid #eee; 
-                margin: 20px 0; 
+            li.wrong-selected {{
+                background: #f8d7da;
+                color: #721c24;
+                border-left: 3px solid #dc3545;
+                font-weight: 500;
             }}
             
+            /* Explanation Box */
+            .explanation {{
+                background: #fff3cd;
+                border-left: 4px solid #ffc107;
+                padding: 12px 15px;
+                margin-top: 12px;
+                border-radius: 0 4px 4px 0;
+                page-break-inside: avoid;
+            }}
+            .explanation strong {{
+                color: #856404;
+            }}
+            
+            /* Code */
+            code {{
+                background-color: #f1f3f5;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+                font-size: 9pt;
+                color: #e83e8c;
+            }}
+            
+            /* Page Break Control */
+            .question-box {{ page-break-inside: avoid; }}
+            .explanation {{ page-break-inside: avoid; }}
+            h2, h3 {{ page-break-after: avoid; }}
         </style>
     </head>
     <body>
