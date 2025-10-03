@@ -325,6 +325,7 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
 def _render_formulas_parallel(formulas: List[tuple]) -> Dict[int, str]:
     """
     Rendert mehrere Formeln parallel für bessere Performance.
+    Verwendet dynamische Worker-Anzahl basierend auf CPU-Kernen.
     """
     results = {}
     
@@ -332,8 +333,12 @@ def _render_formulas_parallel(formulas: List[tuple]) -> Dict[int, str]:
         is_block = (formula_type == 'block')
         return idx, _render_latex_to_image(formula, is_block)
     
-    # Parallele Ausführung mit ThreadPool (max 10 gleichzeitige Requests)
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    # Dynamische Worker-Anzahl: 2x CPU-Kerne, max 20 (für I/O-bound tasks)
+    import os
+    max_workers = min(20, (os.cpu_count() or 4) * 2)
+    
+    # Parallele Ausführung mit ThreadPool
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
             executor.submit(render_one, i, ftype, form): i
             for i, (ftype, form) in enumerate(formulas)
@@ -489,6 +494,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     """
     Generiert einen PDF-Bericht, indem zuerst ein HTML-Dokument erstellt
     und dieses dann mit WeasyPrint in PDF konvertiert wird.
+    
+    Performance-Optimierungen:
+    - Paralleles Formel-Rendering (dynamische Worker-Anzahl)
+    - Formula-Caching (keine doppelten API-Calls)
+    - Batch-Verarbeitung für QuickLaTeX API
     """
     user_name = st.session_state.get("user_id", "Unbekannt")
     q_file = st.session_state.get("selected_questions_file", "Unbekanntes Set")
@@ -580,15 +590,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     # HTML für Schwierigkeits-Übersicht
     difficulty_html = '<div class="difficulty-analysis">'
-    difficulty_html += '<h3>📊 Performance nach Schwierigkeit</h3>'
+    difficulty_html += '<h3>Performance nach Schwierigkeit</h3>'
     difficulty_html += '<div class="difficulty-stats">'
     
     # Leicht
     if difficulty_stats["easy"]["gesamt"] > 0:
-        easy_percent = (difficulty_stats["easy"]["richtig"] / 
+        easy_percent = (difficulty_stats["easy"]["richtig"] /
                        difficulty_stats["easy"]["gesamt"] * 100)
         difficulty_html += '<div class="diff-stat-item diff-easy">'
-        difficulty_html += '<div class="diff-label">⭐ Leicht</div>'
+        difficulty_html += '<div class="diff-label">★ Leicht</div>'
         difficulty_html += (f'<div class="diff-value">'
                           f'{difficulty_stats["easy"]["richtig"]}/'
                           f'{difficulty_stats["easy"]["gesamt"]}</div>')
@@ -597,10 +607,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     # Mittel
     if difficulty_stats["medium"]["gesamt"] > 0:
-        medium_percent = (difficulty_stats["medium"]["richtig"] / 
+        medium_percent = (difficulty_stats["medium"]["richtig"] /
                          difficulty_stats["medium"]["gesamt"] * 100)
         difficulty_html += '<div class="diff-stat-item diff-medium">'
-        difficulty_html += '<div class="diff-label">⭐⭐ Mittel</div>'
+        difficulty_html += '<div class="diff-label">★★ Mittel</div>'
         difficulty_html += (f'<div class="diff-value">'
                           f'{difficulty_stats["medium"]["richtig"]}/'
                           f'{difficulty_stats["medium"]["gesamt"]}</div>')
@@ -609,10 +619,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     # Schwer
     if difficulty_stats["hard"]["gesamt"] > 0:
-        hard_percent = (difficulty_stats["hard"]["richtig"] / 
+        hard_percent = (difficulty_stats["hard"]["richtig"] /
                        difficulty_stats["hard"]["gesamt"] * 100)
         difficulty_html += '<div class="diff-stat-item diff-hard">'
-        difficulty_html += '<div class="diff-label">⭐⭐⭐ Schwer</div>'
+        difficulty_html += '<div class="diff-label">★★★ Schwer</div>'
         difficulty_html += (f'<div class="diff-value">'
                           f'{difficulty_stats["hard"]["richtig"]}/'
                           f'{difficulty_stats["hard"]["gesamt"]}</div>')
@@ -626,7 +636,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     bookmarks_html = ""
     if bookmarked_indices:
         bookmarks_html = '<div class="bookmarks-overview">'
-        bookmarks_html += '<h3>� Markierte Fragen</h3>'
+        bookmarks_html += '<h3>Markierte Fragen</h3>'
         bookmarks_html += '<p class="bookmark-intro">'
         bookmarks_html += 'Du hast folgende Fragen zur Wiederholung markiert:'
         bookmarks_html += '</p>'
@@ -746,11 +756,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         # Schwierigkeits-Badge basierend auf Gewichtung
         gewichtung = frage_obj.get("gewichtung", 1)
         if gewichtung == 1:
-            difficulty_badge = '<span class="difficulty-badge easy">⭐ Leicht</span>'
+            difficulty_badge = '<span class="difficulty-badge easy">★ Leicht</span>'
         elif gewichtung == 2:
-            difficulty_badge = '<span class="difficulty-badge medium">⭐⭐ Mittel</span>'
+            difficulty_badge = '<span class="difficulty-badge medium">★★ Mittel</span>'
         else:  # gewichtung >= 3
-            difficulty_badge = '<span class="difficulty-badge hard">⭐⭐⭐ Schwer</span>'
+            difficulty_badge = '<span class="difficulty-badge hard">★★★ Schwer</span>'
+        
+        # Hole Thema
+        thema = frage_obj.get("thema", "")
         
         # Starte Question-Box mit farbigem Rahmen
         html_body += f'<div class="question-box" style="border-left: 4px solid {border_color};">'
@@ -760,6 +773,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         html_body += f'(Fragenset-Nr. {original_number})</span> '
         html_body += f'{difficulty_badge}'
         html_body += f'</div>'
+        
+        # Thema-Badge (falls vorhanden)
+        if thema:
+            html_body += f'<div class="question-topic">{thema}</div>'
+        
         html_body += f'<div class="question-text">{frage_text}</div>'
 
         html_body += '<ul class="options">'
@@ -983,9 +1001,20 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-size: 10pt;
                 font-weight: 600;
                 color: #667eea;
-                margin-bottom: 14px;
+                margin-bottom: 10px;
                 text-transform: uppercase;
                 letter-spacing: 0.8px;
+            }}
+            .question-topic {{
+                display: inline-block;
+                background: #e3f2fd;
+                color: #1565c0;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 9pt;
+                font-weight: 500;
+                margin-bottom: 12px;
+                border: 1px solid #90caf9;
             }}
             .question-text {{
                 font-size: 12pt;
@@ -1064,5 +1093,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     </html>
     '''
 
-    # Konvertiere HTML zu PDF mit WeasyPrint
-    return HTML(string=full_html, base_url=__file__).write_pdf()
+    # Konvertiere HTML zu PDF mit WeasyPrint (mit Optimierungen)
+    # optimize_images=True reduziert Dateigröße ohne Qualitätsverlust
+    pdf_bytes = HTML(string=full_html, base_url=__file__).write_pdf(
+        optimize_images=True
+    )
+    
+    # Cache-Statistiken ausgeben (für Debugging/Monitoring)
+    cache_size = len(_formula_cache)
+    if cache_size > 0:
+        print(f"📊 PDF-Export abgeschlossen: {cache_size} Formeln gecacht")
+    
+    return pdf_bytes
