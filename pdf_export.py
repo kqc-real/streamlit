@@ -418,23 +418,25 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
                              'Helvetica Neue', Arial, sans-serif;
-                font-size: 10pt;
-                line-height: 1.6;
-                color: #333;
+                font-size: 11pt;
+                line-height: 1.7;
+                color: #2d3748;
+                letter-spacing: 0.01em;
             }}
             
             /* Header Styling */
             .header {{
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 color: white;
-                padding: 20px;
-                margin: -20px -20px 20px -20px;
+                padding: 28px 24px;
+                margin: -20px -20px 24px -20px;
                 border-radius: 8px 8px 0 0;
             }}
             .header h1 {{
-                margin: 0 0 10px 0;
-                font-size: 24pt;
+                margin: 0 0 12px 0;
+                font-size: 26pt;
                 font-weight: 600;
+                letter-spacing: -0.02em;
             }}
             .meta-info {{
                 display: flex;
@@ -448,14 +450,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 background: #f8f9fa;
                 border: 2px solid #e9ecef;
                 border-radius: 8px;
-                padding: 20px;
-                margin: 20px 0;
+                padding: 28px;
+                margin: 24px 0 32px 0;
                 page-break-inside: avoid;
             }}
             .score-main {{
                 text-align: center;
-                margin-bottom: 15px;
-                padding-bottom: 15px;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
                 border-bottom: 2px solid #dee2e6;
             }}
             .score-number {{
@@ -501,11 +503,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             
             /* Section Title */
             .section-title {{
-                font-size: 16pt;
-                color: #495057;
-                margin: 30px 0 15px 0;
-                padding-bottom: 8px;
+                font-size: 18pt;
+                color: #2d3748;
+                margin: 40px 0 20px 0;
+                padding-bottom: 10px;
                 border-bottom: 2px solid #e9ecef;
+                font-weight: 600;
+                letter-spacing: -0.01em;
             }}
             
             /* Question Box */
@@ -513,8 +517,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 background: white;
                 border: 1px solid #dee2e6;
                 border-radius: 8px;
-                padding: 15px 20px;
-                margin: 15px 0;
+                padding: 24px 28px;
+                margin: 20px 0;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
                 page-break-inside: avoid;
             }}
@@ -522,57 +526,52 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-size: 10pt;
                 font-weight: 600;
                 color: #667eea;
-                margin-bottom: 10px;
+                margin-bottom: 14px;
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
+                letter-spacing: 0.8px;
             }}
             .question-text {{
-                font-size: 11pt;
+                font-size: 12pt;
                 font-weight: 500;
-                color: #212529;
-                margin-bottom: 12px;
-                line-height: 1.6;
+                color: #2d3748;
+                margin-bottom: 18px;
+                line-height: 1.7;
             }}
             
             /* Options */
             ul.options {{
                 list-style-type: none;
                 padding-left: 0;
-                margin: 12px 0;
+                margin: 16px 0;
             }}
             ul.options li {{
-                margin-bottom: 8px;
-                padding: 8px 12px 8px 40px;
-                text-indent: -40px;
-                line-height: 1.5;
-                border-radius: 4px;
+                margin-bottom: 12px;
+                padding: 12px 16px 12px 45px;
+                text-indent: -38px;
+                line-height: 1.7;
+                border-radius: 6px;
                 background: #f8f9fa;
+                font-size: 11pt;
             }}
             .prefix {{
                 display: inline-block;
-                width: 30px;
+                width: 28px;
                 text-align: center;
                 font-weight: bold;
-                margin-right: 5px;
+                margin-right: 10px;
             }}
             li.correct-selected {{
                 background: #d4edda;
                 color: #155724;
-                border-left: 4px solid #28a745;
-                padding-left: 44px;
                 font-weight: 500;
             }}
             li.correct {{
                 background: #d1ecf1;
                 color: #0c5460;
-                border-left: 4px solid #17a2b8;
-                padding-left: 44px;
             }}
             li.wrong-selected {{
                 background: #fff5f5;
                 color: #c53030;
-                border-left: 4px solid #fc8181;
-                padding-left: 44px;
                 font-weight: 500;
             }}
             
@@ -580,13 +579,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             .explanation {{
                 background: #fff3cd;
                 border-left: 4px solid #ffc107;
-                padding: 12px 15px;
-                margin-top: 12px;
-                border-radius: 0 4px 4px 0;
+                padding: 16px 20px;
+                margin-top: 16px;
+                border-radius: 0 6px 6px 0;
                 page-break-inside: avoid;
+                line-height: 1.7;
             }}
             .explanation strong {{
                 color: #856404;
+                font-weight: 600;
             }}
             
             /* Code */
