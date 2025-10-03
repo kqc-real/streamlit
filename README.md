@@ -151,13 +151,24 @@ Beiträge sind willkommen! Forke das Repository, erstelle einen Branch und öffn
 
 ---
 
-# Interaktiver Prompt zur Erstellung von Fragensets
+# 🤖 Fragensets mit KI erstellen (Optional)
 
-Der folgende Abschnitt ist eine detaillierte Anweisung (ein "Prompt") für einen KI-Assistenten wie **Gemini Code Assist** oder andere große Sprachmodelle (LLMs). Er enthält alle notwendigen Informationen, um ein neues, qualitativ hochwertiges Fragenset im korrekten `.json`-Format für diese App zu erstellen.
+Die App selbst generiert **keine** Fragen automatisch. Der folgende Abschnitt ist eine **Copy & Paste Anleitung** für die manuelle Nutzung mit einem externen KI-Assistenten (LLM).
 
-1.  **Kopieren Sie den gesamten folgenden Textblock**
-2.  **Fügen Sie den kopierten Text** in das Eingabefeld Ihres KI-Assistenten (z.B. im Web-Chat oder in Ihrer IDE) ein.
-3.  Der Assistent wird Sie dann schrittweise durch die Konfiguration führen.
+## Voraussetzungen
+
+- Zugang zu einem LLM wie **ChatGPT**, **Claude**, **Gemini** oder **GitHub Copilot Chat**
+- Optional: PDF-Dokumente als Wissensgrundlage (Skripte, Lehrbücher)
+
+## So funktioniert's
+
+1.  **Kopiere den gesamten Prompt-Text** aus dem nächsten Abschnitt
+2.  **Füge ihn in dein LLM ein** (z.B. ChatGPT Web-Interface, Claude, VS Code Copilot Chat)
+3.  **Beantworte die 6 Fragen** des Assistenten Schritt für Schritt
+4.  **Erhalte eine fertige `questions_*.json`-Datei** zum Download
+5.  **Speichere die Datei** im `data/`-Ordner deiner App
+
+Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsregeln, didaktische Guidelines), damit der LLM qualitativ hochwertige Fragen für diese App erstellen kann.
 
 ## Prompt (copy & paste)
 
