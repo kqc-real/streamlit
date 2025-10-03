@@ -1,6 +1,13 @@
 # 📝 MC-Test Streamlit App
 
-[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
+[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?b├── requirements.txt        # Python-Abhängigkeiten
+├── pdf_export.py           # PDF-Generierung mit LaTeX-Rendering
+└── README.md               # Diese Dokumentation
+```
+
+---
+
+## 📊 PDF-Exportmain)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
 Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
 Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse für verschiedene Fragensets.
@@ -78,11 +85,13 @@ Für die lokale Entwicklung kannst du eine `.env`-Datei erstellen. Für das Depl
 MC_TEST_ADMIN_USER="dein_admin_user"
 MC_TEST_ADMIN_KEY="dein_geheimes_passwort"
 MC_TEST_MIN_SECONDS_BETWEEN="2"
+APP_URL="https://ihre-streamlit-app.streamlit.app"
 ```
 
 - **`MC_TEST_ADMIN_USER`**: Der Benutzername, der für den Admin-Login erforderlich ist.
 - **`MC_TEST_ADMIN_KEY`**: Das Passwort für den Admin-Login.
 - **`MC_TEST_MIN_SECONDS_BETWEEN`**: Die Mindestanzahl an Sekunden, die zwischen zwei Antworten vergehen muss. Verhindert Spam. Ein Wert von `0` deaktiviert das Limit. (Default: `3`)
+- **`APP_URL`**: Die URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
 
 ---
 
@@ -108,26 +117,6 @@ MC_TEST_MIN_SECONDS_BETWEEN="2"
 ├── requirements.txt        # Python-Abhängigkeiten
 └── README.md               # Diese Dokumentation
 ```
-
-
-## � PDF-Export
-
-Die App bietet einen professionellen PDF-Export der Testergebnisse mit folgenden Features:
-
-- **LaTeX-Formel-Rendering:** Mathematische Formeln werden via [QuickLaTeX API](https://quicklatex.com) als hochauflösende PNG-Bilder gerendert
-- **Markdown-Unterstützung:** Überschriften (`#`, `##`, `###`), Fettdruck (`**text**`), Listen und Code-Snippets
-- **Optimierte Darstellung:**
-  - Matrizen und mathematische Ausdrücke werden korrekt formatiert
-  - Inline-Formeln fügen sich harmonisch in den Text ein
-  - Block-Formeln werden kompakt und lesbar dargestellt
-- **Professionelles Layout:** Eingerückte Antwortoptionen, farbliche Markierung (richtig/falsch), Erklärungen in Boxen
-
-### Technische Details
-
-- **PDF-Engine:** WeasyPrint (Python-basiert, keine externen Binaries)
-- **Formel-Rendering:** QuickLaTeX API mit amsmath/amsfonts-Paketen
-- **Unterstützte LaTeX-Elemente:** Matrizen, Vektoren, Brüche, Exponenten, griechische Buchstaben, Summen, Integrale, etc.
-- **Streamlit Cloud kompatibel:** Keine Node.js- oder Chromium-Dependencies
 
 ---
 
