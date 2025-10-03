@@ -317,6 +317,71 @@ N                # Erstelle img-Tag mit besserer Skalierung
                 font-style: italic;
             }
             
+            /* Glossary Section */
+            .glossary-section {
+                margin: 32px 0;
+                padding: 28px 32px;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                border: 3px solid #667eea;
+                border-radius: 12px;
+                page-break-before: always;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .glossary-section h2 {
+                margin: 0 0 8px 0;
+                color: #2d3748;
+                font-size: 18pt;
+                font-weight: 700;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .glossary-intro {
+                font-size: 10pt;
+                color: #4a5568;
+                margin: 0 0 24px 0;
+                font-style: italic;
+                text-align: center;
+                font-weight: 500;
+            }
+            .glossary-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .glossary-item {
+                padding: 16px 20px;
+                border-bottom: 1px solid #cbd5e0;
+            }
+            .glossary-item:nth-child(odd) {
+                background: #ffffff;
+            }
+            .glossary-item:nth-child(even) {
+                background: #f7fafc;
+            }
+            .glossary-item:first-child {
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .glossary-item:last-child {
+                border-bottom: none;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+            .glossary-term {
+                font-size: 12pt;
+                font-weight: 800;
+                color: #2d3748;
+                margin-bottom: 6px;
+                display: block;
+            }
+            .glossary-definition {
+                font-size: 10pt;
+                color: #4a5568;
+                line-height: 1.7;
+                font-weight: 400;
+            }
+            
             /* Section Title */  has_matrix = 'pmatrix' in cleaned_formula or 'bmatrix' in cleaned_formula
                     if has_matrix:
                         # Matrizen: keine Höhenbeschränkung, nur Breitenbeschränkung
@@ -751,6 +816,32 @@ def _calculate_average_stats(questions_file: str, questions: List[Dict[str, Any]
         return None
 
 
+def _extract_glossary_terms(questions: List[Dict[str, Any]]) -> Dict[str, str]:
+    """
+    Extrahiert Mini-Glossar-Einträge aus den Fragen.
+    Sammelt alle 'mini_glossary' Felder und entfernt Duplikate.
+    
+    Returns:
+        Dict mit {Begriff: Definition} alphabetisch sortiert
+    """
+    glossary = {}
+    
+    # Durchsuche alle Fragen nach mini_glossary Einträgen
+    for frage_obj in questions:
+        if "mini_glossary" in frage_obj:
+            mini_gloss = frage_obj["mini_glossary"]
+            if isinstance(mini_gloss, dict):
+                # Füge alle Begriffe aus diesem mini_glossary hinzu
+                # Wenn Begriff bereits existiert, wird er nicht überschrieben
+                # (erste Definition hat Priorität)
+                for term, definition in mini_gloss.items():
+                    if term not in glossary:
+                        glossary[term] = definition
+    
+    # Sortiere alphabetisch (case-insensitive)
+    return dict(sorted(glossary.items(), key=lambda x: x[0].lower()))
+
+
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     """
     Analysiert die schwächsten Themen basierend auf falschen Antworten.
@@ -1016,6 +1107,26 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         comparison_html += f'<div class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n)</div>'
         comparison_html += '</div>'
+    
+    # Mini-Glossar erstellen
+    glossary_terms = _extract_glossary_terms(questions)
+    glossary_html = ""
+    if glossary_terms:
+        glossary_html = '<div class="glossary-section">'
+        glossary_html += '<h2 class="section-title">📖 Mini-Glossar</h2>'
+        glossary_html += '<p class="glossary-intro">Wichtige Begriffe und Konzepte aus diesem Test:</p>'
+        glossary_html += '<div class="glossary-grid">'
+        
+        for term, definition in glossary_terms.items():
+            # Parse LaTeX in Definition
+            parsed_definition = _parse_text_with_formulas(definition)
+            
+            glossary_html += '<div class="glossary-item">'
+            glossary_html += f'<div class="glossary-term">{term}</div>'
+            glossary_html += f'<div class="glossary-definition">{parsed_definition}</div>'
+            glossary_html += '</div>'
+        
+        glossary_html += '</div></div>'
     
     # Lesezeichen-Übersicht erstellen
     bookmarked_indices = st.session_state.get("bookmarked_questions", [])
@@ -1477,6 +1588,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     </head>
     <body>
         {html_body}
+        {glossary_html}
     </body>
     </html>
     '''

@@ -27,7 +27,12 @@
     "loesung": 1,
     "erklaerung": "**Surjektivität** bedeutet, dass die **Bildmenge** von $f$ gleich der **Zielmenge** $B$ ist. Das heißt, für jedes $y \\in B$ gibt es mindestens ein $x \\in A$, sodass $f(x) = y$.",
     "gewichtung": 2,
-    "thema": "1. Mengen und Abbildungen"
+    "thema": "1. Mengen und Abbildungen",
+    "mini_glossary": {
+      "Surjektivität": "Eine Abbildung ist surjektiv (rechtstotal), wenn jedes Element der Zielmenge mindestens einmal als Funktionswert auftritt. Die Bildmenge entspricht der gesamten Zielmenge.",
+      "Injektivität": "Eine Abbildung ist injektiv (linkseindeutig), wenn verschiedene Elemente der Definitionsmenge stets auf verschiedene Elemente der Zielmenge abgebildet werden. Kein Element der Zielmenge wird mehrfach getroffen.",
+      "Bijektivität": "Eine Abbildung ist bijektiv, wenn sie sowohl injektiv als auch surjektiv ist. Sie ist umkehrbar und stellt eine eineindeutige Zuordnung dar."
+    }
   },
   {
     "frage": "3. Welche Eigenschaft muss eine Relation $R$ auf einer Menge $M$ erfüllen, um eine **Äquivalenzrelation** zu sein?",
@@ -44,7 +49,13 @@
     "loesung": 2,
     "erklaerung": "Eine **Äquivalenzrelation** muss drei Eigenschaften erfüllen: **Reflexivität** ($aRa$), **Symmetrie** ($aRb \\implies bRa$) und **Transitivität** ($aRb \\land bRc \\implies aRc$).",
     "gewichtung": 2,
-    "thema": "1. Mengen und Abbildungen"
+    "thema": "1. Mengen und Abbildungen",
+    "mini_glossary": {
+      "Äquivalenzrelation": "Eine Relation, die reflexiv, symmetrisch und transitiv ist. Sie teilt eine Menge in disjunkte Äquivalenzklassen, z.B. Gleichheit oder Kongruenz.",
+      "Reflexivität": "Eine Relation $R$ ist reflexiv, wenn jedes Element zu sich selbst in Relation steht: $\\forall a: aRa$.",
+      "Symmetrie": "Eine Relation $R$ ist symmetrisch, wenn aus $aRb$ stets $bRa$ folgt.",
+      "Transitivität": "Eine Relation $R$ ist transitiv, wenn aus $aRb$ und $bRc$ stets $aRc$ folgt."
+    }
   },
   {
     "frage": "4. Was ist die **Kontraposition** der Aussage 'Wenn es regnet, ist die Straße nass' ($A \\implies B$)?",
