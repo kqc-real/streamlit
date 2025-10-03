@@ -314,28 +314,33 @@ def _generate_qr_code(url: str) -> str:
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     """
     Analysiert die schwächsten Themen basierend auf falschen Antworten.
-    Gibt Liste von (Thema, Anzahl_Fehler) zurück.
+    Gruppiert nach dem 'thema'-Feld der Fragen.
+    Gibt Liste von (Thema, [Fragennummern]) zurück.
     """
     topic_errors = {}
+    
+    # Hole initial_indices für korrekte Fragennummerierung
+    initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
     
     for i, frage_obj in enumerate(questions):
         gegebene_antwort = get_answer_for_question(i)
         richtige_antwort = frage_obj["optionen"][frage_obj["loesung"]]
         
-        if gegebene_antwort != richtige_antwort:
-            # Extrahiere Thema aus Frage-Text (erste Wörter oder Kategorie)
-            topic = frage_obj.get("kategorie", "")
-            if not topic:
-                # Fallback: Erste 3 Wörter der Frage
-                frage_text = frage_obj["frage"]
-                words = frage_text.split()[:3]
-                topic = " ".join(words)
+        # Nur zählen wenn Frage beantwortet wurde UND falsch war
+        if gegebene_antwort is not None and gegebene_antwort != richtige_antwort:
+            # Extrahiere Thema aus dem 'thema'-Feld der Frage
+            topic = frage_obj.get("thema", "Allgemein")
             
-            topic_errors[topic] = topic_errors.get(topic, 0) + 1
+            # Berechne die Display-Fragennummer (wie im PDF angezeigt)
+            display_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
+            
+            if topic not in topic_errors:
+                topic_errors[topic] = []
+            topic_errors[topic].append(display_number)
     
-    # Sortiere nach Fehleranzahl, gib Top 3 zurück
-    sorted_topics = sorted(topic_errors.items(), key=lambda x: x[1], reverse=True)
-    return sorted_topics[:3]
+    # Sortiere nach Anzahl der Fehler, gib ALLE Themen zurück (nicht nur Top 3)
+    sorted_topics = sorted(topic_errors.items(), key=lambda x: len(x[1]), reverse=True)
+    return sorted_topics
 
 
 def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) -> bytes:
@@ -393,10 +398,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     weak_topics_html = ""
     if weak_topics:
         weak_topics_html = '<div class="weak-topics">'
-        weak_topics_html += '<h3>🎯 Verbesserungspotenzial</h3>'
+        weak_topics_html += '<h3>Verbesserungspotenzial</h3>'
         weak_topics_html += '<ul>'
-        for topic, errors in weak_topics:
-            weak_topics_html += f'<li><strong>{topic}</strong>: {errors} Fehler</li>'
+        for topic, question_numbers in weak_topics:
+            # Formatiere Fragennummern (z.B. "Fragen 3, 7, 12")
+            if len(question_numbers) == 1:
+                fragen_text = f"Frage {question_numbers[0]}"
+            else:
+                fragen_text = f"Fragen {', '.join(map(str, question_numbers))}"
+            weak_topics_html += f'<li><strong>{topic}</strong><br><span class="question-refs">{fragen_text}</span></li>'
         weak_topics_html += '</ul></div>'
     
     # Baue den HTML-Body mit professionellem Header
@@ -404,12 +414,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>📊 Test-Ergebnis</h1>
+                    <h1>Test-Ergebnis</h1>
                     <div class="meta-info">
                         <span><strong>Teilnehmer:</strong> {user_name}</span>
                         <span><strong>Fragenset:</strong> {set_name}</span>
                         <span><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y %H:%M")}</span>
-                        {f'<span><strong>⏱️ Dauer:</strong> {duration_str}</span>' if duration_str else ''}
+                        {f'<span><strong>Dauer:</strong> {duration_str}</span>' if duration_str else ''}
                     </div>
                 </div>
                 <div class="header-right">
@@ -641,14 +651,19 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 list-style-type: none;
             }}
             .weak-topics li {{
-                padding: 6px 0;
+                padding: 8px 0 8px 20px;
                 font-size: 11pt;
                 color: #856404;
                 line-height: 1.6;
+                list-style-type: disc;
+                list-style-position: outside;
+                margin-bottom: 8px;
             }}
-            .weak-topics li:before {{
-                content: "⚠️ ";
-                margin-right: 8px;
+            .weak-topics .question-refs {{
+                font-size: 10pt;
+                color: #6c757d;
+                font-weight: normal;
+                font-style: italic;
             }}
             
             /* Section Title */
