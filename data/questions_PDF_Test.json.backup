@@ -1,6 +1,14 @@
 [
   {
-    "frage": "6. Was ist die korrekte Darstellung der **Standardabweichung** $\\sigma$ einer diskreten Zufallsvariable $X$?",
+        "erklaerung": "Die **Standardabweichung** $\sigma$ ist die **Wurzel** aus der **Varianz** $\sigma^2$. Die Varianz ist der Erwartungswert der quadrierten Abweichung vom Erwartungswert $\mu$. Die korrekte Formel ist also die Wurzel aus der Summe der gewichteten quadrierten Abweichungen.",
+    "gewichtung": 3,
+    "thema": "KaTeX & Formeln",
+    "mini_glossary": {
+      "Standardabweichung": "Ein Maß für die Streuung von Werten um den Erwartungswert $\\mu$. Sie ist die Quadratwurzel der Varianz: $\\sigma = \\sqrt{\\text{Var}(X)}$.",
+      "Varianz": "Der Erwartungswert der quadrierten Abweichungen vom Mittelwert, formal: $\\sigma^2 = E[(X - \\mu)^2] = \\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)$.",
+      "Erwartungswert": "Der gewichtete Durchschnitt aller möglichen Werte einer Zufallsvariable, gewichtet mit ihren Wahrscheinlichkeiten: $\\mu = E[X] = \\sum_{i=1}^{n} x_i P(X=x_i)$."
+    }
+  },ge": "6. Was ist die korrekte Darstellung der **Standardabweichung** $\\sigma$ einer diskreten Zufallsvariable $X$?",
     "optionen": [
       "$\\sigma = \\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)$",
       "$\\sigma = \\sqrt{\\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)}$",
@@ -10,12 +18,7 @@
     "loesung": 1,
     "erklaerung": "Die **Standardabweichung** $\\sigma$ ist die **Wurzel** aus der **Varianz** $\\sigma^2$. Die Varianz ist der Erwartungswert der quadrierten Abweichung vom Erwartungswert $\\mu$. Die korrekte Formel ist also die Wurzel aus der Summe der gewichteten quadrierten Abweichungen.",
     "gewichtung": 3,
-    "thema": "KaTeX & Formeln",
-    "mini_glossary": {
-      "Standardabweichung": "Ein Maß für die Streuung von Werten um den Erwartungswert $\\mu$. Sie ist die Quadratwurzel der Varianz: $\\sigma = \\sqrt{\\text{Var}(X)}$.",
-      "Varianz": "Der Erwartungswert der quadrierten Abweichungen vom Mittelwert, formal: $\\sigma^2 = E[(X - \\mu)^2] = \\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)$.",
-      "Erwartungswert": "Der gewichtete Durchschnitt aller möglichen Werte einer Zufallsvariable, gewichtet mit ihren Wahrscheinlichkeiten: $\\mu = E[X] = \\sum_{i=1}^{n} x_i P(X=x_i)$."
-    }
+    "thema": "KaTeX & Formeln"
   },
   {
     "frage": "7. Was ist das Ergebnis der Matrixmultiplikation $A \\cdot B$ für $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ und $B = \\begin{pmatrix} 2 & 0 \\\\ 1 & 2 \\end{pmatrix}$?",
