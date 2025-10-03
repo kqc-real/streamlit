@@ -13,6 +13,9 @@ weasyprint>=62.0
 # Für das Rendern von LaTeX-Formeln via QuickLaTeX API
 requests>=2.31.0
 
+# Für QR-Code Generierung im PDF (optional)
+qrcode[pil]>=7.4.2
+
 # Optional: remove if not needed
 python-dotenv>=1.0.0
 

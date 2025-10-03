@@ -35,6 +35,7 @@ import base64
 from datetime import datetime
 from typing import List, Dict, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import io
 
 import streamlit as st
 import requests
@@ -42,6 +43,13 @@ from weasyprint import HTML
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
+
+# QR-Code Generation
+try:
+    import qrcode
+    QR_AVAILABLE = True
+except ImportError:
+    QR_AVAILABLE = False
 
 # Cache für bereits gerenderte Formeln (spart API-Calls bei duplizierten Formeln)
 _formula_cache = {}
@@ -282,6 +290,54 @@ def _parse_text_with_formulas(text: str) -> str:
     
     return processed_text
 
+
+def _generate_qr_code(url: str) -> str:
+    """Generiert QR-Code als Base64-String."""
+    if not QR_AVAILABLE:
+        return ""
+    
+    try:
+        qr = qrcode.QRCode(version=1, box_size=10, border=2)
+        qr.add_data(url)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        buffer = io.BytesIO()
+        img.save(buffer, format='PNG')
+        buffer.seek(0)
+        img_base64 = base64.b64encode(buffer.read()).decode()
+        return f'data:image/png;base64,{img_base64}'
+    except Exception:
+        return ""
+
+
+def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
+    """
+    Analysiert die schwächsten Themen basierend auf falschen Antworten.
+    Gibt Liste von (Thema, Anzahl_Fehler) zurück.
+    """
+    topic_errors = {}
+    
+    for i, frage_obj in enumerate(questions):
+        gegebene_antwort = get_answer_for_question(i)
+        richtige_antwort = frage_obj["optionen"][frage_obj["loesung"]]
+        
+        if gegebene_antwort != richtige_antwort:
+            # Extrahiere Thema aus Frage-Text (erste Wörter oder Kategorie)
+            topic = frage_obj.get("kategorie", "")
+            if not topic:
+                # Fallback: Erste 3 Wörter der Frage
+                frage_text = frage_obj["frage"]
+                words = frage_text.split()[:3]
+                topic = " ".join(words)
+            
+            topic_errors[topic] = topic_errors.get(topic, 0) + 1
+    
+    # Sortiere nach Fehleranzahl, gib Top 3 zurück
+    sorted_topics = sorted(topic_errors.items(), key=lambda x: x[1], reverse=True)
+    return sorted_topics[:3]
+
+
 def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) -> bytes:
     """
     Generiert einen PDF-Bericht, indem zuerst ein HTML-Dokument erstellt
@@ -314,14 +370,51 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                    if get_answer_for_question(i) == questions[i]["optionen"][questions[i]["loesung"]])
     falsche = len(questions) - richtige
     
+    # Bearbeitungszeit berechnen
+    start_time = st.session_state.get("test_start_time")
+    end_time = st.session_state.get("test_end_time", datetime.now())
+    duration_str = ""
+    if start_time:
+        duration = end_time - start_time
+        minutes = int(duration.total_seconds() / 60)
+        seconds = int(duration.total_seconds() % 60)
+        duration_str = f"{minutes}:{seconds:02d} Min"
+    
+    # QR-Code generieren (Link zum Test)
+    # URL kann über Umgebungsvariable APP_URL konfiguriert werden
+    import os
+    base_url = os.getenv("APP_URL", "https://mc-test-amalea.streamlit.app")
+    test_url = f"{base_url}/?test={q_file}"
+    qr_code_data = _generate_qr_code(test_url) if QR_AVAILABLE else ""
+    qr_html = f'<img src="{qr_code_data}" alt="QR-Code">' if qr_code_data else ""
+    
+    # Top 3 schwächste Themen analysieren
+    weak_topics = _analyze_weak_topics(questions)
+    weak_topics_html = ""
+    if weak_topics:
+        weak_topics_html = '<div class="weak-topics">'
+        weak_topics_html += '<h3>🎯 Verbesserungspotenzial</h3>'
+        weak_topics_html += '<ul>'
+        for topic, errors in weak_topics:
+            weak_topics_html += f'<li><strong>{topic}</strong>: {errors} Fehler</li>'
+        weak_topics_html += '</ul></div>'
+    
     # Baue den HTML-Body mit professionellem Header
     html_body = f'''
         <div class="header">
-            <h1>📊 Test-Ergebnis</h1>
-            <div class="meta-info">
-                <span><strong>Teilnehmer:</strong> {user_name}</span>
-                <span><strong>Fragenset:</strong> {set_name}</span>
-                <span><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y %H:%M")}</span>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>📊 Test-Ergebnis</h1>
+                    <div class="meta-info">
+                        <span><strong>Teilnehmer:</strong> {user_name}</span>
+                        <span><strong>Fragenset:</strong> {set_name}</span>
+                        <span><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y %H:%M")}</span>
+                        {f'<span><strong>⏱️ Dauer:</strong> {duration_str}</span>' if duration_str else ''}
+                    </div>
+                </div>
+                <div class="header-right">
+                    {qr_html}
+                </div>
             </div>
         </div>
         
@@ -347,6 +440,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 {f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">Ranking</div></div>' if user_rank else ''}
             </div>
         </div>
+        
+        {weak_topics_html}
         
         <h2 class="section-title">Detaillierte Auswertung</h2>
     '''
@@ -432,6 +527,29 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 margin: -20px -20px 24px -20px;
                 border-radius: 8px 8px 0 0;
             }}
+            .header-content {{
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 20px;
+            }}
+            .header-left {{
+                flex: 1;
+                min-width: 0;
+            }}
+            .header-right {{
+                flex-shrink: 0;
+                width: 90px;
+                text-align: right;
+            }}
+            .header-right img {{
+                display: block;
+                width: 80px;
+                height: 80px;
+                border: 3px solid white;
+                border-radius: 8px;
+                background: white;
+            }}
             .header h1 {{
                 margin: 0 0 12px 0;
                 font-size: 26pt;
@@ -440,7 +558,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             .meta-info {{
                 display: flex;
-                justify-content: space-between;
+                flex-direction: column;
+                gap: 4px;
                 font-size: 9pt;
                 opacity: 0.95;
             }}
@@ -499,6 +618,37 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-size: 9pt;
                 color: #6c757d;
                 margin-top: 5px;
+            }}
+            
+            /* Weak Topics Box */
+            .weak-topics {{
+                background: #fff3cd;
+                border: 2px solid #ffc107;
+                border-radius: 8px;
+                padding: 20px 24px;
+                margin: 24px 0;
+                page-break-inside: avoid;
+            }}
+            .weak-topics h3 {{
+                margin: 0 0 12px 0;
+                font-size: 14pt;
+                color: #856404;
+                font-weight: 600;
+            }}
+            .weak-topics ul {{
+                margin: 0;
+                padding-left: 20px;
+                list-style-type: none;
+            }}
+            .weak-topics li {{
+                padding: 6px 0;
+                font-size: 11pt;
+                color: #856404;
+                line-height: 1.6;
+            }}
+            .weak-topics li:before {{
+                content: "⚠️ ";
+                margin-right: 8px;
             }}
             
             /* Section Title */

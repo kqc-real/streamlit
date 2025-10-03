@@ -107,7 +107,18 @@ def main():
     is_admin = is_admin_user(user_id, app_config)
     render_sidebar(questions, app_config, is_admin)
 
-    # --- 4. Logik zur Bestimmung der anzuzeigenden Frage ---
+    # --- 4. Zeitstempel für Test-Dauer setzen ---
+    # Setze Startzeit beim ersten Aufruf (wenn erste Frage geladen wird)
+    if "test_start_time" not in st.session_state:
+        from datetime import datetime
+        st.session_state.test_start_time = datetime.now()
+    
+    # Setze Endzeit, wenn Test abgeschlossen ist
+    if is_test_finished(questions) and "test_end_time" not in st.session_state:
+        from datetime import datetime
+        st.session_state.test_end_time = datetime.now()
+
+    # --- 5. Logik zur Bestimmung der anzuzeigenden Frage ---
     current_idx = None
     if "jump_to_idx" in st.session_state:
         # Priorität 1: Sprung von einem Bookmark
