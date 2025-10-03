@@ -7,7 +7,30 @@
 
 ---
 
-## 📊 PDF-Exportmain)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
+## 📊 PDF-Export
+
+Die App generiert professionelle PDF-Reports mit folgenden Features:
+
+- **LaTeX-Rendering:** Mathematische Formeln werden über QuickLaTeX API in 1200 DPI gerendert
+- **Durchschnittsvergleich:** Vergleich der eigenen Performance mit dem Durchschnitt aller Nutzer (nur beste/vollständige Tests)
+- **Mini-Glossar:** Automatisch generierte Glossar-Section mit Fachbegriffen aus dem Fragenset (Zebra-Streifen-Design, fette Begriffe)
+- **Bookmarks-Übersicht:** Alle markierten Fragen werden mit Preview aufgelistet
+- **Difficulty-Analyse:** Performance-Breakdown nach Schwierigkeitsgrad (★/★★/★★★)
+- **Dual Numbering:** Fragen zeigen sowohl Test-Position als auch Original-Fragenset-Nummer
+- **Color Coding:** Korrekte Antworten grün, falsche rot markiert
+- **Paralleles Rendering:** Optimierte Performance durch ThreadPoolExecutor (2× CPU-Kerne)
+- **QR-Code:** Direktlink zur App für schnellen Zugriff
+
+---
+
+[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?b├── requirements.txt        # Python-Abhängigkeiten
+├── pdf_export.py           # PDF-Generierung mit LaTeX-Rendering
+└── README.md               # Diese Dokumentation
+```
+
+---
+
+main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
 Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
 Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse für verschiedene Fragensets.
@@ -37,6 +60,7 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 | Feedback       | Nutzer können Probleme mit Fragen melden (inhaltlich, technisch etc.)                         |
 | Leaderboard    | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
 | Analyse & Wartung | Itemanalyse, Distraktor-Analyse, Verwaltung von gemeldetem Feedback                         |
+| PDF-Export     | Professioneller Report mit LaTeX-Rendering, Durchschnittsvergleich, Mini-Glossar, Bookmarks   |
 | Export         | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                      |
 | Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback-Management, Export und Systemeinstellungen  |
 
@@ -114,8 +138,13 @@ APP_URL="https://ihre-streamlit-app.streamlit.app"
 ├── helpers.py              # Kleine Hilfsfunktionen
 ├── logic.py                # Kernlogik der App (Scoring, etc.)
 ├── main_view.py            # UI-Logik für die Hauptansichten
+├── pdf_export.py           # PDF-Report-Generierung mit LaTeX & Mini-Glossar
 ├── requirements.txt        # Python-Abhängigkeiten
-└── README.md               # Diese Dokumentation
+├── AI_QUESTION_GENERATOR_PLAN.md      # Plan für KI-basierte Fragenset-Generierung
+├── DEPLOYMENT_FEASIBILITY_STUDY.md    # Infrastruktur & Kostenanalyse (Streamlit/Cloudflare)
+├── GLOSSARY_SCHEMA.md                 # Dokumentation für Mini-Glossar in Fragensets
+├── VISION_RELEASE_2.0.md              # Strategische Vision & Feature-Roadmap Release 2.0
+└── README.md                          # Diese Dokumentation
 ```
 
 ---
