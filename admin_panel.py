@@ -65,7 +65,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
         
         title = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-        st.subheader(f"Fragenset: {title} (max. {max_score_for_set} Punkte)")
+        st.subheader(f"{title} (max. {max_score_for_set} Punkte)")
 
         # Nutze die optimierte DB-Funktion
         leaderboard_data = get_all_logs_for_leaderboard(q_file)

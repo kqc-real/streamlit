@@ -709,7 +709,7 @@ def render_final_summary(questions: list, app_config: AppConfig):
     
     st.warning(
         f"⏱️ **Hinweis zur Druckvorbereitung:** "
-        f"Mathematische Fragensets werden optimiert verarbeitet. "
+        f"Mathematische Fragensets werden online verarbeitet. "
         f"Bei {anzahl_fragen} Fragen dauert dies etwa "
         f"{geschaetzte_dauer} Minute{'n' if geschaetzte_dauer != 1 else ''}."
     )
