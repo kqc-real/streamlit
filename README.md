@@ -164,7 +164,7 @@ Die App selbst generiert **keine** Fragen automatisch. Der folgende Abschnitt is
 
 1.  **Kopiere den gesamten Prompt-Text** aus dem nächsten Abschnitt
 2.  **Füge ihn in dein LLM ein** (z.B. ChatGPT Web-Interface, Claude, VS Code Copilot Chat)
-3.  **Beantworte die 6 Fragen** des Assistenten Schritt für Schritt
+3.  **Beantworte die 7 Fragen** des Assistenten Schritt für Schritt
 4.  **Erhalte eine fertige `questions_*.json`-Datei** zum Download
 5.  **Speichere die Datei** im `data/`-Ordner deiner App
 
@@ -172,7 +172,7 @@ Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsre
 
 ## Prompt (copy & paste)
 
-Führe mich in den folgenden sechs Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die entsprechende Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfahren.
+Führe mich in den folgenden sieben Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die entsprechende Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfahren.
 
 ---
 
@@ -204,13 +204,19 @@ Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgende
 
 ---
 
-### **Schritt 5 von 6: Detaillierte Erklärungen abfragen**
+### **Schritt 5 von 7: Detaillierte Erklärungen abfragen**
 
 Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können.
 
 ---
 
-### **Schritt 6 von 6: Externe Dokumente abfragen**
+### **Schritt 6 von 7: Mini-Glossar abfragen**
+
+Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) generiert werden sollen. Erkläre, dass diese im PDF-Export als separate Glossar-Section angezeigt werden und wichtige Fachbegriffe aus den Fragen erklären. Jede Frage kann 2-4 zentrale Begriffe mit prägnanten Definitionen (1-3 Sätze) enthalten. Die Definitionen dürfen LaTeX-Formeln nutzen.
+
+---
+
+### **Schritt 7 von 7: Externe Dokumente abfragen**
 
 Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage hochladen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann.
 
@@ -238,6 +244,10 @@ Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Erge
   "extended_explanation": {
     "title": "Titel der erweiterten Erklärung",
     "content": "Detaillierter Hintergrund, Code-Beispiele oder mathematische Herleitungen..."
+  },
+  "mini_glossary": {
+    "Begriff 1": "Prägnante Definition in 1-3 Sätzen mit optionalen $LaTeX$-Formeln.",
+    "Begriff 2": "Erklärung eines weiteren zentralen Fachbegriffs aus dieser Frage."
   }
 }
 ```
@@ -251,6 +261,28 @@ Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Erge
   * `gewichtung`: (integer) Eine Ganzzahl, die die Schwierigkeit angibt: **1** für Grundlagenwissen, **2** für Transferwissen/Anwendung, **3** für Expertenwissen/Kombination.
   * `thema`: (string) Das spezifische Unterthema, dem die Frage zugeordnet ist.
   * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3.
+  * `mini_glossary`: (object, optional) Ein optionales Dictionary mit 2-4 wichtigen Fachbegriffen als Schlüssel und deren prägnanten Definitionen (1-3 Sätze) als Werte. Wird im PDF-Export als separate Glossar-Section angezeigt. Definitionen können LaTeX-Formeln enthalten.
+
+#### **Richtlinien für Mini-Glossar-Einträge:**
+
+Falls Mini-Glossar-Einträge gewünscht werden, beachte folgende Best Practices:
+
+1.  **Anzahl:** 2-4 zentrale Begriffe pro Frage (nicht mehr, nicht weniger)
+2.  **Relevanz:** Nur Begriffe aufnehmen, die für das Verständnis der Frage essentiell sind
+3.  **Länge:** Definitionen in 1-3 Sätzen (ca. 50-150 Wörter)
+4.  **Präzision:** Fachlich korrekte, prägnante Erklärungen ohne Trivialitäten
+5.  **LaTeX-Support:** Mathematische/physikalische Formeln in `$...$` oder `$$...$$` Notation
+6.  **Keine Redundanz:** Keine Wiederholung von Inhalten aus `erklaerung` oder `extended_explanation`
+7.  **Alphabetische Reihenfolge:** Begriffe werden automatisch sortiert, keine manuelle Ordnung nötig
+
+**Beispiele für gute Glossar-Einträge:**
+```json
+"mini_glossary": {
+  "Surjektivität": "Eine Funktion $f: A \\to B$ ist surjektiv, wenn jedes Element aus der Zielmenge $B$ mindestens ein Urbild in $A$ hat.",
+  "Injektivität": "Eine Funktion ist injektiv, wenn verschiedene Elemente der Definitionsmenge auf verschiedene Elemente der Zielmenge abgebildet werden.",
+  "Bijektivität": "Eine Funktion ist bijektiv, wenn sie sowohl injektiv als auch surjektiv ist. Bijektive Funktionen sind umkehrbar."
+}
+```
 
 #### **Formatierungsregeln für Textinhalte:**
 
