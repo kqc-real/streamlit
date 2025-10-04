@@ -341,6 +341,6 @@ Macht vorher ein **Backup der Datenbank!**
 
 **Version:** 1.0  
 **Stand:** 4. Oktober 2025  
-**Zielgruppe:** BWL-Studierende (1. Semester) im Projektteam Release 2.0
+**Zielgruppe:** BWL-Studierende im Projektteam Release 2.0
 
 **Viel Erfolg! 🚀**
