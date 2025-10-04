@@ -403,15 +403,80 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
 
     st.divider()
 
-    # --- System-Metriken ---
-    st.subheader("Metriken")
-    if not df.empty:
-        total_answers = len(df)
-        unique_users = df["user_id_hash"].nunique()
-        st.metric("Gesamtzahl der Antworten", total_answers)
-        st.metric("Eindeutige Teilnehmer", unique_users)
+    # --- Erweiterte Dashboard-Statistiken ---
+    st.subheader("📊 Dashboard-Statistiken")
+    
+    from database import get_dashboard_statistics
+    stats = get_dashboard_statistics()
+    
+    if stats and stats['total_tests'] > 0:
+        # Oberste Zeile: Hauptmetriken
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Abgeschlossene Tests", stats['total_tests'])
+        with col2:
+            st.metric("Eindeutige Teilnehmer", stats['unique_users'])
+        with col3:
+            st.metric("Gemeldete Probleme", stats['total_feedback'])
+        with col4:
+            # Formatiere Dauer in MM:SS
+            mins, secs = divmod(stats['avg_duration'], 60)
+            duration_str = f"{int(mins):02d}:{int(secs):02d} min"
+            st.metric("Ø Testdauer", duration_str)
+        
+        st.divider()
+        
+        # Zweite Zeile: Abschlussquote
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric(
+                "Abschlussquote",
+                f"{stats['completion_rate']}%",
+                help="Prozentsatz der Tests, die vollständig beendet wurden"
+            )
+        
+        # Durchschnittliche Punktzahlen pro Fragenset
+        if stats['avg_scores_by_qset']:
+            st.divider()
+            st.subheader("📈 Durchschnittliche Leistung pro Fragenset")
+            
+            # Bereite Daten für Chart vor
+            import plotly.graph_objects as go
+            
+            qsets = []
+            avg_scores = []
+            test_counts = []
+            
+            for qfile, data in sorted(stats['avg_scores_by_qset'].items()):
+                # Extrahiere schönen Namen aus Dateiname
+                qset_name = qfile.replace("questions_", "").replace(".json", "").replace("_", " ")
+                qsets.append(qset_name)
+                avg_scores.append(data['avg_score'])
+                test_counts.append(data['test_count'])
+            
+            # Erstelle Bar-Chart
+            fig = go.Figure(data=[
+                go.Bar(
+                    x=qsets,
+                    y=avg_scores,
+                    text=[f"{score:.1f} Pkt<br>({count} Tests)" for score, count in zip(avg_scores, test_counts)],
+                    textposition='auto',
+                    marker_color='#1f77b4',
+                    hovertemplate='<b>%{x}</b><br>Durchschnitt: %{y:.2f} Punkte<extra></extra>'
+                )
+            ])
+            
+            fig.update_layout(
+                title="Durchschnittliche Punktzahl nach Fragenset",
+                xaxis_title="Fragenset",
+                yaxis_title="Durchschnittliche Punktzahl",
+                height=400,
+                showlegend=False
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
     else:
-        st.info("Noch keine Metriken verfügbar.")
+        st.info("Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt.")
 
     st.divider()
 

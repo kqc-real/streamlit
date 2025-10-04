@@ -1,6 +1,6 @@
 # 🔐 Admin-Panel Anleitung für Kursteilnehmer/innen
 
-**Für BWL-Studierende (1. Semester) ohne IT-Vorkenntnisse**
+**Für BWL-Studierende ohne IT-Vorkenntnisse**
 
 ---
 
@@ -15,6 +15,7 @@ Das Admin-Panel ist eine **erweiterte Ansicht** der MC-Test-App, die zusätzlich
 - 🗑️ **Datenbank zurücksetzen:** Für einen Neustart
 
 **Warum ist das wichtig für euch?**
+
 - Als zukünftige Projektmitglieder sollt ihr alle Features der App kennen
 - Ihr lernt, wie man Fragen-Qualität bewertet
 - Ihr seht, wie Analytics in einer Web-App funktionieren
@@ -57,7 +58,7 @@ Das Admin-Panel ist eine **erweiterte Ansicht** der MC-Test-App, die zusätzlich
 ### Schritt 3: Als Admin einloggen
 
 1. **Auf der Startseite:**
-   - Wähle ein beliebiges Fragenset aus (z.B. "Mathematik I")
+   - Wähle ein beliebiges Fragenset aus (z. B. "Mathematik I")
    - Scrolle nach unten zu **"Wähle dein Pseudonym"**
    - Wähle aus der Liste: **"Albert Einstein"**
    - Klicke auf **"Test starten"**
@@ -84,14 +85,42 @@ Das Admin-Panel ist eine **erweiterte Ansicht** der MC-Test-App, die zusätzlich
 ### 1. Übersicht (Dashboard)
 
 **Was siehst du:**
-- Gesamtzahl der Sessions (Tests)
-- Anzahl der eindeutigen Nutzer/innen
-- Durchschnittliche Punktzahl aller Tests
-- Anzahl der eingegangenen Feedbacks
+
+**Leaderboard-Tab (🏆):**
+- Top-Ergebnisse für jedes Fragenset mit Punkten, Datum und Dauer
+- Gold 🥇, Silber 🥈, Bronze 🥉 Medaillen für die Top 3
+
+**System-Tab (⚙️) - Dashboard-Statistiken:**
+
+1. **Hauptmetriken** (4 Kacheln):
+   - **Abgeschlossene Tests:** Anzahl vollständig beendeter Tests
+   - **Eindeutige Teilnehmer:** Wie viele verschiedene Personen haben getestet?
+   - **Gemeldete Probleme:** Anzahl der Feedback-Meldungen
+   - **Ø Testdauer:** Durchschnittliche Zeit pro Test (in MM:SS Format)
+
+2. **Abschlussquote:**
+   - Prozentsatz der Tests, die vollständig beendet wurden
+   - Zeigt, ob Tests abgebrochen werden (zu lang/schwer?)
+
+3. **Durchschnittliche Leistung pro Fragenset:**
+   - **Interaktives Bar-Chart** mit Plotly
+   - Zeigt durchschnittliche Punktzahl für jedes Fragenset
+   - Hover über Balken zeigt Details: Durchschnitt und Anzahl Tests
+   - Höhere Balken = leichteres Fragenset
+
+**Beispiel Chart:**
+```
+Mathematik I:     ██████ 45.2 Punkte (12 Tests)
+Data Analytics:   ████ 28.5 Punkte (8 Tests)
+Deep Learning:    ███ 22.1 Punkte (5 Tests)
+```
 
 **Warum ist das nützlich:**
-- Du siehst auf einen Blick, wie oft die App genutzt wird
-- Du erkennst, wie schwierig das Fragenset ist (niedrige Durchschnittspunktzahl = schwierig)
+- **Auf einen Blick:** Wie viele Tests wurden gemacht? Wie schwer sind sie?
+- **Schwierigkeitsvergleich:** Welches Fragenset ist am schwersten? (niedrigste Durchschnittspunktzahl)
+- **Zeitmanagement:** Ist das 60-Minuten-Zeitlimit realistisch? (Ø Testdauer)
+- **Qualitätskontrolle:** Hohe Abbruchquote? → Fragenset zu lang/schwer
+- **Feedback-Priorisierung:** Viele gemeldete Probleme? → Fragen überarbeiten
 
 ---
 

@@ -497,3 +497,95 @@ def get_database_dump() -> str:
     except sqlite3.Error as e:
         return f"-- Fehler beim Erstellen des DB-Dumps: {e}"
     return dump_sql
+
+
+# =====================================================================
+# Admin Dashboard: Erweiterte Statistik-Funktionen
+# =====================================================================
+
+@with_db_retry
+def get_dashboard_statistics():
+    """
+    Liefert umfassende Statistiken für das Admin-Dashboard.
+    
+    Returns:
+        Dictionary mit:
+        - total_tests: Anzahl abgeschlossener Tests
+        - unique_users: Anzahl eindeutiger Teilnehmer
+        - total_feedback: Anzahl gemeldeter Probleme
+        - avg_scores_by_qset: Dict {fragenset: {avg_score, avg_percentage, max_score}}
+        - avg_duration: Durchschnittliche Testdauer in Sekunden
+        - completion_rate: Prozentsatz abgeschlossener Tests
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    
+    cursor = conn.cursor()
+    stats = {}
+    
+    try:
+        # Gesamtzahl abgeschlossener Tests
+        cursor.execute("""
+            SELECT COUNT(*) as total
+            FROM test_sessions
+            WHERE is_finished = 1
+        """)
+        stats['total_tests'] = cursor.fetchone()['total']
+        
+        # Anzahl eindeutiger Teilnehmer
+        cursor.execute("""
+            SELECT COUNT(DISTINCT user_id_hash) as unique_users
+            FROM test_sessions
+        """)
+        stats['unique_users'] = cursor.fetchone()['unique_users']
+        
+        # Anzahl Feedbacks
+        cursor.execute("SELECT COUNT(*) as total FROM feedback")
+        stats['total_feedback'] = cursor.fetchone()['total']
+        
+        # Durchschnittliche Punktzahl pro Fragenset
+        cursor.execute("""
+            SELECT 
+                questions_file,
+                AVG(total_score) as avg_score,
+                COUNT(*) as test_count
+            FROM test_sessions
+            WHERE is_finished = 1 AND total_score IS NOT NULL
+            GROUP BY questions_file
+        """)
+        
+        avg_scores = {}
+        for row in cursor.fetchall():
+            avg_scores[row['questions_file']] = {
+                'avg_score': round(row['avg_score'], 2),
+                'test_count': row['test_count']
+            }
+        stats['avg_scores_by_qset'] = avg_scores
+        
+        # Durchschnittliche Testdauer (nur abgeschlossene Tests)
+        cursor.execute("""
+            SELECT AVG(duration_seconds) as avg_duration
+            FROM test_sessions
+            WHERE is_finished = 1 AND duration_seconds IS NOT NULL
+        """)
+        result = cursor.fetchone()
+        stats['avg_duration'] = int(result['avg_duration']) if result['avg_duration'] else 0
+        
+        # Abschlussquote
+        cursor.execute("""
+            SELECT 
+                COUNT(*) as total,
+                SUM(CASE WHEN is_finished = 1 THEN 1 ELSE 0 END) as finished
+            FROM test_sessions
+        """)
+        result = cursor.fetchone()
+        total = result['total']
+        finished = result['finished']
+        stats['completion_rate'] = round((finished / total * 100), 1) if total > 0 else 0
+        
+        return stats
+        
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_dashboard_statistics: {e}")
+        return None
