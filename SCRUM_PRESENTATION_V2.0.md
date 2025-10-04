@@ -1,4 +1,4 @@
-# MC-Test-App Version 2.0: KI-Generator Development
+# MC-Test-App Version 2.0.0: KI-Generator Development
 
 **Sprint Planning Präsentation**  
 **Datum:** 3. Oktober 2025  
@@ -20,11 +20,11 @@
 
 ---
 
-## 1. Projekt-Kontext: Aktuelle Version 1.0
+## 1. Projekt-Kontext: Aktuelle Version 1.0.0
 
 ### 🎯 Was haben wir bisher?
 
-**Status Quo (Oktober 2025):**
+**Status Quo (4. Oktober 2025):**
 - ✅ **13 Module**, ~5.000 Zeilen Code
 - ✅ **8+ Fragensets** (manuell erstellt, JSON-Format)
 - ✅ **PDF-Export** mit LaTeX-Rendering (1.607 Zeilen Code)
@@ -67,7 +67,7 @@
 
 ---
 
-## 2. Vision 2.0: Strategic Goals
+## 2. Vision 2.0.0: Strategic Goals
 
 ### 🎯 Hauptziele
 
@@ -762,7 +762,7 @@ Phase 4: Go-Live (Tag 5)
 
 ## 6. Technische Architektur: Überblick
 
-### 🏗️ System-Architektur v2.0
+### 🏗️ System-Architektur v2.0.0
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -791,7 +791,7 @@ Phase 4: Go-Live (Tag 5)
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 📦 Neue Dependencies (v2.0)
+### 📦 Neue Dependencies (v2.0.0)
 
 ```python
 # requirements.txt (Ergänzungen)
@@ -849,7 +849,7 @@ DATABASE_URL=postgresql://user:pass@railway.app:5432/mctest
 
 ## 8. Definition of Done (Projekt-Ebene)
 
-**Release-Ready-Kriterien für Version 2.0:**
+**Release-Ready-Kriterien für Version 2.0.0:**
 
 ### ✅ Funktional
 - [ ] Admin kann Fragensets generieren (Sprint 1)
@@ -870,7 +870,7 @@ DATABASE_URL=postgresql://user:pass@railway.app:5432/mctest
 - [ ] Admin-Docs für Review-System
 - [ ] API-Docs für Stripe-Webhooks
 - [ ] Deployment-Guide für Railway
-- [ ] Changelog für v2.0
+- [ ] Changelog für v2.0.0
 
 ### ✅ Business
 - [ ] Pricing-Seite live (`/pricing`)
@@ -924,7 +924,7 @@ Woche 9 (Buffer): Bugfixes, Marketing-Launch
 
 ## 11. Success-Kriterien & KPIs
 
-**Projekt-Erfolg = Version 2.0 ist live + erste Zahlen positiv**
+**Projekt-Erfolg = Version 2.0.0 ist live + erste Zahlen positiv**
 
 ### 📊 KPIs (Nach 3 Monaten)
 
@@ -1085,4 +1085,4 @@ Mögliche Diskussionspunkte:
 
 ---
 
-**Viel Erfolg bei der Entwicklung von Version 2.0! 🚀**
+**Viel Erfolg bei der Entwicklung von Version 2.0.0! 🚀**

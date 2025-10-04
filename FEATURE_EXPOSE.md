@@ -1047,7 +1047,7 @@ Diese MC-Test-App ist ein vollständiges Assessment-System mit professionellem P
 
 ---
 
-**Version:** 1.0  
-**Stand:** Oktober 2025  
-**Letzte Aktualisierung:** [Datum einfügen]
+**Version:** 1.0.0  
+**Stand:** 4. Oktober 2025  
+**Git-Tag:** v1.0.0
 
