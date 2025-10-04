@@ -510,12 +510,12 @@ def get_dashboard_statistics():
     
     Returns:
         Dictionary mit:
-        - total_tests: Anzahl abgeschlossener Tests
+        - total_tests: Anzahl Sessions (als Proxy für Tests)
         - unique_users: Anzahl eindeutiger Teilnehmer
         - total_feedback: Anzahl gemeldeter Probleme
-        - avg_scores_by_qset: Dict {fragenset: {avg_score, avg_percentage, max_score}}
+        - avg_scores_by_qset: Dict {fragenset: {avg_score, test_count}}
         - avg_duration: Durchschnittliche Testdauer in Sekunden
-        - completion_rate: Prozentsatz abgeschlossener Tests
+        - completion_rate: Prozentsatz vollständiger Sessions
     """
     conn = get_db_connection()
     if conn is None:
@@ -525,17 +525,17 @@ def get_dashboard_statistics():
     stats = {}
     
     try:
-        # Gesamtzahl abgeschlossener Tests
+        # Gesamtzahl Sessions mit mindestens einer Antwort
         cursor.execute("""
-            SELECT COUNT(*) as total
-            FROM test_sessions
-            WHERE is_finished = 1
+            SELECT COUNT(DISTINCT s.session_id) as total
+            FROM test_sessions s
+            INNER JOIN answers a ON s.session_id = a.session_id
         """)
         stats['total_tests'] = cursor.fetchone()['total']
         
-        # Anzahl eindeutiger Teilnehmer
+        # Anzahl eindeutiger Teilnehmer (Annahme: user_id ist gehashed user_pseudonym)
         cursor.execute("""
-            SELECT COUNT(DISTINCT user_id_hash) as unique_users
+            SELECT COUNT(DISTINCT user_id) as unique_users
             FROM test_sessions
         """)
         stats['unique_users'] = cursor.fetchone()['unique_users']
@@ -545,44 +545,63 @@ def get_dashboard_statistics():
         stats['total_feedback'] = cursor.fetchone()['total']
         
         # Durchschnittliche Punktzahl pro Fragenset
+        # Berechne Gesamtpunktzahl pro Session aus answers
         cursor.execute("""
             SELECT 
-                questions_file,
-                AVG(total_score) as avg_score,
+                session_totals.questions_file,
+                AVG(session_totals.session_score) as avg_score,
                 COUNT(*) as test_count
-            FROM test_sessions
-            WHERE is_finished = 1 AND total_score IS NOT NULL
-            GROUP BY questions_file
+            FROM (
+                SELECT 
+                    s.session_id,
+                    s.questions_file,
+                    SUM(a.points) as session_score
+                FROM test_sessions s
+                INNER JOIN answers a ON s.session_id = a.session_id
+                GROUP BY s.session_id, s.questions_file
+            ) AS session_totals
+            GROUP BY session_totals.questions_file
         """)
         
         avg_scores = {}
         for row in cursor.fetchall():
-            avg_scores[row['questions_file']] = {
-                'avg_score': round(row['avg_score'], 2),
-                'test_count': row['test_count']
-            }
+            if row['questions_file']:  # Nur wenn questions_file nicht None
+                avg_scores[row['questions_file']] = {
+                    'avg_score': round(row['avg_score'], 2),
+                    'test_count': row['test_count']
+                }
         stats['avg_scores_by_qset'] = avg_scores
         
-        # Durchschnittliche Testdauer (nur abgeschlossene Tests)
+        # Durchschnittliche Testdauer
+        # Berechne aus Zeitdifferenz zwischen erster und letzter Antwort pro Session
         cursor.execute("""
-            SELECT AVG(duration_seconds) as avg_duration
-            FROM test_sessions
-            WHERE is_finished = 1 AND duration_seconds IS NOT NULL
+            SELECT AVG(duration) as avg_duration
+            FROM (
+                SELECT 
+                    s.session_id,
+                    (MAX(a.timestamp) - MIN(a.timestamp)) as duration
+                FROM test_sessions s
+                INNER JOIN answers a ON s.session_id = a.session_id
+                GROUP BY s.session_id
+                HAVING COUNT(a.answer_id) > 1
+            )
         """)
         result = cursor.fetchone()
+        # SQLite gibt Zeitdifferenz in Sekunden zurück (TIMESTAMP ist INTEGER)
         stats['avg_duration'] = int(result['avg_duration']) if result['avg_duration'] else 0
         
-        # Abschlussquote
+        # "Abschlussquote": Sessions mit Antworten vs. alle Sessions
         cursor.execute("""
             SELECT 
-                COUNT(*) as total,
-                SUM(CASE WHEN is_finished = 1 THEN 1 ELSE 0 END) as finished
-            FROM test_sessions
+                COUNT(DISTINCT s.session_id) as total,
+                COUNT(DISTINCT a.session_id) as with_answers
+            FROM test_sessions s
+            LEFT JOIN answers a ON s.session_id = a.session_id
         """)
         result = cursor.fetchone()
         total = result['total']
-        finished = result['finished']
-        stats['completion_rate'] = round((finished / total * 100), 1) if total > 0 else 0
+        with_answers = result['with_answers']
+        stats['completion_rate'] = round((with_answers / total * 100), 1) if total > 0 else 0
         
         return stats
         
