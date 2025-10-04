@@ -20,6 +20,15 @@ Diese Schritt-für-Schritt-Anleitung erklärt alles von Grund auf:
 - Häufige Probleme und Lösungen
 - **Perfekt für BWL-Studierende ohne IT-Kenntnisse!**
 
+**Admin-Panel lokal testen?**
+→ **[🔐 Admin-Panel Anleitung für Kursteilnehmer/innen](ADMIN_PANEL_ANLEITUNG.md)**
+
+Diese Anleitung zeigt dir:
+- Wie du als "Albert Einstein" Admin-Rechte erhältst
+- Was du im Admin-Panel alles tun kannst (Analytics, Itemanalyse, Feedback)
+- Wie Itemanalyse und Distraktor-Analyse funktionieren
+- **Perfekt für Projektmitglieder, die alle Features verstehen wollen!**
+
 ---
 
 ## 🚀 Übersicht

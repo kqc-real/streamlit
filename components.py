@@ -96,18 +96,21 @@ def render_admin_switch(app_config: AppConfig):
             st.session_state.show_admin_panel = False
             st.rerun()
     else:
-        with st.sidebar.expander("🔐 Admin Panel"):
-            if not app_config.admin_key:
-                st.caption("Kein Admin-Key konfiguriert.")
-                return
-
-            entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
-            if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
-                if check_admin_key(entered_key, app_config):
-                    st.session_state.show_admin_panel = True
-                    st.rerun()
-                else:
-                    st.error("Falscher Key.")
+        # Wenn kein Admin-Key konfiguriert ist, erlaube direkten Zugang (für lokale Tests)
+        if not app_config.admin_key:
+            if st.sidebar.button("📊 Admin-Panel öffnen", use_container_width=True, type="primary"):
+                st.session_state.show_admin_panel = True
+                st.rerun()
+        else:
+            # Mit Admin-Key: Passwort-Eingabe erforderlich
+            with st.sidebar.expander("🔐 Admin Panel"):
+                entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
+                if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
+                    if check_admin_key(entered_key, app_config):
+                        st.session_state.show_admin_panel = True
+                        st.rerun()
+                    else:
+                        st.error("Falscher Key.")
 
 
 def render_bookmarks(questions: list):
