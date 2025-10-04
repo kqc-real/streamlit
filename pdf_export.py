@@ -418,30 +418,49 @@ def _calculate_average_stats(questions_file: str, questions: List[Dict[str, Any]
         return None
 
 
-def _extract_glossary_terms(questions: List[Dict[str, Any]]) -> Dict[str, str]:
+def _extract_glossary_terms(
+    questions: List[Dict[str, Any]]
+) -> Dict[str, Dict[str, str]]:
     """
-    Extrahiert Mini-Glossar-Einträge aus den Fragen.
+    Extrahiert Mini-Glossar-Einträge aus den Fragen,
+    gruppiert nach Themen.
     Sammelt alle 'mini_glossary' Felder und entfernt Duplikate.
-    
+
     Returns:
-        Dict mit {Begriff: Definition} alphabetisch sortiert
+        Dict mit {Thema: {Begriff: Definition}} -
+        Begriffe innerhalb Thema alphabetisch sortiert
     """
-    glossary = {}
+    glossary_by_theme: Dict[str, Dict[str, str]] = {}
+    seen_terms = set()  # Tracking für globale Duplikate
     
     # Durchsuche alle Fragen nach mini_glossary Einträgen
     for frage_obj in questions:
         if "mini_glossary" in frage_obj:
             mini_gloss = frage_obj["mini_glossary"]
+            # Fallback zu "Allgemein" wenn kein Thema
+            thema = frage_obj.get("thema", "Allgemein")
+            
             if isinstance(mini_gloss, dict):
+                # Initialisiere Thema, falls noch nicht vorhanden
+                if thema not in glossary_by_theme:
+                    glossary_by_theme[thema] = {}
+                
                 # Füge alle Begriffe aus diesem mini_glossary hinzu
-                # Wenn Begriff bereits existiert, wird er nicht überschrieben
-                # (erste Definition hat Priorität)
                 for term, definition in mini_gloss.items():
-                    if term not in glossary:
-                        glossary[term] = definition
+                    # Verhindere globale Duplikate
+                    if term not in seen_terms:
+                        glossary_by_theme[thema][term] = definition
+                        seen_terms.add(term)
     
-    # Sortiere alphabetisch (case-insensitive)
-    return dict(sorted(glossary.items(), key=lambda x: x[0].lower()))
+    # Sortiere Themen alphabetisch und Begriffe innerhalb jedes Themas
+    sorted_glossary = {}
+    for thema in sorted(glossary_by_theme.keys()):
+        sorted_glossary[thema] = dict(sorted(
+            glossary_by_theme[thema].items(),
+            key=lambda x: x[0].lower()
+        ))
+    
+    return sorted_glossary
 
 
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
@@ -710,25 +729,34 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         comparison_html += f'<div class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n)</div>'
         comparison_html += '</div>'
     
-    # Mini-Glossar erstellen
-    glossary_terms = _extract_glossary_terms(questions)
+    # Mini-Glossar erstellen (nach Themen gruppiert)
+    glossary_by_theme = _extract_glossary_terms(questions)
     glossary_html = ""
-    if glossary_terms:
+    if glossary_by_theme:
         glossary_html = '<div class="glossary-section">'
         glossary_html += '<h2 class="section-title">Mini-Glossar</h2>'
-        glossary_html += '<p class="glossary-intro">Wichtige Begriffe und Konzepte aus diesem Test</p>'
-        glossary_html += '<div class="glossary-grid">'
+        intro = 'Wichtige Begriffe aus diesem Test, gruppiert nach Themen'
+        glossary_html += f'<p class="glossary-intro">{intro}</p>'
         
-        for term, definition in glossary_terms.items():
-            # Parse LaTeX in Definition
-            parsed_definition = _parse_text_with_formulas(definition)
+        # Iteriere über Themen
+        for thema, terms in glossary_by_theme.items():
+            glossary_html += f'<h3 class="glossary-theme">{thema}</h3>'
+            glossary_html += '<div class="glossary-grid">'
             
-            glossary_html += '<div class="glossary-item">'
-            glossary_html += f'<div class="glossary-term">{term}</div>'
-            glossary_html += f'<div class="glossary-definition">{parsed_definition}</div>'
-            glossary_html += '</div>'
+            for term, definition in terms.items():
+                # Parse LaTeX in Definition
+                parsed_definition = _parse_text_with_formulas(definition)
+                
+                glossary_html += '<div class="glossary-item">'
+                glossary_html += f'<div class="glossary-term">{term}</div>'
+                def_html = '<div class="glossary-definition">'
+                def_html += f'{parsed_definition}</div>'
+                glossary_html += def_html
+                glossary_html += '</div>'
+            
+            glossary_html += '</div>'  # Ende glossary-grid für dieses Thema
         
-        glossary_html += '</div></div>'
+        glossary_html += '</div>'  # Ende glossary-section
     
     # Lesezeichen-Übersicht erstellen
     bookmarked_indices = st.session_state.get("bookmarked_questions", [])
@@ -1213,10 +1241,23 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 text-align: center;
                 font-weight: 500;
             }}
+            .glossary-theme {{
+                font-size: 14pt;
+                font-weight: 700;
+                color: #1a202c;
+                margin-top: 24px;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+                border-bottom: 2px solid #4299e1;
+            }}
+            .glossary-theme:first-of-type {{
+                margin-top: 12px;
+            }}
             .glossary-grid {{
                 display: grid;
                 grid-template-columns: 1fr;
                 gap: 0;
+                margin-bottom: 16px;
             }}
             .glossary-item {{
                 padding: 16px 20px;
