@@ -39,6 +39,19 @@ Die App verfügt über ein integriertes Feedback-System, das es Nutzern ermögli
 
 ---
 
+## 🚀 Schnellstart
+
+**Neu hier? Keine Programmierkenntnisse?**
+→ **[📖 Installationsanleitung für Einsteiger](INSTALLATION_ANLEITUNG.md)**
+
+Diese Schritt-für-Schritt-Anleitung erklärt alles von Grund auf:
+- Python & Git installieren (Windows & Mac)
+- App herunterladen und starten
+- Häufige Probleme und Lösungen
+- **Perfekt für BWL-Studierende ohne IT-Kenntnisse!**
+
+---
+
 ## 🚀 Übersicht
 
 Diese App ist ein vollständiger MC-Test für Kursinhalte, entwickelt mit Streamlit.
