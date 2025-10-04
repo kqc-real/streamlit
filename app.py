@@ -76,6 +76,24 @@ def main():
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
     load_dotenv()
+    
+    # --- Startup-Check: Warnung, wenn keine Konfiguration vorhanden ist ---
+    env_file_exists = os.path.exists(os.path.join(_this_dir, '.env'))
+    secrets_file_exists = os.path.exists(os.path.join(_this_dir, '.streamlit', 'secrets.toml'))
+    
+    if not env_file_exists and not secrets_file_exists:
+        st.warning(
+            "⚠️ **Keine Konfigurationsdatei gefunden!**\n\n"
+            "Die App benötigt entweder eine `.env`-Datei oder `.streamlit/secrets.toml` "
+            "für die Konfiguration (Admin-Zugang, URL für QR-Code, etc.).\n\n"
+            "**Für lokale Installation:**\n"
+            "1. Kopiere `.env.example` zu `.env`:\n"
+            "   ```bash\n"
+            "   cp .env.example .env\n"
+            "   ```\n"
+            "2. Starte die App neu.\n\n"
+            "**Details:** Siehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+        )
 
     # Initialisiere die Datenbank und erstelle Tabellen, falls nicht vorhanden.
     init_database()

@@ -1,3 +1,17 @@
 __pycache__/
 .DS_Store
 literatur/
+
+# Environment variables (lokale Konfiguration)
+.env
+
+# SQLite Datenbank (Test-Sessions, Antworten, Bookmarks)
+db/*.db
+db/*.db-shm
+db/*.db-wal
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# Streamlit Secrets (sensible Produktiv-Daten)
+.streamlit/secrets.toml
