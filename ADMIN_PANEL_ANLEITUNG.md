@@ -116,6 +116,7 @@ Deep Learning:    ███ 22.1 Punkte (5 Tests)
 ```
 
 **Warum ist das nützlich:**
+
 - **Auf einen Blick:** Wie viele Tests wurden gemacht? Wie schwer sind sie?
 - **Schwierigkeitsvergleich:** Welches Fragenset ist am schwersten? (niedrigste Durchschnittspunktzahl)
 - **Zeitmanagement:** Ist das 60-Minuten-Zeitlimit realistisch? (Ø Testdauer)
@@ -274,8 +275,15 @@ Alle Meldungen von Teilnehmer/innen:
 7. Die App startet neu
 
 **💡 Tipp für Kursteilnehmer/innen:**
-- Macht vorher einen Backup! (Kopiere die Datei `data/mc_test_data.db`)
-- Oder exportiert alle Sessions als CSV
+
+Macht vorher ein **Backup der Datenbank!**
+
+**So geht's:**
+1. **Stoppe die App** (Strg+C im Terminal)
+2. **Kopiere die Datei** `data/mc_test_data.db` (z.B. nach `data/mc_test_data_backup.db`)
+3. **Zum Wiederherstellen:** Stoppe die App, kopiere das Backup zurück, starte die App neu
+
+**Wichtig:** Der CSV-Export im Admin-Panel ist **nur zum Analysieren** gedacht (z.B. in Excel), nicht als Backup! Es gibt aktuell keine Import-Funktion für CSV-Dateien.
 
 ---
 
