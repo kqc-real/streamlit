@@ -1047,7 +1047,15 @@ Diese MC-Test-App ist ein vollständiges Assessment-System mit professionellem P
 
 ---
 
-**Version:** 1.0.0  
+**Kontakt & Contribution:**
+- **GitHub Repository:** https://github.com/kqc-real/streamlit
+- **Issues/Features:** https://github.com/kqc-real/streamlit/issues
+- **Community Support:** https://github.com/kqc-real/streamlit/discussions
+- **Releases:** https://github.com/kqc-real/streamlit/releases
+
+---
+
+**Version:** 1.2.0  
 **Stand:** 4. Oktober 2025  
-**Git-Tag:** v1.0.0
+**Git-Tag:** v1.2.0
 
