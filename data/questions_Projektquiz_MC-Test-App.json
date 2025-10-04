@@ -1,0 +1,339 @@
+[
+    {
+        "frage": "Was ist der Hauptzweck der MC-Test-App?",
+        "optionen": [
+            "Online-Shopping für Studierende",
+            "Multiple-Choice-Tests mit LaTeX-Unterstützung für MINT-Fächer",
+            "Social-Media-Plattform für Hochschulen",
+            "Video-Streaming für Vorlesungen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die MC-Test-App ist speziell für Multiple-Choice-Tests in MINT-Fächern entwickelt worden, mit besonderem Fokus auf mathematische Formeln durch LaTeX-Unterstützung.",
+        "gewichtung": 1,
+        "thema": "Grundlagen",
+        "mini_glossary": {
+            "LaTeX": "Textsatzsystem für wissenschaftliche Dokumente, besonders für mathematische Formeln: $E = mc^2$",
+            "MINT-Fächer": "Mathematik, Informatik, Naturwissenschaften und Technik"
+        }
+    },
+    {
+        "frage": "Welche Python-Version ist MINDESTENS erforderlich, um die App zu betreiben?",
+        "optionen": [
+            "Python 2.7",
+            "Python 3.6",
+            "Python 3.10",
+            "Python 3.12"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut INSTALLATION_ANLEITUNG.md wird Python 3.10 oder höher benötigt. Python 2.7 ist veraltet und wird nicht mehr unterstützt.",
+        "gewichtung": 1,
+        "thema": "Installation",
+        "mini_glossary": {
+            "Python": "Programmiersprache, die für diese App verwendet wird",
+            "Version": "Versionsnummer gibt an, welche Features verfügbar sind"
+        }
+    },
+    {
+        "frage": "Wie authentifizieren sich Nutzer aktuell in der App?",
+        "optionen": [
+            "Mit E-Mail und Passwort",
+            "Mit Pseudonymen aus einer vorgefertigten Liste",
+            "Mit Matrikelnummer",
+            "Gar nicht, anonymer Zugang"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die App nutzt Pseudonym-basierte Authentifizierung. Nutzer wählen aus einer Liste von Wissenschaftler-Namen (z.B. 'Albert Einstein'). Dies vermeidet PII (Personally Identifiable Information).",
+        "gewichtung": 2,
+        "thema": "Features",
+        "mini_glossary": {
+            "Pseudonym": "Decknamen zur anonymen Nutzung der App",
+            "PII": "Personally Identifiable Information - persönliche Daten wie Name, E-Mail"
+        }
+    },
+    {
+        "frage": "Welches Pseudonym hat standardmäßig Admin-Rechte?",
+        "optionen": [
+            "Marie Curie",
+            "Isaac Newton",
+            "Albert Einstein",
+            "Ada Lovelace"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut ADMIN_PANEL_ANLEITUNG.md ist 'Albert Einstein' das voreingestellte Admin-Pseudonym (konfigurierbar über MC_TEST_ADMIN_USER).",
+        "gewichtung": 1,
+        "thema": "Admin-Panel",
+        "mini_glossary": {
+            "Admin-Rechte": "Erweiterte Berechtigungen für Analytics und Datenbank-Management"
+        }
+    },
+    {
+        "frage": "Welches Format wird für Fragensets verwendet?",
+        "optionen": [
+            "Excel (.xlsx)",
+            "Word-Dokumente (.docx)",
+            "JSON-Dateien (.json)",
+            "PDF-Dateien (.pdf)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Fragensets werden als JSON-Dateien im Format 'questions_*.json' im data/-Ordner gespeichert. Dies ermöglicht einfache Bearbeitung und Versionskontrolle.",
+        "gewichtung": 1,
+        "thema": "Fragensets",
+        "mini_glossary": {
+            "JSON": "JavaScript Object Notation - textbasiertes Datenformat",
+            "Format": "Strukturierung von Daten in einer Datei"
+        }
+    },
+    {
+        "frage": "Was zeigt das Dashboard im Admin-Panel unter 'Abschlussquote'?",
+        "optionen": [
+            "Prozentsatz der bestandenen Prüfungen",
+            "Prozentsatz der Tests, die vollständig beendet wurden",
+            "Prozentsatz der richtigen Antworten",
+            "Prozentsatz der aktiven Nutzer"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die Abschlussquote (Completion Rate) zeigt, wie viele Tests vollständig durchgeführt wurden im Vergleich zu begonnenen Tests. Eine niedrige Quote kann auf zu lange oder zu schwere Tests hinweisen.",
+        "gewichtung": 2,
+        "thema": "Analytics",
+        "mini_glossary": {
+            "Abschlussquote": "Verhältnis von abgeschlossenen zu begonnenen Tests",
+            "Completion Rate": "Englischer Begriff für Abschlussquote"
+        }
+    },
+    {
+        "frage": "Welche Bibliothek wird für die PDF-Generierung verwendet?",
+        "optionen": [
+            "FPDF",
+            "ReportLab",
+            "WeasyPrint",
+            "PyPDF2"
+        ],
+        "loesung": 2,
+        "erklaerung": "WeasyPrint wird verwendet, um HTML in PDF zu konvertieren. Dies ermöglicht komplexe Layouts mit CSS-Styling und LaTeX-Formel-Integration.",
+        "gewichtung": 2,
+        "thema": "Technologie",
+        "mini_glossary": {
+            "WeasyPrint": "Python-Bibliothek für HTML-zu-PDF-Konvertierung",
+            "Bibliothek": "Wiederverwendbarer Code, der bestimmte Funktionen bereitstellt"
+        }
+    },
+    {
+        "frage": "Was ist der Zweck der Itemanalyse im Admin-Panel?",
+        "optionen": [
+            "Preise für Produkte analysieren",
+            "Qualität einzelner Fragen bewerten (Schwierigkeit, Trennschärfe)",
+            "Nutzerverhalten tracken",
+            "Serverlast überwachen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die Itemanalyse bewertet die Qualität von Fragen anhand statistischer Metriken wie Schwierigkeitsindex (P-Wert) und Trennschärfe (Rit-Wert). Fragen mit P<0.1 oder P>0.95 sollten überarbeitet werden.",
+        "gewichtung": 3,
+        "thema": "Analytics",
+        "mini_glossary": {
+            "Schwierigkeitsindex": "Anteil korrekter Antworten - Ideal: 40-70%",
+            "Trennschärfe": "Korrelation zwischen Frage und Gesamtleistung - Gut: >0.3"
+        }
+    },
+    {
+        "frage": "Welches Feature wird in Release 2.0 eingeführt?",
+        "optionen": [
+            "Blockchain-Integration für Zertifikate",
+            "VR-Brillen-Support",
+            "KI-gestützter Fragengenerator mit OpenAI API",
+            "Automatische Übersetzung in 50 Sprachen"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut VISION_RELEASE_2.0.md ist der KI-gestützte Fragengenerator ein Hauptfeature von Release 2.0. Zusätzlich geplant: Gamification (Badges, Leaderboards) und ein richtiges Login-System (ersetzt Pseudonyme).",
+        "gewichtung": 2,
+        "thema": "Release 2.0",
+        "mini_glossary": {
+            "KI-Fragengenerator": "Tool zur automatischen Erstellung von MC-Fragen mittels GPT",
+            "OpenAI API": "Schnittstelle zu ChatGPT/GPT-4 für Text-Generierung"
+        }
+    },
+    {
+        "frage": "Wo findet der Support für technische Fragen statt?",
+        "optionen": [
+            "E-Mail an support@mc-test.de",
+            "Telefonhotline",
+            "GitHub Discussions",
+            "WhatsApp-Gruppe"
+        ],
+        "loesung": 2,
+        "erklaerung": "GitHub Discussions ist der offizielle Support-Kanal: https://github.com/kqc-real/streamlit/discussions. Dies ermöglicht öffentliche Q&A, von denen alle profitieren.",
+        "gewichtung": 1,
+        "thema": "Organisation",
+        "mini_glossary": {
+            "GitHub Discussions": "Diskussionsforum direkt im GitHub-Repository"
+        }
+    },
+    {
+        "frage": "Was ist ein 'Distraktor' im Kontext von Multiple-Choice-Fragen?",
+        "optionen": [
+            "Ein Fehler im Code",
+            "Eine falsche Antwortoption, die plausibel klingen soll",
+            "Ein störender Nutzer",
+            "Ein Bug in der App"
+        ],
+        "loesung": 1,
+        "erklaerung": "Ein Distraktor ist eine falsche Antwortoption (A, B, C oder D), die bewusst plausibel gestaltet ist. Gute Distraktoren basieren auf typischen Fehlern und werden von 10-30% der Testteilnehmer gewählt.",
+        "gewichtung": 2,
+        "thema": "Didaktik",
+        "mini_glossary": {
+            "Distraktor": "Falsche, aber plausible Antwortoption in MC-Fragen",
+            "Plausibel": "Glaubwürdig, nachvollziehbar - nicht offensichtlich falsch"
+        }
+    },
+    {
+        "frage": "Wie viele Schwierigkeitsgrade gibt es für Fragen?",
+        "optionen": [
+            "2 (Leicht, Schwer)",
+            "3 (★, ★★, ★★★)",
+            "5 (wie Schulnoten)",
+            "10 (Skala von 1-10)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Es gibt 3 Schwierigkeitsgrade: ★ (Leicht/1 Punkt), ★★ (Mittel/2 Punkte), ★★★ (Schwer/3 Punkte). Dies ermöglicht ausgewogene Tests mit unterschiedlichen Anforderungsniveaus.",
+        "gewichtung": 1,
+        "thema": "Scoring",
+        "mini_glossary": {
+            "Gewichtung": "Punktwert einer Frage basierend auf Schwierigkeit"
+        }
+    },
+    {
+        "frage": "Welche Datenbank wird für die Persistenz verwendet?",
+        "optionen": [
+            "MySQL",
+            "PostgreSQL",
+            "SQLite",
+            "MongoDB"
+        ],
+        "loesung": 2,
+        "erklaerung": "SQLite wird verwendet - eine dateibasierte SQL-Datenbank ohne Server. Ideal für lokale Anwendungen und kleine bis mittlere Nutzerzahlen. WAL-Modus ermöglicht Concurrent Reads.",
+        "gewichtung": 2,
+        "thema": "Technologie",
+        "mini_glossary": {
+            "SQLite": "Leichtgewichtige, dateibasierte SQL-Datenbank",
+            "Persistenz": "Dauerhafte Speicherung von Daten"
+        }
+    },
+    {
+        "frage": "Was macht der 'Durchschnittsvergleich' im PDF-Export?",
+        "optionen": [
+            "Vergleicht Preise verschiedener PDF-Exporte",
+            "Zeigt deine Punktzahl vs. Durchschnitt aller Nutzer für dieses Fragenset",
+            "Berechnet die durchschnittliche Seitenanzahl",
+            "Misst die durchschnittliche Bearbeitungszeit"
+        ],
+        "loesung": 1,
+        "erklaerung": "Das 'Du vs Ø' Feature zeigt deine Leistung im Vergleich zum Durchschnitt aller Nutzer, die dieses Fragenset VOLLSTÄNDIG bearbeitet haben. Nur der beste Versuch pro Nutzer zählt.",
+        "gewichtung": 2,
+        "thema": "PDF-Export",
+        "mini_glossary": {
+            "Durchschnitt (Ø)": "Arithmetisches Mittel aller Werte",
+            "Benchmark": "Vergleichswert zur Einordnung der eigenen Leistung"
+        }
+    },
+    {
+        "frage": "Was ist das Mini-Glossar in Fragensets?",
+        "optionen": [
+            "Eine kleine Version der App",
+            "2-4 Fachbegriffe pro Frage mit Definitionen (auch mit LaTeX)",
+            "Ein Miniatur-Wörterbuch zum Download",
+            "Eine Zusammenfassung aller Fragen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Das Mini-Glossar ist eine neue Feature (Oktober 2025), das 2-4 Schlüsselbegriffe pro Frage definiert. Es wird im PDF-Export automatisch alphabetisch sortiert angezeigt und kann LaTeX-Formeln enthalten.",
+        "gewichtung": 2,
+        "thema": "Features",
+        "mini_glossary": {
+            "Glossar": "Verzeichnis von Fachbegriffen mit Erklärungen",
+            "Alphabetisch": "Sortierung nach dem Alphabet (A-Z)"
+        }
+    },
+    {
+        "frage": "Welcher Befehl startet die App lokal?",
+        "optionen": [
+            "python app.py",
+            "streamlit run app.py",
+            "flask run",
+            "npm start"
+        ],
+        "loesung": 1,
+        "erklaerung": "Der Befehl 'streamlit run app.py' startet den Streamlit-Entwicklungsserver. Die App öffnet sich automatisch im Browser unter http://localhost:8501.",
+        "gewichtung": 1,
+        "thema": "Installation",
+        "mini_glossary": {
+            "Streamlit": "Python-Framework für schnelle Web-App-Entwicklung",
+            "localhost": "Lokaler Computer (127.0.0.1)"
+        }
+    },
+    {
+        "frage": "Was ist NICHT Teil des Admin-Panels?",
+        "optionen": [
+            "Dashboard mit Statistiken",
+            "Itemanalyse (Schwierigkeit, Trennschärfe)",
+            "Distraktor-Analyse",
+            "Nutzer-E-Mails exportieren"
+        ],
+        "loesung": 3,
+        "erklaerung": "Die App speichert KEINE E-Mail-Adressen! Es gibt nur Pseudonyme, um Datenschutz zu gewährleisten. Das Admin-Panel bietet Dashboard, Itemanalyse, Distraktor-Analyse, Feedback-Management und Datenbank-Reset.",
+        "gewichtung": 2,
+        "thema": "Admin-Panel",
+        "mini_glossary": {
+            "DSGVO": "Datenschutz-Grundverordnung - EU-Gesetz zum Schutz persönlicher Daten",
+            "Datenschutz": "Schutz von persönlichen Informationen"
+        }
+    },
+    {
+        "frage": "Wie viele Zeilen Code umfasst das PDF-Export-Modul (pdf_export.py)?",
+        "optionen": [
+            "~200 Zeilen",
+            "~500 Zeilen",
+            "~1.000 Zeilen",
+            "~1.600 Zeilen"
+        ],
+        "loesung": 3,
+        "erklaerung": "Laut FEATURE_EXPOSE.md umfasst pdf_export.py etwa 1.607 Zeilen - das größte Modul der App! Es enthält LaTeX-Rendering, HTML-Generierung, Durchschnittsvergleich, Glossar-Extraktion und WeasyPrint-Integration.",
+        "gewichtung": 2,
+        "thema": "Technologie",
+        "mini_glossary": {
+            "Modul": "Einzelne Code-Datei mit spezifischer Funktionalität",
+            "Zeilen Code": "Maß für Umfang und Komplexität eines Programms"
+        }
+    },
+    {
+        "frage": "Welche Lizenz hat die MC-Test-App?",
+        "optionen": [
+            "Proprietär (geschlossen)",
+            "GPL v3",
+            "MIT License",
+            "Apache 2.0"
+        ],
+        "loesung": 2,
+        "erklaerung": "Die App nutzt die MIT License - eine permissive Open-Source-Lizenz. Das bedeutet: Ihr dürft sie nutzen, ändern und weitergeben, auch kommerziell, solange der Copyright-Hinweis erhalten bleibt.",
+        "gewichtung": 1,
+        "thema": "Organisation",
+        "mini_glossary": {
+            "Open Source": "Quellcode ist öffentlich einsehbar und nutzbar",
+            "MIT License": "Eine der freiesten Open-Source-Lizenzen"
+        }
+    },
+    {
+        "frage": "Was ist der Vorteil von WAL-Modus in SQLite?",
+        "optionen": [
+            "Schnellere Festplatte",
+            "Concurrent Reads während Writes möglich",
+            "Automatische Backups",
+            "Verschlüsselung der Daten"
+        ],
+        "loesung": 1,
+        "erklaerung": "WAL (Write-Ahead Logging) ermöglicht, dass mehrere Nutzer gleichzeitig LESEN können, während einer SCHREIBT. Dies verbessert die Performance bei mehreren gleichzeitigen Nutzern erheblich.",
+        "gewichtung": 3,
+        "thema": "Technologie",
+        "mini_glossary": {
+            "WAL": "Write-Ahead Logging - Technik für bessere Datenbank-Performance",
+            "Concurrent": "Gleichzeitig, parallel ablaufend"
+        }
+    }
+]
