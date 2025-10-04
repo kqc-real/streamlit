@@ -294,6 +294,7 @@ Macht vorher ein **Backup der Datenbank!**
 **Antwort:** Ja, bei der lokalen Installation! Und das ist **absichtlich so** für euren Kurs.
 
 **Erklärung:**
+
 - **Lokal (auf eurem Computer):**
   - `MC_TEST_ADMIN_KEY` ist leer → **kein Passwort erforderlich**
   - Jede/r, die/der "Albert Einstein" als Pseudonym wählt, wird Admin
@@ -305,11 +306,6 @@ Macht vorher ein **Backup der Datenbank!**
   - Nur der/die Dozent/in kennt das Passwort
   - Studierende sehen zwar den Button, müssen aber das Passwort eingeben
 
-**Für euer Projekt (Release 2.0):**
-- Ihr werdet ein **richtiges Login-System** bauen
-- Mit Passwörtern, verschlüsselt gespeichert
-- Siehe `VISION_RELEASE_2.0.md` für Details
-
 ---
 
 ## 📚 Weitere Ressourcen
@@ -320,8 +316,9 @@ Macht vorher ein **Backup der Datenbank!**
 - `AI_QUESTION_GENERATOR_PLAN.md` – Was ihr in Release 2.0 bauen werdet
 
 **Fragen im Kurs:**
-- Discord-Channel: `#mc-test-app` (falls vorhanden)
-- Oder fragt eure/n Dozent/in
+
+- **GitHub Discussions:** https://github.com/kqc-real/streamlit/discussions
+- Oder fragt euren Dozenten KQC direkt
 
 ---
 
