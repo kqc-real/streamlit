@@ -32,10 +32,10 @@ Das Admin-Panel ist eine **erweiterte Ansicht** der MC-Test-App, die zusätzlich
 3. Öffne die Datei mit einem Texteditor (z.B. Notepad, TextEdit, VS Code)
 4. Prüfe, ob folgende Zeilen vorhanden sind:
    ```bash
-   MC_TEST_ADMIN_KEY=
+   MC_TEST_ADMIN_KEY=""
    MC_TEST_ADMIN_USER="Albert Einstein"
    ```
-   **Wichtig:** `MC_TEST_ADMIN_KEY=` muss **leer** sein (nichts nach dem `=`)!
+   **Wichtig:** `MC_TEST_ADMIN_KEY=""` muss ein **leerer String** sein (zwei Anführungszeichen ohne Inhalt)!
    - Das bedeutet: **Kein Passwort erforderlich** für lokale Tests
    - Admin-Rechte nur durch Auswahl von "Albert Einstein" als Pseudonym
 5. Speichere die Datei (falls du etwas geändert hast)
