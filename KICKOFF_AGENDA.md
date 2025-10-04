@@ -48,13 +48,15 @@ Nach diesem Meeting könnt ihr:
   - Mini-Glossar für Fachbegriffe
 
 - 🎥 **Live-Demo** (5 Min):
-  1. Test starten (Fragenset auswählen)
+  1. Test starten (Fragenset auswählen - z.B. "BWL Projektmanagement Fachbegriffe")
   2. Frage beantworten (LaTeX-Formeln zeigen)
   3. Bookmark setzen
   4. Test abschließen
   5. PDF exportieren und öffnen
+  6. Mini-Glossar im PDF zeigen (nach Themen gruppiert!)
 
-- 📊 **Use Case:** Prüfungsvorbereitung für MINT-Fächer
+- 📊 **Use Case:** Prüfungsvorbereitung für MINT-Fächer UND BWL
+- 🆕 **Neu:** BWL-Fachbegriffe-Set mit 60+ Glossar-Einträgen (Sprint, Freemium, ROI, etc.)
 
 ### 1.3 Projektziele Release 2.0 (5 Min)
 **Dokument:** `VISION_RELEASE_2.0.md` (nur anreißen)
@@ -117,10 +119,15 @@ streamlit run app.py
 ```
 
 **Gemeinsam testen:**
-1. Fragenset auswählen (z.B. "PDF_Test")
+1. Fragenset auswählen (z.B. "BWL Projektmanagement Fachbegriffe" oder "Projektquiz über die MC-Test-App")
 2. Pseudonym wählen
 3. Ersten Test durchführen
 4. PDF exportieren
+
+**Empfohlene Fragensets für Demo:**
+- 📊 **"BWL Projektmanagement Fachbegriffe"** - 20 Fragen über Begriffe wie Sprint, Freemium, ROI, API (NEU!)
+- 🎯 **"Projektquiz über die MC-Test-App"** - 31 Fragen über Dokumentation, Installation, Features, v2.0 Roadmap
+- 📝 **"PDF Test"** - Kurzes Set zum schnellen Testen
 
 **✅ Checkpoint:** Jeder hat die App am Laufen?
 
