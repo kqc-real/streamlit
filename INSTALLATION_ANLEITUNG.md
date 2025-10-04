@@ -536,7 +536,7 @@ streamlit run app.py
 
 **Wenn gar nichts funktioniert:**
 
-1. **Frage deine/n Dozent/in** (im Kurs)
+1. **Frage deinen Dozenten KQC** (im Kurs)
 2. **Frage eine/n Kommiliton/in**, der/die es schon zum Laufen gebracht hat
 3. **Erstelle ein Issue auf GitHub:**
    - Gehe auf: https://github.com/kqc-real/streamlit/issues
@@ -632,6 +632,6 @@ dir app.py # Windows
 
 **Version:** 1.0  
 **Stand:** 4. Oktober 2025  
-**Zielgruppe:** BWL-Studierende (1. Semester) ohne IT-Vorkenntnisse
+**Zielgruppe:** BWL-Studierende ohne IT-Vorkenntnisse
 
 **Viel Erfolg! 🚀**

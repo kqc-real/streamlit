@@ -1035,16 +1035,6 @@ generate_pdf(
 
 Diese MC-Test-App ist ein vollständiges Assessment-System mit professionellem PDF-Export, umfassender Analytics und DSGVO-konformer Datenhaltung. Die modulare Architektur ermöglicht einfache Erweiterungen, während der KI-gestützte Fragenset-Erstellungsprozess skalierbare Content-Produktion garantiert.
 
-**Nächste Schritte:**
-1. Migration zu Railway/Render für bessere Performance
-2. Community-Features für kollaboratives Fragenset-Design
-3. Mobile App (React Native) für Offline-Nutzung
-
-**Kontakt & Contribution:**
-- GitHub: [Repository-Link einfügen]
-- Issues/Features: Über GitHub Issues
-- Community: Discord/Slack [Link einfügen]
-
 ---
 
 **Kontakt & Contribution:**
