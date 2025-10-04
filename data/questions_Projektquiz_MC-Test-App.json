@@ -286,19 +286,19 @@
         }
     },
     {
-        "frage": "Wie groß ist das PDF-Export-Modul der App?",
+        "frage": "Wie viele Zeilen Code umfasst das PDF-Export-Modul (pdf_export.py)?",
         "optionen": [
-            "~200 Zeilen Code",
-            "~500 Zeilen Code",
-            "~1.000 Zeilen Code",
-            "~1.600 Zeilen Code"
+            "~200 Zeilen",
+            "~500 Zeilen",
+            "~1.000 Zeilen",
+            "~1.600 Zeilen"
         ],
         "loesung": 3,
-        "erklaerung": "Das Modul pdf_export.py umfasst etwa 1.607 Zeilen Code - das größte Modul der App! Es enthält LaTeX-Rendering, HTML-Generierung, Durchschnittsvergleich, Glossar-Extraktion und WeasyPrint-Integration.",
+        "erklaerung": "Laut FEATURE_EXPOSE.md umfasst pdf_export.py etwa 1.607 Zeilen - das größte Modul der App! Es enthält LaTeX-Rendering, HTML-Generierung, Durchschnittsvergleich, Glossar-Extraktion und WeasyPrint-Integration.",
         "gewichtung": 2,
         "thema": "Technologie",
         "mini_glossary": {
-            "Modul": "Einzelne Code-Datei mit spezifischer Funktionalität (hier: pdf_export.py)",
+            "Modul": "Einzelne Code-Datei mit spezifischer Funktionalität",
             "Zeilen Code": "Maß für Umfang und Komplexität eines Programms"
         }
     },

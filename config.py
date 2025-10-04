@@ -141,8 +141,14 @@ def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
             for i, q in enumerate(questions):
                 frage_text = q.get("frage", "")
                 # Entferne alte Nummerierung, falls vorhanden
-                if "." in frage_text:
-                    frage_text = frage_text.split('.', 1)[-1].strip()
+                # Prüfe ob die Frage mit "Nummer. " beginnt (z.B. "1. Was ist...")
+                if frage_text and frage_text[0].isdigit():
+                    # Finde den ersten Punkt und prüfe ob danach ein Leerzeichen kommt
+                    dot_pos = frage_text.find('.')
+                    if dot_pos > 0 and dot_pos < len(frage_text) - 1:
+                        # Prüfe ob vor dem Punkt nur Zahlen sind
+                        if frage_text[:dot_pos].isdigit():
+                            frage_text = frage_text.split('.', 1)[-1].strip()
                 q["frage"] = f"{i + 1}. {frage_text}"
             return questions
     except (IOError, json.JSONDecodeError) as e:
