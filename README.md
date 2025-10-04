@@ -1,36 +1,6 @@
 # 📝 MC-Test Streamlit App
 
-[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?b├── requirements.txt        # Python-Abhängigkeiten
-├── pdf_export.py           # PDF-Generierung mit LaTeX-Rendering
-└── README.md               # Diese Dokumentation
-```
-
----
-
-## 📊 PDF-Export
-
-Die App generiert professionelle PDF-Reports mit folgenden Features:
-
-- **LaTeX-Rendering:** Mathematische Formeln werden über QuickLaTeX API in 1200 DPI gerendert
-- **Durchschnittsvergleich:** Vergleich der eigenen Performance mit dem Durchschnitt aller Nutzer (nur beste/vollständige Tests)
-- **Mini-Glossar:** Automatisch generierte Glossar-Section mit Fachbegriffen aus dem Fragenset (Zebra-Streifen-Design, fette Begriffe)
-- **Bookmarks-Übersicht:** Alle markierten Fragen werden mit Preview aufgelistet
-- **Difficulty-Analyse:** Performance-Breakdown nach Schwierigkeitsgrad (★/★★/★★★)
-- **Dual Numbering:** Fragen zeigen sowohl Test-Position als auch Original-Fragenset-Nummer
-- **Color Coding:** Korrekte Antworten grün, falsche rot markiert
-- **Paralleles Rendering:** Optimierte Performance durch ThreadPoolExecutor (2× CPU-Kerne)
-- **QR-Code:** Direktlink zur App für schnellen Zugriff
-
----
-
-[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?b├── requirements.txt        # Python-Abhängigkeiten
-├── pdf_export.py           # PDF-Generierung mit LaTeX-Rendering
-└── README.md               # Diese Dokumentation
-```
-
----
-
-main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
+[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?b├─main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
 Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
 Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse für verschiedene Fragensets.

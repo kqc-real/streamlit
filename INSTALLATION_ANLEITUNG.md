@@ -386,24 +386,50 @@ Jetzt starten wir die App zum ersten Mal!
 **Schritt 3:** Test durchführen
 
 1. **Jetzt erscheint die Sidebar (links)** mit Navigation
-2. Lies die Frage (kann mathematische Formeln enthalten)
-3. Wähle eine Antwort aus (A, B, C oder D)
-4. Klicke auf **"Antwort bestätigen"**
-5. Du siehst sofort, ob deine Antwort richtig oder falsch war (grün/rot)
-6. Klicke auf **"Nächste Frage"**
-7. Wiederhole Schritte 2-6 für alle Fragen
+2. Du siehst die erste Frage mit Informationen:
+   - Anzahl verbleibender Fragen
+   - Thema der Frage
+   - Gewichtung (z.B. 1, 2 oder 3 Punkte)
+   - Eine Erklärung zur Punktelogik (nur bei der ersten Frage)
+3. Lies die Frage (kann mathematische Formeln enthalten)
+4. Wähle eine Antwort aus (A, B, C oder D)
+5. Optional: Klicke auf **"🔖 Merken"**, um die Frage später wiederzufinden
+6. Optional: Klicke auf **"↪️ Überspringen"**, um die Frage später zu beantworten
+7. Klicke auf **"Antworten"** (blauer Button)
+8. Du siehst sofort das Feedback:
+   - ✅ "Richtig!" (grün) oder ❌ "Leider falsch." (rot)
+   - Bei falschen Antworten: Die richtige Antwort wird angezeigt
+   - Eine ausführliche Erklärung zur Lösung
+   - Optional: Button "🧠 Zeige detaillierte Erklärung" für zusätzliche Infos
+   - Möglichkeit, Probleme mit der Frage zu melden (z.B. Tippfehler)
+9. Klicke auf **"Nächste Frage"** (blauer Button)
+10. Wiederhole Schritte 2-9 für alle Fragen
 
 **Schritt 4:** Ergebnis ansehen
 
-1. Nach der letzten Frage siehst du deine Punkte
-2. Vergleich mit dem Durchschnitt aller Teilnehmer/innen
-3. Klicke auf **"PDF-Report herunterladen"** für einen detaillierten Bericht
-4. Der PDF enthält:
+1. Nach der letzten Frage siehst du die **Zusammenfassung**:
+   - 🚀 **"Test abgeschlossen!"** als Überschrift
+   - Dein Endergebnis (z.B. "15 / 20 Punkte, 75%")
+   - Eine Erfolgsmeldung (z.B. "Sehr gut gemacht!")
+2. **Leistung nach Themen:**
+   - Ein Balkendiagramm zeigt deine Leistung pro Thema in Prozent
+   - So siehst du, in welchen Bereichen du stark oder schwach bist
+3. **Review-Modus:**
+   - Unter "🧐 Review deiner Antworten" kannst du alle Fragen nochmal durchgehen
+   - Grün markierte Antworten waren richtig, rot markierte falsch
+   - Du siehst auch die Erklärungen zu allen Fragen
+4. **PDF-Report erstellen:**
+   - Scrolle ganz nach unten zu "📄 PDF-Export"
+   - ⚠️ **Wichtig:** Die PDF-Erstellung kann 1-2 Minuten dauern (mathematische Formeln werden online verarbeitet)
+   - Klicke auf **"📥 PDF jetzt generieren"**
+   - Warte, bis "✅ PDF erfolgreich erstellt!" erscheint
+   - Klicke auf **"💾 PDF herunterladen"**
+5. Der PDF-Report enthält:
    - Alle Fragen mit deinen Antworten
    - Erklärungen zu den richtigen Antworten
    - Mini-Glossar mit wichtigen Begriffen
-   - Durchschnittsvergleich
-   - Bookmarks (markierte Fragen)
+   - Vergleich mit dem Durchschnitt aller Teilnehmer/innen
+   - Bookmarks (von dir markierte Fragen)
 
 🎉 **Herzlichen Glückwunsch!** Du hast die App erfolgreich installiert und verwendet!
 
