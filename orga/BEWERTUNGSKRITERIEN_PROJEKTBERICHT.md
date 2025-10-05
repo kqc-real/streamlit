@@ -374,7 +374,6 @@ A: Ja, bis zur Abgabe des Projektberichts! Aber: Regelmäßige Arbeit ist besser
 **Bei Fragen zur Bewertung:**
 - 💬 GitHub Discussions (Q&A Kategorie)
 - 📧 E-Mail: klaus.quibeldey-cirkel@iu.org
-- 🕐 Sprechstunde: [Zeit einfügen]
 
 **Transparenz:**
 - Alle Bewertungskriterien sind öffentlich (dieses Dokument)
@@ -391,7 +390,7 @@ Nach diesem Projekt können Sie nachweisen, dass Sie:
 ✅ **Git & GitHub** als Projektmanagement-Tool nutzen (ohne Programmierung!)  
 ✅ **Im Team arbeiten** (Kollaboration, Kommunikation, Konfliktlösung)  
 ✅ **Konzipieren & Dokumentieren** (User Stories, Marktanalysen, Tech-Specs)  
-✅ **KI-Tools** als Assistenten einsetzen (für Recherche & Code-Entwicklung)  
+✅ **KI-Tools** als Assistenten einsetzen (für Recherche, Brainstorming, Textproduktion)  
 ✅ **Reflektieren** (Retrospectives, Learnings, Verbesserungen)
 
 **Diese Skills sind auf dem Arbeitsmarkt hochgefragt!** 🚀
