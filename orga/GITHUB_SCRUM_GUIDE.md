@@ -962,7 +962,363 @@ git push
 
 ---
 
-## 🆘 Teil 10: Troubleshooting
+## 👥 Teil 10: Ownership & Sichtbarkeit (Wer hat was gemacht?)
+
+### Warum ist das wichtig?
+
+**Problem:** Alle Teams arbeiten im gleichen Repo – wie erkenne ich, wer was erstellt hat?
+
+**Lösung:** GitHub zeigt automatisch + mit cleveren Tricks wird es NOCH klarer! �
+
+---
+
+### Was GitHub AUTOMATISCH zeigt
+
+#### 1. Commit-History (wer hat wann committed?)
+
+**Jeder Commit zeigt:**
+```
+feat: Marktanalyse Anki fertiggestellt
+👤 @student1 (Team Flashcard Experts)
+📅 8. Oktober 2025, 14:32
+📁 docs/export-research/MARKTANALYSE_Anki_Quizlet.md
+```
+
+- **Avatar** des Autors
+- **GitHub-Username** (klickbar)
+- **Datum & Uhrzeit**
+- **Geänderte Dateien**
+
+**Ansehen:**
+- Repo → **"Commits"** (oben)
+- Oder: Datei öffnen → **"History"** (oben rechts)
+
+---
+
+#### 2. File View (wer hat Datei erstellt/bearbeitet?)
+
+**Unter jedem Dateinamen:**
+```
+MARKTANALYSE_Anki_Quizlet.md
+👤 @student1 created this file 2 days ago
+📝 Last edited by @student2 5 hours ago
+```
+
+**Auf einen Blick:** Wer hat's erstellt? Wer hat zuletzt geändert?
+
+---
+
+#### 3. Blame-View (welche Zeile von wem?)
+
+**Was ist Blame?**
+- Zeigt für JEDE Zeile: Wer hat sie geschrieben?
+- Perfekt um zu sehen: Wer ist für welchen Teil verantwortlich?
+
+**Wie nutzen?**
+1. Datei öffnen (z.B. `MARKTANALYSE_Anki_Quizlet.md`)
+2. Oben rechts: **"Blame"** klicken
+3. Ergebnis:
+```
+Zeile 1-10:   @student1 (8. Okt, 14:32) "docs: Initial Template"
+Zeile 11-25:  @student2 (9. Okt, 10:15) "feat: Nutzerzahlen ergänzt"
+Zeile 26-50:  @student1 (9. Okt, 16:42) "docs: Competitive Analysis"
+```
+
+**Jede Zeile hat einen Autor!** Kristallklar. ✨
+
+---
+
+#### 4. Contributors-Graph (wer hat am meisten beigetragen?)
+
+**Ansehen:**
+- Repo → **"Insights"** → **"Contributors"**
+- URL: https://github.com/kqc-real/streamlit/graphs/contributors
+
+**Zeigt:**
+```
+👤 @student1 (Team Flashcard)    ████████░░░░ 120 commits
+👤 @student2 (Team Flashcard)    ██████░░░░░░  80 commits
+👤 @student3 (Team Live Quiz)    ███████░░░░░ 100 commits
+👤 @student4 (Team Live Quiz)    ████░░░░░░░░  60 commits
+```
+
+**Filter nach:**
+- Commits (Anzahl)
+- Additions (Zeilen hinzugefügt)
+- Deletions (Zeilen gelöscht)
+- Zeitraum (letzte Woche, letzter Monat)
+
+---
+
+### Zusätzliche Sichtbarkeit mit Labels & Assignees
+
+#### 1. Team-Labels (farbig!)
+
+**Aus dem Setup-Skript:**
+```bash
+team: flashcard-experts  🩷 (Pink)
+team: live-quiz          💛 (Gelb)
+team: academic-tools     💚 (Grün)
+```
+
+**Im Kanban-Board:**
+```
+┌──────────────────────────────────────┐
+│ 🎯 Sprint Backlog                    │
+├──────────────────────────────────────┤
+│ 🩷 team: flashcard-experts           │
+│ #1: Marktanalyse Anki + Quizlet      │
+│ 👤 @student1  👤 @student2          │
+├──────────────────────────────────────┤
+│ 💛 team: live-quiz                   │
+│ #2: Tech-Spec Kahoot + Socrative     │
+│ 👤 @student3  👤 @student4          │
+├──────────────────────────────────────┤
+│ 💚 team: academic-tools              │
+│ #3: Marktanalyse Particify           │
+│ 👤 @student5  👤 @student6          │
+└──────────────────────────────────────┘
+```
+
+**Auf den ersten Blick:** Farbe = Team! 🎨
+
+---
+
+#### 2. Assignees (wer ist verantwortlich?)
+
+**Bei jedem Issue:**
+- Rechts: **Assignees** → Team-Mitglieder auswählen
+- Avatars werden auf Issue-Karte angezeigt
+- Filter: "Zeige nur meine Issues" (`assignee:@me`)
+
+**Beispiel:**
+```
+#1: Marktanalyse Anki + Quizlet
+👤 Assigned to: @student1, @student2
+🏷️ Labels: team: flashcard-experts, story-points: 3
+📅 Milestone: Warm-Up Sprint
+```
+
+---
+
+#### 3. Custom Views im Project Board
+
+**Team-spezifische Ansichten:**
+
+1. Oben im Board: **"+ New view"**
+2. Name: "Team Flashcard Experts"
+3. Filter: `label:"team: flashcard-experts"`
+4. Speichern
+
+**Erstelle 3 Views:**
+- View 1: **"Alle Teams"** (kein Filter)
+- View 2: **"Team Flashcard"** (Filter: Team-Label)
+- View 3: **"Team Live Quiz"** (Filter: Team-Label)
+- View 4: **"Team Academic"** (Filter: Team-Label)
+
+**Jetzt einfach zwischen Views wechseln!** 📊
+
+```
+┌─────────────────────────────────────────────┐
+│ 📊 MC-Test-App Scrum Board                  │
+├─────────────────────────────────────────────┤
+│ Views:                                       │
+│ [Alle Teams] [Team Flashcard] [Team Live... │
+└─────────────────────────────────────────────┘
+```
+
+Klick → Nur Issues deines Teams! 🎯
+
+---
+
+### Best Practice: Autoren in Dokumenten
+
+**Jedes Markdown-Dokument startet mit:**
+
+```markdown
+# Marktanalyse: Anki + Quizlet
+
+**Team:** Flashcard Experts  
+**Autoren:** @student1, @student2  
+**Datum:** 8. Oktober 2025  
+**Status:** ✅ Fertig
+
+---
+
+[Rest des Dokuments...]
+```
+
+**Vorteil:**
+- Sofort sichtbar beim Öffnen
+- Auch ohne GitHub (z.B. in VS Code Preview)
+- Klar: Wer ist Ansprechpartner?
+
+---
+
+### Branch-Namen zeigen Team-Ownership
+
+**Branches aus dem Setup:**
+```
+team/flashcard-experts   # Team 1 arbeitet hier
+team/live-quiz           # Team 2 arbeitet hier
+team/academic-tools      # Team 3 arbeitet hier
+```
+
+**In der Commit-History:**
+```
+feat: Marktanalyse Anki fertig
+👤 @student1
+🌿 Branch: team/flashcard-experts
+📅 8. Oktober 2025
+```
+
+**Branch-Name = Team-Name!** Kristallklar. ✨
+
+---
+
+### Pull Requests zeigen Ownership
+
+**PR-Titel:**
+```
+feat: Marktanalyse Anki + Quizlet #42
+
+Opened by @student1 (Team Flashcard Experts)
+Reviewers: @student2, @product-owner
+Labels: team: flashcard-experts, epic: marktanalyse
+
+From: team/flashcard-experts
+Into: main
+```
+
+**Zeigt:**
+- Wer hat erstellt?
+- Wer reviewt?
+- Welches Team?
+- Von welchem Branch?
+
+---
+
+### Fortgeschritten: CODEOWNERS-Datei
+
+**Was ist das?**
+- Definiert: Wer ist für welche Dateien verantwortlich?
+- Automatisch: Owner werden als Reviewer hinzugefügt
+
+**Erstellen (optional):**
+
+Datei: `.github/CODEOWNERS`
+
+```
+# Team Ownership für Export-Research
+
+# Team Flashcard Experts
+/docs/export-research/MARKTANALYSE_Anki_Quizlet.md     @student1 @student2
+/docs/export-research/TECH_SPEC_Anki_Quizlet.md        @student1 @student2
+/docs/export-research/export-examples/anki_*           @student1 @student2
+/docs/export-research/export-examples/quizlet_*        @student1 @student2
+
+# Team Live Quiz Champions
+/docs/export-research/MARKTANALYSE_Kahoot_Socrative.md @student3 @student4
+/docs/export-research/TECH_SPEC_Kahoot_Socrative.md    @student3 @student4
+
+# Team Academic Tools
+/docs/export-research/MARKTANALYSE_Particify_ARSnova.md @student5 @student6
+
+# Gemeinsame Dokumente (alle Teams müssen zustimmen)
+/docs/export-research/EXPORT_ROADMAP.md                @kqc-real
+```
+
+**Effekt:**
+- PR für diese Datei → Owner automatisch als Reviewer
+- GitHub zeigt: "File owned by @student1, @student2"
+- Klar: Wer ist verantwortlich!
+
+---
+
+### Visualisierung: Issue-Detail-Ansicht
+
+**So sieht ein Issue aus:**
+
+```
+┌────────────────────────────────────────────────────┐
+│ #1: Marktanalyse Anki + Quizlet                    │
+│ Opened by @student1 on Oct 8, 2025                │
+├────────────────────────────────────────────────────┤
+│ Labels:                                             │
+│ 🩷 team: flashcard-experts                         │
+│ 🟣 epic: marktanalyse                              │
+│ 🔵 story-points: 3                                 │
+│ 🔴 priority: must-have                             │
+├────────────────────────────────────────────────────┤
+│ Assignees:                                          │
+│ 👤 @student1                                       │
+│ 👤 @student2                                       │
+├────────────────────────────────────────────────────┤
+│ Milestone:                                          │
+│ 🎯 Warm-Up Sprint (Due: Oct 12, 2025)             │
+├────────────────────────────────────────────────────┤
+│ **Team:** Flashcard Experts                        │
+│ **Autoren:** @student1, @student2                  │
+│                                                     │
+│ [Rest der Beschreibung...]                         │
+└────────────────────────────────────────────────────┘
+```
+
+**Sofort klar:**
+- ✅ Welches Team? (Label + Beschreibung)
+- ✅ Welche Personen? (Assignees + Beschreibung)
+- ✅ Welcher Sprint? (Milestone)
+- ✅ Wie wichtig? (Priority-Label)
+
+---
+
+### Checkliste: Ownership sichtbar machen
+
+**Am Tag 1 (bei jedem Issue):**
+- [ ] Team-Label gesetzt (🩷💛💚)
+- [ ] Assignees zugewiesen (👤👤)
+- [ ] Milestone gesetzt (🎯)
+
+**In jedem Dokument:**
+- [ ] Team-Name im Header
+- [ ] Autoren mit @ erwähnt
+- [ ] Datum eingefügt
+
+**Bei jedem Commit:**
+- [ ] Aussagekräftige Commit-Message
+- [ ] Vom richtigen Branch (team/...)
+
+**Bei jedem Pull Request:**
+- [ ] Team-Label gesetzt
+- [ ] Reviewer zugewiesen (aus eigenem Team + PO)
+- [ ] Klar beschrieben: Was wurde geändert?
+
+---
+
+### Zusammenfassung: Ownership ist IMMER sichtbar!
+
+**Automatisch (durch Git):**
+✅ Commit-History zeigt Autor  
+✅ File History zeigt: Wer hat erstellt/geändert  
+✅ Blame zeigt: Wer hat welche Zeile geschrieben  
+✅ Contributors-Graph zeigt: Wer hat am meisten beigetragen  
+
+**Mit Setup (aus Skript):**
+✅ Team-Labels (farbig: Pink, Gelb, Grün)  
+✅ Assignees (Avatars auf Issues)  
+✅ Branch-Namen (`team/flashcard-experts`)  
+✅ Milestones (Sprint-Zuordnung)  
+
+**Mit Konvention:**
+✅ Autoren-Zeile in Markdown-Dateien  
+✅ Team-Name im Issue-Titel oder Beschreibung  
+✅ CODEOWNERS-Datei (fortgeschritten)  
+
+**Regel:** Nutzt Labels + Assignees + Autoren-Zeile → Dann ist IMMER klar, wer was gemacht hat! 🎯
+
+---
+
+## �🆘 Teil 11: Troubleshooting
 
 ### Problem: "Ich finde mein Issue nicht"
 
@@ -1068,7 +1424,8 @@ git push
 
 ## ✅ Checkliste: Bin ich bereit?
 
-Vor Tag 1 (Präsenz-Kickoff):
+### Vor Tag 1 (Präsenz-Kickoff)
+
 - [ ] Ich habe einen GitHub-Account
 - [ ] Ich bin Member im Repo `kqc-real/streamlit`
 - [ ] Ich habe diesen Guide gelesen (30 Min)
@@ -1077,22 +1434,29 @@ Vor Tag 1 (Präsenz-Kickoff):
 - [ ] Ich kann ein Issue erstellen
 - [ ] Ich kann Labels setzen
 
-Am Tag 1:
+### Am Tag 1
+
 - [ ] Ich habe das GitHub Project gesehen
 - [ ] Ich habe mein erstes Issue erstellt
 - [ ] Ich habe mein Team-Label gesetzt
 - [ ] Ich bin meinem Team-Branch zugewiesen
+- [ ] Ich weiß, wie Ownership sichtbar ist (Labels, Assignees, Autoren-Zeile)
 
-Während des Sprints:
+### Während des Sprints
+
 - [ ] Ich checke täglich das Kanban-Board
 - [ ] Ich verschiebe Issues zwischen Spalten
 - [ ] Ich committe regelmäßig (täglich)
 - [ ] Ich kommentiere in Issues bei Fragen
+- [ ] Ich setze Team-Labels bei neuen Issues
+- [ ] Ich schreibe Autoren-Zeile in Dokumente
 
-Am Tag 7:
+### Am Tag 7
+
 - [ ] Ich habe zur Sprint Review beigetragen
 - [ ] Ich habe an der Retrospektive teilgenommen
 - [ ] Ich habe mein Feedback geteilt
+- [ ] Ich kann sehen, wer was beigetragen hat (Contributors-Graph)
 
 ---
 
