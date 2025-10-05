@@ -32,7 +32,7 @@ Das Beste daran? **Sie müssen nicht programmieren!** Die KI-Tools übernehmen d
 
 ---
 
-## ✅ Vorbereitung (wichtig!)
+## ✅ Vorbereitung
 
 Damit wir direkt durchstarten können, bitte ich Sie um folgende Vorbereitung:
 
@@ -48,7 +48,7 @@ Damit wir direkt durchstarten können, bitte ich Sie um folgende Vorbereitung:
 - Registrierung: [https://github.com/signup](https://github.com/signup)
 - Dauert nur 2 Minuten
 
-**Tipp:** Mit Ihrer IU-Mailadresse bekommen Sie Zugang zum kostenlosen [GitHub Education Pack](https://education.github.com/pack) – u.a. GitHub Copilot (KI-Assistent) gratis! 🎓
+**Tipp:** Mit Ihrer IU-Mailadresse bekommen Sie das kostenlose [GitHub Education Pack](https://education.github.com/pack) – u.a. GitHub Copilot (KI-Assistent, Wert: 10$/Monat) gratis! 🎓
 
 ### 3. Schnuppern erwünscht! (optional) 👀
 
@@ -121,7 +121,7 @@ Wir werden zusammen:
 
 Ich freue mich darauf, Sie kennenzulernen! 🚀
 
-Bis dahin wünsche ich euch ein schönes Wochenende!
+Bis dahin wünsche ich Ihnen ein schönes Wochenende!
 
 **Beste Grüße**  
 
@@ -129,11 +129,13 @@ Prof. Dr. Klaus Quibeldey-Cirkel (aka KQC) 😊
 
 ---
 
-P.S.: Wer schon mal schnuppern möchte, findet hier die Kickoff-Agenda:  
+**P.S.: Für Neugierige** 👀
+
+📋 **Kickoff-Agenda ansehen:**  
 [KICKOFF_AGENDA.md](https://github.com/kqc-real/streamlit/blob/main/KICKOFF_AGENDA.md)
 
-**Und hier können Sie unsere App schon mal live ausprobieren – das ist unser Projekt, das wir gemeinsam zur Version 2.0 weiterentwickeln werden:**
+🎮 **App live testen:**  
+[https://mc-test.streamlit.app/](https://mc-test.streamlit.app/)  
+*(Unser Projekt, das wir gemeinsam zur Version 2.0 weiterentwickeln!)*
 
-[https://mc-test.streamlit.app/](https://mc-test.streamlit.app/)
-
-**See you Tuesday!** 👋✨
+**Bis Dienstag!** 👋✨
