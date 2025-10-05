@@ -1,32 +1,31 @@
 # 👋 Herzlich Willkommen zum Projekt: Agiles Projektmanagement!
 
-Liebe Studierende des Kurses **DSBBWLAPM01**,
+Liebe Studierende des Kurses **DSBBWLAPM01** (BWL, 1. Semester),
 
-ich freue mich sehr, euch am **Montag, 7. Oktober 2025** zu unserem gemeinsamen Kickoff begrüßen zu dürfen! 🎉
+ich freue mich sehr, Sie am **Dienstag, 7. Oktober 2025** zu unserem gemeinsamen Kickoff begrüßen zu dürfen! 🎉
 
 ---
 
-## 📍 Wann & Wo?
+## 📍 Kickoff-Termin
 
-**Datum:** Montag, 7. Oktober 2025  
-**Uhrzeit:** 13:15 - 15:45 Uhr (2,5 Stunden)  
+**Datum:** Dienstag, 7. Oktober 2025  
+**Uhrzeit:** 13:15 - 15:45 Uhr  
 **Raum:** FFM - Darmstädter Landstraße 110 - 3.03 Südbahnhof  
 **Dozent:** Prof. Dr. Klaus Quibeldey-Cirkel
 
 ---
 
-## 🚀 Was erwartet euch?
+## 🚀 Worum geht's?
 
-Eine **spannende Projektveranstaltung**, in der ihr **Scrum**, **Git**, **GitHub** und **KI-Tools** in der Praxis erleben werdet! 
+Eine **spannende Projektveranstaltung**, in der Sie **Scrum**, **Git**, **GitHub** und **KI-Tools** in der Praxis erleben werden!
 
-Das Beste daran? Die KI-Tools werden euch **die meiste Arbeit abnehmen** – ihr lernt, wie man diese intelligenten Assistenten **effektiv und verantwortungsvoll** einsetzt. 🤖✨
+Das Beste daran? **Sie müssen nicht programmieren!** Die KI-Tools übernehmen die technische Arbeit – Sie lernen, wie man diese intelligenten Assistenten **effektiv und verantwortungsvoll** einsetzt. 🤖✨
 
-**Themen:**
-- 🎯 Agiles Projektmanagement mit Scrum (Sprint Planning, Daily Standups, Reviews, Retrospectives)
-- 💻 Versionskontrolle mit Git & Kollaboration auf GitHub
-- 🤖 KI-gestützte Entwicklung (ChatGPT, Claude, GitHub Copilot & Co.)
-- 🚀 Hands-On: MC-Test App – eure Lernplattform für MINT & BWL
-- 📊 Export-Features für Quiz-Plattformen (Warm-Up Sprint)
+**Im Fokus:**
+- 🎯 Agiles Projektmanagement mit Scrum (echte Teamarbeit!)
+- 💻 Git & GitHub (Versionskontrolle & Zusammenarbeit)
+- 🤖 KI-gestützte Recherche & Dokumentation (ChatGPT, Claude & Co.)
+- � Marktanalyse & Tech-Specs für Export-Features (Warm-Up Sprint)
 
 **Unser Motto:** *Learning by doing* – keine trockene Theorie, sondern echte Projektarbeit im Team!
 
@@ -34,7 +33,7 @@ Das Beste daran? Die KI-Tools werden euch **die meiste Arbeit abnehmen** – ihr
 
 ## ✅ Vorbereitung (wichtig!)
 
-Damit wir am Montag direkt durchstarten können, bitte ich euch um folgende Vorbereitung:
+Damit wir direkt durchstarten können, bitte ich Sie um folgende Vorbereitung:
 
 ### 1. Laptop mitbringen 💻
 - **Mit Admin-Rechten** (wichtig für Software-Installation!)
@@ -42,89 +41,81 @@ Damit wir am Montag direkt durchstarten können, bitte ich euch um folgende Vorb
 - Akku geladen oder Netzteil dabei
 
 ### 2. GitHub-Account erstellen 🐙
-- **Idealerweise mit eurer IU-Mailadresse**
+- **Idealerweise mit Ihrer IU-Mailadresse**
 - Registrierung: https://github.com/signup
 - Dauert nur 2 Minuten
-- Benutzername merken (brauchen wir am Montag!)
 
-**Tipp:** Mit eurer IU-Mailadresse bekommt ihr Zugang zum kostenlosen [GitHub Education Pack](https://education.github.com/pack) – u.a. GitHub Copilot (KI-Code-Assistent) gratis! 🎓
+**Tipp:** Mit Ihrer IU-Mailadresse bekommen Sie Zugang zum kostenlosen [GitHub Education Pack](https://education.github.com/pack) – u.a. GitHub Copilot (KI-Assistent) gratis! 🎓
 
 ### 3. Schnuppern erwünscht! (optional) 👀
 
-Wer schon neugierig ist und einen Vorgeschmack haben möchte:
+Wer schon neugierig ist:
 
-📋 **Kickoff-Agenda ansehen:**  
-https://github.com/kqc-real/streamlit/blob/main/KICKOFF_AGENDA.md
+📋 **Kickoff-Agenda:** https://github.com/kqc-real/streamlit/blob/main/KICKOFF_AGENDA.md
 
-🎮 **MC-Test App ausprobieren:**  
-👉 Repository: https://github.com/kqc-real/streamlit  
-👉 Installation (10 Min): https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_ANLEITUNG.md
-
-**Keine Sorge:** Ihr müsst NICHTS vorab installieren – das machen wir gemeinsam am Montag! Die Links sind nur für die besonders Neugierigen unter euch. 😊
+**Keine Sorge:** Sie müssen NICHTS vorab installieren – das machen wir gemeinsam! Die Links sind nur für besonders Neugierige. 😊
 
 ---
 
-## 🎯 Was bringt euch das Projekt?
+## 🎯 Was bringt Ihnen das Projekt?
 
-Nach diesem Kurs könnt ihr:
+Nach diesem Kurs können Sie:
 
 ✅ **Scrum praktisch anwenden** (Sprint Planning, Reviews, Retrospectives)  
-✅ **Mit Git & GitHub arbeiten** (Branching, Pull Requests, Issues)  
+✅ **Mit Git & GitHub arbeiten** (Issues, Pull Requests, Kanban-Boards)  
 ✅ **KI-Tools professionell nutzen** (Prompts schreiben, Output prüfen, transparent dokumentieren)  
-✅ **Im Team entwickeln** (Merge Conflicts lösen, Code Reviews machen)  
-✅ **Eine echte App verstehen** (Python, Streamlit, SQLite)  
-✅ **Export-Features konzipieren** (Marktanalyse, Tech-Specs, Feature-Specs)
+✅ **Im Team zusammenarbeiten** (echte Scrum-Erfahrung sammeln)  
+✅ **Marktanalysen erstellen** (Competitive Analysis, Tech-Specs, Feature-Specs)  
+✅ **Projektdokumentation schreiben** (Markdown, GitHub Discussions)
 
-**Bonus:** Alles, was ihr lernt, ist **direkt auf dem Arbeitsmarkt gefragt**! Agile Methoden + GitHub + KI-Skills = 🚀
+**Bonus:** Alles, was Sie lernen, ist **direkt auf dem Arbeitsmarkt gefragt**! Agile Methoden + GitHub + KI-Skills = 🚀
 
 ---
 
-## 🤝 Was ich von euch erwarte
+## 🤝 Was ich von Ihnen erwarte
 
-- **Neugier & Offenheit** (auch wenn ihr noch nie programmiert habt!)
+- **Neugier & Offenheit** (alles ist neu im 1. Semester – genau richtig!)
 - **Teamwork** (wir arbeiten in 3 Scrum-Teams)
-- **Hands-On-Mentalität** (Laptop aufklappen, ausprobieren, Fehler machen ist erlaubt!)
+- **Hands-On-Mentalität** (ausprobieren, Fehler machen ist erlaubt!)
 - **Fragen stellen** (es gibt keine dummen Fragen!)
 
-**Wichtig:** Ihr braucht **KEINE Programmier-Vorkenntnisse**! Wir starten bei Null und lernen gemeinsam. 💪
+**Wichtig:** Sie müssen **NICHT programmieren**! Es geht um Projektmanagement, Recherche und Teamarbeit – keine Coding-Skills erforderlich. 💪
 
 ---
 
 ## 💬 Bei Fragen vorab
 
-Falls ihr vor dem Kickoff Fragen habt:
+Falls Sie vor dem Kickoff Fragen haben:
 
-📧 **E-Mail:** [Eure E-Mail-Adresse einfügen]  
-💬 **GitHub Discussions:** https://github.com/kqc-real/streamlit/discussions (ab Montag)
+📧 **E-Mail:** [Ihre E-Mail-Adresse einfügen]  
+💬 **GitHub Discussions:** https://github.com/kqc-real/streamlit/discussions (ab Dienstag)
 
 ---
 
 ## 🎉 Worauf ich mich freue
 
-Ich bin schon sehr gespannt auf euch und freue mich riesig auf unser gemeinsames Projekt! 
+Ich bin schon sehr gespannt auf Sie und freue mich riesig auf unser gemeinsames Projekt!
 
 Wir werden zusammen:
-- 🎮 Eine coole Lern-App erkunden
-- 🤖 KI-Tools ausprobieren (die werden euch begeistern!)
-- 🚀 Export-Features für 6 Quiz-Plattformen recherchieren
-- 👥 Im Team echte Scrum-Erfahrung sammeln
+- 🤖 KI-Tools für Recherche & Dokumentation ausprobieren
+- 🚀 Export-Features für 6 Quiz-Plattformen analysieren (Marktanalyse, Tech-Specs)
+- 👥 Echte Scrum-Erfahrung im Team sammeln
 - 🧠 Agile Methoden nicht nur lernen, sondern **leben**
 
-**Was ihr mitbringen solltet:** Gute Laune, Neugier und einen Laptop mit Admin-Rechten! ☕💻
+**Was Sie mitbringen sollten:** Gute Laune, Neugier und einen Laptop mit Admin-Rechten! ☕💻
 
 ---
 
-## ⏰ Nochmal die wichtigsten Infos
+## ⏰ Zusammenfassung
 
-📅 **Montag, 7. Oktober 2025**  
-🕐 **13:15 - 15:45 Uhr** (2,5 Stunden)  
-📍 **Darmstädter Landstraße 110 - Raum 3.03 Südbahnhof**  
-💻 **Laptop mit Admin-Rechten mitbringen**  
-🐙 **GitHub-Account erstellen** (mit IU-Mailadresse)
+📅 **Dienstag, 7. Oktober 2025, 13:15 - 15:45 Uhr**  
+📍 **Raum 3.03 Südbahnhof** (Darmstädter Landstraße 110)  
+💻 **Laptop mit Admin-Rechten**  
+🐙 **GitHub-Account** (mit IU-Mailadresse)
 
 ---
 
-Ich freue mich darauf, euch am **Montag um 13:15 Uhr im Raum 3.03 Südbahnhof** kennenzulernen! 🚀
+Ich freue mich darauf, Sie kennenzulernen! 🚀
 
 Bis dahin wünsche ich euch ein schönes Wochenende!
 
@@ -133,6 +124,7 @@ Prof. Dr. Klaus Quibeldey-Cirkel (aka KQC) 😊
 
 ---
 
-P.S.: Wer noch Zeit hat und schon mal in die Welt von Scrum, GitHub und KI-Tools schnuppern möchte, findet hier die Kickoff-Agenda: https://github.com/kqc-real/streamlit/blob/main/KICKOFF_AGENDA.md
+P.S.: Wer schon mal schnuppern möchte, findet hier die Kickoff-Agenda:  
+https://github.com/kqc-real/streamlit/blob/main/KICKOFF_AGENDA.md
 
 **See you Monday!** 👋✨
