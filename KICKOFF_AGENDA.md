@@ -1,8 +1,8 @@
 # 🚀 Kickoff-Meeting: MC-Test App - Release 2.0 Projekt
 
 **Datum:** 7. Oktober 2025  
-**Uhrzeit:** 13.15 Uhr  
-**Dauer:** 60 Minuten  
+**Uhrzeit:** 13:15 - 15:45 Uhr  
+**Dauer:** 2,5 Stunden (150 Minuten)  
 **Ort:** DaLa 3.03 Südbahnhof  
 **Dozent:** Klaus Quibeldey-Cirkel (aka KQC)
 
@@ -12,10 +12,12 @@
 
 | Zeit | Thema | Dauer |
 |------|-------|-------|
-| 0:00 - 0:15 | **Teil 1: Projektvorstellung** | 15 Min |
-| 0:15 - 0:35 | **Teil 2: Hands-On Installation** | 20 Min |
-| 0:35 - 0:50 | **Teil 3: Advanced Features** | 15 Min |
-| 0:50 - 1:00 | **Teil 4: Warm-Up Sprint & Hausaufgaben** | 10 Min |
+| 13:15 - 13:35 | **Teil 1: Projektvorstellung** | 20 Min |
+| 13:35 - 14:15 | **Teil 2: Hands-On Installation** | 40 Min |
+| 14:15 - 14:30 | ☕ **PAUSE** | 15 Min |
+| 14:30 - 15:05 | **Teil 3: Advanced Features** | 35 Min |
+| 15:05 - 15:40 | **Teil 4: Warm-Up Sprint & Hausaufgaben** | 35 Min |
+| 15:40 - 15:45 | **Abschluss & Ausblick** | 5 Min |
 
 ---
 
@@ -33,15 +35,15 @@ Nach diesem Meeting könnt ihr:
 
 ---
 
-## 📚 Teil 1: Projektvorstellung (15 Min)
+## 📚 Teil 1: Projektvorstellung (20 Min)
 
-### 1.1 Begrüßung & Organisatorisches (2 Min)
+### 1.1 Begrüßung & Organisatorisches (3 Min)
 
 - Vorstellungsrunde (KQC)
 - Meeting-Format: Interaktiv, Fragen jederzeit erlaubt
 - Hinweis: Laptop/Computer erforderlich für Hands-On
 
-### 1.2 Was ist die MC-Test App? (8 Min)
+### 1.2 Was ist die MC-Test App? (12 Min)
 
 **Dokument:** `README.md`
 
@@ -83,9 +85,9 @@ Nach diesem Meeting könnt ihr:
 
 ---
 
-## 💻 Teil 2: Hands-On Installation (20 Min)
+## 💻 Teil 2: Hands-On Installation (40 Min)
 
-### 2.1 Voraussetzungen prüfen (5 Min)
+### 2.1 Voraussetzungen prüfen (8 Min)
 
 **Dokument:** `INSTALLATION_ANLEITUNG.md` (Abschnitt 1)
 
@@ -104,14 +106,14 @@ git --version
 - Mac-User: Homebrew installieren?
 - Windows-User: Python im PATH?
 
-### 2.2 Repository klonen (3 Min)
+### 2.2 Repository klonen (5 Min)
 
 ```bash
 git clone https://github.com/kqc-real/streamlit.git
 cd streamlit
 ```
 
-### 2.3 Installation durchführen (7 Min)
+### 2.3 Installation durchführen (12 Min)
 
 ```bash
 # Virtual Environment erstellen
@@ -127,7 +129,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2.4 App starten & Testen (5 Min)
+### 2.4 App starten & Testen (15 Min)
 
 ```bash
 streamlit run app.py
@@ -150,9 +152,20 @@ streamlit run app.py
 
 ---
 
-## 🔧 Teil 3: Advanced Features (15 Min)
+## ☕ PAUSE (15 Min)
 
-### 3.1 Admin-Panel aktivieren (5 Min)
+**Zeit:** 14:15 - 14:30 Uhr
+
+- Kurze Pause zum Durchatmen
+- Kaffee/Getränke holen
+- Bei technischen Problemen: Individuelle Hilfe
+- Austausch mit anderen Teilnehmern
+
+---
+
+## 🔧 Teil 3: Advanced Features (35 Min)
+
+### 3.1 Admin-Panel aktivieren (10 Min)
 
 **Dokument:** `ADMIN_PANEL_ANLEITUNG.md` (Abschnitt 2)
 
@@ -164,7 +177,7 @@ streamlit run app.py
 4. Als "Albert Einstein" einloggen
 5. Admin-Panel öffnen
 
-### 3.2 Dashboard-Statistiken erkunden (7 Min)
+### 3.2 Dashboard-Statistiken erkunden (15 Min)
 
 **Dokument:** `ADMIN_PANEL_ANLEITUNG.md` (Abschnitt 3.1)
 
@@ -182,9 +195,9 @@ streamlit run app.py
 - Was sagt niedrige Abschlussquote aus?
 - Schwierigkeitsvergleich zwischen Fragensets
 
-### 3.3 Weitere Admin-Features (3 Min)
+### 3.3 Weitere Admin-Features (10 Min)
 
-**Kurz erwähnen (nicht live zeigen):**
+**Kurz erwähnen & demonstrieren:**
 
 - Itemanalyse (Schwierigkeitsindex, Trennschärfe)
 - Distraktor-Analyse (welche falschen Antworten werden gewählt?)
@@ -195,31 +208,34 @@ streamlit run app.py
 
 ---
 
-## 🌟 Teil 4: Ausblick & Q&A (10 Min)
+## 🌟 Teil 4: Warm-Up Sprint & Hausaufgaben (35 Min)
 
-### 4.1 Warm-Up Sprint Einführung (7 Min)
+### 4.1 Warm-Up Sprint Einführung (15 Min)
 
 **Ziel:** Teambuilding + GitHub Scrum kennenlernen + Export-Features recherchieren
 
 **Dokumente zum Durchgehen:**
 
-1. 📋 **`WARMUP_SPRINT_EXPORT_FEATURES.md`** (3 Min)
+1. 📋 **`WARMUP_SPRINT_EXPORT_FEATURES.md`** (5 Min)
    - Sprint-Ziele: 6 Export-Plattformen recherchieren (Anki, Quizlet, Kahoot, Socrative, Particify, arsnova.click)
    - 3 Scrum Teams (je 2 Plattformen)
    - Zeitplan: 1 Woche (Tag 1: 3h Präsenz, Tag 2-6: 5×2h Online BBB, Tag 7: 3h Präsenz)
    - Deliverables: Marktanalyse, Tech-Spec, Feature-Spec
+   - **Live-Demo:** Sprint-Dokument gemeinsam durchgehen
 
-2. 🤖 **`orga/KI_NUTZUNG_GUIDE.md`** (2 Min)
+2. 🤖 **`orga/KI_NUTZUNG_GUIDE.md`** (5 Min)
    - KI-Tools erlaubt & erwünscht (ChatGPT, Claude, Copilot, Gemini, Perplexity)
    - Grundregeln: Transparent vermerken + Fact-Checking + Bias-Kontrolle
    - Prompt-Engineering Tipps
    - Dokumentation in Commits/Issues
+   - **Beispiel:** Guter vs. schlechter Prompt
 
-3. 🔧 **`orga/GITHUB_SCRUM_GUIDE.md`** (2 Min)
+3. 🔧 **`orga/GITHUB_SCRUM_GUIDE.md`** (5 Min)
    - GitHub als Scrum-Tool: Issues = User Stories, Projects = Kanban, Milestones = Sprints
    - Sprint Review & Retrospective als GitHub Discussions
    - Ownership & Sichtbarkeit (Labels, Assignees, Team-Branches)
    - 11 Teile: Von Issues bis Troubleshooting
+   - **Live-Demo:** GitHub Projects Board zeigen
 
 **Hinweis:** Setup-Script (`orga/setup-warmup-sprint.sh`) wird am Tag 1 des Warm-Up Sprints gemeinsam ausgeführt!
 
@@ -227,7 +243,26 @@ streamlit run app.py
 - **Warm-Up Sprint Tag 1:** 14. Oktober 2025 (3h Präsenz)
 - Vorbereitung: Alle 3 Dokumente lesen (Hausaufgabe!)
 
-### 4.2 GitHub Discussions als Support-Channel (1 Min)
+### 4.2 Hausaufgaben im Detail (10 Min)
+
+**Gemeinsam durchgehen:**
+
+**✅ Pflicht (90 Min Lesezeit):**
+1. WARMUP_SPRINT_EXPORT_FEATURES.md (30 Min)
+2. GITHUB_SCRUM_GUIDE.md (40 Min)
+3. KI_NUTZUNG_GUIDE.md (20 Min)
+
+**🎯 Optional (60 Min):**
+4. Setup-Guide überfliegen
+5. GitHub CLI installieren
+6. Erste Plattform-Recherche
+
+**Fragen klären:**
+- Wann soll ich die Dokumente lesen?
+- Was mache ich, wenn ich etwas nicht verstehe?
+- Wie finde ich mein Team?
+
+### 4.3 GitHub Discussions als Support-Channel (3 Min)
 
 **Live-Demo:**
 
@@ -243,7 +278,14 @@ streamlit run app.py
 - Erstellt einen Post mit eurer ersten Frage oder Idee
 - Antwortet auf mindestens einen anderen Post
 
-### 4.3 Weitere Ressourcen (1 Min)
+### 4.4 Q&A zu Hausaufgaben & Sprint (5 Min)
+
+**Offene Fragen:**
+- Unklarheiten zu Hausaufgaben?
+- Technische Fragen zur Installation?
+- Bedenken zum Warm-Up Sprint?
+
+### 4.5 Weitere Ressourcen (2 Min)
 
 **Zum Nachlesen:**
 
@@ -260,12 +302,13 @@ streamlit run app.py
 
 ### 4.3 Nächste Schritte (1 Min)
 
-**Diese Woche:**
+**Diese Woche (bis 14.10.):**
 
 - [ ] App vollständig installieren
 - [ ] Mindestens 2 Tests durchführen
 - [ ] Admin-Panel erkunden
-- [ ] GitHub Discussions-Account erstellen
+- [ ] GitHub-Account erstellen
+- [ ] **3 Hausaufgaben-Dokumente lesen** (Pflicht!)
 
 ---
 
@@ -371,7 +414,33 @@ Schau dir EINE Export-Plattform deines zukünftigen Teams an:
 - **Thema:** Warm-Up Sprint Tag 1 - Team-Aufteilung, Setup, Kickoff
 - **Vorbereitung:** Alle 3 Pflicht-Dokumente gelesen!
 
-### 4.4 Offene Fragen & Diskussion (2 Min)
+---
+
+## 🎬 Abschluss & Ausblick (5 Min)
+
+### Zusammenfassung
+
+**Was haben wir heute gemacht?**
+- ✅ MC-Test App installiert & getestet
+- ✅ Admin-Panel erkundet
+- ✅ Warm-Up Sprint verstanden
+- ✅ Hausaufgaben besprochen
+
+**Was kommt als Nächstes?**
+- 📚 Hausaufgaben lesen (90 Min)
+- 🚀 Warm-Up Sprint Tag 1 (14.10., 3h)
+- 👥 Team-Building & Export-Features
+
+**Bei Fragen:**
+- 💬 GitHub Discussions
+- 📧 E-Mail an KQC
+- 🤝 Austausch mit Kommilitonen
+
+**Viel Erfolg & bis nächste Woche! 🚀**
+
+---
+
+### Offene Fragen & Diskussion (bis 15:45)
 
 **Typische Fragen (vorbereitet):**
 
@@ -483,8 +552,9 @@ A: Ja! Open Source, MIT License. GitHub-Link teilen.
 
 ---
 
-**Version:** 1.0  
-**Stand:** 4. Oktober 2025  
+**Version:** 2.0  
+**Stand:** 5. Oktober 2025  
+**Dauer:** 2,5 Stunden (13:15 - 15:45 Uhr)  
 **Zielgruppe:** BWL-Studierende ohne IT-Vorkenntnisse
 
 **Viel Erfolg beim Kickoff! 🚀🎉**
