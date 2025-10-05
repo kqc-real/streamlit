@@ -15,7 +15,7 @@
 | 0:00 - 0:15 | **Teil 1: Projektvorstellung** | 15 Min |
 | 0:15 - 0:35 | **Teil 2: Hands-On Installation** | 20 Min |
 | 0:35 - 0:50 | **Teil 3: Advanced Features** | 15 Min |
-| 0:50 - 1:00 | **Teil 4: Ausblick & Q&A** | 10 Min |
+| 0:50 - 1:00 | **Teil 4: Warm-Up Sprint & Hausaufgaben** | 10 Min |
 
 ---
 
@@ -28,6 +28,8 @@ Nach diesem Meeting könnt ihr:
 - ✅ Das Admin-Panel nutzen und Dashboard-Statistiken interpretieren
 - ✅ Euren ersten GitHub Discussions-Post erstellen
 - ✅ Die Projektziele für Release 2.0 erklären
+- ✅ Den Warm-Up Sprint verstehen (Ziele, Ablauf, Dokumentation)
+- ✅ Wissen, welche Hausaufgaben bis zum nächsten Termin zu erledigen sind
 
 ---
 
@@ -195,7 +197,37 @@ streamlit run app.py
 
 ## 🌟 Teil 4: Ausblick & Q&A (10 Min)
 
-### 4.1 GitHub Discussions als Support-Channel (5 Min)
+### 4.1 Warm-Up Sprint Einführung (7 Min)
+
+**Ziel:** Teambuilding + GitHub Scrum kennenlernen + Export-Features recherchieren
+
+**Dokumente zum Durchgehen:**
+
+1. 📋 **`WARMUP_SPRINT_EXPORT_FEATURES.md`** (3 Min)
+   - Sprint-Ziele: 6 Export-Plattformen recherchieren (Anki, Quizlet, Kahoot, Socrative, Particify, arsnova.click)
+   - 3 Scrum Teams (je 2 Plattformen)
+   - Zeitplan: 1 Woche (Tag 1: 3h Präsenz, Tag 2-6: 5×2h Online BBB, Tag 7: 3h Präsenz)
+   - Deliverables: Marktanalyse, Tech-Spec, Feature-Spec
+
+2. 🤖 **`orga/KI_NUTZUNG_GUIDE.md`** (2 Min)
+   - KI-Tools erlaubt & erwünscht (ChatGPT, Claude, Copilot, Gemini, Perplexity)
+   - Grundregeln: Transparent vermerken + Fact-Checking + Bias-Kontrolle
+   - Prompt-Engineering Tipps
+   - Dokumentation in Commits/Issues
+
+3. 🔧 **`orga/GITHUB_SCRUM_GUIDE.md`** (2 Min)
+   - GitHub als Scrum-Tool: Issues = User Stories, Projects = Kanban, Milestones = Sprints
+   - Sprint Review & Retrospective als GitHub Discussions
+   - Ownership & Sichtbarkeit (Labels, Assignees, Team-Branches)
+   - 11 Teile: Von Issues bis Troubleshooting
+
+**Hinweis:** Setup-Script (`orga/setup-warmup-sprint.sh`) wird am Tag 1 des Warm-Up Sprints gemeinsam ausgeführt!
+
+**📅 Nächster Termin:**
+- **Warm-Up Sprint Tag 1:** 14. Oktober 2025 (3h Präsenz)
+- Vorbereitung: Alle 3 Dokumente lesen (Hausaufgabe!)
+
+### 4.2 GitHub Discussions als Support-Channel (1 Min)
 
 **Live-Demo:**
 
@@ -211,7 +243,7 @@ streamlit run app.py
 - Erstellt einen Post mit eurer ersten Frage oder Idee
 - Antwortet auf mindestens einen anderen Post
 
-### 4.2 Weitere Ressourcen (2 Min)
+### 4.3 Weitere Ressourcen (1 Min)
 
 **Zum Nachlesen:**
 
@@ -235,11 +267,109 @@ streamlit run app.py
 - [ ] Admin-Panel erkunden
 - [ ] GitHub Discussions-Account erstellen
 
+---
+
+## 📚 Hausaufgaben zur Vorbereitung auf Warm-Up Sprint (bis 14.10.2025)
+
+### ✅ Pflicht (ca. 90 Min Lesezeit)
+
+**1. Warm-Up Sprint Dokument lesen (30 Min)**
+
+📋 **`WARMUP_SPRINT_EXPORT_FEATURES.md`**
+
+- Sprint-Ziele verstehen
+- Team-Aufteilung kennen (welches Team recherchiert welche Plattformen?)
+- 7-Tage-Zeitplan durchgehen
+- Scrum-Zeremonien (Review, Voting, Retrospective) verstehen
+
+**2. GitHub Scrum Guide lesen (40 Min)**
+
+🔧 **`orga/GITHUB_SCRUM_GUIDE.md`** (1.470 Zeilen - alle 11 Teile!)
+
+- Teil 1-3: Issues, Kanban, Sprints (Grundlagen)
+- Teil 4-6: Epics, Reviews, Retrospektiven (Scrum-Zeremonien)
+- Teil 7-9: GitHub Features, Best Practices, Velocity
+- Teil 10: Ownership & Sichtbarkeit (wichtig für Team-Arbeit!)
+- Teil 11: Troubleshooting
+
+**Tipp:** Mach Notizen! Was ist unklar? Fragen für Tag 1 sammeln.
+
+**3. KI-Nutzung Guide lesen (20 Min)**
+
+🤖 **`orga/KI_NUTZUNG_GUIDE.md`** (775 Zeilen)
+
+- Grundregeln (erlaubt/verboten)
+- 5 KI-Tools kennenlernen (ChatGPT, Claude, Copilot, Gemini, Perplexity)
+- Prompt-Engineering Basics
+- Transparenz-Dokumentation verstehen
+- Verantwortung & Bias-Kontrolle
+
+**Fokus:** Wie nutze ich KI für Marktanalyse & Tech-Recherche?
+
+### 🎯 Optional (Bonus für Vorbereitung)
+
+**4. Setup-Guide überfliegen (10 Min)**
+
+🛠️ **`orga/README_SETUP.md`**
+
+- Was macht `setup-warmup-sprint.sh`?
+- Welche GitHub-Strukturen werden erstellt?
+- Troubleshooting-Tipps kennenlernen
+
+**5. GitHub CLI installieren (10 Min)**
+
+```bash
+# Mac (Homebrew)
+brew install gh
+
+# Windows (Scoop)
+scoop install gh
+
+# Linux (apt)
+sudo apt install gh
+
+# Login
+gh auth login
+```
+
+**Warum?** Setup-Script nutzt `gh` für Labels/Milestones (optional, aber hilfreich)
+
+**6. Erste Plattform-Recherche (30 Min)**
+
+Schau dir EINE Export-Plattform deines zukünftigen Teams an:
+
+- **Team Flashcard Experts:** Anki ODER Quizlet
+- **Team Live Quiz Champions:** Kahoot ODER Socrative
+- **Team Academic Tools:** Particify ODER arsnova.click
+
+**Was recherchieren?**
+
+- Website besuchen, Account erstellen (falls kostenlos)
+- Features erkunden: Gibt es Import-Funktion?
+- Dokumentation suchen: Welche Formate werden unterstützt?
+- Notizen machen für Tag 1
+
+### 📝 Checkliste vor Warm-Up Sprint Tag 1
+
+- [ ] **WARMUP_SPRINT_EXPORT_FEATURES.md** gelesen (30 Min)
+- [ ] **orga/GITHUB_SCRUM_GUIDE.md** gelesen (40 Min)
+- [ ] **orga/KI_NUTZUNG_GUIDE.md** gelesen (20 Min)
+- [ ] GitHub-Account erstellt & angemeldet
+- [ ] Git & GitHub CLI installiert (optional, aber empfohlen)
+- [ ] Laptop mit Admin-Rechten & Internetverbindung vorbereitet
+- [ ] Fragen/Unklarheiten notiert
+
+**Geschätzter Zeitaufwand:** 1,5-2 Stunden (inkl. optional)
+
+---
+
 **Nächstes Meeting:**
 
-- 14.10.2025
-- Thema: Deep Dive in Fragenset-Erstellung mit KI
-- Vorbereitung: `AI_QUESTION_GENERATOR_PLAN.md` lesen
+- **Datum:** 14. Oktober 2025
+- **Zeit:** 13:15 Uhr (3 Stunden)
+- **Ort:** DaLa 3.03 Südbahnhof
+- **Thema:** Warm-Up Sprint Tag 1 - Team-Aufteilung, Setup, Kickoff
+- **Vorbereitung:** Alle 3 Pflicht-Dokumente gelesen!
 
 ### 4.4 Offene Fragen & Diskussion (2 Min)
 
@@ -284,6 +414,14 @@ A: Ja! Open Source, MIT License. GitHub-Link teilen.
 - 🚀 **Vision 2.0:** https://github.com/kqc-real/streamlit/blob/main/VISION_RELEASE_2.0.md
 - 🤖 **KI-Generator Plan:** https://github.com/kqc-real/streamlit/blob/main/AI_QUESTION_GENERATOR_PLAN.md
 - 📊 **SCRUM Presentation:** https://github.com/kqc-real/streamlit/blob/main/SCRUM_PRESENTATION_V2.0.md
+
+**Warm-Up Sprint (NEU!):**
+
+- 📋 **Warm-Up Sprint Guide:** https://github.com/kqc-real/streamlit/blob/main/WARMUP_SPRINT_EXPORT_FEATURES.md
+- 🔧 **GitHub Scrum Guide:** https://github.com/kqc-real/streamlit/blob/main/orga/GITHUB_SCRUM_GUIDE.md
+- 🤖 **KI-Nutzung Guide:** https://github.com/kqc-real/streamlit/blob/main/orga/KI_NUTZUNG_GUIDE.md
+- 🛠️ **Setup-Script:** https://github.com/kqc-real/streamlit/blob/main/orga/setup-warmup-sprint.sh
+- 📖 **Setup-Anleitung:** https://github.com/kqc-real/streamlit/blob/main/orga/README_SETUP.md
 
 ### 📋 Checkliste vor dem Meeting (für KQC)
 
