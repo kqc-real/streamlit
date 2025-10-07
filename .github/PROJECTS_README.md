@@ -9,7 +9,6 @@ Issues repräsentieren User Stories / Aufgaben. Teams arbeiten in eigenen Branch
 ## Wichtige Links
 
 - Willkommen / Kickoff: `WILLKOMMEN.md`, `KICKOFF_AGENDA.md`
-- Setup‑Script (Scaffolding): `orga/setup-warmup-sprint.sh`
 - GitHub‑Scrum‑Guide (Ownership & Sichtbarkeit): `orga/GITHUB_SCRUM_GUIDE.md`
 - KI‑Nutzungsrichtlinien: `orga/KI_NUTZUNG_GUIDE.md`
 - Bewertungsregeln (Rubrik): `BEWERTUNGSKRITERIEN_PROJEKTBERICHT.md`
@@ -70,10 +69,6 @@ Beispiele:
 2. Team arbeitet in `team/TeamA`, committet und pusht.
 3. Team öffnet PR → Reviewer: andere Teammitglieder.
 4. Nach Merge: Issue wird geschlossen, Karte in Done geschoben, Label `ready-for-grading` gesetzt.
-
-## Automatisierung & Setup
-
-- Das Repo enthält ein Setup‑Script `orga/setup-warmup-sprint.sh`, das Branches, Labels und Templates anlegen kann. Lehrende/Repo‑Admins können das Script ausführen, um das Board und Labels standardisiert vorzubereiten.
 
 ## FAQs kurz
 
