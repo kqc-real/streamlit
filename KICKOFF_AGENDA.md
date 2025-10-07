@@ -252,10 +252,9 @@ streamlit run app.py
 2. GITHUB_SCRUM_GUIDE.md (40 Min)
 3. KI_NUTZUNG_GUIDE.md (20 Min)
 
-**🎯 Optional (60 Min):**
-4. Setup-Guide überfliegen
-5. GitHub CLI installieren
-6. Erste Plattform-Recherche
+**🎯 YouTube Playlist "Scrum with GitHub Projects" (60 Min):**
+
+1. [Scrum with GitHub Projects](https://www.youtube.com/watch?v=06AWiNvjlQU&list=PLGxFXI4dC2siB2ENZ6OhagfwSId5FcWmY)
 
 **Fragen klären:**
 - Wann soll ich die Dokumente lesen?
