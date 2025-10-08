@@ -58,7 +58,47 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 
 ---
 
-## 📋 Voraussetzungen
+## � Security Features
+
+Die MC-Test-App implementiert **Enterprise-Grade Security** über drei aufeinander aufbauende Phasen:
+
+### Phase 1: Quick Wins (v1.1.0)
+- ⚠️ **Empty Admin-Key Warnings**: Warnung bei unsicherem Admin-Passwort
+- 🔄 **Re-Authentication**: Passwortabfrage vor kritischen Operationen (Löschen, Export)
+
+### Phase 2: Server-Side Session Validation (v1.2.0)
+- 🔐 **Cryptographic Tokens**: Sichere Session-Tokens mit `secrets.token_urlsafe(32)`
+- 🔒 **SHA-256 Hashing**: Keine Klartext-Passwörter im Session State
+- ⏱️ **Session Timeouts**: Automatische Abmeldung nach 2 Stunden Inaktivität
+- 🧵 **Thread-Safe**: Sichere Concurrent-Access mit Threading-Locks
+
+### Phase 3: Audit-Logging & Rate-Limiting (v1.3.0) ⭐ **NEU**
+- 📊 **SQLite-Based Audit-Logging**: Alle Admin-Aktionen persistent geloggt
+  - Login-Versuche (erfolg/fehlgeschlagen)
+  - Delete-Operationen (User-Daten, Global)
+  - CSV-Exports
+  - CRITICAL Actions markiert
+- 🚫 **Rate-Limiting**: Brute-Force-Schutz
+  - 3 fehlgeschlagene Login-Versuche → 5 Minuten Sperre
+  - Automatisches Reset nach erfolgreichem Login
+  - Anzeige der Sperr-Zeit
+- 📈 **Admin Dashboard**: Neuer "🔒 Audit-Log" Tab
+  - Statistiken: Gesamt-Aktionen, Success/Fail-Raten
+  - Filter: User, Action-Typ, Erfolg-Status, Limit
+  - CSV-Export für forensische Analyse
+- 🗑️ **DSGVO-Compliance**: Automatische Löschung nach 90 Tagen
+- 🌍 **IP-Tracking**: Optional Client-IP-Logging (wenn verfügbar)
+
+**Security Level:** 🛡️ **VERY HIGH (Enterprise-Grade)**
+
+**Dokumentation:**
+- 📘 [SECURITY_PHASE3_SUMMARY.md](SECURITY_PHASE3_SUMMARY.md) - Technische Details
+- 📋 [CHANGELOG_SECURITY_PHASE3.md](CHANGELOG_SECURITY_PHASE3.md) - Vollständiger Changelog
+- 📄 [PHASE3_ABSCHLUSS.md](PHASE3_ABSCHLUSS.md) - User-Guide
+
+---
+
+## �📋 Voraussetzungen
 
 - **Python:** Version 3.9 oder höher.
 - **Abhängigkeiten:** Installiere via `pip install -r requirements.txt`.
