@@ -256,6 +256,10 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
 
     last_correct = outcomes[-1] if outcomes else None
     questions_remaining = len(questions) - num_answered
+    
+    # WICHTIG: Keine Motivation anzeigen, wenn Test fertig ist (alle Fragen beantwortet)
+    if questions_remaining == 0:
+        return ""
 
     # Streak-Berechnung
     streak = 0

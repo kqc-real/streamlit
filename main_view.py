@@ -375,9 +375,17 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                             del st.session_state.last_answered_idx
                         st.rerun()
 
-        # --- Erklärung anzeigen ---
-        if st.session_state.get(f"show_explanation_{frage_idx}", False):
-            render_explanation(frage_obj, app_config, questions)
+    # --- Motivation anzeigen (AUSSERHALB des Fragen-Containers) ---
+    # Zeige die Motivation nur für die Frage, die gerade beantwortet wurde
+    if (is_answered and 
+        st.session_state.get("last_answered_idx") == frage_idx and
+        "last_motivation_message" in st.session_state and 
+        st.session_state.last_motivation_message):
+        st.markdown(st.session_state.last_motivation_message, unsafe_allow_html=True)
+    
+    # --- Erklärung anzeigen ---
+    if st.session_state.get(f"show_explanation_{frage_idx}", False):
+        render_explanation(frage_obj, app_config, questions)
 
 
 def handle_jump_to_unanswered_question(frage_idx: int):
@@ -431,11 +439,12 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
         st.toast("Leider falsch.", icon="❌")
 
-    # Generiere eine neue Motivationsnachricht und speichere sie für die Anzeige.
+    set_question_as_answered(frage_idx, punkte, antwort)
+    
+    # Generiere eine neue Motivationsnachricht NACH set_question_as_answered,
+    # damit questions_remaining korrekt berechnet wird (inkl. der gerade beantworteten Frage)
     from components import get_motivation_message
     st.session_state.last_motivation_message = get_motivation_message(questions, app_config)
-
-    set_question_as_answered(frage_idx, punkte, antwort)
 
     # Entferne die Frage aus der Liste der übersprungenen, falls sie dort war
     if "skipped_questions" in st.session_state and frage_idx in st.session_state.skipped_questions:
@@ -606,12 +615,6 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     disabled=not selected_feedback_types, use_container_width=True,
                     type="primary" if selected_feedback_types else "secondary"
                 )
-
-    # Zeige die Motivation nur einmalig nach der Antwort an, nicht bei jedem Rerun.
-    # Die Nachricht wird im Session State gespeichert, um stabil zu bleiben.
-    if "last_motivation_message" in st.session_state:
-        st.markdown(st.session_state.last_motivation_message, unsafe_allow_html=True)
-
 
     # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
     # im Sprung-Modus eine bereits beantwortete Frage reviewt.
