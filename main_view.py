@@ -665,14 +665,73 @@ def render_final_summary(questions: list, app_config: AppConfig):
             st.balloons()
             st.snow()
     
-    if prozent >= 100:
-        st.success("Exzellent! Du bist ein wahrer Meister.")
-    elif prozent >= 70:
-        st.success("Sehr gut gemacht!")
-    elif prozent >= 50:
-        st.info("Gut gemacht, die Grundlagen sitzen.")
-    else:
-        st.warning("Da ist noch Luft nach oben. Nutze den Review-Modus zum Lernen!")
+    # Feingranulare, abwechslungsreiche Feedback-Messages (8 Tiers)
+    import random
+    
+    if prozent == 100:  # Perfekt (100%)
+        messages = [
+            "🏆 Perfekt! 100% – Makellose Runde!",
+            "⚡ Fehlerlos! Absolute Elite-Leistung.",
+            "💎 Makellos! Alle Fragen richtig.",
+            "🌟 100%! Du bist ein wahrer Meister.",
+        ]
+        st.success(random.choice(messages))
+    elif prozent >= 90:  # Exzellent (90-99%)
+        messages = [
+            "🏅 Exzellent! Fast perfekte Quote.",
+            "✨ Hervorragend! Sehr starke Leistung.",
+            "🚀 Elite-Niveau! Beeindruckend konsistent.",
+            "🎯 Top-Ergebnis! Kaum Fehler.",
+        ]
+        st.success(random.choice(messages))
+    elif prozent >= 80:  # Sehr gut (80-89%)
+        messages = [
+            "✅ Sehr gut! Solide Top-Performance.",
+            "💪 Stark! Nur wenige Fehler.",
+            "👍 Überzeugende Leistung! Weiter so.",
+            "🎉 Sehr sauber! Qualität stimmt.",
+        ]
+        st.success(random.choice(messages))
+    elif prozent >= 70:  # Gut (70-79%)
+        messages = [
+            "📈 Gut gemacht! Stabile Quote.",
+            "✨ Ordentlich! Grundlagen sitzen.",
+            "💼 Solide Leistung! Noch Potenzial.",
+            "🔧 Gutes Ergebnis! Kleine Lücken schließbar.",
+        ]
+        st.info(random.choice(messages))
+    elif prozent >= 60:  # Befriedigend (60-69%)
+        messages = [
+            "📚 Befriedigend. Basis vorhanden, Vertiefung lohnt.",
+            "🌱 Okay. Kernthemen nochmal durchgehen.",
+            "🔍 Durchschnitt. Review-Modus hilft dir weiter.",
+            "💡 Mittelfeld. Mit Übung wird's besser.",
+        ]
+        st.info(random.choice(messages))
+    elif prozent >= 50:  # Ausreichend (50-59%)
+        messages = [
+            "⚠️ Ausreichend. Deutlicher Nachholbedarf.",
+            "📖 Knapp bestanden. Erklärungen nutzen!",
+            "🎯 50-59%. Themen gezielt wiederholen.",
+            "🔄 Schwankend. Review zeigt Schwächen auf.",
+        ]
+        st.warning(random.choice(messages))
+    elif prozent >= 40:  # Mangelhaft (40-49%)
+        messages = [
+            "⛔ Mangelhaft. Grundlagen fehlen noch.",
+            "📕 Unter 50%. Intensive Wiederholung nötig.",
+            "🚨 Lücken groß. Review-Modus ist Pflicht.",
+            "🔴 Viele Fehler. Stoff nochmal durcharbeiten.",
+        ]
+        st.warning(random.choice(messages))
+    else:  # Ungenügend (<40%)
+        messages = [
+            "❌ Ungenügend. Stoff von Grund auf lernen.",
+            "📚 Unter 40%. Systematisch neu starten.",
+            "🆘 Große Wissenslücken. Hilfe holen!",
+            "⚠️ Sehr schwach. Review zeigt alle Fehler.",
+        ]
+        st.error(random.choice(messages))
 
     # --- Performance-Analyse pro Thema ---
     st.subheader("Deine Leistung nach Themen")
