@@ -156,6 +156,18 @@ def main():
     
     # Priorität 1: Admin-Panel anzeigen
     if st.session_state.get("show_admin_panel", False) and is_admin:
+        # Phase 2: Server-side Session Validation
+        from session_manager import verify_admin_session
+        admin_token = st.session_state.get("admin_session_token")
+        user_id = st.session_state.get("user_id", "")
+        
+        if not verify_admin_session(admin_token, user_id):
+            st.error("⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen.")
+            st.session_state.show_admin_panel = False
+            if "admin_session_token" in st.session_state:
+                del st.session_state["admin_session_token"]
+            st.rerun()
+        
         render_admin_panel(app_config, questions)
     # Priorität 2: Eine spezifische Frage anzeigen (entweder die nächste oder ein Sprungziel)
     elif current_idx is not None:

@@ -109,6 +109,11 @@ def render_admin_switch(app_config: AppConfig):
                 entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
                 if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
                     if check_admin_key(entered_key, app_config):
+                        # --- 🔒 PHASE 2: Server-seitige Session-Validierung ---
+                        from session_manager import create_admin_session
+                        user_id = st.session_state.get("user_id", "")
+                        admin_token = create_admin_session(user_id, entered_key)
+                        st.session_state.admin_session_token = admin_token
                         st.session_state.show_admin_panel = True
                         st.rerun()
                     else:
