@@ -629,6 +629,569 @@ Die App unterstützt zwei Engines zur Fragengenerierung:
 
 ---
 
+## 🎛️ Modell-Management-UI (Optional, Phase 2)
+
+### Motivation
+
+**Problem:** Manuelle Modell-Installation via SSH ist für Nicht-Techniker umständlich.
+
+**Lösung:** Modell-Management direkt im Admin-Panel mit UI.
+
+### Funktionsumfang
+
+1. **Installierte Modelle anzeigen** — Liste mit Name, Größe, Datum
+2. **Empfohlene Modelle pullen** — Dropdown + Download-Button mit Progress
+3. **Modelle löschen** — Disk-Space freigeben
+4. **Modell-Auswahl beim Generieren** — Dynamische Liste
+
+### API-Endpoints (Ollama)
+
+#### Installierte Modelle auflisten
+
+```bash
+GET http://localhost:11434/api/tags
+```
+
+**Response:**
+```json
+{
+  "models": [
+    {
+      "name": "qwen2-math:7b-instruct",
+      "size": 4700000000,
+      "modified_at": "2025-10-08T10:23:45Z"
+    },
+    {
+      "name": "deepseek-r1:14b",
+      "size": 8000000000,
+      "modified_at": "2025-10-07T14:12:30Z"
+    }
+  ]
+}
+```
+
+#### Modell pullen
+
+```bash
+POST http://localhost:11434/api/pull
+Content-Type: application/json
+
+{
+  "name": "qwen2-math:7b-instruct",
+  "stream": true
+}
+```
+
+**Response (Streaming):**
+```json
+{"status":"pulling manifest"}
+{"status":"downloading","completed":104857600,"total":4700000000}
+{"status":"downloading","completed":209715200,"total":4700000000}
+...
+{"status":"verifying sha256 digest"}
+{"status":"success"}
+```
+
+#### Modell löschen
+
+```bash
+DELETE http://localhost:11434/api/delete
+Content-Type: application/json
+
+{
+  "name": "qwen2-math:7b-instruct"
+}
+```
+
+### UI-Implementation
+
+#### Tab "🔧 Modell-Verwaltung"
+
+```python
+# admin_panel.py
+def show_model_management():
+    st.header("🔧 Modell-Verwaltung")
+    
+    # Server-Status
+    server_url = st.secrets.get("DEEPSEEK_R1_URL", "http://localhost:11434")
+    
+    try:
+        health = requests.get(f"{server_url}/api/tags", timeout=5)
+        if health.status_code != 200:
+            st.error("❌ Ollama-Server nicht erreichbar")
+            return
+    except:
+        st.error("❌ Verbindung zu Ollama fehlgeschlagen")
+        return
+    
+    # Tabs
+    tab1, tab2, tab3 = st.tabs(["📦 Installierte Modelle", "📥 Neues Modell", "ℹ️ Modell-Info"])
+    
+    with tab1:
+        show_installed_models(server_url)
+    
+    with tab2:
+        show_model_installer(server_url)
+    
+    with tab3:
+        show_model_recommendations()
+```
+
+#### Tab 1: Installierte Modelle
+
+```python
+def show_installed_models(server_url: str):
+    """Zeigt Liste aller installierten Modelle"""
+    
+    response = requests.get(f"{server_url}/api/tags")
+    models = response.json()["models"]
+    
+    if not models:
+        st.info("ℹ️ Keine Modelle installiert. Installiere ein Modell im Tab 'Neues Modell'.")
+        return
+    
+    # Tabelle
+    st.subheader(f"📦 {len(models)} Modell(e) installiert")
+    
+    for model in models:
+        col1, col2, col3, col4 = st.columns([3, 1, 2, 1])
+        
+        with col1:
+            st.text(model["name"])
+        
+        with col2:
+            size_gb = model["size"] / 1e9
+            st.text(f"{size_gb:.1f} GB")
+        
+        with col3:
+            modified = model["modified_at"][:10]
+            st.text(modified)
+        
+        with col4:
+            if st.button("🗑️", key=f"delete_{model['name']}"):
+                delete_model(server_url, model["name"])
+    
+    # Disk-Usage Warnung
+    total_size = sum(m["size"] for m in models) / 1e9
+    if total_size > 50:
+        st.warning(f"⚠️ Total: {total_size:.1f} GB. Erwäge Löschen ungenutzter Modelle.")
+    else:
+        st.success(f"✅ Total: {total_size:.1f} GB Disk-Space")
+
+def delete_model(server_url: str, model_name: str):
+    """Löscht ein Modell"""
+    with st.spinner(f"Lösche {model_name}..."):
+        try:
+            response = requests.delete(
+                f"{server_url}/api/delete",
+                json={"name": model_name},
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                st.success(f"✅ {model_name} gelöscht")
+                st.rerun()
+            else:
+                st.error(f"❌ Fehler: {response.text}")
+        except Exception as e:
+            st.error(f"❌ Fehler beim Löschen: {e}")
+```
+
+#### Tab 2: Neues Modell installieren
+
+```python
+def show_model_installer(server_url: str):
+    """UI zum Pullen neuer Modelle"""
+    
+    st.subheader("📥 Neues Modell installieren")
+    
+    # Empfohlene Modelle
+    RECOMMENDED_MODELS = {
+        "Mathematik": [
+            ("qwen2-math:7b-instruct", "4.7 GB", "Spezialisiert auf Mathematik & LaTeX"),
+            ("qwen2-math:1.5b-instruct", "1.0 GB", "Leichtgewicht, schnell, Mathe-fokussiert"),
+        ],
+        "Allgemein": [
+            ("deepseek-r1:7b", "4.5 GB", "Gut für allgemeine Themen, schnell"),
+            ("deepseek-r1:14b", "8.0 GB", "Bessere Qualität, langsamer"),
+            ("llama3.1:8b", "4.7 GB", "Solide Allzweck-Modell"),
+        ],
+        "Fortgeschritten": [
+            ("deepseek-r1:32b", "18 GB", "Hohe Qualität, benötigt 32GB VRAM"),
+            ("deepseek-r1:70b", "40 GB", "Beste Qualität, benötigt 80GB VRAM"),
+        ]
+    }
+    
+    category = st.selectbox("Kategorie", list(RECOMMENDED_MODELS.keys()))
+    
+    model_options = RECOMMENDED_MODELS[category]
+    model_labels = [f"{m[0]} ({m[1]}) — {m[2]}" for m in model_options]
+    
+    selected = st.selectbox("Modell wählen", model_labels)
+    model_name = selected.split(" ")[0]  # Extract "qwen2-math:7b-instruct"
+    
+    # Custom Input
+    st.markdown("---")
+    custom_mode = st.checkbox("Eigenes Modell (für Experten)")
+    if custom_mode:
+        model_name = st.text_input(
+            "Modell-Name",
+            "user/custom-model",
+            help="Format: owner/model:tag oder model:tag"
+        )
+    
+    # Info-Box
+    st.info(f"""
+    **Hinweise:**
+    - Download dauert 5-20 Minuten (abhängig von Modellgröße)
+    - Streamlit-Session muss geöffnet bleiben
+    - Prüfe vorher Disk-Space (freier Platz > Modellgröße)
+    """)
+    
+    # Install-Button
+    if st.button("📥 Modell installieren", type="primary"):
+        pull_model_with_progress(server_url, model_name)
+
+def pull_model_with_progress(server_url: str, model_name: str):
+    """Pullt Modell mit Live-Progress-Bar"""
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        response = requests.post(
+            f"{server_url}/api/pull",
+            json={"name": model_name, "stream": True},
+            stream=True,
+            timeout=1800  # 30 Min
+        )
+        
+        total_size = None
+        
+        for line in response.iter_lines():
+            if not line:
+                continue
+            
+            try:
+                data = json.loads(line)
+                status = data.get("status", "")
+                
+                if status == "pulling manifest":
+                    status_text.text("🔍 Lade Modell-Informationen...")
+                
+                elif status == "downloading":
+                    completed = data.get("completed", 0)
+                    total = data.get("total", 1)
+                    
+                    if total_size is None:
+                        total_size = total
+                    
+                    progress = completed / total if total > 0 else 0
+                    progress_bar.progress(progress)
+                    
+                    status_text.text(
+                        f"⏬ Download: {completed/1e9:.2f} GB / {total/1e9:.2f} GB ({progress*100:.1f}%)"
+                    )
+                
+                elif status == "verifying sha256 digest":
+                    progress_bar.progress(0.95)
+                    status_text.text("🔐 Verifiziere Integrität...")
+                
+                elif status == "success":
+                    progress_bar.progress(1.0)
+                    status_text.empty()
+                    st.success(f"✅ Modell **{model_name}** erfolgreich installiert!")
+                    st.balloons()
+                    
+                    # Refresh nach 2 Sekunden
+                    time.sleep(2)
+                    st.rerun()
+                    break
+                
+                elif "error" in status.lower():
+                    st.error(f"❌ Fehler: {data.get('error', 'Unbekannter Fehler')}")
+                    break
+            
+            except json.JSONDecodeError:
+                continue
+    
+    except requests.exceptions.Timeout:
+        st.error("❌ Timeout nach 30 Minuten. Modell zu groß oder Server überlastet?")
+    
+    except Exception as e:
+        st.error(f"❌ Fehler beim Pullen: {e}")
+```
+
+#### Tab 3: Modell-Empfehlungen
+
+```python
+def show_model_recommendations():
+    """Zeigt Hilfe zur Modell-Auswahl"""
+    
+    st.subheader("ℹ️ Welches Modell für welchen Zweck?")
+    
+    st.markdown("""
+    ### 🎯 Empfehlungen nach Thema
+    
+    #### Mathematik, Physik, Formeln
+    - **qwen2-math:7b-instruct** ⭐ Beste Wahl
+      - Spezialisiert auf mathematische Inhalte
+      - Exzellente LaTeX-Syntax
+      - 4.7 GB, benötigt 8 GB VRAM
+    
+    #### BWL, Geschichte, Sprachen
+    - **deepseek-r1:14b** ⭐ Empfohlen
+      - Gutes Allgemeinwissen
+      - Bessere Reasoning-Fähigkeiten
+      - 8 GB, benötigt 16 GB VRAM
+    
+    #### Schnelle Drafts, Experimente
+    - **deepseek-r1:7b** oder **qwen2-math:1.5b**
+      - Schnellere Generierung (30-60 Sek)
+      - Geringere Qualität, gut für Entwürfe
+      - 1-4.5 GB, benötigt 4-8 GB VRAM
+    
+    ### 📊 Hardware-Anforderungen
+    
+    | Modell | VRAM | Geschwindigkeit | Qualität |
+    |--------|------|-----------------|----------|
+    | qwen2-math:1.5b | 4 GB | ⚡⚡⚡ Sehr schnell | 6.5/10 |
+    | deepseek-r1:7b | 8 GB | ⚡⚡ Schnell | 7/10 |
+    | qwen2-math:7b | 8 GB | ⚡⚡ Schnell | 7.5/10 (Mathe) |
+    | deepseek-r1:14b | 16 GB | ⚡ Mittel | 7.5/10 |
+    | deepseek-r1:32b | 32 GB | 🐌 Langsam | 8/10 |
+    | deepseek-r1:70b | 80 GB | 🐌🐌 Sehr langsam | 8.5/10 |
+    
+    ### 💡 Pro-Tipps
+    
+    - **Kombiniere Modelle:** Nutze qwen2-math für Mathe, deepseek-r1 für Rest
+    - **Start klein:** Beginne mit 7B-Modellen, upgrade bei Bedarf
+    - **Disk-Space:** Rechne mit ~2x Modellgröße für Download-Cache
+    - **RAM:** Benötigt ~2x VRAM als System-RAM (z.B. 16 GB VRAM → 32 GB RAM)
+    """)
+```
+
+#### Dynamische Modell-Auswahl im Generator
+
+```python
+# Im Generator-Tab
+def show_question_generator():
+    # ... Thema, Anzahl, etc.
+    
+    # Hole installierte Modelle
+    try:
+        response = requests.get(f"{st.secrets['DEEPSEEK_R1_URL']}/api/tags")
+        models = response.json()["models"]
+        model_names = [m["name"] for m in models]
+    except:
+        st.warning("⚠️ Konnte Modelle nicht laden. Verwende Standard.")
+        model_names = ["deepseek-r1:14b"]
+    
+    # Modell-Auswahl
+    selected_model = st.selectbox(
+        "Modell",
+        model_names,
+        help="Tipp: qwen2-math für Mathematik, deepseek-r1 für allgemeine Themen"
+    )
+    
+    if st.button("Generieren"):
+        questions = generate_questions_deepseek(
+            thema=thema,
+            anzahl=anzahl,
+            model=selected_model  # ← Dynamisch
+        )
+```
+
+### Herausforderungen & Lösungen
+
+#### Problem 1: Streamlit-Session-Timeout
+
+**Symptom:** Download >10 Min → Session expired → Progress verloren
+
+**Lösung A: Background-Task (Threading)**
+
+```python
+import threading
+import sqlite3
+
+# Speichere Status in DB
+def pull_model_background(server_url: str, model_name: str, task_id: str):
+    """Läuft im Hintergrund, unabhängig von Session"""
+    
+    conn = sqlite3.connect("data/mc_test_data.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS model_pulls (
+            task_id TEXT PRIMARY KEY,
+            model_name TEXT,
+            status TEXT,
+            progress REAL,
+            error TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    
+    cursor.execute(
+        "INSERT INTO model_pulls VALUES (?, ?, 'running', 0, NULL, CURRENT_TIMESTAMP)",
+        [task_id, model_name]
+    )
+    conn.commit()
+    
+    try:
+        response = requests.post(
+            f"{server_url}/api/pull",
+            json={"name": model_name, "stream": True},
+            stream=True,
+            timeout=1800
+        )
+        
+        for line in response.iter_lines():
+            if line:
+                data = json.loads(line)
+                
+                if data.get("status") == "downloading":
+                    progress = data.get("completed", 0) / data.get("total", 1)
+                    cursor.execute(
+                        "UPDATE model_pulls SET progress = ? WHERE task_id = ?",
+                        [progress, task_id]
+                    )
+                    conn.commit()
+                
+                elif data.get("status") == "success":
+                    cursor.execute(
+                        "UPDATE model_pulls SET status = 'success', progress = 1.0 WHERE task_id = ?",
+                        [task_id]
+                    )
+                    conn.commit()
+                    break
+    
+    except Exception as e:
+        cursor.execute(
+            "UPDATE model_pulls SET status = 'error', error = ? WHERE task_id = ?",
+            [str(e), task_id]
+        )
+        conn.commit()
+    
+    finally:
+        conn.close()
+
+# In UI
+if st.button("📥 Im Hintergrund installieren"):
+    task_id = f"{model_name}_{int(time.time())}"
+    
+    thread = threading.Thread(
+        target=pull_model_background,
+        args=[server_url, model_name, task_id]
+    )
+    thread.daemon = True
+    thread.start()
+    
+    st.success(f"✅ Installation gestartet (Task ID: {task_id})")
+    st.info("ℹ️ Prüfe Status im Tab 'Installierte Modelle' in 10-15 Minuten.")
+
+# Status-Abfrage
+with st.expander("🔍 Laufende Installationen"):
+    conn = sqlite3.connect("data/mc_test_data.db")
+    df = pd.read_sql("SELECT * FROM model_pulls WHERE status = 'running' ORDER BY timestamp DESC", conn)
+    
+    if len(df) > 0:
+        st.dataframe(df)
+    else:
+        st.info("Keine laufenden Installationen")
+    
+    conn.close()
+```
+
+**Lösung B: Kleinere Modelle bevorzugen**
+
+```python
+# Warnung bei großen Modellen
+if "70b" in model_name or "32b" in model_name:
+    st.warning("""
+    ⚠️ **Großes Modell (>20 GB)**
+    
+    Download dauert >20 Minuten. Empfehlung:
+    - Nutze SSH: `ollama pull {model_name}`
+    - Oder installiere im Hintergrund (oben)
+    """)
+```
+
+#### Problem 2: Disk-Space-Überwachung
+
+```python
+import shutil
+
+def check_disk_space(required_gb: float) -> Tuple[bool, str]:
+    """Prüft ob genug Disk-Space verfügbar"""
+    
+    stat = shutil.disk_usage("/")
+    free_gb = stat.free / 1e9
+    
+    if free_gb < required_gb * 1.5:  # 50% Buffer
+        return False, f"Zu wenig Speicher: {free_gb:.1f} GB frei, {required_gb*1.5:.1f} GB benötigt"
+    
+    return True, f"{free_gb:.1f} GB frei"
+
+# Vor Pull prüfen
+model_size = 4.7  # GB (aus Modell-Info)
+ok, msg = check_disk_space(model_size)
+
+if ok:
+    st.success(f"✅ {msg}")
+else:
+    st.error(f"❌ {msg}")
+    st.stop()
+```
+
+### Aufwandsschätzung
+
+| Task | Aufwand | Komplexität |
+|------|---------|-------------|
+| API-Integration (List/Pull/Delete) | 2h | Niedrig |
+| UI Tab 1: Installierte Modelle | 1h | Niedrig |
+| UI Tab 2: Modell-Installer + Progress | 3h | Mittel |
+| UI Tab 3: Empfehlungen | 1h | Niedrig |
+| Background-Task (Threading) | 2h | Hoch |
+| Disk-Space-Checks | 1h | Niedrig |
+| Testing | 2h | Mittel |
+| Dokumentation | 1h | Niedrig |
+| **Total** | **13h** | **Mittel** |
+
+### Rollout-Strategie
+
+**Phase 1 (jetzt):** Manuelle Installation via SSH
+```bash
+ollama pull qwen2-math:7b-instruct
+ollama pull deepseek-r1:14b
+```
+
+**Phase 2 (Monat 2):** Nur Tab 1 (Installierte Modelle anzeigen)
+- Aufwand: 3h
+- Nutzen: Transparenz, Admin sieht was installiert ist
+
+**Phase 3 (Monat 3-4):** Volle UI (Pull + Delete + Background)
+- Aufwand: 10h
+- Nutzen: Vollständig self-service, kein SSH nötig
+
+### Empfehlung
+
+**Kurzfristig (jetzt):**
+- ❌ Modell-Management-UI **nicht** implementieren
+- ✅ Manuell 2-3 Modelle installieren
+- ✅ Dropdown im Generator mit fest konfigurierten Modellen
+
+**Mittelfristig (bei Bedarf):**
+- ✅ Tab 1: Installierte Modelle anzeigen (3h, einfach)
+- ⚠️ Tab 2: Modell-Pulling nur bei dringenden Bedarf (10h, komplex)
+
+**Begründung:**
+- Modell-Pulling ist selten (1-2x pro Monat)
+- 13h Aufwand vs. 2-Min SSH-Befehl nicht wirtschaftlich
+- Fokus auf Kern-Feature: Fragengenerierung
+
+---
+
 ## ✅ Qualitätsvergleich
 
 ### Testmethodik
