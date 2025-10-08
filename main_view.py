@@ -777,22 +777,48 @@ def render_final_summary(questions: list, app_config: AppConfig):
     q_file_name = st.session_state.get("selected_questions_file", "")
     anzahl_fragen = len(questions)
     # Dank Parallelverarbeitung und Caching: ca. 3-5 Sekunden pro Frage
-    # Bei 20 Fragen: ~1-2 Minuten statt 10+ Minuten
-    geschaetzte_dauer = max(1, round(anzahl_fragen * 0.05))  # 3 Sek pro Frage
+    # Prüfe ob Formeln vorhanden sind (KaTeX: $ oder $$)
+    def has_formulas(questions):
+        """Prüft ob Fragen KaTeX-Formeln enthalten."""
+        import re
+        formula_pattern = r'\$\$.*?\$\$|\$.*?\$'
+        
+        for q in questions:
+            # Prüfe Frage-Text
+            if re.search(formula_pattern, q.get("frage", "")):
+                return True
+            # Prüfe Optionen
+            for opt in q.get("optionen", []):
+                if re.search(formula_pattern, opt):
+                    return True
+            # Prüfe Erklärung
+            if re.search(formula_pattern, q.get("erklaerung", "")):
+                return True
+        return False
     
-    st.warning(
-        f"⏱️ **Hinweis zur Druckvorbereitung:** "
-        f"Mathematische Fragensets werden online verarbeitet. "
-        f"Bei {anzahl_fragen} Fragen dauert dies etwa "
-        f"{geschaetzte_dauer} Minute{'n' if geschaetzte_dauer != 1 else ''}."
-    )
+    has_math = has_formulas(questions)
+    
+    # Warnung nur wenn Formeln vorhanden
+    if has_math:
+        geschaetzte_dauer = max(1, round(anzahl_fragen * 0.05))  # 3 Sek pro Frage
+        st.warning(
+            f"⏱️ **Hinweis zur Druckvorbereitung:** "
+            f"Mathematische Formeln werden online verarbeitet. "
+            f"Bei {anzahl_fragen} Fragen dauert dies etwa "
+            f"{geschaetzte_dauer} Minute{'n' if geschaetzte_dauer != 1 else ''}."
+        )
     
     # Button zum Generieren
     if st.button("📥 PDF jetzt generieren", type="primary", use_container_width=True):
         from pdf_export import generate_pdf_report
         
-        # Fortschrittsanzeige
-        with st.spinner(f"⏳ Formeln werden konvertiert... Bitte warten ({anzahl_fragen} Fragen)"):
+        # Fortschrittsanzeige passend zum Inhalt
+        spinner_text = (
+            f"⏳ Formeln werden konvertiert... Bitte warten ({anzahl_fragen} Fragen)"
+            if has_math
+            else f"⏳ PDF wird erstellt... ({anzahl_fragen} Fragen)"
+        )
+        with st.spinner(spinner_text):
             try:
                 # Generiere die PDF-Daten im Speicher
                 pdf_bytes = generate_pdf_report(questions, app_config)
