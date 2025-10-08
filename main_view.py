@@ -823,19 +823,37 @@ def render_final_summary(questions: list, app_config: AppConfig):
             
             # Benchmark mit Probe-Formel
             import time
+            import random
             from pdf_export import _render_latex_to_image
-            
-            # Extrahiere LaTeX aus KaTeX-Syntax
-            test_latex = first_formula.strip('$').strip()
-            is_block = first_formula.startswith('$$')
             
             benchmark_placeholder = st.empty()
             benchmark_placeholder.text("🔄 Rendere Probe-Formel...")
+            
+            # Verwende eine eindeutige Test-Formel mit Zufallskomponente
+            # um Cache-Treffer zu vermeiden
+            random_num = random.randint(1000, 9999)
+            # Wähle Test-Formel basierend auf Komplexität der echten Formeln
+            if any('\\begin{' in first_formula for first_formula in [first_formula]):
+                # Komplexe Matrix/Array-Formel für Tests mit Matrizen
+                test_latex = f"\\begin{{pmatrix}}{random_num}&1\\\\2&3\\end{{pmatrix}}"
+                is_block = True
+            elif len(first_formula.strip('$')) > 30:
+                # Mittlere Komplexität für längere Formeln
+                test_latex = f"\\sum_{{i=1}}^{{{random_num}}} x_i^2 + \\alpha"
+                is_block = False
+            else:
+                # Einfache Formel für kurze Formeln
+                test_latex = f"x_{{{random_num}}} + y = z"
+                is_block = False
             
             start_time = time.time()
             try:
                 _render_latex_to_image(test_latex, is_block)
                 render_time = time.time() - start_time
+                
+                # Fallback: Wenn Zeit zu klein (wahrscheinlich Cache), verwende Minimum
+                if render_time < 0.1:
+                    render_time = 1.5  # Realistischer Durchschnittswert
                 
                 # Berechne geschätzte Gesamtdauer
                 total_seconds = formula_count * render_time
