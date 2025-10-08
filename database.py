@@ -611,12 +611,13 @@ def get_dashboard_statistics():
         
         # Durchschnittliche Testdauer
         # Berechne aus Zeitdifferenz zwischen erster und letzter Antwort pro Session
+        # WICHTIG: JULIANDAY() für korrekte Zeitdifferenz in SQLite (TIMESTAMP als TEXT)
         cursor.execute("""
             SELECT AVG(duration) as avg_duration
             FROM (
                 SELECT 
                     s.session_id,
-                    (MAX(a.timestamp) - MIN(a.timestamp)) as duration
+                    CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(MIN(a.timestamp))) * 24 * 60 * 60 AS INTEGER) as duration
                 FROM test_sessions s
                 INNER JOIN answers a ON s.session_id = a.session_id
                 GROUP BY s.session_id
@@ -624,7 +625,7 @@ def get_dashboard_statistics():
             )
         """)
         result = cursor.fetchone()
-        # SQLite gibt Zeitdifferenz in Sekunden zurück (TIMESTAMP ist INTEGER)
+        # SQLite JULIANDAY() gibt Tage zurück, konvertiert zu Sekunden
         stats['avg_duration'] = int(result['avg_duration']) if result['avg_duration'] else 0
         
         # "Abschlussquote": Sessions mit Antworten vs. alle Sessions
