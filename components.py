@@ -98,7 +98,9 @@ def render_admin_switch(app_config: AppConfig):
     else:
         # Wenn kein Admin-Key konfiguriert ist, erlaube direkten Zugang (für lokale Tests)
         if not app_config.admin_key:
-            if st.sidebar.button("📊 Admin-Panel öffnen", use_container_width=True, type="primary"):
+            st.sidebar.warning("⚠️ **Admin-Key nicht gesetzt!**\n\nNur für lokale Entwicklung geeignet. "
+                             "Für Produktion bitte `MC_TEST_ADMIN_KEY` setzen.")
+            if st.sidebar.button("📊 Admin-Panel öffnen (UNSICHER)", use_container_width=True, type="secondary"):
                 st.session_state.show_admin_panel = True
                 st.rerun()
         else:

@@ -114,13 +114,27 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             if user_to_reset:
                 user_name_plain = user_to_reset.split(" ", 1)[-1]
                 st.warning(f"**Achtung:** Alle Ergebnisse von **{user_name_plain}** für das Fragenset **{title}** werden unwiderruflich gelöscht.")
+                
+                # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
+                from auth import check_admin_key
+                reauth_key = st.text_input(
+                    "Admin-Key zur Bestätigung:",
+                    type="password",
+                    key=f"delete_reauth_{q_file}",
+                    help="Zur Sicherheit muss der Admin-Key erneut eingegeben werden."
+                )
+                
                 if st.checkbox("Ja, ich bin sicher.", key=f"reset_confirm_{q_file}"):
                     if st.button("Ergebnisse jetzt löschen", type="primary", key=f"reset_btn_{q_file}"):
-                        if delete_user_results_for_qset(user_name_plain, q_file):
-                            st.success(f"Die Ergebnisse von {user_name_plain} wurden zurückgesetzt.")
-                            st.rerun()
+                        # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
+                        if not app_config.admin_key or check_admin_key(reauth_key, app_config):
+                            if delete_user_results_for_qset(user_name_plain, q_file):
+                                st.success(f"✅ Die Ergebnisse von {user_name_plain} wurden zurückgesetzt.")
+                                st.rerun()
+                            else:
+                                st.error("❌ Fehler beim Zurücksetzen der Ergebnisse.")
                         else:
-                            st.error("Fehler beim Zurücksetzen der Ergebnisse.")
+                            st.error("🔒 Falscher Admin-Key. Löschung abgebrochen.")
         st.divider()
 
 
