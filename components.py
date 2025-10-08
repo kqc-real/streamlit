@@ -108,15 +108,46 @@ def render_admin_switch(app_config: AppConfig):
             with st.sidebar.expander("🔐 Admin Panel"):
                 entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
                 if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
+                    # --- 🔒 PHASE 3: Rate-Limiting ---
+                    from audit_log import (
+                        check_rate_limit, 
+                        log_login_attempt, 
+                        reset_login_attempts,
+                        log_admin_action
+                    )
+                    
+                    user_id = st.session_state.get("user_id", "")
+                    
+                    # Prüfe Rate-Limit
+                    is_allowed, locked_until = check_rate_limit(user_id)
+                    if not is_allowed:
+                        st.error(f"⛔ Zu viele fehlgeschlagene Versuche!\n\n"
+                                f"Gesperrt bis: {locked_until}")
+                        log_admin_action(user_id, "LOGIN_BLOCKED", 
+                                       f"Rate limit exceeded until {locked_until}",
+                                       success=False)
+                        return
+                    
                     if check_admin_key(entered_key, app_config):
                         # --- 🔒 PHASE 2: Server-seitige Session-Validierung ---
                         from session_manager import create_admin_session
-                        user_id = st.session_state.get("user_id", "")
                         admin_token = create_admin_session(user_id, entered_key)
                         st.session_state.admin_session_token = admin_token
                         st.session_state.show_admin_panel = True
+                        
+                        # --- 🔒 PHASE 3: Logging ---
+                        log_login_attempt(user_id, success=True)
+                        reset_login_attempts(user_id)
+                        log_admin_action(user_id, "ADMIN_LOGIN", 
+                                       "Successful admin panel login",
+                                       success=True)
                         st.rerun()
                     else:
+                        # --- 🔒 PHASE 3: Failed Login Logging ---
+                        log_login_attempt(user_id, success=False)
+                        log_admin_action(user_id, "LOGIN_FAILED", 
+                                       "Wrong admin key provided",
+                                       success=False)
                         st.error("Falscher Key.")
 
 

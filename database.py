@@ -101,6 +101,43 @@ def create_tables():
                     FOREIGN KEY (session_id) REFERENCES test_sessions (session_id)
                 );
             """)
+            
+            # Tabelle für Audit-Log (Phase 3: Security)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS admin_audit_log (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp TEXT NOT NULL,
+                    user_id TEXT NOT NULL,
+                    action TEXT NOT NULL,
+                    details TEXT,
+                    ip_address TEXT,
+                    success BOOLEAN NOT NULL DEFAULT 1
+                );
+            """)
+            
+            # Tabelle für Login-Versuche (Rate-Limiting)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS admin_login_attempts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id TEXT NOT NULL,
+                    timestamp TEXT NOT NULL,
+                    success BOOLEAN NOT NULL,
+                    ip_address TEXT,
+                    locked_until TEXT
+                );
+            """)
+            
+            # Index für schnellere Audit-Log-Abfragen
+            conn.execute("""
+                CREATE INDEX IF NOT EXISTS idx_audit_timestamp 
+                ON admin_audit_log(timestamp DESC);
+            """)
+            
+            # Index für Login-Attempts Cleanup
+            conn.execute("""
+                CREATE INDEX IF NOT EXISTS idx_login_attempts_user 
+                ON admin_login_attempts(user_id, timestamp DESC);
+            """)
 
             # Tabelle für Lesezeichen (Bookmarks)
             conn.execute("""

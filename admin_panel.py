@@ -29,7 +29,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     if q_file and "questions_file" in df_all_logs.columns:
         df_filtered_logs = df_all_logs[df_all_logs["questions_file"] == q_file].copy()
 
-    tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📢 Feedback", "📤 Export", "⚙️ System"])
+    tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📢 Feedback", "📤 Export", "⚙️ System", "🔒 Audit-Log"])
 
     with tabs[0]:
         # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben
@@ -42,6 +42,8 @@ def render_admin_panel(app_config: AppConfig, questions: list):
         render_export_tab(df_filtered_logs, app_config)
     with tabs[4]:
         render_system_tab(app_config, df_filtered_logs)
+    with tabs[5]:
+        render_audit_log_tab()
 
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
@@ -129,6 +131,15 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                         # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
                         if not app_config.admin_key or check_admin_key(reauth_key, app_config):
                             if delete_user_results_for_qset(user_name_plain, q_file):
+                                # --- 🔒 PHASE 3: Audit-Logging ---
+                                from audit_log import log_admin_action
+                                admin_user = st.session_state.get("user_id", "Unknown")
+                                log_admin_action(
+                                    admin_user, 
+                                    "DELETE_USER_RESULTS",
+                                    f"Deleted results: user={user_name_plain}, qset={q_file}",
+                                    success=True
+                                )
                                 st.success(f"✅ Die Ergebnisse von {user_name_plain} wurden zurückgesetzt.")
                                 st.rerun()
                             else:
@@ -537,6 +548,15 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 if not app_config.admin_key or check_admin_key(reauth_key_global, app_config):
                     from database import reset_all_test_data
                     if reset_all_test_data():
+                        # --- 🔒 PHASE 3: Audit-Logging ---
+                        from audit_log import log_admin_action
+                        admin_user = st.session_state.get("user_id", "Unknown")
+                        log_admin_action(
+                            admin_user,
+                            "GLOBAL_DELETE_ALL_DATA",
+                            "All test data deleted (CRITICAL ACTION)",
+                            success=True
+                        )
                         st.success("✅ Alle Testdaten wurden zurückgesetzt.")
                         # Session-State aller Nutzer invalidieren (gute Praxis)
                         for key in list(st.session_state.keys()):
@@ -546,3 +566,152 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                         st.error("❌ Löschen fehlgeschlagen. Überprüfe die Server-Logs.")
                 else:
                     st.error("🔒 Falscher Admin-Key. Globales Löschen abgebrochen.")
+
+
+def render_audit_log_tab():
+    """Rendert den Audit-Log-Tab mit Filterung und Export."""
+    from audit_log import (
+        get_audit_log, 
+        export_audit_log_csv, 
+        get_audit_statistics,
+        cleanup_old_audit_logs
+    )
+    
+    st.header("🔒 Audit-Log")
+    st.caption("Protokollierung aller Admin-Aktionen für Sicherheit und Compliance")
+    
+    # --- Statistiken ---
+    stats = get_audit_statistics()
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Gesamt-Einträge", stats["total"])
+    with col2:
+        st.metric("Erfolgreich", stats["successful"], 
+                 delta=None if stats["total"] == 0 
+                 else f"{stats['successful']/stats['total']*100:.1f}%")
+    with col3:
+        st.metric("Fehlgeschlagen", stats["failed"],
+                 delta=None if stats["total"] == 0
+                 else f"{stats['failed']/stats['total']*100:.1f}%")
+    
+    st.divider()
+    
+    # --- Filter ---
+    st.subheader("Filter")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        limit = st.number_input("Anzahl Einträge", 
+                               min_value=10, max_value=1000, value=100, step=10)
+    
+    with col2:
+        # User-Filter (aus Statistik)
+        user_options = ["Alle"] + [u["user_id"] for u in stats["top_users"]]
+        selected_user = st.selectbox("Benutzer", user_options)
+        user_filter = None if selected_user == "Alle" else selected_user
+    
+    with col3:
+        # Action-Filter
+        action_options = ["Alle"] + [a["action"] for a in stats["actions"]]
+        selected_action = st.selectbox("Aktion", action_options)
+        action_filter = None if selected_action == "Alle" else selected_action
+    
+    # Success-Filter
+    success_options = {"Alle": None, "Nur Erfolgreiche": True, "Nur Fehlgeschlagene": False}
+    selected_success = st.radio("Status", list(success_options.keys()), horizontal=True)
+    success_filter = success_options[selected_success]
+    
+    st.divider()
+    
+    # --- Audit-Log abrufen ---
+    logs = get_audit_log(
+        limit=limit,
+        user_id=user_filter,
+        action=action_filter,
+        success_only=success_filter
+    )
+    
+    if not logs:
+        st.info("📭 Keine Audit-Log-Einträge gefunden.")
+        return
+    
+    # --- Tabelle anzeigen ---
+    st.subheader(f"Audit-Log ({len(logs)} Einträge)")
+    
+    import pandas as pd
+    df = pd.DataFrame(logs)
+    
+    # Formatiere Spalten
+    df = df[["timestamp", "user_id", "action", "success", "details"]]
+    df.columns = ["Zeitstempel", "Benutzer", "Aktion", "Erfolg", "Details"]
+    
+    # Success als ✅/❌
+    df["Erfolg"] = df["Erfolg"].apply(lambda x: "✅" if x else "❌")
+    
+    # Formatiere Timestamp
+    df["Zeitstempel"] = pd.to_datetime(df["Zeitstempel"]).dt.strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Zeige Tabelle
+    st.dataframe(df, use_container_width=True, hide_index=True)
+    
+    st.divider()
+    
+    # --- Export & Cleanup ---
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # CSV-Export
+        csv_data = export_audit_log_csv()
+        st.download_button(
+            "📥 Export als CSV",
+            data=csv_data,
+            file_name=f"audit_log_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
+            mime="text/csv",
+            use_container_width=True
+        )
+    
+    with col2:
+        # Cleanup alte Logs
+        with st.expander("🗑️ Alte Logs löschen (DSGVO)"):
+            days = st.number_input("Logs älter als (Tage)", 
+                                  min_value=30, max_value=365, value=90, step=30)
+            if st.button("Jetzt löschen", type="secondary"):
+                deleted_count = cleanup_old_audit_logs(days)
+                st.success(f"✅ {deleted_count} alte Einträge gelöscht.")
+                st.rerun()
+    
+    # --- Info-Box ---
+    with st.expander("ℹ️ Über Audit-Logging"):
+        st.markdown("""
+        ### Was wird protokolliert?
+        
+        **Erfasste Events:**
+        - 🔐 Admin-Login (erfolgreich/fehlgeschlagen)
+        - 🗑️ Benutzer-Ergebnisse löschen
+        - ⚠️ Globale Daten-Löschung
+        - 📥 CSV-Export
+        - 🚫 Login-Blockierungen (Rate-Limiting)
+        
+        **Gespeicherte Informationen:**
+        - Zeitstempel (ISO 8601)
+        - Benutzer-ID (Pseudonym)
+        - Aktionstyp
+        - Erfolgs-Status
+        - Details (z.B. gelöschter User)
+        - IP-Adresse (wenn verfügbar)
+        
+        ### Warum Audit-Logging?
+        
+        - ✅ **Sicherheit:** Nachvollziehbarkeit bei Incidents
+        - ✅ **Compliance:** DSGVO-Audit-Trail
+        - ✅ **Forensik:** Analyse von Zugriffen
+        - ✅ **Transparenz:** Admin-Aktivitäten dokumentiert
+        
+        ### Datenschutz
+        
+        **Retention:** Logs werden nach 90 Tagen automatisch gelöscht.  
+        **Zugriff:** Nur Admin-Benutzer können Logs einsehen.  
+        **Export:** CSV-Export für externe Archivierung möglich.
+        """)
