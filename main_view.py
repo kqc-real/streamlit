@@ -377,8 +377,10 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
 
     # --- Motivation anzeigen (AUSSERHALB des Fragen-Containers) ---
     # Zeige die Motivation nur für die Frage, die gerade beantwortet wurde
-    if (is_answered and 
-        st.session_state.get("last_answered_idx") == frage_idx and
+    # Die Bedingung: last_answered_idx == frage_idx (nicht is_answered!)
+    # Weil nach dem Rerun zur nächsten Frage gesprungen wird, aber last_answered_idx
+    # zeigt auf die gerade beantwortete Frage
+    if (st.session_state.get("last_answered_idx") == frage_idx and
         "last_motivation_message" in st.session_state and 
         st.session_state.last_motivation_message):
         st.markdown(st.session_state.last_motivation_message, unsafe_allow_html=True)
