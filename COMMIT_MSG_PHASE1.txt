@@ -30,13 +30,17 @@
 ## Dateien
 
 ### Geändert:
-- components.py (Zeile 100-106)
-- admin_panel.py (Zeile 117-137)
+- components.py (Zeile 100-106) - Warnung bei leerem Admin-Key
+- admin_panel.py (Zeile 117-137) - Re-Auth beim Benutzerergebnisse löschen
+- admin_panel.py (Zeile 523-548) - Re-Auth beim globalen Löschen (HOTFIX)
+- admin_panel.py (Zeile 381-398) - Hinweis bei Datenexport
 
 ### Neu:
 - SECURITY_ANALYSIS_ADMIN_AUTH.md (Vollständige Sicherheitsanalyse)
 - SECURITY_PHASE1_SUMMARY.md (Zusammenfassung)
 - CHANGELOG_SECURITY_PHASE1.md (Implementation Log)
+- SECURITY_HOTFIX_MISSING_REAUTH.md (Hotfix-Dokumentation)
+- PASSWORT_ABFRAGE_ERKLAERUNG.md (Nutzer-Guide)
 - test_security_phase1.py (Automatische Tests)
 
 ## Nächste Schritte

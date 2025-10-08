@@ -39,7 +39,7 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     with tabs[2]:
         render_feedback_tab() # Diese Funktion holt sich ihre Daten jetzt selbst
     with tabs[3]:
-        render_export_tab(df_filtered_logs)
+        render_export_tab(df_filtered_logs, app_config)
     with tabs[4]:
         render_system_tab(app_config, df_filtered_logs)
 
@@ -378,13 +378,17 @@ def render_feedback_tab():
                             st.error("Fehler beim Löschen.")
 
 
-def render_export_tab(df: pd.DataFrame):
+def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     """Rendert den Export-Tab."""
     st.header("Datenexport")
     if df.empty:
         st.info("Keine Daten zum Exportieren vorhanden.")
         return
 
+    # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung vor Export (optional) ---
+    # Hinweis: Export ist lesend und weniger kritisch, aber kann sensible Daten enthalten
+    st.info("💡 Der Export enthält alle Antwortdaten inklusive Nutzerpseudonymen und Zeitstempel.")
+    
     csv_data = df.to_csv(index=False).encode("utf-8")
     st.download_button(
         label="Antwort-Log herunterladen (CSV)",
@@ -517,14 +521,28 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
             "**Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer "
             "(außer dem Admin-Account) aus der Datenbank."
         )
-        if st.checkbox("Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen."):
-            if st.button("JETZT ALLE TESTDATEN LÖSCHEN", type="primary"):
-                from database import reset_all_test_data
-                if reset_all_test_data():
-                    st.success("Alle Testdaten wurden zurückgesetzt.")
-                    # Session-State aller Nutzer invalidieren (gute Praxis)
-                    for key in list(st.session_state.keys()):
-                        del st.session_state[key]
-                    st.rerun()
+        
+        # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
+        from auth import check_admin_key
+        reauth_key_global = st.text_input(
+            "Admin-Key zur Bestätigung:",
+            type="password",
+            key="global_delete_reauth",
+            help="Zur Sicherheit muss der Admin-Key erneut eingegeben werden."
+        )
+        
+        if st.checkbox("Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen.", key="global_delete_confirm"):
+            if st.button("JETZT ALLE TESTDATEN LÖSCHEN", type="primary", key="global_delete_btn"):
+                # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
+                if not app_config.admin_key or check_admin_key(reauth_key_global, app_config):
+                    from database import reset_all_test_data
+                    if reset_all_test_data():
+                        st.success("✅ Alle Testdaten wurden zurückgesetzt.")
+                        # Session-State aller Nutzer invalidieren (gute Praxis)
+                        for key in list(st.session_state.keys()):
+                            del st.session_state[key]
+                        st.rerun()
+                    else:
+                        st.error("❌ Löschen fehlgeschlagen. Überprüfe die Server-Logs.")
                 else:
-                    st.error("Löschen fehlgeschlagen. Überprüfe die Server-Logs.")
+                    st.error("🔒 Falscher Admin-Key. Globales Löschen abgebrochen.")
