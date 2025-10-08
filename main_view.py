@@ -621,16 +621,25 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
     # im Sprung-Modus eine bereits beantwortete Frage reviewt.
     if not st.session_state.get("jump_to_idx_active"):
-        render_next_question_button(questions.index(frage_obj))
+        render_next_question_button(questions, questions.index(frage_obj))
 
 
-def render_next_question_button(frage_idx: int):
+def render_next_question_button(questions: list, frage_idx: int):
     """
     Rendert den "Nächste Frage"-Button am Ende des Erklärungsblocks.
+    Bei der letzten Frage wird der Button als "Zur Testauswertung" angezeigt.
     """
+    # Prüfe, ob dies die letzte Frage ist
+    num_answered = sum(
+        1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
+    )
+    is_last_question = (num_answered == len(questions))
+    
+    button_text = "Zur Testauswertung" if is_last_question else "Nächste Frage"
+    
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
-        if st.button("Nächste Frage", key=f"next_q_{frage_idx}", type="primary", use_container_width=True):
+        if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", use_container_width=True):
             # Setze das Flag zurück, um die Erklärung bei der nächsten Anzeige nicht mehr zu zeigen.
             st.session_state[f"show_explanation_{frage_idx}"] = False
             st.rerun()

@@ -257,9 +257,22 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
     last_correct = outcomes[-1] if outcomes else None
     questions_remaining = len(questions) - num_answered
     
-    # WICHTIG: Keine Motivation anzeigen, wenn Test fertig ist (alle Fragen beantwortet)
+    # SPEZIALFALL: Test ist komplett fertig (alle Fragen beantwortet)
+    # Zeige eine finale "Du bist durch!"-Message
     if questions_remaining == 0:
-        return ""
+        finale_phrases = [
+            "🎉 Du bist durch! Test abgeschlossen.",
+            "✅ Geschafft! Alle Fragen beantwortet.",
+            "🏁 Fertig! Gleich siehst du dein Ergebnis.",
+            "🎊 Test komplett! Starke Leistung.",
+            "✨ Alle Fragen erledigt! Gut gemacht.",
+            "🚀 Durchgezogen! Jetzt zur Auswertung.",
+            "🏆 Vollständig! Test abgeschlossen.",
+            "💪 Geschafft! Alle Fragen gemeistert.",
+        ]
+        import random
+        finale_message = random.choice(finale_phrases)
+        return f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {finale_message}</div>"
 
     # Streak-Berechnung
     streak = 0
