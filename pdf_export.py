@@ -740,15 +740,19 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         # Iteriere über Themen
         for thema, terms in glossary_by_theme.items():
-            glossary_html += f'<h3 class="glossary-theme">{thema}</h3>'
+            # Parse LaTeX auch im Thema-Namen (z.B. "Basis in $\mathbb{R}^2$")
+            parsed_thema = _parse_text_with_formulas(thema)
+            glossary_html += f'<h3 class="glossary-theme">{parsed_thema}</h3>'
             glossary_html += '<div class="glossary-grid">'
             
             for term, definition in terms.items():
+                # Parse LaTeX im Term-Namen (falls vorhanden)
+                parsed_term = _parse_text_with_formulas(term)
                 # Parse LaTeX in Definition
                 parsed_definition = _parse_text_with_formulas(definition)
                 
                 glossary_html += '<div class="glossary-item">'
-                glossary_html += f'<div class="glossary-term">{term}</div>'
+                glossary_html += f'<div class="glossary-term">{parsed_term}</div>'
                 def_html = '<div class="glossary-definition">'
                 def_html += f'{parsed_definition}</div>'
                 glossary_html += def_html
