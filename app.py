@@ -155,18 +155,24 @@ def main():
     # --- 5. Rendere die passende Hauptansicht basierend auf der Priorität ---
     
     # Priorität 1: Admin-Panel anzeigen
-    if st.session_state.get("show_admin_panel", False) and is_admin:
-        # Phase 2: Server-side Session Validation
-        from session_manager import verify_admin_session
-        admin_token = st.session_state.get("admin_session_token")
-        user_id = st.session_state.get("user_id", "")
-        
-        if not verify_admin_session(admin_token, user_id):
-            st.error("⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen.")
-            st.session_state.show_admin_panel = False
-            if "admin_session_token" in st.session_state:
-                del st.session_state["admin_session_token"]
-            st.rerun()
+    # Im unsicheren Modus (kein admin_key) erlauben wir Admin-Zugang ohne User-Check
+    should_show_admin = st.session_state.get("show_admin_panel", False) and (
+        not app_config.admin_key or is_admin
+    )
+    
+    if should_show_admin:
+        # Phase 2: Server-side Session Validation (nur wenn admin_key gesetzt)
+        if app_config.admin_key:
+            from session_manager import verify_admin_session
+            admin_token = st.session_state.get("admin_session_token")
+            user_id = st.session_state.get("user_id", "")
+            
+            if not verify_admin_session(admin_token, user_id):
+                st.error("⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen.")
+                st.session_state.show_admin_panel = False
+                if "admin_session_token" in st.session_state:
+                    del st.session_state["admin_session_token"]
+                st.rerun()
         
         render_admin_panel(app_config, questions)
     # Priorität 2: Eine spezifische Frage anzeigen (entweder die nächste oder ein Sprungziel)
