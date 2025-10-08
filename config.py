@@ -94,12 +94,21 @@ class AppConfig:
 @st.cache_data
 def list_question_files() -> List[str]:
     """Listet alle verfügbaren `questions_*.json` Dateien auf."""
+    import unicodedata
+    
     data_dir = os.path.join(get_package_dir(), "data")
     if not os.path.isdir(data_dir):
         return []
-    return sorted(
-        [f for f in os.listdir(data_dir) if f.startswith("questions_") and f.endswith(".json")]
-    )
+    
+    # Normalisiere Dateinamen zu NFC (wichtig für macOS Umlaute)
+    files = []
+    for f in os.listdir(data_dir):
+        if f.startswith("questions_") and f.endswith(".json"):
+            # Normalisiere zu NFC (composed form)
+            normalized = unicodedata.normalize("NFC", f)
+            files.append(normalized)
+    
+    return sorted(files)
 
 @st.cache_data
 def get_question_counts() -> Dict[str, int]:
