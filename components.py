@@ -231,7 +231,17 @@ def render_skipped_questions(questions: list):
 
 
 def get_motivation_message(questions: list, app_config: AppConfig) -> str:
-    """Gibt eine kontextabhängige, motivierende Feedback-Nachricht als HTML-String zurück."""
+    """
+    Gibt eine kontextabhängige, motivierende Feedback-Nachricht als HTML-String zurück.
+    
+    KATEGORIEN:
+    - LOB: Nur bei richtiger Antwort
+    - ZUSPRUCH: Nur bei falscher Antwort (motivierend, aufbauend)
+    - LETZTE_FRAGE: Nur wenn nur noch 1 Frage übrig ist
+    - NEUTRAL: Fortschritt-basiert (wenn keine klare richtig/falsch-Situation)
+    """
+    import random
+    
     scoring_mode = app_config.scoring_mode
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
@@ -245,6 +255,7 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
         return ""
 
     last_correct = outcomes[-1] if outcomes else None
+    questions_remaining = len(questions) - num_answered
 
     # Streak-Berechnung
     streak = 0
@@ -254,21 +265,6 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
         else:
             break
 
-    # Phase basierend auf Fortschritt
-    progress_pct = int((num_answered / len(questions)) * 100)
-    if progress_pct < 30: phase = "early"
-    elif progress_pct < 60: phase = "mid"
-    elif progress_pct < 90: phase = "late"
-    elif progress_pct < 100: phase = "close"
-    else: phase = "final"
-
-    # Tier basierend auf Leistung
-    ratio = current_score / max_score if max_score > 0 else 0
-    if ratio >= 0.9: tier = "elite"
-    elif ratio >= 0.75: tier = "high"
-    elif ratio >= 0.55: tier = "mid"
-    else: tier = "low"
-
     # Badges (einmalig rendern)
     badge_list = []
     if streak >= 3:
@@ -277,6 +273,7 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
         if streak >= 20: icon = "🏅"
         badge_list.append(f"{icon} {streak}er Streak")
     
+    progress_pct = int((num_answered / len(questions)) * 100)
     for thr, name, keyflag in [
         (25, "🔓 25%", "_badge25"), (50, "🏁 50%", "_badge50"),
         (75, "🚀 75%", "_badge75"), (100, "🏆 100%", "_badge100"),
@@ -292,64 +289,147 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
         )
         st.markdown(badges_html, unsafe_allow_html=True)
 
-    # Basis-Phrasen pro (phase, tier)
-    base_phrases = {
-        ("early", "low"): ["Langsam eingrooven – Muster erkennen.", "Fehler sind Daten – weiter so."],
-        ("early", "mid"): ["Solider Start – Fokus halten.", "Guter Einstieg – nicht überpacen."],
-        ("early", "high"): ["Starker Auftakt – Muster sichern.", "Sehr sauber bisher."],
-        ("early", "elite"): ["Makelloser Start – Elite-Niveau.", "Perfekter Flow – behalten."],
-        ("mid", "low"): ["Kurz justieren – Genauigkeit vor Tempo.", "Strategie schärfen – Erklärungen nutzen."],
-        ("mid", "mid"): ["Stabil in der Mitte – weiter strukturieren.", "Basis sitzt – ausbauen."],
-        ("mid", "high"): ["Sehr effizient – Qualität halten.", "Starker Kern – konsistent bleiben."],
-        ("mid", "elite"): ["Nahezu fehlerfrei – weiter so.", "Elite-Quote – wach bleiben."],
-        ("late", "low"): ["Jetzt stabilisieren – sauber lesen.", "Konzentration kurz resetten."],
-        ("late", "mid"): ["Gut dabei – Fokus durchziehen.", "Letztes Drittel kontrolliert."],
-        ("late", "high"): ["Starker Score – halten.", "Qualität bleibt hoch."],
-        ("late", "elite"): ["Fast makellos – Konzentration!", "Elite-Level halten."],
-        ("close", "low"): ["Kurz vor dem Ziel – ruhig atmen.", "Letzte Punkte einsammeln."],
-        ("close", "mid"): ["Endspurt strukturiert.", "Nicht überhasten."],
-        ("close", "high"): ["Sehr starker Lauf – sauber finishen.", "Score sichern – keine Hast."],
-        ("close", "elite"): ["Perfektes Finish in Sicht.", "Elite bis zum Schluss."],
-        ("final", "low"): ["Geschafft – Lernpunkte notieren.", "Reflexion lohnt sich."],
-        ("final", "mid"): ["Solide Runde – sichern.", "Guter Abschluss."],
-        ("final", "high"): ["Sehr stark – kurz reflektieren.", "Top-Ergebnis stabil."],
-        ("final", "elite"): ["Exzellent – nahezu perfekt.", "Elite-Runde!"],
-    }
+    # Performance-Tier
+    ratio = current_score / max_score if max_score > 0 else 0
 
-    # Overlays abhängig von Streak / letzter Antwort
-    overlay_phrases = []
-    if last_correct:
-        if streak in {2, 3}: overlay_phrases.append("Flow baut sich auf.")
-        elif streak == 5: overlay_phrases.append("🔥 5er Serie!")
-        elif streak == 10: overlay_phrases.append("⚡ 10er Serie – stark!")
-        elif streak > 10 and streak % 5 == 0: overlay_phrases.append("Konstante Treffer – beeindruckend.")
+    # ============================================================
+    # KATEGORISIERTE PHRASEN
+    # ============================================================
+    
+    # KATEGORIE 1: LOB (nur bei richtiger Antwort)
+    lob_phrases = [
+        "Richtig! Sehr gut.",
+        "Exakt! Weiter so.",
+        "Korrekt! Sauber gelöst.",
+        "Perfekt! Das sitzt.",
+        "Top! Genau richtig.",
+        "Stark! Weiter im Flow.",
+        "Sehr gut! Muster erkannt.",
+        "Ausgezeichnet! Konzentration hält.",
+        "Präzise! Das war sauber.",
+        "Klasse! Genau so.",
+        "Treffer! Weiter mit Fokus.",
+        "Richtig erkannt! Gut gemacht.",
+        "Volltreffer! Weiter.",
+        "Korrekt analysiert! Stark.",
+        "Genau! Konzentration halten.",
+    ]
+    
+    # Spezielle Lob-Phrasen bei hohem Streak
+    if streak >= 3:
+        lob_phrases.extend([
+            f"🔥 {streak} richtige in Folge!",
+            "Serie läuft! Weiter so.",
+            "Flow-Zustand! Nicht nachlassen.",
+        ])
+    if streak >= 5:
+        lob_phrases.extend([
+            f"⚡ {streak}er Streak! Beeindruckend.",
+            "Konstant stark! Elite-Niveau.",
+        ])
+    if streak >= 10:
+        lob_phrases.extend([
+            f"🏅 {streak} Treffer ohne Fehler!",
+            "Makellos! Konzentration perfekt.",
+        ])
+    
+    # KATEGORIE 2: ZUSPRUCH (nur bei falscher Antwort)
+    zuspruch_phrases = [
+        "Nicht ganz – aber daraus lernen.",
+        "Fehler sind Lernpunkte. Weiter!",
+        "Kurz daneben – analysieren und weiter.",
+        "Das ist okay. Nächste Chance nutzen.",
+        "Nicht schlimm. Fokus neu setzen.",
+        "Fehler passieren – ruhig weitermachen.",
+        "Lernerfolg! Muster für später.",
+        "Das sitzt beim nächsten Mal.",
+        "Kein Problem. Konzentration halten.",
+        "Nicht perfekt – aber im Lernprozess.",
+        "Falsch – aber Erklärung lesen hilft.",
+        "Daneben – Strategie anpassen.",
+        "Fehler = Wachstum. Weiter geht's.",
+        "Nicht getroffen – aber du bleibst dran.",
+        "Ruhig bleiben. Nächste Frage kommt.",
+    ]
+    
+    # Spezielle Zuspruch-Phrasen bei gutem Score trotz Fehler
+    if ratio >= 0.75:
+        zuspruch_phrases.extend([
+            "Score bleibt stark – ein Fehler kippt nichts.",
+            "Quote weiter hoch – nicht ärgern.",
+            "Gute Leistung insgesamt – weiter so.",
+        ])
+    
+    # KATEGORIE 3: LETZTE FRAGE (nur wenn questions_remaining == 1)
+    letzte_frage_phrases = [
+        "Letzte Frage! Gleich geschafft.",
+        "Fast am Ziel! Noch eine Frage.",
+        "Finale Frage! Konzentriert durchziehen.",
+        "Endspurt! Eine bleibt noch.",
+        "Noch 1 Frage – dann durch!",
+        "Letzter Sprint! Finish in Sicht.",
+        "Gleich fertig! Noch einmal fokussieren.",
+        "Finale! Eine Frage trennt dich vom Ziel.",
+        "Fast geschafft! Letzte Konzentration.",
+        "Abschluss naht! Noch 1 Frage.",
+    ]
+    
+    # Spezielle letzte-Frage-Phrasen bei gutem Score
+    if questions_remaining == 1 and ratio >= 0.8:
+        letzte_frage_phrases.extend([
+            "Letzter Punkt für Top-Score!",
+            "Starker Lauf – jetzt sauber finishen!",
+            "Elite-Ergebnis möglich – letzte Frage!",
+        ])
+    
+    # KATEGORIE 4: NEUTRAL (Fortschritt, keine spezifische Richtig/Falsch-Reaktion)
+    neutral_phrases = [
+        "Weiter im Rhythmus.",
+        "Fokus halten – du machst das.",
+        "Schritt für Schritt.",
+        "Ruhig weitermachen.",
+        "Konzentration beibehalten.",
+        "Stabil bleiben.",
+        "Du bist auf dem Weg.",
+        "Weitermachen – Ziel im Blick.",
+        "Durchhalten – es läuft.",
+        "Fortschritt läuft.",
+    ]
+
+    # ============================================================
+    # AUSWAHL DER RICHTIGEN KATEGORIE
+    # ============================================================
+    
+    pool = []
+    
+    # PRIORITÄT 1: Letzte Frage (überschreibt alles)
+    if questions_remaining == 1:
+        pool = letzte_frage_phrases
+    
+    # PRIORITÄT 2: Reaktion auf letzte Antwort
+    elif last_correct is True:
+        pool = lob_phrases
     elif last_correct is False:
-        if streak == 0: overlay_phrases.append("Reset: ruhig weiterlesen.")
-        if ratio >= 0.75: overlay_phrases.append("Score weiter hoch – nicht kippen lassen.")
-        else: overlay_phrases.append("Fehler = Signal. Muster prüfen.")
-
-    # Auswahl kombinieren
-    pool = list(base_phrases.get((phase, tier), []))
-    pool.extend(overlay_phrases)
+        pool = zuspruch_phrases
+    
+    # PRIORITÄT 3: Neutral (Fallback)
+    else:
+        pool = neutral_phrases
+    
     if not pool:
         return ""
 
     # Wiederholung vermeiden
     last_phrase = st.session_state.get("_last_motivation_phrase")
-    
-    # Wähle eine Phrase, die nicht die letzte war
-    import random
     possible_phrases = [p for p in pool if p != last_phrase]
     if not possible_phrases:
-        possible_phrases = pool # Fallback, wenn nur eine Option da ist
+        possible_phrases = pool  # Fallback
 
     candidate = random.choice(possible_phrases)
     st.session_state._last_motivation_phrase = candidate
 
     # Anzeige
-    message_html = ""
-    if candidate:
-        message_html = f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {candidate}</div>"
+    message_html = f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {candidate}</div>"
     return message_html
 
 def render_question_distribution_chart(questions: list):
