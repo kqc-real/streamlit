@@ -258,19 +258,46 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
     questions_remaining = len(questions) - num_answered
     
     # SPEZIALFALL: Test ist komplett fertig (alle Fragen beantwortet)
-    # Zeige eine finale "Du bist durch!"-Message
+    # Zeige eine score-abhängige finale Botschaft
     if questions_remaining == 0:
-        finale_phrases = [
-            "🎉 Du bist durch! Test abgeschlossen.",
-            "✅ Geschafft! Alle Fragen beantwortet.",
-            "🏁 Fertig! Gleich siehst du dein Ergebnis.",
-            "🎊 Test komplett! Starke Leistung.",
-            "✨ Alle Fragen erledigt! Gut gemacht.",
-            "🚀 Durchgezogen! Jetzt zur Auswertung.",
-            "🏆 Vollständig! Test abgeschlossen.",
-            "💪 Geschafft! Alle Fragen gemeistert.",
-        ]
         import random
+        
+        # Performance-Tier basierend auf Punkteverhältnis
+        ratio = current_score / max_score if max_score > 0 else 0
+        
+        if ratio >= 0.9:  # Elite (90%+)
+            finale_phrases = [
+                "� Exzellent! Fast perfekte Runde.",
+                "⚡ Elite-Niveau! Beeindruckende Leistung.",
+                "🌟 Hervorragend! Sehr starke Quote.",
+                "🎯 Präzise durchgezogen! Top-Ergebnis.",
+                "💎 Makellos! Fast fehlerfreier Test.",
+            ]
+        elif ratio >= 0.75:  # Sehr gut (75-89%)
+            finale_phrases = [
+                "✅ Sehr gut! Solide Performance.",
+                "🚀 Stark durchgezogen! Gute Quote.",
+                "👍 Sauber! Überzeugende Leistung.",
+                "💪 Gut gemacht! Stabile Runde.",
+                "� Starke Leistung! Qualität überzeugt.",
+            ]
+        elif ratio >= 0.55:  # Gut (55-74%)
+            finale_phrases = [
+                "✨ Durchgezogen! Ordentliches Ergebnis.",
+                "📈 Geschafft! Basis sitzt gut.",
+                "🏁 Fertig! Solide Leistung.",
+                "💼 Abgeschlossen! Grundlagen stimmen.",
+                "🔧 Durch! Jetzt Lücken schließen.",
+            ]
+        else:  # Verbesserungsbedarf (<55%)
+            finale_phrases = [
+                "� Durchgehalten! Lernpunkte mitnehmen.",
+                "🌱 Geschafft! Jetzt Themen vertiefen.",
+                "🔍 Fertig! Fehler sind Lernchancen.",
+                "💡 Durch! Review-Modus nutzen lohnt sich.",
+                "🎯 Abgeschlossen! Mit Erklärungen weiter.",
+            ]
+        
         finale_message = random.choice(finale_phrases)
         return f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {finale_message}</div>"
 

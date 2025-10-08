@@ -87,7 +87,40 @@
 
 ---
 
-### 4️⃣ NEUTRAL (Fallback)
+### 4️⃣ FINALE (Test komplett abgeschlossen)
+**Trigger:** `questions_remaining == 0` (alle Fragen beantwortet)
+
+**Elite-Phrasen (ratio ≥ 0.9):**
+- "🏆 Exzellent! Fast perfekte Runde."
+- "⚡ Elite-Niveau! Beeindruckende Leistung."
+- "🌟 Hervorragend! Sehr starke Quote."
+- "🎯 Präzise durchgezogen! Top-Ergebnis."
+- "💎 Makellos! Fast fehlerfreier Test."
+
+**Sehr-gut-Phrasen (ratio ≥ 0.75):**
+- "✅ Sehr gut! Solide Performance."
+- "🚀 Stark durchgezogen! Gute Quote."
+- "👍 Sauber! Überzeugende Leistung."
+- "💪 Gut gemacht! Stabile Runde."
+- "🎉 Starke Leistung! Qualität überzeugt."
+
+**Gut-Phrasen (ratio ≥ 0.55):**
+- "✨ Durchgezogen! Ordentliches Ergebnis."
+- "📈 Geschafft! Basis sitzt gut."
+- "🏁 Fertig! Solide Leistung."
+- "💼 Abgeschlossen! Grundlagen stimmen."
+- "🔧 Durch! Jetzt Lücken schließen."
+
+**Verbesserungs-Phrasen (ratio < 0.55):**
+- "📚 Durchgehalten! Lernpunkte mitnehmen."
+- "🌱 Geschafft! Jetzt Themen vertiefen."
+- "🔍 Fertig! Fehler sind Lernchancen."
+- "💡 Durch! Review-Modus nutzen lohnt sich."
+- "🎯 Abgeschlossen! Mit Erklärungen weiter."
+
+---
+
+### 5️⃣ NEUTRAL (Fallback)
 **Trigger:** Kein klarer Kontext (z.B. beim ersten Laden)
 
 **Phrasen:**
@@ -260,8 +293,9 @@ letzte_frage_phrases.append("Neuer Endspurt-Text!")
 | LOB | 15 | 6 (Streak) | 21 |
 | ZUSPRUCH | 15 | 3 (Score) | 18 |
 | LETZTE_FRAGE | 10 | 3 (Score) | 13 |
+| FINALE | 20 | 0 | 20 |
 | NEUTRAL | 10 | 0 | 10 |
-| **TOTAL** | **50** | **12** | **62** |
+| **TOTAL** | **70** | **12** | **82** |
 
 ---
 
