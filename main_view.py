@@ -777,36 +777,89 @@ def render_final_summary(questions: list, app_config: AppConfig):
     q_file_name = st.session_state.get("selected_questions_file", "")
     anzahl_fragen = len(questions)
     # Dank Parallelverarbeitung und Caching: ca. 3-5 Sekunden pro Frage
-    # Prüfe ob Formeln vorhanden sind (KaTeX: $ oder $$)
-    def has_formulas(questions):
-        """Prüft ob Fragen KaTeX-Formeln enthalten."""
+    # Prüfe ob Formeln vorhanden sind und extrahiere erste Formel
+    def extract_formulas(questions):
+        """Extrahiert erste gefundene Formel und zählt Gesamt-Formeln."""
         import re
         formula_pattern = r'\$\$.*?\$\$|\$.*?\$'
         
+        first_formula = None
+        total_count = 0
+        
         for q in questions:
             # Prüfe Frage-Text
-            if re.search(formula_pattern, q.get("frage", "")):
-                return True
+            matches = re.findall(formula_pattern, q.get("frage", ""))
+            if matches and not first_formula:
+                first_formula = matches[0]
+            total_count += len(matches)
+            
             # Prüfe Optionen
             for opt in q.get("optionen", []):
-                if re.search(formula_pattern, opt):
-                    return True
+                matches = re.findall(formula_pattern, opt)
+                if matches and not first_formula:
+                    first_formula = matches[0]
+                total_count += len(matches)
+            
             # Prüfe Erklärung
-            if re.search(formula_pattern, q.get("erklaerung", "")):
-                return True
-        return False
+            matches = re.findall(formula_pattern, q.get("erklaerung", ""))
+            if matches and not first_formula:
+                first_formula = matches[0]
+            total_count += len(matches)
+        
+        return first_formula, total_count
     
-    has_math = has_formulas(questions)
+    first_formula, formula_count = extract_formulas(questions)
+    has_math = formula_count > 0
     
-    # Warnung nur wenn Formeln vorhanden
-    if has_math:
-        geschaetzte_dauer = max(1, round(anzahl_fragen * 0.05))  # 3 Sek pro Frage
-        st.warning(
-            f"⏱️ **Hinweis zur Druckvorbereitung:** "
-            f"Mathematische Formeln werden online verarbeitet. "
-            f"Bei {anzahl_fragen} Fragen dauert dies etwa "
-            f"{geschaetzte_dauer} Minute{'n' if geschaetzte_dauer != 1 else ''}."
-        )
+    # Dynamische Zeitschätzung mit Probe-Rendering
+    if has_math and first_formula:
+        # Zeige Info über Formel-Benchmark
+        with st.expander("⏱️ Zeitschätzung", expanded=True):
+            st.info(
+                f"📊 Dieses Fragenset enthält **{formula_count} Formeln** "
+                f"in {anzahl_fragen} Fragen.\n\n"
+                "Für eine genaue Zeitschätzung wird eine Probe-Formel gerendert..."
+            )
+            
+            # Benchmark mit Probe-Formel
+            import time
+            from pdf_export import _render_latex_to_image
+            
+            # Extrahiere LaTeX aus KaTeX-Syntax
+            test_latex = first_formula.strip('$').strip()
+            is_block = first_formula.startswith('$$')
+            
+            benchmark_placeholder = st.empty()
+            benchmark_placeholder.text("🔄 Rendere Probe-Formel...")
+            
+            start_time = time.time()
+            try:
+                _render_latex_to_image(test_latex, is_block)
+                render_time = time.time() - start_time
+                
+                # Berechne geschätzte Gesamtdauer
+                total_seconds = formula_count * render_time
+                total_minutes = total_seconds / 60
+                
+                # Formatiere Zeitangabe
+                if total_minutes < 1:
+                    time_str = f"{int(total_seconds)} Sekunden"
+                elif total_minutes < 2:
+                    time_str = f"ca. 1 Minute"
+                else:
+                    time_str = f"ca. {int(total_minutes)} Minuten"
+                
+                benchmark_placeholder.success(
+                    f"✅ Probe-Rendering: {render_time:.2f}s\n\n"
+                    f"**Geschätzte Gesamtdauer:** {time_str}\n"
+                    f"({formula_count} Formeln × {render_time:.2f}s)"
+                )
+            except Exception as e:
+                benchmark_placeholder.warning(
+                    f"⚠️ Probe-Rendering fehlgeschlagen: {e}\n\n"
+                    f"Schätzung basiert auf Durchschnittswert: "
+                    f"ca. {max(1, formula_count // 20)} Minuten"
+                )
     
     # Button zum Generieren
     if st.button("📥 PDF jetzt generieren", type="primary", use_container_width=True):
