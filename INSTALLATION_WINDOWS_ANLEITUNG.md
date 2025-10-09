@@ -111,14 +111,13 @@ Viele Programme, die an der Uni oder im Job verwendet werden, sind für Einsteig
    ```
    pip install -r requirements.txt
    ```
-   **Falls Fehler bei brotli, pyarrow, zopfli:** Siehe Spezial-Anleitung im README!
+   
 5. Starte die App:
    ```
    streamlit run app.py
    ```
 6. Öffne im Browser: http://localhost:8501
 
----
 
 **Fertig!**
 
