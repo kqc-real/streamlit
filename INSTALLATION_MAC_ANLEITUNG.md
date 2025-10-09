@@ -116,7 +116,8 @@ Viele Programme, die an der Uni oder im Job verwendet werden, sind für Einsteig
    streamlit run app.py
    ```
 6. Öffne im Browser: http://localhost:8501
-
+ 
+> Letzte Option, falls alles andere fehlschlägt: Installation mit Conda/Mamba (schnellere, zuverlässigere Binärpakete) — siehe `INSTALLATION_CONDA.md`.
 ---
 
 **Fertig!**
