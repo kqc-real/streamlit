@@ -196,11 +196,51 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
 
+@st.dialog("Los geht's! 🎯")
+def show_welcome_dialog(app_config: AppConfig):
+    """Zeigt den Welcome-Dialog vor dem Test-Start."""
+    # Testzeit berechnen (in Minuten)
+    test_time_minutes = int(st.session_state.test_time_limit / 60)
+    
+    if app_config.scoring_mode == "positive_only":
+        scoring_text = (
+            "Für eine richtige Antwort erhältst du die volle Gewichtung (z. B. 2 Punkte), "
+            "falsche Antworten geben 0 Punkte."
+        )
+    else:
+        scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
+    
+    st.markdown(f"""
+    ### ⏱️ Testzeit
+    Du hast **{test_time_minutes} Minuten** für den Test.  
+    Der Countdown startet, sobald du auf "Test beginnen" klickst und aktualisiert sich mit jeder Frage.
+    
+    ### ✅ 1 richtige Option
+    Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
+    
+    ### 🎯 Punktelogik
+    {scoring_text}
+    """)
+    
+    if st.button("Test beginnen", type="primary", use_container_width=True):
+        st.session_state.test_started = True
+        st.rerun()
+
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
     if st.session_state.get("show_pseudonym_reminder", False):
         st.success(f"**Willkommen, {st.session_state.user_id}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.")
         del st.session_state.show_pseudonym_reminder
+
+    # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
+    num_answered = sum(
+        1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
+    )
+    
+    # Zeige Welcome-Dialog vor dem ersten Test-Start
+    if num_answered == 0 and not st.session_state.get("test_started", False):
+        show_welcome_dialog(app_config)
+        return  # Zeige noch keine Frage an
 
     # --- Sicherheitscheck und Re-Initialisierung ---
     # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
@@ -226,41 +266,8 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     thema = frage_obj.get("thema", "")
     gewichtung = frage_obj.get("gewichtung", 1)
 
-    # Zähler für verbleibende Fragen (früh berechnen für alle Logik)
-    num_answered = sum(
-        1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
-    )
+    # Zähler für verbleibende Fragen
     remaining = len(questions) - num_answered
-
-    # Zeige Willkommensnachricht AUßERHALB des Containers (Mobile UX!)
-    if num_answered == 0:
-        st.title("Los geht's! 🎯")
-        if app_config.scoring_mode == "positive_only":
-            scoring_text = (
-                "Für eine richtige Antwort erhältst du die volle Gewichtung (z. B. 2 Punkte), "
-                "falsche Antworten geben 0 Punkte."
-            )
-        else:
-            scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
-        
-        # Testzeit berechnen (in Minuten)
-        test_time_minutes = int(st.session_state.test_time_limit / 60)
-        
-        info_html = (
-            "<div style='padding:10px 14px; background:#1f1f1f80; border-radius: 8px; margin-bottom: 1rem;'>"
-            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
-            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">⏱️ Testzeit</span> "
-            f"Du hast <b>{test_time_minutes} Minuten</b> für den gesamten Test. "
-            "Der Countdown aktualisiert sich mit jeder Frage.<br><br>"
-            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
-            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">✅ 1 richtige Option</span> "
-            "Wähle mit Bedacht, du hast keine zweite Chance pro Frage.<br><br>"
-            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
-            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">🎯 Punktelogik</span> "
-            f"{scoring_text}"
-            "</div>"
-        )
-        st.markdown(info_html, unsafe_allow_html=True)
 
     with st.container(border=True):
 
@@ -268,7 +275,7 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
         if st.session_state.start_zeit and not is_test_finished(questions):
             elapsed_time = (pd.Timestamp.now() - st.session_state.start_zeit).total_seconds()
             remaining_time = int(st.session_state.test_time_limit - elapsed_time)
-            
+
             col1, col2 = st.columns(2)
             with col1:
                 if remaining_time > 0:
