@@ -213,12 +213,12 @@ def _show_welcome_container(app_config: AppConfig):
     st.markdown("<br>" * 3, unsafe_allow_html=True)  # Abstand nach oben
     
     with st.container(border=True):
-        st.markdown("# 🎯 Los geht's!")
+        st.markdown("# Willkommen! 👋")
         
         st.markdown(f"""
         ### ⏱️ Testzeit
         Du hast **{test_time_minutes} Minuten** für den Test.  
-        Der Countdown startet, sobald du auf "Test beginnen" klickst und aktualisiert sich mit jeder Frage.
+        Der Countdown startet, sobald du auf »Test beginnen« klickst und aktualisiert sich mit jeder Frage.
         
         ### ✅ 1 richtige Option
         Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
@@ -226,6 +226,8 @@ def _show_welcome_container(app_config: AppConfig):
         ### 🎯 Punktelogik
         {scoring_text}
         """)
+        
+        st.info("💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, Punktestand und die markierten und übersprungenen Fragen.")
         
         st.markdown("<br>", unsafe_allow_html=True)
         
