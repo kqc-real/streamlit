@@ -315,10 +315,174 @@ Die App braucht noch einige zusätzliche Programme (in der Programmierung nennt 
 5. Du siehst viel Text im Terminal – das ist normal!
 6. Wenn der Download fertig ist, siehst du wieder deine normale Eingabezeile
 
+**⚠️ WINDOWS 11 BUSINESS: Spezielle Fehlerbehebung**
+
+**WICHTIG:** Lies diesen Abschnitt **NUR**, wenn die Installation **fehlgeschlagen** ist!
+
+**So erkennst du, ob die Installation fehlgeschlagen ist:**
+- Du siehst **roten Text** in der Eingabeaufforderung
+- Es steht irgendwo: `"error"` oder `"ERROR"` oder `"failed"`
+- Ganz am Ende steht **NICHT**: `"Successfully installed streamlit..."`
+- Stattdessen steht: `"ERROR: Failed building wheel for brotli"` (oder pyarrow, oder zopfli)
+
+**Falls alles geklappt hat** (du siehst `"Successfully installed..."`):
+- ✅ **Perfekt!** Überspringe diesen Abschnitt und gehe direkt zu Teil 5.
+
+---
+
+**Falls die Installation fehlgeschlagen ist, folge DIESER Anleitung:**
+
+### Schritt-für-Schritt: Build Tools installieren
+
+**Was wir jetzt machen:**
+- Wir installieren zusätzliche Microsoft-Programme
+- Diese Programme helfen, bestimmte Python-Pakete zu installieren
+- Das ist einmalig nötig und völlig normal für Windows 11
+
+**Schritt 1: Build Tools herunterladen**
+
+1. Öffne deinen Browser (Edge, Chrome, Firefox)
+2. **Kopiere diese Adresse** und füge sie in die Adresszeile ein:
+   ```
+   https://visualstudio.microsoft.com/visual-cpp-build-tools/
+   ```
+3. Drücke `Enter`
+4. Du siehst eine Microsoft-Webseite
+5. Klicke auf den **blauen Button**: **"Download Build Tools"**
+   - 📸 Der Button ist groß und blau, in der Mitte der Seite
+6. Eine Datei wird heruntergeladen: `vs_BuildTools.exe`
+   - ⏱️ Das dauert 1-2 Minuten (ca. 3 MB)
+
+**Schritt 2: Build Tools installieren**
+
+1. Öffne deinen **Downloads-Ordner**
+   - **Wo finde ich den?** Drücke `Windows-Taste` und tippe: `Downloads`
+2. **Doppelklick** auf die Datei: `vs_BuildTools.exe`
+3. Es öffnet sich ein Fenster: **"Visual Studio Installer"**
+4. **Falls eine Sicherheitsmeldung kommt:**
+   - Klicke auf **"Ja"** oder **"Ausführen"**
+   - Gib dein Windows-Passwort ein
+
+5. **Wichtiger Schritt - GENAU SO MACHEN:**
+   - Du siehst eine Liste mit verschiedenen Optionen
+   - Finde die Option: **"Desktop development with C++"**
+     - 📸 Das ist eine Box mit einem Text und einem Haken-Kästchen links
+   - **Setze einen Haken** in das Kästchen (Klick darauf)
+   - Die Box wird **blau markiert**
+
+6. **Rechts in der Box** siehst du weitere Optionen:
+   - Scrolle nach unten
+   - Suche: **"MSVC v143 - VS 2022 C++ x64/x86 build tools"**
+     - Setze einen Haken (falls noch nicht gesetzt)
+   - Suche: **"Windows 10 SDK"** oder **"Windows 11 SDK"**
+     - Setze einen Haken (falls noch nicht gesetzt)
+
+7. Klicke unten rechts auf: **"Install"**
+   - ⏱️ **WICHTIG:** Das dauert jetzt **10-15 Minuten**!
+   - Es werden ca. **2-3 GB** heruntergeladen
+   - 📱 **Tipp:** Hol dir einen Kaffee oder scrolle durch Instagram
+
+8. **Wenn die Installation fertig ist:**
+   - Du siehst: **"Installation erfolgreich"** oder **"Installation completed"**
+   - Klicke auf **"Schließen"**
+
+**Schritt 3: Computer neu starten**
+
+1. **WICHTIG:** Starte deinen Computer jetzt neu
+   - **Warum?** Windows muss die neuen Programme registrieren
+   - Klicke auf: Start → Power → Neu starten
+
+**Schritt 4: Installation erneut versuchen**
+
+1. Nach dem Neustart: Öffne eine **neue Eingabeaufforderung**
+   - **Wie?** Drücke `Windows-Taste`, tippe: `cmd`, drücke `Enter`
+
+2. Gehe zum App-Ordner (ersetze `DEINNAME` durch deinen Benutzernamen):
+   ```bash
+   cd C:\Users\DEINNAME\Documents\MC-Test-App\streamlit
+   ```
+   - 💡 **Erinnerung:** Deinen Benutzernamen findest du mit: `echo %USERNAME%`
+
+3. Drücke `Enter`
+
+4. Jetzt installieren wir die Pakete **nochmal**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. Drücke `Enter`
+
+6. ⏱️ Warte wieder 3-5 Minuten
+
+7. **Prüfe das Ergebnis:**
+   - **Wenn du siehst:** `"Successfully installed streamlit..."`
+     - ✅ **Perfekt!** Weiter zu Teil 5!
+   - **Wenn wieder ein Fehler kommt:**
+     - ⬇️ Gehe zu "Plan B" unten
+
+---
+
+### Plan B: Python-Version wechseln (falls Build Tools nicht helfen)
+
+**Nur wenn die Build Tools NICHT geholfen haben!**
+
+**Das Problem:**
+- Python 3.12 ist sehr neu (Oktober 2023)
+- Manche Pakete haben noch keine fertigen Versionen für Python 3.12 auf Windows 11
+- Python 3.11 funktioniert besser
+
+**So wechselst du zu Python 3.11:**
+
+**Schritt 1: Python 3.12 deinstallieren**
+
+1. Drücke `Windows-Taste`
+2. Tippe: `Einstellungen`
+3. Drücke `Enter`
+4. Klicke auf: **"Apps"**
+5. Klicke auf: **"Installierte Apps"** (oder "Apps & Features")
+6. Suche in der Liste nach: **"Python 3.12"**
+7. Klicke auf die **drei Punkte** (...) rechts neben Python 3.12
+8. Klicke auf: **"Deinstallieren"**
+9. Bestätige mit: **"Deinstallieren"**
+10. Warte, bis Python entfernt wurde (ca. 1 Minute)
+
+**Schritt 2: Python 3.11 herunterladen**
+
+1. Öffne deinen Browser
+2. Gehe auf: **https://www.python.org/downloads/**
+3. Scrolle nach unten zu **"Looking for a specific release?"**
+4. Klicke auf: **"Python 3.11.9"** (oder die neueste 3.11.x Version)
+5. Scrolle nach unten zu **"Files"**
+6. Klicke auf: **"Windows installer (64-bit)"**
+7. Die Datei wird heruntergeladen: `python-3.11.9-amd64.exe`
+
+**Schritt 3: Python 3.11 installieren**
+
+1. Öffne die heruntergeladene Datei (Doppelklick im Downloads-Ordner)
+2. **⚠️ WICHTIG:** Setze einen Haken bei **"Add Python to PATH"** (ganz unten!)
+3. Klicke auf **"Install Now"**
+4. Warte, bis die Installation fertig ist
+5. Klicke auf **"Close"**
+
+**Schritt 4: Pakete installieren**
+
+1. Öffne eine **neue Eingabeaufforderung** (alte schließen!)
+2. Gehe zum App-Ordner:
+   ```bash
+   cd C:\Users\DEINNAME\Documents\MC-Test-App\streamlit
+   ```
+3. Installiere die Pakete:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. ⏱️ Warte 3-5 Minuten
+5. ✅ Jetzt sollte es funktionieren!
+
 **Was passiert hier?**
 - Die App braucht ca. 15 zusätzliche Programme (z.B. zum Erstellen von PDF-Dateien, zur Speicherung von Ergebnissen)
 - Diese werden automatisch aus dem Internet heruntergeladen und installiert
 - Das ist völlig normal und sicher!
+- **Windows 11 Business:** Manchmal fehlen C++-Compiler, die für einige Pakete benötigt werden
 
 ✅ **Geschafft!** Alle Abhängigkeiten sind installiert.
 
@@ -516,7 +680,41 @@ streamlit run app.py
 - Die Abhängigkeiten wurden nicht installiert
 - Gehe zurück zu Teil 4 und führe den `pip install` Befehl nochmal aus
 
-### Problem 7: PDF-Export funktioniert nicht
+### Problem 7: Installation bricht mit Fehlermeldung ab (Windows 11 Business)
+
+**So erkennst du dieses Problem:**
+
+1. Du hast `pip install -r requirements.txt` eingegeben
+2. Es läuft eine Weile (1-2 Minuten)
+3. Du siehst **viel roten Text**
+4. Irgendwo steht:
+   - `"error: Microsoft Visual C++ 14.0 or greater is required"` **ODER**
+   - `"Building wheel for brotli ... error"` **ODER**
+   - `"Building wheel for pyarrow ... error"` **ODER**
+   - `"Building wheel for zopfli ... error"`
+5. Am Ende steht **NICHT**: `"Successfully installed..."`
+
+**Was ist passiert?**
+- Dein Windows 11 fehlen bestimmte Microsoft-Programme (Build Tools)
+- Ohne diese Programme können manche Python-Pakete nicht installiert werden
+- Das ist ein bekanntes Problem auf Windows 11 Business/Enterprise
+
+**Die Lösung:**
+
+**Gehe zurück zu Teil 4, Schritt 1**
+- Dort findest du einen großen Abschnitt: **"⚠️ WINDOWS 11 BUSINESS: Spezielle Fehlerbehebung"**
+- Folge **GENAU** der Schritt-für-Schritt-Anleitung dort
+- Du installierst Microsoft Visual Studio Build Tools (kostenlos)
+- Das dauert ca. 15-20 Minuten insgesamt
+- Danach funktioniert die Installation
+
+**Ganz wichtig:**
+- Lies die Anleitung **langsam und sorgfältig**
+- Überspringe **keine Schritte**
+- Besonders wichtig: **Computer neu starten** nach der Installation der Build Tools
+- Falls es immer noch nicht klappt: Folge "Plan B" (Python 3.11 installieren)
+
+### Problem 8: PDF-Export funktioniert nicht
 
 **Lösung:**
 - Das ist ein bekanntes Problem auf manchen Systemen
