@@ -196,9 +196,8 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
 
-@st.dialog("Los geht's! 🎯")
-def show_welcome_dialog(app_config: AppConfig):
-    """Zeigt den Welcome-Dialog vor dem Test-Start."""
+def _show_welcome_container(app_config: AppConfig):
+    """Zeigt die Welcome-Message in einem hervorgehobenen Container."""
     # Testzeit berechnen (in Minuten)
     test_time_minutes = int(st.session_state.test_time_limit / 60)
     
@@ -210,23 +209,31 @@ def show_welcome_dialog(app_config: AppConfig):
     else:
         scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
     
-    st.markdown(f"""
-    ### ⏱️ Testzeit
-    Du hast **{test_time_minutes} Minuten** für den Test.  
-    Der Countdown startet, sobald du auf "Test beginnen" klickst und aktualisiert sich mit jeder Frage.
+    # Großer, zentraler Container mit klarer Aufforderung
+    st.markdown("<br>" * 3, unsafe_allow_html=True)  # Abstand nach oben
     
-    ### ✅ 1 richtige Option
-    Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
-    
-    ### 🎯 Punktelogik
-    {scoring_text}
-    """)
-    
-    if st.button("Test beginnen", type="primary", use_container_width=True):
-        st.session_state.test_started = True
-        # Starte den Countdown sofort
-        st.session_state.start_zeit = pd.Timestamp.now()
-        st.rerun()
+    with st.container(border=True):
+        st.markdown("# 🎯 Los geht's!")
+        
+        st.markdown(f"""
+        ### ⏱️ Testzeit
+        Du hast **{test_time_minutes} Minuten** für den Test.  
+        Der Countdown startet, sobald du auf "Test beginnen" klickst und aktualisiert sich mit jeder Frage.
+        
+        ### ✅ 1 richtige Option
+        Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
+        
+        ### 🎯 Punktelogik
+        {scoring_text}
+        """)
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        if st.button("🚀 Test beginnen", type="primary", use_container_width=True):
+            st.session_state.test_started = True
+            # Starte den Countdown sofort
+            st.session_state.start_zeit = pd.Timestamp.now()
+            st.rerun()
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
@@ -240,9 +247,11 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     )
     
     # Zeige Welcome-Dialog vor dem ersten Test-Start
+    # Problem: st.dialog lässt sich nicht unterdrücken wenn User X klickt
+    # Lösung: Container statt Dialog für garantierte Sichtbarkeit
     if num_answered == 0 and not st.session_state.get("test_started", False):
-        show_welcome_dialog(app_config)
-        return  # Zeige noch keine Frage an
+        _show_welcome_container(app_config)
+        st.stop()  # Stoppe Ausführung komplett, bis Test gestartet
 
     # --- Sicherheitscheck und Re-Initialisierung ---
     # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
