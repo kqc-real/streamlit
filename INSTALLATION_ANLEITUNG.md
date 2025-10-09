@@ -1,5 +1,16 @@
 # 🚀 Installationsanleitung MC-Test-App
 
+---
+💡 **Keine Angst vor Technik!**
+
+Diese Anleitung ist extra für Einsteiger/innen geschrieben, die _keine_ Erfahrung mit Programmierung oder dem Terminal haben. Du musst keine Angst vor Fachbegriffen oder komplizierten Schritten haben – alles wird Schritt für Schritt erklärt, mit vielen Bildern, Tipps und ohne unnötigen IT-Jargon.
+
+**Du schaffst das!** Auch wenn es zwischendurch mal technisch aussieht: Bleib ruhig, lies einfach weiter, und folge den Anweisungen. Fast alle, die diese Anleitung ausprobiert haben, haben es am Ende geschafft – und du wirst das auch!
+
+Falls du irgendwo hängst: Lies die Hinweise und Tipps, atme kurz durch, und probiere es nochmal. Es gibt _immer_ eine Lösung.
+
+---
+
 **Für Einsteiger/innen ohne Programmiererfahrung**
 
 ---
@@ -36,6 +47,25 @@ Diese Anleitung hilft dir, die MC-Test-App auf deinem Computer zu installieren u
 Python ist eine Programmiersprache. Unsere MC-Test-App ist in Python geschrieben, deshalb müssen wir Python zuerst installieren.
 
 ### 🍎 Für Mac-Nutzer
+
+---
+⚠️ **Achtung: Nicht die neueste Python-Version (z.B. 3.14) installieren!**
+
+Viele wichtige Zusatzprogramme (wie numpy, pandas, pyarrow, brotli, zopfli usw.) funktionieren mit Python 3.14 noch **nicht problemlos** – auch auf dem Mac! Die Installation schlägt dann oft fehl oder es erscheinen unverständliche Fehlermeldungen.
+
+**Empfehlung:** Installiere **Python 3.12.x** (oder 3.11.x), _nicht_ 3.14!
+
+💡 **So bekommst du garantiert die richtige Version:**
+
+1. Gehe auf die [offizielle Python-Downloadseite für Mac](https://www.python.org/downloads/macos/)
+2. Scrolle nach unten zu **"Looking for a specific release?"**
+3. Klicke auf **"View all Python releases"**
+4. Suche in der Liste nach **Python 3.12.x** (z.B. 3.12.5)
+5. Klicke auf den Link **"macOS 64-bit installer"** (Dateiname endet auf `.pkg`)
+6. Lade diese Datei herunter und fahre mit Schritt 3 unten fort
+
+📸 **Tipp:** Der große gelbe Button oben auf der Seite bietet meist die _neueste_ Version (z.B. 3.14) – **diesen NICHT nehmen!**
+---
 
 **Schritt 1:** Prüfe, ob Python schon installiert ist
 
@@ -136,6 +166,25 @@ Python ist eine Programmiersprache. Unsere MC-Test-App ist in Python geschrieben
 ---
 
 ### 🪟 Für Windows-Nutzer/innen
+
+---
+⚠️ **Achtung: Nicht die neueste Python-Version (z.B. 3.14) installieren!**
+
+Viele wichtige Zusatzprogramme (wie numpy, pandas, pyarrow, brotli, zopfli usw.) funktionieren mit Python 3.14 noch **nicht problemlos** – auch auf Windows! Die Installation schlägt dann oft fehl oder es erscheinen unverständliche Fehlermeldungen.
+
+**Empfehlung:** Installiere **Python 3.12.x** (oder 3.11.x), _nicht_ 3.14!
+
+💡 **So bekommst du garantiert die richtige Version:**
+
+1. Gehe auf die [offizielle Python-Downloadseite für Windows](https://www.python.org/downloads/windows/)
+2. Scrolle nach unten zu **"Looking for a specific release?"**
+3. Klicke auf **"View all Python releases"**
+4. Suche in der Liste nach **Python 3.12.x** (z.B. 3.12.5)
+5. Klicke auf den Link **"Windows installer (64-bit)"** (Dateiname endet auf `.exe`)
+6. Lade diese Datei herunter und fahre mit Schritt 3 unten fort
+
+📸 **Tipp:** Der große gelbe Button oben auf der Seite bietet meist die _neueste_ Version (z.B. 3.14) – **diesen NICHT nehmen!**
+---
 
 **Schritt 1:** Prüfe, ob Python schon installiert ist
 
