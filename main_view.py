@@ -226,46 +226,14 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     thema = frage_obj.get("thema", "")
     gewichtung = frage_obj.get("gewichtung", 1)
 
+    # Zähler für verbleibende Fragen (früh berechnen für alle Logik)
+    num_answered = sum(
+        1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
+    )
+    remaining = len(questions) - num_answered
+
     with st.container(border=True):
-        # --- Countdown-Timer ---
-        if st.session_state.start_zeit and not is_test_finished(questions):
-            elapsed_time = (pd.Timestamp.now() - st.session_state.start_zeit).total_seconds()
-            remaining = int(st.session_state.test_time_limit - elapsed_time)
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                if remaining > 0:
-                    minutes, seconds = divmod(remaining, 60)
-                    st.metric("⏳ Verbleibende Zeit", f"{minutes:02d}:{seconds:02d}")
-                    if remaining <= 5 * 60 and remaining > 0:
-                        st.warning(f"Achtung, nur noch {minutes} Minuten!")
-                else:
-                    st.session_state.test_time_expired = True
-                    st.error("⏰ Zeit ist um!")
-                    st.rerun()
-            with col2:
-                pass # Platzhalter für Layout
-
-        # Zähler für verbleibende Fragen
-        num_answered = sum(
-            1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
-        )
-        remaining = len(questions) - num_answered
-        
-        # Logik für die Fortschrittsanzeige
-        if num_answered == 0:
-            st.markdown(f"### {len(questions)} Fragen insgesamt")
-        elif remaining == 0:
-            # Dieser Fall tritt nur nach der letzten Antwort auf, bevor die Zusammenfassung kommt.
-            # Hier ist keine Anzeige mehr nötig.
-            pass
-        elif remaining == 1 and not is_test_finished(questions):
-            st.markdown("### Letzte Frage")
-        else:
-            st.markdown(f"### Noch {remaining} Frage{'n' if remaining > 1 else ''}")
-
-
-        # Zeige Willkommensnachricht und Scoring-Info nur bei der ersten Frage
+        # Zeige Willkommensnachricht GANZ OBEN (wichtig für Mobile UX!)
         if num_answered == 0:
             st.title("Los geht's!")
             if app_config.scoring_mode == "positive_only":
@@ -287,6 +255,37 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                 "</div>"
             )
             st.markdown(info_html, unsafe_allow_html=True)
+
+        # --- Countdown-Timer ---
+        if st.session_state.start_zeit and not is_test_finished(questions):
+            elapsed_time = (pd.Timestamp.now() - st.session_state.start_zeit).total_seconds()
+            remaining_time = int(st.session_state.test_time_limit - elapsed_time)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if remaining_time > 0:
+                    minutes, seconds = divmod(remaining_time, 60)
+                    st.metric("⏳ Verbleibende Zeit", f"{minutes:02d}:{seconds:02d}")
+                    if remaining_time <= 5 * 60 and remaining_time > 0:
+                        st.warning(f"Achtung, nur noch {minutes} Minuten!")
+                else:
+                    st.session_state.test_time_expired = True
+                    st.error("⏰ Zeit ist um!")
+                    st.rerun()
+            with col2:
+                pass  # Platzhalter für Layout
+
+        # Logik für die Fortschrittsanzeige
+        if num_answered == 0:
+            st.markdown(f"### {len(questions)} Fragen insgesamt")
+        elif remaining == 0:
+            # Dieser Fall tritt nur nach der letzten Antwort auf, bevor die Zusammenfassung kommt.
+            # Hier ist keine Anzeige mehr nötig.
+            pass
+        elif remaining == 1 and not is_test_finished(questions):
+            st.markdown("### Letzte Frage")
+        else:
+            st.markdown(f"### Noch {remaining} Frage{'n' if remaining > 1 else ''}")
 
         if thema:
             st.caption(f"Thema: {thema}")
