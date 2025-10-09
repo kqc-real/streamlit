@@ -224,6 +224,8 @@ def show_welcome_dialog(app_config: AppConfig):
     
     if st.button("Test beginnen", type="primary", use_container_width=True):
         st.session_state.test_started = True
+        # Starte den Countdown sofort
+        st.session_state.start_zeit = pd.Timestamp.now()
         st.rerun()
 
 def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
