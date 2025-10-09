@@ -232,29 +232,37 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     )
     remaining = len(questions) - num_answered
 
-    with st.container(border=True):
-        # Zeige Willkommensnachricht GANZ OBEN (wichtig für Mobile UX!)
-        if num_answered == 0:
-            st.title("Los geht's!")
-            if app_config.scoring_mode == "positive_only":
-                scoring_text = (
-                    "Für eine richtige Antwort erhältst du die volle Gewichtung (z. B. 2 Punkte), "
-                    "falsche Antworten geben 0 Punkte."
-                )
-            else:
-                scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
-            
-            info_html = (
-                "<div style='padding:10px 14px; background:#1f1f1f80; border-radius: 8px; margin-bottom: 1rem;'>"
-                "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
-                "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">✅ 1 richtige Option</span> "
-                "Wähle mit Bedacht, du hast keine zweite Chance pro Frage.<br><br>"
-                "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
-                "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">🎯 Punktelogik</span> "
-                f"{scoring_text}"
-                "</div>"
+    # Zeige Willkommensnachricht AUßERHALB des Containers (Mobile UX!)
+    if num_answered == 0:
+        st.title("Los geht's! 🎯")
+        if app_config.scoring_mode == "positive_only":
+            scoring_text = (
+                "Für eine richtige Antwort erhältst du die volle Gewichtung (z. B. 2 Punkte), "
+                "falsche Antworten geben 0 Punkte."
             )
-            st.markdown(info_html, unsafe_allow_html=True)
+        else:
+            scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
+        
+        # Testzeit berechnen (in Minuten)
+        test_time_minutes = int(st.session_state.test_time_limit / 60)
+        
+        info_html = (
+            "<div style='padding:10px 14px; background:#1f1f1f80; border-radius: 8px; margin-bottom: 1rem;'>"
+            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
+            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">⏱️ Testzeit</span> "
+            f"Du hast <b>{test_time_minutes} Minuten</b> für den gesamten Test. "
+            "Der Countdown aktualisiert sich mit jeder Frage.<br><br>"
+            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
+            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">✅ 1 richtige Option</span> "
+            "Wähle mit Bedacht, du hast keine zweite Chance pro Frage.<br><br>"
+            "<span style=\"display:inline-block;background:#2d3f5a;color:#fff;padding:2px 8px;"
+            "border-radius:12px;font-size:0.75rem;font-weight:600;letter-spacing:.5px;\">🎯 Punktelogik</span> "
+            f"{scoring_text}"
+            "</div>"
+        )
+        st.markdown(info_html, unsafe_allow_html=True)
+
+    with st.container(border=True):
 
         # --- Countdown-Timer ---
         if st.session_state.start_zeit and not is_test_finished(questions):
