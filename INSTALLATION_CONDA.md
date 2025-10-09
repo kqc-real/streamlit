@@ -107,5 +107,3 @@ mamba install -c conda-forge pyarrow brotli zopfli -y
 - Verwende Python 3.12 im Environment, nicht 3.14.
 - Conda ist eine gute "letzte Option" wenn `pip`-Builds wegen fehlender Build-Tools fehlschlagen.
 - Conda-Umgebungen belegen zusätzlichen Speicherplatz, sind dafür aber sehr zuverlässig.
-
-Wenn du möchtest, füge ich am Ende der Mac- und Windows-Anleitungen einen kurzen Link: "Letzte Option: Conda (wenn alles andere scheitert) → INSTALLATION_CONDA.md". Soll ich das verlinken und committen?
