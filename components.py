@@ -153,8 +153,9 @@ def render_admin_switch(app_config: AppConfig):
 
 def render_bookmarks(questions: list):
     """Rendert die Bookmark-Sektion in der Sidebar."""
-    with st.sidebar.expander("🔖 Markierte Fragen", expanded=True):
-        bookmarks = st.session_state.get("bookmarked_questions", [])
+    bookmarks = st.session_state.get("bookmarked_questions", [])
+    # Expander nur geöffnet, wenn Inhalt vorhanden
+    with st.sidebar.expander("🔖 Markierte Fragen", expanded=len(bookmarks) > 0):
         if not bookmarks:
             st.caption("Keine Fragen markiert.")
             return
@@ -201,8 +202,9 @@ def render_bookmarks(questions: list):
 
 def render_skipped_questions(questions: list):
     """Rendert die Sektion für übersprungene Fragen in der Sidebar."""
-    with st.sidebar.expander("↪️ Übersprungen", expanded=True):
-        skipped = st.session_state.get("skipped_questions", [])
+    skipped = st.session_state.get("skipped_questions", [])
+    # Expander nur geöffnet, wenn Inhalt vorhanden
+    with st.sidebar.expander("↪️ Übersprungen", expanded=len(skipped) > 0):
         if not skipped:
             st.caption("Keine Fragen übersprungen.")
             return
