@@ -197,11 +197,12 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
             "Frage-Nr.": frage_nr,
             "Frage": frage["frage"].split(".", 1)[1].strip(),
             "Antworten": total_answers,
-            "Richtig (%)": f"{difficulty:.1f}",
+            "Richtig (%)": round(difficulty, 1),  # Numerischer Wert für korrektes Sortieren
         }
         if show_correlation:
             trennschaerfe = correlations.get(frage_nr)
-            row["Trennschärfe (r_it)"] = f"{trennschaerfe:.2f}" if pd.notna(trennschaerfe) else "0.00"
+            # Numerischer Wert statt String für korrektes Sortieren
+            row["Trennschärfe (r_it)"] = round(trennschaerfe, 2) if pd.notna(trennschaerfe) else 0.0
         
         analysis_data.append(row)
 
@@ -213,6 +214,13 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
     
     # Sortiere den DataFrame nach der Frage-Nummer, um eine konsistente Anzeige zu gewährleisten.
     analysis_df = analysis_df.sort_values(by="Frage-Nr.").reset_index(drop=True)
+    
+    # Stelle sicher, dass numerische Spalten korrekt typisiert sind für Sortierung
+    analysis_df["Frage-Nr."] = analysis_df["Frage-Nr."].astype(int)
+    analysis_df["Antworten"] = analysis_df["Antworten"].astype(int)
+    analysis_df["Richtig (%)"] = analysis_df["Richtig (%)"].astype(float)
+    if show_correlation:
+        analysis_df["Trennschärfe (r_it)"] = analysis_df["Trennschärfe (r_it)"].astype(float)
     
     st.dataframe(analysis_df, use_container_width=True, hide_index=True)
 
