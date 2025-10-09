@@ -177,9 +177,10 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
                 else:
                     # Berechne die Korrelation nur, wenn die Daten variieren
                     corr = item_responses.corr(total_scores)
-                    correlations[frage_nr] = corr
+                    # Setze NaN auf 0.0 für konsistente numerische Verarbeitung
+                    correlations[frage_nr] = 0.0 if pd.isna(corr) else float(corr)
             else:
-                correlations[frage_nr] = None
+                correlations[frage_nr] = 0.0  # 0.0 statt None für konsistente Typisierung
 
     # --- Statistiken pro Frage sammeln ---
     analysis_data = []
@@ -216,11 +217,14 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
     analysis_df = analysis_df.sort_values(by="Frage-Nr.").reset_index(drop=True)
     
     # Stelle sicher, dass numerische Spalten korrekt typisiert sind für Sortierung
-    analysis_df["Frage-Nr."] = analysis_df["Frage-Nr."].astype(int)
-    analysis_df["Antworten"] = analysis_df["Antworten"].astype(int)
-    analysis_df["Richtig (%)"] = analysis_df["Richtig (%)"].astype(float)
-    if show_correlation:
-        analysis_df["Trennschärfe (r_it)"] = analysis_df["Trennschärfe (r_it)"].astype(float)
+    analysis_df["Frage-Nr."] = pd.to_numeric(analysis_df["Frage-Nr."], errors='coerce').fillna(0).astype(int)
+    analysis_df["Antworten"] = pd.to_numeric(analysis_df["Antworten"], errors='coerce').fillna(0).astype(int)
+    analysis_df["Richtig (%)"] = pd.to_numeric(analysis_df["Richtig (%)"], errors='coerce').fillna(0.0)
+    if show_correlation and "Trennschärfe (r_it)" in analysis_df.columns:
+        # Robuste Konvertierung: coerce wandelt ungültige Werte in NaN, dann fillna(0.0)
+        analysis_df["Trennschärfe (r_it)"] = pd.to_numeric(
+            analysis_df["Trennschärfe (r_it)"], errors='coerce'
+        ).fillna(0.0)
     
     st.dataframe(analysis_df, use_container_width=True, hide_index=True)
 
