@@ -151,10 +151,72 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
 
 def render_analysis_tab(df: pd.DataFrame, questions: list):
     """Rendert den Item-Analyse-Tab."""
-    st.header("Item-Analyse")
-    if df.empty:
+    st.header("📊 Item-Analyse")
+    
+    # Hole alle Fragensets mit ausreichend Daten (mindestens 1 Antwort)
+    from database import get_all_answer_logs
+    all_logs = get_all_answer_logs()
+    
+    if not all_logs:
         st.info("Noch keine Antworten für eine Analyse vorhanden.")
         return
+    
+    df_all = pd.DataFrame(all_logs)
+    
+    # Zähle Antworten pro Fragenset
+    if "questions_file" in df_all.columns:
+        qset_counts = df_all["questions_file"].value_counts()
+        available_qsets = [qf for qf in qset_counts.index if qf and qset_counts[qf] >= 1]
+    else:
+        st.info("Noch keine Antworten für eine Analyse vorhanden.")
+        return
+    
+    if not available_qsets:
+        st.info("Noch keine Antworten für eine Analyse vorhanden.")
+        return
+    
+    # Fragenset-Auswahl
+    current_qset = st.session_state.get("selected_questions_file")
+    
+    # Formatiere Namen für Anzeige
+    def format_qset_name(qfile):
+        name = qfile.replace("questions_", "").replace(".json", "").replace("_", " ")
+        count = qset_counts[qfile]
+        return f"{name} ({count} Antworten)"
+    
+    qset_options = {qf: format_qset_name(qf) for qf in available_qsets}
+    
+    # Standard-Auswahl: aktuelles Fragenset oder erstes verfügbares
+    default_qset = current_qset if current_qset in available_qsets else available_qsets[0]
+    
+    selected_qset = st.selectbox(
+        "Wähle Fragenset für Analyse:",
+        options=available_qsets,
+        format_func=lambda x: qset_options[x],
+        index=available_qsets.index(default_qset) if default_qset in available_qsets else 0,
+        key="analysis_qset_selector"
+    )
+    
+    # Filtere Daten für ausgewähltes Fragenset
+    df = df_all[df_all["questions_file"] == selected_qset].copy()
+    
+    # Lade die passenden Fragen
+    from config import load_questions
+    questions = load_questions(selected_qset)
+    
+    if df.empty:
+        st.info("Keine Antworten für dieses Fragenset vorhanden.")
+        return
+    
+    # Zeige Überschrift mit Fragenset-Info
+    qset_display_name = selected_qset.replace("questions_", "").replace(".json", "").replace("_", " ")
+    num_questions = len(questions)
+    num_answers = len(df)
+    num_users = df['user_id_hash'].nunique()
+    
+    st.markdown(f"### 📋 {qset_display_name}")
+    st.caption(f"🔢 {num_questions} Fragen  •  📝 {num_answers} Antworten  •  👥 {num_users} Teilnehmer")
+    st.divider()
 
     # --- Erweiterte Analyse (Trennschärfe) nur bei >1 Teilnehmer ---
     show_correlation = df['user_id_hash'].nunique() >= 2
