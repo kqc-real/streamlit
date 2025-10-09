@@ -39,50 +39,99 @@ Python ist eine Programmiersprache. Unsere MC-Test-App ist in Python geschrieben
 
 **Schritt 1:** Prüfe, ob Python schon installiert ist
 
-1. Öffne das Programm **"Terminal"**
-   - **Wo finde ich das?** Drücke `Cmd + Leertaste` (öffnet Spotlight-Suche)
-   - Tippe: `Terminal`
+1. **Öffne das Programm "Terminal"** (das ist die "Eingabeaufforderung" von Mac)
+   
+   **So öffnest du das Terminal:**
+   - Drücke gleichzeitig: `Cmd` (⌘) + `Leertaste`
+     - 📸 `Cmd` ist die Taste links neben der Leertaste mit dem ⌘-Symbol
+   - Es öffnet sich ein kleines Suchfeld oben rechts (das ist **Spotlight**)
+   - Tippe das Wort: `Terminal`
    - Drücke `Enter`
    
-   📸 **So sieht das Terminal aus:** Ein schwarzes oder weißes Fenster mit Text
+   📸 **So sieht das Terminal aus:**
+   - Ein Fenster mit schwarzem oder weißem Hintergrund
+   - Text drin, z.B. `MacBook-Pro:~ username$`
+   - Ein blinkender Cursor (Strich)
 
-2. Tippe folgenden Befehl und drücke `Enter`:
-   ```bash
-   python3 --version
-   ```
+2. **Teste, ob Python schon da ist:**
+   
+   Im Terminal-Fenster:
+   - Tippe genau diesen Befehl (achte auf Groß-/Kleinschreibung!):
+     ```bash
+     python3 --version
+     ```
+   - **WICHTIG:** Das ist `python` + Ziffer `3` + zwei Bindestriche `--` + `version`
+   - Drücke `Enter`
 
-3. **Wenn du eine Zahl siehst** (z.B. `Python 3.10.5`):
-   - ✅ **Super!** Python ist schon installiert. Weiter zu Teil 2.
+3. **Prüfe das Ergebnis:**
+   
+   **Fall A - Du siehst eine Zahl** (z.B. `Python 3.10.5` oder `Python 3.12.5`):
+   - ✅ **Perfekt!** Python ist bereits installiert
+   - Du kannst **Teil 1 überspringen** und direkt zu **Teil 2** gehen
 
-4. **Wenn eine Fehlermeldung kommt:**
-   - ⬇️ Gehe zu Schritt 2
+   **Fall B - Du siehst eine Fehlermeldung** (z.B. `command not found` oder `Befehl nicht gefunden`):
+   - ⬇️ Python ist noch nicht installiert
+   - Folge den Schritten unten
 
 **Schritt 2:** Python herunterladen
 
-1. Öffne deinen Browser (Safari, Chrome, Firefox)
-2. Gehe auf: **https://www.python.org/downloads/**
-3. Klicke auf den gelben Button: **"Download Python 3.12.x"**
-4. Die Datei wird heruntergeladen (z.B. `python-3.12.5-macos11.pkg`)
+1. Öffne deinen **Browser** (Safari, Chrome oder Firefox - egal welchen)
+2. **Kopiere diese Adresse** und füge sie in die Adresszeile ein:
+   ```
+   https://www.python.org/downloads/
+   ```
+3. Drücke `Enter`
+4. Du siehst die Python-Webseite
+5. Klicke auf den **großen gelben Button** in der Mitte: **"Download Python 3.12.x"**
+   - 📸 Der Button ist nicht zu übersehen, er ist riesig und gelb
+6. **Warte, bis der Download fertig ist** (ca. 30 Sekunden - 1 Minute)
+7. Die heruntergeladene Datei heißt z.B.: `python-3.12.5-macos11.pkg`
+   - Sie landet normalerweise im **Downloads-Ordner**
 
 **Schritt 3:** Python installieren
 
-1. Öffne die heruntergeladene Datei (Doppelklick im Downloads-Ordner)
-2. Ein Installationsfenster öffnet sich
-3. Klicke mehrmals auf **"Fortfahren"**
-4. Gib dein Mac-Passwort ein, wenn du danach gefragt wirst
-5. Klicke auf **"Installieren"**
-6. Warte, bis die Installation abgeschlossen ist (1-2 Minuten)
-7. Klicke auf **"Schließen"**
+1. **Öffne den Downloads-Ordner:**
+   - Klicke im **Dock** (unten am Bildschirm) auf das **Finder-Symbol** (das lächelnde blaue Gesicht)
+   - Klicke links in der Seitenleiste auf **"Downloads"**
 
-**Schritt 4:** Prüfe die Installation
+2. **Doppelklick** auf die heruntergeladene Datei: `python-3.12.5-macos11.pkg`
 
-1. Öffne ein **neues Terminal-Fenster** (das alte schließen!)
-2. Tippe:
+3. **Ein Installationsfenster öffnet sich** (Überschrift: "Python installieren")
+
+4. **Klicke dich durch den Installer:**
+   - Klicke auf: **"Fortfahren"**
+   - Klicke nochmal auf: **"Fortfahren"** (Lizenzvereinbarung)
+   - Klicke auf: **"Einverstanden"** (Lizenz akzeptieren)
+   - Klicke auf: **"Installieren"**
+
+5. **Mac fragt nach deinem Passwort:**
+   - 💡 Das ist das Passwort, mit dem du dich am Mac anmeldest
+   - Tippe es ein (du siehst keine Zeichen beim Tippen - das ist normal!)
+   - Drücke `Enter` oder klicke auf **"Software installieren"**
+
+6. **Warte, bis die Installation fertig ist**
+   - ⏱️ Das dauert ca. 1-2 Minuten
+   - Du siehst einen Fortschrittsbalken
+
+7. **Wenn "Die Installation war erfolgreich" erscheint:**
+   - Klicke auf **"Schließen"**
+
+**Schritt 4:** Prüfe, ob Python jetzt funktioniert
+
+1. **Schließe das alte Terminal-Fenster** (wenn noch offen)
+   - Klicke auf das rote X oben links im Terminal-Fenster
+   - **Warum?** Das alte Terminal weiß noch nichts von Python
+
+2. **Öffne ein neues Terminal** (siehe Schritt 1, wie das geht)
+
+3. **Teste nochmal:**
    ```bash
    python3 --version
    ```
-3. Du solltest jetzt eine Version sehen (z.B. `Python 3.12.5`)
-4. ✅ **Geschafft!** Python ist installiert.
+
+4. **Jetzt solltest du eine Versionsnummer sehen** (z.B. `Python 3.12.5`)
+
+5. ✅ **Geschafft!** Python ist jetzt installiert und funktioniert!
 
 ---
 
