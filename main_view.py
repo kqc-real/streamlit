@@ -41,7 +41,7 @@ def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds:
     if remaining_seconds <= 0:
         return None
     if remaining_seconds <= 60:
-        return "Achtung, nur noch wenige Sekunden!"
+        return "⚠️ Achtung, nur noch wenige Sekunden!"
     if remaining_seconds > 5 * 60:
         return None
 
@@ -60,12 +60,12 @@ def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds:
 
     if seconds <= 29:
         minutes_text = _format_minutes_text(max(1, minutes_floor))
-        return f"Achtung, noch gut {minutes_text}!"
+        return f"⚠️ Achtung, noch gut {minutes_text}!"
 
     next_minute = minutes_floor + 1
     minutes_text = _format_minutes_text(next_minute)
     prefix = "nur noch" if remaining_seconds < next_minute * 60 else "noch"
-    return f"Achtung, {prefix} knapp {minutes_text}!"
+    return f"⚠️ Achtung, {prefix} knapp {minutes_text}!"
 
 
 def _sync_questions_query_param(selected_file: str):
@@ -161,7 +161,7 @@ def render_welcome_page(app_config: AppConfig):
         if questions:
             render_question_distribution_chart(questions)
         else:
-            st.warning("Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
+            st.warning("⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
 
     # --- Öffentliches Leaderboard ---
     if app_config.show_top5_public:
@@ -178,30 +178,30 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 scores = pd.DataFrame(leaderboard_data)
                 scores.rename(columns={
-                    'user_pseudonym': 'Pseudonym',
-                    'total_score': 'Punkte',
-                    'last_test_time': 'Datum',
-                    'duration_seconds': 'Dauer',
+                    'user_pseudonym': '👤 Pseudonym',
+                    'total_score': '🏅 Punkte',
+                    'last_test_time': '📅 Datum',
+                    'duration_seconds': '⏱️ Dauer',
                 }, inplace=True)
 
                 # Formatiere die Dauer von Sekunden in MM:SS
                 def format_duration(seconds):
                     mins, secs = divmod(seconds, 60)
                     return f"{int(mins):02d}:{int(secs):02d}"
-                scores['Dauer'] = scores['Dauer'].apply(format_duration)
+                scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
 
                 # Formatiere das Datum
-                scores["Datum"] = pd.to_datetime(scores["Datum"]).dt.strftime('%d.%m.%y')
+                scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"]).dt.strftime('%d.%m.%y')
 
                 # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                 icons = ["🥇", "🥈", "🥉"]
                 for i in range(len(scores)):
                     if i < len(icons):
-                        scores.loc[i, "Pseudonym"] = f"{icons[i]} {scores.loc[i, 'Pseudonym']}"
+                        scores.loc[i, "👤 Pseudonym"] = f"{icons[i]} {scores.loc[i, '👤 Pseudonym']}"
                     else:
-                        scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
+                        scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
 
-                st.dataframe(scores[["Pseudonym", "Punkte", "Dauer", "Datum"]], use_container_width=True, hide_index=True)
+                st.dataframe(scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]], use_container_width=True, hide_index=True)
 
 
     # --- Login-Formular im Hauptbereich ---
@@ -243,7 +243,7 @@ def render_welcome_page(app_config: AppConfig):
 
     # Prüfe, ob überhaupt Optionen verfügbar sind, bevor das selectbox gerendert wird.
     if not options:
-        st.warning("Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.")
+        st.warning("⚠️ Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.")
         selected_name_from_user = None
     else:
         selected_name_from_user = st.selectbox(
@@ -339,7 +339,7 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     # aber der session_state (insb. optionen_shuffled) noch vom alten Set stammt.
     if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
         from auth import initialize_session_state
-        st.warning("Erkenne Wechsel des Fragensets, initialisiere Test neu...")
+        st.warning("⚠️ Erkenne Wechsel des Fragensets, initialisiere Test neu...")
         initialize_session_state(questions, app_config)
         time.sleep(1) # Kurze Pause, damit der Nutzer die Nachricht sieht
         st.rerun()
@@ -529,7 +529,7 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     last_answer_time = st.session_state.get("last_answer_time", 0)
     current_time = time.time()
     if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
-        st.warning(f"Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
+        st.warning(f"⚠️ Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
         return
     
     st.session_state.last_answer_time = current_time

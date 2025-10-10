@@ -78,44 +78,44 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
 
         scores = pd.DataFrame(leaderboard_data)
         scores.rename(columns={
-            'user_pseudonym': 'Pseudonym',
-            'total_score': 'Punkte',
-            'last_test_time': 'Datum',
-            'duration_seconds': 'Dauer'
+            'user_pseudonym': '👤 Pseudonym',
+            'total_score': '🏅 Punkte',
+            'last_test_time': '📅 Datum',
+            'duration_seconds': '⏱️ Dauer'
         }, inplace=True)
 
         # Formatiere die Dauer von Sekunden in MM:SS
         def format_duration(seconds):
             mins, secs = divmod(seconds, 60)
             return f"{int(mins):02d}:{int(secs):02d}"
-        scores['Dauer'] = scores['Dauer'].apply(format_duration)
+        scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
 
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
-        scores["Datum"] = pd.to_datetime(scores["Datum"])
+        scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"])
 
-        scores["Datum"] = scores["Datum"].dt.strftime('%d.%m.%y')
+        scores["📅 Datum"] = scores["📅 Datum"].dt.strftime('%d.%m.%y')
         
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
             if i < len(icons):
-                scores.loc[i, "Pseudonym"] = f"{icons[i]} {scores.loc[i, 'Pseudonym']}"
+                scores.loc[i, "👤 Pseudonym"] = f"{icons[i]} {scores.loc[i, '👤 Pseudonym']}"
             else:
-                scores.loc[i, "Pseudonym"] = f"{i + 1}. {scores.loc[i, 'Pseudonym']}"
+                scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
 
-        st.dataframe(scores[["Pseudonym", "Punkte", "Dauer", "Datum"]], use_container_width=True, hide_index=True)
+        st.dataframe(scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]], use_container_width=True, hide_index=True)
 
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
         with st.expander("Benutzerergebnisse für dieses Set zurücksetzen"):
             user_to_reset = st.selectbox(
                 "Wähle einen Benutzer:",
-                options=[p for p in scores["Pseudonym"]],
+                options=[p for p in scores["👤 Pseudonym"]],
                 format_func=lambda x: x.split(" ", 1)[-1], # Zeige nur den Namen ohne Rang/Icon
                 key=f"reset_user_select_{q_file}"
             )
             
             if user_to_reset:
                 user_name_plain = user_to_reset.split(" ", 1)[-1]
-                st.warning(f"**Achtung:** Alle Ergebnisse von **{user_name_plain}** für das Fragenset **{title}** werden unwiderruflich gelöscht.")
+                st.warning(f"⚠️ **Achtung:** Alle Ergebnisse von **{user_name_plain}** für das Fragenset **{title}** werden unwiderruflich gelöscht.")
                 
                 # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
                 from auth import check_admin_key
@@ -453,7 +453,7 @@ def render_feedback_tab():
                 
                 # Popover für die Löschbestätigung
                 with st.popover("Löschen", use_container_width=True):
-                    st.warning("Soll dieses Feedback wirklich gelöscht werden?")
+                    st.warning("⚠️ Soll dieses Feedback wirklich gelöscht werden?")
                     if st.button("Ja, endgültig löschen", key=f"del_feedback_{row['feedback_id']}", type="primary", use_container_width=True):
                         from database import delete_feedback
                         if delete_feedback(row['feedback_id']):
@@ -465,7 +465,7 @@ def render_feedback_tab():
 
 def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     """Rendert den Export-Tab."""
-    st.header("Datenexport")
+    st.header("📤 Datenexport")
     if df.empty:
         st.info("Keine Daten zum Exportieren vorhanden.")
         return
@@ -476,7 +476,7 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     
     csv_data = df.to_csv(index=False).encode("utf-8")
     st.download_button(
-        label="Antwort-Log herunterladen (CSV)",
+        label="⬇️ Antwort-Log herunterladen (CSV)",
         data=csv_data,
         file_name="mc_test_answers.csv",
         mime="text/csv",
@@ -608,7 +608,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     
     db_dump_data = get_database_dump()
     st.download_button(
-        label="Datenbank-Dump herunterladen (.sql)",
+        label="⬇️ Datenbank-Dump herunterladen (.sql)",
         data=db_dump_data,
         file_name="mc_test_dump.sql",
         mime="application/sql"
@@ -619,7 +619,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     st.subheader("Gefahrenzone")
     with st.expander("🔴 Alle Testdaten unwiderruflich löschen"):
         st.warning(
-            "**Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer "
+            "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer "
             "(außer dem Admin-Account) aus der Datenbank."
         )
         

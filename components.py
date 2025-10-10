@@ -68,7 +68,7 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
 
     with st.sidebar.expander("⚠️ Session beenden"):
         st.warning(
-            "Dein Punktestand wird gespeichert und der Test beendet. "
+            "⚠️ Dein Punktestand wird gespeichert und der Test beendet. "
             "Für einen weiteren Versuch wähle ein neues Pseudonym."
         )
 
@@ -191,29 +191,25 @@ def render_bookmarks(questions: list):
             st.caption("Sprünge sind nach Abschluss deaktiviert.")
 
         for q_idx in sorted_bookmarks:
-            cols = st.columns([4, 1])
+            cols = st.columns([3, 1, 1])
 
             with cols[0]:
-                # Korrekte Ermittlung der laufenden Nummer der Frage im Testdurchlauf.
-                # Wir verwenden die *initiale* Reihenfolge für eine stabile Nummerierung.
                 session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
                 display_question_number = session_local_idx + 1
-                if st.button(
-                    f"Frage {display_question_number}",
-                    key=f"bm_jump_{q_idx}",
-                    disabled=test_completed
-                ):
-                    # Setze den Sprung-Index. Die Haupt-App-Logik wird diesen als
-                    # nächste anzuzeigende Frage verwenden.
-                    st.session_state["jump_to_idx"] = q_idx
-                    
-                    # Setze ein Flag, das anzeigt, dass ein Sprung aktiv ist.
-                    # Dies wird in der Hauptansicht verwendet, um den Testfluss anzupassen.
-                    st.session_state.jump_to_idx_active = True
-
-                    st.rerun()
+                st.markdown(f"**Frage {display_question_number}**")
             with cols[1]:
-                if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen"):
+                if st.button(
+                    "🔖",
+                    key=f"bm_jump_{q_idx}",
+                    help="Zur markierten Frage springen",
+                    disabled=test_completed,
+                    use_container_width=True
+                ):
+                    st.session_state["jump_to_idx"] = q_idx
+                    st.session_state.jump_to_idx_active = True
+                    st.rerun()
+            with cols[2]:
+                if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen", use_container_width=True):
                     st.session_state.bookmarked_questions.remove(q_idx)
                     bookmarked_q_nrs = [
                         int(questions[i]['frage'].split('.')[0]) 
