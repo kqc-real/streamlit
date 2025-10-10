@@ -68,22 +68,49 @@ def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds:
     return f"Achtung, {prefix} knapp {minutes_text}!"
 
 
+def _sync_questions_query_param(selected_file: str):
+    """Synchronisiert die Query-Parameter mit der aktuellen Fragenset-Auswahl."""
+    current_value = st.query_params.get("questions_file")
+    if isinstance(current_value, list):
+        current_value = current_value[0] if current_value else None
+    if current_value == selected_file:
+        return
+    st.query_params["questions_file"] = selected_file
+
+
 def render_welcome_page(app_config: AppConfig):
     """Zeigt die Startseite für nicht eingeloggte Nutzer."""
 
-    # --- Dynamischer Titel und Willkommensnachricht ---
-    # Der Titel wird aus dem ausgewählten Dateinamen generiert, der im Session State liegt.
-    # Falls noch kein Set ausgewählt wurde, wird das erste verfügbare als Default genommen.
-    if "selected_questions_file" not in st.session_state:
-        all_files = list_question_files()
-        if all_files:
-            st.session_state.selected_questions_file = all_files[0]
-        else:
-            st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
-            st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
-            return
+    # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
+    available_question_files = list_question_files()
+
+    if not available_question_files:
+        st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
+        st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
+        return
+
+    query_params = st.query_params
+    requested_file = query_params.get("questions_file")
+    if isinstance(requested_file, list):
+        requested_file = requested_file[0] if requested_file else None
+
+    if requested_file and requested_file in available_question_files:
+        st.session_state.selected_questions_file = requested_file
+    elif (
+        "selected_questions_file" not in st.session_state
+        or st.session_state.selected_questions_file not in available_question_files
+    ):
+        st.session_state.selected_questions_file = available_question_files[0]
 
     selected_file = st.session_state.get("selected_questions_file")
+    if not selected_file:
+        st.error("Konnte kein gültiges Fragenset bestimmen.")
+        return
+
+    _sync_questions_query_param(selected_file)
+
+    # --- Dynamischer Titel und Willkommensnachricht ---
+    # Der Titel wird aus dem ausgewählten Dateinamen generiert, der im Session State liegt.
     dynamic_title = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
     st.markdown(f"""
         <div style='text-align: center; padding: 0 0 10px 0;'>
@@ -109,10 +136,10 @@ def render_welcome_page(app_config: AppConfig):
         num_questions = question_counts.get(filename)
         return f"{name} ({num_questions} Fragen)" if num_questions else f"{name} (Fehler)"
 
-    st.markdown("<h3 style='text-align: center; margin-top: 0.5rem;'>Wähle deinen Fragenset</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle deinen Fragenset</h3>", unsafe_allow_html=True)
 
     current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
-    selected_file = st.selectbox(
+    selected_choice = st.selectbox(
         "Wähle ein Fragenset:",
         options=valid_question_files,
         index=valid_question_files.index(current_selection) if current_selection in valid_question_files else 0,
@@ -121,9 +148,13 @@ def render_welcome_page(app_config: AppConfig):
         label_visibility="collapsed"
     )
 
-    if selected_file != st.session_state.get("selected_questions_file"):
-        st.session_state.selected_questions_file = selected_file
+    if selected_choice != st.session_state.get("selected_questions_file"):
+        st.session_state.selected_questions_file = selected_choice
+        _sync_questions_query_param(selected_choice)
         st.rerun()
+        return
+
+    selected_file = st.session_state.get("selected_questions_file")
     # --- Diagramm zur Verteilung der Fragen ---
     with st.expander("Verteilung nach Thema und Schwierigkeit", expanded=False):
         questions = load_questions(selected_file)
