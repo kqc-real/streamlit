@@ -177,8 +177,8 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 scores = pd.DataFrame(leaderboard_data)
                 scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
-                # Filtere Sessions unter fünf Minuten heraus, um überstürzte Abgaben zu vermeiden.
-                min_duration_seconds = 5 * 60
+                # Filtere Sessions unter drei Minuten heraus, um überstürzte Abgaben zu vermeiden.
+                min_duration_seconds = 3 * 60
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
                 scores = scores.reset_index(drop=True)
                 if scores.empty:
