@@ -225,9 +225,10 @@ Die App selbst generiert **keine** Fragen automatisch. Der folgende Abschnitt is
 
 1.  **Kopiere den gesamten Prompt-Text** aus dem nächsten Abschnitt
 2.  **Füge ihn in dein LLM ein** (z.B. ChatGPT Web-Interface, Claude, VS Code Copilot Chat)
-3.  **Beantworte die 7 Fragen** des Assistenten Schritt für Schritt
+3.  **Beantworte die 7 Fragen** des Assistenten Schritt für Schritt (erst nach deiner Antwort geht es weiter).
 4.  **Erhalte eine fertige `questions_*.json`-Datei** zum Download
-5.  **Speichere die Datei** im `data/`-Ordner deiner App
+5.  **Prüfe die JSON-Datei** z. B. mit [jsonlint.com](https://jsonlint.com) oder einem lokalen Linter.
+6.  **Speichere die Datei** im `data/`-Ordner deiner App.
 
 Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsregeln, didaktische Guidelines), damit der LLM qualitativ hochwertige Fragen für diese App erstellen kann.
 
@@ -237,25 +238,25 @@ Führe mich in den folgenden sieben Schritten durch die Konfiguration eines neue
 
 ---
 
-### **Schritt 1 von 5: Thema abfragen**
+### **Schritt 1 von 7 – Thema festlegen**
 
 Frage mich nach dem Thema für das neue Fragenset. Erwähne, dass dies die Grundlage für den Inhalt und den Dateinamen ist (z.B. `questions_Ihr_Thema.json`). Gib mir Beispiele wie "Data Science Grundlagen", "Software-Architektur" oder "Projektmanagement nach Scrum".
 
 ---
 
-### **Schritt 2 von 6: Zielgruppe abfragen**
+### **Schritt 2 von 7 – Zielgruppe bestimmen**
 
 Frage mich nach der Zielgruppe für das Fragenset. Gib mir Beispiele wie "Anfänger ohne Vorkenntnisse", "Fortgeschrittene mit Grundwissen" oder "Experten zur Prüfungsvorbereitung".
 
 ---
 
-### **Schritt 3 von 6: Anzahl der Fragen abfragen**
+### **Schritt 3 von 7 – Anzahl der Fragen**
 
 Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50).
 
 ---
 
-### **Schritt 4 von 6: Anzahl der Antwortoptionen abfragen**
+### **Schritt 4 von 7 – Anzahl der Antwortoptionen**
 
 Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgenden drei Möglichkeiten zur Auswahl:
 
@@ -265,27 +266,27 @@ Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgende
 
 ---
 
-### **Schritt 5 von 7: Detaillierte Erklärungen abfragen**
+### **Schritt 5 von 7 – Erweiterte Erklärungen (optional)**
 
-Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können.
-
----
-
-### **Schritt 6 von 7: Mini-Glossar abfragen**
-
-Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) generiert werden sollen. Erkläre, dass diese im PDF-Export als separate Glossar-Section angezeigt werden und wichtige Fachbegriffe aus den Fragen erklären. Jede Frage kann 2-4 zentrale Begriffe mit prägnanten Definitionen (1-3 Sätze) enthalten. Die Definitionen dürfen LaTeX-Formeln nutzen.
+Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können. Wenn ich mich dagegen entscheide, lasse dieses Feld vollständig weg (kein leeres Objekt erzeugen).
 
 ---
 
-### **Schritt 7 von 7: Externe Dokumente abfragen**
+### **Schritt 6 von 7 – Mini-Glossar (optional)**
 
-Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage hochladen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann.
+Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) generiert werden sollen. Erkläre, dass diese im PDF-Export als separate Glossar-Section angezeigt werden und wichtige Fachbegriffe aus den Fragen erklären. Jede Frage kann 2-4 zentrale Begriffe mit prägnanten Definitionen (1-3 Sätze) enthalten. Falls verneint, darf das Feld in der JSON fehlen.
+
+---
+
+### **Schritt 7 von 7 – Externe Dokumente (optional)**
+
+Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage hochladen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann. Wenn keine Dokumente verfügbar sind, fahre ohne sie fort.
 
 ---
 
 ### **Abschluss, Ausgabeformat und Generierung**
 
-Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die direkt mit einer eckigen Klammer (`[`) beginnt und eine Liste von Frage-Objekten enthält. Alle Fragen müssen vollständig und prüfungsrelevant sein; erstelle keine Platzhalterfragen. Jedes Objekt muss der folgenden Struktur und den nachstehenden Formatierungsregeln folgen.
+Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die direkt mit einer eckigen Klammer (`[`) beginnt und eine Liste von Frage-Objekten enthält. Alle Fragen müssen vollständig und prüfungsrelevant sein; erstelle keine Platzhalterfragen. Verwende optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich sie in den zugehörigen Schritten ausdrücklich angefordert habe. Jedes Objekt muss der folgenden Struktur und den nachstehenden Formatierungsregeln folgen.
 
 #### **JSON-Struktur pro Frage:**
 
@@ -303,8 +304,11 @@ Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Erge
   "gewichtung": 2,
   "thema": "Zugehöriges Themengebiet",
   "extended_explanation": {
-    "title": "Titel der erweiterten Erklärung",
-    "content": "Detaillierter Hintergrund, Code-Beispiele oder mathematische Herleitungen..."
+    "titel": "Titel der erweiterten Erklärung",
+    "schritte": [
+      "Schritt 1 – ...",
+      "Schritt 2 – ..."
+    ]
   },
   "mini_glossary": {
     "Begriff 1": "Prägnante Definition in 1-3 Sätzen mit optionalen $LaTeX$-Formeln.",
@@ -321,8 +325,16 @@ Nachdem ich alle sechs Fragen beantwortet habe, erstelle das Fragenset. Das Erge
   * `erklaerung`: (string) Die Standarderklärung für die korrekte Lösung.
   * `gewichtung`: (integer) Eine Ganzzahl, die die Schwierigkeit angibt: **1** für Grundlagenwissen, **2** für Transferwissen/Anwendung, **3** für Expertenwissen/Kombination.
   * `thema`: (string) Das spezifische Unterthema, dem die Frage zugeordnet ist.
-  * `extended_explanation`: (object, optional) Ein optionales Feld für tiefere Erklärungen, besonders bei Fragen mit `gewichtung` 2 oder 3.
-  * `mini_glossary`: (object, optional) Ein optionales Dictionary mit 2-4 wichtigen Fachbegriffen als Schlüssel und deren prägnanten Definitionen (1-3 Sätze) als Werte. Wird im PDF-Export als separate Glossar-Section angezeigt. Definitionen können LaTeX-Formeln enthalten.
+  * `extended_explanation`: (object, optional) Zusätzliche Tiefe für anspruchsvolle Fragen. Verwende entweder die Struktur `{ "titel": "...", "schritte": ["...", "..."] }` (empfohlen) oder `{ "title": "...", "content": "..." }`. Lasse das Feld weg, wenn keine erweiterten Erklärungen gewünscht sind.
+  * `mini_glossary`: (object, optional) Wörterbuch mit 2-4 Fachbegriffen und Definitionen. Nur erzeugen, wenn Schritt 6 bejaht wurde.
+
+#### ✅ Abschluss-Checkliste für das Fragenset
+
+1. JSON ist syntaktisch gültig (Lint-Test bestanden).
+2. Anzahl der Fragen entspricht Schritt 3.
+3. Jede Frage besitzt genau eine richtige Antwort (`loesung` zeigt auf einen gültigen Index).
+4. Optional‑Felder sind nur enthalten, wenn sie beauftragt wurden und nicht leer.
+5. Themen, Gewichtungen und Glossar-Einträge sind konsistent innerhalb des Sets.
 
 #### **Richtlinien für Mini-Glossar-Einträge:**
 
