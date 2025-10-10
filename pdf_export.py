@@ -925,9 +925,25 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
         extended_explanation = frage_obj.get("extended_explanation")
         if extended_explanation and isinstance(extended_explanation, dict):
-            title = _parse_text_with_formulas(extended_explanation.get('title', ''))
-            content = _parse_text_with_formulas(extended_explanation.get('content', ''))
-            html_body += f'<div class="explanation"><strong>Detaillierte Erklärung: {title}</strong><br>{content}</div>'
+            title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
+            content = extended_explanation.get('content')
+            steps = extended_explanation.get('schritte') if isinstance(extended_explanation.get('schritte'), list) else None
+
+            explanation_html = '<div class="explanation"><strong>Detaillierte Erklärung'
+            if title:
+                explanation_html += f": {_parse_text_with_formulas(title)}"
+            explanation_html += "</strong>"
+
+            if steps:
+                explanation_html += "<ol class='extended-steps'>"
+                for step in steps:
+                    explanation_html += f"<li>{_parse_text_with_formulas(step)}</li>"
+                explanation_html += "</ol>"
+            elif isinstance(content, str) and content.strip():
+                explanation_html += "<br>" + _parse_text_with_formulas(content)
+
+            explanation_html += "</div>"
+            html_body += explanation_html
         
         # Schließe Question-Box
         html_body += '</div>'
@@ -1298,6 +1314,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             .explanation strong {{
                 color: #856404;
                 font-weight: 600;
+            }}
+            .extended-steps {{
+                margin: 8px 0 0 1.2rem;
+                padding: 0;
+            }}
+            .extended-steps li {{
+                margin-bottom: 6px;
             }}
             
             /* Code */

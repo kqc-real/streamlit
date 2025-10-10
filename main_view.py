@@ -665,8 +665,20 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         if st.session_state.get(show_extended_key, False):
             with st.expander("Detaillierte Erklärung", expanded=True):
                 if isinstance(extended_explanation, dict):
-                    st.markdown(f"**{smart_quotes_de(extended_explanation.get('title', ''))}**")
-                    st.markdown(smart_quotes_de(extended_explanation.get('content', '')))
+                    title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
+                    if title:
+                        st.markdown(f"**{smart_quotes_de(title)}**")
+
+                    content = extended_explanation.get("content")
+                    steps = extended_explanation.get("schritte")
+
+                    if isinstance(steps, list) and steps:
+                        for idx, step in enumerate(steps, start=1):
+                            st.markdown(f"{idx}. {smart_quotes_de(step)}")
+                    elif isinstance(content, str) and content.strip():
+                        st.markdown(smart_quotes_de(content))
+                    else:
+                        st.markdown(smart_quotes_de(str(extended_explanation)))
                 else:
                     st.markdown(smart_quotes_de(str(extended_explanation)))
 
