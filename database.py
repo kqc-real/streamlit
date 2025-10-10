@@ -7,6 +7,19 @@ import time
 import os
 from config import get_package_dir
 
+# Fallback für ältere Streamlit-Versionen ohne caching-Decoratoren
+def _identity_cache_decorator(func):
+    """Dekorator, der das Original unverändert ausführt."""
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.clear = lambda: None
+    return wrapper
+
+
+if not hasattr(st, "cache_resource"):
+    st.cache_resource = _identity_cache_decorator  # type: ignore[attr-defined]
+
+
 # Definiert den Pfad zur Datenbank-Datei.
 # Wir legen die DB in ein dediziertes 'data'-Verzeichnis, um Pfadprobleme
 # mit Tools und in Cloud-Umgebungen zu vermeiden.

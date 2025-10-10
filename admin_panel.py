@@ -737,7 +737,8 @@ def render_audit_log_tab():
     
     with col1:
         # CSV-Export
-        csv_data = export_audit_log_csv()
+        csv_df = export_audit_log_csv()
+        csv_data = csv_df.to_csv(index=False)
         st.download_button(
             "📥 Export als CSV",
             data=csv_data,

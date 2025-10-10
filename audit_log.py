@@ -13,7 +13,7 @@ Datum: 08.10.2025
 
 import sqlite3
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, List, Dict, Tuple, Any
 import streamlit as st
 from database import get_db_connection, with_db_retry
 
@@ -21,6 +21,53 @@ from database import get_db_connection, with_db_retry
 # ============================================================================
 # AUDIT-LOGGING
 # ============================================================================
+
+class _RowDict(dict):
+    """Dictionary, das zusätzlich Zugriff über Integer-Indizes erlaubt."""
+    def __init__(self, columns: list[str], values: list[Any]):
+        super().__init__(zip(columns, values))
+        self._columns = columns
+
+    def __getitem__(self, key):
+        if isinstance(key, int):
+            key = self._columns[key]
+        return super().__getitem__(key)
+
+    def get(self, key, default=None):
+        if isinstance(key, int):
+            if 0 <= key < len(self._columns):
+                key = self._columns[key]
+            else:
+                return default
+        return super().get(key, default)
+
+
+def _get_connection():
+    """Liefert eine DB-Verbindung mit aktiviertem Row-Factory Fallback."""
+    conn = get_db_connection()
+    if hasattr(conn, "row_factory"):
+        conn.row_factory = sqlite3.Row
+    return conn
+
+
+def _convert_row(cursor, row):
+    """Konvertiert eine einzelne Row in ein _RowDict."""
+    if row is None:
+        return None
+    columns = [col[0] for col in cursor.description] if cursor.description else []
+    if isinstance(row, sqlite3.Row):
+        values = [row[col] for col in columns]
+    elif isinstance(row, dict):
+        values = [row.get(col) for col in columns]
+    else:
+        values = list(row)
+    return _RowDict(columns, values)
+
+
+def _convert_rows(cursor, rows):
+    """Konvertiert mehrere Rows in eine Liste von _RowDicts."""
+    return [_convert_row(cursor, row) for row in rows if row is not None]
+
 
 @with_db_retry
 def log_admin_action(
@@ -51,7 +98,7 @@ def log_admin_action(
         ...                  details="Wrong password", success=False)
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         timestamp = datetime.now().isoformat()
         
         conn.execute("""
@@ -92,7 +139,7 @@ def get_audit_log(
         >>> get_audit_log(action="LOGIN", success_only=False)  # Fehlgeschlagene Logins
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         
         # Basis-Query
         query = "SELECT * FROM admin_audit_log WHERE 1=1"
@@ -117,40 +164,52 @@ def get_audit_log(
         
         cursor = conn.execute(query, params)
         rows = cursor.fetchall()
-        
-        # Konvertiere sqlite3.Row zu Dict
-        return [dict(row) for row in rows]
+        return _convert_rows(cursor, rows)
     
     except Exception as e:
         print(f"Audit-Log Abruf Fehler: {e}")
         return []
 
 
-def export_audit_log_csv() -> str:
+def export_audit_log_csv() -> "pd.DataFrame":
     """
-    Exportiert das komplette Audit-Log als CSV-String.
+    Exportiert das komplette Audit-Log als Pandas DataFrame.
     
     Returns:
-        CSV-String mit allen Log-Einträgen
+        Pandas DataFrame mit allen Log-Einträgen
     
     Note:
-        Nutzt Pandas für CSV-Generierung
+        Für den eigentlichen CSV-Download kann `DataFrame.to_csv()` verwendet werden.
     """
     import pandas as pd
     
     logs = get_audit_log(limit=10000)  # Alle Einträge
     
+    column_order = ['timestamp', 'user_id', 'action', 
+                    'details', 'ip_address', 'success']
+    
     if not logs:
-        return "timestamp,user_id,action,details,ip_address,success\n"
+        return pd.DataFrame(columns=column_order)
     
     df = pd.DataFrame(logs)
     
-    # Sortiere Spalten für bessere Lesbarkeit
-    column_order = ['timestamp', 'user_id', 'action', 
-                    'details', 'ip_address', 'success']
-    df = df[column_order]
+    # Stelle sicher, dass alle erwarteten Spalten vorhanden sind
+    for col in column_order:
+        if col not in df.columns:
+            df[col] = ""
+
+    # Formatiere success-Spalte als ✅/❌ Strings
+    def _format_success(value):
+        if isinstance(value, str):
+            normalized = value.strip().lower()
+            if normalized in ("✅", "true", "1", "yes"):
+                return "✅"
+            if normalized in ("❌", "false", "0", "no", ""):
+                return "❌"
+        return "✅" if bool(value) else "❌"
+    df["success"] = df["success"].apply(_format_success)
     
-    return df.to_csv(index=False)
+    return df[column_order]
 
 
 @with_db_retry
@@ -169,7 +228,7 @@ def cleanup_old_audit_logs(days: int = 90) -> int:
         Empfohlen: 90 Tage für Admin-Logs
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
         
         cursor = conn.execute("""
@@ -207,7 +266,7 @@ def log_login_attempt(
         Wird für Rate-Limiting verwendet
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         timestamp = datetime.now().isoformat()
         
         conn.execute("""
@@ -247,7 +306,7 @@ def check_rate_limit(
         ...     st.error(f"Zu viele Versuche. Gesperrt bis {locked_until}")
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         
         # Prüfe ob User aktuell gesperrt ist
         cursor = conn.execute("""
@@ -257,8 +316,8 @@ def check_rate_limit(
             LIMIT 1
         """, (user_id,))
         
-        row = cursor.fetchone()
-        if row and row['locked_until']:
+        row = _convert_row(cursor, cursor.fetchone())
+        if row and row.get('locked_until'):
             locked_until = datetime.fromisoformat(row['locked_until'])
             if datetime.now() < locked_until:
                 return False, row['locked_until']
@@ -276,7 +335,8 @@ def check_rate_limit(
               AND timestamp > ?
         """, (user_id, cutoff_time))
         
-        count = cursor.fetchone()['count']
+        count_row = _convert_row(cursor, cursor.fetchone())
+        count = count_row.get('count', 0) if count_row else 0
         
         # Wenn zu viele Versuche, sperre User
         if count >= max_attempts:
@@ -315,7 +375,7 @@ def reset_login_attempts(user_id: str) -> None:
         user_id: Pseudonym des Users
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         
         # Lösche alte Versuche (behalte nur letzten erfolgreichen Login)
         conn.execute("""
@@ -341,7 +401,7 @@ def cleanup_old_login_attempts(days: int = 30) -> int:
         Anzahl gelöschter Einträge
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
         
         cursor = conn.execute("""
@@ -389,43 +449,55 @@ def get_audit_statistics() -> Dict:
         Dictionary mit Statistiken
     """
     try:
-        conn = get_db_connection()
+        conn = _get_connection()
         
         # Gesamt-Anzahl
-        total = conn.execute(
+        cursor = conn.execute(
             "SELECT COUNT(*) as count FROM admin_audit_log"
-        ).fetchone()['count']
+        )
+        total_row = _convert_row(cursor, cursor.fetchone())
+        total = total_row.get('count', 0) if total_row else 0
         
         # Erfolgreiche vs. Fehlgeschlagene
-        successful = conn.execute(
+        cursor = conn.execute(
             "SELECT COUNT(*) as count FROM admin_audit_log WHERE success = 1"
-        ).fetchone()['count']
+        )
+        success_row = _convert_row(cursor, cursor.fetchone())
+        successful = success_row.get('count', 0) if success_row else 0
         
         failed = total - successful
         
         # Aktionen nach Typ
-        actions = conn.execute("""
+        cursor = conn.execute("""
             SELECT action, COUNT(*) as count 
             FROM admin_audit_log 
             GROUP BY action 
             ORDER BY count DESC
-        """).fetchall()
+        """)
+        actions = _convert_rows(cursor, cursor.fetchall())
         
         # Aktivste User
-        users = conn.execute("""
+        cursor = conn.execute("""
             SELECT user_id, COUNT(*) as count 
             FROM admin_audit_log 
             GROUP BY user_id 
             ORDER BY count DESC 
             LIMIT 5
-        """).fetchall()
+        """)
+        users = _convert_rows(cursor, cursor.fetchall())
+        
+        success_rate = round((successful / total) * 100, 2) if total else 0.0
         
         return {
             "total": total,
             "successful": successful,
             "failed": failed,
-            "actions": [dict(row) for row in actions],
-            "top_users": [dict(row) for row in users]
+            "actions": actions,
+            "top_users": users,
+            "total_actions": total,
+            "successful_actions": successful,
+            "failed_actions": failed,
+            "success_rate": success_rate
         }
     
     except Exception as e:
@@ -435,5 +507,9 @@ def get_audit_statistics() -> Dict:
             "successful": 0,
             "failed": 0,
             "actions": [],
-            "top_users": []
+            "top_users": [],
+            "total_actions": 0,
+            "successful_actions": 0,
+            "failed_actions": 0,
+            "success_rate": 0.0
         }

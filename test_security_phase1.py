@@ -31,8 +31,6 @@ def test_admin_key_loading():
         print("⚠️  WARNUNG: Admin-Key ist leer (lokal OK, Produktion NICHT OK)")
     else:
         print("✅ Admin-Key ist gesetzt (Produktion OK)")
-    
-    return config
 
 
 def test_admin_authentication():
@@ -178,7 +176,7 @@ def main():
     print("Working Dir:", os.getcwd())
     
     try:
-        config = test_admin_key_loading()
+        test_admin_key_loading()
         test_admin_authentication()
         test_code_changes()
         test_timing_attack_protection()
@@ -188,7 +186,10 @@ def main():
         print("="*60)
         
         print("\n📋 ZUSAMMENFASSUNG:")
-        if not config.admin_key:
+        summary_config = AppConfig()
+        from config import AppConfig
+        summary_config = AppConfig()
+        if not summary_config.admin_key:
             print("⚠️  Admin-Key ist LEER")
             print("   → Warnung in Sidebar wird angezeigt")
             print("   → Kein Passwort vor Lösch-Aktionen erforderlich")

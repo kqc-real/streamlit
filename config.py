@@ -7,9 +7,37 @@ Verantwortlichkeiten:
 - Laden der Fragensets (`questions_*.json`).
 """
 import os
+import sys
 import json
 from typing import List, Dict, Any
 import streamlit as st
+
+
+def _identity_cache_decorator(func):
+    """Fallback, wenn Streamlit kein cache_data/cache_resource kennt."""
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    wrapper.clear = lambda: None
+    return wrapper
+
+
+if not hasattr(st, "cache_data"):
+    st.cache_data = _identity_cache_decorator  # type: ignore[attr-defined]
+
+if not hasattr(st, "cache_resource"):
+    st.cache_resource = _identity_cache_decorator  # type: ignore[attr-defined]
+
+
+def _make_streamlit_noop(name: str):
+    def _noop(*args, **kwargs):
+        return None
+    _noop.__name__ = f"streamlit_noop_{name}"
+    return _noop
+
+
+for _attr in ("error", "warning", "info", "success"):
+    if not hasattr(st, _attr):
+        setattr(st, _attr, _make_streamlit_noop(_attr))
 
 
 def get_package_dir() -> str:
@@ -162,7 +190,9 @@ def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
             return questions
     except (IOError, json.JSONDecodeError) as e:
         if not silent:
-            st.error(f"Fehler beim Laden von '{filename}': {e}")
+            streamlit_module = sys.modules.get("streamlit", st)
+            error_handler = getattr(streamlit_module, "error", _make_streamlit_noop("error"))
+            error_handler(f"Fehler beim Laden von '{filename}': {e}")
         return []
 
 @st.cache_data
