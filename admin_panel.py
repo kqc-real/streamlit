@@ -504,6 +504,22 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         st.success("Scoring-Modus gespeichert. Wird bei der nächsten Antwort aktiv.")
         st.rerun()
 
+    st.subheader("Testdauer")
+    new_duration_minutes_input = st.number_input(
+        "Wie viele Minuten sollen Teilnehmende für den Test haben?",
+        min_value=5,
+        max_value=240,
+        value=app_config.test_duration_minutes,
+        step=5,
+        help="Diese Zeit steuert den globalen Countdown für alle neuen Testdurchläufe."
+    )
+    new_duration_minutes = int(new_duration_minutes_input)
+    if new_duration_minutes != app_config.test_duration_minutes:
+        app_config.test_duration_minutes = new_duration_minutes
+        app_config.save()
+        st.success("Testdauer gespeichert. Gilt für neue Teststarts.")
+        st.rerun()
+
     st.divider()
 
     # --- Erweiterte Dashboard-Statistiken ---

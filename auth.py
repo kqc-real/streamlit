@@ -28,7 +28,7 @@ def log_state(event: str):
                 state_copy[k] = f"NOT_SERIALIZABLE: {type(v)}"
         f.write(json.dumps(state_copy, indent=2, ensure_ascii=False) + "\n")
 
-def initialize_session_state(questions: list):
+def initialize_session_state(questions: list, app_config: AppConfig | None = None):
     """Initialisiert den Session-State für einen neuen Testlauf."""
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
     # Dies ist wichtig, wenn ein Nutzer einen neuen Test startet, ohne die Session komplett zu beenden.
@@ -53,7 +53,16 @@ def initialize_session_state(questions: list):
     st.session_state.answer_outcomes = []
     st.session_state.skipped_questions = []
     st.session_state.bookmarked_questions = []
-    st.session_state.test_time_limit = 60 * 60  # 60 Minuten in Sekunden
+    test_duration_minutes = 60
+    if app_config is not None:
+        try:
+            parsed_minutes = int(getattr(app_config, "test_duration_minutes", test_duration_minutes))
+            if parsed_minutes > 0:
+                test_duration_minutes = parsed_minutes
+        except (TypeError, ValueError):
+            pass
+
+    st.session_state.test_time_limit = test_duration_minutes * 60
     st.session_state.test_time_expired = False
 
     for q in questions:

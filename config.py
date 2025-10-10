@@ -57,6 +57,7 @@ class AppConfig:
         self.admin_key: str = ""
         self.scoring_mode: str = "positive_only"
         self.show_top5_public: bool = True
+        self.test_duration_minutes: int = 60
         self.min_seconds_between_answers: int = 3
 
         self._load_from_env_and_secrets()
@@ -91,6 +92,23 @@ class AppConfig:
             except ValueError:
                 pass # Behalte Defaultwert bei Fehler
 
+        test_duration_str = ""
+        try:
+            test_duration_str = st.secrets.get("MC_TEST_DURATION_MINUTES", "").strip()
+        except Exception:
+            pass
+
+        if not test_duration_str:
+            test_duration_str = os.getenv("MC_TEST_DURATION_MINUTES", "").strip()
+
+        if test_duration_str:
+            try:
+                parsed_minutes = int(test_duration_str)
+                if parsed_minutes > 0:
+                    self.test_duration_minutes = parsed_minutes
+            except ValueError:
+                pass  # Belasse Defaultwert bei ungültiger Eingabe
+
     def _load_from_json(self):
         """Lädt Konfiguration aus der JSON-Datei und überschreibt ggf. Defaults."""
         path = os.path.join(get_package_dir(), "mc_test_config.json")
@@ -102,6 +120,13 @@ class AppConfig:
                 self.show_top5_public = config_data.get(
                     "show_top5_public", self.show_top5_public
                 )
+                raw_test_minutes = config_data.get("test_duration_minutes", self.test_duration_minutes)
+                try:
+                    parsed_minutes = int(raw_test_minutes)
+                    if parsed_minutes > 0:
+                        self.test_duration_minutes = parsed_minutes
+                except (TypeError, ValueError):
+                    pass  # Behalte bestehenden Wert bei ungültigen Eingaben
         except (IOError, json.JSONDecodeError):
             pass  # Bei Fehlern werden die Defaults beibehalten
 
@@ -111,6 +136,7 @@ class AppConfig:
         config_data = {
             "scoring_mode": self.scoring_mode,
             "show_top5_public": self.show_top5_public,
+            "test_duration_minutes": self.test_duration_minutes,
         }
         try:
             with open(path, "w", encoding="utf-8") as f:

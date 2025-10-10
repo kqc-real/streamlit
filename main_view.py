@@ -191,7 +191,7 @@ def render_welcome_page(app_config: AppConfig):
                 st.session_state.user_id_hash = user_id_hash
                 st.session_state.session_id = session_id
                 st.session_state.show_pseudonym_reminder = True
-                initialize_session_state(questions)
+                initialize_session_state(questions, app_config)
                 st.rerun()
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
@@ -261,7 +261,7 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
     if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
         from auth import initialize_session_state
         st.warning("Erkenne Wechsel des Fragensets, initialisiere Test neu...")
-        initialize_session_state(questions)
+        initialize_session_state(questions, app_config)
         time.sleep(1) # Kurze Pause, damit der Nutzer die Nachricht sieht
         st.rerun()
         return # Verhindert die weitere Ausführung mit inkonsistenten Daten
