@@ -114,8 +114,7 @@ def render_welcome_page(app_config: AppConfig):
     dynamic_title = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
     st.markdown(f"""
         <div style='text-align: center; padding: 0 0 10px 0;'>
-            <h2 style='color:#4b9fff; font-size: clamp(1.5rem, 5vw, 2.1rem);'>MC-Tests zu IU-Kursen</h2>
-            <h2 style='color:#4b9fff; font-size: clamp(1.0rem, 2vw, 1.5rem); margin-top: -1.5rem;'>App & Fragen KI generiert</h2>
+            <h1 style='color:#4b9fff; font-size: clamp(2.5rem, 5vw, 2.1rem);'>MC-Test</h1>
             <h1 style='font-size: clamp(1.8rem, 7vw, 2.8rem); margin-top: -1.0rem;'>{dynamic_title}</h1>
         </div>
     """, unsafe_allow_html=True)
@@ -156,7 +155,7 @@ def render_welcome_page(app_config: AppConfig):
 
     selected_file = st.session_state.get("selected_questions_file")
     # --- Diagramm zur Verteilung der Fragen ---
-    with st.expander("⚖️ Thema und Schwierigkeit", expanded=False):
+    with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=False):
         questions = load_questions(selected_file)
         if questions:
             render_question_distribution_chart(questions)
@@ -174,7 +173,7 @@ def render_welcome_page(app_config: AppConfig):
             leaderboard_data = get_all_logs_for_leaderboard(selected_file)
 
             if not leaderboard_data:
-                st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
+                st.info("Noch keine Ergebnisse für dieses Fragenset")
             else:
                 scores = pd.DataFrame(leaderboard_data)
                 scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
@@ -183,7 +182,7 @@ def render_welcome_page(app_config: AppConfig):
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
                 scores = scores.reset_index(drop=True)
                 if scores.empty:
-                    st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
+                    st.info("Noch keine Ergebnisse für dieses Fragenset")
                 else:
                     scores.rename(columns={
                         'user_pseudonym': '👤 Pseudonym',
