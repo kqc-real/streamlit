@@ -9,6 +9,7 @@ import streamlit as st
 import pandas as pd
 import time
 import locale
+import math
 
 from config import AppConfig, list_question_files, load_questions, get_question_counts
 from logic import (
@@ -20,6 +21,51 @@ from logic import (
 from helpers import smart_quotes_de, get_user_id_hash
 from database import update_bookmarks
 from components import render_question_distribution_chart
+
+
+def _format_minutes_text(minutes: int) -> str:
+    """Gibt eine sprachlich passende Darstellung für Minuten zurück."""
+    if minutes <= 1:
+        return "eine Minute"
+    return f"{minutes} Minuten"
+
+
+def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds: int = 5) -> str | None:
+    """
+    Formatiert eine deutsche Countdown-Warnung gemäß der gewünschten Sprachregel.
+
+    Rückgabe:
+        - String mit Warntext (inkl. "Achtung, ..."), oder
+        - None, falls keine Warnung angezeigt werden soll (z. B. > 5 Minuten Restzeit).
+    """
+    if remaining_seconds <= 0:
+        return None
+    if remaining_seconds <= 60:
+        return "Achtung, nur noch wenige Sekunden!"
+    if remaining_seconds > 5 * 60:
+        return None
+
+    minutes_floor = remaining_seconds // 60
+    seconds = remaining_seconds % 60
+    closest_minute = max(1, math.floor(remaining_seconds / 60 + 0.5))
+    diff_to_closest = abs(remaining_seconds - closest_minute * 60)
+
+    if diff_to_closest <= neutral_window_seconds:
+        minutes_text = _format_minutes_text(closest_minute)
+        if remaining_seconds < closest_minute * 60:
+            return f"Achtung, nur noch knapp {minutes_text}!"
+        if diff_to_closest == 0:
+            return f"Achtung, nur noch genau {minutes_text}!"
+        return f"Achtung, noch rund {minutes_text}!"
+
+    if seconds <= 29:
+        minutes_text = _format_minutes_text(max(1, minutes_floor))
+        return f"Achtung, noch gut {minutes_text}!"
+
+    next_minute = minutes_floor + 1
+    minutes_text = _format_minutes_text(next_minute)
+    prefix = "nur noch" if remaining_seconds < next_minute * 60 else "noch"
+    return f"Achtung, {prefix} knapp {minutes_text}!"
 
 
 def render_welcome_page(app_config: AppConfig):
@@ -294,11 +340,9 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                 if remaining_time > 0:
                     minutes, seconds = divmod(remaining_time, 60)
                     st.metric("⏳ Verbleibende Zeit", f"{minutes:02d}:{seconds:02d}")
-                    if remaining_time <= 60:
-                        st.warning("Achtung, nur noch wenige Sekunden!")
-                    elif remaining_time <= 5 * 60:
-                        minute_text = "1 Minute" if minutes == 1 else f"{minutes} Minuten"
-                        st.warning(f"Achtung, nur noch {minute_text}!")
+                    warning_text = _format_countdown_warning_de(remaining_time)
+                    if warning_text:
+                        st.warning(warning_text)
                 else:
                     st.session_state.test_time_expired = True
                     st.error("⏰ Zeit ist um!")
