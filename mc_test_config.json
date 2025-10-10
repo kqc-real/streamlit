@@ -1,5 +1,5 @@
 {
   "scoring_mode": "positive_only",
   "show_top5_public": true,
-  "test_duration_minutes": 5
+  "test_duration_minutes": 40
 }
