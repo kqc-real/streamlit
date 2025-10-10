@@ -109,6 +109,8 @@ def render_welcome_page(app_config: AppConfig):
         num_questions = question_counts.get(filename)
         return f"{name} ({num_questions} Fragen)" if num_questions else f"{name} (Fehler)"
 
+    st.markdown("<h3 style='text-align: center; margin-top: 0.5rem;'>Wähle deinen Fragenset</h3>", unsafe_allow_html=True)
+
     current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
     selected_file = st.selectbox(
         "Wähle ein Fragenset:",
@@ -123,7 +125,7 @@ def render_welcome_page(app_config: AppConfig):
         st.session_state.selected_questions_file = selected_file
         st.rerun()
     # --- Diagramm zur Verteilung der Fragen ---
-    with st.expander("Verteilung nach Thema und Schwierigkeit", expanded=True):
+    with st.expander("Verteilung nach Thema und Schwierigkeit", expanded=False):
         questions = load_questions(selected_file)
         if questions:
             render_question_distribution_chart(questions)
