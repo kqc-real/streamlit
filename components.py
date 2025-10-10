@@ -33,14 +33,13 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
     if selected_file:
         set_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
         st.sidebar.markdown(f"Fragenset: **{set_name}**")
-        st.sidebar.divider()
 
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
     )
     progress_pct = int((num_answered / len(questions)) * 100) if questions else 0
 
-    st.sidebar.header("📋 Fortschritt")
+    st.sidebar.markdown("📋 Fortschritt")
     st.sidebar.progress(progress_pct, text=f"{progress_pct}%")
 
     current_score, max_score = calculate_score(

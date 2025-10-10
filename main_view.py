@@ -156,7 +156,7 @@ def render_welcome_page(app_config: AppConfig):
 
     selected_file = st.session_state.get("selected_questions_file")
     # --- Diagramm zur Verteilung der Fragen ---
-    with st.expander("Verteilung nach Thema und Schwierigkeit", expanded=False):
+    with st.expander("⚖️ Thema und Schwierigkeit", expanded=False):
         questions = load_questions(selected_file)
         if questions:
             render_question_distribution_chart(questions)
@@ -177,31 +177,39 @@ def render_welcome_page(app_config: AppConfig):
                 st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
             else:
                 scores = pd.DataFrame(leaderboard_data)
-                scores.rename(columns={
-                    'user_pseudonym': '👤 Pseudonym',
-                    'total_score': '🏅 Punkte',
-                    'last_test_time': '📅 Datum',
-                    'duration_seconds': '⏱️ Dauer',
-                }, inplace=True)
+                scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
+                # Filtere Sessions unter fünf Minuten heraus, um überstürzte Abgaben zu vermeiden.
+                min_duration_seconds = 5 * 60
+                scores = scores[scores["duration_seconds"] >= min_duration_seconds]
+                scores = scores.reset_index(drop=True)
+                if scores.empty:
+                    st.info("Noch keine Ergebnisse für dieses Fragenset vorhanden.")
+                else:
+                    scores.rename(columns={
+                        'user_pseudonym': '👤 Pseudonym',
+                        'total_score': '🏅 Punkte',
+                        'last_test_time': '📅 Datum',
+                        'duration_seconds': '⏱️ Dauer',
+                    }, inplace=True)
 
-                # Formatiere die Dauer von Sekunden in MM:SS
-                def format_duration(seconds):
-                    mins, secs = divmod(seconds, 60)
-                    return f"{int(mins):02d}:{int(secs):02d}"
-                scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
+                    # Formatiere die Dauer von Sekunden in MM:SS
+                    def format_duration(seconds):
+                        mins, secs = divmod(seconds, 60)
+                        return f"{int(mins):02d}:{int(secs):02d}"
+                    scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
 
-                # Formatiere das Datum
-                scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"]).dt.strftime('%d.%m.%y')
+                    # Formatiere das Datum
+                    scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"]).dt.strftime('%d.%m.%y')
 
-                # Dekoriere die Top 3 mit Icons und nummeriere den Rest
-                icons = ["🥇", "🥈", "🥉"]
-                for i in range(len(scores)):
-                    if i < len(icons):
-                        scores.loc[i, "👤 Pseudonym"] = f"{icons[i]} {scores.loc[i, '👤 Pseudonym']}"
-                    else:
-                        scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
+                    # Dekoriere die Top 3 mit Icons und nummeriere den Rest
+                    icons = ["🥇", "🥈", "🥉"]
+                    for i in range(len(scores)):
+                        if i < len(icons):
+                            scores.loc[i, "👤 Pseudonym"] = f"{icons[i]} {scores.loc[i, '👤 Pseudonym']}"
+                        else:
+                            scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
 
-                st.dataframe(scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]], use_container_width=True, hide_index=True)
+                    st.dataframe(scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]], use_container_width=True, hide_index=True)
 
 
     # --- Login-Formular im Hauptbereich ---
