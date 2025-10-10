@@ -20,3 +20,7 @@ textColor = "#e4d1d1"
 # Dies verhindert den "inotify instance reached"-Fehler bei Projekten mit vielen Dateien.
 # Die Pfade sind relativ zum Haupt-Skript (app.py).
 folderWatchBlacklist = [".git", "__pycache__", "tests"]
+# Verwende den ressourcenschonenden Polling-Mode für Streamlit Cloud & andere
+# Umgebungen mit niedrigen inotify-Limits. Lokal funktioniert automatisches
+# Reloading weiterhin – nur mit periodischem Polling.
+fileWatcherType = "poll"
