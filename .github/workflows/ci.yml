@@ -20,7 +20,7 @@ jobs:
           pip install -r requirements.txt --no-cache-dir
       - name: Run tests
         run: |
-          PYTHONPATH=. pytest -q tests
+          PYTHONPATH=. pytest -q
 
   smoke:
     runs-on: ubuntu-latest
