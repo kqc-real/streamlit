@@ -16,7 +16,12 @@ from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Tuple, Any
 import streamlit as st
 from database import get_db_connection, with_db_retry
-from helpers import get_client_ip as helpers_get_client_ip
+
+try:
+    from helpers import get_client_ip as helpers_get_client_ip
+except (ImportError, AttributeError):
+    def helpers_get_client_ip():
+        return None
 
 
 # ============================================================================

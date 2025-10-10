@@ -13,7 +13,15 @@ import pandas as pd
 from config import AppConfig
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
-from helpers import get_client_ip, is_request_from_localhost
+
+try:
+    from helpers import get_client_ip, is_request_from_localhost
+except (ImportError, AttributeError):
+    def get_client_ip():
+        return None
+
+    def is_request_from_localhost() -> bool:
+        return False
 
 
 def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):

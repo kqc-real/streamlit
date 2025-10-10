@@ -40,7 +40,12 @@ from main_view import (
 )
 from admin_panel import render_admin_panel
 from components import render_sidebar, render_admin_switch
-from helpers import is_request_from_localhost
+
+try:
+    from helpers import is_request_from_localhost
+except (ImportError, AttributeError):
+    def is_request_from_localhost() -> bool:
+        return False
 
 
 def main():
