@@ -597,136 +597,122 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 difficulty_stats["hard"]["richtig"] += 1
     
     # HTML für Schwierigkeits-Übersicht
-    difficulty_html = '<div class="difficulty-analysis">'
-    difficulty_html += '<h3>Performance nach Schwierigkeit</h3>'
-    difficulty_html += '<div class="difficulty-stats">'
-    
-    # Leicht
+    difficulty_rows = []
     if difficulty_stats["easy"]["gesamt"] > 0:
-        easy_percent = (difficulty_stats["easy"]["richtig"] /
-                       difficulty_stats["easy"]["gesamt"] * 100)
-        difficulty_html += '<div class="diff-stat-item diff-easy">'
-        difficulty_html += '<div class="diff-label">★ Leicht</div>'
-        difficulty_html += (f'<div class="diff-value">'
-                          f'{difficulty_stats["easy"]["richtig"]}/'
-                          f'{difficulty_stats["easy"]["gesamt"]}</div>')
-        difficulty_html += f'<div class="diff-percent">{easy_percent:.0f}%</div>'
-        difficulty_html += '</div>'
-    
-    # Mittel
+        easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
+        difficulty_rows.append((
+            "★ Leicht",
+            f'{difficulty_stats["easy"]["richtig"]}/{difficulty_stats["easy"]["gesamt"]}',
+            easy_percent,
+        ))
     if difficulty_stats["medium"]["gesamt"] > 0:
-        medium_percent = (difficulty_stats["medium"]["richtig"] /
-                         difficulty_stats["medium"]["gesamt"] * 100)
-        difficulty_html += '<div class="diff-stat-item diff-medium">'
-        difficulty_html += '<div class="diff-label">★★ Mittel</div>'
-        difficulty_html += (f'<div class="diff-value">'
-                          f'{difficulty_stats["medium"]["richtig"]}/'
-                          f'{difficulty_stats["medium"]["gesamt"]}</div>')
-        difficulty_html += f'<div class="diff-percent">{medium_percent:.0f}%</div>'
-        difficulty_html += '</div>'
-    
-    # Schwer
+        medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
+        difficulty_rows.append((
+            "★★ Mittel",
+            f'{difficulty_stats["medium"]["richtig"]}/{difficulty_stats["medium"]["gesamt"]}',
+            medium_percent,
+        ))
     if difficulty_stats["hard"]["gesamt"] > 0:
-        hard_percent = (difficulty_stats["hard"]["richtig"] /
-                       difficulty_stats["hard"]["gesamt"] * 100)
-        difficulty_html += '<div class="diff-stat-item diff-hard">'
-        difficulty_html += '<div class="diff-label">★★★ Schwer</div>'
-        difficulty_html += (f'<div class="diff-value">'
-                          f'{difficulty_stats["hard"]["richtig"]}/'
-                          f'{difficulty_stats["hard"]["gesamt"]}</div>')
-        difficulty_html += f'<div class="diff-percent">{hard_percent:.0f}%</div>'
-        difficulty_html += '</div>'
-    
-    difficulty_html += '</div></div>'
-    
+        hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
+        difficulty_rows.append((
+            "★★★ Schwer",
+            f'{difficulty_stats["hard"]["richtig"]}/{difficulty_stats["hard"]["gesamt"]}',
+            hard_percent,
+        ))
+
+    difficulty_html = ""
+    if difficulty_rows:
+        difficulty_html = '<div class="difficulty-analysis">'
+        difficulty_html += '<h3>Performance nach Schwierigkeit</h3>'
+        difficulty_html += '<table class="difficulty-table">'
+        difficulty_html += '<thead><tr><th>Schwierigkeit</th><th>Treffer</th><th>Quote</th></tr></thead>'
+        difficulty_html += '<tbody>'
+        for label, ratio_text, percent_value in difficulty_rows:
+            difficulty_html += (
+                f'<tr>'
+                f'<th scope="row">{label}</th>'
+                f'<td>{ratio_text}</td>'
+                f'<td class="quota-cell">{percent_value:.0f}%</td>'
+                f'</tr>'
+            )
+        difficulty_html += '</tbody></table></div>'
+
     # Vergleich mit Durchschnitt
     comparison_html = ""
     if avg_stats and avg_stats['total_users'] > 1:  # Mindestens 2 User (inkl. aktuellem)
+        def _diff_meta(value: float) -> tuple[str, str, str]:
+            if value > 0:
+                return "diff-positive", "↑", "über Durchschnitt"
+            if value < 0:
+                return "diff-negative", "↓", "unter Durchschnitt"
+            return "diff-neutral", "=", "auf Durchschnittsniveau"
+
         comparison_html = '<div class="comparison-box">'
         comparison_html += '<h3>Vergleich mit Durchschnitt</h3>'
-        comparison_html += '<div class="comparison-stats">'
-        
-        # Gesamt-Performance
-        comparison_html += '<div class="comparison-item">'
-        comparison_html += '<div class="comparison-label">Gesamtergebnis</div>'
-        comparison_html += '<div class="comparison-bars">'
-        comparison_html += f'<div class="comparison-bar">'
-        comparison_html += f'<span class="bar-label-you">Du:</span>'
-        comparison_html += f'<div class="bar-container">'
-        comparison_html += f'<div class="bar-fill bar-you" style="width: {prozent}%"></div>'
-        comparison_html += f'</div>'
-        comparison_html += f'<span class="bar-value">{prozent:.0f}%</span>'
-        comparison_html += f'</div>'
-        comparison_html += f'<div class="comparison-bar">'
-        comparison_html += f'<span class="bar-label-avg">Ø:</span>'
-        comparison_html += f'<div class="bar-container">'
-        comparison_html += f'<div class="bar-fill bar-avg" style="width: {avg_stats["avg_percent"]}%"></div>'
-        comparison_html += f'</div>'
-        comparison_html += f'<span class="bar-value">{avg_stats["avg_percent"]:.0f}%</span>'
-        comparison_html += f'</div>'
-        comparison_html += '</div>'
-        
-        # Differenz anzeigen
-        diff = prozent - avg_stats['avg_percent']
-        diff_class = 'diff-positive' if diff > 0 else 'diff-negative' if diff < 0 else 'diff-neutral'
-        diff_symbol = '↑' if diff > 0 else '↓' if diff < 0 else '='
-        comparison_html += f'<div class="comparison-diff {diff_class}">'
-        comparison_html += f'{diff_symbol} {abs(diff):.1f}% {"über" if diff > 0 else "unter" if diff < 0 else "gleich"} Durchschnitt'
-        comparison_html += f'</div>'
-        comparison_html += '</div>'
-        
-        # Performance nach Schwierigkeit
+
+        diff_value = prozent - avg_stats['avg_percent']
+        diff_class, diff_symbol, diff_phrase = _diff_meta(diff_value)
+        comparison_html += '<table class="comparison-table">'
+        comparison_html += '<thead><tr><th>Ebene</th><th>Du</th><th>Ø</th><th>Abweichung</th></tr></thead>'
+        comparison_html += '<tbody>'
+        comparison_html += (
+            f'<tr>'
+            f'<th scope="row">Gesamtergebnis</th>'
+            f'<td>{prozent:.0f}%</td>'
+            f'<td>{avg_stats["avg_percent"]:.0f}%</td>'
+            f'<td class="diff-cell {diff_class}">{diff_symbol} {abs(diff_value):.1f}% {diff_phrase}</td>'
+            f'</tr>'
+        )
+        comparison_html += '</tbody></table>'
+
         if avg_stats['avg_difficulty']:
-            comparison_html += '<div class="comparison-difficulty">'
-            comparison_html += '<h4>Nach Schwierigkeit:</h4>'
-            comparison_html += '<div class="diff-comparison-grid">'
-            
-            # Leicht
+            difficulty_comparison_rows = []
             if difficulty_stats["easy"]["gesamt"] > 0 and avg_stats['avg_difficulty']['easy'] > 0:
                 easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
                 easy_diff = easy_percent - avg_stats['avg_difficulty']['easy']
-                easy_class = 'above-avg' if easy_diff > 0 else 'below-avg'
-                comparison_html += f'<div class="diff-comp-item {easy_class}">'
-                comparison_html += f'<div class="diff-comp-label">★ Leicht</div>'
-                comparison_html += f'<div class="diff-comp-values">'
-                comparison_html += f'<span class="you-value">{easy_percent:.0f}%</span>'
-                comparison_html += f'<span class="vs"> vs </span>'
-                comparison_html += f'<span class="avg-value">{avg_stats["avg_difficulty"]["easy"]:.0f}%</span>'
-                comparison_html += f'</div>'
-                comparison_html += f'</div>'
-            
-            # Mittel
+                difficulty_comparison_rows.append((
+                    "★ Leicht",
+                    easy_percent,
+                    avg_stats["avg_difficulty"]["easy"],
+                    easy_diff,
+                ))
             if difficulty_stats["medium"]["gesamt"] > 0 and avg_stats['avg_difficulty']['medium'] > 0:
                 medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
                 medium_diff = medium_percent - avg_stats['avg_difficulty']['medium']
-                medium_class = 'above-avg' if medium_diff > 0 else 'below-avg'
-                comparison_html += f'<div class="diff-comp-item {medium_class}">'
-                comparison_html += f'<div class="diff-comp-label">★★ Mittel</div>'
-                comparison_html += f'<div class="diff-comp-values">'
-                comparison_html += f'<span class="you-value">{medium_percent:.0f}%</span>'
-                comparison_html += f'<span class="vs"> vs </span>'
-                comparison_html += f'<span class="avg-value">{avg_stats["avg_difficulty"]["medium"]:.0f}%</span>'
-                comparison_html += f'</div>'
-                comparison_html += f'</div>'
-            
-            # Schwer
+                difficulty_comparison_rows.append((
+                    "★★ Mittel",
+                    medium_percent,
+                    avg_stats["avg_difficulty"]["medium"],
+                    medium_diff,
+                ))
             if difficulty_stats["hard"]["gesamt"] > 0 and avg_stats['avg_difficulty']['hard'] > 0:
                 hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
                 hard_diff = hard_percent - avg_stats['avg_difficulty']['hard']
-                hard_class = 'above-avg' if hard_diff > 0 else 'below-avg'
-                comparison_html += f'<div class="diff-comp-item {hard_class}">'
-                comparison_html += f'<div class="diff-comp-label">★★★ Schwer</div>'
-                comparison_html += f'<div class="diff-comp-values">'
-                comparison_html += f'<span class="you-value">{hard_percent:.0f}%</span>'
-                comparison_html += f'<span class="vs"> vs </span>'
-                comparison_html += f'<span class="avg-value">{avg_stats["avg_difficulty"]["hard"]:.0f}%</span>'
-                comparison_html += f'</div>'
-                comparison_html += f'</div>'
-            
-            comparison_html += '</div>'
-            comparison_html += '</div>'
-        
-        comparison_html += f'<div class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n)</div>'
+                difficulty_comparison_rows.append((
+                    "★★★ Schwer",
+                    hard_percent,
+                    avg_stats["avg_difficulty"]["hard"],
+                    hard_diff,
+                ))
+
+            if difficulty_comparison_rows:
+                comparison_html += '<table class="comparison-table comparison-difficulty-table">'
+                comparison_html += '<caption class="comparison-subtitle">Nach Schwierigkeit</caption>'
+                comparison_html += '<thead><tr><th>Schwierigkeit</th><th>Du</th><th>Ø</th><th>Abweichung</th></tr></thead>'
+                comparison_html += '<tbody>'
+                for label, user_percent, avg_percent, diff in difficulty_comparison_rows:
+                    diff_class, diff_symbol, diff_phrase = _diff_meta(diff)
+                    comparison_html += (
+                        f'<tr>'
+                        f'<th scope="row">{label}</th>'
+                        f'<td>{user_percent:.0f}%</td>'
+                        f'<td>{avg_percent:.0f}%</td>'
+                        f'<td class="diff-cell {diff_class}">{diff_symbol} {abs(diff):.1f}% {diff_phrase}</td>'
+                        f'</tr>'
+                    )
+                comparison_html += '</tbody></table>'
+
+        comparison_html += f'<p class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n)</p>'
         comparison_html += '</div>'
     
     # Mini-Glossar erstellen (nach Themen gruppiert)
@@ -1109,6 +1095,116 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-style: italic;
             }}
             
+            /* Difficulty Table */
+            .difficulty-analysis {{
+                margin: 28px 0;
+                page-break-inside: avoid;
+            }}
+            .difficulty-analysis h3 {{
+                margin: 0 0 12px 0;
+                font-size: 14pt;
+                color: #2d3748;
+                font-weight: 600;
+            }}
+            .difficulty-table {{
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 10pt;
+                border: 1px solid #dee2e6;
+            }}
+            .difficulty-table thead th {{
+                background: #edf2f7;
+                color: #2d3748;
+                font-weight: 600;
+                padding: 8px 12px;
+                text-align: left;
+            }}
+            .difficulty-table tbody th,
+            .difficulty-table tbody td {{
+                padding: 8px 12px;
+                border-top: 1px solid #dee2e6;
+                text-align: left;
+            }}
+            .difficulty-table tbody tr:nth-child(even) {{
+                background: #f8fafc;
+            }}
+            .difficulty-table .quota-cell {{
+                font-weight: 600;
+            }}
+
+            /* Comparison Tables */
+            .comparison-box {{
+                margin: 32px 0;
+                padding: 24px 28px;
+                background: #f8f9fb;
+                border: 2px solid #dee2e6;
+                border-radius: 8px;
+                page-break-inside: avoid;
+            }}
+            .comparison-box h3 {{
+                margin: 0;
+                font-size: 14pt;
+                color: #2d3748;
+                font-weight: 600;
+            }}
+            .comparison-table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 14px;
+                font-size: 10pt;
+            }}
+            .comparison-table caption {{
+                caption-side: top;
+                text-align: left;
+                font-weight: 600;
+                color: #495057;
+                padding-bottom: 6px;
+            }}
+            .comparison-table thead th {{
+                background: #edf2f7;
+                color: #2d3748;
+                text-align: left;
+                padding: 8px 12px;
+                border-bottom: 2px solid #cbd5e0;
+            }}
+            .comparison-table tbody th {{
+                text-align: left;
+                font-weight: 600;
+                padding: 8px 12px;
+                border-bottom: 1px solid #dee2e6;
+            }}
+            .comparison-table tbody td {{
+                text-align: left;
+                padding: 8px 12px;
+                border-bottom: 1px solid #dee2e6;
+            }}
+            .comparison-table tbody tr:nth-child(even) {{
+                background: #f8fafc;
+            }}
+            .comparison-subtitle {{
+                font-size: 11pt;
+                color: #495057;
+            }}
+            .diff-cell {{
+                font-weight: 600;
+            }}
+            .diff-cell.diff-positive {{
+                color: #2e7d32;
+            }}
+            .diff-cell.diff-negative {{
+                color: #c62828;
+            }}
+            .diff-cell.diff-neutral {{
+                color: #495057;
+            }}
+            .comparison-footer {{
+                margin-top: 12px;
+                font-size: 9pt;
+                color: #6c757d;
+                text-align: right;
+                font-style: italic;
+            }}
+
             /* Section Title */
             .section-title {{
                 font-size: 18pt;
