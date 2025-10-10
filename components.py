@@ -13,6 +13,7 @@ import pandas as pd
 from config import AppConfig
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
+from helpers import get_client_ip, is_request_from_localhost
 
 
 def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
@@ -87,6 +88,19 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
 def render_admin_switch(app_config: AppConfig):
     """Rendert den Umschalter für das Admin-Panel in der Sidebar."""
     from auth import check_admin_key
+
+    client_ip = get_client_ip()
+    is_local_request = is_request_from_localhost()
+
+    if not is_local_request:
+        # Sicherheit: Admin-Panel niemals für Remote-Zugriffe anzeigen.
+        if st.session_state.get("show_admin_panel"):
+            st.session_state.show_admin_panel = False
+        msg = "🔒 Admin-Zugang ist nur über localhost verfügbar."
+        if client_ip:
+            msg += f"\n\nAktuelle Herkunfts-IP: `{client_ip}`"
+        st.sidebar.error(msg)
+        return
 
     is_panel_active = st.session_state.get("show_admin_panel", False)
 

@@ -40,6 +40,7 @@ from main_view import (
 )
 from admin_panel import render_admin_panel
 from components import render_sidebar, render_admin_switch
+from helpers import is_request_from_localhost
 
 
 def main():
@@ -156,8 +157,16 @@ def main():
     
     # Priorität 1: Admin-Panel anzeigen
     # Im unsicheren Modus (kein admin_key) erlauben wir Admin-Zugang ohne User-Check
-    should_show_admin = st.session_state.get("show_admin_panel", False) and (
-        not app_config.admin_key or is_admin
+    is_local_request = is_request_from_localhost()
+
+    if st.session_state.get("show_admin_panel") and not is_local_request:
+        # Remote Zugriff darf das Admin-Panel nicht offen halten.
+        st.session_state.show_admin_panel = False
+
+    should_show_admin = (
+        st.session_state.get("show_admin_panel", False)
+        and (not app_config.admin_key or is_admin)
+        and is_local_request
     )
     
     if should_show_admin:

@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Tuple, Any
 import streamlit as st
 from database import get_db_connection, with_db_retry
+from helpers import get_client_ip as helpers_get_client_ip
 
 
 # ============================================================================
@@ -422,23 +423,8 @@ def cleanup_old_login_attempts(days: int = 30) -> int:
 # ============================================================================
 
 def get_client_ip() -> Optional[str]:
-    """
-    Versucht die Client-IP-Adresse zu ermitteln.
-    
-    Returns:
-        IP-Adresse als String oder None
-    
-    Note:
-        In Streamlit Cloud nicht zuverlässig verfügbar.
-        Nutze nur für informative Zwecke, nicht für Security.
-    """
-    try:
-        # Streamlit hat kein natives IP-Tracking
-        # In Cloud-Umgebungen oft nicht verfügbar
-        # Könnte über Reverse Proxy Header ermittelt werden
-        return None  # Placeholder
-    except:
-        return None
+    """Thin wrapper für helpers.get_client_ip (Rückwärtskompatibilität)."""
+    return helpers_get_client_ip()
 
 
 def get_audit_statistics() -> Dict:
