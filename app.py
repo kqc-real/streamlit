@@ -190,13 +190,13 @@ def main():
         
         render_admin_panel(app_config, questions)
     # Priorität 2: Eine spezifische Frage anzeigen (entweder die nächste oder ein Sprungziel)
-    elif current_idx is not None:
-        render_question_view(questions, current_idx, app_config)
-    # Priorität 3: Test ist beendet (und es gibt kein Sprungziel)
     elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
         # Wenn der Test beendet ist, zeige immer die Zusammenfassung.
         # Die Logik für den Review-Modus ist in render_final_summary enthalten.
         render_final_summary(questions, app_config)
+    # Priorität 3: Eine spezifische Frage anzeigen (entweder die nächste oder ein Sprungziel)
+    elif current_idx is not None:
+        render_question_view(questions, current_idx, app_config)
     else:
         # Fallback, falls kein Zustand zutrifft (sollte selten passieren)
         st.rerun()

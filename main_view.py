@@ -294,8 +294,11 @@ def render_question_view(questions: list, frage_idx: int, app_config: AppConfig)
                 if remaining_time > 0:
                     minutes, seconds = divmod(remaining_time, 60)
                     st.metric("⏳ Verbleibende Zeit", f"{minutes:02d}:{seconds:02d}")
-                    if remaining_time <= 5 * 60 and remaining_time > 0:
-                        st.warning(f"Achtung, nur noch {minutes} Minuten!")
+                    if remaining_time <= 60:
+                        st.warning("Achtung, nur noch wenige Sekunden!")
+                    elif remaining_time <= 5 * 60:
+                        minute_text = "1 Minute" if minutes == 1 else f"{minutes} Minuten"
+                        st.warning(f"Achtung, nur noch {minute_text}!")
                 else:
                     st.session_state.test_time_expired = True
                     st.error("⏰ Zeit ist um!")
