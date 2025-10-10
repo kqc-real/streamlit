@@ -5,11 +5,92 @@ Verantwortlichkeiten:
 - Rendern der verschiedenen Admin-Tabs (Analyse, Export, System).
 - Bereitstellung der Item-Analyse und des Leaderboards.
 """
-import streamlit as st
+from pathlib import Path
+
 import pandas as pd
+import streamlit as st
 
 from config import AppConfig, load_questions, list_question_files
-from database import get_all_answer_logs, get_all_feedback, get_all_logs_for_leaderboard, delete_user_results_for_qset, DATABASE_FILE
+from database import (
+    DATABASE_FILE,
+    delete_user_results_for_qset,
+    get_all_answer_logs,
+    get_all_feedback,
+    get_all_logs_for_leaderboard,
+)
+
+
+def _load_frageset_prompt() -> str:
+    """Lädt den 7-Schritt-Prompt aus der README-Datei."""
+    readme_path = Path(__file__).resolve().parent / "README.md"
+    if not readme_path.exists():
+        return "README nicht gefunden. Bitte überprüfe die Projektstruktur."
+
+    try:
+        content = readme_path.read_text(encoding="utf-8")
+    except OSError:
+        return "Prompt konnte nicht geladen werden. Zugriff auf README fehlgeschlagen."
+
+    marker = "## Prompt (copy & paste)"
+    start_idx = content.find(marker)
+    if start_idx == -1:
+        return "Prompt-Abschnitt in der README nicht gefunden."
+
+    prompt_section = content[start_idx + len(marker) :].strip()
+
+    # Begrenze auf den Teil vor der Feld-Erklärung, um nur den Prompt anzuzeigen.
+    stop_marker = "**Erläuterung der Felder:**"
+    stop_idx = prompt_section.find(stop_marker)
+    if stop_idx != -1:
+        prompt_section = prompt_section[:stop_idx].strip()
+
+    return prompt_section or "Prompt-Abschnitt ist leer."
+
+
+def render_prompt_tab():
+    """Zeigt den 7-stufigen Prompt zum Generieren neuer Fragensets."""
+    st.header("🧠 Frageset generieren")
+    st.markdown(
+        """
+        Nutze diesen Prompt in ChatGPT, Claude oder einem anderen LLM, um ein neues
+        `questions_*.json`-Fragenset passend für diese App zu erstellen.
+        Kopiere den Text, beantworte die Fragen Schritt für Schritt und speichere die
+        generierte Datei anschließend im Verzeichnis `data/`.
+        """.strip()
+    )
+
+    prompt_text = _load_frageset_prompt()
+    st.code(prompt_text, language="markdown")
+
+    copy_button_html = f"""
+    <div style="margin-top:0.5rem;">
+      <button id="copy-prompt-btn" style="
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 6px;
+          background: #2563eb;
+          color: white;
+          font-weight: 600;
+          cursor: pointer;
+      ">📋 Prompt kopieren</button>
+    </div>
+    <script>
+    const btn = document.getElementById("copy-prompt-btn");
+    if (btn) {{
+      btn.addEventListener("click", async () => {{
+        try {{
+          await navigator.clipboard.writeText({prompt_text!r});
+          btn.textContent = "✅ Prompt kopiert";
+          setTimeout(() => btn.textContent = "📋 Prompt kopieren", 2000);
+        }} catch (err) {{
+          btn.textContent = "❌ Kopieren fehlgeschlagen";
+          setTimeout(() => btn.textContent = "📋 Prompt kopieren", 2000);
+        }}
+      }});
+    }}
+    </script>
+    """
+    st.components.v1.html(copy_button_html, height=60)
 
 
 def render_admin_panel(app_config: AppConfig, questions: list):
@@ -29,7 +110,17 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     if q_file and "questions_file" in df_all_logs.columns:
         df_filtered_logs = df_all_logs[df_all_logs["questions_file"] == q_file].copy()
 
-    tabs = st.tabs(["🏆 Leaderboard", "📊 Analyse", "📢 Feedback", "📤 Export", "⚙️ System", "🔒 Audit-Log"])
+    tabs = st.tabs(
+        [
+            "🏆 Leaderboard",
+            "📊 Analyse",
+            "📢 Feedback",
+            "📤 Export",
+            "⚙️ System",
+            "🧠 Frageset generieren",
+            "🔒 Audit-Log",
+        ]
+    )
 
     with tabs[0]:
         # Das Leaderboard soll alle Fragensets anzeigen, daher werden alle Logs übergeben
@@ -43,6 +134,8 @@ def render_admin_panel(app_config: AppConfig, questions: list):
     with tabs[4]:
         render_system_tab(app_config, df_filtered_logs)
     with tabs[5]:
+        render_prompt_tab()
+    with tabs[6]:
         render_audit_log_tab()
 
 
