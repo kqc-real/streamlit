@@ -136,7 +136,7 @@ def render_welcome_page(app_config: AppConfig):
         num_questions = question_counts.get(filename)
         return f"{name} ({num_questions} Fragen)" if num_questions else f"{name} (Fehler)"
 
-    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle deinen Fragenset</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>", unsafe_allow_html=True)
 
     current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
     selected_choice = st.selectbox(
