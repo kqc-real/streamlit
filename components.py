@@ -176,6 +176,7 @@ def render_admin_switch(app_config: AppConfig):
 def render_bookmarks(questions: list):
     """Rendert die Bookmark-Sektion in der Sidebar."""
     bookmarks = st.session_state.get("bookmarked_questions", [])
+    test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
     # Expander nur geöffnet, wenn Inhalt vorhanden
     with st.sidebar.expander("🔖 Markierte Fragen", expanded=len(bookmarks) > 0):
         if not bookmarks:
@@ -186,6 +187,9 @@ def render_bookmarks(questions: list):
         initial_indices = st.session_state.get("initial_frage_indices", [])
         sorted_bookmarks = sorted(bookmarks, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
 
+        if test_completed:
+            st.caption("Sprünge sind nach Abschluss deaktiviert.")
+
         for q_idx in sorted_bookmarks:
             cols = st.columns([4, 1])
 
@@ -194,7 +198,11 @@ def render_bookmarks(questions: list):
                 # Wir verwenden die *initiale* Reihenfolge für eine stabile Nummerierung.
                 session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
                 display_question_number = session_local_idx + 1
-                if st.button(f"Frage {display_question_number}", key=f"bm_jump_{q_idx}"):
+                if st.button(
+                    f"Frage {display_question_number}",
+                    key=f"bm_jump_{q_idx}",
+                    disabled=test_completed
+                ):
                     # Setze den Sprung-Index. Die Haupt-App-Logik wird diesen als
                     # nächste anzuzeigende Frage verwenden.
                     st.session_state["jump_to_idx"] = q_idx
@@ -225,6 +233,7 @@ def render_bookmarks(questions: list):
 def render_skipped_questions(questions: list):
     """Rendert die Sektion für übersprungene Fragen in der Sidebar."""
     skipped = st.session_state.get("skipped_questions", [])
+    test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
     # Expander nur geöffnet, wenn Inhalt vorhanden
     with st.sidebar.expander("↪️ Übersprungen", expanded=len(skipped) > 0):
         if not skipped:
@@ -235,12 +244,19 @@ def render_skipped_questions(questions: list):
         initial_indices = st.session_state.get("initial_frage_indices", [])
         sorted_skipped = sorted(skipped, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
 
+        if test_completed:
+            st.caption("Sprünge sind nach Abschluss deaktiviert.")
+
         for q_idx in sorted_skipped:
             # Korrekte Ermittlung der laufenden Nummer der Frage im Testdurchlauf.
             session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
             display_question_number = session_local_idx + 1
             
-            if st.button(f"Frage {display_question_number}", key=f"skip_jump_{q_idx}"):
+            if st.button(
+                f"Frage {display_question_number}",
+                key=f"skip_jump_{q_idx}",
+                disabled=test_completed
+            ):
                 st.session_state["jump_to_idx"] = q_idx
                 st.session_state.jump_to_idx_active = True
                 st.rerun()
