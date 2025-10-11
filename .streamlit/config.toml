@@ -2,10 +2,7 @@
 # Dokumentation: https://docs.streamlit.io/library/advanced-features/configuration
 
 [browser]
-# Legt das Standard-Layout der App fest.
-# Optionen: "centered" (Standard) oder "wide".
 gatherUsageStats = false
-layout = "centered"
 
 [theme]
 # Legt das Basis-Theme fest. Optionen: "light", "dark"
