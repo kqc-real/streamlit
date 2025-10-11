@@ -15,6 +15,7 @@ from weasyprint import HTML
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
+from helpers import format_decimal_de
 
 # QR-Code Generation
 try:
@@ -538,9 +539,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     duration_str = ""
     if start_time:
         duration = end_time - start_time
-        minutes = int(duration.total_seconds() / 60)
-        seconds = int(duration.total_seconds() % 60)
-        duration_str = f"{minutes}:{seconds:02d} Min"
+        total_seconds = int(duration.total_seconds())
+        minutes = total_seconds // 60
+        seconds = total_seconds % 60
+        duration_parts = []
+        if minutes:
+            duration_parts.append(f"{minutes} min")
+        if seconds or not duration_parts:
+            duration_parts.append(f"{seconds} s")
+        duration_str = " ".join(duration_parts)
     
     # QR-Code generieren (Link zum Test)
     # URL kann über Umgebungsvariable APP_URL konfiguriert werden
@@ -632,7 +639,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 f'<tr>'
                 f'<th scope="row">{label}</th>'
                 f'<td>{ratio_text}</td>'
-                f'<td class="quota-cell">{percent_value:.0f}%</td>'
+                f'<td class="quota-cell">{percent_value:.0f} %</td>'
                 f'</tr>'
             )
         difficulty_html += '</tbody></table></div>'
@@ -655,12 +662,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         comparison_html += '<table class="comparison-table">'
         comparison_html += '<thead><tr><th>Ebene</th><th>Du</th><th>Ø</th><th>Abweichung</th></tr></thead>'
         comparison_html += '<tbody>'
+        diff_value_str = format_decimal_de(abs(diff_value), 1)
         comparison_html += (
             f'<tr>'
             f'<th scope="row">Gesamtergebnis</th>'
-            f'<td>{prozent:.0f}%</td>'
-            f'<td>{avg_stats["avg_percent"]:.0f}%</td>'
-            f'<td class="diff-cell {diff_class}">{diff_symbol} {abs(diff_value):.1f}% {diff_phrase}</td>'
+            f'<td>{prozent:.0f} %</td>'
+            f'<td>{avg_stats["avg_percent"]:.0f} %</td>'
+            f'<td class="diff-cell {diff_class}">{diff_symbol} {diff_value_str} % {diff_phrase}</td>'
             f'</tr>'
         )
         comparison_html += '</tbody></table>'
@@ -702,12 +710,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 comparison_html += '<tbody>'
                 for label, user_percent, avg_percent, diff in difficulty_comparison_rows:
                     diff_class, diff_symbol, diff_phrase = _diff_meta(diff)
+                    diff_str = format_decimal_de(abs(diff), 1)
                     comparison_html += (
                         f'<tr>'
                         f'<th scope="row">{label}</th>'
-                        f'<td>{user_percent:.0f}%</td>'
-                        f'<td>{avg_percent:.0f}%</td>'
-                        f'<td class="diff-cell {diff_class}">{diff_symbol} {abs(diff):.1f}% {diff_phrase}</td>'
+                        f'<td>{user_percent:.0f} %</td>'
+                        f'<td>{avg_percent:.0f} %</td>'
+                        f'<td class="diff-cell {diff_class}">{diff_symbol} {diff_str} % {diff_phrase}</td>'
                         f'</tr>'
                     )
                 comparison_html += '</tbody></table>'
@@ -789,6 +798,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         bookmarks_html += '</ul></div>'
 
     # Baue den HTML-Body mit professionellem Header
+    score_percent_str = format_decimal_de(prozent, 1)
     html_body = f'''
         <div class="header">
             <div class="header-content">
@@ -811,7 +821,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             <div class="score-main">
                 <div class="score-number">{current_score}</div>
                 <div class="score-label">von {max_score} Punkten</div>
-                <div class="score-percent">{prozent:.1f}%</div>
+                <div class="score-percent">{score_percent_str} %</div>
             </div>
             <div class="stats-grid">
                 <div class="stat-item">

@@ -10,7 +10,8 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from config import AppConfig, load_questions, list_question_files
+from config import AppConfig, QuestionSet, load_questions, list_question_files
+from helpers import format_decimal_de
 from database import (
     DATABASE_FILE,
     delete_user_results_for_qset,
@@ -93,7 +94,7 @@ def render_prompt_tab():
     st.components.v1.html(copy_button_html, height=60)
 
 
-def render_admin_panel(app_config: AppConfig, questions: list):
+def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     """Rendert das komplette Admin-Dashboard mit Tabs."""
     st.title("🛠 Admin Dashboard")
 
@@ -177,10 +178,15 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             'duration_seconds': '⏱️ Dauer'
         }, inplace=True)
 
-        # Formatiere die Dauer von Sekunden in MM:SS
+        # Formatiere die Dauer als Kombination aus Minuten und Sekunden
         def format_duration(seconds):
             mins, secs = divmod(seconds, 60)
-            return f"{int(mins):02d}:{int(secs):02d}"
+            parts = []
+            if mins:
+                parts.append(f"{int(mins)} min")
+            if secs or not parts:
+                parts.append(f"{int(secs)} s")
+            return " ".join(parts)
         scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
 
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
@@ -242,7 +248,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         st.divider()
 
 
-def render_analysis_tab(df: pd.DataFrame, questions: list):
+def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     """Rendert den Item-Analyse-Tab."""
     st.header("📊 Item-Analyse")
     
@@ -381,12 +387,17 @@ def render_analysis_tab(df: pd.DataFrame, questions: list):
             analysis_df["Trennschärfe (r_it)"], errors='coerce'
         ).fillna(0.0)
     
-    st.dataframe(analysis_df, use_container_width=True, hide_index=True)
+    display_df = analysis_df.copy()
+    if show_correlation and "Trennschärfe (r_it)" in display_df.columns:
+        display_df["Trennschärfe (r_it)"] = display_df["Trennschärfe (r_it)"].map(
+            lambda v: format_decimal_de(v, 2)
+        )
+    st.dataframe(display_df, use_container_width=True, hide_index=True)
 
     with st.expander("Glossar der Metriken"):
         st.markdown("""
         - **Antworten**: Gesamtzahl der abgegebenen Antworten für diese Frage.
-        - **Richtig (%)**: Prozentsatz der korrekten Antworten (Schwierigkeitsindex `p`). Ein Wert nahe 100% bedeutet eine leichte Frage, ein Wert nahe 0% eine schwere Frage.
+        - **Richtig (%)**: Prozentsatz der korrekten Antworten (Schwierigkeitsindex `p`). Ein Wert nahe 100 % bedeutet eine leichte Frage, ein Wert nahe 0 % eine schwere Frage.
         """)
         if show_correlation:
             st.markdown("""
@@ -597,22 +608,6 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         st.success("Scoring-Modus gespeichert. Wird bei der nächsten Antwort aktiv.")
         st.rerun()
 
-    st.subheader("Testdauer")
-    new_duration_minutes_input = st.number_input(
-        "Wie viele Minuten sollen Teilnehmende für den Test haben?",
-        min_value=5,
-        max_value=240,
-        value=app_config.test_duration_minutes,
-        step=5,
-        help="Diese Zeit steuert den globalen Countdown für alle neuen Testdurchläufe."
-    )
-    new_duration_minutes = int(new_duration_minutes_input)
-    if new_duration_minutes != app_config.test_duration_minutes:
-        app_config.test_duration_minutes = new_duration_minutes
-        app_config.save()
-        st.success("Testdauer gespeichert. Gilt für neue Teststarts.")
-        st.rerun()
-
     st.divider()
 
     # --- Erweiterte Dashboard-Statistiken ---
@@ -641,9 +636,10 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         # Zweite Zeile: Abschlussquote
         col1, col2 = st.columns(2)
         with col1:
+            completion_str = format_decimal_de(stats['completion_rate'], 1)
             st.metric(
                 "Abschlussquote",
-                f"{stats['completion_rate']}%",
+                f"{completion_str} %",
                 help="Prozentsatz der Tests, die vollständig beendet wurden"
             )
         
@@ -671,10 +667,14 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 go.Bar(
                     x=qsets,
                     y=avg_scores,
-                    text=[f"{score:.1f} Pkt<br>({count} Tests)" for score, count in zip(avg_scores, test_counts)],
+                    text=[
+                        f"{format_decimal_de(score, 1)} Pkt<br>({count} Tests)"
+                        for score, count in zip(avg_scores, test_counts)
+                    ],
                     textposition='auto',
                     marker_color='#1f77b4',
-                    hovertemplate='<b>%{x}</b><br>Durchschnitt: %{y:.2f} Punkte<extra></extra>'
+                    customdata=[format_decimal_de(score, 2) for score in avg_scores],
+                    hovertemplate='<b>%{x}</b><br>Durchschnitt: %{customdata} Punkte<extra></extra>'
                 )
             ])
             
@@ -770,13 +770,19 @@ def render_audit_log_tab():
     with col1:
         st.metric("Gesamt-Einträge", stats["total"])
     with col2:
-        st.metric("Erfolgreich", stats["successful"], 
-                 delta=None if stats["total"] == 0 
-                 else f"{stats['successful']/stats['total']*100:.1f}%")
+        if stats["total"] == 0:
+            success_delta = None
+        else:
+            success_rate = stats["successful"] / stats["total"] * 100
+            success_delta = f"{format_decimal_de(success_rate, 1)} %"
+        st.metric("Erfolgreich", stats["successful"], delta=success_delta)
     with col3:
-        st.metric("Fehlgeschlagen", stats["failed"],
-                 delta=None if stats["total"] == 0
-                 else f"{stats['failed']/stats['total']*100:.1f}%")
+        if stats["total"] == 0:
+            failed_delta = None
+        else:
+            failed_rate = stats["failed"] / stats["total"] * 100
+            failed_delta = f"{format_decimal_de(failed_rate, 1)} %"
+        st.metric("Fehlgeschlagen", stats["failed"], delta=failed_delta)
     
     st.divider()
     

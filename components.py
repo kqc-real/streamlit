@@ -10,7 +10,7 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 
-from config import AppConfig
+from config import AppConfig, QuestionSet
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
 
@@ -24,7 +24,7 @@ except (ImportError, AttributeError):
         return False
 
 
-def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
+def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool):
     """Rendert die komplette Sidebar der Anwendung."""
     st.sidebar.success(f"👋 **{st.session_state.user_id}**")
 
@@ -40,7 +40,7 @@ def render_sidebar(questions: list, app_config: AppConfig, is_admin: bool):
     progress_pct = int((num_answered / len(questions)) * 100) if questions else 0
 
     st.sidebar.markdown("📋 Fortschritt")
-    st.sidebar.progress(progress_pct, text=f"{progress_pct}%")
+    st.sidebar.progress(progress_pct, text=f"{progress_pct} %")
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
@@ -172,7 +172,7 @@ def render_admin_switch(app_config: AppConfig):
                         st.error("Falscher Key.")
 
 
-def render_bookmarks(questions: list):
+def render_bookmarks(questions: QuestionSet):
     """Rendert die Bookmark-Sektion in der Sidebar."""
     bookmarks = st.session_state.get("bookmarked_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
@@ -225,7 +225,7 @@ def render_bookmarks(questions: list):
             st.rerun()
 
 
-def render_skipped_questions(questions: list):
+def render_skipped_questions(questions: QuestionSet):
     """Rendert die Sektion für übersprungene Fragen in der Sidebar."""
     skipped = st.session_state.get("skipped_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
@@ -265,7 +265,7 @@ def render_skipped_questions(questions: list):
             st.rerun()
 
 
-def get_motivation_message(questions: list, app_config: AppConfig) -> str:
+def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:
     """
     Gibt eine kontextabhängige, motivierende Feedback-Nachricht als HTML-String zurück.
     
@@ -354,8 +354,8 @@ def get_motivation_message(questions: list, app_config: AppConfig) -> str:
     
     progress_pct = int((num_answered / len(questions)) * 100)
     for thr, name, keyflag in [
-        (25, "🔓 25%", "_badge25"), (50, "🏁 50%", "_badge50"),
-        (75, "🚀 75%", "_badge75"), (100, "🏆 100%", "_badge100"),
+        (25, "🔓 25 %", "_badge25"), (50, "🏁 50 %", "_badge50"),
+        (75, "🚀 75 %", "_badge75"), (100, "🏆 100 %", "_badge100"),
     ]:
         if progress_pct >= thr and not st.session_state.get(keyflag):
             badge_list.append(name)

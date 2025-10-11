@@ -250,9 +250,18 @@ Frage mich nach der Zielgruppe für das Fragenset. Gib mir Beispiele wie "Anfän
 
 ---
 
-### **Schritt 3 von 7 – Anzahl der Fragen**
+### **Schritt 3 von 7 – Umfang & Schwierigkeitsprofil**
 
-Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50).
+Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50) **und**
+welche Verteilung der Schwierigkeitsgrade gewünscht ist. Verwende die
+Gewichtungen der App als Referenz:
+
+- Gewichtung 1 → leichte Einstiegs-/Reproduktionsfragen
+- Gewichtung 2 → anwendungsorientierte Transferfragen
+- Gewichtung 3 → anspruchsvolle, kombinierte Expertenfragen
+
+Wenn ich keine konkrete Verteilung weiß, schlage ein sinnvolles Verhältnis vor
+(z.B. 50 % leicht, 35 % mittel, 15 % schwer) und bitte mich um Bestätigung oder Anpassung.
 
 ---
 
@@ -286,55 +295,102 @@ Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage
 
 ### **Abschluss, Ausgabeformat und Generierung**
 
-Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die direkt mit einer eckigen Klammer (`[`) beginnt und eine Liste von Frage-Objekten enthält. Alle Fragen müssen vollständig und prüfungsrelevant sein; erstelle keine Platzhalterfragen. Verwende optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich sie in den zugehörigen Schritten ausdrücklich angefordert habe. Jedes Objekt muss der folgenden Struktur und den nachstehenden Formatierungsregeln folgen.
+Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die ein JSON-Objekt mit genau zwei Top-Level-Schlüsseln enthält:
 
-#### **JSON-Struktur pro Frage:**
+- `meta`: Metadaten zum gesamten Set (Thema, Zielgruppe, Schwierigkeitsprofil, Testzeit usw.).
+- `questions`: Eine Liste der einzelnen Fragenobjekte.
+
+Erzeuge optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich sie in den zugehörigen Schritten ausdrücklich angefordert habe.
+
+Berechne die empfohlene Testzeit pro Fragenset, indem du die tatsächlich generierten Fragen auswertest:
+
+1. Zähle nach Abschluss alle Fragen mit Gewichtung 1, 2 und 3 und schreibe diese Werte in `meta.difficulty_profile`.
+2. Nutze als Richtwerte: Gewichtung 1 → 0.5 Minuten (30 Sekunden), Gewichtung 2 → 0.75 Minuten (45 Sekunden), Gewichtung 3 → 1.0 Minute (60 Sekunden). Du darfst diese Werte anpassen, wenn ich im Dialog andere Zeitwünsche äußere.
+3. Multipliziere die jeweiligen Anzahlen mit diesen Minutenwerten, addiere optional einen sinnvollen Puffer (`meta.additional_buffer_minutes`, z.B. 5) und runde das Ergebnis auf volle Minuten.
+4. Testzeiten ab 10 Minuten werden automatisch auf das nächste Vielfache von 5 Minuten gerundet; Werte unter 10 Minuten bleiben unverändert.
+5. Hinterlege die verwendeten Minutenfaktoren in `meta.time_per_weight_minutes` (Schlüssel `"1"`, `"2"`, `"3"` mit numerischen Werten) und speichere das gerundete Gesamtergebnis als Ganzzahl in `meta.test_duration_minutes`.
+
+Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta.title` sowie `meta.target_audience` konsistent mit den Angaben aus den Schritten 1 und 2.
+
+#### **JSON-Grundstruktur:**
 
 ```json
 {
-  "frage": "1. Vollständiger Fragetext...",
-  "optionen": [
-    "Antwortoption A",
-    "Antwortoption B",
-    "Antwortoption C",
-    "Antwortoption D"
-  ],
-  "loesung": 0,
-  "erklaerung": "Eine klare und prägnante Erklärung, warum die Lösung korrekt ist.",
-  "gewichtung": 2,
-  "thema": "Zugehöriges Themengebiet",
-  "extended_explanation": {
-    "titel": "Titel der erweiterten Erklärung",
-    "schritte": [
-      "Schritt 1 – ...",
-      "Schritt 2 – ..."
-    ]
+  "meta": {
+    "title": "Data Science Grundlagen",
+    "target_audience": "Fortgeschrittene mit Grundwissen",
+    "question_count": 36,
+    "difficulty_profile": {
+      "leicht": 18,
+      "mittel": 12,
+      "schwer": 6
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 6,
+    "test_duration_minutes": 30
   },
-  "mini_glossary": {
-    "Begriff 1": "Prägnante Definition in 1-3 Sätzen mit optionalen $LaTeX$-Formeln.",
-    "Begriff 2": "Erklärung eines weiteren zentralen Fachbegriffs aus dieser Frage."
-  }
+  "questions": [
+    {
+      "frage": "1. Vollständiger Fragetext...",
+      "optionen": [
+        "Antwortoption A",
+        "Antwortoption B",
+        "Antwortoption C",
+        "Antwortoption D"
+      ],
+      "loesung": 0,
+      "erklaerung": "Eine klare und prägnante Erklärung, warum die Lösung korrekt ist.",
+      "gewichtung": 2,
+      "thema": "Zugehöriges Themengebiet",
+      "extended_explanation": {
+        "titel": "Titel der erweiterten Erklärung",
+        "schritte": [
+          "Schritt 1 – ...",
+          "Schritt 2 – ..."
+        ]
+      },
+      "mini_glossary": {
+        "Begriff 1": "Prägnante Definition in 1-3 Sätzen mit optionalen $LaTeX$-Formeln.",
+        "Begriff 2": "Erklärung eines weiteren zentralen Fachbegriffs aus dieser Frage."
+      }
+    }
+  ]
 }
 ```
 
-**Erläuterung der Felder:**
+#### **Meta-Felder (`meta`):**
 
-  * `frage`: (string) Der vollständige Text der Frage, beginnend mit der fortlaufenden Nummer und einem Punkt (z.B. "1. Was ist...").
-  * `optionen`: (array of strings) Eine Liste der möglichen Antworten.
-  * `loesung`: (integer) Der Index der korrekten Antwort (beginnend bei 0).
-  * `erklaerung`: (string) Die Standarderklärung für die korrekte Lösung.
-  * `gewichtung`: (integer) Eine Ganzzahl, die die Schwierigkeit angibt: **1** für Grundlagenwissen, **2** für Transferwissen/Anwendung, **3** für Expertenwissen/Kombination.
-  * `thema`: (string) Das spezifische Unterthema, dem die Frage zugeordnet ist.
-  * `extended_explanation`: (object, optional) Zusätzliche Tiefe für anspruchsvolle Fragen. Verwende entweder die Struktur `{ "titel": "...", "schritte": ["...", "..."] }` (empfohlen) oder `{ "title": "...", "content": "..." }`. Lasse das Feld weg, wenn keine erweiterten Erklärungen gewünscht sind.
-  * `mini_glossary`: (object, optional) Wörterbuch mit 2-4 Fachbegriffen und Definitionen. Nur erzeugen, wenn Schritt 6 bejaht wurde.
+  * `title`: (string) Klarer Name des Fragensets, passend zum Dateinamen.
+  * `target_audience`: (string) Beschreibt die Zielgruppe aus Schritt 2.
+  * `question_count`: (integer) Gesamtanzahl der Fragen (muss zu `questions.length` passen).
+  * `difficulty_profile`: (object) Tatsächliche Verteilung der generierten Fragen mit den Schlüsseln `leicht`, `mittel`, `schwer`.
+  * `time_per_weight_minutes`: (object) Dokumentiert die verwendeten Minuten pro Gewichtung (Schlüssel `"1"`, `"2"`, `"3"` mit numerischen Werten).
+  * `additional_buffer_minutes`: (number, optional) Optionaler Zeitpuffer, wenn gewünscht oder begründet.
+  * `test_duration_minutes`: (integer) Finale, empfohlene Testdauer (ganze Minuten).
+
+#### **Felder pro Frage (`questions[]`):**
+
+  * `frage`: (string) Vollständiger Fragetext, beginnend mit laufender Nummer und Punkt (z.B. "1. Was ist ...").
+  * `optionen`: (array of strings) Antwortoptionen, alle plausibel formuliert.
+  * `loesung`: (integer) Index der korrekten Option (0-basiert).
+  * `erklaerung`: (string) Standarderklärung zur Lösung.
+  * `gewichtung`: (integer) 1 = leicht, 2 = mittel, 3 = schwer.
+  * `thema`: (string) Unterthema oder Kapitel.
+  * `extended_explanation`: (object, optional) Zusätzliche Tiefe für anspruchsvolle Fragen (entweder `{ "titel": "...", "schritte": [...] }` oder `{ "title": "...", "content": "..." }`).
+  * `mini_glossary`: (object, optional) 2-4 Fachbegriffe mit Definitionen, falls in Schritt 6 angefordert.
 
 #### ✅ Abschluss-Checkliste für das Fragenset
 
-1. JSON ist syntaktisch gültig (Lint-Test bestanden).
-2. Anzahl der Fragen entspricht Schritt 3.
-3. Jede Frage besitzt genau eine richtige Antwort (`loesung` zeigt auf einen gültigen Index).
-4. Optional‑Felder sind nur enthalten, wenn sie beauftragt wurden und nicht leer.
-5. Themen, Gewichtungen und Glossar-Einträge sind konsistent innerhalb des Sets.
+1. JSON ist syntaktisch gültig und enthält genau die Keys `meta` und `questions`.
+2. `meta.question_count` entspricht der Länge von `questions` und `meta.difficulty_profile` spiegelt die tatsächlichen Gewichtungen wider.
+3. `meta.test_duration_minutes` ist eine positive Ganzzahl und ergibt sich aus den Minuten-Faktoren (`meta.time_per_weight_minutes`) plus optionalem Puffer.
+4. Jede Frage besitzt genau eine richtige Antwort (`loesung` verweist auf einen gültigen Index).
+5. Optionale Felder (`extended_explanation`, `mini_glossary`) sind nur enthalten, wenn sie beauftragt wurden und nicht leer.
+6. Titel, Zielgruppe und Themen sind konsistent und eindeutig formuliert.
 
 #### **Richtlinien für Mini-Glossar-Einträge:**
 

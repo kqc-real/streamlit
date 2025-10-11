@@ -9,6 +9,8 @@ Verantwortlichkeiten:
 import os
 import sys
 import json
+import math
+from dataclasses import dataclass
 from typing import List, Dict, Any
 import streamlit as st
 
@@ -47,6 +49,228 @@ def get_package_dir() -> str:
     # __file__ ist der Pfad zur aktuellen Datei. os.path.dirname() gibt das Verzeichnis davon zurück.
     # Beispiel: /path/to/your/project/streamlit/config.py -> /path/to/your/project/streamlit
     return os.path.abspath(os.path.dirname(__file__))
+
+
+@dataclass
+class QuestionSet:
+    """
+    Repräsentiert ein geladenes Fragenset inklusive Metadaten.
+
+    Diese Klasse verhält sich in weiten Teilen wie eine Liste von Fragen, stellt
+    aber zusätzlich Zugriff auf Metadaten (z.B. empfohlene Testdauer) bereit.
+    """
+
+    questions: List[Dict[str, Any]]
+    meta: Dict[str, Any]
+    source_filename: str | None = None
+
+    def __iter__(self):
+        return iter(self.questions)
+
+    def __len__(self) -> int:
+        return len(self.questions)
+
+    def __getitem__(self, index: int) -> Dict[str, Any]:
+        return self.questions[index]
+
+    def __bool__(self) -> bool:
+        return bool(self.questions)
+
+    def index(self, question: Dict[str, Any]) -> int:
+        return self.questions.index(question)
+
+    def get_test_duration_minutes(self, default_minutes: int) -> int:
+        """
+        Liefert die für dieses Set empfohlene Testdauer in Minuten.
+
+        Priorität:
+            1. Explizit in den Metadaten gesetzter Wert.
+            2. Automatisch berechnete Empfehlung (`computed_test_duration_minutes`).
+            3. Übergebener Default (AppConfig).
+        """
+        explicit = self.meta.get("test_duration_minutes")
+        if isinstance(explicit, (int, float)) and explicit > 0:
+            return _round_duration_minutes(explicit)
+
+        computed = self.meta.get("computed_test_duration_minutes")
+        if isinstance(computed, (int, float)) and computed > 0:
+            return _round_duration_minutes(computed)
+
+        return _round_duration_minutes(default_minutes)
+
+
+def _infer_title_from_filename(filename: str | None) -> str:
+    if not filename:
+        return ""
+    name = filename.replace("questions_", "").replace(".json", "")
+    return name.replace("_", " ").strip()
+
+
+def _safe_int(value, default: int = 1) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _normalize_minutes(value) -> float | None:
+    try:
+        minutes = float(value)
+    except (TypeError, ValueError):
+        return None
+    if minutes <= 0:
+        return None
+    return minutes
+
+
+def _round_duration_minutes(minutes: float) -> int:
+    """
+    Rundet eine Zeitangabe in Minuten auf sinnvolle Werte.
+
+    - Unter 10 Minuten wird aufgerundet (Ceiling), Mindestwert 5 Minuten.
+    - Ab 10 Minuten wird auf das nächste Vielfache von 5 Minuten gerundet.
+    """
+    if minutes <= 0:
+        return 5
+    if minutes < 10:
+        return max(5, int(math.ceil(minutes)))
+    return max(10, int(5 * round(minutes / 5)))
+
+
+def _compute_difficulty_profile(questions: List[Dict[str, Any]]) -> Dict[str, int]:
+    profile = {"leicht": 0, "mittel": 0, "schwer": 0}
+    for q in questions:
+        gewichtung = _safe_int(q.get("gewichtung"), 1)
+        if gewichtung >= 3:
+            profile["schwer"] += 1
+        elif gewichtung == 2:
+            profile["mittel"] += 1
+        else:
+            profile["leicht"] += 1
+    # Filtere Einträge mit 0 heraus, um die Ausgabe kompakter zu halten.
+    return {k: v for k, v in profile.items() if v > 0}
+
+
+def _compute_recommended_duration_minutes(
+    meta: Dict[str, Any], questions: List[Dict[str, Any]]
+) -> int:
+    """
+    Berechnet eine empfohlene Testdauer basierend auf Anzahl und Schwierigkeit der Fragen.
+
+    Die Berechnung nutzt folgende Logik:
+      - Explizit gesetzte Minuten im Meta-Objekt haben Vorrang.
+      - Optional kann `time_per_question_minutes` oder `time_per_weight_minutes` angegeben werden.
+      - Falls nichts gesetzt ist, wird eine Heuristik basierend auf der Gewichtung verwendet.
+    """
+    explicit = _normalize_minutes(meta.get("test_duration_minutes"))
+    if explicit:
+        return _round_duration_minutes(explicit)
+
+    per_question = _normalize_minutes(meta.get("time_per_question_minutes"))
+
+    per_weight_raw = meta.get("time_per_weight_minutes", {})
+    per_weight: Dict[int, float] = {}
+    if isinstance(per_weight_raw, dict):
+        for key, value in per_weight_raw.items():
+            key_int = None
+            if isinstance(key, int):
+                key_int = key
+            elif isinstance(key, str) and key.strip().isdigit():
+                key_int = int(key.strip())
+            if key_int is None:
+                continue
+            normalized = _normalize_minutes(value)
+            if normalized:
+                per_weight[key_int] = normalized
+
+    buffer_minutes = _normalize_minutes(meta.get("additional_buffer_minutes")) or 0.0
+
+    # Default-Heuristik pro Gewichtung (in Minuten)
+    default_weight_minutes = {
+        1: 0.5,  # leichte Fragen (30 Sekunden)
+        2: 0.75,  # mittlere Fragen (45 Sekunden)
+        3: 1.0,  # schwere Fragen (60 Sekunden)
+    }
+
+    total_minutes = 0.0
+    for q in questions:
+        gewichtung = _safe_int(q.get("gewichtung"), 1)
+        time_for_weight = per_weight.get(gewichtung)
+        if time_for_weight is not None:
+            minutes_for_question = time_for_weight
+        elif per_question is not None:
+            minutes_for_question = per_question
+        else:
+            minutes_for_question = default_weight_minutes.get(gewichtung, 2.5)
+        total_minutes += minutes_for_question
+
+    total_minutes += buffer_minutes
+    # Mindestens 5 Minuten, um realistische Werte zu gewährleisten.
+    return _round_duration_minutes(max(5, total_minutes))
+
+
+def _build_question_set(
+    data: Any, filename: str, silent: bool = False
+) -> QuestionSet:
+    """
+    Normalisiert den Rohinhalt einer Fragen-Datei und liefert ein `QuestionSet`.
+    """
+    meta: Dict[str, Any] = {}
+    raw_questions: Any = []
+
+    if isinstance(data, dict):
+        raw_questions = data.get("questions", [])
+        meta_candidate = data.get("meta") or {}
+        if isinstance(meta_candidate, dict):
+            meta = dict(meta_candidate)
+        else:
+            if not silent:
+                st.warning(
+                    f"Metadaten in '{filename}' wurden ignoriert, da sie nicht als Objekt vorliegen."
+                )
+    elif isinstance(data, list):
+        raw_questions = data
+        meta = {}
+    else:
+        raise ValueError("Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Liste.")
+
+    if not isinstance(raw_questions, list):
+        raise ValueError("Ungültiges JSON-Format: Das Feld 'questions' muss eine Liste enthalten.")
+
+    questions: List[Dict[str, Any]] = []
+    for i, raw_question in enumerate(raw_questions):
+        if not isinstance(raw_question, dict):
+            if not silent:
+                st.warning(
+                    f"Frage an Position {i + 1} in '{filename}' wurde übersprungen, da sie kein Objekt ist."
+                )
+            continue
+        question = dict(raw_question)
+
+        frage_text = question.get("frage", "")
+        if isinstance(frage_text, str) and frage_text and frage_text[0].isdigit():
+            dot_pos = frage_text.find(".")
+            if 0 < dot_pos < len(frage_text) - 1 and frage_text[:dot_pos].isdigit():
+                frage_text = frage_text.split(".", 1)[-1].strip()
+        question["frage"] = f"{i + 1}. {frage_text}".strip()
+
+        questions.append(question)
+
+    meta.setdefault("title", _infer_title_from_filename(filename))
+    meta["question_count"] = len(questions)
+    meta["difficulty_profile"] = _compute_difficulty_profile(questions)
+    meta["computed_test_duration_minutes"] = _compute_recommended_duration_minutes(meta, questions)
+
+    # Explizit gesetzte Testdauer auf Integer normalisieren
+    if "test_duration_minutes" in meta:
+        explicit = _normalize_minutes(meta["test_duration_minutes"])
+        if explicit:
+            meta["test_duration_minutes"] = _round_duration_minutes(explicit)
+        else:
+            # Ungültige Einträge entfernen, damit die Berechnung greifen kann.
+            del meta["test_duration_minutes"]
+
+    return QuestionSet(questions=questions, meta=meta, source_filename=filename)
 
 
 class AppConfig:
@@ -181,45 +405,27 @@ def get_question_counts() -> Dict[str, int]:
 
 
 @st.cache_data
-def load_questions(filename: str, silent: bool = False) -> List[Dict[str, Any]]:
+def load_questions(filename: str, silent: bool = False) -> QuestionSet:
     """Lädt ein spezifisches Fragenset aus einer JSON-Datei."""
     path = os.path.join(get_package_dir(), "data", filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-            if not isinstance(data, list):
-                if not silent:
-                    st.error(f"Fehler in '{filename}': Die Datei muss eine Liste von Fragen enthalten.")
-                return []
-            
-            questions = data
-            # Sortiere die Fragen nach ihrer Nummer, um eine konsistente Reihenfolge sicherzustellen.
-            # try:
-            #     questions.sort(key=lambda q: int(q.get("frage", "0").split(".", 1)[0]))
-            # except (ValueError, IndexError):
-            #     # Fallback, falls das Format unerwartet ist.
-            #     pass
-
-            # Validiere und nummeriere die Fragen neu, um Konsistenz zu garantieren.
-            for i, q in enumerate(questions):
-                frage_text = q.get("frage", "")
-                # Entferne alte Nummerierung, falls vorhanden
-                # Prüfe ob die Frage mit "Nummer. " beginnt (z.B. "1. Was ist...")
-                if frage_text and frage_text[0].isdigit():
-                    # Finde den ersten Punkt und prüfe ob danach ein Leerzeichen kommt
-                    dot_pos = frage_text.find('.')
-                    if dot_pos > 0 and dot_pos < len(frage_text) - 1:
-                        # Prüfe ob vor dem Punkt nur Zahlen sind
-                        if frage_text[:dot_pos].isdigit():
-                            frage_text = frage_text.split('.', 1)[-1].strip()
-                q["frage"] = f"{i + 1}. {frage_text}"
-            return questions
     except (IOError, json.JSONDecodeError) as e:
         if not silent:
             streamlit_module = sys.modules.get("streamlit", st)
             error_handler = getattr(streamlit_module, "error", _make_streamlit_noop("error"))
             error_handler(f"Fehler beim Laden von '{filename}': {e}")
-        return []
+        return QuestionSet([], {}, filename)
+
+    try:
+        return _build_question_set(data, filename, silent=silent)
+    except ValueError as exc:
+        if not silent:
+            streamlit_module = sys.modules.get("streamlit", st)
+            error_handler = getattr(streamlit_module, "error", _make_streamlit_noop("error"))
+            error_handler(f"Fehler in '{filename}': {exc}")
+        return QuestionSet([], {}, filename)
 
 @st.cache_data
 def load_scientists() -> List[Dict[str, str]]:

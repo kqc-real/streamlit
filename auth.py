@@ -12,7 +12,7 @@ import hmac
 import json
 from datetime import datetime
 
-from config import AppConfig, load_scientists
+from config import AppConfig, load_scientists, QuestionSet
 from helpers import get_user_id_hash
 
 def log_state(event: str):
@@ -28,7 +28,7 @@ def log_state(event: str):
                 state_copy[k] = f"NOT_SERIALIZABLE: {type(v)}"
         f.write(json.dumps(state_copy, indent=2, ensure_ascii=False) + "\n")
 
-def initialize_session_state(questions: list, app_config: AppConfig | None = None):
+def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | None = None):
     """Initialisiert den Session-State für einen neuen Testlauf."""
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
     # Dies ist wichtig, wenn ein Nutzer einen neuen Test startet, ohne die Session komplett zu beenden.
@@ -42,8 +42,9 @@ def initialize_session_state(questions: list, app_config: AppConfig | None = Non
         ]:
             del st.session_state[key]
 
-    st.session_state.beantwortet = [None] * len(questions)
-    frage_indices = list(range(len(questions)))
+    question_count = len(question_set)
+    st.session_state.beantwortet = [None] * question_count
+    frage_indices = list(range(question_count))
     random.shuffle(frage_indices)
     st.session_state.frage_indices = frage_indices
     st.session_state.initial_frage_indices = list(frage_indices)  # Stabile Kopie für Nummerierung
@@ -53,18 +54,14 @@ def initialize_session_state(questions: list, app_config: AppConfig | None = Non
     st.session_state.answer_outcomes = []
     st.session_state.skipped_questions = []
     st.session_state.bookmarked_questions = []
-    test_duration_minutes = 60
-    if app_config is not None:
-        try:
-            parsed_minutes = int(getattr(app_config, "test_duration_minutes", test_duration_minutes))
-            if parsed_minutes > 0:
-                test_duration_minutes = parsed_minutes
-        except (TypeError, ValueError):
-            pass
-
+    default_minutes = getattr(app_config, "test_duration_minutes", 60) if app_config else 60
+    test_duration_minutes = question_set.get_test_duration_minutes(default_minutes)
+    st.session_state.test_duration_minutes = test_duration_minutes
     st.session_state.test_time_limit = test_duration_minutes * 60
     st.session_state.test_time_expired = False
+    st.session_state.question_set_meta = question_set.meta
 
+    questions = list(question_set)
     for q in questions:
         opts = list(q.get("optionen", []))
         random.shuffle(opts)

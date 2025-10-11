@@ -53,6 +53,19 @@ def smart_quotes_de(text: str) -> str:
     return "".join(result_parts)
 
 
+def format_decimal_de(value: float, decimals: int = 1) -> str:
+    """
+    Formatiert eine Zahl mit deutscher Dezimalschreibweise.
+
+    Beispiele:
+        format_decimal_de(12.5) -> "12,5"
+        format_decimal_de(3.1415, 2) -> "3,14"
+    """
+    decimals = max(0, int(decimals))
+    formatted = f"{value:.{decimals}f}"
+    return formatted.replace(".", ",")
+
+
 # ---------------------------------------------------------------------------
 # Request/Client Helpers
 # ---------------------------------------------------------------------------

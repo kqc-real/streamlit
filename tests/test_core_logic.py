@@ -121,7 +121,31 @@ def test_load_questions_successfully(mock_question_file, test_questions, tmp_pat
             new_q["frage"] = f"{i + 1}. {q['frage'].split('.', 1)[-1].strip()}"
             expected_questions.append(new_q)
 
-        assert loaded_questions == expected_questions
+        assert loaded_questions.questions == expected_questions
+
+
+def test_load_questions_with_meta(tmp_path, test_questions):
+    """
+    Stellt sicher, dass Metadaten (inkl. Testdauer) korrekt verarbeitet werden.
+    """
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    payload = {
+        "meta": {
+            "title": "Meta Testset",
+            "test_duration_minutes": 42,
+            "time_per_weight_minutes": {"1": 1.0, "2": 2.0, "3": 3.0},
+        },
+        "questions": test_questions,
+    }
+    questions_path = data_dir / "questions_meta.json"
+    questions_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with patch.object(config, "get_package_dir", return_value=str(tmp_path)):
+        question_set = config.load_questions(questions_path.name)
+
+    assert question_set.meta["title"] == "Meta Testset"
+    assert question_set.get_test_duration_minutes(default_minutes=30) == 40
 
 
 @pytest.mark.parametrize(
@@ -157,10 +181,11 @@ def test_load_questions_file_not_found():
     Testet das Verhalten von `load_questions`, wenn die Datei nicht existiert.
     Der Fehler sollte abgefangen und eine leere Liste zurückgegeben werden.
     """
+    mock_st.error.reset_mock()
     # Act: Versuche, eine nicht existierende Datei zu laden.
     loaded_questions = config.load_questions("non_existent_file.json")
     # Assert: Es sollte eine leere Liste zurückkommen und st.error aufgerufen werden.
-    assert loaded_questions == []
+    assert len(loaded_questions) == 0
     mock_st.error.assert_called_once()
 
 

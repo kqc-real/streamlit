@@ -11,23 +11,22 @@ import time
 import locale
 import math
 
-from config import AppConfig, list_question_files, load_questions, get_question_counts
+from config import AppConfig, list_question_files, load_questions, get_question_counts, QuestionSet
 from logic import (
     calculate_score,
     set_question_as_answered,
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import smart_quotes_de, get_user_id_hash
+from helpers import smart_quotes_de, get_user_id_hash, format_decimal_de
 from database import update_bookmarks
 from components import render_question_distribution_chart
 
 
 def _format_minutes_text(minutes: int) -> str:
     """Gibt eine sprachlich passende Darstellung für Minuten zurück."""
-    if minutes <= 1:
-        return "eine Minute"
-    return f"{minutes} Minuten"
+    value = max(1, minutes)
+    return f"{value} min"
 
 
 def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds: int = 5) -> str | None:
@@ -36,7 +35,7 @@ def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds:
 
     Rückgabe:
         - String mit Warntext (inkl. "Achtung, ..."), oder
-        - None, falls keine Warnung angezeigt werden soll (z. B. > 5 Minuten Restzeit).
+        - None, falls keine Warnung angezeigt werden soll (z. B. > 5 min Restzeit).
     """
     if remaining_seconds <= 0:
         return None
@@ -129,11 +128,27 @@ def render_welcome_page(app_config: AppConfig):
         st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
         return
 
+    # Lade Metadaten (z.B. empfohlene Testdauer) für alle Sets vorab.
+    question_set_cache: dict[str, "QuestionSet"] = {}
+    question_durations: dict[str, int] = {}
+    default_duration = app_config.test_duration_minutes
+    for filename in valid_question_files:
+        question_set = load_questions(filename, silent=True)
+        question_set_cache[filename] = question_set
+        question_durations[filename] = question_set.get_test_duration_minutes(default_duration)
+
     # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
     def format_filename(filename):
         name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
         num_questions = question_counts.get(filename)
-        return f"{name} ({num_questions} Fragen)" if num_questions else f"{name} (Fehler)"
+        duration = question_durations.get(filename)
+        info_parts: list[str] = []
+        if num_questions:
+            info_parts.append(f"{num_questions} Fragen")
+        if duration:
+            info_parts.append(f"{duration} min")
+        suffix = f" ({' · '.join(info_parts)})" if info_parts else ""
+        return f"{name}{suffix}"
 
     st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>", unsafe_allow_html=True)
 
@@ -152,13 +167,37 @@ def render_welcome_page(app_config: AppConfig):
         _sync_questions_query_param(selected_choice)
         st.rerun()
         return
-
     selected_file = st.session_state.get("selected_questions_file")
+
+    selected_question_set = question_set_cache.get(selected_file)
+    if selected_question_set:
+        duration = question_durations.get(selected_file)
+        difficulty_profile = selected_question_set.meta.get("difficulty_profile", {})
+        difficulty_parts: list[str] = []
+        difficulty_labels = {
+            "leicht": "leicht",
+            "mittel": "mittel",
+            "schwer": "schwer",
+        }
+        for key, label in difficulty_labels.items():
+            count = difficulty_profile.get(key)
+            if count:
+                difficulty_parts.append(f"{count}×{label}")
+        info_suffix = f" · Schwierigkeitsmix: {', '.join(difficulty_parts)}" if difficulty_parts else ""
+        if duration:
+            st.caption(f"⏱️ Empfohlene Testzeit: {duration} min{info_suffix}")
+        elif difficulty_parts:
+            st.caption(f"Schwierigkeitsmix: {', '.join(difficulty_parts)}")
+
+    if selected_question_set is not None:
+        questions = selected_question_set
+    else:
+        questions = load_questions(selected_file)
+
     # --- Diagramm zur Verteilung der Fragen ---
     with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=False):
-        questions = load_questions(selected_file)
         if questions:
-            render_question_distribution_chart(questions)
+            render_question_distribution_chart(list(questions))
         else:
             st.warning("⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
 
@@ -179,7 +218,7 @@ def render_welcome_page(app_config: AppConfig):
                 scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
                 # Blende Durchläufe ohne erzielte Punkte aus dem öffentlichen Leaderboard aus
                 scores = scores[scores["total_score"] > 0]
-                # Filtere Sessions unter drei Minuten heraus, um überstürzte Abgaben zu vermeiden.
+                # Filtere Sessions unter 3 min heraus, um überstürzte Abgaben zu vermeiden.
                 min_duration_seconds = 3 * 60
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
                 scores = scores.reset_index(drop=True)
@@ -193,10 +232,15 @@ def render_welcome_page(app_config: AppConfig):
                         'duration_seconds': '⏱️ Dauer',
                     }, inplace=True)
 
-                    # Formatiere die Dauer von Sekunden in MM:SS
+                    # Formatiere die Dauer als Kombination aus Minuten und Sekunden
                     def format_duration(seconds):
                         mins, secs = divmod(seconds, 60)
-                        return f"{int(mins):02d}:{int(secs):02d}"
+                        parts = []
+                        if mins:
+                            parts.append(f"{int(mins)} min")
+                        if secs or not parts:
+                            parts.append(f"{int(secs)} s")
+                        return " ".join(parts)
                     scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
 
                     # Formatiere das Datum
@@ -286,7 +330,7 @@ def render_welcome_page(app_config: AppConfig):
 
 def _show_welcome_container(app_config: AppConfig):
     """Zeigt die Welcome-Message in einem hervorgehobenen Container."""
-    # Testzeit berechnen (in Minuten)
+    # Testzeit berechnen (in min)
     test_time_minutes = int(st.session_state.test_time_limit / 60)
     
     if app_config.scoring_mode == "positive_only":
@@ -305,7 +349,7 @@ def _show_welcome_container(app_config: AppConfig):
         
         st.markdown(f"""
         ### ⏱️ Testzeit
-        Du hast **{test_time_minutes} Minuten** für den Test.  
+        Du hast **{test_time_minutes} min** für den Test.  
         Der Countdown startet, sobald du auf »Test beginnen« klickst und aktualisiert sich mit jeder Frage.
         
         ### ✅ 1 richtige Option
@@ -325,7 +369,7 @@ def _show_welcome_container(app_config: AppConfig):
             st.session_state.start_zeit = pd.Timestamp.now()
             st.rerun()
 
-def render_question_view(questions: list, frage_idx: int, app_config: AppConfig):
+def render_question_view(questions: QuestionSet, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
     if st.session_state.get("show_pseudonym_reminder", False):
         st.success(f"**Willkommen, {st.session_state.user_id}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.")
@@ -762,7 +806,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         render_next_question_button(questions, questions.index(frage_obj))
 
 
-def render_next_question_button(questions: list, frage_idx: int):
+def render_next_question_button(questions: QuestionSet, frage_idx: int):
     """
     Rendert den "Nächste Frage"-Button am Ende des Erklärungsblocks.
     Bei der letzten Frage wird der Button als "Zur Testauswertung" angezeigt.
@@ -783,7 +827,7 @@ def render_next_question_button(questions: list, frage_idx: int):
             st.rerun()
 
 
-def render_final_summary(questions: list, app_config: AppConfig):
+def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
     st.header("🚀 Test abgeschlossen!")
 
@@ -794,7 +838,11 @@ def render_final_summary(questions: list, app_config: AppConfig):
     )
     prozent = (current_score / max_score * 100) if max_score > 0 else 0
 
-    st.metric("Dein Endergebnis", f"{current_score} / {max_score} Punkte", f"{prozent:.1f}%")
+    st.metric(
+        "Dein Endergebnis",
+        f"{current_score} / {max_score} Punkte",
+        f"{format_decimal_de(prozent, 1)} %"
+    )
 
     # Animation nur einmal beim ersten Laden der Ergebnisseite zeigen
     if "celebration_shown" not in st.session_state:
@@ -808,13 +856,13 @@ def render_final_summary(questions: list, app_config: AppConfig):
     
     if prozent == 100:  # Perfekt (100%)
         messages = [
-            "🏆 Perfekt! 100% – Makellose Runde!",
+            "🏆 Perfekt! 100 % – Makellose Runde!",
             "⚡ Fehlerlos! Absolute Elite-Leistung.",
             "💎 Makellos! Alle Fragen richtig.",
-            "🌟 100%! Du bist ein wahrer Meister.",
+            "🌟 100 %! Du bist ein wahrer Meister.",
         ]
         st.success(random.choice(messages))
-    elif prozent >= 90:  # Exzellent (90-99%)
+    elif prozent >= 90:  # Exzellent (90-99 %)
         messages = [
             "🏅 Exzellent! Fast perfekte Quote.",
             "✨ Hervorragend! Sehr starke Leistung.",
@@ -846,18 +894,18 @@ def render_final_summary(questions: list, app_config: AppConfig):
             "💡 Mittelfeld. Mit Übung wird's besser.",
         ]
         st.info(random.choice(messages))
-    elif prozent >= 50:  # Ausreichend (50-59%)
+    elif prozent >= 50:  # Ausreichend (50-59 %)
         messages = [
             "⚠️ Ausreichend. Deutlicher Nachholbedarf.",
             "📖 Knapp bestanden. Erklärungen nutzen!",
-            "🎯 50-59%. Themen gezielt wiederholen.",
+            "🎯 50-59 %. Themen gezielt wiederholen.",
             "🔄 Schwankend. Review zeigt Schwächen auf.",
         ]
         st.warning(random.choice(messages))
     elif prozent >= 40:  # Mangelhaft (40-49%)
         messages = [
             "⛔ Mangelhaft. Grundlagen fehlen noch.",
-            "📕 Unter 50%. Intensive Wiederholung nötig.",
+            "📕 Unter 50 %. Intensive Wiederholung nötig.",
             "🚨 Lücken groß. Review-Modus ist Pflicht.",
             "🔴 Viele Fehler. Stoff nochmal durcharbeiten.",
         ]
@@ -865,7 +913,7 @@ def render_final_summary(questions: list, app_config: AppConfig):
     else:  # Ungenügend (<40%)
         messages = [
             "❌ Ungenügend. Stoff von Grund auf lernen.",
-            "📚 Unter 40%. Systematisch neu starten.",
+            "📚 Unter 40 %. Systematisch neu starten.",
             "🆘 Große Wissenslücken. Hilfe holen!",
             "⚠️ Sehr schwach. Review zeigt alle Fehler.",
         ]
@@ -999,22 +1047,23 @@ def render_final_summary(questions: list, app_config: AppConfig):
                 
                 # Formatiere Zeitangabe
                 if total_minutes < 1:
-                    time_str = f"{int(total_seconds)} Sekunden"
+                    time_str = f"{int(total_seconds)} s"
                 elif total_minutes < 2:
-                    time_str = f"ca. 1 Minute"
+                    time_str = f"ca. 1 min"
                 else:
-                    time_str = f"ca. {int(total_minutes)} Minuten"
+                    time_str = f"ca. {int(total_minutes)} min"
                 
+                render_time_str = format_decimal_de(render_time, 2)
                 benchmark_placeholder.success(
-                    f"✅ Probe-Rendering: {render_time:.2f}s\n\n"
+                    f"✅ Probe-Rendering: {render_time_str} s\n\n"
                     f"**Geschätzte Gesamtdauer:** {time_str}\n"
-                    f"({formula_count} Formeln × {render_time:.2f}s)"
+                    f"({formula_count} Formeln × {render_time_str} s)"
                 )
             except Exception as e:
                 benchmark_placeholder.warning(
                     f"⚠️ Probe-Rendering fehlgeschlagen: {e}\n\n"
                     f"Schätzung basiert auf Durchschnittswert: "
-                    f"ca. {max(1, formula_count // 20)} Minuten"
+                    f"ca. {max(1, formula_count // 20)} min"
                 )
     
     # Button zum Generieren
@@ -1050,7 +1099,7 @@ def render_final_summary(questions: list, app_config: AppConfig):
                 st.info("Versuche es bitte erneut oder kontaktiere den Support.")
 
 
-def render_review_mode(questions: list):
+def render_review_mode(questions: QuestionSet):
     """Rendert den interaktiven Review-Modus am Ende des Tests."""
     st.subheader("🧐 Review deiner Antworten")
     
