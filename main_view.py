@@ -411,8 +411,6 @@ def _show_welcome_container(app_config: AppConfig):
     st.markdown("<br>" * 3, unsafe_allow_html=True)  # Abstand nach oben
     
     with st.container(border=True):
-        st.markdown("# Willkommen! 👋")
-        
         st.markdown(f"""
         ### ⏱️ Testzeit
         Du hast **{test_time_minutes} min** für den Test.  
