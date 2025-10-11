@@ -56,7 +56,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     # aber der Nutzer gerade eine einzelne Frage ansieht (z.B. nach Sprung von Bookmark).
     if is_test_finished(questions) and "jump_to_idx_active" in st.session_state and st.session_state.jump_to_idx_active:
         st.sidebar.divider()
-        if st.sidebar.button("⬅️ Zurück zum Testreview", use_container_width=True):
+        if st.sidebar.button("⬅️ Zurück zum Testreview", width="stretch"):
             st.session_state.jump_to_idx_active = False # Deaktiviere den Review-Modus
             st.rerun()
 
@@ -71,7 +71,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             "Für einen weiteren Versuch wähle ein neues Pseudonym."
         )
 
-        if st.button("Session beenden", key="abort_session_btn", type="primary", use_container_width=True):
+        if st.button("Session beenden", key="abort_session_btn", type="primary", width="stretch"):
             # Speichere Bookmarks vor dem Abmelden direkt über die DB-Funktion
             bookmarked_q_nrs = [
                 int(questions[i]['frage'].split('.')[0]) 
@@ -113,7 +113,7 @@ def render_admin_switch(app_config: AppConfig):
 
     if is_panel_active:
         st.sidebar.info("Du bist im Admin-Modus.")
-        if st.sidebar.button("⬅️ Zurück zum Test", use_container_width=True):
+        if st.sidebar.button("⬅️ Zurück zum Test", width="stretch"):
             st.session_state.show_admin_panel = False
             st.rerun()
     else:
@@ -121,7 +121,7 @@ def render_admin_switch(app_config: AppConfig):
         if not app_config.admin_key:
             st.sidebar.warning("⚠️ **Admin-Key nicht gesetzt!**\n\nNur für lokale Entwicklung geeignet. "
                              "Für Produktion bitte `MC_TEST_ADMIN_KEY` setzen.")
-            if st.sidebar.button("📊 Admin-Panel öffnen (UNSICHER)", use_container_width=True, type="secondary"):
+            if st.sidebar.button("📊 Admin-Panel öffnen (UNSICHER)", width="stretch", type="secondary"):
                 st.session_state.show_admin_panel = True
                 st.rerun()
         else:
@@ -202,13 +202,13 @@ def render_bookmarks(questions: QuestionSet):
                     key=f"bm_jump_{q_idx}",
                     help="Zur markierten Frage springen",
                     disabled=test_completed,
-                    use_container_width=True
+                    width="stretch",
                 ):
                     st.session_state["jump_to_idx"] = q_idx
                     st.session_state.jump_to_idx_active = True
                     st.rerun()
             with cols[2]:
-                if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen", use_container_width=True):
+                if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen", width="stretch"):
                     st.session_state.bookmarked_questions.remove(q_idx)
                     bookmarked_q_nrs = [
                         int(questions[i]['frage'].split('.')[0]) 
@@ -560,4 +560,4 @@ def render_question_distribution_chart(questions: list):
         yaxis_title="Anzahl der Fragen",
         legend_title="Schwierigkeit",
     )
-    st.plotly_chart(fig, use_container_width=True) # plotly_chart does not support `width` yet, keeping `use_container_width`
+    st.plotly_chart(fig, config={"responsive": True})

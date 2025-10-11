@@ -201,7 +201,11 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             else:
                 scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
 
-        st.dataframe(scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]], use_container_width=True, hide_index=True)
+        st.dataframe(
+            scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]],
+            width="stretch",
+            hide_index=True,
+        )
 
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
         with st.expander("Benutzerergebnisse für dieses Set zurücksetzen"):
@@ -392,7 +396,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         display_df["Trennschärfe (r_it)"] = display_df["Trennschärfe (r_it)"].map(
             lambda v: format_decimal_de(v, 2)
         )
-    st.dataframe(display_df, use_container_width=True, hide_index=True)
+    st.dataframe(display_df, width="stretch", hide_index=True)
 
     with st.expander("Glossar der Metriken"):
         st.markdown("""
@@ -440,7 +444,10 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                 merged_df["Korrekt"] = merged_df["Antwort"].apply(lambda x: "✅" if x == correct_answer else "")
 
                 st.write("Antwortverteilung:")
-                st.dataframe(merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False), use_container_width=True)
+                st.dataframe(
+                    merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False),
+                    width="stretch",
+                )
 
                 if st.checkbox("Zeige als Balkendiagramm", key=f"distractor_chart_{frage_nr}"):
                     import plotly.express as px
@@ -453,7 +460,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                         color="Korrekt",
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, config={"responsive": True})
 
 def render_feedback_tab():
     """Rendert den Feedback-Tab."""
@@ -540,7 +547,7 @@ def render_feedback_tab():
             
             with col2:
                 # Button, um direkt zur Frage zu springen
-                if st.button("Zur Frage", key=f"jump_feedback_{row.name}", use_container_width=True):
+                if st.button("Zur Frage", key=f"jump_feedback_{row.name}", width="stretch"):
                     # Finde den Index der Frage im entsprechenden Fragenset
                     q_file_to_load = row['Fragenset']
                     questions_to_load = load_questions(q_file_to_load, silent=True)
@@ -556,9 +563,14 @@ def render_feedback_tab():
                         st.error("Frage konnte im Set nicht gefunden werden.")
                 
                 # Popover für die Löschbestätigung
-                with st.popover("Löschen", use_container_width=True):
+                with st.popover("Löschen", width="stretch"):
                     st.warning("⚠️ Soll dieses Feedback wirklich gelöscht werden?")
-                    if st.button("Ja, endgültig löschen", key=f"del_feedback_{row['feedback_id']}", type="primary", use_container_width=True):
+                    if st.button(
+                        "Ja, endgültig löschen",
+                        key=f"del_feedback_{row['feedback_id']}",
+                        type="primary",
+                        width="stretch",
+                    ):
                         from database import delete_feedback
                         if delete_feedback(row['feedback_id']):
                             st.toast("Feedback gelöscht.")
@@ -686,7 +698,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 showlegend=False
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, config={"responsive": True})
     else:
         st.info("Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt.")
 
@@ -843,7 +855,7 @@ def render_audit_log_tab():
     df["Zeitstempel"] = pd.to_datetime(df["Zeitstempel"]).dt.strftime("%Y-%m-%d %H:%M:%S")
     
     # Zeige Tabelle
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    st.dataframe(df, width="stretch", hide_index=True)
     
     st.divider()
     
@@ -859,7 +871,7 @@ def render_audit_log_tab():
             data=csv_data,
             file_name=f"audit_log_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
             mime="text/csv",
-            use_container_width=True
+            width="stretch",
         )
     
     with col2:

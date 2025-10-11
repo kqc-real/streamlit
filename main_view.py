@@ -124,7 +124,7 @@ def _render_welcome_splash():
             st.markdown(splash_content)
             st.markdown('</div>', unsafe_allow_html=True)
 
-            if st.button("🚀 Los geht’s", type="primary", use_container_width=True):
+            if st.button("🚀 Los geht’s", type="primary", width="stretch"):
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
@@ -134,7 +134,7 @@ def _render_welcome_splash():
         st.markdown(splash_content)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button("🚀 Los geht’s", type="primary", use_container_width=True):
+        if st.button("🚀 Los geht’s", type="primary", width="stretch"):
             st.session_state._welcome_splash_dismissed = True
             st.rerun()
 
@@ -207,14 +207,7 @@ def render_welcome_page(app_config: AppConfig):
     def format_filename(filename):
         name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
         num_questions = question_counts.get(filename)
-        duration = question_durations.get(filename)
-        info_parts: list[str] = []
-        if num_questions:
-            info_parts.append(f"{num_questions} Fragen")
-        if duration:
-            info_parts.append(f"{duration} min")
-        suffix = f" ({' · '.join(info_parts)})" if info_parts else ""
-        return f"{name}{suffix}"
+        return f"{name} ({num_questions} Fragen)" if num_questions else name
 
     st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>", unsafe_allow_html=True)
 
@@ -248,12 +241,12 @@ def render_welcome_page(app_config: AppConfig):
         for key, label in difficulty_labels.items():
             count = difficulty_profile.get(key)
             if count:
-                difficulty_parts.append(f"{count}×{label}")
-        info_suffix = f" · Schwierigkeitsmix: {', '.join(difficulty_parts)}" if difficulty_parts else ""
+                difficulty_parts.append(f"- {count} × {label}")
+        info_suffix = f" · Schwierigkeitsmix:\n{chr(10).join(difficulty_parts)}" if difficulty_parts else ""
         if duration:
             st.caption(f"⏱️ Empfohlene Testzeit: {duration} min{info_suffix}")
         elif difficulty_parts:
-            st.caption(f"Schwierigkeitsmix: {', '.join(difficulty_parts)}")
+            st.caption(f"Schwierigkeitsmix:\n{chr(10).join(difficulty_parts)}")
 
     if selected_question_set is not None:
         questions = selected_question_set
@@ -320,7 +313,11 @@ def render_welcome_page(app_config: AppConfig):
                         else:
                             scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
 
-                    st.dataframe(scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]], use_container_width=True, hide_index=True)
+                    st.dataframe(
+                        scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]],
+                        width="stretch",
+                        hide_index=True,
+                    )
 
 
     # --- Login-Formular im Hauptbereich ---
@@ -376,7 +373,12 @@ def render_welcome_page(app_config: AppConfig):
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
-        if st.button("Test starten", type="primary", use_container_width=True, disabled=(not selected_name_from_user)):
+        if st.button(
+            "Test starten",
+            type="primary",
+            width="stretch",
+            disabled=(not selected_name_from_user),
+        ):
             from database import add_user, start_test_session
             user_name = selected_name_from_user
             user_id_hash = get_user_id_hash(user_name)
@@ -427,7 +429,7 @@ def _show_welcome_container(app_config: AppConfig):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        if st.button("🚀 Test beginnen", type="primary", use_container_width=True):
+        if st.button("🚀 Test beginnen", type="primary", width="stretch"):
             st.session_state.test_started = True
             # Starte den Countdown sofort
             st.session_state.start_zeit = pd.Timestamp.now()
@@ -560,7 +562,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     st.rerun() # Rerun, um den Zustand sofort zu reflektieren
             with col2:
                 # Überspringen-Button
-                if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", use_container_width=True):
+                if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", width="stretch"):
                     # Verschiebe die aktuelle Frage ans Ende der Liste
                     frage_indices = st.session_state.get("frage_indices", [])
                     if frage_idx in frage_indices:
@@ -576,7 +578,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         st.rerun()
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
-                if st.button("Antworten", key=f"submit_{frage_idx}", type="primary", use_container_width=True, disabled=(antwort is None)):
+                if st.button(
+                    "Antworten",
+                    key=f"submit_{frage_idx}",
+                    type="primary",
+                    width="stretch",
+                    disabled=(antwort is None),
+                ):
                     # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
                     handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         
@@ -591,7 +599,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 st.info("Diese Frage wurde bereits beantwortet.")
                 _, col2, _ = st.columns([1, 1, 1])
                 with col2:
-                    if st.button("Test fortsetzen", key=f"resume_from_answered_bm_{frage_idx}", type="primary", use_container_width=True):
+                    if st.button(
+                        "Test fortsetzen",
+                        key=f"resume_from_answered_bm_{frage_idx}",
+                        type="primary",
+                        width="stretch",
+                    ):
                         # Setze das Sprung-Flag zurück, damit die App zur nächsten unbeantworteten Frage geht.
                         st.session_state.jump_to_idx_active = False
                         # Lösche den last_answered_idx, damit die App nicht hier hängen bleibt.
@@ -785,7 +798,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         if not st.session_state.get(show_extended_key, False):
             _, center_col, _ = st.columns([1, 2, 1])
             with center_col:
-                if st.button("🧠 Zeige detaillierte Erklärung", key=f"btn_extended_{frage_idx}", use_container_width=True):
+                if st.button(
+                    "🧠 Zeige detaillierte Erklärung",
+                    key=f"btn_extended_{frage_idx}",
+                    width="stretch",
+                ):
                     st.session_state[show_extended_key] = True
                     st.rerun()
         
@@ -827,7 +844,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     else:
         # Action-Buttons teilen sich die Spaltengruppe
         with action_cols[1]:
-            with st.popover("Problem mit dieser Frage melden", use_container_width=True):
+            with st.popover("Problem mit dieser Frage melden", width="stretch"):
                 st.markdown("**Welche Probleme sind dir aufgefallen?**")
 
                 # --- Custom CSS für den roten Button ---
@@ -860,7 +877,8 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 st.button(
                     "Feedback senden", key=button_key,
                     on_click=_handle_feedback_submission, args=(frage_idx, frage_obj, selected_feedback_types),
-                    disabled=not selected_feedback_types, use_container_width=True,
+                    disabled=not selected_feedback_types,
+                    width="stretch",
                     type="primary" if selected_feedback_types else "secondary"
                 )
 
@@ -885,7 +903,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
     
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
-        if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", use_container_width=True):
+        if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
             # Setze das Flag zurück, um die Erklärung bei der nächsten Anzeige nicht mehr zu zeigen.
             st.session_state[f"show_explanation_{frage_idx}"] = False
             st.rerun()
@@ -1131,7 +1149,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 )
     
     # Button zum Generieren
-    if st.button("📥 PDF jetzt generieren", type="primary", use_container_width=True):
+    if st.button("📥 PDF jetzt generieren", type="primary", width="stretch"):
         from pdf_export import generate_pdf_report
         
         # Fortschrittsanzeige passend zum Inhalt
@@ -1156,7 +1174,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     data=pdf_bytes,
                     file_name=f"ergebnisse_{q_file_clean}_{user_name_file}.pdf",
                     mime="application/pdf",
-                    use_container_width=True
+                    width="stretch",
                 )
             except Exception as e:
                 st.error(f"❌ Fehler beim Erstellen des PDFs: {str(e)}")
