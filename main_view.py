@@ -291,8 +291,8 @@ def _show_welcome_container(app_config: AppConfig):
     
     if app_config.scoring_mode == "positive_only":
         scoring_text = (
-            "Für eine richtige Antwort erhältst du die volle Gewichtung (z. B. 2 Punkte), "
-            "falsche Antworten geben 0 Punkte."
+            "Für eine richtige Antwort erhältst du Punkte gmäß der Gewichtung, "
+            "für eine falsche 0 Punkte."
         )
     else:
         scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
