@@ -177,6 +177,8 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 scores = pd.DataFrame(leaderboard_data)
                 scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
+                # Blende Durchläufe ohne erzielte Punkte aus dem öffentlichen Leaderboard aus
+                scores = scores[scores["total_score"] > 0]
                 # Filtere Sessions unter drei Minuten heraus, um überstürzte Abgaben zu vermeiden.
                 min_duration_seconds = 3 * 60
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
@@ -636,6 +638,16 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         st.error("Leider falsch. ❌")
         st.markdown(f"<span style='color:#28a745; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
 
+    # Markieren und Feedback-Button gemeinsam platzieren
+    action_cols = st.columns([1.2, 2, 1])
+    with action_cols[0]:
+        bookmark_key = f"bm_toggle_{frage_idx}"
+        is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+        new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=bookmark_key)
+        if new_bookmark_state != is_bookmarked:
+            handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
+            st.rerun()
+
     # Erklärungstext
     erklaerung = frage_obj.get("erklaerung")
     if erklaerung:
@@ -702,11 +714,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     feedback_key = f"feedback_reported_{frage_idx}"
 
     if st.session_state.get(feedback_key, False):
-        st.success("✔️ Danke, dein Feedback wurde übermittelt.")
+        with action_cols[1]:
+            st.success("✔️ Danke, dein Feedback wurde übermittelt.")
     else:
-        # Zentriere den Popover-Button in der mittleren Spalte für ein konsistentes Layout
-        _, center_col, _ = st.columns([1, 2, 1])
-        with center_col:
+        # Action-Buttons teilen sich die Spaltengruppe
+        with action_cols[1]:
             with st.popover("Problem mit dieser Frage melden", use_container_width=True):
                 st.markdown("**Welche Probleme sind dir aufgefallen?**")
 
