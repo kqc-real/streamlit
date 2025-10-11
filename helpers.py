@@ -66,6 +66,17 @@ def format_decimal_de(value: float, decimals: int = 1) -> str:
     return formatted.replace(".", ",")
 
 
+def load_markdown_file(path: str) -> str | None:
+    """
+    Lädt den Inhalt einer Markdown-Datei. Gibt `None` zurück, wenn die Datei fehlt.
+    """
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return f.read()
+    except (OSError, UnicodeDecodeError):
+        return None
+
+
 # ---------------------------------------------------------------------------
 # Request/Client Helpers
 # ---------------------------------------------------------------------------

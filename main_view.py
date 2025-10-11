@@ -5,20 +5,28 @@ Verantwortlichkeiten:
 - Rendern der Fragenansicht.
 - Rendern der finalen Zusammenfassung.
 """
+import os
 import streamlit as st
 import pandas as pd
 import time
 import locale
 import math
 
-from config import AppConfig, list_question_files, load_questions, get_question_counts, QuestionSet
+from config import (
+    AppConfig,
+    list_question_files,
+    load_questions,
+    get_question_counts,
+    QuestionSet,
+    get_package_dir,
+)
 from logic import (
     calculate_score,
     set_question_as_answered,
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import smart_quotes_de, get_user_id_hash, format_decimal_de
+from helpers import smart_quotes_de, get_user_id_hash, format_decimal_de, load_markdown_file
 from database import update_bookmarks
 from components import render_question_distribution_chart
 
@@ -77,6 +85,62 @@ def _sync_questions_query_param(selected_file: str):
     st.query_params["questions_file"] = selected_file
 
 
+def _render_welcome_splash():
+    """Zeigt beim ersten Aufruf der Startseite einen Willkommen-Splash an."""
+    if st.session_state.get("_welcome_splash_dismissed", False):
+        return
+
+    splash_path = os.path.join(get_package_dir(), "docs", "welcome_splash.md")
+    splash_content = load_markdown_file(splash_path)
+    if not splash_content:
+        # Wenn keine Inhalte vorliegen, den Splash überspringen, um Blockaden zu vermeiden.
+        st.session_state._welcome_splash_dismissed = True
+        return
+
+    st.markdown(
+        """
+        <style>
+        [data-testid="stDialogContent"] .splash-scroll {
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .splash-fallback {
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    dialog_func = getattr(st, "dialog", None)
+    if callable(dialog_func):
+
+        @dialog_func("🎓 MC-Test App")
+        def _welcome_dialog():
+            st.markdown('<div class="splash-scroll">', unsafe_allow_html=True)
+            st.markdown(splash_content)
+            st.markdown('</div>', unsafe_allow_html=True)
+
+            if st.button("🚀 Los geht’s", type="primary", use_container_width=True):
+                st.session_state._welcome_splash_dismissed = True
+                st.rerun()
+
+        _welcome_dialog()
+    else:
+        st.markdown('<div class="splash-fallback">', unsafe_allow_html=True)
+        st.markdown(splash_content)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        if st.button("🚀 Los geht’s", type="primary", use_container_width=True):
+            st.session_state._welcome_splash_dismissed = True
+            st.rerun()
+
+        st.stop()
+
+
 def render_welcome_page(app_config: AppConfig):
     """Zeigt die Startseite für nicht eingeloggte Nutzer."""
 
@@ -87,6 +151,8 @@ def render_welcome_page(app_config: AppConfig):
         st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
         st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
         return
+
+    _render_welcome_splash()
 
     query_params = st.query_params
     requested_file = query_params.get("questions_file")
