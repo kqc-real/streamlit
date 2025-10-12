@@ -83,29 +83,24 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             leaderboard = get_all_logs_for_leaderboard(selected_file)
             
             made_it_to_leaderboard = False
-            user_rank = None
             
             # Mindestdauer für dieses Fragenset berechnen
             recommended_duration = st.session_state.get("test_duration_minutes", 60) * 60
             min_duration_for_leaderboard = max(60, int(recommended_duration * 0.20))
 
             if final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
-                # Füge aktuellen Nutzer temporär hinzu und sortiere
-                current_user_entry = {'user_pseudonym': st.session_state.get("user_id"), 'total_score': final_score, 'duration_seconds': duration_seconds}
-                # Entferne den alten Eintrag des Nutzers, falls er bereits im Leaderboard war, um Duplikate zu vermeiden
-                potential_leaderboard = [entry for entry in leaderboard if entry and entry.get('user_pseudonym') != current_user_entry['user_pseudonym']]
-                potential_leaderboard.append(current_user_entry)
-                # Korrekte Sortierung: Höchste Punktzahl zuerst (durch -score), bei Gleichstand kürzeste Zeit zuerst.
-                potential_leaderboard.sort(
-                    key=lambda x: (-x.get('total_score', 0), x.get('duration_seconds', 0))
-                )
-                
-                # Finde den Rang des aktuellen Nutzers in den Top 10
-                for i, entry in enumerate(potential_leaderboard[:10]):
-                    if entry['user_pseudonym'] == current_user_entry['user_pseudonym']:
+                # Wenn das Leaderboard noch nicht voll ist, schafft man es immer.
+                if len(leaderboard) < 10:
+                    made_it_to_leaderboard = True
+                else:
+                    # Wenn das Leaderboard voll ist, vergleiche mit dem letzten Platz.
+                    last_place = leaderboard[-1]
+                    if final_score > last_place.get('total_score', 0):
                         made_it_to_leaderboard = True
-                        user_rank = i + 1
-                        break
+                    elif final_score == last_place.get('total_score', 0):
+                        # Bei Punktegleichstand entscheidet die kürzere Zeit.
+                        if duration_seconds < last_place.get('duration_seconds', float('inf')):
+                            made_it_to_leaderboard = True
 
             # Speichere Bookmarks vor dem Abmelden
             bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
@@ -128,8 +123,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.session_state["aborted_user_score"] = final_score
             st.session_state["aborted_user_duration"] = duration_seconds
             st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
-            st.session_state["aborted_user_recommended_duration"] = recommended_duration
-            st.session_state["aborted_user_rank"] = user_rank
+            st.session_state["aborted_user_recommended_duration"] = st.session_state.get("test_time_limit", 180)
             
             st.rerun()
 

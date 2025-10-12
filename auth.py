@@ -85,9 +85,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
         made_it_to_leaderboard = st.session_state.get("aborted_user_on_leaderboard", False)
 
         if made_it_to_leaderboard:
-            rank = st.session_state.get("aborted_user_rank")
-            rank_text = f" auf Platz {rank}" if rank else ""
-            toast_message = f"🎉 Glückwunsch, {user_name}! Du hast es mit {score} Punkten{rank_text} ins Leaderboard geschafft!"
+            toast_message = f"🎉 Glückwunsch, {user_name}! Du hast es mit {score} Punkten ins Leaderboard geschafft!"
         else:
             duration = st.session_state.get("aborted_user_duration", 0)
             recommended_duration_seconds = st.session_state.get("aborted_user_recommended_duration", 180)
