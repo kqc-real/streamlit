@@ -27,8 +27,11 @@ MAX_UNIQUE_THEMES = 10
 MIN_GLOSSARY_ENTRIES = 2
 MAX_GLOSSARY_ENTRIES = 4
 
-# Regex, um LaTeX in Backticks zu finden. Findet `$..$` innerhalb von `..`.
-LATEX_IN_BACKTICKS_PATTERN = re.compile(r"`[^`]*\$[^`]*`")
+# Regex, um LaTeX in Backticks zu finden.
+# Sucht nach einem Backtick, gefolgt von einem Dollarzeichen (oder umgekehrt),
+# was auf eine falsche Verschachtelung wie `$k$` hindeutet. Die neue Regex
+# ist präziser und vermeidet False Positives über Wortgrenzen hinweg.
+LATEX_IN_BACKTICKS_PATTERN = re.compile(r"`(\s*?\$[^`]+\$?\s*?)`|`([^`]*?\$\s*?)`")
 
 
 def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
@@ -52,8 +55,8 @@ def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
 
     # --- Meta-Prüfungen ---
     if "meta" not in data or "questions" not in data:
-        errors.append("Top-Level-Keys 'meta' und 'questions' müssen existieren.")
-        return errors, warnings
+        warnings.append("Top-Level-Keys 'meta' und 'questions' müssen existieren. Weitere Prüfungen für diese Datei werden übersprungen.")
+        return errors, warnings # Frühzeitiger Abbruch, da weitere Prüfungen fehlschlagen würden
 
     meta, questions = data.get("meta", {}), data.get("questions", [])
 

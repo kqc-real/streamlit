@@ -273,7 +273,7 @@
         "`KNN` ist robust gegenüber Ausreißern."
       ],
       "loesung": 1,
-      "erklaerung": "`K-Nearest Neighbors` ist ein sogenanntes instanzbasiertes oder speicherbasiertes Lernverfahren. Im Gegensatz zu Modellen wie `Decision Trees` oder linearen Modellen, die einen expliziten Algorithmus erlernen und Gewichte oder Parameter speichern, merkt sich `KNN` einfach den gesamten Trainingsdatensatz. Bei einer Vorhersage sucht es dann nur die `$k$` ähnlichsten Datenpunkte im Trainingsset, um die Entscheidung zu treffen.",
+      "erklaerung": "`K-Nearest Neighbors` ist ein sogenanntes instanzbasiertes oder speicherbasiertes Lernverfahren. Im Gegensatz zu Modellen wie `Decision Trees` oder linearen Modellen, die einen expliziten Algorithmus erlernen und Gewichte oder Parameter speichern, merkt sich `KNN` einfach den gesamten Trainingsdatensatz. Bei einer Vorhersage sucht es dann nur die $k$ ähnlichsten Datenpunkte im Trainingsset, um die Entscheidung zu treffen.",
       "gewichtung": 2,
         "thema": "Modelle: K-Nearest Neighbors (KNN)",
       "extended_explanation": {
