@@ -29,7 +29,7 @@
       "loesung": 2,
       "erklaerung": "**Bias** misst die systematische Abweichung (Unteranpassung), **Varianz** die Empfindlichkeit gegenüber Datenfluktuation (Überanpassung). Gute Generalisierung erfordert ein ausgewogenes Verhältnis.",
       "gewichtung": 1,
-      "thema": "Modellgüte & Generalisierung"
+      "thema": "Modellbewertung & Validierung"
     },
     {
       "frage": "2. Welche Maßnahme reduziert **Data Leakage** in einem klassischen Analytics-Workflow am zuverlässigsten?",
@@ -43,7 +43,7 @@
       "loesung": 1,
       "erklaerung": "**Leckagen** entstehen, wenn Informationen aus dem Testset in den Trainingsprozess einfließen. Daher müssen Transformationen wie `StandardScaler` innerhalb der Folds gelernt (fit) und angewendet (transform) werden.",
       "gewichtung": 2,
-      "thema": "Validierung & Leakage",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Leckagen durch saubere Pipeline-Scopes vermeiden",
         "schritte": [
@@ -69,7 +69,7 @@
       "loesung": 1,
       "erklaerung": "`StandardScaler` transformiert numerische Features auf Mittelwert 0 und Standardabweichung 1, was distanz- und gradientenbasierte Verfahren stabiler macht.\"",
       "gewichtung": 1,
-      "thema": "Feature-Scaling"
+      "thema": "Datenvorbereitung & EDA"
     },
     {
       "frage": "4. Welche Kennzahl ist für **binäre Klassifikation** am robustesten bei **unausgeglichenen Klassen**?",
@@ -83,7 +83,7 @@
       "loesung": 1,
       "erklaerung": "Bei stark unbalancierten Klassen kann `Accuracy` täuschen. `ROC-AUC` misst die Ranking-Qualität über Schwellen und ist robuster gegenüber Imbalance.\"",
       "gewichtung": 2,
-      "thema": "Metriken & Bewertung",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Warum `ROC-AUC` bei Imbalance oft sinnvoller ist",
         "schritte": [
@@ -109,7 +109,7 @@
       "loesung": 1,
       "erklaerung": "`Pipeline` bündelt Vorverarbeitung und Modell zu einem Ablauf, der konsistent trainiert und validiert wird—wichtig gegen **Data Leakage** und für Reproduzierbarkeit.\"",
       "gewichtung": 1,
-      "thema": "Pipelines & Reproduzierbarkeit"
+      "thema": "MLOps & Reproduzierbarkeit"
     },
     {
       "frage": "6. Welche Technik ist **keine** typische Komponente der **Exploratory Data Analysis (EDA)**?",
@@ -123,7 +123,7 @@
       "loesung": 2,
       "erklaerung": "**EDA** dient Verständnis und Datenqualitätsprüfung; Hyperparameter-Tuning gehört zur Modellierungsphase, nicht zur reinen Exploration.",
       "gewichtung": 2,
-      "thema": "EDA",
+      "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
         "titel": "Grenze zwischen Exploration und Modellierung",
         "schritte": [
@@ -149,7 +149,7 @@
       "loesung": 0,
       "erklaerung": "Der `HuberRegressor` nutzt einen robusten Verlust, der Ausreißer weniger stark gewichtet als das quadratische Fehlermaß der klassischen `LinearRegression`.\"",
       "gewichtung": 2,
-      "thema": "Robustheit & Ausreißer",
+      "thema": "Modelle & Algorithmen",
       "extended_explanation": {
         "titel": "Robuster Verlust statt quadratischem Fehler",
         "schritte": [
@@ -175,7 +175,7 @@
       "loesung": 2,
       "erklaerung": "`PCA` ist **unüberwacht** und findet orthogonale Komponenten, die maximale Varianz erklären; sie dient der **Dimensionsreduktion** und Visualisierung.\"",
       "gewichtung": 2,
-      "thema": "Dimensionsreduktion",
+      "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
         "titel": "Varianzorientierte Projektion",
         "schritte": [
@@ -201,7 +201,7 @@
       "loesung": 1,
       "erklaerung": "`KNN` nutzt Distanzen; Features mit größeren Skalen dominieren sonst die Nachbarschaftssuche, weshalb **Standardisierung/Normalisierung** nötig ist.\"",
       "gewichtung": 1,
-      "thema": "KNN & Skalierung"
+      "thema": "Datenvorbereitung & EDA"
     },
     {
       "frage": "10. Welche Praxis ist bei **Class Imbalance** für die **Schwellenwahl** sinnvoll?",
@@ -215,7 +215,7 @@
       "loesung": 1,
       "erklaerung": "Bei unausgeglichenen Klassen optimiert eine feste Schwelle selten die gewünschten **Kosten/Nutzen**. Kurvenbasierte Verfahren erlauben zielabhängige Auswahl.\"",
       "gewichtung": 2,
-      "thema": "Klassifikation & Schwellen",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Schwellen daten- und zielabhängig bestimmen",
         "schritte": [
@@ -241,7 +241,7 @@
       "loesung": 3,
       "erklaerung": "**Randomes Entfernen** ohne Bewertung ist keine systematische Methode; etablierte Ansätze nutzen statistische Kriterien oder modellinduzierte Gewichte.",
       "gewichtung": 2,
-      "thema": "Feature-Selektion",
+      "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
         "titel": "Selektion erfordert Kriterium oder Modellkopplung",
         "schritte": [
@@ -267,7 +267,7 @@
       "loesung": 1,
       "erklaerung": "`StratifiedKFold` sorgt dafür, dass die **Klassenverteilung** in jedem Fold ähnlich der Gesamtheit ist—wichtig bei Imbalance.\"",
       "gewichtung": 1,
-      "thema": "Cross-Validation"
+      "thema": "Modellbewertung & Validierung"
     },
     {
       "frage": "13. Welche Aussage zur **Kalibrierung** von Klassifikationsmodellen ist korrekt?",
@@ -281,7 +281,7 @@
       "loesung": 0,
       "erklaerung": "Methoden wie **Platt Scaling** oder **Isotonic Regression** justieren **Wahrscheinlichkeiten**, nicht das Ranking; `ROC-AUC` bleibt oft unverändert, `Brier`/`LogLoss` verbessern sich.\"",
       "gewichtung": 2,
-      "thema": "Kalibrierung",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Wahrscheinlichkeiten auf reale Häufigkeiten abbilden",
         "schritte": [
@@ -307,7 +307,7 @@
       "loesung": 1,
       "erklaerung": "`TimeSeriesSplit` respektiert **Zeitkausalität**: Train auf Vergangenheit, Val auf Zukunft—verhindert **Look-ahead Leakage**.\"",
       "gewichtung": 2,
-      "thema": "Zeitreihen-Validierung",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Kausal korrekte Validierung für Zeitreihen",
         "schritte": [
@@ -333,7 +333,7 @@
       "loesung": 1,
       "erklaerung": "`MLflow Tracking` protokolliert **Parameter, Metriken, Artefakte und Modelldateien** und erleichtert Vergleich und Reproduzierbarkeit.\"",
       "gewichtung": 2,
-      "thema": "MLOps & Tracking",
+      "thema": "MLOps & Reproduzierbarkeit",
       "extended_explanation": {
         "titel": "Warum strukturierte Experiment-Historie entscheidend ist",
         "schritte": [
@@ -359,7 +359,7 @@
       "loesung": 1,
       "erklaerung": "`L1` (Lasso) induziert **Sparsamkeit** durch Nullsetzen, `L2` (Ridge) glättet und reduziert Varianz ohne harte Nullung.\"",
       "gewichtung": 2,
-      "thema": "Regularisierung",
+      "thema": "Modelle & Algorithmen",
       "extended_explanation": {
         "titel": "Bias–Varianz gezielt beeinflussen",
         "schritte": [
@@ -385,7 +385,7 @@
       "loesung": 1,
       "erklaerung": "Ein **fixiertes** `Dockerfile` mit **versionierten** Abhängigkeiten erzeugt portable, reproduzierbare Umgebungen über Systeme hinweg.\"",
       "gewichtung": 2,
-      "thema": "Reproduzierbarkeit & Infrastruktur",
+      "thema": "MLOps & Reproduzierbarkeit",
       "extended_explanation": {
         "titel": "Umgebung einfrieren – Ergebnisse stabil halten",
         "schritte": [
@@ -411,7 +411,7 @@
       "loesung": 1,
       "erklaerung": "Durch **Bagging** (Bootstrapping + Merkmalssampling) mittelt der Wald über viele Bäume und reduziert so **Varianz** und Overfitting-Tendenzen einzelner Bäume.\"",
       "gewichtung": 2,
-      "thema": "Ensembles",
+      "thema": "Modelle & Algorithmen",
       "extended_explanation": {
         "titel": "Varianzreduktion durch Diversität",
         "schritte": [
@@ -437,7 +437,7 @@
       "loesung": 1,
       "erklaerung": "In Regressionsaufgaben sind Fehlermaße wie **`MSE`** oder `MAE` üblich; Klassifikationsmetriken wie `F1`, `Accuracy`, `ROC-AUC` sind ungeeignet.\"",
       "gewichtung": 1,
-      "thema": "Metriken – Regression"
+      "thema": "Modellbewertung & Validierung"
     },
     {
       "frage": "20. Welche Maßnahme ist zur **Erklärung** von Modellentscheidungen in tabellarischen Daten **am praktikabelsten**?",
@@ -451,7 +451,7 @@
       "loesung": 0,
       "erklaerung": "**`LIME`/`SHAP`** liefern **lokale** und **globale** Beiträge von Features—geeignet für komplexe Modelle und Audit-Zwecke.",
       "gewichtung": 3,
-      "thema": "Explainable AI",
+      "thema": "Spezialthemen & Methoden",
       "extended_explanation": {
         "titel": "Lokale Erklärungen für individuelle Vorhersagen",
         "schritte": [
@@ -477,7 +477,7 @@
       "loesung": 1,
       "erklaerung": "**Window-Functions** (`OVER`-Klausel) erlauben **rollierende**, **kumulative** und rangbasierte Auswertungen ohne Informationsverlust durch Aggregation.",
       "gewichtung": 2,
-      "thema": "SQL für Analytics",
+      "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
         "titel": "Zeitbezogene Metriken korrekt bilden",
         "schritte": [
@@ -503,7 +503,7 @@
       "loesung": 1,
       "erklaerung": "Testdesign verlangt **a priori** definierte **$\\u03b1$** (Signifikanz) und **Power** (1−$\\u03b2$). Daraus ergibt sich die notwendige **Sample Size**.\"",
       "gewichtung": 3,
-      "thema": "Experimentdesign",
+      "thema": "Spezialthemen & Methoden",
       "extended_explanation": {
         "titel": "Sauberes Testdesign vor Datensammlung",
         "schritte": [
@@ -529,7 +529,7 @@
       "loesung": 2,
       "erklaerung": "**Deterministische Seeds** und persistierte **Splits** sichern identische Bedingungen für Folgeruns—wichtig für Vergleichbarkeit.",
       "gewichtung": 1,
-      "thema": "Reproduzierbarkeit – Praxis"
+      "thema": "MLOps & Reproduzierbarkeit"
     },
     {
       "frage": "24. Wodurch unterscheidet sich **`GridSearchCV`** von **`RandomizedSearchCV`**?",
@@ -543,7 +543,7 @@
       "loesung": 1,
       "erklaerung": "**Grid** prüft alle Gitterpunkte; **Randomized** sampelt und kann schneller gute Regionen finden—insbesondere bei großen Suchräumen.",
       "gewichtung": 2,
-      "thema": "Hyperparameter-Tuning",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Suchstrategien im Parameterraum",
         "schritte": [
@@ -569,7 +569,7 @@
       "loesung": 1,
       "erklaerung": "**Ausreißer-Handling** ist kontextabhängig. Robuste Alternativen (Winsorize, Huber/Quantile-Transformer) sollten **validiert** statt dogmatisch angewandt werden.",
       "gewichtung": 2,
-      "thema": "Datenqualität",
+      "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
         "titel": "Kontext und Validierung statt Dogma",
         "schritte": [
@@ -595,7 +595,7 @@
       "loesung": 1,
       "erklaerung": "Die Implementierung unterstützt verschiedene **Solver** wie `liblinear`/`lbfgs`; Regularisierung ist standardmäßig aktiv (`C`).\"",
       "gewichtung": 1,
-      "thema": "Klassifikation – Logistische Regression"
+      "thema": "Modelle & Algorithmen"
     },
     {
       "frage": "27. Welche Visualisierung eignet sich **direkt** zur Diagnose von **Klassifikationsfehlern**?",
@@ -609,7 +609,7 @@
       "loesung": 1,
       "erklaerung": "Eine **Confusion-Matrix** zeigt Fehlklassifikationen je Klasse, optional normalisiert—nützlich für zielgerichtete Fehleranalysen.\"",
       "gewichtung": 2,
-      "thema": "Diagnostik",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Fehlerstruktur sichtbar machen",
         "schritte": [
@@ -635,7 +635,7 @@
       "loesung": 1,
       "erklaerung": "**Rollen-Trennung**: Tuning erfolgt ohne Testwissen (Val/CV), die finale Leistung wird **einmalig** auf dem **Testset** geschätzt.",
       "gewichtung": 2,
-      "thema": "Evaluationsdesign",
+      "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
         "titel": "Saubere Rollen für belastbare Schätzungen",
         "schritte": [
@@ -661,7 +661,7 @@
       "loesung": 1,
       "erklaerung": "**MLOps** verlangt Monitoring von **Daten-/Kontextdrift**, **Metriken** und **Re-Training**-Regeln, um Leistung stabil zu halten.",
       "gewichtung": 3,
-      "thema": "MLOps – Betrieb",
+      "thema": "MLOps & Reproduzierbarkeit",
       "extended_explanation": {
         "titel": "Kontinuierliche Qualitätssicherung im Betrieb",
         "schritte": [
@@ -687,7 +687,7 @@
       "loesung": 2,
       "erklaerung": "**Target-Encoding** kann starken Leakage verursachen; daher muss es **fold-intern** fit/transformiert werden. Bäume benötigen kein Scaling, aber Encoding muss leakage-sicher sein.",
       "gewichtung": 3,
-      "thema": "Encoding & Leakage",
+      "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
         "titel": "Hochkardinale Kategorien ohne Leckagen encoden",
         "schritte": [

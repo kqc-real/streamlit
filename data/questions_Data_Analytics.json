@@ -10,7 +10,7 @@
     "loesung": 1,
     "erklaerung": "Docker packt eine Anwendung und ihre Abhängigkeiten in einen Container, der überall gleich läuft. Das löst das 'Bei mir funktioniert es aber'-Problem und sorgt für Reproduzierbarkeit.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "2. Welcher Befehl wird verwendet, um eine Streamlit-App zu starten?",
@@ -36,7 +36,7 @@
     "loesung": 1,
     "erklaerung": "Ein Pandas DataFrame ist die zentrale Datenstruktur in Pandas und ähnelt einer Excel-Tabelle oder einer SQL-Tabelle. Sie ist für die Handhabung und Analyse von strukturierten Daten optimiert.",
     "gewichtung": 1,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "4. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
@@ -62,7 +62,7 @@
     "loesung": 2,
     "erklaerung": "K-Means ist ein Clustering-Algorithmus, der versucht, Datenpunkte ohne vordefinierte Labels in 'k' Gruppen (Cluster) einzuteilen. Decision Tree, KNN und Logistic Regression sind Supervised-Learning-Algorithmen.",
     "gewichtung": 2,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "6. Was ist der Zweck der 'Elbow-Methode'?",
@@ -75,7 +75,7 @@
     "loesung": 1,
     "erklaerung": "Die Elbow-Methode plottet die 'Inertia' (Summe der quadrierten Abstände zu den Cluster-Zentren) für verschiedene k-Werte. Der 'Ellenbogen' in der Kurve deutet auf ein gutes 'k' hin.",
     "gewichtung": 3,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "7. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem Neuronalen Netz?",
@@ -153,7 +153,7 @@
     "loesung": 2,
     "erklaerung": "QUA³CK ist ein am KIT entwickeltes Prozessmodell, das die Phasen Question, Understanding, die A³-Schleife (Algorithm, Adapting, Adjusting), Conclude und Knowledge Transfer umfasst, um ML-Projekte systematisch zu bearbeiten.",
     "gewichtung": 2,
-    "thema": "MLOps & Prozesse"
+    "thema": "MLOps & Deployment"
   },
   {
     "frage": "13. Welches Tool wird im Kurs primär für das Experiment-Tracking und die Modell-Verwaltung (Model Registry) verwendet?",
@@ -166,7 +166,7 @@
     "loesung": 2,
     "erklaerung": "MLflow wird im Kurs als zentrales MLOps-Tool verwendet, um Experimente (Parameter, Metriken) zu tracken und trainierte Modelle in einer 'Model Registry' zu versionieren und zu verwalten.",
     "gewichtung": 3,
-    "thema": "MLOps & Tools"
+    "thema": "MLOps & Deployment"
   },
   {
     "frage": "14. Was ist der Hauptzweck einer `requirements.txt`-Datei?",
@@ -179,7 +179,7 @@
     "loesung": 1,
     "erklaerung": "Die `requirements.txt` Datei ermöglicht es, eine Python-Umgebung mit genau den richtigen Abhängigkeiten zu reproduzieren, was für die Zusammenarbeit und das Deployment entscheidend ist. Man installiert sie mit `pip install -r requirements.txt`.",
     "gewichtung": 1,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "15. Welcher Python-Befehl wird verwendet, um eine Spalte namens 'Alter' aus einem Pandas DataFrame 'df' auszuwählen?",
@@ -192,7 +192,7 @@
     "loesung": 1,
     "erklaerung": "Die Standardmethode, um auf eine Spalte in einem Pandas DataFrame zuzugreifen, ist die Verwendung der eckigen Klammern mit dem Spaltennamen als String: df['Alter'].",
     "gewichtung": 1,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "16. Was ist der Unterschied zwischen `st.write()` und `st.dataframe()` in Streamlit?",
@@ -231,7 +231,7 @@
     "loesung": 3,
     "erklaerung": "Der Sobel-Filter ist ein klassischer Kantenerkennungs-Operator, der die Ableitung (den Gradienten) der Bildintensität berechnet, um Kanten hervorzuheben. Blur-Filter hingegen glätten das Bild.",
     "gewichtung": 2,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "19. Was ist der Hauptvorteil der Verwendung von Transformer-Modellen (wie BERT oder GPT) gegenüber LSTMs für NLP-Aufgaben?",
@@ -244,7 +244,7 @@
     "loesung": 1,
     "erklaerung": "LSTMs verarbeiten Sequenzen Wort für Wort, was die Parallelisierung erschwert. Transformer verarbeiten alle Wörter einer Sequenz gleichzeitig mithilfe des 'Attention'-Mechanismus, was sie ideal für moderne Hardware wie GPUs und TPUs macht.",
     "gewichtung": 3,
-    "thema": "Natural Language Processing"
+    "thema": "Deep Learning"
   },
   {
     "frage": "20. Was ist der Zweck eines `Dockerfile`?",
@@ -257,7 +257,7 @@
     "loesung": 2,
     "erklaerung": "Ein Dockerfile ist wie ein Rezept. Es listet alle Schritte auf, die notwendig sind, um eine lauffähige Umgebung für eine Anwendung zu erstellen, inklusive Basis-Image, Abhängigkeiten und Startbefehlen.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "21. Welches Argument wird bei `train_test_split` von Scikit-learn verwendet, um sicherzustellen, dass die Klassenverteilung in Trainings- und Testset gleich bleibt?",
@@ -283,7 +283,7 @@
     "loesung": 1,
     "erklaerung": "Pooling (z.B. Max-Pooling) reduziert die Höhe und Breite der Feature Maps. Dies verringert die Anzahl der Parameter und den Rechenaufwand in nachfolgenden Schichten und macht das Modell robuster gegenüber kleinen Verschiebungen im Bild.",
     "gewichtung": 2,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "23. Welches Python-Tool wird im Kurs verwendet, um ML-Modelle als REST API bereitzustellen?",
@@ -322,7 +322,7 @@
     "loesung": 2,
     "erklaerung": "Jeder Streamlit-Befehl, dem `st.sidebar.` vorangestellt wird, rendert das entsprechende Element in der Seitenleiste anstatt im Hauptbereich der App.",
     "gewichtung": 1,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "26. Was ist ein 'Hyperparameter'?",
@@ -348,7 +348,7 @@
     "loesung": 1,
     "erklaerung": "Der `RUN`-Befehl führt Shell-Kommandos innerhalb des Docker-Images aus. `pip install -r requirements.txt` ist der Standardbefehl, um alle in der `requirements.txt`-Datei gelisteten Pakete zu installieren.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "28. Was ist der Zweck der `GlobalAveragePooling2D`-Schicht in einem CNN?",
@@ -361,7 +361,7 @@
     "loesung": 1,
     "erklaerung": "Anstatt die Feature Maps zu 'flatten' (was zu sehr vielen Parametern führt), berechnet Global Average Pooling den Durchschnitt jeder einzelnen Feature Map. Das Ergebnis ist ein Vektor, der direkt an die Dense-Layer weitergegeben werden kann, was das Modell oft robuster gegen Overfitting macht.",
     "gewichtung": 3,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "29. Welches Problem löst der 'Attention'-Mechanismus in Transformer-Modellen?",
@@ -374,7 +374,7 @@
     "loesung": 1,
     "erklaerung": "Der Attention-Mechanismus erlaubt es dem Modell, für jedes Wort in einer Sequenz die Wichtigkeit jedes anderen Wortes zu bewerten. Dadurch kann es direkte Verbindungen zwischen weit entfernten Wörtern herstellen, ein Problem, mit dem rekurrente Architekturen (RNNs) zu kämpfen haben.",
     "gewichtung": 3,
-    "thema": "Natural Language Processing"
+    "thema": "Deep Learning"
   },
   {
     "frage": "30. Was ist der Hauptvorteil von `docker-compose` gegenüber einzelnen `docker run`-Befehlen?",
@@ -387,7 +387,7 @@
     "loesung": 1,
     "erklaerung": "`docker-compose` ist ein Orchestrierungstool. Es ermöglicht die Definition einer Multi-Container-Anwendung (z.B. eine Web-App, eine Datenbank und ein Caching-Service) in einer `docker-compose.yml`-Datei und deren gemeinsame Verwaltung.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "31. Welche Python-Bibliothek wird hauptsächlich für die Erstellung von interaktiven Web-Dashboards im Kurs verwendet?",
@@ -400,7 +400,7 @@
     "loesung": 2,
     "erklaerung": "Streamlit ist das zentrale Framework im Kurs, um schnell und einfach interaktive Web-Anwendungen und Dashboards für Data-Science- und ML-Projekte zu erstellen.",
     "gewichtung": 1,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "32. Was ist der Zweck der `fit()`-Methode bei einem Scikit-learn Modell?",
@@ -426,7 +426,7 @@
     "loesung": 2,
     "erklaerung": "KNN klassifiziert einen neuen Datenpunkt basierend auf der Mehrheitsklasse seiner 'k' nächsten Nachbarn. Die 'Nähe' wird dabei durch ein Distanzmaß (z.B. Euklidischer Abstand) bestimmt.",
     "gewichtung": 2,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "34. Was ist eine 'Feature Map' im Kontext von CNNs?",
@@ -439,7 +439,7 @@
     "loesung": 1,
     "erklaerung": "Jeder Filter in einer Convolutional-Schicht erzeugt eine Feature Map. Diese Karte zeigt, wo im Bild das vom Filter gesuchte Muster (z.B. eine vertikale Kante, ein Auge) gefunden wurde.",
     "gewichtung": 2,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "35. Was ist der Zweck der `requirements.cloud.txt` Datei im `07_Deployment_Portfolio` Ordner?",
@@ -465,7 +465,7 @@
     "loesung": 3,
     "erklaerung": "Ein Tupel (`tuple`) ist ähnlich wie eine Liste, aber seine Elemente können nach der Erstellung nicht mehr geändert, hinzugefügt oder entfernt werden. Dies macht es nützlich für Daten, die konstant bleiben sollen.",
     "gewichtung": 1,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "37. Was ist der Unterschied zwischen `iloc` und `loc` in Pandas?",
@@ -478,7 +478,7 @@
     "loesung": 0,
     "erklaerung": "`loc` ist label-basiert, z.B. `df.loc[0, 'Alter']`. `iloc` ist integer-positions-basiert, z.B. `df.iloc[0, 1]`. Die Verwendung des falschen Indexers führt oft zu Fehlern.",
     "gewichtung": 3,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "38. Was ist der 'Vanishing Gradient' Problem in tiefen Neuronalen Netzen?",
@@ -517,7 +517,7 @@
     "loesung": 1,
     "erklaerung": "Die `.gitignore`-Datei ist entscheidend, um das Repository sauber zu halten, indem man verhindert, dass generierte Dateien, Abhängigkeiten (wie `node_modules`) oder sensible Informationen versehentlich committet werden.",
     "gewichtung": 1,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "41. Was ist der Unterschied zwischen einem `Conv2D`-Layer und einem `Dense`-Layer in Keras?",
@@ -556,7 +556,7 @@
     "loesung": 1,
     "erklaerung": "`st.slider()` ist das spezifische Widget in Streamlit, um einen interaktiven Schieberegler zu erstellen, mit dem Benutzer einen numerischen Wert aus einem definierten Bereich auswählen können.",
     "gewichtung": 1,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "44. Was ist der Zweck der `predict()`-Methode bei einem trainierten Scikit-learn Modell?",
@@ -582,7 +582,7 @@
     "loesung": 0,
     "erklaerung": "Ein `Dockerfile` ist die Bauanleitung für einen einzelnen Container. `docker-compose` ist ein Werkzeug, um Multi-Container-Anwendungen zu definieren und auszuführen, wobei jeder Container auf seinem eigenen `Dockerfile` basieren kann.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "46. Welcher der folgenden Algorithmen ist ein Ensemble-Modell?",
@@ -595,7 +595,7 @@
     "loesung": 2,
     "erklaerung": "Ein Random Forest ist ein Ensemble-Modell, das aus vielen einzelnen Decision Trees besteht. Er trifft Vorhersagen, indem er die Vorhersagen der einzelnen Bäume aggregiert (z.B. durch Mehrheitsentscheid), was oft zu robusteren und genaueren Ergebnissen führt.",
     "gewichtung": 2,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "47. Was ist der Zweck der `Flatten`-Schicht in einem CNN?",
@@ -608,7 +608,7 @@
     "loesung": 1,
     "erklaerung": "Nach den Convolutional- und Pooling-Layern liegen die Daten als mehrdimensionale Tensoren (Feature Maps) vor. Um sie an die nachfolgenden `Dense`-Layer (die einen Vektor als Input erwarten) übergeben zu können, muss dieser Tensor 'geglättet' oder 'plattgedrückt' werden.",
     "gewichtung": 2,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "48. Was ist ein 'REST API'?",
@@ -634,7 +634,7 @@
     "loesung": 1,
     "erklaerung": "In Python wird das Keyword `def` verwendet, um eine neue Funktion zu deklarieren, gefolgt vom Funktionsnamen, den Parametern in Klammern und einem Doppelpunkt.",
     "gewichtung": 1,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "50. Was ist der Zweck der `BatchNormalization`-Schicht in einem Neuronalen Netz?",
@@ -660,7 +660,7 @@
     "loesung": 2,
     "erklaerung": "`docker ps` listet alle aktuell laufenden Container auf. Um auch gestoppte Container anzuzeigen, verwendet man `docker ps -a`.",
     "gewichtung": 1,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "52. Wie kann man in Streamlit eine Datei-Upload-Funktion erstellen?",
@@ -673,7 +673,7 @@
     "loesung": 1,
     "erklaerung": "Das Widget `st.file_uploader()` erstellt eine Schaltfläche, mit der Benutzer Dateien von ihrem lokalen System in die Streamlit-App hochladen können, die dann z.B. mit Pandas verarbeitet werden können.",
     "gewichtung": 2,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "53. Was ist der Unterschied zwischen `pd.read_csv()` und `pd.read_excel()` in Pandas?",
@@ -686,7 +686,7 @@
     "loesung": 1,
     "erklaerung": "Pandas bietet spezifische Funktionen für verschiedene Dateiformate. `pd.read_csv()` ist für CSV-Dateien optimiert, während `pd.read_excel()` die komplexere Struktur von Excel-Arbeitsmappen (inkl. verschiedener Blätter) handhaben kann.",
     "gewichtung": 1,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "54. Was ist eine 'Confusion Matrix'?",
@@ -712,7 +712,7 @@
     "loesung": 2,
     "erklaerung": "Decision Trees (Entscheidungsbäume) sind von Natur aus sehr gut interpretierbar, da ihre Struktur einer Reihe von verständlichen Ja/Nein-Fragen entspricht. Man kann den Entscheidungspfad für jede Vorhersage nachvollziehen.",
     "gewichtung": 2,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "56. Was ist der Zweck der `Dropout`-Schicht in einem Neuronalen Netz?",
@@ -738,7 +738,7 @@
     "loesung": 1,
     "erklaerung": "Beispiel: Bei einem Bild mit zwei Katzen würde die semantische Segmentierung alle Katzenpixel als 'Katze' markieren. Die Instanzensegmentierung würde sie als 'Katze 1' und 'Katze 2' unterscheiden.",
     "gewichtung": 3,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "58. Was ist der Zweck der `fine-tuning`-Phase beim Transfer Learning?",
@@ -764,7 +764,7 @@
     "loesung": 2,
     "erklaerung": "Im Notebook `02_NLP_und_Text_Generation.ipynb` wird `distilgpt2`, eine kleinere und schnellere Version von GPT-2, als Beispiel für eine Textgenerierungs-Pipeline mit der Hugging Face `transformers`-Bibliothek verwendet.",
     "gewichtung": 2,
-    "thema": "Natural Language Processing"
+    "thema": "Deep Learning"
   },
   {
     "frage": "60. Was bedeutet der Begriff 'CI/CD' im Kontext von MLOps?",
@@ -790,7 +790,7 @@
     "loesung": 3,
     "erklaerung": "Ein Dictionary (`dict`) ist eine ungeordnete Sammlung von Daten in einem Schlüssel-Wert-Format. Es ist optimiert für das schnelle Nachschlagen von Werten anhand ihrer Schlüssel.",
     "gewichtung": 1,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "62. Wie kann man in Pandas alle Zeilen eines DataFrames `df` anzeigen, in denen der Wert der Spalte 'Alter' größer als 30 ist?",
@@ -803,7 +803,7 @@
     "loesung": 1,
     "erklaerung": "Dies wird als 'boolean indexing' oder 'boolean masking' bezeichnet. `df['Alter'] > 30` erzeugt eine Serie von `True`/`False`-Werten, die dann verwendet wird, um die entsprechenden Zeilen aus dem DataFrame zu filtern.",
     "gewichtung": 2,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "63. Was ist der Zweck von `st.cache_data` in Streamlit?",
@@ -816,7 +816,7 @@
     "loesung": 1,
     "erklaerung": "Caching ist entscheidend für die Performance von Streamlit-Apps. Langsame Operationen wie das Laden großer Datensätze oder das Trainieren von Modellen sollten mit `@st.cache_data` oder `@st.cache_resource` versehen werden, um unnötige Neuberechnungen bei jedem App-Rerun zu vermeiden.",
     "gewichtung": 3,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "64. Was ist der Unterschied zwischen Regression und Klassifikation?",
@@ -842,7 +842,7 @@
     "loesung": 2,
     "erklaerung": "KNN ist ein distanzbasierter Algorithmus. Wenn die Features unterschiedliche Skalen haben, werden die Distanzen von den Features mit den größten Wertebereichen dominiert. Die Skalierung (z.B. auf einen Mittelwert von 0 und eine Standardabweichung von 1) stellt sicher, dass alle Features gleichberechtigt zur Distanzberechnung beitragen.",
     "gewichtung": 3,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "66. Was ist ein 'Autoencoder'?",
@@ -868,7 +868,7 @@
     "loesung": 1,
     "erklaerung": "Ohne Padding würde die Größe der Feature Map bei jeder Faltung kleiner werden. `padding='same'` fügt dem Rand der Eingabe implizit Nullen hinzu (Zero-Padding), sodass die Ausgabe die gleiche Höhe und Breite wie die Eingabe hat. Dies ist nützlich, um sehr tiefe Netzwerke zu bauen.",
     "gewichtung": 2,
-    "thema": "Computer Vision"
+    "thema": "Deep Learning"
   },
   {
     "frage": "68. Was ist ein 'Token' im Kontext von Natural Language Processing (NLP)?",
@@ -881,7 +881,7 @@
     "loesung": 1,
     "erklaerung": "Tokenisierung ist der erste Schritt in den meisten NLP-Pipelines. Dabei wird ein Rohtext in eine Liste von Tokens zerlegt, die dann in numerische Vektoren (Embeddings) umgewandelt werden können, die das Modell verarbeiten kann.",
     "gewichtung": 2,
-    "thema": "Natural Language Processing"
+    "thema": "Deep Learning"
   },
   {
     "frage": "69. Was ist der Zweck des `EXPOSE`-Befehls in einem Dockerfile?",
@@ -894,7 +894,7 @@
     "loesung": 1,
     "erklaerung": "`EXPOSE` ist eine Form der Dokumentation zwischen dem Ersteller des Images und der Person, die den Container ausführt. Um den Port tatsächlich zu veröffentlichen und vom Host aus zugänglich zu machen, muss man die Option `-p` oder `-P` beim `docker run`-Befehl verwenden.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "70. Was ist der Unterschied zwischen `pip` und `conda`?",
@@ -907,7 +907,7 @@
     "loesung": 1,
     "erklaerung": "`pip` ist der Standard-Paketmanager für Python. `conda` ist Teil der Anaconda-Distribution und kann nicht nur Python-Pakete, sondern auch komplexe Abhängigkeiten (wie C-Bibliotheken) und isolierte Umgebungen verwalten, was es in der Data Science sehr beliebt macht.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "71. Was ist der Zweck der `groupby()`-Funktion in Pandas?",
@@ -920,7 +920,7 @@
     "loesung": 1,
     "erklaerung": "Die `groupby()`-Operation ist ein extrem mächtiges Werkzeug für die Datenanalyse. Sie folgt dem 'Split-Apply-Combine'-Muster: Daten aufteilen, eine Funktion anwenden und die Ergebnisse wieder zusammenführen.",
     "gewichtung": 2,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "72. Wie kann man in Streamlit den Inhalt auf mehrere Spalten aufteilen?",
@@ -933,7 +933,7 @@
     "loesung": 1,
     "erklaerung": "Der Befehl `col1, col2 = st.columns(2)` erstellt zwei Spalten. Anschließend kann man mit `with col1:` und `with col2:` Inhalte in die jeweilige Spalte platzieren, um komplexere Layouts zu erstellen.",
     "gewichtung": 2,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "73. Was ist der Unterschied zwischen `EarlyStopping` und `ModelCheckpoint` Callbacks in Keras?",
@@ -959,7 +959,7 @@
     "loesung": 0,
     "erklaerung": "Viele Algorithmen haben eine stochastische (zufällige) Komponente (z.B. die Initialisierung der Gewichte). Durch das Setzen von `random_state` auf einen festen Integer-Wert wird sichergestellt, dass der Zufallszahlengenerator immer im gleichen Zustand startet, was zu identischen Ergebnissen bei wiederholten Durchläufen führt.",
     "gewichtung": 1,
-    "thema": "Machine Learning Grundlagen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "75. Welcher der folgenden ist KEIN Hyperparameter eines Decision Tree?",
@@ -972,7 +972,7 @@
     "loesung": 2,
     "erklaerung": "`max_depth`, `min_samples_split` und `criterion` sind alles Hyperparameter, die vor dem Training festgelegt werden, um die Struktur und das Verhalten des Baumes zu steuern. `feature_importance` ist ein Attribut des trainierten Modells, das nach dem Training berechnet wird.",
     "gewichtung": 2,
-    "thema": "Machine Learning Algorithmen"
+    "thema": "Klassische ML-Algorithmen"
   },
   {
     "frage": "76. Was ist der Unterschied zwischen einem `Dense` und einem `Embedding` Layer in Keras?",
@@ -985,7 +985,7 @@
     "loesung": 1,
     "erklaerung": "Ein `Embedding`-Layer ist eine effiziente Methode, um hochdimensionale, dünn besetzte kategoriale Daten (wie Wörter in einem Vokabular, die als Integer repräsentiert werden) in dichte, niedrigdimensionale Vektoren umzuwandeln. Es ist im Wesentlichen eine lernbare Nachschlagetabelle, während ein `Dense`-Layer eine vollständige lineare Transformation durchführt.",
     "gewichtung": 3,
-    "thema": "Natural Language Processing"
+    "thema": "Deep Learning"
   },
   {
     "frage": "77. Was ist ein 'Volume' in Docker?",
@@ -998,7 +998,7 @@
     "loesung": 1,
     "erklaerung": "Container sind standardmäßig zustandslos (stateless). Wenn ein Container entfernt wird, gehen alle darin geschriebenen Daten verloren. Volumes ermöglichen es, Daten (z.B. Datenbankdateien, Logs) persistent auf dem Host-System zu speichern.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "78. Welches Diagramm eignet sich am besten, um die Beziehung zwischen zwei kontinuierlichen Variablen zu visualisieren?",
@@ -1037,7 +1037,7 @@
     "loesung": 2,
     "erklaerung": "Die K-Phase schließt den Kreis, indem sie sicherstellt, dass die gewonnenen Erkenntnisse und das entwickelte Modell nicht nur in einem Notebook bleiben, sondern in eine Form gebracht werden, die für Endbenutzer oder andere Systeme von Nutzen ist.",
     "gewichtung": 2,
-    "thema": "MLOps & Prozesse"
+    "thema": "MLOps & Deployment"
   },
   {
     "frage": "81. Was ist der Unterschied zwischen einem Python `list` und einem `set`?",
@@ -1050,7 +1050,7 @@
     "loesung": 0,
     "erklaerung": "Sets sind für schnelle Mitgliedschaftstests optimiert und entfernen automatisch Duplikate. Listen behalten die Reihenfolge der Elemente bei und erlauben Duplikate.",
     "gewichtung": 1,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "82. Welcher Pandas-Befehl wird verwendet, um fehlende Werte (NaN) in einem DataFrame `df` mit dem Wert 0 zu füllen?",
@@ -1063,7 +1063,7 @@
     "loesung": 2,
     "erklaerung": "Die `fillna()`-Methode ist das Standardwerkzeug in Pandas, um fehlende Werte zu behandeln. Man kann sie mit einem konstanten Wert, dem Mittelwert, dem Median oder anderen Strategien verwenden.",
     "gewichtung": 2,
-    "thema": "Pandas"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "83. Was ist der Zweck von `st.session_state` in Streamlit?",
@@ -1076,7 +1076,7 @@
     "loesung": 1,
     "erklaerung": "Streamlit führt das Skript bei jeder Interaktion neu aus. Um Informationen (wie Zähler, Benutzereingaben, Chat-Verläufe) zwischen diesen Reruns zu speichern, wird das `st.session_state`-Objekt verwendet, das wie ein Dictionary funktioniert.",
     "gewichtung": 3,
-    "thema": "Streamlit"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "84. Was ist der 'Curse of Dimensionality' (Fluch der Dimensionalität)?",
@@ -1141,7 +1141,7 @@
     "loesung": 2,
     "erklaerung": "Parquet ist ein spaltenorientiertes Speicherformat, das für Big-Data-Workflows optimiert ist. Es ermöglicht eine sehr effiziente Kompression und Abfrage-Performance, da nur die benötigten Spalten gelesen werden müssen.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "89. Was ist der Hauptzweck von Reinforcement Learning (RL)?",
@@ -1180,7 +1180,7 @@
     "loesung": 1,
     "erklaerung": "NumPy ist die Grundlage für wissenschaftliches Rechnen in Python. Seine Array-Struktur ist in C implementiert, was Operationen auf großen Datenmengen deutlich schneller macht als mit reinen Python-Listen.",
     "gewichtung": 2,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "92. Welcher Plotly Express Befehl wird verwendet, um ein interaktives Streudiagramm zu erstellen?",
@@ -1206,7 +1206,7 @@
     "loesung": 1,
     "erklaerung": "Die `__init__`-Methode wird automatisch aufgerufen, wenn eine neue Instanz einer Klasse erzeugt wird. Sie wird verwendet, um die Attribute des Objekts zu initialisieren.",
     "gewichtung": 2,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "94. Was ist ein 'Webhook' im Kontext von CI/CD und MLOps?",
@@ -1258,7 +1258,7 @@
     "loesung": 2,
     "erklaerung": "`self` ist das erste Argument jeder Instanzmethode und wird von Python automatisch übergeben. Es ermöglicht der Methode, auf die Daten (Attribute) und anderen Methoden zuzugreifen, die zu diesem spezifischen Objekt gehören.",
     "gewichtung": 2,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "98. Was ist der Hauptvorteil der Verwendung von `plotly.express` gegenüber `plotly.graph_objects`?",
@@ -1284,7 +1284,7 @@
     "loesung": 1,
     "erklaerung": "Eine Container Registry ist wie ein 'App Store' für Docker-Images. Man kann seine eigenen Images dorthin 'pushen' (hochladen) und Images von anderen 'pullen' (herunterladen), was die Zusammenarbeit und das Deployment vereinfacht.",
     "gewichtung": 2,
-    "thema": "Grundlagen & Tools"
+    "thema": "Grundlagen & Werkzeuge"
   },
   {
     "frage": "100. Was ist der Zweck der `main`-Block-Konstruktion `if __name__ == '__main__':` in einem Python-Skript?",
@@ -1297,6 +1297,6 @@
     "loesung": 1,
     "erklaerung": "Diese Konstruktion ist eine Best Practice in Python. Sie ermöglicht es, ein Skript sowohl als eigenständiges Programm als auch als wiederverwendbares Modul zu schreiben, ohne dass beim Import sofort Code ausgeführt wird.",
     "gewichtung": 2,
-    "thema": "Python Grundlagen"
+    "thema": "Grundlagen & Werkzeuge"
   }
 ]
