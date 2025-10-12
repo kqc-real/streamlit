@@ -864,41 +864,27 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         with action_cols[1]:
             with st.popover("Problem mit dieser Frage melden", width="stretch"):
                 st.markdown("**Welche Probleme sind dir aufgefallen?**")
-
-                # --- Custom CSS für den roten Button ---
-                # Wir definieren eine CSS-Klasse für den aktiven Button und wenden sie an.
-                # Der Key des Buttons wird als Teil des CSS-Selektors verwendet.
-                button_key = f"btn_submit_feedback_{frage_idx}"
-                st.markdown(f"""
-                <style>
-                    /* Ziel: Der Streamlit-Button, wenn er nicht deaktiviert ist */
-                    div[data-testid="stButton"] > button[kind="primary"]:not(:disabled) {{
-                        background-color: #d32f2f; /* Ein kräftiges Rot */
-                        color: white;
-                        border-color: #d32f2f;
-                    }}
-                    div[data-testid="stButton"] > button[kind="primary"]:not(:disabled):hover {{
-                        background-color: #b71c1c; /* Ein dunkleres Rot beim Hover */
-                        border-color: #b71c1c;
-                    }}
-                </style>
-                """, unsafe_allow_html=True)
                 
-                # Verwende Checkboxen statt Multiselect für eine bessere UX
-                selected_feedback_types = []
-                for option in feedback_options:
-                    # Der Key muss eindeutig pro Frage und Option sein
-                    if st.checkbox(option, key=f"cb_feedback_{frage_idx}_{option}"):
-                        selected_feedback_types.append(option)
-                
-                # Der Senden-Button ist direkt im Popover und wird aktiv, wenn eine Auswahl getroffen wurde.
-                st.button(
-                    "Feedback senden", key=button_key,
-                    on_click=_handle_feedback_submission, args=(frage_idx, frage_obj, selected_feedback_types),
-                    disabled=not selected_feedback_types,
-                    width="stretch",
-                    type="primary" if selected_feedback_types else "secondary"
-                )
+                # NEU: Formular verwenden, um Checkbox-Klicks zu bündeln
+                with st.form(key=f"feedback_form_{frage_idx}"):
+                    # Speichere den Zustand der Checkboxen in einem temporären Dictionary
+                    selections = {
+                        option: st.checkbox(option, key=f"cb_feedback_{frage_idx}_{option}")
+                        for option in feedback_options
+                    }
+                    
+                    # Der Senden-Button für das Formular
+                    submitted = st.form_submit_button(
+                        "Feedback senden",
+                        type="primary",
+                        use_container_width=True
+                    )
+                    
+                    if submitted:
+                        selected_types = [option for option, checked in selections.items() if checked]
+                        if selected_types:
+                            _handle_feedback_submission(frage_idx, frage_obj, selected_types)
+                            st.rerun() # Erzwinge einen Rerun, um den "Danke"-Text anzuzeigen
 
     # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
     # im Sprung-Modus eine bereits beantwortete Frage reviewt.
