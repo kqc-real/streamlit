@@ -467,33 +467,41 @@ def _extract_glossary_terms(
 def _build_glossary_html(
     glossary_by_theme: Dict[str, Dict[str, str]],
     intro_text: str | None = None,
+    include_header: bool = True,
 ) -> str:
     if not glossary_by_theme:
         return ""
 
-    glossary_html = '<div class="glossary-section">'
-    glossary_html += '<h2 class="section-title">Mini-Glossar</h2>'
-    intro = intro_text or 'Wichtige Begriffe aus diesem Test, gruppiert nach Themen'
-    glossary_html += f'<p class="glossary-intro">{intro}</p>'
+    glossary_html_parts: list[str] = []
+
+    if include_header:
+        glossary_html_parts.append('<div class="glossary-section">')
+        glossary_html_parts.append('<h2 class="section-title">Mini-Glossar</h2>')
+        intro = intro_text or 'Wichtige Begriffe aus diesem Test, gruppiert nach Themen'
+        glossary_html_parts.append(f'<p class="glossary-intro">{intro}</p>')
 
     for thema, terms in glossary_by_theme.items():
         parsed_thema = _parse_text_with_formulas(thema)
-        glossary_html += f'<h3 class="glossary-theme">{parsed_thema}</h3>'
-        glossary_html += '<div class="glossary-grid">'
+        glossary_html_parts.append('<div class="glossary-section">')
+        glossary_html_parts.append(f'<h3 class="glossary-theme">{parsed_thema}</h3>')
+        glossary_html_parts.append('<div class="glossary-grid">')
 
         for term, definition in terms.items():
             parsed_term = _parse_text_with_formulas(term)
             parsed_definition = _parse_text_with_formulas(definition)
 
-            glossary_html += '<div class="glossary-item">'
-            glossary_html += f'<div class="glossary-term">{parsed_term}</div>'
-            glossary_html += f'<div class="glossary-definition">{parsed_definition}</div>'
-            glossary_html += '</div>'
+            glossary_html_parts.append('<div class="glossary-item">')
+            glossary_html_parts.append(f'<div class="glossary-term">{parsed_term}</div>')
+            glossary_html_parts.append(f'<div class="glossary-definition">{parsed_definition}</div>')
+            glossary_html_parts.append('</div>')
 
-        glossary_html += '</div>'
+        glossary_html_parts.append('</div>')
+        glossary_html_parts.append('</div>')
 
-    glossary_html += '</div>'
-    return glossary_html
+    if include_header:
+        glossary_html_parts.append('</div>')
+
+    return ''.join(glossary_html_parts)
 
 
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
@@ -1460,10 +1468,29 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
 
     set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
     generated_at = datetime.now().strftime("%d.%m.%Y")
-    glossary_html = _build_glossary_html(
-        glossary_by_theme,
-        intro_text=f'Schlüsselbegriffe aus dem Fragenset "{set_name}"',
-    )
+    theme_items = sorted(glossary_by_theme.items(), key=lambda x: x[0].casefold())
+
+    # Paginierung konfigurieren
+    max_items_per_page = 25
+    paginated_html = []
+
+    for page_start in range(0, len(theme_items), max_items_per_page):
+        page_end = page_start + max_items_per_page
+        page_themes = dict(theme_items[page_start:page_end])
+        includes_header = page_start == 0
+        intro = (
+            f'Schlüsselbegriffe aus dem Fragenset "{set_name}"'
+            if includes_header
+            else None
+        )
+        page_html = _build_glossary_html(
+            page_themes,
+            intro_text=intro,
+            include_header=includes_header,
+        )
+        paginated_html.append(f'<div class="glossary-page">{page_html}</div>')
+
+    glossary_html = "".join(paginated_html)
 
     full_html = f'''
     <!DOCTYPE html>
@@ -1474,6 +1501,11 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
             @page {{
                 size: A4;
                 margin: 2cm 2cm 3cm 2cm;
+                @bottom-center {{
+                    content: "Seite " counter(page) " von " counter(pages);
+                    font-size: 9pt;
+                    color: #666666;
+                }}
             }}
             body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',

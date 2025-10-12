@@ -263,6 +263,10 @@ Gewichtungen der App als Referenz:
 Wenn ich keine konkrete Verteilung weiß, schlage ein sinnvolles Verhältnis vor
 (z.B. 50 % leicht, 35 % mittel, 15 % schwer) und bitte mich um Bestätigung oder Anpassung.
 
+> 💡 **Hinweis:** Plane die Themen so, dass jedes Thema mindestens zwei Fragen enthält
+und insgesamt höchstens zehn verschiedene Themen entstehen. Fasse verwandte Inhalte
+gegebenenfalls unter einem gemeinsamen Thema zusammen.
+
 ---
 
 ### **Schritt 4 von 7 – Anzahl der Antwortoptionen**
@@ -279,11 +283,15 @@ Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgende
 
 Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können. Wenn ich mich dagegen entscheide, lasse dieses Feld vollständig weg (kein leeres Objekt erzeugen).
 
+> Hinweis: Falls `schritte` erstellt werden, formuliere die einzelnen Sätze ohne Präfixe wie "Schritt 1 –" – die Reihenfolge ergibt sich aus dem Array.
+
 ---
 
 ### **Schritt 6 von 7 – Mini-Glossar (optional)**
 
 Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) generiert werden sollen. Erkläre, dass diese im PDF-Export als separate Glossar-Section angezeigt werden und wichtige Fachbegriffe aus den Fragen erklären. Jede Frage kann 2-4 zentrale Begriffe mit prägnanten Definitionen (1-3 Sätze) enthalten. Falls verneint, darf das Feld in der JSON fehlen.
+
+> Vermeide Querverweise (z. B. „Siehe Frage 12“) in Glossar-Definitionen; jeder Eintrag soll für sich verständlich sein.
 
 ---
 
@@ -301,6 +309,8 @@ Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Erg
 - `questions`: Eine Liste der einzelnen Fragenobjekte.
 
 Erzeuge optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich sie in den zugehörigen Schritten ausdrücklich angefordert habe.
+
+> ⚠️ **Ausgabeformat:** Gib ausschließlich das JSON-Objekt zurück – keine zusätzlichen Kommentare oder erklärenden Texte.
 
 Berechne die empfohlene Testzeit pro Fragenset, indem du die tatsächlich generierten Fragen auswertest:
 
@@ -349,8 +359,8 @@ Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta
       "extended_explanation": {
         "titel": "Titel der erweiterten Erklärung",
         "schritte": [
-          "Schritt 1 – ...",
-          "Schritt 2 – ..."
+          "Erläutere den fachlichen Kontext in einem prägnanten Satz.",
+          "Vertiefe den Sachverhalt oder gib ein kurzes Beispiel."
         ]
       },
       "mini_glossary": {
@@ -381,7 +391,9 @@ Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta
   * `gewichtung`: (integer) 1 = leicht, 2 = mittel, 3 = schwer.
   * `thema`: (string) Unterthema oder Kapitel.
   * `extended_explanation`: (object, optional) Zusätzliche Tiefe für anspruchsvolle Fragen (entweder `{ "titel": "...", "schritte": [...] }` oder `{ "title": "...", "content": "..." }`).
+    * `schritte`: (array of strings) Klar formulierte Sätze ohne führende "Schritt x"-Präfixe; die Reihenfolge ergibt sich aus der Listenposition.
   * `mini_glossary`: (object, optional) 2-4 Fachbegriffe mit Definitionen, falls in Schritt 6 angefordert.
+    * Jede Definition muss für sich stehen; keine Querverweise wie "Siehe Frage 12" verwenden.
 
 #### ✅ Abschluss-Checkliste für das Fragenset
 
@@ -391,6 +403,8 @@ Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta
 4. Jede Frage besitzt genau eine richtige Antwort (`loesung` verweist auf einen gültigen Index).
 5. Optionale Felder (`extended_explanation`, `mini_glossary`) sind nur enthalten, wenn sie beauftragt wurden und nicht leer.
 6. Titel, Zielgruppe und Themen sind konsistent und eindeutig formuliert.
+7. Jede Themenangabe kommt mindestens zweimal vor; insgesamt existieren höchstens zehn unterschiedliche Themen.
+8. Mini-Glossar-Einträge enthalten eigenständige Definitionen ohne Querverweise auf andere Fragen.
 
 #### **Richtlinien für Mini-Glossar-Einträge:**
 
@@ -403,6 +417,7 @@ Falls Mini-Glossar-Einträge gewünscht werden, beachte folgende Best Practices:
 5.  **LaTeX-Support:** Mathematische/physikalische Formeln in `$...$` oder `$$...$$` Notation
 6.  **Keine Redundanz:** Keine Wiederholung von Inhalten aus `erklaerung` oder `extended_explanation`
 7.  **Alphabetische Reihenfolge:** Begriffe werden automatisch sortiert, keine manuelle Ordnung nötig
+8.  **Eigenständige Definitionen:** Vermeide Querverweise (z. B. "Siehe Frage 20"); jede Definition soll ohne Kontext verständlich sein
 
 **Beispiele für gute Glossar-Einträge:**
 ```json

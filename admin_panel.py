@@ -60,6 +60,7 @@ def render_prompt_tab():
         generierte Datei anschließend im Verzeichnis `data/`.
         """.strip()
     )
+    st.info("Aktuell erzielen wir die besten Ergebnisse mit Gemini 2.5 Flash – gerne zuerst damit versuchen.")
 
     prompt_text = _load_frageset_prompt()
     st.code(prompt_text, language="markdown")
@@ -180,10 +181,52 @@ def render_mini_glossary_tab():
         with st.expander(f"📁 {display_name}"):
             questions = questions_list
 
+            all_entries = []
             for thema in sorted(glossary_preview.keys(), key=str.casefold):
-                st.markdown(f"**{thema}**")
                 for term, definition in sorted(glossary_preview[thema].items(), key=lambda x: x[0].casefold()):
-                    st.markdown(f"- **{term}**: {definition}")
+                    all_entries.append((thema, term, definition))
+
+            page_size = st.slider(
+                f"Einträge pro Seite ({display_name})",
+                min_value=5,
+                max_value=30,
+                value=10,
+                key=f"slider_glossary_page_size_{filename}"
+            )
+
+            total_entries = len(all_entries)
+            total_pages = max(1, (total_entries + page_size - 1) // page_size)
+
+            page_key = f"_glossary_page_{filename}"
+            current_page = st.session_state.get(page_key, 0)
+            current_page = min(current_page, total_pages - 1)
+
+            col_prev, col_page_info, col_next = st.columns([1, 3, 1])
+            with col_prev:
+                if st.button("⬅️", disabled=current_page == 0, key=f"prev_{filename}"):
+                    st.session_state[page_key] = max(0, current_page - 1)
+                    st.rerun()
+            with col_page_info:
+                st.markdown(
+                    f"Seite **{current_page + 1}** von **{total_pages}** – {total_entries} Einträge"
+                )
+            with col_next:
+                if st.button("➡️", disabled=current_page >= total_pages - 1, key=f"next_{filename}"):
+                    st.session_state[page_key] = min(total_pages - 1, current_page + 1)
+                    st.rerun()
+
+            start_idx = current_page * page_size
+            end_idx = min(start_idx + page_size, total_entries)
+            entries_for_page = all_entries[start_idx:end_idx]
+
+            current_theme = None
+            for thema, term, definition in entries_for_page:
+                if thema != current_theme:
+                    if current_theme is not None:
+                        st.markdown("---")
+                    st.markdown(f"**{thema}**")
+                    current_theme = thema
+                st.markdown(f"- **{term}**: {definition}")
 
             pdf_state_key = f"_glossary_pdf_{filename}"
             generate_key = f"btn_generate_glossary_pdf_{filename}"
