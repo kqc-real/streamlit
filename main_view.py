@@ -26,7 +26,13 @@ from logic import (
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import smart_quotes_de, get_user_id_hash, format_decimal_de, load_markdown_file
+from helpers import (
+    smart_quotes_de,
+    get_user_id_hash,
+    format_decimal_de,
+    load_markdown_file,
+    ACTIVE_SESSION_QUERY_PARAM,
+)
 from database import update_bookmarks
 from components import render_question_distribution_chart
 
@@ -152,9 +158,15 @@ def render_welcome_page(app_config: AppConfig):
         st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
         return
 
-    _render_welcome_splash()
-
     query_params = st.query_params
+    previous_session_marker = query_params.get(ACTIVE_SESSION_QUERY_PARAM)
+    if previous_session_marker and "session_id" not in st.session_state:
+        st.warning(
+            "⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten."
+        )
+        query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
+        st.session_state["_welcome_splash_dismissed"] = True
+
     requested_file = query_params.get("questions_file")
     if isinstance(requested_file, list):
         requested_file = requested_file[0] if requested_file else None
@@ -173,6 +185,7 @@ def render_welcome_page(app_config: AppConfig):
         return
 
     _sync_questions_query_param(selected_file)
+    _render_welcome_splash()
 
     # --- Dynamischer Titel und Willkommensnachricht ---
     # Der Titel wird aus dem ausgewählten Dateinamen generiert, der im Session State liegt.
@@ -391,6 +404,7 @@ def render_welcome_page(app_config: AppConfig):
                 st.session_state.user_id_hash = user_id_hash
                 st.session_state.session_id = session_id
                 st.session_state.show_pseudonym_reminder = True
+                query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                 initialize_session_state(questions, app_config)
                 st.rerun()
             else:

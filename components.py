@@ -15,7 +15,7 @@ from logic import calculate_score, is_test_finished
 from database import update_bookmarks
 
 try:
-    from helpers import get_client_ip, is_request_from_localhost
+    from helpers import get_client_ip, is_request_from_localhost, ACTIVE_SESSION_QUERY_PARAM
 except (ImportError, AttributeError):
     def get_client_ip():
         return None
@@ -74,11 +74,14 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         if st.button("Session beenden", key="abort_session_btn", type="primary", width="stretch"):
             # Speichere Bookmarks vor dem Abmelden direkt über die DB-Funktion
             bookmarked_q_nrs = [
-                int(questions[i]['frage'].split('.')[0]) 
+                int(questions[i]['frage'].split('.')[0])
                 for i in st.session_state.get("bookmarked_questions", [])
             ]
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
+            # Entferne Session-Marker aus den Query-Parametern
+            st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
 
             # Speichere das Pseudonym für die Toast-Nachricht, bevor die Session gelöscht wird.
             aborted_user_id = st.session_state.get("user_id")

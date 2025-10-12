@@ -9,6 +9,9 @@ import re
 from typing import Optional, Union
 
 
+ACTIVE_SESSION_QUERY_PARAM = "active_session"
+
+
 def get_user_id_hash(user_id: str) -> str:
     """Erzeugt einen SHA256-Hash aus einer User-ID."""
     return hashlib.sha256(user_id.encode()).hexdigest()
