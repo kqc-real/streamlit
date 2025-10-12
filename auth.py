@@ -80,12 +80,31 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
         return st.session_state.user_id
     
     if "session_aborted" in st.session_state:
-        user_name = st.session_state.get("aborted_user_id", "Dein")
-        toast_message = (
-            f"Dein Ergebnis für »{user_name}« ist gespeichert, taucht aber im Leaderboard nicht auf – "
-            f"0 Punkte oder weniger als 3 Minuten Testzeit zählen dort nicht."
-        )
-        st.toast(toast_message, icon="🏆", duration="long")
+        user_name = st.session_state.get("aborted_user_id", "Unbekannt")
+        score = st.session_state.get("aborted_user_score", 0)
+        made_it = st.session_state.get("aborted_user_on_leaderboard", False)
+
+        if made_it:
+            rank = st.session_state.get("aborted_user_rank")
+            rank_text = f" auf Platz {rank}" if rank else ""
+            toast_message = f"🎉 Glückwunsch, {user_name}! Du hast es mit {score} Punkten{rank_text} ins Leaderboard geschafft!"
+        else:
+            duration = st.session_state.get("aborted_user_duration", 0)
+            # Definiere die Schwellenwerte
+            MIN_SCORE_FOR_LEADERBOARD = 1
+            MIN_DURATION_FOR_LEADERBOARD = 3 * 60  # 3 Minuten in Sekunden
+
+            # Prüfe die spezifischen Gründe
+            if score < MIN_SCORE_FOR_LEADERBOARD:
+                reason = f"da Ergebnisse mit 0 Punkten nicht gezählt werden."
+            elif duration < MIN_DURATION_FOR_LEADERBOARD:
+                reason = f"da die Testzeit unter 3 Minuten lag."
+            else:
+                reason = f"da die Punktzahl nicht für die Top 10 ausreichte."
+            
+            toast_message = f"Dein Ergebnis für »{user_name}« ist gespeichert, taucht aber nicht im Leaderboard auf, {reason}"
+
+        st.toast(toast_message, icon="🏆", duration=10)
         del st.session_state["session_aborted"]
         if "aborted_user_id" in st.session_state:
             del st.session_state["aborted_user_id"]

@@ -72,11 +72,71 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         )
 
         if st.button("Session beenden", key="abort_session_btn", type="primary", width="stretch"):
-            # Speichere Bookmarks vor dem Abmelden direkt über die DB-Funktion
-            bookmarked_q_nrs = [
-                int(questions[i]['frage'].split('.')[0])
-                for i in st.session_state.get("bookmarked_questions", [])
-            ]
+            # Berechne finale Werte vor dem Löschen der Session
+            final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
+            duration_seconds = 0
+            if "test_start_time" in st.session_state and "test_end_time" in st.session_state:
+                duration_seconds = (st.session_state.test_end_time - st.session_state.test_start_time).total_seconds()
+
+            # Prüfe, ob der Nutzer es ins Leaderboard schaffen wird
+            from database import get_all_logs_for_leaderboard
+            leaderboard = get_all_logs_for_leaderboard(selected_file)
+            
+            made_it_to_leaderboard = False
+            user_rank = None
+            if final_score >= 1 and duration_seconds >= 180:
+                # Füge aktuellen Nutzer temporär hinzu und sortiere
+                current_user_entry = {'user_pseudonym': st.session_state.get("user_id"), 'total_score': final_score, 'duration_seconds': duration_seconds}
+                potential_leaderboard = leaderboard + [current_user_entry]
+                potential_leaderboard.sort(key=lambda x: (x['total_score'], -x['duration_seconds']), reverse=True)
+                
+                # Finde den Rang des aktuellen Nutzers
+                for i, entry in enumerate(potential_leaderboard[:10]):
+                    if entry['user_pseudonym'] == current_user_entry['user_pseudonym']:
+                        made_it_to_leaderboard = True
+                        user_rank = i + 1
+                        break
+            # Fallback-Prüfung, falls Leaderboard voll ist (redundant, aber sicher)
+            elif len(leaderboard) == 10 and final_score > (last_place_score := leaderboard[-1]['total_score']):
+                made_it_to_leaderboard = True
+            elif len(leaderboard) == 10 and final_score == (last_place_score := leaderboard[-1]['total_score']) and duration_seconds < leaderboard[-1]['duration_seconds']:
+                made_it_to_leaderboard = True
+
+            # Speichere Bookmarks vor dem Abmelden
+            bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
+            if "session_id" in st.session_state:
+                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
+            # Entferne Session-Marker aus den Query-Parametern
+            st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
+
+            aborted_user_id = st.session_state.get("user_id")
+
+            # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
+            for key in list(st.session_state.keys()):
+                if not key.startswith("_admin") and key != "selected_questions_file":
+                    del st.session_state[key]
+            
+            # Setze IMMER die Flags für die Toast-Nachricht
+            st.session_state["session_aborted"] = True
+            st.session_state["aborted_user_id"] = aborted_user_id
+            st.session_state["aborted_user_score"] = final_score
+            st.session_state["aborted_user_duration"] = duration_seconds
+            st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
+            st.session_state["aborted_user_rank"] = user_rank
+            
+            st.rerun()
+                last_place_score = leaderboard[-1]['total_score']
+                if final_score > last_place_score:
+                    show_toast = False
+                # Bei gleicher Punktzahl entscheidet die Zeit
+                elif final_score == last_place_score:
+                    last_place_duration = leaderboard[-1]['duration_seconds']
+                    if duration_seconds < last_place_duration:
+                        show_toast = False
+
+            # Speichere Bookmarks vor dem Abmelden
+            bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
@@ -86,6 +146,12 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             # Speichere das Pseudonym für die Toast-Nachricht, bevor die Session gelöscht wird.
             aborted_user_id = st.session_state.get("user_id")
 
+            # Speichere Score und Dauer für die Toast-Nachricht
+            final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
+            duration_seconds = 0
+            if "test_start_time" in st.session_state and "test_end_time" in st.session_state:
+                duration_seconds = (st.session_state.test_end_time - st.session_state.test_start_time).total_seconds()
+
             # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
             for key in list(st.session_state.keys()):
                 if not key.startswith("_admin") and key != "selected_questions_file":
@@ -93,6 +159,16 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             # Setze die Flags für die Toast-Nachricht nach dem Rerun
             st.session_state["session_aborted"] = True
             st.session_state["aborted_user_id"] = aborted_user_id
+            st.session_state["aborted_user_score"] = final_score
+            st.session_state["aborted_user_duration"] = duration_seconds
+            
+            # Setze die Flags für die Toast-Nachricht nur, wenn nötig
+            if show_toast:
+                st.session_state["session_aborted"] = True
+                st.session_state["aborted_user_id"] = aborted_user_id
+                st.session_state["aborted_user_score"] = final_score
+                st.session_state["aborted_user_duration"] = duration_seconds
+            
             st.rerun()
 
 def render_admin_switch(app_config: AppConfig):
