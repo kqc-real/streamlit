@@ -280,7 +280,7 @@
         "titel": "Details zum `KNN`-Algorithmus",
         "schritte": [
           "Im `KNN`-Algorithmus gibt es keine separate 'Lernphase'. Das eigentliche 'Lernen' besteht darin, die Trainingsdaten zu speichern.",
-          "Die Berechnung der Ähnlichkeit erfolgt in der Regel über Distanzmaße wie die euklidische Distanz (`$d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$`) oder die Manhattandistanz.",
+          "Die Berechnung der Ähnlichkeit erfolgt in der Regel über Distanzmaße wie die euklidische Distanz ($d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$) oder die Manhattandistanz.",
           "Aus diesem Grund kann `KNN` sehr rechenintensiv werden, wenn der Datensatz sehr groß ist, da bei jeder Vorhersage die Distanz zu allen anderen Datenpunkten berechnet werden muss."
         ]
       },
@@ -442,7 +442,7 @@
         "`Hyperparameter` sind identisch mit Modellgewichten."
       ],
       "loesung": 1,
-      "erklaerung": "Hyperparameter sind externe Konfigurationen, die nicht aus den Daten gelernt werden. Sie müssen vor dem Trainingsprozess festgelegt werden, um zu steuern, wie das Modell lernt. Beispiele sind die Lernrate in neuronalen Netzen, die Anzahl der Bäume in einem `Random Forest` oder der Wert von `$k$` in einem `KNN`-Modell. Im Gegensatz dazu sind Modellgewichte oder Parameter Werte, die der Algorithmus während des Trainings lernt.",
+      "erklaerung": "Hyperparameter sind externe Konfigurationen, die nicht aus den Daten gelernt werden. Sie müssen vor dem Trainingsprozess festgelegt werden, um zu steuern, wie das Modell lernt. Beispiele sind die Lernrate in neuronalen Netzen, die Anzahl der Bäume in einem `Random Forest` oder der Wert von $k$ in einem `KNN`-Modell. Im Gegensatz dazu sind Modellgewichte oder Parameter Werte, die der Algorithmus während des Trainings lernt.",
       "gewichtung": 1,
       "thema": "Hyperparameter-Tuning"
     },
@@ -612,7 +612,7 @@
         "`Random Forests` können nicht-lineare Zusammenhänge abbilden, `KNN` ist auf lineare Probleme beschränkt."
       ],
       "loesung": 2,
-      "erklaerung": "`Random Forests` sind rechenintensiv während des Trainings, da sie viele `Decision Trees` erstellen und optimieren müssen. Die Vorhersagezeit ist jedoch relativ schnell. `KNN` hat keine Trainingsphase im klassischen Sinne, da es einfach alle Daten speichert. Der Rechenaufwand entsteht bei der Vorhersage (`Deployment`), da die Distanz zu allen Trainingsdatenpunkten berechnet werden muss, um die `$k$` Nachbarn zu finden.",
+      "erklaerung": "`Random Forests` sind rechenintensiv während des Trainings, da sie viele `Decision Trees` erstellen und optimieren müssen. Die Vorhersagezeit ist jedoch relativ schnell. `KNN` hat keine Trainingsphase im klassischen Sinne, da es einfach alle Daten speichert. Der Rechenaufwand entsteht bei der Vorhersage (`Deployment`), da die Distanz zu allen Trainingsdatenpunkten berechnet werden muss, um die $k$ Nachbarn zu finden.",
       "gewichtung": 3,
       "thema": "Modelle: Vergleich",
       "extended_explanation": {

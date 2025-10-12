@@ -442,23 +442,26 @@ Beachte beim Erstellen der Fragen zusätzlich die folgenden **didaktischen Richt
 
 ---
 
-Wende die folgenden Formatierungsregeln für alle Textinhalte an:
+Wende die folgenden Formatierungsregeln für **alle** Textinhalte an:
 
-  * **Fachbegriffe und Abkürzungen:** Technische Begriffe, Dateinamen, Funktionsnamen oder Abkürzungen werden in Backticks (`` ` ``) eingeschlossen, damit sie als Code formatiert erscheinen.
-      * *Beispiel:* `Docker`, `st.write()`, `requirements.txt`
+  * **Grundregel 0 (WICHTIGSTE REGEL):** Mathematische Inhalte (Formeln, einzelne Variablen wie `$a$`, `$b$`, `$\\mathbb{Z}$`) gehören **IMMER** in KaTeX-Dollarzeichen (`$...$`) und **NIEMALS** in Backticks (`` ` ``). Backticks sind ausschließlich für Code-Begriffe, Dateinamen oder Funktionsnamen reserviert.
+    * **KORREKT:** Die Formel lautet `$d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$`.
+    * **FALSCH:** Die Formel lautet `$d(x,y) = \sqrt{\sum_{i=1}^n (x_i-y_i)^2}$`.
+    * **FALSCH:** Die Formel lautet `d(x,y) = ...`.
+
+  * **Fachbegriffe & Code:** Technische Begriffe, Dateinamen oder Funktionsnamen werden in Backticks (`` ` ``) eingeschlossen.
+    * *Beispiel:* `Docker`, `st.write()`, `requirements.txt`
+
   * **Hervorhebungen:** Wichtige Schlüsselwörter im Text werden mit doppelten Sternchen für **Fettdruck** (`**Text**`) formatiert.
-  * **Zitate und Titel:** Echte Zitate oder Buchtitel werden in doppelte Anführungszeichen (`"`) gesetzt.
-      * *Beispiel:* `"Pate der KI"`, `"The Society of Mind"`
-  * **Mathematische Ausdrücke (KaTeX):** Formeln, Variablen und mathematische Symbole werden in KaTeX-Syntax formatiert.
-      * Für Inline-Formeln wird ein einzelnes Dollarzeichen ($) verwendet. Beispiel: `$a^2 + b^2 = c^2$`
-      * Für abgesetzte Formelblöcke werden doppelte Dollarzeichen ($$) verwendet. Beispiel: `$$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$`
-      * **Wichtig:** Backslashes (`\`) innerhalb von JSON-Strings müssen escaped werden, also `\\`. Beispiel: `"frage": "Was ist $\\binom{n}{k}$?"`
-  * **Grundregel:** Mathematische Inhalte (Formeln, Variablen wie `$a$`, `$b$`, `$\\mathbb{Z}$`) gehören **IMMER** in KaTeX (`$...$`) und **NIEMALS** in Backticks (`` ` ``).
-      * **FALSCH:** `a` und `b` sind teilerfremd.
-      * **RICHTIG:** $a$ und $b$ sind teilerfremd.
-  * **Grundregel 2:** Normaler Text, Satzzeichen und Erläuterungen gehören **IMMER außerhalb** der KaTeX-Dollarzeichen.
-      * **FALSCH:** `$M \\cap N = \\emptyset$, also sind die Mengen disjunkt.$`
-      * **RICHTIG:** `$M \\cap N = \\emptyset$, also sind die Mengen disjunkt.`
+
+  * **Mathematische Ausdrücke (KaTeX):**
+    * Inline-Formeln: `$a^2 + b^2 = c^2$`
+    * Abgesetzte Formeln: `$$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$`
+    * **Wichtig:** Backslashes (`\`) in JSON-Strings müssen escaped werden: `\\`. Beispiel: `"frage": "Was ist $\\binom{n}{k}$?"`
+
+  * **Grundregel 2:** Normaler Text und Satzzeichen gehören **außerhalb** der KaTeX-Dollarzeichen.
+    * **FALSCH:** `$M \\cap N = \\emptyset$, also sind die Mengen disjunkt.$`
+    * **RICHTIG:** `$M \\cap N = \\emptyset$, also sind die Mengen disjunkt.`
 
 ---
 
