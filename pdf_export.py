@@ -464,6 +464,38 @@ def _extract_glossary_terms(
     return sorted_glossary
 
 
+def _build_glossary_html(
+    glossary_by_theme: Dict[str, Dict[str, str]],
+    intro_text: str | None = None,
+) -> str:
+    if not glossary_by_theme:
+        return ""
+
+    glossary_html = '<div class="glossary-section">'
+    glossary_html += '<h2 class="section-title">Mini-Glossar</h2>'
+    intro = intro_text or 'Wichtige Begriffe aus diesem Test, gruppiert nach Themen'
+    glossary_html += f'<p class="glossary-intro">{intro}</p>'
+
+    for thema, terms in glossary_by_theme.items():
+        parsed_thema = _parse_text_with_formulas(thema)
+        glossary_html += f'<h3 class="glossary-theme">{parsed_thema}</h3>'
+        glossary_html += '<div class="glossary-grid">'
+
+        for term, definition in terms.items():
+            parsed_term = _parse_text_with_formulas(term)
+            parsed_definition = _parse_text_with_formulas(definition)
+
+            glossary_html += '<div class="glossary-item">'
+            glossary_html += f'<div class="glossary-term">{parsed_term}</div>'
+            glossary_html += f'<div class="glossary-definition">{parsed_definition}</div>'
+            glossary_html += '</div>'
+
+        glossary_html += '</div>'
+
+    glossary_html += '</div>'
+    return glossary_html
+
+
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     """
     Analysiert die schwächsten Themen basierend auf falschen Antworten.
@@ -726,36 +758,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     # Mini-Glossar erstellen (nach Themen gruppiert)
     glossary_by_theme = _extract_glossary_terms(questions)
-    glossary_html = ""
-    if glossary_by_theme:
-        glossary_html = '<div class="glossary-section">'
-        glossary_html += '<h2 class="section-title">Mini-Glossar</h2>'
-        intro = 'Wichtige Begriffe aus diesem Test, gruppiert nach Themen'
-        glossary_html += f'<p class="glossary-intro">{intro}</p>'
-        
-        # Iteriere über Themen
-        for thema, terms in glossary_by_theme.items():
-            # Parse LaTeX auch im Thema-Namen (z.B. "Basis in $\mathbb{R}^2$")
-            parsed_thema = _parse_text_with_formulas(thema)
-            glossary_html += f'<h3 class="glossary-theme">{parsed_thema}</h3>'
-            glossary_html += '<div class="glossary-grid">'
-            
-            for term, definition in terms.items():
-                # Parse LaTeX im Term-Namen (falls vorhanden)
-                parsed_term = _parse_text_with_formulas(term)
-                # Parse LaTeX in Definition
-                parsed_definition = _parse_text_with_formulas(definition)
-                
-                glossary_html += '<div class="glossary-item">'
-                glossary_html += f'<div class="glossary-term">{parsed_term}</div>'
-                def_html = '<div class="glossary-definition">'
-                def_html += f'{parsed_definition}</div>'
-                glossary_html += def_html
-                glossary_html += '</div>'
-            
-            glossary_html += '</div>'  # Ende glossary-grid für dieses Thema
-        
-        glossary_html += '</div>'  # Ende glossary-section
+    glossary_html = _build_glossary_html(glossary_by_theme)
     
     # Lesezeichen-Übersicht erstellen
     bookmarked_indices = st.session_state.get("bookmarked_questions", [])
@@ -1445,3 +1448,146 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         print(f"📊 PDF-Export abgeschlossen: {cache_size} Formeln gecacht")
     
     return pdf_bytes
+
+
+def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> bytes:
+    """
+    Erstellt ein PDF mit allen Mini-Glossar-Einträgen eines Fragensets.
+    """
+    glossary_by_theme = _extract_glossary_terms(questions)
+    if not glossary_by_theme:
+        raise ValueError("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+
+    set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    generated_at = datetime.now().strftime("%d.%m.%Y")
+    glossary_html = _build_glossary_html(
+        glossary_by_theme,
+        intro_text=f'Schlüsselbegriffe aus dem Fragenset "{set_name}"',
+    )
+
+    full_html = f'''
+    <!DOCTYPE html>
+    <html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            @page {{
+                size: A4;
+                margin: 2cm 2cm 3cm 2cm;
+            }}
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                             'Helvetica Neue', Arial, sans-serif;
+                font-size: 11pt;
+                line-height: 1.7;
+                color: #2d3748;
+                letter-spacing: 0.01em;
+            }}
+            .header {{
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 28px 24px;
+                margin: -20px -20px 24px -20px;
+                border-radius: 8px 8px 0 0;
+            }}
+            .header h1 {{
+                margin: 0 0 12px 0;
+                font-size: 26pt;
+                font-weight: 600;
+                letter-spacing: -0.02em;
+            }}
+            .meta-info {{
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                font-size: 10pt;
+                opacity: 0.95;
+            }}
+            .meta-info span {{
+                display: block;
+            }}
+            .glossary-section {{
+                margin-top: 24px;
+            }}
+            .glossary-section h2 {{
+                margin: 0 0 8px 0;
+                color: #2d3748;
+                font-size: 18pt;
+                font-weight: 700;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }}
+            .glossary-intro {{
+                font-size: 10pt;
+                color: #4a5568;
+                margin: 0 0 24px 0;
+                text-align: center;
+                font-weight: 500;
+            }}
+            .glossary-theme {{
+                font-size: 14pt;
+                font-weight: 700;
+                color: #1a202c;
+                margin-top: 24px;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+                border-bottom: 2px solid #4299e1;
+            }}
+            .glossary-theme:first-of-type {{
+                margin-top: 12px;
+            }}
+            .glossary-grid {{
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0;
+                margin-bottom: 16px;
+            }}
+            .glossary-item {{
+                padding: 16px 20px;
+                border-bottom: 1px solid #cbd5e0;
+            }}
+            .glossary-item:nth-child(odd) {{
+                background: #ffffff;
+            }}
+            .glossary-item:nth-child(even) {{
+                background: #f7fafc;
+            }}
+            .glossary-item:first-child {{
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }}
+            .glossary-item:last-child {{
+                border-bottom: none;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }}
+            .glossary-term {{
+                font-size: 12pt;
+                font-weight: 800;
+                color: #2d3748;
+                margin-bottom: 6px;
+                display: block;
+            }}
+            .glossary-definition {{
+                font-size: 10pt;
+                color: #4a5568;
+                line-height: 1.7;
+                font-weight: 400;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Mini-Glossar</h1>
+            <div class="meta-info">
+                <span><strong>Fragenset:</strong> {set_name}</span>
+                <span><strong>Stand:</strong> {generated_at}</span>
+            </div>
+        </div>
+        {glossary_html}
+    </body>
+    </html>
+    '''
+
+    return HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)

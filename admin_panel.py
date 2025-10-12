@@ -11,6 +11,7 @@ import pandas as pd
 import streamlit as st
 
 from config import AppConfig, QuestionSet, load_questions, list_question_files
+from pdf_export import generate_mini_glossary_pdf
 from helpers import format_decimal_de
 from database import (
     DATABASE_FILE,
@@ -119,6 +120,7 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
             "📤 Export",
             "⚙️ System",
             "🧠 Frageset generieren",
+            "📚 Mini-Glossare",
             "🔒 Audit-Log",
         ]
     )
@@ -137,7 +139,72 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     with tabs[5]:
         render_prompt_tab()
     with tabs[6]:
+        render_mini_glossary_tab()
+    with tabs[7]:
         render_audit_log_tab()
+
+
+def render_mini_glossary_tab():
+    """Ermöglicht den Export der Mini-Glossare als PDF."""
+    st.header("📚 Mini-Glossare als PDF")
+
+    question_files = list_question_files()
+    if not question_files:
+        st.info("Keine Fragensets gefunden.")
+        return
+
+    st.caption(
+        "Lade ein Fragenset, prüfe die vorhandenen Mini-Glossar-Einträge und erstelle bei Bedarf ein PDF."
+    )
+
+    for filename in question_files:
+        question_set = load_questions(filename)
+        questions_list = list(question_set)
+
+        glossary_preview: dict[str, dict[str, str]] = {}
+        for question in questions_list:
+            entries = question.get("mini_glossary")
+            if isinstance(entries, dict) and entries:
+                thema = question.get("thema", "Allgemein")
+                glossary_preview.setdefault(thema, {})
+                for term, definition in entries.items():
+                    glossary_preview[thema].setdefault(term, definition)
+
+        if not glossary_preview:
+            continue
+
+        display_name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+        with st.expander(f"📁 {display_name}"):
+            questions = questions_list
+
+            for thema in sorted(glossary_preview.keys(), key=str.casefold):
+                st.markdown(f"**{thema}**")
+                for term, definition in sorted(glossary_preview[thema].items(), key=lambda x: x[0].casefold()):
+                    st.markdown(f"- **{term}**: {definition}")
+
+            pdf_state_key = f"_glossary_pdf_{filename}"
+            generate_key = f"btn_generate_glossary_pdf_{filename}"
+
+            if st.button("📄 Mini-Glossar als PDF erstellen", key=generate_key):
+                with st.spinner("PDF wird erstellt …"):
+                    try:
+                        pdf_bytes = generate_mini_glossary_pdf(filename, questions)
+                    except ValueError:
+                        st.error("Dieses Fragenset enthält kein Mini-Glossar.")
+                    else:
+                        st.session_state[pdf_state_key] = pdf_bytes
+                        st.success("PDF erstellt. Du kannst es jetzt herunterladen.")
+
+            pdf_bytes = st.session_state.get(pdf_state_key)
+            if pdf_bytes:
+                download_name = f"mini_glossar_{display_name.replace(' ', '_')}.pdf"
+                st.download_button(
+                    "💾 PDF herunterladen",
+                    data=pdf_bytes,
+                    file_name=download_name,
+                    mime="application/pdf",
+                    key=f"download_glossary_{filename}"
+                )
 
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
