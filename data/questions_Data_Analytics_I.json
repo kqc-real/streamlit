@@ -275,7 +275,7 @@
       "loesung": 1,
       "erklaerung": "`K-Nearest Neighbors` ist ein sogenanntes instanzbasiertes oder speicherbasiertes Lernverfahren. Im Gegensatz zu Modellen wie `Decision Trees` oder linearen Modellen, die einen expliziten Algorithmus erlernen und Gewichte oder Parameter speichern, merkt sich `KNN` einfach den gesamten Trainingsdatensatz. Bei einer Vorhersage sucht es dann nur die `$k$` ähnlichsten Datenpunkte im Trainingsset, um die Entscheidung zu treffen.",
       "gewichtung": 2,
-      "thema": "K-Nearest Neighbors (KNN)",
+        "thema": "Modelle: K-Nearest Neighbors (KNN)",
       "extended_explanation": {
         "titel": "Details zum `KNN`-Algorithmus",
         "schritte": [
@@ -287,7 +287,7 @@
       "mini_glossary": {
         "K-Nearest Neighbors (`KNN`)": "Nicht-parametrischer Klassifikator: weist einem Punkt das Mehrheitslabel der k nächsten Trainingspunkte im Feature-Raum zu (distanzbasiert).",
         "Instanzbasiertes Lernen": "Ein Lernparadigma, bei dem das Modell alle Trainingsinstanzen speichert und Vorhersagen für neue Instanzen auf der Grundlage ihrer Ähnlichkeit mit den gespeicherten Instanzen trifft.",
-        "Euklidische Distanz": "Ein gebräuchliches Distanzmaß, das den kürzesten Abstand zwischen zwei Punkten in einem euklidischen Raum berechnet."
+          "Euklidische Distanz": "Ein gebräuchliches Distanzmaß, das den kürzesten Abstand zwischen zwei Punkten in einem euklidischen Raum berechnet: $d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$."
       }
     },
     {
@@ -324,7 +324,7 @@
         "Sie ist nur bei Textdaten notwendig.",
         "Sie ist nur für Zielvariablen relevant."
       ],
-      "loesung": 1,
+        "loesung": 1,
       "erklaerung": "`KNN` misst die Ähnlichkeit zwischen Datenpunkten anhand ihrer Distanz im Merkmalsraum. Wenn die Features unterschiedliche Skalen aufweisen (z.B. eine Spalte von 0 bis 1000 und eine andere von 0 bis 1), dominiert das Feature mit dem größeren Wertebereich die Distanzberechnung. Die Standardisierung (`Min-Max Scaling` oder `Z-Score-Normalisierung`) stellt sicher, dass alle Features einen ähnlichen Wertebereich haben und somit gleichmäßig zur Distanzmessung beitragen.",
       "gewichtung": 2,
       "thema": "Datenvorverarbeitung & KNN",
@@ -540,7 +540,7 @@
       "extended_explanation": {
         "titel": "Detaillierte Evaluation von Klassifikatoren",
         "schritte": [
-          "Die `Confusion Matrix` zeigt die vier möglichen Ausgänge einer Klassifikation: `True Positives` (TP), `True Negatives` (TN), `False Positives` (FP) und `False Negatives` (FN).",
+            "Die `Confusion Matrix` zeigt die vier möglichen Ausgänge einer Klassifikation: `True Positives` (TP), `True Negatives` (TN), `False Positives` (FP) und `False Negatives` (FN).",
           "Daraus können die Metriken berechnet werden: `Precision` = $\\frac{TP}{TP+FP}$, `Recall` = $\\frac{TP}{TP+FN}$ und `F1-Score` = $2 \\times \\frac{Precision \\times Recall}{Precision + Recall}$.",
           "Diese Metriken sind besonders wichtig bei unausgewogenen Datensätzen, bei denen die `accuracy` allein irreführend sein kann. Ein Modell, das immer die Mehrheitsklasse vorhersagt, könnte eine hohe `accuracy` haben, aber einen `Recall` von null für die Minderheitsklasse."
         ]
