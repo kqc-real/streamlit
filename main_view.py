@@ -1267,3 +1267,25 @@ def render_review_mode(questions: QuestionSet):
                                 st.markdown(f"<div class='scrollable-katex'>{smart_quotes_de(schritt)}</div>", unsafe_allow_html=True)
                     else:
                         st.markdown(smart_quotes_de(str(erklaerung)))
+            
+            # --- NEU: Erweiterte Erklärung im Review-Modus ---
+            extended_explanation = frage.get("extended_explanation")
+            if extended_explanation:
+                with st.expander("Detaillierte Erklärung anzeigen"):
+                    if isinstance(extended_explanation, dict):
+                        title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
+                        if title:
+                            st.markdown(f"**{smart_quotes_de(title)}**")
+
+                        content = extended_explanation.get("content")
+                        steps = extended_explanation.get("schritte")
+
+                        if isinstance(steps, list) and steps:
+                            for step_idx, step in enumerate(steps, start=1):
+                                st.markdown(f"{step_idx}. {smart_quotes_de(step)}")
+                        elif isinstance(content, str) and content.strip():
+                            st.markdown(smart_quotes_de(content))
+                        else:
+                            st.markdown(smart_quotes_de(str(extended_explanation)))
+                    else:
+                        st.markdown(smart_quotes_de(str(extended_explanation)))
