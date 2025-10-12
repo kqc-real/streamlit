@@ -514,8 +514,8 @@
       "extended_explanation": {
         "titel": "Korrelationskoeffizienten im Detail",
         "schritte": [
-          "Die `Pearson`-Korrelation wird als `$r$` bezeichnet und liegt im Bereich von $[-1, 1]$. Ein Wert von 1 bedeutet eine perfekte positive lineare Korrelation, -1 eine perfekte negative, und 0 keine lineare Korrelation.",
-          "Die `Spearman`-Korrelation, oft als `$\\rho$` (rho) bezeichnet, misst die Rangkorrelation. Wenn `$x$` und `$y$` monotone Funktionen voneinander sind, ist der `Spearman`-Koeffizient 1.",
+          "Die `Pearson`-Korrelation wird als $r$ bezeichnet und liegt im Bereich von $[-1, 1]$. Ein Wert von 1 bedeutet eine perfekte positive lineare Korrelation, -1 eine perfekte negative, und 0 keine lineare Korrelation.",
+          "Die `Spearman`-Korrelation, oft als $\\rho$ (rho) bezeichnet, misst die Rangkorrelation. Wenn $x$ und $y$ monotone Funktionen voneinander sind, ist der `Spearman`-Koeffizient 1.",
           "Für eine visuelle Veranschaulichung der Unterschiede ist es hilfreich, Streudiagramme zu betrachten: Die `Spearman`-Korrelation würde eine perfekte monotone Kurve mit einem Koeffizienten von 1 abbilden, auch wenn die `Pearson`-Korrelation, aufgrund der Nicht-Linearität, niedriger wäre."
         ]
       },
