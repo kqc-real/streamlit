@@ -5,7 +5,7 @@ import streamlit as st
 import sqlite3
 import time
 import os
-from config import get_package_dir
+from config import get_package_dir, get_question_counts
 
 # Fallback für ältere Streamlit-Versionen ohne caching-Decoratoren
 def _identity_cache_decorator(func):
@@ -641,21 +641,36 @@ def get_dashboard_statistics():
         # SQLite JULIANDAY() gibt Tage zurück, konvertiert zu Sekunden
         stats['avg_duration'] = int(result['avg_duration']) if result['avg_duration'] else 0
         
-        # "Abschlussquote": Sessions mit Antworten vs. alle Sessions
-        cursor.execute("""
+        # "Abschlussquote": Anteil der Sessions, in denen alle Fragen beantwortet wurden
+        question_counts = get_question_counts()
+        cursor.execute(
+            """
             SELECT 
-                COUNT(DISTINCT s.session_id) as total,
-                COUNT(DISTINCT a.session_id) as with_answers
+                s.session_id,
+                s.questions_file,
+                COUNT(a.answer_id) AS answers_count
             FROM test_sessions s
             LEFT JOIN answers a ON s.session_id = a.session_id
-        """)
-        result = cursor.fetchone()
-        total = result['total']
-        with_answers = result['with_answers']
-        stats['completion_rate'] = round((with_answers / total * 100), 1) if total > 0 else 0
-        
+            GROUP BY s.session_id
+            """
+        )
+        session_answer_rows = cursor.fetchall()
+        total_sessions = len(session_answer_rows)
+        completed_sessions = 0
+        for row in session_answer_rows:
+            q_file = row["questions_file"]
+            answers_count = row["answers_count"]
+            question_total = question_counts.get(q_file)
+            if question_total and answers_count >= question_total:
+                completed_sessions += 1
+        stats["completion_rate"] = (
+            round((completed_sessions / total_sessions * 100), 1)
+            if total_sessions > 0
+            else 0
+        )
+
         return stats
-        
+
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_dashboard_statistics: {e}")
         return None
