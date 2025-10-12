@@ -308,37 +308,32 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
         # Die Dauer wird pro Session berechnet und dann pro Benutzer summiert, um die Gesamt-Testzeit zu erhalten.
         cursor.execute(
             """
-            WITH session_durations AS (
+            WITH session_scores AS (
                 SELECT
                     s.session_id,
-                    s.user_id,
-                    CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 * 60 AS INTEGER) as duration_seconds
+                    u.user_pseudonym,
+                    s.start_time,
+                    SUM(a.points) as total_score,
+                    CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 * 60 AS INTEGER) as duration_seconds,
+                    -- Rangfolge pro User: Höchste Punktzahl, dann kürzeste Zeit
+                    ROW_NUMBER() OVER(PARTITION BY u.user_id ORDER BY SUM(a.points) DESC, CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 * 60 AS INTEGER) ASC) as rn
                 FROM test_sessions s
                 LEFT JOIN answers a ON s.session_id = a.session_id
+                JOIN users u ON s.user_id = u.user_id
                 WHERE s.questions_file = ?
-                GROUP BY s.session_id
-            ),
-            user_aggregates AS (
-                SELECT
-                    u.user_id,
-                    u.user_pseudonym,
-                    (SELECT SUM(points) FROM answers a JOIN test_sessions s ON a.session_id = s.session_id WHERE s.user_id = u.user_id AND s.questions_file = ?) as total_score,
-                    (SELECT MAX(start_time) FROM test_sessions s WHERE s.user_id = u.user_id AND s.questions_file = ?) as last_test_time,
-                    SUM(sd.duration_seconds) as total_duration_seconds
-                FROM users u
-                JOIN session_durations sd ON u.user_id = sd.user_id
-                GROUP BY u.user_id
+                GROUP BY s.session_id, u.user_pseudonym
             )
             SELECT
                 user_pseudonym,
                 COALESCE(total_score, 0) as total_score,
-                last_test_time,
-                COALESCE(total_duration_seconds, 0) as duration_seconds
-            FROM user_aggregates
-            ORDER BY total_score DESC, total_duration_seconds ASC
+                start_time as last_test_time,
+                COALESCE(duration_seconds, 0) as duration_seconds
+            FROM session_scores
+            WHERE rn = 1 -- Nur den besten Versuch pro User
+            ORDER BY total_score DESC, duration_seconds ASC
             LIMIT 10
             """,
-            (questions_file, questions_file, questions_file)
+            (questions_file,)
         )
         return [dict(row) for row in cursor.fetchall()]
     except sqlite3.Error as e:

@@ -19,6 +19,7 @@ from config import (
     get_question_counts,
     QuestionSet,
     get_package_dir,
+    AppConfig,
 )
 from logic import (
     calculate_score,
@@ -291,7 +292,10 @@ def render_welcome_page(app_config: AppConfig):
                 # Blende Durchläufe ohne erzielte Punkte aus dem öffentlichen Leaderboard aus
                 scores = scores[scores["total_score"] > 0]
                 # Filtere Sessions unter 3 min heraus, um überstürzte Abgaben zu vermeiden.
-                min_duration_seconds = 3 * 60
+                # NEU: Mindestdauer ist 20% der empfohlenen Testzeit, aber mind. 60s
+                recommended_duration_minutes = question_durations.get(selected_file, app_config.test_duration_minutes)
+                min_duration_seconds = max(60, int(recommended_duration_minutes * 60 * 0.20))
+                
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
                 scores = scores.reset_index(drop=True)
                 if scores.empty:

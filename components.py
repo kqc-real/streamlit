@@ -84,23 +84,28 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             
             made_it_to_leaderboard = False
             user_rank = None
-            if final_score >= 1 and duration_seconds >= 180:
+            
+            # Mindestdauer für dieses Fragenset berechnen
+            recommended_duration = st.session_state.get("test_duration_minutes", 60) * 60
+            min_duration_for_leaderboard = max(60, int(recommended_duration * 0.20))
+
+            if final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
                 # Füge aktuellen Nutzer temporär hinzu und sortiere
                 current_user_entry = {'user_pseudonym': st.session_state.get("user_id"), 'total_score': final_score, 'duration_seconds': duration_seconds}
-                potential_leaderboard = leaderboard + [current_user_entry]
-                potential_leaderboard.sort(key=lambda x: (x['total_score'], -x['duration_seconds']), reverse=True)
+                # Entferne den alten Eintrag des Nutzers, falls er bereits im Leaderboard war, um Duplikate zu vermeiden
+                potential_leaderboard = [entry for entry in leaderboard if entry and entry.get('user_pseudonym') != current_user_entry['user_pseudonym']]
+                potential_leaderboard.append(current_user_entry)
+                # Korrekte Sortierung: Höchste Punktzahl zuerst (durch -score), bei Gleichstand kürzeste Zeit zuerst.
+                potential_leaderboard.sort(
+                    key=lambda x: (-x.get('total_score', 0), x.get('duration_seconds', 0))
+                )
                 
-                # Finde den Rang des aktuellen Nutzers
+                # Finde den Rang des aktuellen Nutzers in den Top 10
                 for i, entry in enumerate(potential_leaderboard[:10]):
                     if entry['user_pseudonym'] == current_user_entry['user_pseudonym']:
                         made_it_to_leaderboard = True
                         user_rank = i + 1
                         break
-            # Fallback-Prüfung, falls Leaderboard voll ist (redundant, aber sicher)
-            elif len(leaderboard) == 10 and final_score > (last_place_score := leaderboard[-1]['total_score']):
-                made_it_to_leaderboard = True
-            elif len(leaderboard) == 10 and final_score == (last_place_score := leaderboard[-1]['total_score']) and duration_seconds < leaderboard[-1]['duration_seconds']:
-                made_it_to_leaderboard = True
 
             # Speichere Bookmarks vor dem Abmelden
             bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
@@ -123,51 +128,8 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.session_state["aborted_user_score"] = final_score
             st.session_state["aborted_user_duration"] = duration_seconds
             st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
+            st.session_state["aborted_user_recommended_duration"] = recommended_duration
             st.session_state["aborted_user_rank"] = user_rank
-            
-            st.rerun()
-                last_place_score = leaderboard[-1]['total_score']
-                if final_score > last_place_score:
-                    show_toast = False
-                # Bei gleicher Punktzahl entscheidet die Zeit
-                elif final_score == last_place_score:
-                    last_place_duration = leaderboard[-1]['duration_seconds']
-                    if duration_seconds < last_place_duration:
-                        show_toast = False
-
-            # Speichere Bookmarks vor dem Abmelden
-            bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
-            if "session_id" in st.session_state:
-                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
-
-            # Entferne Session-Marker aus den Query-Parametern
-            st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
-
-            # Speichere das Pseudonym für die Toast-Nachricht, bevor die Session gelöscht wird.
-            aborted_user_id = st.session_state.get("user_id")
-
-            # Speichere Score und Dauer für die Toast-Nachricht
-            final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
-            duration_seconds = 0
-            if "test_start_time" in st.session_state and "test_end_time" in st.session_state:
-                duration_seconds = (st.session_state.test_end_time - st.session_state.test_start_time).total_seconds()
-
-            # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
-            for key in list(st.session_state.keys()):
-                if not key.startswith("_admin") and key != "selected_questions_file":
-                    del st.session_state[key]
-            # Setze die Flags für die Toast-Nachricht nach dem Rerun
-            st.session_state["session_aborted"] = True
-            st.session_state["aborted_user_id"] = aborted_user_id
-            st.session_state["aborted_user_score"] = final_score
-            st.session_state["aborted_user_duration"] = duration_seconds
-            
-            # Setze die Flags für die Toast-Nachricht nur, wenn nötig
-            if show_toast:
-                st.session_state["session_aborted"] = True
-                st.session_state["aborted_user_id"] = aborted_user_id
-                st.session_state["aborted_user_score"] = final_score
-                st.session_state["aborted_user_duration"] = duration_seconds
             
             st.rerun()
 
@@ -351,252 +313,6 @@ def render_skipped_questions(questions: QuestionSet):
             st.rerun()
 
 
-def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:
-    """
-    Gibt eine kontextabhängige, motivierende Feedback-Nachricht als HTML-String zurück.
-    
-    KATEGORIEN:
-    - LOB: Nur bei richtiger Antwort
-    - ZUSPRUCH: Nur bei falscher Antwort (motivierend, aufbauend)
-    - LETZTE_FRAGE: Nur wenn nur noch 1 Frage übrig ist
-    - NEUTRAL: Fortschritt-basiert (wenn keine klare richtig/falsch-Situation)
-    """
-    import random
-    
-    scoring_mode = app_config.scoring_mode
-    current_score, max_score = calculate_score(
-        [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
-        questions,
-        scoring_mode,
-    )
-
-    outcomes = st.session_state.get("answer_outcomes", [])
-    num_answered = len(outcomes)
-    if num_answered == 0 or not questions:
-        return ""
-
-    last_correct = outcomes[-1] if outcomes else None
-    questions_remaining = len(questions) - num_answered
-    
-    # SPEZIALFALL: Test ist komplett fertig (alle Fragen beantwortet)
-    # Zeige eine score-abhängige finale Botschaft
-    if questions_remaining == 0:
-        import random
-        
-        # Performance-Tier basierend auf Punkteverhältnis
-        ratio = current_score / max_score if max_score > 0 else 0
-        
-        if ratio >= 0.9:  # Elite (90%+)
-            finale_phrases = [
-                "� Exzellent! Fast perfekte Runde.",
-                "⚡ Elite-Niveau! Beeindruckende Leistung.",
-                "🌟 Hervorragend! Sehr starke Quote.",
-                "🎯 Präzise durchgezogen! Top-Ergebnis.",
-                "💎 Makellos! Fast fehlerfreier Test.",
-            ]
-        elif ratio >= 0.75:  # Sehr gut (75-89%)
-            finale_phrases = [
-                "✅ Sehr gut! Solide Performance.",
-                "🚀 Stark durchgezogen! Gute Quote.",
-                "👍 Sauber! Überzeugende Leistung.",
-                "💪 Gut gemacht! Stabile Runde.",
-                "� Starke Leistung! Qualität überzeugt.",
-            ]
-        elif ratio >= 0.55:  # Gut (55-74%)
-            finale_phrases = [
-                "✨ Durchgezogen! Ordentliches Ergebnis.",
-                "📈 Geschafft! Basis sitzt gut.",
-                "🏁 Fertig! Solide Leistung.",
-                "💼 Abgeschlossen! Grundlagen stimmen.",
-                "🔧 Durch! Jetzt Lücken schließen.",
-            ]
-        else:  # Verbesserungsbedarf (<55%)
-            finale_phrases = [
-                "� Durchgehalten! Lernpunkte mitnehmen.",
-                "🌱 Geschafft! Jetzt Themen vertiefen.",
-                "🔍 Fertig! Fehler sind Lernchancen.",
-                "💡 Durch! Review-Modus nutzen lohnt sich.",
-                "🎯 Abgeschlossen! Mit Erklärungen weiter.",
-            ]
-        
-        finale_message = random.choice(finale_phrases)
-        return f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {finale_message}</div>"
-
-    # Streak-Berechnung
-    streak = 0
-    for o in reversed(outcomes):
-        if o:
-            streak += 1
-        else:
-            break
-
-    # Badges (einmalig rendern)
-    badge_list = []
-    if streak >= 3:
-        icon = "🔥"
-        if streak >= 10: icon = "⚡"
-        if streak >= 20: icon = "🏅"
-        badge_list.append(f"{icon} {streak}er Streak")
-    
-    progress_pct = int((num_answered / len(questions)) * 100)
-    for thr, name, keyflag in [
-        (25, "🔓 25 %", "_badge25"), (50, "🏁 50 %", "_badge50"),
-        (75, "🚀 75 %", "_badge75"), (100, "🏆 100 %", "_badge100"),
-    ]:
-        if progress_pct >= thr and not st.session_state.get(keyflag):
-            badge_list.append(name)
-            st.session_state[keyflag] = True
-
-    if badge_list:
-        badges_html = "".join(
-            f"<span style='display:inline-block; background:#333; padding:2px 8px; margin-right:5px; border-radius:12px; font-size:0.8em;'>{b}</span>"
-            for b in badge_list
-        )
-        st.markdown(badges_html, unsafe_allow_html=True)
-
-    # Performance-Tier
-    ratio = current_score / max_score if max_score > 0 else 0
-
-    # ============================================================
-    # KATEGORISIERTE PHRASEN
-    # ============================================================
-    
-    # KATEGORIE 1: LOB (nur bei richtiger Antwort)
-    lob_phrases = [
-        "Richtig! Sehr gut.",
-        "Exakt! Weiter so.",
-        "Korrekt! Sauber gelöst.",
-        "Perfekt! Das sitzt.",
-        "Top! Genau richtig.",
-        "Stark! Weiter im Flow.",
-        "Sehr gut! Muster erkannt.",
-        "Ausgezeichnet! Konzentration hält.",
-        "Präzise! Das war sauber.",
-        "Klasse! Genau so.",
-        "Treffer! Weiter mit Fokus.",
-        "Richtig erkannt! Gut gemacht.",
-        "Volltreffer! Weiter.",
-        "Korrekt analysiert! Stark.",
-        "Genau! Konzentration halten.",
-    ]
-    
-    # Spezielle Lob-Phrasen bei hohem Streak
-    if streak >= 3:
-        lob_phrases.extend([
-            f"🔥 {streak} richtige in Folge!",
-            "Serie läuft! Weiter so.",
-            "Flow-Zustand! Nicht nachlassen.",
-        ])
-    if streak >= 5:
-        lob_phrases.extend([
-            f"⚡ {streak}er Streak! Beeindruckend.",
-            "Konstant stark! Elite-Niveau.",
-        ])
-    if streak >= 10:
-        lob_phrases.extend([
-            f"🏅 {streak} Treffer ohne Fehler!",
-            "Makellos! Konzentration perfekt.",
-        ])
-    
-    # KATEGORIE 2: ZUSPRUCH (nur bei falscher Antwort)
-    zuspruch_phrases = [
-        "Nicht ganz – aber daraus lernen.",
-        "Fehler sind Lernpunkte. Weiter!",
-        "Kurz daneben – analysieren und weiter.",
-        "Das ist okay. Nächste Chance nutzen.",
-        "Nicht schlimm. Fokus neu setzen.",
-        "Fehler passieren – ruhig weitermachen.",
-        "Lernerfolg! Muster für später.",
-        "Das sitzt beim nächsten Mal.",
-        "Kein Problem. Konzentration halten.",
-        "Nicht perfekt – aber im Lernprozess.",
-        "Falsch – aber Erklärung lesen hilft.",
-        "Daneben – Strategie anpassen.",
-        "Fehler = Wachstum. Weiter geht's.",
-        "Nicht getroffen – aber du bleibst dran.",
-        "Ruhig bleiben. Nächste Frage kommt.",
-    ]
-    
-    # Spezielle Zuspruch-Phrasen bei gutem Score trotz Fehler
-    if ratio >= 0.75:
-        zuspruch_phrases.extend([
-            "Score bleibt stark – ein Fehler kippt nichts.",
-            "Quote weiter hoch – nicht ärgern.",
-            "Gute Leistung insgesamt – weiter so.",
-        ])
-    
-    # KATEGORIE 3: LETZTE FRAGE (nur wenn questions_remaining == 1)
-    letzte_frage_phrases = [
-        "Letzte Frage! Gleich geschafft.",
-        "Fast am Ziel! Noch eine Frage.",
-        "Finale Frage! Konzentriert durchziehen.",
-        "Endspurt! Eine bleibt noch.",
-        "Noch 1 Frage – dann durch!",
-        "Letzter Sprint! Finish in Sicht.",
-        "Gleich fertig! Noch einmal fokussieren.",
-        "Finale! Eine Frage trennt dich vom Ziel.",
-        "Fast geschafft! Letzte Konzentration.",
-        "Abschluss naht! Noch 1 Frage.",
-    ]
-    
-    # Spezielle letzte-Frage-Phrasen bei gutem Score
-    if questions_remaining == 1 and ratio >= 0.8:
-        letzte_frage_phrases.extend([
-            "Letzter Punkt für Top-Score!",
-            "Starker Lauf – jetzt sauber finishen!",
-            "Elite-Ergebnis möglich – letzte Frage!",
-        ])
-    
-    # KATEGORIE 4: NEUTRAL (Fortschritt, keine spezifische Richtig/Falsch-Reaktion)
-    neutral_phrases = [
-        "Weiter im Rhythmus.",
-        "Fokus halten – du machst das.",
-        "Schritt für Schritt.",
-        "Ruhig weitermachen.",
-        "Konzentration beibehalten.",
-        "Stabil bleiben.",
-        "Du bist auf dem Weg.",
-        "Weitermachen – Ziel im Blick.",
-        "Durchhalten – es läuft.",
-        "Fortschritt läuft.",
-    ]
-
-    # ============================================================
-    # AUSWAHL DER RICHTIGEN KATEGORIE
-    # ============================================================
-    
-    pool = []
-    
-    # PRIORITÄT 1: Letzte Frage (überschreibt alles)
-    if questions_remaining == 1:
-        pool = letzte_frage_phrases
-    
-    # PRIORITÄT 2: Reaktion auf letzte Antwort
-    elif last_correct is True:
-        pool = lob_phrases
-    elif last_correct is False:
-        pool = zuspruch_phrases
-    
-    # PRIORITÄT 3: Neutral (Fallback)
-    else:
-        pool = neutral_phrases
-    
-    if not pool:
-        return ""
-
-    # Wiederholung vermeiden
-    last_phrase = st.session_state.get("_last_motivation_phrase")
-    possible_phrases = [p for p in pool if p != last_phrase]
-    if not possible_phrases:
-        possible_phrases = pool  # Fallback
-
-    candidate = random.choice(possible_phrases)
-    st.session_state._last_motivation_phrase = candidate
-
-    # Anzeige
-    message_html = f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {candidate}</div>"
-    return message_html
-
 def render_question_distribution_chart(questions: list):
     """Rendert ein gestapeltes Balkendiagramm der Fragenverteilung."""
     import plotly.graph_objects as go
@@ -647,3 +363,182 @@ def render_question_distribution_chart(questions: list):
         legend_title="Schwierigkeit",
     )
     st.plotly_chart(fig, config={"responsive": True})
+
+
+def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:
+    """
+    Gibt eine kontextabhängige, motivierende Feedback-Nachricht als HTML-String zurück.
+    
+    KATEGORIEN:
+    - LOB: Nur bei richtiger Antwort
+    - ZUSPRUCH: Nur bei falscher Antwort (motivierend, aufbauend)
+    - LETZTE_FRAGE: Nur wenn nur noch 1 Frage übrig ist
+    - NEUTRAL: Fortschritt-basiert (wenn keine klare richtig/falsch-Situation)
+    """
+    import random
+    
+    scoring_mode = app_config.scoring_mode
+    current_score, max_score = calculate_score(
+        [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
+        questions,
+        scoring_mode,
+    )
+
+    outcomes = st.session_state.get("answer_outcomes", [])
+    num_answered = len(outcomes)
+    if num_answered == 0 or not questions:
+        return ""
+
+    last_correct = outcomes[-1] if outcomes else None
+    questions_remaining = len(questions) - num_answered
+    
+    # SPEZIALFALL: Test ist komplett fertig (alle Fragen beantwortet)
+    # Zeige eine score-abhängige finale Botschaft
+    if questions_remaining == 0:
+        import random
+        
+        # Performance-Tier basierend auf Punkteverhältnis
+        ratio = current_score / max_score if max_score > 0 else 0
+        
+        if ratio >= 0.9:  # Elite (90%+)
+            finale_phrases = [
+                " Exzellent! Fast perfekte Runde.",
+                "⚡ Elite-Niveau! Beeindruckende Leistung.",
+                "🌟 Hervorragend! Sehr starke Quote.",
+                "🎯 Präzise durchgezogen! Top-Ergebnis.",
+                "💎 Makellos! Fast fehlerfreier Test.",
+            ]
+        elif ratio >= 0.75:  # Sehr gut (75-89%)
+            finale_phrases = [
+                "✅ Sehr gut! Solide Performance.",
+                "🚀 Stark durchgezogen! Gute Quote.",
+                "👍 Sauber! Überzeugende Leistung.",
+                "💪 Gut gemacht! Stabile Runde.",
+                " Starke Leistung! Qualität überzeugt.",
+            ]
+        elif ratio >= 0.55:  # Gut (55-74%)
+            finale_phrases = [
+                "✨ Durchgezogen! Ordentliches Ergebnis.",
+                "📈 Geschafft! Basis sitzt gut.",
+                "🏁 Fertig! Solide Leistung.",
+                "💼 Abgeschlossen! Grundlagen stimmen.",
+                "🔧 Durch! Jetzt Lücken schließen.",
+            ]
+        else:  # Verbesserungsbedarf (<55%)
+            finale_phrases = [
+                " Durchgehalten! Lernpunkte mitnehmen.",
+                "🌱 Geschafft! Jetzt Themen vertiefen.",
+                "🔍 Fertig! Fehler sind Lernchancen.",
+                "💡 Durch! Review-Modus nutzen lohnt sich.",
+                "🎯 Abgeschlossen! Mit Erklärungen weiter.",
+            ]
+        
+        finale_message = random.choice(finale_phrases)
+        return f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {finale_message}</div>"
+
+    # Streak-Berechnung
+    streak = 0
+    for o in reversed(outcomes):
+        if o:
+            streak += 1
+        else:
+            break
+
+    # Badges (einmalig rendern)
+    badge_list = []
+    if streak >= 3:
+        icon = "🔥"
+        if streak >= 10: icon = "⚡"
+        if streak >= 20: icon = "🏅"
+        badge_list.append(f"{icon} {streak}er Streak")
+    
+    progress_pct = int((num_answered / len(questions)) * 100)
+    for thr, name, keyflag in [
+        (25, "🔓 25 %", "_badge25"), (50, "🏁 50 %", "_badge50"),
+        (75, "🚀 75 %", "_badge75"), (100, "🏆 100 %", "_badge100"),
+    ]:
+        if progress_pct >= thr and not st.session_state.get(keyflag):
+            badge_list.append(name)
+            st.session_state[keyflag] = True
+
+    if badge_list:
+        badges_html = "".join(
+            f"<span style='display:inline-block; background:#333; padding:2px 8px; margin-right:5px; border-radius:12px; font-size:0.8em;'>{b}</span>"
+            for b in badge_list
+        )
+        st.markdown(badges_html, unsafe_allow_html=True)
+
+    # Performance-Tier
+    ratio = current_score / max_score if max_score > 0 else 0
+
+    # ============================================================
+    # KATEGORISIERTE PHRASEN
+    # ============================================================
+    
+    # KATEGORIE 1: LOB (nur bei richtiger Antwort)
+    lob_phrases = [
+        "Richtig! Sehr gut.", "Exakt! Weiter so.", "Korrekt! Sauber gelöst.",
+        "Perfekt! Das sitzt.", "Top! Genau richtig.", "Stark! Weiter im Flow.",
+        "Sehr gut! Muster erkannt.", "Ausgezeichnet! Konzentration hält.",
+        "Präzise! Das war sauber.", "Klasse! Genau so.", "Treffer! Weiter mit Fokus.",
+        "Richtig erkannt! Gut gemacht.", "Volltreffer! Weiter.",
+        "Korrekt analysiert! Stark.", "Genau! Konzentration halten.",
+    ]
+    
+    if streak >= 3:
+        lob_phrases.extend([f"🔥 {streak} richtige in Folge!", "Serie läuft! Weiter so.", "Flow-Zustand! Nicht nachlassen."])
+    if streak >= 5:
+        lob_phrases.extend([f"⚡ {streak}er Streak! Beeindruckend.", "Konstant stark! Elite-Niveau."])
+    if streak >= 10:
+        lob_phrases.extend([f"🏅 {streak} Treffer ohne Fehler!", "Makellos! Konzentration perfekt."])
+    
+    # KATEGORIE 2: ZUSPRUCH (nur bei falscher Antwort)
+    zuspruch_phrases = [
+        "Nicht ganz – aber daraus lernen.", "Fehler sind Lernpunkte. Weiter!",
+        "Kurz daneben – analysieren und weiter.", "Das ist okay. Nächste Chance nutzen.",
+        "Nicht schlimm. Fokus neu setzen.", "Fehler passieren – ruhig weitermachen.",
+        "Lernerfolg! Muster für später.", "Das sitzt beim nächsten Mal.",
+        "Kein Problem. Konzentration halten.", "Nicht perfekt – aber im Lernprozess.",
+        "Falsch – aber Erklärung lesen hilft.", "Daneben – Strategie anpassen.",
+        "Fehler = Wachstum. Weiter geht's.", "Nicht getroffen – aber du bleibst dran.",
+        "Ruhig bleiben. Nächste Frage kommt.",
+    ]
+    
+    if ratio >= 0.75:
+        zuspruch_phrases.extend(["Score bleibt stark – ein Fehler kippt nichts.", "Quote weiter hoch – nicht ärgern.", "Gute Leistung insgesamt – weiter so."])
+    
+    # KATEGORIE 3: LETZTE FRAGE (nur wenn questions_remaining == 1)
+    letzte_frage_phrases = [
+        "Letzte Frage! Gleich geschafft.", "Fast am Ziel! Noch eine Frage.",
+        "Finale Frage! Konzentriert durchziehen.", "Endspurt! Eine bleibt noch.",
+        "Noch 1 Frage – dann durch!", "Letzter Sprint! Finish in Sicht.",
+        "Gleich fertig! Noch einmal fokussieren.", "Finale! Eine Frage trennt dich vom Ziel.",
+        "Fast geschafft! Letzte Konzentration.", "Abschluss naht! Noch 1 Frage.",
+    ]
+    
+    if questions_remaining == 1 and ratio >= 0.8:
+        letzte_frage_phrases.extend(["Letzter Punkt für Top-Score!", "Starker Lauf – jetzt sauber finishen!", "Elite-Ergebnis möglich – letzte Frage!"])
+    
+    # KATEGORIE 4: NEUTRAL (Fortschritt, keine spezifische Richtig/Falsch-Reaktion)
+    neutral_phrases = [
+        "Weiter im Rhythmus.", "Fokus halten – du machst das.", "Schritt für Schritt.",
+        "Ruhig weitermachen.", "Konzentration beibehalten.", "Stabil bleiben.",
+        "Du bist auf dem Weg.", "Weitermachen – Ziel im Blick.",
+        "Durchhalten – es läuft.", "Fortschritt läuft.",
+    ]
+
+    # ============================================================
+    # AUSWAHL DER RICHTIGEN KATEGORIE
+    # ============================================================
+    
+    pool = letzte_frage_phrases if questions_remaining == 1 else (lob_phrases if last_correct else (zuspruch_phrases if last_correct is False else neutral_phrases))
+    
+    if not pool: return ""
+
+    last_phrase = st.session_state.get("_last_motivation_phrase")
+    possible_phrases = [p for p in pool if p != last_phrase] or pool
+
+    candidate = random.choice(possible_phrases)
+    st.session_state._last_motivation_phrase = candidate
+
+    return f"<div style='margin-top:8px; font-size:0.9em; opacity:0.8;'>💬 {candidate}</div>"

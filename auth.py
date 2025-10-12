@@ -82,23 +82,27 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
     if "session_aborted" in st.session_state:
         user_name = st.session_state.get("aborted_user_id", "Unbekannt")
         score = st.session_state.get("aborted_user_score", 0)
-        made_it = st.session_state.get("aborted_user_on_leaderboard", False)
+        made_it_to_leaderboard = st.session_state.get("aborted_user_on_leaderboard", False)
 
-        if made_it:
+        if made_it_to_leaderboard:
             rank = st.session_state.get("aborted_user_rank")
             rank_text = f" auf Platz {rank}" if rank else ""
             toast_message = f"🎉 Glückwunsch, {user_name}! Du hast es mit {score} Punkten{rank_text} ins Leaderboard geschafft!"
         else:
             duration = st.session_state.get("aborted_user_duration", 0)
+            recommended_duration_seconds = st.session_state.get("aborted_user_recommended_duration", 180)
+
             # Definiere die Schwellenwerte
             MIN_SCORE_FOR_LEADERBOARD = 1
-            MIN_DURATION_FOR_LEADERBOARD = 3 * 60  # 3 Minuten in Sekunden
+            # NEU: Mindestdauer ist 20% der empfohlenen Testzeit, aber mind. 60s
+            MIN_DURATION_FOR_LEADERBOARD = max(60, int(recommended_duration_seconds * 0.20))
 
             # Prüfe die spezifischen Gründe
             if score < MIN_SCORE_FOR_LEADERBOARD:
                 reason = f"da Ergebnisse mit 0 Punkten nicht gezählt werden."
             elif duration < MIN_DURATION_FOR_LEADERBOARD:
-                reason = f"da die Testzeit unter 3 Minuten lag."
+                min_duration_display = max(1, round(MIN_DURATION_FOR_LEADERBOARD / 60))
+                reason = f"da die Testzeit zu kurz war (weniger als {min_duration_display} min)."
             else:
                 reason = f"da die Punktzahl nicht für die Top 10 ausreichte."
             
