@@ -121,6 +121,7 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
             "⚙️ System",
             "🧠 Frageset generieren",
             "📚 Mini-Glossare",
+            "📂 Fragensets",
             "🔒 Audit-Log",
         ]
     )
@@ -141,6 +142,8 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     with tabs[6]:
         render_mini_glossary_tab()
     with tabs[7]:
+        render_question_sets_tab()
+    with tabs[8]:
         render_audit_log_tab()
 
 
@@ -205,6 +208,73 @@ def render_mini_glossary_tab():
                     mime="application/pdf",
                     key=f"download_glossary_{filename}"
                 )
+
+
+def render_question_sets_tab():
+    """Zeigt eine Übersicht über alle verfügbaren Fragensets."""
+    st.header("📂 Übersicht aller Fragensets")
+
+    question_files = list_question_files()
+    if not question_files:
+        st.info("Keine Fragensets gefunden.")
+        return
+
+    overview_rows: list[dict[str, str | int]] = []
+
+    for filename in question_files:
+        question_set = load_questions(filename)
+        questions_list = list(question_set)
+        num_questions = len(questions_list)
+
+        glossary_entry_count = 0
+        topics = set()
+        for q in questions_list:
+            topics.add(q.get("thema", "Allgemein"))
+            glossary = q.get("mini_glossary")
+            if isinstance(glossary, dict):
+                glossary_entry_count += len(glossary)
+
+        meta = question_set.meta
+        difficulty_profile = meta.get("difficulty_profile", {})
+        duration = meta.get("test_duration_minutes") or meta.get("computed_test_duration_minutes")
+
+        diff_parts = []
+        for key, label in (("leicht", "leicht"), ("mittel", "mittel"), ("schwer", "schwer")):
+            count = difficulty_profile.get(key)
+            if count:
+                diff_parts.append(f"{count} × {label}")
+
+        overview_rows.append(
+            {
+                "Name": filename.replace("questions_", "").replace(".json", "").replace("_", " "),
+                "Datei": filename,
+                "Fragen": num_questions,
+                "Dauer": f"{duration} min" if duration else "–",
+                "Glossar": "Ja" if glossary_entry_count else "Nein",
+                "Glossar-Einträge": glossary_entry_count,
+                "Schwierigkeiten": " | ".join(diff_parts) if diff_parts else "–",
+                "Themen": sorted(topics),
+            }
+        )
+
+    st.metric("Anzahl Fragensets", len(overview_rows))
+
+    df_display = pd.DataFrame(
+        [
+            {k: entry[k] for k in ["Name", "Datei", "Fragen", "Dauer", "Glossar", "Glossar-Einträge", "Schwierigkeiten"]}
+            for entry in overview_rows
+        ]
+    )
+    st.dataframe(df_display, hide_index=True, width="stretch")
+
+    st.subheader("Themen je Fragenset")
+    for entry in overview_rows:
+        topics = entry["Themen"]
+        with st.expander(f"{entry['Name']} – {len(topics)} Themen"):
+            if topics:
+                st.markdown("\n".join(f"- {topic}" for topic in topics))
+            else:
+                st.caption("Keine Themen hinterlegt.")
 
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
