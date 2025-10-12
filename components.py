@@ -127,8 +127,15 @@ def render_admin_switch(app_config: AppConfig):
         else:
             # Mit Admin-Key: Passwort-Eingabe erforderlich
             with st.sidebar.expander("🔐 Admin Panel"):
-                entered_key = st.text_input("Admin-Key", type="password", key="admin_key_input_sidebar")
-                if st.button("Panel aktivieren", key="admin_activate_sidebar_btn"):
+                with st.form("admin_unlock_form", border=False):
+                    entered_key = st.text_input(
+                        "Admin-Key",
+                        type="password",
+                        key="admin_key_input_sidebar"
+                    )
+                    admin_form_submitted = st.form_submit_button("Panel aktivieren")
+
+                if admin_form_submitted:
                     # --- 🔒 PHASE 3: Rate-Limiting ---
                     from audit_log import (
                         check_rate_limit, 
