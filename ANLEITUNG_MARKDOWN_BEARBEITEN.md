@@ -9,14 +9,22 @@ Diese Anleitung zeigt dir den einfachsten Weg, um direkt im Browser Änderungen 
 
 ## 📋 Inhaltsverzeichnis
 
-1. Voraussetzungen: Was du brauchst
-2. Schritt 1: Datei auf GitHub finden und öffnen
-3. Schritt 2: Änderungen im Web-Editor vornehmen
-4. Schritt 3: Texte formatieren mit Markdown (ganz einfach!)
-5. Schritt 4: Änderungen speichern (Commit)
-6. Exkurs: Eine neue Datei anlegen (z.B. für Protokolle)
-7. Zusammenfassung: Dein Workflow
-8. Wichtig: Änderungen von anderen erhalten
+- [📝 Anleitung: Scrum-Dokumente auf GitHub bearbeiten](#-anleitung-scrum-dokumente-auf-github-bearbeiten)
+  - [📋 Inhaltsverzeichnis](#-inhaltsverzeichnis)
+  - [✅ Voraussetzungen: Was du brauchst](#-voraussetzungen-was-du-brauchst)
+  - [Schritt 1: Datei auf GitHub finden und öffnen](#schritt-1-datei-auf-github-finden-und-öffnen)
+  - [Schritt 2: Änderungen im Web-Editor vornehmen](#schritt-2-änderungen-im-web-editor-vornehmen)
+  - [Schritt 3: Texte formatieren mit Markdown (ganz einfach!)](#schritt-3-texte-formatieren-mit-markdown-ganz-einfach)
+    - [Der einfachste Weg: Die Toolbar benutzen](#der-einfachste-weg-die-toolbar-benutzen)
+    - [Markdown-Syntax für Fortgeschrittene (Spickzettel)](#markdown-syntax-für-fortgeschrittene-spickzettel)
+      - [Überschriften](#überschriften)
+      - [Hervorhebungen](#hervorhebungen)
+      - [Listen](#listen)
+      - [Links](#links)
+  - [Schritt 4: Änderungen speichern (Commit)](#schritt-4-änderungen-speichern-commit)
+  - [➕ Exkurs: Eine neue Datei anlegen (z.B. für Protokolle)](#-exkurs-eine-neue-datei-anlegen-zb-für-protokolle)
+  - [✨ Zusammenfassung: Dein 3-Schritte-Workflow](#-zusammenfassung-dein-3-schritte-workflow)
+  - [🔄 Wichtig: Änderungen von anderen erhalten](#-wichtig-änderungen-von-anderen-erhalten)
 
 ---
 
@@ -151,6 +159,31 @@ Wenn du mit deinen Änderungen zufrieden bist, musst du sie speichern. Bei GitHu
     
 
 **Fertig!** Du hast erfolgreich eine Datei bearbeitet.
+
+---
+
+## ➕ Exkurs: Eine neue Datei anlegen (z.B. für Protokolle)
+
+Manchmal müsst ihr ein komplett neues Dokument erstellen, z.B. das Protokoll für ein neues Meeting. Auch das geht einfach im Browser.
+
+1.  **Gehe zur Projekt-Hauptseite:**  
+    Navigiere zur Übersicht eures Projekts: `https://github.com/kqc-real/streamlit`.
+
+2.  **Klicke auf "Add file" → "Create new file":**  
+    Oben rechts, über der Dateiliste, findest du einen Button **"Add file"**. Klicke darauf und wähle im Dropdown-Menü **"Create new file"**.
+
+3.  **Gib der Datei einen Namen:**  
+    Ganz wichtig: Gib der Datei einen aussagekräftigen Namen und beende ihn immer mit `.md`.
+    *   **Gutes Beispiel:** `PROTOKOLL_SPRINT_REVIEW_2.md`
+    *   **Schlechtes Beispiel:** `Neues Dokument` (die Endung `.md` fehlt!)
+
+4.  **Inhalt schreiben:**  
+    Schreibe den Inhalt deiner neuen Datei in den Editor, genau wie beim Bearbeiten.
+
+5.  **Neue Datei speichern ("committen"):**  
+    Scrolle nach unten und gib eine klare Beschreibung ein (z.B. `docs: Protokoll für Sprint Review 2 erstellt`). Klicke dann auf den grünen Button **"Commit new file"**.
+
+Das ist alles! Die neue Datei ist jetzt für alle im Team sichtbar.
 
 ---
 
