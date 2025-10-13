@@ -1,12 +1,10 @@
 # Ziel 🎯💻🚀
 
-Diese Anleitung richtet sich an Oberstufenschüler/innen mit ersten Vorkenntnissen. Sie erklärt klar und praxisnah den kompletten Ablauf von der Installation bis zum sicheren Arbeiten im Team und hilft, typische Fehler zu vermeiden. Am Ende können Sie eigenständig Änderungen erstellen, prüfen, versionieren und mit GitHub Projects verknüpfen. 📘🧭✨
+Diese Anleitung erklärt klar und praxisnah den kompletten Ablauf von der Installation bis zum sicheren Arbeiten im Team und hilft, typische Fehler zu vermeiden. Am Ende können Sie eigenständig Änderungen erstellen, prüfen, versionieren und mit GitHub Projects verknüpfen. 📘🧭✨
 
 1. **Visual Studio Code (VS Code)** installieren und ein **lokales Git‑Repository (Repo)** öffnen,
 2. einen **SSH‑Key** auf dem eigenen Laptop erzeugen und bei **GitHub** hinterlegen,
 3. im **VS‑Code‑Terminal** mit Git und GitHub arbeiten (**fetch, pull, status, add, commit, push**), inkl. Branch‑Wechsel, Konfliktlösung, Undo‑Strategien, Stash und Best Practices. 🧪🛡️🧰
-
-> Hinweis: **Git ist auf den Rechnern bereits installiert** und wird hier nicht mehr erklärt. Ziel ist ein stabiler, reproduzierbarer Ablauf mit minimalen Klicks und klaren Kontrollpunkten. 🔧✅🔒
 
 ---
 
@@ -34,7 +32,7 @@ Diese Anleitung richtet sich an Oberstufenschüler/innen mit ersten Vorkenntniss
 
 ### A2. Lokales Repo in VS Code öffnen 📂🗂️🟢
 
-1. Suchen Sie den Ordner Ihres Repos, z. B. `C:\Users\IhrName\Documents\scrum-projekt`.
+1. Suchen Sie den Ordner Ihres Repos, z. B. `C:\Users\IhrName\path-to\streamlit`.
 2. In VS Code: **File → Open Folder…** und den Ordner auswählen.
 3. Links sollte das **Git‑Symbol** (Ast‑Icon) sichtbar sein. VS Code erkennt das Repo automatisch.
 4. (Einmalig, optional) Git‑Identität setzen:
@@ -75,7 +73,7 @@ Damit werden Zeilenenden beim Commit vereinheitlicht; das reduziert unübersicht
 
 ### B2. Lokales Repo in VS Code öffnen 📂🗂️🟢
 
-1. Repo‑Ordner finden, z. B. `/Users/ihrname/Documents/scrum-projekt`.
+1. Repo‑Ordner finden, z. B. `/Users/ihrname/path-to/streamlit`.
 2. In VS Code: **File → Open Folder…** und den Ordner auswählen.
 3. Prüfen, dass links das **Git‑Symbol** sichtbar ist.
 4. (Einmalig, optional) Git‑Identität setzen:
@@ -251,7 +249,7 @@ So bleibt `main` stabil; unfertige Arbeit bleibt isoliert, Pull Requests werden 
   git commit -m "merge: Konflikte gelöst"
   ```
 
-**Konflikte vermeiden:** Holen Sie häufiger `git pull`, committen Sie in kleinen Einheiten, und bearbeiten Sie nicht gleichzeitig dieselben Textzeilen im Team. Ein strukturierter Branch‑Workflow reduziert Konflikte deutlich. 🧩📏✅
+**Konflikte vermeiden:** Holen Sie häufiger `git pull`, committen Sie in kleinen Einheiten und bearbeiten Sie nicht gleichzeitig dieselben Textzeilen im Team. Ein strukturierter Branch‑Workflow reduziert Konflikte deutlich. 🧩📏✅
 
 ### C9. Nützliche Zusatzbefehle (Undo, Stash, Log) 🧯🧰🧠
 
@@ -287,7 +285,7 @@ Diese Befehle helfen bei typischen Alltagssituationen, ohne das Repo zu „zerst
 ## Teil D – SSH‑Key erstellen und bei GitHub hinterlegen 🔐🗝️☁️
 
 **Warum SSH?**
-SSH ermöglicht eine sichere Anmeldung bei GitHub, ohne jedes Mal Benutzername und Passwort einzugeben. Der **private Schlüssel** bleibt **nur** auf Ihrem Gerät; der **öffentliche Schlüssel** wird bei GitHub hinterlegt. Teilen Sie **niemals** den privaten Schlüssel oder laden Sie ihn in ein Repo hoch. 🔒🔗✅
+SSH ermöglicht eine sichere Anmeldung bei GitHub, ohne jedes Mal Benutzernamen und Passwort einzugeben. Der **private Schlüssel** bleibt **nur** auf Ihrem Gerät; der **öffentliche Schlüssel** wird bei GitHub hinterlegt. Teilen Sie **niemals** den privaten Schlüssel oder laden Sie ihn in ein Repo hoch. 🔒🔗✅
 
 ### D1. SSH‑Key lokal erzeugen (empfohlen: Ed25519) 🗝️⚙️✅
 
