@@ -45,6 +45,10 @@
         "erklaerung": "Die App nutzt Pseudonym-basierte Authentifizierung. Nutzer wählen aus einer Liste von Wissenschaftler-Namen. Dies vermeidet PII (Personally Identifiable Information) und ist DSGVO-konform.",
         "gewichtung": 2,
         "thema": "Features",
+        "extended_explanation": {
+            "title": "Datenschutz durch Pseudonymisierung",
+            "content": "Anstatt echte Namen oder E-Mail-Adressen zu speichern, wird für jeden Nutzer ein Pseudonym aus der Datei `data/scientists.json` verwendet. Die App speichert intern nur einen Hash des Pseudonyms, um den Fortschritt zuzuordnen. Dies ist ein zentrales Datenschutz-Feature, das die Anonymität der Nutzer gewährleistet und die Anforderungen der DSGVO erfüllt."
+        },
         "mini_glossary": {
             "Pseudonym": "Decknamen zur anonymen Nutzung der App",
             "PII": "Personally Identifiable Information - persönliche Daten wie Name, E-Mail"
@@ -104,14 +108,18 @@
         "frage": "7. Welche Bibliothek wird für die PDF-Generierung verwendet?",
         "optionen": [
             "FPDF (leichtgewichtig, aber ohne HTML)",
-            "ReportLab (professionell, aber komplex)",
-            "WeasyPrint (HTML/CSS → PDF mit LaTeX)",
-            "PyPDF2 (nur für PDF-Manipulation)"
+            "ReportLab (professionell, aber komplex in der Anwendung)",
+            "WeasyPrint (konvertiert HTML/CSS zu PDF)",
+            "PyPDF2 (wird nur für PDF-Manipulationen verwendet)"
         ],
         "loesung": 2,
-        "erklaerung": "WeasyPrint wird verwendet, um HTML in PDF zu konvertieren. Dies ermöglicht komplexe Layouts mit CSS-Styling und LaTeX-Formel-Integration über MathJax. ReportLab wäre zu komplex für unseren Use-Case.",
+        "erklaerung": "WeasyPrint wird verwendet, um HTML in PDF zu konvertieren. Dies ermöglicht komplexe Layouts mit CSS-Styling. Die LaTeX-Formeln werden über eine externe API (quicklatex.com) als Bilder gerendert und eingebettet.",
         "gewichtung": 2,
         "thema": "Technologie",
+        "extended_explanation": {
+            "title": "Architektur des PDF-Exports",
+            "content": "Der PDF-Export ist ein mehrstufiger Prozess: Zuerst werden alle Testdaten gesammelt. Dann werden LaTeX-Formeln parallel über die QuickLaTeX-API in hochauflösende Bilder umgewandelt. Diese Bilder werden in ein dynamisch generiertes HTML-Dokument eingebettet, das mit CSS gestaltet wird. Schließlich konvertiert die WeasyPrint-Bibliothek dieses HTML in ein fertiges PDF. Dieser Ansatz kombiniert die Flexibilität von HTML/CSS mit der Qualität von gerenderten LaTeX-Formeln."
+        },
         "mini_glossary": {
             "WeasyPrint": "Python-Bibliothek für HTML-zu-PDF-Konvertierung",
             "Bibliothek": "Wiederverwendbarer Code, der bestimmte Funktionen bereitstellt"
@@ -129,6 +137,10 @@
         "erklaerung": "Die Itemanalyse bewertet die Qualität von Fragen anhand statistischer Metriken: Schwierigkeitsindex (P-Wert: Anteil richtiger Antworten, Ideal: 0.4-0.7) und Trennschärfe (Rit-Wert: Korrelation mit Gesamtscore, Gut: >0.3). Fragen mit P<0.1 oder P>0.95 sollten überarbeitet werden.",
         "gewichtung": 3,
         "thema": "Analytics",
+        "extended_explanation": {
+            "title": "Interpretation der Itemanalyse-Werte",
+            "content": "- **Schwierigkeitsindex (P):** Eine Frage mit P=0.9 (90% richtig) ist sehr leicht und testet wahrscheinlich nur Basiswissen. Eine Frage mit P=0.2 (20% richtig) ist sehr schwer. Ideal ist ein Wert zwischen 0.4 und 0.7.\n- **Trennschärfe (Rit):** Ein hoher positiver Wert (z.B. 0.4) bedeutet, dass Teilnehmer mit hoher Gesamtpunktzahl diese Frage tendenziell richtig beantworten, während Teilnehmer mit niedriger Gesamtpunktzahl sie falsch beantworten. Die Frage 'trennt' also gut. Ein negativer Wert ist ein Alarmsignal und deutet oft auf eine fehlerhafte oder missverständliche Frage hin."
+        },
         "mini_glossary": {
             "Schwierigkeitsindex": "P-Wert: Anteil korrekter Antworten - Ideal: 40-70%",
             "Trennschärfe": "Rit-Wert: Korrelation zwischen Frage und Gesamtleistung - Gut: >0.3"
@@ -139,13 +151,17 @@
         "optionen": [
             "Blockchain-basierte Zertifikate (NFTs)",
             "VR-Brillen-Support für immersive Tests",
-            "KI-gestützter Fragengenerator (GPT-4o/Claude)",
+            "KI-gestützter Fragengenerator (self-hosted DeepSeek R1)",
             "Automatische Übersetzung in 50 Sprachen"
         ],
         "loesung": 2,
-        "erklaerung": "Laut VISION_RELEASE_2.0.md ist der KI-gestützte Fragengenerator das Hauptfeature von Release 2.0. Aktuelle manuelle Erstellung dauert 6-8 Stunden pro Fragenset - mit KI nur 5 Minuten (72× schneller)! Zusätzlich geplant: Gamification und Login-System.",
+        "erklaerung": "Laut KICKOFF_AGENDA.md und AI_QUESTION_GENERATOR_PLAN.md ist der KI-gestützte Fragengenerator das Hauptfeature von Release 2.0. Geplant ist die Nutzung eines self-hosted DeepSeek R1 LLM-Servers, um Kosten zu sparen und Datenschutz zu gewährleisten.",
         "gewichtung": 2,
         "thema": "Release 2.0",
+        "extended_explanation": {
+            "title": "Strategische Bedeutung des KI-Generators",
+            "content": "Der aktuelle Flaschenhals der App ist die manuelle Erstellung von Fragensets (6-8 Stunden pro Set). Der KI-Generator soll diesen Prozess auf ca. 5 Minuten reduzieren (72x schneller). Dies ermöglicht eine schnelle Skalierung des Contents und ist die Grundlage für das geplante Freemium-Geschäftsmodell, bei dem Nutzer eigene Fragensets generieren können."
+        },
         "mini_glossary": {
             "KI-Fragengenerator": "Tool zur automatischen Erstellung von MC-Fragen mittels GPT",
             "OpenAI API": "Schnittstelle zu ChatGPT/GPT-4 für Text-Generierung"
@@ -179,6 +195,10 @@
         "erklaerung": "Ein Distraktor ist eine falsche Antwortoption (A, B, C oder D), die bewusst plausibel gestaltet ist. Gute Distraktoren basieren auf typischen Denkfehlern (z.B. Vorzeichenfehler in Mathe) und werden von 10-30% der Testteilnehmer gewählt.",
         "gewichtung": 2,
         "thema": "Didaktik",
+        "extended_explanation": {
+            "title": "Die Kunst guter Distraktoren",
+            "content": "Die Qualität einer Multiple-Choice-Frage hängt maßgeblich von der Qualität ihrer Distraktoren ab. Ein guter Distraktor ist nicht einfach nur falsch, sondern repräsentiert einen typischen Fehler oder ein häufiges Missverständnis. Die Distraktor-Analyse im Admin-Panel hilft dabei, die Effektivität der falschen Antwortoptionen zu bewerten. Optionen, die nie gewählt werden, sind zu offensichtlich falsch und sollten durch plausiblere Alternativen ersetzt werden."
+        },
         "mini_glossary": {
             "Distraktor": "Falsche, aber plausible Antwortoption in MC-Fragen",
             "Plausibel": "Glaubwürdig, nachvollziehbar - nicht offensichtlich falsch"
@@ -290,13 +310,17 @@
         "optionen": [
             "~200 Zeilen (klein und übersichtlich)",
             "~500 Zeilen (durchschnittliches Modul)",
-            "~1.000 Zeilen (großes Modul)",
-            "~1.600 Zeilen (größtes Modul der App!)"
+            "~1.050 Zeilen (eines der größten Module der App)",
+            "~1.600 Zeilen (veralteter Stand vor dem Refactoring)"
         ],
-        "loesung": 3,
-        "erklaerung": "Laut FEATURE_EXPOSE.md umfasst pdf_export.py etwa 1.607 Zeilen - das größte Modul der App! Es enthält LaTeX-Rendering (MathJax), HTML-Generierung, Durchschnittsvergleich, Glossar-Extraktion und WeasyPrint-Integration. Komplexität durch viele Features!",
+        "loesung": 2,
+        "erklaerung": "Laut KICKOFF_AGENDA.md und FEATURE_EXPOSE.md umfasst das Modul `pdf_export.py` etwa 1.050 Zeilen. Es ist eines der größten Module der App und enthält die Logik für LaTeX-Rendering, HTML-Generierung, Durchschnittsvergleich, Glossar-Extraktion und WeasyPrint-Integration.",
         "gewichtung": 2,
         "thema": "Technologie",
+        "extended_explanation": {
+            "title": "Komplexität des PDF-Exports",
+            "content": "Die hohe Zeilenzahl resultiert aus der Komplexität der Aufgabe: Es müssen nicht nur Daten angezeigt, sondern auch LaTeX-Formeln über eine externe API gerendert, Durchschnittswerte aus der Datenbank berechnet, ein Glossar extrahiert und alles in ein ansprechendes HTML-Layout mit CSS umgewandelt werden, bevor WeasyPrint das finale PDF erzeugt. Die Parallelisierung des Formel-Renderings trägt ebenfalls zur Komplexität bei."
+        },
         "mini_glossary": {
             "Modul": "Einzelne Code-Datei mit spezifischer Funktionalität",
             "Zeilen Code": "Maß für Umfang und Komplexität eines Programms"
@@ -331,6 +355,10 @@
         "erklaerung": "WAL (Write-Ahead Logging) ermöglicht, dass mehrere Nutzer gleichzeitig LESEN können, während einer SCHREIBT. Dies verbessert die Performance bei mehreren gleichzeitigen Nutzern erheblich. Ohne WAL würde SQLite bei jedem Write alle Reads blockieren.",
         "gewichtung": 3,
         "thema": "Technologie",
+        "extended_explanation": {
+            "title": "Technische Funktionsweise von WAL",
+            "content": "Im WAL-Modus werden Änderungen nicht direkt in die Haupt-Datenbankdatei geschrieben, sondern zunächst in eine separate `.db-wal`-Datei. Lesende Prozesse können weiterhin auf die unveränderte Hauptdatei zugreifen. In regelmäßigen Abständen (Checkpointing) werden die Änderungen aus der WAL-Datei dann in die Hauptdatenbank übernommen. Dies entkoppelt Lese- und Schreibvorgänge und ist entscheidend für die Skalierbarkeit von SQLite in Web-Anwendungen."
+        },
         "mini_glossary": {
             "WAL": "Write-Ahead Logging - Technik für bessere Datenbank-Performance",
             "Concurrent": "Gleichzeitig, parallel ablaufend"
@@ -375,13 +403,17 @@
         "optionen": [
             "Nur GPT-4o (OpenAI)",
             "Nur Claude 3.5 Sonnet (Anthropic)",
-            "GPT-4o mit Fallback auf Claude (redundante Systeme)",
+            "Self-hosted DeepSeek R1 (datenschutzfreundlich)",
             "Llama 3.1 (Meta, Open-Source)"
         ],
         "loesung": 2,
-        "erklaerung": "Die App nutzt GPT-4o (OpenAI) als primäres LLM mit Fallback auf Claude (Anthropic). So bleibt die App funktional, falls eine API ausfällt (z.B. Rate-Limit, Downtime). Beide APIs werden über Environment-Variablen konfiguriert (OPENAI_API_KEY, ANTHROPIC_API_KEY).",
+        "erklaerung": "Laut AI_QUESTION_GENERATOR_PLAN.md wird ein self-hosted DeepSeek R1 LLM-Server eingesetzt. Dies spart API-Kosten (0€ vs. 50-100€/Monat), ist DSGVO-konform und vermeidet Abhängigkeiten von externen Anbietern.",
         "gewichtung": 2,
         "thema": "Release 2.0 - Technologie",
+        "extended_explanation": {
+            "title": "Vorteile eines Self-Hosted LLM",
+            "content": "Die Entscheidung für ein self-hosted Modell wie DeepSeek R1 anstelle von Cloud-APIs (OpenAI, Anthropic) hat strategische Gründe: 1. **Kostenkontrolle:** Keine unvorhersehbaren API-Rechnungen. 2. **Datenschutz:** Keine Daten verlassen die eigene Infrastruktur. 3. **Unabhängigkeit:** Keine Abhängigkeit von der Verfügbarkeit oder den AGB externer Anbieter. 4. **Performance:** Potenziell niedrigere Latenz, da der Server näher am Anwendungs-Server stehen kann."
+        },
         "mini_glossary": {
             "LLM": "Large Language Model - KI für Textgenerierung (z.B. ChatGPT)",
             "Fallback": "Ersatzsystem, falls primäres System ausfällt"
@@ -511,13 +543,17 @@
         "optionen": [
             "5 Module (~1.000 Zeilen Code)",
             "9 Module (~3.000 Zeilen Code)",
-            "13 Module (~5.000 Zeilen Code)",
+            "13 Module (~5.000 Zeilen Code) - veralteter Stand",
             "20+ Module (~10.000 Zeilen Code)"
         ],
-        "loesung": 2,
-        "erklaerung": "Laut Scrum-Präsentation umfasst die App aktuell 13 Module mit ~5.000 Zeilen Code (ohne Kommentare). Die größten Module: pdf_export.py (1.607 Zeilen), main_view.py (~400 Zeilen), admin_panel.py (~300 Zeilen). In Release 2.0 kommen 2-3 Module hinzu (ai_generator.py, payments.py).",
+        "loesung": 1,
+        "erklaerung": "Die App umfasst aktuell 9 Kernmodule (app, auth, components, config, database, helpers, logic, main_view, pdf_export) mit ca. 3.000 Zeilen Code (ohne Kommentare). Die Angabe von 13 Modulen ist veraltet und stammt aus einer früheren Projektphase vor dem Refactoring.",
         "gewichtung": 1,
         "thema": "Release 2.0 - Architektur",
+        "extended_explanation": {
+            "title": "Modulare Architektur der App",
+            "content": "Die Aufteilung in spezialisierte Module (z.B. `database.py` für DB-Zugriffe, `pdf_export.py` für PDFs) folgt dem Prinzip der 'Separation of Concerns'. Jedes Modul hat eine klare Verantwortung. Dies macht den Code leichter verständlich, wartbar und testbar. In Release 2.0 werden voraussichtlich weitere Module wie `ai_generator.py` und `payments.py` hinzukommen."
+        },
         "mini_glossary": {
             "Modul": "Einzelne Python-Datei mit spezifischer Funktionalität",
             "Codebase": "Gesamter Quellcode des Projekts"
