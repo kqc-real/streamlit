@@ -616,6 +616,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     # Hole initial_indices für Lesezeichen
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
     
+    # NEU: Hole die Liste der markierten Fragen-Indizes
+    bookmarked_indices = st.session_state.get("bookmarked_questions", [])
+    
     # Durchschnittsvergleich berechnen
     avg_stats = _calculate_average_stats(q_file, questions)
     
@@ -893,6 +896,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         ist_richtig = (gegebene_antwort == richtige_antwort_text)
         border_color = "#28a745" if ist_richtig else "#dc3545"  # Grün oder Rot
         
+        # NEU: Prüfen, ob die Frage markiert ist und Icon hinzufügen
+        is_bookmarked = original_index in bookmarked_indices
+        bookmark_icon_html = '<span class="bookmark-icon">🔖</span>' if is_bookmarked else ''
+        
         # Schwierigkeits-Badge basierend auf Gewichtung
         gewichtung = frage_obj.get("gewichtung", 1)
         if gewichtung == 1:
@@ -912,6 +919,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
         html_body += f'(Fragenset-Nr. {original_number})</span> '
         html_body += f'{difficulty_badge}'
+        html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
         html_body += f'</div>'
         
         # Thema-Badge (falls vorhanden)
@@ -1251,6 +1259,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 border-bottom: 2px solid #e9ecef;
                 font-weight: 600;
                 letter-spacing: -0.01em;
+            }}
+            .bookmark-icon {{
+                display: inline-block;
+                margin-left: 10px;
+                font-size: 24pt;
+                color: #ffc107; /* Gelb/Gold für Aufmerksamkeit */
+                vertical-align: middle;
             }}
             
             /* Question Box */
