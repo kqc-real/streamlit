@@ -303,6 +303,7 @@ Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage
 
 Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss ein **einzelnes, valides JSON-Objekt** sein, das genau zwei Top-Level-Schlüssel enthält:
 Nachdem ich alle sieben Fragen beantwortet habe, fasse meine Antworten zusammen und erstelle dann das Fragenset. Das Ergebnis muss ein **einzelnes, valides JSON-Objekt** sein, das genau zwei Top-Level-Schlüssel enthält:
+Nachdem ich alle sieben Fragen beantwortet habe, fasse meine Antworten zusammen und erstelle dann das Fragenset. Das Ergebnis muss ein **einzelnes, valides und sauberes JSON-Objekt** sein, das genau zwei Top-Level-Schlüssel enthält:
 
 - `meta`: Metadaten zum gesamten Set (Thema, Zielgruppe, Schwierigkeitsprofil, Testzeit usw.).
 - `questions`: Eine Liste der einzelnen Fragenobjekte.
@@ -312,6 +313,8 @@ Erzeuge optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich
 > ⚠️ **Ausgabeformat:** Gib ausschließlich das JSON-Objekt zurück – keine zusätzlichen Kommentare oder erklärenden Texte.
 >
 > Deine Antwort darf NUR das JSON enthalten, sonst nichts.
+> Entferne vor der Ausgabe alle internen Marker oder Kommentare (wie `[cite_start]` oder `[cite: ...]`) aus den Textfeldern. Der finale JSON-String muss sauber sein.
+
 Berechne die empfohlene Testzeit pro Fragenset, indem du die tatsächlich generierten Fragen auswertest:
 
 1. Zähle nach Abschluss alle Fragen mit Gewichtung 1, 2 und 3 und schreibe diese Werte in `meta.difficulty_profile`.
@@ -398,13 +401,17 @@ Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta
 
 #### ✅ Abschluss-Checkliste für das Fragenset
 
+**Führe vor der finalen Ausgabe eine Selbstprüfung anhand dieser Checkliste durch:**
+
 1. JSON ist syntaktisch gültig und enthält genau die Keys `meta` und `questions`.
 2. `meta.question_count` entspricht der Länge von `questions` und `meta.difficulty_profile` spiegelt die tatsächlichen Gewichtungen wider.
+2. **Metadaten-Konsistenz:** `meta.question_count` entspricht exakt der Länge von `questions`. `meta.difficulty_profile` spiegelt exakt die tatsächliche Verteilung der Gewichtungen in der `questions`-Liste wider.
 3. `meta.test_duration_minutes` ist eine positive Ganzzahl und ergibt sich aus den Minuten-Faktoren (`meta.time_per_weight_minutes`) plus optionalem Puffer.
 4. Jede Frage besitzt genau eine richtige Antwort (`loesung` verweist auf einen gültigen Index).
 4. Jede Frage besitzt genau eine richtige Antwort (`loesung` verweist auf einen gültigen Index im `optionen`-Array).
 5. Optionale Felder (`extended_explanation`, `mini_glossary`) sind nur enthalten, wenn sie beauftragt wurden und nicht leer.
 6. Titel, Zielgruppe und Themen sind konsistent und eindeutig formuliert.
+6. **Faktentreue:** Alle Erklärungen und Definitionen basieren auf etablierten Fakten, nicht auf Faustregeln oder vagen Interpretationen.
 7. Jede Themenangabe kommt mindestens zweimal vor; insgesamt existieren höchstens zehn unterschiedliche Themen.
 8. Mini-Glossar-Einträge enthalten eigenständige Definitionen ohne Querverweise auf andere Fragen.
 
