@@ -302,6 +302,7 @@ Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage
 ### **Abschluss, Ausgabeformat und Generierung**
 
 Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss ein **einzelnes, valides JSON-Objekt** sein, das genau zwei Top-Level-Schlüssel enthält:
+Nachdem ich alle sieben Fragen beantwortet habe, fasse meine Antworten zusammen und erstelle dann das Fragenset. Das Ergebnis muss ein **einzelnes, valides JSON-Objekt** sein, das genau zwei Top-Level-Schlüssel enthält:
 
 - `meta`: Metadaten zum gesamten Set (Thema, Zielgruppe, Schwierigkeitsprofil, Testzeit usw.).
 - `questions`: Eine Liste der einzelnen Fragenobjekte.
@@ -310,6 +311,7 @@ Erzeuge optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich
 
 > ⚠️ **Ausgabeformat:** Gib ausschließlich das JSON-Objekt zurück – keine zusätzlichen Kommentare oder erklärenden Texte.
 >
+> Deine Antwort darf NUR das JSON enthalten, sonst nichts.
 Berechne die empfohlene Testzeit pro Fragenset, indem du die tatsächlich generierten Fragen auswertest:
 
 1. Zähle nach Abschluss alle Fragen mit Gewichtung 1, 2 und 3 und schreibe diese Werte in `meta.difficulty_profile`.
@@ -383,6 +385,7 @@ Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta
 #### **Felder pro Frage (`questions[]`):**
 
   * `frage`: (string) Vollständiger Fragetext, beginnend mit laufender Nummer und Punkt (z.B. "1. Was ist ...").
+  * `frage`: (string) Vollständiger Fragetext. Beginne jede Frage mit einer laufenden Nummer und einem Punkt (z.B. "1. Was ist ...", "2. Wie funktioniert ...").
   * `optionen`: (array of strings) Antwortoptionen, alle plausibel formuliert.
   * `loesung`: (integer) Index der korrekten Option (0-basiert).
   * `erklaerung`: (string) Standarderklärung zur Lösung.
@@ -399,6 +402,7 @@ Ergänze `meta.question_count` mit der finalen Anzahl der Fragen und halte `meta
 2. `meta.question_count` entspricht der Länge von `questions` und `meta.difficulty_profile` spiegelt die tatsächlichen Gewichtungen wider.
 3. `meta.test_duration_minutes` ist eine positive Ganzzahl und ergibt sich aus den Minuten-Faktoren (`meta.time_per_weight_minutes`) plus optionalem Puffer.
 4. Jede Frage besitzt genau eine richtige Antwort (`loesung` verweist auf einen gültigen Index).
+4. Jede Frage besitzt genau eine richtige Antwort (`loesung` verweist auf einen gültigen Index im `optionen`-Array).
 5. Optionale Felder (`extended_explanation`, `mini_glossary`) sind nur enthalten, wenn sie beauftragt wurden und nicht leer.
 6. Titel, Zielgruppe und Themen sind konsistent und eindeutig formuliert.
 7. Jede Themenangabe kommt mindestens zweimal vor; insgesamt existieren höchstens zehn unterschiedliche Themen.
