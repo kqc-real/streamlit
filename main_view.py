@@ -1234,7 +1234,12 @@ def render_review_mode(questions: QuestionSet):
         display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
 
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
-            st.markdown(f"**{smart_quotes_de(frage['frage'])}**")
+            # Zeige die Gewichtung der Frage an
+            gewichtung = frage.get("gewichtung", 1)
+            st.markdown(
+                f"**{smart_quotes_de(frage['frage'])}** <span style='color:#888; font-size:0.9em;'>(Gewicht: {gewichtung})</span>",
+                unsafe_allow_html=True,
+            )
             
             st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
             if not ist_richtig:
