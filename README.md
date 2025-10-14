@@ -234,13 +234,13 @@ Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsre
 
 ## Prompt (copy & paste)
 
-Führe mich in den folgenden sieben Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die entsprechende Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfahren.
+Führe mich als Experte für die Erstellung von Multiple-Choice-Fragen in den folgenden sieben Schritten durch die Konfiguration eines neuen Fragensets. Stelle nach jedem Schritt die zugehörige Frage und warte auf meine Antwort, bevor du mit dem nächsten Schritt fortfährst.
 
 ---
 
 ### **Schritt 1 von 7 – Thema festlegen**
 
-Frage mich nach dem Thema für das neue Fragenset. Erwähne, dass dies die Grundlage für den Inhalt und den Dateinamen ist (z.B. `questions_Ihr_Thema.json`). Gib mir Beispiele wie "Data Science Grundlagen", "Software-Architektur" oder "Projektmanagement nach Scrum".
+Frage mich nach dem **Thema** für das neue Fragenset. Erwähne, dass dies die Grundlage für den Inhalt und den Dateinamen ist (z.B. `questions_Ihr_Thema.json`). Gib mir Beispiele wie "Data Science Grundlagen", "Software-Architektur" oder "Projektmanagement nach Scrum".
 
 ---
 
@@ -252,16 +252,14 @@ Frage mich nach der Zielgruppe für das Fragenset. Gib mir Beispiele wie "Anfän
 
 ### **Schritt 3 von 7 – Umfang & Schwierigkeitsprofil**
 
-Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50) **und**
-welche Verteilung der Schwierigkeitsgrade gewünscht ist. Verwende die
+Frage mich, wie viele Fragen das Set enthalten soll (z.B. 20, 50) **und** welche Verteilung der Schwierigkeitsgrade gewünscht ist. Verwende die
 Gewichtungen der App als Referenz:
 
 - Gewichtung 1 → leichte Einstiegs-/Reproduktionsfragen
 - Gewichtung 2 → anwendungsorientierte Transferfragen
 - Gewichtung 3 → anspruchsvolle, kombinierte Expertenfragen
 
-Wenn ich keine konkrete Verteilung weiß, schlage ein sinnvolles Verhältnis vor
-(z.B. 50 % leicht, 35 % mittel, 15 % schwer) und bitte mich um Bestätigung oder Anpassung.
+Wenn ich keine konkrete Verteilung angebe, schlage ein sinnvolles Verhältnis vor (z.B. 50 % leicht, 35 % mittel, 15 % schwer) und bitte mich um Bestätigung oder Anpassung.
 
 > 💡 **Hinweis:** Plane die Themen so, dass jedes Thema mindestens zwei Fragen enthält
 und insgesamt höchstens zehn verschiedene Themen entstehen. Fasse verwandte Inhalte
@@ -281,7 +279,7 @@ Frage mich nach der Anzahl der Antwortoptionen und präsentiere mir die folgende
 
 ### **Schritt 5 von 7 – Erweiterte Erklärungen (optional)**
 
-Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können. Wenn ich mich dagegen entscheide, lasse dieses Feld vollständig weg (kein leeres Objekt erzeugen).
+Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur normalen Erklärung auch **erweiterte Erklärungen** (`extended_explanation`) generiert werden sollen. Erkläre, dass diese tiefergehenden Hintergrund, Code-Beispiele oder Herleitungen enthalten können. Wenn ich dies verneine, lasse das Feld `extended_explanation` im JSON vollständig weg.
 
 > Hinweis: Falls `schritte` erstellt werden, formuliere die einzelnen Sätze ohne Präfixe wie "Schritt 1 –" – die Reihenfolge ergibt sich aus dem Array.
 
@@ -289,7 +287,7 @@ Frage mich, ob für schwierigere Fragen (Gewichtung 2 und 3) zusätzlich zur nor
 
 ### **Schritt 6 von 7 – Mini-Glossar (optional)**
 
-Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) generiert werden sollen. Erkläre, dass diese im PDF-Export als separate Glossar-Section angezeigt werden und wichtige Fachbegriffe aus den Fragen erklären. Jede Frage kann 2-4 zentrale Begriffe mit prägnanten Definitionen (1-3 Sätze) enthalten. Falls verneint, darf das Feld in der JSON fehlen.
+Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) generiert werden sollen. Erkläre, dass diese im PDF-Export als separate Glossar-Section angezeigt werden und wichtige Fachbegriffe aus den Fragen erklären. Jede Frage kann 2-4 zentrale Begriffe mit prägnanten Definitionen (1-3 Sätze) enthalten. Falls verneint, lasse das Feld `mini_glossary` im JSON vollständig weg.
 
 > Vermeide Querverweise (z. B. „Siehe Frage 12“) in Glossar-Definitionen; jeder Eintrag soll für sich verständlich sein.
 
@@ -297,13 +295,13 @@ Frage mich, ob für die Fragen **Mini-Glossar-Einträge** (`mini_glossary`) gene
 
 ### **Schritt 7 von 7 – Externe Dokumente (optional)**
 
-Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage hochladen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann. Wenn keine Dokumente verfügbar sind, fahre ohne sie fort.
+Frage mich, ob ich externe Dokumente (z.B. Skripte als PDF) als Wissensgrundlage bereitstellen möchte. Erwähne, dass dies die Qualität der Fragen verbessern kann. Wenn keine Dokumente verfügbar sind, fahre ohne sie fort.
 
 ---
 
 ### **Abschluss, Ausgabeformat und Generierung**
 
-Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss eine einzelne `.json`-Datei sein, die ein JSON-Objekt mit genau zwei Top-Level-Schlüsseln enthält:
+Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Ergebnis muss ein **einzelnes, valides JSON-Objekt** sein, das genau zwei Top-Level-Schlüssel enthält:
 
 - `meta`: Metadaten zum gesamten Set (Thema, Zielgruppe, Schwierigkeitsprofil, Testzeit usw.).
 - `questions`: Eine Liste der einzelnen Fragenobjekte.
@@ -311,7 +309,7 @@ Nachdem ich alle sieben Fragen beantwortet habe, erstelle das Fragenset. Das Erg
 Erzeuge optionale Felder (`extended_explanation`, `mini_glossary`) nur, wenn ich sie in den zugehörigen Schritten ausdrücklich angefordert habe.
 
 > ⚠️ **Ausgabeformat:** Gib ausschließlich das JSON-Objekt zurück – keine zusätzlichen Kommentare oder erklärenden Texte.
-
+>
 Berechne die empfohlene Testzeit pro Fragenset, indem du die tatsächlich generierten Fragen auswertest:
 
 1. Zähle nach Abschluss alle Fragen mit Gewichtung 1, 2 und 3 und schreibe diese Werte in `meta.difficulty_profile`.
@@ -444,12 +442,12 @@ Beachte beim Erstellen der Fragen zusätzlich die folgenden **didaktischen Richt
 
 Wende die folgenden Formatierungsregeln für **alle** Textinhalte an:
 
-  * **Grundregel 0 (WICHTIGSTE REGEL):** Mathematische Inhalte (Formeln, einzelne Variablen wie `$a$`, `$b$`, `$\\mathbb{Z}$`) gehören **IMMER** in KaTeX-Dollarzeichen (`$...$`) und **NIEMALS** in Backticks (`` ` ``). Backticks sind ausschließlich für Code-Begriffe, Dateinamen oder Funktionsnamen reserviert.
+  * **Grundregel 0 (WICHTIGSTE REGEL):** Mathematische Inhalte (Formeln, einzelne Variablen wie `$a$`, `$b$`, `$\\mathbb{Z}$`) gehören **IMMER** in KaTeX-Dollarzeichen (`$...$`) und **NIEMALS** in Backticks (` `). Backticks sind ausschließlich für Code-Begriffe, Dateinamen oder Funktionsnamen reserviert.
     * **KORREKT:** Die Formel lautet `$d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$`.
     * **FALSCH:** Die Formel lautet `$d(x,y) = \sqrt{\sum_{i=1}^n (x_i-y_i)^2}$`.
     * **FALSCH:** Die Formel lautet `d(x,y) = ...`.
 
-  * **Fachbegriffe & Code:** Technische Begriffe, Dateinamen oder Funktionsnamen werden in Backticks (`` ` ``) eingeschlossen.
+  * **Fachbegriffe & Code:** Technische Begriffe, Dateinamen oder Funktionsnamen werden in Backticks (` `) eingeschlossen.
     * *Beispiel:* `Docker`, `st.write()`, `requirements.txt`
 
   * **Hervorhebungen:** Wichtige Schlüsselwörter im Text werden mit doppelten Sternchen für **Fettdruck** (`**Text**`) formatiert.
