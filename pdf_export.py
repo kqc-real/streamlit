@@ -464,6 +464,14 @@ def _extract_glossary_terms(
     return sorted_glossary
 
 
+# NOTE: UX tweak (2025-10-14): The mini-glossary in the user-facing PDF
+# now uses subtle category dividers (same visual style as the admin
+# mini-glossary export) instead of heavy bordered panels. The change
+# was implemented by updating the glossary CSS rules to use lighter
+# separators and remove the strong background/border that was used
+# previously for the user report.
+
+
 def _build_glossary_html(
     glossary_by_theme: Dict[str, Dict[str, str]],
     intro_text: str | None = None,
@@ -1374,15 +1382,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             .explanation {{ page-break-inside: avoid; }}
             h2, h3 {{ page-break-after: avoid; }}
             
-            /* Glossary Section */
+            /* Glossary section: subtle dividers (admin style) */
             .glossary-section {{
                 margin: 32px 0;
-                padding: 28px 32px;
-                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-                border: 3px solid #667eea;
-                border-radius: 12px;
-                page-break-before: always;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             }}
             .glossary-section h2 {{
                 margin: 0 0 8px 0;
