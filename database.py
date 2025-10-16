@@ -176,13 +176,41 @@ def create_tables():
 
             # --- Schema-Migration für bestehende Datenbanken ---
             # Prüfe, ob die Spalte 'feedback_type' in der 'feedback'-Tabelle existiert.
-            # Wenn nicht, füge sie hinzu. Dies verhindert Fehler, wenn die App mit einer
-            # älteren Datenbankversion gestartet wird.
+            # Robust gegen unerwartete PRAGMA-Rückgaben (leere/tupelartige Zeilen) und
+            # fang mögliche 'duplicate column name' Fehler beim ALTER TABLE ab.
             cursor = conn.cursor()
-            cursor.execute("PRAGMA table_info(feedback)")
-            columns = [info[1] for info in cursor.fetchall()]
+            try:
+                cursor.execute("PRAGMA table_info(feedback)")
+                rows = cursor.fetchall()
+            except sqlite3.Error:
+                rows = []
+
+            columns = []
+            for info in rows:
+                # info kann ein sqlite3.Row, Tuple oder ähnliches sein. Versuche
+                # zunächst den zweiten Index zu lesen, fallback auf Key 'name'.
+                name = None
+                try:
+                    if hasattr(info, 'keys') and 'name' in info.keys():
+                        name = info['name']
+                    elif isinstance(info, (list, tuple)) and len(info) > 1:
+                        name = info[1]
+                except Exception:
+                    name = None
+                if name:
+                    columns.append(name)
+
             if 'feedback_type' not in columns:
-                conn.execute("ALTER TABLE feedback ADD COLUMN feedback_type TEXT NOT NULL DEFAULT 'Unbekannt';")
+                try:
+                    conn.execute("ALTER TABLE feedback ADD COLUMN feedback_type TEXT NOT NULL DEFAULT 'Unbekannt';")
+                except sqlite3.OperationalError as e:
+                    # Wenn mehrere Prozesse gleichzeitig starten, kann es zu einem
+                    # race-condition kommen und SQLite meldet 'duplicate column name'.
+                    # Das ist ignorierebar, wir wollen idempotentes Verhalten.
+                    if 'duplicate column name' in str(e).lower():
+                        pass
+                    else:
+                        raise
 
             # Indizes zur Beschleunigung von Abfragen
             conn.execute("CREATE INDEX IF NOT EXISTS idx_answers_session_id ON answers (session_id);")
