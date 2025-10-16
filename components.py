@@ -27,6 +27,33 @@ except (ImportError, AttributeError):
 
 def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool):
     """Rendert die komplette Sidebar der Anwendung."""
+    # Setze die Sidebar-Breite auf einen schmaleren Wert (ähnlich wie vor dem Feature-Update).
+    # Wir nutzen ein CSS-Target, das mit aktuellen Streamlit-Versionen stabil ist.
+    st.markdown(
+        """
+        <style>
+        /* Force the Streamlit sidebar to a narrower width. Uses several selectors and !important to
+           increase the chance of overriding Streamlit's inline styles across versions. */
+        div[data-testid="stSidebar"],
+        div[data-testid="stSidebar"] > div,
+        div[data-testid="stSidebar"] > div:first-child,
+        section[data-testid="stSidebar"],
+        section[data-testid="stSidebar"] > div {
+            width: 260px !important;
+            max-width: 260px !important;
+            min-width: 260px !important;
+        }
+
+        /* Also constrain the inner sidebar container to avoid content overflow */
+        div[data-testid="stSidebar"] .css-1lcbmhc,
+        div[data-testid="stSidebar"] .css-1d391kg {
+            width: 260px !important;
+            max-width: 260px !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     st.sidebar.success(f"👋 **{st.session_state.user_id}**")
 
     # Zeige das aktuell ausgewählte Fragenset an
@@ -66,50 +93,33 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     if is_admin:
         render_admin_switch(app_config)
 
-    # --- Mini-Glossar für Nutzer in der Sidebar (kompakte Ansicht) ---
+    # --- Mini-Glossar: Ein einzelner Download-Button in der Sidebar ---
     try:
         selected_file = st.session_state.get("selected_questions_file")
-        # Nur anzeigen, wenn ein Fragenset ausgewählt ist und dieses auch Glossar-Einträge hat
         if selected_file:
             glossary_by_theme = _extract_glossary_terms(list(questions))
             if glossary_by_theme and any(glossary_by_theme.values()):
-                with st.sidebar.expander("📚 Mini-Glossar", expanded=False):
-                    st.caption("Vorschau: Nur ein kurzer Ausschnitt. Das vollständige Mini-Glossar kannst du als PDF herunterladen.")
-                    # Zeige bis zu 6 Begriffe als Vorschau, gruppiert nach Thema
-                    max_preview = 6
-                    shown = 0
-                    for thema in sorted(glossary_by_theme.keys(), key=str.casefold):
-                        if shown >= max_preview:
-                            break
-                        terms = glossary_by_theme[thema]
-                        if not terms:
-                            continue
-                        st.markdown(f"**{thema}**")
-                        for term, definition in list(terms.items()):
-                            if shown >= max_preview:
-                                break
-                            st.markdown(f"- **{term}**: {definition}")
-                            shown += 1
+                # Generiere und cache die PDF-Bytes einmal pro ausgewähltem Fragenset
+                cache_key = f"_glossary_pdf_{selected_file}"
+                pdf_bytes = st.session_state.get(cache_key)
+                if pdf_bytes is None:
+                    try:
+                        pdf_bytes = generate_mini_glossary_pdf(selected_file, list(questions))
+                        st.session_state[cache_key] = pdf_bytes
+                    except ValueError:
+                        pdf_bytes = None
 
-                    # Zeige Aktionen untereinander als volle Breite
-                    # Admin-Button (nur für Admins)
-                    if is_admin:
-                        if st.button("Alle Glossare anzeigen", key="sidebar_glossary_open_admin", width="stretch"):
-                            # Simuliere Wechsel zum Admin-Glossar-Tab (nur UI: set flag and rerun)
-                            st.session_state.show_admin_panel = True
-                            st.session_state._open_admin_tab = "mini_glossary"
-                            st.rerun()
-
-                    # PDF-Download (vollbreite)
-                    if st.button("PDF herunterladen", key="sidebar_glossary_pdf", width="stretch"):
-                        try:
-                            pdf_bytes = generate_mini_glossary_pdf(selected_file, list(questions))
-                        except ValueError:
-                            st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
-                        else:
-                            download_name = f"mini_glossar_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
-                            # Direkt Download-Button anzeigen (volle Breite)
-                            st.download_button("💾 PDF speichern", data=pdf_bytes, file_name=download_name, mime="application/pdf", key="sidebar_glossary_download", use_container_width=True)
+                if pdf_bytes:
+                    download_name = f"mini_glossar_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
+                    # Single immediate download button with book icon; sidebar default width used
+                    st.sidebar.download_button(
+                        label="💾 Glossar als PDF",
+                        data=pdf_bytes,
+                        file_name=download_name,
+                        mime="application/pdf",
+                        key="sidebar_glossary_download",
+                        use_container_width=True,
+                    )
     except Exception:
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
         pass
