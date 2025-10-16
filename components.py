@@ -118,7 +118,38 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 else:
                     # PDF wird erst nach Klick erzeugt
                     if st.sidebar.button("💾 Glossar als PDF generieren", key="sidebar_glossary_generate", width="stretch"):
-                        with st.spinner("Generiere Glossar-PDF..."):
+                        # Vor der eigentlichen Generierung können wir die Anzahl der
+                        # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
+                        # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
+                        # hilft einzuschätzen, wie lange der Render-Vorgang dauern kann
+                        # (Formeln erfordern Remote-Requests und Bildgenerierung).
+                        import re
+
+                        formula_count = 0
+                        try:
+                            for thema, terms in glossary_by_theme.items():
+                                for term, definition in terms.items():
+                                    # Zähle Block-Formeln $$...$$
+                                    formula_count += len(re.findall(r"\$\$(.*?)\$\$", term, flags=re.DOTALL))
+                                    formula_count += len(re.findall(r"\$\$(.*?)\$\$", definition, flags=re.DOTALL))
+                                    # Zähle Inline-Formeln $...$
+                                    formula_count += len(re.findall(r"\$([^$]+?)\$", term, flags=re.DOTALL))
+                                    formula_count += len(re.findall(r"\$([^$]+?)\$", definition, flags=re.DOTALL))
+                        except Exception:
+                            formula_count = 0
+
+                        if formula_count:
+                            spinner_message = (
+                                f"Generiere Glossar-PDF — rendere {formula_count} Formel" +
+                                ("n" if formula_count != 1 else "") +
+                                ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                            )
+                        else:
+                            spinner_message = (
+                                "Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern."
+                            )
+
+                        with st.spinner(spinner_message):
                             try:
                                 generated = generate_mini_glossary_pdf(selected_file, list(questions))
                                 st.session_state[cache_key] = generated
