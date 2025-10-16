@@ -99,27 +99,47 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         if selected_file:
             glossary_by_theme = _extract_glossary_terms(list(questions))
             if glossary_by_theme and any(glossary_by_theme.values()):
-                # Generiere und cache die PDF-Bytes einmal pro ausgewähltem Fragenset
+                # Generiere die PDF nur nach expliziter Nutzeraktion. Wenn bereits gecached,
+                # zeige direkt den Download-Button; ansonsten biete einen "Generieren"-Button an.
                 cache_key = f"_glossary_pdf_{selected_file}"
                 pdf_bytes = st.session_state.get(cache_key)
-                if pdf_bytes is None:
-                    try:
-                        pdf_bytes = generate_mini_glossary_pdf(selected_file, list(questions))
-                        st.session_state[cache_key] = pdf_bytes
-                    except ValueError:
-                        pdf_bytes = None
+                download_name = f"mini_glossar_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
 
                 if pdf_bytes:
-                    download_name = f"mini_glossar_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
-                    # Single immediate download button with book icon; sidebar default width used
+                    # Direkt zum Download anbieten
                     st.sidebar.download_button(
-                        label="💾 Glossar als PDF",
+                        label="💾 Glossar downloaden",
                         data=pdf_bytes,
                         file_name=download_name,
                         mime="application/pdf",
                         key="sidebar_glossary_download",
                         use_container_width=True,
                     )
+                else:
+                    # PDF wird erst nach Klick erzeugt
+                    if st.sidebar.button("💾 Glossar als PDF generieren", key="sidebar_glossary_generate", width="stretch"):
+                        with st.spinner("Generiere Glossar-PDF..."):
+                            try:
+                                generated = generate_mini_glossary_pdf(selected_file, list(questions))
+                                st.session_state[cache_key] = generated
+                                pdf_bytes = generated
+                                # Kurze Erfolgsmeldung in der Sidebar
+                                st.sidebar.success("Glossar-PDF fertig")
+                            except ValueError:
+                                st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+                            except Exception as e:
+                                st.error(f"Fehler beim Erzeugen des PDFs: {e}")
+
+                        # Falls erfolgreich erzeugt, zeige sofort den Download-Button
+                        if st.session_state.get(cache_key):
+                            st.sidebar.download_button(
+                                label="💾 Glossar downloaden",
+                                data=st.session_state[cache_key],
+                                file_name=download_name,
+                                mime="application/pdf",
+                                key="sidebar_glossary_download_after_gen",
+                                use_container_width=True,
+                            )
     except Exception:
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
         pass
