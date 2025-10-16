@@ -13,6 +13,7 @@ import pandas as pd
 from config import AppConfig, QuestionSet
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
+from pdf_export import _extract_glossary_terms, generate_mini_glossary_pdf
 
 try:
     from helpers import get_client_ip, is_request_from_localhost, ACTIVE_SESSION_QUERY_PARAM
@@ -64,6 +65,54 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
     if is_admin:
         render_admin_switch(app_config)
+
+    # --- Mini-Glossar für Nutzer in der Sidebar (kompakte Ansicht) ---
+    try:
+        selected_file = st.session_state.get("selected_questions_file")
+        # Nur anzeigen, wenn ein Fragenset ausgewählt ist und dieses auch Glossar-Einträge hat
+        if selected_file:
+            glossary_by_theme = _extract_glossary_terms(list(questions))
+            if glossary_by_theme and any(glossary_by_theme.values()):
+                with st.sidebar.expander("📚 Mini-Glossar", expanded=False):
+                    st.caption("Vorschau: Nur ein kurzer Ausschnitt. Das vollständige Mini-Glossar kannst du als PDF herunterladen.")
+                    # Zeige bis zu 6 Begriffe als Vorschau, gruppiert nach Thema
+                    max_preview = 6
+                    shown = 0
+                    for thema in sorted(glossary_by_theme.keys(), key=str.casefold):
+                        if shown >= max_preview:
+                            break
+                        terms = glossary_by_theme[thema]
+                        if not terms:
+                            continue
+                        st.markdown(f"**{thema}**")
+                        for term, definition in list(terms.items()):
+                            if shown >= max_preview:
+                                break
+                            st.markdown(f"- **{term}**: {definition}")
+                            shown += 1
+
+                    # Zeige Aktionen untereinander als volle Breite
+                    # Admin-Button (nur für Admins)
+                    if is_admin:
+                        if st.button("Alle Glossare anzeigen", key="sidebar_glossary_open_admin", width="stretch"):
+                            # Simuliere Wechsel zum Admin-Glossar-Tab (nur UI: set flag and rerun)
+                            st.session_state.show_admin_panel = True
+                            st.session_state._open_admin_tab = "mini_glossary"
+                            st.rerun()
+
+                    # PDF-Download (vollbreite)
+                    if st.button("PDF herunterladen", key="sidebar_glossary_pdf", width="stretch"):
+                        try:
+                            pdf_bytes = generate_mini_glossary_pdf(selected_file, list(questions))
+                        except ValueError:
+                            st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+                        else:
+                            download_name = f"mini_glossar_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
+                            # Direkt Download-Button anzeigen (volle Breite)
+                            st.download_button("💾 PDF speichern", data=pdf_bytes, file_name=download_name, mime="application/pdf", key="sidebar_glossary_download", use_container_width=True)
+    except Exception:
+        # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
+        pass
 
     with st.sidebar.expander("⚠️ Session beenden"):
         st.warning(
