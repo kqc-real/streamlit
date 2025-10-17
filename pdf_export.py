@@ -6,7 +6,7 @@ import re
 import base64
 from datetime import datetime
 from typing import List, Dict, Any
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 import io
 
 import streamlit as st
@@ -26,6 +26,11 @@ except ImportError:
 
 # Cache für bereits gerenderte Formeln (spart API-Calls bei duplizierten Formeln)
 _formula_cache = {}
+
+# Default total timeout (seconds) for parallel formula rendering per parse call.
+# This prevents a single export from blocking indefinitely when external LaTeX
+# services are slow or rate-limited.
+FORMULA_RENDER_TOTAL_TIMEOUT = 15.0
 
 
 def _render_latex_to_image(formula: str, is_block: bool) -> str:
@@ -153,7 +158,7 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
     _formula_cache[cache_key] = result
     return result
 
-def _render_formulas_parallel(formulas: List[tuple]) -> Dict[int, str]:
+def _render_formulas_parallel(formulas: List[tuple], total_timeout: float | None = None) -> Dict[int, str]:
     """
     Rendert mehrere Formeln parallel für bessere Performance.
     Verwendet dynamische Worker-Anzahl basierend auf CPU-Kernen.
@@ -168,30 +173,62 @@ def _render_formulas_parallel(formulas: List[tuple]) -> Dict[int, str]:
     import os
     max_workers = min(20, (os.cpu_count() or 4) * 2)
     
+    import time
+
     # Parallele Ausführung mit ThreadPool
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
             executor.submit(render_one, i, ftype, form): i
             for i, (ftype, form) in enumerate(formulas)
         }
-        
-        for future in as_completed(futures):
-            try:
-                idx, rendered = future.result()
-                results[idx] = rendered
-            except Exception:
-                # Fallback bei Fehler
-                idx = futures[future]
-                results[idx] = f'[Formel-Fehler]'
-    
+        start = time.time()
+        per_future_max = 5.0
+
+        pending = set(futures.keys())
+        # Loop until all done or overall timeout exceeded
+        while pending:
+            elapsed = time.time() - start
+            if total_timeout is not None:
+                remaining = total_timeout - elapsed
+            else:
+                remaining = None
+
+            if remaining is not None and remaining <= 0:
+                # Overall timeout: mark all pending as timeout
+                for fut in pending:
+                    idx = futures[fut]
+                    results[idx] = '[Formel-Timeout]'
+                break
+
+            wait_t = per_future_max if remaining is None else min(per_future_max, remaining)
+            done, pending = wait(pending, timeout=wait_t, return_when=FIRST_COMPLETED)
+
+            for fut in done:
+                idx = futures[fut]
+                try:
+                    idx_ret, rendered = fut.result()
+                    results[idx_ret] = rendered
+                except Exception:
+                    results[idx] = '[Formel-Fehler]'
+
+        # Any remaining futures after loop -> mark as timeout
+        for fut in list(pending):
+            idx = futures[fut]
+            if idx not in results:
+                results[idx] = '[Formel-Timeout]'
+
     return results
 
 
-def _parse_text_with_formulas(text: str) -> str:
+def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> str:
     """
     Konvertiert einen String mit Markdown/LaTeX in sicheres HTML.
     Formeln werden parallel gerendert für bessere Performance.
     """
+    # Apply module default timeout when none provided to avoid indefinite waits
+    if total_timeout is None:
+        total_timeout = FORMULA_RENDER_TOTAL_TIMEOUT
+
     # 1. Zuerst Formeln extrahieren und durch Platzhalter ersetzen
     formulas = []
     
@@ -254,7 +291,7 @@ def _parse_text_with_formulas(text: str) -> str:
     
     # 5. Formeln parallel rendern und wieder einsetzen
     if formulas:
-        rendered_formulas = _render_formulas_parallel(formulas)
+        rendered_formulas = _render_formulas_parallel(formulas, total_timeout=total_timeout)
         
         for i in range(len(formulas)):
             placeholder_block = f"__FORMULA_BLOCK_{i}__"
@@ -1638,5 +1675,141 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     </body>
     </html>
     '''
+
+    return HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
+
+
+def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app_config: AppConfig, total_timeout: float | None = None) -> bytes:
+    """
+    Generiert ein PDF mit der Musterlösung (nur korrekte Antworten) und hängt das Mini-Glossar an.
+    Dies ist ein schlankeres Format als der vollständige Nutzerbericht und eignet sich für Admin-Downloads.
+    """
+    set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
+
+    # Baue einfachen HTML-Report mit markierten korrekten Antworten
+    html_parts: list[str] = []
+    html_parts.append(
+        f'<div class="header"><h1>Musterlösung</h1>'
+        f'<div class="meta-info"><span><strong>Fragenset:</strong> {set_name}</span>'
+        f'<span><strong>Erstellt:</strong> {generated_at}</span></div></div>'
+    )
+    html_parts.append('<div class="section">')
+
+    initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
+
+    for idx, frage in enumerate(questions):
+        # Bestimme Anzeige-Nummer
+        display_num = initial_indices.index(idx) + 1 if idx in initial_indices else idx + 1
+        frage_text = frage.get("frage", "")
+        # Parst Markdown/LaTeX in sicheres HTML
+        parsed_frage = _parse_text_with_formulas(
+            frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text,
+            total_timeout=total_timeout,
+        )
+
+        html_parts.append('<div class="question">')
+        html_parts.append(f'<h3>Frage {display_num}</h3>')
+        html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
+        html_parts.append('<ul class="options">')
+
+        correct_idx = frage.get("loesung")
+        opts = frage.get("optionen", [])
+        for oi, opt in enumerate(opts):
+            parsed_opt = _parse_text_with_formulas(opt, total_timeout=total_timeout)
+            if oi == correct_idx:
+                html_parts.append(f'<li class="option correct">✔ {parsed_opt}</li>')
+            else:
+                html_parts.append(f'<li class="option">{parsed_opt}</li>')
+
+        html_parts.append('</ul>')
+
+        # Erklärung anzeigen, falls vorhanden
+        erklaerung = frage.get("erklaerung")
+        if erklaerung:
+            html_parts.append(
+                f'<div class="explanation"><strong>Erklärung:</strong> {_parse_text_with_formulas(erklaerung, total_timeout=total_timeout)}</div>'
+            )
+
+        # Erweiterte Erklärung
+        extended_explanation = frage.get("extended_explanation")
+        if extended_explanation and isinstance(extended_explanation, dict):
+            title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
+            content = extended_explanation.get('content')
+            steps = extended_explanation.get('schritte') if isinstance(extended_explanation.get('schritte'), list) else None
+
+            explanation_html = '<div class="explanation"><strong>Detaillierte Erklärung'
+            if title:
+                explanation_html += f": {_parse_text_with_formulas(title)}"
+            explanation_html += '</strong>'
+
+            if steps:
+                explanation_html += '<ol class="extended-steps">'
+                for step in steps:
+                    explanation_html += f'<li>{_parse_text_with_formulas(step, total_timeout=total_timeout)}</li>'
+                explanation_html += '</ol>'
+            elif isinstance(content, str) and content.strip():
+                explanation_html += '<br>' + _parse_text_with_formulas(content, total_timeout=total_timeout)
+
+            explanation_html += '</div>'
+            html_parts.append(explanation_html)
+
+        html_parts.append('</div>')
+
+    html_parts.append('</div>')
+
+    # Glossar anhängen
+    glossary_by_theme = _extract_glossary_terms(questions)
+    glossary_html = _build_glossary_html(glossary_by_theme)
+    html_parts.append(glossary_html)
+
+    # Full HTML
+    full_html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            @page {{
+                size: A4;
+                margin: 2cm 2cm 3cm 2cm;
+                @bottom-center {{
+                    content: "Seite " counter(page) " von " counter(pages);
+                    font-size: 9pt;
+                    color: #666;
+                }}
+            }}
+            body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; color: #222; line-height:1.6; }}
+            .header {{ background: #f1f5f9; padding: 18px; border-radius: 6px; margin-bottom: 12px; }}
+            .header h1 {{ margin: 0 0 6px 0; font-size: 22pt; }}
+            .meta-info span {{ display:block; font-size: 10pt; color: #555; }}
+            .question {{ margin: 18px 0; padding: 12px; border:1px solid #e6eef8; border-radius:6px; background: #ffffff; }}
+            .question h3 {{ margin: 0 0 8px 0; color: #1f6feb; font-size: 12pt; }}
+            .question-text {{ margin-bottom: 8px; font-size: 11pt; }}
+            ul.options {{ list-style: disc; padding-left: 1.2rem; margin: 0 0 8px 0; }}
+            ul.options li.option {{ padding: 4px 6px; margin-bottom:6px; background: transparent; border-radius:4px; }}
+            ul.options li.option .opt-content {{ display: inline; }}
+            ul.options li.correct {{ background: #ecfdf5; border-left: 4px solid #10b981; font-weight: 600; padding-left: 8px; }}
+            .explanation {{ background: #fff8e1; border-left: 4px solid #ffb300; padding: 10px 12px; margin-top: 8px; border-radius: 4px; }}
+            .explanation strong {{ color: #856404; }}
+
+            /* Glossary styling (match admin/user glossary style) */
+            .glossary-section {{ margin: 24px 0; }}
+            .glossary-section h2 {{ margin: 0 0 8px 0; color: #2d3748; font-size: 18pt; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 1px; }}
+            .glossary-intro {{ font-size: 10pt; color: #4a5568; margin: 0 0 24px 0; text-align: center; font-weight: 500; }}
+            .glossary-theme {{ font-size: 14pt; font-weight: 700; color: #1a202c; margin-top: 24px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #4299e1; }}
+            .glossary-grid {{ display: grid; grid-template-columns: 1fr; gap: 0; margin-bottom: 16px; }}
+            .glossary-item {{ padding: 12px 14px; border-bottom: 1px solid #cbd5e0; }}
+            .glossary-item:nth-child(odd) {{ background: #ffffff; }}
+            .glossary-item:nth-child(even) {{ background: #f7fafc; }}
+            .glossary-term {{ font-size: 12pt; font-weight: 800; color: #2d3748; margin-bottom: 6px; display: block; }}
+            .glossary-definition {{ font-size: 10pt; color: #4a5568; line-height: 1.6; font-weight: 400; }}
+        </style>
+    </head>
+    <body>
+        {''.join(html_parts)}
+    </body>
+    </html>
+    """
 
     return HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)

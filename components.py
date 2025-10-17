@@ -13,7 +13,11 @@ import pandas as pd
 from config import AppConfig, QuestionSet
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
-from pdf_export import _extract_glossary_terms, generate_mini_glossary_pdf
+from pdf_export import (
+    _extract_glossary_terms,
+    generate_mini_glossary_pdf,
+    generate_musterloesung_pdf,
+)
 
 try:
     from helpers import get_client_ip, is_request_from_localhost, ACTIVE_SESSION_QUERY_PARAM
@@ -91,7 +95,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     st.sidebar.divider()
 
     if is_admin:
-        render_admin_switch(app_config)
+        render_admin_switch(app_config, questions)
 
     # --- Mini-Glossar: Ein einzelner Download-Button in der Sidebar ---
     try:
@@ -237,7 +241,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             
             st.rerun()
 
-def render_admin_switch(app_config: AppConfig):
+def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
     """Rendert den Umschalter für das Admin-Panel in der Sidebar."""
     from auth import check_admin_key
 
@@ -258,6 +262,45 @@ def render_admin_switch(app_config: AppConfig):
 
     if is_panel_active:
         st.sidebar.info("Du bist im Admin-Modus.")
+        st.sidebar.divider()
+        # --- Admin: Musterlösung (PDF) ---
+        try:
+            selected_file = st.session_state.get("selected_questions_file")
+            if selected_file:
+                cache_key = f"_muster_pdf_{selected_file}"
+                pdf_bytes = st.session_state.get(cache_key)
+                download_name = f"musterloesung_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
+
+                if pdf_bytes:
+                    st.sidebar.download_button(
+                        label="📄 Musterlösung downloaden",
+                        data=pdf_bytes,
+                        file_name=download_name,
+                        mime="application/pdf",
+                        key="sidebar_muster_download",
+                        use_container_width=True,
+                    )
+                else:
+                    if st.sidebar.button("📄 Musterlösung (PDF) generieren", key="sidebar_muster_generate", width="stretch"):
+                        with st.spinner("Generiere Musterlösung-PDF..."):
+                            try:
+                                generated = generate_musterloesung_pdf(selected_file, list(questions), app_config)
+                                st.session_state[cache_key] = generated
+                                st.sidebar.success("Musterlösung-PDF fertig")
+                            except Exception as e:
+                                st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
+
+                        if st.session_state.get(cache_key):
+                            st.sidebar.download_button(
+                                label="📄 Musterlösung downloaden",
+                                data=st.session_state[cache_key],
+                                file_name=download_name,
+                                mime="application/pdf",
+                                key="sidebar_muster_download_after_gen",
+                                use_container_width=True,
+                            )
+        except Exception:
+            pass
         if st.sidebar.button("⬅️ Zurück zum Test", width="stretch"):
             st.session_state.show_admin_panel = False
             st.rerun()
