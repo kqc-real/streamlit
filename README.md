@@ -446,7 +446,17 @@ Beachte beim Erstellen der Fragen zusätzlich die folgenden **didaktischen Richt
 3.  **Einheitliche Antwortlänge:** Alle Antwortoptionen sollten eine ähnliche Länge und grammatikalische Struktur haben, um zu vermeiden, dass die längste oder detaillierteste Antwort automatisch als richtig erkannt wird.
 4.  **Keine "längste Antwort"-Falle:** Die korrekte Antwort darf nicht systematisch die längste oder detaillierteste Option sein.
 5.  **Vermeide Negationen:** Formuliere Fragen positiv (z.B. "Welche Aussage ist korrekt?") anstatt negativ ("Welche Aussage ist NICHT korrekt?").
-6.  **Keine Option "Alle obige Optionen"** Keine Sammeloption anbieten (z.B. "Alles trifft zu"); es soll immer nur eine inhaltliche Antwortoption richtig sein.
+6.  **Unter keinen Umständen: Verweise, Präfixe oder Positionsannahmen in Antwortoptionen**
+    * Antwortoptionen müssen vollständig eigenständige Aussagen sein. Unter keinen Umständen dürfen Optionstexte inhaltlich oder sprachlich auf andere Optionen verweisen oder diese adressieren.
+    * Beispiele für strikt verbotene Formulierungen:
+      - "Alle oben genannten"
+      - "C und D sind korrekt"
+      - "Siehe Option B"
+    * Ebenfalls verboten: Buchstaben- oder Zahlenpräfixe im Optionstext (z. B. "A) ...", "1. ..."). Optionstexte dürfen nicht mit solchen Präfixen beginnen.
+    * Die App zeigt Antwortoptionen zufällig an. Deshalb dürfen Optionstexte in keiner Weise Positions- oder Index‑Annahmen enthalten (weder explizit noch implizit).
+    * Jede Option steht für sich: Formuliere jede Antwortoption als vollständige, eigenständige Aussage ohne Bezug auf andere Optionen. Wenn mehrere Teil‑Aussagen geprüft werden sollen, verwende separate Fragen.
+    * Technischer Hinweis: `loesung` ist ein 0-basierter Index in `optionen`. Damit die Zuordnung eindeutig bleibt, sind referenzierende oder indexabhängige Formulierungen nicht zulässig.
+    * Warum: Referenzen oder Präfixe verhindern eindeutige, index‑basierte Lösungen, erschweren automatisierte Validierung und sind für Lernende verwirrend.
 7.  **Zufällige Position der Lösung:** Die korrekte Antwort sollte zufällig unter den Optionen platziert werden und nicht immer an derselben Position (z.B. immer als dritte Option) stehen.
 
 ---
