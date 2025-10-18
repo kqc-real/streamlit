@@ -223,7 +223,10 @@ def render_welcome_page(app_config: AppConfig):
         num_questions = question_counts.get(filename)
         return f"{name} ({num_questions} Fragen)" if num_questions else name
 
-    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>", unsafe_allow_html=True)
+    st.markdown(
+        "<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>",
+        unsafe_allow_html=True,
+    )
 
     current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
     selected_choice = st.selectbox(
@@ -443,7 +446,10 @@ def _show_welcome_container(app_config: AppConfig):
         {scoring_text}
         """)
         
-        st.info("💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, Punktestand und die markierten und übersprungenen Fragen.")
+        st.info(
+            "💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, "
+            "Punktestand und die markierten und übersprungenen Fragen."
+        )
         
         st.markdown("<br>", unsafe_allow_html=True)
         
@@ -456,7 +462,10 @@ def _show_welcome_container(app_config: AppConfig):
 def render_question_view(questions: QuestionSet, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
     if st.session_state.get("show_pseudonym_reminder", False):
-        st.success(f"**Willkommen, {st.session_state.user_id}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.")
+        st.success(
+            f"**Willkommen, {st.session_state.user_id}!** "
+            "Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können."
+        )
         del st.session_state.show_pseudonym_reminder
 
     # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
@@ -915,9 +924,11 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
+    import time
     # Wenn die Testzeit abgelaufen ist, zeigen wir einen anderen Titel an.
     if st.session_state.get("test_time_expired", False):
         st.header("⏰ Zeit abgelaufen!")
+        st.info("Die Testzeit ist abgelaufen — Ergebnisse werden automatisch angezeigt.")
     else:
         st.header("🚀 Test abgeschlossen!")
 
@@ -1203,7 +1214,6 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
             
             # Benchmark mit Probe-Formel
-            import time
             import random
             from pdf_export import _render_latex_to_image
             
