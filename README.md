@@ -56,6 +56,15 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 | Export         | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                      |
 | Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback-Management, Export und Systemeinstellungen  |
 
+### Neuere Features (seit v1.2)
+
+- Musterlösung (PDF): Admins können jetzt eine formatierte Musterlösung mit allen korrekten Antworten, ausführlichen Erklärungen und angehängtem Mini-Glossar erzeugen. Die Musterlösung rendert LaTeX-Formeln als hochwertige PNGs und hebt korrekte Optionen hervor.
+- Nutzer-Download: Nach Abschluss eines Tests steht den Nutzer/innen ebenfalls eine Musterlösung zum Download zur Verfügung (sinnvollerweise nur zum Lernen). Die UI zeigt eine Kurzinfo, dass die Musterlösung prüfungsrelevant ist und nicht geteilt werden sollte.
+- Robustere Formel-Rendering-Pipeline: Formeln werden parallel gerendert (ThreadPool) mit einem konfigurierbaren Gesamt-Timeout; ausgefallene oder zu langsame Renderings werden durch Platzhalter ersetzt, damit ein Export nicht ewig hängt.
+- Per-User Export-Cache: Um wiederholte Anfragen schnell zu bedienen, werden erzeugte Musterlösungen temporär im Session-Cache (`st.session_state`) zwischengespeichert und beim erneuten Download sofort ausgeliefert.
+- Zeitabschätzung & Probe-Rendering: Bei PDF-Exporten mit Formeln wird optional ein Probe-Rendering durchgeführt, um die voraussichtliche Gesamtdauer anzugeben.
+
+
 ---
 
 ## � Security Features
