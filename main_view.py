@@ -1043,7 +1043,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     
     # --- PDF-Export (am Ende, nach Review) ---
     st.divider()
-    st.subheader("📄 PDF-Export")
+    st.subheader("📄 Testbericht")
     
     # Warnung über die Dauer
     q_file_name = st.session_state.get("selected_questions_file", "")
