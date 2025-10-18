@@ -1008,34 +1008,89 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # --- Performance-Analyse pro Thema ---
     st.subheader("Deine Leistung nach Themen")
 
+    # Aggregiere Punkte pro Thema und zähle beantwortete vs. Gesamtfragen.
     topic_performance = {}
     for i, frage in enumerate(questions):
         thema = frage.get("thema", "Allgemein")
         if thema not in topic_performance:
-            topic_performance[thema] = {"erreicht": 0, "maximal": 0}
+            topic_performance[thema] = {"erreicht": 0, "maximal": 0, "answered_count": 0, "question_count": 0}
 
         max_punkte = frage.get("gewichtung", 1)
         topic_performance[thema]["maximal"] += max_punkte
+        topic_performance[thema]["question_count"] += 1
 
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
         if punkte is not None:
             # Nur positive Punkte für die Leistungsanalyse zählen, um negative Scores zu vermeiden.
             erreichte_punkte = max(0, punkte)
             topic_performance[thema]["erreicht"] += erreichte_punkte
+            topic_performance[thema]["answered_count"] += 1
 
-    # DataFrame für die Visualisierung erstellen
+    # DataFrame für die Visualisierung erstellen.
+    # Zeige nur Themen, zu denen mindestens eine Frage beantwortet wurde,
+    # und kennzeichne die Themen mit (beantwortet/gesamt), damit 100 % bei
+    # sehr wenigen Fragen nicht irreführend wirkt.
     performance_data = []
     for thema, scores in topic_performance.items():
-        if scores["maximal"] > 0:
+        answered = scores.get('answered_count', 0)
+        total_q = scores.get('question_count', 0)
+        if scores["maximal"] > 0 and answered > 0:
             prozent = (scores["erreicht"] / scores["maximal"]) * 100
-            performance_data.append({"Thema": thema, "Leistung (%)": prozent})
+            performance_data.append({
+                "Thema": thema,
+                "Answered": answered,
+                "Total": total_q,
+                "Leistung (%)": prozent,
+            })
 
     if performance_data:
         df_performance = pd.DataFrame(performance_data)
-        df_performance = df_performance.set_index("Thema")
-        st.bar_chart(df_performance, color="#4b9fff")
+        # Create a human-friendly label but keep Thema separate for hover
+        df_performance["Label"] = df_performance.apply(lambda r: f"{r['Thema']} ({int(r['Answered'])}/{int(r['Total'])})", axis=1)
+
+        # Use Plotly for better label/hover control so the (answered/total) is always visible
+        try:
+            import plotly.express as px
+
+            fig = px.bar(
+                df_performance,
+                x="Label",
+                y="Leistung (%)",
+                text=df_performance["Leistung (%)"].round(1).astype(str) + "%",
+                color_discrete_sequence=["#4b9fff"],
+                hover_data={"Thema": True, "Answered": True, "Total": True, "Leistung (%)": ":.1f"},
+            )
+            fig.update_traces(textposition="outside", marker_line_width=0)
+            # Berechne etwas Puffer oberhalb des höchsten Balkens, damit
+            # Textbeschriftungen (z.B. "100 %") nicht abgeschnitten werden.
+            max_pct = float(df_performance['Leistung (%)'].max() if not df_performance.empty else 100)
+            y_top = max(105.0, max_pct * 1.12)
+            fig.update_layout(
+                xaxis_tickangle=-30,
+                xaxis_title="Thema (beantwortet/gesamt)",
+                yaxis_title="Leistung (%)",
+                margin=dict(t=40, b=140, l=40, r=10),
+                height=360,
+                yaxis=dict(range=[0, y_top]),
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+        except Exception:
+            # Fallback to the simple chart if Plotly is unavailable
+            df_simple = df_performance.set_index("Label")[['Leistung (%)']]
+            st.bar_chart(df_simple, color="#4b9fff")
+
+        # Kleine Legende und Erklärung
+        with st.expander("Über diese Auswertung (kurze Erklärung)", expanded=False):
+            st.markdown(
+                "- Die Balken zeigen den Anteil der erreichten Punkte pro Thema (in %).\n"
+                "- In Klammern hinter dem Thema steht: (beantwortete Fragen / Gesamtfragen).\n"
+                "- Wenn nur sehr wenige Fragen für ein Thema beantwortet wurden, sind die Prozentwerte statistisch wenig aussagekräftig."
+            )
+
+        # (Hinweis zu kleinen Stichproben wurde entfernt — die Erklärung im Expander genügt.)
     else:
-        st.info("Keine Daten für eine themenspezifische Analyse verfügbar.")
+        st.info("Keine Daten für eine themenspezifische Analyse verfügbar. Beantworte mindestens eine Frage, um themenspezifische Ergebnisse zu sehen.")
 
 
     st.divider()
@@ -1153,19 +1208,21 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 )
     
     # Button zum Generieren
-    # Per-user cooldown to avoid many parallel/rapid exports on shared hosts
+    # Per-user cooldowns (separat pro Exporttyp) to avoid many parallel/rapid exports on shared hosts
     COOLDOWN_SECONDS = int(os.getenv('EXPORT_COOLDOWN_SECONDS', '300'))  # default 5 minutes
     user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
-    last_export_key = f"last_export_ts_{user_name_file}"
-    last_export_ts = st.session_state.get(last_export_key, 0)
+
+    # --- Report (Testbericht) cooldown ---
+    report_last_export_key = f"last_export_report_ts_{user_name_file}"
+    report_last_export_ts = st.session_state.get(report_last_export_key, 0)
     now_ts = int(time.time())
-    can_export_now = (now_ts - int(last_export_ts)) >= COOLDOWN_SECONDS
+    can_export_report = (now_ts - int(report_last_export_ts)) >= COOLDOWN_SECONDS
 
-    if not can_export_now:
-        wait = int(COOLDOWN_SECONDS - (now_ts - int(last_export_ts)))
-        st.info(f"Du hast kürzlich einen Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
+    if not can_export_report:
+        wait = int(COOLDOWN_SECONDS - (now_ts - int(report_last_export_ts)))
+        st.info(f"Du hast kürzlich einen Testbericht-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
 
-    if st.button("📥 PDF jetzt generieren", type="primary", width="stretch", disabled=(not can_export_now)):
+    if st.button("📥 PDF jetzt generieren", type="primary", width="stretch", disabled=(not can_export_report)):
         from pdf_export import generate_pdf_report
 
         # Fortschrittsanzeige passend zum Inhalt
@@ -1180,8 +1237,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 # Generiere die PDF-Daten im Speicher
                 pdf_bytes = generate_pdf_report(questions, app_config)
 
-                # mark timestamp for cooldown (only on success)
-                st.session_state[last_export_key] = int(time.time())
+                # mark timestamp for report cooldown (only on success)
+                st.session_state[report_last_export_key] = int(time.time())
 
                 user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
                 q_file_clean = q_file_name.replace("questions_", "").replace(".json", "")
@@ -1239,6 +1296,11 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     cached = st.session_state.get(cache_key)
     job_sess_key = f"_muster_job_{q_file_clean}_{user_name_file}"
 
+    # --- Musterlösung cooldown (separate) ---
+    muster_last_export_key = f"last_export_muster_ts_{user_name_file}"
+    muster_last_export_ts = st.session_state.get(muster_last_export_key, 0)
+    can_export_muster = (now_ts - int(muster_last_export_ts)) >= COOLDOWN_SECONDS
+
     # Always render a 'Status prüfen' button so users can see how to refresh
     # the page to pick up a finished export. The button is disabled when no
     # background job exists for this user+set to avoid confusion.
@@ -1247,10 +1309,12 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
     # Render a full-width 'Status prüfen' button so it's easy to click.
     # Disabled when there is no background job for clarity.
+    # The Status-Prüfen button is always enabled so users can explicitly
+    # refresh the page/state even if no background job is currently present.
     if st.button(
         "Status prüfen",
         key=f"status_pruefen_{q_file_clean}_{user_name_file}",
-        disabled=(not job_exists),
+        disabled=False,
     ):
         try:
             st.experimental_rerun()
@@ -1263,7 +1327,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         # success caption so the user isn't misled into thinking the export
         # is still running.
         # nothing to clean up here
-        st.caption("✅ Musterlösung verfügbar — klicke 'Musterlösung herunterladen' oder lade die Seite neu.")
+        st.caption("Export abgeschlossen — Download verfügbar.")
     else:
         if not job_exists:
             st.caption("Kein laufender Export für dieses Set. Klicke auf 'Musterlösung (PDF) generieren'.")
@@ -1330,7 +1394,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     except Exception:
                         pass
 
-                    st.success("✅ Musterlösung erstellt")
+                    st.success("Export abgeschlossen — Download verfügbar.")
                     # If result is a filesystem path, read the bytes before
                     # passing them to the download button to avoid leaking
                     # a path string or returning an incomplete stream.
@@ -1375,11 +1439,16 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         else:
             # Start a new background job when button is clicked
             # Cooldown also applies to Musterlösung generation
-            if not can_export_now:
-                # Button rendered disabled below; keep message
-                pass
+            if not can_export_muster:
+                wait_m = int(COOLDOWN_SECONDS - (now_ts - int(muster_last_export_ts)))
+                st.info(f"Du hast kürzlich eine Musterlösung generiert. Bitte warte {wait_m} s bevor du erneut exportierst.")
 
-            if st.button("📄 Musterlösung (PDF) generieren", key="user_muster_generate", width="stretch", disabled=(not can_export_now)):
+            if st.button(
+                "📄 Musterlösung (PDF) generieren",
+                key="user_muster_generate",
+                width="stretch",
+                disabled=(not can_export_muster),
+            ):
                 from pdf_export import generate_musterloesung_pdf
                 from export_jobs import start_musterloesung_job
                 import logging
@@ -1404,20 +1473,32 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     try:
                             st.session_state[job_sess_key] = job_id_new
                             # Persist the job id under the computed per-user-per-set key.
-                            st.session_state[last_export_key] = int(time.time())
+                            st.session_state[
+                                muster_last_export_key
+                            ] = int(time.time())
                     except Exception:
                         logging.exception("Failed to write job id to session_state")
 
                     # Persisted job id and defensive fallback are sufficient for
                     # production; avoid extra debug file writes here.
 
-                    # Inform the user and display the created job id for debugging
-                    st.info(f"Export gestartet (job_id={job_id_new}). Klicke auf 'Status prüfen', um den Fortschritt abzurufen.")
+                    # Inform the user with a concise message; keep full job id in logs for support
+                    st.info("Export gestartet. Klicke auf 'Status prüfen', um Fortschritt und Download zu sehen.")
+                    try:
+                        logging.info(f"Musterloesung-Export gestartet, job_id={job_id_new}")
+                    except Exception:
+                        # Logging should rarely fail, but guard to avoid crashing the UI
+                        pass
 
                     # Force a rerun so the UI updates and the 'Status prüfen' button
                     # becomes enabled immediately when session_state was successfully set.
                     try:
-                        st.experimental_rerun()
+                        if hasattr(st, 'experimental_rerun'):
+                            st.experimental_rerun()
+                        else:
+                            # Some streamlit builds may not expose experimental_rerun;
+                            # just continue without forcing a rerun.
+                            logging.info('experimental_rerun not available; skipping')
                     except Exception:
                         logging.exception("experimental_rerun failed")
                 else:

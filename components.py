@@ -9,6 +9,8 @@ Verantwortlichkeiten:
 """
 import streamlit as st
 import pandas as pd
+import os
+import time
 
 from config import AppConfig, QuestionSet
 from logic import calculate_score, is_test_finished
@@ -121,7 +123,17 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     )
                 else:
                     # PDF wird erst nach Klick erzeugt
-                    if st.sidebar.button("💾 Glossar als PDF generieren", key="sidebar_glossary_generate", width="stretch"):
+                    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+                    COOLDOWN_SECONDS = int(os.getenv('EXPORT_COOLDOWN_SECONDS', '300'))
+                    glossary_last_key = f"last_export_glossary_ts_{user_name_file}"
+                    glossary_last_ts = st.session_state.get(glossary_last_key, 0)
+                    can_export_glossary = (int(time.time()) - int(glossary_last_ts)) >= COOLDOWN_SECONDS
+
+                    if not can_export_glossary:
+                        wait = int(COOLDOWN_SECONDS - (int(time.time()) - int(glossary_last_ts)))
+                        st.sidebar.info(f"Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
+
+                    if st.sidebar.button("💾 Glossar als PDF generieren", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
                         # Vor der eigentlichen Generierung können wir die Anzahl der
                         # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
@@ -160,6 +172,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 pdf_bytes = generated
                                 # Kurze Erfolgsmeldung in der Sidebar
                                 st.sidebar.success("Glossar-PDF fertig")
+                                # mark glossary cooldown
+                                try:
+                                    st.session_state[glossary_last_key] = int(time.time())
+                                except Exception:
+                                    pass
                             except ValueError:
                                 st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
                             except Exception as e:

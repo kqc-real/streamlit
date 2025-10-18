@@ -79,11 +79,28 @@ def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days
         import time
 
         files = list(FORMULA_CACHE_DIR.glob('*.png'))
+        # Filter out any entries that don't currently exist to avoid
+        # races where another process removed files between glob() and stat().
+        files = [f for f in files if f.exists()]
         if not files:
             return
-
         pre_count = len(files)
-        pre_total_bytes = sum((f.stat().st_size for f in files if f.exists()))
+        # Use a safe stat pattern: individually try stat() and ignore files that
+        # disappeared between listing and stat() to avoid FileNotFoundError.
+        pre_total_bytes = 0
+        safe_files = []
+        for f in files:
+            try:
+                stsz = f.stat().st_size
+                pre_total_bytes += stsz
+                safe_files.append(f)
+            except FileNotFoundError:
+                # file vanished concurrently; skip it
+                continue
+            except Exception:
+                # Any other stat error: skip file but keep going
+                continue
+        files = safe_files
         pre_total_mb = pre_total_bytes / (1024 * 1024)
 
         logger.info('Eviction: starting with %d files, %.2f MiB (limits: files=%d, MB=%d, ttl_days=%d)',
@@ -109,26 +126,56 @@ def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days
         for f in files:
             try:
                 mtime = f.stat().st_mtime
-                if now - mtime > ttl_seconds:
-                    try:
-                        b = f.stat().st_size
-                        f.unlink()
-                        removed_files.append(f)
-                        removed_bytes += b
-                        logger.info('Eviction: removed old file %s (%.1f KiB)', f, b / 1024.0)
-                    except Exception:
-                        logger.warning('Eviction: failed to remove old file %s', f)
-                else:
-                    survivors.append(f)
+            except FileNotFoundError:
+                # File disappeared; skip it
+                continue
             except Exception:
+                # Any other stat error: skip this file
                 continue
 
+            if now - mtime > ttl_seconds:
+                try:
+                    try:
+                        b = f.stat().st_size
+                    except Exception:
+                        b = 0
+                    f.unlink()
+                    removed_files.append(f)
+                    removed_bytes += b
+                    logger.info('Eviction: removed old file %s (%.1f KiB)', f, b / 1024.0)
+                except Exception:
+                    logger.warning('Eviction: failed to remove old file %s', f)
+            else:
+                survivors.append(f)
+
         # If we still exceed limits, sort by mtime ascending and delete oldest
-        total_size = sum((f.stat().st_size for f in survivors if f.exists()))
+        # Recompute total_size defensively: ignore files that vanish during this step
+        total_size = 0
+        fresh_survivors = []
+        for f in survivors:
+            try:
+                if not f.exists():
+                    continue
+                total_size += f.stat().st_size
+                fresh_survivors.append(f)
+            except FileNotFoundError:
+                continue
+            except Exception:
+                continue
+        survivors = fresh_survivors
         total_mb = total_size / (1024 * 1024)
 
         if len(survivors) > max_files or total_mb > max_total_mb:
-            survivors_sorted = sorted(survivors, key=lambda p: p.stat().st_mtime)
+            # Sorting must tolerate files that disappear between calls to stat()
+            try:
+                survivors_sorted = sorted(
+                    survivors,
+                    key=lambda p: p.stat().st_mtime if p.exists() else 0
+                )
+            except FileNotFoundError:
+                # As a fallback, filter and re-sort
+                survivors = [p for p in survivors if p.exists()]
+                survivors_sorted = sorted(survivors, key=lambda p: p.stat().st_mtime)
             # Delete until under both thresholds
             for f in survivors_sorted:
                 try:
@@ -1318,7 +1365,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             .stats-grid {{
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                /* WeasyPrint doesn't support auto-fit/auto-fill in repeat(); use a fixed column fallback */
+                grid-template-columns: repeat(2, minmax(100px, 1fr));
                 gap: 15px;
                 margin-top: 15px;
             }}
@@ -1646,7 +1694,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             .glossary-grid {{
                 display: grid;
-                grid-template-columns: 1fr;
+                /* Avoid auto-fit/auto-fill which WeasyPrint warns about; choose a conservative 2-column layout for PDF */
+                grid-template-columns: repeat(2, minmax(100px, 1fr));
                 gap: 0;
                 margin-bottom: 16px;
             }}

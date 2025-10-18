@@ -10,6 +10,7 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## Unreleased
 
 - UX: Use subtle category dividers for the mini-glossary in user-facing PDF exports (matches admin export styling). (2025-10-14)
+ - Fix: make formula image cache eviction robust to concurrent deletions; improve export UI (per-export cooldowns, always-enabled "Status prüfen"). (2025-10-18)
 
 
 ## [1.3.0] - 2025-10-08 🔒 **SECURITY RELEASE**
