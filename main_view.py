@@ -1013,7 +1013,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     for i, frage in enumerate(questions):
         thema = frage.get("thema", "Allgemein")
         if thema not in topic_performance:
-            topic_performance[thema] = {"erreicht": 0, "maximal": 0, "answered_count": 0, "question_count": 0}
+            topic_performance[thema] = {"erreicht": 0, "maximal": 0, "answered_count": 0, "question_count": 0, "correct": 0, "wrong": 0}
 
         max_punkte = frage.get("gewichtung", 1)
         topic_performance[thema]["maximal"] += max_punkte
@@ -1025,6 +1025,15 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             erreichte_punkte = max(0, punkte)
             topic_performance[thema]["erreicht"] += erreichte_punkte
             topic_performance[thema]["answered_count"] += 1
+            # Zähle korrekte vs. falsche Antworten (korrekt = positiv erzielte Punkte)
+            try:
+                if punkte > 0:
+                    topic_performance[thema]["correct"] += 1
+                else:
+                    topic_performance[thema]["wrong"] += 1
+            except Exception:
+                # Defensive: falls punkte kein Zahlentyp ist
+                pass
 
     # DataFrame für die Visualisierung erstellen.
     # Zeige nur Themen, zu denen mindestens eine Frage beantwortet wurde,
@@ -1050,27 +1059,68 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
         # Use Plotly for better label/hover control so the (answered/total) is always visible
         try:
-            import plotly.express as px
+            import plotly.graph_objects as go
 
-            fig = px.bar(
-                df_performance,
-                x="Label",
-                y="Leistung (%)",
-                text=df_performance["Leistung (%)"].round(1).astype(str) + "%",
-                color_discrete_sequence=["#4b9fff"],
-                hover_data={"Thema": True, "Answered": True, "Total": True, "Leistung (%)": ":.1f"},
+            # Prepare customdata: Thema, Answered, Total, correct, wrong, pct
+            customdata = []
+            for _, row in df_performance.iterrows():
+                thema = row['Thema']
+                answered = int(row['Answered'])
+                total = int(row['Total'])
+                # Retrieve correct/wrong counts from topic_performance
+                perf = topic_performance.get(thema, {})
+                correct = int(perf.get('correct', 0))
+                wrong = int(perf.get('wrong', 0))
+                pct = float(row['Leistung (%)'])
+                customdata.append([thema, answered, total, correct, wrong, pct])
+
+            # Short label inside/outside the bar
+            df_performance['display_text'] = df_performance.apply(
+                lambda r: f"{int(r['Leistung (%)'])}% ({int(r['Answered'])}/{int(r['Total'])})", axis=1
             )
-            fig.update_traces(textposition="outside", marker_line_width=0)
-            # Berechne etwas Puffer oberhalb des höchsten Balkens, damit
-            # Textbeschriftungen (z.B. "100 %") nicht abgeschnitten werden.
+
+            fig = go.Figure()
+            # Determine color per bar: green >=75, orange >=50, red <50
+            def color_for_pct(pct: float) -> str:
+                try:
+                    if pct >= 75:
+                        return '#2ecc71'  # green
+                    if pct >= 50:
+                        return '#f39c12'  # orange
+                    return '#e74c3c'      # red
+                except Exception:
+                    return '#4b9fff'
+
+            colors = [color_for_pct(float(r)) for r in df_performance['Leistung (%)']]
+
+            fig.add_trace(
+                go.Bar(
+                    x=df_performance['Label'],
+                    y=df_performance['Leistung (%)'],
+                    text=df_performance['display_text'],
+                    textposition='inside',
+                    marker_color=colors,
+                    customdata=customdata,
+                    hovertemplate=(
+                        '<b>Thema</b>: %{customdata[0]}<br>'
+                        '<b>Leistung</b>: %{customdata[5]:.1f}%<br>'
+                        '<b>Richtig / Gesamt</b>: %{customdata[3]} / %{customdata[2]}<br>'
+                        '<b>Falsch</b>: %{customdata[4]}<br>'
+                        '<b>Beantwortet</b>: %{customdata[1]} / %{customdata[2]}<extra></extra>'
+                    ),
+                )
+            )
+
+            # Compute y-axis top to leave room for labels
             max_pct = float(df_performance['Leistung (%)'].max() if not df_performance.empty else 100)
             y_top = max(105.0, max_pct * 1.12)
+
             fig.update_layout(
                 xaxis_tickangle=-30,
-                xaxis_title="Thema (beantwortet/gesamt)",
-                yaxis_title="Leistung (%)",
+                xaxis_title='Thema (beantwortet/gesamt)',
+                yaxis_title='Leistung (%)',
                 margin=dict(t=40, b=140, l=40, r=10),
-                height=360,
+                height=400,
                 yaxis=dict(range=[0, y_top]),
             )
 
