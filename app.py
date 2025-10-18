@@ -191,9 +191,18 @@ def main():
         
         render_admin_panel(app_config, questions)
     # Priorität 2: Test ist beendet (und keine Detailanzeige mehr offen)
-    elif is_test_finished(questions) or st.session_state.get("test_time_expired", False):
-        # Wenn der Test beendet ist, zeige immer die Zusammenfassung.
-        # Die Logik für den Review-Modus ist in render_final_summary enthalten.
+    # Wenn das Review/Erklärungs-Overlay für die letzte beantwortete Frage
+    # noch aktiv ist, soll zuerst die Bewertungs-/Erklärungsanzeige gezeigt
+    # werden. Nur wenn kein Erklärungs-Overlay aktiv ist, zeigen wir die
+    # finale Zusammenfassung automatisch.
+    # If the test time expired, show the final summary immediately (override any open overlays)
+    elif st.session_state.get("test_time_expired", False):
+        render_final_summary(questions, app_config)
+    elif (is_test_finished(questions)) and not (
+        "last_answered_idx" in st.session_state
+        and st.session_state.get(f"show_explanation_{st.session_state.last_answered_idx}")
+    ):
+        # Wenn der Test beendet ist und kein Erklärungsoverlay offen, zeige die Zusammenfassung.
         render_final_summary(questions, app_config)
     # Priorität 3: Eine spezifische Frage anzeigen (entweder die letzte Antwort oder die nächste offene)
     elif current_idx is not None:

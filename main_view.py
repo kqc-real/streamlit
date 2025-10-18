@@ -915,7 +915,11 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
-    st.header("🚀 Test abgeschlossen!")
+    # Wenn die Testzeit abgelaufen ist, zeigen wir einen anderen Titel an.
+    if st.session_state.get("test_time_expired", False):
+        st.header("⏰ Zeit abgelaufen!")
+    else:
+        st.header("🚀 Test abgeschlossen!")
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
