@@ -1239,6 +1239,37 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     cached = st.session_state.get(cache_key)
     job_sess_key = f"_muster_job_{q_file_clean}_{user_name_file}"
 
+    # Always render a 'Status prüfen' button so users can see how to refresh
+    # the page to pick up a finished export. The button is disabled when no
+    # background job exists for this user+set to avoid confusion.
+    # Determine whether a job id exists for this user+set
+    job_exists = bool(st.session_state.get(job_sess_key))
+
+    # Render a full-width 'Status prüfen' button so it's easy to click.
+    # Disabled when there is no background job for clarity.
+    if st.button(
+        "Status prüfen",
+        key=f"status_pruefen_{q_file_clean}_{user_name_file}",
+        disabled=(not job_exists),
+    ):
+        try:
+            st.experimental_rerun()
+        except Exception:
+            pass
+
+    # Short helper message below the button
+    if cached:
+        # When a cached PDF exists, clear the defensive fallback and show a
+        # success caption so the user isn't misled into thinking the export
+        # is still running.
+        # nothing to clean up here
+        st.caption("✅ Musterlösung verfügbar — klicke 'Musterlösung herunterladen' oder lade die Seite neu.")
+    else:
+        if not job_exists:
+            st.caption("Kein laufender Export für dieses Set. Klicke auf 'Musterlösung (PDF) generieren'.")
+        else:
+            st.caption("Export läuft — klicke 'Status prüfen', um den aktuellen Fortschritt abzurufen.")
+
     if cached:
         data_to_send = cached
         # If the cached value is a filesystem path, read bytes from disk.
@@ -1329,12 +1360,17 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     pass
             else:
                 # Still running or queued; allow user to cancel (optional)
-                if st.button("Abbrechen", key=f"cancel_muster_{job_id}"):
-                    # best-effort: remove job id so UI stops polling; actual cancellation not implemented
-                    try:
-                        del st.session_state[job_sess_key]
-                    except Exception:
-                        pass
+                # Make the status button wider so it's easier to click.
+                cols = st.columns([1, 3])
+                with cols[0]:
+                    if st.button("Abbrechen", key=f"cancel_muster_{job_id}"):
+                        # best-effort: remove job id so UI stops polling; actual cancellation not implemented
+                        try:
+                            del st.session_state[job_sess_key]
+                        except Exception:
+                            pass
+                # Note: persistent 'Status prüfen' button above handles refreshes;
+                # avoid rendering a duplicate button here to reduce confusion.
 
         else:
             # Start a new background job when button is clicked
@@ -1346,19 +1382,46 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             if st.button("📄 Musterlösung (PDF) generieren", key="user_muster_generate", width="stretch", disabled=(not can_export_now)):
                 from pdf_export import generate_musterloesung_pdf
                 from export_jobs import start_musterloesung_job
+                import logging
+                import traceback
 
                 # Start background job; generate_musterloesung_pdf supports progress_callback
-                job_id_new = start_musterloesung_job(
-                    generate_musterloesung_pdf,
-                    q_file,
-                    list(questions),
-                    app_config,
-                    total_timeout,
-                )
-                st.session_state[job_sess_key] = job_id_new
-                # record timestamp to enforce cooldown for this user
-                st.session_state[last_export_key] = int(time.time())
-                st.info("Export gestartet. Bitte warte einen Moment — der Fortschritt wird unten angezeigt.")
+                try:
+                    job_id_new = start_musterloesung_job(
+                        generate_musterloesung_pdf,
+                        q_file,
+                        list(questions),
+                        app_config,
+                        total_timeout,
+                    )
+                except Exception as e:
+                    logging.exception("Failed to start musterloesung job")
+                    st.error(f"Fehler beim Starten des Exports: {e}")
+                    job_id_new = None
+
+                if job_id_new:
+                    # Persist the job id in session_state and record export timestamp.
+                    try:
+                            st.session_state[job_sess_key] = job_id_new
+                            # Persist the job id under the computed per-user-per-set key.
+                            st.session_state[last_export_key] = int(time.time())
+                    except Exception:
+                        logging.exception("Failed to write job id to session_state")
+
+                    # Persisted job id and defensive fallback are sufficient for
+                    # production; avoid extra debug file writes here.
+
+                    # Inform the user and display the created job id for debugging
+                    st.info(f"Export gestartet (job_id={job_id_new}). Klicke auf 'Status prüfen', um den Fortschritt abzurufen.")
+
+                    # Force a rerun so the UI updates and the 'Status prüfen' button
+                    # becomes enabled immediately when session_state was successfully set.
+                    try:
+                        st.experimental_rerun()
+                    except Exception:
+                        logging.exception("experimental_rerun failed")
+                else:
+                    st.error("Export konnte nicht gestartet werden. Schau ins Terminal-Log für Details.")
 
 
 def render_review_mode(questions: QuestionSet):
