@@ -1368,7 +1368,14 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
             status = get_job_status(job_id) or {"status": "unknown", "progress": 0, "message": "Unbekannt"}
             prog = st.progress(status.get("progress", 0))
-            st.info(status.get("message", ""))
+            # Avoid showing raw 'finished' text from the job backend which causes
+            # a redundant one-word message; show detailed messages only for
+            # non-final states. Final states are handled below with localized
+            # success / error UI elements.
+            msg = status.get("message", "") or ""
+            if status.get("status") not in ("finished", "failed"):
+                if msg and msg.lower() not in ("unknown", "finished"):
+                    st.info(msg)
 
             if status.get("status") == "finished":
                 result = status.get("result")
