@@ -16,3 +16,9 @@ test_audit_log.db*
 
 # Streamlit Secrets (sensible Produktiv-Daten)
 .streamlit/secrets.toml
+
+# Generated exports (PDFs, benchmarks)
+exports/
+
+# Local variable data (formula cache, temp)
+var/

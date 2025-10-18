@@ -64,6 +64,24 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 - Per-User Export-Cache: Um wiederholte Anfragen schnell zu bedienen, werden erzeugte Musterlösungen temporär im Session-Cache (`st.session_state`) zwischengespeichert und beim erneuten Download sofort ausgeliefert.
 - Zeitabschätzung & Probe-Rendering: Bei PDF-Exporten mit Formeln wird optional ein Probe-Rendering durchgeführt, um die voraussichtliche Gesamtdauer anzugeben.
 
+### Formel-Cache (Disk) & automatische Eviction
+
+Die App cached gerenderte LaTeX-Formel-Bilder als PNG-Dateien auf der lokalen Festplatte, um Netzwerkaufrufe zur Remote-Render-API zu reduzieren und Exporte zu beschleunigen. Damit der Cache auf Hosts mit begrenztem oder ephemerem Speicher (z. B. Streamlit Community Cloud) nicht unkontrolliert wächst, gibt es automatische Eviction-Mechanismen.
+
+Konfigurierbare Umgebungsvariablen:
+
+- FORMULA_CACHE_DIR: Pfad zum Cache-Verzeichnis (Standard: ./var/formula_cache)
+- FORMULA_CACHE_MAX_FILES: Maximale Anzahl Dateien im Cache (Standard: 200)
+- FORMULA_CACHE_MAX_MB: Maximale Gesamtgröße des Caches in MiB (Standard: 200)
+- FORMULA_CACHE_TTL_DAYS: Lebensdauer von Cache-Dateien in Tagen (Standard: 7)
+
+Verhalten:
+
+- Vor jedem Schreiben einer neuen Formeldatei wird die Eviction-Routine ausgeführt: Dateien älter als TTL werden zuerst entfernt; danach werden die ältesten Dateien gelöscht, bis sowohl Dateianzahl als auch Gesamtgröße innerhalb der Grenzwerte liegen.
+- Auf schreibgeschützten oder nicht verfügbaren Dateisystemen werden Schreibfehler ignoriert und die In-Memory-Fallback-Strategie verwendet. Das verhindert Abstürze auf restriktiven Plattformen.
+
+Empfehlung: Setze konservative Limits für Cloud-Deploys (z. B. FORMULA_CACHE_MAX_MB=50, FORMULA_CACHE_MAX_FILES=100) und überwache die Nutzung in Logs.
+
 
 ---
 
@@ -186,6 +204,29 @@ APP_URL="https://ihre-streamlit-app.streamlit.app"
 ├── GLOSSARY_SCHEMA.md                 # Dokumentation für Mini-Glossar in Fragensets
 ├── VISION_RELEASE_2.0.md              # Strategische Vision & Feature-Roadmap Release 2.0
 └── README.md                          # Diese Dokumentation
+
+## 🧰 Developer tools (local)
+
+Es gibt kleine Hilfs-Skripte zum Testen und Benchmarking im Ordner `tools/`:
+
+- `tools/test_evict.py` — Erzeugt Dummy-Dateien im Cache (`var/formula_cache`) und testet die Eviction-Routine.
+- `tools/run_export_test.py` — Führt einen einzelnen Musterlösungs-Export durch und schreibt das PDF nach `exports/`.
+- `tools/benchmark_exports.py` — Führe N Exporte hintereinander aus (Standard N=5) und schreibe eine `exports/benchmark_summary.txt`.
+
+Beispiele:
+
+```bash
+# Eviction smoke test
+PYTHONPATH=. python3 tools/test_evict.py
+
+# Single export (shows progress)
+PYTHONPATH=. python3 tools/run_export_test.py
+
+# Benchmark with 5 runs
+BENCH_EXPORTS_N=5 PYTHONPATH=. python3 tools/benchmark_exports.py
+```
+
+Hinweis: Die generierten Artefakte landen in `exports/` und werden in `.gitignore` ausgeschlossen, damit sie nicht versehentlich in Git landen.
 ```
 
 ---

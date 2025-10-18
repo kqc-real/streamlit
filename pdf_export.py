@@ -5,7 +5,7 @@ import io
 import re
 import base64
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Callable, Optional
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 import io
 
@@ -16,6 +16,17 @@ from weasyprint import HTML
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
 from helpers import format_decimal_de
+import os
+import logging
+import traceback
+import threading
+import hashlib
+from pathlib import Path
+
+# Global semaphore to limit concurrent formula renderers across jobs.
+# Configure via environment variable FORMULA_RENDER_PARALLEL (default 6).
+_MAX_FORMULA_PARALLEL = int(os.getenv('FORMULA_RENDER_PARALLEL', '6'))
+_formula_semaphore = threading.Semaphore(_MAX_FORMULA_PARALLEL)
 
 # QR-Code Generation
 try:
@@ -26,6 +37,131 @@ except ImportError:
 
 # Cache für bereits gerenderte Formeln (spart API-Calls bei duplizierten Formeln)
 _formula_cache = {}
+
+# Disk-backed formula image cache (stores PNG files). Directory configurable
+# via FORMULA_CACHE_DIR env var. On Streamlit Community Cloud the filesystem
+# is writable but ephemeral across deploys — this cache improves runtime
+# performance but is not persistent across restarts.
+FORMULA_CACHE_DIR = Path(os.getenv('FORMULA_CACHE_DIR', os.path.join(os.getcwd(), 'var', 'formula_cache')))
+try:
+    FORMULA_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    # If we cannot create the cache dir (read-only FS), we silently
+    # continue and only use the in-memory cache.
+    FORMULA_CACHE_DIR = None
+
+# Configure module logger
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    # Basic config will be inherited by the app; keep formatting minimal
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(name)s: %(message)s')
+
+
+# Cache eviction configuration (can be overridden via env vars)
+# Reduced defaults are safer for cloud deployments (ephemeral disks)
+FORMULA_CACHE_MAX_FILES = int(os.getenv('FORMULA_CACHE_MAX_FILES', '100'))
+FORMULA_CACHE_MAX_MB = int(os.getenv('FORMULA_CACHE_MAX_MB', '50'))
+FORMULA_CACHE_TTL_DAYS = int(os.getenv('FORMULA_CACHE_TTL_DAYS', '7'))
+
+
+def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days: int = 7) -> None:
+    """Evict old entries from the disk formula cache.
+
+    Strategy:
+    - Remove files older than ttl_days.
+    - If total files > max_files or total size > max_total_mb, remove
+      oldest files until under limits.
+    """
+    try:
+        if not FORMULA_CACHE_DIR:
+            return
+
+        import time
+
+        files = list(FORMULA_CACHE_DIR.glob('*.png'))
+        if not files:
+            return
+
+        pre_count = len(files)
+        pre_total_bytes = sum((f.stat().st_size for f in files if f.exists()))
+        pre_total_mb = pre_total_bytes / (1024 * 1024)
+
+        logger.info('Eviction: starting with %d files, %.2f MiB (limits: files=%d, MB=%d, ttl_days=%d)',
+                    pre_count, pre_total_mb, max_files, max_total_mb, ttl_days)
+
+        # Remove any lingering temporary files first (from previous interrupted writes)
+        tmp_files = list(FORMULA_CACHE_DIR.glob('*.tmp'))
+        for tf in tmp_files:
+            try:
+                b = tf.stat().st_size if tf.exists() else 0
+                tf.unlink()
+                logger.info('Eviction: removed lingering tmp file %s (%.1f KiB)', tf, b / 1024.0)
+            except Exception:
+                logger.warning('Eviction: failed to remove tmp file %s', tf)
+
+        # Remove files older than ttl_days
+        now = time.time()
+        ttl_seconds = ttl_days * 86400
+        survivors = []
+        removed_files = []
+        removed_bytes = 0
+
+        for f in files:
+            try:
+                mtime = f.stat().st_mtime
+                if now - mtime > ttl_seconds:
+                    try:
+                        b = f.stat().st_size
+                        f.unlink()
+                        removed_files.append(f)
+                        removed_bytes += b
+                        logger.info('Eviction: removed old file %s (%.1f KiB)', f, b / 1024.0)
+                    except Exception:
+                        logger.warning('Eviction: failed to remove old file %s', f)
+                else:
+                    survivors.append(f)
+            except Exception:
+                continue
+
+        # If we still exceed limits, sort by mtime ascending and delete oldest
+        total_size = sum((f.stat().st_size for f in survivors if f.exists()))
+        total_mb = total_size / (1024 * 1024)
+
+        if len(survivors) > max_files or total_mb > max_total_mb:
+            survivors_sorted = sorted(survivors, key=lambda p: p.stat().st_mtime)
+            # Delete until under both thresholds
+            for f in survivors_sorted:
+                try:
+                    if not f.exists():
+                        continue
+                    b = f.stat().st_size
+                    f.unlink()
+                    removed_files.append(f)
+                    removed_bytes += b
+                    total_size -= b
+                    total_mb = total_size / (1024 * 1024)
+                    logger.info('Eviction: pruned file %s (%.1f KiB). New total: %.2f MiB', f, b / 1024.0, total_mb)
+                except Exception:
+                    logger.warning('Eviction: failed to prune file %s', f)
+
+                current_count = len(list(FORMULA_CACHE_DIR.glob('*.png')))
+                if current_count <= max_files and total_mb <= max_total_mb:
+                    break
+
+        post_files = list(FORMULA_CACHE_DIR.glob('*.png'))
+        post_count = len(post_files)
+        post_total_bytes = sum((f.stat().st_size for f in post_files if f.exists()))
+        post_total_mb = post_total_bytes / (1024 * 1024)
+
+        removed_count = len(removed_files)
+
+        if removed_count > 0:
+            logger.info('Eviction summary: removed %d files (%.2f MiB). Before: %d files / %.2f MiB; After: %d files / %.2f MiB',
+                        removed_count, removed_bytes / (1024 * 1024), pre_count, pre_total_mb, post_count, post_total_mb)
+
+    except Exception:
+        # Be conservative: failure to evict is non-fatal
+        logger.exception('Eviction failed')
 
 # Default total timeout (seconds) for parallel formula rendering per parse call.
 # This prevents a single export from blocking indefinitely when external LaTeX
@@ -42,6 +178,39 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
     cache_key = (formula, is_block)
     if cache_key in _formula_cache:
         return _formula_cache[cache_key]
+
+    # Attempt disk-backed cache: derive filename from sha1(formula+flag)
+    cache_filename = None
+    try:
+        if FORMULA_CACHE_DIR:
+            h = hashlib.sha1((formula + ('@block' if is_block else '@inline')).encode('utf-8')).hexdigest()
+            cache_filename = FORMULA_CACHE_DIR.joinpath(f"{h}.png")
+            if cache_filename.exists():
+                # Read file and return as data URI img tag (prefer block/inline styles)
+                try:
+                    with open(cache_filename, 'rb') as cf:
+                        img_bytes = cf.read()
+                        img_data = base64.b64encode(img_bytes).decode()
+                        logger.info('Formula disk cache HIT: %s', cache_filename)
+                        image_url = f'data:image/png;base64,{img_data}'
+                        if is_block:
+                            result = (f'<div style="text-align: center; margin: 1.2em 0; '
+                                      f'padding: 0.5em; background-color: #f8f9fa;">'
+                                      f'<img src="{image_url}" alt="LaTeX formula" '
+                                      f'style="max-width: 100%; height: auto; vertical-align: middle;">'
+                                      f'</div>')
+                        else:
+                            result = (f'<img src="{image_url}" alt="LaTeX formula" '
+                                      f'style="vertical-align: middle; margin: 0 0.15em; max-height: 1.2em;">')
+                        _formula_cache[cache_key] = result
+                        return result
+                except Exception:
+                    # If reading cache fails, continue to generate anew
+                    logger.warning('Failed to read formula cache file %s, will regenerate', cache_filename)
+                    cache_filename = None
+                    pass
+    except Exception:
+        cache_filename = None
     
     try:
         # Kleinere Schriftgröße aber extrem hohe DPI für beste Qualität
@@ -110,7 +279,26 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
                 try:
                     img_response = requests.get(image_url, timeout=10)
                     if img_response.ok:
-                        img_data = base64.b64encode(img_response.content).decode()
+                        img_bytes = img_response.content
+                        # If disk cache is available, write the PNG atomically
+                        try:
+                            if cache_filename is not None and FORMULA_CACHE_DIR is not None:
+                                # Run eviction before writing to keep cache within limits
+                                _evict_formula_cache(
+                                    max_files=FORMULA_CACHE_MAX_FILES,
+                                    max_total_mb=FORMULA_CACHE_MAX_MB,
+                                    ttl_days=FORMULA_CACHE_TTL_DAYS,
+                                )
+                                tmp_path = cache_filename.with_suffix('.tmp')
+                                with open(tmp_path, 'wb') as tf:
+                                    tf.write(img_bytes)
+                                os.replace(tmp_path, cache_filename)
+                                logger.info('Wrote formula image to disk cache: %s (bytes=%d)', cache_filename, len(img_bytes))
+                        except Exception:
+                            # Ignore disk write errors; proceed with in-memory result
+                            logger.warning('Failed to write formula cache file %s: %s', cache_filename, traceback.format_exc())
+                            pass
+                        img_data = base64.b64encode(img_bytes).decode()
                         image_url = f'data:image/png;base64,{img_data}'
                 except Exception:
                     pass  # Fallback auf direkte URL
@@ -166,8 +354,11 @@ def _render_formulas_parallel(formulas: List[tuple], total_timeout: float | None
     results = {}
     
     def render_one(idx, formula_type, formula):
+        # Respect the global semaphore so we don't saturate remote LaTeX API
+        # when many users run exports concurrently.
         is_block = (formula_type == 'block')
-        return idx, _render_latex_to_image(formula, is_block)
+        with _formula_semaphore:
+            return idx, _render_latex_to_image(formula, is_block)
     
     # Dynamische Worker-Anzahl: 2x CPU-Kerne, max 20 (für I/O-bound tasks)
     import os
@@ -210,6 +401,8 @@ def _render_formulas_parallel(formulas: List[tuple], total_timeout: float | None
                     results[idx_ret] = rendered
                 except Exception:
                     results[idx] = '[Formel-Fehler]'
+                # Optional: we could report per-formula progress here via
+                # a callback; generate_musterloesung_pdf uses coarse reports.
 
         # Any remaining futures after loop -> mark as timeout
         for fut in list(pending):
@@ -1679,13 +1872,20 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     return HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
 
 
-def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app_config: AppConfig, total_timeout: float | None = None) -> bytes:
+def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app_config: AppConfig, total_timeout: float | None = None, progress_callback: Optional[Callable] = None) -> bytes:
     """
     Generiert ein PDF mit der Musterlösung (nur korrekte Antworten) und hängt das Mini-Glossar an.
     Dies ist ein schlankeres Format als der vollständige Nutzerbericht und eignet sich für Admin-Downloads.
     """
     set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
     generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
+
+    def _report(pct: int, msg: str = ""):
+        try:
+            if progress_callback:
+                progress_callback(pct, msg)
+        except Exception:
+            pass
 
     # Baue einfachen HTML-Report mit markierten korrekten Antworten
     html_parts: list[str] = []
@@ -1698,6 +1898,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
 
     # Nummeriere die Fragen fortlaufend in der Reihenfolge, wie sie hier übergeben werden
     for display_num, frage in enumerate(questions, start=1):
+        # coarse progress report: parsing/rendering block per question
+        _report(int((display_num - 1) / max(1, len(questions)) * 60), f"Verarbeite Frage {display_num}/{len(questions)}")
         frage_text = frage.get("frage", "")
         # Parst Markdown/LaTeX in sicheres HTML
         parsed_frage = _parse_text_with_formulas(
@@ -1752,6 +1954,9 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             html_parts.append(explanation_html)
 
         html_parts.append('</div>')
+
+    # report that question parsing is mostly done (~60%)
+    _report(65, "Fragen verarbeitet, baue Glossar und HTML")
 
     html_parts.append('</div>')
 
@@ -1809,4 +2014,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     </html>
     """
 
-    return HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
+    # Before writing PDF, report that we're starting the final render
+    _report(80, "Konvertiere HTML zu PDF")
+    pdf_bytes = HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
+
+    # Final progress update
+    _report(100, "Fertig")
+    return pdf_bytes

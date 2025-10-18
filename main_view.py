@@ -1153,25 +1153,41 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 )
     
     # Button zum Generieren
-    if st.button("📥 PDF jetzt generieren", type="primary", width="stretch"):
+    # Per-user cooldown to avoid many parallel/rapid exports on shared hosts
+    COOLDOWN_SECONDS = int(os.getenv('EXPORT_COOLDOWN_SECONDS', '300'))  # default 5 minutes
+    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+    last_export_key = f"last_export_ts_{user_name_file}"
+    last_export_ts = st.session_state.get(last_export_key, 0)
+    now_ts = int(time.time())
+    can_export_now = (now_ts - int(last_export_ts)) >= COOLDOWN_SECONDS
+
+    if not can_export_now:
+        wait = int(COOLDOWN_SECONDS - (now_ts - int(last_export_ts)))
+        st.info(f"Du hast kürzlich einen Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
+
+    if st.button("📥 PDF jetzt generieren", type="primary", width="stretch", disabled=(not can_export_now)):
         from pdf_export import generate_pdf_report
-        
+
         # Fortschrittsanzeige passend zum Inhalt
         spinner_text = (
             f"⏳ Formeln werden konvertiert... Bitte warten ({anzahl_fragen} Fragen)"
             if has_math
             else f"⏳ PDF wird erstellt... ({anzahl_fragen} Fragen)"
         )
+
         with st.spinner(spinner_text):
             try:
                 # Generiere die PDF-Daten im Speicher
                 pdf_bytes = generate_pdf_report(questions, app_config)
-                
+
+                # mark timestamp for cooldown (only on success)
+                st.session_state[last_export_key] = int(time.time())
+
                 user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
                 q_file_clean = q_file_name.replace("questions_", "").replace(".json", "")
-                
+
                 st.success("✅ PDF erfolgreich erstellt!")
-                
+
                 # Download-Button
                 st.download_button(
                     label="💾 PDF herunterladen",
@@ -1221,36 +1237,128 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
     # If already cached for this user+set, offer immediate download
     cached = st.session_state.get(cache_key)
+    job_sess_key = f"_muster_job_{q_file_clean}_{user_name_file}"
+
     if cached:
+        data_to_send = cached
+        # If the cached value is a filesystem path, read bytes from disk.
+        try:
+            if isinstance(cached, str) and os.path.exists(cached):
+                with open(cached, 'rb') as _f:
+                    data_bytes = _f.read()
+                # Replace the cached path with actual bytes for future use.
+                st.session_state[cache_key] = data_bytes
+                data_to_send = data_bytes
+            else:
+                data_to_send = cached
+        except Exception:
+            # If anything goes wrong reading the file, fall back to the
+            # original cached value (may already be bytes) so Streamlit
+            # can attempt to handle it.
+            data_to_send = cached
+
         st.download_button(
             label="💾 Musterlösung herunterladen",
-            data=cached,
+            data=data_to_send,
             file_name=f"musterloesung_{q_file_clean}_{user_name_file}.pdf",
             mime="application/pdf",
             key="download_muster_user",
             width="stretch",
         )
     else:
-        if st.button("📄 Musterlösung (PDF) generieren", key="user_muster_generate", width="stretch"):
-            from pdf_export import generate_musterloesung_pdf
+        # If a background job exists for this user+set, poll its status
+        job_id = st.session_state.get(job_sess_key)
+        if job_id:
+            from export_jobs import get_job_status
 
-            with st.spinner(spinner_text):
-                try:
-                    # Generate and cache the muster PDF for this user/session
-                    muster_bytes = generate_musterloesung_pdf(q_file, list(questions), app_config, total_timeout=total_timeout)
-                    st.session_state[cache_key] = muster_bytes
+            status = get_job_status(job_id) or {"status": "unknown", "progress": 0, "message": "Unbekannt"}
+            prog = st.progress(status.get("progress", 0))
+            st.info(status.get("message", ""))
+
+            if status.get("status") == "finished":
+                result = status.get("result")
+                if result:
+                    # If result is a filesystem path, read bytes and cache
+                    # the bytes in session_state to avoid serving paths later.
+                    data_to_send = result
+                    try:
+                        if isinstance(result, str) and os.path.exists(result):
+                            with open(result, 'rb') as _f:
+                                data_bytes = _f.read()
+                            st.session_state[cache_key] = data_bytes
+                            data_to_send = data_bytes
+                        else:
+                            st.session_state[cache_key] = result
+                    except Exception:
+                        # On error, still store what we have and attempt to send it.
+                        st.session_state[cache_key] = result
+                        data_to_send = result
+                    # cleanup job id
+                    try:
+                        del st.session_state[job_sess_key]
+                    except Exception:
+                        pass
+
                     st.success("✅ Musterlösung erstellt")
+                    # If result is a filesystem path, read the bytes before
+                    # passing them to the download button to avoid leaking
+                    # a path string or returning an incomplete stream.
+                    data_to_send = result
+                    try:
+                        if isinstance(result, str) and os.path.exists(result):
+                            with open(result, 'rb') as _f:
+                                data_to_send = _f.read()
+                    except Exception:
+                        data_to_send = result
 
                     st.download_button(
                         label="💾 Musterlösung herunterladen",
-                        data=muster_bytes,
+                        data=data_to_send,
                         file_name=f"musterloesung_{q_file_clean}_{user_name_file}.pdf",
                         mime="application/pdf",
                         key="download_muster_user_after_gen",
                         width="stretch",
                     )
-                except Exception as e:
-                    st.error(f"Fehler beim Erstellen der Musterlösung: {e}")
+                else:
+                    st.error("Fehler: Job beendet, aber kein Ergebnis vorhanden.")
+            elif status.get("status") == "failed":
+                st.error(f"Export fehlgeschlagen: {status.get('message')}")
+                try:
+                    del st.session_state[job_sess_key]
+                except Exception:
+                    pass
+            else:
+                # Still running or queued; allow user to cancel (optional)
+                if st.button("Abbrechen", key=f"cancel_muster_{job_id}"):
+                    # best-effort: remove job id so UI stops polling; actual cancellation not implemented
+                    try:
+                        del st.session_state[job_sess_key]
+                    except Exception:
+                        pass
+
+        else:
+            # Start a new background job when button is clicked
+            # Cooldown also applies to Musterlösung generation
+            if not can_export_now:
+                # Button rendered disabled below; keep message
+                pass
+
+            if st.button("📄 Musterlösung (PDF) generieren", key="user_muster_generate", width="stretch", disabled=(not can_export_now)):
+                from pdf_export import generate_musterloesung_pdf
+                from export_jobs import start_musterloesung_job
+
+                # Start background job; generate_musterloesung_pdf supports progress_callback
+                job_id_new = start_musterloesung_job(
+                    generate_musterloesung_pdf,
+                    q_file,
+                    list(questions),
+                    app_config,
+                    total_timeout,
+                )
+                st.session_state[job_sess_key] = job_id_new
+                # record timestamp to enforce cooldown for this user
+                st.session_state[last_export_key] = int(time.time())
+                st.info("Export gestartet. Bitte warte einen Moment — der Fortschritt wird unten angezeigt.")
 
 
 def render_review_mode(questions: QuestionSet):
