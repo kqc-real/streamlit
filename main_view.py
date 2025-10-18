@@ -1184,6 +1184,74 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 st.error(f"❌ Fehler beim Erstellen des PDFs: {str(e)}")
                 st.info("Versuche es bitte erneut oder kontaktiere den Support.")
 
+    # --- Nutzer: Musterlösung (korrekte Antworten + Erklärungen) ---
+    st.markdown("---")
+    st.subheader("📄 Musterlösung")
+
+    # Hinweis zur Verwendung
+    st.info(
+        "Die Musterlösung enthält alle korrekten Antworten und ausführliche Erklärungen. "
+        "Nutze sie bitte ausschließlich zu Lern- und Übungszwecken."
+        " Teile die PDF nicht in Prüfungs- oder Live-Testkontexten."
+    )
+
+    # Berechne einen sinnvollen Timeout für die Musterlösung (falls Formeln vorhanden)
+    try:
+        q_file = st.session_state.get("selected_questions_file", "")
+        q_file_clean = q_file.replace("questions_", "").replace(".json", "")
+        # Wenn Formeln vorhanden sind, erhöhe das Timeout proportional zur Anzahl
+        total_timeout = None
+        if has_math:
+            # Grobe Regel: 2s pro Formel als Basisschätzung, aber mindestens 30s und max 600s
+            total_timeout = min(600, max(30, int(formula_count * 2)))
+    except Exception:
+        q_file = st.session_state.get("selected_questions_file", "")
+        q_file_clean = q_file.replace("questions_", "").replace(".json", "")
+        total_timeout = None
+
+    # Prepare per-user cache key for the muster PDF
+    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+    cache_key = f"_muster_pdf_{q_file_clean}_{user_name_file}"
+
+    spinner_text = (
+        f"⏳ Musterlösung wird erstellt ({anzahl_fragen} Fragen, Formeln: {formula_count})"
+        if has_math
+        else f"⏳ Musterlösung wird erstellt ({anzahl_fragen} Fragen)"
+    )
+
+    # If already cached for this user+set, offer immediate download
+    cached = st.session_state.get(cache_key)
+    if cached:
+        st.download_button(
+            label="💾 Musterlösung herunterladen",
+            data=cached,
+            file_name=f"musterloesung_{q_file_clean}_{user_name_file}.pdf",
+            mime="application/pdf",
+            key="download_muster_user",
+            width="stretch",
+        )
+    else:
+        if st.button("📄 Musterlösung (PDF) generieren", key="user_muster_generate", width="stretch"):
+            from pdf_export import generate_musterloesung_pdf
+
+            with st.spinner(spinner_text):
+                try:
+                    # Generate and cache the muster PDF for this user/session
+                    muster_bytes = generate_musterloesung_pdf(q_file, list(questions), app_config, total_timeout=total_timeout)
+                    st.session_state[cache_key] = muster_bytes
+                    st.success("✅ Musterlösung erstellt")
+
+                    st.download_button(
+                        label="💾 Musterlösung herunterladen",
+                        data=muster_bytes,
+                        file_name=f"musterloesung_{q_file_clean}_{user_name_file}.pdf",
+                        mime="application/pdf",
+                        key="download_muster_user_after_gen",
+                        width="stretch",
+                    )
+                except Exception as e:
+                    st.error(f"Fehler beim Erstellen der Musterlösung: {e}")
+
 
 def render_review_mode(questions: QuestionSet):
     """Rendert den interaktiven Review-Modus am Ende des Tests."""

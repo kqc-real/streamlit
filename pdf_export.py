@@ -1696,11 +1696,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     )
     html_parts.append('<div class="section">')
 
-    initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
-
-    for idx, frage in enumerate(questions):
-        # Bestimme Anzeige-Nummer
-        display_num = initial_indices.index(idx) + 1 if idx in initial_indices else idx + 1
+    # Nummeriere die Fragen fortlaufend in der Reihenfolge, wie sie hier übergeben werden
+    for display_num, frage in enumerate(questions, start=1):
         frage_text = frage.get("frage", "")
         # Parst Markdown/LaTeX in sicheres HTML
         parsed_frage = _parse_text_with_formulas(
