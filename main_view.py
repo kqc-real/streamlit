@@ -1076,7 +1076,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
             # Short label inside/outside the bar
             df_performance['display_text'] = df_performance.apply(
-                lambda r: f"{int(r['Leistung (%)'])}% ({int(r['Answered'])}/{int(r['Total'])})", axis=1
+                lambda r: f"{int(r['Leistung (%)'])} % ({int(r['Answered'])}/{int(r['Total'])})", axis=1
             )
 
             fig = go.Figure()
@@ -1103,7 +1103,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     customdata=customdata,
                     hovertemplate=(
                         '<b>Thema</b>: %{customdata[0]}<br>'
-                        '<b>Leistung</b>: %{customdata[5]:.1f}%<br>'
+                        '<b>Leistung</b>: %{customdata[5]:.1f} %<br>'
                         '<b>Richtig / Gesamt</b>: %{customdata[3]} / %{customdata[2]}<br>'
                         '<b>Falsch</b>: %{customdata[4]}<br>'
                         '<b>Beantwortet</b>: %{customdata[1]} / %{customdata[2]}<extra></extra>'

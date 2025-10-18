@@ -133,7 +133,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         wait = int(COOLDOWN_SECONDS - (int(time.time()) - int(glossary_last_ts)))
                         st.sidebar.info(f"Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
 
-                    if st.sidebar.button("💾 Glossar zum Test", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
+                    if st.sidebar.button("💾 Glossar zum Fragenset", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
                         # Vor der eigentlichen Generierung können wir die Anzahl der
                         # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
