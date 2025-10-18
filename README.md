@@ -226,6 +226,38 @@ PYTHONPATH=. python3 tools/run_export_test.py
 BENCH_EXPORTS_N=5 PYTHONPATH=. python3 tools/benchmark_exports.py
 ```
 
+---
+
+## 🧭 Hinweise zum Prompting (für AI / Text‑Generierung)
+
+Kleine, aber wichtige Regel für alle Prompts, die in diese App (oder in Templates) eingespeist werden:
+
+- Verwende echte Leerzeilen / Absätze. Gib niemals die zwei Zeichen Backslash + n (`"\\n"`) als Ersatz für einen Zeilenumbruch aus.
+- Korrekt: eine echte leere Zeile zwischen zwei Absätzen.
+- Nicht verwenden: der Literal‑String `"\\n"` (Backslash + n).
+
+Beispiel (nicht so):
+
+```
+Ergebnis:\n\n- Punkt 1\n- Punkt 2
+```
+
+Beispiel (richtig):
+
+```
+Ergebnis:
+
+- Punkt 1
+- Punkt 2
+```
+
+Warum das wichtig ist:
+- Manche Modelle liefern `"\\n"` anstelle echter Zeilenumbrüche — das bricht Markdown/HTML‑Rendering und macht die Ausgabe schwer lesbar.
+- Eine kurze Nachbearbeitung der Modell‑Antworten (Sanitizer) ist zusätzlich empfehlenswert, siehe `helpers.py`.
+
+Short note (EN): Use real blank lines, not the literal string "\\n". This avoids escaped newline artifacts in Markdown/HTML output.
+
+
 Hinweis: Die generierten Artefakte landen in `exports/` und werden in `.gitignore` ausgeschlossen, damit sie nicht versehentlich in Git landen.
 ```
 
@@ -293,6 +325,7 @@ Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsre
 2.  Stelle pro Schritt **nur die eine, zugehörige Frage** aus der Anleitung.
 3.  Warte **zwingend** auf meine Antwort, bevor Du die nächste Frage stellst oder mit dem nächsten Schritt fortfährst.
 4.  Fahre erst fort, wenn alle 7 Schritte nacheinander durchlaufen wurden.
+5.  Verwende echte Leerzeilen / Absätze in allen Ausgaben. Gib niemals den Literal‑String `"\\n"` (Backslash + n) als Ersatz für Zeilenumbrüche aus. Formatiere Absätze mit echten Zeilenumbrüchen, damit Markdown/HTML‑Rendering korrekt funktioniert.
 
 **Finale Aufgabe (Nach Schritt 7):**
 1.  Nachdem ich die 7. Frage beantwortet habe, fasse meine 7 Konfigurations-Antworten kurz zusammen.
