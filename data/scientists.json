@@ -400,6 +400,198 @@
         "contribution": "Amerikanische Informatikerin, bekannt als 'Mutter des Internets' für ihre Erfindung des Spanning Tree Protocol"
     },
     {
+        "name": "Srinivasa Ramanujan",
+        "contribution": "Mathematiker, Autodidakt mit außergewöhnlichen Beiträgen zur Zahlentheorie"
+    },
+    {
+        "name": "Ada Yonath",
+        "contribution": "Strukturforscherin, Nobelpreisträgerin für Ribosomen-Strukturbestimmungen"
+    },
+    {
+        "name": "Sofia Kovalevskaya",
+        "contribution": "Mathematikerin, Pionierin in partiellen Differentialgleichungen"
+    },
+    {
+        "name": "Satyendra Nath Bose",
+        "contribution": "Physiker, bekannt für die Bose-Einstein-Statistik"
+    },
+    {
+        "name": "Hans Christian Ørsted",
+        "contribution": "Physiker, entdeckte die Beziehung zwischen Elektrizität und Magnetismus"
+    },
+    {
+        "name": "Sune Bergström",
+        "contribution": "Biochemiker, Nobelpreisträger für Arbeiten zu Prostaglandinen"
+    },
+    {
+        "name": "Daniel Bernoulli",
+        "contribution": "Mathematiker und Physiker, bekannter für die Bernoulli-Prinzipien in Fluiddynamik"
+    },
+    {
+        "name": "Hippocrates",
+        "contribution": "Antiker Arzt, gilt als Begründer der medizinischen Ethik"
+    },
+    {
+        "name": "Rita Levi-Montalcini",
+        "contribution": "Neurowissenschaftlerin, Nobelpreisträgerin für Entdeckung des Nervenwachstumsfaktors"
+    },
+    {
+        "name": "Gertrude Elion",
+        "contribution": "Pharmazeutin, Nobelpreisträgerin für neue Arzneimittelentwicklungen"
+    },
+    {
+        "name": "Christian Doppler",
+        "contribution": "Physiker, Entdecker des Doppler-Effekts"
+    },
+    {
+        "name": "Mileva Marić",
+        "contribution": "Mathematikerin, Zeitgenössin Einsteins mit Beitrag zur frühen Relativitätstheorie (diskutiert)"
+    },
+    {
+        "name": "Lynn Margulis",
+        "contribution": "Biologin, Entwicklerin der Endosymbiontentheorie zur Entstehung eukaryotischer Zellen"
+    },
+    {
+        "name": "Ada E. Yonath",
+        "contribution": "Strukturanalytikerin, Nobelpreis für Ribosomenforschung"
+    },
+    {
+        "name": "Eleanor Anne Ormerod",
+        "contribution": "Entomologin, Pionierin der angewandten Schädlingsbekämpfung"
+    },
+    {
+        "name": "Mary Leakey",
+        "contribution": "Paläoanthropologin, wichtige Entdeckungen zur menschlichen Evolution"
+    },
+    {
+        "name": "Hans Geiger",
+        "contribution": "Physiker, Erfinder des Geigerzählers zur Nachweis ionisierender Strahlung"
+    },
+    {
+        "name": "Maxwell Maltz",
+        "contribution": "Plastischer Chirurg und Autor, bekannt für frühe Arbeiten zur Selbsterhaltung (Psyche)"
+    },
+    {
+        "name": "Heinrich Hertz",
+        "contribution": "Physiker, bestätigte die Existenz elektromagnetischer Wellen"
+    },
+    {
+        "name": "Srinivasa Ramanujan",
+        "contribution": "Mathematiker mit tiefen Beiträgen zur Analysis und Zahlentheorie"
+    },
+    {
+        "name": "Florence Sabin",
+        "contribution": "Pionierin der Zellbiologie und Immunologie in den USA"
+    },
+    {
+        "name": "Har Gobind Khorana",
+        "contribution": "Molekularbiologe, Nobelpreisträger für Arbeiten zur genetischen Code-Translation"
+    },
+    {
+        "name": "Christiane Nüsslein-Volhard",
+        "contribution": "Entwicklungsbiologin, Nobelpreisträgerin für Musterbildung in Embryonen"
+    },
+    {
+        "name": "Edna Adan Ismail",
+        "contribution": "Medizinerin und Aktivistin, Verbesserungen der Geburtshilfe in Somalilands Gesundheitswesen"
+    },
+    {
+        "name": "John Dalton",
+        "contribution": "Chemiker und Physiker, entwickelte die Atomtheorie der Chemie"
+    },
+    {
+        "name": "Alexander Oparin",
+        "contribution": "Biochemiker, frühe Hypothesen zur chemischen Entstehung des Lebens"
+    },
+    {
+        "name": "Gerty Cori",
+        "contribution": "Biochemikerin, Nobelpreisträgerin für den Cori-Zyklus in der Kohlenhydratmetabolismusforschung"
+    },
+    {
+        "name": "Fritz Zernike",
+        "contribution": "Physiker, Nobelpreisträger für die Entwicklung der Phasenkontrastmikroskopie"
+    },
+    {
+        "name": "Christiane L. Stähle",
+        "contribution": "Umweltwissenschaftlerin, Beiträge zur Ökotoxikologie (regional bekannt)"
+    },
+    {
+        "name": "Walter Gilbert",
+        "contribution": "Biochemiker, Nobelpreisträger für DNA-Sequenzierungsmethoden"
+    },
+    {
+        "name": "Katalin Karikó",
+        "contribution": "Biochemikerin, Pionierin der mRNA-Technologie bei Impfstoffentwicklung"
+    },
+    {
+        "name": "Dmitri Mendeleev",
+        "contribution": "Chemiker, entwickelte das Periodensystem der Elemente"
+    },
+    {
+        "name": "Selman Waksman",
+        "contribution": "Mikrobiologe, entdeckte zahlreiche Antibiotika und prägte den Begriff 'Antibiotikum'"
+    },
+    {
+        "name": "Hedy Lamarr",
+        "contribution": "Erfinderin und Schauspielerin, Pionierin der Frequenzsprung-Technik in der Kommunikation"
+    },
+    {
+        "name": "Vera Ivy Fischer",
+        "contribution": "Pionierin in angewandter Chemie (regional bekannt)"
+    },
+    {
+        "name": "Robert H. Grubbs",
+        "contribution": "Chemiker, Nobelpreisträger für Metathese-Katalysatoren"
+    },
+    {
+        "name": "Carolyn Bertozzi",
+        "contribution": "Chemikerin, Nobelpreisträgerin für Bioorthogonale Chemie"
+    },
+    {
+        "name": "Paul Ehrlich",
+        "contribution": "Mediziner, Entwickler der Chemotherapie und frühe Immunforschung"
+    },
+    {
+        "name": "Mary-Claire King",
+        "contribution": "Genetikerin, entdeckte das BRCA1-Gen und Beiträge zur genetischen Beratung"
+    },
+    {
+        "name": "Nettie Stevens",
+        "contribution": "Genetikerin, Entdeckerin der geschlechtsbestimmenden Chromosomen"
+    },
+    {
+        "name": "Kary Mullis",
+        "contribution": "Biochemiker, Erfinder der Polymerase-Kettenreaktion (PCR)"
+    },
+    {
+        "name": "Thomas Hunt Morgan",
+        "contribution": "Genetiker, Pionier der Chromosomentheorie der Vererbung"
+    },
+    {
+        "name": "Inez Fung",
+        "contribution": "Atmosphärenwissenschaftlerin, Beiträge zur globalen Zirkulation und Kohlenstoffkreislauf-Modellierung"
+    },
+    {
+        "name": "David Baltimore",
+        "contribution": "Molekularbiologe, Nobelpreisträger für Entdeckung der reversen Transkriptase"
+    },
+    {
+        "name": "Ellen Swallow Richards",
+        "contribution": "Chemikerin und Umweltpionierin, Begründerin der Haushaltswissenschaften"
+    },
+    {
+        "name": "Murray Gell-Mann",
+        "contribution": "Physiker, prägte den Begriff 'Quark' und trug zur Teilchenphysik bei"
+    },
+    {
+        "name": "Lynn White",
+        "contribution": "Historiker der Wissenschaften, bekannt für Analysen der Technologiegeschichte"
+    },
+    {
+        "name": "Elizabeth Blackburn",
+        "contribution": "Molekularbiologin, Nobelpreisträgerin für Entdeckung der Telomerase"
+    },
+    {
         "name": "Sophie Germain",
         "contribution": "Französische Mathematikerin, Pionierin der Elastizitätstheorie und Zahlentheorie"
     },
@@ -602,5 +794,205 @@
     {
         "name": "Kary Mullis",
         "contribution": "Biochemiker, Nobelpreisträger für die Erfindung der Polymerase-Kettenreaktion (PCR)"
+    },
+    {
+        "name": "Mary Somerville",
+        "contribution": "Mathematikerin und Wissenschaftskommunikatorin, trug zur Popularisierung astronomischer und mathematischer Erkenntnisse bei"
+    },
+    {
+        "name": "Maria Goeppert Mayer",
+        "contribution": "Physikerin, Nobelpreisträgerin für das Schalenmodell der Atomkerne"
+    },
+    {
+        "name": "Fabiola Gianotti",
+        "contribution": "Teilchenphysikerin, leitete das CERN während der Entdeckung des Higgs‑Bosons"
+    },
+    {
+        "name": "Paul Langevin",
+        "contribution": "Physiker, entwickelte Ultraschallverfahren und leistete Beiträge zur Magnetismus‑Theorie"
+    },
+    {
+        "name": "John Snow",
+        "contribution": "Pionier der Epidemiologie, identifizierte die Cholera‑Kontaminationsquelle in London"
+    },
+    {
+        "name": "Roger Penrose",
+        "contribution": "Mathematiker und Physiker, Beiträge zur Gravitationstheorie und Singularitätsbeweise"
+    },
+    {
+        "name": "Sergei Korolev",
+        "contribution": "Leitender Raketeningenieur, zentral für das sowjetische Raumfahrtprogramm"
+    },
+    {
+        "name": "Vilhelm Bjerknes",
+        "contribution": "Meteorologe, legte die Grundlagen moderner Wettervorhersage und Hydrodynamik"
+    },
+    {
+        "name": "Otto Schott",
+        "contribution": "Glaschemiker, Entwickler optischer und technischer Spezialgläser"
+    },
+    {
+        "name": "Amedeo Avogadro",
+        "contribution": "Chemiker, formulierte das Gesetz zur Avogadro‑Zahl (Teilchenanzahl in Gasen)"
+    },
+    {
+        "name": "Hermann von Helmholtz",
+        "contribution": "Physiker und Physiologe, Beiträge zu Energieerhaltung, Akustik und Sinnesphysiologie"
+    },
+    {
+        "name": "Nikolai Lobachevsky",
+        "contribution": "Mathematiker, einer der Begründer der nicht‑euklidischen Geometrie"
+    },
+    {
+        "name": "Hans Krebs",
+        "contribution": "Biochemiker, Entdecker des Zitrat‑/Krebs‑Zyklus"
+    },
+    {
+        "name": "Otto Warburg",
+        "contribution": "Biochemiker, Nobelpreisträger für Forschung zur Zellatmung und zum Tumorstoffwechsel"
+    },
+    {
+        "name": "André-Marie Ampère",
+        "contribution": "Physiker und Mathematiker, Begründer der Elektrodynamik (Ampère-Gesetze)"
+    },
+    {
+        "name": "Florence Bascom",
+        "contribution": "Geologin, Pionierin der strukturellen Geologie und Erdschichtenforschung in den USA"
+    },
+    {
+        "name": "Inge Lehmann",
+        "contribution": "Seismologin, entdeckte den festen inneren Erdkern"
+    },
+    {
+        "name": "Sylvia Earle",
+        "contribution": "Ozeanographin, Pionierin der Tiefseeforschung und des Meeresschutzes"
+    },
+    {
+        "name": "Rachel Lloyd",
+        "contribution": "Chemikerin, frühe Forscherin in der industriellen Zuckerchemie"
+    },
+    {
+        "name": "Grace Chisholm Young",
+        "contribution": "Mathematikerin, Beiträge zur Analysis und Funktionenlehre"
+    },
+    {
+        "name": "Mildred Dresselhaus",
+        "contribution": "Materialwissenschaftlerin, Pionierin in der Forschung an Kohlenstoff‑Nanostrukturen"
+    },
+    {
+        "name": "Françoise Barré-Sinoussi",
+        "contribution": "Mikrobiologin, Nobelpreisträgerin für die Entdeckung des HIV-Virus"
+    },
+    {
+        "name": "Gerald Edelman",
+        "contribution": "Biochemiker/Neurowissenschaftler, Nobelpreisträger für Arbeiten zur Antikörperstruktur"
+    },
+    {
+        "name": "John Goodenough",
+        "contribution": "Materialwissenschaftler, Mitentwickler der Lithium‑Ionen‑Batterie, Nobelpreisträger"
+    },
+    {
+        "name": "Yuan T. Lee",
+        "contribution": "Chemiker, Nobelpreisträger für Beiträge zur reaktionsdynamischen Chemie"
+    },
+    {
+        "name": "Shirley Ann Jackson",
+        "contribution": "Physikerin, Beiträge in Festkörperphysik und Wissenschaftsverwaltung"
+    },
+    {
+        "name": "William Thomson (Lord Kelvin)",
+        "contribution": "Physiker, prägte Thermodynamik und die Kelvin‑Temperaturskala"
+    },
+    {
+        "name": "Heidi Schellman",
+        "contribution": "Experimentelle Teilchenphysikerin, Beiträge zu Präzisionsmessungen in der Leptonenphysik"
+    },
+    {
+        "name": "Paul Greengard",
+        "contribution": "Neurowissenschaftler, Nobelpreisträger für Forschung zur Signalübertragung in Nervenzellen"
+    },
+    {
+        "name": "Lionel Penrose",
+        "contribution": "Genetiker und Psychiater, Pionierarbeiten zur Genetik neurologischer Erkrankungen"
+    },
+    {
+        "name": "Rosalyn Yalow",
+        "contribution": "Physikerin, Nobelpreisträgerin für Entwicklung radioimmunologischer Methoden"
+    },
+    {
+        "name": "Jean-Baptiste Lamarck",
+        "contribution": "Biologe, Früher Verfechter evolutionärer Veränderungen durch Gebrauch und Nichtgebrauch"
+    },
+    {
+        "name": "Joseph Lister",
+        "contribution": "Chirurg, Pionier der antiseptischen Chirurgie"
+    },
+    {
+        "name": "Hermann Muller",
+        "contribution": "Genetiker, Nobelpreisträger für Erkenntnisse zur Mutagenese durch Strahlung"
+    },
+    {
+        "name": "Arthur Eddington",
+        "contribution": "Astrophysiker, bestätigte empirisch die Allgemeine Relativitätstheorie"
+    },
+    {
+        "name": "James Prescott Joule",
+        "contribution": "Physiker, Nachweis der Energieerhaltung und Beschreibung des Joule‑Effekts"
+    },
+    {
+        "name": "Hermann Emil Fischer",
+        "contribution": "Chemiker, Nobelpreisträger für Arbeiten zur organischen Chemie (Zucker, Purine)"
+    },
+    {
+        "name": "Émilie du Châtelet",
+        "contribution": "Mathematikerin und Physikerin, übertrug und kommentierte Newtons Werk ins Französische"
+    },
+    {
+        "name": "Mary Cartwright",
+        "contribution": "Mathematikerin, Pionierin der nichtlinearen Analysis und chaotischer Dynamik"
+    },
+    {
+        "name": "Peter Higgs",
+        "contribution": "Theoretischer Physiker, Vorhersage des Higgs‑Mechanismus und Higgs‑Bosons"
+    },
+    {
+        "name": "Niels Henrik Abel",
+        "contribution": "Mathematiker, bahnbrechende Beiträge zur Analysis und Algebra"
+    },
+    {
+        "name": "Augustin-Jean Fresnel",
+        "contribution": "Physiker, Pionier der Wellenoptik und Linsenphysik"
+    },
+    {
+        "name": "Michael Servetus",
+        "contribution": "Mediziner und Naturphilosoph, frühe Beschreibung des Lungenkreislaufs"
+    },
+    {
+        "name": "Alfred Russel Wallace",
+        "contribution": "Naturforscher, unabhängig Mitbegründer der Evolutionstheorie durch natürliche Selektion"
+    },
+    {
+        "name": "Anders Celsius",
+        "contribution": "Astronom, Entwickler der Celsius‑Temperaturskala"
+    },
+    {
+        "name": "George Gamow",
+        "contribution": "Physiker, Beiträge zur Kosmologie und Nukleosynthese"
+    },
+    {
+        "name": "Vannevar Bush",
+        "contribution": "Ingenieur und Wissenschaftsorganisator, Visionär der Wissensvernetzung (Memex)"
+    },
+    {
+        "name": "Lillian Gilbreth",
+        "contribution": "Ingenieurin und Psychologin, Pionierin der Ergonomie und Zeit‑/Bewegungsstudien"
+    },
+    {
+        "name": "Benjamin Franklin",
+        "contribution": "Erfinder und Naturforscher, Beiträge zur Elektrizitätslehre und praktischen Erfindungen"
+    },
+    {
+        "name": "Valentina Tereshkova",
+        "contribution": "Kosmonautin, erste Frau im Weltraum"
     }
 ]
