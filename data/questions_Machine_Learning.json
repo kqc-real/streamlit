@@ -1,0 +1,1042 @@
+{
+  "meta": {
+    "title": "Machine Learning",
+    "target_audience": "Fortgeschrittene",
+    "question_count": 40,
+    "difficulty_profile": {
+      "leicht": 12,
+      "mittel": 20,
+      "schwer": 8
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 35
+  },
+  "questions": [
+    {
+      "frage": "1. Welches Hauptziel verfolgt überwachtes Lernen in Machine-Learning-Modellen?",
+      "optionen": [
+        "Die Abbildung von Eingaben auf Zielwerte zu lernen, um Vorhersagen für neue Daten zu ermöglichen.",
+        "Ähnliche Beobachtungen ohne Labels in Gruppen zu partitionieren, um Strukturen zu entdecken.",
+        "Die Daten auf wenige orthogonale Komponenten zu projizieren, um Varianz zu komprimieren.",
+        "Eine Belohnungsfunktion schrittweise zu maximieren, um optimale Aktionen zu erlernen.",
+        "Zufällige Labels zu generieren, um Modellrobustheit zu prüfen."
+      ],
+      "loesung": 0,
+      "erklaerung": "Überwachtes Lernen nutzt gelabelte Daten, um eine Abbildungsfunktion zu lernen. Klassifikation und Regression sind typische Aufgaben.",
+      "gewichtung": 1,
+      "thema": "Überwachtes Lernen",
+      "mini_glossary": {
+        "Überwachtes Lernen": "Paradigma mit gelabelten Beispielen, bei dem Eingaben auf Zielwerte abgebildet werden.",
+        "Klassifikation": "Vorhersage diskreter Klassenlabels für Instanzen.",
+        "Regression": "Vorhersage kontinuierlicher Zielwerte."
+      }
+    },
+    {
+      "frage": "2. Welche Aussage beschreibt den Unterschied zwischen Klassifikation und Regression korrekt?",
+      "optionen": [
+        "Beide sagen kontinuierliche Zielgrößen voraus, aber Regression nutzt Entropie.",
+        "Klassifikation sagt diskrete Klassen voraus, Regression sagt kontinuierliche Werte voraus.",
+        "Regression verwendet ausschließlich Bäume, Klassifikation ausschließlich Netze.",
+        "Klassifikation benötigt keine Trainingsdaten, Regression schon.",
+        "Regression ist stets unüberwacht, Klassifikation überwacht."
+      ],
+      "loesung": 1,
+      "erklaerung": "Klassifikation arbeitet mit diskreten Labels, Regression mit kontinuierlichen Zielgrößen. Die Verfahren sind nicht auf spezifische Modellfamilien beschränkt.",
+      "gewichtung": 1,
+      "thema": "Überwachtes Lernen",
+      "mini_glossary": {
+        "Diskrete Variable": "Variable, die nur endlich oder abzählbar viele Werte annehmen kann.",
+        "Kontinuierliche Variable": "Variable mit unendlich vielen möglich engen Ausprägungen.",
+        "Loss-Funktion": "Zu minimierende Funktion, die Vorhersagefehler quantifiziert."
+      }
+    },
+    {
+      "frage": "3. Wozu dient eine Lernkurve bei überwachtem Lernen in der Praxis?",
+      "optionen": [
+        "Sie zeigt die Clusterdichte pro Feature an, um k zu wählen.",
+        "Sie visualisiert Bias- und Varianzverhalten in Abhängigkeit von der Trainingsmenge.",
+        "Sie bestimmt die optimale Schrittweite für Gradientenabstieg ohne Validierung.",
+        "Sie misst die Komplexität anhand der Anzahl versteckter Neuronen.",
+        "Sie belegt die Linearität der Zielvariable gegenüber jedem Feature."
+      ],
+      "loesung": 2,
+      "erklaerung": "Lernkurven zeigen Trainings- und Validierungsfehler in Abhängigkeit von der Trainingsdatengröße und helfen, Bias/Varianz-Probleme zu diagnostizieren.",
+      "gewichtung": 2,
+      "thema": "Überwachtes Lernen",
+      "extended_explanation": {
+        "titel": "Lernkurven interpretieren",
+        "schritte": [
+          "Trainings- und Validierungsfehler für steigende Trainingsmengen aufzeichnen.",
+          "Konvergieren beide auf hohem Fehler, deutet das auf hohen Bias hin.",
+          "Bleibt eine große Lücke zwischen den Kurven, spricht das für hohe Varianz.",
+          "Leite daraus ab, ob mehr Daten, Regularisierung oder ein einfacheres/komplexeres Modell nötig sind."
+        ]
+      },
+      "mini_glossary": {
+        "Bias": "Systematischer Fehler durch zu einfache Modellannahmen.",
+        "Varianz": "Empfindlichkeit des Modells gegenüber Datenfluktuationen.",
+        "Validierungsmenge": "Datenanteil zur hyperparameterfreien Modellbewertung im Training."
+      }
+    },
+    {
+      "frage": "4. Welche Maßnahme reduziert typischerweise Varianz bei einem überparametrisierten Modell?",
+      "optionen": [
+        "Die Anzahl der Features erhöhen ohne Regularisierung.",
+        "Die Modellkapazität reduzieren oder Regularisierung verstärken.",
+        "Den Lernrate-Decay deaktivieren.",
+        "Das Label-Rauschen künstlich erhöhen.",
+        "Die Trainingszeit strikt verkürzen."
+      ],
+      "loesung": 3,
+      "erklaerung": "Varianz sinkt meist durch Kapazitätsreduktion oder stärkere Regularisierung (z.B. L2, Early Stopping), nicht durch Featureinflation.",
+      "gewichtung": 2,
+      "thema": "Überwachtes Lernen",
+      "extended_explanation": {
+        "titel": "Varianzreduktionsstrategien",
+        "schritte": [
+          "Kapazität verringern (weniger Parameter, flachere Bäume).",
+          "Regularisierung erhöhen (L2/L1, Dropout).",
+          "Mehr Daten oder Data Augmentation einsetzen.",
+          "Ensembles mit Bagging nutzen, um Streuung zu mitteln."
+        ]
+      },
+      "mini_glossary": {
+        "Kapazität": "Fähigkeit eines Modells, komplexe Muster zu repräsentieren.",
+        "Overfitting": "Gutes Lernen des Trainingssets bei schlechter Generalisierung.",
+        "Regularisierung": "Zusatzterm oder Technik, die zu großen Parametern entgegenwirkt."
+      }
+    },
+    {
+      "frage": "5. Welches Problem adressiert Label Leakage (Target Leakage) in überwachten Lernpipelines?",
+      "optionen": [
+        "Labels sind zeitlich nachgelagert und damit für Aggregationen unbrauchbar.",
+        "Informationen aus dem Ziel oder der Zukunft gelangen unzulässig in die Features.",
+        "Es fehlen Labels für einen Teil der Trainingsinstanzen.",
+        "Labels sind nicht binär und verletzen damit die Modellannahmen.",
+        "Labels sind verrauscht und führen zu heteroskedastischen Residuen."
+      ],
+      "loesung": 4,
+      "erklaerung": "Target Leakage entsteht, wenn Features Informationen enthalten, die beim Inferenzzeitpunkt nicht verfügbar sind, was zu unrealistisch guter Evaluation führt.",
+      "gewichtung": 3,
+      "thema": "Überwachtes Lernen",
+      "extended_explanation": {
+        "titel": "Target Leakage erkennen und vermeiden",
+        "schritte": [
+          "Zeitliche Kausalität prüfen: Sind Features zum Prognosezeitpunkt verfügbar?",
+          "Feature-Engineering strikt innerhalb jedes Folds durchführen.",
+          "Aggregationen nur bis zum Cutoff-Zeitpunkt bilden.",
+          "Datenschnittstellen dokumentieren und mit Data Lineage absichern."
+        ]
+      },
+      "mini_glossary": {
+        "Target Leakage": "Unzulässige Informationsübertragung vom Ziel in die Prädiktoren.",
+        "Data Leakage": "Allgemeiner Informationsfluss, der die Evaluation verzerrt.",
+        "Data Lineage": "Nachvollziehbarkeit der Herkunft und Verarbeitung von Daten."
+      }
+    },
+    {
+      "frage": "6. Welcher Zweck steht beim Clustering im Vordergrund?",
+      "optionen": [
+        "Die Minimierung der Klassifikationsentropie bei gelabelten Daten.",
+        "Die Aufdeckung von Gruppen ähnlicher Beobachtungen ohne Labels.",
+        "Die Schätzung einer Regressionsfunktion mit geringem Bias.",
+        "Die Maximierung kumulativer Belohnung in Sequenzen.",
+        "Die exakte Dichteabschätzung für alle Merkmalsräume."
+      ],
+      "loesung": 1,
+      "erklaerung": "Clustering ist unüberwacht und entdeckt Gruppen ähnlicher Instanzen ohne Zielvariable.",
+      "gewichtung": 1,
+      "thema": "Unüberwachtes Lernen",
+      "mini_glossary": {
+        "Clustering": "Unüberwachtes Gruppieren ähnlicher Datenpunkte.",
+        "Ähnlichkeitsmaß": "Funktion zur Bewertung der Nähe zwischen Instanzen.",
+        "Label": "Beobachtetes Zielattribut, das beim Clustering fehlt."
+      }
+    },
+    {
+      "frage": "7. Worin unterscheiden sich k-Means und DBSCAN grundlegend?",
+      "optionen": [
+        "k-Means ist dichtebasiert, DBSCAN ist zentroidenbasiert.",
+        "k-Means benötigt die Anzahl Cluster, DBSCAN benötigt Dichteparameter und erkennt Ausreißer.",
+        "DBSCAN minimiert quadratische Abstände, k-Means Dichte.",
+        "k-Means ist deterministisch, DBSCAN zufallsbasiert.",
+        "Beide funktionieren ausschließlich mit kategorialen Merkmalen."
+      ],
+      "loesung": 2,
+      "erklaerung": "k-Means benötigt k und ist zentroidenbasiert; DBSCAN nutzt Epsilon/MinPts, kann beliebige Clusterformen finden und markiert Ausreißer.",
+      "gewichtung": 2,
+      "thema": "Unüberwachtes Lernen",
+      "extended_explanation": {
+        "titel": "k-Means vs. DBSCAN",
+        "schritte": [
+          "k-Means minimiert die Summe quadratischer Abstände zu Clusterzentren.",
+          "DBSCAN gruppiert Punkte über Dichte-Konnektivität und erkennt Rauschen.",
+          "k-Means bevorzugt konvexe, kugelförmige Cluster.",
+          "DBSCAN ist robust gegenüber Ausreißern und skaliert mit geeigneten Indexstrukturen gut."
+        ]
+      },
+      "mini_glossary": {
+        "Epsilon (eps)": "Radius für Nachbarschaft in DBSCAN.",
+        "MinPts": "Mindestpunktezahl, um einen dichten Kernpunkt zu definieren.",
+        "Zentroid": "Arithmetischer Mittelpunkt eines Clusters."
+      }
+    },
+    {
+      "frage": "8. Was ist ein typischer Nachteil von k-Means bei anisotropen Clusterstrukturen?",
+      "optionen": [
+        "Es konvergiert niemals.",
+        "Es bevorzugt sphärische Cluster und kann längliche Strukturen schlecht trennen.",
+        "Es kann keine großen Datensätze verarbeiten.",
+        "Es benötigt keine Initialisierung.",
+        "Es ist invariant gegenüber beliebigen Skalen der Features."
+      ],
+      "loesung": 2,
+      "erklaerung": "k-Means basiert auf euklidischen Abständen zu Zentroiden und bevorzugt kugelförmige Cluster, was bei anisotropen Strukturen problematisch ist.",
+      "gewichtung": 2,
+      "thema": "Unüberwachtes Lernen",
+      "extended_explanation": {
+        "titel": "Annahmen und Grenzen von k-Means",
+        "schritte": [
+          "Die Distanzmetrikwahl impliziert Clusterformannahmen.",
+          "Standard-k-Means geht von isotropen Varianzen aus.",
+          "Datenvorverarbeitung (Skalierung) beeinflusst die Ergebnisse stark.",
+          "Alternative: GMMs oder spektrales Clustering bei komplexen Formen."
+        ]
+      },
+      "mini_glossary": {
+        "Anisotropie": "Richtungsabhängige Streuung in den Daten.",
+        "GMM": "Gaussian Mixture Model; modelliert Daten als Mischung normalverteilter Komponenten.",
+        "Spektrales Clustering": "Clustering über Graph-Laplacian und Eigenvektoren."
+      }
+    },
+    {
+      "frage": "9. Welcher Vorteil unterscheidet Gaussian Mixture Models (GMM) von k-Means?",
+      "optionen": [
+        "GMM erzwingt identische Varianzen aller Cluster.",
+        "GMM erlaubt probabilistische Zugehörigkeiten und elliptische Clusterstrukturen.",
+        "GMM benötigt keine Parametrisierung.",
+        "GMM ist deterministisch und initialisierungsfrei.",
+        "GMM kann nur binäre Daten verarbeiten."
+      ],
+      "loesung": 3,
+      "erklaerung": "GMMs modellieren Cluster als Gauss-Komponenten mit Kovarianzstrukturen und liefern Soft-Zugehörigkeiten, was flexibler als k-Means ist.",
+      "gewichtung": 2,
+      "thema": "Unüberwachtes Lernen",
+      "extended_explanation": {
+        "titel": "GMM-Eigenschaften",
+        "schritte": [
+          "Komponenten sind Normalverteilungen mit Mittelwert und Kovarianz.",
+          "Soft-Assignments liefern Zugehörigkeitswahrscheinlichkeiten.",
+          "EM-Algorithmus schätzt Parameter iterativ.",
+          "Modellwahl kann über Informationskriterien erfolgen."
+        ]
+      },
+      "mini_glossary": {
+        "Kovarianzmatrix": "Matrix, die Varianzen und Kovarianzen von Merkmalen enthält.",
+        "EM-Algorithmus": "Iteratives Verfahren mit Expectation- und Maximization-Schritt.",
+        "Soft-Assignment": "Wahrscheinlichkeitsbasierte Zuordnung statt harter Cluster."
+      }
+    },
+    {
+      "frage": "10. Wozu wird der Silhouettenkoeffizient im Clustering genutzt?",
+      "optionen": [
+        "Zur Schätzung der Lernrate für k-Means.",
+        "Zur Bewertung der Trennschärfe und Kompaktheit von Clustern.",
+        "Zur Optimierung der Regularisierungsstärke in GMMs.",
+        "Zur Berechnung des Klassifikationsfehlers.",
+        "Zur Ableitung der Anzahl versteckter Schichten in Netzen."
+      ],
+      "loesung": 4,
+      "erklaerung": "Die Silhouette misst, wie gut ein Punkt zu seinem eigenen Cluster passt im Vergleich zu benachbarten Clustern (Kompaktheit und Trennung).",
+      "gewichtung": 3,
+      "thema": "Unüberwachtes Lernen",
+      "extended_explanation": {
+        "titel": "Silhouettenkoeffizient interpretieren",
+        "schritte": [
+          "Für jeden Punkt Differenz der mittleren Intra-Cluster- und nächstbesten Inter-Cluster-Distanz normieren.",
+          "Werte nahe 1 deuten auf klare Zugehörigkeit hin.",
+          "Werte nahe 0 bedeuten Grenzfälle.",
+          "Negative Werte weisen auf Fehlzuordnungen hin."
+        ]
+      },
+      "mini_glossary": {
+        "Intra-Cluster-Distanz": "Durchschnittliche Distanz eines Punktes zu Punkten im selben Cluster.",
+        "Inter-Cluster-Distanz": "Distanz eines Punktes zum nächstgelegenen anderen Cluster.",
+        "Clustervalidierung": "Bewertung der Güte einer Clusterlösung."
+      }
+    },
+    {
+      "frage": "11. Warum ist verschachtelte Kreuzvalidierung für Modell- und Hyperparameterauswahl sinnvoll?",
+      "optionen": [
+        "Sie ist schneller als einfache Holdout-Verfahren.",
+        "Sie trennt Modellwahl und Generalisierungsbewertung strikt, um Optimierungsbias zu vermeiden.",
+        "Sie benötigt keine Reproduzierbarkeit.",
+        "Sie eliminiert Overfitting vollständig.",
+        "Sie macht eine Testmenge überflüssig, da Training genügt."
+      ],
+      "loesung": 0,
+      "erklaerung": "Nested CV nutzt eine innere Schleife für Hyperparameter-Tuning und eine äußere für eine unverzerrte Schätzung der Generalisierungsleistung.",
+      "gewichtung": 1,
+      "thema": "Modellbewertung & Validierung",
+      "mini_glossary": {
+        "Kreuzvalidierung": "Aufteilung der Daten in Folds zum wiederholten Trainieren und Validieren.",
+        "Optimierungsbias": "Überschätzung der Leistung durch Hyperparametertuning auf derselben Validationsbasis.",
+        "Generalisation": "Leistung auf unabhängigen, neuen Daten."
+      }
+    },
+    {
+      "frage": "12. Was charakterisiert Stratifizierung bei k-facher Kreuzvalidierung für Klassifikationsprobleme?",
+      "optionen": [
+        "Jeder Fold enthält exakt gleich viele Instanzen.",
+        "Jeder Fold spiegelt die Klassenverteilung der Gesamtdaten möglichst gut wider.",
+        "Jeder Fold enthält nur eine Klasse.",
+        "Jeder Fold wird nach Feature-Skalierung sortiert.",
+        "Jeder Fold nutzt zusätzliche synthetische Daten."
+      ],
+      "loesung": 1,
+      "erklaerung": "Stratifizierte Folds bewahren die Klassenverteilung über Folds hinweg, was stabilere Schätzungen liefert.",
+      "gewichtung": 1,
+      "thema": "Modellbewertung & Validierung",
+      "mini_glossary": {
+        "Stratifizierung": "Technik zur Erhaltung der Klassenverteilung in Stichproben.",
+        "k-fache CV": "Aufteilung in k Folds mit abwechselndem Training/Validieren.",
+        "Klassendisbalance": "Ungleiche Häufigkeiten der Klassen im Datensatz."
+      }
+    },
+    {
+      "frage": "13. Welche Größe ist für die Auswahl eines Klassifikationsschwellwerts bei unausgewogenen Klassen besonders geeignet?",
+      "optionen": [
+        "Roh-Accuracy ohne weitere Kennzahlen.",
+        "ROC-Kurve und insbesondere der Youden-Index oder die Kostenmatrix.",
+        "Anzahl der Features pro Instanz.",
+        "Training Loss nach der ersten Epoche.",
+        "F1-Score ausschließlich bei perfekter Balance."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die ROC-Analyse und Kosten/Nutzen-basierte Schwellen sind geeignet. Accuracy allein ist bei Imbalance irreführend.",
+      "gewichtung": 2,
+      "thema": "Modellbewertung & Validierung",
+      "extended_explanation": {
+        "titel": "Schwellwertwahl bei Imbalance",
+        "schritte": [
+          "Vorhersagewahrscheinlichkeiten statt harter Labels betrachten.",
+          "ROC/PR-Kurven analysieren und geeignete Schwellenpunkte prüfen.",
+          "Kostenmatrix einbeziehen, um Fehlerarten zu gewichten.",
+          "Entscheidung an Geschäftsmetriken ausrichten."
+        ]
+      },
+      "mini_glossary": {
+        "ROC-Kurve": "Darstellung von True-Positive-Rate vs. False-Positive-Rate.",
+        "Youden-Index": "Maximiert TPR − FPR zur Schwellwertwahl.",
+        "Kostenmatrix": "Bewertet Fehlklassifikationen mit unterschiedlichen Kosten."
+      }
+    },
+    {
+      "frage": "14. Worin liegt der Unterschied zwischen ROC-AUC und PR-AUC bei starker Klassenimbalance?",
+      "optionen": [
+        "ROC-AUC ist immer höher und daher vorzuziehen.",
+        "PR-AUC fokussiert auf die positive Klasse und ist bei seltener Klasse oft aussagekräftiger.",
+        "Beide sind identisch interpretierbar.",
+        "PR-AUC ignoriert False Positives vollständig.",
+        "ROC-AUC benötigt kalibrierte Wahrscheinlichkeiten, PR-AUC nicht."
+      ],
+      "loesung": 3,
+      "erklaerung": "PR-AUC gewichtet die Performance auf der positiven Klasse stärker und kann bei seltenen Positiven differenzierter sein als ROC-AUC.",
+      "gewichtung": 2,
+      "thema": "Modellbewertung & Validierung",
+      "extended_explanation": {
+        "titel": "ROC vs. PR bei Imbalance",
+        "schritte": [
+          "ROC fasst Sensitivität und 1−Spezifität zusammen.",
+          "PR zeigt Präzision vs. Recall und betont Positive.",
+          "Bei seltenen Positiven kann PR-AUC Unterschiede besser sichtbar machen.",
+          "Wahl der Kurve am Problem und Metrikziel ausrichten."
+        ]
+      },
+      "mini_glossary": {
+        "Precision": "Anteil korrekter Positivvorhersagen an allen Positivvorhersagen.",
+        "Recall": "Anteil erkannter Positiver an allen tatsächlichen Positiven.",
+        "AUC": "Fläche unter der Kurve als aggregiertes Leistungsmaß."
+      }
+    },
+    {
+      "frage": "15. Was ist Data Snooping in der Modellvalidierung?",
+      "optionen": [
+        "Die zufällige Permutation von Labels vor dem Training.",
+        "Die unrechtmäßige Nutzung von Testinformationen während Training oder Feature-Engineering.",
+        "Die bewusste Reduktion der Modellkapazität.",
+        "Die Verwendung von mehr Folds als nötig.",
+        "Die Auswertung einer Kostenmatrix unter Annahmen."
+      ],
+      "loesung": 4,
+      "erklaerung": "Data Snooping liegt vor, wenn Informationen aus Test/Validierung in Training/Feature-Engineering einfließen und die Bewertung verzerren.",
+      "gewichtung": 3,
+      "thema": "Modellbewertung & Validierung",
+      "extended_explanation": {
+        "titel": "Data-Snooping-Risiken mindern",
+        "schritte": [
+          "Strikte Trennung von Train/Valid/Test in allen Pipeline-Schritten.",
+          "Feature-Skalierung und -Selektion fold-intern durchführen.",
+          "Schwellwerte ausschließlich auf Validierungsdaten bestimmen.",
+          "Finale Leistungsangabe nur auf echter Testmenge berichten."
+        ]
+      },
+      "mini_glossary": {
+        "Holdout-Set": "Abgesonderter Datenteil für finale Bewertung.",
+        "Pipeline": "Abfolge von Verarbeitungsschritten inklusive Modell.",
+        "Leckage": "Unzulässiger Informationsfluss zwischen Splits."
+      }
+    },
+    {
+      "frage": "16. Warum ist Feature-Skalierung für viele Modelle wichtig?",
+      "optionen": [
+        "Sie erhöht die Modellkomplexität ohne Nachteile.",
+        "Sie sorgt für vergleichbare Skalen, was Optimierung und Distanzmaße stabilisiert.",
+        "Sie macht Regularisierung wirkungslos.",
+        "Sie ersetzt die Notwendigkeit der Hyperparametertuning.",
+        "Sie verhindert vollständig jedes Overfitting."
+      ],
+      "loesung": 0,
+      "erklaerung": "Skalierung verbessert Konvergenz beim Gradientenverfahren und verhindert, dass Merkmale mit großen Skalen dominieren.",
+      "gewichtung": 1,
+      "thema": "Feature Engineering",
+      "mini_glossary": {
+        "Standardisierung": "Subtraktion des Mittels und Division durch die Standardabweichung.",
+        "Min-Max-Skalierung": "Lineare Skalierung auf einen festen Bereich, z.B. [0,1].",
+        "Distanzmaß": "Funktion zur Berechnung der Entfernung zwischen Punkten."
+      }
+    },
+    {
+      "frage": "17. Welche Aussage zur One-Hot-Encoding-Technik trifft zu?",
+      "optionen": [
+        "Sie ordnet Kategorien fortlaufende Ganzzahlen zu, die Ordinalität suggerieren.",
+        "Sie erzeugt binäre Indikatorvariablen für jede Kategorie und vermeidet Scheinordnung.",
+        "Sie setzt kategoriale Variablen immer in genau eine Dimension um.",
+        "Sie ist nur für Textdaten sinnvoll.",
+        "Sie kollabiert seltene Kategorien automatisch."
+      ],
+      "loesung": 1,
+      "erklaerung": "One-Hot-Encoding erzeugt dummy-codierte Spalten ohne Ordnung; Ordinalität wird damit nicht künstlich eingeführt.",
+      "gewichtung": 1,
+      "thema": "Feature Engineering",
+      "mini_glossary": {
+        "One-Hot-Encoding": "Transformation kategorialer Werte in binäre Spalten.",
+        "Dummy-Variable": "Indikatorvariable mit Werten 0/1.",
+        "Ordinalkodierung": "Zuweisung geordneter Zahlen, passend nur für ordinale Merkmale."
+      }
+    },
+    {
+      "frage": "18. Welche Technik adressiert Multikollinearität in linearen Modellen besonders direkt?",
+      "optionen": [
+        "Mehr Epochen trainieren.",
+        "L2-Regularisierung oder Ridge-Regression einsetzen.",
+        "Höhere Lernrate wählen.",
+        "Batchgröße maximieren.",
+        "Zufällige Label-Noisings hinzufügen."
+      ],
+      "loesung": 2,
+      "erklaerung": "L2-Regularisierung stabilisiert Koeffizientenschätzungen bei korrelierten Features und reduziert Varianz.",
+      "gewichtung": 2,
+      "thema": "Feature Engineering",
+      "extended_explanation": {
+        "titel": "Multikollinearität entschärfen",
+        "schritte": [
+          "Korrelationen und Varianzinflationsfaktoren prüfen.",
+          "L2-Regularisierung oder Merkmalsselektion anwenden.",
+          "Gegebenenfalls Merkmale kombinieren oder transformieren.",
+          "Stabilität der Koeffizienten über Resampling evaluieren."
+        ]
+      },
+      "mini_glossary": {
+        "Multikollinearität": "Starke lineare Abhängigkeiten zwischen Prädiktoren.",
+        "Ridge-Regression": "Lineares Modell mit L2-Strafterm.",
+        "VIF": "Varianzinflationsfaktor als Maß für Multikollinearität."
+      }
+    },
+    {
+      "frage": "19. Wann ist Log-Transformation numerischer Features häufig hilfreich?",
+      "optionen": [
+        "Bei symmetrisch verteilten Merkmalen mit geringer Varianz.",
+        "Bei stark rechtsschiefen Verteilungen, um Skalen zu komprimieren.",
+        "Bei binären Merkmalen mit Werten 0/1.",
+        "Bei ordinalen Kategorien mit natürlicher Reihenfolge.",
+        "Bei bereits z-standardisierten Features."
+      ],
+      "loesung": 3,
+      "erklaerung": "Log-Transformation kann rechte Schiefe reduzieren und lineare Modellannahmen besser erfüllen.",
+      "gewichtung": 2,
+      "thema": "Feature Engineering",
+      "extended_explanation": {
+        "titel": "Schiefe reduzieren",
+        "schritte": [
+          "Verteilungsdiagnostik (Histogramme, Quantilplots) durchführen.",
+          "Bei positiver Schiefe Log/Box-Cox/Yeo-Johnson prüfen.",
+          "Skalierung und Transformation in Cross-Validation einbetten.",
+          "Leistungs- und Residuenanalyse vergleichen."
+        ]
+      },
+      "mini_glossary": {
+        "Schiefe": "Asymmetrie einer Verteilung um ihren Mittelwert.",
+        "Box-Cox": "Parametrische Transformation zur Variansstabilisierung.",
+        "Yeo-Johnson": "Log-ähnliche Transformation, die auch Null/negative Werte erlaubt."
+      }
+    },
+    {
+      "frage": "20. Welche Gefahr besteht bei zu aggressiver Merkmalsauswahl vor dem Split?",
+      "optionen": [
+        "Die Trainingszeit wird zu kurz.",
+        "Es entsteht Leckage, da Informationskriterien bereits Test/Validierungsdaten ausnutzen.",
+        "Die Regularisierung wird wirkungslos.",
+        "Die Konvexität der Optimierung geht verloren.",
+        "Die Label werden deterministisch."
+      ],
+      "loesung": 4,
+      "erklaerung": "Feature-Selektion muss innerhalb der Cross-Validation erfolgen. Sonst fließt Validierungsinformation in die Auswahl ein.",
+      "gewichtung": 3,
+      "thema": "Feature Engineering",
+      "extended_explanation": {
+        "titel": "Feature-Selektion korrekt einbetten",
+        "schritte": [
+          "Selektion als Pipeline-Schritt definieren.",
+          "Parameter der Selektion pro Fold bestimmen.",
+          "Performance nur auf Daten außerhalb des Folds messen.",
+          "Finale Features beim Refit auf Gesamtdaten neu bestimmen."
+        ]
+      },
+      "mini_glossary": {
+        "Merkmalsselektion": "Auswahl relevanter Prädiktoren zur Verbesserung von Generalisierung und Interpretierbarkeit.",
+        "Pipeline": "Gekettete Verarbeitungsschritte mit konsistentem Fitting.",
+        "Informationskriterium": "Maß wie AIC/BIC zur Modell- oder Featurewahl."
+      }
+    },
+    {
+      "frage": "21. Welche Wirkung hat L1-Regularisierung in linearen Modellen typischerweise?",
+      "optionen": [
+        "Sie bevorzugt dichte Parametervektoren und glättet Lösungen.",
+        "Sie führt zu spärlichen Lösungen und kann Feature-Selektion bewirken.",
+        "Sie erhöht die Varianz der Schätzer bewusst.",
+        "Sie macht die Optimierung immer konvex.",
+        "Sie ersetzt die Notwendigkeit einer Datenvorverarbeitung."
+      ],
+      "loesung": 0,
+      "erklaerung": "L1 (Lasso) treibt viele Koeffizienten exakt auf Null und wirkt als eingebettete Selektion.",
+      "gewichtung": 1,
+      "thema": "Regularisierung",
+      "mini_glossary": {
+        "L1-Regularisierung": "Strafterm proportional zur Summe der Beträge der Koeffizienten.",
+        "Sparsity": "Viele Parameter sind exakt Null.",
+        "Lasso": "Lineares Modell mit L1-Strafterm."
+      }
+    },
+    {
+      "frage": "22. Warum kann Elastic Net bei korrelierten Prädiktoren vorteilhaft sein?",
+      "optionen": [
+        "Weil es ausschließlich L1 nutzt.",
+        "Weil es ausschließlich L2 nutzt.",
+        "Weil die Kombination aus L1 und L2 Gruppen korrelierter Variablen stabiler behandelt.",
+        "Weil es keine Hyperparameter hat.",
+        "Weil es die Loss-Funktion maximiert."
+      ],
+      "loesung": 1,
+      "erklaerung": "Elastic Net mischt L1 und L2 und kann korrelierte Featuregruppen gemeinsam shrinken und auswählen.",
+      "gewichtung": 2,
+      "thema": "Regularisierung",
+      "extended_explanation": {
+        "titel": "Elastic-Net-Intuition",
+        "schritte": [
+          "L1 erzeugt Sparsity, L2 stabilisiert bei Korrelation.",
+          "Das Mischverhältnis steuert Gruppenselektion vs. Glättung.",
+          "Cross-Validation zur Hyperparameterwahl einsetzen.",
+          "Koeffizientenpfade über Regularisierungsstärken analysieren."
+        ]
+      },
+      "mini_glossary": {
+        "Elastic Net": "Kombination aus L1- und L2-Regularisierung.",
+        "Shrinkage": "Verkleinerung von Koeffizienten zur Varianzreduktion.",
+        "Hyperparameter": "Steuergrößen, die nicht aus den Daten gelernt werden."
+      }
+    },
+    {
+      "frage": "23. Welche Erscheinung deutet bei hoher Trainingsgenauigkeit und niedriger Testgenauigkeit auf Overfitting hin?",
+      "optionen": [
+        "Hoher Bias.",
+        "Hohe Varianz.",
+        "Unterparametrisierung.",
+        "Perfekte Kalibrierung.",
+        "Konvexe Optimierung."
+      ],
+      "loesung": 2,
+      "erklaerung": "Große Lücke zwischen Trainings- und Testleistung signalisiert typischerweise hohe Varianz, also Overfitting.",
+      "gewichtung": 2,
+      "thema": "Regularisierung",
+      "extended_explanation": {
+        "titel": "Overfitting diagnostizieren",
+        "schritte": [
+          "Train/Test-Lücke und Lernkurven prüfen.",
+          "Regelmäßiger Einsatz von Regularisierung und Early Stopping.",
+          "Datenaugmentation und Ensembling in Erwägung ziehen.",
+          "Modellvereinfachung oder mehr Daten als Gegenmaßnahmen."
+        ]
+      },
+      "mini_glossary": {
+        "Train/Test-Gap": "Differenz zwischen Trainings- und Testgüte.",
+        "Early Stopping": "Training beenden, wenn Validierungsleistung nicht mehr steigt.",
+        "Datenaugmentation": "Künstliche Erweiterung der Trainingsdaten."
+      }
+    },
+    {
+      "frage": "24. Welche Rolle spielt Dropout in neuronalen Netzen primär?",
+      "optionen": [
+        "Es erhöht gezielt die Kapazität.",
+        "Es wirkt als Regularisierung durch zufälliges Deaktivieren von Neuronen während des Trainings.",
+        "Es beschleunigt deterministisch die Konvergenz.",
+        "Es ersetzt die Notwendigkeit von Batch-Normalisierung.",
+        "Es ist nur bei Regressionsaufgaben sinnvoll."
+      ],
+      "loesung": 3,
+      "erklaerung": "Dropout verhindert Ko-Adaptationen, reduziert Varianz und wirkt regularisierend.",
+      "gewichtung": 2,
+      "thema": "Regularisierung",
+      "extended_explanation": {
+        "titel": "Dropout-Intuition",
+        "schritte": [
+          "Zufälliges Maskieren von Einheiten im Training.",
+          "Erzwingt robuste Repräsentationen ohne einzelne starke Pfade.",
+          "Beim Inferenzieren wird die volle Architektur genutzt (Skalierung).",
+          "Hyperparameter ist die Dropout-Rate."
+        ]
+      },
+      "mini_glossary": {
+        "Ko-Adaptation": "Übermäßige Abhängigkeit von bestimmten Merkmalskombinationen.",
+        "Maskierung": "Zufälliges Nullsetzen von Aktivierungen.",
+        "Regularisierung": "Techniken zur Verbesserung der Generalisierung."
+      }
+    },
+    {
+      "frage": "25. Wie wirkt sich eine zu starke Regularisierung typischerweise auf Bias und Varianz aus?",
+      "optionen": [
+        "Sie senkt Bias und erhöht Varianz.",
+        "Sie erhöht Bias und senkt Varianz.",
+        "Sie senkt sowohl Bias als auch Varianz.",
+        "Sie erhöht sowohl Bias als auch Varianz.",
+        "Sie beeinflusst weder Bias noch Varianz."
+      ],
+      "loesung": 4,
+      "erklaerung": "Stärkere Regularisierung erhöht tendenziell den Bias und senkt die Varianz. Zu viel Regularisierung führt zu Unteranpassung.",
+      "gewichtung": 3,
+      "thema": "Regularisierung",
+      "extended_explanation": {
+        "titel": "Bias-Varianz-Abwägung",
+        "schritte": [
+          "Regularisierung begrenzt die Modellkomplexität.",
+          "Weniger Komplexität erhöht Bias, reduziert Varianz.",
+          "Optimales Niveau per Validierung bestimmen.",
+          "Zu starkes Shrinkage verursacht Unterfitting."
+        ]
+      },
+      "mini_glossary": {
+        "Unterfitting": "Modell ist zu einfach und lernt die Struktur nicht.",
+        "Shrinkage": "Verkleinerung von Parametern durch Regularisierung.",
+        "Validierung": "Datengestützte Wahl von Hyperparametern."
+      }
+    },
+    {
+      "frage": "26. Welche Eigenschaft unterscheidet Random Forests von einzelnen Entscheidungsbäumen wesentlich?",
+      "optionen": [
+        "Random Forests sind deterministisch und nutzen keine Zufälligkeit.",
+        "Random Forests mitteln über viele Bäume und reduzieren so Varianz.",
+        "Random Forests verwenden keine Bagging-Technik.",
+        "Random Forests benötigen keine Hyperparameter.",
+        "Random Forests sind ausschließlich für Regression geeignet."
+      ],
+      "loesung": 0,
+      "erklaerung": "Random Forests sind Ensembles aus gebootstrappten Bäumen mit Feature-Sampling und liefern varianzreduzierte Vorhersagen.",
+      "gewichtung": 1,
+      "thema": "Baumverfahren & Ensembles",
+      "mini_glossary": {
+        "Bagging": "Bootstrap Aggregating; Training auf Stichproben mit Zurücklegen.",
+        "Feature-Sampling": "Zufällige Untermenge von Merkmalen pro Split.",
+        "Ensemble": "Kombination vieler Modelle zu einer Vorhersage."
+      }
+    },
+    {
+      "frage": "27. Wodurch zeichnen sich Gradient-Boosting-Methoden (z.B. XGBoost) aus?",
+      "optionen": [
+        "Parallel trainierte Bäume werden gemittelt.",
+        "Sequentiell werden schwache Lerner auf Residuen der Vorgänger fit gemacht.",
+        "Sie benötigen keine Lernrate.",
+        "Sie sind ausschließlich für Klassifikation geeignet.",
+        "Sie vermeiden Regularisierung vollständig."
+      ],
+      "loesung": 1,
+      "erklaerung": "Boosting passt Modelle sequentiell an, um verbleibende Fehler zu reduzieren. Lernrate und schwache Basislerner sind zentral.",
+      "gewichtung": 2,
+      "thema": "Baumverfahren & Ensembles",
+      "extended_explanation": {
+        "titel": "Boosting-Prinzip",
+        "schritte": [
+          "Starte mit einem einfachen Modell.",
+          "Fitte den nächsten Lerner auf die Gradienten/Residuen.",
+          "Gewichte Beiträge mit Lernrate und Shrinkage.",
+          "Nutze Regularisierung (max_depth, subsample) zur Varianzreduktion."
+        ]
+      },
+      "mini_glossary": {
+        "Boosting": "Sequentielle Ensemblebildung zur Fehlerreduktion.",
+        "Lernrate": "Skaliert den Beitrag jedes schwachen Lerners.",
+        "Shrinkage": "Dämpfung der Schritte zur Stabilisierung."
+      }
+    },
+    {
+      "frage": "28. Welche Hyperparameter beeinflussen die Komplexität eines Entscheidungsbaums direkt?",
+      "optionen": [
+        "max_depth, min_samples_split, min_samples_leaf steuern Größe und Feinheit der Aufteilung.",
+        "learning_rate und n_estimators steuern die Baumtiefe.",
+        "batch_size und momentum steuern die Splits.",
+        "dropout und weight_decay steuern die Varianz.",
+        "alpha und lambda steuern die Label-Glättung."
+      ],
+      "loesung": 2,
+      "erklaerung": "Tiefe und Minimalanforderungen an Splits/Blätter regulieren Komplexität, Überanpassung und Generalisierung.",
+      "gewichtung": 2,
+      "thema": "Baumverfahren & Ensembles",
+      "extended_explanation": {
+        "titel": "Baumkomplexität steuern",
+        "schritte": [
+          "max_depth begrenzt die Tiefe direkt.",
+          "min_samples_split verhindert kleinteilige Splits.",
+          "min_samples_leaf begrenzt minimale Blattgröße.",
+          "Pruning kann ex post vereinfachen."
+        ]
+      },
+      "mini_glossary": {
+        "Pruning": "Ex-post-Beschneidung zur Reduktion übermäßiger Tiefe.",
+        "Blatt": "Terminaler Knoten, der Vorhersagen liefert.",
+        "Split": "Aufteilung eines Knotens entlang eines Merkmals."
+      }
+    },
+    {
+      "frage": "29. Worin besteht ein Vorteil von Extra Trees (Extremely Randomized Trees) gegenüber Random Forests?",
+      "optionen": [
+        "Sie wählen deterministisch den besten Split.",
+        "Sie wählen zufällige Splitpunkte und können Varianz weiter senken.",
+        "Sie benötigen keine Bootstraps.",
+        "Sie arbeiten nur mit kategorischen Merkmalen.",
+        "Sie sind immer genauer als Boosting."
+      ],
+      "loesung": 3,
+      "erklaerung": "Extra Trees wählen Splitpunkte zufällig aus Kandidaten und reduzieren Varianz durch stärkere Randomisierung.",
+      "gewichtung": 2,
+      "thema": "Baumverfahren & Ensembles",
+      "extended_explanation": {
+        "titel": "Extra Trees verstehen",
+        "schritte": [
+          "Ohne Bootstrapping können alle Daten genutzt werden.",
+          "Zufällige Splits verringern Korrelation zwischen Bäumen.",
+          "Geringere Varianz bei leicht erhöhter Bias-Gefahr.",
+          "Sinnvoll bei großen, verrauschten Datensätzen."
+        ]
+      },
+      "mini_glossary": {
+        "Randomisierung": "Zufallskomponenten zur Entkopplung von Basismodellen.",
+        "Bias-Varianz-Trade-off": "Abwägung zwischen systematischem Fehler und Streuung.",
+        "Korrelationsreduktion": "Weniger Ähnlichkeit zwischen Ensemble-Mitgliedern."
+      }
+    },
+    {
+      "frage": "30. Welche Strategie ist für Feature-Importance in baumbasierten Modellen robust gegenüber Skalen?",
+      "optionen": [
+        "Permutation-Importance auf einer Holdout-Menge.",
+        "Gini-Importances innerhalb desselben Trainingsfolds.",
+        "Anzahl der Vorkommen eines Features in Splits.",
+        "Korrelation mit dem Ziel vor dem Split.",
+        "Normierte Koeffizienten nach Standardisierung."
+      ],
+      "loesung": 4,
+      "erklaerung": "Permutation-Importance misst Leistungsabfall bei Feature-Permutation auf unabhängigen Daten und ist skalenunabhängig.",
+      "gewichtung": 3,
+      "thema": "Baumverfahren & Ensembles",
+      "extended_explanation": {
+        "titel": "Permutation-Importance korrekt nutzen",
+        "schritte": [
+          "Basisleistung auf Validierung/Test bestimmen.",
+          "Featurewerte permutieren und Leistungsabfall messen.",
+          "Wiederholen und mitteln zur Stabilität.",
+          "Korrelationen beachten, da Importances verteilt sein können."
+        ]
+      },
+      "mini_glossary": {
+        "Permutation-Importance": "Abfall der Modellgüte nach Zufallsdurchmischung eines Features.",
+        "Gini-Importance": "Aggregierte Splitscores, potenziell verzerrt durch Kardinalität.",
+        "Holdout": "Unabhängiger Datensatz für Evaluation."
+      }
+    },
+    {
+      "frage": "31. Welche Rolle hat die Aktivierungsfunktion ReLU in tiefen Netzen?",
+      "optionen": [
+        "Sie ist linear und verhindert Nichtlinearitäten.",
+        "Sie führt zu schnellerem Training durch sparsames Aktivieren und mildert Vanishing Gradients.",
+        "Sie ersetzt die Optimierung vollständig.",
+        "Sie ist ausschließlich in Ausgabelayern zulässig.",
+        "Sie macht Batch-Normalisierung überflüssig."
+      ],
+      "loesung": 0,
+      "erklaerung": "ReLU ist nichtlinear, saturiert nicht für positive Werte und erleichtert Gradientenfluss, was das Training tiefen Netzen begünstigt.",
+      "gewichtung": 1,
+      "thema": "Neuronale Netze & Deep Learning",
+      "mini_glossary": {
+        "ReLU": "Rectified Linear Unit; aktiviert mit max(0, x).",
+        "Vanishing Gradient": "Abschwächung der Gradienten in tiefen Netzen.",
+        "Nichtlinearität": "Eigenschaft, die komplexe Funktionen modellierbar macht."
+      }
+    },
+    {
+      "frage": "32. Wozu dient Batch-Normalisierung innerhalb tiefer Architekturen?",
+      "optionen": [
+        "Zur Erhöhung der Lernrate ohne Stabilitätsverlust durch Normalisierung von Zwischenaktivierungen.",
+        "Zur Reduktion der Modellkapazität über L1-Pfade.",
+        "Zur exklusiven Verbesserung der Testzeit.",
+        "Zur Ersetzung von Aktivierungsfunktionen.",
+        "Zur Bestimmung der Anzahl Epochen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Batch-Norm stabilisiert die Verteilung der Aktivierungen, erlaubt größere Lernraten und beschleunigt Konvergenz.",
+      "gewichtung": 2,
+      "thema": "Neuronale Netze & Deep Learning",
+      "extended_explanation": {
+        "titel": "Batch-Norm in der Praxis",
+        "schritte": [
+          "Innerhalb jedes Mini-Batches Mittelwert und Varianz schätzen.",
+          "Normalisieren und affine Parameter lernen.",
+          "Train/Inferenz-Modi unterscheiden (Moving Averages).",
+          "Interaktion mit Dropout und Lernrate prüfen."
+        ]
+      },
+      "mini_glossary": {
+        "Mini-Batch": "Teilmenge von Trainingsbeispielen pro Update.",
+        "Affine Transformation": "Lineare Transformation mit Verschiebung.",
+        "Konvergenz": "Annäherung des Trainingsverfahrens an ein Optimum."
+      }
+    },
+    {
+      "frage": "33. Welche Aussage beschreibt Residual Networks (ResNets) korrekt?",
+      "optionen": [
+        "Sie vermeiden Skip-Verbindungen, um Tiefe zu erhöhen.",
+        "Sie nutzen Identitätsverknüpfungen, um Gradientenfluss über viele Schichten zu erleichtern.",
+        "Sie bestehen ausschließlich aus rekurrenten Einheiten.",
+        "Sie verbieten Batch-Norm aus Stabilitätsgründen.",
+        "Sie sind nur für Sprachmodelle geeignet."
+      ],
+      "loesung": 2,
+      "erklaerung": "ResNets führen Skip-Verbindungen ein, die das Training sehr tiefer Netze ermöglichen, indem sie den Gradientenfluss verbessern.",
+      "gewichtung": 2,
+      "thema": "Neuronale Netze & Deep Learning",
+      "extended_explanation": {
+        "titel": "ResNet-Idee",
+        "schritte": [
+          "Lerne Residuen statt vollständiger Abbildungen.",
+          "Identitäts-Shortcuts umgehen Degradationsprobleme.",
+          "Training tiefer Architekturen wird praktikabler.",
+          "Architectural Blocks kombinieren Conv, BN, Aktivierung."
+        ]
+      },
+      "mini_glossary": {
+        "Skip-Verbindung": "Direkte Verbindung, die Schichten überspringt.",
+        "Degradationsproblem": "Leistung sinkt beim einfachen Tiefermachen.",
+        "Residual": "Zu lernender Unterschied zur Identität."
+      }
+    },
+    {
+      "frage": "34. Welche Technik adressiert Überanpassung in tiefen Netzen zusätzlich zu Dropout wirkungsvoll?",
+      "optionen": [
+        "Erhöhung der Modelltiefe ohne Daten.",
+        "Datenaugmentation und Gewichtsnormierung zur Verbesserung der Generalisierung.",
+        "Entfernung der Regularisierungstermine.",
+        "Reduktion der Batchgröße auf 1 ausschließlich.",
+        "Verwendung nur linearer Aktivierungen."
+      ],
+      "loesung": 3,
+      "erklaerung": "Datenaugmentation erweitert effektiv die Trainingsdaten; Normierungs- und Gewichtsregularisierungen stabilisieren die Optimierung.",
+      "gewichtung": 2,
+      "thema": "Neuronale Netze & Deep Learning",
+      "extended_explanation": {
+        "titel": "Generalisation in DL verbessern",
+        "schritte": [
+          "Realistische Datenaugmentierungen konfigurieren.",
+          "Gewichtsnormierung oder -zerfall nutzen.",
+          "Frühes Stoppen anhand Validierung implementieren.",
+          "Architektur- und Hyperparameter-Suche systematisch gestalten."
+        ]
+      },
+      "mini_glossary": {
+        "Gewichtszerfall": "L2-Strafterm auf Gewichte in Netzen.",
+        "Datenaugmentation": "Stochastische Transformationen zur Datenerweiterung.",
+        "Normierung": "Skalierung von Gewichten/Aktivierungen zur Stabilität."
+      }
+    },
+    {
+      "frage": "35. Welche Eigenschaft trifft auf Attention-Mechanismen in Sequenzmodellen zu?",
+      "optionen": [
+        "Sie erzwingen feste Kontextfenster ohne Gewichtung.",
+        "Sie erlauben eine kontextabhängige Gewichtung von Sequenzteilen bei der Repräsentationsbildung.",
+        "Sie sind nur in CNNs definiert.",
+        "Sie ersetzen die Notwendigkeit jeglicher Trainingsdaten.",
+        "Sie funktionieren ausschließlich mit numerischen Labels."
+      ],
+      "loesung": 4,
+      "erklaerung": "Attention gewichtet dynamisch relevante Teile einer Sequenz und verbessert die Repräsentation langreichweitiger Abhängigkeiten.",
+      "gewichtung": 3,
+      "thema": "Neuronale Netze & Deep Learning",
+      "extended_explanation": {
+        "titel": "Kernidee von Attention",
+        "schritte": [
+          "Query, Key und Value bestimmen Relevanzgewichte.",
+          "Gewichtete Summen erzeugen kontextuelle Repräsentationen.",
+          "Ermöglicht parallele Verarbeitung in Transformern.",
+          "Verringert Pfadlängen für Langzeitabhängigkeiten."
+        ]
+      },
+      "mini_glossary": {
+        "Self-Attention": "Attention zwischen Positionen derselben Sequenz.",
+        "Transformer": "Architektur, die stark auf Attention basiert.",
+        "Langzeitabhängigkeit": "Beziehung über große Sequenzdistanzen."
+      }
+    },
+    {
+      "frage": "36. Welche Rolle spielt die Lernrate (Learning Rate) im Gradientenverfahren?",
+      "optionen": [
+        "Sie steuert die Schrittweite der Parameterupdates und beeinflusst Konvergenzgeschwindigkeit und Stabilität.",
+        "Sie bestimmt ausschließlich die Modellkapazität.",
+        "Sie ersetzt Regularisierung vollständig.",
+        "Sie macht Validierung überflüssig.",
+        "Sie ist nur bei konvexen Problemen relevant."
+      ],
+      "loesung": 0,
+      "erklaerung": "Zu hohe Lernraten führen zu Divergenz, zu niedrige zu langsamer Konvergenz. Zeitpläne können helfen.",
+      "gewichtung": 1,
+      "thema": "Optimierung & Training",
+      "mini_glossary": {
+        "Gradientenabstieg": "Iteratives Minimierungsverfahren entlang des negativen Gradienten.",
+        "Lernratenplan": "Zeitliche Änderung der Lernrate, z.B. Decay oder Scheduler.",
+        "Konvergenz": "Annäherung an ein Optimum der Loss-Funktion."
+      }
+    },
+    {
+      "frage": "37. Welche Eigenschaft unterscheidet Adam von reinem SGD ohne Momentum?",
+      "optionen": [
+        "Adam nutzt adaptive Schrittweiten pro Parameter basierend auf Moment-Schätzungen.",
+        "Adam benötigt keine Gradienten.",
+        "Adam garantiert globale Optimalität.",
+        "Adam ist ausschließlich für lineare Modelle geeignet.",
+        "Adam erhöht deterministisch die Trainingsfehler."
+      ],
+      "loesung": 1,
+      "erklaerung": "Adam kombiniert Momentum- (1. Moment) und RMSProp-artige Varianzschätzung (2. Moment) für adaptive Updates.",
+      "gewichtung": 2,
+      "thema": "Optimierung & Training",
+      "extended_explanation": {
+        "titel": "Adam-Optimierer verstehen",
+        "schritte": [
+          "Erste und zweite Moment-Schätzungen der Gradienten berechnen.",
+          "Bias-Korrekturen anwenden, um Startverzerrung zu reduzieren.",
+          "Adaptive Schrittweiten pro Parameter nutzen.",
+          "Hyperparameter (learning_rate, beta1, beta2) validieren."
+        ]
+      },
+      "mini_glossary": {
+        "Momentum": "Exponential gleitender Mittelwert der Gradienten.",
+        "RMSProp": "Adaptive Methode basierend auf Gradientenquadraten.",
+        "Adaptive Lernrate": "Parameterabhängige Schrittweitensteuerung."
+      }
+    },
+    {
+      "frage": "38. Warum ist eine sorgfältige Initialisierung der Gewichte in tiefen Netzen wichtig?",
+      "optionen": [
+        "Sie bestimmt die Anzahl der Epochen fix.",
+        "Sie beeinflusst Gradientenfluss und Aktivierungsverteilungen, was Konvergenz und Stabilität prägt.",
+        "Sie macht Batch-Norm überflüssig.",
+        "Sie eliminiert jede Notwendigkeit von Regularisierung.",
+        "Sie ersetzt die Wahl der Aktivierungsfunktion."
+      ],
+      "loesung": 2,
+      "erklaerung": "Initialisierungen wie He- oder Xavier-Verfahren halten Varianzen stabil und vermeiden Explodieren/Versanden der Gradienten.",
+      "gewichtung": 2,
+      "thema": "Optimierung & Training",
+      "extended_explanation": {
+        "titel": "Gewichtsinitialisierung",
+        "schritte": [
+          "Varianz der Aktivierungen zwischen Schichten stabil halten.",
+          "He/Xavier passend zur Aktivierung (ReLU/tanh) wählen.",
+          "Skalierung an Fan-in/Fan-out orientieren.",
+          "Interaktion mit Normalisierung und Lernrate beachten."
+        ]
+      },
+      "mini_glossary": {
+        "He-Initialisierung": "Skalierung für ReLU-ähnliche Aktivierungen.",
+        "Xavier-Initialisierung": "Skalierung für symmetrische Aktivierungen wie tanh.",
+        "Fan-in/Fan-out": "Anzahl eingehender/ausgehender Verbindungen."
+      }
+    },
+    {
+      "frage": "39. Welche Aussage trifft auf Early Stopping zu?",
+      "optionen": [
+        "Es beendet das Training, wenn die Trainingsloss monoton sinkt.",
+        "Es nutzt die Validierungsleistung, um vor weiterer Verschlechterung zu stoppen.",
+        "Es ersetzt die Notwendigkeit einer Testmenge vollständig.",
+        "Es ist nur bei linearen Modellen sinnvoll.",
+        "Es erhöht systematisch die Überanpassung."
+      ],
+      "loesung": 3,
+      "erklaerung": "Early Stopping überwacht die Validierungsmetrik und hält an, bevor weitere Epochen die Generalisierung verschlechtern.",
+      "gewichtung": 2,
+      "thema": "Optimierung & Training",
+      "extended_explanation": {
+        "titel": "Early Stopping einsetzen",
+        "schritte": [
+          "Validierungsmetrik pro Epoche verfolgen.",
+          "Geduldparameter definieren, der wenige Verschlechterungen toleriert.",
+          "Bestes Modell (Weights) bei Stop speichern.",
+          "Mit Lernratenplänen kombinieren."
+        ]
+      },
+      "mini_glossary": {
+        "Patience": "Anzahl tolerierter schlechterer Epochen vor Stop.",
+        "Checkpointing": "Speichern des besten Modells während des Trainings.",
+        "Validierungsmetrik": "Kennzahl auf Validierungsdaten zur Steuerung."
+      }
+    },
+    {
+      "frage": "40. Woran erkennen Sie eine schlechte Kalibrierung probabilistischer Klassifikatoren?",
+      "optionen": [
+        "Die vorhergesagten Wahrscheinlichkeiten entsprechen den beobachteten Häufigkeiten nur näherungsweise.",
+        "Die vorhergesagten Wahrscheinlichkeiten weichen systematisch von den empirischen Häufigkeiten ab.",
+        "Die Accuracy ist unter 100%.",
+        "Die ROC-AUC ist kleiner als 1.0.",
+        "Die Lernrate ist zu klein."
+      ],
+      "loesung": 4,
+      "erklaerung": "Schlechte Kalibrierung liegt vor, wenn Vorhersagewahrscheinlichkeiten systematisch zu hoch/zu niedrig sind; Kalibrierungsplots oder Brier-Score helfen.",
+      "gewichtung": 3,
+      "thema": "Optimierung & Training",
+      "extended_explanation": {
+        "titel": "Kalibrierung beurteilen und verbessern",
+        "schritte": [
+          "Reliability Diagrams und Brier-Score auswerten.",
+          "Platt-Scaling oder Isotone Regression prüfen.",
+          "Kalibrierung strikt auf Validierung/Test fitten.",
+          "Schwellwerte ggf. nach Kalibrierung neu bestimmen."
+        ]
+      },
+      "mini_glossary": {
+        "Kalibrierung": "Übereinstimmung zwischen prognostizierten Wahrscheinlichkeiten und beobachteten Häufigkeiten.",
+        "Brier-Score": "Quadratischer Fehler der Wahrscheinlichkeitsvorhersage.",
+        "Isotone Regression": "Monotone Kalibrierungsmethode ohne Parametrisierung."
+      }
+    }
+  ]
+}

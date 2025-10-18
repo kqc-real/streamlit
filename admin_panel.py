@@ -60,7 +60,7 @@ def render_prompt_tab():
         generierte Datei anschließend im Verzeichnis `data/`.
         """.strip()
     )
-    st.info("Aktuell erzielen wir die besten Ergebnisse mit Gemini 2.5 Flash – gerne zuerst damit versuchen.")
+    st.info("Aktuell erzielen wir die besten Ergebnisse mit »ChatGPT 5 Thinking Umfassend« und »Gemini 2.5 Flash« – gerne zuerst damit versuchen.")
 
     prompt_text = _load_frageset_prompt()
     st.code(prompt_text, language="markdown")
