@@ -421,7 +421,7 @@ Marktanalyse & Tech-Specs für 6 Export-Plattformen erstellen.
 
 ---
 
-## 📊 Team 2: Live Quiz Champions (Kahoot + Socrative)
+## 📊 Team B: Live Quiz Champions (Kahoot + Socrative)
 
 [Gleiche Struktur]
 
@@ -829,7 +829,7 @@ Closes #42
 **Im Warm-Up Sprint:**
 - `main` = Stabile Version (nur PO merged hier)
 - `team/flashcard-experts` = Team A arbeitet hier
-- `team/live-quiz` = Team 2 arbeitet hier
+- `team/live-quiz` = Team B arbeitet hier
 - `team/academic-tools` = Team C arbeitet hier
 
 **In späteren Sprints (optional):**
@@ -1160,7 +1160,7 @@ Klick → Nur Issues deines Teams! 🎯
 **Branches aus dem Setup:**
 ```
 team/flashcard-experts   # Team A arbeitet hier
-team/live-quiz           # Team 2 arbeitet hier
+team/live-quiz           # Team B arbeitet hier
 team/academic-tools      # Team C arbeitet hier
 ```
 
