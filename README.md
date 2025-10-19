@@ -11,10 +11,12 @@ Die App verfügt über ein integriertes Feedback-System, das es Nutzern ermögli
 
 ## 🚀 Schnellstart
 
-**Neu hier? Keine Programmierkenntnisse?**
-→ **[📖 Installationsanleitung für Einsteiger](INSTALLATION_ANLEITUNG.md)**
+**📖 Installationsanleitungen für Einsteiger/innen**
+- https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_MAC_ANLEITUNG.md
+- https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_WINDOWS_ANLEITUNG.md
+- https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_VS-CODE_SSH-AUTHENTIFIZIERUNG.md
 
-Diese Schritt-für-Schritt-Anleitung erklärt alles von Grund auf:
+Diese Schritt-für-Schritt-Anleitungen erklären alles von Grund auf:
 - Python & Git installieren (Windows & Mac)
 - App herunterladen und starten
 - Häufige Probleme und Lösungen
@@ -312,7 +314,7 @@ Die App selbst generiert **keine** Fragen automatisch. Der folgende Abschnitt is
 5.  **Prüfe die JSON-Datei** z. B. mit [jsonlint.com](https://jsonlint.com) oder einem lokalen Linter.
 6.  **Speichere die Datei** im `data/`-Ordner deiner App.
 
-Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsregeln, didaktische Guidelines), damit der LLM qualitativ hochwertige Fragen für diese App erstellen kann.
+Der Prompt enthält alle notwendigen Informationen (JSON-Schema, Formatierungsregeln, didaktische Guidelines), damit das LLM qualitativ hochwertige Fragen für diese App erstellen kann.
 
 ## Prompt (copy & paste)
 
