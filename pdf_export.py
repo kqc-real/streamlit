@@ -1590,7 +1590,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 border-radius: 8px;
                 padding: 24px 28px;
                 margin: 20px 0;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                /* box-shadow removed: WeasyPrint doesn't support this property and emits warnings */
                 page-break-inside: avoid;
             }}
             .question-header {{

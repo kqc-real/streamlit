@@ -37,6 +37,7 @@ from helpers import (
 )
 from database import update_bookmarks
 from components import render_question_distribution_chart
+import logging
 
 
 def _format_minutes_text(minutes: int) -> str:
@@ -114,6 +115,29 @@ def _sync_questions_query_param(selected_file: str):
     if current_value == selected_file:
         return
     st.query_params["questions_file"] = selected_file
+
+
+# --- queued rerun handler -------------------------------------------------
+# Some environments or Streamlit builds may not expose experimental_rerun.
+# To support callers that set a flag (st.session_state["_needs_rerun"] = True)
+# we check the flag once at module import / first render and invoke the
+# experimental rerun when available. This provides a reliable fallback
+# for deployments where an immediate rerun cannot be executed in the
+# same code path that updated session_state.
+try:
+    if st.session_state.pop("_needs_rerun", False):
+        rerun_fn = getattr(st, "experimental_rerun", None)
+        if callable(rerun_fn):
+            try:
+                rerun_fn()
+            except Exception:
+                logging.exception("queued experimental_rerun failed")
+        else:
+            logging.debug("queued rerun requested but experimental_rerun not available")
+except Exception:
+    # session_state may not be fully initialized during some import paths;
+    # ignore and continue — the UI will render normally.
+    pass
 
 
 def _render_welcome_splash():
@@ -1608,7 +1632,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                         else:
                             # Some streamlit builds may not expose experimental_rerun;
                             # just continue without forcing a rerun.
-                            logging.info('experimental_rerun not available; skipping')
+                            logging.debug('experimental_rerun not available; skipping')
                     except Exception:
                         logging.exception("experimental_rerun failed")
                 else:
