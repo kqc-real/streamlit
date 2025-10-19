@@ -546,6 +546,31 @@ def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> 
     return processed_text
 
 
+def _steps_have_numbering(steps: List[str]) -> bool:
+    """
+    Prüft, ob eine gegebene Liste von Schritten eine führende Nummerierung enthält.
+    Liefert True, wenn mindestens ein Schritt mit z.B. "1. " oder "1) " beginnt.
+    """
+    if not steps:
+        return False
+    num_re = re.compile(r"^\s*\d+[\.\)]\s+")
+    for s in steps:
+        if isinstance(s, str) and num_re.match(s):
+            return True
+    return False
+
+
+def _strip_leading_numbering(text: str) -> str:
+    """
+    Entfernt führende Nummerierungen wie "1. " oder "1) " aus einem Schritt-String.
+    Wird verwendet, wenn wir eine geordnete Liste (<ol>) rendern und die
+    Quelltexte bereits Nummern enthalten, damit nicht doppelt nummeriert wird.
+    """
+    if not isinstance(text, str):
+        return text
+    return re.sub(r'^\s*\d+[\.\)]\s+', '', text)
+
+
 def _generate_qr_code(url: str) -> str:
     """Generiert QR-Code als Base64-String."""
     if not QR_AVAILABLE:
@@ -1249,10 +1274,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             explanation_html += "</strong>"
 
             if steps:
-                explanation_html += "<ol class='extended-steps'>"
+                # Choose ordered vs unordered list depending on whether
+                # the source steps contain explicit numbering (e.g. "1. ").
+                list_tag = 'ol' if _steps_have_numbering(steps) else 'ul'
+                explanation_html += f"<{list_tag} class='extended-steps'>"
                 for step in steps:
-                    explanation_html += f"<li>{_parse_text_with_formulas(step)}</li>"
-                explanation_html += "</ol>"
+                    item = _strip_leading_numbering(step) if list_tag == 'ol' else step
+                    explanation_html += f"<li>{_parse_text_with_formulas(item)}</li>"
+                explanation_html += f"</{list_tag}>"
             elif isinstance(content, str) and content.strip():
                 explanation_html += "<br>" + _parse_text_with_formulas(content)
 
@@ -1992,10 +2021,12 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             explanation_html += '</strong>'
 
             if steps:
-                explanation_html += '<ol class="extended-steps">'
+                list_tag = 'ol' if _steps_have_numbering(steps) else 'ul'
+                explanation_html += f'<{list_tag} class="extended-steps">'
                 for step in steps:
-                    explanation_html += f'<li>{_parse_text_with_formulas(step, total_timeout=total_timeout)}</li>'
-                explanation_html += '</ol>'
+                    item = _strip_leading_numbering(step) if list_tag == 'ol' else step
+                    explanation_html += f'<li>{_parse_text_with_formulas(item, total_timeout=total_timeout)}</li>'
+                explanation_html += f'</{list_tag}>'
             elif isinstance(content, str) and content.strip():
                 explanation_html += '<br>' + _parse_text_with_formulas(content, total_timeout=total_timeout)
 

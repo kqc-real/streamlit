@@ -7,4 +7,4 @@ Bereit für eine Prüfung oder »Lifelong Learning«? Diese App hilft dir, Multi
 * **Fragensets auf Abruf** – Wähle ein Fragenset; alles ist aufbereitet mit Gewichtungen und Erklärungen.
 * **Zeitlimit inklusive** – Festes Zeitlimit pro Set und Review direkt nach der Abgabe.
 * **Feedback in Sekunden** – Richtige Antworten, Erklärungen und eine kompakte Analyse pro Thema.
-* **Export zum Mitnehmen** – Speichere dein Ergebnis als PDF und hol dir die Musterlösung zum Nacharbeiten!.
+* **Export zum Mitnehmen** – Speichere dein Ergebnis als PDF und hol dir die Musterlösung zum Nacharbeiten!

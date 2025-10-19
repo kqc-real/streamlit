@@ -1,0 +1,62 @@
+[
+  {
+    "frage": "1. Was ist die Ausgabe von print(2 + 3)?",
+    "optionen": ["2", "3", "5", "23"],
+    "loesung": 2,
+    "gewichtung": 1,
+    "erklaerung": "Addition von zwei Ganzzahlen ergibt 5.",
+    "extended_explanation": {
+      "titel": "Schritt-für-Schritt",
+      "schritte": [
+        "1. Der Interpreter wertet 2 aus.",
+        "2. Der Interpreter wertet 3 aus.",
+        "3. Beide Werte werden addiert und das Ergebnis 5 wird gedruckt."
+      ]
+    }
+  },
+  {
+    "frage": "2. Welcher Datentyp repräsentiert True/False in Python?",
+    "optionen": ["int", "str", "bool", "list"],
+    "loesung": 2,
+    "gewichtung": 1,
+    "erklaerung": "Der boolsche Typ repräsentiert Wahrheitswerte True und False.",
+    "extended_explanation": {
+      "titel": "Kerneigenschaften",
+      "schritte": [
+        "Booleans haben nur zwei mögliche Werte: True und False.",
+        "Sie werden oft in Bedingungen (if/else) verwendet.",
+        "In Python sind True und False Konstanten des Typs bool."
+      ]
+    }
+  },
+  {
+    "frage": "3. Welches Schlüsselwort definiert eine Funktion in Python?",
+    "optionen": ["func", "def", "function", "lambda"],
+    "loesung": 1,
+    "gewichtung": 1,
+    "erklaerung": "Mit def wird eine Funktion definiert.",
+    "extended_explanation": {
+      "titel": "Kurze Hinweise",
+      "schritte": [
+        "Funktionen starten mit dem Schlüsselwort def.",
+        "Der Funktionsname folgt danach, gefolgt von Klammern und Doppelpunkt.",
+        "Der Funktionskörper ist eingerückt unterhalb der Definition."
+      ]
+    }
+  },
+  {
+    "frage": "4. Wie erstellt man eine Liste mit drei Elementen?",
+    "optionen": ["(1,2,3)", "[1, 2, 3]", "{1,2,3}", "list(1,2,3)"],
+    "loesung": 1,
+    "gewichtung": 1,
+    "erklaerung": "Eckige Klammern erzeugen eine Liste.",
+    "extended_explanation": {
+      "titel": "Erstellungsoptionen",
+      "schritte": [
+        "Verwende eckige Klammern: [1, 2, 3].",
+        "Verwende list(iterable) um aus einem Iterable eine Liste zu erzeugen.",
+        "Tupel (1,2,3) sind unveränderlich; Sets {1,2,3} haben keine feste Reihenfolge."
+      ]
+    }
+  }
+]

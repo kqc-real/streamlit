@@ -9,6 +9,7 @@ import os
 import streamlit as st
 import pandas as pd
 import time
+import re
 import locale
 import math
 
@@ -80,6 +81,29 @@ def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds:
     minutes_text = _format_minutes_text(next_minute)
     prefix = "nur noch" if remaining_seconds < next_minute * 60 else "noch"
     return f"⚠️ Achtung, {prefix} knapp {minutes_text}!"
+
+
+def _steps_have_numbering(steps: list) -> bool:
+    """Prüft, ob in einer Liste von Schritt‑Strings eine Nummerierung vorgegeben ist.
+
+    Liefert True, sobald mindestens ein Eintrag eine führende Nummerierung wie "1. ", "1) " o.Ä. enthält.
+    """
+    if not steps or not isinstance(steps, list):
+        return False
+    numbered_count = 0
+    for s in steps:
+        if isinstance(s, str) and re.match(r"^\s*\d+[\.|\)]\s+", s):
+            numbered_count += 1
+    return numbered_count >= 1
+
+
+def _strip_leading_numbering(text: str) -> str:
+    """
+    Entfernt führende Nummerierung wie "1. " oder "1) " aus einem Schritt-String.
+    """
+    if not isinstance(text, str):
+        return text
+    return re.sub(r'^\s*\d+[\.\)]\s+', '', text)
 
 
 def _sync_questions_query_param(selected_file: str):
@@ -806,12 +830,20 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")
                 # Jeder Schritt wird in einer eigenen Spalte gerendert, um KaTeX zu parsen
                 # und bei Bedarf scrollbar zu sein.
-                for i, schritt in enumerate(erklaerung['schritte']):
+                steps = erklaerung.get('schritte') or []
+                numbered = _steps_have_numbering(steps)
+                for i, schritt in enumerate(steps):
                     cols = st.columns([1, 19])
                     with cols[0]:
-                        st.markdown(f"{i+1}.")
+                        # Zeige nur dann Indexzahlen, wenn die Originalschritte nummeriert sind
+                        if numbered:
+                            st.markdown(f"{i+1}.")
+                        else:
+                            st.markdown("•")
                     with cols[1]:
-                        st.markdown(f"<div class='scrollable-katex'>{smart_quotes_de(schritt)}</div>", unsafe_allow_html=True)
+                        # Wenn die Schritte bereits nummeriert sind, entferne die Nummerierung
+                        display_step = _strip_leading_numbering(schritt) if numbered else schritt
+                        st.markdown(f"<div class='scrollable-katex'>{smart_quotes_de(display_step)}</div>", unsafe_allow_html=True)
             else:
                 # Fallback für einfache String-Erklärungen
                 st.markdown(smart_quotes_de(str(erklaerung)))
@@ -844,8 +876,15 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     steps = extended_explanation.get("schritte")
 
                     if isinstance(steps, list) and steps:
+                        numbered = _steps_have_numbering(steps)
                         for idx, step in enumerate(steps, start=1):
-                            st.markdown(f"{idx}. {smart_quotes_de(step)}")
+                            if numbered:
+                                # Remove leading numbering from the source step to
+                                # avoid showing e.g. "1. 1. Do X".
+                                item = _strip_leading_numbering(step)
+                                st.markdown(f"{idx}. {smart_quotes_de(item)}")
+                            else:
+                                st.markdown(f"- {smart_quotes_de(step)}")
                     elif isinstance(content, str) and content.strip():
                         st.markdown(smart_quotes_de(content))
                     else:
