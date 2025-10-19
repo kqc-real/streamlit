@@ -34,7 +34,9 @@
 
 ## 👥 Team-Aufteilung
 
-### Team 1: "Flashcard Experts"
+### Team A: "Flashcard Experts"
+
+[BBB-Teamroom A](https://bbb.arsnova.eu/rooms/3rs-pkj-ygz-qd8/join)
 
 **Plattformen:** Anki + Quizlet  
 **Use Case:** Karteikarten für Selbststudium
@@ -44,7 +46,9 @@
 - Anki: Open-Source, Power-User, Desktop-first
 - Quizlet: Kommerziell, Mainstream, Mobile-first
 
-### Team 2: "Live Quiz Champions"
+### Team B: "Live Quiz Champions"
+
+[BBB-Teamroom B](https://bbb.arsnova.eu/rooms/qhf-xtl-zlz-isr/join)
 
 **Plattformen:** Kahoot + Socrative  
 **Use Case:** Interaktive Live-Quizzes in der Vorlesung
@@ -54,7 +58,9 @@
 - Kahoot: Gamification, kompetitiv, großer Markt
 - Socrative: Education-fokussiert, formative Assessments
 
-### Team 3: "Academic Tools Specialists"
+### Team C: "Academic Tools Specialists"
+
+[BBB-Teamroom C](https://bbb.arsnova.eu/rooms/whc-pxa-0if-tsx/join)
 
 **Plattformen:** Particify (ehem. ARSnova) + arsnova.click  
 **Use Case:** Akademische Audience-Response-Systeme
