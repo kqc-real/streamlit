@@ -399,7 +399,7 @@ Marktanalyse & Tech-Specs für 6 Export-Plattformen erstellen.
 
 ---
 
-## 📊 Team 1: Flashcard Experts (Anki + Quizlet)
+## 📊 Team A: Flashcard Experts (Anki + Quizlet)
 
 **Präsentation:** [Link zu Slides (PDF)]
 
@@ -427,7 +427,7 @@ Marktanalyse & Tech-Specs für 6 Export-Plattformen erstellen.
 
 ---
 
-## 📊 Team 3: Academic Tools (Particify + arsnova.click)
+## 📊 Team C: Academic Tools (Particify + arsnova.click)
 
 [Gleiche Struktur]
 
@@ -828,9 +828,9 @@ Closes #42
 
 **Im Warm-Up Sprint:**
 - `main` = Stabile Version (nur PO merged hier)
-- `team/flashcard-experts` = Team 1 arbeitet hier
+- `team/flashcard-experts` = Team A arbeitet hier
 - `team/live-quiz` = Team 2 arbeitet hier
-- `team/academic-tools` = Team 3 arbeitet hier
+- `team/academic-tools` = Team C arbeitet hier
 
 **In späteren Sprints (optional):**
 - `main` = Produktions-Code
@@ -1159,9 +1159,9 @@ Klick → Nur Issues deines Teams! 🎯
 
 **Branches aus dem Setup:**
 ```
-team/flashcard-experts   # Team 1 arbeitet hier
+team/flashcard-experts   # Team A arbeitet hier
 team/live-quiz           # Team 2 arbeitet hier
-team/academic-tools      # Team 3 arbeitet hier
+team/academic-tools      # Team C arbeitet hier
 ```
 
 **In der Commit-History:**
