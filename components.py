@@ -11,6 +11,7 @@ import streamlit as st
 import pandas as pd
 import os
 import time
+import json as _json
 
 from config import AppConfig, QuestionSet
 from logic import calculate_score, is_test_finished
@@ -61,6 +62,41 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         unsafe_allow_html=True,
     )
     st.sidebar.success(f"👋 **{st.session_state.user_id}**")
+    # Zeige, falls vorhanden, die Kurzinfo (contribution) aus data/scientists.json
+    try:
+        user_pseudo = st.session_state.get("user_id")
+        if user_pseudo:
+            # Lade die Liste einmalig (cachable) und arbeite mit ihr
+            from config import get_package_dir
+
+            @st.cache_data(ttl=3600)
+            def _load_scientists_json():
+                path = os.path.join(get_package_dir(), "data", "scientists.json")
+                try:
+                    with open(path, encoding="utf-8") as fh:
+                        return _json.load(fh)
+                except Exception:
+                    return []
+
+            scientists = _load_scientists_json()
+            contribution = None
+            for s in scientists:
+                if s.get("name") == user_pseudo:
+                    contribution = s.get("contribution")
+                    break
+            if contribution is None:
+                for s in scientists:
+                    n = s.get("name")
+                    if isinstance(n, str) and n.lower() == user_pseudo.lower():
+                        contribution = s.get("contribution")
+                        break
+
+            if contribution:
+                with st.sidebar.expander("ℹ️ Info zum Pseudonym", expanded=False):
+                    st.write(contribution)
+    except Exception:
+        # Generischer Schutz: Sidebar darf nie wegen Anzeige-Problemen abstürzen
+        pass
 
     # Zeige das aktuell ausgewählte Fragenset an
     selected_file = st.session_state.get("selected_questions_file")
