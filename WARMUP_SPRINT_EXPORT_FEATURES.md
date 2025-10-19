@@ -581,30 +581,6 @@ A: Detailliert genug, dass ein Entwickler (ich) die Implementierung ohne Rückfr
 
 ---
 
-## 🎖️ Bonus-Challenges (Optional)
-
-Für Teams, die früher fertig sind oder Extra-Punkte sammeln wollen:
-
-1. **Competitive Teardown:**
-   - Findet 3 konkurrierende MC-Test-Tools
-   - Analysiert deren Export-Features
-   - Erstellt Comparison-Matrix
-
-2. **User Interview:**
-   - Interviewt 2-3 Studierende oder Dozenten
-   - Fragen: Welche Quiz-Plattformen nutzt ihr? Würdet ihr Export nutzen?
-   - Dokumentiert Insights
-
-3. **Proof-of-Concept Code:**
-   - Schreibt ein Python-Skript, das 1 Frage aus MC-Test-App-Format in Ziel-Format konvertiert
-   - Zeigt das in der Präsentation
-
-4. **Video-Tutorial:**
-   - Erstellt ein 2-Min-Video: "So importiert man Fragen in [Plattform]"
-   - Nützlich für Dokumentation später
-
----
-
 ## 🎓 Lernziele (für eure Reflexion)
 
 Nach diesem Sprint könnt ihr:
@@ -652,12 +628,10 @@ Nach diesem Sprint könnt ihr:
 
 **Vorbereitung (vor Tag 1):**
 1. ✅ GitHub-Account erstellen (falls noch nicht vorhanden)
-2. ✅ Markdown-Editor installieren (VS Code empfohlen)
-3. ✅ [BigBlueButton-Link](https://bbb.arsnova.eu/) speichern
+2. ✅ [Anleitung Markdown lesen](https://github.com/kqc-real/streamlit/blob/main/ANLEITUNG_MARKDOWN_BEARBEITEN.md)
 
 **Tag 1 (Präsenz-Kickoff):**
-1. ✅ Team-Namen wählen (kreativ! z.B. "Flashcard Ninjas")
-2. ✅ GitHub Issues erstellen (1 pro Team mit Checkliste aus DoD)
+2. ✅ GitHub Issues erstellen
 3. ✅ User Stories schreiben
 4. ✅ Accounts für eure Plattformen erstellen
 5. ✅ Daily Standup Zeiten vereinbaren (BBB)
