@@ -647,7 +647,7 @@ Nach diesem Sprint könnt ihr:
 **Vorbereitung (vor Tag 1):**
 1. ✅ GitHub-Account erstellen (falls noch nicht vorhanden)
 2. ✅ Markdown-Editor installieren (VS Code empfohlen)
-3. ✅ BigBlueButton-Link speichern (wird vom PO bereitgestellt)
+3. ✅ [BigBlueButton-Link](https://bbb.arsnova.eu/) speichern
 
 **Tag 1 (Präsenz-Kickoff):**
 1. ✅ Team-Namen wählen (kreativ! z.B. "Flashcard Ninjas")
