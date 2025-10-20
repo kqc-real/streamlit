@@ -1422,7 +1422,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             /* Weak Topics Box */
             .weak-topics {{
                 background: #fff3cd;
-                border: 2px solid #ffc107;
+                border: 2px solid #b45309;
                 border-radius: 8px;
                 padding: 20px 24px;
                 margin: 24px 0;
