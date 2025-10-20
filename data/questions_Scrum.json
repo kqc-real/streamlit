@@ -534,9 +534,9 @@
         "titel": "Die drei Säulen des Scrum-Verständnisses",
         "schritte": [
           "Scrum lässt sich aus drei Perspektiven betrachten, die zusammenwirken:",
-          "1. **Produktperspektive:** Fokus auf 'das richtige Ding bauen'. Gesteuert vom Product Owner über das Product Backlog und den Sprint-Review.",
-          "2. **Entwicklungsperspektive:** Fokus auf 'das Ding richtig bauen'. Getragen vom autonomen Entwicklungsteam im Sprint.",
-          "3. **Verbesserungsperspektive:** Fokus auf 'besser darin werden, die Dinge richtig zu bauen'. Angetrieben durch den Scrum Master, die Retrospektive und das Daily Scrum.",
+          "**Produktperspektive:** Fokus auf 'das richtige Ding bauen'. Gesteuert vom Product Owner über das Product Backlog und den Sprint-Review.",
+          "**Entwicklungsperspektive:** Fokus auf 'das Ding richtig bauen'. Getragen vom autonomen Entwicklungsteam im Sprint.",
+          "**Verbesserungsperspektive:** Fokus auf 'besser darin werden, die Dinge richtig zu bauen'. Angetrieben durch den Scrum Master, die Retrospektive und das Daily Scrum.",
           "Ein erfolgreiches Scrum-Team balanciert alle drei Perspektiven aus."
         ]
       },
