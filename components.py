@@ -213,14 +213,36 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         remaining = 0
 
     if remaining <= 0:
-        remaining_text = "Keine Fragen mehr"
+        remaining_text = "(Test beendet)"
     elif remaining == 1:
-        remaining_text = "1 Frage noch"
+        remaining_text = "(noch 1 Frage)"
     else:
-        remaining_text = f"( noch {remaining} Fragen)"
+        remaining_text = f"(noch {remaining} Fragen)"
 
     st.sidebar.markdown(f"⏳ Fortschritt {remaining_text}")
-    st.sidebar.progress(progress_pct, text=f"{progress_pct} %")
+    # Custom color-coded progress bar: grün >=60%, gelb 30-59%, rot <30%
+    try:
+        # Dunklere, gedeckte Farben für Dark Mode
+        if progress_pct >= 60:
+            bar_color = "#15803d"  # dunkleres grün
+        elif progress_pct >= 30:
+            bar_color = "#b45309"  # dunkleres gelb/amber
+        else:
+            bar_color = "#b91c1c"  # dunkleres rot
+
+        # Verwende einen dunkleren Hintergrund, der in Dark Mode weniger stark hervortritt
+        progress_html = f"""
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;background:#1f2937;border-radius:6px;overflow:hidden;height:14px;border:1px solid rgba(255,255,255,0.04);">
+            <div style="width:{progress_pct}%;background:{bar_color};height:100%;border-radius:6px;"></div>
+          </div>
+          <div style="min-width:48px;text-align:right;font-weight:600;color:var(--text-color,#e5e7eb);">{progress_pct}%</div>
+        </div>
+        """
+        st.sidebar.markdown(progress_html, unsafe_allow_html=True)
+    except Exception:
+        # Fallback to the Streamlit progress if something goes wrong with HTML rendering
+        st.sidebar.progress(progress_pct)
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
