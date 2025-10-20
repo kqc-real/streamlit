@@ -1204,7 +1204,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         gegebene_antwort = get_answer_for_question(original_index)
         richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
         ist_richtig = (gegebene_antwort == richtige_antwort_text)
-        border_color = "#28a745" if ist_richtig else "#dc3545"  # Grün oder Rot
+        border_color = "#15803d" if ist_richtig else "#b91c1c"  # Dunkelgrün oder Dunkelrot
         
         # NEU: Prüfen, ob die Frage markiert ist und Icon hinzufügen
         is_bookmarked = original_index in bookmarked_indices
@@ -1410,9 +1410,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-weight: bold;
                 color: #495057;
             }}
-            .stat-value.correct {{ color: #28a745; }}
-            .stat-value.wrong {{ color: #dc3545; }}
-            .stat-value.rank {{ color: #ffc107; }}
+            .stat-value.correct {{ color: #15803d; }}
+            .stat-value.wrong {{ color: #b91c1c; }}
+            .stat-value.rank {{ color: #b45309; }}
             .stat-label {{
                 font-size: 9pt;
                 color: #6c757d;
@@ -1549,7 +1549,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-weight: 600;
             }}
             .diff-cell.diff-positive {{
-                color: #2e7d32;
+                color: #15803d;
             }}
             .diff-cell.diff-negative {{
                 color: #c62828;
@@ -1579,7 +1579,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 display: inline-block;
                 margin-left: 10px;
                 font-size: 24pt;
-                color: #ffc107; /* Gelb/Gold für Aufmerksamkeit */
+                color: #b45309; /* dunkleres Amber für Aufmerksamkeit */
                 vertical-align: middle;
             }}
             
@@ -1655,7 +1655,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             /* Explanation Box */
             .explanation {{
                 background: #fff3cd;
-                border-left: 4px solid #ffc107;
+                border-left: 4px solid #b45309;
                 padding: 16px 20px;
                 margin-top: 16px;
                 border-radius: 0 6px 6px 0;
@@ -2071,8 +2071,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             ul.options {{ list-style: disc; padding-left: 1.2rem; margin: 0 0 8px 0; }}
             ul.options li.option {{ padding: 4px 6px; margin-bottom:6px; background: transparent; border-radius:4px; }}
             ul.options li.option .opt-content {{ display: inline; }}
-            ul.options li.correct {{ background: #ecfdf5; border-left: 4px solid #10b981; font-weight: 600; padding-left: 8px; }}
-            .explanation {{ background: #fff8e1; border-left: 4px solid #ffb300; padding: 10px 12px; margin-top: 8px; border-radius: 4px; }}
+            ul.options li.correct {{ background: #ecfdf5; border-left: 4px solid #15803d; font-weight: 600; padding-left: 8px; }}
+            .explanation {{ background: #fff8e1; border-left: 4px solid #b45309; padding: 10px 12px; margin-top: 8px; border-radius: 4px; }}
             .explanation strong {{ color: #856404; }}
 
             /* Glossary styling (match admin/user glossary style) */

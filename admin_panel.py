@@ -864,7 +864,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                         for score, count in zip(avg_scores, test_counts)
                     ],
                     textposition='auto',
-                    marker_color='#1f77b4',
+                    marker_color='#15803d',
                     customdata=[format_decimal_de(score, 2) for score in avg_scores],
                     hovertemplate='<b>%{x}</b><br>Durchschnitt: %{customdata} Punkte<extra></extra>'
                 )

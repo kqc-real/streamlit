@@ -832,7 +832,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         st.success("Richtig! ✅")
     else:
         st.error("Leider falsch. ❌")
-        st.markdown(f"<span style='color:#28a745; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
+        st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
 
     # Markieren und Feedback-Button gemeinsam platzieren
     action_cols = st.columns([1.2, 2, 1])
@@ -1162,10 +1162,10 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             def color_for_pct(pct: float) -> str:
                 try:
                     if pct >= 75:
-                        return '#2ecc71'  # green
+                        return '#15803d'  # dark green
                     if pct >= 50:
-                        return '#f39c12'  # orange
-                    return '#e74c3c'      # red
+                        return '#b45309'  # darker amber
+                    return '#b91c1c'      # darker red
                 except Exception:
                     return '#4b9fff'
 
@@ -1206,7 +1206,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         except Exception:
             # Fallback to the simple chart if Plotly is unavailable
             df_simple = df_performance.set_index("Label")[['Leistung (%)']]
-            st.bar_chart(df_simple, color="#4b9fff")
+            st.bar_chart(df_simple, color="#15803d")
 
         # Kleine Legende und Erklärung
         with st.expander("Über diese Auswertung (kurze Erklärung)", expanded=False):

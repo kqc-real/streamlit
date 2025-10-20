@@ -680,7 +680,8 @@ def render_question_distribution_chart(questions: list):
 
     # Plotly-Diagramm erstellen
     fig = go.Figure()
-    colors = {"Leicht": "#00c853", "Mittel": "#4b9fff", "Schwer": "#ffb300"}
+    # Use darker traffic-light palette: Leicht=green, Mittel=amber, Schwer=red
+    colors = {"Leicht": "#15803d", "Mittel": "#b45309", "Schwer": "#b91c1c"}
     
     for difficulty in ["Leicht", "Mittel", "Schwer"]:
         if difficulty in pivot.columns:
