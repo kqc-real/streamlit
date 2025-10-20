@@ -104,12 +104,122 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         set_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
         st.sidebar.markdown(f"Fragenset: **{set_name}**")
 
+    # --- Mini-Glossar: Ein einzelner Download-Button in der Sidebar ---
+    try:
+        selected_file = st.session_state.get("selected_questions_file")
+        if selected_file:
+            glossary_by_theme = _extract_glossary_terms(list(questions))
+            if glossary_by_theme and any(glossary_by_theme.values()):
+                # Generiere die PDF nur nach expliziter Nutzeraktion. Wenn bereits gecached,
+                # zeige direkt den Download-Button; ansonsten biete einen "Generieren"-Button an.
+                cache_key = f"_glossary_pdf_{selected_file}"
+                pdf_bytes = st.session_state.get(cache_key)
+                download_name = f"mini_glossar_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
+
+                if pdf_bytes:
+                    # Direkt zum Download anbieten
+                    st.sidebar.download_button(
+                        label="💾 Glossar herunterladen",
+                        data=pdf_bytes,
+                        file_name=download_name,
+                        mime="application/pdf",
+                        key="sidebar_glossary_download",
+                        use_container_width=True,
+                    )
+                else:
+                    # PDF wird erst nach Klick erzeugt
+                    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+                    COOLDOWN_SECONDS = int(os.getenv('EXPORT_COOLDOWN_SECONDS', '300'))
+                    glossary_last_key = f"last_export_glossary_ts_{user_name_file}"
+                    glossary_last_ts = st.session_state.get(glossary_last_key, 0)
+                    can_export_glossary = (int(time.time()) - int(glossary_last_ts)) >= COOLDOWN_SECONDS
+
+                    if not can_export_glossary:
+                        wait = int(COOLDOWN_SECONDS - (int(time.time()) - int(glossary_last_ts)))
+                        st.sidebar.info(f"Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
+
+                    if st.sidebar.button("📄 Glossar zum Fragenset", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
+                        # Vor der eigentlichen Generierung können wir die Anzahl der
+                        # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
+                        # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
+                        # hilft einzuschätzen, wie lange der Render-Vorgang dauern kann
+                        # (Formeln erfordern Remote-Requests und Bildgenerierung).
+                        import re
+
+                        formula_count = 0
+                        try:
+                            for thema, terms in glossary_by_theme.items():
+                                for term, definition in terms.items():
+                                    # Zähle Block-Formeln $$...$$
+                                    formula_count += len(re.findall(r"\$\$(.*?)\$\$", term, flags=re.DOTALL))
+                                    formula_count += len(re.findall(r"\$\$(.*?)\$\$", definition, flags=re.DOTALL))
+                                    # Zähle Inline-Formeln $...$
+                                    formula_count += len(re.findall(r"\$([^$]+?)\$", term, flags=re.DOTALL))
+                                    formula_count += len(re.findall(r"\$([^$]+?)\$", definition, flags=re.DOTALL))
+                        except Exception:
+                            formula_count = 0
+
+                        if formula_count:
+                            spinner_message = (
+                                f"Generiere Glossar-PDF — rendere {formula_count} Formel" +
+                                ("n" if formula_count != 1 else "") +
+                                ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                            )
+                        else:
+                            spinner_message = (
+                                "Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern."
+                            )
+
+                        with st.spinner(spinner_message):
+                            try:
+                                generated = generate_mini_glossary_pdf(selected_file, list(questions))
+                                st.session_state[cache_key] = generated
+                                pdf_bytes = generated
+                                # Kurze Erfolgsmeldung in der Sidebar
+                                st.sidebar.success("Glossar-PDF fertig")
+                                # mark glossary cooldown
+                                try:
+                                    st.session_state[glossary_last_key] = int(time.time())
+                                except Exception:
+                                    pass
+                            except ValueError:
+                                st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+                            except Exception as e:
+                                st.error(f"Fehler beim Erzeugen des PDFs: {e}")
+
+                        # Falls erfolgreich erzeugt, zeige sofort den Download-Button
+                        if st.session_state.get(cache_key):
+                            st.sidebar.download_button(
+                                label="💾 Glossar herunterladen",
+                                data=st.session_state[cache_key],
+                                file_name=download_name,
+                                mime="application/pdf",
+                                key="sidebar_glossary_download_after_gen",
+                                use_container_width=True,
+                            )
+    except Exception:
+        # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
+        pass
+
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
     )
     progress_pct = int((num_answered / len(questions)) * 100) if questions else 0
 
-    st.sidebar.markdown("📋 Fortschritt")
+    # Anzahl verbleibender Fragen berechnen und korrekt textuell darstellen
+    if questions:
+        remaining = len(questions) - num_answered
+    else:
+        remaining = 0
+
+    if remaining <= 0:
+        remaining_text = "Keine Fragen mehr"
+    elif remaining == 1:
+        remaining_text = "1 Frage noch"
+    else:
+        remaining_text = f"( noch {remaining} Fragen)"
+
+    st.sidebar.markdown(f"📋 Fortschritt {remaining_text}")
     st.sidebar.progress(progress_pct, text=f"{progress_pct} %")
 
     current_score, max_score = calculate_score(
@@ -169,7 +279,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         wait = int(COOLDOWN_SECONDS - (int(time.time()) - int(glossary_last_ts)))
                         st.sidebar.info(f"Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
 
-                    if st.sidebar.button("💾 Glossar zum Fragenset", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
+                    if st.sidebar.button("📄 Glossar zum Fragenset", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
                         # Vor der eigentlichen Generierung können wir die Anzahl der
                         # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
@@ -326,7 +436,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
 
                 if pdf_bytes:
                     st.sidebar.download_button(
-                        label="📄 Musterlösung downloaden",
+                        label="💾 Musterlösung herunterladen",
                         data=pdf_bytes,
                         file_name=download_name,
                         mime="application/pdf",
@@ -345,7 +455,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
 
                         if st.session_state.get(cache_key):
                             st.sidebar.download_button(
-                                label="📄 Musterlösung downloaden",
+                                label="💾 Musterlösung herunterladen",
                                 data=st.session_state[cache_key],
                                 file_name=download_name,
                                 mime="application/pdf",
