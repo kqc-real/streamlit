@@ -219,7 +219,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     else:
         remaining_text = f"( noch {remaining} Fragen)"
 
-    st.sidebar.markdown(f"📋 Fortschritt {remaining_text}")
+    st.sidebar.markdown(f"⏳ Fortschritt {remaining_text}")
     st.sidebar.progress(progress_pct, text=f"{progress_pct} %")
 
     current_score, max_score = calculate_score(
