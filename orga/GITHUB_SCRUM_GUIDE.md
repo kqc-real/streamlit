@@ -45,8 +45,8 @@ um sie für Karteikarten-Lernen zu nutzen.
 
 **Schritt 1: Issue öffnen**
 
-1. Gehe zu: https://github.com/kqc-real/streamlit/issues
-2. Klicke: **"New Issue"** (grüner Button)
+1. Gehe zu deinem Projektboard: https://github.com/kqc-real/streamlit/projects
+2. Klicke: **"Add item"** (in der entsprechenden Spalte unten))
 3. Titel eingeben: z.B. "Als Dozent möchte ich Fragen nach Anki exportieren"
 
 **Schritt 2: Issue-Beschreibung ausfüllen**
@@ -166,6 +166,8 @@ Rechts in der Sidebar:
 ---
 
 ### GitHub Project erstellen (am Tag 1)
+
+Siehe Beispiel-Projektboard: https://github.com/users/kqc-real/projects/1/views/1?pane=info
 
 **Schritt 1: Project öffnen**
 
