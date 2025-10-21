@@ -32,7 +32,7 @@
 
 abzulegen im Team-Ordner: https://github.com/kqc-real/streamlit/tree/main/teams 
 
-- [ ] **Product Vision Statement** (ein Absatz)  
+- [X] **Product Vision Statement** (ein Absatz)  
 - [ ] **Sprint Goal** (ein Satz)  
 - [ ] **Product Backlog** (5-7 User Stories als **Draft Issues**)  
 - [ ] **Akzeptanzkriterien** je Story (Checkboxen)  
