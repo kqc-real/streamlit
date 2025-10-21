@@ -45,7 +45,7 @@ Akzeptanzkriterien (Kurzfassung)
 
 1. Für das canonical Testset existieren gültige Exportdateien für Anki und Quizlet im Ordner `export-examples/`.
 
-2. UI‑Knopf "Glossar (PDF) herunterladen" ist oberhalb des Fortschritts sichtbar und funktioniert.
+2. UI‑Controls für Exporte sind sichtbar und klar beschriftet (Download / Export).
 
 3. Nummerierte Listen bleiben nummeriert; nicht nummerierte Listen bleiben Bullets — sowohl in der App als auch im PDF.
 
@@ -82,7 +82,7 @@ Empfohlene nächste Schritte (kurz)
 
 2. Erzeuge initiale `export-examples/` (Anki + Quizlet) aus `data/questions_PDF_Test_v2.json`.
 
-3. UI‑Review: Position und Beschriftung des Glossar‑Buttons verifizieren.
+3. UI‑Review: Position und Beschriftung der Export‑Buttons verifizieren.
 
 4. Instrumentation: Messung der Exportzeiten und einfache Logging‑Metriken.
 

@@ -36,7 +36,7 @@ Akzeptanzkriterien (PO‑Kurzform)
 
 3. LaTeX‑Formeln werden gerendert oder als Bilder exportiert (Fallback vorhanden).
 
-4. UI: Button "Glossar (PDF) herunterladen" sichtbar oberhalb des Fortschritts.
+4. UI: Export‑Buttons sind sichtbar und klar beschriftet (z. B. "Exportieren" / "Download").
 
 5. Kein Absturz (Segfault) im Export‑Path; Fehler werden als verständliche Meldungen angezeigt.
 
@@ -64,7 +64,7 @@ Nächste Schritte (3 schnelle Tasks)
 
 2. Beispiele: `export-examples/` mit Anki + Quizlet erzeugen und ins Repo legen.
 
-3. UI‑Review: Position und Beschriftung des Glossar‑Buttons verifizieren.
+3. UI‑Review: Position und Beschriftung der Export‑Buttons verifizieren.
 
 Kontakt
 
