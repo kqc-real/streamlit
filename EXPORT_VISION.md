@@ -28,8 +28,6 @@ Ziel
 Unsere Exports sollen robust, nachvollziehbar und wartbar sein. Technisch heißt das: klare Mappings zu Zielplattformen, deterministische Exporte (Caching/Versionierung), und sichere Fallbacks, wenn native Komponenten (WeasyPrint, LaTeX) fehlen.
 
 Grundprinzipien
- 
-Grundprinzipien
 
 - Parität: UI‑Darstellung ↔ Export (Nummerierung, Listen, Markdown‑Formatierungen).
 
@@ -39,8 +37,6 @@ Grundprinzipien
 
 - Datenschutz: Exporte prüfen/filtern sensible Felder; Möglichkeit zur Anonymisierung vor Export.
 
-Akzeptanzkriterien (Kurzfassung)
- 
 Akzeptanzkriterien (Kurzfassung)
 
 1. Für das canonical Testset existieren gültige Exportdateien für Anki und Quizlet im Ordner `export-examples/`.

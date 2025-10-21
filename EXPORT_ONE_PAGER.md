@@ -24,7 +24,7 @@ Was wir liefern (MVP)
 
 - Export nach: Anki (Text), Quizlet (CSV), Kahoot (Excel‑Template), Socrative (CSV), Particify/arsnova.click (JSON).
 
-- PDF‑Export für Dokumentation und Glossar (WeasyPrint basierend, mit Fallbacks).
+- PDF‑Export für Dokumentation (WeasyPrint basierend) mit klaren Fallbacks.
 
 - Export‑Examples für ein Canonical Testset in `export-examples/`.
 
