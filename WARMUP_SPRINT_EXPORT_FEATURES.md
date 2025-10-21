@@ -510,10 +510,9 @@ Bei 3er-Teams: 48 Stunden pro Team (fokussiert auf Kernaufgaben)
 
 ### Kollaboration
 
-- **GitHub Issues:** Ein Issue pro Team mit Checkliste
 - **GitHub Discussions:** Fragen an PO und zwischen Teams
 - **BigBlueButton (BBB):** Daily Standups + Arbeitssessions (Screen-Sharing)
-- **Markdown-Editor:** VS Code mit Preview
+- **Markdown-Editor:** [Joplin](https://joplinapp.org/)
 - **Miro/Whiteboard:** Optional für Brainstorming (kann in BBB geteilt werden)
 
 ---
@@ -577,7 +576,7 @@ A: Nein. Fokus auf Pflichtfelder (Frage, Optionen, Lösung). Nice-to-have: Erkl�
 A: Dokumentiert das klar. Schlagt Fallback vor (z.B. Formeln als Bilder exportieren, oder Text-Platzhalter wie "[Formel: E=mc²]").
 
 **Q: Wie detailliert muss die technische Spezifikation sein?**  
-A: Detailliert genug, dass ein Entwickler (ich) die Implementierung ohne Rückfragen starten kann. Beispiel-Mappings sind Pflicht!
+A: Detailliert genug, dass ein Entwickler (KQC) die Implementierung ohne Rückfragen starten kann. Beispiel-Mappings sind Pflicht!
 
 ---
 
@@ -619,8 +618,7 @@ Nach diesem Sprint könnt ihr:
 - Screen-Sharing in BBB für technische Probleme
 
 **Technische Hilfe:**
-- KI-Tools nutzen (ChatGPT, Claude) für Format-Conversion-Beispiele
-- GitHub Copilot für Code-Snippets (falls Bonus-Challenge)
+- KI-Tools nutzen (ChatGPT, Gemini, Claude) für Format-Conversion-Beispiele
 
 ---
 
