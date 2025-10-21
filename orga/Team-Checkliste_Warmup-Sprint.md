@@ -6,8 +6,6 @@
 
 ---
 
-
-
 ## Team-Aufteilung
 
 - Team A: Flashcard Experts
@@ -31,6 +29,8 @@
 ---
 
 ## 2) Verbindliche Artefakte
+
+abzulegen im Team-Ordner: https://github.com/kqc-real/streamlit/tree/main/teams 
 
 - [ ] **Product Vision Statement** (ein Absatz)  
 - [ ] **Sprint Goal** (ein Satz)  
