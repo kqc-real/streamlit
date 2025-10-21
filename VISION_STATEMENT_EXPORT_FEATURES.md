@@ -1,4 +1,4 @@
-# One‑Pager: Export‑Features (Stakeholder‑Fokus)
+# Vision Statement: Export‑Features
 
 Kurzfassung
 
