@@ -1,4 +1,4 @@
-# Team-Checkliste – Warm‑up Sprint „Exports“ (GitHub Projects, kein Code)
+# Team-Checkliste – Warm‑up Sprint „Exports“ (GitHub Projects)
 
 **Kurs:** Agiles Projektmanagement · **Repo (Implementierung):** `kqc-real/streamlit` · **Team‑Project (neu):** `Team <X> – Warm‑up Sprint`  
 **Timebox:** 1 Woche (3h Präsenz + Online-Sprint)
