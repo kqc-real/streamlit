@@ -1223,10 +1223,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
     st.divider()
     render_review_mode(questions, app_config)
-    
     # --- PDF-Export (am Ende, nach Review) ---
-    st.divider()
-    
     # Warnung über die Dauer
     q_file_name = st.session_state.get("selected_questions_file", "")
     anzahl_fragen = len(questions)
@@ -1292,6 +1289,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     filter_option = st.radio(
         "Filtere die Fragen:",
         ["Alle", "Nur falsch beantwortete", "Nur richtig beantwortete", "Nur markierte"],
+        index=3  # Standard: "Nur markierte"
     )
 
     # Hole app_config aus Session oder global, falls vorhanden
@@ -1336,7 +1334,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         # Review-UI (z.B. Expander für jede Frage, Anzeige der Antworten etc.)
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
             st.markdown(f"**Frage:** {frage['frage']}")
-            # Farbcodierung für Antwort und richtige Antwort
+            # Immer zuerst die gegebene Antwort (falsch oder richtig), dann die richtige darunter
             if gegebene_antwort is not None:
                 if ist_richtig:
                     st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Deine Antwort:</span> <span style='color:#15803d;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
@@ -1344,10 +1342,8 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     st.markdown(f"<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
             else:
                 st.markdown(f"<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>(nicht beantwortet)</span>", unsafe_allow_html=True)
-            if not ist_richtig:
-                st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
-            else:
-                st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
+            # Richtige Antwort immer darunter, auch wenn sie schon oben steht
+            st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
             if frage.get("erklaerung"):
                 st.markdown(f"**Erklärung:** {frage['erklaerung']}")
 
