@@ -82,3 +82,102 @@
 | 💸 Pricing                 | Kostenlos (Open Source) auf Desktop/Android; iOS einmaliger Kauf |
 
 ---
+
+# 📊 Marktanalyse: Quizlet  
+*(Stand: 22. Oktober 2025)*
+
+---
+
+## 1️⃣ Aktive Nutzer
+
+### 🌍 Weltweit
+- Laut offizieller Unternehmensmeldung („**How America Learns**“, 16. Juli 2025) erreicht Quizlet **„tens of millions of monthly learners“**.  
+- Branchenweit wird das als etwa **≈ 60 Mio.+ monatlich aktive Nutzer (MAU)** interpretiert.  
+  > 🧾 Quelle: [Quizlet Pressemitteilung, 2025](https://quizlet.com)
+
+### 🇩🇪 DACH-Region (Schätzung)
+- Quizlet nennt keine eigenen Zahlen für Deutschland, Österreich oder die Schweiz.  
+- Laut **Similarweb (Sept. 2025)** stammen rund **67 % der Visits aus den USA**, Deutschland liegt **nicht unter den Top-5-Ländern**.  
+- Daraus abgeleitet:  
+  👉 **≈ 2–4 % der globalen Nutzerbasis** → ca. **1,2–2,4 Mio. aktive Nutzer in der DACH-Region**.  
+
+> 🔍 Quelle: [Similarweb – quizlet.com Traffic Overview, Sept 2025](https://www.similarweb.com)
+
+---
+
+## 2️⃣ Marktanteil im Bildungssektor (Schätzung)
+
+- ❌ Es gibt keine offizielle Zahl für den gesamten „Bildungsmarkt“.  
+- ✅ **Similarweb (Sept. 2025)** weist **88,6 Mio. Visits** und eine **Top-Platzierung in der Kategorie „Education“** aus.  
+- Vergleich mit großen Peers (📚 Studocu, 🧠 Khan Academy, 📘 Chegg) zeigt:  
+  → **Quizlet besitzt die höchste Reichweite im Segment „Study Tools“**.  
+- ⚠️ Hinweis: Dieser Wert beschreibt **nur das Nischensegment der Lernplattformen/Karteikarten**, nicht den gesamten Bildungsmarkt.  
+
+> 📈 Quelle: [Similarweb – Category Rank „Education“](https://www.similarweb.com)
+
+---
+
+## 3️⃣ Hauptzielgruppe
+
+### 🎓 Schulen & Hochschulen
+- Laut **Quizlet Report 2025**: Hauptnutzer sind **Schüler:innen, Studierende und Lehrkräfte**.  
+- KI-gestützte Lernfunktionen fokussieren auf **K-12** und **Higher Education**.  
+
+> 🧾 Quelle: [Quizlet Pressemitteilung, 2025](https://quizlet.com)
+
+### 🧑‍🏫 Lehrkräfte & Institutionen
+- Über **„Quizlet for Schools“** bietet Quizlet **Schullizenzen und Rabatte je nach Nutzerzahl** an.  
+- 👔 **Corporate Training** ist **nicht der primäre Zielmarkt**, Fokus bleibt auf dem **Bildungssektor**.  
+
+> 📚 Quelle: [Quizlet Help Center – „What is Quizlet for Schools?“](https://help.quizlet.com)
+
+---
+
+## 4️⃣ Pricing-Modell
+
+### 💡 Freemium
+- Basisfunktionen kostenlos (mit Werbung oder Limits).  
+- Erweiterte Features über **Plus- oder Unlimited-Pläne**.  
+
+> 📘 Quelle: [Quizlet Help Center – „Subscribing to Quizlet“](https://help.quizlet.com)
+
+### 💳 Abo (B2C)
+
+| Plan | Preis (ca.) | Beschreibung |
+|------|--------------|--------------|
+| ⭐ **Quizlet Plus** | $ 9,99 / Monat · $ 44,99 / Jahr | Werbefrei, Offline-Modus, KI-Funktionen |
+| 🚀 **Quizlet Plus Unlimited** | variabel | Premium-Features, unbegrenzte KI-Nutzung |
+| 🎒 **Teacher Plan** | $ 35,99 / Jahr | Für Lehrkräfte mit erweiterten Verwaltungstools |
+
+> 💰 Quelle: [Apple App Store – Quizlet: More than Flashcards (US)](https://apps.apple.com)
+
+### 🏫 Institutionell (B2B-Edu)
+- Angebot: **„Quizlet for Schools“**  
+- Preis: **auf Anfrage**, abhängig von **Nutzerzahl und Laufzeit (meist 1 Jahr)**  
+- Keine automatische Verlängerung – Verwaltung über Schulen.  
+
+> 🧾 Quelle: [Quizlet Help Center – Schools](https://help.quizlet.com)
+
+---
+
+## 🧩 Kurzfazit
+
+| 🧱 Kriterium | 💬 Einschätzung |
+|--------------|----------------|
+| 🌍 **Reichweite (global)** | ca. **60 M+ MAU**, bestätigt durch Unternehmenskommunikation |
+| 🇩🇪 **DACH-Nutzung** | geschätzt **1,2–2,4 M MAU** (≈ 2–4 %) |
+| 📈 **Marktposition (Segment)** | Führend im Bereich **Study Tools / Learning Aids** |
+| 🎓 **Zielgruppen** | Schüler:innen, Studierende, Lehrkräfte |
+| 💰 **Monetarisierung** | Freemium → Abo (Plus / Unlimited / Teacher) → Institutionen |
+| 💵 **Preisspanne (B2C)** | ca. **$ 9,99 / Monat** oder **$ 44,99 / Jahr** |
+
+---
+
+## 🤖 KI-Unterstützung
+
+Folgende Abschnitte wurden mit KI-Tools unterstützt:
+
+- **Marktanalyse Aktive Nutzer:** Recherche mit ChatGPT  
+- **Marktanalyse Marktanteil im Bildungssektor:** Recherche mit ChatGPT  
+- **Marktanalyse Hauptzielgruppe:** Recherche mit ChatGPT  
+- **Marktanalyse Pricing-Modell:** Recherche mit ChatGPT
