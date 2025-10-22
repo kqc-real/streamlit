@@ -1695,9 +1695,16 @@ def render_review_mode(questions: QuestionSet):
                 unsafe_allow_html=True,
             )
             
-            st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
+            # Farbige Hervorhebung für richtige/falsche Antworten
+            if gegebene_antwort is not None:
+                if ist_richtig:
+                    st.markdown(f"<span style='color:#15803d;font-weight:600;'>✅ Deine Antwort: {formatted_gegebene_antwort}</span>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<span style='color:#b91c1c;font-weight:600;'>❌ Deine Antwort: {formatted_gegebene_antwort}</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
             if not ist_richtig:
-                st.markdown(f"**Richtig:** {formatted_richtige_antwort}")
+                st.markdown(f"<span style='color:#15803d;font-weight:600;'>✅ Richtig: {formatted_richtige_antwort}</span>", unsafe_allow_html=True)
 
 
             erklaerung = frage.get("erklaerung")

@@ -92,7 +92,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         break
 
             if contribution:
-                with st.sidebar.expander("ℹ️ Info zum Pseudonym", expanded=False):
+                with st.sidebar.expander("👤 Info zum Pseudonym", expanded=False):
                     st.write(contribution)
     except Exception:
         # Generischer Schutz: Sidebar darf nie wegen Anzeige-Problemen abstürzen
@@ -236,7 +236,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
           <div style="flex:1;background:#1f2937;border-radius:6px;overflow:hidden;height:14px;border:1px solid rgba(255,255,255,0.04);">
             <div style="width:{progress_pct}%;background:{bar_color};height:100%;border-radius:6px;"></div>
           </div>
-          <div style="min-width:48px;text-align:right;font-weight:600;color:var(--text-color,#e5e7eb);">{progress_pct}%</div>
+          <div style="min-width:48px;text-align:right;font-weight:600;color:var(--text-color,#e5e7eb);">{progress_pct} %</div>
         </div>
         """
         st.sidebar.markdown(progress_html, unsafe_allow_html=True)
