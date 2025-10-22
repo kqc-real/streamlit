@@ -264,3 +264,8 @@ Typischer Wert: **5–15 %** der aktiven Nutzer verwenden regelmäßig Export- o
 ### 4️⃣ **Kurzbegründung** 🗣️  
 Quizlet erreicht viele Lernende schnell und steigert Sichtbarkeit & Nutzerbindung deutlich 💥 — daher **Top-Priorität**.  
 Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, ist aber technisch aufwendiger und daher **zweite Phase** 🧭.
+
+
+---
+generiert mit Chat GPT
+Alle KI-generierten Inhalte wurden manuell geprüft, angepasst und durch Tests validiert.
