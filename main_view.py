@@ -1269,7 +1269,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # Dynamische Zeitschätzung mit Probe-Rendering
     if has_math and first_formula:
         # Zeige Info über Formel-Benchmark
-        with st.expander("⏱️ Zeitschätzung", expanded=True):
+        with st.expander("⏱️ Zeitschätzung", expanded=False):
             st.info(
                 f"📊 Dieses Fragenset enthält **{formula_count} Formeln** "
                 f"in {anzahl_fragen} Fragen.\n\n"
@@ -1349,7 +1349,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         wait = int(COOLDOWN_SECONDS - (now_ts - int(report_last_export_ts)))
         st.info(f"Du hast kürzlich einen Testbericht-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
 
-    if st.button("📥 PDF jetzt generieren", type="primary", width="stretch", disabled=(not can_export_report)):
+    if st.button("🛠️ Testbericht generieren", width="stretch", disabled=(not can_export_report)):
         from pdf_export import generate_pdf_report
 
         # Fortschrittsanzeige passend zum Inhalt
@@ -1387,13 +1387,6 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # --- Nutzer: Musterlösung (korrekte Antworten + Erklärungen) ---
     st.markdown("---")
     st.subheader("📄 Musterlösung")
-
-    # Hinweis zur Verwendung
-    st.info(
-        "Die Musterlösung enthält alle korrekten Antworten und ausführliche Erklärungen. "
-        "Nutze sie bitte ausschließlich zu Lern- und Übungszwecken."
-        " Teile die PDF nicht in Prüfungs- oder Live-Testkontexten."
-    )
 
     # Berechne einen sinnvollen Timeout für die Musterlösung (falls Formeln vorhanden)
     try:
@@ -1485,6 +1478,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             file_name=f"musterloesung_{q_file_clean}_{user_name_file}.pdf",
             mime="application/pdf",
             key="download_muster_user",
+            type="primary",
             width="stretch",
         )
     else:
@@ -1578,7 +1572,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 st.info(f"Du hast kürzlich eine Musterlösung generiert. Bitte warte {wait_m} s bevor du erneut exportierst.")
 
             if st.button(
-                "📄 Musterlösung (PDF) generieren",
+                "🛠️ Musterlösung generieren",
                 key="user_muster_generate",
                 width="stretch",
                 disabled=(not can_export_muster),
@@ -1647,7 +1641,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         generate_mini_glossary_pdf,
         generate_pdf_report,
     )
-    st.markdown("---")
 
     # Dateinamen und User-Info
     selected_file = st.session_state.get(
@@ -1655,12 +1648,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     )
     user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
 
-
-
-    # --- Export-Mockup am Ende des Reviews ---
-    st.markdown("---")
-    st.subheader("Export")
-    """Rendert den interaktiven Review-Modus am Ende des Tests."""
     st.subheader("🧐 Review deiner Antworten")
     
     # Die `initial_frage_indices` werden für die korrekte Nummerierung im Review-Modus benötigt.
@@ -1720,8 +1707,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     # --- Exportbereich (work in progress) ---
     st.markdown("---")
     st.subheader("📦 Export")
-    with st.expander("Exportbereich: Deine Ergebnisse & Lernmaterialien sichern 🗂️"):
-        st.info("Wähle unten das gewünschte Format, um deine Ergebnisse oder Lernmaterialien herunterzuladen. Alle Exporte sind anonym und nur für dich bestimmt.")
+    with st.expander("Sichere deine Testergebnisse & Lernmaterialien"):
 
         # Anki
         def handle_anki_export():
@@ -1741,7 +1727,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
             except Exception as e:
                 st.error(f"Fehler beim Erzeugen des Anki-Exports: {e}")
-        with st.expander("Anki-Lernkarten (empfohlen für Wiederholung)"):
+        with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
             st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
             anki_btn_key = f"download_anki_review_{selected_file}"
@@ -1767,7 +1753,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
             except Exception as e:
                 st.error(f"Fehler beim Erzeugen des Kahoot-Exports: {e}")
-        with st.expander("Kahoot-Quiz (für Live-Quizze)"):
+        with st.expander("📦 Kahoot-Quiz (für Live-Quizze)"):
             st.markdown("Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.")
             st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002303908)")
             kahoot_btn_key = f"download_kahoot_review_{selected_file}"
@@ -1793,7 +1779,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
             except Exception as e:
                 st.error(f"Fehler beim Erzeugen des arsnova.click-Exports: {e}")
-        with st.expander("arsnova.click-Quiz (für Hochschul-Feedback)"):
+        with st.expander("📦 arsnova.click-Quiz (für Hochschul-Feedback)"):
             st.markdown("Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.")
             st.caption("Format: .json  |  [arsnova.click Infos](https://github.com/thm-projects/arsnova.click-v2)")
             arsnova_btn_key = f"download_arsnova_review_{selected_file}"
@@ -1802,7 +1788,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 handle_arsnova_export()
 
         # Musterlösung
-        with st.expander("Musterlösung (PDF mit allen richtigen Antworten)"):
+        with st.expander("📄 Musterlösung (PDF mit allen richtigen Antworten)"):
             st.markdown("Erhalte eine vollständige Musterlösung mit allen korrekten Antworten und Erklärungen. Ideal zum Nacharbeiten und Lernen.")
             muster_download_name = (
                 f"musterloesung_"
@@ -1828,7 +1814,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
 
         # Mini-Glossar
-        with st.expander("Mini-Glossar (PDF mit allen Fachbegriffen)"):
+        with st.expander("📄 Mini-Glossar (PDF mit allen Fachbegriffen)"):
             st.markdown("Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.")
             glossary_download_name = (
                 f"mini_glossar_"
@@ -1853,7 +1839,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         st.error(f"Fehler beim Erzeugen des Mini-Glossars: {e}")
 
         # Testbericht
-        with st.expander("Testbericht (PDF mit deinem Ergebnis)"):
+        with st.expander("📄 Testbericht (PDF mit deinem Ergebnis)"):
             st.markdown("Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.")
             report_download_name = (
                 f"testbericht_"
