@@ -181,3 +181,30 @@ Folgende Abschnitte wurden mit KI-Tools unterstützt:
 - **Marktanalyse Marktanteil im Bildungssektor:** Recherche mit ChatGPT  
 - **Marktanalyse Hauptzielgruppe:** Recherche mit ChatGPT  
 - **Marktanalyse Pricing-Modell:** Recherche mit ChatGPT
+
+
+# Zielgruppenübersicht: Anki vs. Quizlet
+
+| **Zielgruppe / Persona** | **Eignung Anki** | **Warum Anki gut / typische Nutzung** | **Eignung Quizlet** | **Warum Quizlet gut / typische Nutzung** |
+|---------------------------|------------------|---------------------------------------|----------------------|------------------------------------------|
+| **Medizinstudierende / Examenvorbereitung (z. B. USMLE, M1–M3)** | ⭐⭐⭐⭐⭐ | Weit verbreitet im Medizinstudium; starkes SRS-System, viele Shared Decks, erwiesen hilfreich für Langzeitlernen. | ⭐⭐ | Gut für Wiederholungen und Gruppenarbeit, aber ohne echtes SRS – weniger effektiv für tiefe Behaltensleistung. |
+| **Sprachlernende (Vokabeln, Grammatik)** | ⭐⭐⭐⭐ | Ideal für langfristiges Vokabeltraining (Cloze, Audio, flexible Karten). Sehr individuell anpassbar. | ⭐⭐⭐⭐ | Spielerisch, schneller Einstieg, viele fertige Sets, ideal für Anfänger und Schulen. |
+| **Schüler*innen (Sekundarstufe / K-12)** | ⭐⭐⭐ | Gut für konsequentes Lernen, aber etwas komplexer zu bedienen; wenig Lehrertools. | ⭐⭐⭐⭐⭐ | Sehr einfach, Klassenfunktionen, Gamification (Quizlet Live), große Schul-Community. |
+| **Lehrkräfte / Dozierende** | ⭐⭐⭐ | Für individuelle Nutzung stark, aber kein Klassenmanagement. | ⭐⭐⭐⭐⭐ | Perfekt für Unterricht: Klassenverwaltung, Aufgaben, AI-gestützte Lernmaterialien. |
+| **Berufliche Zertifikate / Fortbildung (z. B. IT, Recht, Finance)** | ⭐⭐⭐⭐ | Spaced Repetition bei großen Faktenmengen sehr effizient; unterstützt Bilder, Formeln, Cloze-Karten. | ⭐⭐⭐ | Gut für Überblick & Wiederholungen, aber weniger geeignet für langfristige Wissensverankerung. |
+| **Gelegenheitssucher / Casual Learners** | ⭐⭐ | Hoher Aufwand beim Einrichten, lohnt sich nur für ernsthafte Lernziele. | ⭐⭐⭐⭐⭐ | Sofort startklar, spielerisch, viele fertige Themen (Popkultur, Trivia, Hobbys). |
+| **Lernende, die AI- / interaktive Features wollen** | ⭐⭐⭐ | Viele Add-Ons, aber keine zentrale AI-Steuerung. | ⭐⭐⭐⭐⭐ | Moderne AI-Features (Erstellung, personalisierte Lernpfade), intuitiv und automatisiert. |
+| **Budgetbewusste Nutzer** | ⭐⭐⭐⭐⭐ | Desktop & Web kostenlos, Android-App gratis, iOS einmalig bezahlt. | ⭐⭐⭐ | Freemium-Modell: Basisfunktionen gratis, Abo für Plus-Features. |
+
+---
+
+### **Empfehlungen (Kurzfassung)**
+- 🎓 **Medizin / Jura / komplexe Stoffmengen → Anki**  
+  → Fokus auf Langzeitlernen & Spaced Repetition  
+- 🏫 **Schule / Gruppen / Unterricht → Quizlet**  
+  → Einfach, interaktiv, kollaborativ  
+- 🌍 **Sprachen lernen → beide gut:**  
+  - Anki für langfristiges Vokabelhalten  
+  - Quizlet für schnelle Praxis & Spaß  
+- 💡 **Casual Learning / schnelle Motivation → Quizlet**  
+- 🧠 **Analytisches, strukturiertes Lernen → Anki**
