@@ -267,5 +267,5 @@ Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, i
 
 
 ---
-generiert mit Chat GPT
+Generiert mit Chat GPT.
 Alle KI-generierten Inhalte wurden manuell geprüft, angepasst und durch Tests validiert.
