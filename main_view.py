@@ -1265,10 +1265,6 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     first_formula, formula_count = extract_formulas(questions)
     has_math = formula_count > 0
     
-    
-    # Button zum Generieren
-    # Per-user cooldowns (separat pro Exporttyp) to avoid many parallel/rapid exports on shared hosts
-    COOLDOWN_SECONDS = int(os.getenv('EXPORT_COOLDOWN_SECONDS', '300'))  # default 5 minutes
     user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
 
 
