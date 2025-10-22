@@ -1336,8 +1336,18 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         # Review-UI (z.B. Expander für jede Frage, Anzeige der Antworten etc.)
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
             st.markdown(f"**Frage:** {frage['frage']}")
-            st.markdown(f"**Deine Antwort:** {gegebene_antwort if gegebene_antwort is not None else '*(nicht beantwortet)*'}")
-            st.markdown(f"**Richtige Antwort:** {richtige_antwort_text}")
+            # Farbcodierung für Antwort und richtige Antwort
+            if gegebene_antwort is not None:
+                if ist_richtig:
+                    st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Deine Antwort:</span> <span style='color:#15803d;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>(nicht beantwortet)</span>", unsafe_allow_html=True)
+            if not ist_richtig:
+                st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
             if frage.get("erklaerung"):
                 st.markdown(f"**Erklärung:** {frage['erklaerung']}")
 
