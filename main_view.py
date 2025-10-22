@@ -1222,7 +1222,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
 
     st.divider()
-    render_review_mode(questions)
+    render_review_mode(questions, app_config)
     
     # --- PDF-Export (am Ende, nach Review) ---
     st.divider()
@@ -1639,7 +1639,26 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     st.error("Export konnte nicht gestartet werden. Schau ins Terminal-Log für Details.")
 
 
-def render_review_mode(questions: QuestionSet):
+def render_review_mode(questions: QuestionSet, app_config=None):
+    if app_config is None:
+        app_config = st.session_state.get("app_config")
+    from pdf_export import (
+        generate_musterloesung_pdf,
+        generate_mini_glossary_pdf,
+        generate_pdf_report,
+    )
+    st.markdown("---")
+
+    # Dateinamen und User-Info
+    selected_file = st.session_state.get(
+        "selected_questions_file", "questions_export.json"
+    )
+    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
+
+
+
+    # --- Export-Mockup am Ende des Reviews ---
+    st.markdown("---")
     """Rendert den interaktiven Review-Modus am Ende des Tests."""
     st.subheader("🧐 Review deiner Antworten")
     
@@ -1650,17 +1669,19 @@ def render_review_mode(questions: QuestionSet):
         ["Alle", "Nur falsch beantwortete", "Nur richtig beantwortete", "Nur markierte"],
     )
 
+    # Hole app_config aus Session oder global, falls vorhanden
+    app_config = globals().get("app_config")
+    try:
+        # Falls in Session State gespeichert (z.B. von main/app.py), bevorzuge diesen
+        if "app_config" in st.session_state:
+            app_config = st.session_state["app_config"]
+    except Exception:
+        pass
+
     for i, frage in enumerate(questions):
-        # Variablen vorab definieren, damit sie im Filter verfügbar sind
         gegebene_antwort = get_answer_for_question(i)
         richtige_antwort_text = frage["optionen"][frage["loesung"]]
         ist_richtig = gegebene_antwort == richtige_antwort_text
-
-        # Formatiere die Antworten, um Markdown (wie `...`) in HTML umzuwandeln
-        formatted_gegebene_antwort = smart_quotes_de(str(gegebene_antwort)) if gegebene_antwort is not None else "*(nicht beantwortet)*"
-        formatted_richtige_antwort = smart_quotes_de(str(richtige_antwort_text))
-
-        # Filterlogik
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
         is_bookmarked = i in st.session_state.get("bookmarked_questions", [])
 
@@ -1687,61 +1708,172 @@ def render_review_mode(questions: QuestionSet):
 
         display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
 
+        # Review-UI (z.B. Expander für jede Frage, Anzeige der Antworten etc.)
         with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
-            # Zeige die Gewichtung der Frage an
-            gewichtung = frage.get("gewichtung", 1)
-            st.markdown(
-                f"**{smart_quotes_de(frage['frage'])}** <span style='color:#888; font-size:0.9em;'>(Gewicht: {gewichtung})</span>",
-                unsafe_allow_html=True,
+            st.markdown(f"**Frage:** {frage['frage']}")
+            st.markdown(f"**Deine Antwort:** {gegebene_antwort if gegebene_antwort is not None else '*(nicht beantwortet)*'}")
+            st.markdown(f"**Richtige Antwort:** {richtige_antwort_text}")
+            if frage.get("erklaerung"):
+                st.markdown(f"**Erklärung:** {frage['erklaerung']}")
+
+    # --- Exportbereich (work in progress) ---
+    st.markdown("---")
+    with st.expander("Exportbereich: Deine Ergebnisse & Lernmaterialien sichern 🗂️"):
+        st.info("Wähle unten das gewünschte Format, um deine Ergebnisse oder Lernmaterialien herunterzuladen. Alle Exporte sind anonym und nur für dich bestimmt.")
+
+        # Anki
+        def handle_anki_export():
+            try:
+                from export_jobs import generate_anki_apkg
+            except ImportError:
+                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+                return
+            try:
+                apkg_bytes = generate_anki_apkg(selected_file, list(questions))
+                st.download_button(
+                    label="💾 Anki-Kartenset herunterladen",
+                    data=apkg_bytes,
+                    file_name=f"anki_export_{selected_file.replace('questions_', '').replace('.json', '')}.apkg",
+                    mime="application/octet-stream",
+                    key=anki_dl_key
+                )
+            except Exception as e:
+                st.error(f"Fehler beim Erzeugen des Anki-Exports: {e}")
+        with st.expander("Anki-Lernkarten (empfohlen für Wiederholung)"):
+            st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
+            st.caption("Format: .apkg  |  [Anki Import-Anleitung](https://docs.ankiweb.net/importing/)")
+            anki_btn_key = f"download_anki_review_{selected_file}"
+            anki_dl_key = f"dl_anki_direct_{selected_file}"
+            if st.button("Download starten", key=anki_btn_key):
+                handle_anki_export()
+
+        # Kahoot
+        def handle_kahoot_export():
+            try:
+                from export_jobs import generate_kahoot_xlsx
+            except ImportError:
+                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+                return
+            try:
+                xlsx_bytes = generate_kahoot_xlsx(selected_file, list(questions))
+                st.download_button(
+                    label="💾 Kahoot-Quiz herunterladen",
+                    data=xlsx_bytes,
+                    file_name=f"kahoot_export_{selected_file.replace('questions_', '').replace('.json', '')}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    key=kahoot_dl_key
+                )
+            except Exception as e:
+                st.error(f"Fehler beim Erzeugen des Kahoot-Exports: {e}")
+        with st.expander("Kahoot-Quiz (für Live-Quizze)"):
+            st.markdown("Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.")
+            st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002303908)")
+            kahoot_btn_key = f"download_kahoot_review_{selected_file}"
+            kahoot_dl_key = f"dl_kahoot_direct_{selected_file}"
+            if st.button("Download starten", key=kahoot_btn_key):
+                handle_kahoot_export()
+
+        # arsnova.click
+        def handle_arsnova_export():
+            try:
+                from export_jobs import generate_arsnova_json
+            except ImportError:
+                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+                return
+            try:
+                json_bytes = generate_arsnova_json(selected_file, list(questions))
+                st.download_button(
+                    label="💾 arsnova.click-Quiz herunterladen",
+                    data=json_bytes,
+                    file_name=f"arsnova_export_{selected_file.replace('questions_', '').replace('.json', '')}.json",
+                    mime="application/json",
+                    key=arsnova_dl_key
+                )
+            except Exception as e:
+                st.error(f"Fehler beim Erzeugen des arsnova.click-Exports: {e}")
+        with st.expander("arsnova.click-Quiz (für Hochschul-Feedback)"):
+            st.markdown("Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.")
+            st.caption("Format: .json  |  [arsnova.click Infos](https://github.com/thm-projects/arsnova.click-v2)")
+            arsnova_btn_key = f"download_arsnova_review_{selected_file}"
+            arsnova_dl_key = f"dl_arsnova_direct_{selected_file}"
+            if st.button("Download starten", key=arsnova_btn_key):
+                handle_arsnova_export()
+
+        # Musterlösung
+        with st.expander("Musterlösung (PDF mit allen richtigen Antworten)"):
+            st.markdown("Erhalte eine vollständige Musterlösung mit allen korrekten Antworten und Erklärungen. Ideal zum Nacharbeiten und Lernen.")
+            muster_download_name = (
+                f"musterloesung_"
+                f"{selected_file.replace('questions_', '').replace('.json', '')}"
+                f"_{user_name_file}.pdf"
             )
-            
-            # Farbige Hervorhebung für richtige/falsche Antworten
-            if gegebene_antwort is not None:
-                if ist_richtig:
-                    st.markdown(f"<span style='color:#15803d;font-weight:600;'>✅ Deine Antwort: {formatted_gegebene_antwort}</span>", unsafe_allow_html=True)
-                else:
-                    st.markdown(f"<span style='color:#b91c1c;font-weight:600;'>❌ Deine Antwort: {formatted_gegebene_antwort}</span>", unsafe_allow_html=True)
-            else:
-                st.markdown(f"**Deine Antwort:** {formatted_gegebene_antwort}")
-            if not ist_richtig:
-                st.markdown(f"<span style='color:#15803d;font-weight:600;'>✅ Richtig: {formatted_richtige_antwort}</span>", unsafe_allow_html=True)
+            musterloesung_btn_key = f"download_musterloesung_review_{selected_file}"
+            musterloesung_dl_key = f"dl_musterloesung_direct_{selected_file}"
+            if st.button("Download starten", key=musterloesung_btn_key):
+                with st.spinner("Musterlösung wird erstellt..."):
+                    try:
+                        pdf_bytes = generate_musterloesung_pdf(
+                            selected_file, list(questions), app_config
+                        )
+                        st.download_button(
+                            label="💾 Musterlösung herunterladen",
+                            data=pdf_bytes,
+                            file_name=muster_download_name,
+                            mime="application/pdf",
+                            key=musterloesung_dl_key
+                        )
+                    except Exception as e:
+                        st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
 
+        # Mini-Glossar
+        with st.expander("Mini-Glossar (PDF mit allen Fachbegriffen)"):
+            st.markdown("Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.")
+            glossary_download_name = (
+                f"mini_glossar_"
+                f"{selected_file.replace('questions_', '').replace('.json', '')}.pdf"
+            )
+            glossar_btn_key = f"download_glossar_review_{selected_file}"
+            glossar_dl_key = f"dl_glossar_direct_{selected_file}"
+            if st.button("Download starten", key=glossar_btn_key):
+                with st.spinner("Glossar wird erstellt..."):
+                    try:
+                        pdf_bytes = generate_mini_glossary_pdf(
+                            selected_file, list(questions)
+                        )
+                        st.download_button(
+                            label="💾 Mini-Glossar herunterladen",
+                            data=pdf_bytes,
+                            file_name=glossary_download_name,
+                            mime="application/pdf",
+                            key=glossar_dl_key
+                        )
+                    except Exception as e:
+                        st.error(f"Fehler beim Erzeugen des Mini-Glossars: {e}")
 
-            erklaerung = frage.get("erklaerung")
-            if erklaerung:
-                with st.container(border=True):
-                    st.markdown("<span style='font-weight:600; color:#4b9fff;'>Erklärung:</span>", unsafe_allow_html=True)
-                    if isinstance(erklaerung, dict) and "titel" in erklaerung and "schritte" in erklaerung:
-                        st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")
-                        # Jeder Schritt wird in einer eigenen Spalte gerendert, um KaTeX zu parsen
-                        # und bei Bedarf scrollbar zu sein.
-                        for i, schritt in enumerate(erklaerung['schritte']):
-                            cols = st.columns([1, 19])
-                            with cols[0]:
-                                st.markdown(f"{i+1}.")
-                            with cols[1]:
-                                st.markdown(f"<div class='scrollable-katex'>{smart_quotes_de(schritt)}</div>", unsafe_allow_html=True)
-                    else:
-                        st.markdown(smart_quotes_de(str(erklaerung)))
-            
-            # --- NEU: Erweiterte Erklärung im Review-Modus ---
-            extended_explanation = frage.get("extended_explanation")
-            if extended_explanation:
-                with st.expander("Detaillierte Erklärung anzeigen"):
-                    if isinstance(extended_explanation, dict):
-                        title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
-                        if title:
-                            st.markdown(f"**{smart_quotes_de(title)}**")
-
-                        content = extended_explanation.get("content")
-                        steps = extended_explanation.get("schritte")
-
-                        if isinstance(steps, list) and steps:
-                            for step_idx, step in enumerate(steps, start=1):
-                                st.markdown(f"{step_idx}. {smart_quotes_de(step)}")
-                        elif isinstance(content, str) and content.strip():
-                            st.markdown(smart_quotes_de(content))
-                        else:
-                            st.markdown(smart_quotes_de(str(extended_explanation)))
-                    else:
-                        st.markdown(smart_quotes_de(str(extended_explanation)))
+        # Testbericht
+        with st.expander("Testbericht (PDF mit deinem Ergebnis)"):
+            st.markdown("Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.")
+            report_download_name = (
+                f"testbericht_"
+                f"{selected_file.replace('questions_', '').replace('.json', '')}"
+                f"_{user_name_file}.pdf"
+            )
+            testbericht_btn_key = f"download_testbericht_review_{selected_file}"
+            testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
+            if st.button("Download starten", key=testbericht_btn_key):
+                with st.spinner("Testbericht wird erstellt..."):
+                    try:
+                        if app_config is None:
+                            raise Exception("app_config nicht gefunden – Testbericht-Export nicht möglich.")
+                        pdf_bytes = generate_pdf_report(
+                            list(questions), app_config
+                        )
+                        st.download_button(
+                            label="💾 Testbericht herunterladen",
+                            data=pdf_bytes,
+                            file_name=report_download_name,
+                            mime="application/pdf",
+                            key=testbericht_dl_key
+                        )
+                    except Exception as e:
+                        st.error(f"Fehler beim Erzeugen des Testberichts: {e}")

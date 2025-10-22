@@ -107,6 +107,7 @@ def main():
 
     # --- 1. Lade Konfiguration und Fragen (wird für Login benötigt) ---
     app_config = AppConfig()
+    st.session_state["app_config"] = app_config
     
     # Initialisiere das Fragenset, falls noch nicht geschehen.
     if "selected_questions_file" not in st.session_state:
