@@ -1659,6 +1659,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
     # --- Export-Mockup am Ende des Reviews ---
     st.markdown("---")
+    st.subheader("Export")
     """Rendert den interaktiven Review-Modus am Ende des Tests."""
     st.subheader("🧐 Review deiner Antworten")
     
@@ -1718,6 +1719,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
     # --- Exportbereich (work in progress) ---
     st.markdown("---")
+    st.subheader("📦 Export")
     with st.expander("Exportbereich: Deine Ergebnisse & Lernmaterialien sichern 🗂️"):
         st.info("Wähle unten das gewünschte Format, um deine Ergebnisse oder Lernmaterialien herunterzuladen. Alle Exporte sind anonym und nur für dich bestimmt.")
 
@@ -1741,7 +1743,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.error(f"Fehler beim Erzeugen des Anki-Exports: {e}")
         with st.expander("Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
-            st.caption("Format: .apkg  |  [Anki Import-Anleitung](https://docs.ankiweb.net/importing/)")
+            st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
             anki_btn_key = f"download_anki_review_{selected_file}"
             anki_dl_key = f"dl_anki_direct_{selected_file}"
             if st.button("Download starten", key=anki_btn_key):
