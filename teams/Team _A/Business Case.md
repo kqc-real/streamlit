@@ -1,7 +1,7 @@
 **Kurz:** Exportfunktionen (Quizlet, Anki, CSV) bieten unmittelbaren Nutzwert für Lehrende und Lernende: Zeitersparnis, bessere Lern-Outcome durch SRS und zusätzliche Sichtbarkeit über externe Plattformen.
 
 
-## 🧾 Executive Summary (Kurz)
+## 🧾 Executive Summary
 - **Empfehlung:** Implementiere zuerst **CSV-Export (Anki-friendly)** und **Quizlet One‑Click Export (OAuth/CSV‑Fallback)**. ✅
 - **Rationale:** CSV ist schnell umsetzbar und deckt viele Use‑Cases; Quizlet bringt Reichweite & Marketing‑Hebel; Anki (apkg) bringt hohen CLTV bei Power‑Usern. 💡
 - **Priorität:** Quizlet → **MUST‑HAVE (🔥)**, CSV → **MUST‑HAVE (⚡)**, Anki (.apkg) → **SHOULD‑HAVE (🔧)**
