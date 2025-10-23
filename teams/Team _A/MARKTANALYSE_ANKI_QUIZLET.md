@@ -265,6 +265,19 @@ Typischer Wert: **5–15 %** der aktiven Nutzer verwenden regelmäßig Export- o
 Quizlet erreicht viele Lernende schnell und steigert Sichtbarkeit & Nutzerbindung deutlich 💥 — daher **Top-Priorität**.  
 Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, ist aber technisch aufwendiger und daher **zweite Phase** 🧭.
 
+| **Feature** | **Quizlet** | **Anki** | **MC-Test-App (geplant)** |
+|--------------|-------------|-----------|----------------------------|
+| Export zu anderen Plattformen | ❌ | ⚠️ *(Add-ons nötig)* | 🎯 |
+| Import aus externen Quellen | ✅ | ✅ | 🎯 |
+| Unterstützte Fragetypen | ❌ *(nur Karten)* | ⚠️ *(Add-ons für MC)* | ✅ |
+| Fragen-Metadaten | ❌ | ⚠️ | 🎯 |
+| LaTeX-Support | ✅ | ✅ | ✅ |
+| Medien-Handling | ✅ | ✅ | 🎯 |
+| **Batch-Export** | ❌ | ⚠️ *(Add-ons)* | 🎯 |
+| UX für Dozierende | ✅ *(einfach, aber manuell)* | ⚠️ *(technisch)* | 🎯 *(1-Klick-Export)* |
+| Fragenstruktur-Erhalt | ❌ | ⚠️ | 🎯 |
+| Validierung / Vorschau | ❌ | ❌ | 🎯 |
+| Rückimport / Synchronisierung | ❌ | ⚠️ | 🎯 |
 
 ---
 Generiert mit Chat GPT.
