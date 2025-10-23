@@ -267,7 +267,7 @@ Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, i
 
 ---
 
- 📊 1.2 Competitive Analysis – Export & Fragenlogik
+ ## 📊 1.2 Competitive Analysis – Export & Fragenlogik
 
 **Verglichene Plattformen:**  
 - **Quizlet** 🧠 (Online-Karteikarten, weit verbreitet im Bildungsbereich)  
