@@ -286,9 +286,8 @@ Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, i
 | Validierung / Vorschau | ❌ | ❌ | 🎯 |
 | Rückimport / Synchronisierung | ❌ | ⚠️ | 🎯 |
 
-Export - Anki
-
-
+Export - Anki > 3 klicks
+<img width="930" height="1340" alt="Bild1" src="https://github.com/user-attachments/assets/b419d5ac-14ea-4e51-913e-e0080ac4a527" />
 
 
 🔍 Analyse & Erkenntnisse
