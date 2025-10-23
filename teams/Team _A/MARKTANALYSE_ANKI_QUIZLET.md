@@ -265,6 +265,13 @@ Typischer Wert: **5–15 %** der aktiven Nutzer verwenden regelmäßig Export- o
 Quizlet erreicht viele Lernende schnell und steigert Sichtbarkeit & Nutzerbindung deutlich 💥 — daher **Top-Priorität**.  
 Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, ist aber technisch aufwendiger und daher **zweite Phase** 🧭.
 
+ 📊 1.2 Competitive Analysis – Export & Fragenlogik
+
+**Verglichene Plattformen:**  
+- **Quizlet** 🧠 (Online-Karteikarten, weit verbreitet im Bildungsbereich)  
+- **Anki** 📚 (Open-Source, Spaced-Repetition, technisch flexibel)  
+- **MC-Test-App (geplant)** 🎯 (Dozenten-Tool mit Export-Funktion zu Lernplattformen)
+
 | **Feature** | **Quizlet** | **Anki** | **MC-Test-App (geplant)** |
 |--------------|-------------|-----------|----------------------------|
 | Export zu anderen Plattformen | ❌ | ⚠️ *(Add-ons nötig)* | 🎯 |
@@ -278,6 +285,53 @@ Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, i
 | Fragenstruktur-Erhalt | ❌ | ⚠️ | 🎯 |
 | Validierung / Vorschau | ❌ | ❌ | 🎯 |
 | Rückimport / Synchronisierung | ❌ | ⚠️ | 🎯 |
+
+🔍 Analyse & Erkenntnisse
+
+### 🟦 Quizlet
+- **Stärken:** Einfache Bedienung, hohe Reichweite, intuitives Lernen.  
+- **Schwächen:** Keine Multiple-Choice-Fragen, kein direkter Export, keine Metadaten.  
+- **Pain Point:** Dozenten müssen Fragen manuell neu aufbauen → hoher Zeitaufwand.  
+- **Fazit:** Export-Funktion = **großer Mehrwert** für Lehrende (Weiterverwendung von Fragensets).  
+
+---
+
+### 🟩 Anki
+- **Stärken:** Lernalgorithmus (Spaced Repetition), flexibel, technisch offen.  
+- **Schwächen:** Komplexe Bedienung, Add-ons nötig, kein einheitlicher Standard.  
+- **Pain Point:** Hohe Einstiegshürde für Nicht-Techniker; Formatierung oft fehleranfällig.  
+- **Fazit:** Integration lohnt sich für Power-User (z. B. MINT-Studierende).  
+
+---
+
+### 🟥 MC-Test-App (geplant)
+- **Stärken:**  
+  - 🎯 1-Klick-Export zu mehreren Plattformen  
+  - 🎯 Struktur- und Medien-Erhalt  
+  - 🎯 Batch-Export + LaTeX-Support  
+- **USP:** Erste App, die **Fragensets aus Prüfungen direkt in Lernplattformen exportieren** kann.  
+- **Fazit:** Starke Differenzierung durch Zeitersparnis & technische Präzision.  
+
+---
+
+## 🧭 Empfehlung
+
+| **Kriterium** | **Quizlet** | **Anki** | **Empfehlung** |
+|----------------|-------------|-----------|----------------|
+| Relevanz für Dozenten-Export | ✅ Hoch | ⚠️ Mittel | 🟢 **Implementieren (HIGH)** |
+| Technischer Aufwand | ⚠️ Mittel | 🔴 Hoch | – |
+| Mehrwert für Nutzer | ✅ Sehr hoch | ✅ Hoch | – |
+
+---
+
+### 📝 Executive Summary
+
+> Der Export zu **Quizlet** und **Anki** sollte **priorisiert (HIGH)** umgesetzt werden.  
+> Beide Plattformen decken unterschiedliche Lehrszenarien ab:  
+> - **Quizlet** = schnelle, visuelle Lernwiederholung  
+> - **Anki** = tiefes individuelles Lernen (Spaced Repetition)  
+> Kein existierendes Tool bietet derzeit eine **strukturierte, formel- und medienerhaltende Exportlösung**.  
+> → **Das ist der USP der MC-Test-App.**
 
 ---
 Generiert mit Chat GPT.
