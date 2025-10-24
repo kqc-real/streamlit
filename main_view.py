@@ -1469,30 +1469,33 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     except Exception as e:
                         st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
 
-        # Mini-Glossar
-        with st.expander("📄 Mini-Glossar (PDF mit allen Fachbegriffen)"):
-            st.markdown("Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.")
-            glossary_download_name = (
-                f"mini_glossar_"
-                f"{selected_file.replace('questions_', '').replace('.json', '')}.pdf"
-            )
-            glossar_btn_key = f"download_glossar_review_{selected_file}"
-            glossar_dl_key = f"dl_glossar_direct_{selected_file}"
-            if st.button("Download starten", key=glossar_btn_key):
-                with st.spinner("Glossar wird erstellt..."):
-                    try:
-                        pdf_bytes = generate_mini_glossary_pdf(
-                            selected_file, list(questions)
-                        )
-                        st.download_button(
-                            label="💾 Mini-Glossar herunterladen",
-                            data=pdf_bytes,
-                            file_name=glossary_download_name,
-                            mime="application/pdf",
-                            key=glossar_dl_key
-                        )
-                    except Exception as e:
-                        st.error(f"Fehler beim Erzeugen des Mini-Glossars: {e}")
+        # Mini-Glossar nur anzeigen, wenn Glossar-Einträge vorhanden sind
+        from pdf_export import _extract_glossary_terms
+        glossary_terms = _extract_glossary_terms(list(questions))
+        if glossary_terms:
+            with st.expander("📄 Mini-Glossar (PDF mit allen Fachbegriffen)"):
+                st.markdown("Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.")
+                glossary_download_name = (
+                    f"mini_glossar_"
+                    f"{selected_file.replace('questions_', '').replace('.json', '')}.pdf"
+                )
+                glossar_btn_key = f"download_glossar_review_{selected_file}"
+                glossar_dl_key = f"dl_glossar_direct_{selected_file}"
+                if st.button("Download starten", key=glossar_btn_key):
+                    with st.spinner("Glossar wird erstellt..."):
+                        try:
+                            pdf_bytes = generate_mini_glossary_pdf(
+                                selected_file, list(questions)
+                            )
+                            st.download_button(
+                                label="💾 Mini-Glossar herunterladen",
+                                data=pdf_bytes,
+                                file_name=glossary_download_name,
+                                mime="application/pdf",
+                                key=glossar_dl_key
+                            )
+                        except Exception as e:
+                            st.error(f"Fehler beim Erzeugen des Mini-Glossars: {e}")
 
         # Testbericht
         with st.expander("📄 Testbericht (PDF mit deinem Ergebnis)"):
