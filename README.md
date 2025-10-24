@@ -596,3 +596,58 @@ Beachte beim Erstellen der JSON-Strings die folgenden Formatierungsregeln:
 -----
 
 *(Beginne jetzt mit Schritt 1)*
+
+---
+
+## Hinweise zur Wiederherstellung & AI‑Generator‑Metadaten
+
+### Pseudonym‑Wiederherstellung (optional)
+
+Wenn Nutzer später dasselbe Pseudonym wiederverwenden möchten, kann beim Erstellen eines
+Pseudonyms ein optionales Wiederherstellungs‑Geheimwort gesetzt werden. Technische Details und
+Sicherheitshinweise:
+
+- Das Geheimwort wird niemals im Klartext gespeichert. Es wird serverseitig mit PBKDF2‑HMAC‑SHA256
+  (100.000 Iterationen, 16‑Byte Salt) abgeleitet; nur Salt und Hash werden in der Datenbank
+  abgelegt.
+- Das System kann das Geheimwort nicht wiederherstellen. Wenn das Geheimwort verloren geht,
+  kann ein Administrator das Feld zurücksetzen, aber das ursprüngliche Geheimwort bleibt verloren.
+- Empfehlung an Nutzer: Verwende eine kurze, merkbare Passphrase oder einen Passwortmanager.
+  Vermeide einfache Einwort‑Passwörter.
+- Maximale Eingabelänge: empfohlen 8–32 Zeichen. Das UI bietet eine maskierte Eingabe beim
+  Pseudonym‑Erstellen und ein Wiederherstellungsfeld („Pseudonym + Geheimwort“) beim Login.
+
+Akzeptanzkriterien für die Implementierung:
+
+- Nutzer können beim Erstellen eines Pseudonyms optional ein Geheimwort setzen.
+- Nutzer können später Pseudonym + Geheimwort eingeben und so ihr altes Pseudonym wiederverwenden.
+- Die Datenbank speichert nur Salt und Hash; keine Klartext‑Secrets.
+
+### AI‑Fragenset‑Generator: `meta.created` / `meta.modified`
+
+Damit Fragensets konsistent Datumsangaben enthalten (wichtig für die Anzeige auf der Startseite),
+sollte der AI‑Generator die Felder `meta.created` und `meta.modified` setzen. Vorgeschlagene Regeln:
+
+- Format: ISO‑Datum (z. B. `2025-10-24T12:00:00Z`) wird empfohlen; kompakte Formen wie `DD.MM.YY`
+  werden ebenfalls akzeptiert und lokal geparst.
+- Beispiel (empfohlen, ISO):
+
+```json
+{
+  "meta": {
+    "title": "Grundlagen des maschinellen Lernens",
+    "created": "2025-10-24T12:00:00Z",
+    "modified": "2025-10-24T12:00:00Z",
+    "allowed_min": 30
+  },
+  "questions": [ /* ... */ ]
+}
+```
+
+- Minimales Feld: `meta.created` — wenn `meta.modified` fehlt, wird `meta.created` als Änderungszeit verwendet.
+- `allowed_min` in `meta` kann gesetzt werden, um die Standard‑Testdauer für dieses Set zu überschreiben.
+
+Die Frontend‑Logik priorisiert diese `meta`‑Felder gegenüber Dateisystem‑Timestamps beim Anzeigen
+von Erstellungs‑/Änderungsdaten.
+
+---

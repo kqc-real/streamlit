@@ -5,6 +5,9 @@ import streamlit as st
 import sqlite3
 import time
 import os
+import hashlib
+import binascii
+import secrets
 from config import get_package_dir, get_question_counts
 
 # Fallback für ältere Streamlit-Versionen ohne caching-Decoratoren
@@ -87,6 +90,7 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS users (
                     user_id TEXT PRIMARY KEY,
                     user_pseudonym TEXT NOT NULL UNIQUE
+                    -- recovery_salt and recovery_hash may be added via migration below
                 );
             """)
 
@@ -200,6 +204,26 @@ def create_tables():
                 if name:
                     columns.append(name)
 
+            # Migration: Füge optionale Spalten für Recovery (salt + hash) hinzu,
+            # damit Nutzer ein Geheimwort zum späteren Wiederherstellen hinterlegen können.
+            if 'recovery_salt' not in columns:
+                try:
+                    conn.execute("ALTER TABLE users ADD COLUMN recovery_salt TEXT;")
+                except sqlite3.OperationalError as e:
+                    if 'duplicate column name' in str(e).lower():
+                        pass
+                    else:
+                        raise
+
+            if 'recovery_hash' not in columns:
+                try:
+                    conn.execute("ALTER TABLE users ADD COLUMN recovery_hash TEXT;")
+                except sqlite3.OperationalError as e:
+                    if 'duplicate column name' in str(e).lower():
+                        pass
+                    else:
+                        raise
+
             if 'feedback_type' not in columns:
                 try:
                     conn.execute("ALTER TABLE feedback ADD COLUMN feedback_type TEXT NOT NULL DEFAULT 'Unbekannt';")
@@ -218,6 +242,32 @@ def create_tables():
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_id ON test_sessions (user_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_session_id ON feedback (session_id);")
+            # --- Neue Tabelle: Snapshot-Summaries für Sessions (Option B: robust & performant)
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS test_session_summaries (
+                    session_id INTEGER PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    questions_file TEXT NOT NULL,
+                    questions_title TEXT,
+                    meta_created TEXT,
+                    start_time TEXT NOT NULL,
+                    end_time TEXT,
+                    duration_seconds INTEGER,
+                    question_count INTEGER,
+                    allowed_min INTEGER,
+                    total_points INTEGER,
+                    max_points INTEGER,
+                    correct_count INTEGER,
+                    percent REAL,
+                    time_expired BOOLEAN DEFAULT 0,
+                    exported BOOLEAN DEFAULT 0,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                """
+            )
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_summaries_user_time ON test_session_summaries (user_id, start_time DESC);")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_summaries_qfile ON test_session_summaries (questions_file, start_time DESC);")
             
     except sqlite3.Error as e:
         print(f"Fehler bei der Tabellenerstellung: {e}")
@@ -415,6 +465,31 @@ def get_all_answer_logs() -> list[dict]:
         print(f"Datenbankfehler in get_all_answer_logs: {e}")
         return []
 
+
+def get_answers_for_session(session_id: int) -> list[dict]:
+    """Return all answers for a given session_id ordered by question number.
+
+    Each row contains: question_nr, answer_text, points, is_correct, timestamp
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return []
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT question_nr, answer_text, points, is_correct, timestamp
+            FROM answers
+            WHERE session_id = ?
+            ORDER BY question_nr
+            """,
+            (session_id,),
+        )
+        return [dict(row) for row in cursor.fetchall()]
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_answers_for_session: {e}")
+        return []
+
 def get_all_feedback() -> list[dict]:
     """
     Ruft alle Feedbacks aus der Datenbank für das Admin-Panel ab.
@@ -570,6 +645,321 @@ def get_database_dump() -> str:
     except sqlite3.Error as e:
         return f"-- Fehler beim Erstellen des DB-Dumps: {e}"
     return dump_sql
+
+
+# -----------------------------
+# Session summaries (snapshots)
+# -----------------------------
+@with_db_retry
+def recompute_session_summary(session_id: int) -> bool:
+    """Recompute and store the summary for a given session_id.
+
+    This gathers answers and session metadata, computes totals and
+    inserts or replaces a row in `test_session_summaries`.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return False
+
+    try:
+        cursor = conn.cursor()
+
+        # Load session basic info
+        cursor.execute(
+            "SELECT user_id, questions_file, start_time "
+            "FROM test_sessions WHERE session_id = ?",
+            (session_id,),
+        )
+        s = cursor.fetchone()
+        if not s:
+            return False
+
+        user_id = s['user_id']
+        questions_file = s['questions_file']
+        start_time = s['start_time']
+
+        # Aggregate answers
+        cursor.execute(
+            """
+            SELECT
+                MAX(timestamp) as last_answer,
+                COALESCE(SUM(points), 0) as total_points,
+                SUM(CASE WHEN is_correct THEN 1 ELSE 0 END) as correct_count,
+                COUNT(answer_id) as answers_count
+            FROM answers
+            WHERE session_id = ?
+            """,
+            (session_id,),
+        )
+
+        agg = cursor.fetchone()
+        last_answer = None
+        total_points = 0
+        correct_count = 0
+        if agg:
+            if 'last_answer' in agg.keys():
+                last_answer = agg['last_answer']
+            if agg['total_points'] is not None:
+                total_points = int(agg['total_points'])
+            if agg['correct_count'] is not None:
+                correct_count = int(agg['correct_count'])
+
+        # Load question set metadata to compute max_points and question_count
+        from config import load_questions, AppConfig
+
+        qs = load_questions(questions_file, silent=True)
+        question_count = len(qs) if qs else None
+
+        # Sum weights for max_points
+        max_points = 0
+        if qs:
+            for q in qs:
+                try:
+                    max_points += int(q.get('gewichtung', 1))
+                except Exception:
+                    max_points += 1
+
+        # duration_seconds
+        duration_seconds = None
+        if last_answer and start_time:
+            try:
+                # SQLite stores timestamps as text; try to parse common formats
+                from datetime import datetime
+
+                try:
+                    last_dt = datetime.fromisoformat(last_answer)
+                except Exception:
+                    try:
+                        last_dt = datetime.strptime(last_answer, '%Y-%m-%d %H:%M:%S')
+                    except Exception:
+                        last_dt = None
+
+                try:
+                    start_dt = datetime.fromisoformat(start_time)
+                except Exception:
+                    try:
+                        start_dt = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+                    except Exception:
+                        start_dt = None
+
+                if last_dt and start_dt:
+                    duration_seconds = int((last_dt - start_dt).total_seconds())
+            except Exception:
+                duration_seconds = None
+
+        # percent
+        percent = 0.0
+        if max_points and max_points > 0:
+            percent = (total_points / max_points) * 100
+
+        # allowed_min from QuestionSet
+        allowed_min = None
+        try:
+            app_cfg = AppConfig()
+            if qs:
+                allowed_min = qs.get_test_duration_minutes(
+                    app_cfg.test_duration_minutes
+                )
+        except Exception:
+            allowed_min = None
+
+        # title and meta.created
+        questions_title = qs.meta.get('title') if qs else None
+        meta_created = qs.meta.get('created') if qs else None
+
+        insert_sql = (
+            """
+            INSERT OR REPLACE INTO test_session_summaries (
+                session_id, user_id, questions_file, questions_title, meta_created,
+                start_time, end_time, duration_seconds, question_count, allowed_min,
+                total_points, max_points, correct_count, percent, time_expired
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """
+        )
+
+        with conn:
+            conn.execute(
+                insert_sql,
+                (
+                    session_id,
+                    user_id,
+                    questions_file,
+                    questions_title,
+                    meta_created,
+                    start_time,
+                    last_answer,
+                    duration_seconds,
+                    question_count,
+                    allowed_min,
+                    total_points,
+                    max_points,
+                    correct_count,
+                    percent,
+                    0,
+                ),
+            )
+
+        return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in recompute_session_summary: {e}")
+        return False
+
+
+def get_user_test_history(
+    user_id: str,
+    limit: int = 50,
+    offset: int = 0,
+    questions_file: str | None = None,
+) -> list[dict]:
+    """Gibt eine Liste von Session-Summaries für einen User zurück (paginiert).
+
+    Falls `test_session_summaries` nicht existiert oder leer ist, liefert die Funktion
+    eine leere Liste.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return []
+
+    try:
+        cursor = conn.cursor()
+        params = [user_id]
+        q = "SELECT * FROM test_session_summaries WHERE user_id = ?"
+        if questions_file:
+            q += " AND questions_file = ?"
+            params.append(questions_file)
+
+        q += " ORDER BY start_time DESC LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
+        cursor.execute(q, tuple(params))
+        rows = cursor.fetchall()
+        return [dict(row) for row in rows]
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_user_test_history: {e}")
+        return []
+
+
+def backfill_session_summaries(batch_size: int = 200) -> int:
+    """Backfill fehlender Summaries für bereits existierende Sessions.
+
+    Returns number of summaries created.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return 0
+    created = 0
+    try:
+        cursor = conn.cursor()
+
+        # Find sessions without summary
+        cursor.execute(
+            """
+            SELECT ts.session_id
+            FROM test_sessions ts
+            LEFT JOIN test_session_summaries s
+              ON ts.session_id = s.session_id
+            WHERE s.session_id IS NULL
+            LIMIT ?
+            """,
+            (batch_size,),
+        )
+
+        rows = cursor.fetchall()
+        for r in rows:
+            sid = r['session_id']
+            if recompute_session_summary(sid):
+                created += 1
+
+        return created
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in backfill_session_summaries: {e}")
+        return created
+
+
+# -----------------------------
+# Recovery / Secret helpers
+# -----------------------------
+def _hash_secret(secret_plain: str, salt: bytes | None = None) -> tuple[str, str]:
+    """Hash a secret with PBKDF2-HMAC-SHA256.
+
+    Returns (salt_hex, hash_hex).
+    """
+    if salt is None:
+        salt = os.urandom(16)
+    if isinstance(secret_plain, str):
+        secret_bytes = secret_plain.encode('utf-8')
+    else:
+        secret_bytes = secret_plain
+    dk = hashlib.pbkdf2_hmac('sha256', secret_bytes, salt, 100_000)
+    return binascii.hexlify(salt).decode('ascii'), binascii.hexlify(dk).decode('ascii')
+
+
+@with_db_retry
+def set_recovery_secret(user_id: str, secret_plain: str) -> bool:
+    """Set a recovery secret for the given user_id.
+
+    Stores salt and derived hash in users table. Returns True on success.
+    """
+    if not secret_plain:
+        return False
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        salt_hex, hash_hex = _hash_secret(secret_plain)
+        with conn:
+            conn.execute(
+                "UPDATE users SET recovery_salt = ?, recovery_hash = ? WHERE user_id = ?",
+                (salt_hex, hash_hex, user_id),
+            )
+        return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in set_recovery_secret: {e}")
+        return False
+
+
+def verify_recovery(pseudonym: str, secret_plain: str) -> str | None:
+    """Verify a pseudonym + secret pair. If valid, return user_id, else None.
+
+    This function is read-only and not decorated with retry to avoid writes.
+    """
+    if not pseudonym or not secret_plain:
+        return None
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT user_id, recovery_salt, recovery_hash FROM users WHERE user_pseudonym = ?",
+            (pseudonym,)
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+        user_id = row['user_id']
+        # sqlite3.Row does not implement dict.get(), use key access safely
+        try:
+            # row.keys() exists for sqlite3.Row
+            salt_hex = row['recovery_salt'] if 'recovery_salt' in row.keys() else None
+            stored_hash = row['recovery_hash'] if 'recovery_hash' in row.keys() else None
+        except Exception:
+            # Fallback: index access might raise; treat as missing
+            salt_hex = None
+            stored_hash = None
+        if not salt_hex or not stored_hash:
+            return None
+        try:
+            salt = binascii.unhexlify(salt_hex)
+        except Exception:
+            return None
+        _, computed_hash = _hash_secret(secret_plain, salt=salt)
+        # Use constant-time comparison
+        if secrets.compare_digest(computed_hash, stored_hash):
+            return user_id
+        return None
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in verify_recovery: {e}")
+        return None
 
 
 # =====================================================================

@@ -15,6 +15,7 @@ import sqlite3
 from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Tuple, Any
 import streamlit as st
+import logging
 from database import get_db_connection, with_db_retry
 
 try:
@@ -116,7 +117,7 @@ def log_admin_action(
         conn.commit()
         return True
     except Exception as e:
-        print(f"Audit-Log Fehler: {e}")
+        logging.exception("Audit-Log Fehler")
         return False
 
 
@@ -173,7 +174,7 @@ def get_audit_log(
         return _convert_rows(cursor, rows)
     
     except Exception as e:
-        print(f"Audit-Log Abruf Fehler: {e}")
+        logging.exception("Audit-Log Abruf Fehler")
         return []
 
 
@@ -246,7 +247,7 @@ def cleanup_old_audit_logs(days: int = 90) -> int:
         return cursor.rowcount
     
     except Exception as e:
-        print(f"Audit-Log Cleanup Fehler: {e}")
+        logging.exception("Audit-Log Cleanup Fehler")
         return 0
 
 
@@ -284,7 +285,7 @@ def log_login_attempt(
         conn.commit()
     
     except Exception as e:
-        print(f"Login-Attempt Log Fehler: {e}")
+        logging.exception("Login-Attempt Log Fehler")
 
 
 @with_db_retry
@@ -368,7 +369,7 @@ def check_rate_limit(
         return True, None
     
     except Exception as e:
-        print(f"Rate-Limit Check Fehler: {e}")
+        logging.exception("Rate-Limit Check Fehler")
         return True, None  # Bei Fehler: Erlaube Login (Fail-Open)
 
 
@@ -392,7 +393,7 @@ def reset_login_attempts(user_id: str) -> None:
         conn.commit()
     
     except Exception as e:
-        print(f"Reset Login-Attempts Fehler: {e}")
+        logging.exception("Reset Login-Attempts Fehler")
 
 
 @with_db_retry
@@ -419,7 +420,7 @@ def cleanup_old_login_attempts(days: int = 30) -> int:
         return cursor.rowcount
     
     except Exception as e:
-        print(f"Login-Attempts Cleanup Fehler: {e}")
+        logging.exception("Login-Attempts Cleanup Fehler")
         return 0
 
 
@@ -492,7 +493,7 @@ def get_audit_statistics() -> Dict:
         }
     
     except Exception as e:
-        print(f"Audit-Statistics Fehler: {e}")
+        logging.exception("Audit-Statistics Fehler")
         return {
             "total": 0,
             "successful": 0,

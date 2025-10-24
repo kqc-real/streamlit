@@ -117,27 +117,163 @@ def _sync_questions_query_param(selected_file: str):
     st.query_params["questions_file"] = selected_file
 
 
-# --- queued rerun handler -------------------------------------------------
-# Some environments or Streamlit builds may not expose experimental_rerun.
-# To support callers that set a flag (st.session_state["_needs_rerun"] = True)
-# we check the flag once at module import / first render and invoke the
-# experimental rerun when available. This provides a reliable fallback
-# for deployments where an immediate rerun cannot be executed in the
-# same code path that updated session_state.
-try:
-    if st.session_state.pop("_needs_rerun", False):
-        rerun_fn = getattr(st, "experimental_rerun", None)
-        if callable(rerun_fn):
+def _render_history_table(history_rows, filename_base: str):
+    """Hilfsfunktion: Formatiere und zeige die Historie als DataFrame + CSV-Export.
+
+    Wird an mehreren Stellen benötigt (Welcome-Page, Test-View).
+    history_rows may be a list of dicts or a DataFrame.
+    """
+    # Robustly build a DataFrame and render a compact, read-only table with
+    # a CSV download button. Keep the layout simple (no interactive widgets)
+    # to avoid causing reruns or expander collapse side-effects.
+    try:
+        df = pd.DataFrame(history_rows)
+    except Exception:
+        st.error("Fehler beim Laden der Historie.")
+        return
+
+    if df.empty:
+        st.info("Keine bisherigen Testergebnisse gefunden.")
+        return
+
+    # Format common columns for a friendlier display
+    if 'start_time' in df.columns:
+        try:
+            df['Datum'] = pd.to_datetime(df['start_time']).dt.strftime('%d.%m.%y %H:%M')
+        except Exception:
+            df['Datum'] = df['start_time']
+
+    if 'questions_title' in df.columns or 'questions_file' in df.columns:
+        df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+
+    # Create an internal numeric percent column to enable correct sorting.
+    percent_col = None
+    if 'percent' in df.columns:
+        try:
+            df['_percent_numeric'] = pd.to_numeric(df['percent'], errors='coerce')
+            percent_col = '_percent_numeric'
+        except Exception:
+            df['_percent_numeric'] = None
+            percent_col = '_percent_numeric'
+
+    if 'duration_seconds' in df.columns:
+        def _fmt_dur(s):
             try:
-                rerun_fn()
+                s_int = int(s) if s is not None else 0
+                mins, secs = divmod(s_int, 60)
+                return (f"{mins} min {secs} s" if mins else f"{secs} s")
             except Exception:
-                logging.exception("queued experimental_rerun failed")
+                return str(s)
+
+        df['Dauer'] = df['duration_seconds'].apply(_fmt_dur)
+
+    # Punkte: keep a numeric column so sorting works. We'll format it for
+    # display using a Styler later so the table shows "87.5 %" but the
+    # underlying values remain numeric.
+    if percent_col and percent_col in df.columns:
+        try:
+            df['Punkte'] = pd.to_numeric(df[percent_col], errors='coerce')
+        except Exception:
+            df['Punkte'] = pd.to_numeric(df.get('percent', None), errors='coerce')
+    else:
+        # Fallback: prefer total_points as numeric if percent isn't available
+        if 'total_points' in df.columns:
+            try:
+                df['Punkte'] = pd.to_numeric(df['total_points'], errors='coerce')
+            except Exception:
+                df['Punkte'] = df['total_points']
         else:
-            logging.debug("queued rerun requested but experimental_rerun not available")
-except Exception:
-    # session_state may not be fully initialized during some import paths;
-    # ignore and continue — the UI will render normally.
-    pass
+            df['Punkte'] = pd.NA
+
+    # Round numeric percentages to whole numbers while keeping numeric dtype.
+    try:
+        if 'Punkte' in df.columns:
+            df['Punkte'] = pd.to_numeric(df['Punkte'], errors='coerce').round(0).astype('Int64')
+    except Exception:
+        pass
+
+    # Prefer sorting by percent if present, otherwise by date desc
+    try:
+        if percent_col and percent_col in df.columns:
+            df = df.sort_values(by=[percent_col], ascending=False).reset_index(drop=True)
+        elif 'Datum' in df.columns:
+            df = df.sort_values(by=['Datum'], ascending=False).reset_index(drop=True)
+    except Exception:
+        pass
+
+    # Keep the compact set of columns. We keep a hidden numeric column
+    # `_duration_seconds` for correct sorting but show only `Dauer` to the user.
+    display_cols = [c for c in ['Datum', 'Fragenset', 'Punkte', 'Dauer'] if c in df.columns]
+
+    try:
+        df_display = df[display_cols]
+    except Exception:
+        df_display = df.copy()
+
+    st.caption("Deine bisherigen Testdurchläufe (neueste oben)")
+
+    # Keep 'Punkte' as a numeric column so Streamlit can sort it correctly.
+    # For the UI we rename the column to indicate it represents percent values
+    # (e.g. 'Punkte (%)') but keep the underlying dtype numeric. We avoid
+    # using a Styler here because some Streamlit versions use the displayed
+    # string representation for client-side sorting.
+    try:
+        if 'Punkte' in df_display.columns:
+            df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
+        st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+    except Exception:
+        st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+
+    # Center the CSV download button in the dialog width. For CSV we export
+    # a human-friendly rendition: Punkte as formatted percent strings.
+    try:
+        csv_export = df_display.copy()
+        # If we renamed the display column, handle that name. Export should
+        # contain human-friendly percent strings with a trailing '%'.
+        if 'Punkte (%)' in csv_export.columns:
+            csv_export['Punkte (%)'] = csv_export['Punkte (%)'].apply(
+                lambda v: (f"{int(v)} %" if pd.notna(v) else "-")
+            )
+        elif 'Punkte' in csv_export.columns:
+            csv_export['Punkte'] = csv_export['Punkte'].apply(
+                lambda v: (f"{int(v)} %" if pd.notna(v) else "-")
+            )
+        csv_bytes = csv_export.to_csv(index=False).encode('utf-8')
+        c1, c2, c3 = st.columns([1, 2, 1])
+        with c2:
+            st.download_button(
+                "CSV herunterladen",
+                data=csv_bytes,
+                file_name=f"{filename_base}_history.csv",
+                mime='text/csv',
+                use_container_width=True,
+            )
+    except Exception:
+        st.info("CSV-Export nicht verfügbar.")
+
+
+def _process_queued_rerun() -> None:
+    """Wenn irgendwo `_needs_rerun` gesetzt wurde, versuche jetzt einen Streamlit-Rerun.
+
+    Frühere Implementierungen prüften dieses Flag nur einmal beim Modulimport,
+    was in interaktiven Runs nicht immer greift. Diese Funktion wird an den
+    relevanten Render-Pfaden aufgerufen, sodass ein gesetztes Flag sofort
+    verarbeitet wird.
+    """
+    try:
+        if st.session_state.pop("_needs_rerun", False):
+            rerun_fn = getattr(st, "experimental_rerun", None)
+            if callable(rerun_fn):
+                try:
+                    rerun_fn()
+                except Exception:
+                    logging.exception("queued experimental_rerun failed")
+            else:
+                # experimental_rerun not available; nothing to do here
+                pass
+    except Exception:
+        # session_state may not be available in certain import paths; ignore.
+        pass
 
 
 def _render_welcome_splash():
@@ -196,8 +332,13 @@ def _render_welcome_splash():
         st.stop()
 
 
+
+
 def render_welcome_page(app_config: AppConfig):
     """Zeigt die Startseite für nicht eingeloggte Nutzer."""
+
+    # Process any queued rerun requests (set by other code paths as a fallback).
+    _process_queued_rerun()
 
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
     available_question_files = list_question_files()
@@ -247,6 +388,8 @@ def render_welcome_page(app_config: AppConfig):
     """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
+
+    # (Note) Sidebar rendering is handled by `components.render_sidebar`.
 
     # --- Auswahl des Fragensets (mit Filterung) ---
     # Nutze die optimierte Funktion, um die Anzahl der Fragen zu bekommen.
@@ -424,7 +567,12 @@ def render_welcome_page(app_config: AppConfig):
     # --- Login-Formular im Hauptbereich ---
     from auth import initialize_session_state, is_admin_user
     from config import load_scientists
-    from database import get_used_pseudonyms
+    from database import (
+        get_used_pseudonyms,
+        set_recovery_secret,
+        verify_recovery,
+        get_user_test_history,
+    )
 
     st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
 
@@ -471,6 +619,47 @@ def render_welcome_page(app_config: AppConfig):
             label_visibility="collapsed" # Optional: Blendet das Label aus, falls gewünscht
         )
 
+    # Optional: Setze ein Wiederherstellungs-Geheimwort für das neu ausgewählte Pseudonym
+    recovery_secret_new = None
+    if selected_name_from_user:
+        recovery_secret_new = st.text_input(
+            "Optional: Geheimwort zum Wiederherstellen (max. 32 Zeichen)",
+            type="password",
+            max_chars=32,
+            placeholder="(leer lassen, wenn nicht gewünscht)",
+            key="recovery_secret_new",
+        )
+
+    # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
+    with st.expander("Ich habe bereits ein Pseudonym (Wiederherstellen)", expanded=False):
+        pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
+        secret_recover = st.text_input("Geheimwort", type="password", key="recover_secret")
+        if st.button("Wiederherstellen", key="btn_recover_pseudonym"):
+            if not pseudonym_recover or not secret_recover:
+                st.warning("Bitte sowohl Pseudonym als auch Geheimwort eingeben.")
+            else:
+                user_id = verify_recovery(pseudonym_recover, secret_recover)
+                if user_id:
+                    from database import start_test_session
+                    session_id = start_test_session(user_id, st.session_state.selected_questions_file)
+                    if session_id:
+                        # Setze dieselben Session-Keys wie im normalen Start-Flow
+                        st.session_state.user_id = pseudonym_recover
+                        st.session_state.user_id_hash = user_id
+                        # Mark that the user restored via pseudonym+secret so the
+                        # sidebar history button can be shown without extra auth.
+                        st.session_state.login_via_recovery = True
+                        st.session_state.session_id = session_id
+                        st.session_state.show_pseudonym_reminder = True
+                        query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                        initialize_session_state(questions, app_config)
+                        st.success("Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...")
+                        st.rerun()
+                    else:
+                        st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
+                else:
+                    st.error("Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht überein.")
+
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
@@ -490,19 +679,35 @@ def render_welcome_page(app_config: AppConfig):
             if session_id:
                 st.session_state.user_id = user_name
                 st.session_state.user_id_hash = user_id_hash
+                # Normal start: ensure the recovery flag is not set
+                st.session_state.login_via_recovery = False
                 st.session_state.session_id = session_id
                 st.session_state.show_pseudonym_reminder = True
                 query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                 initialize_session_state(questions, app_config)
+                # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
+                try:
+                    if recovery_secret_new:
+                        set_recovery_secret(user_id_hash, recovery_secret_new)
+                        st.success("Recovery-Geheimwort gespeichert. Du kannst es nutzen, um dieses Pseudonym später wiederherzustellen.")
+                except Exception:
+                    # Nicht kritisch: Wenn das Speichern fehlschlägt, starte trotzdem die Session.
+                    pass
                 st.rerun()
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
+
+    # --- Meine Historie (sichtbar für wiederhergestellte oder eingeloggte Pseudonyme) ---
+
+    # Sidebar history button and other sidebar items are rendered by
+    # `components.render_sidebar`. Avoid duplicating debug output here.
+
 
 def _show_welcome_container(app_config: AppConfig):
     """Zeigt die Welcome-Message in einem hervorgehobenen Container."""
     # Testzeit berechnen (in min)
     test_time_minutes = int(st.session_state.test_time_limit / 60)
-    
+
     if app_config.scoring_mode == "positive_only":
         scoring_text = (
             "Für eine richtige Antwort erhältst du Punkte gmäß der Gewichtung, "
@@ -510,30 +715,30 @@ def _show_welcome_container(app_config: AppConfig):
         )
     else:
         scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
-    
+
     # Großer, zentraler Container mit klarer Aufforderung
     st.markdown("<br>" * 3, unsafe_allow_html=True)  # Abstand nach oben
-    
+
     with st.container(border=True):
         st.markdown(f"""
         ### ⏱️ Testzeit
         Du hast **{test_time_minutes} min** für den Test.  
         Der Countdown startet, sobald du auf »Test beginnen« klickst und aktualisiert sich mit jeder Frage.
-        
+
         ### ✅ 1 richtige Option
         Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
-        
+
         ### 🎯 Punktelogik
         {scoring_text}
         """)
-        
+
         st.info(
             "💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, "
             "Punktestand und die markierten und übersprungenen Fragen."
         )
-        
+
         st.markdown("<br>", unsafe_allow_html=True)
-        
+
         if st.button("🚀 Test beginnen", type="primary", width="stretch"):
             st.session_state.test_started = True
             # Starte den Countdown sofort
@@ -542,12 +747,54 @@ def _show_welcome_container(app_config: AppConfig):
 
 def render_question_view(questions: QuestionSet, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
+    # Ensure any queued rerun is processed early in the interactive render path.
+    _process_queued_rerun()
     if st.session_state.get("show_pseudonym_reminder", False):
         st.success(
             f"**Willkommen, {st.session_state.user_id}!** "
             "Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können."
         )
         del st.session_state.show_pseudonym_reminder
+
+    # If the sidebar requested the history dialog, show it once and consume the request.
+    try:
+        if st.session_state.pop('_open_history_requested', False):
+            from database import get_user_test_history
+
+            user_key = st.session_state.get('user_id_hash') or st.session_state.get('user_id')
+            history_rows = []
+            if user_key:
+                try:
+                    history_rows = get_user_test_history(user_key)
+                except Exception:
+                    history_rows = []
+
+            filename_base = f"history_{(st.session_state.get('user_id') or 'user') }"
+
+            dialog_fn = getattr(st, 'dialog', None)
+            if callable(dialog_fn):
+
+                @dialog_fn("🗂️ Meine Historie")
+                def _history_dialog():
+                    _render_history_table(history_rows, filename_base)
+
+                _history_dialog()
+            else:
+                with st.container(border=True):
+                    st.header("🗂️ Meine Historie")
+                    _render_history_table(history_rows, filename_base)
+    except Exception:
+        # If history rendering fails, silently continue - it must not break the test UI.
+        pass
+
+    # NOTE: History-open control is exposed only in the sidebar (see components.render_sidebar).
+    # No inline debug banners or fallback history buttons here to keep the test view clean.
+
+    # History rendering moved to the sidebar (see `components.render_sidebar`).
+    # The in-page/dialog-based history UI was removed to simplify UX and
+    # avoid modal/close-button issues. The sidebar expander provides a
+    # non-modal, collapsible history view that is available when the user
+    # restored via pseudonym+secret.
 
     # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
     num_answered = sum(
@@ -1079,6 +1326,16 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         f"{current_score} / {max_score} Punkte",
         f"{format_decimal_de(prozent, 1)} %"
     )
+
+    # Schreibe eine Snapshot-Zeile in die DB, damit die Historie später schnell abgefragt werden kann.
+    try:
+        from database import recompute_session_summary
+        session_id = st.session_state.get("session_id")
+        if session_id:
+            recompute_session_summary(session_id)
+    except Exception:
+        # Nicht kritisch für die UI; Fehler werden im DB-Modul geloggt.
+        pass
 
     # Animation nur einmal beim ersten Laden der Ergebnisseite zeigen
     if "celebration_shown" not in st.session_state:

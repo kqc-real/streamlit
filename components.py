@@ -61,7 +61,167 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         """,
         unsafe_allow_html=True,
     )
-    st.sidebar.success(f"👋 **{st.session_state.user_id}**")
+    st.sidebar.success(f"👋 **{st.session_state.get('user_id', '')}**")
+
+    # Only expose the history-open affordance here when the session was
+    # restored via Pseudonym+Geheimwort. Keep it minimal (no debug captions).
+    try:
+        if st.session_state.get('login_via_recovery'):
+            def _open_history_click():
+                # Mark a one-time request to open the history dialog. The
+                # request flag is consumed by the main render loop so the
+                # dialog only appears once per click.
+                # NOTE: calling st.rerun() or experimental_rerun() inside an
+                # on_click callback is a no-op in some Streamlit versions.
+                # Instead we set a small queue flag which the main render
+                # path processes and triggers a rerun there.
+                st.session_state['_open_history_requested'] = True
+                st.session_state['_needs_rerun'] = True
+
+            st.sidebar.button('🗂️ Meine Historie', on_click=_open_history_click, width="stretch")
+    except Exception:
+        # Do not let sidebar rendering issues break the main UI
+        pass
+
+    # Render the history in the sidebar expander when requested. This is
+    # non-modal and avoids close-button / rerun issues. The table is
+    # read-only, percent is numeric (for correct sorting), and we do not
+    # expose raw session identifiers.
+    try:
+        if st.session_state.get('show_history_sidebar'):
+            from database import get_user_test_history
+            user_key = st.session_state.get('user_id_hash') or st.session_state.get('user_id')
+            history_rows = []
+            if user_key:
+                try:
+                    history_rows = get_user_test_history(user_key)
+                except Exception:
+                    history_rows = []
+
+            with st.sidebar.expander('🗂️ Meine Historie', expanded=True):
+                if not history_rows:
+                    st.info('Keine bisherigen Testergebnisse gefunden.')
+                else:
+                    try:
+                        df = pd.DataFrame(history_rows)
+                    except Exception:
+                        st.error('Fehler beim Laden der Historie.')
+                        df = None
+
+                    if df is not None and not df.empty:
+                        # Compute a numeric percent column for correct sorting.
+                        percent_col = None
+                        if 'percent' in df.columns:
+                            try:
+                                df['_percent_numeric'] = pd.to_numeric(df['percent'], errors='coerce')
+                                percent_col = '_percent_numeric'
+                            except Exception:
+                                df['_percent_numeric'] = None
+                                percent_col = '_percent_numeric'
+
+                        # Human-readable date
+                        if 'start_time' in df.columns:
+                            try:
+                                df['Datum'] = pd.to_datetime(df['start_time']).dt.strftime('%d.%m.%y %H:%M')
+                            except Exception:
+                                df['Datum'] = df['start_time']
+
+                        if 'questions_title' in df.columns or 'questions_file' in df.columns:
+                            df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+
+                        # Duration: numeric sort column + human readable label
+                        if 'duration_seconds' in df.columns:
+                            try:
+                                df['_duration_seconds'] = pd.to_numeric(df['duration_seconds'], errors='coerce')
+                            except Exception:
+                                df['_duration_seconds'] = None
+
+                            def _fmt_dur(s):
+                                try:
+                                    s_int = int(s) if s is not None else 0
+                                    mins, secs = divmod(s_int, 60)
+                                    return (f"{mins} min {secs} s" if mins else f"{secs} s")
+                                except Exception:
+                                    return str(s)
+
+                            df['Dauer'] = df['_duration_seconds'].apply(_fmt_dur)
+
+                        # Punkte: keep numeric percent values (rounded to whole
+                        # numbers) so sorting in the UI is numeric. Avoid storing
+                        # formatted strings here.
+                        if percent_col and percent_col in df.columns:
+                            try:
+                                df['Punkte'] = pd.to_numeric(df[percent_col], errors='coerce').round(0).astype('Int64')
+                            except Exception:
+                                df['Punkte'] = pd.to_numeric(df.get('percent', None), errors='coerce').round(0).astype('Int64')
+                        else:
+                            if 'total_points' in df.columns:
+                                try:
+                                    df['Punkte'] = pd.to_numeric(df['total_points'], errors='coerce').round(0).astype('Int64')
+                                except Exception:
+                                    df['Punkte'] = df['total_points']
+                            else:
+                                df['Punkte'] = pd.NA
+
+                        # Sort by percent descending if available
+                        try:
+                            if percent_col and percent_col in df.columns:
+                                df = df.sort_values(by=[percent_col], ascending=False).reset_index(drop=True)
+                        except Exception:
+                            pass
+
+                        display_cols = [c for c in ['Datum', 'Fragenset', 'Punkte', 'Dauer'] if c in df.columns]
+                        try:
+                            df_display = df[display_cols + (['_duration_seconds'] if '_duration_seconds' in df.columns else [])]
+                        except Exception:
+                            df_display = df.copy()
+
+                        # Keep Punkte numeric for correct sorting. Rename the
+                        # visible column to 'Punkte (%)' while preserving
+                        # numeric dtype. Avoid using Styler here to prevent
+                        # client-side sorting using the formatted strings.
+                        def _human_duration(val):
+                            try:
+                                if val is None or (isinstance(val, float) and pd.isna(val)):
+                                    return "-"
+                                if hasattr(val, 'total_seconds'):
+                                    total = int(val.total_seconds())
+                                else:
+                                    total = int(val)
+                                mins, secs = divmod(total, 60)
+                                return (f"{mins} min {secs} s" if mins else f"{secs} s")
+                            except Exception:
+                                return str(val)
+
+                        try:
+                            if 'Punkte' in df_display.columns:
+                                df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
+                            st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+                        except Exception:
+                            st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+
+                        # Center the CSV download button in the dialog
+                        try:
+                            csv_export = df_display.drop(columns=['_duration_seconds'], errors='ignore').copy()
+                            if 'Punkte (%)' in csv_export.columns:
+                                csv_export['Punkte (%)'] = csv_export['Punkte (%)'].apply(lambda v: (f"{int(v)} %" if pd.notna(v) else "-"))
+                            elif 'Punkte' in csv_export.columns:
+                                csv_export['Punkte'] = csv_export['Punkte'].apply(lambda v: (f"{int(v)} %" if pd.notna(v) else "-"))
+                            csv_bytes = csv_export.to_csv(index=False).encode('utf-8')
+                            c1, c2, c3 = st.columns([1, 2, 1])
+                            with c2:
+                                st.download_button(
+                                    'CSV herunterladen',
+                                    data=csv_bytes,
+                                    file_name=f"history_{(st.session_state.get('user_id') or 'user')}_history.csv",
+                                    mime='text/csv',
+                                    use_container_width=True,
+                                )
+                        except Exception:
+                            st.info('CSV-Export nicht verfügbar.')
+    except Exception:
+        # Sidebar history rendering must not break the rest of the sidebar
+        pass
     # Zeige, falls vorhanden, die Kurzinfo (contribution) aus data/scientists.json
     try:
         user_pseudo = st.session_state.get("user_id")
