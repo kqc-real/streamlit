@@ -1288,7 +1288,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
     filter_option = st.radio(
         "Filtere die Fragen:",
-        ["Alle", "Nur falsch beantwortete", "Nur richtig beantwortete", "Nur markierte"],
+        ["Alle", "Nur falsch beantwortete", "Nur richtig beantwortete", "Nur markierte", "Nur unbeantwortete"],
         index=3  # Standard: "Nur markierte"
     )
 
@@ -1313,6 +1313,8 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         if filter_option == "Nur richtig beantwortete" and not ist_richtig:
             continue
         if filter_option == "Nur markierte" and not is_bookmarked:
+            continue
+        if filter_option == "Nur unbeantwortete" and punkte is not None:
             continue
 
         icon = "❓"
