@@ -67,18 +67,20 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     # restored via Pseudonym+Geheimwort. Keep it minimal (no debug captions).
     try:
         if st.session_state.get('login_via_recovery'):
+            # Mark a one-time request to open the history dialog when the
+            # sidebar button is clicked. Keep the callback tiny to avoid
+            # holding complex logic inside the on_click handler.
             def _open_history_click():
-                # Mark a one-time request to open the history dialog. The
-                # request flag is consumed by the main render loop so the
-                # dialog only appears once per click.
-                # NOTE: calling st.rerun() or experimental_rerun() inside an
-                # on_click callback is a no-op in some Streamlit versions.
-                # Instead we set a small queue flag which the main render
-                # path processes and triggers a rerun there.
                 st.session_state['_open_history_requested'] = True
                 st.session_state['_needs_rerun'] = True
 
-            st.sidebar.button('🗂️ Meine Historie', on_click=_open_history_click, width="stretch")
+            # Register the sidebar button outside the callback function.
+            st.sidebar.button(
+                "Meine Sessions",
+                on_click=_open_history_click,
+                type="primary",
+                width="stretch",
+            )
     except Exception:
         # Do not let sidebar rendering issues break the main UI
         pass
@@ -98,7 +100,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 except Exception:
                     history_rows = []
 
-            with st.sidebar.expander('🗂️ Meine Historie', expanded=True):
+            with st.sidebar.expander('� Meine Sessions', expanded=True):
                 if not history_rows:
                     st.info('Keine bisherigen Testergebnisse gefunden.')
                 else:

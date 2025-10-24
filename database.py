@@ -811,10 +811,14 @@ def get_user_test_history(
     offset: int = 0,
     questions_file: str | None = None,
 ) -> list[dict]:
-    """Gibt eine Liste von Session-Summaries für einen User zurück (paginiert).
+    """Compute and return a list of session summaries for a user (paginated).
 
-    Falls `test_session_summaries` nicht existiert oder leer ist, liefert die Funktion
-    eine leere Liste.
+    This implementation aggregates directly from `test_sessions` and `answers`
+    so incomplete sessions (with zero or few answers) are visible immediately
+    without relying on precomputed `test_session_summaries` snapshots.
+
+    Returns a list of dicts with the same keys as `test_session_summaries` so
+    the callers/UI don't need to change.
     """
     conn = get_db_connection()
     if conn is None:
@@ -822,17 +826,154 @@ def get_user_test_history(
 
     try:
         cursor = conn.cursor()
+
+        # Aggregate answers per session (left join so sessions without answers are included)
         params = [user_id]
-        q = "SELECT * FROM test_session_summaries WHERE user_id = ?"
+        q = (
+            "SELECT s.session_id, s.user_id, s.questions_file, s.start_time, "
+            "MAX(a.timestamp) AS last_answer, "
+            "COALESCE(SUM(a.points), 0) AS total_points, "
+            "SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END) AS correct_count, "
+            "COUNT(a.answer_id) AS answers_count "
+            "FROM test_sessions s "
+            "LEFT JOIN answers a ON s.session_id = a.session_id "
+            "WHERE s.user_id = ?"
+        )
+
         if questions_file:
-            q += " AND questions_file = ?"
+            q += " AND s.questions_file = ?"
             params.append(questions_file)
 
-        q += " ORDER BY start_time DESC LIMIT ? OFFSET ?"
+        q += " GROUP BY s.session_id ORDER BY s.start_time DESC LIMIT ? OFFSET ?"
         params.extend([limit, offset])
+
         cursor.execute(q, tuple(params))
         rows = cursor.fetchall()
-        return [dict(row) for row in rows]
+
+        results: list[dict] = []
+        # We lazily load question set metadata for each distinct questions_file
+        from config import load_questions, AppConfig
+
+        qs_cache: dict[str, object] = {}
+        app_cfg = None
+        try:
+            app_cfg = AppConfig()
+        except Exception:
+            app_cfg = None
+
+        for r in rows:
+            session_id = r['session_id']
+            qfile = r['questions_file']
+            start_time = r['start_time']
+            last_answer = r['last_answer']
+            total_points = int(r['total_points']) if r['total_points'] is not None else 0
+            correct_count = int(r['correct_count']) if r['correct_count'] is not None else 0
+            answers_count = int(r['answers_count']) if r['answers_count'] is not None else 0
+
+            # Load question set metadata if available (cache by filename)
+            qs = None
+            question_count = None
+            max_points = None
+            questions_title = None
+            meta_created = None
+            allowed_min = None
+            if qfile:
+                if qfile in qs_cache:
+                    qs = qs_cache[qfile]
+                else:
+                    try:
+                        qs = load_questions(qfile, silent=True)
+                    except Exception:
+                        qs = None
+                    qs_cache[qfile] = qs
+
+                if qs:
+                    try:
+                        question_count = len(qs)
+                    except Exception:
+                        question_count = None
+                    # compute max points
+                    try:
+                        max_points = 0
+                        for q in qs:
+                            try:
+                                max_points += int(q.get('gewichtung', 1))
+                            except Exception:
+                                max_points += 1
+                    except Exception:
+                        max_points = None
+
+                    try:
+                        questions_title = qs.meta.get('title')
+                    except Exception:
+                        questions_title = None
+                    try:
+                        meta_created = qs.meta.get('created')
+                    except Exception:
+                        meta_created = None
+
+                    try:
+                        if app_cfg is not None:
+                            allowed_min = qs.get_test_duration_minutes(app_cfg.test_duration_minutes)
+                    except Exception:
+                        allowed_min = None
+
+            # duration_seconds: compute from start_time and last_answer if possible
+            duration_seconds = None
+            if start_time and last_answer:
+                try:
+                    from datetime import datetime
+
+                    try:
+                        last_dt = datetime.fromisoformat(last_answer)
+                    except Exception:
+                        try:
+                            last_dt = datetime.strptime(last_answer, '%Y-%m-%d %H:%M:%S')
+                        except Exception:
+                            last_dt = None
+
+                    try:
+                        start_dt = datetime.fromisoformat(start_time)
+                    except Exception:
+                        try:
+                            start_dt = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+                        except Exception:
+                            start_dt = None
+
+                    if last_dt and start_dt:
+                        duration_seconds = int((last_dt - start_dt).total_seconds())
+                except Exception:
+                    duration_seconds = None
+
+            # percent: compute from total_points / max_points if available
+            percent = None
+            try:
+                if max_points and max_points > 0:
+                    percent = (total_points / max_points) * 100
+            except Exception:
+                percent = None
+
+            result_row = {
+                'session_id': session_id,
+                'user_id': r['user_id'],
+                'questions_file': qfile,
+                'questions_title': questions_title,
+                'meta_created': meta_created,
+                'start_time': start_time,
+                'end_time': last_answer,
+                'duration_seconds': duration_seconds,
+                'question_count': question_count,
+                'allowed_min': allowed_min,
+                'total_points': total_points,
+                'max_points': max_points,
+                'correct_count': correct_count,
+                'percent': percent,
+                'time_expired': 0,
+            }
+
+            results.append(result_row)
+
+        return results
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_user_test_history: {e}")
         return []

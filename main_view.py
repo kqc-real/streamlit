@@ -192,12 +192,24 @@ def _render_history_table(history_rows, filename_base: str):
     except Exception:
         pass
 
-    # Prefer sorting by percent if present, otherwise by date desc
+    # Default sorting: newest session first by start_time (if available).
+    # Fall back to percent or formatted Datum parsing if start_time is not present.
     try:
-        if percent_col and percent_col in df.columns:
+        if 'start_time' in df.columns:
+            # Ensure a proper datetime column for robust sorting (handles mixed types).
+            df['_start_time_dt'] = pd.to_datetime(df['start_time'], errors='coerce')
+            df = df.sort_values(by=['_start_time_dt'], ascending=False).reset_index(drop=True)
+        elif percent_col and percent_col in df.columns:
+            # If no start_time is available, fall back to sorting by percent.
             df = df.sort_values(by=[percent_col], ascending=False).reset_index(drop=True)
         elif 'Datum' in df.columns:
-            df = df.sort_values(by=['Datum'], ascending=False).reset_index(drop=True)
+            # Try to parse the human-readable Datum (e.g. 'dd.mm.yy HH:MM') for sorting.
+            try:
+                df['_datum_dt'] = pd.to_datetime(df['Datum'], format='%d.%m.%y %H:%M', errors='coerce')
+                df = df.sort_values(by=['_datum_dt'], ascending=False).reset_index(drop=True)
+            except Exception:
+                # Fallback to lexical sort if parsing fails.
+                df = df.sort_values(by=['Datum'], ascending=False).reset_index(drop=True)
     except Exception:
         pass
 
@@ -697,7 +709,7 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
 
-    # --- Meine Historie (sichtbar für wiederhergestellte oder eingeloggte Pseudonyme) ---
+    # --- Meine Sessions (sichtbar für wiederhergestellte oder eingeloggte Pseudonyme) ---
 
     # Sidebar history button and other sidebar items are rendered by
     # `components.render_sidebar`. Avoid duplicating debug output here.
@@ -774,14 +786,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             dialog_fn = getattr(st, 'dialog', None)
             if callable(dialog_fn):
 
-                @dialog_fn("🗂️ Meine Historie")
+                @dialog_fn("Meine Sessions")
                 def _history_dialog():
                     _render_history_table(history_rows, filename_base)
 
                 _history_dialog()
             else:
                 with st.container(border=True):
-                    st.header("🗂️ Meine Historie")
+                    st.header("Meine Sessions")
                     _render_history_table(history_rows, filename_base)
     except Exception:
         # If history rendering fails, silently continue - it must not break the test UI.
