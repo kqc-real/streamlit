@@ -192,6 +192,14 @@ def _render_history_table(history_rows, filename_base: str):
     except Exception:
         pass
 
+    # Clean up temporary datetime columns used only for sorting. They are
+    # internal helpers and must not be present in the displayed DataFrame.
+    try:
+        df = df.drop(columns=['_start_time_dt', '_datum_dt'], errors='ignore')
+    except Exception:
+        # Non-critical: if drop fails, continue without blocking the UI.
+        pass
+
     # Default sorting: newest session first by start_time (if available).
     # Fall back to percent or formatted Datum parsing if start_time is not present.
     try:
