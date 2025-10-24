@@ -1317,8 +1317,10 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
         is_bookmarked = i in st.session_state.get("bookmarked_questions", [])
 
-        if filter_option == "Nur falsch beantwortete" and ist_richtig:
-            continue
+        if filter_option == "Nur falsch beantwortete":
+            # Zeige nur beantwortete UND falsch beantwortete Fragen
+            if ist_richtig or punkte is None:
+                continue
         if filter_option == "Nur richtig beantwortete" and not ist_richtig:
             continue
         if filter_option == "Nur markierte" and not is_bookmarked:
