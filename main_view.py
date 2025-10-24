@@ -1041,18 +1041,26 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             duration_str += f" {seconds} s"
         duration_str = duration_str.strip()
 
-    allowed_min = getattr(app_config, "test_duration_minutes", None)
+    # Prefer per-set configured duration (meta or computed) when available.
+    try:
+        allowed_min = questions.get_test_duration_minutes(app_config.test_duration_minutes)
+    except Exception:
+        allowed_min = getattr(app_config, "test_duration_minutes", None)
 
     # Wenn die Testzeit abgelaufen ist, zeigen wir einen anderen Titel an.
     if st.session_state.get("test_time_expired", False):
         st.header("⏰ Zeit abgelaufen!")
-        info_text = "Die Testzeit ist abgelaufen — Ergebnisse werden automatisch angezeigt."
-        if duration_min is not None and allowed_min:
-            if duration_min >= allowed_min:
-                info_text += f" Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
-            else:
-                info_text += f" Test wurde vorzeitig beendet. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
-        st.info(info_text)
+        # Wenn ein erlaubtes Test-Limit in Minuten konfiguriert ist, zeigen wir dieses
+        # als die offizielle Testdauer an (volle Minuten). Das entspricht der
+        # vorgegebenen Testlaufzeit, wie vom Nutzer erwartet.
+        if allowed_min is not None:
+            st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min")
+        elif duration_str:
+            st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Die Testdauer betrug {duration_str}.")
+        elif duration_min is not None:
+            st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {duration_min} min")
+        else:
+            st.info("Der Test wurde wegen Überschreitung der Testzeit beendet.")
     else:
         st.header("🚀 Test abgeschlossen!")
         # Wenn früher abgegeben wurde, Hinweis anzeigen
