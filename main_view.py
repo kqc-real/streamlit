@@ -159,11 +159,15 @@ def _render_history_table(history_rows, filename_base: str):
     if 'duration_seconds' in df.columns:
         def _fmt_dur(s):
             try:
-                s_int = int(s) if s is not None else 0
+                # Treat missing or NaN duration as unavailable.
+                if pd.isna(s):
+                    return "-"
+                s_int = int(s)
                 mins, secs = divmod(s_int, 60)
                 return (f"{mins} min {secs} s" if mins else f"{secs} s")
             except Exception:
-                return str(s)
+                # On any conversion error, show a placeholder instead of 'nan'.
+                return "-"
 
         df['Dauer'] = df['duration_seconds'].apply(_fmt_dur)
 
@@ -229,8 +233,6 @@ def _render_history_table(history_rows, filename_base: str):
         df_display = df[display_cols]
     except Exception:
         df_display = df.copy()
-
-    st.caption("Deine bisherigen Testdurchläufe (neueste oben)")
 
     # Keep 'Punkte' as a numeric column so Streamlit can sort it correctly.
     # For the UI we rename the column to indicate it represents percent values
