@@ -425,6 +425,8 @@ Deine finale Antwort muss **ausschließlich** einen einzelnen Markdown-Codeblock
 {
   "meta": {
     "title": "...",
+    "created": "DD.MM.YYYY HH:MM",
+    "modified": "DD.MM.YYYY HH:MM",
     "target_audience": "...",
     "question_count": 0,
     "difficulty_profile": {
@@ -464,7 +466,7 @@ Deine finale Antwort muss **ausschließlich** einen einzelnen Markdown-Codeblock
     }
   ]
 }
-````
+```
 
 Füge **keinerlei** Text, Kommentare oder Erklärungen (wie "Hier ist das JSON:") vor oder nach diesem Codeblock ein. Entferne alle internen Marker oder Kommentare aus den Textfeldern. Der finale JSON-String muss sauber sein.
 
@@ -472,7 +474,7 @@ Füge **keinerlei** Text, Kommentare oder Erklärungen (wie "Hier ist das JSON:"
 
 ### **Berechnung der Metadaten (`meta`)**
 
-Fülle die `meta`-Sektion basierend auf den generierten Fragen:
+Fülle die `meta`-Sektion basierend auf den generierten Fragen. WICHTIG: Das Feld `meta.created` muss gesetzt sein (Format: `DD.MM.YYYY HH:MM` oder `DD.MM.YYYY`).
 
 1.  **Zeitberechnung:** Berechne die `meta.test_duration_minutes` basierend auf den *tatsächlich generierten* Fragen.
       * Verwende als Standard-Minutenfaktoren (dokumentiert in `meta.time_per_weight_minutes`): Gewichtung 1 → `0.5`, Gewichtung 2 → `0.75`, Gewichtung 3 → `1.0`.

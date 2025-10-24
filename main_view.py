@@ -246,6 +246,8 @@ def render_welcome_page(app_config: AppConfig):
         </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("</div>", unsafe_allow_html=True)
+
     # --- Auswahl des Fragensets (mit Filterung) ---
     # Nutze die optimierte Funktion, um die Anzahl der Fragen zu bekommen.
     question_counts = get_question_counts()
@@ -269,7 +271,28 @@ def render_welcome_page(app_config: AppConfig):
     def format_filename(filename):
         name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
         num_questions = question_counts.get(filename)
-        return f"{name} ({num_questions} Fragen)" if num_questions else name
+        # Lies das Datum aus dem meta des Sets
+        question_set = question_set_cache.get(filename)
+        if question_set and question_set.meta:
+            meta_date = question_set.meta.get("modified") or question_set.meta.get("created")
+            if meta_date:
+                # Komprimiere das Datum auf TT.MM.YY, falls möglich
+                import re
+                date_str = meta_date
+                m = re.match(r"(\d{2})\.(\d{2})\.(\d{4})(?:[ T](\d{2}:\d{2}))?", meta_date)
+                if m:
+                    tag, monat, jahr, uhrzeit = m.groups()
+                    jahr_kurz = jahr[-2:]
+                    date_str = f"{tag}.{monat}.{jahr_kurz}"
+                    # Uhrzeit entfernen
+            else:
+                date_str = "?"
+        else:
+            date_str = "?"
+        label = f"{name} ({num_questions} Fragen)" if num_questions else name
+        if date_str != "?":
+            label += f" 📅 {date_str}"
+        return label
 
     st.markdown(
         "<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>",
@@ -338,6 +361,7 @@ def render_welcome_page(app_config: AppConfig):
             if not leaderboard_data:
                 st.info("Noch keine Ergebnisse für dieses Fragenset")
             else:
+                st.caption("📅 ?")
                 scores = pd.DataFrame(leaderboard_data)
                 scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
                 # Blende Durchläufe ohne erzielte Punkte aus dem öffentlichen Leaderboard aus
@@ -581,6 +605,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         st.warning(warning_text)
                 else:
                     st.session_state.test_time_expired = True
+                    # Setze test_end_time, falls noch nicht gesetzt
+                    if not st.session_state.get("test_end_time"):
+                        st.session_state["test_end_time"] = pd.Timestamp.now().to_pydatetime()
                     st.error("⏰ Zeit ist um!")
                     st.rerun()
             with col2:
@@ -997,12 +1024,40 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
     import time
+
+    # Testdauer berechnen
+    start_time = st.session_state.get("test_start_time")
+    end_time = st.session_state.get("test_end_time")
+    duration_str = ""
+    duration_min = None
+    if start_time and end_time:
+        duration = end_time - start_time
+        total_seconds = int(duration.total_seconds())
+        duration_min = total_seconds // 60
+        seconds = total_seconds % 60
+        if duration_min:
+            duration_str = f"{duration_min} min"
+        if seconds or not duration_str:
+            duration_str += f" {seconds} s"
+        duration_str = duration_str.strip()
+
+    allowed_min = getattr(app_config, "test_duration_minutes", None)
+
     # Wenn die Testzeit abgelaufen ist, zeigen wir einen anderen Titel an.
     if st.session_state.get("test_time_expired", False):
         st.header("⏰ Zeit abgelaufen!")
-        st.info("Die Testzeit ist abgelaufen — Ergebnisse werden automatisch angezeigt.")
+        info_text = "Die Testzeit ist abgelaufen — Ergebnisse werden automatisch angezeigt."
+        if duration_min is not None and allowed_min:
+            if duration_min >= allowed_min:
+                info_text += f" Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
+            else:
+                info_text += f" Test wurde vorzeitig beendet. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
+        st.info(info_text)
     else:
         st.header("🚀 Test abgeschlossen!")
+        # Wenn früher abgegeben wurde, Hinweis anzeigen
+        if duration_min is not None and allowed_min and duration_min < allowed_min:
+            st.info(f"Du hast {allowed_min - duration_min} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)")
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
