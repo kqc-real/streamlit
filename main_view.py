@@ -352,12 +352,13 @@ def render_welcome_page(app_config: AppConfig):
                 if scores.empty:
                     st.info("Noch keine Ergebnisse für dieses Fragenset")
                 else:
-                    scores.rename(columns={
-                        'user_pseudonym': '👤 Pseudonym',
-                        'total_score': '🏅 Punkte',
-                        'last_test_time': '📅 Datum',
-                        'duration_seconds': '⏱️ Dauer',
-                    }, inplace=True)
+                    # Prozentzahl berechnen und als neue Spalte einfügen
+                    max_score = max_score_for_set if max_score_for_set > 0 else 1
+                    # Nutze den originalen Spaltennamen für die Berechnung
+                    if 'total_score' in scores.columns:
+                        scores['percent'] = scores['total_score'].apply(lambda x: f"{round((x / max_score) * 100)} %")
+                    else:
+                        scores['percent'] = "-"
 
                     # Formatiere die Dauer als Kombination aus Minuten und Sekunden
                     def format_duration(seconds):
@@ -368,10 +369,18 @@ def render_welcome_page(app_config: AppConfig):
                         if secs or not parts:
                             parts.append(f"{int(secs)} s")
                         return " ".join(parts)
-                    scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
+                    scores['duration_seconds'] = scores['duration_seconds'].apply(format_duration)
 
                     # Formatiere das Datum
-                    scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"]).dt.strftime('%d.%m.%y')
+                    scores["last_test_time"] = pd.to_datetime(scores["last_test_time"]).dt.strftime('%d.%m.%y')
+
+                    # Spalten für Anzeige umbenennen
+                    scores.rename(columns={
+                        'user_pseudonym': '👤 Pseudonym',
+                        'percent': '🏅 %',
+                        'last_test_time': '📅 Datum',
+                        'duration_seconds': '⏱️ Dauer',
+                    }, inplace=True)
 
                     # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                     icons = ["🥇", "🥈", "🥉"]
@@ -382,7 +391,7 @@ def render_welcome_page(app_config: AppConfig):
                             scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
 
                     st.dataframe(
-                        scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]],
+                        scores[["👤 Pseudonym", "🏅 %", "⏱️ Dauer", "📅 Datum"]],
                         width="stretch",
                         hide_index=True,
                     )
