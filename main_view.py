@@ -623,7 +623,7 @@ def render_welcome_page(app_config: AppConfig):
     recovery_secret_new = None
     if selected_name_from_user:
         recovery_secret_new = st.text_input(
-            "Optional: Geheimwort zum Wiederherstellen (max. 32 Zeichen)",
+            "Ich möchte mein Pseudonym mit einem Geheimwort schützen",
             type="password",
             max_chars=32,
             placeholder="(leer lassen, wenn nicht gewünscht)",
@@ -631,12 +631,12 @@ def render_welcome_page(app_config: AppConfig):
         )
 
     # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
-    with st.expander("Ich habe bereits ein Pseudonym (Wiederherstellen)", expanded=False):
+    with st.expander("Ich habe bereits ein Pseudonym", expanded=False):
         pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
         secret_recover = st.text_input("Geheimwort", type="password", key="recover_secret")
-        if st.button("Wiederherstellen", key="btn_recover_pseudonym"):
+        if st.button("Mit meinem alten Pseudonym einloggen", key="btn_recover_pseudonym"):
             if not pseudonym_recover or not secret_recover:
-                st.warning("Bitte sowohl Pseudonym als auch Geheimwort eingeben.")
+                st.warning("Bitte Pseudonym und Geheimwort eingeben.")
             else:
                 user_id = verify_recovery(pseudonym_recover, secret_recover)
                 if user_id:
