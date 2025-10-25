@@ -265,12 +265,7 @@ def _render_history_table(history_rows, filename_base: str):
                                 # numeric epoch seconds
                                 if isinstance(v, (int, float)):
                                     return pd.to_datetime(int(v), unit='s', utc=True, errors='coerce')
-                                # try helper first
-                                try:
-                                    from helpers import format_datetime_de
-                                    # format_datetime_de returns string for scalars, so try pd parse next
-                                except Exception:
-                                    pass
+                                # proceed with parsing attempts (day-first, ISO, naive)
                                 # day-first aware parse
                                 dt = pd.to_datetime(v, dayfirst=True, utc=True, errors='coerce')
                                 if pd.notna(dt):
