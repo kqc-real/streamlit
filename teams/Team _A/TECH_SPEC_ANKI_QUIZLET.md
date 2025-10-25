@@ -179,4 +179,71 @@ Größter Planet im Sonnensystem,Jupiter
 ---
 
 
+# 📚 Datenstruktur in Anki – Übersicht
+
+---
+
+## 1️⃣ Struktur von Fragen
+In Anki heißen „Fragen“ **Karten (Cards)**, die auf **Notizen (Notes)** basieren.
+
+### 📝 Note (Notiz)
+- Grundlegende Einheit, die mehrere Karten erzeugen kann  
+- Besteht aus **Felder (Fields)**  
+
+### 📄 Fields (Felder)
+- Textfelder wie **Front**, **Back**, **Beispiel**, **Kategorie**  
+- Jede Karte zieht Informationen aus einem oder mehreren Feldern  
+
+### 💳 Card (Karte)
+- Wird aus einer Note abgeleitet  
+- Nutzt ein **Kartentemplate**, das Front und Back formatiert  
+
+--- 
+
+## 2️⃣ Speicherung von Antwortoptionen
+- ❌ Anki unterstützt **kein natives Multiple-Choice**  
+- ✅ Workarounds:  
+  - Alle Optionen in einem Feld speichern (durch Kommas getrennt)  
+    Beispiel: `Optionen: Berlin, Paris, Rom, Madrid`  
+  - Add-ons für Multiple-Choice nutzen („Multiple Choice for Anki“)  
+  - Cloze-Karten für Lückentexte:  
+    `Die Hauptstadt von Frankreich ist {{c1::Paris}}.`  
+
+- **Hinweis:** Intern wird die richtige Antwort **als Text im Feld** gespeichert  
+
+**Quellen:** Anki-Handbuch, Heise
+
+---
+
+## 3️⃣ Pflichtfelder vs. optionale Felder
+- **⚠️ Pflichtfelder:** Mindestens ein Feld für **Front/Back** muss ausgefüllt sein  
+- **✅ Optionale Felder:** Zusätzliche Felder (z. B. „Beispiel“, „Quelle“, „Kategorie“) können leer bleiben  
+- Beim Import prüft Anki nur die Pflichtfelder  
+
+**Quellen:** Anki-Handbuch, AMBOSS
+
+---
+
+## 4️⃣ Maximale Anzahl Antwortoptionen
+- Standard-Anki: **keine Grenze** (Multiple-Choice nicht nativ)  
+- Praktisch bei Add-ons oder selbstgebauten Multiple-Choice-Karten: **3–5 Optionen pro Frage** ✅  
+- Praktisch gilt: 
+Bei mehr als **10-12 Optionen** wird die Karte unübersichtlich und schwer lesbar (gerade auf Mobilgeräten)
+
+**Quellen:** Anki-Handbuch, Heise
+
+---
+
+## 5️⃣ Zeichenlimits
+- **Front/Back-Felder:** keine harte Grenze, mehrere Tausend Zeichen möglich  
+- **Praktische Empfehlungen:**  
+  - ✏️ **Front:** 200–500 Zeichen für schnelle Wiederholung  
+  - 📖 **Back:** mehrere Tausend Zeichen für ausführliche Erklärungen  
+  - ➕ **Zusätzliche Felder:** beliebig, solange sie lesbar bleiben  
+
+- Intern speichert Anki Felder als Text in einer **SQLite-Datenbank** (theoretisches Limit: ca. 2 GB pro Feld)  
+
+**Quellen:** Anki-Handbuch, AMBOSS, Ankizin
+
+---
 
