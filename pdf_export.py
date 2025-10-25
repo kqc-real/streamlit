@@ -1123,6 +1123,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Baue den HTML-Body mit professionellem Header
     score_percent_str = format_decimal_de(prozent, 1)
+    try:
+        from helpers import format_datetime_de
+
+        generated_at_str = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
+    except Exception:
+        generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
     html_body = f'''
         <div class="header">
             <div class="header-content">
@@ -1131,9 +1137,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     <div class="meta-info">
                         <span><strong>Teilnehmer:</strong> {user_name}</span>
                         <span><strong>Fragenset:</strong> {set_name}</span>
-                        <span><strong>Datum:</strong> {(
-                            (lambda: __import__('helpers').helpers.format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M'))()
-                        )}</span>
+                        <span><strong>Datum:</strong> {generated_at_str}</span>
                         {f'<span><strong>Dauer:</strong> {duration_str}</span>' if duration_str else ''}
                     </div>
                 </div>

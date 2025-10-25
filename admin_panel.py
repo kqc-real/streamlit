@@ -370,7 +370,10 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
 
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
-        scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"])
+        # Akzeptiere ISO8601 Strings mit Zeitzonen-Offsets robustly.
+        scores["📅 Datum"] = pd.to_datetime(
+            scores["📅 Datum"], format='ISO8601', utc=True, errors='coerce'
+        )
 
         try:
             from helpers import format_datetime_de
@@ -725,9 +728,9 @@ def render_feedback_tab():
 
         df_feedback['Gemeldet am'] = format_datetime_de(df_feedback['Gemeldet am'], fmt='%d.%m.%Y %H:%M')
     except Exception:
-        df_feedback['Gemeldet am'] = pd.to_datetime(df_feedback['Gemeldet am']).dt.strftime(
-            '%d.%m.%Y %H:%M'
-        )
+        df_feedback['Gemeldet am'] = pd.to_datetime(
+            df_feedback['Gemeldet am'], format='ISO8601', utc=True, errors='coerce'
+        ).dt.strftime('%d.%m.%Y %H:%M')
 
     # Ersetze das starre Dataframe durch eine interaktive Liste mit Buttons
     for _, row in df_feedback.iterrows():
@@ -1043,8 +1046,10 @@ def render_audit_log_tab():
     # Success als ✅/❌
     df["Erfolg"] = df["Erfolg"].apply(lambda x: "✅" if x else "❌")
     
-    # Formatiere Timestamp
-    df["Zeitstempel"] = pd.to_datetime(df["Zeitstempel"]).dt.strftime("%Y-%m-%d %H:%M:%S")
+    # Formatiere Timestamp (robust gegenüber ISO8601 mit Offset)
+    df["Zeitstempel"] = pd.to_datetime(
+        df["Zeitstempel"], format='ISO8601', utc=True, errors='coerce'
+    ).dt.strftime("%Y-%m-%d %H:%M:%S")
     
     # Zeige Tabelle
     st.dataframe(df, width="stretch", hide_index=True)
