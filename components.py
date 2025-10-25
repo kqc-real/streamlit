@@ -124,7 +124,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # Human-readable date
                         if 'start_time' in df.columns:
                             try:
-                                df['Datum'] = pd.to_datetime(df['start_time']).dt.strftime('%d.%m.%y %H:%M')
+                                from helpers import format_datetime_de
+
+                                # Format ISO/offset timestamps into German local time
+                                df['Datum'] = format_datetime_de(df['start_time'])
                             except Exception:
                                 df['Datum'] = df['start_time']
 
@@ -198,9 +201,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         try:
                             if 'Punkte' in df_display.columns:
                                 df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
-                            st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+                            st.dataframe(df_display, width="stretch", hide_index=True, height=320)
                         except Exception:
-                            st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+                            st.dataframe(df_display, width="stretch", hide_index=True, height=320)
 
                         # Center the CSV download button in the dialog
                         try:
@@ -217,7 +220,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                     data=csv_bytes,
                                     file_name=f"history_{(st.session_state.get('user_id') or 'user')}_history.csv",
                                     mime='text/csv',
-                                    use_container_width=True,
+                                    width="stretch",
                                 )
                         except Exception:
                             st.info('CSV-Export nicht verfügbar.')
@@ -286,7 +289,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         file_name=download_name,
                         mime="application/pdf",
                         key="sidebar_glossary_download",
-                        use_container_width=True,
+                        width="stretch",
                     )
                 else:
                     # PDF wird erst nach Klick erzeugt
@@ -357,7 +360,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_glossary_download_after_gen",
-                                use_container_width=True,
+                                width="stretch",
                             )
     except Exception:
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
@@ -449,7 +452,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         file_name=download_name,
                         mime="application/pdf",
                         key="sidebar_glossary_download",
-                        use_container_width=True,
+                        width="stretch",
                     )
                 else:
                     # PDF wird erst nach Klick erzeugt
@@ -520,7 +523,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_glossary_download_after_gen",
-                                use_container_width=True,
+                                width="stretch",
                             )
     except Exception:
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
@@ -619,14 +622,14 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                 download_name = f"musterloesung_{selected_file.replace('questions_', '').replace('.json','')}.pdf"
 
                 if pdf_bytes:
-                    st.sidebar.download_button(
-                        label="💾 Musterlösung herunterladen",
-                        data=pdf_bytes,
-                        file_name=download_name,
-                        mime="application/pdf",
-                        key="sidebar_muster_download",
-                        use_container_width=True,
-                    )
+                            st.sidebar.download_button(
+                                label="💾 Musterlösung herunterladen",
+                                data=pdf_bytes,
+                                file_name=download_name,
+                                mime="application/pdf",
+                                key="sidebar_muster_download",
+                                width="stretch",
+                            )
                 else:
                     if st.sidebar.button("📄 Musterlösung (PDF) generieren", key="sidebar_muster_generate", width="stretch"):
                         with st.spinner("Generiere Musterlösung-PDF..."):
@@ -644,7 +647,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_muster_download_after_gen",
-                                use_container_width=True,
+                                width="stretch",
                             )
         except Exception:
             pass
@@ -857,7 +860,7 @@ def render_question_distribution_chart(questions: list):
         yaxis_title="Anzahl der Fragen",
         legend_title="Schwierigkeit",
     )
-    st.plotly_chart(fig, config={"responsive": True})
+    st.plotly_chart(fig, config={"responsive": True}, use_container_width=True)
 
 
 def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:

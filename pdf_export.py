@@ -1131,7 +1131,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     <div class="meta-info">
                         <span><strong>Teilnehmer:</strong> {user_name}</span>
                         <span><strong>Fragenset:</strong> {set_name}</span>
-                        <span><strong>Datum:</strong> {datetime.now().strftime("%d.%m.%Y %H:%M")}</span>
+                        <span><strong>Datum:</strong> {(
+                            (lambda: __import__('helpers').helpers.format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M'))()
+                        )}</span>
                         {f'<span><strong>Dauer:</strong> {duration_str}</span>' if duration_str else ''}
                     </div>
                 </div>
@@ -1792,7 +1794,12 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         raise ValueError("Kein Mini-Glossar in diesem Fragenset vorhanden.")
 
     set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    generated_at = datetime.now().strftime("%d.%m.%Y")
+    try:
+        from helpers import format_datetime_de
+
+        generated_at = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y')
+    except Exception:
+        generated_at = datetime.now().strftime("%d.%m.%Y")
     theme_items = sorted(glossary_by_theme.items(), key=lambda x: x[0].casefold())
 
     # Paginierung konfigurieren
@@ -1956,7 +1963,12 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     Dies ist ein schlankeres Format als der vollständige Nutzerbericht und eignet sich für Admin-Downloads.
     """
     set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
+    try:
+        from helpers import format_datetime_de
+
+        generated_at = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
+    except Exception:
+        generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
 
     def _report(pct: int, msg: str = ""):
         try:

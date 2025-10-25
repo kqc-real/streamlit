@@ -139,7 +139,10 @@ def _render_history_table(history_rows, filename_base: str):
     # Format common columns for a friendlier display
     if 'start_time' in df.columns:
         try:
-            df['Datum'] = pd.to_datetime(df['start_time']).dt.strftime('%d.%m.%y %H:%M')
+            from helpers import format_datetime_de
+
+            # Format timestamps (ISO or with offset) into German local time
+            df['Datum'] = format_datetime_de(df['start_time'])
         except Exception:
             df['Datum'] = df['start_time']
 
@@ -209,15 +212,15 @@ def _render_history_table(history_rows, filename_base: str):
     try:
         if 'start_time' in df.columns:
             # Ensure a proper datetime column for robust sorting (handles mixed types).
-            df['_start_time_dt'] = pd.to_datetime(df['start_time'], errors='coerce')
+            df['_start_time_dt'] = pd.to_datetime(df['start_time'], utc=True, errors='coerce')
             df = df.sort_values(by=['_start_time_dt'], ascending=False).reset_index(drop=True)
         elif percent_col and percent_col in df.columns:
             # If no start_time is available, fall back to sorting by percent.
             df = df.sort_values(by=[percent_col], ascending=False).reset_index(drop=True)
         elif 'Datum' in df.columns:
-            # Try to parse the human-readable Datum (e.g. 'dd.mm.yy HH:MM') for sorting.
+            # Try to parse the human-readable Datum for sorting (day-first)
             try:
-                df['_datum_dt'] = pd.to_datetime(df['Datum'], format='%d.%m.%y %H:%M', errors='coerce')
+                df['_datum_dt'] = pd.to_datetime(df['Datum'], dayfirst=True, errors='coerce')
                 df = df.sort_values(by=['_datum_dt'], ascending=False).reset_index(drop=True)
             except Exception:
                 # Fallback to lexical sort if parsing fails.
@@ -242,9 +245,9 @@ def _render_history_table(history_rows, filename_base: str):
     try:
         if 'Punkte' in df_display.columns:
             df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
-        st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+        st.dataframe(df_display, width="stretch", hide_index=True, height=320)
     except Exception:
-        st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+        st.dataframe(df_display, width="stretch", hide_index=True, height=320)
 
     # Center the CSV download button in the dialog width. For CSV we export
     # a human-friendly rendition: Punkte as formatted percent strings.
@@ -268,7 +271,7 @@ def _render_history_table(history_rows, filename_base: str):
                 data=csv_bytes,
                 file_name=f"{filename_base}_history.csv",
                 mime='text/csv',
-                use_container_width=True,
+                    width="stretch",
             )
     except Exception:
         st.info("CSV-Export nicht verfügbar.")
@@ -561,7 +564,14 @@ def render_welcome_page(app_config: AppConfig):
                     scores['duration_seconds'] = scores['duration_seconds'].apply(format_duration)
 
                     # Formatiere das Datum
-                    scores["last_test_time"] = pd.to_datetime(scores["last_test_time"]).dt.strftime('%d.%m.%y')
+                    try:
+                        from helpers import format_datetime_de
+
+                        scores["last_test_time"] = format_datetime_de(scores["last_test_time"], fmt='%d.%m.%y')
+                    except Exception:
+                        scores["last_test_time"] = pd.to_datetime(
+                            scores["last_test_time"]
+                        ).dt.strftime('%d.%m.%y')
 
                     # Spalten für Anzeige umbenennen
                     scores.rename(columns={
@@ -1254,7 +1264,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     submitted = st.form_submit_button(
                         "Feedback senden",
                         type="primary",
-                        use_container_width=True
+                        width="stretch"
                     )
                     
                     if submitted:
@@ -1553,7 +1563,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 yaxis=dict(range=[0, y_top]),
             )
 
-            st.plotly_chart(fig, use_container_width=True)
+            # Use Streamlit's container width and provide Plotly config via `config`
+            st.plotly_chart(fig, config={"responsive": True}, use_container_width=True)
         except Exception:
             # Fallback to the simple chart if Plotly is unavailable
             df_simple = df_performance.set_index("Label")[['Leistung (%)']]

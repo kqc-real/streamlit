@@ -80,6 +80,56 @@ def load_markdown_file(path: str) -> str | None:
         return None
 
 
+def format_datetime_de(ts, fmt: str = '%d.%m.%Y %H:%M:%S'):
+    """
+    Format a timestamp or a pandas Series of timestamps into a German
+    localized string representation (Europe/Berlin). Handles ISO strings
+    with offsets and naive timestamps by treating them as UTC.
+
+    Returns a formatted string or a pandas Series of strings. On parse
+    errors a placeholder '-' is returned for the offending values.
+    """
+    try:
+        import pandas as _pd
+        from datetime import timezone
+        # Series handling
+        if isinstance(ts, _pd.Series):
+            s = _pd.to_datetime(ts, utc=True, errors='coerce')
+            try:
+                from zoneinfo import ZoneInfo
+                berlin = ZoneInfo("Europe/Berlin")
+                s = s.dt.tz_convert(berlin)
+            except Exception:
+                # If zoneinfo isn't available or conversion fails, keep UTC
+                pass
+            formatted = s.dt.strftime(fmt)
+            # Replace NaT -> '-' for display
+            return formatted.fillna("-")
+
+        # Scalar handling
+        dt = None
+        try:
+            dt = _pd.to_datetime(ts, utc=True, errors='coerce')
+        except Exception:
+            return '-'
+        if _pd.isna(dt):
+            return '-'
+        try:
+            from zoneinfo import ZoneInfo
+            berlin = ZoneInfo("Europe/Berlin")
+            dt = dt.tz_convert(berlin)
+        except Exception:
+            pass
+        # dt is a pandas Timestamp; use strftime
+        return dt.strftime(fmt)
+    except Exception:
+        try:
+            # Best-effort fallback
+            return str(ts)
+        except Exception:
+            return '-'
+
+
 # ---------------------------------------------------------------------------
 # Request/Client Helpers
 # ---------------------------------------------------------------------------

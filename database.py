@@ -309,9 +309,29 @@ def start_test_session(user_id: str, questions_file: str) -> int | None:
     try:
         with conn:
             cursor = conn.cursor()
+            # Store start_time explicitly as now + 2 hours (MEZ/CEST offset as requested).
+            # Use a fixed +2h offset to match the application's display requirement
+            # for Berlin local time in many deployments. The timestamp is stored as
+            # 'YYYY-MM-DD HH:MM:SS' which the rest of the codebase already parses.
+            # Use timezone-aware Berlin time (handles DST) and store an
+            # ISO-8601 timestamp including the offset (e.g. 2025-10-25T14:00:00+02:00).
+            from datetime import datetime
+            try:
+                # zoneinfo is available in the stdlib (Python 3.9+)
+                from zoneinfo import ZoneInfo
+                berlin_tz = ZoneInfo("Europe/Berlin")
+                start_dt = datetime.now(tz=berlin_tz)
+                start_time_str = start_dt.isoformat(timespec='seconds')
+            except Exception:
+                # Fallback: if zoneinfo isn't available for some reason,
+                # fall back to naive local time plus 2 hours as before.
+                from datetime import timedelta
+                start_dt = datetime.now() + timedelta(hours=2)
+                start_time_str = start_dt.strftime('%Y-%m-%d %H:%M:%S')
+
             cursor.execute(
-                "INSERT INTO test_sessions (user_id, questions_file) VALUES (?, ?)",
-                (user_id, questions_file)
+                "INSERT INTO test_sessions (user_id, questions_file, start_time) VALUES (?, ?, ?)",
+                (user_id, questions_file, start_time_str)
             )
             return cursor.lastrowid
     except sqlite3.Error as e:
@@ -743,7 +763,23 @@ def recompute_session_summary(session_id: int) -> bool:
                         start_dt = None
 
                 if last_dt and start_dt:
-                    duration_seconds = int((last_dt - start_dt).total_seconds())
+                    # Normalize timezone awareness: SQLite CURRENT_TIMESTAMP is UTC
+                    # (naive string). If one datetime is naive and the other aware,
+                    # make the naive one UTC-aware before computing the delta.
+                    from datetime import timezone
+
+                    def _to_utc(dt):
+                        if dt is None:
+                            return None
+                        if dt.tzinfo is None:
+                            # assume naive timestamps are UTC
+                            return dt.replace(tzinfo=timezone.utc)
+                        return dt.astimezone(timezone.utc)
+
+                    last_utc = _to_utc(last_dt)
+                    start_utc = _to_utc(start_dt)
+                    if last_utc and start_utc:
+                        duration_seconds = int((last_utc - start_utc).total_seconds())
             except Exception:
                 duration_seconds = None
 
@@ -941,7 +977,19 @@ def get_user_test_history(
                             start_dt = None
 
                     if last_dt and start_dt:
-                        duration_seconds = int((last_dt - start_dt).total_seconds())
+                        from datetime import timezone
+
+                        def _to_utc(dt):
+                            if dt is None:
+                                return None
+                            if dt.tzinfo is None:
+                                return dt.replace(tzinfo=timezone.utc)
+                            return dt.astimezone(timezone.utc)
+
+                        last_utc = _to_utc(last_dt)
+                        start_utc = _to_utc(start_dt)
+                        if last_utc and start_utc:
+                            duration_seconds = int((last_utc - start_utc).total_seconds())
                 except Exception:
                     duration_seconds = None
 

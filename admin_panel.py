@@ -372,7 +372,12 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
         scores["📅 Datum"] = pd.to_datetime(scores["📅 Datum"])
 
-        scores["📅 Datum"] = scores["📅 Datum"].dt.strftime('%d.%m.%y')
+        try:
+            from helpers import format_datetime_de
+
+            scores["📅 Datum"] = format_datetime_de(scores["📅 Datum"], fmt='%d.%m.%y')
+        except Exception:
+            scores["📅 Datum"] = scores["📅 Datum"].dt.strftime('%d.%m.%y')
         
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
@@ -640,7 +645,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                         color="Korrekt",
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
-                    st.plotly_chart(fig, config={"responsive": True})
+                    st.plotly_chart(fig, config={"responsive": True}, use_container_width=True)
 
 def render_feedback_tab():
     """Rendert den Feedback-Tab."""
@@ -715,7 +720,14 @@ def render_feedback_tab():
             all_questions[(q_file, q_nr)] = q['frage'].split('.', 1)[1].strip()
 
     df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row['Fragenset'], row['Frage-Nr.']), "Frage nicht gefunden"), axis=1)
-    df_feedback['Gemeldet am'] = pd.to_datetime(df_feedback['Gemeldet am']).dt.strftime('%d.%m.%Y %H:%M')
+    try:
+        from helpers import format_datetime_de
+
+        df_feedback['Gemeldet am'] = format_datetime_de(df_feedback['Gemeldet am'], fmt='%d.%m.%Y %H:%M')
+    except Exception:
+        df_feedback['Gemeldet am'] = pd.to_datetime(df_feedback['Gemeldet am']).dt.strftime(
+            '%d.%m.%Y %H:%M'
+        )
 
     # Ersetze das starre Dataframe durch eine interaktive Liste mit Buttons
     for _, row in df_feedback.iterrows():
@@ -878,7 +890,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 showlegend=False
             )
             
-            st.plotly_chart(fig, config={"responsive": True})
+            st.plotly_chart(fig, config={"responsive": True}, use_container_width=True)
     else:
         st.info("Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt.")
 
