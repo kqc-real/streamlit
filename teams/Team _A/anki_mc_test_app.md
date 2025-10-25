@@ -61,7 +61,7 @@ Die Datei speichern und sinnvoll benennen.
 ## 🎓 **8. Schritt – Lernen & glänzen**
 
 **Fleißig lernen und in Prüfungen glänzen!** 🌟
-*Viel Erfolg beim Fußballquiz!*
+*Viel Erfolg beim Quiz!*
 
 ---
 
