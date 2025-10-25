@@ -598,13 +598,12 @@ def render_welcome_page(app_config: AppConfig):
 
 
     # --- Login-Formular im Hauptbereich ---
-    from auth import initialize_session_state, is_admin_user
+    from auth import initialize_session_state
     from config import load_scientists
     from database import (
         get_used_pseudonyms,
         set_recovery_secret,
         verify_recovery,
-        get_user_test_history,
     )
 
     st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
@@ -1623,7 +1622,6 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         return first_formula, total_count
     
     first_formula, formula_count = extract_formulas(questions)
-    has_math = formula_count > 0
     
     user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
 
