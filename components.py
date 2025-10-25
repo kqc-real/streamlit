@@ -201,7 +201,14 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         try:
                             if 'Punkte' in df_display.columns:
                                 df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
-                            st.dataframe(df_display, width="stretch", hide_index=True, height=320)
+
+                            # Limit the visible rows in the sidebar history to keep
+                            # the expander compact.
+                            VISIBLE_ROWS = 5
+                            total_rows = len(df_display)
+                            df_shown = df_display.head(VISIBLE_ROWS)
+                            st.dataframe(df_shown, width="stretch", hide_index=True, height=320)
+                            st.caption(f"Zeige {len(df_shown)} von {total_rows} Einträgen")
                         except Exception:
                             st.dataframe(df_display, width="stretch", hide_index=True, height=320)
 
@@ -530,10 +537,32 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         pass
 
     with st.sidebar.expander("⚠️ Session beenden"):
-        st.warning(
-            "⚠️ Dein Punktestand wird gespeichert und der Test beendet. "
-            "Für einen weiteren Versuch wähle ein neues Pseudonym."
-        )
+        # If the user has set a recovery secret, do NOT show the advice
+        # to pick a new pseudonym. Otherwise show the full guidance.
+        user_pseudo = st.session_state.get("user_id")
+        show_full_hint = True
+        if user_pseudo:
+            try:
+                from database import has_recovery_secret_for_pseudonym
+                try:
+                    if has_recovery_secret_for_pseudonym(user_pseudo):
+                        show_full_hint = False
+                except Exception:
+                    # If the DB check fails, default to showing the hint.
+                    show_full_hint = True
+            except Exception:
+                # If the DB helper is not available for any reason,
+                # fall back to showing the generic full hint.
+                show_full_hint = True
+
+        if show_full_hint:
+            st.warning(
+                "⚠️ Dein Punktestand wird gespeichert und der Test beendet. "
+                "Für einen weiteren Versuch wähle ein neues Pseudonym."
+            )
+        else:
+            # Users with a recovery secret should not be shown the 'choose new pseudonym' advice.
+            st.warning("⚠️ Dein Punktestand wird gespeichert und der Test beendet.")
 
         if st.button("Session beenden", key="abort_session_btn", type="primary", width="stretch"):
             # Berechne finale Werte vor dem Löschen der Session

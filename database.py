@@ -1189,6 +1189,38 @@ def verify_recovery(pseudonym: str, secret_plain: str) -> str | None:
         return None
 
 
+def has_recovery_secret_for_pseudonym(pseudonym: str) -> bool:
+    """Return True if the given user pseudonym has a recovery secret set.
+
+    This is a lightweight, read-only check used by the UI to decide
+    whether to show recovery-related hints. It returns False on errors
+    to avoid accidentally hiding UI for legitimate users.
+    """
+    if not pseudonym:
+        return False
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT recovery_salt, recovery_hash FROM users WHERE user_pseudonym = ?",
+            (pseudonym,)
+        )
+        row = cursor.fetchone()
+        if not row:
+            return False
+        try:
+            salt = row['recovery_salt'] if 'recovery_salt' in row.keys() else None
+            stored_hash = row['recovery_hash'] if 'recovery_hash' in row.keys() else None
+        except Exception:
+            # fallback: be conservative and return False
+            return False
+        return bool(salt and stored_hash)
+    except sqlite3.Error:
+        return False
+
+
 # =====================================================================
 # Admin Dashboard: Erweiterte Statistik-Funktionen
 # =====================================================================

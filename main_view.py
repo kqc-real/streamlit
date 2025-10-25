@@ -382,9 +382,18 @@ def _render_history_table(history_rows, filename_base: str):
     try:
         if 'Punkte' in df_display.columns:
             df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
-        st.dataframe(df_display, width="stretch", hide_index=True, height=320)
+
+        # Show only a fixed number of rows in the history dialog to keep the
+        # dialog compact. The UI displays the first N rows and a caption with
+        # the shown/total counts.
+        VISIBLE_ROWS = 5
+        total_rows = len(df_display)
+        df_shown = df_display.head(VISIBLE_ROWS)
+        # Use a smaller height so approximately 5 rows are visible in the dialog.
+        st.dataframe(df_shown, width="stretch", hide_index=True, height=200)
+        st.caption(f"Zeige {len(df_shown)} von {total_rows} Einträgen")
     except Exception:
-        st.dataframe(df_display, width="stretch", hide_index=True, height=320)
+        st.dataframe(df_display, width="stretch", hide_index=True, height=200)
 
     # Center the CSV download button in the dialog width. For CSV we export
     # a human-friendly rendition: Punkte as formatted percent strings.
