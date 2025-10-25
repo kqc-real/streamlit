@@ -44,9 +44,8 @@ Die gespeicherte Datei von ChatGPT in eine .txt-Datei umwandeln lassen:
 ---
 
 ## 🎓 **7. Schritt – Lernen & glänzen**
+<img width="1374" height="1014" alt="grafik" src="https://github.com/user-attachments/assets/bda8df80-1bed-462b-bcb5-d063175a403b" />
 
-**Fleißig lernen und in Prüfungen glänzen!** 🌟
-*Viel Erfolg beim Fußballquiz!*
 
 ---
 
