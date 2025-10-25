@@ -569,8 +569,9 @@ def render_welcome_page(app_config: AppConfig):
 
                         scores["last_test_time"] = format_datetime_de(scores["last_test_time"], fmt='%d.%m.%y')
                     except Exception:
+                        # Robustly parse ISO8601-like timestamps (including offsets)
                         scores["last_test_time"] = pd.to_datetime(
-                            scores["last_test_time"]
+                            scores["last_test_time"], format='ISO8601', utc=True, errors='coerce'
                         ).dt.strftime('%d.%m.%y')
 
                     # Spalten für Anzeige umbenennen
