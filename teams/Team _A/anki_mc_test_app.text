@@ -19,3 +19,6 @@ Wann wird das Admin-Panel angezeigt?	Wenn show_admin_panel in session_state True
 Was passiert, wenn die Admin-Session ungültig ist?	Es erscheint eine Fehlermeldung, und der Nutzer muss sich neu einloggen.
 Was macht render_final_summary()?	Es zeigt die Zusammenfassung der Testergebnisse und die Auswertung an.
 Was passiert am Ende des Scripts?	Wenn die Datei direkt ausgeführt wird, ruft Python main() auf.
+
+
+
