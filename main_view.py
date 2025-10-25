@@ -408,8 +408,76 @@ def _render_history_table(history_rows, filename_base: str):
                 data=csv_bytes,
                 file_name=f"{filename_base}_history.csv",
                 mime='text/csv',
-                    width="stretch",
+                width="stretch",
             )
+
+            # --- Bulk delete: delete all sessions for current pseudonym ---
+            try:
+                user_pseudo = st.session_state.get('user_id')
+                if user_pseudo:
+                    try:
+                        from database import delete_all_sessions_for_user
+                    except Exception:
+                        delete_all_sessions_for_user = None
+
+                    if delete_all_sessions_for_user:
+                        st.divider()
+                        if st.button('🗑️ Alle Sessions löschen', key='btn_delete_all_sessions', type='primary', width='stretch'):
+                            st.session_state['_pending_delete_all_sessions'] = True
+
+                        if st.session_state.get('_pending_delete_all_sessions'):
+                            st.warning('Diese Aktion löscht alle deine Sessions inklusive Antworten, Lesezeichen und Feedback.')
+                            c_yes, c_no = st.columns([1, 1])
+                            with c_yes:
+                                if st.button('Löschen', key='confirm_delete_all_sessions', type='primary', width='stretch'):
+                                    try:
+                                        ok = delete_all_sessions_for_user(user_pseudo)
+                                    except Exception:
+                                        ok = False
+                                        logging.exception('delete_all_sessions_for_user failed')
+
+                                    if ok:
+                                        st.success('Alle Sessions erfolgreich gelöscht. Verlauf wird aktualisiert.')
+                                        # One-time notice for sidebar/dialog
+                                        st.session_state['_history_delete_notice'] = 'Alle Sessions erfolgreich gelöscht. Verlauf wird aktualisiert.'
+                                        try:
+                                            del st.session_state['_pending_delete_all_sessions']
+                                        except Exception:
+                                            pass
+                                        st.session_state['_needs_rerun'] = True
+                                        st.session_state['_open_history_requested'] = True
+                                        try:
+                                            st.experimental_rerun()
+                                        except Exception:
+                                            pass
+                                    else:
+                                        st.error('Löschen fehlgeschlagen.')
+                                        try:
+                                            del st.session_state['_pending_delete_all_sessions']
+                                        except Exception:
+                                            pass
+                            with c_no:
+                                if st.button('Abbrechen', key='cancel_delete_all_sessions', width='stretch'):
+                                    try:
+                                        # Clear the pending flag and rerun immediately so the
+                                        # confirmation UI disappears with a single click.
+                                        if '_pending_delete_all_sessions' in st.session_state:
+                                            del st.session_state['_pending_delete_all_sessions']
+                                    except Exception:
+                                        pass
+                                    try:
+                                        # Ensure the UI reflects the cleared state right away.
+                                        st.rerun()
+                                    except Exception:
+                                        try:
+                                            fn = getattr(st, 'experimental_rerun', None)
+                                            if callable(fn):
+                                                fn()
+                                        except Exception:
+                                            pass
+            except Exception:
+                # Non-fatal: bulk-delete UI must not break history rendering
+                logging.exception('bulk delete UI failed')
     except Exception:
         st.info("CSV-Export nicht verfügbar.")
 

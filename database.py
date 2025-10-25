@@ -620,6 +620,44 @@ def delete_user_results_for_qset(user_pseudonym: str, questions_file: str) -> bo
         print(f"Datenbankfehler in delete_user_results_for_qset: {e}")
         return False
 
+@with_db_retry
+def delete_all_sessions_for_user(user_pseudonym: str) -> bool:
+    """
+    Löscht alle Sessions (und zugehörige Antworten, Bookmarks, Feedback) eines Benutzers
+    über alle Fragensets hinweg. Der Benutzer bleibt erhalten.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return False
+
+    try:
+        cursor = conn.cursor()
+        # Find user_id
+        cursor.execute("SELECT user_id FROM users WHERE user_pseudonym = ?", (user_pseudonym,))
+        user_row = cursor.fetchone()
+        if not user_row:
+            return True
+        user_id = user_row['user_id']
+
+        # Find all session_ids for this user
+        cursor.execute("SELECT session_id FROM test_sessions WHERE user_id = ?", (user_id,))
+        session_rows = cursor.fetchall()
+        if not session_rows:
+            return True
+        session_ids = [r['session_id'] for r in session_rows]
+        placeholders = ','.join(['?'] * len(session_ids))
+
+        with conn:
+            cursor.execute(f"DELETE FROM bookmarks WHERE session_id IN ({placeholders})", session_ids)
+            cursor.execute(f"DELETE FROM feedback WHERE session_id IN ({placeholders})", session_ids)
+            cursor.execute(f"DELETE FROM answers WHERE session_id IN ({placeholders})", session_ids)
+            cursor.execute(f"DELETE FROM test_sessions WHERE session_id IN ({placeholders})", session_ids)
+
+        return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in delete_all_sessions_for_user: {e}")
+        return False
+
 
 @with_db_retry
 def reset_all_test_data():
