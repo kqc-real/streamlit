@@ -894,10 +894,12 @@ def render_welcome_page(app_config: AppConfig):
 
             # Small HTML widget with copy button (uses browser clipboard API)
             copy_html = f"""
-            <div style='display:flex;align-items:center;gap:8px'>
-              <div style='font-weight:600;margin-right:6px;'>Pseudonym:</div>
-              <div id='pseud' style='font-family:monospace;padding:6px 10px;background:#f3f4f6;border-radius:6px;border:1px solid #e5e7eb;'>{pseud_escaped}</div>
-              <button onclick="navigator.clipboard.writeText(document.getElementById('pseud').innerText)" style='padding:6px 8px;border-radius:6px;border:none;background:#4b9fff;color:white;cursor:pointer;'>Kopieren</button>
+            <div style='display:flex;justify-content:center;align-items:center;gap:8px;width:100%'>
+                <div style='font-weight:600;margin-right:6px;'>Pseudonym:</div>
+                <div id='pseud' style='font-family:monospace;padding:6px 10px;background:#f3f4f6;border-radius:6px;border:1px solid #e5e7eb;margin-right:6px;'>{pseud_escaped}</div>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('pseud').innerText)" 
+                  onmouseover="this.style.filter='brightness(0.95)'" onmouseout="this.style.filter='none'"
+                  style='padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:#2563eb;color:#ffffff;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,0.15);'>Kopieren</button>
             </div>
             """
             # Render the small HTML; allow scripts for clipboard access in supported browsers
@@ -1024,7 +1026,7 @@ def render_welcome_page(app_config: AppConfig):
     with st.expander("Ich habe bereits ein Pseudonym", expanded=False):
         pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
         secret_recover = st.text_input("Geheimwort", type="password", key="recover_secret")
-        if st.button("Mit meinem alten Pseudonym einloggen", key="btn_recover_pseudonym"):
+        if st.button("Mit reserviertem Pseudonym Test starten", key="btn_recover_pseudonym"):
             if not pseudonym_recover or not secret_recover:
                 st.warning("Bitte Pseudonym und Geheimwort eingeben.")
             else:
