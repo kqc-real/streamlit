@@ -334,3 +334,79 @@ ATP\tEnergieüberträger der Zelle\n
 | 8️⃣ | Zeichenlimits nicht offiziell → ca. ≤ 2000 Zeichen | 🔠 |
 
 ---
+
+<html>
+<body>
+<!--StartFragment--><html><head></head><body>
+<hr>
+<h3>🧮 <strong>1. Werden mathematische Formeln unterstützt?</strong></h3>
+<p>Ja — Anki unterstützt mathematische Formeln mittels LaTeX bzw. MathJax. Laut dem Handbuch von Anki („Math &amp; Symbols“) kann man unter „Generate LaTeX images“ LaTeX aktivieren. (Stand: Dokumentation zuletzt aktualisiert 2024 oder früher) (<a href="https://docs.ankiweb.net/math.html?utm_source=chatgpt.com" title="Math &amp; Symbols - Anki Manual">docs.ankiweb.net</a>)<br>
+→ <strong>Aktualität:</strong> geprüft im Handbuch (Stand mindestens Mitte 2024)<br>
+→ Damit ist klar: Ja, Formeln unterstützt.</p>
+<hr>
+<h3>✍️ <strong>2. Welche Syntax wird verwendet?</strong></h3>
+<ul>
+<li>
+<p>Für MathJax in Anki werden typischerweise die Delimiter <code inline="">\( … \)</code> für Inline-Formeln und <code inline="">\[ … \]</code> für Display-Formeln verwendet. (<a href="https://forums.ankiweb.net/t/mathjax-not-displaying-correctly-in-anki-desktop-v24-06-3-inconsistent-rendering-issue/50238?utm_source=chatgpt.com" title="MathJax Not Displaying Correctly in Anki Desktop (v24.06.3)">Anki Forums</a>)</p>
+</li>
+<li>
+<p>Für klassische LaTeX-Bild-Erzeugung (via installiertem LaTeX) gibt es in den Anki-Einstellungen eine Option „Generate LaTeX images“. (<a href="https://forums.ankiweb.net/t/latex-latex-doesnt-work/46523?utm_source=chatgpt.com" title="[latex][/latex] doesn't work - Help - Anki Forums">Anki Forums</a>)</p>
+</li>
+<li>
+<p>Weitere Varianten: Einige Quellen nennen <code inline="">$ … $</code> und <code inline="">$$ … $$</code>, aber laut offiziellen Aussagen ist dies in manchen Fällen <strong>nicht empfohlen</strong> bei Anki-Importen. (<a href="https://forums.ankiweb.net/t/mathjax-breaks-with-txt-import/54903?utm_source=chatgpt.com" title="MathJax &quot;breaks&quot; with .txt import - Help - Anki Forums">Anki Forums</a>)<br>
+→ <strong>Aktualität:</strong> Hinweise stammen aus Foren 2024/25, Handbuch ebenfalls aktuell (Stand 2024)<br>
+→ Damit: Syntax klar definiert.</p>
+</li>
+</ul>
+<hr>
+<h3>🔄 <strong>3. Inline vs. Display-Formeln</strong></h3>
+
+Typ | Beschreibung | Syntax Beispiel
+-- | -- | --
+Inline | Teil des Textflusses, kleiner | \( E = mc^2 \)
+Display | Eigene Zeile, zentriert, größer dargestellt | \[\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}\]
+
+
+<p>Diese Unterscheidung wird von Anki-Handbuch und Nutzern bestätigt. (<a href="https://geoffruddock.com/anki-math-typesetting/?utm_source=chatgpt.com" title="Typesetting math equations with Anki - Geoff Ruddock">geoffruddock.com</a>)<br>
+→ <strong>Aktualität:</strong> Stand Handbuch (2024) + Blogbeiträge früher<br>
+→ Damit: Inline vs Display klar.</p>
+<hr>
+<h3>🧪 <strong>4. Beispiel zum Testen</strong></h3>
+<p><strong>Inline:</strong></p>
+<pre><code>\( E = mc^2 \)
+</code></pre>
+<p><strong>Display:</strong></p>
+<pre><code>\[
+\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+\]
+</code></pre>
+<p>Diese Beispiele entsprechen der gängigen LaTeX/MathJax-Notation, wie sie in Anki verwendet wird.<br>
+→ <strong>Aktualität:</strong> allgemein gültige Notation, aktuell.<br>
+→ Damit: Du kannst diese direkt ausprobieren.</p>
+<hr>
+<h3>⚙️ <strong>5. Tipps &amp; Hinweise</strong></h3>
+<ul>
+<li>
+<p>Wenn du klassische LaTeX-Bild‐Erzeugung nutzt: Stelle sicher, dass in Einstellungen „Generate LaTeX images“ aktiviert ist. In neueren Versionen wurde diese Option verändert. (<a href="https://forums.ankiweb.net/t/latex-latex-doesnt-work/46523?utm_source=chatgpt.com" title="[latex][/latex] doesn't work - Help - Anki Forums">Anki Forums</a>)</p>
+</li>
+<li>
+<p>Falls Formeln nicht angezeigt werden: Prüfe, ob du <strong>MathJax</strong> statt LaTeX verwendest — viele Nutzer berichten, dass MathJax-Syntax zuverlässiger funktioniert auf mehreren Geräten. (<a href="https://www.reddit.com/r/Anki/comments/xex68d/use_mathjax_on_desktop_mobile_and_web_reliably/?utm_source=chatgpt.com" title="Use MathJax on Desktop, Mobile, and Web reliably : r/Anki - Reddit">Reddit</a>)</p>
+</li>
+<li>
+<p>Beim Import von Textdateien (.txt) mit Formeln: Achte darauf, dass du <strong>nicht</strong> die internen Tags wie <code inline="">&lt;anki-mathjax&gt;</code> verwendest, sondern die offiziellen Delimiter <code inline="">\(...\)</code> oder <code inline="">\[…\]</code>. Beispiel: ein Nutzer schrieb am 26. Jan 2025, dass <code inline="">&lt;anki-mathjax&gt;</code> nicht gilt beim Import. (<a href="https://forums.ankiweb.net/t/mathjax-breaks-with-txt-import/54903?utm_source=chatgpt.com" title="MathJax &quot;breaks&quot; with .txt import - Help - Anki Forums">Anki Forums</a>)</p>
+</li>
+</ul>
+<hr>
+
+</body></html><!--EndFragment-->
+</body>
+</html>
+
+[1]: https://docs.ankiweb.net/math.html?utm_source=chatgpt.com "Math & Symbols - Anki Manual"
+[2]: https://forums.ankiweb.net/t/mathjax-not-displaying-correctly-in-anki-desktop-v24-06-3-inconsistent-rendering-issue/50238?utm_source=chatgpt.com "MathJax Not Displaying Correctly in Anki Desktop (v24.06.3)"
+[3]: https://forums.ankiweb.net/t/latex-latex-doesnt-work/46523?utm_source=chatgpt.com "[latex][/latex] doesn't work - Help - Anki Forums"
+[4]: https://forums.ankiweb.net/t/mathjax-breaks-with-txt-import/54903?utm_source=chatgpt.com "MathJax \"breaks\" with .txt import - Help - Anki Forums"
+[5]: https://geoffruddock.com/anki-math-typesetting/?utm_source=chatgpt.com "Typesetting math equations with Anki - Geoff Ruddock"
+[6]: https://www.reddit.com/r/Anki/comments/xex68d/use_mathjax_on_desktop_mobile_and_web_reliably/?utm_source=chatgpt.com "Use MathJax on Desktop, Mobile, and Web reliably : r/Anki - Reddit"
+
+
