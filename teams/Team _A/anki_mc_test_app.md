@@ -1,57 +1,63 @@
-# ⚽ Fußballfragen 
----
+🚀 Agiles Projektmanagement – Anki Import Anleitung
 
-## 🥇 **1. Schritt – Fragen aus Streamlit kopieren und in TexEditor einfügen**
+🧩 1. Schritt – Fragen aus Streamlit kopieren und in TextEditor einfügen
 
-## 💾 **2. Schritt – TextEdit-Datei speichern**
-
-Die Datei speichern und sinnvoll benennen.
-
-<img width="994" height="145" alt="grafik" src="https://github.com/user-attachments/assets/7357a188-9be7-45ba-bcde-cb659d0e443b" />
-
----
-🤖 3. Schritt – .txt umwandeln
-
-Die gespeicherte Datei von ChatGPT in eine .txt-Datei umwandeln lassen:
-
-<img width="427" height="67" alt="grafik" src="https://github.com/user-attachments/assets/8838382d-fcfd-47a6-8004-c1c78cae56f3" />
+<img width="1919" height="963" alt="grafik" src="https://github.com/user-attachments/assets/e7b48637-5aa4-4bd7-b5f2-b9eeabfd1270" />
 
 
-## 📘 **4. Schritt – Anki öffnen**
+💾 2. Schritt – Datei speichern
+
+Speichere die Datei lokal ab und wähle einen aussagekräftigen Namen,
+
+<img width="1459" height="236" alt="grafik" src="https://github.com/user-attachments/assets/ef5e557f-75ec-410c-b4c7-94f5b289c711" />
+
+🤖 3. Schritt – Datei in ChatGPT hochladen
+
+Die gespeicherte Datei bei ChatGPT hochladen.
+
+👉 Wichtig:
+Ausdrücklich schreiben:
+
+„Konvertiere diese Datei in eine Anki-Importdatei, aber nur mit den richtigen Antworten (ohne falsche Optionen).“
+
+Dadurch sorgt ChatGPT dafür, dass nur die korrekten Antworten in unserer Lernkartei erscheinen –
+nicht alle Vorschläge aus dem Quiz.
+
+🔄 4. Schritt – ChatGPT wandelt die Datei um
+
+ChatGPT erstellt daraus eine Anki-kompatible Textdatei (.txt).
+
+<img width="950" height="85" alt="grafik" src="https://github.com/user-attachments/assets/56b51759-a909-467c-a3bb-b8c511e04915" />
 
 
-<img width="1596" height="853" alt="import1" src="https://github.com/user-attachments/assets/6463ee6d-4af0-4bad-88ff-8c04874db225" />
+🧠 5. Schritt – Anki öffnen
+Starte Anki und öffne das Menü:
 
----
+<img width="1596" height="853" alt="import1" src="https://github.com/user-attachments/assets/2debdef5-d9c4-4131-9de6-d9a70a74fa41" />
 
-## 🏷️ **5. Schritt – Die Fragen aus der `.txt`-Datei in Anki importieren.
+Wähle die von ChatGPT erzeugte Datei (Agiles_Projektmanagement_Anki_Richtig.txt) aus.
+<img width="930" height="111" alt="grafik" src="https://github.com/user-attachments/assets/e6681ae5-2e2f-4546-be1a-5ea2ff0c658c" />
 
-<img width="619" height="64" alt="grafik" src="https://github.com/user-attachments/assets/cfac8e72-43ac-431d-bd3e-b1f945ad8f13" />
+🏷️ 6. Schritt – Neuen Stapel anlegen
 
+<img width="280" height="252" alt="standard5" src="https://github.com/user-attachments/assets/c2196e90-0a7f-423c-8185-917d8f4ce482" />
 
---- 
+<img width="830" height="736" alt="grafik" src="https://github.com/user-attachments/assets/ef04ba36-37c4-4401-bc38-dd26228d1ce5" />
 
-## 📥 **6. Schritt – Einen neuen Stapel hinzufügen**
+<img width="828" height="739" alt="grafik" src="https://github.com/user-attachments/assets/ccae7fc8-09cb-4250-b28b-484c63226961" />
 
-<img width="280" height="252" alt="standard5" src="https://github.com/user-attachments/assets/df9eae92-9d27-488f-aaf4-657a628b63ec" />
------------------------------------------------------------------------------------------------------------------------------------------
+🎓 8. Schritt – Lernen & anwenden
 
-<img width="568" height="498" alt="grafik" src="https://github.com/user-attachments/assets/bf6a5f72-32f4-414c-aee1-2e8fc226bc4a" />
-
-
-<img width="555" height="499" alt="grafik" src="https://github.com/user-attachments/assets/39ffe4b2-798b-4e63-82f2-058cd4c65eb7" />
-
----
-
-## 🎓 **7. Schritt – Lernen & glänzen**
-<img width="1374" height="1014" alt="grafik" src="https://github.com/user-attachments/assets/bda8df80-1bed-462b-bcb5-d063175a403b" />
+<img width="1876" height="898" alt="grafik" src="https://github.com/user-attachments/assets/501ff80a-1324-4fc0-b5a7-e233ba89923d" />
 
 
----
+Diese gesamte Anleitung wurde vollständig von ChatGPT erstell
 
-Ansicht von ChatGPT verschönert und auf Rechtschreibung korrigiert.
 
----
+
+
+
+
 
 
 
