@@ -139,10 +139,86 @@ def _render_history_table(history_rows, filename_base: str):
     # Format common columns for a friendlier display
     if 'start_time' in df.columns:
         try:
+            # Use a robust per-row formatter: some history rows contain
+            # mixed types (ISO strings with offsets, naive datetimes, ints).
+            # Vectorized helpers sometimes coerce most rows to NaT; using
+            # an apply-based fallback keeps the newest-first behavior while
+            # ensuring each row gets a sensible display string.
             from helpers import format_datetime_de
 
-            # Format timestamps (ISO or with offset) into German local time
-            df['Datum'] = format_datetime_de(df['start_time'])
+            def _format_start_time(val):
+                try:
+                    if val is None or (isinstance(val, float) and pd.isna(val)):
+                        return "-"
+
+                    # Numeric types: likely epoch seconds or milliseconds
+                    if isinstance(val, (int, float)):
+                        try:
+                            # Prefer seconds if magnitude reasonable (>1e9)
+                            if abs(int(val)) > 1_000_000_000:
+                                dt = pd.to_datetime(int(val), unit='s', utc=True, errors='coerce')
+                            else:
+                                # small ints unlikely; try as seconds anyway
+                                dt = pd.to_datetime(int(val), unit='s', utc=True, errors='coerce')
+                            if pd.notna(dt):
+                                try:
+                                    from zoneinfo import ZoneInfo
+                                    dt = dt.tz_convert(ZoneInfo('Europe/Berlin'))
+                                except Exception:
+                                    pass
+                                return dt.strftime('%d.%m.%Y %H:%M')
+                        except Exception:
+                            pass
+
+                    # Strings: try helper (day-first aware), then explicit dayfirst parse,
+                    # then ISO/utc parse, then naive parse.
+                    if isinstance(val, str):
+                        try:
+                            formatted = format_datetime_de(val, fmt='%d.%m.%Y %H:%M')
+                            if formatted and formatted != '-':
+                                return formatted
+                        except Exception:
+                            pass
+
+                        # Try dayfirst aware parse (handles '25.10.2025 10:25:57')
+                        try:
+                            dt_df = pd.to_datetime(val, dayfirst=True, utc=True, errors='coerce')
+                            if pd.notna(dt_df):
+                                try:
+                                    from zoneinfo import ZoneInfo
+                                    dt_df = dt_df.tz_convert(ZoneInfo('Europe/Berlin'))
+                                except Exception:
+                                    pass
+                                return dt_df.strftime('%d.%m.%Y %H:%M')
+                        except Exception:
+                            pass
+
+                        # ISO / utc parse
+                        try:
+                            dt = pd.to_datetime(val, utc=True, errors='coerce')
+                            if pd.notna(dt):
+                                try:
+                                    from zoneinfo import ZoneInfo
+                                    dt = dt.tz_convert(ZoneInfo('Europe/Berlin'))
+                                except Exception:
+                                    pass
+                                return dt.strftime('%d.%m.%Y %H:%M')
+                        except Exception:
+                            pass
+
+                        # Last fallback: naive parse
+                        try:
+                            dt2 = pd.to_datetime(val, errors='coerce')
+                            if pd.notna(dt2):
+                                return dt2.strftime('%d.%m.%Y %H:%M')
+                        except Exception:
+                            pass
+
+                    return "-"
+                except Exception:
+                    return "-"
+
+            df['Datum'] = df['start_time'].apply(_format_start_time)
         except Exception:
             df['Datum'] = df['start_time']
 
@@ -172,7 +248,73 @@ def _render_history_table(history_rows, filename_base: str):
                 # On any conversion error, show a placeholder instead of 'nan'.
                 return "-"
 
-        df['Dauer'] = df['duration_seconds'].apply(_fmt_dur)
+        # If the source doesn't provide duration_seconds for rows, try to
+        # compute per-row duration from start_time and end_time when both
+        # are present. This handles legacy rows that only store timestamps.
+        try:
+            if 'duration_seconds' not in df.columns or df['duration_seconds'].isna().all():
+                def _compute_row_duration(row):
+                    try:
+                        s_raw = row.get('start_time')
+                        e_raw = row.get('end_time') or row.get('test_end_time') or row.get('finish_time')
+                        if s_raw is None or e_raw is None:
+                            return pd.NA
+
+                        def _parse_ts(v):
+                            try:
+                                # numeric epoch seconds
+                                if isinstance(v, (int, float)):
+                                    return pd.to_datetime(int(v), unit='s', utc=True, errors='coerce')
+                                # try helper first
+                                try:
+                                    from helpers import format_datetime_de
+                                    # format_datetime_de returns string for scalars, so try pd parse next
+                                except Exception:
+                                    pass
+                                # day-first aware parse
+                                dt = pd.to_datetime(v, dayfirst=True, utc=True, errors='coerce')
+                                if pd.notna(dt):
+                                    return dt
+                                dt2 = pd.to_datetime(v, utc=True, errors='coerce')
+                                if pd.notna(dt2):
+                                    return dt2
+                                # last resort naive parse
+                                dt3 = pd.to_datetime(v, errors='coerce')
+                                return dt3
+                            except Exception:
+                                return pd.NaT
+
+                        s_dt = _parse_ts(s_raw)
+                        e_dt = _parse_ts(e_raw)
+                        if pd.isna(s_dt) or pd.isna(e_dt):
+                            return pd.NA
+
+                        try:
+                            from zoneinfo import ZoneInfo
+                            s_dt = s_dt.tz_convert(ZoneInfo('Europe/Berlin')) if hasattr(s_dt, 'tz_convert') else s_dt
+                            e_dt = e_dt.tz_convert(ZoneInfo('Europe/Berlin')) if hasattr(e_dt, 'tz_convert') else e_dt
+                        except Exception:
+                            pass
+
+                        # Compute seconds; if negative, treat as missing
+                        delta = (e_dt - s_dt).total_seconds()
+                        if delta is None or pd.isna(delta):
+                            return pd.NA
+                        secs = int(delta)
+                        if secs < 0:
+                            return pd.NA
+                        return secs
+                    except Exception:
+                        return pd.NA
+
+                df['_duration_seconds'] = df.apply(_compute_row_duration, axis=1)
+            else:
+                df['_duration_seconds'] = pd.to_numeric(df['duration_seconds'], errors='coerce')
+        except Exception:
+            # Fallback: ensure column exists to avoid later KeyErrors
+            df['_duration_seconds'] = df.get('duration_seconds', pd.NA)
+
+        df['Dauer'] = df['_duration_seconds'].apply(_fmt_dur)
 
     # Punkte: keep a numeric column so sorting works. We'll format it for
     # display using a Styler later so the table shows "87.5 %" but the
