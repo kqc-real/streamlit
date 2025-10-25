@@ -60,7 +60,7 @@ Wähle die von ChatGPT erzeugte Datei (Agiles_Projektmanagement_Anki_Richtig.txt
 
 
 
-Diese gesamte Anleitung wurde vollständig von ChatGPT erstell
+Diese gesamte Anleitung wurde vollständig von ChatGPT erstellt.
 
 
 
