@@ -34,7 +34,7 @@ Die gespeicherte Datei von ChatGPT in eine .txt-Datei umwandeln lassen:
 ## 📥 **6. Schritt – Einen neuen Stapel hinzufügen**
 
 <img width="280" height="252" alt="standard5" src="https://github.com/user-attachments/assets/df9eae92-9d27-488f-aaf4-657a628b63ec" />
-
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 <img width="568" height="498" alt="grafik" src="https://github.com/user-attachments/assets/bf6a5f72-32f4-414c-aee1-2e8fc226bc4a" />
 
