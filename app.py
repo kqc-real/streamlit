@@ -37,6 +37,7 @@ from main_view import (
     render_question_view,
     render_final_summary,
     render_welcome_page,
+    _render_history_table,
 )
 from admin_panel import render_admin_panel
 from components import render_sidebar, render_admin_switch
@@ -132,6 +133,39 @@ def main():
     # Lade Fortschritt, zeige Sidebar und die entsprechende Hauptansicht
     is_admin = is_admin_user(user_id, app_config)
     render_sidebar(questions, app_config, is_admin)
+
+    # If the sidebar requested the history dialog (one-time), show it here so
+    # it is available in Review/Final-summary views as well. This mirrors the
+    # logic in `render_question_view` to keep UX consistent across modes.
+    try:
+        if st.session_state.pop('_open_history_requested', False):
+            from database import get_user_test_history
+
+            user_key = st.session_state.get('user_id_hash') or st.session_state.get('user_id')
+            history_rows = []
+            if user_key:
+                try:
+                    history_rows = get_user_test_history(user_key)
+                except Exception:
+                    history_rows = []
+
+            filename_base = f"history_{(st.session_state.get('user_id') or 'user')}"
+
+            dialog_fn = getattr(st, 'dialog', None)
+            if callable(dialog_fn):
+
+                @dialog_fn("Meine Sessions")
+                def _history_dialog():
+                    _render_history_table(history_rows, filename_base)
+
+                _history_dialog()
+            else:
+                with st.container(border=True):
+                    st.header("Meine Sessions")
+                    _render_history_table(history_rows, filename_base)
+    except Exception:
+        # Non-critical: history rendering must not block main app flow
+        pass
 
     # --- 4. Zeitstempel für Test-Dauer setzen ---
     # Setze Startzeit beim ersten Aufruf (wenn erste Frage geladen wird)
