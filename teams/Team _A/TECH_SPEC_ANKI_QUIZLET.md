@@ -247,3 +247,90 @@ Bei mehr als **10-12 Optionen** wird die Karte unübersichtlich und schwer lesba
 
 ---
 
+# 🧩 Technische Spezifikation – Quizlet-Export
+
+---
+
+## 📦 Grundprinzip
+
+- Der Export erfolgt als **Plain-Text**.  
+- Jede **Zeile entspricht einer Karte**.  
+- Jede Karte besteht aus **zwei Spalten**: „**Term**“ und „**Definition**“.  
+- Der **Export-Dialog** erlaubt, Trennzeichen und Reihenfolge zu bestimmen.  
+- ⚠️ **Bilder werden nicht exportiert** („Image exports aren’t currently available due to copyright restrictions“).
+
+🔗 **Quelle:** [Quizlet Help Center – *Exporting your sets*](https://help.quizlet.com/hc/en-us/articles/360034345672-Exporting-your-sets)
+
+---
+
+## 🧱 Struktur pro Karte
+
+- **Linke Spalte →** `term` (Begriff oder Frage)  
+- **Rechte Spalte →** `definition` (Antwort oder Erklärung)  
+- 🔹 **Trennzeichen:** Tabulator (`\t`)  
+- 🔹 **Zeilenende:** `\n` (neue Karte)  
+- Beide Felder sind erforderlich.
+
+**Beispiel:**
+Photosynthese\tUmwandlung von Lichtenergie in chemische Energie\n
+ATP\tEnergieüberträger der Zelle\n
+
+🔗 **Quelle:** [Quizlet Help Center – *Importing your sets*](https://help.quizlet.com/hc/en-us/articles/360034652111-Importing-your-sets)  
+*(Der Import-Artikel beschreibt dieselbe Struktur, die auch der Export verwendet.)*
+
+---
+
+## 🧾 Pflichtfelder vs. optionale Felder
+
+| Typ | Feld | Beschreibung |
+|------|-------|----------------|
+| ✅ Pflicht | **term** | Nicht leer |
+| ✅ Pflicht | **definition** | Nicht leer |
+| ⚙️ Optional / nicht exportiert | Bilder, Audio, Rich-Text | Werden **nicht** exportiert |
+
+> 📎 Erweiterte Felder wie Fragetypen, Tags oder Formatierungen werden im Export **nicht unterstützt**.
+
+🔗 **Quelle:** [Quizlet Help Center – *Exporting your sets*](https://help.quizlet.com/hc/en-us/articles/360034345672-Exporting-your-sets)
+
+---
+
+## 🎯 Antwortoptionen
+
+- Der Export enthält **nur Term + Definition**.  
+- ❌ Keine Multiple-Choice- oder Alternativantworten.  
+- Quizlet erzeugt Testformate intern — sie werden **nicht im Export gespeichert**.
+
+🔗 **Quelle:** [Quizlet Help Center – *Exporting your sets*](https://help.quizlet.com/hc/en-us/articles/360034345672-Exporting-your-sets)
+
+---
+
+## 🚫 Maximale Anzahl Antwortoptionen
+
+- Nicht anwendbar → **keine Antwortoptionen** im Exportformat.
+
+---
+
+## 🔠 Zeichenlimits
+
+- Quizlet nennt **keine offiziellen Zeichenlimits** für Export oder Felder.  
+- Du kannst aus technischer Vorsicht **≈ 2000 Zeichen pro Feld** (`term`, `definition`) als Obergrenze definieren.  
+- 📌 Hinweis: Dieser Wert dient nur der Systemkompatibilität, **nicht** als offizielles Limit.
+
+🔗 **Quelle:** Keine offizielle Angabe auf help.quizlet.com (Stand: 2025-10)
+
+---
+
+## 📋 Zusammenfassung (Regel-Checkliste)
+
+| Nr. | Regel | Symbol |
+|-----|--------|:------:|
+| 1️⃣ | Format = Plain-Text | 📄 |
+| 2️⃣ | Karte = eine Zeile | ↩️ |
+| 3️⃣ | Spalten: Term / Definition | 🔀 |
+| 4️⃣ | Trennzeichen: Tab `\t`; Zeilenumbruch `\n` | 🔹 |
+| 5️⃣ | Pflichtfelder: beide nicht leer | ✅ |
+| 6️⃣ | Keine Bilder/Audio/Formatierungen | ⚠️ |
+| 7️⃣ | Keine Antwortoptionen / MC-Daten | ❌ |
+| 8️⃣ | Zeichenlimits nicht offiziell → ca. ≤ 2000 Zeichen | 🔠 |
+
+---
