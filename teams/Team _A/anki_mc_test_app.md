@@ -1,4 +1,4 @@
-# ⚽ Fußballquiz – Schritt-für-Schritt-Anleitung
+# ⚽ Quiz-Export in Anki – Schritt-für-Schritt-Anleitung
 
 ---
 
