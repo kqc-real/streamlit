@@ -956,7 +956,7 @@ def render_welcome_page(app_config: AppConfig):
     recovery_secret_new = None
     if selected_name_from_user:
         recovery_secret_new = st.text_input(
-            "Ich möchte mein Pseudonym mit einem Geheimwort schützen",
+            "Ich möchte mein Pseudonym mit einem Geheimwort reservieren",
             type="password",
             max_chars=32,
             placeholder="(leer lassen, wenn nicht gewünscht)",
@@ -973,10 +973,6 @@ def render_welcome_page(app_config: AppConfig):
             min_len = 6
             allow_short = False
 
-        # Helpful hint below the input (always visible)
-        if not allow_short:
-            st.caption(f"Geheimwort: mind. {min_len} Zeichen empfohlen.")
-
         secret_too_short = False
         if recovery_secret_new:
             if not allow_short and len(recovery_secret_new) < min_len:
@@ -984,6 +980,45 @@ def render_welcome_page(app_config: AppConfig):
                 secret_too_short = True
         # Expose the validation flag in session state for other handlers if needed
         st.session_state['_recovery_secret_too_short'] = secret_too_short
+
+        # Direktes Reservieren-Button direkt nach dem Geheimwort-Eingabefeld
+        # Dieser Button reserviert das ausgewählte Pseudonym ohne den Test zu starten.
+        try:
+            secret_too_short_local = st.session_state.get('_recovery_secret_too_short', False)
+        except Exception:
+            secret_too_short_local = False
+
+        reserve_disabled_inline = (not selected_name_from_user) or (not recovery_secret_new) or secret_too_short_local
+        if st.button(
+            "Pseudonym reservieren",
+            key="btn_reserve_pseudonym_inline",
+            type="primary",
+            width="stretch",
+            disabled=bool(reserve_disabled_inline),
+        ):
+            from database import add_user
+            user_name = selected_name_from_user
+            user_id_hash = get_user_id_hash(user_name)
+            try:
+                add_user(user_id_hash, user_name)
+                ok = set_recovery_secret(user_id_hash, recovery_secret_new)
+                if ok:
+                    st.session_state['reserve_success_pseudonym'] = user_name
+                    st.session_state['reserve_success_message'] = (
+                        "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
+                        "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
+                        "Du musst es später exakt so eingeben."
+                    )
+                else:
+                    st.session_state['reserve_error_message'] = (
+                        "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
+                    )
+            except Exception as e:
+                st.session_state['reserve_error_message'] = f"Fehler beim Reservieren des Pseudonyms: {e}"
+            # Rerun so the selection list is refreshed and the reserved pseudonym is removed
+            st.rerun()
+        # Visuelle Trennung: Divider direkt unter dem Reservieren-Button
+        st.divider()
 
     # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
     with st.expander("Ich habe bereits ein Pseudonym", expanded=False):
@@ -1060,41 +1095,10 @@ def render_welcome_page(app_config: AppConfig):
                 else:
                     st.error("Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht überein.")
 
-    _, col2, _ = st.columns([2, 1.5, 2])
+    _, col2, _ = st.columns([1, 3, 1])
     with col2:
-        # Reserve pseudonym without starting a session
+        # Secret validation flag (used to disable Test start if too short)
         secret_too_short = st.session_state.get('_recovery_secret_too_short', False)
-        reserve_disabled = (not selected_name_from_user) or (not recovery_secret_new) or secret_too_short
-        if st.button(
-            "Pseudonym reservieren (nur Geheimwort)",
-            key="btn_reserve_pseudonym",
-            type="secondary",
-            width="stretch",
-            disabled=bool(reserve_disabled),
-        ):
-            from database import add_user
-            user_name = selected_name_from_user
-            user_id_hash = get_user_id_hash(user_name)
-            try:
-                add_user(user_id_hash, user_name)
-                ok = set_recovery_secret(user_id_hash, recovery_secret_new)
-                if ok:
-                    # Record the reserved pseudonym separately so we can render it
-                    # highlighted with a copy button in the UI.
-                    st.session_state['reserve_success_pseudonym'] = user_name
-                    st.session_state['reserve_success_message'] = (
-                        "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
-                        "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
-                        "Du musst es später exakt so eingeben."
-                    )
-                else:
-                    st.session_state['reserve_error_message'] = (
-                        "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
-                    )
-            except Exception as e:
-                st.session_state['reserve_error_message'] = f"Fehler beim Reservieren des Pseudonyms: {e}"
-            # Rerun so the selection list is refreshed and the reserved pseudonym is removed
-            st.rerun()
 
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
         if st.button(
