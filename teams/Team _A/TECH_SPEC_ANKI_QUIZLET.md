@@ -59,3 +59,124 @@
 ---
 
 
+# 🧠 Technische Spezifikation: Quizlet-Importformat
+
+---
+
+## 1️⃣ Unterstützte Import-Formate
+
+### 📄 Offizielle Angaben
+Gemäß der offiziellen Hilfe von Quizlet:  
+- Beim Erstellen eines Sets auf der Website: *Create → Import* → Inhalte einfügen.  
+  🔗 Quelle: [help.quizlet.com – Creating sets by importing content](https://help.quizlet.com/hc/en-us/articles/360029977151-Creating-sets-by-importing-content?utm_source=chatgpt.com)  
+- Formatregeln:  
+  > „Separate terms and definitions with a **comma, tab, or dash**. Separate rows with a **semicolon or new line**.“  
+- Nur Web-Import ist möglich:  
+  > „You can currently only import flashcard sets **on the website**.“  
+- Keine offizielle Unterstützung für **JSON**, **XML**, **GIFT**, **CSV-Dateiuploads**.
+
+---
+
+### 💡 Schlussfolgerung – Unterstützte Formate
+
+| Format | Unterstützung durch Quizlet | Hinweise |
+|:--|:--:|:--|
+| **Plain Text** (Term / Definition) | ✅ Ja – offiziell | Textblock mit Trennzeichen |
+| **CSV / TSV Dateiupload** | ❌ Nein | Kein Upload vorgesehen |
+| **JSON** | ❌ Nein | Nicht erwähnt |
+| **XML** | ❌ Nein | Nicht erwähnt |
+| **GIFT** (z. B. Moodle) | ❌ Nein | Nicht unterstützt |
+
+---
+
+### ⚙️ Technische Anforderungen für den Import-Text
+Damit ein Textblock korrekt importiert wird:
+- Jede Karte = eine Zeile oder durch Semikolon getrennt.  
+- Term und Definition → getrennt durch **Komma (,)**, **Tabulator (\t)** oder **Bindestrich (-)**.  
+- Empfohlenes Encoding: **UTF-8**.  
+- Keine Unterstützung für eingebettete Medien (z. B. Bilder oder Audio).  
+
+---
+
+## 2️⃣ Offizielle Import-Tools oder APIs
+
+### 🖥️ Import über das Web-Interface
+- Nur via Browser-UI: Einloggen → Neues Set → „Import“ → formatierten Text einfügen.  
+  🔗 Quelle: [help.quizlet.com – Importing content](https://help.quizlet.com/hc/en-us/articles/360029977151-Creating-sets-by-importing-content?utm_source=chatgpt.com)
+
+### 🔧 API-Status
+- Die frühere Quizlet API wird **nicht mehr unterstützt**; neue API-Keys werden nicht ausgegeben.  
+  🔗 Quelle: [stackoverflow.com – Quizlet API not available](https://stackoverflow.com/questions/60425101/quizlet-api-not-available?utm_source=chatgpt.com)  
+  > „They are no longer supporting the Quizlet API … and are not currently issuing any new API keys.“  
+- Fazit: **Kein offizieller API-Import mehr möglich.**
+
+---
+
+##  Zusammenfassung 🧾
+- ✅ **Offiziell unterstützt:** Textblöcke mit Trennzeichen (, \t oder -).  
+- ⚙️ **Nicht unterstützt:** Dateiuploads (JSON, XML, CSV, GIFT).  
+- 🌐 **Kein API-Zugriff:** Import nur über Web-UI.  
+- 💡 **Empfehlung:** Exportieren Sie einen UTF-8 Textblock, damit Nutzer ihn in Quizlet einfügen kann.  
+
+---
+
+
+## 3️⃣ Beispiel-Dateien / Textblöcke analysieren
+
+### 📘 Beispiel-Textblock (laut offizieller Angabe)
+> „Separate terms and definitions with a comma, tab, or dash.  
+> Separate rows with a semicolon or new line.“  
+> 🔗 [help.quizlet.com – Creating sets by importing content](https://help.quizlet.com/hc/en-us/articles/360029977151-Creating-sets-by-importing-content?utm_source=chatgpt.com)
+
+#### 🧩 Beispiel 1 – Komma-getrennt
+
+Begriff1,Definition1
+Begriff2,Definition2
+Begriff3,Definition3
+
+#### 🧩 Beispiel 2 – Tabulator-getrennt
+
+Begriff1<TAB>Definition1
+Begriff2<TAB>Definition2
+Begriff3<TAB>Definition3
+
+
+#### 🧩 Beispiel 3 – Mit Bindestrich
+
+Begriff1 - Definition1
+Begriff2 - Definition2
+Begriff3 - Definition3
+
+
+---
+
+### ⚙️ Empfohlene Spezifikation für Datei-Erzeugung
+- **Dateiformat:** UTF-8 kodierte Textdatei (`.txt`)  
+- **Zeilentrennung:** `\n` (LF) oder `\r\n` (CRLF)  
+- **Trennzeichen zwischen Term und Definition:** Komma, Tabulator oder Bindestrich  
+- **Zeilenweise Struktur:** Eine Karte = eine Zeile  
+- **Escape-Regeln:** Falls Term/Definition das Trennzeichen enthält → Einträge in Anführungszeichen setzen  
+- **Import-Vorgehen:**  
+  1. Text in Datei öffnen  
+  2. Inhalt kopieren  
+  3. In Quizlet „Import“-Feld einfügen  
+  4. Passenden Delimiter auswählen  
+  5. Import starten  
+
+---
+
+## 📄 Beispiel-Datei `quizlet_import_example.txt`
+
+Hauptstadt von Deutschland,Berlin
+Zweitgrößte Stadt Deutschlands,Hamburg
+Amtssprache in Spanien,Spanisch
+Währung in Japan,Yen
+Größter Planet im Sonnensystem,Jupiter
+
+✅ Diese Datei wäre vollständig kompatibel mit dem offiziellen Quizlet-Importfeld  
+(Trennzeichen: Komma · Zeilenende: LF · Encoding: UTF-8).
+
+---
+
+
+
