@@ -6,6 +6,9 @@
 
 
 
+
+
+
 💾 2. Schritt – Datei speichern
 
 Speichere die Datei lokal ab und wähle einen aussagekräftigen Namen,
@@ -55,6 +58,10 @@ Wähle die von ChatGPT erzeugte Datei (Agiles_Projektmanagement_Anki_Richtig.txt
 🎓 8. Schritt – Lernen & anwenden
 
 <img width="1876" height="898" alt="grafik" src="https://github.com/user-attachments/assets/501ff80a-1324-4fc0-b5a7-e233ba89923d" />
+
+
+
+
 
 
 Diese gesamte Anleitung wurde vollständig von ChatGPT erstell
