@@ -403,6 +403,22 @@ def _render_history_table(history_rows, filename_base: str):
         csv_bytes = csv_export.to_csv(index=False).encode('utf-8')
         c1, c2, c3 = st.columns([1, 2, 1])
         with c2:
+            # If a one-time history delete notice is set, show it here in the
+            # same central column so its width matches the "Sessions löschen" button.
+            try:
+                notice = st.session_state.pop('_history_delete_notice', None)
+            except Exception:
+                notice = st.session_state.get('_history_delete_notice')
+                try:
+                    del st.session_state['_history_delete_notice']
+                except Exception:
+                    pass
+
+            if notice:
+                # Show the one-time notice in the central column at the full
+                # width (same as the 'Alle Sessions löschen' button).
+                st.info(notice)
+
             st.download_button(
                 "CSV herunterladen",
                 data=csv_bytes,
@@ -427,9 +443,51 @@ def _render_history_table(history_rows, filename_base: str):
 
                         if st.session_state.get('_pending_delete_all_sessions'):
                             st.warning('Diese Aktion löscht alle deine Sessions inklusive Antworten, Lesezeichen und Feedback.')
-                            c_yes, c_no = st.columns([1, 1])
-                            with c_yes:
-                                if st.button('Löschen', key='confirm_delete_all_sessions', type='primary', width='stretch'):
+
+                            # Render a full-width confirm button (form) so the user
+                            # only needs to click once. Place both controls stacked
+                            # so they match the width of the primary 'Alle Sessions löschen' button.
+                            # Use an on_click callback for the confirm button so the
+                            # deletion action runs reliably on the first click.
+                            def _do_delete_all(pseudo: str):
+                                try:
+                                    ok = delete_all_sessions_for_user(pseudo)
+                                except Exception:
+                                    ok = False
+                                    logging.exception('delete_all_sessions_for_user failed')
+
+                                if ok:
+                                    st.session_state['_history_delete_notice'] = 'Sessions gelöscht. Rufe "Meine Sessions" erneut auf.'
+                                    try:
+                                        del st.session_state['_pending_delete_all_sessions']
+                                    except Exception:
+                                        pass
+                                    st.session_state['_needs_rerun'] = True
+                                    st.session_state['_open_history_requested'] = True
+                                    try:
+                                        st.experimental_rerun()
+                                    except Exception:
+                                        pass
+                                else:
+                                    st.error('Löschen fehlgeschlagen.')
+                                    try:
+                                        del st.session_state['_pending_delete_all_sessions']
+                                    except Exception:
+                                        pass
+
+                            try:
+                                # Primary full-width confirm button with callback
+                                st.button(
+                                    'Sessions löschen',
+                                    key='confirm_delete_all_sessions',
+                                    type='primary',
+                                    width='stretch',
+                                    on_click=_do_delete_all,
+                                    args=(user_pseudo,),
+                                )
+                            except Exception:
+                                # Fallback: if on_click not supported, use plain button
+                                if st.button('Sessions löschen', key='confirm_delete_all_sessions_fallback', type='primary', width='stretch'):
                                     try:
                                         ok = delete_all_sessions_for_user(user_pseudo)
                                     except Exception:
@@ -437,9 +495,7 @@ def _render_history_table(history_rows, filename_base: str):
                                         logging.exception('delete_all_sessions_for_user failed')
 
                                     if ok:
-                                        st.success('Alle Sessions erfolgreich gelöscht. Verlauf wird aktualisiert.')
-                                        # One-time notice for sidebar/dialog
-                                        st.session_state['_history_delete_notice'] = 'Alle Sessions erfolgreich gelöscht. Verlauf wird aktualisiert.'
+                                        st.session_state['_history_delete_notice'] = 'Sessions gelöscht. Rufe "Meine Sessions" erneut auf.'
                                         try:
                                             del st.session_state['_pending_delete_all_sessions']
                                         except Exception:
@@ -456,25 +512,23 @@ def _render_history_table(history_rows, filename_base: str):
                                             del st.session_state['_pending_delete_all_sessions']
                                         except Exception:
                                             pass
-                            with c_no:
-                                if st.button('Abbrechen', key='cancel_delete_all_sessions', width='stretch'):
+
+                            # Cancel button (full width)
+                            if st.button('Abbrechen', key='cancel_delete_all_sessions', width='stretch'):
+                                try:
+                                    if '_pending_delete_all_sessions' in st.session_state:
+                                        del st.session_state['_pending_delete_all_sessions']
+                                except Exception:
+                                    pass
+                                try:
+                                    st.rerun()
+                                except Exception:
                                     try:
-                                        # Clear the pending flag and rerun immediately so the
-                                        # confirmation UI disappears with a single click.
-                                        if '_pending_delete_all_sessions' in st.session_state:
-                                            del st.session_state['_pending_delete_all_sessions']
+                                        fn = getattr(st, 'experimental_rerun', None)
+                                        if callable(fn):
+                                            fn()
                                     except Exception:
                                         pass
-                                    try:
-                                        # Ensure the UI reflects the cleared state right away.
-                                        st.rerun()
-                                    except Exception:
-                                        try:
-                                            fn = getattr(st, 'experimental_rerun', None)
-                                            if callable(fn):
-                                                fn()
-                                        except Exception:
-                                            pass
             except Exception:
                 # Non-fatal: bulk-delete UI must not break history rendering
                 logging.exception('bulk delete UI failed')
