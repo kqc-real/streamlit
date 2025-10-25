@@ -409,4 +409,68 @@ Display | Eigene Zeile, zentriert, größer dargestellt | \[\int_0^\infty e^{-x^
 [5]: https://geoffruddock.com/anki-math-typesetting/?utm_source=chatgpt.com "Typesetting math equations with Anki - Geoff Ruddock"
 [6]: https://www.reddit.com/r/Anki/comments/xex68d/use_mathjax_on_desktop_mobile_and_web_reliably/?utm_source=chatgpt.com "Use MathJax on Desktop, Mobile, and Web reliably : r/Anki - Reddit"
 
+---
 
+### 🧮 **1. Werden mathematische Formeln (LaTeX) unterstützt?**
+
+Kurzfassung: **Quizlet unterstützt keine native LaTeX-Syntax.**
+Laut mehreren Quellen und Nutzerberichten kann Quizlet keine LaTeX-Renderung durchführen. Das bedeutet, dass Eingaben wie `\( E = mc^2 \)` oder `\[\int_0^\infty …\]` nicht automatisch als mathematische Formeln dargestellt werden.
+Quelle: [[Matheducators StackExchange, 2023](https://matheducators.stackexchange.com/questions/26967/alternative-to-quizlet-live-that-supports-latex-formulas?utm_source=chatgpt.com)](https://matheducators.stackexchange.com/questions/26967/alternative-to-quizlet-live-that-supports-latex-formulas?utm_source=chatgpt.com)
+→ **Aktualität:** Stand Oktober 2023
+→ **Fazit:** Direkte LaTeX-Unterstützung ist in Quizlet derzeit nicht verfügbar.
+
+---
+
+### ✍️ **2. Welche Syntax bzw. Vorgehensweise kann verwendet werden?**
+
+Da keine native LaTeX-Renderung vorhanden ist, gibt es nur **indirekte Lösungen**:
+
+* Nutzerberichte zeigen, dass bei der Eingabe von LaTeX-Code dieser nicht korrekt angezeigt oder beim Speichern verändert wird.
+  Quelle: [[Reddit – r/LaTeX, Diskussion von 2022](https://www.reddit.com/r/LaTeX/comments/ika7tg/latex_in_quizlet_converts_to_symbol_when_editing/?utm_source=chatgpt.com)](https://www.reddit.com/r/LaTeX/comments/ika7tg/latex_in_quizlet_converts_to_symbol_when_editing/?utm_source=chatgpt.com)
+* Eine häufig genutzte Alternative besteht darin, Formeln extern (z. B. in LaTeX oder MathType) zu erstellen, als **Bild (PNG oder SVG)** zu exportieren und dieses in Quizlet als Medieninhalt einzufügen.
+  Quelle: [[Quizlet-Hilfeseite, 2023](https://quizlet.com/615581429/how-to-create-a-quizlet-with-math-flash-cards/?utm_source=chatgpt.com)](https://quizlet.com/615581429/how-to-create-a-quizlet-with-math-flash-cards/?utm_source=chatgpt.com)
+
+→ **Aktualität:** Nutzererfahrungen und Dokumentationen aus 2021 – 2023
+→ **Schlussfolgerung:** Quizlet bietet keine speziellen LaTeX-Delimiter wie `\( … \)` oder `\[ … \)`, sondern erlaubt lediglich Bild-Uploads als Ersatzlösung.
+
+---
+
+### 🔄 **3. Inline- vs. Display-Formeln**
+
+Da kein automatisches LaTeX-Rendering erfolgt, existiert auch keine Unterscheidung zwischen Inline- und Display-Formeln im technischen Sinn.
+Formeln können lediglich als **eingebettete Bilder** eingefügt werden:
+
+* Inline-ähnlich: kleinere Formel-Bilder, im Text platziert
+* Display-ähnlich: größere, zentrierte Formel-Bilder
+
+→ **Aktualität:** basierend auf Workarounds aus Foren 2022 – 2024
+→ **Hinweis:** Diese Lösung hängt stark von Bildschirmgröße und Endgerät ab; die Darstellung kann variieren.
+
+---
+
+### 🧪 **4. Beispiel zum Testen**
+
+Formeln können über externe LaTeX-Editoren oder Online-Generatoren (z. B. [[latex.codecogs.com](https://latex.codecogs.com/)](https://latex.codecogs.com)) erstellt werden.
+Beispielhafte Formeln:
+
+* Inline: `E = mc^2`
+* Display: `\displaystyle \int_0^\infty e^{-x^2}\,dx = \frac{\sqrt\pi}{2}`
+
+Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgeladen werden.
+→ **Aktualität:** Methode bestätigt in Nutzerforen 2022 – 2023
+→ **Einschränkung:** Keine dynamische Skalierung oder Anpassung durch Quizlet selbst.
+
+---
+
+### ⚙️ **5. Hinweise und Empfehlungen**
+
+* Bei umfangreicher mathematischer Notation ist Quizlet **nicht optimal geeignet**, da keine native LaTeX-Integration existiert.
+  Quelle: [[Matheducators StackExchange, 2023](https://matheducators.stackexchange.com/questions/26967/alternative-to-quizlet-live-that-supports-latex-formulas?utm_source=chatgpt.com)](https://matheducators.stackexchange.com/questions/26967/alternative-to-quizlet-live-that-supports-latex-formulas?utm_source=chatgpt.com)
+* Bilder sollten in ausreichender Auflösung hochgeladen werden, um Lesbarkeit auf Mobilgeräten sicherzustellen.
+* Vor der Nutzung in Unterrichts- oder Prüfungsvorbereitungskontexten empfiehlt sich eine Darstellungskontrolle auf verschiedenen Geräten (Desktop, Tablet, Smartphone).
+* Für mathematisch orientierte Lernsets bieten sich Alternativen wie **Anki** oder **RemNote** an, da diese LaTeX nativ unterstützen.
+
+→ **Aktualität:** Angaben überprüft anhand von Quellen aus 2022 – 2024
+→ **Gesamtfazit:** Quizlet erlaubt derzeit keine direkte Eingabe und automatische Darstellung von LaTeX-Formeln; nur Bild-basierte Workarounds sind möglich.
+
+---
