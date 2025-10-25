@@ -4,7 +4,7 @@
 
 ---
 
-## 🔹 1. Welche Dateiformate werden Unterstützt
+## 🔹 1. Welche Dateiformate werden unterstützt?
 | 🗂️ Formattyp | 📄 Dateiendung | 🧩 Beschreibung | 🔗 Offizielle Quelle |
 |--------------|----------------|----------------|----------------------|
 | 🧱 **Anki-Paket** | `.apkg` | Standardformat für den Austausch einzelner Decks inkl. Karten, Medien und Lernstatus. | [Importing](https://docs.ankiweb.net/importing/intro.html?highlight=import#importing) |
@@ -77,7 +77,7 @@ Gemäß der offiziellen Hilfe von Quizlet:
 
 ---
 
-### 💡 Schlussfolgerung – Unterstützte Formate
+### 💡 Schlussfolgerung – unterstützte Formate
 
 | Format | Unterstützung durch Quizlet | Hinweise |
 |:--|:--:|:--|
@@ -588,3 +588,7 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 ---
 
 ##
+
+
+Alle KI-generierten Inhalte wurden manuell geprüft, angepasst und durch Tests validiert.
+(generiert mit Chat GPT)
