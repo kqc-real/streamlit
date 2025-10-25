@@ -38,6 +38,7 @@ from helpers import (
 from database import update_bookmarks
 from components import render_question_distribution_chart
 import logging
+from auth import initialize_session_state
 
 
 def _format_minutes_text(minutes: int) -> str:
@@ -866,7 +867,6 @@ def render_welcome_page(app_config: AppConfig):
 
 
     # --- Login-Formular im Hauptbereich ---
-    from auth import initialize_session_state
     from config import load_scientists
     from database import (
         get_used_pseudonyms,
@@ -1044,7 +1044,15 @@ def render_welcome_page(app_config: AppConfig):
                         st.session_state.session_id = session_id
                         st.session_state.show_pseudonym_reminder = True
                         query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                        from auth import initialize_session_state
                         initialize_session_state(questions, app_config)
+                        # Mark test as started and set start time so the welcome
+                        # container in `render_question_view` does not reappear.
+                        try:
+                            st.session_state.test_started = True
+                            st.session_state.start_zeit = pd.Timestamp.now()
+                        except Exception:
+                            pass
                         st.success("Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...")
                         st.rerun()
                     else:
@@ -1110,7 +1118,13 @@ def render_welcome_page(app_config: AppConfig):
                 st.session_state.session_id = session_id
                 st.session_state.show_pseudonym_reminder = True
                 query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                from auth import initialize_session_state
                 initialize_session_state(questions, app_config)
+                try:
+                    st.session_state.test_started = True
+                    st.session_state.start_zeit = pd.Timestamp.now()
+                except Exception:
+                    pass
                 # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
                 try:
                     if recovery_secret_new:
@@ -1249,12 +1263,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
     # aber der session_state (insb. optionen_shuffled) noch vom alten Set stammt.
     if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
-        from auth import initialize_session_state
+        # Use the module-level initialize_session_state import (avoids UnboundLocalError)
         st.warning("⚠️ Erkenne Wechsel des Fragensets, initialisiere Test neu...")
-    initialize_session_state(questions, app_config)
-    time.sleep(1)  # Kurze Pause, damit der Nutzer die Nachricht sieht
-    st.rerun()  # Trigger rerun after re-init
-    return  # Verhindert die weitere Ausführung mit inkonsistenten Daten
+        from auth import initialize_session_state
+        initialize_session_state(questions, app_config)
+        time.sleep(1)  # Kurze Pause, damit der Nutzer die Nachricht sieht
+        st.rerun()  # Trigger rerun after re-init
+        return  # Verhindert die weitere Ausführung mit inkonsistenten Daten
 
     frage_obj = questions[frage_idx]
 
