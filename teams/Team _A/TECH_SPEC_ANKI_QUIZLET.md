@@ -58,7 +58,4 @@
 🌐 **Verlässlichste Quelle:** [https://docs.ankiweb.net/](https://docs.ankiweb.net/)
 ---
 
-Alle KI-generierten Inhalte wurden manuell geprüft, angepasst und durch Tests validiert.
-(generiert mit Chat GPT)
 
----
