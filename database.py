@@ -1128,6 +1128,18 @@ def set_recovery_secret(user_id: str, secret_plain: str) -> bool:
     """
     if not secret_plain:
         return False
+    # Enforce configured minimum length unless explicitly allowed
+    try:
+        from config import AppConfig
+        cfg = AppConfig()
+        if not getattr(cfg, "recovery_allow_short", False):
+            min_len = getattr(cfg, "recovery_min_length", 6)
+            if isinstance(min_len, int) and len(secret_plain) < int(min_len):
+                # Do not store secrets shorter than policy allows
+                return False
+    except Exception:
+        # If config cannot be loaded, fall back to permissive behavior
+        pass
     conn = get_db_connection()
     if conn is None:
         return False

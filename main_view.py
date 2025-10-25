@@ -876,6 +876,39 @@ def render_welcome_page(app_config: AppConfig):
 
     st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
 
+    # Anzeige von Nachrichten nach Rerun (z.B. erfolgreiche Reservierung)
+    # Wenn ein Pseudonym reserviert wurde, zeigen wir es hervorgehoben
+    # mit Copy-to-clipboard an (exakte Schreibweise wichtig).
+    if st.session_state.get('reserve_success_pseudonym'):
+        try:
+            pseud = st.session_state.pop('reserve_success_pseudonym')
+            # Optional: additional message stored for context
+            msg = st.session_state.pop('reserve_success_message', None)
+            st.success(msg or "Pseudonym reserviert.")
+            # Escape the pseudonym for safe HTML embedding
+            try:
+                import html as _html
+                pseud_escaped = _html.escape(pseud)
+            except Exception:
+                pseud_escaped = str(pseud)
+
+            # Small HTML widget with copy button (uses browser clipboard API)
+            copy_html = f"""
+            <div style='display:flex;align-items:center;gap:8px'>
+              <div style='font-weight:600;margin-right:6px;'>Pseudonym:</div>
+              <div id='pseud' style='font-family:monospace;padding:6px 10px;background:#f3f4f6;border-radius:6px;border:1px solid #e5e7eb;'>{pseud_escaped}</div>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('pseud').innerText)" style='padding:6px 8px;border-radius:6px;border:none;background:#4b9fff;color:white;cursor:pointer;'>Kopieren</button>
+            </div>
+            """
+            # Render the small HTML; allow scripts for clipboard access in supported browsers
+            import streamlit.components.v1 as components
+            components.html(copy_html, height=48)
+        except Exception:
+            # Fallback to a plain success message
+            st.success(st.session_state.pop('reserve_success_message', 'Pseudonym reserviert.'))
+    if st.session_state.get('reserve_error_message'):
+        st.error(st.session_state.pop('reserve_error_message'))
+
     scientists = load_scientists()
     used_pseudonyms = get_used_pseudonyms()
 
@@ -916,7 +949,7 @@ def render_welcome_page(app_config: AppConfig):
             options=options,
             index=0,  # Wählt das erste Element als Standard aus
             format_func=format_scientist,
-            label_visibility="collapsed" # Optional: Blendet das Label aus, falls gewünscht
+            label_visibility="collapsed"  # Optional: Blendet das Label aus, falls gewünscht
         )
 
     # Optional: Setze ein Wiederherstellungs-Geheimwort für das neu ausgewählte Pseudonym
@@ -930,6 +963,28 @@ def render_welcome_page(app_config: AppConfig):
             key="recovery_secret_new",
         )
 
+        # Client-side validation: show min-length hint and inline warning
+        try:
+            from config import AppConfig
+            cfg = AppConfig()
+            min_len = int(getattr(cfg, "recovery_min_length", 6))
+            allow_short = bool(getattr(cfg, "recovery_allow_short", False))
+        except Exception:
+            min_len = 6
+            allow_short = False
+
+        # Helpful hint below the input (always visible)
+        if not allow_short:
+            st.caption(f"Geheimwort: mind. {min_len} Zeichen empfohlen.")
+
+        secret_too_short = False
+        if recovery_secret_new:
+            if not allow_short and len(recovery_secret_new) < min_len:
+                st.warning(f"Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.")
+                secret_too_short = True
+        # Expose the validation flag in session state for other handlers if needed
+        st.session_state['_recovery_secret_too_short'] = secret_too_short
+
     # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
     with st.expander("Ich habe bereits ein Pseudonym", expanded=False):
         pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
@@ -938,7 +993,44 @@ def render_welcome_page(app_config: AppConfig):
             if not pseudonym_recover or not secret_recover:
                 st.warning("Bitte Pseudonym und Geheimwort eingeben.")
             else:
+                # Apply rate-limiting and audit logging around recovery attempts
+                try:
+                    from audit_log import check_rate_limit, log_login_attempt, reset_login_attempts
+                    from config import AppConfig
+                    cfg = AppConfig()
+                    allowed, locked_until = check_rate_limit(
+                        pseudonym_recover,
+                        max_attempts=getattr(cfg, 'rate_limit_attempts', 3),
+                        window_minutes=getattr(cfg, 'rate_limit_window_minutes', 5),
+                    )
+                    if not allowed:
+                        try:
+                            from helpers import format_datetime_de
+                            locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
+                        except Exception:
+                            locked_until_str = str(locked_until)
+                        st.error(f"Zu viele Versuche. Gesperrt bis {locked_until_str}")
+                        # Log an audit entry for visibility
+                        try:
+                            log_login_attempt(pseudonym_recover, success=False)
+                        except Exception:
+                            pass
+                        # do not proceed with verification
+                        pass
+                except Exception:
+                    # If audit subsystem fails, proceed but do not block recovery
+                    pass
+
                 user_id = verify_recovery(pseudonym_recover, secret_recover)
+                # Log the attempt
+                try:
+                    log_login_attempt(pseudonym_recover, success=bool(user_id))
+                    if user_id:
+                        # Reset failure counter on success
+                        reset_login_attempts(pseudonym_recover)
+                except Exception:
+                    pass
+
                 if user_id:
                     from database import start_test_session
                     session_id = start_test_session(user_id, st.session_state.selected_questions_file)
@@ -962,12 +1054,46 @@ def render_welcome_page(app_config: AppConfig):
 
     _, col2, _ = st.columns([2, 1.5, 2])
     with col2:
+        # Reserve pseudonym without starting a session
+        secret_too_short = st.session_state.get('_recovery_secret_too_short', False)
+        reserve_disabled = (not selected_name_from_user) or (not recovery_secret_new) or secret_too_short
+        if st.button(
+            "Pseudonym reservieren (nur Geheimwort)",
+            key="btn_reserve_pseudonym",
+            type="secondary",
+            width="stretch",
+            disabled=bool(reserve_disabled),
+        ):
+            from database import add_user
+            user_name = selected_name_from_user
+            user_id_hash = get_user_id_hash(user_name)
+            try:
+                add_user(user_id_hash, user_name)
+                ok = set_recovery_secret(user_id_hash, recovery_secret_new)
+                if ok:
+                    # Record the reserved pseudonym separately so we can render it
+                    # highlighted with a copy button in the UI.
+                    st.session_state['reserve_success_pseudonym'] = user_name
+                    st.session_state['reserve_success_message'] = (
+                        "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
+                        "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
+                        "Du musst es später exakt so eingeben."
+                    )
+                else:
+                    st.session_state['reserve_error_message'] = (
+                        "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
+                    )
+            except Exception as e:
+                st.session_state['reserve_error_message'] = f"Fehler beim Reservieren des Pseudonyms: {e}"
+            # Rerun so the selection list is refreshed and the reserved pseudonym is removed
+            st.rerun()
+
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
         if st.button(
             "Test starten",
             type="primary",
             width="stretch",
-            disabled=(not selected_name_from_user),
+            disabled=bool((not selected_name_from_user) or (recovery_secret_new and secret_too_short)),
         ):
             from database import add_user, start_test_session
             user_name = selected_name_from_user
@@ -988,11 +1114,22 @@ def render_welcome_page(app_config: AppConfig):
                 # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
                 try:
                     if recovery_secret_new:
-                        set_recovery_secret(user_id_hash, recovery_secret_new)
-                        st.success("Recovery-Geheimwort gespeichert. Du kannst es nutzen, um dieses Pseudonym später wiederherzustellen.")
-                except Exception:
-                    # Nicht kritisch: Wenn das Speichern fehlschlägt, starte trotzdem die Session.
-                    pass
+                        ok = set_recovery_secret(user_id_hash, recovery_secret_new)
+                        if ok:
+                            st.session_state['reserve_success_pseudonym'] = user_name
+                            st.session_state['reserve_success_message'] = (
+                                "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
+                                "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
+                                "Du musst es später exakt so eingeben."
+                            )
+                        else:
+                            st.session_state['reserve_error_message'] = (
+                                "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
+                            )
+                except Exception as e:
+                    # Logge den Fehler serverseitig und mache ihn für den UI-Reload sichtbar.
+                    print(f"Error saving recovery secret for {user_id_hash}: {e}")
+                    st.session_state['reserve_error_message'] = f"Fehler beim Speichern des Recovery-Geheimworts: {e}"
                 st.rerun()
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
@@ -1022,7 +1159,7 @@ def _show_welcome_container(app_config: AppConfig):
     with st.container(border=True):
         st.markdown(f"""
         ### ⏱️ Testzeit
-        Du hast **{test_time_minutes} min** für den Test.  
+        Du hast **{test_time_minutes} min** für den Test.<br>
         Der Countdown startet, sobald du auf »Test beginnen« klickst und aktualisiert sich mit jeder Frage.
 
         ### ✅ 1 richtige Option
@@ -1030,7 +1167,7 @@ def _show_welcome_container(app_config: AppConfig):
 
         ### 🎯 Punktelogik
         {scoring_text}
-        """)
+        """, unsafe_allow_html=True)
 
         st.info(
             "💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, "
@@ -1069,7 +1206,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 except Exception:
                     history_rows = []
 
-            filename_base = f"history_{(st.session_state.get('user_id') or 'user') }"
+            filename_base = f"history_{(st.session_state.get('user_id') or 'user')}"
 
             dialog_fn = getattr(st, 'dialog', None)
             if callable(dialog_fn):
@@ -1114,10 +1251,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
         from auth import initialize_session_state
         st.warning("⚠️ Erkenne Wechsel des Fragensets, initialisiere Test neu...")
-        initialize_session_state(questions, app_config)
-        time.sleep(1) # Kurze Pause, damit der Nutzer die Nachricht sieht
-        st.rerun()
-        return # Verhindert die weitere Ausführung mit inkonsistenten Daten
+    initialize_session_state(questions, app_config)
+    time.sleep(1)  # Kurze Pause, damit der Nutzer die Nachricht sieht
+    st.rerun()  # Trigger rerun after re-init
+    return  # Verhindert die weitere Ausführung mit inkonsistenten Daten
 
     frage_obj = questions[frage_idx]
 
@@ -1217,7 +1354,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
                 if new_bookmark_state != is_bookmarked:
                     handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
-                    st.rerun() # Rerun, um den Zustand sofort zu reflektieren
+                    st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
             with col2:
                 # Überspringen-Button
                 if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", width="stretch"):
@@ -1275,9 +1412,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # Die Bedingung: last_answered_idx == frage_idx (nicht is_answered!)
     # Weil nach dem Rerun zur nächsten Frage gesprungen wird, aber last_answered_idx
     # zeigt auf die gerade beantwortete Frage
-    if (st.session_state.get("last_answered_idx") == frage_idx and
-        "last_motivation_message" in st.session_state and 
-        st.session_state.last_motivation_message):
+    if (
+        st.session_state.get("last_answered_idx") == frage_idx
+        and "last_motivation_message" in st.session_state
+        and st.session_state.last_motivation_message
+    ):
         st.markdown(st.session_state.last_motivation_message, unsafe_allow_html=True)
     
     # --- Erklärung anzeigen ---
@@ -1408,8 +1547,10 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         
         if frage_idx not in st.session_state.celebrated_questions:
             gewichtung = frage_obj.get("gewichtung", 1)
-            if gewichtung >= 3: st.balloons()
-            elif gewichtung == 2: st.snow()
+            if gewichtung >= 3:
+                st.balloons()
+            elif gewichtung == 2:
+                st.snow()
             st.session_state.celebrated_questions.append(frage_idx)
 
         st.success("Richtig! ✅")
@@ -1539,7 +1680,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                         selected_types = [option for option, checked in selections.items() if checked]
                         if selected_types:
                             _handle_feedback_submission(frage_idx, frage_obj, selected_types)
-                            st.rerun() # Erzwinge einen Rerun, um den "Danke"-Text anzuzeigen
+                            st.rerun()  # Erzwinge einen Rerun, um den "Danke"-Text anzuzeigen
 
     # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
     # im Sprung-Modus eine bereits beantwortete Frage reviewt.
@@ -1570,7 +1711,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
-    import time
+    # (kein lokaler import von time; Top-Level-Import wird verwendet, falls nötig)
 
     # Testdauer berechnen
     start_time = st.session_state.get("test_start_time")
@@ -1787,7 +1928,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
 
             fig = go.Figure()
+
             # Determine color per bar: green >=75, orange >=50, red <50
+            
             def color_for_pct(pct: float) -> str:
                 try:
                     if pct >= 75:
@@ -1855,45 +1998,40 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     render_review_mode(questions, app_config)
     # --- PDF-Export (am Ende, nach Review) ---
     # Warnung über die Dauer
-    q_file_name = st.session_state.get("selected_questions_file", "")
-    anzahl_fragen = len(questions)
     # Dank Parallelverarbeitung und Caching: ca. 3-5 Sekunden pro Frage
     # Prüfe ob Formeln vorhanden sind und extrahiere erste Formel
+
     def extract_formulas(questions):
         """Extrahiert erste gefundene Formel und zählt Gesamt-Formeln."""
         import re
         formula_pattern = r'\$\$.*?\$\$|\$.*?\$'
-        
+
         first_formula = None
         total_count = 0
-        
+
         for q in questions:
             # Prüfe Frage-Text
             matches = re.findall(formula_pattern, q.get("frage", ""))
             if matches and not first_formula:
                 first_formula = matches[0]
             total_count += len(matches)
-            
+
             # Prüfe Optionen
             for opt in q.get("optionen", []):
                 matches = re.findall(formula_pattern, opt)
                 if matches and not first_formula:
                     first_formula = matches[0]
                 total_count += len(matches)
-            
+
             # Prüfe Erklärung
             matches = re.findall(formula_pattern, q.get("erklaerung", ""))
             if matches and not first_formula:
                 first_formula = matches[0]
             total_count += len(matches)
-        
+
         return first_formula, total_count
-    
-    first_formula, formula_count = extract_formulas(questions)
-    
-    user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
 
-
+    _, _ = extract_formulas(questions)
 
 
 def render_review_mode(questions: QuestionSet, app_config=None):
@@ -1932,6 +2070,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
     for i, frage in enumerate(questions):
         gegebene_antwort = get_answer_for_question(i)
+        formatted_gegebene_antwort = smart_quotes_de(str(gegebene_antwort)) if gegebene_antwort else ""
         richtige_antwort_text = frage["optionen"][frage["loesung"]]
         ist_richtig = gegebene_antwort == richtige_antwort_text
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
@@ -1970,11 +2109,19 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             # Immer zuerst die gegebene Antwort (falsch oder richtig), dann die richtige darunter
             if gegebene_antwort is not None:
                 if ist_richtig:
-                    st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Deine Antwort:</span> <span style='color:#15803d;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+                    st.markdown(
+                        "<span style='color:#15803d; font-weight:bold;'>Deine Antwort:</span> "
+                        f"<span style='color:#15803d;'>{formatted_gegebene_antwort}</span>",
+                        unsafe_allow_html=True,
+                    )
                 else:
-                    st.markdown(f"<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>{gegebene_antwort}</span>", unsafe_allow_html=True)
+                    st.markdown(
+                        "<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> "
+                        f"<span style='color:#b91c1c;'>{formatted_gegebene_antwort}</span>",
+                        unsafe_allow_html=True,
+                    )
             else:
-                st.markdown(f"<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>(nicht beantwortet)</span>", unsafe_allow_html=True)
+                st.markdown("<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>(nicht beantwortet)</span>", unsafe_allow_html=True)
             # Richtige Antwort immer darunter, auch wenn sie schon oben steht
             st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
             if frage.get("erklaerung"):

@@ -283,6 +283,11 @@ class AppConfig:
         self.show_top5_public: bool = True
         self.test_duration_minutes: int = 60
         self.min_seconds_between_answers: int = 3
+        # Recovery / policy defaults
+        self.recovery_min_length: int = 6
+        self.recovery_allow_short: bool = False
+        self.rate_limit_attempts: int = 3
+        self.rate_limit_window_minutes: int = 5
 
         self._load_from_env_and_secrets()
         self._load_from_json()
@@ -333,6 +338,48 @@ class AppConfig:
             except ValueError:
                 pass  # Belasse Defaultwert bei ungültiger Eingabe
 
+        # Recovery / rate-limit from secrets/env
+        try:
+            rl_attempts = st.secrets.get("MC_RATE_LIMIT_ATTEMPTS", "").strip()
+        except Exception:
+            rl_attempts = os.getenv("MC_RATE_LIMIT_ATTEMPTS", "").strip()
+        if rl_attempts:
+            try:
+                self.rate_limit_attempts = int(rl_attempts)
+            except Exception:
+                pass
+
+        try:
+            rl_window = st.secrets.get("MC_RATE_LIMIT_WINDOW_MINUTES", "").strip()
+        except Exception:
+            rl_window = os.getenv("MC_RATE_LIMIT_WINDOW_MINUTES", "").strip()
+        if rl_window:
+            try:
+                self.rate_limit_window_minutes = int(rl_window)
+            except Exception:
+                pass
+
+        try:
+            rec_min = st.secrets.get("MC_RECOVERY_MIN_LENGTH", "").strip()
+        except Exception:
+            rec_min = os.getenv("MC_RECOVERY_MIN_LENGTH", "").strip()
+        if rec_min:
+            try:
+                self.recovery_min_length = int(rec_min)
+            except Exception:
+                pass
+
+        try:
+            rec_allow = st.secrets.get("MC_RECOVERY_ALLOW_SHORT", "").strip()
+        except Exception:
+            rec_allow = os.getenv("MC_RECOVERY_ALLOW_SHORT", "").strip()
+        if rec_allow:
+            lower = rec_allow.lower()
+            if lower in ("1", "true", "yes", "y"):
+                self.recovery_allow_short = True
+            else:
+                self.recovery_allow_short = False
+
     def _load_from_json(self):
         """Lädt Konfiguration aus der JSON-Datei und überschreibt ggf. Defaults."""
         path = os.path.join(get_package_dir(), "mc_test_config.json")
@@ -351,6 +398,20 @@ class AppConfig:
                         self.test_duration_minutes = parsed_minutes
                 except (TypeError, ValueError):
                     pass  # Behalte bestehenden Wert bei ungültigen Eingaben
+                # optional recovery/rate-limit overrides
+                try:
+                    self.recovery_min_length = int(config_data.get("recovery_min_length", self.recovery_min_length))
+                except Exception:
+                    pass
+                self.recovery_allow_short = bool(config_data.get("recovery_allow_short", self.recovery_allow_short))
+                try:
+                    self.rate_limit_attempts = int(config_data.get("rate_limit_attempts", self.rate_limit_attempts))
+                except Exception:
+                    pass
+                try:
+                    self.rate_limit_window_minutes = int(config_data.get("rate_limit_window_minutes", self.rate_limit_window_minutes))
+                except Exception:
+                    pass
         except (IOError, json.JSONDecodeError):
             pass  # Bei Fehlern werden die Defaults beibehalten
 
