@@ -5,10 +5,6 @@
 <img width="1919" height="963" alt="grafik" src="https://github.com/user-attachments/assets/e7b48637-5aa4-4bd7-b5f2-b9eeabfd1270" />
 
 
-
-
-
-
 💾 2. Schritt – Datei speichern
 
 Speichere die Datei lokal ab und wähle einen aussagekräftigen Namen,
