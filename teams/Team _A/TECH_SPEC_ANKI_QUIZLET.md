@@ -474,3 +474,117 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 → **Gesamtfazit:** Quizlet erlaubt derzeit keine direkte Eingabe und automatische Darstellung von LaTeX-Formeln; nur Bild-basierte Workarounds sind möglich.
 
 ---
+
+# TECH SPEC — **Metadaten-Support** (Import) für **Anki** & **Quizlet**
+
+> **Scope:** Umsetzung von *Phase 2 · 2.1 Import-Format-Analyse* **nur** für Abschnitt **4. Metadaten-Support**. Fokus: Wie können Metadaten unserer MC‑Test‑App beim **Import** in Anki/Quizlet erhalten/abgebildet werden?
+
+## 🧭 Legende
+
+- ✅ = nativ unterstützt
+- ⚠️ = nicht nativ; **Workaround/Mapping** möglich
+- ❌ = nicht unterstützt
+
+## 🧩 Unsere kanonischen Metadaten (Quelle → Zielmapping)
+
+| Metadatum (Quelle) | Beschreibung                                     |
+| ------------------ | ------------------------------------------------ |
+| **difficulty**     | Schwierigkeitsgrad (Skala 1–5)                   |
+| **weight**         | Gewichtung in der Bewertung (0–1 oder %)         |
+| **topics**         | Themen/Tags/Kategorien (hierarchisch möglich)    |
+| **explanation**    | Erklärung/Feedback zur Frage oder Lösung         |
+| **media**          | Bilder/Audio/Video, pro Frage oder Antwortoption |
+| **mini\_glossary** | Kurze Begriffserklärungen (falls vorhanden)      |
+
+---
+
+## 🧠 **Anki** — Metadaten-Support (Import)
+
+| Metadatum          | Support | Mapping-Empfehlung                                                                                                                                                               |
+| ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **difficulty**     | ⚠️      | Als **Tag** (`diff:3`) **oder** eigenes **Feld** `Difficulty` in benutzerdefiniertem Notetyp (z. B. *MC‑Card*). Anzeige optional im Back‑Template.                               |
+| **weight**         | ⚠️      | **Tag** (`w:0.7`) **oder** Feld `Weight`. Für Auswertungen kann ein Add‑on/Export genutzt werden.                                                                                |
+| **topics**         | ✅       | **Tags** in Anki (mehrere, Leerzeichen‑separiert). Hierarchien per `::` (z. B. `Mathe::Analysis`).                                                                               |
+| **explanation**    | ✅       | Feld `Explanation` → in **Back‑Template** oder als `Extra` anzeigen.                                                                                                             |
+| **media**          | ✅       | Bild/Audio als **Medienanhang** im `.apkg`; im Feld mit HTML (`<img src="file.png">`) oder `[sound:file.mp3]`. Beim CSV‑Import zuvor Medien in `collection.media` bereitstellen. |
+| **mini\_glossary** | ⚠️      | Als zusätzl. Feld `Glossary` **oder** separate Notizen pro Begriff; Verknüpfung via Tags (`glossary`).                                                                           |
+
+**Hinweise/Constraints:**
+
+- CSV‑Import kann **Tags** aus einer Spalte übernehmen; **Note Type** mit Feldern `Front`, `Back`, `Explanation`, `Difficulty`, `Weight`, `Glossary` empfohlen.
+- Für robuste Medienübernahme **.apkg‑Export** bevorzugen (Media‑Packaging inklusive).
+
+---
+
+## 📚 **Quizlet** — Metadaten-Support (Import)
+
+> *Quizlet‑Import akzeptiert i. d. R. ****CSV/TSV**** mit ****Term**** & ****Definition****. Import von Bildern über Datei ist nicht vorgesehen; Bilder werden im UI manuell oder über API/Plus ergänzt.*
+
+| Metadatum          | Support | Mapping-Empfehlung                                                                                                                                                                                                                   |
+| ------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **difficulty**     | ❌       | In **Definition** als Präfix (`[D3] …`) oder in **Set‑Beschreibung** notieren. Alternativ pro Term als Suffix z. B. `— Diff:3/5`.                                                                                                    |
+| **weight**         | ❌       | Wie oben: Präfix/Suffix in **Definition** (`(W:0.7)`). Bei bedarf zusätzlich in Set‑Beschreibung dokumentieren.                                                                                                                      |
+| **topics**         | ⚠️      | **Set‑Beschreibung**: `#Analysis #LineareAlgebra`; je Term optional **Inline‑Hashtags** am Ende der Definition.                                                                                                                      |
+| **explanation**    | ⚠️      | An **Definition** anhängen: `Antwort … \n\nErklärung: …`. (Leerzeile + Label).                                                                                                                                                       |
+| **media**          | ⚠️      | **Nicht via CSV**. Workarounds: 1) Nach Import **manuell** Bilder je Term hinzufügen (Plus), 2) **API‑basierter Set‑Erstellungs‑Flow** mit Bild‑Upload/Zuordnung. Als Minimal‑Fallback **Bild‑URL** am Ende der Definition notieren. |
+| **mini\_glossary** | ⚠️      | Als **separates Set** „Glossary – Kurs X“ importieren **oder** in der Set‑Beschreibung bündeln; Verlinkung über gemeinsamen *Class* oder Titelkonvention.                                                                            |
+
+**Hinweise/Constraints:**
+
+- Längere Definitionen sind erlaubt, dennoch kurze Präfix/Suffix‑Konventionen bevorzugen, um Lesbarkeit auf Mobilgeräten zu wahren.
+- Einheitliche **Konventionen** wichtig (z. B. `[D3][W0.7] Antwort … \n\nErklärung: …`).
+
+---
+
+## 🔁 **Einheitliche Mapping‑Konventionen** (Quell‑→Ziel)
+
+**Tags/Topics**
+
+- `topics` → **Anki:** Tags (`Fach::Thema`).
+- `topics` → **Quizlet:** `#Fach #Thema` in **Set‑Beschreibung** *und optional* pro Term (am Ende der Definition).
+
+**Difficulty/Weight**
+
+- **Anki:** Tags `diff:1..5`, `w:0..1` **oder** Felder `Difficulty`/`Weight`.
+- **Quizlet:** Präfixe in Definition, z. B. `[D3][W0.7]`.
+
+**Explanation**
+
+- **Anki:** Feld `Explanation` → Back‑Template.
+- **Quizlet:** Definition mit Abschnitt `Erklärung:` nach Leerzeile.
+
+**Media**
+
+- **Anki:** Medien anhängen und in Feld referenzieren.
+- **Quizlet:** Manuell ergänzen *oder* per API; als Fallback **URL** in Definition.
+
+**Mini‑Glossary**
+
+- **Anki:** eigenes Feld/Notiztyp + Tag `glossary`.
+- **Quizlet:** separates Glossar‑Set, im Kurs/der Class verlinken.
+
+---
+
+## 🧱 Kompakte **Metadaten‑Mapping‑Tabelle**
+
+| Metadatum      | Anki (Empfehlung)                                 | Quizlet (Empfehlung)                                              |
+| -------------- | ------------------------------------------------- | ----------------------------------------------------------------- |
+| difficulty     | Tag `diff:N` **oder** Feld `Difficulty`           | Präfix `[D{N}]` in Definition oder Set‑Beschreibung               |
+| weight         | Tag `w:X` **oder** Feld `Weight`                  | Präfix `[W{X}]` in Definition                                     |
+| topics         | Tags mit Hierarchie `Fach::Thema`                 | Hashtags `#Fach #Thema` (Set‑Beschreibung + optional term‑inline) |
+| explanation    | Feld `Explanation` → Back‑Template                | Abschnitt `\n\nErklärung: …` in Definition                        |
+| media          | Medien im `.apkg` + `<img>`/`[sound:…]`           | manuell/API; Fallback: URL am Ende der Definition                 |
+| mini\_glossary | Feld `Glossary` **oder** separate Glossar‑Notizen | Separates Glossar‑Set, per Titel/Klasse verknüpfen                |
+
+---
+
+## ✅ **Implementierungs‑Hinweise (MVP)**
+
+1. **Exporter** erhält **Optionen**: `include_difficulty`, `include_weight`, `topics_as_tags`, `explanation_mode` (`field|inline`), `media_strategy` (`package|url|none`).
+2. **Anki‑Preset**: Note‑Type `MC-Card` mit Feldern `Front, Back, Explanation, Difficulty, Weight, Glossary`; Export **.apkg** bevorzugt.
+3. **Quizlet‑Preset**: CSV mit Spalten `Term, Definition`; **Definition-Composer** fügt Präfixe/Texte gemäß Konvention ein.
+4. **Consistency Linter** vor Export: prüft Länge, verbotene Zeichen, fehlende Medien, leere Erklärungen.
+
+---
+
+##
