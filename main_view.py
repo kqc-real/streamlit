@@ -671,8 +671,6 @@ def render_welcome_page(app_config: AppConfig):
     _sync_questions_query_param(selected_file)
     _render_welcome_splash()
 
-
-
     # (Note) Sidebar rendering is handled by `components.render_sidebar`.
 
     # --- Auswahl des Fragensets (mit Filterung) ---
