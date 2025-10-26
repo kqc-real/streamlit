@@ -2,7 +2,7 @@
   "meta": {
     "title": "Mathematik II (Probeklausur)",
     "created": "26.10.2025 00:00",
-    "modified": "26.10.2025 00:00",
+    "modified": "26.10.2025 13:00",
     "target_audience": "Fortgeschrittene Studierende",
     "question_count": 40,
     "difficulty_profile": {
@@ -33,9 +33,9 @@
       "gewichtung": 1,
       "thema": "LE 11: Vektorräume",
       "mini_glossary": {
-        "Vektorraumaxiome": "Grundlegende Regeln für Addition und Skalarmultiplikation in einem Vektorraum.",
-        "Nullvektor": "Der eindeutige Vektor 0, für den v + 0 = v gilt.",
-        "Skalarmultiplikation": "Abbildung, die einem Skalar und einem Vektor einen neuen Vektor zuordnet."
+        "Vektorraumaxiome": "Axiome über $V$ und Körper $K$: $(V,+)$ ist abelsche Gruppe; Distributivität $\\alpha(u+v)=\\alpha u+\\alpha v$, $(\\alpha+\\beta)v=\\alpha v+\\beta v$; Assoziativität $\\alpha(\\beta v)=(\\alpha\\beta)v$; Einheitsgesetz $1\\cdot v=v$. Daraus folgt u.a. $0\\cdot v=0$ und $(-1)\\cdot v=-v$.",
+        "Nullvektor": "Eindeutiges Element $0\\in V$ mit $v+0=v$ für alle $v\\in V$. Eindeutigkeit: Gilt $0'$ ebenfalls neutral, so $0=0'+0=0'$.",
+        "Skalarmultiplikation": "Abbildung $K\\times V\\to V$, $(\\alpha,v)\\mapsto \\alpha v$, die mit der Körpermultiplikation kompatibel ist und Linearität in beiden Argumenten gewährleistet."
       }
     },
     {
@@ -52,9 +52,9 @@
       "gewichtung": 1,
       "thema": "LE 11: Vektorräume",
       "mini_glossary": {
-        "Untervektorraum": "Teilmenge eines Vektorraums, die selbst ein Vektorraum ist.",
-        "Abgeschlossenheit": "Summe und skalare Vielfache verbleiben in der Menge.",
-        "Ursprung": "Der Nullvektor als Bezugspunkt des Vektorraums."
+        "Untervektorraum": "Nichtleere Teilmenge $U\\subseteq V$, die unter $+$ und Skalarmultiplikation abgeschlossen ist und den Nullvektor enthält; äquivalent: $\\alpha u+\\beta v\\in U$ für alle $u,v\\in U$, $\\alpha,\\beta\\in K$.",
+        "Abgeschlossenheit": "Für alle $u,v\\in U$, $\\alpha\\in K$ gilt $u+v\\in U$ und $\\alpha u\\in U$. Verletzungen (z.B. Nebenbedingungen wie $x+y=1$) zerstören die Unterraumstruktur.",
+        "Ursprung": "Der Punkt $(0,0)$; jede Unterraumgerade muss ihn enthalten, da $0\\cdot v=0\\in U$."
       }
     },
     {
@@ -73,15 +73,17 @@
       "extended_explanation": {
         "titel": "Vektorraumkriterien auf Polynommengen",
         "schritte": [
-          "Ein Vektorraum muss den Nullvektor enthalten; in Polynommengen ist das das Nullpolynom.",
-          "Skalarmultiplikation mit 0 erzeugt das Nullpolynom – dies wäre nicht in $P_2^*$ enthalten.",
-          "$P_2$ enthält alle Grade bis 2 inklusive 0 und ist unter Addition/Skalarmultiplikation abgeschlossen."
+          "Ein Vektorraum muss den **Nullvektor** enthalten; in Polynommengen ist dies das **Nullpolynom**.",
+          "Für jedes $p\\in P_2^*$ gilt $0\\cdot p=0$; da $0\\notin P_2^*$, ist die Skalarmultiplikation nicht abgeschlossen.",
+          "Die **Additionsabgeschlossenheit** scheitert ebenfalls: Die Summe zweier quadratischer Polynome kann vom Grad $\\le 1$ sein.",
+          "$P_2=\\{p\\mid \\deg p\\le 2\\}$ enthält das Nullpolynom und ist unter Addition und Skalarmultiplikation abgeschlossen.",
+          "Damit erfüllt $P_2$ alle Vektorraumaxiome, $P_2^*$ verletzt sie."
         ]
       },
       "mini_glossary": {
-        "Polynomgrad": "Höchster Exponent mit von Null verschiedenem Koeffizienten.",
-        "Nullpolynom": "Alle Koeffizienten sind 0; fungiert als Nullvektor.",
-        "Abgeschlossenheit (Polynome)": "Summe/Skalierung von Polynomen resultiert wieder in einem Polynom der Menge."
+        "Polynomgrad": "Für $p(x)=\\sum_{i=0}^n a_i x^i$ mit $a_n\\ne 0$ ist $\\deg p=n$. Für das Nullpolynom ist $\\deg 0$ undefiniert oder $-\\infty$ (konventionsabhängig).",
+        "Nullpolynom": "Polynom mit allen Koeffizienten $0$; wirkt als Nullvektor: $p+0=p$ und $\\alpha\\cdot 0=0$.",
+        "Abgeschlossenheit (Polynome)": "Wenn $\\deg p,\\deg q\\le 2$, dann $\\deg(p+q)\\le 2$ und $\\deg(\\alpha p)\\le 2$; bei $P_2^*$ ist $0\\notin P_2^*$, daher kein Unterraum."
       }
     },
     {
@@ -100,15 +102,17 @@
       "extended_explanation": {
         "titel": "Unterraumkriterien kompakt",
         "schritte": [
-          "Prüfe Nullvektor: $0\\in U$.",
-          "Prüfe Additionsabschluss: $u+v\\in U$ für alle $u,v\\in U$.",
-          "Prüfe Skalarabschluss: $\\alpha u\\in U$ für alle $\\alpha\\in\\mathbb{R}$ und $u\\in U$."
+          "Notwendig und hinreichend: $0\\in U$, $u,v\\in U\\Rightarrow u+v\\in U$, $\\alpha\\in\\mathbb{R},u\\in U\\Rightarrow \\alpha u\\in U$.",
+          "Aus $\\alpha=-1$ folgt $u\\in U\\Rightarrow -u\\in U$, also ist $U$ **additiv abgeschlossen** inkl. Existenz additiver Inverser.",
+          "Die Kriterien implizieren, dass die **Axiome** der Vektoraddition und -skalierung auf $U$ geerbt werden.",
+          "Alternative Kurzform: $U\\ne\\emptyset$ und $\\alpha u+\\beta v\\in U$ für alle $u,v\\in U$, $\\alpha,\\beta\\in\\mathbb{R}$.",
+          "Beide Formen sind äquivalent und werden je nach Kontext verwendet."
         ]
       },
       "mini_glossary": {
-        "Unterraumkriterien": "Minimalbedingungen, die Unterräume charakterisieren.",
-        "Skalar": "Element des zugrunde liegenden Körpers, hier $\\mathbb{R}$.",
-        "Additionsabschluss": "Summe zweier Elemente bleibt in der Menge."
+        "Unterraumkriterien": "Test: $U\\ne\\emptyset$ und $\\alpha u+\\beta v\\in U$ für alle $u,v\\in U$, $\\alpha,\\beta\\in K$. Daraus folgen Nullvektor und additive Inversen automatisch.",
+        "Skalar": "Element des Körpers $K$; definiert die externe Multiplikation auf $V$. In $\\mathbb{R}^n$ sind Skalare reelle Zahlen.",
+        "Additionsabschluss": "Für $u,v\\in U$ gilt $u+v\\in U$. Zusammen mit Skalarabschluss bildet $(U,+)$ wieder eine abelsche Gruppe."
       }
     },
     {
@@ -127,15 +131,17 @@
       "extended_explanation": {
         "titel": "Assoziativität als Brücke zwischen Körper und Vektorraum",
         "schritte": [
-          "Skalare multiplizieren sich im Körper: $(\\alpha\\beta)$.",
-          "Die Skalarmultiplikation muss kompatibel sein: $\\alpha\\cdot(\\beta\\cdot v)=(\\alpha\\beta)\\cdot v$.",
-          "Diese Konsistenz ist zentral für Linearität und Basiswechsel."
+          "In einem Vektorraum über einem Körper $K$ muss gelten: $\\alpha(\\beta v)=(\\alpha\\beta)v$ für alle $\\alpha,\\beta\\in K$, $v\\in V$.",
+          "Die rechte Seite berechnet zuerst im **Körper** $(\\alpha\\beta)$, die linke zuerst in der **Vektorstruktur**; Gleichheit koppelt beide Ebenen.",
+          "Zusammen mit den Distributivgesetzen und $1\\cdot v=v$ entsteht die **Linearität** in beiden Argumenten.",
+          "Ohne diese Assoziativität wäre die Notation $\\alpha\\beta v$ mehrdeutig und die Theorie inkonsistent.",
+          "In Modulen über Ringen ist analog die Modulaxiomatik formuliert; die Körperstruktur macht zusätzlich **Skalarmultiplikation eindeutig invertierbar** für $\\alpha\\ne 0$."
         ]
       },
       "mini_glossary": {
-        "Körper": "Algebraische Struktur mit Addition, Multiplikation und Inversen (außer 0).",
-        "Assoziativität": "Klammerung kann ohne Einfluss auf das Ergebnis geändert werden.",
-        "Linearität": "Erhaltung von Addition und Skalarmultiplikation."
+        "Körper": "Algebraische Struktur $(K,+,\\cdot)$ mit kommutativer Multiplikation, Einheiten $1\\ne 0$ und Existenz multiplikativer Inverser für $\\alpha\\ne 0$. Beispiel: $\\mathbb{R},\\mathbb{C}$.",
+        "Assoziativität": "Eigenschaft $a\\cdot(b\\cdot c)=(a\\cdot b)\\cdot c$. Erlaubt Umklammern ohne Wertänderung.",
+        "Linearität": "Erhaltung von Addition und Skalarmultiplikation: $T(\\alpha u+\\beta v)=\\alpha T(u)+\\beta T(v)$."
       }
     },
     {
@@ -152,9 +158,9 @@
       "gewichtung": 1,
       "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "mini_glossary": {
-        "Dimension": "Anzahl der Vektoren in einer Basis.",
-        "Basis": "Linear unabhängige Erzeugendensystem eines Vektorraums.",
-        "Polynomraum": "Vektorraum, dessen Elemente Polynome sind."
+        "Dimension": "Anzahl der Basisvektoren eines Vektorraums. In endlicher Dimension ist sie invariant: Alle Basen haben dieselbe Kardinalität.",
+        "Basis": "Menge linear unabhängiger Vektoren, die den Raum vollständig erzeugt. Jede Darstellung ist eindeutig.",
+        "Polynomraum": "Vektorraum $P_n=\\{p\\mid \\deg p\\le n\\}$ mit kanonischer Basis $(1,x,\\dots,x^n)$."
       }
     },
     {
@@ -171,9 +177,9 @@
       "gewichtung": 1,
       "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "mini_glossary": {
-        "Lineare Abhängigkeit": "Mindestens ein Vektor ist Linearkombination der anderen.",
-        "Erzeugendensystem": "Menge, deren Linearkombinationen den Raum ergeben.",
-        "Basis": "Minimaler Erzeuger mit linear unabhängigen Vektoren."
+        "Lineare Abhängigkeit": "Es existieren nicht alle $0$-Koeffizienten $\\alpha_i$, so dass $\\sum\\alpha_i v_i=0$. Hier: $(2,0)=2\\cdot(1,0)$.",
+        "Erzeugendensystem": "Menge, deren Linearkombinationen den gesamten Raum ergeben. Zwei kollineare Vektoren erzeugen nur eine Gerade.",
+        "Basis": "Minimal erzeugende, linear unabhängige Menge. In $\\mathbb{R}^2$ werden zwei nicht kollineare Vektoren benötigt."
       }
     },
     {
@@ -192,15 +198,17 @@
       "extended_explanation": {
         "titel": "Koordinaten in der Standardbasis",
         "schritte": [
-          "Die Standardbasis in $\\mathbb{R}^2$ ist $(1,0),(0,1)$.",
-          "Jeder Vektor $(a,b)$ hat Koordinaten $(a,b)$ bezüglich dieser Basis.",
-          "Daher gilt: $v=(3,5) \\Rightarrow [v]_E=(3,5)$."
+          "Eine Basis $E=(e_1,e_2)$ liefert die eindeutige Darstellung $v=\\alpha_1 e_1+\\alpha_2 e_2$.",
+          "Für die Standardbasis $e_1=(1,0)$, $e_2=(0,1)$ gilt $v=(3,5)=3e_1+5e_2$.",
+          "Die **Koordinatenabbildung** $[\\cdot]_E: \\mathbb{R}^2\\to\\mathbb{R}^2$ ist ein Isomorphismus mit $[v]_E=(\\alpha_1,\\alpha_2)$.",
+          "Basiswechsel zu $F$ geschieht mit einer invertierbaren Matrix $T$: $[v]_F=T^{-1}[v]_E$.",
+          "Linearität der Koordinatenabbildung folgt aus der Linearität der Darstellung."
         ]
       },
       "mini_glossary": {
-        "Standardbasis": "Kanonische Basisvektoren der Koordinatenachsen.",
-        "Koordinatenvektor": "Darstellung eines Vektors relativ zu einer Basis.",
-        "Basiswechsel": "Transformation zwischen Koordinatendarstellungen."
+        "Standardbasis": "Kanonische Basis $((1,0),(0,1))$ in $\\mathbb{R}^2$. Allgemein: Einheitsvektoren $e_i$ in $\\mathbb{R}^n$.",
+        "Koordinatenvektor": "Die eindeutigen Koeffizienten $[v]_E=(\\alpha_i)$ in der Darstellung $v=\\sum \\alpha_i e_i$.",
+        "Basiswechsel": "Für Basen $E,F$ gilt $[v]_F=T^{-1}[v]_E$ mit der Übergangsmatrix $T$ (invertierbar)."
       }
     },
     {
@@ -219,15 +227,17 @@
       "extended_explanation": {
         "titel": "Linearkombinationen formal und anschaulich",
         "schritte": [
-          "Formal: $\\sum_i \\alpha_i v_i$ mit Skalaren $\\alpha_i$.",
-          "Anschaulich: Skalieren und addieren von Richtungspfeilen.",
-          "Wichtig für Span/Erzeugendensystem und Basisbegriffe."
+          "Formal: Für $v_i\\in V$ und $\\alpha_i\\in \\mathbb{R}$ heißt $\\sum_{i=1}^k \\alpha_i v_i$ **Linearkombination**.",
+          "Die Menge aller Linearkombinationen bildet den **Span**: $\\operatorname{span}\\{v_1,\\dots,v_k\\}$.",
+          "Gilt $w\\in \\operatorname{span}\\{v_1,\\dots,v_k\\}$, so existieren Koeffizienten $\\alpha_i$ mit $w=\\sum_i \\alpha_i v_i$.",
+          "Linear **unabhängig** heißt, dass nur die triviale Kombination $\\sum_i \\alpha_i v_i=0$ mit allen $\\alpha_i=0$ existiert.",
+          "Eine **Basis** ist eine minimal erzeugende, linear unabhängige Menge; jede Darstellung ist dann eindeutig."
         ]
       },
       "mini_glossary": {
-        "Span": "Alle Linearkombinationen einer Vektormenge.",
-        "Koeffizienten": "Skalare $\\alpha_i$ in der Linearkombination.",
-        "Linearität": "Erhaltung von Addition und Skalarmultiplikation."
+        "Span": "Der erzeugte Unterraum $\\operatorname{span}(S)=\\{\\sum\\alpha_i v_i\\mid v_i\\in S,\\alpha_i\\in K\\}$. Minimalste Erzeuger sind Basen.",
+        "Koeffizienten": "Skalare Gewichte in $\\sum \\alpha_i v_i$. Ihre Eindeutigkeit hängt von Linearunabhängigkeit ab.",
+        "Linearität": "Additivität und Homogenität; zentrale Eigenschaft linearer Abbildungen und Räume."
       }
     },
     {
@@ -244,9 +254,9 @@
       "gewichtung": 1,
       "thema": "LE 13: Matrizen",
       "mini_glossary": {
-        "Matrixdimension": "Zeilen- und Spaltenanzahl, z.B. $m\\times n$.",
-        "Kompatibilität": "Innere Dimensionen müssen übereinstimmen.",
-        "Assoziativität": "$(AB)C=A(BC)$ für gültige Produkte."
+        "Matrixdimension": "Eine Matrix in $\\mathbb{R}^{m\\times n}$ hat $m$ Zeilen, $n$ Spalten. Das Produkt $AB$ ist definiert, wenn die inneren Maße übereinstimmen.",
+        "Kompatibilität": "Für $A\\in\\mathbb{R}^{m\\times n}$ und $B\\in\\mathbb{R}^{n\\times p}$ ergibt sich $AB\\in\\mathbb{R}^{m\\times p}$.",
+        "Assoziativität": "Für definierte Produkte gilt $(AB)C=A(BC)$; die Klammerung beeinflusst Komplexität, nicht das Resultat."
       }
     },
     {
@@ -265,15 +275,17 @@
       "extended_explanation": {
         "titel": "Rolle der Einheitsmatrix",
         "schritte": [
-          "$I_n x = x$ für alle Vektoren $x$ und $I_n A = A$ für alle passenden Matrizen $A$.",
-          "Diagonalstruktur erleichtert Invertierung und Spektralanalyse.",
-          "In vielen Verfahren ist $I_n$ Referenz (z.B. bei $A-\\lambda I_n$)."
+          "Definition: $I_n=(\\delta_{ij})_{i,j=1}^n$ mit Kronecker-Delta $\\delta_{ij}$.",
+          "Für passende Dimensionen gilt **Links- und Rechtsneutrales**: $I_n A=A$ und $A I_m=A$.",
+          "Eigenwerte von $I_n$ sind alle gleich $1$; jeder Vektor ist Eigenvektor.",
+          "Die Inverse von $I_n$ ist $I_n$ selbst; $I_n$ ist positiv definit und orthogonal.",
+          "In Ausdrücken wie $A-\\lambda I_n$ verschiebt $I_n$ das Spektrum um $\\lambda$."
         ]
       },
       "mini_glossary": {
-        "Hauptdiagonale": "Einträge $(i,i)$ einer Matrix.",
-        "Neutrales Element": "Element, das die Operation unverändert lässt.",
-        "Diagonalmatrix": "Nur Diagonaleinträge sind ggf. ungleich 0."
+        "Hauptdiagonale": "Einträge $(i,i)$; bei $I_n$ alle gleich $1$. Off-Diagonalen sind $0$.",
+        "Neutrales Element": "Für Multiplikation: $I A=A= A I$. Für Addition existiert das Nullmatrix-Element.",
+        "Diagonalmatrix": "Nur Diagonaleinträge können ungleich 0 sein; erleichtert Inversion und Potenzieren."
       }
     },
     {
@@ -292,15 +304,17 @@
       "extended_explanation": {
         "titel": "Symmetrie und Konsequenzen",
         "schritte": [
-          "Symmetrie bedeutet Gleichheit mit der Transponierten.",
-          "Reelle symmetrische Matrizen sind orthogonal diagonalisierbar.",
-          "Ihre Eigenwerte sind reell (Spektralsatz)."
+          "Definition: $A$ symmetrisch $\\Leftrightarrow A=A^\\top$ über $\\mathbb{R}$.",
+          "Spektralsatz: Es existiert eine orthogonale Matrix $Q$ mit $Q^\\top A Q=\\operatorname{diag}(\\lambda_1,\\dots,\\lambda_n)$.",
+          "Alle Eigenwerte reeller symmetrischer Matrizen sind **reell**.",
+          "Eigenvektoren zu verschiedenen Eigenwerten sind **orthogonal**.",
+          "Quadratische Formen $x^\\top A x$ werden durch die Diagonalisierung analysierbar."
         ]
       },
       "mini_glossary": {
-        "Transponierte": "Matrix, die durch Spiegeln an der Hauptdiagonalen entsteht.",
-        "Spektralsatz": "Reelle symmetrische Matrizen sind orthogonal diagonalisierbar.",
-        "Eigenwert": "Skalierungsfaktor eines Eigenvektors."
+        "Transponierte": "Matrix $A^\\top$ mit vertauschten Indizes: $(A^\\top)_{ij}=A_{ji}$. Spiegelt an der Hauptdiagonalen.",
+        "Spektralsatz": "Für reelle symmetrische $A$ existiert eine orthogonale Diagonalisierung; garantiert reelle Eigenwerte.",
+        "Eigenwert": "Skalar $\\lambda$ mit $A v=\\lambda v$; bestimmt Streckung/Stauchung entlang $v\\ne 0$."
       }
     },
     {
@@ -319,15 +333,17 @@
       "extended_explanation": {
         "titel": "Linearität von $x \\mapsto A x$",
         "schritte": [
-          "Linearität: $A(\\alpha x+\\beta y)=\\alpha A x+\\beta A y$.",
-          "Darstellung als Basiswechsel/Skalierung/Rotation je nach $A$.",
-          "Grundlage für Systeme $A x=b$ und Optimierung."
+          "Für $x,y\\in\\mathbb{R}^n$, $\\alpha,\\beta\\in\\mathbb{R}$ gilt $A(\\alpha x+\\beta y)=\\alpha A x+\\beta A y$.",
+          "Die Abbildung ist vollständig durch die Bilder der Basisvektoren $e_i$ bestimmt: $A e_i$ sind die **Spalten** von $A$.",
+          "Der Bildraum ist $\\operatorname{im}(A)=\\{A x\\mid x\\in\\mathbb{R}^n\\}$, der Kern $\\ker(A)=\\{x\\mid A x=0\\}$. ",
+          "Rang-Nullität: $\\dim\\ker(A)+\\operatorname{rang}(A)=n$.",
+          "Lineare Abbildungen sind genau diejenigen, die den Ursprung fixieren und Geraden durch den Ursprung in Geraden abbilden."
         ]
       },
       "mini_glossary": {
-        "Lineare Abbildung": "Erhält Addition und Skalarmultiplikation.",
-        "Bildraum": "Menge aller $A x$.",
-        "Kern": "Menge aller $x$ mit $A x=0$."
+        "Lineare Abbildung": "Abbildung $T:V\\to W$ mit $T(\\alpha u+\\beta v)=\\alpha T(u)+\\beta T(v)$. Wird durch Wirkung auf eine Basis eindeutig festgelegt.",
+        "Bildraum": "$\\operatorname{im}(A)=\\{A x\\}$; Dimension ist der Rang von $A$.",
+        "Kern": "$\\ker(A)=\\{x\\mid A x=0\\}$; Dimension ist die Nullität; zusammen: Rang-Nullität."
       }
     },
     {
@@ -346,15 +362,17 @@
       "extended_explanation": {
         "titel": "Zulässige Operationen präzisieren",
         "schritte": [
-          "Addition ist nur zwischen gleichdimensionalen Matrizen definiert.",
-          "Determinanten gelten für quadratische Matrizen, nicht Vektoren.",
-          "Das Produkt $A v$ ist für passende Dimensionen wohldefiniert."
+          "Konvention: Vektoren sind **Spaltenvektoren** in $\\mathbb{R}^n$, Matrizen wirken links.",
+          "Das Produkt $A v$ ist definiert für $A\\in\\mathbb{R}^{m\\times n}$ und $v\\in\\mathbb{R}^n$; Ergebnis in $\\mathbb{R}^m$.",
+          "Die Summe $A+v$ ist nicht definiert, da unterschiedliche Dimensionstypen vorliegen.",
+          "Eine Determinante ist nur für **quadratische Matrizen** definiert, nicht für Vektoren.",
+          "Das Produkt $v A$ ist nur als **Zeilenvektor** $v^\\top A$ sinnvoll; mit Spaltenkonvention ist es nicht wohldefiniert."
         ]
       },
       "mini_glossary": {
-        "Determinante": "Skalar, der eine quadratische Matrix charakterisiert.",
-        "Spaltenvektor": "Vektor als $n\\times 1$-Matrix.",
-        "Wohldefiniertheit": "Eindeutig festgelegte Operation mit klaren Regeln."
+        "Determinante": "Skalarfunktion $\\det: \\mathbb{R}^{n\\times n}\\to\\mathbb{R}$ mit $\\det(AB)=\\det(A)\\det(B)$ und $\\det(I)=1$. Nur für quadratische Matrizen definiert.",
+        "Spaltenvektor": "Vektor als $n\\times 1$-Matrix; Transponieren liefert den Zeilenvektor $1\\times n$.",
+        "Wohldefiniertheit": "Operation ist eindeutig und kontextfrei bestimmt; erfordert passende Strukturen und Maße."
       }
     },
     {
@@ -371,9 +389,9 @@
       "gewichtung": 1,
       "thema": "LE 14: Lineare Gleichungssysteme (LGS)",
       "mini_glossary": {
-        "Gauß-Algorithmus": "Verfahren zur Lösung linearer Gleichungssysteme.",
-        "Zeilenumformung": "Operationen, die die Lösungsmenge invariant lassen.",
-        "Zeilenstufenform": "Form mit führenden Einsen (Pivoten) in Stufenanordnung."
+        "Gauß-Algorithmus": "Eliminationsverfahren zur Transformation eines LGS in (reduzierte) Zeilenstufenform; erhält die Lösungsmenge invariant.",
+        "Zeilenumformung": "Operationen: Zeilentausch, $c\\ne 0$-Skalierung, Addition eines Vielfachen einer anderen Zeile. Alle sind durch invertierbare linke Multiplikation modellierbar.",
+        "Zeilenstufenform": "Form, in der Pivots stufenweise nach rechts wandern; in reduzierter Form stehen Pivots auf 1 und darüber/unter ihnen Nullen."
       }
     },
     {
@@ -392,15 +410,17 @@
       "extended_explanation": {
         "titel": "Rangkriterium für Eindeutigkeit",
         "schritte": [
-          "Volle Rangbedingung sichert keine freien Variablen.",
-          "Gleiche Ränge verhindern Widerspruchszeilen.",
-          "Damit existiert genau eine Lösung."
+          "Rouché–Capelli: $A x=b$ ist lösbar $\\Leftrightarrow \\operatorname{rang}(A)=\\operatorname{rang}(A|b)$.",
+          "Ist zusätzlich $\\operatorname{rang}(A)=n$, existieren **keine freien Variablen**.",
+          "Die reduzierte Zeilenstufenform besitzt in jeder Spalte einen Pivot; die Lösung ist eindeutig.",
+          "Äquivalent: $A$ ist invertierbar und $x=A^{-1}b$.",
+          "Geometrisch: Die Abbildung $x\\mapsto A x$ ist bijektiv."
         ]
       },
       "mini_glossary": {
-        "Rang": "Anzahl linear unabhängiger Zeilen/Spalten.",
-        "Erweiterte Matrix": "Matrix $(A|b)$ aus Koeffizienten und rechter Seite.",
-        "Eindeutige Lösung": "Genau ein Vektor erfüllt $A x=b$."
+        "Rang": "Maximale Anzahl linear unabhängiger Zeilen/Spalten; gleich der Dimension des Bildraums.",
+        "Erweiterte Matrix": "Konkatenation $(A|b)$; vergleicht Gleichungsstruktur mit rechter Seite für Konsistenz.",
+        "Eindeutige Lösung": "Exakt ein $x$ erfüllt $A x=b$; folgt bei vollem Rang ohne Widerspruchszeilen."
       }
     },
     {
@@ -419,15 +439,17 @@
       "extended_explanation": {
         "titel": "Widerspruchszeile erkennen",
         "schritte": [
-          "Eine Nullzeile auf der linken Seite entspricht 0.",
-          "Ist der rechte Wert ungleich 0, entsteht $0=c$ mit $c\\ne 0$.",
-          "Das System besitzt dann keine Lösung."
+          "Die Zeile stellt die Gleichung $0=5$ dar; dies ist **falscher** Satz.",
+          "Nach Rouché–Capelli muss für Lösbarkeit $\\operatorname{rang}(A)=\\operatorname{rang}(A|b)$ gelten.",
+          "Eine Widerspruchszeile erhöht den Rang der erweiterten Matrix, nicht aber den von $A$.",
+          "Folge: $\\operatorname{rang}(A)<\\operatorname{rang}(A|b)$ und es existiert **keine Lösung**.",
+          "Numerisch erkennt man solche Zeilen nach Elimination durch eine 0-Zeile links und Nichtnull rechts."
         ]
       },
       "mini_glossary": {
-        "Zeilenstufenform": "Trianguläre Struktur mit führenden Einträgen (Pivoten).",
-        "Widerspruchszeile": "Gleichung der Form $0=c$ mit $c\\ne 0$.",
-        "Lösungsmenge": "Alle Vektoren, die $A x=b$ erfüllen."
+        "Zeilenstufenform": "Trianguläre Struktur mit Pivots. Eine reine Nullzeile links zeigt Redundanz; Nichtnull rechts erzeugt Widerspruch.",
+        "Widerspruchszeile": "Gleichung $0=c$ mit $c\\ne 0$; macht das LGS inkonsistent.",
+        "Lösungsmenge": "Leere Menge bei Inkonsistenz; sonst affine Untermenge des $\\mathbb{R}^n$."
       }
     },
     {
@@ -446,15 +468,17 @@
       "extended_explanation": {
         "titel": "Pivotanzahl und Freiheitsgrade",
         "schritte": [
-          "Anzahl freier Variablen = Variablenzahl − Anzahl Pivote.",
-          "Eine freie Variable parametriert die Lösungsmenge.",
-          "Keine Widerspruchszeile ⇒ Lösungsmenge ist nicht leer."
+          "Anzahl freier Variablen ist $n-\\operatorname{rang}(A)$; hier $3-2=1$.",
+          "Ohne Widerspruchszeile ist das System **konsistent**.",
+          "Die Lösungsmenge ist eine affine Gerade im $\\mathbb{R}^3$.",
+          "Parameterdarstellung entsteht durch Rückwärtseinsetzen in der reduzierten Stufenform.",
+          "Geometrisch: Schnitt von zwei Ebenen ist eine Gerade."
         ]
       },
       "mini_glossary": {
-        "Pivot": "Erster von Null verschiedener Eintrag einer Zeile.",
-        "Freie Variable": "Nicht durch Pivote festgelegt; parametriert die Lösung.",
-        "Parametrisierung": "Darstellung der Lösungen durch Parameter."
+        "Pivot": "Linkester Nichtnull-Eintrag einer Zeile in Stufenform; markiert gebundene Variable.",
+        "Freie Variable": "Nicht durch Pivots festgelegt; parametrisiert unendlich viele Lösungen.",
+        "Parametrisierung": "Darstellung der Lösungsmenge durch Parameter, z.B. $x(t)=x_0+t v$."
       }
     },
     {
@@ -473,15 +497,17 @@
       "extended_explanation": {
         "titel": "Pivotkonzept in der Eliminationspraxis",
         "schritte": [
-          "Pivote strukturieren die Zeilenstufenform.",
-          "Elimination nutzt Pivote, um unterhalb Nullen zu erzeugen.",
-          "Pivotpositionen bestimmen die gebundenen Variablen."
+          "In der (reduzierten) Zeilenstufenform ist ein Pivot die linkeste Nichtnull in einer Zeile.",
+          "Pivotpositionen definieren die **gebundenen Variablen**; andere sind frei.",
+          "Durch Zeilenoperationen werden unterhalb eines Pivots Nullen erzeugt; in reduzierter Form auch oberhalb.",
+          "Teil der **LU-Zerlegung**: Pivots bilden die Diagonale von $U$; Zeilentausch entspricht Permutation $P$.",
+          "Pivotwahl beeinflusst numerische Stabilität; **partielles Pivotieren** wählt betragsgrößte Einträge."
         ]
       },
       "mini_glossary": {
-        "Elimination": "Schrittweises Entfernen von Nichtnullen unterhalb der Pivote.",
-        "Gebundene Variable": "Durch Pivot festgelegt.",
-        "Diagonaldominanz": "Nicht erforderlich, aber hilfreich für Stabilität."
+        "Elimination": "Sequenz von Zeilenoperationen zur Nullung von Einträgen unter (und ggf. über) Pivotpositionen.",
+        "Gebundene Variable": "Durch Pivot-Spalte festgelegt; kein Freiheitsgrad.",
+        "Diagonaldominanz": "Eigenschaft $|a_{ii}|\\ge \\sum_{j\\ne i}|a_{ij}|$; verbessert Stabilität, ist aber nicht zwingend."
       }
     },
     {
@@ -498,9 +524,9 @@
       "gewichtung": 1,
       "thema": "LE 15: Eigenwerte und Eigenvektoren",
       "mini_glossary": {
-        "Eigenwert": "Skalar $\\lambda$ mit $A v = \\lambda v$ für $v\\ne 0$.",
-        "Eigenvektor": "Nichttrivialer Vektor, der durch $A$ nur skaliert wird.",
-        "Spektrum": "Menge aller Eigenwerte einer Matrix."
+        "Eigenwert": "Nullstelle des charakteristischen Polynoms $\\det(A-\\lambda I)=0$; skaliert zugehörige Eigenvektoren.",
+        "Eigenvektor": "Nichtnullvektor $v$ mit $A v=\\lambda v$; bestimmt Richtungen invarianten Verhaltens.",
+        "Spektrum": "Menge aller Eigenwerte $\\sigma(A)$; beeinflusst Stabilität, Potenzen und Dynamik von $A$."
       }
     },
     {
@@ -519,15 +545,17 @@
       "extended_explanation": {
         "titel": "Invertierbarkeit und Spektrum",
         "schritte": [
-          "$\\det(A)\\ne 0 \\Leftrightarrow A$ ist invertierbar.",
-          "$\\lambda=0$ ist Eigenwert $\\Leftrightarrow \\det(A)=0$.",
-          "Daher: Invertierbar $\\Leftrightarrow 0$ kein Eigenwert."
+          "Äquivalente Kriterien: $A$ invertierbar $\\Leftrightarrow \\det(A)\\ne 0 \\Leftrightarrow \\ker(A)=\\{0\\} \\Leftrightarrow 0$ ist kein Eigenwert.",
+          "Ist $0$ Eigenwert, existiert $v\\ne 0$ mit $A v=0$, also nicht-injektiv und damit nicht invertierbar.",
+          "Charakteristisches Polynom $p_A(\\lambda)=\\det(A-\\lambda I)$ hat $\\lambda=0$ als Nullstelle $\\Leftrightarrow \\det(A)=0$.",
+          "Für reguläre $A$ existiert die eindeutige Inverse $A^{-1}$ mit $A^{-1}A=I$.",
+          "Spektral betrachtet liegt dann $0\\notin \\sigma(A)$, dem **Spektrum**."
         ]
       },
       "mini_glossary": {
-        "Determinante": "Produkt der Eigenwerte (bis auf Reihenfolge) bei quadratischen Matrizen.",
-        "Singulär": "Nicht invertierbar, $\\det(A)=0$.",
-        "Spektrum": "Menge der Eigenwerte."
+        "Determinante": "Multiplikatives Skalar, null genau bei Singulärität; geometrisch: orientiertes Volumenverhältnis.",
+        "Singulär": "Nicht invertierbar; es existiert $x\\ne 0$ mit $A x=0$; Spalten sind linear abhängig.",
+        "Spektrum": "Eigenwertmenge; $0\\notin\\sigma(A)$ ist äquivalent zu Invertierbarkeit."
       }
     },
     {
@@ -546,15 +574,17 @@
       "extended_explanation": {
         "titel": "Vom Polynom zur Spektralanalyse",
         "schritte": [
-          "Nullstelle $\\lambda_0$ von $p_A$ bedeutet $\\det(A-\\lambda_0 I)=0$.",
-          "Dann existiert ein $v\\ne 0$ mit $(A-\\lambda_0 I)v=0$.",
-          "Also ist $A v=\\lambda_0 v$: $\\lambda_0$ ist Eigenwert."
+          "Grad-$n$-Polynom: $p_A(\\lambda)=\\det(A-\\lambda I)$ besitzt genau $n$ Nullstellen mit **Vielfachheiten** (Fundamentalsatz der Algebra).",
+          "Nullstelle $\\lambda_0$ bedeutet $\\det(A-\\lambda_0 I)=0$, also nichttriviale Lösung von $(A-\\lambda_0 I)v=0$.",
+          "Algebraische Vielfachheit ist die Nullstellenordnung; geometrische Vielfachheit ist $\\dim\\ker(A-\\lambda_0 I)$. ",
+          "Es gilt stets: geometrische Vielfachheit $\\le$ algebraische Vielfachheit.",
+          "Die Summe der algebraischen Vielfachheiten ist $n$."
         ]
       },
       "mini_glossary": {
-        "Charakteristisches Polynom": "$\\det(A-\\lambda I_n)$.",
-        "Nullstelle": "Wert, an dem das Polynom 0 ist.",
-        "Eigenwertgleichung": "$(A-\\lambda I)v=0$."
+        "Charakteristisches Polynom": "Definiert als $\\det(A-\\lambda I)$; Koeffizienten sind bis auf Vorzeichen elementarsymmetrische Funktionen der Eigenwerte.",
+        "Nullstelle": "Wert $\\lambda$ mit $p_A(\\lambda)=0$; erzeugt singuläres $A-\\lambda I$ und damit einen Eigenvektor.",
+        "Eigenwertgleichung": "$(A-\\lambda I)v=0$; nichttriviale Lösungen existieren genau für Eigenwerte."
       }
     },
     {
@@ -571,17 +601,19 @@
       "gewichtung": 2,
       "thema": "LE 15: Eigenwerte und Eigenvektoren",
       "extended_explanation": {
-        "titel": "PCA in drei Sätzen",
+        "titel": "PCA in präzisen Schritten",
         "schritte": [
-          "Aufbau der Kovarianzmatrix und Spektralanalyse.",
-          "Sortieren der Eigenwerte/Eigenvektoren nach Varianzbeitrag.",
-          "Projektion auf die führenden Eigenvektoren zur Reduktion."
+          "Zentriere die Datenmatrix $X\\in\\mathbb{R}^{m\\times n}$ spaltenweise.",
+          "Berechne die Kovarianz $C=\\tfrac{1}{m-1} X^\\top X$.",
+          "Führe die Spektralzerlegung $C=Q \\Lambda Q^\\top$ durch mit orthogonalem $Q$ und nichtnegativem diagonalem $\\Lambda$.",
+          "Die Spalten von $Q$ sind **Hauptkomponenten**, die Diagonale von $\\Lambda$ enthält die Varianzen je Komponente.",
+          "Projektion auf die ersten $k$ Komponenten liefert $Z=X Q_k$ mit maximaler erklärter Varianz."
         ]
       },
       "mini_glossary": {
-        "PCA": "Hauptkomponentenanalyse; spektrale Methode zur Dimensionsreduktion.",
-        "Kovarianzmatrix": "Misst gemeinsame Schwankungen von Merkmalen.",
-        "Varianz": "Maß für Streuung um den Mittelwert."
+        "PCA": "Hauptkomponentenanalyse: Eigenzerlegung der Kovarianz zur Projektion auf Richtungen maximaler Varianz.",
+        "Kovarianzmatrix": "$C=\\tfrac{1}{m-1}(X-\\bar X)^\\top(X-\\bar X)$; symmetrisch und positiv semidefinit.",
+        "Varianz": "Erwarteter quadratischer Abstand vom Mittelwert; in PCA proportional zu den Eigenwerten von $C$."
       }
     },
     {
@@ -598,9 +630,9 @@
       "gewichtung": 1,
       "thema": "LE 16: Skalarprodukt und Orthogonalität",
       "mini_glossary": {
-        "Skalarprodukt": "Bilinarität (in $\\mathbb{R}^n$), Symmetrie und positive Definitheit.",
-        "Norm": "$\\|v\\|=\\sqrt{\\langle v,v\\rangle}$; induziert durch das Skalarprodukt.",
-        "Orthogonalität": "$\\langle v,w\\rangle=0$ bedeutet rechtwinklig."
+        "Skalarprodukt": "Bilinear (in $\\mathbb{R}^n$), symmetrisch und positiv definit: $\\langle v,v\\rangle>0$ für $v\\ne 0$. Induziert Norm und Winkel.",
+        "Norm": "$\\|v\\|=\\sqrt{\\langle v,v\\rangle}$; erfüllt Dreiecksungleichung und Homogenität.",
+        "Orthogonalität": "$\\langle v,w\\rangle=0$ definiert rechten Winkel; orthogonale Projektionen minimieren quadratische Fehler."
       }
     },
     {
@@ -619,15 +651,17 @@
       "extended_explanation": {
         "titel": "Warum ONB praktisch ist",
         "schritte": [
-          "Koordinaten sind Skalarprodukte: $x_i=\\langle x,e_i\\rangle$.",
-          "Orthonormalität vereinfacht Projektionen und Zerlegungen.",
-          "Viele Algorithmen (z.B. QR) arbeiten mit ONBs."
+          "Für ONB $(e_i)$ gilt $x=\\sum_i \\langle x,e_i\\rangle e_i$; die **Koordinaten** sind innere Produkte.",
+          "Parseval: $\\|x\\|^2=\\sum_i |\\langle x,e_i\\rangle|^2$; Energieerhaltung in ONB.",
+          "Projektionen auf Unterräume $U=\\operatorname{span}\\{e_1,\\dots,e_k\\}$ sind $P_U x=\\sum_{i=1}^k \\langle x,e_i\\rangle e_i$.",
+          "Numerisch sind ONBs stabil, da $Q$ orthogonal $\\Rightarrow Q^{-1}=Q^\\top$.",
+          "Viele Zerlegungen (QR, SVD) nutzen ONB-Strukturen explizit."
         ]
       },
       "mini_glossary": {
-        "Kronecker-Delta": "$\\delta_{ij}$ ist 1 für $i=j$, sonst 0.",
-        "Projektion": "Komponente eines Vektors entlang einer Richtung.",
-        "QR-Zerlegung": "Faktorisierung $A=QR$ mit orthogonalem $Q$."
+        "Kronecker-Delta": "$\\delta_{ij}=1$ für $i=j$, sonst $0$; formalisiert Orthonormalität in Matrixform $Q^\\top Q=I$.",
+        "Projektion": "Lineare Abbildung $P$ mit $P^2=P$ und $\\|x-Px\\|$ minimal; orthogonal, wenn zusätzlich $P^\\top=P$.",
+        "QR-Zerlegung": "Faktorisierung $A=QR$ mit orthogonalem $Q$ und oberdreieckigem $R$; entsteht z.B. via Gram–Schmidt."
       }
     },
     {
@@ -647,14 +681,16 @@
         "titel": "Vom Skalarprodukt zum Winkel",
         "schritte": [
           "Definiere die Norm durch $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$.",
-          "Normalisiere Vektoren und verwende $\\langle \\hat v,\\hat w\\rangle=\\cos(\\theta)$.",
-          "Rückskalieren liefert die obige Formel."
+          "Aus der Polaridentität bzw. dem Kosinussatz folgt $\\langle v,w\\rangle=\\|v\\|\\,\\|w\\|\\cos\\theta$.",
+          "Äquivalent: $\\cos\\theta=\\dfrac{\\langle v,w\\rangle}{\\|v\\|\\,\\|w\\|}$ für $v,w\\ne 0$.",
+          "Cauchy–Schwarz garantiert $|\\langle v,w\\rangle|\\le \\|v\\|\\,\\|w\\|$, daher $\\cos\\theta\\in[-1,1]$.",
+          "Orthogonalität entspricht $\\langle v,w\\rangle=0$ und somit $\\theta=\\tfrac{\\pi}{2}$."
         ]
       },
       "mini_glossary": {
-        "Norm": "Länge eines Vektors, aus dem Skalarprodukt abgeleitet.",
-        "Normalisierung": "Skalierung auf Norm 1.",
-        "Winkel": "Maß der Richtungslage zweier Vektoren."
+        "Norm": "Aus Skalarprodukt abgeleitet: $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$; induziert Metrik $d(x,y)=\\|x-y\\|$.",
+        "Normalisierung": "Ersetzt $v$ durch $\\hat v=\\dfrac{v}{\\|v\\|}$; setzt die Länge auf 1.",
+        "Winkel": "Definiert über $\\cos\\theta=\\dfrac{\\langle v,w\\rangle}{\\|v\\|\\,\\|w\\|}$; unabhängig von der Länge der Vektoren."
       }
     },
     {
@@ -673,15 +709,17 @@
       "extended_explanation": {
         "titel": "Herleitung der Projektionsformel",
         "schritte": [
-          "Zerlege $v$ in Komponenten parallel und orthogonal zu $u$.",
-          "Der parallele Anteil ist $\\alpha u$ mit $\\alpha=\\langle v,u\\rangle/\\langle u,u\\rangle$.",
-          "Damit folgt die Standardformel der Projektion."
+          "Zerlege $v$ als $v=\\alpha u+w$ mit $w\\perp u$; dann ist $\\operatorname{proj}_u(v)=\\alpha u$.",
+          "Orthogonalität liefert $0=\\langle v-\\alpha u, u\\rangle=\\langle v,u\\rangle-\\alpha\\langle u,u\\rangle$.",
+          "Somit $\\alpha=\\dfrac{\\langle v,u\\rangle}{\\langle u,u\\rangle}$ und $\\operatorname{proj}_u(v)=\\dfrac{\\langle v,u\\rangle}{\\langle u,u\\rangle}u$.",
+          "Der Projektor $P=\\dfrac{u u^\\top}{\\langle u,u\\rangle}$ ist **idempotent**: $P^2=P$ und **selbstadjungiert**: $P^\\top=P$.",
+          "Der Fehler $v-\\operatorname{proj}_u(v)$ ist orthogonal zu $u$ und minimiert die Distanz im Sinne der kleinsten Quadrate."
         ]
       },
       "mini_glossary": {
-        "Projektion": "Abbildung auf die Komponente in Richtung eines Vektors.",
-        "Orthogonal": "Rechtwinklig, Skalarprodukt ist 0.",
-        "Komponente": "Anteil eines Vektors entlang einer Richtung."
+        "Projektion": "Lineare Abbildung auf einen Unterraum, die jedes $v$ auf seine parallele Komponente abbildet und den Fehler orthogonal macht.",
+        "Orthogonal": "Rechtwinklig im Sinne $\\langle v,w\\rangle=0$; impliziert Pythagoras $\\|v\\|^2=\\|p\\|^2+\\|v-p\\|^2$.",
+        "Komponente": "Zerlegung $v=p+(v-p)$ mit $p$ parallel zu $u$; $p=\\operatorname{proj}_u(v)$."
       }
     },
     {
@@ -700,15 +738,17 @@
       "extended_explanation": {
         "titel": "Kernidee von Gram–Schmidt",
         "schritte": [
-          "Subtrahiere sukzessive Projektionen, um Orthogonalität zu erhalten.",
-          "Normiere die orthogonalen Vektoren auf Länge 1.",
-          "Ergebnis ist eine ONB des erzeugten Unterraums."
+          "Starte mit linear unabhängigen $v_1,\\dots,v_k$ und setze $u_1=v_1$.",
+          "Für $j\\ge 2$: $u_j=v_j-\\sum_{i=1}^{j-1} \\dfrac{\\langle v_j,u_i\\rangle}{\\langle u_i,u_i\\rangle} u_i$; dadurch werden $u_j$ orthogonal zu allen $u_i$, $i<j$.",
+          "Normiere: $e_j=\\dfrac{u_j}{\\|u_j\\|}$ ergibt eine ONB.",
+          "In Matrixform liefert Gram–Schmidt eine **QR-Zerlegung** $A=QR$ mit orthogonalem $Q$ und oberdreieckigem $R$.",
+          "Die modifizierte Variante verbessert die numerische Stabilität durch sukzessive Orthogonalisierung."
         ]
       },
       "mini_glossary": {
-        "Orthogonalisierung": "Herstellen von Orthogonalität zwischen Vektoren.",
-        "ONB": "Orthonormalbasis; orthogonal und normiert.",
-        "Unterraum": "Von einer Vektormenge erzeugter Raum."
+        "Orthogonalisierung": "Verfahren, aus unabhängigen Vektoren orthogonale zu konstruieren, typischerweise durch Projektionen.",
+        "ONB": "Orthonormalbasis; orthogonal und normiert, $Q^\\top Q=I$.",
+        "Unterraum": "Durch eine Vektormenge erzeugte Menge aller Linearkombinationen; Gram–Schmidt liefert eine ONB dieses Unterraums."
       }
     },
     {
@@ -725,9 +765,9 @@
       "gewichtung": 1,
       "thema": "LE 17: Graphentheorie",
       "mini_glossary": {
-        "Grad": "Anzahl der inzidenten Kanten eines Knotens.",
-        "Handshaking-Lemma": "Summe der Grade ist $2|E|$ in ungerichteten Graphen.",
-        "Ungerichteter Graph": "Kanten ohne Richtungspfeil."
+        "Grad": "Anzahl der inzidenten Kanten eines Knotens; Schleifen zählen in ungerichteten Graphen typischerweise als 2.",
+        "Handshaking-Lemma": "In ungerichteten Graphen gilt $\\sum_{v\\in V} \\deg(v)=2|E|$; folgt durch doppelte Zählung.",
+        "Ungerichteter Graph": "Kanten sind ungeordnete Paare; es existiert keine Richtung an Kanten."
       }
     },
     {
@@ -746,15 +786,17 @@
       "extended_explanation": {
         "titel": "Dichte vs. dünne Graphen",
         "schritte": [
-          "Dicht: $|E|\\in\\Theta(|V|^2)$, dünn: $|E|\\in\\Theta(|V|)$.",
-          "Adjazenzmatrix beansprucht $|V|^2$ Speicher unabhängig von $|E|$.",
-          "Bei Dichte ist der Overhead gegenüber Listen gering."
+          "Dicht: $|E|\\in\\Theta(|V|^2)$; dünn: $|E|\\in\\Theta(|V|)$.",
+          "Adjazenzmatrix speichert für jedes Knotenpaar einen Eintrag; Speicher $\\mathcal{O}(|V|^2)$.",
+          "Adjazenzlisten sind vorteilhaft bei dünnen Graphen mit Speicher $\\mathcal{O}(|V|+|E|)$.",
+          "Viele Matrixoperationen sind auf der Adjazenzmatrix **vektorisierbar**, was Rechenzeit spart.",
+          "Für dichte Graphen ist der konstante Faktor der Matrixdarstellung oft kleiner als der Listen-Overhead."
         ]
       },
       "mini_glossary": {
-        "Adjazenzmatrix": "Quadratische $|V|\\times |V|$-Matrix, Eintrag 1 bei Kanten.",
-        "Adjazenzliste": "Für jeden Knoten die Nachbarsliste.",
-        "Dichter Graph": "Hohe Kantenanzahl im Verhältnis zu $|V|^2$."
+        "Adjazenzmatrix": "Binäre/gewichtete $|V|\\times |V|$-Matrix; Eintrag $(i,j)$ gibt (gewichtete) Kante an.",
+        "Adjazenzliste": "Für jeden Knoten eine Liste seiner Nachbarn (ggf. mit Gewichten); speichereffizient bei dünnen Graphen.",
+        "Dichter Graph": "Hoher Kantenanteil relativ zu $|V|^2$; typischerweise $|E|\\approx c\\,|V|^2$ mit konstantem $c>0$."
       }
     },
     {
@@ -773,15 +815,17 @@
       "extended_explanation": {
         "titel": "Warum Dijkstra keine negativen Kanten verträgt",
         "schritte": [
-          "Greedy-Auswahl setzt voraus, dass bereits gefundene Wege optimal sind.",
-          "Negative Kanten könnten spätere Verkürzungen bewirken.",
-          "Bellman–Ford ist das passende Verfahren bei negativen Gewichten."
+          "Dijkstra nutzt eine **Greedy-Invariante**: Der entnommene Knoten hat endgültig minimalen Abstand.",
+          "Bei nicht-negativen Kanten kann ein späterer Pfad den Abstand nicht mehr verkürzen.",
+          "Eine negative Kante kann einen bereits finalen Abstand verringern und die Invariante zerstören.",
+          "Bei negativen Gewichten verwendet man **Bellman–Ford** oder **Johnson** (mit Reweighting).",
+          "Für nicht-negative Gewichte erreicht man mit einer Prioritätswarteschlange Komplexität $\\mathcal{O}((|V|+|E|)\\log|V|)$."
         ]
       },
       "mini_glossary": {
-        "Greedy-Algorithmus": "Trifft lokal optimale Entscheidungen in der Hoffnung auf globale Optimalität.",
-        "Bellman–Ford": "Algorithmus für Graphen mit negativen Kanten (ohne negative Zyklen).",
-        "Kürzeste Wege": "Wege mit minimaler Gesamtkantenlänge."
+        "Greedy-Algorithmus": "Wählt lokal optimale Schritte; Korrektheit erfordert eine Monotonie-/Optimalitätsinvariante.",
+        "Bellman–Ford": "Dynamische Programmierung für allgemeine Gewichte; erkennt negative Zyklen.",
+        "Kürzeste Wege": "Minimiere die Summe der Kantengewichte $\\sum w(e)$ entlang eines Pfads."
       }
     },
     {
@@ -800,15 +844,17 @@
       "extended_explanation": {
         "titel": "Pfad-Definition der Zusammenhangseigenschaft",
         "schritte": [
-          "Existenz eines Pfads für jedes Knotenpaar ist Definition.",
-          "In ungerichteten Graphen entspricht das einer einzigen Zusammenhangskomponente.",
-          "In gerichteten Graphen unterscheidet man starke/schwache Zusammenhangseigenschaft."
+          "Ungerichtet: Für alle $u,v\\in V$ existiert ein Pfad $u\\leadsto v$.",
+          "Der Graph zerfällt in **Zusammenhangskomponenten**, maximal zusammenhängende Teilgraphen.",
+          "Gerichtet: **Stark zusammenhängend** bedeutet gegenseitige Erreichbarkeit; **schwach** ignoriert Richtungen.",
+          "Praktische Prüfung mittels BFS oder DFS in $\\mathcal{O}(|V|+|E|)$.",
+          "Mengenweise Charakterisierung: Es gibt keine Trennung $V=S\\cup T$, $S,T\\ne\\emptyset$, ohne Kante zwischen $S$ und $T$."
         ]
       },
       "mini_glossary": {
-        "Pfad": "Folge von Knoten mit Kanten zwischen aufeinanderfolgenden Knoten.",
-        "Zyklus": "Pfad mit gleichem Start- und Endknoten.",
-        "Komponente": "Maximaler zusammenhängender Teilgraph."
+        "Pfad": "Sequenz von Knoten mit benachbarten Paaren; Länge ist Anzahl Kanten oder Gewichts-Summe.",
+        "Zyklus": "Geschlossener Pfad mit Länge $\\ge 1$; in ungerichteten Graphen ohne Richtung.",
+        "Komponente": "Maximal zusammenhängender Teilgraph; Graph ist zusammenhängend genau dann, wenn er eine Komponente hat."
       }
     },
     {
@@ -825,9 +871,9 @@
       "gewichtung": 1,
       "thema": "LE 17: Graphentheorie",
       "mini_glossary": {
-        "Einfacher Pfad": "Pfad ohne Wiederholung von Knoten.",
-        "Weglänge": "Summe der Kantengewichte bzw. Anzahl Kanten.",
-        "Teilgraph": "Graph, der aus einer Teilmenge von Knoten/Kanten besteht."
+        "Einfacher Pfad": "Pfad ohne Wiederholung von Knoten (und damit Kanten). Vermeidet Schleifen/Mehrfachbesuche.",
+        "Weglänge": "Anzahl der Kanten (ungewichtet) oder Summe der Gewichte (gewichtet).",
+        "Teilgraph": "Graph, der aus einer Teilmenge von Knoten und/oder Kanten gebildet wird; kann Pfade isolieren."
       }
     },
     {
@@ -844,9 +890,9 @@
       "gewichtung": 1,
       "thema": "LE 18: Bäume",
       "mini_glossary": {
-        "Baum": "Zusammenhängender, zyklenfreier Graph.",
-        "Kantenanzahl": "Für Bäume gilt $|E|=|V|-1$.",
-        "Zyklus": "Geschlossener Pfad."
+        "Baum": "Zusammenhängender, zyklenfreier Graph. Alternative Charakterisierungen sind äquivalent (z.B. eindeutiger Pfad zwischen Knoten).",
+        "Kantenanzahl": "Für jeden Baum gilt $|E|=|V|-1$; folgt per Induktion oder aus dem Handschlag-Lemma.",
+        "Zyklus": "Geschlossener Pfad; das Fehlen von Zyklen ist definierend für Bäume."
       }
     },
     {
@@ -865,15 +911,17 @@
       "extended_explanation": {
         "titel": "Höhe, Tiefe, Blatt präzisieren",
         "schritte": [
-          "Tiefe eines Knotens: Kantenanzahl von der Wurzel zum Knoten.",
-          "Blatt: Knoten ohne Kinder (nicht ohne Eltern).",
-          "Wurzel: Ein Elternloser Knoten mit ggf. Kindern."
+          "Tiefe eines Knotens $v$ ist die Anzahl der Kanten im Pfad von der Wurzel zu $v$.",
+          "Höhe des Baumes ist das Maximum der Tiefen aller Knoten.",
+          "Ein Blatt besitzt **keine Kinder**, nicht notwendigerweise keinen Elternknoten.",
+          "Jeder Knoten außer der Wurzel hat genau **einen** Elternknoten.",
+          "Bezeichnungen hängen von der Wurzelwahl ab, nicht von der ungerichteten Struktur."
         ]
       },
       "mini_glossary": {
-        "Wurzel": "Ausgangsknoten eines gewurzelten Baumes.",
-        "Höhe": "Maximale Tiefe eines Knotens.",
-        "Blatt": "Knoten ohne Kinder."
+        "Wurzel": "Ausgewählter Startknoten, von dem Eltern-Kind-Beziehungen orientiert werden.",
+        "Höhe": "Maximale Tiefe eines Knotens; Anzahl der Kanten entlang des längsten Wurzel–Blatt-Pfads.",
+        "Blatt": "Knoten ohne Kinder; in Suchbäumen tragen sie Datenendpunkte."
       }
     },
     {
@@ -892,15 +940,17 @@
       "extended_explanation": {
         "titel": "BFS-Mechanik in Kürze",
         "schritte": [
-          "Starte an der Wurzel, markiere besucht.",
-          "Lege Nachbarn in die Queue, entnimm in FIFO-Reihenfolge.",
-          "So werden Ebenen vollständig besucht, bevor tiefer gegangen wird."
+          "Initialisiere Distanzen mit $\\infty$, setze Startknoten $s$ auf 0, füge $s$ in die Queue.",
+          "Entnimm vorn, relaxiere unbesuchte Nachbarn und füge sie hinten an; so entstehen **Ebenen**.",
+          "Die entstehende Baumstruktur heißt **BFS-Baum** und enthält kürzeste Wege bei ungewichteten Graphen.",
+          "Zeitkomplexität $\\mathcal{O}(|V|+|E|)$ bei Adjazenzlisten; Speicher $\\mathcal{O}(|V|)$.",
+          "BFS testet Zusammenhang, berechnet Exzentrizitäten und dient als Basis für viele Graphalgorithmen."
         ]
       },
       "mini_glossary": {
-        "BFS": "Breitensuche; traversiert Graphen/Bäume ebenenweise.",
-        "Queue": "First-In-First-Out-Datenstruktur.",
-        "Traversierung": "Systematisches Besuchen von Knoten."
+        "BFS": "Breitensuche; verarbeitet Knoten in aufsteigender Entfernung vom Startknoten.",
+        "Queue": "First-In-First-Out-Struktur; garantiert Ebenenreihenfolge.",
+        "Traversierung": "Systematische Durchquerung der Knoten/Kanten entsprechend einer Strategie (BFS/DFS)."
       }
     },
     {
@@ -919,15 +969,17 @@
       "extended_explanation": {
         "titel": "BST-Ordnungsinvariante",
         "schritte": [
-          "Rekursive Ordnungsbedingung auf allen Teilbäumen.",
-          "Ermöglicht binäre Suche bei Traversierung.",
-          "In-Order-Traversierung liefert sortierte Schlüssel."
+          "Für jeden Knoten mit Schlüssel $k$ gilt: alle Schlüssel im linken Teilbaum $\\le k$, im rechten $\\ge k$.",
+          "Inorder-Traversierung liefert eine **sortierte** Folge der Schlüssel.",
+          "Suchen, Einfügen, Löschen sind im Durchschnitt $\\mathcal{O}(\\log n)$, im Worst-Case $\\mathcal{O}(n)$.",
+          "Duplikate benötigen eine Festlegung, z.B. $\\le$ links, $>$ rechts.",
+          "Balancierte Varianten (AVL, Rot-Schwarz) erzwingen Höhen $\\in\\Theta(\\log n)$."
         ]
       },
       "mini_glossary": {
-        "BST": "Binärer Suchbaum mit Ordnungsinvariante.",
-        "In-Order": "Links–Wurzel–Rechts; ergibt sortierte Folge im BST.",
-        "Balancierung": "Nicht Teil der Definition, aber performancekritisch."
+        "BST": "Baumstruktur mit Ordnungsinvariante; erlaubt binäre Suche entlang der Äste.",
+        "In-Order": "Links–Wurzel–Rechts; gibt in einem BST die Schlüssel aufsteigend aus.",
+        "Balancierung": "Techniken zur Begrenzung der Höhe (AVL, Rot-Schwarz, Splay), um Operationen effizient zu halten."
       }
     },
     {
@@ -944,9 +996,9 @@
       "gewichtung": 1,
       "thema": "LE 18: Bäume",
       "mini_glossary": {
-        "Preorder": "Wurzel vor Teilbäumen.",
-        "Inorder": "Links – Wurzel – Rechts (in BST sortiert).",
-        "Postorder": "Teilbäume vor der Wurzel."
+        "Preorder": "Reihenfolge: Wurzel, dann linker und rechter Teilbaum; nützlich für Kopieren/Serialisieren.",
+        "Inorder": "Links, Wurzel, Rechts; liefert bei BSTs sortierte Folge.",
+        "Postorder": "Linker und rechter Teilbaum, dann Wurzel; nützlich zum Löschen/Freeing."
       }
     },
     {
@@ -965,15 +1017,17 @@
       "extended_explanation": {
         "titel": "Basis und Dimension im $\\mathbb{R}^n$",
         "schritte": [
-          "Standardbasis: Einheitsvektoren $e_1,\\dots,e_n$.",
-          "Linear unabhängig und erzeugend.",
-          "Dimension = Anzahl der Basisvektoren = $n$."
+          "Die **Standardbasis** $(e_1,\\dots,e_n)$ ist linear unabhängig und erzeugend.",
+          "Jeder Vektor $x\\in\\mathbb{R}^n$ besitzt eine eindeutige Darstellung $x=\\sum_{i=1}^n x_i e_i$.",
+          "Alle Basen eines endlichen Vektorraums haben dieselbe Kardinalität; diese Zahl heißt **Dimension**.",
+          "Basiswechsel wird durch invertible Matrizen beschrieben; Koordinaten transformieren via $T^{-1}$.",
+          "Rang-Interpretation: Die Spalten von $I_n$ bilden eine Basis; Rang$(I_n)=n$."
         ]
       },
       "mini_glossary": {
-        "Standardbasis": "$e_i$ mit Eins an Position $i$, sonst 0.",
-        "Dimension": "Größe einer Basis.",
-        "Linear unabhängig": "Keine nichttriviale Linearkombination ergibt 0."
+        "Standardbasis": "$e_i$ mit einer 1 an Position $i$ und sonst 0; bildet Identität $I_n$ als Spalten.",
+        "Dimension": "Invariante eines endlichen Vektorraums; Anzahl Vektoren jeder Basis.",
+        "Linear unabhängig": "Nur die triviale Linearkombination ergibt $0$; prüfbar über Rang einer Spaltenmatrix."
       }
     },
     {
@@ -992,15 +1046,17 @@
       "extended_explanation": {
         "titel": "Diagonalisierung interpretieren",
         "schritte": [
-          "Eigenvektoren spannen eine Basis: $A P = P D$.",
-          "Basiswechsel mit $P^{-1}$ liefert $P^{-1} A P = D$.",
-          "Die Darstellung vereinfacht Potenzen und Funktionen von $A$."
+          "Eine Matrix $A$ ist diagonalisierbar $\\Leftrightarrow$ es existiert eine Basis aus Eigenvektoren von $A$.",
+          "Dann gilt $A P=P D$ mit $P=[v_1\\,\\dots\\,v_n]$ und $D=\\operatorname{diag}(\\lambda_1,\\dots,\\lambda_n)$.",
+          "Äquivalent: $P^{-1} A P=D$; Potenzen ergeben sich als $A^k=P D^k P^{-1}$.",
+          "Notwendig: Summe der geometrischen Vielfachheiten $=n$; hinreichend, wenn algebraische und geometrische Vielfachheiten je Eigenwert übereinstimmen.",
+          "Für reell symmetrische $A$ kann man $P$ **orthogonal** wählen (Spektralsatz)."
         ]
       },
       "mini_glossary": {
-        "Diagonalisierbarkeit": "Existenz einer Basis aus Eigenvektoren.",
-        "Spektralzerlegung": "Darstellung über Eigenwerte/-vektoren.",
-        "Basiswechsel": "Koordinatentransformation mittels invertierbarer Matrix."
+        "Diagonalisierbarkeit": "Existenz einer Eigenvektorbasis; scheitert, wenn die Summe geometrischer Vielfachheiten $<n$ ist.",
+        "Spektralzerlegung": "Darstellung über Eigenwerte/-vektoren; bei Normalmatrizen existiert unitäre Diagonalisierung.",
+        "Basiswechsel": "Transformation $P^{-1} A P=D$; vereinfacht $A$-Potenzen und Funktionsberechnungen $f(A)$ via $f(D)$."
       }
     }
   ]
