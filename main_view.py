@@ -746,9 +746,28 @@ def render_welcome_page(app_config: AppConfig):
         label_visibility="collapsed"
     )
 
+    # On first load (no selected_questions_file yet) or right after the welcome splash,
+    # open the distribution expander so the user immediately sees the chart for the default set.
+    if 'question_distribution_expanded' not in st.session_state:
+        opened_by_welcome = bool(st.session_state.get('_welcome_splash_dismissed', False))
+        st.session_state['question_distribution_expanded'] = ('selected_questions_file' not in st.session_state) or opened_by_welcome
+
+    # If the welcome splash was just dismissed, ensure the expander is open now.
+    try:
+        if st.session_state.get('_welcome_splash_dismissed', False):
+            st.session_state['question_distribution_expanded'] = True
+    except Exception:
+        pass
+
+    # debug block removed
+
     if selected_choice != st.session_state.get("selected_questions_file"):
         st.session_state.selected_questions_file = selected_choice
         _sync_questions_query_param(selected_choice)
+        try:
+            st.session_state['question_distribution_expanded'] = True
+        except Exception:
+            pass
         st.rerun()
         return
     selected_file = st.session_state.get("selected_questions_file")
@@ -774,7 +793,7 @@ def render_welcome_page(app_config: AppConfig):
         questions = load_questions(selected_file)
 
     # --- Diagramm zur Verteilung der Fragen ---
-    with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=False):
+    with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=st.session_state.get('question_distribution_expanded', False)):
         if questions:
             # Pass optional metadata (duration and difficulty profile) when available
             try:
