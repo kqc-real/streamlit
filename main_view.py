@@ -964,7 +964,7 @@ def render_welcome_page(app_config: AppConfig):
         # Present the secret-input inside an expander so the user can open/close it.
         # We persist the open state in `st.session_state['reserve_secret_expanded']` so
         # interactions (like clicking the reserve button) do not close it unexpectedly.
-        with st.expander("Geheimwort zur Reservierung (optional)", expanded=st.session_state.get('reserve_secret_expanded', False)):
+        with st.expander("Geheimwort für eine Reservierung (optional)", expanded=st.session_state.get('reserve_secret_expanded', False)):
             recovery_secret_new = st.text_input(
                 "Dieses Pseudonym dauerhaft für mich reservieren",
                 type="password",
