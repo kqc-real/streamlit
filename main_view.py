@@ -672,9 +672,9 @@ def render_welcome_page(app_config: AppConfig):
     _render_welcome_splash()
 
     # --- Titel  ---
-    st.markdown(f"""
+    st.markdown("""
         <div style='text-align: center; padding: 0 0 10px 0;'>
-            <h1 style='color:#4b9fff; font-size: clamp(2.5rem, 5vw, 2.1rem);'>MC-Test</h1>
+            <h1 style='color:#4b9fff;'>MC-Test</h1>
         </div>
     """, unsafe_allow_html=True)
 
