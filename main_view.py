@@ -732,7 +732,7 @@ def render_welcome_page(app_config: AppConfig):
         return label
 
     st.markdown(
-        "<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Fragenset</h3>",
+        "<h3 style='text-align: center;'>Wähle dein Fragenset</h3>",
         unsafe_allow_html=True,
     )
 
