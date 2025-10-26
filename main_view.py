@@ -767,11 +767,6 @@ def render_welcome_page(app_config: AppConfig):
             count = difficulty_profile.get(key)
             if count:
                 difficulty_parts.append(f"- {count} × {label}")
-        info_suffix = f" · Schwierigkeitsmix:\n{chr(10).join(difficulty_parts)}" if difficulty_parts else ""
-        if duration:
-            st.caption(f"⏱️ Empfohlene Testzeit: {duration} min{info_suffix}")
-        elif difficulty_parts:
-            st.caption(f"Schwierigkeitsmix:\n{chr(10).join(difficulty_parts)}")
 
     if selected_question_set is not None:
         questions = selected_question_set
@@ -781,7 +776,16 @@ def render_welcome_page(app_config: AppConfig):
     # --- Diagramm zur Verteilung der Fragen ---
     with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=False):
         if questions:
-            render_question_distribution_chart(list(questions))
+            # Pass optional metadata (duration and difficulty profile) when available
+            try:
+                render_question_distribution_chart(
+                    list(questions),
+                    duration_minutes=duration if 'duration' in locals() else None,
+                    difficulty_profile=difficulty_profile if 'difficulty_profile' in locals() else None,
+                )
+            except Exception:
+                # Fallback to simple call if metadata not available or chart errors
+                render_question_distribution_chart(list(questions))
         else:
             st.warning("⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
 

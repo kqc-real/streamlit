@@ -839,8 +839,13 @@ def render_skipped_questions(questions: QuestionSet):
             st.rerun()
 
 
-def render_question_distribution_chart(questions: list):
-    """Rendert ein gestapeltes Balkendiagramm der Fragenverteilung."""
+def render_question_distribution_chart(questions: list, duration_minutes=None, difficulty_profile=None):
+    """Rendert ein gestapeltes Balkendiagramm der Fragenverteilung.
+
+    Optional parameters:
+    - duration_minutes: int | None -- recommended test duration to show as subtitle
+    - difficulty_profile: dict | None -- expected keys 'leicht','mittel','schwer' with counts
+    """
     import plotly.graph_objects as go
 
     df_fragen = pd.DataFrame(questions)
@@ -889,6 +894,28 @@ def render_question_distribution_chart(questions: list):
         yaxis_title="Anzahl der Fragen",
         legend_title="Schwierigkeit",
     )
+    # If metadata provided, render it as a small heading above the chart
+    try:
+        summary_parts = []
+        if duration_minutes:
+            summary_parts.append(f"⏱️ Testzeit: {int(duration_minutes)} min")
+
+        if difficulty_profile and isinstance(difficulty_profile, dict):
+            leicht_count = int(difficulty_profile.get('leicht', 0) or 0)
+            mittel_count = int(difficulty_profile.get('mittel', 0) or 0)
+            schwer_count = int(difficulty_profile.get('schwer', 0) or 0)
+            summary_parts.append(
+                f"<br>⛰️ {leicht_count} × leicht · {mittel_count} × mittel · {schwer_count} × schwer"
+            )
+
+        if summary_parts:
+            summary_html = "".join(summary_parts)
+            # Render as a compact heading above the chart to avoid overlap with x-labels
+            st.markdown(f"{summary_html}", unsafe_allow_html=True)
+    except Exception:
+        # Non-critical: if building the summary fails, continue without it
+        pass
+
     st.plotly_chart(fig, config={"responsive": True}, use_container_width=True)
 
 
