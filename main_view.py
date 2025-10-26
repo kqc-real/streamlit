@@ -958,10 +958,10 @@ def render_welcome_page(app_config: AppConfig):
     recovery_secret_new = None
     if selected_name_from_user:
         recovery_secret_new = st.text_input(
-            "Ich möchte mein Pseudonym mit einem Geheimwort reservieren",
+            "Dieses Pseudonym dauerhaft für mich reservieren",
             type="password",
             max_chars=32,
-            placeholder="(leer lassen, wenn nicht gewünscht)",
+            placeholder="Mein Geheimwort für die Reservierung...",
             key="recovery_secret_new",
         )
 
@@ -1023,10 +1023,10 @@ def render_welcome_page(app_config: AppConfig):
         st.divider()
 
     # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
-    with st.expander("Ich habe bereits ein Pseudonym", expanded=False):
+    with st.expander("Ich habe bereits ein reserviertes Pseudonym…", expanded=False):
         pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
         secret_recover = st.text_input("Geheimwort", type="password", key="recover_secret")
-        if st.button("Mit reserviertem Pseudonym Test starten", key="btn_recover_pseudonym"):
+        if st.button("Mit dem reservierten Pseudonym Test starten", key="btn_recover_pseudonym"):
             if not pseudonym_recover or not secret_recover:
                 st.warning("Bitte Pseudonym und Geheimwort eingeben.")
             else:
