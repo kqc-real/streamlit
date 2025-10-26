@@ -1035,7 +1035,7 @@ def render_welcome_page(app_config: AppConfig):
                     if ok:
                         st.session_state['reserve_success_pseudonym'] = user_name
                         st.session_state['reserve_success_message'] = (
-                            "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
+                            "Pseudonym reserviert. "
                             "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
                             "Du musst es später exakt so eingeben."
                         )
@@ -1181,7 +1181,7 @@ def render_welcome_page(app_config: AppConfig):
                         if ok:
                             st.session_state['reserve_success_pseudonym'] = user_name
                             st.session_state['reserve_success_message'] = (
-                                "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
+                                "Pseudonym reserviert. "
                                 "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
                                 "Du musst es später exakt so eingeben."
                             )
