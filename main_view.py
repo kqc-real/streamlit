@@ -957,76 +957,108 @@ def render_welcome_page(app_config: AppConfig):
     # Optional: Setze ein Wiederherstellungs-Geheimwort für das neu ausgewählte Pseudonym
     recovery_secret_new = None
     if selected_name_from_user:
-        recovery_secret_new = st.text_input(
-            "Dieses Pseudonym dauerhaft für mich reservieren",
-            type="password",
-            max_chars=32,
-            placeholder="Mein Geheimwort für die Reservierung...",
-            key="recovery_secret_new",
-        )
+        # Ensure we have a session_state flag to keep the expander open across reruns
+        if 'reserve_secret_expanded' not in st.session_state:
+            st.session_state['reserve_secret_expanded'] = False
 
-        # Client-side validation: show min-length hint and inline warning
-        try:
-            from config import AppConfig
-            cfg = AppConfig()
-            min_len = int(getattr(cfg, "recovery_min_length", 6))
-            allow_short = bool(getattr(cfg, "recovery_allow_short", False))
-        except Exception:
-            min_len = 6
-            allow_short = False
+        # Present the secret-input inside an expander so the user can open/close it.
+        # We persist the open state in `st.session_state['reserve_secret_expanded']` so
+        # interactions (like clicking the reserve button) do not close it unexpectedly.
+        with st.expander("Geheimwort zur Reservierung (optional)", expanded=st.session_state.get('reserve_secret_expanded', False)):
+            recovery_secret_new = st.text_input(
+                "Dieses Pseudonym dauerhaft für mich reservieren",
+                type="password",
+                max_chars=32,
+                placeholder="Mein Geheimwort für die Reservierung...",
+                key="recovery_secret_new",
+            )
 
-        secret_too_short = False
-        if recovery_secret_new:
-            if not allow_short and len(recovery_secret_new) < min_len:
-                st.warning(f"Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.")
-                secret_too_short = True
-        # Expose the validation flag in session state for other handlers if needed
-        st.session_state['_recovery_secret_too_short'] = secret_too_short
-
-        # Direktes Reservieren-Button direkt nach dem Geheimwort-Eingabefeld
-        # Dieser Button reserviert das ausgewählte Pseudonym ohne den Test zu starten.
-        try:
-            secret_too_short_local = st.session_state.get('_recovery_secret_too_short', False)
-        except Exception:
-            secret_too_short_local = False
-
-        reserve_disabled_inline = (not selected_name_from_user) or (not recovery_secret_new) or secret_too_short_local
-        if st.button(
-            "Pseudonym reservieren",
-            key="btn_reserve_pseudonym_inline",
-            type="primary",
-            width="stretch",
-            disabled=bool(reserve_disabled_inline),
-        ):
-            from database import add_user
-            user_name = selected_name_from_user
-            user_id_hash = get_user_id_hash(user_name)
+            # If the user has typed something, keep the expander open for subsequent reruns.
             try:
-                add_user(user_id_hash, user_name)
-                ok = set_recovery_secret(user_id_hash, recovery_secret_new)
-                if ok:
-                    st.session_state['reserve_success_pseudonym'] = user_name
-                    st.session_state['reserve_success_message'] = (
-                        "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
-                        "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
-                        "Du musst es später exakt so eingeben."
-                    )
-                else:
-                    st.session_state['reserve_error_message'] = (
-                        "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
-                    )
-            except Exception as e:
-                st.session_state['reserve_error_message'] = f"Fehler beim Reservieren des Pseudonyms: {e}"
-            # Rerun so the selection list is refreshed and the reserved pseudonym is removed
-            st.rerun()
-        # Visuelle Trennung: Divider direkt unter dem Reservieren-Button
+                if recovery_secret_new:
+                    st.session_state['reserve_secret_expanded'] = True
+            except Exception:
+                pass
+
+            # Client-side validation: show min-length hint and inline warning
+            try:
+                from config import AppConfig
+                cfg = AppConfig()
+                min_len = int(getattr(cfg, "recovery_min_length", 6))
+                allow_short = bool(getattr(cfg, "recovery_allow_short", False))
+            except Exception:
+                min_len = 6
+                allow_short = False
+
+            secret_too_short = False
+            if recovery_secret_new:
+                if not allow_short and len(recovery_secret_new) < min_len:
+                    st.warning(f"Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.")
+                    secret_too_short = True
+            # Expose the validation flag in session state for other handlers if needed
+            st.session_state['_recovery_secret_too_short'] = secret_too_short
+
+            # Direktes Reservieren-Button direkt nach dem Geheimwort-Eingabefeld
+            # Dieser Button reserviert das ausgewählte Pseudonym ohne den Test zu starten.
+            try:
+                secret_too_short_local = st.session_state.get('_recovery_secret_too_short', False)
+            except Exception:
+                secret_too_short_local = False
+
+            reserve_disabled_inline = (not selected_name_from_user) or (not recovery_secret_new) or secret_too_short_local
+            if st.button(
+                "Pseudonym reservieren",
+                key="btn_reserve_pseudonym_inline",
+                type="primary",
+                width="stretch",
+                disabled=bool(reserve_disabled_inline),
+            ):
+                # Ensure expander remains open after reservation attempt
+                st.session_state['reserve_secret_expanded'] = True
+                from database import add_user
+                user_name = selected_name_from_user
+                user_id_hash = get_user_id_hash(user_name)
+                try:
+                    add_user(user_id_hash, user_name)
+                    ok = set_recovery_secret(user_id_hash, recovery_secret_new)
+                    if ok:
+                        st.session_state['reserve_success_pseudonym'] = user_name
+                        st.session_state['reserve_success_message'] = (
+                            "Pseudonym reserviert und Recovery-Geheimwort gespeichert. "
+                            "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
+                            "Du musst es später exakt so eingeben."
+                        )
+                    else:
+                        st.session_state['reserve_error_message'] = (
+                            "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
+                        )
+                except Exception as e:
+                    st.session_state['reserve_error_message'] = f"Fehler beim Reservieren des Pseudonyms: {e}"
+                # Rerun so the selection list is refreshed and the reserved pseudonym is removed
+                st.rerun()
+        # Visuelle Trennung: Divider direkt unter dem Reservieren-Button (außerhalb des Expanders)
         st.divider()
 
     # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
-    with st.expander("Ich habe bereits ein reserviertes Pseudonym…", expanded=False):
+    # Persist the expander open/closed state so it remains open after interactions.
+    if 'recover_pseudonym_expanded' not in st.session_state:
+        st.session_state['recover_pseudonym_expanded'] = False
+
+    with st.expander("Ich habe bereits ein reserviertes Pseudonym…", expanded=st.session_state.get('recover_pseudonym_expanded', False)):
         pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
         secret_recover = st.text_input("Geheimwort", type="password", key="recover_secret")
+
+        # Keep the expander open when the user types into either field so
+        # the UI does not collapse on reruns triggered by widget interactions.
+        try:
+            if (pseudonym_recover and str(pseudonym_recover).strip()) or (secret_recover and str(secret_recover).strip()):
+                st.session_state['recover_pseudonym_expanded'] = True
+        except Exception:
+            pass
+
         if st.button("Mit dem reservierten Pseudonym Test starten", key="btn_recover_pseudonym"):
+            # Ensure expander remains open during/after the recovery attempt.
+            st.session_state['recover_pseudonym_expanded'] = True
             if not pseudonym_recover or not secret_recover:
                 st.warning("Bitte Pseudonym und Geheimwort eingeben.")
             else:
