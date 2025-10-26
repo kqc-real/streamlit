@@ -671,17 +671,12 @@ def render_welcome_page(app_config: AppConfig):
     _sync_questions_query_param(selected_file)
     _render_welcome_splash()
 
-    # --- Dynamischer Titel und Willkommensnachricht ---
-    # Der Titel wird aus dem ausgewählten Dateinamen generiert, der im Session State liegt.
-    dynamic_title = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    # --- Titel  ---
     st.markdown(f"""
         <div style='text-align: center; padding: 0 0 10px 0;'>
             <h1 style='color:#4b9fff; font-size: clamp(2.5rem, 5vw, 2.1rem);'>MC-Test</h1>
-            <h1 style='font-size: clamp(1.8rem, 7vw, 2.8rem); margin-top: -1.0rem;'>{dynamic_title}</h1>
         </div>
     """, unsafe_allow_html=True)
-
-    st.markdown("</div>", unsafe_allow_html=True)
 
     # (Note) Sidebar rendering is handled by `components.render_sidebar`.
 
