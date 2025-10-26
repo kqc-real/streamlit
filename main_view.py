@@ -671,12 +671,7 @@ def render_welcome_page(app_config: AppConfig):
     _sync_questions_query_param(selected_file)
     _render_welcome_splash()
 
-    # --- Titel  ---
-    st.markdown("""
-        <div style='text-align: center; padding: 0 0 10px 0;'>
-            <h1 style='color:#4b9fff;'>MC-Test</h1>
-        </div>
-    """, unsafe_allow_html=True)
+
 
     # (Note) Sidebar rendering is handled by `components.render_sidebar`.
 
