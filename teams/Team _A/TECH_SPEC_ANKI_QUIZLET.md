@@ -587,8 +587,68 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 
 ---
 
-##
+# 📘 Anki – Übersicht für Selbststudium mit Karteikarten, Limitierungen
 
+| **Aspekt** | **Beschreibung** |
+|-------------|------------------|
+| **Plattform** | Open-Source, Desktop-first (Windows, macOS, Linux), mobile Version: *AnkiMobile* (iOS, kostenpflichtig) & *AnkiDroid* (Android, kostenlos) |
+| **Lernprinzip** | Spaced Repetition nach dem SM2-Algorithmus (wie SuperMemo). Optimiert Wiederholungen nach Vergessenskurve. |
+| **Zielgruppe** | Power-User, Studierende, medizinische / sprachliche Lernende, alle mit Fokus auf Langzeitgedächtnis |
+| **Offline-Fähigkeit** | Vollständig offline nutzbar (alle Plattformen) |
+| **Datenhaltung** | Lokal auf Gerät gespeichert, optional Sync via *AnkiWeb* |
+| **Exportformate** | `.apkg` (komplettes Deck inkl. Medien & Kartenstruktur), `.txt` / `.csv` (reine Textdaten) |
+| **Was _nicht_ exportiert wird** | - Lernstatistiken (z. B. Wiederholungsintervall, Ease Factor) werden **nicht in CSV/TXT** exportiert<br>- Einige Add-on-spezifische Felder (z. B. „Image Occlusion Enhanced“) fehlen im Standardexport |
+| **Importmöglichkeiten** | `.apkg`, `.csv`, `.txt`, *Quizlet*-Import (über Add-ons wie “CrowdAnki”, “Anki-Importer”, “Quizlet2Anki”) |
+| **Add-ons / Erweiterbarkeit** | Sehr hoch – über 1000 Plugins (z. B. Image Occlusion, Heatmap, Review Statistics, Syntax Highlighting, LaTeX, Audio Recorder etc.) |
+| **Automatisierung / Scripting** | Python-basiert, API über *AnkiConnect* (z. B. für automatische Karteierstellung aus Notizen, PDFs, ChatGPT etc.) |
+| **Workarounds / Fallbacks** | 🔹 **Cloud-Sync:** über *AnkiWeb* (kostenlos)<br>🔹 **Versionierung:** regelmäßiger Export als `.apkg`<br>🔹 **Fehlerhafte Add-ons:** im „Safe Mode“ starten<br>🔹 **Backups:** automatische tägliche Sicherung im Profilordner |
+| **Breaking Changes bei Updates** | - Core-Updates können Add-ons temporär inkompatibel machen<br>- Datenformat bleibt stabil (alte `.apkg` fast immer kompatibel)<br>- Add-on-Kompatibilität prüfen nach großen Versionen (z. B. 2.1.x → 2.2.x) |
+| **Datensicherheit / Datenhoheit** | Sehr hoch – lokale Speicherung, Open-Source, keine Cloudpflicht |
+| **Empfohlener Workflow** | 1️⃣ Karten in Desktop-Version erstellen<br>2️⃣ Regelmäßig `.apkg`-Backups exportieren<br>3️⃣ Optional Sync mit *AnkiWeb*<br>4️⃣ Mobile Nutzung über *AnkiDroid* oder *AnkiMobile* |
+| **Langfristige Stabilität** | Hoch – Open-Source-Community sichert Weiterentwicklung, stabile Dateiformate seit über 10 Jahren |
+
+---
+
+## 💡 Fazit
+
+- **Stärken:** Open-Source, voll konfigurierbar, starkes Spaced-Repetition-System, 100 % Datenhoheit.  
+- **Schwächen:** Etwas höhere Lernkurve, Add-on-Pflege nach Updates nötig.  
+- **Empfehlung:** Ideal als Hauptplattform für langfristiges Selbststudium – kombinierbar mit Quizlet für einfache Erstellung oder gemeinsames Lernen.
+
+---
+
+# 📗 Quizlet – Übersicht für Selbststudium mit Karteikarten
+
+| **Aspekt** | **Beschreibung** |
+|-------------|------------------|
+| **Plattform** | Kommerzielle, cloudbasierte Lernplattform mit Web-App + Mobile Apps (iOS, Android) |
+| **Lernprinzip** | Karteikarten, Multiple-Choice, Lernspiele („Match“, „Gravity“), Testmodus; **Spaced Repetition** nur mit *Quizlet Plus* (Premium-Abo) |
+| **Zielgruppe** | Breite Lernerschaft: Schüler:innen, Studierende, Lehrkräfte, Einsteiger |
+| **Fokus / Design** | Mobile-first, intuitive Oberfläche, schnell zu bedienen, starke Community-Funktion (geteilte Sets) |
+| **Offline-Fähigkeit** | Nur mit *Quizlet Plus* (kostenpflichtig) verfügbar |
+| **Datenhaltung** | Cloudbasiert (keine lokale Speicherung), Synchronisation automatisch über Konto |
+| **Exportformate** | Nur **Text-/CSV-Export** – limitiert: <br> - Nur Text (Frage/Antwort)<br> - Keine Bilder, Audio oder Formatierungen |
+| **Was _nicht_ exportiert werden kann** | ❌ Bilder / Audio-Dateien <br> ❌ Formatierungen (z. B. Markdown, Fett, Kursiv) <br> ❌ Lernstatistiken <br> ❌ Fortschritt & Wiederholungsdaten <br> ❌ „Spaced Repetition“-Informationen (auch mit Plus) |
+| **Importmöglichkeiten** | CSV-/Tab-getrennter Textimport möglich (einfacher Text), kein Anki-Import |
+| **Add-ons / Erweiterbarkeit** | Keine offiziellen Add-ons, API stark eingeschränkt (viele inoffizielle Tools regelmäßig deaktiviert) |
+| **Workarounds / Fallbacks** | 🔹 **Quizlet → Anki:** via Tools wie *Quizlet2Anki*, *Anki-Importer*, *Memcode Export* (häufig durch API-Änderungen betroffen)<br>🔹 **Backup:** manuell als CSV-Export sichern<br>🔹 **Screenshots** für Inhalte mit Bildern als Notlösung |
+| **Automatisierung / Scripting** | Keine offizielle API mehr für Free-User (seit 2020 stark eingeschränkt) |
+| **Community-Funktionen** | Sehr groß – Sets können geteilt, kopiert und durchsucht werden (öffentlich oder privat) |
+| **Breaking Changes bei Updates** | ⚠️ Häufig! Quizlet ändert regelmäßig API und Exportmechanismen → viele Tools (z. B. *Quizlet2Anki*) brechen ohne Vorwarnung |
+| **Datensicherheit / Datenhoheit** | Niedrig – Inhalte liegen in der Cloud, kein garantierter Vollzugriff auf eigene Daten |
+| **Empfohlener Workflow** | 1️⃣ Sets online oder mobil erstellen <br> 2️⃣ Regelmäßiger CSV-Export als Backup (Text-only) <br> 3️⃣ Optional: Konvertierung in Anki für Langzeitlernen |
+| **Langfristige Stabilität** | Mittel – stabile App, aber häufige Feature-Änderungen und Exportrestriktionen |
+| **Kostenmodell** | - Kostenlos: Basisfunktionen, Werbung<br>- *Quizlet Plus*: Spaced Repetition, Offline-Modus, keine Werbung |
+
+---
+
+## 💡 Fazit
+
+- **Stärken:** Einfach, schnell, optisch ansprechend, perfekt für gemeinsames Lernen oder schnelles Wiederholen unterwegs.  
+- **Schwächen:** Eingeschränkter Export, keine Datenhoheit, häufige API-Änderungen.  
+- **Empfehlung:** Ideal als *Ergänzung* zu Anki – nutze Quizlet zum schnellen Erstellen oder Teilen von Sets, exportiere regelmäßig als Text, und sichere wichtige Inhalte zusätzlich in Anki.
+
+---
 
 Alle KI-generierten Inhalte wurden manuell geprüft, angepasst und durch Tests validiert.
 (generiert mit Chat GPT)
