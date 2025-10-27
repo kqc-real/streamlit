@@ -91,6 +91,7 @@ Fortschrittsanzeige („Export läuft… bitte warten“)
 
 
 <h2>🧭 Priorisierung & Roadmap für Export zu Anki und Quizlet
+  
 *(Stand: 27. Oktober 2025)*
   
 ---
