@@ -341,7 +341,17 @@ Export - Anki > 3 klicks
   - 🎯 Batch-Export + LaTeX-Support  
 - **USP:** Erste App, die **Fragensets aus Prüfungen direkt in Lernplattformen exportieren** kann.  
 - **Fazit:** Starke Differenzierung durch Zeitersparnis & technische Präzision.  
-
+<br>
+**Quellen**
+https://help.quizlet.com/hc/en-us/articles/360034345672-Exporting-your-sets?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://docs.ankiweb.net/exporting.html?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://www.reddit.com/r/Anki/comments/1kr0x70/how_do_i_export_multiple_decks_under_a_parent/?utm_source=chatgpt.com (20.05.2025)
+<br>
+https://digitaliser.getmarked.ai/blog/how-to-export-quizlet-to-canvas-blackboard-moodle-brightspace-lms/?utm_source=chatgpt.com (09.04.2023)
+<br>
+https://de.wikipedia.org/wiki/Anki?utm_source=chatgpt.com (05.05.2025)
 ---
 
 ## 🧭 Empfehlung
