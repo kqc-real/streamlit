@@ -1,5 +1,4 @@
 # ⚽ Fußballquiz – Schritt-für-Schritt-Anleitung
----
 
 ---
 
