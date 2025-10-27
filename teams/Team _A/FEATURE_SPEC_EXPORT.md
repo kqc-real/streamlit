@@ -30,6 +30,7 @@ id (falls vorhanden) | Note ID | Keine | Automatisch generieren
 
 <h2>🎨 UI-Mockup – Export nach Anki
 
+
 📍 Wo erscheint der Export-Button?
 
 Der Export-Button befindet sich auf der Seite eines Fragensets (z. B. „Physik-Test 2025“).
@@ -85,6 +86,39 @@ Fortschrittsanzeige („Export läuft… bitte warten“)
 ❌ Fehlgeschlagener Export / Fehler
 
 <img width="1024" height="1024" alt="d5059619-30a9-45c9-8985-b2077087ff2e" src="https://github.com/user-attachments/assets/22662f94-d350-4a8d-961e-7fa0611999b5" />
+
+<h2>🧭 Priorisierung & Roadmap für Export zu Anki und Quizlet
+  
+🎯 Überblick
+
+Ziel: Export aus der MC-Test-App in Anki und Quizlet, um Reichweite und Lernvielfalt zu erhöhen.
+Beide Plattformen dienen dem Selbststudium (Spaced Repetition Learning) und decken unterschiedliche Nutzersegmente ab:
+
+Anki → Open Source, Power User, Desktop/Offline.
+
+Quizlet → Kommerziell, Mobile-first, Einsteigerfreundlich.
+
+##🔢 MoSCoW-Priorisierung
+
+| Plattform   | Priorität   | Story Points (Schätzung) | Business Value                                            | Technical Effort | Risk Level | Begründung                                                                                   |
+| ----------- | ----------- | ------------------------ | --------------------------------------------------------- | ---------------- | ---------- | -------------------------------------------------------------------------------------------- |
+| **Anki**    | ✅ MUST HAVE | 13 SP                    | Sehr hoch (Power-User, Dozenten, Open Source Integration) | Mittel           | Niedrig    | Format klar dokumentiert (Anki .txt/.apkg), große Nutzergemeinde, einfacher CSV/Text-Export. |
+| **Quizlet** | ✅ MUST HAVE | 21 SP                    | Hoch (Mainstream, Studierende, Reichweite)                | Mittel–hoch      | Mittel     | API limitiert, aber CSV-Import möglich. Relevanz hoch für Studierende, mobile Nutzung.       |
+
+
+##📊 Business Value Bewertung
+
+| Kriterium                 | Anki                             | Quizlet                            |
+| ------------------------- | -------------------------------- | ---------------------------------- |
+| Zielgruppen-Fit           | 👨‍🏫 Dozenten, MINT-Studierende | 📱 BWL-Studierende, Erstsemester   |
+| Reichweite                | Mittel                           | Hoch                               |
+| Monetarisierungspotenzial | Gering (Open Source)             | Hoch (Pro-Lizenzen, Kooperationen) |
+| Community-Unterstützung   | Hoch                             | Mittel                             |
+| Integrationsaufwand       | Mittel                           | Hoch (API limitiert)               |
+| Datenschutz/DSGVO         | Sehr gut                         | Mittel                             |
+
+
+Empfehlung: Beide als MUST HAVE im ersten Entwicklungszyklus (Sprint 1), da sie verschiedene Kernzielgruppen abdecken.
 
 
 
