@@ -351,6 +351,9 @@ ATP\tEnergieüberträger der Zelle\n
 
 ---
 
+*"Technische Spezifikation: Quizlet-Datenstruktur" mit Unterstützung von ChatGPT recherchiert.*
+
+---
 <html>
 <body>
 <!--StartFragment--><html><head></head><body>
