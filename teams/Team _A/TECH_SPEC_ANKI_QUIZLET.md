@@ -603,6 +603,20 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 2. **Anki‑Preset**: Note‑Type `MC-Card` mit Feldern `Front, Back, Explanation, Difficulty, Weight, Glossary`; Export **.apkg** bevorzugt.
 3. **Quizlet‑Preset**: CSV mit Spalten `Term, Definition`; **Definition-Composer** fügt Präfixe/Texte gemäß Konvention ein.
 4. **Consistency Linter** vor Export: prüft Länge, verbotene Zeichen, fehlende Medien, leere Erklärungen.
+<br>
+**Quellen**
+<br>
+https://docs.ankiweb.net/importing/intro.html?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://forums.ankiweb.net/t/extra-fields-during-import/11678?utm_source=chatgpt.com (Juli 2021)
+<br>
+https://forums.ankiweb.net/t/field-mapping-of-csv-file-shows-front-and-back-together/41830?utm_source=chatgpt.com (März 2024)
+<br>
+https://forums.ankiweb.net/t/import-field-mapping-nothing/44722?utm_source=chatgpt.com (Mai 2024)
+<br>
+https://help.quizlet.com/hc/en-us/articles/360029977151-Creating-sets-by-importing-content?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://monsha.ai/blog/how-to-import-questions-from-a-file-into-a-quizlet-set?utm_source=chatgpt.com (21.09.2025)
 
 ---
 
@@ -633,6 +647,16 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 - **Stärken:** Open-Source, voll konfigurierbar, starkes Spaced-Repetition-System, 100 % Datenhoheit.  
 - **Schwächen:** Etwas höhere Lernkurve, Add-on-Pflege nach Updates nötig.  
 - **Empfehlung:** Ideal als Hauptplattform für langfristiges Selbststudium – kombinierbar mit Quizlet für einfache Erstellung oder gemeinsames Lernen.
+
+<br>
+https://docs.ankiweb.net/getting-started.html?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://en.wikipedia.org/wiki/Anki_%28software%29?utm_source=chatgpt.com (26.10.2025)
+<br>
+https://faqs.ankiweb.net/what-spaced-repetition-algorithm?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://docs.ankiweb.net/exporting.html?utm_source=chatgpt.com (Stand 2025)
+<br>
 
 ---
 
@@ -666,6 +690,17 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 - **Stärken:** Einfach, schnell, optisch ansprechend, perfekt für gemeinsames Lernen oder schnelles Wiederholen unterwegs.  
 - **Schwächen:** Eingeschränkter Export, keine Datenhoheit, häufige API-Änderungen.  
 - **Empfehlung:** Ideal als *Ergänzung* zu Anki – nutze Quizlet zum schnellen Erstellen oder Teilen von Sets, exportiere regelmäßig als Text, und sichere wichtige Inhalte zusätzlich in Anki.
+
+<br>
+https://help.quizlet.com/hc/en-us/articles/360034345672-Exporting-your-sets?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://help.quizlet.com/hc/en-us/articles/360029977151-Creating-sets-by-importing-content?utm_source=chatgpt.com (Stand 2025)
+<br>
+https://flexiclasses.com/mandarin/anki-vs-quizlet/?utm_source=chatgpt.com (05.11.2022)
+<br>
+https://de.wikipedia.org/wiki/Quizlet?utm_source=chatgpt.com (02.05.2025)
+<br>
+https://www.thebricks.com/resources/how-to-export-quizlet-to-excel?utm_source=chatgpt.com (02.10.2025)
 
 ---
 
