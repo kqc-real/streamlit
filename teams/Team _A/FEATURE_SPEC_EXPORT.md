@@ -29,6 +29,7 @@ id (falls vorhanden) | Note ID | Keine | Automatisch generieren
 ---
 
 <h2>🎨 UI-Mockup – Export nach Anki
+  
 *(Stand: 26. Oktober 2025)*
 ---
   
