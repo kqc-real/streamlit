@@ -1,26 +1,23 @@
 ---
-# 📊 Marktanalyse Anki (Stand: 2025)
+# 📊 Marktanalyse Anki 
 
 ---
 
 ## 1. 👥 Nutzerzahlen
 
-- **Offizielle Zahlen zur aktiven Nutzerbasis (weltweit oder regional)** sind nicht veröffentlicht.  
-- Schätzungen aus nicht-offiziellen Quellen gehen von etwa **2–3 Mio. aktiven Nutzern** aus (z. B. Community-Diskussionen, Blogbeiträge).  
-- **Downloads** für AnkiDroid (Android) liegen bei über 10 Mio. (Quelle: Entwicklerforum, keine offizielle Statistik).  
-- Für die **DACH-Region** liegen keine belastbaren Nutzerzahlen vor.  
-
-> ⚠️ **Hinweis:** Offizielle oder wissenschaftlich belegte Nutzerzahlen konnten nicht gefunden werden. Zahlen aus Community-Quellen sind mit Vorsicht zu verwenden.
+- **Offizielle Zahlen zur aktiven Nutzerbasis (weltweit oder regional)** sind nicht veröffentlicht. Laut Reddit (01.10.2025) etwas mehr als 10.000 aktive Nutzer   
+- **Downloads** für AnkiDroid (Android) liegen bei über 10 Mio. (Quelle: Entwicklerforum, keine offizielle Statistik).  (Stand2024)
+- Für die **DACH-Region** liegen keine belastbaren Nutzerzahlen vor.  Laut Reddit (01.10.2025) ist die Dachregion die USA mit 1127 Nutzern gefolgt von dem Vereinigten Königreich (525) und Brasilien (475). Deutschland (369) und Frankreich (366) sind ebenfalls in der Top 5.
 
 ---
 
 ## 2. 📈 Marktanteil im Bildungssektor (Schätzung)
 
-- Es existieren keine wissenschaftlichen Studien oder offiziellen Berichte, die exakte Marktanteile von Anki oder Quizlet im Bildungssektor (K12, Hochschule) benennen.  
-- Produktstrategie-Artikel und Marktblogs schätzen Quizlet auf ca. 30 % Marktanteil und Anki auf etwa 15 %, jedoch ohne belegbare Quellen.  
-- Laut Marktforschungen (z. B. DataIntelo) lag das globale Marktvolumen für Flashcard-Apps 2024 bei ca. 2,04 Mrd. USD, Europa machte rund 27 % davon aus.  
+- Laut tactyqal (stand 2024) etwa 2 Millionen aktive Nutzer 
+- Umsatz auf knapp 5mio $ geschätzt da kein Wert offizielle bekannt gegeben wurde.
+- 90% Studierende an führenden medizinischen Fakultäten nutzen Anki (Anki AI Stand 2024) 
 
-> 📌 **Fazit:** Marktanteilszahlen sollten als Schätzungen mit großer Unsicherheit behandelt werden.
+> **Fazit:** Trotz geringerer Nutzerzahlen als bei anderen Plattformen ist Anki aufgrund des "Spaced Repetition" Systems fürs lernen sehr vielversprechend. 
 
 ---
 
@@ -39,16 +36,16 @@
 ### 3.2 🈷️ Sprachlernende
 
 - Anki ist insbesondere bei Lernenden asiatischer Sprachen (z. B. Chinesisch, Japanisch) sehr beliebt.  
-  ([Teachnet](https://teachnet.ie/anki-flashcard-app-for-language-learning/))  
+  ([Teachnet](https://teachnet.ie/anki-flashcard-app-for-language-learning/)) (Stand 2025) 
 - Ursprünglich wurde Anki für das Erlernen der japanischen Sprache entwickelt.  
-  ([Wikipedia](https://en.wikipedia.org/wiki/Anki_(software)))  
+  ([Wikipedia](https://en.wikipedia.org/wiki/Anki_(software)))  (Stand 01.10.2025)
 
 > ✅ **Fazit:** Sprachlernende, vor allem mit hohem Vokabel- und Zeichenlernaufwand, bilden eine weitere Kernzielgruppe.
 
 ### 3.3 🎓 Studierende allgemein
 
 - In einer Studie unter Postgrad-Studierenden war Anki mit 28,3 % Nutzung die zweitbeliebteste Methode zur Prüfungsvorbereitung.  
-  ([SpringerLink](https://link.springer.com/article/10.1007/s40670-025-02504-7))  
+  ([SpringerLink](https://link.springer.com/article/10.1007/s40670-025-02504-7)) (Stand 06.10.2025) 
 - Weitere Studien bestätigen den Einsatz in naturwissenschaftlichen und technischen Studiengängen mit hohem Lernvolumen.  
   ([ecampusontario.ca](https://bank.ecampusontario.ca/wp-content/uploads/2024/03/Use-of-ANKI-as-a-study-tool-S.-Gennidakis.pdf))  
 
@@ -59,16 +56,16 @@
 - Neben den Kernzielgruppen nutzen einzelne Personen Anki für Spezialthemen wie Geografie, Musik oder persönliche Wissensverwaltung.  
   ([Reddit-Diskussionen])  
 - Diese Nutzergruppe ist sekundär für Produktdesign und Marketing.
+> KI-Schlussfolgerung 
 
 ---
 
 ## 4. 💸 Pricing-Modell
 
 - Anki ist auf Desktop und Android **Open Source und kostenlos** verfügbar.  
-  ([educate-ai.com](https://blog.educate-ai.com/anki-apps/))  
-- Die offizielle iOS-App „AnkiMobile“ kostet einmalig ca. **24,99 USD**.  
+- Die offizielle iOS-App „AnkiMobile“ kostet einmalig ca. **24,99 USD**/**29,99 Euro**
 - Es gibt kein Abonnementmodell oder monatliche Gebühren.
-
+ (https://www.beck-stellenmarkt.de/ratgeber/legal-career/studium-berufsstart-weiterbildung/anki-effektiv-nutzen-lerntipps-fuer#:~:text=Was%20kostet%20Anki%3F,kostet%20einmalig%2029%2C99%20€.)
 ---
 
 ## 📋 Zusammenfassung
@@ -76,11 +73,26 @@
 | Kategorie                | Anki                                                          |
 |-------------------------|---------------------------------------------------------------|
 | 👥 Aktive Nutzer (global)  | Geschätzt **2–3 Mio** (keine offiziellen Zahlen)              |
-| 🌍 DACH-Zahlen             | Keine belastbaren Daten / Schätzungsweise Kontinent Amerika mit USA und Brasilien als Hauptuser                                        |
+| 🌍 DACH-Zahlen             | USA,Vereinigtes Königreich, Brasilien                                    |
 | 📈 Marktanteil (global)    | Schätzung: ca. **<15 %** im Flashcard-Bereich                 |
 | 🎯 Hauptzielgruppen        | Medizin, Sprachlernen, Studierende mit hohem Lernvolumen      |
 | 💸 Pricing                 | Kostenlos (Open Source) auf Desktop/Android; iOS einmaliger Kauf |
 
+---
+
+## 🤖 KI-Unterstützung
+
+Folgende Abschnitte wurden mit KI-Tools unterstützt:
+
+- **Marktanalyse Aktive Nutzer:** Recherche mit ChatGPT  
+- **Marktanalyse Marktanteil im Bildungssektor:** Recherche mit ChatGPT  
+- **Marktanalyse Hauptzielgruppe:** Recherche mit ChatGPT  
+- **Marktanalyse Pricing-Modell:** Recherche mit ChatGPT  
+
+Alle KI-generierten Inhalte wurden manuell geprüft, angepasst und durch Tests validiert.
+(generiert mit Chat GPT)
+
+---
 ---
 
 # 📊 Marktanalyse: Quizlet  
