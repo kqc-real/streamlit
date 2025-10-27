@@ -215,7 +215,7 @@ Folgende Abschnitte wurden mit KI-Tools unterstützt:
 ---
 
 # 💼 **Business Case — Export zu Quizlet & Anki** 🚀✨  
-
+*(Stand: 22. Oktober 2025)*
 ---
 
 ### 1️⃣ **Wie viele unserer Nutzer würden den Export nutzen? (Schätzung)** 📊  
