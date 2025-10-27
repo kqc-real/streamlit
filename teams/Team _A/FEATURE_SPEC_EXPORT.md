@@ -28,7 +28,7 @@ id (falls vorhanden) | Note ID | Keine | Automatisch generieren
 
 ---
 
-🎨 3.1 UI-Mockup – Export nach Anki
+<h2>🎨 UI-Mockup – Export nach Anki
 
 📍 Wo erscheint der Export-Button?
 
