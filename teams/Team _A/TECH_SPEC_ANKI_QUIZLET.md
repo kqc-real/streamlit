@@ -262,6 +262,9 @@ Bei mehr als **10-12 Optionen** wird die Karte unübersichtlich und schwer lesba
 
 # 🧩 Technische Spezifikation – Quizlet-Export
 
+*Stand: Oktober 2025*  
+*Quelle(n): Offizielle Quizlet Help Center-Artikel & Statista (Stand: 2024)*  
+
 ---
 
 ## 📦 Grundprinzip
