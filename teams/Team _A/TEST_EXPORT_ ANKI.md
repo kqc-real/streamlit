@@ -1,4 +1,4 @@
-##🚀 Agiles Projektmanagement – Anki Import Anleitung
+🚀 Agiles Projektmanagement – Anki Import Anleitung
 
 *(Stand: 25. Oktober 2025)*
   
