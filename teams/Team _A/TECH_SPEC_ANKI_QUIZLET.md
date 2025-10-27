@@ -603,8 +603,7 @@ Diese können als PNG oder SVG exportiert und anschließend in Quizlet hochgelad
 2. **Anki‑Preset**: Note‑Type `MC-Card` mit Feldern `Front, Back, Explanation, Difficulty, Weight, Glossary`; Export **.apkg** bevorzugt.
 3. **Quizlet‑Preset**: CSV mit Spalten `Term, Definition`; **Definition-Composer** fügt Präfixe/Texte gemäß Konvention ein.
 4. **Consistency Linter** vor Export: prüft Länge, verbotene Zeichen, fehlende Medien, leere Erklärungen.
-<br>
-**Quellen**
+
 <br>
 https://docs.ankiweb.net/importing/intro.html?utm_source=chatgpt.com (Stand 2025)
 <br>
