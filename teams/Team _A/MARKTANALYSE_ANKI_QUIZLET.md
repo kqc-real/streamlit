@@ -221,6 +221,16 @@ Folgende Abschnitte wurden mit KI-Tools unterstützt:
 - 💡 **Casual Learning / schnelle Motivation → Quizlet**  
 - 🧠 **Analytisches, strukturiertes Lernen → Anki**
 
+**Quellen**
+https://flexiclasses.com/mandarin/anki-vs-quizlet/?utm_source=chatgpt.com (2024)
+<br>
+https://www.quizcat.ai/blog/quizlet-vs-anki-best-for-collaborative-flashcards?utm_source=chatgpt.com (13.01.2025)
+<br>
+https://scholarly.so/blog/anki-vs-quizlet-vs-scholarly-a-comparison-of-flashcard-organization?utm_source=chatgpt.com (30.06.2023)
+<br>
+https://en.wikipedia.org/wiki/Anki_%28software%29?utm_source=chatgpt.com (26.10.2025)
+<br>
+https://alliedunin.medium.com/anki-vs-quizlet-vs-brainscape-which-flashcard-app-is-the-best-570f2d3d176f (19.08.2023)
 
 
 
