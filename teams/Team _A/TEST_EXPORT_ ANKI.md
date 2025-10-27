@@ -1,4 +1,7 @@
 🚀 Agiles Projektmanagement – Anki Import Anleitung
+*(Stand: 25. Oktober 2025)*
+  
+---
 
 🧩 1. Schritt – Fragen aus Streamlit kopieren und in TextEditor einfügen
 
