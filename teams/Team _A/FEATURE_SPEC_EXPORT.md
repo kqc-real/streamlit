@@ -29,8 +29,9 @@ id (falls vorhanden) | Note ID | Keine | Automatisch generieren
 ---
 
 <h2>🎨 UI-Mockup – Export nach Anki
-
-
+*(Stand: 26. Oktober 2025)*
+---
+  
 📍 Wo erscheint der Export-Button?
 
 Der Export-Button befindet sich auf der Seite eines Fragensets (z. B. „Physik-Test 2025“).
@@ -87,7 +88,11 @@ Fortschrittsanzeige („Export läuft… bitte warten“)
 
 <img width="1024" height="1024" alt="d5059619-30a9-45c9-8985-b2077087ff2e" src="https://github.com/user-attachments/assets/22662f94-d350-4a8d-961e-7fa0611999b5" />
 
+
 <h2>🧭 Priorisierung & Roadmap für Export zu Anki und Quizlet
+*(Stand: 27. Oktober 2025)*
+  
+---
   
 🎯 Überblick
 
