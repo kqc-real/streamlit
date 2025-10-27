@@ -285,7 +285,7 @@ Typischer Wert: **5–15 %** der aktiven Nutzer verwenden regelmäßig Export- o
 
 ### 4️⃣ **Kurzbegründung** 🗣️  
 Quizlet erreicht viele Lernende schnell und steigert Sichtbarkeit & Nutzerbindung deutlich 💥 — daher **Top-Priorität**.  
-Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, ist aber technisch aufwendiger und daher **zweite Phase** 🧭.
+Anki bietet langfristigen Wert für Power-User und anspruchsvolle Studierende, ist aber technisch aufwendiger und daher **zweite Phase** 🧭. Da wir allerdings Wert auf das Lernen mit "Spaced repition" legen, kann die Priorisierung auch anders ausfallen.
 
 ---
 
