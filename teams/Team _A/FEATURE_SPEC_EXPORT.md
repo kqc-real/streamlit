@@ -98,7 +98,7 @@ Anki → Open Source, Power User, Desktop/Offline.
 
 Quizlet → Kommerziell, Mobile-first, Einsteigerfreundlich.
 
-##🔢 MoSCoW-Priorisierung
+🔢 MoSCoW-Priorisierung
 
 | Plattform   | Priorität   | Story Points (Schätzung) | Business Value                                            | Technical Effort | Risk Level | Begründung                                                                                   |
 | ----------- | ----------- | ------------------------ | --------------------------------------------------------- | ---------------- | ---------- | -------------------------------------------------------------------------------------------- |
@@ -106,7 +106,7 @@ Quizlet → Kommerziell, Mobile-first, Einsteigerfreundlich.
 | **Quizlet** | ✅ MUST HAVE | 21 SP                    | Hoch (Mainstream, Studierende, Reichweite)                | Mittel–hoch      | Mittel     | API limitiert, aber CSV-Import möglich. Relevanz hoch für Studierende, mobile Nutzung.       |
 
 
-##📊 Business Value Bewertung
+📊 Business Value Bewertung
 
 | Kriterium                 | Anki                             | Quizlet                            |
 | ------------------------- | -------------------------------- | ---------------------------------- |
