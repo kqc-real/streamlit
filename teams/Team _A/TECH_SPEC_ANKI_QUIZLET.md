@@ -1,6 +1,10 @@
 
 # 🛠️ Technische Analyse: Importformat-Analyse – Anki 
 
+---
+
+**Primärquelle:**  
+🌐 [Anki Manual – Importing](https://docs.ankiweb.net/importing/intro.html?highlight=import#importing) (Stand 03.06.2024)
 
 ---
 
