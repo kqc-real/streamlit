@@ -90,7 +90,7 @@ Fortschrittsanzeige („Export läuft… bitte warten“)
 <img width="1024" height="1024" alt="d5059619-30a9-45c9-8985-b2077087ff2e" src="https://github.com/user-attachments/assets/22662f94-d350-4a8d-961e-7fa0611999b5" />
 
 
-<h2>🧭 Priorisierung & Roadmap für Export zu Anki und Quizlet
+# 🧭 Priorisierung & Roadmap für Export zu Anki und Quizlet
   
 *(Stand: 27. Oktober 2025)*
   
@@ -112,6 +112,7 @@ Quizlet → Kommerziell, Mobile-first, Einsteigerfreundlich.
 | **Anki**    | ✅ MUST HAVE | 13 SP                    | Sehr hoch (Power-User, Dozenten, Open Source Integration) | Mittel           | Niedrig    | Format klar dokumentiert (Anki .txt/.apkg), große Nutzergemeinde, einfacher CSV/Text-Export. |
 | **Quizlet** | ✅ MUST HAVE | 21 SP                    | Hoch (Mainstream, Studierende, Reichweite)                | Mittel–hoch      | Mittel     | API limitiert, aber CSV-Import möglich. Relevanz hoch für Studierende, mobile Nutzung.       |
 
+---
 
 📊 Business Value Bewertung
 
@@ -126,6 +127,75 @@ Quizlet → Kommerziell, Mobile-first, Einsteigerfreundlich.
 
 
 Empfehlung: Beide als MUST HAVE im ersten Entwicklungszyklus (Sprint 1), da sie verschiedene Kernzielgruppen abdecken.
+
+---
+
+⚙️ Technische Komplexität
+
+---
+
+🧩 ANKI
+
+• Format: .txt oder .apkg über genormte Tab-separierte Struktur
+
+• Keine API notwendig
+
+• LaTeX-Support: nativ vorhanden
+
+• Aufwand: niedrig–mittel
+
+
+
+📚 QUIZLET
+
+• Format: .csv
+
+• Offizielle API eingeschränkt (seit 2023 nur für Partner)
+
+• Workaround über CSV-Upload oder Web-Automatisierung
+
+• Aufwand: mittel–hoch
+
+• LaTeX eingeschränkt, erfordert Preprocessing
+
+---
+
+🚦 Risiken & Abhängigkeiten
+
+| Risiko            | Beschreibung                  | Plattform | Mitigation                                  |
+| ----------------- | ----------------------------- | --------- | ------------------------------------------- |
+| API-Limitierungen | Keine offene API für Upload   | Quizlet   | Export über CSV als manuelle Importlösung   |
+| Encoding-Probleme | Sonderzeichen/LaTeX-Fehler    | Beide     | UTF-8 Standardisierung                      |
+| Medien-Handling   | Bilder nicht immer kompatibel | Anki      | Optionales Feature, nachreichen in Sprint 2 |
+
+---
+
+🗓️ Roadmap
+
+| Sprint                  | Dauer             | Fokus                         | Deliverables                                                                                                                                    |
+| ----------------------- | ----------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sprint 1 (2 Wochen)** | Implementierung   | **Anki + Quizlet Export**     | - Export-Funktion für beide Formate<br>- Mapping-Tabelle MC-Test → Anki/Quizlet<br>- Beispiel-Dateien & Tests<br>- UI-Option „Exportieren als…“ |
+| **Sprint 2 (2 Wochen)** | Erweiterung       | **Kahoot + Socrative**        | - Echtzeit-Quiz Export<br>- Feedback-Funktion                                                                                                   |
+| **Sprint 3 (2 Wochen)** | Akademische Tools | **Particify + arsnova.click** | - DSGVO-konformer Export<br>- JSON-API-Schnittstellen                                                                                           |
+| **Future / Backlog**    | —                 | Erweiterungen                 | - Medienexport (Bilder, Audio)<br>- Direktintegration per API (wenn verfügbar)<br>- Nutzerdefinierte Vorlagen                                   |
+
+---
+
+✅ Zusammenfassung
+
+• Anki und Quizlet = höchste Priorität (MUST HAVE).
+
+• Umsetzung direkt in Sprint 1, da sie Kernzielgruppen (Studierende & Dozenten) abdecken.
+
+• Business Value: Sehr hoch
+
+• Technical Effort: moderat, gut abschätzbar
+
+• Risiko: gering–mittel
+
+• Diese zwei Exporte bilden das Fundament für spätere Erweiterungen (Kahoot, Socrative etc.).
+
+
 
 
 
