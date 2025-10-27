@@ -182,6 +182,15 @@ Größter Planet im Sonnensystem,Jupiter
 
 ---
 
+## 📅 Wissensstand
+
+**Knowledge-Cutoff:** Juni 2024 
+
+---
+
+*"Technische Spezifikation: Quizlet-Importformat" mit Unterstützung von ChatGPT recherchiert.*
+
+---
 
 # 📚 Datenstruktur in Anki – Übersicht
 
