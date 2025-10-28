@@ -4,6 +4,31 @@ Herzlichen Glückwunsch! Sie haben soeben ein Fragenset aus unserer App exportie
 
 **Voraussetzung:** Sie haben die `anki_import.tsv`-Datei aus unserer App heruntergeladen.
 
+### Kurz-Anleitung (schnell)
+
+Folgen Sie diesen drei schnellen Schritten, wenn Sie den Export sofort in Anki importieren möchten. Für Details siehe weiter unten.
+
+1. Notiztyp (einmalig): Werkzeuge → Notiztypen verwalten → Hinzufügen → Basis → Name: **MC-Test-Frage**. Fügen Sie die Felder hinzu (siehe unten).
+2. Import: Datei → Importieren → wähle `anki_import.tsv` → Notiztyp: **MC-Test-Frage** → Häkchen: HTML in Feldern erlauben → Prüfe Feldzuordnung → Importieren.
+3. Kontrolle: Öffne ein paar Karten; wenn Layout/Stil fehlt, kopiere die Vorlagen aus dieser Anleitung in den Notiztyp (siehe Vorlagen weiter oben).
+
+Feld‑Zuordnung (TSV-Spalten → Anki‑Felder): kopierbar
+
+```
+1 -> Frage
+2 -> Optionen
+3 -> Antwort_Korrekt
+4 -> Erklaerung_Basis
+5 -> Erklaerung_Erweitert
+6 -> Glossar
+7 -> Fragenset_Titel
+8 -> Thema
+9 -> Schwierigkeit
+10 -> Tags_Alle
+```
+
+Prüf‑Check vor Import: Notiztyp erstellt, HTML erlaubt, Datei in UTF-8 (keine BOM).
+
 #### Schritt 1: Einen passenden Notiztyp in Anki erstellen
 
 Damit Anki die Daten korrekt zuordnen kann, benötigen Sie einen passenden "Notiztyp". Diesen müssen Sie nur **einmalig** anlegen.
@@ -134,4 +159,4 @@ So würde eine Karte mit diesem Layout und Beispieldaten in Anki aussehen:
     *   **Feldzuordnung:** Prüfen, ob die Zuordnung korrekt ist (Feld 1 → `Frage`, Feld 2 → `Antwort_Korrekt`, usw.).
 4.  Klicken Sie auf `Importieren`.
 
-**Fertig!** Ihre Fragen sind nun formatiert und vollständig in Anki. Viel Erfolg beim Lernen
+**Fertig!** Ihre Fragen sind nun formatiert und vollständig in Anki. Viel Erfolg beim Lernen!

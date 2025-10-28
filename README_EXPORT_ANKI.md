@@ -4,7 +4,89 @@ Dieses Dokument beschreibt die technischen Anforderungen für die Implementierun
 
 Die Transformation muss sowohl strukturelle Anpassungen (JSON-Flattening) als auch semantische Konvertierungen (Markdown $\rightarrow$ HTML, KaTeX $\rightarrow$ MathJax) durchführen.
 
+## Contract (Kurzbeschreibung)
+
+- Input: JSON-Bytes (UTF-8) mit der Form { "meta": {...}, "questions": [ { "frage": str, "optionen": [str,..], "loesung": int, "erklaerung": str, "extended_explanation": obj, "mini_glossary": obj, "thema": str, "gewichtung": int } ] }
+- Output: TSV-String (UTF-8) mit Spalten in dieser Reihenfolge: Frage, Optionen (HTML), Antwort_Korrekt, Erklaerung_Basis (HTML), Erklaerung_Erweitert (HTML), Glossar (HTML), Fragenset_Titel, Thema, Schwierigkeit, Tags_Alle.
+- Fehlermodi: bei ungültigem JSON wird ein aussagekräftiger Fehler ausgegeben; bei fehlerhafter LaTeX-Syntax bleibt das Original erhalten und der Eintrag wird zur manuellen Prüfung geloggt.
+- Erfolgskriterium: erzeugte TSV kann von Anki importiert werden und enthält MathJax-kompatible Formeln.
+
+## Sanitization & Security
+
+Da die TSV-Felder HTML enthalten, muss das HTML vor dem Export validiert/sanitized werden. Empfehlung:
+
+- Nach Markdown→HTML eine Whitelist-basierte Sanitizer-Pipeline (z. B. `bleach`) ausführen.
+- Erlaubte Tags: `p, div, span, ol, ul, li, strong, em, a, img, code, pre, h1..h6, table, thead, tbody, tr, th, td`.
+- Erlaubte Attribute: `href`, `src`, `alt`, `title`, `class` (je nach Bedarf). Entferne alle `on*`-Attribute, `<script>`, `<iframe>` und andere aktive Inhalte.
+- Logge entfernte Elemente für Review, insbesondere wenn Fragen externe Inhalte oder eingebettete HTML-Fragmente enthalten.
+
+## Edge Cases (Kurzcheckliste)
+
+- Dollarzeichen in normalem Text (z. B. Währungsangaben) müssen erkannt/escaped werden (`\\$`).
+- Math innerhalb von Code-Fences und Inline-Code (`` `code` `` bzw. ```fenced```) darf nicht konvertiert werden.
+- Geschachtelte oder ambige Delimiter (`$$...$...$$`) sind selten, aber möglich — solche Fälle sollten als "needs review" markiert werden.
+- Bereits vorhandenes HTML in Eingabefeldern darf nicht doppelt escaped werden; führe Sanitizer nach der Markdown→HTML-Passage aus.
+- Unbekannte `gewichtung`-Werte: definiere Fallback (z. B. leer oder `mittel`).
+- Sehr große JSON-Dateien: Streaming- oder chunked-Processing erwägen; für Streamlit-UI Caching (`@st.cache_data`) nutzen.
+
 ---
+
+### Tokenized Math Helper (kurze Referenz)
+
+Für eine robuste Math-Konversion benutze ich ein kleines Hilfsmodul `examples/math_utils.py` (bereits im Repository). Kurz zusammengefasst:
+
+- Funktion: `render_markdown_with_math(md: MarkdownIt, s: str) -> str`
+- Verhalten: wandelt KaTeX-Delimiters um — `$$...$$` → `\[ ... \]` und `$...$` → `\( ... \)` — **nur** innerhalb von Markdown-Text-Tokens. Dadurch werden Math-Delimiters in Code-Fences und Inline-Code nicht verändert.
+- Input/Output: nimmt einen `MarkdownIt`-Parser (markdown-it-py) und einen Markdown-String; liefert das gerenderte HTML zurück (mit MathJax-kompatiblen Delimitern).
+- Abhängigkeit: benötigt `markdown-it-py` (Installation: `pip install markdown-it-py`).
+- Warum: Tokenisierte Verarbeitung vermeidet die häufigsten Fehler der Regex-basierten Konversion (z. B. Veränderung von Codebeispielen oder URLs).
+
+Beispiel (verwendet in `examples/transform_to_anki.py`):
+
+```python
+from markdown_it import MarkdownIt
+from examples.math_utils import render_markdown_with_math
+
+md = MarkdownIt()
+html = render_markdown_with_math(md, "Die Summe ist $a+b$ und `code $x$` bleibt.`")
+```
+
+Hinweis: Die Hilfsfunktion gibt HTML zurück; in `examples/transform_to_anki.py` wird das Feld `frage` bewusst so verarbeitet, dass bei einfachen einzeiligen Fragen die äußeren `<p>...</p>` entfernt werden, um Backward-Compatibility mit der bisherigen TSV-Form zu wahren.
+
+### Kleines Vorher/Nachher-Beispiel
+
+Kurzes, konkretes Beispiel, das zeigt, was die tokenisierte Konversion macht (math wird normalisiert, Code-Fences bleiben unverändert):
+
+Input (Markdown):
+
+```markdown
+Dies ist ein Inline-Math: $x+y$.
+
+Codebeispiel, das Dollarzeichen enthalten darf:
+```
+print('$x$')
+```
+
+Display-Math:
+$$
+\int_0^1 x^2 dx
+$$
+```
+
+Output (HTML, nach tokenisierter Konversion):
+
+```html
+<p>Dies ist ein Inline-Math: \(x+y\).</p>
+<pre><code>print('$x$')
+</code></pre>
+<div>\[\int_0^1 x^2 dx\]</div>
+```
+
+Erläuterung:
+
+- `$x+y$` wurde zu `\(x+y\)` konvertiert (MathJax-Style).  
+- Der Codeblock `print('$x$')` blieb unverändert — das `$x$` wurde nicht konvertiert.  
+- Display-Math `$$...$$` wurde zu `\[...\]` konvertiert.
 
 ## 1. Die Transformations-Pipeline (Logischer Ablauf)
 
@@ -16,7 +98,7 @@ Wir definieren einen neuen Anki-Notiztyp (z.B. "MC-Test-Frage"), auf den wir map
 
 1.  `Frage` (Text)
 2.  `Optionen` (HTML)
-3.  `Antwort_Korrekt` (Text)
+3.  `Antwort_Korrekt` (HTML)
 4.  `Erklaerung_Basis` (HTML)
 5.  `Erklaerung_Erweitert` (HTML)
 6.  `Glossar` (HTML)
@@ -90,32 +172,44 @@ Die Transformationslogik sollte in einer separaten Funktion gekapselt werden, di
 import streamlit as st
 import json
 import re
+import io
+import csv
 from markdown_it import MarkdownIt
-# ... (weitere Imports)
 
 @st.cache_data
 def transform_to_anki_tsv(json_bytes: bytes) -> str:
-    """
-    Führt die vollständige Transformations-Pipeline durch.
-    Nimmt JSON-Bytes entgegen und gibt einen TSV-String zurück.
+    """Kleines, lauffähiges Minimalbeispiel der Pipeline (vereinfachte Demo).
+    - Führt eine sehr einfache KaTeX->MathJax-Normalisierung durch (naiv).
+    - Wandelt Markdown via markdown-it-py in HTML um und schreibt eine TSV-Zeile pro Frage.
     """
     json_data = json.loads(json_bytes.decode('utf-8'))
     md = MarkdownIt()
-    
-    # Hier Regex-Definitionen für Phase 1
-    # ...
-
     output = io.StringIO()
-    writer = csv.writer(output, delimiter='\t', ...)
-    
-    # Iteration über 'questions'
-    for q in json_data['questions']:
-        # ... (Logik für Phase 1 & 2 auf alle Felder anwenden)
-        # ... (Logik für Daten-Flattening und Tag-Generierung)
-        
-        row = [...] # Die 10 Spalten (Frage, Optionen, ..., Tags_Alle)
+    writer = csv.writer(output, delimiter='\t', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+
+    def convert_math(s: str) -> str:
+        if not s:
+            return ''
+        # Naive (demonstratives) Konversion: $$...$$ -> \[...\], $...$ -> \(...\)
+        s = re.sub(r"\$\$(.*?)\$\$", lambda m: f"\\[{m.group(1)}\\]", s, flags=re.S)
+        s = re.sub(r"\$(.*?)\$", lambda m: f"\\({m.group(1)}\\)", s)
+        return s
+
+    for q in json_data.get('questions', []):
+        frage = convert_math(q.get('frage', ''))
+        optionen = q.get('optionen', [])
+        # Optionen als kleine HTML-Liste (jedes Element wird Markdown->HTML gerendert)
+        options_html = '<ol type="A">' + ''.join(f'<li>{md.render(convert_math(opt)).strip()}</li>' for opt in optionen) + '</ol>'
+        loesung_idx = q.get('loesung', 0)
+        correct = md.render(convert_math(optionen[loesung_idx])) if optionen else ''
+        erklaerung = md.render(convert_math(q.get('erklaerung', '')))
+        extended = md.render(convert_math(str(q.get('extended_explanation', ''))))
+        meta = json_data.get('meta', {})
+        tags = ' '.join(str(x).replace(' ', '_') for x in [meta.get('title', ''), q.get('thema', '' )]).strip()
+
+        row = [frage, options_html, correct, erklaerung, extended, '', meta.get('title', ''), q.get('thema', ''), str(q.get('gewichtung', '')), tags]
         writer.writerow(row)
-        
+
     return output.getvalue()
 
 # --- Streamlit App UI ---
@@ -123,13 +217,10 @@ uploaded_file = st.file_uploader("MC-Test JSON-Datei hochladen")
 
 if uploaded_file is not None:
     file_bytes = uploaded_file.getvalue()
-    
     with st.spinner("Transformiere Fragenset für Anki..."):
-        # Aufruf der gecachten Funktion
         tsv_data = transform_to_anki_tsv(file_bytes)
-    
+
     st.success("Transformation abgeschlossen!")
-    
     st.download_button(
         label="Download Anki-Importdatei (.tsv)",
         data=tsv_data,

@@ -1,0 +1,14 @@
+{
+  "meta": { "title": "Beispieltest" },
+  "questions": [
+    {
+      "frage": "Was ist $a+b$?",
+      "optionen": ["$a+b$", "0"],
+      "loesung": 0,
+      "erklaerung": "Addition $a+b$",
+      "extended_explanation": "Siehe $a+b$ für die Summe.",
+      "thema": "Mathe",
+      "gewichtung": 2
+    }
+  ]
+}
