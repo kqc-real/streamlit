@@ -430,9 +430,9 @@ Deine finale Antwort muss **ausschließlich** einen einzelnen Markdown-Codeblock
     "target_audience": "...",
     "question_count": 0,
     "difficulty_profile": {
-      "leicht": 0,
-      "mittel": 0,
-      "schwer": 0
+      "leicht": 1,
+      "mittel": 2,
+      "schwer": 3
     },
     "time_per_weight_minutes": {
       "1": 0.5,
