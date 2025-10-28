@@ -20,7 +20,10 @@ Wir definieren einen neuen Anki-Notiztyp (z.B. "MC-Test-Frage"), auf den wir map
 4.  `Erklaerung_Basis` (HTML)
 5.  `Erklaerung_Erweitert` (HTML)
 6.  `Glossar` (HTML)
-7.  `Tags` (Text, leerzeichengetrennt)
+7.  `Fragenset_Titel` (Text)
+8.  `Thema` (Text)
+9.  `Schwierigkeit` (Text)
+10. `Tags_Alle` (Text, leerzeichengetrennt für die Anki-Suche)
 
 ### 1.2. Kernherausforderung: Formatkonvertierung (MD & KaTeX)
 
@@ -48,7 +51,10 @@ Nach Phase 1 werden die (jetzt MathJax-enthaltenden) Strings mit einer Markdown-
 | **4. `Erklaerung_Basis`** | `q['erklaerung']` | 1. Phase 1 (KaTeX $\rightarrow$ MathJax) <br> 2. Phase 2 (MD $\rightarrow$ HTML) |
 | **5. `Erklaerung_Erweitert`**| `q['extended_explanation']`| 1. Objekt in strukturiertes HTML umwandeln (z.B. `<h3>{titel}</h3><ol><li>{schritt}</li>...</ol>`). <br> 2. Alle Inhalte durch Phase 1 & 2 transformieren. |
 | **6. `Glossar`** | `q['mini_glossary']` | 1. Objekt in eine HTML-Definitionsliste (`<dl><dt>...</dt><dd>...</dd></dl>`) umwandeln. <br> 2. Alle Inhalte durch Phase 1 & 2 transformieren. |
-| **7. `Tags`** | `meta.*` + `q.*` | 1. Strings aggregieren (z.B. `meta['title']`, `q['thema']`, `q['gewichtung']`). <br> 2. Leerzeichen *innerhalb* eines Tags durch `_` ersetzen. <br> 3. Tags durch **Leerzeichen** trennen. (z.B. `Titel_des_Tests Thema_XY Gewichtung_1`) |
+| **7. `Fragenset_Titel`**| `meta['title']` | 1. Direkte Übernahme des Werts. |
+| **8. `Thema`** | `q['thema']` | 1. Direkte Übernahme des Werts. |
+| **9. `Schwierigkeit`**| `q['gewichtung']` | 1. Mapping des numerischen Werts: `1`='leicht', `2`='mittel', `3`='schwer'. |
+| **10. `Tags_Alle`** | `meta.*` + `q.*` | 1. Strings aggregieren (z.B. `meta['title']`, `q['thema']`, `q['gewichtung']`). <br> 2. Leerzeichen *innerhalb* eines Tags durch `_` ersetzen. <br> 3. Tags durch **Leerzeichen** trennen für die Anki-Suche (z.B. `Titel_des_Tests Thema_XY Gewichtung_1`). |
 
 ---
 
@@ -107,7 +113,7 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
         # ... (Logik für Phase 1 & 2 auf alle Felder anwenden)
         # ... (Logik für Daten-Flattening und Tag-Generierung)
         
-        row = [...] # Die 7 Spalten
+        row = [...] # Die 10 Spalten (Frage, Optionen, ..., Tags_Alle)
         writer.writerow(row)
         
     return output.getvalue()
