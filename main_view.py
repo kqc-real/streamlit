@@ -2217,6 +2217,46 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
             st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
+
+            # Kurz-Anleitung und Vorschau (kleine, hilfreiche Ergänzung für die Nutzer)
+            with st.expander("Kurz‑Anleitung (Anki)"):
+                st.markdown(
+                    "Folgen Sie diesen drei Schritten, um den Export schnell in Anki zu importieren:\n"
+                    "1. Notiztyp einmalig erstellen (z.B. **MC-Test-Frage**) und Felder anlegen.\n"
+                    "2. Datei → Importieren → Notiztyp wählen → Häkchen: HTML in Feldern erlauben.\n"
+                    "3. Import prüfen (Feld‑Zuordnung) und ggf. Kartenvorlagen anpassen.\n"
+                )
+                st.code(
+                    """
+1 -> Frage
+2 -> Optionen
+3 -> Antwort_Korrekt
+4 -> Erklaerung_Basis
+5 -> Erklaerung_Erweitert
+6 -> Glossar
+7 -> Fragenset_Titel
+8 -> Thema
+9 -> Schwierigkeit
+10 -> Tags_Alle
+"""
+                )
+
+            # Mini-Vorschau: erste Karte anzeigen, damit Nutzer sehen, wie Inhalte gerendert werden
+            try:
+                if questions and len(questions) > 0:
+                    preview_q = questions[0]
+                    preview_lines = ["**Vorschau (erste Karte):**\n"]
+                    preview_lines.append(preview_q.get('frage', ''))
+                    opts = preview_q.get('optionen') or []
+                    if opts:
+                        preview_lines.append('\n')
+                        for i, o in enumerate(opts):
+                            prefix = chr(65 + i) + '.' if i < 26 else f'{i + 1}.'
+                            preview_lines.append(f"{prefix} {o}")
+                    st.markdown('\n'.join(preview_lines))
+            except Exception:
+                # Preview darf niemals den Export-Bereich komplett kaputtmachen
+                pass
             anki_btn_key = f"download_anki_review_{selected_file}"
             anki_dl_key = f"dl_anki_direct_{selected_file}"
             if st.button("Download starten", key=anki_btn_key):
