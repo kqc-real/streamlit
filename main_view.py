@@ -1867,11 +1867,24 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     )
     prozent = (current_score / max_score * 100) if max_score > 0 else 0
 
-    st.metric(
-        "Dein Endergebnis",
-        f"{current_score} / {max_score} Punkte",
-        f"{format_decimal_de(prozent, 1)} %"
-    )
+    # Farbsemantik für die Prozentzahl
+    if prozent < 50:
+        color = "#b91c1c"  # dunkelrot
+    elif 50 <= prozent < 75:
+        color = "#b45309"  # dunkelorange
+    else:
+        color = "#15803d"  # dunkelgrün
+
+    # Manuelles Rendern der Metrik, um die Farbe der Prozentzahl anzupassen
+    st.markdown(f"""
+    <div style="text-align: left;">
+        <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-bottom: -5px;">Dein Endergebnis</p>
+        <p style="font-size: 1.5rem; font-weight: 600;">
+            {current_score} / {max_score} Punkte 
+            <span style="color: {color}; font-weight: bold; font-size: 1.25rem;">({int(prozent)} %)</span>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     # Schreibe eine Snapshot-Zeile in die DB, damit die Historie später schnell abgefragt werden kann.
     try:
