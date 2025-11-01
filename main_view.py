@@ -1028,11 +1028,20 @@ def render_welcome_page(app_config: AppConfig):
                 # Ensure expander remains open after reservation attempt
                 st.session_state['reserve_secret_expanded'] = True
                 from database import add_user
-                user_name = selected_name_from_user
+                # Normalize selected pseudonym to avoid accidental surrounding whitespace
+                try:
+                    user_name = str(selected_name_from_user).strip()
+                except Exception:
+                    user_name = selected_name_from_user
                 user_id_hash = get_user_id_hash(user_name)
                 try:
                     add_user(user_id_hash, user_name)
-                    ok = set_recovery_secret(user_id_hash, recovery_secret_new)
+                    # Normalize the recovery secret: remove leading/trailing whitespace
+                    try:
+                        normalized_recovery_secret = str(recovery_secret_new).strip()
+                    except Exception:
+                        normalized_recovery_secret = recovery_secret_new
+                    ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                     if ok:
                         st.session_state['reserve_success_pseudonym'] = user_name
                         st.session_state['reserve_success_message'] = (
@@ -1071,6 +1080,18 @@ def render_welcome_page(app_config: AppConfig):
         if st.button("Mit dem reservierten Pseudonym Test starten", key="btn_recover_pseudonym"):
             # Ensure expander remains open during/after the recovery attempt.
             st.session_state['recover_pseudonym_expanded'] = True
+            # Trim whitespace that some mobile keyboards append unintentionally.
+            # Use strip() to remove leading and trailing whitespace for robust matching.
+            try:
+                pseudonym_recover = str(pseudonym_recover).strip()
+            except Exception:
+                pseudonym_recover = pseudonym_recover
+            # Also normalize the recovery secret entered for verification.
+            try:
+                secret_recover = str(secret_recover).strip()
+            except Exception:
+                secret_recover = secret_recover
+
             if not pseudonym_recover or not secret_recover:
                 st.warning("Bitte Pseudonym und Geheimwort eingeben.")
             else:
@@ -1154,7 +1175,11 @@ def render_welcome_page(app_config: AppConfig):
             disabled=bool((not selected_name_from_user) or (recovery_secret_new and secret_too_short)),
         ):
             from database import add_user, start_test_session
-            user_name = selected_name_from_user
+            # Normalize selected pseudonym to avoid accidental surrounding whitespace
+            try:
+                user_name = str(selected_name_from_user).strip()
+            except Exception:
+                user_name = selected_name_from_user
             user_id_hash = get_user_id_hash(user_name)
 
             add_user(user_id_hash, user_name)
@@ -1178,7 +1203,11 @@ def render_welcome_page(app_config: AppConfig):
                 # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
                 try:
                     if recovery_secret_new:
-                        ok = set_recovery_secret(user_id_hash, recovery_secret_new)
+                        try:
+                            normalized_recovery_secret = str(recovery_secret_new).strip()
+                        except Exception:
+                            normalized_recovery_secret = recovery_secret_new
+                        ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                         if ok:
                             st.session_state['reserve_success_pseudonym'] = user_name
                             st.session_state['reserve_success_message'] = (
