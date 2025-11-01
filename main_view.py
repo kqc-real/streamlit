@@ -1540,6 +1540,12 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         st.toast("Leider falsch.", icon="❌")
 
     set_question_as_answered(frage_idx, punkte, antwort)
+
+    # Füge die Frage zur Liste der beantworteten Fragen hinzu, um die Navigation zu ermöglichen.
+    if 'answered_indices' not in st.session_state:
+        st.session_state.answered_indices = []
+    if frage_idx not in st.session_state.answered_indices:
+        st.session_state.answered_indices.append(frage_idx)
     
     # Generiere eine neue Motivationsnachricht NACH set_question_as_answered,
     # damit questions_remaining korrekt berechnet wird (inkl. der gerade beantworteten Frage)
@@ -1752,24 +1758,59 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         render_next_question_button(questions, questions.index(frage_obj))
 
 
+
 def render_next_question_button(questions: QuestionSet, frage_idx: int):
     """
-    Rendert den "Nächste Frage"-Button am Ende des Erklärungsblocks.
-    Bei der letzten Frage wird der Button als "Zur Testauswertung" angezeigt.
+    Rendert die Navigationsbuttons ("Vorherige", "Nächste") am Ende des Erklärungsblocks.
+    Passt die Button-Beschriftung und das Verhalten an, je nachdem, ob sich der Benutzer
+    im normalen Testfluss oder im neu implementierten Review-Modus befindet.
     """
-    # Prüfe, ob dies die letzte Frage ist
+    answered_indices = st.session_state.get('answered_indices', [])
+    
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
     )
-    is_last_question = (num_answered == len(questions))
-    
-    button_text = "Zur Testauswertung" if is_last_question else "Nächste Frage"
-    
-    _, col2, _ = st.columns([2, 1.5, 2])
-    with col2:
+    is_last_question_in_test = (num_answered == len(questions))
+
+    current_review_pos = -1
+    if frage_idx in answered_indices:
+        current_review_pos = answered_indices.index(frage_idx)
+
+    is_in_review_mode = 0 <= current_review_pos < len(answered_indices) - 1
+
+    # Sichtbarkeit des "Vorherige Frage"-Buttons bestimmen
+    prev_button_visible = current_review_pos > 0
+
+    if prev_button_visible:
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("⬅️ Vorherige Frage", key=f"prev_q_{frage_idx}", type="secondary", width="stretch"):
+                prev_idx = answered_indices[current_review_pos - 1]
+                st.session_state[f"show_explanation_{frage_idx}"] = False
+                st.session_state[f"show_explanation_{prev_idx}"] = True
+                st.session_state.last_answered_idx = prev_idx
+                st.rerun()
+        next_question_container = col2
+    else:
+        # Wenn nur der "Nächste Frage"-Button sichtbar ist, wird er zentriert.
+        _, next_question_container, _ = st.columns([1, 1.5, 1])
+
+    with next_question_container:
+        if is_in_review_mode:
+            button_text = "Nächste Frage ➡️"
+        else:
+            button_text = "Zur Testauswertung 🏁" if is_last_question_in_test else "Nächste Frage ➡️"
+
         if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
-            # Setze das Flag zurück, um die Erklärung bei der nächsten Anzeige nicht mehr zu zeigen.
             st.session_state[f"show_explanation_{frage_idx}"] = False
+            
+            if is_in_review_mode:
+                next_idx = answered_indices[current_review_pos + 1]
+                st.session_state[f"show_explanation_{next_idx}"] = True
+                st.session_state.last_answered_idx = next_idx
+            else:
+                st.session_state.last_answered_idx = -1
+            
             st.rerun()
 
 
