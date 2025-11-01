@@ -425,12 +425,14 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             bar_color = "#b91c1c"  # dunkleres rot
 
         # Verwende einen dunkleren Hintergrund, der in Dark Mode weniger stark hervortritt
+        # Use a slightly lighter background and a more visible border so the
+        # progress area stands out better (especially in dark themes).
         progress_html = f"""
         <div style="display:flex;align-items:center;gap:8px">
-          <div style="flex:1;background:#1f2937;border-radius:6px;overflow:hidden;height:14px;border:1px solid rgba(255,255,255,0.04);">
-            <div style="width:{progress_pct}%;background:{bar_color};height:100%;border-radius:6px;"></div>
-          </div>
-          <div style="min-width:48px;text-align:right;font-weight:600;color:var(--text-color,#e5e7eb);">{progress_pct} %</div>
+            <div style="flex:1;background:#374151;border-radius:6px;overflow:hidden;height:14px;border:1px solid rgba(255,255,255,0.10);">
+                <div style="width:{progress_pct}%;background:{bar_color};height:100%;border-radius:6px;"></div>
+            </div>
+            <div style="min-width:48px;text-align:right;font-weight:600;color:var(--text-color,#e5e7eb);">{progress_pct} %</div>
         </div>
         """
         st.sidebar.markdown(progress_html, unsafe_allow_html=True)
