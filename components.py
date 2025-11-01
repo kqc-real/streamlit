@@ -452,11 +452,14 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     # und der Nutzer gerade eine einzelne Frage ansieht (z.B. nach Sprung von Bookmark).
     # Dieses Steuerelement ist auf Admins beschränkt; normale Nutzer sollen es
     # nicht sehen (siehe Issue: Buttons fürs Test-View sind admin-only).
+    # Zeige den Zurück-Button nur, wenn der Nutzer tatsächlich das Admin-Panel
+    # geöffnet hat. Früher reichte allein `is_admin`, wodurch der Button auch
+    # sichtbar wurde, wenn ein Admin außerhalb des Panels im Review-Modus war.
     if (
         is_admin
+        and st.session_state.get("show_admin_panel", False)
         and is_test_finished(questions)
-        and "jump_to_idx_active" in st.session_state
-        and st.session_state.jump_to_idx_active
+        and st.session_state.get("jump_to_idx_active", False)
     ):
         st.sidebar.divider()
         if st.sidebar.button("⬅️ Zurück zum Testreview", width="stretch"):
