@@ -856,6 +856,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     - Formula-Caching (keine doppelten API-Calls)
     - Batch-Verarbeitung für QuickLaTeX API
     """
+    try:
+        from helpers import format_datetime_de
+        generated_at_str = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
+    except Exception:
+        generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
     user_name = st.session_state.get("user_id", "Unbekannt")
     q_file = st.session_state.get("selected_questions_file", "Unbekanntes Set")
     set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
@@ -1074,7 +1079,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     )
                 comparison_html += '</tbody></table>'
 
-        comparison_html += f'<p class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n)</p>'
+        comparison_html += f'<p class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n).<br>Stand der Vergleichsdaten: {generated_at_str}.</p>'
         comparison_html += '</div>'
     
     # Mini-Glossar erstellen (nach Themen gruppiert)
@@ -1123,12 +1128,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Baue den HTML-Body mit professionellem Header
     score_percent_str = format_decimal_de(prozent, 1)
-    try:
-        from helpers import format_datetime_de
-
-        generated_at_str = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
-    except Exception:
-        generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
+    
+    rank_html = ''
+    if user_rank:
+        rank_html = f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">Ranking (Stand: {generated_at_str.split(" ")[0]})</div></div>'
     html_body = f'''
         <div class="header">
             <div class="header-content">
@@ -1165,7 +1168,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     <div class="stat-value">{len(questions)}</div>
                     <div class="stat-label">Gesamt</div>
                 </div>
-                {f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">Ranking</div></div>' if user_rank else ''}
+                {rank_html}
             </div>
         </div>
         
