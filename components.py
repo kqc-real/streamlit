@@ -416,12 +416,34 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # Fallback to the Streamlit progress if something goes wrong with HTML rendering
         st.sidebar.progress(progress_pct)
 
+    st.sidebar.divider()
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
         questions,
         app_config.scoring_mode,
     )
-    st.sidebar.metric("🎯 Punktestand", f"{current_score} / {max_score}")
+    
+    # Errechneten prozentualen Score in der Sidebar anzeigen
+    percentage_score = (current_score / max_score * 100) if max_score > 0 else 0
+    
+    # Farbsemantik für die Prozentzahl
+    if percentage_score < 50:
+        color = "#b91c1c"  # dunkelrot
+    elif 50 <= percentage_score < 75:
+        color = "#b45309"  # dunkelorange
+    else:
+        color = "#15803d"  # dunkelgrün
+
+    st.sidebar.markdown(f"""
+    <div style="text-align: center;">
+        <p style="font-size: 1rem; font-weight: bold; margin-bottom: -10px;">🎯 Punktestand</p>
+        <p style="font-size: 1.75rem; margin-top: 20px; font-weight: 600;">
+            {current_score} / {max_score} 
+            <span style="color: {color}; font-weight: bold;">({int(percentage_score)} %)</span>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.sidebar.divider()
 
     render_bookmarks(questions)
     render_skipped_questions(questions)
