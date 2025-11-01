@@ -1250,6 +1250,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     """Rendert die Ansicht für eine einzelne Frage."""
     # Ensure any queued rerun is processed early in the interactive render path.
     _process_queued_rerun()
+    # When rendering a question view, we are not in the final summary.
+    # Clear the `in_final_summary` flag so sidebar items re-appear.
+    try:
+        if st.session_state.get("in_final_summary"):
+            st.session_state["in_final_summary"] = False
+    except Exception:
+        pass
     if st.session_state.get("show_pseudonym_reminder", False):
         st.success(
             f"**Willkommen, {st.session_state.user_id}!** "
@@ -1860,6 +1867,13 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
+    # Mark that we are currently showing the final summary. Sidebar logic
+    # will use this flag to hide per-question navigation widgets like
+    # bookmarks/skip-lists which don't make sense in the summary view.
+    try:
+        st.session_state["in_final_summary"] = True
+    except Exception:
+        pass
     # (kein lokaler import von time; Top-Level-Import wird verwendet, falls nötig)
 
     # Testdauer berechnen

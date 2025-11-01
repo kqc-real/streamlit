@@ -130,8 +130,27 @@ def main():
         st.stop()
 
     # --- 3. Hauptanwendung für eingeloggte Benutzer ---
-    # Lade Fortschritt, zeige Sidebar und die entsprechende Hauptansicht
+    # Lade Fortschritt, entscheide ob die finale Zusammenfassung gezeigt wird,
+    # setze ein Flag so die Sidebar sich entsprechend verhalten kann, und
+    # rendere dann die Sidebar und die entsprechende Hauptansicht.
     is_admin = is_admin_user(user_id, app_config)
+
+    # Decide whether the final summary will be shown. This mirrors the
+    # later rendering logic so we can inform the sidebar to hide per-question
+    # UI immediately (no extra rerun needed).
+    try:
+        test_time_expired = st.session_state.get("test_time_expired", False)
+        finished = is_test_finished(questions)
+        last_answered_idx = st.session_state.get("last_answered_idx")
+        explanation_open = False
+        if last_answered_idx is not None:
+            explanation_open = bool(st.session_state.get(f"show_explanation_{last_answered_idx}"))
+        will_show_final_summary = test_time_expired or (finished and not explanation_open)
+        st.session_state["in_final_summary"] = will_show_final_summary
+    except Exception:
+        # Fail-safe: ensure flag absent if computation fails
+        st.session_state.pop("in_final_summary", None)
+
     render_sidebar(questions, app_config, is_admin)
 
     # If the sidebar requested the history dialog (one-time), show it here so

@@ -448,12 +448,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     render_bookmarks(questions)
     render_skipped_questions(questions)
 
-    # Füge einen "Zurück zum Review"-Button hinzu, wenn der Test beendet ist,
-    # aber der Nutzer gerade eine einzelne Frage ansieht (z.B. nach Sprung von Bookmark).
-    if is_test_finished(questions) and "jump_to_idx_active" in st.session_state and st.session_state.jump_to_idx_active:
+    # Füge einen "Zurück zum Review"-Button hinzu, wenn der Test beendet ist
+    # und der Nutzer gerade eine einzelne Frage ansieht (z.B. nach Sprung von Bookmark).
+    # Dieses Steuerelement ist auf Admins beschränkt; normale Nutzer sollen es
+    # nicht sehen (siehe Issue: Buttons fürs Test-View sind admin-only).
+    if (
+        is_admin
+        and is_test_finished(questions)
+        and "jump_to_idx_active" in st.session_state
+        and st.session_state.jump_to_idx_active
+    ):
         st.sidebar.divider()
         if st.sidebar.button("⬅️ Zurück zum Testreview", width="stretch"):
-            st.session_state.jump_to_idx_active = False # Deaktiviere den Review-Modus
+            st.session_state.jump_to_idx_active = False  # Deaktiviere den Review-Modus
             st.rerun()
 
     if is_admin:
@@ -771,8 +778,9 @@ def render_bookmarks(questions: QuestionSet):
     bookmarks = st.session_state.get("bookmarked_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
 
-    # Nach Testende: Bookmarks sind nicht mehr relevant, daher nichts rendern.
-    if test_completed:
+    # Only hide bookmarks when the user is actually viewing the final summary.
+    # Use explicit session flag `in_final_summary` set by the final summary renderer.
+    if st.session_state.get("in_final_summary", False):
         return
 
     # Allow jumps if the user is currently viewing an explanation (review mode)
@@ -842,8 +850,8 @@ def render_skipped_questions(questions: QuestionSet):
     skipped = st.session_state.get("skipped_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
 
-    # Nach Testende: übersprungene Fragen sind nicht mehr relevant, daher nichts rendern.
-    if test_completed:
+    # Only hide skipped questions when the user is actually viewing the final summary.
+    if st.session_state.get("in_final_summary", False):
         return
 
     currently_reviewing = any(
