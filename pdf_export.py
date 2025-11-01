@@ -1230,7 +1230,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         # Starte Question-Box mit farbigem Rahmen
         html_body += f'<div class="question-box" style="border-left: 4px solid {border_color};">'
         html_body += f'<div class="question-header">'
-        html_body += f'Frage {display_test_number} '
+        html_body += f'Frage {display_test_number} / {len(questions)} '
         html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
         html_body += f'(Fragenset-Nr. {original_number})</span> '
         html_body += f'{difficulty_badge}'
@@ -2001,7 +2001,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         )
 
         html_parts.append('<div class="question">')
-        html_parts.append(f'<h3>Frage {display_num}</h3>')
+        html_parts.append(f'<h3>Frage {display_num} / {len(questions)}</h3>')
         html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
         html_parts.append('<ul class="options">')
 
