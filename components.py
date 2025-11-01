@@ -772,6 +772,12 @@ def render_bookmarks(questions: QuestionSet):
     """Rendert die Bookmark-Sektion in der Sidebar."""
     bookmarks = st.session_state.get("bookmarked_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
+    # Allow jumps if the user is currently viewing an explanation (review mode)
+    # so that immediately after the last answer the user can still jump to a bookmarked question.
+    currently_reviewing = any(
+        st.session_state.get(f"show_explanation_{i}", False) for i in range(len(questions) or [])
+    ) or st.session_state.get("jump_to_idx_active", False)
+    jumps_disabled = test_completed and not currently_reviewing
     # Expander nur geöffnet, wenn Inhalt vorhanden
     with st.sidebar.expander("🔖 Markierte Fragen", expanded=len(bookmarks) > 0):
         if not bookmarks:
@@ -782,7 +788,7 @@ def render_bookmarks(questions: QuestionSet):
         initial_indices = st.session_state.get("initial_frage_indices", [])
         sorted_bookmarks = sorted(bookmarks, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
 
-        if test_completed:
+        if jumps_disabled:
             st.caption("Sprünge sind nach Abschluss deaktiviert.")
 
         for q_idx in sorted_bookmarks:
@@ -797,12 +803,19 @@ def render_bookmarks(questions: QuestionSet):
                     "🔖",
                     key=f"bm_jump_{q_idx}",
                     help="Zur markierten Frage springen",
-                    disabled=test_completed,
+                    disabled=jumps_disabled,
                     width="stretch",
                 ):
-                    st.session_state["jump_to_idx"] = q_idx
-                    st.session_state.jump_to_idx_active = True
-                    st.rerun()
+                        st.session_state["jump_to_idx"] = q_idx
+                        st.session_state.jump_to_idx_active = True
+                        # If the target question was already answered, show its explanation/evaluation immediately
+                        try:
+                            if st.session_state.get(f"frage_{q_idx}_beantwortet") is not None:
+                                st.session_state[f"show_explanation_{q_idx}"] = True
+                                st.session_state.last_answered_idx = q_idx
+                        except Exception:
+                            pass
+                        st.rerun()
             with cols[2]:
                 if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen", width="stretch"):
                     st.session_state.bookmarked_questions.remove(q_idx)
@@ -825,6 +838,10 @@ def render_skipped_questions(questions: QuestionSet):
     """Rendert die Sektion für übersprungene Fragen in der Sidebar."""
     skipped = st.session_state.get("skipped_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
+    currently_reviewing = any(
+        st.session_state.get(f"show_explanation_{i}", False) for i in range(len(questions) or [])
+    ) or st.session_state.get("jump_to_idx_active", False)
+    jumps_disabled = test_completed and not currently_reviewing
     # Expander nur geöffnet, wenn Inhalt vorhanden
     with st.sidebar.expander("↪️ Übersprungen", expanded=len(skipped) > 0):
         if not skipped:
@@ -846,10 +863,16 @@ def render_skipped_questions(questions: QuestionSet):
             if st.button(
                 f"Frage {display_question_number}",
                 key=f"skip_jump_{q_idx}",
-                disabled=test_completed
+                disabled=jumps_disabled
             ):
                 st.session_state["jump_to_idx"] = q_idx
                 st.session_state.jump_to_idx_active = True
+                try:
+                    if st.session_state.get(f"frage_{q_idx}_beantwortet") is not None:
+                        st.session_state[f"show_explanation_{q_idx}"] = True
+                        st.session_state.last_answered_idx = q_idx
+                except Exception:
+                    pass
                 st.rerun()
 
         st.divider()

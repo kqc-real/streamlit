@@ -1464,8 +1464,25 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         type="primary",
                         width="stretch",
                     ):
-                        # Setze das Sprung-Flag zurück, damit die App zur nächsten unbeantworteten Frage geht.
-                        st.session_state.jump_to_idx_active = False
+                        # Robust resume: set a jump target to the next unanswered question
+                        # so the app shows the normal navigation buttons there.
+                        try:
+                            from logic import get_current_question_index
+                            next_idx = get_current_question_index()
+                            if next_idx is not None:
+                                st.session_state["jump_to_idx"] = next_idx
+                                # Leave review mode so normal navigation buttons appear
+                                st.session_state.jump_to_idx_active = False
+                                # Ensure the resumed question does not show the explanation overlay
+                                # and clear any lingering last_answered_idx so the app picks the resumed question.
+                                try:
+                                    st.session_state.pop(f"show_explanation_{next_idx}", None)
+                                except Exception:
+                                    pass
+                        except Exception:
+                            # Fallback: clear jump flag and rely on default navigation
+                            st.session_state.jump_to_idx_active = False
+
                         # Lösche den last_answered_idx, damit die App nicht hier hängen bleibt.
                         if "last_answered_idx" in st.session_state:
                             del st.session_state.last_answered_idx
@@ -1752,10 +1769,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                             _handle_feedback_submission(frage_idx, frage_obj, selected_types)
                             st.rerun()  # Erzwinge einen Rerun, um den "Danke"-Text anzuzeigen
 
-    # Zeige den "Nächste Frage"-Button nur an, wenn der Nutzer nicht gerade
-    # im Sprung-Modus eine bereits beantwortete Frage reviewt.
-    if not st.session_state.get("jump_to_idx_active"):
-        render_next_question_button(questions, questions.index(frage_obj))
+    # Render the navigation buttons (next/previous/summary). Previously this
+    # was skipped when `jump_to_idx_active` was True which hid the final
+    # "Zur Testauswertung" button after a jump — keep rendering to ensure
+    # users can always navigate to the summary.
+    render_next_question_button(questions, questions.index(frage_obj))
 
 
 
@@ -1789,6 +1807,12 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                 st.session_state[f"show_explanation_{frage_idx}"] = False
                 st.session_state[f"show_explanation_{prev_idx}"] = True
                 st.session_state.last_answered_idx = prev_idx
+                # Navigating via Prev should cancel any active 'jump to' review mode
+                try:
+                    st.session_state.jump_to_idx_active = False
+                    st.session_state.pop("jump_to_idx", None)
+                except Exception:
+                    pass
                 st.rerun()
         next_question_container = col2
     else:
