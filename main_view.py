@@ -12,6 +12,7 @@ import time
 import re
 import locale
 import math
+import logic
 
 from config import (
     AppConfig,
@@ -1458,35 +1459,54 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 st.info("Diese Frage wurde bereits beantwortet.")
                 _, col2, _ = st.columns([1, 1, 1])
                 with col2:
-                    if st.button(
-                        "Test fortsetzen",
-                        key=f"resume_from_answered_bm_{frage_idx}",
-                        type="primary",
-                        width="stretch",
-                    ):
-                        # Robust resume: set a jump target to the next unanswered question
-                        # so the app shows the normal navigation buttons there.
-                        try:
-                            from logic import get_current_question_index
-                            next_idx = get_current_question_index()
-                            if next_idx is not None:
-                                st.session_state["jump_to_idx"] = next_idx
-                                # Leave review mode so normal navigation buttons appear
-                                st.session_state.jump_to_idx_active = False
-                                # Ensure the resumed question does not show the explanation overlay
-                                # and clear any lingering last_answered_idx so the app picks the resumed question.
-                                try:
-                                    st.session_state.pop(f"show_explanation_{next_idx}", None)
-                                except Exception:
-                                    pass
-                        except Exception:
-                            # Fallback: clear jump flag and rely on default navigation
-                            st.session_state.jump_to_idx_active = False
+                    # Decide whether a resume makes sense: only when the test is not finished
+                    # and there is a next unanswered question. Otherwise offer 'Zur Testauswertung'.
+                    try:
+                        next_idx = logic.get_current_question_index()
+                        test_finished = logic.is_test_finished(questions) or st.session_state.get("test_time_expired", False)
+                    except Exception:
+                        next_idx = None
+                        test_finished = False
 
-                        # Lösche den last_answered_idx, damit die App nicht hier hängen bleibt.
-                        if "last_answered_idx" in st.session_state:
-                            del st.session_state.last_answered_idx
-                        st.rerun()
+                    if not test_finished and next_idx is not None:
+                        # Show resume button
+                        if st.button(
+                            "Test fortsetzen",
+                            key=f"resume_from_answered_bm_{frage_idx}",
+                            type="primary",
+                            width="stretch",
+                        ):
+                            # Resume to next unanswered question
+                            st.session_state["jump_to_idx"] = next_idx
+                            st.session_state.jump_to_idx_active = False
+                            try:
+                                st.session_state.pop(f"show_explanation_{next_idx}", None)
+                            except Exception:
+                                pass
+                            if "last_answered_idx" in st.session_state:
+                                del st.session_state.last_answered_idx
+                            st.rerun()
+                    else:
+                        # No unanswered questions left or test is over: offer final summary
+                        if st.button(
+                            "Zur Testauswertung 🏁",
+                            key=f"to_summary_from_answered_{frage_idx}",
+                            type="primary",
+                            width="stretch",
+                        ):
+                            # Clear overlays and jump flags so app shows final summary
+                            try:
+                                st.session_state.jump_to_idx_active = False
+                                st.session_state.pop("jump_to_idx", None)
+                            except Exception:
+                                pass
+                            try:
+                                st.session_state.pop(f"show_explanation_{frage_idx}", None)
+                            except Exception:
+                                pass
+                            if "last_answered_idx" in st.session_state:
+                                del st.session_state.last_answered_idx
+                            st.rerun()
 
     # --- Motivation anzeigen (AUSSERHALB des Fragen-Containers) ---
     # Zeige die Motivation nur für die Frage, die gerade beantwortet wurde

@@ -456,8 +456,6 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.session_state.jump_to_idx_active = False # Deaktiviere den Review-Modus
             st.rerun()
 
-    st.sidebar.divider()
-
     if is_admin:
         render_admin_switch(app_config, questions)
 
@@ -772,6 +770,11 @@ def render_bookmarks(questions: QuestionSet):
     """Rendert die Bookmark-Sektion in der Sidebar."""
     bookmarks = st.session_state.get("bookmarked_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
+
+    # Nach Testende: Bookmarks sind nicht mehr relevant, daher nichts rendern.
+    if test_completed:
+        return
+
     # Allow jumps if the user is currently viewing an explanation (review mode)
     # so that immediately after the last answer the user can still jump to a bookmarked question.
     currently_reviewing = any(
@@ -838,6 +841,11 @@ def render_skipped_questions(questions: QuestionSet):
     """Rendert die Sektion für übersprungene Fragen in der Sidebar."""
     skipped = st.session_state.get("skipped_questions", [])
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
+
+    # Nach Testende: übersprungene Fragen sind nicht mehr relevant, daher nichts rendern.
+    if test_completed:
+        return
+
     currently_reviewing = any(
         st.session_state.get(f"show_explanation_{i}", False) for i in range(len(questions) or [])
     ) or st.session_state.get("jump_to_idx_active", False)
