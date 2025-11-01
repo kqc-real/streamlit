@@ -1133,11 +1133,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>Test-Ergebnis</h1>
+                    <h1>{set_name}</h1>
                     <div class="meta-info">
                         <span><strong>Teilnehmer:</strong> {user_name}</span>
-                        <span><strong>Fragenset:</strong> {set_name}</span>
-                        <span><strong>Datum:</strong> {generated_at_str}</span>
+                        <span><strong>Testdatum:</strong> {generated_at_str}</span>
                         {f'<span><strong>Dauer:</strong> {duration_str}</span>' if duration_str else ''}
                     </div>
                 </div>
