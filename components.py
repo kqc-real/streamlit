@@ -63,6 +63,28 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     )
     st.sidebar.success(f"👋 **{st.session_state.get('user_id', '')}**")
 
+    # Wenn das aktuell verwendete Pseudonym ein Recovery-Geheimwort besitzt,
+    # dann war es für diesen Nutzer reserviert. Zeige eine kleine Hinweise-Zeile
+    # direkt unter dem Benutzernamen in der Sidebar.
+    try:
+        user_pseudo = st.session_state.get('user_id')
+        if user_pseudo:
+            try:
+                from database import has_recovery_secret_for_pseudonym
+
+                try:
+                    if has_recovery_secret_for_pseudonym(user_pseudo):
+                        st.sidebar.caption("Pseudonym wurde für dich reserviert")
+                except Exception:
+                    # DB-Check schlug fehl; nichts anzeigen
+                    pass
+            except Exception:
+                # Helper nicht verfügbar oder Import-Fehler: still fail silently
+                pass
+    except Exception:
+        # Generischer Schutz: Sidebar darf nie wegen dieser Anzeige abstürzen
+        pass
+
     # Only expose the history-open affordance here when the session was
     # restored via Pseudonym+Geheimwort. Keep it minimal (no debug captions).
     try:
@@ -443,7 +465,6 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         </p>
     </div>
     """, unsafe_allow_html=True)
-    st.sidebar.divider()
 
     render_bookmarks(questions)
     render_skipped_questions(questions)
@@ -587,7 +608,6 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
         if show_full_hint:
             st.warning(
-                "⚠️ Dein Punktestand wird gespeichert und der Test beendet. "
                 "Für einen weiteren Versuch wähle ein neues Pseudonym."
             )
         else:
