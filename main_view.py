@@ -50,7 +50,7 @@ KAHOOT_IMPORT_RULES = [
 ]
 from components import render_question_distribution_chart
 import logging
-from auth import initialize_session_state
+from auth import initialize_session_state, is_admin_user
 
 
 EXPORT_FEATURE_UNAVAILABLE_MSG = "Dieses Export-Feature steht demnächst zur Verfügung."
@@ -2617,30 +2617,74 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     st.subheader("📦 Export")
     with st.expander("Exportiere deine Testergebnisse & Lernmaterialien"):
 
+        export_selected_file = selected_file
+        export_questions = list(questions)
+
+        user_id = st.session_state.get("user_id")
+        is_admin = False
+        if app_config and user_id:
+            try:
+                is_admin = is_admin_user(user_id, app_config)
+            except Exception:
+                is_admin = False
+
+        if is_admin:
+            available_files = list_question_files()
+            if available_files:
+                def _format_export_name(filename: str) -> str:
+                    return filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+
+                default_choice = st.session_state.get(
+                    "admin_export_selected_file",
+                    selected_file if selected_file in available_files else available_files[0],
+                )
+                if default_choice not in available_files:
+                    default_choice = available_files[0]
+
+                export_selected_file = st.selectbox(
+                    "Fragenset für den Export auswählen:",
+                    options=available_files,
+                    index=available_files.index(default_choice),
+                    format_func=_format_export_name,
+                    key="admin_export_qset_selector",
+                )
+                st.session_state["admin_export_selected_file"] = export_selected_file
+
+                if export_selected_file != selected_file:
+                    try:
+                        export_questions = list(load_questions(export_selected_file))
+                    except Exception as exc:
+                        st.error(f"Fragenset '{export_selected_file}' konnte nicht geladen werden: {exc}")
+                        export_selected_file = selected_file
+                        export_questions = list(questions)
+                st.caption(f"Aktuelles Export-Set: **{_format_export_name(export_selected_file)}**")
+            else:
+                st.info("Keine weiteren Fragensets für den Admin-Export gefunden.")
+
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
 
             st.caption("Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.")
-            instruction_button_key = f"open_anki_instruction_{selected_file}"
+            instruction_button_key = f"open_anki_instruction_{export_selected_file}"
             if st.button("ℹ️ Anleitung & Tipps anzeigen", key=instruction_button_key):
                 _open_anki_instruction_dialog()
 
-            preview_button_key = f"open_anki_preview_{selected_file}"
+            preview_button_key = f"open_anki_preview_{export_selected_file}"
             if st.button("🖼️ Kartenvorschau anzeigen", key=preview_button_key):
-                _open_anki_preview_dialog(questions, selected_file)
+                _open_anki_preview_dialog(export_questions, export_selected_file)
 
-            export_file_stem = selected_file.replace("questions_", "").replace(".json", "")
-            apkg_button_key = f"start_anki_apkg_{selected_file}"
-            tsv_button_key = f"start_anki_tsv_{selected_file}"
-            apkg_download_key = f"dl_anki_apkg_{selected_file}"
-            tsv_download_key = f"dl_anki_tsv_{selected_file}"
+            export_file_stem = export_selected_file.replace("questions_", "").replace(".json", "")
+            apkg_button_key = f"start_anki_apkg_{export_selected_file}"
+            tsv_button_key = f"start_anki_tsv_{export_selected_file}"
+            apkg_download_key = f"dl_anki_apkg_{export_selected_file}"
+            tsv_download_key = f"dl_anki_tsv_{export_selected_file}"
 
             col_apkg, col_tsv = st.columns(2)
             with col_apkg:
                 if st.button("Anki-Paket (.apkg) erstellen", key=apkg_button_key):
                     with st.spinner("Anki-Paket wird erstellt..."):
                         try:
-                            apkg_bytes = _cached_generate_anki_apkg(selected_file)
+                            apkg_bytes = _cached_generate_anki_apkg(export_selected_file)
                         except ModuleNotFoundError:
                             st.info(ANKI_APKG_DEPENDENCY_MSG)
                         except FileNotFoundError as exc:
@@ -2660,11 +2704,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 if st.button("Anki-TSV exportieren", key=tsv_button_key):
                     with st.spinner("Anki-TSV wird erstellt..."):
                         try:
-                            json_path = Path(get_package_dir()) / "data" / selected_file
+                            json_path = Path(get_package_dir()) / "data" / export_selected_file
                             if not json_path.exists():
-                                raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
+                                raise FileNotFoundError(f"Fragenset '{export_selected_file}' wurde nicht gefunden.")
                             json_bytes = json_path.read_bytes()
-                            tsv_content = _cached_transform_anki(json_bytes, selected_file)
+                            tsv_content = _cached_transform_anki(json_bytes, export_selected_file)
                         except FileNotFoundError as exc:
                             st.error(str(exc))
                         except Exception as exc:
@@ -2687,16 +2731,17 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
                 return
             try:
-                xlsx_bytes = generate_kahoot_xlsx(selected_file, list(questions))
+                xlsx_bytes = generate_kahoot_xlsx(export_selected_file, list(export_questions))
                 st.download_button(
                     label="💾 Kahoot-Quiz herunterladen",
                     data=xlsx_bytes,
-                    file_name=f"kahoot_export_{selected_file.replace('questions_', '').replace('.json', '')}.xlsx",
+                    file_name=f"kahoot_export_{export_selected_file.replace('questions_', '').replace('.json', '')}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    key=kahoot_dl_key
+                    key=kahoot_dl_key,
                 )
-            except Exception as e:
-                st.error(f"Fehler beim Erzeugen des Kahoot-Exports: {e}")
+            except Exception as exc:
+                st.error(f"Fehler beim Erzeugen des Kahoot-Exports: {exc}")
+
         with st.expander("📦 Kahoot-Quiz (für Live-Quizze)"):
             st.markdown("Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.")
             st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)")
@@ -2705,8 +2750,8 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 "Mathematische Inhalte werden nach dem Import nur als einfacher Text angezeigt.",
                 icon="🧮",
             )
-            kahoot_btn_key = f"download_kahoot_review_{selected_file}"
-            kahoot_dl_key = f"dl_kahoot_direct_{selected_file}"
+            kahoot_btn_key = f"download_kahoot_review_{export_selected_file}"
+            kahoot_dl_key = f"dl_kahoot_direct_{export_selected_file}"
             kahoot_errors: list[str] = []
             kahoot_warnings: list[str] = []
             validate_fn = None
@@ -2726,7 +2771,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
             if validate_fn:
                 try:
-                    kahoot_errors, kahoot_warnings = validate_fn(list(questions))
+                    kahoot_errors, kahoot_warnings = validate_fn(list(export_questions))
                 except Exception as exc:
                     st.error(f"Fehler bei der Kahoot-Validierung: {exc}")
                     kahoot_errors = ["Die Validierung konnte nicht abgeschlossen werden."]
@@ -2760,8 +2805,8 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         with st.expander("📦 arsnova.click-Quiz (für Hochschul-Feedback)"):
             st.markdown("Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.")
             st.caption("Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)")
-            arsnova_btn_key = f"download_arsnova_review_{selected_file}"
-            arsnova_dl_key = f"dl_arsnova_direct_{selected_file}"
+            arsnova_btn_key = f"download_arsnova_review_{export_selected_file}"
+            arsnova_dl_key = f"dl_arsnova_direct_{export_selected_file}"
 
             generate_fn = None
             arsnova_warnings: list[str] = []
@@ -2772,7 +2817,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             else:
                 generate_fn = generate_arsnova_json
                 try:
-                    arsnova_warnings = validate_arsnova_questions(list(questions))
+                    arsnova_warnings = validate_arsnova_questions(list(export_questions))
                 except Exception as exc:
                     st.error(f"Fehler bei der arsnova.click-Prüfung: {exc}")
                     arsnova_warnings = []
@@ -2790,11 +2835,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
                 else:
                     try:
-                        json_bytes = generate_fn(selected_file, list(questions))
+                        json_bytes = generate_fn(export_selected_file, list(export_questions))
                         st.download_button(
                             label="💾 arsnova.click-Quiz herunterladen",
                             data=json_bytes,
-                            file_name=f"arsnova_export_{selected_file.replace('questions_', '').replace('.json', '')}.json",
+                            file_name=f"arsnova_export_{export_selected_file.replace('questions_', '').replace('.json', '')}.json",
                             mime="application/json",
                             key=arsnova_dl_key
                         )
@@ -2822,13 +2867,14 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             data=pdf_bytes,
                             file_name=muster_download_name,
                             mime=MIME_PDF,
-                            key=musterloesung_dl_key
+                            key=musterloesung_dl_key,
                         )
-                    except Exception as e:
-                        st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
+                    except Exception as exc:
+                        st.error(f"Fehler beim Erzeugen der Musterlösung: {exc}")
 
         # Mini-Glossar nur anzeigen, wenn Glossar-Einträge vorhanden sind
         from pdf_export import _extract_glossary_terms
+
         glossary_terms = _extract_glossary_terms(list(questions))
         if glossary_terms:
             with st.expander("📄 Mini-Glossar (PDF mit allen Fachbegriffen)"):
@@ -2850,10 +2896,10 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 data=pdf_bytes,
                                 file_name=glossary_download_name,
                                 mime=MIME_PDF,
-                                key=glossar_dl_key
+                                key=glossar_dl_key,
                             )
-                        except Exception as e:
-                            st.error(f"Fehler beim Erzeugen des Mini-Glossars: {e}")
+                        except Exception as exc:
+                            st.error(f"Fehler beim Erzeugen des Mini-Glossars: {exc}")
 
         # Testbericht
         with st.expander("📄 Testbericht (PDF mit deinem Ergebnis)"):
@@ -2878,7 +2924,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             data=pdf_bytes,
                             file_name=report_download_name,
                             mime=MIME_PDF,
-                            key=testbericht_dl_key
+                            key=testbericht_dl_key,
                         )
-                    except Exception as e:
-                        st.error(f"Fehler beim Erzeugen des Testberichts: {e}")
+                    except Exception as exc:
+                        st.error(f"Fehler beim Erzeugen des Testberichts: {exc}")
