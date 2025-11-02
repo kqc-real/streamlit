@@ -146,7 +146,9 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
         <style>
         .card-wrapper { margin-bottom: 20px; }
         .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
-        .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
+    .anki-preview .card { background-color: #ffffff; }
+    .anki-preview .card-container { background-color: #ffffff; color: #111; }
+    .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
         .anki-preview .meta-item strong { color: #000; }
         .anki-preview .question-block { margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
         .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 3.8em; margin: 0; }
@@ -160,6 +162,22 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
         .anki-preview .section-title { font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
         .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
         .anki-preview.card.card-back .card-container { padding-left: 2.5em; }
+
+        @media (prefers-color-scheme: dark) {
+            .anki-preview .card,
+            .anki-preview .card-container { background-color: #0f172a; color: #f9fafb; }
+            .anki-preview .meta-info { background-color: #1e293b; color: #e2e8f0; }
+            .anki-preview .meta-item strong { color: #f8fafc; }
+            .anki-preview .question-block,
+            .anki-preview .question-repeat .question-content,
+            .anki-preview .options-block,
+            .anki-preview .answer-content,
+            .anki-preview .explanation-content,
+            .anki-preview .extended-content { color: #f9fafb; }
+            .anki-preview .section-title { color: #60a5fa; }
+            .anki-preview .answer-content { color: #4ade80; }
+            .anki-preview .anki-divider { border-top: 1px solid #334155; }
+        }
         </style>
         """
 

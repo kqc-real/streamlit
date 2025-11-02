@@ -243,7 +243,8 @@ _ANKI_COLUMNS: List[str] = [
 
 
 _ANKI_CARD_CSS = """
-.card-container { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
+.card { background-color: #ffffff; color: #111; }
+.card-container { font-family: Arial, sans-serif; font-size: 16px; color: #111; background-color: #ffffff; }
 .question { font-weight: 600; margin-bottom: 12px; }
 .options ol { list-style-type: upper-alpha; padding-left: 3.5em; margin: 0; }
 .answer-block { margin-top: 12px; }
@@ -255,6 +256,53 @@ _ANKI_CARD_CSS = """
 .options-content { margin-bottom: 8px; }
 .card-container hr { border: none; border-top: 1px solid #d1d5db; margin: 12px 0; }
 .section-title { font-weight: 700; color: #005A9C; margin-top: 10px; margin-bottom: 4px; }
+.meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display: flex; flex-wrap: wrap; gap: 10px; }
+.meta-info .meta-item strong { color: #000; }
+
+.card.night-mode,
+.night-mode .card,
+.night_mode .card,
+.nightMode .card { background-color: #0f172a; color: #f9fafb; }
+.card.night-mode .card-container,
+.night-mode .card .card-container,
+.night_mode .card .card-container,
+.nightMode .card .card-container { background-color: #0f172a; color: #f9fafb; }
+.card.night-mode .meta-info,
+.night-mode .card .meta-info,
+.night_mode .card .meta-info,
+.nightMode .card .meta-info { background-color: #1e293b; color: #e2e8f0; }
+.card.night-mode .meta-info .meta-item strong,
+.night-mode .card .meta-info .meta-item strong,
+.night_mode .card .meta-info .meta-item strong,
+.nightMode .card .meta-info .meta-item strong { color: #f8fafc; }
+.card.night-mode .question,
+.night-mode .card .question,
+.night_mode .card .question,
+.nightMode .card .question,
+.card.night-mode .question-content,
+.night-mode .card .question-content,
+.night_mode .card .question-content,
+.nightMode .card .question-content,
+.card.night-mode .options-content,
+.night-mode .card .options-content,
+.night_mode .card .options-content,
+.nightMode .card .options-content { color: #f9fafb; }
+.card.night-mode .answer-title,
+.night-mode .card .answer-title,
+.night_mode .card .answer-title,
+.nightMode .card .answer-title { color: #34d399; }
+.card.night-mode .answer-content,
+.night-mode .card .answer-content,
+.night_mode .card .answer-content,
+.nightMode .card .answer-content { color: #4ade80; }
+.card.night-mode .section-title,
+.night-mode .card .section-title,
+.night_mode .card .section-title,
+.nightMode .card .section-title { color: #60a5fa; }
+.card.night-mode .card-container hr,
+.night-mode .card .card-container hr,
+.night_mode .card .card-container hr,
+.nightMode .card .card-container hr { border-top: 1px solid #334155; }
 """
 
 
