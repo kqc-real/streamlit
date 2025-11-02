@@ -22,78 +22,101 @@ from database import (
 )
 
 
-def _load_frageset_prompt() -> str:
-    """Lädt den 7-Schritt-Prompt aus der README-Datei."""
-    readme_path = Path(__file__).resolve().parent / "README.md"
-    if not readme_path.exists():
-        return "README nicht gefunden. Bitte überprüfe die Projektstruktur."
-
+def _load_prompt_file(filename: str) -> str:
+    """Return prompt content from the given markdown file."""
+    prompt_path = Path(__file__).resolve().parent / filename
+    if not prompt_path.exists():
+        return f"Datei {filename} nicht gefunden."
     try:
-        content = readme_path.read_text(encoding="utf-8")
-    except OSError:
-        return "Prompt konnte nicht geladen werden. Zugriff auf README fehlgeschlagen."
-
-    marker = "## Prompt (copy & paste)"
-    start_idx = content.find(marker)
-    if start_idx == -1:
-        return "Prompt-Abschnitt in der README nicht gefunden."
-
-    prompt_section = content[start_idx + len(marker) :].strip()
-
-    # Begrenze auf den Teil vor der Feld-Erklärung, um nur den Prompt anzuzeigen.
-    stop_marker = "**Erläuterung der Felder:**"
-    stop_idx = prompt_section.find(stop_marker)
-    if stop_idx != -1:
-        prompt_section = prompt_section[:stop_idx].strip()
-
-    return prompt_section or "Prompt-Abschnitt ist leer."
+        return prompt_path.read_text(encoding="utf-8")
+    except OSError as exc:
+        return f"Prompt konnte nicht geladen werden ({exc})."
 
 
-def render_prompt_tab():
-    """Zeigt den 7-stufigen Prompt zum Generieren neuer Fragensets."""
-    st.header("🧠 Frageset generieren")
+def _show_prompt_dialog(title: str, content: str, download_name: str) -> None:
+    dialog_api = getattr(st, "experimental_dialog", None)
+
+    def _dialog_body() -> None:
+        st.text_area("Prompt-Inhalt", content, height=500, label_visibility="collapsed")
+        st.download_button(
+            "⬇️ Prompt als Markdown herunterladen",
+            data=content.encode("utf-8"),
+            file_name=download_name,
+            mime="text/markdown",
+            key=f"download_{download_name}_dialog",
+        )
+
+    if callable(dialog_api):
+        dialog_api(title)(_dialog_body)
+    else:
+        st.warning(
+            "Diese Streamlit-Version unterstützt keine Dialoge. Der Prompt wird direkt auf der Seite angezeigt."
+        )
+        _dialog_body()
+
+
+def render_general_prompt_tab() -> None:
+    """Zeigt den allgemeinen KI-Prompt für neue Fragensets."""
+    st.header("🧠 Frageset generieren (Allgemein)")
     st.markdown(
         """
         Nutze diesen Prompt in ChatGPT, Claude oder einem anderen LLM, um ein neues
-        `questions_*.json`-Fragenset passend für diese App zu erstellen.
-        Kopiere den Text, beantworte die Fragen Schritt für Schritt und speichere die
-        generierte Datei anschließend im Verzeichnis `data/`.
+        `questions_*.json`-Fragenset passend für diese App zu erstellen. Kopiere den
+        Text, beantworte die Fragen Schritt für Schritt und speichere die generierte
+        Datei anschließend im Verzeichnis `data/`.
         """.strip()
     )
-    st.info("Aktuell erzielen wir die besten Ergebnisse mit »ChatGPT 5 Thinking Umfassend« und »Gemini 2.5 Flash« – gerne zuerst damit versuchen.")
+    st.info(
+        "Aktuell erzielen wir die besten Ergebnisse mit »ChatGPT 5 Thinking Umfassend« und »Gemini 2.5 Flash« – gerne zuerst damit versuchen."
+    )
 
-    prompt_text = _load_frageset_prompt()
-    st.code(prompt_text, language="markdown")
+    prompt_content = _load_prompt_file("KI_PROMPT.md")
+    if prompt_content.startswith("Prompt konnte") or prompt_content.startswith("Datei"):
+        st.error(prompt_content)
+        return
 
-    copy_button_html = f"""
-    <div style="margin-top:0.5rem;">
-      <button id="copy-prompt-btn" style="
-          padding: 0.5rem 1rem;
-          border: none;
-          border-radius: 6px;
-          background: #2563eb;
-          color: white;
-          font-weight: 600;
-          cursor: pointer;
-      ">📋 Prompt kopieren</button>
-    </div>
-    <script>
-    const btn = document.getElementById("copy-prompt-btn");
-    if (btn) {{
-      btn.addEventListener("click", async () => {{
-        try {{
-          await navigator.clipboard.writeText({prompt_text!r});
-          btn.textContent = "✅ Prompt kopiert";
-          setTimeout(() => btn.textContent = "📋 Prompt kopieren", 2000);
-        }} catch (err) {{
-          btn.textContent = "❌ Kopieren fehlgeschlagen";
-          setTimeout(() => btn.textContent = "📋 Prompt kopieren", 2000);
-        }}
-      }});
-    }}
-    </script>
-    """
-    st.components.v1.html(copy_button_html, height=60)
+    col_left, col_right = st.columns(2)
+    with col_left:
+        st.download_button(
+            "⬇️ Prompt herunterladen",
+            data=prompt_content.encode("utf-8"),
+            file_name="KI_PROMPT.md",
+            mime="text/markdown",
+            key="download_general_prompt",
+        )
+    with col_right:
+        if st.button("👁️ Prompt anzeigen", key="open_general_prompt"):
+            _show_prompt_dialog("Allgemeiner KI-Prompt", prompt_content, "KI_PROMPT.md")
+
+
+def render_kahoot_prompt_tab() -> None:
+    """Zeigt den Kahoot-spezifischen KI-Prompt."""
+    st.header("🤖 Kahoot-Fragenset mit KI erstellen")
+    st.markdown(
+        """
+        Dieser Prompt ist speziell für Kahoot optimiert. Er stellt sicher, dass alle
+        Fragetexte und Antwortoptionen die Kahoot-Limits einhalten. Nutze ihn für
+        Teams, die Fragen aus deinen Kursinhalten als Live-Kahoot umsetzen möchten.
+        """.strip()
+    )
+
+    prompt_content = _load_prompt_file("KI_PROMPT_KAHOOT.md")
+    if prompt_content.startswith("Prompt konnte") or prompt_content.startswith("Datei"):
+        st.error(prompt_content)
+        return
+
+    col_left, col_right = st.columns(2)
+    with col_left:
+        st.download_button(
+            "⬇️ Prompt herunterladen",
+            data=prompt_content.encode("utf-8"),
+            file_name="KI_PROMPT_KAHOOT.md",
+            mime="text/markdown",
+            key="download_kahoot_prompt",
+        )
+    with col_right:
+        if st.button("👁️ Prompt anzeigen", key="open_kahoot_prompt"):
+            _show_prompt_dialog("Kahoot KI-Prompt", prompt_content, "KI_PROMPT_KAHOOT.md")
 
 
 def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
@@ -121,6 +144,7 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
             "📤 Export",
             "⚙️ System",
             "🧠 Frageset generieren",
+            "🤖 Kahoot-Fragenset mit KI",
             "📚 Mini-Glossare",
             "📂 Fragensets",
             "🔒 Audit-Log",
@@ -133,18 +157,20 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     with tabs[1]:
         render_analysis_tab(df_filtered_logs, questions)
     with tabs[2]:
-        render_feedback_tab() # Diese Funktion holt sich ihre Daten jetzt selbst
+        render_feedback_tab()  # Diese Funktion holt sich ihre Daten jetzt selbst
     with tabs[3]:
         render_export_tab(df_filtered_logs, app_config)
     with tabs[4]:
         render_system_tab(app_config, df_filtered_logs)
     with tabs[5]:
-        render_prompt_tab()
+        render_general_prompt_tab()
     with tabs[6]:
-        render_mini_glossary_tab()
+        render_kahoot_prompt_tab()
     with tabs[7]:
-        render_question_sets_tab()
+        render_mini_glossary_tab()
     with tabs[8]:
+        render_question_sets_tab()
+    with tabs[9]:
         render_audit_log_tab()
 
 
@@ -400,7 +426,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             user_to_reset = st.selectbox(
                 "Wähle einen Benutzer:",
                 options=[p for p in scores["👤 Pseudonym"]],
-                format_func=lambda x: x.split(" ", 1)[-1], # Zeige nur den Namen ohne Rang/Icon
+                format_func=lambda x: x.split(" ", 1)[-1],  # Zeige nur den Namen ohne Rang/Icon
                 key=f"reset_user_select_{q_file}"
             )
             
@@ -426,7 +452,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                                 from audit_log import log_admin_action
                                 admin_user = st.session_state.get("user_id", "Unknown")
                                 log_admin_action(
-                                    admin_user, 
+                                    admin_user,
                                     "DELETE_USER_RESULTS",
                                     f"Deleted results: user={user_name_plain}, qset={q_file}",
                                     success=True
