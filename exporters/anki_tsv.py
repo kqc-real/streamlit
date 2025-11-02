@@ -13,15 +13,19 @@ from __future__ import annotations
 import json
 import io
 import csv
-from typing import Any
+from typing import Any, Iterable
 
 from markdown_it import MarkdownIt
 from examples.math_utils import render_markdown_with_math
+import logging
 
 try:
     import bleach
 except Exception:  # pragma: no cover - bleach optional in some environments
     bleach = None
+
+
+logger = logging.getLogger(__name__)
 
 
 DEFAULT_ALLOWED_TAGS = [
@@ -69,7 +73,24 @@ def _sanitize(html: str) -> str:
         # If bleach not installed, return input (best-effort). Caller should
         # ensure the environment includes bleach for production.
         return html
-    return bleach.clean(html, tags=DEFAULT_ALLOWED_TAGS, attributes=DEFAULT_ALLOWED_ATTRS, strip=True)
+    cleaned = bleach.clean(
+        html,
+        tags=DEFAULT_ALLOWED_TAGS,
+        attributes=DEFAULT_ALLOWED_ATTRS,
+        strip=True,
+    )
+    if cleaned != html:
+        # Log sanitized differences for later review (truncate to keep logs readable).
+        original_snippet = html if len(html) <= 400 else html[:400] + "…"
+        cleaned_snippet = cleaned if len(cleaned) <= 400 else cleaned[:400] + "…"
+        logger.warning(
+            "Anki TSV sanitizer stripped content",
+            extra={
+                "anki_sanitize_original": original_snippet,
+                "anki_sanitize_cleaned": cleaned_snippet,
+            },
+        )
+    return cleaned
 
 
 def _map_schwierigkeit(value: Any) -> str:
@@ -78,6 +99,150 @@ def _map_schwierigkeit(value: Any) -> str:
     except Exception:
         return "mittel"
     return {1: "leicht", 2: "mittel", 3: "schwer"}.get(v, "mittel")
+
+
+def _strip_wrapping_paragraph(html: str) -> str:
+    if not html:
+        return ""
+    stripped = html.strip()
+    if stripped.startswith("<p>") and stripped.endswith("</p>"):
+        return stripped[3:-4]
+    return stripped
+
+
+def _render_extended_explanation(md: MarkdownIt, value: Any) -> str:
+    if not value:
+        return ""
+    if isinstance(value, dict):
+        return _render_extended_dict(md, value)
+    return _sanitize(render_markdown_with_math(md, str(value)).strip())
+
+
+def _render_extended_dict(md: MarkdownIt, data: dict[str, Any]) -> str:
+    parts: list[str] = []
+
+    title_html = _render_extended_title(md, data.get("title") or data.get("titel"))
+    if title_html:
+        parts.append(title_html)
+
+    steps_html = _render_extended_steps(md, data.get("schritte"))
+    if steps_html:
+        parts.append(steps_html)
+
+    content_html = _render_extended_content(md, data.get("content"))
+    if content_html:
+        parts.append(content_html)
+
+    if not parts:
+        fallback = _sanitize(render_markdown_with_math(md, str(data)).strip())
+        if fallback:
+            parts.append(fallback)
+
+    return _sanitize("".join(parts))
+
+
+def _render_extended_title(md: MarkdownIt, title: Any) -> str:
+    if not title:
+        return ""
+    title_html = render_markdown_with_math(md, str(title)).strip()
+    title_html = _strip_wrapping_paragraph(title_html)
+    title_html = _sanitize(title_html)
+    return f"<h3>{title_html}</h3>" if title_html else ""
+
+
+def _render_extended_steps(md: MarkdownIt, steps: Any) -> str:
+    if not isinstance(steps, Iterable):
+        return ""
+    items: list[str] = []
+    for step in steps:
+        rendered_step = _sanitize(render_markdown_with_math(md, str(step)).strip())
+        if rendered_step:
+            items.append(f"<li>{rendered_step}</li>")
+    if not items:
+        return ""
+    return "<ol>" + "".join(items) + "</ol>"
+
+
+def _render_extended_content(md: MarkdownIt, content: Any) -> str:
+    if not isinstance(content, str) or not content.strip():
+        return ""
+    return _sanitize(render_markdown_with_math(md, content).strip())
+
+
+def _render_options(md: MarkdownIt, options: list[Any]) -> str:
+    if not options:
+        return "<ol type=\"A\"></ol>"
+    items = [
+        f"<li>{_sanitize(render_markdown_with_math(md, opt).strip())}</li>"
+        for opt in options
+    ]
+    return "<ol type=\"A\">" + "".join(items) + "</ol>"
+
+
+def _render_correct_answer(md: MarkdownIt, options: list[Any], index: Any) -> str:
+    if not options:
+        return ""
+    try:
+        idx = int(index)
+    except Exception:
+        return ""
+    if idx < 0 or idx >= len(options):
+        return ""
+    return _sanitize(render_markdown_with_math(md, options[idx]).strip())
+
+
+def _render_glossary(md: MarkdownIt, glossary: Any) -> str:
+    if not isinstance(glossary, dict) or not glossary:
+        return ""
+    parts = ["<dl>"]
+    for term, definition in glossary.items():
+        parts.append(f"<dt>{_sanitize(str(term))}</dt>")
+        parts.append(f"<dd>{_sanitize(render_markdown_with_math(md, str(definition)).strip())}</dd>")
+    parts.append("</dl>")
+    return "".join(parts)
+
+
+def _build_tags(title: Any, thema: Any, gewichtung: Any) -> str:
+    parts: list[str] = []
+    if title:
+        parts.append(str(title).replace(" ", "_"))
+    if thema:
+        parts.append(str(thema).replace(" ", "_"))
+    if gewichtung not in (None, ""):
+        parts.append(f"Gewichtung_{gewichtung}")
+    return " ".join(p for p in parts if p).strip()
+
+
+def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str]:
+    frage_html = render_markdown_with_math(md, question.get("frage", "")).strip()
+    frage_field = _sanitize(_strip_wrapping_paragraph(frage_html))
+
+    options = question.get("optionen", []) or []
+    options_html = _render_options(md, options)
+
+    correct_text = _render_correct_answer(md, options, question.get("loesung", 0))
+
+    erklaerung = _sanitize(render_markdown_with_math(md, question.get("erklaerung", "")).strip())
+    extended = _render_extended_explanation(md, question.get("extended_explanation"))
+
+    gloss_html = _render_glossary(md, question.get("mini_glossary"))
+
+    thema = question.get("thema", "")
+    schwierigkeit = _map_schwierigkeit(question.get("gewichtung", ""))
+    tags = _build_tags(title, thema, question.get("gewichtung", ""))
+
+    return [
+        frage_field,
+        options_html,
+        correct_text,
+        erklaerung,
+        extended,
+        gloss_html,
+        title,
+        thema,
+        schwierigkeit,
+        tags,
+    ]
 
 
 def transform_to_anki_tsv(json_bytes: bytes) -> str:
@@ -98,65 +263,6 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
     title = meta.get("title", "")
 
     for q in data.get("questions", []):
-        # Frage
-        frage_html = render_markdown_with_math(md, q.get("frage", ""))
-        frage_html = frage_html.strip()
-        # Strip outer <p> for single-paragraph legacy compatibility
-        if frage_html.startswith("<p>") and frage_html.endswith("</p>"):
-            frage_field = frage_html[3:-4]
-        else:
-            frage_field = frage_html
-
-        # Optionen
-        options = q.get("optionen", []) or []
-        options_html = "<ol type=\"A\">" + "".join(
-            f"<li>{_sanitize(render_markdown_with_math(md, opt).strip())}</li>" for opt in options
-        ) + "</ol>"
-
-        # Richtige Antwort
-        loesung_idx = q.get("loesung", 0)
-        correct_text = ""
-        try:
-            if options:
-                correct_text = _sanitize(render_markdown_with_math(md, options[int(loesung_idx)]).strip())
-        except Exception:
-            correct_text = ""
-
-        # Erklärungen
-        erklaerung = _sanitize(render_markdown_with_math(md, q.get("erklaerung", "")))
-        extended = _sanitize(render_markdown_with_math(md, str(q.get("extended_explanation", ""))))
-
-        # Glossar (mini_glossary) -> dl
-        gloss_html = ""
-        mg = q.get("mini_glossary") or {}
-        if isinstance(mg, dict) and mg:
-            parts = ["<dl>"]
-            for term, definition in mg.items():
-                parts.append(f"<dt>{_sanitize(str(term))}</dt>")
-                parts.append(f"<dd>{_sanitize(render_markdown_with_math(md, str(definition)))}</dd>")
-            parts.append("</dl>")
-            gloss_html = "".join(parts)
-
-        thema = q.get("thema", "")
-        schwierigkeit = _map_schwierigkeit(q.get("gewichtung", ""))
-
-        # Tags: meta.title + thema + gewichtung
-        tags_parts = [str(title).replace(" ", "_") if title else "", str(thema).replace(" ", "_") if thema else "", f"Gewichtung_{q.get('gewichtung', '')}"]
-        tags = " ".join([p for p in tags_parts if p]).strip()
-
-        row = [
-            _sanitize(frage_field),
-            options_html,
-            correct_text,
-            erklaerung,
-            extended,
-            gloss_html,
-            title,
-            thema,
-            schwierigkeit,
-            tags,
-        ]
-
-        writer.writerow(row)
+        writer.writerow(_build_row(md, q, title))
 
     return out.getvalue()

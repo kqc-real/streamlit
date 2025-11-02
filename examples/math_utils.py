@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import Any
 from markdown_it import MarkdownIt
-from markdown_it.token import Token
 
 try:
     # pykatex is optional for environments that don't need server-side rendering.
@@ -12,8 +10,44 @@ except Exception:  # pragma: no cover - tests run without pykatex installed in s
     pykatex_render = None
 
 
+def _convert_math_tokens(content: str) -> str:
+    if not content or '$' not in content:
+        return content
+
+    # Replace display math first: $$...$$ -> \[...\]
+    content = re.sub(
+        r'\$\$(.+?)\$\$',
+        lambda m: f"\\[{m.group(1)}\\]",
+        content,
+        flags=re.DOTALL,
+    )
+
+    # Replace inline math: $...$ -> \(...\) while ignoring $$...$$ blocks
+    content = re.sub(
+        r'(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)',
+        lambda m: f"\\({m.group(1)}\\)",
+        content,
+        flags=re.DOTALL,
+    )
+
+    # Escape remaining dollar signs (currency etc.)
+    content = re.sub(r'(?<!\\)\$', r'\\$', content)
+
+    return content
+
+
+def _apply_math_conversions(tokens: list) -> None:
+    for token in tokens:
+        if token.type == 'inline' and token.children:
+            for child in token.children:
+                if child.type == 'text':
+                    child.content = _convert_math_tokens(child.content)
+        elif token.type == 'text':
+            token.content = _convert_math_tokens(token.content)
+
+
 def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
-    """
+    r"""
     Render markdown string to HTML, converting math expressions.
     - $$...$$ -> \[... \] (display)
     - $...$ -> \(...\) (inline)
@@ -22,30 +56,8 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     if not s:
         return ""
 
-    # Parse the markdown string into a token stream
     tokens = md.parse(s)
-
-    # Iterate through the tokens and apply math conversion to text tokens
-    for token in tokens:
-        if token.type == 'inline' and token.children:
-            for child in token.children:
-                if child.type == 'text':
-                    content = child.content
-                    # Replace display math first
-                    content = re.sub(r'\$\$(.*?)\$\$', r'\\[\1\\]', content, flags=re.DOTALL)
-                    # Then inline math
-                    content = re.sub(r'\$(.*?)\$', r'\\(\\1\\)', content)
-                    child.content = content
-        elif token.type == 'text':
-            content = token.content
-            # Replace display math first
-            content = re.sub(r'\$\$(.*?)\$\$', r'\\[\1\\]', content, flags=re.DOTALL)
-            # Then inline math
-            content = re.sub(r'\$(.*?)\$', r'\\(\\1\\)', content)
-            token.content = content
-
-
-    # Render the modified tokens back to HTML
+    _apply_math_conversions(tokens)
     return md.renderer.render(tokens, md.options, {})
 
 

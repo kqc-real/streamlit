@@ -42,6 +42,33 @@ import logging
 from auth import initialize_session_state
 
 
+def _ensure_anki_logger_configured() -> None:
+    logger = logging.getLogger("exporters.anki_tsv")
+    if getattr(logger, "_anki_formatter_installed", False):
+        return
+
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.WARNING)
+    handler.setFormatter(
+        logging.Formatter(
+            "%(asctime)s %(levelname)s:%(name)s: %(message)s | "
+            "original=%(anki_sanitize_original)s | cleaned=%(anki_sanitize_cleaned)s"
+        )
+    )
+    logger.addHandler(handler)
+    logger.setLevel(logging.WARNING)
+    logger.propagate = False
+    logger._anki_formatter_installed = True  # type: ignore[attr-defined]
+
+
+@st.cache_data(show_spinner=False)
+def _cached_transform_anki(json_payload: bytes) -> str:
+    _ensure_anki_logger_configured()
+    from exporters.anki_tsv import transform_to_anki_tsv
+
+    return transform_to_anki_tsv(json_payload)
+
+
 def _format_minutes_text(minutes: int) -> str:
     """Gibt eine sprachlich passende Darstellung für Minuten zurück."""
     value = max(1, minutes)
@@ -2365,28 +2392,33 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
             # Fallback: generate TSV using the internal transformer
             try:
-                from exporters.anki_tsv import transform_to_anki_tsv
-            except Exception:
-                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
-                return
-
-            try:
-                # Read the original questions JSON from disk to preserve meta.
                 path = os.path.join(get_package_dir(), "data", selected_file)
                 with open(path, "rb") as f:
                     json_bytes = f.read()
+            except FileNotFoundError:
+                st.error("Fragenset-Datei konnte nicht geladen werden.")
+                return
+            except Exception as e:
+                st.error(f"Fehler beim Lesen der Fragenset-Datei: {e}")
+                return
 
-                tsv_str = transform_to_anki_tsv(json_bytes)
-                tsv_bytes = tsv_str.encode("utf-8")
-                st.download_button(
-                    label="💾 Anki-Importdatei (.tsv) herunterladen",
-                    data=tsv_bytes,
-                    file_name=f"anki_import_{selected_file.replace('questions_', '').replace('.json', '')}.tsv",
-                    mime="text/tab-separated-values",
-                    key=anki_dl_key,
-                )
+            try:
+                tsv_str = _cached_transform_anki(json_bytes)
+            except ModuleNotFoundError:
+                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+                return
             except Exception as e:
                 st.error(f"Fehler beim Erzeugen des Anki-TSV-Exports: {e}")
+                return
+
+            tsv_bytes = tsv_str.encode("utf-8")
+            st.download_button(
+                label="💾 Anki-Importdatei (.tsv) herunterladen",
+                data=tsv_bytes,
+                file_name=f"anki_import_{selected_file.replace('questions_', '').replace('.json', '')}.tsv",
+                mime="text/tab-separated-values",
+                key=anki_dl_key,
+            )
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
             st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
