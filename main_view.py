@@ -13,6 +13,8 @@ import re
 import locale
 import math
 import logic
+from typing import Any
+from pathlib import Path
 
 from config import (
     AppConfig,
@@ -42,6 +44,10 @@ import logging
 from auth import initialize_session_state
 
 
+ANKI_EXPORT_UNAVAILABLE_MSG = "Dieses Export-Feature steht demnächst zur Verfügung."
+ANKI_APKG_DEPENDENCY_MSG = "Für den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt)."
+
+
 def _ensure_anki_logger_configured() -> None:
     logger = logging.getLogger("exporters.anki_tsv")
     if getattr(logger, "_anki_formatter_installed", False):
@@ -67,6 +73,14 @@ def _cached_transform_anki(json_payload: bytes) -> str:
     from exporters.anki_tsv import transform_to_anki_tsv
 
     return transform_to_anki_tsv(json_payload)
+
+
+@st.cache_data(show_spinner=True)
+def _cached_generate_anki_apkg(selected_file: str) -> bytes:
+    _ensure_anki_logger_configured()
+    from export_jobs import generate_anki_apkg
+
+    return generate_anki_apkg(selected_file)
 
 
 def _format_minutes_text(minutes: int) -> str:
@@ -264,90 +278,87 @@ def _render_history_table(history_rows, filename_base: str):
             df['_percent_numeric'] = None
             percent_col = '_percent_numeric'
 
-    if 'duration_seconds' in df.columns:
-        def _fmt_dur(s):
-            try:
-                # Treat missing or NaN duration as unavailable.
-                if pd.isna(s):
-                    return "-"
-                s_int = int(s)
-                mins, secs = divmod(s_int, 60)
-                return (f"{mins} min {secs} s" if mins else f"{secs} s")
-            except Exception:
-                # On any conversion error, show a placeholder instead of 'nan'.
+    def _format_duration_seconds(value):
+        try:
+            if value is None or pd.isna(value):
                 return "-"
-
-        # If the source doesn't provide duration_seconds for rows, try to
-        # compute per-row duration from start_time and end_time when both
-        # are present. This handles legacy rows that only store timestamps.
-        try:
-            if 'duration_seconds' not in df.columns or df['duration_seconds'].isna().all():
-                def _compute_row_duration(row):
-                    try:
-                        s_raw = row.get('start_time')
-                        e_raw = row.get('end_time') or row.get('test_end_time') or row.get('finish_time')
-                        if s_raw is None or e_raw is None:
-                            return pd.NA
-
-                        def _parse_ts(v):
-                            try:
-                                # numeric epoch seconds
-                                if isinstance(v, (int, float)):
-                                    return pd.to_datetime(int(v), unit='s', utc=True, errors='coerce')
-                                # proceed with parsing attempts (day-first, ISO, naive)
-                                # day-first aware parse
-                                dt = pd.to_datetime(v, dayfirst=True, utc=True, errors='coerce')
-                                if pd.notna(dt):
-                                    return dt
-                                dt2 = pd.to_datetime(v, utc=True, errors='coerce')
-                                if pd.notna(dt2):
-                                    return dt2
-                                # last resort naive parse
-                                dt3 = pd.to_datetime(v, errors='coerce')
-                                return dt3
-                            except Exception:
-                                return pd.NaT
-
-                        s_dt = _parse_ts(s_raw)
-                        e_dt = _parse_ts(e_raw)
-                        if pd.isna(s_dt) or pd.isna(e_dt):
-                            return pd.NA
-
-                        try:
-                            from zoneinfo import ZoneInfo
-                            s_dt = s_dt.tz_convert(ZoneInfo('Europe/Berlin')) if hasattr(s_dt, 'tz_convert') else s_dt
-                            e_dt = e_dt.tz_convert(ZoneInfo('Europe/Berlin')) if hasattr(e_dt, 'tz_convert') else e_dt
-                        except Exception:
-                            pass
-
-                        # Compute seconds; if negative, treat as missing
-                        delta = (e_dt - s_dt).total_seconds()
-                        if delta is None or pd.isna(delta):
-                            return pd.NA
-                        secs = int(delta)
-                        if secs < 0:
-                            return pd.NA
-                        return secs
-                    except Exception:
-                        return pd.NA
-
-                df['_duration_seconds'] = df.apply(_compute_row_duration, axis=1)
-            else:
-                df['_duration_seconds'] = pd.to_numeric(df['duration_seconds'], errors='coerce')
+            seconds = int(float(value))
+            if seconds < 0:
+                return "-"
+            mins, secs = divmod(seconds, 60)
+            return f"{mins} min {secs} s" if mins else f"{secs} s"
         except Exception:
-            # Fallback: ensure column exists to avoid later KeyErrors
-            df['_duration_seconds'] = df.get('duration_seconds', pd.NA)
+            return "-"
 
-        df['Dauer'] = df['_duration_seconds'].apply(_fmt_dur)
-
-    # Punkte: keep a numeric column so sorting works. We'll format it for
-    # display using a Styler later so the table shows "87.5 %" but the
-    # underlying values remain numeric.
-    if percent_col and percent_col in df.columns:
+    def _parse_timestamp(value):
+        if value is None:
+            return pd.NaT
         try:
-            df['Punkte'] = pd.to_numeric(df[percent_col], errors='coerce')
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                if isinstance(value, float) and math.isnan(value):
+                    return pd.NaT
+                return pd.to_datetime(value, unit='s', utc=True, errors='coerce')
+            return pd.to_datetime(value, utc=True, errors='coerce')
         except Exception:
+            return pd.NaT
+
+    def _compute_row_duration(row: pd.Series) -> Any:
+        try:
+            start_ts = _parse_timestamp(row.get('start_time'))
+            end_candidate = (
+                row.get('end_time')
+                or row.get('test_end_time')
+                or row.get('finish_time')
+            )
+            end_ts = _parse_timestamp(end_candidate)
+            if pd.isna(start_ts) or pd.isna(end_ts):
+                return pd.NA
+            delta = end_ts - start_ts
+            if pd.isna(delta):
+                return pd.NA
+            seconds = int(delta.total_seconds())
+            if seconds < 0:
+                return pd.NA
+            return seconds
+        except Exception:
+            return pd.NA
+
+    try:
+        duration_series = (
+            df['duration_seconds']
+            if 'duration_seconds' in df.columns
+            else pd.Series([pd.NA] * len(df), index=df.index, dtype="Float64")
+        )
+    except Exception:
+        duration_series = pd.Series([pd.NA] * len(df), index=df.index, dtype="Float64")
+
+    try:
+        if duration_series.isna().all():
+            duration_series = df.apply(_compute_row_duration, axis=1)
+        elif duration_series.isna().any():
+            computed = df.apply(_compute_row_duration, axis=1)
+            duration_series = duration_series.fillna(computed)
+    except Exception:
+        try:
+            duration_series = df.apply(_compute_row_duration, axis=1)
+        except Exception:
+            duration_series = pd.Series([pd.NA] * len(df), index=df.index, dtype="Float64")
+
+    try:
+        df['duration_seconds'] = duration_series
+    except Exception:
+        df['duration_seconds'] = pd.Series([pd.NA] * len(df), index=df.index, dtype="Float64")
+
+    try:
+        df['Dauer'] = df['duration_seconds'].apply(_format_duration_seconds)
+    except Exception:
+        df['Dauer'] = df['duration_seconds']
+
+    if 'percent' in df.columns:
+        try:
             df['Punkte'] = pd.to_numeric(df.get('percent', None), errors='coerce')
+        except Exception:
+            df['Punkte'] = df.get('percent')
     else:
         # Fallback: prefer total_points as numeric if percent isn't available
         if 'total_points' in df.columns:
@@ -2366,59 +2377,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     st.subheader("📦 Export")
     with st.expander("Exportiere deine Testergebnisse & Lernmaterialien"):
 
-        # Anki
-        def handle_anki_export():
-            # First try the full .apkg generator (if available). If not,
-            # fallback to a TSV pipeline that is compatible with Anki's
-            # text import (recommended quick path).
-            try:
-                from export_jobs import generate_anki_apkg
-            except Exception:
-                generate_anki_apkg = None
-
-            if generate_anki_apkg:
-                try:
-                    apkg_bytes = generate_anki_apkg(selected_file, list(questions))
-                    st.download_button(
-                        label="💾 Anki-Kartenset herunterladen",
-                        data=apkg_bytes,
-                        file_name=f"anki_export_{selected_file.replace('questions_', '').replace('.json', '')}.apkg",
-                        mime="application/octet-stream",
-                        key=anki_dl_key,
-                    )
-                    return
-                except Exception as e:
-                    st.error(f"Fehler beim Erzeugen des Anki-.apkg: {e}")
-
-            # Fallback: generate TSV using the internal transformer
-            try:
-                path = os.path.join(get_package_dir(), "data", selected_file)
-                with open(path, "rb") as f:
-                    json_bytes = f.read()
-            except FileNotFoundError:
-                st.error("Fragenset-Datei konnte nicht geladen werden.")
-                return
-            except Exception as e:
-                st.error(f"Fehler beim Lesen der Fragenset-Datei: {e}")
-                return
-
-            try:
-                tsv_str = _cached_transform_anki(json_bytes)
-            except ModuleNotFoundError:
-                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
-                return
-            except Exception as e:
-                st.error(f"Fehler beim Erzeugen des Anki-TSV-Exports: {e}")
-                return
-
-            tsv_bytes = tsv_str.encode("utf-8")
-            st.download_button(
-                label="💾 Anki-Importdatei (.tsv) herunterladen",
-                data=tsv_bytes,
-                file_name=f"anki_import_{selected_file.replace('questions_', '').replace('.json', '')}.tsv",
-                mime="text/tab-separated-values",
-                key=anki_dl_key,
-            )
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
             st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
@@ -2597,10 +2555,56 @@ window.MathJax = {
             except Exception:
                 # Preview darf niemals den Export-Bereich komplett kaputtmachen
                 pass
-            anki_btn_key = f"download_anki_review_{selected_file}"
-            anki_dl_key = f"dl_anki_direct_{selected_file}"
-            if st.button("Download starten", key=anki_btn_key):
-                handle_anki_export()
+
+            export_file_stem = selected_file.replace("questions_", "").replace(".json", "")
+            apkg_button_key = f"start_anki_apkg_{selected_file}"
+            tsv_button_key = f"start_anki_tsv_{selected_file}"
+            apkg_download_key = f"dl_anki_apkg_{selected_file}"
+            tsv_download_key = f"dl_anki_tsv_{selected_file}"
+
+            col_apkg, col_tsv = st.columns(2)
+            with col_apkg:
+                if st.button("Anki-Paket (.apkg) erstellen", key=apkg_button_key):
+                    with st.spinner("Anki-Paket wird erstellt..."):
+                        try:
+                            apkg_bytes = _cached_generate_anki_apkg(selected_file)
+                        except ModuleNotFoundError:
+                            st.info(ANKI_APKG_DEPENDENCY_MSG)
+                        except FileNotFoundError as exc:
+                            st.error(str(exc))
+                        except Exception as exc:
+                            st.error(f"Fehler beim Erzeugen des Anki-Pakets: {exc}")
+                        else:
+                            st.download_button(
+                                label="💾 APKG herunterladen",
+                                data=apkg_bytes,
+                                file_name=f"anki_export_{export_file_stem}.apkg",
+                                mime="application/octet-stream",
+                                key=apkg_download_key,
+                            )
+
+            with col_tsv:
+                if st.button("Anki-TSV exportieren", key=tsv_button_key):
+                    with st.spinner("Anki-TSV wird erstellt..."):
+                        try:
+                            json_path = Path(get_package_dir()) / "data" / selected_file
+                            if not json_path.exists():
+                                raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
+                            json_bytes = json_path.read_bytes()
+                            tsv_content = _cached_transform_anki(json_bytes)
+                        except FileNotFoundError as exc:
+                            st.error(str(exc))
+                        except Exception as exc:
+                            st.error(f"Fehler beim Erzeugen des TSV-Exports: {exc}")
+                        else:
+                            tsv_bytes = tsv_content.encode("utf-8")
+                            st.download_button(
+                                label="💾 TSV herunterladen",
+                                data=tsv_bytes,
+                                file_name=f"anki_export_{export_file_stem}.tsv",
+                                mime="text/tab-separated-values",
+                                key=tsv_download_key,
+                            )
 
         # Kahoot
         def handle_kahoot_export():

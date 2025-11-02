@@ -8,7 +8,7 @@ cross-process callbacks or shared memory — the child simply writes its
 result to disk and the monitor thread marks the job finished.
 """
 
-from typing import Callable, Optional, Dict
+from typing import Callable, Optional, Dict, List, Any
 import threading
 import uuid
 import os
@@ -16,6 +16,11 @@ from pathlib import Path
 import multiprocessing
 import sys
 import concurrent.futures
+import csv
+import io
+import json
+import hashlib
+import tempfile
 
 # Configurable worker count (not used for processes; kept for compatibility)
 _MAX_WORKERS = int(os.getenv('EXPORT_JOB_WORKERS', '2'))
@@ -205,3 +210,161 @@ def cancel_job(job_id: str) -> bool:
             return False
         # Process finished; cannot cancel.
         return False
+
+
+def _stable_anki_id(seed: str, scope: str) -> int:
+    digest = hashlib.sha1(f"{scope}:{seed}".encode("utf-8")).hexdigest()[:8]
+    return int(digest, 16)
+
+
+def _parse_tsv_rows(tsv_str: str, columns: List[str]) -> List[Dict[str, str]]:
+    reader = csv.reader(io.StringIO(tsv_str), delimiter="\t")
+    rows: List[Dict[str, str]] = []
+    for raw_row in reader:
+        if not raw_row or not any(cell.strip() for cell in raw_row):
+            continue
+        padded = list(raw_row) + [""] * max(0, len(columns) - len(raw_row))
+        rows.append(dict(zip(columns, padded[: len(columns)])))
+    return rows
+
+
+_ANKI_COLUMNS: List[str] = [
+    "Frage",
+    "Optionen",
+    "Antwort_Korrekt",
+    "Erklaerung_Basis",
+    "Erklaerung_Erweitert",
+    "Glossar",
+    "Fragenset_Titel",
+    "Thema",
+    "Schwierigkeit",
+    "Tags_Alle",
+]
+
+
+_ANKI_CARD_CSS = """
+.card-container { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
+.question { font-weight: 600; margin-bottom: 12px; }
+.options ol { list-style-type: upper-alpha; padding-left: 3.5em; margin: 0; }
+.answer-block { margin-top: 12px; }
+.answer-title { font-weight: 700; color: #0f766e; margin-bottom: 6px; }
+.answer-content { font-weight: 600; color: #15803d; margin-bottom: 8px; }
+.section-title { font-weight: 700; color: #005A9C; margin-top: 10px; margin-bottom: 4px; }
+"""
+
+
+_ANKI_FRONT_TEMPLATE = (
+    "<div class='card-container'>"
+    "<div class='question'>{{Frage}}</div>"
+    "{{#Optionen}}<div class='options'>{{Optionen}}</div>{{/Optionen}}"
+    "</div>"
+)
+
+
+_ANKI_BACK_TEMPLATE = (
+    "{{FrontSide}}"
+    "<hr id='answer'>"
+    "<div class='answer-block'>"
+    "<div class='answer-title'>Korrekte Antwort</div>"
+    "<div class='answer-content'>{{Antwort_Korrekt}}</div>"
+    "{{#Erklaerung_Basis}}<div class='section-title'>Erklärung</div>{{Erklaerung_Basis}}{{/Erklaerung_Basis}}"
+    "{{#Erklaerung_Erweitert}}<div class='section-title'>Detaillierte Erklärung</div>{{Erklaerung_Erweitert}}{{/Erklaerung_Erweitert}}"
+    "{{#Glossar}}<div class='section-title'>Glossar</div>{{Glossar}}{{/Glossar}}"
+    "</div>"
+)
+
+
+def _determine_deck_title(raw_data: Any, selected_file: str) -> str:
+    if isinstance(raw_data, dict):
+        meta = raw_data.get("meta") or {}
+        if isinstance(meta, dict):
+            title = meta.get("title")
+            if isinstance(title, str) and title.strip():
+                return title.strip()
+    return (
+        selected_file.replace("questions_", "")
+        .replace(".json", "")
+        .replace("_", " ")
+        .strip()
+        or "MC-Test Deck"
+    )
+
+
+def _build_anki_model(genanki_module, model_id: int):
+    return genanki_module.Model(
+        model_id,
+        "MC-Test-Notiztyp",
+        fields=[{"name": name} for name in _ANKI_COLUMNS],
+        templates=[
+            {
+                "name": "Card 1",
+                "qfmt": _ANKI_FRONT_TEMPLATE,
+                "afmt": _ANKI_BACK_TEMPLATE,
+            }
+        ],
+        css=_ANKI_CARD_CSS,
+    )
+
+
+def _write_apkg_package(package) -> bytes:
+    tmp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".apkg") as tmp:
+            tmp_path = tmp.name
+        package.write_to_file(tmp_path)
+        return Path(tmp_path).read_bytes()
+    finally:
+        if tmp_path:
+            try:
+                os.remove(tmp_path)
+            except OSError:
+                pass
+
+
+def generate_anki_apkg(selected_file: str) -> bytes:
+    """Erzeugt ein Anki-.apkg-Paket für das angegebene Fragen-JSON."""
+
+    try:
+        import genanki  # type: ignore
+    except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency
+        raise ModuleNotFoundError(
+            "Für den APKG-Export wird das Paket 'genanki' benötigt."
+        ) from exc
+
+    from config import get_package_dir  # Lokaler Import, um Zirkularität zu vermeiden
+    from exporters.anki_tsv import transform_to_anki_tsv
+
+    file_path = Path(get_package_dir()) / "data" / selected_file
+    if not file_path.exists():
+        raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
+
+    json_bytes = file_path.read_bytes()
+    tsv_str = transform_to_anki_tsv(json_bytes)
+
+    rows = _parse_tsv_rows(tsv_str, _ANKI_COLUMNS)
+    if not rows:
+        raise ValueError("Keine Fragen für den Anki-Export gefunden.")
+
+    try:
+        data = json.loads(json_bytes.decode("utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError("Ungültiges JSON-Format für den Anki-Export.") from exc
+
+    deck_title = _determine_deck_title(data, selected_file)
+    deck_id = _stable_anki_id(deck_title, "deck")
+    model_id = _stable_anki_id(deck_title, "model")
+
+    model = _build_anki_model(genanki, model_id)
+    deck = genanki.Deck(deck_id, deck_title)
+
+    # genanki.Note erwartet die Klasse über das Modul
+    for row in rows:
+        fields = [row.get(col, "") for col in _ANKI_COLUMNS]
+        tags = [tag for tag in row.get("Tags_Alle", "").split() if tag]
+        note = genanki.Note(model=model, fields=fields, tags=tags)
+        deck.add_note(note)
+
+    package = genanki.Package(deck)
+    package.media_files = []  # Keine eingebetteten Medien
+
+    return _write_apkg_package(package)
