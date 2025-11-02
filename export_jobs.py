@@ -339,7 +339,7 @@ def generate_anki_apkg(selected_file: str) -> bytes:
         raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
 
     json_bytes = file_path.read_bytes()
-    tsv_str = transform_to_anki_tsv(json_bytes)
+    tsv_str = transform_to_anki_tsv(json_bytes, source_name=selected_file)
 
     rows = _parse_tsv_rows(tsv_str, _ANKI_COLUMNS)
     if not rows:

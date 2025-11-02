@@ -13,7 +13,8 @@ from __future__ import annotations
 import json
 import io
 import csv
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
+from pathlib import Path
 
 from markdown_it import MarkdownIt
 from examples.math_utils import render_markdown_with_math
@@ -64,6 +65,18 @@ DEFAULT_ALLOWED_ATTRS = {
     "div": ["class"],
     "span": ["class"],
 }
+
+
+def _fallback_title_from_source(source_name: Optional[str]) -> str:
+    if not source_name:
+        return ""
+
+    stem = Path(source_name).stem
+    if stem.startswith("questions_"):
+        stem = stem[len("questions_"):]
+
+    stem = stem.replace("_", " ").strip()
+    return stem
 
 
 def _sanitize(html: str) -> str:
@@ -245,7 +258,7 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
     ]
 
 
-def transform_to_anki_tsv(json_bytes: bytes) -> str:
+def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) -> str:
     """Transform JSON bytes (app format) to a TSV string for Anki import.
 
     Contract: see `README_EXPORT_ANKI.md`.
@@ -260,7 +273,19 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
     writer = csv.writer(out, delimiter="\t", quoting=csv.QUOTE_MINIMAL, lineterminator="\n")
 
     meta = data.get("meta", {}) or {}
-    title = meta.get("title", "")
+    raw_title = meta.get("title") or meta.get("name") or ""
+    if isinstance(raw_title, str):
+        title = raw_title.strip()
+    elif raw_title is None:
+        title = ""
+    else:
+        title = str(raw_title).strip()
+
+    if not title:
+        title = _fallback_title_from_source(source_name)
+
+    if not title:
+        title = "MC-Test Deck"
 
     for q in data.get("questions", []):
         writer.writerow(_build_row(md, q, title))

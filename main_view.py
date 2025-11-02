@@ -68,11 +68,11 @@ def _ensure_anki_logger_configured() -> None:
 
 
 @st.cache_data(show_spinner=False)
-def _cached_transform_anki(json_payload: bytes) -> str:
+def _cached_transform_anki(json_payload: bytes, source_name: str) -> str:
     _ensure_anki_logger_configured()
     from exporters.anki_tsv import transform_to_anki_tsv
 
-    return transform_to_anki_tsv(json_payload)
+    return transform_to_anki_tsv(json_payload, source_name=source_name)
 
 
 @st.cache_data(show_spinner=True)
@@ -2591,7 +2591,7 @@ window.MathJax = {
                             if not json_path.exists():
                                 raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
                             json_bytes = json_path.read_bytes()
-                            tsv_content = _cached_transform_anki(json_bytes)
+                            tsv_content = _cached_transform_anki(json_bytes, selected_file)
                         except FileNotFoundError as exc:
                             st.error(str(exc))
                         except Exception as exc:

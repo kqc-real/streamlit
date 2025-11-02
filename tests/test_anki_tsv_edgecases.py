@@ -1,4 +1,7 @@
 import json
+import csv
+import io
+
 from exporters.anki_tsv import transform_to_anki_tsv
 
 
@@ -31,3 +34,26 @@ def test_ambiguous_nested_delimiters_keep_display_math_and_inner_dollar():
     # The display math should be converted to \[ ... \] and the inner single $ should remain inside
     assert "\\[" in out and "\\]" in out
     assert "$ b" in out
+
+
+def test_missing_meta_title_falls_back_to_source_name():
+    payload = [
+        {
+            "frage": "Frage 1",
+            "optionen": ["A"],
+            "loesung": 0,
+            "thema": "Test",
+            "gewichtung": 1,
+        }
+    ]
+    b = json.dumps(payload).encode("utf-8")
+    out = transform_to_anki_tsv(b, source_name="questions_Agiles_Projektmanagement.json")
+
+    reader = csv.reader(io.StringIO(out), delimiter="\t")
+    rows = list(reader)
+    assert rows, "TSV should contain at least one row"
+    first_row = rows[0]
+
+    # Column order: Frage, Optionen, Antwort_Korrekt, Erklaerung_Basis,
+    # Erklaerung_Erweitert, Glossar, Fragenset_Titel, ...
+    assert first_row[6] == "Agiles Projektmanagement"
