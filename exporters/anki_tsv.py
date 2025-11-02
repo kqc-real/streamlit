@@ -15,6 +15,7 @@ import io
 import csv
 from typing import Any, Iterable, Optional
 from pathlib import Path
+import re
 
 from markdown_it import MarkdownIt
 from examples.math_utils import render_markdown_with_math
@@ -103,7 +104,17 @@ def _sanitize(html: str) -> str:
                 "anki_sanitize_cleaned": cleaned_snippet,
             },
         )
-    return cleaned
+    return _restore_math_backslash_breaks(cleaned)
+
+
+_SINGLE_MATH_BREAK = re.compile(r"(?<!\\)\\(?=\s)")
+
+
+def _restore_math_backslash_breaks(html: str) -> str:
+    if not html or "\\" not in html:
+        return html
+    # Ensure MathJax receives double backslashes for line breaks in matrices.
+    return _SINGLE_MATH_BREAK.sub(r"\\\\", html)
 
 
 def _map_schwierigkeit(value: Any) -> str:

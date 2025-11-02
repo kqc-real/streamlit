@@ -57,3 +57,22 @@ def test_missing_meta_title_falls_back_to_source_name():
     # Column order: Frage, Optionen, Antwort_Korrekt, Erklaerung_Basis,
     # Erklaerung_Erweitert, Glossar, Fragenset_Titel, ...
     assert first_row[6] == "Agiles Projektmanagement"
+
+
+def test_matrix_backslashes_are_preserved():
+    payload = {
+        "meta": {"title": "Linear Algebra"},
+        "questions": [
+            {
+                "frage": "$\\begin{pmatrix}1 & 2 \\ 3 & 4\\end{pmatrix}$",
+                "optionen": ["$\\begin{pmatrix}4 & 5 \\ 6 & 7\\end{pmatrix}$"],
+                "loesung": 0,
+                "thema": "Matrix",
+                "gewichtung": 2,
+            }
+        ],
+    }
+    b = json.dumps(payload).encode("utf-8")
+    out = transform_to_anki_tsv(b)
+
+    assert "\\\\" in out  # double backslash present for MathJax line breaks
