@@ -2414,91 +2414,122 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 """
                 )
 
-            # Mini-Vorschau: erste Karte anzeigen, damit Nutzer sehen, wie Inhalte gerendert werden
+            # Mini-Vorschau: alle Karten anzeigen, damit Nutzer sehen, wie Inhalte gerendert werden
             try:
                 if questions and len(questions) > 0:
                     from markdown_it import MarkdownIt
                     md = MarkdownIt()
-                    preview_q = questions[0]
+                    
+                    all_previews_html = []
 
-                    # Meta title (try QuestionSet meta, fall back to filename)
-                    try:
-                        meta_obj = getattr(questions, 'meta', None)
-                        if isinstance(meta_obj, dict):
-                            meta_title = meta_obj.get('title')
-                        elif hasattr(meta_obj, 'get'):
-                            meta_title = meta_obj.get('title', None)
-                        else:
+                    for preview_q in questions:
+                        # Meta title (try QuestionSet meta, fall back to filename)
+                        try:
+                            meta_obj = getattr(questions, 'meta', None)
+                            if isinstance(meta_obj, dict):
+                                meta_title = meta_obj.get('title')
+                            elif hasattr(meta_obj, 'get'):
+                                meta_title = meta_obj.get('title', None)
+                            else:
+                                meta_title = None
+                        except Exception:
                             meta_title = None
-                    except Exception:
-                        meta_title = None
-                    if not meta_title:
-                        meta_title = selected_file.replace('questions_', '').replace('.json', '')
+                        if not meta_title:
+                            meta_title = selected_file.replace('questions_', '').replace('.json', '')
 
-                    # Front: question + options
-                    q_html = md.render(preview_q.get('frage', '') or '')
-                    # Remove outer <p> if present for compactness
-                    q_html = q_html.strip()
-                    if q_html.startswith('<p>') and q_html.endswith('</p>'):
-                        q_html = q_html[3:-4]
+                        # Front: question + options
+                        q_html = md.render(preview_q.get('frage', '') or '')
+                        # Remove outer <p> if present for compactness
+                        q_html = q_html.strip()
+                        if q_html.startswith('<p>') and q_html.endswith('</p>'):
+                            q_html = q_html[3:-4]
 
-                    opts = preview_q.get('optionen') or []
-                    options_html = ''
-                    if opts:
-                        options_html = '<ol type="A">' + ''.join(f"<li>{md.render(str(o)).strip()}</li>" for o in opts) + '</ol>'
-
-                    thema = preview_q.get('thema', '') or ''
-                    schwierigkeit_map = {1: 'leicht', 2: 'mittel', 3: 'schwer'}
-                    schwierigkeit = schwierigkeit_map.get(int(preview_q.get('gewichtung', 2)), 'mittel')
-
-                    # Styled preview matching Anki card templates
-                    css = """
-                    <style>
-                    .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
-                    .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
-                    .anki-preview .meta-item strong { color: #000; }
-                    .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
-                    .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 1.1em; margin: 0; }
-                    .anki-preview .options-block li { margin-bottom: 6px; }
-                    .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
-                    .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
-                    .anki-preview .section-title { font-size: 0.95em; font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
-                    .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
-                    </style>
-                    """
-
-                    meta_html = (
-                        f"<div class='meta-info'><span class='meta-item'><strong>Fragenset:</strong> {meta_title}</span>"
-                        f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>"
-                        f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span></div>"
-                    )
-
-                    # Back: correct answer and explanations
-                    correct_html = ''
-                    try:
+                        opts = preview_q.get('optionen') or []
+                        options_html = ''
                         if opts:
-                            lo = int(preview_q.get('loesung', 0))
-                            correct = opts[lo] if lo < len(opts) else ''
-                            correct_html = md.render(str(correct)).strip()
-                    except Exception:
+                            options_html = '<ol type="A">' + ''.join(f"<li>{md.render(str(o)).strip()}</li>" for o in opts) + '</ol>'
+
+                        thema = preview_q.get('thema', '') or ''
+                        schwierigkeit_map = {1: 'leicht', 2: 'mittel', 3: 'schwer'}
+                        schwierigkeit = schwierigkeit_map.get(int(preview_q.get('gewichtung', 2)), 'mittel')
+
+                        # Styled preview matching Anki card templates
+                        css = """
+                        <style>
+                        .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
+                        .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
+                        .anki-preview .meta-item strong { color: #000; }
+                        .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
+                        .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 1.1em; margin: 0; }
+                        .anki-preview .options-block li { margin-bottom: 6px; }
+                        .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
+                        .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
+                        .anki-preview .section-title { font-size: 0.95em; font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
+                        .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
+                        </style>
+                        """
+
+                        meta_html = (
+                            f"<div class='meta-info'><span class='meta-item'><strong>Fragenset:</strong> {meta_title}</span>"
+                            f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>"
+                            f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span></div>"
+                        )
+
+                        # Back: correct answer and explanations
                         correct_html = ''
+                        try:
+                            if opts:
+                                lo = int(preview_q.get('loesung', 0))
+                                correct = opts[lo] if lo < len(opts) else ''
+                                correct_html = md.render(str(correct)).strip()
+                        except Exception:
+                            correct_html = ''
 
-                    erklaerung_html = md.render(preview_q.get('erklaerung', '') or '').strip() if preview_q.get('erklaerung') else ''
-                    extended_html = ''
-                    if preview_q.get('extended_explanation'):
-                        extended_html = md.render(str(preview_q.get('extended_explanation'))).strip()
+                        erklaerung_html = md.render(preview_q.get('erklaerung', '') or '').strip() if preview_q.get('erklaerung') else ''
+                        extended_html = ''
+                        extended_explanation = preview_q.get('extended_explanation')
+                        if extended_explanation:
+                            if isinstance(extended_explanation, dict):
+                                title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
+                                if title:
+                                    extended_html += f"<h3>{title}</h3>"
+
+                                content = extended_explanation.get("content")
+                                steps = extended_explanation.get("schritte")
+
+                                if isinstance(steps, list) and steps:
+                                    extended_html += "<ol>"
+                                    for step in steps:
+                                        extended_html += f"<li>{md.render(step).strip()}</li>"
+                                    extended_html += "</ol>"
+                                elif isinstance(content, str) and content.strip():
+                                    extended_html += md.render(content).strip()
+                                else:
+                                    extended_html += md.render(str(extended_explanation)).strip()
+                            else:
+                                extended_html += md.render(str(extended_explanation)).strip()
 
 
-                    back_html = "<div class='anki-preview card' style='margin-top:10px;'><div class='card-container'>"
-                    back_html += "<div class='section-title'>Korrekte Antwort</div>"
-                    back_html += f"<div class='answer-content'>{correct_html}</div>"
-                    if erklaerung_html:
-                        back_html += "<div class='section-title'>Erklärung</div>"
-                        back_html += f"<div class='explanation-content'>{erklaerung_html}</div>"
-                    if extended_html:
-                        back_html += "<div class='section-title'>Detaillierte Erklärung</div>"
-                        back_html += f"<div class='extended-content'>{extended_html}</div>"
-                    back_html += "</div></div>"
+                        back_html = "<div class='anki-preview card' style='margin-top:10px;'><div class='card-container'>"
+                        back_html += "<div class='section-title'>Korrekte Antwort</div>"
+                        back_html += f"<div class='answer-content'>{correct_html}</div>"
+                        if erklaerung_html:
+                            back_html += "<div class='section-title'>Erklärung</div>"
+                            back_html += f"<div class='explanation-content'>{erklaerung_html}</div>"
+                        if extended_html:
+                            back_html += "<div class='section-title'>Detaillierte Erklärung</div>"
+                            back_html += f"<div class='extended-content'>{extended_html}</div>"
+                        back_html += "</div></div>"
+
+                        preview_html = css + (
+                            "<div class='anki-preview card'>"
+                            "<div class='card-container'>"
+                            f"{meta_html}"
+                            f"<div class='question-block'>{q_html}</div>"
+                            f"<div class='options-block'>{options_html}</div>"
+                            "</div></div>"
+                        ) + back_html
+                        all_previews_html.append(preview_html)
 
                     # Prepare math assets: KaTeX CSS is needed for server-side render; MathJax when PyKaTeX absent.
                     math_assets = """<script>
@@ -2521,21 +2552,12 @@ window.MathJax = {
 <script id="mathjax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>"""
                     import streamlit.components.v1 as components
 
-                    preview_html = css + math_assets + (
-                        "<div class='anki-preview card'>"
-                        "<div class='card-container'>"
-                        f"{meta_html}"
-                        f"<div class='question-block'>{q_html}</div>"
-                        f"<div class='options-block'>{options_html}</div>"
-                        "</div></div>"
-                    ) + back_html
-
                     # Render via components.html so scripts (MathJax) execute.
                     try:
-                        components.html(preview_html, height=480, scrolling=True)
+                        components.html(math_assets + "".join(all_previews_html), height=480, scrolling=True)
                     except Exception:
                         # Fallback: if components fails, fall back to st.markdown
-                        st.markdown(preview_html, unsafe_allow_html=True)
+                        st.markdown(math_assets + "".join(all_previews_html), unsafe_allow_html=True)
             except Exception:
                 # Preview darf niemals den Export-Bereich komplett kaputtmachen
                 pass

@@ -12,6 +12,43 @@ except Exception:  # pragma: no cover - tests run without pykatex installed in s
     pykatex_render = None
 
 
+def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
+    """
+    Render markdown string to HTML, converting math expressions.
+    - $$...$$ -> \[... \] (display)
+    - $...$ -> \(...\) (inline)
+    This is done only on text tokens, to avoid converting math in code blocks.
+    """
+    if not s:
+        return ""
+
+    # Parse the markdown string into a token stream
+    tokens = md.parse(s)
+
+    # Iterate through the tokens and apply math conversion to text tokens
+    for token in tokens:
+        if token.type == 'inline' and token.children:
+            for child in token.children:
+                if child.type == 'text':
+                    content = child.content
+                    # Replace display math first
+                    content = re.sub(r'\$\$(.*?)\$\$', r'\\[\1\\]', content, flags=re.DOTALL)
+                    # Then inline math
+                    content = re.sub(r'\$(.*?)\$', r'\\(\\1\\)', content)
+                    child.content = content
+        elif token.type == 'text':
+            content = token.content
+            # Replace display math first
+            content = re.sub(r'\$\$(.*?)\$\$', r'\\[\1\\]', content, flags=re.DOTALL)
+            # Then inline math
+            content = re.sub(r'\$(.*?)\$', r'\\(\\1\\)', content)
+            token.content = content
+
+
+    # Render the modified tokens back to HTML
+    return md.renderer.render(tokens, md.options, {})
+
+
 def _render_math_html_outside_code(html: str) -> str:
     r"""Render KaTeX expressions in HTML, but skip content inside <pre> or <code> blocks.
 
@@ -27,9 +64,9 @@ def _render_math_html_outside_code(html: str) -> str:
 
     def _replace_math_in_segment(seg: str) -> str:
         # Replace display math first
-        seg = re.sub(r'\\\[(.+?)\\\]', lambda m: pykatex_render(m.group(1), display_mode=True), seg, flags=re.S)
+        seg = re.sub(r'\\\\[(.+?)\\]', lambda m: pykatex_render(m.group(1), display_mode=True), seg, flags=re.S)
         # Then inline math
-        seg = re.sub(r'\\\((.+?)\\\)', lambda m: pykatex_render(m.group(1), display_mode=False), seg, flags=re.S)
+        seg = re.sub(r'\\\\(.+?)\\\)', lambda m: pykatex_render(m.group(1), display_mode=False), seg, flags=re.S)
         return seg
 
     out_parts = []
@@ -42,6 +79,3 @@ def _render_math_html_outside_code(html: str) -> str:
             out_parts.append(_replace_math_in_segment(p))
 
     return ''.join(out_parts)
-
-
-
