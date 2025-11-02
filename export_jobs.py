@@ -249,6 +249,11 @@ _ANKI_CARD_CSS = """
 .answer-block { margin-top: 12px; }
 .answer-title { font-weight: 700; color: #0f766e; margin-bottom: 6px; }
 .answer-content { font-weight: 600; color: #15803d; margin-bottom: 8px; }
+.question-repeat { margin-bottom: 12px; }
+.question-repeat .section-title { margin-top: 0; }
+.question-content { font-weight: 600; color: #111; margin-bottom: 6px; }
+.options-content { margin-bottom: 8px; }
+.card-container hr { border: none; border-top: 1px solid #d1d5db; margin: 12px 0; }
 .section-title { font-weight: 700; color: #005A9C; margin-top: 10px; margin-bottom: 4px; }
 """
 
@@ -262,7 +267,11 @@ _ANKI_FRONT_TEMPLATE = (
 
 
 _ANKI_BACK_TEMPLATE = (
-    "{{FrontSide}}"
+    "<div class='card-container'>"
+    "<div class='question-repeat'>"
+    "<div class='section-title'>Frage</div>"
+    "<div class='question-content'>{{Frage}}</div>"
+    "</div>"
     "<hr id='answer'>"
     "<div class='answer-block'>"
     "<div class='answer-title'>Korrekte Antwort</div>"
@@ -270,6 +279,7 @@ _ANKI_BACK_TEMPLATE = (
     "{{#Erklaerung_Basis}}<div class='section-title'>Erklärung</div>{{Erklaerung_Basis}}{{/Erklaerung_Basis}}"
     "{{#Erklaerung_Erweitert}}<div class='section-title'>Detaillierte Erklärung</div>{{Erklaerung_Erweitert}}{{/Erklaerung_Erweitert}}"
     "{{#Glossar}}<div class='section-title'>Glossar</div>{{Glossar}}{{/Glossar}}"
+    "</div>"
     "</div>"
 )
 

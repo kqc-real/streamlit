@@ -2422,6 +2422,10 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     .anki-preview .question-block { margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
                     .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 3.8em; margin: 0; }
                     .anki-preview .options-block li { margin-bottom: 6px; }
+                    .anki-preview .question-repeat { margin-bottom: 12px; }
+                    .anki-preview .question-repeat .section-title { margin-top: 0; }
+                    .anki-preview .question-repeat .question-content { font-weight: 600; color: #111; margin-bottom: 6px; }
+                    .anki-preview .anki-divider { border: none; border-top: 1px solid #d1d5db; margin: 12px 0; }
                     .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
                     .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; }
                     .anki-preview .section-title { font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
@@ -2500,9 +2504,12 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                     extended_html += md.render(str(extended_explanation)).strip()
                             else:
                                 extended_html += md.render(str(extended_explanation)).strip()
-
-
                         back_html = "<div class='anki-preview card card-back'><div class='card-container'>"
+                        back_html += "<div class='question-repeat'>"
+                        back_html += "<div class='section-title'>Frage</div>"
+                        back_html += f"<div class='question-content'>{q_html}</div>"
+                        back_html += "</div>"
+                        back_html += "<hr class='anki-divider'>"
                         back_html += "<div class='section-title'>Korrekte Antwort</div>"
                         back_html += f"<div class='answer-content'>{correct_html}</div>"
                         if erklaerung_html:
