@@ -33,11 +33,18 @@ def _load_prompt_file(filename: str) -> str:
         return f"Prompt konnte nicht geladen werden ({exc})."
 
 
-def _show_prompt_dialog(title: str, content: str, download_name: str) -> None:
+def _open_prompt_dialog(title: str, content: str, download_name: str) -> bool:
+    """Versucht, den Prompt in einem Dialog zu öffnen. Gibt True zurück, wenn Inline-Fallback nötig ist."""
     dialog_api = getattr(st, "experimental_dialog", None)
 
     def _dialog_body() -> None:
-        st.text_area("Prompt-Inhalt", content, height=500, label_visibility="collapsed")
+        st.text_area(
+            "Prompt-Inhalt",
+            content,
+            height=500,
+            label_visibility="collapsed",
+            key=f"{download_name}_dialog_text",
+        )
         st.download_button(
             "⬇️ Prompt als Markdown herunterladen",
             data=content.encode("utf-8"),
@@ -48,11 +55,9 @@ def _show_prompt_dialog(title: str, content: str, download_name: str) -> None:
 
     if callable(dialog_api):
         dialog_api(title)(_dialog_body)
-    else:
-        st.warning(
-            "Diese Streamlit-Version unterstützt keine Dialoge. Der Prompt wird direkt auf der Seite angezeigt."
-        )
-        _dialog_body()
+        return False
+
+    return True
 
 
 def render_general_prompt_tab() -> None:
@@ -75,6 +80,9 @@ def render_general_prompt_tab() -> None:
         st.error(prompt_content)
         return
 
+    inline_state_key = "_show_inline_general_prompt"
+    st.session_state.setdefault(inline_state_key, False)
+
     col_left, col_right = st.columns(2)
     with col_left:
         st.download_button(
@@ -86,7 +94,28 @@ def render_general_prompt_tab() -> None:
         )
     with col_right:
         if st.button("👁️ Prompt anzeigen", key="open_general_prompt"):
-            _show_prompt_dialog("Allgemeiner KI-Prompt", prompt_content, "KI_PROMPT.md")
+            needs_inline = _open_prompt_dialog(
+                "Allgemeiner KI-Prompt", prompt_content, "KI_PROMPT.md"
+            )
+            if needs_inline:
+                st.session_state[inline_state_key] = True
+
+    if st.session_state.get(inline_state_key):
+        st.text_area(
+            "Allgemeiner KI-Prompt",
+            prompt_content,
+            height=500,
+            key="general_prompt_inline_text",
+        )
+        st.download_button(
+            "⬇️ Prompt als Markdown herunterladen",
+            data=prompt_content.encode("utf-8"),
+            file_name="KI_PROMPT.md",
+            mime="text/markdown",
+            key="download_general_prompt_inline",
+        )
+        if st.button("Fenster schließen", key="close_general_prompt_inline"):
+            st.session_state[inline_state_key] = False
 
 
 def render_kahoot_prompt_tab() -> None:
@@ -105,6 +134,9 @@ def render_kahoot_prompt_tab() -> None:
         st.error(prompt_content)
         return
 
+    inline_state_key = "_show_inline_kahoot_prompt"
+    st.session_state.setdefault(inline_state_key, False)
+
     col_left, col_right = st.columns(2)
     with col_left:
         st.download_button(
@@ -116,7 +148,28 @@ def render_kahoot_prompt_tab() -> None:
         )
     with col_right:
         if st.button("👁️ Prompt anzeigen", key="open_kahoot_prompt"):
-            _show_prompt_dialog("Kahoot KI-Prompt", prompt_content, "KI_PROMPT_KAHOOT.md")
+            needs_inline = _open_prompt_dialog(
+                "Kahoot KI-Prompt", prompt_content, "KI_PROMPT_KAHOOT.md"
+            )
+            if needs_inline:
+                st.session_state[inline_state_key] = True
+
+    if st.session_state.get(inline_state_key):
+        st.text_area(
+            "Kahoot KI-Prompt",
+            prompt_content,
+            height=500,
+            key="kahoot_prompt_inline_text",
+        )
+        st.download_button(
+            "⬇️ Prompt als Markdown herunterladen",
+            data=prompt_content.encode("utf-8"),
+            file_name="KI_PROMPT_KAHOOT.md",
+            mime="text/markdown",
+            key="download_kahoot_prompt_inline",
+        )
+        if st.button("Fenster schließen", key="close_kahoot_prompt_inline"):
+            st.session_state[inline_state_key] = False
 
 
 def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
