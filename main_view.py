@@ -2436,6 +2436,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; }
                     .anki-preview .section-title { font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
                     .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
+                    .anki-preview.card.card-back .card-container { padding-left: 2.5em; }
                     </style>
                     """
 
@@ -2511,7 +2512,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 extended_html += md.render(str(extended_explanation)).strip()
 
 
-                        back_html = "<div class='anki-preview card'><div class='card-container'>"
+                        back_html = "<div class='anki-preview card card-back'><div class='card-container'>"
                         back_html += "<div class='section-title'>Korrekte Antwort</div>"
                         back_html += f"<div class='answer-content'>{correct_html}</div>"
                         if erklaerung_html:
