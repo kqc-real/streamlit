@@ -8,7 +8,7 @@ cross-process callbacks or shared memory — the child simply writes its
 result to disk and the monitor thread marks the job finished.
 """
 
-from typing import Callable, Optional, Dict, List, Any
+from typing import Callable, Optional, Dict, List, Any, Sequence
 import threading
 import uuid
 import os
@@ -21,6 +21,70 @@ import io
 import json
 import hashlib
 import tempfile
+from copy import deepcopy
+
+ARSNOVA_DIFFICULTY_MAP = {1: 2, 2: 6, 3: 10}
+DEFAULT_ARSNOVA_SESSION_CONFIG = {
+    "theme": "Material",
+    "readingConfirmationEnabled": False,
+    "showResponseProgress": True,
+    "confidenceSliderEnabled": False,
+    "music": {
+        "enabled": {
+            "lobby": True,
+            "countdownRunning": True,
+            "countdownEnd": True,
+        },
+        "shared": {
+            "lobby": True,
+            "countdownRunning": False,
+            "countdownEnd": False,
+        },
+        "volumeConfig": {
+            "global": 50,
+            "useGlobalVolume": False,
+            "lobby": 50,
+            "countdownRunning": 50,
+            "countdownEnd": 100,
+        },
+        "titleConfig": {
+            "lobby": "Song3",
+            "countdownRunning": "Song1",
+            "countdownEnd": "Song1",
+        },
+    },
+    "nicks": {
+        "memberGroups": [
+            {"name": ":apple:", "color": "#e6dd26"},
+            {"name": ":pear:", "color": "#7fffd4"},
+        ],
+        "maxMembersPerGroup": 50,
+        "autoJoinToGroup": False,
+        "selectedNicks": [
+            "Edsger Dijkstra",
+            "Konrad Zuse",
+            "Alan Turing",
+            "Galileo Galilei",
+            "Johannes Kepler",
+            "Blaise Pascal",
+            "Christiaan Huygens",
+            "Marie Curie",
+            "Isaac Newton",
+            "Robert Boyle",
+            "Gottfried Leibniz",
+            "Johannes Gutenberg",
+            "Leonardo Fibonacci",
+            "André Ampère",
+            "Archimedes",
+            "Aristoteles",
+            "Leonardo Da Vinci",
+            "Charles Darwin",
+            "Albert Einstein",
+            "Euklid",
+        ],
+        "blockIllegalNicks": True,
+    },
+}
 
 # Configurable worker count (not used for processes; kept for compatibility)
 _MAX_WORKERS = int(os.getenv('EXPORT_JOB_WORKERS', '2'))
@@ -57,7 +121,7 @@ def _proc_runner(
             f.write(result)
 
 
-def start_musterloesung_job(func: Callable, *args, **kwargs) -> str:
+def start_musterloesung_job(func: Callable, *args, **kwargs) -> str:  # noqa: C901
     """Start a background export job running `func(*args, **kwargs)`.
 
     The function runs in a separate process. Returns the job_id which
@@ -130,7 +194,7 @@ def start_musterloesung_job(func: Callable, *args, **kwargs) -> str:
             ctx = multiprocessing.get_context('fork')
         except (ValueError, RuntimeError):
             # Fallback to default context if 'fork' isn't available.
-            ctx = multiprocessing.get_context()
+            ctx = multiprocessing.get_context()  # type: ignore[assignment]
 
         proc = ctx.Process(
             target=_proc_runner, args=(job_id, func, args, kwargs)
@@ -426,3 +490,126 @@ def generate_anki_apkg(selected_file: str) -> bytes:
     package.media_files = []  # Keine eingebetteten Medien
 
     return _write_apkg_package(package)
+
+
+def _derive_export_name(selected_file: str) -> str:
+    base = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    return base.strip() or "MC-Test Quiz"
+
+
+def _format_question_heading(raw_text: str) -> str:
+    stripped = raw_text.strip()
+    if stripped.startswith("#####"):
+        return stripped
+    # Entferne führende Nummerierung wie "1." oder "1)"
+    partitioned = stripped
+    if "." in stripped:
+        parts = stripped.split(".", 1)
+        if parts[0].strip().isdigit():
+            partitioned = parts[1].strip()
+    return f"##### {partitioned}" if partitioned else "##### Frage"
+
+
+def _load_questions_from_file(selected_file: str) -> list[dict]:
+    from config import get_package_dir  # Lokaler Import, um Zirkularität zu vermeiden
+
+    file_path = Path(get_package_dir()) / "data" / selected_file
+    if not file_path.exists():
+        raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
+
+    try:
+        data = json.loads(file_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Fragenset '{selected_file}' enthält kein gültiges JSON.") from exc
+
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        questions = data.get("questions") or data.get("fragen")
+        if isinstance(questions, list):
+            return questions
+    raise ValueError(f"Fragenset '{selected_file}' hat ein unerwartetes Format (Liste der Fragen fehlt).")
+
+
+def _map_weight_to_difficulty(raw_weight: Any) -> int:
+    try:
+        weight_int = int(raw_weight)
+    except (TypeError, ValueError):
+        return ARSNOVA_DIFFICULTY_MAP[1]
+    return ARSNOVA_DIFFICULTY_MAP.get(weight_int, ARSNOVA_DIFFICULTY_MAP[1])
+
+
+def _build_answer_options(options: Sequence[Any], correct_index: int) -> list[dict[str, Any]]:
+    if not isinstance(options, Sequence) or len(options) == 0:
+        raise ValueError("Jede Frage benötigt mindestens eine Antwortoption für den arsnova.click-Export.")
+
+    answers: list[dict[str, Any]] = []
+    for idx, raw_option in enumerate(options):
+        option_text = "" if raw_option is None else str(raw_option)
+        answers.append(
+            {
+                "answerText": option_text,
+                "isCorrect": idx == correct_index,
+                "TYPE": "DefaultAnswerOption",
+            }
+        )
+    if correct_index < 0 or correct_index >= len(answers):
+        raise ValueError("Der Index der korrekten Antwort liegt außerhalb des gültigen Bereichs.")
+    return answers
+
+
+def _sanitize_tag_value(thema: Any) -> list[str]:
+    if not isinstance(thema, str):
+        return []
+    sanitized_tag = thema.strip().replace("\n", " ")
+    return [sanitized_tag] if sanitized_tag else []
+
+
+def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
+    if not isinstance(frage, dict):
+        raise ValueError(f"Einträge im Fragenset müssen Objekte sein (Fehler bei Frage {index + 1}).")
+
+    frage_text = str(frage.get("frage", "")).strip()
+    if not frage_text:
+        raise ValueError(f"Frage {index + 1} hat keinen Fragetext.")
+
+    loesung_raw = frage.get("loesung")
+    try:
+        loesung_index = int(loesung_raw)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        raise ValueError(f"Frage {index + 1} besitzt keinen gültigen Lösungsindex.")
+
+    answer_options = _build_answer_options(frage.get("optionen", []), loesung_index)
+
+    return {
+        "TYPE": "SingleChoiceQuestion",
+        "questionText": _format_question_heading(frage_text),
+        "answerOptionList": answer_options,
+        "timer": 60,
+        "requiredForToken": True,
+        "difficulty": _map_weight_to_difficulty(frage.get("gewichtung")),
+        "displayAnswerText": True,
+        "showOneAnswerPerRow": True,
+        "multipleSelectionEnabled": False,
+        "tags": _sanitize_tag_value(frage.get("thema")),
+    }
+
+
+def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:
+    """Erzeugt einen arsnova.click-kompatiblen JSON-Export für das ausgewählte Fragenset."""
+
+    resolved_questions = list(questions) if questions is not None else _load_questions_from_file(selected_file)
+
+    if not resolved_questions:
+        raise ValueError("Keine Fragen für den arsnova.click-Export gefunden.")
+
+    question_payloads = [_transform_question_for_arsnova(frage, idx) for idx, frage in enumerate(resolved_questions)]
+
+    export_payload = {
+        "name": _derive_export_name(selected_file),
+        "questionList": question_payloads,
+        "sessionConfig": deepcopy(DEFAULT_ARSNOVA_SESSION_CONFIG),
+        "state": "Inactive",
+    }
+
+    return json.dumps(export_payload, ensure_ascii=False, indent=2).encode("utf-8")
