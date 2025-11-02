@@ -1,0 +1,151 @@
+
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Anki Preview - PDF_Test</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background:#f6f6f8; }
+        .card { background: white; border-radius:8px; padding:12px; margin:12px 0; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+        .card-front { border-left: 4px solid #2563eb; }
+        .card-back { border-left: 4px solid #15803d; }
+        .meta { color:#666; font-size:0.85em; margin-bottom:6px }
+        .question { font-weight:600; margin-bottom:8px }
+        .options ol { padding-left:1.1em; margin:0 }
+        .answer { color:#15803d; font-weight:700 }
+    </style>
+  
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+      <script>
+        (function () {
+          var attempts = 0;
+          function renderKaTeX() {
+            if (window.renderMathInElement) {
+              try {
+                window.renderMathInElement(document.body, {
+                  delimiters: [
+                    {left: '\(', right: '\)', display: false},
+                    {left: '\[', right: '\]', display: true},
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                  ],
+                  throwOnError: false
+                });
+                window.__ankiPreviewRenderedByKaTeX = true;
+              } catch (err) {
+                console.warn('KaTeX rendering failed', err);
+              }
+              return;
+            }
+            if (attempts < 20) {
+              attempts += 1;
+              setTimeout(renderKaTeX, 100);
+            }
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderKaTeX);
+          } else {
+            renderKaTeX();
+          }
+        })();
+      </script>
+      <script>
+        window.MathJax = {
+          tex: {
+            inlineMath: [['\(','\)'], ['$', '$']],
+            displayMath: [['\[','\]'], ['$$','$$']]
+          },
+          options: {
+            skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+          },
+          startup: {
+            typeset: false,
+            ready: () => {
+              MathJax.startup.defaultReady();
+              if (!window.__ankiPreviewRenderedByKaTeX) {
+                MathJax.typesetPromise();
+              }
+            }
+          }
+        };
+      </script>
+      <script id="mathjax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script>
+        (function () {
+          var attempts = 0;
+          function typeset() {
+            if (window.__ankiPreviewRenderedByKaTeX) {
+              return;
+            }
+            if (window.MathJax && window.MathJax.typesetPromise) {
+              MathJax.typesetPromise();
+              return;
+            }
+            if (attempts < 20) {
+              attempts += 1;
+              setTimeout(typeset, 100);
+            }
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', typeset);
+          } else {
+            typeset();
+          }
+        })();
+      </script>
+      
+    </head>
+    <body>
+    <h2>Anki Preview for PDF_Test</h2>
+    
+    <div class="card card-front">
+      <div class="meta">PDF_Test — KaTeX & Formeln</div>
+      <div class="question"><ol start="6">
+<li>Was ist die korrekte Darstellung der <strong>Standardabweichung</strong> \(\sigma\) einer diskreten Zufallsvariable \(X\)?</li>
+</ol>
+</div>
+      <div class="options"><ol type="A"><li><p>\(\sigma = \sum_{i=1}^{n} (x_i - \mu)^2 P(X=x_i)\)</p></li><li><p>\(\sigma = \sqrt{\sum_{i=1}^{n} (x_i - \mu)^2 P(X=x_i)}\)</p></li><li><p>\(\sigma = \frac{1}{n} \sum_{i=1}^{n} x_i\)</p></li><li><p>\(\sigma = E[X^2] + (E[X])^2\)</p></li></ol></div>
+    </div>
+    
+    <div class="card card-back">
+      <div class="meta">PDF_Test — KaTeX & Formeln</div>
+      <div class="answer"><p>\(\sigma = \sqrt{\sum_{i=1}^{n} (x_i - \mu)^2 P(X=x_i)}\)</p></div>
+      <div class="explanation"><p>Die <strong>Standardabweichung</strong> \(\sigma\) ist die <strong>Wurzel</strong> aus der <strong>Varianz</strong> \(\sigma^2\). Die Varianz ist der Erwartungswert der quadrierten Abweichung vom Erwartungswert \(\mu\). Die korrekte Formel ist also die Wurzel aus der Summe der gewichteten quadrierten Abweichungen.</p></div>
+    </div>
+    
+    <div class="card card-front">
+      <div class="meta">PDF_Test — Lineare Algebra</div>
+      <div class="question"><ol start="7">
+<li>Was ist das Ergebnis der Matrixmultiplikation \(A \cdot B\) für \(A = \begin{pmatrix} 1 & 2 \ 3 & 4 \end{pmatrix}\) und \(B = \begin{pmatrix} 2 & 0 \ 1 & 2 \end{pmatrix}\)?</li>
+</ol>
+</div>
+      <div class="options"><ol type="A"><li><p>\(\begin{pmatrix} 4 & 4 \ 10 & 8 \end{pmatrix}\)</p></li><li><p>\(\begin{pmatrix} 2 & 0 \ 3 & 8 \end{pmatrix}\)</p></li><li><p>\(\begin{pmatrix} 3 & 2 \ 4 & 6 \end{pmatrix}\)</p></li><li><p>Die Multiplikation ist nicht definiert.</p></li></ol></div>
+    </div>
+    
+    <div class="card card-back">
+      <div class="meta">PDF_Test — Lineare Algebra</div>
+      <div class="answer"><p>\(\begin{pmatrix} 4 & 4 \ 10 & 8 \end{pmatrix}\)</p></div>
+      <div class="explanation"><p>Das Element \(c_{ij}\) der Ergebnismatrix \(C\) wird berechnet als <strong>Skalarprodukt</strong> der \(i\)-ten Zeile von \(A\) mit der \(j\)-ten Spalte von \(B\). Zum Beispiel ist \(c_{11} = 1 \cdot 2 + 2 \cdot 1 = 4\).</p></div>
+    </div>
+    
+    <div class="card card-front">
+      <div class="meta">PDF_Test — Wahrscheinlichkeitstheorie</div>
+      <div class="question"><ol start="8">
+<li>Gegeben seien die Wahrscheinlichkeiten \(P(A) = 0.5\), \(P(B) = 0.4\) und \(P(A \cap B) = 0.2\). Was ist die bedingte Wahrscheinlichkeit \(P(B|A)\)?</li>
+</ol>
+</div>
+      <div class="options"><ol type="A"><li><p>\(0.1\)</p></li><li><p>\(0.25\)</p></li><li><p>\(0.4\)</p></li><li><p>\(0.5\)</p></li></ol></div>
+    </div>
+    
+    <div class="card card-back">
+      <div class="meta">PDF_Test — Wahrscheinlichkeitstheorie</div>
+      <div class="answer"><p>\(0.4\)</p></div>
+      <div class="explanation"><p>Die Formel für die <strong>bedingte Wahrscheinlichkeit</strong> lautet \(P(B|A) = \frac{P(A \cap B)}{P(A)}\). Einsetzen der Werte ergibt \(P(B|A) = \frac{0.2}{0.5} = 0.4\).</p></div>
+    </div>
+    
+    </body>
+    </html>
+    

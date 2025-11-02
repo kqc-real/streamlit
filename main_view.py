@@ -2239,6 +2239,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     _, _ = extract_formulas(questions)
 
 
+
+
 def render_review_mode(questions: QuestionSet, app_config=None):
     if app_config is None:
         app_config = st.session_state.get("app_config")
@@ -2339,22 +2341,52 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
         # Anki
         def handle_anki_export():
+            # First try the full .apkg generator (if available). If not,
+            # fallback to a TSV pipeline that is compatible with Anki's
+            # text import (recommended quick path).
             try:
                 from export_jobs import generate_anki_apkg
-            except ImportError:
+            except Exception:
+                generate_anki_apkg = None
+
+            if generate_anki_apkg:
+                try:
+                    apkg_bytes = generate_anki_apkg(selected_file, list(questions))
+                    st.download_button(
+                        label="💾 Anki-Kartenset herunterladen",
+                        data=apkg_bytes,
+                        file_name=f"anki_export_{selected_file.replace('questions_', '').replace('.json', '')}.apkg",
+                        mime="application/octet-stream",
+                        key=anki_dl_key,
+                    )
+                    return
+                except Exception as e:
+                    st.error(f"Fehler beim Erzeugen des Anki-.apkg: {e}")
+
+            # Fallback: generate TSV using the internal transformer
+            try:
+                from exporters.anki_tsv import transform_to_anki_tsv
+            except Exception:
                 st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
                 return
+
             try:
-                apkg_bytes = generate_anki_apkg(selected_file, list(questions))
+                # Read the original questions JSON from disk to preserve meta.
+                path = os.path.join(get_package_dir(), "data", selected_file)
+                with open(path, "rb") as f:
+                    json_bytes = f.read()
+
+                tsv_str = transform_to_anki_tsv(json_bytes)
+                tsv_bytes = tsv_str.encode("utf-8")
                 st.download_button(
-                    label="💾 Anki-Kartenset herunterladen",
-                    data=apkg_bytes,
-                    file_name=f"anki_export_{selected_file.replace('questions_', '').replace('.json', '')}.apkg",
-                    mime="application/octet-stream",
-                    key=anki_dl_key
+                    label="💾 Anki-Importdatei (.tsv) herunterladen",
+                    data=tsv_bytes,
+                    file_name=f"anki_import_{selected_file.replace('questions_', '').replace('.json', '')}.tsv",
+                    mime="text/tab-separated-values",
+                    key=anki_dl_key,
                 )
             except Exception as e:
-                st.error(f"Fehler beim Erzeugen des Anki-Exports: {e}")
+                st.error(f"Fehler beim Erzeugen des Anki-TSV-Exports: {e}")
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
             st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
@@ -2385,16 +2417,125 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             # Mini-Vorschau: erste Karte anzeigen, damit Nutzer sehen, wie Inhalte gerendert werden
             try:
                 if questions and len(questions) > 0:
+                    from markdown_it import MarkdownIt
+                    md = MarkdownIt()
                     preview_q = questions[0]
-                    preview_lines = ["**Vorschau (erste Karte):**\n"]
-                    preview_lines.append(preview_q.get('frage', ''))
+
+                    # Meta title (try QuestionSet meta, fall back to filename)
+                    try:
+                        meta_obj = getattr(questions, 'meta', None)
+                        if isinstance(meta_obj, dict):
+                            meta_title = meta_obj.get('title')
+                        elif hasattr(meta_obj, 'get'):
+                            meta_title = meta_obj.get('title', None)
+                        else:
+                            meta_title = None
+                    except Exception:
+                        meta_title = None
+                    if not meta_title:
+                        meta_title = selected_file.replace('questions_', '').replace('.json', '')
+
+                    # Front: question + options
+                    q_html = md.render(preview_q.get('frage', '') or '')
+                    # Remove outer <p> if present for compactness
+                    q_html = q_html.strip()
+                    if q_html.startswith('<p>') and q_html.endswith('</p>'):
+                        q_html = q_html[3:-4]
+
                     opts = preview_q.get('optionen') or []
+                    options_html = ''
                     if opts:
-                        preview_lines.append('\n')
-                        for i, o in enumerate(opts):
-                            prefix = chr(65 + i) + '.' if i < 26 else f'{i + 1}.'
-                            preview_lines.append(f"{prefix} {o}")
-                    st.markdown('\n'.join(preview_lines))
+                        options_html = '<ol type="A">' + ''.join(f"<li>{md.render(str(o)).strip()}</li>" for o in opts) + '</ol>'
+
+                    thema = preview_q.get('thema', '') or ''
+                    schwierigkeit_map = {1: 'leicht', 2: 'mittel', 3: 'schwer'}
+                    schwierigkeit = schwierigkeit_map.get(int(preview_q.get('gewichtung', 2)), 'mittel')
+
+                    # Styled preview matching Anki card templates
+                    css = """
+                    <style>
+                    .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
+                    .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
+                    .anki-preview .meta-item strong { color: #000; }
+                    .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
+                    .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 1.1em; margin: 0; }
+                    .anki-preview .options-block li { margin-bottom: 6px; }
+                    .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
+                    .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
+                    .anki-preview .section-title { font-size: 0.95em; font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
+                    .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
+                    </style>
+                    """
+
+                    meta_html = (
+                        f"<div class='meta-info'><span class='meta-item'><strong>Fragenset:</strong> {meta_title}</span>"
+                        f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>"
+                        f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span></div>"
+                    )
+
+                    # Back: correct answer and explanations
+                    correct_html = ''
+                    try:
+                        if opts:
+                            lo = int(preview_q.get('loesung', 0))
+                            correct = opts[lo] if lo < len(opts) else ''
+                            correct_html = md.render(str(correct)).strip()
+                    except Exception:
+                        correct_html = ''
+
+                    erklaerung_html = md.render(preview_q.get('erklaerung', '') or '').strip() if preview_q.get('erklaerung') else ''
+                    extended_html = ''
+                    if preview_q.get('extended_explanation'):
+                        extended_html = md.render(str(preview_q.get('extended_explanation'))).strip()
+
+
+                    back_html = "<div class='anki-preview card' style='margin-top:10px;'><div class='card-container'>"
+                    back_html += "<div class='section-title'>Korrekte Antwort</div>"
+                    back_html += f"<div class='answer-content'>{correct_html}</div>"
+                    if erklaerung_html:
+                        back_html += "<div class='section-title'>Erklärung</div>"
+                        back_html += f"<div class='explanation-content'>{erklaerung_html}</div>"
+                    if extended_html:
+                        back_html += "<div class='section-title'>Detaillierte Erklärung</div>"
+                        back_html += f"<div class='extended-content'>{extended_html}</div>"
+                    back_html += "</div></div>"
+
+                    # Prepare math assets: KaTeX CSS is needed for server-side render; MathJax when PyKaTeX absent.
+                    math_assets = """<script>
+window.MathJax = {
+    tex: {
+        inlineMath: [['\\(','\\)'], ['$','$']],
+        displayMath: [['\\[','\\]'], ['$$','$$']]
+    },
+    options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+    },
+    startup: {
+        ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.typesetPromise();
+        }
+    }
+};
+</script>
+<script id="mathjax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>"""
+                    import streamlit.components.v1 as components
+
+                    preview_html = css + math_assets + (
+                        "<div class='anki-preview card'>"
+                        "<div class='card-container'>"
+                        f"{meta_html}"
+                        f"<div class='question-block'>{q_html}</div>"
+                        f"<div class='options-block'>{options_html}</div>"
+                        "</div></div>"
+                    ) + back_html
+
+                    # Render via components.html so scripts (MathJax) execute.
+                    try:
+                        components.html(preview_html, height=480, scrolling=True)
+                    except Exception:
+                        # Fallback: if components fails, fall back to st.markdown
+                        st.markdown(preview_html, unsafe_allow_html=True)
             except Exception:
                 # Preview darf niemals den Export-Bereich komplett kaputtmachen
                 pass

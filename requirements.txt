@@ -24,3 +24,8 @@ pytest>=8.0,<9
 
 # File locking for safe concurrent CSV appends
 filelock>=3.13
+
+# Add exporter dependencies
+markdown-it-py>=3.0
+bleach>=6.0
+pykatex==0.1.1
