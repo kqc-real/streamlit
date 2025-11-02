@@ -2429,12 +2429,12 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
                     .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
                     .anki-preview .meta-item strong { color: #000; }
-                    .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
+                    .anki-preview .question-block { margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
                     .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 3.8em; margin: 0; }
                     .anki-preview .options-block li { margin-bottom: 6px; }
                     .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
-                    .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
-                    .anki-preview .section-title { font-size: 0.95em; font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
+                    .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; }
+                    .anki-preview .section-title { font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
                     .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
                     </style>
                     """
