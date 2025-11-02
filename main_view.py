@@ -2430,7 +2430,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
                     .anki-preview .meta-item strong { color: #000; }
                     .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
-                    .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 1.1em; margin: 0; }
+                    .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 3.8em; margin: 0; }
                     .anki-preview .options-block li { margin-bottom: 6px; }
                     .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
                     .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
