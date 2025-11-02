@@ -83,6 +83,27 @@ def _cached_generate_anki_apkg(selected_file: str) -> bytes:
     return generate_anki_apkg(selected_file)
 
 
+@st.cache_data(show_spinner=False)
+def _load_anki_instruction_md() -> str:
+    instruction_path = Path(get_package_dir()) / "ANLEITUNG_ANKI_IMPORT.md"
+    try:
+        return instruction_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return "Anleitung konnte nicht geladen werden. Bitte prüfen Sie die Datei 'ANLEITUNG_ANKI_IMPORT.md'."
+    except Exception as exc:  # pragma: no cover - defensive guard for unexpected I/O issues
+        return f"Beim Laden der Anki-Anleitung ist ein Fehler aufgetreten: {exc}"
+
+
+def _open_anki_instruction_dialog() -> None:
+    content = _load_anki_instruction_md()
+
+    @st.dialog("Anleitung: Anki-Export", width="large")
+    def _show_anki_instruction_dialog() -> None:
+        st.markdown(content)
+
+    _show_anki_instruction_dialog()
+
+
 def _format_minutes_text(minutes: int) -> str:
     """Gibt eine sprachlich passende Darstellung für Minuten zurück."""
     value = max(1, minutes)
@@ -2379,30 +2400,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
-            st.caption("Format: .apkg  |  [Anki Import-Anleitung (Intro)](https://docs.ankiweb.net/importing/intro.html)  |  [Textdateien importieren](https://docs.ankiweb.net/importing/text-files.html)")
 
-            # Kurz-Anleitung und Vorschau (kleine, hilfreiche Ergänzung für die Nutzer)
-            with st.expander("Kurz‑Anleitung (Anki)"):
-                st.markdown(
-                    "Folgen Sie diesen drei Schritten, um den Export schnell in Anki zu importieren:\n"
-                    "1. Notiztyp einmalig erstellen (z.B. **MC-Test-Frage**) und Felder anlegen.\n"
-                    "2. Datei → Importieren → Notiztyp wählen → Häkchen: HTML in Feldern erlauben.\n"
-                    "3. Import prüfen (Feld‑Zuordnung) und ggf. Kartenvorlagen anpassen.\n"
-                )
-                st.code(
-                    """
-1 -> Frage
-2 -> Optionen
-3 -> Antwort_Korrekt
-4 -> Erklaerung_Basis
-5 -> Erklaerung_Erweitert
-6 -> Glossar
-7 -> Fragenset_Titel
-8 -> Thema
-9 -> Schwierigkeit
-10 -> Tags_Alle
-"""
-                )
+            st.caption("Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.")
+            instruction_button_key = f"open_anki_instruction_{selected_file}"
+            if st.button("ℹ️ Anleitung & Tipps anzeigen", key=instruction_button_key):
+                _open_anki_instruction_dialog()
 
             # Mini-Vorschau: alle Karten anzeigen, damit Nutzer sehen, wie Inhalte gerendert werden
             try:
