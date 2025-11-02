@@ -2716,7 +2716,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.error(f"Fehler beim Erzeugen des arsnova.click-Exports: {e}")
         with st.expander("📦 arsnova.click-Quiz (für Hochschul-Feedback)"):
             st.markdown("Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.")
-            st.caption("Format: .json  |  [arsnova.click Infos](https://github.com/thm-projects/arsnova.click-v2)")
+            st.caption("Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)")
             arsnova_btn_key = f"download_arsnova_review_{selected_file}"
             arsnova_dl_key = f"dl_arsnova_direct_{selected_file}"
             if st.button("Download starten", key=arsnova_btn_key):
