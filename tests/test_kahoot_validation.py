@@ -31,14 +31,14 @@ def test_validate_kahoot_questions_passes_for_valid_question():
 
 
 def test_validate_kahoot_questions_detects_length_and_options():
-    long_question = "X" * 121
+    long_question = "X" * 96
     questions = [
         make_question(long_question, ["A", "B"], 0),
         make_question("Ok", ["A", "B", "C", "D", "E"], 0),
     ]
 
     errors, _ = validate_kahoot_questions(questions)
-    assert any("121" in err for err in errors)
+    assert any(str(len(long_question)) in err for err in errors)
     assert any("Höchstens" in err for err in errors)
 
 

@@ -43,9 +43,8 @@ from database import update_bookmarks
 DOWNLOAD_BUTTON_LABEL = "Download starten"
 MIME_PDF = "application/pdf"
 KAHOOT_IMPORT_RULES = [
-    "Fragetext max. 120 Zeichen, keine Formatierung/Bilder",
-    "Bis zu 4 Antwortoptionen à max. 75 Zeichen",
-    "Mindestens 1, maximal 4 richtige Antworten (1-basiert)",
+    "Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
+    "Bis zu 4 Antwortoptionen à max. 60 Zeichen",
     "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
     "Datei darf höchstens 500 Fragen enthalten",
 ]
@@ -2700,7 +2699,12 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.error(f"Fehler beim Erzeugen des Kahoot-Exports: {e}")
         with st.expander("📦 Kahoot-Quiz (für Live-Quizze)"):
             st.markdown("Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.")
-            st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002303908)")
+            st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)")
+            st.warning(
+                "Kahoot unterstützt keine Formeldarstellung (LaTeX/KaTeX/MathJax). "
+                "Mathematische Inhalte werden nach dem Import nur als einfacher Text angezeigt.",
+                icon="🧮",
+            )
             kahoot_btn_key = f"download_kahoot_review_{selected_file}"
             kahoot_dl_key = f"dl_kahoot_direct_{selected_file}"
             kahoot_errors: list[str] = []
