@@ -62,7 +62,7 @@ def _open_prompt_dialog(title: str, content: str, download_name: str) -> bool:
 
 def render_general_prompt_tab() -> None:
     """Zeigt den allgemeinen KI-Prompt für neue Fragensets."""
-    st.header("🧠 Frageset generieren (Allgemein)")
+    st.header("🧠 Fragenset generieren")
     st.markdown(
         """
         Nutze diesen Prompt in ChatGPT, Claude oder einem anderen LLM, um ein neues
@@ -120,7 +120,7 @@ def render_general_prompt_tab() -> None:
 
 def render_kahoot_prompt_tab() -> None:
     """Zeigt den Kahoot-spezifischen KI-Prompt."""
-    st.header("🤖 Kahoot-Fragenset mit KI erstellen")
+    st.header("🤖 Fragenset für Kahoot generieren")
     st.markdown(
         """
         Dieser Prompt ist speziell für Kahoot optimiert. Er stellt sicher, dass alle
@@ -172,6 +172,61 @@ def render_kahoot_prompt_tab() -> None:
             st.session_state[inline_state_key] = False
 
 
+def render_arsnova_prompt_tab() -> None:
+    """Zeigt den arsnova.click-spezifischen KI-Prompt."""
+    st.header("🎯 Fragenset für ARSnova.click generieren")
+    st.markdown(
+        """
+        Dieser Prompt führt Schritt für Schritt zu einem Fragenset, das alle
+        arsnova.click-Beschränkungen (Optionen ≤ 60 Zeichen, Timer 60 s, keine
+        Überschriften-Markup) automatisch berücksichtigt. Nutze ihn für Importe
+        in arsnova.click.
+        """.strip()
+    )
+
+    prompt_content = _load_prompt_file("KI_PROMPT_ARSNOVA_CLICK.md")
+    if prompt_content.startswith("Prompt konnte") or prompt_content.startswith("Datei"):
+        st.error(prompt_content)
+        return
+
+    inline_state_key = "_show_inline_arsnova_prompt"
+    st.session_state.setdefault(inline_state_key, False)
+
+    col_left, col_right = st.columns(2)
+    with col_left:
+        st.download_button(
+            "⬇️ Prompt herunterladen",
+            data=prompt_content.encode("utf-8"),
+            file_name="KI_PROMPT_ARSNOVA_CLICK.md",
+            mime="text/markdown",
+            key="download_arsnova_prompt",
+        )
+    with col_right:
+        if st.button("👁️ Prompt anzeigen", key="open_arsnova_prompt"):
+            needs_inline = _open_prompt_dialog(
+                "arsnova.click KI-Prompt", prompt_content, "KI_PROMPT_ARSNOVA_CLICK.md"
+            )
+            if needs_inline:
+                st.session_state[inline_state_key] = True
+
+    if st.session_state.get(inline_state_key):
+        st.text_area(
+            "arsnova.click KI-Prompt",
+            prompt_content,
+            height=500,
+            key="arsnova_prompt_inline_text",
+        )
+        st.download_button(
+            "⬇️ Prompt als Markdown herunterladen",
+            data=prompt_content.encode("utf-8"),
+            file_name="KI_PROMPT_ARSNOVA_CLICK.md",
+            mime="text/markdown",
+            key="download_arsnova_prompt_inline",
+        )
+        if st.button("Fenster schließen", key="close_arsnova_prompt_inline"):
+            st.session_state[inline_state_key] = False
+
+
 def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     """Rendert das komplette Admin-Dashboard mit Tabs."""
     st.title("🛠 Admin Dashboard")
@@ -196,8 +251,9 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
             "📢 Feedback",
             "📤 Export",
             "⚙️ System",
-            "🧠 Frageset generieren",
-            "🤖 Kahoot-Fragenset mit KI",
+            "🧠 Fragenset generieren",
+            "🤖 Fragenset für Kahoot generieren",
+            "🎯 Fragenset für ARSnova.click generieren",
             "📚 Mini-Glossare",
             "📂 Fragensets",
             "🔒 Audit-Log",
@@ -220,10 +276,12 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     with tabs[6]:
         render_kahoot_prompt_tab()
     with tabs[7]:
-        render_mini_glossary_tab()
+        render_arsnova_prompt_tab()
     with tabs[8]:
-        render_question_sets_tab()
+        render_mini_glossary_tab()
     with tabs[9]:
+        render_question_sets_tab()
+    with tabs[10]:
         render_audit_log_tab()
 
 
