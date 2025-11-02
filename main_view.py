@@ -53,7 +53,7 @@ import logging
 from auth import initialize_session_state
 
 
-ANKI_EXPORT_UNAVAILABLE_MSG = "Dieses Export-Feature steht demnächst zur Verfügung."
+EXPORT_FEATURE_UNAVAILABLE_MSG = "Dieses Export-Feature steht demnächst zur Verfügung."
 ANKI_APKG_DEPENDENCY_MSG = "Für den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt)."
 
 
@@ -2684,7 +2684,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             try:
                 from export_jobs import generate_kahoot_xlsx
             except ImportError:
-                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+                st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
                 return
             try:
                 xlsx_bytes = generate_kahoot_xlsx(selected_file, list(questions))
@@ -2713,7 +2713,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             try:
                 from export_jobs import validate_kahoot_questions as _validate_kahoot
             except ImportError:
-                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+                st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
             else:
                 validate_fn = _validate_kahoot
 
@@ -2757,30 +2757,49 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 handle_kahoot_export()
 
         # arsnova.click
-        def handle_arsnova_export():
-            try:
-                from export_jobs import generate_arsnova_json
-            except ImportError:
-                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
-                return
-            try:
-                json_bytes = generate_arsnova_json(selected_file, list(questions))
-                st.download_button(
-                    label="💾 arsnova.click-Quiz herunterladen",
-                    data=json_bytes,
-                    file_name=f"arsnova_export_{selected_file.replace('questions_', '').replace('.json', '')}.json",
-                    mime="application/json",
-                    key=arsnova_dl_key
-                )
-            except Exception as e:
-                st.error(f"Fehler beim Erzeugen des arsnova.click-Exports: {e}")
         with st.expander("📦 arsnova.click-Quiz (für Hochschul-Feedback)"):
             st.markdown("Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.")
             st.caption("Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)")
             arsnova_btn_key = f"download_arsnova_review_{selected_file}"
             arsnova_dl_key = f"dl_arsnova_direct_{selected_file}"
-            if st.button(DOWNLOAD_BUTTON_LABEL, key=arsnova_btn_key):
-                handle_arsnova_export()
+
+            generate_fn = None
+            arsnova_warnings: list[str] = []
+            try:
+                from export_jobs import generate_arsnova_json, validate_arsnova_questions
+            except ImportError:
+                st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
+            else:
+                generate_fn = generate_arsnova_json
+                try:
+                    arsnova_warnings = validate_arsnova_questions(list(questions))
+                except Exception as exc:
+                    st.error(f"Fehler bei der arsnova.click-Prüfung: {exc}")
+                    arsnova_warnings = []
+
+            if arsnova_warnings:
+                st.warning(
+                    f"{len(arsnova_warnings)} Hinweis(e) für arsnova.click",
+                    icon="⚠️",
+                )
+                st.caption(_format_limited(arsnova_warnings))
+
+            button_disabled = generate_fn is None
+            if st.button(DOWNLOAD_BUTTON_LABEL, key=arsnova_btn_key, disabled=button_disabled):
+                if generate_fn is None:
+                    st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
+                else:
+                    try:
+                        json_bytes = generate_fn(selected_file, list(questions))
+                        st.download_button(
+                            label="💾 arsnova.click-Quiz herunterladen",
+                            data=json_bytes,
+                            file_name=f"arsnova_export_{selected_file.replace('questions_', '').replace('.json', '')}.json",
+                            mime="application/json",
+                            key=arsnova_dl_key
+                        )
+                    except Exception as e:
+                        st.error(f"Fehler beim Erzeugen des arsnova.click-Exports: {e}")
 
         # Musterlösung
         with st.expander("📄 Musterlösung (PDF mit allen richtigen Antworten)"):

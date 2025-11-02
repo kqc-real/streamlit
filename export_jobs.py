@@ -87,6 +87,8 @@ DEFAULT_ARSNOVA_SESSION_CONFIG = {
     },
 }
 
+ARSNOVA_MAX_OPTION_LENGTH = 60
+
 KAHOOT_ALLOWED_TIMERS = {5, 10, 20, 30, 60, 90, 120, 240}
 KAHOOT_MAX_QUESTIONS = 500
 KAHOOT_MAX_QUESTION_LENGTH = 95
@@ -505,17 +507,21 @@ def _derive_export_name(selected_file: str) -> str:
     return base.strip() or "MC-Test Quiz"
 
 
-def _format_question_heading(raw_text: str) -> str:
-    stripped = raw_text.strip()
-    if stripped.startswith("#####"):
-        return stripped
-    # Entferne führende Nummerierung wie "1." oder "1)"
-    partitioned = stripped
-    if "." in stripped:
-        parts = stripped.split(".", 1)
-        if parts[0].strip().isdigit():
-            partitioned = parts[1].strip()
-    return f"##### {partitioned}" if partitioned else "##### Frage"
+def _normalize_question_text(raw_text: str) -> str:
+    stripped = str(raw_text or "").strip()
+    if not stripped:
+        return ""
+
+    without_headings = re.sub(r"(?m)^\s*#+\s*", "", stripped)
+    lines = without_headings.splitlines()
+    if not lines:
+        return ""
+
+    first_line = re.sub(r"^\s*\d+[\.)]\s*", "", lines[0])
+    lines[0] = first_line
+
+    normalized = "\n".join(lines).strip()
+    return normalized
 
 
 def _load_questions_from_file(selected_file: str) -> list[dict]:
@@ -554,6 +560,8 @@ def _build_answer_options(options: Sequence[Any], correct_index: int) -> list[di
     answers: list[dict[str, Any]] = []
     for idx, raw_option in enumerate(options):
         option_text = "" if raw_option is None else str(raw_option)
+        if len(option_text) > ARSNOVA_MAX_OPTION_LENGTH:
+            option_text = option_text[:ARSNOVA_MAX_OPTION_LENGTH]
         answers.append(
             {
                 "answerText": option_text,
@@ -589,9 +597,11 @@ def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
 
     answer_options = _build_answer_options(frage.get("optionen", []), loesung_index)
 
+    normalized_text = _normalize_question_text(frage_text) or f"Frage {index + 1}"
+
     return {
         "TYPE": "SingleChoiceQuestion",
-        "questionText": _format_question_heading(frage_text),
+        "questionText": normalized_text,
         "answerOptionList": answer_options,
         "timer": 60,
         "requiredForToken": True,
@@ -647,6 +657,31 @@ def _short_question_label(question_text: str) -> str:
     if len(question_text) <= 60:
         return question_text
     return question_text[:57].rstrip() + "..."
+
+
+def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
+    """Ermittelt Warnungen für den arsnova.click-Export."""
+
+    warnings: list[str] = []
+    for idx, frage in enumerate(questions):
+        if not isinstance(frage, dict):
+            continue
+
+        question_text = _strip_markdown_to_plain_text(frage.get("frage"))
+        label = _short_question_label(question_text or f"Frage {idx + 1}")
+
+        optionen = frage.get("optionen")
+        if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
+            continue
+
+        for opt_idx, opt in enumerate(optionen, start=1):
+            option_text = "" if opt is None else str(opt)
+            if len(option_text) > ARSNOVA_MAX_OPTION_LENGTH:
+                warnings.append(
+                    f"{label}: Antwort {opt_idx} überschreitet {ARSNOVA_MAX_OPTION_LENGTH} Zeichen (aktuell {len(option_text)})."
+                )
+
+    return warnings
 
 
 def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], list[str]]:

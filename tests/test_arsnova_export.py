@@ -2,11 +2,11 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 import pytest  # type: ignore[import-not-found]
 
-from export_jobs import generate_arsnova_json  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from export_jobs import generate_arsnova_json, validate_arsnova_questions  # noqa: E402
 
 
 def _build_question(frage, optionen, loesung, gewichtung=1, thema="Mathe"):
@@ -41,7 +41,7 @@ def test_generate_arsnova_json_maps_core_fields(tmp_path, monkeypatch):
     assert len(payload["questionList"]) == 2
 
     first = payload["questionList"][0]
-    assert first["questionText"].startswith("##### ")
+    assert first["questionText"] == "Beispiel?"
     assert first["TYPE"] == "SingleChoiceQuestion"
     assert first["timer"] == 60
     assert first["requiredForToken"] is True
@@ -70,3 +70,28 @@ def test_generate_arsnova_json_maps_core_fields(tmp_path, monkeypatch):
 def test_generate_arsnova_json_validation_errors(question):
     with pytest.raises(ValueError):
         generate_arsnova_json("questions_invalid.json", [question])
+
+
+def test_generate_arsnova_truncates_long_options():
+    long_option = "X" * 80
+    questions = [
+        _build_question("Frage ohne Nummer", [long_option, "Kurz"], 0),
+    ]
+
+    data_bytes = generate_arsnova_json("questions_demo.json", questions)
+    payload = json.loads(data_bytes.decode("utf-8"))
+
+    exported_option = payload["questionList"][0]["answerOptionList"][0]["answerText"]
+    assert len(exported_option) == 60
+    assert exported_option == "X" * 60
+
+
+def test_validate_arsnova_questions_reports_long_options():
+    long_option = "A" * 70
+    questions = [
+        _build_question("Frage mit langer Option", ["Kurz", long_option], 0),
+    ]
+
+    warnings = validate_arsnova_questions(questions)
+    assert warnings
+    assert "überschreitet 60 Zeichen" in warnings[0]
