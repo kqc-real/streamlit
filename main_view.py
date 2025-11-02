@@ -23,7 +23,6 @@ from config import (
     get_question_counts,
     QuestionSet,
     get_package_dir,
-    AppConfig,
 )
 from logic import (
     calculate_score,
@@ -39,6 +38,17 @@ from helpers import (
     ACTIVE_SESSION_QUERY_PARAM,
 )
 from database import update_bookmarks
+
+
+DOWNLOAD_BUTTON_LABEL = "Download starten"
+MIME_PDF = "application/pdf"
+KAHOOT_IMPORT_RULES = [
+    "Fragetext max. 120 Zeichen, keine Formatierung/Bilder",
+    "Bis zu 4 Antwortoptionen à max. 75 Zeichen",
+    "Mindestens 1, maximal 4 richtige Antworten (1-basiert)",
+    "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
+    "Datei darf höchstens 500 Fragen enthalten",
+]
 from components import render_question_distribution_chart
 import logging
 from auth import initialize_session_state
@@ -2693,7 +2703,53 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002303908)")
             kahoot_btn_key = f"download_kahoot_review_{selected_file}"
             kahoot_dl_key = f"dl_kahoot_direct_{selected_file}"
-            if st.button("Download starten", key=kahoot_btn_key):
+            kahoot_errors: list[str] = []
+            kahoot_warnings: list[str] = []
+            validate_fn = None
+            try:
+                from export_jobs import validate_kahoot_questions as _validate_kahoot
+            except ImportError:
+                st.info("Dieses Export-Feature steht demnächst zur Verfügung.")
+            else:
+                validate_fn = _validate_kahoot
+
+            def _format_limited(messages: list[str], limit: int = 5) -> str:
+                if len(messages) <= limit:
+                    return "\n".join(f"• {msg}" for msg in messages)
+                remaining = len(messages) - limit
+                truncated = "\n".join(f"• {msg}" for msg in messages[:limit])
+                return f"{truncated}\n• … {remaining} weitere Hinweise"
+
+            if validate_fn:
+                try:
+                    kahoot_errors, kahoot_warnings = validate_fn(list(questions))
+                except Exception as exc:
+                    st.error(f"Fehler bei der Kahoot-Validierung: {exc}")
+                    kahoot_errors = ["Die Validierung konnte nicht abgeschlossen werden."]
+
+            if kahoot_warnings:
+                st.warning(
+                    f"{len(kahoot_warnings)} Hinweis(e) für Kahoot",
+                    icon="⚠️",
+                )
+                st.caption(_format_limited(kahoot_warnings))
+            if kahoot_errors:
+                st.error(
+                    f"Kahoot-Export nicht möglich – {len(kahoot_errors)} Regelverletzung(en).",
+                    icon="🚫",
+                )
+                st.caption(_format_limited(kahoot_errors))
+                st.info(
+                    "Kahoot akzeptiert nur Fragensets, die alle Import-Limits einhalten. "
+                    "Passe den Inhalt an oder nutze alternativ Anki / arsnova.click / PDF."
+                )
+                st.markdown(
+                    "**Import-Bedingungen (Kahoot):**\n" +
+                    "\n".join(f"• {rule}" for rule in KAHOOT_IMPORT_RULES)
+                )
+
+            button_disabled = bool(kahoot_errors)
+            if st.button(DOWNLOAD_BUTTON_LABEL, key=kahoot_btn_key, disabled=button_disabled):
                 handle_kahoot_export()
 
         # arsnova.click
@@ -2719,7 +2775,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             st.caption("Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)")
             arsnova_btn_key = f"download_arsnova_review_{selected_file}"
             arsnova_dl_key = f"dl_arsnova_direct_{selected_file}"
-            if st.button("Download starten", key=arsnova_btn_key):
+            if st.button(DOWNLOAD_BUTTON_LABEL, key=arsnova_btn_key):
                 handle_arsnova_export()
 
         # Musterlösung
@@ -2732,7 +2788,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             )
             musterloesung_btn_key = f"download_musterloesung_review_{selected_file}"
             musterloesung_dl_key = f"dl_musterloesung_direct_{selected_file}"
-            if st.button("Download starten", key=musterloesung_btn_key):
+            if st.button(DOWNLOAD_BUTTON_LABEL, key=musterloesung_btn_key):
                 with st.spinner("Musterlösung wird erstellt..."):
                     try:
                         pdf_bytes = generate_musterloesung_pdf(
@@ -2742,7 +2798,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             label="💾 Musterlösung herunterladen",
                             data=pdf_bytes,
                             file_name=muster_download_name,
-                            mime="application/pdf",
+                            mime=MIME_PDF,
                             key=musterloesung_dl_key
                         )
                     except Exception as e:
@@ -2760,7 +2816,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
                 glossar_btn_key = f"download_glossar_review_{selected_file}"
                 glossar_dl_key = f"dl_glossar_direct_{selected_file}"
-                if st.button("Download starten", key=glossar_btn_key):
+                if st.button(DOWNLOAD_BUTTON_LABEL, key=glossar_btn_key):
                     with st.spinner("Glossar wird erstellt..."):
                         try:
                             pdf_bytes = generate_mini_glossary_pdf(
@@ -2770,7 +2826,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 label="💾 Mini-Glossar herunterladen",
                                 data=pdf_bytes,
                                 file_name=glossary_download_name,
-                                mime="application/pdf",
+                                mime=MIME_PDF,
                                 key=glossar_dl_key
                             )
                         except Exception as e:
@@ -2786,11 +2842,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             )
             testbericht_btn_key = f"download_testbericht_review_{selected_file}"
             testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
-            if st.button("Download starten", key=testbericht_btn_key):
+            if st.button(DOWNLOAD_BUTTON_LABEL, key=testbericht_btn_key):
                 with st.spinner("Testbericht wird erstellt..."):
                     try:
                         if app_config is None:
-                            raise Exception("app_config nicht gefunden – Testbericht-Export nicht möglich.")
+                            raise RuntimeError("app_config nicht gefunden – Testbericht-Export nicht möglich.")
                         pdf_bytes = generate_pdf_report(
                             list(questions), app_config
                         )
@@ -2798,7 +2854,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             label="💾 Testbericht herunterladen",
                             data=pdf_bytes,
                             file_name=report_download_name,
-                            mime="application/pdf",
+                            mime=MIME_PDF,
                             key=testbericht_dl_key
                         )
                     except Exception as e:

@@ -22,6 +22,7 @@ import json
 import hashlib
 import tempfile
 from copy import deepcopy
+import re
 
 ARSNOVA_DIFFICULTY_MAP = {1: 2, 2: 6, 3: 10}
 DEFAULT_ARSNOVA_SESSION_CONFIG = {
@@ -85,6 +86,13 @@ DEFAULT_ARSNOVA_SESSION_CONFIG = {
         "blockIllegalNicks": True,
     },
 }
+
+KAHOOT_ALLOWED_TIMERS = {5, 10, 20, 30, 60, 90, 120, 240}
+KAHOOT_MAX_QUESTIONS = 500
+KAHOOT_MAX_QUESTION_LENGTH = 120
+KAHOOT_MAX_OPTION_LENGTH = 75
+KAHOOT_MIN_OPTIONS = 2
+KAHOOT_MAX_OPTIONS = 4
 
 # Configurable worker count (not used for processes; kept for compatibility)
 _MAX_WORKERS = int(os.getenv('EXPORT_JOB_WORKERS', '2'))
@@ -593,6 +601,126 @@ def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
         "multipleSelectionEnabled": False,
         "tags": _sanitize_tag_value(frage.get("thema")),
     }
+
+
+def _strip_markdown_to_plain_text(value: Any) -> str:
+    if value is None:
+        return ""
+    text = str(value)
+    # Remove Markdown links/images: ![alt](url) or [alt](url)
+    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", text)
+    # Remove inline code/backticks
+    text = text.replace("`", "")
+    # Replace headings/formatting markers
+    text = re.sub(r"[#*_>~]+", "", text)
+    # Remove LaTeX delimiters
+    text = text.replace("$$", " ").replace("$", " ")
+    # Collapse whitespace
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def _extract_correct_indices(loesung: Any, num_options: int) -> list[int]:
+    if isinstance(loesung, (list, tuple, set)):
+        raw_values = list(loesung)
+    else:
+        raw_values = [loesung]
+
+    indices: list[int] = []
+    for raw in raw_values:
+        try:
+            idx = int(raw)  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            raise ValueError("Ungültiger Lösungsindex (nicht numerisch).")
+        if idx < 0 or idx >= num_options:
+            raise ValueError("Lösungsindex außerhalb der Antwortanzahl.")
+        if idx not in indices:
+            indices.append(idx)
+
+    if not indices:
+        raise ValueError("Keine korrekte Antwort definiert.")
+    return indices
+
+
+def _short_question_label(question_text: str) -> str:
+    if len(question_text) <= 60:
+        return question_text
+    return question_text[:57].rstrip() + "..."
+
+
+def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], list[str]]:
+    """Prüft Fragen auf Kahoot-Import-Beschränkungen.
+
+    Gibt (errors, warnings) zurück.
+    """
+
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    if len(questions) > KAHOOT_MAX_QUESTIONS:
+        errors.append(
+            f"Fragenset enthält {len(questions)} Fragen (maximal {KAHOOT_MAX_QUESTIONS})."
+        )
+
+    for idx, frage in enumerate(questions):
+        question_text = _strip_markdown_to_plain_text(frage.get("frage"))
+        label = _short_question_label(question_text or f"Frage {idx + 1}")
+
+        if not question_text:
+            errors.append(f"{label}: Fragetext fehlt oder ist leer.")
+            continue
+
+        if len(question_text) > KAHOOT_MAX_QUESTION_LENGTH:
+            errors.append(
+                f"{label}: Fragetext hat {len(question_text)} Zeichen (max. {KAHOOT_MAX_QUESTION_LENGTH})."
+            )
+
+        optionen = frage.get("optionen")
+        if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
+            errors.append(f"{label}: Antwortoptionen fehlen oder sind ungültig.")
+            continue
+
+        if len(optionen) < KAHOOT_MIN_OPTIONS:
+            errors.append(f"{label}: Mindestens {KAHOOT_MIN_OPTIONS} Antwortoptionen benötigt.")
+            continue
+
+        if len(optionen) > KAHOOT_MAX_OPTIONS:
+            errors.append(f"{label}: Höchstens {KAHOOT_MAX_OPTIONS} Antwortoptionen erlaubt (aktuell {len(optionen)}).")
+            continue
+
+        option_texts = [_strip_markdown_to_plain_text(opt) for opt in optionen]
+        for opt_idx, opt_text in enumerate(option_texts, start=1):
+            if not opt_text:
+                warnings.append(f"{label}: Antwort {opt_idx} ist leer und wird als leere Option exportiert.")
+            elif len(opt_text) > KAHOOT_MAX_OPTION_LENGTH:
+                errors.append(
+                    f"{label}: Antwort {opt_idx} hat {len(opt_text)} Zeichen (max. {KAHOOT_MAX_OPTION_LENGTH})."
+                )
+
+        try:
+            correct_indices = _extract_correct_indices(frage.get("loesung"), len(optionen))
+        except ValueError as exc:
+            errors.append(f"{label}: {exc}")
+            continue
+
+        if len(correct_indices) > KAHOOT_MAX_OPTIONS:
+            errors.append(f"{label}: Zu viele korrekte Antworten angegeben.")
+
+        # Timer-Prüfung: falls definiert, muss im erlaubten Wertebereich liegen
+        timer_value = frage.get("zeit_limit") or frage.get("timer")
+        if timer_value is not None:
+            try:
+                timer_int = int(timer_value)
+            except (TypeError, ValueError):
+                warnings.append(f"{label}: Zeitlimit '{timer_value}' ist ungültig, es wird 60s verwendet.")
+            else:
+                if timer_int not in KAHOOT_ALLOWED_TIMERS:
+                    warnings.append(
+                        f"{label}: Zeitlimit {timer_int}s wird auf 60s gesetzt (erlaubte Werte: {sorted(KAHOOT_ALLOWED_TIMERS)})."
+                    )
+
+    return errors, warnings
 
 
 def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:
