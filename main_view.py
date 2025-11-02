@@ -2649,6 +2649,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     key="admin_export_qset_selector",
                 )
                 st.session_state["admin_export_selected_file"] = export_selected_file
+                st.caption("Hinweis: Diese Auswahl wirkt sich nur auf die Exporte nach Anki, Kahoot und arsnova.click aus.")
 
                 if export_selected_file != selected_file:
                     try:
