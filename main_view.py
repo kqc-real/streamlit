@@ -2422,6 +2422,23 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     
                     all_previews_html = []
 
+                    # Styled preview matching Anki card templates
+                    css = """
+                    <style>
+                    .card-wrapper { margin-bottom: 20px; }
+                    .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
+                    .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
+                    .anki-preview .meta-item strong { color: #000; }
+                    .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
+                    .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 1.1em; margin: 0; }
+                    .anki-preview .options-block li { margin-bottom: 6px; }
+                    .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
+                    .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
+                    .anki-preview .section-title { font-size: 0.95em; font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
+                    .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
+                    </style>
+                    """
+
                     for preview_q in questions:
                         # Meta title (try QuestionSet meta, fall back to filename)
                         try:
@@ -2452,22 +2469,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         thema = preview_q.get('thema', '') or ''
                         schwierigkeit_map = {1: 'leicht', 2: 'mittel', 3: 'schwer'}
                         schwierigkeit = schwierigkeit_map.get(int(preview_q.get('gewichtung', 2)), 'mittel')
-
-                        # Styled preview matching Anki card templates
-                        css = """
-                        <style>
-                        .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
-                        .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
-                        .anki-preview .meta-item strong { color: #000; }
-                        .anki-preview .question-block { font-size: 15px; margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
-                        .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 1.1em; margin: 0; }
-                        .anki-preview .options-block li { margin-bottom: 6px; }
-                        .anki-preview .answer-content { color: #15803d; font-weight: 600; margin-bottom: 6px; }
-                        .anki-preview .explanation-content, .anki-preview .extended-content { color: #333; font-size: 14px; }
-                        .anki-preview .section-title { font-size: 0.95em; font-weight: 700; color: #005A9C; margin-top: 8px; margin-bottom: 4px; }
-                        .anki-preview .card-container { border:1px solid #e5e7eb; padding:10px; border-radius:8px; background: #ffffff; }
-                        </style>
-                        """
 
                         meta_html = (
                             f"<div class='meta-info'><span class='meta-item'><strong>Fragenset:</strong> {meta_title}</span>"
@@ -2510,7 +2511,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 extended_html += md.render(str(extended_explanation)).strip()
 
 
-                        back_html = "<div class='anki-preview card' style='margin-top:10px;'><div class='card-container'>"
+                        back_html = "<div class='anki-preview card'><div class='card-container'>"
                         back_html += "<div class='section-title'>Korrekte Antwort</div>"
                         back_html += f"<div class='answer-content'>{correct_html}</div>"
                         if erklaerung_html:
@@ -2521,15 +2522,17 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             back_html += f"<div class='extended-content'>{extended_html}</div>"
                         back_html += "</div></div>"
 
-                        preview_html = css + (
+                        front_html = (
                             "<div class='anki-preview card'>"
                             "<div class='card-container'>"
                             f"{meta_html}"
                             f"<div class='question-block'>{q_html}</div>"
                             f"<div class='options-block'>{options_html}</div>"
                             "</div></div>"
-                        ) + back_html
-                        all_previews_html.append(preview_html)
+                        )
+                        
+                        card_wrapper_html = f"<div class='card-wrapper'>{front_html}{back_html}</div>"
+                        all_previews_html.append(card_wrapper_html)
 
                     # Prepare math assets: KaTeX CSS is needed for server-side render; MathJax when PyKaTeX absent.
                     math_assets = """<script>
@@ -2554,10 +2557,10 @@ window.MathJax = {
 
                     # Render via components.html so scripts (MathJax) execute.
                     try:
-                        components.html(math_assets + "".join(all_previews_html), height=480, scrolling=True)
+                        components.html(css + math_assets + "".join(all_previews_html), height=480, scrolling=True)
                     except Exception:
                         # Fallback: if components fails, fall back to st.markdown
-                        st.markdown(math_assets + "".join(all_previews_html), unsafe_allow_html=True)
+                        st.markdown(css + math_assets + "".join(all_previews_html), unsafe_allow_html=True)
             except Exception:
                 # Preview darf niemals den Export-Bereich komplett kaputtmachen
                 pass
