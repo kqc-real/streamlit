@@ -4,7 +4,7 @@
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
-### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
+### 🚀 Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
 
 **Ziel:** Ein Fragenset vorbereiten, das sich für einen arsnova.click-Wettbewerb eignet.
 
@@ -22,7 +22,7 @@
    - Kolleg:innen bitten, das Set in ihrer Ansicht zu bestätigen (Sharing-Test).
    - Auffälligkeiten als Issues (`Fragenset`, `Vorname@Team-C`) erfassen.
 
-### Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
+### 📦 Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
 
 **Ziel:** Export starten und überprüfen, dass das temporäre Set nach Sitzungsende verschwindet.
 
@@ -37,7 +37,7 @@
 3. **Dokumentation (5 min)**
    - Issues mit Labels `arsnova.click`, `Vorname@Team-C` erstellen.
 
-### Workflow 3: Mit exportiertem Set eine Team-Wettbewerb-Runde durchführen (30 min)
+### 🏆 Workflow 3: Mit exportiertem Set eine Team-Wettbewerb-Runde durchführen (30 min)
 
 **Ziel:** Exportdatei in arsnova.click nutzen und Spielfluss evaluieren.
 
@@ -51,7 +51,7 @@
 3. **Issues erfassen (5 min)**
    - Findings als Issues (`arsnova.click`, `Vorname@Team-C`) hinterlegen.
 
-## Demo-Phase – Nutzerstory zeigen (max. 30 Minuten)
+## 🎤 Demo-Phase – Nutzerstory zeigen (max. 30 Minuten)
 
 1. **Einstieg (5 min)**
    - Zielbild skizzieren: Vom Prompt zum Live-Wettbewerb.

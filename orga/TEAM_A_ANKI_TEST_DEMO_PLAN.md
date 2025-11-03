@@ -4,7 +4,7 @@
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
-### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
+### 🚀 Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
 
 **Ziel:** Ein individuelles Fragenset mithilfe der App-Prompts und einer KI entwickeln und in der App aktivieren.
 
@@ -24,7 +24,7 @@
    - Kolleg:innen bitten, die App zu aktualisieren und die Sichtbarkeit des Sets zu bestätigen.
    - Jede Auffälligkeit als Issue mit Label `Fragenset` + `Vorname@Team-A` festhalten.
 
-### Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
+### 📦 Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
 
 **Ziel:** Test vollständig abschließen, Export sicherstellen und Lösch-Logik des temporären Sets prüfen.
 
@@ -41,7 +41,7 @@
    - Issues für Export/Löschung mit Label `Anki` + `Vorname@Team-A` anlegen, Screenshots anhängen.
 
 
-### Workflow 3: Mit exportiertem Set lernen (30 min)
+### 🧠 Workflow 3: Mit exportiertem Set lernen (30 min)
 
 **Ziel:** Die exportierten Dateien in Anki nutzen und die Lernwirkung erleben.
 
@@ -56,7 +56,7 @@
 3. **Issues anlegen (5 min)**
    - Erkenntnisse als Issues (`Anki`, `Vorname@Team-A`) mit Belegen dokumentieren.
 
-## Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
+## 🎤 Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
 
 1. **Kick-off (3 min)**
    - Zielbild skizzieren: Von Prompt-Download bis zur Lernsession in einem Durchlauf.

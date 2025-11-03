@@ -4,7 +4,7 @@
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
-### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
+### 🚀 Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
 
 **Ziel:** Ein spielbares Fragenset entwerfen, das sich nahtlos in Kahoot! importieren lässt.
 
@@ -21,7 +21,7 @@
    - „🚀 Test mit diesem Fragenset starten“ wählen und Kolleg:innen den Sichtbarkeitstest durchführen lassen.
    - Jede Auffälligkeit als Issue (`Fragenset`, `Vorname@Team-B`) anlegen.
 
-### Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
+### 📦 Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
 
 **Ziel:** Nach einem abgeschlossenen Testlauf den Kahoot!-Export sowie das automatische Löschen des Sets sicherstellen.
 
@@ -36,7 +36,7 @@
 3. **Dokumentation (5 min)**
    - Issues mit Labels `Kahoot`, `Vorname@Team-B` und Screenshots anlegen.
 
-### Workflow 3: Mit exportiertem Set eine Quiz-Runde durchführen (30 min)
+### 🏆 Workflow 3: Mit exportiertem Set eine Quiz-Runde durchführen (30 min)
 
 **Ziel:** Den Export in Kahoot! einsetzen und Spielfluss sowie Ergebnisdarstellung testen.
 
@@ -50,7 +50,7 @@
 3. **Issues erfassen (5 min)**
    - Findings als Issues (`Kahoot`, `Vorname@Team-B`) hinterlegen.
 
-## Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
+## 🎤 Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
 
 1. **Kick-off (3 min)**
    - Zielbild skizzieren: Vom Prompt bis zur Live-Quiz-Session.
