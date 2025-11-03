@@ -1,74 +1,59 @@
 # Team C – arsnova.click: Test- und Demo-Plan (User-Rolle)
 
-## Testphase – Schritt-für-Schritt (insgesamt 90 Minuten)
+## Testphase – 3 Workflows (ca. 90 Minuten)
 
-- Drei Workflows plus Demo-Vorbereitung sind in den 90 Minuten einzuplanen. Zeitangaben dienen als Leitfaden.
+### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
 
-### 1. Vorbereitung (10 min)
-- Rollen festlegen (Uploader:in, Mitspieler:in, Dokumentation).
-- Streamlit-App als normale Nutzer öffnen, aktuelles Standard-Fragenset notieren.
-- arsnova.click-Testraum im Browser bereitstellen (z.B. Raum „BWL-Probe“).
+1. **Prompt-Download (5 min)**
+   - In der Sidebar „Fragenset erstellen“ öffnen.
+   - Prompts anzeigen und einen herunterladen (⬇️ Download).
+   - Inhalt prüfen, Probleme dokumentieren.
 
-### Workflow 1: App-spezifisches Fragenset erstellen und hochladen (30 min)
-1. **Prompt sichern (5 min)**
-   - Im Dialog „Fragenset erstellen“ unter „🤖 Prompts“ den passenden Prompt anzeigen und herunterladen.
-   - Download-Probleme mit Screenshot/Notiz festhalten.
-2. **KI-Chatbot nutzen (15 min)**
-   - Prompt im KI-Chatbot verwenden, Fragen/Antworten generieren.
-   - Iterationen dokumentieren, finale JSON-Datei speichern.
-   - Abweichungen vom App-Format notieren.
-3. **Upload & Teilen verifizieren (10 min)**
-   - JSON in der App hochladen, Hinweise dokumentieren.
-   - „✅ Prüfen und speichern“ sowie „🚀 Test starten“ ausführen.
-   - Mitspieler:innen die Seite neu laden lassen und prüfen, ob das Set sichtbar ist. Rückmeldungen festhalten.
+2. **KI-Chatbot-Sitzung (15 min)**
+   - Prompt in KI-Chatbot einfügen, 5–10 Fragen generieren.
+   - Probleme notieren, JSON speichern (`custom_bwl_set.json`).
 
-### Workflow 2: Export nach Testabschluss (20 min)
-1. **Testlauf absolvieren (10 min)**
-   - Temporäres Set im Testmodus vollständig spielen (oder bis zur Auswertung).
-   - UX-Auffälligkeiten (Navigation, Performance) notieren.
-2. **Exportprüfung (5 min)**
-   - Nach der Auswertung zum Abschnitt „arsnova.click-Export“ wechseln.
-   - Prüfen, ob Export-Button aktiv bleibt.
-3. **Export auslösen (5 min)**
-   - Exportdatei herunterladen, Name/Format/Größe dokumentieren.
-   - Fehlermeldungen oder Wartezeiten festhalten.
+3. **Upload und Validierung (10 min)**
+   - JSON hochladen, prüfen, starten.
+   - Teilen testen, Issues dokumentieren (Labels `Fragenset`, `arsnova.click`).
 
-### Workflow 3: Session mit exportiertem Set durchführen (20 min)
+### Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
+
+1. **Test durchführen (10 min)**
+   - Vollständigen Test mit eigenem Set absolvieren.
+
+2. **Export nach Testende (15 min)**
+   - Zu „arsnova.click-Export“ scrollen, Button klicken, Datei speichern.
+   - Probleme dokumentieren.
+
+3. **Dokumentation (5 min)**
+   - Issues für Workflow 2 erstellen.
+
+### Workflow 3: Mit exportiertem Set eine Team-Wettbewerb-Runde durchführen (30 min)
+
 1. **Import in arsnova.click (10 min)**
-   - Exportierte Datei in euren Raum importieren.
-   - Fragenliste, Antwortoptionen, Medien prüfen.
-2. **Mini-Wettbewerb testen (10 min)**
-   - Modus (Team/Einzel) einstellen, 3 Fragen spielen.
-   - Verhalten der Rangliste und Antwortauswertung dokumentieren.
+   - Datei importieren, Session prüfen (Fragen, Antworten).
 
-### 4. Dokumentation & Demo-Vorbereitung (10 min)
-- Issues im GitHub Project anlegen (Labels `Fragenset`, `arsnova.click`, evtl. `UX`).
-- Demo-Ablauf planen (Prompt-Download → KI-Session → Export → Spielrunde).
-- Benötigte Dateien (Prompt, JSON, Exportdatei) in Team-Ordner legen.
+2. **Wettbewerb starten (15 min)**
+   - Teams bilden, 5–10 Fragen spielen, Rangliste beobachten.
+   - Probleme notieren.
+
+3. **Dokumentation (5 min)**
+   - Issues für Workflow 3 erfassen.
 
 ## Demo-Phase – Nutzerstory zeigen (max. 30 Minuten)
 
 1. **Einstieg (5 min)**
-   - Ziel der Demo erläutern: Temporäres Set als normale Nutzende erstellen, gemeinsam nutzen und in arsnova.click einsetzen.
-   - Timings und Rollen ansagen.
+   - Vollständigen Workflow zeigen.
 
-2. **Live-Erstellung & Teilen (7 min)**
-   - Vor Publikum ein Set hochladen.
-   - Abfrage, ob andere Teilnehmende (z.B. aus Team B) es sehen.
-   - Kurz demonstrieren, dass es nach Sitzungsende verschwindet.
+2. **Workflow 1 & 2 live (15 min)**
+   - Prompt, KI-Sitzung simulieren, Upload, Test, Export.
 
-3. **Export & Import demonstrieren (10 min)**
-   - Export-Button live betätigen, Datei im Download-Ordner zeigen.
-   - Datei in arsnova.click importieren, Einstellungen für Team-Wettbewerb erklären.
-   - Fragenübersicht und Antwortoptionen vorführen.
+3. **Workflow 3: Wettbewerb (8 min)**
+   - Import zeigen, kurze Runde mit 3 Fragen.
 
-4. **Mini-Wettbewerb moderieren (6 min)**
-   - QR-Code oder Link teilen, kleine Runde mit 3 Fragen spielen.
-   - Rangliste im Anschluss vorstellen.
-
-5. **Abschluss (2 min)**
-   - Feedback sammeln, offene Punkte als Issues vormerken.
-   - Termin für Nachbereitung festhalten.
+4. **Abschluss (2 min)**
+   - Offene Issues markieren.
 
 ### Artefakte für die Nachbereitung
 
