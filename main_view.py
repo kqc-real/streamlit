@@ -2075,7 +2075,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
     if st.session_state.get(feedback_key, False):
         with action_cols[1]:
-            st.success("✔️ Danke, dein Feedback wurde übermittelt.")
+            st.success("✔️ Danke, wir schauen uns das an.")
     else:
         # Action-Buttons teilen sich die Spaltengruppe
         with action_cols[1]:
