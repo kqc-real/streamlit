@@ -9,8 +9,25 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## Unreleased
 
-- UX: Use subtle category dividers for the mini-glossary in user-facing PDF exports (matches admin export styling). (2025-10-14)
- - Fix: make formula image cache eviction robust to concurrent deletions; improve export UI (per-export cooldowns, always-enabled "Status prüfen"). (2025-10-18)
+- Noch keine Einträge.
+
+## [1.4.0] - 2025-11-03
+
+### Added
+
+- Sidebar: Neues Feature **"Fragenset erstellen"** mit KI-Prompt-Übersicht, Datei-Upload und JSON-Einfügefeld in einem Dialog.
+- UX: JSON-Einfügepfad für temporäre Fragensets inklusive Inline-Validierung und Statusmeldungen im Dialog.
+- Docs: Prompt-Vorlagen für Kahoot und arsnova.click präzisiert, damit Antwortoptionen konsistent und gleich lang bleiben.
+
+### Changed
+
+- UI: Temporäre Fragensets werden im Start-Selector priorisiert, mit Upload-Timestamp angezeigt und in der Sidebar klar gekennzeichnet.
+- Upload: Eingefügter oder hochgeladener JSON-Text wird vor der Validierung bereinigt (Smart Quotes, RTF-Markup, Zero-Width-Zeichen).
+
+### Fixed
+
+- Stability: Verhindert Exceptions bei der Sitzungsdauer, wenn Start- oder Endzeit nicht gesetzt war.
+- Cleanup: Beim Beenden einer Session werden alle temporären Fragensets des Nutzers zuverlässig aus `data-user` gelöscht.
 
 
 ## [1.3.0] - 2025-10-08 🔒 **SECURITY RELEASE**
