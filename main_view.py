@@ -934,7 +934,7 @@ def render_welcome_page(app_config: AppConfig):
     user_set_lookup = {info.identifier: info for info in user_question_sets_sorted}
     user_set_identifiers = [info.identifier for info in user_question_sets_sorted]
 
-    available_question_files = [*core_question_files, *user_set_identifiers]
+    available_question_files = [*user_set_identifiers, *core_question_files]
 
     if not available_question_files:
         st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
@@ -979,10 +979,10 @@ def render_welcome_page(app_config: AppConfig):
         question_counts[info.identifier] = len(info.question_set)
 
     valid_question_files = [
-        filename for filename in core_question_files if question_counts.get(filename, 0) > 0
+        info.identifier for info in user_question_sets_sorted if question_counts.get(info.identifier, 0) > 0
     ]
     valid_question_files.extend(
-        info.identifier for info in user_question_sets_sorted if question_counts.get(info.identifier, 0) > 0
+        filename for filename in core_question_files if question_counts.get(filename, 0) > 0
     )
 
     if not valid_question_files:
@@ -1018,7 +1018,8 @@ def render_welcome_page(app_config: AppConfig):
             uploaded_at = info.uploaded_at
             if uploaded_at:
                 try:
-                    label += f" 📅 {uploaded_at.strftime('%d.%m.%y')}"
+                    ts = uploaded_at.astimezone() if uploaded_at.tzinfo else uploaded_at
+                    label += f" 📅 {ts.strftime('%d.%m.%y %H:%M')}"
                 except Exception:
                     pass
             return label

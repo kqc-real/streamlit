@@ -51,7 +51,6 @@ def create_admin_session(user_id: str, admin_key: str, timeout_hours: int = 2) -
     """
     # Generiere kryptographisch sicheren Token (32 Bytes = 43 Zeichen Base64)
     session_token = secrets.token_urlsafe(32)
-    
     # Erstelle Hash aus user_id + admin_key + token
     # Dies verhindert Token-Hijacking (Token allein ist nicht ausreichend)
     session_data = f"{user_id}:{admin_key}:{session_token}"
