@@ -154,6 +154,32 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             "ℹ️ Dein Fragenset existiert nur während der aktuellen Session und ist für alle User sichtbar und nutzbar."
         )
 
+        def _process_user_qset_payload(payload: bytes, source_name: str) -> None:
+            """Store a user-provided question set and surface status in the session."""
+            try:
+                info = save_user_question_set(
+                    st.session_state.get("user_id", ""),
+                    payload,
+                    source_name,
+                )
+                st.session_state["user_qset_last_result"] = {
+                    "success": True,
+                    "identifier": info.identifier,
+                    "label": format_user_label(info),
+                    "question_count": len(info.question_set),
+                }
+                st.session_state["selected_questions_file"] = info.identifier
+            except ValueError as exc:
+                st.session_state["user_qset_last_result"] = {
+                    "success": False,
+                    "error": str(exc),
+                }
+            except Exception as exc:  # pragma: no cover - unexpected issues
+                st.session_state["user_qset_last_result"] = {
+                    "success": False,
+                    "error": f"Fehler beim Speichern: {exc}",
+                }
+
         uploader = st.file_uploader(
             "📁 Fragenset als JSON-Datei hochladen",
             type=["json"],
@@ -176,29 +202,31 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             width="stretch",
         ):
             payload = uploader.getvalue()
-            try:
-                info = save_user_question_set(
-                    st.session_state.get("user_id", ""),
-                    payload,
-                    uploader.name,
-                )
-                st.session_state["user_qset_last_result"] = {
-                    "success": True,
-                    "identifier": info.identifier,
-                    "label": format_user_label(info),
-                    "question_count": len(info.question_set),
-                }
-                st.session_state["selected_questions_file"] = info.identifier
-            except ValueError as exc:
-                st.session_state["user_qset_last_result"] = {
-                    "success": False,
-                    "error": str(exc),
-                }
-            except Exception as exc:  # pragma: no cover - unexpected issues
-                st.session_state["user_qset_last_result"] = {
-                    "success": False,
-                    "error": f"Fehler beim Speichern: {exc}",
-                }
+            _process_user_qset_payload(payload, uploader.name)
+
+        st.markdown("### Alternative: JSON-Inhalt einfügen")
+        st.caption("Kopiere den JSON-Text direkt hier hinein. Wir speichern daraus eine valide .json-Datei.")
+
+        def _clear_user_qset_status() -> None:
+            st.session_state.pop("user_qset_last_result", None)
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+
+        pasted_text = st.text_area(
+            "📋 JSON-Inhalt",
+            key="user_qset_pasted_json",
+            height=260,
+            placeholder='{"meta": {...}, "questions": [...]}',
+            on_change=_clear_user_qset_status,
+        )
+
+        if st.button(
+            "✅ Fragenset aus JSON-Text prüfen und speichern",
+            key="user_qset_validate_text_btn",
+            disabled=not pasted_text.strip(),
+            width="stretch",
+        ):
+            _process_user_qset_payload(pasted_text.encode("utf-8"), "pasted.json")
+            st.session_state["user_qset_last_uploaded_name"] = "__pasted__"
 
         status = st.session_state.get("user_qset_last_result")
         if status:

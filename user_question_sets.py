@@ -2,12 +2,13 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from pathlib import Path
-from typing import Iterable, Optional, List
 from functools import lru_cache
+from pathlib import Path
+from typing import Iterable, List, Optional
 
 from config import QuestionSet, get_package_dir, USER_QUESTION_PREFIX
 from config import _build_question_set  # type: ignore[attr-defined]
@@ -21,6 +22,30 @@ except ImportError:  # pragma: no cover - defensive fallback
 USER_QUESTION_DIR_NAME = "data-user"
 MAX_TEMP_QUESTION_COUNT = 30
 MAX_USER_QSET_BYTES = 5 * 1024 * 1024  # 5 MB Upload-Limit
+
+SMART_CHAR_MAP = str.maketrans(
+    {
+        "\u201e": '"',  # German opening quote „
+        "\u201c": '"',  # Left double smart quote “
+        "\u201d": '"',  # Right double smart quote ”
+        "\xab": '"',   # «
+        "\xbb": '"',   # »
+        "\u2039": '"',  # ‹
+        "\u203a": '"',  # ›
+        "\u201a": "'",  # ‚
+        "\u2018": "'",  # ‘
+        "\u2019": "'",  # ’
+        "\u2013": "-",  # –
+        "\u2014": "-",  # —
+    }
+)
+
+ZERO_WIDTH_CHARS = (
+    "\u200b",  # zero-width space
+    "\u200c",  # zero-width non-joiner
+    "\u200d",  # zero-width joiner
+    "\ufeff",  # BOM
+)
 
 
 @dataclass
@@ -112,12 +137,79 @@ def iter_prompt_resources() -> List[PromptResource]:
     return resources
 
 
+def _looks_like_rtf(text: str) -> bool:
+    prefix = text.lstrip()[:20]
+    return prefix.startswith("{\\rtf") or "\\rtf" in prefix
+
+
+def _consume_rtf_escape(source: str, index: int, buffer: list[str], length: int) -> int:
+    if index >= length:
+        return length
+    token = source[index]
+    if token in "\\{}":
+        buffer.append(token)
+        return index + 1
+    if token == "'" and index + 2 < length:
+        hex_code = source[index + 1:index + 3]
+        try:
+            buffer.append(bytes.fromhex(hex_code).decode("cp1252"))
+        except ValueError:
+            pass
+        return index + 3
+    while index < length and source[index].isalpha():
+        index += 1
+    while index < length and source[index] in "0123456789-":
+        index += 1
+    if index < length and source[index] == " ":
+        index += 1
+    return index
+
+
+def _rtf_to_text(source: str) -> str:
+    """Very small RTF stripper that keeps literal characters for pasted JSON."""
+    out: list[str] = []
+    i = 0
+    length = len(source)
+    while i < length:
+        char = source[i]
+        if char == "\\":
+            i = _consume_rtf_escape(source, i + 1, out, length)
+            continue
+        if char in "{}":
+            i += 1
+            continue
+        out.append(char)
+        i += 1
+    return "".join(out)
+
+
+def _sanitize_json_text(text: str) -> str:
+    cleaned = text.replace("\r\n", "\n").replace("\r", "\n")
+    if _looks_like_rtf(cleaned):
+        cleaned = _rtf_to_text(cleaned)
+    cleaned = cleaned.translate(SMART_CHAR_MAP)
+    cleaned = cleaned.replace("\xa0", " ")
+    for marker in ZERO_WIDTH_CHARS:
+        cleaned = cleaned.replace(marker, "")
+    cleaned = re.sub(r"[\u2028\u2029]", "\n", cleaned)
+    return cleaned.strip()
+
+
 def _load_question_set_from_payload(payload: bytes, source_name: str) -> QuestionSet:
     try:
         text = payload.decode("utf-8")
-    except UnicodeDecodeError as exc:
-        raise ValueError("Die Datei muss UTF-8 kodiert sein.") from exc
+    except UnicodeDecodeError:
+        try:
+            text = payload.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            try:
+                text = payload.decode("cp1252")
+            except UnicodeDecodeError as inner_exc:
+                raise ValueError("Die Datei muss UTF-8 oder Windows-1252 kodiert sein.") from inner_exc
 
+    text = _sanitize_json_text(text)
+    if not text:
+        raise ValueError("Die Datei enthält keinen JSON-Inhalt.")
     try:
         data = json.loads(text)
     except json.JSONDecodeError as exc:
