@@ -137,13 +137,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
         st.markdown("---")
         st.subheader("Eigene Fragen hochladen")
+        st.warning("⚠️ Temporäre Fragensets dürfen maximal 30 Fragen enthalten.")
 
         uploader = st.file_uploader(
             "Fragenset als JSON-Datei hochladen",
             type=["json"],
             key="user_qset_uploader",
             accept_multiple_files=False,
-            help="Die Datei muss dem Fragenformat der App entsprechen.",
+            help="Die Datei muss dem Fragenformat der App entsprechen und darf höchstens 30 Fragen enthalten.",
         )
 
         if uploader is not None:

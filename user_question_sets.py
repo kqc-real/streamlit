@@ -19,6 +19,7 @@ except ImportError:  # pragma: no cover - defensive fallback
         return "" if user_id is None else str(abs(hash(user_id)))
 
 USER_QUESTION_DIR_NAME = "data-user"
+MAX_TEMP_QUESTION_COUNT = 30
 
 
 @dataclass
@@ -142,6 +143,12 @@ def save_user_question_set(
     """
 
     question_set = _load_question_set_from_payload(payload, original_filename or "upload.json")
+
+    question_count = len(question_set.questions)
+    if question_count > MAX_TEMP_QUESTION_COUNT:
+        raise ValueError(
+            f"Temporäre Fragensets dürfen höchstens {MAX_TEMP_QUESTION_COUNT} Fragen enthalten (aktuell {question_count})."
+        )
 
     uploaded_at = datetime.now(timezone.utc)
     user_hash = get_user_id_hash(user_id) if user_id else ""
