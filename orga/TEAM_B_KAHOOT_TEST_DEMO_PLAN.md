@@ -50,6 +50,20 @@
 3. **Issues erfassen (5 min)**
    - Findings als Issues (`Kahoot`, `Vorname@Team-B`) hinterlegen.
 
+## 🤝 Gemeinsame Demo-Vorbereitung (ca. 30 Minuten)
+
+1. **Test-Erkenntnisse bündeln (10 min)**
+   - Jedes Teammitglied stellt seine wichtigsten Issues vor.
+   - Themen clustern: UX, Export, Quiz-Durchführung.
+
+2. **Demo-Rollen festlegen (15 min)**
+   - Moderator:in, Prompt-Erklärer:in, Export-Guide, Quiz-Host bestimmen.
+   - Gemeinsame Agenda und Sprecher-Notizen erstellen.
+
+3. **Technik-Check & Trockenlauf (5 min)**
+   - Streamlit-App, Kahoot!-Session und Screensharing testen.
+   - Backup-Plan (z.B. Screenshots) bereithalten.
+
 ## 🎤 Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
 
 1. **Kick-off (3 min)**

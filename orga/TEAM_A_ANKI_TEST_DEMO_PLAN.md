@@ -56,6 +56,20 @@
 3. **Issues anlegen (5 min)**
    - Erkenntnisse als Issues (`Anki`, `Vorname@Team-A`) mit Belegen dokumentieren.
 
+## 🤝 Gemeinsame Demo-Vorbereitung (ca. 30 Minuten)
+
+1. **Ergebnisse zusammentragen (10 min)**
+   - Individuelle Findings in einer kurzen Teamrunde spiegeln.
+   - Dopplungen, offene Fragen und kritischste Bugs priorisieren.
+
+2. **Demo-Drehbuch abstimmen (15 min)**
+   - Rollen für Moderation, KI-Einblick, Export-Schritt und Lernrunde verteilen.
+   - Gemeinsames Slide-/Notizzettel-Set erstellen (inkl. Links zu Issues und Exportdateien).
+
+3. **Generalprobe & Tech-Check (5 min)**
+   - Szenenfolge einmal im Team durchgehen.
+   - Streamlit-App, Anki-Deck und Bildschirmfreigabe testen.
+
 ## 🎤 Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
 
 1. **Kick-off (3 min)**

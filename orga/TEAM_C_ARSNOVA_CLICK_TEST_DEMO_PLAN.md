@@ -51,6 +51,20 @@
 3. **Issues erfassen (5 min)**
    - Findings als Issues (`arsnova.click`, `Vorname@Team-C`) hinterlegen.
 
+## 🤝 Gemeinsame Demo-Vorbereitung (ca. 30 Minuten)
+
+1. **Findings synchronisieren (10 min)**
+   - Individuelle Issues kurz vorstellen und gemeinsam priorisieren.
+   - Fokus auf Besonderheiten beim Sharing, Export und Wettbewerb legen.
+
+2. **Demo-Skript bauen (15 min)**
+   - Verantwortlichkeiten für Prompt-Erklärung, Export-Schritt und Live-Wettbewerb festlegen.
+   - Ablaufplan + Redenotizen in einem gemeinsamen Dokument sammeln.
+
+3. **Technik-Check (5 min)**
+   - Streamlit-App, arsnova.click-Raum, Audio/Video testen.
+   - Backup-Screenshots für den Fall von Verbindungsproblemen sichern.
+
 ## 🎤 Demo-Phase – Nutzerstory zeigen (max. 30 Minuten)
 
 1. **Einstieg (5 min)**
