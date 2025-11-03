@@ -137,7 +137,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
         st.markdown("---")
         st.subheader("Eigene Fragen hochladen")
-        st.warning("⚠️ Dein Fragenset darf maximal 30 Fragen enthalten.")
+        st.warning("⚠️ Dein Fragenset darf maximal 30 Fragen enthalten und höchstens 5 MB groß sein.")
         st.info(
             "ℹ️ Dein Fragenset existiert nur während der aktuellen Session und ist für alle User sichtbar und nutzbar."
         )
@@ -147,7 +147,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             type=["json"],
             key="user_qset_uploader",
             accept_multiple_files=False,
-            help="Die Datei muss dem Fragenformat der App entsprechen und darf höchstens 30 Fragen enthalten.",
+            help="Die Datei muss dem Fragenformat der App entsprechen, darf höchstens 30 Fragen enthalten und max. 5 MB groß sein.",
             width="stretch",
         )
 

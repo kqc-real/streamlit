@@ -20,6 +20,7 @@ except ImportError:  # pragma: no cover - defensive fallback
 
 USER_QUESTION_DIR_NAME = "data-user"
 MAX_TEMP_QUESTION_COUNT = 30
+MAX_USER_QSET_BYTES = 5 * 1024 * 1024  # 5 MB Upload-Limit
 
 
 @dataclass
@@ -141,6 +142,13 @@ def save_user_question_set(
 
     Returns metadata about the stored set. Raises `ValueError` on validation issues.
     """
+
+    payload_size = len(payload)
+    if payload_size > MAX_USER_QSET_BYTES:
+        size_mb = payload_size / (1024 * 1024)
+        raise ValueError(
+            f"Die Datei darf höchstens {MAX_USER_QSET_BYTES // (1024 * 1024)} MB groß sein (aktuell ~{size_mb:.2f} MB)."
+        )
 
     question_set = _load_question_set_from_payload(payload, original_filename or "upload.json")
 
