@@ -28,6 +28,7 @@ from user_question_sets import (
     iter_prompt_resources,
     save_user_question_set,
     delete_user_question_set,
+    delete_sets_for_user,
 )
 
 try:
@@ -958,14 +959,20 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
+            aborted_user_id = st.session_state.get("user_id")
+
             if has_active_user_set and isinstance(active_file, str):
                 delete_user_question_set(active_file)
                 st.session_state["_user_qset_deleted_notice"] = True
 
+            if aborted_user_id:
+                try:
+                    delete_sets_for_user(aborted_user_id)
+                except Exception:
+                    pass
+
             # Entferne Session-Marker aus den Query-Parametern
             st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
-
-            aborted_user_id = st.session_state.get("user_id")
 
             # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
             for key in list(st.session_state.keys()):
