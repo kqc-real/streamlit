@@ -95,10 +95,10 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         return
     st.session_state["_active_dialog"] = "user_qset"
 
-    @st.dialog("Eigenes Fragenset verwenden", width="large")
+    @st.dialog("Fragenset erstellen", width="wide")
     def _dialog() -> None:
         st.markdown(
-            "Nutze die folgenden Prompts, um mithilfe einer KI ein kompatibles Fragenset zu erstellen."
+            "🤖 Diese Prompts helfen dir, mit einer KI schnell ein passendes Fragenset zu generieren."
         )
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
@@ -114,7 +114,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     view_key = f"user_prompt_view_toggle_{prompt.filename}"
                     current_state = bool(prompt_views.get(prompt.filename))
                     if st.button(
-                        "Ansicht" + (" verbergen" if current_state else " anzeigen"),
+                        "👁️ Anzeigen / Verbergen",
                         key=view_key,
                         use_container_width=True,
                     ):
@@ -126,7 +126,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
             with download_col:
                 st.download_button(
-                    "Download",
+                    "⬇️ Download",
                     prompt.content.encode("utf-8"),
                     file_name=prompt.filename,
                     mime="text/markdown",
@@ -137,14 +137,13 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
         st.markdown("---")
         st.subheader("Eigene Fragen hochladen")
-        st.warning("⚠️ Temporäre Fragensets dürfen maximal 30 Fragen enthalten.")
+        st.warning("⚠️ Dein Fragenset darf maximal 30 Fragen enthalten.")
         st.info(
-            "Hinweis: Alle temporären Uploads werden sofort für alle angemeldeten Nutzer sichtbar "
-            "und können gestartet werden."
+            "ℹ️ Dein Fragenset existiert nur während der aktuellen Session und ist für alle User sichtbar und nutzbar."
         )
 
         uploader = st.file_uploader(
-            "Fragenset als JSON-Datei hochladen",
+            "📁 Fragenset als JSON-Datei hochladen",
             type=["json"],
             key="user_qset_uploader",
             accept_multiple_files=False,
@@ -159,7 +158,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.session_state.pop("user_qset_last_uploaded_name", None)
 
         if uploader and st.button(
-            "Fragenset prüfen und speichern",
+            "✅ Fragenset prüfen und speichern",
             key="user_qset_validate_btn",
             use_container_width=True,
         ):
@@ -200,7 +199,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 if not can_start:
                     st.info("Bitte melde dich an, bevor du den Test startest.")
                 if st.button(
-                    "Test mit diesem Fragenset starten",
+                    "🚀 Test mit diesem Fragenset starten",
                     key="user_qset_start_btn",
                     disabled=not can_start,
                     use_container_width=True,
@@ -210,7 +209,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.error(status.get("error", "Unbekannter Fehler beim Prüfen des Fragensets."))
 
         st.divider()
-        if st.button("Fenster schließen", key="user_qset_close_btn", use_container_width=True):
+        if st.button("✖️ Fenster schließen", key="user_qset_close_btn", use_container_width=True):
             st.session_state["user_qset_dialog_open"] = False
             st.session_state.pop("user_qset_last_result", None)
             st.session_state.pop("user_qset_last_uploaded_name", None)
