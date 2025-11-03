@@ -116,7 +116,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     if st.button(
                         "👁️ Anzeigen / Verbergen",
                         key=view_key,
-                        use_container_width=True,
+                        width="stretch",
                     ):
                         prompt_views[prompt.filename] = not current_state
                         st.session_state["_prompt_inline_views"] = prompt_views
@@ -132,7 +132,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     mime="text/markdown",
                     key=f"user_prompt_download_{prompt.filename}",
                     disabled=prompt_empty,
-                    use_container_width=True,
+                    width="stretch",
                 )
 
         st.markdown("---")
@@ -148,6 +148,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             key="user_qset_uploader",
             accept_multiple_files=False,
             help="Die Datei muss dem Fragenformat der App entsprechen und darf höchstens 30 Fragen enthalten.",
+            width="stretch",
         )
 
         if uploader is not None:
@@ -160,7 +161,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         if uploader and st.button(
             "✅ Fragenset prüfen und speichern",
             key="user_qset_validate_btn",
-            use_container_width=True,
+            width="stretch",
         ):
             payload = uploader.getvalue()
             try:
@@ -202,14 +203,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     "🚀 Test mit diesem Fragenset starten",
                     key="user_qset_start_btn",
                     disabled=not can_start,
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     _start_test_with_user_set(status["identifier"], app_config)
             else:
                 st.error(status.get("error", "Unbekannter Fehler beim Prüfen des Fragensets."))
 
         st.divider()
-        if st.button("✖️ Fenster schließen", key="user_qset_close_btn", use_container_width=True):
+    if st.button("✖️ Fenster schließen", key="user_qset_close_btn", width="stretch"):
             st.session_state["user_qset_dialog_open"] = False
             st.session_state.pop("user_qset_last_result", None)
             st.session_state.pop("user_qset_last_uploaded_name", None)
@@ -814,7 +815,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     if st.sidebar.button(
         "Fragenset erstellen",
         key="user_qset_open_btn",
-        use_container_width=True,
+        width="stretch",
     ):
         current_open = bool(st.session_state.get("user_qset_dialog_open"))
         active_dialog = st.session_state.get("_active_dialog")
@@ -1277,7 +1278,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
         # Non-critical: if building the summary fails, continue without it
         pass
 
-    st.plotly_chart(fig, config={"responsive": True}, use_container_width=True)
+    st.plotly_chart(fig, config={"responsive": True}, width="stretch")
 
 
 def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:

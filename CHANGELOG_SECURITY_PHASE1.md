@@ -24,7 +24,7 @@ Phase 1 der Sicherheitsmaßnahmen aus `SECURITY_ANALYSIS_ADMIN_AUTH.md` wurde im
 **Vorher:**
 ```python
 if not app_config.admin_key:
-    if st.sidebar.button("📊 Admin-Panel öffnen", use_container_width=True, type="primary"):
+    if st.sidebar.button("📊 Admin-Panel öffnen", width="stretch", type="primary"):
         st.session_state.show_admin_panel = True
         st.rerun()
 ```
@@ -34,7 +34,7 @@ if not app_config.admin_key:
 if not app_config.admin_key:
     st.sidebar.warning("⚠️ **Admin-Key nicht gesetzt!**\n\nNur für lokale Entwicklung geeignet. "
                      "Für Produktion bitte `MC_TEST_ADMIN_KEY` setzen.")
-    if st.sidebar.button("📊 Admin-Panel öffnen (UNSICHER)", use_container_width=True, type="secondary"):
+    if st.sidebar.button("📊 Admin-Panel öffnen (UNSICHER)", width="stretch", type="secondary"):
         st.session_state.show_admin_panel = True
         st.rerun()
 ```

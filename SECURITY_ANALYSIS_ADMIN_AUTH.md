@@ -86,13 +86,13 @@ def render_admin_switch(app_config: AppConfig):
 
     if is_panel_active:
         st.sidebar.info("Du bist im Admin-Modus.")
-        if st.sidebar.button("⬅️ Zurück zum Test", use_container_width=True):
+    if st.sidebar.button("⬅️ Zurück zum Test", width="stretch"):
             st.session_state.show_admin_panel = False
             st.rerun()
     else:
         # Wenn kein Admin-Key konfiguriert ist, erlaube direkten Zugang (für lokale Tests)
         if not app_config.admin_key:
-            if st.sidebar.button("📊 Admin-Panel öffnen", use_container_width=True, type="primary"):
+            if st.sidebar.button("📊 Admin-Panel öffnen", width="stretch", type="primary"):
                 st.session_state.show_admin_panel = True
                 st.rerun()
         else:
@@ -188,7 +188,7 @@ Wenn `MC_TEST_ADMIN_KEY=""` (empfohlen für lokale Entwicklung), entfällt die z
 ```python
 # Wenn kein Admin-Key konfiguriert ist, erlaube direkten Zugang (für lokale Tests)
 if not app_config.admin_key:
-    if st.sidebar.button("📊 Admin-Panel öffnen", use_container_width=True, type="primary"):
+    if st.sidebar.button("📊 Admin-Panel öffnen", width="stretch", type="primary"):
         st.session_state.show_admin_panel = True
 ```
 
@@ -204,7 +204,7 @@ if not app_config.admin_key:
 # Option 1: Warnung bei leerem Admin-Key
 if not app_config.admin_key:
     st.sidebar.warning("⚠️ Admin-Key nicht gesetzt! Nur für lokale Entwicklung.")
-    if st.sidebar.button("📊 Admin-Panel öffnen (UNSAFE)", use_container_width=True):
+    if st.sidebar.button("📊 Admin-Panel öffnen (UNSAFE)", width="stretch"):
         st.session_state.show_admin_panel = True
 
 # Option 2: Admin-Key immer erforderlich
