@@ -12,6 +12,7 @@ import pandas as pd
 import os
 import time
 import json as _json
+from datetime import datetime
 
 from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX
 from logic import calculate_score, is_test_finished
@@ -923,8 +924,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             # Berechne finale Werte vor dem Löschen der Session
             final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
             duration_seconds = 0
-            if "test_start_time" in st.session_state and "test_end_time" in st.session_state:
-                duration_seconds = (st.session_state.test_end_time - st.session_state.test_start_time).total_seconds()
+            start_time = st.session_state.get("test_start_time")
+            end_time = st.session_state.get("test_end_time")
+            if isinstance(start_time, datetime) and isinstance(end_time, datetime):
+                duration_seconds = (end_time - start_time).total_seconds()
 
             # Prüfe, ob der Nutzer es ins Leaderboard schaffen wird
             from database import get_all_logs_for_leaderboard
