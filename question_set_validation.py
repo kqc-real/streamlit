@@ -1,11 +1,10 @@
 """Shared validation helpers for multiple-choice question sets."""
 from __future__ import annotations
 
-"""Shared validation helpers for multiple-choice question sets."""
-from __future__ import annotations
-
 import re
 from typing import Any, Dict, List, Tuple
+
+from helpers import sanitize_html
 
 MIN_THEMA_OCCURRENCES = 2
 MAX_UNIQUE_THEMES = 10
@@ -22,9 +21,16 @@ def _check_string(value: Any, context: str, errors: List[str]) -> str:
     if not isinstance(value, str) or not value.strip():
         errors.append(f"{context} muss ein nicht-leerer Text sein.")
         return ""
-    if LATEX_IN_BACKTICKS_PATTERN.search(value):
+    sanitized, modified = sanitize_html(value)
+    sanitized = sanitized.strip()
+    if modified:
+        errors.append(f"{context}: Unsichere HTML-Tags sind nicht erlaubt.")
+    if not sanitized:
+        errors.append(f"{context} darf nach dem Bereinigen nicht leer sein.")
+        return ""
+    if LATEX_IN_BACKTICKS_PATTERN.search(sanitized):
         errors.append(f"{context}: LaTeX darf nicht in Backticks stehen.")
-    return value.strip()
+    return sanitized
 
 
 def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], List[str]]:

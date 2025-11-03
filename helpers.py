@@ -6,10 +6,100 @@ from __future__ import annotations
 import hashlib
 import ipaddress
 import re
+from html.parser import HTMLParser
 from typing import Optional, Union
+import html as _html
 
 
 ACTIVE_SESSION_QUERY_PARAM = "active_session"
+
+
+SAFE_HTML_TAGS = {
+    "b",
+    "strong",
+    "i",
+    "em",
+    "u",
+    "sup",
+    "sub",
+    "code",
+    "pre",
+    "br",
+    "p",
+    "ul",
+    "ol",
+    "li",
+}
+
+_VOID_HTML_TAGS = {"br"}
+
+
+class _SafeHTMLSanitizer(HTMLParser):
+    """Whitelist-only HTML sanitizer to strip dangerous tags/attributes."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=False)
+        self._parts: list[str] = []
+        self.modified: bool = False
+
+    def handle_starttag(self, tag: str, attrs) -> None:  # type: ignore[override]
+        if tag in SAFE_HTML_TAGS:
+            if attrs:
+                self.modified = True
+            self._parts.append(f"<{tag}>")
+        else:
+            self.modified = True
+
+    def handle_endtag(self, tag: str) -> None:  # type: ignore[override]
+        if tag in SAFE_HTML_TAGS and tag not in _VOID_HTML_TAGS:
+            self._parts.append(f"</{tag}>")
+        else:
+            self.modified = True
+
+    def handle_startendtag(self, tag: str, attrs) -> None:  # type: ignore[override]
+        if tag in SAFE_HTML_TAGS:
+            if attrs:
+                self.modified = True
+            if tag in _VOID_HTML_TAGS:
+                self._parts.append(f"<{tag}>")
+            else:
+                self._parts.append(f"<{tag}></{tag}>")
+        else:
+            self.modified = True
+
+    def handle_data(self, data: str) -> None:  # type: ignore[override]
+        if data:
+            self._parts.append(_html.escape(data, quote=False))
+
+    def handle_entityref(self, name: str) -> None:  # type: ignore[override]
+        self._parts.append(f"&{name};")
+
+    def handle_charref(self, name: str) -> None:  # type: ignore[override]
+        self._parts.append(f"&#{name};")
+
+    def handle_comment(self, data: str) -> None:  # type: ignore[override]
+        self.modified = True
+
+    def handle_decl(self, decl: str) -> None:  # type: ignore[override]
+        self.modified = True
+
+    def handle_pi(self, data: str) -> None:  # type: ignore[override]
+        self.modified = True
+
+    def get_sanitized_html(self) -> str:
+        return "".join(self._parts)
+
+
+def sanitize_html(value: str) -> tuple[str, bool]:
+    """Strip dangerous HTML tags/attributes while preserving a safe subset."""
+
+    if not value:
+        return "", False
+
+    parser = _SafeHTMLSanitizer()
+    parser.feed(value)
+    parser.close()
+    return parser.get_sanitized_html(), parser.modified
 
 
 def get_user_id_hash(user_id: str) -> str:

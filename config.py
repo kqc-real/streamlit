@@ -15,6 +15,8 @@ from pathlib import Path
 from typing import List, Dict, Any
 import streamlit as st
 
+from helpers import sanitize_html
+
 
 def _identity_cache_decorator(func):
     """Fallback, wenn Streamlit kein cache_data/cache_resource kennt."""
@@ -222,6 +224,32 @@ def _build_question_set(
     meta: Dict[str, Any] = {}
     raw_questions: Any = []
 
+    def _sanitize_text(value: Any, context: str) -> str:
+        if not isinstance(value, str):
+            return ""
+        sanitized, modified = sanitize_html(value)
+        sanitized = sanitized.strip()
+        if modified and not silent:
+            st.warning(
+                f"In '{filename}' wurde potenziell unsichere HTML-Auszeichnung entfernt ({context})."
+            )
+        return sanitized
+
+    def _sanitize_nested(value: Any, context: str) -> Any:
+        if isinstance(value, str):
+            return _sanitize_text(value, context)
+        if isinstance(value, list):
+            sanitized_list = []
+            for idx, item in enumerate(value, start=1):
+                sanitized_list.append(_sanitize_nested(item, f"{context}[{idx}]"))
+            return sanitized_list
+        if isinstance(value, dict):
+            sanitized_dict: Dict[str, Any] = {}
+            for key, nested_value in value.items():
+                sanitized_dict[key] = _sanitize_nested(nested_value, f"{context}.{key}")
+            return sanitized_dict
+        return value
+
     if isinstance(data, dict):
         raw_questions = data.get("questions", [])
         meta_candidate = data.get("meta") or {}
@@ -251,16 +279,47 @@ def _build_question_set(
             continue
         question = dict(raw_question)
 
-        frage_text = question.get("frage", "")
+        frage_text = _sanitize_text(question.get("frage", ""), f"Frage {i + 1}: frage")
         if isinstance(frage_text, str) and frage_text and frage_text[0].isdigit():
             dot_pos = frage_text.find(".")
             if 0 < dot_pos < len(frage_text) - 1 and frage_text[:dot_pos].isdigit():
                 frage_text = frage_text.split(".", 1)[-1].strip()
         question["frage"] = f"{i + 1}. {frage_text}".strip()
 
+        if "thema" in question:
+            question["thema"] = _sanitize_text(
+                question.get("thema", ""), f"Frage {i + 1}: thema"
+            )
+
+        if "erklaerung" in question:
+            question["erklaerung"] = _sanitize_nested(
+                question.get("erklaerung"), f"Frage {i + 1}: erklaerung"
+            )
+
+        optionen_raw = question.get("optionen")
+        if isinstance(optionen_raw, list):
+            sanitized_options = []
+            for opt_idx, opt in enumerate(optionen_raw, start=1):
+                sanitized_options.append(
+                    _sanitize_text(opt, f"Frage {i + 1}: Option {opt_idx}")
+                )
+            question["optionen"] = sanitized_options
+
+        mini_glossary = question.get("mini_glossary")
+        if isinstance(mini_glossary, dict):
+            sanitized_glossary: Dict[str, Any] = {}
+            for term, definition in mini_glossary.items():
+                sanitized_term = _sanitize_text(str(term), f"Frage {i + 1}: Begriff")
+                sanitized_definition = _sanitize_text(
+                    str(definition), f"Frage {i + 1}: Begriffserklärung"
+                )
+                sanitized_glossary[sanitized_term] = sanitized_definition
+            question["mini_glossary"] = sanitized_glossary
+
         questions.append(question)
 
     meta.setdefault("title", _infer_title_from_filename(filename))
+    meta = _sanitize_nested(meta, f"Meta in '{filename}'") if meta else meta
     meta["question_count"] = len(questions)
     meta["difficulty_profile"] = _compute_difficulty_profile(questions)
     meta["computed_test_duration_minutes"] = _compute_recommended_duration_minutes(meta, questions)
