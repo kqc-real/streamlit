@@ -1,5 +1,7 @@
 # Team C – arsnova.click: Test- und Demo-Plan (User-Rolle)
 
+**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, persönliche Arbeitsspuren in GitHub zu hinterlassen (also alles mit seinem Namen "Vorname@Team-C" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
+
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
 ### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
