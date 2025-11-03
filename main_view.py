@@ -50,7 +50,7 @@ KAHOOT_IMPORT_RULES = [
     "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
     "Datei darf höchstens 500 Fragen enthalten",
 ]
-from components import render_question_distribution_chart
+from components import render_question_distribution_chart, close_user_qset_dialog
 import logging
 from auth import initialize_session_state, is_admin_user
 
@@ -1661,6 +1661,16 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # non-modal, collapsible history view that is available when the user
     # restored via pseudonym+secret.
 
+    def _dismiss_user_qset_dialog_from_test() -> None:
+        """Schließt den User-Fragenset-Dialog, sobald der Nutzer mit dem Test interagiert."""
+        if st.session_state.get("user_qset_dialog_open"):
+            close_user_qset_dialog(clear_results=False)
+
+    def _dismiss_user_qset_dialog_and_rerun() -> None:
+        if st.session_state.get("user_qset_dialog_open"):
+            close_user_qset_dialog(clear_results=False)
+            st.session_state["_needs_rerun"] = True
+
     # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
@@ -1763,6 +1773,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             disabled=is_answered,
             label_visibility="collapsed",
             format_func=lambda x: smart_quotes_de(optionen[x]),
+            on_change=_dismiss_user_qset_dialog_and_rerun,
         )
 
         antwort = optionen[selected_index] if selected_index is not None else None
@@ -1782,11 +1793,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
                 new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
                 if new_bookmark_state != is_bookmarked:
+                    _dismiss_user_qset_dialog_from_test()
                     handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
                     st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
             with col2:
                 # Überspringen-Button
                 if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", width="stretch"):
+                    _dismiss_user_qset_dialog_from_test()
                     # Verschiebe die aktuelle Frage ans Ende der Liste
                     frage_indices = st.session_state.get("frage_indices", [])
                     if frage_idx in frage_indices:
@@ -1809,6 +1822,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     width="stretch",
                     disabled=(antwort is None),
                 ):
+                    _dismiss_user_qset_dialog_from_test()
                     # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
                     handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         
@@ -1840,6 +1854,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             type="primary",
                             width="stretch",
                         ):
+                            _dismiss_user_qset_dialog_from_test()
                             # Resume to next unanswered question
                             st.session_state["jump_to_idx"] = next_idx
                             st.session_state.jump_to_idx_active = False
@@ -1858,6 +1873,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             type="primary",
                             width="stretch",
                         ):
+                            _dismiss_user_qset_dialog_from_test()
                             # Clear overlays and jump flags so app shows final summary
                             try:
                                 st.session_state.jump_to_idx_active = False
@@ -1917,6 +1933,8 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
 
 def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
     """Verarbeitet die Abgabe einer Antwort."""
+    if st.session_state.get("user_qset_dialog_open"):
+        close_user_qset_dialog(clear_results=False)
     # --- Rate Limiting ---
     last_answer_time = st.session_state.get("last_answer_time", 0)
     current_time = time.time()
@@ -2036,6 +2054,8 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
         new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=bookmark_key)
         if new_bookmark_state != is_bookmarked:
+            if st.session_state.get("user_qset_dialog_open"):
+                close_user_qset_dialog(clear_results=False)
             handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
             st.rerun()
 
@@ -2187,6 +2207,8 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
         col1, col2 = st.columns(2)
         with col1:
             if st.button("⬅️ Vorherige Frage", key=f"prev_q_{frage_idx}", type="secondary", width="stretch"):
+                if st.session_state.get("user_qset_dialog_open"):
+                    close_user_qset_dialog(clear_results=False)
                 prev_idx = answered_indices[current_review_pos - 1]
                 st.session_state[f"show_explanation_{frage_idx}"] = False
                 st.session_state[f"show_explanation_{prev_idx}"] = True
@@ -2210,6 +2232,8 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
             button_text = "Zur Testauswertung 🏁" if is_last_question_in_test else "Nächste Frage ➡️"
 
         if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
+            if st.session_state.get("user_qset_dialog_open"):
+                close_user_qset_dialog(clear_results=False)
             st.session_state[f"show_explanation_{frage_idx}"] = False
             
             if is_in_review_mode:

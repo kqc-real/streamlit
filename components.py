@@ -39,6 +39,22 @@ except (ImportError, AttributeError):
         return False
 
 
+def close_user_qset_dialog(*, clear_results: bool = True, clear_active_toast: bool = False) -> None:
+    """Schließt den Dialog zur Erstellung temporärer Fragensets und räumt Zustände auf."""
+    try:
+        st.session_state["user_qset_dialog_open"] = False
+        if clear_results:
+            st.session_state.pop("user_qset_last_result", None)
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+        if clear_active_toast:
+            st.session_state.pop("user_qset_active_toast", None)
+        if st.session_state.get("_active_dialog") == "user_qset":
+            st.session_state["_active_dialog"] = None
+    except Exception:
+        # Session-State-Zugriffe dürfen keine Fehler werfen, damit die UI stabil bleibt.
+        pass
+
+
 def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     user_id = st.session_state.get("user_id")
     user_hash = st.session_state.get("user_id_hash")
@@ -79,12 +95,8 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     except Exception:
         pass
 
-    st.session_state["user_qset_dialog_open"] = False
-    st.session_state.pop("user_qset_last_result", None)
-    st.session_state.pop("user_qset_last_uploaded_name", None)
+    close_user_qset_dialog(clear_results=True)
     st.session_state["user_qset_active_toast"] = format_user_label(info)
-    if st.session_state.get("_active_dialog") == "user_qset":
-        st.session_state["_active_dialog"] = None
     st.session_state["_needs_rerun"] = True
     st.rerun()
 
@@ -210,12 +222,8 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.error(status.get("error", "Unbekannter Fehler beim Prüfen des Fragensets."))
 
         st.divider()
-    if st.button("✖️ Fenster schließen", key="user_qset_close_btn", width="stretch"):
-            st.session_state["user_qset_dialog_open"] = False
-            st.session_state.pop("user_qset_last_result", None)
-            st.session_state.pop("user_qset_last_uploaded_name", None)
-            if st.session_state.get("_active_dialog") == "user_qset":
-                st.session_state["_active_dialog"] = None
+        if st.button("✖️ Fenster schließen", key="user_qset_close_btn", width="stretch"):
+            close_user_qset_dialog(clear_results=True)
             st.rerun()
 
     _dialog()
@@ -821,12 +829,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         active_dialog = st.session_state.get("_active_dialog")
 
         if current_open:
-            st.session_state["user_qset_dialog_open"] = False
-            if active_dialog == "user_qset":
-                st.session_state["_active_dialog"] = None
-            st.session_state.pop("user_qset_last_result", None)
-            st.session_state.pop("user_qset_last_uploaded_name", None)
-            st.session_state.pop("user_qset_active_toast", None)
+            close_user_qset_dialog(clear_results=True, clear_active_toast=True)
             st.rerun()
         elif active_dialog and active_dialog != "user_qset":
             st.sidebar.warning("Schließe zuerst den geöffneten Dialog, bevor du ein neues Fragenset erstellst.")
