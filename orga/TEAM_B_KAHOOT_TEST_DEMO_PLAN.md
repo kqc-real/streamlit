@@ -1,6 +1,6 @@
 # Team B – Kahoot: Test- und Demo-Plan (User-Rolle)
 
-**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, persönliche Arbeitsspuren in GitHub zu hinterlassen (also alles mit seinem Namen "Vorname@Team-B" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
+**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, **persönliche Arbeitsspuren in GitHub** zu hinterlassen (also alles mit eigenem Namen "Vorname@Team-B" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
@@ -13,7 +13,7 @@
 
 2. **KI-Chatbot-Sitzung (15 min)**
    - Prompt in KI-Chatbot einfügen, 5–10 Fragen generieren.
-   - Probleme notieren, JSON speichern (`custom_bwl_set.json`).
+   - Probleme notieren, JSON speichern (`custom_TeamB_set.json`).
 
 3. **Upload und Validierung (10 min)**
    - JSON hochladen, prüfen, starten.

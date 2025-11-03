@@ -1,6 +1,6 @@
 # Team A – Anki: Test- und Demo-Plan (User-Rolle)
 
-**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, persönliche Arbeitsspuren in GitHub zu hinterlassen (also alles mit seinem Namen "Vorname@Team-A" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
+**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, **persönliche Arbeitsspuren in GitHub** zu hinterlassen (also alles mit eigenem Namen "Vorname@Team-A" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
@@ -15,7 +15,7 @@
    - Den heruntergeladenen Prompt in einen KI-Chatbot (z.B. ChatGPT) kopieren.
    - Eine Beispiel-Fragenset-Erstellung durchführen: Prompt befolgen, um 5–10 Fragen zu generieren.
    - Auf Probleme achten (z.B. Formatfehler, unklare Anweisungen) und notieren.
-   - Generiertes Fragenset als JSON speichern (Dateiname: `custom_bwl_set.json`).
+   - Generiertes Fragenset als JSON speichern (Dateiname: `custom_TeamA_set.json`).
 
 3. **Upload und Validierung (10 min)**
    - Zurück in der Streamlit-App: JSON-Datei hochladen.
