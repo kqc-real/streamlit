@@ -1,73 +1,79 @@
 # Team A – Anki: Test- und Demo-Plan (User-Rolle)
 
-**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, **persönliche Arbeitsspuren in GitHub** zu hinterlassen (also alles mit eigenem Namen "Vorname@Team-A" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
+**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied eigenständig zu durchlaufen. Ziel ist, nachvollziehbare Spuren in GitHub zu hinterlassen – nutzt dafür konsequent Labels wie `Vorname@Team-A`. Die Demo-Vorbereitung erledigt ihr anschließend gemeinsam als Team.
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
 ### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
-1. **Prompt-Download (5 min)**
-   - In der Sidebar „Fragenset erstellen“ öffnen.
-   - Im Dialog die verfügbaren Prompts anzeigen (👁️ Anzeigen / Verbergen klicken).
-   - Einen Prompt auswählen und über „⬇️ Download“ als Markdown-Datei speichern.
-   - Datei öffnen und Inhalt prüfen (z.B. in einem Texteditor). Probleme (z.B. fehlende Anweisungen) dokumentieren.
 
-2. **KI-Chatbot-Sitzung (15 min)**
-   - Den heruntergeladenen Prompt in einen KI-Chatbot (z.B. ChatGPT) kopieren.
-   - Eine Beispiel-Fragenset-Erstellung durchführen: Prompt befolgen, um 5–10 Fragen zu generieren.
-   - Auf Probleme achten (z.B. Formatfehler, unklare Anweisungen) und notieren.
-   - Generiertes Fragenset als JSON speichern (Dateiname: `custom_TeamA_set.json`).
+**Ziel:** Ein individuelles Fragenset mithilfe der App-Prompts und einer KI entwickeln und in der App aktivieren.
 
-3. **Upload und Validierung (10 min)**
-   - Zurück in der Streamlit-App: JSON-Datei hochladen.
-   - „✅ Fragenset prüfen und speichern“ klicken, Meldungen festhalten.
-   - „🚀 Test mit diesem Fragenset starten“ auswählen.
-   - Teilen testen: Partner:innen prüfen, ob das Set sichtbar ist.
-   - Alle Schritte und Probleme als Issue im GitHub Project dokumentieren (Labels `Fragenset`, `Anki`).
+1. **Prompt sichern (5 min)**
+   - Sidebar → „Fragenset erstellen“ öffnen.
+   - Passenden Prompt anzeigen (👁️) und über „⬇️ Download“ speichern.
+   - Prompt-Inhalt prüfen; fehlende Hinweise oder Unklarheiten sofort notieren.
+
+2. **KI-Sitzung durchführen (15 min)**
+   - Prompt in den KI-Chatbot deiner Wahl einfügen.
+   - 5–10 gut strukturierte Fragen erzeugen lassen und das Ergebnis als JSON aufbereiten.
+   - Datei als `custom_TeamA_set.json` speichern; Formatfehler dokumentieren.
+
+3. **Upload & Sharing testen (10 min)**
+   - JSON-Datei hochladen und „✅ Fragenset prüfen und speichern“ klicken.
+   - „🚀 Test mit diesem Fragenset starten“ wählen.
+   - Kolleg:innen bitten, die App zu aktualisieren und die Sichtbarkeit des Sets zu bestätigen.
+   - Jede Auffälligkeit als Issue mit Label `Fragenset` + `Vorname@Team-A` festhalten.
 
 ### Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
-1. **Test durchführen (10 min)**
-   - Mit dem erstellten Fragenset einen vollständigen Test absolvieren (alle Fragen beantworten).
-   - Auf UX-Probleme achten (z.B. Navigation, Zeitdruck).
 
-2. **Export nach Testende (15 min)**
-   - Nach Testabschluss im Hauptbereich zu „📦 Anki-Lernkarten“ scrollen.
-   - „Anki-Paket (.apkg) erstellen“ und „Anki-TSV exportieren“ ausführen.
-   - Dateien speichern, Namen/Größen notieren.
-   - Probleme (z.B. fehlende Buttons, Fehler) dokumentieren.
+**Ziel:** Test vollständig abschließen, Export sicherstellen und Lösch-Logik des temporären Sets prüfen.
 
-3. **Dokumentation (5 min)**
-   - Issues für Workflow 2 erstellen, Screenshots anhängen.
+1. **Test absolvieren (10 min)**
+   - Alle Fragen des eigenen Sets beantworten.
+   - UX-Hürden (Navigation, Timer, Feedback) notieren.
 
-### Workflow 3: Mit exportiertem Set eine Lernsession durchführen (30 min)
-1. **Import in Anki (10 min)**
-   - APKG-Datei in Anki importieren, Deck prüfen (Fragen/Antworten, Layout).
-
-2. **Lernsession starten (15 min)**
-   - In Anki eine Lernrunde mit 5–10 Karten durchführen.
-   - Spaced Repetition beobachten (z.B. Intervalle, Wiederholungen).
-   - Probleme (z.B. falsche Formatierung) notieren.
+2. **Export starten & Löschung prüfen (15 min)**
+   - Nach dem Ergebnisbildschirm zu „📦 Anki-Lernkarten“ scrollen.
+   - „Anki-Paket (.apkg) erstellen“ und „Anki-TSV exportieren“ ausführen, Dateien sichern.
+   - „⚠️ Session beenden“ wählen, App neu laden und kontrollieren, dass das Set bei allen verschwindet.
 
 3. **Dokumentation (5 min)**
-   - Issues für Workflow 3 erfassen.
+   - Issues für Export/Löschung mit Label `Anki` + `Vorname@Team-A` anlegen, Screenshots anhängen.
+
+
+### Workflow 3: Mit exportiertem Set lernen (30 min)
+
+**Ziel:** Die exportierten Dateien in Anki nutzen und die Lernwirkung erleben.
+
+1. **Import prüfen (10 min)**
+   - APKG in Anki importieren, Kartenlayout und Medien kontrollieren.
+   - TSV in Tabellenkalkulation öffnen, Spaltenstruktur prüfen.
+
+2. **Spaced-Repetition testen (15 min)**
+   - Lernrunde mit 5–10 Karten absolvieren, Intervall-Vorschläge beobachten.
+   - Auffälligkeiten (z.B. doppelte Karten) festhalten.
+
+3. **Issues anlegen (5 min)**
+   - Erkenntnisse als Issues (`Anki`, `Vorname@Team-A`) mit Belegen dokumentieren.
 
 ## Demo-Phase – Nutzerjourney präsentieren (max. 30 Minuten)
 
-1. **Rahmen setzen (3 min)**
-   - Ziel: Vollständigen Workflow von Prompt-Download bis Anki-Lernsession zeigen.
+1. **Kick-off (3 min)**
+   - Zielbild skizzieren: Von Prompt-Download bis zur Lernsession in einem Durchlauf.
 
-2. **Workflow 1 & 2 live (15 min)**
-   - Prompt-Download und KI-Sitzung simulieren (z.B. vorgefertigten Prompt zeigen).
-   - Upload, Testdurchlauf und Export demonstrieren.
+2. **Workflows 1 & 2 demonstrieren (15 min)**
+   - Prompt-Download zeigen, KI-Output kurz einordnen.
+   - Upload, Sharing und Export live durchführen.
 
-3. **Workflow 3: Lernsession (10 min)**
-   - Import in Anki zeigen, kurze Lernrunde mit 3 Karten.
-   - Fragen sammeln.
+3. **Workflow 3 hervorheben (10 min)**
+   - Import ins Team-Anki-Deck und Mini-Lernrunde (3 Karten) präsentieren.
+   - Publikumsfragen sammeln.
 
-4. **Abschluss (2 min)**
-   - Offene Issues markieren.
+4. **Wrap-up (2 min)**
+   - Offene Issues im GitHub Board markieren, nächstes Sprint-Ziel nennen.
 
 ### Artefakte für die Nachbereitung
 
-- Liste aller erstellten Issues inklusive Links.
-- Gespeicherte Exportdateien (APKG, TSV) und eventuell verwendete Test-Fragensets.
-- Screenshots aus der Demo (Dialog, Download, Anki-Ansicht).
+- Verlinkte Issues (inkl. Label `Vorname@Team-A`).
+- Exportdateien (APKG, TSV) plus das finale JSON-Set.
+- Screenshots/Videos der Workflows und Demo.

@@ -1,64 +1,72 @@
 # Team C – arsnova.click: Test- und Demo-Plan (User-Rolle)
 
-**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied selbstständig durchzuführen. Es geht insbesondere darum, **persönliche Arbeitsspuren in GitHub** zu hinterlassen (also alles mit eigenem Namen "Vorname@Team-C" als Label zu dokumentieren). Die Demo-Vorbereitungsphase soll dann als Team durchgeführt werden.
+**Präambel:** Die drei Test-Workflows sind von jedem Teammitglied eigenständig zu durchlaufen. Legt für jede Erkenntnis ein Issue mit Label `Vorname@Team-C` an. Die Demo wird anschließend als Team vorbereitet.
 
 ## Testphase – 3 Workflows (ca. 90 Minuten)
 
 ### Workflow 1: Eigenes app-spezifisches Fragenset erstellen (30 min)
 
-1. **Prompt-Download (5 min)**
-   - In der Sidebar „Fragenset erstellen“ öffnen.
-   - Prompts anzeigen und einen herunterladen (⬇️ Download).
-   - Inhalt prüfen, Probleme dokumentieren.
+**Ziel:** Ein Fragenset vorbereiten, das sich für einen arsnova.click-Wettbewerb eignet.
 
-2. **KI-Chatbot-Sitzung (15 min)**
-   - Prompt in KI-Chatbot einfügen, 5–10 Fragen generieren.
-   - Probleme notieren, JSON speichern (`custom_TeamC_set.json`).
+1. **Prompt sichern (5 min)**
+   - „Fragenset erstellen“ öffnen, passenden Prompt herunterladen.
+   - Prompt auf Vollständigkeit prüfen und offene Fragen notieren.
 
-3. **Upload und Validierung (10 min)**
-   - JSON hochladen, prüfen, starten.
-   - Teilen testen, Issues dokumentieren (Labels `Fragenset`, `arsnova.click`).
+2. **KI-Chatbot einsetzen (15 min)**
+   - Prompt in eine KI kopieren, 5–10 Quizfragen generieren lassen.
+   - JSON-Datei `custom_TeamC_set.json` erstellen; Formatprobleme dokumentieren.
+
+3. **Upload & Sichtbarkeit prüfen (10 min)**
+   - JSON hochladen, „✅ Fragenset prüfen und speichern“ ausführen.
+   - „🚀 Test mit diesem Fragenset starten“ wählen.
+   - Kolleg:innen bitten, das Set in ihrer Ansicht zu bestätigen (Sharing-Test).
+   - Auffälligkeiten als Issues (`Fragenset`, `Vorname@Team-C`) erfassen.
 
 ### Workflow 2: Fragenset nach Testdurchlauf exportieren (30 min)
 
-1. **Test durchführen (10 min)**
-   - Vollständigen Test mit eigenem Set absolvieren.
+**Ziel:** Export starten und überprüfen, dass das temporäre Set nach Sitzungsende verschwindet.
 
-2. **Export nach Testende (15 min)**
-   - Zu „arsnova.click-Export“ scrollen, Button klicken, Datei speichern.
-   - Probleme dokumentieren.
+1. **Test absolvieren (10 min)**
+   - Komplette Testsession durchlaufen.
+   - UX-Punkte (Navigation, Timer, Feedback) notieren.
+
+2. **Export & Löschung validieren (15 min)**
+   - Bereich „arsnova.click-Export“ aufrufen, Datei speichern.
+   - „⚠️ Session beenden“ wählen, App reloaden und bei Kolleg:innen nachfragen, ob das Set verschwunden ist.
 
 3. **Dokumentation (5 min)**
-   - Issues für Workflow 2 erstellen.
+   - Issues mit Labels `arsnova.click`, `Vorname@Team-C` erstellen.
 
 ### Workflow 3: Mit exportiertem Set eine Team-Wettbewerb-Runde durchführen (30 min)
 
-1. **Import in arsnova.click (10 min)**
-   - Datei importieren, Session prüfen (Fragen, Antworten).
+**Ziel:** Exportdatei in arsnova.click nutzen und Spielfluss evaluieren.
 
-2. **Wettbewerb starten (15 min)**
+1. **Import vorbereiten (10 min)**
+   - Datei in arsnova.click importieren, Fragen/Antworten prüfen.
+
+2. **Wettbewerb moderieren (15 min)**
    - Teams bilden, 5–10 Fragen spielen, Rangliste beobachten.
-   - Probleme notieren.
+   - Verhalten bei Medien oder Sonderzeichen dokumentieren.
 
-3. **Dokumentation (5 min)**
-   - Issues für Workflow 3 erfassen.
+3. **Issues erfassen (5 min)**
+   - Findings als Issues (`arsnova.click`, `Vorname@Team-C`) hinterlegen.
 
 ## Demo-Phase – Nutzerstory zeigen (max. 30 Minuten)
 
 1. **Einstieg (5 min)**
-   - Vollständigen Workflow zeigen.
+   - Zielbild skizzieren: Vom Prompt zum Live-Wettbewerb.
 
-2. **Workflow 1 & 2 live (15 min)**
-   - Prompt, KI-Sitzung simulieren, Upload, Test, Export.
+2. **Workflows 1 & 2 demonstrieren (15 min)**
+   - Prompt/ KI-Ergebnis präsentieren, Upload und Export live zeigen.
 
-3. **Workflow 3: Wettbewerb (8 min)**
-   - Import zeigen, kurze Runde mit 3 Fragen.
+3. **Workflow 3 moderieren (8 min)**
+   - Mini-Wettbewerb mit 3 Fragen durchspielen, Feedback sammeln.
 
-4. **Abschluss (2 min)**
-   - Offene Issues markieren.
+4. **Wrap-up (2 min)**
+   - Offene Issues markieren, nächste Optimierungsschritte benennen.
 
 ### Artefakte für die Nachbereitung
 
-- Issue-Liste mit Links.
-- Exportdatei und Link zur arsnova.click-Session.
+- Issue-Liste mit Labels `Vorname@Team-C`.
+- Exportdatei und Link zur Demo-Session.
 - Screenshots (Dialog, Download, Rangliste).
