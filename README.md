@@ -223,7 +223,7 @@ APP_URL="https://ihre-streamlit-app.streamlit.app"
 | 🐍 Python-Dateien         | 42 Dateien          |
 | 📝 Markdown-Dokumentation | 67 Dateien          |
 | 🗂️ JSON-Dateien           | 36 Dateien          |
-| 💻 Python-Codezeilen      | ~15.900 Zeilen      |
+| 💻 Python-Codezeilen      | ~15 900 Zeilen      |
 | 📁 Hauptverzeichnisse     | 13 Verzeichnisse    |
 
 **Hinweis:** Die Statistiken können sich mit der Weiterentwicklung des Projekts ändern. Die Werte gelten für den aktuellen Stand des Repositories.
