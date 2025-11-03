@@ -6,6 +6,7 @@
 
 - Fragetext ≤ 95 Zeichen, nur Klartext (keine Markdown-/HTML-/LaTeX-Formatierung, keine Bilder)
 - Jede Antwortoption ≤ 60 Zeichen; pro Frage 2–4 Optionen, keine Duplikate
+- Alle Antwortoptionen müssen plausibel, stilistisch einheitlich und nahezu gleich lang formuliert sein; die korrekte Option darf sich nicht abheben
 - Genau eine korrekte Antwort pro Frage (Single-Select)
 - Erlaubte Timer: 5, 10, 20, 30, 60, 90, 120 oder 240 Sekunden
 - Keine Sonderzeichen für Formeln (LaTeX, KaTeX, MathJax werden ignoriert)
@@ -80,5 +81,6 @@
 - Frage- und Antwortlängen halten die Kahoot-Limits ein.
 - Alle Texte sind Klartext ohne Formatierungen, Formeln oder Listen.
 - Jede Frage besitzt genau eine korrekte Antwort; keine doppelten Optionen.
+- Alle Antwortoptionen sind plausibel, wirken gleichwertig und haben nahezu identische Länge sowie Stil.
 - `question_count` und `timer_seconds` stimmen mit den Vorgaben überein.
 - Das JSON ist syntaktisch valide und vollständig.

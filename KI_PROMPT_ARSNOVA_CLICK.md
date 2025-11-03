@@ -200,8 +200,9 @@ Damit der spätere Export ohne Korrekturen funktioniert, halte diese Vorgaben st
 
 1.  **Keine Überschriften-Markup:** Entferne alle führenden `#`-Zeichen oder ähnliche Markdown-Überschriftensyntax aus `frage` und den Antwortoptionen. Formuliere den Fragetext direkt mit der laufenden Nummer (z.B. `"1. Wie lautet..."`).
 2.  **Optionen ≤ 60 Zeichen:** Jede Zeichenkette in `optionen` darf inklusive Leerzeichen maximal 60 Zeichen umfassen. Kürze oder vereinfache Formulierungen proaktiv, bis diese Grenze eingehalten wird. Nutze bei mathematischen Inhalten nur Formeln, deren sichtbare (gerenderte) Darstellung in Klartext diese Länge respektiert, unabhängig davon, wie viele Zeichen die LaTeX-Notation verwendet.
-3.  **Einheitlicher Timer:** Falls im Prozess eine Zeitvorgabe erforderlich ist, verwende ausschließlich 60 Sekunden als Standardwert und nenne keine alternativen Timer.
-4.  **Tags frei nutzbar:** Es gibt keine formalen Einschränkungen für `thema` oder andere Tag-ähnliche Angaben. Nutze sinnvolle, konsistente Bezeichnungen.
+3.  **Optionen-Stil angleichen:** Alle Antwortoptionen müssen gleichermaßen plausibel, stilistisch konsistent und nahezu gleich lang sein. Überarbeite Formulierungen so lange, bis keine Option auffällig länger oder präziser wirkt als die übrigen.
+4.  **Einheitlicher Timer:** Falls im Prozess eine Zeitvorgabe erforderlich ist, verwende ausschließlich 60 Sekunden als Standardwert und nenne keine alternativen Timer.
+5.  **Tags frei nutzbar:** Es gibt keine formalen Einschränkungen für `thema` oder andere Tag-ähnliche Angaben. Nutze sinnvolle, konsistente Bezeichnungen.
 
 Wenn eine Option initial länger wäre, formuliere sie neu oder teile die Information so auf, dass alle Regeln erfüllt bleiben.
 
@@ -221,6 +222,7 @@ Führe vor der finalen JSON-Ausgabe eine Selbstprüfung durch:
 8.  **Themen-Verteilung:** Jede `thema`-Angabe wird für mindestens zwei Fragen verwendet. Es gibt insgesamt höchstens zehn (10) verschiedene `thema`-Werte (Inhalte ggf. sinnvoll zusammenfassen).
 9.  **Glossar-Integrität:** Mini-Glossar-Einträge enthalten eigenständige Definitionen ohne Querverweise auf andere Fragen.
 10. **arsnova.click-Konformität:** Kein Fragetext oder Option enthält `#`-Überschriftensyntax, alle Optionen bleiben ≤ 60 Zeichen, und verwendete Timerwerte entsprechen 60 Sekunden.
+11. **Optionen-Stilprüfung:** Jede Frage besitzt Antwortoptionen, die sich in Länge, Stil und Plausibilität nicht unterscheiden lassen; keine Option sticht hervor.
 
 ---
 
@@ -230,7 +232,7 @@ Beachte beim Erstellen der Fragen, Optionen und Erklärungen zwingend diese Rege
 
 1.  **Plausable Distraktoren:** Alle falschen Antwortoptionen (Distraktoren) müssen plausibel klingen und typische Missverständnisse widerspiegeln.
 
-2.  **Einheitliche Optionen:** Alle Antwortoptionen einer Frage sollten eine ähnliche Länge und grammatikalische Struktur haben. Vermeide, dass die korrekte Antwort systematisch die längste/detaillierte ist.
+2.  **Einheitliche Optionen:** Alle Antwortoptionen einer Frage müssen eine nahezu identische Länge sowie die gleiche grammatikalische Struktur besitzen. Überarbeite Optionen aktiv, bis die korrekte Antwort nicht durch Stil oder Detailgrad heraussticht.
 
 3.  **Keine Negationen:** Formuliere Fragen positiv ("Welche Aussage ist korrekt?") statt doppelt negativ oder verwirrend ("Welche Aussage ist NICHT inkorrekt?").
 
