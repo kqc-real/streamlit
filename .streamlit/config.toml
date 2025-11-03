@@ -21,3 +21,5 @@ folderWatchBlacklist = [".git", "__pycache__", "tests"]
 # Umgebungen mit niedrigen inotify-Limits. Lokal funktioniert automatisches
 # Reloading weiterhin – nur mit periodischem Polling.
 fileWatcherType = "poll"
+# Begrenze Uploads (z. B. Fragensets) auf 5 MB.
+maxUploadSize = 5
