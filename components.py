@@ -1278,7 +1278,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
         # Non-critical: if building the summary fails, continue without it
         pass
 
-    st.plotly_chart(fig, config={"responsive": True}, width="stretch")
+    st.plotly_chart(fig, config={"responsive": True})
 
 
 def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:

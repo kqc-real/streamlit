@@ -2508,7 +2508,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
 
             # Use Streamlit's container width and provide Plotly config via `config`
-            st.plotly_chart(fig, config={"responsive": True}, width="stretch")
+            st.plotly_chart(fig, config={"responsive": True})
         except Exception:
             # Fallback to the simple chart if Plotly is unavailable
             df_simple = df_performance.set_index("Label")[['Leistung (%)']]

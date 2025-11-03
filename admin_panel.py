@@ -785,7 +785,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                         color="Korrekt",
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
-                    st.plotly_chart(fig, config={"responsive": True}, width="stretch")
+                    st.plotly_chart(fig, config={"responsive": True})
 
 def render_feedback_tab():
     """Rendert den Feedback-Tab."""
@@ -1030,7 +1030,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 showlegend=False
             )
             
-            st.plotly_chart(fig, config={"responsive": True}, width="stretch")
+            st.plotly_chart(fig, config={"responsive": True})
     else:
         st.info("Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt.")
 
