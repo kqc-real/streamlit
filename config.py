@@ -523,7 +523,17 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
         if not silent:
             streamlit_module = sys.modules.get("streamlit", st)
             error_handler = getattr(streamlit_module, "error", _make_streamlit_noop("error"))
-            error_handler(f"Fehler beim Laden von '{filename}': {last_error}")
+
+            if filename.startswith(USER_QUESTION_PREFIX) and isinstance(last_error, FileNotFoundError):
+                error_handler(
+                    "Das temporäre Fragenset wurde vom Ersteller entfernt. Bitte lade die Seite neu und wähle ein anderes Fragenset."
+                )
+                try:
+                    streamlit_module.session_state["_user_qset_deleted_notice"] = True
+                except Exception:
+                    pass
+            else:
+                error_handler(f"Fehler beim Laden von '{filename}': {last_error}")
         return QuestionSet([], {}, filename)
 
     source_name = filename
