@@ -23,6 +23,7 @@ from config import (
     get_question_counts,
     QuestionSet,
     get_package_dir,
+    USER_QUESTION_PREFIX,
 )
 from logic import (
     calculate_score,
@@ -38,6 +39,7 @@ from helpers import (
     ACTIVE_SESSION_QUERY_PARAM,
 )
 from database import update_bookmarks
+from user_question_sets import list_user_question_sets, format_user_label
 
 
 DOWNLOAD_BUTTON_LABEL = "Download starten"
@@ -110,7 +112,12 @@ def _open_anki_instruction_dialog() -> None:
     def _show_anki_instruction_dialog() -> None:
         st.markdown(content)
 
-    _show_anki_instruction_dialog()
+    st.session_state["_active_dialog"] = "anki_instruction"
+    try:
+        _show_anki_instruction_dialog()
+    finally:
+        if st.session_state.get("_active_dialog") == "anki_instruction":
+            st.session_state["_active_dialog"] = None
 
 
 def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> None:
@@ -914,7 +921,20 @@ def render_welcome_page(app_config: AppConfig):
     _process_queued_rerun()
 
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
-    available_question_files = list_question_files()
+    core_question_files = list_question_files()
+    user_question_sets = list_user_question_sets()
+
+    def _user_sort_key(info):
+        try:
+            return info.uploaded_at.timestamp() if info.uploaded_at else 0.0
+        except Exception:
+            return 0.0
+
+    user_question_sets_sorted = sorted(user_question_sets, key=_user_sort_key, reverse=True)
+    user_set_lookup = {info.identifier: info for info in user_question_sets_sorted}
+    user_set_identifiers = [info.identifier for info in user_question_sets_sorted]
+
+    available_question_files = [*core_question_files, *user_set_identifiers]
 
     if not available_question_files:
         st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
@@ -955,7 +975,15 @@ def render_welcome_page(app_config: AppConfig):
     # --- Auswahl des Fragensets (mit Filterung) ---
     # Nutze die optimierte Funktion, um die Anzahl der Fragen zu bekommen.
     question_counts = get_question_counts()
-    valid_question_files = sorted(question_counts.keys())
+    for info in user_question_sets_sorted:
+        question_counts[info.identifier] = len(info.question_set)
+
+    valid_question_files = [
+        filename for filename in core_question_files if question_counts.get(filename, 0) > 0
+    ]
+    valid_question_files.extend(
+        info.identifier for info in user_question_sets_sorted if question_counts.get(info.identifier, 0) > 0
+    )
 
     if not valid_question_files:
         st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
@@ -966,13 +994,35 @@ def render_welcome_page(app_config: AppConfig):
     question_set_cache: dict[str, "QuestionSet"] = {}
     question_durations: dict[str, int] = {}
     default_duration = app_config.test_duration_minutes
-    for filename in valid_question_files:
+    for filename in core_question_files:
+        if question_counts.get(filename, 0) <= 0:
+            continue
         question_set = load_questions(filename, silent=True)
         question_set_cache[filename] = question_set
         question_durations[filename] = question_set.get_test_duration_minutes(default_duration)
 
+    for info in user_question_sets_sorted:
+        if question_counts.get(info.identifier, 0) <= 0:
+            continue
+        question_set_cache[info.identifier] = info.question_set
+        question_durations[info.identifier] = info.question_set.get_test_duration_minutes(default_duration)
+
     # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
     def format_filename(filename):
+        if filename.startswith(USER_QUESTION_PREFIX) and filename in user_set_lookup:
+            info = user_set_lookup[filename]
+            label = f"🟡 {format_user_label(info)}"
+            num_questions = question_counts.get(filename)
+            if num_questions:
+                label += f" ({num_questions} Fragen)"
+            uploaded_at = info.uploaded_at
+            if uploaded_at:
+                try:
+                    label += f" 📅 {uploaded_at.strftime('%d.%m.%y')}"
+                except Exception:
+                    pass
+            return label
+
         name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
         num_questions = question_counts.get(filename)
         # Lies das Datum aus dem meta des Sets
@@ -2663,12 +2713,20 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.info("Keine weiteren Fragensets für den Admin-Export gefunden.")
 
         with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
+            pending_instruction = st.session_state.pop("_open_anki_instruction_requested", False)
+            if pending_instruction:
+                _open_anki_instruction_dialog()
+
             st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
 
             st.caption("Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.")
             instruction_button_key = f"open_anki_instruction_{export_selected_file}"
             if st.button("ℹ️ Anleitung & Tipps anzeigen", key=instruction_button_key):
-                _open_anki_instruction_dialog()
+                st.session_state["_open_anki_instruction_requested"] = True
+                st.session_state["user_qset_dialog_open"] = False
+                if st.session_state.get("_active_dialog") == "user_qset":
+                    st.session_state["_active_dialog"] = None
+                st.rerun()
 
             preview_button_key = f"open_anki_preview_{export_selected_file}"
             if st.button("🖼️ Kartenvorschau anzeigen", key=preview_button_key):

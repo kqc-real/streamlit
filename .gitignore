@@ -22,3 +22,6 @@ exports/
 
 # Local variable data (formula cache, temp)
 var/
+
+# User-spezifische temporäre Fragensets
+data-user/

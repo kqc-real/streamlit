@@ -13,13 +13,20 @@ import os
 import time
 import json as _json
 
-from config import AppConfig, QuestionSet
+from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
 from pdf_export import (
     _extract_glossary_terms,
     generate_mini_glossary_pdf,
     generate_musterloesung_pdf,
+)
+from user_question_sets import (
+    format_user_label,
+    get_user_question_set,
+    iter_prompt_resources,
+    save_user_question_set,
+    delete_user_question_set,
 )
 
 try:
@@ -30,6 +37,183 @@ except (ImportError, AttributeError):
 
     def is_request_from_localhost() -> bool:
         return False
+
+
+def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
+    user_id = st.session_state.get("user_id")
+    user_hash = st.session_state.get("user_id_hash")
+    if not user_id or not user_hash:
+        st.warning("Bitte melde dich an, bevor du einen Test startest.")
+        return
+
+    info = get_user_question_set(identifier)
+    if info is None:
+        st.error("Das temporäre Fragenset konnte nicht gefunden werden.")
+        return
+
+    questions = info.question_set
+    if not questions:
+        st.error("Das temporäre Fragenset enthält keine Fragen.")
+        return
+
+    from database import start_test_session
+    from auth import initialize_session_state
+
+    session_id = start_test_session(user_hash, identifier)
+    if not session_id:
+        st.error("Es konnte keine neue Test-Session gestartet werden.")
+        return
+
+    st.session_state.selected_questions_file = identifier
+    st.session_state.session_id = session_id
+    st.session_state.login_via_recovery = False
+    st.session_state.show_pseudonym_reminder = True
+    st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+
+    initialize_session_state(questions, app_config)
+    try:
+        st.session_state.test_started = True
+        st.session_state.test_time_expired = False
+        st.session_state.start_zeit = pd.Timestamp.now()
+        st.session_state.test_end_time = None
+    except Exception:
+        pass
+
+    st.session_state["user_qset_dialog_open"] = False
+    st.session_state.pop("user_qset_last_result", None)
+    st.session_state.pop("user_qset_last_uploaded_name", None)
+    st.session_state["user_qset_active_toast"] = format_user_label(info)
+    if st.session_state.get("_active_dialog") == "user_qset":
+        st.session_state["_active_dialog"] = None
+    st.session_state["_needs_rerun"] = True
+    st.rerun()
+
+
+def _render_user_qset_dialog(app_config: AppConfig) -> None:
+    active_dialog = st.session_state.get("_active_dialog")
+    if active_dialog and active_dialog != "user_qset":
+        return
+    st.session_state["_active_dialog"] = "user_qset"
+
+    @st.dialog("Eigenes Fragenset verwenden", width="large")
+    def _dialog() -> None:
+        st.markdown(
+            "Nutze die folgenden Prompts, um mithilfe einer KI ein kompatibles Fragenset zu erstellen."
+        )
+        prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
+        prompt_resources = iter_prompt_resources()
+        for prompt in prompt_resources:
+            st.markdown(f"**{prompt.title}**")
+            view_col, download_col = st.columns([2, 1])
+            prompt_empty = not prompt.content.strip()
+
+            with view_col:
+                if prompt_empty:
+                    st.warning(f"{prompt.filename} konnte nicht geladen werden.")
+                else:
+                    view_key = f"user_prompt_view_toggle_{prompt.filename}"
+                    current_state = bool(prompt_views.get(prompt.filename))
+                    if st.button(
+                        "Ansicht" + (" verbergen" if current_state else " anzeigen"),
+                        key=view_key,
+                        use_container_width=True,
+                    ):
+                        prompt_views[prompt.filename] = not current_state
+                        st.session_state["_prompt_inline_views"] = prompt_views
+
+                    if prompt_views.get(prompt.filename):
+                        st.code(prompt.content, language="markdown")
+
+            with download_col:
+                st.download_button(
+                    "Download",
+                    prompt.content.encode("utf-8"),
+                    file_name=prompt.filename,
+                    mime="text/markdown",
+                    key=f"user_prompt_download_{prompt.filename}",
+                    disabled=prompt_empty,
+                    use_container_width=True,
+                )
+
+        st.markdown("---")
+        st.subheader("Eigene Fragen hochladen")
+
+        uploader = st.file_uploader(
+            "Fragenset als JSON-Datei hochladen",
+            type=["json"],
+            key="user_qset_uploader",
+            accept_multiple_files=False,
+            help="Die Datei muss dem Fragenformat der App entsprechen.",
+        )
+
+        if uploader is not None:
+            if st.session_state.get("user_qset_last_uploaded_name") != uploader.name:
+                st.session_state.pop("user_qset_last_result", None)
+                st.session_state["user_qset_last_uploaded_name"] = uploader.name
+        else:
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+
+        if uploader and st.button(
+            "Fragenset prüfen und speichern",
+            key="user_qset_validate_btn",
+            use_container_width=True,
+        ):
+            payload = uploader.getvalue()
+            try:
+                info = save_user_question_set(
+                    st.session_state.get("user_id", ""),
+                    payload,
+                    uploader.name,
+                )
+                st.session_state["user_qset_last_result"] = {
+                    "success": True,
+                    "identifier": info.identifier,
+                    "label": format_user_label(info),
+                    "question_count": len(info.question_set),
+                }
+                st.session_state["selected_questions_file"] = info.identifier
+            except ValueError as exc:
+                st.session_state["user_qset_last_result"] = {
+                    "success": False,
+                    "error": str(exc),
+                }
+            except Exception as exc:  # pragma: no cover - unexpected issues
+                st.session_state["user_qset_last_result"] = {
+                    "success": False,
+                    "error": f"Fehler beim Speichern: {exc}",
+                }
+
+        status = st.session_state.get("user_qset_last_result")
+        if status:
+            if status.get("success"):
+                st.success(
+                    f"{status['label']} gespeichert – {status['question_count']} Fragen bereit."
+                )
+                can_start = bool(
+                    st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+                )
+                if not can_start:
+                    st.info("Bitte melde dich an, bevor du den Test startest.")
+                if st.button(
+                    "Test mit diesem Fragenset starten",
+                    key="user_qset_start_btn",
+                    disabled=not can_start,
+                    use_container_width=True,
+                ):
+                    _start_test_with_user_set(status["identifier"], app_config)
+            else:
+                st.error(status.get("error", "Unbekannter Fehler beim Prüfen des Fragensets."))
+
+        st.divider()
+        if st.button("Fenster schließen", key="user_qset_close_btn", use_container_width=True):
+            st.session_state["user_qset_dialog_open"] = False
+            st.session_state.pop("user_qset_last_result", None)
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+            if st.session_state.get("_active_dialog") == "user_qset":
+                st.session_state["_active_dialog"] = None
+            st.rerun()
+
+    _dialog()
 
 
 def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool):
@@ -62,6 +246,16 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         unsafe_allow_html=True,
     )
     st.sidebar.success(f"👋 **{st.session_state.get('user_id', '')}**")
+
+    toast_message = st.session_state.pop("user_qset_active_toast", None)
+    if toast_message:
+        st.sidebar.success(f"Temporäres Fragenset aktiviert: {toast_message}")
+
+    if st.session_state.get("user_qset_dialog_open"):
+        _render_user_qset_dialog(app_config)
+    else:
+        if st.session_state.get("_active_dialog") == "user_qset":
+            st.session_state["_active_dialog"] = None
 
     # Wenn das aktuell verwendete Pseudonym ein Recovery-Geheimwort besitzt,
     # dann war es für diesen Nutzer reserviert. Zeige eine kleine Hinweise-Zeile
@@ -295,8 +489,32 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     # Zeige das aktuell ausgewählte Fragenset an
     selected_file = st.session_state.get("selected_questions_file")
     if selected_file:
-        set_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-        st.sidebar.markdown(f"Fragenset: **{set_name}**")
+        is_user_set = selected_file.startswith(USER_QUESTION_PREFIX)
+        display_name = None
+        meta_title = None
+        try:
+            meta_title = questions.meta.get("title") if hasattr(questions, "meta") else None
+        except Exception:
+            meta_title = None
+
+        if isinstance(meta_title, str) and meta_title.strip():
+            display_name = meta_title.strip()
+        elif is_user_set:
+            info = get_user_question_set(selected_file)
+            if info:
+                meta_title = info.question_set.meta.get("title") if info.question_set.meta else None
+                if isinstance(meta_title, str) and meta_title.strip():
+                    display_name = meta_title.strip()
+                else:
+                    display_name = format_user_label(info)
+
+        if not display_name:
+            display_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+
+        if is_user_set and not str(display_name).startswith("🟡"):
+            display_name = f"🟡 {display_name}"
+
+        st.sidebar.markdown(f"Fragenset: **{display_name}**")
 
     # --- Mini-Glossar: Ein einzelner Download-Button in der Sidebar ---
     try:
@@ -589,12 +807,61 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
         pass
 
+    if st.sidebar.button(
+        "Fragenset erstellen",
+        key="user_qset_open_btn",
+        use_container_width=True,
+    ):
+        current_open = bool(st.session_state.get("user_qset_dialog_open"))
+        active_dialog = st.session_state.get("_active_dialog")
+
+        if current_open:
+            st.session_state["user_qset_dialog_open"] = False
+            if active_dialog == "user_qset":
+                st.session_state["_active_dialog"] = None
+            st.session_state.pop("user_qset_last_result", None)
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+            st.session_state.pop("user_qset_active_toast", None)
+            st.rerun()
+        elif active_dialog and active_dialog != "user_qset":
+            st.sidebar.warning("Schließe zuerst den geöffneten Dialog, bevor du ein neues Fragenset erstellst.")
+        else:
+            st.session_state["user_qset_dialog_open"] = True
+            st.session_state.pop("user_qset_last_result", None)
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+            st.rerun()
+    else:
+        if st.session_state.pop("_user_qset_deleted_notice", False):
+            st.sidebar.error(
+                "Dieses temporäre Fragenset wurde vom Ersteller beendet. Lade die Seite neu und wähle ein anderes Fragenset für deinen nächsten Versuch."
+            )
+
     with st.sidebar.expander("⚠️ Session beenden"):
         # If the user has set a recovery secret, do NOT show the advice
         # to pick a new pseudonym. Otherwise show the full guidance.
         user_pseudo = st.session_state.get("user_id")
-        show_full_hint = True
-        if user_pseudo:
+        active_file = st.session_state.get("selected_questions_file")
+        has_active_user_set = isinstance(active_file, str) and active_file.startswith(USER_QUESTION_PREFIX)
+        if has_active_user_set:
+            info = get_user_question_set(active_file)
+            set_name = None
+            if info:
+                meta_title = info.question_set.meta.get("title") if info.question_set.meta else None
+                if isinstance(meta_title, str) and meta_title.strip():
+                    set_name = meta_title.strip()
+                else:
+                    set_name = format_user_label(info)
+            if not set_name:
+                set_name = active_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+
+            st.error(
+                f"Beim Beenden dieser Session wird das temporäre Fragenset **{set_name}** endgültig gelöscht."
+            )
+            st.warning(
+                "Alle anderen Nutzer, die dieses temporäre Fragenset gerade verwenden, werden ebenfalls aus ihren Sessions ausgeloggt."
+            )
+        show_full_hint = not has_active_user_set
+        if show_full_hint and user_pseudo:
             try:
                 from database import has_recovery_secret_for_pseudonym
                 try:
@@ -651,6 +918,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
+            if has_active_user_set and isinstance(active_file, str):
+                delete_user_question_set(active_file)
+                st.session_state["_user_qset_deleted_notice"] = True
 
             # Entferne Session-Marker aus den Query-Parametern
             st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)

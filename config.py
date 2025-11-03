@@ -11,6 +11,7 @@ import sys
 import json
 import math
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Dict, Any
 import streamlit as st
 
@@ -40,6 +41,9 @@ def _make_streamlit_noop(name: str):
 for _attr in ("error", "warning", "info", "success"):
     if not hasattr(st, _attr):
         setattr(st, _attr, _make_streamlit_noop(_attr))
+
+
+USER_QUESTION_PREFIX = "user::"
 
 
 def get_package_dir() -> str:
@@ -319,7 +323,7 @@ class AppConfig:
             try:
                 self.min_seconds_between_answers = int(min_seconds_str)
             except ValueError:
-                pass # Behalte Defaultwert bei Fehler
+                pass  # Behalte Defaultwert bei Fehler
 
         test_duration_str = ""
         try:
@@ -465,22 +469,71 @@ def get_question_counts() -> Dict[str, int]:
     return counts
 
 
-@st.cache_data
+def _resolve_question_paths(filename: str) -> List[Path]:
+    base_dir = Path(get_package_dir())
+    data_dir = base_dir / "data"
+    user_dir = base_dir / "data-user"
+
+    candidates: List[Path] = []
+
+    if filename.startswith(USER_QUESTION_PREFIX):
+        actual_name = filename[len(USER_QUESTION_PREFIX):]
+        candidates.append(user_dir / actual_name)
+    else:
+        candidate_path = Path(filename)
+        if candidate_path.is_absolute():
+            candidates.append(candidate_path)
+        elif any(sep in filename for sep in ("/", "\\")):
+            candidates.append(base_dir / filename)
+
+        candidates.append(data_dir / filename)
+        candidates.append(user_dir / filename)
+
+    if not candidates:
+        candidates.append(data_dir / filename)
+
+    # ensure order without duplicates
+    seen: set[Path] = set()
+    unique_candidates: List[Path] = []
+    for path in candidates:
+        if path not in seen:
+            unique_candidates.append(path)
+            seen.add(path)
+
+    return unique_candidates
+
+
 def load_questions(filename: str, silent: bool = False) -> QuestionSet:
     """Lädt ein spezifisches Fragenset aus einer JSON-Datei."""
-    path = os.path.join(get_package_dir(), "data", filename)
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except (IOError, json.JSONDecodeError) as e:
+
+    last_error: Exception | None = None
+    resolved_path: Path | None = None
+
+    for candidate in _resolve_question_paths(filename):
+        try:
+            with candidate.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            resolved_path = candidate
+            break
+        except (IOError, json.JSONDecodeError) as exc:
+            last_error = exc
+            continue
+
+    if resolved_path is None:
         if not silent:
             streamlit_module = sys.modules.get("streamlit", st)
             error_handler = getattr(streamlit_module, "error", _make_streamlit_noop("error"))
-            error_handler(f"Fehler beim Laden von '{filename}': {e}")
+            error_handler(f"Fehler beim Laden von '{filename}': {last_error}")
         return QuestionSet([], {}, filename)
 
+    source_name = filename
+    if filename.startswith(USER_QUESTION_PREFIX):
+        source_name = filename
+    elif resolved_path.name != filename:
+        source_name = resolved_path.name
+
     try:
-        return _build_question_set(data, filename, silent=silent)
+        return _build_question_set(data, source_name, silent=silent)
     except ValueError as exc:
         if not silent:
             streamlit_module = sys.modules.get("streamlit", st)
@@ -488,7 +541,7 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
             error_handler(f"Fehler in '{filename}': {exc}")
         return QuestionSet([], {}, filename)
 
-@st.cache_data
+
 def load_scientists() -> List[Dict[str, str]]:
     """Lädt die Liste der Wissenschaftler aus der JSON-Datei."""
     path = os.path.join(get_package_dir(), "data", "scientists.json")
