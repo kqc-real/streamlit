@@ -229,6 +229,9 @@ def _build_question_set(
             return ""
         sanitized, modified = sanitize_html(value)
         sanitized = sanitized.strip()
+        # Math/LaTeX uses ampersands (e.g. pmatrix). Preserve them after sanitizing.
+        if "&amp;" in sanitized:
+            sanitized = sanitized.replace("&amp;", "&")
         if modified and not silent:
             st.warning(
                 f"In '{filename}' wurde potenziell unsichere HTML-Auszeichnung entfernt ({context})."
