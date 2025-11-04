@@ -5,6 +5,6 @@ Bereit für eine Prüfung oder »Lifelong Learning«? Diese App hilft dir, Multi
 ## 🌟 Highlights
 
 * **Fragensets auf Abruf** – Wähle ein Set oder nutze dein eigenes; alles ist aufbereitet mit Gewichtungen und Erklärungen.
-* **Zeitlimit inklusive** – Festes Zeitlimit pro Set und Review direkt nach der Abgabe.
+* **Countdown inklusive** – Festes Zeitlimit pro Set und Review direkt nach der Abgabe.
 * **Feedback in Sekunden** – Richtige Antworten, Erklärungen und eine kompakte Analyse pro Thema.
-* **Export zum Mitnehmen** – PDF & Musterlösung plus Exporte nach ANKI, Kahoot & ARSnova.click!
+* **Export zum Mitnehmen** – PDF & Musterlösung plus Exporte nach Anki, Kahoot & ARSnova.click!
