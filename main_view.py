@@ -39,7 +39,11 @@ from helpers import (
     ACTIVE_SESSION_QUERY_PARAM,
 )
 from database import update_bookmarks
-from user_question_sets import list_user_question_sets, format_user_label
+from user_question_sets import (
+    list_user_question_sets,
+    format_user_label,
+    resolve_question_path,
+)
 
 
 DOWNLOAD_BUTTON_LABEL = "Download starten"
@@ -2757,7 +2761,12 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             if st.button("🖼️ Kartenvorschau anzeigen", key=preview_button_key):
                 _open_anki_preview_dialog(export_questions, export_selected_file)
 
-            export_file_stem = export_selected_file.replace("questions_", "").replace(".json", "")
+            export_file_stem = (
+                export_selected_file.replace(USER_QUESTION_PREFIX, "")
+                .replace("questions_", "")
+                .replace("::", "_")
+                .replace(".json", "")
+            )
             apkg_button_key = f"start_anki_apkg_{export_selected_file}"
             tsv_button_key = f"start_anki_tsv_{export_selected_file}"
             apkg_download_key = f"dl_anki_apkg_{export_selected_file}"
@@ -2788,7 +2797,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 if st.button("Anki-TSV exportieren", key=tsv_button_key):
                     with st.spinner("Anki-TSV wird erstellt..."):
                         try:
-                            json_path = Path(get_package_dir()) / "data" / export_selected_file
+                            json_path = resolve_question_path(export_selected_file)
                             if not json_path.exists():
                                 raise FileNotFoundError(f"Fragenset '{export_selected_file}' wurde nicht gefunden.")
                             json_bytes = json_path.read_bytes()

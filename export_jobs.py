@@ -24,6 +24,37 @@ import tempfile
 from copy import deepcopy
 import re
 
+
+def _resolve_json_source(selected_file: str) -> Path:
+    """Bestimmt den Pfad zum Fragen-JSON für Kern- und Nutzer-Sets."""
+
+    from config import get_package_dir, USER_QUESTION_PREFIX  # lokale Imports vermeiden Zyklen
+
+    base_dir = Path(get_package_dir())
+
+    if selected_file.startswith(USER_QUESTION_PREFIX):
+        try:
+            from user_question_sets import resolve_question_path  # noqa: WPS433 - lokal intentional
+
+            resolved = resolve_question_path(selected_file)
+            if resolved.exists():
+                return resolved
+            # Fallback: Nutzer-Pfad trotz fehlender Datei zurückgeben, damit später Fehler geworfen wird
+            return resolved
+        except Exception:
+            # Ruhiger Fallback auf erwarteten Dateinamen ohne Prefix
+            filename = selected_file.split("::", 1)[-1]
+            return base_dir / "data-user" / filename
+
+    candidate = base_dir / "data" / selected_file
+    if candidate.exists():
+        return candidate
+
+    # Fallback: ggf. lag die Datei bereits im data-user Verzeichnis ohne Prefix
+    return base_dir / "data-user" / selected_file
+
+
+
 ARSNOVA_DIFFICULTY_MAP = {1: 2, 2: 6, 3: 10}
 DEFAULT_ARSNOVA_SESSION_CONFIG = {
     "theme": "Material",
@@ -463,10 +494,9 @@ def generate_anki_apkg(selected_file: str) -> bytes:
             "Für den APKG-Export wird das Paket 'genanki' benötigt."
         ) from exc
 
-    from config import get_package_dir  # Lokaler Import, um Zirkularität zu vermeiden
     from exporters.anki_tsv import transform_to_anki_tsv
 
-    file_path = Path(get_package_dir()) / "data" / selected_file
+    file_path = _resolve_json_source(selected_file)
     if not file_path.exists():
         raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
 
@@ -525,9 +555,7 @@ def _normalize_question_text(raw_text: str) -> str:
 
 
 def _load_questions_from_file(selected_file: str) -> list[dict]:
-    from config import get_package_dir  # Lokaler Import, um Zirkularität zu vermeiden
-
-    file_path = Path(get_package_dir()) / "data" / selected_file
+    file_path = _resolve_json_source(selected_file)
     if not file_path.exists():
         raise FileNotFoundError(f"Fragenset '{selected_file}' wurde nicht gefunden.")
 
