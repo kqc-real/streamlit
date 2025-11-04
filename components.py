@@ -112,7 +112,12 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
     @st.dialog("Fragenset erstellen", width="wide")
     def _dialog() -> None:
         st.markdown(
-            "🤖 Diese Prompts helfen dir, mit einer KI schnell ein passendes Fragenset zu generieren."
+            "Wähle den Prompt, der zu deinem späteren Exportziel passt, und kopiere ihn in deine KI-Umgebung."
+        )
+        st.markdown(
+            "- **[Anki](https://apps.ankiweb.net/)**-Prompt**: Erste Wahl für diese App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Einschränkungen.\n"
+            "- **[Kahoot](https://kahoot.com)**-Prompt**: Speziell auf Import-Restriktionen (Textlängen, Optionen, Zeitlimits) abgestimmt, damit der Upload direkt klappt.\n"
+            "- **[arsnova.click](https://arsnova.click)**-Prompt**: Optimiert für das an Hochschulen populäre Audience-Response-Tool inkl. LaTeX-Formeln und passenden Antwortlängen."
         )
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
@@ -150,7 +155,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
 
         st.markdown("---")
-        st.subheader("Eigene Fragen hochladen")
+        st.subheader("Fragenset hochladen")
         st.warning("⚠️ Dein Fragenset darf maximal 30 Fragen enthalten und höchstens 5 MB groß sein.")
         st.info(
             "ℹ️ Dein Fragenset existiert nur während der aktuellen Session und ist für alle User sichtbar und nutzbar."
@@ -207,7 +212,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _process_user_qset_payload(payload, uploader.name)
 
         st.markdown("### Alternative: JSON-Inhalt einfügen")
-        st.caption("Kopiere den JSON-Text direkt hier hinein. Wir speichern daraus eine valide .json-Datei.")
+        st.caption("Kopiere den JSON-Text deiner KI direkt hier hinein. Wir speichern daraus eine valide .json-Datei.")
 
         def _clear_user_qset_status() -> None:
             st.session_state.pop("user_qset_last_result", None)

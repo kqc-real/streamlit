@@ -59,9 +59,9 @@ class PromptResource:
 
 
 PROMPT_FILES: List[tuple[str, str]] = [
-    ("Allgemeiner Prompt", "KI_PROMPT.md"),
-    ("Kahoot-spezifischer Prompt", "KI_PROMPT_KAHOOT.md"),
-    ("arsnova.click Prompt", "KI_PROMPT_ARSNOVA_CLICK.md"),
+    ("Anki-Prompt", "KI_PROMPT.md"),
+    ("Kahoot-Prompt", "KI_PROMPT_KAHOOT.md"),
+    ("arsnova.click-Prompt", "KI_PROMPT_ARSNOVA_CLICK.md"),
 ]
 
 
