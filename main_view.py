@@ -2055,13 +2055,15 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     # Markieren und Feedback-Button gemeinsam platzieren
     action_cols = st.columns([1.2, 2, 1])
     with action_cols[0]:
-        bookmark_key = f"bm_toggle_{frage_idx}"
+        bookmark_key = f"bm_toggle_{frage_idx}_expl"
         is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
         new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=bookmark_key)
         if new_bookmark_state != is_bookmarked:
             if st.session_state.get("user_qset_dialog_open"):
                 close_user_qset_dialog(clear_results=False)
             handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
+            # Synchronisiere den Zustand mit dem Toggle in der Frageansicht, falls vorhanden.
+            st.session_state[f"bm_toggle_{frage_idx}"] = new_bookmark_state
             st.rerun()
 
     # Erklärungstext
