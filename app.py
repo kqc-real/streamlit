@@ -23,6 +23,9 @@ import os
 # indem er das Projektverzeichnis zum Suchpfad hinzufügt.
 _this_dir = os.path.dirname(__file__)
 _parent_dir = os.path.abspath(os.path.join(_this_dir, '..'))
+if _this_dir not in sys.path:
+    # Ensure the module directory itself is importable (affects Streamlit Cloud paths).
+    sys.path.insert(0, _this_dir)
 if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
