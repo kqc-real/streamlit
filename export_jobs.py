@@ -23,6 +23,9 @@ import hashlib
 import tempfile
 from copy import deepcopy
 import re
+from datetime import datetime, timezone
+from zipfile import ZipFile, ZIP_DEFLATED
+from xml.sax.saxutils import escape
 
 
 def _resolve_json_source(selected_file: str) -> Path:
@@ -126,6 +129,19 @@ KAHOOT_MAX_QUESTION_LENGTH = 95
 KAHOOT_MAX_OPTION_LENGTH = 60
 KAHOOT_MIN_OPTIONS = 2
 KAHOOT_MAX_OPTIONS = 4
+KAHOOT_DEFAULT_TIMER = 60
+KAHOOT_POINTS_STANDARD = "Standard"
+KAHOOT_POINTS_DOUBLE = "Double Points"
+KAHOOT_EXPORT_COLUMNS = [
+    "Question",
+    "Answer 1",
+    "Answer 2",
+    "Answer 3",
+    "Answer 4",
+    "Correct Answer",
+    "Time limit",
+    "Points",
+]
 
 # Configurable worker count (not used for processes; kept for compatibility)
 _MAX_WORKERS = int(os.getenv('EXPORT_JOB_WORKERS', '2'))
@@ -786,6 +802,79 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
     return errors, warnings
 
 
+def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:
+    """Erzeugt eine Kahoot-kompatible XLSX-Datei für das ausgewählte Fragenset."""
+
+    resolved_questions = list(questions) if questions is not None else _load_questions_from_file(selected_file)
+    if not resolved_questions:
+        raise ValueError("Keine Fragen für den Kahoot-Export gefunden.")
+
+    rows: list[list[Any]] = [KAHOOT_EXPORT_COLUMNS]
+
+    for idx, frage in enumerate(resolved_questions):
+        if not isinstance(frage, dict):
+            raise ValueError(f"Frage {idx + 1} besitzt kein gültiges Format.")
+
+        question_text = _strip_markdown_to_plain_text(frage.get("frage"))
+        if not question_text:
+            question_text = f"Frage {idx + 1}"
+        if len(question_text) > KAHOOT_MAX_QUESTION_LENGTH:
+            question_text = question_text[:KAHOOT_MAX_QUESTION_LENGTH].rstrip()
+
+        optionen = frage.get("optionen") or []
+        if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
+            raise ValueError(f"Frage {idx + 1}: Antwortoptionen fehlen oder sind ungültig.")
+
+        if len(optionen) < KAHOOT_MIN_OPTIONS:
+            raise ValueError(
+                f"Frage {idx + 1}: Mindestens {KAHOOT_MIN_OPTIONS} Antwortoptionen benötigt."
+            )
+        if len(optionen) > KAHOOT_MAX_OPTIONS:
+            raise ValueError(
+                f"Frage {idx + 1}: Höchstens {KAHOOT_MAX_OPTIONS} Antwortoptionen erlaubt."
+            )
+
+        option_texts = []
+        for opt in optionen:
+            text = _strip_markdown_to_plain_text(opt)
+            if len(text) > KAHOOT_MAX_OPTION_LENGTH:
+                text = text[:KAHOOT_MAX_OPTION_LENGTH].rstrip()
+            option_texts.append(text)
+
+        correct_indices = _extract_correct_indices(frage.get("loesung"), len(option_texts))
+        if len(correct_indices) != 1:
+            raise ValueError(f"Frage {idx + 1}: Kahoot erlaubt genau eine richtige Antwort.")
+        correct_answer = correct_indices[0] + 1  # Kahoot erwartet 1-basierten Index
+
+        while len(option_texts) < KAHOOT_MAX_OPTIONS:
+            option_texts.append("")
+
+        timer_raw = frage.get("zeit_limit") or frage.get("timer")
+        timer_value = _coerce_kahoot_timer(timer_raw)
+
+        try:
+            weight = int(frage.get("gewichtung", 1))
+        except (TypeError, ValueError):
+            weight = 1
+        points_value = KAHOOT_POINTS_DOUBLE if weight >= 3 else KAHOOT_POINTS_STANDARD
+
+        rows.append(
+            [
+                question_text,
+                option_texts[0],
+                option_texts[1],
+                option_texts[2],
+                option_texts[3],
+                correct_answer,
+                timer_value,
+                points_value,
+            ]
+        )
+
+    sheet_name = _sanitize_sheet_name(_derive_export_name(selected_file) or "Kahoot")
+    return _write_simple_xlsx(rows, sheet_name)
+
+
 def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:
     """Erzeugt einen arsnova.click-kompatiblen JSON-Export für das ausgewählte Fragenset."""
 
@@ -804,3 +893,197 @@ def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]
     }
 
     return json.dumps(export_payload, ensure_ascii=False, indent=2).encode("utf-8")
+
+
+def _coerce_kahoot_timer(value: Any) -> int:
+    if value is None:
+        return KAHOOT_DEFAULT_TIMER
+    try:
+        candidate = int(value)
+    except (TypeError, ValueError):
+        return KAHOOT_DEFAULT_TIMER
+    if candidate in KAHOOT_ALLOWED_TIMERS:
+        return candidate
+    return KAHOOT_DEFAULT_TIMER
+
+
+def _sanitize_sheet_name(name: str) -> str:
+    sanitized = name.strip() or "Kahoot"
+    sanitized = sanitized.replace("/", "-").replace("\\", "-")
+    return sanitized[:31]
+
+
+def _excel_column_name(index: int) -> str:
+    if index < 0:
+        raise ValueError("Index muss >= 0 sein.")
+    result = ""
+    remainder = index + 1
+    while remainder:
+        remainder, mod = divmod(remainder - 1, 26)
+        result = chr(65 + mod) + result
+    return result
+
+
+def _build_sheet_xml(rows: Sequence[Sequence[Any]]) -> str:
+    num_cols = max((len(row) for row in rows), default=0)
+    num_rows = len(rows)
+    last_col_letter = _excel_column_name(num_cols - 1) if num_cols else "A"
+    last_row_number = num_rows if num_rows else 1
+    dimension_ref = f"A1:{last_col_letter}{last_row_number}"
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">',
+        f'<dimension ref="{dimension_ref}"/>',
+        '<sheetViews><sheetView workbookViewId="0"/></sheetViews>',
+        '<sheetFormatPr defaultRowHeight="15"/>',
+        '<sheetData>',
+    ]
+
+    for row_idx, row in enumerate(rows, start=1):
+        lines.append(f'<row r="{row_idx}">')
+        for col_idx in range(num_cols):
+            cell_ref = f"{_excel_column_name(col_idx)}{row_idx}"
+            value = row[col_idx] if col_idx < len(row) else ""
+
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                lines.append(f'<c r="{cell_ref}"><v>{value}</v></c>')
+            else:
+                text = "" if value is None else str(value)
+                if text == "":
+                    lines.append(f'<c r="{cell_ref}"/>')
+                else:
+                    escaped = escape(text)
+                    lines.append(
+                        f'<c r="{cell_ref}" t="inlineStr"><is><t>{escaped}</t></is></c>'
+                    )
+        lines.append('</row>')
+
+    lines.extend([
+        '</sheetData>',
+        '<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>',
+        '</worksheet>',
+    ])
+
+    return "".join(lines)
+
+
+def _write_simple_xlsx(rows: Sequence[Sequence[Any]], sheet_name: str) -> bytes:
+    created_ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    sheet_xml = _build_sheet_xml(rows)
+    workbook_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" '
+        'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+        '<sheets>'
+        f'<sheet name="{escape(sheet_name)}" sheetId="1" r:id="rId1"/>'
+        '</sheets>'
+        '</workbook>'
+    )
+
+    workbook_rels = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+        '<Relationship Id="rId1" '
+        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" '
+        'Target="worksheets/sheet1.xml"/>'
+        '<Relationship Id="rId2" '
+        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" '
+        'Target="styles.xml"/>'
+        '</Relationships>'
+    )
+
+    styles_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+        '<fonts count="1"><font><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/></font></fonts>'
+        '<fills count="2"><fill><patternFill patternType="none"/></fill>'
+        '<fill><patternFill patternType="gray125"/></fill></fills>'
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>'
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
+        '<cellXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/></cellXfs>'
+        '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'
+        '</styleSheet>'
+    )
+
+    content_types_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+        '<Default Extension="xml" ContentType="application/xml"/>'
+        '<Override PartName="/xl/workbook.xml" '
+        'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+        '<Override PartName="/xl/worksheets/sheet1.xml" '
+        'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
+        '<Override PartName="/xl/styles.xml" '
+        'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'
+        '<Override PartName="/docProps/app.xml" '
+        'ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'
+        '<Override PartName="/docProps/core.xml" '
+        'ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'
+        '</Types>'
+    )
+
+    app_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" '
+        'xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">'
+        '<Application>MC-Test</Application>'
+        '<DocSecurity>0</DocSecurity>'
+        '<ScaleCrop>false</ScaleCrop>'
+        '<HeadingPairs>'
+        '<vt:vector size="2" baseType="variant">'
+        '<vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant>'
+        '<vt:variant><vt:i4>1</vt:i4></vt:variant>'
+        '</vt:vector>'
+        '</HeadingPairs>'
+        '<TitlesOfParts>'
+        '<vt:vector size="1" baseType="lpstr">'
+        f'<vt:lpstr>{escape(sheet_name)}</vt:lpstr>'
+        '</vt:vector>'
+        '</TitlesOfParts>'
+        '</Properties>'
+    )
+
+    core_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<cp:coreProperties '
+        'xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" '
+        'xmlns:dc="http://purl.org/dc/elements/1.1/" '
+        'xmlns:dcterms="http://purl.org/dc/terms/" '
+        'xmlns:dcmitype="http://purl.org/dc/dcmitype/" '
+        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+        '<dc:title>Kahoot Export</dc:title>'
+        '<dc:creator>MC-Test Export</dc:creator>'
+        '<cp:lastModifiedBy>MC-Test Export</cp:lastModifiedBy>'
+        f'<dcterms:created xsi:type="dcterms:W3CDTF">{created_ts}</dcterms:created>'
+        f'<dcterms:modified xsi:type="dcterms:W3CDTF">{created_ts}</dcterms:modified>'
+        '</cp:coreProperties>'
+    )
+
+    rels_root = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+        '<Relationship Id="rId1" '
+        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" '
+        'Target="xl/workbook.xml"/>'
+        '<Relationship Id="rId2" '
+        'Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" '
+        'Target="docProps/core.xml"/>'
+        '<Relationship Id="rId3" '
+        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" '
+        'Target="docProps/app.xml"/>'
+        '</Relationships>'
+    )
+
+    with io.BytesIO() as buffer:
+        with ZipFile(buffer, "w", ZIP_DEFLATED) as zf:
+            zf.writestr("[Content_Types].xml", content_types_xml)
+            zf.writestr("_rels/.rels", rels_root)
+            zf.writestr("docProps/app.xml", app_xml)
+            zf.writestr("docProps/core.xml", core_xml)
+            zf.writestr("xl/workbook.xml", workbook_xml)
+            zf.writestr("xl/_rels/workbook.xml.rels", workbook_rels)
+            zf.writestr("xl/styles.xml", styles_xml)
+            zf.writestr("xl/worksheets/sheet1.xml", sheet_xml)
+        return buffer.getvalue()
