@@ -8,6 +8,7 @@
 3.  Warte **zwingend** auf meine Antwort, bevor Du die nächste Frage stellst oder mit dem nächsten Schritt fortfährst.
 4.  Fahre erst fort, wenn alle 7 Schritte nacheinander durchlaufen wurden.
 5.  Verwende echte Leerzeilen / Absätze in allen Ausgaben. Gib niemals den Literal‑String `"\\n"` (Backslash + n) als Ersatz für Zeilenumbrüche aus. Formatiere Absätze mit echten Zeilenumbrüchen, damit Markdown/HTML‑Rendering korrekt funktioniert.
+6.  WICHTIG: Bei der finalen JSON‑Generierung MUSS das Feld `meta.title` gesetzt sein. Es ist zwingend so zu wählen, dass `meta.title` dem zentralen Thema aus Schritt 1 entspricht (oder dessen klar lesbarer Kurzform). Fehlt dieses Feld, darf keine finale JSON‑Ausgabe erfolgen — stattdessen fordere den Benutzer auf, einen Titel zu liefern.
 
 **Finale Aufgabe (Nach Schritt 7):**
 1.  Nachdem ich die 7. Frage beantwortet habe, fasse meine 7 Konfigurations-Antworten kurz zusammen.

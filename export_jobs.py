@@ -885,8 +885,32 @@ def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]
 
     question_payloads = [_transform_question_for_arsnova(frage, idx) for idx, frage in enumerate(resolved_questions)]
 
+    # Prefer the explicit meta.title from the source JSON for the arsnova 'name' field.
+    export_name = None
+    try:
+        src_path = _resolve_json_source(selected_file)
+        if src_path.exists():
+            try:
+                src_data = json.loads(src_path.read_text(encoding="utf-8"))
+                if isinstance(src_data, dict):
+                    meta = src_data.get("meta") or {}
+                    # Use exactly meta.title if present (requirement)
+                    title_val = None
+                    if isinstance(meta, dict):
+                        title_val = meta.get("title")
+                    if isinstance(title_val, str) and title_val.strip():
+                        export_name = title_val.strip()
+            except Exception:
+                # ignore JSON read errors and fall back below
+                pass
+    except Exception:
+        pass
+
+    if not export_name:
+        export_name = _derive_export_name(selected_file)
+
     export_payload = {
-        "name": _derive_export_name(selected_file),
+        "name": export_name,
         "questionList": question_payloads,
         "sessionConfig": deepcopy(DEFAULT_ARSNOVA_SESSION_CONFIG),
         "state": "Inactive",
