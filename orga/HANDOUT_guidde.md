@@ -1,8 +1,8 @@
-# Handout: User Journeys in **MC-Test-App** mit **guidde** dokumentieren
+# Handout: Tool-Evaluation von **guidde** am Beispiel von User Journeys in der **MC-Test-App**
 
-Das Tool [guidde](https://www.guidde.com/) positioniert sich als schlankes Aufnahme- und Publishing-Tool, das die Erstellung kurzer Schritt‑für‑Schritt‑Anleitungen erleichtert: direkte Bildschirm- und UI‑Aufzeichnung, einfache Nachbearbeitung (Schritttexte, Untertitel, Hervorhebungen) und die Möglichkeit, Inhalte schnell öffentlich bereitzustellen. Laut Produktseite sollen diese Features den Dokumentationsaufwand reduzieren, Wiederverwendbarkeit erhöhen und die Einarbeitungszeit neuer Teammitglieder deutlich verringern.
+Im Rahmen dieses Handouts führen Sie eine professionelle Evaluation des Tools [guidde](https://www.guidde.com/) durch. Guidde positioniert sich als schlankes Aufnahme- und Publishing-Tool, das die Erstellung kurzer Schritt‑für‑Schritt‑Anleitungen erleichtert: direkte Bildschirm- und UI‑Aufzeichnung, einfache Nachbearbeitung (Schritttexte, Untertitel, Hervorhebungen) und die Möglichkeit, Inhalte schnell öffentlich bereitzustellen. Laut Produktseite sollen diese Features den Dokumentationsaufwand reduzieren, Wiederverwendbarkeit erhöhen und die Einarbeitungszeit neuer Teammitglieder deutlich verringern.
 
- Fallstudien bestätigen viele dieser Versprechen: Guidde beschleunigt die Aufnahme wiederkehrender Abläufe und macht Abläufe leichter reproduzierbar, erfordert aber anfangs etwas Planung und gelegentliches Feintuning bei Untertiteln bzw. KI‑Voiceovers. Datenschutzaspekte (keine persönlichen Daten aufnehmen) und der Wunsch nach sauber geplanten Aufnahmen sind die wichtigsten Vorbehalte. 
+ Fallstudien bestätigen viele dieser Versprechen: Guidde beschleunigt die Aufnahme wiederkehrender Abläufe und macht Abläufe leichter reproduzierbar, erfordert aber anfangs etwas Planung und gelegentliches Feintuning bei Untertiteln bzw. KI‑Voiceovers. Datenschutzaspekte (keine persönlichen Daten aufnehmen) und der Wunsch nach sauber geplanten Aufnahmen sind die wichtigsten Vorbehalte.  
  
  Vor dem Hintergrund agilen Projektmanagements erweist sich guidde als besonders wertvoll: Kurze, gut dokumentierte User Journeys unterstützen Transparenz, schnelle Iteration und das Teilen von Wissen in Sprints — und sie reduzieren Kommunikationsaufwand und Reibungsverluste zwischen Teammitgliedern.
 
@@ -80,7 +80,7 @@ Eine professionelle Evaluation von guidde sollte klare Zielsetzungen, reproduzie
 
 Dieser Ansatz stellt sicher, dass die Evaluation belastbare, verwertbare Ergebnisse liefert und zugleich praktikabel in den Projekt‑ und Sprint‑Rhythmen des agilen Projektmanagements bleibt.
 
-## 7) Bewertungsraster
+## 7) Bewertungsraster (Kurzform)
 
 | Kriterium | Gewicht |
 |---|---:|
@@ -105,3 +105,17 @@ Dieser Ansatz stellt sicher, dass die Evaluation belastbare, verwertbare Ergebni
 ## 9) Lernziele
 
 Nach Abschluss dieser Aufgabe haben Sie nicht nur die User Journeys der MC-Test-App professionell dokumentiert, sondern auch praxisnahe Kompetenzen in der Evaluation und Anwendung von Dokumentations-Tools im agilen Projektmanagement erworben. Sie können den Nutzen von Werkzeugen wie guidde für die Wissensvermittlung und Prozessoptimierung bewerten und haben gelernt, klare, reproduzierbare Anleitungen zu erstellen, die die Zusammenarbeit im Team verbessern und den Einarbeitungsaufwand reduzieren.
+
+---
+
+## 10) Projektdokumentation und Leistungsnachweis
+
+Für eine transparente und nachvollziehbare Projektdurchführung im Sinne des agilen Projektmanagements ist eine lückenlose Dokumentation Ihrer Arbeit essenziell. Alle im Rahmen dieser Aufgabe erstellten Artefakte (z.B. Guidde-Videos, Kurzdokumente) sowie der finale Evaluationsbericht sind als einzelne **Issues** auf dem **GitHub Projects Taskboard** Ihres Teams anzulegen und zu verwalten.
+
+Um die individuelle Leistung im Kurs "Agiles Projektmanagement" fair bewerten zu können, ist die korrekte Zuordnung der Beiträge entscheidend. Nutzen Sie daher konsequent GitHub-Labels, um Urheberschaft und Art des Artefakts kenntlich zu machen.
+
+**Verbindliches Label-Schema:**
+*   **Urheberschaft:** `Vorname@TeamX` (z.B. `Max@TeamA`, `Anna@TeamB`)
+*   **Art des Beitrags:** `Artefakt`, `Evaluation`, `Dokumentation`
+
+Jedes Teammitglied ist dafür verantwortlich, die von ihm erstellten Beiträge korrekt zu verorten und zu labeln. Diese Vorgehensweise sichert nicht nur die Transparenz innerhalb des Teams, sondern dient auch als Grundlage für Ihre individuelle Leistungsbewertung.
