@@ -6,15 +6,15 @@ Im Rahmen dieses Handouts führen Sie eine professionelle Evaluation des Tools [
  
  Vor dem Hintergrund agilen Projektmanagements erweist sich guidde als besonders wertvoll: Kurze, gut dokumentierte User Journeys unterstützen Transparenz, schnelle Iteration und das Teilen von Wissen in Sprints — und sie reduzieren Kommunikationsaufwand und Reibungsverluste zwischen Teammitgliedern.
 
- Durch die praktische Anwendung von guidde in den User Journeys der MC-Test-App sollen Sie das Tool guidde professionell evaluieren.  
-
-**Rahmen.** Alle Videos sind öffentlich ("public") und werden bei guidde gehostet. Es dürfen keine personenbezogenen Daten (PII — "Personally Identifiable Information") aufgezeichnet werden. Der MC-Test läuft ohne Account und verwendet vordefinierte Pseudonyme. Jedes Team dokumentiert alle User Journeys. Unterschied nur beim Export-Ziel:
-
-- **Team A:** Anki | **Team B:** Kahoot | **Team C:** arsnova.click
+ **Ihr Auftrag**: Durch die praktische Anwendung von guidde in den User Journeys der MC-Test-App sollen Sie das Tool guidde professionell evaluieren. 
 
 ---
 
 ## 1) Ziele, Rollen, Journeys
+
+Jedes Team dokumentiert alle User Journeys. Unterschied nur beim Export-Ziel:
+
+- **Team A:** Anki | **Team B:** Kahoot | **Team C:** arsnova.click
 
 **Persona:** Dozent/in
 
@@ -28,14 +28,14 @@ Im Rahmen dieses Handouts führen Sie eine professionelle Evaluation des Tools [
 
 ---
 
-## 2) Guidde-Workflow (minimal und verbindlich)
+## 2) Guidde-Workflow
 
 1) **Aufnahme starten:** Öffnen Sie die guidde-Extension, wählen Sie "Capture" und durchlaufen Sie die Journey in der MC-Test-App einmal vollständig und sauber; beenden Sie danach die Aufnahme.
 
 2) **Nachbearbeiten:**
 - Titel und Schritttexte präzisieren (Kurz: Was? / Warum? in 1–2 Sätzen).
 - Unnötige Schritte löschen; bei kleinen UI-Elementen Zoom bzw. Hervorhebungen setzen.
-- Untertitel aktivieren und ein KI-Voiceover ergänzen.
+- Untertitel aktivieren **und** einen KI-Voiceover ergänzen.
 
 1) **Veröffentlichen:** Sichtbarkeit auf "public" setzen (Pflicht, damit das Video in der App eingebettet werden kann).
 
@@ -80,7 +80,7 @@ Eine professionelle Evaluation von guidde sollte klare Zielsetzungen, reproduzie
 
 Dieser Ansatz stellt sicher, dass die Evaluation belastbare, verwertbare Ergebnisse liefert und zugleich praktikabel in den Projekt‑ und Sprint‑Rhythmen des agilen Projektmanagements bleibt.
 
-## 7) Bewertungsraster (Kurzform)
+## 7) Bewertungsraster
 
 | Kriterium | Gewicht |
 |---|---:|
