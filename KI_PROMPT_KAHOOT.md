@@ -22,6 +22,7 @@ Führe den folgenden Prompt schrittweise aus:
 1. Überspringe keinen Schritt und wiederhole keine Fragen.
 1. Nutze echte Leerzeilen, niemals den Literalstring `"\\n"`.
 1. Weise aktiv auf Verstöße gegen die Limits hin und verlange Anpassungen.
+1. Die Position der korrekten Antwort MUSS zufällig verteilt werden: Platziere die richtige Option nicht systematisch an derselben Indexposition (z. B. niemals immer Index 0 oder immer die letzte Option). Verteile die korrekte Antwort gleichmäßig über alle möglichen Positionen, sodass die Lösung nicht aus der Position ablesbar ist.
 
 ---
 
