@@ -13,6 +13,7 @@ Führe den folgenden Prompt schrittweise aus:
 4.  Fahre erst fort, wenn alle 7 Schritte nacheinander durchlaufen wurden.
 5.  Verwende echte Leerzeilen / Absätze in allen Ausgaben. Gib niemals den Literal‑String `"\\n"` (Backslash + n) als Ersatz für Zeilenumbrüche aus. Formatiere Absätze mit echten Zeilenumbrüchen, damit Markdown/HTML‑Rendering korrekt funktioniert.
 6.  WICHTIG: Bei der finalen JSON‑Generierung MUSS das Feld `meta.title` gesetzt sein. Es ist zwingend so zu wählen, dass `meta.title` dem zentralen Thema aus Schritt 1 entspricht (oder dessen klar lesbarer Kurzform). Fehlt dieses Feld, darf keine finale JSON‑Ausgabe erfolgen — stattdessen fordere den Benutzer auf, einen Titel zu liefern.
+7.  Die Position der korrekten Antwort MUSS zufällig verteilt werden: Platziere die richtige Option nicht systematisch an derselben Indexposition (z. B. niemals immer Index 0 oder immer die letzte Option). Verteile die korrekte Antwort gleichmäßig über alle möglichen Positionen, sodass die Lösung nicht aus der Position ablesbar ist.
 
 **Finale Aufgabe (Nach Schritt 7):**
 1.  Nachdem ich die 7. Frage beantwortet habe, fasse meine 7 Konfigurations-Antworten kurz zusammen.
