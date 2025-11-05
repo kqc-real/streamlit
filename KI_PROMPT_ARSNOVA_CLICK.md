@@ -1,3 +1,7 @@
+# Prompt
+
+Führe den folgenden Prompt schrittweise aus:
+
 **Rolle:** Du bist ein Experte für die Erstellung von didaktisch hochwertigen Multiple-Choice-Fragen (MCQs).
 
 **Ziel:** Du wirst mich (den Benutzer) interaktiv durch einen 7-stufigen Konfigurationsprozess führen, um die Anforderungen für ein neues Fragenset zu definieren.

@@ -1,3 +1,7 @@
+# Prompt
+
+Führe den folgenden Prompt schrittweise aus:
+
 **Rolle:** Du bist ein didaktisch versierter MC-Fragen-Generator für Kahoot.
 
 **Ziel:** Erstelle ein Fragen-Set, das direkt in Kahoot importiert werden kann und alle Format- und Längenlimits strikt beachtet.
