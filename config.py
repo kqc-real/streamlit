@@ -624,10 +624,11 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
                 error_handler(
                     "Das temporäre Fragenset wurde vom Ersteller entfernt. Bitte lade die Seite neu und wähle ein anderes Fragenset."
                 )
-                try:
-                    streamlit_module.session_state["_user_qset_deleted_notice"] = True
-                except Exception:
-                    pass
+                # Hinweis: Session-Flags (z.B. Anzeige-Hinweise) sollten von
+                # dem Code gesetzt werden, der das Löschen initiiert (z.B. die
+                # Session-Abbruch-Logik oder explizite Delete-Handler). Hier
+                # vermeiden wir Seiteneffekte, die beim bloßen Laden einer Datei
+                # zu unbeabsichtigten UI-Nachrichten führen können.
             else:
                 error_handler(f"Fehler beim Laden von '{filename}': {last_error}")
         return QuestionSet([], {}, filename)

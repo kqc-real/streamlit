@@ -1139,12 +1139,10 @@ def render_audit_log_tab():
         if st.button("🔎 Cleanup-Events", key="audit_quick_cleanup"):
             st.session_state["_audit_quick_action"] = "CLEANUP_USER_QSETS"
             st.session_state["_audit_quick_limit"] = 200
-            st.rerun()
     with col_q2:
         if st.button("🔁 Alle anzeigen", key="audit_quick_clear"):
             st.session_state.pop("_audit_quick_action", None)
             st.session_state.pop("_audit_quick_limit", None)
-            st.rerun()
 
     # --- Filter ---
     st.subheader("Filter")
