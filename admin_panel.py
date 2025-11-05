@@ -1130,14 +1130,31 @@ def render_audit_log_tab():
     
     st.divider()
     
+    # --- Schnellansichten (Quick-Views) ---
+    # Ermöglicht einen schnellen Blick auf relevante Aktionen wie das Cleanup der
+    # temporären Fragensets. Setzt ein Session-Flag, das die späteren Filter überschreibt.
+    st.subheader("Schnellansichten")
+    col_q1, col_q2 = st.columns([1, 1])
+    with col_q1:
+        if st.button("🔎 Cleanup-Events", key="audit_quick_cleanup"):
+            st.session_state["_audit_quick_action"] = "CLEANUP_USER_QSETS"
+            st.session_state["_audit_quick_limit"] = 200
+            st.rerun()
+    with col_q2:
+        if st.button("🔁 Alle anzeigen", key="audit_quick_clear"):
+            st.session_state.pop("_audit_quick_action", None)
+            st.session_state.pop("_audit_quick_limit", None)
+            st.rerun()
+
     # --- Filter ---
     st.subheader("Filter")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        limit = st.number_input("Anzahl Einträge", 
-                               min_value=10, max_value=1000, value=100, step=10)
+        # Falls eine Schnellansicht aktiv ist, verwenden wir deren Limit-Vorgabe.
+        default_limit = st.session_state.get("_audit_quick_limit", 100)
+        limit = st.number_input("Anzahl Einträge", min_value=10, max_value=1000, value=default_limit, step=10)
     
     with col2:
         # User-Filter (aus Statistik)
@@ -1150,6 +1167,14 @@ def render_audit_log_tab():
         action_options = ["Alle"] + [a["action"] for a in stats["actions"]]
         selected_action = st.selectbox("Aktion", action_options)
         action_filter = None if selected_action == "Alle" else selected_action
+
+    # Wenn eine Schnellansicht gesetzt ist, überschreibt sie die manuelle Auswahl.
+    quick_action = st.session_state.get("_audit_quick_action")
+    if quick_action:
+        action_filter = quick_action
+        # Wenn Quick-View aktiv ist, zeige einen Hinweis und setze das Limit falls vorhanden.
+        st.info(f"Schnellansicht aktiv: {quick_action}")
+        limit = st.session_state.get("_audit_quick_limit", limit)
     
     # Success-Filter
     success_options = {"Alle": None, "Nur Erfolgreiche": True, "Nur Fehlgeschlagene": False}

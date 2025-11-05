@@ -179,6 +179,35 @@ APP_URL="https://ihre-streamlit-app.streamlit.app"
 - **`MC_TEST_MIN_SECONDS_BETWEEN`**: Die Mindestanzahl an Sekunden, die zwischen zwei Antworten vergehen muss. Verhindert Spam. Ein Wert von `0` deaktiviert das Limit. (Default: `3`)
 - **`APP_URL`**: Die URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
 
+Zusätzliche Secrets / Umgebungsvariablen (kurz erklärt):
+
+- **`MC_TEST_DURATION_MINUTES`**: Optionaler Default für die Testdauer (in Minuten) wenn nicht im Fragenset-Meta angegeben. (Default: `60`)
+- **`MC_USER_QSET_CLEANUP_HOURS`**: Wie viele Stunden temporäre, von Nutzern hochgeladene Fragensets als "stale" gelten und automatisch beim Laden der Startseite entfernt werden können. (Default: `24`)
+- **`MC_RATE_LIMIT_ATTEMPTS`**: Anzahl erlaubter fehlgeschlagener Login-/Wiederherstellungs-Versuche bevor Rate-Limiting greift. (Default: `3`)
+- **`MC_RATE_LIMIT_WINDOW_MINUTES`**: Fenstergröße in Minuten für das Rate-Limit. (Default: `5`)
+- **`MC_RECOVERY_MIN_LENGTH`**: Minimale Länge für ein Wiederherstellungs-Geheimwort (Default: `6`).
+- **`MC_RECOVERY_ALLOW_SHORT`**: Falls gesetzt auf `1`/`true`, werden kürzere Wiederherstellungs-Geheimwörter erlaubt.
+
+Hinweis: Du kannst diese Werte lokal in einer `.env` Datei setzen (z.B. für die Entwicklung) oder als Secrets in deiner Deployment-Umgebung (z. B. Streamlit Cloud). Die App liest zuerst Streamlit-Secrets, dann Umgebungsvariablen und schließlich die lokale JSON-Konfiguration `mc_test_config.json`.
+
+Kurzes Beispiel: Setzen des Cleanup-Timeouts
+
+Lokale Shell (temporär für die laufende Shell):
+
+```bash
+export MC_USER_QSET_CLEANUP_HOURS=1  # Temporäre Fragensets älter als 1 Stunde gelten als stale
+streamlit run app.py
+```
+
+Als Streamlit-Cloud-Secret (YAML / UI):
+
+```yaml
+# Im Secrets-Editor der Streamlit-App hinzufügen
+MC_USER_QSET_CLEANUP_HOURS: "1"
+```
+
+Hinweis: Die App priorisiert Werte in dieser Reihenfolge: Streamlit-Secrets → Umgebungsvariablen → `mc_test_config.json`.
+
 ---
 
 ## 📁 Projektstruktur

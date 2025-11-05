@@ -43,6 +43,8 @@ from user_question_sets import (
     list_user_question_sets,
     format_user_label,
     resolve_question_path,
+    # Cleanup stale temporary user uploads so they are not offered on the welcome page
+    cleanup_stale_user_question_sets,
 )
 
 
@@ -926,6 +928,29 @@ def render_welcome_page(app_config: AppConfig):
 
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
     core_question_files = list_question_files()
+    # Remove stale temporary user uploads (e.g. leftover temp files) so they
+    # are not offered for selection on the start/welcome page. Use the value
+    # from AppConfig when present (fallback to 24 hours).
+    try:
+        hours = getattr(app_config, 'user_qset_cleanup_hours', 24)
+        removed = cleanup_stale_user_question_sets(hours=hours)
+        # Show a one-time toast if any stale temporary uploads were removed.
+        try:
+            if removed and removed > 0 and not st.session_state.get('_user_qset_cleanup_notice_shown'):
+                # Brief toast for quick feedback
+                st.toast(f"{removed} temporäre Fragensets entfernt.")
+                # Also show a persistent info banner (one-time per session)
+                try:
+                    st.info(f"{removed} temporäre Fragensets wurden entfernt und stehen nicht mehr zur Auswahl.")
+                except Exception:
+                    pass
+                st.session_state['_user_qset_cleanup_notice_shown'] = True
+        except Exception:
+            # UI notification failures must not break the welcome page
+            pass
+    except Exception:
+        # Non-fatal: if cleanup fails, continue and list sets anyway.
+        pass
     user_question_sets = list_user_question_sets()
 
     def _user_sort_key(info):

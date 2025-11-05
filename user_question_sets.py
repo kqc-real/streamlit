@@ -5,7 +5,12 @@ import json
 import re
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+import logging
+try:
+    import audit_log
+except Exception:  # pragma: no cover - audit logging optional
+    audit_log = None
 from functools import lru_cache
 from pathlib import Path
 from typing import Iterable, List, Optional
@@ -359,6 +364,79 @@ def delete_sets_for_user(user_id: str | None) -> None:
         return
     user_hash = get_user_id_hash(user_id)
     _delete_files(lambda info: info.uploaded_by_hash == user_hash)
+
+
+def cleanup_stale_user_question_sets(hours: int = 24) -> int:
+    """Delete temporary user question set files older than `hours`.
+
+    Returns the number of deleted files. Uses the stored `uploaded_at` metadata
+    where available; falls back to file modification time when missing.
+    """
+    removed = 0
+    removed_names: list[str] = []
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(hours=hours)
+
+    for info in list_user_question_sets():
+        try:
+            uploaded_at = info.uploaded_at
+            # Fallback: use file mtime if no uploaded_at metadata
+            if uploaded_at is None:
+                try:
+                    mtime = info.path.stat().st_mtime
+                    uploaded_at = datetime.fromtimestamp(mtime, tz=timezone.utc)
+                except Exception:
+                    uploaded_at = None
+
+            if uploaded_at is None:
+                # If we can't determine a timestamp, skip deletion conservatively
+                continue
+
+            if uploaded_at.tzinfo is None:
+                # Treat naive datetimes as UTC for consistency
+                uploaded_at = uploaded_at.replace(tzinfo=timezone.utc)
+
+            if uploaded_at < cutoff:
+                try:
+                    info.path.unlink()
+                    removed += 1
+                    try:
+                        removed_names.append(info.path.name)
+                    except Exception:
+                        pass
+                except Exception:
+                    # Ignore individual deletion failures
+                    continue
+        except Exception:
+            continue
+
+    # Log summary for diagnostics (non-fatal)
+    try:
+        if removed:
+            logging.getLogger(__name__).info(
+                "cleanup_stale_user_question_sets: removed %d files: %s",
+                removed,
+                ", ".join(removed_names),
+            )
+            # Also write an audit-log entry when the DB helper is available.
+            if audit_log and hasattr(audit_log, 'log_admin_action'):
+                details = f"removed: {', '.join(removed_names)}"
+                # Use a generic system user id for this automated cleanup
+                try:
+                    ip = None
+                    get_client_ip = getattr(audit_log, 'get_client_ip', None)
+                    if callable(get_client_ip):
+                        ip = get_client_ip()
+                except Exception:
+                    ip = None
+                try:
+                    audit_log.log_admin_action(user_id='system', action='CLEANUP_USER_QSETS', details=details, ip_address=ip, success=True)
+                except Exception:
+                    logging.exception('Failed to write audit_log entry for cleanup_stale_user_question_sets')
+    except Exception:
+        pass
+
+    return removed
 
 
 def format_user_label(info: UserQuestionSetInfo) -> str:

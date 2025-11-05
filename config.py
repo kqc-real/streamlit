@@ -349,6 +349,9 @@ class AppConfig:
         self.show_top5_public: bool = True
         self.test_duration_minutes: int = 60
         self.min_seconds_between_answers: int = 3
+        # Hours after which temporary uploaded question sets are considered stale
+        # and can be cleaned up from the welcome page. Default: 24 hours.
+        self.user_qset_cleanup_hours: int = 24
         # Recovery / policy defaults
         self.recovery_min_length: int = 6
         self.recovery_allow_short: bool = False
@@ -403,6 +406,28 @@ class AppConfig:
                     self.test_duration_minutes = parsed_minutes
             except ValueError:
                 pass  # Belasse Defaultwert bei ungültiger Eingabe
+
+        # Optional: cleanup hours for temporary user question sets (secrets/env)
+        # First try Streamlit secrets (may be empty), then fall back to environment.
+        try:
+            cleanup_hours = st.secrets.get("MC_USER_QSET_CLEANUP_HOURS", "")
+            if isinstance(cleanup_hours, str):
+                cleanup_hours = cleanup_hours.strip()
+            else:
+                cleanup_hours = str(cleanup_hours).strip() if cleanup_hours is not None else ""
+        except Exception:
+            cleanup_hours = ""
+
+        if not cleanup_hours:
+            cleanup_hours = os.getenv("MC_USER_QSET_CLEANUP_HOURS", "").strip()
+
+        if cleanup_hours:
+            try:
+                parsed = int(cleanup_hours)
+                if parsed > 0:
+                    self.user_qset_cleanup_hours = parsed
+            except Exception:
+                pass
 
         # Recovery / rate-limit from secrets/env
         try:
@@ -476,6 +501,15 @@ class AppConfig:
                     pass
                 try:
                     self.rate_limit_window_minutes = int(config_data.get("rate_limit_window_minutes", self.rate_limit_window_minutes))
+                except Exception:
+                    pass
+                # Optional cleanup hours override from JSON config
+                try:
+                    val = config_data.get("user_qset_cleanup_hours", None)
+                    if val is not None:
+                        parsed = int(val)
+                        if parsed > 0:
+                            self.user_qset_cleanup_hours = parsed
                 except Exception:
                     pass
         except (IOError, json.JSONDecodeError):
