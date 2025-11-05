@@ -1056,6 +1056,10 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
         except Exception:
             pass
         if st.sidebar.button("⬅️ Zurück zum Test", width="stretch"):
+            # Beim Zurückspringen aus dem Admin-Panel soll eine ggf. zuvor
+            # gesetzte Lösch-Hinweisnachricht nicht fälschlich angezeigt
+            # werden. Entferne den Session-Flag, bevor wir das Panel schließen.
+            st.session_state.pop("_user_qset_deleted_notice", None)
             st.session_state.show_admin_panel = False
             st.rerun()
     else:
