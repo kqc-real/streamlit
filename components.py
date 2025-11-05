@@ -109,7 +109,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         return
     st.session_state["_active_dialog"] = "user_qset"
 
-    @st.dialog("Fragenset erstellen", width="wide")
+    @st.dialog("Fragenset mit KI erstellen", width="wide")
     def _dialog() -> None:
         st.markdown(
             "Wähle den Prompt, der zu deinem späteren Exportziel passt, und kopiere ihn in deine KI-Umgebung."
@@ -856,8 +856,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         pass
 
     if st.sidebar.button(
-        "Fragenset erstellen",
+        "Fragenset mit KI erstellen",
         key="user_qset_open_btn",
+        type="primary",
         width="stretch",
     ):
         current_open = bool(st.session_state.get("user_qset_dialog_open"))
