@@ -13,7 +13,7 @@ except Exception:  # pragma: no cover - audit logging optional
     audit_log = None
 from functools import lru_cache
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Iterable, List, Optional, Any
 
 from config import QuestionSet, get_package_dir, USER_QUESTION_PREFIX
 from config import _build_question_set  # type: ignore[attr-defined]
@@ -200,6 +200,83 @@ def _sanitize_json_text(text: str) -> str:
     return cleaned.strip()
 
 
+# Patterns that indicate the model or an external tool injected provenance / citation
+# markers into the JSON. Keep this small and conservative — exact matching happens
+# in the validator below which walks arbitrary nested structures.
+FORBIDDEN_PATTERNS: dict[str, re.Pattern] = {
+    # Exact contentReference annotations (produced by some importers/models)
+    "content_reference": re.compile(r":contentReference\[[^\]]*\]\{[^}]*\}"),
+    # Numeric bracket citations when they appear *at the end* of a field
+    # (e.g. "... Ergebnis [1]"). Do not match inline mathematical
+    # bracketed notations like "[0], [1], ..." which are legitimate.
+    "square_bracket_ref": re.compile(r"\[[0-9]{1,3}\]\s*$"),
+    # DOI-like tokens (loose matching but anchored on the word 'doi')
+    "doi_like": re.compile(r"\bdoi:\s*\/?\S+", re.IGNORECASE),
+}
+
+
+def _scan_for_forbidden_strings(obj: Any) -> list[tuple[str, str]]:
+    """Recursively scan an object (dict/list/str) for forbidden patterns.
+
+    Returns a list of (pattern_key, offending_string) tuples.
+    """
+    found: list[tuple[str, str]] = []
+
+    # Regex to detect delimited math regions so we can ignore forbidden
+    # patterns that appear inside LaTeX/math (e.g. sets like "[0], [1]").
+    math_region = re.compile(r"(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))", re.DOTALL)
+
+    def _inside_math(spans: list[tuple[int, int]], start: int, end: int) -> bool:
+        for a, b in spans:
+            if start >= a and end <= b:
+                return True
+        return False
+
+    def _walk(value: Any) -> None:
+        if isinstance(value, str):
+            # compute math spans once per string
+            spans: list[tuple[int, int]] = [(m.start(), m.end()) for m in math_region.finditer(value)]
+            for key, pat in FORBIDDEN_PATTERNS.items():
+                for m in pat.finditer(value):
+                    s, e = m.start(), m.end()
+                    # Ignore matches entirely contained in math regions
+                    if _inside_math(spans, s, e):
+                        continue
+                    found.append((key, value))
+        elif isinstance(value, dict):
+            for v in value.values():
+                _walk(v)
+        elif isinstance(value, (list, tuple)):
+            for v in value:
+                _walk(v)
+
+    _walk(obj)
+    return found
+
+
+def _validate_no_references(question_set: QuestionSet) -> None:
+    """Raise ValueError when the question_set contains forbidden provenance markers.
+
+    This is defensive: prompt-instructed models sometimes insert citation tokens
+    into generated JSON. We reject those uploads and ask the user to re-generate
+    without such inline references.
+    """
+    # Build a serializable representation of the core content we want to inspect
+    payload = {
+        "meta": question_set.meta,
+        "questions": question_set.questions,
+    }
+
+    bad = _scan_for_forbidden_strings(payload)
+    if bad:
+        # Build a helpful message listing a few examples
+        examples = ", ".join(f"{k}: {v!r}" for k, v in bad[:6])
+        raise ValueError(
+            "Die hochgeladene Datei enthält verbotene Inline-Verweise oder Zitationsmarker. "
+            f"Beispiele: {examples}. Bitte entferne solche Marker und versuche es erneut."
+        )
+
+
 def _load_question_set_from_payload(payload: bytes, source_name: str) -> QuestionSet:
     try:
         text = payload.decode("utf-8")
@@ -248,6 +325,9 @@ def save_user_question_set(
         )
 
     question_set = _load_question_set_from_payload(payload, original_filename or "upload.json")
+
+    # Strict validation: ensure no forbidden inline references/citations are present
+    _validate_no_references(question_set)
 
     question_count = len(question_set.questions)
     if question_count > MAX_TEMP_QUESTION_COUNT:
