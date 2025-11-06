@@ -521,4 +521,6 @@ def cleanup_stale_user_question_sets(hours: int = 24) -> int:
 
 def format_user_label(info: UserQuestionSetInfo) -> str:
     base_label = info.question_set.meta.get("title") or info.filename.replace(".json", "")
-    return f"{base_label} (temporär)"
+    # Previously we appended "(temporär)" here. UX change: show the title
+    # without the suffix so the UI is cleaner and less verbose.
+    return f"{base_label}"
