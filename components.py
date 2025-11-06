@@ -115,9 +115,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             "Wähle den Prompt, der zu deinem späteren Exportziel passt, und kopiere ihn in deine KI-Umgebung."
         )
         st.markdown(
-            "- **[Anki](https://apps.ankiweb.net/)**-Prompt**: Erste Wahl für diese App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Einschränkungen.\n"
-            "- **[Kahoot](https://kahoot.com)**-Prompt**: Speziell auf Import-Restriktionen (Textlängen, Optionen, Zeitlimits) abgestimmt, damit der Upload direkt klappt.\n"
-            "- **[arsnova.click](https://arsnova.click)**-Prompt**: Optimiert für das an Hochschulen populäre Audience-Response-Tool inkl. LaTeX-Formeln und passenden Antwortlängen."
+            "- **[Anki](https://apps.ankiweb.net/)**-Prompt: Erste Wahl für diese App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Textlängenbeschränkungen.\n"
+            "- **[Kahoot](https://kahoot.com)**-Prompt: Speziell auf die Import-Restriktionen von Kahoot abgestimmt (Textlängen, MC-Optionen, Zeitlimits), damit der Excel-Upload direkt klappt.\n"
+            "- **[arsnova.click](https://arsnova.click)**-Prompt: Optimiert für das an Hochschulen und Universitäten populäre Audience-Response-Tool inkl. LaTeX-Formeln und passenden Antwortlängen."
         )
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
