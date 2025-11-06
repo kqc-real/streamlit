@@ -564,6 +564,15 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
         st.sidebar.markdown(f"Fragenset: **{display_name}**")
 
+        # Hinweis für temporäre Fragensets: informiere die Nutzer, dass
+        # diese automatisch nach 24 Stunden gelöscht werden.
+        try:
+            if is_user_set:
+                st.sidebar.caption("Temporäre Fragensets werden nach 24 Stunden automatisch gelöscht.")
+        except Exception:
+            # Sidebar-Anzeigen dürfen die Hauptanzeige nicht brechen
+            pass
+
     # --- Mini-Glossar: Ein einzelner Download-Button in der Sidebar ---
     try:
         selected_file = st.session_state.get("selected_questions_file")
