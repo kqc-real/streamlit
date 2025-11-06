@@ -249,6 +249,22 @@ def _build_question_set(
         # Math/LaTeX uses ampersands (e.g. pmatrix). Preserve them after sanitizing.
         if "&amp;" in sanitized:
             sanitized = sanitized.replace("&amp;", "&")
+        # Remove any trailing contentReference markers that may have been
+        # appended by external importers (they are internal annotations
+        # and should not be shown in the UI). Example pattern:
+        #  ":contentReference[oaicite:0]{index=0}"
+        try:
+            sanitized = re.sub(r"\s*:contentReference\[[^\]]*\]\{[^}]*\}\s*$", "", sanitized)
+        except Exception:
+            # Be defensive: if regex fails for unexpected input, leave text as-is
+            pass
+
+        # Remove invisible/zero-width characters which sometimes get pasted
+        # into questions from external editors and can break layout
+        # (U+200B ZERO WIDTH SPACE, U+200C ZERO WIDTH NON-JOINER, U+200D ZERO WIDTH JOINER).
+        for zw in ("\u200b", "\u200c", "\u200d"):
+            if zw in sanitized:
+                sanitized = sanitized.replace(zw, "")
         if modified and not silent:
             st.warning(
                 f"In '{filename}' wurde potenziell unsichere HTML-Auszeichnung entfernt ({context})."

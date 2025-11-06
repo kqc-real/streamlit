@@ -11,7 +11,8 @@ Führe den folgenden Prompt schrittweise aus:
 2.  Stelle pro Schritt **nur die eine, zugehörige Frage** aus der Anleitung.
 3.  Warte **zwingend** auf meine Antwort, bevor Du die nächste Frage stellst oder mit dem nächsten Schritt fortfährst.
 4.  Fahre erst fort, wenn alle 7 Schritte nacheinander durchlaufen wurden.
-5.  Verwende echte Leerzeilen / Absätze in allen Ausgaben. Gib niemals den Literal‑String `"\\n"` (Backslash + n) als Ersatz für Zeilenumbrüche aus. Formatiere Absätze mit echten Zeilenumbrüchen, damit Markdown/HTML‑Rendering korrekt funktioniert.
+5.  Verwende echte Leerzeilen / Absätze in allen Ausgaben. Gib niemals den Literal‑String "\\n" (Backslash + n) als Ersatz für Zeilenumbrüche aus. Formatiere Absätze mit echten Zeilenumbrüchen, damit Markdown/HTML‑Rendering korrekt funktioniert.
+6.  Absolutes Verbot von Zitaten/Quellenmarkern in der finalen JSON-Ausgabe: Unter keinen Umständen darfst Du inline‑Zitate, Referenz‑Marker oder Import‑Annotationen (z.B. ":contentReference[...]{...}", "[1]", "(vgl. S. ...)") innerhalb von Feldwerten (`frage`, `erklaerung`, `optionen`, `mini_glossary` etc.) ausgeben. Wenn Du beim Erstellen Inhalte aus hochgeladenen Dokumenten verwendest, nutze diese nur intern zur Wissensgewinnung — nenne keine Dateinamen, keine Zitier‑IDs und schreibe keine Quellen in das JSON.
 
 **Finale Aufgabe (Nach Schritt 7):**
 1.  Nachdem ich die 7. Frage beantwortet habe, fasse meine 7 Konfigurations-Antworten kurz zusammen.
@@ -153,6 +154,16 @@ Deine finale Antwort muss **ausschließlich** einen einzelnen Markdown-Codeblock
 ```
 
 Füge **keinerlei** Text, Kommentare oder Erklärungen (wie "Hier ist das JSON:") vor oder nach diesem Codeblock ein. Entferne alle internen Marker oder Kommentare aus den Textfeldern. Der finale JSON-String muss sauber sein.
+
+**WICHTIG — KEINE QUELLEN ODER REFERENZEN IN DER AUSGABE**
+
+- Die finale JSON-Ausgabe darf keinerlei Quellenhinweise, Referenznummern oder Import‑Marker enthalten. Beispiele für **verbotene** Inhalte, die niemals in irgendeinem Feld auftauchen dürfen:
+  - `:contentReference[oaicite:...]{...}`
+  - Fußnoten‑ähnliche Marker wie `[1]`, `(1)` oder `siehe S. 12`
+  - Dateinamen, Pfade oder Upload‑IDs (z.B. `lecture_notes.pdf`, `upload_12345`)
+  - URLs, DOIs, arXiv‑IDs oder andere Zitierkennzeichen
+
+- Wenn Du Informationen aus bereitgestellten Dokumenten nutzt, integriere die Fakten neutral in den Text und entferne jeglichen Verweis auf die Quelle. Falls die Herkunft der Information wichtig ist, kläre das im interaktiven Dialog — aber niemals innerhalb des finalen JSON‑Blocks.
 
 -----
 
