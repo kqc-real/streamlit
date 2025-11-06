@@ -10,6 +10,7 @@ import os
 import sys
 import json
 import math
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict, Any
@@ -227,8 +228,24 @@ def _build_question_set(
     def _sanitize_text(value: Any, context: str) -> str:
         if not isinstance(value, str):
             return ""
-        sanitized, modified = sanitize_html(value)
+        # Protect LaTeX/math regions from HTML escaping (e.g. $...$, $$...$$, \(...\), \[...\])
+        math_pattern = re.compile(r'(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))', re.DOTALL)
+        placeholders: dict[str, str] = {}
+        
+        def _math_repl(m):
+            idx = len(placeholders)
+            key = f"__MATH_PLACEHOLDER_{idx}__"
+            placeholders[key] = m.group(0)
+            return key
+
+        protected = math_pattern.sub(_math_repl, value)
+
+        sanitized, modified = sanitize_html(protected)
         sanitized = sanitized.strip()
+
+        # Restore protected math placeholders (they were not passed through the HTML escaper)
+        for key, original in placeholders.items():
+            sanitized = sanitized.replace(key, original)
         # Math/LaTeX uses ampersands (e.g. pmatrix). Preserve them after sanitizing.
         if "&amp;" in sanitized:
             sanitized = sanitized.replace("&amp;", "&")
@@ -528,6 +545,7 @@ class AppConfig:
                 json.dump(config_data, f, indent=2)
         except IOError:
             st.error("Konfiguration konnte nicht gespeichert werden.")
+
 
 
 @st.cache_data
