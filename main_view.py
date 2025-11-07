@@ -1244,7 +1244,7 @@ def render_welcome_page(app_config: AppConfig):
         verify_recovery,
     )
 
-    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>👤 Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
 
     # Anzeige von Nachrichten nach Rerun (z.B. erfolgreiche Reservierung)
     # Wenn ein Pseudonym reserviert wurde, zeigen wir es hervorgehoben
