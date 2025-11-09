@@ -520,7 +520,28 @@ def cleanup_stale_user_question_sets(hours: int = 24) -> int:
 
 
 def format_user_label(info: UserQuestionSetInfo) -> str:
-    base_label = info.question_set.meta.get("title") or info.filename.replace(".json", "")
-    # Previously we appended "(temporär)" here. UX change: show the title
-    # without the suffix so the UI is cleaner and less verbose.
+    # Prefer an explicit 'thema' from the question set metadata when available.
+    # This prevents ugly default titles like 'pasted' from being shown to users
+    # after they pasted/uploaded a temporary file. Fallback order:
+    #  1. meta['thema']
+    #  2. first question['thema']
+    #  3. meta['title'] (unless it's the generic 'pasted')
+    #  4. filename without extension
+    meta = info.question_set.meta or {}
+    tema = meta.get("thema")
+    if not tema:
+        try:
+            q0 = info.question_set.questions[0]
+            tema = q0.get("thema") if isinstance(q0, dict) else None
+        except Exception:
+            tema = None
+
+    title = meta.get("title")
+    if tema:
+        base_label = tema
+    elif title and title != "pasted":
+        base_label = title
+    else:
+        base_label = info.filename.replace(".json", "")
+
     return f"{base_label}"

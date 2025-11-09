@@ -214,8 +214,35 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             except Exception:
                 meta_title = None
 
+            # If this is a user-uploaded (temporary) question set, prefer the
+            # user-friendly label (title or filename) instead of the raw file
+            # identifier (which contains the uploader hash). This avoids showing
+            # the user's hash in the Anki preview header.
+            if not meta_title:
+                try:
+                    # Lazy import to avoid circular imports at module level
+                    from user_question_sets import get_user_question_set
+                except Exception:
+                    get_user_question_set = None
+
+                if get_user_question_set and isinstance(selected_file, str) and selected_file.startswith(USER_QUESTION_PREFIX):
+                    try:
+                        info = get_user_question_set(selected_file)
+                        if info:
+                            meta_title = format_user_label(info)
+                    except Exception:
+                        meta_title = None
+
             if not meta_title:
                 meta_title = selected_file.replace("questions_", "").replace(".json", "")
+
+            # If this is a user-uploaded temporary question set, prefer showing
+            # the explicit 'temporär' label instead of the raw filename (e.g. 'pasted').
+            try:
+                if 'info' in locals() and info and getattr(info, 'question_set', None) and info.question_set.meta.get('temporary'):
+                    meta_title = "temporär"
+            except Exception:
+                pass
 
             q_html = _render_md(preview_q.get("frage") if isinstance(preview_q, dict) else "")
 
@@ -333,7 +360,33 @@ window.MathJax = {
         except Exception:
             st.markdown(css + math_assets + "".join(all_previews_html), unsafe_allow_html=True)
 
-    _show_anki_preview_dialog()
+    try:
+        _show_anki_preview_dialog()
+    except Exception as exc:
+        # Streamlit raises StreamlitAPIException when a dialog is already open.
+        # Detect that case and show a user-friendly hint instead of crashing the app.
+        try:
+            from streamlit.errors import StreamlitAPIException
+        except Exception:
+            StreamlitAPIException = None  # type: ignore
+
+        if StreamlitAPIException and isinstance(exc, StreamlitAPIException):
+            try:
+                st.warning(
+                    "Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut."
+                )
+                # Mark that the user requested the preview so they can retry after closing dialogs
+                try:
+                    st.session_state['_open_anki_preview_requested'] = selected_file
+                except Exception:
+                    pass
+                return
+            except Exception:
+                # Fallback: re-raise if we cannot handle gracefully
+                raise
+
+        # If it's a different exception, re-raise to avoid hiding bugs
+        raise
 
 
 def _format_minutes_text(minutes: int) -> str:
@@ -2788,12 +2841,135 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             if st.button("🖼️ Kartenvorschau anzeigen", key=preview_button_key):
                 _open_anki_preview_dialog(export_questions, export_selected_file)
 
-            export_file_stem = (
-                export_selected_file.replace(USER_QUESTION_PREFIX, "")
-                .replace("questions_", "")
-                .replace("::", "_")
-                .replace(".json", "")
-            )
+            # Build a user-friendly, slug-safe file stem for downloads.
+            # For user-uploaded (temporary) sets prefer the formatted label
+            # (from `format_user_label`) instead of the internal hash-based filename.
+            try:
+                # Prefer a dedicated set-level 'thema' when available. We try several
+                # sources (in this order): question_set_cache meta, user-upload info,
+                # first question's 'thema' field, then fallback to the filename.
+                raw_label = None
+
+                # Try the preloaded question_set_cache (populated above for known files)
+                try:
+                    # Safely obtain question_set_cache from locals or globals to avoid
+                    # NameError in unusual call paths (e.g. when this block is executed
+                    # outside the usual initialization flow).
+                    qs_cache = None
+                    try:
+                        qs_cache = locals().get('question_set_cache') or globals().get('question_set_cache')
+                    except Exception:
+                        qs_cache = globals().get('question_set_cache') if isinstance(globals(), dict) else None
+
+                    qs_obj = None
+                    if qs_cache:
+                        try:
+                            qs_obj = qs_cache.get(export_selected_file)
+                        except Exception:
+                            qs_obj = None
+
+                    if qs_obj and getattr(qs_obj, 'meta', None):
+                        raw_label = qs_obj.meta.get('thema') or qs_obj.meta.get('title')
+                except Exception:
+                    # Keep raw_label as-is on any error
+                    raw_label = raw_label
+
+                # If still no label, try to infer from the first question in the export list
+                if not raw_label and isinstance(export_questions, (list, tuple)) and len(export_questions) > 0:
+                    try:
+                        first_q = export_questions[0]
+                        if isinstance(first_q, dict):
+                            raw_label = first_q.get('thema')
+                    except Exception:
+                        raw_label = raw_label
+
+                # If not found yet, try user-upload info (friendly label may include a title)
+                if not raw_label and isinstance(export_selected_file, str) and export_selected_file.startswith(USER_QUESTION_PREFIX):
+                    try:
+                        from user_question_sets import get_user_question_set
+                        info = get_user_question_set(export_selected_file)
+                    except Exception:
+                        info = None
+
+                    if info:
+                        try:
+                            # Prefer an explicit title in the stored meta if present
+                            raw_label = getattr(info, 'question_set', None) and info.question_set.meta.get('thema')
+                            if not raw_label:
+                                raw_label = format_user_label(info)
+                        except Exception:
+                            raw_label = getattr(info, 'filename', None) or None
+
+                # Final fallback: derive from filename
+                if not raw_label:
+                    raw_label = export_selected_file.replace(USER_QUESTION_PREFIX, "").replace("questions_", "").replace("::", "_").replace(".json", "")
+
+                # Slugify: remove problematic chars, replace spaces with underscores
+                import re
+
+                stem = re.sub(r"[^\w\s-]", "", str(raw_label) or "export")
+                stem = stem.strip().replace(" ", "_")
+                stem = re.sub(r"_+", "_", stem)
+                stem = stem[:80] or "export"
+            except Exception:
+                # Fallback conservative stem
+                stem = "export"
+
+            export_file_stem = stem
+            # Also prepare a friendly stem for the currently selected set (`selected_file`)
+            try:
+                # Prefer set-level 'thema' for the selected file stem as well.
+                raw_label_sel = None
+
+                # Try the in-memory selected_question_set first
+                try:
+                    # Safely obtain selected_question_set from locals/globals
+                    sqs = None
+                    try:
+                        sqs = locals().get('selected_question_set') or globals().get('selected_question_set')
+                    except Exception:
+                        sqs = globals().get('selected_question_set') if isinstance(globals(), dict) else None
+
+                    if sqs is not None and getattr(sqs, 'meta', None):
+                        raw_label_sel = sqs.meta.get('thema') or sqs.meta.get('title')
+                except Exception:
+                    raw_label_sel = raw_label_sel
+
+                # Next fallback: use first question's thema if available
+                if not raw_label_sel and isinstance(questions, (list, tuple)) and len(questions) > 0:
+                    try:
+                        first_q = questions[0]
+                        if isinstance(first_q, dict):
+                            raw_label_sel = first_q.get('thema')
+                    except Exception:
+                        raw_label_sel = raw_label_sel
+
+                # Fallback to user-upload info if needed
+                if not raw_label_sel and isinstance(selected_file, str) and selected_file.startswith(USER_QUESTION_PREFIX):
+                    try:
+                        from user_question_sets import get_user_question_set
+                        sel_info = get_user_question_set(selected_file)
+                    except Exception:
+                        sel_info = None
+
+                    if sel_info:
+                        try:
+                            raw_label_sel = getattr(sel_info, 'question_set', None) and sel_info.question_set.meta.get('thema')
+                            if not raw_label_sel:
+                                raw_label_sel = format_user_label(sel_info)
+                        except Exception:
+                            raw_label_sel = getattr(sel_info, 'filename', None) or None
+
+                if not raw_label_sel:
+                    raw_label_sel = selected_file.replace('questions_', '').replace('.json', '')
+
+                import re as _re
+                sel_stem = _re.sub(r"[^\w\s-]", "", str(raw_label_sel) or "export").strip().replace(" ", "_")
+                sel_stem = _re.sub(r"_+", "_", sel_stem)[:80] or 'export'
+            except Exception:
+                sel_stem = 'export'
+
+            selected_file_stem = sel_stem
             apkg_button_key = f"start_anki_apkg_{export_selected_file}"
             tsv_button_key = f"start_anki_tsv_{export_selected_file}"
             apkg_download_key = f"dl_anki_apkg_{export_selected_file}"
@@ -2855,7 +3031,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.download_button(
                     label="💾 Kahoot-Quiz herunterladen",
                     data=xlsx_bytes,
-                    file_name=f"kahoot_export_{export_selected_file.replace('questions_', '').replace('.json', '')}.xlsx",
+                    file_name=f"kahoot_export_{export_file_stem}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     key=kahoot_dl_key,
                 )
@@ -2959,7 +3135,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         st.download_button(
                             label="💾 arsnova.click-Quiz herunterladen",
                             data=json_bytes,
-                            file_name=f"arsnova_export_{export_selected_file.replace('questions_', '').replace('.json', '')}.json",
+                            file_name=f"arsnova_export_{export_file_stem}.json",
                             mime="application/json",
                             key=arsnova_dl_key
                         )
@@ -2970,9 +3146,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         with st.expander("📄 Musterlösung (PDF mit allen richtigen Antworten)"):
             st.markdown("Erhalte eine vollständige Musterlösung mit allen korrekten Antworten und Erklärungen. Ideal zum Nacharbeiten und Lernen.")
             muster_download_name = (
-                f"musterloesung_"
-                f"{selected_file.replace('questions_', '').replace('.json', '')}"
-                f"_{user_name_file}.pdf"
+                f"musterloesung_{selected_file_stem}_{user_name_file}.pdf"
             )
             musterloesung_btn_key = f"download_musterloesung_review_{selected_file}"
             musterloesung_dl_key = f"dl_musterloesung_direct_{selected_file}"
@@ -3000,8 +3174,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             with st.expander("📄 Mini-Glossar (PDF mit allen Fachbegriffen)"):
                 st.markdown("Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.")
                 glossary_download_name = (
-                    f"mini_glossar_"
-                    f"{selected_file.replace('questions_', '').replace('.json', '')}.pdf"
+                    f"mini_glossar_{selected_file_stem}.pdf"
                 )
                 glossar_btn_key = f"download_glossar_review_{selected_file}"
                 glossar_dl_key = f"dl_glossar_direct_{selected_file}"
@@ -3025,9 +3198,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         with st.expander("📄 Testbericht (PDF mit deinem Ergebnis)"):
             st.markdown("Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.")
             report_download_name = (
-                f"testbericht_"
-                f"{selected_file.replace('questions_', '').replace('.json', '')}"
-                f"_{user_name_file}.pdf"
+                f"testbericht_{selected_file_stem}_{user_name_file}.pdf"
             )
             testbericht_btn_key = f"download_testbericht_review_{selected_file}"
             testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
