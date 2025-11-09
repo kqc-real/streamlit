@@ -545,14 +545,34 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         except Exception:
             meta_title = None
 
-        if isinstance(meta_title, str) and meta_title.strip():
-            display_name = meta_title.strip()
+        # Treat the generic placeholder 'pasted' as missing so we prefer a
+        # friendlier label (e.g. thema) for user uploads.
+        try:
+            if isinstance(meta_title, str):
+                mt = meta_title.strip()
+            else:
+                mt = None
+        except Exception:
+            mt = None
+
+        if mt and mt.lower() != "pasted":
+            display_name = mt
         elif is_user_set:
             info = get_user_question_set(selected_file)
             if info:
                 meta_title = info.question_set.meta.get("title") if info.question_set.meta else None
-                if isinstance(meta_title, str) and meta_title.strip():
-                    display_name = meta_title.strip()
+                # Treat the placeholder 'pasted' as missing so we prefer the
+                # friendlier, derived label (e.g. thema) for user uploads.
+                try:
+                    if isinstance(meta_title, str):
+                        mt2 = meta_title.strip()
+                    else:
+                        mt2 = None
+                except Exception:
+                    mt2 = None
+
+                if mt2 and mt2.lower() != "pasted":
+                    display_name = mt2
                 else:
                     display_name = format_user_label(info)
 
@@ -900,8 +920,16 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             set_name = None
             if info:
                 meta_title = info.question_set.meta.get("title") if info.question_set.meta else None
-                if isinstance(meta_title, str) and meta_title.strip():
-                    set_name = meta_title.strip()
+                try:
+                    if isinstance(meta_title, str):
+                        mt3 = meta_title.strip()
+                    else:
+                        mt3 = None
+                except Exception:
+                    mt3 = None
+
+                if mt3 and mt3.lower() != "pasted":
+                    set_name = mt3
                 else:
                     set_name = format_user_label(info)
             if not set_name:
