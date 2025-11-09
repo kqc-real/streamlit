@@ -236,11 +236,12 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             if not meta_title:
                 meta_title = selected_file.replace("questions_", "").replace(".json", "")
 
-            # If this is a user-uploaded temporary question set, prefer showing
-            # the explicit 'temporär' label instead of the raw filename (e.g. 'pasted').
+            # For user-uploaded temporary question sets prefer the friendly
+            # label (which already prefers `thema`) instead of a generic
+            # placeholder like 'temporär' or the raw filename.
             try:
                 if 'info' in locals() and info and getattr(info, 'question_set', None) and info.question_set.meta.get('temporary'):
-                    meta_title = "temporär"
+                    meta_title = format_user_label(info)
             except Exception:
                 pass
 

@@ -292,6 +292,21 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     else:
         title = str(raw_title).strip()
 
+    # If the title is missing or the generic 'pasted' placeholder, prefer
+    # the question-set 'thema' or the first question's 'thema' so exported
+    # filenames and the Anki "Fragenset" field are user-friendly.
+    if not title or title == "pasted":
+        tema = meta.get("thema")
+        if not tema:
+            try:
+                q0 = data.get("questions", [])[0]
+                if isinstance(q0, dict):
+                    tema = q0.get("thema")
+            except Exception:
+                tema = None
+        if tema:
+            title = str(tema).strip()
+
     if not title:
         title = _fallback_title_from_source(source_name)
 
