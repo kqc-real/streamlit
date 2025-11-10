@@ -29,7 +29,6 @@ from user_question_sets import (
     get_user_question_set,
     iter_prompt_resources,
     save_user_question_set,
-    delete_user_question_set,
     delete_sets_for_user,
 )
 
@@ -1022,7 +1021,6 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
                         # hilft einzuschätzen, wie lange der Render-Vorgang dauern kann
                         # (Formeln erfordern Remote-Requests und Bildgenerierung).
-                        import re
 
                         formula_count = 0
                         try:
@@ -1216,7 +1214,6 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
                         # hilft einzuschätzen, wie lange der Render-Vorgang dauern kann
                         # (Formeln erfordern Remote-Requests und Bildgenerierung).
-                        import re
 
                         formula_count = 0
                         try:
