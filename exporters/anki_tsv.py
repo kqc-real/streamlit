@@ -67,6 +67,13 @@ DEFAULT_ALLOWED_ATTRS = {
     "span": ["class"],
 }
 
+# Allow certain list attributes so ordered lists can preserve their
+# display style (e.g. type="A"). Keep the set minimal for safety.
+DEFAULT_ALLOWED_ATTRS.update({
+    "ol": ["type", "start", "class"],
+    "li": ["class"],
+})
+
 
 def _fallback_title_from_source(source_name: Optional[str]) -> str:
     if not source_name:
@@ -129,8 +136,28 @@ def _strip_wrapping_paragraph(html: str) -> str:
     if not html:
         return ""
     stripped = html.strip()
+    # Remove wrapping <p>...</p>
     if stripped.startswith("<p>") and stripped.endswith("</p>"):
         return stripped[3:-4]
+
+    # If the content is wrapped in an ordered/unordered list (e.g. produced
+    # from markdown like `1. Question`), extract the inner <li> content and
+    # return it without the list container so Anki cards don't display a
+    # misleading sequential number. Keep any inline HTML inside the <li>.
+    low = stripped.lower()
+    if (low.startswith("<ol") and low.endswith("</ol>")) or (
+        low.startswith("<ul") and low.endswith("</ul>")
+    ):
+        # Extract all <li>...</li> blocks and join them with a space.
+        # Usually there will be a single <li> with the question text.
+        import re
+
+        items = re.findall(r"<li[^>]*>(.*?)</li>", stripped, flags=re.DOTALL | re.IGNORECASE)
+        if items:
+            # Join multiple list items if present, separated by a single space.
+            joined = " ".join(item.strip() for item in items if item and item.strip())
+            return joined
+
     return stripped
 
 

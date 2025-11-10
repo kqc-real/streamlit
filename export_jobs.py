@@ -26,6 +26,7 @@ import re
 from datetime import datetime, timezone
 from zipfile import ZipFile, ZIP_DEFLATED
 from xml.sax.saxutils import escape
+import random
 
 
 def _resolve_json_source(selected_file: str) -> Path:
@@ -361,41 +362,63 @@ _ANKI_COLUMNS: List[str] = [
     "Schwierigkeit",
     "Tags_Alle",
 ]
-
-
 _ANKI_CARD_CSS = """
 .card { background-color: #ffffff; color: #111; }
-.card-container { font-family: Arial, sans-serif; font-size: 16px; color: #111; background-color: #ffffff; }
-.question { font-weight: 600; margin-bottom: 12px; }
-.options ol { list-style-type: upper-alpha; padding-left: 3.5em; margin: 0; }
+.card-container { font-family: Georgia, 'Times New Roman', Times, serif; font-size: 16px; color: #111; background-color: #ffffff; }
+/* Line-height: keep default for the container to avoid disturbing math/LaTeX layout.
+   Apply a modest 1.2 line-height only for questions, explanations and glossary. */
+.question, .question-content, .question-repeat .question-content, .answer-content, .explanation, .glossary { line-height: 1.2; }
+.question { font-weight: 400; margin-bottom: 12px; }
+.options ol {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    counter-reset: option;
+}
+.options ol li {
+    position: relative;
+    padding-left: 3.6em; /* reserve space for marker */
+    margin-bottom: 0.6em;
+}
+.options ol li::before {
+    counter-increment: option;
+    content: counter(option, upper-alpha) ")"; /* A) */
+    position: absolute;
+    left: 0;
+    width: 3em;
+    display: inline-block;
+    text-align: right;
+    margin-right: 0.6em;
+    font-weight: 600;
+}
 .answer-block { margin-top: 12px; }
 .answer-title { font-weight: 700; color: #0f766e; margin-bottom: 6px; }
 .answer-content { font-weight: 600; color: #15803d; margin-bottom: 8px; }
 .question-repeat { margin-bottom: 12px; }
 .question-repeat .section-title { margin-top: 0; }
-.question-content { font-weight: 600; color: #111; margin-bottom: 6px; }
+.question-content { font-weight: 400; color: #111; margin-bottom: 6px; }
 .options-content { margin-bottom: 8px; }
 .card-container hr { border: none; border-top: 1px solid #d1d5db; margin: 12px 0; }
 .section-title { font-weight: 700; color: #005A9C; margin-top: 10px; margin-bottom: 4px; }
-.meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display: flex; flex-wrap: wrap; gap: 10px; }
-.meta-info .meta-item strong { color: #000; }
+.meta-info { background-color: #f7f7f7; padding: 8px 12px; border-radius: 6px; margin-bottom: 40px; font-size: 0.85em; color: #555; display: flex; flex-wrap: wrap; gap: 12px; }
+.meta-info .meta-item strong { color: #000; font-weight: 400; }
 
 .card.night-mode,
 .night-mode .card,
 .night_mode .card,
-.nightMode .card { background-color: #0f172a; color: #f9fafb; }
+.nightMode .card { background-color: #0f172a; color: #cbd5e1; }
 .card.night-mode .card-container,
 .night-mode .card .card-container,
 .night_mode .card .card-container,
-.nightMode .card .card-container { background-color: #0f172a; color: #f9fafb; }
+.nightMode .card .card-container { background-color: #0f172a; color: #cbd5e1; }
 .card.night-mode .meta-info,
 .night-mode .card .meta-info,
 .night_mode .card .meta-info,
-.nightMode .card .meta-info { background-color: #1e293b; color: #e2e8f0; }
+.nightMode .card .meta-info { background-color: #11202e; color: #9fb0c3; }
 .card.night-mode .meta-info .meta-item strong,
 .night-mode .card .meta-info .meta-item strong,
 .night_mode .card .meta-info .meta-item strong,
-.nightMode .card .meta-info .meta-item strong { color: #f8fafc; }
+.nightMode .card .meta-info .meta-item strong { color: #dbe8f2; font-weight: 400; }
 .card.night-mode .question,
 .night-mode .card .question,
 .night_mode .card .question,
@@ -407,23 +430,23 @@ _ANKI_CARD_CSS = """
 .card.night-mode .options-content,
 .night-mode .card .options-content,
 .night_mode .card .options-content,
-.nightMode .card .options-content { color: #f9fafb; }
+.nightMode .card .options-content { color: #cbd5e1; }
 .card.night-mode .answer-title,
 .night-mode .card .answer-title,
 .night_mode .card .answer-title,
-.nightMode .card .answer-title { color: #34d399; }
+.nightMode .card .answer-title { color: #2aa07a; }
 .card.night-mode .answer-content,
 .night-mode .card .answer-content,
 .night_mode .card .answer-content,
-.nightMode .card .answer-content { color: #4ade80; }
+.nightMode .card .answer-content { color: #34b36a; }
 .card.night-mode .section-title,
 .night-mode .card .section-title,
 .night_mode .card .section-title,
-.nightMode .card .section-title { color: #60a5fa; }
+.nightMode .card .section-title { color: #4b7fcf; }
 .card.night-mode .card-container hr,
 .night-mode .card .card-container hr,
 .night_mode .card .card-container hr,
-.nightMode .card .card-container hr { border-top: 1px solid #334155; }
+.nightMode .card .card-container hr { border-top: 1px solid #223042; }
 """
 
 
@@ -455,9 +478,9 @@ _ANKI_BACK_TEMPLATE = (
     "<div class='answer-block'>"
     "<div class='answer-title'>Korrekte Antwort</div>"
     "<div class='answer-content'>{{Antwort_Korrekt}}</div>"
-    "{{#Erklaerung_Basis}}<div class='section-title'>Erklärung</div>{{Erklaerung_Basis}}{{/Erklaerung_Basis}}"
-    "{{#Erklaerung_Erweitert}}<div class='section-title'>Detaillierte Erklärung</div>{{Erklaerung_Erweitert}}{{/Erklaerung_Erweitert}}"
-    "{{#Glossar}}<div class='section-title'>Glossar</div>{{Glossar}}{{/Glossar}}"
+    "{{#Erklaerung_Basis}}<div class='section-title'>Erklärung</div><div class='explanation'>{{Erklaerung_Basis}}</div>{{/Erklaerung_Basis}}"
+    "{{#Erklaerung_Erweitert}}<div class='section-title'>Detaillierte Erklärung</div><div class='explanation'>{{Erklaerung_Erweitert}}</div>{{/Erklaerung_Erweitert}}"
+    "{{#Glossar}}<div class='section-title'>Glossar</div><div class='glossary'>{{Glossar}}</div>{{/Glossar}}"
     "</div>"
     "</div>"
 )
@@ -540,7 +563,11 @@ def generate_anki_apkg(selected_file: str) -> bytes:
 
     deck_title = _determine_deck_title(data, selected_file)
     deck_id = _stable_anki_id(deck_title, "deck")
-    model_id = _stable_anki_id(deck_title, "model")
+    # Use a fresh/random model id to avoid colliding with an existing
+    # model in the user's Anki collection (which can cause Anki to keep
+    # an older template and ignore the new meta header). A random 31-bit
+    # integer is sufficient here.
+    model_id = random.randint(1, 2 ** 31 - 1)
 
     model = _build_anki_model(genanki, model_id)
     deck = genanki.Deck(deck_id, deck_title)
@@ -549,7 +576,11 @@ def generate_anki_apkg(selected_file: str) -> bytes:
     for row in rows:
         fields = [row.get(col, "") for col in _ANKI_COLUMNS]
         tags = [tag for tag in row.get("Tags_Alle", "").split() if tag]
-        note = genanki.Note(model=model, fields=fields, tags=tags)
+        # Ensure each note has a unique GUID so Anki does not treat them as
+        # duplicates of existing notes in the user's collection. Use a
+        # UUID4 hex string which is sufficiently unique for imports.
+        note_guid = uuid.uuid4().hex
+        note = genanki.Note(model=model, fields=fields, tags=tags, guid=note_guid)
         deck.add_note(note)
 
     package = genanki.Package(deck)
