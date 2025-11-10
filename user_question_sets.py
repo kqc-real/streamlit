@@ -421,6 +421,30 @@ def get_user_question_set(identifier: str) -> Optional[UserQuestionSetInfo]:
     return None
 
 
+def validate_user_question_file(path: Path) -> QuestionSet:
+    """Read and validate a user-provided question file by content.
+
+    This performs the same decoding/sanitization and structure checks as
+    when a payload is uploaded via the UI. Raises ValueError on problems.
+    """
+    if not path.exists():
+        raise FileNotFoundError(f"Datei '{path}' nicht gefunden.")
+
+    try:
+        data = path.read_bytes()
+    except Exception as exc:
+        raise ValueError(f"Konnte Datei nicht lesen: {exc}") from exc
+
+    # Re-use the payload loader which performs decoding, RTF-stripping,
+    # JSON parsing and structural validation via _build_question_set.
+    question_set = _load_question_set_from_payload(data, path.name)
+
+    # Also enforce our forbidden-reference checks for safety.
+    _validate_no_references(question_set)
+
+    return question_set
+
+
 def delete_user_question_set(identifier: str) -> None:
     try:
         path = resolve_question_path(identifier)

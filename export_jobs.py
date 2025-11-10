@@ -38,10 +38,17 @@ def _resolve_json_source(selected_file: str) -> Path:
 
     if selected_file.startswith(USER_QUESTION_PREFIX):
         try:
-            from user_question_sets import resolve_question_path  # noqa: WPS433 - lokal intentional
+            from user_question_sets import resolve_question_path, validate_user_question_file  # noqa: WPS433 - lokal intentional
 
             resolved = resolve_question_path(selected_file)
             if resolved.exists():
+                # Validate the file by content (not just extension). If the
+                # validation fails we raise a ValueError so callers get a
+                # clear error instead of silently using an invalid file.
+                try:
+                    validate_user_question_file(resolved)
+                except ValueError as exc:
+                    raise ValueError(f"Temporäres Fragenset enthält kein gültiges JSON: {exc}") from exc
                 return resolved
             # Fallback: Nutzer-Pfad trotz fehlender Datei zurückgeben, damit später Fehler geworfen wird
             return resolved
