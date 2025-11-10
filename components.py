@@ -12,6 +12,7 @@ import pandas as pd
 import os
 import time
 import json as _json
+import logging
 from datetime import datetime
 
 from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX
@@ -904,9 +905,20 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.session_state.pop("user_qset_last_uploaded_name", None)
             st.rerun()
     else:
+        # Show a short, prominent notice if a temporary user-set was deleted
+        # by its creator in the previous action. Also handle the case where
+        # a user's temporary sets were preserved because their pseudonym
+        # is reserved (see session-end logic below) and surface a clear
+        # success message for that case.
         if st.session_state.pop("_user_qset_deleted_notice", False):
             st.sidebar.error(
                 "Dieses temporäre Fragenset wurde vom Ersteller beendet. Lade die Seite neu und wähle ein anderes Fragenset für deinen nächsten Versuch."
+            )
+        elif st.session_state.pop("_user_qset_preserved_notice", False):
+            # Friendly affirmative message when sets were kept due to a
+            # reserved pseudonym. Keep the message brief and visible.
+            st.sidebar.success(
+                "Deine temporären Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden."
             )
 
     with st.sidebar.expander("⚠️ Session beenden"):
@@ -1010,16 +1022,56 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
             if aborted_user_id:
                 try:
-                    delete_sets_for_user(aborted_user_id)
+                    # If the pseudonym was reserved for this user, do NOT
+                    # delete their temporary question sets on session end.
+                    # This keeps sets created while using a reserved pseudonym.
+                    try:
+                        from database import has_recovery_secret_for_pseudonym
+                    except Exception:
+                        has_recovery_secret_for_pseudonym = None
+
+                    keep_sets = False
+                    if callable(has_recovery_secret_for_pseudonym):
+                        try:
+                            keep_sets = bool(has_recovery_secret_for_pseudonym(aborted_user_id))
+                        except Exception:
+                            # If DB check fails, conservative default: do not keep
+                            keep_sets = False
+
+                    if not keep_sets:
+                        try:
+                            delete_sets_for_user(aborted_user_id)
+                        except Exception:
+                            pass
+                    else:
+                        # Preserve the user's temporary sets when pseudonym is reserved.
+                        # Mark a session-state flag so the UI can show a clear
+                        # message after the rerun that the sets were preserved.
+                        try:
+                            st.session_state["_user_qset_preserved_notice"] = True
+                        except Exception:
+                            # Non-fatal: if session_state is unavailable, still
+                            # log the preservation for observability.
+                            pass
+
+                        logging.getLogger(__name__).info(
+                            "Preserving temporary question sets for reserved pseudonym: %s",
+                            aborted_user_id,
+                        )
                 except Exception:
+                    # Non-fatal: do not let deletion logic break session termination
                     pass
 
             # Entferne Session-Marker aus den Query-Parametern
             st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
 
-            # Lösche alle Session-Keys außer Admin-spezifischen und Fragenset-Auswahl
+            # Lösche alle Session-Keys außer Admin-spezifischen, Fragenset-Auswahl
+            # und internen temporären Fragenset-Notices (z. B. _user_qset_deleted_notice
+            # oder _user_qset_preserved_notice). Wir bewahren solche internen
+            # Hinweise, damit sie nach dem folgenden rerun einmalig angezeigt
+            # werden können.
             for key in list(st.session_state.keys()):
-                if not key.startswith("_admin") and key != "selected_questions_file":
+                if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file":
                     del st.session_state[key]
             
             # Setze IMMER die Flags für die Toast-Nachricht
