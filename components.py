@@ -42,20 +42,111 @@ except (ImportError, AttributeError):
         return False
 
 
-def close_user_qset_dialog(*, clear_results: bool = True, clear_active_toast: bool = False) -> None:
-    """Schließt den Dialog zur Erstellung temporärer Fragensets und räumt Zustände auf."""
+def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
+    """Decide whether to delete or preserve temporary user question sets.
+
+    This logic is extracted so it can be unit-tested. It uses the same DB
+    helper that the UI uses to determine whether the current pseudonym was
+    reserved (and thus its sets should be kept for an extended period).
+    """
+    if not aborted_user_id:
+        return
+
     try:
-        st.session_state["user_qset_dialog_open"] = False
-        if clear_results:
-            st.session_state.pop("user_qset_last_result", None)
-            st.session_state.pop("user_qset_last_uploaded_name", None)
-        if clear_active_toast:
-            st.session_state.pop("user_qset_active_toast", None)
-        if st.session_state.get("_active_dialog") == "user_qset":
-            st.session_state["_active_dialog"] = None
+        try:
+            from database import has_recovery_secret_for_pseudonym
+        except Exception:
+            has_recovery_secret_for_pseudonym = None
+
+        keep_sets = False
+        if callable(has_recovery_secret_for_pseudonym):
+            try:
+                keep_sets = bool(has_recovery_secret_for_pseudonym(aborted_user_id))
+            except Exception:
+                # Conservative default: do not keep if the DB check fails
+                keep_sets = False
+
+        if not keep_sets:
+            # Ensure any preserved-notice flag is cleared so downstream UI
+            # logic (and unit tests) observe a deterministic state when we
+            # decided to delete the sets.
+            try:
+                st.session_state["_user_qset_preserved_notice"] = False
+            except Exception:
+                # If session state is not a mapping-like object, ignore.
+                pass
+
+            try:
+                delete_sets_for_user(aborted_user_id)
+            except Exception:
+                # Non-fatal: log at debug level if available
+                try:
+                    logging.getLogger(__name__).debug(
+                        "Failed to delete temporary sets for user: %s", aborted_user_id
+                    )
+                except Exception:
+                    pass
+        else:
+            try:
+                st.session_state["_user_qset_preserved_notice"] = True
+            except Exception:
+                pass
+
+            try:
+                logging.getLogger(__name__).info(
+                    "Preserving temporary question sets for reserved pseudonym: %s",
+                    aborted_user_id,
+                )
+            except Exception:
+                pass
     except Exception:
-        # Session-State-Zugriffe dürfen keine Fehler werfen, damit die UI stabil bleibt.
+        # Do not let retention policy errors break session termination
         pass
+
+
+def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, app_config: AppConfig) -> str:
+    """Return a short caption for temporary question set retention.
+
+    - If `is_user_set` is False return an empty string (no caption).
+    - If `user_pseudo` is reserved (DB helper returns True) return a
+      message stating the configured retention days from `app_config`.
+    - Otherwise return the default cleanup hours message using
+      `app_config.user_qset_cleanup_hours`.
+    """
+    if not is_user_set:
+        return ""
+
+    # Default caption: cleanup after configured hours
+    try:
+        hours = int(getattr(app_config, "user_qset_cleanup_hours", 24))
+    except Exception:
+        hours = 24
+
+    caption_text = f"Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht."
+
+    if not user_pseudo:
+        return caption_text
+
+    try:
+        try:
+            from database import has_recovery_secret_for_pseudonym
+        except Exception:
+            has_recovery_secret_for_pseudonym = None
+
+        if callable(has_recovery_secret_for_pseudonym):
+            try:
+                if has_recovery_secret_for_pseudonym(user_pseudo):
+                    days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
+                    caption_text = (
+                        f"Als reserviertes Pseudonym werden deine temporären Fragensets {days} Tage lang aufbewahrt."
+                    )
+            except Exception:
+                # DB-check failed -> leave default caption
+                pass
+    except Exception:
+        pass
+
+    return caption_text
 
 
 def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
@@ -589,7 +680,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # diese automatisch nach 24 Stunden gelöscht werden.
         try:
             if is_user_set:
-                st.sidebar.caption("Temporäre Fragensets werden nach 24 Stunden automatisch gelöscht.")
+                user_pseudo = st.session_state.get('user_id')
+                caption_text = get_user_qset_retention_caption(is_user_set, user_pseudo, app_config)
+                st.sidebar.caption(caption_text)
         except Exception:
             # Sidebar-Anzeigen dürfen die Hauptanzeige nicht brechen
             pass
@@ -947,12 +1040,39 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             if not set_name:
                 set_name = active_file.replace("questions_", "").replace(".json", "").replace("_", " ")
 
-            st.error(
-                f"Beim Beenden dieser Session wird das temporäre Fragenset **{set_name}** endgültig gelöscht."
-            )
-            st.warning(
-                "Alle anderen Nutzer, die dieses temporäre Fragenset gerade verwenden, werden ebenfalls aus ihren Sessions ausgeloggt."
-            )
+            # If this user's pseudonym is reserved, inform about extended
+            # retention and that the set will be preserved. Use the configured
+            # retention days from `app_config`.
+            keep_for_reserved = False
+            try:
+                user_pseudo = st.session_state.get('user_id')
+                if user_pseudo:
+                    try:
+                        from database import has_recovery_secret_for_pseudonym
+
+                        try:
+                            if callable(has_recovery_secret_for_pseudonym) and has_recovery_secret_for_pseudonym(user_pseudo):
+                                keep_for_reserved = True
+                        except Exception:
+                            # DB-check failed -> conservative default (no keep)
+                            keep_for_reserved = False
+                    except Exception:
+                        keep_for_reserved = False
+            except Exception:
+                keep_for_reserved = False
+
+            if keep_for_reserved:
+                days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
+                st.info(
+                    f"Beim Beenden dieser Session bleibt das temporäre Fragenset **{set_name}** erhalten und wird {days} Tage lang aufbewahrt."
+                )
+            else:
+                st.error(
+                    f"Beim Beenden dieser Session wird das temporäre Fragenset **{set_name}** endgültig gelöscht."
+                )
+                st.warning(
+                    "Alle anderen Nutzer, die dieses temporäre Fragenset gerade verwenden, werden ebenfalls aus ihren Sessions ausgeloggt."
+                )
         show_full_hint = not has_active_user_set
         if show_full_hint and user_pseudo:
             try:
@@ -1021,46 +1141,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 st.session_state["_user_qset_deleted_notice"] = True
 
             if aborted_user_id:
-                try:
-                    # If the pseudonym was reserved for this user, do NOT
-                    # delete their temporary question sets on session end.
-                    # This keeps sets created while using a reserved pseudonym.
-                    try:
-                        from database import has_recovery_secret_for_pseudonym
-                    except Exception:
-                        has_recovery_secret_for_pseudonym = None
-
-                    keep_sets = False
-                    if callable(has_recovery_secret_for_pseudonym):
-                        try:
-                            keep_sets = bool(has_recovery_secret_for_pseudonym(aborted_user_id))
-                        except Exception:
-                            # If DB check fails, conservative default: do not keep
-                            keep_sets = False
-
-                    if not keep_sets:
-                        try:
-                            delete_sets_for_user(aborted_user_id)
-                        except Exception:
-                            pass
-                    else:
-                        # Preserve the user's temporary sets when pseudonym is reserved.
-                        # Mark a session-state flag so the UI can show a clear
-                        # message after the rerun that the sets were preserved.
-                        try:
-                            st.session_state["_user_qset_preserved_notice"] = True
-                        except Exception:
-                            # Non-fatal: if session_state is unavailable, still
-                            # log the preservation for observability.
-                            pass
-
-                        logging.getLogger(__name__).info(
-                            "Preserving temporary question sets for reserved pseudonym: %s",
-                            aborted_user_id,
-                        )
-                except Exception:
-                    # Non-fatal: do not let deletion logic break session termination
-                    pass
+                # Delegate retention decision to the extracted helper so behavior
+                # is centralized and unit-testable.
+                _apply_user_set_retention_policy(aborted_user_id)
 
             # Entferne Session-Marker aus den Query-Parametern
             st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)

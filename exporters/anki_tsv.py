@@ -319,23 +319,33 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     else:
         title = str(raw_title).strip()
 
-    # If the title is missing or the generic 'pasted' placeholder, prefer
-    # the question-set 'thema' or the first question's 'thema' so exported
-    # filenames and the Anki "Fragenset" field are user-friendly.
+    # If the title is missing or the generic 'pasted' placeholder, choose a
+    # sensible fallback for the exported Fragenset title so Anki imports look
+    # user-friendly. Priority:
+    # 1. meta['thema'] (explicit topic in the meta)
+    # 2. fallback derived from the source filename (if provided)
+    # 3. first question's 'thema' (best-effort)
     if not title or title == "pasted":
         tema = meta.get("thema")
-        if not tema:
-            try:
-                q0 = data.get("questions", [])[0]
-                if isinstance(q0, dict):
-                    tema = q0.get("thema")
-            except Exception:
-                tema = None
         if tema:
             title = str(tema).strip()
-
-    if not title:
-        title = _fallback_title_from_source(source_name)
+        else:
+            # Prefer a human-friendly name derived from the source file
+            # before falling back to the first question's 'thema'. This
+            # makes legacy top-level-list imports (no meta) produce a
+            # predictable title when a source_name is provided.
+            source_fallback = _fallback_title_from_source(source_name)
+            if source_fallback:
+                title = source_fallback
+            else:
+                try:
+                    q0 = data.get("questions", [])[0]
+                    if isinstance(q0, dict):
+                        tema = q0.get("thema")
+                except Exception:
+                    tema = None
+                if tema:
+                    title = str(tema).strip()
 
     if not title:
         title = "MC-Test Deck"

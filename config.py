@@ -385,6 +385,9 @@ class AppConfig:
         # Hours after which temporary uploaded question sets are considered stale
         # and can be cleaned up from the welcome page. Default: 24 hours.
         self.user_qset_cleanup_hours: int = 24
+        # Days to keep temporary user question sets for reserved pseudonyms
+        # Default: 14 days
+        self.user_qset_reserved_retention_days: int = 14
         # Recovery / policy defaults
         self.recovery_min_length: int = 6
         self.recovery_allow_short: bool = False
@@ -459,6 +462,27 @@ class AppConfig:
                 parsed = int(cleanup_hours)
                 if parsed > 0:
                     self.user_qset_cleanup_hours = parsed
+            except Exception:
+                pass
+
+        # Optional: retention days for reserved pseudonyms
+        try:
+            reserved_days = st.secrets.get("MC_USER_QSET_RESERVED_RETENTION_DAYS", "")
+            if isinstance(reserved_days, str):
+                reserved_days = reserved_days.strip()
+            else:
+                reserved_days = str(reserved_days).strip() if reserved_days is not None else ""
+        except Exception:
+            reserved_days = ""
+
+        if not reserved_days:
+            reserved_days = os.getenv("MC_USER_QSET_RESERVED_RETENTION_DAYS", "").strip()
+
+        if reserved_days:
+            try:
+                parsed = int(reserved_days)
+                if parsed > 0:
+                    self.user_qset_reserved_retention_days = parsed
             except Exception:
                 pass
 
@@ -543,6 +567,15 @@ class AppConfig:
                         parsed = int(val)
                         if parsed > 0:
                             self.user_qset_cleanup_hours = parsed
+                except Exception:
+                    pass
+                # Optional reserved retention days override from JSON config
+                try:
+                    val = config_data.get("user_qset_reserved_retention_days", None)
+                    if val is not None:
+                        parsed = int(val)
+                        if parsed > 0:
+                            self.user_qset_reserved_retention_days = parsed
                 except Exception:
                     pass
         except (IOError, json.JSONDecodeError):
