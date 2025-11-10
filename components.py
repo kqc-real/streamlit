@@ -13,6 +13,7 @@ import os
 import time
 import json as _json
 import logging
+import re
 from datetime import datetime
 
 from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX
@@ -59,21 +60,77 @@ def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
             has_recovery_secret_for_pseudonym = None
 
         keep_sets = False
+        # Track whether the primary pseudonym-based check actually ran
+        primary_check_performed = False
         if callable(has_recovery_secret_for_pseudonym):
             try:
                 keep_sets = bool(has_recovery_secret_for_pseudonym(aborted_user_id))
+                primary_check_performed = True
             except Exception:
-                # Conservative default: do not keep if the DB check fails
-                keep_sets = False
+                # Signal that the primary check failed so the fallback may run
+                primary_check_performed = False
+
+        # Extra defensive check: some DB rows may be keyed by the internal
+        # user_id (hash) instead of the pseudonym; check that too before
+        # deciding to delete sets. This avoids accidentally deleting sets
+        # when the pseudonym lookup fails due to case/normalization mismatches.
+        # Only run the internal-hash DB fallback when the primary
+        # pseudonym-based check wasn't available or failed. If the
+        # primary check explicitly returned False we should respect
+        # that and not try the fallback (this keeps unit tests that
+        # monkeypatch the primary helper deterministic).
+        if not keep_sets and not primary_check_performed:
+            try:
+                try:
+                    from helpers import get_user_id_hash
+                except Exception:
+                    get_user_id_hash = None
+
+                user_hash = get_user_id_hash(aborted_user_id) if callable(get_user_id_hash) else None
+                if user_hash:
+                    try:
+                        # Lazy DB check: look for a users row with this user_id
+                        from database import get_db_connection
+                        conn = get_db_connection()
+                        if conn is not None:
+                            cur = conn.cursor()
+                            cur.execute(
+                                "SELECT recovery_salt, recovery_hash FROM users WHERE user_id = ?",
+                                (user_hash,)
+                            )
+                            row = cur.fetchone()
+                            if row:
+                                try:
+                                    salt = row['recovery_salt'] if 'recovery_salt' in row.keys() else None
+                                    stored_hash = row['recovery_hash'] if 'recovery_hash' in row.keys() else None
+                                except Exception:
+                                    salt = None
+                                    stored_hash = None
+                                if salt and stored_hash:
+                                    keep_sets = True
+                    except Exception:
+                        # Non-fatal: leave keep_sets as-is
+                        pass
+            except Exception:
+                pass
 
         if not keep_sets:
-            # Ensure any preserved-notice flag is cleared so downstream UI
+            # Ensure any preserved-notice flag is cleared for this user so downstream UI
             # logic (and unit tests) observe a deterministic state when we
-            # decided to delete the sets.
+            # decided to delete the sets. Be defensive: some test harnesses
+            # replace `st.session_state` with stubs/mocks that may not
+            # implement `pop` correctly, so attempt both pop and explicit
+            # assignment to a falsy value.
+            try:
+                # Clear any owner-tagged preserved notice
+                st.session_state.pop("_user_qset_preserved_notice", None)
+                st.session_state.pop("_user_qset_preserved_owner", None)
+            except Exception:
+                pass
             try:
                 st.session_state["_user_qset_preserved_notice"] = False
+                st.session_state["_user_qset_preserved_owner"] = None
             except Exception:
-                # If session state is not a mapping-like object, ignore.
                 pass
 
             try:
@@ -88,7 +145,10 @@ def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
                     pass
         else:
             try:
+                # Mark preserved and record owner so the UI only shows this
+                # notice to the correct pseudonym after rerun.
                 st.session_state["_user_qset_preserved_notice"] = True
+                st.session_state["_user_qset_preserved_owner"] = aborted_user_id
             except Exception:
                 pass
 
@@ -490,7 +550,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     # Only expose the history-open affordance here when the session was
     # restored via Pseudonym+Geheimwort. Keep it minimal (no debug captions).
     try:
-        if st.session_state.get('login_via_recovery'):
+        # Show the history button when the user restored their session via
+        # pseudonym+secret OR when the user is logged in (has a pseudonym/hash).
+        # This ensures users who started a test after uploading a temporary
+        # Fragenset still see the "Meine Sessions" affordance.
+        if st.session_state.get('login_via_recovery') or st.session_state.get('user_id') or st.session_state.get('user_id_hash'):
             # Mark a one-time request to open the history dialog when the
             # sidebar button is clicked. Keep the callback tiny to avoid
             # holding complex logic inside the on_click handler.
@@ -556,7 +620,131 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 df['Datum'] = df['start_time']
 
                         if 'questions_title' in df.columns or 'questions_file' in df.columns:
-                            df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+                            def _derive_label(row):
+                                try:
+                                    # Prefer explicit title when present and not the generic 'pasted'
+                                    title = None
+                                    if isinstance(row, dict):
+                                        title = row.get('questions_title') or row.get('Fragenset')
+                                    else:
+                                        try:
+                                            title = getattr(row, 'questions_title', None) or getattr(row, 'Fragenset', None)
+                                        except Exception:
+                                            title = None
+
+                                    if isinstance(title, str):
+                                        t = title.strip()
+                                        if t and t.lower() != 'pasted':
+                                            return t
+
+                                    # Try questions_file next
+                                    qf = None
+                                    if isinstance(row, dict):
+                                        qf = row.get('questions_file')
+                                    else:
+                                        try:
+                                            qf = getattr(row, 'questions_file', None)
+                                        except Exception:
+                                            qf = None
+
+                                    if isinstance(qf, str) and qf:
+                                        try:
+                                            from config import USER_QUESTION_PREFIX as _UQP
+                                        except Exception:
+                                            _UQP = 'user::'
+
+                                        # If it's a user-upload identifier, prefer stored label
+                                        if qf.startswith(_UQP) or 'user::' in qf:
+                                            try:
+                                                info = get_user_question_set(qf)
+                                            except Exception:
+                                                info = None
+                                            if info:
+                                                try:
+                                                    return format_user_label(info)
+                                                except Exception:
+                                                    pass
+
+                                        s = str(qf)
+                                        s = s.replace(_UQP, '')
+                                        s = s.replace('questions_', '')
+                                        s = s.replace('.json', '')
+                                        s = s.replace('user_', '')
+                                        s = s.replace('::', ' ')
+                                        s = re.sub(r'[0-9a-fA-F]{12,}', ' ', s)
+                                        s = re.sub(r'\d{8,}', ' ', s)
+                                        s = s.replace('_', ' ').strip()
+                                        s = re.sub(r'\s+', ' ', s)
+                                        if s and len(s) >= 3 and not re.fullmatch(r'[0-9a-fA-F]{6,}', s):
+                                            return s
+                                except Exception:
+                                    pass
+                                return 'Ungenanntes Fragenset'
+
+                            try:
+                                df['Fragenset'] = df.apply(lambda r: _derive_label(r.to_dict() if hasattr(r, 'to_dict') else dict(r)), axis=1)
+                            except Exception:
+                                try:
+                                    df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+                                except Exception:
+                                    df['Fragenset'] = df.get('questions_file', '')
+
+                        # Additional sanitization: some history rows already contain
+                        # a pre-populated 'Fragenset' column with raw identifiers
+                        # like "user::... <hash> <ts>". Normalize those so users
+                        # never see internal IDs. This runs defensively and is
+                        # a no-op for already-friendly labels.
+                        try:
+                            if 'Fragenset' in df.columns:
+                                def _sanitize_label_string(s):
+                                    try:
+                                        if not isinstance(s, str):
+                                            return s
+                                        val = s.strip()
+                                        if not val:
+                                            return 'Ungenanntes Fragenset'
+
+                                        # If the string contains the internal prefix, try to resolve
+                                        if 'user::' in val or val.startswith('user '):
+                                            # Try to find a direct identifier token
+                                            m = re.search(r'(user::\S+)', val)
+                                            ident = None
+                                            if m:
+                                                ident = m.group(1)
+                                            else:
+                                                # fallback: first whitespace-separated token
+                                                parts = val.split()
+                                                if parts:
+                                                    ident = parts[0]
+
+                                            if ident:
+                                                try:
+                                                    info = get_user_question_set(ident)
+                                                except Exception:
+                                                    info = None
+                                                if info:
+                                                    try:
+                                                        return format_user_label(info)
+                                                    except Exception:
+                                                        pass
+
+                                                # Otherwise sanitize the identifier string
+                                                cleaned = ident.replace('user::', '').replace('user_', '').replace('::', ' ')
+                                                cleaned = re.sub(r'[0-9a-fA-F]{12,}', ' ', cleaned)
+                                                cleaned = re.sub(r'\d{8,}', ' ', cleaned)
+                                                cleaned = cleaned.replace('_', ' ').strip()
+                                                cleaned = re.sub(r'\s+', ' ', cleaned)
+                                                if cleaned and len(cleaned) >= 3 and not re.fullmatch(r'[0-9a-fA-F]{6,}', cleaned):
+                                                    return cleaned
+
+                                        # If it wasn't an internal ID, keep the original
+                                        return val
+                                    except Exception:
+                                        return s
+
+                                df['Fragenset'] = df['Fragenset'].apply(_sanitize_label_string)
+                        except Exception:
+                            pass
 
                         # Duration: numeric sort column + human readable label
                         if 'duration_seconds' in df.columns:
@@ -737,7 +925,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     display_name = format_user_label(info)
 
         if not display_name:
-            display_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+            # Remove any internal user identifier prefix if present before
+            # converting the filename into a friendly label.
+            try:
+                from config import USER_QUESTION_PREFIX as _UQP
+            except Exception:
+                _UQP = "user::"
+            display_name = (
+                str(selected_file)
+                .replace(_UQP, "")
+                .replace("questions_", "")
+                .replace(".json", "")
+                .replace("_", " ")
+            )
 
         # For temporary user-uploaded sets, render a small emoji marker indicating
         # whether the current pseudonym was reserved. Use a green circle for
@@ -1096,18 +1296,41 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # Show a short, prominent notice if a temporary user-set was deleted
         # by its creator in the previous action. Also handle the case where
         # a user's temporary sets were preserved because their pseudonym
-        # is reserved (see session-end logic below) and surface a clear
-        # success message for that case.
-        if st.session_state.pop("_user_qset_deleted_notice", False):
-            st.sidebar.error(
-                "Dieses temporäre Fragenset wurde vom Ersteller beendet. Lade die Seite neu und wähle ein anderes Fragenset für deinen nächsten Versuch."
-            )
-        elif st.session_state.pop("_user_qset_preserved_notice", False):
-            # Friendly affirmative message when sets were kept due to a
-            # reserved pseudonym. Keep the message brief and visible.
-            st.sidebar.success(
-                "Deine temporären Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden."
-            )
+        # is reserved. These notices are owner-scoped so they are only
+        # shown to the user who triggered the action.
+        try:
+            current_user = st.session_state.get('user_id')
+            # Deleted notice: only show if owner matches current user
+            deleted_flag = st.session_state.get('_user_qset_deleted_notice')
+            deleted_owner = st.session_state.get('_user_qset_deleted_owner')
+            if deleted_flag:
+                # Remove both keys regardless; only show message when owner matches
+                try:
+                    st.session_state.pop('_user_qset_deleted_notice', None)
+                    st.session_state.pop('_user_qset_deleted_owner', None)
+                except Exception:
+                    pass
+                if deleted_owner and deleted_owner == current_user:
+                    st.sidebar.error(
+                        "Dieses temporäre Fragenset wurde vom Ersteller beendet. Lade die Seite neu und wähle ein anderes Fragenset für deinen nächsten Versuch."
+                    )
+
+            # Preserved notice: only show if owner matches current user
+            preserved_flag = st.session_state.get('_user_qset_preserved_notice')
+            preserved_owner = st.session_state.get('_user_qset_preserved_owner')
+            if preserved_flag:
+                try:
+                    st.session_state.pop('_user_qset_preserved_notice', None)
+                    st.session_state.pop('_user_qset_preserved_owner', None)
+                except Exception:
+                    pass
+                if preserved_owner and preserved_owner == current_user:
+                    st.sidebar.success(
+                        "Deine temporären Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden."
+                    )
+        except Exception:
+            # Non-fatal: ignore any session_state access issues
+            pass
 
     with st.sidebar.expander("⚠️ Session beenden"):
         # If the user has set a recovery secret, do NOT show the advice
@@ -1260,15 +1483,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     owner_matches = False
 
                 if owner_matches:
-                    try:
-                        delete_user_question_set(active_file)
-                        st.session_state["_user_qset_deleted_notice"] = True
-                    except Exception:
-                        logging.getLogger(__name__).exception(
-                            "Failed to delete user question set %s for owner %s",
-                            active_file,
-                            aborted_user_id,
-                        )
+                    # Defer the retention decision (preserve vs delete) to the
+                    # centralized helper `_apply_user_set_retention_policy` which
+                    # is called later. That helper is unit-tested and performs
+                    # the DB checks and sets owner-scoped session flags.
+                    pass
                 else:
                     # Do not delete sets owned by another user. Keep silent
                     # (no toast) because the UI will subsequently clear the

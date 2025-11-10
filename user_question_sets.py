@@ -619,6 +619,71 @@ def format_user_label(info: UserQuestionSetInfo) -> str:
     elif title and title != "pasted":
         base_label = title
     else:
-        base_label = info.filename.replace(".json", "")
+        # Fallback: clean the internal filename. Filenames for user uploads
+        # are of the form `user_{hash}_{timestamp}.json`. Prefer showing the
+        # uploader pseudonym when available; otherwise derive a short,
+        # human-friendly label from the filename by removing prefixes and
+        # timestamps.
+        uploaded_by = getattr(info, 'uploaded_by', None)
+        if uploaded_by:
+            try:
+                return str(uploaded_by)
+            except Exception:
+                pass
+
+        # Use the centralized pretty-label derivation for identifier-like strings.
+        try:
+            identifier_like = info.identifier or (info.filename or '')
+            derived = pretty_label_from_identifier_string(identifier_like)
+            base_label = derived or 'Temporäres Fragenset'
+        except Exception:
+            base_label = info.filename.replace('.json', '') if info.filename else 'Temporäres Fragenset'
 
     return f"{base_label}"
+
+
+def pretty_label_from_identifier_string(raw: str) -> str:
+    """Derive a friendly label from a raw identifier-like string.
+
+    Accepts inputs like:
+    - 'user::user_fc35383db967e9ec1728f44b65a4e544fa40715e402e0f7797f6d217033f1e2b_1762778639'
+    - 'user::user fc35383db967e9ec1728f44b65a4e544fa40715e402e0f7797f6d217033f1e2b 1762778639'
+    - 'user_userhash_1234567890.json'
+
+    Returns a cleaned, human-friendly short label or 'Ungenanntes Fragenset'.
+    """
+    if not raw or not isinstance(raw, str):
+        return 'Ungenanntes Fragenset'
+
+    try:
+        s = raw.strip()
+        # Remove known prefix
+        if s.startswith(USER_QUESTION_PREFIX):
+            s = s[len(USER_QUESTION_PREFIX):]
+
+        # Replace various separators with space
+        s = s.replace('::', ' ').replace('\u00A0', ' ')
+        s = s.replace('.json', '')
+        s = s.replace('questions_', '')
+        s = s.replace('user_', '')
+        # Convert underscores to spaces
+        s = s.replace('_', ' ')
+
+        # Remove long hex-like tokens and long numeric timestamps
+        s = re.sub(r'[0-9a-fA-F]{12,}', ' ', s)
+        s = re.sub(r'\d{8,}', ' ', s)
+
+        # Collapse whitespace and trim
+        s = re.sub(r'\s+', ' ', s).strip()
+
+        # Avoid returning short or generic tokens that are not informative
+        if not s or len(s) < 3 or re.fullmatch(r'[0-9a-fA-F]{6,}', s):
+            return 'Ungenanntes Fragenset'
+
+        # Common non-informative tokens (from legacy naming) should not be shown
+        if s.lower() in ('user', 'anon', 'anonymous', 'temporary', 'temp'):
+            return 'Ungenanntes Fragenset'
+
+        return s
+    except Exception:
+        return 'Ungenanntes Fragenset'

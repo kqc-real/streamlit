@@ -43,6 +43,7 @@ from user_question_sets import (
     list_user_question_sets,
     format_user_label,
     resolve_question_path,
+    get_user_question_set,
     # Cleanup stale temporary user uploads so they are not offered on the welcome page
     cleanup_stale_user_question_sets,
 )
@@ -573,7 +574,71 @@ def _render_history_table(history_rows, filename_base: str):
             df['Datum'] = df['start_time']
 
     if 'questions_title' in df.columns or 'questions_file' in df.columns:
-        df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+        def _derive_label(row):
+            try:
+                title = None
+                if isinstance(row, dict):
+                    title = row.get('questions_title') or row.get('Fragenset')
+                else:
+                    try:
+                        title = getattr(row, 'questions_title', None) or getattr(row, 'Fragenset', None)
+                    except Exception:
+                        title = None
+
+                if isinstance(title, str):
+                    t = title.strip()
+                    if t and t.lower() != 'pasted':
+                        return t
+
+                qf = None
+                if isinstance(row, dict):
+                    qf = row.get('questions_file')
+                else:
+                    try:
+                        qf = getattr(row, 'questions_file', None)
+                    except Exception:
+                        qf = None
+
+                if isinstance(qf, str) and qf:
+                    try:
+                        from config import USER_QUESTION_PREFIX as _UQP
+                    except Exception:
+                        _UQP = 'user::'
+
+                    if qf.startswith(_UQP) or 'user::' in qf:
+                        try:
+                            info = get_user_question_set(qf)
+                        except Exception:
+                            info = None
+                        if info:
+                            try:
+                                return format_user_label(info)
+                            except Exception:
+                                pass
+
+                    s = str(qf)
+                    s = s.replace(_UQP, '')
+                    s = s.replace('questions_', '')
+                    s = s.replace('.json', '')
+                    s = s.replace('user_', '')
+                    s = s.replace('::', ' ')
+                    s = re.sub(r'[0-9a-fA-F]{12,}', ' ', s)
+                    s = re.sub(r'\d{8,}', ' ', s)
+                    s = s.replace('_', ' ').strip()
+                    s = re.sub(r'\s+', ' ', s)
+                    if s and len(s) >= 3 and not re.fullmatch(r'[0-9a-fA-F]{6,}', s):
+                        return s
+            except Exception:
+                pass
+            return 'Ungenanntes Fragenset'
+
+        try:
+            df['Fragenset'] = df.apply(lambda r: _derive_label(r.to_dict() if hasattr(r, 'to_dict') else dict(r)), axis=1)
+        except Exception:
+            try:
+                df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+            except Exception:
+                df['Fragenset'] = df.get('questions_file', '')
 
     # Create an internal numeric percent column to enable correct sorting.
     percent_col = None
@@ -2975,7 +3040,16 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             raw_label_sel = getattr(sel_info, 'filename', None) or None
 
                 if not raw_label_sel:
-                    raw_label_sel = selected_file.replace('questions_', '').replace('.json', '')
+                    try:
+                        from config import USER_QUESTION_PREFIX as _UQP
+                    except Exception:
+                        _UQP = 'user::'
+                    raw_label_sel = (
+                        str(selected_file)
+                        .replace(_UQP, '')
+                        .replace('questions_', '')
+                        .replace('.json', '')
+                    )
 
                 import re as _re
                 sel_stem = _re.sub(r"[^\w\s-]", "", str(raw_label_sel) or "export").strip().replace(" ", "_")
