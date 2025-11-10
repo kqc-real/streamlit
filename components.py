@@ -149,6 +149,74 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
     return caption_text
 
 
+def close_user_qset_dialog(clear_results: bool = False, clear_active_toast: bool = False) -> None:
+    """Close the user question-set upload dialog and optionally clear status.
+
+    Parameters:
+    - clear_results: remove `user_qset_last_result` and `user_qset_last_uploaded_name` from session_state.
+    - clear_active_toast: remove `user_qset_active_toast` from session_state.
+
+    This helper centralizes the small session_state mutations that multiple
+    callsites previously duplicated. It's intentionally conservative and
+    tolerant to missing or non-mapping `st.session_state` in test environments.
+    """
+    try:
+        # Clear the active dialog marker and close the dialog flag
+        st.session_state.pop("_active_dialog", None)
+    except Exception:
+        pass
+
+    try:
+        st.session_state["user_qset_dialog_open"] = False
+    except Exception:
+        pass
+
+    if clear_results:
+        try:
+            st.session_state.pop("user_qset_last_result", None)
+        except Exception:
+            pass
+        try:
+            st.session_state.pop("user_qset_last_uploaded_name", None)
+        except Exception:
+            pass
+
+    if clear_active_toast:
+        try:
+            st.session_state.pop("user_qset_active_toast", None)
+        except Exception:
+            pass
+
+
+def is_owner_of_user_qset(identifier: str, user_pseudo: str | None, user_hash: str | None) -> bool:
+    """Return True if the given pseudonym or hash owns the user-uploaded set.
+
+    This helper centralizes the ownership check so it can be unit-tested
+    independently of the UI flow.
+    """
+    if not identifier or not identifier.startswith(USER_QUESTION_PREFIX):
+        return False
+    try:
+        info = get_user_question_set(identifier)
+    except Exception:
+        info = None
+
+    if not info:
+        return False
+
+    try:
+        uploaded_by = getattr(info, 'uploaded_by', None)
+        uploaded_by_hash = getattr(info, 'uploaded_by_hash', None)
+        if uploaded_by and user_pseudo and uploaded_by == user_pseudo:
+            return True
+        if uploaded_by_hash and user_hash and uploaded_by_hash == user_hash:
+            return True
+    except Exception:
+        return False
+
+    return False
+
+
 def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     user_id = st.session_state.get("user_id")
     user_hash = st.session_state.get("user_id_hash")
@@ -671,10 +739,38 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         if not display_name:
             display_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
 
-        if is_user_set and not str(display_name).startswith("🟡"):
-            display_name = f"🟡 {display_name}"
+        # For temporary user-uploaded sets, render a colored dot indicating
+        # whether the current pseudonym was reserved. Use a saturated
+        # green for reserved pseudonyms and a saturated yellow otherwise;
+        # render as an inline HTML dot so colors look consistent in dark
+        # themes.
+        dot_html = ""
+        if is_user_set:
+            try:
+                try:
+                    from database import has_recovery_secret_for_pseudonym
+                except Exception:
+                    has_recovery_secret_for_pseudonym = None
 
-        st.sidebar.markdown(f"Fragenset: **{display_name}**")
+                is_reserved = False
+                if callable(has_recovery_secret_for_pseudonym):
+                    try:
+                        is_reserved = bool(has_recovery_secret_for_pseudonym(st.session_state.get('user_id')))
+                    except Exception:
+                        is_reserved = False
+            except Exception:
+                is_reserved = False
+
+            # Saturated tones chosen to remain visible on dark backgrounds
+            green = "#16a34a"  # saturated green
+            yellow = "#f59e0b"  # saturated amber/yellow
+            color = green if is_reserved else yellow
+            dot_html = f"<span style=\"color:{color};font-size:1.15em;margin-right:6px;line-height:1;\">●</span>"
+
+        # Render the final label with the colored dot (if any). Use HTML so
+        # the colored dot renders consistently across themes.
+        safe_display = str(display_name)
+        st.sidebar.markdown(f"Fragenset: {dot_html}<strong>{safe_display}</strong>", unsafe_allow_html=True)
 
         # Hinweis für temporäre Fragensets: informiere die Nutzer, dass
         # diese automatisch nach 24 Stunden gelöscht werden.
@@ -1067,12 +1163,13 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     f"Beim Beenden dieser Session bleibt das temporäre Fragenset **{set_name}** erhalten und wird {days} Tage lang aufbewahrt."
                 )
             else:
-                st.error(
-                    f"Beim Beenden dieser Session wird das temporäre Fragenset **{set_name}** endgültig gelöscht."
-                )
-                st.warning(
-                    "Alle anderen Nutzer, die dieses temporäre Fragenset gerade verwenden, werden ebenfalls aus ihren Sessions ausgeloggt."
-                )
+                # Do not display deletion/force-logout warnings here. The
+                # app should avoid broadcasting that a temporary user set will
+                # be deleted or that other users will be logged out — this
+                # exposes internal application behavior and can be confusing.
+                # The actual deletion decision is handled centrally when the
+                # owner confirms session end.
+                pass
         show_full_hint = not has_active_user_set
         if show_full_hint and user_pseudo:
             try:
@@ -1137,8 +1234,47 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             aborted_user_id = st.session_state.get("user_id")
 
             if has_active_user_set and isinstance(active_file, str):
-                delete_user_question_set(active_file)
-                st.session_state["_user_qset_deleted_notice"] = True
+                # Only the original uploader (owner) is allowed to delete the
+                # temporary user-uploaded question set when they end their
+                # session. Previously this deletion ran for any user who
+                # happened to have the set selected which caused others to
+                # inadvertently remove someone else's upload.
+                try:
+                    info = get_user_question_set(active_file)
+                except Exception:
+                    info = None
+
+                owner_matches = False
+                try:
+                    if info:
+                        # Compare uploaded_by pseudonym if available
+                        uploaded_by = getattr(info, 'uploaded_by', None)
+                        uploaded_by_hash = getattr(info, 'uploaded_by_hash', None)
+                        current_user = aborted_user_id
+                        current_user_hash = st.session_state.get('user_id_hash')
+
+                        if uploaded_by and current_user and uploaded_by == current_user:
+                            owner_matches = True
+                        elif uploaded_by_hash and current_user_hash and uploaded_by_hash == current_user_hash:
+                            owner_matches = True
+                except Exception:
+                    owner_matches = False
+
+                if owner_matches:
+                    try:
+                        delete_user_question_set(active_file)
+                        st.session_state["_user_qset_deleted_notice"] = True
+                    except Exception:
+                        logging.getLogger(__name__).exception(
+                            "Failed to delete user question set %s for owner %s",
+                            active_file,
+                            aborted_user_id,
+                        )
+                else:
+                    # Do not delete sets owned by another user. Keep silent
+                    # (no toast) because the UI will subsequently clear the
+                    # session and the set remains available for others.
+                    pass
 
             if aborted_user_id:
                 # Delegate retention decision to the extracted helper so behavior

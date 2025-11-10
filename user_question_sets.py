@@ -500,7 +500,60 @@ def cleanup_stale_user_question_sets(hours: int = 24) -> int:
                 # Treat naive datetimes as UTC for consistency
                 uploaded_at = uploaded_at.replace(tzinfo=timezone.utc)
 
-            if uploaded_at < cutoff:
+            # If the file is older than the default cutoff, consider deletion.
+            # However, if the uploader has a reserved pseudonym (i.e. they set a
+            # recovery secret), we honor a longer retention period configured
+            # via AppConfig.user_qset_reserved_retention_days.
+            should_delete = False
+            try:
+                if uploaded_at < cutoff:
+                    # Default: eligible for deletion based on `hours` cutoff.
+                    should_delete = True
+
+                # If the file was uploaded by a pseudonym, check whether that
+                # pseudonym has a recovery secret. If so, extend retention to
+                # the reserved retention days and only delete when older than
+                # that longer window.
+                uploaded_by = info.uploaded_by
+                if uploaded_by:
+                    try:
+                        # Lazy import to avoid circular import issues at module
+                        # import time.
+                        from database import has_recovery_secret_for_pseudonym
+                    except Exception:
+                        has_recovery_secret_for_pseudonym = None
+
+                    if callable(has_recovery_secret_for_pseudonym):
+                        try:
+                            is_reserved = bool(has_recovery_secret_for_pseudonym(uploaded_by))
+                        except Exception:
+                            # If the DB helper fails, fall back to non-reserved
+                            # behavior (do not treat as reserved).
+                            is_reserved = False
+
+                        if is_reserved:
+                            # Use AppConfig to determine reserved retention days.
+                            try:
+                                from config import AppConfig
+
+                                cfg = AppConfig()
+                                days = int(getattr(cfg, 'user_qset_reserved_retention_days', 14))
+                            except Exception:
+                                days = 14
+
+                            reserved_cutoff = now - timedelta(days=days)
+                            # Only delete when uploaded_at is older than reserved_cutoff
+                            if uploaded_at < reserved_cutoff:
+                                should_delete = True
+                            else:
+                                should_delete = False
+
+            except Exception:
+                # Be defensive: if anything goes wrong deciding retention, skip
+                # deletion for this file to avoid accidental data loss.
+                should_delete = False
+
+            if should_delete:
                 try:
                     info.path.unlink()
                     removed += 1
