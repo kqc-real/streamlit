@@ -1094,7 +1094,20 @@ def render_welcome_page(app_config: AppConfig):
     def format_filename(filename):
         if filename.startswith(USER_QUESTION_PREFIX) and filename in user_set_lookup:
             info = user_set_lookup[filename]
-            label = f"🟡 {format_user_label(info)}"
+            # Determine marker emoji: green if uploader used a reserved pseudonym, yellow otherwise
+            try:
+                from database import has_recovery_secret_for_pseudonym
+                is_reserved = False
+                # Prefer explicit pseudonym if available, else fall back to uploaded_by
+                pseudo = getattr(info, 'uploaded_by', None) or getattr(info, 'user_pseudonym', None)
+                if pseudo:
+                    is_reserved = bool(has_recovery_secret_for_pseudonym(pseudo))
+                marker = '🟢' if is_reserved else '🟡'
+            except Exception:
+                # On any error, fall back to yellow to be conservative/visible
+                marker = '🟡'
+
+            label = f"{marker} {format_user_label(info)}"
             num_questions = question_counts.get(filename)
             if num_questions:
                 label += f" ({num_questions} Fragen)"

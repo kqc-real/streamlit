@@ -739,12 +739,12 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         if not display_name:
             display_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
 
-        # For temporary user-uploaded sets, render a colored dot indicating
-        # whether the current pseudonym was reserved. Use a saturated
-        # green for reserved pseudonyms and a saturated yellow otherwise;
-        # render as an inline HTML dot so colors look consistent in dark
-        # themes.
-        dot_html = ""
+        # For temporary user-uploaded sets, render a small emoji marker indicating
+        # whether the current pseudonym was reserved. Use a green circle for
+        # reserved pseudonyms and a yellow circle otherwise. This uses a simple
+        # emoji prefix so it appears inside the textual label and is compatible
+        # with Streamlit's rendering of sidebar content.
+        marker = ""
         if is_user_set:
             try:
                 try:
@@ -761,16 +761,15 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             except Exception:
                 is_reserved = False
 
-            # Saturated tones chosen to remain visible on dark backgrounds
-            green = "#16a34a"  # saturated green
-            yellow = "#f59e0b"  # saturated amber/yellow
-            color = green if is_reserved else yellow
-            dot_html = f"<span style=\"color:{color};font-size:1.15em;margin-right:6px;line-height:1;\">●</span>"
+            marker = '🟢' if is_reserved else '🟡'
 
-        # Render the final label with the colored dot (if any). Use HTML so
-        # the colored dot renders consistently across themes.
+        # Render the final label with the emoji marker (if any). Use HTML for
+        # the bold set name to preserve emphasis; emoji are safe in the string.
         safe_display = str(display_name)
-        st.sidebar.markdown(f"Fragenset: {dot_html}<strong>{safe_display}</strong>", unsafe_allow_html=True)
+        if marker:
+            st.sidebar.markdown(f"Fragenset: {marker} <strong>{safe_display}</strong>", unsafe_allow_html=True)
+        else:
+            st.sidebar.markdown(f"Fragenset: <strong>{safe_display}</strong>", unsafe_allow_html=True)
 
         # Hinweis für temporäre Fragensets: informiere die Nutzer, dass
         # diese automatisch nach 24 Stunden gelöscht werden.
