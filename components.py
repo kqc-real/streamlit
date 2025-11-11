@@ -376,8 +376,20 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         st.markdown("---")
         st.subheader("Fragenset hochladen")
         st.warning("⚠️ Dein Fragenset darf maximal 30 Fragen enthalten und höchstens 5 MB groß sein.")
+        # Inform the uploader about retention policy. Use the configured
+        # cleanup hours and reserved-pseudonym retention days from AppConfig
+        # so the message stays accurate when configuration changes.
+        try:
+            hours = int(getattr(app_config, "user_qset_cleanup_hours", 24))
+        except Exception:
+            hours = 24
+        try:
+            days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
+        except Exception:
+            days = 14
+
         st.info(
-            "ℹ️ Dein Fragenset existiert nur während der aktuellen Session und ist für alle User sichtbar und nutzbar."
+            f"ℹ️ Dein Fragenset ist für alle Nutzer sichtbar. Standardmäßig werden temporäre Fragensets nach {hours} Stunden gelöscht; bei einem reservierten Pseudonym werden sie {days} Tage lang aufbewahrt."
         )
 
         def _process_user_qset_payload(payload: bytes, source_name: str) -> None:
