@@ -714,6 +714,55 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 except Exception:
                                     df['Fragenset'] = df.get('questions_file', '')
 
+                            # Prefix Fragenset labels with icons:
+                            # - temporary (user-uploaded) fragensets get a clock emoji
+                            # - when the current user has a reserved pseudonym, show a green dot
+                            try:
+                                try:
+                                    from config import USER_QUESTION_PREFIX as _UQP
+                                except Exception:
+                                    _UQP = 'user::'
+
+                                def _fragenset_with_icon(row):
+                                    try:
+                                        label = row.get('Fragenset') if isinstance(row, dict) else getattr(row, 'Fragenset', None)
+                                        qf = row.get('questions_file') if isinstance(row, dict) else getattr(row, 'questions_file', None)
+                                        icons = []
+
+                                        # Temporary (user-uploaded) fragensets
+                                        is_temp = isinstance(qf, str) and qf.startswith(_UQP)
+                                        if is_temp:
+                                            icons.append('🕑')
+                                        # Show green indicator only for temporary fragensets
+                                        # AND when the current user has a reserved pseudonym.
+                                        try:
+                                            user_pseudo = st.session_state.get('user_id')
+                                            if is_temp and user_pseudo:
+                                                from database import has_recovery_secret_for_pseudonym
+                                                try:
+                                                    if has_recovery_secret_for_pseudonym(user_pseudo):
+                                                        icons.append('🟢')
+                                                except Exception:
+                                                    # DB error: conservative fallback, do not show green
+                                                    pass
+                                        except Exception:
+                                            pass
+
+                                        icon_prefix = ' '.join(icons) + ' ' if icons else ''
+                                        return f"{icon_prefix}{label}"
+                                    except Exception:
+                                        return row.get('Fragenset') if isinstance(row, dict) else getattr(row, 'Fragenset', '')
+
+                                df['Fragenset'] = df.apply(lambda r: _fragenset_with_icon(r.to_dict() if hasattr(r, 'to_dict') else dict(r)), axis=1)
+                            except Exception:
+                                # Non-fatal: keep existing labels on errors
+                                pass
+                            except Exception:
+                                try:
+                                    df['Fragenset'] = df.get('questions_title', df.get('questions_file', ''))
+                                except Exception:
+                                    df['Fragenset'] = df.get('questions_file', '')
+
                         # Additional sanitization: some history rows already contain
                         # a pre-populated 'Fragenset' column with raw identifiers
                         # like "user::... <hash> <ts>". Normalize those so users

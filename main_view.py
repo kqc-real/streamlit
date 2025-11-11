@@ -878,12 +878,44 @@ def _render_history_table(history_rows, filename_base: str):
                         else:
                             # Normal cell: display the formatted value
                             val = row.get(col_name, "-")
+
+                            # Only prefix icons for the Fragenset column (not for every cell)
+                            icon_prefix = ''
+                            if col_name == 'Fragenset':
+                                try:
+                                    from config import USER_QUESTION_PREFIX as _UQP
+                                except Exception:
+                                    _UQP = 'user::'
+
+                                icons = []
+                                try:
+                                    qf = df.at[original_idx, 'questions_file'] if 'questions_file' in df.columns else None
+                                    is_temp = isinstance(qf, str) and qf.startswith(_UQP)
+                                    if is_temp:
+                                        icons.append('🕑')
+                                except Exception:
+                                    is_temp = False
+
+                                try:
+                                    user_pseudo = st.session_state.get('user_id')
+                                    if is_temp and user_pseudo:
+                                        from database import has_recovery_secret_for_pseudonym
+                                        try:
+                                            if has_recovery_secret_for_pseudonym(user_pseudo):
+                                                icons.append('🟢')
+                                        except Exception:
+                                            pass
+                                except Exception:
+                                    pass
+
+                                icon_prefix = ' '.join(icons) + ' ' if icons else ''
+
                             # For long Fragenset labels, keep them compact
                             if col_name == 'Fragenset' and isinstance(val, str) and len(val) > 60:
                                 display_val = val[:60].rsplit(' ', 1)[0] + '...'
                             else:
                                 display_val = val
-                            st.markdown(str(display_val))
+                            st.markdown(f"{icon_prefix}{display_val}")
                     except Exception:
                         # Fallback: show raw cell value
                         try:
