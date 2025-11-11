@@ -561,11 +561,25 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     # Only expose the history-open affordance here when the session was
     # restored via Pseudonym+Geheimwort. Keep it minimal (no debug captions).
     try:
-        # Show the history button when the user restored their session via
-        # pseudonym+secret OR when the user is logged in (has a pseudonym/hash).
-        # This ensures users who started a test after uploading a temporary
-        # Fragenset still see the "Meine Sessions" affordance.
-        if st.session_state.get('login_via_recovery') or st.session_state.get('user_id') or st.session_state.get('user_id_hash'):
+        # Show the history button only for users with a reserved pseudonym.
+        # We detect this by consulting the DB helper `has_recovery_secret_for_pseudonym`.
+        user_pseudo = st.session_state.get('user_id')
+        show_history_button = False
+        if user_pseudo:
+            try:
+                from database import has_recovery_secret_for_pseudonym
+
+                try:
+                    if has_recovery_secret_for_pseudonym(user_pseudo):
+                        show_history_button = True
+                except Exception:
+                    # On DB error, do not show the button (conservative fallback).
+                    show_history_button = False
+            except Exception:
+                # Import failed or helper unavailable: do not show the button.
+                show_history_button = False
+
+        if show_history_button:
             # Mark a one-time request to open the history dialog when the
             # sidebar button is clicked. Keep the callback tiny to avoid
             # holding complex logic inside the on_click handler.
