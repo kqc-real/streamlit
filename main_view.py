@@ -801,8 +801,96 @@ def _render_history_table(history_rows, filename_base: str):
         VISIBLE_ROWS = 5
         total_rows = len(df_display)
         df_shown = df_display.head(VISIBLE_ROWS)
-        # Use a smaller height so approximately 5 rows are visible in the dialog.
-        st.dataframe(df_shown, width="stretch", hide_index=True, height=200)
+
+        # Render the shown rows manually so we can add a per-row action button
+        # (Streamlit's dataframe does not support interactive widgets per row).
+        # Build a compact header row matching the display columns, with an
+        # additional "Aktionen" column right after 'Fragenset'.
+        header_cols = []
+        # We'll always show the Datum/Fragenset columns first if present.
+        cols_layout = []
+        # Build a list of visible columns in the desired order and where to
+        # insert the action button column (after 'Fragenset').
+        visible_order = list(df_shown.columns)
+        # Determine insertion index (after 'Fragenset' if present)
+        try:
+            insert_at = visible_order.index('Fragenset') + 1
+        except ValueError:
+            insert_at = 1
+        visible_order.insert(insert_at, 'Aktionen')
+
+        # Create header
+        header_cols = st.columns([2 if c == 'Fragenset' else 1 for c in visible_order], gap='small')
+        for col_obj, col_name in zip(header_cols, visible_order):
+            with col_obj:
+                st.markdown(f"**{col_name}**")
+
+        # Render each shown row as a set of columns with a button per row.
+        for idx, row in df_shown.reset_index().iterrows():
+            # Use the original df index to lookup hidden fields like 'questions_file'
+            original_idx = row['index']
+            row_cols = st.columns([2 if c == 'Fragenset' else 1 for c in visible_order], gap='small')
+            for col_obj, col_name in zip(row_cols, visible_order):
+                with col_obj:
+                    try:
+                        if col_name == 'Aktionen':
+                            # Build a stable button key using the filename_base and the original index
+                            btn_key = f"start_test_{filename_base}_{original_idx}"
+                            # Determine the underlying questions_file from the full df if available
+                            questions_file = None
+                            try:
+                                questions_file = df.at[original_idx, 'questions_file']
+                            except Exception:
+                                # Try alternative column name
+                                questions_file = df.at[original_idx, 'questions_file'] if 'questions_file' in df.columns else None
+
+                            # If not available, try to reconstruct from the displayed Fragenset
+                            if not questions_file:
+                                try:
+                                    questions_file = df.at[original_idx, 'questions_file']
+                                except Exception:
+                                    questions_file = None
+
+                            if st.button("Start", key=btn_key, width="stretch", type='primary'):
+                                # Configure the app to start the test with the selected set.
+                                try:
+                                    if questions_file:
+                                        st.session_state['selected_questions_file'] = questions_file
+                                    else:
+                                        # Fallback: try to derive a filename from the displayed label
+                                        label = row.get('Fragenset') or row.get('questions_file')
+                                        if isinstance(label, str):
+                                            st.session_state['selected_questions_file'] = label
+                                except Exception:
+                                    st.session_state['selected_questions_file'] = row.get('questions_file') or row.get('Fragenset')
+
+                                # Close any active dialogs and start the test
+                                try:
+                                    st.session_state['_active_dialog'] = None
+                                except Exception:
+                                    pass
+                                st.session_state['test_started'] = True
+                                try:
+                                    st.session_state.start_zeit = pd.Timestamp.now()
+                                except Exception:
+                                    pass
+                                st.rerun()
+                        else:
+                            # Normal cell: display the formatted value
+                            val = row.get(col_name, "-")
+                            # For long Fragenset labels, keep them compact
+                            if col_name == 'Fragenset' and isinstance(val, str) and len(val) > 60:
+                                display_val = val[:60].rsplit(' ', 1)[0] + '...'
+                            else:
+                                display_val = val
+                            st.markdown(str(display_val))
+                    except Exception:
+                        # Fallback: show raw cell value
+                        try:
+                            st.markdown(str(row.get(col_name, '-')))
+                        except Exception:
+                            st.markdown("-")
+
         st.caption(f"Zeige {len(df_shown)} von {total_rows} Einträgen")
     except Exception:
         st.dataframe(df_display, width="stretch", hide_index=True, height=200)
