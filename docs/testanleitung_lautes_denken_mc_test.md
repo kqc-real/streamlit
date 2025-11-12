@@ -194,10 +194,10 @@ Ziel: Die von BBB erzeugte Aufzeichnungsdatei (Podcast‑Export) wird mittels ei
 
 ### Transkription
 
-- Cloud Optionen: AssemblyAI, Deepgram, OpenAI Speech‑to‑Text.
+- Verwende [https://turboscribe.ai/de/](https://turboscribe.ai/de/) zum Transkriptieren des BBB-Podcasts.
 - Ergebnis: zeitgestempelte Transkription + ggf. Sprechersegmentierung.
 
-### KI‑Analyse (Auswertungsschritte)
+### KI‑Analyse der Transkription (Auswertungsschritte)
 
 - Segmentiere Transkripte entlang der Testaufgaben (Triggerwörter: "Aufgabe", "Frage", "Bericht", "KI‑Generator").
 - Extrahiere kurze Zitate mit Zeitstempel.
@@ -208,7 +208,8 @@ Ziel: Die von BBB erzeugte Aufzeichnungsdatei (Podcast‑Export) wird mittels ei
 ### Deliverables
 
 - Kurzbericht (1–2 Seiten): Zusammenfassung, Top‑3 Usability‑Probleme, SUS‑Score.
-- abzulegen als Issues im GitHub-Projekt mit Labels
+- BBB-Link
+- abzulegen als Issues im GitHub-Projekt mit Labels der Moderatoren
 
 ### Beispiel‑Prompts für die KI‑Analyse (nach Transkription)
 
