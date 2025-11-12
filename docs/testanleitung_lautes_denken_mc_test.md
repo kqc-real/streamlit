@@ -209,6 +209,7 @@ Ziel: Die von BBB erzeugte Aufzeichnungsdatei (Podcast‑Export) wird mittels ei
 
 - Kurzbericht (1–2 Seiten): Zusammenfassung, Top‑3 Usability‑Probleme, SUS‑Score.
 - BBB-Link
+- PDF der Transkriptionsanalyse der KI
 - abzulegen als Issues im GitHub-Projekt mit Labels der Moderatoren
 
 ### Beispiel‑Prompts für die KI‑Analyse (nach Transkription)
