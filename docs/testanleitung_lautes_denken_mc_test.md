@@ -49,7 +49,7 @@ Die Session soll remote per BigBlueButton (BBB) durchgeführt werden. Moderator 
 
 - Führe vor dem ersten Probanden einen Test‑Durchlauf (Trial Run) in BBB durch. Dabei muss Bildschirmteilen aktiviert sein und die Freigabe in Vollansicht erfolgen.
 - Die BBB‑Sitzung (Konferenz) muss nach Ende der Session geschlossen werden; erst danach generiert BBB die Aufzeichnungsdateien. Das Generieren/Verarbeiten kann mehrere Minuten dauern.
-- Die fertige Aufzeichnung (Video/Audio) erscheint auf der BBB‑Raum‑Startseite unter "Recordings" / "Aufzeichnungen". Überprüfe, dass die Test‑Aufzeichnung dort sichtbar und abspielbar ist, bevor du den echten Probanden einlädst.
+- Die fertige Aufzeichnung (Video/Audio) erscheint auf der BBB‑Raum‑Startseite unter "Recordings" / "Aufzeichnungen". Überprüfe, dass die Test‑Aufzeichnung dort sichtbar und abspielbar ist, bevor du den Probanden einlädst.
 - Lade den Probanden erst ein, wenn der Trial‑Run eine sichtbare, vollständige Aufzeichnung erzeugt hat.
 
 ## Einverständnis zur Aufzeichnung & Datenschutz (Remote)
