@@ -30,8 +30,8 @@ Die Session soll remote per BigBlueButton (BBB) durchgeführt werden. Moderator 
 
 #### Moderator‑Hinweis: Lautes Denken & Hilfen
 
-- Propand teilt seinen Bildschirm in BBB in Vollansicht (dieser wird mit Ton aufgezeichnet)
-- Propand ruft die App-Startseite auf: [https://mc-test.streamlit.app](https://mc-test.streamlit.app)
+- Proband teilt seinen Bildschirm in BBB in Vollansicht (dieser wird mit Ton aufgezeichnet)
+- Proband ruft die App-Startseite auf: [https://mc-test.streamlit.app](https://mc-test.streamlit.app)
 - Start: „Bitte sagen Sie kurz, was Sie sehen/erwarten und warum Sie klicken.“
 - Bei Stille: „Gerne weiter laut denken.“
 - Keine inhaltliche Hilfe; nur wenn festgefahren → **kurzen Hinweis** geben und notieren: *Hilfe gegeben*.
