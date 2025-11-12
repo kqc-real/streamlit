@@ -195,7 +195,7 @@ Ziel: Die von BBB erzeugte Aufzeichnungsdatei (Podcast‑Export) wird mittels ei
 ### Transkription
 
 - Verwende [https://turboscribe.ai/de/](https://turboscribe.ai/de/) zum Transkriptieren des BBB-Podcasts.
-- Ergebnis: zeitgestempelte Transkription + ggf. Sprechersegmentierung.
+- Ergebnis: zeitgestempelte Transkription + Sprechersegmentierung.
 
 ### KI‑Analyse der Transkription (Auswertungsschritte)
 
