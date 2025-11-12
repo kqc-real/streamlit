@@ -67,7 +67,7 @@
         "Zur Binarisierung kontinuierlicher Ziele."
       ],
       "loesung": 1,
-      "erklaerung": "`StandardScaler` transformiert numerische Features auf Mittelwert 0 und Standardabweichung 1, was distanz- und gradientenbasierte Verfahren stabiler macht.\"",
+      "erklaerung": "`StandardScaler` transformiert numerische Features auf Mittelwert 0 und Standardabweichung 1, was distanz- und gradientenbasierte Verfahren stabiler macht.",
       "gewichtung": 1,
       "thema": "Datenvorbereitung & EDA"
     },
@@ -81,7 +81,7 @@
         "`R^2`"
       ],
       "loesung": 1,
-      "erklaerung": "Bei stark unbalancierten Klassen kann `Accuracy` täuschen. `ROC-AUC` misst die Ranking-Qualität über Schwellen und ist robuster gegenüber Imbalance.\"",
+      "erklaerung": "Bei stark unbalancierten Klassen kann `Accuracy` täuschen. `ROC-AUC` misst die Ranking-Qualität über Schwellen und ist robuster gegenüber Imbalance.",
       "gewichtung": 2,
       "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
@@ -107,7 +107,7 @@
         "Feature-Selection wird obsolet."
       ],
       "loesung": 1,
-      "erklaerung": "`Pipeline` bündelt Vorverarbeitung und Modell zu einem Ablauf, der konsistent trainiert und validiert wird—wichtig gegen **Data Leakage** und für Reproduzierbarkeit.\"",
+      "erklaerung": "`Pipeline` bündelt Vorverarbeitung und Modell zu einem Ablauf, der konsistent trainiert und validiert wird—wichtig gegen **Data Leakage** und für Reproduzierbarkeit.",
       "gewichtung": 1,
       "thema": "MLOps & Reproduzierbarkeit"
     },
@@ -147,7 +147,7 @@
         "Verzicht auf Bias-Term."
       ],
       "loesung": 0,
-      "erklaerung": "Der `HuberRegressor` nutzt einen robusten Verlust, der Ausreißer weniger stark gewichtet als das quadratische Fehlermaß der klassischen `LinearRegression`.\"",
+      "erklaerung": "Der `HuberRegressor` nutzt einen robusten Verlust, der Ausreißer weniger stark gewichtet als das quadratische Fehlermaß der klassischen `LinearRegression`.",
       "gewichtung": 2,
       "thema": "Modelle & Algorithmen",
       "extended_explanation": {
@@ -173,7 +173,7 @@
         "`PCA` ersetzt immer Feature-Engineering."
       ],
       "loesung": 2,
-      "erklaerung": "`PCA` ist **unüberwacht** und findet orthogonale Komponenten, die maximale Varianz erklären; sie dient der **Dimensionsreduktion** und Visualisierung.\"",
+      "erklaerung": "`PCA` ist **unüberwacht** und findet orthogonale Komponenten, die maximale Varianz erklären; sie dient der **Dimensionsreduktion** und Visualisierung.",
       "gewichtung": 2,
       "thema": "Datenvorbereitung & EDA",
       "extended_explanation": {
@@ -199,7 +199,7 @@
         "Weil `KNN` sonst die Nachbarn zufällig wählt."
       ],
       "loesung": 1,
-      "erklaerung": "`KNN` nutzt Distanzen; Features mit größeren Skalen dominieren sonst die Nachbarschaftssuche, weshalb **Standardisierung/Normalisierung** nötig ist.\"",
+      "erklaerung": "`KNN` nutzt Distanzen; Features mit größeren Skalen dominieren sonst die Nachbarschaftssuche, weshalb **Standardisierung/Normalisierung** nötig ist.",
       "gewichtung": 1,
       "thema": "Datenvorbereitung & EDA"
     },
@@ -213,7 +213,7 @@
         "Schwellenwahl ignorieren; sie beeinflusst Metriken nicht."
       ],
       "loesung": 1,
-      "erklaerung": "Bei unausgeglichenen Klassen optimiert eine feste Schwelle selten die gewünschten **Kosten/Nutzen**. Kurvenbasierte Verfahren erlauben zielabhängige Auswahl.\"",
+      "erklaerung": "Bei unausgeglichenen Klassen optimiert eine feste Schwelle selten die gewünschten **Kosten/Nutzen**. Kurvenbasierte Verfahren erlauben zielabhängige Auswahl.",
       "gewichtung": 2,
       "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
@@ -265,7 +265,7 @@
         "Erfordert, dass alle Features bereits skaliert sind."
       ],
       "loesung": 1,
-      "erklaerung": "`StratifiedKFold` sorgt dafür, dass die **Klassenverteilung** in jedem Fold ähnlich der Gesamtheit ist—wichtig bei Imbalance.\"",
+      "erklaerung": "`StratifiedKFold` sorgt dafür, dass die **Klassenverteilung** in jedem Fold ähnlich der Gesamtheit ist—wichtig bei Imbalance.",
       "gewichtung": 1,
       "thema": "Modellbewertung & Validierung"
     },
@@ -279,7 +279,7 @@
         "Kalibrierung ersetzt die Schwellenwahl."
       ],
       "loesung": 0,
-      "erklaerung": "Methoden wie **Platt Scaling** oder **Isotonic Regression** justieren **Wahrscheinlichkeiten**, nicht das Ranking; `ROC-AUC` bleibt oft unverändert, `Brier`/`LogLoss` verbessern sich.\"",
+      "erklaerung": "Methoden wie **Platt Scaling** oder **Isotonic Regression** justieren **Wahrscheinlichkeiten**, nicht das Ranking; `ROC-AUC` bleibt oft unverändert, `Brier`/`LogLoss` verbessern sich.",
       "gewichtung": 2,
       "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
@@ -305,7 +305,7 @@
         "Benötigt immer Tagesdaten."
       ],
       "loesung": 1,
-      "erklaerung": "`TimeSeriesSplit` respektiert **Zeitkausalität**: Train auf Vergangenheit, Val auf Zukunft—verhindert **Look-ahead Leakage**.\"",
+      "erklaerung": "`TimeSeriesSplit` respektiert **Zeitkausalität**: Train auf Vergangenheit, Val auf Zukunft—verhindert **Look-ahead Leakage**.",
       "gewichtung": 2,
       "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
@@ -331,7 +331,7 @@
         "Deployment in Kubernetes ohne weitere Tools."
       ],
       "loesung": 1,
-      "erklaerung": "`MLflow Tracking` protokolliert **Parameter, Metriken, Artefakte und Modelldateien** und erleichtert Vergleich und Reproduzierbarkeit.\"",
+      "erklaerung": "`MLflow Tracking` protokolliert **Parameter, Metriken, Artefakte und Modelldateien** und erleichtert Vergleich und Reproduzierbarkeit.",
       "gewichtung": 2,
       "thema": "MLOps & Reproduzierbarkeit",
       "extended_explanation": {
@@ -357,7 +357,7 @@
         "Regularisierung ersetzt Datenqualität."
       ],
       "loesung": 1,
-      "erklaerung": "`L1` (Lasso) induziert **Sparsamkeit** durch Nullsetzen, `L2` (Ridge) glättet und reduziert Varianz ohne harte Nullung.\"",
+      "erklaerung": "`L1` (Lasso) induziert **Sparsamkeit** durch Nullsetzen, `L2` (Ridge) glättet und reduziert Varianz ohne harte Nullung.",
       "gewichtung": 2,
       "thema": "Modelle & Algorithmen",
       "extended_explanation": {
@@ -383,7 +383,7 @@
         "Container ohne feste Basisimages starten."
       ],
       "loesung": 1,
-      "erklaerung": "Ein **fixiertes** `Dockerfile` mit **versionierten** Abhängigkeiten erzeugt portable, reproduzierbare Umgebungen über Systeme hinweg.\"",
+      "erklaerung": "Ein **fixiertes** `Dockerfile` mit **versionierten** Abhängigkeiten erzeugt portable, reproduzierbare Umgebungen über Systeme hinweg.",
       "gewichtung": 2,
       "thema": "MLOps & Reproduzierbarkeit",
       "extended_explanation": {
@@ -409,7 +409,7 @@
         "`RandomForest` eignet sich nicht für Klassifikation."
       ],
       "loesung": 1,
-      "erklaerung": "Durch **Bagging** (Bootstrapping + Merkmalssampling) mittelt der Wald über viele Bäume und reduziert so **Varianz** und Overfitting-Tendenzen einzelner Bäume.\"",
+      "erklaerung": "Durch **Bagging** (Bootstrapping + Merkmalssampling) mittelt der Wald über viele Bäume und reduziert so **Varianz** und Overfitting-Tendenzen einzelner Bäume.",
       "gewichtung": 2,
       "thema": "Modelle & Algorithmen",
       "extended_explanation": {
@@ -435,7 +435,7 @@
         "`Accuracy`"
       ],
       "loesung": 1,
-      "erklaerung": "In Regressionsaufgaben sind Fehlermaße wie **`MSE`** oder `MAE` üblich; Klassifikationsmetriken wie `F1`, `Accuracy`, `ROC-AUC` sind ungeeignet.\"",
+      "erklaerung": "In Regressionsaufgaben sind Fehlermaße wie **`MSE`** oder `MAE` üblich; Klassifikationsmetriken wie `F1`, `Accuracy`, `ROC-AUC` sind ungeeignet.",
       "gewichtung": 1,
       "thema": "Modellbewertung & Validierung"
     },
@@ -501,7 +501,7 @@
         "Kein Randomisieren nötig, wenn Gruppen ähnlich wirken."
       ],
       "loesung": 1,
-      "erklaerung": "Testdesign verlangt **a priori** definierte **$\\u03b1$** (Signifikanz) und **Power** (1−$\\u03b2$). Daraus ergibt sich die notwendige **Sample Size**.\"",
+      "erklaerung": "Testdesign verlangt **a priori** definierte **$\\u03b1$** (Signifikanz) und **Power** (1−$\\u03b2$). Daraus ergibt sich die notwendige **Sample Size**.",
       "gewichtung": 3,
       "thema": "Spezialthemen & Methoden",
       "extended_explanation": {
@@ -593,7 +593,7 @@
         "Sie kann keine multiklassigen Probleme lösen."
       ],
       "loesung": 1,
-      "erklaerung": "Die Implementierung unterstützt verschiedene **Solver** wie `liblinear`/`lbfgs`; Regularisierung ist standardmäßig aktiv (`C`).\"",
+      "erklaerung": "Die Implementierung unterstützt verschiedene **Solver** wie `liblinear`/`lbfgs`; Regularisierung ist standardmäßig aktiv (`C`).",
       "gewichtung": 1,
       "thema": "Modelle & Algorithmen"
     },
@@ -607,7 +607,7 @@
         "QQ-Plot der Residuen."
       ],
       "loesung": 1,
-      "erklaerung": "Eine **Confusion-Matrix** zeigt Fehlklassifikationen je Klasse, optional normalisiert—nützlich für zielgerichtete Fehleranalysen.\"",
+      "erklaerung": "Eine **Confusion-Matrix** zeigt Fehlklassifikationen je Klasse, optional normalisiert—nützlich für zielgerichtete Fehleranalysen.",
       "gewichtung": 2,
       "thema": "Modellbewertung & Validierung",
       "extended_explanation": {
