@@ -201,7 +201,7 @@ Ziel: Die von BBB erzeugte Aufzeichnungsdatei (Podcast‑Export) wird mittels ei
 
 ### KI‑Analyse der Transkription (Auswertungsschritte)
 
-- Segmentiere Transkripte entlang der Testaufgaben (Triggerwörter: "Aufgabe", "Frage", "Bericht", "KI‑Generator").
+- Segmentiere das Transkript entlang der Testaufgaben (Triggerwörter: "Aufgabe", "Frage", "Bericht", "KI‑Generator").
 - Extrahiere kurze Zitate mit Zeitstempel.
 - Berechne grobes Sentiment/Frustration pro Segment.
 - Themen‑Clustering nach UI‑Elementen.
@@ -212,7 +212,7 @@ Ziel: Die von BBB erzeugte Aufzeichnungsdatei (Podcast‑Export) wird mittels ei
 - Kurzbericht (1–2 Seiten): Zusammenfassung, Top‑3 Usability‑Probleme, SUS‑Score.
 - BBB-Link
 - PDF der Transkriptionsanalyse der KI
-- abzulegen als Issues im GitHub-Projekt mit Labels der Moderatoren
+- abzulegen als Issues im GitHub-Projekt mit Labels der Beteiligten
 
 ### Beispiel‑Prompts für die KI‑Analyse (nach Transkription)
 
