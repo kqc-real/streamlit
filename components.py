@@ -331,12 +331,12 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
     @st.dialog("Fragenset mit KI erstellen", width="wide")
     def _dialog() -> None:
         st.markdown(
-            "Wähle den Prompt, der zu deinem späteren Exportziel passt, und kopiere ihn in deine KI-Umgebung."
+            "Wähle den Prompt, der zu deinem späteren Exportziel (Lernkarten oder Quizze) passt, und kopiere ihn in deine KI-Umgebung."
         )
         st.markdown(
-            "- **[Anki](https://apps.ankiweb.net/)**-Prompt: Erste Wahl für diese App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Textlängenbeschränkungen.\n"
-            "- **[Kahoot](https://kahoot.com)**-Prompt: Speziell auf die Import-Restriktionen von Kahoot abgestimmt (Textlängen, MC-Optionen, Zeitlimits), damit der Excel-Upload direkt klappt.\n"
-            "- **[arsnova.click](https://arsnova.click)**-Prompt: Optimiert für das an Hochschulen und Universitäten populäre Audience-Response-Tool inkl. LaTeX-Formeln und passenden Antwortlängen."
+            "- **[Anki](https://apps.ankiweb.net/)**-Prompt: Erste Wahl für diese MC-Test-App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Textlängenbeschränkungen.\n"
+            "- **[Kahoot](https://kahoot.com)**-Prompt: Speziell auf die Import-Restriktionen von Kahoot abgestimmt (Textlängen, MC-Optionen, Zeitlimits).\n"
+            "- **[arsnova.click](https://arsnova.click)**-Prompt: Optimiert für das an Hochschulen populäre Audience-Response-Tool (LaTeX-Formeln, Markdown)."
         )
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
@@ -458,7 +458,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         )
 
         if st.button(
-            "✅ Fragenset aus JSON-Text prüfen und speichern",
+            "✅ Fragenset prüfen und speichern",
             key="user_qset_validate_text_btn",
             disabled=not pasted_text.strip(),
             width="stretch",
@@ -488,7 +488,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.error(status.get("error", "Unbekannter Fehler beim Prüfen des Fragensets."))
 
         st.divider()
-        if st.button("✖️ Fenster schließen", key="user_qset_close_btn", width="stretch"):
+        if st.button("Dialog schließen", key="user_qset_close_btn", width="stretch"):
             close_user_qset_dialog(clear_results=True)
             st.rerun()
 

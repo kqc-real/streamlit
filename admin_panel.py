@@ -114,7 +114,7 @@ def render_general_prompt_tab() -> None:
             mime="text/markdown",
             key="download_general_prompt_inline",
         )
-        if st.button("Fenster schließen", key="close_general_prompt_inline"):
+        if st.button("Dialog schließen", key="close_general_prompt_inline"):
             st.session_state[inline_state_key] = False
 
 
@@ -168,7 +168,7 @@ def render_kahoot_prompt_tab() -> None:
             mime="text/markdown",
             key="download_kahoot_prompt_inline",
         )
-        if st.button("Fenster schließen", key="close_kahoot_prompt_inline"):
+        if st.button("Dialog schließen", key="close_kahoot_prompt_inline"):
             st.session_state[inline_state_key] = False
 
 
@@ -223,7 +223,7 @@ def render_arsnova_prompt_tab() -> None:
             mime="text/markdown",
             key="download_arsnova_prompt_inline",
         )
-        if st.button("Fenster schließen", key="close_arsnova_prompt_inline"):
+        if st.button("Dialog schließen", key="close_arsnova_prompt_inline"):
             st.session_state[inline_state_key] = False
 
 
