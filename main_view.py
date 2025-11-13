@@ -2964,7 +2964,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         unsafe_allow_html=True,
                     )
             else:
-                st.markdown("<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> <span style='color:#b91c1c;'>(nicht beantwortet)</span>", unsafe_allow_html=True)
+                st.markdown("<span style='color:#4b9fff; font-weight:bold;'>Deine Antwort:</span> <span style='color:#4b9fff;'>(unbeantwortet)</span>", unsafe_allow_html=True)
             # Richtige Antwort immer darunter, auch wenn sie schon oben steht
             st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
             if frage.get("erklaerung"):
