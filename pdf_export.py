@@ -1685,6 +1685,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-weight: bold;
                 margin-right: 10px;
             }}
+            li.correct-selected, li.correct, li.correct-unanswered {{
+                background: #d1fae5 !important; /* hellgrün */
+            }}
             li.correct-selected {{
                 font-weight: 500;
             }}
