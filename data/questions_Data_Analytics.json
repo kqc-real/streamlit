@@ -21,7 +21,7 @@
       "start streamlit app.py"
     ],
     "loesung": 2,
-    "erklaerung": "Der Befehl 'streamlit run <dateiname>.py' startet den Streamlit-Server und öffnet die App im Browser.",
+    "erklaerung": "Der Befehl 'streamlit run [Dateiname].py' startet den Streamlit-Server und öffnet die App im Browser.",
     "gewichtung": 1,
     "thema": "Streamlit"
   },
