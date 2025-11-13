@@ -884,9 +884,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     rank_text = f" • Platz {user_rank} im Ranking" if user_rank else ""
 
     # Statistiken berechnen
-    richtige = sum(1 for i in range(len(questions)) 
-                   if get_answer_for_question(i) == questions[i]["optionen"][questions[i]["loesung"]])
-    falsche = len(questions) - richtige
+    antworten = [get_answer_for_question(i) for i in range(len(questions))]
+    richtige = sum(1 for i, ant in enumerate(antworten) if ant is not None and ant == questions[i]["optionen"][questions[i]["loesung"]])
+    unbeantwortet = sum(1 for ant in antworten if ant is None)
+    falsche = len(questions) - richtige - unbeantwortet
     
     # Bearbeitungszeit berechnen
     start_time = st.session_state.get("test_start_time")
@@ -1165,6 +1166,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     <div class="stat-label">Falsch</div>
                 </div>
                 <div class="stat-item">
+                    <div class="stat-value unanswered">? {unbeantwortet}</div>
+                    <div class="stat-label">Unbeantwortet</div>
+                </div>
+                <div class="stat-item">
                     <div class="stat-value">{len(questions)}</div>
                     <div class="stat-label">Gesamt</div>
                 </div>
@@ -1208,11 +1213,31 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         frage_text = _parse_text_with_formulas(frage_obj["frage"].split(". ", 1)[-1])
         
-        # Bestimme Farbe basierend auf richtig/falsch
+        # Bestimme Farbe und Status basierend auf richtig/falsch/unbeantwortet
         gegebene_antwort = get_answer_for_question(original_index)
         richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
-        ist_richtig = (gegebene_antwort == richtige_antwort_text)
-        border_color = "#15803d" if ist_richtig else "#b91c1c"  # Dunkelgrün oder Dunkelrot
+        
+        is_unanswered = gegebene_antwort is None
+        ist_richtig = not is_unanswered and (gegebene_antwort == richtige_antwort_text)
+        
+        status_text = ""
+        status_icon = ""
+        status_class = ""
+        if is_unanswered:
+            border_color = "#0284c7"  # Blau für unbeantwortet
+            status_text = "Unbeantwortet"
+            status_icon = "?"
+            status_class = "unanswered"
+        elif ist_richtig:
+            border_color = "#15803d"  # Dunkelgrün
+            status_text = "Richtig"
+            status_icon = "✔"
+            status_class = "correct"
+        else:
+            border_color = "#b91c1c"  # Dunkelrot
+            status_text = "Falsch"
+            status_icon = "✗"
+            status_class = "wrong"
         
         # NEU: Prüfen, ob die Frage markiert ist und Icon hinzufügen
         is_bookmarked = original_index in bookmarked_indices
@@ -1232,6 +1257,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         # Starte Question-Box mit farbigem Rahmen
         html_body += f'<div class="question-box" style="border-left: 4px solid {border_color};">'
+        
+        # Status-Anzeige (Richtig, Falsch, Unbeantwortet)
+        html_body += f'<div class="question-status {status_class}"><span class="status-icon">{status_icon}</span> {status_text}</div>'
+        
         html_body += f'<div class="question-header">'
         html_body += f'Frage {display_test_number} / {len(questions)} '
         html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
@@ -1253,15 +1282,21 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             
             class_name = ''
             prefix = '○'
-            if is_correct and is_selected:
-                class_name = 'correct-selected'
-                prefix = '✔'
-            elif is_correct:
-                class_name = 'correct'
-                prefix = '✔'
-            elif is_selected:
-                class_name = 'wrong-selected'
-                prefix = '✗'
+            
+            if is_unanswered:
+                if is_correct:
+                    class_name = 'correct-unanswered'
+                    prefix = '➜'
+            else:
+                if is_correct and is_selected:
+                    class_name = 'correct-selected'
+                    prefix = '✔'
+                elif is_correct:
+                    class_name = 'correct'
+                    prefix = '✔'
+                elif is_selected:
+                    class_name = 'wrong-selected'
+                    prefix = '✗'
 
             html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_parse_text_with_formulas(option)}</li>'
         html_body += "</ul>"
@@ -1402,8 +1437,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             .stats-grid {{
                 display: grid;
-                /* WeasyPrint doesn't support auto-fit/auto-fill in repeat(); use a fixed column fallback */
-                grid-template-columns: repeat(2, minmax(100px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
                 gap: 15px;
                 margin-top: 15px;
             }}
@@ -1420,6 +1454,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             .stat-value.correct {{ color: #15803d; }}
             .stat-value.wrong {{ color: #b91c1c; }}
+            .stat-value.unanswered {{ color: #0284c7; }}
             .stat-value.rank {{ color: #b45309; }}
             .stat-label {{
                 font-size: 9pt;
