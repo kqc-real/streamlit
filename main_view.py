@@ -2563,20 +2563,16 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     except Exception:
         allowed_min = getattr(app_config, "test_duration_minutes", None)
 
-    # Wenn die Testzeit abgelaufen ist, zeigen wir einen anderen Titel an.
-    if st.session_state.get("test_time_expired", False):
+    # Passe den Titel an, je nachdem, wie der Test beendet wurde. Die Reihenfolge ist wichtig.
+    if st.session_state.get("test_manually_ended", False):
+        st.header("⚠️ Test vorzeitig beendet")
+    elif st.session_state.get("test_time_expired", False):
         st.header("⏰ Zeit abgelaufen!")
         # Wenn ein erlaubtes Test-Limit in Minuten konfiguriert ist, zeigen wir dieses
         # als die offizielle Testdauer an (volle Minuten). Das entspricht der
         # vorgegebenen Testlaufzeit, wie vom Nutzer erwartet.
         if allowed_min is not None:
             st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min")
-        elif duration_str:
-            st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Die Testdauer betrug {duration_str}.")
-        elif duration_min is not None:
-            st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {duration_min} min")
-        else:
-            st.info("Der Test wurde wegen Überschreitung der Testzeit beendet.")
     else:
         st.header("🚀 Test abgeschlossen!")
         # Wenn früher abgegeben wurde, Hinweis anzeigen

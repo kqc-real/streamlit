@@ -863,8 +863,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
     user_name = st.session_state.get("user_id", "Unbekannt")
     q_file = st.session_state.get("selected_questions_file", "Unbekanntes Set")
-    set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    
+    set_name = str(q_file).replace("questions_", "").replace(".json", "").replace("_", " ")
+
+    # Prüfen, ob der Test vorzeitig beendet wurde
+    test_manually_ended = st.session_state.get("test_manually_ended", False)
+    header_title = set_name
+    header_subtitle = ""
+    if test_manually_ended:
+        header_subtitle = '<p class="header-subtitle">(Test vorzeitig beendet)</p>'
+
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
         questions, app_config.scoring_mode
@@ -1137,7 +1144,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>{set_name}</h1>
+                    <h1>{header_title}</h1>{header_subtitle}
                     <div class="meta-info">
                         <span><strong>Teilnehmer:</strong> {user_name}</span>
                         <span><strong>Testdatum:</strong> {generated_at_str}</span>
@@ -1396,6 +1403,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-size: 26pt;
                 font-weight: 600;
                 letter-spacing: -0.02em;
+                display: flex;
+                align-items: flex-start;
+                flex-direction: column;
+            }}
+            .header-subtitle {{
+                font-size: 12pt;
+                font-weight: 500;
+                color: #ffc107;
+                margin: 4px 0 0 0;
             }}
             .meta-info {{
                 display: flex;
