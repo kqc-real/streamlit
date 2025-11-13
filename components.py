@@ -495,6 +495,84 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
     _dialog()
 
 
+def _end_test_session(questions: QuestionSet, app_config: AppConfig):
+    """Beendet die aktuelle Test-Session, berechnet finale Werte und bereinigt den Session-Status."""
+    # Berechne finale Werte vor dem Löschen der Session
+    final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
+    duration_seconds = 0
+    start_time = st.session_state.get("start_zeit")
+    end_time = pd.Timestamp.now()
+    if isinstance(start_time, pd.Timestamp) and isinstance(end_time, pd.Timestamp):
+        duration_seconds = (end_time - start_time).total_seconds()
+
+    # Prüfe, ob der Nutzer es ins Leaderboard schaffen wird
+    from database import get_all_logs_for_leaderboard
+    selected_file = st.session_state.get("selected_questions_file")
+    leaderboard = get_all_logs_for_leaderboard(selected_file)
+    
+    made_it_to_leaderboard = False
+    
+    # Mindestdauer für dieses Fragenset berechnen
+    recommended_duration = st.session_state.get("test_duration_minutes", 60) * 60
+    min_duration_for_leaderboard = max(60, int(recommended_duration * 0.20))
+
+    if final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
+        if len(leaderboard) < 10:
+            made_it_to_leaderboard = True
+        else:
+            last_place = leaderboard[-1]
+            if final_score > last_place.get('total_score', 0):
+                made_it_to_leaderboard = True
+            elif final_score == last_place.get('total_score', 0):
+                if duration_seconds < last_place.get('duration_seconds', float('inf')):
+                    made_it_to_leaderboard = True
+
+    # Speichere Bookmarks vor dem Abmelden
+    bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
+    if "session_id" in st.session_state:
+        update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
+    aborted_user_id = st.session_state.get("user_id")
+    active_file = st.session_state.get("selected_questions_file")
+    has_active_user_set = isinstance(active_file, str) and active_file.startswith(USER_QUESTION_PREFIX)
+
+    if has_active_user_set and isinstance(active_file, str):
+        try:
+            info = get_user_question_set(active_file)
+        except Exception:
+            info = None
+
+        owner_matches = False
+        if info:
+            uploaded_by = getattr(info, 'uploaded_by', None)
+            uploaded_by_hash = getattr(info, 'uploaded_by_hash', None)
+            current_user = aborted_user_id
+            current_user_hash = st.session_state.get('user_id_hash')
+            if (uploaded_by and current_user and uploaded_by == current_user) or \
+               (uploaded_by_hash and current_user_hash and uploaded_by_hash == current_user_hash):
+                owner_matches = True
+        
+        if owner_matches:
+            _apply_user_set_retention_policy(aborted_user_id)
+
+    # Entferne Session-Marker aus den Query-Parametern
+    st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
+
+    # Bereinige Session-State
+    for key in list(st.session_state.keys()):
+        if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file":
+            del st.session_state[key]
+    
+    st.session_state["session_aborted"] = True
+    st.session_state["aborted_user_id"] = aborted_user_id
+    st.session_state["aborted_user_score"] = final_score
+    st.session_state["aborted_user_duration"] = duration_seconds
+    st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
+    st.session_state["aborted_user_recommended_duration"] = st.session_state.get("test_time_limit", 180)
+    
+    st.rerun()
+
+
 def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool):
     """Rendert die komplette Sidebar der Anwendung."""
     # Setze die Sidebar-Breite auf einen schmaleren Wert (ähnlich wie vor dem Feature-Update).
@@ -1196,6 +1274,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     except Exception:
         # Fallback to the Streamlit progress if something goes wrong with HTML rendering
         st.sidebar.progress(progress_pct)
+
+    if progress_pct >= 1 and not is_test_finished(questions):
+        if st.sidebar.button("Test beenden", key="end_test_sidebar", width="stretch", type="secondary"):
+            st.session_state["test_manually_ended"] = True
+            st.rerun()
 
     st.sidebar.divider()
     current_score, max_score = calculate_score(

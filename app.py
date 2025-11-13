@@ -255,10 +255,10 @@ def main():
     # If the test time expired, show the final summary immediately (override any open overlays)
     elif st.session_state.get("test_time_expired", False):
         render_final_summary(questions, app_config)
-    elif (is_test_finished(questions)) and not (
+    elif st.session_state.get("test_manually_ended", False) or (is_test_finished(questions) and not (
         "last_answered_idx" in st.session_state
         and st.session_state.get(f"show_explanation_{st.session_state.last_answered_idx}")
-    ):
+    )):
         # Wenn der Test beendet ist und kein Erklärungsoverlay offen, zeige die Zusammenfassung.
         render_final_summary(questions, app_config)
     # Priorität 3: Eine spezifische Frage anzeigen (entweder die letzte Antwort oder die nächste offene)
