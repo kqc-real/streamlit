@@ -148,7 +148,11 @@ def main():
         explanation_open = False
         if last_answered_idx is not None:
             explanation_open = bool(st.session_state.get(f"show_explanation_{last_answered_idx}"))
-        will_show_final_summary = test_time_expired or (finished and not explanation_open)
+        will_show_final_summary = (
+            test_time_expired
+            or st.session_state.get("test_manually_ended", False)
+            or (finished and not explanation_open)
+        )
         st.session_state["in_final_summary"] = will_show_final_summary
     except Exception:
         # Fail-safe: ensure flag absent if computation fails

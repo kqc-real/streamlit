@@ -1275,7 +1275,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # Fallback to the Streamlit progress if something goes wrong with HTML rendering
         st.sidebar.progress(progress_pct)
 
-    if progress_pct >= 1 and not is_test_finished(questions):
+    if progress_pct >= 1 and not is_test_finished(questions) and not st.session_state.get("in_final_summary", False):
         if st.sidebar.button("Test beenden", key="end_test_sidebar", width="stretch", type="secondary"):
             st.session_state["test_manually_ended"] = True
             st.rerun()
