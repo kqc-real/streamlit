@@ -296,11 +296,12 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
         # LaTeX ignoriert einzelne Spaces sowieso, also können wir sie alle entfernen
         cleaned_formula = cleaned_formula.replace(' ', '')
         
-        # Ersetze spitze Klammern durch LaTeX-Äquivalente, um HTML-Konflikte zu vermeiden
-        # Dies ist entscheidend für Skalarprodukte wie <x,y>.
-        cleaned_formula = cleaned_formula.replace('<', r'\langle ').replace('>', r'\rangle ')
-
-
+        # Ersetze spitze Klammern durch LaTeX-Äquivalente, um HTML-Konflikte zu vermeiden.
+        # Wichtig: Die Ersetzung muss NACH der Entfernung der Leerzeichen erfolgen,
+        # damit die notwendigen Spaces in `\langle ` und `\rangle ` erhalten bleiben.
+        # Ein Ausdruck wie `<x,y>` wird so zu `\langle x,y \rangle`.
+        cleaned_formula = cleaned_formula.replace('<', r'\langle ').replace('>', r' \rangle')
+        
         # QuickLaTeX API aufrufen mit amsmath für Matrizen
         # Sehr hohe DPI für gestochen scharfe Bilder
         response = requests.post(
