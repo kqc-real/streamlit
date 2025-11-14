@@ -61,7 +61,8 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     # emphasis parser from splitting math (e.g. underscores inside math
     # being interpreted as emphasis). After rendering we restore the
     # converted math (replace $...$ -> \(...\) / \[...\]).
-    math_pattern = __import__('re').compile(r'(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))', __import__('re').DOTALL)
+    # Match common math delimiters in the raw source ($$, $, \[ \], \( \)).
+    math_pattern = __import__('re').compile(r'(\$\$.*?\$\$|\$.*?\$|\\\[.*?\\\]|\\\(.*?\\\))', __import__('re').DOTALL)
     placeholders: dict[str, str] = {}
 
     def _repl(m):
@@ -80,6 +81,27 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     # Restore math placeholders with the converted math content.
     for key, math_html in placeholders.items():
         html = html.replace(key, math_html)
+
+    # Some Markdown engines may have (incorrectly) injected inline HTML
+    # tags inside restored math delimiters (e.g. `<em>` from underscore
+    # processing). Strip any HTML tags that ended up inside math
+    # delimiters to ensure math engines receive clean LaTeX source.
+    def _strip_tags_in_math(match: re.Match) -> str:
+        inner = match.group(1)
+        # Remove any HTML tags inside the math content
+        clean_inner = re.sub(r"<[^>]+>", "", inner)
+        return f"\\({clean_inner}\\)"
+
+    # Inline math: \(...\)
+    html = re.sub(r"\\\\\((.*?)\\\\\)", _strip_tags_in_math, html, flags=re.S)
+
+    def _strip_tags_in_display(match: re.Match) -> str:
+        inner = match.group(1)
+        clean_inner = re.sub(r"<[^>]+>", "", inner)
+        return f"\\[{clean_inner}\\]"
+
+    # Display math: \[...\]
+    html = re.sub(r"\\\\\[(.*?)\\\\\]", _strip_tags_in_display, html, flags=re.S)
 
     return html
 

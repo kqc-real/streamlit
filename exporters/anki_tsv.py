@@ -99,7 +99,9 @@ def _sanitize(html: str) -> str:
     # being HTML-escaped by bleach. We replace them with placeholders before
     # cleaning and restore afterwards — same approach as used in
     # config._build_question_set._sanitize_text.
-    math_pattern = re.compile(r'(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))', re.DOTALL)
+    # Match inline/display math in any of the common delimiter forms:
+    # $$...$$, $...$, \[...\], \(...\)
+    math_pattern = re.compile(r'(\$\$.*?\$\$|\$.*?\$|\\\[.*?\\\]|\\\(.*?\\\))', re.DOTALL)
     placeholders: dict[str, str] = {}
 
     def _math_repl(m):
@@ -134,7 +136,14 @@ def _sanitize(html: str) -> str:
     # inside the math fragment so expressions like "<x,y>" are kept
     # as angle-brackets inside math (Anki/MathJax expects raw brackets).
     for key, original in placeholders.items():
-        cleaned = cleaned.replace(key, _html_module.unescape(original))
+        # Escape HTML-sensitive characters inside math fragments before
+        # reinserting them into the cleaned HTML. This prevents downstream
+        # consumers (e.g. genanki) from interpreting '<' or '>' inside
+        # LaTeX as literal HTML tags and emitting warnings. Math renderers
+        # (MathJax/KaTeX) read the text content and will handle HTML
+        # entities correctly.
+        escaped = _html_module.escape(original)
+        cleaned = cleaned.replace(key, escaped)
 
     return _restore_math_backslash_breaks(cleaned)
 
