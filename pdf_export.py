@@ -1700,9 +1700,6 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             li.correct-selected, li.correct, li.correct-unanswered {{
                 background: #C5E1A5 !important; /* hellgrün */
             }}
-            li.correct-selected {{
-                font-weight: 500;
-            }}
             li.correct {{
                 /* Korrekte Antwort (nicht ausgewählt) */
             }}
