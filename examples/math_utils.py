@@ -56,12 +56,12 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     if not s:
         return ""
 
-        # Parse the markdown first, then convert math only inside text tokens.
-        # This ensures code fences and inline code are left untouched while
-        # math expressions in text tokens are normalized (e.g. $...$ -> \(...\)).
-        tokens = md.parse(s)
-        _apply_math_conversions(tokens)
-        html = md.renderer.render(tokens, md.options, {})
+    # Parse the markdown first, then convert math only inside text tokens.
+    # This ensures code fences and inline code are left untouched while
+    # math expressions in text tokens are normalized (e.g. $...$ -> \(...\)).
+    tokens = md.parse(s)
+    _apply_math_conversions(tokens)
+    html = md.renderer.render(tokens, md.options, {})
 
     # Some Markdown engines may have (incorrectly) injected inline HTML
     # tags inside restored math delimiters (e.g. `<em>` from underscore
@@ -101,10 +101,10 @@ def _render_math_html_outside_code(html: str) -> str:
     parts = re.split(r'(<pre[\s\S]*?</pre>|<code[\s\S]*?</code>)', html, flags=re.I)
 
     def _replace_math_in_segment(seg: str) -> str:
-        # Replace display math first
-        seg = re.sub(r'\\\\[(.+?)\\]', lambda m: pykatex_render(m.group(1), display_mode=True), seg, flags=re.S)
-        # Then inline math
-        seg = re.sub(r'\\\\(.+?)\\\)', lambda m: pykatex_render(m.group(1), display_mode=False), seg, flags=re.S)
+        # Replace display math first: match literal "\[ ... \]"
+        seg = re.sub(r'\\\[(.+?)\\\]', lambda m: pykatex_render(m.group(1), display_mode=True), seg, flags=re.S)
+        # Then inline math: match literal "\( ... \)"
+        seg = re.sub(r'\\\((.+?)\\\)', lambda m: pykatex_render(m.group(1), display_mode=False), seg, flags=re.S)
         return seg
 
     out_parts = []
