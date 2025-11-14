@@ -56,9 +56,32 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     if not s:
         return ""
 
-    tokens = md.parse(s)
-    _apply_math_conversions(tokens)
-    return md.renderer.render(tokens, md.options, {})
+    # Protect math regions by replacing them with safe placeholders
+    # before feeding the text to Markdown-It. This prevents the Markdown
+    # emphasis parser from splitting math (e.g. underscores inside math
+    # being interpreted as emphasis). After rendering we restore the
+    # converted math (replace $...$ -> \(...\) / \[...\]).
+    math_pattern = __import__('re').compile(r'(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))', __import__('re').DOTALL)
+    placeholders: dict[str, str] = {}
+
+    def _repl(m):
+        key = f"MATHPLACEHOLDER{len(placeholders)}"
+        # Convert $...$ to \(...\) / \[...\] so downstream rendering
+        # (and optional KaTeX) receives normalized delimiters.
+        placeholders[key] = _convert_math_tokens(m.group(0))
+        return key
+
+    protected = math_pattern.sub(_repl, s)
+    # Parse and render with Markdown-It while math is hidden behind
+    # inert placeholders.
+    tokens = md.parse(protected)
+    html = md.renderer.render(tokens, md.options, {})
+
+    # Restore math placeholders with the converted math content.
+    for key, math_html in placeholders.items():
+        html = html.replace(key, math_html)
+
+    return html
 
 
 def _render_math_html_outside_code(html: str) -> str:

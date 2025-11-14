@@ -115,7 +115,11 @@ def _sanitize(html: str) -> str:
         attributes=DEFAULT_ALLOWED_ATTRS,
         strip=True,
     )
-    if cleaned != html:
+    # Only log if bleach actually changed the protected text. We compare
+    # against the `protected` value (placeholders already applied) so that
+    # the common-and-intended difference between `html` and `protected`
+    # (math placeholders) does not produce noisy warnings.
+    if cleaned != protected:
         # Log sanitized differences for later review (truncate to keep logs readable).
         original_snippet = html if len(html) <= 400 else html[:400] + "…"
         cleaned_snippet = cleaned if len(cleaned) <= 400 else cleaned[:400] + "…"
