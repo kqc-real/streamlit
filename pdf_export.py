@@ -1700,6 +1700,16 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             li.correct-selected, li.correct, li.correct-unanswered {{
                 background: #C5E1A5 !important; /* hellgrün */
             }}
+            /* Neutralize inherited bold on the list item, but allow
+               intentionally marked <strong> or <b> inside the option to
+               remain bold. This keeps the option text plain by default
+               while preserving explicit emphasis. */
+            li.correct {{
+                font-weight: normal !important;
+            }}
+            li.correct strong, li.correct b {{
+                font-weight: 700 !important;
+            }}
             li.correct {{
                 /* Korrekte Antwort (nicht ausgewählt) */
             }}
@@ -2136,7 +2146,12 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             ul.options {{ list-style: disc; padding-left: 1.2rem; margin: 0 0 8px 0; }}
             ul.options li.option {{ padding: 4px 6px; margin-bottom:6px; background: transparent; border-radius:4px; }}
             ul.options li.option .opt-content {{ display: inline; }}
-            ul.options li.correct {{ background: #ecfdf5; border-left: 4px solid #15803d; font-weight: 600; padding-left: 8px; }}
+            ul.options li.correct {{ background: #ecfdf5; border-left: 4px solid #15803d; padding-left: 8px; }}
+                /* Neutralize inherited bold on the correct option but keep
+                    explicit <strong>/<b> tags bold so authors can highlight
+                    individual words intentionally. */
+                ul.options li.correct {{ font-weight: normal !important; }}
+                ul.options li.correct strong, ul.options li.correct b {{ font-weight: 700 !important; }}
             .explanation {{ background: #fff8e1; border-left: 4px solid #b45309; padding: 10px 12px; margin-top: 8px; border-radius: 4px; }}
             .explanation strong {{ color: #856404; }}
 
