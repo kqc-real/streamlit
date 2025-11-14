@@ -12,6 +12,7 @@ import io
 import streamlit as st
 import requests
 from weasyprint import HTML
+import html as _html
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
@@ -459,6 +460,22 @@ def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> 
         return placeholder
     
     text = re.sub(r'\$([^$]+?)\$', save_inline_formula, text)
+    
+    # Zusätzlich: Mathematische Ausdrücke in \(...\) und \[...\]
+    # werden ebenfalls unterstützt (häufig wenn Markdown-Renderer
+    # bereits Konvertierungen durchgeführt haben). Wir extrahieren
+    # auch diese Formen, damit späteres HTML-Escaping sie nicht
+    # zerstört.
+    def save_paren_formula(match):
+        formula = match.group(1).strip()
+        placeholder = f"__FORMULA_INLINE_{len(formulas)}__"
+        formulas.append(('inline', formula))
+        return placeholder
+
+    # \(...\) inline
+    text = re.sub(r'\\\\\((.*?)\\\\\)', save_paren_formula, text, flags=re.DOTALL)
+    # \[...\] display
+    text = re.sub(r'\\\\\[(.*?)\\\\\]', save_paren_formula, text, flags=re.DOTALL)
     
     # 2. Jetzt HTML-Escaping für normalen Text (Formeln sind bereits extrahiert)
     text = _html.escape(text, quote=False)

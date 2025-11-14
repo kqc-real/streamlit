@@ -2841,7 +2841,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     def extract_formulas(questions):
         """Extrahiert erste gefundene Formel und zählt Gesamt-Formeln."""
         import re
-        formula_pattern = r'\$\$.*?\$\$|\$.*?\$'
+        # Support both $...$, $$...$$ and already-converted \(...\)/\[...\] forms
+        # (?s) enables DOTALL so '.' matches newlines inside block formulas.
+        formula_pattern = r'(?s)\$\$.*?\$\$|\$.*?\$|\\\\\(.*?\\\\\)|\\\\\[.*?\\\\\]'
 
         first_formula = None
         total_count = 0

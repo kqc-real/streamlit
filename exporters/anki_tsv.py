@@ -94,8 +94,22 @@ def _sanitize(html: str) -> str:
         # If bleach not installed, return input (best-effort). Caller should
         # ensure the environment includes bleach for production.
         return html
+    # Protect math regions (e.g. $...$, $$...$$, \(...\), \[...\]) from
+    # being HTML-escaped by bleach. We replace them with placeholders before
+    # cleaning and restore afterwards — same approach as used in
+    # config._build_question_set._sanitize_text.
+    math_pattern = re.compile(r'(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))', re.DOTALL)
+    placeholders: dict[str, str] = {}
+
+    def _math_repl(m):
+        key = f"__MATH_PLACEHOLDER_{len(placeholders)}__"
+        placeholders[key] = m.group(0)
+        return key
+
+    protected = math_pattern.sub(_math_repl, html)
+
     cleaned = bleach.clean(
-        html,
+        protected,
         tags=DEFAULT_ALLOWED_TAGS,
         attributes=DEFAULT_ALLOWED_ATTRS,
         strip=True,
@@ -111,6 +125,10 @@ def _sanitize(html: str) -> str:
                 "anki_sanitize_cleaned": cleaned_snippet,
             },
         )
+    # Restore any protected math placeholders
+    for key, original in placeholders.items():
+        cleaned = cleaned.replace(key, original)
+
     return _restore_math_backslash_breaks(cleaned)
 
 
