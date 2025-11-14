@@ -263,44 +263,8 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
         # Kleinere Schriftgröße aber extrem hohe DPI für beste Qualität
         font_size = '12px' if is_block else '14px'
         
-        # Bereite Formel vor: entferne ALLE Leerzeichen!
-        cleaned_formula = formula
-        
         # WICHTIG: Erst alle Newlines entfernen
-        cleaned_formula = cleaned_formula.replace('\n', '')
-        cleaned_formula = cleaned_formula.replace('\r', '')
-        
-        # Entferne Leerzeichen um & und \\ herum
-        cleaned_formula = re.sub(r'\s*&\s*', '&', cleaned_formula)
-        cleaned_formula = re.sub(r'\s*\\\\\s*', r'\\\\', cleaned_formula)
-        
-        # Entferne Leerzeichen nach \begin{...}
-        cleaned_formula = re.sub(
-            r'\\begin\{([^}]+)\}\s*',
-            r'\\begin{\1}',
-            cleaned_formula
-        )
-        # Entferne Leerzeichen vor \end{...}
-        cleaned_formula = re.sub(
-            r'\s*\\end\{([^}]+)\}',
-            r'\\end{\1}',
-            cleaned_formula
-        )
-        
-        # Entferne Leerzeichen nach öffnenden Klammern
-        cleaned_formula = re.sub(r'([\(\[\{])\s+', r'\1', cleaned_formula)
-        # Entferne Leerzeichen vor schließenden Klammern
-        cleaned_formula = re.sub(r'\s+([\)\]\}])', r'\1', cleaned_formula)
-        
-        # KRITISCH: Entferne ALLE verbleibenden Leerzeichen
-        # LaTeX ignoriert einzelne Spaces sowieso, also können wir sie alle entfernen
-        cleaned_formula = cleaned_formula.replace(' ', '')
-        
-        # Ersetze spitze Klammern durch LaTeX-Äquivalente, um HTML-Konflikte zu vermeiden.
-        # Wichtig: Die Ersetzung muss NACH der Entfernung der Leerzeichen erfolgen,
-        # damit die notwendigen Spaces in `\langle ` und `\rangle ` erhalten bleiben.
-        # Ein Ausdruck wie `<x,y>` wird so zu `\langle x,y \rangle`.
-        cleaned_formula = cleaned_formula.replace('<', r'\langle ').replace('>', r' \rangle')
+        cleaned_formula = formula.strip()
         
         # QuickLaTeX API aufrufen mit amsmath für Matrizen
         # Sehr hohe DPI für gestochen scharfe Bilder
@@ -487,24 +451,24 @@ def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> 
     
     text = re.sub(r'\$\$(.*?)\$\$', save_block_formula, text, flags=re.DOTALL)
     
-    # Inline-Formeln $...$
+    # Inline-Formeln $...$ (nicht-gierig)
     def save_inline_formula(match):
         formula = match.group(1).strip()
         placeholder = f"__FORMULA_INLINE_{len(formulas)}__"
         formulas.append(('inline', formula))
         return placeholder
     
-    text = re.sub(r'\$([^$]+?)\$', save_inline_formula, text, flags=re.DOTALL)
+    text = re.sub(r'\$([^$]+?)\$', save_inline_formula, text)
     
     # 2. Jetzt HTML-Escaping für normalen Text (Formeln sind bereits extrahiert)
-    text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    text = _html.escape(text, quote=False)
     
     # 3. Markdown-Formatierungen ersetzen (Überschriften, Fett, Code)
     # Überschriften: # H1, ## H2, ### H3, etc.
-    text = re.sub(r'^#### (.+)$', r'<h4>\1</h4>', text, flags=re.MULTILINE)
-    text = re.sub(r'^### (.+)$', r'<h3>\1</h3>', text, flags=re.MULTILINE)
-    text = re.sub(r'^## (.+)$', r'<h2>\1</h2>', text, flags=re.MULTILINE)
-    text = re.sub(r'^# (.+)$', r'<h1>\1</h1>', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*####\s*(.+)', r'<h4>\1</h4>', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*###\s*(.+)', r'<h3>\1</h3>', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*##\s*(.+)', r'<h2>\1</h2>', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*#\s*(.+)', r'<h1>\1</h1>', text, flags=re.MULTILINE)
     # Fett: **text**
     text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
     # Code: `text`
