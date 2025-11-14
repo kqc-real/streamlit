@@ -4,6 +4,12 @@ Erzeugt eine UTF-8 kodierte TSV-String-Repräsentation aus dem internen
 Fragenset-JSON. Baut auf `examples.math_utils.render_markdown_with_math`
 und sanitized die resultierende HTML-Ausgabe mit `bleach`.
 
+Hinweis: Mathematische Fragmente (z.B. `$...$`, `\(...\)`, `\[...\]`) werden
+vor dem Aufruf von `bleach.clean` durch Platzhalter ersetzt und nach der
+Sanitierung unverändert (verbatim) wieder eingesetzt. Dadurch werden bereits
+vom Markdown-Renderer erzeugte HTML-Entities nicht versehentlich
+doppelt-escaped (z.B. '&lt;' -> '&amp;lt;').
+
 Die Funktion ist intentionally pure (keine Streamlit-Abhängigkeit) so dass
 Unit-Tests sie einfach nutzen können. Streamlit-Wrapper kann die Funktion
 mit `@st.cache_data` umgeben.
