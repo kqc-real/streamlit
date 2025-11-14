@@ -56,31 +56,12 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     if not s:
         return ""
 
-    # Protect math regions by replacing them with safe placeholders
-    # before feeding the text to Markdown-It. This prevents the Markdown
-    # emphasis parser from splitting math (e.g. underscores inside math
-    # being interpreted as emphasis). After rendering we restore the
-    # converted math (replace $...$ -> \(...\) / \[...\]).
-    # Match common math delimiters in the raw source ($$, $, \[ \], \( \)).
-    math_pattern = __import__('re').compile(r'(\$\$.*?\$\$|\$.*?\$|\\\[.*?\\\]|\\\(.*?\\\))', __import__('re').DOTALL)
-    placeholders: dict[str, str] = {}
-
-    def _repl(m):
-        key = f"MATHPLACEHOLDER{len(placeholders)}"
-        # Convert $...$ to \(...\) / \[...\] so downstream rendering
-        # (and optional KaTeX) receives normalized delimiters.
-        placeholders[key] = _convert_math_tokens(m.group(0))
-        return key
-
-    protected = math_pattern.sub(_repl, s)
-    # Parse and render with Markdown-It while math is hidden behind
-    # inert placeholders.
-    tokens = md.parse(protected)
-    html = md.renderer.render(tokens, md.options, {})
-
-    # Restore math placeholders with the converted math content.
-    for key, math_html in placeholders.items():
-        html = html.replace(key, math_html)
+        # Parse the markdown first, then convert math only inside text tokens.
+        # This ensures code fences and inline code are left untouched while
+        # math expressions in text tokens are normalized (e.g. $...$ -> \(...\)).
+        tokens = md.parse(s)
+        _apply_math_conversions(tokens)
+        html = md.renderer.render(tokens, md.options, {})
 
     # Some Markdown engines may have (incorrectly) injected inline HTML
     # tags inside restored math delimiters (e.g. `<em>` from underscore
@@ -93,7 +74,7 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
         return f"\\({clean_inner}\\)"
 
     # Inline math: \(...\)
-    html = re.sub(r"\\\\\((.*?)\\\\\)", _strip_tags_in_math, html, flags=re.S)
+    html = re.sub(r"\\\((.*?)\\\)", _strip_tags_in_math, html, flags=re.S)
 
     def _strip_tags_in_display(match: re.Match) -> str:
         inner = match.group(1)
@@ -101,7 +82,7 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
         return f"\\[{clean_inner}\\]"
 
     # Display math: \[...\]
-    html = re.sub(r"\\\\\[(.*?)\\\\\]", _strip_tags_in_display, html, flags=re.S)
+    html = re.sub(r"\\\[(.*?)\\\]", _strip_tags_in_display, html, flags=re.S)
 
     return html
 
