@@ -12,6 +12,7 @@ import io
 import streamlit as st
 import requests
 from weasyprint import HTML
+import urllib.parse as _urlparse
 import html as _html
 
 from logic import get_answer_for_question, calculate_score
@@ -269,22 +270,30 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
         
         # QuickLaTeX API aufrufen mit amsmath für Matrizen
         # Sehr hohe DPI für gestochen scharfe Bilder
+        # Encode form data using percent-encoding (quote) instead of
+        # the default application/x-www-form-urlencoded behavior which
+        # encodes spaces as '+' (quote_plus). Some remote renderers
+        # interpret '+' literally which can produce stray '+' signs in
+        # resulting images. Use urllib.parse.urlencode with quote_via
+        # to emit %20 for spaces.
+        payload = {
+            'formula': cleaned_formula,
+            'fsize': font_size,
+            'fcolor': '000000',
+            'mode': '0',
+            'out': '1',
+            'remhost': 'quicklatex.com',
+            'dpi': '1200',
+            'preamble': (r'\usepackage{amsmath}'
+                        r'\usepackage{amsfonts}'
+                        r'\usepackage{amssymb}'),
+        }
+        encoded = _urlparse.urlencode(payload, quote_via=_urlparse.quote)
         response = requests.post(
             'https://quicklatex.com/latex3.f',
-            data={
-                'formula': cleaned_formula,
-                'fsize': font_size,
-                'fcolor': '000000',
-                'mode': '0',
-                'out': '1',
-                'remhost': 'quicklatex.com',
-                'dpi': '1200',
-                'preamble': (r'\usepackage{amsmath}'
-                            r'\usepackage{amsfonts}'
-                            r'\usepackage{amssymb}')
-            },
+            data=encoded,
             headers={'Content-Type': 'application/x-www-form-urlencoded'},
-            timeout=10
+            timeout=10,
         )
         
         if response.ok:
