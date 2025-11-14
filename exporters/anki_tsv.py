@@ -18,6 +18,7 @@ from pathlib import Path
 import re
 
 from markdown_it import MarkdownIt
+import html as _html_module
 from examples.math_utils import render_markdown_with_math
 import logging
 
@@ -125,9 +126,11 @@ def _sanitize(html: str) -> str:
                 "anki_sanitize_cleaned": cleaned_snippet,
             },
         )
-    # Restore any protected math placeholders
+    # Restore any protected math placeholders. Unescape HTML entities
+    # inside the math fragment so expressions like "<x,y>" are kept
+    # as angle-brackets inside math (Anki/MathJax expects raw brackets).
     for key, original in placeholders.items():
-        cleaned = cleaned.replace(key, original)
+        cleaned = cleaned.replace(key, _html_module.unescape(original))
 
     return _restore_math_backslash_breaks(cleaned)
 

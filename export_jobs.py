@@ -400,7 +400,7 @@ _ANKI_CARD_CSS = """
 }
 .answer-block { margin-top: 12px; }
 .answer-title { font-weight: 700; color: #0f766e; margin-bottom: 6px; }
-.answer-content { font-weight: 600; color: #15803d; margin-bottom: 8px; }
+.answer-content { font-weight: 400; color: #15803d; margin-bottom: 8px; }
 .question-repeat { margin-bottom: 12px; }
 .question-repeat .section-title { margin-top: 0; }
 .question-content { font-weight: 400; color: #111; margin-bottom: 6px; }
