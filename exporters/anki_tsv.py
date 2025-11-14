@@ -136,12 +136,10 @@ def _sanitize(html: str) -> str:
     # inside the math fragment so expressions like "<x,y>" are kept
     # as angle-brackets inside math (Anki/MathJax expects raw brackets).
     for key, original in placeholders.items():
-        # Restore the original math fragment exactly as it appeared in the
-        # source. We protected math with placeholders before calling
-        # `bleach.clean`, so reinserting the original text preserves any
-        # literal characters or HTML entities that the Markdown renderer
-        # produced. This avoids double-escaping (e.g. '&lt;' -> '&amp;lt;')
-        # while still allowing bleach to sanitize the surrounding content.
+        # Keep the restore action explicit and obvious: reinsert the
+        # original math fragment verbatim to avoid double-escaping HTML
+        # entities that the Markdown renderer may already have produced.
+        # (See tests/test_anki_double_escape.py)
         cleaned = cleaned.replace(key, original)
 
     return _restore_math_backslash_breaks(cleaned)
