@@ -968,32 +968,6 @@
         "Schlechte Kondition": "Kleine Datenänderungen erzeugen große Lösungsschwankungen.",
         "Orthogonales Q": "Erhält Normen und verbessert die Stabilität."
       }
-    },
-    {
-      "frage": "40. Welche Aussage zur Variation der korrekten Antwortposition in einem MCQ-Set ist didaktisch sinnvoll?",
-      "optionen": [
-        "Die korrekte Antwort sollte immer an dritter Stelle stehen.",
-        "Die korrekte Antwort sollte stets die längste Option sein.",
-        "Die Position der korrekten Antwort sollte über das Set variieren.",
-        "Die korrekte Antwort sollte wiederholt werden.",
-        "Die korrekte Antwort sollte eine Sammeloption sein."
-      ],
-      "loesung": 2,
-      "erklaerung": "Variierende Position vermeidet Antwortmuster und reduziert Rateeffekte.",
-      "gewichtung": 3,
-      "thema": "Typische Fehler & Numerik",
-      "extended_explanation": {
-        "titel": "MCQ-Gestaltungsprinzip",
-        "schritte": [
-          "Vermeidet systematische Hinweise.",
-          "Optionen ähnlich lang und strukturell einheitlich halten.",
-          "Keine Sammeloptionen verwenden."
-        ]
-      },
-      "mini_glossary": {
-        "Distraktoren": "Plausible, aber falsche Antwortoptionen.",
-        "Antwortmuster": "Vorhersagbare Position der richtigen Option; zu vermeiden."
-      }
     }
   ]
 }
