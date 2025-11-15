@@ -532,8 +532,19 @@ def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> 
         for i in range(len(formulas)):
             placeholder_block = f"__FORMULA_BLOCK_{i}__"
             placeholder_inline = f"__FORMULA_INLINE_{i}__"
-            rendered = rendered_formulas.get(i, '[Formel-Fehler]')
-            
+            rendered = rendered_formulas.get(i)
+            # Defensive fallback: if rendering failed or returned an empty
+            # value, keep the original LaTeX source visible so it is not
+            # silently lost (prevents outputs like "Form ; ..."). We
+            # escape the source to avoid accidental HTML injection.
+            if not rendered:
+                # formulas[i] is a tuple (type, formula)
+                ftype, ftext = formulas[i]
+                if ftype == 'block':
+                    rendered = f'<div class="formula-fallback">{_html.escape(ftext)}</div>'
+                else:
+                    rendered = f'<code class="formula-fallback">{_html.escape(ftext)}</code>'
+
             if placeholder_block in processed_text:
                 processed_text = processed_text.replace(placeholder_block, rendered)
             if placeholder_inline in processed_text:
