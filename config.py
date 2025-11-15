@@ -245,7 +245,7 @@ def _build_question_set(
 
         # Restore protected math placeholders (they were not passed through the HTML escaper)
         for key, original in placeholders.items():
-            sanitized = sanitized.replace(key, original)
+            sanitized = sanitized.replace(key, original) # 'original' enthält hier bereits die Ersetzung
         # Math/LaTeX uses ampersands (e.g. pmatrix). Preserve them after sanitizing.
         if "&amp;" in sanitized:
             sanitized = sanitized.replace("&amp;", "&")

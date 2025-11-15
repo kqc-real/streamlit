@@ -33,6 +33,9 @@ MAX_GLOSSARY_ENTRIES = 4
 # ist präziser und vermeidet False Positives über Wortgrenzen hinweg.
 LATEX_IN_BACKTICKS_PATTERN = re.compile(r"`(\s*?\$[^`]+\$?\s*?)`|`([^`]*?\$\s*?)`")
 
+# Regex, um spitze Klammern in LaTeX zu finden, die in HTML-Renderern Probleme verursachen.
+# Ignoriert dabei explizite LaTeX-Befehle wie \langle und \rangle.
+PROBLEMATIC_ANGLE_BRACKETS_IN_LATEX = re.compile(r"\$[^$]*?(?<!\\)<[^<>\n]*?(?<!\\)>[^$]*?\$")
 
 def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
     """
@@ -88,14 +91,20 @@ def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
             if isinstance(value, str):
                 if LATEX_IN_BACKTICKS_PATTERN.search(value):
                     errors.append(f"Frage {i}, Feld '{key}': LaTeX-Formel in Backticks gefunden. Bitte korrigieren.")
+                if PROBLEMATIC_ANGLE_BRACKETS_IN_LATEX.search(value):
+                    warnings.append(f"Frage {i}, Feld '{key}': LaTeX mit '<' oder '>' gefunden. Für HTML-Exporte '$\\langle x, y \\rangle$' statt '$<x,y>$' verwenden.")
             elif isinstance(value, list):
                  for item in value:
                      if isinstance(item, str) and LATEX_IN_BACKTICKS_PATTERN.search(item):
                          errors.append(f"Frage {i}, Feld '{key}': LaTeX-Formel in Backticks in einem Listenelement gefunden.")
+                     if isinstance(item, str) and PROBLEMATIC_ANGLE_BRACKETS_IN_LATEX.search(item):
+                        warnings.append(f"Frage {i}, Feld '{key}': LaTeX mit '<' oder '>' in einem Listenelement gefunden. Für HTML-Exporte '$\\langle ... \\rangle$' verwenden.")
             elif isinstance(value, dict):
                  for sub_key, sub_value in value.items():
                      if isinstance(sub_value, str) and LATEX_IN_BACKTICKS_PATTERN.search(sub_value):
                          errors.append(f"Frage {i}, Feld '{key}.{sub_key}': LaTeX-Formel in Backticks gefunden.")
+                     if isinstance(sub_value, str) and PROBLEMATIC_ANGLE_BRACKETS_IN_LATEX.search(sub_value):
+                        warnings.append(f"Frage {i}, Feld '{key}.{sub_key}': LaTeX mit '<' oder '>' gefunden. Für HTML-Exporte '$\\langle ... \\rangle$' verwenden.")
 
 
         # Glossar-Anzahl prüfen

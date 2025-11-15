@@ -30,6 +30,9 @@ from pathlib import Path
 _MAX_FORMULA_PARALLEL = int(os.getenv('FORMULA_RENDER_PARALLEL', '6'))
 _formula_semaphore = threading.Semaphore(_MAX_FORMULA_PARALLEL)
 
+# Global lock to prevent race conditions during cache eviction.
+_eviction_lock = threading.Lock()
+
 # QR-Code Generation
 try:
     import qrcode
@@ -440,68 +443,43 @@ def _render_formulas_parallel(formulas: List[tuple], total_timeout: float | None
     return results
 
 
-def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> str:
+def _render_latex_in_html(html_text: str, total_timeout: float | None = None) -> str:
     """
-    Konvertiert einen String mit Markdown/LaTeX in sicheres HTML.
-    Formeln werden parallel gerendert für bessere Performance.
+    Findet LaTeX-Ausdrücke in einem HTML-String, rendert sie als Bilder
+    und ersetzt die ursprünglichen Ausdrücke durch die Bild-Tags.
+
+    Nimmt an, dass der Input bereits valides, sauberes HTML ist.
     """
     # Apply module default timeout when none provided to avoid indefinite waits
     if total_timeout is None:
         total_timeout = FORMULA_RENDER_TOTAL_TIMEOUT
 
-    # 1. Zuerst Formeln extrahieren und durch Platzhalter ersetzen
+    # 1. Formeln extrahieren und durch Platzhalter ersetzen
     formulas = []
-    
-    # Block-Formeln $$...$$
+
     def save_block_formula(match):
         formula = match.group(1).strip()
         placeholder = f"__FORMULA_BLOCK_{len(formulas)}__"
         formulas.append(('block', formula))
         return placeholder
-    
-    text = re.sub(r'\$\$(.*?)\$\$', save_block_formula, text, flags=re.DOTALL)
-    
-    # Inline-Formeln $...$ (nicht-gierig)
+
     def save_inline_formula(match):
         formula = match.group(1).strip()
         placeholder = f"__FORMULA_INLINE_{len(formulas)}__"
         formulas.append(('inline', formula))
         return placeholder
-    
-    text = re.sub(r'\$([^$]+?)\$', save_inline_formula, text)
-    
-    # Zusätzlich: Mathematische Ausdrücke in \(...\) und \[...\]
-    # werden ebenfalls unterstützt (häufig wenn Markdown-Renderer
-    # bereits Konvertierungen durchgeführt haben). Wir extrahieren
-    # auch diese Formen, damit späteres HTML-Escaping sie nicht
-    # zerstört.
-    def save_paren_formula(match):
-        formula = match.group(1).strip()
-        placeholder = f"__FORMULA_INLINE_{len(formulas)}__"
-        formulas.append(('inline', formula))
-        return placeholder
 
-    # \(...\) inline
-    text = re.sub(r'\\\\\((.*?)\\\\\)', save_paren_formula, text, flags=re.DOTALL)
-    # \[...\] display
-    text = re.sub(r'\\\\\[(.*?)\\\\\]', save_paren_formula, text, flags=re.DOTALL)
-    
-    # 2. Jetzt HTML-Escaping für normalen Text (Formeln sind bereits extrahiert)
-    text = _html.escape(text, quote=False)
-    
-    # 3. Markdown-Formatierungen ersetzen (Überschriften, Fett, Code)
-    # Überschriften: # H1, ## H2, ### H3, etc.
-    text = re.sub(r'^\s*####\s*(.+)', r'<h4>\1</h4>', text, flags=re.MULTILINE)
-    text = re.sub(r'^\s*###\s*(.+)', r'<h3>\1</h3>', text, flags=re.MULTILINE)
-    text = re.sub(r'^\s*##\s*(.+)', r'<h2>\1</h2>', text, flags=re.MULTILINE)
-    text = re.sub(r'^\s*#\s*(.+)', r'<h1>\1</h1>', text, flags=re.MULTILINE)
-    # Fett: **text**
-    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
-    # Code: `text`
-    text = re.sub(r'`(.+?)`', r'<code>\1</code>', text)
-    
-    # 4. Zeilenumbrüche und Listen verarbeiten
-    lines = text.split('\n')
+    # Wir suchen nach allen gängigen LaTeX-Formaten.
+    # Die Reihenfolge ist wichtig: Zuerst die längeren Block-Formate.
+    processed_text = re.sub(r'\$\$(.*?)\$\$', save_block_formula, html_text, flags=re.DOTALL)
+    processed_text = re.sub(r'\\\\\[(.*?)\\\\\]', save_block_formula, processed_text, flags=re.DOTALL)
+    processed_text = re.sub(r'\$([^$]+?)\$', save_inline_formula, processed_text)
+    processed_text = re.sub(r'\\\\\((.*?)\\\\\)', save_inline_formula, processed_text, flags=re.DOTALL)
+
+    # 2. Markdown-Formatierungen wie Listen und Zeilenumbrüche in HTML umwandeln.
+    # Dies ist immer noch notwendig, da die zentrale Bereinigung kein Markdown nach HTML konvertiert.
+    # Wir entfernen aber das HTML-Escaping und die manuelle Tag-Ersetzung.
+    lines = processed_text.split('\n')
     html_lines = []
     in_list = False
     
@@ -523,9 +501,9 @@ def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> 
     if in_list:
         html_lines.append('</ul>')
     
-    processed_text = '<br>'.join(html_lines)
-    
-    # 5. Formeln parallel rendern und wieder einsetzen
+    processed_text = ''.join(html_lines) # Verwende join ohne <br>, da p-Tags oder li-Tags für Struktur sorgen
+
+    # 3. Formeln parallel rendern und wieder einsetzen
     if formulas:
         rendered_formulas = _render_formulas_parallel(formulas, total_timeout=total_timeout)
         
@@ -550,7 +528,7 @@ def _parse_text_with_formulas(text: str, total_timeout: float | None = None) -> 
             if placeholder_inline in processed_text:
                 processed_text = processed_text.replace(placeholder_inline, rendered)
     
-    return processed_text
+    return processed_text.replace('\n', '<br>')
 
 
 def _steps_have_numbering(steps: List[str]) -> bool:
@@ -798,14 +776,14 @@ def _build_glossary_html(
         glossary_html_parts.append(f'<p class="glossary-intro">{intro}</p>')
 
     for thema, terms in glossary_by_theme.items():
-        parsed_thema = _parse_text_with_formulas(thema)
+        parsed_thema = _render_latex_in_html(thema)
         glossary_html_parts.append('<div class="glossary-section">')
         glossary_html_parts.append(f'<h3 class="glossary-theme">{parsed_thema}</h3>')
         glossary_html_parts.append('<div class="glossary-grid">')
 
         for term, definition in terms.items():
-            parsed_term = _parse_text_with_formulas(term)
-            parsed_definition = _parse_text_with_formulas(definition)
+            parsed_term = _render_latex_in_html(term)
+            parsed_definition = _render_latex_in_html(definition)
 
             glossary_html_parts.append('<div class="glossary-item">')
             glossary_html_parts.append(f'<div class="glossary-term">{parsed_term}</div>')
@@ -1129,10 +1107,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 frage_preview = frage_text.split(".", 1)[-1].strip()
                 if len(frage_preview) > 60:
                     frage_preview = frage_preview[:60] + "..."
-                
+
                 # Parse Markdown und LaTeX im Preview
-                frage_preview_parsed = _parse_text_with_formulas(frage_preview)
-                
+                frage_preview_parsed = _render_latex_in_html(frage_preview)
+
                 bookmarks_html += f'<li><strong>Frage {test_num}</strong> '
                 bookmarks_html += f'<span class="bookmark-ref">'
                 bookmarks_html += f'(Fragenset-Nr. {orig_num})</span><br>'
@@ -1225,7 +1203,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         except (ValueError, IndexError):
             original_number = original_index + 1
         
-        frage_text = _parse_text_with_formulas(frage_obj["frage"].split(". ", 1)[-1])
+        frage_text = _render_latex_in_html(frage_obj["frage"].split(". ", 1)[-1])
         
         # Bestimme Farbe und Status basierend auf richtig/falsch/unbeantwortet
         gegebene_antwort = get_answer_for_question(original_index)
@@ -1312,12 +1290,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     class_name = 'wrong-selected'
                     prefix = '✗'
 
-            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_parse_text_with_formulas(option)}</li>'
+            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_render_latex_in_html(option)}</li>'
         html_body += "</ul>"
 
         erklaerung = frage_obj.get("erklaerung")
         if erklaerung:
-            html_body += f'<div class="explanation"><strong>Erklärung:</strong> {_parse_text_with_formulas(erklaerung)}</div>'
+            html_body += f'<div class="explanation"><strong>Erklärung:</strong> {_render_latex_in_html(erklaerung)}</div>'
 
         extended_explanation = frage_obj.get("extended_explanation")
         if extended_explanation and isinstance(extended_explanation, dict):
@@ -1327,7 +1305,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
             explanation_html = '<div class="explanation"><strong>Detaillierte Erklärung'
             if title:
-                explanation_html += f": {_parse_text_with_formulas(title)}"
+                explanation_html += f": {_render_latex_in_html(title)}"
             explanation_html += "</strong>"
 
             if steps:
@@ -1337,10 +1315,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 explanation_html += f"<{list_tag} class='extended-steps'>"
                 for step in steps:
                     item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f"<li>{_parse_text_with_formulas(item)}</li>"
+                    explanation_html += f"<li>{_render_latex_in_html(item)}</li>"
                 explanation_html += f"</{list_tag}>"
             elif isinstance(content, str) and content.strip():
-                explanation_html += "<br>" + _parse_text_with_formulas(content)
+                explanation_html += "<br>" + _render_latex_in_html(content)
 
             explanation_html += "</div>"
             html_body += explanation_html
@@ -2066,7 +2044,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         _report(int((display_num - 1) / max(1, len(questions)) * 60), f"Verarbeite Frage {display_num}/{len(questions)}")
         frage_text = frage.get("frage", "")
         # Parst Markdown/LaTeX in sicheres HTML
-        parsed_frage = _parse_text_with_formulas(
+        parsed_frage = _render_latex_in_html(
             frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text,
             total_timeout=total_timeout,
         )
@@ -2079,7 +2057,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         correct_idx = frage.get("loesung")
         opts = frage.get("optionen", [])
         for oi, opt in enumerate(opts):
-            parsed_opt = _parse_text_with_formulas(opt, total_timeout=total_timeout)
+            parsed_opt = _render_latex_in_html(opt, total_timeout=total_timeout)
             if oi == correct_idx:
                 html_parts.append(f'<li class="option correct">✔ {parsed_opt}</li>')
             else:
@@ -2091,7 +2069,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         erklaerung = frage.get("erklaerung")
         if erklaerung:
             html_parts.append(
-                f'<div class="explanation"><strong>Erklärung:</strong> {_parse_text_with_formulas(erklaerung, total_timeout=total_timeout)}</div>'
+                f'<div class="explanation"><strong>Erklärung:</strong> {_render_latex_in_html(erklaerung, total_timeout=total_timeout)}</div>'
             )
 
         # Erweiterte Erklärung
@@ -2103,7 +2081,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
 
             explanation_html = '<div class="explanation"><strong>Detaillierte Erklärung'
             if title:
-                explanation_html += f": {_parse_text_with_formulas(title)}"
+                explanation_html += f": {_render_latex_in_html(title)}"
             explanation_html += '</strong>'
 
             if steps:
@@ -2111,10 +2089,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 explanation_html += f'<{list_tag} class="extended-steps">'
                 for step in steps:
                     item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f'<li>{_parse_text_with_formulas(item, total_timeout=total_timeout)}</li>'
+                    explanation_html += f'<li>{_render_latex_in_html(item, total_timeout=total_timeout)}</li>'
                 explanation_html += f'</{list_tag}>'
             elif isinstance(content, str) and content.strip():
-                explanation_html += '<br>' + _parse_text_with_formulas(content, total_timeout=total_timeout)
+                explanation_html += '<br>' + _render_latex_in_html(content, total_timeout=total_timeout)
 
             explanation_html += '</div>'
             html_parts.append(explanation_html)
