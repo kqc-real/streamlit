@@ -1,6 +1,6 @@
 # 🚀 Vision Statement: Release 2.0 - Public AI Question Generator
 
-**Projekt:** MC-Test Streamlit App  
+**Projekt:** MC-Test Streamlit App
 **Release:** 2.0  
 **Datum:** 3. Oktober 2025  
 **Status:** Vision / Planung  
@@ -11,7 +11,7 @@
 ## 📋 Inhaltsverzeichnis
 
 1. [Vision Statement](#vision-statement)
-2. [Strategische Ziele](#strategische-ziele)
+2. [Strategische Ziele & Team-Aufteilung](#strategische-ziele--team-aufteilung)
 3. [User Personas](#user-personas)
 4. [Monetarisierungsmodelle](#monetarisierungsmodelle)
 5. [Feature-Roadmap](#feature-roadmap)
@@ -26,14 +26,14 @@
 
 ### Elevator Pitch
 
-> **"Democratize AI-powered question generation for educators worldwide."**
+> **"Democratize AI-powered question generation for educators worldwide by offering two flexible paths: a simple, integrated solution and a powerful Bring-Your-Own-Key option."**
 > 
 > Release 2.0 transformiert die MC-Test App von einem Admin-Tool in eine **SaaS-Plattform**, die es **Lehrenden, Trainer:innen und Content-Creators** ermöglicht, hochwertige Multiple-Choice-Fragensets per KI zu generieren – entweder mit eigenem API-Key oder über ein faires, transparentes **Credit-System**.
 
 ### Vision
 
 **Von:** Nischenprodukt für interne Nutzung (Admin-only)  
-**Zu:** Skalierbare EdTech-Plattform mit globaler Reichweite
+**Zu:** Skalierbare EdTech-Plattform mit zwei zentralen KI-Angeboten
 
 **Mission:** Jedem Lehrenden Zugang zu state-of-the-art AI-Tools geben, unabhängig von technischem Know-how oder Budget.
 
@@ -41,44 +41,35 @@
 
 | Zielgruppe | Problem | Lösung | USP |
 |------------|---------|--------|-----|
-| **Lehrkräfte** | Manuelle Fragenerstellung ist zeitaufwändig | KI generiert in Sekunden | DSGVO-konform, on-premise |
-| **Trainer:innen** | Externe LLMs sind teuer (50-100€/Monat) | Bring-Your-Own-Key oder Credits | Keine Abo-Falle |
-| **Content-Creators** | Komplexe API-Integration zu technisch | Intuitive UI, kein Code | Sofort nutzbar |
-| **Institutionen** | Datenschutz-Bedenken bei Cloud-LLMs | Self-hosted oder dedizierte Instanz | 100% Datenkontrolle |
+| **Lehrkräfte (Lisa)** | Manuelle Fragenerstellung ist zeitaufwändig, Datenschutz ist kritisch. | **Lokal gehostetes LLM:** KI generiert in Sekunden DSGVO-konforme Fragen. | DSGVO-konform, einfach, günstig |
+| **Trainer:innen (Tom)** | Externe LLMs sind teuer, Abos unflexibel. API-Nutzung ist aber gewünscht. | **Bring-Your-Own-Key (BYOK):** Eigene API-Keys (OpenAI, Anthropic etc.) in unserer UI nutzen. | Keine Abo-Falle, volle Kostenkontrolle |
+| **Institutionen (Prof. Schmidt)** | Datenschutz-Bedenken bei Cloud-LLMs, Bedarf an kontrollierter Umgebung. | **Self-hosted oder dedizierte Instanz:** Unser System als On-Premise-Lösung. | 100% Datenkontrolle, skalierbar |
 
 ---
 
-## 🎯 Strategische Ziele
+## 🎯 Strategische Ziele & Team-Aufteilung
 
-### Phase 1: Foundation (Monat 1-3)
+Für Release 2.0 werden zwei Scrum-Teams parallel an den Kern-Features arbeiten.
 
-**Hauptziel:** Proof of Concept für Public Access
+### Team A: Self-Hosted LLM & Core-Plattform
 
-**Key Results:**
-- ✅ 50 Beta-User registriert
-- ✅ 500 Fragensets generiert (Public)
-- ✅ 2 zahlende Kunden (Institution)
-- ✅ <2% Churn Rate
-
-### Phase 2: Growth (Monat 4-9)
-
-**Hauptziel:** Product-Market-Fit erreichen
+**Sprintziel:** Eine robuste, skalierbare Plattform schaffen, die es Nutzern ermöglicht, über ein Freemium/Pro-Modell Fragen mit unserem **lokal gehosteten LLM** zu generieren.
 
 **Key Results:**
-- 🎯 1.000 aktive User
-- 🎯 10.000 Fragensets generiert
-- 🎯 20.000€ MRR (Monthly Recurring Revenue)
-- 🎯 Net Promoter Score >50
+- ✅ User-Management (Registrierung, Login) ist implementiert.
+- ✅ Freemium-Modell (z.B. 10 Fragen/Monat) ist funktional.
+- ✅ Stripe-Integration für Pro-Plan ist abgeschlossen.
+- ✅ Das lokal gehostete LLM (z.B. DeepSeek R1) ist angebunden und generiert zuverlässig Fragen.
 
-### Phase 3: Scale (Monat 10-18)
+### Team B: Bring-Your-Own-Key (BYOK)
 
-**Hauptziel:** Marktführerschaft in DACH-Region
+**Sprintziel:** Tech-affinen Nutzern ermöglichen, ihre eigenen API-Keys von externen LLM-Providern direkt in der App zu nutzen, um volle Kontrolle und Flexibilität zu gewährleisten.
 
 **Key Results:**
-- 🎯 10.000 aktive User
-- 🎯 100.000 Fragensets generiert
-- 🎯 100.000€ MRR
-- 🎯 Series A Funding oder profitabel
+- ✅ UI zur sicheren Eingabe und Speicherung von API-Keys (client-seitig) ist implementiert.
+- ✅ Unterstützung für mindestens zwei LLM-Provider (z.B. OpenAI, Anthropic) ist gegeben.
+- ✅ Die Generierungslogik nutzt den BYOK-Key korrekt und transparent für den Nutzer.
+- ✅ Alle Pro-Features der UI (z.B. Batch-Generierung) sind für BYOK-Nutzer freigeschaltet.
 
 ---
 
@@ -171,6 +162,8 @@
 ## 💰 Monetarisierungsmodelle
 
 ### Übersicht
+
+Die Monetarisierung für Release 2.0 konzentriert sich auf zwei Hauptmodelle, die direkt aus den Sprintzielen der beiden Teams resultieren.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -970,16 +963,11 @@ def track_usage(user: User, anzahl: int):
 
 **Von:** Admin-only Internal Tool  
 **Zu:** SaaS-Plattform mit globalem Potenzial
-
 **Monetarisierung:**
-- ✅ **Freemium** für Akquisition
-- ✅ **Pro Plan (15€)** für Einzelnutzer
-- ✅ **BYOK** für Tech-Savvy User
-- ✅ **Credits** für flexible Nutzung
-- ✅ **Enterprise** für Institutionen
+
+**Fokus für Release 2.0:** Erfolgreiche Implementierung der beiden Generierungs-Pfade durch Team A und Team B.
 
 **Market Opportunity:**
-- 📊 **TAM:** 10 Mio. Lehrende in Europa
 - 🎯 **SAM:** 1 Mio. Tech-Affine (10%)
 - 🚀 **SOM:** 10.000 User (1%) = 150.000€ MRR
 
@@ -994,4 +982,3 @@ def track_usage(user: User, anzahl: int):
 **Autor:** GitHub Copilot  
 **Version:** 1.0  
 **Status:** Vision / Zur Review
-
