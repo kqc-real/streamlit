@@ -4,7 +4,7 @@ Erzeugt eine UTF-8 kodierte TSV-String-Repräsentation aus dem internen
 Fragenset-JSON. Baut auf `examples.math_utils.render_markdown_with_math`
 und sanitized die resultierende HTML-Ausgabe mit `bleach`.
 
-Hinweis: Mathematische Fragmente (z.B. `$...$`, `\(...\)`, `\[...\]`) werden
+Hinweis: Mathematische Fragmente (z.B. `$...$`, `\\(...\\)`, `\\[...\\]`) werden
 vor dem Aufruf von `bleach.clean` durch Platzhalter ersetzt und nach der
 Sanitierung unverändert (verbatim) wieder eingesetzt. Dadurch werden bereits
 vom Markdown-Renderer erzeugte HTML-Entities nicht versehentlich
@@ -113,7 +113,11 @@ def _sanitize(html_content: str) -> str:
     # Anki/MathJax erwartet \(...\) für Inline-Mathe. Ersetze einzelne $...$
     # aber lasse $$...$$ (Display-Mathe) unberührt.
     # Negative Lookbehind/Lookahead stellen sicher, dass wir nur einzelne $ matchen.
-    cleaned = re.sub(r"(?<!\$)\$([^\$]+?)\$(?!\$)", r"\\(" + r"\1" + r"\\)", cleaned)
+    # Die Ersetzung r"\1" ist hier sicher, da der Inhalt von LaTeX-Blöcken
+    # bereits durch das amsmath-Plugin geschützt wurde und keine Backslash-Probleme
+    # mehr verursachen sollte. Die Verwendung von r"\\(" + r"\1" + r"\\)" war ein
+    # Versuch, eine SyntaxWarning zu umgehen, ist aber nicht die korrekte Lösung.
+    cleaned = re.sub(r"(?<!\$)\$([^\$]+?)\$(?!\$)", r"\\(\1\\)", cleaned)
 
     return _restore_math_backslash_breaks(cleaned)
 
