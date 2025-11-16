@@ -231,21 +231,21 @@ def _build_question_set(
         # Protect LaTeX/math regions from HTML escaping (e.g. $...$, $$...$$, \(...\), \[...\])
         math_pattern = re.compile(r'(\$\$.*?\$\$|\$.*?\$|\\\\\[.*?\\\\\]|\\\\\(.*?\\\\\))', re.DOTALL)
         placeholders: dict[str, str] = {}
-        
+
         def _math_repl(m):
             idx = len(placeholders)
             key = f"__MATH_PLACEHOLDER_{idx}__"
             placeholders[key] = m.group(0)
             return key
 
-        protected = math_pattern.sub(_math_repl, value)
+        text_with_placeholders = math_pattern.sub(_math_repl, value)
 
-        sanitized, modified = sanitize_html(protected)
+        sanitized, modified = sanitize_html(text_with_placeholders)
         sanitized = sanitized.strip()
 
         # Restore protected math placeholders (they were not passed through the HTML escaper)
-        for key, original in placeholders.items():
-            sanitized = sanitized.replace(key, original) # 'original' enthält hier bereits die Ersetzung
+        for key, original_math in placeholders.items():
+            sanitized = sanitized.replace(key, original_math)
         # Math/LaTeX uses ampersands (e.g. pmatrix). Preserve them after sanitizing.
         if "&amp;" in sanitized:
             sanitized = sanitized.replace("&amp;", "&")

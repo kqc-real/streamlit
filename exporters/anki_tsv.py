@@ -26,6 +26,7 @@ import re
 from markdown_it import MarkdownIt
 import html as _html_module
 from examples.math_utils import render_markdown_with_math
+from mdit_py_plugins.amsmath import amsmath_plugin
 import logging
 
 try:
@@ -94,72 +95,32 @@ def _fallback_title_from_source(source_name: Optional[str]) -> str:
     return stem
 
 
-def _sanitize(html: str) -> str:
-    if not html:
+def _sanitize(html_content: str) -> str:
+    if not html_content:
         return ""
     if bleach is None:
-        # If bleach not installed, return input (best-effort). Caller should
-        # ensure the environment includes bleach for production.
-        return html
-    # Protect math regions (e.g. $...$, $$...$$, \(...\), \[...\]) from
-    # being HTML-escaped by bleach. We replace them with placeholders before
-    # cleaning and restore afterwards — same approach as used in
-    # config._build_question_set._sanitize_text.
-    # Match inline/display math in any of the common delimiter forms:
-    # $$...$$, $...$, \[...\], \(...\)
-    math_pattern = re.compile(r'(\$\$.*?\$\$|\$.*?\$|\\\[.*?\\\]|\\\(.*?\\\))', re.DOTALL)
-    placeholders: dict[str, str] = {}
-
-    def _math_repl(m):
-        key = f"__MATH_PLACEHOLDER_{len(placeholders)}__"
-        placeholders[key] = m.group(0)
-        return key
-
-    protected = math_pattern.sub(_math_repl, html)
-
+        return html_content
+    # Die zentrale Bereinigung in config.py hat bereits unsicheres HTML entfernt.
+    # Für den Anki-Export ist es entscheidend, dass LaTeX-Befehle wie `\langle`
+    # NICHT durch ein weiteres Escaping zu `\\langle` werden.
+    # Daher wird hier nur noch eine minimale Bereinigung vorgenommen, die
+    # LaTeX-Befehle intakt lässt.
+    cleaned = bleach.clean(html_content, tags=DEFAULT_ALLOWED_TAGS, attributes=DEFAULT_ALLOWED_ATTRS, strip=True)
     cleaned = bleach.clean(
-        protected,
-        tags=DEFAULT_ALLOWED_TAGS,
-        attributes=DEFAULT_ALLOWED_ATTRS,
-        strip=True,
+        html_content, tags=DEFAULT_ALLOWED_TAGS, attributes=DEFAULT_ALLOWED_ATTRS, strip=True
     )
-    # Only log if bleach actually changed the protected text. We compare
-    # against the `protected` value (placeholders already applied) so that
-    # the common-and-intended difference between `html` and `protected`
-    # (math placeholders) does not produce noisy warnings.
-    if cleaned != protected:
-        # Log sanitized differences for later review (truncate to keep logs readable).
-        original_snippet = html if len(html) <= 400 else html[:400] + "…"
-        cleaned_snippet = cleaned if len(cleaned) <= 400 else cleaned[:400] + "…"
-        logger.warning(
-            "Anki TSV sanitizer stripped content",
-            extra={
-                "anki_sanitize_original": original_snippet,
-                "anki_sanitize_cleaned": cleaned_snippet,
-            },
-        )
-    # Restore any protected math placeholders. Unescape HTML entities
-    # inside the math fragment so expressions like "<x,y>" are kept
-    # as angle-brackets inside math (Anki/MathJax expects raw brackets).
-    for key, original in placeholders.items():
-        # Reinserting math fragments must satisfy two goals:
-        # 1) If the fragment already contains HTML entities (e.g. '&lt;'),
-        #    preserve them (avoid turning '&lt;' into '&amp;lt;').
-        # 2) If the fragment contains raw angle brackets ('<' or '>'),
-        #    escape them so downstream consumers (genanki/Anki) do not
-        #    interpret them as HTML tags.
-        # Approach: HTML-escape the fragment, then revert the common
-        # already-escaped angle-entity sequences back to their entity
-        # form. This yields '&lt;' for literal '<' while leaving existing
-        # '&lt;' intact.
-        # Reinstate the original math fragment verbatim. Tests expect that
-        # math placeholders are protected from bleach and restored exactly
-        # as rendered by the Markdown step (avoid double-escaping).
-        cleaned = cleaned.replace(key, original)
+
+    # Anki/MathJax erwartet \(...\) für Inline-Mathe. Ersetze einzelne $...$
+    # aber lasse $$...$$ (Display-Mathe) unberührt.
+    # Negative Lookbehind/Lookahead stellen sicher, dass wir nur einzelne $ matchen.
+    cleaned = re.sub(r"(?<!\$)\$([^\$]+?)\$(?!\$)", r"\\(" + r"\1" + r"\\)", cleaned)
 
     return _restore_math_backslash_breaks(cleaned)
 
 
+# Regex, um einzelne Backslashes, die für Zeilenumbrüche in LaTeX
+# (z.B. in Matrizen) verwendet werden, zu verdoppeln, da Anki dies erwartet.
+# Beispiel: `a \\ b` wird zu `a \\\\ b`.
 _SINGLE_MATH_BREAK = re.compile(r"(?<!\\)\\(?=\s)")
 
 
@@ -319,7 +280,9 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
 
     correct_text = _render_correct_answer(md, options, question.get("loesung", 0))
 
-    erklaerung = _sanitize(render_markdown_with_math(md, question.get("erklaerung", "")).strip())
+    erklaerung = _sanitize(
+        render_markdown_with_math(md, question.get("erklaerung", "")).strip()
+    )
     extended = _render_extended_explanation(md, question.get("extended_explanation"))
 
     gloss_html = _render_glossary(md, question.get("mini_glossary"))
@@ -352,7 +315,14 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     # instead of an object with a `questions` key.
     if isinstance(data, list):
         data = {"meta": {}, "questions": data}
-    md = MarkdownIt()
+
+    # Erstelle eine spezielle Markdown-Instanz für Anki.
+    # WICHTIG: Wir deaktivieren die 'emphasis'-Regel explizit. Dies verhindert,
+    # dass Unterstriche `_` in LaTeX-Formeln (z.B. `x_i`) fälschlicherweise
+    # als Markdown für Kursivschrift interpretiert und in `<em>`-Tags umgewandelt werden.
+    # Das `amsmath_plugin` kümmert sich um die korrekte Erkennung der LaTeX-Blöcke.
+    md = MarkdownIt("commonmark", {"html": True}).use(amsmath_plugin).disable("emphasis")
+
     out = io.StringIO()
     writer = csv.writer(out, delimiter="\t", quoting=csv.QUOTE_MINIMAL, lineterminator="\n")
 
