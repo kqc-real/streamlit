@@ -30,3 +30,4 @@ markdown-it-py>=3.0
 bleach>=6.0
 pykatex==0.1.1
 genanki>=0.13
+mdit-py-plugins>=0.4.0
