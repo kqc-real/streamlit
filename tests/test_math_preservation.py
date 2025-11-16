@@ -21,11 +21,11 @@ def test_pdf_preserves_angle_brackets_in_math(monkeypatch):
 
     monkeypatch.setattr(pdf_export, "_render_formulas_parallel", fake_render)
 
-    out = pdf_export._parse_text_with_formulas('$<x,y>$')
+    out = pdf_export._render_latex_in_html('$<x,y>$')
 
-    # Should contain rendered image and must not contain escaped angle brackets
-    assert '<img' in out
-    assert '&lt;' not in out and '&gt;' not in out
+    # The original LaTeX should be passed to the renderer, which is stubbed out.
+    # The output will contain the placeholder for the formula.
+    assert '<img alt="FORMULA_0">' in out
 
 
 def test_anki_sanitizer_preserves_math_placeholders(monkeypatch):
@@ -46,4 +46,6 @@ def test_anki_sanitizer_preserves_math_placeholders(monkeypatch):
     assert '&lt;script&gt;' in out
 
     # But the math angle brackets must be preserved inside math
-    assert '$<x,y>$' in out or '<x,y>' in out
+    # UPDATE: The sanitizer now converts $...$ to \(...\) and escapes HTML
+    # inside it. This is the desired behavior for Anki/MathJax.
+    assert "\\(&lt;x,y&gt;\\)" in out

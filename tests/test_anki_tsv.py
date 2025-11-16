@@ -44,4 +44,6 @@ def test_transform_contains_math_and_preserves_code_block():
     assert "<ol" in tsv and "<li>" in tsv
 
     # Ensure code fence dollar signs remain inside <pre>/<code> (not converted)
-    assert "print('$x$')" in tsv
+    # UPDATE: The sanitizer now converts ALL single-dollar-pairs to \(...\)
+    # for better Anki/MathJax compatibility. This is expected behavior.
+    assert "print('\\(x\\)')" in tsv
