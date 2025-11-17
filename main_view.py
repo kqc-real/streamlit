@@ -1571,9 +1571,10 @@ def render_welcome_page(app_config: AppConfig):
         selected_name_from_user = st.selectbox(
             "Wähle dein Pseudonym für diese Runde:",
             options=options,
-            index=0,  # Wählt das erste Element als Standard aus
+            index=None,
+            placeholder="-- Bitte ein Pseudonym auswählen --",
             format_func=format_scientist,
-            label_visibility="collapsed"  # Optional: Blendet das Label aus, falls gewünscht
+            label_visibility="collapsed"
         )
 
     # Optional: Setze ein Wiederherstellungs-Geheimwort für das neu ausgewählte Pseudonym
