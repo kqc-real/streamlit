@@ -494,19 +494,27 @@ _ANKI_BACK_TEMPLATE = (
 
 
 def _determine_deck_title(raw_data: Any, selected_file: str) -> str:
+    """Ermittelt den Deck-Titel aus Metadaten oder leitet ihn vom Dateinamen ab."""
     if isinstance(raw_data, dict):
         meta = raw_data.get("meta") or {}
         if isinstance(meta, dict):
-            title = meta.get("title")
+            # Bevorzuge 'title', dann 'thema'
+            title = meta.get("title") or meta.get("thema")
             if isinstance(title, str) and title.strip():
                 return title.strip()
-    return (
-        selected_file.replace("questions_", "")
-        .replace(".json", "")
-        .replace("_", " ")
-        .strip()
-        or "MC-Test Deck"
-    )
+
+    # Fallback auf einen bereinigten Dateinamen
+    try:
+        from user_question_sets import pretty_label_from_identifier_string
+        pretty_name = pretty_label_from_identifier_string(selected_file)
+        if pretty_name and pretty_name != "Ungenanntes Fragenset":
+            return pretty_name
+    except (ImportError, AttributeError):
+        pass
+
+    # Letzter Fallback
+    fallback_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ").strip()
+    return fallback_name or "MC-Test Deck"
 
 
 def _build_anki_model(genanki_module, model_id: int):
@@ -597,8 +605,19 @@ def generate_anki_apkg(selected_file: str) -> bytes:
 
 
 def _derive_export_name(selected_file: str) -> str:
+    """Leitet einen sauberen Namen für Exportdateien ab."""
+    try:
+        from user_question_sets import pretty_label_from_identifier_string
+        pretty_name = pretty_label_from_identifier_string(selected_file)
+        if pretty_name and pretty_name != "Ungenanntes Fragenset":
+            return pretty_name
+    except (ImportError, AttributeError):
+        pass
+
+    # Fallback
     base = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    return base.strip() or "MC-Test Quiz"
+    return base.strip() or "MC-Test-Quiz"
+
 
 
 def _normalize_question_text(raw_text: str) -> str:
