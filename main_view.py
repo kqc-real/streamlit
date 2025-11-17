@@ -1688,7 +1688,14 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             pass
 
-        if st.button("Mit dem reservierten Pseudonym Test starten", key="btn_recover_pseudonym"):
+        recover_disabled = not (pseudonym_recover and secret_recover)
+        if st.button(
+            "Mit dem reservierten Pseudonym Test starten",
+            key="btn_recover_pseudonym",
+            type="primary",
+            disabled=recover_disabled
+        ):
+
             # Ensure expander remains open during/after the recovery attempt.
             st.session_state['recover_pseudonym_expanded'] = True
             # Trim whitespace that some mobile keyboards append unintentionally.
