@@ -29,7 +29,7 @@ if _this_dir not in sys.path:
 if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
-from config import AppConfig, load_questions, list_question_files
+from config import AppConfig, load_questions
 from database import init_database
 from auth import handle_user_session, is_admin_user
 from logic import (
@@ -113,16 +113,18 @@ def main():
     app_config = AppConfig()
     st.session_state["app_config"] = app_config
     
-    # Initialisiere das Fragenset, falls noch nicht geschehen.
-    if "selected_questions_file" not in st.session_state:
-        question_files = list_question_files()
-        st.session_state.selected_questions_file = question_files[0] if question_files else None
-
-    if st.session_state.get("selected_questions_file"):
-        questions = load_questions(st.session_state.get("selected_questions_file"))
-    else:
-        st.error("Keine Fragensets (questions_*.json) gefunden.")
-        st.stop()
+    # Initialisiere das Fragenset nur, wenn eine Auswahl in der Session existiert.
+    # Früher wurde beim Start automatisch das erste Fragenset gesetzt, wodurch
+    # der Placeholder auf der Welcome-Seite nie sichtbar war. Stattdessen lassen
+    # wir `main_view.render_welcome_page` die Auswahl vornehmen und erst nach
+    # einer aktiven Wahl das Questions-Objekt laden.
+    questions = []
+    if "selected_questions_file" in st.session_state and st.session_state.get("selected_questions_file"):
+        try:
+            questions = load_questions(st.session_state.get("selected_questions_file"))
+        except Exception as exc:
+            st.error(f"Fragenset '{st.session_state.get('selected_questions_file')}' konnte nicht geladen werden: {exc}")
+            st.stop()
 
     # --- 2. Authentifizierung: Zeigt Login-Seite oder gibt user_id zurück ---
     user_id = handle_user_session(questions, app_config)

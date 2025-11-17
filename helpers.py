@@ -45,27 +45,38 @@ class _SafeHTMLSanitizer(HTMLParser):
     def handle_starttag(self, tag: str, attrs) -> None:  # type: ignore[override]
         if tag in SAFE_HTML_TAGS:
             if attrs:
+                # Strip attributes but keep the tag to avoid unsafe attrs
                 self.modified = True
             self._parts.append(f"<{tag}>")
         else:
+            # Escape disallowed start tags so they remain visible instead of being removed.
+            # We intentionally do not include attributes when escaping to avoid leaking
+            # potentially dangerous attribute content.
             self.modified = True
+            self._parts.append(_html.escape(f"<{tag}>", quote=False))
 
     def handle_endtag(self, tag: str) -> None:  # type: ignore[override]
         if tag in SAFE_HTML_TAGS and tag not in _VOID_HTML_TAGS:
             self._parts.append(f"</{tag}>")
         else:
+            # Escape disallowed end tags so they remain visible in the output.
             self.modified = True
+            self._parts.append(_html.escape(f"</{tag}>", quote=False))
 
     def handle_startendtag(self, tag: str, attrs) -> None:  # type: ignore[override]
         if tag in SAFE_HTML_TAGS:
             if attrs:
+                # Strip attributes on allowed tags
                 self.modified = True
             if tag in _VOID_HTML_TAGS:
                 self._parts.append(f"<{tag}>")
             else:
                 self._parts.append(f"<{tag}></{tag}>")
         else:
+            # Escape disallowed self-closing tags
             self.modified = True
+            # Represent as escaped start tag to keep it visible
+            self._parts.append(_html.escape(f"<{tag}>", quote=False))
 
     def handle_data(self, data: str) -> None:  # type: ignore[override]
         if data:
