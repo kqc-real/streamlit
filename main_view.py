@@ -1333,6 +1333,47 @@ def render_welcome_page(app_config: AppConfig):
 
     # Allow no selection on first load: show a placeholder prompting the user
     current_selection = st.session_state.get("selected_questions_file", None)
+
+    def _on_question_select():
+        # Callback invoked when the user changes the question selectbox.
+        try:
+            val = st.session_state.get("main_view_question_file_selector")
+        except Exception:
+            val = None
+
+        try:
+            if val:
+                # Persist the chosen set in a stable session key and sync query params
+                st.session_state["selected_questions_file"] = val
+                try:
+                    st.query_params["questions_file"] = val
+                except Exception:
+                    pass
+                try:
+                    st.session_state["question_distribution_expanded"] = True
+                except Exception:
+                    pass
+            else:
+                # Cleared selection: remove persisted key and collapse UI
+                try:
+                    st.session_state.pop("selected_questions_file", None)
+                except Exception:
+                    pass
+                try:
+                    st.query_params.pop("questions_file", None)
+                except Exception:
+                    pass
+                try:
+                    st.session_state["question_distribution_expanded"] = False
+                except Exception:
+                    pass
+        finally:
+            # Ensure other widgets see the updated session state immediately
+            try:
+                st.experimental_rerun()
+            except Exception:
+                st.session_state["_needs_rerun"] = True
+
     selected_choice = st.selectbox(
         "Wähle ein Fragenset:",
         options=valid_question_files,
@@ -1341,47 +1382,8 @@ def render_welcome_page(app_config: AppConfig):
         key="main_view_question_file_selector",
         label_visibility="collapsed",
         placeholder="-- Bitte ein Fragenset auswählen --",
+        on_change=_on_question_select,
     )
-
-    # If the user cleared the selectbox (clear icon), also remove the
-    # persisted `selected_questions_file` session variable so dependent
-    # UI blocks (charts, query params) update accordingly.
-    if (selected_choice is None or selected_choice == "") and "selected_questions_file" in st.session_state:
-        try:
-            del st.session_state["selected_questions_file"]
-        except Exception:
-            try:
-                st.session_state["selected_questions_file"] = None
-            except Exception:
-                pass
-
-        # Also remove the query param if present so links/bookmarks no longer point to the cleared set.
-        try:
-            st.query_params.pop("questions_file", None)
-        except Exception:
-            try:
-                if "questions_file" in st.session_state:
-                    del st.session_state["questions_file"]
-            except Exception:
-                pass
-
-        # Collapse the distribution expander to reflect no selection.
-        try:
-            st.session_state["question_distribution_expanded"] = False
-        except Exception:
-            pass
-
-        # Trigger a rerun so the UI immediately reflects the cleared selection.
-        try:
-            st.rerun()
-        except Exception:
-            try:
-                fn = getattr(st, 'experimental_rerun', None)
-                if callable(fn):
-                    fn()
-            except Exception:
-                pass
-        return
 
     # On first load (no selected_questions_file yet) or right after the welcome splash,
     # open the distribution expander so the user immediately sees the chart for the default set.
@@ -1398,17 +1400,7 @@ def render_welcome_page(app_config: AppConfig):
 
     # debug block removed
 
-    # If the user actively chose a set, persist it. If they have not selected yet,
-    # keep `selected_questions_file` unset so the UI can show a placeholder state.
-    if selected_choice and selected_choice != st.session_state.get("selected_questions_file"):
-        st.session_state.selected_questions_file = selected_choice
-        _sync_questions_query_param(selected_choice)
-        try:
-            st.session_state['question_distribution_expanded'] = True
-        except Exception:
-            pass
-        st.rerun()
-        return
+    # Use the persisted selected questions file (set by the selectbox callback)
     selected_file = st.session_state.get("selected_questions_file")
 
     # Only attempt to load the question set when a file has actually been selected.
@@ -1704,15 +1696,6 @@ def render_welcome_page(app_config: AppConfig):
                 width="stretch",
                 disabled=bool(reserve_disabled_inline),
             ):
-                # Ensure expander remains open after reservation attempt
-                st.session_state['reserve_secret_expanded'] = True
-                from database import add_user
-                # Normalize selected pseudonym to avoid accidental surrounding whitespace
-                try:
-                    user_name = str(selected_name_from_user).strip()
-                except Exception:
-                    user_name = selected_name_from_user
-                user_id_hash = get_user_id_hash(user_name)
                 try:
                     add_user(user_id_hash, user_name)
                     # Normalize the recovery secret: remove leading/trailing whitespace
@@ -1756,16 +1739,69 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             pass
 
-        recover_disabled = not (pseudonym_recover and secret_recover)
+        # Consider persisted widget values in session_state as fallback so
+        # the button enables correctly after unrelated reruns (e.g. selecting
+        # a Fragenset) that may not preserve the local variables in all flows.
+        try:
+            pseudonym_recover_val = pseudonym_recover or st.session_state.get('recover_pseudonym')
+        except Exception:
+            pseudonym_recover_val = pseudonym_recover
+        try:
+            secret_recover_val = secret_recover or st.session_state.get('recover_secret')
+        except Exception:
+            secret_recover_val = secret_recover
+
+        # Also require that a questions file is selected (widget or session key)
+        question_selected_for_recover = (
+            st.session_state.get("selected_questions_file")
+            or st.session_state.get("main_view_question_file_selector")
+        )
+
+        # Allow button enabled also when a pseudonym is already persisted
+        # (e.g. selected earlier) and a questions file is selected. This
+        # covers flows where the pseudonym was chosen elsewhere and the
+        # user re-selects a questionset — avoid forcing an extra rerun.
+        persisted_pseudonym = st.session_state.get('selected_pseudonym') or st.session_state.get('reserve_success_pseudonym')
+
+        recover_disabled = not (
+            (pseudonym_recover_val and secret_recover_val and question_selected_for_recover)
+            or (persisted_pseudonym and question_selected_for_recover)
+        )
+
+        # Temporary debug output to inspect recover-related session values.
+        try:
+            with st.expander("Debug (recover state)", expanded=False):
+                st.write({
+                    'recover_pseudonym': st.session_state.get('recover_pseudonym'),
+                    'recover_secret': st.session_state.get('recover_secret'),
+                    'selected_questions_file': st.session_state.get('selected_questions_file'),
+                    'main_view_question_file_selector': st.session_state.get('main_view_question_file_selector'),
+                })
+        except Exception:
+            pass
 
         _, col2, _ = st.columns([1, 3, 1])
         with col2:
+            # Use a dynamic key that includes the currently selected question
+            # file and pseudonym so the button widget is recreated when those
+            # values change. This ensures the `disabled` state updates
+            # immediately after the user selects a Fragenset (no manual rerun).
+            try:
+                _q = st.session_state.get('selected_questions_file') or st.session_state.get('main_view_question_file_selector') or 'none'
+            except Exception:
+                _q = 'none'
+            try:
+                _p = pseudonym_recover_val or 'none'
+            except Exception:
+                _p = 'none'
+            _btn_key = f"btn_recover_pseudonym__{_q}__{_p}"
+
             button_pressed = st.button(
                 "Mit dem reservierten Pseudonym Test starten",
-                key="btn_recover_pseudonym",
+                key=_btn_key,
                 type="primary",
-                disabled=recover_disabled, # Deaktiviert, wenn Felder leer sind
-                width="stretch" # Füllt die mittlere Spalte
+                disabled=recover_disabled,
+                width="stretch",
             )
 
         if button_pressed:
@@ -1864,9 +1900,8 @@ def render_welcome_page(app_config: AppConfig):
         # Determine effective widget/session selections to make the disabled
         # computation robust across reruns and after clearing/reselecting.
         pseudonym_selected = (
-            st.session_state.get("main_view_pseudonym_selector")
-            if "main_view_pseudonym_selector" in st.session_state
-            else selected_name_from_user
+            st.session_state.get('selected_pseudonym')
+            or st.session_state.get('main_view_pseudonym_selector')
         )
         question_selected = (
             st.session_state.get("selected_questions_file")
@@ -1887,9 +1922,13 @@ def render_welcome_page(app_config: AppConfig):
             from database import add_user, start_test_session
             # Normalize selected pseudonym to avoid accidental surrounding whitespace
             try:
-                user_name = str(selected_name_from_user).strip()
+                user_name = (
+                    st.session_state.get('selected_pseudonym')
+                    or st.session_state.get('main_view_pseudonym_selector')
+                )
+                user_name = str(user_name).strip()
             except Exception:
-                user_name = selected_name_from_user
+                user_name = st.session_state.get('selected_pseudonym') or st.session_state.get('main_view_pseudonym_selector')
             user_id_hash = get_user_id_hash(user_name)
 
             add_user(user_id_hash, user_name)
