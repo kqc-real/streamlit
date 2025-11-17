@@ -9,7 +9,7 @@
 
 ## 1. Einleitung und Ziele
 
-Dieser Kommunikationsplan leitet sich direkt aus der Stakeholder-Analyse ab und definiert die Kommunikationsstrategien für das Projekt "Release 2.0". Das Ziel ist es, eine proaktive, transparente und zielgruppengerechte Kommunikation sicherzustellen, um Missverständnisse zu vermeiden, das Engagement zu fördern und den Projekterfolg zu sichern.
+Dieser Kommunikationsplan leitet sich direkt aus der [Stakeholder-Analyse](STAKEHOLDER_MAP_RELEASE_2.0.md) ab und definiert die Kommunikationsstrategien für das Projekt "Release 2.0". Das Ziel ist es, eine proaktive, transparente und zielgruppengerechte Kommunikation sicherzustellen, um Missverständnisse zu vermeiden, das Engagement zu fördern und den Projekterfolg zu sichern.
 
 ---
 
@@ -78,4 +78,3 @@ Diese Gruppe hat geringen Einfluss und geringes Interesse. Es ist keine aktive K
 2.  **Problem zwischen Teams oder mit dem Product Owner:** Wird in der Retrospektive oder durch den Scrum Master als Mediator adressiert.
 3.  **Problem mit externen Abhängigkeiten (z.B. IT-Abteilung):** Der Product Owner oder Scrum Master eskaliert an den zuständigen Ansprechpartner in der IT.
 4.  **Strategisches Problem / Ressourcenkonflikt:** Der Product Owner eskaliert an das Management / CEO.
-

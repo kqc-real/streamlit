@@ -16,7 +16,7 @@
 
 ### Aufteilung in Scrum-Teams
 
-Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebildet. Jedes Team arbeitet autonom an einem strategischen Ziel. Das Ergebnis jedes Sprints sind **konkrete Anforderungsdokumente (Business-Artefakte)**, die als klarer Arbeitsauftrag an die IT-Abteilung zur technischen Implementierung übergeben werden.
+Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebildet, deren Rollen und Zusammenspiel in der [Stakeholder-Map](STAKEHOLDER_MAP_RELEASE_2.0.md) definiert sind. Jedes Team arbeitet autonom an einem strategischen Ziel. Das Ergebnis jedes Sprints sind **konkrete Anforderungsdokumente (Business-Artefakte)**, die als klarer Arbeitsauftrag an die IT-Abteilung zur technischen Implementierung übergeben werden.
 
 *   **Team A (Kernprodukt & Freemium):** Konzentriert sich auf die Konzeption des Hauptprodukts und des Freemium-Modells, um eine breite Nutzerbasis zu gewinnen.
 *   **Team B (Power-User & Flexibilität):** Konzentriert sich auf das "Bring-Your-Own-Key" (BYOK)-Modell, das professionellen Nutzern maximale Flexibilität und Kostenkontrolle bietet.
@@ -151,7 +151,6 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 Für die Bewertung der Projektleistung werden ausschließlich Artefakte herangezogen, die im Kanban-Board (GitHub Projects) klar und nachvollziehbar dokumentiert sind.
 
 **Anforderungen an die Lieferobjekte:**
-
 1.  **Eindeutige Kennzeichnung:** Jedes zu bewertende Lieferobjekt muss mit den folgenden Labels versehen sein:
     *   `Business-Artefakt`
     *   `Team` (z.B. "Team A")
@@ -159,4 +158,4 @@ Für die Bewertung der Projektleistung werden ausschließlich Artefakte herangez
     *   `Reviewer/in` (Name der Person, die das Peer-Review durchgeführt hat)
 2.  **Peer-Review:** Alle als "Business-Artefakt" gekennzeichneten Lieferobjekte müssen von einem anderen Teammitglied peer-reviewt worden sein. Der Name des Reviewers muss im entsprechenden Label vermerkt sein.
 3.  **Format:** Die finalen Business-Artefakte sind als **PDF-Dokument** in der jeweiligen GitHub-Karte zu hinterlegen.
-4.  **Präsentation:** Im Sprint Review müssen alle erstellten Business-Artefakte detailliert vorgestellt und deren Nutzen erläutert werden.  
+4.  **Präsentation:** Im Sprint Review müssen alle erstellten Business-Artefakte detailliert vorgestellt und deren Nutzen erläutert werden.
