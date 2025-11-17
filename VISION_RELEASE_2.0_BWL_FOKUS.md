@@ -157,7 +157,6 @@ Für die Bewertung der Projektleistung werden ausschließlich Artefakte herangez
     *   `Team` (z.B. "Team A")
     *   `Bearbeiter/in` (Name der verantwortlichen Person)
     *   `Reviewer/in` (Name der Person, die das Peer-Review durchgeführt hat)
-    *   
 2.  **Peer-Review:** Alle als "Business-Artefakt" gekennzeichneten Lieferobjekte müssen von einem anderen Teammitglied peer-reviewt worden sein. Der Name des Reviewers muss im entsprechenden Label vermerkt sein.
 3.  **Format:** Die finalen Business-Artefakte sind als **PDF-Dokument** in der jeweiligen GitHub-Karte zu hinterlegen.
 4.  **Präsentation:** Im Sprint Review müssen alle erstellten Business-Artefakte detailliert vorgestellt und deren Nutzen erläutert werden.  
