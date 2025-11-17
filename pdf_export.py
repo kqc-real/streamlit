@@ -848,7 +848,23 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
     user_name = st.session_state.get("user_id", "Unbekannt")
     q_file = st.session_state.get("selected_questions_file", "Unbekanntes Set")
-    set_name = str(q_file).replace("questions_", "").replace(".json", "").replace("_", " ")
+
+    set_name = None
+    try:
+        from config import load_questions
+        question_set = load_questions(q_file, silent=True)
+        if question_set and question_set.meta:
+            set_name = question_set.meta.get("title") or question_set.meta.get("thema")
+    except Exception:
+        set_name = None
+
+    if not set_name:
+        try:
+            from user_question_sets import pretty_label_from_identifier_string
+            set_name = pretty_label_from_identifier_string(q_file)
+        except (ImportError, AttributeError):
+            set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    set_name = set_name or "Ungenanntes Fragenset"
 
     # Prüfen, ob der Test vorzeitig beendet wurde
     test_manually_ended = st.session_state.get("test_manually_ended", False)
@@ -1845,7 +1861,23 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     if not glossary_by_theme:
         raise ValueError("Kein Mini-Glossar in diesem Fragenset vorhanden.")
 
-    set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    set_name = None
+    try:
+        from config import load_questions
+        question_set = load_questions(q_file, silent=True)
+        if question_set and question_set.meta:
+            set_name = question_set.meta.get("title") or question_set.meta.get("thema")
+    except Exception:
+        set_name = None
+
+    if not set_name:
+        try:
+            from user_question_sets import pretty_label_from_identifier_string
+            set_name = pretty_label_from_identifier_string(q_file)
+        except (ImportError, AttributeError):
+            set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    set_name = set_name or "Ungenanntes Fragenset"
+
     try:
         from helpers import format_datetime_de
 
