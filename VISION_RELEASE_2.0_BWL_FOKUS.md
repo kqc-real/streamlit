@@ -2,8 +2,8 @@
 
 **Projekt:** MC-Test Streamlit App  
 **Release:** 2.0  
-**Datum:** 3. Oktober 2025  
-**Zielgruppe:** BWL-Studierende im Kurs "Agiles Projektmanagement"
+**Datum:** 18. November 2025  
+**Zielgruppe:** BWL-Studierende im Kurs "Agiles Projektmanagement"  
 **Didaktisches Ziel:** Anwendung agiler Methoden (Scrum) zur Konzeption eines digitalen Produkts. Die studentischen Teams erstellen Business-Artefakte, die als Implementierungsauftrag für eine externe IT-Abteilung dienen.
 
 ---
@@ -31,7 +31,7 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 
 1.  **User Story 1.1 (Marktanalyse):** Aus der Rolle des **Produktmanagers** möchte ich eine **Wettbewerbsanalyse** durchführen, um unser Freemium-Angebot optimal im EdTech-Markt zu positionieren.
     *   **Akzeptanzkriterien:**
-        *   Mindestens 3 relevante Wettbewerber (z.B. Kahoot, Quizlet) sind analysiert.
+        *   Mindestens 3 relevante Wettbewerber (z.B. Kahoot, Quizlet, Particify) sind analysiert.
         *   Deren Preise, Features und Limitierungen sind dokumentiert.
         *   Eine klare Empfehlung für die Ausgestaltung unseres Freemium-Tiers (z.B. "3 kostenlose Fragensets pro Monat") ist abgeleitet.
     *   **Lieferobjekt:** Dokument "Wettbewerbsanalyse".
@@ -76,12 +76,12 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 
 ### Organisation & Arbeitsweise (Team A)
 
-*   **Tool:** Das Team organisiert seine Arbeit in einem **digitalen Kanban-Board** (z.B. GitHub Projects, Trello) mit den Spalten "Product Backlog", "Sprint Backlog", "In Arbeit" und "Fertig (zur Übergabe an IT)". Jede User Story ist eine Karte auf dem Board.
-*   **Prozess in 4 Arbeitssitzungen (z.B. via BigBlueButton):**
-    1.  **Sprint Planning:** Das Team wählt die User Stories für den Sprint aus. Die Akzeptanzkriterien werden besprochen und Aufgaben verteilt (z.B. "Anna erstellt Wettbewerbsanalyse", "Ben skizziert User Journey").
+*   **Tool:** Das Team organisiert seine Arbeit in einem **digitalen Kanban-Board** (GitHub Projects) mit den Spalten "Product Backlog", "Sprint Backlog", "In Arbeit" und "Fertig (zur Übergabe an IT)". Jede User Story ist eine Karte auf dem Board.
+*   **Prozess in 4 Arbeitssitzungen (via BigBlueButton):**
+    1.  **Sprint Planning:** Das Team wählt alle User Stories für den Sprint aus. Die Akzeptanzkriterien werden besprochen und Aufgaben verteilt (z.B. "Anna erstellt Wettbewerbsanalyse", "Ben skizziert User Journey").
     2.  **Mid-Sprint-Abstimmung:** Zwischenpräsentation der erstellten Entwürfe (z.B. Persona, erster Wireframe). Das Team gibt sich gegenseitig Feedback zur Verbesserung.
     3.  **Finalisierung der Artefakte:** Die Dokumente und Diagramme werden basierend auf dem Feedback finalisiert und als professionelle Business-Artefakte aufbereitet.
-    4.  **Sprint Review & Retrospektive:** Das Team präsentiert dem Product Owner die fertigen Lieferobjekte. Diese werden abgenommen und bilden den Implementierungsauftrag für die IT. Anschließend reflektiert das Team in der Retrospektive die Zusammenarbeit und identifiziert Verbesserungspotenziale für den nächsten Sprint.
+    4.  **Sprint Review & Retrospektive:** Das Team präsentiert dem Product Owner die fertigen Lieferobjekte (Übergabe in GitHub Projects). Diese werden abgenommen und bilden den Implementierungsauftrag für die IT. Anschließend reflektiert das Team in der Retrospektive die Zusammenarbeit und identifiziert Verbesserungspotenziale für den nächsten Sprint.
 
 ---
 
@@ -108,7 +108,7 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
     *   **Akzeptanzkriterien:**
         *   Ein Wireframe zeigt, wo und wie der Nutzer seinen API-Key eingeben kann.
         *   Ein klarer Datenschutzhinweis ("Ihr Key wird nur lokal im Browser gespeichert und nicht an unsere Server gesendet") ist formuliert.
-        *   Die unterstützten Provider (z.B. OpenAI, Anthropic) sind im UI-Konzept aufgeführt.
+        *   Die unterstützten Provider (z.B. OpenAI, Google, Anthropic, Hugging Face) sind im UI-Konzept aufgeführt.
     *   **Lieferobjekt:** Wireframe & Textbausteine "API-Key-Management".
 
 4.  **User Story 2.4 (Anforderungsdefinition):** Aus der Rolle des **Produktmanagers** möchte ich ein **Anforderungsdokument für den BYOK-Prozess** erstellen, damit die IT die technische Logik implementieren kann.
@@ -142,4 +142,4 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
     1.  **Sprint Planning:** Das Team plant seinen Sprint, indem es die User Stories aus dem Backlog zieht. Die Aufgaben werden im Team verteilt (z.B. "Carla recherchiert Best Practices", "David entwirft die Wireframes").
     2.  **Mid-Sprint-Abstimmung:** Das Team stellt sich gegenseitig die Entwürfe der Artefakte vor (z.B. erste Version der FAQ, Wireframe für die Key-Eingabe) und sammelt internes Feedback.
     3.  **Finalisierung der Artefakte:** Die Konzepte und Analysen werden finalisiert und als klare, verständliche Dokumente aufbereitet.
-    4.  **Sprint Review & Retrospektive:** Die fertigen Lieferobjekte werden dem Product Owner als abgeschlossene Konzeptionsarbeit übergeben und bilden die Grundlage für die Implementierungsaufträge an die IT. In der anschließenden Retrospektive wird die Zusammenarbeit im Team reflektiert.
+    4.  **Sprint Review & Retrospektive:** Die fertigen Lieferobjekte werden dem Product Owner als abgeschlossene Konzeptionsarbeit via GitHub Projects übergeben und bilden die Grundlage für die Implementierungsaufträge an die IT. In der anschließenden Retrospektive wird die Zusammenarbeit im Team reflektiert.
