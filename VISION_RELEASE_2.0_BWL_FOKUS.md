@@ -25,7 +25,7 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 
 ## 2. Team A: Kernprodukt & Freemium – Sprint-Planung
 
-**Sprint-Ziel:** Ein vollständiges Business-Konzept für das Kernprodukt und das Freemium/Pro-Modell zu erstellen. Dieses Konzept dient als detaillierter Implementierungsauftrag für die IT-Abteilung.
+> **Sprint-Ziel:** Ein vollständiges Business-Konzept für das Kernprodukt und das Freemium/Pro-Modell zu erstellen. Dieses Konzept dient als detaillierter Implementierungsauftrag für die IT-Abteilung.
 
 ### User Stories für Team A
 
@@ -87,7 +87,7 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 
 ## 3. Team B: Power-User & Flexibilität – Sprint-Planung
 
-**Sprint-Ziel:** Das "Bring-Your-Own-Key" (BYOK)-Modell als Geschäftsmodell so detailliert zu konzipieren, dass die IT-Abteilung die Anforderungen für die Integration externer LLM-Provider versteht.
+> **Sprint-Ziel:** Das "Bring-Your-Own-Key" (BYOK)-Modell als Geschäftsmodell so detailliert zu konzipieren, dass die IT-Abteilung die Anforderungen für die Integration externer LLM-Provider versteht.
 
 ### User Stories für Team B
 
