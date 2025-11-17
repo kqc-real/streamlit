@@ -78,7 +78,7 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 
 *   **Tool:** Das Team organisiert seine Arbeit in einem **digitalen Kanban-Board** (GitHub Projects) mit den Spalten "Product Backlog", "Sprint Backlog", "In Arbeit" und "Fertig (zur Übergabe an IT)". Jede User Story ist eine Karte auf dem Board.
 *   **Prozess in 4 Arbeitssitzungen (via BigBlueButton):**
-    1.  **Sprint Planning:** Das Team wählt alle User Stories für den Sprint aus. Die Akzeptanzkriterien werden besprochen und Aufgaben verteilt (z.B. "Anna erstellt Wettbewerbsanalyse", "Ben skizziert User Journey").
+    1.  **Sprint Planning:** Das Team wählt alle User Stories 1.1 - 1.7 für den Sprint aus. Die Akzeptanzkriterien werden besprochen und Aufgaben verteilt (z.B. "Anna erstellt Wettbewerbsanalyse", "Ben skizziert User Journey").
     2.  **Mid-Sprint-Abstimmung:** Zwischenpräsentation der erstellten Entwürfe (z.B. Persona, erster Wireframe). Das Team gibt sich gegenseitig Feedback zur Verbesserung.
     3.  **Finalisierung der Artefakte:** Die Dokumente und Diagramme werden basierend auf dem Feedback finalisiert und als professionelle Business-Artefakte aufbereitet.
     4.  **Sprint Review & Retrospektive:** Das Team präsentiert dem Product Owner die fertigen Lieferobjekte (Übergabe in GitHub Projects). Diese werden abgenommen und bilden den Implementierungsauftrag für die IT. Anschließend reflektiert das Team in der Retrospektive die Zusammenarbeit und identifiziert Verbesserungspotenziale für den nächsten Sprint.
@@ -139,7 +139,7 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
 
 *   **Tool:** Das Team nutzt ebenfalls ein **digitales Kanban-Board** zur Organisation seiner Aufgaben.
 *   **Prozess in 4 Arbeitssitzungen:**
-    1.  **Sprint Planning:** Das Team plant seinen Sprint, indem es die User Stories aus dem Backlog zieht. Die Aufgaben werden im Team verteilt (z.B. "Carla recherchiert Best Practices", "David entwirft die Wireframes").
+    1.  **Sprint Planning:** Das Team plant seinen Sprint, indem es die User Stories 2.1 - 2.7 aus dem Backlog zieht. Die Aufgaben werden im Team verteilt (z.B. "Carla recherchiert Best Practices", "David entwirft die Wireframes").
     2.  **Mid-Sprint-Abstimmung:** Das Team stellt sich gegenseitig die Entwürfe der Artefakte vor (z.B. erste Version der FAQ, Wireframe für die Key-Eingabe) und sammelt internes Feedback.
     3.  **Finalisierung der Artefakte:** Die Konzepte und Analysen werden finalisiert und als klare, verständliche Dokumente aufbereitet.
     4.  **Sprint Review & Retrospektive:** Die fertigen Lieferobjekte werden dem Product Owner als abgeschlossene Konzeptionsarbeit via GitHub Projects übergeben und bilden die Grundlage für die Implementierungsaufträge an die IT. In der anschließenden Retrospektive wird die Zusammenarbeit im Team reflektiert.
