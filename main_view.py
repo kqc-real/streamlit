@@ -1689,13 +1689,18 @@ def render_welcome_page(app_config: AppConfig):
             pass
 
         recover_disabled = not (pseudonym_recover and secret_recover)
-        if st.button(
-            "Mit dem reservierten Pseudonym Test starten",
-            key="btn_recover_pseudonym",
-            type="primary",
-            disabled=recover_disabled
-        ):
 
+        _, col2, _ = st.columns([1, 3, 1])
+        with col2:
+            button_pressed = st.button(
+                "Mit dem reservierten Pseudonym Test starten",
+                key="btn_recover_pseudonym",
+                type="primary",
+                disabled=recover_disabled, # Deaktiviert, wenn Felder leer sind
+                width="stretch" # Füllt die mittlere Spalte
+            )
+
+        if button_pressed:
             # Ensure expander remains open during/after the recovery attempt.
             st.session_state['recover_pseudonym_expanded'] = True
             # Trim whitespace that some mobile keyboards append unintentionally.
