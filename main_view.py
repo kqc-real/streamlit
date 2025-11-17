@@ -1224,18 +1224,14 @@ def render_welcome_page(app_config: AppConfig):
 
     if requested_file and requested_file in available_question_files:
         st.session_state.selected_questions_file = requested_file
-    elif (
-        "selected_questions_file" not in st.session_state
-        or st.session_state.selected_questions_file not in available_question_files
-    ):
-        st.session_state.selected_questions_file = available_question_files[0]
+    # Do NOT set a default `selected_questions_file` here. Leaving the session
+    # key unset allows the welcome page to show the placeholder prompting the
+    # user to actively choose a Fragenset (similar UX to the pseudonym selectbox).
 
     selected_file = st.session_state.get("selected_questions_file")
-    if not selected_file:
-        st.error("Konnte kein gültiges Fragenset bestimmen.")
-        return
-
-    _sync_questions_query_param(selected_file)
+    # Do not force a selection here; allow the welcome UI to prompt the user.
+    if selected_file:
+        _sync_questions_query_param(selected_file)
     _render_welcome_splash()
 
     # (Note) Sidebar rendering is handled by `components.render_sidebar`.
@@ -1335,15 +1331,57 @@ def render_welcome_page(app_config: AppConfig):
         unsafe_allow_html=True,
     )
 
-    current_selection = st.session_state.get("selected_questions_file", valid_question_files[0])
+    # Allow no selection on first load: show a placeholder prompting the user
+    current_selection = st.session_state.get("selected_questions_file", None)
     selected_choice = st.selectbox(
         "Wähle ein Fragenset:",
         options=valid_question_files,
-        index=valid_question_files.index(current_selection) if current_selection in valid_question_files else 0,
+        index=None,  # Render with no preselected index so the placeholder / clear affordance appears
         format_func=format_filename,
         key="main_view_question_file_selector",
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        placeholder="-- Bitte ein Fragenset auswählen --",
     )
+
+    # If the user cleared the selectbox (clear icon), also remove the
+    # persisted `selected_questions_file` session variable so dependent
+    # UI blocks (charts, query params) update accordingly.
+    if (selected_choice is None or selected_choice == "") and "selected_questions_file" in st.session_state:
+        try:
+            del st.session_state["selected_questions_file"]
+        except Exception:
+            try:
+                st.session_state["selected_questions_file"] = None
+            except Exception:
+                pass
+
+        # Also remove the query param if present so links/bookmarks no longer point to the cleared set.
+        try:
+            st.query_params.pop("questions_file", None)
+        except Exception:
+            try:
+                if "questions_file" in st.session_state:
+                    del st.session_state["questions_file"]
+            except Exception:
+                pass
+
+        # Collapse the distribution expander to reflect no selection.
+        try:
+            st.session_state["question_distribution_expanded"] = False
+        except Exception:
+            pass
+
+        # Trigger a rerun so the UI immediately reflects the cleared selection.
+        try:
+            st.rerun()
+        except Exception:
+            try:
+                fn = getattr(st, 'experimental_rerun', None)
+                if callable(fn):
+                    fn()
+            except Exception:
+                pass
+        return
 
     # On first load (no selected_questions_file yet) or right after the welcome splash,
     # open the distribution expander so the user immediately sees the chart for the default set.
@@ -1360,7 +1398,9 @@ def render_welcome_page(app_config: AppConfig):
 
     # debug block removed
 
-    if selected_choice != st.session_state.get("selected_questions_file"):
+    # If the user actively chose a set, persist it. If they have not selected yet,
+    # keep `selected_questions_file` unset so the UI can show a placeholder state.
+    if selected_choice and selected_choice != st.session_state.get("selected_questions_file"):
         st.session_state.selected_questions_file = selected_choice
         _sync_questions_query_param(selected_choice)
         try:
@@ -1371,44 +1411,52 @@ def render_welcome_page(app_config: AppConfig):
         return
     selected_file = st.session_state.get("selected_questions_file")
 
-    selected_question_set = question_set_cache.get(selected_file)
-    if selected_question_set:
-        duration = question_durations.get(selected_file)
-        difficulty_profile = selected_question_set.meta.get("difficulty_profile", {})
-        difficulty_parts: list[str] = []
-        difficulty_labels = {
-            "leicht": "leicht",
-            "mittel": "mittel",
-            "schwer": "schwer",
-        }
-        for key, label in difficulty_labels.items():
-            count = difficulty_profile.get(key)
-            if count:
-                difficulty_parts.append(f"- {count} × {label}")
+    # Only attempt to load the question set when a file has actually been selected.
+    if selected_file:
+        selected_question_set = question_set_cache.get(selected_file)
+        if selected_question_set:
+            duration = question_durations.get(selected_file)
+            difficulty_profile = selected_question_set.meta.get("difficulty_profile", {})
+            difficulty_parts: list[str] = []
+            difficulty_labels = {
+                "leicht": "leicht",
+                "mittel": "mittel",
+                "schwer": "schwer",
+            }
+            for key, label in difficulty_labels.items():
+                count = difficulty_profile.get(key)
+                if count:
+                    difficulty_parts.append(f"- {count} × {label}")
 
-    if selected_question_set is not None:
-        questions = selected_question_set
+        if selected_question_set is not None:
+            questions = selected_question_set
+        else:
+            questions = load_questions(selected_file)
     else:
-        questions = load_questions(selected_file)
+        # No selection yet: present an empty questions list so downstream
+        # UI blocks that check `if questions:` stay hidden.
+        questions = []
 
     # --- Diagramm zur Verteilung der Fragen ---
-    with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=st.session_state.get('question_distribution_expanded', False)):
-        if questions:
-            # Pass optional metadata (duration and difficulty profile) when available
-            try:
-                render_question_distribution_chart(
-                    list(questions),
-                    duration_minutes=duration if 'duration' in locals() else None,
-                    difficulty_profile=difficulty_profile if 'difficulty_profile' in locals() else None,
-                )
-            except Exception:
-                # Fallback to simple call if metadata not available or chart errors
-                render_question_distribution_chart(list(questions))
-        else:
-            st.warning("⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
+    # Show the distribution expander only when a questions file has been selected.
+    if selected_file:
+        with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=st.session_state.get('question_distribution_expanded', False)):
+            if questions:
+                # Pass optional metadata (duration and difficulty profile) when available
+                try:
+                    render_question_distribution_chart(
+                        list(questions),
+                        duration_minutes=duration if 'duration' in locals() else None,
+                        difficulty_profile=difficulty_profile if 'difficulty_profile' in locals() else None,
+                    )
+                except Exception:
+                    # Fallback to simple call if metadata not available or chart errors
+                    render_question_distribution_chart(list(questions))
+            else:
+                st.warning("⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
 
     # --- Öffentliches Leaderboard ---
-    if app_config.show_top5_public:
+    if app_config.show_top5_public and selected_file:
         # Berechne die maximale Punktzahl für das ausgewählte Set
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions)
         leaderboard_title = f"🏆 Aktuelle Top 10 (max. {max_score_for_set} Punkte)"
@@ -1568,14 +1616,34 @@ def render_welcome_page(app_config: AppConfig):
         st.warning("⚠️ Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.")
         selected_name_from_user = None
     else:
+        # If we previously persisted a selected pseudonym, ensure the
+        # selectbox widget state is initialized from it so the widget
+        # and session_state remain consistent across reruns.
+        try:
+            if 'selected_pseudonym' in st.session_state and 'main_view_pseudonym_selector' not in st.session_state:
+                st.session_state['main_view_pseudonym_selector'] = st.session_state['selected_pseudonym']
+        except Exception:
+            pass
+
         selected_name_from_user = st.selectbox(
             "Wähle dein Pseudonym für diese Runde:",
             options=options,
             index=None,
             placeholder="-- Bitte ein Pseudonym auswählen --",
             format_func=format_scientist,
-            label_visibility="collapsed"
+            label_visibility="collapsed",
+            key="main_view_pseudonym_selector",
         )
+
+        # Persist the selection in a stable session key so it survives
+        # reruns triggered by other widget interactions (e.g. clearing the
+        # Fragenset selectbox). This ensures the Test button enabling logic
+        # can rely on a stable indicator of a chosen pseudonym.
+        try:
+            if selected_name_from_user:
+                st.session_state['selected_pseudonym'] = selected_name_from_user
+        except Exception:
+            pass
 
     # Optional: Setze ein Wiederherstellungs-Geheimwort für das neu ausgewählte Pseudonym
     recovery_secret_new = None
@@ -1758,7 +1826,11 @@ def render_welcome_page(app_config: AppConfig):
 
                 if user_id:
                     from database import start_test_session
-                    session_id = start_test_session(user_id, st.session_state.selected_questions_file)
+                    selected_qfile = st.session_state.get("selected_questions_file")
+                    if not selected_qfile:
+                        st.error("Bitte wähle zuerst ein Fragenset aus.")
+                        return
+                    session_id = start_test_session(user_id, selected_qfile)
                     if session_id:
                         # Setze dieselben Session-Keys wie im normalen Start-Flow
                         st.session_state.user_id = pseudonym_recover
@@ -1789,13 +1861,28 @@ def render_welcome_page(app_config: AppConfig):
     with col2:
         # Secret validation flag (used to disable Test start if too short)
         secret_too_short = st.session_state.get('_recovery_secret_too_short', False)
+        # Determine effective widget/session selections to make the disabled
+        # computation robust across reruns and after clearing/reselecting.
+        pseudonym_selected = (
+            st.session_state.get("main_view_pseudonym_selector")
+            if "main_view_pseudonym_selector" in st.session_state
+            else selected_name_from_user
+        )
+        question_selected = (
+            st.session_state.get("selected_questions_file")
+            or st.session_state.get("main_view_question_file_selector")
+        )
 
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
         if st.button(
             "Test starten",
             type="primary",
             width="stretch",
-            disabled=bool((not selected_name_from_user) or (recovery_secret_new and secret_too_short)),
+            disabled=bool(
+                (not pseudonym_selected)
+                or (not question_selected)
+                or (recovery_secret_new and secret_too_short)
+            ),
         ):
             from database import add_user, start_test_session
             # Normalize selected pseudonym to avoid accidental surrounding whitespace
@@ -1806,7 +1893,11 @@ def render_welcome_page(app_config: AppConfig):
             user_id_hash = get_user_id_hash(user_name)
 
             add_user(user_id_hash, user_name)
-            session_id = start_test_session(user_id_hash, st.session_state.selected_questions_file)
+            selected_qfile = st.session_state.get("selected_questions_file")
+            if not selected_qfile:
+                st.error("Bitte wähle zuerst ein Fragenset aus.")
+                return
+            session_id = start_test_session(user_id_hash, selected_qfile)
 
             if session_id:
                 st.session_state.user_id = user_name
@@ -1849,6 +1940,8 @@ def render_welcome_page(app_config: AppConfig):
                 st.rerun()
             else:
                 st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
+
+        # Debug expander removed after verification.
 
     # --- Meine Sessions (sichtbar für wiederhergestellte oder eingeloggte Pseudonyme) ---
 
