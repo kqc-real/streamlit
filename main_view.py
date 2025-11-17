@@ -2985,9 +2985,22 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 is_admin = False
 
         if is_admin:
-            available_files = list_question_files()
+            # Lade sowohl die Kern-Fragensets als auch die von Nutzern hochgeladenen.
+            core_files = list_question_files()
+            try:
+                from user_question_sets import list_user_question_sets
+                user_sets = list_user_question_sets()
+                user_files = [info.identifier for info in sorted(user_sets, key=lambda i: getattr(i, 'uploaded_at', None) is not None and i.uploaded_at.timestamp() or 0.0, reverse=True)]
+            except Exception:
+                user_files = []
+            available_files = user_files + core_files
+
             if available_files:
                 def _format_export_name(filename: str) -> str:
+                    if filename.startswith(USER_QUESTION_PREFIX):
+                        from user_question_sets import get_user_question_set, format_user_label
+                        info = get_user_question_set(filename)
+                        return f"👤 {format_user_label(info)}" if info else filename
                     return filename.replace("questions_", "").replace(".json", "").replace("_", " ")
 
                 default_choice = st.session_state.get(
