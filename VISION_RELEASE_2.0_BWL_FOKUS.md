@@ -143,3 +143,21 @@ Für die Umsetzung von Release 2.0 werden zwei spezialisierte Scrum-Teams gebild
     2.  **Mid-Sprint-Abstimmung:** Das Team stellt sich gegenseitig die Entwürfe der Artefakte vor (z.B. erste Version der FAQ, Wireframe für die Key-Eingabe) und sammelt internes Feedback.
     3.  **Finalisierung der Artefakte:** Die Konzepte und Analysen werden finalisiert und als klare, verständliche Dokumente aufbereitet.
     4.  **Sprint Review & Retrospektive:** Die fertigen Lieferobjekte werden dem Product Owner als abgeschlossene Konzeptionsarbeit via GitHub Projects übergeben und bilden die Grundlage für die Implementierungsaufträge an die IT. In der anschließenden Retrospektive wird die Zusammenarbeit im Team reflektiert.
+
+---
+
+## 4. Bewertungskriterien
+
+Für die Bewertung der Projektleistung werden ausschließlich Artefakte herangezogen, die im Kanban-Board (GitHub Projects) klar und nachvollziehbar dokumentiert sind.
+
+**Anforderungen an die Lieferobjekte:**
+
+1.  **Eindeutige Kennzeichnung:** Jedes zu bewertende Lieferobjekt muss mit den folgenden Labels versehen sein:
+    *   `Business-Artefakt`
+    *   `Team` (z.B. "Team A")
+    *   `Bearbeiter/in` (Name der verantwortlichen Person)
+    *   `Reviewer/in` (Name der Person, die das Peer-Review durchgeführt hat)
+    *   
+2.  **Peer-Review:** Alle als "Business-Artefakt" gekennzeichneten Lieferobjekte müssen von einem anderen Teammitglied peer-reviewt worden sein. Der Name des Reviewers muss im entsprechenden Label vermerkt sein.
+3.  **Format:** Die finalen Business-Artefakte sind als **PDF-Dokument** in der jeweiligen GitHub-Karte zu hinterlegen.
+4.  **Präsentation:** Im Sprint Review müssen alle erstellten Business-Artefakte detailliert vorgestellt und deren Nutzen erläutert werden.  
