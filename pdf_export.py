@@ -2014,7 +2014,26 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     Generiert ein PDF mit der Musterlösung (nur korrekte Antworten) und hängt das Mini-Glossar an.
     Dies ist ein schlankeres Format als der vollständige Nutzerbericht und eignet sich für Admin-Downloads.
     """
-    set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    from config import load_questions
+
+    set_name = None
+    try:
+        # Lade das QuestionSet-Objekt neu, um sicher auf die Metadaten zugreifen zu können.
+        # Das übergebene `questions`-Objekt ist oft nur eine Liste.
+        question_set = load_questions(q_file, silent=True)
+        if question_set and question_set.meta:
+            set_name = question_set.meta.get("title") or question_set.meta.get("thema")
+    except Exception:
+        set_name = None
+
+    if not set_name:
+        try:
+            from user_question_sets import pretty_label_from_identifier_string
+            set_name = pretty_label_from_identifier_string(q_file)
+        except (ImportError, AttributeError):
+            set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    set_name = set_name or "Ungenanntes Fragenset"
+
     try:
         from helpers import format_datetime_de
 
