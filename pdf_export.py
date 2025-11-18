@@ -868,7 +868,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Prüfen, ob der Test vorzeitig beendet wurde
     test_manually_ended = st.session_state.get("test_manually_ended", False)
-    header_title = set_name
+    header_title = f"🗂️ {set_name}"
     header_subtitle = ""
     if test_manually_ended:
         header_subtitle = '<p class="header-subtitle">(Test vorzeitig beendet)</p>'
@@ -1895,7 +1895,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         page_themes = dict(theme_items[page_start:page_end])
         includes_header = page_start == 0
         intro = (
-            f'Schlüsselbegriffe aus dem Fragenset "{set_name}"'
+            f'🗂️ Schlüsselbegriffe aus dem Fragenset "{set_name}"'
             if includes_header
             else None
         )

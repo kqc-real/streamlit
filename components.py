@@ -181,7 +181,7 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
     except Exception:
         hours = 24
 
-    caption_text = f"Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht."
+    caption_text = f"🗂️ Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht."
 
     if not user_pseudo:
         return caption_text
@@ -197,7 +197,7 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
                 if has_recovery_secret_for_pseudonym(user_pseudo):
                     days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
                     caption_text = (
-                        f"Als reserviertes Pseudonym werden deine temporären Fragensets {days} Tage lang aufbewahrt."
+                        f"Als reserviertes Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt."
                     )
             except Exception:
                 # DB-check failed -> leave default caption
@@ -285,7 +285,7 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
 
     info = get_user_question_set(identifier)
     if info is None:
-        st.error("Das temporäre Fragenset konnte nicht gefunden werden.")
+        st.error("Das temporäre 🗂️ Fragenset konnte nicht gefunden werden.")
         return
 
     questions = info.question_set

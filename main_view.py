@@ -264,7 +264,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
 
             meta_html = (
                 "<div class='meta-info'>"
-                f"<span class='meta-item'><strong>Fragenset:</strong> {meta_title}</span>"
+                f"<span class='meta-item'><strong>🗂️ Fragenset:</strong> {meta_title}</span>"
                 f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>"
                 f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span>"
                 "</div>"
@@ -1338,7 +1338,7 @@ def render_welcome_page(app_config: AppConfig):
         return label
 
     st.markdown(
-        "<h3 style='text-align: center;'>Wähle dein Fragenset</h3>",
+        "<h3 style='text-align: center;'>🗂️ Wähle dein Fragenset</h3>",
         unsafe_allow_html=True,
     )
 
@@ -1392,7 +1392,7 @@ def render_welcome_page(app_config: AppConfig):
         format_func=format_filename,
         key="main_view_question_file_selector",
         label_visibility="collapsed",
-        placeholder="-- Bitte ein Fragenset auswählen --",
+        placeholder="🗂️ Bitte ein Fragenset auswählen…",
         on_change=_on_question_select,
     )
 
@@ -1632,7 +1632,7 @@ def render_welcome_page(app_config: AppConfig):
             "Wähle dein Pseudonym für diese Runde:",
             options=options,
             index=None,
-            placeholder="-- Bitte ein Pseudonym auswählen --",
+            placeholder="👤 Bitte ein Pseudonym auswählen…",
             format_func=format_scientist,
             label_visibility="collapsed",
             key="main_view_pseudonym_selector",
@@ -1658,12 +1658,12 @@ def render_welcome_page(app_config: AppConfig):
         # Present the secret-input inside an expander so the user can open/close it.
         # We persist the open state in `st.session_state['reserve_secret_expanded']` so
         # interactions (like clicking the reserve button) do not close it unexpectedly.
-        with st.expander("Geheimwort für eine Reservierung (optional)", expanded=st.session_state.get('reserve_secret_expanded', False)):
+        with st.expander("🔒 Geheimwort für eine Reservierung (optional)", expanded=st.session_state.get('reserve_secret_expanded', False)):
             recovery_secret_new = st.text_input(
                 "Dieses Pseudonym dauerhaft für mich reservieren",
                 type="password",
                 max_chars=32,
-                placeholder="Mein Geheimwort für die Reservierung...",
+                placeholder="Mein 🔒 Geheimwort für die Reservierung...",
                 key="recovery_secret_new",
             )
 
@@ -1687,7 +1687,7 @@ def render_welcome_page(app_config: AppConfig):
             secret_too_short = False
             if recovery_secret_new:
                 if not allow_short and len(recovery_secret_new) < min_len:
-                    st.warning(f"Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.")
+                    st.warning(f"🔒 Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.")
                     secret_too_short = True
             # Expose the validation flag in session state for other handlers if needed
             st.session_state['_recovery_secret_too_short'] = secret_too_short
@@ -1739,8 +1739,8 @@ def render_welcome_page(app_config: AppConfig):
         st.session_state['recover_pseudonym_expanded'] = False
 
     with st.expander("Ich habe bereits ein reserviertes Pseudonym…", expanded=st.session_state.get('recover_pseudonym_expanded', False)):
-        pseudonym_recover = st.text_input("Pseudonym eingeben", key="recover_pseudonym")
-        secret_recover = st.text_input("Geheimwort", type="password", key="recover_secret")
+        pseudonym_recover = st.text_input("👤 Pseudonym eingeben", key="recover_pseudonym")
+        secret_recover = st.text_input("🔒 Geheimwort", type="password", key="recover_secret")
 
         # Keep the expander open when the user types into either field so
         # the UI does not collapse on reruns triggered by widget interactions.
@@ -1779,17 +1779,7 @@ def render_welcome_page(app_config: AppConfig):
             or (persisted_pseudonym and question_selected_for_recover)
         )
 
-        # Temporary debug output to inspect recover-related session values.
-        try:
-            with st.expander("Debug (recover state)", expanded=False):
-                st.write({
-                    'recover_pseudonym': st.session_state.get('recover_pseudonym'),
-                    'recover_secret': st.session_state.get('recover_secret'),
-                    'selected_questions_file': st.session_state.get('selected_questions_file'),
-                    'main_view_question_file_selector': st.session_state.get('main_view_question_file_selector'),
-                })
-        except Exception:
-            pass
+        # (Debug expander removed)
 
         _, col2, _ = st.columns([1, 3, 1])
         with col2:
@@ -1831,7 +1821,7 @@ def render_welcome_page(app_config: AppConfig):
                 secret_recover = secret_recover
 
             if not pseudonym_recover or not secret_recover:
-                st.warning("Bitte Pseudonym und Geheimwort eingeben.")
+                st.warning("Bitte Pseudonym und 🔒 Geheimwort eingeben.")
             else:
                 # Apply rate-limiting and audit logging around recovery attempts
                 try:

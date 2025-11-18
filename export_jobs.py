@@ -460,7 +460,7 @@ _ANKI_CARD_CSS = """
 _ANKI_FRONT_TEMPLATE = (
     "<div class='card-container'>"
     "<div class='meta-info'>"
-    "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
+    "{{#Fragenset_Titel}}<span class='meta-item'><strong>🗂️ Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
     "</div>"
@@ -473,7 +473,7 @@ _ANKI_FRONT_TEMPLATE = (
 _ANKI_BACK_TEMPLATE = (
     "<div class='card-container'>"
     "<div class='meta-info'>"
-    "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
+    "{{#Fragenset_Titel}}<span class='meta-item'><strong>🗂️ Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
     "</div>"
