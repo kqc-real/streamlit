@@ -1223,7 +1223,18 @@ def render_welcome_page(app_config: AppConfig):
         requested_file = requested_file[0] if requested_file else None
 
     if requested_file and requested_file in available_question_files:
+        # If the URL specifies a questions_file, prefill both the persisted
+        # selection and the selectbox widget so the placeholder shows the
+        # chosen set and the distribution chart is displayed immediately.
         st.session_state.selected_questions_file = requested_file
+        try:
+            st.session_state['main_view_question_file_selector'] = requested_file
+        except Exception:
+            pass
+        try:
+            st.session_state['question_distribution_expanded'] = True
+        except Exception:
+            pass
     # Do NOT set a default `selected_questions_file` here. Leaving the session
     # key unset allows the welcome page to show the placeholder prompting the
     # user to actively choose a Fragenset (similar UX to the pseudonym selectbox).
