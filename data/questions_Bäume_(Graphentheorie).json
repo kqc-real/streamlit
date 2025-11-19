@@ -1,0 +1,927 @@
+{
+  "meta": {
+    "title": "Bäume in der Graphentheorie",
+    "created": "19.11.2025 10:00",
+    "modified": "19.11.2025 10:00",
+    "target_audience": "Anfänger ohne Vorkenntnisse",
+    "question_count": 40,
+    "difficulty_profile": {
+      "leicht": 24,
+      "mittel": 12,
+      "schwer": 4
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 30
+  },
+  "questions": [
+    {
+      "frage": "1. Welche der folgenden Beschreibungen trifft auf einen Baum in der Graphentheorie zu?",
+      "optionen": [
+        "Ein beliebiger Graph mit mindestens einem Zyklus und beliebig vielen Kanten.",
+        "Ein zusammenhängender, azyklischer Graph.",
+        "Ein gerichteter Graph, in dem alle Knoten genau zwei Nachfolger haben.",
+        "Eine strukturlose Sammlung von Knoten und Kanten, in der Zyklen ausdrücklich erlaubt sind und weder Anzahl der Knoten noch Anzahl der Kanten eingeschränkt werden."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein Baum ist per Definition ein zusammenhängender, azyklischer Graph. Diese Kombination stellt sicher, dass zwischen zwei Knoten immer genau ein einfacher Pfad existiert.",
+      "gewichtung": 1,
+      "thema": "Definition und Eigenschaften von Bäumen",
+      "mini_glossary": {
+        "Baum": "Ein zusammenhängender, azyklischer Graph, der zwischen je zwei Knoten genau einen einfachen Pfad enthält.",
+        "Graph": "Eine Menge von Knoten, die durch Kanten verbunden sind und zur Modellierung von Beziehungen verwendet werden.",
+        "azyklisch": "Eine Struktur ist azyklisch, wenn sie keine geschlossenen Pfade, also keine Zyklen, enthält.",
+        "zusammenhängend": "Ein Graph ist zusammenhängend, wenn zwischen jedem Paar von Knoten mindestens ein Pfad existiert."
+      }
+    },
+    {
+      "frage": "2. Welche Bedingung ist notwendig, damit ein Graph mit n Knoten ein Baum ist?",
+      "optionen": [
+        "Er hat genau n Kanten und mindestens einen Zyklus.",
+        "Er ist zusammenhängend und besitzt genau n - 1 Kanten.",
+        "Er ist nicht zusammenhängend und besitzt höchstens n - 1 Kanten.",
+        "Er hat eine besonders komplexe Kantenstruktur, in der die Anzahl der Kanten frei gewählt wird, solange alle Knoten paarweise verschieden sind und vielfältige Zyklen möglich bleiben."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein endlicher Graph mit n Knoten ist genau dann ein Baum, wenn er zusammenhängend ist und genau n - 1 Kanten besitzt. Diese Kantenanzahl ist charakteristisch für Bäume.",
+      "gewichtung": 1,
+      "thema": "Definition und Eigenschaften von Bäumen",
+      "mini_glossary": {
+        "Knotenanzahl n": "Die Anzahl der Knoten eines Graphen, die die Größe der Struktur angibt.",
+        "Kantenanzahl": "Die Anzahl der Verbindungen zwischen Knoten in einem Graphen.",
+        "Baumeigenschaft n - 1": "Für einen Baum mit n Knoten gilt, dass er genau n - 1 Kanten hat.",
+        "notwendig": "Eine Bedingung ist notwendig, wenn ohne sie die definierte Struktur nicht vorliegt."
+      }
+    },
+    {
+      "frage": "3. Welche der folgenden Aussagen beschreibt eine äquivalente Charakterisierung von Bäumen?",
+      "optionen": [
+        "Ein Graph ist ein Baum, wenn zwischen einigen Knoten mehrere verschiedene Pfade existieren.",
+        "Ein Graph ist ein Baum, wenn zwischen je zwei Knoten genau ein einfacher Pfad existiert.",
+        "Ein Graph ist ein Baum, wenn jeder Knoten Grad 2 hat.",
+        "Ein Graph ist ein Baum, wenn er eine möglichst komplexe Mischung aus gerichteten und ungerichteten Kanten besitzt, die viele verschiedene Pfade zwischen Knoten zulässt und dadurch eine sehr flexible Struktur bildet."
+      ],
+      "loesung": 1,
+      "erklaerung": "Eine äquivalente Definition eines Baumes lautet: Zwischen je zwei Knoten existiert genau ein einfacher Pfad. Daraus folgen Zusammenhängigkeit und Zyklenfreiheit.",
+      "gewichtung": 1,
+      "thema": "Definition und Eigenschaften von Bäumen",
+      "mini_glossary": {
+        "einfacher Pfad": "Ein Pfad, der keinen Knoten mehr als einmal besucht.",
+        "äquivalente Definition": "Eine alternative Formulierung, die dieselbe mathematische Struktur beschreibt.",
+        "Zyklenfreiheit": "Eigenschaft eines Graphen, keine geschlossenen Pfade zu enthalten.",
+        "Charakterisierung": "Eine Beschreibung, die eine Struktur eindeutig festlegt."
+      }
+    },
+    {
+      "frage": "4. Welche Eigenschaft trifft auf jeden Baum mit mindestens zwei Knoten zu?",
+      "optionen": [
+        "Er enthält genau zwei verschiedene Zyklen, die sich an den Blättern treffen.",
+        "Er besteht ausschließlich aus Knoten mit Grad 3.",
+        "Er hat mindestens zwei Blätter.",
+        "Er besitzt eine Vielzahl von Knoten, deren Grade beliebig verteilt werden können, insbesondere so, dass die Hälfte der Knoten Grad 0 hat und dadurch voneinander komplett isoliert bleibt."
+      ],
+      "loesung": 2,
+      "erklaerung": "Jeder Baum mit mindestens zwei Knoten besitzt mindestens zwei Blätter, also Knoten mit Grad 1. Dies folgt aus der Struktur zyklenfreier, zusammenhängender Graphen.",
+      "gewichtung": 1,
+      "thema": "Definition und Eigenschaften von Bäumen",
+      "mini_glossary": {
+        "Blatt": "Ein Knoten mit Grad 1, der am Rand eines Baumes liegt.",
+        "Grad eines Knotens": "Die Anzahl der Kanten, die an einem Knoten anliegen.",
+        "Baumstruktur": "Die spezielle Form eines Graphen, der zusammenhängend und azyklisch ist.",
+        "Randknoten": "Knoten, die in einer Struktur keine weiteren Nachfolger besitzen."
+      }
+    },
+    {
+      "frage": "5. Welche Kombination von Eigenschaften kennzeichnet einen Wald in der Graphentheorie?",
+      "optionen": [
+        "Ein Graph mit genau einem Zyklus und beliebig vielen Kanten.",
+        "Ein Graph, der aus mehreren, nicht unbedingt zusammenhängenden Bäumen besteht.",
+        "Ein Graph, in dem alle Knoten Paaren von Kanten zugeordnet sind.",
+        "Ein hochgradig verschachtelter Graph mit vielen Zyklen und zusätzlichen Kanten, die speziell dafür eingefügt werden, um möglichst viele alternative Wege zwischen allen Knoten zu erzeugen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein Wald ist ein azyklischer Graph, der nicht notwendigerweise zusammenhängend ist und aus einer Menge von Bäumen bestehen kann.",
+      "gewichtung": 1,
+      "thema": "Definition und Eigenschaften von Bäumen",
+      "mini_glossary": {
+        "Wald": "Ein azyklischer Graph, der aus einer Menge von Bäumen bestehen kann.",
+        "zusammenhängend": "Eigenschaft, dass zwischen allen Knoten Pfade existieren.",
+        "Baumkomponente": "Eine Zusammenhangskomponente eines Waldes, die selbst ein Baum ist.",
+        "azyklischer Graph": "Ein Graph ohne Zyklen."
+      }
+    },
+    {
+      "frage": "6. Wie wird ein Knoten bezeichnet, der genau eine anliegende Kante in einem Baum besitzt?",
+      "optionen": [
+        "Innerer Knoten.",
+        "Blatt.",
+        "Wurzel.",
+        "Ein spezieller Strukturknoten, der gleichzeitig mehrere hierarchische Ebenen repräsentiert und dadurch so viele unterschiedliche Rollen übernimmt, dass er sich nicht klar einem einfachen Begriff zuordnen lässt."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein Knoten mit Grad 1 wird in einem Baum als Blatt bezeichnet. Er hat genau eine anliegende Kante und bildet damit einen Endpunkt der Struktur.",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe: Knoten, Kanten, Blätter",
+      "mini_glossary": {
+        "Blatt": "Ein Knoten mit Grad 1, der keinen weiteren Nachfolger besitzt.",
+        "innerer Knoten": "Ein Knoten mit Grad größer als 1, der Verzweigungen im Baum erzeugt.",
+        "Kante": "Eine Verbindung zwischen zwei Knoten in einem Graphen.",
+        "Grad": "Anzahl der Kanten, die an einem Knoten anliegen."
+      }
+    },
+    {
+      "frage": "7. Wie nennt man Knoten in einem Baum, die mehr als eine anliegende Kante besitzen und nicht am Rand der Struktur liegen?",
+      "optionen": [
+        "Blätter.",
+        "Innere Knoten.",
+        "Isolierte Knoten.",
+        "Besonders komplexe Zwischenknoten, die so viele Verbindungen zu verschiedenen Ebenen aufweisen, dass sie praktisch als eigenes Teilnetzwerk innerhalb des Baumes betrachtet werden können."
+      ],
+      "loesung": 1,
+      "erklaerung": "Knoten mit Grad größer als 1, die nicht Blätter sind, werden als innere Knoten bezeichnet. Sie verbinden verschiedene Teile des Baumes.",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe: Knoten, Kanten, Blätter",
+      "mini_glossary": {
+        "innerer Knoten": "Ein Knoten mit Grad größer als 1, der in der Mitte eines Baumes liegt und Verzweigungen bildet.",
+        "isolierter Knoten": "Ein Knoten ohne anliegende Kanten, der in einem Baum nicht vorkommt, weil Bäume zusammenhängend sind.",
+        "Randknoten": "Knoten, die am Rand einer Struktur liegen, typischerweise Blätter.",
+        "Verzweigung": "Stelle im Baum, an der sich ein Pfad in mehrere Richtungen aufspaltet."
+      }
+    },
+    {
+      "frage": "8. Wie bezeichnet man die Verbindungen zwischen Knoten in einem ungerichteten Baum?",
+      "optionen": [
+        "Pfade.",
+        "Kanten.",
+        "Ebenen.",
+        "Lange, komplex aufgebaute Verknüpfungsobjekte, die sowohl Richtungsinformationen als auch zusätzliche Gewichte und Metadaten tragen und dadurch weit über einfache Verbindungen hinausgehen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die direkten Verbindungen zwischen Knoten in einem ungerichteten Baum heißen Kanten.",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe: Knoten, Kanten, Blätter",
+      "mini_glossary": {
+        "Kante": "Eine Verbindung zwischen zwei Knoten in einem Graphen oder Baum.",
+        "ungerichteter Graph": "Ein Graph, in dem Kanten keine Richtung haben.",
+        "Pfad": "Eine Folge von Knoten, bei der jeweils benachbarte Knoten durch eine Kante verbunden sind.",
+        "Baum": "Ein zusammenhängender, azyklischer Graph mit besonderen Struktur­eigenschaften."
+      }
+    },
+    {
+      "frage": "9. Was beschreibt der Grad eines Knotens in einem Baum?",
+      "optionen": [
+        "Die Nummer der Ebene, auf der der Knoten steht.",
+        "Die Anzahl der an diesen Knoten angrenzenden Kanten.",
+        "Die Länge des längsten Pfades, der durch diesen Knoten verläuft.",
+        "Eine komplizierte Kennzahl, die gleichzeitig die Tiefe des Knotens, die Höhe des Teilbaums und die Anzahl aller erreichbaren Nachfolger kombiniert und daher nur mit umfangreichen Berechnungen bestimmbar ist."
+      ],
+      "loesung": 1,
+      "erklaerung": "Der Grad eines Knotens ist die Anzahl der Kanten, die an diesem Knoten anliegen. In Bäumen ist dies eine einfache lokale Eigenschaft.",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe: Knoten, Kanten, Blätter",
+      "mini_glossary": {
+        "Grad": "Die Anzahl der Kanten, die an einem Knoten anliegen.",
+        "lokale Eigenschaft": "Eine Eigenschaft, die nur von der unmittelbaren Umgebung eines Elements abhängt.",
+        "Teilbaum": "Ein Baum, der in einem größeren Baum enthalten ist und selbst wieder die Baumeigenschaften erfüllt.",
+        "Nachfolger": "Knoten, die über Kanten von einem gegebenen Knoten aus erreichbar sind."
+      }
+    },
+    {
+      "frage": "10. Wie lässt sich ein Blatt in einem Baum am einfachsten anhand des Knotengrades erkennen?",
+      "optionen": [
+        "Ein Blatt hat Grad 0.",
+        "Ein Blatt hat Grad 1.",
+        "Ein Blatt hat den größten Grad im gesamten Baum.",
+        "Ein Blatt weist einen besonders variablen Grad auf, der je nach der Struktur des zugehörigen Waldes starken Schwankungen unterliegt und häufig durch zusätzliche Kontextinformationen bestimmt werden muss."
+      ],
+      "loesung": 1,
+      "erklaerung": "Blätter sind Knoten mit Grad 1. Sie haben genau eine anliegende Kante und bilden die Endpunkte eines Baumes.",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe: Knoten, Kanten, Blätter",
+      "mini_glossary": {
+        "Blatt": "Knoten mit Grad 1 am Rand eines Baumes.",
+        "Grad 1": "Ein Knoten mit genau einer anliegenden Kante.",
+        "Endpunkt": "Ein Knoten, an dem ein Pfad im Baum endet.",
+        "Rand des Baumes": "Die Menge aller Blätter eines Baumes."
+      }
+    },
+    {
+      "frage": "11. Was zeichnet einen gewurzelten Baum aus?",
+      "optionen": [
+        "Es gibt keine ausgezeichneten Knoten, alle sind gleichberechtigt.",
+        "Ein bestimmter Knoten wird als Wurzel ausgezeichnet und definiert eine Hierarchie.",
+        "Alle Kanten sind gerichtet und bilden mindestens einen Zyklus.",
+        "Die Struktur besitzt eine Vielzahl spezieller Start- und Endknoten, die abwechselnd als Wurzel dienen, sodass sich die Hierarchie ständig ändert und kein stabiler Ausgangspunkt existiert."
+      ],
+      "loesung": 1,
+      "erklaerung": "In einem gewurzelten Baum wird ein Knoten als Wurzel ausgezeichnet. Von dieser Wurzel aus ergibt sich eine natürliche Eltern-Kind-Hierarchie.",
+      "gewichtung": 1,
+      "thema": "Gewurzelte Bäume und Hierarchie",
+      "mini_glossary": {
+        "gewurzelter Baum": "Ein Baum, in dem ein Knoten als Wurzel ausgezeichnet ist.",
+        "Wurzel": "Der oberste Knoten eines gewurzelten Baumes ohne Elternknoten.",
+        "Hierarchie": "Eine geordnete Struktur mit über- und untergeordneten Elementen.",
+        "Eltern-Kind-Beziehung": "Beziehung zwischen einem Knoten und seinen direkten Nachfolgern."
+      }
+    },
+    {
+      "frage": "12. Wie nennt man die direkten Nachfolger eines Knotens in einem gewurzelten Baum?",
+      "optionen": [
+        "Geschwister.",
+        "Kinder.",
+        "Blätter.",
+        "Komplexe Nachfolgerknoten, die gleichzeitig mehreren Vorgängern zugeordnet sind und dadurch eine verschachtelte Struktur mit zahlreichen überschneidenden Hierarchieebenen bilden."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die direkten Nachfolger eines Knotens heißen Kinder. Zusammen mit dem Vorgänger bilden sie eine Eltern-Kind-Beziehung.",
+      "gewichtung": 1,
+      "thema": "Gewurzelte Bäume und Hierarchie",
+      "mini_glossary": {
+        "Kindknoten": "Direkter Nachfolger eines Knotens in einem gewurzelten Baum.",
+        "Elternknoten": "Direkter Vorgänger eines Knotens auf dem Pfad zur Wurzel.",
+        "Geschwister": "Knoten, die denselben Elternknoten besitzen.",
+        "Nachfolger": "Allgemeiner Begriff für Knoten, die von einem gegebenen Knoten aus erreicht werden können."
+      }
+    },
+    {
+      "frage": "13. Wie werden Knoten bezeichnet, die denselben Elternknoten in einem gewurzelten Baum besitzen?",
+      "optionen": [
+        "Blätter.",
+        "Geschwister.",
+        "Wurzeln.",
+        "Eine Gruppe besonders eng verbundener Knoten, die durch zahlreiche zusätzliche Hilfskanten verknüpft sind und daher eher ein eigenes Teilnetzwerk als eine einfache Familie von Knoten darstellen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Knoten mit demselben Elternknoten heißen Geschwister. Sie liegen auf derselben Hierarchieebene im Baum.",
+      "gewichtung": 1,
+      "thema": "Gewurzelte Bäume und Hierarchie",
+      "mini_glossary": {
+        "Geschwister": "Knoten, die denselben Elternknoten haben.",
+        "Hierarchieebene": "Alle Knoten in gleicher Tiefe in einem gewurzelten Baum.",
+        "Elternknoten": "Direkter Vorgänger eines Knotens.",
+        "Familienmetapher": "Bildhafte Beschreibung von Beziehungen wie Eltern, Kindern und Geschwistern."
+      }
+    },
+    {
+      "frage": "14. Welche Aussage zur Wurzel eines gewurzelten Baumes ist korrekt?",
+      "optionen": [
+        "Die Wurzel hat immer genau zwei Kinder.",
+        "Die Wurzel hat keinen Elternknoten.",
+        "Die Wurzel liegt immer auf der tiefsten Ebene des Baumes.",
+        "Die Wurzel ist ein besonders vielseitiger Knoten, der abwechselnd als Eltern-, Kinder- und Geschwisterknoten fungiert und dadurch alle Rollen im Baum gleichzeitig übernehmen kann."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Wurzel ist der Knoten ohne Elternknoten. Von ihr aus werden alle Pfade in einem gewurzelten Baum nach unten verfolgt.",
+      "gewichtung": 1,
+      "thema": "Gewurzelte Bäume und Hierarchie",
+      "mini_glossary": {
+        "Wurzel": "Der oberste Knoten im gewurzelten Baum ohne Elternknoten.",
+        "Elternlos": "Eigenschaft der Wurzel, keinen Vorgänger zu besitzen.",
+        "Pfadrichtung": "In gewurzelten Bäumen verläuft die natürliche Richtung von der Wurzel zu den Blättern.",
+        "Strukturanfang": "Der Einstiegspunkt in die hierarchische Struktur."
+      }
+    },
+    {
+      "frage": "15. Was versteht man unter der Tiefe eines Knotens in einem gewurzelten Baum?",
+      "optionen": [
+        "Die Anzahl der Kinder dieses Knotens.",
+        "Die Länge des Pfades von der Wurzel zu diesem Knoten.",
+        "Die Anzahl der Blätter im zugehörigen Teilbaum.",
+        "Eine umfangreiche Kennzahl, die gleichzeitig die Anzahl der Geschwister, die Größe des Teilbaums und die Position des Knotens in verschiedenen Traversierungen kombiniert und daher nur schwer zu bestimmen ist."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Tiefe eines Knotens ist die Länge des Pfades von der Wurzel zu diesem Knoten, gemessen in der Anzahl der Kanten.",
+      "gewichtung": 1,
+      "thema": "Tiefe, Höhe und Ebenen",
+      "mini_glossary": {
+        "Tiefe eines Knotens": "Die Anzahl der Kanten auf dem Pfad von der Wurzel zu diesem Knoten.",
+        "Pfadlänge": "Die Anzahl der Kanten in einem Pfad.",
+        "gewurzelter Baum": "Ein Baum mit ausgezeichnetem Wurzelknoten.",
+        "Kantenanzahl": "Zählgröße für Verbindungen in einem Pfad."
+      }
+    },
+    {
+      "frage": "16. Wie definiert man die Höhe eines Baumes?",
+      "optionen": [
+        "Als Anzahl aller Knoten im Baum.",
+        "Als maximale Tiefe eines Knotens im Baum.",
+        "Als Summe der Grade aller Knoten.",
+        "Als eine sehr komplexe Funktion, die für jeden Knoten die Tiefe quadriert, mit der Anzahl der Geschwister multipliziert und anschließend über alle Knoten aufsummiert wird, um eine abstrakte Maßzahl zu erhalten."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Höhe eines Baumes entspricht der maximalen Tiefe eines Knotens. Sie gibt die Anzahl der Ebenen der Struktur an.",
+      "gewichtung": 1,
+      "thema": "Tiefe, Höhe und Ebenen",
+      "mini_glossary": {
+        "Höhe eines Baumes": "Die maximale Tiefe eines Knotens im Baum.",
+        "Ebene": "Menge aller Knoten mit gleicher Tiefe.",
+        "maximale Tiefe": "Die größte Pfadlänge von der Wurzel zu einem Knoten.",
+        "Strukturtiefe": "Informelle Bezeichnung für die Anzahl der Ebenen in einer Hierarchie."
+      }
+    },
+    {
+      "frage": "17. In welchem Fall hat ein gewurzelter Baum die Höhe 0?",
+      "optionen": [
+        "Wenn die Wurzel keine Kinder hat und damit der einzige Knoten ist.",
+        "Wenn der Baum unendlich viele Ebenen besitzt.",
+        "Wenn alle Knoten denselben Grad haben.",
+        "Wenn der Baum eine große Zahl von Knoten umfasst, die auf viele Ebenen verteilt sind, sodass die Definition der Höhe nur mit aufwendigen Hilfsstrukturen sinnvoll formuliert werden kann."
+      ],
+      "loesung": 0,
+      "erklaerung": "Ein Baum hat Höhe 0, wenn nur die Wurzel existiert. Dann ist die maximale Tiefe 0.",
+      "gewichtung": 1,
+      "thema": "Tiefe, Höhe und Ebenen",
+      "mini_glossary": {
+        "Höhe 0": "Ein Baum mit nur einem Knoten, der Wurzel.",
+        "einzelner Knoten": "Struktur mit genau einem Knoten und ohne Kanten.",
+        "Tiefe 0": "Tiefe der Wurzel in einem gewurzelten Baum.",
+        "Trivialbaum": "Ein Baum, der nur aus der Wurzel besteht."
+      }
+    },
+    {
+      "frage": "18. Welche Aussage zu Ebenen in einem gewurzelten Baum ist korrekt?",
+      "optionen": [
+        "Knoten auf derselben Ebene haben per Definition denselben Grad.",
+        "Knoten auf derselben Ebene haben dieselbe Tiefe.",
+        "Knoten auf derselben Ebene sind stets alle Blätter.",
+        "Ebenen werden so definiert, dass sie je nach Traversierungsstrategie vollkommen unterschiedliche Knoten enthalten und sich deshalb nicht stabil festlegen lassen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Knoten auf derselben Ebene besitzen dieselbe Tiefe, nämlich die Anzahl der Kanten von der Wurzel zu diesen Knoten.",
+      "gewichtung": 1,
+      "thema": "Tiefe, Höhe und Ebenen",
+      "mini_glossary": {
+        "Ebene": "Menge aller Knoten mit derselben Tiefe in einem gewurzelten Baum.",
+        "Tiefe": "Anzahl der Kanten im Pfad von der Wurzel zu einem Knoten.",
+        "Strukturierung": "Aufteilung eines Baumes in Ebenen zur besseren Übersicht.",
+        "Blätter": "Knoten mit Grad 1, die nicht zwingend auf derselben Ebene liegen."
+      }
+    },
+    {
+      "frage": "19. Was ist das Ziel einer Traversierung in einem Baum?",
+      "optionen": [
+        "Nur die Wurzel zu besuchen und alle anderen Knoten zu ignorieren.",
+        "Alle Knoten des Baumes systematisch zu besuchen.",
+        "Nur die Blätter eines Baumes zu bestimmen.",
+        "Eine möglichst komplizierte Reihenfolge von Knotenbesuchen zu erzeugen, in der manche Knoten mehrfach, andere gar nicht besucht werden, um die Struktur bewusst unübersichtlich zu machen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Traversierung bedeutet, alle Knoten eines Baumes nach einer festgelegten Strategie systematisch zu besuchen.",
+      "gewichtung": 1,
+      "thema": "Traversierung: BFS",
+      "mini_glossary": {
+        "Traversierung": "Systematisches Besuchen aller Knoten eines Baumes.",
+        "Strategie": "Festgelegte Vorgehensweise zur Bestimmung der Besuchsreihenfolge.",
+        "vollständiger Besuch": "Jeder Knoten wird mindestens einmal betrachtet.",
+        "Baumdurchlauf": "Ein anderes Wort für Traversierung eines Baumes."
+      }
+    },
+    {
+      "frage": "20. Welche Datenstruktur wird typischerweise für die Breitensuche (BFS) in einem Baum verwendet?",
+      "optionen": [
+        "Ein Stack.",
+        "Eine Queue.",
+        "Eine sortierte Liste.",
+        "Eine aufwendig verschachtelte Kombination mehrerer Listen, Stapel und Bäume, die nur mit komplexen Verwaltungsalgorithmen korrekt betrieben werden kann."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Breitensuche verwendet eine Queue, um Knoten ebenenweise zu verarbeiten. Neue Knoten werden hinten eingereiht und vorne entnommen.",
+      "gewichtung": 1,
+      "thema": "Traversierung: BFS",
+      "mini_glossary": {
+        "Breitensuche (BFS)": "Traversierungsstrategie, bei der Knoten ebenenweise besucht werden.",
+        "Queue": "Warteschlange mit dem Prinzip zuerst hinein, zuerst hinaus.",
+        "Datenstruktur": "Organisationsform für Daten mit bestimmten Zugriffsmethoden.",
+        "ebenenweise Verarbeitung": "Besuchsreihenfolge, bei der alle Knoten einer Ebene vor der nächsten Ebene besucht werden."
+      }
+    },
+    {
+      "frage": "21. Welche Aussage zur Breitensuche (BFS) in einem Baum ist korrekt?",
+      "optionen": [
+        "BFS besucht zunächst alle Blätter und arbeitet sich dann zur Wurzel vor.",
+        "BFS besucht zuerst Knoten in kleiner Tiefe und dann Knoten in größerer Tiefe.",
+        "BFS folgt immer einem Pfad so tief wie möglich, bevor sie zurückkehrt.",
+        "BFS wählt bei jedem Schritt willkürlich einen unbesuchten Knoten aus, um eine möglichst unstrukturierte Besuchsreihenfolge zu erzeugen, die schwer vorhersehbar ist."
+      ],
+      "loesung": 1,
+      "erklaerung": "BFS besucht alle Knoten in aufsteigender Tiefe. Zuerst werden Knoten nahe der Wurzel, danach Knoten in tieferen Ebenen besucht.",
+      "gewichtung": 1,
+      "thema": "Traversierung: BFS",
+      "mini_glossary": {
+        "Tiefe": "Anzahl der Kanten von der Wurzel zu einem Knoten.",
+        "BFS": "Breitensuche, Traversierungsmethode, die nach Ebenen vorgeht.",
+        "Ebenen": "Mengen von Knoten mit gleicher Tiefe.",
+        "Besuchsreihenfolge": "Die konkrete Reihenfolge, in der Knoten betrachtet werden."
+      }
+    },
+    {
+      "frage": "22. Für welche Aufgabe ist BFS in Bäumen besonders geeignet?",
+      "optionen": [
+        "Um die maximale Tiefe eines Knotens zu bestimmen.",
+        "Um kürzeste Wege in einem ungewichteten Graphen zu finden.",
+        "Um Knoten in beliebiger Reihenfolge zufällig zu besuchen.",
+        "Um eine sehr detailreiche, aber ineffiziente Analyse vorzunehmen, bei der dieselben Knoten mehrfach hintereinander besucht werden, um möglichst viele redundante Informationen zu sammeln."
+      ],
+      "loesung": 1,
+      "erklaerung": "BFS ist in ungewichteten Graphen und Bäumen besonders geeignet, um kürzeste Wege von einer Startquelle zu allen anderen Knoten zu finden.",
+      "gewichtung": 1,
+      "thema": "Traversierung: BFS",
+      "mini_glossary": {
+        "kürzester Weg": "Pfad mit minimaler Anzahl an Kanten zwischen zwei Knoten.",
+        "ungewichteter Graph": "Graph, in dem Kanten keine Gewichte tragen.",
+        "Startknoten": "Ausgangspunkt einer Traversierung oder Pfadsuche.",
+        "Erreichbarkeit": "Eigenschaft, ob ein Knoten über Pfade von einem anderen Knoten aus besucht werden kann."
+      }
+    },
+    {
+      "frage": "23. Welche Datenstruktur wird typischerweise für die Tiefensuche (DFS) verwendet, wenn sie iterativ implementiert wird?",
+      "optionen": [
+        "Eine Queue.",
+        "Ein Stack.",
+        "Eine Prioritätswarteschlange.",
+        "Eine außerordentlich komplexe Verwaltungsstruktur aus vielen verschachtelten Arrays, die zwischendurch zufällige Knoten aus dem Baum auswählt, um eine schwer nachvollziehbare Traversierung zu realisieren."
+      ],
+      "loesung": 1,
+      "erklaerung": "Bei iterativer Implementierung der Tiefensuche wird ein Stack verwendet. Er unterstützt das Prinzip, einem Pfad so weit wie möglich zu folgen und dann zurückzuspringen.",
+      "gewichtung": 1,
+      "thema": "Traversierung: DFS",
+      "mini_glossary": {
+        "Tiefensuche (DFS)": "Traversierungsstrategie, die einen Pfad so tief wie möglich verfolgt.",
+        "Stack": "Datenstruktur mit dem Prinzip zuletzt hinein, zuerst hinaus.",
+        "iterative Implementierung": "Umsetzung eines Algorithmus ohne Rekursion mit expliziten Datenstrukturen.",
+        "Backtracking": "Zurückkehren zu einem früheren Knoten, um alternative Pfade zu erkunden."
+      }
+    },
+    {
+      "frage": "24. Welche Aussage zur Tiefensuche (DFS) in einem Baum ist korrekt?",
+      "optionen": [
+        "DFS besucht Knoten strikt in aufsteigender Tiefe und wechselt kontinuierlich zwischen Ebenen.",
+        "DFS folgt einem Pfad so tief wie möglich, bevor sie zurückkehrt, um andere Pfade zu erkunden.",
+        "DFS besucht immer zuerst alle Geschwister eines Knotens und erst dann dessen Kinder.",
+        "DFS erstellt absichtlich eine unsystematische Reihenfolge von Knotenbesuchen, bei der tiefe und flache Knoten ständig gemischt werden, um die Struktur möglichst unklar darzustellen."
+      ],
+      "loesung": 1,
+      "erklaerung": "DFS folgt einem Pfad so tief wie möglich und nutzt Backtracking, um anschließend alternative Pfade zu besuchen.",
+      "gewichtung": 1,
+      "thema": "Traversierung: DFS",
+      "mini_glossary": {
+        "DFS": "Tiefensuche, Traversierungsstrategie mit Fokus auf einem Pfad.",
+        "Backtracking": "Rückkehr zu früheren Knoten, um weitere Pfade zu erkunden.",
+        "Pfadexploration": "Schrittweises Verfolgen eines Pfades im Baum.",
+        "Rekursionsprinzip": "Konzept, nach dem DFS oft rekursiv implementiert wird."
+      }
+    },
+    {
+      "frage": "25. Ein gewurzelter Baum hat die Wurzel 1 und Kinder 2 und 3. Knoten 2 hat die Kinder 4 und 5, Knoten 3 hat das Kind 6. In welcher Reihenfolge besucht eine Breitensuche (BFS) die Knoten, wenn sie bei 1 startet?",
+      "optionen": [
+        "1, 2, 3, 4, 5, 6",
+        "1, 2, 3, 4, 5, 6 in genau dieser Ebenenreihenfolge, weil BFS zuerst die Wurzel, dann alle Knoten der nächsten Ebene und erst danach die Knoten der folgenden Ebene besucht.",
+        "1, 2, 4, 5, 3, 6",
+        "Eine komplizierte Reihenfolge, in der zunächst alle Blätter besucht werden, dann die inneren Knoten und am Ende die Wurzel, sodass sich kein klarer Bezug zu den Ebenen erkennen lässt."
+      ],
+      "loesung": 0,
+      "erklaerung": "BFS besucht zuerst die Wurzel 1, dann die Knoten 2 und 3 auf Ebene 1 und anschließend die Knoten 4, 5 und 6 auf der nächsten Ebene. Die Reihenfolge lautet daher 1, 2, 3, 4, 5, 6.",
+      "gewichtung": 2,
+      "thema": "Traversierung: BFS",
+      "extended_explanation": {
+        "titel": "BFS-Reihenfolge in einem kleinen Baum bestimmen",
+        "schritte": [
+          "Identifizieren Sie zunächst die Ebenen des Baumes: Ebene 0 mit der Wurzel, Ebene 1 mit deren Kindern und so weiter.",
+          "Starten Sie bei der Wurzel 1 und fügen Sie deren Kinder 2 und 3 in die Queue ein.",
+          "Verarbeiten Sie zuerst 2, fügen Sie dessen Kinder 4 und 5 hinzu, und verarbeiten Sie dann 3 mit dessen Kind 6.",
+          "Lesen Sie die Besuchsreihenfolge aus der Reihenfolge des Entnehmens aus der Queue ab: 1, 2, 3, 4, 5, 6."
+        ]
+      },
+      "mini_glossary": {
+        "Ebenenreihenfolge": "Reihenfolge, in der BFS alle Knoten einer Ebene vor den Knoten der nächsten Ebene besucht.",
+        "Queue": "Warteschlange zur Verwaltung der noch zu besuchenden Knoten.",
+        "Kinderknoten": "Direkte Nachfolger eines Knotens.",
+        "BFS-Reihenfolge": "Die konkrete Besuchsfolge bei der Breitensuche."
+      }
+    },
+    {
+      "frage": "26. In demselben Baum wie in der vorherigen Aufgabe: Welche der folgenden Reihenfolgen könnte eine Tiefensuche (DFS) mit Pre-Order-Besuch erzeugen?",
+      "optionen": [
+        "1, 2, 4, 5, 3, 6",
+        "1, 2, 3, 4, 5, 6, wobei jeder Knoten zunächst alle Geschwister und erst danach seine Kinder besucht.",
+        "4, 5, 2, 6, 3, 1",
+        "Eine extrem lange und verschachtelte Folge von Besuchen, bei der der Algorithmus dauernd zwischen mehreren Teilbäumen hin und her springt, ohne einer klar definierten Ordnung zu folgen."
+      ],
+      "loesung": 0,
+      "erklaerung": "Bei einer Pre-Order-DFS wird zuerst der aktuelle Knoten besucht, dann der linke Teilbaum und anschließend der rechte Teilbaum. Für den gegebenen Baum ergibt sich eine Reihenfolge wie 1, 2, 4, 5, 3, 6.",
+      "gewichtung": 2,
+      "thema": "Traversierung: DFS",
+      "extended_explanation": {
+        "titel": "Pre-Order-DFS in einem einfachen Baum",
+        "schritte": [
+          "Beim Pre-Order-Besuch wird ein Knoten unmittelbar beim Erreichen besucht.",
+          "Von der Wurzel 1 aus wird zuerst 1 besucht, dann rekursiv der Teilbaum unter 2 und danach der Teilbaum unter 3.",
+          "Im Teilbaum unter 2 werden nacheinander 2, 4 und 5 besucht.",
+          "Im Teilbaum unter 3 werden 3 und anschließend 6 besucht, was die Reihenfolge 1, 2, 4, 5, 3, 6 ergibt."
+        ]
+      },
+      "mini_glossary": {
+        "Pre-Order": "DFS-Variante, bei der zuerst der Knoten selbst, dann die Kinder besucht werden.",
+        "Teilbaum": "Ein Baum, der vollständig in einem größeren Baum enthalten ist.",
+        "Rekursiver Aufruf": "Funktionsaufruf, bei dem eine Funktion sich selbst auf Teilprobleme anwendet.",
+        "Besuchsstrategie": "Regel, nach der die Reihenfolge der Knoten festgelegt wird."
+      }
+    },
+    {
+      "frage": "27. Sie wollen in einem Baum von einem Startknoten zu einem Zielknoten gelangen, ohne alle Knoten zu besuchen. Welche Suchstrategie ist dafür oft effizient, wenn die Tiefe des Zielknotens gering ist?",
+      "optionen": [
+        "Tiefensuche (DFS), da sie immer zuerst in die größte Tiefe geht.",
+        "Breitensuche (BFS), da sie nahe an der Wurzel liegende Knoten zuerst untersucht.",
+        "Eine zufällige Suche, bei der Knoten ohne feste Regel ausgewählt werden.",
+        "Eine besonders komplexe Mischstrategie, die erst nach mehrfachem Durchlaufen des gesamten Baumes eine sinnvolle Reihenfolge festlegt und dadurch bewusst zusätzliche Rechenzeit verursacht."
+      ],
+      "loesung": 1,
+      "erklaerung": "Wenn der Zielknoten in geringer Tiefe vermutet wird, eignet sich BFS, da sie zuerst alle Knoten kleiner Tiefe durchsucht und damit einen kurzen Weg finden kann.",
+      "gewichtung": 2,
+      "thema": "Traversierung: BFS",
+      "extended_explanation": {
+        "titel": "Geeignete Suchstrategie bei geringer Zieltiefe",
+        "schritte": [
+          "BFS durchsucht Knoten in aufsteigender Tiefe, beginnend an der Wurzel.",
+          "Liegt der Zielknoten wahrscheinlich nahe an der Wurzel, wird er früh im Verlauf der BFS gefunden.",
+          "DFS würde möglicherweise weit in andere Teilbäume abtauchen, bevor der flach liegende Zielknoten gefunden wird.",
+          "Daher ist BFS in dieser Situation häufig effizienter als DFS."
+        ]
+      },
+      "mini_glossary": {
+        "Zieltiefe": "Vermutete Tiefe des gesuchten Knotens im Baum.",
+        "Suchstrategie": "Algorithmischer Ansatz, um einen bestimmten Knoten zu finden.",
+        "Effizienz": "Bewertung des Ressourcenverbrauchs eines Algorithmus, etwa Laufzeit.",
+        "BFS-Einsatzgebiet": "Typische Situationen, in denen Breitensuche Vorteile bietet."
+      }
+    },
+    {
+      "frage": "28. Welche Traversierungsstrategie eignet sich besonders gut zur topologischen Sortierung in gerichteten azyklischen Graphen, lässt sich aber auch als Tiefensuche in Bäumen formulieren?",
+      "optionen": [
+        "Breitensuche, da sie ausschließlich Ebenen betrachtet.",
+        "Tiefensuche, da sie Pfade vollständig verfolgt und Backtracking unterstützt.",
+        "Eine zufällige Auswahl von Knoten ohne feste Reihenfolge.",
+        "Eine sehr aufwendige Spezialstrategie, die alle Knoten mehrfach besucht, bevor sie die endgültige Reihenfolge rückwirkend konstruiert und dadurch die Laufzeit erheblich vergrößert."
+      ],
+      "loesung": 1,
+      "erklaerung": "Für topologische Sortierung in gerichteten azyklischen Graphen wird typischerweise DFS verwendet. Dieselbe DF-Idee lässt sich als Tiefensuche in Bäumen formulieren.",
+      "gewichtung": 2,
+      "thema": "Traversierung: DFS",
+      "extended_explanation": {
+        "titel": "DFS und topologische Sortierung",
+        "schritte": [
+          "DFS markiert Knoten beim ersten Besuch und kann beim Verlassen weitere Informationen speichern.",
+          "In gerichteten azyklischen Graphen nutzt man DFS, um eine lineare Ordnung der Knoten zu bestimmen.",
+          "Die Reihenfolge ergibt sich häufig aus der umgekehrten Reihenfolge der Abschlusszeiten der Knoten.",
+          "In Bäumen entspricht DFS dem vollständigen Durchlaufen von Teilbäumen, was die gleiche Grundidee nutzt."
+        ]
+      },
+      "mini_glossary": {
+        "topologische Sortierung": "Lineare Anordnung von Knoten eines gerichteten azyklischen Graphen, die alle Kantenrichtungen respektiert.",
+        "gerichteter azyklischer Graph": "Ein gerichteter Graph ohne gerichtete Zyklen.",
+        "Abschlusszeit": "Zeitpunkt, zu dem DFS die Verarbeitung eines Knotens beendet.",
+        "DFS": "Tiefensuche, die Pfade vollständig verfolgt."
+      }
+    },
+    {
+      "frage": "29. Was charakterisiert einen Binärbaum?",
+      "optionen": [
+        "Jeder Knoten hat genau drei Kinder.",
+        "Jeder Knoten hat höchstens zwei Kinder.",
+        "Jeder Knoten hat beliebig viele Kinder, aber alle Knoten liegen auf derselben Ebene.",
+        "Jeder Knoten darf eine beliebige Anzahl von Kindern in unterschiedlichen Ebenen besitzen, solange die Struktur insgesamt tiefer als breit ist und viele ungleich große Teilbäume enthält."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein Binärbaum ist ein gewurzelter Baum, in dem jeder Knoten höchstens zwei Kinder besitzt, häufig als linkes und rechtes Kind bezeichnet.",
+      "gewichtung": 2,
+      "thema": "Binärbäume",
+      "extended_explanation": {
+        "titel": "Definition eines Binärbaums",
+        "schritte": [
+          "Ein Binärbaum ist immer ein gewurzelter Baum mit klarer Hierarchie.",
+          "Jeder Knoten hat höchstens zwei Kinder, sodass die Struktur in linke und rechte Teilbäume zerfällt.",
+          "Diese Begrenzung erleichtert Rekursion und Traversierungsalgorithmen.",
+          "Binärbäume bilden die Grundlage vieler spezieller Strukturen wie Binäre Suchbäume oder Heaps."
+        ]
+      },
+      "mini_glossary": {
+        "Binärbaum": "Gewurzelter Baum, in dem jeder Knoten höchstens zwei Kinder hat.",
+        "linkes Kind": "Das als links markierte Kind eines Knotens in einem Binärbaum.",
+        "rechtes Kind": "Das als rechts markierte Kind eines Knotens in einem Binärbaum.",
+        "Teilbaum": "Unterstruktur eines Baumes, die selbst wieder ein Baum ist."
+      }
+    },
+    {
+      "frage": "30. Was ist die zentrale Eigenschaft eines Binären Suchbaums (BST)?",
+      "optionen": [
+        "Alle Knoten haben denselben Wert.",
+        "Für jeden Knoten sind alle Werte im linken Teilbaum kleiner und alle Werte im rechten Teilbaum größer als der Knotenwert.",
+        "Alle Knoten werden zufällig in den Baum eingefügt, ohne eine Ordnung zu beachten.",
+        "Die Struktur erzwingt eine hochkomplexe Anordnung, bei der die Werte zunächst zufällig verteilt und anschließend mehrfach umsortiert werden, bevor eine sehr indirekte Sortierregel greift."
+      ],
+      "loesung": 1,
+      "erklaerung": "In einem Binären Suchbaum gilt für jeden Knoten: Alle Werte im linken Teilbaum sind kleiner, alle im rechten Teilbaum größer als der Knotenwert. Dadurch entsteht eine Suchstruktur.",
+      "gewichtung": 2,
+      "thema": "Binäre Suchbäume",
+      "extended_explanation": {
+        "titel": "Die BST-Eigenschaft verstehen",
+        "schritte": [
+          "Die BST-Eigenschaft ordnet Werte relativ zu jedem Knoten: links kleiner, rechts größer.",
+          "Diese Ordnung gilt rekursiv in allen Teilbäumen, nicht nur direkt an der Wurzel.",
+          "Durch In-Order-Traversierung eines BST erhält man die Werte in aufsteigender Reihenfolge.",
+          "Die Eigenschaft erlaubt Suchoperationen in logarithmischer Zeit bei balancierten Bäumen."
+        ]
+      },
+      "mini_glossary": {
+        "Binärer Suchbaum (BST)": "Binärbaum, in dem linke Teilbäume kleinere und rechte Teilbäume größere Werte enthalten.",
+        "Ordnungsrelation": "Vergleichsvorschrift, nach der Werte als kleiner oder größer eingeordnet werden.",
+        "In-Order-Traversierung": "DFS-Variante, die im BST sortierte Ausgabe liefert.",
+        "Suchstruktur": "Datenstruktur, die effiziente Suchoperationen unterstützt."
+      }
+    },
+    {
+      "frage": "31. In einem Binären Suchbaum mit Wurzel 8 und den Werten 3 und 10 als Kinder: Wo können Werte kleiner als 3 liegen?",
+      "optionen": [
+        "Im rechten Teilbaum von 10.",
+        "Im linken Teilbaum von 3.",
+        "Im rechten Teilbaum von 3.",
+        "In einem zusätzlichen, frei schwebenden Teilbaum außerhalb der eigentlichen Struktur, der für alle besonders kleinen Werte reserviert ist und unabhängig von der BST-Eigenschaft verwaltet wird."
+      ],
+      "loesung": 1,
+      "erklaerung": "Werte kleiner als 3 müssen im linken Teilbaum von 3 liegen, da 3 selbst im linken Teilbaum von 8 liegt und alle dortigen Werte kleiner als 8 sind.",
+      "gewichtung": 2,
+      "thema": "Binäre Suchbäume",
+      "extended_explanation": {
+        "titel": "Wertebereiche in einem BST einordnen",
+        "schritte": [
+          "Die Wurzel 8 teilt die Werte in kleinere (links) und größere (rechts) auf.",
+          "Der Knoten 3 liegt links von 8, daher sind alle Werte in seinem Teilbaum kleiner als 8.",
+          "Innerhalb des Teilbaums von 3 gilt erneut: links kleiner, rechts größer als 3.",
+          "Somit müssen Werte kleiner als 3 im linken Teilbaum von 3 gespeichert werden."
+        ]
+      },
+      "mini_glossary": {
+        "linker Teilbaum": "Teilbaum, der Werte enthält, die kleiner als der Knotenwert sind.",
+        "rechter Teilbaum": "Teilbaum, der Werte enthält, die größer als der Knotenwert sind.",
+        "Wertebereich": "Die Menge der Werte, die in einem bestimmten Teilbaum vorkommen können.",
+        "Wurzelknoten": "Oberster Knoten des Baumes, hier mit Wert 8."
+      }
+    },
+    {
+      "frage": "32. Welche der folgenden Aussagen zur Einfügeoperation in einem Binären Suchbaum ist korrekt?",
+      "optionen": [
+        "Ein neuer Wert wird stets als neues Kind der Wurzel eingefügt.",
+        "Ein neuer Wert wird entlang von Vergleichen nach links oder rechts weitergereicht, bis eine freie Position gefunden ist, an der er als Blatt eingefügt wird.",
+        "Ein neuer Wert ersetzt immer den aktuell größten Wert im Baum.",
+        "Ein neuer Wert wird zunächst an einer beliebigen Stelle eingefügt und anschließend durch zahlreiche zufällige Vertauschungen so lange verschoben, bis eine ungefähr geordnete Struktur entsteht, die die Suche nur noch näherungsweise unterstützt."
+      ],
+      "loesung": 1,
+      "erklaerung": "Beim Einfügen in einen BST vergleicht man den neuen Wert mit den Knotenwerten und folgt links oder rechts, bis eine freie Position erreicht ist, an der der Wert als Blatt eingefügt wird.",
+      "gewichtung": 2,
+      "thema": "Binäre Suchbäume",
+      "extended_explanation": {
+        "titel": "Einfügen in einen Binären Suchbaum",
+        "schritte": [
+          "Starten Sie den Vergleich an der Wurzel des BST.",
+          "Ist der neue Wert kleiner als der aktuelle Knotenwert, gehen Sie in den linken Teilbaum, sonst in den rechten.",
+          "Wiederholen Sie den Vorgang, bis ein leerer Kindplatz erreicht ist.",
+          "Fügen Sie den neuen Wert dort als Blatt ein, sodass die BST-Eigenschaft erhalten bleibt."
+        ]
+      },
+      "mini_glossary": {
+        "Einfügeoperation": "Prozess, einen neuen Wert in die Struktur einzufügen.",
+        "Vergleich": "Bestimmung, ob ein Wert kleiner oder größer als ein anderer ist.",
+        "Blatt in BST": "Ein Knoten ohne Kinder, in den neue Werte häufig eingefügt werden.",
+        "Suchpfad": "Der Weg durch den Baum, der durch Vergleiche bestimmt wird."
+      }
+    },
+    {
+      "frage": "33. Wie wirkt sich ein stark unbalancierter Binärer Suchbaum im Worst Case auf die Laufzeit von Suchoperationen aus?",
+      "optionen": [
+        "Die Laufzeit bleibt immer konstant.",
+        "Die Laufzeit kann im Worst Case linear in der Anzahl der Knoten werden.",
+        "Die Laufzeit verbessert sich immer auf logarithmische Zeit.",
+        "Die Laufzeit verhält sich nach einer komplizierten Mischformel, in der zufällige Faktoren dominieren und die Anzahl der Knoten kaum eine Rolle spielt, sodass keine klare Abschätzung möglich ist."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ist ein BST stark unbalanciert, kann er degenerieren und einer Liste ähneln. Die Suchlaufzeit wächst dann im Worst Case linear mit der Anzahl der Knoten.",
+      "gewichtung": 2,
+      "thema": "Leistungsbetrachtung von Baumstrukturen",
+      "extended_explanation": {
+        "titel": "Auswirkungen von Unbalance im BST",
+        "schritte": [
+          "Ein balancierter BST hat typischerweise eine Höhe im Bereich von logarithmisch zur Knotenanzahl.",
+          "Bei Einfügungen ungünstiger Wertefolgen kann der Baum jedoch einseitig wachsen.",
+          "In einem extremen Fall entsteht eine Struktur, die einer einfach verketteten Liste ähnelt.",
+          "Die Pfadlänge im Suchvorgang ist dann proportional zur Knotenanzahl, was zu linearer Laufzeit führt."
+        ]
+      },
+      "mini_glossary": {
+        "unbalancierter Baum": "Baum, dessen Höhe deutlich größer als die logarithmische Höhe ist.",
+        "Worst Case": "Ungünstigster denkbarer Fall für die Laufzeitbetrachtung.",
+        "lineare Laufzeit": "Laufzeit, die proportional zur Größe der Eingabe wächst.",
+        "degenerierter Baum": "Baum, der strukturell einer Liste ähnelt."
+      }
+    },
+    {
+      "frage": "34. Welche Faktoren sprechen in vielen Anwendungen für einen Binären Suchbaum anstelle einer Hash-Tabelle?",
+      "optionen": [
+        "Wenn nur sehr wenige Elemente gespeichert werden und keinerlei Ordnung benötigt wird.",
+        "Wenn sortierte Ausgaben und Bereichsabfragen effizient unterstützt werden sollen.",
+        "Wenn ausschließlich zufällige Zugriffe unabhängig von der Schlüsselordnung benötigt werden.",
+        "Wenn die Anwendung vor allem eine möglichst aufwendige Speicherverwaltung erfordert, bei der viele interne Arrays angelegt und komplexe Kollisionsstrategien eingesetzt werden, ohne von einer geordneten Struktur zu profitieren."
+      ],
+      "loesung": 1,
+      "erklaerung": "Binäre Suchbäume sind vorteilhaft, wenn sortierte Ausgaben und Bereichsabfragen wichtig sind. Hash-Tabellen bieten dagegen schnellen Einzelzugriff, aber keine Ordnung der Schlüssel.",
+      "gewichtung": 2,
+      "thema": "Leistungsbetrachtung von Baumstrukturen",
+      "extended_explanation": {
+        "titel": "BST versus Hash-Tabelle",
+        "schritte": [
+          "Ein BST hält die gespeicherten Elemente in einer sortierten Ordnung.",
+          "Dadurch sind In-Order-Traversierungen und Bereichsabfragen effizient möglich.",
+          "Hash-Tabellen bieten typischerweise konstanten Zugriff auf einzelne Schlüssel, aber keine natürliche Ordnung.",
+          "Die Wahl hängt somit davon ab, ob sortierte Daten oder schneller Einzelzugriff im Vordergrund stehen."
+        ]
+      },
+      "mini_glossary": {
+        "Bereichsabfrage": "Abfrage aller Werte, die in einem bestimmten Intervall liegen.",
+        "sortierte Ausgabe": "Auflistung der Elemente in geordneter Reihenfolge.",
+        "Hash-Tabelle": "Datenstruktur, die Schlüssel über eine Hash-Funktion abbildet.",
+        "Schlüsselordnung": "Die Reihenfolge, in der Schlüssel zueinander angeordnet sind."
+      }
+    },
+    {
+      "frage": "35. Welche Aussage beschreibt die Idee eines Heaps korrekt im Kontext von Bäumen?",
+      "optionen": [
+        "Ein Heap ist ein Binärbaum, in dem die Blätter paarweise durch zusätzliche Kanten verbunden sind.",
+        "Ein Heap ist ein vollständiger Binärbaum, in dem die Heap-Eigenschaft gilt, etwa dass im Max-Heap jeder Elternknoten einen Wert größer oder gleich seinen Kindern hat.",
+        "Ein Heap ist ein beliebiger Baum, in dem die Knoten zufällig angeordnet sind.",
+        "Ein Heap ist eine hochabstrakte Struktur, die ohne jede feste Eigenschaft auskommt und lediglich als Sammelbegriff für alle möglichen Arten von Baum- und Graphstrukturen dient, die noch nicht näher klassifiziert wurden."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein Heap ist ein vollständiger Binärbaum mit Heap-Eigenschaft. Beim Max-Heap etwa ist der Wert jedes Elternknotens größer oder gleich den Werten seiner Kinder.",
+      "gewichtung": 3,
+      "thema": "Weiterführende Baumstrukturen",
+      "extended_explanation": {
+        "titel": "Heap-Struktur und Heap-Eigenschaft",
+        "schritte": [
+          "Heaps werden meist als vollständige Binärbäume dargestellt, bei denen alle Ebenen bis auf die letzte vollständig gefüllt sind.",
+          "Die Heap-Eigenschaft legt fest, wie Elternknotenwerte mit den Kindknotenwerten zusammenhängen, etwa größer oder gleich im Max-Heap.",
+          "Die Struktur erlaubt einen schnellen Zugriff auf das größte oder kleinste Element an der Wurzel.",
+          "Durch wiederholtes Entfernen der Wurzel und anschließendes Rekonstruieren des Heaps können effiziente Auswahl- und Sortieralgorithmen umgesetzt werden."
+        ]
+      },
+      "mini_glossary": {
+        "Heap": "Vollständiger Binärbaum mit spezieller Heap-Eigenschaft.",
+        "Max-Heap": "Heap-Variante, bei der Elternknoten einen Wert größer oder gleich ihren Kindern haben.",
+        "vollständiger Binärbaum": "Binärbaum, in dem alle Ebenen bis auf die letzte vollständig gefüllt sind.",
+        "Heap-Eigenschaft": "Beziehung zwischen Eltern- und Kindknotenwerten im Heap."
+      }
+    },
+    {
+      "frage": "36. Welche Aussage charakterisiert einen Spannbaum (Spanning Tree) eines zusammenhängenden Graphen korrekt?",
+      "optionen": [
+        "Ein Spannbaum enthält alle Knoten, aber zusätzliche Zyklen, um mehrere alternative Wege zu gewährleisten.",
+        "Ein Spannbaum ist ein Teilgraph, der alle Knoten enthält, zusammenhängend und azyklisch ist und genau n - 1 Kanten besitzt.",
+        "Ein Spannbaum verzichtet bewusst auf einige Knoten, um die Anzahl der Kanten zu minimieren.",
+        "Ein Spannbaum ist eine hochgradig redundante Struktur, die absichtlich möglichst viele zusätzliche Kanten einfügt, damit jede Kante Teil mindestens eines Zyklus ist und die Graphstruktur besonders komplex wird."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein Spannbaum eines zusammenhängenden Graphen ist ein Teilgraph, der alle Knoten umfasst, azyklisch ist, zusammenhängt und genau n - 1 Kanten besitzt.",
+      "gewichtung": 3,
+      "thema": "Weiterführende Baumstrukturen",
+      "extended_explanation": {
+        "titel": "Eigenschaften von Spannbäumen",
+        "schritte": [
+          "Ein Spannbaum enthält alle Knoten des ursprünglichen Graphen.",
+          "Um ein Baum zu sein, muss der Teilgraph azyklisch und zusammenhängend sein.",
+          "Für n Knoten besitzt ein Spannbaum genau n - 1 Kanten.",
+          "Spannbäume minimieren die Kantenanzahl, ohne die Erreichbarkeit der Knoten zu verlieren."
+        ]
+      },
+      "mini_glossary": {
+        "Spannbaum": "Teilgraph eines zusammenhängenden Graphen, der alle Knoten umfasst und ein Baum ist.",
+        "Teilgraph": "Graph, der aus einer Teilmenge der Knoten und Kanten eines größeren Graphen besteht.",
+        "zusammenhängender Graph": "Graph, in dem zwischen allen Knoten Pfade existieren.",
+        "n - 1 Kanten": "Charakteristische Kantenanzahl eines Baumes mit n Knoten."
+      }
+    },
+    {
+      "frage": "37. In einem vollständigen Binärbaum mit Höhe h (Wurzel in Höhe 0): Wie viele Knoten befinden sich maximal in diesem Baum?",
+      "optionen": [
+        "h + 1",
+        "2^(h + 1) - 1",
+        "2h",
+        "Eine unbestimmte Anzahl, die so stark von der konkreten Belegung der Ebenen abhängt, dass sich keine allgemeine Formel angeben lässt und jeder Baum einzeln analysiert werden muss."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein vollständiger Binärbaum mit Höhe h hat maximal 2^(h + 1) - 1 Knoten. Jede Ebene i enthält bis zu 2^i Knoten und die Summe über alle Ebenen ergibt diese Formel.",
+      "gewichtung": 3,
+      "thema": "Binärbäume",
+      "extended_explanation": {
+        "titel": "Knotenanzahl im vollständigen Binärbaum",
+        "schritte": [
+          "In einem vollständigen Binärbaum enthält Ebene i maximal 2^i Knoten.",
+          "Die Ebenen reichen von 0 bis h, sodass sich die Summe 2^0 + 2^1 + ... + 2^h ergibt.",
+          "Diese geometrische Reihe lässt sich zu 2^(h + 1) - 1 zusammenfassen.",
+          "Die Formel liefert die maximale Anzahl von Knoten für die gegebene Höhe h."
+        ]
+      },
+      "mini_glossary": {
+        "vollständiger Binärbaum": "Binärbaum, bei dem alle Ebenen bis auf die letzte vollständig gefüllt sind.",
+        "Höhe h": "Maximale Tiefe eines Knotens im Baum, beginnend bei 0 an der Wurzel.",
+        "geometrische Reihe": "Summe von Potenzen einer Zahl, etwa 2^0 + 2^1 + ... + 2^h.",
+        "Knotenanzahl": "Gesamtzahl der Knoten in der Struktur."
+      }
+    },
+    {
+      "frage": "38. Welche Aussage zur Kombination von Baumhöhe und Suchkomplexität in einem balancierten Binären Suchbaum ist korrekt?",
+      "optionen": [
+        "Die Höhe eines balancierten BST wächst linear mit der Anzahl der Knoten, und die Suche hat darum im Wesentlichen lineare Laufzeit.",
+        "Die Höhe eines balancierten BST wächst logarithmisch mit der Anzahl der Knoten, und die Suche hat darum typischerweise logarithmische Laufzeit.",
+        "Die Höhe eines balancierten BST ist immer konstant, unabhängig von der Anzahl der Knoten.",
+        "Die Höhe eines balancierten BST unterliegt so vielen zufälligen Einflüssen, dass keine erkennbare Beziehung zur Anzahl der Knoten besteht und die Laufzeit sich äußerst unregelmäßig verhält, ohne sinnvolle Abschätzung."
+      ],
+      "loesung": 1,
+      "erklaerung": "In einem balancierten BST wächst die Höhe ungefähr logarithmisch mit der Knotenanzahl. Entsprechend ist die Suchlaufzeit typischerweise logarithmisch, weil nur entlang eines Pfades von der Wurzel zur Höhe des Baumes gesucht wird.",
+      "gewichtung": 3,
+      "thema": "Leistungsbetrachtung von Baumstrukturen",
+      "extended_explanation": {
+        "titel": "Baumhöhe und Suchkomplexität im balancierten BST",
+        "schritte": [
+          "Balancierte BSTs halten Teilbäume in etwa gleich groß, um die Höhe zu begrenzen.",
+          "Bei n Knoten liegt die Höhe in der Größenordnung von logarithmisch zu n.",
+          "Eine Suche folgt einem Pfad von der Wurzel zu einem Blatt oder gefundenen Knoten.",
+          "Daher ist die Anzahl der Vergleiche proportional zur Höhe und damit typischerweise logarithmisch."
+        ]
+      },
+      "mini_glossary": {
+        "balancierter Baum": "Baum, dessen Höhe nahe am logarithmischen Optimum liegt.",
+        "logarithmische Laufzeit": "Laufzeit, die mit dem Logarithmus der Eingabegröße wächst.",
+        "Suchpfad": "Folge der Knoten, die bei einer Suche im Baum besucht werden.",
+        "Komplexität": "Maß für den Ressourcenverbrauch eines Algorithmus, etwa Zeit."
+      }
+    },
+    {
+      "frage": "39. Welche Eigenschaft unterscheidet selbstbalancierende Binäre Suchbäume wie AVL- oder Rot-Schwarz-Bäume von einfachen Binären Suchbäumen?",
+      "optionen": [
+        "Sie verzichten vollständig auf die BST-Eigenschaft und speichern Werte in beliebiger Reihenfolge.",
+        "Sie führen nach Einfüge- und Löschoperationen zusätzliche Rotationen oder Umfärbungen durch, um die Höhe des Baumes kontrolliert klein zu halten.",
+        "Sie erlauben nur Einfügeoperationen, aber keine Löschoperationen.",
+        "Sie verwenden eine enorm komplexe Kombination aus Zufallsentscheidungen und künstlich eingefügten Zyklen, um die Struktur möglichst unvorhersehbar zu machen und damit die Analyse zu erschweren."
+      ],
+      "loesung": 1,
+      "erklaerung": "Selbstbalancierende BSTs führen nach Änderungen Rotationen oder ähnliche Umstrukturierungen durch, um die Höhe zu begrenzen und so gute Laufzeiteigenschaften zu sichern.",
+      "gewichtung": 3,
+      "thema": "Weiterführende Baumstrukturen",
+      "extended_explanation": {
+        "titel": "Selbstbalancierende BSTs im Überblick",
+        "schritte": [
+          "AVL- und Rot-Schwarz-Bäume erhalten die BST-Eigenschaft, kontrollieren aber zusätzlich die Höhe.",
+          "Nach Einfüge- oder Löschoperationen prüfen sie Balancebedingungen.",
+          "Bei Verletzungen werden Rotationen oder Umfärbungen durchgeführt, um die Struktur anzupassen.",
+          "Dadurch bleibt die Höhe in der Größenordnung des Logarithmus der Knotenanzahl, was gute Laufzeiten ermöglicht."
+        ]
+      },
+      "mini_glossary": {
+        "AVL-Baum": "Selbstbalancierender BST, der strenge Höhenbedingungen an Teilbäume stellt.",
+        "Rot-Schwarz-Baum": "Selbstbalancierender BST mit farbkodierten Knoten und Invarianten.",
+        "Rotation": "Lokale Umstrukturierung im Baum, die Eltern-Kind-Beziehungen ändert.",
+        "Balancebedingung": "Regel, die eine Beschränkung der Höhendifferenz von Teilbäumen fordert."
+      }
+    },
+    {
+      "frage": "40. Warum sind Bäume und speziell Bäume in der Graphentheorie für die Informatik so bedeutend?",
+      "optionen": [
+        "Weil sie ausschließlich in theoretischen Beweisen vorkommen und in praktischen Anwendungen kaum eine Rolle spielen.",
+        "Weil sie hierarchische Datenstrukturen modellieren, effiziente Such- und Traversierungsalgorithmen ermöglichen und in vielen Bereichen wie Dateisystemen, Compilern und Datenbanken eingesetzt werden.",
+        "Weil sie alle anderen Datenstrukturen vollständig ersetzen und z.B. Arrays oder Listen überflüssig machen.",
+        "Weil sie in der Praxis hauptsächlich als abstrakte Illustrationen dienen, die zwar häufig in Folien und Lehrbüchern auftauchen, aber kaum reale Auswirkungen auf die Gestaltung von Algorithmen und Systemen haben und daher vor allem dekorativen Charakter besitzen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Bäume bilden die Grundlage vieler hierarchischer Datenstrukturen und erlauben effiziente Algorithmen für Suche, Organisation und Darstellung von Daten, etwa in Dateisystemen, Compilern und Datenbanken.",
+      "gewichtung": 3,
+      "thema": "Definition und Eigenschaften von Bäumen",
+      "extended_explanation": {
+        "titel": "Rolle von Bäumen in der Informatik",
+        "schritte": [
+          "Bäume modellieren natürliche Hierarchien, etwa Verzeichnisstrukturen oder Syntaxbäume.",
+          "Sie ermöglichen effiziente Algorithmen für Suche, Einfügen und Löschen von Daten.",
+          "Varianten wie Binäre Suchbäume, Heaps und B-Bäume sind zentrale Bausteine in Datenbanken und Dateisystemen.",
+          "Ein gutes Verständnis von Bäumen ist deshalb grundlegend für viele Teilgebiete der Informatik."
+        ]
+      },
+      "mini_glossary": {
+        "hierarchische Datenstruktur": "Struktur, in der Elemente in über- und untergeordneten Ebenen angeordnet sind.",
+        "Dateisystem": "System zur Organisation und Verwaltung von Dateien auf Speichermedien.",
+        "Compiler": "Programm, das Quellcode in eine andere Form, häufig Maschinencode, übersetzt.",
+        "Datenbankindex": "Datenstruktur, die den schnellen Zugriff auf Datensätze ermöglicht, oft baumbasiert."
+      }
+    }
+  ]
+}

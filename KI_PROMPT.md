@@ -229,28 +229,37 @@ Führe vor der finalen JSON-Ausgabe eine Selbstprüfung durch:
 
 Beachte beim Erstellen der Fragen, Optionen und Erklärungen zwingend diese Regeln:
 
-1.  **Plausable Distraktoren:** Alle falschen Antwortoptionen (Distraktoren) müssen plausibel klingen und typische Missverständnisse widerspiegeln.
+1.  **Plausible Distraktoren:**  
+    Alle falschen Antwortoptionen (Distraktoren) müssen fachlich plausibel klingen und typische Missverständnisse widerspiegeln. Vermeide offensichtlich absurde, rein „witzige“ oder offenkundig falsche Optionen.
 
-2.  **Einheitliche Optionen:** Alle Antwortoptionen einer Frage sollten eine ähnliche Länge und grammatikalische Struktur haben. Vermeide, dass die korrekte Antwort systematisch die längste/detaillierte ist.
+2.  **Einheitliche Optionen (Länge und Form):**  
+    Alle Antwortoptionen einer Frage sollen eine **ähnliche Länge und grammatikalische Struktur** haben.  
+    - Keine Option darf deutlich aus der Reihe fallen (weder extrem kurz noch „Romanlänge“).  
+    - Richtwert: Die längste Option sollte maximal etwa 1,3–1,5-mal so viele Wörter wie die kürzeste Option haben.  
+    - Formuliere alle Optionen möglichst im gleichen Stil (z.B. alle als vollständige Aussage, alle als Definition, alle als Eigenschafts-Satz).
 
-3.  **Keine Negationen:** Formuliere Fragen positiv ("Welche Aussage ist korrekt?") statt doppelt negativ oder verwirrend ("Welche Aussage ist NICHT inkorrekt?").
+3.  **Keine Negationen:**  
+    Formuliere Fragen positiv („Welche Aussage ist korrekt?“) statt doppelt negativ oder verwirrend („Welche Aussage ist NICHT inkorrekt?“).
 
-4.  **Keine Hinweise:** Der Fragetext darf keine sprachlichen Hinweise (z.B. Genus/Numerus) enthalten, die auf die richtige Antwort schließen lassen.
+4.  **Keine Hinweise:**  
+    Der Fragetext darf keine sprachlichen Hinweise (Genus, Numerus, Formulierungsfragmente) enthalten, die auf die richtige Antwort schließen lassen.
 
-5.  **Zufällige Lösung:** Die Position der korrekten Antwort (`loesung`) muss über das Set hinweg variieren.
+5.  **Zufällige Lösung:**  
+    Die Position der korrekten Antwort (`loesung`) muss über das gesamte Fragenset hinweg variieren. Es darf kein erkennbares Muster geben (z.B. „meistens Option 2“).
 
-6.  **Längste Option nie korrekt:** Die Antwortoption mit der größten Zeichenanzahl darf niemals die richtige Lösung sein, damit die korrekte Antwort nicht durch ihre Länge erkennbar wird.
+6.  **Keine systematischen Längensignale:**  
+    - Über das **gesamte Set** hinweg darf die korrekte Option weder systematisch die längste noch systematisch die kürzeste sein.  
+    - Innerhalb einer einzelnen Frage sollte die korrekte Option im **mittleren Bereich** der Längenverteilung liegen. Geringe Abweichungen sind erlaubt, solange keine Option deutlich heraussticht.  
+    - Verzichte ausdrücklich auf künstlich überlange Distraktoren, deren Hauptzweck nur darin besteht, „die längste Option falsch zu machen“.
 
-7.  **⚠️ STRIKTES VERBOT: REFERENZEN IN OPTIONEN**
-
-      * Antwortoptionen müssen vollständig eigenständige Aussagen sein.
-      * Formulierungen wie "Alle oben genannten", "A und B sind korrekt", "Keine der Antworten" oder "Siehe Option C" sind **strikt verboten**.
+7.  **⚠️ STRIKTES VERBOT: REFERENZEN IN OPTIONEN**  
+      * Antwortoptionen müssen vollständig eigenständige Aussagen sein.  
+      * Formulierungen wie „Alle oben genannten“, „A und B sind korrekt“, „Keine der Antworten“ oder „Siehe Option C“ sind **strikt verboten**.  
       * Jede Option muss isoliert bewertbar sein.
 
-8.  **⚠️ STRIKTES VERBOT: PRÄFIXE IN OPTIONEN**
-
-      * Antwortoptionen dürfen **niemals** mit Buchstaben- oder Zahlenpräfixen beginnen (z.B. "A) ...", "1. ...").
-      * **FALSCH:** `"optionen": ["A) Text...", "B) Text..."]`
+8.  **⚠️ STRIKTES VERBOT: PRÄFIXE IN OPTIONEN**  
+      * Antwortoptionen dürfen **niemals** mit Buchstaben- oder Zahlenpräfixen beginnen (z.B. „A) …“, „1. …“).  
+      * **FALSCH:** `"optionen": ["A) Text...", "B) Text..."]`  
       * **KORREKT:** `"optionen": ["Text...", "Text..."]`
 
 -----
