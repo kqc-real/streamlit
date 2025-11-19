@@ -372,6 +372,35 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     disabled=prompt_empty,
                     width="stretch",
                 )
+                safe_filename = "".join(
+                    c if c.isalnum() else "_" for c in prompt.filename
+                )
+                copy_button_id = f"copy_prompt_btn_{safe_filename}"
+                copy_status_id = f"copy_prompt_status_{safe_filename}"
+                copy_html = (
+                    f"<div style='display:flex; align-items:center; gap:0.5rem;'>"
+                    f"<button id='{copy_button_id}' type='button' style='font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;'>Prompt kopieren</button>"
+                    f"<span id='{copy_status_id}' style='opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;'>Kopiert!</span>"
+                    "</div>"
+                    "<script>"
+                    "(function(){"
+                    f"const text={_json.dumps(prompt.content)};"
+                    f"const button=document.getElementById('{copy_button_id}');"
+                    f"const status=document.getElementById('{copy_status_id}');"
+                    "button.addEventListener('click',async()=>{"
+                    "try{"
+                    "await navigator.clipboard.writeText(text);"
+                    "status.textContent='Kopiert!';"
+                    "status.style.opacity='1';"
+                    "setTimeout(()=>{status.style.opacity='0';},2000);"
+                    "}catch(e){"
+                    "status.textContent='Fehler beim Kopieren';"
+                    "status.style.opacity='1';"
+                    "}});"
+                    "})();"
+                    "</script>"
+                )
+                st.components.v1.html(copy_html, height=90, scrolling=False)
 
         st.markdown("---")
         st.subheader("Fragenset hochladen")
