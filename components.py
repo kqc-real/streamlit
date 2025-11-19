@@ -1962,7 +1962,7 @@ def render_skipped_questions(questions: QuestionSet):
             st.rerun()
 
 
-def render_question_distribution_chart(questions: list, duration_minutes=None, difficulty_profile=None):
+def render_question_distribution_chart(questions: list, duration_minutes=None, difficulty_profile=None):  # noqa: C901
     """Rendert ein gestapeltes Balkendiagramm der Fragenverteilung.
 
     Optional parameters:
@@ -2030,6 +2030,17 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
             summary_parts.append(
                 f"<br>⛰️ {leicht_count} × leicht · {mittel_count} × mittel · {schwer_count} × schwer"
             )
+
+        if "kognitive_stufe" in df_fragen.columns:
+            kognitive_counts = df_fragen["kognitive_stufe"].fillna("Unbekannt")
+        else:
+            kognitive_counts = pd.Series(dtype=object)
+        if not kognitive_counts.empty:
+            counts = kognitive_counts.value_counts()
+            cognition_summary = ", ".join(
+                f"{level} ({counts[level]})" for level in counts.index
+            )
+            summary_parts.append(f"<br>🧠 Kognitive Stufen: {cognition_summary}")
 
         if summary_parts:
             summary_html = "".join(summary_parts)

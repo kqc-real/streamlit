@@ -970,6 +970,21 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             if ist_richtig:
                 difficulty_stats["hard"]["richtig"] += 1
     
+    stage_stats: Dict[str, Dict[str, int]] = {}
+    for i, frage in enumerate(questions):
+        stage = frage.get("kognitive_stufe")
+        if not stage:
+            continue
+        gegebene_antwort = get_answer_for_question(i)
+        richtige_antwort = frage["optionen"][frage["loesung"]]
+        ist_richtig = (gegebene_antwort == richtige_antwort)
+
+        if stage not in stage_stats:
+            stage_stats[stage] = {"gesamt": 0, "richtig": 0}
+        stage_stats[stage]["gesamt"] += 1
+        if ist_richtig:
+            stage_stats[stage]["richtig"] += 1
+    
     # HTML für Schwierigkeits-Übersicht
     difficulty_rows = []
     if difficulty_stats["easy"]["gesamt"] > 0:
@@ -1010,6 +1025,32 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 f'</tr>'
             )
         difficulty_html += '</tbody></table></div>'
+
+    stage_rows = []
+    for stage, stats in sorted(stage_stats.items()):
+        gesamt = stats["gesamt"]
+        if gesamt <= 0:
+            continue
+        richtig = stats["richtig"]
+        percent = (richtig / gesamt * 100) if gesamt > 0 else 0
+        stage_rows.append((stage, f'{richtig}/{gesamt}', percent))
+
+    stage_html = ""
+    if stage_rows:
+        stage_html = '<div class="difficulty-analysis">'
+        stage_html += '<h3>Performance nach kognitiver Stufe</h3>'
+        stage_html += '<table class="difficulty-table">'
+        stage_html += '<thead><tr><th>Stufe</th><th>Treffer</th><th>Quote</th></tr></thead>'
+        stage_html += '<tbody>'
+        for label, ratio_text, percent_value in stage_rows:
+            stage_html += (
+                f'<tr>'
+                f'<th scope="row">{label}</th>'
+                f'<td>{ratio_text}</td>'
+                f'<td class="quota-cell">{percent_value:.0f} %</td>'
+                f'</tr>'
+            )
+        stage_html += '</tbody></table></div>'
 
     # Vergleich mit Durchschnitt
     comparison_html = ""
@@ -1128,9 +1169,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 frage_preview_parsed = _render_latex_in_html(frage_preview)
 
                 bookmarks_html += f'<li><strong>Frage {test_num}</strong> '
-                bookmarks_html += f'<span class="bookmark-ref">'
+                bookmarks_html += '<span class="bookmark-ref">'
                 bookmarks_html += f'(Fragenset-Nr. {orig_num})</span><br>'
-                bookmarks_html += f'<span class="bookmark-preview">'
+                bookmarks_html += '<span class="bookmark-preview">'
                 bookmarks_html += f'{frage_preview_parsed}</span></li>'
         
         bookmarks_html += '</ul></div>'
@@ -1188,6 +1229,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         {weak_topics_html}
         
         {difficulty_html}
+        
+        {stage_html}
         
         {comparison_html}
         

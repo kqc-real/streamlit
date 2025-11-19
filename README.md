@@ -58,6 +58,35 @@ Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung
 | Export         | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                      |
 | Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback-Management, Export und Systemeinstellungen  |
 
+## ❓ Fragenset-Schema
+
+Die App lädt Fragensets aus JSON-Dateien im `data/questions_*.json`-Format. Jede Frage benötigt die folgenden Kernfelder:
+
+```json
+{
+  "frage": "Text der Frage",
+  "optionen": ["Option A", "Option B", "Option C", "Option D"],
+  "loesung": 2,
+  "erklaerung": "Warum Antwort C korrekt ist",
+  "gewichtung": 1,
+  "thema": "Traversierung: BFS",
+  "konzept": "BFS-Besuchsreihenfolge",
+  "kognitive_stufe": "Anwendung"
+}
+```
+
+- `konzept` beschreibt das didaktische Ziel der Frage (z. B. „BFS-Besuchsreihe“ oder „Pivot-Tabellen-Filter“).
+- `kognitive_stufe` orientiert sich an Taxonomien wie Bloom oder SOLO (z. B. „Wissen“, „Verstehen“, „Anwendung“, „Analyse“).
+- Beide Felder dürfen optional leer sein, aber wir empfehlen, sie für jede Frage zu pflegen, damit Exporte und Analytics die Lernziele besser gruppieren können.
+
+Für Contributors und Admins gilt:
+
+1. **Konsistente Werte**: Verwende eine feste Terminologie, damit Dashboards und Exporte aussagekräftige Gruppen bilden.
+2. **Kurze, präzise Texte**: Halte `konzept`/`kognitive_stufe` auf Satz- oder Schlagwortlänge, keine ausführlichen Erklärungen.
+3. **Validierung**: Führe `python validate_sets.py` aus, bevor du ein Fragenset committest; das Skript prüft die üblichen Felder inklusive `konzept` und `kognitive_stufe`.
+
+Mehr Details (z. B. Mini-Glossar, Extended Explanation) findest du im `data/questions_*.json`-Format und dem `GLOSSARY_SCHEMA.md`.
+
 ### Neuere Features (seit v1.2)
 
 - Musterlösung (PDF): Admins können jetzt eine formatierte Musterlösung mit allen korrekten Antworten, ausführlichen Erklärungen und angehängtem Mini-Glossar erzeugen. Die Musterlösung rendert LaTeX-Formeln als hochwertige PNGs und hebt korrekte Optionen hervor.

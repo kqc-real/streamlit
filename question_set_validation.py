@@ -63,7 +63,7 @@ def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], Li
     return [], {}, errors, warnings
 
 
-def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str], str | None]:
+def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str], str | None]:  # noqa: C901
     errors: List[str] = []
     warnings: List[str] = []
 
@@ -156,6 +156,16 @@ def _validate_meta(meta: Dict[str, Any], question_count: int) -> List[str]:
     return warnings
 
 
+def _validate_additional_metadata(index: int, question: Any) -> List[str]:
+    errors: List[str] = []
+    for field in ("konzept", "kognitive_stufe"):
+        value = question.get(field)
+        if value is None:
+            continue
+        _check_string(value, f"Frage {index}: Feld '{field}'", errors)
+    return errors
+
+
 def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
     """Validate the raw JSON payload of a question set."""
 
@@ -180,6 +190,7 @@ def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
         q_errors, q_warnings, theme = _validate_question(index, question)
         errors.extend(q_errors)
         warnings.extend(q_warnings)
+        errors.extend(_validate_additional_metadata(index, question))
         if theme:
             themes.append(theme)
 

@@ -231,6 +231,12 @@ def _render_extended_content(md: MarkdownIt, content: Any) -> str:
     return _sanitize(render_markdown_with_math(md, content).strip())
 
 
+def _render_metadata_value(md: MarkdownIt, value: Any) -> str:
+    if not value:
+        return ""
+    return _sanitize(render_markdown_with_math(md, str(value)).strip())
+
+
 def _render_options(md: MarkdownIt, options: list[Any]) -> str:
     if not options:
         return "<ol type=\"A\"></ol>"
@@ -293,6 +299,8 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
 
     thema = question.get("thema", "")
     schwierigkeit = _map_schwierigkeit(question.get("gewichtung", ""))
+    konzept = _render_metadata_value(md, question.get("konzept"))
+    kognitive_stufe = _render_metadata_value(md, question.get("kognitive_stufe"))
     tags = _build_tags(title, thema, question.get("gewichtung", ""))
 
     return [
@@ -305,6 +313,8 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
         title,
         thema,
         schwierigkeit,
+        konzept,
+        kognitive_stufe,
         tags,
     ]
 

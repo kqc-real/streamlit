@@ -29,6 +29,8 @@
       "erklaerung": "Data Leakage (Datenlecks) tritt auf, wenn Informationen, die nicht aus der Trainingsmenge stammen, zur Erstellung des Modells verwendet werden. Dies führt zu überoptimistischen Leistungsschätzungen und einer schlechten Generalisierung auf neue, ungesehene Daten. Eine unbeabsichtigte Verwendung von Testdaten während des Trainings ist ein klassisches Beispiel für Data Leakage.",
       "gewichtung": 3,
       "thema": "QUA³CK-Prozess & Data Leakage",
+      "konzept": "Data Leakage verstehen",
+      "kognitive_stufe": "Verstehen",
       "extended_explanation": {
         "titel": "Details zu Data Leakage",
         "schritte": [
@@ -55,6 +57,8 @@
       "erklaerung": "Overfitting beschreibt eine Situation, in der ein Modell die Trainingsdaten 'auswendig lernt', anstatt die zugrundeliegenden Muster zu generalisieren. Dies führt zu einer ausgezeichneten Leistung auf dem Trainingsdatensatz, aber einer schlechten Leistung auf neuen, ungesehenen Daten. Underfitting hingegen beschreibt ein Modell, das zu einfach ist, um die zugrundeliegenden Muster überhaupt zu erfassen, was zu einer schlechten Leistung auf Trainings- und Testdaten führt.",
       "gewichtung": 2,
       "thema": "Modellbewertung & Optimierung",
+      "konzept": "Modelle mit Overfitting vs. Underfitting vergleichen",
+      "kognitive_stufe": "Analyse",
       "extended_explanation": {
         "titel": "Verständnis von Overfitting und Underfitting",
         "schritte": [

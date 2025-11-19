@@ -367,6 +367,8 @@ _ANKI_COLUMNS: List[str] = [
     "Fragenset_Titel",
     "Thema",
     "Schwierigkeit",
+    "Konzept",
+    "Kognitive_Stufe",
     "Tags_Alle",
 ]
 _ANKI_CARD_CSS = """
@@ -409,6 +411,8 @@ _ANKI_CARD_CSS = """
 .section-title { font-weight: 700; color: #005A9C; margin-top: 10px; margin-bottom: 4px; }
 .meta-info { background-color: #f7f7f7; padding: 8px 12px; border-radius: 6px; margin-bottom: 40px; font-size: 0.85em; color: #555; display: flex; flex-wrap: wrap; gap: 12px; }
 .meta-info .meta-item strong { color: #000; font-weight: 400; }
+
+.meta-info .meta-item { white-space: nowrap; }
 
 .card.night-mode,
 .night-mode .card,
@@ -463,6 +467,8 @@ _ANKI_FRONT_TEMPLATE = (
     "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
+    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}"
+    "{{#Kognitive_Stufe}}<span class='meta-item'><strong>Kognitive Stufe:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
     "</div>"
     "<div class='question'>{{Frage}}</div>"
     "{{#Optionen}}<div class='options'>{{Optionen}}</div>{{/Optionen}}"
@@ -476,6 +482,8 @@ _ANKI_BACK_TEMPLATE = (
     "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
+    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}"
+    "{{#Kognitive_Stufe}}<span class='meta-item'><strong>Kognitive Stufe:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
     "</div>"
     "<div class='question-repeat'>"
     "<div class='section-title'>Frage</div>"
@@ -619,7 +627,6 @@ def _derive_export_name(selected_file: str) -> str:
     return base.strip() or "MC-Test-Quiz"
 
 
-
 def _normalize_question_text(raw_text: str) -> str:
     stripped = str(raw_text or "").strip()
     if not stripped:
@@ -692,6 +699,17 @@ def _sanitize_tag_value(thema: Any) -> list[str]:
     return [sanitized_tag] if sanitized_tag else []
 
 
+def _collect_metadata_tags(frage: dict) -> list[str]:
+    tags: list[str] = []
+    thema_tags = _sanitize_tag_value(frage.get("thema"))
+    tags.extend(thema_tags)
+    for field, label in (("konzept", "Konzept"), ("kognitive_stufe", "Kognitive Stufe")):
+        for value in _sanitize_tag_value(frage.get(field)):
+            tags.append(f"{label}: {value}")
+    # Preserve original order but drop duplicates
+    return list(dict.fromkeys(tags))
+
+
 def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
     if not isinstance(frage, dict):
         raise ValueError(f"Einträge im Fragenset müssen Objekte sein (Fehler bei Frage {index + 1}).")
@@ -720,7 +738,7 @@ def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
         "displayAnswerText": True,
         "showOneAnswerPerRow": True,
         "multipleSelectionEnabled": False,
-        "tags": _sanitize_tag_value(frage.get("thema")),
+        "tags": _collect_metadata_tags(frage),
     }
 
 
@@ -795,7 +813,7 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
     return warnings
 
 
-def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], list[str]]:
+def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], list[str]]:  # noqa: C901
     """Prüft Fragen auf Kahoot-Import-Beschränkungen.
 
     Gibt (errors, warnings) zurück.
@@ -869,7 +887,7 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
     return errors, warnings
 
 
-def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:
+def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:  # noqa: C901
     """Erzeugt eine Kahoot-kompatible XLSX-Datei für das ausgewählte Fragenset."""
 
     resolved_questions = list(questions) if questions is not None else _load_questions_from_file(selected_file)
@@ -942,7 +960,7 @@ def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]]
     return _write_simple_xlsx(rows, sheet_name)
 
 
-def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:
+def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:  # noqa: C901
     """Erzeugt einen arsnova.click-kompatiblen JSON-Export für das ausgewählte Fragenset."""
 
     resolved_questions = list(questions) if questions is not None else _load_questions_from_file(selected_file)
@@ -1015,7 +1033,7 @@ def _excel_column_name(index: int) -> str:
     return result
 
 
-def _build_sheet_xml(rows: Sequence[Sequence[Any]]) -> str:
+def _build_sheet_xml(rows: Sequence[Sequence[Any]]) -> str:  # noqa: C901
     num_cols = max((len(row) for row in rows), default=0)
     num_rows = len(rows)
     last_col_letter = _excel_column_name(num_cols - 1) if num_cols else "A"
