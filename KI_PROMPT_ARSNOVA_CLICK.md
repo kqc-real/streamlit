@@ -246,7 +246,9 @@ Beachte beim Erstellen der Fragen, Optionen und Erklärungen zwingend diese Rege
 
 5.  **Zufällige Lösung:** Die Position der korrekten Antwort (`loesung`) muss über das Set hinweg variieren.
 
-6.  **⚠️ STRIKTES VERBOT: REFERENZEN IN OPTIONEN**
+6.  **Längste Option nie korrekt:** Die Antwortoption mit der größten Zeichenanzahl darf niemals die richtige Lösung sein, damit die korrekte Antwort nicht durch ihre Länge erkennbar wird.
+
+7.  **⚠️ STRIKTES VERBOT: REFERENZEN IN OPTIONEN**
 
       * Antwortoptionen müssen vollständig eigenständige Aussagen sein.
       * Formulierungen wie "Alle oben genannten", "A und B sind korrekt", "Keine der Antworten" oder "Siehe Option C" sind **strikt verboten**.
