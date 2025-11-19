@@ -1542,8 +1542,10 @@ def render_welcome_page(app_config: AppConfig):
     # --- Login-Formular im Hauptbereich ---
     from config import load_scientists
     from database import (
+        add_user,
         get_used_pseudonyms,
         set_recovery_secret,
+        start_test_session,
         verify_recovery,
     )
 
@@ -1708,6 +1710,11 @@ def render_welcome_page(app_config: AppConfig):
                 disabled=bool(reserve_disabled_inline),
             ):
                 try:
+                    try:
+                        user_name = str(selected_name_from_user).strip()
+                    except Exception:
+                        user_name = selected_name_from_user
+                    user_id_hash = get_user_id_hash(user_name)
                     add_user(user_id_hash, user_name)
                     # Normalize the recovery secret: remove leading/trailing whitespace
                     try:
@@ -1738,7 +1745,7 @@ def render_welcome_page(app_config: AppConfig):
     if 'recover_pseudonym_expanded' not in st.session_state:
         st.session_state['recover_pseudonym_expanded'] = False
 
-    with st.expander("Ich habe bereits ein reserviertes Pseudonym…", expanded=st.session_state.get('recover_pseudonym_expanded', False)):
+    with st.expander("Ich habe ein reserviertes Pseudonym…", expanded=st.session_state.get('recover_pseudonym_expanded', False)):
         pseudonym_recover = st.text_input("👤 Pseudonym eingeben", key="recover_pseudonym")
         secret_recover = st.text_input("🔒 Geheimwort", type="password", key="recover_secret")
 
@@ -1862,7 +1869,6 @@ def render_welcome_page(app_config: AppConfig):
                     pass
 
                 if user_id:
-                    from database import start_test_session
                     selected_qfile = st.session_state.get("selected_questions_file")
                     if not selected_qfile:
                         st.error("Bitte wähle zuerst ein Fragenset aus.")
@@ -1878,7 +1884,6 @@ def render_welcome_page(app_config: AppConfig):
                         st.session_state.session_id = session_id
                         st.session_state.show_pseudonym_reminder = True
                         query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                        from auth import initialize_session_state
                         initialize_session_state(questions, app_config)
                         # Mark test as started and set start time so the welcome
                         # container in `render_question_view` does not reappear.
@@ -1920,7 +1925,6 @@ def render_welcome_page(app_config: AppConfig):
                 or (recovery_secret_new and secret_too_short)
             ),
         ):
-            from database import add_user, start_test_session
             # Normalize selected pseudonym to avoid accidental surrounding whitespace
             try:
                 user_name = (
@@ -1947,7 +1951,6 @@ def render_welcome_page(app_config: AppConfig):
                 st.session_state.session_id = session_id
                 st.session_state.show_pseudonym_reminder = True
                 query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                from auth import initialize_session_state
                 initialize_session_state(questions, app_config)
                 try:
                     st.session_state.test_started = True
@@ -2117,7 +2120,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
         # Use the module-level initialize_session_state import (avoids UnboundLocalError)
         st.warning("⚠️ Erkenne Wechsel des Fragensets, initialisiere Test neu...")
-        from auth import initialize_session_state
         initialize_session_state(questions, app_config)
         time.sleep(1)  # Kurze Pause, damit der Nutzer die Nachricht sieht
         st.rerun()  # Trigger rerun after re-init

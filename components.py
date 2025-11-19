@@ -197,7 +197,7 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
                 if has_recovery_secret_for_pseudonym(user_pseudo):
                     days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
                     caption_text = (
-                        f"Als reserviertes Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt."
+                        f"Mit einem reservierten Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt."
                     )
             except Exception:
                 # DB-check failed -> leave default caption
@@ -625,7 +625,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
                 try:
                     if has_recovery_secret_for_pseudonym(user_pseudo):
-                        st.sidebar.caption("Pseudonym wurde für dich reserviert")
+                        st.sidebar.caption("Pseudonym ist für dich reserviert.")
                 except Exception:
                     # DB-Check schlug fehl; nichts anzeigen
                     pass
@@ -1481,7 +1481,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     pass
                 if preserved_owner and preserved_owner == current_user:
                     st.sidebar.success(
-                        "Deine temporären Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden."
+                        "Deine Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden."
                     )
         except Exception:
             # Non-fatal: ignore any session_state access issues
