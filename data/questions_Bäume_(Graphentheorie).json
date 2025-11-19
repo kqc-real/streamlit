@@ -325,7 +325,7 @@
         "Wurzel 5, linkes Kind 3, rechtes Kind 7.",
         "Wurzel 3, linkes Kind 5, rechtes Kind 7.",
         "Wurzel 7, linkes Kind 5, rechtes Kind 3.",
-        "Eine lineare Kette 5 -> 3 -> 7.",
+        "Eine lineare Kette 5 → 3 → 7.",
         "Wurzel 5, linkes Kind 7, rechtes Kind 3."
       ],
       "loesung": 0,
@@ -1054,7 +1054,7 @@
         "Es ist Zufall, Iteration wäre immer einfacher."
       ],
       "loesung": 1,
-      "erklaerung": "Die Datenstruktur ist selbstähnlich: Ein Kindknoten ist wiederum Wurzel eines eigenen Teilbaums. Diese rekursive Struktur spiegelt sich direkt in rekursiven Funktionen wider (z.B. `visit(node) -> visit(node.left)`).",
+      "erklaerung": "Die Datenstruktur ist selbstähnlich: Ein Kindknoten ist wiederum Wurzel eines eigenen Teilbaums. Diese rekursive Struktur spiegelt sich direkt in rekursiven Funktionen wider (z.B. `visit(node) → visit(node.left)`).",
       "gewichtung": 3,
       "thema": "Traversierung",
       "konzept": "Rekursion & Selbstähnlichkeit",
