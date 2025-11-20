@@ -264,13 +264,29 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             except Exception:
                 schwierigkeit = "mittel"
 
-            meta_html = (
-                "<div class='meta-info'>"
-                f"<span class='meta-item'><strong>🗂️ Fragenset:</strong> {meta_title}</span>"
-                f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>"
-                f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span>"
-                "</div>"
-            )
+            konzept_display = ""
+            if isinstance(preview_q, dict):
+                konzept_raw = preview_q.get("konzept")
+                if konzept_raw:
+                    konzept_display = konzept_raw
+
+            stage_html = ""
+            if isinstance(preview_q, dict):
+                stage_raw = preview_q.get("kognitive_stufe")
+                if stage_raw and str(stage_raw).strip():
+                    stage_html = _normalize_stage_label(stage_raw)
+
+            meta_items = [
+                f"<span class='meta-item'><strong>🗂️ Fragenset:</strong> {meta_title}</span>",
+                f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>",
+                f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span>",
+            ]
+            if konzept_display:
+                meta_items.append(f"<span class='meta-item'><strong>Konzept:</strong> {_render_md(str(konzept_display))}</span>")
+            if stage_html:
+                meta_items.append(f"<span class='meta-item'><strong>Kognitive Stufe:</strong> {stage_html}</span>")
+
+            meta_html = "<div class='meta-info'>" + "".join(meta_items) + "</div>"
 
             correct_html = ""
             try:

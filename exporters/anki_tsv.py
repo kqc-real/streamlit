@@ -300,7 +300,9 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
     thema = question.get("thema", "")
     schwierigkeit = _map_schwierigkeit(question.get("gewichtung", ""))
     konzept = _render_metadata_value(md, question.get("konzept"))
+    konzept = _strip_wrapping_paragraph(konzept)
     kognitive_stufe = _render_metadata_value(md, question.get("kognitive_stufe"))
+    kognitive_stufe = _strip_wrapping_paragraph(kognitive_stufe)
     tags = _build_tags(title, thema, question.get("gewichtung", ""))
 
     return [
