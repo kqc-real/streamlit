@@ -13,6 +13,7 @@ import pandas as pd
 import os
 import time
 import json as _json
+import html
 import logging
 import re
 from datetime import datetime
@@ -126,6 +127,16 @@ def _locale_display_name(locale_code: str) -> str:
 
 def _sidebar_text(key: str, default: str, **kwargs) -> str:
     template = translate_ui(f"sidebar.{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
+def _dialog_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"dialog.{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
+def _user_qset_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"user_qset.{key}", default=default)
     return template.format(**kwargs) if kwargs else template
 
 
@@ -429,17 +440,17 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     user_id = st.session_state.get("user_id")
     user_hash = st.session_state.get("user_id_hash")
     if not user_id or not user_hash:
-        st.warning("Bitte melde dich an, bevor du einen Test startest.")
+        st.warning(_user_qset_text("login_required", default="Bitte melde dich an, bevor du einen Test startest."))
         return
 
     info = get_user_question_set(identifier)
     if info is None:
-        st.error("Das temporäre 🗂️ Fragenset konnte nicht gefunden werden.")
+        st.error(_user_qset_text("not_found", default="Das temporäre 🗂️ Fragenset konnte nicht gefunden werden."))
         return
 
     questions = info.question_set
     if not questions:
-        st.error("Das temporäre Fragenset enthält keine Fragen.")
+        st.error(_user_qset_text("no_questions", default="Das temporäre Fragenset enthält keine Fragen."))
         return
 
     from database import start_test_session
@@ -447,7 +458,7 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
 
     session_id = start_test_session(user_hash, identifier)
     if not session_id:
-        st.error("Es konnte keine neue Test-Session gestartet werden.")
+        st.error(_user_qset_text("session_failed", default="Es konnte keine neue Test-Session gestartet werden."))
         return
 
     st.session_state.selected_questions_file = identifier
@@ -477,18 +488,31 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         return
     st.session_state["_active_dialog"] = "user_qset"
 
-    @st.dialog("Fragenset mit KI erstellen", width="wide")
+    @st.dialog(_dialog_text("title", default="Fragenset mit KI erstellen"), width="wide")
     def _dialog() -> None:
         st.markdown(
-            "Wähle den Prompt, der zu deinem späteren Exportziel (Lernkarten oder Quizze) passt, und kopiere ihn in deine KI-Umgebung."
+            _dialog_text(
+                "intro",
+                default="Wähle den Prompt, der zu deinem späteren Exportziel (Lernkarten oder Quizze) passt, und kopiere ihn in deine KI-Umgebung.",
+            )
         )
         st.markdown(
-            "- **[Anki](https://apps.ankiweb.net/)**-Prompt: Erste Wahl für diese MC-Test-App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Textlängenbeschränkungen.\n"
-            "- **[Kahoot](https://kahoot.com)**-Prompt: Speziell auf die Import-Restriktionen von Kahoot abgestimmt (Textlängen, MC-Optionen, Zeitlimits).\n"
-            "- **[arsnova.click](https://arsnova.click)**-Prompt: Optimiert für das an Hochschulen populäre Audience-Response-Tool (LaTeX-Formeln, Markdown)."
+            _dialog_text(
+                "prompt_guide",
+                default=(
+                    "- **[Anki](https://apps.ankiweb.net/)**-Prompt: Erste Wahl für diese MC-Test-App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Textlängenbeschränkungen.\n"
+                    "- **[Kahoot](https://kahoot.com)**-Prompt: Speziell auf die Import-Restriktionen von Kahoot abgestimmt (Textlängen, MC-Optionen, Zeitlimits).\n"
+                    "- **[arsnova.click](https://arsnova.click)**-Prompt: Optimiert für das an Hochschulen populäre Audience-Response-Tool (LaTeX-Formeln, Markdown)."
+                ),
+            )
         )
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
+        prompt_toggle_label = _dialog_text("prompt_toggle_button", default="👁️ Anzeigen / Verbergen")
+        prompt_download_label = _dialog_text("prompt_download_button", default="⬇️ Download")
+        copy_button_label = _dialog_text("prompt_copy_button", default="Prompt kopieren")
+        copy_status_success = _dialog_text("prompt_copy_success", default="Kopiert!")
+        copy_status_error = _dialog_text("prompt_copy_error", default="Fehler beim Kopieren")
         for prompt in prompt_resources:
             st.markdown(f"**{prompt.title}**")
             view_col, download_col = st.columns([2, 1])
@@ -496,12 +520,18 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
             with view_col:
                 if prompt_empty:
-                    st.warning(f"{prompt.filename} konnte nicht geladen werden.")
+                    st.warning(
+                        _dialog_text(
+                            "prompt_load_failed",
+                            default="{filename} konnte nicht geladen werden.",
+                            filename=prompt.filename,
+                        )
+                    )
                 else:
                     view_key = f"user_prompt_view_toggle_{prompt.filename}"
                     current_state = bool(prompt_views.get(prompt.filename))
                     if st.button(
-                        "👁️ Anzeigen / Verbergen",
+                        prompt_toggle_label,
                         key=view_key,
                         width="stretch",
                     ):
@@ -513,7 +543,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
             with download_col:
                 st.download_button(
-                    "⬇️ Download",
+                    prompt_download_label,
                     prompt.content.encode("utf-8"),
                     file_name=prompt.filename,
                     mime="text/markdown",
@@ -526,34 +556,43 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
                 copy_button_id = f"copy_prompt_btn_{safe_filename}"
                 copy_status_id = f"copy_prompt_status_{safe_filename}"
-                copy_html = (
-                    f"<div style='display:flex; align-items:center; gap:0.5rem;'>"
-                    f"<button id='{copy_button_id}' type='button' style='font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;'>Prompt kopieren</button>"
-                    f"<span id='{copy_status_id}' style='opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;'>Kopiert!</span>"
-                    "</div>"
-                    "<script>"
-                    "(function(){"
-                    f"const text={_json.dumps(prompt.content)};"
-                    f"const button=document.getElementById('{copy_button_id}');"
-                    f"const status=document.getElementById('{copy_status_id}');"
-                    "button.addEventListener('click',async()=>{"
-                    "try{"
-                    "await navigator.clipboard.writeText(text);"
-                    "status.textContent='Kopiert!';"
-                    "status.style.opacity='1';"
-                    "setTimeout(()=>{status.style.opacity='0';},2000);"
-                    "}catch(e){"
-                    "status.textContent='Fehler beim Kopieren';"
-                    "status.style.opacity='1';"
-                    "}});"
-                    "})();"
-                    "</script>"
-                )
+                escaped_copy_label = html.escape(copy_button_label)
+                escaped_copy_success = html.escape(copy_status_success)
+                escaped_copy_error = html.escape(copy_status_error)
+                copy_html = f"""
+<div style="display:flex; align-items:center; gap:0.5rem;">
+    <button id="{copy_button_id}" type="button" style="font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;">{escaped_copy_label}</button>
+    <span id="{copy_status_id}" style="opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;">{escaped_copy_success}</span>
+</div>
+<script>
+(function(){{
+    const text = {_json.dumps(prompt.content)};
+    const button = document.getElementById("{copy_button_id}");
+    const status = document.getElementById("{copy_status_id}");
+    button.addEventListener('click', async () => {{
+        try {{
+            await navigator.clipboard.writeText(text);
+            status.textContent = '{escaped_copy_success}';
+            status.style.opacity = '1';
+            setTimeout(() => {{ status.style.opacity = '0'; }}, 2000);
+        }} catch (e) {{
+            status.textContent = '{escaped_copy_error}';
+            status.style.opacity = '1';
+        }}
+    }});
+}})();
+</script>
+"""
                 st.components.v1.html(copy_html, height=90, scrolling=False)
 
         st.markdown("---")
-        st.subheader("Fragenset hochladen")
-        st.warning("⚠️ Dein Fragenset darf maximal 30 Fragen enthalten und höchstens 5 MB groß sein.")
+        st.subheader(_dialog_text("upload_heading", default="Fragenset hochladen"))
+        st.warning(
+            _dialog_text(
+                "upload_warning",
+                default="⚠️ Dein Fragenset darf maximal 30 Fragen enthalten und höchstens 5 MB groß sein.",
+            )
+        )
         # Inform the uploader about retention policy. Use the configured
         # cleanup hours and reserved-pseudonym retention days from AppConfig
         # so the message stays accurate when configuration changes.
@@ -567,7 +606,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             days = 14
 
         st.info(
-            f"ℹ️ Dein Fragenset ist für alle Nutzer sichtbar. Standardmäßig werden temporäre Fragensets nach {hours} Stunden gelöscht; bei einem reservierten Pseudonym werden sie {days} Tage lang aufbewahrt."
+            _dialog_text(
+                "upload_info",
+                default=(
+                    "ℹ️ Dein Fragenset ist für alle Nutzer sichtbar. Standardmäßig werden temporäre Fragensets nach {hours} Stunden gelöscht; bei einem reservierten Pseudonym werden sie {days} Tage lang aufbewahrt."
+                ),
+                hours=hours,
+                days=days,
+            )
         )
 
         def _process_user_qset_payload(payload: bytes, source_name: str) -> None:
@@ -597,11 +643,17 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 }
 
         uploader = st.file_uploader(
-            "📁 Fragenset als JSON-Datei hochladen",
+            _dialog_text(
+                "uploader_label",
+                default="📁 Fragenset als JSON-Datei hochladen",
+            ),
             type=["json"],
             key="user_qset_uploader",
             accept_multiple_files=False,
-            help="Die Datei muss dem Fragenformat der App entsprechen, darf höchstens 30 Fragen enthalten und max. 5 MB groß sein.",
+            help=_dialog_text(
+                "uploader_help",
+                default="Die Datei muss dem Fragenformat der App entsprechen, darf höchstens 30 Fragen enthalten und max. 5 MB groß sein.",
+            ),
             width="stretch",
         )
 
@@ -613,30 +665,38 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.session_state.pop("user_qset_last_uploaded_name", None)
 
         if uploader and st.button(
-            "✅ Fragenset prüfen und speichern",
+            _dialog_text("upload_validate_button", default="✅ Fragenset prüfen und speichern"),
             key="user_qset_validate_btn",
             width="stretch",
         ):
             payload = uploader.getvalue()
             _process_user_qset_payload(payload, uploader.name)
 
-        st.markdown("### Alternative: JSON-Inhalt einfügen")
-        st.caption("Kopiere den JSON-Text deiner KI direkt hier hinein. Wir speichern daraus eine valide .json-Datei.")
+        st.markdown(_dialog_text("alternative_heading", default="### Alternative: JSON-Inhalt einfügen"))
+        st.caption(
+            _dialog_text(
+                "alternative_caption",
+                default="Kopiere den JSON-Text deiner KI direkt hier hinein. Wir speichern daraus eine valide .json-Datei.",
+            )
+        )
 
         def _clear_user_qset_status() -> None:
             st.session_state.pop("user_qset_last_result", None)
             st.session_state.pop("user_qset_last_uploaded_name", None)
 
         pasted_text = st.text_area(
-            "📋 JSON-Inhalt",
+            _dialog_text("text_area_label", default="📋 JSON-Inhalt"),
             key="user_qset_pasted_json",
             height=260,
-            placeholder='{"meta": {...}, "questions": [...]}',
+            placeholder=_dialog_text(
+                "text_area_placeholder",
+                default='{"meta": {...}, "questions": [...]}',
+            ),
             on_change=_clear_user_qset_status,
         )
 
         if st.button(
-            "✅ Fragenset prüfen und speichern",
+            _dialog_text("upload_validate_button", default="✅ Fragenset prüfen und speichern"),
             key="user_qset_validate_text_btn",
             disabled=not pasted_text.strip(),
             width="stretch",
@@ -648,25 +708,50 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         if status:
             if status.get("success"):
                 st.success(
-                    f"{status['label']} gespeichert – {status['question_count']} Fragen bereit."
+                    _dialog_text(
+                        "status_success",
+                        default="{label} gespeichert – {count} Fragen bereit.",
+                        label=status['label'],
+                        count=status['question_count'],
+                    )
                 )
                 can_start = bool(
                     st.session_state.get("user_id") and st.session_state.get("user_id_hash")
                 )
                 if not can_start:
-                    st.info("Bitte melde dich an, bevor du den Test startest.")
+                    st.info(
+                        _dialog_text(
+                            "login_required",
+                            default="Bitte melde dich an, bevor du den Test startest.",
+                        )
+                    )
                 if st.button(
-                    "🚀 Test mit diesem Fragenset starten",
+                    _dialog_text(
+                        "start_test_button",
+                        default="🚀 Test mit diesem Fragenset starten",
+                    ),
                     key="user_qset_start_btn",
                     disabled=not can_start,
                     width="stretch",
                 ):
                     _start_test_with_user_set(status["identifier"], app_config)
             else:
-                st.error(status.get("error", "Unbekannter Fehler beim Prüfen des Fragensets."))
+                st.error(
+                    status.get(
+                        "error",
+                        _dialog_text(
+                            "status_unknown_error",
+                            default="Unbekannter Fehler beim Prüfen des Fragensets.",
+                        ),
+                    )
+                )
 
         st.divider()
-        if st.button("Dialog schließen", key="user_qset_close_btn", width="stretch"):
+        if st.button(
+            _dialog_text("close_button", default="Dialog schließen"),
+            key="user_qset_close_btn",
+            width="stretch",
+        ):
             close_user_qset_dialog(clear_results=True)
             st.rerun()
 

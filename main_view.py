@@ -358,6 +358,11 @@ def _welcome_pseudonym_question_required() -> str:
     )
 
 
+def _test_view_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"test_view.{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
 def _welcome_leaderboard_column_pseudonym() -> str:
     return translate_ui(
         "welcome.leaderboard.column.pseudonym",
@@ -2574,14 +2579,16 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             with col1:
                 # Bookmark-Toggle
                 is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-                new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
+                bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
+                new_bookmark_state = st.toggle(bookmark_label, value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
                 if new_bookmark_state != is_bookmarked:
                     _dismiss_user_qset_dialog_from_test()
                     handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
                     st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
             with col2:
                 # Überspringen-Button
-                if st.button("↪️ Überspringen", key=f"skip_{frage_idx}", width="stretch"):
+                skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
+                if st.button(skip_label, key=f"skip_{frage_idx}", width="stretch"):
                     _dismiss_user_qset_dialog_from_test()
                     # Verschiebe die aktuelle Frage ans Ende der Liste
                     frage_indices = st.session_state.get("frage_indices", [])
@@ -2594,12 +2601,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             st.session_state.skipped_questions = []
                         if frage_idx not in st.session_state.skipped_questions:
                             st.session_state.skipped_questions.append(frage_idx)
-                        st.toast("Frage übersprungen. Sie wird später erneut gestellt.")
+                        st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
                         st.rerun()
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
+                answer_label = _test_view_text("answer_button", default="Antworten")
                 if st.button(
-                    "Antworten",
+                    answer_label,
                     key=f"submit_{frage_idx}",
                     type="primary",
                     width="stretch",
@@ -2617,7 +2625,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             is_skipped = frage_idx in st.session_state.get("skipped_questions", [])
             
             if st.session_state.get("jump_to_idx_active") and (is_bookmarked or is_skipped):
-                st.info("Diese Frage wurde bereits beantwortet.")
+                st.info(_test_view_text("already_answered_info", default="Diese Frage wurde bereits beantwortet."))
                 _, col2, _ = st.columns([1, 1, 1])
                 with col2:
                     # Decide whether a resume makes sense: only when the test is not finished
@@ -2632,7 +2640,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     if not test_finished and next_idx is not None:
                         # Show resume button
                         if st.button(
-                            "Test fortsetzen",
+                            _test_view_text("resume_button", default="Test fortsetzen"),
                             key=f"resume_from_answered_bm_{frage_idx}",
                             type="primary",
                             width="stretch",
@@ -2651,7 +2659,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     else:
                         # No unanswered questions left or test is over: offer final summary
                         if st.button(
-                            "Zur Testauswertung 🏁",
+                            _test_view_text("summary_button", default="Zur Testauswertung 🏁"),
                             key=f"to_summary_from_answered_{frage_idx}",
                             type="primary",
                             width="stretch",
@@ -2722,7 +2730,13 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     last_answer_time = st.session_state.get("last_answer_time", 0)
     current_time = time.time()
     if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
-        st.warning(f"⚠️ Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {app_config.min_seconds_between_answers}s).")
+        st.warning(
+            _test_view_text(
+                "answer_rate_limit",
+                default="⚠️ Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {limit}s).",
+                limit=app_config.min_seconds_between_answers,
+            )
+        )
         return
     
     st.session_state.last_answer_time = current_time
@@ -2736,10 +2750,10 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     
     if ist_richtig:
         punkte = gewichtung
-        st.toast("Richtig!", icon="✅")
+        st.toast(_test_view_text("correct_toast", default="Richtig!"), icon="✅")
     else:
         punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
-        st.toast("Leider falsch.", icon="❌")
+        st.toast(_test_view_text("wrong_toast", default="Leider falsch."), icon="❌")
 
     set_question_as_answered(frage_idx, punkte, antwort)
 
@@ -2764,7 +2778,7 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         frage_nr_str = frage_obj.get("frage", "").split(".", 1)[0]
         frage_nr = int(frage_nr_str)
     except (ValueError, IndexError):
-        st.error("Fehler: Die Frage-Nummer konnte nicht extrahiert werden.")
+        st.error(_test_view_text("question_number_error", default="Fehler: Die Frage-Nummer konnte nicht extrahiert werden."))
         return
 
     # Speichere die Antwort in der neuen Datenbank-Struktur
@@ -2794,7 +2808,7 @@ def _handle_feedback_submission(frage_idx: int, frage_obj: dict, feedback_types:
     if session_id and frage_nr > 0 and feedback_types:
         add_feedback(session_id, frage_nr, feedback_types)
         st.session_state[f"feedback_reported_{frage_idx}"] = True
-        st.toast("Feedback gesendet!")
+        st.toast(_test_view_text("feedback_sent", default="Feedback gesendet!"))
 
 
 def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
@@ -2825,9 +2839,9 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 st.snow()
             st.session_state.celebrated_questions.append(frage_idx)
 
-        st.success("Richtig! ✅")
+        st.success(_test_view_text("explanation_correct", default="Richtig! ✅"))
     else:
-        st.error("Leider falsch. ❌")
+        st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
         st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
 
     # Markieren und Feedback-Button gemeinsam platzieren
@@ -2835,7 +2849,8 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     with action_cols[0]:
         bookmark_key = f"bm_toggle_{frage_idx}_expl"
         is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-        new_bookmark_state = st.toggle("🔖 Merken", value=is_bookmarked, key=bookmark_key)
+        bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
+        new_bookmark_state = st.toggle(bookmark_label, value=is_bookmarked, key=bookmark_key)
         if new_bookmark_state != is_bookmarked:
             if st.session_state.get("user_qset_dialog_open"):
                 close_user_qset_dialog(clear_results=False)
@@ -2882,15 +2897,15 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
             _, center_col, _ = st.columns([1, 2, 1])
             with center_col:
                 if st.button(
-                    "🧠 Zeige detaillierte Erklärung",
+                    _test_view_text("extended_button", default="🧠 Zeige detaillierte Erklärung"),
                     key=f"btn_extended_{frage_idx}",
                     width="stretch",
                 ):
                     st.session_state[show_extended_key] = True
                     st.rerun()
-        
+
         if st.session_state.get(show_extended_key, False):
-            with st.expander("Detaillierte Erklärung", expanded=True):
+            with st.expander(_test_view_text("extended_panel", default="Detaillierte Erklärung"), expanded=True):
                 if isinstance(extended_explanation, dict):
                     title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
                     if title:
@@ -2930,12 +2945,12 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
     if st.session_state.get(feedback_key, False):
         with action_cols[1]:
-            st.success("✔️ Danke, wir schauen uns das an.")
+            st.success(_test_view_text("feedback_thanks", default="✔️ Danke, wir schauen uns das an."))
     else:
         # Action-Buttons teilen sich die Spaltengruppe
         with action_cols[1]:
-            with st.popover("Problem mit dieser Frage melden", width="stretch"):
-                st.markdown("**Welche Probleme sind dir aufgefallen?**")
+            with st.popover(_test_view_text("feedback_popover", default="Problem mit dieser Frage melden"), width="stretch"):
+                st.markdown(_test_view_text("feedback_prompt", default="**Welche Probleme sind dir aufgefallen?**"))
                 
                 # NEU: Formular verwenden, um Checkbox-Klicks zu bündeln
                 with st.form(key=f"feedback_form_{frage_idx}"):
@@ -2947,7 +2962,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     
                     # Der Senden-Button für das Formular
                     submitted = st.form_submit_button(
-                        "Feedback senden",
+                        _test_view_text("feedback_submit", default="Feedback senden"),
                         type="primary",
                         width="stretch"
                     )
@@ -2991,7 +3006,8 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
     if prev_button_visible:
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("⬅️ Vorherige Frage", key=f"prev_q_{frage_idx}", type="secondary", width="stretch"):
+            prev_label = _test_view_text("prev_question", default="⬅️ Vorherige Frage")
+            if st.button(prev_label, key=f"prev_q_{frage_idx}", type="secondary", width="stretch"):
                 if st.session_state.get("user_qset_dialog_open"):
                     close_user_qset_dialog(clear_results=False)
                 prev_idx = answered_indices[current_review_pos - 1]
@@ -3012,9 +3028,12 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
 
     with next_question_container:
         if is_in_review_mode:
-            button_text = "Nächste Frage ➡️"
+            button_text = _test_view_text("next_button_review", default="Nächste Frage ➡️")
         else:
-            button_text = "Zur Testauswertung 🏁" if is_last_question_in_test else "Nächste Frage ➡️"
+            button_text = _test_view_text(
+                "next_button_summary" if is_last_question_in_test else "next_button",
+                default="Zur Testauswertung 🏁" if is_last_question_in_test else "Nächste Frage ➡️",
+            )
 
         if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
             if st.session_state.get("user_qset_dialog_open"):
