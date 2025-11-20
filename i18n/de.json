@@ -163,6 +163,89 @@
         },
         "pseudonym_welcome": "**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
         "question_set_change_warning": "⚠️ Fragenset gewechselt, Test wird neu initialisiert..."
+        ,
+    "motivation": {
+        "lob": {
+            "correct_very_good": "Richtig! Sehr gut.",
+            "exact_keep_it_up": "Exakt! Weiter so.",
+            "correct_nicely_done": "Korrekt! Sauber gelöst.",
+            "perfect": "Perfekt! Das sitzt.",
+            "top_exact": "Top! Genau richtig.",
+            "strong_flow": "Stark! Weiter im Flow.",
+            "pattern_recognized": "Sehr gut! Muster erkannt.",
+            "concentration_holds": "Ausgezeichnet! Konzentration hält.",
+            "precise_clean": "Präzise! Das war sauber.",
+            "class_like_that": "Klasse! Genau so.",
+            "bullseye": "Treffer! Weiter mit Fokus.",
+            "spotted_correctly": "Richtig erkannt! Gut gemacht.",
+            "direct_hit": "Volltreffer! Weiter.",
+            "analyzed_correct": "Korrekt analysiert! Stark.",
+            "maintain_focus": "Genau! Konzentration halten.",
+            "streak_count": "🔥 {streak} richtige in Folge!",
+            "series_running": "Serie läuft! Weiter so.",
+            "flow_state": "Flow-Zustand! Nicht nachlassen.",
+            "streak_5": "⚡ {streak}er Streak! Beeindruckend.",
+            "constant_strong": "Konstant stark! Elite-Niveau.",
+            "streak_10": "🏅 {streak} Treffer ohne Fehler!",
+            "flawless_focus": "Makellos! Konzentration perfekt."
+        },
+        "zuspruch": {
+            "learn_from_it": "Nicht ganz – aber daraus lernen.",
+            "mistakes_are_learning": "Fehler sind Lernpunkte. Weiter!",
+            "close_analyze": "Kurz daneben – analysieren und weiter.",
+            "ok_next": "Das ist okay. Nächste Chance nutzen.",
+            "reset_focus": "Nicht schlimm. Fokus neu setzen.",
+            "mistakes_happen": "Fehler passieren – ruhig weitermachen.",
+            "learning_success": "Lernerfolg! Muster für später.",
+            "next_time": "Das sitzt beim nächsten Mal.",
+            "no_problem": "Kein Problem. Konzentration halten.",
+            "learning_process": "Nicht perfekt – aber im Lernprozess.",
+            "read_explanation": "Falsch – aber Erklärung lesen hilft.",
+            "adjust_strategy": "Daneben – Strategie anpassen.",
+            "mistakes_grow": "Fehler = Wachstum. Weiter geht's.",
+            "missed_but_persist": "Nicht getroffen – aber du bleibst dran.",
+            "stay_calm": "Ruhig bleiben. Nächste Frage kommt.",
+            "score_strong": "Score bleibt stark – ein Fehler kippt nichts.",
+            "keep_rate_high": "Quote weiter hoch – nicht ärgern.",
+            "overall_performance": "Gute Leistung insgesamt – weiter so."
+        },
+        "letzte_frage": {
+            "almost_done": "Letzte Frage! Gleich geschafft.",
+            "nearly_goal": "Fast am Ziel! Noch eine Frage.",
+            "final_question": "Finale Frage! Konzentriert durchziehen.",
+            "final_sprint": "Endspurt! Eine bleibt noch.",
+            "one_more": "Noch 1 Frage – dann durch!",
+            "finish_in_sight": "Letzter Sprint! Finish in Sicht.",
+            "focus_once_more": "Gleich fertig! Noch einmal fokussieren.",
+            "one_from_goal": "Finale! Eine Frage trennt dich vom Ziel.",
+            "last_concentration": "Fast geschafft! Letzte Konzentration.",
+            "finish_approaching": "Abschluss naht! Noch 1 Frage.",
+            "top_score": "Letzter Punkt für Top-Score!",
+            "strong_run": "Starker Lauf – jetzt sauber finishen!",
+            "elite_result": "Elite-Ergebnis möglich – letzte Frage!"
+        },
+        "neutral": {
+            "keep_rhythm": "Weiter im Rhythmus.",
+            "keep_focus": "Fokus halten – du machst das.",
+            "step_by_step": "Schritt für Schritt.",
+            "keep_calm": "Ruhig weitermachen.",
+            "maintain_concentration": "Konzentration beibehalten.",
+            "stay_steady": "Stabil bleiben.",
+            "on_your_way": "Du bist auf dem Weg.",
+            "goal_in_view": "Weitermachen – Ziel im Blick.",
+            "hang_in_there": "Durchhalten – es läuft.",
+            "progress": "Fortschritt läuft."
+        }
+    },
+        "feedback_option": {
+            "content_error": "Inhaltlicher Fehler",
+            "typo": "Tippfehler oder Grammatik",
+            "unclear_question": "Frage unklar formuliert",
+            "answers_inappropriate": "Antwortoptionen unpassend",
+            "wrong_explanation": "Erklärung falsch oder unverständlich",
+            "technical": "Technisches Problem (z. B. Anzeige)",
+            "other": "Sonstiges"
+        }
     },
     "metadata": {
         "weight_label": "Gewichtung",
@@ -283,7 +366,45 @@
         "export_testbericht_spinner": "Testbericht wird erstellt...",
         "export_testbericht_no_config": "app_config nicht gefunden – Testbericht-Export nicht möglich.",
         "export_testbericht_download": "\ud83d\udcbe Testbericht herunterladen",
-        "export_testbericht_error": "Fehler beim Erzeugen des Testberichts: {error}"
+        "export_testbericht_error": "Fehler beim Erzeugen des Testberichts: {error}",
+        "summary_message": {
+            "success": {
+                "top_performance": "✅ Sehr gut! Solide Top-Performance.",
+                "few_errors": "💪 Stark! Nur wenige Fehler.",
+                "convincing": "👍 Überzeugende Leistung! Weiter so.",
+                "quality": "🎉 Sehr sauber! Qualität stimmt."
+            },
+            "good": {
+                "stable": "📈 Gut gemacht! Stabile Quote.",
+                "basics": "✨ Ordentlich! Grundlagen sitzen.",
+                "potential": "💼 Solide Leistung! Noch Potenzial.",
+                "close_gap": "🔧 Gutes Ergebnis! Kleine Lücken schließbar."
+            },
+            "satisfactory": {
+                "foundation": "📚 Befriedigend. Basis vorhanden, Vertiefung lohnt.",
+                "review": "🌱 Okay. Kernthemen nochmal durchgehen.",
+                "average": "🔍 Durchschnitt. Review-Modus hilft dir weiter.",
+                "practice": "💡 Mittelfeld. Mit Übung wird's besser."
+            },
+            "passing": {
+                "needs_improvement": "⚠️ Ausreichend. Deutlicher Nachholbedarf.",
+                "use_explanations": "📖 Knapp bestanden. Erklärungen nutzen!",
+                "repeat": "🎯 50-59 %. Themen gezielt wiederholen.",
+                "uneven": "🔄 Schwankend. Review zeigt Schwächen auf."
+            },
+            "insufficient": {
+                "basic": "⛔ Mangelhaft. Grundlagen fehlen noch.",
+                "intensive": "📕 Unter 50 %. Intensive Wiederholung nötig.",
+                "review_required": "🚨 Lücken groß. Review-Modus ist Pflicht.",
+                "red": "🔴 Viele Fehler. Stoff nochmal durcharbeiten."
+            },
+            "fail": {
+                "start_new": "❌ Ungenügend. Stoff von Grund auf lernen.",
+                "systematic": "📚 Unter 40 %. Systematisch neu starten.",
+                "gaps": "🆘 Große Wissenslücken. Hilfe holen!",
+                "review": "⚠️ Sehr schwach. Review zeigt alle Fehler."
+            }
+        }
     },
     "welcome": {
         "splash": {

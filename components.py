@@ -148,6 +148,11 @@ def _sidebar_progress_status(remaining: int) -> str:
     return _sidebar_text("progress.multiple", default="(noch {remaining} Fragen)", remaining=remaining)
 
 
+def _motivation_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"motivation.{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
 def _trigger_rerun() -> None:
     rerun_fn = getattr(st, "rerun", None)
     if callable(rerun_fn):
@@ -2620,54 +2625,111 @@ def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str
     
     # KATEGORIE 1: LOB (nur bei richtiger Antwort)
     lob_phrases = [
-        "Richtig! Sehr gut.", "Exakt! Weiter so.", "Korrekt! Sauber gelöst.",
-        "Perfekt! Das sitzt.", "Top! Genau richtig.", "Stark! Weiter im Flow.",
-        "Sehr gut! Muster erkannt.", "Ausgezeichnet! Konzentration hält.",
-        "Präzise! Das war sauber.", "Klasse! Genau so.", "Treffer! Weiter mit Fokus.",
-        "Richtig erkannt! Gut gemacht.", "Volltreffer! Weiter.",
-        "Korrekt analysiert! Stark.", "Genau! Konzentration halten.",
+        _motivation_text("lob.correct_very_good", "Correct! Very good."),
+        _motivation_text("lob.exact_keep_it_up", "Exactly! Keep it up."),
+        _motivation_text("lob.correct_nicely_done", "Correct! Nicely done."),
+        _motivation_text("lob.perfect", "Perfect! That sticks."),
+        _motivation_text("lob.top_exact", "Top! Exactly right."),
+        _motivation_text("lob.strong_flow", "Strong! Keep the flow."),
+        _motivation_text("lob.pattern_recognized", "Very good! Pattern recognized."),
+        _motivation_text("lob.concentration_holds", "Excellent! Concentration holds."),
+        _motivation_text("lob.precise_clean", "Precise! That was clean."),
+        _motivation_text("lob.class_like_that", "Class! Just like that."),
+        _motivation_text("lob.bullseye", "Bullseye! Stay focused."),
+        _motivation_text("lob.spotted_correctly", "Spotted correctly! Well done."),
+        _motivation_text("lob.direct_hit", "Direct hit! Keep going."),
+        _motivation_text("lob.analyzed_correct", "Analyzed correctly! Strong."),
+        _motivation_text("lob.maintain_focus", "Exactly! Keep that focus."),
     ]
-    
+
     if streak >= 3:
-        lob_phrases.extend([f"🔥 {streak} richtige in Folge!", "Serie läuft! Weiter so.", "Flow-Zustand! Nicht nachlassen."])
+        lob_phrases.extend([
+            _motivation_text(
+                "lob.streak_count",
+                "🔥 {streak} correct answers in a row!",
+                streak=streak,
+            ),
+            _motivation_text("lob.series_running", "Series running! Keep it up."),
+            _motivation_text("lob.flow_state", "Flow state! Don't ease up."),
+        ])
     if streak >= 5:
-        lob_phrases.extend([f"⚡ {streak}er Streak! Beeindruckend.", "Konstant stark! Elite-Niveau."])
+        lob_phrases.extend([
+            _motivation_text(
+                "lob.streak_5",
+                "⚡ {streak}x streak! Impressive.",
+                streak=streak,
+            ),
+            _motivation_text("lob.constant_strong", "Consistently strong! Elite level."),
+        ])
     if streak >= 10:
-        lob_phrases.extend([f"🏅 {streak} Treffer ohne Fehler!", "Makellos! Konzentration perfekt."])
+        lob_phrases.extend([
+            _motivation_text(
+                "lob.streak_10",
+                "🏅 {streak} hits without a mistake!",
+                streak=streak,
+            ),
+            _motivation_text("lob.flawless_focus", "Flawless! Focus perfectly maintained."),
+        ])
     
     # KATEGORIE 2: ZUSPRUCH (nur bei falscher Antwort)
     zuspruch_phrases = [
-        "Nicht ganz – aber daraus lernen.", "Fehler sind Lernpunkte. Weiter!",
-        "Kurz daneben – analysieren und weiter.", "Das ist okay. Nächste Chance nutzen.",
-        "Nicht schlimm. Fokus neu setzen.", "Fehler passieren – ruhig weitermachen.",
-        "Lernerfolg! Muster für später.", "Das sitzt beim nächsten Mal.",
-        "Kein Problem. Konzentration halten.", "Nicht perfekt – aber im Lernprozess.",
-        "Falsch – aber Erklärung lesen hilft.", "Daneben – Strategie anpassen.",
-        "Fehler = Wachstum. Weiter geht's.", "Nicht getroffen – aber du bleibst dran.",
-        "Ruhig bleiben. Nächste Frage kommt.",
+        _motivation_text("zuspruch.learn_from_it", "Not quite – but learn from it."),
+        _motivation_text("zuspruch.mistakes_are_learning", "Mistakes are learning points. Keep going!"),
+        _motivation_text("zuspruch.close_analyze", "Close, analyze and move on."),
+        _motivation_text("zuspruch.ok_next", "It's okay. Use the next chance."),
+        _motivation_text("zuspruch.reset_focus", "No worries. Reset your focus."),
+        _motivation_text("zuspruch.mistakes_happen", "Mistakes happen – calmly continue."),
+        _motivation_text("zuspruch.learning_success", "Learning success! Patterns for later."),
+        _motivation_text("zuspruch.next_time", "You'll nail it next time."),
+        _motivation_text("zuspruch.no_problem", "No problem. Keep concentration."),
+        _motivation_text("zuspruch.learning_process", "Not perfect – but part of the learning process."),
+        _motivation_text("zuspruch.read_explanation", "Wrong – but reading the explanation helps."),
+        _motivation_text("zuspruch.adjust_strategy", "Off the mark – adjust your strategy."),
+        _motivation_text("zuspruch.mistakes_grow", "Mistakes = growth. Keep going."),
+        _motivation_text("zuspruch.missed_but_persist", "Missed it – but you're staying on it."),
+        _motivation_text("zuspruch.stay_calm", "Stay calm. Next question is coming."),
     ]
-    
+
     if ratio >= 0.75:
-        zuspruch_phrases.extend(["Score bleibt stark – ein Fehler kippt nichts.", "Quote weiter hoch – nicht ärgern.", "Gute Leistung insgesamt – weiter so."])
+        zuspruch_phrases.extend([
+            _motivation_text("zuspruch.score_strong", "Score stays strong – one error won't tip it."),
+            _motivation_text("zuspruch.keep_rate_high", "Keep the rate high – don't get upset."),
+            _motivation_text("zuspruch.overall_performance", "Great overall performance – keep it up."),
+        ])
     
     # KATEGORIE 3: LETZTE FRAGE (nur wenn questions_remaining == 1)
     letzte_frage_phrases = [
-        "Letzte Frage! Gleich geschafft.", "Fast am Ziel! Noch eine Frage.",
-        "Finale Frage! Konzentriert durchziehen.", "Endspurt! Eine bleibt noch.",
-        "Noch 1 Frage – dann durch!", "Letzter Sprint! Finish in Sicht.",
-        "Gleich fertig! Noch einmal fokussieren.", "Finale! Eine Frage trennt dich vom Ziel.",
-        "Fast geschafft! Letzte Konzentration.", "Abschluss naht! Noch 1 Frage.",
+        _motivation_text("letzte_frage.almost_done", "Last question! Almost there."),
+        _motivation_text("letzte_frage.nearly_goal", "Nearly at the goal! One more question."),
+        _motivation_text("letzte_frage.final_question", "Final question! Stay focused."),
+        _motivation_text("letzte_frage.final_sprint", "Final sprint! One to go."),
+        _motivation_text("letzte_frage.one_more", "One more question – then you're done!"),
+        _motivation_text("letzte_frage.finish_in_sight", "Last sprint! Finish in sight."),
+        _motivation_text("letzte_frage.focus_once_more", "Almost done! Focus one more time."),
+        _motivation_text("letzte_frage.one_from_goal", "Finale! One question separates you from the goal."),
+        _motivation_text("letzte_frage.last_concentration", "Nearly there! Last concentration."),
+        _motivation_text("letzte_frage.finish_approaching", "Finish approaching! One more question."),
     ]
-    
+
     if questions_remaining == 1 and ratio >= 0.8:
-        letzte_frage_phrases.extend(["Letzter Punkt für Top-Score!", "Starker Lauf – jetzt sauber finishen!", "Elite-Ergebnis möglich – letzte Frage!"])
+        letzte_frage_phrases.extend([
+            _motivation_text("letzte_frage.top_score", "Last point for a top score!"),
+            _motivation_text("letzte_frage.strong_run", "Strong run – finish clean now!"),
+            _motivation_text("letzte_frage.elite_result", "Elite result possible – last question!"),
+        ])
     
     # KATEGORIE 4: NEUTRAL (Fortschritt, keine spezifische Richtig/Falsch-Reaktion)
     neutral_phrases = [
-        "Weiter im Rhythmus.", "Fokus halten – du machst das.", "Schritt für Schritt.",
-        "Ruhig weitermachen.", "Konzentration beibehalten.", "Stabil bleiben.",
-        "Du bist auf dem Weg.", "Weitermachen – Ziel im Blick.",
-        "Durchhalten – es läuft.", "Fortschritt läuft.",
+        _motivation_text("neutral.keep_rhythm", "Keep the rhythm going."),
+        _motivation_text("neutral.keep_focus", "Keep focus – you've got this."),
+        _motivation_text("neutral.step_by_step", "Step by step."),
+        _motivation_text("neutral.keep_calm", "Keep going calmly."),
+        _motivation_text("neutral.maintain_concentration", "Maintain concentration."),
+        _motivation_text("neutral.stay_steady", "Stay steady."),
+        _motivation_text("neutral.on_your_way", "You're on your way."),
+        _motivation_text("neutral.goal_in_view", "Carry on – goal in sight."),
+        _motivation_text("neutral.hang_in_there", "Hang in there – it's going well."),
+        _motivation_text("neutral.progress", "Progress is happening."),
     ]
 
     # ============================================================

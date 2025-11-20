@@ -3038,14 +3038,30 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                     st.markdown(smart_quotes_de(str(extended_explanation)))
 
     # --- Feedback-Mechanismus ---
+    _FEEDBACK_OPTION_KEYS = [
+        "content_error",
+        "typo",
+        "unclear_question",
+        "answers_inappropriate",
+        "wrong_explanation",
+        "technical",
+        "other",
+    ]
+    _FEEDBACK_OPTION_DEFAULTS = {
+        "content_error": "Content error",
+        "typo": "Typo or grammar",
+        "unclear_question": "Question unclear",
+        "answers_inappropriate": "Answer options inappropriate",
+        "wrong_explanation": "Explanation incorrect or unclear",
+        "technical": "Technical issue (e.g. display)",
+        "other": "Other",
+    }
     feedback_options = [
-        "Inhaltlicher Fehler",
-        "Tippfehler/Grammatik",
-        "Frage unklar formuliert",
-        "Antwortoptionen unpassend",
-        "Erklärung falsch/unverständlich",
-        "Technisches Problem (z.B. Anzeige)",
-        "Sonstiges"
+        _test_view_text(
+            f"feedback_option.{key}",
+            default=_FEEDBACK_OPTION_DEFAULTS.get(key, key),
+        )
+        for key in _FEEDBACK_OPTION_KEYS
     ]
     feedback_key = f"feedback_reported_{frage_idx}"
 
@@ -3283,50 +3299,50 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         st.success(random.choice(messages))
     elif prozent >= 80:  # Sehr gut (80-89%)
         messages = [
-            "✅ Sehr gut! Solide Top-Performance.",
-            "💪 Stark! Nur wenige Fehler.",
-            "👍 Überzeugende Leistung! Weiter so.",
-            "🎉 Sehr sauber! Qualität stimmt.",
+            _summary_text("summary_message.success.top_performance", default="✅ Sehr gut! Solide Top-Performance."),
+            _summary_text("summary_message.success.few_errors", default="💪 Stark! Nur wenige Fehler."),
+            _summary_text("summary_message.success.convincing", default="👍 Überzeugende Leistung! Weiter so."),
+            _summary_text("summary_message.success.quality", default="🎉 Sehr sauber! Qualität stimmt."),
         ]
         st.success(random.choice(messages))
     elif prozent >= 70:  # Gut (70-79%)
         messages = [
-            "📈 Gut gemacht! Stabile Quote.",
-            "✨ Ordentlich! Grundlagen sitzen.",
-            "💼 Solide Leistung! Noch Potenzial.",
-            "🔧 Gutes Ergebnis! Kleine Lücken schließbar.",
+            _summary_text("summary_message.good.stable", default="📈 Gut gemacht! Stabile Quote."),
+            _summary_text("summary_message.good.basics", default="✨ Ordentlich! Grundlagen sitzen."),
+            _summary_text("summary_message.good.potential", default="💼 Solide Leistung! Noch Potenzial."),
+            _summary_text("summary_message.good.close_gap", default="🔧 Gutes Ergebnis! Kleine Lücken schließbar."),
         ]
         st.info(random.choice(messages))
     elif prozent >= 60:  # Befriedigend (60-69%)
         messages = [
-            "📚 Befriedigend. Basis vorhanden, Vertiefung lohnt.",
-            "🌱 Okay. Kernthemen nochmal durchgehen.",
-            "🔍 Durchschnitt. Review-Modus hilft dir weiter.",
-            "💡 Mittelfeld. Mit Übung wird's besser.",
+            _summary_text("summary_message.satisfactory.foundation", default="📚 Befriedigend. Basis vorhanden, Vertiefung lohnt."),
+            _summary_text("summary_message.satisfactory.review", default="🌱 Okay. Kernthemen nochmal durchgehen."),
+            _summary_text("summary_message.satisfactory.average", default="🔍 Durchschnitt. Review-Modus hilft dir weiter."),
+            _summary_text("summary_message.satisfactory.practice", default="💡 Mittelfeld. Mit Übung wird's besser."),
         ]
         st.info(random.choice(messages))
     elif prozent >= 50:  # Ausreichend (50-59 %)
         messages = [
-            "⚠️ Ausreichend. Deutlicher Nachholbedarf.",
-            "📖 Knapp bestanden. Erklärungen nutzen!",
-            "🎯 50-59 %. Themen gezielt wiederholen.",
-            "🔄 Schwankend. Review zeigt Schwächen auf.",
+            _summary_text("summary_message.passing.needs_improvement", default="⚠️ Ausreichend. Deutlicher Nachholbedarf."),
+            _summary_text("summary_message.passing.use_explanations", default="📖 Knapp bestanden. Erklärungen nutzen!"),
+            _summary_text("summary_message.passing.repeat", default="🎯 50-59 %. Themen gezielt wiederholen."),
+            _summary_text("summary_message.passing.uneven", default="🔄 Schwankend. Review zeigt Schwächen auf."),
         ]
         st.warning(random.choice(messages))
     elif prozent >= 40:  # Mangelhaft (40-49%)
         messages = [
-            "⛔ Mangelhaft. Grundlagen fehlen noch.",
-            "📕 Unter 50 %. Intensive Wiederholung nötig.",
-            "🚨 Lücken groß. Review-Modus ist Pflicht.",
-            "🔴 Viele Fehler. Stoff nochmal durcharbeiten.",
+            _summary_text("summary_message.insufficient.basic", default="⛔ Mangelhaft. Grundlagen fehlen noch."),
+            _summary_text("summary_message.insufficient.intensive", default="📕 Unter 50 %. Intensive Wiederholung nötig."),
+            _summary_text("summary_message.insufficient.review_required", default="🚨 Lücken groß. Review-Modus ist Pflicht."),
+            _summary_text("summary_message.insufficient.red", default="🔴 Viele Fehler. Stoff nochmal durcharbeiten."),
         ]
         st.warning(random.choice(messages))
     else:  # Ungenügend (<40%)
         messages = [
-            "❌ Ungenügend. Stoff von Grund auf lernen.",
-            "📚 Unter 40 %. Systematisch neu starten.",
-            "🆘 Große Wissenslücken. Hilfe holen!",
-            "⚠️ Sehr schwach. Review zeigt alle Fehler.",
+            _summary_text("summary_message.fail.start_new", default="❌ Ungenügend. Stoff von Grund auf lernen."),
+            _summary_text("summary_message.fail.systematic", default="📚 Unter 40 %. Systematisch neu starten."),
+            _summary_text("summary_message.fail.gaps", default="🆘 Große Wissenslücken. Hilfe holen!"),
+            _summary_text("summary_message.fail.review", default="⚠️ Sehr schwach. Review zeigt alle Fehler."),
         ]
         st.error(random.choice(messages))
 
