@@ -1,135 +1,202 @@
 {
-  "app": {
-    "title": "Quiz-Export",
-    "subtitle": "Fragebögen verwalten und auswerten"
-  },
-  "sidebar": {
-    "title": "Navigation",
-    "language": "Sprache auswählen",
-    "temp_set_notice": "Temporäres Fragenset aktiviert: {label}",
-    "reserved_pseudonym": "Pseudonym ist für dich reserviert.",
-    "history_button": "Meine Sessions",
-    "history_expander": "📚 Meine Sessions",
-    "history_empty": "Keine bisherigen Testergebnisse gefunden.",
-    "history_error": "Fehler beim Laden der Historie."
-  },
-  "metadata": {
-    "weight_label": "Gewichtung",
-    "cognitive_stage": "Kognitive Stufe"
-  },
-  "export": {
-    "musterloesung": "Musterlösung",
-    "bloom_table": "Performance nach kognitiver Stufe"
-  },
-  "actions": {
-    "run_export": "Export starten",
-    "reset": "Zurücksetzen"
-  },
-  "locales": {
-    "de": "Deutsch",
-    "en": "Englisch"
-  },
-  "buttons": {
-    "download": "Download starten"
-  },
-  "messages": {
-    "export_unavailable": "Dieses Export-Feature steht demnächst zur Verfügung.",
-    "anki_dependency": "Für den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt).",
-    "no_preview_questions": "Keine Fragen für die Vorschau verfügbar.",
-    "markdown_dependency": "Für die Vorschau wird das Paket 'markdown-it-py' benötigt.",
-    "streamlit_component_missing": "Streamlit-Komponentenmodul ist nicht verfügbar."
-  },
-  "dialogs": {
-    "anki_instruction": "Anleitung: Anki-Export",
-    "anki_preview": "Anki-Kartenvorschau"
-  },
-  "summary": {
-    "header": {
-      "manual_end": "⚠️ Test vorzeitig beendet",
-      "time_expired": "⏰ Zeit abgelaufen!",
-      "completed": "🚀 Test abgeschlossen!"
+    "app": {
+        "title": "Quiz-Export",
+        "subtitle": "Frageb\u00f6gen verwalten und auswerten"
     },
-    "info": {
-      "time_expired": "Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min",
-      "early_finish": "Du hast {early_delta} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
+    "sidebar": {
+        "title": "Navigation",
+        "language": "Sprache ausw\u00e4hlen",
+        "greeting": "\ud83d\udc4b **{user}**",
+        "temp_set_notice": "Tempor\u00e4res Fragenset aktiviert: {label}",
+        "reserved_pseudonym": "Pseudonym ist f\u00fcr dich reserviert.",
+        "pseudonym_reserved": "Pseudonym ist f\u00fcr dich reserviert.",
+        "pseudonym_info": "\ud83d\udc64 Info zum Pseudonym",
+        "history_button": "Meine Sessions",
+        "history_expander": "\ud83d\udcda Meine Sessions",
+        "history_empty": "Keine bisherigen Testergebnisse gefunden.",
+        "history_error": "Fehler beim Laden der Historie.",
+        "history_load_error": "Fehler beim Laden der Historie.",
+        "history_showing": "Zeige {shown} von {total} Eintr\u00e4gen.",
+        "history_csv_download": "CSV herunterladen",
+        "history_csv_unavailable": "CSV-Export nicht verf\u00fcgbar.",
+        "current_set": "Fragenset: <strong>{name}</strong>",
+        "current_set_marker": "Fragenset: {marker} <strong>{name}</strong>",
+        "glossary_download": "\ud83d\udcbe Glossar herunterladen",
+        "glossary_cooldown": "Du hast k\u00fcrzlich einen Glossar-Export gestartet. Bitte warte {wait} s, bevor du erneut exportierst.",
+        "glossary_generate_button": "\ud83d\udcc4 Glossar zum Fragenset",
+        "glossary_spinner_simple": "Generiere Glossar-PDF... Das kann kurz dauern.",
+        "glossary_spinner_with_formulas": "Generiere Glossar-PDF \u2013 rendere {count} Formel(n). Das kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering).",
+        "glossary_success": "Glossar-PDF fertig",
+        "glossary_no_entries": "Kein Mini-Glossar in diesem Fragenset vorhanden.",
+        "glossary_error": "Fehler beim Erzeugen des PDFs: {error}",
+        "progress_line": "\u23f3 Fortschritt {status}",
+        "progress": {
+            "finished": "(Test beendet)",
+            "single": "(noch 1 Frage)",
+            "multiple": "(noch {remaining} Fragen)"
+        },
+        "test_end": "Test beenden",
+        "score": {
+            "heading": "\ud83c\udfaf Punktestand"
+        },
+        "review_back": "\u2b05\ufe0f Zur\u00fcck zum Testreview",
+        "create_user_qset": "Fragenset mit KI erstellen",
+        "user_qset_dialog_warning": "Schlie\u00dfe zuerst den ge\u00f6ffneten Dialog, bevor du ein neues Fragenset erstellst.",
+        "user_qset_deleted": "Dieses tempor\u00e4re Fragenset wurde vom Ersteller beendet. Lade die Seite neu und w\u00e4hle ein anderes Fragenset f\u00fcr deinen n\u00e4chsten Versuch.",
+        "user_qset_preserved": "Deine Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in k\u00fcnftigen Sessions wiederverwenden.",
+        "session_expander": "\u26a0\ufe0f Session beenden",
+        "session_reserved_info": "Beim Beenden dieser Session bleibt das tempor\u00e4re Fragenset **{set_name}** erhalten und wird {days} Tage lang aufbewahrt.",
+        "session_choose_new": "F\u00fcr einen weiteren Versuch w\u00e4hle ein neues Pseudonym.",
+        "session_keep_warning": "\u26a0\ufe0f Dein Punktestand wird gespeichert und der Test beendet.",
+        "session_end_button": "Session beenden",
+        "admin_remote_warning": "\ud83d\udd12 Admin-Zugang ist nur \u00fcber localhost verf\u00fcgbar.",
+        "admin_remote_warning_ip": "\n\nAktuelle Herkunfts-IP: `{ip}`",
+        "admin_mode_info": "Du bist im Admin-Modus.",
+        "admin_solution_download": "\ud83d\udcbe Musterl\u00f6sung herunterladen",
+        "admin_solution_generate": "\ud83d\udcc4 Musterl\u00f6sung (PDF) generieren",
+        "admin_solution_success": "Musterl\u00f6sung-PDF fertig",
+        "admin_back_to_test": "\u2b05\ufe0f Zur\u00fcck zum Test",
+        "admin_key_missing": "\u26a0\ufe0f **Admin-Key nicht gesetzt!**\n\nNur f\u00fcr lokale Entwicklung geeignet. F\u00fcr Produktion `MC_TEST_ADMIN_KEY` setzen.",
+        "admin_open_panel": "\ud83d\udcca Admin-Panel \u00f6ffnen (UNSICHER)",
+        "admin_expander": "\ud83d\udd10 Admin Panel",
+        "admin_key_label": "Admin-Key",
+        "admin_activate_button": "Panel aktivieren",
+        "admin_locked": "\u26d4 Zu viele fehlgeschlagene Versuche! Gesperrt bis: {locked_until}",
+        "admin_wrong_key": "Falscher Key.",
+        "bookmarks_expander": "\ud83d\udd16 Markierte Fragen",
+        "bookmarks_empty": "Keine Fragen markiert.",
+        "bookmarks_disabled": "Spr\u00fcnge sind nach Abschluss deaktiviert.",
+        "bookmarks_jump_help": "Zur markierten Frage springen",
+        "bookmarks_remove_help": "Bookmark entfernen",
+        "bookmarks_clear": "\ud83d\uddd1\ufe0f Alle entfernen",
+        "skipped_expander": "\u21aa\ufe0f \u00dcbersprungen",
+        "skipped_empty": "Keine Fragen \u00fcbersprungen.",
+        "skipped_disabled": "Spr\u00fcnge sind nach Abschluss deaktiviert.",
+        "skipped_clear": "Alle zur\u00fccksetzen",
+        "skipped_clear_help": "Setzt alle \u00fcbersprungenen Fragen zur\u00fcck, damit sie nicht mehr in dieser Liste erscheinen."
     },
-    "metric_caption": "Dein Endergebnis",
-    "subheader": {
-      "topic_performance": "Deine Leistung nach Themen"
+    "metadata": {
+        "weight_label": "Gewichtung",
+        "cognitive_stage": "Kognitive Stufe"
+    },
+    "export": {
+        "musterloesung": "Musterl\u00f6sung",
+        "bloom_table": "Performance nach kognitiver Stufe"
+    },
+    "actions": {
+        "run_export": "Export starten",
+        "reset": "Zur\u00fccksetzen"
+    },
+    "locales": {
+        "de": "Deutsch",
+        "en": "Englisch"
+    },
+    "buttons": {
+        "download": "Download starten"
+    },
+    "messages": {
+        "export_unavailable": "Dieses Export-Feature steht demn\u00e4chst zur Verf\u00fcgung.",
+        "anki_dependency": "F\u00fcr den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt).",
+        "no_preview_questions": "Keine Fragen f\u00fcr die Vorschau verf\u00fcgbar.",
+        "markdown_dependency": "F\u00fcr die Vorschau wird das Paket 'markdown-it-py' ben\u00f6tigt.",
+        "streamlit_component_missing": "Streamlit-Komponentenmodul ist nicht verf\u00fcgbar."
+    },
+    "dialogs": {
+        "anki_instruction": "Anleitung: Anki-Export",
+        "anki_preview": "Anki-Kartenvorschau"
+    },
+    "summary": {
+        "header": {
+            "manual_end": "\u26a0\ufe0f Test vorzeitig beendet",
+            "time_expired": "\u23f0 Zeit abgelaufen!",
+            "completed": "\ud83d\ude80 Test abgeschlossen!"
+        },
+        "info": {
+            "time_expired": "Der Test wurde wegen \u00dcberschreitung der Testzeit beendet. Testdauer: {allowed_min} min",
+            "early_finish": "Du hast {early_delta} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
+        },
+        "metric_caption": "Dein Endergebnis",
+        "subheader": {
+            "topic_performance": "Deine Leistung nach Themen"
+        }
+    },
+    "welcome": {
+        "splash": {
+            "title": "\ud83c\udf93 MC-Test App",
+            "button": "\ud83d\ude80 Los geht\u2019s"
+        },
+        "cleanup": {
+            "toast": "{removed} tempor\u00e4re Fragensets entfernt.",
+            "info": "{removed} tempor\u00e4re Fragensets wurden entfernt und stehen nicht mehr zur Auswahl."
+        },
+        "errors": {
+            "no_sets": "Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden."
+        },
+        "info": {
+            "ensure_files": "Stelle sicher, dass g\u00fcltige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen."
+        },
+        "warning": {
+            "session_expired": "\u26a0\ufe0f Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten."
+        },
+        "select": {
+            "label": "W\u00e4hle ein Fragenset:",
+            "placeholder": "\ud83d\uddc2\ufe0f Bitte ein Fragenset ausw\u00e4hlen\u2026"
+        },
+        "section": {
+            "header": "\ud83d\uddc2\ufe0f W\u00e4hle ein Fragenset"
+        },
+        "distribution": {
+            "expander": "\u2696\ufe0f Fragen nach Thema und Schwierigkeit",
+            "warning": "\u26a0\ufe0f Das ausgew\u00e4hlte Fragenset ist leer oder konnte nicht geladen werden.",
+            "summary": {
+                "test_time": "\u23f1\ufe0f Testzeit: {minutes} min",
+                "difficulty": "\u26f0\ufe0f {leicht} \u00d7 leicht \u00b7 {mittel} \u00d7 mittel \u00b7 {schwer} \u00d7 schwer",
+                "cognition": "\ud83e\udde0 Kognitive Stufen: {summary}"
+            }
+        },
+        "leaderboard": {
+            "title": "\ud83c\udfc6 Aktuelle Top 10 (max. {max_score} Punkte)",
+            "empty": "Noch keine Ergebnisse f\u00fcr dieses Fragenset",
+            "column": {
+                "pseudonym": "\ud83d\udc64 Pseudonym",
+                "date": "\ud83d\udcc5 Datum",
+                "duration": "\u23f1\ufe0f Dauer"
+            }
+        },
+        "language": {
+            "label": "Sprache w\u00e4hlen",
+            "help": "Deine Auswahl wird im Browser gespeichert."
+        },
+        "pseudonym": {
+            "heading": "\ud83d\udc64 W\u00e4hle dein Pseudonym",
+            "no_available": "\u26a0\ufe0f Alle verf\u00fcgbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.",
+            "select_label": "W\u00e4hle dein Pseudonym f\u00fcr diese Runde:",
+            "select_placeholder": "\ud83d\udc64 Bitte ein Pseudonym ausw\u00e4hlen\u2026",
+            "reservation_expander": "\ud83d\udd12 Geheimwort f\u00fcr eine Reservierung (optional)",
+            "reservation_input": "Dieses Pseudonym dauerhaft f\u00fcr mich reservieren",
+            "reservation_placeholder": "Mein \ud83d\udd12 Geheimwort f\u00fcr die Reservierung...",
+            "secret_too_short": "\ud83d\udd12 Geheimwort zu kurz \u2014 mind. {min_len} Zeichen erforderlich.",
+            "reserve_button": "Pseudonym reservieren",
+            "reserve_success": "Pseudonym reserviert.",
+            "reserve_success_message": "Pseudonym reserviert. Merke dir das Pseudonym genau (Gro\u00df-/Kleinschreibung und Akzente). Du musst es sp\u00e4ter exakt so eingeben.",
+            "reserve_error": "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut.",
+            "reserve_error_with_reason": "Fehler beim Reservieren des Pseudonyms: {error}",
+            "copy_label": "Pseudonym:",
+            "copy_button": "Kopieren",
+            "recover_expander": "Ich habe ein reserviertes Pseudonym\u2026",
+            "recover_pseudonym": "\ud83d\udc64 Pseudonym eingeben",
+            "recover_secret": "\ud83d\udd12 Geheimwort",
+            "recover_missing": "Bitte Pseudonym und \ud83d\udd12 Geheimwort eingeben.",
+            "recover_button": "Mit dem reservierten Pseudonym Test starten",
+            "recover_locked": "Zu viele Versuche. Gesperrt bis {locked_until}",
+            "recover_success": "Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...",
+            "recover_failure": "Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht \u00fcberein.",
+            "database_error": "Datenbankfehler: Konnte keine neue Test-Session starten.",
+            "test_button": "Test starten",
+            "question_required": "Bitte w\u00e4hle zuerst ein Fragenset aus."
+        }
+    },
+    "warnings": {
+        "no_config": "\u26a0\ufe0f **Keine Konfigurationsdatei gefunden!**\\n\\nDie App ben\u00f6tigt entweder eine `.env`-Datei oder `.streamlit/secrets.toml` f\u00fcr die Konfiguration (Admin-Zugang, URL f\u00fcr QR-Code, etc.).\\n\\n**F\u00fcr lokale Installation:**\\n1. Kopiere `.env.example` zu `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Starte die App neu.\\n\\n**Details:** Siehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
     }
-  },
-  "welcome": {
-    "splash": {
-      "title": "🎓 MC-Test App",
-      "button": "🚀 Los geht’s"
-    },
-    "cleanup": {
-      "toast": "{removed} temporäre Fragensets entfernt.",
-      "info": "{removed} temporäre Fragensets wurden entfernt und stehen nicht mehr zur Auswahl."
-    },
-    "errors": {
-      "no_sets": "Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden."
-    },
-    "info": {
-      "ensure_files": "Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen."
-    },
-    "warning": {
-      "session_expired": "⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten."
-    },
-    "select": {
-      "label": "Wähle ein Fragenset:",
-      "placeholder": "🗂️ Bitte ein Fragenset auswählen…"
-    },
-    "section": {
-      "header": "🗂️ Wähle ein Fragenset"
-    },
-    "distribution": {
-      "expander": "⚖️ Fragen nach Thema und Schwierigkeit",
-      "warning": "⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden."
-    },
-    "leaderboard": {
-      "title": "🏆 Aktuelle Top 10 (max. {max_score} Punkte)",
-      "empty": "Noch keine Ergebnisse für dieses Fragenset",
-      "column": {
-        "pseudonym": "👤 Pseudonym",
-        "date": "📅 Datum",
-        "duration": "⏱️ Dauer"
-      }
-    },
-    "language": {
-      "label": "Sprache wählen",
-      "help": "Deine Auswahl wird im Browser gespeichert."
-    },
-    "pseudonym": {
-      "heading": "👤 Wähle dein Pseudonym",
-      "no_available": "⚠️ Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.",
-      "select_label": "Wähle dein Pseudonym für diese Runde:",
-      "select_placeholder": "👤 Bitte ein Pseudonym auswählen…",
-      "reservation_expander": "🔒 Geheimwort für eine Reservierung (optional)",
-      "reservation_input": "Dieses Pseudonym dauerhaft für mich reservieren",
-      "reservation_placeholder": "Mein 🔒 Geheimwort für die Reservierung...",
-      "secret_too_short": "🔒 Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.",
-      "reserve_button": "Pseudonym reservieren",
-      "reserve_success": "Pseudonym reserviert.",
-      "reserve_success_message": "Pseudonym reserviert. Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). Du musst es später exakt so eingeben.",
-      "reserve_error": "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut.",
-      "reserve_error_with_reason": "Fehler beim Reservieren des Pseudonyms: {error}",
-      "copy_label": "Pseudonym:",
-      "copy_button": "Kopieren",
-      "recover_expander": "Ich habe ein reserviertes Pseudonym…",
-      "recover_pseudonym": "👤 Pseudonym eingeben",
-      "recover_secret": "🔒 Geheimwort",
-      "recover_missing": "Bitte Pseudonym und 🔒 Geheimwort eingeben.",
-      "recover_button": "Mit dem reservierten Pseudonym Test starten",
-      "recover_locked": "Zu viele Versuche. Gesperrt bis {locked_until}",
-      "recover_success": "Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...",
-      "recover_failure": "Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht überein.",
-      "database_error": "Datenbankfehler: Konnte keine neue Test-Session starten.",
-      "test_button": "Test starten",
-      "question_required": "Bitte wähle zuerst ein Fragenset aus."
-    }
-  },
-  "warnings": {
-    "no_config": "⚠️ **Keine Konfigurationsdatei gefunden!**\\n\\nDie App benötigt entweder eine `.env`-Datei oder `.streamlit/secrets.toml` für die Konfiguration (Admin-Zugang, URL für QR-Code, etc.).\\n\\n**Für lokale Installation:**\\n1. Kopiere `.env.example` zu `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Starte die App neu.\\n\\n**Details:** Siehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
-    }
-  }
+}

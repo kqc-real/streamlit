@@ -124,6 +124,19 @@ def _locale_display_name(locale_code: str) -> str:
     return translate_ui(f"locales.{locale_code}", default=locale_code)
 
 
+def _sidebar_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"sidebar.{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
+def _sidebar_progress_status(remaining: int) -> str:
+    if remaining <= 0:
+        return _sidebar_text("progress.finished", default="(Test beendet)")
+    if remaining == 1:
+        return _sidebar_text("progress.single", default="(noch 1 Frage)")
+    return _sidebar_text("progress.multiple", default="(noch {remaining} Fragen)", remaining=remaining)
+
+
 def _trigger_rerun() -> None:
     rerun_fn = getattr(st, "rerun", None)
     if callable(rerun_fn):
@@ -768,11 +781,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         unsafe_allow_html=True,
     )
     _ensure_locale_synced()
-    st.sidebar.success(f"👋 **{st.session_state.get('user_id', '')}**")
+    user_display = st.session_state.get("user_id", "")
+    st.sidebar.success(
+        _sidebar_text("greeting", default="👋 **{user}**").format(user=user_display)
+    )
 
     toast_message = st.session_state.pop("user_qset_active_toast", None)
     if toast_message:
-        st.sidebar.success(f"Temporäres Fragenset aktiviert: {toast_message}")
+        st.sidebar.success(
+            _sidebar_text(
+                "temp_set_notice",
+                default="Temporäres Fragenset aktiviert: {label}",
+            ).format(label=toast_message)
+        )
 
     if st.session_state.get("user_qset_dialog_open"):
         _render_user_qset_dialog(app_config)
@@ -791,7 +812,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
                 try:
                     if has_recovery_secret_for_pseudonym(user_pseudo):
-                        st.sidebar.caption("Pseudonym ist für dich reserviert.")
+                        st.sidebar.caption(
+                            _sidebar_text("pseudonym_reserved", default="Pseudonym ist für dich reserviert.")
+                        )
                 except Exception:
                     # DB-Check schlug fehl; nichts anzeigen
                     pass
@@ -833,7 +856,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
             # Register the sidebar button outside the callback function.
             st.sidebar.button(
-                "Meine Sessions",
+                _sidebar_text("history_button", default="Meine Sessions"),
                 on_click=_open_history_click,
                 type="primary",
                 width="stretch",
@@ -857,14 +880,14 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 except Exception:
                     history_rows = []
 
-            with st.sidebar.expander('� Meine Sessions', expanded=True):
+            with st.sidebar.expander(_sidebar_text("history_expander", default="📚 Meine Sessions"), expanded=True):
                 if not history_rows:
-                    st.info('Keine bisherigen Testergebnisse gefunden.')
+                    st.info(_sidebar_text("history_empty", default="Keine bisherigen Testergebnisse gefunden."))
                 else:
                     try:
                         df = pd.DataFrame(history_rows)
                     except Exception:
-                        st.error('Fehler beim Laden der Historie.')
+                        st.error(_sidebar_text("history_load_error", default="Fehler beim Laden der Historie."))
                         df = None
 
                     if df is not None and not df.empty:
@@ -1138,7 +1161,12 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                             total_rows = len(df_display)
                             df_shown = df_display.head(VISIBLE_ROWS)
                             st.dataframe(df_shown, width="stretch", hide_index=True, height=320)
-                            st.caption(f"Zeige {len(df_shown)} von {total_rows} Einträgen")
+                            st.caption(
+                                _sidebar_text(
+                                    "history_showing",
+                                    default="Zeige {shown} von {total} Einträgen",
+                                ).format(shown=len(df_shown), total=total_rows)
+                            )
                         except Exception:
                             st.dataframe(df_display, width="stretch", hide_index=True, height=320)
 
@@ -1153,14 +1181,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                             c1, c2, c3 = st.columns([1, 2, 1])
                             with c2:
                                 st.download_button(
-                                    'CSV herunterladen',
+                                    _sidebar_text("history_csv_download", default="CSV herunterladen"),
                                     data=csv_bytes,
                                     file_name=f"history_{(st.session_state.get('user_id') or 'user')}_history.csv",
                                     mime='text/csv',
                                     width="stretch",
                                 )
                         except Exception:
-                            st.info('CSV-Export nicht verfügbar.')
+                                st.info(
+                                    _sidebar_text(
+                                        "history_csv_unavailable",
+                                        default="CSV-Export nicht verfügbar.",
+                                    )
+                                )
     except Exception:
         # Sidebar history rendering must not break the rest of the sidebar
         pass
@@ -1194,7 +1227,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         break
 
             if contribution:
-                with st.sidebar.expander("👤 Info zum Pseudonym", expanded=False):
+                with st.sidebar.expander(
+                    _sidebar_text("pseudonym_info", default="👤 Info zum Pseudonym"),
+                    expanded=False,
+                ):
                     st.write(contribution)
     except Exception:
         # Generischer Schutz: Sidebar darf nie wegen Anzeige-Problemen abstürzen
@@ -1285,9 +1321,20 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # the bold set name to preserve emphasis; emoji are safe in the string.
         safe_display = str(display_name)
         if marker:
-            st.sidebar.markdown(f"Fragenset: {marker} <strong>{safe_display}</strong>", unsafe_allow_html=True)
+            st.sidebar.markdown(
+                _sidebar_text(
+                    "current_set_marker",
+                    default="Fragenset: {marker} <strong>{name}</strong>",
+                ).format(marker=marker, name=safe_display),
+                unsafe_allow_html=True,
+            )
         else:
-            st.sidebar.markdown(f"Fragenset: <strong>{safe_display}</strong>", unsafe_allow_html=True)
+            st.sidebar.markdown(
+                _sidebar_text("current_set", default="Fragenset: <strong>{name}</strong>").format(
+                    name=safe_display
+                ),
+                unsafe_allow_html=True,
+            )
 
         # Hinweis für temporäre Fragensets: informiere die Nutzer, dass
         # diese automatisch nach 24 Stunden gelöscht werden.
@@ -1315,7 +1362,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 if pdf_bytes:
                     # Direkt zum Download anbieten
                     st.sidebar.download_button(
-                        label="💾 Glossar herunterladen",
+                        label=_sidebar_text("glossary_download", default="💾 Glossar herunterladen"),
                         data=pdf_bytes,
                         file_name=download_name,
                         mime="application/pdf",
@@ -1332,9 +1379,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
                     if not can_export_glossary:
                         wait = int(COOLDOWN_SECONDS - (int(time.time()) - int(glossary_last_ts)))
-                        st.sidebar.info(f"Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
+                        st.sidebar.info(
+                            _sidebar_text(
+                                "glossary_cooldown",
+                                default="Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.",
+                            ).format(wait=wait)
+                        )
 
-                    if st.sidebar.button("📄 Glossar zum Fragenset", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
+                    if st.sidebar.button(
+                        _sidebar_text("glossary_generate_button", default="📄 Glossar zum Fragenset"),
+                        key="sidebar_glossary_generate",
+                        width="stretch",
+                        disabled=(not can_export_glossary),
+                    ):
                         # Vor der eigentlichen Generierung können wir die Anzahl der
                         # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
@@ -1355,14 +1412,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                             formula_count = 0
 
                         if formula_count:
-                            spinner_message = (
-                                f"Generiere Glossar-PDF — rendere {formula_count} Formel" +
-                                ("n" if formula_count != 1 else "") +
-                                ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                            spinner_message = _sidebar_text(
+                                "glossary_spinner_with_formulas",
+                                default=(
+                                    "Generiere Glossar-PDF — rendere {count} Formel" +
+                                    ("n" if formula_count != 1 else "") +
+                                    ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                                ),
+                                count=formula_count,
                             )
                         else:
-                            spinner_message = (
-                                "Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern."
+                            spinner_message = _sidebar_text(
+                                "glossary_spinner_simple",
+                                default="Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern.",
                             )
 
                         with st.spinner(spinner_message):
@@ -1371,21 +1433,32 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 st.session_state[cache_key] = generated
                                 pdf_bytes = generated
                                 # Kurze Erfolgsmeldung in der Sidebar
-                                st.sidebar.success("Glossar-PDF fertig")
+                                st.sidebar.success(_sidebar_text("glossary_success", default="Glossar-PDF fertig"))
                                 # mark glossary cooldown
                                 try:
                                     st.session_state[glossary_last_key] = int(time.time())
                                 except Exception:
                                     pass
                             except ValueError:
-                                st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+                                st.error(
+                                    _sidebar_text(
+                                        "glossary_no_entries",
+                                        default="Kein Mini-Glossar in diesem Fragenset vorhanden.",
+                                    )
+                                )
                             except Exception as e:
-                                st.error(f"Fehler beim Erzeugen des PDFs: {e}")
+                                st.error(
+                                    _sidebar_text(
+                                        "glossary_error",
+                                        default="Fehler beim Erzeugen des PDFs: {error}",
+                                        error=e,
+                                    )
+                                )
 
                         # Falls erfolgreich erzeugt, zeige sofort den Download-Button
                         if st.session_state.get(cache_key):
                             st.sidebar.download_button(
-                                label="💾 Glossar herunterladen",
+                                label=_sidebar_text("glossary_download", default="💾 Glossar herunterladen"),
                                 data=st.session_state[cache_key],
                                 file_name=download_name,
                                 mime="application/pdf",
@@ -1407,14 +1480,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     else:
         remaining = 0
 
-    if remaining <= 0:
-        remaining_text = "(Test beendet)"
-    elif remaining == 1:
-        remaining_text = "(noch 1 Frage)"
-    else:
-        remaining_text = f"(noch {remaining} Fragen)"
-
-    st.sidebar.markdown(f"⏳ Fortschritt {remaining_text}")
+    progress_status = _sidebar_progress_status(remaining)
+    st.sidebar.markdown(
+        _sidebar_text("progress_line", default="⏳ Fortschritt {status}").format(status=progress_status)
+    )
     # Custom color-coded progress bar: grün >=60%, gelb 30-59%, rot <30%
     try:
         # Dunklere, gedeckte Farben für Dark Mode
@@ -1442,7 +1511,12 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         st.sidebar.progress(progress_pct)
 
     if progress_pct >= 1 and not is_test_finished(questions) and not st.session_state.get("in_final_summary", False):
-        if st.sidebar.button("Test beenden", key="end_test_sidebar", width="stretch", type="secondary"):
+        if st.sidebar.button(
+            _sidebar_text("test_end", default="Test beenden"),
+            key="end_test_sidebar",
+            width="stretch",
+            type="secondary",
+        ):
             st.session_state["test_manually_ended"] = True
             st.rerun()
 
@@ -1464,9 +1538,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     else:
         color = "#15803d"  # dunkelgrün
 
+    score_heading = _sidebar_text("score.heading", default="🎯 Punktestand")
     st.sidebar.markdown(f"""
     <div style="text-align: center;">
-        <p style="font-size: 1rem; font-weight: bold; margin-bottom: -10px;">🎯 Punktestand</p>
+        <p style="font-size: 1rem; font-weight: bold; margin-bottom: -10px;">{score_heading}</p>
         <p style="font-size: 1.75rem; margin-top: 20px; font-weight: 600;">
             {current_score} / {max_score} 
             <span style="color: {color}; font-weight: bold;">({int(percentage_score)} %)</span>
@@ -1491,7 +1566,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         and st.session_state.get("jump_to_idx_active", False)
     ):
         st.sidebar.divider()
-        if st.sidebar.button("⬅️ Zurück zum Testreview", width="stretch"):
+        if st.sidebar.button(
+            _sidebar_text("review_back", default="⬅️ Zurück zum Testreview"),
+            width="stretch",
+        ):
             st.session_state.jump_to_idx_active = False  # Deaktiviere den Review-Modus
             st.rerun()
 
@@ -1513,7 +1591,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 if pdf_bytes:
                     # Direkt zum Download anbieten
                     st.sidebar.download_button(
-                        label="💾 Glossar downloaden",
+                        label=_sidebar_text("glossary_download", default="💾 Glossar herunterladen"),
                         data=pdf_bytes,
                         file_name=download_name,
                         mime="application/pdf",
@@ -1530,9 +1608,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
                     if not can_export_glossary:
                         wait = int(COOLDOWN_SECONDS - (int(time.time()) - int(glossary_last_ts)))
-                        st.sidebar.info(f"Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.")
+                        st.sidebar.info(
+                            _sidebar_text(
+                                "glossary_cooldown",
+                                default="Du hast kürzlich ein Glossar-Export gestartet. Bitte warte {wait} s bevor du erneut exportierst.",
+                            ).format(wait=wait)
+                        )
 
-                    if st.sidebar.button("📄 Glossar zum Fragenset", key="sidebar_glossary_generate", width="stretch", disabled=(not can_export_glossary)):
+                    if st.sidebar.button(
+                        _sidebar_text("glossary_generate_button", default="📄 Glossar zum Fragenset"),
+                        key="sidebar_glossary_generate",
+                        width="stretch",
+                        disabled=(not can_export_glossary),
+                    ):
                         # Vor der eigentlichen Generierung können wir die Anzahl der
                         # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
                         # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
@@ -1553,14 +1641,19 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                             formula_count = 0
 
                         if formula_count:
-                            spinner_message = (
-                                f"Generiere Glossar-PDF — rendere {formula_count} Formel" +
-                                ("n" if formula_count != 1 else "") +
-                                ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                            spinner_message = _sidebar_text(
+                                "glossary_spinner_with_formulas",
+                                default=(
+                                    "Generiere Glossar-PDF — rendere {count} Formel" +
+                                    ("n" if formula_count != 1 else "") +
+                                    ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                                ),
+                                count=formula_count,
                             )
                         else:
-                            spinner_message = (
-                                "Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern."
+                            spinner_message = _sidebar_text(
+                                "glossary_spinner_simple",
+                                default="Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern.",
                             )
 
                         with st.spinner(spinner_message):
@@ -1569,21 +1662,32 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 st.session_state[cache_key] = generated
                                 pdf_bytes = generated
                                 # Kurze Erfolgsmeldung in der Sidebar
-                                st.sidebar.success("Glossar-PDF fertig")
+                                st.sidebar.success(_sidebar_text("glossary_success", default="Glossar-PDF fertig"))
                                 # mark glossary cooldown
                                 try:
                                     st.session_state[glossary_last_key] = int(time.time())
                                 except Exception:
                                     pass
                             except ValueError:
-                                st.error("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+                                st.error(
+                                    _sidebar_text(
+                                        "glossary_no_entries",
+                                        default="Kein Mini-Glossar in diesem Fragenset vorhanden.",
+                                    )
+                                )
                             except Exception as e:
-                                st.error(f"Fehler beim Erzeugen des PDFs: {e}")
+                                st.error(
+                                    _sidebar_text(
+                                        "glossary_error",
+                                        default="Fehler beim Erzeugen des PDFs: {error}",
+                                        error=e,
+                                    )
+                                )
 
                         # Falls erfolgreich erzeugt, zeige sofort den Download-Button
                         if st.session_state.get(cache_key):
                             st.sidebar.download_button(
-                                label="💾 Glossar downloaden",
+                                label=_sidebar_text("glossary_download", default="💾 Glossar herunterladen"),
                                 data=st.session_state[cache_key],
                                 file_name=download_name,
                                 mime="application/pdf",
@@ -1595,7 +1699,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         pass
 
     if st.sidebar.button(
-        "Fragenset mit KI erstellen",
+        _sidebar_text("create_user_qset", default="Fragenset mit KI erstellen"),
         key="user_qset_open_btn",
         type="primary",
         width="stretch",
@@ -1607,7 +1711,12 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             close_user_qset_dialog(clear_results=True, clear_active_toast=True)
             st.rerun()
         elif active_dialog and active_dialog != "user_qset":
-            st.sidebar.warning("Schließe zuerst den geöffneten Dialog, bevor du ein neues Fragenset erstellst.")
+            st.sidebar.warning(
+                _sidebar_text(
+                    "user_qset_dialog_warning",
+                    default="Schließe zuerst den geöffneten Dialog, bevor du ein neues Fragenset erstellst.",
+                )
+            )
         else:
             st.session_state["user_qset_dialog_open"] = True
             st.session_state.pop("user_qset_last_result", None)
@@ -1633,7 +1742,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     pass
                 if deleted_owner and deleted_owner == current_user:
                     st.sidebar.error(
-                        "Dieses temporäre Fragenset wurde vom Ersteller beendet. Lade die Seite neu und wähle ein anderes Fragenset für deinen nächsten Versuch."
+                        _sidebar_text(
+                            "user_qset_deleted",
+                            default=
+                                "Dieses temporäre Fragenset wurde vom Ersteller beendet. Lade die Seite neu und wähle ein anderes Fragenset für deinen nächsten Versuch.",
+                        )
                     )
 
             # Preserved notice: only show if owner matches current user
@@ -1647,13 +1760,16 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     pass
                 if preserved_owner and preserved_owner == current_user:
                     st.sidebar.success(
-                        "Deine Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden."
+                        _sidebar_text(
+                            "user_qset_preserved",
+                            default="Deine Fragensets bleiben erhalten, da dein Pseudonym reserviert ist. Du kannst sie in künftigen Sessions erneut verwenden.",
+                        )
                     )
         except Exception:
             # Non-fatal: ignore any session_state access issues
             pass
 
-    with st.sidebar.expander("⚠️ Session beenden"):
+    with st.sidebar.expander(_sidebar_text("session_expander", default="⚠️ Session beenden")):
         # If the user has set a recovery secret, do NOT show the advice
         # to pick a new pseudonym. Otherwise show the full guidance.
         user_pseudo = st.session_state.get("user_id")
@@ -1703,7 +1819,15 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             if keep_for_reserved:
                 days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
                 st.info(
-                    f"Beim Beenden dieser Session bleibt das temporäre Fragenset **{set_name}** erhalten und wird {days} Tage lang aufbewahrt."
+                    _sidebar_text(
+                        "session_reserved_info",
+                        default=(
+                            "Beim Beenden dieser Session bleibt das temporäre Fragenset **{set_name}** erhalten "
+                            "und wird {days} Tage lang aufbewahrt."
+                        ),
+                        set_name=set_name,
+                        days=days,
+                    )
                 )
             else:
                 # Do not display deletion/force-logout warnings here. The
@@ -1730,13 +1854,26 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
         if show_full_hint:
             st.warning(
-                "Für einen weiteren Versuch wähle ein neues Pseudonym."
+                _sidebar_text(
+                    "session_choose_new",
+                    default="Für einen weiteren Versuch wähle ein neues Pseudonym.",
+                )
             )
         else:
             # Users with a recovery secret should not be shown the 'choose new pseudonym' advice.
-            st.warning("⚠️ Dein Punktestand wird gespeichert und der Test beendet.")
+            st.warning(
+                _sidebar_text(
+                    "session_keep_warning",
+                    default="⚠️ Dein Punktestand wird gespeichert und der Test beendet.",
+                )
+            )
 
-        if st.button("Session beenden", key="abort_session_btn", type="primary", width="stretch"):
+        if st.button(
+            _sidebar_text("session_end_button", default="Session beenden"),
+            key="abort_session_btn",
+            type="primary",
+            width="stretch",
+        ):
             # Berechne finale Werte vor dem Löschen der Session
             final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
             duration_seconds = 0
@@ -1853,16 +1990,23 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
         # Sicherheit: Admin-Panel niemals für Remote-Zugriffe anzeigen.
         if st.session_state.get("show_admin_panel"):
             st.session_state.show_admin_panel = False
-        msg = "🔒 Admin-Zugang ist nur über localhost verfügbar."
+        msg = _sidebar_text(
+            "admin_remote_warning",
+            default="🔒 Admin-Zugang ist nur über localhost verfügbar.",
+        )
         if client_ip:
-            msg += f"\n\nAktuelle Herkunfts-IP: `{client_ip}`"
+            msg += _sidebar_text(
+                "admin_remote_warning_ip",
+                default="\n\nAktuelle Herkunfts-IP: `{ip}`",
+                ip=client_ip,
+            )
         st.sidebar.error(msg)
         return
 
     is_panel_active = st.session_state.get("show_admin_panel", False)
 
     if is_panel_active:
-        st.sidebar.info("Du bist im Admin-Modus.")
+        st.sidebar.info(_sidebar_text("admin_mode_info", default="Du bist im Admin-Modus."))
         st.sidebar.divider()
         # --- Admin: Musterlösung (PDF) ---
         try:
@@ -1874,7 +2018,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
 
                 if pdf_bytes:
                             st.sidebar.download_button(
-                                label="💾 Musterlösung herunterladen",
+                                label=_sidebar_text("admin_solution_download", default="💾 Musterlösung herunterladen"),
                                 data=pdf_bytes,
                                 file_name=download_name,
                                 mime="application/pdf",
@@ -1882,18 +2026,22 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                                 width="stretch",
                             )
                 else:
-                    if st.sidebar.button("📄 Musterlösung (PDF) generieren", key="sidebar_muster_generate", width="stretch"):
+                    if st.sidebar.button(
+                        _sidebar_text("admin_solution_generate", default="📄 Musterlösung (PDF) generieren"),
+                        key="sidebar_muster_generate",
+                        width="stretch",
+                    ):
                         with st.spinner("Generiere Musterlösung-PDF..."):
                             try:
                                 generated = generate_musterloesung_pdf(selected_file, list(questions), app_config)
                                 st.session_state[cache_key] = generated
-                                st.sidebar.success("Musterlösung-PDF fertig")
+                                st.sidebar.success(_sidebar_text("admin_solution_success", default="Musterlösung-PDF fertig"))
                             except Exception as e:
                                 st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
 
                         if st.session_state.get(cache_key):
                             st.sidebar.download_button(
-                                label="💾 Musterlösung herunterladen",
+                                label=_sidebar_text("admin_solution_download", default="💾 Musterlösung herunterladen"),
                                 data=st.session_state[cache_key],
                                 file_name=download_name,
                                 mime="application/pdf",
@@ -1902,7 +2050,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                             )
         except Exception:
             pass
-        if st.sidebar.button("⬅️ Zurück zum Test", width="stretch"):
+        if st.sidebar.button(_sidebar_text("admin_back_to_test", default="⬅️ Zurück zum Test"), width="stretch"):
             # Beim Zurückspringen aus dem Admin-Panel soll eine ggf. zuvor
             # gesetzte Lösch-Hinweisnachricht nicht fälschlich angezeigt
             # werden. Entferne den Session-Flag, bevor wir das Panel schließen.
@@ -1912,21 +2060,32 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
     else:
         # Wenn kein Admin-Key konfiguriert ist, erlaube direkten Zugang (für lokale Tests)
         if not app_config.admin_key:
-            st.sidebar.warning("⚠️ **Admin-Key nicht gesetzt!**\n\nNur für lokale Entwicklung geeignet. "
-                             "Für Produktion bitte `MC_TEST_ADMIN_KEY` setzen.")
-            if st.sidebar.button("📊 Admin-Panel öffnen (UNSICHER)", width="stretch", type="secondary"):
+            st.sidebar.warning(
+                _sidebar_text(
+                    "admin_key_missing",
+                    default="⚠️ **Admin-Key nicht gesetzt!**\n\nNur für lokale Entwicklung geeignet. "
+                            "Für Produktion bitte `MC_TEST_ADMIN_KEY` setzen.",
+                )
+            )
+            if st.sidebar.button(
+                _sidebar_text("admin_open_panel", default="📊 Admin-Panel öffnen (UNSICHER)"),
+                width="stretch",
+                type="secondary",
+            ):
                 st.session_state.show_admin_panel = True
                 st.rerun()
         else:
             # Mit Admin-Key: Passwort-Eingabe erforderlich
-            with st.sidebar.expander("🔐 Admin Panel"):
+            with st.sidebar.expander(_sidebar_text("admin_expander", default="🔐 Admin Panel")):
                 with st.form("admin_unlock_form", border=False):
                     entered_key = st.text_input(
-                        "Admin-Key",
+                        _sidebar_text("admin_key_label", default="Admin-Key"),
                         type="password",
                         key="admin_key_input_sidebar"
                     )
-                    admin_form_submitted = st.form_submit_button("Panel aktivieren")
+                    admin_form_submitted = st.form_submit_button(
+                        _sidebar_text("admin_activate_button", default="Panel aktivieren")
+                    )
 
                 if admin_form_submitted:
                     # --- 🔒 PHASE 3: Rate-Limiting ---
@@ -1942,8 +2101,13 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                     # Prüfe Rate-Limit
                     is_allowed, locked_until = check_rate_limit(user_id)
                     if not is_allowed:
-                        st.error(f"⛔ Zu viele fehlgeschlagene Versuche!\n\n"
-                                f"Gesperrt bis: {locked_until}")
+                        st.error(
+                            _sidebar_text(
+                                "admin_locked",
+                                default="⛔ Zu viele fehlgeschlagene Versuche!\n\nGesperrt bis: {locked_until}",
+                                locked_until=locked_until,
+                            )
+                        )
                         log_admin_action(user_id, "LOGIN_BLOCKED", 
                                        f"Rate limit exceeded until {locked_until}",
                                        success=False)
@@ -1969,7 +2133,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                         log_admin_action(user_id, "LOGIN_FAILED", 
                                        "Wrong admin key provided",
                                        success=False)
-                        st.error("Falscher Key.")
+                        st.error(_sidebar_text("admin_wrong_key", default="Falscher Key."))
 
 
 def render_bookmarks(questions: QuestionSet):
@@ -1989,9 +2153,12 @@ def render_bookmarks(questions: QuestionSet):
     ) or st.session_state.get("jump_to_idx_active", False)
     jumps_disabled = test_completed and not currently_reviewing
     # Expander nur geöffnet, wenn Inhalt vorhanden
-    with st.sidebar.expander("🔖 Markierte Fragen", expanded=len(bookmarks) > 0):
+    with st.sidebar.expander(
+        _sidebar_text("bookmarks_expander", default="🔖 Markierte Fragen"),
+        expanded=len(bookmarks) > 0,
+    ):
         if not bookmarks:
-            st.caption("Keine Fragen markiert.")
+            st.caption(_sidebar_text("bookmarks_empty", default="Keine Fragen markiert."))
             return
 
         # Sortiere die Bookmarks nach der Reihenfolge, in der sie im Test erscheinen
@@ -1999,7 +2166,9 @@ def render_bookmarks(questions: QuestionSet):
         sorted_bookmarks = sorted(bookmarks, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
 
         if jumps_disabled:
-            st.caption("Sprünge sind nach Abschluss deaktiviert.")
+            st.caption(
+                _sidebar_text("bookmarks_disabled", default="Sprünge sind nach Abschluss deaktiviert.")
+            )
 
         for q_idx in sorted_bookmarks:
             cols = st.columns([3, 1, 1])
@@ -2012,7 +2181,7 @@ def render_bookmarks(questions: QuestionSet):
                 if st.button(
                     "🔖",
                     key=f"bm_jump_{q_idx}",
-                    help="Zur markierten Frage springen",
+                    help=_sidebar_text("bookmarks_jump_help", default="Zur markierten Frage springen"),
                     disabled=jumps_disabled,
                     width="stretch",
                 ):
@@ -2027,7 +2196,12 @@ def render_bookmarks(questions: QuestionSet):
                             pass
                         st.rerun()
             with cols[2]:
-                if st.button("🗑️", key=f"bm_del_{q_idx}", help="Bookmark entfernen", width="stretch"):
+                if st.button(
+                    "🗑️",
+                    key=f"bm_del_{q_idx}",
+                    help=_sidebar_text("bookmarks_remove_help", default="Bookmark entfernen"),
+                    width="stretch",
+                ):
                     st.session_state.bookmarked_questions.remove(q_idx)
                     bookmarked_q_nrs = [
                         int(questions[i]['frage'].split('.')[0]) 
@@ -2036,7 +2210,7 @@ def render_bookmarks(questions: QuestionSet):
                     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
                     st.rerun()
 
-        if st.button("🗑️ Alle entfernen", key="bm_clear_all"):
+        if st.button(_sidebar_text("bookmarks_clear", default="🗑️ Alle entfernen"), key="bm_clear_all"):
             st.session_state.bookmarked_questions = []
             # Leere Liste an die DB-Funktion übergeben
             if "session_id" in st.session_state:
@@ -2058,9 +2232,12 @@ def render_skipped_questions(questions: QuestionSet):
     ) or st.session_state.get("jump_to_idx_active", False)
     jumps_disabled = test_completed and not currently_reviewing
     # Expander nur geöffnet, wenn Inhalt vorhanden
-    with st.sidebar.expander("↪️ Übersprungen", expanded=len(skipped) > 0):
+    with st.sidebar.expander(
+        _sidebar_text("skipped_expander", default="↪️ Übersprungen"),
+        expanded=len(skipped) > 0,
+    ):
         if not skipped:
-            st.caption("Keine Fragen übersprungen.")
+            st.caption(_sidebar_text("skipped_empty", default="Keine Fragen übersprungen."))
             return
 
         # Sortiere die übersprungenen Fragen nach der Reihenfolge im Test
@@ -2068,7 +2245,9 @@ def render_skipped_questions(questions: QuestionSet):
         sorted_skipped = sorted(skipped, key=lambda q_idx: initial_indices.index(q_idx) if q_idx in initial_indices else float('inf'))
 
         if test_completed:
-            st.caption("Sprünge sind nach Abschluss deaktiviert.")
+            st.caption(
+                _sidebar_text("skipped_disabled", default="Sprünge sind nach Abschluss deaktiviert.")
+            )
 
         for q_idx in sorted_skipped:
             # Korrekte Ermittlung der laufenden Nummer der Frage im Testdurchlauf.
@@ -2091,7 +2270,14 @@ def render_skipped_questions(questions: QuestionSet):
                 st.rerun()
 
         st.divider()
-        if st.button("Alle zurücksetzen", key="skip_clear_all", help="Setzt alle übersprungenen Fragen zurück, sodass sie nicht mehr in dieser Liste erscheinen."):
+        if st.button(
+            _sidebar_text("skipped_clear", default="Alle zurücksetzen"),
+            key="skip_clear_all",
+            help=_sidebar_text(
+                "skipped_clear_help",
+                default="Setzt alle übersprungenen Fragen zurück, sodass sie nicht mehr in dieser Liste erscheinen.",
+            ),
+        ):
             # Um sie zurückzusetzen, müssen wir sie aus der 'skipped' Liste entfernen
             # und wieder an ihre ursprüngliche Position in 'frage_indices' bringen.
             # Einfachere Variante: Nur die Liste leeren. Die Fragen bleiben am Ende der Warteschlange.
@@ -2179,7 +2365,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
     try:
         summary_parts = []
         if duration_minutes:
-                    summary_parts.append(_distribution_summary_test_time(int(duration_minutes)))
+            summary_parts.append(_distribution_summary_test_time(int(duration_minutes)))
 
         if difficulty_profile and isinstance(difficulty_profile, dict):
             leicht_count = int(difficulty_profile.get('leicht', 0) or 0)
