@@ -172,14 +172,14 @@ def main():
             dialog_fn = getattr(st, 'dialog', None)
             if callable(dialog_fn):
 
-                @dialog_fn("Meine Sessions")
+                @dialog_fn(translate_ui("sidebar.history_dialog_title", default="Meine Sessions"))
                 def _history_dialog():
                     _render_history_table(history_rows, filename_base)
 
                 _history_dialog()
             else:
                 with st.container(border=True):
-                    st.header("Meine Sessions")
+                    st.header(translate_ui("sidebar.history_header", default="Meine Sessions"))
                     _render_history_table(history_rows, filename_base)
     except Exception:
         # Non-critical: history rendering must not block main app flow

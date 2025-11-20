@@ -368,6 +368,28 @@ def _summary_text(key: str, default: str, **kwargs) -> str:
     return template.format(**kwargs) if kwargs else template
 
 
+def _history_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"sidebar.history_{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
+_HISTORY_COLUMN_TRANSLATIONS: dict[str, tuple[str, str]] = {
+    "Datum": ("date", "Datum"),
+    "Fragenset": ("question_set", "Fragenset"),
+    "Punkte (%)": ("points", "Punkte (%)"),
+    "Dauer": ("duration", "Dauer"),
+    "Aktionen": ("actions", "Aktionen"),
+}
+
+
+def _history_column_label(column_name: str) -> str:
+    meta = _HISTORY_COLUMN_TRANSLATIONS.get(column_name)
+    if not meta:
+        return column_name
+    key, default = meta
+    return translate_ui(f"sidebar.history_columns.{key}", default=default)
+
+
 def _welcome_leaderboard_column_pseudonym() -> str:
     return translate_ui(
         "welcome.leaderboard.column.pseudonym",
@@ -798,11 +820,21 @@ def _render_history_table(history_rows, filename_base: str):
     try:
         df = pd.DataFrame(history_rows)
     except Exception:
-        st.error("Fehler beim Laden der Historie.")
+        st.error(
+            translate_ui(
+                "sidebar.history_error",
+                default="Error loading the history.",
+            )
+        )
         return
 
     if df.empty:
-        st.info("Keine bisherigen Testergebnisse gefunden.")
+        st.info(
+            translate_ui(
+                "sidebar.history_empty",
+                default="No previous test results found.",
+            )
+        )
         return
 
     # Format common columns for a friendlier display
@@ -948,7 +980,7 @@ def _render_history_table(history_rows, filename_base: str):
                         return s
             except Exception:
                 pass
-            return 'Ungenanntes Fragenset'
+            return _history_text('unnamed_set', default='Ungenanntes Fragenset')
 
         try:
             df['Fragenset'] = df.apply(lambda r: _derive_label(r.to_dict() if hasattr(r, 'to_dict') else dict(r)), axis=1)
@@ -1141,7 +1173,7 @@ def _render_history_table(history_rows, filename_base: str):
         header_cols = st.columns([2 if c == 'Fragenset' else 1 for c in visible_order], gap='small')
         for col_obj, col_name in zip(header_cols, visible_order):
             with col_obj:
-                st.markdown(f"**{col_name}**")
+                st.markdown(f"**{_history_column_label(col_name)}**")
 
         # Render each shown row as a set of columns with a button per row.
         for idx, row in df_shown.reset_index().iterrows():
@@ -1169,7 +1201,12 @@ def _render_history_table(history_rows, filename_base: str):
                                 except Exception:
                                     questions_file = None
 
-                            if st.button("Start", key=btn_key, width="stretch", type='primary'):
+                            if st.button(
+                                _history_text("start_button", default="Start"),
+                                key=btn_key,
+                                width="stretch",
+                                type='primary',
+                            ):
                                 # Configure the app to start the test with the selected set.
                                 try:
                                     if questions_file:
@@ -1241,7 +1278,12 @@ def _render_history_table(history_rows, filename_base: str):
                         except Exception:
                             st.markdown("-")
 
-        st.caption(f"Zeige {len(df_shown)} von {total_rows} Einträgen")
+        st.caption(
+            translate_ui(
+                "sidebar.history_showing",
+                default="Showing {shown} of {total} entries.",
+            ).format(shown=len(df_shown), total=total_rows)
+        )
     except Exception:
         st.dataframe(df_display, width="stretch", hide_index=True, height=200)
 
@@ -1279,7 +1321,7 @@ def _render_history_table(history_rows, filename_base: str):
                 st.info(notice)
 
             st.download_button(
-                "CSV herunterladen",
+                _history_text("csv_download", default="CSV herunterladen"),
                 data=csv_bytes,
                 file_name=f"{filename_base}_history.csv",
                 mime='text/csv',
@@ -1297,11 +1339,21 @@ def _render_history_table(history_rows, filename_base: str):
 
                     if delete_all_sessions_for_user:
                         st.divider()
-                        if st.button('🗑️ Alle Sessions löschen', key='btn_delete_all_sessions', type='primary', width='stretch'):
+                        if st.button(
+                            _history_text('delete_all_button', default='🗑️ Alle Sessions löschen'),
+                            key='btn_delete_all_sessions',
+                            type='primary',
+                            width='stretch',
+                        ):
                             st.session_state['_pending_delete_all_sessions'] = True
 
                         if st.session_state.get('_pending_delete_all_sessions'):
-                            st.warning('Diese Aktion löscht alle deine Sessions inklusive Antworten, Lesezeichen und Feedback.')
+                            st.warning(
+                                _history_text(
+                                    'delete_all_warning',
+                                    default='Diese Aktion löscht alle deine Sessions inklusive Antworten, Lesezeichen und Feedback.',
+                                )
+                            )
 
                             # Render a full-width confirm button (form) so the user
                             # only needs to click once. Place both controls stacked
@@ -1316,7 +1368,10 @@ def _render_history_table(history_rows, filename_base: str):
                                     logging.exception('delete_all_sessions_for_user failed')
 
                                 if ok:
-                                    st.session_state['_history_delete_notice'] = 'Sessions gelöscht. Rufe "Meine Sessions" erneut auf.'
+                                    st.session_state['_history_delete_notice'] = _history_text(
+                                        'delete_notice',
+                                        default='Sessions gelöscht. Rufe "Meine Sessions" erneut auf.',
+                                    )
                                     try:
                                         del st.session_state['_pending_delete_all_sessions']
                                     except Exception:
@@ -1328,7 +1383,7 @@ def _render_history_table(history_rows, filename_base: str):
                                     except Exception:
                                         pass
                                 else:
-                                    st.error('Löschen fehlgeschlagen.')
+                                    st.error(_history_text('delete_failed', default='Löschen fehlgeschlagen.'))
                                     try:
                                         del st.session_state['_pending_delete_all_sessions']
                                     except Exception:
@@ -1337,7 +1392,7 @@ def _render_history_table(history_rows, filename_base: str):
                             try:
                                 # Primary full-width confirm button with callback
                                 st.button(
-                                    'Sessions löschen',
+                                    _history_text('delete_confirm_button', default='Sessions löschen'),
                                     key='confirm_delete_all_sessions',
                                     type='primary',
                                     width='stretch',
@@ -1346,7 +1401,12 @@ def _render_history_table(history_rows, filename_base: str):
                                 )
                             except Exception:
                                 # Fallback: if on_click not supported, use plain button
-                                if st.button('Sessions löschen', key='confirm_delete_all_sessions_fallback', type='primary', width='stretch'):
+                                if st.button(
+                                    _history_text('delete_confirm_button', default='Sessions löschen'),
+                                    key='confirm_delete_all_sessions_fallback',
+                                    type='primary',
+                                    width='stretch',
+                                ):
                                     try:
                                         ok = delete_all_sessions_for_user(user_pseudo)
                                     except Exception:
@@ -1354,7 +1414,10 @@ def _render_history_table(history_rows, filename_base: str):
                                         logging.exception('delete_all_sessions_for_user failed')
 
                                     if ok:
-                                        st.session_state['_history_delete_notice'] = 'Sessions gelöscht. Rufe "Meine Sessions" erneut auf.'
+                                        st.session_state['_history_delete_notice'] = _history_text(
+                                            'delete_notice',
+                                            default='Sessions gelöscht. Rufe "Meine Sessions" erneut auf.',
+                                        )
                                         try:
                                             del st.session_state['_pending_delete_all_sessions']
                                         except Exception:
@@ -1366,14 +1429,18 @@ def _render_history_table(history_rows, filename_base: str):
                                         except Exception:
                                             pass
                                     else:
-                                        st.error('Löschen fehlgeschlagen.')
+                                        st.error(_history_text('delete_failed', default='Löschen fehlgeschlagen.'))
                                         try:
                                             del st.session_state['_pending_delete_all_sessions']
                                         except Exception:
                                             pass
 
                             # Cancel button (full width)
-                            if st.button('Abbrechen', key='cancel_delete_all_sessions', width='stretch'):
+                            if st.button(
+                                _history_text('delete_cancel_button', default='Abbrechen'),
+                                key='cancel_delete_all_sessions',
+                                width='stretch',
+                            ):
                                 try:
                                     if '_pending_delete_all_sessions' in st.session_state:
                                         del st.session_state['_pending_delete_all_sessions']
@@ -1392,7 +1459,7 @@ def _render_history_table(history_rows, filename_base: str):
                 # Non-fatal: bulk-delete UI must not break history rendering
                 logging.exception('bulk delete UI failed')
     except Exception:
-        st.info("CSV-Export nicht verfügbar.")
+        st.info(_history_text("csv_unavailable", default="CSV-Export nicht verfügbar."))
 
 
 def _process_queued_rerun() -> None:
@@ -2430,14 +2497,16 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             dialog_fn = getattr(st, 'dialog', None)
             if callable(dialog_fn):
 
-                @dialog_fn("Meine Sessions")
+                @dialog_fn(
+                    translate_ui("sidebar.history_dialog_title", default="Meine Sessions")
+                )
                 def _history_dialog():
                     _render_history_table(history_rows, filename_base)
 
                 _history_dialog()
             else:
                 with st.container(border=True):
-                    st.header(translate_ui("sidebar.history_header", default="Meine Sessions"))
+                    st.header(_history_text("header", default="Meine Sessions"))
                     _render_history_table(history_rows, filename_base)
     except Exception:
         # If history rendering fails, silently continue - it must not break the test UI.
