@@ -48,6 +48,8 @@ from user_question_sets import (
     cleanup_stale_user_question_sets,
 )
 
+from pdf_export import _normalize_stage_label
+
 
 DOWNLOAD_BUTTON_LABEL = "Download starten"
 MIME_PDF = "application/pdf"
@@ -2180,8 +2182,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         if thema:
             st.caption(f"Thema: {thema}")
+        raw_stage_value = frage_obj.get("kognitive_stufe")
+        stage_suffix = ""
+        if raw_stage_value and str(raw_stage_value).strip():
+            stage_suffix = f" • {_normalize_stage_label(raw_stage_value)}"
+
         st.markdown(
-            f"**{frage_text}** <span style='color:#888; font-size:0.9em;'>(Gewicht: {gewichtung})</span>",
+            f"**{frage_text}** <span style='color:#888; font-size:0.9em;'>(Gewicht: {gewichtung}{stage_suffix})</span>",
             unsafe_allow_html=True,
         )
 
