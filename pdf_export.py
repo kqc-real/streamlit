@@ -68,6 +68,8 @@ FORMULA_CACHE_MAX_FILES = int(os.getenv('FORMULA_CACHE_MAX_FILES', '100'))
 FORMULA_CACHE_MAX_MB = int(os.getenv('FORMULA_CACHE_MAX_MB', '50'))
 FORMULA_CACHE_TTL_DAYS = int(os.getenv('FORMULA_CACHE_TTL_DAYS', '7'))
 
+DEFAULT_STAGE_LABEL = "Unbekannt"
+
 _STAGE_ALIAS_MAP: Dict[str, str] = {
     "reproduktion": "Reproduktion",
     "wissen": "Reproduktion",
@@ -89,12 +91,31 @@ BLOOM_STAGE_ORDER = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
 
 def _normalize_stage_label(value: Any) -> str:
     if not value:
-        return "Unbekannt"
+        return DEFAULT_STAGE_LABEL
     key = str(value).strip()
     if not key:
-        return "Unbekannt"
+        return DEFAULT_STAGE_LABEL
     alias = _STAGE_ALIAS_MAP.get(key.lower())
     return alias if alias else key
+
+
+def _get_bloom_stage_rank(stage_label: str) -> int:
+    """Numerischer Rang für eine Bloom-Stufe (nicht erkannte Labels werden hinten einsortiert)."""
+    try:
+        return BLOOM_STAGE_ORDER.index(stage_label)
+    except ValueError:
+        return len(BLOOM_STAGE_ORDER)
+
+
+def _prepare_stage_sorted_questions(questions: List[Dict[str, Any]]) -> List[tuple[int, str, int, Dict[str, Any]]]:
+    """Bereitet die Fragen-Liste nach Bloom-Stufen sortiert auf."""
+    enriched: list[tuple[int, str, int, Dict[str, Any]]] = []
+    for idx, frage in enumerate(questions):
+        normalized_stage = _normalize_stage_label(frage.get("kognitive_stufe"))
+        rank = _get_bloom_stage_rank(normalized_stage)
+        enriched.append((rank, normalized_stage, idx, frage))
+    enriched.sort(key=lambda entry: (entry[0], entry[1], entry[2]))
+    return enriched
 
 
 def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days: int = 7) -> None:
@@ -1271,22 +1292,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         <h2 class="section-title">Detaillierte Auswertung</h2>
     '''
     
-    # initial_indices wurde bereits oben geholt für Lesezeichen
-    # Sortiere Fragen nach Testreihenfolge (initial_indices)
-    # Erstelle Liste von (test_position, original_index, frage_obj)
-    questions_with_order = []
-    for i, frage_obj in enumerate(questions):
-        if i in initial_indices:
-            test_position = initial_indices.index(i)
-            questions_with_order.append((test_position, i, frage_obj))
-    
-    # Sortiere nach test_position
-    questions_with_order.sort(key=lambda x: x[0])
+    sorted_questions = _prepare_stage_sorted_questions(questions)
 
-    # Iteriere über sortierte Fragen
-    for test_number, original_index, frage_obj in questions_with_order:
-        # test_number ist bereits 0-basiert, also +1 für Anzeige
-        display_test_number = test_number + 1
+    for display_test_number, (_, stage_label, original_index, frage_obj) in enumerate(sorted_questions, start=1):
+        # display_test_number zählt schon ab 1
         
         # Original-Nummer (aus dem Fragentext)
         try:
@@ -1344,16 +1353,17 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         # Status-Anzeige (Richtig, Falsch, Unbeantwortet)
         html_body += f'<div class="question-status {status_class}"><span class="status-icon">{status_icon}</span> {status_text}</div>'
         
-        html_body += f'<div class="question-header">'
-        stage_label_display = _normalize_stage_label(frage_obj.get("kognitive_stufe"))
-        stage_line = f'<div class="stage-label">Kognitive Stufe: <span>{stage_label_display}</span></div>'
+        html_body += '<div class="question-header">'
+        raw_stage_value = frage_obj.get("kognitive_stufe")
+        has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
         html_body += f'Frage {display_test_number} / {len(questions)} '
         html_body += '<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
         html_body += f'(Fragenset-Nr. {original_number})</span> '
         html_body += f'{difficulty_badge}'
         html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
         html_body += '</div>'
-        html_body += stage_line
+        if has_stage_label:
+            html_body += f'<div class="stage-label">Kognitive Stufe: <span>{stage_label}</span></div>'
         
         # Thema-Badge (falls vorhanden)
         if thema:
@@ -2179,9 +2189,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         f'<span><strong>Erstellt:</strong> {generated_at}</span></div></div>'
     )
     html_parts.append('<div class="section">')
+    sorted_entries = _prepare_stage_sorted_questions(questions)
 
-    # Nummeriere die Fragen fortlaufend in der Reihenfolge, wie sie hier übergeben werden
-    for display_num, frage in enumerate(questions, start=1):
+    # Nummeriere die Fragen nach Bloom-Taxonomie geordnet
+    for display_num, (_, stage_label, _, frage) in enumerate(sorted_entries, start=1):
         # coarse progress report: parsing/rendering block per question
         _report(int((display_num - 1) / max(1, len(questions)) * 60), f"Verarbeite Frage {display_num}/{len(questions)}")
         frage_text = frage.get("frage", "")
@@ -2193,8 +2204,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
 
         html_parts.append('<div class="question">')
         html_parts.append(f'<h3>Frage {display_num} / {len(questions)}</h3>')
-        stage_label_text = _normalize_stage_label(frage.get("kognitive_stufe"))
-        html_parts.append(f'<div class="stage-label">Kognitive Stufe: <span>{stage_label_text}</span></div>')
+        raw_stage_value = frage.get("kognitive_stufe")
+        has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
+        if has_stage_label:
+            html_parts.append(f'<div class="stage-label">Kognitive Stufe: <span>{stage_label}</span></div>')
         html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
         html_parts.append('<ul class="options">')
 
