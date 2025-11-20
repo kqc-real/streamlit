@@ -279,6 +279,74 @@
         "anki_instruction": "Anleitung: Anki-Export",
         "anki_preview": "Anki-Kartenvorschau"
     },
+    "pdf": {
+        "status": {
+            "correct": "Richtig",
+            "wrong": "Falsch",
+            "unanswered": "Unbeantwortet"
+        },
+        "difficulty": {
+            "easy": "Leicht",
+            "medium": "Mittel",
+            "hard": "Schwer"
+        },
+        "stage_section_title": "Performance nach kognitiver Stufe",
+        "stage_table": {
+            "header": {
+                "stage": "Stufe",
+                "hits": "Treffer",
+                "quota": "Quote"
+            }
+        },
+        "comparison": {
+            "title": "Vergleich mit Durchschnitt",
+            "table": {
+                "header": {
+                    "level": "Ebene",
+                    "you": "Du",
+                    "avg": "Ø",
+                    "diff": "Abweichung",
+                    "difficulty": "Schwierigkeit"
+                }
+            },
+            "row": {
+                "overall": "Gesamtergebnis"
+            },
+            "by_difficulty": "Nach Schwierigkeit",
+            "above": "über Durchschnitt",
+            "below": "unter Durchschnitt",
+            "neutral": "auf Durchschnittsniveau",
+            "footer": "Basierend auf {n} Teilnehmer(n). Vergleichsdaten Stand: {date}."
+        },
+        "question_header": "Frage {current} / {total}",
+        "bookmarks_title": "Markierte Fragen",
+        "questionset_number": "(Fragenset-Nr. {n})",
+        "stage_label": "Kognitive Stufe: {stage}",
+        "detailed_explanation": "Detaillierte Erklärung",
+        "bookmarks_intro": "Du hast folgende Fragen zur Wiederholung markiert:",
+        "question_short": "Frage {n}",
+        "meta": {
+            "participant": "Teilnehmer:",
+            "test_date": "Testdatum:",
+            "duration": "Dauer:",
+            "questionset": "Fragenset:",
+            "generated_at": "Stand:"
+        },
+        "stat": {
+            "correct": "Richtig",
+            "wrong": "Falsch",
+            "unanswered": "Unbeantwortet",
+            "total": "Gesamt"
+        },
+        "glossary": {
+            "title": "Mini-Glossar"
+        },
+        "musterloesung": {
+            "title": "Musterlösung"
+        },
+        "detailed_analysis": "Detaillierte Auswertung"
+    },
+    "unnamed_set": "Ungenanntes Fragenset",
     "summary": {
         "header": {
             "manual_end": "\u26a0\ufe0f Test vorzeitig beendet",
@@ -482,22 +550,44 @@
             "reserve_success_message": "Pseudonym reserviert. Merke dir das Pseudonym genau (Gro\u00df-/Kleinschreibung und Akzente). Du musst es sp\u00e4ter exakt so eingeben.",
             "reserve_error": "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut.",
             "reserve_error_with_reason": "Fehler beim Reservieren des Pseudonyms: {error}",
-            "copy_label": "Pseudonym:",
-            "copy_button": "Kopieren",
-            "recover_expander": "Ich habe ein reserviertes Pseudonym\u2026",
-            "recover_pseudonym": "\ud83d\udc64 Pseudonym eingeben",
-            "recover_secret": "\ud83d\udd12 Geheimwort",
-            "recover_missing": "Bitte Pseudonym und \ud83d\udd12 Geheimwort eingeben.",
-            "recover_button": "Mit dem reservierten Pseudonym Test starten",
-            "recover_locked": "Zu viele Versuche. Gesperrt bis {locked_until}",
-            "recover_success": "Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...",
-            "recover_failure": "Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht \u00fcberein.",
-            "database_error": "Datenbankfehler: Konnte keine neue Test-Session starten.",
-            "test_button": "Test starten",
-            "question_required": "Bitte w\u00e4hle zuerst ein Fragenset aus."
+            "pdf": {
+                "status": { "correct": "Richtig", "wrong": "Falsch", "unanswered": "Unbeantwortet" },
+                "difficulty": { "easy": "Leicht", "medium": "Mittel", "hard": "Schwer" },
+                "stage_section_title": "Leistung nach kognitiver Stufe",
+                "stage_table": { "header": { "stage": "Stufe", "hits": "Treffer", "quota": "Quote" } },
+                "comparison": {
+                    "title": "Vergleich mit dem Durchschnitt",
+                    "table": { "header": { "level": "Ebene", "you": "Du", "avg": "Durchschn.", "diff": "Differenz", "difficulty": "Schwierigkeit" } },
+                    "row": { "overall": "Gesamtergebnis" },
+                    "by_difficulty": "Nach Schwierigkeit",
+                    "above": "über dem Durchschnitt",
+                    "below": "unter dem Durchschnitt",
+                    "neutral": "auf Durchschnittsniveau",
+                    "footer": "Basierend auf {n} Teilnehmern. Vergleichsdaten vom: {date}."
+                },
+                "question_header": "Frage {current} / {total}",
+                "bookmarks_title": "Markierte Fragen",
+                "questionset_number": "(Fragensatz Nr. {n})",
+                "stage_label": "Kognitive Stufe: {stage}",
+                "detailed_explanation": "Ausführliche Erklärung",
+                "bookmarks_intro": "Du hast die folgenden Fragen zum Nacharbeiten markiert:",
+                "question_short": "Frage {n}",
+                "meta": { "participant": "Teilnehmer:", "test_date": "Testdatum:", "duration": "Dauer:", "questionset": "Fragensatz:", "generated_at": "Erstellt am:" },
+                "stat": { "correct": "Richtig", "wrong": "Falsch", "unanswered": "Unbeantwortet", "total": "Gesamt" },
+                "glossary": { "title": "Mini-Glossar", "intro": "Wichtige Begriffe aus diesem Fragensatz, gruppiert nach Themen" },
+                "musterloesung": { "title": "Musterlösung" },
+                "detailed_analysis": "Ausführliche Analyse",
+                "header": { "manual_end": "Test vorzeitig beendet" },
+                "weak_topics": { "title": "Verbesserungsmöglichkeiten", "multiple": "Fragen {list}" },
+                "difficulty_section_title": "Leistung nach Schwierigkeit",
+                "difficulty_table": { "header": { "difficulty": "Schwierigkeit", "hits": "Treffer", "quota": "Quote" } },
+                "score_label": "von {n} Punkten",
+                "rank_text": " • Rang {rank}",
+                "rank_label": "Rangfolge (Stand {date})",
+                "log": { "formula_cache": "📊 PDF-Export abgeschlossen: {n} Formeln im Cache" },
+                "page_footer": "Seite {page} von {pages}",
+                "stage_unknown": "Unbekannt"
+            }
         }
-    },
-    "warnings": {
-        "no_config": "\u26a0\ufe0f **Keine Konfigurationsdatei gefunden!**\\n\\nDie App ben\u00f6tigt entweder eine `.env`-Datei oder `.streamlit/secrets.toml` f\u00fcr die Konfiguration (Admin-Zugang, URL f\u00fcr QR-Code, etc.).\\n\\n**F\u00fcr lokale Installation:**\\n1. Kopiere `.env.example` zu `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Starte die App neu.\\n\\n**Details:** Siehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
     }
 }

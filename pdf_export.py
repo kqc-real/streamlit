@@ -821,9 +821,10 @@ def _build_glossary_html(
 
     if include_header:
         glossary_html_parts.append('<div class="glossary-section">')
-        glossary_html_parts.append('<h2 class="section-title">Mini-Glossar</h2>')
-        intro = intro_text or 'Wichtige Begriffe aus diesem Test, gruppiert nach Themen'
-        glossary_html_parts.append(f'<p class="glossary-intro">{intro}</p>')
+        glossary_html_parts.append(f'<h2 class="section-title">{_html.escape(translate_ui("pdf.glossary.title", default="Mini-Glossar"))}</h2>')
+        intro_default = translate_ui('pdf.glossary.intro', default='Wichtige Begriffe aus diesem Test, gruppiert nach Themen')
+        intro = intro_text or intro_default
+        glossary_html_parts.append(f'<p class="glossary-intro">{_html.escape(intro)}</p>')
 
     for thema, terms in glossary_by_theme.items():
         parsed_thema = _render_latex_in_html(thema)
@@ -914,14 +915,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             set_name = pretty_label_from_identifier_string(q_file)
         except (ImportError, AttributeError):
             set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    set_name = set_name or "Ungenanntes Fragenset"
+    set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     # Prüfen, ob der Test vorzeitig beendet wurde
     test_manually_ended = st.session_state.get("test_manually_ended", False)
     header_title = set_name
     header_subtitle = ""
     if test_manually_ended:
-        header_subtitle = '<p class="header-subtitle">(Test vorzeitig beendet)</p>'
+        header_subtitle = f'<p class="header-subtitle">({_html.escape(translate_ui("pdf.header.manual_end", default="Test vorzeitig beendet"))})</p>'
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
@@ -939,7 +940,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 user_rank = idx
                 break
     
-    rank_text = f" • Platz {user_rank} im Ranking" if user_rank else ""
+    rank_text = translate_ui("pdf.rank_text", default=" • Platz {rank} im Ranking").format(rank=user_rank) if user_rank else ""
 
     # Statistiken berechnen
     antworten = [get_answer_for_question(i) for i in range(len(questions))]
@@ -976,15 +977,16 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     weak_topics_html = ""
     if weak_topics:
         weak_topics_html = '<div class="weak-topics">'
-        weak_topics_html += '<h3>Verbesserungspotenzial</h3>'
+        weak_topics_html += f'<h3>{_html.escape(translate_ui("pdf.weak_topics.title", default="Verbesserungspotenzial"))}</h3>'
         weak_topics_html += '<ul>'
         for topic, question_numbers in weak_topics:
-            # Formatiere Fragennummern (z.B. "Fragen 3, 7, 12")
+            # Format question numbers (e.g. single or list)
             if len(question_numbers) == 1:
-                fragen_text = f"Frage {question_numbers[0]}"
+                fragen_text = translate_ui("pdf.question_short", default="Frage {n}").format(n=question_numbers[0])
             else:
-                fragen_text = f"Fragen {', '.join(map(str, question_numbers))}"
-            weak_topics_html += f'<li><strong>{topic}</strong><br><span class="question-refs">{fragen_text}</span></li>'
+                numbers_list = ', '.join(map(str, question_numbers))
+                fragen_text = translate_ui("pdf.weak_topics.multiple", default="Fragen {list}").format(list=numbers_list)
+            weak_topics_html += f'<li><strong>{_html.escape(topic)}</strong><br><span class="question-refs">{_html.escape(fragen_text)}</span></li>'
         weak_topics_html += '</ul></div>'
     
     # Hole initial_indices für Lesezeichen
@@ -1041,21 +1043,21 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     if difficulty_stats["easy"]["gesamt"] > 0:
         easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
         difficulty_rows.append((
-            "★ Leicht",
+            f'★ {_html.escape(translate_ui("pdf.difficulty.easy", default="Leicht"))}',
             f'{difficulty_stats["easy"]["richtig"]}/{difficulty_stats["easy"]["gesamt"]}',
             easy_percent,
         ))
     if difficulty_stats["medium"]["gesamt"] > 0:
         medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
         difficulty_rows.append((
-            "★★ Mittel",
+            f'★★ {_html.escape(translate_ui("pdf.difficulty.medium", default="Mittel"))}',
             f'{difficulty_stats["medium"]["richtig"]}/{difficulty_stats["medium"]["gesamt"]}',
             medium_percent,
         ))
     if difficulty_stats["hard"]["gesamt"] > 0:
         hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
         difficulty_rows.append((
-            "★★★ Schwer",
+            f'★★★ {_html.escape(translate_ui("pdf.difficulty.hard", default="Schwer"))}',
             f'{difficulty_stats["hard"]["richtig"]}/{difficulty_stats["hard"]["gesamt"]}',
             hard_percent,
         ))
@@ -1063,9 +1065,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     difficulty_html = ""
     if difficulty_rows:
         difficulty_html = '<div class="difficulty-analysis">'
-        difficulty_html += '<h3>Performance nach Schwierigkeit</h3>'
+        difficulty_html += f'<h3>{translate_ui("pdf.difficulty_section_title", default="Performance nach Schwierigkeit")}</h3>'
         difficulty_html += '<table class="difficulty-table">'
-        difficulty_html += '<thead><tr><th>Schwierigkeit</th><th>Treffer</th><th>Quote</th></tr></thead>'
+        difficulty_html += (
+            '<thead><tr>'
+            f'<th>{translate_ui("pdf.difficulty_table.header.difficulty", default="Schwierigkeit")}</th>'
+            f'<th>{translate_ui("pdf.difficulty_table.header.hits", default="Treffer")}</th>'
+            f'<th>{translate_ui("pdf.difficulty_table.header.quota", default="Quote")}</th>'
+            '</tr></thead>'
+        )
         difficulty_html += '<tbody>'
         for label, ratio_text, percent_value in difficulty_rows:
             difficulty_html += (
@@ -1092,9 +1100,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     stage_html = ""
     if stage_rows:
         stage_html = '<div class="difficulty-analysis">'
-        stage_html += '<h3>Performance nach kognitiver Stufe</h3>'
+        stage_html += f'<h3>{translate_ui("pdf.stage_section_title", default="Performance nach kognitiver Stufe")}</h3>'
         stage_html += '<table class="difficulty-table">'
-        stage_html += '<thead><tr><th>Stufe</th><th>Treffer</th><th>Quote</th></tr></thead>'
+        stage_html += (
+            '<thead><tr>'
+            f'<th>{translate_ui("pdf.stage_table.header.stage", default="Stufe")}</th>'
+            f'<th>{translate_ui("pdf.stage_table.header.hits", default="Treffer")}</th>'
+            f'<th>{translate_ui("pdf.stage_table.header.quota", default="Quote")}</th>'
+            '</tr></thead>'
+        )
         stage_html += '<tbody>'
         for label, ratio_text, percent_value in stage_rows:
             stage_html += (
@@ -1106,28 +1120,35 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             )
         stage_html += '</tbody></table></div>'
 
-    # Vergleich mit Durchschnitt
+    # Comparison with averages
     comparison_html = ""
-    if avg_stats and avg_stats['total_users'] > 1:  # Mindestens 2 User (inkl. aktuellem)
+    if avg_stats and avg_stats['total_users'] > 1:  # at least 2 users inclusive
         def _diff_meta(value: float) -> tuple[str, str, str]:
             if value > 0:
-                return "diff-positive", "↑", "über Durchschnitt"
+                return "diff-positive", "↑", translate_ui("pdf.comparison.above", default="über Durchschnitt")
             if value < 0:
-                return "diff-negative", "↓", "unter Durchschnitt"
-            return "diff-neutral", "=", "auf Durchschnittsniveau"
+                return "diff-negative", "↓", translate_ui("pdf.comparison.below", default="unter Durchschnitt")
+            return "diff-neutral", "=", translate_ui("pdf.comparison.neutral", default="auf Durchschnittsniveau")
 
         comparison_html = '<div class="comparison-box">'
-        comparison_html += '<h3>Vergleich mit Durchschnitt</h3>'
+        comparison_html += f'<h3>{translate_ui("pdf.comparison.title", default="Vergleich mit Durchschnitt")}</h3>'
 
         diff_value = prozent - avg_stats['avg_percent']
         diff_class, diff_symbol, diff_phrase = _diff_meta(diff_value)
         comparison_html += '<table class="comparison-table">'
-        comparison_html += '<thead><tr><th>Ebene</th><th>Du</th><th>Ø</th><th>Abweichung</th></tr></thead>'
+        comparison_html += (
+            '<thead><tr>'
+            f'<th>{translate_ui("pdf.comparison.table.header.level", default="Ebene")}</th>'
+            f'<th>{translate_ui("pdf.comparison.table.header.you", default="Du")}</th>'
+            f'<th>{translate_ui("pdf.comparison.table.header.avg", default="Ø")}</th>'
+            f'<th>{translate_ui("pdf.comparison.table.header.diff", default="Abweichung")}</th>'
+            '</tr></thead>'
+        )
         comparison_html += '<tbody>'
         diff_value_str = format_decimal_de(abs(diff_value), 1)
         comparison_html += (
             f'<tr>'
-            f'<th scope="row">Gesamtergebnis</th>'
+            f'<th scope="row">{translate_ui("pdf.comparison.row.overall", default="Gesamtergebnis")}</th>'
             f'<td>{prozent:.0f} %</td>'
             f'<td>{avg_stats["avg_percent"]:.0f} %</td>'
             f'<td class="diff-cell {diff_class}">{diff_symbol} {diff_value_str} % {diff_phrase}</td>'
@@ -1141,7 +1162,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
                 easy_diff = easy_percent - avg_stats['avg_difficulty']['easy']
                 difficulty_comparison_rows.append((
-                    "★ Leicht",
+                    f'★ {translate_ui("pdf.difficulty.easy", default="Easy")}',
                     easy_percent,
                     avg_stats["avg_difficulty"]["easy"],
                     easy_diff,
@@ -1150,7 +1171,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
                 medium_diff = medium_percent - avg_stats['avg_difficulty']['medium']
                 difficulty_comparison_rows.append((
-                    "★★ Mittel",
+                    f'★★ {translate_ui("pdf.difficulty.medium", default="Medium")}',
                     medium_percent,
                     avg_stats["avg_difficulty"]["medium"],
                     medium_diff,
@@ -1159,7 +1180,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
                 hard_diff = hard_percent - avg_stats['avg_difficulty']['hard']
                 difficulty_comparison_rows.append((
-                    "★★★ Schwer",
+                    f'★★★ {translate_ui("pdf.difficulty.hard", default="Hard")}',
                     hard_percent,
                     avg_stats["avg_difficulty"]["hard"],
                     hard_diff,
@@ -1167,8 +1188,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
             if difficulty_comparison_rows:
                 comparison_html += '<table class="comparison-table comparison-difficulty-table">'
-                comparison_html += '<caption class="comparison-subtitle">Nach Schwierigkeit</caption>'
-                comparison_html += '<thead><tr><th>Schwierigkeit</th><th>Du</th><th>Ø</th><th>Abweichung</th></tr></thead>'
+                comparison_html += f'<caption class="comparison-subtitle">{translate_ui("pdf.comparison.by_difficulty", default="Nach Schwierigkeit")}</caption>'
+                comparison_html += ('<thead><tr>'
+                                     f'<th>{translate_ui("pdf.comparison.table.header.difficulty", default="Schwierigkeit")}</th>'
+                                     f'<th>{translate_ui("pdf.comparison.table.header.you", default="Du")}</th>'
+                                     f'<th>{translate_ui("pdf.comparison.table.header.avg", default="Ø")}</th>'
+                                     f'<th>{translate_ui("pdf.comparison.table.header.diff", default="Abweichung")}</th>'
+                                     '</tr></thead>')
                 comparison_html += '<tbody>'
                 for label, user_percent, avg_percent, diff in difficulty_comparison_rows:
                     diff_class, diff_symbol, diff_phrase = _diff_meta(diff)
@@ -1183,7 +1209,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     )
                 comparison_html += '</tbody></table>'
 
-        comparison_html += f'<p class="comparison-footer">Basierend auf {avg_stats["total_users"]} Teilnehmer(n).<br>Stand der Vergleichsdaten: {generated_at_str}.</p>'
+        footer_text = translate_ui("pdf.comparison.footer", default="Based on {n} participants. Comparison data as of: {date}.")
+        comparison_html += f'<p class="comparison-footer">{_html.escape(footer_text.format(n=avg_stats["total_users"], date=generated_at_str))}</p>'
         comparison_html += '</div>'
     
     # Mini-Glossar erstellen (nach Themen gruppiert)
@@ -1195,9 +1222,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     bookmarks_html = ""
     if bookmarked_indices:
         bookmarks_html = '<div class="bookmarks-overview">'
-        bookmarks_html += '<h3>Markierte Fragen</h3>'
+        bookmarks_html += f'<h3>{translate_ui("pdf.bookmarks_title", default="Markierte Fragen")}</h3>'
         bookmarks_html += '<p class="bookmark-intro">'
-        bookmarks_html += 'Du hast folgende Fragen zur Wiederholung markiert:'
+        bookmarks_intro = translate_ui("pdf.bookmarks_intro", default="Du hast folgende Fragen zur Wiederholung markiert:")
+        bookmarks_html += bookmarks_intro
         bookmarks_html += '</p>'
         bookmarks_html += '<ul class="bookmark-list">'
         
@@ -1222,9 +1250,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 # Parse Markdown und LaTeX im Preview
                 frage_preview_parsed = _render_latex_in_html(frage_preview)
 
-                bookmarks_html += f'<li><strong>Frage {test_num}</strong> '
+                q_short = translate_ui("pdf.question_short", default="Frage {n}").format(n=test_num)
+                bookmarks_html += f'<li><strong>{_html.escape(q_short)}</strong> '
                 bookmarks_html += '<span class="bookmark-ref">'
-                bookmarks_html += f'(Fragenset-Nr. {orig_num})</span><br>'
+                qset_ref = translate_ui("pdf.questionset_number", default="(Fragenset-Nr. {n})").format(n=orig_num)
+                bookmarks_html += f'{_html.escape(qset_ref)}</span><br>'
                 bookmarks_html += '<span class="bookmark-preview">'
                 bookmarks_html += f'{frage_preview_parsed}</span></li>'
         
@@ -1235,16 +1265,19 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     rank_html = ''
     if user_rank:
-        rank_html = f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">Ranking (Stand: {generated_at_str.split(" ")[0]})</div></div>'
+        rank_label = translate_ui('pdf.rank_label', default='Ranking (Stand: {date})').format(date=generated_at_str.split(' ')[0])
+        rank_html = f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">{_html.escape(rank_label)}</div></div>'
+    score_label = translate_ui('pdf.score_label', default='von {n} Punkten').format(n=max_score)
+
     html_body = f'''
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
                     <h1>{header_title}</h1>{header_subtitle}
                     <div class="meta-info">
-                        <span><strong>Teilnehmer:</strong> {user_name}</span>
-                        <span><strong>Testdatum:</strong> {generated_at_str}</span>
-                        {f'<span><strong>Dauer:</strong> {duration_str}</span>' if duration_str else ''}
+                        <span><strong>{translate_ui('pdf.meta.participant', default='Teilnehmer:')}</strong> {user_name}</span>
+                        <span><strong>{translate_ui('pdf.meta.test_date', default='Testdatum:')}</strong> {generated_at_str}</span>
+                        {f"<span><strong>{translate_ui('pdf.meta.duration', default='Dauer:')}</strong> {duration_str}</span>" if duration_str else ''}
                     </div>
                 </div>
                 <div class="header-right">
@@ -1256,25 +1289,25 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         <div class="summary-box">
             <div class="score-main">
                 <div class="score-number">{current_score}</div>
-                <div class="score-label">von {max_score} Punkten</div>
+                <div class="score-label">{_html.escape(score_label)}</div>
                 <div class="score-percent">{score_percent_str} %</div>
             </div>
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-value correct">✓ {richtige}</div>
-                    <div class="stat-label">Richtig</div>
+                    <div class="stat-label">{translate_ui('pdf.stat.correct', default='Richtig')}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value wrong">✗ {falsche}</div>
-                    <div class="stat-label">Falsch</div>
+                    <div class="stat-label">{translate_ui('pdf.stat.wrong', default='Falsch')}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value unanswered">? {unbeantwortet}</div>
-                    <div class="stat-label">Unbeantwortet</div>
+                    <div class="stat-label">{translate_ui('pdf.stat.unanswered', default='Unbeantwortet')}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">{len(questions)}</div>
-                    <div class="stat-label">Gesamt</div>
+                    <div class="stat-label">{translate_ui('pdf.stat.total', default='Gesamt')}</div>
                 </div>
                 {rank_html}
             </div>
@@ -1290,7 +1323,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         {bookmarks_html}
         
-        <h2 class="section-title">Detaillierte Auswertung</h2>
+        <h2 class="section-title">{_html.escape(translate_ui('pdf.detailed_analysis', default='Detaillierte Auswertung'))}</h2>
     '''
     
     sorted_questions = _prepare_stage_sorted_questions(questions)
@@ -1318,17 +1351,17 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         status_class = ""
         if is_unanswered:
             border_color = "#0284c7"  # Blau für unbeantwortet
-            status_text = "Unbeantwortet"
+            status_text = translate_ui("pdf.status.unanswered", default="Unbeantwortet")
             status_icon = "?"
             status_class = "unanswered"
-        elif ist_richtig:
+        if ist_richtig:
             border_color = "#15803d"  # Dunkelgrün
-            status_text = "Richtig"
+            status_text = translate_ui("pdf.status.correct", default="Richtig")
             status_icon = "✔"
             status_class = "correct"
         else:
             border_color = "#b91c1c"  # Dunkelrot
-            status_text = "Falsch"
+            status_text = translate_ui("pdf.status.wrong", default="Falsch")
             status_icon = "✗"
             status_class = "wrong"
         
@@ -1338,12 +1371,16 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         # Schwierigkeits-Badge basierend auf Gewichtung
         gewichtung = frage_obj.get("gewichtung", 1)
+        # Localize difficulty label names but keep the visual badge icons
+        diff_easy = translate_ui("pdf.difficulty.easy", default="Leicht")
+        diff_medium = translate_ui("pdf.difficulty.medium", default="Mittel")
+        diff_hard = translate_ui("pdf.difficulty.hard", default="Schwer")
         if gewichtung == 1:
-            difficulty_badge = '<span class="difficulty-badge easy">★ Leicht</span>'
+            difficulty_badge = f'<span class="difficulty-badge easy">★ {_html.escape(diff_easy)}</span>'
         elif gewichtung == 2:
-            difficulty_badge = '<span class="difficulty-badge medium">★★ Mittel</span>'
+            difficulty_badge = f'<span class="difficulty-badge medium">★★ {_html.escape(diff_medium)}</span>'
         else:  # gewichtung >= 3
-            difficulty_badge = '<span class="difficulty-badge hard">★★★ Schwer</span>'
+            difficulty_badge = f'<span class="difficulty-badge hard">★★★ {_html.escape(diff_hard)}</span>'
         
         # Hole Thema
         thema = frage_obj.get("thema", "")
@@ -1357,14 +1394,18 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         html_body += '<div class="question-header">'
         raw_stage_value = frage_obj.get("kognitive_stufe")
         has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
-        html_body += f'Frage {display_test_number} / {len(questions)} '
-        html_body += '<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
-        html_body += f'(Fragenset-Nr. {original_number})</span> '
+        header_label = translate_ui("pdf.question_header", default="Frage {current} / {total}").format(current=display_test_number, total=len(questions))
+        html_body += header_label + ' '
+        html_body += '<span style="color:#6c757d; font-size:9pt; font-weight:400;>'
+        qset_label = translate_ui("pdf.questionset_number", default="(Fragenset-Nr. {n})").format(n=original_number)
+        html_body += f"{qset_label}</span> "
         html_body += f'{difficulty_badge}'
         html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
         html_body += '</div>'
         if has_stage_label:
-            html_body += f'<div class="stage-label">Kognitive Stufe: <span>{stage_label}</span></div>'
+            display_stage = stage_label if stage_label != DEFAULT_STAGE_LABEL else translate_ui("pdf.stage_unknown", default="Unbekannt")
+            stage_template = translate_ui("pdf.stage_label", default="Kognitive Stufe: {stage}")
+            html_body += f'<div class="stage-label">{_html.escape(stage_template.format(stage=display_stage))}</div>'
         
         # Thema-Badge (falls vorhanden)
         if thema:
@@ -1409,7 +1450,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             content = extended_explanation.get('content')
             steps = extended_explanation.get('schritte') if isinstance(extended_explanation.get('schritte'), list) else None
 
-            explanation_html = '<div class="explanation"><strong>Detaillierte Erklärung'
+            detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
+            explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
             if title:
                 explanation_html += f": {_render_latex_in_html(title)}"
             explanation_html += "</strong>"
@@ -1432,6 +1474,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         # Schließe Question-Box
         html_body += '</div>'
 
+    # Build localized CSS footer for pages (allows translations like "Seite {page} von {pages}")
+    footer_template = translate_ui('pdf.page_footer', default='Seite {page} von {pages}')
+    # Replace placeholders with CSS counter expressions (we inject the quoted text parts)
+    css_footer = footer_template.replace('{page}', '" counter(page) "').replace('{pages}', '" counter(pages) "')
+
     # Vollständiges HTML-Dokument (Formeln sind bereits als Bilder)
     full_html = f'''
     <!DOCTYPE html>
@@ -1443,7 +1490,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 size: A4;
                 margin: 2cm 2cm 3cm 2cm;
                 @bottom-center {{
-                    content: "Seite " counter(page) " von " counter(pages);
+                    content: {css_footer};
                     font-size: 9pt;
                     color: #666;
                 }}
@@ -1951,7 +1998,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     # Cache-Statistiken ausgeben (für Debugging/Monitoring)
     cache_size = len(_formula_cache)
     if cache_size > 0:
-        print(f"📊 PDF-Export abgeschlossen: {cache_size} Formeln gecacht")
+        logger.info(translate_ui('pdf.log.formula_cache', default='📊 PDF export completed: {n} formulas cached').format(n=cache_size))
     
     return pdf_bytes
 
@@ -1979,7 +2026,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
             set_name = pretty_label_from_identifier_string(q_file)
         except (ImportError, AttributeError):
             set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    set_name = set_name or "Ungenanntes Fragenset"
+    set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     try:
         from helpers import format_datetime_de
@@ -2130,10 +2177,10 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     </head>
     <body>
         <div class="header">
-            <h1>Mini-Glossar</h1>
+            <h1>{_html.escape(translate_ui('pdf.glossary.title', default='Mini-Glossar'))}</h1>
             <div class="meta-info">
-                <span><strong>Fragenset:</strong> {set_name}</span>
-                <span><strong>Stand:</strong> {generated_at}</span>
+                <span><strong>{translate_ui('pdf.meta.questionset', default='Fragenset:')}</strong> {set_name}</span>
+                <span><strong>{translate_ui('pdf.meta.generated_at', default='Stand:')}</strong> {generated_at}</span>
             </div>
         </div>
         {glossary_html}
@@ -2167,7 +2214,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             set_name = pretty_label_from_identifier_string(q_file)
         except (ImportError, AttributeError):
             set_name = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
-    set_name = set_name or "Ungenanntes Fragenset"
+    set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     try:
         from helpers import format_datetime_de
@@ -2186,9 +2233,9 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     # Baue einfachen HTML-Report mit markierten korrekten Antworten
     html_parts: list[str] = []
     html_parts.append(
-        f'<div class="header"><h1>Musterlösung</h1>'
-        f'<div class="meta-info"><span><strong>Fragenset:</strong> {set_name}</span>'
-        f'<span><strong>Erstellt:</strong> {generated_at}</span></div></div>'
+        f'<div class="header"><h1>{_html.escape(translate_ui("pdf.musterloesung.title", default="Musterlösung"))}</h1>'
+        f'<div class="meta-info"><span><strong>{translate_ui("pdf.meta.questionset", default="Fragenset:")}</strong> {set_name}</span>'
+        f'<span><strong>{translate_ui("pdf.meta.generated_at", default="Erstellt:")}</strong> {generated_at}</span></div></div>'
     )
     html_parts.append('<div class="section">')
     sorted_entries = _prepare_stage_sorted_questions(questions)
@@ -2206,7 +2253,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         parsed_frage = smart_quotes_de(parsed_frage)
 
         html_parts.append('<div class="question">')
-        html_parts.append(f'<h3>Frage {display_num} / {len(questions)}</h3>')
+        q_header = translate_ui("pdf.question_header", default="Frage {current} / {total}").format(current=display_num, total=len(questions))
+        html_parts.append(f'<h3>{_html.escape(q_header)}</h3>')
         raw_stage_value = frage.get("kognitive_stufe")
         has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
         if has_stage_label:
@@ -2240,7 +2288,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             content = extended_explanation.get('content')
             steps = extended_explanation.get('schritte') if isinstance(extended_explanation.get('schritte'), list) else None
 
-            explanation_html = '<div class="explanation"><strong>Detaillierte Erklärung'
+            detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
+            explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
             if title:
                 explanation_html += f": {_render_latex_in_html(title)}"
             explanation_html += '</strong>'
