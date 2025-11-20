@@ -47,6 +47,34 @@
             "gewichtung": 3,
             "konzept": "Komplexe Zitate",
             "kognitive_stufe": "Analyse"
+        },
+        {
+            "frage": "4. Welcher Ausdruck kombiniert *Markdown*, LaTeX und Zitate? 'Energy steht für `E=mc^2`', flüstert der Physiker, während er **\"Das ist die Formel\"** betont.",
+            "optionen": [
+                "\"`E=mc^2`\" beschreibt den Energiebegriff ohne Markdown.",
+                "*Markdown* + $E=mc^2$ + „Anführungszeichen“",
+                "Reines LaTeX: $E=mc^2$ ohne Markdown und Zitat",
+                "Zitat im Text: 'Energy' mit \"Formel\""
+            ],
+            "loesung": 2,
+            "erklaerung": "Die richtige Antwort kombiniert kursive Markdown-Syntax, das LaTeX $E=mc^2$ und deutsche Anführungszeichen im selben Satz.",
+            "gewichtung": 2,
+            "konzept": "Format-Mix",
+            "kognitive_stufe": "Analyse"
+        },
+        {
+            "frage": "5. Welche Aussage nutzt eine Liste, Inline-Code (`$\\alpha$`), LaTeX und Zitate?\\n- 'Quote' in Anführungszeichen\\n- **\"Stichpunkt\"** als Betonung\\nIm Anschluss erwähnt die Erklärung $\\beta$.",
+            "optionen": [
+                "Nur Listenpunkte ohne Code",
+                "Code und Zitat mit geraden Anführungszeichen",
+                "Markdown-Liste mit Inline-Code $\\alpha$ und smarten ‚Zitaten‘",
+                "Latex allein: $\\beta$"
+            ],
+            "loesung": 3,
+            "erklaerung": "Diese Zeile kombiniert mehrere Markup-Elemente: eine Liste, Inline-Code mit $\\alpha$, smarte Zitate und schließlich einen Abschluss mit $\\beta$.",
+            "gewichtung": 3,
+            "konzept": "Strukturierte Zitate",
+            "kognitive_stufe": "Analyse"
         }
     ]
 }
