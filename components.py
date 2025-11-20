@@ -2256,7 +2256,7 @@ def render_bookmarks(questions: QuestionSet):
             with cols[0]:
                 session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
                 display_question_number = session_local_idx + 1
-                st.markdown(f"**Frage {display_question_number}**")
+                st.markdown(_sidebar_text("question_short", default="**Frage {n}**").format(n=display_question_number))
             with cols[1]:
                 if st.button(
                     "🔖",
@@ -2265,16 +2265,16 @@ def render_bookmarks(questions: QuestionSet):
                     disabled=jumps_disabled,
                     width="stretch",
                 ):
-                        st.session_state["jump_to_idx"] = q_idx
-                        st.session_state.jump_to_idx_active = True
-                        # If the target question was already answered, show its explanation/evaluation immediately
-                        try:
-                            if st.session_state.get(f"frage_{q_idx}_beantwortet") is not None:
-                                st.session_state[f"show_explanation_{q_idx}"] = True
-                                st.session_state.last_answered_idx = q_idx
-                        except Exception:
-                            pass
-                        st.rerun()
+                    st.session_state["jump_to_idx"] = q_idx
+                    st.session_state.jump_to_idx_active = True
+                    # If the target question was already answered, show its explanation/evaluation immediately
+                    try:
+                        if st.session_state.get(f"frage_{q_idx}_beantwortet") is not None:
+                            st.session_state[f"show_explanation_{q_idx}"] = True
+                            st.session_state.last_answered_idx = q_idx
+                    except Exception:
+                        pass
+                    st.rerun()
             with cols[2]:
                 if st.button(
                     "🗑️",
@@ -2333,9 +2333,9 @@ def render_skipped_questions(questions: QuestionSet):
             # Korrekte Ermittlung der laufenden Nummer der Frage im Testdurchlauf.
             session_local_idx = initial_indices.index(q_idx) if q_idx in initial_indices else -1
             display_question_number = session_local_idx + 1
-            
+
             if st.button(
-                f"Frage {display_question_number}",
+                _sidebar_text("question_short", default="Frage {n}").format(n=display_question_number),
                 key=f"skip_jump_{q_idx}",
                 disabled=jumps_disabled
             ):

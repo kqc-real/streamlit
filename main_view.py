@@ -140,6 +140,21 @@ def _welcome_select_placeholder() -> str:
     return translate_ui("welcome.select.placeholder", default="🗂️ Bitte ein Fragenset auswählen…")
 
 
+def _questions_count_label(count: int) -> str:
+    """Return a localized label for a question count, handling singular/plural.
+
+    Uses separate translation keys for one vs many to allow proper plural forms.
+    """
+    try:
+        n = int(count)
+    except Exception:
+        n = 0
+
+    if n == 1:
+        return translate_ui("welcome.select.count_one", default="{n} Frage").format(n=n)
+    return translate_ui("welcome.select.count_many", default="{n} Fragen").format(n=n)
+
+
 def _welcome_section_header() -> str:
     return translate_ui("welcome.section.header", default="🗂️ Wähle ein Fragenset")
 
@@ -1707,7 +1722,7 @@ def render_welcome_page(app_config: AppConfig):
             label = f"{marker} {format_user_label(info)}"
             num_questions = question_counts.get(filename)
             if num_questions:
-                label += f" ({num_questions} Fragen)"
+                label += f" ({_questions_count_label(num_questions)})"
             uploaded_at = info.uploaded_at
             if uploaded_at:
                 try:
@@ -1737,7 +1752,7 @@ def render_welcome_page(app_config: AppConfig):
                 date_str = "?"
         else:
             date_str = "?"
-        label = f"{name} ({num_questions} Fragen)" if num_questions else name
+        label = f"{name} ({_questions_count_label(num_questions)})" if num_questions else name
         if date_str != "?":
             label += f" 📅 {date_str}"
         return label
@@ -2981,7 +2996,10 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     erklaerung = frage_obj.get("erklaerung")
     if erklaerung:
         with st.container(border=True):
-            st.markdown("<span style='font-weight:600; color:#4b9fff;'>Erklärung:</span>", unsafe_allow_html=True)
+            st.markdown(
+                f"<span style='font-weight:600; color:#4b9fff;'>{_test_view_text('explanation_label', default='Erklärung:')}</span>",
+                unsafe_allow_html=True,
+            )
             # Prüfe, ob die Erklärung ein strukturiertes Objekt ist
             if isinstance(erklaerung, dict) and "titel" in erklaerung and "schritte" in erklaerung:
                 st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")

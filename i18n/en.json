@@ -80,7 +80,8 @@
         "admin_activate_button": "Activate panel",
         "admin_locked": "\u26d4 Too many failed attempts! Locked until: {locked_until}",
         "admin_wrong_key": "Wrong key.",
-        "bookmarks_expander": "\ud83d\udd16 Bookmarked questions",
+        "bookmarks_expander": "\ud83d\udd16 Bookmarked",
+        "question_short": "Question {n}",
         "bookmarks_empty": "No questions marked.",
         "bookmarks_disabled": "Jumps are disabled after completing the test.",
         "bookmarks_jump_help": "Jump to the bookmarked question",
@@ -139,6 +140,7 @@
         "feedback_sent": "Feedback sent!",
         "explanation_correct": "Correct! ✅",
         "explanation_wrong": "Incorrect. ❌",
+        "explanation_label": "Explanation:",
         "extended_button": "🧠 Show detailed explanation",
         "extended_panel": "Detailed explanation",
         "feedback_thanks": "✔️ Thanks, we'll look into it.",
@@ -427,7 +429,9 @@
         },
         "select": {
             "label": "Select a question set:",
-            "placeholder": "\ud83d\uddc2\ufe0f Please select a question set\u2026"
+            "placeholder": "\ud83d\uddc2\ufe0f Please select a question set\u2026",
+            "count_one": "{n} question",
+            "count_many": "{n} questions"
         },
         "section": {
             "header": "\ud83d\uddc2\ufe0f Choose a question set"

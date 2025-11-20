@@ -18,6 +18,7 @@ import html as _html
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
 from helpers import format_decimal_de, smart_quotes_de
+from i18n.context import t as translate_ui
 import os
 import logging
 import traceback
@@ -1399,7 +1400,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
         erklaerung = frage_obj.get("erklaerung")
         if erklaerung:
-            html_body += f'<div class="explanation"><strong>Erklärung:</strong> {_render_latex_in_html(erklaerung)}</div>'
+            label = translate_ui("test_view.explanation_label", default="Erklärung:")
+            html_body += f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(erklaerung)}</div>'
 
         extended_explanation = frage_obj.get("extended_explanation")
         if extended_explanation and isinstance(extended_explanation, dict):
@@ -2226,8 +2228,9 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         # Erklärung anzeigen, falls vorhanden
         erklaerung = frage.get("erklaerung")
         if erklaerung:
+            label = translate_ui("test_view.explanation_label", default="Erklärung:")
             html_parts.append(
-                f'<div class="explanation"><strong>Erklärung:</strong> {_render_latex_in_html(erklaerung, total_timeout=total_timeout)}</div>'
+                f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(erklaerung, total_timeout=total_timeout)}</div>'
             )
 
         # Erweiterte Erklärung

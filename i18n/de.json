@@ -81,6 +81,7 @@
         "admin_locked": "\u26d4 Zu viele fehlgeschlagene Versuche! Gesperrt bis: {locked_until}",
         "admin_wrong_key": "Falscher Key.",
         "bookmarks_expander": "\ud83d\udd16 Markierte Fragen",
+        "question_short": "Frage {n}",
         "bookmarks_empty": "Keine Fragen markiert.",
         "bookmarks_disabled": "Spr\u00fcnge sind nach Abschluss deaktiviert.",
         "bookmarks_jump_help": "Zur markierten Frage springen",
@@ -139,6 +140,7 @@
         "feedback_sent": "Feedback gesendet!",
         "explanation_correct": "Richtig! ✅",
         "explanation_wrong": "Leider falsch. ❌",
+        "explanation_label": "Erklärung:",
         "extended_button": "🧠 Zeige detaillierte Erklärung",
         "extended_panel": "Detaillierte Erklärung",
         "feedback_thanks": "✔️ Danke, wir schauen uns das an.",
@@ -426,7 +428,9 @@
         },
         "select": {
             "label": "W\u00e4hle ein Fragenset:",
-            "placeholder": "\ud83d\uddc2\ufe0f Bitte ein Fragenset ausw\u00e4hlen\u2026"
+            "placeholder": "\ud83d\uddc2\ufe0f Bitte ein Fragenset ausw\u00e4hlen\u2026",
+            "count_one": "{n} Frage",
+            "count_many": "{n} Fragen"
         },
         "section": {
             "header": "\ud83d\uddc2\ufe0f W\u00e4hle ein Fragenset"
