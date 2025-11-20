@@ -1,0 +1,63 @@
+"""Streamlit-aware helpers for managing the active locale and translations."""
+from __future__ import annotations
+
+from typing import Any, MutableMapping, Optional
+
+import streamlit as st
+
+from . import DEFAULT_LOCALE, available_locales, normalize_locale, translate
+
+LOCALE_SESSION_KEY = "active_locale"
+
+__all__ = ["LOCALE_SESSION_KEY", "get_locale", "set_locale", "t"]
+
+
+def _get_state() -> Optional[MutableMapping[str, Any]]:
+    try:
+        return st.session_state
+    except RuntimeError:
+        return None
+
+
+def get_locale() -> str:
+    """Return the normalized locale stored in the session state (or default)."""
+
+    state = _get_state()
+    if state is None:
+        return DEFAULT_LOCALE
+
+    stored = state.get(LOCALE_SESSION_KEY)
+    normalized = normalize_locale(stored)
+    locales = set(available_locales())
+    if normalized in locales:
+        if state.get(LOCALE_SESSION_KEY) != normalized:
+            try:
+                state[LOCALE_SESSION_KEY] = normalized
+            except Exception:
+                pass
+        return normalized
+
+    try:
+        state[LOCALE_SESSION_KEY] = DEFAULT_LOCALE
+    except Exception:
+        pass
+    return DEFAULT_LOCALE
+
+
+def set_locale(locale: str) -> str:
+    """Activate a new locale for the current session."""
+
+    state = _get_state()
+    normalized = normalize_locale(locale)
+    if state is not None:
+        try:
+            state[LOCALE_SESSION_KEY] = normalized
+        except Exception:
+            pass
+    return normalized
+
+
+def t(key: str, default: Optional[str] = None) -> str:
+    """Translate a key using the active locale stored in Streamlit session state."""
+
+    return translate(key, locale=get_locale(), default=default)

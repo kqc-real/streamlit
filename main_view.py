@@ -5,7 +5,6 @@ Verantwortlichkeiten:
 - Rendern der Fragenansicht.
 - Rendern der finalen Zusammenfassung.
 """
-import os
 import streamlit as st
 import pandas as pd
 import time
@@ -13,6 +12,7 @@ import re
 import locale
 import math
 import logic
+import logging
 from typing import Any
 from pathlib import Path
 
@@ -34,7 +34,6 @@ from logic import (
 from helpers import (
     smart_quotes_de,
     get_user_id_hash,
-    format_decimal_de,
     load_markdown_file,
     ACTIVE_SESSION_QUERY_PARAM,
 )
@@ -47,11 +46,12 @@ from user_question_sets import (
     # Cleanup stale temporary user uploads so they are not offered on the welcome page
     cleanup_stale_user_question_sets,
 )
-
 from pdf_export import _normalize_stage_label
+from i18n.context import get_locale, t as translate_ui
+from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector
 
 
-DOWNLOAD_BUTTON_LABEL = "Download starten"
+DOWNLOAD_BUTTON_DEFAULT = "Download starten"
 MIME_PDF = "application/pdf"
 KAHOOT_IMPORT_RULES = [
     "Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
@@ -59,13 +59,324 @@ KAHOOT_IMPORT_RULES = [
     "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
     "Datei darf höchstens 500 Fragen enthalten",
 ]
-from components import render_question_distribution_chart, close_user_qset_dialog
-import logging
 from auth import initialize_session_state, is_admin_user
 
 
-EXPORT_FEATURE_UNAVAILABLE_MSG = "Dieses Export-Feature steht demnächst zur Verfügung."
-ANKI_APKG_DEPENDENCY_MSG = "Für den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt)."
+EXPORT_FEATURE_UNAVAILABLE_DEFAULT = "Dieses Export-Feature steht demnächst zur Verfügung."
+ANKI_APKG_DEPENDENCY_DEFAULT = "Für den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt)."
+
+
+def _download_button_label() -> str:
+    return translate_ui("buttons.download", default=DOWNLOAD_BUTTON_DEFAULT)
+
+
+def _export_unavailable_msg() -> str:
+    return translate_ui("messages.export_unavailable", default=EXPORT_FEATURE_UNAVAILABLE_DEFAULT)
+
+
+def _anki_dependency_msg() -> str:
+    return translate_ui("messages.anki_dependency", default=ANKI_APKG_DEPENDENCY_DEFAULT)
+
+
+def _welcome_splash_title() -> str:
+    return translate_ui("welcome.splash.title", default="🎓 MC-Test App")
+
+
+def _welcome_splash_button() -> str:
+    return translate_ui("welcome.splash.button", default="🚀 Los geht’s")
+
+
+def _welcome_cleanup_toast(removed: int) -> str:
+    return translate_ui(
+        "welcome.cleanup.toast",
+        default="{removed} temporäre Fragensets entfernt.",
+    ).format(removed=removed)
+
+
+def _welcome_cleanup_info(removed: int) -> str:
+    return translate_ui(
+        "welcome.cleanup.info",
+        default="{removed} temporäre Fragensets wurden entfernt und stehen nicht mehr zur Auswahl.",
+    ).format(removed=removed)
+
+
+def _welcome_no_sets_error() -> str:
+    return translate_ui(
+        "welcome.errors.no_sets",
+        default="Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.",
+    )
+
+
+def _welcome_no_sets_info() -> str:
+    return translate_ui(
+        "welcome.info.ensure_files",
+        default="Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.",
+    )
+
+
+def _welcome_session_expired_warning() -> str:
+    return translate_ui(
+        "welcome.warning.session_expired",
+        default="⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten.",
+    )
+
+
+def _welcome_language_label() -> str:
+    return translate_ui("welcome.language.label", default="Choose language")
+
+
+def _welcome_language_help() -> str:
+    return translate_ui(
+        "welcome.language.help",
+        default="Your preference is stored in the browser for the next visit.",
+    )
+
+
+def _welcome_select_label() -> str:
+    return translate_ui("welcome.select.label", default="Wähle ein Fragenset:")
+
+
+def _welcome_select_placeholder() -> str:
+    return translate_ui("welcome.select.placeholder", default="🗂️ Bitte ein Fragenset auswählen…")
+
+
+def _welcome_section_header() -> str:
+    return translate_ui("welcome.section.header", default="🗂️ Wähle ein Fragenset")
+
+
+def _welcome_distribution_expander() -> str:
+    return translate_ui(
+        "welcome.distribution.expander",
+        default="⚖️ Fragen nach Thema und Schwierigkeit",
+    )
+
+
+def _welcome_distribution_warning() -> str:
+    return translate_ui(
+        "welcome.distribution.warning",
+        default="⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.",
+    )
+
+
+def _welcome_leaderboard_title(max_score: int) -> str:
+    return translate_ui(
+        "welcome.leaderboard.title",
+        default="🏆 Aktuelle Top 10 (max. {max_score} Punkte)",
+    ).format(max_score=max_score)
+
+
+def _welcome_leaderboard_empty() -> str:
+    return translate_ui(
+        "welcome.leaderboard.empty",
+        default="Noch keine Ergebnisse für dieses Fragenset",
+    )
+
+
+def _welcome_pseudonym_heading() -> str:
+    return translate_ui(
+        "welcome.pseudonym.heading",
+        default="👤 Wähle dein Pseudonym",
+    )
+
+
+def _welcome_pseudonym_no_available_warning() -> str:
+    return translate_ui(
+        "welcome.pseudonym.no_available",
+        default="⚠️ Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.",
+    )
+
+
+def _welcome_pseudonym_select_label() -> str:
+    return translate_ui(
+        "welcome.pseudonym.select_label",
+        default="Wähle dein Pseudonym für diese Runde:",
+    )
+
+
+def _welcome_pseudonym_select_placeholder() -> str:
+    return translate_ui(
+        "welcome.pseudonym.select_placeholder",
+        default="👤 Bitte ein Pseudonym auswählen…",
+    )
+
+
+def _welcome_pseudonym_reservation_expander() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reservation_expander",
+        default="🔒 Geheimwort für eine Reservierung (optional)",
+    )
+
+
+def _welcome_pseudonym_reservation_label() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reservation_input",
+        default="Dieses Pseudonym dauerhaft für mich reservieren",
+    )
+
+
+def _welcome_pseudonym_reservation_placeholder() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reservation_placeholder",
+        default="Mein 🔒 Geheimwort für die Reservierung...",
+    )
+
+
+def _welcome_pseudonym_secret_too_short(min_len: int) -> str:
+    return translate_ui(
+        "welcome.pseudonym.secret_too_short",
+        default="🔒 Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.",
+    ).format(min_len=min_len)
+
+
+def _welcome_pseudonym_reserve_button() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reserve_button",
+        default="Pseudonym reservieren",
+    )
+
+
+def _welcome_pseudonym_reserve_success_notice() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reserve_success",
+        default="Pseudonym reserviert.",
+    )
+
+
+def _welcome_pseudonym_reserve_success_message() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reserve_success_message",
+        default=(
+            "Pseudonym reserviert. "
+            "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
+            "Du musst es später exakt so eingeben."
+        ),
+    )
+
+
+def _welcome_pseudonym_reserve_error() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reserve_error",
+        default="Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut.",
+    )
+
+
+def _welcome_pseudonym_reserve_error_with_reason(reason: str) -> str:
+    return translate_ui(
+        "welcome.pseudonym.reserve_error_with_reason",
+        default="Fehler beim Reservieren des Pseudonyms: {error}",
+    ).format(error=reason)
+
+
+def _welcome_pseudonym_copy_label() -> str:
+    return translate_ui(
+        "welcome.pseudonym.copy_label",
+        default="Pseudonym:",
+    )
+
+
+def _welcome_pseudonym_copy_button() -> str:
+    return translate_ui(
+        "welcome.pseudonym.copy_button",
+        default="Kopieren",
+    )
+
+
+def _welcome_pseudonym_recover_expander() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_expander",
+        default="Ich habe ein reserviertes Pseudonym…",
+    )
+
+
+def _welcome_pseudonym_recover_pseudonym_label() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_pseudonym",
+        default="👤 Pseudonym eingeben",
+    )
+
+
+def _welcome_pseudonym_recover_secret_label() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_secret",
+        default="🔒 Geheimwort",
+    )
+
+
+def _welcome_pseudonym_recover_missing_fields() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_missing",
+        default="Bitte Pseudonym und 🔒 Geheimwort eingeben.",
+    )
+
+
+def _welcome_pseudonym_recover_button() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_button",
+        default="Mit dem reservierten Pseudonym Test starten",
+    )
+
+
+def _welcome_pseudonym_recover_locked(locked_until: str) -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_locked",
+        default="Zu viele Versuche. Gesperrt bis {locked_until}",
+    ).format(locked_until=locked_until)
+
+
+def _welcome_pseudonym_recover_success() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_success",
+        default="Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...",
+    )
+
+
+def _welcome_pseudonym_recover_failure() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_failure",
+        default="Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht überein.",
+    )
+
+
+def _welcome_pseudonym_database_error() -> str:
+    return translate_ui(
+        "welcome.pseudonym.database_error",
+        default="Datenbankfehler: Konnte keine neue Test-Session starten.",
+    )
+
+
+def _welcome_pseudonym_test_button() -> str:
+    return translate_ui(
+        "welcome.pseudonym.test_button",
+        default="Test starten",
+    )
+
+
+def _welcome_pseudonym_question_required() -> str:
+    return translate_ui(
+        "welcome.pseudonym.question_required",
+        default="Bitte wähle zuerst ein Fragenset aus.",
+    )
+
+
+def _welcome_leaderboard_column_pseudonym() -> str:
+    return translate_ui(
+        "welcome.leaderboard.column.pseudonym",
+        default="👤 Pseudonym",
+    )
+
+
+def _welcome_leaderboard_column_date() -> str:
+    return translate_ui(
+        "welcome.leaderboard.column.date",
+        default="📅 Datum",
+    )
+
+
+def _welcome_leaderboard_column_duration() -> str:
+    return translate_ui(
+        "welcome.leaderboard.column.duration",
+        default="⏱️ Dauer",
+    )
 
 
 def _ensure_anki_logger_configured() -> None:
@@ -117,7 +428,7 @@ def _load_anki_instruction_md() -> str:
 def _open_anki_instruction_dialog() -> None:
     content = _load_anki_instruction_md()
 
-    @st.dialog("Anleitung: Anki-Export", width="large")
+    @st.dialog(translate_ui("dialogs.anki_instruction"), width="large")
     def _show_anki_instruction_dialog() -> None:
         st.markdown(content)
 
@@ -139,21 +450,21 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
         preview_questions = questions  # Fallback for already materialised lists
 
     if not preview_questions:
-        st.info("Keine Fragen für die Vorschau verfügbar.")
+        st.info(translate_ui("messages.no_preview_questions", default="Keine Fragen für die Vorschau verfügbar."))
         return
 
-    @st.dialog("Anki-Kartenvorschau", width="large")
+    @st.dialog(translate_ui("dialogs.anki_preview"), width="large")
     def _show_anki_preview_dialog() -> None:
         try:
             from markdown_it import MarkdownIt
         except ImportError:
-            st.error("Für die Vorschau wird das Paket 'markdown-it-py' benötigt.")
+            st.error(translate_ui("messages.markdown_dependency", default="Für die Vorschau wird das Paket 'markdown-it-py' benötigt."))
             return
 
         try:
             import streamlit.components.v1 as components
         except ImportError:
-            st.error("Streamlit-Komponentenmodul ist nicht verfügbar.")
+            st.error(translate_ui("messages.streamlit_component_missing", default="Streamlit-Komponentenmodul ist nicht verfügbar."))
             return
 
         md = MarkdownIt()
@@ -1119,12 +1430,26 @@ def _process_queued_rerun() -> None:
         pass
 
 
+def _welcome_splash_path() -> str:
+    """Return the localized welcome splash markdown file path."""
+
+    doc_dir = Path(get_package_dir()) / "docs"
+    locale_code = get_locale() or "de"
+    localized_file = doc_dir / f"welcome_splash_{locale_code}.md"
+    default_file = doc_dir / "welcome_splash.md"
+    if localized_file.is_file():
+        return str(localized_file)
+    if default_file.is_file():
+        return str(default_file)
+    return str(localized_file)
+
+
 def _render_welcome_splash():
     """Zeigt beim ersten Aufruf der Startseite einen Willkommen-Splash an."""
     if st.session_state.get("_welcome_splash_dismissed", False):
         return
 
-    splash_path = os.path.join(get_package_dir(), "docs", "welcome_splash.md")
+    splash_path = _welcome_splash_path()
     splash_content = load_markdown_file(splash_path)
     if not splash_content:
         # Wenn keine Inhalte vorliegen, den Splash überspringen, um Blockaden zu vermeiden.
@@ -1152,13 +1477,17 @@ def _render_welcome_splash():
     dialog_func = getattr(st, "dialog", None)
     if callable(dialog_func):
 
-        @dialog_func("🎓 MC-Test App")
+        @dialog_func(_welcome_splash_title())
         def _welcome_dialog():
             st.markdown('<div class="splash-scroll">', unsafe_allow_html=True)
             st.markdown(splash_content)
+            render_locale_selector(
+                label=_welcome_language_label(),
+                help_text=_welcome_language_help(),
+            )
             st.markdown('</div>', unsafe_allow_html=True)
 
-            if st.button("🚀 Los geht’s", type="primary", width="stretch"):
+            if st.button(_welcome_splash_button(), type="primary", width="stretch"):
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
@@ -1166,9 +1495,13 @@ def _render_welcome_splash():
     else:
         st.markdown('<div class="splash-fallback">', unsafe_allow_html=True)
         st.markdown(splash_content)
+        render_locale_selector(
+            label=_welcome_language_label(),
+            help_text=_welcome_language_help(),
+        )
         st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button("🚀 Los geht’s", type="primary", width="stretch"):
+        if st.button(_welcome_splash_button(), type="primary", width="stretch"):
             st.session_state._welcome_splash_dismissed = True
             st.rerun()
 
@@ -1195,10 +1528,10 @@ def render_welcome_page(app_config: AppConfig):
         try:
             if removed and removed > 0 and not st.session_state.get('_user_qset_cleanup_notice_shown'):
                 # Brief toast for quick feedback
-                st.toast(f"{removed} temporäre Fragensets entfernt.")
+                st.toast(_welcome_cleanup_toast(removed))
                 # Also show a persistent info banner (one-time per session)
                 try:
-                    st.info(f"{removed} temporäre Fragensets wurden entfernt und stehen nicht mehr zur Auswahl.")
+                    st.info(_welcome_cleanup_info(removed))
                 except Exception:
                     pass
                 st.session_state['_user_qset_cleanup_notice_shown'] = True
@@ -1223,16 +1556,14 @@ def render_welcome_page(app_config: AppConfig):
     available_question_files = [*user_set_identifiers, *core_question_files]
 
     if not available_question_files:
-        st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
-        st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
+        st.error(_welcome_no_sets_error())
+        st.info(_welcome_no_sets_info())
         return
 
     query_params = st.query_params
     previous_session_marker = query_params.get(ACTIVE_SESSION_QUERY_PARAM)
     if previous_session_marker and "session_id" not in st.session_state:
-        st.warning(
-            "⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten."
-        )
+        st.warning(_welcome_session_expired_warning())
         query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
         st.session_state["_welcome_splash_dismissed"] = True
 
@@ -1279,8 +1610,8 @@ def render_welcome_page(app_config: AppConfig):
     )
 
     if not valid_question_files:
-        st.error("Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden.")
-        st.info("Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen.")
+        st.error(_welcome_no_sets_error())
+        st.info(_welcome_no_sets_info())
         return
 
     # Lade Metadaten (z.B. empfohlene Testdauer) für alle Sets vorab.
@@ -1356,7 +1687,7 @@ def render_welcome_page(app_config: AppConfig):
         return label
 
     st.markdown(
-        "<h3 style='text-align: center;'>🗂️ Wähle ein Fragenset</h3>",
+        f"<h3 style='text-align: center;'>{_welcome_section_header()}</h3>",
         unsafe_allow_html=True,
     )
 
@@ -1404,13 +1735,13 @@ def render_welcome_page(app_config: AppConfig):
                 st.session_state["_needs_rerun"] = True
 
     selected_choice = st.selectbox(
-        "Wähle ein Fragenset:",
+        _welcome_select_label(),
         options=valid_question_files,
         index=None,  # Render with no preselected index so the placeholder / clear affordance appears
         format_func=format_filename,
         key="main_view_question_file_selector",
         label_visibility="collapsed",
-        placeholder="🗂️ Bitte ein Fragenset auswählen…",
+        placeholder=_welcome_select_placeholder(),
         on_change=_on_question_select,
     )
 
@@ -1461,7 +1792,7 @@ def render_welcome_page(app_config: AppConfig):
     # --- Diagramm zur Verteilung der Fragen ---
     # Show the distribution expander only when a questions file has been selected.
     if selected_file:
-        with st.expander("⚖️ Fragen nach Thema und Schwierigkeit", expanded=st.session_state.get('question_distribution_expanded', False)):
+        with st.expander(_welcome_distribution_expander(), expanded=st.session_state.get('question_distribution_expanded', False)):
             if questions:
                 # Pass optional metadata (duration and difficulty profile) when available
                 try:
@@ -1474,20 +1805,20 @@ def render_welcome_page(app_config: AppConfig):
                     # Fallback to simple call if metadata not available or chart errors
                     render_question_distribution_chart(list(questions))
             else:
-                st.warning("⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden.")
+                st.warning(_welcome_distribution_warning())
 
     # --- Öffentliches Leaderboard ---
     if app_config.show_top5_public and selected_file:
         # Berechne die maximale Punktzahl für das ausgewählte Set
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions)
-        leaderboard_title = f"🏆 Aktuelle Top 10 (max. {max_score_for_set} Punkte)"
+        leaderboard_title = _welcome_leaderboard_title(max_score_for_set)
         with st.expander(leaderboard_title, expanded=False):
             from database import get_all_logs_for_leaderboard
             
             leaderboard_data = get_all_logs_for_leaderboard(selected_file)
 
             if not leaderboard_data:
-                st.info("Noch keine Ergebnisse für dieses Fragenset")
+                st.info(_welcome_leaderboard_empty())
             else:
                 st.caption("📅 ?")
                 scores = pd.DataFrame(leaderboard_data)
@@ -1502,7 +1833,7 @@ def render_welcome_page(app_config: AppConfig):
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
                 scores = scores.reset_index(drop=True)
                 if scores.empty:
-                    st.info("Noch keine Ergebnisse für dieses Fragenset")
+                    st.info(_welcome_leaderboard_empty())
                 else:
                     # Prozentzahl berechnen und als neue Spalte einfügen
                     max_score = max_score_for_set if max_score_for_set > 0 else 1
@@ -1535,23 +1866,31 @@ def render_welcome_page(app_config: AppConfig):
                         ).dt.strftime('%d.%m.%y')
 
                     # Spalten für Anzeige umbenennen
+                    pseudo_col = _welcome_leaderboard_column_pseudonym()
+                    date_col = _welcome_leaderboard_column_date()
+                    duration_col = _welcome_leaderboard_column_duration()
                     scores.rename(columns={
-                        'user_pseudonym': '👤 Pseudonym',
+                        'user_pseudonym': pseudo_col,
                         'percent': '🏅 %',
-                        'last_test_time': '📅 Datum',
-                        'duration_seconds': '⏱️ Dauer',
+                        'last_test_time': date_col,
+                        'duration_seconds': duration_col,
                     }, inplace=True)
 
                     # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                     icons = ["🥇", "🥈", "🥉"]
                     for i in range(len(scores)):
                         if i < len(icons):
-                            scores.loc[i, "👤 Pseudonym"] = f"{icons[i]} {scores.loc[i, '👤 Pseudonym']}"
+                            scores.loc[i, pseudo_col] = f"{icons[i]} {scores.loc[i, pseudo_col]}"
                         else:
-                            scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
+                            scores.loc[i, pseudo_col] = f"{i + 1}. {scores.loc[i, pseudo_col]}"
 
                     st.dataframe(
-                        scores[["👤 Pseudonym", "🏅 %", "⏱️ Dauer", "📅 Datum"]],
+                        scores[[
+                            pseudo_col,
+                            "🏅 %",
+                            duration_col,
+                            date_col,
+                        ]],
                         width="stretch",
                         hide_index=True,
                     )
@@ -1567,7 +1906,10 @@ def render_welcome_page(app_config: AppConfig):
         verify_recovery,
     )
 
-    st.markdown("<h3 style='text-align: center; margin-top: 1.5rem;'>👤 Wähle dein Pseudonym</h3>", unsafe_allow_html=True)
+    st.markdown(
+        f"<h3 style='text-align: center; margin-top: 1.5rem;'>{_welcome_pseudonym_heading()}</h3>",
+        unsafe_allow_html=True,
+    )
 
     # Anzeige von Nachrichten nach Rerun (z.B. erfolgreiche Reservierung)
     # Wenn ein Pseudonym reserviert wurde, zeigen wir es hervorgehoben
@@ -1577,7 +1919,7 @@ def render_welcome_page(app_config: AppConfig):
             pseud = st.session_state.pop('reserve_success_pseudonym')
             # Optional: additional message stored for context
             msg = st.session_state.pop('reserve_success_message', None)
-            st.success(msg or "Pseudonym reserviert.")
+            st.success(msg or _welcome_pseudonym_reserve_success_notice())
             # Escape the pseudonym for safe HTML embedding
             try:
                 import html as _html
@@ -1588,11 +1930,11 @@ def render_welcome_page(app_config: AppConfig):
             # Small HTML widget with copy button (uses browser clipboard API)
             copy_html = f"""
             <div style='display:flex;justify-content:center;align-items:center;gap:8px;width:100%'>
-                <div style='font-weight:600;margin-right:6px;'>Pseudonym:</div>
+                <div style='font-weight:600;margin-right:6px;'>{_welcome_pseudonym_copy_label()}</div>
                 <div id='pseud' style='font-family:monospace;padding:6px 10px;background:#f3f4f6;border-radius:6px;border:1px solid #e5e7eb;margin-right:6px;'>{pseud_escaped}</div>
               <button onclick="navigator.clipboard.writeText(document.getElementById('pseud').innerText)" 
                   onmouseover="this.style.filter='brightness(0.95)'" onmouseout="this.style.filter='none'"
-                  style='padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:#2563eb;color:#ffffff;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,0.15);'>Kopieren</button>
+                  style='padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:#2563eb;color:#ffffff;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,0.15);'>{_welcome_pseudonym_copy_button()}</button>
             </div>
             """
             # Render the small HTML; allow scripts for clipboard access in supported browsers
@@ -1600,7 +1942,7 @@ def render_welcome_page(app_config: AppConfig):
             components.html(copy_html, height=48)
         except Exception:
             # Fallback to a plain success message
-            st.success(st.session_state.pop('reserve_success_message', 'Pseudonym reserviert.'))
+            st.success(st.session_state.pop('reserve_success_message', _welcome_pseudonym_reserve_success_notice()))
     if st.session_state.get('reserve_error_message'):
         st.error(st.session_state.pop('reserve_error_message'))
 
@@ -1636,7 +1978,7 @@ def render_welcome_page(app_config: AppConfig):
 
     # Prüfe, ob überhaupt Optionen verfügbar sind, bevor das selectbox gerendert wird.
     if not options:
-        st.warning("⚠️ Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.")
+        st.warning(_welcome_pseudonym_no_available_warning())
         selected_name_from_user = None
     else:
         # If we previously persisted a selected pseudonym, ensure the
@@ -1649,10 +1991,10 @@ def render_welcome_page(app_config: AppConfig):
             pass
 
         selected_name_from_user = st.selectbox(
-            "Wähle dein Pseudonym für diese Runde:",
+            _welcome_pseudonym_select_label(),
             options=options,
             index=None,
-            placeholder="👤 Bitte ein Pseudonym auswählen…",
+            placeholder=_welcome_pseudonym_select_placeholder(),
             format_func=format_scientist,
             label_visibility="collapsed",
             key="main_view_pseudonym_selector",
@@ -1678,12 +2020,12 @@ def render_welcome_page(app_config: AppConfig):
         # Present the secret-input inside an expander so the user can open/close it.
         # We persist the open state in `st.session_state['reserve_secret_expanded']` so
         # interactions (like clicking the reserve button) do not close it unexpectedly.
-        with st.expander("🔒 Geheimwort für eine Reservierung (optional)", expanded=st.session_state.get('reserve_secret_expanded', False)):
+        with st.expander(_welcome_pseudonym_reservation_expander(), expanded=st.session_state.get('reserve_secret_expanded', False)):
             recovery_secret_new = st.text_input(
-                "Dieses Pseudonym dauerhaft für mich reservieren",
+                _welcome_pseudonym_reservation_label(),
                 type="password",
                 max_chars=32,
-                placeholder="Mein 🔒 Geheimwort für die Reservierung...",
+                placeholder=_welcome_pseudonym_reservation_placeholder(),
                 key="recovery_secret_new",
             )
 
@@ -1707,8 +2049,8 @@ def render_welcome_page(app_config: AppConfig):
             secret_too_short = False
             if recovery_secret_new:
                 if not allow_short and len(recovery_secret_new) < min_len:
-                    st.warning(f"🔒 Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.")
-                    secret_too_short = True
+                    st.warning(_welcome_pseudonym_secret_too_short(min_len))
+                secret_too_short = True
             # Expose the validation flag in session state for other handlers if needed
             st.session_state['_recovery_secret_too_short'] = secret_too_short
 
@@ -1721,7 +2063,7 @@ def render_welcome_page(app_config: AppConfig):
 
             reserve_disabled_inline = (not selected_name_from_user) or (not recovery_secret_new) or secret_too_short_local
             if st.button(
-                "Pseudonym reservieren",
+                _welcome_pseudonym_reserve_button(),
                 key="btn_reserve_pseudonym_inline",
                 type="primary",
                 width="stretch",
@@ -1742,17 +2084,11 @@ def render_welcome_page(app_config: AppConfig):
                     ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                     if ok:
                         st.session_state['reserve_success_pseudonym'] = user_name
-                        st.session_state['reserve_success_message'] = (
-                            "Pseudonym reserviert. "
-                            "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
-                            "Du musst es später exakt so eingeben."
-                        )
+                        st.session_state['reserve_success_message'] = _welcome_pseudonym_reserve_success_message()
                     else:
-                        st.session_state['reserve_error_message'] = (
-                            "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
-                        )
+                        st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
                 except Exception as e:
-                    st.session_state['reserve_error_message'] = f"Fehler beim Reservieren des Pseudonyms: {e}"
+                    st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error_with_reason(str(e))
                 # Rerun so the selection list is refreshed and the reserved pseudonym is removed
                 st.rerun()
         # Visuelle Trennung: Divider direkt unter dem Reservieren-Button (außerhalb des Expanders)
@@ -1763,9 +2099,9 @@ def render_welcome_page(app_config: AppConfig):
     if 'recover_pseudonym_expanded' not in st.session_state:
         st.session_state['recover_pseudonym_expanded'] = False
 
-    with st.expander("Ich habe ein reserviertes Pseudonym…", expanded=st.session_state.get('recover_pseudonym_expanded', False)):
-        pseudonym_recover = st.text_input("👤 Pseudonym eingeben", key="recover_pseudonym")
-        secret_recover = st.text_input("🔒 Geheimwort", type="password", key="recover_secret")
+    with st.expander(_welcome_pseudonym_recover_expander(), expanded=st.session_state.get('recover_pseudonym_expanded', False)):
+        pseudonym_recover = st.text_input(_welcome_pseudonym_recover_pseudonym_label(), key="recover_pseudonym")
+        secret_recover = st.text_input(_welcome_pseudonym_recover_secret_label(), type="password", key="recover_secret")
 
         # Keep the expander open when the user types into either field so
         # the UI does not collapse on reruns triggered by widget interactions.
@@ -1823,7 +2159,7 @@ def render_welcome_page(app_config: AppConfig):
             _btn_key = f"btn_recover_pseudonym__{_q}__{_p}"
 
             button_pressed = st.button(
-                "Mit dem reservierten Pseudonym Test starten",
+                _welcome_pseudonym_recover_button(),
                 key=_btn_key,
                 type="primary",
                 disabled=recover_disabled,
@@ -1846,7 +2182,7 @@ def render_welcome_page(app_config: AppConfig):
                 secret_recover = secret_recover
 
             if not pseudonym_recover or not secret_recover:
-                st.warning("Bitte Pseudonym und 🔒 Geheimwort eingeben.")
+                st.warning(_welcome_pseudonym_recover_missing_fields())
             else:
                 # Apply rate-limiting and audit logging around recovery attempts
                 try:
@@ -1864,7 +2200,7 @@ def render_welcome_page(app_config: AppConfig):
                             locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
                         except Exception:
                             locked_until_str = str(locked_until)
-                        st.error(f"Zu viele Versuche. Gesperrt bis {locked_until_str}")
+                        st.error(_welcome_pseudonym_recover_locked(locked_until_str))
                         # Log an audit entry for visibility
                         try:
                             log_login_attempt(pseudonym_recover, success=False)
@@ -1889,7 +2225,7 @@ def render_welcome_page(app_config: AppConfig):
                 if user_id:
                     selected_qfile = st.session_state.get("selected_questions_file")
                     if not selected_qfile:
-                        st.error("Bitte wähle zuerst ein Fragenset aus.")
+                        st.error(_welcome_pseudonym_question_required())
                         return
                     session_id = start_test_session(user_id, selected_qfile)
                     if session_id:
@@ -1910,12 +2246,12 @@ def render_welcome_page(app_config: AppConfig):
                             st.session_state.start_zeit = pd.Timestamp.now()
                         except Exception:
                             pass
-                        st.success("Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...")
+                        st.success(_welcome_pseudonym_recover_success())
                         st.rerun()
                     else:
-                        st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
+                        st.error(_welcome_pseudonym_database_error())
                 else:
-                    st.error("Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht überein.")
+                    st.error(_welcome_pseudonym_recover_failure())
 
     _, col2, _ = st.columns([1, 3, 1])
     with col2:
@@ -1934,7 +2270,7 @@ def render_welcome_page(app_config: AppConfig):
 
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
         if st.button(
-            "Test starten",
+            _welcome_pseudonym_test_button(),
             type="primary",
             width="stretch",
             disabled=bool(
@@ -1957,7 +2293,7 @@ def render_welcome_page(app_config: AppConfig):
             add_user(user_id_hash, user_name)
             selected_qfile = st.session_state.get("selected_questions_file")
             if not selected_qfile:
-                st.error("Bitte wähle zuerst ein Fragenset aus.")
+                st.error(_welcome_pseudonym_question_required())
                 return
             session_id = start_test_session(user_id_hash, selected_qfile)
 
@@ -1985,22 +2321,16 @@ def render_welcome_page(app_config: AppConfig):
                         ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                         if ok:
                             st.session_state['reserve_success_pseudonym'] = user_name
-                            st.session_state['reserve_success_message'] = (
-                                "Pseudonym reserviert. "
-                                "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
-                                "Du musst es später exakt so eingeben."
-                            )
+                            st.session_state['reserve_success_message'] = _welcome_pseudonym_reserve_success_message()
                         else:
-                            st.session_state['reserve_error_message'] = (
-                                "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut."
-                            )
+                            st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
                 except Exception as e:
                     # Logge den Fehler serverseitig und mache ihn für den UI-Reload sichtbar.
                     print(f"Error saving recovery secret for {user_id_hash}: {e}")
-                    st.session_state['reserve_error_message'] = f"Fehler beim Speichern des Recovery-Geheimworts: {e}"
+                    st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error_with_reason(str(e))
                 st.rerun()
             else:
-                st.error("Datenbankfehler: Konnte keine neue Test-Session starten.")
+                st.error(_welcome_pseudonym_database_error())
 
         # Debug expander removed after verification.
 
@@ -2736,19 +3066,33 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
     # Passe den Titel an, je nachdem, wie der Test beendet wurde. Die Reihenfolge ist wichtig.
     if st.session_state.get("test_manually_ended", False):
-        st.header("⚠️ Test vorzeitig beendet")
+        st.header(translate_ui("summary.header.manual_end", default="⚠️ Test vorzeitig beendet"))
     elif st.session_state.get("test_time_expired", False):
-        st.header("⏰ Zeit abgelaufen!")
+        st.header(translate_ui("summary.header.time_expired", default="⏰ Zeit abgelaufen!"))
         # Wenn ein erlaubtes Test-Limit in Minuten konfiguriert ist, zeigen wir dieses
         # als die offizielle Testdauer an (volle Minuten). Das entspricht der
         # vorgegebenen Testlaufzeit, wie vom Nutzer erwartet.
         if allowed_min is not None:
-            st.info(f"Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min")
+            st.info(
+                translate_ui(
+                    "summary.info.time_expired",
+                    default="Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min",
+                ).format(allowed_min=allowed_min)
+            )
     else:
-        st.header("🚀 Test abgeschlossen!")
+        st.header(translate_ui("summary.header.completed", default="🚀 Test abgeschlossen!"))
         # Wenn früher abgegeben wurde, Hinweis anzeigen
         if duration_min is not None and allowed_min and duration_min < allowed_min:
-            st.info(f"Du hast {allowed_min - duration_min} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)")
+            st.info(
+                translate_ui(
+                    "summary.info.early_finish",
+                    default="Du hast {early_delta} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)",
+                ).format(
+                    early_delta=allowed_min - duration_min,
+                    duration_min=duration_min,
+                    allowed_min=allowed_min,
+                )
+            )
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
@@ -2768,7 +3112,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # Manuelles Rendern der Metrik, um die Farbe der Prozentzahl anzupassen
     st.markdown(f"""
     <div style="text-align: left;">
-        <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-bottom: -5px;">Dein Endergebnis</p>
+        <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-bottom: -5px;">{translate_ui('summary.metric_caption', default='Dein Endergebnis')}</p>
         <p style="font-size: 1.5rem; font-weight: 600;">
             {current_score} / {max_score} Punkte 
             <span style="color: {color}; font-weight: bold; font-size: 1.25rem;">({int(prozent)} %)</span>
@@ -2862,7 +3206,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         st.error(random.choice(messages))
 
     # --- Performance-Analyse pro Thema ---
-    st.subheader("Deine Leistung nach Themen")
+    st.subheader(translate_ui("summary.subheader.topic_performance", default="Deine Leistung nach Themen"))
 
     # Aggregiere Punkte pro Thema und zähle beantwortete vs. Gesamtfragen.
     topic_performance = {}
@@ -3372,7 +3716,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         try:
                             apkg_bytes = _cached_generate_anki_apkg(export_selected_file)
                         except ModuleNotFoundError:
-                            st.info(ANKI_APKG_DEPENDENCY_MSG)
+                            st.info(_anki_dependency_msg())
                         except FileNotFoundError as exc:
                             st.error(str(exc))
                         except Exception as exc:
@@ -3414,7 +3758,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             try:
                 from export_jobs import generate_kahoot_xlsx
             except ImportError:
-                st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
+                st.info(_export_unavailable_msg())
                 return
             try:
                 xlsx_bytes = generate_kahoot_xlsx(export_selected_file, list(export_questions))
@@ -3444,7 +3788,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             try:
                 from export_jobs import validate_kahoot_questions as _validate_kahoot
             except ImportError:
-                st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
+                st.info(_export_unavailable_msg())
             else:
                 validate_fn = _validate_kahoot
 
@@ -3484,7 +3828,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
 
             button_disabled = bool(kahoot_errors)
-            if st.button(DOWNLOAD_BUTTON_LABEL, key=kahoot_btn_key, disabled=button_disabled):
+            if st.button(_download_button_label(), key=kahoot_btn_key, disabled=button_disabled):
                 handle_kahoot_export()
 
         # arsnova.click
@@ -3499,7 +3843,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             try:
                 from export_jobs import generate_arsnova_json, validate_arsnova_questions
             except ImportError:
-                st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
+                st.info(_export_unavailable_msg())
             else:
                 generate_fn = generate_arsnova_json
                 try:
@@ -3516,9 +3860,9 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.caption(_format_limited(arsnova_warnings))
 
             button_disabled = generate_fn is None
-            if st.button(DOWNLOAD_BUTTON_LABEL, key=arsnova_btn_key, disabled=button_disabled):
+            if st.button(_download_button_label(), key=arsnova_btn_key, disabled=button_disabled):
                 if generate_fn is None:
-                    st.info(EXPORT_FEATURE_UNAVAILABLE_MSG)
+                    st.info(_export_unavailable_msg())
                 else:
                     try:
                         json_bytes = generate_fn(export_selected_file, list(export_questions))
@@ -3540,7 +3884,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             )
             musterloesung_btn_key = f"download_musterloesung_review_{selected_file}"
             musterloesung_dl_key = f"dl_musterloesung_direct_{selected_file}"
-            if st.button(DOWNLOAD_BUTTON_LABEL, key=musterloesung_btn_key):
+            if st.button(_download_button_label(), key=musterloesung_btn_key):
                 with st.spinner("Musterlösung wird erstellt..."):
                     try:
                         pdf_bytes = generate_musterloesung_pdf(
@@ -3568,7 +3912,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
                 glossar_btn_key = f"download_glossar_review_{selected_file}"
                 glossar_dl_key = f"dl_glossar_direct_{selected_file}"
-                if st.button(DOWNLOAD_BUTTON_LABEL, key=glossar_btn_key):
+                if st.button(_download_button_label(), key=glossar_btn_key):
                     with st.spinner("Glossar wird erstellt..."):
                         try:
                             pdf_bytes = generate_mini_glossary_pdf(
@@ -3592,7 +3936,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             )
             testbericht_btn_key = f"download_testbericht_review_{selected_file}"
             testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
-            if st.button(DOWNLOAD_BUTTON_LABEL, key=testbericht_btn_key):
+            if st.button(_download_button_label(), key=testbericht_btn_key):
                 with st.spinner("Testbericht wird erstellt..."):
                     try:
                         if app_config is None:

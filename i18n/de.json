@@ -1,0 +1,135 @@
+{
+  "app": {
+    "title": "Quiz-Export",
+    "subtitle": "Fragebögen verwalten und auswerten"
+  },
+  "sidebar": {
+    "title": "Navigation",
+    "language": "Sprache auswählen",
+    "temp_set_notice": "Temporäres Fragenset aktiviert: {label}",
+    "reserved_pseudonym": "Pseudonym ist für dich reserviert.",
+    "history_button": "Meine Sessions",
+    "history_expander": "📚 Meine Sessions",
+    "history_empty": "Keine bisherigen Testergebnisse gefunden.",
+    "history_error": "Fehler beim Laden der Historie."
+  },
+  "metadata": {
+    "weight_label": "Gewichtung",
+    "cognitive_stage": "Kognitive Stufe"
+  },
+  "export": {
+    "musterloesung": "Musterlösung",
+    "bloom_table": "Performance nach kognitiver Stufe"
+  },
+  "actions": {
+    "run_export": "Export starten",
+    "reset": "Zurücksetzen"
+  },
+  "locales": {
+    "de": "Deutsch",
+    "en": "Englisch"
+  },
+  "buttons": {
+    "download": "Download starten"
+  },
+  "messages": {
+    "export_unavailable": "Dieses Export-Feature steht demnächst zur Verfügung.",
+    "anki_dependency": "Für den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt).",
+    "no_preview_questions": "Keine Fragen für die Vorschau verfügbar.",
+    "markdown_dependency": "Für die Vorschau wird das Paket 'markdown-it-py' benötigt.",
+    "streamlit_component_missing": "Streamlit-Komponentenmodul ist nicht verfügbar."
+  },
+  "dialogs": {
+    "anki_instruction": "Anleitung: Anki-Export",
+    "anki_preview": "Anki-Kartenvorschau"
+  },
+  "summary": {
+    "header": {
+      "manual_end": "⚠️ Test vorzeitig beendet",
+      "time_expired": "⏰ Zeit abgelaufen!",
+      "completed": "🚀 Test abgeschlossen!"
+    },
+    "info": {
+      "time_expired": "Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min",
+      "early_finish": "Du hast {early_delta} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
+    },
+    "metric_caption": "Dein Endergebnis",
+    "subheader": {
+      "topic_performance": "Deine Leistung nach Themen"
+    }
+  },
+  "welcome": {
+    "splash": {
+      "title": "🎓 MC-Test App",
+      "button": "🚀 Los geht’s"
+    },
+    "cleanup": {
+      "toast": "{removed} temporäre Fragensets entfernt.",
+      "info": "{removed} temporäre Fragensets wurden entfernt und stehen nicht mehr zur Auswahl."
+    },
+    "errors": {
+      "no_sets": "Keine Fragensets (z.B. `questions_Data_Science.json`) gefunden."
+    },
+    "info": {
+      "ensure_files": "Stelle sicher, dass gültige, nicht-leere JSON-Dateien mit Fragen im Projektverzeichnis liegen."
+    },
+    "warning": {
+      "session_expired": "⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten."
+    },
+    "select": {
+      "label": "Wähle ein Fragenset:",
+      "placeholder": "🗂️ Bitte ein Fragenset auswählen…"
+    },
+    "section": {
+      "header": "🗂️ Wähle ein Fragenset"
+    },
+    "distribution": {
+      "expander": "⚖️ Fragen nach Thema und Schwierigkeit",
+      "warning": "⚠️ Das ausgewählte Fragenset ist leer oder konnte nicht geladen werden."
+    },
+    "leaderboard": {
+      "title": "🏆 Aktuelle Top 10 (max. {max_score} Punkte)",
+      "empty": "Noch keine Ergebnisse für dieses Fragenset",
+      "column": {
+        "pseudonym": "👤 Pseudonym",
+        "date": "📅 Datum",
+        "duration": "⏱️ Dauer"
+      }
+    },
+    "language": {
+      "label": "Sprache wählen",
+      "help": "Deine Auswahl wird im Browser gespeichert."
+    },
+    "pseudonym": {
+      "heading": "👤 Wähle dein Pseudonym",
+      "no_available": "⚠️ Alle verfügbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.",
+      "select_label": "Wähle dein Pseudonym für diese Runde:",
+      "select_placeholder": "👤 Bitte ein Pseudonym auswählen…",
+      "reservation_expander": "🔒 Geheimwort für eine Reservierung (optional)",
+      "reservation_input": "Dieses Pseudonym dauerhaft für mich reservieren",
+      "reservation_placeholder": "Mein 🔒 Geheimwort für die Reservierung...",
+      "secret_too_short": "🔒 Geheimwort zu kurz — mind. {min_len} Zeichen erforderlich.",
+      "reserve_button": "Pseudonym reservieren",
+      "reserve_success": "Pseudonym reserviert.",
+      "reserve_success_message": "Pseudonym reserviert. Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). Du musst es später exakt so eingeben.",
+      "reserve_error": "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut.",
+      "reserve_error_with_reason": "Fehler beim Reservieren des Pseudonyms: {error}",
+      "copy_label": "Pseudonym:",
+      "copy_button": "Kopieren",
+      "recover_expander": "Ich habe ein reserviertes Pseudonym…",
+      "recover_pseudonym": "👤 Pseudonym eingeben",
+      "recover_secret": "🔒 Geheimwort",
+      "recover_missing": "Bitte Pseudonym und 🔒 Geheimwort eingeben.",
+      "recover_button": "Mit dem reservierten Pseudonym Test starten",
+      "recover_locked": "Zu viele Versuche. Gesperrt bis {locked_until}",
+      "recover_success": "Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...",
+      "recover_failure": "Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht überein.",
+      "database_error": "Datenbankfehler: Konnte keine neue Test-Session starten.",
+      "test_button": "Test starten",
+      "question_required": "Bitte wähle zuerst ein Fragenset aus."
+    }
+  },
+  "warnings": {
+    "no_config": "⚠️ **Keine Konfigurationsdatei gefunden!**\\n\\nDie App benötigt entweder eine `.env`-Datei oder `.streamlit/secrets.toml` für die Konfiguration (Admin-Zugang, URL für QR-Code, etc.).\\n\\n**Für lokale Installation:**\\n1. Kopiere `.env.example` zu `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Starte die App neu.\\n\\n**Details:** Siehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    }
+  }

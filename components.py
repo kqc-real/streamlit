@@ -8,6 +8,7 @@ Verantwortlichkeiten:
 - Rendern von Diagrammen.
 """
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import os
 import time
@@ -31,6 +32,141 @@ from user_question_sets import (
     save_user_question_set,
     delete_sets_for_user,
 )
+from i18n import available_locales
+from i18n.context import t as translate_ui, get_locale, set_locale
+
+_BROWSER_LOCALE_COMPONENT_KEY = "browser_locale_detector"
+_LOCALE_STORAGE_COMPONENT_KEY = "locale_storage_reader"
+_LOCALE_STORAGE_KEY = "mc_test_locale"
+_LOCALE_STORAGE_SYNC_FLAG = "_locale_storage_synced"
+_LOCALE_STORAGE_WRITER_PREFIX = "locale_storage_writer"
+_WELCOME_LOCALE_SELECTOR_KEY = "welcome_locale_selector"
+
+
+def _detect_browser_locale() -> str | None:
+    try:
+        snippet = """
+        <script>
+        const locale = navigator.language || navigator.userLanguage || '';
+        window.Streamlit.setComponentValue(locale);
+        </script>
+        """
+        return components.html(snippet, height=0, key=_BROWSER_LOCALE_COMPONENT_KEY)
+    except Exception:
+        return None
+
+
+def _read_locale_from_storage() -> str | None:
+    try:
+        snippet = f"""
+        <script>
+        (function() {{
+        try {{
+            const storage = window.parent && window.parent.localStorage ? window.parent.localStorage : localStorage;
+            const stored = storage.getItem("{_LOCALE_STORAGE_KEY}");
+            window.Streamlit.setComponentValue(stored || '');
+        }} catch (error) {{
+            window.Streamlit.setComponentValue('');
+        }}
+        }})();
+        </script>
+        """
+        result = components.html(snippet, height=0, key=_LOCALE_STORAGE_COMPONENT_KEY)
+        if result:
+            return str(result).strip()
+    except Exception:
+        pass
+    return None
+
+
+def _write_locale_to_storage(locale: str) -> None:
+    if not locale:
+        return
+
+    try:
+        payload = _json.dumps(locale)
+        script = f"""
+        <script>
+        (function() {{
+            try {{
+                localStorage.setItem("{_LOCALE_STORAGE_KEY}", {payload});
+            }} catch (error) {{
+                console.warn('Locale storage write failed', error);
+            }}
+        }})();
+        </script>
+        """
+        st.markdown(script, unsafe_allow_html=True)
+    except Exception:
+        pass
+
+
+def _ensure_locale_synced() -> None:
+    if st.session_state.get(_LOCALE_STORAGE_SYNC_FLAG):
+        return
+
+    try:
+        stored_locale = _read_locale_from_storage()
+        if stored_locale:
+            set_locale(stored_locale)
+        else:
+            detected = _detect_browser_locale()
+            if detected:
+                set_locale(detected)
+    except Exception:
+        pass
+
+    _write_locale_to_storage(get_locale())
+    st.session_state[_LOCALE_STORAGE_SYNC_FLAG] = True
+
+
+def _locale_display_name(locale_code: str) -> str:
+    return translate_ui(f"locales.{locale_code}", default=locale_code)
+
+
+def _trigger_rerun() -> None:
+    rerun_fn = getattr(st, "rerun", None)
+    if callable(rerun_fn):
+        try:
+            rerun_fn()
+            return
+        except Exception:
+            pass
+
+    rerun_fn = getattr(st, "experimental_rerun", None)
+    if callable(rerun_fn):
+        try:
+            rerun_fn()
+        except Exception:
+            logging.getLogger(__name__).warning("Locale change rerun failed", exc_info=True)
+
+
+def render_locale_selector(label: str, help_text: str | None = None) -> str:
+    """Zeigt ein Sprach-Auswahlfeld, das die Auswahl im Browser speichert."""
+    _ensure_locale_synced()
+
+    locales = list(available_locales())
+    current_locale = get_locale()
+    try:
+        default_index = locales.index(current_locale)
+    except ValueError:
+        default_index = 0
+
+    selected_locale = st.selectbox(
+        label,
+        options=locales,
+        format_func=_locale_display_name,
+        index=default_index,
+        key=_WELCOME_LOCALE_SELECTOR_KEY,
+        help=help_text,
+    )
+
+    if selected_locale != current_locale:
+        new_locale = set_locale(selected_locale)
+        _write_locale_to_storage(new_locale)
+        _trigger_rerun()
+
+    return selected_locale
 
 try:
     from helpers import get_client_ip, is_request_from_localhost, ACTIVE_SESSION_QUERY_PARAM
@@ -631,6 +767,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         """,
         unsafe_allow_html=True,
     )
+    _ensure_locale_synced()
     st.sidebar.success(f"👋 **{st.session_state.get('user_id', '')}**")
 
     toast_message = st.session_state.pop("user_qset_active_toast", None)
@@ -1962,6 +2099,27 @@ def render_skipped_questions(questions: QuestionSet):
             st.rerun()
 
 
+def _distribution_summary_test_time(minutes: int) -> str:
+    return translate_ui(
+        "welcome.distribution.summary.test_time",
+        default="⏱️ Testzeit: {minutes} min",
+    ).format(minutes=minutes)
+
+
+def _distribution_summary_difficulty(leicht: int, mittel: int, schwer: int) -> str:
+    return translate_ui(
+        "welcome.distribution.summary.difficulty",
+        default="⛰️ {leicht} × leicht · {mittel} × mittel · {schwer} × schwer",
+    ).format(leicht=leicht, mittel=mittel, schwer=schwer)
+
+
+def _distribution_summary_cognition(summary: str) -> str:
+    return translate_ui(
+        "welcome.distribution.summary.cognition",
+        default="🧠 Kognitive Stufen: {summary}",
+    ).format(summary=summary)
+
+
 def render_question_distribution_chart(questions: list, duration_minutes=None, difficulty_profile=None):  # noqa: C901
     """Rendert ein gestapeltes Balkendiagramm der Fragenverteilung.
 
@@ -1973,7 +2131,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
 
     df_fragen = pd.DataFrame(questions)
     if df_fragen.empty:
-        st.info("Keine Fragen zum Anzeigen vorhanden.")
+        st.info(translate_ui("welcome.distribution.empty", default="Keine Fragen zum Anzeigen vorhanden."))
         return
 
     # Standardwerte für fehlende Spalten setzen
@@ -2021,14 +2179,14 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
     try:
         summary_parts = []
         if duration_minutes:
-            summary_parts.append(f"⏱️ Testzeit: {int(duration_minutes)} min")
+                    summary_parts.append(_distribution_summary_test_time(int(duration_minutes)))
 
         if difficulty_profile and isinstance(difficulty_profile, dict):
             leicht_count = int(difficulty_profile.get('leicht', 0) or 0)
             mittel_count = int(difficulty_profile.get('mittel', 0) or 0)
             schwer_count = int(difficulty_profile.get('schwer', 0) or 0)
             summary_parts.append(
-                f"<br>⛰️ {leicht_count} × leicht · {mittel_count} × mittel · {schwer_count} × schwer"
+                f"<br>{_distribution_summary_difficulty(leicht_count, mittel_count, schwer_count)}"
             )
 
         if "kognitive_stufe" in df_fragen.columns:
@@ -2066,7 +2224,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
             cognition_summary = ", ".join(
                 f"{level} ({counts[level]})" for level in ordered_levels
             )
-            summary_parts.append(f"<br>🧠 Kognitive Stufen: {cognition_summary}")
+            summary_parts.append(f"<br>{_distribution_summary_cognition(cognition_summary)}")
 
         if summary_parts:
             summary_html = "".join(summary_parts)

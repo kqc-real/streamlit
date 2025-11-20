@@ -44,6 +44,7 @@ from main_view import (
 )
 from admin_panel import render_admin_panel
 from components import render_sidebar, render_admin_switch
+from i18n.context import t as translate_ui
 
 try:
     from helpers import is_request_from_localhost
@@ -93,18 +94,7 @@ def main():
     secrets_file_exists = os.path.exists(os.path.join(_this_dir, '.streamlit', 'secrets.toml'))
     
     if not env_file_exists and not secrets_file_exists:
-        st.warning(
-            "⚠️ **Keine Konfigurationsdatei gefunden!**\n\n"
-            "Die App benötigt entweder eine `.env`-Datei oder `.streamlit/secrets.toml` "
-            "für die Konfiguration (Admin-Zugang, URL für QR-Code, etc.).\n\n"
-            "**Für lokale Installation:**\n"
-            "1. Kopiere `.env.example` zu `.env`:\n"
-            "   ```bash\n"
-            "   cp .env.example .env\n"
-            "   ```\n"
-            "2. Starte die App neu.\n\n"
-            "**Details:** Siehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
-        )
+        st.warning(translate_ui("warnings.no_config"))
 
     # Initialisiere die Datenbank und erstelle Tabellen, falls nicht vorhanden.
     init_database()
