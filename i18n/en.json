@@ -131,7 +131,21 @@
         "prev_question": "⬅️ Previous question",
         "next_button_review": "Next question ➡️",
         "next_button_summary": "View test summary 🏁",
-        "next_button": "Next question ➡️"
+        "next_button": "Next question ➡️",
+        "timer_metric": "⏳ Remaining time",
+        "time_up_error": "⏰ Time is up!",
+        "question_prompt": "Choose your answer:",
+        "header_total_questions": "### {count} questions total",
+        "header_last_question": "### Last question",
+        "header_remaining_plural": "### {count} questions remaining",
+        "header_remaining_single": "### {count} question remaining",
+        "topic_label": "Topic",
+        "countdown": {
+            "warning_seconds": "⚠️ Attention, only a few seconds left!",
+            "warning_minutes": "⚠️ Warning, only {minutes_text} left!"
+        },
+        "pseudonym_welcome": "**Welcome, {user}!** Please remember your pseudonym to resume the test later.",
+        "question_set_change_warning": "⚠️ Question set changed, reinitializing the test..."
     },
     "metadata": {
         "weight_label": "Weight",
@@ -177,6 +191,45 @@
         "subheader": {
             "topic_performance": "Your performance per topic"
         }
+    },
+    "summary_view": {
+        "review_header": "\ud83e\uddd0 Review your answers",
+        "review_filter_label": "Filter the questions:",
+        "review_filter_all": "All",
+        "review_filter_false": "Only incorrect",
+        "review_filter_true": "Only correct",
+        "review_filter_marked": "Only bookmarked",
+        "review_filter_unanswered": "Only unanswered",
+        "review_question_label": "Question",
+        "review_label_your_answer": "Your answer",
+        "review_label_correct_answer": "Correct answer",
+        "review_label_explanation": "Explanation",
+        "review_label_unanswered": "(unanswered)",
+        "review_export_header": "Export summary",
+        "review_export_mode": "Export format",
+        "review_export_button": "Start export",
+        "review_export_preview": "Preview as cards",
+        "review_export_note": "Use these exports to study with Kahoot, Anki, or ars nova.",
+        "review_export_kahoot": "Kahoot ready",
+        "review_export_anki": "Anki ready",
+        "review_export_arsnova": "ars nova ready",
+        "export_header": "\ud83d\udce6 Export",
+        "export_intro": "Export your test results & learning materials",
+        "export_admin_select_label": "Select a question set for the export:",
+        "export_admin_select_info": "Note: this selection only affects the exports to Anki, Kahoot, and ars nova.",
+        "export_admin_current_set": "Current export set: **{set_name}**",
+        "export_admin_no_sets": "No further question sets found for the admin export.",
+        "export_anki_expander": "\ud83d\udce6 Anki flashcards (recommended for spaced repetition)",
+        "export_anki_description": "Export all questions as an Anki deck for efficient spaced repetition. Import the file directly into the Anki app.",
+        "export_anki_caption": "Note: the Anki package already includes layout, styling, and tags. For the TSV export, see the detailed guide.",
+        "export_anki_instruction_button": "\u2139\ufe0f Show instructions & tips",
+        "export_anki_preview_button": "\ud83d\uddbc\ufe0f Show card preview",
+        "export_anki_apkg_button": "Create Anki package (.apkg)",
+        "export_anki_apkg_spinner": "Creating Anki package...",
+        "export_anki_apkg_download": "\ud83d\udcbe Download APKG",
+        "export_anki_tsv_button": "Export Anki TSV",
+        "export_anki_tsv_spinner": "Creating Anki TSV...",
+        "export_anki_tsv_download": "\ud83d\udcbe Download TSV"
     },
     "welcome": {
         "splash": {

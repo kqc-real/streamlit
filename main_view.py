@@ -736,42 +736,21 @@ def _format_minutes_text(minutes: int) -> str:
     return f"{value} min"
 
 
-def _format_countdown_warning_de(remaining_seconds: int, neutral_window_seconds: int = 5) -> str | None:
-    """
-    Formatiert eine deutsche Countdown-Warnung gemäß der gewünschten Sprachregel.
-
-    Rückgabe:
-        - String mit Warntext (inkl. "Achtung, ..."), oder
-        - None, falls keine Warnung angezeigt werden soll (z. B. > 5 min Restzeit).
-    """
-    if remaining_seconds <= 0:
+def _format_countdown_warning(remaining_seconds: int) -> str | None:
+    if remaining_seconds <= 0 or remaining_seconds > 5 * 60:
         return None
     if remaining_seconds <= 60:
-        return "⚠️ Achtung, nur noch wenige Sekunden!"
-    if remaining_seconds > 5 * 60:
-        return None
+        return translate_ui(
+            "test_view.countdown.warning_seconds",
+            default="⚠️ Attention, only a few seconds left!",
+        )
 
-    minutes_floor = remaining_seconds // 60
-    seconds = remaining_seconds % 60
-    closest_minute = max(1, math.floor(remaining_seconds / 60 + 0.5))
-    diff_to_closest = abs(remaining_seconds - closest_minute * 60)
-
-    if diff_to_closest <= neutral_window_seconds:
-        minutes_text = _format_minutes_text(closest_minute)
-        if remaining_seconds < closest_minute * 60:
-            return f"Achtung, nur noch knapp {minutes_text}!"
-        if diff_to_closest == 0:
-            return f"Achtung, nur noch genau {minutes_text}!"
-        return f"Achtung, noch rund {minutes_text}!"
-
-    if seconds <= 29:
-        minutes_text = _format_minutes_text(max(1, minutes_floor))
-        return f"⚠️ Achtung, noch gut {minutes_text}!"
-
-    next_minute = minutes_floor + 1
-    minutes_text = _format_minutes_text(next_minute)
-    prefix = "nur noch" if remaining_seconds < next_minute * 60 else "noch"
-    return f"⚠️ Achtung, {prefix} knapp {minutes_text}!"
+    minutes = max(1, math.ceil(remaining_seconds / 60))
+    minutes_text = _format_minutes_text(minutes)
+    return translate_ui(
+        "test_view.countdown.warning_minutes",
+        default="⚠️ Warning, only {minutes_text} left!",
+    ).format(minutes_text=minutes_text)
 
 
 def _steps_have_numbering(steps: list) -> bool:
@@ -2542,7 +2521,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         _test_view_text("timer_metric", default="⏳ Verbleibende Zeit"),
                         f"{minutes:02d}:{seconds:02d}",
                     )
-                    warning_text = _format_countdown_warning_de(remaining_time)
+                    warning_text = _format_countdown_warning(remaining_time)
                     if warning_text:
                         st.warning(warning_text)
                 else:

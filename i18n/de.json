@@ -131,7 +131,21 @@
         "prev_question": "⬅️ Vorherige Frage",
         "next_button_review": "Nächste Frage ➡️",
         "next_button_summary": "Zur Testauswertung 🏁",
-        "next_button": "Nächste Frage ➡️"
+        "next_button": "Nächste Frage ➡️",
+        "timer_metric": "⏳ Verbleibende Zeit",
+        "time_up_error": "⏰ Zeit ist um!",
+        "question_prompt": "Wähle deine Antwort:",
+        "header_total_questions": "### {count} Fragen insgesamt",
+        "header_last_question": "### Letzte Frage",
+        "header_remaining_plural": "### Noch {count} Fragen",
+        "header_remaining_single": "### Noch {count} Frage",
+        "topic_label": "Thema",
+        "countdown": {
+            "warning_seconds": "⚠️ Achtung, nur noch wenige Sekunden!",
+            "warning_minutes": "⚠️ Achtung, nur noch {minutes_text} übrig!"
+        },
+        "pseudonym_welcome": "**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
+        "question_set_change_warning": "⚠️ Fragenset gewechselt, Test wird neu initialisiert..."
     },
     "metadata": {
         "weight_label": "Gewichtung",
@@ -177,6 +191,45 @@
         "subheader": {
             "topic_performance": "Deine Leistung nach Themen"
         }
+    },
+    "summary_view": {
+        "review_header": "\ud83e\uddd0 Review deiner Antworten",
+        "review_filter_label": "Filtere die Fragen:",
+        "review_filter_all": "Alle",
+        "review_filter_false": "Nur falsch beantwortete",
+        "review_filter_true": "Nur richtig beantwortete",
+        "review_filter_marked": "Nur markierte",
+        "review_filter_unanswered": "Nur unbeantwortete",
+        "review_question_label": "Frage",
+        "review_label_your_answer": "Deine Antwort",
+        "review_label_correct_answer": "Richtige Antwort",
+        "review_label_explanation": "Erklärung",
+        "review_label_unanswered": "(unbeantwortet)",
+        "review_export_header": "Export-Zusammenfassung",
+        "review_export_mode": "Export-Format",
+        "review_export_button": "Export starten",
+        "review_export_preview": "Vorschau als Karteikarten",
+        "review_export_note": "Nutze diese Exporte für Kahoot, Anki oder ars nova.",
+        "review_export_kahoot": "Kahoot-fertig",
+        "review_export_anki": "Anki-fertig",
+        "review_export_arsnova": "ars nova-fertig",
+        "export_header": "\ud83d\udce6 Export",
+        "export_intro": "Exportiere deine Testergebnisse & Lernmaterialien",
+        "export_admin_select_label": "Fragenset für den Export auswählen:",
+        "export_admin_select_info": "Hinweis: Diese Auswahl wirkt sich nur auf die Exporte nach Anki, Kahoot und arsnova.click aus.",
+        "export_admin_current_set": "Aktuelles Export-Set: **{set_name}**",
+        "export_admin_no_sets": "Keine weiteren Fragensets für den Admin-Export gefunden.",
+        "export_anki_expander": "\ud83d\udce6 Anki-Lernkarten (empfohlen für Wiederholung)",
+        "export_anki_description": "Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.",
+        "export_anki_caption": "Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.",
+        "export_anki_instruction_button": "\u2139\ufe0f Anleitung & Tipps anzeigen",
+        "export_anki_preview_button": "\ud83d\uddbc\ufe0f Kartenvorschau anzeigen",
+        "export_anki_apkg_button": "Anki-Paket (.apkg) erstellen",
+        "export_anki_apkg_spinner": "Anki-Paket wird erstellt...",
+        "export_anki_apkg_download": "\ud83d\udcbe APKG herunterladen",
+        "export_anki_tsv_button": "Anki-TSV exportieren",
+        "export_anki_tsv_spinner": "Anki-TSV wird erstellt...",
+        "export_anki_tsv_download": "\ud83d\udcbe TSV herunterladen"
     },
     "welcome": {
         "splash": {
