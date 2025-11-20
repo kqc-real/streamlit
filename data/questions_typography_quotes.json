@@ -1,0 +1,52 @@
+{
+    "meta": {
+        "title": "Typografie-Zitate-Test",
+        "thema": "Anführungszeichen",
+        "konzept": "Typografische Zeichen",
+        "kognitive_stufe": "Verständnis"
+    },
+    "questions": [
+        {
+            "frage": "1. Welche Version findet sich im Sprichwort?\n„Erfahrung ist die Summe unserer Fehler.“",
+            "optionen": [
+                "\u2018Fehler\u2019 mit einfachen Anführungszeichen",
+                "\"Fehler\" mit geraden Doppelzeichen",
+                "„Fehler“ mit deutschen typografischen Anführungszeichen",
+                "‘Fehler’ mit britischem Apostroph"
+            ],
+            "loesung": 2,
+            "erklaerung": "Die Aussage nutzt typografische deutsche Anführungszeichen für einen deutlichen Stilbruch.",
+            "gewichtung": 1,
+            "konzept": "Zitatklassiker",
+            "kognitive_stufe": "Verständnis"
+        },
+        {
+            "frage": "2. Wie wird in der Literatur anmerken geschickt? 'Schreibe, was du sagst', sagt der Autor.",
+            "optionen": [
+                "Mit einfachen ASCII-Anführungszeichen",
+                "Mit smarten Anführungszeichen wie ‚…‘ oder \u201e…\u201c",
+                "Mit spitzen Klammern wie <…>",
+                "Gar nicht, nur kursiv"
+            ],
+            "loesung": 1,
+            "erklaerung": "Die Literatur verwendet klassische deutsche smart quotes, um Zitatansagen hervorzuheben.",
+            "gewichtung": 2,
+            "konzept": "Zitierstil",
+            "kognitive_stufe": "Analyse"
+        },
+        {
+            "frage": "3. Welche Kombination zeigt beides? 'Ein Satz' beschreibt die Seele, während \"Alles ist möglich\" den Willen betont.",
+            "optionen": [
+                "Nur einfache Anführungszeichen",
+                "Nur doppelte gerade Anführungszeichen",
+                "Deutsche smart quotes kombiniert mit Apostrophen",
+                "Kein Zitat"
+            ],
+            "loesung": 2,
+            "erklaerung": "Die Kombination aus „…“ und ‚…‘ verdeutlicht verschiedene Zitatstile in einem Satz.",
+            "gewichtung": 3,
+            "konzept": "Komplexe Zitate",
+            "kognitive_stufe": "Analyse"
+        }
+    ]
+}

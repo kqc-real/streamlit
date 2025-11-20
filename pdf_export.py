@@ -17,7 +17,7 @@ import html as _html
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
-from helpers import format_decimal_de
+from helpers import format_decimal_de, smart_quotes_de
 import os
 import logging
 import traceback
@@ -2201,6 +2201,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text,
             total_timeout=total_timeout,
         )
+        parsed_frage = smart_quotes_de(parsed_frage)
 
         html_parts.append('<div class="question">')
         html_parts.append(f'<h3>Frage {display_num} / {len(questions)}</h3>')
@@ -2214,7 +2215,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         correct_idx = frage.get("loesung")
         opts = frage.get("optionen", [])
         for oi, opt in enumerate(opts):
-            parsed_opt = _render_latex_in_html(opt, total_timeout=total_timeout)
+            parsed_opt = smart_quotes_de(_render_latex_in_html(opt, total_timeout=total_timeout))
             if oi == correct_idx:
                 html_parts.append(f'<li class="option correct">✔ {parsed_opt}</li>')
             else:
