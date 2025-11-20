@@ -1,6 +1,6 @@
 # Teste dein Wissen!
 
-Bereit für eine Prüfung oder »Lifelong Learning«? Diese App hilft dir, Multiple-Choice-Fragen effizient zu trainieren – transparent, stressfrei und motivierend.
+Bereit für eine Prüfung oder »Lifelong Learning«? Diese App hilft dir, mit Hilfe von Multiple-Choice-Fragen dein Wissen effizient zu trainieren – stressfrei und motivierend.
 
 ## 🌟 Highlights
 
