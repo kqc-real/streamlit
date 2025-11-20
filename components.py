@@ -2032,13 +2032,39 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
             )
 
         if "kognitive_stufe" in df_fragen.columns:
-            kognitive_counts = df_fragen["kognitive_stufe"].fillna("Unbekannt")
+            raw_stages = df_fragen["kognitive_stufe"].fillna("Unbekannt")
         else:
-            kognitive_counts = pd.Series(dtype=object)
-        if not kognitive_counts.empty:
-            counts = kognitive_counts.value_counts()
+            raw_stages = pd.Series(dtype=object)
+
+        def _normalize_stage(value: str) -> str:
+            aliases: dict[str, str] = {
+                "reproduktion": "Reproduktion",
+                "wissen": "Reproduktion",
+                "memorieren": "Reproduktion",
+                "knowledge": "Reproduktion",
+                "verstehen": "Verständnis",
+                "verständnis": "Verständnis",
+                "understanding": "Verständnis",
+                "anwenden": "Anwendung",
+                "anwendung": "Anwendung",
+                "applying": "Anwendung",
+                "analyse": "Analyse",
+                "analysieren": "Analyse",
+                "analyzing": "Analyse",
+            }
+            if not value:
+                return "Unbekannt"
+            key = str(value).strip().lower()
+            return aliases.get(key, value)
+
+        normalized = raw_stages.map(_normalize_stage)
+        if not normalized.empty:
+            counts = normalized.value_counts()
+            bloom_order = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
+            ordered_levels = [level for level in bloom_order if level in counts]
+            ordered_levels.extend([lvl for lvl in counts.index if lvl not in ordered_levels])
             cognition_summary = ", ".join(
-                f"{level} ({counts[level]})" for level in counts.index
+                f"{level} ({counts[level]})" for level in ordered_levels
             )
             summary_parts.append(f"<br>🧠 Kognitive Stufen: {cognition_summary}")
 
