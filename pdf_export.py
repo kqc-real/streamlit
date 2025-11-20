@@ -68,6 +68,34 @@ FORMULA_CACHE_MAX_FILES = int(os.getenv('FORMULA_CACHE_MAX_FILES', '100'))
 FORMULA_CACHE_MAX_MB = int(os.getenv('FORMULA_CACHE_MAX_MB', '50'))
 FORMULA_CACHE_TTL_DAYS = int(os.getenv('FORMULA_CACHE_TTL_DAYS', '7'))
 
+_STAGE_ALIAS_MAP: Dict[str, str] = {
+    "reproduktion": "Reproduktion",
+    "wissen": "Reproduktion",
+    "memorieren": "Reproduktion",
+    "knowledge": "Reproduktion",
+    "verstehen": "Verständnis",
+    "verständnis": "Verständnis",
+    "understanding": "Verständnis",
+    "anwenden": "Anwendung",
+    "anwendung": "Anwendung",
+    "applying": "Anwendung",
+    "analyse": "Analyse",
+    "analysieren": "Analyse",
+    "analyzing": "Analyse",
+}
+
+BLOOM_STAGE_ORDER = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
+
+
+def _normalize_stage_label(value: Any) -> str:
+    if not value:
+        return "Unbekannt"
+    key = str(value).strip()
+    if not key:
+        return "Unbekannt"
+    alias = _STAGE_ALIAS_MAP.get(key.lower())
+    return alias if alias else key
+
 
 def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days: int = 7) -> None:
     """Evict old entries from the disk formula cache.
@@ -970,27 +998,6 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             if ist_richtig:
                 difficulty_stats["hard"]["richtig"] += 1
     
-    def _normalize_stage_label(value: Any) -> str:
-        alias_map: Dict[str, str] = {
-            "reproduktion": "Reproduktion",
-            "wissen": "Reproduktion",
-            "memorieren": "Reproduktion",
-            "knowledge": "Reproduktion",
-            "verstehen": "Verständnis",
-            "verständnis": "Verständnis",
-            "understanding": "Verständnis",
-            "anwenden": "Anwendung",
-            "anwendung": "Anwendung",
-            "applying": "Anwendung",
-            "analyse": "Analyse",
-            "analysieren": "Analyse",
-            "analyzing": "Analyse",
-        }
-        if not value:
-            return "Unbekannt"
-        key = str(value).strip().lower()
-        return alias_map.get(key, value)
-
     stage_stats: Dict[str, Dict[str, int]] = {}
     for i, frage in enumerate(questions):
         raw_stage = frage.get("kognitive_stufe")
@@ -1049,8 +1056,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         difficulty_html += '</tbody></table></div>'
 
     stage_rows = []
-    bloom_order = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
-    ordered_stages = [stage for stage in bloom_order if stage in stage_stats]
+    ordered_stages = [stage for stage in BLOOM_STAGE_ORDER if stage in stage_stats]
     ordered_stages.extend([stage for stage in stage_stats if stage not in ordered_stages])
     for stage in ordered_stages:
         stats = stage_stats[stage]
@@ -1339,12 +1345,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         html_body += f'<div class="question-status {status_class}"><span class="status-icon">{status_icon}</span> {status_text}</div>'
         
         html_body += f'<div class="question-header">'
+        stage_label_display = _normalize_stage_label(frage_obj.get("kognitive_stufe"))
+        stage_line = f'<div class="stage-label">Kognitive Stufe: <span>{stage_label_display}</span></div>'
         html_body += f'Frage {display_test_number} / {len(questions)} '
-        html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
+        html_body += '<span style="color:#6c757d; font-size:9pt; font-weight:400;">'
         html_body += f'(Fragenset-Nr. {original_number})</span> '
         html_body += f'{difficulty_badge}'
         html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
-        html_body += f'</div>'
+        html_body += '</div>'
+        html_body += stage_line
         
         # Thema-Badge (falls vorhanden)
         if thema:
@@ -1747,6 +1756,19 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 color: #2d3748;
                 margin-bottom: 18px;
                 line-height: 1.7;
+            }}
+            .stage-label {{
+                font-size: 9pt;
+                color: #475569;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                margin-bottom: 8px;
+                font-weight: 500;
+            }}
+            .stage-label span {{
+                font-weight: 600;
+                color: #0f172a;
+                letter-spacing: normal;
             }}
             
             /* Options */
@@ -2171,6 +2193,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
 
         html_parts.append('<div class="question">')
         html_parts.append(f'<h3>Frage {display_num} / {len(questions)}</h3>')
+        stage_label_text = _normalize_stage_label(frage.get("kognitive_stufe"))
+        html_parts.append(f'<div class="stage-label">Kognitive Stufe: <span>{stage_label_text}</span></div>')
         html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
         html_parts.append('<ul class="options">')
 
@@ -2252,6 +2276,19 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             .question {{ margin: 18px 0; padding: 12px; border:1px solid #e6eef8; border-radius:6px; background: #ffffff; }}
             .question h3 {{ margin: 0 0 8px 0; color: #1f6feb; font-size: 12pt; }}
             .question-text {{ margin-bottom: 8px; font-size: 11pt; }}
+            .stage-label {{
+                font-size: 9pt;
+                color: #6b7280;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                margin-bottom: 6px;
+                font-weight: 500;
+            }}
+            .stage-label span {{
+                color: #1f2937;
+                font-weight: 700;
+                letter-spacing: normal;
+            }}
             ul.options {{ list-style: disc; padding-left: 1.2rem; margin: 0 0 8px 0; }}
             ul.options li.option {{ padding: 4px 6px; margin-bottom:6px; background: transparent; border-radius:4px; }}
             ul.options li.option .opt-content {{ display: inline; }}
