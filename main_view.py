@@ -363,6 +363,11 @@ def _test_view_text(key: str, default: str, **kwargs) -> str:
     return template.format(**kwargs) if kwargs else template
 
 
+def _summary_text(key: str, default: str, **kwargs) -> str:
+    template = translate_ui(f"summary_view.{key}", default=default)
+    return template.format(**kwargs) if kwargs else template
+
+
 def _welcome_leaderboard_column_pseudonym() -> str:
     return translate_ui(
         "welcome.leaderboard.column.pseudonym",
@@ -2351,37 +2356,58 @@ def _show_welcome_container(app_config: AppConfig):
     test_time_minutes = int(st.session_state.test_time_limit / 60)
 
     if app_config.scoring_mode == "positive_only":
-        scoring_text = (
-            "Für eine richtige Antwort erhältst du Punkte gmäß der Gewichtung, "
-            "für eine falsche 0 Punkte."
+        scoring_text = translate_ui(
+            "welcome.scoring_positive",
+            default=(
+                "Für eine richtige Antwort erhältst du Punkte gemäß der Gewichtung, "
+                "für eine falsche 0 Punkte."
+            ),
         )
     else:
-        scoring_text = "Richtig: +Gewichtung, falsch: -Gewichtung."
+        scoring_text = translate_ui(
+            "welcome.scoring_default",
+            default="Richtig: +Gewichtung, falsch: -Gewichtung.",
+        )
 
     # Großer, zentraler Container mit klarer Aufforderung
     st.markdown("<br>" * 3, unsafe_allow_html=True)  # Abstand nach oben
 
     with st.container(border=True):
-        st.markdown(f"""
-        ### ⏱️ Testzeit
-        Du hast **{test_time_minutes} min** für den Test.<br>
-        Der Countdown startet, sobald du auf »Test beginnen« klickst und aktualisiert sich mit jeder Frage.
+        st.markdown(
+            translate_ui(
+                "welcome.test_intro",
+                default="""
+                ### ⏱️ Testzeit
+                Du hast **{minutes} min** für den Test.<br>
+                Der Countdown startet, sobald du auf »Test beginnen« klickst und aktualisiert sich mit jeder Frage.
 
-        ### ✅ 1 richtige Option
-        Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
+                ### ✅ 1 richtige Option
+                Wähle mit Bedacht, du hast keine zweite Chance pro Frage.
 
-        ### 🎯 Punktelogik
-        {scoring_text}
-        """, unsafe_allow_html=True)
+                ### 🎯 Punktelogik
+                {scoring}
+                """,
+            ).format(minutes=test_time_minutes, scoring=scoring_text),
+            unsafe_allow_html=True,
+        )
 
         st.info(
-            "💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, "
-            "Punktestand und die markierten und übersprungenen Fragen."
+            translate_ui(
+                "welcome.sidebar_tip",
+                default=(
+                    "💡 **Tipp:** In der Sidebar ( **»** oben links) findest du deinen Fortschritt, "
+                    "Punktestand und die markierten und übersprungenen Fragen."
+                ),
+            )
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        if st.button("🚀 Test beginnen", type="primary", width="stretch"):
+        if st.button(
+            translate_ui("welcome.start_test_button", default="🚀 Test beginnen"),
+            type="primary",
+            width="stretch",
+        ):
             st.session_state.test_started = True
             # Starte den Countdown sofort
             st.session_state.start_zeit = pd.Timestamp.now()
@@ -2400,8 +2426,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         pass
     if st.session_state.get("show_pseudonym_reminder", False):
         st.success(
-            f"**Willkommen, {st.session_state.user_id}!** "
-            "Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können."
+            translate_ui(
+                "test_view.pseudonym_welcome",
+                default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
+            ).format(user=st.session_state.user_id)
         )
         del st.session_state.show_pseudonym_reminder
 
@@ -2430,7 +2458,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 _history_dialog()
             else:
                 with st.container(border=True):
-                    st.header("Meine Sessions")
+                    st.header(translate_ui("sidebar.history_header", default="Meine Sessions"))
                     _render_history_table(history_rows, filename_base)
     except Exception:
         # If history rendering fails, silently continue - it must not break the test UI.
@@ -2472,7 +2500,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # aber der session_state (insb. optionen_shuffled) noch vom alten Set stammt.
     if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
         # Use the module-level initialize_session_state import (avoids UnboundLocalError)
-        st.warning("⚠️ Erkenne Wechsel des Fragensets, initialisiere Test neu...")
+        st.warning(
+            translate_ui(
+                "test_view.question_set_change_warning",
+                default="⚠️ Erkenne Wechsel des Fragensets, initialisiere Test neu...",
+            )
+        )
         initialize_session_state(questions, app_config)
         time.sleep(1)  # Kurze Pause, damit der Nutzer die Nachricht sieht
         st.rerun()  # Trigger rerun after re-init
@@ -2505,7 +2538,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             with col1:
                 if remaining_time > 0:
                     minutes, seconds = divmod(remaining_time, 60)
-                    st.metric("⏳ Verbleibende Zeit", f"{minutes:02d}:{seconds:02d}")
+                    st.metric(
+                        _test_view_text("timer_metric", default="⏳ Verbleibende Zeit"),
+                        f"{minutes:02d}:{seconds:02d}",
+                    )
                     warning_text = _format_countdown_warning_de(remaining_time)
                     if warning_text:
                         st.warning(warning_text)
@@ -2514,32 +2550,54 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     # Setze test_end_time, falls noch nicht gesetzt
                     if not st.session_state.get("test_end_time"):
                         st.session_state["test_end_time"] = pd.Timestamp.now().to_pydatetime()
-                    st.error("⏰ Zeit ist um!")
+                    st.error(_test_view_text("time_up_error", default="⏰ Zeit ist um!"))
                     st.rerun()
             with col2:
                 pass  # Platzhalter für Layout
 
         # Logik für die Fortschrittsanzeige
         if num_answered == 0:
-            st.markdown(f"### {len(questions)} Fragen insgesamt")
+            st.markdown(
+                _test_view_text(
+                    "header_total_questions",
+                    default="### {count} Fragen insgesamt",
+                    count=len(questions),
+                )
+            )
         elif remaining == 0:
             # Dieser Fall tritt nur nach der letzten Antwort auf, bevor die Zusammenfassung kommt.
             # Hier ist keine Anzeige mehr nötig.
             pass
         elif remaining == 1 and not is_test_finished(questions):
-            st.markdown("### Letzte Frage")
+            st.markdown(_test_view_text("header_last_question", default="### Letzte Frage"))
         else:
-            st.markdown(f"### Noch {remaining} Frage{'n' if remaining > 1 else ''}")
+            if remaining > 1:
+                st.markdown(
+                    _test_view_text(
+                        "header_remaining_plural",
+                        default="### Noch {count} Fragen",
+                        count=remaining,
+                    )
+                )
+            else:
+                st.markdown(
+                    _test_view_text(
+                        "header_remaining_single",
+                        default="### Noch {count} Frage",
+                        count=remaining,
+                    )
+                )
 
         if thema:
-            st.caption(f"Thema: {thema}")
+            st.caption(f"{_test_view_text('topic_label', default='Thema')}: {thema}")
         raw_stage_value = frage_obj.get("kognitive_stufe")
         stage_suffix = ""
         if raw_stage_value and str(raw_stage_value).strip():
             stage_suffix = f" • {_normalize_stage_label(raw_stage_value)}"
 
+        weight_label = translate_ui("metadata.weight_label", default="Gewicht")
         st.markdown(
-            f"**{frage_text}** <span style='color:#888; font-size:0.9em;'>(Gewicht: {gewichtung}{stage_suffix})</span>",
+            f"**{frage_text}** <span style='color:#888; font-size:0.9em;'>({weight_label}: {gewichtung}{stage_suffix})</span>",
             unsafe_allow_html=True,
         )
 
@@ -2554,7 +2612,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # Wir verwenden st.radio, um die Auswahl zu steuern.
         # Die `format_func` wird verwendet, um KaTeX-Formeln korrekt darzustellen.
         selected_index = st.radio(
-            "Wähle deine Antwort:",
+            _test_view_text("question_prompt", default="Wähle deine Antwort:"),
             options=range(len(optionen)),
             key=widget_key,
             index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
@@ -3424,13 +3482,25 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     )
     user_name_file = st.session_state.get("user_id", "user").replace(" ", "_")
 
-    st.subheader("🧐 Review deiner Antworten")
+    st.subheader(_summary_text("review_header", default="🧐 Review deiner Antworten"))
     
     # Die `initial_frage_indices` werden für die korrekte Nummerierung im Review-Modus benötigt.
     initial_indices = st.session_state.get("initial_frage_indices", list(range(len(questions))))
+    filter_all = _summary_text("review_filter_all", default="Alle")
+    filter_false = _summary_text("review_filter_false", default="Nur falsch beantwortete")
+    filter_true = _summary_text("review_filter_true", default="Nur richtig beantwortete")
+    filter_marked = _summary_text("review_filter_marked", default="Nur markierte")
+    filter_unanswered = _summary_text("review_filter_unanswered", default="Nur unbeantwortete")
+    filter_choices = [
+        filter_all,
+        filter_false,
+        filter_true,
+        filter_marked,
+        filter_unanswered,
+    ]
     filter_option = st.radio(
-        "Filtere die Fragen:",
-        ["Alle", "Nur falsch beantwortete", "Nur richtig beantwortete", "Nur markierte", "Nur unbeantwortete"],
+        _summary_text("review_filter_label", default="Filtere die Fragen:"),
+        filter_choices,
         index=3  # Standard: "Nur markierte"
     )
 
@@ -3451,15 +3521,15 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
         is_bookmarked = i in st.session_state.get("bookmarked_questions", [])
 
-        if filter_option == "Nur falsch beantwortete":
+        if filter_option == filter_false:
             # Zeige nur beantwortete UND falsch beantwortete Fragen
             if ist_richtig or punkte is None:
                 continue
-        if filter_option == "Nur richtig beantwortete" and not ist_richtig:
+        if filter_option == filter_true and not ist_richtig:
             continue
-        if filter_option == "Nur markierte" and not is_bookmarked:
+        if filter_option == filter_marked and not is_bookmarked:
             continue
-        if filter_option == "Nur unbeantwortete" and punkte is not None:
+        if filter_option == filter_unanswered and punkte is not None:
             continue
 
         icon = "❓"
@@ -3478,34 +3548,45 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
         display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
 
+        question_label = _summary_text("review_question_label", default="Frage")
+        your_answer_label = _summary_text("review_label_your_answer", default="Deine Antwort")
+        correct_answer_label = _summary_text("review_label_correct_answer", default="Richtige Antwort")
+        explanation_label = _summary_text("review_label_explanation", default="Erklärung")
+        unanswered_label = _summary_text("review_label_unanswered", default="(unbeantwortet)")
         # Review-UI (z.B. Expander für jede Frage, Anzeige der Antworten etc.)
-        with st.expander(f"{icon} Frage {display_question_number}: {title_text}"):
-            st.markdown(f"**Frage:** {frage['frage']}")
+        with st.expander(f"{icon} {question_label} {display_question_number}: {title_text}"):
+            st.markdown(f"**{question_label}:** {frage['frage']}")
             # Immer zuerst die gegebene Antwort (falsch oder richtig), dann die richtige darunter
             if gegebene_antwort is not None:
                 if ist_richtig:
                     st.markdown(
-                        "<span style='color:#15803d; font-weight:bold;'>Deine Antwort:</span> "
+                        f"<span style='color:#15803d; font-weight:bold;'>{your_answer_label}:</span> "
                         f"<span style='color:#15803d;'>{formatted_gegebene_antwort}</span>",
                         unsafe_allow_html=True,
                     )
                 else:
                     st.markdown(
-                        "<span style='color:#b91c1c; font-weight:bold;'>Deine Antwort:</span> "
+                        f"<span style='color:#b91c1c; font-weight:bold;'>{your_answer_label}:</span> "
                         f"<span style='color:#b91c1c;'>{formatted_gegebene_antwort}</span>",
                         unsafe_allow_html=True,
                     )
             else:
-                st.markdown("<span style='color:#4b9fff; font-weight:bold;'>Deine Antwort:</span> <span style='color:#4b9fff;'>(unbeantwortet)</span>", unsafe_allow_html=True)
+                st.markdown(
+                    f"<span style='color:#4b9fff; font-weight:bold;'>{your_answer_label}:</span> <span style='color:#4b9fff;'>{unanswered_label}</span>",
+                    unsafe_allow_html=True,
+                )
             # Richtige Antwort immer darunter, auch wenn sie schon oben steht
-            st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtige Antwort:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>", unsafe_allow_html=True)
+            st.markdown(
+                f"<span style='color:#15803d; font-weight:bold;'>{correct_answer_label}:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>",
+                unsafe_allow_html=True,
+            )
             if frage.get("erklaerung"):
-                st.markdown(f"**Erklärung:** {frage['erklaerung']}")
+                st.markdown(f"**{explanation_label}:** {frage['erklaerung']}")
 
     # --- Exportbereich (work in progress) ---
     st.markdown("---")
-    st.subheader("📦 Export")
-    with st.expander("Exportiere deine Testergebnisse & Lernmaterialien"):
+    st.subheader(_summary_text("export_header", default="📦 Export"))
+    with st.expander(_summary_text("export_intro", default="Exportiere deine Testergebnisse & Lernmaterialien")):
 
         export_selected_file = selected_file
         export_questions = list(questions)
@@ -3545,14 +3626,19 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     default_choice = available_files[0]
 
                 export_selected_file = st.selectbox(
-                    "Fragenset für den Export auswählen:",
+                    _summary_text("export_admin_select_label", default="Fragenset für den Export auswählen:"),
                     options=available_files,
                     index=available_files.index(default_choice),
                     format_func=_format_export_name,
                     key="admin_export_qset_selector",
                 )
                 st.session_state["admin_export_selected_file"] = export_selected_file
-                st.caption("Hinweis: Diese Auswahl wirkt sich nur auf die Exporte nach Anki, Kahoot und arsnova.click aus.")
+                st.caption(
+                    _summary_text(
+                        "export_admin_select_info",
+                        default="Hinweis: Diese Auswahl wirkt sich nur auf die Exporte nach Anki, Kahoot und arsnova.click aus.",
+                    )
+                )
 
                 if export_selected_file != selected_file:
                     try:
@@ -3561,20 +3647,40 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         st.error(f"Fragenset '{export_selected_file}' konnte nicht geladen werden: {exc}")
                         export_selected_file = selected_file
                         export_questions = list(questions)
-                st.caption(f"Aktuelles Export-Set: **{_format_export_name(export_selected_file)}**")
+                st.caption(
+                    _summary_text(
+                        "export_admin_current_set",
+                        default="Aktuelles Export-Set: **{set_name}**",
+                    ).format(
+                        set_name=_format_export_name(export_selected_file)
+                    )
+                )
             else:
-                st.info("Keine weiteren Fragensets für den Admin-Export gefunden.")
+                st.info(_summary_text("export_admin_no_sets", default="Keine weiteren Fragensets für den Admin-Export gefunden."))
 
-        with st.expander("📦 Anki-Lernkarten (empfohlen für Wiederholung)"):
+        with st.expander(_summary_text("export_anki_expander", default="📦 Anki-Lernkarten (empfohlen für Wiederholung)")):
             pending_instruction = st.session_state.pop("_open_anki_instruction_requested", False)
             if pending_instruction:
                 _open_anki_instruction_dialog()
 
-            st.markdown("Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.")
+            st.markdown(
+                _summary_text(
+                    "export_anki_description",
+                    default="Exportiere alle Fragen als Anki-Kartenset für effizientes Lernen mit Spaced Repetition. Importiere die Datei direkt in die Anki-App.",
+                )
+            )
 
-            st.caption("Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.")
+            st.caption(
+                _summary_text(
+                    "export_anki_caption",
+                    default="Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.",
+                )
+            )
             instruction_button_key = f"open_anki_instruction_{export_selected_file}"
-            if st.button("ℹ️ Anleitung & Tipps anzeigen", key=instruction_button_key):
+            if st.button(
+                _summary_text("export_anki_instruction_button", default="ℹ️ Anleitung & Tipps anzeigen"),
+                key=instruction_button_key,
+            ):
                 st.session_state["_open_anki_instruction_requested"] = True
                 st.session_state["user_qset_dialog_open"] = False
                 if st.session_state.get("_active_dialog") == "user_qset":
@@ -3582,7 +3688,10 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.rerun()
 
             preview_button_key = f"open_anki_preview_{export_selected_file}"
-            if st.button("🖼️ Kartenvorschau anzeigen", key=preview_button_key):
+            if st.button(
+                _summary_text("export_anki_preview_button", default="🖼️ Kartenvorschau anzeigen"),
+                key=preview_button_key,
+            ):
                 _open_anki_preview_dialog(export_questions, export_selected_file)
 
             # Build a user-friendly, slug-safe file stem for downloads.
@@ -3730,8 +3839,13 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
             col_apkg, col_tsv = st.columns(2)
             with col_apkg:
-                if st.button("Anki-Paket (.apkg) erstellen", key=apkg_button_key):
-                    with st.spinner("Anki-Paket wird erstellt..."):
+                if st.button(
+                    _summary_text("export_anki_apkg_button", default="Anki-Paket (.apkg) erstellen"),
+                    key=apkg_button_key,
+                ):
+                    with st.spinner(
+                        _summary_text("export_anki_apkg_spinner", default="Anki-Paket wird erstellt...")
+                    ):
                         try:
                             apkg_bytes = _cached_generate_anki_apkg(export_selected_file)
                         except ModuleNotFoundError:
@@ -3742,7 +3856,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             st.error(f"Fehler beim Erzeugen des Anki-Pakets: {exc}")
                         else:
                             st.download_button(
-                                label="💾 APKG herunterladen",
+                                label=_summary_text("export_anki_apkg_download", default="💾 APKG herunterladen"),
                                 data=apkg_bytes,
                                 file_name=f"anki_export_{export_file_stem}.apkg",
                                 mime="application/octet-stream",
@@ -3750,8 +3864,13 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             )
 
             with col_tsv:
-                if st.button("Anki-TSV exportieren", key=tsv_button_key):
-                    with st.spinner("Anki-TSV wird erstellt..."):
+                if st.button(
+                    _summary_text("export_anki_tsv_button", default="Anki-TSV exportieren"),
+                    key=tsv_button_key,
+                ):
+                    with st.spinner(
+                        _summary_text("export_anki_tsv_spinner", default="Anki-TSV wird erstellt...")
+                    ):
                         try:
                             json_path = resolve_question_path(export_selected_file)
                             if not json_path.exists():
@@ -3765,7 +3884,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         else:
                             tsv_bytes = tsv_content.encode("utf-8")
                             st.download_button(
-                                label="💾 TSV herunterladen",
+                                label=_summary_text("export_anki_tsv_download", default="💾 TSV herunterladen"),
                                 data=tsv_bytes,
                                 file_name=f"anki_export_{export_file_stem}.tsv",
                                 mime="text/tab-separated-values",
