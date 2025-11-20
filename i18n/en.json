@@ -303,7 +303,7 @@
         "question_short": "Question {n}",
         "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:" },
         "stat": { "correct": "Correct", "wrong": "Incorrect", "unanswered": "Unanswered", "total": "Total" },
-        "glossary": { "title": "Mini-Glossary", "intro": "Key terms from this question set, grouped by topic" },
+        "glossary": { "title": "Mini-Glossary", "intro": "Key terms from this question set, grouped by topic", "alt_intro": "Key terms from the question set" },
         "musterloesung": { "title": "Sample solution" },
         "detailed_analysis": "Detailed analysis",
         "header": { "manual_end": "Test ended early" },
@@ -316,6 +316,17 @@
         "log": { "formula_cache": "📊 PDF export completed: {n} formulas cached" },
         "page_footer": "Page {page} of {pages}",
         "stage_unknown": "Unknown"
+        ,
+        "stage_name": {
+            "Reproduktion": "Reproduction",
+            "Verständnis": "Understanding",
+            "Anwendung": "Application",
+            "Analyse": "Analysis"
+        }
+    },
+    "mini_glossary": {
+        "title": "Key terms from the question set \"{name}\"",
+        "empty_error": "No mini-glossary present in this question set."
     },
     "unnamed_set": "Unnamed question set",
     "summary": {

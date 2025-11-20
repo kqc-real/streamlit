@@ -344,7 +344,19 @@
         "musterloesung": {
             "title": "Musterlösung"
         },
-        "detailed_analysis": "Detaillierte Auswertung"
+        "detailed_analysis": "Detaillierte Auswertung",
+        "page_footer": "Seite {page} von {pages}",
+        "stage_unknown": "Unbekannt",
+        "stage_name": {
+            "Reproduktion": "Reproduktion",
+            "Verständnis": "Verständnis",
+            "Anwendung": "Anwendung",
+            "Analyse": "Analyse"
+        }
+    },
+    "mini_glossary": {
+        "title": "Schlüsselbegriffe aus dem Fragenset \"{name}\"",
+        "empty_error": "Kein Mini-Glossar in diesem Fragenset vorhanden."
     },
     "unnamed_set": "Ungenanntes Fragenset",
     "summary": {

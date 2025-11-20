@@ -522,9 +522,9 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None) ->
     # Wir suchen nach allen gängigen LaTeX-Formaten.
     # Die Reihenfolge ist wichtig: Zuerst die längeren Block-Formate.
     processed_text = re.sub(r'\$\$(.*?)\$\$', save_block_formula, html_text, flags=re.DOTALL)
-    processed_text = re.sub(r'\\\\\[(.*?)\\\\\]', save_block_formula, processed_text, flags=re.DOTALL)
+    processed_text = re.sub(r'\\\[(.*?)\\\]', save_block_formula, processed_text, flags=re.DOTALL)
     processed_text = re.sub(r'\$([^$]+?)\$', save_inline_formula, processed_text)
-    processed_text = re.sub(r'\\\\\((.*?)\\\\\)', save_inline_formula, processed_text, flags=re.DOTALL)
+    processed_text = re.sub(r'\\\((.*?)\\\)', save_inline_formula, processed_text, flags=re.DOTALL)
 
     # 2. Markdown-Formatierungen wie Listen und Zeilenumbrüche in HTML umwandeln.
     # Dies ist immer noch notwendig, da die zentrale Bereinigung kein Markdown nach HTML konvertiert.
@@ -822,8 +822,15 @@ def _build_glossary_html(
     if include_header:
         glossary_html_parts.append('<div class="glossary-section">')
         glossary_html_parts.append(f'<h2 class="section-title">{_html.escape(translate_ui("pdf.glossary.title", default="Mini-Glossar"))}</h2>')
-        intro_default = translate_ui('pdf.glossary.intro', default='Wichtige Begriffe aus diesem Test, gruppiert nach Themen')
-        intro = intro_text or intro_default
+        # Prefer an alternate, shorter intro if provided in translations
+        alt_intro = translate_ui('pdf.glossary.alt_intro', default='')
+        default_intro = translate_ui('pdf.glossary.intro', default='Wichtige Begriffe aus diesem Test, gruppiert nach Themen')
+        if intro_text:
+            intro = intro_text
+        elif alt_intro:
+            intro = alt_intro
+        else:
+            intro = default_intro
         glossary_html_parts.append(f'<p class="glossary-intro">{_html.escape(intro)}</p>')
 
     for thema, terms in glossary_by_theme.items():
@@ -1111,9 +1118,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         )
         stage_html += '<tbody>'
         for label, ratio_text, percent_value in stage_rows:
+            translated_label = translate_ui(f"pdf.stage_name.{label}", default=label)
             stage_html += (
                 f'<tr>'
-                f'<th scope="row">{label}</th>'
+                f'<th scope="row">{_html.escape(translated_label)}</th>'
                 f'<td>{ratio_text}</td>'
                 f'<td class="quota-cell">{percent_value:.0f} %</td>'
                 f'</tr>'
@@ -1273,7 +1281,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>{header_title}</h1>{header_subtitle}
+                    <h1>{_html.escape(header_title)}</h1>{header_subtitle}
                     <div class="meta-info">
                         <span><strong>{translate_ui('pdf.meta.participant', default='Teilnehmer:')}</strong> {user_name}</span>
                         <span><strong>{translate_ui('pdf.meta.test_date', default='Testdatum:')}</strong> {generated_at_str}</span>
@@ -1396,9 +1404,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
         header_label = translate_ui("pdf.question_header", default="Frage {current} / {total}").format(current=display_test_number, total=len(questions))
         html_body += header_label + ' '
-        html_body += '<span style="color:#6c757d; font-size:9pt; font-weight:400;>'
-        qset_label = translate_ui("pdf.questionset_number", default="(Fragenset-Nr. {n})").format(n=original_number)
-        html_body += f"{qset_label}</span> "
+        qset_label = _html.escape(translate_ui("pdf.questionset_number", default="(Fragenset-Nr. {n})").format(n=original_number))
+        html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">{qset_label}</span> '
         html_body += f'{difficulty_badge}'
         html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
         html_body += '</div>'
@@ -2009,7 +2016,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     """
     glossary_by_theme = _extract_glossary_terms(questions)
     if not glossary_by_theme:
-        raise ValueError("Kein Mini-Glossar in diesem Fragenset vorhanden.")
+        raise ValueError(translate_ui('pdf.mini_glossary.empty_error', default='Kein Mini-Glossar in diesem Fragenset vorhanden.'))
 
     set_name = None
     try:
@@ -2044,11 +2051,10 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         page_end = page_start + max_items_per_page
         page_themes = dict(theme_items[page_start:page_end])
         includes_header = page_start == 0
-        intro = (
-            f'Schlüsselbegriffe aus dem Fragenset "{set_name}"'
-            if includes_header
-            else None
-        )
+        if includes_header:
+            intro = translate_ui('pdf.mini_glossary.title', default='Schlüsselbegriffe aus dem Fragenset "{name}"').format(name=set_name)
+        else:
+            intro = None
         page_html = _build_glossary_html(
             page_themes,
             intro_text=intro,
@@ -2057,6 +2063,10 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         paginated_html.append(f'<div class="glossary-page">{page_html}</div>')
 
     glossary_html = "".join(paginated_html)
+
+    # Localized footer for pages
+    footer_template = translate_ui('pdf.page_footer', default='Seite {page} von {pages}')
+    css_footer = footer_template.replace('{page}', '" counter(page) "').replace('{pages}', '" counter(pages) "')
 
     full_html = f'''
     <!DOCTYPE html>
@@ -2068,7 +2078,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
                 size: A4;
                 margin: 2cm 2cm 3cm 2cm;
                 @bottom-center {{
-                    content: "Seite " counter(page) " von " counter(pages);
+                    content: {css_footer};
                     font-size: 9pt;
                     color: #666666;
                 }}
@@ -2258,7 +2268,9 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         raw_stage_value = frage.get("kognitive_stufe")
         has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
         if has_stage_label:
-            html_parts.append(f'<div class="stage-label">Kognitive Stufe: <span>{stage_label}</span></div>')
+            display_stage = stage_label if stage_label != DEFAULT_STAGE_LABEL else translate_ui("pdf.stage_unknown", default="Unbekannt")
+            stage_template = translate_ui("pdf.stage_label", default="Kognitive Stufe: {stage}")
+            html_parts.append(f'<div class="stage-label">{_html.escape(stage_template.format(stage=display_stage))}</div>')
         html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
         html_parts.append('<ul class="options">')
 
@@ -2319,6 +2331,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     glossary_html = _build_glossary_html(glossary_by_theme)
     html_parts.append(glossary_html)
 
+    # Localized footer for pages
+    footer_template = translate_ui('pdf.page_footer', default='Seite {page} von {pages}')
+    css_footer = footer_template.replace('{page}', '" counter(page) "').replace('{pages}', '" counter(pages) "')
+
     # Full HTML
     full_html = f"""
     <!DOCTYPE html>
@@ -2330,7 +2346,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 size: A4;
                 margin: 2cm 2cm 3cm 2cm;
                 @bottom-center {{
-                    content: "Seite " counter(page) " von " counter(pages);
+                    content: {css_footer};
                     font-size: 9pt;
                     color: #666;
                 }}
