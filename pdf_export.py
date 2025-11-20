@@ -970,9 +970,31 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             if ist_richtig:
                 difficulty_stats["hard"]["richtig"] += 1
     
+    def _normalize_stage_label(value: Any) -> str:
+        alias_map: Dict[str, str] = {
+            "reproduktion": "Reproduktion",
+            "wissen": "Reproduktion",
+            "memorieren": "Reproduktion",
+            "knowledge": "Reproduktion",
+            "verstehen": "Verständnis",
+            "verständnis": "Verständnis",
+            "understanding": "Verständnis",
+            "anwenden": "Anwendung",
+            "anwendung": "Anwendung",
+            "applying": "Anwendung",
+            "analyse": "Analyse",
+            "analysieren": "Analyse",
+            "analyzing": "Analyse",
+        }
+        if not value:
+            return "Unbekannt"
+        key = str(value).strip().lower()
+        return alias_map.get(key, value)
+
     stage_stats: Dict[str, Dict[str, int]] = {}
     for i, frage in enumerate(questions):
-        stage = frage.get("kognitive_stufe")
+        raw_stage = frage.get("kognitive_stufe")
+        stage = _normalize_stage_label(raw_stage)
         if not stage:
             continue
         gegebene_antwort = get_answer_for_question(i)
@@ -1027,7 +1049,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         difficulty_html += '</tbody></table></div>'
 
     stage_rows = []
-    for stage, stats in sorted(stage_stats.items()):
+    bloom_order = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
+    ordered_stages = [stage for stage in bloom_order if stage in stage_stats]
+    ordered_stages.extend([stage for stage in stage_stats if stage not in ordered_stages])
+    for stage in ordered_stages:
+        stats = stage_stats[stage]
         gesamt = stats["gesamt"]
         if gesamt <= 0:
             continue
