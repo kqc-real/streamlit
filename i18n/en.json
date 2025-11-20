@@ -440,6 +440,17 @@
                 "difficulty": "\u26f0\ufe0f {leicht} \u00d7 easy \u00b7 {mittel} \u00d7 medium \u00b7 {schwer} \u00d7 hard",
                 "cognition": "\ud83e\udde0 Cognitive stages: {summary}"
             }
+            ,
+            "difficulty": {
+                "easy": "Easy",
+                "medium": "Medium",
+                "hard": "Hard"
+            },
+            "chart": {
+                "xaxis": "Topic",
+                "yaxis": "Number of questions",
+                "legend": "Difficulty"
+            }
         },
         "leaderboard": {
             "title": "\ud83c\udfc6 Current Top 10 (max. {max_score} points)",

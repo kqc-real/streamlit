@@ -17,6 +17,8 @@ from typing import List, Dict, Any
 import streamlit as st
 
 from helpers import sanitize_html
+from i18n import DEFAULT_LOCALE, normalize_locale
+from i18n.context import get_locale
 
 
 def _identity_cache_decorator(func):
@@ -716,12 +718,39 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
         return QuestionSet([], {}, filename)
 
 
-def load_scientists() -> List[Dict[str, str]]:
-    """Lädt die Liste der Wissenschaftler aus der JSON-Datei."""
-    path = os.path.join(get_package_dir(), "data", "scientists.json")
+def _scientists_path_for_locale(locale: str | None) -> str | None:
+    base_dir = os.path.join(get_package_dir(), "data")
+    locale_code = normalize_locale(locale or get_locale())
+    candidate = os.path.join(base_dir, f"scientists.{locale_code}.json")
+    if os.path.isfile(candidate):
+        return candidate
+
+    generic = os.path.join(base_dir, "scientists.json")
+    if os.path.isfile(generic):
+        return generic
+
+    fallback = os.path.join(base_dir, f"scientists.{DEFAULT_LOCALE}.json")
+    if os.path.isfile(fallback):
+        return fallback
+
+    return None
+
+
+@st.cache_data(ttl=3600)
+def _read_scientists_file(path: str) -> List[Dict[str, str]]:
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_scientists(locale: str | None = None) -> List[Dict[str, str]]:
+    """Lädt die Liste der Wissenschaftler aus der JSON-Datei für die gewünschte Sprache."""
+    path = _scientists_path_for_locale(locale)
+    if path is None:
+        st.error("Fehler: Wissenschaftlerliste (scientists.json) nicht gefunden.")
+        return []
+
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        return _read_scientists_file(path)
     except (IOError, json.JSONDecodeError) as e:
-        st.error(f"Fehler beim Laden von 'scientists.json': {e}")
+        st.error(f"Fehler beim Laden von '{os.path.basename(path)}': {e}")
         return []

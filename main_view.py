@@ -2006,13 +2006,20 @@ def render_welcome_page(app_config: AppConfig):
     used_pseudonyms = get_used_pseudonyms()
 
     # Erstelle eine Liste der verfügbaren Wissenschaftler-Objekte
-    available_scientists_obj = [s for s in scientists if s['name'] not in used_pseudonyms]
+    available_scientists_obj = []
+    for s in scientists:
+        name = s.get('name')
+        if not isinstance(name, str):
+            continue
+        if name in used_pseudonyms:
+            continue
+        available_scientists_obj.append(s)
 
     # Stelle sicher, dass der Admin-Benutzer immer auswählbar ist,
     # auch wenn er bereits einen Test gemacht hat.
     admin_user = app_config.admin_user
     if admin_user:
-        admin_scientist = next((s for s in scientists if s['name'] == admin_user), None)
+        admin_scientist = next((s for s in scientists if s.get('name') == admin_user), None)
         # Füge den Admin hinzu, falls er nicht bereits in der verfügbaren Liste ist
         if admin_scientist and admin_scientist not in available_scientists_obj:
             available_scientists_obj.append(admin_scientist)
@@ -2026,7 +2033,12 @@ def render_welcome_page(app_config: AppConfig):
     # Erstelle eine Map von allen Wissenschaftlern für die Formatierungsfunktion.
     # Diese muss *alle* Wissenschaftler enthalten, nicht nur die verfügbaren,
     # damit die Formatierung immer funktioniert.
-    scientist_map = {s['name']: s['contribution'] for s in scientists}
+    scientist_map = {}
+    for s in scientists:
+        name = s.get('name')
+        if not isinstance(name, str):
+            continue
+        scientist_map[name] = s.get('contribution')
 
     def format_scientist(name):
         contribution = scientist_map.get(name, "")

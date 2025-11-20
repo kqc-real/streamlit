@@ -1,0 +1,970 @@
+[
+  {
+    "name": "Abdus Salam",
+    "contribution": "Physicist, Nobel laureate for the theory of electroweak interaction | Nobel Prize in Physics 1979 for electroweak unification (with Glashow and Weinberg)"
+  },
+  {
+    "name": "Ada Lovelace",
+    "contribution": "Considered the world's first female computer programmer"
+  },
+  {
+    "name": "Ada Yonath",
+    "contribution": "Structural researcher, Nobel Prize winner for ribosome structure determination | Nobel Prize in Chemistry 2009 for structure and function of the ribosome"
+  },
+  {
+    "name": "Adam Smith",
+    "contribution": "Scottish philosopher and economist, founder of classical economics"
+  },
+  {
+    "name": "Al-Khwarizmi",
+    "contribution": "Persian mathematician whose name became the word 'algorithm'"
+  },
+  {
+    "name": "Alan C. Kay",
+    "contribution": "Pioneer of personal computing (Dynabook), coined the term object orientation"
+  },
+  {
+    "name": "Alan Turing",
+    "contribution": "Father of theoretical computer science and artificial intelligence"
+  },
+  {
+    "name": "Albert Einstein",
+    "contribution": "Developer of the theory of relativity | Nobel Prize in Physics 1921 for discovery of the photoelectric effect"
+  },
+  {
+    "name": "Alexander Fleming",
+    "contribution": "Discoverer of penicillin | Nobel Prize in Physiology/Medicine 1945 for discovery of penicillin (with Chain and Florey)"
+  },
+  {
+    "name": "Alexander Oparin",
+    "contribution": "Biochemist, early hypotheses on the chemical origin of life"
+  },
+  {
+    "name": "Alexander von Humboldt",
+    "contribution": "Naturalist and explorer, co-founder of geography as an empirical science"
+  },
+  {
+    "name": "Alfred Nobel",
+    "contribution": "Chemist and inventor of dynamite, founder of the Nobel Prize"
+  },
+  {
+    "name": "Alfred Russel Wallace",
+    "contribution": "Naturalist, independent co-founder of the theory of evolution by natural selection"
+  },
+  {
+    "name": "Amedeo Avogadro",
+    "contribution": "Chemist, formulated the law of Avogadro's number (number of particles in gases)"
+  },
+  {
+    "name": "Amos Tversky",
+    "contribution": "Cognitive psychologist, pioneer of behavioral economics together with Kahneman"
+  },
+  {
+    "name": "Anders Celsius",
+    "contribution": "Astronomer, developer of the Celsius temperature scale"
+  },
+  {
+    "name": "André-Marie Ampère",
+    "contribution": "Physicist and mathematician, founder of electrodynamics (Ampère's laws)"
+  },
+  {
+    "name": "Antoine Lavoisier",
+    "contribution": "Chemist, considered the father of modern chemistry"
+  },
+  {
+    "name": "Antonie van Leeuwenhoek",
+    "contribution": "Microbiologist, improved the microscope and discovered microorganisms"
+  },
+  {
+    "name": "Archimedes",
+    "contribution": "Ancient Greek mathematician, physicist and engineer"
+  },
+  {
+    "name": "Aristotle",
+    "contribution": "Greek philosopher and polymath who shaped Western science"
+  },
+  {
+    "name": "Arthur Eddington",
+    "contribution": "Astrophysicist, empirically confirmed the general theory of relativity"
+  },
+  {
+    "name": "August Kekulé",
+    "contribution": "Chemist, known for the structural formula of the benzene ring"
+  },
+  {
+    "name": "Augustin-Jean Fresnel",
+    "contribution": "Physicist, pioneer of wave optics and lens physics"
+  },
+  {
+    "name": "B. F. Skinner",
+    "contribution": "Psychologist, founder of radical behaviorism (operant conditioning)"
+  },
+  {
+    "name": "Barbara McClintock",
+    "contribution": "Geneticist, Nobel Prize winner for the discovery of 'jumping genes' | Nobel Prize in Physiology/Medicine 1983 for the discovery of mobile genetic elements (transposons)"
+  },
+  {
+    "name": "Benjamin Franklin",
+    "contribution": "Inventor and natural scientist, contributions to the theory of electricity and practical inventions"
+  },
+  {
+    "name": "Bernhard Riemann",
+    "contribution": "German mathematician, contributions to differential geometry and number theory"
+  },
+  {
+    "name": "Blaise Pascal",
+    "contribution": "French mathematician, physicist and inventor"
+  },
+  {
+    "name": "Carl Friedrich Gauss",
+    "contribution": "German mathematician, 'prince of mathematicians'"
+  },
+  {
+    "name": "Carl Jung",
+    "contribution": "Swiss psychiatrist, founder of analytical psychology"
+  },
+  {
+    "name": "Carl Sagan",
+    "contribution": "Astronomer, cosmologist and bestselling author"
+  },
+  {
+    "name": "Carl von Linné",
+    "contribution": "Biologist, founder of modern taxonomy (systematics)"
+  },
+  {
+    "name": "Carl Woese",
+    "contribution": "Microbiologist, defined archaea as a new domain of life"
+  },
+  {
+    "name": "Carolyn Bertozzi",
+    "contribution": "Chemist, Nobel Laureate in Bioorthogonal Chemistry | Nobel Prize in Chemistry 2022 for Bioorthogonal Chemistry and Click Reactions (with Sharpless and Meldal)"
+  },
+  {
+    "name": "Cecilia Payne-Gaposchkin",
+    "contribution": "Astronomer who discovered that stars consist mainly of hydrogen and helium"
+  },
+  {
+    "name": "Charles Babbage",
+    "contribution": "British mathematician, considered the 'father of the computer'"
+  },
+  {
+    "name": "Charles Darwin",
+    "contribution": "Founder of the theory of evolution by natural selection"
+  },
+  {
+    "name": "Chien-Shiung Wu",
+    "contribution": "Physicist known for the Wu parity violation experiment"
+  },
+  {
+    "name": "Christian Doppler",
+    "contribution": "Physicist, discoverer of the Doppler effect"
+  },
+  {
+    "name": "Christiane L. Stähle",
+    "contribution": "Environmental scientist, contributions to ecotoxicology (regionally known)"
+  },
+  {
+    "name": "Christiane Nüsslein-Volhard",
+    "contribution": "Developmental biologist, Nobel Prize winner for pattern formation in embryos | Nobel Prize in Physiology/Medicine 1995 for genetic control of early embryonic development (with Wieschaus and Lewis)"
+  },
+  {
+    "name": "Claude Shannon",
+    "contribution": "Mathematician and electrical engineer, founder of information theory"
+  },
+  {
+    "name": "Daniel Bernoulli",
+    "contribution": "Mathematician and physicist, best known for the Bernoulli principles in fluid dynamics"
+  },
+  {
+    "name": "Daniel Kahneman",
+    "contribution": "Psychologist and economist, Nobel laureate for his work on behavioral economics | Nobel Prize in Economics 2002 for behavioral economics and judgment under uncertainty"
+  },
+  {
+    "name": "David Baltimore",
+    "contribution": "Molecular biologist, Nobel Prize winner for discovery of reverse transcriptase | Nobel Prize in Physiology/Medicine 1975 for tumor viruses and reverse transcription (with Dulbecco and Temin)"
+  },
+  {
+    "name": "David Hilbert",
+    "contribution": "German mathematician, known for his 23 problems"
+  },
+  {
+    "name": "Dmitri Mendeleev",
+    "contribution": "Chemist, developed the periodic table of the elements"
+  },
+  {
+    "name": "Dmitri Mendeleev",
+    "contribution": "Chemist, developed the periodic table of elements"
+  },
+  {
+    "name": "Donald Knuth",
+    "contribution": "Computer scientist, author of 'The Art of Computer Programming' and creator of TeX"
+  },
+  {
+    "name": "Dorothy Hodgkin",
+    "contribution": "Chemist, Nobel Prize winner for structure determination using X-ray analysis | Nobel Prize in Chemistry 1964 for structure determination of important biomolecules using X-ray crystallography"
+  },
+  {
+    "name": "Edna Adan Ismail",
+    "contribution": "Medical doctor and activist, improvements in obstetrics in Somaliland's health system"
+  },
+  {
+    "name": "Edsger W. Dijkstra",
+    "contribution": "Computer scientist, contributions to algorithms (e.g. Dijkstra algorithm) and structured programming | Turing Award 1972 for Foundations of Algorithms and Structured Programming"
+  },
+  {
+    "name": "Edward O. Wilson",
+    "contribution": "Biologist, considered the founder of sociobiology"
+  },
+  {
+    "name": "Edward Said",
+    "contribution": "Literary theorist and critic, founder of postcolonial theory"
+  },
+  {
+    "name": "Edwin Hubble",
+    "contribution": "Astronomer, proved the expansion of the universe (Hubble's law)"
+  },
+  {
+    "name": "Eleanor Anne Ormerod",
+    "contribution": "Entomologist, pioneer of applied pest control"
+  },
+  {
+    "name": "Elizabeth Blackburn",
+    "contribution": "Molecular biologist, Nobel laureate for discovery of telomerase | Nobel Prize in Physiology/Medicine 2009 for telomeres and telomerase (with Carol Greider and Jack Szostak)"
+  },
+  {
+    "name": "Ellen Swallow Richards",
+    "contribution": "Chemist and environmental pioneer, founder of household sciences"
+  },
+  {
+    "name": "Emmanuelle Charpentier",
+    "contribution": "Microbiologist, Nobel Prize winner for the development of the CRISPR-Cas9 gene scissors | Nobel Prize in Chemistry 2020 for CRISPR-Cas9 genome editing (with Jennifer Doudna)"
+  },
+  {
+    "name": "Emmy Noether",
+    "contribution": "Pioneering contributions to abstract algebra (Noether theorem)"
+  },
+  {
+    "name": "Enrico Fermi",
+    "contribution": "Physicist, built the first nuclear reactor and Nobel Prize winner | Nobel Prize in Physics 1938 for induced nuclear reactions by slow neutrons"
+  },
+  {
+    "name": "Erwin Schrödinger",
+    "contribution": "Physicist, known for the Schrödinger equation | Nobel Prize in Physics 1933 for the foundations of quantum mechanics (with Paul Dirac)"
+  },
+  {
+    "name": "Euclid",
+    "contribution": "Greek mathematician, often referred to as the 'father of geometry'"
+  },
+  {
+    "name": "Fabiola Gianotti",
+    "contribution": "Particle physicist, led CERN during the discovery of the Higgs boson"
+  },
+  {
+    "name": "Fernand Braudel",
+    "contribution": "French historian, leading representative of the Annales school"
+  },
+  {
+    "name": "Fibonacci",
+    "contribution": "Italian mathematician, known for the Fibonacci sequence"
+  },
+  {
+    "name": "Florence Bascom",
+    "contribution": "Geologist, pioneer of structural geology and stratigraphy in the USA"
+  },
+  {
+    "name": "Florence Nightingale",
+    "contribution": "Pioneer of modern nursing and statistician"
+  },
+  {
+    "name": "Florence Sabin",
+    "contribution": "Pioneer of cell biology and immunology in the USA"
+  },
+  {
+    "name": "Francis Crick",
+    "contribution": "Molecular biologist, co-discoverer of DNA structure"
+  },
+  {
+    "name": "Françoise Barré-Sinoussi",
+    "contribution": "Microbiologist, Nobel Prize winner for the discovery of the HIV virus | Nobel Prize in Physiology/Medicine 2008 for the discovery of the HI virus (with Luc Montagnier)"
+  },
+  {
+    "name": "Friedrich Hayek",
+    "contribution": "Economist and philosopher, representative of the Austrian School"
+  },
+  {
+    "name": "Friedrich Nietzsche",
+    "contribution": "German philosopher, known for his criticism of morality and religion"
+  },
+  {
+    "name": "Fritz Haber",
+    "contribution": "Chemist, developer of the Haber-Bosch process for ammonia synthesis"
+  },
+  {
+    "name": "Fritz Zernike",
+    "contribution": "Physicist, Nobel Prize winner for the development of phase-contrast microscopy | Nobel Prize in Physics 1953 for phase-contrast microscopy"
+  },
+  {
+    "name": "Galileo Galilei",
+    "contribution": "Supporter of the heliocentric view of the world"
+  },
+  {
+    "name": "Geoffrey Hinton",
+    "contribution": "Computer scientist, 'godfather of AI', pioneer of deep learning research"
+  },
+  {
+    "name": "George Boole",
+    "contribution": "British mathematician, founder of Boolean algebra"
+  },
+  {
+    "name": "George Gamow",
+    "contribution": "Physicist, contributions to cosmology and nucleosynthesis"
+  },
+  {
+    "name": "George Washington Carver",
+    "contribution": "Botanist and inventor, developed hundreds of products from peanuts and sweet potatoes"
+  },
+  {
+    "name": "Gerald Edelman",
+    "contribution": "Biochemist/neuroscientist, Nobel Prize winner for work on antibody structure | Nobel Prize in Physiology/Medicine 1972 for structure of antibodies (with Rodney Porter)"
+  },
+  {
+    "name": "Gertrude Elion",
+    "contribution": "Pharmacist, Nobel Prize winner for new drug development | Nobel Prize in Physiology/Medicine 1988 for innovative drug development (with Hitchings and Black)"
+  },
+  {
+    "name": "Gerty T. Cori",
+    "contribution": "Biochemist, Nobel Prize winner for the Cori cycle in carbohydrate metabolism research | Nobel Prize in Physiology/Medicine 1947 for elucidation of carbohydrate metabolism (with Carl Cori)"
+  },
+  {
+    "name": "Gottfried Wilhelm Leibniz",
+    "contribution": "German polymath, co-inventor of infinitesimal calculus"
+  },
+  {
+    "name": "Grace Chisholm Young",
+    "contribution": "Mathematician, contributions to analysis and the theory of functions"
+  },
+  {
+    "name": "Grace Hopper",
+    "contribution": "Pioneer of computer programming, inventor of the first compiler"
+  },
+  {
+    "name": "Gregor Mendel",
+    "contribution": "Augustinian priest and natural scientist, founder of genetics"
+  },
+  {
+    "name": "Hannah Arendt",
+    "contribution": "German-American political theorist, 'Elements and Origins of Totalitarianism'"
+  },
+  {
+    "name": "Hans Christian Ørsted",
+    "contribution": "Physicist, discovered the relationship between electricity and magnetism"
+  },
+  {
+    "name": "Hans Geiger",
+    "contribution": "Physicist, inventor of the Geiger counter for the detection of ionizing radiation"
+  },
+  {
+    "name": "Hans Krebs",
+    "contribution": "Biochemist, discoverer of the citrate/Krebs cycle"
+  },
+  {
+    "name": "Har Gobind Khorana",
+    "contribution": "Molecular biologist, Nobel Prize winner for work on genetic code translation | Nobel Prize in Physiology/Medicine 1968 for genetic code and protein synthesis (with Holley and Nirenberg)"
+  },
+  {
+    "name": "Hedy Lamarr",
+    "contribution": "Inventor and actress, pioneer of frequency hopping technology in communication"
+  },
+  {
+    "name": "Heidi Schellman",
+    "contribution": "Experimental particle physicist, contributions to precision measurements in lepton physics"
+  },
+  {
+    "name": "Heinrich Hertz",
+    "contribution": "Physicist, confirmed the existence of electromagnetic waves"
+  },
+  {
+    "name": "Hermann Emil Fischer",
+    "contribution": "Chemist, Nobel Prize winner for work on organic chemistry (sugar, purines) | Nobel Prize in Chemistry 1902 for work on organic chemistry (sugar and purines)"
+  },
+  {
+    "name": "Hermann Muller",
+    "contribution": "Geneticist, Nobel Prize winner for findings on mutagenesis by radiation | Nobel Prize in Physiology/Medicine 1946 for mutations caused by X-rays"
+  },
+  {
+    "name": "Hermann von Helmholtz",
+    "contribution": "Physicist and physiologist, contributions to energy conservation, acoustics and sensory physiology"
+  },
+  {
+    "name": "Herodotus",
+    "contribution": "Greek historian, often referred to as the 'father of historiography'"
+  },
+  {
+    "name": "Hippocrates",
+    "contribution": "Ancient physician, considered the founder of medical ethics"
+  },
+  {
+    "name": "Humphry Davy",
+    "contribution": "Chemist, isolated elements such as sodium and potassium"
+  },
+  {
+    }, { "name": "Hypatia",
+    "contribution": "Mathematician, astronomer and philosopher in ancient Alexandria"
+  },
+  {
+    "name": "Ibn al-Haytham",
+    "contribution": "Arab mathematician and physicist, pioneer of optics"
+  },
+  {
+    "name": "Ibn Khaldun",
+    "contribution": "Arab historian and sociologist, one of the first thinkers in the social sciences"
+  },
+  {
+    "name": "Immanuel Kant",
+    "contribution": "German philosopher of the Enlightenment, 'Critique of Pure Reason'"
+  },
+  {
+    "name": "Inez Fung",
+    "contribution": "Atmospheric scientist, contributions to global circulation and carbon cycle modeling"
+  },
+  {
+    "name": "Inge Lehmann",
+    "contribution": "Seismologist, discovered the Earth's solid inner core"
+  },
+  {
+    "name": "Isaac Newton",
+    "contribution": "Formulated the laws of motion and universal gravitation"
+  },
+  {
+    "name": "Ivan Pavlov",
+    "contribution": "Physiologist known for his research on classical conditioning"
+  },
+  {
+    "name": "J. Robert Oppenheimer",
+    "contribution": "Theoretical physicist, scientific director of the Manhattan Project"
+  },
+  {
+    "name": "James Clerk Maxwell",
+    "contribution": "Physicist, formulated Maxwell's equations"
+  },
+  {
+    "name": "James Lovelock",
+    "contribution": "Independent scientist, known for the Gaia hypothesis"
+  },
+  {
+    "name": "James Prescott Joule",
+    "contribution": "Physicist, proof of the conservation of energy and description of the Joule effect"
+  },
+  {
+    "name": "James Watson",
+    "contribution": "Molecular biologist, co-discoverer of the DNA structure"
+  },
+  {
+    "name": "Jane Goodall",
+    "contribution": "Primatologist, known for her long-term study of chimpanzees"
+  },
+  {
+    "name": "Jean Piaget",
+    "contribution": "Developmental psychologist, known for his theory of cognitive development in children"
+  },
+  {
+    "name": "Jean-Baptiste Lamarck",
+    "contribution": "Biologist, early advocate of evolutionary change through use and disuse"
+  },
+  {
+    }, { "name": "Jennifer Doudna",
+    "contribution": "Biochemist, Nobel Prize winner for the development of the CRISPR-Cas9 gene scissors | Nobel Prize in Chemistry 2020 for CRISPR-Cas9 genome editing (with Emmanuelle Charpentier)"
+  },
+  {
+    "name": "Jocelyn Bell Burnell",
+    "contribution": "Astrophysicist, co-discoverer of the first pulsars"
+  },
+  {
+    "name": "Johannes Kepler",
+    "contribution": "Astronomer, discovered the laws of planetary motion"
+  },
+  {
+    "name": "John Bardeen",
+    "contribution": "American physicist, only two-time Nobel Prize winner in physics (transistor, superconductivity) | Nobel Prize in Physics 1956 for transistor (with Brattain and Shockley) | Nobel Prize in Physics 1972 for theory of superconductivity (BCS)"
+  },
+  {
+    "name": "John Dalton",
+    "contribution": "Chemist and physicist, developed the atomic theory of chemistry"
+  },
+  {
+    "name": "John Goodenough",
+    "contribution": "Materials scientist, co-developer of the lithium-ion battery, Nobel Prize winner | Nobel Prize in Chemistry 2019 for lithium-ion batteries (with Whittingham and Yoshino)"
+  },
+  {
+    "name": "John Maynard Keynes",
+    "contribution": "British economist, namesake of Keynesianism"
+  },
+  {
+    "name": "John McCarthy",
+    "contribution": "American computer scientist, coined the term 'artificial intelligence' and invented Lisp | Turing Award 1971 for Foundations of Artificial Intelligence"
+  },
+  {
+    "name": "John Snow",
+    "contribution": "Pioneer of epidemiology, identified the source of cholera contamination in London"
+  },
+  {
+    "name": "John von Neumann",
+    "contribution": "Mathematician, pioneer of game theory and the Von Neumann architecture for computers"
+  },
+  {
+    "name": "Jonas Salk",
+    "contribution": "Developer of one of the first successful polio vaccines"
+  },
+  {
+    "name": "Joseph Lister",
+    "contribution": "Surgeon, pioneer of antiseptic surgery"
+  },
+  {
+    "name": "Joseph Priestley",
+    "contribution": "Chemist, one of the discoverers of oxygen"
+  },
+  {
+    "name": "Judith Butler",
+    "contribution": "American philosopher, central figure in gender theory and queer theory"
+  },
+  {
+    "name": "Justus von Liebig",
+    "contribution": "Chemist, considered the father of organic chemistry and agrochemistry"
+  },
+  {
+    "name": "Jöns Jacob Berzelius",
+    "contribution": "Chemist, developed modern chemical notation"
+  },
+  {
+    "name": "Jürgen Habermas",
+    "contribution": "German philosopher and sociologist, main representative of the Frankfurt School"
+  },
+  {
+    "name": "Karl Landsteiner",
+    "contribution": "Biologist and physician, discovered the AB0 blood groups"
+  },
+  {
+    "name": "Karl Marx",
+    "contribution": "German philosopher, economist and social theorist"
+  },
+  {
+    "name": "Kary Mullis",
+    "contribution": "Biochemist, Nobel Prize winner for the invention of the polymerase chain reaction (PCR) | 1993 Nobel Prize in Chemistry for the invention of the polymerase chain reaction (PCR)"
+  },
+  {
+    "name": "Katalin Karikó",
+    "contribution": "Biochemist, pioneer of mRNA technology in vaccine development"
+  },
+  {
+    "name": "Katherine Johnson",
+    "contribution": "NASA mathematician, calculated trajectories for manned space flights"
+  },
+  {
+    "name": "Konrad Lorenz",
+    "contribution": "Behavioural scientist, Nobel Prize winner for his studies on imprinting in animals | Nobel Prize in Physiology/Medicine 1973 for organization and triggering of behavioural patterns (with Tinbergen and von Frisch)"
+  },
+  {
+    "name": "Kurt Gödel",
+    "contribution": "Logician and mathematician, known for his incompleteness theorems"
+  },
+  {
+    "name": "Leonardo da Vinci",
+    "contribution": "Universal scholar, artist and inventor of the Renaissance"
+  },
+  {
+    "name": "Leonhard Euler",
+    "contribution": "Swiss mathematician, one of the most prolific mathematicians in history"
+  },
+  {
+    "name": "Leopold von Ranke",
+    "contribution": "German historian, founder of modern, source-critical historical science"
+  },
+  {
+    "name": "Lev Vygotsky",
+    "contribution": "Psychologist, founder of the socio-cultural theory of development"
+  },
+  {
+    "name": "Lillian Gilbreth",
+    "contribution": "Engineer and psychologist, pioneer of ergonomics and time/motion studies"
+  },
+  {
+    "name": "Linus Pauling",
+    "contribution": "Chemist and peace activist, one of the most influential chemists | Nobel Prize in Chemistry 1954 for the nature of chemical bonding | Nobel Peace Prize 1962 for commitment to nuclear disarmament"
+  },
+  {
+    "name": "Linus Torvalds",
+    "contribution": "Finnish-American software developer, creator of the Linux kernel"
+  },
+  {
+    "name": "Lionel Penrose",
+    "contribution": "Geneticist and psychiatrist, pioneering work on the genetics of neurological diseases"
+  },
+  {
+    "name": "Lise Meitner",
+    "contribution": "Physicist, co-discoverer of nuclear fission"
+  },
+  {
+    "name": "Louis Pasteur",
+    "contribution": "Developer of pasteurization and vaccines"
+  },
+  {
+    "name": "Lynn Margulis",
+    "contribution": "Biologist, developer of the endosymbiotic theory of the origin of eukaryotic cells"
+  },
+  {
+    "name": "Lynn White",
+    "contribution": "Historian of science, known for analysis of the history of technology"
+  },
+  {
+    }, { "name": "Mae Jemison",
+    "contribution": "Physician and NASA astronaut, first African-American woman in space"
+  },
+  {
+    "name": "Margaret Hamilton",
+    "contribution": "American computer scientist, led software development for the Apollo program"
+  },
+  {
+    "name": "Margaret Mead",
+    "contribution": "American cultural anthropologist known for her studies of Oceania"
+  },
+  {
+    "name": "Maria Goeppert Mayer",
+    "contribution": "Physicist, Nobel Prize winner for the shell model of atomic nuclei | Nobel Prize in Physics 1963 for shell model of the atomic nucleus (with J. Hans D. Jensen)"
+  },
+  {
+    "name": "Marie Curie",
+    "contribution": "Pioneer of radioactivity research | Nobel Prize in Physics 1903 for research on radioactivity (with H. Becquerel and P. Curie) | Nobel Prize in Chemistry 1911 for discovery of radium and polonium"
+  },
+  {
+    "name": "Marvin Minsky",
+    "contribution": "American computer scientist, co-founder of artificial intelligence"
+  },
+  {
+    "name": "Mary Anning",
+    "contribution": "Palaeontologist, made important fossil discoveries in England"
+  },
+  {
+    "name": "Mary Cartwright",
+    "contribution": "Mathematician, pioneer of nonlinear analysis and chaotic dynamics"
+  },
+  {
+    "name": "Mary Leakey",
+    "contribution": "Paleoanthropologist, important discoveries on human evolution"
+  },
+  {
+    "name": "Mary Somerville",
+    "contribution": "Mathematician and science communicator, contributed to the popularization of astronomical and mathematical knowledge"
+  },
+  {
+    "name": "Mary-Claire King",
+    "contribution": "Geneticist, discovered the BRCA1 gene and contributed to genetic counseling"
+  },
+  {
+    "name": "Max Born",
+    "contribution": "German physicist, Nobel Prize winner for his work on quantum mechanics | Nobel Prize in Physics 1954 for fundamental research on quantum mechanics, statistical interpretation (with Walther Bothe) | Nobel Prize in Physics 1954 for fundamental research on quantum mechanics; statistical interpretation (with Walther Bothe)"
+  },
+  {
+    "name": "Max Planck",
+    "contribution": "Physicist, founder of quantum theory | Nobel Prize in Physics 1918 for founding quantum theory"
+  },
+  {
+    "name": "Max Weber",
+    "contribution": "German sociologist and economist, one of the fathers of modern sociology"
+  },
+  {
+    "name": "Maxwell Maltz",
+    "contribution": "Plastic surgeon and author, known for early work on self-preservation (psyche)"
+  },
+  {
+    "name": "Michael Faraday",
+    "contribution": "Physicist and chemist, discoverer of electromagnetic induction"
+  },
+  {
+    "name": "Michael Servetus",
+    "contribution": "Physician and natural philosopher, early description of the pulmonary circulation"
+  },
+  {
+    "name": "Michel Foucault",
+    "contribution": "French philosopher and historian, known for his analysis of power and knowledge"
+  },
+  {
+    "name": "Mildred Dresselhaus",
+    "contribution": "Materials scientist, pioneer in research on carbon nanostructures"
+  },
+  {
+    "name": "Mileva Marić",
+    "contribution": "Mathematician, contemporary of Einstein with contribution to the early theory of relativity (discussed)"
+  },
+  {
+    "name": "Milton Friedman",
+    "contribution": "Economist, Nobel Prize winner and leading representative of monetarism | Nobel Prize in Economic Sciences 1976 for consumer theory, monetary policy and stabilization policy"
+  },
+  {
+    "name": "Murray Gell-Mann",
+    "contribution": "Physicist, coined the term 'quark' and contributed to particle physics"
+  },
+  {
+    "name": "Nettie Stevens",
+    "contribution": "Geneticist, discoverer of sex-determining chromosomes"
+  },
+  {
+    "name": "Niels Bohr",
+    "contribution": "Physicist, major contributions to the understanding of atomic structure | Nobel Prize in Physics 1922 for contributions to the understanding of atomic structure and quantum mechanics | Nobel Prize in Physics 1922 for contributions to atomic structure and quantum mechanics"
+  },
+  {
+    "name": "Niels Henrik Abel",
+    "contribution": "Mathematician, pioneering contributions to analysis and algebra"
+  },
+  {
+    "name": "Nikola Tesla",
+    "contribution": "Developer of the alternating current system"
+  },
+  {
+    "name": "Nikolai Lobachevsky",
+    "contribution": "Mathematician, one of the founders of non-Euclidean geometry"
+  },
+  {
+    "name": "Nicolaus Copernicus",
+    "contribution": "Astronomer, formulated the heliocentric view of the world"
+  },
+  {
+    "name": "Noam Chomsky",
+    "contribution": "American linguist, philosopher and political activist"
+  },
+  {
+    "name": "Otto Hahn",
+    "contribution": "Chemist and Nobel Prize winner, pioneer of radiochemistry and discoverer of nuclear fission | Nobel Prize in Chemistry 1944 for nuclear fission (heavy atomic nuclei)"
+  },
+  {
+    "name": "Otto Schott",
+    "contribution": "Glass chemist, developer of special optical and technical glasses"
+  },
+  {
+    "name": "Otto Warburg",
+    "contribution": "Biochemist, Nobel Prize winner for research on cellular respiration and tumor metabolism | Nobel Prize in Physiology/Medicine 1931 for respiratory ferment and cellular respiration"
+  },
+  {
+    "name": "Paul Dirac",
+    "contribution": "British physicist, one of the fathers of quantum mechanics | Nobel Prize in Physics 1933 for Fundamentals of Quantum Mechanics (with Erwin Schrödinger)"
+  },
+  {
+    "name": "Paul Ehrlich",
+    "contribution": "Physician and immunologist, developed chemotherapy ('magic bullet') | Nobel Prize in Physiology/Medicine 1908 for immunology and serum therapy (with Ilya Metschnikov)"
+  },
+  {
+    "name": "Paul Greengard",
+    "contribution": "Neuroscientist, Nobel Prize winner for research on signal transmission in nerve cells | Nobel Prize in Physiology/Medicine 2000 for signal transmission in nerve cells (with Carlsson and Kandel)"
+  },
+  {
+    "name": "Paul Langevin",
+    "contribution": "Physicist, developed ultrasound methods and contributed to the theory of magnetism"
+  },
+  {
+    "name": "Peter Higgs",
+    "contribution": "Theoretical physicist, prediction of the Higgs mechanism and Higgs boson"
+  },
+  {
+    "name": "Pierre Bourdieu",
+    "contribution": "French sociologist, known for his theories on social capital and habitus"
+  },
+  {
+    "name": "Pythagoras",
+    "contribution": "Greek mathematician and philosopher, known for the Pythagorean theorem"
+  },
+  {
+    }, { "name": "Rachel Carson",
+    "contribution": "Biologist and author whose book 'Silent Spring' sparked the environmental movement"
+  },
+  {
+    }, { "name": "Rachel Lloyd",
+    "contribution": "Chemist, early researcher in industrial sugar chemistry"
+  },
+  {
+    "name": "Radia Perlman",
+    "contribution": "American computer scientist, known as the 'Mother of the Internet' for her invention of the Spanning Tree Protocol"
+  },
+  {
+    "name": "Richard Feynman",
+    "contribution": "Physicist, Nobel laureate in quantum electrodynamics | Nobel Prize in Physics 1965 for development of quantum electrodynamics (with Schwinger and Tomonaga) | Nobel Prize in Physics 1965 for quantum electrodynamics (with Schwinger and Tomonaga)"
+  },
+  {
+    "name": "Richard Stallman",
+    "contribution": "American software developer, founder of the GNU project and the Free Software Foundation"
+  },
+  {
+    "name": "Rita Levi-Montalcini",
+    "contribution": "Neuroscientist, Nobel Prize winner for discovery of nerve growth factor | Nobel Prize in Physiology/Medicine 1986 for nerve growth factor (with Stanley Cohen)"
+  },
+  {
+    "name": "Robert Boyle",
+    "contribution": "Chemist and physicist, known for the Boyle-Mariotte law"
+  },
+  {
+    "name": "Robert H. Grubbs",
+    "contribution": "Chemist, Nobel Prize winner for metathesis catalysts | Nobel Prize in Chemistry 2005 for olefin metathesis (with Yves Chauvin and Richard Schrock)"
+  },
+  {
+    "name": "Robert Hooke",
+    "contribution": "polymath, coined the term 'cell' in biology"
+  },
+  {
+    "name": "Robert Kahn",
+    "contribution": "American computer scientist, one of the 'fathers of the Internet' (TCP/IP)"
+  },
+  {
+    "name": "Robert Koch",
+    "contribution": "Physician and microbiologist, discoverer of the causative agents of tuberculosis and cholera"
+  },
+  {
+    "name": "Roger Penrose",
+    "contribution": "Mathematician and physicist, contributions to gravitational theory and singularity proofs"
+  },
+  {
+    "name": "Rosalind Franklin",
+    "contribution": "Important contributions to the understanding of DNA structure"
+  },
+  {
+    "name": "Rosalyn Yalow",
+    "contribution": "Physicist, Nobel Prize winner for development of radioimmunological methods | Nobel Prize in Physiology/Medicine 1977 for radioimmunoassays (RIA)"
+  },
+  {
+    "name": "Sally Ride",
+    "contribution": "Physicist and astronaut, first American woman in space"
+  },
+  {
+    "name": "Satyendra Nath Bose",
+    "contribution": "Indian physicist, known for Bose-Einstein statistics"
+  },
+  {
+    "name": "Selman Waksman",
+    "contribution": "Microbiologist, discovered numerous antibiotics and coined the term 'antibiotic'"
+  },
+  {
+    "name": "Sergei Korolev",
+    "contribution": "Chief rocket engineer, central to the Soviet space program"
+  },
+  {
+    "name": "Shinya Yamanaka",
+    "contribution": "Stem cell researcher, Nobel Prize winner for reprogramming mature cells | Nobel Prize in Physiology/Medicine 2012 for reprogramming mature cells into iPS cells (with John Gurdon)"
+  },
+  {
+    "name": "Shirley Ann Jackson",
+    "contribution": "Physicist, contributions to solid state physics and science administration"
+  },
+  {
+    "name": "Sigmund Freud",
+    "contribution": "Austrian physician, founder of psychoanalysis"
+  },
+  {
+    "name": "Simone de Beauvoir",
+    "contribution": "French philosopher and writer, icon of feminism"
+  },
+  {
+    "name": "Sofia Kovalevskaya",
+    "contribution": "Mathematician, pioneer in partial differential equations"
+  },
+  {
+    "name": "Sophie Germain",
+    "contribution": "French mathematician, pioneer of elasticity theory and number theory"
+  },
+  {
+    "name": "Srinivasa Ramanujan",
+    "contribution": "Mathematician, autodidact with extraordinary contributions to number theory"
+  },
+  {
+    "name": "Stephen Hawking",
+    "contribution": "Contributions to cosmology and black holes"
+  },
+  {
+    "name": "Subrahmanyan Chandrasekhar",
+    "contribution": "Astrophysicist, Nobel Laureate for Studies on the Structure and Evolution of Stars | 1983 Nobel Prize in Physics for Theoretical Studies on the Structure and Evolution of Stars | 1983 Nobel Prize in Physics for Theoretical Stellar Physics"
+  },
+  {
+    "name": "Sune Bergström",
+    "contribution": "Biochemist, Nobel Prize winner for work on prostaglandins | Nobel Prize in Physiology/Medicine 1982 for prostaglandins (with Bengt Samuelsson and John Vane)"
+  },
+  {
+    "name": "Svante Arrhenius",
+    "contribution": "Chemist, Nobel Prize winner for his theory of electrolytic dissociation | Nobel Prize in Chemistry 1903 for theory of electrolytic dissociation"
+  },
+  {
+    "name": "Sylvia Earle",
+    "contribution": "Oceanographer, pioneer of deep-sea research and marine conservation"
+  },
+  {
+    "name": "Thomas Hunt Morgan",
+    "contribution": "Geneticist, pioneer of the chromosome theory of heredity"
+  },
+  {
+    "name": "Thucydides",
+    "contribution": "Greek historian, founder of scientific historiography"
+  },
+  {
+    "name": "Tim Berners-Lee",
+    "contribution": "Computer scientist, inventor of the WWW and Turing Award winner | Turing Award 2016 for conception and realization of the World Wide Web"
+  },
+  {
+    "name": "Tu Youyou",
+    "contribution": "Pharmacologist, Nobel Prize winner for the discovery of artemisinin against malaria | Nobel Prize in Physiology/Medicine 2015 for the discovery of artemisinin in malaria"
+  },
+  {
+    "name": "Valentina Tereshkova",
+    "contribution": "Cosmonaut, first woman in space"
+  },
+  {
+    "name": "Vannevar Bush",
+    "contribution": "Engineer and science organizer, visionary of knowledge networking (Memex)"
+  },
+  {
+    "name": "Vera Ivy Fischer",
+    "contribution": "Pioneer in applied chemistry (regionally known)"
+  },
+  {
+    "name": "Vera Rubin",
+    "contribution": "Work on the rotational speed of galaxies, provided evidence for dark matter"
+  },
+  {
+    "name": "Vilhelm Bjerknes",
+    "contribution": "Meteorologist, laid the foundations of modern weather forecasting and hydrodynamics"
+  },
+  {
+    "name": "Vinton Cerf",
+    "contribution": "American computer scientist, one of the 'fathers of the Internet' (TCP/IP)"
+  },
+  {
+    "name": "Walter Gilbert",
+    "contribution": "Biochemist, Nobel Prize winner for DNA sequencing methods | Nobel Prize in Chemistry 1980 for DNA sequencing (with Frederick Sanger)"
+  },
+  {
+    "name": "Werner Heisenberg",
+    "contribution": "Physicist, one of the main founders of quantum mechanics | Nobel Prize in Physics 1932 for founding quantum mechanics"
+  },
+  {
+    "name": "William Thomson (Lord Kelvin)",
+    "contribution": "Physicist, coined thermodynamics and the Kelvin temperature scale"
+  },
+  {
+    "name": "Wolfgang Pauli",
+    "contribution": "Austrian physicist, known for the Pauli exclusion principle | Nobel Prize in Physics 1945 for exclusion principle"
+  },
+  {
+    "name": "Yann LeCun",
+    "contribution": "Computer scientist, pioneer of Convolutional Neural Networks (CNNs) | Turing Award 2018 for Deep Learning (with Bengio and Hinton)"
+  },
+  {
+    "name": "Yoshua Bengio",
+    "contribution": "Computer scientist, pioneer of deep learning research | Turing Award 2018 for Deep Learning (with Hinton and LeCun)"
+  },
+  {
+    "name": "Yuan T. Lee",
+    "contribution": "Chemist, Nobel laureate for contributions to reaction dynamics chemistry | Nobel Prize in Chemistry 1986 for reaction dynamics (with Herschbach and Polanyi)"
+  },
+  {
+    "name": "Émile Durkheim",
+    "contribution": "Sociologist, one of the founding fathers of modern sociology"
+  },
+  {
+    "name": "Émilie du Châtelet",
+    "contribution": "Mathematician and physicist, translated and annotated Newton's work into French"
+  }
+]

@@ -1291,19 +1291,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     try:
         user_pseudo = st.session_state.get("user_id")
         if user_pseudo:
-            # Lade die Liste einmalig (cachable) und arbeite mit ihr
-            from config import get_package_dir
+            from config import load_scientists
 
-            @st.cache_data(ttl=3600)
-            def _load_scientists_json():
-                path = os.path.join(get_package_dir(), "data", "scientists.json")
-                try:
-                    with open(path, encoding="utf-8") as fh:
-                        return _json.load(fh)
-                except Exception:
-                    return []
-
-            scientists = _load_scientists_json()
+            scientists = load_scientists()
             contribution = None
             for s in scientists:
                 if s.get("name") == user_pseudo:
@@ -2438,18 +2428,26 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
     fig = go.Figure()
     # Use darker traffic-light palette: Leicht=green, Mittel=amber, Schwer=red
     colors = {"Leicht": "#15803d", "Mittel": "#b45309", "Schwer": "#b91c1c"}
-    
+
+    # Localized labels for display (translations live in i18n/*.json)
+    localized_labels = {
+        "Leicht": translate_ui("welcome.distribution.difficulty.easy", default="Leicht"),
+        "Mittel": translate_ui("welcome.distribution.difficulty.medium", default="Mittel"),
+        "Schwer": translate_ui("welcome.distribution.difficulty.hard", default="Schwer"),
+    }
+
     for difficulty in ["Leicht", "Mittel", "Schwer"]:
         if difficulty in pivot.columns:
+            display_name = localized_labels.get(difficulty, difficulty)
             fig.add_trace(
-                go.Bar(x=pivot.index, y=pivot[difficulty], name=difficulty, marker_color=colors[difficulty])
+                go.Bar(x=pivot.index, y=pivot[difficulty], name=display_name, marker_color=colors.get(difficulty))
             )
 
     fig.update_layout(
         barmode="stack",
-        xaxis_title="Thema",
-        yaxis_title="Anzahl der Fragen",
-        legend_title="Schwierigkeit",
+        xaxis_title=translate_ui("welcome.distribution.chart.xaxis", default="Thema"),
+        yaxis_title=translate_ui("welcome.distribution.chart.yaxis", default="Anzahl der Fragen"),
+        legend_title=translate_ui("welcome.distribution.chart.legend", default="Schwierigkeit"),
     )
     # If metadata provided, render it as a small heading above the chart
     try:

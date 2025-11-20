@@ -439,6 +439,17 @@
                 "difficulty": "\u26f0\ufe0f {leicht} \u00d7 leicht \u00b7 {mittel} \u00d7 mittel \u00b7 {schwer} \u00d7 schwer",
                 "cognition": "\ud83e\udde0 Kognitive Stufen: {summary}"
             }
+            ,
+            "difficulty": {
+                "easy": "Leicht",
+                "medium": "Mittel",
+                "hard": "Schwer"
+            },
+            "chart": {
+                "xaxis": "Thema",
+                "yaxis": "Anzahl der Fragen",
+                "legend": "Schwierigkeit"
+            }
         },
         "leaderboard": {
             "title": "\ud83c\udfc6 Aktuelle Top 10 (max. {max_score} Punkte)",
