@@ -3390,16 +3390,27 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             st.bar_chart(df_simple, color="#15803d")
 
         # Kleine Legende und Erklärung
-        with st.expander("Über diese Auswertung (kurze Erklärung)", expanded=False):
+        with st.expander(
+            _summary_text("performance_explanation_expander", default="Über diese Auswertung (kurze Erklärung)"),
+            expanded=False,
+        ):
             st.markdown(
-                "- Die Balken zeigen den Anteil der erreichten Punkte pro Thema (in %).\n"
-                "- In Klammern hinter dem Thema steht: (beantwortete Fragen / Gesamtfragen).\n"
-                "- Wenn nur sehr wenige Fragen für ein Thema beantwortet wurden, sind die Prozentwerte statistisch wenig aussagekräftig."
+                _summary_text(
+                    "performance_explanation_content",
+                    default="- Die Balken zeigen den Anteil der erreichten Punkte pro Thema (in %).\n"
+                    "- In Klammern hinter dem Thema steht: (beantwortete Fragen / Gesamtfragen).\n"
+                    "- Wenn nur sehr wenige Fragen für ein Thema beantwortet wurden, sind die Prozentwerte statistisch wenig aussagekräftig."
+                )
             )
 
         # (Hinweis zu kleinen Stichproben wurde entfernt — die Erklärung im Expander genügt.)
     else:
-        st.info("Keine Daten für eine themenspezifische Analyse verfügbar. Beantworte mindestens eine Frage, um themenspezifische Ergebnisse zu sehen.")
+        st.info(
+            _summary_text(
+                "performance_no_data_info",
+                default="Keine Daten für eine themenspezifische Analyse verfügbar. Beantworte mindestens eine Frage, um themenspezifische Ergebnisse zu sehen.",
+            )
+        )
 
 
     st.divider()
@@ -3880,21 +3891,37 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             try:
                 xlsx_bytes = generate_kahoot_xlsx(export_selected_file, list(export_questions))
                 st.download_button(
-                    label="💾 Kahoot-Quiz herunterladen",
+                    label=_summary_text("export_kahoot_download_label", default="💾 Kahoot-Quiz herunterladen"),
                     data=xlsx_bytes,
                     file_name=f"kahoot_export_{export_file_stem}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     key=kahoot_dl_key,
                 )
             except Exception as exc:
-                st.error(f"Fehler beim Erzeugen des Kahoot-Exports: {exc}")
+                st.error(
+                    _summary_text(
+                        "export_kahoot_generation_error",
+                        default="Fehler beim Erzeugen des Kahoot-Exports: {error}",
+                    ).format(error=exc)
+                )
 
-        with st.expander("📦 Kahoot-Quiz (für Live-Quizze)"):
-            st.markdown("Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.")
-            st.caption("Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)")
+        with st.expander(
+            _summary_text("export_kahoot_expander", default="📦 Kahoot-Quiz (für Live-Quizze)")
+        ):
+            st.markdown(_summary_text(
+                "export_kahoot_description",
+                default="Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.",
+            ))
+            st.caption(_summary_text(
+                "export_kahoot_caption",
+                default="Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)",
+            ))
             st.warning(
-                "Kahoot unterstützt keine Formeldarstellung (LaTeX/KaTeX/MathJax). "
-                "Mathematische Inhalte werden nach dem Import nur als einfacher Text angezeigt.",
+                _summary_text(
+                    "export_kahoot_formula_warning",
+                    default="Kahoot unterstützt keine Formeldarstellung (LaTeX/KaTeX/MathJax). "
+                    "Mathematische Inhalte werden nach dem Import nur als einfacher Text angezeigt.",
+                ),
                 icon="🧮",
             )
             kahoot_btn_key = f"download_kahoot_review_{export_selected_file}"
@@ -3920,27 +3947,46 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 try:
                     kahoot_errors, kahoot_warnings = validate_fn(list(export_questions))
                 except Exception as exc:
-                    st.error(f"Fehler bei der Kahoot-Validierung: {exc}")
+                    st.error(
+                        _summary_text(
+                            "export_kahoot_validation_error",
+                            default="Fehler bei der Kahoot-Validierung: {error}",
+                        ).format(error=exc)
+                    )
                     kahoot_errors = ["Die Validierung konnte nicht abgeschlossen werden."]
 
             if kahoot_warnings:
                 st.warning(
-                    f"{len(kahoot_warnings)} Hinweis(e) für Kahoot",
+                    _summary_text(
+                        "export_kahoot_warning",
+                        default="{count} Hinweis(e) für Kahoot",
+                    ).format(count=len(kahoot_warnings)),
                     icon="⚠️",
                 )
                 st.caption(_format_limited(kahoot_warnings))
             if kahoot_errors:
                 st.error(
-                    f"Kahoot-Export nicht möglich – {len(kahoot_errors)} Regelverletzung(en).",
+                    _summary_text(
+                        "export_kahoot_error",
+                        default="Kahoot-Export nicht möglich – {count} Regelverletzung(en).",
+                    ).format(count=len(kahoot_errors)),
                     icon="🚫",
                 )
                 st.caption(_format_limited(kahoot_errors))
                 st.info(
-                    "Kahoot akzeptiert nur Fragensets, die alle Import-Limits einhalten. "
-                    "Passe den Inhalt an oder nutze alternativ Anki / arsnova.click / PDF."
+                    _summary_text(
+                        "export_kahoot_limits_info",
+                        default="Kahoot akzeptiert nur Fragensets, die alle Import-Limits einhalten. "
+                        "Passe den Inhalt an oder nutze alternativ Anki / arsnova.click / PDF.",
+                    )
                 )
                 st.markdown(
-                    "**Import-Bedingungen (Kahoot):**\n" +
+                    "{}\n".format(
+                        _summary_text(
+                            "export_kahoot_import_heading",
+                            default="**Import-Bedingungen (Kahoot):**",
+                        )
+                    ) +
                     "\n".join(f"• {rule}" for rule in KAHOOT_IMPORT_RULES)
                 )
 
@@ -3949,9 +3995,18 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 handle_kahoot_export()
 
         # arsnova.click
-        with st.expander("📦 arsnova.click-Quiz (für Hochschul-Feedback)"):
-            st.markdown("Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.")
-            st.caption("Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)")
+        with st.expander(_summary_text(
+            "export_arsnova_expander",
+            default="📦 arsnova.click-Quiz (für Hochschul-Feedback)",
+        )):
+            st.markdown(_summary_text(
+                "export_arsnova_description",
+                default="Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.",
+            ))
+            st.caption(_summary_text(
+                "export_arsnova_caption",
+                default="Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)",
+            ))
             arsnova_btn_key = f"download_arsnova_review_{export_selected_file}"
             arsnova_dl_key = f"dl_arsnova_direct_{export_selected_file}"
 
@@ -3966,12 +4021,20 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 try:
                     arsnova_warnings = validate_arsnova_questions(list(export_questions))
                 except Exception as exc:
-                    st.error(f"Fehler bei der arsnova.click-Prüfung: {exc}")
+                    st.error(
+                        _summary_text(
+                            "export_arsnova_validation_error",
+                            default="Fehler bei der arsnova.click-Prüfung: {error}",
+                        ).format(error=exc)
+                    )
                     arsnova_warnings = []
 
             if arsnova_warnings:
                 st.warning(
-                    f"{len(arsnova_warnings)} Hinweis(e) für arsnova.click",
+                    _summary_text(
+                        "export_arsnova_warning",
+                        default="{count} Hinweis(e) für arsnova.click",
+                    ).format(count=len(arsnova_warnings)),
                     icon="⚠️",
                 )
                 st.caption(_format_limited(arsnova_warnings))
@@ -3984,89 +4047,135 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     try:
                         json_bytes = generate_fn(export_selected_file, list(export_questions))
                         st.download_button(
-                            label="💾 arsnova.click-Quiz herunterladen",
+                            label=_summary_text(
+                                "export_arsnova_download_label",
+                                default="💾 arsnova.click-Quiz herunterladen",
+                            ),
                             data=json_bytes,
                             file_name=f"arsnova_export_{export_file_stem}.json",
                             mime="application/json",
                             key=arsnova_dl_key
                         )
                     except Exception as e:
-                        st.error(f"Fehler beim Erzeugen des arsnova.click-Exports: {e}")
+                        st.error(
+                            _summary_text(
+                                "export_arsnova_generation_error",
+                                default="Fehler beim Erzeugen des arsnova.click-Exports: {error}",
+                            ).format(error=e)
+                        )
 
         # Musterlösung
-        with st.expander("📄 Musterlösung (PDF mit allen richtigen Antworten)"):
-            st.markdown("Erhalte eine vollständige Musterlösung mit allen korrekten Antworten und Erklärungen. Ideal zum Nacharbeiten und Lernen.")
+        with st.expander(_summary_text(
+            "export_musterloesung_expander",
+            default="📄 Musterlösung (PDF mit allen richtigen Antworten)",
+        )):
+            st.markdown(_summary_text(
+                "export_musterloesung_description",
+                default="Erhalte eine vollständige Musterlösung mit allen korrekten Antworten und Erklärungen. Ideal zum Nacharbeiten und Lernen.",
+            ))
             muster_download_name = (
                 f"musterloesung_{selected_file_stem}_{user_name_file}.pdf"
             )
             musterloesung_btn_key = f"download_musterloesung_review_{selected_file}"
             musterloesung_dl_key = f"dl_musterloesung_direct_{selected_file}"
             if st.button(_download_button_label(), key=musterloesung_btn_key):
-                with st.spinner("Musterlösung wird erstellt..."):
+                with st.spinner(_summary_text("export_musterloesung_spinner", default="Musterlösung wird erstellt...")):
                     try:
                         pdf_bytes = generate_musterloesung_pdf(
                             selected_file, list(questions), app_config
                         )
                         st.download_button(
-                            label="💾 Musterlösung herunterladen",
+                            label=_summary_text("export_musterloesung_download", default="💾 Musterlösung herunterladen"),
                             data=pdf_bytes,
                             file_name=muster_download_name,
                             mime=MIME_PDF,
                             key=musterloesung_dl_key,
                         )
                     except Exception as exc:
-                        st.error(f"Fehler beim Erzeugen der Musterlösung: {exc}")
+                        st.error(
+                            _summary_text(
+                                "export_musterloesung_error",
+                                default="Fehler beim Erzeugen der Musterlösung: {error}",
+                            ).format(error=exc)
+                        )
 
         # Mini-Glossar nur anzeigen, wenn Glossar-Einträge vorhanden sind
         from pdf_export import _extract_glossary_terms
 
         glossary_terms = _extract_glossary_terms(list(questions))
         if glossary_terms:
-            with st.expander("📄 Mini-Glossar (PDF mit allen Fachbegriffen)"):
-                st.markdown("Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.")
+            with st.expander(_summary_text(
+                "export_glossary_expander",
+                default="📄 Mini-Glossar (PDF mit allen Fachbegriffen)",
+            )):
+                st.markdown(_summary_text(
+                    "export_glossary_description",
+                    default="Erstelle ein kompaktes Glossar aller im Test vorkommenden Begriffe und Definitionen. Praktisch zum schnellen Nachschlagen.",
+                ))
                 glossary_download_name = (
                     f"mini_glossar_{selected_file_stem}.pdf"
                 )
                 glossar_btn_key = f"download_glossar_review_{selected_file}"
                 glossar_dl_key = f"dl_glossar_direct_{selected_file}"
                 if st.button(_download_button_label(), key=glossar_btn_key):
-                    with st.spinner("Glossar wird erstellt..."):
+                    with st.spinner(_summary_text("export_glossary_spinner", default="Glossar wird erstellt...")):
                         try:
                             pdf_bytes = generate_mini_glossary_pdf(
                                 selected_file, list(questions)
                             )
                             st.download_button(
-                                label="💾 Mini-Glossar herunterladen",
+                                label=_summary_text("export_glossary_download", default="💾 Mini-Glossar herunterladen"),
                                 data=pdf_bytes,
                                 file_name=glossary_download_name,
                                 mime=MIME_PDF,
                                 key=glossar_dl_key,
                             )
                         except Exception as exc:
-                            st.error(f"Fehler beim Erzeugen des Mini-Glossars: {exc}")
+                            st.error(
+                                _summary_text(
+                                    "export_glossary_error",
+                                    default="Fehler beim Erzeugen des Mini-Glossars: {error}",
+                                ).format(error=exc)
+                            )
 
         # Testbericht
-        with st.expander("📄 Testbericht (PDF mit deinem Ergebnis)"):
-            st.markdown("Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.")
+        with st.expander(_summary_text(
+            "export_testbericht_expander",
+            default="📄 Testbericht (PDF mit deinem Ergebnis)",
+        )):
+            st.markdown(_summary_text(
+                "export_testbericht_description",
+                default="Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.",
+            ))
             report_download_name = (
                 f"testbericht_{selected_file_stem}_{user_name_file}.pdf"
             )
             testbericht_btn_key = f"download_testbericht_review_{selected_file}"
             testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
             if st.button(_download_button_label(), key=testbericht_btn_key):
-                with st.spinner("Testbericht wird erstellt..."):
+                with st.spinner(_summary_text("export_testbericht_spinner", default="Testbericht wird erstellt...")):
                     try:
                         if app_config is None:
-                            raise RuntimeError("app_config nicht gefunden – Testbericht-Export nicht möglich.")
+                            raise RuntimeError(
+                                _summary_text(
+                                    "export_testbericht_no_config",
+                                    default="app_config nicht gefunden – Testbericht-Export nicht möglich.",
+                                )
+                            )
                         pdf_bytes = generate_pdf_report(
                             list(questions), app_config
                         )
                         st.download_button(
-                            label="💾 Testbericht herunterladen",
+                            label=_summary_text("export_testbericht_download", default="💾 Testbericht herunterladen"),
                             data=pdf_bytes,
                             file_name=report_download_name,
                             mime=MIME_PDF,
                             key=testbericht_dl_key,
                         )
                     except Exception as exc:
-                        st.error(f"Fehler beim Erzeugen des Testberichts: {exc}")
+                        st.error(
+                            _summary_text(
+                                "export_testbericht_error",
+                                default="Fehler beim Erzeugen des Testberichts: {error}",
+                            ).format(error=exc)
+                        )
