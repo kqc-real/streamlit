@@ -2642,7 +2642,19 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
     # Extrahiere den reinen Fragentext ohne die ursprüngliche Nummer
     original_frage_text = frage_obj["frage"].split('. ', 1)[-1]
-    frage_text = smart_quotes_de(f"{display_question_number}. {original_frage_text}")
+    # Normalize typographic quotes on the raw text (do not apply after HTML rendering)
+    frage_text_raw = smart_quotes_de(f"{display_question_number}. {original_frage_text}")
+
+    # Convert literal escaped newlines ("\\n" / "\\r\\n") into real newlines
+    if isinstance(frage_text_raw, str):
+        frage_text_raw = frage_text_raw.replace('\\r\\n', '\n').replace('\\n', '\n')
+
+    # Split off the first line (the question title) so it can be bolded while
+    # preserving block-level markdown (lists, paragraphs) in the remainder.
+    if isinstance(frage_text_raw, str) and '\n' in frage_text_raw:
+        first_line, rest = frage_text_raw.split('\n', 1)
+    else:
+        first_line, rest = frage_text_raw, ''
     thema = frage_obj.get("thema", "")
     gewichtung = frage_obj.get("gewichtung", 1)
 
@@ -2720,10 +2732,22 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             stage_suffix = f" • {translated_stage}"
 
         weight_label = translate_ui("metadata.weight_label", default="Gewicht")
-        st.markdown(
-            f"**{frage_text}** <span style='color:#888; font-size:0.9em;'>({weight_label}: {gewichtung}{stage_suffix})</span>",
-            unsafe_allow_html=True,
-        )
+        # Render the question title (first line) bolded and the remainder as
+        # markdown so lists and inline formatting (e.g. `- ` lists, inline code,
+        # LaTeX fragments) are rendered correctly.
+        try:
+            st.markdown(f"**{first_line}**", unsafe_allow_html=True)
+            if rest and rest.strip():
+                st.markdown(rest, unsafe_allow_html=True)
+        except Exception:
+            # Fallback: render as a single escaped line if markdown fails
+            st.markdown(f"**{frage_text_raw}** <span style='color:#888; font-size:0.9em;'>({weight_label}: {gewichtung}{stage_suffix})</span>", unsafe_allow_html=True)
+
+        # Render the weight/stage suffix on the same visual line as before
+        try:
+            st.markdown(f"<div style='color:#888; font-size:0.9em;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+        except Exception:
+            pass
 
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
