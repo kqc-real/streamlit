@@ -137,7 +137,14 @@ def smart_quotes_de(text: str) -> str:
         parts = katex_pattern.split(seg)
 
         result_parts = []
-        open_quote_expected = True
+
+        # Use a stack to track nested quote contexts. Each entry is either
+        # 'double' or 'single'. When we encounter a quote char that is not an
+        # apostrophe (for single quotes), we decide to open a new quote if the
+        # top of the stack is different, or close the current quote if it
+        # matches the top. This preserves nesting for patterns like:
+        #   "Outer 'inner' outer"  -> „Outer ‚inner‘ outer“
+        quote_stack: list[str] = []
 
         for i, part in enumerate(parts):
             if i % 2 == 0:
@@ -152,12 +159,27 @@ def smart_quotes_de(text: str) -> str:
                         )
                         if is_apostrophe:
                             processed_part.append("’")
+                            continue
+
+                        # Non-apostrophe single-quote: decide by stack
+                        if quote_stack and quote_stack[-1] == 'single':
+                            # close single
+                            processed_part.append("‘")
+                            quote_stack.pop()
                         else:
-                            processed_part.append("„" if open_quote_expected else "“")
-                            open_quote_expected = not open_quote_expected
+                            # open single
+                            processed_part.append("‚")
+                            quote_stack.append('single')
                     elif ch == '"':
-                        processed_part.append("„" if open_quote_expected else "“")
-                        open_quote_expected = not open_quote_expected
+                        # Double-quote handling: decide by stack
+                        if quote_stack and quote_stack[-1] == 'double':
+                            # close double
+                            processed_part.append("“")
+                            quote_stack.pop()
+                        else:
+                            # open double
+                            processed_part.append("„")
+                            quote_stack.append('double')
                     else:
                         processed_part.append(ch)
                 result_parts.append("".join(processed_part))
