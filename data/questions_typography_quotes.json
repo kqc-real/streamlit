@@ -16,6 +16,12 @@
             ],
             "loesung": 2,
             "erklaerung": "Die Aussage nutzt typografische deutsche Anführungszeichen für einen deutlichen Stilbruch.",
+            "mini_glossary": {
+                "Anführungszeichen": "Typografische Zeichen zur Markierung von Zitaten; auf Deutsch meist ‚„…“‘ für wörtliche Rede.",
+                "Gerade Anführungszeichen": "ASCII-Anführungszeichen wie \"...\" sind technisch einfach, typografisch jedoch weniger korrekt.",
+                "Apostroph": "Einzelzeichen wie ' oder ‘ werden für Auslassungen oder Besitz verwendet (engl. apostrophe).",
+                "Typografische Konventionen": "Regeln, wann welche Anführungszeichenform in deutscher Typografie verwendet wird."
+            },
             "gewichtung": 1,
             "konzept": "Zitatklassiker",
             "kognitive_stufe": "Verständnis"
@@ -30,6 +36,12 @@
             ],
             "loesung": 1,
             "erklaerung": "Die Literatur verwendet klassische deutsche smart quotes, um Zitatansagen hervorzuheben.",
+            "mini_glossary": {
+                "Smart Quotes": "Typografische Anführungszeichen (z. B. ‚…‘, „…“) die sich optisch unterscheiden von geraden ASCII-Anführungszeichen.",
+                "ASCII": "American Standard Code for Information Interchange — einfache, gerade Anführungszeichen sind ASCII-Zeichen.",
+                "Spitze Klammern": "Weniger gebräuchlich für Zitate; oft in technischen Kontexten verwendet (<...>).",
+                "Kursive Darstellung": "Italics werden verwendet, um Gedanken, Titel oder Betonung zu markieren; kein direktes Zitatzeichen."
+            },
             "gewichtung": 2,
             "konzept": "Zitierstil",
             "kognitive_stufe": "Analyse"
@@ -44,6 +56,12 @@
             ],
             "loesung": 2,
             "erklaerung": "Die Kombination aus „…“ und ‚…‘ verdeutlicht verschiedene Zitatstile in einem Satz.",
+            "mini_glossary": {
+                "Nested Quotes": "Verschachtelte Zitate verwenden in der Regel unterschiedliche Anführungszeichen (z. B. „… ‚…‘ …).",
+                "Apostroph vs. Anführungszeichen": "Apostrophs dienen anderen Zwecken (Auslassung, Besitz) als Anführungszeichen.",
+                "Zitattypografie": "Regeln zur korrekten Nutzung verschiedener Quote-Typen in einem Text.",
+                "Editorial Conventions": "Redaktionelle Vorgaben, wann welcher Quote-Stil zu verwenden ist (z. B. wissenschaftlich vs. journalistisch)."
+            },
             "gewichtung": 3,
             "konzept": "Komplexe Zitate",
             "kognitive_stufe": "Analyse"
@@ -58,6 +76,12 @@
             ],
             "loesung": 2,
             "erklaerung": "Die richtige Antwort kombiniert kursive Markdown-Syntax, das LaTeX $E=mc^2$ und deutsche Anführungszeichen im selben Satz.",
+            "mini_glossary": {
+                "Markdown": "Leichtgewichtige Markup-Sprache zum Formatieren von Text (z. B. *kursiv*, **fett**, `code`).",
+                "Inline-LaTeX": "Mathematische Notation innerhalb des Fließtextes, meist in $...$ eingeschlossen und gerendert als Bild in PDFs.",
+                "Backticks": "Backticks `...` kennzeichnen Code oder inline-Formeln in Markdown-ähnlichen Umgebungen.",
+                "Block vs. Inline": "Unterschied zwischen Block-Elementen (Absätze, Listen) und Inline-Elementen (em, strong, code)."
+            },
             "gewichtung": 2,
             "konzept": "Format-Mix",
             "kognitive_stufe": "Analyse"
@@ -72,6 +96,12 @@
             ],
             "loesung": 3,
             "erklaerung": "Diese Zeile kombiniert mehrere Markup-Elemente: eine Liste, Inline-Code mit $\\alpha$, smarte Zitate und schließlich einen Abschluss mit $\\beta$.",
+            "mini_glossary": {
+                "Liste (Markdown)": "Aufzählungen mit '-' oder '*' werden in Markdown zu <ul>/<li> Strukturen konvertiert.",
+                "Inline-Code": "Code oder kurze Formeln, eingefasst in Backticks oder $...$ für LaTeX-Formeln.",
+                "Alpha/Beta": "Griechische Buchstaben, häufig in Formeln als $\\alpha$, $\\beta$ dargestellt.",
+                "Emphasis": "Textauszeichnung wie *kursiv* oder **fett** zur Hervorhebung von Stichpunkten."
+            },
             "gewichtung": 3,
             "konzept": "Strukturierte Zitate",
             "kognitive_stufe": "Analyse"

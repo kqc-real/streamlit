@@ -14,6 +14,7 @@ import requests
 from weasyprint import HTML
 import urllib.parse as _urlparse
 import html as _html
+from markdown_it import MarkdownIt
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
@@ -493,7 +494,7 @@ def _render_formulas_parallel(formulas: List[tuple], total_timeout: float | None
     return results
 
 
-def _render_latex_in_html(html_text: str, total_timeout: float | None = None) -> str:
+def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md_inline: bool = False) -> str:
     """
     Findet LaTeX-Ausdrücke in einem HTML-String, rendert sie als Bilder
     und ersetzt die ursprünglichen Ausdrücke durch die Bild-Tags.
@@ -506,6 +507,16 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None) ->
 
     # 1. Formeln extrahieren und durch Platzhalter ersetzen
     formulas = []
+
+    # Normalize literal escape sequences: if the input contains the two-character
+    # sequence "\\n" (e.g. from pasted/serialized content), convert it to an
+    # actual newline so subsequent list/paragraph and Markdown processing works.
+    try:
+        if isinstance(html_text, str) and ('\\n' in html_text or '\\r\\n' in html_text):
+            html_text = html_text.replace('\\r\\n', '\n').replace('\\n', '\n')
+    except Exception:
+        # Non-fatal: if normalization fails, continue with the original text
+        pass
 
     def save_block_formula(match):
         formula = match.group(1).strip()
@@ -535,7 +546,8 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None) ->
     
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith('* '):
+        # Treat both '*' and '-' as unordered-list markers (e.g. '- item')
+        if stripped.startswith(('* ', '- ')):
             content = stripped[2:]
             if not in_list:
                 html_lines.append('<ul>')
@@ -552,6 +564,38 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None) ->
         html_lines.append('</ul>')
     
     processed_text = ''.join(html_lines) # Verwende join ohne <br>, da p-Tags oder li-Tags für Struktur sorgen
+
+    # Convert basic Markdown (italic, bold, links, etc.) to HTML while
+    # keeping our LaTeX placeholders intact. Protect placeholders from
+    # Markdown (which might treat underscores as emphasis) by wrapping
+    # them in a temporary <span> before rendering and unwrapping after.
+    try:
+        # Find placeholders like __FORMULA_0__, __FORMULA_INLINE_0__, __FORMULA_BLOCK_0__
+        placeholder_pattern = re.compile(r'(__FORMULA(?:_INLINE|_BLOCK)?_\d+__)')
+        placeholders = placeholder_pattern.findall(processed_text)
+        token_map: dict[str, str] = {}
+        if placeholders:
+            for idx, ph in enumerate(set(placeholders)):
+                token = f'@@FORMULA_TOKEN_{idx}@@'
+                token_map[token] = ph
+                processed_text = processed_text.replace(ph, token)
+
+        _md = MarkdownIt()
+        if md_inline and hasattr(_md, 'renderInline'):
+            # Render only inline elements (no surrounding <p>), useful for
+            # list items and short previews where block-level margins are undesired.
+            processed_text = _md.renderInline(processed_text)
+        else:
+            processed_text = _md.render(processed_text)
+
+        # Restore tokens back to the original placeholders so the
+        # later formula-render replacement can find them
+        if token_map:
+            for token, ph in token_map.items():
+                processed_text = processed_text.replace(token, ph)
+    except Exception:
+        # If Markdown processing fails for any reason, continue with raw text.
+        pass
 
     # 3. Formeln parallel rendern und wieder einsetzen
     if formulas:
@@ -578,6 +622,9 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None) ->
             if placeholder_inline in processed_text:
                 processed_text = processed_text.replace(placeholder_inline, rendered)
     
+    if md_inline:
+        # Inline rendering should not convert newlines to <br> globally
+        return processed_text
     return processed_text.replace('\n', '<br>')
 
 
@@ -858,14 +905,14 @@ def _build_glossary_html(
         glossary_html_parts.append(f'<p class="glossary-intro">{_html.escape(intro)}</p>')
 
     for thema, terms in glossary_by_theme.items():
-        parsed_thema = _render_latex_in_html(smart_quotes_de(thema))
+        parsed_thema = _render_latex_in_html(smart_quotes_de(thema), md_inline=True)
         glossary_html_parts.append('<div class="glossary-section">')
         glossary_html_parts.append(f'<h3 class="glossary-theme">{parsed_thema}</h3>')
         glossary_html_parts.append('<div class="glossary-grid">')
 
         for term, definition in terms.items():
-            parsed_term = _render_latex_in_html(smart_quotes_de(term))
-            parsed_definition = _render_latex_in_html(smart_quotes_de(definition))
+            parsed_term = _render_latex_in_html(smart_quotes_de(term), md_inline=True)
+            parsed_definition = _render_latex_in_html(smart_quotes_de(definition), md_inline=True)
 
             glossary_html_parts.append('<div class="glossary-item">')
             glossary_html_parts.append(f'<div class="glossary-term">{parsed_term}</div>')
@@ -1280,7 +1327,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     frage_preview = frage_preview[:60] + "..."
 
                 # Parse Markdown und LaTeX im Preview
-                frage_preview_parsed = _render_latex_in_html(smart_quotes_de(frage_preview))
+                frage_preview_parsed = _render_latex_in_html(smart_quotes_de(frage_preview), md_inline=True)
 
                 q_short = translate_ui("pdf.question_short", default="Frage {n}").format(n=test_num)
                 bookmarks_html += f'<li><strong>{_html.escape(q_short)}</strong> '
@@ -1467,7 +1514,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     class_name = 'wrong-selected'
                     prefix = '✗'
 
-            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_render_latex_in_html(smart_quotes_de(option))}</li>'
+            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_render_latex_in_html(smart_quotes_de(option), md_inline=True)}</li>'
         html_body += "</ul>"
 
         erklaerung = frage_obj.get("erklaerung")
@@ -1846,6 +1893,22 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 color: #2d3748;
                 margin-bottom: 18px;
                 line-height: 1.7;
+            }}
+            /* Prevent large default <p> margins inside question/explanation items
+               by resetting paragraph margins in these scoped containers. This
+               preserves block semantics but avoids extra vertical gaps. */
+            .question-text p, .explanation p, ul.options li p, .bookmark-preview p {{
+                margin: 0;
+                padding: 0;
+                display: inline;
+            }}
+            /* Also reset paragraph margins inside glossary items to avoid
+               large gaps before the first glossary entry when authors
+               supply paragraphs in definitions. */
+            .glossary-item p, .glossary-definition p, .glossary-term p {{
+                margin: 0;
+                padding: 0;
+                display: inline;
             }}
             .stage-label {{
                 font-size: 9pt;
@@ -2300,7 +2363,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         correct_idx = frage.get("loesung")
         opts = frage.get("optionen", [])
         for oi, opt in enumerate(opts):
-            parsed_opt = _render_latex_in_html(smart_quotes_de(opt), total_timeout=total_timeout)
+            parsed_opt = _render_latex_in_html(smart_quotes_de(opt), total_timeout=total_timeout, md_inline=True)
             if oi == correct_idx:
                 html_parts.append(f'<li class="option correct">✔ {parsed_opt}</li>')
             else:
@@ -2334,7 +2397,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 explanation_html += f'<{list_tag} class="extended-steps">'
                 for step in steps:
                     item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f'<li>{_render_latex_in_html(smart_quotes_de(item), total_timeout=total_timeout)}</li>'
+                    explanation_html += f'<li>{_render_latex_in_html(smart_quotes_de(item), total_timeout=total_timeout, md_inline=True)}</li>'
                 explanation_html += f'</{list_tag}>'
             elif isinstance(content, str) and content.strip():
                 explanation_html += '<br>' + _render_latex_in_html(smart_quotes_de(content), total_timeout=total_timeout)
@@ -2381,6 +2444,21 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             .question {{ margin: 18px 0; padding: 12px; border:1px solid #e6eef8; border-radius:6px; background: #ffffff; }}
             .question h3 {{ margin: 0 0 8px 0; color: #1f6feb; font-size: 12pt; }}
             .question-text {{ margin-bottom: 8px; font-size: 11pt; }}
+            /* Reset paragraph margins inside question/explanation/option containers
+               to avoid large vertical gaps from Markdown-produced <p> tags. */
+            .question-text p, .explanation p, ul.options li p, .bookmark-preview p {{
+                margin: 0;
+                padding: 0;
+                display: inline;
+            }}
+            /* Also reset paragraph margins inside glossary items to avoid
+               large gaps before the first glossary entry when authors
+               supply paragraphs in definitions. */
+            .glossary-item p, .glossary-definition p, .glossary-term p {{
+                margin: 0;
+                padding: 0;
+                display: inline;
+            }}
             .stage-label {{
                 font-size: 9pt;
                 color: #6b7280;
