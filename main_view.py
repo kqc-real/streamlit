@@ -13,6 +13,7 @@ import locale
 import math
 import logic
 import logging
+logger = logging.getLogger(__name__)
 from typing import Any
 from pathlib import Path
 
@@ -2439,8 +2440,15 @@ def render_welcome_page(app_config: AppConfig):
                         else:
                             st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
                 except Exception as e:
-                    # Logge den Fehler serverseitig und mache ihn für den UI-Reload sichtbar.
-                    print(f"Error saving recovery secret for {user_id_hash}: {e}")
+                    # Log the error server-side and make it visible for the UI reload.
+                    try:
+                        logger.exception("Error saving recovery secret for %s", user_id_hash)
+                    except Exception:
+                        # If logger is unavailable for any reason, fall back to st.error
+                        try:
+                            st.error(f"Error saving recovery secret: {e}")
+                        except Exception:
+                            pass
                     st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error_with_reason(str(e))
                 st.rerun()
             else:

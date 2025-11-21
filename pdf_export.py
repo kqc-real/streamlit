@@ -751,8 +751,8 @@ def _calculate_average_stats(questions_file: str, questions: List[Dict[str, Any]
         
         return None
         
-    except Exception as e:
-        print(f"Error calculating average stats: {e}")
+    except Exception:
+        logger.exception('Error calculating average stats')
         return None
 
 
