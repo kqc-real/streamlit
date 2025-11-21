@@ -2016,7 +2016,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     """
     glossary_by_theme = _extract_glossary_terms(questions)
     if not glossary_by_theme:
-        raise ValueError(translate_ui('pdf.mini_glossary.empty_error', default='Kein Mini-Glossar in diesem Fragenset vorhanden.'))
+        raise ValueError(translate_ui('mini_glossary.empty_error', default='Kein Mini-Glossar in diesem Fragenset vorhanden.'))
 
     set_name = None
     try:
@@ -2052,7 +2052,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         page_themes = dict(theme_items[page_start:page_end])
         includes_header = page_start == 0
         if includes_header:
-            intro = translate_ui('pdf.mini_glossary.title', default='Schlüsselbegriffe aus dem Fragenset "{name}"').format(name=set_name)
+            intro = translate_ui('mini_glossary.title', default='Schlüsselbegriffe aus dem Fragenset "{name}"').format(name=set_name)
         else:
             intro = None
         page_html = _build_glossary_html(
