@@ -427,6 +427,13 @@ def _welcome_leaderboard_column_duration() -> str:
     )
 
 
+def _welcome_leaderboard_column_score() -> str:
+    return translate_ui(
+        "welcome.leaderboard.column.score",
+        default="🏅 %",
+    )
+
+
 def _ensure_anki_logger_configured() -> None:
     logger = logging.getLogger("exporters.anki_tsv")
     if getattr(logger, "_anki_formatter_installed", False):
@@ -1972,9 +1979,10 @@ def render_welcome_page(app_config: AppConfig):
                     pseudo_col = _welcome_leaderboard_column_pseudonym()
                     date_col = _welcome_leaderboard_column_date()
                     duration_col = _welcome_leaderboard_column_duration()
+                    score_col = _welcome_leaderboard_column_score()
                     scores.rename(columns={
                         'user_pseudonym': pseudo_col,
-                        'percent': '🏅 %',
+                        'percent': score_col,
                         'last_test_time': date_col,
                         'duration_seconds': duration_col,
                     }, inplace=True)
@@ -1990,7 +1998,7 @@ def render_welcome_page(app_config: AppConfig):
                     st.dataframe(
                         scores[[
                             pseudo_col,
-                            "🏅 %",
+                            score_col,
                             duration_col,
                             date_col,
                         ]],
