@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from zipfile import ZipFile, ZIP_DEFLATED
 from xml.sax.saxutils import escape
 import random
+from i18n.context import t as translate_ui
 
 
 def _resolve_json_source(selected_file: str) -> Path:
@@ -468,7 +469,7 @@ _ANKI_FRONT_TEMPLATE = (
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
     "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}"
-    "{{#Kognitive_Stufe}}<span class='meta-item'><strong>Kognitive Stufe:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
+    f"{{#Kognitive_Stufe}}<span class='meta-item'><strong>{translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')}:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
     "</div>"
     "<div class='question'>{{Frage}}</div>"
     "{{#Optionen}}<div class='options'>{{Optionen}}</div>{{/Optionen}}"
@@ -483,7 +484,7 @@ _ANKI_BACK_TEMPLATE = (
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
     "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}"
-    "{{#Kognitive_Stufe}}<span class='meta-item'><strong>Kognitive Stufe:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
+    f"{{#Kognitive_Stufe}}<span class='meta-item'><strong>{translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')}:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
     "</div>"
     "<div class='question-repeat'>"
     "<div class='section-title'>Frage</div>"

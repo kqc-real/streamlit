@@ -28,6 +28,18 @@ import html as _html_module
 from examples.math_utils import render_markdown_with_math
 from mdit_py_plugins.amsmath import amsmath_plugin
 import logging
+from i18n.context import t as translate_ui
+try:
+    # Reuse normalization from pdf_export to map aliases like 'wissen' -> 'Reproduktion'
+    from pdf_export import _normalize_stage_label
+except Exception:
+    from typing import Any
+
+    def _normalize_stage_label(value: Any) -> str:
+        try:
+            return str(value) if value is not None else ""
+        except Exception:
+            return ""
 
 try:
     import bleach
@@ -303,6 +315,13 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
     konzept = _strip_wrapping_paragraph(konzept)
     kognitive_stufe = _render_metadata_value(md, question.get("kognitive_stufe"))
     kognitive_stufe = _strip_wrapping_paragraph(kognitive_stufe)
+    # Normalize and translate simple stage labels so exports respect the UI locale
+    try:
+        if kognitive_stufe:
+            normalized = _normalize_stage_label(kognitive_stufe)
+            kognitive_stufe = translate_ui(f"pdf.stage_name.{normalized}", default=normalized)
+    except Exception:
+        pass
     tags = _build_tags(title, thema, question.get("gewichtung", ""))
 
     return [

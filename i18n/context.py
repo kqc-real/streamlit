@@ -13,10 +13,10 @@ __all__ = ["LOCALE_SESSION_KEY", "get_locale", "set_locale", "t"]
 
 
 def _get_state() -> Optional[MutableMapping[str, Any]]:
-    try:
-        return st.session_state
-    except RuntimeError:
-        return None
+    # In some test environments `streamlit` is mocked and may not expose
+    # `session_state` at import time. Use getattr to avoid raising
+    # AttributeError/RuntimeError and return None when unavailable.
+    return getattr(st, "session_state", None)
 
 
 def get_locale() -> str:
