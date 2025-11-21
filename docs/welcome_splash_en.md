@@ -1,8 +1,5 @@
 # Test your knowledge
 
-Ready for an exam or lifelong learning?
-This app helps you train with multiple-choice questions—efficiently, stress-free, and motivating.
-
 ## 🌟 Highlights
 
 * **On-demand question sets** – pick a curated set or upload your own; every item includes weights and explanations.

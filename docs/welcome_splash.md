@@ -1,7 +1,5 @@
 # Teste dein Wissen!
 
-Bereit für eine Prüfung oder »Lifelong Learning«? Diese App hilft dir, mit Hilfe von Multiple-Choice-Fragen dein Wissen effizient zu trainieren – stressfrei und motivierend.
-
 ## 🌟 Highlights
 
 * **Fragensets auf Abruf** – Wähle ein Set oder nutze dein eigenes; alles ist aufbereitet mit Gewichtungen und Erklärungen.
