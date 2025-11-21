@@ -2699,7 +2699,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         raw_stage_value = frage_obj.get("kognitive_stufe")
         stage_suffix = ""
         if raw_stage_value and str(raw_stage_value).strip():
-            stage_suffix = f" • {_normalize_stage_label(raw_stage_value)}"
+            normalized_stage = _normalize_stage_label(raw_stage_value)
+            translated_stage = translate_ui(f"pdf.stage_name.{normalized_stage}", default=normalized_stage)
+            stage_suffix = f" • {translated_stage}"
 
         weight_label = translate_ui("metadata.weight_label", default="Gewicht")
         st.markdown(
@@ -3006,7 +3008,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         st.success(_test_view_text("explanation_correct", default="Richtig! ✅"))
     else:
         st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
-        st.markdown(f"<span style='color:#15803d; font-weight:bold;'>Richtig:</span> {formatted_richtige_antwort}", unsafe_allow_html=True)
+        correct_label = _test_view_text("correct_label", default="Richtig:")
+        st.markdown(
+            f"<span style='color:#15803d; font-weight:bold;'>{correct_label}</span> {formatted_richtige_antwort}",
+            unsafe_allow_html=True,
+        )
 
     # Markieren und Feedback-Button gemeinsam platzieren
     action_cols = st.columns([1.2, 2, 1])

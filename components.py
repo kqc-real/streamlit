@@ -2565,7 +2565,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
             ordered_levels = [level for level in bloom_order if level in counts]
             ordered_levels.extend([lvl for lvl in counts.index if lvl not in ordered_levels])
             cognition_summary = ", ".join(
-                f"{level} ({counts[level]})" for level in ordered_levels
+                f"{translate_ui(f'pdf.stage_name.{level}', default=level)} ({counts[level]})" for level in ordered_levels
             )
             summary_parts.append(f"<br>{_distribution_summary_cognition(cognition_summary)}")
 

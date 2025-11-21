@@ -140,6 +140,7 @@
         "feedback_sent": "Feedback gesendet!",
         "explanation_correct": "Richtig! ✅",
         "explanation_wrong": "Leider falsch. ❌",
+        "correct_label": "Richtig:",
         "explanation_label": "Erklärung:",
         "extended_button": "🧠 Zeige detaillierte Erklärung",
         "extended_panel": "Detaillierte Erklärung",
