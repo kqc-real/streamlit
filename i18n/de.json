@@ -389,6 +389,17 @@
         "review_label_explanation": "Erklärung",
         "review_label_unanswered": "(unbeantwortet)",
         "performance_explanation_expander": "Über diese Auswertung (kurze Erklärung)",
+        "performance_chart": {
+            "xaxis": "Thema (beantwortet/gesamt)",
+            "yaxis": "Leistung (%)",
+            "hover": {
+                "topic": "Thema",
+                "performance": "Leistung",
+                "correct_total": "Richtig / Gesamt",
+                "wrong": "Falsch",
+                "answered": "Beantwortet"
+            }
+        },
         "performance_explanation_content": "- Die Balken zeigen den Anteil der erreichten Punkte pro Thema (in %).\n- In Klammern hinter dem Thema steht: (beantwortete Fragen / Gesamtfragen).\n- Wenn nur sehr wenige Fragen für ein Thema beantwortet wurden, sind die Prozentwerte statistisch wenig aussagekräftig.",
         "performance_no_data_info": "Keine Daten für eine themenspezifische Analyse verfügbar. Beantworte mindestens eine Frage, um themenspezifische Ergebnisse zu sehen.",
         "review_export_header": "Export-Zusammenfassung",

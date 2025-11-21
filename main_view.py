@@ -3552,11 +3552,19 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     marker_color=colors,
                     customdata=customdata,
                     hovertemplate=(
-                        '<b>Thema</b>: %{customdata[0]}<br>'
-                        '<b>Leistung</b>: %{customdata[5]:.1f} %<br>'
-                        '<b>Richtig / Gesamt</b>: %{customdata[3]} / %{customdata[2]}<br>'
-                        '<b>Falsch</b>: %{customdata[4]}<br>'
-                        '<b>Beantwortet</b>: %{customdata[1]} / %{customdata[2]}<extra></extra>'
+                        (
+                            '<b>{topic}</b>: %{{customdata[0]}}<br>'
+                            '<b>{performance}</b>: %{{customdata[5]:.1f}} %<br>'
+                            '<b>{correct_total}</b>: %{{customdata[3]}} / %{{customdata[2]}}<br>'
+                            '<b>{wrong}</b>: %{{customdata[4]}}<br>'
+                            '<b>{answered}</b>: %{{customdata[1]}} / %{{customdata[2]}}<extra></extra>'
+                        ).format(
+                            topic=_summary_text('performance_chart.hover.topic', default='Thema'),
+                            performance=_summary_text('performance_chart.hover.performance', default='Leistung'),
+                            correct_total=_summary_text('performance_chart.hover.correct_total', default='Richtig / Gesamt'),
+                            wrong=_summary_text('performance_chart.hover.wrong', default='Falsch'),
+                            answered=_summary_text('performance_chart.hover.answered', default='Beantwortet'),
+                        )
                     ),
                 )
             )
@@ -3567,8 +3575,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
             fig.update_layout(
                 xaxis_tickangle=-30,
-                xaxis_title='Thema (beantwortet/gesamt)',
-                yaxis_title='Leistung (%)',
+                xaxis_title=_summary_text('performance_chart.xaxis', default='Thema (beantwortet/gesamt)'),
+                yaxis_title=_summary_text('performance_chart.yaxis', default='Leistung (%)'),
                 margin=dict(t=40, b=140, l=40, r=10),
                 height=400,
                 yaxis=dict(range=[0, y_top]),

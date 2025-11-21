@@ -359,6 +359,17 @@
         "review_label_explanation": "Explanation",
         "review_label_unanswered": "(unanswered)",
         "performance_explanation_expander": "About this analysis (short explanation)",
+        "performance_chart": {
+            "xaxis": "Topic (answered/total)",
+            "yaxis": "Performance (%)",
+            "hover": {
+                "topic": "Topic",
+                "performance": "Performance",
+                "correct_total": "Correct / Total",
+                "wrong": "Wrong",
+                "answered": "Answered"
+            }
+        },
         "performance_explanation_content": "- The bars show the share of achieved points per topic (in %).\n- The parentheses behind the topic show: (answered questions / total questions).\n- When very few questions for a topic were answered, the percent values are statistically less meaningful.",
         "performance_no_data_info": "No data is available for a topic-based analysis. Answer at least one question to see topic-specific results.",
         "review_export_header": "Export summary",
