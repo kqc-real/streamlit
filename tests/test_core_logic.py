@@ -16,24 +16,38 @@ import pytest
 # --- Mocking von Streamlit ---
 # Erstelle ein Mock-Objekt für das `streamlit`-Modul, damit die App-Logik
 # importiert werden kann, ohne dass Streamlit tatsächlich läuft.
-class StMock:
-    def __init__(self):
-        # Simuliere UI-Funktionen, die in der Logik aufgerufen werden könnten,
-        # damit sie im Fehlerfall keine AttributeErrors auslösen.
-        self.error = MagicMock()
-        self.warning = MagicMock()
-        self.info = MagicMock()
-mock_st = StMock()
+import types
 
-# Simuliere st.cache_data als einfachen Pass-Through-Decorator.
-# Für Unit-Tests der Logik ist das Caching-Verhalten irrelevant.
-def mock_cache_data(func):
-    func.clear = lambda: None
-    return func
+# Erstelle ein echtes Modul-Objekt statt einer einfachen Instanz, damit
+# `import streamlit.components.v1` und ähnliche Subimports weiterhin
+# funktionieren (das Modul verhält sich wie ein Paket).
+mock_st = types.ModuleType("streamlit")
+mock_st.error = MagicMock()
+mock_st.warning = MagicMock()
+mock_st.info = MagicMock()
+
+# Simuliere st.cache_data als flexiblen Decorator-Fabrikator, der sowohl
+# parameterlose Dekoratoren als auch dekoratoraufrufe mit Keyword-Argumenten
+# unterstützt (z. B. @st.cache_data(ttl=3600)). Für Unit-Tests der Logik ist
+# das tatsächliche Caching irrelevant.
+def mock_cache_data(func=None, **kwargs):
+    if callable(func):
+        func.clear = lambda: None
+        return func
+
+    def decorator(f):
+        f.clear = lambda: None
+        return f
+
+    return decorator
+
 mock_st.cache_data = mock_cache_data
 
-# Füge den Mock zum sys.modules-Cache hinzu, damit alle nachfolgenden Imports
-# `from streamlit import ...` diesen Mock anstelle des echten Moduls verwenden.
+# Füge den Mock temporär zum sys.modules-Cache hinzu, damit die folgenden
+# Imports `from streamlit import ...` diesen Mock anstelle des echten Moduls
+# verwenden. Wichtig: Stelle sicher, dass wir den Original-Eintrag wieder
+# herstellen, damit andere Testmodule (die z. B. `streamlit.components`
+# importieren) nicht von unserem Mock beeinflusst werden.
 sys.modules["streamlit"] = mock_st
 
 # --- Echte Modul-Imports (nach dem Mocking) ---

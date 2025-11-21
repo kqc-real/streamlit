@@ -21,12 +21,20 @@ from i18n import DEFAULT_LOCALE, normalize_locale
 from i18n.context import get_locale
 
 
-def _identity_cache_decorator(func):
-    """Fallback, wenn Streamlit kein cache_data/cache_resource kennt."""
-    def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)
-    wrapper.clear = lambda: None
-    return wrapper
+def _identity_cache_decorator(func=None, **dec_kwargs):
+    """Fallback, wenn Streamlit kein cache_data/cache_resource kennt.
+
+    Unterstützt Aufrufe wie `@st.cache_data` und `@st.cache_data(ttl=3600)`.
+    """
+    def make_wrapper(f):
+        def wrapper(*args, **kwargs):
+            return f(*args, **kwargs)
+        wrapper.clear = lambda: None
+        return wrapper
+
+    if callable(func):
+        return make_wrapper(func)
+    return make_wrapper
 
 
 if not hasattr(st, "cache_data"):

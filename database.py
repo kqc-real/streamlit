@@ -11,12 +11,20 @@ import secrets
 from config import get_package_dir, get_question_counts
 
 # Fallback für ältere Streamlit-Versionen ohne caching-Decoratoren
-def _identity_cache_decorator(func):
-    """Dekorator, der das Original unverändert ausführt."""
-    def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)
-    wrapper.clear = lambda: None
-    return wrapper
+def _identity_cache_decorator(func=None, **dec_kwargs):
+    """Dekorator/Fabrikator, der das Original unverändert ausführt.
+
+    Unterstützt sowohl `@st.cache_resource` als auch `@st.cache_resource(... )`.
+    """
+    def make_wrapper(f):
+        def wrapper(*args, **kwargs):
+            return f(*args, **kwargs)
+        wrapper.clear = lambda: None
+        return wrapper
+
+    if callable(func):
+        return make_wrapper(func)
+    return make_wrapper
 
 
 if not hasattr(st, "cache_resource"):

@@ -1587,6 +1587,38 @@ def render_welcome_page(app_config: AppConfig):
     # Process any queued rerun requests (set by other code paths as a fallback).
     _process_queued_rerun()
 
+    # Honor explicit language query parameter on initial load: if the URL
+    # contains ?lang=..., set the session locale accordingly and rerun so the
+    # rest of the UI renders in the requested language. This ensures manual
+    # edits to the address bar take effect immediately.
+    try:
+        params = getattr(st, "query_params", {}) or {}
+        qp = params.get("lang") or params.get("locale") or params.get("l")
+        if isinstance(qp, list):
+            qp = qp[0] if qp else None
+        if qp:
+            # Avoid unnecessary reruns: only set+rerun when the locale differs
+            from i18n.context import get_locale as _get_loc, set_locale as _set_loc
+            try:
+                current = _get_loc()
+            except Exception:
+                current = None
+            try:
+                if qp and (not current or str(qp) != str(current)):
+                    _set_loc(qp)
+                    try:
+                        # Trigger a rerun so the newly-set locale is applied
+                        rerun_fn = getattr(st, 'rerun', None) or getattr(st, 'experimental_rerun', None)
+                        if callable(rerun_fn):
+                            rerun_fn()
+                    except Exception:
+                        # If rerun fails, mark a queued rerun so it happens later
+                        st.session_state['_needs_rerun'] = True
+            except Exception:
+                pass
+    except Exception:
+        pass
+
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
     core_question_files = list_question_files()
     # Remove stale temporary user uploads (e.g. leftover temp files) so they
@@ -1664,7 +1696,6 @@ def render_welcome_page(app_config: AppConfig):
     if selected_file:
         _sync_questions_query_param(selected_file)
     _render_welcome_splash()
-
     # (Note) Sidebar rendering is handled by `components.render_sidebar`.
 
     # --- Auswahl des Fragensets (mit Filterung) ---

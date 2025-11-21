@@ -119,42 +119,65 @@ def get_user_id_hash(user_id: str) -> str:
 
 
 def smart_quotes_de(text: str) -> str:
-    """Wandelt gerade Anführungszeichen in deutsche typografische Zeichen um."""
+    """Wandelt gerade Anführungszeichen in deutsche typografische Zeichen um.
+
+    Schützt Inhalte innerhalb von `<pre>` und `<code>`-Blöcken vor der
+    Umwandlung, damit Quellcode nicht verändert wird.
+    """
     if not text or ('"' not in text and "'" not in text):
         return text
 
-    katex_pattern = re.compile(r'(\${1,2}.*?\${1,2})')
-    parts = katex_pattern.split(text)
+    # Split the HTML into code/pre segments and normal text segments so we
+    # only convert quotes outside of code blocks.
+    segments = re.split(r'(<pre[\s\S]*?</pre>|<code[\s\S]*?</code>)', text, flags=re.I)
 
-    result_parts = []
-    open_quote_expected = True
+    def _convert_segment(seg: str) -> str:
+        # Preserve math blocks as before
+        katex_pattern = re.compile(r'(\${1,2}.*?\${1,2})')
+        parts = katex_pattern.split(seg)
 
-    for i, part in enumerate(parts):
-        if i % 2 == 0:
-            processed_part = []
-            for char_idx, ch in enumerate(part):
-                if ch == "'":
-                    is_apostrophe = (
-                        char_idx > 0
-                        and part[char_idx - 1].isalpha()
-                        and char_idx < len(part) - 1
-                        and part[char_idx + 1].isalpha()
-                    )
-                    if is_apostrophe:
-                        processed_part.append("’")
-                    else:
+        result_parts = []
+        open_quote_expected = True
+
+        for i, part in enumerate(parts):
+            if i % 2 == 0:
+                processed_part = []
+                for char_idx, ch in enumerate(part):
+                    if ch == "'":
+                        is_apostrophe = (
+                            char_idx > 0
+                            and part[char_idx - 1].isalpha()
+                            and char_idx < len(part) - 1
+                            and part[char_idx + 1].isalpha()
+                        )
+                        if is_apostrophe:
+                            processed_part.append("’")
+                        else:
+                            processed_part.append("„" if open_quote_expected else "“")
+                            open_quote_expected = not open_quote_expected
+                    elif ch == '"':
                         processed_part.append("„" if open_quote_expected else "“")
                         open_quote_expected = not open_quote_expected
-                elif ch == '"':
-                    processed_part.append("„" if open_quote_expected else "“")
-                    open_quote_expected = not open_quote_expected
-                else:
-                    processed_part.append(ch)
-            result_parts.append("".join(processed_part))
-        else:
-            result_parts.append(part)
+                    else:
+                        processed_part.append(ch)
+                result_parts.append("".join(processed_part))
+            else:
+                # Leave math parts untouched
+                result_parts.append(part)
 
-    return "".join(result_parts)
+        return "".join(result_parts)
+
+    out_parts = []
+    for seg in segments:
+        if not seg:
+            continue
+        # If this segment is a code/pre block, leave it unchanged
+        if seg.lower().startswith('<pre') or seg.lower().startswith('<code'):
+            out_parts.append(seg)
+        else:
+            out_parts.append(_convert_segment(seg))
+
+    return "".join(out_parts)
 
 
 def format_decimal_de(value: float, decimals: int = 1) -> str:

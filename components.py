@@ -8,7 +8,28 @@ Verantwortlichkeiten:
 - Rendern von Diagrammen.
 """
 import streamlit as st
-import streamlit.components.v1 as components
+try:
+    # Prefer the official subpackage if available (external Streamlit).
+    import streamlit.components.v1 as components
+except Exception:
+    # In test environments or when the local package shadows the real
+    # Streamlit, provide a minimal shim that implements `html()` which is
+    # the only components API used by this module.
+    class _ComponentsShim:
+        def html(self, html_str, height=0, key=None):
+            try:
+                # Try to render via the primary Streamlit API first.
+                return getattr(st, "components", None).html(html_str, height=height, key=key)
+            except Exception:
+                # Best-effort fallback: render as unsafe HTML so tests / runtimes
+                # that don't provide the components API don't crash.
+                try:
+                    st.markdown(html_str, unsafe_allow_html=True)
+                except Exception:
+                    pass
+                return None
+
+    components = _ComponentsShim()
 import pandas as pd
 import os
 import time
@@ -36,11 +57,9 @@ from user_question_sets import (
 from i18n import available_locales
 from i18n.context import t as translate_ui, get_locale, set_locale
 
+# Helpers imported at module top; do not re-import here.
+
 _BROWSER_LOCALE_COMPONENT_KEY = "browser_locale_detector"
-_LOCALE_STORAGE_COMPONENT_KEY = "locale_storage_reader"
-_LOCALE_STORAGE_KEY = "mc_test_locale"
-_LOCALE_STORAGE_SYNC_FLAG = "_locale_storage_synced"
-_LOCALE_STORAGE_WRITER_PREFIX = "locale_storage_writer"
 _WELCOME_LOCALE_SELECTOR_KEY = "welcome_locale_selector"
 
 
@@ -57,68 +76,67 @@ def _detect_browser_locale() -> str | None:
         return None
 
 
-def _read_locale_from_storage() -> str | None:
-    try:
-        snippet = f"""
-        <script>
-        (function() {{
-        try {{
-            const storage = window.parent && window.parent.localStorage ? window.parent.localStorage : localStorage;
-            const stored = storage.getItem("{_LOCALE_STORAGE_KEY}");
-            window.Streamlit.setComponentValue(stored || '');
-        }} catch (error) {{
-            window.Streamlit.setComponentValue('');
-        }}
-        }})();
-        </script>
-        """
-        result = components.html(snippet, height=0, key=_LOCALE_STORAGE_COMPONENT_KEY)
-        if result:
-            return str(result).strip()
-    except Exception:
-        pass
-    return None
-
-
-def _write_locale_to_storage(locale: str) -> None:
-    if not locale:
-        return
-
-    try:
-        payload = _json.dumps(locale)
-        script = f"""
-        <script>
-        (function() {{
-            try {{
-                localStorage.setItem("{_LOCALE_STORAGE_KEY}", {payload});
-            }} catch (error) {{
-                console.warn('Locale storage write failed', error);
-            }}
-        }})();
-        </script>
-        """
-        st.markdown(script, unsafe_allow_html=True)
-    except Exception:
-        pass
-
 
 def _ensure_locale_synced() -> None:
-    if st.session_state.get(_LOCALE_STORAGE_SYNC_FLAG):
+    # Ensure we only run the sync logic once per session to avoid extra work
+    # and potential repeated reruns. Use a simple in-memory session flag.
+    if st.session_state.get("_locale_synced"):
         return
 
+    # Priority: explicit URL parameter > browser locale
     try:
-        stored_locale = _read_locale_from_storage()
-        if stored_locale:
-            set_locale(stored_locale)
+        params = getattr(st, "query_params", {}) or {}
+        qp_lang = None
+        if isinstance(params, dict):
+            qp_val = params.get("lang") or params.get("locale") or params.get("l")
+            if isinstance(qp_val, list):
+                qp_val = qp_val[0] if qp_val else None
+            qp_lang = qp_val
+
+        if qp_lang:
+            try:
+                set_locale(qp_lang)
+            except Exception:
+                pass
         else:
+            try:
+                detected = _detect_browser_locale()
+                if detected:
+                    set_locale(detected)
+            except Exception:
+                pass
+    except Exception:
+        # If query params are not available, fall back to browser detection.
+        try:
             detected = _detect_browser_locale()
             if detected:
                 set_locale(detected)
-    except Exception:
-        pass
+        except Exception:
+            pass
 
-    _write_locale_to_storage(get_locale())
-    st.session_state[_LOCALE_STORAGE_SYNC_FLAG] = True
+    st.session_state["_locale_synced"] = True
+
+    # Ensure the chosen locale is also reflected in the URL so reloads/bookmarks
+    # keep the same language. Use `st.query_params` (production API) and only
+    # update when the `lang` param is missing or different to avoid noisy
+    # assignments that may trigger extra reruns.
+    try:
+        params = getattr(st, "query_params", {}) or {}
+        current = get_locale()
+        if current and params.get("lang") != current:
+            try:
+                params["lang"] = current
+                params["locale"] = current
+                st.query_params = params
+            except Exception:
+                try:
+                    st.query_params["lang"] = current
+                    st.query_params["locale"] = current
+                except Exception:
+                    pass
+    except Exception:
+        # Ignore — environments may not expose query params in all code paths.
+        pass
 
 
 def _locale_display_name(locale_code: str) -> str:
@@ -192,9 +210,60 @@ def render_locale_selector(label: str, help_text: str | None = None) -> str:
 
     if selected_locale != current_locale:
         new_locale = set_locale(selected_locale)
-        _write_locale_to_storage(new_locale)
+
+        # Try to update Streamlit query params first (production API).
+        try:
+            params = getattr(st, "query_params", {}) or {}
+            try:
+                params["lang"] = new_locale
+                params["locale"] = new_locale
+                st.query_params = params
+            except Exception:
+                try:
+                    st.query_params["lang"] = new_locale
+                    st.query_params["locale"] = new_locale
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+        # Best-effort JS fallback: try to update the visible browser URL via
+        # the History API (same-origin check performed in JS). This helps in
+        # environments where `st.query_params` does not update the address bar.
+        try:
+            js = f"""
+            <script>
+            (function() {{
+                try {{
+                    const newQ = '?lang={new_locale}';
+                    const tryReplace = (win) => {{
+                        try {{ win.history.replaceState(null, '', newQ); return true; }} catch(e) {{ return false; }}
+                    }};
+                    if (window.top && window.top !== window) {{
+                        try {{
+                            if (window.top.location && window.top.location.origin === window.location.origin) {{
+                                tryReplace(window.top) || tryReplace(window);
+                            }} else {{
+                                tryReplace(window);
+                            }}
+                        }} catch(e) {{
+                            tryReplace(window);
+                        }}
+                    }} else {{
+                        tryReplace(window);
+                    }}
+                }} catch (e) {{ console.warn('URL update failed', e); }}
+            }})();
+            </script>
+            """
+            components.html(js, height=0)
+        except Exception:
+            pass
+
         _trigger_rerun()
 
+    # When running on localhost we keep a visual separator for debugging
+    # but do not expose interactive debug buttons in production.
     return selected_locale
 
 try:
