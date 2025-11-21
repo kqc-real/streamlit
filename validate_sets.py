@@ -20,6 +20,12 @@ und ist somit für CI/CD-Pipelines geeignet.
 import json
 import re
 from pathlib import Path
+import logging
+
+# Configure a simple logger for this CLI script so messages are visible when
+# the script is run directly. Keep formatting minimal to match previous prints.
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 # --- Konfiguration der Prüfregeln ---
 MIN_THEMA_OCCURRENCES = 2
@@ -145,38 +151,38 @@ def main():
     question_files = sorted(list(data_dir.glob("questions_*.json")))
 
     if not question_files:
-        print("Keine Fragenset-Dateien (questions_*.json) im 'data'-Verzeichnis gefunden.")
+        logger.error("Keine Fragenset-Dateien (questions_*.json) im 'data'-Verzeichnis gefunden.")
         return
 
-    print(f"Starte Validierung für {len(question_files)} Fragensets...\n")
+    logger.info(f"Starte Validierung für {len(question_files)} Fragensets...\n")
 
     for filepath in question_files:
-        print(f"--- Prüfe {filepath.name} ---")
+        logger.info(f"--- Prüfe {filepath.name} ---")
         errors, warnings = validate_question_set(filepath)
 
         if errors:
             all_files_ok = False
             total_errors += len(errors)
-            print(f"🔴 {len(errors)} Fehler gefunden:")
+            logger.error(f"🔴 {len(errors)} Fehler gefunden:")
             for error in errors:
-                print(f"  - {error}")
+                logger.error(f"  - {error}")
 
         if warnings:
             total_warnings += len(warnings)
-            print(f"🟡 {len(warnings)} Warnungen gefunden:")
+            logger.warning(f"🟡 {len(warnings)} Warnungen gefunden:")
             for warning in warnings:
-                print(f"  - {warning}")
+                logger.warning(f"  - {warning}")
 
         if not errors and not warnings:
-            print("✅ Alles in Ordnung.")
-        print("-" * (len(filepath.name) + 8) + "\n")
+            logger.info("✅ Alles in Ordnung.")
+        logger.info("-" * (len(filepath.name) + 8) + "\n")
 
-    print("--- Validierung abgeschlossen ---")
+    logger.info("--- Validierung abgeschlossen ---")
     if all_files_ok:
-        print(f"✅ Alle {len(question_files)} Fragensets sind valide. {total_warnings} Warnungen gefunden.")
+        logger.info(f"✅ Alle {len(question_files)} Fragensets sind valide. {total_warnings} Warnungen gefunden.")
         exit(0)
     else:
-        print(f"❌ {total_errors} Fehler und {total_warnings} Warnungen in {len(question_files)} Fragensets gefunden.")
+        logger.error(f"❌ {total_errors} Fehler und {total_warnings} Warnungen in {len(question_files)} Fragensets gefunden.")
         exit(1)
 
 
