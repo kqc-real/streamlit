@@ -606,6 +606,30 @@ def _strip_leading_numbering(text: str) -> str:
     return re.sub(r'^\s*\d+[\.\)]\s+', '', text)
 
 
+def _build_css_footer(footer_template: str) -> str:
+    """
+    Build a valid CSS `content` expression from a localized footer template.
+
+    The template contains placeholders `{page}` and `{pages}` which are
+    replaced with the CSS `counter(page)` and `counter(pages)` expressions.
+    Literal parts are properly quoted so WeasyPrint doesn't reject the value.
+    """
+    # Split into literal and placeholder parts
+    parts = re.split(r'(\{page\}|\{pages\})', footer_template)
+    tokens: list[str] = []
+    for p in parts:
+        if p == '{page}':
+            tokens.append('counter(page)')
+        elif p == '{pages}':
+            tokens.append('counter(pages)')
+        elif p:
+            # Quote literal segments and escape any internal quotes
+            literal = p.replace('"', '\\"')
+            tokens.append(f'"{literal}"')
+    # Join tokens directly; adjacent strings/counters form the CSS content
+    return ' '.join(tokens)
+
+
 def _generate_qr_code(url: str) -> str:
     """Generiert QR-Code als Base64-String."""
     if not QR_AVAILABLE:
@@ -834,14 +858,14 @@ def _build_glossary_html(
         glossary_html_parts.append(f'<p class="glossary-intro">{_html.escape(intro)}</p>')
 
     for thema, terms in glossary_by_theme.items():
-        parsed_thema = _render_latex_in_html(thema)
+        parsed_thema = _render_latex_in_html(smart_quotes_de(thema))
         glossary_html_parts.append('<div class="glossary-section">')
         glossary_html_parts.append(f'<h3 class="glossary-theme">{parsed_thema}</h3>')
         glossary_html_parts.append('<div class="glossary-grid">')
 
         for term, definition in terms.items():
-            parsed_term = _render_latex_in_html(term)
-            parsed_definition = _render_latex_in_html(definition)
+            parsed_term = _render_latex_in_html(smart_quotes_de(term))
+            parsed_definition = _render_latex_in_html(smart_quotes_de(definition))
 
             glossary_html_parts.append('<div class="glossary-item">')
             glossary_html_parts.append(f'<div class="glossary-term">{parsed_term}</div>')
@@ -1256,7 +1280,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     frage_preview = frage_preview[:60] + "..."
 
                 # Parse Markdown und LaTeX im Preview
-                frage_preview_parsed = _render_latex_in_html(frage_preview)
+                frage_preview_parsed = _render_latex_in_html(smart_quotes_de(frage_preview))
 
                 q_short = translate_ui("pdf.question_short", default="Frage {n}").format(n=test_num)
                 bookmarks_html += f'<li><strong>{_html.escape(q_short)}</strong> '
@@ -1345,7 +1369,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         except (ValueError, IndexError):
             original_number = original_index + 1
         
-        frage_text = _render_latex_in_html(frage_obj["frage"].split(". ", 1)[-1])
+        frage_text = _render_latex_in_html(smart_quotes_de(frage_obj["frage"].split(". ", 1)[-1]))
         
         # Bestimme Farbe und Status basierend auf richtig/falsch/unbeantwortet
         gegebene_antwort = get_answer_for_question(original_index)
@@ -1443,13 +1467,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     class_name = 'wrong-selected'
                     prefix = '✗'
 
-            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_render_latex_in_html(option)}</li>'
+            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_render_latex_in_html(smart_quotes_de(option))}</li>'
         html_body += "</ul>"
 
         erklaerung = frage_obj.get("erklaerung")
         if erklaerung:
             label = translate_ui("test_view.explanation_label", default="Erklärung:")
-            html_body += f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(erklaerung)}</div>'
+            html_body += f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(smart_quotes_de(erklaerung))}</div>'
 
         extended_explanation = frage_obj.get("extended_explanation")
         if extended_explanation and isinstance(extended_explanation, dict):
@@ -1460,7 +1484,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
             explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
             if title:
-                explanation_html += f": {_render_latex_in_html(title)}"
+                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title))}"
             explanation_html += "</strong>"
 
             if steps:
@@ -1470,10 +1494,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 explanation_html += f"<{list_tag} class='extended-steps'>"
                 for step in steps:
                     item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f"<li>{_render_latex_in_html(item)}</li>"
+                    explanation_html += f"<li>{_render_latex_in_html(smart_quotes_de(item))}</li>"
                 explanation_html += f"</{list_tag}>"
             elif isinstance(content, str) and content.strip():
-                explanation_html += "<br>" + _render_latex_in_html(content)
+                explanation_html += "<br>" + _render_latex_in_html(smart_quotes_de(content))
 
             explanation_html += "</div>"
             html_body += explanation_html
@@ -1483,8 +1507,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Build localized CSS footer for pages (allows translations like "Seite {page} von {pages}")
     footer_template = translate_ui('pdf.page_footer', default='Seite {page} von {pages}')
-    # Replace placeholders with CSS counter expressions (we inject the quoted text parts)
-    css_footer = footer_template.replace('{page}', '" counter(page) "').replace('{pages}', '" counter(pages) "')
+    # Build a valid CSS `content` expression from the localized template
+    css_footer = _build_css_footer(footer_template)
 
     # Vollständiges HTML-Dokument (Formeln sind bereits als Bilder)
     full_html = f'''
@@ -2066,7 +2090,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
 
     # Localized footer for pages
     footer_template = translate_ui('pdf.page_footer', default='Seite {page} von {pages}')
-    css_footer = footer_template.replace('{page}', '" counter(page) "').replace('{pages}', '" counter(pages) "')
+    css_footer = _build_css_footer(footer_template)
 
     full_html = f'''
     <!DOCTYPE html>
@@ -2257,10 +2281,9 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         frage_text = frage.get("frage", "")
         # Parst Markdown/LaTeX in sicheres HTML
         parsed_frage = _render_latex_in_html(
-            frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text,
+            smart_quotes_de(frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text),
             total_timeout=total_timeout,
         )
-        parsed_frage = smart_quotes_de(parsed_frage)
 
         html_parts.append('<div class="question">')
         q_header = translate_ui("pdf.question_header", default="Frage {current} / {total}").format(current=display_num, total=len(questions))
@@ -2277,7 +2300,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         correct_idx = frage.get("loesung")
         opts = frage.get("optionen", [])
         for oi, opt in enumerate(opts):
-            parsed_opt = smart_quotes_de(_render_latex_in_html(opt, total_timeout=total_timeout))
+            parsed_opt = _render_latex_in_html(smart_quotes_de(opt), total_timeout=total_timeout)
             if oi == correct_idx:
                 html_parts.append(f'<li class="option correct">✔ {parsed_opt}</li>')
             else:
@@ -2290,7 +2313,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         if erklaerung:
             label = translate_ui("test_view.explanation_label", default="Erklärung:")
             html_parts.append(
-                f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(erklaerung, total_timeout=total_timeout)}</div>'
+                f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(smart_quotes_de(erklaerung), total_timeout=total_timeout)}</div>'
             )
 
         # Erweiterte Erklärung
@@ -2303,7 +2326,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
             explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
             if title:
-                explanation_html += f": {_render_latex_in_html(title)}"
+                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title))}"
             explanation_html += '</strong>'
 
             if steps:
@@ -2311,10 +2334,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 explanation_html += f'<{list_tag} class="extended-steps">'
                 for step in steps:
                     item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f'<li>{_render_latex_in_html(item, total_timeout=total_timeout)}</li>'
+                    explanation_html += f'<li>{_render_latex_in_html(smart_quotes_de(item), total_timeout=total_timeout)}</li>'
                 explanation_html += f'</{list_tag}>'
             elif isinstance(content, str) and content.strip():
-                explanation_html += '<br>' + _render_latex_in_html(content, total_timeout=total_timeout)
+                explanation_html += '<br>' + _render_latex_in_html(smart_quotes_de(content), total_timeout=total_timeout)
 
             explanation_html += '</div>'
             html_parts.append(explanation_html)
@@ -2333,7 +2356,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
 
     # Localized footer for pages
     footer_template = translate_ui('pdf.page_footer', default='Seite {page} von {pages}')
-    css_footer = footer_template.replace('{page}', '" counter(page) "').replace('{pages}', '" counter(pages) "')
+    css_footer = _build_css_footer(footer_template)
 
     # Full HTML
     full_html = f"""
