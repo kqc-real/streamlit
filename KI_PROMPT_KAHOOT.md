@@ -77,10 +77,10 @@ Führe den folgenden Prompt schrittweise aus:
 }
 ```
 
-1. Ergänze so viele Fragen wie vereinbart und nummeriere sie im Feld `frage` aufsteigend (`1.`, `2.` …).
+1. Ergänze so viele Fragen wie vereinbart und nummeriere sie im Feld `question` aufsteigend (`1.`, `2.` …).
 1. Halte jede `frage` ≤ 95 Zeichen und jede Option ≤ 60 Zeichen – kürze oder paraphrasiere bei Bedarf.
 1. Setze `question_count` auf die tatsächliche Anzahl der Fragen und `timer_seconds` auf den abgestimmten Wert.
-1. Verwende für `loesung` den 0-basierten Index der richtigen Option (genau eine pro Frage).
+1. Verwende für `answer` den 0-basierten Index der richtigen Option (genau eine pro Frage).
 
 ### Selbstcheck vor der Ausgabe
 
