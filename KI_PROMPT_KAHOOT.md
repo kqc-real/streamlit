@@ -69,9 +69,9 @@ Führe den folgenden Prompt schrittweise aus:
   },
   "questions": [
     {
-      "frage": "1. ...",
-      "optionen": ["...", "..."],
-      "loesung": 0
+      "question": "1. ...",
+      "options": ["...", "..."],
+      "answer": 0
     }
   ]
 }

@@ -856,8 +856,16 @@ def render_feedback_tab():
     for q_file in unique_files:
         questions = load_questions(q_file, silent=True)
         for q in questions:
-            q_nr = int(q['frage'].split('.', 1)[0])
-            all_questions[(q_file, q_nr)] = q['frage'].split('.', 1)[1].strip()
+            # Prefer canonical 'question' key but fall back to legacy 'frage'
+            q_text = q.get('question') or q.get('frage', '')
+            try:
+                q_nr = int(str(q_text).split('.', 1)[0])
+            except Exception:
+                q_nr = None
+            try:
+                all_questions[(q_file, q_nr)] = str(q_text).split('.', 1)[1].strip() if '.' in str(q_text) else str(q_text)
+            except Exception:
+                all_questions[(q_file, q_nr)] = str(q_text)
 
     df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row['Fragenset'], row['Frage-Nr.']), "Frage nicht gefunden"), axis=1)
     try:
@@ -883,7 +891,14 @@ def render_feedback_tab():
                     # Finde den Index der Frage im entsprechenden Fragenset
                     q_file_to_load = row['Fragenset']
                     questions_to_load = load_questions(q_file_to_load, silent=True)
-                    target_idx = next((i for i, q in enumerate(questions_to_load) if int(q['frage'].split('.', 1)[0]) == row['Frage-Nr.']), None)
+                    def _nr_from_q(qitem):
+                        try:
+                            txt = qitem.get('question') or qitem.get('frage', '')
+                            return int(str(txt).split('.', 1)[0])
+                        except Exception:
+                            return None
+
+                    target_idx = next((i for i, q in enumerate(questions_to_load) if _nr_from_q(q) == row['Frage-Nr.']), None)
 
                     if target_idx is not None:
                         st.session_state.selected_questions_file = q_file_to_load

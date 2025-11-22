@@ -2924,7 +2924,21 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
         st.session_state.bookmarked_questions.remove(frage_idx)
     
     # Extrahiere die echten Fragennummern für die DB
-    bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.bookmarked_questions]
+    # Use canonical 'question' field if present, fall back to legacy 'frage'.
+    bookmarked_q_nrs = []
+    for i in st.session_state.bookmarked_questions:
+        try:
+            q_item = questions[i] if i < len(questions) else {}
+        except Exception:
+            q_item = {}
+        if isinstance(q_item, dict):
+            q_text = q_item.get('question') or q_item.get('frage', '')
+        else:
+            q_text = ''
+        try:
+            bookmarked_q_nrs.append(int(q_text.split('.')[0]))
+        except Exception:
+            bookmarked_q_nrs.append(0)
     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
 
@@ -3749,11 +3763,19 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
         # Titel für den Expander erstellen und intelligent kürzen
         try:
-            title_text = frage['frage'].split('.', 1)[1].strip()
+            # Prefer canonical 'question' field, fall back to legacy 'frage'
+            q_text = frage.get('question') if isinstance(frage, dict) else ''
+            if not q_text:
+                q_text = frage.get('frage', '') if isinstance(frage, dict) else ''
+            title_text = q_text.split('.', 1)[1].strip()
             if len(title_text) > 50:
                 title_text = title_text[:50].rsplit(' ', 1)[0] + "..."
-        except IndexError:
-            title_text = frage['frage'][:50] + "..."
+        except Exception:
+            # Fallback to a safe slice of the available text
+            try:
+                title_text = (q_text or '')[:50] + "..."
+            except Exception:
+                title_text = ""
 
         display_question_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
 
@@ -3764,7 +3786,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         unanswered_label = _summary_text("review_label_unanswered", default="(unbeantwortet)")
         # Review-UI (z.B. Expander für jede Frage, Anzeige der Antworten etc.)
         with st.expander(f"{icon} {question_label} {display_question_number}: {title_text}"):
-            st.markdown(f"**{question_label}:** {frage['frage']}")
+            # Show canonical 'question' text, fallback to legacy 'frage'
+            display_q_text = frage.get('question') if isinstance(frage, dict) else ''
+            if not display_q_text:
+                display_q_text = frage.get('frage', '') if isinstance(frage, dict) else ''
+            st.markdown(f"**{question_label}:** {display_q_text}")
             # Immer zuerst die gegebene Antwort (falsch oder richtig), dann die richtige darunter
             if gegebene_antwort is not None:
                 if ist_richtig:

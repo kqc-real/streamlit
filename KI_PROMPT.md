@@ -198,9 +198,9 @@ Beispielschema:
     "target_audience": "...",
     "question_count": 0,
     "difficulty_profile": {
-      "leicht": 1,
-      "mittel": 2,
-      "schwer": 3
+      "easy": 1,
+      "medium": 2,
+      "hard": 3
     },
     "time_per_weight_minutes": {
       "1": 0.5,
@@ -210,28 +210,28 @@ Beispielschema:
     "additional_buffer_minutes": 5,
     "test_duration_minutes": 0
   },
-  "questions": [
+    "questions": [
     {
-      "frage": "1. ...",
-      "optionen": [
+      "question": "1. ...",
+      "options": [
         "...",
         "..."
       ],
-      "loesung": 0,
-      "erklaerung": "...",
-      "gewichtung": 1,
-      "thema": "...",
-      "konzept": "...",
-      "kognitive_stufe": "Reproduktion",
+      "answer": 0,
+      "explanation": "...",
+      "weight": 1,
+      "topic": "...",
+      "concept": "...",
+      "cognitive_level": "Reproduction",
       "extended_explanation": {
-        "titel": "...",
-        "schritte": [
+        "title": "...",
+        "steps": [
           "..."
         ]
       },
       "mini_glossary": {
-        "Begriff 1": "Definition 1...",
-        "Begriff 2": "Definition 2..."
+        "Term 1": "Definition 1...",
+        "Term 2": "Definition 2..."
       }
     }
   ]

@@ -64,19 +64,19 @@ Die App lädt Fragensets aus JSON-Dateien im `data/questions_*.json`-Format. Jed
 
 ```json
 {
-  "frage": "Text der Frage",
-  "optionen": ["Option A", "Option B", "Option C", "Option D"],
-  "loesung": 2,
-  "erklaerung": "Warum Antwort C korrekt ist",
-  "gewichtung": 1,
-  "thema": "Traversierung: BFS",
-  "konzept": "BFS-Besuchsreihenfolge",
-  "kognitive_stufe": "Anwendung"
+  "question": "Text der Frage",
+  "options": ["Option A", "Option B", "Option C", "Option D"],
+  "answer": 2,
+  "explanation": "Warum Antwort C korrekt ist",
+  "weight": 1,
+  "topic": "Traversierung: BFS",
+  "concept": "BFS visitation order",
+  "cognitive_level": "Application"
 }
 ```
 
-- `konzept` beschreibt das didaktische Ziel der Frage (z. B. „BFS-Besuchsreihe“ oder „Pivot-Tabellen-Filter“).
-- `kognitive_stufe` orientiert sich an Taxonomien wie Bloom oder SOLO (z. B. „Wissen“, „Verstehen“, „Anwendung“, „Analyse“).
+- `concept` beschreibt das didaktische Ziel der Frage (z. B. „BFS visitation order" oder „Pivot table filtering").
+- `cognitive_level` orientiert sich an Taxonomien wie Bloom oder SOLO (z. B. "Knowledge", "Understanding", "Application", "Analysis").
 - Beide Felder dürfen optional leer sein, aber wir empfehlen, sie für jede Frage zu pflegen, damit Exporte und Analytics die Lernziele besser gruppieren können.
 
 Für Contributors und Admins gilt:

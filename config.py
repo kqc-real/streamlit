@@ -327,12 +327,20 @@ def _build_question_set(
 
         # Load and sanitize using canonical English keys only; temporary
         # compatibility for legacy German keys has been removed.
-        frage_text = _sanitize_text(question.get("question", ""), f"Frage {i + 1}: question")
+        # Accept legacy 'frage' as a source when 'question' is missing to
+        # preserve backwards compatibility for older datasets.
+        frage_text = _sanitize_text(question.get("question") or question.get("frage", ""), f"Frage {i + 1}: question")
         if isinstance(frage_text, str) and frage_text and frage_text[0].isdigit():
             dot_pos = frage_text.find(".")
             if 0 < dot_pos < len(frage_text) - 1 and frage_text[:dot_pos].isdigit():
                 frage_text = frage_text.split(".", 1)[-1].strip()
         question["question"] = f"{i + 1}. {frage_text}".strip()
+        # Keep legacy German alias in sync so older callsites that read
+        # 'frage' continue to observe the normalized, renumbered text.
+        try:
+            question["frage"] = question["question"]
+        except Exception:
+            pass
 
         if "topic" in question:
             question["topic"] = _sanitize_text(

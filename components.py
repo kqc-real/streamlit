@@ -865,7 +865,15 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
                     made_it_to_leaderboard = True
 
     # Speichere Bookmarks vor dem Abmelden
-    bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
+    def _nr_from_questions_idx(i):
+        try:
+            qitem = questions[i]
+            txt = qitem.get('question') or qitem.get('frage', '')
+            return int(str(txt).split('.', 1)[0])
+        except Exception:
+            return None
+
+    bookmarked_q_nrs = [int(_nr_from_questions_idx(i)) for i in st.session_state.get("bookmarked_questions", []) if _nr_from_questions_idx(i) is not None]
     if "session_id" in st.session_state:
         update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
@@ -2056,7 +2064,15 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                             made_it_to_leaderboard = True
 
             # Speichere Bookmarks vor dem Abmelden
-            bookmarked_q_nrs = [int(questions[i]['frage'].split('.')[0]) for i in st.session_state.get("bookmarked_questions", [])]
+            def _nr_from_qidx(i):
+                try:
+                    qitem = questions[i]
+                    txt = qitem.get('question') or qitem.get('frage', '')
+                    return int(str(txt).split('.', 1)[0])
+                except Exception:
+                    return None
+
+            bookmarked_q_nrs = [int(_nr_from_qidx(i)) for i in st.session_state.get("bookmarked_questions", []) if _nr_from_qidx(i) is not None]
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
@@ -2353,7 +2369,7 @@ def render_bookmarks(questions: QuestionSet):
                 ):
                     st.session_state.bookmarked_questions.remove(q_idx)
                     bookmarked_q_nrs = [
-                        int(questions[i]['frage'].split('.')[0]) 
+                        int((questions[i].get('question') or questions[i].get('frage', '')).split('.')[0]) 
                         for i in st.session_state.bookmarked_questions
                     ]
                     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)

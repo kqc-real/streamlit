@@ -132,20 +132,33 @@ def test_load_questions_successfully(mock_question_file, test_questions, tmp_pat
         expected_questions = []
         for i, q in enumerate(test_questions):
             new_q = q.copy()
-            new_q["frage"] = f"{i + 1}. {q['frage'].split('.', 1)[-1].strip()}"
+            base_txt = q.get('question') or q.get('frage', '')
+            new_text = f"{i + 1}. {base_txt.split('.', 1)[-1].strip()}"
+            # Keep both canonical English and legacy German keys for compatibility
+            new_q["frage"] = new_text
+            new_q["question"] = new_text
             expected_questions.append(new_q)
 
-        # Compare only the German canonical fields to avoid failing on
-        # non-destructive English aliases that the loader may add.
+        # Compare the canonical English 'question' field (loader guarantees this)
         loaded_trimmed = []
         for q in loaded_questions.questions:
             loaded_trimmed.append({
-                "frage": q.get("frage"),
+                "question": q.get("question"),
                 "optionen": q.get("optionen"),
                 "loesung": q.get("loesung"),
                 "gewichtung": q.get("gewichtung"),
             })
-        assert loaded_trimmed == expected_questions
+        # For compatibility we ensured expected_questions contains a canonical 'question' key
+        expected_trimmed = []
+        for q in expected_questions:
+            expected_trimmed.append({
+                "question": q.get("question"),
+                "optionen": q.get("optionen"),
+                "loesung": q.get("loesung"),
+                "gewichtung": q.get("gewichtung"),
+            })
+
+        assert loaded_trimmed == expected_trimmed
 
 
 def test_load_questions_with_meta(tmp_path, test_questions):
