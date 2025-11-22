@@ -450,48 +450,9 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     if not title:
         title = "MC-Test Deck"
 
-    # Normalize incoming question keys (accept legacy German keys)
-    def _normalize_incoming_question(q: dict) -> None:
-        if not isinstance(q, dict):
-            return
-        # Map German keys to canonical English keys if English keys absent
-        if "question" not in q and "frage" in q:
-            q["question"] = q.get("frage")
-        if "options" not in q and "optionen" in q:
-            q["options"] = q.get("optionen")
-        if "answer" not in q and "loesung" in q:
-            q["answer"] = q.get("loesung")
-        if "explanation" not in q and "erklaerung" in q:
-            q["explanation"] = q.get("erklaerung")
-        if "weight" not in q and "gewichtung" in q:
-            q["weight"] = q.get("gewichtung")
-        if "topic" not in q and "thema" in q:
-            q["topic"] = q.get("thema")
-        if "cognitive_level" not in q and "kognitive_stufe" in q:
-            q["cognitive_level"] = q.get("kognitive_stufe")
-        if "concept" not in q and "konzept" in q:
-            q["concept"] = q.get("konzept")
-        # If answer is textual, try to resolve to index when options are present
-        try:
-            if isinstance(q.get("answer"), str) and isinstance(q.get("options"), list):
-                ans = q.get("answer")
-                opts = q.get("options")
-                if ans in opts:
-                    q["answer"] = opts.index(ans)
-        except Exception:
-            pass
-
-    # Debugging: print summary when running tests to help triage empty-option cases
-    try:
-        qlist = data.get("questions", [])
-        if isinstance(qlist, list) and len(qlist) > 0:
-            first = qlist[0]
-            print(f"DEBUG: transform_to_anki_tsv: questions={len(qlist)}, first_keys={list(first.keys())}")
-    except Exception:
-        pass
-
+    # Questions must use canonical English keys (migration cleanup removed
+    # the previous runtime compatibility layer). Build rows directly.
     for q in data.get("questions", []):
-        _normalize_incoming_question(q)
         writer.writerow(_build_row(md, q, title))
 
     return out.getvalue()

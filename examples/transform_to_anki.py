@@ -16,19 +16,6 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
     writer = csv.writer(output, delimiter='\t', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
 
     for q in json_data.get('questions', []):
-        # Accept legacy German keys if present
-        if 'question' not in q and 'frage' in q:
-            q['question'] = q.get('frage')
-        if 'options' not in q and 'optionen' in q:
-            q['options'] = q.get('optionen')
-        if 'answer' not in q and 'loesung' in q:
-            q['answer'] = q.get('loesung')
-        if 'explanation' not in q and 'erklaerung' in q:
-            q['explanation'] = q.get('erklaerung')
-        if 'weight' not in q and 'gewichtung' in q:
-            q['weight'] = q.get('gewichtung')
-        if 'topic' not in q and 'thema' in q:
-            q['topic'] = q.get('thema')
 
         frage_html = render_markdown_with_math(md, q.get('question', ''))
         frage = frage_html.strip()
@@ -50,10 +37,9 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
         extended = render_markdown_with_math(md, str(q.get('extended_explanation', '')))
 
         meta = json_data.get('meta', {})
-        tags = ' '.join(str(x).replace(' ', '_') for x in [meta.get('title', ''), q.get('topic', '') or q.get('thema', '')]).strip()
+        tags = ' '.join(str(x).replace(' ', '_') for x in [meta.get('title', ''), q.get('topic', '')]).strip()
 
-        # Use numeric 'gewichtung' if present for backward compatibility
-        weight_val = q.get('gewichtung') if 'gewichtung' in q else q.get('weight', '')
+        weight_val = q.get('weight', '')
 
         row = [
             frage,
@@ -63,7 +49,7 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
             extended,
             '',
             meta.get('title', ''),
-            q.get('topic', '') or q.get('thema', ''),
+            q.get('topic', ''),
             str(weight_val),
             tags,
         ]

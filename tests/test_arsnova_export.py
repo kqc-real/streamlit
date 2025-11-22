@@ -9,13 +9,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from export_jobs import generate_arsnova_json, validate_arsnova_questions  # noqa: E402
 
 
-def _build_question(frage, optionen, loesung, gewichtung=1, thema="Mathe"):
+def _build_question(question, options, answer, weight=1, topic="Mathe"):
     return {
-        "frage": frage,
-        "optionen": optionen,
-        "loesung": loesung,
-        "gewichtung": gewichtung,
-        "thema": thema,
+        "question": question,
+        "options": options,
+        "answer": answer,
+        "weight": weight,
+        "topic": topic,
     }
 
 
@@ -25,10 +25,10 @@ def test_generate_arsnova_json_maps_core_fields(tmp_path, monkeypatch):
             "1. Beispiel?",
             ["A", "B", "C"],
             1,
-            gewichtung=2,
-            thema="Test",
+            weight=2,
+            topic="Test",
         ),
-        _build_question("2. Noch eine?", ["Ja", "Nein"], 0, gewichtung=3, thema=""),
+        _build_question("2. Noch eine?", ["Ja", "Nein"], 0, weight=3, topic=""),
     ]
 
     data_bytes = generate_arsnova_json("questions_demo.json", questions)
@@ -62,9 +62,9 @@ def test_generate_arsnova_json_maps_core_fields(tmp_path, monkeypatch):
     "question",
     [
         {},
-        {"frage": "", "optionen": ["A"], "loesung": 0},
-        {"frage": "Fehlt Antwort", "optionen": [], "loesung": 0},
-        {"frage": "Index off", "optionen": ["A"], "loesung": 5},
+        {"question": "", "options": ["A"], "answer": 0},
+        {"question": "Fehlt Antwort", "options": [], "answer": 0},
+        {"question": "Index off", "options": ["A"], "answer": 5},
     ],
 )
 def test_generate_arsnova_json_validation_errors(question):

@@ -8,9 +8,9 @@ from export_jobs import validate_kahoot_questions  # noqa: E402
 
 def make_question(text, options, solution, **extra):
     data = {
-        "frage": text,
-        "optionen": options,
-        "loesung": solution,
+        "question": text,
+        "options": options,
+        "answer": solution,
     }
     data.update(extra)
     return data

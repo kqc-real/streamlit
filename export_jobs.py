@@ -664,35 +664,7 @@ def _load_questions_from_file(selected_file: str) -> list[dict]:
     raise ValueError(f"Fragenset '{selected_file}' hat ein unerwartetes Format (Liste der Fragen fehlt).")
 
 
-def _normalize_incoming_question(question: dict) -> None:
-    """Map legacy German keys to canonical English keys in-place."""
-    if not isinstance(question, dict):
-        return
-    if "question" not in question and "frage" in question:
-        question["question"] = question.get("frage")
-    if "options" not in question and "optionen" in question:
-        question["options"] = question.get("optionen")
-    if "answer" not in question and "loesung" in question:
-        question["answer"] = question.get("loesung")
-    if "explanation" not in question and "erklaerung" in question:
-        question["explanation"] = question.get("erklaerung")
-    if "weight" not in question and "gewichtung" in question:
-        question["weight"] = question.get("gewichtung")
-    if "topic" not in question and "thema" in question:
-        question["topic"] = question.get("thema")
-    if "cognitive_level" not in question and "kognitive_stufe" in question:
-        question["cognitive_level"] = question.get("kognitive_stufe")
-    if "concept" not in question and "konzept" in question:
-        question["concept"] = question.get("konzept")
-    # Resolve textual answer to index when possible
-    try:
-        if isinstance(question.get("answer"), str) and isinstance(question.get("options"), list):
-            ans = question.get("answer")
-            opts = question.get("options")
-            if ans in opts:
-                question["answer"] = opts.index(ans)
-    except Exception:
-        pass
+
 
 
 def _map_weight_to_difficulty(raw_weight: Any) -> int:
@@ -824,9 +796,7 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
     """Ermittelt Warnungen für den arsnova.click-Export."""
 
     warnings: list[str] = []
-    # Normalize legacy/german keys first
-    for q in questions:
-        _normalize_incoming_question(q)
+    # Questions are expected to use canonical English keys.
 
     for idx, question in enumerate(questions):
         if not isinstance(question, dict):
@@ -863,9 +833,7 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
             f"Fragenset enthält {len(questions)} Fragen (maximal {KAHOOT_MAX_QUESTIONS})."
         )
 
-    # Accept legacy German keys in incoming questions
-    for question in questions:
-        _normalize_incoming_question(question)  # type: ignore[arg-type]
+    # Questions are expected to use canonical English keys.
     for idx, question in enumerate(questions):
         question_text = _strip_markdown_to_plain_text(question.get("question"))
         label = _short_question_label(question_text or f"Frage {idx + 1}")
@@ -935,9 +903,7 @@ def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]]
 
     rows: list[list[Any]] = [KAHOOT_EXPORT_COLUMNS]
 
-    # Normalize legacy keys so callers can pass either German or English
-    for q in resolved_questions:
-        _normalize_incoming_question(q)
+    # Resolved questions must use canonical English keys.
 
     for idx, question in enumerate(resolved_questions):
         if not isinstance(question, dict):
@@ -1009,9 +975,7 @@ def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]
     if not resolved_questions:
         raise ValueError("Keine Fragen für den arsnova.click-Export gefunden.")
 
-    # Normalize incoming questions for backward compatibility
-    for q in resolved_questions:
-        _normalize_incoming_question(q)
+    # Resolved questions must use canonical English keys.
 
     question_payloads = [_transform_question_for_arsnova(question, idx) for idx, question in enumerate(resolved_questions)]
 

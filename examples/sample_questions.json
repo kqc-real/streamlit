@@ -2,13 +2,13 @@
   "meta": { "title": "Beispieltest" },
   "questions": [
     {
-      "frage": "Was ist $a+b$?",
-      "optionen": ["$a+b$", "0"],
-      "loesung": 0,
-      "erklaerung": "Addition $a+b$",
+      "question": "Was ist $a+b$?",
+      "options": ["$a+b$", "0"],
+      "answer": 0,
+      "explanation": "Addition $a+b$",
       "extended_explanation": "Siehe $a+b$ für die Summe.",
-      "thema": "Mathe",
-      "gewichtung": 2
+      "topic": "Mathe",
+      "weight": 2
     }
   ]
 }

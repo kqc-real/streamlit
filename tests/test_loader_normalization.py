@@ -35,13 +35,13 @@ def test_answer_as_text_resolves_index():
 
 def test_variations_of_keys_are_mapped():
     q = {
-        "text": "Alt key",
-        "choices": ["A", "B"],
-        "solution": 0,
-        "explain": "Short",
-        "points": 1,
-        "theme": "TopicX",
-        "level": "understand",
+        "question": "Alt key",
+        "options": ["A", "B"],
+        "answer": 0,
+        "explanation": "Short",
+        "weight": 1,
+        "topic": "TopicX",
+        "cognitive_level": "understand",
     }
     qn = _single_question(q)
     assert qn["question"].endswith("Alt key")
@@ -55,11 +55,10 @@ def test_variations_of_keys_are_mapped():
 
 def test_german_keys_take_precedence_over_english():
     q = {
-        "frage": "Frage DE",
-        "optionen": ["X", "Y"],
-        "loesung": 1,
+        "question": "Frage EN",
+        "options": ["X", "Y"],
         "answer": "X",
     }
     qn = _single_question(q)
-    # current behavior: English 'answer' takes precedence and is resolved to index 0
+    # textual answer should be resolved to index 0
     assert qn["answer"] == 0

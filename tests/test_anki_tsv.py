@@ -7,26 +7,26 @@ def make_sample_json():
         "meta": {"title": "Beispieltest"},
         "questions": [
             {
-                "frage": "Was ist $a+b$?",
-                "optionen": ["$a$", "$b$", "a + b"],
-                "loesung": 2,
-                "erklaerung": "Die Summe ist $a+b$.",
+                "question": "Was ist $a+b$?",
+                "options": ["$a$", "$b$", "a + b"],
+                "answer": 2,
+                "explanation": "Die Summe ist $a+b$.",
                 "extended_explanation": {"title": "Details", "content": "Mehr Info $x$"},
                 "mini_glossary": {"Term": "Definition $y$"},
-                "thema": "Mathe",
-                "gewichtung": 2,
+                "topic": "Mathe",
+                "weight": 2,
             },
             {
-                "frage": """Codebeispiel mit Dollarzeichen:
+                "question": """Codebeispiel mit Dollarzeichen:
 ```
 print('$x$')
 ```
 """,
-                "optionen": ["A", "B"],
-                "loesung": 0,
-                "erklaerung": "Siehe Code oben.",
-                "thema": "Code",
-                "gewichtung": 1,
+                "options": ["A", "B"],
+                "answer": 0,
+                "explanation": "Siehe Code oben.",
+                "topic": "Code",
+                "weight": 1,
             },
         ],
     }

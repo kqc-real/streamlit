@@ -13,7 +13,7 @@ def test_ankicts_preserves_math_and_escapes_angle_brackets():
         "$u_j=\\sum_i v_i$, $w_j=u_j$.",
     ]
 
-    j = {"meta": {"title": "t"}, "questions": [{"frage": "q", "optionen": s_list, "loesung": 0, "erklaerung": "ex"}]}
+    j = {"meta": {"title": "t"}, "questions": [{"question": "q", "options": s_list, "answer": 0, "explanation": "ex"}]}
     tsv = transform_to_anki_tsv(json.dumps(j).encode("utf-8"))
 
     # math delimiters should survive

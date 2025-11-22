@@ -10,7 +10,7 @@ def test_dollar_in_normal_text_is_preserved():
     payload = {
         "meta": {"title": "EdgeCases"},
         "questions": [
-            {"frage": "Preis: $5", "optionen": ["OK"], "loesung": 0, "thema": "Money", "gewichtung": 1}
+            {"question": "Preis: $5", "options": ["OK"], "answer": 0, "topic": "Money", "weight": 1}
         ],
     }
     b = json.dumps(payload).encode("utf-8")
@@ -25,7 +25,7 @@ def test_ambiguous_nested_delimiters_keep_display_math_and_inner_dollar():
     payload = {
         "meta": {"title": "EdgeCases"},
         "questions": [
-            {"frage": "$$a $ b$$", "optionen": ["X"], "loesung": 0, "thema": "Math", "gewichtung": 2}
+            {"question": "$$a $ b$$", "options": ["X"], "answer": 0, "topic": "Math", "weight": 2}
         ],
     }
     b = json.dumps(payload).encode("utf-8")
@@ -39,11 +39,11 @@ def test_ambiguous_nested_delimiters_keep_display_math_and_inner_dollar():
 def test_missing_meta_title_falls_back_to_source_name():
     payload = [
         {
-            "frage": "Frage 1",
-            "optionen": ["A"],
-            "loesung": 0,
-            "thema": "Test",
-            "gewichtung": 1,
+            "question": "Frage 1",
+            "options": ["A"],
+            "answer": 0,
+            "topic": "Test",
+            "weight": 1,
         }
     ]
     b = json.dumps(payload).encode("utf-8")
@@ -64,11 +64,11 @@ def test_matrix_backslashes_are_preserved():
         "meta": {"title": "Linear Algebra"},
         "questions": [
             {
-                "frage": "$\\begin{pmatrix}1 & 2 \\ 3 & 4\\end{pmatrix}$",
-                "optionen": ["$\\begin{pmatrix}4 & 5 \\ 6 & 7\\end{pmatrix}$"],
-                "loesung": 0,
-                "thema": "Matrix",
-                "gewichtung": 2,
+                "question": "$\\begin{pmatrix}1 & 2 \\ 3 & 4\\end{pmatrix}$",
+                "options": ["$\\begin{pmatrix}4 & 5 \\ 6 & 7\\end{pmatrix}$"],
+                "answer": 0,
+                "topic": "Matrix",
+                "weight": 2,
             }
         ],
     }

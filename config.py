@@ -325,94 +325,52 @@ def _build_question_set(
             continue
         question = dict(raw_question)
 
-        # Non-destructive normalization: ensure English canonical keys exist.
-        def _normalize_keys(q: Dict[str, Any]) -> Dict[str, Any]:
-            # Map older German keys to the new English canonical names.
-            mapping = {
-                # question text
-                "frage": "question",
-                "text": "question",
-                "prompt": "question",
-                # options / choices
-                "optionen": "options",
-                "choices": "options",
-                # correct answer / solution
-                "loesung": "answer",
-                "solution": "answer",
-                "correct": "answer",
-                # explanation
-                "erklaerung": "explanation",
-                "explain": "explanation",
-                # weight / points
-                "gewichtung": "weight",
-                "points": "weight",
-                # topic / theme
-                "thema": "topic",
-                "theme": "topic",
-                # cognitive level
-                "kognitive_stufe": "cognitive_level",
-                "level": "cognitive_level",
-                # mini glossary (already English-like)
-                "mini_glossary": "mini_glossary",
-                # concept
-                "konzept": "concept",
-            }
-
-            # Copy values from German/alt keys into the canonical English keys
-            # if the English key is not already present.
-            for src, eng in mapping.items():
-                if eng not in q and src in q:
-                    q[eng] = q[src]
-
-            # If 'answer' is missing but a string value is provided, try to
-            # resolve it to an index using available options.
-            if ("answer" not in q or not isinstance(q.get("answer"), int)) and (
-                "answer" in q or "loesung" in q
-            ):
-                ans = q.get("answer", q.get("loesung"))
-                opts = q.get("options") or q.get("optionen") or q.get("choices")
-                if isinstance(ans, int):
-                    q["answer"] = ans
-                elif isinstance(ans, str) and isinstance(opts, list):
-                    try:
-                        idx = opts.index(ans)
-                        q["answer"] = idx
-                    except ValueError:
-                        stripped = ans.strip()
-                        for idx2, opt in enumerate(opts):
-                            if isinstance(opt, str) and opt.strip() == stripped:
-                                q["answer"] = idx2
-                                break
-
-            return q
-
-        question = _normalize_keys(question)
-
-        frage_text = _sanitize_text(question.get("frage", ""), f"Frage {i + 1}: frage")
+        # Load and sanitize using canonical English keys only; temporary
+        # compatibility for legacy German keys has been removed.
+        frage_text = _sanitize_text(question.get("question", ""), f"Frage {i + 1}: question")
         if isinstance(frage_text, str) and frage_text and frage_text[0].isdigit():
             dot_pos = frage_text.find(".")
             if 0 < dot_pos < len(frage_text) - 1 and frage_text[:dot_pos].isdigit():
                 frage_text = frage_text.split(".", 1)[-1].strip()
-        question["frage"] = f"{i + 1}. {frage_text}".strip()
+        question["question"] = f"{i + 1}. {frage_text}".strip()
 
-        if "thema" in question:
-            question["thema"] = _sanitize_text(
-                question.get("thema", ""), f"Frage {i + 1}: thema"
+        if "topic" in question:
+            question["topic"] = _sanitize_text(
+                question.get("topic", ""), f"Frage {i + 1}: topic"
             )
 
-        if "erklaerung" in question:
-            question["erklaerung"] = _sanitize_nested(
-                question.get("erklaerung"), f"Frage {i + 1}: erklaerung"
+        if "explanation" in question:
+            question["explanation"] = _sanitize_nested(
+                question.get("explanation"), f"Frage {i + 1}: explanation"
             )
 
-        optionen_raw = question.get("optionen")
+        optionen_raw = question.get("options")
         if isinstance(optionen_raw, list):
             sanitized_options = []
             for opt_idx, opt in enumerate(optionen_raw, start=1):
                 sanitized_options.append(
                     _sanitize_text(opt, f"Frage {i + 1}: Option {opt_idx}")
                 )
-            question["optionen"] = sanitized_options
+            question["options"] = sanitized_options
+
+        # If 'answer' is provided as text, try to resolve it to an index
+        # using the sanitized options list.
+        try:
+            ans_val = question.get("answer")
+            opts = question.get("options")
+            if not isinstance(ans_val, int) and isinstance(ans_val, str) and isinstance(opts, list):
+                # exact match first
+                try:
+                    idx = opts.index(ans_val)
+                    question["answer"] = idx
+                except ValueError:
+                    stripped = ans_val.strip()
+                    for idx2, opt in enumerate(opts):
+                        if isinstance(opt, str) and opt.strip() == stripped:
+                            question["answer"] = idx2
+                            break
+        except Exception:
+            pass
 
         mini_glossary = question.get("mini_glossary")
         if isinstance(mini_glossary, dict):

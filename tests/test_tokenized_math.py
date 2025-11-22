@@ -9,16 +9,16 @@ def test_code_fence_math_preserved():
         "meta": {"title": "TokenTest"},
         "questions": [
             {
-                "frage": "Code fence test",
-                "optionen": [
+                "question": "Code fence test",
+                "options": [
                     "```\nprint('$x$')\n```",
                     "Normal $y$"
                 ],
-                "loesung": 1,
-                "erklaerung": "Erkl.",
+                "answer": 1,
+                "explanation": "Erkl.",
                 "extended_explanation": "Ext",
-                "thema": "Test",
-                "gewichtung": 1
+                "topic": "Test",
+                "weight": 1
             }
         ]
     }
