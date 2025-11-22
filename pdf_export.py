@@ -1428,12 +1428,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         status_text = ""
         status_icon = ""
         status_class = ""
+        # Ensure unanswered is handled exclusively and not overwritten by the
+        # 'wrong' branch: use if/elif/else so only one branch applies.
         if is_unanswered:
             border_color = "#0284c7"  # Blau für unbeantwortet
             status_text = translate_ui("pdf.status.unanswered", default="Unbeantwortet")
             status_icon = "?"
             status_class = "unanswered"
-        if ist_richtig:
+        elif ist_richtig:
             border_color = "#15803d"  # Dunkelgrün
             status_text = translate_ui("pdf.status.correct", default="Richtig")
             status_icon = "✔"
