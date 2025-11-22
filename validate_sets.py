@@ -78,19 +78,19 @@ def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
     # --- Prüfungen pro Frage ---
     all_themes = []
     for i, q in enumerate(questions, 1):
-        # Pflichtfelder pro Frage
-        required_fields = ["frage", "optionen", "loesung", "erklaerung", "gewichtung", "thema"]
+        # Pflichtfelder pro Frage (nun englische Schlüssel)
+        required_fields = ["question", "options", "answer", "explanation", "weight", "topic"]
         for field in required_fields:
             if field not in q:
                 errors.append(f"Frage {i}: Pflichtfeld '{field}' fehlt.")
 
         # Logik-Prüfungen
-        if "loesung" in q and "optionen" in q:
-            if not (0 <= q["loesung"] < len(q["optionen"])):
-                errors.append(f"Frage {i}: 'loesung' ({q['loesung']}) ist ein ungültiger Index für 'optionen' (Länge {len(q['optionen'])}).")
+        if "answer" in q and "options" in q:
+            if not (0 <= q["answer"] < len(q["options"])):
+                errors.append(f"Frage {i}: 'answer' ({q['answer']}) ist ein ungültiger Index für 'options' (Länge {len(q['options'])}).")
 
-        if "gewichtung" in q and q["gewichtung"] not in [1, 2, 3]:
-            warnings.append(f"Frage {i}: 'gewichtung' ({q['gewichtung']}) sollte 1, 2 oder 3 sein.")
+        if "weight" in q and q["weight"] not in [1, 2, 3]:
+            warnings.append(f"Frage {i}: 'weight' ({q['weight']}) sollte 1, 2 oder 3 sein.")
 
         # Formatierungs-Prüfungen
         for key, value in q.items():
@@ -122,7 +122,7 @@ def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
                     f"Empfohlen sind {MIN_GLOSSARY_ENTRIES}-{MAX_GLOSSARY_ENTRIES}."
                 )
 
-        all_themes.append(q.get("thema", "Unbekannt"))
+        all_themes.append(q.get("topic", "Unbekannt"))
 
     # --- Globale Prüfungen (Themen, etc.) ---
     if all_themes:

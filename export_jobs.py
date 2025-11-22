@@ -664,6 +664,37 @@ def _load_questions_from_file(selected_file: str) -> list[dict]:
     raise ValueError(f"Fragenset '{selected_file}' hat ein unerwartetes Format (Liste der Fragen fehlt).")
 
 
+def _normalize_incoming_question(question: dict) -> None:
+    """Map legacy German keys to canonical English keys in-place."""
+    if not isinstance(question, dict):
+        return
+    if "question" not in question and "frage" in question:
+        question["question"] = question.get("frage")
+    if "options" not in question and "optionen" in question:
+        question["options"] = question.get("optionen")
+    if "answer" not in question and "loesung" in question:
+        question["answer"] = question.get("loesung")
+    if "explanation" not in question and "erklaerung" in question:
+        question["explanation"] = question.get("erklaerung")
+    if "weight" not in question and "gewichtung" in question:
+        question["weight"] = question.get("gewichtung")
+    if "topic" not in question and "thema" in question:
+        question["topic"] = question.get("thema")
+    if "cognitive_level" not in question and "kognitive_stufe" in question:
+        question["cognitive_level"] = question.get("kognitive_stufe")
+    if "concept" not in question and "konzept" in question:
+        question["concept"] = question.get("konzept")
+    # Resolve textual answer to index when possible
+    try:
+        if isinstance(question.get("answer"), str) and isinstance(question.get("options"), list):
+            ans = question.get("answer")
+            opts = question.get("options")
+            if ans in opts:
+                question["answer"] = opts.index(ans)
+    except Exception:
+        pass
+
+
 def _map_weight_to_difficulty(raw_weight: Any) -> int:
     try:
         weight_int = int(raw_weight)
@@ -700,32 +731,32 @@ def _sanitize_tag_value(thema: Any) -> list[str]:
     return [sanitized_tag] if sanitized_tag else []
 
 
-def _collect_metadata_tags(frage: dict) -> list[str]:
+def _collect_metadata_tags(question: dict) -> list[str]:
     tags: list[str] = []
-    thema_tags = _sanitize_tag_value(frage.get("thema"))
+    thema_tags = _sanitize_tag_value(question.get("topic"))
     tags.extend(thema_tags)
-    for field, label in (("konzept", "Konzept"), ("kognitive_stufe", "Kognitive Stufe")):
-        for value in _sanitize_tag_value(frage.get(field)):
+    for field, label in (("concept", "Konzept"), ("cognitive_level", "Kognitive Stufe")):
+        for value in _sanitize_tag_value(question.get(field)):
             tags.append(f"{label}: {value}")
     # Preserve original order but drop duplicates
     return list(dict.fromkeys(tags))
 
 
-def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
-    if not isinstance(frage, dict):
+def _transform_question_for_arsnova(question: dict, index: int) -> dict[str, Any]:
+    if not isinstance(question, dict):
         raise ValueError(f"Einträge im Fragenset müssen Objekte sein (Fehler bei Frage {index + 1}).")
 
-    frage_text = str(frage.get("frage", "")).strip()
+    frage_text = str(question.get("question", "")).strip()
     if not frage_text:
         raise ValueError(f"Frage {index + 1} hat keinen Fragetext.")
 
-    loesung_raw = frage.get("loesung")
+    loesung_raw = question.get("answer")
     try:
         loesung_index = int(loesung_raw)  # type: ignore[arg-type]
     except (TypeError, ValueError):
         raise ValueError(f"Frage {index + 1} besitzt keinen gültigen Lösungsindex.")
 
-    answer_options = _build_answer_options(frage.get("optionen", []), loesung_index)
+    answer_options = _build_answer_options(question.get("options", []), loesung_index)
 
     normalized_text = _normalize_question_text(frage_text) or f"Frage {index + 1}"
 
@@ -735,11 +766,11 @@ def _transform_question_for_arsnova(frage: dict, index: int) -> dict[str, Any]:
         "answerOptionList": answer_options,
         "timer": 60,
         "requiredForToken": True,
-        "difficulty": _map_weight_to_difficulty(frage.get("gewichtung")),
+        "difficulty": _map_weight_to_difficulty(question.get("weight")),
         "displayAnswerText": True,
         "showOneAnswerPerRow": True,
         "multipleSelectionEnabled": False,
-        "tags": _collect_metadata_tags(frage),
+        "tags": _collect_metadata_tags(question),
     }
 
 
@@ -793,14 +824,18 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
     """Ermittelt Warnungen für den arsnova.click-Export."""
 
     warnings: list[str] = []
-    for idx, frage in enumerate(questions):
-        if not isinstance(frage, dict):
+    # Normalize legacy/german keys first
+    for q in questions:
+        _normalize_incoming_question(q)
+
+    for idx, question in enumerate(questions):
+        if not isinstance(question, dict):
             continue
 
-        question_text = _strip_markdown_to_plain_text(frage.get("frage"))
+        question_text = _strip_markdown_to_plain_text(question.get("question"))
         label = _short_question_label(question_text or f"Frage {idx + 1}")
 
-        optionen = frage.get("optionen")
+        optionen = question.get("options")
         if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
             continue
 
@@ -828,8 +863,11 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
             f"Fragenset enthält {len(questions)} Fragen (maximal {KAHOOT_MAX_QUESTIONS})."
         )
 
-    for idx, frage in enumerate(questions):
-        question_text = _strip_markdown_to_plain_text(frage.get("frage"))
+    # Accept legacy German keys in incoming questions
+    for question in questions:
+        _normalize_incoming_question(question)  # type: ignore[arg-type]
+    for idx, question in enumerate(questions):
+        question_text = _strip_markdown_to_plain_text(question.get("question"))
         label = _short_question_label(question_text or f"Frage {idx + 1}")
 
         if not question_text:
@@ -841,7 +879,7 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
                 f"{label}: Fragetext hat {len(question_text)} Zeichen (max. {KAHOOT_MAX_QUESTION_LENGTH})."
             )
 
-        optionen = frage.get("optionen")
+        optionen = question.get("options")
         if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
             errors.append(f"{label}: Antwortoptionen fehlen oder sind ungültig.")
             continue
@@ -864,7 +902,7 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
                 )
 
         try:
-            correct_indices = _extract_correct_indices(frage.get("loesung"), len(optionen))
+            correct_indices = _extract_correct_indices(question.get("answer"), len(optionen))
         except ValueError as exc:
             errors.append(f"{label}: {exc}")
             continue
@@ -873,7 +911,7 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
             errors.append(f"{label}: Zu viele korrekte Antworten angegeben.")
 
         # Timer-Prüfung: falls definiert, muss im erlaubten Wertebereich liegen
-        timer_value = frage.get("zeit_limit") or frage.get("timer")
+        timer_value = question.get("zeit_limit") or question.get("timer")
         if timer_value is not None:
             try:
                 timer_int = int(timer_value)
@@ -897,17 +935,19 @@ def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]]
 
     rows: list[list[Any]] = [KAHOOT_EXPORT_COLUMNS]
 
-    for idx, frage in enumerate(resolved_questions):
-        if not isinstance(frage, dict):
-            raise ValueError(f"Frage {idx + 1} besitzt kein gültiges Format.")
+    # Normalize legacy keys so callers can pass either German or English
+    for q in resolved_questions:
+        _normalize_incoming_question(q)
 
-        question_text = _strip_markdown_to_plain_text(frage.get("frage"))
+    for idx, question in enumerate(resolved_questions):
+        if not isinstance(question, dict):
+            raise ValueError(f"Frage {idx + 1} besitzt kein gültiges Format.")
+        question_text = _strip_markdown_to_plain_text(question.get("question"))
         if not question_text:
             question_text = f"Frage {idx + 1}"
         if len(question_text) > KAHOOT_MAX_QUESTION_LENGTH:
             question_text = question_text[:KAHOOT_MAX_QUESTION_LENGTH].rstrip()
-
-        optionen = frage.get("optionen") or []
+        optionen = question.get("options") or []
         if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
             raise ValueError(f"Frage {idx + 1}: Antwortoptionen fehlen oder sind ungültig.")
 
@@ -927,7 +967,7 @@ def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]]
                 text = text[:KAHOOT_MAX_OPTION_LENGTH].rstrip()
             option_texts.append(text)
 
-        correct_indices = _extract_correct_indices(frage.get("loesung"), len(option_texts))
+        correct_indices = _extract_correct_indices(question.get("answer"), len(option_texts))
         if len(correct_indices) != 1:
             raise ValueError(f"Frage {idx + 1}: Kahoot erlaubt genau eine richtige Antwort.")
         correct_answer = correct_indices[0] + 1  # Kahoot erwartet 1-basierten Index
@@ -935,11 +975,11 @@ def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]]
         while len(option_texts) < KAHOOT_MAX_OPTIONS:
             option_texts.append("")
 
-        timer_raw = frage.get("zeit_limit") or frage.get("timer")
+        timer_raw = question.get("zeit_limit") or question.get("timer")
         timer_value = _coerce_kahoot_timer(timer_raw)
 
         try:
-            weight = int(frage.get("gewichtung", 1))
+            weight = int(question.get("weight", 1))
         except (TypeError, ValueError):
             weight = 1
         points_value = KAHOOT_POINTS_DOUBLE if weight >= 3 else KAHOOT_POINTS_STANDARD
@@ -969,7 +1009,11 @@ def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]
     if not resolved_questions:
         raise ValueError("Keine Fragen für den arsnova.click-Export gefunden.")
 
-    question_payloads = [_transform_question_for_arsnova(frage, idx) for idx, frage in enumerate(resolved_questions)]
+    # Normalize incoming questions for backward compatibility
+    for q in resolved_questions:
+        _normalize_incoming_question(q)
+
+    question_payloads = [_transform_question_for_arsnova(question, idx) for idx, question in enumerate(resolved_questions)]
 
     # Prefer the explicit meta.title from the source JSON for the arsnova 'name' field.
     export_name = None

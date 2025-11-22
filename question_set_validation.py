@@ -72,14 +72,14 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
         errors.append(f"{context} muss ein Objekt sein.")
         return errors, warnings, None
 
-    _check_string(question.get("frage"), f"{context}: Feld 'frage'", errors)
-    _check_string(question.get("erklaerung"), f"{context}: Feld 'erklaerung'", errors)
-    thema = _check_string(question.get("thema"), f"{context}: Feld 'thema'", errors)
+    _check_string(question.get("question"), f"{context}: Feld 'question'", errors)
+    _check_string(question.get("explanation"), f"{context}: Feld 'explanation'", errors)
+    thema = _check_string(question.get("topic"), f"{context}: Feld 'topic'", errors)
 
-    optionen_raw = question.get("optionen")
+    optionen_raw = question.get("options")
     option_count = 0
     if not isinstance(optionen_raw, list):
-        errors.append(f"{context}: Feld 'optionen' muss eine Liste sein.")
+        errors.append(f"{context}: Feld 'options' muss eine Liste sein.")
     else:
         option_count = len(optionen_raw)
         if option_count < MIN_OPTIONS_PER_QUESTION:
@@ -93,29 +93,29 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
         for opt_idx, opt in enumerate(optionen_raw, start=1):
             _check_string(opt, f"{context}: Option {opt_idx}", errors)
 
-    loesung_raw = question.get("loesung")
+    loesung_raw = question.get("answer")
     loesung: int | None
     try:
         loesung = int(loesung_raw)  # type: ignore[arg-type]
     except (TypeError, ValueError):
-        errors.append(f"{context}: Feld 'loesung' muss eine Ganzzahl sein.")
+        errors.append(f"{context}: Feld 'answer' muss eine Ganzzahl sein.")
         loesung = None
     else:
         if loesung < 0:
-            errors.append(f"{context}: 'loesung' darf nicht negativ sein.")
+            errors.append(f"{context}: 'answer' darf nicht negativ sein.")
         elif option_count and loesung >= option_count:
             errors.append(
-                f"{context}: 'loesung' ({loesung}) ist kein gültiger Index für {option_count} Optionen."
+                f"{context}: 'answer' ({loesung}) ist kein gültiger Index für {option_count} Optionen."
             )
 
-    gewichtung_raw = question.get("gewichtung")
+    gewichtung_raw = question.get("weight")
     try:
         gewichtung = int(gewichtung_raw)  # type: ignore[arg-type]
     except (TypeError, ValueError):
         errors.append(f"{context}: Feld 'gewichtung' muss eine Ganzzahl sein.")
     else:
         if gewichtung not in (1, 2, 3):
-            warnings.append(f"{context}: 'gewichtung' sollte 1, 2 oder 3 sein (aktuell {gewichtung}).")
+            warnings.append(f"{context}: 'weight' sollte 1, 2 oder 3 sein (aktuell {gewichtung}).")
 
     mini_glossary = question.get("mini_glossary")
     if mini_glossary is not None:
@@ -158,7 +158,7 @@ def _validate_meta(meta: Dict[str, Any], question_count: int) -> List[str]:
 
 def _validate_additional_metadata(index: int, question: Any) -> List[str]:
     errors: List[str] = []
-    for field in ("konzept", "kognitive_stufe"):
+    for field in ("concept", "cognitive_level"):
         value = question.get(field)
         if value is None:
             continue

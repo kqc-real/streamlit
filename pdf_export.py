@@ -975,6 +975,19 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         generated_at_str = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
     except Exception:
         generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
+
+    # Ensure tests or environments without a fully-featured streamlit
+    # module still work: provide a safe session_state dict if missing.
+    if not hasattr(st, "session_state"):
+        try:
+            st.session_state = {}
+        except Exception:
+            # Last-resort: create a local fallback to avoid AttributeError
+            class _LocalState(dict):
+                pass
+
+            st.session_state = _LocalState()
+
     user_name = st.session_state.get("user_id", "Unbekannt")
     q_file = st.session_state.get("selected_questions_file", "Unbekanntes Set")
 

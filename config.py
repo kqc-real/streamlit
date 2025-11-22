@@ -325,65 +325,63 @@ def _build_question_set(
             continue
         question = dict(raw_question)
 
-        # Non-destructive normalization: accept common English key names
-        # and map them to the German keys used across the codebase.
+        # Non-destructive normalization: ensure English canonical keys exist.
         def _normalize_keys(q: Dict[str, Any]) -> Dict[str, Any]:
+            # Map older German keys to the new English canonical names.
             mapping = {
                 # question text
-                "question": "frage",
-                "text": "frage",
-                "prompt": "frage",
+                "frage": "question",
+                "text": "question",
+                "prompt": "question",
                 # options / choices
-                "options": "optionen",
-                "choices": "optionen",
+                "optionen": "options",
+                "choices": "options",
                 # correct answer / solution
-                "answer": "loesung",
-                "solution": "loesung",
-                "correct": "loesung",
+                "loesung": "answer",
+                "solution": "answer",
+                "correct": "answer",
                 # explanation
-                "explanation": "erklaerung",
-                "explain": "erklaerung",
+                "erklaerung": "explanation",
+                "explain": "explanation",
                 # weight / points
-                "weight": "gewichtung",
-                "points": "gewichtung",
+                "gewichtung": "weight",
+                "points": "weight",
                 # topic / theme
-                "topic": "thema",
-                "theme": "thema",
+                "thema": "topic",
+                "theme": "topic",
                 # cognitive level
-                "cognitive_level": "kognitive_stufe",
-                "level": "kognitive_stufe",
-                # mini glossary likely same name - keep
+                "kognitive_stufe": "cognitive_level",
+                "level": "cognitive_level",
+                # mini glossary (already English-like)
                 "mini_glossary": "mini_glossary",
                 # concept
-                "concept": "konzept",
+                "konzept": "concept",
             }
 
-            # Copy values from English keys if German key missing.
-            for eng, ger in mapping.items():
-                if ger not in q and eng in q:
-                    q[ger] = q[eng]
+            # Copy values from German/alt keys into the canonical English keys
+            # if the English key is not already present.
+            for src, eng in mapping.items():
+                if eng not in q and src in q:
+                    q[eng] = q[src]
 
-            # If 'loesung' is missing or not an integer, but an 'answer'
-            # string/number is provided, try to resolve it to an index.
-            if ("loesung" not in q or not isinstance(q.get("loesung"), int)) and (
+            # If 'answer' is missing but a string value is provided, try to
+            # resolve it to an index using available options.
+            if ("answer" not in q or not isinstance(q.get("answer"), int)) and (
                 "answer" in q or "loesung" in q
             ):
-                # Prefer explicit 'answer' field if present, otherwise use existing 'loesung'
                 ans = q.get("answer", q.get("loesung"))
-                opts = q.get("optionen") or q.get("options") or q.get("choices")
+                opts = q.get("options") or q.get("optionen") or q.get("choices")
                 if isinstance(ans, int):
-                    q["loesung"] = ans
+                    q["answer"] = ans
                 elif isinstance(ans, str) and isinstance(opts, list):
                     try:
-                        # exact match first
                         idx = opts.index(ans)
-                        q["loesung"] = idx
+                        q["answer"] = idx
                     except ValueError:
-                        # try trimmed match
                         stripped = ans.strip()
                         for idx2, opt in enumerate(opts):
                             if isinstance(opt, str) and opt.strip() == stripped:
-                                q["loesung"] = idx2
+                                q["answer"] = idx2
                                 break
 
             return q
