@@ -3388,6 +3388,25 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # Feingranulare, abwechslungsreiche Feedback-Messages (8 Tiers)
     import random
     
+    manual_end = bool(st.session_state.get("test_manually_ended", False))
+
+    def _choose_and_render(messages_list, render_fn):
+        try:
+            chosen = random.choice(messages_list)
+        except Exception:
+            chosen = messages_list[0] if messages_list else ""
+        if manual_end:
+            prefix = translate_ui("summary.prefix.manual_end", default="⚠️ Test vorzeitig beendet — ")
+            chosen = prefix + chosen
+        try:
+            render_fn(chosen)
+        except Exception:
+            # Fallback to simple markdown if specific render fails
+            try:
+                st.markdown(chosen)
+            except Exception:
+                pass
+
     if prozent == 100:  # Perfekt (100%)
         messages = [
             "🏆 Perfekt! 100 % – Makellose Runde!",
@@ -3395,7 +3414,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             "💎 Makellos! Alle Fragen richtig.",
             "🌟 100 %! Du bist ein wahrer Meister.",
         ]
-        st.success(random.choice(messages))
+        _choose_and_render(messages, st.success)
     elif prozent >= 90:  # Exzellent (90-99 %)
         messages = [
             "🏅 Exzellent! Fast perfekte Quote.",
@@ -3403,7 +3422,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             "🚀 Elite-Niveau! Beeindruckend konsistent.",
             "🎯 Top-Ergebnis! Kaum Fehler.",
         ]
-        st.success(random.choice(messages))
+        _choose_and_render(messages, st.success)
     elif prozent >= 80:  # Sehr gut (80-89%)
         messages = [
             _summary_text("summary_message.success.top_performance", default="✅ Sehr gut! Solide Top-Performance."),
@@ -3411,7 +3430,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.success.convincing", default="👍 Überzeugende Leistung! Weiter so."),
             _summary_text("summary_message.success.quality", default="🎉 Sehr sauber! Qualität stimmt."),
         ]
-        st.success(random.choice(messages))
+        _choose_and_render(messages, st.success)
     elif prozent >= 70:  # Gut (70-79%)
         messages = [
             _summary_text("summary_message.good.stable", default="📈 Gut gemacht! Stabile Quote."),
@@ -3419,7 +3438,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.good.potential", default="💼 Solide Leistung! Noch Potenzial."),
             _summary_text("summary_message.good.close_gap", default="🔧 Gutes Ergebnis! Kleine Lücken schließbar."),
         ]
-        st.info(random.choice(messages))
+        _choose_and_render(messages, st.info)
     elif prozent >= 60:  # Befriedigend (60-69%)
         messages = [
             _summary_text("summary_message.satisfactory.foundation", default="📚 Befriedigend. Basis vorhanden, Vertiefung lohnt."),
@@ -3427,7 +3446,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.satisfactory.average", default="🔍 Durchschnitt. Review-Modus hilft dir weiter."),
             _summary_text("summary_message.satisfactory.practice", default="💡 Mittelfeld. Mit Übung wird's besser."),
         ]
-        st.info(random.choice(messages))
+        _choose_and_render(messages, st.info)
     elif prozent >= 50:  # Ausreichend (50-59 %)
         messages = [
             _summary_text("summary_message.passing.needs_improvement", default="⚠️ Ausreichend. Deutlicher Nachholbedarf."),
@@ -3435,7 +3454,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.passing.repeat", default="🎯 50-59 %. Themen gezielt wiederholen."),
             _summary_text("summary_message.passing.uneven", default="🔄 Schwankend. Review zeigt Schwächen auf."),
         ]
-        st.warning(random.choice(messages))
+        _choose_and_render(messages, st.warning)
     elif prozent >= 40:  # Mangelhaft (40-49%)
         messages = [
             _summary_text("summary_message.insufficient.basic", default="⛔ Mangelhaft. Grundlagen fehlen noch."),
@@ -3443,7 +3462,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.insufficient.review_required", default="🚨 Lücken groß. Review-Modus ist Pflicht."),
             _summary_text("summary_message.insufficient.red", default="🔴 Viele Fehler. Stoff nochmal durcharbeiten."),
         ]
-        st.warning(random.choice(messages))
+        _choose_and_render(messages, st.warning)
     else:  # Ungenügend (<40%)
         messages = [
             _summary_text("summary_message.fail.start_new", default="❌ Ungenügend. Stoff von Grund auf lernen."),
@@ -3451,7 +3470,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.fail.gaps", default="🆘 Große Wissenslücken. Hilfe holen!"),
             _summary_text("summary_message.fail.review", default="⚠️ Sehr schwach. Review zeigt alle Fehler."),
         ]
-        st.error(random.choice(messages))
+        _choose_and_render(messages, st.error)
 
     # --- Performance-Analyse pro Thema ---
     st.subheader(translate_ui("summary.subheader.topic_performance", default="Deine Leistung nach Themen"))

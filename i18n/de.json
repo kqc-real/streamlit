@@ -361,6 +361,9 @@
     },
     "unnamed_set": "Ungenanntes Fragenset",
     "summary": {
+        "prefix": {
+            "manual_end": "\u26a0\ufe0f Test vorzeitig beendet \u2014 "
+        },
         "header": {
             "manual_end": "\u26a0\ufe0f Test vorzeitig beendet",
             "time_expired": "\u23f0 Zeit abgelaufen!",

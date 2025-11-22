@@ -331,6 +331,9 @@
     },
     "unnamed_set": "Unnamed question set",
     "summary": {
+        "prefix": {
+            "manual_end": "\u26a0\ufe0f Test ended early \u2014 "
+        },
         "header": {
             "manual_end": "\u26a0\ufe0f Test ended early",
             "time_expired": "\u23f0 Time&#8209;up!",
