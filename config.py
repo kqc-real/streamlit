@@ -325,6 +325,71 @@ def _build_question_set(
             continue
         question = dict(raw_question)
 
+        # Non-destructive normalization: accept common English key names
+        # and map them to the German keys used across the codebase.
+        def _normalize_keys(q: Dict[str, Any]) -> Dict[str, Any]:
+            mapping = {
+                # question text
+                "question": "frage",
+                "text": "frage",
+                "prompt": "frage",
+                # options / choices
+                "options": "optionen",
+                "choices": "optionen",
+                # correct answer / solution
+                "answer": "loesung",
+                "solution": "loesung",
+                "correct": "loesung",
+                # explanation
+                "explanation": "erklaerung",
+                "explain": "erklaerung",
+                # weight / points
+                "weight": "gewichtung",
+                "points": "gewichtung",
+                # topic / theme
+                "topic": "thema",
+                "theme": "thema",
+                # cognitive level
+                "cognitive_level": "kognitive_stufe",
+                "level": "kognitive_stufe",
+                # mini glossary likely same name - keep
+                "mini_glossary": "mini_glossary",
+                # concept
+                "concept": "konzept",
+            }
+
+            # Copy values from English keys if German key missing.
+            for eng, ger in mapping.items():
+                if ger not in q and eng in q:
+                    q[ger] = q[eng]
+
+            # If 'loesung' is missing or not an integer, but an 'answer'
+            # string/number is provided, try to resolve it to an index.
+            if ("loesung" not in q or not isinstance(q.get("loesung"), int)) and (
+                "answer" in q or "loesung" in q
+            ):
+                # Prefer explicit 'answer' field if present, otherwise use existing 'loesung'
+                ans = q.get("answer", q.get("loesung"))
+                opts = q.get("optionen") or q.get("options") or q.get("choices")
+                if isinstance(ans, int):
+                    q["loesung"] = ans
+                elif isinstance(ans, str) and isinstance(opts, list):
+                    try:
+                        # exact match first
+                        idx = opts.index(ans)
+                        q["loesung"] = idx
+                    except ValueError:
+                        # try trimmed match
+                        stripped = ans.strip()
+                        for idx2, opt in enumerate(opts):
+                            if isinstance(opt, str) and opt.strip() == stripped:
+                                q["loesung"] = idx2
+                                break
+
+            return q
+
+        question = _normalize_keys(question)
+
         frage_text = _sanitize_text(question.get("frage", ""), f"Frage {i + 1}: frage")
         if isinstance(frage_text, str) and frage_text and frage_text[0].isdigit():
             dot_pos = frage_text.find(".")
