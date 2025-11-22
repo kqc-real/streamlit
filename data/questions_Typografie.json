@@ -1,0 +1,266 @@
+{
+  "meta": {
+    "title": "Typografie: Anführungszeichen, Apostrophe & Satzzeichen",
+    "created": "21.11.2025 15:18",
+    "modified": "21.11.2025 15:18",
+    "target_audience": "Fortgeschrittene Anwender, Designer, Autoren",
+    "question_count": 10,
+    "difficulty_profile": {
+      "leicht": 2,
+      "mittel": 5,
+      "schwer": 3
+    },
+    "time_per_weight_minutes": {
+      {
+        "frage": "7. Gegeben ist der LaTeX-Ausdruck `$f(x) = a' x$` mit einem geraden Apostroph. Was ist die typografisch saubere Schreibweise in LaTeX für eine Ableitung?",
+        "optionen": [
+          "$f(x) = a' x$",
+          "$f(x) = a’x$",
+          "$f(x) = a^\\prime x$",
+          "$f(x) = a´x$"
+        ],
+        "loesung": 2,
+        "erklaerung": "In LaTeX wird das Prime-Zeichen für Ableitungen mit $^\\prime$ erzeugt. Der gerade Apostroph `'` erzeugt im Mathemodus ein hochgestelltes Prime, ist aber semantisch und typografisch nicht immer ideal; $^\\prime$ ist expliziter.",
+        "gewichtung": 3,
+        "thema": "Typografie & Markup",
+        "konzept": "LaTeX-Sonderzeichen",
+        "kognitive_stufe": "Analyse",
+        "extended_explanation": {
+          "titel": "Prime vs. Apostroph in LaTeX",
+          "schritte": [
+            "Der Befehl $\\prime$ ist speziell für mathematische Ableitungen und ähnliche Notationen gedacht.",
+            "Ein einfacher Apostroph `'` wird von LaTeX im Mathemodus oft als Abkürzung für $^\\prime$ interpretiert, aber die explizite Form ist robuster und klarer.",
+            "Das Ergebnis ist ein hochgestelltes Strichzeichen, das sich vom Text-Apostroph unterscheidet."
+          ]
+        },
+        "mini_glossary": {
+          "LaTeX": "Ein Textsatzsystem, das besonders für wissenschaftliche und mathematische Texte geeignet ist.",
+          "Prime-Zeichen": "Ein Strichsymbol (′), das in der Mathematik oft für Ableitungen oder Einheiten verwendet wird."
+        }
+      },
+          "Diese Regel wird auch als „99-66“ bezeichnet, da die Zeichen der Form der Zahlen ähneln."
+        ]
+      },
+      "mini_glossary": {
+        "Typografie": "Die Kunst und Technik der Gestaltung von Schrift und Text.",
+        "Anführungszeichen": "Satzzeichen, die eine direkte Rede, ein Zitat oder einen Titel kennzeichnen."
+      }
+    },
+    {
+      "frage": "2. Wie wird ein verschachteltes Zitat wie `Er sagte: \"Sie rief 'Hilfe!'\"` im Standard-Deutschen korrekt gesetzt?",
+      "optionen": [
+        "Er sagte: „Sie rief ‚Hilfe!‘“",
+        "Er sagte: »Sie rief ›Hilfe!‹«",
+        "Er sagte: “Sie rief ‘Hilfe!’”",
+        "Er sagte: „Sie rief “Hilfe!”“"
+      ],
+      "loesung": 0,
+      "erklaerung": "Für Zitate innerhalb eines Zitates werden im Deutschen die einfachen Anführungszeichen ‚‘ (U+201A und U+2018) verwendet, die derselben 99-66-Richtung folgen wie die primären.",
+      "gewichtung": 2,
+      "thema": "Typografische Satzzeichen",
+      "konzept": "Verschachtelte Zitate (DE)",
+      "kognitive_stufe": "Anwendung",
+      "extended_explanation": {
+        "titel": "Hierarchie der Anführungszeichen",
+        "schritte": [
+          "Äußeres Zitat (primär): `„...“`",
+          "Inneres Zitat (sekundär): `‚...‘`",
+          "Die Kombination ergibt: `„... ‚...‘ ...“`."
+        ]
+      },
+      "mini_glossary": {
+        "Verschachteltes Zitat": "Ein Zitat, das innerhalb eines anderen Zitates steht.",
+        "Sekundäre Anführungszeichen": "Die Zeichen, die für die zweite Zitatebene verwendet werden."
+      }
+    },
+    {
+      "frage": "3. Welches Zeichen ist der korrekte typografische Apostroph, z. B. in `Ku'damm` oder `it's`?",
+      "optionen": [
+        "`'` (Gerader Apostroph, U+0027)",
+        "`’` (Typografischer Apostroph, U+2019)",
+        "`´` (Akut-Akzent, U+00B4)",
+        "`ʻ` (Gedrehter Apostroph, U+02BB)"
+      ],
+      "loesung": 1,
+      "erklaerung": "Der korrekte typografische Apostroph ist das Zeichen U+2019, das wie eine hochgestellte 9 aussieht. Der gerade Apostroph (`'`) ist ein Relikt von Schreibmaschinen und in der professionellen Typografie zu vermeiden.",
+      "gewichtung": 2,
+      "thema": "Typografische Satzzeichen",
+      "konzept": "Apostroph",
+      "kognitive_stufe": "Reproduktion",
+      "extended_explanation": {
+        "titel": "Apostroph vs. Ersatzzeichen",
+        "schritte": [
+          "**Korrekt:** `’` (U+2019) für Auslassungen (z.B. `geht’s`) und Genitive (z.B. `Andrea’s Imbiss`).",
+          "**Falsch:** `´` (Akut) oder `` ` `` (Gravis) sind diakritische Zeichen, keine Apostrophe.",
+          "**Falsch:** Der gerade Apostroph `'` (U+0027) ist ein Ersatzzeichen von der Schreibmaschine und sollte in professioneller Typografie vermieden werden."
+        ]
+      },
+      "mini_glossary": {
+        "Apostroph": "Ein Satzzeichen zur Kennzeichnung von Auslassungen oder des Genitivs.",
+        "Diakritisches Zeichen": "Ein Zeichen, das die Aussprache eines Buchstabens verändert (z.B. Akzent)."
+      }
+    },
+    {
+      "frage": "4. Wie werden verschachtelte Zitate im Englischen korrekt dargestellt? Beispiel: `She said: \"He cried 'Stop!'\"`",
+      "optionen": [
+        "She said: „He cried ‚Stop!‘“",
+        "She said: “He cried ‘Stop!’”",
+        "She said: ‘He cried “Stop!”’",
+        "She said: «He cried ‹Stop!›»"
+      ],
+      "loesung": 1,
+      "erklaerung": "Im amerikanischen Englisch werden für das äußere Zitat doppelte Anführungszeichen (“...”) und für das innere Zitat einfache (‘...’) verwendet. Beide folgen der 66-99-Form.",
+      "gewichtung": 2,
+      "thema": "Typografische Satzzeichen",
+      "konzept": "Verschachtelte Zitate (EN)",
+      "kognitive_stufe": "Anwendung",
+      "extended_explanation": {
+        "titel": "Englische (amerikanische) Zitat-Hierarchie",
+        "schritte": [
+          "Äußeres Zitat (primär): `“... ”` (U+201C und U+201D).",
+          "Inneres Zitat (sekundär): `‘... ’` (U+2018 und U+2019).",
+          "Die Kombination ergibt: `“... ‘...’ ...”`."
+        ]
+      },
+      "mini_glossary": {
+        "66-99-Form": "Beschreibt Anführungszeichen, die oben beginnen und oben enden, wie im Englischen üblich.",
+        "Unicode": "Ein internationaler Standard zur Kodierung von Schriftzeichen."
+      }
+    },
+    {
+      "frage": "5. Was ist das korrekte typografische Zeichen für eine Auslassung, wie in `Der Anfang... und das Ende`?",
+      "optionen": [
+        "Drei einzelne Punkte `...`",
+        "Ein einzelnes Auslassungszeichen `…` (U+2026)",
+        "Drei Punkte mit Leerzeichen `. . .`",
+        "Ein Doppelpunkt gefolgt von einem Punkt `: .`"
+      ],
+      "loesung": 1,
+      "erklaerung": "Das korrekte Zeichen für eine Auslassung ist das Ellipsis-Zeichen (U+2026), ein einzelnes Zeichen, das aus drei Punkten besteht. Es hat einen festen, harmonischen Abstand und verhindert einen unerwünschten Zeilenumbruch zwischen den Punkten.",
+      "gewichtung": 2,
+      "thema": "Typografische Satzzeichen",
+      "konzept": "Auslassungszeichen (Ellipse)",
+      "kognitive_stufe": "Reproduktion",
+      "extended_explanation": {
+        "titel": "Die Ellipse als einzelnes Zeichen",
+        "schritte": [
+          "**Korrekt:** `…` (U+2026). In HTML als `&hellip;` darstellbar.",
+          "**Falsch:** Drei separate Punkte `...` können am Zeilenende getrennt werden und haben oft einen ungleichmäßigen Abstand.",
+          "Der Abstand vor und nach der Ellipse wird je nach Kontext gesetzt (z.B. Leerzeichen, wenn ein Wort ersetzt wird)."
+        ]
+      },
+      "mini_glossary": {
+        "Auslassungszeichen (Ellipse)": "Ein Satzzeichen, das eine Auslassung in einem Text anzeigt.",
+        "Zeilenumbruch": "Der Übergang von einer Zeile zur nächsten in einem Textblock."
+      }
+    },
+    {
+      "frage": "6. Ein Text enthält Markdown: `**„Zitat“**`. Welche Aussage zur Darstellung ist korrekt?",
+      "optionen": [
+        "Die typografischen Zeichen werden durch Markdown zerstört.",
+        "Markdown und typografische Zeichen sind kompatibel; der Text wird fett und mit korrekten Anführungszeichen dargestellt.",
+        "Es werden nur die Anführungszeichen, aber nicht die Fettung angezeigt.",
+        "Es wird nur die Fettung, aber nicht die korrekten Anführungszeichen angezeigt."
+      ],
+      "loesung": 1,
+      "erklaerung": "Moderne Markdown-Renderer interpretieren die Formatierungsanweisungen (hier `**...**` für Fettdruck) und geben den Inhalt, einschließlich der typografischen Sonderzeichen, korrekt wieder.",
+      "gewichtung": 1,
+      "thema": "Typografie & Markup",
+      "konzept": "Markdown-Kompatibilität",
+      "kognitive_stufe": "Verständnis",
+      "extended_explanation": {
+        "titel": "Zusammenspiel von Inhalt und Markup",
+        "schritte": [
+          "Markdown ist für die *Struktur* zuständig (fett, kursiv, Liste etc.).",
+          "Typografische Zeichen sind Teil des *Inhalts*.",
+          "Ein guter Renderer kombiniert beides, sodass der formatierte Text `**„Zitat“**` als **„Zitat“** erscheint."
+        ]
+      },
+      "mini_glossary": {
+        "Markdown": "Eine einfache Auszeichnungssprache zur Formatierung von Text.",
+        "Renderer": "Eine Softwarekomponente, die Markup-Code in eine formatierte Ausgabe (z.B. HTML) umwandelt."
+      }
+    },
+    {
+      "frage": "7. Gegeben ist der LaTeX-Ausdruck `$f(x) = a'x$` mit einem geraden Apostroph. Was ist die typografisch saubere Schreibweise in LaTeX für eine Ableitung?",
+      "optionen": [
+        "`$f(x) = a'x$`",
+        "`$f(x) = a’x$`",
+        "`$f(x) = a^\prime x$`",
+        "`$f(x) = a´x$`"
+      ],
+      "loesung": 2,
+      "erklaerung": "In LaTeX wird das Prime-Zeichen für Ableitungen mit `^\\\\prime` erzeugt. Der gerade Apostroph `'` erzeugt im Mathemodus ein hochgestelltes Prime, ist aber semantisch und typografisch nicht immer ideal, `^\\\\prime` ist expliziter.",
+      "gewichtung": 3,
+      "thema": "Typografie & Markup",
+      "konzept": "LaTeX-Sonderzeichen",
+      "kognitive_stufe": "Analyse",
+      "extended_explanation": {
+        "titel": "Prime vs. Apostroph in LaTeX",
+        "schritte": [
+          "Der Befehl `\\\\prime` ist speziell für mathematische Ableitungen und ähnliche Notationen gedacht.",
+          "Ein einfacher Apostroph `'` wird von LaTeX im Mathemodus oft als Abkürzung für `^\\\\prime` interpretiert, aber die explizite Form ist robuster und klarer.",
+          "Das Ergebnis ist ein hochgestelltes Strichzeichen, das sich vom Text-Apostroph unterscheidet."
+        ]
+      },
+      "mini_glossary": {
+        "LaTeX": "Ein Textsatzsystem, das besonders für wissenschaftliche und mathematische Texte geeignet ist.",
+        "Prime-Zeichen": "Ein Strichsymbol (′), das in der Mathematik oft für Ableitungen oder Einheiten verwendet wird."
+      }
+    },
+    {
+      "frage": "8. Welcher der folgenden Sätze verwendet den Apostroph im Deutschen **falsch**?",
+      "optionen": [
+        "Wie geht’s dir heute?",
+        "Das ist Andrea’s neues Auto.",
+        "Nimm’s nicht so schwer!",
+        "Der Ku’damm ist berühmt."
+      ],
+      "loesung": 1,
+      "erklaerung": "Im Deutschen wird der Genitiv-S bei Namen **ohne** Apostroph gebildet (z.B. `Andreas Auto`). Eine Ausnahme besteht nur, wenn der Name auf s, ss, ß, tz, z, x oder ce endet (z.B. `Marx’ Schriften`).",
+      "gewichtung": 2,
+      "thema": "Typografische Satzzeichen",
+      "konzept": "Apostroph-Regeln (DE)",
+      "kognitive_stufe": "Anwendung",
+      "extended_explanation": {
+        "titel": "Der Genitiv-Apostroph im Deutschen",
+        "schritte": [
+          "**Regelfall:** Kein Apostroph bei Genitiv-s (`Goethes Werke`).",
+          "**Ausnahmefall:** Apostroph nach s-Lauten zur Verdeutlichung (`Grass’ Blechtrommel`).",
+          "**Falsche Anwendung (Anglizismus):** `Andrea’s Auto` ist im Deutschen falsch, im Englischen aber korrekt."
+        ]
+      },
+      "mini_glossary": {
+        "Genitiv": "Der 2. Fall in der deutschen Grammatik, der Besitz oder Zugehörigkeit anzeigt.",
+        "Anglizismus": "Eine aus dem Englischen übernommene sprachliche Eigenheit."
+      }
+    },
+    {
+      "frage": "9. Sie möchten den Satz `Die „sogenannte“ Formel $a' = b$ ist wichtig` schreiben. Welche Kombination ist typografisch am saubersten?",
+      "optionen": [
+        "Die „sogenannte“ Formel $a' = b$ ist wichtig",
+        "Die „sogenannte“ Formel $a^\\\\prime = b$ ist wichtig",
+        "Die “sogenannte” Formel $a' = b$ ist wichtig",
+        "Die »sogenannte« Formel $a´ = b$ ist wichtig"
+      ],
+      "loesung": 1,
+      "erklaerung": "Diese Option kombiniert korrekte deutsche Anführungszeichen („...“) mit der semantisch richtigen LaTeX-Notation `\\\\prime` für die Ableitung. Der gerade Apostroph in Option A ist zwar oft visuell ähnlich, aber `\\\\prime` ist expliziter und korrekter.",
+      "gewichtung": 3,
+      "thema": "Typografie & Markup",
+      "konzept": "Synthese",
+      "kognitive_stufe": "Analyse",
+      "extended_explanation": {
+        "titel": "Kombination bester Praktiken",
+        "schritte": [
+          "**Anführungszeichen:** Deutsche „99-66“-Form verwenden.",
+          "**LaTeX-Prime:** `^\\\\prime` für mathematische Ableitungen nutzen, um es vom Text-Apostroph zu unterscheiden.",
+          "**Konsistenz:** Durch die Kombination wird sowohl im Textteil als auch im mathematischen Teil eine hohe typografische Qualität erreicht."
+        ]
+      },
+      "mini_glossary": {
+        "Semantik": "Die Bedeutung von Zeichen oder Zeichenfolgen.",
+        "Synthese": "Das Zusammenfügen verschiedener Elemente zu einem kohärenten Ganzen."
+      }
+    }
+  ]
+}

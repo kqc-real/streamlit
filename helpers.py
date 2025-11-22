@@ -124,7 +124,14 @@ def smart_quotes_de(text: str) -> str:
     Schützt Inhalte innerhalb von `<pre>` und `<code>`-Blöcken vor der
     Umwandlung, damit Quellcode nicht verändert wird.
     """
-    if not text or ('"' not in text and "'" not in text):
+    if not text:
+        return text
+
+    # Quick reject if there are no quote-like characters (include common
+    # typographic quote characters so we also handle inputs where LLMs
+    # already produced curly quotes).
+    quote_chars = set(["'", '"', '\u2018', '\u2019', '\u201A', '\u201C', '\u201D', '\u201E', '\u00BB', '\u00AB'])
+    if not any((c in text) for c in quote_chars):
         return text
 
     # Split the HTML into code/pre segments and normal text segments so we
@@ -138,19 +145,29 @@ def smart_quotes_de(text: str) -> str:
 
         result_parts = []
 
-        # Use a stack to track nested quote contexts. Each entry is either
-        # 'double' or 'single'. When we encounter a quote char that is not an
-        # apostrophe (for single quotes), we decide to open a new quote if the
-        # top of the stack is different, or close the current quote if it
-        # matches the top. This preserves nesting for patterns like:
-        #   "Outer 'inner' outer"  -> „Outer ‚inner‘ outer“
-        quote_stack: list[str] = []
+        # Use a stack to track nested quote contexts. Each entry is a tuple
+        # (type, origin_char) where `type` is 'double' or 'single' and
+        # `origin_char` is the original ASCII quote character that opened
+        # this context (either '"' or "'"). We keep the origin so that a
+        # closing quote of the same ASCII char will close the matching
+        # context even when we map single ASCII quotes to double German
+        # quotes at top-level. This preserves nesting and implements the
+        # rule: top-level single quotes become German double quotes
+        # („...“), whereas single quotes inside an existing double quote
+        # become German single quotes (‚...‘).
+        quote_stack: list[tuple[str, str]] = []
+        open_map = {'double': '„', 'single': '‚'}
+        close_map = {'double': '“', 'single': '‘'}
 
         for i, part in enumerate(parts):
             if i % 2 == 0:
                 processed_part = []
+                # include common typographic single-quote characters so
+                # the function also converts already-typographed single
+                # quotes produced by LLMs or other sources.
+                single_quote_chars = {"'", "\u2018", "\u2019", "\u201A"}
                 for char_idx, ch in enumerate(part):
-                    if ch == "'":
+                    if ch in single_quote_chars:
                         is_apostrophe = (
                             char_idx > 0
                             and part[char_idx - 1].isalpha()
@@ -161,25 +178,36 @@ def smart_quotes_de(text: str) -> str:
                             processed_part.append("’")
                             continue
 
-                        # Non-apostrophe single-quote: decide by stack
-                        if quote_stack and quote_stack[-1] == 'single':
-                            # close single
-                            processed_part.append("‘")
-                            quote_stack.pop()
+                        # Non-apostrophe single-quote: decide by stack and origin
+                        if quote_stack and quote_stack[-1][1] == ch:
+                            # matching origin: close that context
+                            entry_type, _ = quote_stack.pop()
+                            processed_part.append(close_map.get(entry_type, '’'))
                         else:
-                            # open single
-                            processed_part.append("‚")
-                            quote_stack.append('single')
+                            # opening behavior: if we're inside an already-open
+                            # German double quote (type 'double'), a single
+                            # ASCII quote should open a nested single. If we're
+                            # at top-level (no stack) or not inside a double,
+                            # treat the ASCII single as starting a primary
+                            # double quote (German style) to avoid producing
+                            # German single quotes at top-level.
+                            if quote_stack and quote_stack[-1][0] == 'double':
+                                # nested single inside an existing double
+                                quote_stack.append(('single', ch))
+                                processed_part.append(open_map['single'])
+                            else:
+                                # top-level single -> map to German double
+                                quote_stack.append(('double', ch))
+                                processed_part.append(open_map['double'])
                     elif ch == '"':
-                        # Double-quote handling: decide by stack
-                        if quote_stack and quote_stack[-1] == 'double':
-                            # close double
-                            processed_part.append("“")
-                            quote_stack.pop()
+                        # Double-quote handling: use origin matching with '"'
+                        if quote_stack and quote_stack[-1][1] == '"':
+                            entry_type, _ = quote_stack.pop()
+                            processed_part.append(close_map.get(entry_type, '“'))
                         else:
-                            # open double
-                            processed_part.append("„")
-                            quote_stack.append('double')
+                            # opening double (always type double)
+                            quote_stack.append(('double', '"'))
+                            processed_part.append(open_map['double'])
                     else:
                         processed_part.append(ch)
                 result_parts.append("".join(processed_part))
