@@ -135,6 +135,7 @@ def test_load_questions_successfully(mock_question_file, test_questions, tmp_pat
             base_txt = q.get('question') or q.get('frage', '')
             new_text = f"{i + 1}. {base_txt.split('.', 1)[-1].strip()}"
             # Keep both canonical English and legacy German keys for compatibility
+            new_q["question"] = new_text
             new_q["frage"] = new_text
             new_q["question"] = new_text
             expected_questions.append(new_q)

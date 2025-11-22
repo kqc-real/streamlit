@@ -1330,11 +1330,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     test_num = idx + 1
                 # Original-Nummer
                 try:
-                    orig_num = int(questions[idx]["frage"].split(".", 1)[0])
+                    orig_num = int((questions[idx].get("question", questions[idx].get("frage", ""))).split(".", 1)[0])
                 except (ValueError, IndexError):
                     orig_num = idx + 1
                 # Kurzer Fragen-Preview
-                frage_text = questions[idx]["frage"]
+                frage_text = questions[idx].get("question", questions[idx].get("frage", ""))
                 frage_preview = frage_text.split(".", 1)[-1].strip()
                 if len(frage_preview) > 60:
                     frage_preview = frage_preview[:60] + "..."
@@ -1425,11 +1425,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         # Original-Nummer (aus dem Fragentext)
         try:
-            original_number = int(frage_obj["frage"].split(".", 1)[0])
+            original_number = int((frage_obj.get("question", frage_obj.get("frage", ""))).split(".", 1)[0])
         except (ValueError, IndexError):
             original_number = original_index + 1
         
-        frage_text = _render_latex_in_html(smart_quotes_de(frage_obj["frage"].split(". ", 1)[-1]))
+        frage_text = _render_latex_in_html(smart_quotes_de((frage_obj.get("question", frage_obj.get("frage", ""))).split(". ", 1)[-1]))
         
         # Bestimme Farbe und Status basierend auf richtig/falsch/unbeantwortet
         gegebene_antwort = get_answer_for_question(original_index)
@@ -2356,7 +2356,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     for display_num, (_, stage_label, _, frage) in enumerate(sorted_entries, start=1):
         # coarse progress report: parsing/rendering block per question
         _report(int((display_num - 1) / max(1, len(questions)) * 60), f"Verarbeite Frage {display_num}/{len(questions)}")
-        frage_text = frage.get("frage", "")
+        frage_text = frage.get("question", frage.get("frage", ""))
         # Parst Markdown/LaTeX in sicheres HTML
         parsed_frage = _render_latex_in_html(
             smart_quotes_de(frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text),

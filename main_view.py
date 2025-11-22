@@ -614,7 +614,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             except Exception:
                 pass
 
-            q_html = _render_md(preview_q.get("frage") if isinstance(preview_q, dict) else "")
+            q_html = _render_md(preview_q.get("question", preview_q.get("frage", "")) if isinstance(preview_q, dict) else "")
 
             opts = preview_q.get("optionen") if isinstance(preview_q, dict) else []
             options_html = ""
@@ -2641,7 +2641,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     display_question_number = session_local_idx + 1
 
     # Extrahiere den reinen Fragentext ohne die ursprüngliche Nummer
-    original_frage_text = frage_obj["frage"].split('. ', 1)[-1]
+    original_frage_text = (frage_obj.get("question", frage_obj.get("frage", ""))).split('. ', 1)[-1]
     # Normalize typographic quotes on the raw text (do not apply after HTML rendering)
     frage_text_raw = smart_quotes_de(f"{display_question_number}. {original_frage_text}")
 
@@ -2993,9 +2993,10 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         st.session_state.skipped_questions.remove(frage_idx)
 
 
-    # Extrahiere die Frage-Nummer aus dem Fragetext
+    # Extrahiere die Frage-Nummer aus dem Fragetext (bevorzuge 'question', fallback 'frage')
     try:
-        frage_nr_str = frage_obj.get("frage", "").split(".", 1)[0]
+        q_num_src = frage_obj.get("question", frage_obj.get("frage", ""))
+        frage_nr_str = str(q_num_src).split(".", 1)[0]
         frage_nr = int(frage_nr_str)
     except (ValueError, IndexError):
         st.error(_test_view_text("question_number_error", default="Fehler: Die Frage-Nummer konnte nicht extrahiert werden."))
@@ -3023,7 +3024,13 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 def _handle_feedback_submission(frage_idx: int, frage_obj: dict, feedback_types: list[str]):
     """Kapselt die Logik zum Senden von Feedback, um Reruns zu steuern."""
     from database import add_feedback
-    frage_nr = int(frage_obj.get("frage", "0").split(".", 1)[0])
+    # Prefer canonical 'question' field, fallback to legacy 'frage' when parsing number
+    try:
+        q_num_src = frage_obj.get("question", frage_obj.get("frage", "0"))
+        frage_nr = int(str(q_num_src).split(".", 1)[0])
+    except Exception:
+        # Defensive fallback: treat as zero so feedback calls are no-ops
+        frage_nr = 0
     session_id = st.session_state.get("session_id")
     if session_id and frage_nr > 0 and feedback_types:
         add_feedback(session_id, frage_nr, feedback_types)
@@ -3664,8 +3671,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         total_count = 0
 
         for q in questions:
-            # Prüfe Frage-Text
-            matches = re.findall(formula_pattern, q.get("frage", ""))
+            # Prüfe Frage-Text (bevorzuge 'question', fallback 'frage')
+            matches = re.findall(formula_pattern, q.get("question", q.get("frage", "")))
             if matches and not first_formula:
                 first_formula = matches[0]
             total_count += len(matches)

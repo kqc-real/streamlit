@@ -675,7 +675,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     # --- Statistiken pro Frage sammeln ---
     analysis_data = []
     for i, frage in enumerate(questions):
-        frage_nr = int(frage["frage"].split(".", 1)[0])
+        frage_nr = int((frage.get("question", frage.get("frage", ""))).split(".", 1)[0])
         frage_df = df[df["frage_nr"] == frage_nr]
         if frage_df.empty:
             continue
@@ -686,7 +686,8 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         
         row = {
             "Frage-Nr.": frage_nr,
-            "Frage": frage["frage"].split(".", 1)[1].strip(),
+            "Frage": (frage.get("question", frage.get("frage", "")).split(".", 1)[1].strip() if 
+                      "." in (frage.get("question", frage.get("frage", ""))) else frage.get("question", frage.get("frage", ""))),
             "Antworten": total_answers,
             "Richtig (%)": round(difficulty, 1),  # Numerischer Wert für korrektes Sortieren
         }
@@ -742,7 +743,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     st.divider()
     st.header("Detail-Analyse: Distraktoren")
 
-    question_titles = [q["frage"] for q in questions]
+    question_titles = [q.get("question", q.get("frage", "")) for q in questions]
     selected_question_title = st.selectbox(
         "Wähle eine Frage für die Detail-Analyse:",
         options=question_titles,
@@ -750,9 +751,9 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     )
 
     if selected_question_title:
-        selected_question = next((q for q in questions if q["frage"] == selected_question_title), None)
+        selected_question = next((q for q in questions if (q.get("question", q.get("frage", "")) == selected_question_title)), None)
         if selected_question:
-            frage_nr = int(selected_question["frage"].split(".", 1)[0])
+            frage_nr = int((selected_question.get("question", selected_question.get("frage", ""))).split(".", 1)[0])
             frage_df = df[df["frage_nr"] == frage_nr]
 
             if frage_df.empty:
