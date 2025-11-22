@@ -451,8 +451,31 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
         title = "MC-Test Deck"
 
     # Questions must use canonical English keys (migration cleanup removed
-    # the previous runtime compatibility layer). Build rows directly.
+    # the previous runtime compatibility layer). Build rows first so we can
+    # trim trailing entirely-empty optional columns across the whole export.
+    rows: list[list[str]] = []
     for q in data.get("questions", []):
-        writer.writerow(_build_row(md, q, title))
+        rows.append(_build_row(md, q, title))
+
+    # Determine the last column index that contains any non-empty value.
+    last_nonempty = -1
+    for r in rows:
+        for idx, cell in enumerate(r):
+            if cell not in (None, ""):
+                if idx > last_nonempty:
+                    last_nonempty = idx
+
+    # Ensure we don't trim away required core columns. Keep at least 6
+    # columns (question, options, correct, explanation, extended, glossary).
+    MIN_COLUMNS = 6
+    final_cols = max(last_nonempty + 1, MIN_COLUMNS)
+
+    # Write rows with a consistent column count, trimming trailing empty
+    # optional columns while preserving core fields.
+    for r in rows:
+        # Pad shorter rows to the final column count to avoid index errors.
+        if len(r) < final_cols:
+            r = r + [""] * (final_cols - len(r))
+        writer.writerow(r[:final_cols])
 
     return out.getvalue()

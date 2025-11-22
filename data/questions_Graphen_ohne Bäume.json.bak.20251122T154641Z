@@ -1,0 +1,1323 @@
+{
+  "meta": {
+    "title": "Graphentheorie (ohne Bäume)",
+    "created": "13.11.2025 14:30",
+    "modified": "13.11.2025 14:30",
+    "target_audience": "Anfänger",
+    "question_count": 100,
+    "difficulty_profile": {
+      "easy": 20,
+      "medium": 50,
+      "hard": 30
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 110
+  },
+  "questions": [
+    {
+      "question": "1. Was beschreibt ein ungerichteter Graph $G=(V,E)$?",
+      "options": [
+        "Eine Menge $V$ von Knoten und eine Menge $E$ ungeordneter Knotenpaare.",
+        "Eine Menge geordneter Paare mit Richtungspfeilen zwischen Knoten.",
+        "Nur eine Matrix, die Nachbarschaft codiert.",
+        "Nur eine Liste von Knoten ohne Kanten."
+      ],
+      "answer": 0,
+      "explanation": "Ungerichtete Kanten sind ungeordnete Paare von Knoten; die Struktur ist $G=(V,E)$ mit $E\\subseteq \\{\\{x,y\\}\\mid x,y\\in V\\}$.",
+      "weight": 1,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "2. Wann heißen zwei Knoten adjazent?",
+      "options": [
+        "Wenn das Paar der Knoten als Kante in $E$ enthalten ist.",
+        "Wenn sie in der Zeichnung nebeneinander liegen.",
+        "Wenn ihre Grade identisch sind.",
+        "Wenn sie in verschiedenen Komponenten liegen."
+      ],
+      "answer": 0,
+      "explanation": "Adjazenz ist strukturell definiert: $\\{x,y\\}\\in E$.",
+      "weight": 1,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "3. Welche Aussage zur Adjazenzmatrix eines ungerichteten Graphen ist korrekt?",
+      "options": [
+        "Sie ist symmetrisch um die Hauptdiagonale.",
+        "Sie ist stets antisymmetrisch.",
+        "Sie ist immer diagonal.",
+        "Sie hat nur Einträge in der oberen Dreiecksmatrix."
+      ],
+      "answer": 0,
+      "explanation": "Ungeri chtete Kanten erscheinen als $a_{ij}=a_{ji}$; dadurch ist $A=A^\\top$.",
+      "weight": 1,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "4. Was besagt das Handshake-Lemma in ungerichteten Graphen?",
+      "options": [
+        "$\\sum_{v\\in V} d(v)=2\\,|E|$.",
+        "$\\sum_{v\\in V} d(v)=|E|$.",
+        "$\\sum_{v\\in V} d(v)=|V|$.",
+        "$\\sum_{v\\in V} d(v)=0$."
+      ],
+      "answer": 0,
+      "explanation": "Jede Kante trägt zu genau zwei Knotengraden bei, daher die Verdopplung.",
+      "weight": 1,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "5. Was ist ein Weg in einem ungerichteten Graphen?",
+      "options": [
+        "Eine Knotenfolge mit paarweise verschiedenen Knoten, in der aufeinanderfolgende Knoten adjazent sind.",
+        "Eine beliebige Folge mit Wiederholungen beliebiger Knoten.",
+        "Eine Reihenfolge der Kanten ohne Bezug zu Knoten.",
+        "Eine Liste aller Knoten in $V$."
+      ],
+      "answer": 0,
+      "explanation": "Ein Weg nutzt Kanten zwischen aufeinanderfolgenden Knoten ohne Knotenwiederholung.",
+      "weight": 1,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "6. Was kennzeichnet einen stark zusammenhängenden Digraphen?",
+      "options": [
+        "Zwischen jedem Knotenpaar existieren gerichtete Wege in beide Richtungen.",
+        "Er enthält keine Zyklen.",
+        "Er hat eine symmetrische Adjazenzmatrix.",
+        "Er besitzt genau eine Quelle."
+      ],
+      "answer": 0,
+      "explanation": "Starke Zusammenhangsdefinition fordert bidirektionale Erreichbarkeit über gerichtete Wege.",
+      "weight": 1,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "7. Wofür steht DAG?",
+      "options": [
+        "Directed Acyclic Graph.",
+        "Degree-Aware Graph.",
+        "Dual Adjacency Graph.",
+        "Dense Acyclic Grid."
+      ],
+      "answer": 0,
+      "explanation": "DAG bedeutet gerichteter azyklischer Graph, also ohne gerichtete Kreise.",
+      "weight": 1,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "8. Wann ist Dijkstra korrekt?",
+      "options": [
+        "Bei nichtnegativen Kantengewichten.",
+        "Bei beliebigen negativen Gewichten ohne Einschränkung.",
+        "Nur bei ungerichteten Graphen.",
+        "Nur bei vollständigen Graphen."
+      ],
+      "answer": 0,
+      "explanation": "Die Greedy-Invariante setzt Nichtnegativität der Gewichte voraus.",
+      "weight": 1,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "9. Welche Darstellung ist für dünne Graphen meist speichereffizient?",
+      "options": [
+        "Adjazenzliste.",
+        "Adjazenzmatrix.",
+        "Inzidenzmatrix mit $|V|\\times |E|$ Einträgen.",
+        "Edge-Set als $|V|^2$-Matrix."
+      ],
+      "answer": 0,
+      "explanation": "Die Adjazenzliste speichert nur vorhandene Kanten: $\\mathcal{O}(|V|+|E|)$.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "10. Welche Eigenschaft der Adjazenzmatrix erlaubt Speicherhalbierung bei ungerichteten Graphen?",
+      "options": [
+        "Symmetrie, daher genügt Speicherung eines Dreiecks.",
+        "Sparsamkeit, daher Speicherung nur der Diagonale.",
+        "Periodizität, daher zyklische Speicherung.",
+        "Orthogonalität, daher Einträge nur $\\{-1,1\\}$."
+      ],
+      "answer": 0,
+      "explanation": "Da $a_{ij}=a_{ji}$, reicht obere oder untere Dreiecksmatrix.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "11. Welche Aussage zur Wegreduktion ist korrekt?",
+      "options": [
+        "Jede Kantenfolge zwischen zwei Knoten enthält einen Weg mit denselben Endpunkten.",
+        "Jede Kantenfolge ist bereits ein Kreis.",
+        "Wegreduktion erfordert stets gerichtete Kanten.",
+        "Wegreduktion ändert die Endpunkte."
+      ],
+      "answer": 0,
+      "explanation": "Durch Entfernen von Wiederholungen bleibt die Konnektivität der Endpunkte erhalten.",
+      "weight": 2,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "12. Wann ist ein ungerichteter Graph zusammenhängend?",
+      "options": [
+        "Genau dann, wenn zwischen jedem Knotenpaar ein Weg existiert.",
+        "Wenn $|E|\\ge |V|$ gilt.",
+        "Wenn alle Knoten den gleichen Grad haben.",
+        "Wenn keine Schlingen existieren."
+      ],
+      "answer": 0,
+      "explanation": "Zusammenhang ist die Wegerreichbarkeit zwischen allen Knotenpaaren.",
+      "weight": 2,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "13. Welche Gleichung gilt in jedem endlichen Digraphen?",
+      "options": [
+        "$\\sum_{v\\in V} d^+(v)=\\sum_{v\\in V} d^-(v)=|E|$.",
+        "$\\sum_{v\\in V} d^+(v)=|V|$.",
+        "$\\sum_{v\\in V} d^-(v)=2\\,|E|$.",
+        "$\\sum_{v\\in V} d^+(v)=0$."
+      ],
+      "answer": 0,
+      "explanation": "Jeder Bogen zählt genau einmal zum Ausgangs- und einmal zum Eingangsgrad.",
+      "weight": 2,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "14. Welche Bedingung charakterisiert einen DAG korrekt?",
+      "options": [
+        "Es existiert kein gerichteter Kreis.",
+        "Es existieren keine Quellen.",
+        "Es existieren keine Senken.",
+        "Die Adjazenzmatrix ist symmetrisch."
+      ],
+      "answer": 0,
+      "explanation": "DAG schließt gerichtete Zyklen aus; Quellen und Senken existieren mindestens je einmal.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "15. Welche Aussage zur topologischen Sortierung ist korrekt?",
+      "options": [
+        "Ein Digraph ist genau dann topologisch sortierbar, wenn er azyklisch ist.",
+        "Jeder Digraph ist topologisch sortierbar.",
+        "Eine topologische Sortierung existiert nur für ungerichtete Graphen.",
+        "Topologische Sortierung benötigt negative Kantengewichte."
+      ],
+      "answer": 0,
+      "explanation": "Topologische Ordnung ist genau die lineare Ordnung eines DAGs.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "16. Wie wird die Länge eines Weges in einem bewerteten Graphen definiert?",
+      "options": [
+        "Als Summe der Kantengewichte entlang des Weges.",
+        "Als Anzahl der Knoten im Weg.",
+        "Als Produkt der Kantengewichte.",
+        "Als maximale Kante minus minimale Kante."
+      ],
+      "answer": 0,
+      "explanation": "Die Weglänge ist $w(P)=\\sum_i w(e_i)$.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "17. Welche Datenstruktur nutzt BFS typischerweise?",
+      "options": [
+        "Eine Queue.",
+        "Einen Stack.",
+        "Eine Prioritätswarteschlange.",
+        "Eine Hashtabelle als Kernstruktur."
+      ],
+      "answer": 0,
+      "explanation": "BFS arbeitet schichtweise; eine FIFO-Queue stellt die Besuchsreihenfolge sicher.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "18. Welche Anwendung ist typisch für DFS?",
+      "options": [
+        "Zykluserkennung in gerichteten Graphen.",
+        "Kürzeste Wege in ungewichteten Graphen.",
+        "Berechnung von Knotengraden.",
+        "Ermittlung der Kantenanzahl."
+      ],
+      "answer": 0,
+      "explanation": "DFS liefert zeitliche Nummerierungen, mit denen Zyklen detektierbar sind.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "19. Welche Laufzeit hat BFS auf Adjazenzlisten?",
+      "options": [
+        "$\\mathcal{O}(|V|+|E|)$.",
+        "$\\mathcal{O}(|V|^2)$.",
+        "$\\mathcal{O}(|E|^2)$.",
+        "$\\mathcal{O}(\\log |V|)$."
+      ],
+      "answer": 0,
+      "explanation": "Jeder Knoten und jede Kante wird höchstens konstant oft verarbeitet.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "20. Welche Speicherkomplexität hat die Adjazenzmatrix?",
+      "options": [
+        "$\\mathcal{O}(|V|^2)$.",
+        "$\\mathcal{O}(|V|+|E|)$.",
+        "$\\mathcal{O}(|E|)$.",
+        "$\\mathcal{O}(|V|\\log |V|)$."
+      ],
+      "answer": 0,
+      "explanation": "Die Matrix ist quadratisch in der Knotenzahl.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "21. Welche Aussage zur Isomorphie ist korrekt?",
+      "options": [
+        "Isomorphe Graphen haben identische Gradmultimengen.",
+        "Isomorphe Graphen müssen identische Zeichnungen besitzen.",
+        "Isomorphe Graphen haben stets gleiche Adjazenzmatrizen.",
+        "Isomorphe Graphen müssen gerichtete Kanten haben."
+      ],
+      "answer": 0,
+      "explanation": "Isomorphie bewahrt Struktur, nicht die konkreten Namen oder Zeichnungen.",
+      "weight": 2,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "22. Welche Operation verletzt Planarität nicht per se?",
+      "options": [
+        "Umbenennen der Knoten.",
+        "Beliebiges Hinzufügen von Kanten.",
+        "Kantenkreuzungen in der Ebene erzwingen.",
+        "Einbetten in eine $|V|\\times |V|$-Matrix."
+      ],
+      "answer": 0,
+      "explanation": "Umbenennung ändert die Struktur nicht; andere Schritte können Planarität zerstören.",
+      "weight": 2,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "23. Welche Aussage zu stark vs. schwach zusammenhängend ist korrekt?",
+      "options": [
+        "Stark zusammenhängend impliziert schwach zusammenhängend.",
+        "Schwach zusammenhängend impliziert stark zusammenhängend.",
+        "Beide Begriffe sind identisch.",
+        "Beide setzen Ungewichtung voraus."
+      ],
+      "answer": 0,
+      "explanation": "Stark ist die strengere Forderung; Ignorieren der Richtungen liefert schwachen Zusammenhang.",
+      "weight": 2,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "24. Welche Aussage zur Quellenexistenz im DAG ist korrekt?",
+      "options": [
+        "Jeder endliche DAG besitzt mindestens eine Quelle.",
+        "Ein DAG besitzt niemals Quellen.",
+        "Quellen existieren nur in vollständigen Graphen.",
+        "Quellen existieren nur bei negativen Gewichten."
+      ],
+      "answer": 0,
+      "explanation": "In endlichen DAGs existieren mindestens eine Quelle und eine Senke.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "25. Welche Aussage zur Dijkstra-Relaxierung ist korrekt?",
+      "options": [
+        "Eine Relaxierung ersetzt eine größere Distanzschätzung durch eine kleinere über eine Kante.",
+        "Relaxierung fügt stets Kanten hinzu.",
+        "Relaxierung entfernt Zyklen.",
+        "Relaxierung vertauscht Start- und Zielknoten."
+      ],
+      "answer": 0,
+      "explanation": "Relaxierung verbessert Distanzschätzungen entlang einer Kante.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "26. Welche strukturelle Information liefert BFS in ungewichteten Graphen?",
+      "options": [
+        "Kürzeste Wege in Anzahl der Kanten.",
+        "Kürzeste Wege bzgl. Kantengewichten.",
+        "Topologische Sortierung in beliebigen Digraphen.",
+        "Zykluserkennung in DAGs."
+      ],
+      "answer": 0,
+      "explanation": "BFS-Distanzen entsprechen der minimalen Kantenzahl vom Start.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "27. Welche Operation ist auf Adjazenzlisten in $\\mathcal{O}(1)$ möglich?",
+      "options": [
+        "Nachbarschaftstest ist im Allgemeinen nicht $\\mathcal{O}(1)$.",
+        "Iteration über alle Nachbarn eines Knotens.",
+        "Zufälliger Zugriff auf Kantenmatrix.",
+        "Multiplikation mit einer Diagonalmatrix."
+      ],
+      "answer": 0,
+      "explanation": "Nachbarschaftstest benötigt i. d. R. Suchzeit; Iteration ist $\\mathcal{O}(\\deg(v))$.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "28. Welche Eigenschaft unterscheidet Kreis von Weg?",
+      "options": [
+        "Beim Kreis sind Start- und Endknoten identisch, beim Weg nicht.",
+        "Beim Weg sind Kanten gerichtet, beim Kreis ungerichtet.",
+        "Ein Kreis enthält niemals drei Knoten.",
+        "Ein Weg muss alle Knoten enthalten."
+      ],
+      "answer": 0,
+      "explanation": "Kreis ist geschlossener Weg; sonstige Aussagen sind nicht generell gültig.",
+      "weight": 2,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "29. Welche Aussage zur Adjazenzliste ist korrekt?",
+      "options": [
+        "Speicherbedarf ist $\\mathcal{O}(|V|+|E|)$.",
+        "Speicherbedarf ist $\\mathcal{O}(|V|^2)$.",
+        "Speicherbedarf ist $\\mathcal{O}(|E|^2)$.",
+        "Speicherbedarf ist $\\mathcal{O}(\\log |V|)$."
+      ],
+      "answer": 0,
+      "explanation": "Für jeden Knoten eine Liste, und jede Kante erscheint (ungerichtet) in zwei Listen.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "30. Welche Laufzeit erzielt Dijkstra mit Prioritätswarteschlange (Binär-Heap) typischerweise?",
+      "options": [
+        "$\\mathcal{O}((|V|+|E|)\\log |V|)$.",
+        "$\\mathcal{O}(|V|^2)$.",
+        "$\\mathcal{O}(|E|^2)$.",
+        "$\\mathcal{O}(\\log |E|)$."
+      ],
+      "answer": 0,
+      "explanation": "Extraktion des Minimums und Decrease-Key dominieren die Kosten.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "31. Für einen Graphen $K_4$ gilt welche Grad-Aussage?",
+      "options": [
+        "Alle Knoten haben Grad 3.",
+        "Alle Knoten haben Grad 4.",
+        "Genau zwei Knoten haben Grad 2.",
+        "Die Gradsumme ist $2\\cdot 3$."
+      ],
+      "answer": 0,
+      "explanation": "Im vollständigen Graphen $K_n$ hat jeder Knoten Grad $n-1$, hier 3.",
+      "weight": 3,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "32. Gegeben ein Digraph mit $|E|=m$. Welche Summe entspricht sicher $m$?",
+      "options": [
+        "$\\sum_{v\\in V} d^+(v)$ und $\\sum_{v\\in V} d^-(v)$.",
+        "$\\sum_{v\\in V} d(v)$.",
+        "$\\sum_{v\\in V} d^+(v)-d^-(v)$.",
+        "$\\sum_{v\\in V} d^+(v)+d^-(v)$."
+      ],
+      "answer": 0,
+      "explanation": "Jeder Bogen trägt zu genau einem Ausgangs- und einem Eingangsgrad bei.",
+      "weight": 3,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "33. Welche Bedingung verhindert eine topologische Sortierung?",
+      "options": [
+        "Existenz eines gerichteten Zyklus.",
+        "Existenz einer Quelle.",
+        "Existenz einer Senke.",
+        "Existenz isolierter Knoten."
+      ],
+      "answer": 0,
+      "explanation": "Ein Zyklus verhindert das Auffinden einer Quelle im weiteren Prozess.",
+      "weight": 3,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "34. In einem ungerichteten Graphen mit $|V|=n$ und $|E|=n-1$ ist welcher Schluss ohne Baumbezug zulässig?",
+      "options": [
+        "Die Gradsumme ist $2(n-1)$.",
+        "Der Graph ist zwingend flächentreu planar.",
+        "Der Graph ist zwingend vollständig.",
+        "Der Graph ist zwingend nicht zusammenhängend."
+      ],
+      "answer": 0,
+      "explanation": "Das Handshake-Lemma liefert unabhängig von weiteren Eigenschaften die Gradsumme.",
+      "weight": 3,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "35. Warum scheitert Dijkstra bei negativen Kanten?",
+      "options": [
+        "Die Greedy-Entscheidung kann später durch negative Kanten unterlaufen werden.",
+        "Der Algorithmus kann keine Prioritätswarteschlange verwenden.",
+        "Die Komplexität steigt nur an, bleibt aber korrekt.",
+        "Negative Kanten sind in Graphen unmöglich."
+      ],
+      "answer": 0,
+      "explanation": "Eine spätere negative Kante kann einen bereits finalisierten Abstand verbessern, was die Invariante verletzt.",
+      "weight": 3,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "36. Welche Eigenschaft unterscheidet stark und schwach zusammenhängende Komponenten in Digraphen?",
+      "options": [
+        "Starke Komponenten fordern gegenseitige Erreichbarkeit; schwache nicht.",
+        "Schwache Komponenten sind stets Ein-Knoten-Mengen.",
+        "Starke Komponenten existieren nur in DAGs.",
+        "Schwache Komponenten existieren nur in ungerichteten Graphen."
+      ],
+      "answer": 0,
+      "explanation": "Starke Komponenten sind maximal bzgl. bidirektionaler Erreichbarkeit.",
+      "weight": 3,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "37. Welche Aussage zur BFS-Distanz ist korrekt?",
+      "options": [
+        "Sie entspricht in ungewichteten Graphen der minimalen Kantenzahl.",
+        "Sie ist in ungewichteten Graphen stets größer als jede andere Distanz.",
+        "Sie ist nur in Digraphen definiert.",
+        "Sie ist unabhängig von der Startquelle."
+      ],
+      "answer": 0,
+      "explanation": "BFS findet kürzeste Wege in der Metrik der Kantenanzahl.",
+      "weight": 3,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "38. Welche Operation ist auf Adjazenzmatrix in $\\mathcal{O}(1)$ möglich?",
+      "options": [
+        "Nachbarschaftstest von zwei Knoten.",
+        "Iteration über alle Nachbarn eines Knotens.",
+        "Zufälliges Entfernen einer Kante ohne Aufwand.",
+        "Zykluserkennung."
+      ],
+      "answer": 0,
+      "explanation": "Zugriff auf $a_{uv}$ ist konstant; Iteration über Nachbarn kostet $\\mathcal{O}(|V|)$.",
+      "weight": 3,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "39. Welche Aussage zur Komplexität von DFS auf Adjazenzlisten ist korrekt?",
+      "options": [
+        "$\\mathcal{O}(|V|+|E|)$.",
+        "$\\mathcal{O}(|V|^2)$.",
+        "$\\mathcal{O}(|E|^2)$.",
+        "$\\mathcal{O}(\\log |E|)$."
+      ],
+      "answer": 0,
+      "explanation": "Wie BFS besucht DFS jeden Knoten und jede Kante höchstens konstant oft.",
+      "weight": 3,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "40. Welche Aussage zur topologischen Sortierung per Quellenentfernung ist korrekt?",
+      "options": [
+        "Bleibt der Prozess ohne verbleibende Quelle stecken, existiert ein Zyklus.",
+        "Der Prozess funktioniert auch bei beliebigen Zyklen.",
+        "Der Prozess benötigt negative Kantengewichte.",
+        "Der Prozess liefert stets mehrere identische Ordnungen."
+      ],
+      "answer": 0,
+      "explanation": "Das Steckenbleiben ohne Quelle ist genau der Hinweis auf einen gerichteten Zyklus.",
+      "weight": 3,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "41. Welche Aussage zur Kantenmenge in einem ungerichteten Graphen ist korrekt?",
+      "options": [
+        "Eine Kante ist ein ungeordnetes Paar zweier Knoten.",
+        "Eine Kante ist ein geordnetes Paar zweier Knoten.",
+        "Eine Kante ist immer eine Schlinge.",
+        "Eine Kante verbindet stets alle Knoten miteinander."
+      ],
+      "answer": 0,
+      "explanation": "In ungerichteten Graphen sind Kanten ungeordnete Paare aus der Knotenmenge.",
+      "weight": 1,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "42. Welche Größe wird mit $|V|$ bezeichnet?",
+      "options": [
+        "Die Anzahl der Knoten eines Graphen.",
+        "Die Anzahl der Kanten eines Graphen.",
+        "Die Summe aller Knotengrade.",
+        "Die Anzahl der Komponenten."
+      ],
+      "answer": 0,
+      "explanation": "$|V|$ ist die Mächtigkeit der Knotenmenge.",
+      "weight": 1,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "43. Woran erkennt man in der Adjazenzmatrix eines ungerichteten Graphen eine Schlinge an Knoten $v_i$?",
+      "options": [
+        "Am Eintrag $a_{ii}=1$.",
+        "Am Eintrag $a_{ij}=1$ mit $i\\ne j$.",
+        "An einer vollen Zeile aus Einsen.",
+        "An $a_{ii}=0$."
+      ],
+      "answer": 0,
+      "explanation": "Eine Schlinge wird durch einen Eins-Eintrag auf der Diagonale markiert.",
+      "weight": 1,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "44. Welche Aussage beschreibt einen Kreis korrekt?",
+      "options": [
+        "Eine geschlossene Knotenfolge mit Startknoten gleich Endknoten und sonst ohne Wiederholung.",
+        "Eine beliebige Knotenfolge mit Wiederholungen in beliebiger Form.",
+        "Eine Folge, die alle Knoten des Graphen genau einmal enthält.",
+        "Eine Folge, die keine Kanten nutzt."
+      ],
+      "answer": 0,
+      "explanation": "Ein Kreis ist ein geschlossener einfacher Weg.",
+      "weight": 1,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "45. Was ist ein Digraph?",
+      "options": [
+        "Ein gerichteter Graph mit Bögen als geordneten Paaren.",
+        "Ein ungerichteter Graph ohne Schlingen.",
+        "Ein Graph mit nur einer Komponente.",
+        "Ein Graph, dessen Adjazenzmatrix symmetrisch ist."
+      ],
+      "answer": 0,
+      "explanation": "Im Digraphen sind Kanten gerichtete Bögen $(x,y)\\in V\\times V$.",
+      "weight": 1,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "46. Was ist eine Quelle in einem Digraphen?",
+      "options": [
+        "Ein Knoten ohne eingehende Bögen.",
+        "Ein Knoten ohne ausgehende Bögen.",
+        "Ein Knoten mit maximalem Grad.",
+        "Ein Knoten in jeder topologischen Sortierung an letzter Position."
+      ],
+      "answer": 0,
+      "explanation": "Quellen haben $d^-(v)=0$.",
+      "weight": 1,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "47. Welche Kernaussage gehört zum Handshake-Lemma?",
+      "options": [
+        "Die Summe aller Knotengrade ist doppelt so groß wie die Kantenanzahl.",
+        "Die Summe aller Knotengrade entspricht der Knotenanzahl.",
+        "Die Summe aller Knotengrade ist stets ungerade.",
+        "Die Summe aller Knotengrade entspricht der Anzahl der Komponenten."
+      ],
+      "answer": 0,
+      "explanation": "Jede Kante trägt 2 zur Gradsumme bei.",
+      "weight": 1,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "48. Welche Datenstruktur nutzt DFS typischerweise?",
+      "options": [
+        "Einen Stack oder Rekursion.",
+        "Eine Queue.",
+        "Eine geordnete Menge mit Vergleichsfunktion.",
+        "Eine Hash-Map als Hauptstruktur."
+      ],
+      "answer": 0,
+      "explanation": "DFS lässt sich natürlich über Rekursion oder expliziten Stack formulieren.",
+      "weight": 1,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "49. Welche Aussage zur Adjazenzliste ist fachlich zutreffend?",
+      "options": [
+        "Sie ermöglicht Iteration über Nachbarn eines Knotens in $\\mathcal{O}(\\deg(v))$.",
+        "Sie ermöglicht den Nachbarschaftstest in $\\mathcal{O}(1)$.",
+        "Sie benötigt Speicher $\\mathcal{O}(|V|^2)$.",
+        "Sie speichert nur Diagonaleinträge."
+      ],
+      "answer": 0,
+      "explanation": "Die Nachbariteration entspricht der Anzahl der Listenelemente des Knotens.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "50. Wodurch ist ein zusammenhängender ungerichteter Graph charakterisiert?",
+      "options": [
+        "Für jedes Knotenpaar existiert ein Weg.",
+        "Er enthält keinen Kreis.",
+        "Alle Knoten haben denselben Grad.",
+        "Er ist planar einbettbar."
+      ],
+      "answer": 0,
+      "explanation": "Zusammenhang bedeutet Wegerreichbarkeit für alle Knotenpaare.",
+      "weight": 2,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "51. Welche Aussage zur Gradbilanz in Digraphen ist korrekt?",
+      "options": [
+        "$\\sum d^+(v)=\\sum d^-(v)=|E|$.",
+        "$\\sum d^+(v)=|V|$ und $\\sum d^-(v)=|E|$.",
+        "$\\sum d^+(v)=\\sum d^-(v)=|V|$.",
+        "$\\sum d^+(v)=2|E|$ und $\\sum d^-(v)=|E|$."
+      ],
+      "answer": 0,
+      "explanation": "Jeder Bogen zählt jeweils genau einmal in Ein- und Ausgangsgrade.",
+      "weight": 2,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "52. Welche Aussage zur topologischen Sortierung trifft zu?",
+      "options": [
+        "Sie existiert genau für DAGs.",
+        "Sie existiert für alle Digraphen.",
+        "Sie existiert nur für ungerichtete Graphen.",
+        "Sie benötigt negative Kanten."
+      ],
+      "answer": 0,
+      "explanation": "Topologische Sortierungen sind genau für azyklische Digraphen definiert.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "53. In welchem Fall ist Dijkstra nicht zuverlässig?",
+      "options": [
+        "Wenn negative Kantengewichte auftreten.",
+        "Wenn der Graph ungerichtet ist.",
+        "Wenn alle Kantengewichte identisch sind.",
+        "Wenn der Graph zusammenhängend ist."
+      ],
+      "answer": 0,
+      "explanation": "Negative Gewichte können die Greedy-Invariante brechen.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "54. Welche Information liefert BFS in ungewichteten Graphen zusätzlich zur Erreichbarkeit?",
+      "options": [
+        "Die Distanz in Anzahl der Kanten.",
+        "Die Distanz bezüglich Kantengewichten.",
+        "Die Anzahl aller möglichen Wege.",
+        "Eine topologische Ordnung für beliebige Digraphen."
+      ],
+      "answer": 0,
+      "explanation": "BFS-Ebenen entsprechen minimaler Kantenzahl.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "55. Welche Operation ist mit Adjazenzmatrix besonders effizient?",
+      "options": [
+        "Prüfen, ob zwei Knoten benachbart sind.",
+        "Iteration über alle Nachbarn eines Knotens.",
+        "Finden aller Kreise gleicher Länge.",
+        "Zerlegung in starke Komponenten."
+      ],
+      "answer": 0,
+      "explanation": "Der Zugriff auf $a_{uv}$ ist ein einfacher Indexzugriff in $\\mathcal{O}(1)$.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "56. Welche Eigenschaft unterscheidet starke von schwachen Zusammenhang in Digraphen?",
+      "options": [
+        "Stark verlangt gerichtete Wege in beide Richtungen; schwach ignoriert Richtungen.",
+        "Schwach verlangt gerichtete Wege; stark ignoriert Richtungen.",
+        "Beide sind identisch.",
+        "Beide existieren nur in ungerichteten Graphen."
+      ],
+      "answer": 0,
+      "explanation": "Schwach nutzt den ungerichteten Unterbau; stark fordert bidirektionale Erreichbarkeit.",
+      "weight": 2,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "57. Welche Aussage über DAGs ist korrekt?",
+      "options": [
+        "Jeder endliche DAG hat mindestens eine Quelle und eine Senke.",
+        "DAGs haben niemals Quellen.",
+        "DAGs besitzen immer einen Kreis.",
+        "DAGs sind stets vollständig."
+      ],
+      "answer": 0,
+      "explanation": "Quellen und Senken existieren in endlichen azyklischen Digraphen.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "58. Welche Aussage zur Weglänge in bewerteten Graphen ist korrekt?",
+      "options": [
+        "Sie ist die Summe der Kantengewichte entlang des Weges.",
+        "Sie ist die Differenz aus maximalem und minimalem Kantengewicht.",
+        "Sie ist stets die Anzahl der Kanten.",
+        "Sie ist das Produkt aller Kantengewichte."
+      ],
+      "answer": 0,
+      "explanation": "Definition: $w(P)=\\sum_i w(e_i)$.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "59. Welche Struktur ist typisch für DFS-gestützte Zykluserkennung in Digraphen?",
+      "options": [
+        "Erkennen von Back-Edges auf Vorfahren.",
+        "Suchen von Kanten mit minimalem Gewicht.",
+        "Verwendung einer Queue zur Ebenentransversierung.",
+        "Sortieren der Knoten nach Grad."
+      ],
+      "answer": 0,
+      "explanation": "Back-Edges in der DFS-Baumstruktur sind ein Zyklusindikator.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "60. Welche Speicherkomplexität hat die Adjazenzmatrix für $n$ Knoten?",
+      "options": [
+        "$\\mathcal{O}(n^2)$.",
+        "$\\mathcal{O}(n)$.",
+        "$\\mathcal{O}(\\log n)$.",
+        "$\\mathcal{O}(n^3)$."
+      ],
+      "answer": 0,
+      "explanation": "Die Matrix hat $n\\times n$ Einträge.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "61. Welche Aussage zur Isomorphie-Invarianz ist richtig?",
+      "options": [
+        "Die Multimenge der Knotengrade bleibt erhalten.",
+        "Die konkrete Anordnung der Adjazenzmatrix bleibt erhalten.",
+        "Die grafische Zeichnung bleibt identisch.",
+        "Die Knotennamen bleiben identisch."
+      ],
+      "answer": 0,
+      "explanation": "Isomorphie bewahrt Struktur, nicht Darstellung oder Benennung.",
+      "weight": 2,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "62. Welche Eigenschaft weist auf Nicht-Toposortierbarkeit hin?",
+      "options": [
+        "Existenz eines gerichteten Zyklus.",
+        "Existenz einer Quelle.",
+        "Existenz einer Senke.",
+        "Existenz isolierter Knoten."
+      ],
+      "answer": 0,
+      "explanation": "Zyklen verhindern eine lineare Ordnung der Knoten.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "63. Welche Aussage zur Dijkstra-Relaxierung ist korrekt?",
+      "options": [
+        "Sie ersetzt eine größere Distanz durch die Summe aus Vorgängerdistanz und Kantenkosten, falls kleiner.",
+        "Sie vergrößert immer die Distanzschätzung.",
+        "Sie ignoriert die Kantenkosten.",
+        "Sie funktioniert nur in ungerichteten Graphen."
+      ],
+      "answer": 0,
+      "explanation": "Klassische Relaxierung: $d(v)\\leftarrow\\min\\{d(v),d(u)+w(u,v)\\}$.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "64. Welche typische Anwendung hat DFS neben Zykluserkennung?",
+      "options": [
+        "Bestimmung starker Zusammenhangskomponenten.",
+        "Berechnung exakter kürzester Wege in gewichteten Graphen.",
+        "Speicheroptimierung der Adjazenzmatrix.",
+        "Topologische Sortierung ungerichteter Graphen."
+      ],
+      "answer": 0,
+      "explanation": "Algorithmen wie Tarjan und Kosaraju nutzen DFS.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "65. Welche Aussage zur Komplexität von Dijkstra mit Binär-Heap ist korrekt?",
+      "options": [
+        "$\\mathcal{O}((|V|+|E|)\\log |V|)$.",
+        "$\\mathcal{O}(|V|^2)$ unabhängig von $|E|$.",
+        "$\\mathcal{O}(|E|^2)$.",
+        "$\\mathcal{O}(|V|\\log |E|)$."
+      ],
+      "answer": 0,
+      "explanation": "Die dominanten Operationen sind Extract-Min und Decrease-Key.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "66. Welche Aussage zur Planarität ist korrekt formuliert?",
+      "options": [
+        "Planarität bezieht sich auf schnittpunktfreie Einbettungen in die Ebene.",
+        "Planarität bedeutet immer Symmetrie der Adjazenzmatrix.",
+        "Planarität fordert, dass $|E|=|V|$ gilt.",
+        "Planarität gilt nur in $\\mathbb{R}^3$."
+      ],
+      "answer": 0,
+      "explanation": "Planarität ist eine Eigenschaft ebener Einbettbarkeit ohne Kantenkreuzungen.",
+      "weight": 2,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "67. Welche Aussage zu Komponenten ist korrekt?",
+      "options": [
+        "Komponenten partitionieren die Knotenmenge eindeutig.",
+        "Komponenten überlappen sich in der Regel.",
+        "Komponenten existieren nur in Digraphen.",
+        "Komponenten sind stets Zyklen."
+      ],
+      "answer": 0,
+      "explanation": "Jeder Knoten gehört genau einer Komponente an.",
+      "weight": 2,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "68. Welche Darstellung ist bei dichten Graphen häufig zweckmäßig?",
+      "options": [
+        "Adjazenzmatrix.",
+        "Adjazenzliste.",
+        "Nur Kantenliste ohne Knotenbezug.",
+        "Reine Gradfolge ohne Kanten."
+      ],
+      "answer": 0,
+      "explanation": "Matrix-Speicher $\\mathcal{O}(|V|^2)$ passt gut zu $|E|\\approx |V|^2$.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "69. Welche Aussage zur Gradfolge eines ungerichteten Graphen ist zwingend?",
+      "options": [
+        "Die Anzahl ungerader Grade ist gerade.",
+        "Die Anzahl ungerader Grade ist ungerade.",
+        "Es gibt immer genau zwei Knoten ungeraden Grades.",
+        "Alle Knoten müssen geraden Grad haben."
+      ],
+      "answer": 0,
+      "explanation": "Folge des Handshake-Lemmas: Summe der Grade ist gerade.",
+      "weight": 3,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "70. Welche Bedingung ist äquivalent zur Toposortierbarkeit eines Digraphen?",
+      "options": [
+        "Azyklizität des Digraphen.",
+        "Planarität des Digraphen.",
+        "Vollständigkeit der Kantenstruktur.",
+        "Konstanz aller Kantengewichte."
+      ],
+      "answer": 0,
+      "explanation": "Ein Digraph ist genau dann topologisch sortierbar, wenn er kein gerichteter Kreis enthält.",
+      "weight": 3,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "71. In einem ungerichteten Graphen sei $|V|=n$, $|E|=\\binom{n}{2}$. Welche Aussage ist korrekt?",
+      "options": [
+        "Alle Knoten haben Grad $n-1$.",
+        "Alle Knoten haben Grad $n$.",
+        "Genau ein Knoten hat Grad $n-1$.",
+        "Die Gradsumme ist $n$."
+      ],
+      "answer": 0,
+      "explanation": "Dies ist der vollständige Graph $K_n$.",
+      "weight": 3,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "72. Welche Formulierung trifft die Relaxierungsbedingung präzise?",
+      "options": [
+        "Wenn $d(u)+w(u,v)<d(v)$, dann setze $d(v)\\leftarrow d(u)+w(u,v)$.",
+        "Wenn $d(u)+w(u,v)>d(v)$, dann setze $d(v)\\leftarrow d(u)+w(u,v)$.",
+        "Wenn $d(u)<d(v)$, dann lösche $(u,v)$.",
+        "Wenn $w(u,v)<0$, dann erhöhe alle Distanzen."
+      ],
+      "answer": 0,
+      "explanation": "Die Standard-Relaxierung verbessert $d(v)$ bei kürzerem indirekten Weg.",
+      "weight": 3,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "73. Welche Aussage zur DFS-Postordnung in DAGs ist korrekt?",
+      "options": [
+        "Die umgekehrte Postordnung ist eine topologische Sortierung.",
+        "Die Vorordnung ist immer topologisch.",
+        "Postordnung existiert nur für ungerichtete Graphen.",
+        "Postordnung setzt negative Gewichte voraus."
+      ],
+      "answer": 0,
+      "explanation": "In DAGs liefert die umgekehrte Postordnung eine gültige Topo-Order.",
+      "weight": 3,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "74. Welche Laufzeit hat das Durchlaufen aller Kanten mit Adjazenzliste?",
+      "options": [
+        "$\\mathcal{O}(|V|+|E|)$.",
+        "$\\mathcal{O}(|V|^2)$.",
+        "$\\mathcal{O}(|E|^2)$.",
+        "$\\mathcal{O}(\\log |V|)$."
+      ],
+      "answer": 0,
+      "explanation": "Jede Kante wird konstant oft besucht; zusätzlich werden alle Knoten betrachtet.",
+      "weight": 3,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "75. Welche Aussage zur schwachen Zusammenhangskomponente eines Digraphen ist korrekt?",
+      "options": [
+        "Sie ist eine Komponente des ungerichteten Unterbaus.",
+        "Sie ist identisch mit einer starken Komponente.",
+        "Sie existiert nur bei negativen Kanten.",
+        "Sie hängt von der Planarität ab."
+      ],
+      "answer": 0,
+      "explanation": "Schwacher Zusammenhang ignoriert die Richtungen.",
+      "weight": 3,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "76. Welche Bedingung ist notwendig, damit Dijkstra korrekte Distanzen liefert?",
+      "options": [
+        "Nichtnegative Kantengewichte.",
+        "Planarität.",
+        "Vollständigkeit.",
+        "Konstante Knotengrade."
+      ],
+      "answer": 0,
+      "explanation": "Negativgewichte können finalisierte Distanzen nachträglich verbessern.",
+      "weight": 3,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "77. Welche Matrixeigenschaft kann bei ungerichteten Graphen zum halbierten Speicher führen?",
+      "options": [
+        "Symmetrie um die Hauptdiagonale.",
+        "Antisymmetrie.",
+        "Orthogonalität.",
+        "Sparsamkeit mit ausschließlich Nullmatrix."
+      ],
+      "answer": 0,
+      "explanation": "Speicherung nur des oberen oder unteren Dreiecks genügt.",
+      "weight": 3,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "78. Welche Aussage zur BFS ist korrekt, wenn alle Kanten Gewicht $1$ haben?",
+      "options": [
+        "BFS liefert kürzeste Wege in Kantenanzahl.",
+        "BFS liefert nur zufällige Wege.",
+        "BFS benötigt negative Gewichte.",
+        "BFS funktioniert nur in DAGs."
+      ],
+      "answer": 0,
+      "explanation": "BFS berechnet in ungewichteten Graphen kürzeste Pfade nach Anzahl Kanten.",
+      "weight": 3,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "79. Welche Eigenschaft stellt sicher, dass eine topologische Sortierung existiert?",
+      "options": [
+        "Es gibt keinen gerichteten Zyklus.",
+        "Alle Knoten haben denselben Grad.",
+        "Der Graph ist planar.",
+        "Es existiert genau eine Komponente."
+      ],
+      "answer": 0,
+      "explanation": "Azyklizität ist notwendig und hinreichend.",
+      "weight": 3,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "80. Welche Aussage zur Laufzeit von DFS auf Adjazenzlisten ist korrekt?",
+      "options": [
+        "$\\mathcal{O}(|V|+|E|)$, da jede Kante und jeder Knoten begrenzt oft verarbeitet wird.",
+        "$\\mathcal{O}(|V|^2)$ unabhängig von $|E|$.",
+        "$\\mathcal{O}(|E|^2)$ aufgrund von Wiederholungen.",
+        "$\\mathcal{O}(\\log |V|)$ in allen Fällen."
+      ],
+      "answer": 0,
+      "explanation": "DFS besucht jeden Knoten und jede Kante höchstens konstant oft.",
+      "weight": 3,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "81. Welche Aussage zur Kantenliste eines ungerichteten Graphen ist korrekt?",
+      "options": [
+        "Sie enthält jedes ungeordnete Knotenpaar genau dann, wenn es eine Kante bildet.",
+        "Sie listet für jeden Knoten seine Nachbarn zeilenweise auf.",
+        "Sie ist stets eine $|V|\\times |V|$-Matrix.",
+        "Sie ist nur für gerichtete Graphen definiert."
+      ],
+      "answer": 0,
+      "explanation": "Die Kantenliste ist eine Aufzählung der vorhandenen Kanten als ungeordnete Paare.",
+      "weight": 1,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "82. Wodurch unterscheiden sich Weg und Kantenfolge im ungerichteten Graphen?",
+      "options": [
+        "Ein Weg enthält keine Knotenwiederholung, eine Kantenfolge kann Wiederholungen enthalten.",
+        "Eine Kantenfolge ist immer geschlossen, ein Weg nie.",
+        "Ein Weg ist nur in Digraphen definiert.",
+        "Eine Kantenfolge hat immer Länge $1$."
+      ],
+      "answer": 0,
+      "explanation": "Ein einfacher Weg vermeidet Knotenwiederholungen; Kantenfolgen sind allgemeiner.",
+      "weight": 1,
+      "topic": "Wege, Kreise, Zusammenhang"
+    },
+    {
+      "question": "83. Welche Aussage beschreibt einen isolierten Knoten korrekt?",
+      "options": [
+        "Sein Grad ist $0$.",
+        "Er ist Start eines Kreises.",
+        "Er besitzt genau eine Schlinge.",
+        "Er ist Teil jeder Komponente."
+      ],
+      "answer": 0,
+      "explanation": "Isolierte Knoten haben weder ein- noch ausgehende Kanten (Grad $0$).",
+      "weight": 1,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "84. Was liefert eine topologische Sortierung in einem DAG?",
+      "options": [
+        "Eine lineare Ordnung der Knoten, die alle Pfeilrichtungen respektiert.",
+        "Eine Zerlegung in starke Komponenten.",
+        "Eine Liste kürzester Wege.",
+        "Eine planare Einbettung."
+      ],
+      "answer": 0,
+      "explanation": "Topo-Ordnung ordnet Knoten so, dass jeder Bogen von früh nach spät zeigt.",
+      "weight": 1,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "85. Was passiert beim Ignorieren der Richtungen in einem Digraphen?",
+      "options": [
+        "Man erhält den ungerichteten Unterbau, auf dem schwacher Zusammenhang geprüft wird.",
+        "Es entstehen zusätzliche Knoten.",
+        "Die Kantenzahl halbiert sich immer.",
+        "Man erhält automatisch starke Komponenten."
+      ],
+      "answer": 0,
+      "explanation": "Richtungen werden entfernt, Kanten bleiben; so prüft man schwachen Zusammenhang.",
+      "weight": 2,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "86. Welche Aussage zur Adjazenzliste ist in Bezug auf Iteration zutreffend?",
+      "options": [
+        "Die Iteration über alle Nachbarn eines Knotens kostet $\\mathcal{O}(\\deg(v))$.",
+        "Die Iteration ist immer $\\mathcal{O}(1)$, unabhängig von $\\deg(v)$.",
+        "Die Iteration ist $\\mathcal{O}(|V|)$ für jeden Knoten.",
+        "Die Iteration benötigt logarithmische Zeit pro Nachbar."
+      ],
+      "answer": 0,
+      "explanation": "Es werden genau so viele Listenelemente gelesen, wie der Knoten Nachbarn hat.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "87. Welche Bedingung garantiert, dass BFS kürzeste Wege findet?",
+      "options": [
+        "Alle Kanten haben identisches, nichtnegatives Gewicht (z. B. $1$).",
+        "Die Kanten sind gerichtet und negativ.",
+        "Die Adjazenzmatrix ist symmetrisch.",
+        "Die Knotennamen sind sortiert."
+      ],
+      "answer": 0,
+      "explanation": "Bei einheitlichen Kosten ist die Anzahl der Kanten proportional zur Weglänge.",
+      "weight": 2,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "88. Welche Formulierung eines Relaxierungsschritts ist korrekt?",
+      "options": [
+        "Wenn $d(u)+w(u,v)<d(v)$, aktualisiere $d(v)$ und den Vorgänger von $v$.",
+        "Wenn $d(u)+w(u,v)>d(v)$, lösche Kante $(u,v)$.",
+        "Erhöhe $d(v)$ bei jeder Begegnung um $1$.",
+        "Setze alle Distanzen am Ende auf $0$."
+      ],
+      "answer": 0,
+      "explanation": "Relaxierung ersetzt eine größere Schätzung durch eine bessere über $(u,v)$.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "89. Welche Aussage kennzeichnet eine starke Komponente in einem Digraphen?",
+      "options": [
+        "Innerhalb der Komponente erreicht jeder Knoten jeden anderen gerichtet.",
+        "Innerhalb der Komponente gibt es keine Quellen.",
+        "Innerhalb der Komponente sind alle Kanten ungerichtet.",
+        "Innerhalb der Komponente ist die Gradsumme $0$."
+      ],
+      "answer": 0,
+      "explanation": "Definition: maximale Teilmenge mit beidseitiger Erreichbarkeit.",
+      "weight": 2,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "90. Welche Eigenschaft weist auf einen nichtplanaren Graphen hin (heuristisch, ohne Beweiszwang)?",
+      "options": [
+        "Vorliegen vieler Kantenkreuzungen in jeder Zeichnung.",
+        "Symmetrische Adjazenzmatrix.",
+        "Konstante Knotengrade.",
+        "Existenz einer Quelle im Unterbau."
+      ],
+      "answer": 0,
+      "explanation": "Planarität ist Einbettung ohne Kreuzungen; persistente Kreuzungen sind ein Indiz.",
+      "weight": 2,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "91. Welche Aussage zur Adjazenzmatrix in Digraphen stimmt?",
+      "options": [
+        "Sie ist im Allgemeinen nicht symmetrisch.",
+        "Sie ist stets symmetrisch.",
+        "Sie ist stets diagonal.",
+        "Sie enthält nur Nullen."
+      ],
+      "answer": 0,
+      "explanation": "Richtungen führen zu $a_{ij}\\ne a_{ji}$ im Allgemeinen.",
+      "weight": 2,
+      "topic": "Repräsentationen"
+    },
+    {
+      "question": "92. Welche Komplexität hat Kahn’s Algorithmus (Quellenentfernung) typischerweise auf Adjazenzlisten?",
+      "options": [
+        "$\\mathcal{O}(|V|+|E|)$.",
+        "$\\mathcal{O}(|V|^2)$.",
+        "$\\mathcal{O}(|E|^2)$.",
+        "$\\mathcal{O}(\\log |V|)$."
+      ],
+      "answer": 0,
+      "explanation": "Jede Kante und jeder Knoten wird begrenzt oft betrachtet.",
+      "weight": 2,
+      "topic": "DAG und Topologische Sortierung"
+    },
+    {
+      "question": "93. Welche Eigenschaft der Gradfolge folgt unmittelbar aus dem Handshake-Lemma?",
+      "options": [
+        "Die Anzahl der Knoten mit ungeradem Grad ist gerade.",
+        "Alle Knoten haben denselben Grad.",
+        "Es gibt immer genau zwei Knoten ungeraden Grades.",
+        "Die Summe der Grade ist ungerade."
+      ],
+      "answer": 0,
+      "explanation": "Da die Gradsumme $2|E|$ ist (gerade), müssen ungerade Beiträge paarweise auftreten.",
+      "weight": 2,
+      "topic": "Grade und Gradsumme"
+    },
+    {
+      "question": "94. Welche Aussage zu Isomorphie-Invarianten ist korrekt?",
+      "options": [
+        "Anzahl der Komponenten ist invariant unter Isomorphie.",
+        "Knotennamen sind invariant.",
+        "Zeilenfolge der Adjazenzmatrix ist invariant.",
+        "Zeichnung in der Ebene ist invariant."
+      ],
+      "answer": 0,
+      "explanation": "Isomorphie erhält Struktur, nicht Benennung oder Darstellung.",
+      "weight": 2,
+      "topic": "Grundlagen und Definitionen"
+    },
+    {
+      "question": "95. Welche Anpassung macht Dijkstra robust gegenüber unterschiedlichen Kantengewichten (ohne Negativgewichte)?",
+      "options": [
+        "Verwendung einer Prioritätswarteschlange zur Wahl des kleinsten vorläufigen Abstands.",
+        "Ersetzen aller Gewichte durch $1$.",
+        "Benutzung einer Queue statt eines Heaps.",
+        "Ignorieren von Relaxierungen."
+      ],
+      "answer": 0,
+      "explanation": "Die Datenstruktur stellt sicher, dass der aktuell kleinste Kandidat effizient gewählt wird.",
+      "weight": 2,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "96. Welche Operation ist auf der Adjazenzmatrix nicht effizient für dünne Graphen?",
+      "options": [
+        "Iteration über die Nachbarn eines Knotens.",
+        "Test, ob zwei Knoten adjazent sind.",
+        "Zufälliger Zugriff auf einen Matrixeintrag.",
+        "Speicherung symmetrischer Einträge bei Ungerichtetheit."
+      ],
+      "answer": 0,
+      "explanation": "Die Nachbariteration kostet $\\mathcal{O}(|V|)$ pro Knoten, ungünstig bei Dünnheit.",
+      "weight": 2,
+      "topic": "Komplexität und Speicher"
+    },
+    {
+      "question": "97. Welche Aussage beschreibt korrekt die DFS-Postordnung im DAG-Kontext?",
+      "options": [
+        "Die Umkehrung der Postordnung ist eine gültige topologische Ordnung.",
+        "Die Postordnung ist stets gleich der Vorordnung.",
+        "Die Postordnung existiert nur für ungerichtete Graphen.",
+        "Die Umkehrung der Postordnung erzeugt immer Zyklen."
+      ],
+      "answer": 0,
+      "explanation": "Ohne Rückkanten (DAG) liefert die umgekehrte Abschlussreihenfolge eine Topo-Order.",
+      "weight": 3,
+      "topic": "BFS und DFS"
+    },
+    {
+      "question": "98. Welche Eigenschaft ist für die Korrektheit von Dijkstra entscheidend?",
+      "options": [
+        "Nichtnegativität der Kantengewichte.",
+        "Planarität des Graphen.",
+        "Starker Zusammenhang.",
+        "Konstante Knotengrade."
+      ],
+      "answer": 0,
+      "explanation": "Nur dann bleibt die Greedy-Fixierung gültig und unverletzbar.",
+      "weight": 3,
+      "topic": "Bewertete Graphen und Dijkstra"
+    },
+    {
+      "question": "99. Welche Aussage zur Zerlegung eines Digraphen in schwache Komponenten ist korrekt?",
+      "options": [
+        "Sie entspricht den Komponenten des ungerichteten Unterbaus.",
+        "Sie entspricht stets den starken Komponenten.",
+        "Sie hängt von der Toposort ab.",
+        "Sie setzt negative Kantengewichte voraus."
+      ],
+      "answer": 0,
+      "explanation": "Richtungen ignorieren, dann Komponenten im entstehenden ungerichteten Graphen bestimmen.",
+      "weight": 3,
+      "topic": "Gerichtete Graphen"
+    },
+    {
+      "question": "100. Welche Eigenschaft der Gradfolge folgt aus $\\sum_{v\\in V} d(v)=2|E|$?",
+      "options": [
+        "Die Anzahl ungerader Grade ist gerade, unabhängig von Zusammenhang oder Planarität.",
+        "Die Anzahl ungerader Grade ist ungerade, wenn $|V|$ ungerade ist.",
+        "Die Anzahl ungerader Grade hängt von der Toposort ab.",
+        "Die Anzahl ungerader Grade ist immer $0$."
+      ],
+      "answer": 0,
+      "explanation": "Die Gradsumme ist gerade; damit müssen ungerade Beiträge paarweise auftreten.",
+      "weight": 3,
+      "topic": "Grade und Gradsumme"
+    }
+  ]
+}

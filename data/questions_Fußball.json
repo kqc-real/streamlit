@@ -1,17 +1,17 @@
 [
   {
-    "frage": "1. In der Saison 2004/05 gewann der FC Porto die UEFA Champions League. Unter welchem Trainer gelang dieser Triumph und in welchem Stadion fand das Finale statt?",
-    "optionen": [
+    "question": "1. In der Saison 2004/05 gewann der FC Porto die UEFA Champions League. Unter welchem Trainer gelang dieser Triumph und in welchem Stadion fand das Finale statt?",
+    "options": [
       "José Mourinho, Arena AufSchalke",
       "Frank Rijkaard, Stade de France",
       "Rafael Benítez, Atatürk-Olympiastadion",
       "Sir Alex Ferguson, Old Trafford",
       "Arsène Wenger, Highbury"
     ],
-    "loesung": 0,
-    "erklaerung": "Der FC Porto gewann das Finale der UEFA Champions League 2004/05 unter der Leitung von José Mourinho mit 3:0 gegen die AS Monaco. Das Spiel fand in der Arena AufSchalke in Gelsenkirchen statt.",
-    "gewichtung": 3,
-    "thema": "Historische UEFA Champions League",
+    "answer": 0,
+    "explanation": "Der FC Porto gewann das Finale der UEFA Champions League 2004/05 unter der Leitung von José Mourinho mit 3:0 gegen die AS Monaco. Das Spiel fand in der Arena AufSchalke in Gelsenkirchen statt.",
+    "weight": 3,
+    "topic": "Historische UEFA Champions League",
     "extended_explanation": {
       "titel": "Der Triumph des FC Porto unter Mourinho",
       "schritte": [
@@ -25,17 +25,17 @@
     }
   },
   {
-    "frage": "2. Wer ist der einzige deutsche Fußballer, der sowohl die Weltmeisterschaft als Spieler als auch als Trainer gewinnen konnte, und in welchen Jahren gelang ihm dies?",
-    "optionen": [
+    "question": "2. Wer ist der einzige deutsche Fußballer, der sowohl die Weltmeisterschaft als Spieler als auch als Trainer gewinnen konnte, und in welchen Jahren gelang ihm dies?",
+    "options": [
       "Franz Beckenbauer (1974, 1990)",
       "Helmut Schön (1954, 1974)",
       "Berti Vogts (1974, 1996)",
       "Joachim Löw (1990, 2014)"
     ],
-    "loesung": 0,
-    "erklaerung": "Franz Beckenbauer gewann die Weltmeisterschaft 1974 als Spieler und 1990 als Teamchef der deutschen Nationalmannschaft. Er ist damit der einzige Deutsche, dem dieses Kunststück gelang. Als Trainer gewann er den Titel im Jahr 1990, nicht 1996.",
-    "gewichtung": 2,
-    "thema": "Deutsche Nationalmannschaft",
+    "answer": 0,
+    "explanation": "Franz Beckenbauer gewann die Weltmeisterschaft 1974 als Spieler und 1990 als Teamchef der deutschen Nationalmannschaft. Er ist damit der einzige Deutsche, dem dieses Kunststück gelang. Als Trainer gewann er den Titel im Jahr 1990, nicht 1996.",
+    "weight": 2,
+    "topic": "Deutsche Nationalmannschaft",
     "extended_explanation": {
       "titel": "Der 'Kaiser' und seine WM-Triumphe",
       "schritte": [
@@ -49,44 +49,44 @@
     }
   },
   {
-    "frage": "3. Welcher Verein hält den Rekord für die meisten nationalen Meisterschaften in Uruguay?",
-    "optionen": [
+    "question": "3. Welcher Verein hält den Rekord für die meisten nationalen Meisterschaften in Uruguay?",
+    "options": [
       "Club Nacional de Football",
       "Peñarol",
       "Defensor Sporting",
       "Montevideo Wanderers"
     ],
-    "loesung": 1,
-    "erklaerung": "Peñarol hält mit 51 nationalen Meisterschaften den Rekord in Uruguay, gefolgt von Club Nacional de Football.",
-    "gewichtung": 1,
-    "thema": "Internationale Vereinsrekorde"
+    "answer": 1,
+    "explanation": "Peñarol hält mit 51 nationalen Meisterschaften den Rekord in Uruguay, gefolgt von Club Nacional de Football.",
+    "weight": 1,
+    "topic": "Internationale Vereinsrekorde"
   },
   {
-    "frage": "4. Welcher Stürmer schoss in der englischen Premier League die meisten Tore in einer einzelnen Saison (42 Spiele), bevor die Liga auf 38 Spiele reduziert wurde?",
-    "optionen": [
+    "question": "4. Welcher Stürmer schoss in der englischen Premier League die meisten Tore in einer einzelnen Saison (42 Spiele), bevor die Liga auf 38 Spiele reduziert wurde?",
+    "options": [
       "Alan Shearer",
       "Andy Cole",
       "Luis Suárez",
       "Cristiano Ronaldo"
     ],
-    "loesung": 0,
-    "erklaerung": "Alan Shearer hält diesen Rekord mit 34 Toren in 42 Spielen in der Saison 1994/95 für Blackburn Rovers. Der Rekord von Andy Cole (Newcastle, 1993/94) liegt ebenfalls bei 34 Toren.",
-    "gewichtung": 2,
-    "thema": "Premier League"
+    "answer": 0,
+    "explanation": "Alan Shearer hält diesen Rekord mit 34 Toren in 42 Spielen in der Saison 1994/95 für Blackburn Rovers. Der Rekord von Andy Cole (Newcastle, 1993/94) liegt ebenfalls bei 34 Toren.",
+    "weight": 2,
+    "topic": "Premier League"
   },
   {
-    "frage": "5. Welche der folgenden Aussagen über die 'Fußball-Galaxie' von 2015 ist falsch?",
-    "optionen": [
+    "question": "5. Welche der folgenden Aussagen über die 'Fußball-Galaxie' von 2015 ist falsch?",
+    "options": [
       "Eine Galaxie wurde nach einem Fußballspieler benannt.",
       "Die Galaxie wurde nach Cristiano Ronaldo benannt.",
       "Die Galaxie wurde von der Europäischen Südsternwarte (ESO) entdeckt.",
       "Die Galaxie ist eine Rotationsellipsoid-Galaxie.",
       "Die Galaxie befindet sich in der Hydra-Centaurus-Superstruktur."
     ],
-    "loesung": 4,
-    "erklaerung": "Die Galaxie wurde nach Cristiano Ronaldo benannt. Sie ist keine Rotationsellipsoid-Galaxie, sondern eine elliptische Galaxie. Sie befindet sich in der Hydra-Centaurus-Superstruktur. Sie wurde von der Europäischen Südsternwarte (ESO) entdeckt.",
-    "gewichtung": 3,
-    "thema": "Kurioses Fußballwissen",
+    "answer": 4,
+    "explanation": "Die Galaxie wurde nach Cristiano Ronaldo benannt. Sie ist keine Rotationsellipsoid-Galaxie, sondern eine elliptische Galaxie. Sie befindet sich in der Hydra-Centaurus-Superstruktur. Sie wurde von der Europäischen Südsternwarte (ESO) entdeckt.",
+    "weight": 3,
+    "topic": "Kurioses Fußballwissen",
     "extended_explanation": {
       "titel": "CR7 und die Galaxie",
       "schritte": [
@@ -100,43 +100,43 @@
     }
   },
   {
-    "frage": "6. Welcher Verein hält den Rekord für die meisten Copa América Titel?",
-    "optionen": [
+    "question": "6. Welcher Verein hält den Rekord für die meisten Copa América Titel?",
+    "options": [
       "Uruguay",
       "Argentinien",
       "Brasilien",
       "Chile"
     ],
-    "loesung": 0,
-    "erklaerung": "Uruguay hat die meisten Copa América Titel gewonnen, mit insgesamt 15 Siegen.",
-    "gewichtung": 1,
-    "thema": "Copa América"
+    "answer": 0,
+    "explanation": "Uruguay hat die meisten Copa América Titel gewonnen, mit insgesamt 15 Siegen.",
+    "weight": 1,
+    "topic": "Copa América"
   },
   {
-    "frage": "7. Wer ist der erste Spieler, der in vier verschiedenen Jahrzehnten in der Premier League traf?",
-    "optionen": [
+    "question": "7. Wer ist der erste Spieler, der in vier verschiedenen Jahrzehnten in der Premier League traf?",
+    "options": [
       "Ryan Giggs",
       "Jermain Defoe",
       "Teddy Sheringham",
       "Peter Crouch"
     ],
-    "loesung": 2,
-    "erklaerung": "Ryan Giggs traf in drei Jahrzehnten, Jermain Defoe traf in vier Jahrzehnten. Peter Crouch traf in zwei Jahrzehnten, Teddy Sheringham traf in vier Jahrzehnten.",
-    "gewichtung": 2,
-    "thema": "Premier League-Rekorde"
+    "answer": 2,
+    "explanation": "Ryan Giggs traf in drei Jahrzehnten, Jermain Defoe traf in vier Jahrzehnten. Peter Crouch traf in zwei Jahrzehnten, Teddy Sheringham traf in vier Jahrzehnten.",
+    "weight": 2,
+    "topic": "Premier League-Rekorde"
   },
   {
-    "frage": "8. Welcher der folgenden Spieler gewann sowohl die UEFA Champions League als auch die Copa Libertadores?",
-    "optionen": [
+    "question": "8. Welcher der folgenden Spieler gewann sowohl die UEFA Champions League als auch die Copa Libertadores?",
+    "options": [
       "Ronaldinho",
       "Neymar",
       "Ronaldo",
       "Romário"
     ],
-    "loesung": 0,
-    "erklaerung": "Ronaldinho gewann 2006 mit dem FC Barcelona die UEFA Champions League und 2013 mit Atlético Mineiro die Copa Libertadores. Er ist damit einer von wenigen Spielern, denen dieses seltene Double gelang.",
-    "gewichtung": 3,
-    "thema": "Internationale Vereinswettbewerbe",
+    "answer": 0,
+    "explanation": "Ronaldinho gewann 2006 mit dem FC Barcelona die UEFA Champions League und 2013 mit Atlético Mineiro die Copa Libertadores. Er ist damit einer von wenigen Spielern, denen dieses seltene Double gelang.",
+    "weight": 3,
+    "topic": "Internationale Vereinswettbewerbe",
     "extended_explanation": {
       "titel": "Ronaldinhos seltene Trophäen-Kombination",
       "schritte": [
@@ -151,31 +151,31 @@
     }
   },
   {
-    "frage": "9. Wer ist der einzige deutsche Torwart, der für seine Länderspieleinsätze eine UEFA-Medaille erhielt?",
-    "optionen": [
+    "question": "9. Wer ist der einzige deutsche Torwart, der für seine Länderspieleinsätze eine UEFA-Medaille erhielt?",
+    "options": [
       "Manuel Neuer",
       "Oliver Kahn",
       "Sepp Maier",
       "Toni Schumacher",
       "Jens Lehmann"
     ],
-    "loesung": 4,
-    "erklaerung": "Jens Lehmann erhielt eine UEFA-Medaille für seine Länderspieleinsätze, als er mit der Nationalmannschaft die Europameisterschaft 1996 gewann.",
-    "gewichtung": 1,
-    "thema": "Deutsche Nationalmannschaft-Rekorde"
+    "answer": 4,
+    "explanation": "Jens Lehmann erhielt eine UEFA-Medaille für seine Länderspieleinsätze, als er mit der Nationalmannschaft die Europameisterschaft 1996 gewann.",
+    "weight": 1,
+    "topic": "Deutsche Nationalmannschaft-Rekorde"
   },
   {
-    "frage": "10. In welchem Stadion fand das WM-Finale 2014 statt und welches Land gewann das Finale?",
-    "optionen": [
+    "question": "10. In welchem Stadion fand das WM-Finale 2014 statt und welches Land gewann das Finale?",
+    "options": [
       "Maracanã, Deutschland",
       "Maracanã, Brasilien",
       "Estádio Nacional de Brasília, Deutschland",
       "Estádio Nacional de Brasília, Brasilien",
       "Estádio Mineirão, Brasilien"
     ],
-    "loesung": 0,
-    "erklaerung": "Das WM-Finale 2014 fand im Maracanã-Stadion in Rio de Janeiro statt, und Deutschland gewann das Finale gegen Argentinien mit 1:0.",
-    "gewichtung": 2,
-    "thema": "Fußball-Weltmeisterschaft"
+    "answer": 0,
+    "explanation": "Das WM-Finale 2014 fand im Maracanã-Stadion in Rio de Janeiro statt, und Deutschland gewann das Finale gegen Argentinien mit 1:0.",
+    "weight": 2,
+    "topic": "Fußball-Weltmeisterschaft"
   }
 ]

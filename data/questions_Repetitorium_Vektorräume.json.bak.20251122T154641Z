@@ -1,0 +1,1123 @@
+{
+  "meta": {
+    "title": "Repetitorium: Vektorräume",
+    "target_audience": "Fortgeschrittene",
+    "question_count": 40,
+    "difficulty_profile": {
+      "leicht": 12,
+      "mittel": 20,
+      "schwer": 8
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 35
+  },
+  "questions": [
+    {
+      "frage": "1. Welches Axiom gehört **nicht** zu den definierenden Eigenschaften eines Vektorraums $V$ über einem Körper $K$ bezüglich der Vektoraddition $+$ und Skalarmultiplikation $\\cdot$?",
+      "optionen": [
+        "**Assoziativität der Addition:** $(u+v)+w = u+(v+w)$ für alle $u, v, w \\in V$.",
+        "**Existenz eines multiplikativen Inversen:** Für jeden Vektor $v \\neq 0$ existiert ein $v^{-1} \\in V$ mit $v \\cdot v^{-1} = 1$.",
+        "**Kommutativität der Addition:** $u+v = v+u$ für alle $u, v \\in V$.",
+        "**Existenz eines additiven neutralen Elements:** Es existiert ein $0 \\in V$ mit $v+0=v$ für alle $v \\in V$.",
+        "**Distributivität bezüglich Skalaraddition:** $(\\lambda+\\mu) \\cdot v = \\lambda \\cdot v + \\mu \\cdot v$ für alle $\\lambda, \\mu \\in K, v \\in V$."
+      ],
+      "loesung": 1,
+      "erklaerung": "Ein multiplikatives Inverses für Vektoren ist **nicht** Teil der Vektorraumaxiome. Diese Eigenschaft betrifft Körper oder multiplikative Gruppen, nicht die Vektorraumstruktur selbst. Die anderen genannten Axiome sind korrekte Vektorraumaxiome.",
+      "gewichtung": 1,
+      "thema": "Vektorraumdefinition & Axiome",
+      "mini_glossary": {
+        "Vektorraum": "Eine algebraische Struktur bestehend aus einer Menge von Vektoren und einem Körper von Skalaren, zusammen mit Operationen der Vektoraddition und Skalarmultiplikation, die bestimmte Axiome erfüllen.",
+        "Körper (Algebra)": "Eine algebraische Struktur mit Addition, Subtraktion, Multiplikation und Division (außer durch Null), wie z.B. die reellen Zahlen $\\mathbb{R}$ oder die komplexen Zahlen $\\mathbb{C}$.",
+        "Axiom": "Eine grundlegende Annahme oder Regel, die als wahr akzeptiert wird und als Ausgangspunkt für weitere logische Schlussfolgerungen dient.",
+        "Distributivität": "Eine Eigenschaft von Operationen, die besagt, wie sich eine Operation auf eine andere verteilt, z.B. $\\lambda \\cdot (u+v) = \\lambda \\cdot u + \\lambda \\cdot v$."
+      }
+    },
+    {
+      "frage": "2. Welche der folgenden Mengen bildet **keinen** Vektorraum über $\\mathbb{R}$ mit den üblichen Operationen der Addition und Skalarmultiplikation?",
+      "optionen": [
+        "Die Menge aller $2 \\times 3$ Matrizen mit reellen Einträgen, $M_{2 \\times 3}(\\mathbb{R})$.",
+        "Die Menge aller Polynome vom Grad **genau** 3.",
+        "Die Menge $\\mathbb{R}^4$ aller 4-Tupel reeller Zahlen.",
+        "Die Menge aller stetigen Funktionen $f: [0, 1] \\to \\mathbb{R}$.",
+        "Die Menge $U = \\{ (x, y, z) \\in \\mathbb{R}^3 \\mid z = x+y \\}$."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Menge der Polynome vom Grad **genau** 3 bildet keinen Vektorraum. Der Nullvektor (das Nullpolynom) hat den Grad $-\\infty$ (per Definition) und ist somit nicht enthalten. Außerdem ist die Menge nicht abgeschlossen unter Addition: $(x^3+x) + (-x^3+1) = x+1$, was Grad 1 hat, nicht 3. Die anderen Mengen erfüllen die Vektorraumaxiome.",
+      "gewichtung": 1,
+      "thema": "Beispiele für Vektorräume",
+      "mini_glossary": {
+        "$\\mathbb{R}^n$": "Der n-dimensionale reelle Koordinatenraum, bestehend aus allen n-Tupeln reeller Zahlen.",
+        "Polynomraum $P_n$": "Der Vektorraum aller Polynome mit Koeffizienten aus einem Körper $K$ und Grad kleiner oder gleich $n$.",
+        "Matrizenraum $M_{m \\times n}(K)$": "Der Vektorraum aller $m \\times n$ Matrizen mit Einträgen aus einem Körper $K$.",
+        "Funktionenraum $C[a,b]$": "Der Vektorraum aller stetigen reellwertigen Funktionen auf dem Intervall $[a,b]$."
+      }
+    },
+    {
+      "frage": "3. Gegeben seien die Vektoren $v_1 = (1, 0, -1)^T$ und $v_2 = (0, 1, 1)^T$ im $\\mathbb{R}^3$. Welcher der folgenden Vektoren liegt **nicht** im $\\text{span}(v_1, v_2)$?",
+      "optionen": [
+        "$(2, 1, -1)^T$",
+        "$(0, 0, 0)^T$",
+        "$(1, 1, 0)^T$",
+        "$(1, -1, -2)^T$",
+        "$(1, 2, 3)^T$"
+      ],
+      "loesung": 4,
+      "erklaerung": "Ein Vektor $w$ liegt im $\\text{span}(v_1, v_2)$, wenn es Skalare $c_1, c_2$ gibt, sodass $w = c_1 v_1 + c_2 v_2$. Dies bedeutet $w = (c_1, c_2, -c_1+c_2)^T$. Ein Vektor $w=(x,y,z)^T$ liegt also im Span, wenn seine Komponenten die Gleichung $z = -x+y$ erfüllen. Wir prüfen die Optionen:\\nA) $(2, 1, -1)^T$: $-1 = -2+1$. Ja  \n B) $(0, 0, 0)^T$: $0 = -0+0$. Ja  \n C) $(1, 1, 0)^T$: $0 = -1+1$. Ja  \n D) $(1, -1, -2)^T$: $-2 = -1+(-1)$. Ja  \n E) $(1, 2, 3)^T$: $3 \\neq -1+2$. Dieser Vektor liegt **nicht** im Span.",
+      "gewichtung": 2,
+      "thema": "Linearkombination & Span",
+      "extended_explanation": {
+        "titel": "Prüfung auf Zugehörigkeit zum Span",
+        "schritte": [
+          "Der Span einer Menge von Vektoren ist die Menge aller ihrer Linearkombinationen. Für $v_1 = (1, 0, -1)^T$ und $v_2 = (0, 1, 1)^T$ ist eine allgemeine Linearkombination $w = c_1 v_1 + c_2 v_2 = c_1 (1, 0, -1)^T + c_2 (0, 1, 1)^T = (c_1, c_2, -c_1+c_2)^T$.",
+          "Ein beliebiger Vektor $w=(x,y,z)^T$ liegt genau dann im $\\text{span}(v_1, v_2)$, wenn $x=c_1$, $y=c_2$ und $z=-c_1+c_2$ für passende Skalare $c_1, c_2$ gilt.",
+          "Setzt man $c_1=x$ und $c_2=y$ in die dritte Komponentengleichung ein, erhält man die Bedingung $z = -x+y$.",
+          "Nun wird jede Option auf diese Bedingung geprüft:",
+          "A) $(2, 1, -1)^T$: $x=2, y=1, z=-1$. Gilt $-1 = -2+1$? Ja.",
+          "B) $(0, 0, 0)^T$: $x=0, y=0, z=0$. Gilt $0 = -0+0$? Ja.",
+          "C) $(1, 1, 0)^T$: $x=1, y=1, z=0$. Gilt $0 = -1+1$? Ja.",
+          "D) $(1, -1, -2)^T$: $x=1, y=-1, z=-2$. Gilt $-2 = -1+(-1)$? Ja.",
+          "E) $(1, 2, 3)^T$: $x=1, y=2, z=3$. Gilt $3 = -1+2$? Nein, da $1 \\neq 3$.",
+          "Somit liegt der Vektor $(1, 2, 3)^T$ nicht im von $v_1$ und $v_2$ aufgespannten Unterraum."
+        ]
+      },
+      "mini_glossary": {
+        "Span (Lineare Hülle)": "Die Menge aller möglichen Linearkombinationen einer gegebenen Menge von Vektoren. Der Span bildet immer einen Untervektorraum.",
+        "Linearkombination": "Ein Vektor, der durch Addition von Skalarvielfachen anderer Vektoren gebildet wird: $v = c_1 v_1 + \\dots + c_n v_n$.",
+        "Skalar": "Ein Element des Körpers, über dem der Vektorraum definiert ist (meist eine reelle oder komplexe Zahl), das zur Skalierung von Vektoren verwendet wird.",
+        "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst wieder ein Vektorraum bezüglich der geerbten Operationen ist. Sie muss den Nullvektor enthalten und abgeschlossen unter Addition und Skalarmultiplikation sein."
+      }
+    },
+    {
+      "frage": "4. Welche Aussage über lineare Unabhängigkeit ist **falsch**?",
+      "optionen": [
+        "Eine Menge, die den Nullvektor enthält, ist immer linear abhängig.",
+        "Zwei Vektoren im $\\mathbb{R}^2$ sind genau dann linear abhängig, wenn sie parallel (kollinear) sind.",
+        "Drei Vektoren im $\\mathbb{R}^3$ sind genau dann linear unabhängig, wenn die Determinante der Matrix, die sie als Spalten enthält, ungleich Null ist.",
+        "Jede Teilmenge einer linear unabhängigen Menge ist ebenfalls linear unabhängig.",
+        "Wenn eine Menge von $n$ Vektoren den $\\mathbb{R}^n$ aufspannt, dann ist sie linear abhängig."
+      ],
+      "loesung": 4,
+      "erklaerung": "Wenn eine Menge von $n$ Vektoren den $\\mathbb{R}^n$ aufspannt, bildet sie eine Basis des $\\mathbb{R}^n$ und ist somit **linear unabhängig**. Die Dimension von $\\mathbb{R}^n$ ist $n$, daher besteht jede Basis aus genau $n$ linear unabhängigen Vektoren, die $\\mathbb{R}^n$ aufspannen. Die anderen Aussagen sind korrekt.",
+      "gewichtung": 2,
+      "thema": "Lineare Unabhängigkeit",
+      "extended_explanation": {
+        "titel": "Eigenschaften der linearen Unabhängigkeit",
+        "schritte": [
+          "**Aussage 1 (Korrekt):** Wenn $0 \\in \\{v_1, ..., v_n\\}$, z.B. $v_1=0$, dann ist $1 \\cdot v_1 + 0 \\cdot v_2 + \\dots + 0 \\cdot v_n = 1 \\cdot 0 = 0$. Da der Koeffizient von $v_1$ (nämlich 1) ungleich Null ist, ist dies eine nichttriviale Linearkombination des Nullvektors, also ist die Menge linear abhängig.",
+          "**Aussage 2 (Korrekt):** $v_1, v_2$ linear abhängig $\\iff$ es gibt $c_1, c_2$, nicht beide 0, mit $c_1 v_1 + c_2 v_2 = 0$. Ist z.B. $c_1 \\neq 0$, dann $v_1 = (-c_2/c_1) v_2$, d.h. $v_1$ ist ein skalares Vielfaches von $v_2$. Sie sind parallel.",
+          "**Aussage 3 (Korrekt):** $n$ Vektoren im $\\mathbb{R}^n$ sind linear unabhängig $\\iff$ die Matrix $A$, die sie als Spalten enthält, ist invertierbar $\\iff \\det(A) \\neq 0$.",
+          "**Aussage 4 (Korrekt):** Sei $S = \\{v_1, \\dots, v_n\\}$ linear unabhängig und $T \\subseteq S$. Wäre $T$ linear abhängig, gäbe es eine nichttriviale Linearkombination des Nullvektors mit Vektoren aus $T$. Diese wäre aber auch eine nichttriviale Linearkombination mit Vektoren aus $S$ (Koeffizienten der Vektoren in $S \\setminus T$ sind 0), was der linearen Unabhängigkeit von $S$ widerspricht.",
+          "**Aussage 5 (Falsch):** Eine Menge von $n$ Vektoren, die $\\mathbb{R}^n$ aufspannt, ist ein Erzeugendensystem. Da die Dimension von $\\mathbb{R}^n$ gleich $n$ ist, muss ein Erzeugendensystem mit $n$ Vektoren minimal sein und somit eine **Basis** bilden. Eine Basis ist per Definition **linear unabhängig**."
+        ]
+      },
+      "mini_glossary": {
+        "Lineare Unabhängigkeit": "Eine Menge von Vektoren ist linear unabhängig, wenn keiner der Vektoren als Linearkombination der anderen ausgedrückt werden kann. Formal: $\\sum c_i v_i = 0 \\implies c_i = 0$ für alle $i$.",
+        "Lineare Abhängigkeit": "Eine Menge von Vektoren ist linear abhängig, wenn mindestens ein Vektor als Linearkombination der anderen dargestellt werden kann. Formal: Es gibt $c_i$, nicht alle Null, mit $\\sum c_i v_i = 0$.",
+        "Determinante": "Ein Skalarwert, der einer quadratischen Matrix zugeordnet ist und Informationen über die Invertierbarkeit der Matrix und die lineare Unabhängigkeit ihrer Spaltenvektoren liefert.",
+        "Kollinear": "Zwei Vektoren sind kollinear, wenn sie auf derselben Geraden liegen, d.h., einer ist ein skalares Vielfaches des anderen."
+      }
+    },
+    {
+      "frage": "5. Gegeben sind die Vektoren $v_1 = (1, 2, 3)^T$, $v_2 = (0, 1, 2)^T$ und $v_3 = (-1, 0, 1)^T$ im $\\mathbb{R}^3$. Sind diese Vektoren linear unabhängig?",
+      "optionen": [
+        "Ja, weil die Determinante der Matrix mit diesen Spaltenvektoren $0$ ist.",
+        "Nein, weil $v_3 = -1 \\cdot v_1 + 2 \\cdot v_2$.",
+        "Ja, weil keiner der Vektoren ein skalares Vielfaches eines anderen ist.",
+        "Nein, weil $v_1 + v_2 + v_3 = 0$.",
+        "Ja, weil die Determinante der Matrix mit diesen Spaltenvektoren ungleich $0$ ist."
+      ],
+      "loesung": 1,
+      "erklaerung": "Um die lineare Unabhängigkeit zu prüfen, berechnen wir die Determinante der Matrix $A$, deren Spalten die Vektoren sind: $A = \\begin{pmatrix} 1 & 0 & -1 \\\\ 2 & 1 & 0 \\\\ 3 & 2 & 1 \\end{pmatrix}$. $\\det(A) = 1(1\\cdot1 - 0\\cdot2) - 0 + (-1)(2\\cdot2 - 1\\cdot3) = 1(1) - 1(4-3) = 1 - 1 = 0$. Da die Determinante 0 ist, sind die Vektoren **linear abhängig**. Eine nichttriviale Lösung für $c_1 v_1 + c_2 v_2 + c_3 v_3 = 0$ existiert. Aus $1v_1 - 2v_2 + 1v_3 = 0$ folgt $v_3 = -v_1 + 2v_2$. Option B gibt diese korrekte Abhängigkeitsbeziehung an und schließt korrekt auf lineare Abhängigkeit.",
+      "gewichtung": 2,
+      "thema": "Lineare Unabhängigkeit",
+      "extended_explanation": {
+        "titel": "Prüfung der linearen Unabhängigkeit über Determinante und Linearkombination",
+        "schritte": [
+          "Drei Vektoren im $\\mathbb{R}^3$ sind linear unabhängig, wenn die einzige Lösung der Gleichung $c_1 v_1 + c_2 v_2 + c_3 v_3 = 0$ die triviale Lösung $c_1=c_2=c_3=0$ ist.",
+          "Dies ist äquivalent dazu, dass die Matrix $A$, deren Spalten die Vektoren sind, vollen Rang (Rang 3) hat, bzw. dass ihre Determinante ungleich Null ist.",
+          "Bilden der Matrix $A = \\begin{pmatrix} 1 & 0 & -1 \\\\ 2 & 1 & 0 \\\\ 3 & 2 & 1 \\end{pmatrix}$.",
+          "Berechnung der Determinante (z.B. Regel von Sarrus): $\\det(A) = (1 \\cdot 1 \\cdot 1) + (0 \\cdot 0 \\cdot 3) + (-1 \\cdot 2 \\cdot 2) - (3 \\cdot 1 \\cdot -1) - (2 \\cdot 0 \\cdot 1) - (1 \\cdot 2 \\cdot 0) = 1 + 0 - 4 - (-3) - 0 - 0 = 1 - 4 + 3 = 0$.",
+          "Da $\\det(A) = 0$, sind die Vektoren **linear abhängig**.",
+          "Um die Abhängigkeitsbeziehung zu finden, lösen wir das LGS $A \\cdot c = 0$: $c_1 - c_3 = 0 \\implies c_1 = c_3$; $2c_1 + c_2 = 0 \\implies c_2 = -2c_1$; $3c_1 + 2c_2 + c_3 = 0$. Setzen wir $c_1=c_3$ und $c_2=-2c_1$ in die dritte Gleichung ein: $3c_1 + 2(-2c_1) + c_1 = 3c_1 - 4c_1 + c_1 = 0$. Diese Gleichung ist immer erfüllt.",
+          "Wähle z.B. $c_1 = 1$. Dann ist $c_3 = 1$ und $c_2 = -2$. Die nichttriviale Lösung ist $(1, -2, 1)^T$.",
+          "Also gilt $1 \\cdot v_1 - 2 \\cdot v_2 + 1 \\cdot v_3 = 0$, was äquivalent zu $v_3 = -v_1 + 2v_2$ ist."
+        ]
+      },
+      "mini_glossary": {
+        "Homogenes lineares Gleichungssystem": "Ein System von linearen Gleichungen der Form $A \\cdot x = 0$, bei dem die rechte Seite nur aus Nullen besteht.",
+        "Rang einer Matrix": "Die maximale Anzahl linear unabhängiger Zeilen- oder Spaltenvektoren der Matrix. Er entspricht der Dimension des von den Zeilen bzw. Spalten aufgespannten Raumes.",
+        "Triviale Lösung": "Die Lösung eines homogenen linearen Gleichungssystems, bei der alle Variablen gleich Null sind ($c_1=c_2=\\dots=c_n=0$).",
+        "Nichttriviale Lösung": "Eine Lösung eines homogenen linearen Gleichungssystems, bei der mindestens eine Variable ungleich Null ist."
+      }
+    },
+    {
+      "frage": "6. Was ist die **Dimension** des Vektorraums $P_4(\\mathbb{R})$, des Raums aller Polynome vom Grad höchstens 4 mit reellen Koeffizienten?",
+      "optionen": [
+        "3",
+        "4",
+        "5",
+        "6",
+        "Unendlich"
+      ],
+      "loesung": 2,
+      "erklaerung": "Der Vektorraum $P_n(\\mathbb{R})$ aller Polynome vom Grad höchstens $n$ hat die Dimension $n+1$. Eine mögliche Basis ist die Menge der Monome $\\{1, x, x^2, \\dots, x^n\\}$. Für $n=4$ ist die Basis $\\{1, x, x^2, x^3, x^4\\}$. Diese Basis enthält $4+1 = 5$ Vektoren. Daher ist $\\dim(P_4(\\mathbb{R})) = 5$.",
+      "gewichtung": 1,
+      "thema": "Dimension & Basis",
+      "mini_glossary": {
+        "Dimension (eines Vektorraums)": "Die Anzahl der Vektoren in einer beliebigen Basis des Vektorraums. Sie ist eindeutig bestimmt.",
+        "Basis (eines Vektorraums)": "Eine Menge von Vektoren, die linear unabhängig ist und den gesamten Vektorraum aufspannt (Erzeugendensystem).",
+        "Polynomraum $P_n(\\mathbb{R})$": "Der Vektorraum aller Polynome $a_0 + a_1 x + \\dots + a_n x^n$ mit reellen Koeffizienten $a_i$.",
+        "Monom": "Ein Polynom, das nur aus einem Term besteht, typischerweise eine Potenz der Variablen wie $x^k$."
+      }
+    },
+    {
+      "frage": "7. Sei $V$ ein Vektorraum der Dimension $n$. Welche Aussage ist **immer** korrekt?",
+      "optionen": [
+        "Jede Menge mit mehr als $n$ Vektoren in $V$ ist linear unabhängig.",
+        "Jede Menge mit weniger als $n$ Vektoren in $V$ spannt $V$ auf.",
+        "Jede linear unabhängige Menge mit $n$ Vektoren in $V$ ist eine Basis von $V$.",
+        "Jedes Erzeugendensystem von $V$ enthält genau $n$ Vektoren.",
+        "Der Nullvektorraum hat die Dimension 1."
+      ],
+      "loesung": 2,
+      "erklaerung": "In einem n-dimensionalen Vektorraum $V$ gilt: Jede linear unabhängige Menge hat höchstens $n$ Vektoren. Jedes Erzeugendensystem hat mindestens $n$ Vektoren. Eine Menge von $n$ Vektoren ist genau dann eine Basis, wenn sie linear unabhängig ist **oder** wenn sie $V$ aufspannt. Daher ist Aussage C korrekt. A ist falsch (mehr als $n$ Vektoren sind immer linear abhängig - Steinitz). B ist falsch (weniger als $n$ Vektoren können $V$ nicht aufspannen). D ist falsch (ein Erzeugendensystem kann mehr als $n$ Vektoren enthalten, ist dann aber linear abhängig). E ist falsch (der Nullvektorraum $\\{0\\}$ hat die Dimension 0, da die leere Menge seine Basis ist).",
+      "gewichtung": 2,
+      "thema": "Dimension & Basis",
+      "extended_explanation": {
+        "titel": "Zusammenhang zwischen Dimension, Basis, lin. Unabhängigkeit und Erzeugendensystem",
+        "schritte": [
+          "Sei $\\dim(V) = n$. Das bedeutet, jede Basis von $V$ hat genau $n$ Vektoren.",
+          "**Aussage A (Falsch):** Nach dem Austauschlemma von Steinitz kann eine linear unabhängige Menge in einem von $n$ Vektoren erzeugten Raum höchstens $n$ Vektoren enthalten. Daher ist jede Menge mit *mehr* als $n$ Vektoren linear *abhängig*.",
+          "**Aussage B (Falsch):** Eine Menge mit *weniger* als $n$ Vektoren kann $V$ nicht aufspannen. Würde sie $V$ aufspannen, könnte man daraus durch Reduktion eine Basis mit weniger als $n$ Vektoren konstruieren, was der Definition der Dimension widerspricht.",
+          "**Aussage C (Korrekt):** In einem $n$-dimensionalen Raum ist eine linear unabhängige Menge mit genau $n$ Vektoren automatisch auch ein Erzeugendensystem und somit eine Basis. Ebenso ist ein Erzeugendensystem mit genau $n$ Vektoren automatisch linear unabhängig und somit eine Basis.",
+          "**Aussage D (Falsch):** Ein Erzeugendensystem muss *mindestens* $n$ Vektoren enthalten. Es kann aber auch mehr enthalten (z.B. eine Basis plus weitere Vektoren als Linearkombinationen der Basisvektoren). Ein solches System ist dann linear abhängig.",
+          "**Aussage E (Falsch):** Der Nullvektorraum $V = \\{0\\}$ wird von der leeren Menge $\\emptyset$ aufgespannt (die leere Summe ist per Definition 0). Die leere Menge ist linear unabhängig. Somit ist $\\emptyset$ eine Basis, und die Dimension ist die Anzahl der Elemente in der Basis, also $\\dim(\\{0\\}) = 0$."
+        ]
+      },
+      "mini_glossary": {
+        "Erzeugendensystem (Spannende Menge)": "Eine Menge von Vektoren $S$, deren Span der gesamte Vektorraum $V$ ist ($\\text{span}(S) = V$).",
+        "Dimension": "Die (eindeutige) Anzahl der Vektoren in einer Basis eines Vektorraums.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
+        "Austauschlemma von Steinitz": "Ein Satz, der besagt, dass in einem von $n$ Vektoren erzeugten Raum jede linear unabhängige Menge höchstens $n$ Vektoren enthält. Er beweist die Eindeutigkeit der Dimension."
+      }
+    },
+    {
+      "frage": "8. Welches Kriterium muss eine Teilmenge $U$ eines Vektorraums $V$ erfüllen, um ein Untervektorraum zu sein?",
+      "optionen": [
+        "$U$ darf nicht leer sein.",
+        "$U$ muss abgeschlossen bezüglich der Vektoraddition sein.",
+        "$U$ muss abgeschlossen bezüglich der Skalarmultiplikation sein.",
+        "$U$ muss den Nullvektor $0_V$ enthalten.",
+        "Alle genannten Bedingungen müssen erfüllt sein."
+      ],
+      "loesung": 4,
+      "erklaerung": "Eine Teilmenge $U \\subseteq V$ ist genau dann ein Untervektorraum, wenn sie alle drei Bedingungen erfüllt: 1. $0_V \\in U$ (damit ist $U$ auch nichtleer), 2. Für alle $u, w \\in U$ gilt $u+w \\in U$ (Abgeschlossenheit bzgl. Addition), 3. Für alle $u \\in U$ und $\\lambda \\in K$ gilt $\\lambda u \\in U$ (Abgeschlossenheit bzgl. Skalarmultiplikation).",
+      "gewichtung": 1,
+      "thema": "Untervektorräume",
+      "mini_glossary": {
+        "Untervektorraum": "Eine Teilmenge eines Vektorraums, die bezüglich der induzierten Addition und Skalarmultiplikation selbst ein Vektorraum ist.",
+        "Abgeschlossenheit": "Eine Eigenschaft einer Menge bezüglich einer Operation. Eine Menge ist abgeschlossen bzgl. einer Operation, wenn das Ergebnis der Operation auf Elemente der Menge wieder ein Element der Menge ist.",
+        "Nullvektor": "Das eindeutige neutrale Element der Vektoraddition in einem Vektorraum, oft mit $0$ oder $0_V$ bezeichnet.",
+        "Teilmenge": "Eine Menge $U$, deren Elemente alle auch Elemente einer größeren Menge $V$ sind, geschrieben als $U \\subseteq V$."
+      }
+    },
+    {
+      "frage": "9. Betrachtet wird der Vektorraum $\\mathbb{R}^3$. Welche der folgenden Teilmengen ist **kein** Untervektorraum?",
+      "optionen": [
+        "Die Menge aller Vektoren $(x, y, z)^T$ mit $x=0$ (die yz-Ebene).",
+        "Die Menge aller Vektoren $(x, y, z)^T$ mit $x+y+z=0$ (eine Ebene durch den Ursprung).",
+        "Die Menge aller Vektoren $(x, y, z)^T$ mit $x=y=z$ (eine Gerade durch den Ursprung).",
+        "Die Menge aller Vektoren $(x, y, z)^T$ mit $x^2+y^2+z^2 \\le 1$ (die Einheitskugel inklusive Rand).",
+        "Der Nullvektorraum $\\{(0, 0, 0)^T\\}$."
+      ],
+      "loesung": 3,
+      "erklaerung": "Die Einheitskugel ist kein Untervektorraum. Sie enthält zwar den Nullvektor, ist aber weder unter Addition noch unter Skalarmultiplikation abgeschlossen. Z.B. sind $u=(1,0,0)^T$ und $v=(0,1,0)^T$ in der Kugel, aber $u+v=(1,1,0)^T$ nicht ($1^2+1^2+0^2 = 2 > 1$). Auch ist $u$ in der Kugel, aber $2u=(2,0,0)^T$ nicht ($2^2+0^2+0^2=4>1$). Die anderen Mengen sind Untervektorräume, da sie den Ursprung enthalten und Ebenen/Geraden durch den Ursprung sind bzw. der triviale Unterraum.",
+      "gewichtung": 2,
+      "thema": "Untervektorräume",
+      "extended_explanation": {
+        "titel": "Prüfung der Untervektorraum-Kriterien für Teilmengen des $\\mathbb{R}^3$",
+        "schritte": [
+          "Wir prüfen die drei Kriterien für jede Menge $U$: (1) $0 \\in U$? (2) $u, w \\in U \\implies u+w \\in U$? (3) $u \\in U, \\lambda \\in \\mathbb{R} \\implies \\lambda u \\in U$?",
+          "A) $U = \\{(x,y,z) | x=0\\}$: (1) $(0,0,0) \\in U$ da $x=0$. (2) Seien $u=(0,y_1,z_1), w=(0,y_2,z_2) \\in U$. $u+w = (0, y_1+y_2, z_1+z_2)$. Die erste Komponente ist 0, also $u+w \\in U$. (3) $\\lambda u = (0, \\lambda y_1, \\lambda z_1)$. Die erste Komponente ist 0, also $\\lambda u \\in U$. Ja, ist UVR.",
+          "B) $U = \\{(x,y,z) | x+y+z=0\\}$: (1) $(0,0,0) \\in U$ da $0+0+0=0$. (2) Seien $u=(x_1,y_1,z_1), w=(x_2,y_2,z_2) \\in U$ mit $x_1+y_1+z_1=0$ und $x_2+y_2+z_2=0$. $u+w=(x_1+x_2, y_1+y_2, z_1+z_2)$. Die Summe der Komponenten ist $(x_1+x_2)+(y_1+y_2)+(z_1+z_2) = (x_1+y_1+z_1) + (x_2+y_2+z_2) = 0+0=0$. Also $u+w \\in U$. (3) $\\lambda u = (\\lambda x_1, \\lambda y_1, \\lambda z_1)$. Summe: $\\lambda x_1 + \\lambda y_1 + \\lambda z_1 = \\lambda(x_1+y_1+z_1) = \\lambda(0) = 0$. Also $\\lambda u \\in U$. Ja, ist UVR.",
+          "C) $U = \\{(x,y,z) | x=y=z\\}$: (1) $(0,0,0) \\in U$. (2) Seien $u=(x_1,x_1,x_1), w=(x_2,x_2,x_2) \\in U$. $u+w = (x_1+x_2, x_1+x_2, x_1+x_2)$. Alle Komponenten sind gleich, also $u+w \\in U$. (3) $\\lambda u = (\\lambda x_1, \\lambda x_1, \\lambda x_1)$. Alle Komponenten sind gleich, also $\\lambda u \\in U$. Ja, ist UVR.",
+          "D) $U = \\{(x,y,z) | x^2+y^2+z^2 \\le 1\\}$: (1) $(0,0,0) \\in U$ da $0^2+0^2+0^2=0 \\le 1$. (2) $u=(1,0,0), w=(0,1,0) \\in U$. $u+w = (1,1,0)$. $1^2+1^2+0^2=2 > 1$, also $u+w \\notin U$. Abgeschlossenheit bzgl. Addition verletzt. (3) $u=(1,0,0) \\in U$. $\\lambda=2$. $\\lambda u = (2,0,0)$. $2^2+0^2+0^2=4>1$, also $\\lambda u \\notin U$. Abgeschlossenheit bzgl. Skalarmultiplikation verletzt. Nein, ist kein UVR.",
+          "E) $U = \\{(0,0,0)\\}$: (1) $0 \\in U$. (2) $0+0=0 \\in U$. (3) $\\lambda \\cdot 0 = 0 \\in U$. Ja, ist der triviale UVR."
+        ]
+      },
+      "mini_glossary": {
+        "Ursprung": "Der Punkt im Koordinatensystem, der dem Nullvektor $(0, 0, \\dots, 0)^T$ entspricht.",
+        "Ebene durch den Ursprung": "Eine Teilmenge des $\\mathbb{R}^3$, die durch eine Gleichung der Form $ax+by+cz=0$ beschrieben wird oder der Span von zwei linear unabhängigen Vektoren ist.",
+        "Gerade durch den Ursprung": "Eine Teilmenge des $\\mathbb{R}^n$, die aus allen skalaren Vielfachen eines einzelnen Vektors $v \\neq 0$ besteht: $\\{\\lambda v \\mid \\lambda \\in \\mathbb{R}\\}$.",
+        "Einheitskugel": "Die Menge aller Punkte (Vektoren) in einem normierten Vektorraum, deren Abstand vom Ursprung kleiner oder gleich 1 ist."
+      }
+    },
+    {
+      "frage": "10. Sei $B = \\{b_1, b_2\\}$ eine Basis für $\\mathbb{R}^2$. Ein Vektor $v$ habe die Koordinaten $[v]_B = (3, -1)^T$. Was bedeutet das?",
+      "optionen": [
+        "$v = 3b_1 - b_2$",
+        "$v = b_1 + b_2 - 4$",
+        "$b_1 = 3v - b_2$",
+        "$v$ ist der Vektor $(3, -1)^T$ in der Standardbasis.",
+        "Die Vektoren $v, b_1, b_2$ sind linear abhängig."
+      ],
+      "loesung": 0,
+      "erklaerung": "Der Koordinatenvektor $[v]_B = (c_1, \\dots, c_n)^T$ bezüglich einer Basis $B=\\{b_1, \\dots, b_n\\}$ gibt die Koeffizienten an, mit denen $v$ als Linearkombination der Basisvektoren dargestellt wird. Also ist $v = c_1 b_1 + \\dots + c_n b_n$. In diesem Fall mit $[v]_B = (3, -1)^T$ gilt $v = 3b_1 + (-1)b_2 = 3b_1 - b_2$.",
+      "gewichtung": 1,
+      "thema": "Koordinaten & Basis",
+      "mini_glossary": {
+        "Koordinatenvektor": "Ein Vektor $[v]_B$, dessen Komponenten die (eindeutigen) Koeffizienten sind, um einen Vektor $v$ als Linearkombination der Basisvektoren $B$ darzustellen.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
+        "Standardbasis": "Die Basis eines Koordinatenraums $\\mathbb{R}^n$ (oder $K^n$), die aus den Einheitsvektoren $e_i$ besteht, welche an der i-ten Stelle eine 1 und sonst Nullen haben.",
+        "Linearkombination": "Ein Vektor $v = c_1 v_1 + \\dots + c_n v_n$, gebildet durch Addition von Skalarvielfachen anderer Vektoren."
+      }
+    },
+    {
+      "frage": "11. Gegeben sei die Standardbasis $E=\\{e_1, e_2\\}$ für $\\mathbb{R}^2$ und eine neue Basis $B=\\{b_1, b_2\\}$ mit $b_1 = (1, 1)^T$ und $b_2 = (1, -1)^T$. Ein Vektor $v$ hat in der Standardbasis die Koordinaten $v = (3, 5)^T$. Was ist der Koordinatenvektor $[v]_B$ von $v$ bezüglich der Basis $B$?",
+      "optionen": [
+        "$(3, 5)^T$",
+        "$(4, -1)^T$",
+        "$(-1, 4)^T$",
+        "$(1, 2)^T$",
+        "$(8, 2)^T$"
+      ],
+      "loesung": 1,
+      "erklaerung": "Wir suchen $c_1, c_2$, sodass $v = c_1 b_1 + c_2 b_2$. $(3, 5)^T = c_1(1, 1)^T + c_2(1, -1)^T = (c_1+c_2, c_1-c_2)^T$. Dies führt zum LGS: $c_1+c_2 = 3$ und $c_1-c_2 = 5$. Addition der Gleichungen ergibt $2c_1 = 8 \\implies c_1=4$. Einsetzen in die erste Gleichung: $4+c_2=3 \\implies c_2=-1$. Also ist $[v]_B = (4, -1)^T$.",
+      "gewichtung": 2,
+      "thema": "Koordinaten & Basis",
+      "extended_explanation": {
+        "titel": "Berechnung des Koordinatenvektors bezüglich einer neuen Basis",
+        "schritte": [
+          "Ein Vektor $v$ mit Standardkoordinaten $(x,y)^T$ soll bezüglich einer neuen Basis $B = \\{b_1, b_2\\}$ dargestellt werden. Das bedeutet, wir suchen Skalare $c_1, c_2$, sodass $v = c_1 b_1 + c_2 b_2$.",
+          "Die rechte Seite ist eine Linearkombination der neuen Basisvektoren. Wenn wir die Basisvektoren als Spalten einer Matrix $M_B = [b_1, b_2]$ schreiben, lautet die Gleichung $v = M_B \\cdot [v]_B$, wobei $[v]_B = (c_1, c_2)^T$ der gesuchte Koordinatenvektor ist.",
+          "Um $[v]_B$ zu finden, müssen wir das lineare Gleichungssystem lösen: $M_B \\cdot [v]_B = v$. Dies kann durch Multiplikation mit der inversen Matrix erfolgen: $[v]_B = M_B^{-1} \\cdot v$.",
+          "In diesem Fall: $v = (3, 5)^T$, $b_1 = (1, 1)^T$, $b_2 = (1, -1)^T$. Die Matrix $M_B = \\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix}$.",
+          "Wir müssen das LGS lösen: $\\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix} \\begin{pmatrix} c_1 \\\\ c_2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix}$.",
+          "Komponentenweise: (1) $c_1 + c_2 = 3$, (2) $c_1 - c_2 = 5$.",
+          "Addieren von (1) und (2): $2c_1 = 8 \\implies c_1 = 4$.",
+          "Einsetzen in (1): $4 + c_2 = 3 \\implies c_2 = -1$.",
+          "Der Koordinatenvektor ist $[v]_B = (4, -1)^T$."
+        ]
+      },
+      "mini_glossary": {
+        "Koordinatenvektor": "Der Vektor, der die Koeffizienten einer Linearkombination von Basisvektoren enthält, um einen bestimmten Vektor darzustellen.",
+        "Basiswechsel": "Der Prozess der Umrechnung der Koordinaten eines Vektors von einer Basis in eine andere.",
+        "Lineares Gleichungssystem (LGS)": "Eine Menge von linearen Gleichungen mit mehreren Unbekannten, die gleichzeitig erfüllt sein sollen.",
+        "Inverse Matrix": "Zu einer quadratischen Matrix $A$ die Matrix $A^{-1}$, sodass $A \\cdot A^{-1} = A^{-1} \\cdot A = I$ (Einheitsmatrix)."
+      }
+    },
+    {
+      "frage": "12. Sei $V$ ein Vektorraum mit $\\dim(V)=5$. Seien $U$ und $W$ Untervektorräume von $V$ mit $\\dim(U)=3$ und $\\dim(W)=4$. Was ist die **kleinstmögliche** Dimension des Schnitts $U \\cap W$?",
+      "optionen": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "loesung": 2,
+      "erklaerung": "Nach der Dimensionsformel für Summen gilt: $\\dim(U+W) = \\dim(U) + \\dim(W) - \\dim(U \\cap W)$. Da $U+W$ ein Untervektorraum von $V$ ist, gilt $\\dim(U+W) \\le \\dim(V) = 5$. Wir setzen die gegebenen Dimensionen ein: $\\dim(U+W) = 3 + 4 - \\dim(U \\cap W) = 7 - \\dim(U \\cap W)$. Aus $\\dim(U+W) \\le 5$ folgt $7 - \\dim(U \\cap W) \\le 5$. Umstellen ergibt $2 \\le \\dim(U \\cap W)$. Die kleinstmögliche Dimension des Schnitts ist also 2.",
+      "gewichtung": 3,
+      "thema": "Dimension & Untervektorräume",
+      "extended_explanation": {
+        "titel": "Anwendung der Dimensionsformel für Untervektorräume",
+        "schritte": [
+          "Die Dimensionsformel für die Summe zweier Untervektorräume $U$ und $W$ eines Vektorraums $V$ lautet: $\\dim(U+W) = \\dim(U) + \\dim(W) - \\dim(U \\cap W)$.",
+          "$U+W = \\{u+w \\mid u \\in U, w \\in W\\}$ ist der Summenraum und ebenfalls ein Untervektorraum von $V$. Sein Schnitt $U \\cap W = \\{v \\mid v \\in U \\text{ und } v \\in W\\}$ ist ebenfalls ein Untervektorraum.",
+          "Da $U+W$ ein Untervektorraum von $V$ ist, muss seine Dimension kleiner oder gleich der Dimension von $V$ sein: $\\dim(U+W) \\le \\dim(V)$.",
+          "Gegeben sind $\\dim(V)=5$, $\\dim(U)=3$, $\\dim(W)=4$.",
+          "Einsetzen in die Dimensionsformel: $\\dim(U+W) = 3 + 4 - \\dim(U \\cap W) = 7 - \\dim(U \\cap W)$.",
+          "Verwenden der Ungleichung $\\dim(U+W) \\le \\dim(V)$: $7 - \\dim(U \\cap W) \\le 5$.",
+          "Umstellen nach $\\dim(U \\cap W)$: $7 - 5 \\le \\dim(U \\cap W)$, also $2 \\le \\dim(U \\cap W)$.",
+          "Die Dimension des Schnitts muss also mindestens 2 sein. Dieser minimale Wert ist auch erreichbar (z.B. im $\\mathbb{R}^5$ wähle $U=\\text{span}(e_1, e_2, e_3)$ und $W=\\text{span}(e_3, e_4, e_5, e_1)$)."
+        ]
+      },
+      "mini_glossary": {
+        "Dimension": "Die Anzahl der Vektoren in einer Basis eines Vektorraums.",
+        "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst ein Vektorraum ist.",
+        "Summenraum $U+W$": "Die Menge aller Vektoren, die sich als Summe eines Vektors aus $U$ und eines Vektors aus $W$ schreiben lassen. Es ist der kleinste Untervektorraum, der $U$ und $W$ enthält.",
+        "Schnittraum $U \\cap W$": "Die Menge aller Vektoren, die sowohl in $U$ als auch in $W$ liegen. Es ist der größte Untervektorraum, der in $U$ und $W$ enthalten ist."
+      }
+    },
+    {
+      "frage": "13. Welche Eigenschaft muss **nicht** notwendigerweise für eine Basis $B = \\{b_1, \\dots, b_n\\}$ eines Vektorraums $V$ gelten?",
+      "optionen": [
+        "Die Vektoren in $B$ sind linear unabhängig.",
+        "Der Span der Vektoren in $B$ ist gleich $V$.",
+        "Jeder Vektor in $V$ lässt sich **eindeutig** als Linearkombination der Vektoren in $B$ darstellen.",
+        "Die Vektoren in $B$ sind orthogonal zueinander.",
+        "Die Anzahl der Vektoren in $B$ ist gleich der Dimension von $V$."
+      ],
+      "loesung": 3,
+      "erklaerung": "Eine Basis muss linear unabhängig sein und den Raum aufspannen. Daraus folgt die eindeutige Darstellbarkeit jedes Vektors und dass die Anzahl der Basisvektoren die Dimension ist. Orthogonalität (senkrecht aufeinander stehen, Skalarprodukt 0) ist jedoch **keine** notwendige Bedingung für eine Basis. Eine Basis, deren Vektoren orthogonal sind, nennt man Orthogonalbasis.",
+      "gewichtung": 1,
+      "thema": "Basis",
+      "mini_glossary": {
+        "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
+        "Lineare Unabhängigkeit": "Eigenschaft einer Menge von Vektoren, bei der keiner als Linearkombination der anderen darstellbar ist.",
+        "Span (Erzeugnis)": "Die Menge aller Linearkombinationen einer Vektormenge.",
+        "Orthogonalität": "Zwei Vektoren sind orthogonal, wenn ihr Skalarprodukt Null ist. Sie stehen 'senkrecht' aufeinander."
+      }
+    },
+    {
+      "frage": "14. Gegeben sind die Vektoren $v_1 = (1, 1)^T$ und $v_2 = (-1, 1)^T$ im $\\mathbb{R}^2$. Warum bilden sie eine Basis für $\\mathbb{R}^2$?",
+      "optionen": [
+        "Weil sie orthogonal sind.",
+        "Weil sie beide vom Nullvektor verschieden sind.",
+        "Weil sie den $\\mathbb{R}^2$ aufspannen und mehr Vektoren als die Dimension von $\\mathbb{R}^2$ enthalten.",
+        "Weil sie linear unabhängig sind und ihre Anzahl (2) gleich der Dimension von $\\mathbb{R}^2$ ist.",
+        "Weil sie Vielfache der Standardbasisvektoren sind."
+      ],
+      "loesung": 3,
+      "erklaerung": "Zwei Vektoren im $\\mathbb{R}^2$ bilden genau dann eine Basis, wenn sie linear unabhängig sind. Da $\\dim(\\mathbb{R}^2)=2$, genügt es zu zeigen, dass die beiden Vektoren linear unabhängig sind. $v_1$ und $v_2$ sind nicht parallel (kein skalares Vielfaches voneinander), also sind sie linear unabhängig im $\\mathbb{R}^2$. Da ihre Anzahl (2) der Dimension des Raumes entspricht, bilden sie eine Basis. Orthogonalität ist hier zufällig gegeben ($v_1 \\cdot v_2 = 1(-1)+1(1)=0$), aber keine notwendige Bedingung für eine Basis.",
+      "gewichtung": 1,
+      "thema": "Basis",
+      "mini_glossary": {
+        "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
+        "Dimension": "Die Anzahl der Vektoren in einer Basis.",
+        "Lineare Unabhängigkeit": "Kein Vektor ist Linearkombination der anderen.",
+        "Orthogonal": "Vektoren, deren Skalarprodukt Null ist."
+      }
+    },
+    {
+      "frage": "15. Wie lautet die Standardbasis für den Vektorraum $M_{2 \\times 2}(\\mathbb{R})$ der reellen $2 \\times 2$ Matrizen?",
+      "optionen": [
+        "$\\left\\{ \\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 0 \\\\ 1 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix} \\right\\}$",
+        "$\\left\\{ \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix} \\right\\}$",
+        "$\\left\\{ \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}, \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix} \\right\\}$",
+        "$\\left\\{ \\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix} \\right\\}$",
+        "$\\left\\{ \\begin{pmatrix} 1 & 1 \\\\ 0 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 0 \\\\ 1 & 1 \\end{pmatrix}, \\begin{pmatrix} 1 & 0 \\\\ 1 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 1 \\\\ 0 & 1 \\end{pmatrix} \\right\\}$"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Standardbasis des Matrizenraums $M_{m \\times n}(\\mathbb{R})$ besteht aus den $m \\times n$ Matrizen $E_{ij}$, die an der Position $(i, j)$ eine 1 und sonst überall Nullen haben. Für $M_{2 \\times 2}(\\mathbb{R})$ sind dies die vier Matrizen $E_{11}, E_{12}, E_{21}, E_{22}$, wie in Option A angegeben. Die Dimension dieses Raumes ist $m \\times n = 2 \\times 2 = 4$.",
+      "gewichtung": 1,
+      "thema": "Basis",
+      "mini_glossary": {
+        "Matrizenraum $M_{m \\times n}(\\mathbb{R})$": "Der Vektorraum aller $m \\times n$ Matrizen mit reellen Einträgen.",
+        "Standardbasis (Matrizen)": "Die Basis bestehend aus Matrizen $E_{ij}$, die nur an der Position $(i,j)$ den Eintrag 1 haben und sonst Nullen.",
+        "Dimension (Matrizenraum)": "Für $M_{m \\times n}(\\mathbb{R})$ ist die Dimension $m \\times n$."
+      }
+    },
+    {
+      "frage": "16. Was ist der **fundamentale Isomorphiesatz** für endlichdimensionale Vektorräume?",
+      "optionen": [
+        "Jeder Vektorraum ist isomorph zu $\\mathbb{R}^n$.",
+        "Zwei Vektorräume sind genau dann isomorph, wenn sie die gleiche Dimension haben.",
+        "Jeder n-dimensionale Vektorraum über $K$ ist isomorph zum Polynomraum $P_{n-1}(K)$.",
+        "Lineare Abbildungen zwischen isomorphen Räumen sind immer bijektiv.",
+        "Ein Vektorraum und sein Dualraum sind immer isomorph."
+      ],
+      "loesung": 1,
+      "erklaerung": "Der fundamentale Satz besagt, dass zwei endlichdimensionale Vektorräume über demselben Körper $K$ genau dann isomorph (strukturell gleich) sind, wenn sie die gleiche Dimension haben. Daraus folgt insbesondere, dass jeder $n$-dimensionale Vektorraum über $K$ isomorph zu $K^n$ ist. Aussage A ist zu spezifisch (nur für $K=\\mathbb{R}$). Aussage C ist falsch (Dimension von $P_{n-1}(K)$ ist $n$). Aussage D ist wahr für Isomorphismen, aber nicht der Satz selbst. Aussage E gilt für endlichdimensionale Räume, ist aber eine Folgerung, nicht der Satz.",
+      "gewichtung": 3,
+      "thema": "Dimension & Isomorphismus",
+      "extended_explanation": {
+        "titel": "Isomorphismus und Dimension",
+        "schritte": [
+          "Ein **Isomorphismus** zwischen zwei Vektorräumen $V$ und $W$ über demselben Körper $K$ ist eine bijektive lineare Abbildung $\\phi: V \\to W$. Existiert ein Isomorphismus, nennt man $V$ und $W$ isomorph ($V \\cong W$). Isomorphe Räume haben dieselbe algebraische Struktur.",
+          "Der **fundamentale Isomorphiesatz** für endlichdimensionale Vektorräume besagt: $V \\cong W \\iff \\dim(V) = \\dim(W)$. Die Dimension ist also die einzige Invariante, die die Struktur eines endlichdimensionalen Vektorraums bis auf Isomorphie bestimmt.",
+          "Als wichtige **Folgerung** ergibt sich: Jeder $n$-dimensionale Vektorraum $V$ über $K$ ist isomorph zu $K^n$. Denn $\\dim(V)=n$ und $\\dim(K^n)=n$. Der Isomorphismus wird durch die Wahl einer Basis $B = \\{b_1, \\dots, b_n\\}$ für $V$ hergestellt: Die Koordinatenabbildung $\\kappa_B: V \\to K^n$, die jedem Vektor $v = \\sum c_i b_i$ seinen Koordinatenvektor $[v]_B = (c_1, \\dots, c_n)^T$ zuordnet, ist ein Isomorphismus."
+        ]
+      },
+      "mini_glossary": {
+        "Isomorphismus (Vektorräume)": "Eine bijektive lineare Abbildung zwischen zwei Vektorräumen, die die Struktur erhält.",
+        "Isomorph": "Zwei Vektorräume heißen isomorph, wenn ein Isomorphismus zwischen ihnen existiert. Sie sind strukturell äquivalent.",
+        "Dimension": "Die Anzahl der Vektoren in einer Basis eines Vektorraums.",
+        "Koordinatenabbildung": "Die lineare Abbildung, die einen Vektor auf seinen Koordinatenvektor bezüglich einer gewählten Basis abbildet."
+      }
+    },
+    {
+      "frage": "17. Welche Aussage folgt **nicht** direkt aus den Vektorraumaxiomen?",
+      "optionen": [
+        "Der Nullvektor ist eindeutig bestimmt.",
+        "Zu jedem Vektor $v$ existiert genau ein additiv inverses Element $-v$.",
+        "$0 \\cdot v = 0$ für jeden Vektor $v$ (wobei 0 der Skalar Null ist).",
+        "$\\lambda \\cdot 0 = 0$ für jeden Skalar $\\lambda$ (wobei 0 der Nullvektor ist).",
+        "Das Skalarprodukt zweier Vektoren ist immer definiert."
+      ],
+      "loesung": 4,
+      "erklaerung": "Das Skalarprodukt (oder inneres Produkt) ist eine zusätzliche Struktur, die **nicht** zu den grundlegenden Vektorraumaxiomen gehört. Ein Vektorraum mit einem Skalarprodukt heißt euklidischer oder unitärer Vektorraum. Die anderen Aussagen sind direkte Folgerungen aus den Axiomen der Addition und Skalarmultiplikation.",
+      "gewichtung": 1,
+      "thema": "Vektorraumdefinition & Axiome",
+      "mini_glossary": {
+        "Vektorraumaxiome": "Die acht Regeln (oder zehn, wenn Abgeschlossenheit explizit genannt wird), welche die Vektoraddition und Skalarmultiplikation erfüllen müssen.",
+        "Nullvektor": "Das neutrale Element der Vektoraddition.",
+        "Additives Inverses": "Der Vektor $-v$, der zu $v$ addiert den Nullvektor ergibt.",
+        "Skalarprodukt (Inneres Produkt)": "Eine zusätzliche Operation, die zwei Vektoren einen Skalar zuordnet und Eigenschaften wie Bilinearität, Symmetrie und positive Definitheit besitzt. Nicht Teil der Standard-Vektorraumdefinition."
+      }
+    },
+    {
+      "frage": "18. Ist der Vektor $w = (8, 1)^T$ eine Linearkombination der Vektoren $v_1 = (1, 2)^T$ und $v_2 = (-2, 1)^T$? Wenn ja, mit welchen Koeffizienten $c_1, c_2$?",
+      "optionen": [
+        "Ja, $c_1=1, c_2=-3.5$.",
+        "Ja, $c_1=2, c_2=-3$.",
+        "Ja, $c_1=4, c_2=-2$.",
+        "Nein, $w$ ist keine Linearkombination von $v_1$ und $v_2$.",
+        "Ja, $c_1=0, c_2=-4$."
+      ],
+      "loesung": 1,
+      "erklaerung": "Wir suchen $c_1, c_2$ mit $c_1 v_1 + c_2 v_2 = w$. Das führt zum LGS: $c_1(1, 2)^T + c_2(-2, 1)^T = (8, 1)^T$, also (1) $c_1 - 2c_2 = 8$ und (2) $2c_1 + c_2 = 1$. Aus (2) folgt $c_2 = 1 - 2c_1$. Einsetzen in (1): $c_1 - 2(1-2c_1) = 8 \\implies c_1 - 2 + 4c_1 = 8 \\implies 5c_1 = 10 \\implies c_1 = 2$. Dann ist $c_2 = 1 - 2(2) = -3$. Die Lösung existiert und ist $c_1=2, c_2=-3$.",
+      "gewichtung": 1,
+      "thema": "Linearkombination & Span",
+      "mini_glossary": {
+        "Linearkombination": "Ein Vektor $v = c_1 v_1 + \\dots + c_n v_n$, gebildet durch Addition von Skalarvielfachen anderer Vektoren.",
+        "Lineares Gleichungssystem (LGS)": "Eine Menge von linearen Gleichungen, die gleichzeitig gelöst werden sollen.",
+        "Koeffizienten": "Die Skalare $c_i$ in einer Linearkombination."
+      }
+    },
+    {
+      "frage": "19. Sei $V=\\mathbb{R}^3$. Ist die Menge $U = \\{(x, y, z)^T \\in \\mathbb{R}^3 \\mid x \\ge 0\\}$ (Vektoren im ersten Oktanten und angrenzenden Ebenen) ein Untervektorraum von $V$?",
+      "optionen": [
+        "Ja, sie enthält den Nullvektor und ist abgeschlossen unter Addition.",
+        "Ja, sie enthält den Nullvektor und ist abgeschlossen unter Skalarmultiplikation.",
+        "Nein, sie enthält den Nullvektor nicht.",
+        "Nein, sie ist nicht abgeschlossen unter Addition.",
+        "Nein, sie ist nicht abgeschlossen unter Skalarmultiplikation mit negativen Skalaren."
+      ],
+      "loesung": 4,
+      "erklaerung": "Ein Untervektorraum muss drei Kriterien erfüllen: Nullvektor enthalten, Abgeschlossenheit unter Addition und Skalarmultiplikation  \n 1. Nullvektor: $(0,0,0)^T$ ist in $U$, da $x=0 \\ge 0$. ✓\\n2. Addition: Seien $u=(x_1, y_1, z_1)^T$ und $w=(x_2, y_2, z_2)^T$ in $U$. Dann ist $x_1 \\ge 0$ und $x_2 \\ge 0$. Ihr Summenvektor $u+w=(x_1+x_2, y_1+y_2, z_1+z_2)^T$ hat die erste Komponente $x_1+x_2 \\ge 0$. Also ist $U$ abgeschlossen unter Addition. ✓\\n3. Skalarmultiplikation: Sei $u=(x_1, y_1, z_1)^T$ in $U$ ($x_1 \\ge 0$) und $\\lambda \\in \\mathbb{R}$. Der Vektor $\\lambda u = (\\lambda x_1, \\lambda y_1, \\lambda z_1)^T$ muss auch in $U$ liegen. Wenn $\\lambda \\ge 0$, dann ist $\\lambda x_1 \\ge 0$. Aber wenn $\\lambda < 0$ (z.B. $\\lambda = -1$) und $x_1 > 0$, dann ist $\\lambda x_1 < 0$. Also ist $\\lambda u$ nicht notwendigerweise in $U$. $U$ ist nicht abgeschlossen unter Skalarmultiplikation mit negativen Skalaren. ✗",
+      "gewichtung": 2,
+      "thema": "Untervektorräume",
+      "extended_explanation": {
+        "titel": "Prüfung der Untervektorraum-Kriterien für $x \\ge 0$",
+        "schritte": [
+          "Die Menge ist $U = \\{(x, y, z)^T \\in \\mathbb{R}^3 \\mid x \\ge 0\\}$.",
+          "**Kriterium 1: Nullvektor:** Der Vektor $(0, 0, 0)^T$ hat $x=0$, was $x \\ge 0$ erfüllt. Der Nullvektor ist in $U$.",
+          "**Kriterium 2: Abgeschlossenheit unter Addition:** Seien $u=(x_1, y_1, z_1)^T \\in U$ und $w=(x_2, y_2, z_2)^T \\in U$. Das bedeutet $x_1 \\ge 0$ und $x_2 \\ge 0$. Die Summe ist $u+w = (x_1+x_2, y_1+y_2, z_1+z_2)^T$. Da die Summe zweier nicht-negativer Zahlen nicht-negativ ist, gilt $x_1+x_2 \\ge 0$. Somit ist $u+w \\in U$. $U$ ist abgeschlossen unter Addition.",
+          "**Kriterium 3: Abgeschlossenheit unter Skalarmultiplikation:** Sei $u=(x_1, y_1, z_1)^T \\in U$ (also $x_1 \\ge 0$) und $\\lambda \\in \\mathbb{R}$. Der skalierte Vektor ist $\\lambda u = (\\lambda x_1, \\lambda y_1, \\lambda z_1)^T$. Damit $\\lambda u \\in U$ gilt, muss $\\lambda x_1 \\ge 0$ sein. Wenn $x_1 > 0$ (z.B. $u=(1,0,0)^T \\in U$) und $\\lambda = -1$, dann ist $\\lambda x_1 = -1 < 0$. In diesem Fall liegt $\\lambda u = (-1, 0, 0)^T$ nicht in $U$. Die Menge ist nicht abgeschlossen unter Skalarmultiplikation mit negativen Skalaren.",
+          "Da Kriterium 3 verletzt ist, ist $U$ kein Untervektorraum."
+        ]
+      },
+      "mini_glossary": {
+        "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst wieder ein Vektorraum ist.",
+        "Abgeschlossenheit (Addition)": "Für alle $u, w$ in der Menge liegt auch $u+w$ in der Menge.",
+        "Abgeschlossenheit (Skalarmultiplikation)": "Für alle $u$ in der Menge und alle Skalare $\\lambda$ liegt auch $\\lambda u$ in der Menge.",
+        "Oktant": "Einer der acht Bereiche, in die der $\\mathbb{R}^3$ durch die Koordinatenebenen geteilt wird."
+      }
+    },
+    {
+      "frage": "20. Welches Konzept der linearen Algebra wird hauptsächlich bei der JPEG-Bildkompression genutzt, um von Pixelwerten zu Frequenzkoeffizienten zu wechseln?",
+      "optionen": [
+        "Lösung linearer Gleichungssysteme",
+        "Berechnung von Determinanten",
+        "Basiswechsel (mittels Diskreter Kosinustransformation)",
+        "Bestimmung der Dimension eines Funktionenraums",
+        "Prüfung auf lineare Unabhängigkeit von Bildblöcken"
+      ],
+      "loesung": 2,
+      "erklaerung": "Die JPEG-Kompression zerlegt ein Bild in Blöcke und transformiert jeden Block mittels der Diskreten Kosinustransformation (DCT). Die DCT ist mathematisch ein **Basiswechsel** von der Standardbasis (Pixelwerte) in eine Frequenzbasis. In dieser Basis können hohe Frequenzen, die für das menschliche Auge weniger wichtig sind, stärker quantisiert (gerundet) oder verworfen werden, was zur Kompression führt.",
+      "gewichtung": 3,
+      "thema": "Basiswechsel & Anwendungen",
+      "extended_explanation": {
+        "titel": "Basiswechsel bei der JPEG-Kompression",
+        "schritte": [
+          "JPEG (Joint Photographic Experts Group) ist ein verbreitetes Verfahren zur verlustbehafteten Kompression digitaler Bilder.",
+          "Ein zentraler Schritt ist die Transformation von 8x8-Pixelblöcken des Bildes.",
+          "Jeder 8x8-Block kann als Vektor im $\\mathbb{R}^{64}$ betrachtet werden, wobei die Komponenten die Pixelintensitätswerte sind (Standardbasis).",
+          "Die **Diskrete Kosinustransformation (DCT)** wird auf diesen Block angewendet. Die DCT ist eine lineare Transformation, die diesen Vektor in einen neuen Vektor von 64 Koeffizienten umwandelt.",
+          "Diese Transformation entspricht einem **Basiswechsel**. Der neue Vektor enthält die Koordinaten des Bildblocks bezüglich einer neuen Basis, deren Basisvektoren bestimmten Frequenzmustern (Kosinuswellen unterschiedlicher Frequenz) entsprechen.",
+          "Der erste Koeffizient (DC-Koeffizient) repräsentiert den Durchschnittshellwert (niedrigste Frequenz). Nachfolgende Koeffizienten (AC-Koeffizienten) repräsentieren höhere Frequenzen (feinere Details).",
+          "Die Kompression wird erreicht, indem die Koeffizienten der hohen Frequenzen, die das menschliche Auge schlechter wahrnimmt, stärker quantisiert (gröber gerundet) oder ganz auf Null gesetzt werden.",
+          "Beim Dekomprimieren wird die inverse DCT angewendet (Basiswechsel zurück), um eine Annäherung an den ursprünglichen Pixelblock zu erhalten."
+        ]
+      },
+      "mini_glossary": {
+        "JPEG": "Ein Standardformat zur verlustbehafteten Kompression von Bildern.",
+        "Diskrete Kosinustransformation (DCT)": "Eine Fourier-verwandte Transformation, die ein Signal (hier einen Bildblock) in seine Frequenzkomponenten zerlegt. Sie stellt einen Basiswechsel dar.",
+        "Basiswechsel": "Die Umrechnung der Koordinaten eines Vektors von einer Basisdarstellung in eine andere.",
+        "Quantisierung": "Ein Prozess bei der digitalen Signalverarbeitung, bei dem ein kontinuierlicher oder großer Wertebereich auf einen kleineren, diskreten Satz von Werten abgebildet wird (Rundung)."
+      }
+    },
+    {
+      "frage": "21. Sei $V$ ein Vektorraum und $S = \\{v_1, v_2, v_3\\}$ eine linear abhängige Menge von Vektoren in $V$. Was folgt daraus notwendigerweise?",
+      "optionen": [
+        "Die Dimension von $V$ ist kleiner als 3.",
+        "Mindestens einer der Vektoren $v_1, v_2, v_3$ ist der Nullvektor.",
+        "Mindestens einer der Vektoren lässt sich als Linearkombination der anderen Vektoren aus $S$ darstellen.",
+        "Der Span von $S$ ist nicht der gesamte Raum $V$.",
+        "Die Vektoren sind paarweise parallel zueinander."
+      ],
+      "loesung": 2,
+      "erklaerung": "Lineare Abhängigkeit einer Menge $S = \\{v_1, \\dots, v_n\\}$ bedeutet, dass es Skalare $c_1, \\dots, c_n$ gibt, die nicht alle Null sind, sodass $\\sum_{i=1}^n c_i v_i = 0$. Wenn z.B. $c_k \\neq 0$ ist, kann man die Gleichung nach $v_k$ auflösen: $v_k = \\sum_{i \\neq k} (-c_i/c_k) v_i$. Das heißt, $v_k$ ist eine Linearkombination der anderen Vektoren. Die anderen Aussagen sind nicht notwendigerweise wahr.",
+      "gewichtung": 1,
+      "thema": "Lineare Unabhängigkeit",
+      "mini_glossary": {
+        "Lineare Abhängigkeit": "Eine Menge von Vektoren ist linear abhängig, wenn mindestens einer der Vektoren als Linearkombination der anderen dargestellt werden kann.",
+        "Linearkombination": "Summe von Skalarvielfachen von Vektoren.",
+        "Dimension": "Anzahl der Vektoren in einer Basis.",
+        "Span": "Menge aller Linearkombinationen."
+      }
+    },
+    {
+      "frage": "22. Was ist die Dimension des Untervektorraums $U = \\text{span}((1, 0, 1)^T, (0, 1, 1)^T, (1, 1, 2)^T)$ von $\\mathbb{R}^3$?",
+      "optionen": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Dimension des von einer Menge von Vektoren aufgespannten Raumes ist gleich der maximalen Anzahl linear unabhängiger Vektoren in dieser Menge. Wir prüfen die lineare Unabhängigkeit von $v_1=(1,0,1)^T, v_2=(0,1,1)^T, v_3=(1,1,2)^T$. Man erkennt, dass $v_3 = v_1 + v_2$. Da $v_3$ eine Linearkombination von $v_1$ und $v_2$ ist, ist die Menge linear abhängig. $v_1$ und $v_2$ sind offensichtlich nicht parallel und somit linear unabhängig. Der Span wird also bereits von den zwei linear unabhängigen Vektoren $v_1$ und $v_2$ erzeugt. Die Dimension des Spans ist daher 2.",
+      "gewichtung": 2,
+      "thema": "Dimension & Span",
+      "extended_explanation": {
+        "titel": "Bestimmung der Dimension eines Spans",
+        "schritte": [
+          "Die Dimension des von $S = \\{v_1, v_2, v_3\\}$ aufgespannten Raumes ($\\text{span}(S)$) ist die maximale Anzahl linear unabhängiger Vektoren in $S$.",
+          "Wir prüfen, ob $v_1, v_2, v_3$ linear unabhängig sind. Wir suchen nach einer Beziehung $c_1 v_1 + c_2 v_2 + c_3 v_3 = 0$.",
+          "Wir stellen fest, dass $v_3 = (1, 1, 2)^T$ und $v_1 + v_2 = (1, 0, 1)^T + (0, 1, 1)^T = (1, 1, 2)^T$. Also gilt $v_3 = v_1 + v_2$, oder äquivalent $1 \\cdot v_1 + 1 \\cdot v_2 - 1 \\cdot v_3 = 0$.",
+          "Da dies eine nichttriviale Linearkombination des Nullvektors ist ($c_1=1, c_2=1, c_3=-1$), ist die Menge $S$ linear abhängig.",
+          "Der Vektor $v_3$ ist 'redundant' und kann aus dem Erzeugendensystem entfernt werden, ohne den Span zu ändern: $\\text{span}(v_1, v_2, v_3) = \\text{span}(v_1, v_2)$.",
+          "Nun prüfen wir die lineare Unabhängigkeit von $\\{v_1, v_2\\}$. Da $v_1$ kein skalares Vielfaches von $v_2$ ist (und umgekehrt), sind sie linear unabhängig.",
+          "Die Menge $\\{v_1, v_2\\}$ ist eine linear unabhängige Menge, die $U$ aufspannt. Sie bildet also eine Basis für $U$.",
+          "Die Dimension von $U$ ist die Anzahl der Vektoren in dieser Basis, also $\\dim(U) = 2$."
+        ]
+      },
+      "mini_glossary": {
+        "Span (Lineare Hülle)": "Die Menge aller möglichen Linearkombinationen einer Menge von Vektoren.",
+        "Dimension": "Die Anzahl der Vektoren in einer Basis des (Unter-)Vektorraums.",
+        "Lineare Unabhängigkeit": "Kein Vektor der Menge ist als Linearkombination der anderen darstellbar.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem."
+      }
+    },
+    {
+      "frage": "23. Sei $\\phi: V \\to W$ ein Isomorphismus zwischen zwei Vektorräumen $V$ und $W$. Welche Aussage ist **falsch**?",
+      "optionen": [
+        "$\\phi$ ist eine lineare Abbildung.",
+        "$\\phi$ ist bijektiv (injektiv und surjektiv).",
+        "$\\dim(V) = \\dim(W)$ (falls endlichdimensional).",
+        "Wenn $\\{v_1, \\dots, v_n\\}$ eine Basis von $V$ ist, dann ist $\\{\\phi(v_1), \\dots, \\phi(v_n)\\}$ eine Basis von $W$.",
+        "$\\phi(v_1 + v_2) = \\phi(v_1) \\cdot \\phi(v_2)$."
+      ],
+      "loesung": 4,
+      "erklaerung": "Ein Isomorphismus ist eine *lineare* Abbildung. Linearität bedeutet $\\phi(v_1 + v_2) = \\phi(v_1) + \\phi(v_2)$ und $\\phi(\\lambda v) = \\lambda \\phi(v)$. Die Aussage $\\phi(v_1 + v_2) = \\phi(v_1) \\cdot \\phi(v_2)$ beschreibt keine Eigenschaft einer linearen Abbildung, sondern eher einen Homomorphismus bezüglich einer multiplikativen Struktur, die in Vektorräumen standardmäßig nicht vorhanden ist. Alle anderen Aussagen sind korrekte Eigenschaften von Isomorphismen.",
+      "gewichtung": 2,
+      "thema": "Isomorphismus",
+      "extended_explanation": {
+        "titel": "Eigenschaften von Vektorraum-Isomorphismen",
+        "schritte": [
+          "Ein Isomorphismus $\\phi: V \\to W$ ist per Definition eine **lineare Abbildung**, die **bijektiv** ist.",
+          "**Linearität** bedeutet: 1) $\\phi(v_1 + v_2) = \\phi(v_1) + \\phi(v_2)$ für alle $v_1, v_2 \\in V$ (Additivität) und 2) $\\phi(\\lambda v) = \\lambda \\phi(v)$ für alle $v \\in V, \\lambda \\in K$ (Homogenität).",
+          "**Bijektivität** bedeutet, dass $\\phi$ sowohl injektiv (verschiedene Vektoren in $V$ werden auf verschiedene Vektoren in $W$ abgebildet) als auch surjektiv (jeder Vektor in $W$ ist das Bild mindestens eines Vektors aus $V$) ist.",
+          "Aus der Bijektivität und Linearität folgt, dass Isomorphismen Dimensionen erhalten: Wenn $V$ und $W$ endlichdimensional sind, gilt $\\dim(V) = \\dim(W)$.",
+          "Ebenfalls folgt, dass Isomorphismen Basen auf Basen abbilden: Wenn $\\{v_1, \\dots, v_n\\}$ eine Basis von $V$ ist, dann ist $\\{\\phi(v_1), \\dots, \\phi(v_n)\\}$ eine Basis von $W$. (Lineare Unabhängigkeit und Erzeugendeneigenschaft bleiben unter Isomorphismen erhalten).",
+          "Die Aussage $\\phi(v_1 + v_2) = \\phi(v_1) \\cdot \\phi(v_2)$ widerspricht der Additivitätseigenschaft der Linearität und ist daher **falsch**."
+        ]
+      },
+      "mini_glossary": {
+        "Isomorphismus": "Eine bijektive lineare Abbildung zwischen zwei Vektorräumen.",
+        "Lineare Abbildung": "Eine Abbildung zwischen Vektorräumen, die die Vektoraddition und Skalarmultiplikation respektiert ($\\phi(v_1+v_2)=\\phi(v_1)+\\phi(v_2)$, $\\phi(\\lambda v)=\\lambda \\phi(v)$).",
+        "Bijektiv": "Eine Abbildung, die sowohl injektiv als auch surjektiv ist.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem."
+      }
+    },
+    {
+      "frage": "24. Welches Vektorraum-Axiom stellt sicher, dass $1 \\cdot v = v$ für jeden Vektor $v$ gilt, wobei $1$ das Einselement des Skalarkörpers ist?",
+      "optionen": [
+        "Assoziativität der Skalarmultiplikation (S2)",
+        "Existenz eines neutralen Elements der Addition (A4)",
+        "Distributivität I (S3)",
+        "Distributivität II (S4)",
+        "Neutrales Element der Skalarmultiplikation (S5)"
+      ],
+      "loesung": 4,
+      "erklaerung": "Das Axiom (S5) der Skalarmultiplikation fordert explizit, dass das Einselement $1$ des Körpers $K$ bei der Skalarmultiplikation als neutrales Element wirkt: $1 \\cdot v = v$ für alle $v \\in V$.",
+      "gewichtung": 1,
+      "thema": "Vektorraumdefinition & Axiome",
+      "mini_glossary": {
+        "Vektorraumaxiome": "Die Regeln, die Addition und Skalarmultiplikation in einem Vektorraum erfüllen müssen.",
+        "Skalarmultiplikation": "Die Operation, einen Vektor mit einem Skalar zu multiplizieren.",
+        "Skalarkörper": "Der Körper (z.B. $\\mathbb{R}$), aus dem die Skalare für die Skalarmultiplikation stammen.",
+        "Einselement": "Das neutrale Element der Multiplikation im Skalarkörper, üblicherweise mit $1$ bezeichnet."
+      }
+    },
+    {
+      "frage": "25. Was ist die Kosinus-Ähnlichkeit zwischen den Vektoren $A = (2, 4, -1)^T$ und $B = (3, -2, 5)^T$?",
+      "optionen": [
+        "$-7$",
+        "$\\sqrt{21} \\cdot \\sqrt{38}$",
+        "$-7 / (\\sqrt{21} \\cdot \\sqrt{38})$",
+        "$1$",
+        "$0$"
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Formel für die Kosinus-Ähnlichkeit ist $\\cos(\\theta) = (A \\cdot B) / (\\|A\\| \\cdot \\|B\\|)$  \n Skalarprodukt: $A \\cdot B = (2)(3) + (4)(-2) + (-1)(5) = 6 - 8 - 5 = -7$  \n Betrag von A: $\\|A\\| = \\sqrt{2^2 + 4^2 + (-1)^2} = \\sqrt{4+16+1} = \\sqrt{21}$  \n Betrag von B: $\\|B\\| = \\sqrt{3^2 + (-2)^2 + 5^2} = \\sqrt{9+4+25} = \\sqrt{38}$  \n Kosinus-Ähnlichkeit: $\\cos(\\theta) = -7 / (\\sqrt{21} \\cdot \\sqrt{38})$.",
+      "gewichtung": 2,
+      "thema": "Vektoroperationen & Anwendungen",
+      "extended_explanation": {
+        "titel": "Berechnung der Kosinus-Ähnlichkeit",
+        "schritte": [
+          "Die Kosinus-Ähnlichkeit misst den Kosinus des Winkels zwischen zwei Vektoren in einem Vektorraum mit Skalarprodukt. Sie ist ein Maß für die Ähnlichkeit ihrer Richtungen.",
+          "Die Formel lautet: $\\cos(\\theta) = \\frac{A \\cdot B}{\\|A\\| \\cdot \\|B\\|}$.",
+          "Berechne das Skalarprodukt (dot product) $A \\cdot B$: $A \\cdot B = \\sum_{i=1}^n A_i B_i = (2)(3) + (4)(-2) + (-1)(5) = 6 - 8 - 5 = -7$.",
+          "Berechne die euklidische Norm (Betrag) von $A$: $\\|A\\| = \\sqrt{\\sum_{i=1}^n A_i^2} = \\sqrt{2^2 + 4^2 + (-1)^2} = \\sqrt{4 + 16 + 1} = \\sqrt{21}$.",
+          "Berechne die euklidische Norm (Betrag) von $B$: $\\|B\\| = \\sqrt{\\sum_{i=1}^n B_i^2} = \\sqrt{3^2 + (-2)^2 + 5^2} = \\sqrt{9 + 4 + 25} = \\sqrt{38}$.",
+          "Setze die Werte in die Formel ein: $\\cos(\\theta) = \\frac{-7}{\\sqrt{21} \\cdot \\sqrt{38}}$."
+        ]
+      },
+      "mini_glossary": {
+        "Kosinus-Ähnlichkeit": "Ein Maß für die Ähnlichkeit zweier Vektoren, definiert als Kosinus des Winkels zwischen ihnen. Wertebereich $[-1, 1]$.",
+        "Skalarprodukt (Dot Product)": "Eine Operation, die zwei Vektoren einen Skalar zuordnet: $A \\cdot B = \\sum A_i B_i$. Im euklidischen Raum misst es, wie sehr die Vektoren in die gleiche Richtung zeigen.",
+        "Euklidische Norm (Betrag)": "Die Länge eines Vektors im euklidischen Raum: $\\|A\\| = \\sqrt{\\sum A_i^2}$.",
+        "Vektoraddition": "Die komponentenweise Addition zweier Vektoren."
+      }
+    },
+    {
+      "frage": "26. Welche Methode zur Prüfung der linearen Unabhängigkeit von $n$ Vektoren im $\\mathbb{R}^n$ ist im Allgemeinen **nicht** geeignet, wenn $n$ sehr groß ist (z.B. $n=1000$)?",
+      "optionen": [
+        "Berechnung des Rangs der Matrix, die die Vektoren als Spalten enthält, mittels Gauß-Elimination.",
+        "Überprüfung, ob das homogene lineare Gleichungssystem $A c = 0$ nur die triviale Lösung besitzt.",
+        "Direkte Berechnung der Determinante der Matrix $A$ (z.B. nach Leibniz-Formel oder Laplace-Entwicklung).",
+        "Singulärwertzerlegung (SVD) der Matrix $A$.",
+        "QR-Zerlegung der Matrix $A$."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die direkte Berechnung der Determinante nach der Leibniz-Formel oder Laplace-Entwicklung hat eine sehr hohe Rechenkomplexität (mindestens $O(n!)$ bzw. $O(n \\cdot n!)$ ohne Optimierungen) und wird für große $n$ numerisch instabil und extrem langsam. Methoden wie Gauß-Elimination (zur Rangbestimmung oder Lösung des LGS), SVD oder QR-Zerlegung haben eine deutlich bessere Komplexität (typischerweise polynomiell, z.B. $O(n^3)$) und sind numerisch stabiler für große Matrizen.",
+      "gewichtung": 3,
+      "thema": "Lineare Unabhängigkeit",
+      "extended_explanation": {
+        "titel": "Effizienz von Methoden zur Prüfung linearer Unabhängigkeit",
+        "schritte": [
+          "Lineare Unabhängigkeit von $n$ Vektoren im $\\mathbb{R}^n$ ist äquivalent zur Invertierbarkeit der Matrix $A$, die sie als Spalten enthält.",
+          "**Gauß-Elimination:** Bringt die Matrix $A$ in Zeilenstufenform. Der Rang ist die Anzahl der Nicht-Null-Zeilen. Ist der Rang gleich $n$, sind die Vektoren lin. unabhängig. Komplexität ca. $O(n^3)$. Numerisch relativ stabil.",
+          "**Lösung des LGS $Ac=0$:** Dies geschieht typischerweise auch mittels Gauß-Elimination. Wenn nur die triviale Lösung $c=0$ existiert, sind die Vektoren lin. unabhängig. Komplexität ca. $O(n^3)$.",
+          "**Determinantenberechnung (naiv):** Leibniz-Formel ($\\sum_{\\sigma \\in S_n} \\dots$) benötigt $n!$ Terme. Laplace-Entwicklung ist rekursiv und ebenfalls faktoriell in der Komplexität. Für $n=1000$ ist $1000!$ astronomisch groß und nicht berechenbar. Numerisch sehr instabil.",
+          "**Determinantenberechnung (effizient):** Man kann die Determinante auch nach Gauß-Elimination aus dem Produkt der Diagonalelemente der Zeilenstufenform berechnen (mit Vorzeichenanpassung). Dies hat dann $O(n^3)$ Komplexität. Die Frage zielt aber vermutlich auf die naiven Methoden.",
+          "**Singulärwertzerlegung (SVD):** Zerlegt $A = U \\Sigma V^T$. Der Rang von $A$ ist die Anzahl der Nicht-Null-Singulärwerte in $\\Sigma$. Komplexität ca. $O(n^3)$. Numerisch sehr robust.",
+          "**QR-Zerlegung:** Zerlegt $A = QR$. Wenn $A$ quadratisch ist, ist $A$ invertierbar (und Spalten lin. unabhängig), wenn alle Diagonalelemente von $R$ ungleich Null sind. Komplexität ca. $O(n^3)$. Numerisch stabil.",
+          "**Fazit:** Die *direkte* Berechnung der Determinante nach Definitionsformeln ist für große $n$ ungeeignet. Effiziente numerische Methoden basieren meist auf Matrixzerlegungen wie Gauß (LU), QR oder SVD."
+        ]
+      },
+      "mini_glossary": {
+        "Gauß-Elimination": "Ein Algorithmus zum Lösen linearer Gleichungssysteme und zur Bestimmung des Rangs einer Matrix durch elementare Zeilenumformungen.",
+        "Determinante": "Ein Skalarwert einer quadratischen Matrix, der angibt, ob sie invertierbar ist.",
+        "Numerische Stabilität": "Die Eigenschaft eines Algorithmus, auch bei kleinen Eingabefehlern (z.B. Rundungsfehlern) ein Ergebnis nahe der exakten Lösung zu liefern.",
+        "Rechenkomplexität": "Ein Maß für den Ressourcenbedarf (Zeit oder Speicher) eines Algorithmus in Abhängigkeit von der Größe der Eingabe (hier $n$)."
+      }
+    },
+    {
+      "frage": "27. Sei $V$ der Vektorraum aller reellen $2 \\times 2$ Matrizen. Der Unterraum $U$ bestehe aus allen symmetrischen Matrizen ($A^T = A$) und der Unterraum $W$ aus allen schiefsymmetrischen Matrizen ($A^T = -A$). Welche Aussage ist korrekt?",
+      "optionen": [
+        "$\\dim(U) = 2$ und $\\dim(W) = 2$.",
+        "$\\dim(U) = 3$ und $\\dim(W) = 1$.",
+        "$\\dim(U) = 1$ und $\\dim(W) = 3$.",
+        "$U \\cap W = \\{ \\text{Identitätsmatrix} \\}$.",
+        "$V = U \\oplus W$ (Direkte Summe), d.h., $V=U+W$ und $U \\cap W = \\{0\\}$."
+      ],
+      "loesung": 1,
+      "erklaerung": "Eine allgemeine $2 \\times 2$ Matrix ist $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$  \n Symmetrisch ($A^T=A$): $b=c$. Eine Basis für $U$ ist $\\{ \\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix} \\}$. Also $\\dim(U)=3$  \n Schiefsymmetrisch ($A^T=-A$): $a=0, d=0, b=-c$. Eine Basis für $W$ ist $\\{ \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix} \\}$. Also $\\dim(W)=1$  \n Der Schnitt $U \\cap W$ enthält Matrizen, die sowohl symmetrisch ($b=c$) als auch schiefsymmetrisch ($a=d=0, b=-c$) sind. Aus $b=c$ und $b=-c$ folgt $b=c=0$. Die einzige Matrix im Schnitt ist die Nullmatrix $\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$. Also $U \\cap W = \\{0\\}$  \n Nach der Dimensionsformel ist $\\dim(U+W) = \\dim(U)+\\dim(W)-\\dim(U \\cap W) = 3+1-0 = 4$. Da $\\dim(V) = 2 \\times 2 = 4$, gilt $U+W=V$. Weil der Schnitt nur der Nullvektor ist, ist die Summe direkt: $V = U \\oplus W$. Die Aussage in Option B ($\\dim(U)=3, \\dim(W)=1$) ist korrekt.",
+      "gewichtung": 3,
+      "thema": "Dimension & Untervektorräume",
+      "extended_explanation": {
+        "titel": "Zerlegung des Matrizenraums in symmetrische und schiefsymmetrische Matrizen",
+        "schritte": [
+          "Sei $V = M_{2 \\times 2}(\\mathbb{R})$. Die Dimension von $V$ ist $2 \\times 2 = 4$. Eine Basis ist die Standardbasis $E_{11}, E_{12}, E_{21}, E_{22}$.",
+          "Sei $U = \\{ A \\in V \\mid A^T = A \\}$ der Unterraum der symmetrischen Matrizen. Eine Matrix $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ ist symmetrisch, wenn $b=c$. Eine Basis für $U$ kann gewählt werden als $B_U = \\{ \\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}, \\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix} \\}$. Diese drei Matrizen sind linear unabhängig und jede symmetrische Matrix lässt sich als ihre Linearkombination schreiben. $\\dim(U)=3$.",
+          "Sei $W = \\{ A \\in V \\mid A^T = -A \\}$ der Unterraum der schiefsymmetrischen Matrizen. Eine Matrix $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ ist schiefsymmetrisch, wenn $A^T = \\begin{pmatrix} a & c \\\\ b & d \\end{pmatrix} = -A = \\begin{pmatrix} -a & -b \\\\ -c & -d \\end{pmatrix}$. Dies erfordert $a=0, d=0$ und $c=-b$. Eine Basis für $W$ ist $B_W = \\{ \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix} \\}$. $\\dim(W)=1$.",
+          "Bestimme den Schnitt $U \\cap W$. Eine Matrix $A$ in $U \\cap W$ muss sowohl $A^T=A$ als auch $A^T=-A$ erfüllen. Daraus folgt $A = -A$, was $2A=0$ und somit $A=0$ (die Nullmatrix) impliziert. Also $U \\cap W = \\{0\\}$. $\\dim(U \\cap W) = 0$.",
+          "Prüfe, ob $V = U+W$. Nach der Dimensionsformel: $\\dim(U+W) = \\dim(U) + \\dim(W) - \\dim(U \\cap W) = 3 + 1 - 0 = 4$. Da $\\dim(V)=4$ und $U+W$ ein Unterraum von $V$ ist, muss $U+W=V$ gelten.",
+          "Da $V=U+W$ und $U \\cap W = \\{0\\}$, ist die Summe direkt: $V = U \\oplus W$. Option B fasst die korrekten Dimensionen zusammen."
+        ]
+      },
+      "mini_glossary": {
+        "Symmetrische Matrix": "Eine quadratische Matrix $A$, für die $A^T = A$ gilt (sie ist spiegelsymmetrisch zur Hauptdiagonale).",
+        "Schiefsymmetrische Matrix": "Eine quadratische Matrix $A$, für die $A^T = -A$ gilt (Diagonalelemente sind 0, $a_{ji}=-a_{ij}$).",
+        "Transponierte Matrix $A^T$": "Die Matrix, die durch Vertauschen von Zeilen und Spalten von $A$ entsteht ($a^T_{ij} = a_{ji}$).",
+        "Direkte Summe $U \\oplus W$": "Die Summe zweier Untervektorräume $U+W$, wenn ihr Schnitt nur der Nullvektor ist ($U \\cap W = \\{0\\}$). Jeder Vektor in $U \\oplus W$ hat eine eindeutige Darstellung als $u+w$ mit $u \\in U, w \\in W$."
+      }
+    },
+    {
+      "frage": "28. Die Anwendung von **Embeddings** in der künstlichen Intelligenz, bei der z.B. Wörter als hochdimensionale Vektoren dargestellt werden, beruht darauf, dass:",
+      "optionen": [
+        "die Vektorraumaxiome nur in niedrigen Dimensionen gelten.",
+        "alle Wörter linear unabhängig voneinander sind.",
+        "**semantische Ähnlichkeit** durch geometrische Nähe (z.B. kleiner Winkel / hohe Kosinus-Ähnlichkeit) im Vektorraum repräsentiert wird.",
+        "die Dimension des Embedding-Raums immer gleich der Größe des Vokabulars sein muss.",
+        "nur orthogonale Basen für die Wortrepräsentation verwendet werden können."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die zentrale Idee von Wort-Embeddings (wie Word2Vec, GloVe, oder in Transformern wie BERT) ist, Wörter so in einen Vektorraum einzubetten, dass ihre Positionen und relativen Abstände semantische Beziehungen widerspiegeln. Ähnliche Wörter liegen nahe beieinander, was oft über die Kosinus-Ähnlichkeit gemessen wird. Ein kleiner Winkel (hohe Kosinus-Ähnlichkeit) bedeutet hohe semantische Ähnlichkeit.",
+      "gewichtung": 2,
+      "thema": "Anwendungen (Embeddings)",
+      "extended_explanation": {
+        "titel": "Embeddings und semantische Ähnlichkeit",
+        "schritte": [
+          "Embeddings sind dichte Vektordarstellungen von diskreten Objekten (wie Wörtern, Sätzen, Bildern) in einem kontinuierlichen Vektorraum, oft mit hoher Dimension (z.B. 512, 768, 1536).",
+          "Ziel ist es, Beziehungen zwischen den Objekten durch geometrische Beziehungen im Vektorraum abzubilden.",
+          "Insbesondere soll semantische Ähnlichkeit durch räumliche Nähe kodiert werden.",
+          "Die **Kosinus-Ähnlichkeit** ist ein gängiges Maß für diese Nähe. Sie misst den Kosinus des Winkels $\\theta$ zwischen zwei Vektoren $A$ und $B$: $\\cos(\\theta) = (A \\cdot B) / (\\|A\\| \\|B\\|)$.",
+          "Ein Wert nahe 1 bedeutet einen kleinen Winkel und damit eine hohe Ähnlichkeit der Richtungen der Vektoren, was als hohe semantische Ähnlichkeit interpretiert wird. Ein Wert nahe 0 (oder negativ) bedeutet geringe Ähnlichkeit.",
+          "Diese geometrische Repräsentation ermöglicht es Algorithmen, mit Bedeutungen zu 'rechnen', z.B. für semantische Suche, Textklassifikation oder Empfehlungssysteme."
+        ]
+      },
+      "mini_glossary": {
+        "Embedding": "Eine (meist niedrigdimensionale im Vergleich zur ursprünglichen Repräsentation, z.B. one-hot) Vektordarstellung eines Objekts (Wort, Bild etc.) in einem Vektorraum, die dessen semantische Eigenschaften erfassen soll.",
+        "Semantische Ähnlichkeit": "Die Ähnlichkeit von Wörtern oder Konzepten basierend auf ihrer Bedeutung oder ihrem Kontext.",
+        "Kosinus-Ähnlichkeit": "Ein Maß für die Richtungsähnlichkeit zweier Vektoren, berechnet als Kosinus des Winkels zwischen ihnen.",
+        "Hochdimensionaler Raum": "Ein Vektorraum mit vielen Dimensionen (oft hunderte oder tausende in KI-Anwendungen)."
+      }
+    },
+    {
+      "frage": "29. Die **Hauptkomponentenanalyse (PCA)** ist eine Technik zur Dimensionalitätsreduktion. Was macht sie im Kern aus Sicht der linearen Algebra?",
+      "optionen": [
+        "Sie löst ein System linearer Gleichungen zur Merkmalsauswahl.",
+        "Sie findet eine neue **orthogonale Basis** für den Datenraum, wobei die ersten Basisvektoren (Hauptkomponenten) die Richtungen der größten Varianz in den Daten beschreiben.",
+        "Sie berechnet die Determinante der Kovarianzmatrix.",
+        "Sie projiziert die Daten zufällig auf einen niedrigerdimensionalen Unterraum.",
+        "Sie gruppiert ähnliche Datenpunkte mithilfe des k-Means-Algorithmus."
+      ],
+      "loesung": 1,
+      "erklaerung": "PCA führt im Wesentlichen einen **Basiswechsel** durch. Sie findet eine neue orthogonale Basis (bestehend aus den Eigenvektoren der Kovarianzmatrix der Daten), die so ausgerichtet ist, dass die Basisvektoren (Hauptkomponenten) den Richtungen maximaler Varianz der Daten entsprechen. Die Daten werden dann in dieses neue Koordinatensystem transformiert. Durch Beibehaltung nur der ersten $k$ Koordinaten (entsprechend den $k$ größten Varianzen/Eigenwerten) wird eine Projektion in einen $k$-dimensionalen Unterraum erreicht, der die meiste Information (Varianz) der Originaldaten erhält.",
+      "gewichtung": 3,
+      "thema": "Basiswechsel & Anwendungen",
+      "extended_explanation": {
+        "titel": "PCA als Basiswechsel zur Varianzmaximierung",
+        "schritte": [
+          "Ziel der PCA ist es, einen hochdimensionalen Datensatz $X$ (mit $n$ Datenpunkten und $d$ Merkmalen) in einen niedrigerdimensionalen Raum ($k < d$) zu projizieren, wobei möglichst viel Varianz erhalten bleibt.",
+          "Berechne die Kovarianzmatrix $\\Sigma$ der (zentrierten) Daten $X$. $\\Sigma$ ist eine $d \\times d$ symmetrische Matrix.",
+          "Berechne die Eigenwerte $\\lambda_1 \\ge \\lambda_2 \\ge \\dots \\ge \\lambda_d$ und die zugehörigen orthonormalen Eigenvektoren $u_1, u_2, \\dots, u_d$ von $\\Sigma$.",
+          "Die Eigenvektoren $u_i$ bilden eine neue **orthogonale Basis** für den $\\mathbb{R}^d$. Sie heißen **Hauptkomponenten**. $u_1$ zeigt in die Richtung der größten Varianz, $u_2$ in die Richtung der zweitgrößten (orthogonal zu $u_1$), usw.. Der Eigenwert $\\lambda_i$ gibt die Varianz entlang der Richtung $u_i$ an.",
+          "Die **Basiswechselmatrix** von der Standardbasis zur Basis der Hauptkomponenten ist $P = [u_1, u_2, \\dots, u_d]$. Die Transformation eines Datenpunktes $x$ in das neue Koordinatensystem ist $x' = P^T x$.",
+          "Zur **Dimensionalitätsreduktion** auf $k$ Dimensionen wählt man die ersten $k$ Hauptkomponenten $u_1, \\dots, u_k$ (die zu den größten Eigenwerten gehören) und bildet die Matrix $P_k = [u_1, \\dots, u_k]$ (eine $d \\times k$ Matrix).",
+          "Die Projektion von $x$ in den $k$-dimensionalen Unterraum ist dann $x_{\\text{proj}} = P_k^T x$. Dies entspricht einem Basiswechsel gefolgt von einer Projektion (Verwerfen der letzten $d-k$ Koordinaten)."
+        ]
+      },
+      "mini_glossary": {
+        "Hauptkomponentenanalyse (PCA)": "Ein statistisches Verfahren zur Dimensionalitätsreduktion durch Transformation der Daten in eine neue Basis (Hauptkomponenten), die nach Varianz geordnet ist.",
+        "Dimensionalitätsreduktion": "Der Prozess, die Anzahl der Merkmale (Dimensionen) eines Datensatzes zu verringern, während wichtige Informationen erhalten bleiben.",
+        "Varianz": "Ein Maß für die Streuung von Datenpunkten um ihren Mittelwert.",
+        "Orthogonale Basis": "Eine Basis, deren Vektoren paarweise orthogonal (senkrecht) zueinander stehen. Sind sie zusätzlich auf Länge 1 normiert, heißt sie Orthonormalbasis."
+      }
+    },
+    {
+      "frage": "30. Betrachten Sie die Vektoren $u=(1, 1, 0)^T$, $v=(1, 0, 1)^T$, $w=(0, 1, 1)^T$ im $\\mathbb{R}^3$. Welche Aussage ist korrekt?",
+      "optionen": [
+        "Die Vektoren sind linear unabhängig und bilden eine Basis des $\\mathbb{R}^3$.",
+        "Die Vektoren sind linear abhängig, da $u=v+w$.",
+        "Die Vektoren sind linear abhängig, da $w = -u+v$.",
+        "Die Vektoren sind linear abhängig, da $u-v+w = 0$.",
+        "Die Vektoren spannen einen Unterraum der Dimension 1 auf."
+      ],
+      "loesung": 0,
+      "erklaerung": "Wir prüfen die lineare Unabhängigkeit der Vektoren $u=(1, 1, 0)^T$, $v=(1, 0, 1)^T$, $w=(0, 1, 1)^T$. Wir setzen die Linearkombination $c_1 u + c_2 v + c_3 w = 0$ an. Dies führt zum homogenen linearen Gleichungssystem:\\n1) $c_1 + c_2 = 0$\\n2) $c_1 + c_3 = 0$\\n3) $c_2 + c_3 = 0$\\nAus (1) folgt $c_2 = -c_1$. Aus (2) folgt $c_3 = -c_1$. Einsetzen in (3) ergibt $(-c_1) + (-c_1) = 0$, also $-2c_1 = 0$, woraus $c_1 = 0$ folgt. Damit sind auch $c_2 = 0$ und $c_3 = 0$. Da nur die triviale Lösung existiert, sind die Vektoren **linear unabhängig**. Da wir drei linear unabhängige Vektoren im $\\mathbb{R}^3$ haben und $\\dim(\\mathbb{R}^3)=3$ ist, bilden diese Vektoren eine **Basis** für $\\mathbb{R}^3$. Aussage A ist korrekt.",
+      "gewichtung": 2,
+      "thema": "Lineare Unabhängigkeit & Basis",
+      "extended_explanation": {
+        "titel": "Prüfung auf lineare Unabhängigkeit und Basis",
+        "schritte": [
+          "Gegeben sind $u=(1, 1, 0)^T$, $v=(1, 0, 1)^T$, $w=(0, 1, 1)^T$ in $\\mathbb{R}^3$.",
+          "Wir prüfen die lineare Unabhängigkeit durch Lösen des Systems $c_1 u + c_2 v + c_3 w = 0$.",
+          "Das System in Matrixform ist $A c = 0$, mit $A = \\begin{pmatrix} 1 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ 0 & 1 & 1 \\end{pmatrix}$ und $c = (c_1, c_2, c_3)^T$.",
+          "Wir berechnen die Determinante von $A$: $\\det(A) = 1(0\\cdot1 - 1\\cdot1) - 1(1\\cdot1 - 1\\cdot0) + 0 = 1(-1) - 1(1) = -1 - 1 = -2$.",
+          "Da $\\det(A) = -2 \\neq 0$, ist die Matrix $A$ invertierbar und das homogene System $Ac=0$ hat nur die triviale Lösung $c=0$.",
+          "Die Vektoren $u, v, w$ sind also **linear unabhängig**.",
+          "Da $\\dim(\\mathbb{R}^3)=3$ ist und wir genau 3 linear unabhängige Vektoren haben, bilden sie eine **Basis** für $\\mathbb{R}^3$.",
+          "Aussage A ist somit korrekt."
+        ]
+      },
+      "mini_glossary": {
+        "Lineare Unabhängigkeit": "Eine Menge von Vektoren ist linear unabhängig, wenn die einzige Linearkombination, die den Nullvektor ergibt, die triviale ist ($c_i=0$ für alle $i$).",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
+        "Dimension": "Die Anzahl der Vektoren in einer Basis.",
+        "Determinante": "Ein Skalarwert einer quadratischen Matrix. Ist er ungleich Null, sind die Spaltenvektoren linear unabhängig."
+      }
+    },
+    {
+      "frage": "31. Das Austauschlemma von Steinitz ist ein zentraler Satz der linearen Algebra. Was ist seine wichtigste Konsequenz für endlichdimensionale Vektorräume?",
+      "optionen": [
+        "Jeder Vektorraum besitzt unendlich viele Basen.",
+        "Die Dimension eines Vektorraums ist wohldefiniert, d.h., alle Basen desselben Vektorraums haben die gleiche Anzahl von Elementen.",
+        "Jeder Untervektorraum hat eine kleinere Dimension als der gesamte Raum.",
+        "Lineare Abbildungen erhalten die lineare Unabhängigkeit.",
+        "Man kann jede linear unabhängige Menge zu einer Basis erweitern."
+      ],
+      "loesung": 1,
+      "erklaerung": "Das Austauschlemma besagt, dass wenn $\\{v_1, \\dots, v_m\\}$ linear unabhängig sind und $\\{w_1, \\dots, w_n\\}$ ein Erzeugendensystem bilden, dann $m \\le n$ gilt. Wendet man dies auf zwei beliebige Basen $B_1$ (lin. unabh.) und $B_2$ (erz. System) an, folgt $|B_1| \\le |B_2|$. Vertauscht man die Rollen, folgt $|B_2| \\le |B_1|$, also $|B_1| = |B_2|$. Das bedeutet, dass die Anzahl der Vektoren in einer Basis eindeutig ist, was den Begriff der Dimension erst wohldefiniert macht. Option E (Basiserweiterungssatz) ist zwar korrekt, aber die Hauptkonsequenz des Lemmas für die Definition der Dimension ist die Aussage in Option B.",
+      "gewichtung": 3,
+      "thema": "Dimension & Basis",
+      "extended_explanation": {
+        "titel": "Austauschlemma von Steinitz und Wohldefiniertheit der Dimension",
+        "schritte": [
+          "**Austauschlemma von Steinitz:** Seien $v_1, \\dots, v_m$ linear unabhängige Vektoren in $V$ und sei $W = \\{w_1, \\dots, w_n\\}$ ein Erzeugendensystem von $V$. Dann gilt $m \\le n$. Außerdem kann man $m$ Vektoren aus $W$ durch $v_1, \\dots, v_m$ ersetzen, sodass die neue Menge immer noch ein Erzeugendensystem ist.",
+          "**Anwendung auf Basen:** Sei $V$ ein endlichdimensionaler Vektorraum. Seien $B_1 = \\{b_1, \\dots, b_k\\}$ und $B_2 = \\{c_1, \\dots, c_l\\}$ zwei beliebige Basen von $V$.",
+          "Da $B_1$ eine Basis ist, sind die Vektoren in $B_1$ linear unabhängig. Da $B_2$ eine Basis ist, ist $B_2$ ein Erzeugendensystem von $V$.",
+          "Nach dem Austauschlemma (mit $B_1$ als lin. unabh. Menge und $B_2$ als Erz.system) folgt: $k \\le l$.",
+          "Nun vertauschen wir die Rollen: $B_2$ ist linear unabhängig und $B_1$ ist ein Erzeugendensystem. Nach dem Austauschlemma folgt: $l \\le k$.",
+          "Aus $k \\le l$ und $l \\le k$ folgt zwingend $k = l$.",
+          "**Konsequenz:** Alle Basen eines endlichdimensionalen Vektorraums haben dieselbe Anzahl von Elementen. Diese eindeutige Zahl wird als die **Dimension** des Vektorraums bezeichnet. Das Austauschlemma liefert also die Begründung, warum die Dimension eine wohldefinierte Eigenschaft des Vektorraums ist."
+        ]
+      },
+      "mini_glossary": {
+        "Austauschlemma von Steinitz": "Ein Satz über die Beziehung zwischen der Größe einer linear unabhängigen Menge und der Größe eines Erzeugendensystems in einem Vektorraum.",
+        "Dimension": "Die eindeutige Anzahl von Vektoren in jeder Basis eines Vektorraums.",
+        "Wohldefiniert": "Ein Begriff oder eine Größe ist wohldefiniert, wenn seine Definition eindeutig ist und nicht von willkürlichen Wahlen (wie der Wahl einer Basis) abhängt.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem."
+      }
+    },
+    {
+      "frage": "32. Welches der folgenden Beispiele stellt **keinen** Vektorraum über den reellen Zahlen $\\mathbb{R}$ dar?",
+      "optionen": [
+        "Die Menge der komplexen Zahlen $\\mathbb{C}$ mit der üblichen Addition und Skalarmultiplikation durch reelle Zahlen.",
+        "Die Menge aller $n \\times n$ Diagonalmatrizen.",
+        "Die Menge aller Polynome $p(x)$ mit $p(0)=1$.",
+        "Die Menge aller Lösungen $y(t)$ der Differentialgleichung $y'' + y = 0$.",
+        "Die Menge $\\mathbb{R}^+$ der positiven reellen Zahlen mit den Operationen $x \\oplus y = x \\cdot y$ (Vektoraddition) und $\\lambda \\odot x = x^\\lambda$ (Skalarmultiplikation)."
+      ],
+      "loesung": 2,
+      "erklaerung": "Ein Vektorraum muss den Nullvektor enthalten. Die Menge aller Polynome $p(x)$ mit $p(0)=1$ enthält das Nullpolynom $p(x)=0$ nicht, da für dieses $p(0)=0 \\neq 1$ gilt. Somit kann diese Menge kein Vektorraum sein. Die anderen Beispiele erfüllen die Vektorraumaxiome (bei E muss man dies sorgfältig prüfen, die Operationen sind ungewöhnlich, aber es funktioniert: Der 'Nullvektor' ist die Zahl 1, das additive Inverse zu $x$ ist $1/x$).",
+      "gewichtung": 3,
+      "thema": "Beispiele für Vektorräume",
+      "extended_explanation": {
+        "titel": "Prüfung verschiedener Mengen auf Vektorraumstruktur",
+        "schritte": [
+          "**A) $\\mathbb{C}$ über $\\mathbb{R}$:** $\\mathbb{C} = \\{a+bi \\mid a, b \\in \\mathbb{R}\\}$. Addition: $(a+bi)+(c+di) = (a+c)+(b+d)i$. Reelle Skalarmultiplikation: $\\lambda(a+bi) = (\\lambda a)+(\\lambda b)i$. Der Nullvektor ist $0+0i$. Alle Axiome sind erfüllt (dies ist isomorph zu $\\mathbb{R}^2$). Ist ein VR.",
+          "**B) $n \\times n$ Diagonalmatrizen:** Matrizen, bei denen nur Diagonalelemente $\\neq 0$ sein können. Nullmatrix ist enthalten. Summe zweier Diagonalmatrizen ist diagonal. Skalarvielfaches einer Diagonalmatrix ist diagonal. Ist ein Untervektorraum des Matrizenraums $M_{n \\times n}(\\mathbb{R})$, also ein VR.",
+          "**C) Polynome mit $p(0)=1$:** Das Nullpolynom $p(x)=0$ erfüllt $p(0)=0 \\neq 1$. Es ist nicht in der Menge enthalten. Kein VR.",
+          "**D) Lösungen von $y''+y=0$:** $y_1(t) = \\cos(t)$, $y_2(t)=\\sin(t)$ sind Lösungen. Die Nullfunktion $y(t)=0$ ist eine Lösung ($0''+0=0$). Wenn $y_1, y_2$ Lösungen sind, ist $(y_1+y_2)''+(y_1+y_2) = (y_1''+y_1)+(y_2''+y_2)=0+0=0$, also ist $y_1+y_2$ Lösung. Wenn $y$ Lösung ist, ist $(\\lambda y)'' + (\\lambda y) = \\lambda(y''+y)=\\lambda(0)=0$, also ist $\\lambda y$ Lösung. Ist ein Untervektorraum des Funktionenraums, also ein VR.",
+          "**E) $\\mathbb{R}^+$ mit $x \\oplus y = xy, \\lambda \\odot x = x^\\lambda$:**   \n   - Addition: Assoziativ: $(xy)z = x(yz)$. Kommutativ: $xy=yx$. Neutrales Element: $x \\oplus 1 = x \\cdot 1 = x$. Das 'Nullvektor' ist die Zahl 1. Inverses zu $x$: $x \\oplus (1/x) = x \\cdot (1/x) = 1$. Additionsaxiome erfüllt.  \n   - Skalarmultiplikation: $\\lambda \\odot (\\mu \\odot x) = (\\mu \\odot x)^\\lambda = (x^\\mu)^\\lambda = x^{\\lambda\\mu} = (\\lambda\\mu) \\odot x$. $1 \\odot x = x^1 = x$. $\\lambda \\odot (x \\oplus y) = (xy)^\\lambda = x^\\lambda y^\\lambda = (\\lambda \\odot x) \\oplus (\\lambda \\odot y)$. $(\\lambda+\\mu) \\odot x = x^{\\lambda+\\mu} = x^\\lambda x^\\mu = (\\lambda \\odot x) \\oplus (\\mu \\odot x)$. Alle Axiome sind erfüllt. Ist ein VR über $\\mathbb{R}$."
+        ]
+      },
+      "mini_glossary": {
+        "Vektorraum": "Eine Menge mit Vektoraddition und Skalarmultiplikation, die bestimmte Axiome erfüllt.",
+        "Nullvektor": "Das neutrale Element der Vektoraddition.",
+        "Untervektorraum": "Eine Teilmenge, die selbst ein Vektorraum ist.",
+        "Differentialgleichung": "Eine Gleichung, die eine Funktion und ihre Ableitungen enthält."
+      }
+    },
+    {
+      "frage": "33. Sei $V$ ein Vektorraum über $\\mathbb{R}$ und $\\{v_1, v_2, v_3\\}$ eine Basis für $V$. Ist die Menge $\\{v_1+v_2, v_2+v_3, v_3+v_1\\}$ ebenfalls eine Basis für $V$?",
+      "optionen": [
+        "Ja, immer.",
+        "Nein, niemals.",
+        "Ja, aber nur wenn $v_1, v_2, v_3$ die Standardbasis ist.",
+        "Ja, aber nur wenn die Charakteristik des Körpers nicht 2 ist.",
+        "Nein, die Menge ist immer linear abhängig."
+      ],
+      "loesung": 0,
+      "erklaerung": "Seien $w_1 = v_1+v_2$, $w_2 = v_2+v_3$, $w_3 = v_3+v_1$. Da $V$ ein Vektorraum über $\\mathbb{R}$ ist, prüfen wir die lineare Unabhängigkeit über $\\mathbb{R}$. Wir suchen $c_1, c_2, c_3 \\in \\mathbb{R}$, nicht alle Null, sodass $c_1 w_1 + c_2 w_2 + c_3 w_3 = 0$. Dies ist äquivalent zu $c_1(v_1+v_2) + c_2(v_2+v_3) + c_3(v_3+v_1) = 0$. Umsortieren nach der Basis $\\{v_1, v_2, v_3\\}$ ergibt: $(c_1+c_3)v_1 + (c_1+c_2)v_2 + (c_2+c_3)v_3 = 0$. Da $\\{v_1, v_2, v_3\\}$ linear unabhängig ist, müssen die Koeffizienten Null sein: $c_1+c_3=0$, $c_1+c_2=0$, $c_2+c_3=0$. Dieses homogene LGS hat als einzige Lösung über $\\mathbb{R}$ die triviale Lösung $c_1=c_2=c_3=0$. Daher ist die Menge $\\{w_1, w_2, w_3\\}$ linear unabhängig. Da $\\dim(V)=3$ und wir 3 linear unabhängige Vektoren haben, bilden sie eine Basis für $V$. Aussage A ist korrekt.",
+      "gewichtung": 3,
+      "thema": "Lineare Unabhängigkeit & Basis",
+      "extended_explanation": {
+        "titel": "Prüfung der linearen Unabhängigkeit einer transformierten Basis",
+        "schritte": [
+          "Gegeben: $\\{v_1, v_2, v_3\\}$ ist eine Basis von $V$ über $\\mathbb{R}$. Insbesondere sind $v_1, v_2, v_3$ linear unabhängig und $\\dim(V)=3$.",
+          "Zu prüfen: Ist $W = \\{w_1, w_2, w_3\\} = \\{v_1+v_2, v_2+v_3, v_3+v_1\\}$ eine Basis von $V$?",
+          "Da $V$ die Dimension 3 hat, genügt es zu zeigen, dass die 3 Vektoren in $W$ linear unabhängig sind.",
+          "Wir setzen die Linearkombination gleich Null: $c_1(v_1+v_2) + c_2(v_2+v_3) + c_3(v_3+v_1) = 0$.",
+          "Umsortieren der Terme nach der Basis $\\{v_1, v_2, v_3\\}$: $(c_1+c_3)v_1 + (c_1+c_2)v_2 + (c_2+c_3)v_3 = 0$.",
+          "Da $\\{v_1, v_2, v_3\\}$ linear unabhängig ist, müssen alle Koeffizienten in dieser Linearkombination Null sein:",
+          "1) $c_1 + c_3 = 0$",
+          "2) $c_1 + c_2 = 0$",
+          "3) $c_2 + c_3 = 0$",
+          "Wir lösen dieses homogene lineare Gleichungssystem. Aus (1) $c_3=-c_1$. Aus (2) $c_2=-c_1$. Einsetzen in (3): $(-c_1)+(-c_1)=0 \\implies -2c_1=0$.",
+          "Da wir über dem Körper $\\mathbb{R}$ arbeiten und $2 \\neq 0$ in $\\mathbb{R}$, folgt $c_1=0$. Daraus ergibt sich sofort $c_2=0$ und $c_3=0$.",
+          "Die einzige Lösung ist die triviale Lösung. Also sind $w_1, w_2, w_3$ linear unabhängig.",
+          "Da wir 3 linear unabhängige Vektoren in einem 3-dimensionalen Vektorraum haben, bilden sie eine Basis."
+        ]
+      },
+      "mini_glossary": {
+        "Basis": "Ein linear unabhängiges Erzeugendensystem.",
+        "Lineare Unabhängigkeit": "$\\sum c_i v_i = 0 \\implies c_i = 0$ für alle $i$.",
+        "Dimension": "Anzahl der Vektoren in einer Basis.",
+        "Homogenes LGS": "Lineares Gleichungssystem der Form $Ax=0$."
+      }
+    },
+    {
+      "frage": "34. Was besagt das Vektorraumaxiom der **Assoziativität der Vektoraddition** (A2)?",
+      "optionen": [
+        "$u + v = v + u$",
+        "$(u + v) + w = u + (v + w)$",
+        "$\\lambda \\cdot (u + v) = \\lambda \\cdot u + \\lambda \\cdot v$",
+        "$v + 0 = v$",
+        "$(\\lambda \\cdot \\mu) \\cdot v = \\lambda \\cdot (\\mu \\cdot v)$"
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Assoziativität der Vektoraddition (A2) besagt, dass die Reihenfolge der Addition bei drei Vektoren keine Rolle spielt, solange die Reihenfolge der Vektoren selbst gleich bleibt: $(u + v) + w = u + (v + w)$.",
+      "gewichtung": 1,
+      "thema": "Vektorraumdefinition & Axiome",
+      "mini_glossary": {
+        "Assoziativität": "Eine Eigenschaft einer binären Operation (wie Addition), bei der die Klammerung bei mehreren Operanden keine Rolle spielt: $(a \\circ b) \\circ c = a \\circ (b \\circ c)$.",
+        "Vektoraddition": "Die Operation, zwei Vektoren zu addieren.",
+        "Kommutativität": "Eine Eigenschaft, bei der die Reihenfolge der Operanden keine Rolle spielt: $a \\circ b = b \\circ a$.",
+        "Distributivität": "Eine Eigenschaft, wie sich zwei Operationen zueinander verhalten, z.B. Multiplikation verteilt sich über Addition."
+      }
+    },
+    {
+      "frage": "35. Wie viele linear unabhängige Vektoren kann man maximal im Vektorraum $\\mathbb{R}^4$ finden?",
+      "optionen": [
+        "3",
+        "4",
+        "5",
+        "Beliebig viele",
+        "0"
+      ],
+      "loesung": 1,
+      "erklaerung": "Die maximale Anzahl linear unabhängiger Vektoren in einem Vektorraum ist gleich seiner Dimension. Die Dimension von $\\mathbb{R}^n$ ist $n$. Daher ist die Dimension von $\\mathbb{R}^4$ gleich 4. Man kann also maximal 4 linear unabhängige Vektoren im $\\mathbb{R}^4$ finden (diese bilden dann eine Basis). Jede Menge mit mehr als 4 Vektoren im $\\mathbb{R}^4$ ist linear abhängig.",
+      "gewichtung": 1,
+      "thema": "Dimension & Lineare Unabhängigkeit",
+      "mini_glossary": {
+        "Dimension": "Die maximale Anzahl linear unabhängiger Vektoren in einem Vektorraum, bzw. die Anzahl der Vektoren in einer Basis.",
+        "Lineare Unabhängigkeit": "Eine Menge von Vektoren, bei der keiner als Linearkombination der anderen darstellbar ist.",
+        "$\\mathbb{R}^n$": "Der n-dimensionale reelle Koordinatenraum.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem."
+      }
+    },
+    {
+      "frage": "36. Gegeben sei der Vektorraum $V$ aller Funktionen $f: \\mathbb{R} \\to \\mathbb{R}$. Welche der folgenden Teilmengen ist ein Untervektorraum von $V$?",
+      "optionen": [
+        "$U_1 = \\{f \\in V \\mid f(x) = f(-x) \\text{ für alle } x\\}$ (Gerade Funktionen)",
+        "$U_2 = \\{f \\in V \\mid f(0) = 1\\}$",
+        "$U_3 = \\{f \\in V \\mid f(x) \\ge 0 \\text{ für alle } x\\}$ (Nicht-negative Funktionen)",
+        "$U_4 = \\{f \\in V \\mid f \\text{ ist ein Polynom vom Grad genau 5}\\}$",
+        "$U_5 = \\{f \\in V \\mid f(1) = 0 \\text{ oder } f(-1) = 0\\}$"
+      ],
+      "loesung": 0,
+      "erklaerung": "Wir prüfen die Kriterien: Nullvektor, Abgeschlossenheit unter Addition und Skalarmultiplikation  \n $U_1$: Die Nullfunktion $f(x)=0$ ist gerade ($0=0$). Wenn $f, g$ gerade sind, ist $(f+g)(x)=f(x)+g(x)=f(-x)+g(-x)=(f+g)(-x)$, also $f+g$ gerade. Wenn $f$ gerade ist, ist $(\\lambda f)(x)=\\lambda f(x)=\\lambda f(-x)=(\\lambda f)(-x)$, also $\\lambda f$ gerade. $U_1$ ist ein UVR  \n $U_2$: Die Nullfunktion erfüllt $f(0)=0 \\neq 1$, also $0 \\notin U_2$. Kein UVR  \n $U_3$: $f(x)=x^2$ ist in $U_3$. Aber $\\lambda=-1$, dann $(\\lambda f)(x)=-x^2$, was nicht $\\ge 0$ ist. Nicht abgeschlossen unter Skalarmultiplikation. Kein UVR  \n $U_4$: Die Nullfunktion hat nicht Grad 5. Summe zweier Polynome vom Grad 5 kann kleineren Grad haben. Kein UVR  \n $U_5$: $f(x)=x-1 \\in U_5$ ($f(1)=0$). $g(x)=x+1 \\in U_5$ ($g(-1)=0$). $(f+g)(x)=2x$. $(f+g)(1)=2 \\neq 0$, $(f+g)(-1)=-2 \\neq 0$. Nicht abgeschlossen unter Addition. Kein UVR.",
+      "gewichtung": 2,
+      "thema": "Untervektorräume",
+      "extended_explanation": {
+        "titel": "Prüfung von Funktionenmengen auf Untervektorraum-Eigenschaften",
+        "schritte": [
+          "**$U_1$ (Gerade Funktionen):**   \n   1) $f(x)=0$: $f(x)=0$, $f(-x)=0$. Ja, $0 \\in U_1$.  \n   2) Seien $f, g \\in U_1$, d.h. $f(x)=f(-x), g(x)=g(-x)$. Betrachte $(f+g)(x) = f(x)+g(x)$. Dann ist $(f+g)(-x) = f(-x)+g(-x) = f(x)+g(x) = (f+g)(x)$. Ja, abgeschlossen unter Addition.  \n   3) Sei $f \\in U_1$, $\\lambda \\in \\mathbb{R}$. Betrachte $(\\lambda f)(x) = \\lambda f(x)$. Dann ist $(\\lambda f)(-x) = \\lambda f(-x) = \\lambda f(x) = (\\lambda f)(x)$. Ja, abgeschlossen unter Skalarmultiplikation.   \n   => $U_1$ ist ein Untervektorraum.",
+          "**$U_2$ ($f(0)=1$):**   \n   1) $f(x)=0$: $f(0)=0 \\neq 1$. Der Nullvektor ist nicht enthalten. Kein UVR.",
+          "**$U_3$ ($f(x) \\ge 0$):**   \n   1) $f(x)=0$: $f(x)=0 \\ge 0$. Ja, $0 \\in U_3$.  \n   2) Seien $f, g \\in U_3$. $(f+g)(x) = f(x)+g(x)$. Da $f(x)\\ge 0, g(x)\\ge 0$, ist auch $f(x)+g(x) \\ge 0$. Ja, abgeschlossen unter Addition.  \n   3) Sei $f(x)=x^2 \\in U_3$. Sei $\\lambda=-1$. $(\\lambda f)(x) = -x^2$. Für $x \\neq 0$ ist $-x^2 < 0$. Also $\\lambda f \\notin U_3$. Nicht abgeschlossen unter Skalarmultiplikation. Kein UVR.",
+          "**$U_4$ (Polynome Grad genau 5):**   \n   1) Nullpolynom nicht enthalten. Kein UVR.",
+          "**$U_5$ ($f(1)=0$ oder $f(-1)=0$):**   \n   1) $f(x)=0$: $f(1)=0$. Ja, $0 \\in U_5$.  \n   2) $f(x)=x-1 \\in U_5$. $g(x)=x+1 \\in U_5$. $(f+g)(x)=2x$. $(f+g)(1)=2 \\neq 0$. $(f+g)(-1)=-2 \\neq 0$. Also $f+g \\notin U_5$. Nicht abgeschlossen unter Addition. Kein UVR."
+        ]
+      },
+      "mini_glossary": {
+        "Funktionenraum": "Ein Vektorraum, dessen Elemente Funktionen sind.",
+        "Gerade Funktion": "Eine Funktion $f$, für die $f(x) = f(-x)$ gilt (symmetrisch zur y-Achse).",
+        "Ungerade Funktion": "Eine Funktion $f$, für die $f(x) = -f(-x)$ gilt (punktsymmetrisch zum Ursprung).",
+        "Untervektorraum": "Teilmenge eines Vektorraums, die selbst ein Vektorraum ist."
+      }
+    },
+    {
+      "frage": "37. Sei $V$ der Vektorraum $\\mathbb{R}^3$. $U = \\text{span}((1,0,0)^T)$ und $W = \\text{span}((0,1,0)^T, (0,0,1)^T)$. Was ist der Summenraum $U+W$?",
+      "optionen": [
+        "Die x-Achse.",
+        "Die yz-Ebene.",
+        "Der gesamte $\\mathbb{R}^3$.",
+        "Eine Gerade, die nicht durch den Ursprung geht.",
+        "Nur der Nullvektor."
+      ],
+      "loesung": 2,
+      "erklaerung": "$U$ ist die x-Achse. $W$ ist die yz-Ebene. Der Summenraum $U+W$ enthält alle Vektoren der Form $u+w$ mit $u \\in U$ und $w \\in W$. Ein allgemeiner Vektor $u \\in U$ ist $(\\lambda, 0, 0)^T$. Ein allgemeiner Vektor $w \\in W$ ist $(0, \\mu, \\gamma)^T$. Die Summe ist $u+w = (\\lambda, \\mu, \\gamma)^T$. Da $\\lambda, \\mu, \\gamma$ beliebige reelle Zahlen sein können, kann jeder Vektor im $\\mathbb{R}^3$ so dargestellt werden. Also ist $U+W = \\mathbb{R}^3$. Alternativ: $\\dim(U)=1$, $\\dim(W)=2$. Der Schnitt $U \\cap W$ enthält nur den Nullvektor. Nach der Dimensionsformel ist $\\dim(U+W) = \\dim(U)+\\dim(W)-\\dim(U \\cap W) = 1+2-0=3$. Da $U+W$ ein Unterraum von $\\mathbb{R}^3$ ist und $\\dim(U+W)=3=\\dim(\\mathbb{R}^3)$, muss $U+W=\\mathbb{R}^3$ sein.",
+      "gewichtung": 1,
+      "thema": "Dimension & Untervektorräume",
+      "mini_glossary": {
+        "Summenraum $U+W$": "Die Menge aller Summen $u+w$ mit $u \\in U, w \\in W$. Der kleinste Unterraum, der $U$ und $W$ enthält.",
+        "Span": "Menge aller Linearkombinationen.",
+        "Dimension": "Anzahl der Vektoren in einer Basis.",
+        "Schnittraum $U \\cap W$": "Menge aller Vektoren, die in $U$ und $W$ liegen."
+      }
+    },
+    {
+      "frage": "38. Wie konstruiert man typischerweise eine Basis aus einem gegebenen **Erzeugendensystem** $S$, das möglicherweise linear abhängig ist?",
+      "optionen": [
+        "Man fügt Vektoren aus dem Vektorraum hinzu, bis die Menge linear unabhängig ist.",
+        "Man wählt zufällig eine Teilmenge von $S$, deren Größe der Dimension entspricht.",
+        "Man entfernt sukzessive linear abhängige Vektoren aus $S$, bis die verbleibende Menge linear unabhängig ist, ohne den Span zu ändern.",
+        "Man bildet alle möglichen Linearkombinationen der Vektoren in $S$.",
+        "Man wendet die Gram-Schmidt-Orthogonalisierung auf $S$ an."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Methode der **Reduktion** startet mit einem Erzeugendensystem $S$. Man prüft die Vektoren nacheinander. Wenn ein Vektor $v_k$ als Linearkombination der vorherigen Vektoren $v_1, \\dots, v_{k-1}$ darstellbar ist, ist er redundant und kann entfernt werden, ohne den Span zu ändern. Dieser Prozess wird fortgesetzt, bis die verbleibende Menge linear unabhängig ist. Diese bildet dann eine Basis für den ursprünglichen Span. Option A beschreibt die Basiserweiterung. Option E (Gram-Schmidt) erzeugt eine Orthogonalbasis aus einer linear unabhängigen Menge, sie entfernt keine Vektoren.",
+      "gewichtung": 2,
+      "thema": "Basis",
+      "extended_explanation": {
+        "titel": "Basiskonstruktion durch Reduktion eines Erzeugendensystems",
+        "schritte": [
+          "Gegeben ist ein Erzeugendensystem $S = \\{v_1, v_2, \\dots, v_m\\}$ für einen Vektorraum $V$, d.h. $\\text{span}(S) = V$. $S$ kann linear abhängig sein.",
+          "Ziel ist es, eine Teilmenge $B \\subseteq S$ zu finden, die eine Basis für $V$ ist.",
+          "**Algorithmus (Reduktionsverfahren):**",
+          "  1. Initialisiere die Basis $B$ als leere Menge.",
+          "  2. Iteriere durch die Vektoren $v_k$ in $S$ (von $k=1$ bis $m$).",
+          "  3. Prüfe für jeden Vektor $v_k$, ob er linear unabhängig von den bereits in $B$ befindlichen Vektoren ist (d.h., ob $v_k$ im Span der bisherigen Basisvektoren liegt).",
+          "  4. Wenn $v_k$ linear unabhängig von den Vektoren in $B$ ist, füge $v_k$ zu $B$ hinzu.",
+          "  5. Wenn $v_k$ linear abhängig von den Vektoren in $B$ ist (also $v_k \\in \\text{span}(B_{bisher})$), verwerfe $v_k$. Das Entfernen dieses Vektors ändert den Span nicht.",
+          "  6. Am Ende dieses Prozesses ist die Menge $B$ linear unabhängig und spannt immer noch $V$ auf ($\\text{span}(B)=\\text{span}(S)=V$). $B$ ist somit eine Basis von $V$."
+        ]
+      },
+      "mini_glossary": {
+        "Erzeugendensystem": "Eine Menge von Vektoren, deren Span der gesamte Vektorraum ist.",
+        "Basis": "Ein linear unabhängiges Erzeugendensystem.",
+        "Lineare Abhängigkeit": "Mindestens ein Vektor ist Linearkombination der anderen.",
+        "Reduktionsverfahren": "Eine Methode zur Basiskonstruktion, bei der aus einem Erzeugendensystem redundante (linear abhängige) Vektoren entfernt werden."
+      }
+    },
+    {
+      "frage": "39. Sei $V$ ein 3-dimensionaler Vektorraum über $\\mathbb{R}$ und $f: V \\to \\mathbb{R}^2$ eine surjektive lineare Abbildung. Was ist die Dimension des Kerns von $f$ ($\\ker(f)$)?",
+      "optionen": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "Kann nicht bestimmt werden."
+      ],
+      "loesung": 1,
+      "erklaerung": "Nach dem Dimensionssatz (oder Rangsatz) für lineare Abbildungen gilt $\\dim(V) = \\dim(\\ker(f)) + \\dim(\\text{Bild}(f))$. Hier ist $V$ der Definitionsbereich, $\\dim(V)=3$. Die Abbildung $f$ geht nach $W=\\mathbb{R}^2$ mit $\\dim(W)=2$. Da $f$ **surjektiv** ist, ist das Bild von $f$ der gesamte Zielraum $W$, also $\\text{Bild}(f) = \\mathbb{R}^2$. Damit ist $\\dim(\\text{Bild}(f)) = \\dim(\\mathbb{R}^2) = 2$. Einsetzen in den Dimensionssatz: $3 = \\dim(\\ker(f)) + 2$. Daraus folgt $\\dim(\\ker(f)) = 3 - 2 = 1$.",
+      "gewichtung": 3,
+      "thema": "Dimension & Lineare Abbildungen",
+      "extended_explanation": {
+        "titel": "Anwendung des Dimensionssatzes für lineare Abbildungen",
+        "schritte": [
+          "Sei $f: V \\to W$ eine lineare Abbildung zwischen endlichdimensionalen Vektorräumen.",
+          "Der **Kern** von $f$ ist $\\ker(f) = \\{v \\in V \\mid f(v) = 0_W\\}$. Er ist ein Untervektorraum von $V$.",
+          "Das **Bild** von $f$ ist $\\text{Bild}(f) = \\{f(v) \\mid v \\in V\\} = \\{w \\in W \\mid \\exists v \\in V: f(v)=w\\}$. Es ist ein Untervektorraum von $W$.",
+          "Der **Dimensionssatz (Rangsatz)** besagt: $\\dim(V) = \\dim(\\ker(f)) + \\dim(\\text{Bild}(f))$. Die Dimension des Bildes wird auch als Rang der Abbildung bezeichnet.",
+          "Gegeben: $V$ mit $\\dim(V)=3$. $f: V \\to W=\\mathbb{R}^2$ mit $\\dim(W)=2$. $f$ ist **surjektiv**.",
+          "Surjektiv bedeutet, dass das Bild von $f$ gleich dem gesamten Zielraum ist: $\\text{Bild}(f) = W = \\mathbb{R}^2$.",
+          "Daraus folgt $\\dim(\\text{Bild}(f)) = \\dim(\\mathbb{R}^2) = 2$.",
+          "Einsetzen in den Dimensionssatz: $\\dim(V) = \\dim(\\ker(f)) + \\dim(\\text{Bild}(f))$",
+          "$3 = \\dim(\\ker(f)) + 2$.",
+          "Auflösen nach $\\dim(\\ker(f))$: $\\dim(\\ker(f)) = 3 - 2 = 1$."
+        ]
+      },
+      "mini_glossary": {
+        "Lineare Abbildung": "Eine strukturverträgliche Abbildung zwischen Vektorräumen.",
+        "Kern (einer lin. Abbildung)": "Die Menge aller Vektoren im Definitionsbereich, die auf den Nullvektor im Zielraum abgebildet werden.",
+        "Bild (einer lin. Abbildung)": "Die Menge aller Vektoren im Zielraum, die als Ergebnis der Abbildung auftreten.",
+        "Dimensionssatz (Rangsatz)": "Ein Satz, der die Dimension des Definitionsbereichs mit den Dimensionen von Kern und Bild in Beziehung setzt: $\\dim(V) = \\dim(\\ker f) + \\dim(\\text{Bild } f)$.",
+        "Surjektiv": "Eine Abbildung, bei der jedes Element des Zielraums mindestens einmal als Funktionswert auftritt (das Bild ist der gesamte Zielraum)."
+      }
+    },
+    {
+      "frage": "40. In der modernen KI werden oft **Embeddings** verwendet, um z.B. Wörter oder Code-Abschnitte in hochdimensionale Vektorräume ($\\mathbb{R}^{512}$, $\\mathbb{R}^{1024}$ etc.) abzubilden. Wozu dient dieser Schritt hauptsächlich?",
+      "optionen": [
+        "Um die Rechenzeit zu minimieren, da Operationen in hohen Dimensionen schneller sind.",
+        "Um komplexe, unstrukturierte Daten (wie Text oder Code) in eine **mathematisch handhabbare, numerische Form** zu übersetzen, die Beziehungen wie Ähnlichkeit durch geometrische Nähe repräsentiert.",
+        "Um sicherzustellen, dass alle resultierenden Vektoren linear unabhängig sind.",
+        "Um die Daten in eine Basis zu transformieren, in der sie leichter visualisiert werden können (z.B. $\\mathbb{R}^2$ oder $\\mathbb{R}^3$).",
+        "Um die exakte syntaktische Struktur von Sätzen oder Code in den Vektorkomponenten zu speichern."
+      ],
+      "loesung": 1,
+      "erklaerung": "Der Hauptzweck von Embeddings ist es, nicht-numerische oder sehr spärlich repräsentierte Daten (wie Wörter über One-Hot Encoding) in dichte, numerische Vektoren zu überführen. Diese Vektoren leben in einem Vektorraum, in dem geometrische Konzepte wie Abstand oder Winkel genutzt werden können, um semantische Beziehungen (z.B. Ähnlichkeit von Wörtern oder Code-Fragmenten) zu quantifizieren und für Algorithmen des maschinellen Lernens zugänglich zu machen. Hohe Dimensionen sind nicht unbedingt schneller (Option A). Lineare Unabhängigkeit ist nicht das Ziel (Option C). Visualisierung erfordert oft erst eine Dimensionalitätsreduktion (Option D). Embeddings erfassen eher semantische als exakt syntaktische Strukturen (Option E).",
+      "gewichtung": 2,
+      "thema": "Anwendungen (Embeddings)",
+      "extended_explanation": {
+        "titel": "Zweck von Embeddings in der KI",
+        "schritte": [
+          "Viele Daten in KI-Anwendungen sind unstrukturiert oder diskret, z.B. Text, Code, Bilder, Audio. Algorithmen benötigen jedoch typischerweise numerische Eingaben.",
+          "**Embeddings** sind Vektordarstellungen dieser Objekte in einem (oft hochdimensionalen) reellen Vektorraum. Sie werden meist durch neuronale Netze gelernt.",
+          "Das Hauptziel ist die **Repräsentation von Bedeutung (Semantik)**. Die Embeddings werden so gelernt, dass Objekte mit ähnlicher Bedeutung oder ähnlichem Kontext im Vektorraum nahe beieinander liegen.",
+          "Diese **geometrische Nähe** (gemessen durch z.B. Kosinus-Ähnlichkeit oder euklidischen Abstand) dient als numerisches Maß für die semantische Ähnlichkeit.",
+          "Dadurch werden komplexe Objekte und ihre Beziehungen für mathematische Operationen und maschinelle Lernverfahren **handhabbar**.",
+          "Anwendungen umfassen semantische Suche, Empfehlungssysteme, maschinelle Übersetzung, Code-Analyse etc.."
+        ]
+      },
+      "mini_glossary": {
+        "Embedding": "Eine Vektordarstellung eines Objekts in einem Vektorraum, die dessen semantische Eigenschaften erfasst.",
+        "Hochdimensionaler Vektorraum": "Ein Vektorraum mit vielen Dimensionen, typisch in modernen KI-Modellen.",
+        "Semantik": "Die Bedeutung von Zeichen, Wörtern, Sätzen oder Code.",
+        "Geometrische Nähe": "Die räumliche Nähe von Punkten (Vektoren) in einem Vektorraum, oft als Maß für Ähnlichkeit interpretiert."
+      }
+    }
+  ]
+}

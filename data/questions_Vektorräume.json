@@ -1,107 +1,107 @@
 [
   {
-    "frage": "1. Welche Struktur muss eine Menge $V$ mit Skalarmenge $K$ besitzen, damit sie ein $K$-Vektorraum ist?",
-    "optionen": [
+    "question": "1. Welche Struktur muss eine Menge $V$ mit Skalarmenge $K$ besitzen, damit sie ein $K$-Vektorraum ist?",
+    "options": [
       "Eine kommutative Gruppe $(V, +)$ und eine skalare Multiplikation $K \\times V \\to V$, die (V1)–(V4) erfüllt.",
       "Nur eine abelsche Gruppe $(V, +)$; die Skalarmultiplikation ist optional.",
       "Eine Gruppe $(V,\\cdot)$ mit neutralem Element und inversen Elementen.",
       "Ein Ring $(V,+,\\cdot)$ mit Einselement und Nullteilerfreiheit.",
       "Eine Halbgruppe $(V,+)$ mit assoziativer Verknüpfung."
     ],
-    "loesung": 0,
-    "erklaerung": "Ein $K$-Vektorraum besteht aus der abelschen Gruppe $(V,+)$ und einer Skalarmultiplikation, die die Distributiv- und Assoziativgesetze sowie $1\\cdot v=v$ erfüllt (Axiome (V1)–(V4)).",
-    "gewichtung": 1,
-    "thema": "Vektorraumaxiome",
+    "answer": 0,
+    "explanation": "Ein $K$-Vektorraum besteht aus der abelschen Gruppe $(V,+)$ und einer Skalarmultiplikation, die die Distributiv- und Assoziativgesetze sowie $1\\cdot v=v$ erfüllt (Axiome (V1)–(V4)).",
+    "weight": 1,
+    "topic": "Vektorraumaxiome",
     "mini_glossary": {
       "Skalarmultiplikation": "Die Abbildung $K\\times V\\to V$, $(\\lambda,v)\\mapsto \\lambda v$, die $\\lambda(\\mu v)=(\\lambda\\mu)v$, $1v=v$, $\\lambda(v+w)=\\lambda v+\\lambda w$ und $(\\lambda+\\mu)v=\\lambda v+\\mu v$ erfüllt.",
       "Abelsche Gruppe": "Eine Gruppe $(V,+)$, in der $u+v=v+u$ gilt. In Vektorräumen ist $(V,+)$ stets abelsch; das Nullelement wird mit $0$ bzw. $\\mathbf{0}$ bezeichnet."
     }
   },
   {
-    "frage": "2. Welche der folgenden Mengen ist mit der üblichen Addition und Skalarmultiplikation ein Untervektorraum von $\\mathbb{R}^3$?",
-    "optionen": [
+    "question": "2. Welche der folgenden Mengen ist mit der üblichen Addition und Skalarmultiplikation ein Untervektorraum von $\\mathbb{R}^3$?",
+    "options": [
       "Die Menge aller Vektoren $(x,y,z)$ mit $x-y+z=0$.",
       "Die Menge aller Vektoren $(x,y,z)$ mit $x=1$.",
       "Die Menge aller Vektoren $(x,y,z)$ mit $xy=0$.",
       "Die Menge aller Vektoren $(x,y,z)$ mit $x\\ge 0$.",
       "Die Menge aller Vektoren $(x,y,z)$ mit $x^2+y^2+z^2=1$."
     ],
-    "loesung": 0,
-    "erklaerung": "Nur eine homogene lineare Gleichung beschreibt einen Unterraum: Die Lösungsmenge von $x-y+z=0$ ist abgeschlossen unter Addition und Skalarmultiplikation und enthält $\\mathbf{0}$.",
-    "gewichtung": 1,
-    "thema": "Unterräume",
+    "answer": 0,
+    "explanation": "Nur eine homogene lineare Gleichung beschreibt einen Unterraum: Die Lösungsmenge von $x-y+z=0$ ist abgeschlossen unter Addition und Skalarmultiplikation und enthält $\\mathbf{0}$.",
+    "weight": 1,
+    "topic": "Unterräume",
     "mini_glossary": {
       "Untervektorraum": "Nichtleere Teilmenge $U\\subseteq V$, die mit den Operationen von $V$ wieder ein Vektorraum ist. Charakterisierung: $u,v\\in U\\Rightarrow u+v\\in U$ und $\\lambda\\in K,u\\in U\\Rightarrow \\lambda u\\in U$.",
       "Homogene Gleichung": "Gleichung der Form $A\\,x=0$. Ihre Lösungsmenge ist stets ein Unterraum; im Beispiel ist $[1,-1,1]$ die Normale der Ebene."
     }
   },
   {
-    "frage": "3. Wie lässt sich die Gerade durch den Ursprung in Richtung eines Vektors $v\\in\\mathbb{R}^n$ als Unterraum beschreiben?",
-    "optionen": [
+    "question": "3. Wie lässt sich die Gerade durch den Ursprung in Richtung eines Vektors $v\\in\\mathbb{R}^n$ als Unterraum beschreiben?",
+    "options": [
       "$\\{\\lambda v\\mid \\lambda\\in\\mathbb{R}\\}$",
       "$\\{u+\\lambda v\\mid \\lambda\\in\\mathbb{R}\\}$ mit festem $u\\ne \\mathbf{0}$",
       "$\\{\\lambda v+ w\\mid \\lambda\\in\\mathbb{R},\\ w\\in\\mathbb{R}^n\\}$",
       "$\\{v\\}$",
       "$\\mathbb{R}^n\\setminus\\{\\mathbf{0}\\}$"
     ],
-    "loesung": 0,
-    "erklaerung": "Ursprungsgeraden sind genau die Mengen $\\operatorname{span}\\{v\\}=\\{\\lambda v\\}$ für $\\lambda\\in\\mathbb{R}$.",
-    "gewichtung": 1,
-    "thema": "Span und Geraden",
+    "answer": 0,
+    "explanation": "Ursprungsgeraden sind genau die Mengen $\\operatorname{span}\\{v\\}=\\{\\lambda v\\}$ für $\\lambda\\in\\mathbb{R}$.",
+    "weight": 1,
+    "topic": "Span und Geraden",
     "mini_glossary": {
       "Span": "$\\operatorname{span}(S)$ ist die Menge aller endlichen Linearkombinationen aus $S\\subseteq V$ und der kleinste Unterraum, der $S$ enthält.",
       "Ursprungsgerade": "Eine Gerade, die den Nullvektor enthält; sie ist immer ein Unterraum und wird von einem einzigen Richtungsvektor erzeugt."
     }
   },
   {
-    "frage": "4. Welche Bedingung charakterisiert **lineare Unabhängigkeit** der Vektoren $v_1,\\dots,v_n$?",
-    "optionen": [
+    "question": "4. Welche Bedingung charakterisiert **lineare Unabhängigkeit** der Vektoren $v_1,\\dots,v_n$?",
+    "options": [
       "Aus $\\sum_{i=1}^n \\lambda_i v_i=\\mathbf{0}$ folgt $\\lambda_1=\\cdots=\\lambda_n=0$.",
       "Die Vektoren haben paarweise unterschiedliche Längen.",
       "Die Vektoren sind orthogonal.",
       "Die Vektoren sind normiert.",
       "Die Vektoren bilden ein Gitter in $\\mathbb{R}^n$."
     ],
-    "loesung": 0,
-    "erklaerung": "Per Definition sind $v_1,\\dots,v_n$ linear unabhängig, wenn die einzige Linearkombination mit Ergebnis $\\mathbf{0}$ die triviale ist.",
-    "gewichtung": 1,
-    "thema": "Lineare Unabhängigkeit",
+    "answer": 0,
+    "explanation": "Per Definition sind $v_1,\\dots,v_n$ linear unabhängig, wenn die einzige Linearkombination mit Ergebnis $\\mathbf{0}$ die triviale ist.",
+    "weight": 1,
+    "topic": "Lineare Unabhängigkeit",
     "mini_glossary": {
       "Linearkombination": "Ausdrücke der Form $\\lambda_1 v_1+\\cdots+\\lambda_n v_n$ mit $\\lambda_i\\in K$.",
       "Triviale Kombination": "Die Wahl aller Koeffizienten $\\lambda_i=0$, die stets $\\mathbf{0}$ ergibt."
     }
   },
   {
-    "frage": "5. Welche Aussage über Basen in endlichdimensionalen Räumen ist korrekt?",
-    "optionen": [
+    "question": "5. Welche Aussage über Basen in endlichdimensionalen Räumen ist korrekt?",
+    "options": [
       "Alle Basen eines Vektorraums haben gleich viele Elemente.",
       "Es existiert stets eine eindeutige Basis.",
       "Es gibt Basen mit unendlich vielen und anderen mit endlich vielen Elementen im selben Raum.",
       "Die Standardbasis ist in jedem Kontext die einzig sinnvolle Wahl.",
       "Jede linear unabhängige Menge ist automatisch eine Basis."
     ],
-    "loesung": 0,
-    "erklaerung": "In endlichdimensionalen Räumen haben alle Basen dieselbe Mächtigkeit; diese Zahl ist die **Dimension**.",
-    "gewichtung": 1,
-    "thema": "Basis und Dimension",
+    "answer": 0,
+    "explanation": "In endlichdimensionalen Räumen haben alle Basen dieselbe Mächtigkeit; diese Zahl ist die **Dimension**.",
+    "weight": 1,
+    "topic": "Basis und Dimension",
     "mini_glossary": {
       "Basis": "Eine linear unabhängige Menge $B$, die den Raum erzeugt: $\\operatorname{span}(B)=V$. Jede Darstellung $v=\\sum x_i b_i$ ist eindeutig.",
       "Dimension": "Anzahl der Basisvektoren eines endlichdimensionalen Vektorraums; wohldefiniert durch den Austauschsatz."
     }
   },
   {
-    "frage": "6. Für die lineare Abbildung $f:\\mathbb{R}^3\\to\\mathbb{R}^2$, $f(x,y,z)=(x-y,\\,y+z)$, welche Aussage trifft zu?",
-    "optionen": [
+    "question": "6. Für die lineare Abbildung $f:\\mathbb{R}^3\\to\\mathbb{R}^2$, $f(x,y,z)=(x-y,\\,y+z)$, welche Aussage trifft zu?",
+    "options": [
       "Der Kern von $f$ ist eindimensional.",
       "Der Kern von $f$ ist trivial.",
       "Das Bild von $f$ ist eindimensional.",
       "Die Abbildung ist injektiv.",
       "Die Abbildung ist bijektiv."
     ],
-    "loesung": 0,
-    "erklaerung": "Gleichungen $x-y=0$ und $y+z=0$ führen zu $x=y$ und $z=-y$, also $\\ker f=\\{(t,t,-t)\\mid t\\in\\mathbb{R}\\}$ mit Dimension $1$.",
-    "gewichtung": 2,
-    "thema": "Kern und Bild",
+    "answer": 0,
+    "explanation": "Gleichungen $x-y=0$ und $y+z=0$ führen zu $x=y$ und $z=-y$, also $\\ker f=\\{(t,t,-t)\\mid t\\in\\mathbb{R}\\}$ mit Dimension $1$.",
+    "weight": 2,
+    "topic": "Kern und Bild",
     "extended_explanation": {
       "title": "Rang-Nullität und Dimensionsschluss",
       "content": "Aus $\\dim \\ker f=1$ und $\\dim \\mathbb{R}^3=3$ folgt mit Rang-Nullität $\\dim \\operatorname{Im} f=2$. Da das Ziel $\\mathbb{R}^2$ ist, ist $\\operatorname{Im} f=\\mathbb{R}^2$ (Surjektivität), aber wegen nichttrivialem Kern ist $f$ nicht injektiv."
@@ -112,18 +112,18 @@
     }
   },
   {
-    "frage": "7. Welche Bedingung garantiert, dass eine lineare Abbildung $T:U\\to V$ ein Isomorphismus ist?",
-    "optionen": [
+    "question": "7. Welche Bedingung garantiert, dass eine lineare Abbildung $T:U\\to V$ ein Isomorphismus ist?",
+    "options": [
       "Es gibt Basen $B_U$ von $U$ und $B_V$ von $V$, sodass $T$ $B_U$ auf $B_V$ abbildet.",
       "Der Kern ist zweidimensional.",
       "Das Bild ist eigendimensional.",
       "Die Abbildung ist surjektiv, aber nicht injektiv.",
       "Die Abbildung ist injektiv, aber nicht surjektiv."
     ],
-    "loesung": 0,
-    "erklaerung": "Bildet $T$ eine Basis auf eine Basis ab, so ist $T$ invertierbar und somit ein Isomorphismus.",
-    "gewichtung": 2,
-    "thema": "Isomorphismen",
+    "answer": 0,
+    "explanation": "Bildet $T$ eine Basis auf eine Basis ab, so ist $T$ invertierbar und somit ein Isomorphismus.",
+    "weight": 2,
+    "topic": "Isomorphismen",
     "extended_explanation": {
       "title": "Basis-zu-Basis-Kriterium",
       "content": "Sind $U$ und $V$ gleichdimensional und bildet $T$ eine Basis von $U$ auf eine Basis von $V$ ab, ist $T$ bijektiv. Umgekehrt bildet jeder Isomorphismus Basen auf Basen ab."
@@ -134,36 +134,36 @@
     }
   },
   {
-    "frage": "8. Welche der folgenden Mengen ist eine Basis von $\\mathbb{R}^2$?",
-    "optionen": [
+    "question": "8. Welche der folgenden Mengen ist eine Basis von $\\mathbb{R}^2$?",
+    "options": [
       "{`(2,3)`, `(3,4)`}",
       "{`(1,2)`, `(2,4)`}",
       "{`(1,0)`, `(2,0)`}",
       "{`(0,0)`, `(1,1)`}",
       "{`(1,0)`, `(0,0)`}"
     ],
-    "loesung": 0,
-    "erklaerung": "`(2,3)` und `(3,4)` sind linear unabhängig (keine skalare Vielfachheit) und erzeugen $\\mathbb{R}^2$.",
-    "gewichtung": 1,
-    "thema": "Basis in $\\mathbb{R}^2$",
+    "answer": 0,
+    "explanation": "`(2,3)` und `(3,4)` sind linear unabhängig (keine skalare Vielfachheit) und erzeugen $\\mathbb{R}^2$.",
+    "weight": 1,
+    "topic": "Basis in $\\mathbb{R}^2$",
     "mini_glossary": {
       "Lineare Abhängigkeit in $\\mathbb{R}^2$": "Zwei Vektoren sind abhängig, wenn einer ein skalares Vielfaches des anderen ist.",
       "Erzeugend": "Eine Menge $S$ erzeugt $V$, wenn jeder Vektor aus $V$ als Linearkombination von $S$ darstellbar ist."
     }
   },
   {
-    "frage": "9. Gegeben sei die Basis $B=\\{b_1,b_2\\}$ von $\\mathbb{R}^2$ mit $b_1=(2,2)$, $b_2=(1,2)$. Welche Koordinaten hat $v=(2,1)$ bezüglich $B$?",
-    "optionen": [
+    "question": "9. Gegeben sei die Basis $B=\\{b_1,b_2\\}$ von $\\mathbb{R}^2$ mit $b_1=(2,2)$, $b_2=(1,2)$. Welche Koordinaten hat $v=(2,1)$ bezüglich $B$?",
+    "options": [
       "$(\\tfrac{3}{2},\\,-1)$",
       "$(1,0)$",
       "$(0,1)$",
       "$(1,1)$",
       "$(-1,\\tfrac{3}{2})$"
     ],
-    "loesung": 0,
-    "erklaerung": "Löse $v=\\alpha b_1+\\beta b_2$: $2=2\\alpha+\\beta$, $1=2\\alpha+2\\beta$. Subtraktion ergibt $-1=\\beta\\Rightarrow \\beta=-1$, also $\\alpha=3/2$.",
-    "gewichtung": 2,
-    "thema": "Koordinaten in gegebener Basis",
+    "answer": 0,
+    "explanation": "Löse $v=\\alpha b_1+\\beta b_2$: $2=2\\alpha+\\beta$, $1=2\\alpha+2\\beta$. Subtraktion ergibt $-1=\\beta\\Rightarrow \\beta=-1$, also $\\alpha=3/2$.",
+    "weight": 2,
+    "topic": "Koordinaten in gegebener Basis",
     "extended_explanation": {
       "title": "Lineares Gleichungssystem",
       "content": "Die Koordinaten sind die Lösung des $2\\times2$-Systems $[b_1\\ b_2]\\,[\\alpha\\ \\beta]^T=v$. In Matrixschreibweise: $\\begin{bmatrix}2&1\\\\2&2\\end{bmatrix}\\begin{bmatrix}\\alpha\\\\\\beta\\end{bmatrix}=\\begin{bmatrix}2\\\\1\\end{bmatrix}$."
@@ -174,18 +174,18 @@
     }
   },
   {
-    "frage": "10. Welche der folgenden Mengen ist **kein** Unterraum von $\\mathbb{R}^n$?",
-    "optionen": [
+    "question": "10. Welche der folgenden Mengen ist **kein** Unterraum von $\\mathbb{R}^n$?",
+    "options": [
       "$\\{x\\in\\mathbb{R}^n\\mid a^\\top x = 1\\}$ mit festem $a\\ne \\mathbf{0}$",
       "$\\{x\\in\\mathbb{R}^n\\mid a^\\top x = 0\\}$",
       "$\\operatorname{span}\\{u,v\\}$",
       "$\\{\\mathbf{0}\\}$",
       "$\\mathbb{R}^n$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die affine Hyperebene $a^\\top x=1$ enthält den Nullvektor nicht und ist nicht unter Addition skalenstabil.",
-    "gewichtung": 2,
-    "thema": "Unterräume vs. affine Mengen",
+    "answer": 0,
+    "explanation": "Die affine Hyperebene $a^\\top x=1$ enthält den Nullvektor nicht und ist nicht unter Addition skalenstabil.",
+    "weight": 2,
+    "topic": "Unterräume vs. affine Mengen",
     "extended_explanation": {
       "title": "Affin vs. linear",
       "content": "Affinräume entstehen durch Verschiebung eines Unterraums: $u_0+U$. Nur wenn $u_0=\\mathbf{0}$, handelt es sich um einen Unterraum."
@@ -196,54 +196,54 @@
     }
   },
   {
-    "frage": "11. Für den Polynomraum $\\mathbb{R}[X]_{\\le 3}$, welche Aussage ist korrekt?",
-    "optionen": [
+    "question": "11. Für den Polynomraum $\\mathbb{R}[X]_{\\le 3}$, welche Aussage ist korrekt?",
+    "options": [
       "Die Menge $\\{1,x,x^2,x^3\\}$ ist eine Basis und die Dimension ist $4$.",
       "Die Menge $\\{1,x^2,x^3\\}$ ist eine Basis und die Dimension ist $3$.",
       "Die Dimension ist unendlich.",
       "Die Menge $\\{1,x-1,(x-1)^2,(x-1)^3,(x-1)^4\\}$ ist eine Basis.",
       "Es existiert keine kanonische Basis."
     ],
-    "loesung": 0,
-    "erklaerung": "Alle Polynome vom Grad $\\le 3$ lassen sich eindeutig als Linearkombination von $1,x,x^2,x^3$ schreiben; daher Dimension $4$.",
-    "gewichtung": 1,
-    "thema": "Polynomräume",
+    "answer": 0,
+    "explanation": "Alle Polynome vom Grad $\\le 3$ lassen sich eindeutig als Linearkombination von $1,x,x^2,x^3$ schreiben; daher Dimension $4$.",
+    "weight": 1,
+    "topic": "Polynomräume",
     "mini_glossary": {
       "`\\mathbb{R}[X]_{\\le d}`": "Vektorraum der reellen Polynome vom Grad höchstens $d$; klassische Basis $\\{1,x,\\dots,x^d\\}$.",
       "Grad": "Maximaler Exponent mit nichtverschwindendem Koeffizienten. Für das Nullpolynom ist der Grad konventionsabhängig, hier irrelevant."
     }
   },
   {
-    "frage": "12. Sei $T:V\\to W$ linear und $\\dim V=n$. Welche Gleichung verbindet $\\dim\\ker T$ und $\\dim\\operatorname{Im} T$?",
-    "optionen": [
+    "question": "12. Sei $T:V\\to W$ linear und $\\dim V=n$. Welche Gleichung verbindet $\\dim\\ker T$ und $\\dim\\operatorname{Im} T$?",
+    "options": [
       "$\\dim\\ker T+\\dim\\operatorname{Im} T=n$",
       "$\\dim\\ker T\\cdot\\dim\\operatorname{Im} T=n$",
       "$\\dim\\ker T-\\dim\\operatorname{Im} T=0$",
       "$\\dim\\ker T=n-1$ für alle $T$",
       "$\\dim\\operatorname{Im} T=n$ für alle $T$"
     ],
-    "loesung": 0,
-    "erklaerung": "Das **Rang-Nullität-Theorem** liefert $\\dim\\ker T+\\dim\\operatorname{Im} T=\\dim V=n$.",
-    "gewichtung": 1,
-    "thema": "Rang-Nullität",
+    "answer": 0,
+    "explanation": "Das **Rang-Nullität-Theorem** liefert $\\dim\\ker T+\\dim\\operatorname{Im} T=\\dim V=n$.",
+    "weight": 1,
+    "topic": "Rang-Nullität",
     "mini_glossary": {
       "Rang": "$\\dim\\operatorname{Im} T$. Misst die Anzahl unabhängig transportierter Freiheitsgrade.",
       "Nullität": "$\\dim\\ker T$. Misst die Anzahl kollabierender Freiheitsgrade."
     }
   },
   {
-    "frage": "13. Für $A\\in\\mathbb{R}^{m\\times n}$ sei $T(x)=Ax$. Welche Aussage ist korrekt?",
-    "optionen": [
+    "question": "13. Für $A\\in\\mathbb{R}^{m\\times n}$ sei $T(x)=Ax$. Welche Aussage ist korrekt?",
+    "options": [
       "Die Spalten von $A$ spannen den Bildraum von $T$ auf.",
       "Die Zeilen von $A$ spannen den Bildraum von $T$ auf.",
       "Die Spalten von $A$ spannen den Kern von $T$ auf.",
       "Die Zeilen von $A$ spannen den Kern von $T$ auf.",
       "Der Bildraum hängt nur von $m$ ab, nicht von $A$."
     ],
-    "loesung": 0,
-    "erklaerung": "Der Bildraum von $T$ ist $\\operatorname{span}$ der Spalten von $A$; jeder Wert $Ax$ ist Linearkombination der Spalten mit Koeffizienten aus $x$.",
-    "gewichtung": 2,
-    "thema": "Matrixdarstellung linearer Abbildungen",
+    "answer": 0,
+    "explanation": "Der Bildraum von $T$ ist $\\operatorname{span}$ der Spalten von $A$; jeder Wert $Ax$ ist Linearkombination der Spalten mit Koeffizienten aus $x$.",
+    "weight": 2,
+    "topic": "Matrixdarstellung linearer Abbildungen",
     "extended_explanation": {
       "title": "Spaltenraum und Rang",
       "content": "Der Spaltenraum $\\mathcal{C}(A)$ ist $\\{Ax\\mid x\\in\\mathbb{R}^n\\}$. Sein Dimension ist der Rang von $A$. Der Kern entspricht der Lösungsmenge von $Ax=0$."
@@ -254,54 +254,54 @@
     }
   },
   {
-    "frage": "14. Gegeben sind $u,v\\in\\mathbb{R}^3$ linear unabhängig. Welche Menge beschreibt die durch $u$ und $v$ aufgespannte Ebene?",
-    "optionen": [
+    "question": "14. Gegeben sind $u,v\\in\\mathbb{R}^3$ linear unabhängig. Welche Menge beschreibt die durch $u$ und $v$ aufgespannte Ebene?",
+    "options": [
       "$\\{\\alpha u+\\beta v\\mid \\alpha,\\beta\\in\\mathbb{R}\\}$",
       "$\\{u+\\alpha v\\mid \\alpha\\in\\mathbb{R}\\}$",
       "$\\{\\alpha u\\mid \\alpha\\in\\mathbb{R}\\}$",
       "$\\{u,v\\}$",
       "$\\{\\alpha u+\\beta v+ w\\mid w\\in\\mathbb{R}^3\\}$"
     ],
-    "loesung": 0,
-    "erklaerung": "Zwei linear unabhängige Vektoren erzeugen eine zweidimensionale Ursprungsebene: alle Kombinationen $\\alpha u+\\beta v$.",
-    "gewichtung": 1,
-    "thema": "Span von zwei Vektoren",
+    "answer": 0,
+    "explanation": "Zwei linear unabhängige Vektoren erzeugen eine zweidimensionale Ursprungsebene: alle Kombinationen $\\alpha u+\\beta v$.",
+    "weight": 1,
+    "topic": "Span von zwei Vektoren",
     "mini_glossary": {
       "Ursprungsebene": "Zweidimensionaler Unterraum durch $\\mathbf{0}$ in $\\mathbb{R}^3$; entsteht als $\\operatorname{span}\\{u,v\\}$.",
       "Linear unabhängig": "Keiner der beiden ist ein skalares Vielfaches des anderen."
     }
   },
   {
-    "frage": "15. Sei $T:\\mathbb{R}^2\\to\\mathbb{R}^2$ linear mit $T(1,0)=(2,1)$ und $T(0,1)=(1,2)$. Welche Matrix stellt $T$ in der Standardbasis dar?",
-    "optionen": [
+    "question": "15. Sei $T:\\mathbb{R}^2\\to\\mathbb{R}^2$ linear mit $T(1,0)=(2,1)$ und $T(0,1)=(1,2)$. Welche Matrix stellt $T$ in der Standardbasis dar?",
+    "options": [
       "$\\begin{bmatrix}2&1\\\\1&2\\end{bmatrix}$",
       "$\\begin{bmatrix}1&2\\\\2&1\\end{bmatrix}$",
       "$\\begin{bmatrix}2&0\\\\0&2\\end{bmatrix}$",
       "$\\begin{bmatrix}2&1\\\\2&1\\end{bmatrix}$",
       "$\\begin{bmatrix}1&1\\\\2&2\\end{bmatrix}$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die Bilder der Standardbasis sind die Spalten der Darstellungs­matrix: $[T]=[\\,T e_1\\ \\ T e_2\\,]$.",
-    "gewichtung": 1,
-    "thema": "Darstellungsmatrix",
+    "answer": 0,
+    "explanation": "Die Bilder der Standardbasis sind die Spalten der Darstellungs­matrix: $[T]=[\\,T e_1\\ \\ T e_2\\,]$.",
+    "weight": 1,
+    "topic": "Darstellungsmatrix",
     "mini_glossary": {
       "`Standardbasis`": "In $\\mathbb{R}^n$ die Vektoren $e_i$ mit einer $1$ an Stelle $i$ und sonst $0$.",
       "Darstellungsmatrix": "Matrix $[T]_{B\\to C}$, deren Spalten die Koordinaten der Bilder der Basisvektoren sind."
     }
   },
   {
-    "frage": "16. Sei $B$ eine Basis von $V$ und $C$ eine zweite Basis. Welche Aussage über die **Basiswechselmatrix** $P$ von $B$ nach $C$ ist korrekt?",
-    "optionen": [
+    "question": "16. Sei $B$ eine Basis von $V$ und $C$ eine zweite Basis. Welche Aussage über die **Basiswechselmatrix** $P$ von $B$ nach $C$ ist korrekt?",
+    "options": [
       "$P$ ist invertierbar und erlaubt $[v]_C=P^{-1}[v]_B$.",
       "$P$ ist stets orthogonal.",
       "$P$ ist eine Projektionsmatrix.",
       "$P$ hat immer Determinante $1$.",
       "$P$ ist nur definiert, wenn $B=C$."
     ],
-    "loesung": 0,
-    "erklaerung": "Basiswechselmatrizen sind per Definition invertierbar; sie transformieren Koordinaten gemäß $[v]_C=P^{-1}[v]_B$ (bzw. $[v]_B=P[v]_C$).",
-    "gewichtung": 2,
-    "thema": "Basiswechsel",
+    "answer": 0,
+    "explanation": "Basiswechselmatrizen sind per Definition invertierbar; sie transformieren Koordinaten gemäß $[v]_C=P^{-1}[v]_B$ (bzw. $[v]_B=P[v]_C$).",
+    "weight": 2,
+    "topic": "Basiswechsel",
     "extended_explanation": {
       "title": "Aufbau von $P$",
       "content": "Schreibe die Vektoren von $B$ in $C$-Koordinaten als Spalten: Das ergibt $P=[\\, [b_1]_C\\ \\cdots\\ [b_n]_C\\,]$. Invertierbarkeit entspricht der Unabhängigkeit von $B$."
@@ -312,36 +312,36 @@
     }
   },
   {
-    "frage": "17. Welche Aussage charakterisiert die Dimension des Bildraums einer linearen Abbildung $T:\\mathbb{R}^n\\to\\mathbb{R}^m$?",
-    "optionen": [
+    "question": "17. Welche Aussage charakterisiert die Dimension des Bildraums einer linearen Abbildung $T:\\mathbb{R}^n\\to\\mathbb{R}^m$?",
+    "options": [
       "Sie ist der Rang der zugehörigen Matrixdarstellung.",
       "Sie ist immer gleich $n$.",
       "Sie ist immer gleich $m$.",
       "Sie ist das Minimum aus $m$ und $n$, unabhängig von $T$.",
       "Sie ist die Anzahl der Nullspalten der Matrix."
     ],
-    "loesung": 0,
-    "erklaerung": "Die Dimension von $\\operatorname{Im}T$ entspricht dem **Rang** der Matrix (Anzahl linear unabhängiger Spalten).",
-    "gewichtung": 1,
-    "thema": "Rang des Bildraums",
+    "answer": 0,
+    "explanation": "Die Dimension von $\\operatorname{Im}T$ entspricht dem **Rang** der Matrix (Anzahl linear unabhängiger Spalten).",
+    "weight": 1,
+    "topic": "Rang des Bildraums",
     "mini_glossary": {
       "Rang einer Matrix": "Maximale Anzahl linear unabhängiger Spalten (gleich der maximalen Anzahl unabhängiger Zeilen).",
       "Bildraum": "$\\{T(x)\\mid x\\in\\mathbb{R}^n\\}\\subseteq\\mathbb{R}^m$."
     }
   },
   {
-    "frage": "18. Es sei $U\\subseteq V$ ein Unterraum und $v\\in V\\setminus U$. Welche Aussage ist korrekt?",
-    "optionen": [
+    "question": "18. Es sei $U\\subseteq V$ ein Unterraum und $v\\in V\\setminus U$. Welche Aussage ist korrekt?",
+    "options": [
       "Die Menge $U\\cup\\{v\\}$ ist linear unabhängig genau dann, wenn $v\\notin U$.",
       "Die Menge $U\\cup\\{v\\}$ ist immer linear abhängig.",
       "Die Menge $U\\cup\\{v\\}$ ist nie erzeugend.",
       "Die Menge $U\\cup\\{v\\}$ ist unabhängig von $v$ eine Basis.",
       "Es existiert keine Basis, die $v$ enthält."
     ],
-    "loesung": 0,
-    "erklaerung": "Liegt $v\\notin U$, dann kann $v$ keine Linearkombination aus $U$ sein; somit erweitert $v$ jede Basis von $U$ zu einer größeren unabhängigen Menge (Austauschsatz-Idee).",
-    "gewichtung": 2,
-    "thema": "Erweiterung unabhängiger Mengen",
+    "answer": 0,
+    "explanation": "Liegt $v\\notin U$, dann kann $v$ keine Linearkombination aus $U$ sein; somit erweitert $v$ jede Basis von $U$ zu einer größeren unabhängigen Menge (Austauschsatz-Idee).",
+    "weight": 2,
+    "topic": "Erweiterung unabhängiger Mengen",
     "extended_explanation": {
       "title": "Von der Teilmenge zur Basis",
       "content": "Jede linear unabhängige Menge lässt sich zu einer Basis erweitern. Liegt $v\\notin U$, ist $U\\cup\\{v\\}$ unabhängig und vergrößert den Span: $\\operatorname{span}(U)\\subsetneq\\operatorname{span}(U\\cup\\{v\\})$."
@@ -352,36 +352,36 @@
     }
   },
   {
-    "frage": "19. Welche der folgenden Abbildungen $f:\\mathbb{R}^2\\to\\mathbb{R}^2$ ist **linear**?",
-    "optionen": [
+    "question": "19. Welche der folgenden Abbildungen $f:\\mathbb{R}^2\\to\\mathbb{R}^2$ ist **linear**?",
+    "options": [
       "$f(x,y)=(2x-y,\\ x+3y)$",
       "$f(x,y)=(x^2,\\ y)$",
       "$f(x,y)=(x+1,\\ y)$",
       "$f(x,y)=(\\sin x,\\ y)$",
       "$f(x,y)=(e^x,\\ y)$"
     ],
-    "loesung": 0,
-    "erklaerung": "Nur $f(x,y)=(2x-y,\\ x+3y)$ erfüllt Additivität und Homogenität; alle anderen Optionen verletzen mindestens eine der Linearitätsbedingungen.",
-    "gewichtung": 1,
-    "thema": "Linearitätstests",
+    "answer": 0,
+    "explanation": "Nur $f(x,y)=(2x-y,\\ x+3y)$ erfüllt Additivität und Homogenität; alle anderen Optionen verletzen mindestens eine der Linearitätsbedingungen.",
+    "weight": 1,
+    "topic": "Linearitätstests",
     "mini_glossary": {
       "Linearität": "Für alle $u,v$ und $\\lambda$ gilt $f(u+v)=f(u)+f(v)$ und $f(\\lambda u)=\\lambda f(u)$.",
       "Affin": "Form $f(x)=Ax+b$ mit $b\\ne 0$; nicht linear, aber häufig als Linearisierungspunkt relevant."
     }
   },
   {
-    "frage": "20. In $\\mathbb{R}^3$ sei $T$ die Projektion auf die durch $u$ und $v$ aufgespannte Ursprungsebene entlang eines Vektors $w\\notin \\operatorname{span}\\{u,v\\}$. Welche Aussage trifft zu?",
-    "optionen": [
+    "question": "20. In $\\mathbb{R}^3$ sei $T$ die Projektion auf die durch $u$ und $v$ aufgespannte Ursprungsebene entlang eines Vektors $w\\notin \\operatorname{span}\\{u,v\\}$. Welche Aussage trifft zu?",
+    "options": [
       "$\\operatorname{Im}T=\\operatorname{span}\\{u,v\\}$ und $\\ker T=\\operatorname{span}\\{w\\}$.",
       "$\\operatorname{Im}T=\\mathbb{R}^3$ und $\\ker T=\\{\\mathbf{0}\\}$.",
       "$\\operatorname{Im}T=\\operatorname{span}\\{w\\}$ und $\\ker T=\\operatorname{span}\\{u,v\\}$.",
       "$\\ker T=\\{\\mathbf{0}\\}$ und $T$ ist Isomorphismus.",
       "$\\operatorname{Im}T=\\{\\mathbf{0}\\}$ und $\\ker T=\\mathbb{R}^3$."
     ],
-    "loesung": 0,
-    "erklaerung": "Eine Projektion auf $\\operatorname{span}\\{u,v\\}$ entlang $w$ lässt genau die $w$-Komponente verschwinden: Bild ist die Ebene, Kern die Projektionsrichtung.",
-    "gewichtung": 3,
-    "thema": "Projektionen, Kern/Bild",
+    "answer": 0,
+    "explanation": "Eine Projektion auf $\\operatorname{span}\\{u,v\\}$ entlang $w$ lässt genau die $w$-Komponente verschwinden: Bild ist die Ebene, Kern die Projektionsrichtung.",
+    "weight": 3,
+    "topic": "Projektionen, Kern/Bild",
     "extended_explanation": {
       "title": "Idempotenz und Rang",
       "content": "Projektionen $P$ erfüllen $P^2=P$. Der Bildraum ist die Projektionsfläche, der Kern die Projektionsrichtung. In $\\mathbb{R}^3$ hat $P$ Rang $2$ und Nullität $1$."

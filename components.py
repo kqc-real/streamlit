@@ -2465,15 +2465,26 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
     import plotly.graph_objects as go
 
     df_fragen = pd.DataFrame(questions)
+    # Normalize common German column names to the canonical English keys so
+    # older datasets or mixed content still render correctly.
+    _col_aliases = {
+        "frage": "question",
+        "gewichtung": "weight",
+        "thema": "topic",
+        "kognitive_stufe": "cognitive_level",
+    }
+    present_renames = {g: e for g, e in _col_aliases.items() if g in df_fragen.columns and e not in df_fragen.columns}
+    if present_renames:
+        df_fragen = df_fragen.rename(columns=present_renames)
     if df_fragen.empty:
         st.info(translate_ui("welcome.distribution.empty", default="Keine Fragen zum Anzeigen vorhanden."))
         return
 
-    # Standardwerte für fehlende Spalten setzen
-    if "gewichtung" not in df_fragen.columns:
-        df_fragen["gewichtung"] = 1
-    if "thema" not in df_fragen.columns:
-        df_fragen["thema"] = "Allgemein"
+    # Standardwerte für fehlende Spalten setzen (use canonical English keys)
+    if "weight" not in df_fragen.columns:
+        df_fragen["weight"] = 1
+    if "topic" not in df_fragen.columns:
+        df_fragen["topic"] = "Allgemein"
 
     def gewicht_to_schwierigkeit(gewicht):
         try:
@@ -2487,10 +2498,10 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
         except (ValueError, TypeError):
             return "Leicht"
 
-    df_fragen["Schwierigkeit"] = df_fragen["gewichtung"].apply(gewicht_to_schwierigkeit)
+    df_fragen["Schwierigkeit"] = df_fragen["weight"].apply(gewicht_to_schwierigkeit)
 
     pivot = df_fragen.pivot_table(
-        index="thema", columns="Schwierigkeit", values="frage", aggfunc="count", fill_value=0
+        index="topic", columns="Schwierigkeit", values="question", aggfunc="count", fill_value=0
     )
 
     # Plotly-Diagramm erstellen
@@ -2532,8 +2543,8 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
                 f"<br>{_distribution_summary_difficulty(leicht_count, mittel_count, schwer_count)}"
             )
 
-        if "kognitive_stufe" in df_fragen.columns:
-            raw_stages = df_fragen["kognitive_stufe"].fillna("Unbekannt")
+        if "cognitive_level" in df_fragen.columns:
+            raw_stages = df_fragen["cognitive_level"].fillna("Unbekannt")
         else:
             raw_stages = pd.Series(dtype=object)
 

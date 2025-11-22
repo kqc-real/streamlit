@@ -1,17 +1,17 @@
 [
   {
-    "frage": "1. Welche Gleichung beschreibt die Lagrange-Dichte für das elektromagnetische Feld in Abwesenheit von Quellen?",
-    "optionen": [
+    "question": "1. Welche Gleichung beschreibt die Lagrange-Dichte für das elektromagnetische Feld in Abwesenheit von Quellen?",
+    "options": [
       "$\\mathcal{L} = -\\frac{1}{4} F_{\\mu\\nu} F^{\\mu\\nu}$",
       "$\\mathcal{L} = \\frac{1}{2} (\\partial_\\mu \\phi)^2 - \\frac{1}{2} m^2 \\phi^2$",
       "$\\mathcal{L} = i \\bar{\\psi} \\gamma^\\mu \\partial_\\mu \\psi - m \\bar{\\psi} \\psi$",
       "$\\mathcal{L} = R - 2\\Lambda$",
       "$\\mathcal{L} = \\frac{1}{2} g^{\\mu\\nu} \\partial_\\mu \\phi \\partial_\\nu \\phi$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die Lagrange-Dichte $\\mathcal{L} = -\\frac{1}{4} F_{\\mu\\nu} F^{\\mu\\nu}$ beschreibt die Dynamik des freien elektromagnetischen Feldes, wobei $F_{\\mu\\nu} = \\partial_\\mu A_\\nu - \\partial_\\nu A_\\mu$ der elektromagnetische Feldstärketensor ist.",
-    "gewichtung": 3,
-    "thema": "Klassische Feldtheorie",
+    "answer": 0,
+    "explanation": "Die Lagrange-Dichte $\\mathcal{L} = -\\frac{1}{4} F_{\\mu\\nu} F^{\\mu\\nu}$ beschreibt die Dynamik des freien elektromagnetischen Feldes, wobei $F_{\\mu\\nu} = \\partial_\\mu A_\\nu - \\partial_\\nu A_\\mu$ der elektromagnetische Feldstärketensor ist.",
+    "weight": 3,
+    "topic": "Klassische Feldtheorie",
     "extended_explanation": {
       "title": "Herleitung der Maxwell-Gleichungen",
       "content": "Die Anwendung des Euler-Lagrange-Prinzips auf diese Lagrange-Dichte, $\\partial_\\mu (\\frac{\\partial \\mathcal{L}}{\\partial (\\partial_\\mu A_\\nu)}) - \\frac{\\partial \\mathcal{L}}{\\partial A_\\nu} = 0$, führt direkt zu den homogenen Maxwell-Gleichungen im Vakuum: $\\partial_\\mu F^{\\mu\\nu} = 0$. Dies zeigt die fundamentale Rolle der Lagrange-Dichte in der theoretischen Physik."
@@ -23,18 +23,18 @@
     }
   },
   {
-    "frage": "2. Die Navier-Stokes-Gleichungen für ein inkompressibles, newtonsches Fluid lauten:",
-    "optionen": [
+    "question": "2. Die Navier-Stokes-Gleichungen für ein inkompressibles, newtonsches Fluid lauten:",
+    "options": [
       "$\\rho (\\frac{\\partial \\mathbf{u}}{\\partial t} + \\mathbf{u} \\cdot \\nabla \\mathbf{u}) = -\\nabla p + \\mu \\nabla^2 \\mathbf{u} + \\mathbf{f}$",
       "$\\nabla \\cdot \\mathbf{E} = \\frac{\\rho}{\\epsilon_0}$",
       "$i\\hbar \\frac{\\partial}{\\partial t} \\Psi = \\hat{H} \\Psi$",
       "$G_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}$",
       "$\\oint_C \\mathbf{B} \\cdot d\\mathbf{l} = \\mu_0 (I_{enc} + \\epsilon_0 \\frac{d\\Phi_E}{dt})$"
     ],
-    "loesung": 0,
-    "erklaerung": "Diese Gleichung beschreibt die Bewegung von viskosen Flüssigkeiten. Sie setzt die Trägheitskräfte (linke Seite) in Beziehung zu den Druckkräften, viskosen Kräften und externen Kräften (rechte Seite).",
-    "gewichtung": 3,
-    "thema": "Strömungsmechanik",
+    "answer": 0,
+    "explanation": "Diese Gleichung beschreibt die Bewegung von viskosen Flüssigkeiten. Sie setzt die Trägheitskräfte (linke Seite) in Beziehung zu den Druckkräften, viskosen Kräften und externen Kräften (rechte Seite).",
+    "weight": 3,
+    "topic": "Strömungsmechanik",
     "extended_explanation": {
       "title": "Bedeutung der Terme",
       "content": "- $\\rho$: Dichte des Fluids\n- $\\mathbf{u}$: Geschwindigkeitsfeld\n- $p$: Druck\n- $\\mu$: Dynamische Viskosität\n- $\\mathbf{f}$: Externe Kräfte (z.B. Gravitation)\n\nDie Gleichung ist eine nichtlineare partielle Differentialgleichung, deren allgemeine Lösbarkeit in drei Dimensionen eines der ungelösten Millennium-Probleme ist."
@@ -46,18 +46,18 @@
     }
   },
   {
-    "frage": "3. Was ist die explizite Form der Riemannschen Zeta-Funktion $\\zeta(s)$ für $\\text{Re}(s) > 1$?",
-    "optionen": [
+    "question": "3. Was ist die explizite Form der Riemannschen Zeta-Funktion $\\zeta(s)$ für $\\text{Re}(s) > 1$?",
+    "options": [
       "$\\zeta(s) = \\sum_{n=1}^{\\infty} \\frac{1}{n^s}$",
       "$\\zeta(s) = \\prod_{p \\text{ prim}} (1 - p^{-s})^{-1}$",
       "$\\zeta(s) = \\int_0^\\infty \\frac{x^{s-1}}{e^x - 1} dx$",
       "$\\zeta(s) = 2^s \\pi^{s-1} \\sin(\\frac{\\pi s}{2}) \\Gamma(1-s) \\zeta(1-s)$",
       "Alle oben genannten sind korrekte Darstellungen für verschiedene Domänen von $s$."
     ],
-    "loesung": 4,
-    "erklaerung": "Alle vier Ausdrücke sind korrekte Darstellungen der Riemannschen Zeta-Funktion, gelten aber für unterschiedliche Bereiche der komplexen Ebene $s$. Die erste ist die Dirichlet-Reihe, die zweite das Euler-Produkt, die dritte eine Integraldarstellung und die vierte die funktionale Gleichung, die die Werte für $s$ und $1-s$ in Beziehung setzt.",
-    "gewichtung": 3,
-    "thema": "Analytische Zahlentheorie",
+    "answer": 4,
+    "explanation": "Alle vier Ausdrücke sind korrekte Darstellungen der Riemannschen Zeta-Funktion, gelten aber für unterschiedliche Bereiche der komplexen Ebene $s$. Die erste ist die Dirichlet-Reihe, die zweite das Euler-Produkt, die dritte eine Integraldarstellung und die vierte die funktionale Gleichung, die die Werte für $s$ und $1-s$ in Beziehung setzt.",
+    "weight": 3,
+    "topic": "Analytische Zahlentheorie",
     "extended_explanation": {
       "title": "Gültigkeitsbereiche der Darstellungen",
       "content": "- **Dirichlet-Reihe:** $\\sum_{n=1}^{\\infty} \\frac{1}{n^s}$ konvergiert für $\\text{Re}(s) > 1$.\n- **Euler-Produkt:** $\\prod_{p \\text{ prim}} (1 - p^{-s})^{-1}$ konvergiert ebenfalls für $\\text{Re}(s) > 1$ und zeigt die Verbindung zu den Primzahlen.\n- **Integraldarstellung:** Diese ist mit der Bose-Einstein-Statistik verbunden und gilt für $\\text{Re}(s) > 1$.\n- **Funktionale Gleichung:** Diese ist entscheidend, da sie eine analytische Fortsetzung der Zeta-Funktion auf die gesamte komplexe Ebene (außer dem Pol bei $s=1$) ermöglicht."
@@ -69,18 +69,18 @@
     }
   },
   {
-    "frage": "4. Die Schrödinger-Gleichung in ihrer zeitabhängigen Form lautet:",
-    "optionen": [
+    "question": "4. Die Schrödinger-Gleichung in ihrer zeitabhängigen Form lautet:",
+    "options": [
       "$E=mc^2$",
       "$\\hat{H} \\Psi = E \\Psi$",
       "$i\\hbar \\frac{\\partial}{\\partial t} \\Psi(x,t) = \\left[ -\\frac{\\hbar^2}{2m} \\nabla^2 + V(x,t) \\right] \\Psi(x,t)$",
       "$F = G \\frac{m_1 m_2}{r^2}$",
       "$\\nabla \\times \\mathbf{B} - \\frac{1}{c^2} \\frac{\\partial \\mathbf{E}}{\\partial t} = \\mu_0 \\mathbf{J}$"
     ],
-    "loesung": 2,
-    "erklaerung": "Dies ist die fundamentale Gleichung der Quantenmechanik. Sie beschreibt die Zeitentwicklung der Wellenfunktion $\\Psi$ eines quantenmechanischen Systems unter dem Einfluss eines Potentials $V(x,t)$.",
-    "gewichtung": 3,
-    "thema": "Quantenmechanik",
+    "answer": 2,
+    "explanation": "Dies ist die fundamentale Gleichung der Quantenmechanik. Sie beschreibt die Zeitentwicklung der Wellenfunktion $\\Psi$ eines quantenmechanischen Systems unter dem Einfluss eines Potentials $V(x,t)$.",
+    "weight": 3,
+    "topic": "Quantenmechanik",
     "extended_explanation": {
       "title": "Interpretation der Terme",
       "content": "- $i$: Die imaginäre Einheit, die den Wellencharakter anzeigt.\n- $\\hbar$: Das reduzierte Plancksche Wirkungsquantum.\n- $\\Psi(x,t)$: Die Wellenfunktion, deren Betragsquadrat die Aufenthaltswahrscheinlichkeit des Teilchens angibt.\n- $\\hat{H} = -\\frac{\\hbar^2}{2m} \\nabla^2 + V(x,t)$: Der Hamilton-Operator, der die Gesamtenergie des Systems repräsentiert (kinetische Energie + potentielle Energie)."
@@ -92,18 +92,18 @@
     }
   },
   {
-    "frage": "5. Wie lautet die Formel für die Fourier-Transformation einer Funktion $f(t)$?",
-    "optionen": [
+    "question": "5. Wie lautet die Formel für die Fourier-Transformation einer Funktion $f(t)$?",
+    "options": [
       "$\\mathcal{F}\\{f(t)\\} = \\int_{-\\infty}^{\\infty} f(t) e^{-2\\pi i \\xi t} dt$",
       "$\\mathcal{L}\\{f(t)\\} = \\int_0^\\infty f(t) e^{-st} dt$",
       "$\\frac{d}{dx} \\int_{a(x)}^{b(x)} f(t) dt = f(b(x))b'(x) - f(a(x))a'(x)$",
       "$f(x) = \\sum_{n=0}^\\infty \\frac{f^{(n)}(a)}{n!} (x-a)^n$",
       "$f(t) = a_0 + \\sum_{n=1}^\\infty (a_n \\cos(n\\omega t) + b_n \\sin(n\\omega t))$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die Fourier-Transformation zerlegt eine Funktion (ein Signal) aus dem Zeitbereich in ihre Frequenzanteile. Das Ergebnis $\\mathcal{F}\\{f(t)\\}$ ist eine Funktion im Frequenzbereich $\\xi$.",
-    "gewichtung": 2,
-    "thema": "Fourier-Analysis",
+    "answer": 0,
+    "explanation": "Die Fourier-Transformation zerlegt eine Funktion (ein Signal) aus dem Zeitbereich in ihre Frequenzanteile. Das Ergebnis $\\mathcal{F}\\{f(t)\\}$ ist eine Funktion im Frequenzbereich $\\xi$.",
+    "weight": 2,
+    "topic": "Fourier-Analysis",
     "extended_explanation": {
       "title": "Anwendungen und andere Konventionen",
       "content": "Die Fourier-Transformation ist fundamental in der Signalverarbeitung, Bildverarbeitung und in der Physik. Es gibt verschiedene Konventionen für die Normalisierungsfaktoren und die Platzierung von $2\\pi$. Eine andere häufige Form ist die Verwendung der Kreisfrequenz $\\omega = 2\\pi\\xi$, was zu $\\int f(t) e^{-i\\omega t} dt$ führt. Die hier gezeigte Form ist in der Signalverarbeitung üblich."
@@ -115,18 +115,18 @@
     }
   },
   {
-    "frage": "6. Die Einsteinschen Feldgleichungen der Allgemeinen Relativitätstheorie lauten:",
-    "optionen": [
+    "question": "6. Die Einsteinschen Feldgleichungen der Allgemeinen Relativitätstheorie lauten:",
+    "options": [
       "$R_{\\mu\\nu} - \\frac{1}{2} R g_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}$",
       "$\\nabla^2 \\phi = 4\\pi G \\rho$",
       "$\\oint_S \\mathbf{g} \\cdot d\\mathbf{A} = -4\\pi G M_{enc}$",
       "$\\frac{d}{dt} (\\frac{\\partial L}{\\partial \\dot{q}_i}) - \\frac{\\partial L}{\\partial q_i} = 0$",
       "$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$"
     ],
-    "loesung": 0,
-    "erklaerung": "Diese Gleichungen beschreiben, wie die Materie- und Energieverteilung (repräsentiert durch den Energie-Impuls-Tensor $T_{\\mu\\nu}$) die Geometrie der Raumzeit (repräsentiert durch den Metriktensor $g_{\\mu\\nu}$ und die daraus abgeleiteten Krümmungsgrößen $R_{\\mu\\nu}$ und $R$) krümmt.",
-    "gewichtung": 3,
-    "thema": "Allgemeine Relativitätstheorie",
+    "answer": 0,
+    "explanation": "Diese Gleichungen beschreiben, wie die Materie- und Energieverteilung (repräsentiert durch den Energie-Impuls-Tensor $T_{\\mu\\nu}$) die Geometrie der Raumzeit (repräsentiert durch den Metriktensor $g_{\\mu\\nu}$ und die daraus abgeleiteten Krümmungsgrößen $R_{\\mu\\nu}$ und $R$) krümmt.",
+    "weight": 3,
+    "topic": "Allgemeine Relativitätstheorie",
     "extended_explanation": {
       "title": "Bedeutung der Terme",
       "content": "- $R_{\\mu\\nu}$: Ricci-Krümmungstensor\n- $R$: Ricci-Skalar (Skalarkrümmung)\n- $g_{\\mu\\nu}$: Metrischer Tensor der Raumzeit\n- $\\Lambda$: Kosmologische Konstante\n- $T_{\\mu\\nu}$: Energie-Impuls-Tensor\n\nDie linke Seite beschreibt die Geometrie der Raumzeit, die rechte Seite die Materie/Energieverteilung. John Wheelers berühmtes Zitat fasst es zusammen: 'Spacetime tells matter how to move; matter tells spacetime how to curve.'"
@@ -139,18 +139,18 @@
     }
   },
   {
-    "frage": "7. Was ist die Cauchy-Integralformel für eine holomorphe Funktion $f$?",
-    "optionen": [
+    "question": "7. Was ist die Cauchy-Integralformel für eine holomorphe Funktion $f$?",
+    "options": [
       "$f(a) = \\frac{1}{2\\pi i} \\oint_\\gamma \\frac{f(z)}{z-a} dz$",
       "$\\int_a^b f'(x) dx = f(b) - f(a)$",
       "$\\iint_D (\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}) dx dy = \\oint_{\\partial D} P dx + Q dy$",
       "$\\text{Res}(f, a) = \\lim_{z \\to a} \\frac{1}{(n-1)!} \\frac{d^{n-1}}{dz^{n-1}} ((z-a)^n f(z))$",
       "$\\sum_{n=0}^\\infty z^n = \\frac{1}{1-z}$ für $|z|<1$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die Cauchy-Integralformel ist ein zentrales Ergebnis der Funktionentheorie. Sie besagt, dass der Wert einer holomorphen (komplex differenzierbaren) Funktion an einem Punkt $a$ vollständig durch ihre Werte auf einem geschlossenen Weg $\\gamma$ um diesen Punkt herum bestimmt ist.",
-    "gewichtung": 3,
-    "thema": "Funktionentheorie",
+    "answer": 0,
+    "explanation": "Die Cauchy-Integralformel ist ein zentrales Ergebnis der Funktionentheorie. Sie besagt, dass der Wert einer holomorphen (komplex differenzierbaren) Funktion an einem Punkt $a$ vollständig durch ihre Werte auf einem geschlossenen Weg $\\gamma$ um diesen Punkt herum bestimmt ist.",
+    "weight": 3,
+    "topic": "Funktionentheorie",
     "extended_explanation": {
       "title": "Konsequenzen der Formel",
       "content": "Diese Formel hat weitreichende Konsequenzen. Sie impliziert, dass eine holomorphe Funktion unendlich oft differenzierbar ist und lokal in eine Potenzreihe (Taylor-Reihe) entwickelt werden kann. Dies ist ein fundamentaler Unterschied zur reellen Analysis, wo eine einmal differenzierbare Funktion nicht zwangsläufig zweimal differenzierbar sein muss."
@@ -162,18 +162,18 @@
     }
   },
   {
-    "frage": "8. Die Black-Scholes-Formel zur Bewertung einer europäischen Kaufoption lautet:",
-    "optionen": [
+    "question": "8. Die Black-Scholes-Formel zur Bewertung einer europäischen Kaufoption lautet:",
+    "options": [
       "$C(S,t) = N(d_1)S - N(d_2)Ke^{-r(T-t)}$",
       "$PV = \\sum_{i=1}^n \\frac{C_i}{(1+r)^i}$",
       "$E[R_i] = R_f + \\beta_i (E[R_m] - R_f)$",
       "$\\sigma_p^2 = w_A^2 \\sigma_A^2 + w_B^2 \\sigma_B^2 + 2w_A w_B \\rho_{AB} \\sigma_A \\sigma_B$",
       "$FV = PV \\cdot (1 + r)^n$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die Black-Scholes-Gleichung ist eine partielle Differentialgleichung, deren Lösung diese Formel ist. Sie gibt den fairen Preis $C$ einer europäischen Kaufoption an, abhängig vom aktuellen Aktienkurs $S$, Ausübungspreis $K$, risikofreien Zinssatz $r$, Zeit bis zum Verfall $T-t$ und der Volatilität $\\sigma$.",
-    "gewichtung": 3,
-    "thema": "Finanzmathematik",
+    "answer": 0,
+    "explanation": "Die Black-Scholes-Gleichung ist eine partielle Differentialgleichung, deren Lösung diese Formel ist. Sie gibt den fairen Preis $C$ einer europäischen Kaufoption an, abhängig vom aktuellen Aktienkurs $S$, Ausübungspreis $K$, risikofreien Zinssatz $r$, Zeit bis zum Verfall $T-t$ und der Volatilität $\\sigma$.",
+    "weight": 3,
+    "topic": "Finanzmathematik",
     "extended_explanation": {
       "title": "Definition von $d_1$ und $d_2$",
       "content": "Die Terme $d_1$ und $d_2$ sind definiert als:\n$$d_1 = \\frac{\\ln(S/K) + (r + \\sigma^2/2)(T-t)}{\\sigma\\sqrt{T-t}}$$\n$$d_2 = d_1 - \\sigma\\sqrt{T-t}$$\n$N(d)$ ist die kumulative Verteilungsfunktion der Standardnormalverteilung. $N(d_2)$ kann als die Wahrscheinlichkeit interpretiert werden, dass die Option im Geld ausläuft, während $N(d_1)S$ der diskontierte erwartete Wert der Aktie ist, falls sie im Geld ausläuft."
@@ -185,18 +185,18 @@
     }
   },
   {
-    "frage": "9. Wie lautet die Dirac-Gleichung, die relativistische Elektronen beschreibt?",
-    "optionen": [
+    "question": "9. Wie lautet die Dirac-Gleichung, die relativistische Elektronen beschreibt?",
+    "options": [
       "$(i\\gamma^\\mu \\partial_\\mu - m) \\psi = 0$",
       "$(\\Box + m^2) \\phi = 0$",
       "$\\mathcal{L} = \\bar{\\psi} (i\\gamma^\\mu D_\\mu - m) \\psi - \\frac{1}{4} F_{\\mu\\nu} F^{\\mu\\nu}$",
       "$H = \\sum_i (p_i \\dot{q}_i) - L$",
       "$\\Delta \\phi = -\\rho$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die Dirac-Gleichung ist eine relativistische Wellengleichung, die Teilchen mit Spin-1/2, wie Elektronen, beschreibt. Sie war ein Meilenstein, da sie die Quantenmechanik mit der speziellen Relativitätstheorie vereinte und die Existenz von Antimaterie (Positronen) vorhersagte.",
-    "gewichtung": 3,
-    "thema": "Quantenfeldtheorie",
+    "answer": 0,
+    "explanation": "Die Dirac-Gleichung ist eine relativistische Wellengleichung, die Teilchen mit Spin-1/2, wie Elektronen, beschreibt. Sie war ein Meilenstein, da sie die Quantenmechanik mit der speziellen Relativitätstheorie vereinte und die Existenz von Antimaterie (Positronen) vorhersagte.",
+    "weight": 3,
+    "topic": "Quantenfeldtheorie",
     "extended_explanation": {
       "title": "Struktur der Gleichung",
       "content": "- $\\psi$: Ein vierkomponentiger Spinor, der das Elektron beschreibt.\n- $\\gamma^\\mu$: Die 4x4 Dirac-Matrizen, die die Clifford-Algebra erfüllen: $\\{\\gamma^\\mu, \\gamma^\\nu\\} = 2g^{\\mu\\nu}$.\n- $\\partial_\\mu$: Der Vierergradient $(\\frac{\\partial}{\\partial t}, \\nabla)$.\n- $m$: Die Masse des Teilchens.\n\nDie Gleichung ist linear in der Ableitung, was eine Anforderung der Relativitätstheorie ist, um Energie und Impuls gleichberechtigt zu behandeln."
@@ -208,18 +208,18 @@
     }
   },
   {
-    "frage": "10. Der Satz von Gauß-Bonnet stellt eine Verbindung her zwischen:",
-    "optionen": [
+    "question": "10. Der Satz von Gauß-Bonnet stellt eine Verbindung her zwischen:",
+    "options": [
       "Der Krümmung einer Fläche und ihrer Topologie.",
       "Der elektrischen Ladung und dem elektrischen Fluss.",
       "Der Arbeit entlang eines geschlossenen Weges und der Rotation eines Vektorfeldes.",
       "Der Wahrscheinlichkeit eines Ereignisses und seiner Informationsentropie.",
       "Der Energie und der Masse eines Objekts."
     ],
-    "loesung": 0,
-    "erklaerung": "Der Satz von Gauß-Bonnet ist ein fundamentales Ergebnis der Differentialgeometrie. Er besagt, dass das Integral der Gaußschen Krümmung $K$ über eine kompakte, orientierbare Fläche $M$ gleich $2\\pi$ mal der Euler-Charakteristik $\\chi(M)$ der Fläche ist: $$\\int_M K \\, dA = 2\\pi \\chi(M)$$",
-    "gewichtung": 3,
-    "thema": "Differentialgeometrie",
+    "answer": 0,
+    "explanation": "Der Satz von Gauß-Bonnet ist ein fundamentales Ergebnis der Differentialgeometrie. Er besagt, dass das Integral der Gaußschen Krümmung $K$ über eine kompakte, orientierbare Fläche $M$ gleich $2\\pi$ mal der Euler-Charakteristik $\\chi(M)$ der Fläche ist: $$\\int_M K \\, dA = 2\\pi \\chi(M)$$",
+    "weight": 3,
+    "topic": "Differentialgeometrie",
     "extended_explanation": {
       "title": "Bedeutung des Satzes",
       "content": "Dieser Satz ist bemerkenswert, weil er eine lokale geometrische Eigenschaft (die Krümmung $K$, die an jedem Punkt unterschiedlich sein kann) mit einer globalen topologischen Invariante (der Euler-Charakteristik $\\chi$, die nur von der 'Form' der Fläche abhängt, z.B. $\\chi=2$ für eine Sphäre, $\\chi=0$ für einen Torus) in Beziehung setzt. Egal wie man eine Sphäre verformt, das Gesamtintegral ihrer Krümmung bleibt immer $4\\pi$."

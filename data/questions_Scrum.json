@@ -18,18 +18,18 @@
   },
   "questions": [
     {
-      "frage": "1. Was ist die Hauptverantwortung des Product Owners in einem agilen BWL-Projekt, wie zum Beispiel der Entwicklung einer neuen Marketingstrategie?",
-      "optionen": [
+      "question": "1. Was ist die Hauptverantwortung des Product Owners in einem agilen BWL-Projekt, wie zum Beispiel der Entwicklung einer neuen Marketingstrategie?",
+      "options": [
         "Die tägliche Arbeit des Projektteams zu organisieren und zu überwachen.",
         "Den Geschäftswert des Produkts durch Priorisierung der Anforderungen zu maximieren.",
         "Die Einhaltung der Scrum-Regeln im Team sicherzustellen und Meetings zu moderieren.",
         "Die technische Umsetzung der Marketingkampagne zu verantworten.",
         "Das Projektbudget zu kontrollieren und dem Management Bericht zu erstatten."
       ],
-      "loesung": 1,
-      "erklaerung": "Der Product Owner ist dafür verantwortlich, den Produkterfolg und damit den Geschäftswert zu maximieren. Dies geschieht durch die strategische Priorisierung der Einträge im Product Backlog, wie z.B. einzelne Maßnahmen der Marketingstrategie.",
-      "gewichtung": 1,
-      "thema": "Scrum-Rollen",
+      "answer": 1,
+      "explanation": "Der Product Owner ist dafür verantwortlich, den Produkterfolg und damit den Geschäftswert zu maximieren. Dies geschieht durch die strategische Priorisierung der Einträge im Product Backlog, wie z.B. einzelne Maßnahmen der Marketingstrategie.",
+      "weight": 1,
+      "topic": "Scrum-Rollen",
       "mini_glossary": {
         "Product Owner": "Die Scrum-Rolle, die für die Maximierung des Werts des Produkts verantwortlich ist, das aus der Arbeit des Entwicklungsteams resultiert.",
         "Product Backlog": "Eine geordnete Liste von allem, was für das Produkt bekannt ist und benötigt wird. Es ist die einzige Quelle für Anforderungen an jegliche Änderungen am Produkt.",
@@ -37,18 +37,18 @@
       }
     },
     {
-      "frage": "2. Welche Aussage beschreibt das Highlander-Prinzip in Bezug auf die Rolle des Product Owners korrekt?",
-      "optionen": [
+      "question": "2. Welche Aussage beschreibt das Highlander-Prinzip in Bezug auf die Rolle des Product Owners korrekt?",
+      "options": [
         "Der Product Owner muss der ranghöchste Manager im Projekt sein.",
         "Es kann in einem Projekt mehrere Product Owner geben, die sich die Verantwortung teilen.",
         "Die Rolle des Product Owners kann durch ein Komitee ausgeübt werden, um alle Stakeholder-Interessen abzubilden.",
         "Es kann immer nur **genau eine Person** die Rolle des Product Owners geben, um schnelle und klare Entscheidungen zu gewährleisten.",
         "Der Product Owner wechselt nach jedem Sprint, um neue Perspektiven einzubringen."
       ],
-      "loesung": 3,
-      "erklaerung": "Das Highlander-Prinzip besagt: 'Es kann nur einen geben'. Die Rolle des Product Owners darf nicht geteilt oder von einem Komitee wahrgenommen werden. Dies stellt sicher, dass es eine einzige, klare Stimme für das Produkt gibt und Entscheidungen schnell getroffen werden können.",
-      "gewichtung": 1,
-      "thema": "Scrum-Rollen",
+      "answer": 3,
+      "explanation": "Das Highlander-Prinzip besagt: 'Es kann nur einen geben'. Die Rolle des Product Owners darf nicht geteilt oder von einem Komitee wahrgenommen werden. Dies stellt sicher, dass es eine einzige, klare Stimme für das Produkt gibt und Entscheidungen schnell getroffen werden können.",
+      "weight": 1,
+      "topic": "Scrum-Rollen",
       "mini_glossary": {
         "Highlander-Prinzip": "Ein informeller Grundsatz in Scrum, der besagt, dass es für ein Produkt nur einen einzigen Product Owner geben kann, um unklare Zuständigkeiten und Verzögerungen zu vermeiden.",
         "Komitee": "Eine Gruppe von Personen, die gemeinsam Entscheidungen trifft. In Scrum wird dies für die Product-Owner-Rolle explizit vermieden.",
@@ -56,18 +56,18 @@
       }
     },
     {
-      "frage": "3. Was ist das Ergebnis eines Sprints?",
-      "optionen": [
+      "question": "3. Was ist das Ergebnis eines Sprints?",
+      "options": [
         "Ein umfassender Statusbericht für das Management.",
         "Ein Plan für den nächsten Sprint.",
         "Ein potenziell auslieferbares Produktinkrement.",
         "Eine Liste aller erledigten Aufgaben.",
         "Die Genehmigung des Budgets für die nächste Projektphase."
       ],
-      "loesung": 2,
-      "erklaerung": "Das Ziel jedes Sprints ist die Erstellung eines 'Done', nutzbaren und potenziell auslieferbaren Produktinkrements. Dieses Inkrement muss produktreif sein, auch wenn der Product Owner entscheidet, es nicht sofort auszuliefern.",
-      "gewichtung": 1,
-      "thema": "Scrum-Artefakte",
+      "answer": 2,
+      "explanation": "Das Ziel jedes Sprints ist die Erstellung eines 'Done', nutzbaren und potenziell auslieferbaren Produktinkrements. Dieses Inkrement muss produktreif sein, auch wenn der Product Owner entscheidet, es nicht sofort auszuliefern.",
+      "weight": 1,
+      "topic": "Scrum-Artefakte",
       "mini_glossary": {
         "Sprint": "Eine Iteration von maximal vier Wochen, in der ein 'Done', nutzbares und potenziell auslieferbares Produktinkrement erstellt wird.",
         "Produktinkrement": "Die Summe aller Product-Backlog-Einträge, die während eines Sprints und aller vorherigen Sprints fertiggestellt wurden. Am Ende eines Sprints muss das neue Inkrement 'Done' sein.",
@@ -75,18 +75,18 @@
       }
     },
     {
-      "frage": "4. Wie groß sollte ein Entwicklungsteam in Scrum idealerweise sein?",
-      "optionen": [
+      "question": "4. Wie groß sollte ein Entwicklungsteam in Scrum idealerweise sein?",
+      "options": [
         "Genau 10 Mitglieder, um maximale Kapazität zu haben.",
         "Weniger als 3 Mitglieder, um die Kommunikation einfach zu halten.",
         "Zwischen 3 und 9 Mitgliedern.",
         "Mehr als 12 Mitglieder, um viele Aufgaben parallel bearbeiten zu können.",
         "Die Größe ist irrelevant, solange alle Aufgaben erledigt werden."
       ],
-      "loesung": 2,
-      "erklaerung": "Ein Entwicklungsteam in Scrum sollte aus 3 bis 9 Mitgliedern bestehen. Diese Größe ist klein genug, um agil zu bleiben und eine schnelle Kommunikation zu ermöglichen, aber groß genug, um innerhalb eines Sprints signifikante Arbeit zu leisten.",
-      "gewichtung": 1,
-      "thema": "Scrum-Rollen",
+      "answer": 2,
+      "explanation": "Ein Entwicklungsteam in Scrum sollte aus 3 bis 9 Mitgliedern bestehen. Diese Größe ist klein genug, um agil zu bleiben und eine schnelle Kommunikation zu ermöglichen, aber groß genug, um innerhalb eines Sprints signifikante Arbeit zu leisten.",
+      "weight": 1,
+      "topic": "Scrum-Rollen",
       "mini_glossary": {
         "Entwicklungsteam": "Eine Gruppe von Fachleuten, die am Ende jedes Sprints ein potenziell auslieferbares Inkrement des 'Done'-Produkts liefern. Es organisiert sich selbst und ist cross-funktional.",
         "Cross-funktional": "Das Team besitzt alle Fähigkeiten, die notwendig sind, um Produktinkremente zu erstellen, z.B. Marktanalyse, Design, Controlling, ohne auf externe Hilfe angewiesen zu sein.",
@@ -94,18 +94,18 @@
       }
     },
     {
-      "frage": "5. Welchem Zweck dient das Daily Scrum Meeting?",
-      "optionen": [
+      "question": "5. Welchem Zweck dient das Daily Scrum Meeting?",
+      "options": [
         "Dem Product Owner einen detaillierten Statusbericht zu geben.",
         "Probleme zu lösen und technische Details zu diskutieren.",
         "Neue Aufgaben für den Sprint festzulegen.",
         "Der täglichen Abstimmung des Entwicklungsteams über den Arbeitsfortschritt und die Planung für die nächsten 24 Stunden.",
         "Die Leistung einzelner Teammitglieder zu bewerten."
       ],
-      "loesung": 3,
-      "erklaerung": "Das Daily Scrum ist ein 15-minütiges Meeting für das Entwicklungsteam, um die Arbeit seit dem letzten Treffen zu synchronisieren und einen Plan für die nächsten 24 Stunden zu erstellen. Es dient der Einsatzplanung und der Identifikation von Hindernissen.",
-      "gewichtung": 1,
-      "thema": "Scrum-Meetings",
+      "answer": 3,
+      "explanation": "Das Daily Scrum ist ein 15-minütiges Meeting für das Entwicklungsteam, um die Arbeit seit dem letzten Treffen zu synchronisieren und einen Plan für die nächsten 24 Stunden zu erstellen. Es dient der Einsatzplanung und der Identifikation von Hindernissen.",
+      "weight": 1,
+      "topic": "Scrum-Meetings",
       "mini_glossary": {
         "Daily Scrum": "Ein tägliches 15-minütiges Meeting für das Entwicklungsteam zur Synchronisierung der Aktivitäten und zur Erstellung eines Plans für die nächsten 24 Stunden.",
         "Hindernis (Impediment)": "Alles, was das Team daran hindert, seine Arbeit zu erledigen oder es verlangsamt.",
@@ -113,18 +113,18 @@
       }
     },
     {
-      "frage": "6. Ein Projektteam in einer Unternehmensberatung nutzt Scrum, um ein neues Beratungskonzept für einen Kunden zu entwickeln. Im Sprint Planning stellt das Team fest, dass die vom Product Owner gewünschten Analysen zu umfangreich für einen Sprint sind. Was ist laut Pull-Prinzip die korrekte Vorgehensweise des Entwicklungsteams?",
-      "optionen": [
+      "question": "6. Ein Projektteam in einer Unternehmensberatung nutzt Scrum, um ein neues Beratungskonzept für einen Kunden zu entwickeln. Im Sprint Planning stellt das Team fest, dass die vom Product Owner gewünschten Analysen zu umfangreich für einen Sprint sind. Was ist laut Pull-Prinzip die korrekte Vorgehensweise des Entwicklungsteams?",
+      "options": [
         "Das Team muss alle gewünschten Analysen akzeptieren, da der Product Owner die Prioritäten vorgibt.",
         "Der Scrum Master entscheidet, welche Analysen durchgeführt werden.",
         "Das Team nimmt so viele Analysen in den Sprint auf, wie es realistisch glaubt, schaffen zu können, und erstellt dafür eine Vorhersage (Forecast).",
         "Das Team bittet den Product Owner, den Sprint zu verlängern, um alle Anforderungen zu erfüllen.",
         "Das Team lehnt alle Analysen ab und wartet auf kleinere Aufgabenpakete."
       ],
-      "loesung": 2,
-      "erklaerung": "Das Entwicklungsteam wendet das Pull-Prinzip an, d.h., es 'zieht' sich die Arbeit aus dem Product Backlog in den Sprint. Es bestimmt selbst, wie viel Arbeit es aufnehmen kann, und macht eine Vorhersage (Forecast) darüber, was es im Sprint schaffen kann. Es ist nicht verpflichtet, mehr Arbeit zu akzeptieren, als es für machbar hält.",
-      "gewichtung": 2,
-      "thema": "Scrum-Prozess",
+      "answer": 2,
+      "explanation": "Das Entwicklungsteam wendet das Pull-Prinzip an, d.h., es 'zieht' sich die Arbeit aus dem Product Backlog in den Sprint. Es bestimmt selbst, wie viel Arbeit es aufnehmen kann, und macht eine Vorhersage (Forecast) darüber, was es im Sprint schaffen kann. Es ist nicht verpflichtet, mehr Arbeit zu akzeptieren, als es für machbar hält.",
+      "weight": 2,
+      "topic": "Scrum-Prozess",
       "extended_explanation": {
         "titel": "Das Pull-Prinzip im Kontext von Business-Projekten",
         "schritte": [
@@ -140,18 +140,18 @@
       }
     },
     {
-      "frage": "7. Welche Aussage trifft **nicht** auf das Product Backlog zu?",
-      "optionen": [
+      "question": "7. Welche Aussage trifft **nicht** auf das Product Backlog zu?",
+      "options": [
         "Es ist eine dynamische Liste, die sich ständig weiterentwickelt.",
         "Die Einträge werden vom Entwicklungsteam nach technischer Machbarkeit priorisiert.",
         "Hoch priorisierte Einträge sind detaillierter ausgearbeitet als niedrig priorisierte.",
         "Es enthält alle bekannten Anforderungen und Features für das Produkt.",
         "Es ist transparent für alle Stakeholder und das Entwicklungsteam."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Priorisierung bzw. Ordnung des Product Backlogs ist eine der Kernaufgaben des Product Owners. Er ordnet die Einträge nach Geschäftswert, Risiko und Dringlichkeit, um den Produkterfolg zu maximieren. Das Entwicklungsteam ist für die Schätzung des Aufwands verantwortlich, nicht für die Priorisierung.",
-      "gewichtung": 2,
-      "thema": "Scrum-Artefakte",
+      "answer": 1,
+      "explanation": "Die Priorisierung bzw. Ordnung des Product Backlogs ist eine der Kernaufgaben des Product Owners. Er ordnet die Einträge nach Geschäftswert, Risiko und Dringlichkeit, um den Produkterfolg zu maximieren. Das Entwicklungsteam ist für die Schätzung des Aufwands verantwortlich, nicht für die Priorisierung.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
       "extended_explanation": {
         "titel": "Trennung von Verantwortung: 'Was' vs. 'Wie viel' vs. 'Wie'",
         "schritte": [
@@ -167,18 +167,18 @@
       }
     },
     {
-      "frage": "8. Ein agiles Team, das eine neue Online-Banking-App entwickelt, präsentiert im Sprint-Review eine neue Überweisungsfunktion. Der wichtigste Zweck dieses Meetings ist es...",
-      "optionen": [
+      "question": "8. Ein agiles Team, das eine neue Online-Banking-App entwickelt, präsentiert im Sprint-Review eine neue Überweisungsfunktion. Der wichtigste Zweck dieses Meetings ist es...",
+      "options": [
         "...die formale Abnahme des Inkrements durch das Management zu erhalten.",
         "...den Fortschritt des Teams anhand der erledigten Aufgaben zu messen.",
         "...Feedback von Stakeholdern (z.B. Kunden, Fachabteilungen) zum Produktinkrement einzuholen, um das Product Backlog anzupassen.",
         "...die Zusammenarbeit innerhalb des Teams für den nächsten Sprint zu planen.",
         "...den Scrum Master über den aktuellen Entwicklungsstand zu informieren."
       ],
-      "loesung": 2,
-      "erklaerung": "Der zentrale Zweck des Sprint-Reviews ist die Inspektion des Produktinkrements und die Anpassung des Product Backlogs. Das Entwicklungsteam demonstriert die Arbeit, und die Stakeholder geben Feedback, welches der Product Owner zur Optimierung des Produkts nutzt.",
-      "gewichtung": 2,
-      "thema": "Scrum-Meetings",
+      "answer": 2,
+      "explanation": "Der zentrale Zweck des Sprint-Reviews ist die Inspektion des Produktinkrements und die Anpassung des Product Backlogs. Das Entwicklungsteam demonstriert die Arbeit, und die Stakeholder geben Feedback, welches der Product Owner zur Optimierung des Produkts nutzt.",
+      "weight": 2,
+      "topic": "Scrum-Meetings",
       "extended_explanation": {
         "titel": "Der Sprint-Review als Wertschöpfungs-Feedbackschleife",
         "schritte": [
@@ -194,18 +194,18 @@
       }
     },
     {
-      "frage": "9. Was ist die Rolle des Scrum Masters während des Daily Scrums?",
-      "optionen": [
+      "question": "9. Was ist die Rolle des Scrum Masters während des Daily Scrums?",
+      "options": [
         "Er leitet das Meeting und weist den Teammitgliedern Aufgaben zu.",
         "Er sammelt die Status-Updates für seinen Bericht an das Management.",
         "Er sorgt dafür, dass das Meeting stattfindet, die Time-box eingehalten wird und coacht das Team, das Meeting selbst produktiv zu gestalten.",
         "Er löst die von den Entwicklern genannten fachlichen Probleme direkt im Meeting.",
         "Er ist ein optionaler Teilnehmer und muss nicht anwesend sein."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Scrum Master agiert als Coach und Moderator. Er stellt sicher, dass das Daily Scrum stattfindet und effektiv ist, leitet es aber nicht im Sinne einer traditionellen Führungskraft. Seine Hauptaufgabe ist es, dem Team zu helfen, das Meeting selbstständig und erfolgreich durchzuführen und gemeldete Hindernisse aufzunehmen.",
-      "gewichtung": 2,
-      "thema": "Scrum-Rollen",
+      "answer": 2,
+      "explanation": "Der Scrum Master agiert als Coach und Moderator. Er stellt sicher, dass das Daily Scrum stattfindet und effektiv ist, leitet es aber nicht im Sinne einer traditionellen Führungskraft. Seine Hauptaufgabe ist es, dem Team zu helfen, das Meeting selbstständig und erfolgreich durchzuführen und gemeldete Hindernisse aufzunehmen.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
       "extended_explanation": {
         "titel": "Der Scrum Master als 'Servant Leader'",
         "schritte": [
@@ -221,18 +221,18 @@
       }
     },
     {
-      "frage": "10. In einer Sprint-Retrospektive stellt ein Team, das an der Optimierung eines internen Controlling-Prozesses arbeitet, fest, dass die Kommunikation mit der Finanzabteilung oft zu Verzögerungen führt. Was ist das primäre Ziel dieser Retrospektive?",
-      "optionen": [
+      "question": "10. In einer Sprint-Retrospektive stellt ein Team, das an der Optimierung eines internen Controlling-Prozesses arbeitet, fest, dass die Kommunikation mit der Finanzabteilung oft zu Verzögerungen führt. Was ist das primäre Ziel dieser Retrospektive?",
+      "options": [
         "Die Schuldigen für die schlechte Kommunikation zu identifizieren und zu benennen.",
         "Das Produktinkrement der Finanzabteilung vorzustellen.",
         "Den Product Owner über die Probleme zu informieren, damit er sie löst.",
         "Konkrete Verbesserungsmaßnahmen für den nächsten Sprint zu definieren, um die Zusammenarbeit zu verbessern.",
         "Den Arbeitsfortschritt des letzten Sprints zu dokumentieren."
       ],
-      "loesung": 3,
-      "erklaerung": "Die Sprint-Retrospektive ist ein Meeting zur Prozessverbesserung. Das Scrum-Team (Entwicklungsteam und Product Owner) reflektiert über den letzten Sprint und identifiziert, was gut lief und was verbessert werden kann. Das Ziel ist es, konkrete, umsetzbare Maßnahmen für den nächsten Sprint zu vereinbaren.",
-      "gewichtung": 2,
-      "thema": "Scrum-Meetings",
+      "answer": 3,
+      "explanation": "Die Sprint-Retrospektive ist ein Meeting zur Prozessverbesserung. Das Scrum-Team (Entwicklungsteam und Product Owner) reflektiert über den letzten Sprint und identifiziert, was gut lief und was verbessert werden kann. Das Ziel ist es, konkrete, umsetzbare Maßnahmen für den nächsten Sprint zu vereinbaren.",
+      "weight": 2,
+      "topic": "Scrum-Meetings",
       "extended_explanation": {
         "titel": "Die Retrospektive als Motor der kontinuierlichen Verbesserung",
         "schritte": [
@@ -248,18 +248,18 @@
       }
     },
     {
-      "frage": "11. Was unterscheidet User Stories von klassischen Anforderungen in einem Lastenheft für ein BWL-Projekt?",
-      "optionen": [
+      "question": "11. Was unterscheidet User Stories von klassischen Anforderungen in einem Lastenheft für ein BWL-Projekt?",
+      "options": [
         "User Stories sind technisch detaillierter als klassische Anforderungen.",
         "User Stories müssen von Anfang an vollständig und widerspruchsfrei sein.",
         "Der Fokus von User Stories liegt auf der Erzeugung eines gemeinsamen Verständnisses bei allen Beteiligten, nicht auf vollständiger Spezifikation.",
         "User Stories werden ausschließlich vom Management geschrieben und vorgegeben.",
         "Klassische Anforderungen sind flexibler als User Stories."
       ],
-      "loesung": 2,
-      "erklaerung": "Der wesentliche Unterschied liegt im Fokus: Klassische Anforderungen zielen auf Vollständigkeit und Korrektheit der Spezifikation ab. User Stories hingegen sind 'Platzhalter für eine Konversation'. Ihr Ziel ist es, ein gemeinsames Verständnis zwischen dem Product Owner, dem Entwicklungsteam und den Stakeholdern über den Nutzen einer Funktion zu schaffen.",
-      "gewichtung": 2,
-      "thema": "Scrum-Artefakte",
+      "answer": 2,
+      "explanation": "Der wesentliche Unterschied liegt im Fokus: Klassische Anforderungen zielen auf Vollständigkeit und Korrektheit der Spezifikation ab. User Stories hingegen sind 'Platzhalter für eine Konversation'. Ihr Ziel ist es, ein gemeinsames Verständnis zwischen dem Product Owner, dem Entwicklungsteam und den Stakeholdern über den Nutzen einer Funktion zu schaffen.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
       "extended_explanation": {
         "titel": "Von der Spezifikation zur Kommunikation",
         "schritte": [
@@ -275,18 +275,18 @@
       }
     },
     {
-      "frage": "12. Welches der folgenden Prinzipien des Agilen Manifests steht im direkten Kontrast zur strikten Einhaltung eines zu Beginn des Projekts erstellten, detaillierten Projektplans?",
-      "optionen": [
+      "question": "12. Welches der folgenden Prinzipien des Agilen Manifests steht im direkten Kontrast zur strikten Einhaltung eines zu Beginn des Projekts erstellten, detaillierten Projektplans?",
+      "options": [
         "Individuen und Interaktionen sind wichtiger als Prozesse und Tools",
         "Laufende Software ist wichtiger als ausführliche Dokumentation",
         "Zusammenarbeit mit dem Kunden ist wichtiger als Vertragsverhandlungen",
         "Reagieren auf Veränderungen ist wichtiger als Planbefolgung",
         "Funktionierende Software ist das wichtigste Fortschrittsmaß"
       ],
-      "loesung": 3,
-      "erklaerung": "Das Prinzip 'Reagieren auf Veränderungen ist wichtiger als Planbefolgung' betont die Notwendigkeit von Flexibilität. Während ein Plan nützlich ist, erkennt Agilität an, dass in komplexen Umgebungen Veränderungen unvermeidlich und sogar willkommen sind, um einen Wettbewerbsvorteil zu erzielen.",
-      "gewichtung": 2,
-      "thema": "Agile Prinzipien",
+      "answer": 3,
+      "explanation": "Das Prinzip 'Reagieren auf Veränderungen ist wichtiger als Planbefolgung' betont die Notwendigkeit von Flexibilität. Während ein Plan nützlich ist, erkennt Agilität an, dass in komplexen Umgebungen Veränderungen unvermeidlich und sogar willkommen sind, um einen Wettbewerbsvorteil zu erzielen.",
+      "weight": 2,
+      "topic": "Agile Prinzipien",
       "extended_explanation": {
         "titel": "Plan vs. Realität in dynamischen Märkten",
         "schritte": [
@@ -302,18 +302,18 @@
       }
     },
     {
-      "frage": "13. Ein Entwicklungsteam hat im Sprint Planning vier User Stories für die Erstellung eines Finanzreports in den Sprint aufgenommen. Was ist das Sprint Backlog?",
-      "optionen": [
+      "question": "13. Ein Entwicklungsteam hat im Sprint Planning vier User Stories für die Erstellung eines Finanzreports in den Sprint aufgenommen. Was ist das Sprint Backlog?",
+      "options": [
         "Nur die Liste dieser vier User Stories.",
         "Die vier User Stories plus der detaillierte Plan des Teams für deren Umsetzung (z.B. in Form von Tasks).",
         "Das gesamte Product Backlog, aus dem die vier Stories stammen.",
         "Der vom Scrum Master genehmigte Arbeitsplan für das Team.",
         "Ein Diagramm, das den verbleibenden Arbeitsaufwand im Sprint anzeigt."
       ],
-      "loesung": 1,
-      "erklaerung": "Das Sprint Backlog besteht aus den für den Sprint ausgewählten Product-Backlog-Einträgen (den User Stories) und dem Plan für deren Umsetzung. Es ist der Plan des Entwicklungsteams, wie es das Produktinkrement erstellen und das Sprint-Ziel erreichen wird.",
-      "gewichtung": 2,
-      "thema": "Scrum-Artefakte",
+      "answer": 1,
+      "explanation": "Das Sprint Backlog besteht aus den für den Sprint ausgewählten Product-Backlog-Einträgen (den User Stories) und dem Plan für deren Umsetzung. Es ist der Plan des Entwicklungsteams, wie es das Produktinkrement erstellen und das Sprint-Ziel erreichen wird.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
       "extended_explanation": {
         "titel": "Sprint Backlog: Der Plan des Teams",
         "schritte": [
@@ -329,18 +329,18 @@
       }
     },
     {
-      "frage": "14. Was ist eine der wichtigsten Aufgaben eines Scrum Masters in Bezug auf Hindernisse (Impediments), die im Daily Scrum identifiziert werden?",
-      "optionen": [
+      "question": "14. Was ist eine der wichtigsten Aufgaben eines Scrum Masters in Bezug auf Hindernisse (Impediments), die im Daily Scrum identifiziert werden?",
+      "options": [
         "Er dokumentiert die Hindernisse und eskaliert sie immer sofort an das Top-Management.",
         "Er weist die Lösung der Hindernisse einzelnen Teammitgliedern zu.",
         "Er kümmert sich um die Beseitigung der Hindernisse, was oft die Interaktion mit anderen Abteilungen oder die Beschaffung von Ressourcen erfordert.",
         "Er priorisiert die Hindernisse und entscheidet, welche ignoriert werden können.",
         "Er wartet bis zur Sprint-Retrospektive, um über die Hindernisse zu sprechen."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Scrum Master ist dafür verantwortlich, sich um die Beseitigung der vom Team identifizierten Hindernisse zu kümmern. Das bedeutet nicht immer, dass er sie selbst löst, aber er sorgt dafür, dass sie gelöst werden. Dies kann die Zusammenarbeit mit anderen Teilen der Organisation erfordern, um z.B. Abhängigkeiten aufzulösen oder Ressourcen zu beschaffen.",
-      "gewichtung": 2,
-      "thema": "Scrum-Rollen",
+      "answer": 2,
+      "explanation": "Der Scrum Master ist dafür verantwortlich, sich um die Beseitigung der vom Team identifizierten Hindernisse zu kümmern. Das bedeutet nicht immer, dass er sie selbst löst, aber er sorgt dafür, dass sie gelöst werden. Dies kann die Zusammenarbeit mit anderen Teilen der Organisation erfordern, um z.B. Abhängigkeiten aufzulösen oder Ressourcen zu beschaffen.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
       "extended_explanation": {
         "titel": "Hindernisbeseitigung als Schutzschild des Teams",
         "schritte": [
@@ -356,18 +356,18 @@
       }
     },
     {
-      "frage": "15. Welche der folgenden Aussagen beschreibt das Konzept eines cross-funktionalen Teams im Kontext eines Projekts zur Einführung eines neuen CRM-Systems am besten?",
-      "optionen": [
+      "question": "15. Welche der folgenden Aussagen beschreibt das Konzept eines cross-funktionalen Teams im Kontext eines Projekts zur Einführung eines neuen CRM-Systems am besten?",
+      "options": [
         "Alle Teammitglieder müssen jede Aufgabe im Projekt erledigen können, von der IT-Anbindung bis zur Anwenderschulung.",
         "Das Team besteht ausschließlich aus Spezialisten einer einzigen Disziplin, z.B. nur Vertriebsexperten.",
         "Das Team besitzt **als Ganzes** alle notwendigen Fähigkeiten (z.B. IT, Vertrieb, Marketing, Schulung), um das CRM-System ohne ständige Abhängigkeit von externen Abteilungen einzuführen.",
         "Jeder Experte arbeitet nur an den Aufgaben seines Fachgebiets und übergibt das Ergebnis dann an den nächsten.",
         "Der Scrum Master muss ein Experte in allen erforderlichen Disziplinen sein, um das Team anzuleiten."
       ],
-      "loesung": 2,
-      "erklaerung": "Ein cross-funktionales Team besitzt alle Fähigkeiten, die notwendig sind, um ein fertiges Produktinkrement zu erstellen. Das bedeutet nicht, dass jeder alles kann, sondern dass im Team alle Kompetenzen vorhanden sind – von der Konzeption (z.B. durch Vertriebsexperten) bis zur Umsetzung und Qualitätssicherung.",
-      "gewichtung": 2,
-      "thema": "Scrum-Rollen",
+      "answer": 2,
+      "explanation": "Ein cross-funktionales Team besitzt alle Fähigkeiten, die notwendig sind, um ein fertiges Produktinkrement zu erstellen. Das bedeutet nicht, dass jeder alles kann, sondern dass im Team alle Kompetenzen vorhanden sind – von der Konzeption (z.B. durch Vertriebsexperten) bis zur Umsetzung und Qualitätssicherung.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
       "extended_explanation": {
         "titel": "Vorteile der Cross-Funktionalität",
         "schritte": [
@@ -383,18 +383,18 @@
       }
     },
     {
-      "frage": "16. Warum ist das 'Backlog Refinement' (früher 'Grooming') ein wichtiges, wenn auch optionales Meeting in Scrum?",
-      "optionen": [
+      "question": "16. Warum ist das 'Backlog Refinement' (früher 'Grooming') ein wichtiges, wenn auch optionales Meeting in Scrum?",
+      "options": [
         "Um den Fortschritt des aktuellen Sprints zu überprüfen und zu berichten.",
         "Um das Team für die im Sprint geleistete Arbeit zu belohnen.",
         "Um das Product Backlog für zukünftige Sprints vorzubereiten, indem Einträge geklärt, geschätzt und aufgeteilt werden.",
         "Um den finalen Release-Plan mit den Stakeholdern zu verabschieden.",
         "Um die Teammitglieder fachlich zu schulen."
       ],
-      "loesung": 2,
-      "erklaerung": "Das Backlog Refinement ist ein kontinuierlicher Prozess, um das Product Backlog sauber und aktuell zu halten. In diesem Workshop arbeiten Product Owner und Entwicklungsteam zusammen, um hoch priorisierte Einträge für die nächsten Sprints vorzubereiten. Dazu gehört das Klären von Details, das Aufteilen großer Einträge (Epics) und das Schätzen des Aufwands.",
-      "gewichtung": 2,
-      "thema": "Scrum-Meetings",
+      "answer": 2,
+      "explanation": "Das Backlog Refinement ist ein kontinuierlicher Prozess, um das Product Backlog sauber und aktuell zu halten. In diesem Workshop arbeiten Product Owner und Entwicklungsteam zusammen, um hoch priorisierte Einträge für die nächsten Sprints vorzubereiten. Dazu gehört das Klären von Details, das Aufteilen großer Einträge (Epics) und das Schätzen des Aufwands.",
+      "weight": 2,
+      "topic": "Scrum-Meetings",
       "extended_explanation": {
         "titel": "Effiziente Sprint Plannings durch gute Vorbereitung",
         "schritte": [
@@ -410,18 +410,18 @@
       }
     },
     {
-      "frage": "17. 'Laufende Software ist wichtiger als ausführliche Dokumentation' ist ein Wert des Agilen Manifests. Wie lässt sich dieser Wert auf ein Nicht-IT-Projekt, z.B. die Erstellung eines Businessplans, übertragen?",
-      "optionen": [
+      "question": "17. 'Laufende Software ist wichtiger als ausführliche Dokumentation' ist ein Wert des Agilen Manifests. Wie lässt sich dieser Wert auf ein Nicht-IT-Projekt, z.B. die Erstellung eines Businessplans, übertragen?",
+      "options": [
         "Es sollte überhaupt keine Dokumentation erstellt werden, nur das Endergebnis zählt.",
         "Ein erster, umsetzbarer Entwurf des Businessplans, der bereits Kernaspekte validiert, ist wertvoller als ein 100-seitiges, theoretisches Konzeptdokument.",
         "Die Dokumentation des Prozesses ist wichtiger als der Businessplan selbst.",
         "Nur der Finanzteil des Businessplans ist wichtig, der Rest ist nebensächlich.",
         "Die finale, perfekt ausformulierte Version des Businessplans muss von Anfang an das Ziel sein."
       ],
-      "loesung": 1,
-      "erklaerung": "Der Wert betont, dass das primäre Ziel die Schaffung eines funktionierenden, wertvollen Ergebnisses ist, nicht die Erstellung von Dokumentation darüber. Übertragen auf einen Businessplan bedeutet das: Ein schlankes, aber funktionierendes Modell (z.B. ein 'Minimum Viable Product' des Businessplans), mit dem man bereits zu potenziellen Investoren gehen kann, ist nützlicher als eine monatelange Arbeit an einem perfekten, aber ungetesteten Dokument.",
-      "gewichtung": 2,
-      "thema": "Agile Prinzipien",
+      "answer": 1,
+      "explanation": "Der Wert betont, dass das primäre Ziel die Schaffung eines funktionierenden, wertvollen Ergebnisses ist, nicht die Erstellung von Dokumentation darüber. Übertragen auf einen Businessplan bedeutet das: Ein schlankes, aber funktionierendes Modell (z.B. ein 'Minimum Viable Product' des Businessplans), mit dem man bereits zu potenziellen Investoren gehen kann, ist nützlicher als eine monatelange Arbeit an einem perfekten, aber ungetesteten Dokument.",
+      "weight": 2,
+      "topic": "Agile Prinzipien",
       "extended_explanation": {
         "titel": "Der Wert von 'Working Prototypes' im Business-Kontext",
         "schritte": [
@@ -437,18 +437,18 @@
       }
     },
     {
-      "frage": "18. Wodurch zeichnet sich das Entwicklungsteam in Scrum aus?",
-      "optionen": [
+      "question": "18. Wodurch zeichnet sich das Entwicklungsteam in Scrum aus?",
+      "options": [
         "Es gibt einen Teamleiter, der die Arbeit verteilt und die Verantwortung trägt.",
         "Es gibt keine herausgehobenen Rollen oder Hierarchien innerhalb des Teams; alle Mitglieder sind 'Entwickler'.",
         "Der Product Owner ist Mitglied des Entwicklungsteams und arbeitet an der Umsetzung mit.",
         "Das Team wird für jeden Sprint neu zusammengestellt, um Flexibilität zu gewährleisten.",
         "Der Scrum Master ist der Vorgesetzte des Entwicklungsteams."
       ],
-      "loesung": 1,
-      "erklaerung": "Ein wesentliches Merkmal des Entwicklungsteams ist, dass es sich selbst organisiert und keine formelle Hierarchie oder Sub-Rollen (wie Tester, Analyst etc.) besitzt. Alle Mitglieder sind gleichberechtigt und tragen als Team die Verantwortung für das Ergebnis.",
-      "gewichtung": 2,
-      "thema": "Scrum-Rollen",
+      "answer": 1,
+      "explanation": "Ein wesentliches Merkmal des Entwicklungsteams ist, dass es sich selbst organisiert und keine formelle Hierarchie oder Sub-Rollen (wie Tester, Analyst etc.) besitzt. Alle Mitglieder sind gleichberechtigt und tragen als Team die Verantwortung für das Ergebnis.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
       "extended_explanation": {
         "titel": "Kollektive Verantwortung statt Einzelkämpfertum",
         "schritte": [
@@ -464,18 +464,18 @@
       }
     },
     {
-      "frage": "19. Welches Scrum-Artefakt bietet die beste Transparenz über den verbleibenden Arbeitsaufwand in einem **Sprint**?",
-      "optionen": [
+      "question": "19. Welches Scrum-Artefakt bietet die beste Transparenz über den verbleibenden Arbeitsaufwand in einem **Sprint**?",
+      "options": [
         "Das Release-Burnup-Chart",
         "Das Product Backlog",
         "Die Liste der Verbesserungsmaßnahmen aus der Retrospektive",
         "Das Sprint-Burndown-Chart",
         "Der Projektplan"
       ],
-      "loesung": 3,
-      "erklaerung": "Das Sprint-Burndown-Chart ist ein optionales Artefakt, das speziell dafür entwickelt wurde, dem Entwicklungsteam eine Prognose über die Erreichung des Sprint-Ziels zu geben. Es visualisiert die verbleibende Arbeit im Sprint im Verhältnis zur verbleibenden Zeit und macht Abweichungen vom Plan frühzeitig sichtbar.",
-      "gewichtung": 2,
-      "thema": "Scrum-Artefakte",
+      "answer": 3,
+      "explanation": "Das Sprint-Burndown-Chart ist ein optionales Artefakt, das speziell dafür entwickelt wurde, dem Entwicklungsteam eine Prognose über die Erreichung des Sprint-Ziels zu geben. Es visualisiert die verbleibende Arbeit im Sprint im Verhältnis zur verbleibenden Zeit und macht Abweichungen vom Plan frühzeitig sichtbar.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
       "extended_explanation": {
         "titel": "Frühwarnsystem für den Sprint",
         "schritte": [
@@ -491,18 +491,18 @@
       }
     },
     {
-      "frage": "20. Ein Product Owner für eine E-Commerce-Plattform hat über 200 Ideen und Anforderungen im Product Backlog. Welches Vorgehen ist im Sinne von Scrum am sinnvollsten?",
-      "optionen": [
+      "question": "20. Ein Product Owner für eine E-Commerce-Plattform hat über 200 Ideen und Anforderungen im Product Backlog. Welches Vorgehen ist im Sinne von Scrum am sinnvollsten?",
+      "options": [
         "Alle 200 Einträge im Detail ausarbeiten und vom Entwicklungsteam schätzen lassen, um einen vollständigen Plan zu haben.",
         "Nur die Einträge für die nächsten 1-3 Sprints detailliert ausarbeiten und schätzen lassen, während der Rest als grobe Ideen verbleibt.",
         "Das Entwicklungsteam entscheiden lassen, welche der 200 Ideen am interessantesten sind.",
         "Ein Komitee aus Stakeholdern gründen, das über die Priorisierung aller 200 Einträge abstimmt.",
         "Das Backlog verwerfen und mit einer kleineren Liste neu beginnen."
       ],
-      "loesung": 1,
-      "erklaerung": "Ein gutes Product Backlog ist so gepflegt, dass hoch priorisierte Einträge klein und detailliert sind, während niedrig priorisierte Einträge groß und nur grob skizziert bleiben dürfen. Es ist ineffizient, weit in der Zukunft liegende Anforderungen im Detail auszuarbeiten, da sie sich wahrscheinlich ändern werden. Der Fokus liegt auf der Vorbereitung der unmittelbar bevorstehenden Arbeit.",
-      "gewichtung": 2,
-      "thema": "Scrum-Artefakte",
+      "answer": 1,
+      "explanation": "Ein gutes Product Backlog ist so gepflegt, dass hoch priorisierte Einträge klein und detailliert sind, während niedrig priorisierte Einträge groß und nur grob skizziert bleiben dürfen. Es ist ineffizient, weit in der Zukunft liegende Anforderungen im Detail auszuarbeiten, da sie sich wahrscheinlich ändern werden. Der Fokus liegt auf der Vorbereitung der unmittelbar bevorstehenden Arbeit.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
       "extended_explanation": {
         "titel": "Progressive Detaillierung und Risikomanagement",
         "schritte": [
@@ -518,18 +518,18 @@
       }
     },
     {
-      "frage": "21. Welche der drei Scrum-Perspektiven wird primär durch die Sprint-Retrospektive und die Beseitigung von Hindernissen durch den Scrum Master verkörpert?",
-      "optionen": [
+      "question": "21. Welche der drei Scrum-Perspektiven wird primär durch die Sprint-Retrospektive und die Beseitigung von Hindernissen durch den Scrum Master verkörpert?",
+      "options": [
         "Die Produktperspektive (Businessfokus)",
         "Die Entwicklungsperspektive (autonome Entwicklungsteams)",
         "Die Verbesserungsperspektive (Verantwortung für den Prozess übernehmen)",
         "Die Managementperspektive (Kontrolle und Reporting)",
         "Die Kundenperspektive (Feedback zum Produkt)"
       ],
-      "loesung": 2,
-      "erklaerung": "Die Verbesserungsperspektive beleuchtet, wie die Zusammenarbeit und die Prozesse verbessert werden. Die Sprint-Retrospektive ist das zentrale Event zur Prozessverbesserung, und die Arbeit des Scrum Masters, Hindernisse zu beseitigen, trägt direkt dazu bei, den Prozess effektiver zu machen.",
-      "gewichtung": 2,
-      "thema": "Scrum-Grundlagen",
+      "answer": 2,
+      "explanation": "Die Verbesserungsperspektive beleuchtet, wie die Zusammenarbeit und die Prozesse verbessert werden. Die Sprint-Retrospektive ist das zentrale Event zur Prozessverbesserung, und die Arbeit des Scrum Masters, Hindernisse zu beseitigen, trägt direkt dazu bei, den Prozess effektiver zu machen.",
+      "weight": 2,
+      "topic": "Scrum-Grundlagen",
       "extended_explanation": {
         "titel": "Die drei Säulen des Scrum-Verständnisses",
         "schritte": [
@@ -547,18 +547,18 @@
       }
     },
     {
-      "frage": "22. Einem Scrum-Team, das eine neue Logistik-Software einführt, wird vom Abteilungsleiter eine zusätzliche, dringende Aufgabe während des laufenden Sprints zugewiesen. Welche Reaktion des Scrum Masters und des Teams wäre am ehesten Scrum-konform?",
-      "optionen": [
+      "question": "22. Einem Scrum-Team, das eine neue Logistik-Software einführt, wird vom Abteilungsleiter eine zusätzliche, dringende Aufgabe während des laufenden Sprints zugewiesen. Welche Reaktion des Scrum Masters und des Teams wäre am ehesten Scrum-konform?",
+      "options": [
         "Das Team nimmt die Aufgabe sofort auf und arbeitet am Wochenende, um das Sprint-Ziel trotzdem zu erreichen.",
         "Der Scrum Master lehnt die Aufgabe kategorisch ab, da der Sprint-Plan unantastbar ist.",
         "Der Scrum Master schützt das Team vor der unerwünschten Einflussnahme und verweist den Abteilungsleiter an den Product Owner, um die neue Anforderung für einen der nächsten Sprints zu priorisieren.",
         "Der Product Owner bricht den aktuellen Sprint sofort ab und startet einen neuen Sprint mit der zusätzlichen Aufgabe.",
         "Das Team stimmt darüber ab, welche der ursprünglich geplanten Aufgaben im Gegenzug aus dem Sprint entfernt wird."
       ],
-      "loesung": 2,
-      "erklaerung": "Eine der Aufgaben des Scrum Masters ist es, das Team vor unerwünschten Einflüssen von außen zu schützen. Der korrekte Weg für neue Anforderungen ist immer über den Product Owner und das Product Backlog. Nur der Product Owner kann entscheiden, die Prioritäten zu ändern. Ein Sprint wird nur in seltenen Ausnahmefällen vom Product Owner abgebrochen, wenn das Sprint-Ziel obsolet wird.",
-      "gewichtung": 3,
-      "thema": "Scrum-Prozess",
+      "answer": 2,
+      "explanation": "Eine der Aufgaben des Scrum Masters ist es, das Team vor unerwünschten Einflüssen von außen zu schützen. Der korrekte Weg für neue Anforderungen ist immer über den Product Owner und das Product Backlog. Nur der Product Owner kann entscheiden, die Prioritäten zu ändern. Ein Sprint wird nur in seltenen Ausnahmefällen vom Product Owner abgebrochen, wenn das Sprint-Ziel obsolet wird.",
+      "weight": 3,
+      "topic": "Scrum-Prozess",
       "extended_explanation": {
         "titel": "Schutz des Sprints und Stabilität",
         "schritte": [
@@ -574,18 +574,18 @@
       }
     },
     {
-      "frage": "23. Ein Unternehmen will Scrum einführen. Der CEO glaubt, der Leitsatz 'Vertrauen ist gut, Kontrolle ist besser' sei der Schlüssel zum Erfolg. Warum stellt diese Haltung eine fundamentale Herausforderung für die agile Transformation dar?",
-      "optionen": [
+      "question": "23. Ein Unternehmen will Scrum einführen. Der CEO glaubt, der Leitsatz 'Vertrauen ist gut, Kontrolle ist besser' sei der Schlüssel zum Erfolg. Warum stellt diese Haltung eine fundamentale Herausforderung für die agile Transformation dar?",
+      "options": [
         "Weil Scrum keine Kontrolle vorsieht und auf reines Chaos setzt.",
         "Weil diese Haltung im Widerspruch zum agilen Prinzip steht, Projekte um motivierte Individuen zu errichten und ihnen zu vertrauen, dass sie die Aufgabe erledigen.",
         "Weil in Scrum nur der Product Owner kontrollieren darf, nicht aber der CEO.",
         "Weil Kontrolle in Scrum ausschließlich durch automatisierte Tests erfolgt.",
         "Weil diese Haltung nur in IT-Projekten problematisch ist, nicht aber in BWL-Projekten."
       ],
-      "loesung": 1,
-      "erklaerung": "Agile Methoden wie Scrum basieren auf einem Menschenbild, das von Vertrauen und Eigenverantwortung geprägt ist. Ein Kernprinzip des Agilen Manifests lautet: 'Errichte Projekte rund um motivierte Individuen. Gib ihnen das Umfeld und die Unterstützung, die sie benötigen, und vertraue darauf, dass sie die Aufgabe erledigen.' Eine auf Misstrauen und Mikromanagement basierende Kontrollkultur untergräbt die Selbstorganisation und Motivation des Teams, die für den Erfolg von Scrum essenziell sind.",
-      "gewichtung": 3,
-      "thema": "Agile Prinzipien",
+      "answer": 1,
+      "explanation": "Agile Methoden wie Scrum basieren auf einem Menschenbild, das von Vertrauen und Eigenverantwortung geprägt ist. Ein Kernprinzip des Agilen Manifests lautet: 'Errichte Projekte rund um motivierte Individuen. Gib ihnen das Umfeld und die Unterstützung, die sie benötigen, und vertraue darauf, dass sie die Aufgabe erledigen.' Eine auf Misstrauen und Mikromanagement basierende Kontrollkultur untergräbt die Selbstorganisation und Motivation des Teams, die für den Erfolg von Scrum essenziell sind.",
+      "weight": 3,
+      "topic": "Agile Prinzipien",
       "extended_explanation": {
         "titel": "Paradigmenwechsel: Von Kontrolle zu 'Empowerment'",
         "schritte": [
@@ -601,18 +601,18 @@
       }
     },
     {
-      "frage": "24. Welche Aussage über die Time-box von Scrum-Meetings ist laut Scrum Guide korrekt?",
-      "optionen": [
+      "question": "24. Welche Aussage über die Time-box von Scrum-Meetings ist laut Scrum Guide korrekt?",
+      "options": [
         "Das Daily Scrum hat eine feste Time-box von 15 Minuten, unabhängig von der Sprint-Länge.",
         "Das Sprint Planning für einen zweiwöchigen Sprint dauert immer genau 8 Stunden.",
         "Die Sprint-Retrospektive kann bei Bedarf auf über 4 Stunden ausgedehnt werden.",
         "Der Sprint-Review hat keine feste Time-box und dauert so lange, wie die Stakeholder Fragen haben.",
         "Alle Meetings sind optional und können vom Team übersprungen werden."
       ],
-      "loesung": 0,
-      "erklaerung": "Das Daily Scrum ist das einzige Event, dessen Time-box von 15 Minuten unabhängig von der Sprint-Länge ist. Alle anderen Events (Planning, Review, Retrospective) skalieren proportional zur Sprint-Länge, z.B. hat das Sprint Planning für einen einmonatigen Sprint eine Time-box von maximal 8 Stunden.",
-      "gewichtung": 3,
-      "thema": "Scrum-Meetings",
+      "answer": 0,
+      "explanation": "Das Daily Scrum ist das einzige Event, dessen Time-box von 15 Minuten unabhängig von der Sprint-Länge ist. Alle anderen Events (Planning, Review, Retrospective) skalieren proportional zur Sprint-Länge, z.B. hat das Sprint Planning für einen einmonatigen Sprint eine Time-box von maximal 8 Stunden.",
+      "weight": 3,
+      "topic": "Scrum-Meetings",
       "extended_explanation": {
         "titel": "Time-boxing als Effizienz-Treiber",
         "schritte": [
@@ -628,18 +628,18 @@
       }
     },
     {
-      "frage": "25. Der Grundsatz 'Einfachheit – die Kunst, die Menge nicht getaner Arbeit zu maximieren' ist ein agiles Prinzip. Wie kann ein Product Owner in einem Projekt zur Entwicklung einer neuen Vertriebs-App dieses Prinzip am besten anwenden?",
-      "optionen": [
+      "question": "25. Der Grundsatz 'Einfachheit – die Kunst, die Menge nicht getaner Arbeit zu maximieren' ist ein agiles Prinzip. Wie kann ein Product Owner in einem Projekt zur Entwicklung einer neuen Vertriebs-App dieses Prinzip am besten anwenden?",
+      "options": [
         "Indem er möglichst viele Features in das Product Backlog aufnimmt, um alle denkbaren Optionen zu haben.",
         "Indem er das Team anweist, den Code so einfach wie möglich zu halten, auch auf Kosten der Funktionalität.",
         "Indem er sich konsequent auf die Features konzentriert, die den höchsten Kundennutzen liefern, und bewusst auf 'Nice-to-have'-Funktionen verzichtet.",
         "Indem er die Anzahl der Teammitglieder so klein wie möglich hält.",
         "Indem er die Dokumentation auf ein absolutes Minimum reduziert, auch wenn sie gesetzlich vorgeschrieben ist."
       ],
-      "loesung": 2,
-      "erklaerung": "Dieses Prinzip zielt darauf ab, Verschwendung zu vermeiden, indem man sich auf das Wesentliche konzentriert. Für einen Product Owner bedeutet das, aktiv zu entscheiden, was **nicht** getan wird. Statt eine App mit unzähligen Funktionen zu überladen, die kaum jemand nutzt, fokussiert er sich auf die 20% der Features, die 80% des Wertes liefern (Pareto-Prinzip). Er maximiert die Menge an Arbeit, die man sich sparen kann, ohne den Wert zu schmälern.",
-      "gewichtung": 3,
-      "thema": "Agile Prinzipien",
+      "answer": 2,
+      "explanation": "Dieses Prinzip zielt darauf ab, Verschwendung zu vermeiden, indem man sich auf das Wesentliche konzentriert. Für einen Product Owner bedeutet das, aktiv zu entscheiden, was **nicht** getan wird. Statt eine App mit unzähligen Funktionen zu überladen, die kaum jemand nutzt, fokussiert er sich auf die 20% der Features, die 80% des Wertes liefern (Pareto-Prinzip). Er maximiert die Menge an Arbeit, die man sich sparen kann, ohne den Wert zu schmälern.",
+      "weight": 3,
+      "topic": "Agile Prinzipien",
       "extended_explanation": {
         "titel": "Weniger ist mehr: Der Fokus auf Wertschöpfung",
         "schritte": [
@@ -655,18 +655,18 @@
       }
     },
     {
-      "frage": "26. In einem Unternehmen wird Scrum eingeführt. Ein Projektmanager aus einem klassischen Projekt möchte wissen, wer im Scrum-Team für die Erstellung des Projektplans, die Budgetkontrolle und die Berichterstattung an das Management zuständig ist. Wie lautet die korrekte Antwort?",
-      "optionen": [
+      "question": "26. In einem Unternehmen wird Scrum eingeführt. Ein Projektmanager aus einem klassischen Projekt möchte wissen, wer im Scrum-Team für die Erstellung des Projektplans, die Budgetkontrolle und die Berichterstattung an das Management zuständig ist. Wie lautet die korrekte Antwort?",
+      "options": [
         "Der Scrum Master übernimmt all diese Aufgaben, er ist der neue Projektmanager.",
         "Der Product Owner ist für all diese Aufgaben allein verantwortlich.",
         "Diese Aufgaben sind im Scrum Framework nicht einer einzigen Rolle zugeordnet, sondern werden aufgeteilt oder verändern sich: Der PO managt den Wert (ROI), das Team den Umsetzungsplan (Sprint Backlog) und Transparenz entsteht durch die Artefakte.",
         "Das Entwicklungsteam ist kollektiv für das Budget und die Berichterstattung verantwortlich.",
         "Es gibt eine zusätzliche Rolle, den 'Scrum Project Manager', der diese Aufgaben übernimmt."
       ],
-      "loesung": 2,
-      "erklaerung": "Scrum kennt die Rolle des klassischen Projektmanagers nicht. Die Verantwortlichkeiten werden auf die drei Scrum-Rollen aufgeteilt. Der Product Owner ist für die Wertmaximierung und das Stakeholder-Management zuständig, was Budgetaspekte und die Kommunikation des Fortschritts (z.B. über Release-Pläne) einschließt. Das Entwicklungsteam plant die konkrete Arbeit im Sprint. Der Scrum Master sorgt für den funktionierenden Prozess. Es ist eine grundlegende Neuverteilung der Verantwortung.",
-      "gewichtung": 3,
-      "thema": "Scrum-Rollen",
+      "answer": 2,
+      "explanation": "Scrum kennt die Rolle des klassischen Projektmanagers nicht. Die Verantwortlichkeiten werden auf die drei Scrum-Rollen aufgeteilt. Der Product Owner ist für die Wertmaximierung und das Stakeholder-Management zuständig, was Budgetaspekte und die Kommunikation des Fortschritts (z.B. über Release-Pläne) einschließt. Das Entwicklungsteam plant die konkrete Arbeit im Sprint. Der Scrum Master sorgt für den funktionierenden Prozess. Es ist eine grundlegende Neuverteilung der Verantwortung.",
+      "weight": 3,
+      "topic": "Scrum-Rollen",
       "extended_explanation": {
         "titel": "Auflösung der klassischen Projektmanager-Rolle",
         "schritte": [
@@ -684,18 +684,18 @@
       }
     },
     {
-      "frage": "27. Welchen Zweck hat die `Definition of Done` (DoD) in einem Scrum-Projekt?",
-      "optionen": [
+      "question": "27. Welchen Zweck hat die `Definition of Done` (DoD) in einem Scrum-Projekt?",
+      "options": [
         "Sie definiert, wann ein Sprint offiziell gestartet werden kann.",
         "Sie ist eine Checkliste, die der Product Owner verwendet, um die Arbeit des Teams zu kontrollieren.",
         "Sie ist ein vom gesamten Scrum-Team geteiltes Verständnis darüber, wann ein Produktinkrement als vollständig und potenziell auslieferbar gilt.",
         "Sie beschreibt die Aufgaben, die ein Teammitglied an einem Tag erledigen muss.",
         "Sie legt die Kriterien fest, wann eine User Story bereit ist, in das Sprint Planning aufgenommen zu werden."
       ],
-      "loesung": 2,
-      "erklaerung": "Die Definition of Done ist ein entscheidendes Element zur Qualitätssicherung und Transparenz. Es ist eine gemeinsame Vereinbarung des Scrum-Teams, welche Kriterien erfüllt sein müssen, damit ein Product-Backlog-Eintrag als 'Done' gilt. Dies stellt sicher, dass das, was am Ende des Sprints geliefert wird, eine einheitliche Qualität hat und wirklich fertig ist.",
-      "gewichtung": 2,
-      "thema": "Scrum-Artefakte",
+      "answer": 2,
+      "explanation": "Die Definition of Done ist ein entscheidendes Element zur Qualitätssicherung und Transparenz. Es ist eine gemeinsame Vereinbarung des Scrum-Teams, welche Kriterien erfüllt sein müssen, damit ein Product-Backlog-Eintrag als 'Done' gilt. Dies stellt sicher, dass das, was am Ende des Sprints geliefert wird, eine einheitliche Qualität hat und wirklich fertig ist.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
       "extended_explanation": {
         "titel": "Qualitätssicherung und Vermeidung von 'Undone Work'",
         "schritte": [
@@ -711,18 +711,18 @@
       }
     },
     {
-      "frage": "28. Warum ist es wichtig, dass das Entwicklungsteam das Product Backlog schätzt und nicht der Product Owner oder der Scrum Master?",
-      "optionen": [
+      "question": "28. Warum ist es wichtig, dass das Entwicklungsteam das Product Backlog schätzt und nicht der Product Owner oder der Scrum Master?",
+      "options": [
         "Weil Schätzen eine unwichtige Aufgabe ist, die an das Team delegiert werden kann.",
         "Weil nur diejenigen, die die Arbeit ausführen, eine realistische Einschätzung über den damit verbundenen Aufwand abgeben können.",
         "Weil der Product Owner befangen wäre und die Aufwände zu niedrig ansetzen würde, um mehr in einen Sprint zu bekommen.",
         "Weil der Scrum Master keine fachliche Expertise haben muss und es daher nicht kann.",
         "Weil die Schätzungen als Grundlage für die Leistungsbeurteilung der einzelnen Entwickler dienen."
       ],
-      "loesung": 1,
-      "erklaerung": "Das Schätzen des Aufwands von Product-Backlog-Einträgen ist die alleinige Verantwortung des Entwicklungsteams. Der Grund dafür ist einfach: Nur die Personen, die die Arbeit tatsächlich umsetzen, verfügen über das notwendige Wissen und die Erfahrung, um den Aufwand verlässlich einzuschätzen. Jede Schätzung von außen wäre eine reine Vermutung und würde die Selbstorganisation des Teams untergraben.",
-      "gewichtung": 2,
-      "thema": "Scrum-Prozess",
+      "answer": 1,
+      "explanation": "Das Schätzen des Aufwands von Product-Backlog-Einträgen ist die alleinige Verantwortung des Entwicklungsteams. Der Grund dafür ist einfach: Nur die Personen, die die Arbeit tatsächlich umsetzen, verfügen über das notwendige Wissen und die Erfahrung, um den Aufwand verlässlich einzuschätzen. Jede Schätzung von außen wäre eine reine Vermutung und würde die Selbstorganisation des Teams untergraben.",
+      "weight": 2,
+      "topic": "Scrum-Prozess",
       "extended_explanation": {
         "titel": "Wer die Arbeit macht, schätzt die Arbeit",
         "schritte": [
@@ -738,18 +738,18 @@
       }
     },
     {
-      "frage": "29. Ein Team stellt am Ende des Sprints im Sprint-Review ein Produktinkrement vor. Die Stakeholder sind jedoch unzufrieden und geben negatives Feedback. Wer ist in Scrum letztendlich für den Erfolg des Produkts und damit auch für diese Situation verantwortlich?",
-      "optionen": [
+      "question": "29. Ein Team stellt am Ende des Sprints im Sprint-Review ein Produktinkrement vor. Die Stakeholder sind jedoch unzufrieden und geben negatives Feedback. Wer ist in Scrum letztendlich für den Erfolg des Produkts und damit auch für diese Situation verantwortlich?",
+      "options": [
         "Das Entwicklungsteam, weil es das Produktinkrement nicht nach den Wünschen der Stakeholder umgesetzt hat.",
         "Der Scrum Master, weil er den Prozess nicht richtig moderiert hat.",
         "Die Stakeholder, weil sie ihre Anforderungen nicht klar genug kommuniziert haben.",
         "Der Product Owner, da er für die Maximierung des Produktwerts und die Verwaltung des Product Backlogs verantwortlich ist.",
         "Niemand, da in Scrum der Prozess wichtiger ist als das Ergebnis."
       ],
-      "loesung": 3,
-      "erklaerung": "Der Product Owner ist die eine Person, die für den Produkterfolg verantwortlich ist ('one throat to choke'). Dazu gehört es, die Bedürfnisse der Stakeholder zu verstehen, diese im Product Backlog abzubilden und so zu priorisieren, dass das Entwicklungsteam an den wertvollsten Dingen arbeitet. Wenn das Ergebnis nicht den Erwartungen entspricht, ist dies ein Indikator dafür, dass die Arbeit des Product Owners (Anforderungsmanagement, Priorisierung, Kommunikation) verbessert werden muss.",
-      "gewichtung": 2,
-      "thema": "Scrum-Rollen",
+      "answer": 3,
+      "explanation": "Der Product Owner ist die eine Person, die für den Produkterfolg verantwortlich ist ('one throat to choke'). Dazu gehört es, die Bedürfnisse der Stakeholder zu verstehen, diese im Product Backlog abzubilden und so zu priorisieren, dass das Entwicklungsteam an den wertvollsten Dingen arbeitet. Wenn das Ergebnis nicht den Erwartungen entspricht, ist dies ein Indikator dafür, dass die Arbeit des Product Owners (Anforderungsmanagement, Priorisierung, Kommunikation) verbessert werden muss.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
       "extended_explanation": {
         "titel": "Verantwortung und Lernchance",
         "schritte": [
@@ -765,18 +765,18 @@
       }
     },
     {
-      "frage": "30. Ein Unternehmen hat ein sehr erfolgreiches Scrum-Team. Das Management beschließt nun, die Vorgehensweise dieses Teams (Meetings, Artefakte, Teamregeln) exakt zu kopieren und als unternehmensweiten Standard für alle anderen Teams vorzuschreiben. Warum widerspricht dieses Vorgehen dem agilen Prinzip 'Inspect and Adapt'?",
-      "optionen": [
+      "question": "30. Ein Unternehmen hat ein sehr erfolgreiches Scrum-Team. Das Management beschließt nun, die Vorgehensweise dieses Teams (Meetings, Artefakte, Teamregeln) exakt zu kopieren und als unternehmensweiten Standard für alle anderen Teams vorzuschreiben. Warum widerspricht dieses Vorgehen dem agilen Prinzip 'Inspect and Adapt'?",
+      "options": [
         "Weil jedes Team seine eigenen, einzigartigen Prozesse entwickeln sollte, auch wenn sie weniger effizient sind.",
         "Weil agile Prozesse nicht dokumentiert werden dürfen.",
         "Weil Scrum nach fünf Sprints immer noch genauso praktiziert werden sollte, wie es am Anfang war, um Konsistenz zu wahren.",
         "Weil der Erfolg eines Teams vom spezifischen Kontext (Produkt, Teammitglieder, Herausforderungen) abhängt und eine blinde Kopie des Prozesses die Fähigkeit anderer Teams zur Selbstverbesserung und Anpassung an ihren eigenen Kontext verhindert.",
         "Weil nur zertifizierte Scrum Master Prozesse für andere Teams definieren dürfen."
       ],
-      "loesung": 3,
-      "erklaerung": "Das Prinzip von 'Inspect and Adapt' (Überprüfen und Anpassen) ist das Herzstück von Scrum. Jedes Team soll in der Retrospektive seinen eigenen Prozess reflektieren und an seine spezifischen Bedürfnisse anpassen. Ein Vorgehen 'One size fits all', bei dem ein Prozess von außen übergestülpt wird, zerstört diese Selbstorganisation und den kontinuierlichen Verbesserungsprozess. Was für ein Team funktioniert, kann für ein anderes Team in einem anderen Kontext völlig unpassend sein.",
-      "gewichtung": 3,
-      "thema": "Agile Prinzipien",
+      "answer": 3,
+      "explanation": "Das Prinzip von 'Inspect and Adapt' (Überprüfen und Anpassen) ist das Herzstück von Scrum. Jedes Team soll in der Retrospektive seinen eigenen Prozess reflektieren und an seine spezifischen Bedürfnisse anpassen. Ein Vorgehen 'One size fits all', bei dem ein Prozess von außen übergestülpt wird, zerstört diese Selbstorganisation und den kontinuierlichen Verbesserungsprozess. Was für ein Team funktioniert, kann für ein anderes Team in einem anderen Kontext völlig unpassend sein.",
+      "weight": 3,
+      "topic": "Agile Prinzipien",
       "extended_explanation": {
         "titel": "Kontext ist König: Gegen die Dogmatisierung von Prozessen",
         "schritte": [

@@ -18,18 +18,18 @@
   },
   "questions": [
     {
-      "frage": "1. Welche der folgenden Mengenoperationen ist **nicht** kommutativ, d.h., die Reihenfolge der Operanden ist entscheidend?",
-      "optionen": [
+      "question": "1. Welche der folgenden Mengenoperationen ist **nicht** kommutativ, d.h., die Reihenfolge der Operanden ist entscheidend?",
+      "options": [
         "Schnittmenge ($A \\cap B$)",
         "Vereinigung ($A \\cup B$)",
         "Symmetrische Differenz ($A \\Delta B$)",
         "Differenz ($A \\setminus B$)",
         "Kartesisches Produkt ($A \\times A$)"
       ],
-      "loesung": 3,
-      "erklaerung": "Die Differenzmenge ist nicht kommutativ, da im Allgemeinen $A \\setminus B \\neq B \\setminus A$ gilt. $A \\setminus B$ enthält die Elemente, die in $A$, aber **nicht** in $B$ sind, während $B \\setminus A$ die Elemente enthält, die in $B$, aber **nicht** in $A$ sind.",
-      "gewichtung": 1,
-      "thema": "Mengenlehre und Abbildungen",
+      "answer": 3,
+      "explanation": "Die Differenzmenge ist nicht kommutativ, da im Allgemeinen $A \\setminus B \\neq B \\setminus A$ gilt. $A \\setminus B$ enthält die Elemente, die in $A$, aber **nicht** in $B$ sind, während $B \\setminus A$ die Elemente enthält, die in $B$, aber **nicht** in $A$ sind.",
+      "weight": 1,
+      "topic": "Mengenlehre und Abbildungen",
       "mini_glossary": {
         "Kommutativgesetz": "Eine Verknüpfung ist kommutativ, wenn das Vertauschen der Operanden das Ergebnis nicht verändert, z.B. $A \\cup B = B \\cup A$.",
         "Schnittmenge": "Die Menge der Elemente, die sowohl in Menge $A$ als auch in Menge $B$ enthalten sind.",
@@ -38,18 +38,18 @@
       }
     },
     {
-      "frage": "2. Was ist die korrekte Definition der Potenzmenge $P(M)$ einer Menge $M$?",
-      "optionen": [
+      "question": "2. Was ist die korrekte Definition der Potenzmenge $P(M)$ einer Menge $M$?",
+      "options": [
         "Die Menge aller Elemente von $M$.",
         "Die Menge, die nur die leere Menge $\\emptyset$ und $M$ selbst enthält.",
         "Die Menge aller Teilmengen von $M$.",
         "Die Menge aller geordneten Paare von Elementen aus $M$.",
         "Die Menge aller Obermengen von $M$."
       ],
-      "loesung": 2,
-      "erklaerung": "Die Potenzmenge $P(M)$ einer Menge $M$ ist definiert als die Menge **aller** Teilmengen von $M$. Dies schließt die leere Menge $\\emptyset$ sowie die Menge $M$ selbst mit ein.",
-      "gewichtung": 1,
-      "thema": "Mengenlehre und Abbildungen",
+      "answer": 2,
+      "explanation": "Die Potenzmenge $P(M)$ einer Menge $M$ ist definiert als die Menge **aller** Teilmengen von $M$. Dies schließt die leere Menge $\\emptyset$ sowie die Menge $M$ selbst mit ein.",
+      "weight": 1,
+      "topic": "Mengenlehre und Abbildungen",
       "mini_glossary": {
         "Potenzmenge": "Die Menge aller Teilmengen einer gegebenen Grundmenge $M$. Sie wird mit $P(M)$ bezeichnet.",
         "Teilmenge": "Eine Menge $A$ ist eine Teilmenge von $B$, wenn jedes Element von $A$ auch ein Element von $B$ ist.",
@@ -57,18 +57,18 @@
       }
     },
     {
-      "frage": "3. Welche logische Aussage ist äquivalent zur Implikation $A \\rightarrow B$?",
-      "optionen": [
+      "question": "3. Welche logische Aussage ist äquivalent zur Implikation $A \\rightarrow B$?",
+      "options": [
         "$A \\wedge \\neg B$",
         "$\\neg A \\wedge B$",
         "$\\neg A \\vee B$",
         "$A \\vee \\neg B$",
         "$A \\leftrightarrow B$"
       ],
-      "loesung": 2,
-      "erklaerung": "Die Implikation $A \\rightarrow B$ ist logisch äquivalent zu $\\neg A \\vee B$. Beide Ausdrücke sind nur dann falsch, wenn $A$ wahr und $B$ falsch ist. In allen anderen Fällen sind sie wahr.",
-      "gewichtung": 1,
-      "thema": "Aussagen- und Prädikatenlogik",
+      "answer": 2,
+      "explanation": "Die Implikation $A \\rightarrow B$ ist logisch äquivalent zu $\\neg A \\vee B$. Beide Ausdrücke sind nur dann falsch, wenn $A$ wahr und $B$ falsch ist. In allen anderen Fällen sind sie wahr.",
+      "weight": 1,
+      "topic": "Aussagen- und Prädikatenlogik",
       "mini_glossary": {
         "Implikation": "Eine logische Verknüpfung 'wenn A, dann B' ($A \\rightarrow B$), die nur dann falsch ist, wenn die Voraussetzung $A$ wahr und die Konsequenz $B$ falsch ist.",
         "Logische Äquivalenz": "Zwei Aussagen sind logisch äquivalent, wenn sie für alle möglichen Belegungen ihrer Variablen mit Wahrheitswerten denselben Wahrheitswert haben.",
@@ -76,18 +76,18 @@
       }
     },
     {
-      "frage": "4. Welche der folgenden Aussagen ist eine Tautologie?",
-      "optionen": [
+      "question": "4. Welche der folgenden Aussagen ist eine Tautologie?",
+      "options": [
         "$A \\wedge \\neg A$",
         "$A \\rightarrow \\neg A$",
         "$A \\leftrightarrow \\neg A$",
         "$A \\vee \\neg A$",
         "$\\neg(A \\rightarrow A)$"
       ],
-      "loesung": 3,
-      "erklaerung": "Die Aussage $A \\vee \\neg A$ (Satz vom ausgeschlossenen Dritten) ist eine Tautologie, da sie für jede Belegung von $A$ (wahr oder falsch) immer wahr ist. Ist $A$ wahr, ist die ODER-Aussage wahr. Ist $A$ falsch, ist $\\neg A$ wahr, und somit ist die ODER-Aussage ebenfalls wahr.",
-      "gewichtung": 1,
-      "thema": "Aussagen- und Prädikatenlogik",
+      "answer": 3,
+      "explanation": "Die Aussage $A \\vee \\neg A$ (Satz vom ausgeschlossenen Dritten) ist eine Tautologie, da sie für jede Belegung von $A$ (wahr oder falsch) immer wahr ist. Ist $A$ wahr, ist die ODER-Aussage wahr. Ist $A$ falsch, ist $\\neg A$ wahr, und somit ist die ODER-Aussage ebenfalls wahr.",
+      "weight": 1,
+      "topic": "Aussagen- und Prädikatenlogik",
       "mini_glossary": {
         "Tautologie": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen mit Wahrheitswerten immer wahr ist.",
         "Kontradiktion": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen immer falsch ist, z.B. $A \\wedge \\neg A$.",
@@ -95,18 +95,18 @@
       }
     },
     {
-      "frage": "5. Welche Bedingung ist **notwendig** für eine korrekt definierte rekursive Funktion?",
-      "optionen": [
+      "question": "5. Welche Bedingung ist **notwendig** für eine korrekt definierte rekursive Funktion?",
+      "options": [
         "Die Funktion muss mindestens zwei Parameter haben.",
         "Die Funktion muss iterativ implementierbar sein.",
         "Die Funktion muss einen Basisfall (Abbruchbedingung) besitzen.",
         "Die Funktion darf sich nur einmal selbst aufrufen.",
         "Die Funktion muss immer einen numerischen Wert zurückgeben."
       ],
-      "loesung": 2,
-      "erklaerung": "Eine rekursive Funktion benötigt zwingend einen Basisfall (auch Abbruchbedingung genannt), um die Kette der Selbstaufrufe zu beenden und eine Endlosschleife zu verhindern.",
-      "gewichtung": 1,
-      "thema": "Rekursion und Induktion",
+      "answer": 2,
+      "explanation": "Eine rekursive Funktion benötigt zwingend einen Basisfall (auch Abbruchbedingung genannt), um die Kette der Selbstaufrufe zu beenden und eine Endlosschleife zu verhindern.",
+      "weight": 1,
+      "topic": "Rekursion und Induktion",
       "mini_glossary": {
         "Rekursive Funktion": "Eine Funktion, die sich in ihrer Definition selbst aufruft. Sie besteht aus einem oder mehreren Basisfällen und einem rekursiven Schritt.",
         "Basisfall": "Der Teil einer rekursiven Definition, der die Rekursion beendet, indem er ein Ergebnis direkt, ohne weiteren rekursiven Aufruf, zurückgibt.",
@@ -114,18 +114,18 @@
       }
     },
     {
-      "frage": "6. Was ist der größte gemeinsame Teiler (ggT) der Zahlen 168 und 133?",
-      "optionen": [
+      "question": "6. Was ist der größte gemeinsame Teiler (ggT) der Zahlen 168 und 133?",
+      "options": [
         "1",
         "3",
         "7",
         "19",
         "21"
       ],
-      "loesung": 2,
-      "erklaerung": "Der ggT kann mit dem Euklidischen Algorithmus berechnet werden: $168 = 1 \\cdot 133 + 35$; $133 = 3 \\cdot 35 + 28$; $35 = 1 \\cdot 28 + 7$; $28 = 4 \\cdot 7 + 0$. Der letzte von Null verschiedene Rest ist 7, somit ist $ggT(168, 133) = 7$.",
-      "gewichtung": 1,
-      "thema": "Zahlentheorie",
+      "answer": 2,
+      "explanation": "Der ggT kann mit dem Euklidischen Algorithmus berechnet werden: $168 = 1 \\cdot 133 + 35$; $133 = 3 \\cdot 35 + 28$; $35 = 1 \\cdot 28 + 7$; $28 = 4 \\cdot 7 + 0$. Der letzte von Null verschiedene Rest ist 7, somit ist $ggT(168, 133) = 7$.",
+      "weight": 1,
+      "topic": "Zahlentheorie",
       "mini_glossary": {
         "Größter gemeinsamer Teiler (ggT)": "Der größte positive gemeinsame Teiler von zwei oder mehr ganzen Zahlen.",
         "Euklidischer Algorithmus": "Ein effizientes Verfahren zur Berechnung des größten gemeinsamen Teilers zweier ganzer Zahlen durch fortgesetzte Division mit Rest.",
@@ -133,18 +133,18 @@
       }
     },
     {
-      "frage": "7. Welche algebraische Struktur wird durch die Menge der ganzen Zahlen $\\mathbb{Z}$ zusammen mit der Addition und Multiplikation, $(\\mathbb{Z}, +, \\cdot)$, gebildet?",
-      "optionen": [
+      "question": "7. Welche algebraische Struktur wird durch die Menge der ganzen Zahlen $\\mathbb{Z}$ zusammen mit der Addition und Multiplikation, $(\\mathbb{Z}, +, \\cdot)$, gebildet?",
+      "options": [
         "Eine Gruppe",
         "Ein Körper",
         "Ein Vektorraum",
         "Ein Ring",
         "Eine Halbgruppe"
       ],
-      "loesung": 3,
-      "erklaerung": "Die ganzen Zahlen $(\\mathbb{Z}, +, \\cdot)$ bilden einen Ring. $(\\mathbb{Z}, +)$ ist eine kommutative Gruppe, die Multiplikation ist assoziativ und die Distributivgesetze gelten. Es ist jedoch kein Körper, da für die meisten Elemente (z.B. für 2) kein multiplikatives Inverses in $\\mathbb{Z}$ existiert.",
-      "gewichtung": 1,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 3,
+      "explanation": "Die ganzen Zahlen $(\\mathbb{Z}, +, \\cdot)$ bilden einen Ring. $(\\mathbb{Z}, +)$ ist eine kommutative Gruppe, die Multiplikation ist assoziativ und die Distributivgesetze gelten. Es ist jedoch kein Körper, da für die meisten Elemente (z.B. für 2) kein multiplikatives Inverses in $\\mathbb{Z}$ existiert.",
+      "weight": 1,
+      "topic": "Gruppen, Ringe, Körper",
       "mini_glossary": {
         "Gruppe": "Eine Menge mit einer Verknüpfung, die Assoziativität, ein neutrales Element und für jedes Element ein inverses Element aufweist.",
         "Ring": "Eine Menge mit zwei Verknüpfungen (Addition und Multiplikation), die bezüglich der Addition eine kommutative Gruppe ist, bezüglich der Multiplikation assoziativ ist und bei der die Distributivgesetze gelten.",
@@ -152,18 +152,18 @@
       }
     },
     {
-      "frage": "8. Was ist das zentrale Prinzip des asymmetrischen Kryptographieverfahrens RSA?",
-      "optionen": [
+      "question": "8. Was ist das zentrale Prinzip des asymmetrischen Kryptographieverfahrens RSA?",
+      "options": [
         "Die Verwendung eines gemeinsamen geheimen Schlüssels für Ver- und Entschlüsselung.",
         "Die mathematische Schwierigkeit, große Zahlen in ihre Primfaktoren zu zerlegen.",
         "Der sichere Austausch eines Schlüssels über einen unsicheren Kanal mittels diskretem Logarithmus.",
         "Die Erzeugung von Hash-Werten zur Sicherung der Datenintegrität.",
         "Die Anwendung von Permutationen auf Datenblöcke, gesteuert durch einen Schlüssel."
       ],
-      "loesung": 1,
-      "erklaerung": "Das RSA-Verfahren basiert auf der Asymmetrie zwischen der einfachen Multiplikation zweier großer Primzahlen und der extrem rechenaufwändigen Aufgabe, das resultierende Produkt wieder in seine Primfaktoren zu zerlegen (Faktorisierungsproblem).",
-      "gewichtung": 1,
-      "thema": "Kryptografie und IT-Sicherheit",
+      "answer": 1,
+      "explanation": "Das RSA-Verfahren basiert auf der Asymmetrie zwischen der einfachen Multiplikation zweier großer Primzahlen und der extrem rechenaufwändigen Aufgabe, das resultierende Produkt wieder in seine Primfaktoren zu zerlegen (Faktorisierungsproblem).",
+      "weight": 1,
+      "topic": "Kryptografie und IT-Sicherheit",
       "mini_glossary": {
         "Asymmetrische Kryptografie": "Ein Verschlüsselungsverfahren, das ein Schlüsselpaar verwendet: einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten Schlüssel zum Entschlüsseln.",
         "RSA-Verfahren": "Ein weit verbreitetes Public-Key-Kryptosystem, dessen Sicherheit auf dem Problem der Faktorisierung großer Zahlen beruht.",
@@ -171,18 +171,18 @@
       }
     },
     {
-      "frage": "9. Gegeben seien die Mengen $A = \\{1, 2, 3\\}$ und $B = \\{3, 4, 5\\}$. Welche Elemente enthält die symmetrische Differenz $A \\Delta B$?",
-      "optionen": [
+      "question": "9. Gegeben seien die Mengen $A = \\{1, 2, 3\\}$ und $B = \\{3, 4, 5\\}$. Welche Elemente enthält die symmetrische Differenz $A \\Delta B$?",
+      "options": [
         "$\\{3\\}$",
         "$\\{1, 2, 4, 5\\}$",
         "$\\{1, 2, 3, 4, 5\\}$",
         "$\\{1, 2\\}$",
         "$\\{4, 5\\}$"
       ],
-      "loesung": 1,
-      "erklaerung": "Die symmetrische Differenz $A \\Delta B$ enthält alle Elemente, die in **genau einer** der beiden Mengen enthalten sind. Dies entspricht $(A \\cup B) \\setminus (A \\cap B)$. Hier ist $A \\cup B = \\{1, 2, 3, 4, 5\\}$ und $A \\cap B = \\{3\\}$. Das Ergebnis ist also $\\{1, 2, 4, 5\\}$.",
-      "gewichtung": 2,
-      "thema": "Mengenlehre und Abbildungen",
+      "answer": 1,
+      "explanation": "Die symmetrische Differenz $A \\Delta B$ enthält alle Elemente, die in **genau einer** der beiden Mengen enthalten sind. Dies entspricht $(A \\cup B) \\setminus (A \\cap B)$. Hier ist $A \\cup B = \\{1, 2, 3, 4, 5\\}$ und $A \\cap B = \\{3\\}$. Das Ergebnis ist also $\\{1, 2, 4, 5\\}$.",
+      "weight": 2,
+      "topic": "Mengenlehre und Abbildungen",
       "extended_explanation": {
         "titel": "Herleitung der Symmetrischen Differenz",
         "schritte": [
@@ -199,18 +199,18 @@
       }
     },
     {
-      "frage": "10. Eine Abbildung $f: M \\to N$ wird als 'injektiv' bezeichnet, wenn welche Bedingung erfüllt ist?",
-      "optionen": [
+      "question": "10. Eine Abbildung $f: M \\to N$ wird als 'injektiv' bezeichnet, wenn welche Bedingung erfüllt ist?",
+      "options": [
         "Für jedes $y \\in N$ existiert mindestens ein $x \\in M$ mit $f(x) = y$.",
         "Jedes Element in $N$ ist Bild von höchstens einem Element aus $M$.",
         "Aus $x_1 \\neq x_2$ folgt $f(x_1) \\neq f(x_2)$ für alle $x_1, x_2 \\in M$.",
         "Aus $f(x_1) = f(x_2)$ folgt $x_1 = x_2$ für alle $x_1, x_2 \\in M$.",
         "Sowohl Option 3 als auch Option 4 sind korrekte Definitionen."
       ],
-      "loesung": 4,
-      "erklaerung": "Eine Abbildung $f$ ist injektiv, wenn verschiedene Elemente der Definitionsmenge $M$ immer auf verschiedene Elemente der Zielmenge $N$ abgebildet werden. Dies ist äquivalent zu der Aussage, dass aus $f(x_1) = f(x_2)$ zwingend $x_1 = x_2$ folgen muss. Option 3 ist ebenfalls eine korrekte Definition.",
-      "gewichtung": 2,
-      "thema": "Mengenlehre und Abbildungen",
+      "answer": 4,
+      "explanation": "Eine Abbildung $f$ ist injektiv, wenn verschiedene Elemente der Definitionsmenge $M$ immer auf verschiedene Elemente der Zielmenge $N$ abgebildet werden. Dies ist äquivalent zu der Aussage, dass aus $f(x_1) = f(x_2)$ zwingend $x_1 = x_2$ folgen muss. Option 3 ist ebenfalls eine korrekte Definition.",
+      "weight": 2,
+      "topic": "Mengenlehre und Abbildungen",
       "extended_explanation": {
         "titel": "Injektivität, Surjektivität und Bijektivität",
         "schritte": [
@@ -227,18 +227,18 @@
       }
     },
     {
-      "frage": "11. Welcher Ausdruck ist die korrekte Kontraposition der logischen Implikation $A \\rightarrow B$?",
-      "optionen": [
+      "question": "11. Welcher Ausdruck ist die korrekte Kontraposition der logischen Implikation $A \\rightarrow B$?",
+      "options": [
         "$B \\rightarrow A$ (Konversion)",
         "$\\neg A \\rightarrow \\neg B$ (Inversion)",
         "$\\neg B \\rightarrow \\neg A$",
         "$A \\wedge \\neg B$",
         "$B \\vee \\neg A$"
       ],
-      "loesung": 2,
-      "erklaerung": "Die Kontraposition einer Implikation $A \\rightarrow B$ lautet $\\neg B \\rightarrow \\neg A$. Eine Implikation und ihre Kontraposition sind logisch äquivalent, das heißt, sie haben immer denselben Wahrheitswert.",
-      "gewichtung": 2,
-      "thema": "Aussagen- und Prädikatenlogik",
+      "answer": 2,
+      "explanation": "Die Kontraposition einer Implikation $A \\rightarrow B$ lautet $\\neg B \\rightarrow \\neg A$. Eine Implikation und ihre Kontraposition sind logisch äquivalent, das heißt, sie haben immer denselben Wahrheitswert.",
+      "weight": 2,
+      "topic": "Aussagen- und Prädikatenlogik",
       "extended_explanation": {
         "titel": "Äquivalente Umformungen der Implikation",
         "schritte": [
@@ -255,18 +255,18 @@
       }
     },
     {
-      "frage": "12. Nach den De Morgan'schen Gesetzen ist der Ausdruck $\\neg(A \\vee B)$ äquivalent zu:",
-      "optionen": [
+      "question": "12. Nach den De Morgan'schen Gesetzen ist der Ausdruck $\\neg(A \\vee B)$ äquivalent zu:",
+      "options": [
         "$\\neg A \\vee \\neg B$",
         "$A \\wedge B$",
         "$\\neg A \\wedge \\neg B$",
         "$A \\vee B$",
         "$A \\rightarrow \\neg B$"
       ],
-      "loesung": 2,
-      "erklaerung": "Nach den De Morgan'schen Gesetzen wird bei der Negation einer Disjunktion (ODER) diese in eine Konjunktion (UND) der negierten Teilaussagen umgewandelt. Somit ist $\\neg(A \\vee B)$ äquivalent zu $\\neg A \\wedge \\neg B$.",
-      "gewichtung": 2,
-      "thema": "Aussagen- und Prädikatenlogik",
+      "answer": 2,
+      "explanation": "Nach den De Morgan'schen Gesetzen wird bei der Negation einer Disjunktion (ODER) diese in eine Konjunktion (UND) der negierten Teilaussagen umgewandelt. Somit ist $\\neg(A \\vee B)$ äquivalent zu $\\neg A \\wedge \\neg B$.",
+      "weight": 2,
+      "topic": "Aussagen- und Prädikatenlogik",
       "extended_explanation": {
         "titel": "Die Gesetze von De Morgan",
         "schritte": [
@@ -283,18 +283,18 @@
       }
     },
     {
-      "frage": "13. Welcher der folgenden Ausdrücke ist ein Beispiel für eine Aussage mit einem Allquantor in der Prädikatenlogik?",
-      "optionen": [
+      "question": "13. Welcher der folgenden Ausdrücke ist ein Beispiel für eine Aussage mit einem Allquantor in der Prädikatenlogik?",
+      "options": [
         "Für alle $x \\in \\mathbb{R}$ gilt: $x^2 \\geq 0$.",
         "Wenn $x > 5$, dann ist $x > 3$.",
         "Es existiert ein $x \\in \\mathbb{Z}$, sodass $x^2 = 9$.",
         "Die Menge der Primzahlen ist unendlich.",
         "$x+y = y+x$."
       ],
-      "loesung": 0,
-      "erklaerung": "Der Allquantor ($\\forall$) trifft eine Aussage über alle Elemente eines bestimmten Bereichs. Die Aussage 'Für alle $x \\in \\mathbb{R}$ gilt: $x^2 \\geq 0$' ist ein klares Beispiel dafür, da sie eine Eigenschaft für jedes Element des Individuenbereichs $\\mathbb{R}$ postuliert.",
-      "gewichtung": 2,
-      "thema": "Aussagen- und Prädikatenlogik",
+      "answer": 0,
+      "explanation": "Der Allquantor ($\\forall$) trifft eine Aussage über alle Elemente eines bestimmten Bereichs. Die Aussage 'Für alle $x \\in \\mathbb{R}$ gilt: $x^2 \\geq 0$' ist ein klares Beispiel dafür, da sie eine Eigenschaft für jedes Element des Individuenbereichs $\\mathbb{R}$ postuliert.",
+      "weight": 2,
+      "topic": "Aussagen- und Prädikatenlogik",
       "extended_explanation": {
         "titel": "Quantoren in der Prädikatenlogik",
         "schritte": [
@@ -311,18 +311,18 @@
       }
     },
     {
-      "frage": "14. Bei der vollständigen Induktion, was ist das Ziel des Induktionsschritts?",
-      "optionen": [
+      "question": "14. Bei der vollständigen Induktion, was ist das Ziel des Induktionsschritts?",
+      "options": [
         "Den Induktionsanfang für $n=1$ zu beweisen.",
         "Zu zeigen, dass die Aussage für ein beliebiges, aber festes $n$ gilt.",
         "Aus der Annahme, dass die Aussage für $n$ gilt (Induktionsannahme), die Gültigkeit für $n+1$ herzuleiten.",
         "Die Aussage für alle geraden Zahlen zu beweisen.",
         "Einen Widerspruchsbeweis für die Negation der Aussage zu führen."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Induktionsschritt ist das Kernstück des Beweises durch vollständige Induktion. Ziel ist es zu zeigen, dass **wenn** die Aussage für eine beliebige natürliche Zahl $n$ als wahr angenommen wird (Induktionsannahme), sie **dann** auch für den Nachfolger $n+1$ wahr sein muss.",
-      "gewichtung": 2,
-      "thema": "Rekursion und Induktion",
+      "answer": 2,
+      "explanation": "Der Induktionsschritt ist das Kernstück des Beweises durch vollständige Induktion. Ziel ist es zu zeigen, dass **wenn** die Aussage für eine beliebige natürliche Zahl $n$ als wahr angenommen wird (Induktionsannahme), sie **dann** auch für den Nachfolger $n+1$ wahr sein muss.",
+      "weight": 2,
+      "topic": "Rekursion und Induktion",
       "extended_explanation": {
         "titel": "Das Beweisprinzip der vollständigen Induktion",
         "schritte": [
@@ -339,18 +339,18 @@
       }
     },
     {
-      "frage": "15. Die Zahl 255 im Dezimalsystem wird im Hexadezimalsystem (Basis 16) wie dargestellt?",
-      "optionen": [
+      "question": "15. Die Zahl 255 im Dezimalsystem wird im Hexadezimalsystem (Basis 16) wie dargestellt?",
+      "options": [
         "$100$",
         "$9B$",
         "$F0$",
         "$EE$",
         "$FF$"
       ],
-      "loesung": 4,
-      "erklaerung": "Um eine Dezimalzahl ins Hexadezimalsystem umzurechnen, dividiert man wiederholt durch 16 und notiert die Reste. $255 \\div 16 = 15$ Rest $15$. Da 15 im Hexadezimalsystem als 'F' dargestellt wird, lautet das Ergebnis $(FF)_{16}$. Dies entspricht $15 \\cdot 16^1 + 15 \\cdot 16^0 = 240 + 15 = 255$.",
-      "gewichtung": 2,
-      "thema": "Rekursion und Induktion",
+      "answer": 4,
+      "explanation": "Um eine Dezimalzahl ins Hexadezimalsystem umzurechnen, dividiert man wiederholt durch 16 und notiert die Reste. $255 \\div 16 = 15$ Rest $15$. Da 15 im Hexadezimalsystem als 'F' dargestellt wird, lautet das Ergebnis $(FF)_{16}$. Dies entspricht $15 \\cdot 16^1 + 15 \\cdot 16^0 = 240 + 15 = 255$.",
+      "weight": 2,
+      "topic": "Rekursion und Induktion",
       "extended_explanation": {
         "titel": "Umrechnung zwischen Zahlensystemen",
         "schritte": [
@@ -367,18 +367,18 @@
       }
     },
     {
-      "frage": "16. In der Modulo-Arithmetik, was ist das Ergebnis von $(13 \\cdot 20) \\pmod{11}$?",
-      "optionen": [
+      "question": "16. In der Modulo-Arithmetik, was ist das Ergebnis von $(13 \\cdot 20) \\pmod{11}$?",
+      "options": [
         "0",
         "1",
         "5",
         "7",
         "9"
       ],
-      "loesung": 3,
-      "erklaerung": "Beim Rechnen mit Restklassen kann man die Operanden zuerst reduzieren: $13 \\equiv 2 \\pmod{11}$ und $20 \\equiv 9 \\pmod{11}$. Dann rechnet man mit den Resten: $(2 \\cdot 9) \\pmod{11} = 18 \\pmod{11} = 7$.",
-      "gewichtung": 2,
-      "thema": "Zahlentheorie",
+      "answer": 3,
+      "explanation": "Beim Rechnen mit Restklassen kann man die Operanden zuerst reduzieren: $13 \\equiv 2 \\pmod{11}$ und $20 \\equiv 9 \\pmod{11}$. Dann rechnet man mit den Resten: $(2 \\cdot 9) \\pmod{11} = 18 \\pmod{11} = 7$.",
+      "weight": 2,
+      "topic": "Zahlentheorie",
       "extended_explanation": {
         "titel": "Rechnen mit Restklassen",
         "schritte": [
@@ -395,18 +395,18 @@
       }
     },
     {
-      "frage": "17. Was ist eine lineare Kongruenz?",
-      "optionen": [
+      "question": "17. Was ist eine lineare Kongruenz?",
+      "options": [
         "Eine Gleichung der Form $ax + b = c$.",
         "Eine Gleichung der Form $x^2 \\equiv b \\pmod n$.",
         "Eine Gleichung der Form $ax \\equiv b \\pmod n$.",
         "Eine Ungleichung der Form $ax < b \\pmod n$.",
         "Eine Gleichung, die nur im Körper der reellen Zahlen lösbar ist."
       ],
-      "loesung": 2,
-      "erklaerung": "Eine lineare Kongruenz ist eine Gleichung der Form $ax \\equiv b \\pmod n$, bei der $x$ die unbekannte Variable ist. Solche Gleichungen spielen eine wichtige Rolle in der Zahlentheorie und Kryptografie.",
-      "gewichtung": 2,
-      "thema": "Zahlentheorie",
+      "answer": 2,
+      "explanation": "Eine lineare Kongruenz ist eine Gleichung der Form $ax \\equiv b \\pmod n$, bei der $x$ die unbekannte Variable ist. Solche Gleichungen spielen eine wichtige Rolle in der Zahlentheorie und Kryptografie.",
+      "weight": 2,
+      "topic": "Zahlentheorie",
       "extended_explanation": {
         "titel": "Lösung linearer Kongruenzen",
         "schritte": [
@@ -422,18 +422,18 @@
       }
     },
     {
-      "frage": "18. Welcher der folgenden Ringe ist ein Körper?",
-      "optionen": [
+      "question": "18. Welcher der folgenden Ringe ist ein Körper?",
+      "options": [
         "Der Polynomring $\\mathbb{R}[x]$",
         "Der Restklassenring $\\mathbb{Z}_6$",
         "Der Ring der ganzen Zahlen $\\mathbb{Z}$",
         "Der Restklassenring $\\mathbb{Z}_7$ (auch GF(7))",
         "Der Ring der $2 \\times 2$-Matrizen über $\\mathbb{R}$"
       ],
-      "loesung": 3,
-      "erklaerung": "Ein Ring $\\mathbb{Z}_n$ ist genau dann ein Körper, wenn $n$ eine Primzahl ist. Da 7 eine Primzahl ist, bildet $\\mathbb{Z}_7$ einen Körper. In $\\mathbb{Z}_6$ hat beispielsweise das Element 2 kein multiplikatives Inverses, da $ggT(2, 6) \\neq 1$.",
-      "gewichtung": 2,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 3,
+      "explanation": "Ein Ring $\\mathbb{Z}_n$ ist genau dann ein Körper, wenn $n$ eine Primzahl ist. Da 7 eine Primzahl ist, bildet $\\mathbb{Z}_7$ einen Körper. In $\\mathbb{Z}_6$ hat beispielsweise das Element 2 kein multiplikatives Inverses, da $ggT(2, 6) \\neq 1$.",
+      "weight": 2,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Endliche Körper",
         "schritte": [
@@ -450,18 +450,18 @@
       }
     },
     {
-      "frage": "19. Was ist die wesentliche Eigenschaft einer Äquivalenzrelation?",
-      "optionen": [
+      "question": "19. Was ist die wesentliche Eigenschaft einer Äquivalenzrelation?",
+      "options": [
         "Sie ist nur reflexiv und symmetrisch.",
         "Sie teilt eine Menge in eine geordnete Kette von Elementen auf.",
         "Sie muss antisymmetrisch sein.",
         "Sie teilt eine Menge in disjunkte Teilmengen (Äquivalenzklassen) auf.",
         "Sie ist nur auf endlichen Mengen definiert."
       ],
-      "loesung": 3,
-      "erklaerung": "Eine Äquivalenzrelation ist reflexiv, symmetrisch und transitiv. Ihre fundamentale Eigenschaft ist, dass sie die zugrundeliegende Menge in eine disjunkte Zerlegung von Teilmengen, den sogenannten Äquivalenzklassen, partitioniert. Alle Elemente innerhalb einer Klasse gelten als äquivalent zueinander.",
-      "gewichtung": 2,
-      "thema": "Mengenlehre und Abbildungen",
+      "answer": 3,
+      "explanation": "Eine Äquivalenzrelation ist reflexiv, symmetrisch und transitiv. Ihre fundamentale Eigenschaft ist, dass sie die zugrundeliegende Menge in eine disjunkte Zerlegung von Teilmengen, den sogenannten Äquivalenzklassen, partitioniert. Alle Elemente innerhalb einer Klasse gelten als äquivalent zueinander.",
+      "weight": 2,
+      "topic": "Mengenlehre und Abbildungen",
       "extended_explanation": {
         "titel": "Eigenschaften von Relationen",
         "schritte": [
@@ -478,18 +478,18 @@
       }
     },
     {
-      "frage": "20. Was ermöglicht der Diffie-Hellman-Schlüsselaustausch?",
-      "optionen": [
+      "question": "20. Was ermöglicht der Diffie-Hellman-Schlüsselaustausch?",
+      "options": [
         "Die Verschlüsselung einer Nachricht, ohne dass der Empfänger einen Schlüssel benötigt.",
         "Die digitale Signatur von Dokumenten, um deren Authentizität zu beweisen.",
         "Die Erzeugung eines gemeinsamen geheimen Schlüssels über einen öffentlichen, unsicheren Kanal.",
         "Die Faktorisierung großer Zahlen zur Brechung von RSA.",
         "Die Kompression von Daten vor der Übertragung."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Diffie-Hellman-Algorithmus ermöglicht es zwei Parteien (Alice und Bob), über einen unsicheren Kommunikationskanal einen gemeinsamen geheimen Schlüssel zu vereinbaren, ohne diesen Schlüssel jemals direkt zu übertragen. Die Sicherheit basiert auf der Schwierigkeit der Berechnung des diskreten Logarithmus.",
-      "gewichtung": 2,
-      "thema": "Kryptografie und IT-Sicherheit",
+      "answer": 2,
+      "explanation": "Der Diffie-Hellman-Algorithmus ermöglicht es zwei Parteien (Alice und Bob), über einen unsicheren Kommunikationskanal einen gemeinsamen geheimen Schlüssel zu vereinbaren, ohne diesen Schlüssel jemals direkt zu übertragen. Die Sicherheit basiert auf der Schwierigkeit der Berechnung des diskreten Logarithmus.",
+      "weight": 2,
+      "topic": "Kryptografie und IT-Sicherheit",
       "extended_explanation": {
         "titel": "Funktionsweise des Diffie-Hellman-Austauschs",
         "schritte": [
@@ -508,18 +508,18 @@
       }
     },
     {
-      "frage": "21. Gegeben ist eine lineare Rekursion $a_n = 2 \\cdot a_{n-1} + 3$ mit dem Startwert $a_1 = 1$. Welchen Wert hat $a_4$?",
-      "optionen": [
+      "question": "21. Gegeben ist eine lineare Rekursion $a_n = 2 \\cdot a_{n-1} + 3$ mit dem Startwert $a_1 = 1$. Welchen Wert hat $a_4$?",
+      "options": [
         "11",
         "25",
         "29",
         "45",
         "53"
       ],
-      "loesung": 2,
-      "erklaerung": "Die Rekursion wird schrittweise ausgewertet: $a_1 = 1$; $a_2 = 2 \\cdot a_1 + 3 = 2 \\cdot 1 + 3 = 5$; $a_3 = 2 \\cdot a_2 + 3 = 2 \\cdot 5 + 3 = 13$; $a_4 = 2 \\cdot a_3 + 3 = 2 \\cdot 13 + 3 = 29$.",
-      "gewichtung": 2,
-      "thema": "Rekursion und Induktion",
+      "answer": 2,
+      "explanation": "Die Rekursion wird schrittweise ausgewertet: $a_1 = 1$; $a_2 = 2 \\cdot a_1 + 3 = 2 \\cdot 1 + 3 = 5$; $a_3 = 2 \\cdot a_2 + 3 = 2 \\cdot 5 + 3 = 13$; $a_4 = 2 \\cdot a_3 + 3 = 2 \\cdot 13 + 3 = 29$.",
+      "weight": 2,
+      "topic": "Rekursion und Induktion",
       "extended_explanation": {
         "titel": "Lösung inhomogener linearer Rekursionen",
         "schritte": [
@@ -536,18 +536,18 @@
       }
     },
     {
-      "frage": "22. Was ist der Binomialkoeffizient $\\binom{n}{k}$?",
-      "optionen": [
+      "question": "22. Was ist der Binomialkoeffizient $\\binom{n}{k}$?",
+      "options": [
         "Die Anzahl der Möglichkeiten, $k$ Elemente aus einer Menge von $n$ Elementen mit Zurücklegen auszuwählen.",
         "Die Anzahl der Möglichkeiten, $k$ Elemente aus einer Menge von $n$ Elementen ohne Zurücklegen und mit Beachtung der Reihenfolge auszuwählen.",
         "Die Anzahl der Möglichkeiten, $k$ Elemente aus einer Menge von $n$ Elementen ohne Zurücklegen und ohne Beachtung der Reihenfolge auszuwählen.",
         "Das Produkt der ersten $k$ Zahlen von $n$.",
         "Ein Koeffizient in der Taylor-Entwicklung einer Funktion."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Binomialkoeffizient $\\binom{n}{k}$ gibt genau die Anzahl der $k$-elementigen Teilmengen einer $n$-elementigen Menge an. Dies entspricht einer Auswahl (Ziehung) ohne Zurücklegen und ohne Beachtung der Reihenfolge.",
-      "gewichtung": 2,
-      "thema": "Kombinatorik",
+      "answer": 2,
+      "explanation": "Der Binomialkoeffizient $\\binom{n}{k}$ gibt genau die Anzahl der $k$-elementigen Teilmengen einer $n$-elementigen Menge an. Dies entspricht einer Auswahl (Ziehung) ohne Zurücklegen und ohne Beachtung der Reihenfolge.",
+      "weight": 2,
+      "topic": "Kombinatorik",
       "extended_explanation": {
         "titel": "Formeln und Deutungen des Binomialkoeffizienten",
         "schritte": [
@@ -564,18 +564,18 @@
       }
     },
     {
-      "frage": "23. Wie viele Möglichkeiten gibt es, 6 Zahlen aus 49 auszuwählen (Lotto '6 aus 49')?",
-      "optionen": [
+      "question": "23. Wie viele Möglichkeiten gibt es, 6 Zahlen aus 49 auszuwählen (Lotto '6 aus 49')?",
+      "options": [
         "$49^6$",
         "$\\frac{49!}{6!}$",
         "$49 \\cdot 48 \\cdot 47 \\cdot 46 \\cdot 45 \\cdot 44$",
         "$\\binom{49}{6}$",
         "$6!$"
       ],
-      "loesung": 3,
-      "erklaerung": "Beim Lotto werden 6 Zahlen aus 49 ohne Zurücklegen und ohne Beachtung der Reihenfolge gezogen. Dies entspricht exakt der Definition des Binomialkoeffizienten. Die Anzahl der Möglichkeiten ist also $\\binom{49}{6} = \\frac{49!}{6!(49-6)!} = 13.983.816$.",
-      "gewichtung": 2,
-      "thema": "Kombinatorik",
+      "answer": 3,
+      "explanation": "Beim Lotto werden 6 Zahlen aus 49 ohne Zurücklegen und ohne Beachtung der Reihenfolge gezogen. Dies entspricht exakt der Definition des Binomialkoeffizienten. Die Anzahl der Möglichkeiten ist also $\\binom{49}{6} = \\frac{49!}{6!(49-6)!} = 13.983.816$.",
+      "weight": 2,
+      "topic": "Kombinatorik",
       "extended_explanation": {
         "titel": "Kombinatorische Grundprobleme",
         "schritte": [
@@ -592,18 +592,18 @@
       }
     },
     {
-      "frage": "24. Welchen Wert hat die Determinante der Matrix $A = \\begin{pmatrix} 2 & 1 & 3 \\\\ 0 & -1 & 5 \\\\ 0 & 0 & 4 \\end{pmatrix}$?",
-      "optionen": [
+      "question": "24. Welchen Wert hat die Determinante der Matrix $A = \\begin{pmatrix} 2 & 1 & 3 \\\\ 0 & -1 & 5 \\\\ 0 & 0 & 4 \\end{pmatrix}$?",
+      "options": [
         "0",
         "2",
         "8",
         "-8",
         "10"
       ],
-      "loesung": 3,
-      "erklaerung": "Die Determinante einer oberen (oder unteren) Dreiecksmatrix ist das Produkt der Elemente auf der Hauptdiagonalen. In diesem Fall ist die Matrix bereits in oberer Dreiecksform. Die Determinante ist also $det(A) = 2 \\cdot (-1) \\cdot 4 = -8$.",
-      "gewichtung": 2,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 3,
+      "explanation": "Die Determinante einer oberen (oder unteren) Dreiecksmatrix ist das Produkt der Elemente auf der Hauptdiagonalen. In diesem Fall ist die Matrix bereits in oberer Dreiecksform. Die Determinante ist also $det(A) = 2 \\cdot (-1) \\cdot 4 = -8$.",
+      "weight": 2,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Determinantenberechnung",
         "schritte": [
@@ -620,18 +620,18 @@
       }
     },
     {
-      "frage": "25. Eine Permutationsgruppe $S_n$ ist die Menge aller bijektiven Abbildungen der Menge $\\{1, 2, \\dots, n\\}$ auf sich selbst. Welche Aussage über $S_n$ für $n \\ge 3$ ist korrekt?",
-      "optionen": [
+      "question": "25. Eine Permutationsgruppe $S_n$ ist die Menge aller bijektiven Abbildungen der Menge $\\{1, 2, \\dots, n\\}$ auf sich selbst. Welche Aussage über $S_n$ für $n \\ge 3$ ist korrekt?",
+      "options": [
         "Sie ist immer eine kommutative (abelsche) Gruppe.",
         "Sie enthält genau $n$ Elemente.",
         "Die Verknüpfung ist die Addition von Permutationen.",
         "Sie ist im Allgemeinen nicht kommutativ.",
         "Sie besitzt kein neutrales Element."
       ],
-      "loesung": 3,
-      "erklaerung": "Die Permutationsgruppe $S_n$ mit der Hintereinanderausführung von Abbildungen als Verknüpfung ist für $n \\ge 3$ im Allgemeinen **nicht** kommutativ. Zum Beispiel ist in $S_3$ die Verknüpfung der Zyklen $(1 \\ 2)$ und $(2 \\ 3)$ nicht vertauschbar: $(1 \\ 2) \\circ (2 \\ 3) = (1 \\ 2 \\ 3)$, aber $(2 \\ 3) \\circ (1 \\ 2) = (1 \\ 3 \\ 2)$.",
-      "gewichtung": 3,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 3,
+      "explanation": "Die Permutationsgruppe $S_n$ mit der Hintereinanderausführung von Abbildungen als Verknüpfung ist für $n \\ge 3$ im Allgemeinen **nicht** kommutativ. Zum Beispiel ist in $S_3$ die Verknüpfung der Zyklen $(1 \\ 2)$ und $(2 \\ 3)$ nicht vertauschbar: $(1 \\ 2) \\circ (2 \\ 3) = (1 \\ 2 \\ 3)$, aber $(2 \\ 3) \\circ (1 \\ 2) = (1 \\ 3 \\ 2)$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Die Symmetrische Gruppe $S_n$",
         "schritte": [
@@ -649,18 +649,18 @@
       }
     },
     {
-      "frage": "26. Ein Polynom $p(x)$ in $GF(2)[x]$ ist gegeben durch $p(x) = x^4 + x + 1$. Ist dieses Polynom irreduzibel über $GF(2)$?",
-      "optionen": [
+      "question": "26. Ein Polynom $p(x)$ in $GF(2)[x]$ ist gegeben durch $p(x) = x^4 + x + 1$. Ist dieses Polynom irreduzibel über $GF(2)$?",
+      "options": [
         "Ja, es hat keine Nullstellen in $GF(2)$ und ist nicht das Produkt zweier Polynome vom Grad 2.",
         "Nein, da $x=1$ eine Nullstelle ist.",
         "Nein, da $p(x) = (x^2+x+1)^2$.",
         "Ja, weil sein Grad eine Primzahl + 1 ist.",
         "Nein, da $x=0$ eine Nullstelle ist."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Polynom vom Grad 4 ist reduzibel, wenn es entweder eine Nullstelle (und damit einen Faktor vom Grad 1) hat oder in zwei irreduzible Polynome vom Grad 2 zerfällt. Zuerst prüfen wir auf Nullstellen in $GF(2)$: $p(0) = 1 \\neq 0$ und $p(1) = 1+1+1 = 1 \\neq 0$. Das Polynom hat also keine linearen Faktoren. Das einzige irreduzible Polynom vom Grad 2 in $GF(2)[x]$ ist $x^2+x+1$. Wir prüfen, ob $p(x)$ ein Produkt davon ist: $(x^2+x+1)(x^2+x+1) = x^4+x^2+1 \\neq p(x)$. Da $p(x)$ weder lineare Faktoren hat noch durch das einzige irreduzible quadratische Polynom teilbar ist, ist es irreduzibel.",
-      "gewichtung": 3,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 0,
+      "explanation": "Ein Polynom vom Grad 4 ist reduzibel, wenn es entweder eine Nullstelle (und damit einen Faktor vom Grad 1) hat oder in zwei irreduzible Polynome vom Grad 2 zerfällt. Zuerst prüfen wir auf Nullstellen in $GF(2)$: $p(0) = 1 \\neq 0$ und $p(1) = 1+1+1 = 1 \\neq 0$. Das Polynom hat also keine linearen Faktoren. Das einzige irreduzible Polynom vom Grad 2 in $GF(2)[x]$ ist $x^2+x+1$. Wir prüfen, ob $p(x)$ ein Produkt davon ist: $(x^2+x+1)(x^2+x+1) = x^4+x^2+1 \\neq p(x)$. Da $p(x)$ weder lineare Faktoren hat noch durch das einzige irreduzible quadratische Polynom teilbar ist, ist es irreduzibel.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Irreduzibilität von Polynomen über endlichen Körpern",
         "schritte": [
@@ -677,18 +677,18 @@
       }
     },
     {
-      "frage": "27. Der kleine Satz von Fermat besagt, dass für eine Primzahl $p$ und eine ganze Zahl $a$, die kein Vielfaches von $p$ ist, gilt: $a^{p-1} \\equiv 1 \\pmod p$. Was ist der Wert von $3^{16} \\pmod{17}$?",
-      "optionen": [
+      "question": "27. Der kleine Satz von Fermat besagt, dass für eine Primzahl $p$ und eine ganze Zahl $a$, die kein Vielfaches von $p$ ist, gilt: $a^{p-1} \\equiv 1 \\pmod p$. Was ist der Wert von $3^{16} \\pmod{17}$?",
+      "options": [
         "1",
         "3",
         "9",
         "16",
         "Das lässt sich ohne Berechnung nicht sagen."
       ],
-      "loesung": 0,
-      "erklaerung": "Da 17 eine Primzahl ist und 3 kein Vielfaches von 17 ist, können wir den kleinen Satz von Fermat direkt anwenden. Hier ist $p=17$ und $a=3$. Der Satz besagt $a^{p-1} \\equiv 1 \\pmod p$, also $3^{17-1} \\equiv 3^{16} \\equiv 1 \\pmod{17}$.",
-      "gewichtung": 3,
-      "thema": "Zahlentheorie",
+      "answer": 0,
+      "explanation": "Da 17 eine Primzahl ist und 3 kein Vielfaches von 17 ist, können wir den kleinen Satz von Fermat direkt anwenden. Hier ist $p=17$ und $a=3$. Der Satz besagt $a^{p-1} \\equiv 1 \\pmod p$, also $3^{17-1} \\equiv 3^{16} \\equiv 1 \\pmod{17}$.",
+      "weight": 3,
+      "topic": "Zahlentheorie",
       "extended_explanation": {
         "titel": "Anwendung des kleinen Satzes von Fermat",
         "schritte": [
@@ -704,18 +704,18 @@
       }
     },
     {
-      "frage": "28. Betrachten Sie die elliptische Kurve $E$ über $GF(13)$ gegeben durch $y^2 = x^3 + 6x + 9$. Der Punkt $P=(1, 4)$ liegt auf dieser Kurve, da $4^2 = 16 \\equiv 3 \\pmod{13}$ und $1^3+6(1)+9 = 16 \\equiv 3 \\pmod{13}$. Welcher Punkt ist das Ergebnis von $2P = P+P$?",
-      "optionen": [
+      "question": "28. Betrachten Sie die elliptische Kurve $E$ über $GF(13)$ gegeben durch $y^2 = x^3 + 6x + 9$. Der Punkt $P=(1, 4)$ liegt auf dieser Kurve, da $4^2 = 16 \\equiv 3 \\pmod{13}$ und $1^3+6(1)+9 = 16 \\equiv 3 \\pmod{13}$. Welcher Punkt ist das Ergebnis von $2P = P+P$?",
+      "options": [
         "$(8, 7)$",
         "$(7, 2)$",
         "$(1, 9)$",
         "Der unendlich ferne Punkt $O$",
         "$(8, 6)$"
       ],
-      "loesung": 4,
-      "erklaerung": "Für die Punktverdopplung $P+P$ mit $P=(x_P, y_P)$ wird zuerst der Anstieg der Tangente $m = \\frac{3x_P^2 + a}{2y_P}$ in $GF(13)$ berechnet. Mit $a=6, x_P=1, y_P=4$ ist $m = \\frac{3(1)^2+6}{2(4)} = \\frac{9}{8}$. Das Inverse von $8 \\pmod{13}$ ist $5$, da $8 \\cdot 5 = 40 \\equiv 1 \\pmod{13}$. Also ist $m=9 \\cdot 5 = 45 \\equiv 6 \\pmod{13}$. Nun die Koordinaten des Ergebnis-Punktes $R=(x_R, y_R)$: $x_R = m^2 - 2x_P = 6^2 - 2(1) = 36-2 = 34 \\equiv 8 \\pmod{13}$. $y_R = -(m(x_R-x_P)+y_P) = -(6(8-1)+4) = -(6(7)+4) = -(42+4) = -46$. Da $-46 \\equiv 6 \\pmod{13}$ ist, lautet der Punkt $(8, 6)$.",
-      "gewichtung": 3,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 4,
+      "explanation": "Für die Punktverdopplung $P+P$ mit $P=(x_P, y_P)$ wird zuerst der Anstieg der Tangente $m = \\frac{3x_P^2 + a}{2y_P}$ in $GF(13)$ berechnet. Mit $a=6, x_P=1, y_P=4$ ist $m = \\frac{3(1)^2+6}{2(4)} = \\frac{9}{8}$. Das Inverse von $8 \\pmod{13}$ ist $5$, da $8 \\cdot 5 = 40 \\equiv 1 \\pmod{13}$. Also ist $m=9 \\cdot 5 = 45 \\equiv 6 \\pmod{13}$. Nun die Koordinaten des Ergebnis-Punktes $R=(x_R, y_R)$: $x_R = m^2 - 2x_P = 6^2 - 2(1) = 36-2 = 34 \\equiv 8 \\pmod{13}$. $y_R = -(m(x_R-x_P)+y_P) = -(6(8-1)+4) = -(6(7)+4) = -(42+4) = -46$. Da $-46 \\equiv 6 \\pmod{13}$ ist, lautet der Punkt $(8, 6)$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Punktaddition auf Elliptischen Kurven",
         "schritte": [
@@ -732,18 +732,18 @@
       }
     },
     {
-      "frage": "29. Welchen Rang hat die folgende Matrix $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{pmatrix}$?",
-      "optionen": [
+      "question": "29. Welchen Rang hat die folgende Matrix $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{pmatrix}$?",
+      "options": [
         "0",
         "1",
         "2",
         "3",
         "Die Matrix ist nicht quadratisch, daher ist kein Rang definierbar."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Rang einer Matrix ist die maximale Anzahl linear unabhängiger Zeilen- oder Spaltenvektoren. Man kann den Rang mit dem Gauß-Algorithmus bestimmen, um die Matrix in Zeilenstufenform zu bringen. Zieht man die erste Zeile von der zweiten ab (multipliziert mit 4) und von der dritten (multipliziert mit 7), erhält man: $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -3 & -6 \\\\ 0 & -6 & -12 \\end{pmatrix}$. Man sieht, dass die dritte Zeile das Doppelte der zweiten Zeile ist. Zieht man also $2 \\cdot$ (Zeile 2) von Zeile 3 ab, erhält man eine Nullzeile: $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -3 & -6 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Die Matrix hat zwei Nicht-Null-Zeilen, also ist der Rang 2.",
-      "gewichtung": 3,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 2,
+      "explanation": "Der Rang einer Matrix ist die maximale Anzahl linear unabhängiger Zeilen- oder Spaltenvektoren. Man kann den Rang mit dem Gauß-Algorithmus bestimmen, um die Matrix in Zeilenstufenform zu bringen. Zieht man die erste Zeile von der zweiten ab (multipliziert mit 4) und von der dritten (multipliziert mit 7), erhält man: $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -3 & -6 \\\\ 0 & -6 & -12 \\end{pmatrix}$. Man sieht, dass die dritte Zeile das Doppelte der zweiten Zeile ist. Zieht man also $2 \\cdot$ (Zeile 2) von Zeile 3 ab, erhält man eine Nullzeile: $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -3 & -6 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Die Matrix hat zwei Nicht-Null-Zeilen, also ist der Rang 2.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Bestimmung des Rangs einer Matrix",
         "schritte": [
@@ -761,18 +761,18 @@
       }
     },
     {
-      "frage": "30. Sei $\\varphi: (\\mathbb{Z}, +) \\to (\\mathbb{Z}_5, \\oplus)$ ein Gruppenhomomorphismus definiert durch $\\varphi(z) = z \\pmod 5$. Was ist der Kern von $\\varphi$?",
-      "optionen": [
+      "question": "30. Sei $\\varphi: (\\mathbb{Z}, +) \\to (\\mathbb{Z}_5, \\oplus)$ ein Gruppenhomomorphismus definiert durch $\\varphi(z) = z \\pmod 5$. Was ist der Kern von $\\varphi$?",
+      "options": [
         "$\\{0\\}$",
         "$\\{5\\}$",
         "$\\mathbb{Z}_5$",
         "Die Menge aller durch 5 teilbaren Zahlen ($5\\mathbb{Z}$)",
         "Die leere Menge $\\emptyset$"
       ],
-      "loesung": 3,
-      "erklaerung": "Der Kern eines Gruppenhomomorphismus $\\varphi: G \\to H$ ist die Menge aller Elemente aus $G$, die auf das neutrale Element von $H$ abgebildet werden. Das neutrale Element in $(\\mathbb{Z}_5, \\oplus)$ ist 0. Der Kern von $\\varphi$ besteht also aus allen ganzen Zahlen $z$, für die $z \\pmod 5 = 0$ gilt. Dies ist genau die Menge aller Vielfachen von 5, also $5\\mathbb{Z} = \\{\\dots, -10, -5, 0, 5, 10, \\dots\\}$.",
-      "gewichtung": 3,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 3,
+      "explanation": "Der Kern eines Gruppenhomomorphismus $\\varphi: G \\to H$ ist die Menge aller Elemente aus $G$, die auf das neutrale Element von $H$ abgebildet werden. Das neutrale Element in $(\\mathbb{Z}_5, \\oplus)$ ist 0. Der Kern von $\\varphi$ besteht also aus allen ganzen Zahlen $z$, für die $z \\pmod 5 = 0$ gilt. Dies ist genau die Menge aller Vielfachen von 5, also $5\\mathbb{Z} = \\{\\dots, -10, -5, 0, 5, 10, \\dots\\}$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Homomorphismen und ihre Kerne",
         "schritte": [
@@ -788,18 +788,18 @@
       }
     },
     {
-      "frage": "31. Welche Aussage über die Lösbarkeit der linearen Kongruenz $ax \\equiv b \\pmod n$ ist korrekt?",
-      "optionen": [
+      "question": "31. Welche Aussage über die Lösbarkeit der linearen Kongruenz $ax \\equiv b \\pmod n$ ist korrekt?",
+      "options": [
         "Sie ist immer lösbar, wenn $a$ und $n$ teilerfremd sind.",
         "Sie hat immer genau eine Lösung.",
         "Sie ist nur lösbar, wenn $b$ ein Teiler von $n$ ist.",
         "Sie hat genau $d = ggT(a,n)$ Lösungen, falls $d$ ein Teiler von $b$ ist.",
         "Sie ist niemals lösbar, wenn $n$ eine Primzahl ist."
       ],
-      "loesung": 3,
-      "erklaerung": "Eine lineare Kongruenz $ax \\equiv b \\pmod n$ ist genau dann lösbar, wenn $d = ggT(a, n)$ ein Teiler von $b$ ist. Wenn diese Bedingung erfüllt ist, gibt es genau $d$ inkongruente Lösungen modulo $n$. Sind $a$ und $n$ teilerfremd ($d=1$), so existiert genau eine eindeutige Lösung.",
-      "gewichtung": 3,
-      "thema": "Zahlentheorie",
+      "answer": 3,
+      "explanation": "Eine lineare Kongruenz $ax \\equiv b \\pmod n$ ist genau dann lösbar, wenn $d = ggT(a, n)$ ein Teiler von $b$ ist. Wenn diese Bedingung erfüllt ist, gibt es genau $d$ inkongruente Lösungen modulo $n$. Sind $a$ und $n$ teilerfremd ($d=1$), so existiert genau eine eindeutige Lösung.",
+      "weight": 3,
+      "topic": "Zahlentheorie",
       "extended_explanation": {
         "titel": "Lösbarkeitskriterium für lineare Kongruenzen",
         "schritte": [
@@ -816,18 +816,18 @@
       }
     },
     {
-      "frage": "32. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
-      "optionen": [
+      "question": "32. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
+      "options": [
         "Dijkstra-Algorithmus",
         "Bellman-Ford-Algorithmus",
         "Algorithmus von Kruskal oder Prim",
         "Tiefensuche (DFS)",
         "Breitensuche (BFS)"
       ],
-      "loesung": 2,
-      "erklaerung": "Sowohl der Algorithmus von Kruskal als auch der Algorithmus von Prim sind Standardverfahren (Greedy-Algorithmen), um einen minimalen Spannbaum zu finden. Ein minimaler Spannbaum ist ein Teilgraph, der alle Knoten verbindet, keine Zyklen enthält und die Summe der Kantengewichte minimiert.",
-      "gewichtung": 3,
-      "thema": "Kombinatorik",
+      "answer": 2,
+      "explanation": "Sowohl der Algorithmus von Kruskal als auch der Algorithmus von Prim sind Standardverfahren (Greedy-Algorithmen), um einen minimalen Spannbaum zu finden. Ein minimaler Spannbaum ist ein Teilgraph, der alle Knoten verbindet, keine Zyklen enthält und die Summe der Kantengewichte minimiert.",
+      "weight": 3,
+      "topic": "Kombinatorik",
       "extended_explanation": {
         "titel": "Vergleich von Kruskal und Prim",
         "schritte": [
@@ -843,18 +843,18 @@
       }
     },
     {
-      "frage": "33. Beweisen Sie durch vollständige Induktion, dass für alle $n \\ge 1$ gilt: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. Welcher Ausdruck ergibt sich im Induktionsschritt bei der Umformung von $\\sum_{k=1}^{n+1} k$?",
-      "optionen": [
+      "question": "33. Beweisen Sie durch vollständige Induktion, dass für alle $n \\ge 1$ gilt: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. Welcher Ausdruck ergibt sich im Induktionsschritt bei der Umformung von $\\sum_{k=1}^{n+1} k$?",
+      "options": [
         "$\\frac{n(n+1)}{2} + n$",
         "$\\frac{(n+1)(n+2)}{2}$",
         "$\\frac{n(n+1)}{2} + (n+1)$",
         "$(n+1) \\cdot \\frac{n}{2}$",
         "Der Beweis ist nicht durch Induktion möglich."
       ],
-      "loesung": 2,
-      "erklaerung": "Im Induktionsschritt will man die Gültigkeit für $n+1$ zeigen, unter der Annahme, dass die Formel für $n$ gilt. Man zerlegt die Summe: $\\sum_{k=1}^{n+1} k = (\\sum_{k=1}^{n} k) + (n+1)$. Nun setzt man die Induktionsannahme $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$ ein. Dies führt direkt zu dem Ausdruck $\\frac{n(n+1)}{2} + (n+1)$. Dieser wird dann weiter zu $\\frac{(n+1)(n+2)}{2}$ umgeformt, was dem Zielausdruck für $n+1$ entspricht.",
-      "gewichtung": 3,
-      "thema": "Rekursion und Induktion",
+      "answer": 2,
+      "explanation": "Im Induktionsschritt will man die Gültigkeit für $n+1$ zeigen, unter der Annahme, dass die Formel für $n$ gilt. Man zerlegt die Summe: $\\sum_{k=1}^{n+1} k = (\\sum_{k=1}^{n} k) + (n+1)$. Nun setzt man die Induktionsannahme $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$ ein. Dies führt direkt zu dem Ausdruck $\\frac{n(n+1)}{2} + (n+1)$. Dieser wird dann weiter zu $\\frac{(n+1)(n+2)}{2}$ umgeformt, was dem Zielausdruck für $n+1$ entspricht.",
+      "weight": 3,
+      "topic": "Rekursion und Induktion",
       "extended_explanation": {
         "titel": "Der Gaußsche Summenformel-Beweis",
         "schritte": [
@@ -873,18 +873,18 @@
       }
     },
     {
-      "frage": "34. Die Laufzeit eines rekursiven Algorithmus wird durch die Rekurrenzgleichung $T(n) = 2T(n/2) + \\gamma n$ mit $T(1)=\\alpha$ beschrieben. Welcher bekannten Laufzeitkomplexität entspricht die Lösung dieser Gleichung (für $n=2^m$)?",
-      "optionen": [
+      "question": "34. Die Laufzeit eines rekursiven Algorithmus wird durch die Rekurrenzgleichung $T(n) = 2T(n/2) + \\gamma n$ mit $T(1)=\\alpha$ beschrieben. Welcher bekannten Laufzeitkomplexität entspricht die Lösung dieser Gleichung (für $n=2^m$)?",
+      "options": [
         "$O(n)$ (linear)",
         "$O(n^2)$ (quadratisch)",
         "$O(\\log n)$ (logarithmisch)",
         "$O(n \\log n)$",
         "$O(2^n)$ (exponentiell)"
       ],
-      "loesung": 3,
-      "erklaerung": "Diese Rekurrenzgleichung ist typisch für Divide-and-Conquer-Algorithmen wie Merge Sort. Das Problem der Größe $n$ wird in zwei Teilprobleme der Größe $n/2$ zerlegt, und der Aufwand für das Teilen und Zusammenführen ist linear in $n$. Die Lösung dieser Rekurrenz ist von der Ordnung $O(n \\log n)$. Dies ist deutlich effizienter als eine quadratische Laufzeit ($O(n^2)$).",
-      "gewichtung": 3,
-      "thema": "Rekursion und Induktion",
+      "answer": 3,
+      "explanation": "Diese Rekurrenzgleichung ist typisch für Divide-and-Conquer-Algorithmen wie Merge Sort. Das Problem der Größe $n$ wird in zwei Teilprobleme der Größe $n/2$ zerlegt, und der Aufwand für das Teilen und Zusammenführen ist linear in $n$. Die Lösung dieser Rekurrenz ist von der Ordnung $O(n \\log n)$. Dies ist deutlich effizienter als eine quadratische Laufzeit ($O(n^2)$).",
+      "weight": 3,
+      "topic": "Rekursion und Induktion",
       "extended_explanation": {
         "titel": "Master-Theorem für Rekurrenzen",
         "schritte": [
@@ -900,18 +900,18 @@
       }
     },
     {
-      "frage": "35. In einem RSA-System seien die öffentlichen Schlüssel $n=55$ und $e=7$. Welcher private Schlüssel $d$ ist korrekt?",
-      "optionen": [
+      "question": "35. In einem RSA-System seien die öffentlichen Schlüssel $n=55$ und $e=7$. Welcher private Schlüssel $d$ ist korrekt?",
+      "options": [
         "3",
         "7",
         "13",
         "23",
         "40"
       ],
-      "loesung": 3,
-      "erklaerung": "Zuerst müssen die Primfaktoren von $n$ gefunden werden: $n=55 = 5 \\cdot 11$. Also sind $p=5$ und $q=11$. Dann wird $\\phi(n) = (p-1)(q-1) = (5-1)(11-1) = 4 \\cdot 10 = 40$ berechnet. Der private Schlüssel $d$ ist das multiplikative Inverse von $e=7$ modulo 40. Es muss also $7d \\equiv 1 \\pmod{40}$ gelten. Durch Probieren oder mit dem erweiterten Euklidischen Algorithmus findet man $d=23$, da $7 \\cdot 23 = 161 = 4 \\cdot 40 + 1$.",
-      "gewichtung": 3,
-      "thema": "Kryptografie und IT-Sicherheit",
+      "answer": 3,
+      "explanation": "Zuerst müssen die Primfaktoren von $n$ gefunden werden: $n=55 = 5 \\cdot 11$. Also sind $p=5$ und $q=11$. Dann wird $\\phi(n) = (p-1)(q-1) = (5-1)(11-1) = 4 \\cdot 10 = 40$ berechnet. Der private Schlüssel $d$ ist das multiplikative Inverse von $e=7$ modulo 40. Es muss also $7d \\equiv 1 \\pmod{40}$ gelten. Durch Probieren oder mit dem erweiterten Euklidischen Algorithmus findet man $d=23$, da $7 \\cdot 23 = 161 = 4 \\cdot 40 + 1$.",
+      "weight": 3,
+      "topic": "Kryptografie und IT-Sicherheit",
       "extended_explanation": {
         "titel": "RSA-Schlüsselerzeugung",
         "schritte": [
@@ -929,18 +929,18 @@
       }
     },
     {
-      "frage": "36. Gegeben die Permutation $\\sigma = (1 \\ 3 \\ 2)(4 \\ 5)$ in $S_5$. Welches Ergebnis liefert die zweimalige Anwendung von $\\sigma$ auf das Element 1, also $\\sigma^2(1)$?",
-      "optionen": [
+      "question": "36. Gegeben die Permutation $\\sigma = (1 \\ 3 \\ 2)(4 \\ 5)$ in $S_5$. Welches Ergebnis liefert die zweimalige Anwendung von $\\sigma$ auf das Element 1, also $\\sigma^2(1)$?",
+      "options": [
         "1",
         "2",
         "3",
         "4",
         "5"
       ],
-      "loesung": 1,
-      "erklaerung": "Zuerst wenden wir $\\sigma$ auf 1 an: Der Zyklus $(1 \\ 3 \\ 2)$ bildet 1 auf 3 ab. Also ist $\\sigma(1) = 3$. Nun wenden wir $\\sigma$ auf das Ergebnis 3 an: Der Zyklus $(1 \\ 3 \\ 2)$ bildet 3 auf 2 ab. Also ist $\\sigma(3) = 2$. Somit ist $\\sigma^2(1) = \\sigma(\\sigma(1)) = \\sigma(3) = 2$.",
-      "gewichtung": 3,
-      "thema": "Gruppen, Ringe, Körper",
+      "answer": 1,
+      "explanation": "Zuerst wenden wir $\\sigma$ auf 1 an: Der Zyklus $(1 \\ 3 \\ 2)$ bildet 1 auf 3 ab. Also ist $\\sigma(1) = 3$. Nun wenden wir $\\sigma$ auf das Ergebnis 3 an: Der Zyklus $(1 \\ 3 \\ 2)$ bildet 3 auf 2 ab. Also ist $\\sigma(3) = 2$. Somit ist $\\sigma^2(1) = \\sigma(\\sigma(1)) = \\sigma(3) = 2$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
       "extended_explanation": {
         "titel": "Arbeiten mit Zykelschreibweise",
         "schritte": [
@@ -957,18 +957,18 @@
       }
     },
     {
-      "frage": "37. Der Chinesische Restsatz befasst sich mit der Lösbarkeit von...",
-      "optionen": [
+      "question": "37. Der Chinesische Restsatz befasst sich mit der Lösbarkeit von...",
+      "options": [
         "einzelnen linearen Gleichungen.",
         "Systemen von linearen Kongruenzen.",
         "quadratischen Gleichungen über endlichen Körpern.",
         "Polynomgleichungen beliebigen Grades.",
         "Differenzialgleichungen erster Ordnung."
       ],
-      "loesung": 1,
-      "erklaerung": "Der Chinesische Restsatz gibt Bedingungen für die Existenz einer Lösung eines Systems von simultanen linearen Kongruenzen an und liefert ein Verfahren zur Berechnung dieser Lösung. Voraussetzung ist, dass die Module paarweise teilerfremd sind.",
-      "gewichtung": 3,
-      "thema": "Zahlentheorie",
+      "answer": 1,
+      "explanation": "Der Chinesische Restsatz gibt Bedingungen für die Existenz einer Lösung eines Systems von simultanen linearen Kongruenzen an und liefert ein Verfahren zur Berechnung dieser Lösung. Voraussetzung ist, dass die Module paarweise teilerfremd sind.",
+      "weight": 3,
+      "topic": "Zahlentheorie",
       "extended_explanation": {
         "titel": "Anwendung des Chinesischen Restsatzes",
         "schritte": [
@@ -984,18 +984,18 @@
       }
     },
     {
-      "frage": "38. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
-      "optionen": [
+      "question": "38. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
+      "options": [
         "Dijkstra-Algorithmus",
         "Bellman-Ford-Algorithmus",
         "Algorithmus von Kruskal oder Prim",
         "Tiefensuche (DFS)",
         "Breitensuche (BFS)"
       ],
-      "loesung": 2,
-      "erklaerung": "Sowohl der Algorithmus von Kruskal als auch der Algorithmus von Prim sind Standardverfahren (Greedy-Algorithmen), um einen minimalen Spannbaum zu finden. Ein minimaler Spannbaum ist ein Teilgraph, der alle Knoten verbindet, keine Zyklen enthält und die Summe der Kantengewichte minimiert.",
-      "gewichtung": 3,
-      "thema": "Kombinatorik",
+      "answer": 2,
+      "explanation": "Sowohl der Algorithmus von Kruskal als auch der Algorithmus von Prim sind Standardverfahren (Greedy-Algorithmen), um einen minimalen Spannbaum zu finden. Ein minimaler Spannbaum ist ein Teilgraph, der alle Knoten verbindet, keine Zyklen enthält und die Summe der Kantengewichte minimiert.",
+      "weight": 3,
+      "topic": "Kombinatorik",
       "extended_explanation": {
         "titel": "Vergleich von Kruskal und Prim",
         "schritte": [
@@ -1011,18 +1011,18 @@
       }
     },
     {
-      "frage": "39. Die Sicherheit der Elliptische-Kurven-Kryptografie (ECC) beruht auf der Schwierigkeit...",
-      "optionen": [
+      "question": "39. Die Sicherheit der Elliptische-Kurven-Kryptografie (ECC) beruht auf der Schwierigkeit...",
+      "options": [
         "der Faktorisierung des Produkts zweier großer Primzahlen.",
         "der Lösung des Rucksackproblems.",
         "des Problems des diskreten Logarithmus in der Gruppe der Punkte auf einer elliptischen Kurve.",
         "der schnellen Multiplikation von Punkten auf einer elliptischen Kurve.",
         "der Konstruktion von supersingulären Kurven."
       ],
-      "loesung": 2,
-      "erklaerung": "Die Sicherheit von ECC basiert auf der Schwierigkeit, zu zwei gegebenen Punkten $P$ und $Q=nP$ auf einer elliptischen Kurve den Skalar $n$ zu bestimmen. Dieses Problem wird als das Diskrete-Logarithmus-Problem auf elliptischen Kurven (ECDLP) bezeichnet und gilt als rechentechnisch sehr aufwändig.",
-      "gewichtung": 3,
-      "thema": "Kryptografie und IT-Sicherheit",
+      "answer": 2,
+      "explanation": "Die Sicherheit von ECC basiert auf der Schwierigkeit, zu zwei gegebenen Punkten $P$ und $Q=nP$ auf einer elliptischen Kurve den Skalar $n$ zu bestimmen. Dieses Problem wird als das Diskrete-Logarithmus-Problem auf elliptischen Kurven (ECDLP) bezeichnet und gilt als rechentechnisch sehr aufwändig.",
+      "weight": 3,
+      "topic": "Kryptografie und IT-Sicherheit",
       "extended_explanation": {
         "titel": "Das Diskrete-Logarithmus-Problem auf Elliptischen Kurven (ECDLP)",
         "schritte": [
@@ -1038,18 +1038,18 @@
       }
     },
     {
-      "frage": "40. In der Graphentheorie, was ist die Definition eines Baumes?",
-      "optionen": [
+      "question": "40. In der Graphentheorie, was ist die Definition eines Baumes?",
+      "options": [
         "Ein Graph, in dem jeder Knoten den gleichen Grad hat.",
         "Ein gerichteter Graph ohne Zyklen.",
         "Ein zusammenhängender Graph ohne Zyklen.",
         "Ein Graph, der mehr Kanten als Knoten hat.",
         "Ein Graph, in dem jeder Knoten mit jedem anderen Knoten verbunden ist."
       ],
-      "loesung": 2,
-      "erklaerung": "Ein Baum ist in der Graphentheorie als ein ungerichteter, zusammenhängender Graph definiert, der keine Zyklen (Kreise) enthält.",
-      "gewichtung": 2,
-      "thema": "Kombinatorik",
+      "answer": 2,
+      "explanation": "Ein Baum ist in der Graphentheorie als ein ungerichteter, zusammenhängender Graph definiert, der keine Zyklen (Kreise) enthält.",
+      "weight": 2,
+      "topic": "Kombinatorik",
       "extended_explanation": {
         "titel": "Eigenschaften von Bäumen",
         "schritte": [

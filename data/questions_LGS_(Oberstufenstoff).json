@@ -20,18 +20,18 @@
   },
   "questions": [
     {
-      "frage": "1. Wie wird ein lineares Gleichungssystem kompakt dargestellt und was bedeuten die Symbole?",
-      "optionen": [
+      "question": "1. Wie wird ein lineares Gleichungssystem kompakt dargestellt und was bedeuten die Symbole?",
+      "options": [
         "Als $b=A\\,x$ mit $A$ als Unbekanntenmatrix und $b$ als Koeffizientenvektor.",
         "Als $A\\,x=b$ mit $A$ als Koeffizientenmatrix, $x$ als Unbekanntenvektor und $b$ als rechter Seite.",
         "Als $x=A\\,b$ mit $x$ als Koeffizientenvektor und $b$ als Unbekanntenvektor.",
         "Als $A=b\\,x$ mit $A$ als Lösungsmenge und $x$ als Parameter.",
         "Als $A+b=x$ mit $A$ als erweiterter Matrix und $x$ als Rang."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Standardform ist $A\\,x=b$: $A$ enthält die Koeffizienten, $x$ bündelt die Unbekannten, $b$ ist der rechte Seitenvektor.",
-      "gewichtung": 1,
-      "thema": "Grundbegriffe LGS",
+      "answer": 1,
+      "explanation": "Die Standardform ist $A\\,x=b$: $A$ enthält die Koeffizienten, $x$ bündelt die Unbekannten, $b$ ist der rechte Seitenvektor.",
+      "weight": 1,
+      "topic": "Grundbegriffe LGS",
       "mini_glossary": {
         "Koeffizientenmatrix": "Matrix $A\\in\\mathbb{R}^{m\\times n}$ mit den Zahlen vor den Unbekannten; strukturiert das LGS.",
         "Unbekanntenvektor": "Spaltenvektor $x\\in\\mathbb{R}^n$ mit den Variablen $x_1,\\dots,x_n$.",
@@ -39,18 +39,18 @@
       }
     },
     {
-      "frage": "2. Was ist die erweiterte Matrix und wozu wird sie genutzt?",
-      "optionen": [
+      "question": "2. Was ist die erweiterte Matrix und wozu wird sie genutzt?",
+      "options": [
         "Eine Matrix, die $A$ und $x$ nebeneinander stellt, um die Variablen zu zählen.",
         "Die Kombination von $A$ mit $b$ zu $[A\\mid b]$, um Zeilenumformungen einheitlich durchzuführen.",
         "Die Differenz $A-b$, um die Invertierbarkeit zu testen.",
         "Die Summe $A+b$, um die Anzahl der Lösungen abzulesen.",
         "Eine Matrix, die nur die Pivotelemente von $A$ enthält."
       ],
-      "loesung": 1,
-      "erklaerung": "Die erweiterte Matrix $[A\\mid b]$ führt $A$ und $b$ zusammen; Zeilenoperationen wirken simultan auf beide Teile.",
-      "gewichtung": 1,
-      "thema": "Erweiterte Matrix & Modellierung",
+      "answer": 1,
+      "explanation": "Die erweiterte Matrix $[A\\mid b]$ führt $A$ und $b$ zusammen; Zeilenoperationen wirken simultan auf beide Teile.",
+      "weight": 1,
+      "topic": "Erweiterte Matrix & Modellierung",
       "mini_glossary": {
         "Erweiterte Matrix": "$[A\\mid b]=\\begin{bmatrix}A & b\\end{bmatrix}$; Grundlage für den Gauß-Algorithmus.",
         "Äquivalenz": "Zeilenumformungen erhalten die Lösungsmenge; Systeme bleiben äquivalent.",
@@ -58,18 +58,18 @@
       }
     },
     {
-      "frage": "3. Welche Operation zählt zu den elementaren Zeilenumformungen beim Gauß-Verfahren?",
-      "optionen": [
+      "question": "3. Welche Operation zählt zu den elementaren Zeilenumformungen beim Gauß-Verfahren?",
+      "options": [
         "Ersetzen einer Zeile durch die Summe aller Zeilen.",
         "Multiplikation einer Zeile mit $c\\neq 0$.",
         "Ersetzen einer Spalte durch eine Zeile.",
         "Multiplikation einer Zeile mit $0$.",
         "Transponieren der gesamten Matrix."
       ],
-      "loesung": 1,
-      "erklaerung": "Zulässig sind Zeilentausch, Multiplikation einer Zeile mit $c\\neq 0$ und Addition eines Vielfachen einer Zeile zu einer anderen.",
-      "gewichtung": 1,
-      "thema": "Elementare Zeilenumformungen",
+      "answer": 1,
+      "explanation": "Zulässig sind Zeilentausch, Multiplikation einer Zeile mit $c\\neq 0$ und Addition eines Vielfachen einer Zeile zu einer anderen.",
+      "weight": 1,
+      "topic": "Elementare Zeilenumformungen",
       "mini_glossary": {
         "Zeilentausch": "Vertauschen zweier Zeilen; ändert die Lösung nicht.",
         "Skalierung": "Ersetzen $Z_k\\leftarrow c\\,Z_k$ mit $c\\ne 0$; erhält Äquivalenz.",
@@ -77,18 +77,18 @@
       }
     },
     {
-      "frage": "4. Was bezeichnet man im Kontext der Zeilenstufenform als Pivot (Führungselement)?",
-      "optionen": [
+      "question": "4. Was bezeichnet man im Kontext der Zeilenstufenform als Pivot (Führungselement)?",
+      "options": [
         "Das letzte von Null verschiedene Element einer Spalte.",
         "Das erste von Null verschiedene Element einer Zeile in Stufenform.",
         "Jeden Diagonaleintrag unabhängig von seinem Wert.",
         "Ein beliebiges Nichtnull-Element in $A$.",
         "Das Element neben dem rechten Seitenvektor."
       ],
-      "loesung": 1,
-      "erklaerung": "Ein Pivot ist das erste Nichtnull-Element einer Zeile in der Stufenform; an ihm wird eliminiert.",
-      "gewichtung": 1,
-      "thema": "Pivotwahl & Stabilität",
+      "answer": 1,
+      "explanation": "Ein Pivot ist das erste Nichtnull-Element einer Zeile in der Stufenform; an ihm wird eliminiert.",
+      "weight": 1,
+      "topic": "Pivotwahl & Stabilität",
       "mini_glossary": {
         "Pivot": "Führender Eintrag einer Zeile in ZSF; markiert eine gebundene Variable.",
         "Pivotspalte": "Spalte, die ein Pivot enthält; bestimmt eine führende Variable.",
@@ -96,18 +96,18 @@
       }
     },
     {
-      "frage": "5. Welche Kriterien charakterisieren die Zeilenstufenform (ZSF)?",
-      "optionen": [
+      "question": "5. Welche Kriterien charakterisieren die Zeilenstufenform (ZSF)?",
+      "options": [
         "Pivots stehen beliebig, Nullzeilen liegen oben, über Pivots stehen Nullen.",
         "Nullzeilen stehen unten, Pivots wandern nach rechts, unter Pivots stehen Nullen.",
         "Pivots sind alle gleich 1, darüber und darunter stehen Nullen, Nullzeilen oben.",
         "Alle Diagonalelemente sind 0, alle Off-Diagonalelemente sind 1.",
         "Die Matrix ist symmetrisch und dreiecksförmig zugleich."
       ],
-      "loesung": 1,
-      "erklaerung": "In ZSF: Nullzeilen unten, die Pivotpositionen rücken zeilenweise nach rechts, unter jedem Pivot stehen Nullen.",
-      "gewichtung": 1,
-      "thema": "Zeilenstufenform (ZSF) & RREF",
+      "answer": 1,
+      "explanation": "In ZSF: Nullzeilen unten, die Pivotpositionen rücken zeilenweise nach rechts, unter jedem Pivot stehen Nullen.",
+      "weight": 1,
+      "topic": "Zeilenstufenform (ZSF) & RREF",
       "mini_glossary": {
         "ZSF": "Zeilenstufenform; strukturiert durch rechts wandernde Pivots und Nullen darunter.",
         "Nullzeile": "Zeile aus lauter Nullen; steht in ZSF am Ende.",
@@ -115,18 +115,18 @@
       }
     },
     {
-      "frage": "6. Was kommt bei der reduzierten Zeilenstufenform (RREF) zusätzlich zur ZSF hinzu?",
-      "optionen": [
+      "question": "6. Was kommt bei der reduzierten Zeilenstufenform (RREF) zusätzlich zur ZSF hinzu?",
+      "options": [
         "Alle Pivots sind 0, über den Pivots stehen Einsen.",
         "Die Pivots sind 1 und über jedem Pivot stehen Nullen.",
         "Die Pivots sind 1 und unter jedem Pivot stehen Einsen.",
         "Die Nullzeilen stehen oben, Pivots linksbündig.",
         "Es gibt keine Pivotspalten mehr."
       ],
-      "loesung": 1,
-      "erklaerung": "In RREF sind Pivots auf 1 skaliert und in jeder Pivotspalte stehen außer dem Pivot nur Nullen.",
-      "gewichtung": 1,
-      "thema": "Zeilenstufenform (ZSF) & RREF",
+      "answer": 1,
+      "explanation": "In RREF sind Pivots auf 1 skaliert und in jeder Pivotspalte stehen außer dem Pivot nur Nullen.",
+      "weight": 1,
+      "topic": "Zeilenstufenform (ZSF) & RREF",
       "mini_glossary": {
         "RREF": "Reduzierte Zeilenstufenform; Pivots sind 1, Einträge über und unter Pivots sind 0.",
         "Skalierung": "Anpassung einer Zeile, um den Pivotwert auf 1 zu setzen.",
@@ -134,18 +134,18 @@
       }
     },
     {
-      "frage": "7. Wann wird das Rückwärtseinsetzen angewandt und wie verläuft es grundsätzlich?",
-      "optionen": [
+      "question": "7. Wann wird das Rückwärtseinsetzen angewandt und wie verläuft es grundsätzlich?",
+      "options": [
         "Bei $A\\,x=b$ vor jeder Elimination; von oben nach unten.",
         "Bei $U\\,x=c$ nach der Vorwärtselimination; von unten nach oben.",
         "Bei $A\\,x=b$ nur bei quadratischen Matrizen; von links nach rechts.",
         "Bei $L\\,x=c$ vor der Elimination; zeilenweise gemischt.",
         "Bei $A\\,x=b$ nach dem Transponieren; spaltenweise abwechselnd."
       ],
-      "loesung": 1,
-      "erklaerung": "Nach der Vorwärtselimination liegt ein System $U\\,x=c$ vor; es wird von der letzten Gleichung aufwärts gelöst.",
-      "gewichtung": 1,
-      "thema": "Rückwärtseinsetzen",
+      "answer": 1,
+      "explanation": "Nach der Vorwärtselimination liegt ein System $U\\,x=c$ vor; es wird von der letzten Gleichung aufwärts gelöst.",
+      "weight": 1,
+      "topic": "Rückwärtseinsetzen",
       "mini_glossary": {
         "Obere Dreiecksmatrix": "Matrix $U$ mit Nullen unterhalb der Diagonalen; geeignet für Rückwärtseinsetzen.",
         "Back Substitution": "Berechnung von $x_n,x_{n-1},\\dots$ sukzessive aus $U\\,x=c$.",
@@ -153,18 +153,18 @@
       }
     },
     {
-      "frage": "8. Welcher Rang-Relation entspricht der Fall der eindeutigen Lösung bei $n$ Unbekannten?",
-      "optionen": [
+      "question": "8. Welcher Rang-Relation entspricht der Fall der eindeutigen Lösung bei $n$ Unbekannten?",
+      "options": [
         "$\\operatorname{rang}(A)<\\operatorname{rang}([A\\mid b])$",
         "$\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])=n$",
         "$\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])<n$",
         "$\\operatorname{rang}([A\\mid b])=0$",
         "$\\operatorname{rang}(A)>n$"
       ],
-      "loesung": 1,
-      "erklaerung": "Eindeutigkeit erfordert vollen Rang: $\\operatorname{rang}(A)=n$ und Gleichheit der Ränge.",
-      "gewichtung": 1,
-      "thema": "Rang & Rouché–Capelli",
+      "answer": 1,
+      "explanation": "Eindeutigkeit erfordert vollen Rang: $\\operatorname{rang}(A)=n$ und Gleichheit der Ränge.",
+      "weight": 1,
+      "topic": "Rang & Rouché–Capelli",
       "mini_glossary": {
         "Rouché–Capelli": "Lösbarkeit iff $\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])$.",
         "Voller Rang": "Für $A\\in\\mathbb{R}^{m\\times n}$ ist $\\operatorname{rang}(A)=\\min\\{m,n\\}$.",
@@ -172,18 +172,18 @@
       }
     },
     {
-      "frage": "9. Was zeigt eine Zeile der Form $[0\\ 0\\ \\dots\\ 0\\mid c]$ mit $c\\neq 0$ in der ZSF an?",
-      "optionen": [
+      "question": "9. Was zeigt eine Zeile der Form $[0\\ 0\\ \\dots\\ 0\\mid c]$ mit $c\\neq 0$ in der ZSF an?",
+      "options": [
         "Eine notwendige Bedingung für unendlich viele Lösungen.",
         "Eine Widerspruchszeile und damit Unlösbarkeit.",
         "Eine feste Vorgabe für eine freie Variable.",
         "Eine Pivotzeile mit zwei Pivots.",
         "Eine Bestätigung für Eindeutigkeit."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Gleichung $0=c$ ist inconsistent; das System hat keine Lösung.",
-      "gewichtung": 1,
-      "thema": "Rang & Rouché–Capelli",
+      "answer": 1,
+      "explanation": "Die Gleichung $0=c$ ist inconsistent; das System hat keine Lösung.",
+      "weight": 1,
+      "topic": "Rang & Rouché–Capelli",
       "mini_glossary": {
         "Widerspruchszeile": "Zeile $0= c$ mit $c\\ne 0$; macht das LGS inkonsistent.",
         "Konsistenz": "Existenz mindestens einer Lösung; verletzt bei $0=c\\ne 0$.",
@@ -191,18 +191,18 @@
       }
     },
     {
-      "frage": "10. Wie viele freie Variablen besitzt ein lösbares LGS mit $n$ Unbekannten und Rang $r$?",
-      "optionen": [
+      "question": "10. Wie viele freie Variablen besitzt ein lösbares LGS mit $n$ Unbekannten und Rang $r$?",
+      "options": [
         "$n+r$ freie Variablen, da jede Pivotspalte eine Freiheit erzeugt.",
         "$r$ freie Variablen, da jede Pivotzeile eine Freiheit bindet.",
         "$n-r$ freie Variablen, da jede Pivotspalte eine Variable bindet.",
         "$n$ freie Variablen, da die Ränge keine Rolle spielen.",
         "$0$ freie Variablen unabhängig von $r$."
       ],
-      "loesung": 2,
-      "erklaerung": "Jede Pivotspalte bindet eine Variable; es bleiben $n-r$ freie Variablen.",
-      "gewichtung": 2,
-      "thema": "Lösungsräume & Parametrisierung",
+      "answer": 2,
+      "explanation": "Jede Pivotspalte bindet eine Variable; es bleiben $n-r$ freie Variablen.",
+      "weight": 2,
+      "topic": "Lösungsräume & Parametrisierung",
       "extended_explanation": {
         "titel": "Freiheitsgrade aus dem Rang",
         "schritte": [
@@ -220,18 +220,18 @@
       }
     },
     {
-      "frage": "11. Welche Schrittfolge beschreibt die Vorwärtselimination im Gauß-Verfahren korrekt?",
-      "optionen": [
+      "question": "11. Welche Schrittfolge beschreibt die Vorwärtselimination im Gauß-Verfahren korrekt?",
+      "options": [
         "Pivot wählen, Zeile mit $0$ multiplizieren, Spalten tauschen.",
         "Pivot in Spalte suchen, ggf. Zeilen tauschen, darunter Nullen erzeugen, Indizes erhöhen.",
         "Pivots ignorieren, nur die rechte Seite addieren, danach transponieren.",
         "Zunächst alle Zeilen normieren, dann zufällig Pivots setzen, am Ende addieren.",
         "Erst rückwärts einsetzen, dann vorwärts eliminieren, schließlich Pivots bestimmen."
       ],
-      "loesung": 1,
-      "erklaerung": "Zentral sind: Pivotfindung in Spalte, Zeilentausch bei Bedarf, Elimination unterhalb, Fortschalten der Zeilen-/Spaltenindizes.",
-      "gewichtung": 2,
-      "thema": "Gauß-Vorwärtselimination",
+      "answer": 1,
+      "explanation": "Zentral sind: Pivotfindung in Spalte, Zeilentausch bei Bedarf, Elimination unterhalb, Fortschalten der Zeilen-/Spaltenindizes.",
+      "weight": 2,
+      "topic": "Gauß-Vorwärtselimination",
       "extended_explanation": {
         "titel": "Ablauf der Vorwärtselimination",
         "schritte": [
@@ -249,18 +249,18 @@
       }
     },
     {
-      "frage": "12. Wann ist ein Zeilentausch in der Vorwärtselimination erforderlich?",
-      "optionen": [
+      "question": "12. Wann ist ein Zeilentausch in der Vorwärtselimination erforderlich?",
+      "options": [
         "Wenn das aktuelle Pivot null ist oder nicht in der Arbeitszeile liegt.",
         "Nur wenn die rechte Seite negativ ist.",
         "Wenn die Matrix symmetrisch ist.",
         "Sobald zwei Pivots in einer Zeile auftreten.",
         "Wenn der Rang bereits voll ist."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Zeilentausch bringt ein Nichtnull-Pivot in die Arbeitszeile und vermeidet eine Division durch 0.",
-      "gewichtung": 2,
-      "thema": "Pivotwahl & Stabilität",
+      "answer": 0,
+      "explanation": "Ein Zeilentausch bringt ein Nichtnull-Pivot in die Arbeitszeile und vermeidet eine Division durch 0.",
+      "weight": 2,
+      "topic": "Pivotwahl & Stabilität",
       "extended_explanation": {
         "titel": "Zeilentausch als robustes Hilfsmittel",
         "schritte": [
@@ -278,18 +278,18 @@
       }
     },
     {
-      "frage": "13. In einem konsistenten System mit drei Unbekannten und genau zwei Pivots ergibt sich welche Struktur der Lösungsmenge?",
-      "optionen": [
+      "question": "13. In einem konsistenten System mit drei Unbekannten und genau zwei Pivots ergibt sich welche Struktur der Lösungsmenge?",
+      "options": [
         "Ein einzelner Punkt, da zwei Pivots genügen.",
         "Eine Gerade, da genau eine freie Variable existiert.",
         "Eine Ebene, da zwei freie Variablen existieren.",
         "Leere Menge, da nicht alle Variablen gebunden sind.",
         "Ein Würfel, da $3!=6$ Permutationen vorliegen."
       ],
-      "loesung": 1,
-      "erklaerung": "Mit $n=3$ und $r=2$ bleibt $n-r=1$ freier Parameter; die Lösungsmenge ist eine affine Gerade.",
-      "gewichtung": 2,
-      "thema": "Lösungsräume & Parametrisierung",
+      "answer": 1,
+      "explanation": "Mit $n=3$ und $r=2$ bleibt $n-r=1$ freier Parameter; die Lösungsmenge ist eine affine Gerade.",
+      "weight": 2,
+      "topic": "Lösungsräume & Parametrisierung",
       "extended_explanation": {
         "titel": "Geometrische Deutung von freien Variablen",
         "schritte": [
@@ -307,18 +307,18 @@
       }
     },
     {
-      "frage": "14. Welche Bedeutung hat eine Nullzeile $[0\\ 0\\ \\dots\\ 0\\mid 0]$ in der ZSF?",
-      "optionen": [
+      "question": "14. Welche Bedeutung hat eine Nullzeile $[0\\ 0\\ \\dots\\ 0\\mid 0]$ in der ZSF?",
+      "options": [
         "Sie erzwingt Eindeutigkeit der Lösung.",
         "Sie zeigt Konsistenz, reduziert aber die Zahl der Pivots.",
         "Sie macht das System inkonsistent.",
         "Sie erhöht den Rang der erweiterten Matrix.",
         "Sie eliminiert alle freien Variablen."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Gleichung $0=0$ liefert keine Information; sie mindert die Pivotanzahl und begünstigt Freiheitsgrade.",
-      "gewichtung": 2,
-      "thema": "Rang & Rouché–Capelli",
+      "answer": 1,
+      "explanation": "Die Gleichung $0=0$ liefert keine Information; sie mindert die Pivotanzahl und begünstigt Freiheitsgrade.",
+      "weight": 2,
+      "topic": "Rang & Rouché–Capelli",
       "extended_explanation": {
         "titel": "Rolle der Nullzeile in der Fallunterscheidung",
         "schritte": [
@@ -336,18 +336,18 @@
       }
     },
     {
-      "frage": "15. Welche der folgenden Operationen erhält die Lösungsmenge eines LGS sicher bei?",
-      "optionen": [
+      "question": "15. Welche der folgenden Operationen erhält die Lösungsmenge eines LGS sicher bei?",
+      "options": [
         "Addition eines Vielfachen einer Zeile zu einer anderen Zeile.",
         "Multiplikation einer Zeile mit $0$.",
         "Ersetzen einer Zeile durch eine Spalte.",
         "Vertauschen zweier Spalten in $[A\\mid b]$.",
         "Ersetzen des rechten Seitenvektors durch $b+1$."
       ],
-      "loesung": 0,
-      "erklaerung": "Zulässige Zeilenumformungen (inklusive Zeilentausch und nichttrivialer Skalierung) erhalten die Lösungsmenge.",
-      "gewichtung": 2,
-      "thema": "Elementare Zeilenumformungen",
+      "answer": 0,
+      "explanation": "Zulässige Zeilenumformungen (inklusive Zeilentausch und nichttrivialer Skalierung) erhalten die Lösungsmenge.",
+      "weight": 2,
+      "topic": "Elementare Zeilenumformungen",
       "extended_explanation": {
         "titel": "Äquivalenz durch Zeilenumformungen",
         "schritte": [
@@ -365,18 +365,18 @@
       }
     },
     {
-      "frage": "16. Wie steht der Rang einer Matrix zur Anzahl der Pivots in der Zeilenstufenform?",
-      "optionen": [
+      "question": "16. Wie steht der Rang einer Matrix zur Anzahl der Pivots in der Zeilenstufenform?",
+      "options": [
         "Der Rang ist die Anzahl aller Nichtnull-Einträge.",
         "Der Rang ist die Anzahl der Pivotzeilen.",
         "Der Rang ist die Summe der Diagonalelemente.",
         "Der Rang ist die Anzahl der Spalten.",
         "Der Rang ist stets $n-1$."
       ],
-      "loesung": 1,
-      "erklaerung": "In ZSF entspricht der Rang genau der Anzahl der Zeilen mit Pivot (Pivotzeilen).",
-      "gewichtung": 2,
-      "thema": "Zeilenstufenform (ZSF) & RREF",
+      "answer": 1,
+      "explanation": "In ZSF entspricht der Rang genau der Anzahl der Zeilen mit Pivot (Pivotzeilen).",
+      "weight": 2,
+      "topic": "Zeilenstufenform (ZSF) & RREF",
       "extended_explanation": {
         "titel": "Rang über Pivots zählen",
         "schritte": [
@@ -394,18 +394,18 @@
       }
     },
     {
-      "frage": "17. Welche Aussage beschreibt das Rückwärtseinsetzen aus $U\\,x=c$ korrekt?",
-      "optionen": [
+      "question": "17. Welche Aussage beschreibt das Rückwärtseinsetzen aus $U\\,x=c$ korrekt?",
+      "options": [
         "Man löst von oben nach unten, da oben die meisten Nullen stehen.",
         "Man beginnt unten mit $x_n=\\tfrac{c_n}{u_{nn}}$ und arbeitet sich nach oben vor.",
         "Man ersetzt $x$ direkt durch $c$, weil $U$ Einheitsmatrix ist.",
         "Man addiert alle Gleichungen und dividiert durch $n$.",
         "Man transponiert $U$ und multipliziert von links."
       ],
-      "loesung": 1,
-      "erklaerung": "Start mit der letzten Gleichung, danach sukzessive Auflösen nach $x_{n-1},\\dots,x_1$.",
-      "gewichtung": 2,
-      "thema": "Rückwärtseinsetzen",
+      "answer": 1,
+      "explanation": "Start mit der letzten Gleichung, danach sukzessive Auflösen nach $x_{n-1},\\dots,x_1$.",
+      "weight": 2,
+      "topic": "Rückwärtseinsetzen",
       "extended_explanation": {
         "titel": "Formeln des Rückwärtseinsetzens",
         "schritte": [
@@ -423,18 +423,18 @@
       }
     },
     {
-      "frage": "18. Wie werden freie Variablen in einer Parametrisierung der Lösungsmenge gehandhabt?",
-      "optionen": [
+      "question": "18. Wie werden freie Variablen in einer Parametrisierung der Lösungsmenge gehandhabt?",
+      "options": [
         "Sie werden gleich Null gesetzt, damit die Lösung eindeutig wird.",
         "Sie werden als Parameter eingeführt, und gebundene Variablen werden in Abhängigkeit davon ausgedrückt.",
         "Sie werden aus dem System entfernt und die übrigen Variablen bleiben unverändert.",
         "Sie ersetzen die Pivotvariablen vollständig.",
         "Sie werden durch die Summe der Gleichungen bestimmt."
       ],
-      "loesung": 1,
-      "erklaerung": "Freie Variablen dienen als Parameter; die gebundenen Variablen werden aus den Pivotzeilen als Funktionen der Parameter berechnet.",
-      "gewichtung": 2,
-      "thema": "Lösungsräume & Parametrisierung",
+      "answer": 1,
+      "explanation": "Freie Variablen dienen als Parameter; die gebundenen Variablen werden aus den Pivotzeilen als Funktionen der Parameter berechnet.",
+      "weight": 2,
+      "topic": "Lösungsräume & Parametrisierung",
       "extended_explanation": {
         "titel": "Parametrische Darstellung",
         "schritte": [
@@ -452,18 +452,18 @@
       }
     },
     {
-      "frage": "19. Welche Rangrelation kennzeichnet den Fall „unendlich viele Lösungen“ korrekt?",
-      "optionen": [
+      "question": "19. Welche Rangrelation kennzeichnet den Fall „unendlich viele Lösungen“ korrekt?",
+      "options": [
         "$\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])=n$",
         "$\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])<n$",
         "$\\operatorname{rang}(A)<\\operatorname{rang}([A\\mid b])$",
         "$\\operatorname{rang}(A)>n$",
         "$\\operatorname{rang}([A\\mid b])=0$"
       ],
-      "loesung": 1,
-      "erklaerung": "Gleichheit der Ränge sichert Konsistenz; ist der Rang kleiner als $n$, existieren freie Variablen und damit unendlich viele Lösungen.",
-      "gewichtung": 2,
-      "thema": "Rang & Rouché–Capelli",
+      "answer": 1,
+      "explanation": "Gleichheit der Ränge sichert Konsistenz; ist der Rang kleiner als $n$, existieren freie Variablen und damit unendlich viele Lösungen.",
+      "weight": 2,
+      "topic": "Rang & Rouché–Capelli",
       "extended_explanation": {
         "titel": "Fallentscheidung per Rouché–Capelli",
         "schritte": [
@@ -481,18 +481,18 @@
       }
     },
     {
-      "frage": "20. Welche Beschreibung passt zur Indexpflege im Gauß-Verfahren?",
-      "optionen": [
+      "question": "20. Welche Beschreibung passt zur Indexpflege im Gauß-Verfahren?",
+      "options": [
         "Nach jeder Elimination gilt $k\\leftarrow k+1$ und $s\\leftarrow s+1$, bis ZSF erreicht ist.",
         "Die Indizes bleiben konstant, nur die rechte Seite wird erhöht.",
         "Zuerst wird $s$ verringert, dann $k$ verdoppelt.",
         "Die Reihenfolge ist beliebig, solange Pivots rechts stehen.",
         "Es werden nur Spaltenindizes verändert, Zeilenindizes bleiben unverändert."
       ],
-      "loesung": 0,
-      "erklaerung": "Typisch: Arbeitszeile und -spalte werden nach erfolgreicher Pivotbearbeitung jeweils um 1 erhöht.",
-      "gewichtung": 2,
-      "thema": "Gauß-Vorwärtselimination",
+      "answer": 0,
+      "explanation": "Typisch: Arbeitszeile und -spalte werden nach erfolgreicher Pivotbearbeitung jeweils um 1 erhöht.",
+      "weight": 2,
+      "topic": "Gauß-Vorwärtselimination",
       "extended_explanation": {
         "titel": "Indexführung während der Elimination",
         "schritte": [
@@ -510,18 +510,18 @@
       }
     },
     {
-      "frage": "21. Warum werden Zeilenoperationen in der erweiterten Matrix immer auf beide Teile angewendet?",
-      "optionen": [
+      "question": "21. Warum werden Zeilenoperationen in der erweiterten Matrix immer auf beide Teile angewendet?",
+      "options": [
         "Um die Matrix symmetrisch zu halten.",
         "Um die Äquivalenz der Gleichungen zu sichern und die Lösungsmenge zu erhalten.",
         "Um den Rang künstlich zu erhöhen.",
         "Um die Anzahl der Pivots zu verdoppeln.",
         "Um die Variablenanzahl zu reduzieren."
       ],
-      "loesung": 1,
-      "erklaerung": "Gleiches Wirken auf $A$ und $b$ repräsentiert genau die gleichen Gleichungsumformungen und erhält die Lösungsmenge.",
-      "gewichtung": 2,
-      "thema": "Erweiterte Matrix & Modellierung",
+      "answer": 1,
+      "explanation": "Gleiches Wirken auf $A$ und $b$ repräsentiert genau die gleichen Gleichungsumformungen und erhält die Lösungsmenge.",
+      "weight": 2,
+      "topic": "Erweiterte Matrix & Modellierung",
       "extended_explanation": {
         "titel": "Äquivalenz durch konsistente Zeilenumformungen",
         "schritte": [
@@ -539,18 +539,18 @@
       }
     },
     {
-      "frage": "22. Welche Prüfungen gehören laut typischer Rechen-Checkliste zu einer sauberen Abgabe?",
-      "optionen": [
+      "question": "22. Welche Prüfungen gehören laut typischer Rechen-Checkliste zu einer sauberen Abgabe?",
+      "options": [
         "Widerspruchszeilen prüfen, Rangargument begründen, stichprobenartig $A\\,x$ gegen $b$ testen.",
         "Nur die Anzahl der Unbekannten zählen und das Ergebnis schätzen.",
         "Beliebige Spalten löschen, bis Eindeutigkeit entsteht.",
         "Nur die rechte Seite verändern, falls eine Nullzeile erscheint.",
         "Die Zeilen in zufälliger Reihenfolge sortieren."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Checkliste betont: Stufenform korrekt, Widerspruchszeilen und Fallentscheidung prüfen, Probe durchführen.",
-      "gewichtung": 2,
-      "thema": "Grundbegriffe LGS",
+      "answer": 0,
+      "explanation": "Die Checkliste betont: Stufenform korrekt, Widerspruchszeilen und Fallentscheidung prüfen, Probe durchführen.",
+      "weight": 2,
+      "topic": "Grundbegriffe LGS",
       "extended_explanation": {
         "titel": "Sichere Abgabe: Was vor der Abgabe geprüft wird",
         "schritte": [
@@ -568,18 +568,18 @@
       }
     },
     {
-      "frage": "23. Welche Wirkung hat das Vertauschen zweier Gleichungen im LGS (Zeilentausch in $[A\\mid b]$)?",
-      "optionen": [
+      "question": "23. Welche Wirkung hat das Vertauschen zweier Gleichungen im LGS (Zeilentausch in $[A\\mid b]$)?",
+      "options": [
         "Es ändert die Lösungsmenge nicht, sondern nur die Reihenfolge der Gleichungen.",
         "Es erzeugt zusätzliche Lösungen.",
         "Es löscht die freien Variablen.",
         "Es halbiert die Anzahl der Pivots.",
         "Es verdoppelt den Rang der Matrix."
       ],
-      "loesung": 0,
-      "erklaerung": "Zeilentausch ist eine zulässige Äquivalenztransformation und ändert die Lösungsmenge nicht.",
-      "gewichtung": 2,
-      "thema": "Elementare Zeilenumformungen",
+      "answer": 0,
+      "explanation": "Zeilentausch ist eine zulässige Äquivalenztransformation und ändert die Lösungsmenge nicht.",
+      "weight": 2,
+      "topic": "Elementare Zeilenumformungen",
       "extended_explanation": {
         "titel": "Zeilentausch als Äquivalenz",
         "schritte": [
@@ -597,18 +597,18 @@
       }
     },
     {
-      "frage": "24. Was bedeutet es, wenn eine Spalte in der RREF keine Pivotposition enthält?",
-      "optionen": [
+      "question": "24. Was bedeutet es, wenn eine Spalte in der RREF keine Pivotposition enthält?",
+      "options": [
         "Die zugehörige Variable ist gebunden.",
         "Die zugehörige Variable ist frei und wird parametrisiert.",
         "Der Rang ist größer als die Spaltenzahl.",
         "Das System ist automatisch inkonsistent.",
         "Die Lösung ist eindeutig."
       ],
-      "loesung": 1,
-      "erklaerung": "Ohne Pivot ist die Variable nicht gebunden und wird als freier Parameter behandelt.",
-      "gewichtung": 2,
-      "thema": "Zeilenstufenform (ZSF) & RREF",
+      "answer": 1,
+      "explanation": "Ohne Pivot ist die Variable nicht gebunden und wird als freier Parameter behandelt.",
+      "weight": 2,
+      "topic": "Zeilenstufenform (ZSF) & RREF",
       "extended_explanation": {
         "titel": "Nicht-Pivotspalten identifizieren",
         "schritte": [
@@ -626,18 +626,18 @@
       }
     },
     {
-      "frage": "25. Welche Beschreibung der Lösungsmenge nutzt die Zerlegung in partikulären und homogenen Anteil korrekt?",
-      "optionen": [
+      "question": "25. Welche Beschreibung der Lösungsmenge nutzt die Zerlegung in partikulären und homogenen Anteil korrekt?",
+      "options": [
         "Alle Lösungen sind identisch mit dem Kern von $A$.",
         "Jede Lösung ist von der Form $x=x_p+z$ mit beliebigem $z$ und $A\\,z=b$.",
         "Jede Lösung hat die Form $x=x_p+z$ mit $A\\,x_p=b$ und $z\\in\\ker(A)$.",
         "Jede Lösung ist $x=0$, sofern $A$ nicht quadratisch ist.",
         "Jede Lösung ist $x=b$, sofern $A$ Vollrang hat."
       ],
-      "loesung": 2,
-      "erklaerung": "Bei Konsistenz gilt $\\{x\\mid A\\,x=b\\}=x_p+\\ker(A)$, mit $x_p$ partikulär und $z$ aus dem Kern.",
-      "gewichtung": 3,
-      "thema": "Lösungsräume & Parametrisierung",
+      "answer": 2,
+      "explanation": "Bei Konsistenz gilt $\\{x\\mid A\\,x=b\\}=x_p+\\ker(A)$, mit $x_p$ partikulär und $z$ aus dem Kern.",
+      "weight": 3,
+      "topic": "Lösungsräume & Parametrisierung",
       "extended_explanation": {
         "titel": "Affine Struktur der Lösungsmenge",
         "schritte": [
@@ -655,18 +655,18 @@
       }
     },
     {
-      "frage": "26. Welche Eigenschaft beschreibt die Struktur der Matrix $U$ nach der Vorwärtselimination für das Rückwärtseinsetzen korrekt?",
-      "optionen": [
+      "question": "26. Welche Eigenschaft beschreibt die Struktur der Matrix $U$ nach der Vorwärtselimination für das Rückwärtseinsetzen korrekt?",
+      "options": [
         "$U$ hat Nullen über der Diagonalen und beliebige Werte darunter.",
         "$U$ ist eine obere Dreiecksmatrix mit Nullen unterhalb der Diagonalen.",
         "$U$ ist stets die Einheitsmatrix, unabhängig von $A$.",
         "$U$ hat in jeder Spalte mindestens zwei Pivots.",
         "$U$ ist immer symmetrisch und positiv definit."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Vorwärtselimination erzeugt eine obere Dreiecksmatrix (oder allgemeiner ZSF) mit Nullen unter der Hauptdiagonalen.",
-      "gewichtung": 3,
-      "thema": "Spezialformen & Dreiecksmatrizen",
+      "answer": 1,
+      "explanation": "Die Vorwärtselimination erzeugt eine obere Dreiecksmatrix (oder allgemeiner ZSF) mit Nullen unter der Hauptdiagonalen.",
+      "weight": 3,
+      "topic": "Spezialformen & Dreiecksmatrizen",
       "extended_explanation": {
         "titel": "Von $[A\\mid b]$ zu $[U\\mid c]$",
         "schritte": [
@@ -684,18 +684,18 @@
       }
     },
     {
-      "frage": "27. Welche Eliminationsformel wird für $i>k$ beim Nullmachen unter dem Pivot in Spalte $s$ verwendet?",
-      "optionen": [
+      "question": "27. Welche Eliminationsformel wird für $i>k$ beim Nullmachen unter dem Pivot in Spalte $s$ verwendet?",
+      "options": [
         "$Z_i\\leftarrow Z_i+\\dfrac{a_{ks}}{a_{is}}Z_k$",
         "$Z_i\\leftarrow Z_i-\\dfrac{a_{is}}{a_{ks}}Z_k$",
         "$Z_k\\leftarrow Z_k-\\dfrac{a_{is}}{a_{ks}}Z_i$",
         "$Z_i\\leftarrow \\dfrac{1}{a_{is}}Z_i$",
         "$Z_k\\leftarrow a_{ks}\\,Z_k+a_{is}\\,Z_i$"
       ],
-      "loesung": 1,
-      "erklaerung": "Mit Faktor $\\dfrac{a_{is}}{a_{ks}}$ wird der Eintrag $a_{is}$ in Zeile $i$ unter dem Pivot auf 0 eliminiert.",
-      "gewichtung": 3,
-      "thema": "Gauß-Vorwärtselimination",
+      "answer": 1,
+      "explanation": "Mit Faktor $\\dfrac{a_{is}}{a_{ks}}$ wird der Eintrag $a_{is}$ in Zeile $i$ unter dem Pivot auf 0 eliminiert.",
+      "weight": 3,
+      "topic": "Gauß-Vorwärtselimination",
       "extended_explanation": {
         "titel": "Herleitung der Eliminationsformel",
         "schritte": [
@@ -713,18 +713,18 @@
       }
     },
     {
-      "frage": "28. Welche Aussage beschreibt das Rangkriterium der Unlösbarkeit korrekt?",
-      "optionen": [
+      "question": "28. Welche Aussage beschreibt das Rangkriterium der Unlösbarkeit korrekt?",
+      "options": [
         "Ein System ist unlösbar, wenn $\\operatorname{rang}(A)>\\operatorname{rang}([A\\mid b])$.",
         "Ein System ist unlösbar, wenn $\\operatorname{rang}(A)<\\operatorname{rang}([A\\mid b])$.",
         "Ein System ist unlösbar, wenn $\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])$.",
         "Ein System ist unlösbar, wenn $\\operatorname{rang}([A\\mid b])=0$.",
         "Ein System ist unlösbar, wenn $\\operatorname{rang}(A)=n$."
       ],
-      "loesung": 1,
-      "erklaerung": "Mehr Rang in der erweiterten Matrix als in $A$ bedeutet eine Widerspruchszeile $0=c\\ne 0$ und damit Inkonsistenz.",
-      "gewichtung": 3,
-      "thema": "Rang & Rouché–Capelli",
+      "answer": 1,
+      "explanation": "Mehr Rang in der erweiterten Matrix als in $A$ bedeutet eine Widerspruchszeile $0=c\\ne 0$ und damit Inkonsistenz.",
+      "weight": 3,
+      "topic": "Rang & Rouché–Capelli",
       "extended_explanation": {
         "titel": "Rouché–Capelli präzise angewandt",
         "schritte": [
@@ -742,18 +742,18 @@
       }
     },
     {
-      "frage": "29. Welche Aussage über die Ränge gilt stets für $A$ und die erweiterte Matrix $[A\\mid b]$?",
-      "optionen": [
+      "question": "29. Welche Aussage über die Ränge gilt stets für $A$ und die erweiterte Matrix $[A\\mid b]$?",
+      "options": [
         "$\\operatorname{rang}([A\\mid b])\\le \\operatorname{rang}(A)$ gilt immer.",
         "$\\operatorname{rang}(A)\\le \\operatorname{rang}([A\\mid b])$ gilt immer.",
         "$\\operatorname{rang}(A)=0$ für alle Systeme.",
         "$\\operatorname{rang}([A\\mid b])=n$ unabhängig von $b$.",
         "$\\operatorname{rang}(A)>n$ für rechteckige Matrizen."
       ],
-      "loesung": 1,
-      "erklaerung": "Durch Anhängen einer Spalte kann der Rang nicht kleiner werden: $\\operatorname{rang}(A)\\le \\operatorname{rang}([A\\mid b])$.",
-      "gewichtung": 3,
-      "thema": "Erweiterte Matrix & Modellierung",
+      "answer": 1,
+      "explanation": "Durch Anhängen einer Spalte kann der Rang nicht kleiner werden: $\\operatorname{rang}(A)\\le \\operatorname{rang}([A\\mid b])$.",
+      "weight": 3,
+      "topic": "Erweiterte Matrix & Modellierung",
       "extended_explanation": {
         "titel": "Rangmonotonie beim Spaltenanhang",
         "schritte": [
@@ -771,18 +771,18 @@
       }
     },
     {
-      "frage": "30. Welche Aussage über die Abhängigkeit von Gleichungs- und Unbekanntenanzahl ist korrekt?",
-      "optionen": [
+      "question": "30. Welche Aussage über die Abhängigkeit von Gleichungs- und Unbekanntenanzahl ist korrekt?",
+      "options": [
         "Alle Systeme mit $m<n$ sind unlösbar.",
         "Alle Systeme mit $m>n$ sind eindeutig lösbar.",
         "Die Existenz und Anzahl der Lösungen wird durch Rangbedingungen entschieden, nicht allein durch $m$ und $n$.",
         "Quadratische Systeme $m=n$ sind immer unlösbar.",
         "Nur bei $m=n$ kann der Gauß-Algorithmus verwendet werden."
       ],
-      "loesung": 2,
-      "erklaerung": "Wesentlich sind $\\operatorname{rang}(A)$ und $\\operatorname{rang}([A\\mid b])$; die bloßen Maße $m,n$ entscheiden nicht.",
-      "gewichtung": 3,
-      "thema": "Grundbegriffe LGS",
+      "answer": 2,
+      "explanation": "Wesentlich sind $\\operatorname{rang}(A)$ und $\\operatorname{rang}([A\\mid b])$; die bloßen Maße $m,n$ entscheiden nicht.",
+      "weight": 3,
+      "topic": "Grundbegriffe LGS",
       "extended_explanation": {
         "titel": "Maße vs. Rang – was wirklich zählt",
         "schritte": [

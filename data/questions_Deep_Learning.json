@@ -1,652 +1,652 @@
 [
   {
-    "frage": "1. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?",
-    "optionen": [
+    "question": "1. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?",
+    "options": [
       "Es besteht aus Schichten von Neuronen, die durch gewichtete Verbindungen miteinander verknüpft sind.",
       "Es verwendet einen einzelnen Entscheidungsbaum, um Vorhersagen zu treffen.",
       "Es benötigt grundsätzlich keine Trainingsdaten, um zu funktionieren.",
       "Es kann ausschließlich lineare Regressionen durchführen."
     ],
-    "loesung": 0,
-    "erklaerung": "Neuronale Netze sind von der Struktur des Gehirns inspiriert und bestehen aus miteinander verbundenen Knoten (Neuronen), die in Schichten angeordnet sind. Die Stärke der Verbindungen (Gewichte) wird im Training gelernt.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Neuronale Netze sind von der Struktur des Gehirns inspiriert und bestehen aus miteinander verbundenen Knoten (Neuronen), die in Schichten angeordnet sind. Die Stärke der Verbindungen (Gewichte) wird im Training gelernt.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "2. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem neuronalen Netz?",
-    "optionen": [
+    "question": "2. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem neuronalen Netz?",
+    "options": [
       "Sie führt Nichtlinearität ein, was dem Netz ermöglicht, komplexe Muster zu lernen.",
       "Sie berechnet den Gradienten für die Backpropagation.",
       "Sie initialisiert die Gewichte der Neuronen vor dem Training.",
       "Sie normalisiert die Eingabedaten auf einen Bereich zwischen 0 und 1."
     ],
-    "loesung": 0,
-    "erklaerung": "Ohne nichtlineare Aktivierungsfunktionen wäre ein neuronales Netz, egal wie viele Schichten es hat, nur in der Lage, lineare Zusammenhänge zu modellieren. Die Nichtlinearität ist entscheidend für seine Mächtigkeit.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Ohne nichtlineare Aktivierungsfunktionen wäre ein neuronales Netz, egal wie viele Schichten es hat, nur in der Lage, lineare Zusammenhänge zu modellieren. Die Nichtlinearität ist entscheidend für seine Mächtigkeit.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "3. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?",
-    "optionen": [
+    "question": "3. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?",
+    "options": [
       "`ReLU` leidet weniger unter dem 'Vanishing Gradient'-Problem.",
       "`ReLU` ist über den gesamten Definitionsbereich stetig differenzierbar.",
       "`ReLU` eignet sich besser für die Ausgabeschicht bei binärer Klassifikation.",
       "`ReLU` ist rechenintensiver, aber genauer."
     ],
-    "loesung": 0,
-    "erklaerung": "Die Ableitung der `Sigmoid`-Funktion ist in vielen Bereichen nahe null, was bei tiefen Netzen zum 'Verschwinden' der Gradienten führen kann. `ReLU` hat für positive Eingaben eine konstante Ableitung von 1, was den Gradientenfluss erleichtert.",
-    "gewichtung": 2,
-    "thema": "Aktivierungsfunktionen"
+    "answer": 0,
+    "explanation": "Die Ableitung der `Sigmoid`-Funktion ist in vielen Bereichen nahe null, was bei tiefen Netzen zum 'Verschwinden' der Gradienten führen kann. `ReLU` hat für positive Eingaben eine konstante Ableitung von 1, was den Gradientenfluss erleichtert.",
+    "weight": 2,
+    "topic": "Aktivierungsfunktionen"
   },
   {
-    "frage": "4. Was beschreibt das Backpropagation-Verfahren?",
-    "optionen": [
+    "question": "4. Was beschreibt das Backpropagation-Verfahren?",
+    "options": [
       "Die effiziente Berechnung der Gradienten des Fehlers bezüglich der Gewichte.",
       "Die zufällige Initialisierung der Gewichte vor dem ersten Trainingsschritt.",
       "Die Auswahl der optimalen Anzahl von Neuronen für ein Hidden Layer.",
       "Die schichtweise Vorwärtsausbreitung der Eingabedaten durch das Netz."
     ],
-    "loesung": 0,
-    "erklaerung": "`Backpropagation` ist der Algorithmus, mit dem die Gewichte eines neuronalen Netzes trainiert werden. Er propagiert den Fehler von der Ausgabeschicht rückwärts durch das Netz, um die Gradienten für die Gewichtsaktualisierung zu berechnen.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "`Backpropagation` ist der Algorithmus, mit dem die Gewichte eines neuronalen Netzes trainiert werden. Er propagiert den Fehler von der Ausgabeschicht rückwärts durch das Netz, um die Gradienten für die Gewichtsaktualisierung zu berechnen.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "5. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?",
-    "optionen": [
+    "question": "5. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?",
+    "options": [
       "Ein zu komplexes Modell (zu viele Parameter) im Verhältnis zu wenigen Trainingsdaten.",
       "Eine zu kleine Lernrate während des Trainings.",
       "Die Verwendung von Regularisierungstechniken wie `Dropout`.",
       "Das Fehlen einer nichtlinearen Aktivierungsfunktion in den Hidden Layers."
     ],
-    "loesung": 0,
-    "erklaerung": "`Overfitting` tritt auf, wenn ein Modell so flexibel ist, dass es beginnt, das Rauschen in den Trainingsdaten auswendig zu lernen, anstatt das zugrundeliegende Muster zu generalisieren.",
-    "gewichtung": 1,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "`Overfitting` tritt auf, wenn ein Modell so flexibel ist, dass es beginnt, das Rauschen in den Trainingsdaten auswendig zu lernen, anstatt das zugrundeliegende Muster zu generalisieren.",
+    "weight": 1,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "6. Was ist `Dropout` im Kontext von Deep Learning?",
-    "optionen": [
+    "question": "6. Was ist `Dropout` im Kontext von Deep Learning?",
+    "options": [
       "Eine Regularisierungstechnik, bei der während des Trainings zufällig Neuronen 'ausgeschaltet' werden.",
       "Eine Methode zur Beschleunigung des Trainings durch Reduzierung der Batch-Größe.",
       "Eine spezielle Aktivierungsfunktion für die Ausgabeschicht.",
       "Ein Optimierungsalgorithmus, der die Lernrate adaptiv anpasst."
     ],
-    "loesung": 0,
-    "erklaerung": "Durch das zufällige Deaktivieren von Neuronen in jedem Trainingsschritt zwingt `Dropout` das Netzwerk, robustere und weniger voneinander abhängige Features zu lernen, was Overfitting entgegenwirkt.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "Durch das zufällige Deaktivieren von Neuronen in jedem Trainingsschritt zwingt `Dropout` das Netzwerk, robustere und weniger voneinander abhängige Features zu lernen, was Overfitting entgegenwirkt.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "7. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?",
-    "optionen": [
+    "question": "7. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?",
+    "options": [
       "Sie quantifiziert den Fehler zwischen der Modellvorhersage und dem wahren Zielwert.",
       "Sie berechnet die optimale Anzahl der Neuronen für die gegebene Aufgabe.",
       "Sie legt die Lernrate für den Optimierungsalgorithmus fest.",
       "Sie bestimmt die maximale Anzahl der Trainingsepochen."
     ],
-    "loesung": 0,
-    "erklaerung": "Die Verlustfunktion ist das Signal, das der Optimierungsalgorithmus (z.B. SGD) zu minimieren versucht. Ein kleinerer Verlustwert bedeutet eine bessere Anpassung des Modells an die Trainingsdaten.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Die Verlustfunktion ist das Signal, das der Optimierungsalgorithmus (z.B. SGD) zu minimieren versucht. Ein kleinerer Verlustwert bedeutet eine bessere Anpassung des Modells an die Trainingsdaten.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "8. Was ist ein Hauptvorteil von `Batch Normalization`?",
-    "optionen": [
+    "question": "8. Was ist ein Hauptvorteil von `Batch Normalization`?",
+    "options": [
       "Sie beschleunigt und stabilisiert den Trainingsprozess.",
       "Sie erhöht die Anzahl der lernbaren Parameter im Modell.",
       "Sie ersetzt die Notwendigkeit von Aktivierungsfunktionen.",
       "Sie funktioniert nur in der ersten Schicht eines Netzwerks."
     ],
-    "loesung": 0,
-    "erklaerung": "`Batch Normalization` normalisiert die Aktivierungen zwischen den Schichten. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler.",
-    "gewichtung": 3,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "`Batch Normalization` normalisiert die Aktivierungen zwischen den Schichten. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler.",
+    "weight": 3,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "9. Was ist ein potenzielles Problem bei sehr tiefen neuronalen Netzen?",
-    "optionen": [
+    "question": "9. Was ist ein potenzielles Problem bei sehr tiefen neuronalen Netzen?",
+    "options": [
       "Das Auftreten von 'Vanishing' oder 'Exploding Gradients'.",
       "Sie sind prinzipiell schneller zu trainieren als flache Netze.",
       "Sie können keine nichtlinearen Aktivierungsfunktionen verwenden.",
       "Sie sind von Natur aus robuster gegen Overfitting."
     ],
-    "loesung": 0,
-    "erklaerung": "Bei der `Backpropagation` in sehr tiefen Netzen kann der Gradient, der rückwärts propagiert wird, exponentiell klein ('vanishing') oder groß ('exploding') werden, was das Lernen verhindert oder destabilisiert.",
-    "gewichtung": 2,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Bei der `Backpropagation` in sehr tiefen Netzen kann der Gradient, der rückwärts propagiert wird, exponentiell klein ('vanishing') oder groß ('exploding') werden, was das Lernen verhindert oder destabilisiert.",
+    "weight": 2,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "10. Für welche Art von Aufgaben sind `Convolutional Neural Networks (CNNs)` besonders gut geeignet?",
-    "optionen": [
+    "question": "10. Für welche Art von Aufgaben sind `Convolutional Neural Networks (CNNs)` besonders gut geeignet?",
+    "options": [
       "Aufgaben mit gitterartigen Daten wie Bildklassifikation und Objekterkennung.",
       "Die Verarbeitung von sequenziellen Daten wie Zeitreihen oder Text.",
       "Das Finden von Clustern in ungelabelten Datensätzen.",
       "Probleme des Reinforcement Learning in Spielumgebungen."
     ],
-    "loesung": 0,
-    "erklaerung": "`CNNs` sind darauf spezialisiert, lokale räumliche Muster in Daten wie Bildern durch Faltungsoperationen (Convolutions) zu erkennen, was sie für Computer-Vision-Aufgaben prädestiniert.",
-    "gewichtung": 1,
-    "thema": "Architekturen (CNN)"
+    "answer": 0,
+    "explanation": "`CNNs` sind darauf spezialisiert, lokale räumliche Muster in Daten wie Bildern durch Faltungsoperationen (Convolutions) zu erkennen, was sie für Computer-Vision-Aufgaben prädestiniert.",
+    "weight": 1,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "11. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?",
-    "optionen": [
+    "question": "11. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?",
+    "options": [
       "Es ist speichereffizient und ermöglicht das Training mit sehr großen Datensätzen.",
       "Es konvergiert garantiert immer zum globalen Minimum der Verlustfunktion.",
       "Es benötigt keine manuelle Einstellung der Lernrate.",
       "Es führt im Vergleich zu anderen Methoden zu einer schnelleren Konvergenz."
     ],
-    "loesung": 0,
-    "erklaerung": "Da `SGD` die Gewichte nach jedem einzelnen Datenpunkt (oder einem kleinen Batch) aktualisiert, muss nicht der gesamte Datensatz im Speicher gehalten werden. Die 'rauschhaften' Updates können auch helfen, lokalen Minima zu entkommen.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "Da `SGD` die Gewichte nach jedem einzelnen Datenpunkt (oder einem kleinen Batch) aktualisiert, muss nicht der gesamte Datensatz im Speicher gehalten werden. Die 'rauschhaften' Updates können auch helfen, lokalen Minima zu entkommen.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "12. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?",
-    "optionen": [
+    "question": "12. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?",
+    "options": [
       "Es lernt hierarchische und zunehmend komplexe Merkmale aus den Eingabedaten.",
       "Es dient ausschließlich dazu, die finale Vorhersage des Netzes auszugeben.",
       "Es initialisiert die Gewichte für die Eingabeschicht.",
       "Es normalisiert die Ausgabewerte auf einen Bereich zwischen 0 und 1."
     ],
-    "loesung": 0,
-    "erklaerung": "Versteckte Schichten (Hidden Layers) sind die Kernkomponenten, in denen das Netzwerk lernt, aus den Rohdaten der vorherigen Schicht abstraktere und nützlichere Repräsentationen zu extrahieren.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Versteckte Schichten (Hidden Layers) sind die Kernkomponenten, in denen das Netzwerk lernt, aus den Rohdaten der vorherigen Schicht abstraktere und nützlichere Repräsentationen zu extrahieren.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "13. Was ist ein Nachteil der `Sigmoid`-Aktivierungsfunktion in tiefen Netzen?",
-    "optionen": [
+    "question": "13. Was ist ein Nachteil der `Sigmoid`-Aktivierungsfunktion in tiefen Netzen?",
+    "options": [
       "Ihre Ableitung ist oft nahe null, was zum 'Vanishing Gradient'-Problem führt.",
       "Sie ist nicht stetig differenzierbar und kann nicht für `Backpropagation` verwendet werden.",
       "Sie kann keine nichtlinearen Zusammenhänge im Netzwerk abbilden.",
       "Sie ist ausschließlich für Regressionsprobleme mit positiven Zielwerten geeignet."
     ],
-    "loesung": 0,
-    "erklaerung": "Die `Sigmoid`-Funktion 'sättigt' bei großen positiven oder negativen Eingaben, was bedeutet, dass ihre Ableitung nahe null wird. Dies verlangsamt oder stoppt den Lernprozess in den unteren Schichten tiefer Netzwerke.",
-    "gewichtung": 2,
-    "thema": "Aktivierungsfunktionen"
+    "answer": 0,
+    "explanation": "Die `Sigmoid`-Funktion 'sättigt' bei großen positiven oder negativen Eingaben, was bedeutet, dass ihre Ableitung nahe null wird. Dies verlangsamt oder stoppt den Lernprozess in den unteren Schichten tiefer Netzwerke.",
+    "weight": 2,
+    "topic": "Aktivierungsfunktionen"
   },
   {
-    "frage": "14. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?",
-    "optionen": [
+    "question": "14. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?",
+    "options": [
       "Er passt die Lernrate für jeden Parameter individuell und adaptiv an.",
       "Er benötigt keine `Backpropagation` zur Berechnung der Gradienten.",
       "Er ist speziell für sehr kleine Netzwerke mit wenigen Parametern optimiert.",
       "Er verwendet keine Gradienten, sondern einen genetischen Algorithmus."
     ],
-    "loesung": 0,
-    "erklaerung": "`Adam` (Adaptive Moment Estimation) kombiniert die Ideen von Momentum und RMSprop. Er pflegt eine adaptive Lernrate für jedes Gewicht, was oft zu einer schnelleren und stabileren Konvergenz führt als Standard-SGD.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "`Adam` (Adaptive Moment Estimation) kombiniert die Ideen von Momentum und RMSprop. Er pflegt eine adaptive Lernrate für jedes Gewicht, was oft zu einer schnelleren und stabileren Konvergenz führt als Standard-SGD.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "15. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?",
-    "optionen": [
+    "question": "15. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?",
+    "options": [
       "Um Overfitting zu vermeiden, indem das Training beendet wird, wenn sich der Validierungsfehler nicht mehr verbessert.",
       "Um die anfängliche Lernrate dynamisch während der ersten Epochen zu erhöhen.",
       "Um die Gewichte des Netzwerks auf einen bekannten, guten Zustand zurückzusetzen.",
       "Um das Training zu stoppen, sobald eine Genauigkeit von 100% auf den Trainingsdaten erreicht ist."
     ],
-    "loesung": 0,
-    "erklaerung": "`Early Stopping` ist eine Form der Regularisierung, bei der die Leistung des Modells auf einem separaten Validierungsdatensatz überwacht wird. Das Training wird abgebrochen, sobald diese Leistung stagniert oder schlechter wird, um Overfitting zu verhindern.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "`Early Stopping` ist eine Form der Regularisierung, bei der die Leistung des Modells auf einem separaten Validierungsdatensatz überwacht wird. Das Training wird abgebrochen, sobald diese Leistung stagniert oder schlechter wird, um Overfitting zu verhindern.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "16. Welche Rolle spielt die `Softmax`-Funktion typischerweise in einem neuronalen Netz?",
-    "optionen": [
+    "question": "16. Welche Rolle spielt die `Softmax`-Funktion typischerweise in einem neuronalen Netz?",
+    "options": [
       "Sie wandelt die Logits der Ausgabeschicht in eine Wahrscheinlichkeitsverteilung über die Klassen um.",
       "Sie dient als Regularisierungstechnik, um Overfitting in den Hidden Layers zu reduzieren.",
       "Sie ersetzt die Verlustfunktion bei Regressionsproblemen.",
       "Sie wird als Aktivierungsfunktion in den Hidden Layers von CNNs verwendet."
     ],
-    "loesung": 0,
-    "erklaerung": "Die `Softmax`-Funktion ist ideal für die Ausgabeschicht bei Multi-Klassen-Klassifikationsproblemen, da sie sicherstellt, dass die Summe der Ausgaben 1 beträgt und jeder Wert als die Wahrscheinlichkeit für die jeweilige Klasse interpretiert werden kann.",
-    "gewichtung": 2,
-    "thema": "Aktivierungsfunktionen"
+    "answer": 0,
+    "explanation": "Die `Softmax`-Funktion ist ideal für die Ausgabeschicht bei Multi-Klassen-Klassifikationsproblemen, da sie sicherstellt, dass die Summe der Ausgaben 1 beträgt und jeder Wert als die Wahrscheinlichkeit für die jeweilige Klasse interpretiert werden kann.",
+    "weight": 2,
+    "topic": "Aktivierungsfunktionen"
   },
   {
-    "frage": "17. Was ist ein potenzieller Nachteil einer zu großen Lernrate?",
-    "optionen": [
+    "question": "17. Was ist ein potenzieller Nachteil einer zu großen Lernrate?",
+    "options": [
       "Das Training kann instabil werden, da das Optimum 'übersprungen' wird.",
       "Das Training konvergiert extrem langsam gegen ein lokales Minimum.",
       "Die Gewichte des Netzwerks werden während des Trainings nicht aktualisiert.",
       "Die Aktivierungsfunktionen in den Hidden Layers werden deaktiviert."
     ],
-    "loesung": 0,
-    "erklaerung": "Eine zu große Lernrate kann dazu führen, dass die Gewichtsaktualisierungen so groß sind, dass der Optimierungsprozess über das Minimum der Verlustfunktion hinwegschießt und der Fehler wieder ansteigt (Divergenz).",
-    "gewichtung": 1,
-    "thema": "Training & Optimierung"
+    "answer": 0,
+    "explanation": "Eine zu große Lernrate kann dazu führen, dass die Gewichtsaktualisierungen so groß sind, dass der Optimierungsprozess über das Minimum der Verlustfunktion hinwegschießt und der Fehler wieder ansteigt (Divergenz).",
+    "weight": 1,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "18. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?",
-    "optionen": [
+    "question": "18. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?",
+    "options": [
       "Sie hilft, Probleme wie 'Vanishing/Exploding Gradients' zu vermeiden und beschleunigt die Konvergenz.",
       "Sie bestimmt die endgültige Anzahl der Hidden Layers im Netzwerk.",
       "Sie ersetzt die Notwendigkeit einer nichtlinearen Aktivierungsfunktion.",
       "Sie verhindert die Verwendung von Regularisierungstechniken wie `Dropout`."
     ],
-    "loesung": 0,
-    "erklaerung": "Eine schlechte Initialisierung (z.B. alle Gewichte auf null) kann den Lernprozess verhindern. Techniken wie Xavier/Glorot-Initialisierung sorgen für eine gute Varianz der Aktivierungen und einen stabilen Gradientenfluss zu Beginn des Trainings.",
-    "gewichtung": 3,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Eine schlechte Initialisierung (z.B. alle Gewichte auf null) kann den Lernprozess verhindern. Techniken wie Xavier/Glorot-Initialisierung sorgen für eine gute Varianz der Aktivierungen und einen stabilen Gradientenfluss zu Beginn des Trainings.",
+    "weight": 3,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "19. Für welche Art von Daten sind `Recurrent Neural Networks (RNNs)` besonders geeignet?",
-    "optionen": [
+    "question": "19. Für welche Art von Daten sind `Recurrent Neural Networks (RNNs)` besonders geeignet?",
+    "options": [
       "Für Sequenzdaten, bei denen die Reihenfolge der Elemente von Bedeutung ist (z.B. Text, Zeitreihen).",
       "Für gitterartige Daten ohne zeitliche Komponente wie statische Bilder.",
       "Für tabellarische Daten mit unabhängigen Zeilen wie in einer CSV-Datei.",
       "Für das Finden von Clustern in ungelabelten Datensätzen."
     ],
-    "loesung": 0,
-    "erklaerung": "`RNNs` besitzen interne Schleifen, die es ihnen ermöglichen, einen 'Gedächtnis'-Zustand zu pflegen. Dies macht sie ideal für Aufgaben, bei denen der Kontext aus vorherigen Schritten in einer Sequenz wichtig ist.",
-    "gewichtung": 1,
-    "thema": "Architekturen (RNN)"
+    "answer": 0,
+    "explanation": "`RNNs` besitzen interne Schleifen, die es ihnen ermöglichen, einen 'Gedächtnis'-Zustand zu pflegen. Dies macht sie ideal für Aufgaben, bei denen der Kontext aus vorherigen Schritten in einer Sequenz wichtig ist.",
+    "weight": 1,
+    "topic": "Architekturen (RNN)"
   },
   {
-    "frage": "20. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
-    "optionen": [
+    "question": "20. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
+    "options": [
       "Die Fähigkeit zum automatischen 'Feature Learning' direkt aus Rohdaten.",
       "Die Garantie, dass kein Overfitting auf den Trainingsdaten stattfindet.",
       "Die hohe Interpretierbarkeit der gelernten Modelle ('White-Box').",
       "Der geringere Bedarf an Trainingsdaten für komplexe Aufgaben."
     ],
-    "loesung": 0,
-    "erklaerung": "Während bei klassischen ML-Ansätzen oft aufwendiges, manuelles Feature Engineering nötig ist, können tiefe neuronale Netze eine Hierarchie von Merkmalen direkt aus den Rohdaten (z.B. Pixeln eines Bildes) lernen.",
-    "gewichtung": 2,
-    "thema": "Grundlagen"
+    "answer": 0,
+    "explanation": "Während bei klassischen ML-Ansätzen oft aufwendiges, manuelles Feature Engineering nötig ist, können tiefe neuronale Netze eine Hierarchie von Merkmalen direkt aus den Rohdaten (z.B. Pixeln eines Bildes) lernen.",
+    "weight": 2,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "21. Was ist der Hauptvorteil von CNNs gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
-    "optionen": [
+    "question": "21. Was ist der Hauptvorteil von CNNs gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
+    "options": [
       "Sie sind unempfindlich gegenüber der Farbe der Pixel.",
       "Sie reduzieren die Anzahl der Parameter drastisch durch lokale Verbindungen und Gewichtsteilung.",
       "Sie können ausschließlich Graustufenbilder effizient verarbeiten.",
       "Sie konvergieren beim Training grundsätzlich schneller."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein Fully-Connected Network für ein Bild hätte für jedes Pixel eine Verbindung zu jedem Neuron der nächsten Schicht, was zu Millionen von Parametern führt. CNNs nutzen kleine Filter, deren Gewichte über das gesamte Bild geteilt werden, was rechnerisch effizienter ist.",
-    "gewichtung": 2,
-    "thema": "Architekturen (CNN)"
+    "answer": 1,
+    "explanation": "Ein Fully-Connected Network für ein Bild hätte für jedes Pixel eine Verbindung zu jedem Neuron der nächsten Schicht, was zu Millionen von Parametern führt. CNNs nutzen kleine Filter, deren Gewichte über das gesamte Bild geteilt werden, was rechnerisch effizienter ist.",
+    "weight": 2,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "22. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?",
-    "optionen": [
+    "question": "22. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?",
+    "options": [
       "`Dropout`",
       "`Translation Invariance`",
       "`Dense Layer`",
       "`Batch Normalization`"
     ],
-    "loesung": 1,
-    "erklaerung": "Durch die Anwendung desselben Filters (Gewichtsteilung) über das gesamte Bild und die anschließende Abstraktion durch Pooling-Layer lernt ein CNN, ein Merkmal (z.B. ein Auge) zu erkennen, egal ob es links oben oder rechts unten im Bild erscheint.",
-    "gewichtung": 3,
-    "thema": "Architekturen (CNN)"
+    "answer": 1,
+    "explanation": "Durch die Anwendung desselben Filters (Gewichtsteilung) über das gesamte Bild und die anschließende Abstraktion durch Pooling-Layer lernt ein CNN, ein Merkmal (z.B. ein Auge) zu erkennen, egal ob es links oben oder rechts unten im Bild erscheint.",
+    "weight": 3,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "23. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?",
-    "optionen": [
+    "question": "23. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?",
+    "options": [
       "Eine Methode zur Umwandlung eines Farbbildes in ein Graustufenbild.",
       "Eine kleine Matrix von Gewichten, die über das Eingabebild gefaltet wird, um Merkmale zu extrahieren.",
       "Ein Algorithmus zur Kompression der Bilddaten vor der Verarbeitung.",
       "Ein Verfahren zur künstlichen Vergrößerung des Trainingsdatensatzes (Data Augmentation)."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein Filter ist der zentrale Baustein eines Convolutional Layers. Er fungiert als Merkmalsdetektor (z.B. für Kanten, Ecken, Texturen), dessen Gewichte während des Trainings gelernt werden.",
-    "gewichtung": 1,
-    "thema": "Architekturen (CNN)"
+    "answer": 1,
+    "explanation": "Ein Filter ist der zentrale Baustein eines Convolutional Layers. Er fungiert als Merkmalsdetektor (z.B. für Kanten, Ecken, Texturen), dessen Gewichte während des Trainings gelernt werden.",
+    "weight": 1,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "24. Was ist der Zweck eines Pooling-Layers in einem CNN?",
-    "optionen": [
+    "question": "24. Was ist der Zweck eines Pooling-Layers in einem CNN?",
+    "options": [
       "Die Anzahl der Parameter im Netzwerk zu erhöhen.",
       "Die räumliche Dimension der Feature Maps zu reduzieren (Downsampling).",
       "Die Eingabebilder zu normalisieren.",
       "Eine nichtlineare Aktivierung auf die Feature Map anzuwenden."
     ],
-    "loesung": 1,
-    "erklaerung": "Pooling (z.B. Max-Pooling) reduziert die Größe der Feature Maps, was die Anzahl der Parameter und den Rechenaufwand in nachfolgenden Schichten verringert. Es hilft auch, das Modell robuster gegenüber kleinen Verschiebungen im Bild zu machen.",
-    "gewichtung": 2,
-    "thema": "Architekturen (CNN)"
+    "answer": 1,
+    "explanation": "Pooling (z.B. Max-Pooling) reduziert die Größe der Feature Maps, was die Anzahl der Parameter und den Rechenaufwand in nachfolgenden Schichten verringert. Es hilft auch, das Modell robuster gegenüber kleinen Verschiebungen im Bild zu machen.",
+    "weight": 2,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "25. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern wie dem Sobel-Filter?",
-    "optionen": [
+    "question": "25. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern wie dem Sobel-Filter?",
+    "options": [
       "Klassische Filter sind fest definiert, während die Filter in CNNs während des Trainings gelernt werden.",
       "CNN-Filter sind immer signifikant größer als klassische Filter, um globale Merkmale zu erfassen.",
       "Klassische Filter können keine Kanten oder Texturen im Bild erkennen.",
       "CNN-Filter benötigen keine nichtlineare Aktivierungsfunktion nach der Anwendung."
     ],
-    "loesung": 0,
-    "erklaerung": "Der entscheidende Unterschied ist, dass die Werte der Filtermatrizen in einem CNN nicht von einem Menschen entworfen, sondern durch `Backpropagation` gelernt werden. Das Netzwerk findet so selbst die optimalen Filter für die gegebene Aufgabe.",
-    "gewichtung": 2,
-    "thema": "Architekturen (CNN)"
+    "answer": 0,
+    "explanation": "Der entscheidende Unterschied ist, dass die Werte der Filtermatrizen in einem CNN nicht von einem Menschen entworfen, sondern durch `Backpropagation` gelernt werden. Das Netzwerk findet so selbst die optimalen Filter für die gegebene Aufgabe.",
+    "weight": 2,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "26. Was ist eine `Feature Map` in einem CNN?",
-    "optionen": [
+    "question": "26. Was ist eine `Feature Map` in einem CNN?",
+    "options": [
       "Eine grafische Darstellung der wichtigsten Features im Trainingsdatensatz.",
       "Die Ausgabe eines Filters nach der Faltungsoperation, die die Aktivierung eines Merkmals anzeigt.",
       "Ein spezieller Datensatz, der ausschließlich zur Bewertung der Merkmalsextraktion verwendet wird.",
       "Ein Layer, der neue Features durch die Kombination bestehender Features erzeugt."
     ],
-    "loesung": 1,
-    "erklaerung": "Eine `Feature Map` ist das Ergebnis der Anwendung eines Filters auf eine Eingabe. Sie ist eine 2D-Karte, deren Werte anzeigen, wie stark das vom Filter gesuchte Merkmal an der jeweiligen Position der Eingabe vorhanden ist.",
-    "gewichtung": 2,
-    "thema": "Architekturen (CNN)"
+    "answer": 1,
+    "explanation": "Eine `Feature Map` ist das Ergebnis der Anwendung eines Filters auf eine Eingabe. Sie ist eine 2D-Karte, deren Werte anzeigen, wie stark das vom Filter gesuchte Merkmal an der jeweiligen Position der Eingabe vorhanden ist.",
+    "weight": 2,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "27. Aus welchen zwei Hauptkomponenten besteht ein Generative Adversarial Network (GAN)?",
-    "optionen": [
+    "question": "27. Aus welchen zwei Hauptkomponenten besteht ein Generative Adversarial Network (GAN)?",
+    "options": [
       "Einem Encoder und einem Decoder.",
       "Einem Generator und einem Diskriminator.",
       "Einem Convolutional Layer und einem Pooling Layer.",
       "Einem Agenten und einer Umgebung."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein GAN besteht aus zwei neuronalen Netzen, die gegeneinander antreten: Der Generator versucht, realistische Daten zu erzeugen, während der Diskriminator versucht, echte von gefälschten Daten zu unterscheiden.",
-    "gewichtung": 2,
-    "thema": "Architekturen (GAN)"
+    "answer": 1,
+    "explanation": "Ein GAN besteht aus zwei neuronalen Netzen, die gegeneinander antreten: Der Generator versucht, realistische Daten zu erzeugen, während der Diskriminator versucht, echte von gefälschten Daten zu unterscheiden.",
+    "weight": 2,
+    "topic": "Architekturen (GAN)"
   },
   {
-    "frage": "28. Was ist das Ziel des Generators in einem GAN?",
-    "optionen": [
+    "question": "28. Was ist das Ziel des Generators in einem GAN?",
+    "options": [
       "Die Trainingsdaten möglichst exakt zu kopieren.",
       "Den Diskriminator zu täuschen, indem er Daten erzeugt, die von echten Daten nicht zu unterscheiden sind.",
       "Die Wahrscheinlichkeit zu berechnen, dass eine Eingabe echt ist.",
       "Die Dimension der Eingabedaten zu reduzieren."
     ],
-    "loesung": 1,
-    "erklaerung": "Das Ziel des Generators ist es, aus zufälligem Rauschen Daten zu synthetisieren, die so realistisch sind, dass der Diskriminator sie als echt klassifiziert. Er lernt dabei die zugrundeliegende Verteilung der Trainingsdaten.",
-    "gewichtung": 2,
-    "thema": "Architekturen (GAN)"
+    "answer": 1,
+    "explanation": "Das Ziel des Generators ist es, aus zufälligem Rauschen Daten zu synthetisieren, die so realistisch sind, dass der Diskriminator sie als echt klassifiziert. Er lernt dabei die zugrundeliegende Verteilung der Trainingsdaten.",
+    "weight": 2,
+    "topic": "Architekturen (GAN)"
   },
   {
-    "frage": "29. Was ist das Hauptproblem beim Training von RNNs mit langen Sequenzen?",
-    "optionen": [
+    "question": "29. Was ist das Hauptproblem beim Training von RNNs mit langen Sequenzen?",
+    "options": [
       "Overfitting",
       "Das Vanishing- oder Exploding-Gradient-Problem.",
       "Hoher Speicherverbrauch.",
       "Langsames Training."
     ],
-    "loesung": 1,
-    "erklaerung": "Bei langen Sequenzen muss der Gradient über viele Zeitschritte zurückpropagiert werden. Dabei kann er exponentiell klein (vanishing) oder groß (exploding) werden, was das Lernen von Langzeitabhängigkeiten verhindert.",
-    "gewichtung": 2,
-    "thema": "Architekturen (RNN)"
+    "answer": 1,
+    "explanation": "Bei langen Sequenzen muss der Gradient über viele Zeitschritte zurückpropagiert werden. Dabei kann er exponentiell klein (vanishing) oder groß (exploding) werden, was das Lernen von Langzeitabhängigkeiten verhindert.",
+    "weight": 2,
+    "topic": "Architekturen (RNN)"
   },
   {
-    "frage": "30. Wie lösen LSTMs das Vanishing-Gradient-Problem?",
-    "optionen": [
+    "question": "30. Wie lösen LSTMs das Vanishing-Gradient-Problem?",
+    "options": [
       "Durch die Verwendung einer linearen Aktivierungsfunktion.",
       "Durch den Einsatz von 'Gates' (Input, Forget, Output), die den Informationsfluss steuern.",
       "Indem sie die Sequenzlänge auf ein Maximum von 10 Schritten begrenzen.",
       "Durch die Anwendung von Batch Normalization in jedem Zeitschritt."
     ],
-    "loesung": 1,
-    "erklaerung": "LSTMs besitzen einen 'Zellzustand' und spezielle 'Gates', die lernen, welche Informationen sie speichern, vergessen oder ausgeben sollen. Dies ermöglicht einen ungehinderten Gradientenfluss über lange Zeiträume.",
-    "gewichtung": 3,
-    "thema": "Architekturen (RNN)"
+    "answer": 1,
+    "explanation": "LSTMs besitzen einen 'Zellzustand' und spezielle 'Gates', die lernen, welche Informationen sie speichern, vergessen oder ausgeben sollen. Dies ermöglicht einen ungehinderten Gradientenfluss über lange Zeiträume.",
+    "weight": 3,
+    "topic": "Architekturen (RNN)"
   },
   {
-    "frage": "31. Was ist der Kern des Attention-Mechanismus, wie er in Transformern verwendet wird?",
-    "optionen": [
+    "question": "31. Was ist der Kern des Attention-Mechanismus, wie er in Transformern verwendet wird?",
+    "options": [
       "Er fokussiert sich nur auf das letzte Wort in einem Satz.",
       "Er berechnet für jedes Wort eine gewichtete Summe aller anderen Wörter im Satz.",
       "Er verwendet einen festen Kontextvektor für den gesamten Satz.",
       "Er ersetzt alle Wörter durch ihre häufigsten Synonyme."
     ],
-    "loesung": 1,
-    "erklaerung": "Der Self-Attention-Mechanismus erlaubt es dem Modell, die Wichtigkeit jedes anderen Wortes in der Eingabesequenz für die Repräsentation eines bestimmten Wortes zu bewerten. Dies ermöglicht die Modellierung komplexer Abhängigkeiten unabhängig von der Distanz.",
-    "gewichtung": 3,
-    "thema": "Architekturen (Transformer)"
+    "answer": 1,
+    "explanation": "Der Self-Attention-Mechanismus erlaubt es dem Modell, die Wichtigkeit jedes anderen Wortes in der Eingabesequenz für die Repräsentation eines bestimmten Wortes zu bewerten. Dies ermöglicht die Modellierung komplexer Abhängigkeiten unabhängig von der Distanz.",
+    "weight": 3,
+    "topic": "Architekturen (Transformer)"
   },
   {
-    "frage": "32. Was ist ein wesentlicher Vorteil von Transformern gegenüber RNNs?",
-    "optionen": [
+    "question": "32. Was ist ein wesentlicher Vorteil von Transformern gegenüber RNNs?",
+    "options": [
       "Sie sind einfacher zu implementieren und haben weniger Hyperparameter.",
       "Sie können aufgrund des fehlenden rekurrenten Charakters stark parallelisiert werden.",
       "Sie benötigen signifikant weniger Trainingsdaten.",
       "Sie sind von Natur aus immun gegen Overfitting."
     ],
-    "loesung": 1,
-    "erklaerung": "Da RNNs Sequenzen Schritt für Schritt verarbeiten müssen, ist ihre Parallelisierung schwierig. Transformer verarbeiten alle Elemente der Sequenz gleichzeitig, was das Training auf moderner Hardware (GPUs/TPUs) erheblich beschleunigt.",
-    "gewichtung": 3,
-    "thema": "Architekturen (Transformer)"
+    "answer": 1,
+    "explanation": "Da RNNs Sequenzen Schritt für Schritt verarbeiten müssen, ist ihre Parallelisierung schwierig. Transformer verarbeiten alle Elemente der Sequenz gleichzeitig, was das Training auf moderner Hardware (GPUs/TPUs) erheblich beschleunigt.",
+    "weight": 3,
+    "topic": "Architekturen (Transformer)"
   },
   {
-    "frage": "33. Was ist Transfer Learning im Kontext von Deep Learning?",
-    "optionen": [
+    "question": "33. Was ist Transfer Learning im Kontext von Deep Learning?",
+    "options": [
       "Das Trainieren eines Modells von Grund auf mit einem sehr großen Datensatz.",
       "Die Verwendung eines auf einer großen Aufgabe vortrainierten Modells als Ausgangspunkt für eine neue, spezifischere Aufgabe.",
       "Die Übertragung eines Modells von einer Programmiersprache in eine andere.",
       "Das Trainieren mehrerer Modelle auf verschiedenen Teilen eines Datensatzes."
     ],
-    "loesung": 1,
-    "erklaerung": "Beim Transfer Learning nutzt man das Wissen (die gelernten Features) eines Modells, das auf einem riesigen Datensatz (z.B. ImageNet) trainiert wurde, und passt es mit einem kleineren, aufgabenspezifischen Datensatz an. Dies spart enorm viel Zeit und Daten.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 1,
+    "explanation": "Beim Transfer Learning nutzt man das Wissen (die gelernten Features) eines Modells, das auf einem riesigen Datensatz (z.B. ImageNet) trainiert wurde, und passt es mit einem kleineren, aufgabenspezifischen Datensatz an. Dies spart enorm viel Zeit und Daten.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "34. Was ist Data Augmentation?",
-    "optionen": [
+    "question": "34. Was ist Data Augmentation?",
+    "options": [
       "Das manuelle Hinzufügen von neuen, gelabelten Daten zum Trainingsset.",
       "Eine Technik, um die Anzahl der Layer in einem neuronalen Netz zu erhöhen.",
       "Das künstliche Erzeugen neuer Trainingsdaten durch Transformationen der bestehenden Daten (z.B. Drehen, Spiegeln von Bildern).",
       "Das Entfernen von Ausreißern aus dem Datensatz."
     ],
-    "loesung": 2,
-    "erklaerung": "Data Augmentation ist eine effektive Methode, um Overfitting zu reduzieren. Indem man leicht veränderte Versionen der Trainingsbilder erzeugt, 'sieht' das Modell mehr Variationen und lernt, robustere Merkmale zu erkennen.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 2,
+    "explanation": "Data Augmentation ist eine effektive Methode, um Overfitting zu reduzieren. Indem man leicht veränderte Versionen der Trainingsbilder erzeugt, 'sieht' das Modell mehr Variationen und lernt, robustere Merkmale zu erkennen.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "35. Was ist der Unterschied zwischen einem 'Dense' Layer und einem 'Convolutional' Layer?",
-    "optionen": [
+    "question": "35. Was ist der Unterschied zwischen einem 'Dense' Layer und einem 'Convolutional' Layer?",
+    "options": [
       "Ein Dense Layer ist nur für die Eingabeschicht, ein Convolutional Layer nur für die Ausgabeschicht.",
       "In einem Dense Layer ist jedes Neuron mit jedem Neuron der vorherigen Schicht verbunden, in einem Convolutional Layer nur mit einer lokalen Region.",
       "Convolutional Layer haben mehr Parameter als Dense Layer.",
       "Dense Layer werden für Bilder, Convolutional Layer für Text verwendet."
     ],
-    "loesung": 1,
-    "erklaerung": "Diese unterschiedliche Konnektivität ist der Kernunterschied. Dense (oder Fully-Connected) Layer lernen globale Muster, während Convolutional Layer durch ihre lokalen rezeptiven Felder lokale, räumliche Muster lernen.",
-    "gewichtung": 2,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "Diese unterschiedliche Konnektivität ist der Kernunterschied. Dense (oder Fully-Connected) Layer lernen globale Muster, während Convolutional Layer durch ihre lokalen rezeptiven Felder lokale, räumliche Muster lernen.",
+    "weight": 2,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "36. Was ist ein 'Hyperparameter'?",
-    "optionen": [
+    "question": "36. Was ist ein 'Hyperparameter'?",
+    "options": [
       "Ein Gewicht oder Bias, das während des Trainings gelernt wird.",
       "Ein Parameter, der vor dem Trainingsprozess festgelegt wird und diesen steuert (z.B. Lernrate, Anzahl der Layer).",
       "Ein Maß für die Leistung des Modells auf dem Testdatensatz.",
       "Die Ausgabe der Verlustfunktion nach einer Trainingsepoche."
     ],
-    "loesung": 1,
-    "erklaerung": "Hyperparameter sind die 'Stellschrauben' eines Modells, die nicht durch das Training gelernt, sondern vom Entwickler festgelegt werden. Die Suche nach den optimalen Hyperparametern ist ein wichtiger Teil des ML-Prozesses.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "Hyperparameter sind die 'Stellschrauben' eines Modells, die nicht durch das Training gelernt, sondern vom Entwickler festgelegt werden. Die Suche nach den optimalen Hyperparametern ist ein wichtiger Teil des ML-Prozesses.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "37. Was ist der Zweck eines Validierungsdatensatzes (Validation Set)?",
-    "optionen": [
+    "question": "37. Was ist der Zweck eines Validierungsdatensatzes (Validation Set)?",
+    "options": [
       "Er wird verwendet, um die finalen Gewichte des Modells zu trainieren.",
       "Er dient zur Abstimmung der Hyperparameter und zur Überwachung von Overfitting während des Trainings.",
       "Er wird nur einmal ganz am Ende verwendet, um die finale, unverfälschte Leistung des Modells zu bewerten.",
       "Er ist eine exakte Kopie des Trainingsdatensatzes zur Überprüfung der Konsistenz."
     ],
-    "loesung": 1,
-    "erklaerung": "Der Validierungsdatensatz wird während des Trainings verwendet, um die Leistung des Modells auf ungesehenen Daten zu schätzen. Dies hilft bei der Hyperparameter-Optimierung (z.B. welche Lernrate?) und beim Early Stopping.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 1,
+    "explanation": "Der Validierungsdatensatz wird während des Trainings verwendet, um die Leistung des Modells auf ungesehenen Daten zu schätzen. Dies hilft bei der Hyperparameter-Optimierung (z.B. welche Lernrate?) und beim Early Stopping.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "38. Was ist der 'Curse of Dimensionality' (Fluch der Dimensionalität)?",
-    "optionen": [
+    "question": "38. Was ist der 'Curse of Dimensionality' (Fluch der Dimensionalität)?",
+    "options": [
       "Das Phänomen, dass die Leistung von ML-Modellen mit zunehmender Anzahl von Features abnimmt.",
       "Die Tatsache, dass Daten in hochdimensionalen Räumen sehr spärlich werden und Distanzmaße ihre Aussagekraft verlieren.",
       "Die Notwendigkeit, bei hochdimensionalen Daten immer Deep Learning zu verwenden.",
       "Ein Fehler, der auftritt, wenn ein Datensatz mehr Spalten als Zeilen hat."
     ],
-    "loesung": 1,
-    "erklaerung": "In hochdimensionalen Räumen liegen die Datenpunkte tendenziell weit voneinander entfernt. Dies macht Algorithmen, die auf Distanzmessungen basieren (wie KNN), weniger effektiv und erfordert exponentiell mehr Daten, um den Raum abzudecken.",
-    "gewichtung": 3,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "In hochdimensionalen Räumen liegen die Datenpunkte tendenziell weit voneinander entfernt. Dies macht Algorithmen, die auf Distanzmessungen basieren (wie KNN), weniger effektiv und erfordert exponentiell mehr Daten, um den Raum abzudecken.",
+    "weight": 3,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "39. Was ist der Unterschied zwischen 'Padding' und 'Stride' in einem CNN?",
-    "optionen": [
+    "question": "39. Was ist der Unterschied zwischen 'Padding' und 'Stride' in einem CNN?",
+    "options": [
       "Padding fügt Nullen am Rand des Bildes hinzu, Stride bestimmt die Schrittweite des Filters.",
       "Padding bestimmt die Schrittweite, Stride fügt Nullen hinzu.",
       "Beide Begriffe beschreiben die Größe des Filters.",
       "Padding wird vor, Stride nach der Faltungsoperation angewendet."
     ],
-    "loesung": 0,
-    "erklaerung": "Padding wird verwendet, um die räumliche Größe der Ausgabe zu steuern (z.B. 'same' padding, um die Größe zu erhalten). Stride (Schrittweite) gibt an, um wie viele Pixel der Filter bei jeder Bewegung verschoben wird.",
-    "gewichtung": 2,
-    "thema": "Architekturen (CNN)"
+    "answer": 0,
+    "explanation": "Padding wird verwendet, um die räumliche Größe der Ausgabe zu steuern (z.B. 'same' padding, um die Größe zu erhalten). Stride (Schrittweite) gibt an, um wie viele Pixel der Filter bei jeder Bewegung verschoben wird.",
+    "weight": 2,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "40. Was ist ein Autoencoder?",
-    "optionen": [
+    "question": "40. Was ist ein Autoencoder?",
+    "options": [
       "Ein Supervised-Learning-Modell zur Klassifikation von Bildern.",
       "Ein neuronales Netz, das lernt, seine Eingabe zu rekonstruieren, oft über eine komprimierte Repräsentation.",
       "Ein Algorithmus zur automatischen Generierung von Python-Code.",
       "Ein spezieller Typ eines Reinforcement-Learning-Agenten."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein Autoencoder besteht aus einem Encoder, der die Eingabe in einen niedrigdimensionalen Code komprimiert, und einem Decoder, der versucht, aus diesem Code die ursprüngliche Eingabe zu rekonstruieren. Er wird für Dimensionsreduktion und Anomalieerkennung verwendet.",
-    "gewichtung": 3,
-    "thema": "Architekturen (Sonstige)"
+    "answer": 1,
+    "explanation": "Ein Autoencoder besteht aus einem Encoder, der die Eingabe in einen niedrigdimensionalen Code komprimiert, und einem Decoder, der versucht, aus diesem Code die ursprüngliche Eingabe zu rekonstruieren. Er wird für Dimensionsreduktion und Anomalieerkennung verwendet.",
+    "weight": 3,
+    "topic": "Architekturen (Sonstige)"
   },
   {
-    "frage": "41. Was ist die 'Cross-Entropy Loss'?",
-    "optionen": [
+    "question": "41. Was ist die 'Cross-Entropy Loss'?",
+    "options": [
       "Eine Verlustfunktion, die typischerweise für Regressionsprobleme verwendet wird.",
       "Eine Verlustfunktion, die für Klassifikationsprobleme verwendet wird und den Unterschied zwischen zwei Wahrscheinlichkeitsverteilungen misst.",
       "Eine Metrik zur Messung der Ähnlichkeit zwischen zwei Bildern.",
       "Ein Regularisierungsterm, der zur Vermeidung von Overfitting dient."
     ],
-    "loesung": 1,
-    "erklaerung": "Die Kreuzentropie ist die Standard-Verlustfunktion für Klassifikationsaufgaben. Sie misst, wie gut die vom Modell vorhergesagte Wahrscheinlichkeitsverteilung (nach Softmax) mit der wahren Verteilung (One-Hot-Encoding) übereinstimmt.",
-    "gewichtung": 2,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "Die Kreuzentropie ist die Standard-Verlustfunktion für Klassifikationsaufgaben. Sie misst, wie gut die vom Modell vorhergesagte Wahrscheinlichkeitsverteilung (nach Softmax) mit der wahren Verteilung (One-Hot-Encoding) übereinstimmt.",
+    "weight": 2,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "42. Was ist ein 'One-Hot-Encoding'?",
-    "optionen": [
+    "question": "42. Was ist ein 'One-Hot-Encoding'?",
+    "options": [
       "Eine Methode zur Normalisierung von numerischen Daten.",
       "Eine Technik zur Darstellung von kategorialen Variablen als binärer Vektor.",
       "Ein Algorithmus zur Kompression von Bilddaten.",
       "Eine spezielle Art der Gewichtsinitialisierung."
     ],
-    "loesung": 1,
-    "erklaerung": "Beim One-Hot-Encoding wird eine kategoriale Variable mit N Kategorien in einen Vektor der Länge N umgewandelt, der an der Stelle der jeweiligen Kategorie eine 1 und an allen anderen Stellen Nullen enthält. Dies ist die Standarddarstellung für Zielvariablen in der Klassifikation.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "Beim One-Hot-Encoding wird eine kategoriale Variable mit N Kategorien in einen Vektor der Länge N umgewandelt, der an der Stelle der jeweiligen Kategorie eine 1 und an allen anderen Stellen Nullen enthält. Dies ist die Standarddarstellung für Zielvariablen in der Klassifikation.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "43. Was ist der Hauptzweck eines 'Embeddings' im NLP-Kontext?",
-    "optionen": [
+    "question": "43. Was ist der Hauptzweck eines 'Embeddings' im NLP-Kontext?",
+    "options": [
       "Die Darstellung von Wörtern oder Sätzen als dichte, niedrigdimensionale Vektoren.",
       "Die Zählung der Häufigkeit jedes Wortes in einem Text.",
       "Die Korrektur von Rechtschreibfehlern in einem Text.",
       "Die Übersetzung eines Textes in eine andere Sprache."
     ],
-    "loesung": 0,
-    "erklaerung": "Word Embeddings (wie Word2Vec oder GloVe) lernen, Wörter in einem Vektorraum so darzustellen, dass Wörter mit ähnlicher Bedeutung nahe beieinander liegen. Diese dichten Vektoren sind eine weitaus reichhaltigere Repräsentation als z.B. One-Hot-Encoding.",
-    "gewichtung": 2,
-    "thema": "Anwendungen (NLP)"
+    "answer": 0,
+    "explanation": "Word Embeddings (wie Word2Vec oder GloVe) lernen, Wörter in einem Vektorraum so darzustellen, dass Wörter mit ähnlicher Bedeutung nahe beieinander liegen. Diese dichten Vektoren sind eine weitaus reichhaltigere Repräsentation als z.B. One-Hot-Encoding.",
+    "weight": 2,
+    "topic": "Anwendungen (NLP)"
   },
   {
-    "frage": "44. Was ist ein 'Gradient' in Bezug auf eine Verlustfunktion?",
-    "optionen": [
+    "question": "44. Was ist ein 'Gradient' in Bezug auf eine Verlustfunktion?",
+    "options": [
       "Der maximale Wert, den die Verlustfunktion annehmen kann.",
       "Ein Vektor, der in die Richtung des steilsten Anstiegs der Verlustfunktion zeigt.",
       "Ein Hyperparameter, der die Komplexität des Modells steuert.",
       "Die Anzahl der Trainingsbeispiele in einem Batch."
     ],
-    "loesung": 1,
-    "erklaerung": "Der Gradient ist die Verallgemeinerung der Ableitung für mehrdimensionale Funktionen. Beim Gradientenabstieg (Gradient Descent) bewegt man sich in die entgegengesetzte Richtung des Gradienten, um das Minimum der Verlustfunktion zu finden.",
-    "gewichtung": 2,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "Der Gradient ist die Verallgemeinerung der Ableitung für mehrdimensionale Funktionen. Beim Gradientenabstieg (Gradient Descent) bewegt man sich in die entgegengesetzte Richtung des Gradienten, um das Minimum der Verlustfunktion zu finden.",
+    "weight": 2,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "45. Was ist der Unterschied zwischen einem 'Validation Set' und einem 'Test Set'?",
-    "optionen": [
+    "question": "45. Was ist der Unterschied zwischen einem 'Validation Set' und einem 'Test Set'?",
+    "options": [
       "Es gibt keinen Unterschied, die Begriffe sind austauschbar.",
       "Das Validation Set wird zum Trainieren, das Test Set zum Validieren verwendet.",
       "Das Validation Set wird zur Hyperparameter-Optimierung, das Test Set zur finalen, einmaligen Leistungsbewertung verwendet.",
       "Das Test Set ist immer größer als das Validation Set."
     ],
-    "loesung": 2,
-    "erklaerung": "Das Validation Set wird wiederholt während der Entwicklung verwendet, um das Modell zu justieren. Das Test Set wird idealerweise nur ein einziges Mal am Ende verwendet, um eine unverfälschte Schätzung der Leistung des finalen Modells auf völlig neuen Daten zu erhalten.",
-    "gewichtung": 2,
-    "thema": "Training & Optimierung"
+    "answer": 2,
+    "explanation": "Das Validation Set wird wiederholt während der Entwicklung verwendet, um das Modell zu justieren. Das Test Set wird idealerweise nur ein einziges Mal am Ende verwendet, um eine unverfälschte Schätzung der Leistung des finalen Modells auf völlig neuen Daten zu erhalten.",
+    "weight": 2,
+    "topic": "Training & Optimierung"
   },
   {
-    "frage": "46. Was ist ein 'Residual Connection' (oder Skip Connection), wie sie in ResNets verwendet wird?",
-    "optionen": [
+    "question": "46. Was ist ein 'Residual Connection' (oder Skip Connection), wie sie in ResNets verwendet wird?",
+    "options": [
       "Eine Verbindung, die die Ausgabeschicht direkt mit der Eingabeschicht verbindet.",
       "Eine Verbindung, die die Eingabe eines Blocks zur Ausgabe dieses Blocks addiert.",
       "Eine Methode, um die Anzahl der Neuronen in einem Layer zu reduzieren.",
       "Eine spezielle Art von Dropout."
     ],
-    "loesung": 1,
-    "erklaerung": "Residual Connections ermöglichen es dem Gradienten, beim Backpropagation direkt durch einige Schichten 'hindurchzufließen'. Dies erleichtert das Training von sehr tiefen Netzwerken, indem es dem Vanishing-Gradient-Problem entgegenwirkt.",
-    "gewichtung": 3,
-    "thema": "Architekturen (CNN)"
+    "answer": 1,
+    "explanation": "Residual Connections ermöglichen es dem Gradienten, beim Backpropagation direkt durch einige Schichten 'hindurchzufließen'. Dies erleichtert das Training von sehr tiefen Netzwerken, indem es dem Vanishing-Gradient-Problem entgegenwirkt.",
+    "weight": 3,
+    "topic": "Architekturen (CNN)"
   },
   {
-    "frage": "47. Was ist der Hauptzweck von Reinforcement Learning (RL)?",
-    "optionen": [
+    "question": "47. Was ist der Hauptzweck von Reinforcement Learning (RL)?",
+    "options": [
       "Das Finden von Mustern in ungelabelten Daten.",
       "Die Klassifikation von Daten in vordefinierte Kategorien.",
       "Das Trainieren eines Agenten, eine Sequenz von Aktionen in einer Umgebung auszuführen, um eine Belohnung zu maximieren.",
       "Die Generierung neuer, realistischer Daten."
     ],
-    "loesung": 2,
-    "erklaerung": "Beim RL lernt ein Agent durch Versuch und Irrtum (Trial and Error). Er interagiert mit einer Umgebung und erhält Belohnungen oder Bestrafungen für seine Aktionen, mit dem Ziel, eine Strategie (Policy) zu lernen, die die kumulative Belohnung maximiert.",
-    "gewichtung": 2,
-    "thema": "Reinforcement Learning"
+    "answer": 2,
+    "explanation": "Beim RL lernt ein Agent durch Versuch und Irrtum (Trial and Error). Er interagiert mit einer Umgebung und erhält Belohnungen oder Bestrafungen für seine Aktionen, mit dem Ziel, eine Strategie (Policy) zu lernen, die die kumulative Belohnung maximiert.",
+    "weight": 2,
+    "topic": "Reinforcement Learning"
   },
   {
-    "frage": "48. Was ist der 'Exploration-Exploitation Trade-off' im Reinforcement Learning?",
-    "optionen": [
+    "question": "48. Was ist der 'Exploration-Exploitation Trade-off' im Reinforcement Learning?",
+    "options": [
       "Der Kompromiss zwischen der Verwendung von viel oder wenig Speicher.",
       "Der Kompromiss zwischen dem Ausprobieren neuer Aktionen (Exploration) und dem Nutzen bekannter, guter Aktionen (Exploitation).",
       "Der Kompromiss zwischen einem einfachen und einem komplexen Modell.",
       "Der Kompromiss zwischen Trainingszeit und Modellgenauigkeit."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein RL-Agent muss entscheiden, ob er eine Aktion wählt, von der er bereits weiß, dass sie gut ist (Exploitation), oder ob er eine neue, unbekannte Aktion ausprobiert, die potenziell noch besser sein könnte (Exploration). Dies ist eine zentrale Herausforderung im RL.",
-    "gewichtung": 3,
-    "thema": "Reinforcement Learning"
+    "answer": 1,
+    "explanation": "Ein RL-Agent muss entscheiden, ob er eine Aktion wählt, von der er bereits weiß, dass sie gut ist (Exploitation), oder ob er eine neue, unbekannte Aktion ausprobiert, die potenziell noch besser sein könnte (Exploration). Dies ist eine zentrale Herausforderung im RL.",
+    "weight": 3,
+    "topic": "Reinforcement Learning"
   },
   {
-    "frage": "49. Was ist ein 'Epoch' im Deep Learning?",
-    "optionen": [
+    "question": "49. Was ist ein 'Epoch' im Deep Learning?",
+    "options": [
       "Die Verarbeitung eines einzelnen Datenpunktes.",
       "Ein kompletter Durchlauf durch den gesamten Trainingsdatensatz.",
       "Die Anzahl der Layer in einem neuronalen Netz.",
       "Ein einzelner Schritt der Gewichtsaktualisierung."
     ],
-    "loesung": 1,
-    "erklaerung": "Eine Epoche ist abgeschlossen, wenn das Modell jeden Datenpunkt des Trainingsdatensatzes einmal gesehen hat. Das Training eines Modells erstreckt sich typischerweise über viele Epochen.",
-    "gewichtung": 1,
-    "thema": "Grundlagen"
+    "answer": 1,
+    "explanation": "Eine Epoche ist abgeschlossen, wenn das Modell jeden Datenpunkt des Trainingsdatensatzes einmal gesehen hat. Das Training eines Modells erstreckt sich typischerweise über viele Epochen.",
+    "weight": 1,
+    "topic": "Grundlagen"
   },
   {
-    "frage": "50. Was ist der Unterschied zwischen einem 'Dense' Layer und einem 'Embedding' Layer?",
-    "optionen": [
+    "question": "50. Was ist der Unterschied zwischen einem 'Dense' Layer und einem 'Embedding' Layer?",
+    "options": [
       "Ein Dense Layer ist für die Eingabe, ein Embedding Layer für die Ausgabe.",
       "Ein Dense Layer führt eine Matrix-Vektor-Multiplikation durch, während ein Embedding Layer eine Nachschlagetabelle für kategoriale Eingaben ist.",
       "Ein Embedding Layer hat immer mehr Parameter als ein Dense Layer.",
       "Es gibt keinen funktionalen Unterschied."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein Embedding Layer ist eine effiziente Methode, um hochdimensionale, dünn besetzte kategoriale Daten (wie Wörter in einem Vokabular) in dichte, niedrigdimensionale Vektoren umzuwandeln. Es ist im Wesentlichen eine lernbare Nachschlagetabelle, während ein Dense Layer eine vollständige lineare Transformation durchführt.",
-    "gewichtung": 3,
-    "thema": "Anwendungen (NLP)"
+    "answer": 1,
+    "explanation": "Ein Embedding Layer ist eine effiziente Methode, um hochdimensionale, dünn besetzte kategoriale Daten (wie Wörter in einem Vokabular) in dichte, niedrigdimensionale Vektoren umzuwandeln. Es ist im Wesentlichen eine lernbare Nachschlagetabelle, während ein Dense Layer eine vollständige lineare Transformation durchführt.",
+    "weight": 3,
+    "topic": "Anwendungen (NLP)"
   }
 ]

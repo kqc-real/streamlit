@@ -20,221 +20,221 @@
   },
   "questions": [
     {
-      "frage": "1. Was drückt die Gleichung $Av=\\lambda v$ begrifflich über $v$ aus?",
-      "optionen": [
+      "question": "1. Was drückt die Gleichung $Av=\\lambda v$ begrifflich über $v$ aus?",
+      "options": [
         "Die Richtung von $v$ bleibt unter $A$ erhalten und es erfolgt nur eine Skalierung.",
         "Die Richtung von $v$ wird immer orthogonal gedreht.",
         "Der Vektor $v$ wird um einen festen Betrag verschoben.",
         "Der Vektor $v$ wird unabhängig von $\\lambda$ auf 0 abgebildet."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Eigenvektor ändert unter der linearen Abbildung nur seine Länge (und ggf. Vorzeichen), nicht seine Richtung.",
-      "gewichtung": 1,
-      "thema": "Grundbegriffe & Definitionen",
+      "answer": 0,
+      "explanation": "Ein Eigenvektor ändert unter der linearen Abbildung nur seine Länge (und ggf. Vorzeichen), nicht seine Richtung.",
+      "weight": 1,
+      "topic": "Grundbegriffe & Definitionen",
       "mini_glossary": {
         "Eigenwert": "Skalar $\\lambda$, der die Streckung/Spiegelung eines Eigenvektors beschreibt.",
         "Eigenvektor": "Von 0 verschiedener Vektor, der durch $A$ nur skaliert wird."
       }
     },
     {
-      "frage": "2. Wozu dient das charakteristische Polynom $p_A(\\lambda)=\\det(A-\\lambda I)$?",
-      "optionen": [
+      "question": "2. Wozu dient das charakteristische Polynom $p_A(\\lambda)=\\det(A-\\lambda I)$?",
+      "options": [
         "Seine Nullstellen sind genau die Eigenwerte von $A$.",
         "Es liefert die Spaltennormen von $A$.",
         "Es bestimmt die Rangzahl von $A$ ohne Bezug zu $\\lambda$.",
         "Es ist nur für diagonale Matrizen definiert."
       ],
-      "loesung": 0,
-      "erklaerung": "Eigenwerte sind die Nullstellen des charakteristischen Polynoms.",
-      "gewichtung": 1,
-      "thema": "Charakteristisches Polynom",
+      "answer": 0,
+      "explanation": "Eigenwerte sind die Nullstellen des charakteristischen Polynoms.",
+      "weight": 1,
+      "topic": "Charakteristisches Polynom",
       "mini_glossary": {
         "Determinante": "Skalar, der u.a. Nichtinvertierbarkeit anzeigt.",
         "Einheitsmatrix $I$": "Matrix mit Einsen auf der Diagonalen, sonst Nullen."
       }
     },
     {
-      "frage": "3. Wie stehen algebraische und geometrische Vielfachheit eines Eigenwertes zueinander?",
-      "optionen": [
+      "question": "3. Wie stehen algebraische und geometrische Vielfachheit eines Eigenwertes zueinander?",
+      "options": [
         "Die geometrische Vielfachheit ist nie größer als die algebraische.",
         "Die algebraische Vielfachheit ist nie größer als die geometrische.",
         "Beide sind immer gleich.",
         "Zwischen beiden gibt es keinen Zusammenhang."
       ],
-      "loesung": 0,
-      "erklaerung": "Allgemein gilt: geometrische Vielfachheit $\\le$ algebraische Vielfachheit.",
-      "gewichtung": 1,
-      "thema": "Vielfachheiten & Eigenräume",
+      "answer": 0,
+      "explanation": "Allgemein gilt: geometrische Vielfachheit $\\le$ algebraische Vielfachheit.",
+      "weight": 1,
+      "topic": "Vielfachheiten & Eigenräume",
       "mini_glossary": {
         "Algebraische Vielfachheit": "Nullstellenvielfachheit eines Eigenwerts im charakteristischen Polynom.",
         "Geometrische Vielfachheit": "Dimension des Eigenraums $\\ker(A-\\lambda I)$."
       }
     },
     {
-      "frage": "4. Wann ist eine Matrix $A$ diagonalisierbar?",
-      "optionen": [
+      "question": "4. Wann ist eine Matrix $A$ diagonalisierbar?",
+      "options": [
         "Genau dann, wenn es eine Basis aus Eigenvektoren gibt.",
         "Genau dann, wenn alle Matrixeinträge ganzzahlig sind.",
         "Genau dann, wenn $\\det(A)=1$ gilt.",
         "Genau dann, wenn $A$ dreieckig ist."
       ],
-      "loesung": 0,
-      "erklaerung": "Diagonalisierbarkeit bedeutet Existenz einer Eigenbasis.",
-      "gewichtung": 1,
-      "thema": "Diagonalisierbarkeit & Ähnlichkeit",
+      "answer": 0,
+      "explanation": "Diagonalisierbarkeit bedeutet Existenz einer Eigenbasis.",
+      "weight": 1,
+      "topic": "Diagonalisierbarkeit & Ähnlichkeit",
       "mini_glossary": {
         "Eigenbasis": "Basis, die vollständig aus Eigenvektoren besteht.",
         "Ähnlichkeit": "Beziehung $A' = S^{-1}AS$; erhält Eigenwerte."
       }
     },
     {
-      "frage": "5. Welche Aussage zum Spektralsatz für reell-symmetrische Matrizen ist korrekt?",
-      "optionen": [
+      "question": "5. Welche Aussage zum Spektralsatz für reell-symmetrische Matrizen ist korrekt?",
+      "options": [
         "Reell-symmetrische Matrizen sind orthogonal diagonalisierbar.",
         "Reell-symmetrische Matrizen besitzen nur komplexe Eigenwerte.",
         "Reell-symmetrische Matrizen sind nie diagonalisierbar.",
         "Reell-symmetrische Matrizen haben stets Determinante 1."
       ],
-      "loesung": 0,
-      "erklaerung": "Der Spektralsatz garantiert reelle Eigenwerte und eine orthogonale Eigenbasis.",
-      "gewichtung": 1,
-      "thema": "Reell-symmetrisch & Spektralsatz",
+      "answer": 0,
+      "explanation": "Der Spektralsatz garantiert reelle Eigenwerte und eine orthogonale Eigenbasis.",
+      "weight": 1,
+      "topic": "Reell-symmetrisch & Spektralsatz",
       "mini_glossary": {
         "Orthogonale Diagonalisierung": "Darstellung $A=QDQ^{\\top}$ mit orthogonalem $Q$.",
         "Spektralsatz": "Fundamentalsatz zum Eigenwertverhalten symmetrischer Matrizen."
       }
     },
     {
-      "frage": "6. Welche Aussage über Dreiecks- und Diagonalmatrizen trifft zu?",
-      "optionen": [
+      "question": "6. Welche Aussage über Dreiecks- und Diagonalmatrizen trifft zu?",
+      "options": [
         "Ihre Eigenwerte sind die Diagonaleinträge (mit Vielfachheiten).",
         "Ihre Eigenwerte sind die Spaltensummen.",
         "Sie besitzen genau einen Eigenwert.",
         "Sie sind nur dann diagonal, wenn alle Nebendiagonalen 1 sind."
       ],
-      "loesung": 0,
-      "erklaerung": "Für Dreiecks- und Diagonalmatrizen liest man die Eigenwerte direkt von der Hauptdiagonale ab.",
-      "gewichtung": 1,
-      "thema": "Dreiecks- und Diagonalmatrizen",
+      "answer": 0,
+      "explanation": "Für Dreiecks- und Diagonalmatrizen liest man die Eigenwerte direkt von der Hauptdiagonale ab.",
+      "weight": 1,
+      "topic": "Dreiecks- und Diagonalmatrizen",
       "mini_glossary": {
         "Hauptdiagonale": "Einträge $a_{11},\\dots,a_{nn}$.",
         "Vielfachheit": "Wiederholungsanzahl eines Eigenwerts."
       }
     },
     {
-      "frage": "7. Welche Größe stimmt mit der Summe der Eigenwerte überein?",
-      "optionen": [
+      "question": "7. Welche Größe stimmt mit der Summe der Eigenwerte überein?",
+      "options": [
         "Die Spur von $A$.",
         "Die Determinante von $A$.",
         "Die Rangzahl von $A$.",
         "Die Frobeniusnorm von $A$."
       ],
-      "loesung": 0,
-      "erklaerung": "Spur($A$) = Summe der Eigenwerte (algebraische Vielfachheiten gezählt).",
-      "gewichtung": 1,
-      "thema": "Plausibilitätschecks (Spur/Det)",
+      "answer": 0,
+      "explanation": "Spur($A$) = Summe der Eigenwerte (algebraische Vielfachheiten gezählt).",
+      "weight": 1,
+      "topic": "Plausibilitätschecks (Spur/Det)",
       "mini_glossary": {
         "Spur": "Summe der Diagonaleinträge.",
         "Eigenwertsumme": "Summe der Eigenwerte unter Berücksichtigung der Vielfachheiten."
       }
     },
     {
-      "frage": "8. Welche Aussage zur Jordan-Normalform (JNF) ist korrekt?",
-      "optionen": [
+      "question": "8. Welche Aussage zur Jordan-Normalform (JNF) ist korrekt?",
+      "options": [
         "Nichtdiagonalisierbarkeit zeigt sich durch Jordan-Blöcke größer als $1\\times1$.",
         "Sie existiert nur für symmetrische Matrizen.",
         "Sie ändert die Eigenwerte der Matrix.",
         "Sie ist identisch mit der QR-Zerlegung."
       ],
-      "loesung": 0,
-      "erklaerung": "Jordan-Blöcke fassen generalisierte Eigenvektoren zusammen und erklären Nichtdiagonalisierbarkeit.",
-      "gewichtung": 1,
-      "thema": "Jordan-Basiswissen",
+      "answer": 0,
+      "explanation": "Jordan-Blöcke fassen generalisierte Eigenvektoren zusammen und erklären Nichtdiagonalisierbarkeit.",
+      "weight": 1,
+      "topic": "Jordan-Basiswissen",
       "mini_glossary": {
         "Jordan-Block": "Block mit gleichem Eigenwert auf der Diagonalen und ggf. Einsen darüber.",
         "Generalisierter Eigenvektor": "Vektor mit $(A-\\lambda I)^k v=0$ für ein $k>1$."
       }
     },
     {
-      "frage": "9. Welche Größe bleibt bei einer Ähnlichkeitstransformation $A' = S^{-1}AS$ erhalten?",
-      "optionen": [
+      "question": "9. Welche Größe bleibt bei einer Ähnlichkeitstransformation $A' = S^{-1}AS$ erhalten?",
+      "options": [
         "Das Spektrum (die Menge der Eigenwerte).",
         "Jeder einzelne Matrixeintrag.",
         "Die Spaltennormen.",
         "Die Lage der Nebendiagonalen-Einsen."
       ],
-      "loesung": 0,
-      "erklaerung": "Eigenwerte sind Ähnlichkeitsinvarianten.",
-      "gewichtung": 1,
-      "thema": "Basiswechsel & Invarianten",
+      "answer": 0,
+      "explanation": "Eigenwerte sind Ähnlichkeitsinvarianten.",
+      "weight": 1,
+      "topic": "Basiswechsel & Invarianten",
       "mini_glossary": {
         "Ähnlichkeitsinvariante": "Größe, die unter $S^{-1}AS$ unverändert bleibt.",
         "Spektrum": "Multimenge der Eigenwerte einer Matrix."
       }
     },
     {
-      "frage": "10. Welche Aussage zur numerischen Eigenwertberechnung ist korrekt?",
-      "optionen": [
+      "question": "10. Welche Aussage zur numerischen Eigenwertberechnung ist korrekt?",
+      "options": [
         "Iterative Verfahren wie der QR-Algorithmus sind Standard zur Eigenwertapproximation.",
         "Nur exakte symbolische Methoden sind praktikabel.",
         "Gauß-Elimination liefert direkt Eigenwerte ohne Anpassung.",
         "Eigenwerte lassen sich nicht numerisch bestimmen."
       ],
-      "loesung": 0,
-      "erklaerung": "Der QR-Algorithmus ist das klassische robuste Verfahren zur numerischen Bestimmung von Eigenwerten.",
-      "gewichtung": 1,
-      "thema": "Numerik & Stabilität",
+      "answer": 0,
+      "explanation": "Der QR-Algorithmus ist das klassische robuste Verfahren zur numerischen Bestimmung von Eigenwerten.",
+      "weight": 1,
+      "topic": "Numerik & Stabilität",
       "mini_glossary": {
         "QR-Algorithmus": "Iteratives Verfahren auf Basis der QR-Zerlegung.",
         "Stabilität": "Empfindlichkeit eines Verfahrens gegenüber Rundungsfehlern."
       }
     },
     {
-      "frage": "11. Welches Strukturmerkmal besitzt $p_A(\\lambda)$ für eine $n\\times n$-Matrix?",
-      "optionen": [
+      "question": "11. Welches Strukturmerkmal besitzt $p_A(\\lambda)$ für eine $n\\times n$-Matrix?",
+      "options": [
         "Der führende Koeffizient ist $(-1)^n$.",
         "Das Polynom hat stets Grad $n-1$.",
         "Das konstante Glied ist immer 0.",
         "Die Koeffizienten sind unabhängig von $A$."
       ],
-      "loesung": 0,
-      "erklaerung": "Aus $\\det(A-\\lambda I)$ folgt der führende Koeffizient $(-1)^n$ und Grad $n$.",
-      "gewichtung": 1,
-      "thema": "Charakteristisches Polynom",
+      "answer": 0,
+      "explanation": "Aus $\\det(A-\\lambda I)$ folgt der führende Koeffizient $(-1)^n$ und Grad $n$.",
+      "weight": 1,
+      "topic": "Charakteristisches Polynom",
       "mini_glossary": {
         "Führender Koeffizient": "Koeffizient der höchsten Potenz.",
         "Grad": "Höchste Potenz von $\\lambda$ mit nichtverschwindendem Koeffizienten."
       }
     },
     {
-      "frage": "12. Welche Aussage zum Eigenraum $E_{\\lambda}$ ist korrekt?",
-      "optionen": [
+      "question": "12. Welche Aussage zum Eigenraum $E_{\\lambda}$ ist korrekt?",
+      "options": [
         "Er ist der Kern von $(A-\\lambda I)$ und damit ein Unterraum.",
         "Er ist die Menge aller normierten Vektoren.",
         "Er ist nie eindimensional.",
         "Er enthält keine Nullvektoren."
       ],
-      "loesung": 0,
-      "erklaerung": "Per Definition $E_{\\lambda}=\\ker(A-\\lambda I)$; Unterräume enthalten stets den Nullvektor.",
-      "gewichtung": 1,
-      "thema": "Grundbegriffe & Definitionen",
+      "answer": 0,
+      "explanation": "Per Definition $E_{\\lambda}=\\ker(A-\\lambda I)$; Unterräume enthalten stets den Nullvektor.",
+      "weight": 1,
+      "topic": "Grundbegriffe & Definitionen",
       "mini_glossary": {
         "Kern": "Menge aller Vektoren, die auf 0 abgebildet werden.",
         "Unterraum": "Nichtleere Menge, abgeschlossen unter Linearkombinationen."
       }
     },
     {
-      "frage": "13. Welche Aussage beschreibt den Zusammenhang zwischen $p_A$ und $p_{S^{-1}AS}$?",
-      "optionen": [
+      "question": "13. Welche Aussage beschreibt den Zusammenhang zwischen $p_A$ und $p_{S^{-1}AS}$?",
+      "options": [
         "Beide Polynome sind identisch.",
         "Sie unterscheiden sich immer in allen Koeffizienten.",
         "Sie haben nur dieselben Nullstellen, aber unterschiedliche Grade.",
         "Sie stimmen nur im führenden Koeffizienten überein."
       ],
-      "loesung": 0,
-      "erklaerung": "Ähnliche Matrizen besitzen dasselbe charakteristische Polynom.",
-      "gewichtung": 2,
-      "thema": "Vielfachheiten & Eigenräume",
+      "answer": 0,
+      "explanation": "Ähnliche Matrizen besitzen dasselbe charakteristische Polynom.",
+      "weight": 2,
+      "topic": "Vielfachheiten & Eigenräume",
       "extended_explanation": {
         "titel": "Ähnlichkeit und charakteristisches Polynom",
         "schritte": [
@@ -249,17 +249,17 @@
       }
     },
     {
-      "frage": "14. Woran scheitert Diagonalisierbarkeit typischerweise?",
-      "optionen": [
+      "question": "14. Woran scheitert Diagonalisierbarkeit typischerweise?",
+      "options": [
         "Mindestens ein Eigenwert hat geometrische Vielfachheit kleiner als seine algebraische.",
         "Die Determinante ist ungleich Null.",
         "Die Spur ist ungleich Null.",
         "Die Matrix ist orthogonal."
       ],
-      "loesung": 0,
-      "erklaerung": "Fehlen genügend linear unabhängige Eigenvektoren, existiert keine Eigenbasis.",
-      "gewichtung": 2,
-      "thema": "Diagonalisierbarkeit & Ähnlichkeit",
+      "answer": 0,
+      "explanation": "Fehlen genügend linear unabhängige Eigenvektoren, existiert keine Eigenbasis.",
+      "weight": 2,
+      "topic": "Diagonalisierbarkeit & Ähnlichkeit",
       "extended_explanation": {
         "titel": "Vielfachheiten als Kriterium",
         "schritte": [
@@ -274,17 +274,17 @@
       }
     },
     {
-      "frage": "15. Welche Aussage über Eigenvektoren reell-symmetrischer Matrizen ist korrekt?",
-      "optionen": [
+      "question": "15. Welche Aussage über Eigenvektoren reell-symmetrischer Matrizen ist korrekt?",
+      "options": [
         "Eigenvektoren zu verschiedenen Eigenwerten sind orthogonal.",
         "Eigenvektoren zu verschiedenen Eigenwerten sind linear abhängig.",
         "Eigenvektoren können nicht normiert werden.",
         "Eigenvektoren existieren nur im Komplexen."
       ],
-      "loesung": 0,
-      "erklaerung": "Für reell-symmetrische Matrizen sind Eigenräume zu verschiedenen Eigenwerten orthogonal.",
-      "gewichtung": 2,
-      "thema": "Reell-symmetrisch & Spektralsatz",
+      "answer": 0,
+      "explanation": "Für reell-symmetrische Matrizen sind Eigenräume zu verschiedenen Eigenwerten orthogonal.",
+      "weight": 2,
+      "topic": "Reell-symmetrisch & Spektralsatz",
       "extended_explanation": {
         "titel": "Orthogonalität aus Symmetrie",
         "schritte": [
@@ -299,17 +299,17 @@
       }
     },
     {
-      "frage": "16. Welche Eigenschaft von Dreiecksmatrizen ist für Eigenwerte entscheidend?",
-      "optionen": [
+      "question": "16. Welche Eigenschaft von Dreiecksmatrizen ist für Eigenwerte entscheidend?",
+      "options": [
         "Die Eigenwerte stehen auf der Hauptdiagonale, unabhängig von den Nebendiagonalen.",
         "Die Eigenwerte sind die Zeilensummen.",
         "Die Eigenwerte sind die Spaltensummen.",
         "Die Eigenwerte sind stets alle gleich."
       ],
-      "loesung": 0,
-      "erklaerung": "Bei Dreiecksmatrizen ergeben sich Eigenwerte direkt aus den Diagonaleinträgen.",
-      "gewichtung": 2,
-      "thema": "Dreiecks- und Diagonalmatrizen",
+      "answer": 0,
+      "explanation": "Bei Dreiecksmatrizen ergeben sich Eigenwerte direkt aus den Diagonaleinträgen.",
+      "weight": 2,
+      "topic": "Dreiecks- und Diagonalmatrizen",
       "extended_explanation": {
         "titel": "Ablesen statt Rechnen",
         "schritte": [
@@ -324,17 +324,17 @@
       }
     },
     {
-      "frage": "17. Welche Beziehung ist ein schneller Plausibilitätscheck für gefundene Eigenwerte?",
-      "optionen": [
+      "question": "17. Welche Beziehung ist ein schneller Plausibilitätscheck für gefundene Eigenwerte?",
+      "options": [
         "Summe der Eigenwerte = Spur, Produkt der Eigenwerte = Determinante.",
         "Summe der Eigenwerte = Determinante, Produkt = Spur.",
         "Spur = Rang, Produkt = Norm.",
         "Produkt = Rang, Summe = Norm."
       ],
-      "loesung": 0,
-      "erklaerung": "Diese Identitäten gelten allgemein (Vielfachheiten gezählt).",
-      "gewichtung": 2,
-      "thema": "Plausibilitätschecks (Spur/Det)",
+      "answer": 0,
+      "explanation": "Diese Identitäten gelten allgemein (Vielfachheiten gezählt).",
+      "weight": 2,
+      "topic": "Plausibilitätschecks (Spur/Det)",
       "extended_explanation": {
         "titel": "Koeffizientenvergleich von $p_A$",
         "schritte": [
@@ -349,17 +349,17 @@
       }
     },
     {
-      "frage": "18. Welche Aussage charakterisiert Jordan-Blöcke in Bezug auf $p_A$ richtig?",
-      "optionen": [
+      "question": "18. Welche Aussage charakterisiert Jordan-Blöcke in Bezug auf $p_A$ richtig?",
+      "options": [
         "Jordan-Blöcke verändern nicht die Eigenwerte, wohl aber die geometrischen Vielfachheiten.",
         "Jordan-Blöcke ändern die Eigenwerte zu neuen Werten.",
         "Jordan-Blöcke existieren nur bei diagonalen Matrizen.",
         "Jordan-Blöcke machen $p_A$ nicht definierbar."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Eigenwerte bleiben identisch; die Blockgröße spiegelt die algebraische Vielfachheit wider, die Eigenraumdimension die geometrische.",
-      "gewichtung": 2,
-      "thema": "Jordan-Basiswissen",
+      "answer": 0,
+      "explanation": "Die Eigenwerte bleiben identisch; die Blockgröße spiegelt die algebraische Vielfachheit wider, die Eigenraumdimension die geometrische.",
+      "weight": 2,
+      "topic": "Jordan-Basiswissen",
       "extended_explanation": {
         "titel": "Eigenwerte vs. Blockstruktur",
         "schritte": [
@@ -374,17 +374,17 @@
       }
     },
     {
-      "frage": "19. Welche Größe ändert sich bei einem reinen Basiswechsel der Koordinaten nicht?",
-      "optionen": [
+      "question": "19. Welche Größe ändert sich bei einem reinen Basiswechsel der Koordinaten nicht?",
+      "options": [
         "Das charakteristische Polynom.",
         "Der einzelne Wert jedes Matrixeintrags.",
         "Die Norm jedes Vektors.",
         "Die Einträge der Nebendiagonale."
       ],
-      "loesung": 0,
-      "erklaerung": "Ähnlichkeitsinvarianz bewahrt $p_A$ und damit das Spektrum.",
-      "gewichtung": 2,
-      "thema": "Basiswechsel & Invarianten",
+      "answer": 0,
+      "explanation": "Ähnlichkeitsinvarianz bewahrt $p_A$ und damit das Spektrum.",
+      "weight": 2,
+      "topic": "Basiswechsel & Invarianten",
       "extended_explanation": {
         "titel": "Invarianten identifizieren",
         "schritte": [
@@ -399,17 +399,17 @@
       }
     },
     {
-      "frage": "20. Welche numerische Herausforderung besteht bei der expliziten Bildung von $p_A$ für große Matrizen?",
-      "optionen": [
+      "question": "20. Welche numerische Herausforderung besteht bei der expliziten Bildung von $p_A$ für große Matrizen?",
+      "options": [
         "Die Bildung ist numerisch instabil und ineffizient; moderne Verfahren vermeiden das Polynom.",
         "Die Bildung ist immer der stabilste Weg.",
         "Die Bildung ist notwendig, um iterative Verfahren zu starten.",
         "Die Bildung liefert bessere Kondition als QR-Verfahren."
       ],
-      "loesung": 0,
-      "erklaerung": "Direkte Polynomkoeffizienten sind empfindlich; stabile Iterationen (z.B. QR) arbeiten matrixnah.",
-      "gewichtung": 2,
-      "thema": "Numerik & Stabilität",
+      "answer": 0,
+      "explanation": "Direkte Polynomkoeffizienten sind empfindlich; stabile Iterationen (z.B. QR) arbeiten matrixnah.",
+      "weight": 2,
+      "topic": "Numerik & Stabilität",
       "extended_explanation": {
         "titel": "Warum nicht explizit $p_A$?",
         "schritte": [
@@ -424,17 +424,17 @@
       }
     },
     {
-      "frage": "21. Welche Strukturinformation enthält das konstante Glied von $p_A(\\lambda)$ (bis auf Vorzeichen)?",
-      "optionen": [
+      "question": "21. Welche Strukturinformation enthält das konstante Glied von $p_A(\\lambda)$ (bis auf Vorzeichen)?",
+      "options": [
         "Es ist die Determinante von $A$.",
         "Es ist die Spur von $A$.",
         "Es ist der Rang von $A$.",
         "Es ist die Frobeniusnorm von $A$."
       ],
-      "loesung": 0,
-      "erklaerung": "Das konstante Glied von $\\det(A-\\lambda I)$ ist (bis auf Vorzeichen) $\\det(A)$.",
-      "gewichtung": 2,
-      "thema": "Charakteristisches Polynom",
+      "answer": 0,
+      "explanation": "Das konstante Glied von $\\det(A-\\lambda I)$ ist (bis auf Vorzeichen) $\\det(A)$.",
+      "weight": 2,
+      "topic": "Charakteristisches Polynom",
       "extended_explanation": {
         "titel": "Viète-Bezug der Koeffizienten",
         "schritte": [
@@ -449,17 +449,17 @@
       }
     },
     {
-      "frage": "22. Welche Aussage zur Dimension der direkten Summe der Eigenräume ist korrekt?",
-      "optionen": [
+      "question": "22. Welche Aussage zur Dimension der direkten Summe der Eigenräume ist korrekt?",
+      "options": [
         "Sie ist höchstens $n$ und gleich $n$ genau dann, wenn $A$ diagonalisierbar ist.",
         "Sie ist immer kleiner als $n$.",
         "Sie ist unabhängig von der Diagonalisierbarkeit.",
         "Sie ist genau die algebraische Vielfachheit eines festen Eigenwerts."
       ],
-      "loesung": 0,
-      "erklaerung": "Ergibt die Summe der Eigenraumdimensionen $n$, existiert eine Eigenbasis.",
-      "gewichtung": 2,
-      "thema": "Vielfachheiten & Eigenräume",
+      "answer": 0,
+      "explanation": "Ergibt die Summe der Eigenraumdimensionen $n$, existiert eine Eigenbasis.",
+      "weight": 2,
+      "topic": "Vielfachheiten & Eigenräume",
       "extended_explanation": {
         "titel": "Eigenräume und Direktheit",
         "schritte": [
@@ -474,17 +474,17 @@
       }
     },
     {
-      "frage": "23. Welche Bedingung an $P$ in $A=PDP^{-1}$ ist notwendig?",
-      "optionen": [
+      "question": "23. Welche Bedingung an $P$ in $A=PDP^{-1}$ ist notwendig?",
+      "options": [
         "Die Spalten von $P$ müssen linear unabhängig sein.",
         "Die Zeilen von $P$ müssen orthonormal sein.",
         "Die Diagonale von $P$ muss 1 sein.",
         "Die Matrix $P$ muss symmetrisch sein."
       ],
-      "loesung": 0,
-      "erklaerung": "Linear unabhängige Spalten garantieren die Invertierbarkeit von $P$.",
-      "gewichtung": 2,
-      "thema": "Diagonalisierbarkeit & Ähnlichkeit",
+      "answer": 0,
+      "explanation": "Linear unabhängige Spalten garantieren die Invertierbarkeit von $P$.",
+      "weight": 2,
+      "topic": "Diagonalisierbarkeit & Ähnlichkeit",
       "extended_explanation": {
         "titel": "Rolle der Übergangsmatrix",
         "schritte": [
@@ -499,17 +499,17 @@
       }
     },
     {
-      "frage": "24. Welche Zusatzstruktur besitzen reell-symmetrische Matrizen in Bezug auf Eigenräume gleicher Eigenwerte?",
-      "optionen": [
+      "question": "24. Welche Zusatzstruktur besitzen reell-symmetrische Matrizen in Bezug auf Eigenräume gleicher Eigenwerte?",
+      "options": [
         "Es existiert eine orthonormale Basis in jedem Eigenraum.",
         "Es existieren keine orthogonalen Eigenvektoren.",
         "Eigenräume sind nie mehrdimensional.",
         "Orthonormalisierung zerstört Eigenvektoreigenschaften."
       ],
-      "loesung": 0,
-      "erklaerung": "Jeder Eigenraum lässt sich orthonormalisieren, ohne die Eigenvektoreigenschaft zu verlieren.",
-      "gewichtung": 2,
-      "thema": "Reell-symmetrisch & Spektralsatz",
+      "answer": 0,
+      "explanation": "Jeder Eigenraum lässt sich orthonormalisieren, ohne die Eigenvektoreigenschaft zu verlieren.",
+      "weight": 2,
+      "topic": "Reell-symmetrisch & Spektralsatz",
       "extended_explanation": {
         "titel": "Orthonormalbasen in Eigenräumen",
         "schritte": [
@@ -524,17 +524,17 @@
       }
     },
     {
-      "frage": "25. Welche Aussage zur Invarianz der Spur ist korrekt?",
-      "optionen": [
+      "question": "25. Welche Aussage zur Invarianz der Spur ist korrekt?",
+      "options": [
         "Die Spur ist invariant unter Ähnlichkeitstransformationen.",
         "Die Spur ändert sich bei jedem Basiswechsel.",
         "Die Spur ist nur für diagonale Matrizen definiert.",
         "Die Spur ist das Produkt der Eigenwerte."
       ],
-      "loesung": 0,
-      "erklaerung": "Spur($A$) = Spur($S^{-1}AS$); sie stimmt mit der Eigenwertsumme überein.",
-      "gewichtung": 2,
-      "thema": "Basiswechsel & Invarianten",
+      "answer": 0,
+      "explanation": "Spur($A$) = Spur($S^{-1}AS$); sie stimmt mit der Eigenwertsumme überein.",
+      "weight": 2,
+      "topic": "Basiswechsel & Invarianten",
       "extended_explanation": {
         "titel": "Spur als Ähnlichkeitsinvariante",
         "schritte": [
@@ -549,17 +549,17 @@
       }
     },
     {
-      "frage": "26. Warum ist die direkte Bestimmung aller Wurzeln von $p_A$ numerisch heikel?",
-      "optionen": [
+      "question": "26. Warum ist die direkte Bestimmung aller Wurzeln von $p_A$ numerisch heikel?",
+      "options": [
         "Polynomwurzelsuche ist schlecht konditioniert; kleine Koeffizientenfehler führen zu großen Wurzelfehlern.",
         "Polynomwurzelsuche ist stets exakter als Matrizeniteration.",
         "Polynomwurzelsuche ist für jedes $n$ in konstanter Zeit möglich.",
         "Polynomwurzelsuche benötigt keine Fließkommaarithmetik."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Wurzelkarten reagieren empfindlich auf Koeffizientenperturbationen; deshalb arbeitet man matrixnah.",
-      "gewichtung": 2,
-      "thema": "Numerik & Stabilität",
+      "answer": 0,
+      "explanation": "Die Wurzelkarten reagieren empfindlich auf Koeffizientenperturbationen; deshalb arbeitet man matrixnah.",
+      "weight": 2,
+      "topic": "Numerik & Stabilität",
       "extended_explanation": {
         "titel": "Konditionsproblem der Wurzelsuche",
         "schritte": [
@@ -574,17 +574,17 @@
       }
     },
     {
-      "frage": "27. Welche Identität verbindet $A$ und $p_A$ allgemein (ohne Rechnung)?",
-      "optionen": [
+      "question": "27. Welche Identität verbindet $A$ und $p_A$ allgemein (ohne Rechnung)?",
+      "options": [
         "Cayley–Hamilton: $p_A(A)=0$.",
         "Gram–Schmidt: $p_A(A)=I$.",
         "Sylvester: $p_A(A)$ ist immer invertierbar.",
         "Schur: $p_A(A)$ ist orthogonal."
       ],
-      "loesung": 0,
-      "erklaerung": "Der Satz von Cayley–Hamilton besagt, dass jede Matrix ihr eigenes charakteristisches Polynom erfüllt.",
-      "gewichtung": 2,
-      "thema": "Plausibilitätschecks (Spur/Det)",
+      "answer": 0,
+      "explanation": "Der Satz von Cayley–Hamilton besagt, dass jede Matrix ihr eigenes charakteristisches Polynom erfüllt.",
+      "weight": 2,
+      "topic": "Plausibilitätschecks (Spur/Det)",
       "extended_explanation": {
         "titel": "Cayley–Hamilton konsequent gelesen",
         "schritte": [
@@ -599,17 +599,17 @@
       }
     },
     {
-      "frage": "28. Welche Aussage zur Jordan-Form liefert das präziseste Kriterium für Nichtdiagonalisierbarkeit?",
-      "optionen": [
+      "question": "28. Welche Aussage zur Jordan-Form liefert das präziseste Kriterium für Nichtdiagonalisierbarkeit?",
+      "options": [
         "Existieren zu einem Eigenwert Jordan-Blöcke größer als $1\\times1$, ist $A$ nicht diagonalisierbar.",
         "Existiert ein Null-Eigenwert, ist $A$ nie diagonalisierbar.",
         "Ist $\\det(A)\\neq0$, ist $A$ nie diagonalisierbar.",
         "Hat $A$ reelle Einträge, ist $A$ immer diagonalisierbar."
       ],
-      "loesung": 0,
-      "erklaerung": "Blöcke größer als $1\\times1$ zeigen fehlende Eigenvektoren an.",
-      "gewichtung": 3,
-      "thema": "Jordan-Basiswissen",
+      "answer": 0,
+      "explanation": "Blöcke größer als $1\\times1$ zeigen fehlende Eigenvektoren an.",
+      "weight": 3,
+      "topic": "Jordan-Basiswissen",
       "extended_explanation": {
         "titel": "Blockstruktur als Diagnose",
         "schritte": [
@@ -624,17 +624,17 @@
       }
     },
     {
-      "frage": "29. Welche Aussage über das charakteristische Polynom ist korrekt und nichttrivial?",
-      "optionen": [
+      "question": "29. Welche Aussage über das charakteristische Polynom ist korrekt und nichttrivial?",
+      "options": [
         "Es ist invariant unter Ähnlichkeit und bestimmt die Eigenwerte einschließlich Vielfachheiten.",
         "Es ist invariant unter beliebigen Zeilenvertauschungen ohne Vorzeichenänderung.",
         "Es hängt nur von den Spaltensummen ab.",
         "Es bestimmt stets auch die geometrischen Vielfachheiten eindeutig."
       ],
-      "loesung": 0,
-      "erklaerung": "Das Polynom kodiert die Nullstellen samt algebraischer Vielfachheiten, nicht jedoch die geometrischen.",
-      "gewichtung": 3,
-      "thema": "Charakteristisches Polynom",
+      "answer": 0,
+      "explanation": "Das Polynom kodiert die Nullstellen samt algebraischer Vielfachheiten, nicht jedoch die geometrischen.",
+      "weight": 3,
+      "topic": "Charakteristisches Polynom",
       "extended_explanation": {
         "titel": "Information und Grenzen von $p_A$",
         "schritte": [
@@ -649,17 +649,17 @@
       }
     },
     {
-      "frage": "30. Welche Bedingung fasst Diagonalisierbarkeit in einem Satz zusammen?",
-      "optionen": [
+      "question": "30. Welche Bedingung fasst Diagonalisierbarkeit in einem Satz zusammen?",
+      "options": [
         "Eine Matrix ist genau dann diagonalisierbar, wenn die Summe der Dimensionen aller Eigenräume gleich $n$ ist.",
         "Eine Matrix ist genau dann diagonalisierbar, wenn $\\det(A)=0$ ist.",
         "Eine Matrix ist genau dann diagonalisierbar, wenn alle Einträge positiv sind.",
         "Eine Matrix ist genau dann diagonalisierbar, wenn sie normalisiert ist."
       ],
-      "loesung": 0,
-      "erklaerung": "Ergibt die direkte Summe der Eigenräume die volle Dimension, existiert eine Eigenbasis.",
-      "gewichtung": 3,
-      "thema": "Diagonalisierbarkeit & Ähnlichkeit",
+      "answer": 0,
+      "explanation": "Ergibt die direkte Summe der Eigenräume die volle Dimension, existiert eine Eigenbasis.",
+      "weight": 3,
+      "topic": "Diagonalisierbarkeit & Ähnlichkeit",
       "extended_explanation": {
         "titel": "Eigenräume summieren sich zur Basis",
         "schritte": [

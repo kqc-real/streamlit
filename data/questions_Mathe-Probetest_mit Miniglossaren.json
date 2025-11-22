@@ -1,20 +1,20 @@
 [
   {
-    "frage": "1. Welche der folgenden Mengenoperationen liefert alle Elemente, die in mindestens einer der beiden Mengen enthalten sind, aber nicht in beiden?",
-    "optionen": [
+    "question": "1. Welche der folgenden Mengenoperationen liefert alle Elemente, die in mindestens einer der beiden Mengen enthalten sind, aber nicht in beiden?",
+    "options": [
       "**Schnittmenge** ($A \\cap B$)",
       "**Symmetrische Differenz** ($A \\triangle B$)",
       "**Vereinigung** ($A \\cup B$)",
       "**Differenz** ($A \\setminus B$)"
     ],
-    "loesung": 1,
-    "erklaerung": "Die **symmetrische Differenz** enthält genau die Elemente, die in einer, aber nicht in beiden Mengen sind.",
+    "answer": 1,
+    "explanation": "Die **symmetrische Differenz** enthält genau die Elemente, die in einer, aber nicht in beiden Mengen sind.",
     "extended_explanation": {
       "title": "Theoretischer Hintergrund: Symmetrische Differenz",
       "content": "Die symmetrische Differenz $A \\triangle B$ ist formal definiert als $(A \\cup B) \\setminus (A \\cap B)$. Sie entspricht der Vereinigung der beiden Differenzmengen $(A \\setminus B) \\cup (B \\setminus A)$.\n\nLogisch ausgedrückt ist es ein **exklusives ODER (XOR)**: Ein Element ist genau dann in der symmetrischen Differenz, wenn es in A oder in B ist, aber nicht in beiden gleichzeitig. Dies ist ein fundamentales Konzept in der Mengenlehre und findet auch in der Informatik, z.B. bei der Berechnung von Unterschieden zwischen Datensätzen, Anwendung."
     },
-    "gewichtung": 1,
-    "thema": "Formale Sprachen & Mengenlehre",
+    "weight": 1,
+    "topic": "Formale Sprachen & Mengenlehre",
     "mini_glossary": {
       "Symmetrische Differenz": "Die Menge der Elemente, die in genau einer von zwei Mengen, aber nicht in beiden gleichzeitig, enthalten sind. Sie ist formal definiert als $(A \\cup B) \\setminus (A \\cap B)$.",
       "Mengenlehre": "Ein Teilgebiet der Mathematik, das sich mit den Eigenschaften und Beziehungen von Mengen beschäftigt.",
@@ -22,17 +22,17 @@
     }
   },
   {
-    "frage": "2. Welcher der folgenden Datentypen in Python ist veränderlich?",
-    "optionen": [
+    "question": "2. Welcher der folgenden Datentypen in Python ist veränderlich?",
+    "options": [
       "Tuple",
       "String",
       "List",
       "Integer"
     ],
-    "loesung": 2,
-    "erklaerung": "Listen (`list`) sind in Python veränderlich (mutable), d.h. ihre Elemente können nach der Erstellung geändert werden. Tupel, Strings und Zahlen sind unveränderlich (immutable).",
-    "gewichtung": 1,
-    "thema": "Formale Sprachen & Mengenlehre",
+    "answer": 2,
+    "explanation": "Listen (`list`) sind in Python veränderlich (mutable), d.h. ihre Elemente können nach der Erstellung geändert werden. Tupel, Strings und Zahlen sind unveränderlich (immutable).",
+    "weight": 1,
+    "topic": "Formale Sprachen & Mengenlehre",
     "mini_glossary": {
       "Mutable (veränderlich)": "Ein Objekt wird als veränderlich bezeichnet, wenn sein Zustand oder Inhalt nach seiner Erstellung geändert werden kann. Listen in Python sind ein Beispiel dafür.",
       "Immutable (unveränderlich)": "Ein Objekt wird als unveränderlich bezeichnet, wenn sein Zustand nach der Erstellung nicht mehr geändert werden kann. Tupel, Strings und Zahlen in Python sind Beispiele dafür.",
@@ -40,21 +40,21 @@
     }
   },
   {
-    "frage": "3. Welche der folgenden Mengenoperationen ist nicht kommutativ?",
-    "optionen": [
+    "question": "3. Welche der folgenden Mengenoperationen ist nicht kommutativ?",
+    "options": [
       "**Vereinigung** ($A \\cup B$)",
       "**Schnittmenge** ($A \\cap B$)",
       "**Differenz** ($A \\setminus B$)",
       "**Symmetrische Differenz** ($A \\triangle B$)"
     ],
-    "loesung": 2,
-    "erklaerung": "Die **Differenz** ist nicht kommutativ, da die Reihenfolge der Mengen das Ergebnis ändert: $A \\setminus B$ (Elemente in A, aber nicht in B) ist im Allgemeinen ungleich $B \\setminus A$ (Elemente in B, aber nicht in A).",
+    "answer": 2,
+    "explanation": "Die **Differenz** ist nicht kommutativ, da die Reihenfolge der Mengen das Ergebnis ändert: $A \\setminus B$ (Elemente in A, aber nicht in B) ist im Allgemeinen ungleich $B \\setminus A$ (Elemente in B, aber nicht in A).",
     "extended_explanation": {
       "title": "Kommutativität von Mengenoperationen",
       "content": "Eine Operation ist kommutativ, wenn die Reihenfolge der Operanden keine Rolle spielt. \n- **Kommutativ:** Vereinigung ($A \\cup B = B \\cup A$), Schnittmenge ($A \\cap B = B \\cap A$), Symmetrische Differenz ($A \\triangle B = B \\triangle A$).\n- **Nicht kommutativ:** Differenz ($A \\setminus B \\neq B \\setminus A$)."
     },
-    "gewichtung": 2,
-    "thema": "Formale Sprachen & Mengenlehre",
+    "weight": 2,
+    "topic": "Formale Sprachen & Mengenlehre",
     "mini_glossary": {
       "Kommutativität": "Die Eigenschaft einer mathematischen Operation, bei der die Reihenfolge der Operanden das Ergebnis nicht beeinflusst.",
       "Differenzmenge": "Die Menge $A \\setminus B$ enthält alle Elemente, die in $A$, aber nicht in $B$ enthalten sind.",
@@ -62,17 +62,17 @@
     }
   },
   {
-    "frage": "4. Welche Aussage zu Python-Sets ist korrekt?",
-    "optionen": [
+    "question": "4. Welche Aussage zu Python-Sets ist korrekt?",
+    "options": [
       "Sets sind immer geordnet.",
       "Sets erlauben doppelte Elemente.",
       "Sets unterstützen Mengenoperationen wie **Vereinigung** und Schnitt.",
       "Sets können als Schlüssel in Dictionaries verwendet werden."
     ],
-    "loesung": 2,
-    "erklaerung": "Sets sind ungeordnet, enthalten keine Duplikate und unterstützen Mengenoperationen wie **Vereinigung**/Schnitt.",
-    "gewichtung": 1,
-    "thema": "Formale Sprachen & Mengenlehre",
+    "answer": 2,
+    "explanation": "Sets sind ungeordnet, enthalten keine Duplikate und unterstützen Mengenoperationen wie **Vereinigung**/Schnitt.",
+    "weight": 1,
+    "topic": "Formale Sprachen & Mengenlehre",
     "mini_glossary": {
       "Set (Menge)": "Eine ungeordnete Sammlung von einzigartigen (nicht-doppelten) Elementen in Python.",
       "Dictionary (Wörterbuch)": "Eine Datenstruktur in Python, die Schlüssel-Wert-Paare speichert. Schlüssel müssen unveränderlich und einzigartig sein.",
@@ -80,21 +80,21 @@
     }
   },
   {
-    "frage": "5. Welche der folgenden Aussagen beschreibt das Distributivgesetz der Mengen?",
-    "optionen": [
+    "question": "5. Welche der folgenden Aussagen beschreibt das Distributivgesetz der Mengen?",
+    "options": [
       "$(A \\cup B) \\cap C = (A \\cap C) \\cup (B \\cap C)$",
       "$(A \\cap B) \\cup C = (A \\cup C) \\cap (B \\cup C)$",
       "$(A \\cup B) \\cup C = A \\cup (B \\cup C)$",
       "$(A \\cap B) \\cap C = A \\cap (B \\cap C)$"
     ],
-    "loesung": 0,
-    "erklaerung": "Das Distributivgesetz beschreibt, wie sich zwei Operationen zueinander verhalten. Hier verteilt sich die Schnittmenge über die Vereinigung: $A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$. Die angegebene Option ist die zweite Form des Gesetzes.",
+    "answer": 0,
+    "explanation": "Das Distributivgesetz beschreibt, wie sich zwei Operationen zueinander verhalten. Hier verteilt sich die Schnittmenge über die Vereinigung: $A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$. Die angegebene Option ist die zweite Form des Gesetzes.",
     "extended_explanation": {
       "title": "Theoretischer Hintergrund: Distributivgesetze der Mengenlehre",
       "content": "In der Mengenlehre gibt es zwei Distributivgesetze, die die Interaktion von Vereinigung ($\\cup$) und Schnittmenge ($\\cap$) beschreiben:\n\n1. **Vereinigung über den Schnitt:** $A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$\n2. **Schnitt über die Vereinigung:** $A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$\n\nDiese Gesetze sind analog zu den Distributivgesetzen in der Arithmetik (z.B. $a \\cdot (b+c) = a \\cdot b + a \\cdot c$) und fundamental für die Vereinfachung von Mengenausdrücken."
     },
-    "gewichtung": 2,
-    "thema": "Mengenoperationen & Abbildungen",
+    "weight": 2,
+    "topic": "Mengenoperationen & Abbildungen",
     "mini_glossary": {
       "Distributivgesetz": "Eine Eigenschaft zweier mathematischer Operationen, die beschreibt, wie sie miteinander interagieren, z.B. wie eine Operation über eine andere 'verteilt' wird.",
       "Vereinigung": "Die Menge der Elemente, die in Menge $A$ oder in Menge $B$ (oder in beiden) enthalten sind.",
@@ -102,21 +102,21 @@
     }
   },
   {
-    "frage": "6. Welche Eigenschaft kennzeichnet eine **injektive Abbildung**?",
-    "optionen": [
+    "question": "6. Welche Eigenschaft kennzeichnet eine **injektive Abbildung**?",
+    "options": [
       "Jedes Element im Zielbereich wird mindestens einmal getroffen.",
       "Verschiedene Elemente im Definitionsbereich werden auf verschiedene Elemente im Zielbereich abgebildet.",
       "Jedes Element im Zielbereich hat mehrere Urbilder.",
       "Jedes Element im Definitionsbereich hat kein Bild."
     ],
-    "loesung": 1,
-    "erklaerung": "Injektivität bedeutet: $x_1 \\neq x_2 \\Rightarrow f(x_1) \\neq f(x_2)$.",
+    "answer": 1,
+    "explanation": "Injektivität bedeutet: $x_1 \\neq x_2 \\Rightarrow f(x_1) \\neq f(x_2)$.",
     "extended_explanation": {
       "title": "Theoretischer Hintergrund: Injektivität, Surjektivität, Bijektivität",
       "content": "Abbildungen haben wichtige Eigenschaften:\n\n- **Injektiv (linkseindeutig):** Jedes Element der Zielmenge wird **höchstens einmal** getroffen. Verschiedene Elemente der Definitionsmenge haben immer verschiedene Bilder.\n- **Surjektiv (rechtstotal):** Jedes Element der Zielmenge wird **mindestens einmal** getroffen. Die Bildmenge ist gleich der Zielmenge.\n- **Bijektiv:** Die Abbildung ist sowohl injektiv als auch surjektiv. Jedes Element der Zielmenge wird **genau einmal** getroffen. Eine solche Abbildung ist umkehrbar."
     },
-    "gewichtung": 2,
-    "thema": "Mengenoperationen & Abbildungen",
+    "weight": 2,
+    "topic": "Mengenoperationen & Abbildungen",
     "mini_glossary": {
       "Injektivität": "Die Eigenschaft einer Abbildung, bei der jedes Element der Zielmenge höchstens ein Urbild hat.",
       "Surjektivität": "Die Eigenschaft einer Abbildung, bei der jedes Element der Zielmenge mindestens ein Urbild hat.",
@@ -124,17 +124,17 @@
     }
   },
   {
-    "frage": "7. Welche Aussage zur **Potenzmenge** ist korrekt?",
-    "optionen": [
+    "question": "7. Welche Aussage zur **Potenzmenge** ist korrekt?",
+    "options": [
       "Sie enthält nur die leere Menge.",
       "Sie enthält alle Teilmengen einer Menge.",
       "Sie enthält nur die Menge selbst.",
       "Sie enthält nur eine Teilmenge."
     ],
-    "loesung": 1,
-    "erklaerung": "Die **Potenzmenge** P(A) ist die Menge aller Teilmengen von A.",
-    "gewichtung": 1,
-    "thema": "Mengenoperationen & Abbildungen",
+    "answer": 1,
+    "explanation": "Die **Potenzmenge** P(A) ist die Menge aller Teilmengen von A.",
+    "weight": 1,
+    "topic": "Mengenoperationen & Abbildungen",
     "mini_glossary": {
       "Potenzmenge": "Die Menge aller Teilmengen einer gegebenen Grundmenge $M$. Für eine Menge mit $n$ Elementen hat ihre Potenzmenge $2^n$ Elemente.",
       "Teilmenge": "Eine Menge $A$ ist eine Teilmenge von $B$, wenn jedes Element von $A$ auch ein Element von $B$ ist.",
@@ -142,17 +142,17 @@
     }
   },
   {
-    "frage": "8. Was beschreibt die **Differenzmenge** $A \\setminus B$?",
-    "optionen": [
+    "question": "8. Was beschreibt die **Differenzmenge** $A \\setminus B$?",
+    "options": [
       "Alle Elemente, die in A und B sind.",
       "Alle Elemente, die nur in B sind.",
       "Alle Elemente, die nur in A sind.",
       "Alle Elemente aus A und B."
     ],
-    "loesung": 2,
-    "erklaerung": "$A \\setminus B$ enthält alle Elemente, die in A, aber nicht in B liegen.",
-    "gewichtung": 1,
-    "thema": "Mengenoperationen & Abbildungen",
+    "answer": 2,
+    "explanation": "$A \\setminus B$ enthält alle Elemente, die in A, aber nicht in B liegen.",
+    "weight": 1,
+    "topic": "Mengenoperationen & Abbildungen",
     "mini_glossary": {
       "Differenzmenge": "Die Menge $A \\setminus B$ enthält alle Elemente, die in der Menge $A$, aber nicht in der Menge $B$ enthalten sind.",
       "Komplement": "Ist $B$ eine Teilmenge von $A$, so wird $A \\setminus B$ auch als Komplement von $B$ in $A$ bezeichnet.",
@@ -160,17 +160,17 @@
     }
   },
   {
-    "frage": "9. Welche der folgenden logischen Operationen ist nicht kommutativ?",
-    "optionen": [
+    "question": "9. Welche der folgenden logischen Operationen ist nicht kommutativ?",
+    "options": [
       "UND ($\\land$)",
       "ODER ($\\lor$)",
       "**Implikation** ($\\to$)",
       "Äquivalenz ($\\leftrightarrow$)"
     ],
-    "loesung": 2,
-    "erklaerung": "Die **Implikation** ist nicht kommutativ: $A \\to B$ ist nicht äquivalent zu $B \\to A$.",
-    "gewichtung": 1,
-    "thema": "Aussagenlogik",
+    "answer": 2,
+    "explanation": "Die **Implikation** ist nicht kommutativ: $A \\to B$ ist nicht äquivalent zu $B \\to A$.",
+    "weight": 1,
+    "topic": "Aussagenlogik",
     "mini_glossary": {
       "Kommutativgesetz": "Eine Eigenschaft einer Operation, bei der das Ergebnis unabhängig von der Reihenfolge der Operanden ist, z.B. $A \\land B = B \\land A$.",
       "Implikation": "Eine logische Verknüpfung 'wenn A, dann B' ($A \\to B$), die nur dann falsch ist, wenn $A$ wahr und $B$ falsch ist.",
@@ -178,21 +178,21 @@
     }
   },
   {
-    "frage": "10. In welcher Situation ist die **Implikation** $A \\to B$ falsch?",
-    "optionen": [
+    "question": "10. In welcher Situation ist die **Implikation** $A \\to B$ falsch?",
+    "options": [
       "Wenn A falsch und B wahr ist.",
       "Wenn A wahr und B falsch ist.",
       "Wenn beide wahr sind.",
       "Wenn beide falsch sind."
     ],
-    "loesung": 1,
-    "erklaerung": "Eine **Implikation** ($A \\to B$) ist nur in dem einen Fall falsch, dass eine wahre Aussage zu einer falschen Aussage führt. In allen anderen Fällen gilt sie als wahr (Prinzip 'ex falso quodlibet' - aus Falschem folgt Beliebiges).",
+    "answer": 1,
+    "explanation": "Eine **Implikation** ($A \\to B$) ist nur in dem einen Fall falsch, dass eine wahre Aussage zu einer falschen Aussage führt. In allen anderen Fällen gilt sie als wahr (Prinzip 'ex falso quodlibet' - aus Falschem folgt Beliebiges).",
     "extended_explanation": {
       "title": "Wahrheitstafel der Implikation",
       "content": "Die Wahrheitstafel für $A \\to B$ verdeutlicht dies:\n\n| A     | B     | $A \\to B$ |\n|-------|-------|------------|\n| wahr  | wahr  | **wahr** |\n| wahr  | falsch| **falsch** |\n| falsch| wahr  | **wahr** |\n| falsch| falsch| **wahr** |\n\nDer einzige 'Bruch' des logischen Versprechens tritt in der zweiten Zeile auf."
     },
-    "gewichtung": 2,
-    "thema": "Aussagenlogik",
+    "weight": 2,
+    "topic": "Aussagenlogik",
     "mini_glossary": {
       "Implikation": "Eine logische Verknüpfung 'wenn A, dann B' ($A \\to B$), die nur dann falsch ist, wenn die Voraussetzung $A$ wahr und die Konsequenz $B$ falsch ist.",
       "Wahrheitstafel": "Eine Tabelle, die alle möglichen Wahrheitswerte von Teilaussagen auflistet und den daraus resultierenden Wahrheitswert einer zusammengesetzten Aussage zeigt.",
@@ -200,17 +200,17 @@
     }
   },
   {
-    "frage": "11. Welche der folgenden Aussagen ist eine **Kontradiktion**?",
-    "optionen": [
+    "question": "11. Welche der folgenden Aussagen ist eine **Kontradiktion**?",
+    "options": [
       "$A \\lor B$",
       "$A \\land \\lnot A$",
       "$A \\lor \\lnot A$",
       "$A \\to B$"
     ],
-    "loesung": 1,
-    "erklaerung": "$A \\land \\lnot A$ ist immer falsch und damit eine **Kontradiktion**.",
-    "gewichtung": 1,
-    "thema": "Aussagenlogik",
+    "answer": 1,
+    "explanation": "$A \\land \\lnot A$ ist immer falsch und damit eine **Kontradiktion**.",
+    "weight": 1,
+    "topic": "Aussagenlogik",
     "mini_glossary": {
       "Kontradiktion": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen immer falsch ist.",
       "Tautologie": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen immer wahr ist, z.B. $A \\lor \\lnot A$ (Satz vom ausgeschlossenen Dritten).",
@@ -218,21 +218,21 @@
     }
   },
   {
-    "frage": "12. Welche Operation entspricht logisch $\\lnot(A \\land B)$?",
-    "optionen": [
+    "question": "12. Welche Operation entspricht logisch $\\lnot(A \\land B)$?",
+    "options": [
       "$\\lnot A \\land \\lnot B$",
       "$\\lnot A \\lor \\lnot B$",
       "$A \\to \\lnot B$",
       "$B \\to \\lnot A$"
     ],
-    "loesung": 1,
-    "erklaerung": "Nach den **De Morgan'schen Gesetzen** wird die Negation einer Konjunktion (UND) zu einer Disjunktion (ODER) der negierten Teilaussagen: $\\lnot(A \\land B) \\equiv \\lnot A \\lor \\lnot B$.",
+    "answer": 1,
+    "explanation": "Nach den **De Morgan'schen Gesetzen** wird die Negation einer Konjunktion (UND) zu einer Disjunktion (ODER) der negierten Teilaussagen: $\\lnot(A \\land B) \\equiv \\lnot A \\lor \\lnot B$.",
     "extended_explanation": {
       "title": "Theoretischer Hintergrund: De Morgan'sche Gesetze",
       "content": "Die De Morgan'schen Gesetze sind fundamentale Regeln der Aussagenlogik und Mengenlehre. Sie beschreiben, wie die Negation mit Konjunktion und Disjunktion interagiert:\n\n1. $\\lnot(A \\land B) \\equiv (\\lnot A \\lor \\lnot B)$  (Negation von UND wird zu ODER der Negationen)\n2. $\\lnot(A \\lor B) \\equiv (\\lnot A \\land \\lnot B)$  (Negation von ODER wird zu UND der Negationen)\n\nDiese Regeln sind essenziell für die Umformung und Vereinfachung logischer Ausdrücke."
     },
-    "gewichtung": 2,
-    "thema": "Aussagenlogik",
+    "weight": 2,
+    "topic": "Aussagenlogik",
     "mini_glossary": {
       "De Morgan'sche Gesetze": "Ein Paar von Transformationsregeln, die die Beziehung zwischen Negation, Konjunktion und Disjunktion beschreiben.",
       "Negation": "Die logische NICHT-Operation ($\\lnot$), die den Wahrheitswert einer Aussage umkehrt.",
@@ -240,21 +240,21 @@
     }
   },
   {
-    "frage": "13. Welche Aussage ist logisch äquivalent zu $A \\to B$?",
-    "optionen": [
+    "question": "13. Welche Aussage ist logisch äquivalent zu $A \\to B$?",
+    "options": [
       "$\\lnot A \\lor B$",
       "$A \\land B$",
       "$A \\lor B$",
       "$\\lnot B \\lor A$"
     ],
-    "loesung": 0,
-    "erklaerung": "Die **Implikation** $A \\to B$ ist äquivalent zu $\\lnot A \\lor B$.",
+    "answer": 0,
+    "explanation": "Die **Implikation** $A \\to B$ ist äquivalent zu $\\lnot A \\lor B$.",
     "extended_explanation": {
       "title": "Herleitung der Äquivalenz",
       "content": "Eine Implikation $A \\to B$ ist nur dann falsch, wenn $A$ wahr und $B$ falsch ist. Betrachten wir die Wahrheitstafel für $\\lnot A \\lor B$:\n\n- Wenn $A$ wahr und $B$ wahr ist, ist $\\lnot A$ falsch, aber $B$ ist wahr $\\implies$ Ausdruck ist wahr.\n- Wenn $A$ wahr und $B$ falsch ist, ist $\\lnot A$ falsch und $B$ ist falsch $\\implies$ Ausdruck ist falsch.\n- Wenn $A$ falsch ist, ist $\\lnot A$ wahr, womit der gesamte Ausdruck $(\\lnot A \\lor B)$ immer wahr ist.\n\nDie Wahrheitstafeln sind identisch, daher sind die Ausdrücke äquivalent."
     },
-    "gewichtung": 2,
-    "thema": "Logische Äquivalenz & Prädikatenlogik",
+    "weight": 2,
+    "topic": "Logische Äquivalenz & Prädikatenlogik",
     "mini_glossary": {
       "Logische Äquivalenz": "Zwei Aussagen sind logisch äquivalent, wenn sie unter allen möglichen Wahrheitsbelegungen immer denselben Wahrheitswert annehmen.",
       "Implikation": "Die logische Verknüpfung 'wenn A, dann B' ($A \\to B$).",
@@ -262,21 +262,21 @@
     }
   },
   {
-    "frage": "14. Was beschreibt die **Prädikatenlogik** im Vergleich zur **Aussagenlogik** besser?",
-    "optionen": [
+    "question": "14. Was beschreibt die **Prädikatenlogik** im Vergleich zur **Aussagenlogik** besser?",
+    "options": [
       "Aussagen ohne Variablen",
       "Zusammenhänge zwischen Objekten und deren Eigenschaften",
       "Aussagen mit nur einer Variable",
       "Aussagen ohne Quantoren"
     ],
-    "loesung": 1,
-    "erklaerung": "**Prädikatenlogik** erlaubt Quantoren und Prädikate über Objekte/Eigenschaften.",
+    "answer": 1,
+    "explanation": "**Prädikatenlogik** erlaubt Quantoren und Prädikate über Objekte/Eigenschaften.",
     "extended_explanation": {
       "title": "Abgrenzung: Aussagenlogik vs. Prädikatenlogik",
       "content": "Die **Aussagenlogik** behandelt ganze Sätze als atomare Einheiten (z.B. 'Es regnet'). Sie kann diese mit UND, ODER, NICHT etc. verknüpfen. \n\nDie **Prädikatenlogik** ist ausdrucksstärker. Sie kann die innere Struktur von Sätzen analysieren, indem sie:\n- **Prädikate** für Eigenschaften (z.B. `ist_rot(x)`)\n- **Variablen** für Objekte (z.B. `x`)\n- **Quantoren** ($\\forall$ 'für alle', $\\exists$ 'es existiert')\nverwendet. Dadurch kann sie Aussagen wie 'Alle Bälle sind rund' formalisieren."
     },
-    "gewichtung": 2,
-    "thema": "Logische Äquivalenz & Prädikatenlogik",
+    "weight": 2,
+    "topic": "Logische Äquivalenz & Prädikatenlogik",
     "mini_glossary": {
       "Aussagenlogik": "Ein Teilgebiet der Logik, das sich mit der Verknüpfung von Aussagen befasst, ohne deren innere Struktur zu analysieren.",
       "Prädikatenlogik": "Eine Erweiterung der Aussagenlogik, die es erlaubt, über Objekte, ihre Eigenschaften und die Beziehungen zwischen ihnen zu quantifizieren.",
@@ -284,17 +284,17 @@
     }
   },
   {
-    "frage": "15. Welche Aussage ist ein Beispiel für den **Existenzquantor**?",
-    "optionen": [
+    "question": "15. Welche Aussage ist ein Beispiel für den **Existenzquantor**?",
+    "options": [
       "Für alle x gilt: $x > 0$",
       "Es existiert ein x mit $x < 5$",
       "Wenn $x > 3$, dann $x < 7$",
       "Kein x ist größer als 100"
     ],
-    "loesung": 1,
-    "erklaerung": "„Es existiert …“ ist der **Existenzquantor** $\\exists$.",
-    "gewichtung": 1,
-    "thema": "Logische Äquivalenz & Prädikatenlogik",
+    "answer": 1,
+    "explanation": "„Es existiert …“ ist der **Existenzquantor** $\\exists$.",
+    "weight": 1,
+    "topic": "Logische Äquivalenz & Prädikatenlogik",
     "mini_glossary": {
       "Existenzquantor": "Der Quantor $\\exists$, der aussagt, dass es mindestens ein Element in einem bestimmten Bereich gibt, das eine Eigenschaft erfüllt.",
       "Allquantor": "Der Quantor $\\forall$, der aussagt, dass alle Elemente in einem bestimmten Bereich eine Eigenschaft erfüllen.",
@@ -302,21 +302,21 @@
     }
   },
   {
-    "frage": "16. Welcher Ausdruck entspricht der **Kontraposition** von $A \\to B$?",
-    "optionen": [
+    "question": "16. Welcher Ausdruck entspricht der **Kontraposition** von $A \\to B$?",
+    "options": [
       "$\\lnot A \\to \\lnot B$",
       "$B \\to A$",
       "$\\lnot B \\to \\lnot A$",
       "$A \\land \\lnot B$"
     ],
-    "loesung": 2,
-    "erklaerung": "Die **Kontraposition** einer Implikation $A \\to B$ ist die logisch äquivalente Aussage $\\lnot B \\to \\lnot A$.",
+    "answer": 2,
+    "explanation": "Die **Kontraposition** einer Implikation $A \\to B$ ist die logisch äquivalente Aussage $\\lnot B \\to \\lnot A$.",
     "extended_explanation": {
       "title": "Logische Äquivalenzen der Implikation",
       "content": "Für eine Implikation $A \\to B$ gibt es mehrere verwandte Aussagen:\n\n- **Umkehrung (Konverse):** $B \\to A$ (nicht äquivalent)\n- **Negation (Inverse):** $\\lnot A \\to \\lnot B$ (nicht äquivalent)\n- **Kontraposition:** $\\lnot B \\to \\lnot A$ (**äquivalent** zur ursprünglichen Aussage)\n\nDie Kontraposition ist ein wichtiges Werkzeug für indirekte Beweise."
     },
-    "gewichtung": 2,
-    "thema": "Logische Äquivalenz & Prädikatenlogik",
+    "weight": 2,
+    "topic": "Logische Äquivalenz & Prädikatenlogik",
     "mini_glossary": {
       "Kontraposition": "Die logisch äquivalente Umformung einer Implikation $A \\to B$ zu $\\lnot B \\to \\lnot A$.",
       "Umkehrung (Konverse)": "Die Umkehrung der Implikationsrichtung, $B \\to A$.",
@@ -324,21 +324,21 @@
     }
   },
   {
-    "frage": "17. Welche Bedingung ist notwendig für eine korrekt definierte rekursive Funktion?",
-    "optionen": [
+    "question": "17. Welche Bedingung ist notwendig für eine korrekt definierte rekursive Funktion?",
+    "options": [
       "Die Funktion ruft sich beliebig oft selbst auf.",
       "Es gibt einen **Basisfall**.",
       "Die Funktion benötigt keine Parameter.",
       "Die Funktion verwendet ausschließlich Iteration."
     ],
-    "loesung": 1,
-    "erklaerung": "Ein **Basisfall** garantiert Terminierung/Korrektheit.",
+    "answer": 1,
+    "explanation": "Ein **Basisfall** garantiert Terminierung/Korrektheit.",
     "extended_explanation": {
       "title": "Aufbau einer rekursiven Funktion",
       "content": "Jede korrekte rekursive Funktion besteht aus zwei Teilen:\n\n1. **Basisfall (Abbruchbedingung):** Ein einfacher Fall, der direkt gelöst werden kann, ohne weiteren rekursiven Aufruf. Dies verhindert eine Endlosschleife.\n2. **Rekursionsschritt:** Der Fall, in dem die Funktion sich selbst mit einem 'kleineren' oder 'einfacheren' Problem aufruft. Das Problem muss sich bei jedem Schritt dem Basisfall annähern.\n\nFehlt der Basisfall, führt dies zu einem `Stack Overflow`-Fehler."
     },
-    "gewichtung": 2,
-    "thema": "Rekursion & Zahlensysteme",
+    "weight": 2,
+    "topic": "Rekursion & Zahlensysteme",
     "mini_glossary": {
       "Rekursion": "Ein Verfahren, bei dem eine Funktion oder ein Prozess sich selbst aufruft, um ein Problem zu lösen.",
       "Basisfall": "Die Abbruchbedingung einer Rekursion, die ein Ergebnis ohne weiteren rekursiven Aufruf liefert.",
@@ -346,21 +346,21 @@
     }
   },
   {
-    "frage": "18. Wie lautet die Zahl 13 im Binärsystem?",
-    "optionen": [
+    "question": "18. Wie lautet die Zahl 13 im Binärsystem?",
+    "options": [
       "1101",
       "1011",
       "1110",
       "1001"
     ],
-    "loesung": 0,
-    "erklaerung": "Um 13 ins Binärsystem umzuwandeln, sucht man die größten Zweierpotenzen: $13 = 8 + 4 + 1$. Das entspricht $1 \\cdot 2^3 + 1 \\cdot 2^2 + 0 \\cdot 2^1 + 1 \\cdot 2^0$, also $1101_2$.",
+    "answer": 0,
+    "explanation": "Um 13 ins Binärsystem umzuwandeln, sucht man die größten Zweierpotenzen: $13 = 8 + 4 + 1$. Das entspricht $1 \\cdot 2^3 + 1 \\cdot 2^2 + 0 \\cdot 2^1 + 1 \\cdot 2^0$, also $1101_2$.",
     "extended_explanation": {
       "title": "Umrechnung: Divisionsmethode mit Rest",
       "content": "Eine systematische Methode ist die wiederholte Division durch 2 und das Notieren der Reste:\n\n- $13 \\div 2 = 6$ Rest **1**\n- $6 \\div 2 = 3$ Rest **0**\n- $3 \\div 2 = 1$ Rest **1**\n- $1 \\div 2 = 0$ Rest **1**\n\nLiest man die Reste von unten nach oben, ergibt sich **1101**."
     },
-    "gewichtung": 2,
-    "thema": "Rekursion & Zahlensysteme",
+    "weight": 2,
+    "topic": "Rekursion & Zahlensysteme",
     "mini_glossary": {
       "Binärsystem": "Das Zahlensystem zur Basis 2, das nur die Ziffern 0 und 1 verwendet.",
       "Basis (Zahlensystem)": "Die Grundzahl eines Stellenwertsystems, die angibt, wie viele Ziffern zur Darstellung von Zahlen verwendet werden.",
@@ -368,17 +368,17 @@
     }
   },
   {
-    "frage": "19. Welche Aussage zur Rekursion trifft zu?",
-    "optionen": [
+    "question": "19. Welche Aussage zur Rekursion trifft zu?",
+    "options": [
       "Rekursion ist immer effizienter als Iteration.",
       "Jede rekursive Funktion benötigt einen **Abbruchfall**.",
       "Rekursive Funktionen speichern keinen Zustand.",
       "Rekursion vermeidet Stapelspeicher."
     ],
-    "loesung": 1,
-    "erklaerung": "Ohne Abbruch-/**Basisfall** kann die Rekursion nicht terminieren.",
-    "gewichtung": 1,
-    "thema": "Rekursion & Zahlensysteme",
+    "answer": 1,
+    "explanation": "Ohne Abbruch-/**Basisfall** kann die Rekursion nicht terminieren.",
+    "weight": 1,
+    "topic": "Rekursion & Zahlensysteme",
     "mini_glossary": {
       "Rekursion": "Ein Prozess, bei dem eine Funktion sich selbst aufruft. Sie kann oft eleganteren Code als Iteration liefern, ist aber nicht immer effizienter.",
       "Iteration": "Ein Prozess, bei dem ein Block von Anweisungen wiederholt ausgeführt wird, typischerweise unter Verwendung von Schleifen (for, while).",
@@ -386,17 +386,17 @@
     }
   },
   {
-    "frage": "20. Welche Zahlendarstellung verwendet 16 verschiedene Symbole?",
-    "optionen": [
+    "question": "20. Welche Zahlendarstellung verwendet 16 verschiedene Symbole?",
+    "options": [
       "Dezimalsystem",
       "Oktalsystem",
       "Hexadezimalsystem",
       "Binärsystem"
     ],
-    "loesung": 2,
-    "erklaerung": "Hexadezimal nutzt 0–9 und A–F (insgesamt 16 Symbole).",
-    "gewichtung": 1,
-    "thema": "Rekursion & Zahlensysteme",
+    "answer": 2,
+    "explanation": "Hexadezimal nutzt 0–9 und A–F (insgesamt 16 Symbole).",
+    "weight": 1,
+    "topic": "Rekursion & Zahlensysteme",
     "mini_glossary": {
       "Hexadezimalsystem": "Das Zahlensystem zur Basis 16. Es verwendet die Ziffern 0-9 und die Buchstaben A (10) bis F (15).",
       "Oktalsystem": "Das Zahlensystem zur Basis 8, das die Ziffern 0-7 verwendet.",
@@ -404,21 +404,21 @@
     }
   },
   {
-    "frage": "21. Was beschreibt das Prinzip der vollständigen Induktion?",
-    "optionen": [
+    "question": "21. Was beschreibt das Prinzip der vollständigen Induktion?",
+    "options": [
       "Ein Beweis für eine spezielle Zahl",
       "Ein Beweis für alle natürlichen Zahlen durch **Induktionsanfang** und Induktionsschritt",
       "Ein Beweis durch Widerspruch",
       "Ein Beweis für reelle Zahlen"
     ],
-    "loesung": 1,
-    "erklaerung": "Die vollständige Induktion ist eine Beweismethode für Aussagen über natürliche Zahlen. Sie besteht aus dem **Induktionsanfang** (Beweis für einen Startwert) und dem **Induktionsschritt** (Beweis, dass aus der Gültigkeit für $k$ die für $k+1$ folgt).",
+    "answer": 1,
+    "explanation": "Die vollständige Induktion ist eine Beweismethode für Aussagen über natürliche Zahlen. Sie besteht aus dem **Induktionsanfang** (Beweis für einen Startwert) und dem **Induktionsschritt** (Beweis, dass aus der Gültigkeit für $k$ die für $k+1$ folgt).",
     "extended_explanation": {
       "title": "Das Domino-Prinzip der Induktion",
       "content": "Man kann sich die vollständige Induktion wie eine Reihe von Dominosteinen vorstellen:\n\n1. **Induktionsanfang:** Man stößt den ersten Stein ($n_0$) um.\n2. **Induktionsschritt:** Man beweist, dass jeder fallende Stein ($k$) unweigerlich seinen Nachfolger ($k+1$) mitreißt.\n\nWenn beides gezeigt ist, weiß man, dass alle Steine ab dem ersten umfallen werden, also die Aussage für alle natürlichen Zahlen ab $n_0$ gilt."
     },
-    "gewichtung": 2,
-    "thema": "Natürliche Zahlen & vollständige Induktion",
+    "weight": 2,
+    "topic": "Natürliche Zahlen & vollständige Induktion",
     "mini_glossary": {
       "Vollständige Induktion": "Eine mathematische Beweismethode, um eine Aussage für alle natürlichen Zahlen (oder eine ab einem Startwert beginnende Teilmenge) zu beweisen.",
       "Induktionsanfang": "Der erste Schritt eines Induktionsbeweises, bei dem die Gültigkeit der Aussage für den kleinsten Wert gezeigt wird.",
@@ -426,17 +426,17 @@
     }
   },
   {
-    "frage": "22. Was versteht man unter dem **Induktionsanfang** bei der vollständigen Induktion?",
-    "optionen": [
+    "question": "22. Was versteht man unter dem **Induktionsanfang** bei der vollständigen Induktion?",
+    "options": [
       "Der Beweis für $n = 1$ (oder Startwert)",
       "Der Beweis für alle n",
       "Der Beweis für $n = 0$ und $n = 1$",
       "Der Beweis für n beliebig"
     ],
-    "loesung": 0,
-    "erklaerung": "Der Startwert (z.B. $n=0$ oder $n=1$) wird als Basis für den Induktionsschritt bewiesen.",
-    "gewichtung": 1,
-    "thema": "Natürliche Zahlen & vollständige Induktion",
+    "answer": 0,
+    "explanation": "Der Startwert (z.B. $n=0$ oder $n=1$) wird als Basis für den Induktionsschritt bewiesen.",
+    "weight": 1,
+    "topic": "Natürliche Zahlen & vollständige Induktion",
     "mini_glossary": {
       "Induktionsanfang": "Der 'Anker' des Induktionsbeweises, der die Gültigkeit der Aussage für einen ersten, spezifischen Wert nachweist.",
       "Induktionsannahme": "Die Annahme im Induktionsschritt, dass die zu beweisende Aussage für eine beliebige, aber feste Zahl $k$ bereits gilt.",
@@ -444,17 +444,17 @@
     }
   },
   {
-    "frage": "23. Welche Eigenschaft haben die natürlichen Zahlen?",
-    "optionen": [
+    "question": "23. Welche Eigenschaft haben die natürlichen Zahlen?",
+    "options": [
       "Sie enthalten negative Zahlen.",
       "Sie sind nicht geordnet.",
       "Sie sind abzählbar unendlich.",
       "Sie enthalten Brüche."
     ],
-    "loesung": 2,
-    "erklaerung": "Die Menge der natürlichen Zahlen $\\mathbb{N}$ ist abzählbar unendlich.",
-    "gewichtung": 1,
-    "thema": "Natürliche Zahlen & vollständige Induktion",
+    "answer": 2,
+    "explanation": "Die Menge der natürlichen Zahlen $\\mathbb{N}$ ist abzählbar unendlich.",
+    "weight": 1,
+    "topic": "Natürliche Zahlen & vollständige Induktion",
     "mini_glossary": {
       "Natürliche Zahlen ($\\mathbb{N}$)": "Die Menge der positiven ganzen Zahlen $\\{1, 2, 3, \\dots\\}$. Manchmal wird auch die Null hinzugezählt ($\\mathbb{N}_0$).",
       "Abzählbar unendlich": "Eine Menge ist abzählbar unendlich, wenn ihre Elemente in eine Eins-zu-eins-Beziehung mit den natürlichen Zahlen gebracht werden können.",
@@ -462,21 +462,21 @@
     }
   },
   {
-    "frage": "24. Was ist eine **rekursive Definition**?",
-    "optionen": [
+    "question": "24. Was ist eine **rekursive Definition**?",
+    "options": [
       "Eine Definition, die auf sich selbst Bezug nimmt.",
       "Eine Definition, die nur für $n = 1$ gilt.",
       "Eine Definition ohne Anfangswert.",
       "Eine Definition, die keine natürlichen Zahlen verwendet."
     ],
-    "loesung": 0,
-    "erklaerung": "Eine rekursive Definition (oder rekursive Funktion) definiert ein Objekt oder einen Prozess durch sich selbst, aber für einen einfacheren Fall. Sie benötigt immer einen Basisfall, um abzubrechen.",
+    "answer": 0,
+    "explanation": "Eine rekursive Definition (oder rekursive Funktion) definiert ein Objekt oder einen Prozess durch sich selbst, aber für einen einfacheren Fall. Sie benötigt immer einen Basisfall, um abzubrechen.",
     "extended_explanation": {
       "title": "Beispiel: Fakultät",
       "content": "Die Fakultät $n!$ kann rekursiv definiert werden:\n\n- **Basisfall:** $0! = 1$\n- **Rekursionsschritt:** $n! = n \\cdot (n-1)!$ für $n > 0$\n\nUm $4!$ zu berechnen, wird die Definition wiederholt angewendet, bis der Basisfall erreicht ist: $4! = 4 \\cdot 3! = 4 \\cdot 3 \\cdot 2! = 4 \\cdot 3 \\cdot 2 \\cdot 1! = 4 \\cdot 3 \\cdot 2 \\cdot 1 \\cdot 0! = 24$."
     },
-    "gewichtung": 2,
-    "thema": "Natürliche Zahlen & vollständige Induktion",
+    "weight": 2,
+    "topic": "Natürliche Zahlen & vollständige Induktion",
     "mini_glossary": {
       "Rekursive Definition": "Eine Definition, die einen Begriff durch eine einfachere Version desselben Begriffs sowie durch einen oder mehrere Basisfälle definiert.",
       "Fakultät": "Das Produkt aller positiven ganzen Zahlen bis zu einer gegebenen Zahl $n$, geschrieben als $n!$.",
@@ -484,17 +484,17 @@
     }
   },
   {
-    "frage": "25. Welche der folgenden Zahlen ist keine **Primzahl**?",
-    "optionen": [
+    "question": "25. Welche der folgenden Zahlen ist keine **Primzahl**?",
+    "options": [
       "2",
       "3",
       "4",
       "5"
     ],
-    "loesung": 2,
-    "erklaerung": "4 ist durch 2 teilbar und daher nicht prim.",
-    "gewichtung": 1,
-    "thema": "Ganze Zahlen, Teilbarkeit & Primzahlen",
+    "answer": 2,
+    "explanation": "4 ist durch 2 teilbar und daher nicht prim.",
+    "weight": 1,
+    "topic": "Ganze Zahlen, Teilbarkeit & Primzahlen",
     "mini_glossary": {
       "Primzahl": "Eine natürliche Zahl größer als 1, die nur durch sich selbst und 1 ohne Rest teilbar ist.",
       "Teiler": "Eine Zahl $t$ ist ein Teiler einer Zahl $z$, wenn $z/t$ eine ganze Zahl ist.",
@@ -502,17 +502,17 @@
     }
   },
   {
-    "frage": "26. Was bedeutet **Teilbarkeit**?",
-    "optionen": [
+    "question": "26. Was bedeutet **Teilbarkeit**?",
+    "options": [
       "Eine Zahl kann durch eine andere ohne Rest geteilt werden.",
       "Eine Zahl ist immer größer als die andere.",
       "Eine Zahl ist eine **Primzahl**.",
       "Eine Zahl ist negativ."
     ],
-    "loesung": 0,
-    "erklaerung": "$a$ ist durch $b$ teilbar, wenn $a = b \\cdot k$ mit ganzzahligem $k$ gilt.",
-    "gewichtung": 1,
-    "thema": "Ganze Zahlen, Teilbarkeit & Primzahlen",
+    "answer": 0,
+    "explanation": "$a$ ist durch $b$ teilbar, wenn $a = b \\cdot k$ mit ganzzahligem $k$ gilt.",
+    "weight": 1,
+    "topic": "Ganze Zahlen, Teilbarkeit & Primzahlen",
     "mini_glossary": {
       "Teilbarkeit": "Die Eigenschaft einer ganzen Zahl, durch eine andere ganze Zahl ohne Rest geteilt werden zu können.",
       "Vielfaches": "Wenn $a$ durch $b$ teilbar ist, wird $a$ als ein Vielfaches von $b$ bezeichnet.",
@@ -520,21 +520,21 @@
     }
   },
   {
-    "frage": "27. Was ist der **größte gemeinsame Teiler** (**$\\gcd$**) von 12 und 18?",
-    "optionen": [
+    "question": "27. Was ist der **größte gemeinsame Teiler** (**$\\gcd$**) von 12 und 18?",
+    "options": [
       "2",
       "3",
       "6",
       "12"
     ],
-    "loesung": 2,
-    "erklaerung": "Die Teiler von 12 sind {1, 2, 3, 4, 6, 12}. Die Teiler von 18 sind {1, 2, 3, 6, 9, 18}. Der größte gemeinsame Teiler ist 6.",
+    "answer": 2,
+    "explanation": "Die Teiler von 12 sind {1, 2, 3, 4, 6, 12}. Die Teiler von 18 sind {1, 2, 3, 6, 9, 18}. Der größte gemeinsame Teiler ist 6.",
     "extended_explanation": {
       "title": "Anwendung des Euklidischen Algorithmus",
       "content": "Für größere Zahlen ist der Euklidische Algorithmus effizienter:\n\n1. $18 = 1 \\cdot 12 + 6$\n2. $12 = 2 \\cdot 6 + 0$\n\nDer letzte von Null verschiedene Rest ist der größte gemeinsame Teiler, also **6**."
     },
-    "gewichtung": 2,
-    "thema": "Ganze Zahlen, Teilbarkeit & Primzahlen",
+    "weight": 2,
+    "topic": "Ganze Zahlen, Teilbarkeit & Primzahlen",
     "mini_glossary": {
       "Größter gemeinsamer Teiler (ggT/gcd)": "Die größte positive ganze Zahl, die zwei oder mehr ganze Zahlen ohne Rest teilt.",
       "Euklidischer Algorithmus": "Ein effizientes Verfahren zur Berechnung des größten gemeinsamen Teilers zweier ganzer Zahlen.",
@@ -542,17 +542,17 @@
     }
   },
   {
-    "frage": "28. Welche Aussage zu ganzen Zahlen ist korrekt?",
-    "optionen": [
+    "question": "28. Welche Aussage zu ganzen Zahlen ist korrekt?",
+    "options": [
       "Sie enthalten nur positive Zahlen.",
       "Sie enthalten positive, negative und die Null.",
       "Sie enthalten nur negative Zahlen.",
       "Sie enthalten Brüche."
     ],
-    "loesung": 1,
-    "erklaerung": "Die ganzen Zahlen $\\mathbb{Z}$ umfassen die natürlichen Zahlen, ihre negativen Entsprechungen und die Null: $\\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$.",
-    "gewichtung": 1,
-    "thema": "Ganze Zahlen, Teilbarkeit & Primzahlen",
+    "answer": 1,
+    "explanation": "Die ganzen Zahlen $\\mathbb{Z}$ umfassen die natürlichen Zahlen, ihre negativen Entsprechungen und die Null: $\\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$.",
+    "weight": 1,
+    "topic": "Ganze Zahlen, Teilbarkeit & Primzahlen",
     "mini_glossary": {
       "Ganze Zahlen ($\\mathbb{Z}$)": "Die Menge der Zahlen, die aus den natürlichen Zahlen, ihren negativen Gegenstücken und der Null besteht.",
       "Rationale Zahlen ($\\mathbb{Q}$)": "Die Menge aller Zahlen, die als Bruch zweier ganzer Zahlen dargestellt werden können (z.B. 1/2).",
@@ -560,21 +560,21 @@
     }
   },
   {
-    "frage": "29. Welche Aussage beschreibt eine **Restklasse** modulo n?",
-    "optionen": [
+    "question": "29. Welche Aussage beschreibt eine **Restklasse** modulo n?",
+    "options": [
       "Die Menge aller Vielfachen von n",
       "Die Menge aller Zahlen mit gleichem Rest bei Division durch n",
       "Die Menge aller Primzahlen kleiner n",
       "Die Menge aller negativen Zahlen"
     ],
-    "loesung": 1,
-    "erklaerung": "Zahlen sind modulo n äquivalent, wenn sie denselben Divisionsrest haben.",
+    "answer": 1,
+    "explanation": "Zahlen sind modulo n äquivalent, wenn sie denselben Divisionsrest haben.",
     "extended_explanation": {
       "title": "Beispiel: Restklassen modulo 3",
       "content": "Betrachten wir die Division durch 3. Jede ganze Zahl hat entweder den Rest 0, 1 oder 2. Dies führt zu drei Restklassen:\n\n- **Restklasse [0]:** {..., -6, -3, 0, 3, 6, ...} (alle durch 3 teilbaren Zahlen)\n- **Restklasse [1]:** {..., -5, -2, 1, 4, 7, ...} (alle Zahlen mit Rest 1)\n- **Restklasse [2]:** {..., -4, -1, 2, 5, 8, ...} (alle Zahlen mit Rest 2)\n\nDie Menge dieser Restklassen bildet den Restklassenring $\\mathbb{Z}_3$."
     },
-    "gewichtung": 2,
-    "thema": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
+    "weight": 2,
+    "topic": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
     "mini_glossary": {
       "Restklasse": "Die Menge aller ganzen Zahlen, die bei Division durch ein festes Modul $n$ den gleichen Rest lassen.",
       "Modulo n": "Eine arithmetische Operation, die den Rest einer Division durch $n$ ergibt.",
@@ -582,21 +582,21 @@
     }
   },
   {
-    "frage": "30. Was berechnet der **erweiterte Euklidische Algorithmus**?",
-    "optionen": [
+    "question": "30. Was berechnet der **erweiterte Euklidische Algorithmus**?",
+    "options": [
       "Nur den größten gemeinsamen Teiler",
       "Den **$\\gcd$** und die Koeffizienten für die Linearkombination",
       "Nur das kleinste gemeinsame Vielfache",
       "Nur Primzahlen"
     ],
-    "loesung": 1,
-    "erklaerung": "Der erweiterte Euklidische Algorithmus berechnet nicht nur den größten gemeinsamen Teiler (ggT) von zwei Zahlen $a$ und $b$, sondern auch zwei ganze Zahlen $s$ und $t$, sodass die Linearkombination $s \\cdot a + t \\cdot b = \\gcd(a,b)$ gilt.",
+    "answer": 1,
+    "explanation": "Der erweiterte Euklidische Algorithmus berechnet nicht nur den größten gemeinsamen Teiler (ggT) von zwei Zahlen $a$ und $b$, sondern auch zwei ganze Zahlen $s$ und $t$, sodass die Linearkombination $s \\cdot a + t \\cdot b = \\gcd(a,b)$ gilt.",
     "extended_explanation": {
       "title": "Anwendung: Multiplikatives Inverses",
       "content": "Diese Darstellung ist extrem nützlich in der Kryptographie. Wenn man das multiplikative Inverse von $a$ modulo $n$ sucht, muss man die Gleichung $a \\cdot x \\equiv 1 \\pmod n$ lösen. Wenn $\\gcd(a, n) = 1$ ist, liefert der erweiterte Euklidische Algorithmus $s$ und $t$ mit $s \\cdot a + t \\cdot n = 1$. Modulo $n$ gerechnet, fällt der Term $t \\cdot n$ weg und es bleibt $s \\cdot a \\equiv 1 \\pmod n$. Somit ist $s$ das gesuchte multiplikative Inverse."
     },
-    "gewichtung": 3,
-    "thema": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
+    "weight": 3,
+    "topic": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
     "mini_glossary": {
       "Erweiterter Euklidischer Algorithmus": "Eine Erweiterung des Euklidischen Algorithmus, der zusätzlich zum ggT die Koeffizienten der Bézout'schen Identität berechnet.",
       "Linearkombination": "Ein Ausdruck, der durch Addition von Vielfachen von Elementen (z.B. Zahlen oder Vektoren) gebildet wird.",
@@ -604,21 +604,21 @@
     }
   },
   {
-    "frage": "31. Was ist eine **lineare Kongruenz**?",
-    "optionen": [
+    "question": "31. Was ist eine **lineare Kongruenz**?",
+    "options": [
       "Eine Gleichung der Form $ax \\equiv b \\pmod{n}$",
       "Eine Gleichung ohne Modulo",
       "Eine Gleichung mit nur einer Variablen",
       "Eine Gleichung mit nur positiven Zahlen"
     ],
-    "loesung": 0,
-    "erklaerung": "Eine lineare Kongruenz ist eine Gleichung der Form $ax \\equiv b \\pmod{n}$, bei der man eine ganze Zahl $x$ sucht, die die Gleichung erfüllt.",
+    "answer": 0,
+    "explanation": "Eine lineare Kongruenz ist eine Gleichung der Form $ax \\equiv b \\pmod{n}$, bei der man eine ganze Zahl $x$ sucht, die die Gleichung erfüllt.",
     "extended_explanation": {
       "title": "Lösbarkeit einer linearen Kongruenz",
       "content": "Eine lineare Kongruenz $ax \\equiv b \\pmod{n}$ ist genau dann lösbar, wenn der größte gemeinsame Teiler von $a$ und $n$ (also $\\gcd(a, n)$) auch ein Teiler von $b$ ist.\n\n- **Beispiel (lösbar):** $6x \\equiv 4 \\pmod{10}$. Hier ist $\\gcd(6, 10) = 2$, und 2 teilt 4. Es gibt Lösungen (z.B. $x=4$, da $24 \\equiv 4 \\pmod{10}$).\n- **Beispiel (unlösbar):** $6x \\equiv 3 \\pmod{10}$. Hier ist $\\gcd(6, 10) = 2$, aber 2 teilt nicht 3. Es gibt keine ganzzahlige Lösung."
     },
-    "gewichtung": 2,
-    "thema": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
+    "weight": 2,
+    "topic": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
     "mini_glossary": {
       "Lineare Kongruenz": "Eine Gleichung der Form $ax \\equiv b \\pmod n$, wobei $a, b, n$ gegebene ganze Zahlen sind und $x$ die gesuchte Unbekannte ist.",
       "Kongruenz": "Zwei Zahlen $a$ und $b$ heißen kongruent modulo $n$, wenn sie bei Division durch $n$ denselben Rest haben.",
@@ -626,21 +626,21 @@
     }
   },
   {
-    "frage": "32. Wozu werden **Hash-Funktionen** in der Informatik verwendet?",
-    "optionen": [
+    "question": "32. Wozu werden **Hash-Funktionen** in der Informatik verwendet?",
+    "options": [
       "Zur Verschlüsselung von Nachrichten",
       "Zur schnellen Suche und Datenprüfung",
       "Zur Berechnung von Primzahlen",
       "Zur Darstellung von Brüchen"
     ],
-    "loesung": 1,
-    "erklaerung": "Hash-Funktionen bilden eine große Eingabemenge (z.B. beliebige Texte) auf eine kleine, feste Ausgabemenge (den Hash-Wert) ab. Dies wird für schnelle Datenstrukturen (Hash-Tabellen), zur Überprüfung der Datenintegrität (Prüfsummen) und in der Kryptographie genutzt.",
+    "answer": 1,
+    "explanation": "Hash-Funktionen bilden eine große Eingabemenge (z.B. beliebige Texte) auf eine kleine, feste Ausgabemenge (den Hash-Wert) ab. Dies wird für schnelle Datenstrukturen (Hash-Tabellen), zur Überprüfung der Datenintegrität (Prüfsummen) und in der Kryptographie genutzt.",
     "extended_explanation": {
       "title": "Eigenschaften einer guten Hash-Funktion",
       "content": "Eine gute Hash-Funktion sollte folgende Eigenschaften haben:\n\n- **Effizienz:** Der Hash-Wert muss schnell berechenbar sein.\n- **Deterministisch:** Die gleiche Eingabe muss immer den gleichen Hash-Wert erzeugen.\n- **Kollisionsresistenz:** Es sollte extrem schwierig sein, zwei verschiedene Eingaben zu finden, die denselben Hash-Wert erzeugen.\n- **Lawineneffekt:** Eine kleine Änderung in der Eingabe sollte zu einer großen, unvorhersehbaren Änderung im Hash-Wert führen."
     },
-    "gewichtung": 2,
-    "thema": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
+    "weight": 2,
+    "topic": "Modulo-Arithmetik, Restklassen & Hash-Funktionen",
     "mini_glossary": {
       "Hash-Funktion": "Eine Funktion, die Daten beliebiger Größe auf eine Zeichenfolge fester Größe abbildet.",
       "Hash-Tabelle": "Eine Datenstruktur, die eine Hash-Funktion verwendet, um einen Index in einem Array zu berechnen, an dem ein Wert gespeichert oder gefunden werden kann.",
@@ -648,21 +648,21 @@
     }
   },
   {
-    "frage": "33. Was unterscheidet einen **Ring** von einer Gruppe?",
-    "optionen": [
+    "question": "33. Was unterscheidet einen **Ring** von einer Gruppe?",
+    "options": [
       "Ein **Ring** hat zwei Verknüpfungen mit bestimmten Eigenschaften.",
       "Ein **Ring** ist immer kommutativ.",
       "Ein **Ring** hat kein neutrales Element.",
       "Ein **Ring** ist immer ein **Körper**."
     ],
-    "loesung": 0,
-    "erklaerung": "Eine **Gruppe** ist eine Menge mit einer Verknüpfung (z.B. Addition), die bestimmte Axiome erfüllt. Ein **Ring** ist eine reichhaltigere Struktur mit zwei Verknüpfungen (Addition und Multiplikation), die durch die Distributivgesetze miteinander verbunden sind.",
+    "answer": 0,
+    "explanation": "Eine **Gruppe** ist eine Menge mit einer Verknüpfung (z.B. Addition), die bestimmte Axiome erfüllt. Ein **Ring** ist eine reichhaltigere Struktur mit zwei Verknüpfungen (Addition und Multiplikation), die durch die Distributivgesetze miteinander verbunden sind.",
     "extended_explanation": {
       "title": "Hierarchie algebraischer Strukturen",
       "content": "Die Strukturen bauen aufeinander auf:\n\n- **Gruppe:** Eine Verknüpfung (z.B. $(\\mathbb{Z}, +)$).\n- **Ring:** Zwei Verknüpfungen, Addition und Multiplikation. Die Addition bildet eine abelsche Gruppe. (z.B. $(\\mathbb{Z}, +, \\cdot)$).\n- **Körper:** Ein kommutativer Ring, in dem zusätzlich jedes Element außer der Null ein multiplikatives Inverses hat. Dies ermöglicht die Division. (z.B. $(\\mathbb{Q}, +, \\cdot)$)."
     },
-    "gewichtung": 2,
-    "thema": "Gruppen, Ringe, Körper & Anwendungen",
+    "weight": 2,
+    "topic": "Gruppen, Ringe, Körper & Anwendungen",
     "mini_glossary": {
       "Gruppe": "Eine algebraische Struktur bestehend aus einer Menge und einer Verknüpfung, die Assoziativität, ein neutrales Element und inverse Elemente aufweist.",
       "Ring": "Eine algebraische Struktur mit zwei Verknüpfungen (Addition und Multiplikation), die die Axiome einer abelschen Gruppe für die Addition, Assoziativität der Multiplikation und die Distributivgesetze erfüllt.",
@@ -670,21 +670,21 @@
     }
   },
   {
-    "frage": "34. Was ist ein **Körper** in der Algebra?",
-    "optionen": [
+    "question": "34. Was ist ein **Körper** in der Algebra?",
+    "options": [
       "Eine Struktur mit nur einer Verknüpfung",
       "Ein **Ring**, in dem jede von null verschiedene Zahl ein multiplikatives Inverses besitzt",
       "Eine Gruppe ohne neutrales Element",
       "Eine Menge ohne Struktur"
     ],
-    "loesung": 1,
-    "erklaerung": "Ein Körper ist eine algebraische Struktur, in der man wie gewohnt addieren, subtrahieren, multiplizieren und (außer durch Null) dividieren kann. Die rationalen Zahlen ($\\mathbb{Q}$) und die reellen Zahlen ($\\mathbb{R}$) sind die bekanntesten Beispiele.",
+    "answer": 1,
+    "explanation": "Ein Körper ist eine algebraische Struktur, in der man wie gewohnt addieren, subtrahieren, multiplizieren und (außer durch Null) dividieren kann. Die rationalen Zahlen ($\\mathbb{Q}$) und die reellen Zahlen ($\\mathbb{R}$) sind die bekanntesten Beispiele.",
     "extended_explanation": {
       "title": "Körperaxiome (vereinfacht)",
       "content": "Ein Körper $(K, +, \\cdot)$ ist eine Menge $K$ mit zwei Verknüpfungen, sodass gilt:\n\n1. $(K, +)$ ist eine abelsche Gruppe (mit neutralem Element 0).\n2. $(K \\setminus \\{0\\}, \\cdot)$ ist eine abelsche Gruppe (mit neutralem Element 1).\n3. Es gelten die Distributivgesetze, die Addition und Multiplikation verbinden.\n\nDiese Axiome garantieren, dass die vier Grundrechenarten wie erwartet funktionieren."
     },
-    "gewichtung": 2,
-    "thema": "Gruppen, Ringe, Körper & Anwendungen",
+    "weight": 2,
+    "topic": "Gruppen, Ringe, Körper & Anwendungen",
     "mini_glossary": {
       "Körper": "Eine algebraische Struktur, in der Addition, Subtraktion, Multiplikation und Division (außer durch Null) uneingeschränkt möglich sind.",
       "Axiom": "Ein als absolut richtig anerkannter Grundsatz; eine grundlegende Aussage, die nicht bewiesen wird.",
@@ -692,17 +692,17 @@
     }
   },
   {
-    "frage": "35. Welches der folgenden Beispiele ist KEIN **Körper**?",
-    "optionen": [
+    "question": "35. Welches der folgenden Beispiele ist KEIN **Körper**?",
+    "options": [
       "Die rationalen Zahlen",
       "Die reellen Zahlen",
       "Die ganzen Zahlen",
       "Die komplexen Zahlen"
     ],
-    "loesung": 2,
-    "erklaerung": "Die ganzen Zahlen $\\mathbb{Z}$ sind kein **Körper**, da nicht jedes von Null verschiedene Element ein multiplikatives Inverses in $\\mathbb{Z}$ hat (z.B. hat 2 kein Inverses in $\\mathbb{Z}$).",
-    "gewichtung": 2,
-    "thema": "Gruppen, Ringe, Körper & Anwendungen",
+    "answer": 2,
+    "explanation": "Die ganzen Zahlen $\\mathbb{Z}$ sind kein **Körper**, da nicht jedes von Null verschiedene Element ein multiplikatives Inverses in $\\mathbb{Z}$ hat (z.B. hat 2 kein Inverses in $\\mathbb{Z}$).",
+    "weight": 2,
+    "topic": "Gruppen, Ringe, Körper & Anwendungen",
     "mini_glossary": {
       "Ganze Zahlen ($\\mathbb{Z}$)": "Die Menge $\\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$, die einen Ring, aber keinen Körper bildet.",
       "Rationale Zahlen ($\\mathbb{Q}$)": "Die Menge aller Brüche ganzer Zahlen, die einen Körper bilden.",
@@ -710,21 +710,21 @@
     }
   },
   {
-    "frage": "36. Wo werden endliche **Körper** in der Informatik angewendet?",
-    "optionen": [
+    "question": "36. Wo werden endliche **Körper** in der Informatik angewendet?",
+    "options": [
       "In der Bildkompression",
       "In der Fehlerkorrektur und Kryptographie",
       "In der Textverarbeitung",
       "In der Datenbankabfrage"
     ],
-    "loesung": 1,
-    "erklaerung": "Endliche Körper (auch Galois-Felder genannt) sind fundamental für die moderne digitale Kommunikation. Sie werden in fehlerkorrigierenden Codes (z.B. auf CDs, in QR-Codes) und in der Kryptographie (z.B. AES-Verschlüsselung, Elliptische-Kurven-Kryptographie) eingesetzt.",
+    "answer": 1,
+    "explanation": "Endliche Körper (auch Galois-Felder genannt) sind fundamental für die moderne digitale Kommunikation. Sie werden in fehlerkorrigierenden Codes (z.B. auf CDs, in QR-Codes) und in der Kryptographie (z.B. AES-Verschlüsselung, Elliptische-Kurven-Kryptographie) eingesetzt.",
     "extended_explanation": {
       "title": "Beispiel: $\\mathrm{GF}(2^8)$ in AES",
       "content": "Der Advanced Encryption Standard (AES) ist einer der weltweit am weitesten verbreiteten Verschlüsselungsalgorithmen. Seine Kernoperationen, wie die `SubBytes`- und `MixColumns`-Schritte, sind Berechnungen im endlichen Körper $\\mathrm{GF}(2^8)$. Dieser Körper besteht aus 256 Elementen, die als Polynome dargestellt werden. Die Arithmetik in diesem Körper verleiht AES seine hohe Sicherheit und Effizienz."
     },
-    "gewichtung": 3,
-    "thema": "Gruppen, Ringe, Körper & Anwendungen",
+    "weight": 3,
+    "topic": "Gruppen, Ringe, Körper & Anwendungen",
     "mini_glossary": {
       "Endlicher Körper (Galois-Feld)": "Ein Körper, der nur eine endliche Anzahl von Elementen enthält. Ihre Ordnung ist immer eine Primzahlpotenz $p^n$.",
       "Fehlerkorrigierende Codes": "Verfahren, die es ermöglichen, bei der Datenübertragung oder -speicherung aufgetretene Fehler zu erkennen und zu korrigieren.",
@@ -732,21 +732,21 @@
     }
   },
   {
-    "frage": "37. Was ist das Hauptprinzip des **RSA**-Verfahrens?",
-    "optionen": [
+    "question": "37. Was ist das Hauptprinzip des **RSA**-Verfahrens?",
+    "options": [
       "Nutzung von Primzahlen und modularer Arithmetik",
       "Verwendung von **Hash-Funktionen**",
       "Einsatz von symmetrischen Schlüsseln",
       "Speicherung von Passwörtern im Klartext"
     ],
-    "loesung": 0,
-    "erklaerung": "Das RSA-Verfahren ist ein asymmetrisches Kryptosystem. Seine Sicherheit beruht darauf, dass es sehr einfach ist, zwei große Primzahlen zu multiplizieren, aber extrem rechenaufwendig, das Ergebnis (den öffentlichen Schlüssel) wieder in die ursprünglichen Primfaktoren (Teil des privaten Schlüssels) zu zerlegen.",
+    "answer": 0,
+    "explanation": "Das RSA-Verfahren ist ein asymmetrisches Kryptosystem. Seine Sicherheit beruht darauf, dass es sehr einfach ist, zwei große Primzahlen zu multiplizieren, aber extrem rechenaufwendig, das Ergebnis (den öffentlichen Schlüssel) wieder in die ursprünglichen Primfaktoren (Teil des privaten Schlüssels) zu zerlegen.",
     "extended_explanation": {
       "title": "Schlüsselerzeugung bei RSA (vereinfacht)",
       "content": "1. Wähle zwei große, geheime Primzahlen $p$ und $q$.\n2. Berechne das Produkt $N = p \\cdot q$. Dieses $N$ ist Teil des öffentlichen Schlüssels.\n3. Wähle eine Zahl $e$ (öffentlicher Exponent).\n4. Berechne den privaten Exponenten $d$ so, dass $d \\cdot e \\equiv 1 \\pmod{(p-1)(q-1)}$.\n\n- **Verschlüsseln:** $C = M^e \\pmod N$\n- **Entschlüsseln:** $M = C^d \\pmod N$\n\nEin Angreifer kennt nur $N$ und $e$. Um $d$ zu finden, müsste er $N$ in $p$ und $q$ faktorisieren, was für große Zahlen praktisch unmöglich ist."
     },
-    "gewichtung": 2,
-    "thema": "Kryptografie & IT-Sicherheit",
+    "weight": 2,
+    "topic": "Kryptografie & IT-Sicherheit",
     "mini_glossary": {
       "RSA": "Ein Public-Key-Kryptosystem, dessen Sicherheit auf der Schwierigkeit der Faktorisierung großer Zahlen beruht.",
       "Asymmetrische Kryptografie": "Ein Verschlüsselungssystem, das ein Paar aus einem öffentlichen Schlüssel (zum Verschlüsseln) und einem privaten Schlüssel (zum Entschlüsseln) verwendet.",
@@ -754,21 +754,21 @@
     }
   },
   {
-    "frage": "38. Was ermöglicht der **Diffie-Hellman**-Schlüsselaustausch?",
-    "optionen": [
+    "question": "38. Was ermöglicht der **Diffie-Hellman**-Schlüsselaustausch?",
+    "options": [
       "Verschlüsselung von Nachrichten ohne Schlüssel",
       "Sicheren Austausch eines geheimen Schlüssels über einen unsicheren Kanal",
       "Speicherung von Passwörtern",
       "Kompression von Daten"
     ],
-    "loesung": 1,
-    "erklaerung": "Der Diffie-Hellman-Schlüsselaustausch ist ein Protokoll, das es zwei Parteien ermöglicht, über einen unsicheren (öffentlichen) Kanal einen gemeinsamen geheimen Schlüssel zu vereinbaren, ohne diesen Schlüssel jemals direkt auszutauschen.",
+    "answer": 1,
+    "explanation": "Der Diffie-Hellman-Schlüsselaustausch ist ein Protokoll, das es zwei Parteien ermöglicht, über einen unsicheren (öffentlichen) Kanal einen gemeinsamen geheimen Schlüssel zu vereinbaren, ohne diesen Schlüssel jemals direkt auszutauschen.",
     "extended_explanation": {
       "title": "Funktionsweise (Analogie mit Farben)",
       "content": "1. Alice und Bob einigen sich öffentlich auf eine gemeinsame Farbe (z.B. Gelb).\n2. Alice wählt eine geheime Farbe (z.B. Rot), mischt sie mit Gelb und schickt das Ergebnis (Orange) an Bob.\n3. Bob wählt eine geheime Farbe (z.B. Blau), mischt sie mit Gelb und schickt das Ergebnis (Grün) an Alice.\n4. Alice mischt das erhaltene Grün mit ihrer geheimen Farbe Rot. Bob mischt das erhaltene Orange mit seiner geheimen Farbe Blau.\n\nBeide erhalten am Ende dieselbe finale, geheime Farbe (Braun), die ein Angreifer, der nur Gelb, Orange und Grün kennt, nicht einfach berechnen kann."
     },
-    "gewichtung": 2,
-    "thema": "Kryptografie & IT-Sicherheit",
+    "weight": 2,
+    "topic": "Kryptografie & IT-Sicherheit",
     "mini_glossary": {
       "Diffie-Hellman-Schlüsselaustausch": "Ein kryptografisches Protokoll zur Etablierung eines gemeinsamen Geheimnisses über einen unsicheren Kanal.",
       "Schlüsselaustausch": "Ein Prozess, bei dem kryptografische Schlüssel zwischen zwei Parteien sicher ausgetauscht werden.",
@@ -776,17 +776,17 @@
     }
   },
   {
-    "frage": "39. Was ist ein Vorteil asymmetrischer **Kryptografie**?",
-    "optionen": [
+    "question": "39. Was ist ein Vorteil asymmetrischer **Kryptografie**?",
+    "options": [
       "Sie ist schneller als symmetrische Verfahren.",
       "Es wird kein Schlüssel benötigt.",
       "Der öffentliche Schlüssel kann frei verteilt werden.",
       "Sie ist immer sicherer als symmetrische Verfahren."
     ],
-    "loesung": 2,
-    "erklaerung": "Der Public Key kann offen verteilt werden; der Private Key bleibt geheim.",
-    "gewichtung": 2,
-    "thema": "Kryptografie & IT-Sicherheit",
+    "answer": 2,
+    "explanation": "Der Public Key kann offen verteilt werden; der Private Key bleibt geheim.",
+    "weight": 2,
+    "topic": "Kryptografie & IT-Sicherheit",
     "mini_glossary": {
       "Asymmetrische Kryptografie (Public-Key-Kryptografie)": "Ein System, das einen öffentlichen Schlüssel zur Verschlüsselung und einen separaten, privaten Schlüssel zur Entschlüsselung verwendet.",
       "Symmetrische Kryptografie": "Ein System, bei dem derselbe Schlüssel sowohl zur Ver- als auch zur Entschlüsselung verwendet wird.",
@@ -794,21 +794,21 @@
     }
   },
   {
-    "frage": "40. Welche Anwendung ist typisch für **Kryptografie** in der IT-Sicherheit?",
-    "optionen": [
+    "question": "40. Welche Anwendung ist typisch für **Kryptografie** in der IT-Sicherheit?",
+    "options": [
       "Datenkompression",
       "**Authentifizierung** und sichere Kommunikation",
       "Datenbankabfragen",
       "Grafische Darstellung"
     ],
-    "loesung": 1,
-    "erklaerung": "Kryptografie ist die Wissenschaft der Verschlüsselung und sicheren Kommunikation. Ihre Hauptziele sind Vertraulichkeit (Nachrichten sind nur für Befugte lesbar), Integrität (Nachrichten können nicht unbemerkt verändert werden) und Authentizität (die Identität der Kommunikationspartner ist gesichert).",
+    "answer": 1,
+    "explanation": "Kryptografie ist die Wissenschaft der Verschlüsselung und sicheren Kommunikation. Ihre Hauptziele sind Vertraulichkeit (Nachrichten sind nur für Befugte lesbar), Integrität (Nachrichten können nicht unbemerkt verändert werden) und Authentizität (die Identität der Kommunikationspartner ist gesichert).",
     "extended_explanation": {
       "title": "Anwendungsbeispiele",
       "content": "- **HTTPS:** Verschlüsselt die Kommunikation zwischen deinem Browser und Webseiten.\n- **E-Mail-Verschlüsselung (PGP/GPG):** Sichert den Inhalt von E-Mails.\n- **Digitale Signaturen:** Garantieren die Authentizität und Integrität von Dokumenten.\n- **Festplattenverschlüsselung (BitLocker/FileVault):** Schützt Daten bei Verlust des Geräts."
     },
-    "gewichtung": 2,
-    "thema": "Kryptografie & IT-Sicherheit",
+    "weight": 2,
+    "topic": "Kryptografie & IT-Sicherheit",
     "mini_glossary": {
       "Kryptografie": "Die Praxis und das Studium von Techniken zur sicheren Kommunikation in Anwesenheit Dritter.",
       "Authentifizierung": "Der Prozess der Überprüfung der Identität eines Benutzers, Geräts oder einer Entität.",

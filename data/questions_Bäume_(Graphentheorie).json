@@ -20,20 +20,20 @@
   },
   "questions": [
     {
-      "frage": "1. Wie wird ein Baum in der Graphentheorie grundlegend definiert?",
-      "optionen": [
+      "question": "1. Wie wird ein Baum in der Graphentheorie grundlegend definiert?",
+      "options": [
         "Ein Baum ist ein gerichteter Graph mit genau einem Zyklus.",
         "Ein Baum ist ein ungerichteter, zusammenhängender und zyklenfreier Graph.",
         "Ein Baum ist eine Sammlung von Knoten ohne Kantenverbindungen.",
         "Ein Baum ist ein Graph, bei dem jeder Knoten mit jedem anderen Knoten direkt verbunden ist.",
         "Ein Baum ist ein Graph, der mindestens zwei getrennte Komponenten besitzt."
       ],
-      "loesung": 1,
-      "erklaerung": "Ein Baum ist definiert als ein ungerichteter Graph, der sowohl zusammenhängend ist (jeder Knoten ist erreichbar) als auch keine Kreise (Zyklen) enthält.",
-      "gewichtung": 1,
-      "thema": "Definition & Eigenschaften",
+      "answer": 1,
+      "explanation": "Ein Baum ist definiert als ein ungerichteter Graph, der sowohl zusammenhängend ist (jeder Knoten ist erreichbar) als auch keine Kreise (Zyklen) enthält.",
+      "weight": 1,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Baum-Definition",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "Zusammenhängend": "Ein Graph ist zusammenhängend, wenn es zwischen jedem Paar von Knoten einen Pfad gibt.",
         "Zyklus": "Ein geschlossener Pfad in einem Graphen, bei dem Start- und Endknoten identisch sind.",
@@ -41,20 +41,20 @@
       }
     },
     {
-      "frage": "2. Welcher Zusammenhang besteht zwischen der Anzahl der Knoten $n$ und der Anzahl der Kanten $e$ in einem Baum?",
-      "optionen": [
+      "question": "2. Welcher Zusammenhang besteht zwischen der Anzahl der Knoten $n$ und der Anzahl der Kanten $e$ in einem Baum?",
+      "options": [
         "Die Anzahl der Kanten ist immer gleich der Anzahl der Knoten ($e = n$).",
         "Es gibt halb so viele Kanten wie Knoten ($e = n / 2$).",
         "Ein Baum mit $n$ Knoten besitzt genau $n - 1$ Kanten.",
         "Die Anzahl der Kanten ist immer um eins höher als die der Knoten ($e = n + 1$).",
         "Es gibt keinen festen mathematischen Zusammenhang zwischen Knoten und Kanten."
       ],
-      "loesung": 2,
-      "erklaerung": "Eine fundamentale Eigenschaft von Bäumen ist, dass ein Baum mit $n$ Knoten stets exakt $n - 1$ Kanten besitzt. Dies ist eine hinreichende Bedingung für die Baumstruktur bei zusammenhängenden Graphen.",
-      "gewichtung": 1,
-      "thema": "Definition & Eigenschaften",
+      "answer": 2,
+      "explanation": "Eine fundamentale Eigenschaft von Bäumen ist, dass ein Baum mit $n$ Knoten stets exakt $n - 1$ Kanten besitzt. Dies ist eine hinreichende Bedingung für die Baumstruktur bei zusammenhängenden Graphen.",
+      "weight": 1,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Kantenanzahl",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "Knoten (Vertex)": "Ein Punkt in einem Graphen, der ein Objekt oder einen Datenwert repräsentiert.",
         "Kante (Edge)": "Eine Verbindungslinie zwischen zwei Knoten.",
@@ -62,20 +62,20 @@
       }
     },
     {
-      "frage": "3. Ein Baum besitzt 10 Knoten. Wie viele Kanten muss dieser Baum exakt aufweisen?",
-      "optionen": [
+      "question": "3. Ein Baum besitzt 10 Knoten. Wie viele Kanten muss dieser Baum exakt aufweisen?",
+      "options": [
         "8 Kanten",
         "9 Kanten",
         "10 Kanten",
         "11 Kanten",
         "12 Kanten"
       ],
-      "loesung": 1,
-      "erklaerung": "Da für jeden Baum mit $n$ Knoten gilt, dass er $n - 1$ Kanten hat, muss ein Baum mit 10 Knoten genau 9 Kanten besitzen.",
-      "gewichtung": 2,
-      "thema": "Definition & Eigenschaften",
+      "answer": 1,
+      "explanation": "Da für jeden Baum mit $n$ Knoten gilt, dass er $n - 1$ Kanten hat, muss ein Baum mit 10 Knoten genau 9 Kanten besitzen.",
+      "weight": 2,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Kantenberechnung",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Berechnung der Kantenanzahl",
         "schritte": [
@@ -92,20 +92,20 @@
       }
     },
     {
-      "frage": "4. Was versteht man unter einem 'Blatt' (Leaf) in einem gewurzelten Baum?",
-      "optionen": [
+      "question": "4. Was versteht man unter einem 'Blatt' (Leaf) in einem gewurzelten Baum?",
+      "options": [
         "Den obersten Knoten des Baumes ohne Eltern.",
         "Einen Knoten, der genau zwei Kinder hat.",
         "Einen Knoten, der keine Kinder besitzt.",
         "Einen Knoten, der genau in der Mitte des Baumes liegt.",
         "Einen Knoten, der mit allen anderen Knoten verbunden ist."
       ],
-      "loesung": 2,
-      "erklaerung": "Ein Blatt ist ein Knoten am 'Rand' des Baumes, der keine ausgehenden Kanten zu weiteren Kindknoten besitzt. In der Graphentheorie hat er den Grad 1 (außer bei einem Baum, der nur aus der Wurzel besteht).",
-      "gewichtung": 1,
-      "thema": "Terminologie",
+      "answer": 2,
+      "explanation": "Ein Blatt ist ein Knoten am 'Rand' des Baumes, der keine ausgehenden Kanten zu weiteren Kindknoten besitzt. In der Graphentheorie hat er den Grad 1 (außer bei einem Baum, der nur aus der Wurzel besteht).",
+      "weight": 1,
+      "topic": "Terminologie",
       "konzept": "Blatt-Definition",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "Blatt (Leaf)": "Ein Endknoten ohne Nachfolger in der Hierarchie.",
         "Kindknoten": "Ein direkter Nachfolger eines Knotens.",
@@ -113,20 +113,20 @@
       }
     },
     {
-      "frage": "5. Welcher Begriff bezeichnet den obersten Knoten in einem hierarchischen Baum, der keinen Elternknoten besitzt?",
-      "optionen": [
+      "question": "5. Welcher Begriff bezeichnet den obersten Knoten in einem hierarchischen Baum, der keinen Elternknoten besitzt?",
+      "options": [
         "Blatt",
         "Ast",
         "Wurzel",
         "Zweig",
         "Krone"
       ],
-      "loesung": 2,
-      "erklaerung": "Die Wurzel (Root) ist der Ursprungsknoten eines gewurzelten Baumes. Sie ist der einzige Knoten, der keinen Vorgänger (Elternknoten) hat.",
-      "gewichtung": 1,
-      "thema": "Terminologie",
+      "answer": 2,
+      "explanation": "Die Wurzel (Root) ist der Ursprungsknoten eines gewurzelten Baumes. Sie ist der einzige Knoten, der keinen Vorgänger (Elternknoten) hat.",
+      "weight": 1,
+      "topic": "Terminologie",
       "konzept": "Wurzel-Definition",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "Wurzel (Root)": "Der Startknoten eines Baumes, Ebene 0.",
         "Elternknoten": "Der direkte Vorgänger in Richtung Wurzel.",
@@ -134,20 +134,20 @@
       }
     },
     {
-      "frage": "6. Gegeben ist ein Pfad von der Wurzel zu einem Knoten $K$: Wurzel $\\rightarrow A \\rightarrow B \\rightarrow K$. Wie groß ist die Tiefe des Knotens $K$?",
-      "optionen": [
+      "question": "6. Gegeben ist ein Pfad von der Wurzel zu einem Knoten $K$: Wurzel $\\rightarrow A \\rightarrow B \\rightarrow K$. Wie groß ist die Tiefe des Knotens $K$?",
+      "options": [
         "Tiefe 0",
         "Tiefe 1",
         "Tiefe 2",
         "Tiefe 3",
         "Tiefe 4"
       ],
-      "loesung": 3,
-      "erklaerung": "Die Tiefe eines Knotens ist definiert als die Anzahl der Kanten auf dem Pfad von der Wurzel zu diesem Knoten. Der Pfad Wurzel-A-B-K besteht aus 3 Schritten (Kanten).",
-      "gewichtung": 2,
-      "thema": "Terminologie",
+      "answer": 3,
+      "explanation": "Die Tiefe eines Knotens ist definiert als die Anzahl der Kanten auf dem Pfad von der Wurzel zu diesem Knoten. Der Pfad Wurzel-A-B-K besteht aus 3 Schritten (Kanten).",
+      "weight": 2,
+      "topic": "Terminologie",
       "konzept": "Tiefe bestimmen",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Bestimmung der Knotentiefe",
         "schritte": [
@@ -164,20 +164,20 @@
       }
     },
     {
-      "frage": "7. Was ist ein 'Wald' in der Graphentheorie?",
-      "optionen": [
+      "question": "7. Was ist ein 'Wald' in der Graphentheorie?",
+      "options": [
         "Ein Graph, der viele Zyklen enthält.",
         "Ein Graph, der aus mehreren unzusammenhängenden Bäumen besteht.",
         "Ein Baum mit besonders vielen Blättern.",
         "Ein Baum, dessen Knoten farblich markiert sind.",
         "Ein Synonym für einen binären Suchbaum."
       ],
-      "loesung": 1,
-      "erklaerung": "Ein Wald ist definiert als ein ungerichteter Graph, der keine Zyklen enthält. Er muss nicht zusammenhängend sein; jede seiner Zusammenhangskomponenten ist für sich genommen ein Baum.",
-      "gewichtung": 1,
-      "thema": "Terminologie",
+      "answer": 1,
+      "explanation": "Ein Wald ist definiert als ein ungerichteter Graph, der keine Zyklen enthält. Er muss nicht zusammenhängend sein; jede seiner Zusammenhangskomponenten ist für sich genommen ein Baum.",
+      "weight": 1,
+      "topic": "Terminologie",
       "konzept": "Wald-Definition",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "Wald (Forest)": "Menge von disjunkten Bäumen.",
         "Komponente": "Ein zusammenhängender Teilgraph.",
@@ -185,20 +185,20 @@
       }
     },
     {
-      "frage": "8. Welche Datenstruktur wird typischerweise verwendet, um eine Breitensuche (BFS) zu implementieren?",
-      "optionen": [
+      "question": "8. Welche Datenstruktur wird typischerweise verwendet, um eine Breitensuche (BFS) zu implementieren?",
+      "options": [
         "Stack (Stapel)",
         "Queue (Warteschlange)",
         "Array (Feld)",
         "Hash-Tabelle",
         "Linked List (Verkettete Liste) ohne Zusatzlogik"
       ],
-      "loesung": 1,
-      "erklaerung": "Die Breitensuche (BFS) arbeitet nach dem FIFO-Prinzip (First-In, First-Out), um Knoten Ebene für Ebene abzuarbeiten. Dafür eignet sich technisch eine Queue (Warteschlange).",
-      "gewichtung": 1,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "Die Breitensuche (BFS) arbeitet nach dem FIFO-Prinzip (First-In, First-Out), um Knoten Ebene für Ebene abzuarbeiten. Dafür eignet sich technisch eine Queue (Warteschlange).",
+      "weight": 1,
+      "topic": "Traversierung",
       "konzept": "BFS-Datenstruktur",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "BFS (Breitensuche)": "Traversierung, die erst alle Nachbarn besucht.",
         "Queue": "Datenstruktur nach dem FIFO-Prinzip (wer zuerst kommt, wird zuerst bedient).",
@@ -206,20 +206,20 @@
       }
     },
     {
-      "frage": "9. Sie führen eine Tiefensuche (DFS) auf einem Baum durch. Welches Verhalten beobachten Sie?",
-      "optionen": [
+      "question": "9. Sie führen eine Tiefensuche (DFS) auf einem Baum durch. Welches Verhalten beobachten Sie?",
+      "options": [
         "Der Algorithmus besucht zuerst alle Knoten der Ebene 1, dann Ebene 2.",
         "Der Algorithmus folgt einem Pfad bis zu einem Blatt, bevor er zurückkehrt (Backtracking).",
         "Der Algorithmus wählt immer zufällig den nächsten Knoten aus.",
         "Der Algorithmus berechnet zuerst die kürzesten Wege zur Wurzel.",
         "Der Algorithmus besucht Knoten strikt nach alphabetischer Sortierung der Namen."
       ],
-      "loesung": 1,
-      "erklaerung": "Charakteristisch für die Tiefensuche (DFS) ist das tiefe Eintauchen in einen Pfad bis zu einer Sackgasse (z.B. einem Blatt), gefolgt von einem Rückschritt (Backtracking), um alternative Zweige zu erkunden.",
-      "gewichtung": 1,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "Charakteristisch für die Tiefensuche (DFS) ist das tiefe Eintauchen in einen Pfad bis zu einer Sackgasse (z.B. einem Blatt), gefolgt von einem Rückschritt (Backtracking), um alternative Zweige zu erkunden.",
+      "weight": 1,
+      "topic": "Traversierung",
       "konzept": "DFS-Prinzip",
-      "kognitive_stufe": "Verständnis",
+      "cognitive_level": "Verständnis",
       "mini_glossary": {
         "DFS (Tiefensuche)": "Traversierung, die Pfaden in die Tiefe folgt.",
         "Backtracking": "Das Zurückkehren zum letzten Verzweigungspunkt.",
@@ -227,20 +227,20 @@
       }
     },
     {
-      "frage": "10. Welche Eigenschaft definiert einen Binären Suchbaum (BST)?",
-      "optionen": [
+      "question": "10. Welche Eigenschaft definiert einen Binären Suchbaum (BST)?",
+      "options": [
         "Jeder Knoten hat beliebig viele Kinder, die unsortiert sind.",
         "Knoten im linken Teilbaum sind kleiner, Knoten im rechten Teilbaum sind größer als der Elternknoten.",
         "Die Wurzel ist immer das kleinste Element des gesamten Baumes.",
         "Blätter sind rot oder schwarz gefärbt.",
         "Der Baum ist immer so flach wie möglich (vollständig balanciert)."
       ],
-      "loesung": 1,
-      "erklaerung": "Die definierende Eigenschaft eines BST ist die Ordnung: Für jeden Knoten $K$ gilt, dass alle Werte im linken Teilbaum kleiner als $K$ und alle Werte im rechten Teilbaum größer als $K$ sind.",
-      "gewichtung": 1,
-      "thema": "Binäre Suchbäume",
+      "answer": 1,
+      "explanation": "Die definierende Eigenschaft eines BST ist die Ordnung: Für jeden Knoten $K$ gilt, dass alle Werte im linken Teilbaum kleiner als $K$ und alle Werte im rechten Teilbaum größer als $K$ sind.",
+      "weight": 1,
+      "topic": "Binäre Suchbäume",
       "konzept": "BST-Eigenschaft",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "BST": "Binärer Suchbaum.",
         "Teilbaum": "Der gesamte Baum, der unterhalb eines Kindknotens hängt.",
@@ -248,20 +248,20 @@
       }
     },
     {
-      "frage": "11. Was ist der Hauptvorteil eines balancierten Binären Suchbaums gegenüber einer unsortierten Liste bei der Suche?",
-      "optionen": [
+      "question": "11. Was ist der Hauptvorteil eines balancierten Binären Suchbaums gegenüber einer unsortierten Liste bei der Suche?",
+      "options": [
         "Die Suche benötigt konstante Zeit $O(1)$.",
         "Die Suche benötigt durchschnittlich logarithmische Zeit $O(\\log n)$.",
         "Es wird kein Speicherplatz benötigt.",
         "Er kann keine doppelten Werte enthalten.",
         "Das Einfügen ist langsamer, aber das Löschen schneller."
       ],
-      "loesung": 1,
-      "erklaerung": "Durch die Baumstruktur und die Sortierung kann in jedem Schritt die Hälfte der verbleibenden Daten ausgeschlossen werden. Dies führt zu einer logarithmischen Laufzeit $O(\\log n)$, was bei vielen Daten viel schneller ist als die lineare Suche $O(n)$.",
-      "gewichtung": 1,
-      "thema": "Binäre Suchbäume",
+      "answer": 1,
+      "explanation": "Durch die Baumstruktur und die Sortierung kann in jedem Schritt die Hälfte der verbleibenden Daten ausgeschlossen werden. Dies führt zu einer logarithmischen Laufzeit $O(\\log n)$, was bei vielen Daten viel schneller ist als die lineare Suche $O(n)$.",
+      "weight": 1,
+      "topic": "Binäre Suchbäume",
       "konzept": "Laufzeitvorteil",
-      "kognitive_stufe": "Verständnis",
+      "cognitive_level": "Verständnis",
       "mini_glossary": {
         "O(log n)": "Logarithmische Komplexität; wächst sehr langsam bei steigender Datenmenge.",
         "O(n)": "Lineare Komplexität; wächst proportional zur Datenmenge.",
@@ -269,20 +269,20 @@
       }
     },
     {
-      "frage": "12. Was ist eine 'Heap'-Eigenschaft bei einem Min-Heap?",
-      "optionen": [
+      "question": "12. Was ist eine 'Heap'-Eigenschaft bei einem Min-Heap?",
+      "options": [
         "Jeder Knoten ist größer als seine Kinder.",
         "Jeder Knoten ist kleiner oder gleich seinen Kindern.",
         "Linke Kinder sind kleiner, rechte Kinder sind größer.",
         "Nur die Blätter enthalten Datenwerte.",
         "Der Baum ist eine lineare Liste."
       ],
-      "loesung": 1,
-      "erklaerung": "In einem Min-Heap muss der Wert jedes Elternknotens kleiner oder gleich den Werten seiner Kinder sein. Dadurch steht das kleinste Element (Minimum) immer an der Wurzel.",
-      "gewichtung": 1,
-      "thema": "Heaps",
+      "answer": 1,
+      "explanation": "In einem Min-Heap muss der Wert jedes Elternknotens kleiner oder gleich den Werten seiner Kinder sein. Dadurch steht das kleinste Element (Minimum) immer an der Wurzel.",
+      "weight": 1,
+      "topic": "Heaps",
       "konzept": "Min-Heap-Def",
-      "kognitive_stufe": "Reproduktion",
+      "cognitive_level": "Reproduktion",
       "mini_glossary": {
         "Min-Heap": "Baumstruktur, bei der das Minimum oben steht.",
         "Heap-Eigenschaft": "Regel für die Beziehung zwischen Eltern und Kindern im Heap.",
@@ -290,20 +290,20 @@
       }
     },
     {
-      "frage": "13. Sie haben einen Binären Suchbaum (BST) mit der Wurzel 10. Sie wollen den Wert 5 einfügen. Welche Aussage beschreibt den ersten Schritt korrekt?",
-      "optionen": [
+      "question": "13. Sie haben einen Binären Suchbaum (BST) mit der Wurzel 10. Sie wollen den Wert 5 einfügen. Welche Aussage beschreibt den ersten Schritt korrekt?",
+      "options": [
         "Da 5 < 10 ist, muss der Wert im rechten Teilbaum eingefügt werden.",
         "Da 5 < 10 ist, muss der Algorithmus in den linken Teilbaum absteigen.",
         "Der Wert 5 ersetzt die Wurzel 10.",
         "Der Wert 5 wird als neues Elternteil über die 10 gesetzt.",
         "Der Algorithmus bricht ab, da 5 ungerade ist."
       ],
-      "loesung": 1,
-      "erklaerung": "Gemäß der BST-Eigenschaft gehören kleinere Werte in den linken Teilbaum. Da 5 kleiner als 10 ist, bewegt sich der Einfüge-Algorithmus nach links.",
-      "gewichtung": 2,
-      "thema": "Binäre Suchbäume",
+      "answer": 1,
+      "explanation": "Gemäß der BST-Eigenschaft gehören kleinere Werte in den linken Teilbaum. Da 5 kleiner als 10 ist, bewegt sich der Einfüge-Algorithmus nach links.",
+      "weight": 2,
+      "topic": "Binäre Suchbäume",
       "konzept": "Einfüge-Logik",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Einfüge-Entscheidung im BST",
         "schritte": [
@@ -320,20 +320,20 @@
       }
     },
     {
-      "frage": "14. Gegeben ist ein leerer BST. Sie fügen nacheinander die Werte 5, 3 und 7 ein. Welche Struktur entsteht?",
-      "optionen": [
+      "question": "14. Gegeben ist ein leerer BST. Sie fügen nacheinander die Werte 5, 3 und 7 ein. Welche Struktur entsteht?",
+      "options": [
         "Wurzel 5, linkes Kind 3, rechtes Kind 7.",
         "Wurzel 3, linkes Kind 5, rechtes Kind 7.",
         "Wurzel 7, linkes Kind 5, rechtes Kind 3.",
         "Eine lineare Kette 5 → 3 → 7.",
         "Wurzel 5, linkes Kind 7, rechtes Kind 3."
       ],
-      "loesung": 0,
-      "erklaerung": "Die 5 wird Wurzel. Die 3 ist kleiner als 5 $\\rightarrow$ linkes Kind. Die 7 ist größer als 5 $\\rightarrow$ rechtes Kind. Es entsteht ein klassischer Baum mit Wurzel und zwei Kindern.",
-      "gewichtung": 2,
-      "thema": "Binäre Suchbäume",
+      "answer": 0,
+      "explanation": "Die 5 wird Wurzel. Die 3 ist kleiner als 5 $\\rightarrow$ linkes Kind. Die 7 ist größer als 5 $\\rightarrow$ rechtes Kind. Es entsteht ein klassischer Baum mit Wurzel und zwei Kindern.",
+      "weight": 2,
+      "topic": "Binäre Suchbäume",
       "konzept": "Aufbau BST",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Schrittweiser Aufbau",
         "schritte": [
@@ -350,20 +350,20 @@
       }
     },
     {
-      "frage": "15. Ein Baum hat die Knoten A, B, C, D. A ist die Wurzel. B und C sind Kinder von A. D ist ein Kind von B. Welche Knoten sind Blätter?",
-      "optionen": [
+      "question": "15. Ein Baum hat die Knoten A, B, C, D. A ist die Wurzel. B und C sind Kinder von A. D ist ein Kind von B. Welche Knoten sind Blätter?",
+      "options": [
         "Nur D",
         "Nur C",
         "C und D",
         "B und C",
         "A und D"
       ],
-      "loesung": 2,
-      "erklaerung": "Blätter sind Knoten ohne Kinder. C hat keine Kinder (nur A als Elternteil). D hat keine Kinder (nur B als Elternteil). B hat ein Kind (D), ist also kein Blatt. A ist Wurzel.",
-      "gewichtung": 2,
-      "thema": "Terminologie",
+      "answer": 2,
+      "explanation": "Blätter sind Knoten ohne Kinder. C hat keine Kinder (nur A als Elternteil). D hat keine Kinder (nur B als Elternteil). B hat ein Kind (D), ist also kein Blatt. A ist Wurzel.",
+      "weight": 2,
+      "topic": "Terminologie",
       "konzept": "Blätter identifizieren",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Identifikation von Blättern",
         "schritte": [
@@ -381,20 +381,20 @@
       }
     },
     {
-      "frage": "16. Welche Traversierungsreihenfolge (Pre-Order: Wurzel zuerst) ergibt sich für den Baum: Wurzel A, linkes Kind B, rechtes Kind C?",
-      "optionen": [
+      "question": "16. Welche Traversierungsreihenfolge (Pre-Order: Wurzel zuerst) ergibt sich für den Baum: Wurzel A, linkes Kind B, rechtes Kind C?",
+      "options": [
         "B, A, C",
         "A, B, C",
         "B, C, A",
         "C, B, A",
         "A, C, B"
       ],
-      "loesung": 1,
-      "erklaerung": "Pre-Order bedeutet: Zuerst die Wurzel (A), dann der linke Teilbaum (B), dann der rechte Teilbaum (C). Daher A, B, C.",
-      "gewichtung": 2,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "Pre-Order bedeutet: Zuerst die Wurzel (A), dann der linke Teilbaum (B), dann der rechte Teilbaum (C). Daher A, B, C.",
+      "weight": 2,
+      "topic": "Traversierung",
       "konzept": "Pre-Order",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Pre-Order Ablauf",
         "schritte": [
@@ -412,20 +412,20 @@
       }
     },
     {
-      "frage": "17. Sie suchen in einem ungewichteten Graphen (Baum) den kürzesten Weg von der Wurzel zu einem Zielknoten. Welcher Algorithmus garantiert, diesen Weg mit den wenigsten Kanten zuerst zu finden?",
-      "optionen": [
+      "question": "17. Sie suchen in einem ungewichteten Graphen (Baum) den kürzesten Weg von der Wurzel zu einem Zielknoten. Welcher Algorithmus garantiert, diesen Weg mit den wenigsten Kanten zuerst zu finden?",
+      "options": [
         "Tiefensuche (DFS)",
         "Breitensuche (BFS)",
         "Zufallssuche",
         "Sortieren der Knotenwerte",
         "Löschen des Baumes"
       ],
-      "loesung": 1,
-      "erklaerung": "Die Breitensuche (BFS) durchsucht den Baum schichtweise. Sie findet Knoten mit Distanz 1 zuerst, dann Distanz 2 usw. Daher findet sie den kürzesten Weg (in Kantenanzahl) garantiert als erstes.",
-      "gewichtung": 2,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "Die Breitensuche (BFS) durchsucht den Baum schichtweise. Sie findet Knoten mit Distanz 1 zuerst, dann Distanz 2 usw. Daher findet sie den kürzesten Weg (in Kantenanzahl) garantiert als erstes.",
+      "weight": 2,
+      "topic": "Traversierung",
       "konzept": "BFS-Anwendung",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Warum BFS kürzeste Wege findet",
         "schritte": [
@@ -442,20 +442,20 @@
       }
     },
     {
-      "frage": "18. Ein binärer Baum hat die Höhe 3. Was ist die maximal mögliche Anzahl an Knoten in diesem Baum (Wurzel auf Tiefe 0)?",
-      "optionen": [
+      "question": "18. Ein binärer Baum hat die Höhe 3. Was ist die maximal mögliche Anzahl an Knoten in diesem Baum (Wurzel auf Tiefe 0)?",
+      "options": [
         "7 Knoten",
         "8 Knoten",
         "15 Knoten",
         "10 Knoten",
         "3 Knoten"
       ],
-      "loesung": 2,
-      "erklaerung": "Ein voller binärer Baum der Höhe $h$ hat $2^{h+1} - 1$ Knoten. Bei Höhe 3 (Ebenen 0, 1, 2, 3) sind das $2^4 - 1 = 16 - 1 = 15$ Knoten.",
-      "gewichtung": 2,
-      "thema": "Terminologie",
+      "answer": 2,
+      "explanation": "Ein voller binärer Baum der Höhe $h$ hat $2^{h+1} - 1$ Knoten. Bei Höhe 3 (Ebenen 0, 1, 2, 3) sind das $2^4 - 1 = 16 - 1 = 15$ Knoten.",
+      "weight": 2,
+      "topic": "Terminologie",
       "konzept": "Maximal-Knoten",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Berechnung maximaler Knoten",
         "schritte": [
@@ -473,20 +473,20 @@
       }
     },
     {
-      "frage": "19. In welchem Szenario degeneriert ein Binärer Suchbaum (BST) zu einer verketteten Liste (Linie)?",
-      "optionen": [
+      "question": "19. In welchem Szenario degeneriert ein Binärer Suchbaum (BST) zu einer verketteten Liste (Linie)?",
+      "options": [
         "Wenn die Daten zufällig eingefügt werden.",
         "Wenn die Daten bereits sortiert (auf- oder absteigend) eingefügt werden.",
         "Wenn immer abwechselnd kleine und große Werte eingefügt werden.",
         "Wenn negative Zahlen eingefügt werden.",
         "Wenn der Baum als Max-Heap organisiert ist."
       ],
-      "loesung": 1,
-      "erklaerung": "Werden Daten sortiert eingefügt (z.B. 1, 2, 3, 4), landet jedes Element immer rechts vom Vorgänger. Es entstehen keine linken Verzweigungen, der Baum wird zur Linie.",
-      "gewichtung": 2,
-      "thema": "Binäre Suchbäume",
+      "answer": 1,
+      "explanation": "Werden Daten sortiert eingefügt (z.B. 1, 2, 3, 4), landet jedes Element immer rechts vom Vorgänger. Es entstehen keine linken Verzweigungen, der Baum wird zur Linie.",
+      "weight": 2,
+      "topic": "Binäre Suchbäume",
       "konzept": "Entartung",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Entartung des BST",
         "schritte": [
@@ -504,20 +504,20 @@
       }
     },
     {
-      "frage": "20. Welche Traversierungsart liefert bei einem Binären Suchbaum (BST) die Werte in aufsteigend sortierter Reihenfolge?",
-      "optionen": [
+      "question": "20. Welche Traversierungsart liefert bei einem Binären Suchbaum (BST) die Werte in aufsteigend sortierter Reihenfolge?",
+      "options": [
         "Pre-Order (Wurzel-Links-Rechts)",
         "Post-Order (Links-Rechts-Wurzel)",
         "In-Order (Links-Wurzel-Rechts)",
         "Level-Order (Breitensuche)",
         "Reverse-Order"
       ],
-      "loesung": 2,
-      "erklaerung": "Beim In-Order-Durchlauf wird erst der gesamte linke Teilbaum (kleinere Werte) besucht, dann die Wurzel (Mittelwert), dann der rechte Teilbaum (größere Werte). Dies entspricht der Sortierreihenfolge.",
-      "gewichtung": 2,
-      "thema": "Traversierung",
+      "answer": 2,
+      "explanation": "Beim In-Order-Durchlauf wird erst der gesamte linke Teilbaum (kleinere Werte) besucht, dann die Wurzel (Mittelwert), dann der rechte Teilbaum (größere Werte). Dies entspricht der Sortierreihenfolge.",
+      "weight": 2,
+      "topic": "Traversierung",
       "konzept": "In-Order Sortierung",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "In-Order und Sortierung",
         "schritte": [
@@ -534,20 +534,20 @@
       }
     },
     {
-      "frage": "21. Ein Max-Heap enthält die Werte 10, 20, 5. Welche Zahl muss an der Wurzel stehen?",
-      "optionen": [
+      "question": "21. Ein Max-Heap enthält die Werte 10, 20, 5. Welche Zahl muss an der Wurzel stehen?",
+      "options": [
         "5",
         "10",
         "20",
         "Beliebig",
         "Die Zahl, die als erstes eingefügt wurde."
       ],
-      "loesung": 2,
-      "erklaerung": "In einem Max-Heap gilt für jeden Knoten: Elternwert $\\ge$ Kindwert. Das bedeutet, das größte Element des gesamten Baumes muss zwingend an der Wurzel stehen.",
-      "gewichtung": 2,
-      "thema": "Heaps",
+      "answer": 2,
+      "explanation": "In einem Max-Heap gilt für jeden Knoten: Elternwert $\\ge$ Kindwert. Das bedeutet, das größte Element des gesamten Baumes muss zwingend an der Wurzel stehen.",
+      "weight": 2,
+      "topic": "Heaps",
       "konzept": "Max-Heap-Wurzel",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Eigenschaft des Max-Heap",
         "schritte": [
@@ -564,20 +564,20 @@
       }
     },
     {
-      "frage": "22. Welche Aussage über die Anzahl der Pfade zwischen zwei beliebigen Knoten $A$ und $B$ in einem Baum ist korrekt?",
-      "optionen": [
+      "question": "22. Welche Aussage über die Anzahl der Pfade zwischen zwei beliebigen Knoten $A$ und $B$ in einem Baum ist korrekt?",
+      "options": [
         "Es gibt gar keinen Pfad.",
         "Es gibt genau einen eindeutigen Pfad.",
         "Es gibt mindestens zwei Pfade.",
         "Die Anzahl hängt von der Tiefe des Baumes ab.",
         "Es gibt unendlich viele Pfade, wenn man Kanten doppelt nutzen darf."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Zyklenfreiheit und der Zusammenhang eines Baumes garantieren mathematisch, dass es zwischen jedem Paar von Knoten exakt einen einzigen, einfachen Pfad gibt.",
-      "gewichtung": 2,
-      "thema": "Definition & Eigenschaften",
+      "answer": 1,
+      "explanation": "Die Zyklenfreiheit und der Zusammenhang eines Baumes garantieren mathematisch, dass es zwischen jedem Paar von Knoten exakt einen einzigen, einfachen Pfad gibt.",
+      "weight": 2,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Eindeutiger Pfad",
-      "kognitive_stufe": "Verständnis",
+      "cognitive_level": "Verständnis",
       "extended_explanation": {
         "titel": "Eindeutigkeit von Pfaden",
         "schritte": [
@@ -594,20 +594,20 @@
       }
     },
     {
-      "frage": "23. Sie implementieren eine Verzeichnisstruktur eines Dateisystems (Ordner und Dateien). Welche Baumstruktur eignet sich am besten als mentales Modell?",
-      "optionen": [
+      "question": "23. Sie implementieren eine Verzeichnisstruktur eines Dateisystems (Ordner und Dateien). Welche Baumstruktur eignet sich am besten als mentales Modell?",
+      "options": [
         "Ein binärer Suchbaum, sortiert nach Dateigröße.",
         "Ein allgemeiner gewurzelter Baum (N-ary Tree).",
         "Ein ungerichteter Kreisgraph.",
         "Ein Wald aus isolierten Knoten.",
         "Ein Max-Heap."
       ],
-      "loesung": 1,
-      "erklaerung": "Ein Dateisystem ist hierarchisch: Ein Ordner kann beliebig viele Unterordner oder Dateien enthalten (nicht nur maximal zwei). Daher ist ein allgemeiner gewurzelter Baum das passende Modell.",
-      "gewichtung": 2,
-      "thema": "Anwendungen",
+      "answer": 1,
+      "explanation": "Ein Dateisystem ist hierarchisch: Ein Ordner kann beliebig viele Unterordner oder Dateien enthalten (nicht nur maximal zwei). Daher ist ein allgemeiner gewurzelter Baum das passende Modell.",
+      "weight": 2,
+      "topic": "Anwendungen",
       "konzept": "Modellierung",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Dateisystem als Baum",
         "schritte": [
@@ -624,20 +624,20 @@
       }
     },
     {
-      "frage": "24. Was passiert, wenn Sie in einem Baum eine beliebige Kante entfernen?",
-      "optionen": [
+      "question": "24. Was passiert, wenn Sie in einem Baum eine beliebige Kante entfernen?",
+      "options": [
         "Der Graph bleibt unverändert.",
         "Es entsteht ein Zyklus.",
         "Der Baum zerfällt in zwei unverbundene Komponenten (der Graph ist nicht mehr zusammenhängend).",
         "Die Anzahl der Knoten verringert sich.",
         "Der Baum wird automatisch zu einem Wald mit 3 Bäumen."
       ],
-      "loesung": 2,
-      "erklaerung": "Da ein Baum minimale Konnektivität besitzt ($n-1$ Kanten), ist jede Kante eine 'Brücke'. Das Entfernen einer Kante unterbricht den einzigen Pfad zwischen bestimmten Knotenpaaren, wodurch der Graph zerfällt.",
-      "gewichtung": 2,
-      "thema": "Definition & Eigenschaften",
+      "answer": 2,
+      "explanation": "Da ein Baum minimale Konnektivität besitzt ($n-1$ Kanten), ist jede Kante eine 'Brücke'. Das Entfernen einer Kante unterbricht den einzigen Pfad zwischen bestimmten Knotenpaaren, wodurch der Graph zerfällt.",
+      "weight": 2,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Brückeneigenschaft",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Kanten als Brücken",
         "schritte": [
@@ -654,20 +654,20 @@
       }
     },
     {
-      "frage": "25. Welche Aussage trifft auf einen Spannbaum (Spanning Tree) eines Graphen zu?",
-      "optionen": [
+      "question": "25. Welche Aussage trifft auf einen Spannbaum (Spanning Tree) eines Graphen zu?",
+      "options": [
         "Er enthält alle Knoten des Ursprungsgraphen, aber nur eine Teilmenge der Kanten, sodass keine Zyklen entstehen.",
         "Er enthält alle Kanten des Ursprungsgraphen.",
         "Er enthält nur die Knoten, die einen hohen Grad haben.",
         "Er fügt neue Knoten hinzu, um den Graphen zu verbinden.",
         "Er ist immer identisch mit dem Ursprungsgraphen."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Spannbaum verbindet alle Knoten eines Graphen mit der minimal nötigen Anzahl an Kanten. Er 'spannt' den Graphen auf, indem er Kreise entfernt, aber den Zusammenhang wahrt.",
-      "gewichtung": 2,
-      "thema": "Anwendungen",
+      "answer": 0,
+      "explanation": "Ein Spannbaum verbindet alle Knoten eines Graphen mit der minimal nötigen Anzahl an Kanten. Er 'spannt' den Graphen auf, indem er Kreise entfernt, aber den Zusammenhang wahrt.",
+      "weight": 2,
+      "topic": "Anwendungen",
       "konzept": "Spanning Tree",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Prinzip des Spannbaums",
         "schritte": [
@@ -684,20 +684,20 @@
       }
     },
     {
-      "frage": "26. Sie möchten in einem binären Suchbaum den kleinsten Wert finden. Welcher Strategie folgen Sie?",
-      "optionen": [
+      "question": "26. Sie möchten in einem binären Suchbaum den kleinsten Wert finden. Welcher Strategie folgen Sie?",
+      "options": [
         "Ich gehe von der Wurzel immer nach rechts.",
         "Ich gehe von der Wurzel immer nach links, bis ich ein Blatt oder einen Knoten ohne linken Nachfolger erreiche.",
         "Ich muss den ganzen Baum mit BFS durchsuchen.",
         "Ich wähle zufällig einen Pfad.",
         "Ich prüfe nur die Blätter der rechten Seite."
       ],
-      "loesung": 1,
-      "erklaerung": "Aufgrund der BST-Eigenschaft (kleinere Werte links) befindet sich das Minimum ganz 'links außen'. Man folgt also iterativ den linken Kindzeigern, bis es nicht mehr weitergeht.",
-      "gewichtung": 2,
-      "thema": "Binäre Suchbäume",
+      "answer": 1,
+      "explanation": "Aufgrund der BST-Eigenschaft (kleinere Werte links) befindet sich das Minimum ganz 'links außen'. Man folgt also iterativ den linken Kindzeigern, bis es nicht mehr weitergeht.",
+      "weight": 2,
+      "topic": "Binäre Suchbäume",
       "konzept": "Minimum finden",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Suche des Minimums",
         "schritte": [
@@ -714,20 +714,20 @@
       }
     },
     {
-      "frage": "27. Warum sind AVL-Bäume oder Rot-Schwarz-Bäume in der Praxis oft nützlicher als einfache Binäre Suchbäume?",
-      "optionen": [
+      "question": "27. Warum sind AVL-Bäume oder Rot-Schwarz-Bäume in der Praxis oft nützlicher als einfache Binäre Suchbäume?",
+      "options": [
         "Sie speichern Daten komprimiert.",
         "Sie balancieren sich selbst, um im Worst-Case eine Laufzeit von $O(\\log n)$ zu garantieren.",
         "Sie können mehr als zwei Kinder pro Knoten haben.",
         "Sie benötigen keine Vergleichsoperationen.",
         "Sie sind einfacher zu implementieren."
       ],
-      "loesung": 1,
-      "erklaerung": "Einfache BSTs können zur Linie entarten ($O(n)$). Selbstbalancierende Bäume wie AVL führen Rotationen durch, um die Höhe gering zu halten, was die Sucheffizienz von $O(\\log n)$ sichert.",
-      "gewichtung": 2,
-      "thema": "Erweiterte Bäume",
+      "answer": 1,
+      "explanation": "Einfache BSTs können zur Linie entarten ($O(n)$). Selbstbalancierende Bäume wie AVL führen Rotationen durch, um die Höhe gering zu halten, was die Sucheffizienz von $O(\\log n)$ sichert.",
+      "weight": 2,
+      "topic": "Erweiterte Bäume",
       "konzept": "Selbstbalancierung",
-      "kognitive_stufe": "Verständnis",
+      "cognitive_level": "Verständnis",
       "extended_explanation": {
         "titel": "Notwendigkeit der Balance",
         "schritte": [
@@ -744,20 +744,20 @@
       }
     },
     {
-      "frage": "28. Ein Knoten $A$ hat die Kinder $B$ und $C$. In einer Adjazenzliste für diesen gerichteten Baum (Richtung Eltern $\\to$ Kind), wie sieht der Eintrag für $A$ aus?",
-      "optionen": [
+      "question": "28. Ein Knoten $A$ hat die Kinder $B$ und $C$. In einer Adjazenzliste für diesen gerichteten Baum (Richtung Eltern $\\to$ Kind), wie sieht der Eintrag für $A$ aus?",
+      "options": [
         "$A: []$ (leere Liste)",
         "$A: [B, C]$",
         "$B: [A], C: [A]$",
         "$A: [Wurzel]$",
         "$A: [A]$"
       ],
-      "loesung": 1,
-      "erklaerung": "In einer Adjazenzliste werden zu jedem Knoten dessen Nachbarn (hier: Kinder) gespeichert. Da die Richtung Eltern $\\to$ Kind ist, enthält die Liste von $A$ die Elemente $B$ und $C$.",
-      "gewichtung": 2,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "In einer Adjazenzliste werden zu jedem Knoten dessen Nachbarn (hier: Kinder) gespeichert. Da die Richtung Eltern $\\to$ Kind ist, enthält die Liste von $A$ die Elemente $B$ und $C$.",
+      "weight": 2,
+      "topic": "Traversierung",
       "konzept": "Repräsentation",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Speicherung als Adjazenzliste",
         "schritte": [
@@ -774,20 +774,20 @@
       }
     },
     {
-      "frage": "29. Was unterscheidet einen Baum von einem allgemeinen Graphen wesentlich?",
-      "optionen": [
+      "question": "29. Was unterscheidet einen Baum von einem allgemeinen Graphen wesentlich?",
+      "options": [
         "Ein Baum hat Kanten, ein Graph nicht.",
         "Ein Baum darf Zyklen haben, ein Graph nicht.",
         "Ein Baum ist zyklenfrei und zusammenhängend, ein Graph muss das nicht sein.",
         "Ein Baum hat immer weniger als 5 Knoten.",
         "Es gibt keinen Unterschied, die Begriffe sind synonym."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Graph ist der Überbegriff. Der Baum ist ein *spezieller* Graph mit strikten Einschränkungen: Er darf keine Kreise enthalten und muss zusammenhängend sein.",
-      "gewichtung": 2,
-      "thema": "Definition & Eigenschaften",
+      "answer": 2,
+      "explanation": "Der Graph ist der Überbegriff. Der Baum ist ein *spezieller* Graph mit strikten Einschränkungen: Er darf keine Kreise enthalten und muss zusammenhängend sein.",
+      "weight": 2,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Vergleich Graph-Baum",
-      "kognitive_stufe": "Verständnis",
+      "cognitive_level": "Verständnis",
       "extended_explanation": {
         "titel": "Spezialisierung Baum",
         "schritte": [
@@ -804,20 +804,20 @@
       }
     },
     {
-      "frage": "30. Sie wollen alle Dateien in einem Verzeichnisbaum löschen. Warum ist hier die Post-Order-Traversierung (Kinder zuerst, dann Wurzel) sinnvoll?",
-      "optionen": [
+      "question": "30. Sie wollen alle Dateien in einem Verzeichnisbaum löschen. Warum ist hier die Post-Order-Traversierung (Kinder zuerst, dann Wurzel) sinnvoll?",
+      "options": [
         "Weil man zuerst den Ordner löschen muss, bevor man den Inhalt löschen kann.",
         "Weil man sicherstellen muss, dass ein Ordner leer ist (Kinder gelöscht), bevor man den Ordner selbst entfernt.",
         "Weil Post-Order schneller ist als Pre-Order.",
         "Weil man alphabetisch vorgehen muss.",
         "Weil man sonst die Wurzel nicht findet."
       ],
-      "loesung": 1,
-      "erklaerung": "Post-Order besucht und verarbeitet die Kinder *vor* dem Elternknoten. Beim Löschen ist das ideal: Erst den Inhalt (Kinder) leeren, dann den nun leeren Ordner (Eltern) entfernen.",
-      "gewichtung": 2,
-      "thema": "Anwendungen",
+      "answer": 1,
+      "explanation": "Post-Order besucht und verarbeitet die Kinder *vor* dem Elternknoten. Beim Löschen ist das ideal: Erst den Inhalt (Kinder) leeren, dann den nun leeren Ordner (Eltern) entfernen.",
+      "weight": 2,
+      "topic": "Anwendungen",
       "konzept": "Lösch-Reihenfolge",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Lösch-Strategie",
         "schritte": [
@@ -834,20 +834,20 @@
       }
     },
     {
-      "frage": "31. Gegeben ist ein Binärer Suchbaum (BST) mit Wurzel 50, linkem Kind 30 und rechtem Kind 70. Was passiert im Worst-Case (schlechtester Fall) für die Suche, wenn wir stattdessen einen unbalancierten Baum mit den Werten 10, 20, 30, 40, 50 (in dieser Reihenfolge eingefügt) betrachten?",
-      "optionen": [
+      "question": "31. Gegeben ist ein Binärer Suchbaum (BST) mit Wurzel 50, linkem Kind 30 und rechtem Kind 70. Was passiert im Worst-Case (schlechtester Fall) für die Suche, wenn wir stattdessen einen unbalancierten Baum mit den Werten 10, 20, 30, 40, 50 (in dieser Reihenfolge eingefügt) betrachten?",
+      "options": [
         "Die Suche bleibt bei $O(\\log n)$.",
         "Die Suche wird zu $O(1)$ beschleunigt.",
         "Die Suche verschlechtert sich zu $O(n)$, da der Baum zur Linie wird.",
         "Der Baum sortiert sich automatisch neu.",
         "Die Suche ist nicht mehr möglich."
       ],
-      "loesung": 2,
-      "erklaerung": "Wenn Daten sortiert in einen einfachen BST eingefügt werden, entsteht eine 'rechte Kette'. Um das Element 50 zu finden, müssen alle vorherigen Knoten (10, 20, 30, 40) passiert werden. Die Laufzeit ist linear ($O(n)$).",
-      "gewichtung": 2,
-      "thema": "Binäre Suchbäume",
+      "answer": 2,
+      "explanation": "Wenn Daten sortiert in einen einfachen BST eingefügt werden, entsteht eine 'rechte Kette'. Um das Element 50 zu finden, müssen alle vorherigen Knoten (10, 20, 30, 40) passiert werden. Die Laufzeit ist linear ($O(n)$).",
+      "weight": 2,
+      "topic": "Binäre Suchbäume",
       "konzept": "Laufzeitvergleich",
-      "kognitive_stufe": "Anwendung",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "titel": "Analyse der linearen Entartung",
         "schritte": [
@@ -864,20 +864,20 @@
       }
     },
     {
-      "frage": "32. Welche Aussage beschreibt die Komplexität der Suche in einem ideal balancierten binären Suchbaum mit $n$ Knoten korrekt?",
-      "optionen": [
+      "question": "32. Welche Aussage beschreibt die Komplexität der Suche in einem ideal balancierten binären Suchbaum mit $n$ Knoten korrekt?",
+      "options": [
         "Die Anzahl der Schritte wächst quadratisch ($n^2$).",
         "Die Anzahl der Schritte entspricht der Höhe des Baumes, also etwa $\\log_2 n$.",
         "Die Anzahl der Schritte ist unabhängig von $n$.",
         "Man muss immer alle $n$ Knoten besuchen.",
         "Die Schritte halbieren sich mit jedem Knoten, also $n/2$."
       ],
-      "loesung": 1,
-      "erklaerung": "In einem balancierten Baum halbiert jeder Vergleichsschritt (links/rechts) den Suchraum. Bei $n$ Elementen kann man dies $\\log_2 n$ mal tun, bis man bei einem Blatt ankommt.",
-      "gewichtung": 2,
-      "thema": "Binäre Suchbäume",
+      "answer": 1,
+      "explanation": "In einem balancierten Baum halbiert jeder Vergleichsschritt (links/rechts) den Suchraum. Bei $n$ Elementen kann man dies $\\log_2 n$ mal tun, bis man bei einem Blatt ankommt.",
+      "weight": 2,
+      "topic": "Binäre Suchbäume",
       "konzept": "Logarithmische Suche",
-      "kognitive_stufe": "Verständnis",
+      "cognitive_level": "Verständnis",
       "extended_explanation": {
         "titel": "Das Prinzip 'Teile und Herrsche'",
         "schritte": [
@@ -895,20 +895,20 @@
       }
     },
     {
-      "frage": "33. Sie vergleichen BFS (Breitensuche) und DFS (Tiefensuche) hinsichtlich des Speicherverbrauchs. Welches Problem kann bei BFS in sehr breiten Bäumen auftreten?",
-      "optionen": [
+      "question": "33. Sie vergleichen BFS (Breitensuche) und DFS (Tiefensuche) hinsichtlich des Speicherverbrauchs. Welches Problem kann bei BFS in sehr breiten Bäumen auftreten?",
+      "options": [
         "BFS verbraucht kaum Speicher.",
         "BFS muss alle Knoten der aktuellen Ebene in der Queue speichern, was bei breiten Bäumen speicherintensiv ist.",
         "BFS bricht bei breiten Bäumen immer ab.",
         "DFS verbraucht immer mehr Speicher als BFS.",
         "Es gibt keinen Unterschied im Speicherverbrauch."
       ],
-      "loesung": 1,
-      "erklaerung": "BFS speichert alle Nachbarn der aktuellen Ebene in der Warteschlange. Wenn ein Baum sehr stark verzweigt ist (viele Kinder pro Knoten), wächst diese Warteschlange enorm an, was den Arbeitsspeicher belasten kann.",
-      "gewichtung": 3,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "BFS speichert alle Nachbarn der aktuellen Ebene in der Warteschlange. Wenn ein Baum sehr stark verzweigt ist (viele Kinder pro Knoten), wächst diese Warteschlange enorm an, was den Arbeitsspeicher belasten kann.",
+      "weight": 3,
+      "topic": "Traversierung",
       "konzept": "Speicherkomplexität",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Speicherbedarf BFS vs. DFS",
         "schritte": [
@@ -925,20 +925,20 @@
       }
     },
     {
-      "frage": "34. Warum ist die Pfadlänge zwischen zwei Knoten in einem Baum eindeutig bestimmt, in einem allgemeinen Graphen mit Zyklen jedoch nicht?",
-      "optionen": [
+      "question": "34. Warum ist die Pfadlänge zwischen zwei Knoten in einem Baum eindeutig bestimmt, in einem allgemeinen Graphen mit Zyklen jedoch nicht?",
+      "options": [
         "In Graphen sind Kanten länger.",
         "In einem Zyklus kann man 'im Kreis laufen' und so den Pfad beliebig verlängern oder alternative Routen nehmen.",
         "Bäume haben weniger Knoten als Graphen.",
         "In Bäumen gibt es keine Richtung.",
         "Der Algorithmus verbietet Umwege in Graphen."
       ],
-      "loesung": 1,
-      "erklaerung": "Sobald ein Zyklus existiert, gibt es mindestens zwei Wege um den Kreis herum (linksrum/rechtsrum) oder man kann den Kreis mehrfach durchlaufen. Da Bäume zyklenfrei sind, entfällt diese Option; der Weg ist fixiert.",
-      "gewichtung": 3,
-      "thema": "Definition & Eigenschaften",
+      "answer": 1,
+      "explanation": "Sobald ein Zyklus existiert, gibt es mindestens zwei Wege um den Kreis herum (linksrum/rechtsrum) oder man kann den Kreis mehrfach durchlaufen. Da Bäume zyklenfrei sind, entfällt diese Option; der Weg ist fixiert.",
+      "weight": 3,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Topologische Eindeutigkeit",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Einfluss von Zyklen auf Wege",
         "schritte": [
@@ -955,20 +955,20 @@
       }
     },
     {
-      "frage": "35. Ein Algorithmus soll prüfen, ob ein gegebener Graph ein Baum ist. Welche Strategie ist korrekt und effizient?",
-      "optionen": [
+      "question": "35. Ein Algorithmus soll prüfen, ob ein gegebener Graph ein Baum ist. Welche Strategie ist korrekt und effizient?",
+      "options": [
         "Prüfe, ob alle Knoten grün sind.",
         "Prüfe: 1. Ist er zusammenhängend? 2. Gilt $Anzahl\\_Kanten = Anzahl\\_Knoten - 1$?",
         "Lösche alle Kanten und zähle die Knoten.",
         "Führe Kanten ein, bis er vollvermascht ist.",
         "Multipliziere die Knotenanzahl mit der Kantenanzahl."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Kombination aus 'zusammenhängend' (alle Knoten erreichbar) und der korrekten Kantenanzahl ($n-1$) ist eine hinreichende Bedingung für einen Baum. Alternativ: zusammenhängend und zyklenfrei.",
-      "gewichtung": 3,
-      "thema": "Definition & Eigenschaften",
+      "answer": 1,
+      "explanation": "Die Kombination aus 'zusammenhängend' (alle Knoten erreichbar) und der korrekten Kantenanzahl ($n-1$) ist eine hinreichende Bedingung für einen Baum. Alternativ: zusammenhängend und zyklenfrei.",
+      "weight": 3,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Baum-Verifikation",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Validierung eines Baumes",
         "schritte": [
@@ -985,20 +985,20 @@
       }
     },
     {
-      "frage": "36. Bei der Entscheidung zwischen einer Hash-Tabelle und einem Binären Suchbaum (BST): Welches Argument spricht für den BST?",
-      "optionen": [
+      "question": "36. Bei der Entscheidung zwischen einer Hash-Tabelle und einem Binären Suchbaum (BST): Welches Argument spricht für den BST?",
+      "options": [
         "Der BST hat immer $O(1)$ Zugriffszeit.",
         "Der BST ermöglicht Bereichsabfragen (z.B. 'alle Werte zwischen 10 und 20') effizient, da die Daten sortiert sind.",
         "Der BST verbraucht weniger Speicher für die Datenwerte.",
         "Der BST braucht keine Zeiger.",
         "Es gibt kein Argument für den BST, Hash-Tabellen sind immer besser."
       ],
-      "loesung": 1,
-      "erklaerung": "Hash-Tabellen speichern Daten unsortiert (gestreut). Ein BST speichert Daten strukturell sortiert. Daher sind Abfragen nach Bereichen (Range Queries) oder das Finden des Nächstgrößeren im BST viel einfacher.",
-      "gewichtung": 3,
-      "thema": "Anwendungen",
+      "answer": 1,
+      "explanation": "Hash-Tabellen speichern Daten unsortiert (gestreut). Ein BST speichert Daten strukturell sortiert. Daher sind Abfragen nach Bereichen (Range Queries) oder das Finden des Nächstgrößeren im BST viel einfacher.",
+      "weight": 3,
+      "topic": "Anwendungen",
       "konzept": "Vergleich BST vs. Hash",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Datenstruktur-Auswahl",
         "schritte": [
@@ -1015,20 +1015,20 @@
       }
     },
     {
-      "frage": "37. Sie sollen einen 'Spanning Tree Algorithm' (z.B. Kruskal oder Prim) erklären. Was ist das Ziel dieser Algorithmen in einem gewichteten Graphen?",
-      "optionen": [
+      "question": "37. Sie sollen einen 'Spanning Tree Algorithm' (z.B. Kruskal oder Prim) erklären. Was ist das Ziel dieser Algorithmen in einem gewichteten Graphen?",
+      "options": [
         "Die Kanten mit den höchsten Gewichten zu finden.",
         "Einen Baum zu finden, der alle Knoten verbindet und dessen Summe der Kantengewichte minimal ist (MST).",
         "Den Graphen in zwei Hälften zu teilen.",
         "Den längsten Pfad zwischen zwei Knoten zu finden.",
         "Alle Knoten zu löschen."
       ],
-      "loesung": 1,
-      "erklaerung": "Das Ziel ist der 'Minimum Spanning Tree' (MST). Man möchte ein Netzwerk schaffen, das alle Punkte verbindet (z.B. Stromleitungen zu Häusern), aber die Baukosten (Summe der Gewichte) minimiert.",
-      "gewichtung": 3,
-      "thema": "Anwendungen",
+      "answer": 1,
+      "explanation": "Das Ziel ist der 'Minimum Spanning Tree' (MST). Man möchte ein Netzwerk schaffen, das alle Punkte verbindet (z.B. Stromleitungen zu Häusern), aber die Baukosten (Summe der Gewichte) minimiert.",
+      "weight": 3,
+      "topic": "Anwendungen",
       "konzept": "Minimaler Spannbaum",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Idee des MST",
         "schritte": [
@@ -1045,20 +1045,20 @@
       }
     },
     {
-      "frage": "38. Warum ist die Rekursion eine so natürliche Methode zur Implementierung von Baum-Algorithmen?",
-      "optionen": [
+      "question": "38. Warum ist die Rekursion eine so natürliche Methode zur Implementierung von Baum-Algorithmen?",
+      "options": [
         "Weil Computer Rekursion schneller ausführen als Schleifen.",
         "Weil Bäume selbst rekursiv definiert sind (Ein Baum besteht aus Wurzel + Teilbäumen).",
         "Weil Rekursion weniger Speicher braucht.",
         "Weil man bei der Rekursion keine Variablen braucht.",
         "Es ist Zufall, Iteration wäre immer einfacher."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Datenstruktur ist selbstähnlich: Ein Kindknoten ist wiederum Wurzel eines eigenen Teilbaums. Diese rekursive Struktur spiegelt sich direkt in rekursiven Funktionen wider (z.B. `visit(node) → visit(node.left)`).",
-      "gewichtung": 3,
-      "thema": "Traversierung",
+      "answer": 1,
+      "explanation": "Die Datenstruktur ist selbstähnlich: Ein Kindknoten ist wiederum Wurzel eines eigenen Teilbaums. Diese rekursive Struktur spiegelt sich direkt in rekursiven Funktionen wider (z.B. `visit(node) → visit(node.left)`).",
+      "weight": 3,
+      "topic": "Traversierung",
       "konzept": "Rekursion & Selbstähnlichkeit",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Selbstähnlichkeit von Bäumen",
         "schritte": [
@@ -1075,20 +1075,20 @@
       }
     },
     {
-      "frage": "39. Ein Ausdrucksbaum (Expression Tree) speichert die Formel `(3 + 4) * 5`. Wo steht der Operator `*`?",
-      "optionen": [
+      "question": "39. Ein Ausdrucksbaum (Expression Tree) speichert die Formel `(3 + 4) * 5`. Wo steht der Operator `*`?",
+      "options": [
         "In einem Blatt.",
         "An der Wurzel.",
         "Als linkes Kind der 3.",
         "Er wird gar nicht gespeichert.",
         "Unterhalb der 5."
       ],
-      "loesung": 1,
-      "erklaerung": "In einem Ausdrucksbaum stehen Operatoren in den inneren Knoten und Zahlen in den Blättern. Da die Multiplikation die *letzte* Operation ist, die die beiden Teilergebnisse `(3+4)` und `5` verbindet, steht sie an der Spitze (Wurzel).",
-      "gewichtung": 3,
-      "thema": "Anwendungen",
+      "answer": 1,
+      "explanation": "In einem Ausdrucksbaum stehen Operatoren in den inneren Knoten und Zahlen in den Blättern. Da die Multiplikation die *letzte* Operation ist, die die beiden Teilergebnisse `(3+4)` und `5` verbindet, steht sie an der Spitze (Wurzel).",
+      "weight": 3,
+      "topic": "Anwendungen",
       "konzept": "Ausdrucksbäume",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Aufbau eines Ausdrucksbaums",
         "schritte": [
@@ -1106,20 +1106,20 @@
       }
     },
     {
-      "frage": "40. Sie haben einen Baum mit $n$ Knoten. Wie viele verschiedene einfache Pfade existieren zwischen zwei *unterschiedlichen* Blättern?",
-      "optionen": [
+      "question": "40. Sie haben einen Baum mit $n$ Knoten. Wie viele verschiedene einfache Pfade existieren zwischen zwei *unterschiedlichen* Blättern?",
+      "options": [
         "Genau einer.",
         "Genau zwei (hin und zurück).",
         "Keiner.",
         "$n$ Pfade.",
         "$n - 1$ Pfade."
       ],
-      "loesung": 0,
-      "erklaerung": "Dies ist eine Fangfrage zur Bestätigung des Grundkonzepts: In einem Baum (ungerichtet betrachtet) gibt es zwischen *jeden* zwei Knoten (also auch zwei Blättern) exakt einen eindeutigen Pfad. Die Richtung spielt meist keine Rolle für die 'Existenz' der Verbindung.",
-      "gewichtung": 3,
-      "thema": "Definition & Eigenschaften",
+      "answer": 0,
+      "explanation": "Dies ist eine Fangfrage zur Bestätigung des Grundkonzepts: In einem Baum (ungerichtet betrachtet) gibt es zwischen *jeden* zwei Knoten (also auch zwei Blättern) exakt einen eindeutigen Pfad. Die Richtung spielt meist keine Rolle für die 'Existenz' der Verbindung.",
+      "weight": 3,
+      "topic": "Definition & Eigenschaften",
       "konzept": "Pfad-Eindeutigkeit im Detail",
-      "kognitive_stufe": "Analyse",
+      "cognitive_level": "Analyse",
       "extended_explanation": {
         "titel": "Verbindung zweier Blätter",
         "schritte": [

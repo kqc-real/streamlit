@@ -1,418 +1,418 @@
 [
-    {
-        "frage": "1. Was bedeutet der Begriff 'Sprint' im agilen Projektmanagement?",
-        "optionen": [
-            "Eine kurze Laufübung zur Teambildung am Morgen",
-            "Ein schneller Bugfix-Prozess für kritische Produktionsfehler",
-            "Eine Zeitbox von 2-3 Wochen für die Entwicklung eines Produkt-Increments",
-            "Eine einmalige Deadline für das gesamte Projekt",
-            "Eine Technik zur Beschleunigung von Deployment-Prozessen"
-        ],
-        "loesung": 2,
-        "erklaerung": "Ein Sprint ist eine feste Zeitbox (typischerweise 2-3 Wochen), in der ein funktionsfähiges Produkt-Increment entwickelt wird. Am Ende jedes Sprints steht potenziell auslieferbare Software. Die MC-Test-App plant Release 2.0 in 3 Sprints (6-9 Wochen Gesamtdauer).",
-        "gewichtung": 1,
-        "thema": "Agile Methoden",
-        "mini_glossary": {
-            "Sprint": "Zeitbox von 2-3 Wochen für die Entwicklung eines funktionsfähigen Produkt-Increments in Scrum",
-            "Scrum": "Agiles Framework für iterative Produktentwicklung mit festen Rollen (PO, SM, Dev-Team)",
-            "Produkt-Increment": "Funktionsfähiges, potenziell auslieferbares Ergebnis eines Sprints"
-        }
-    },
-    {
-        "frage": "2. Was versteht man unter einem 'Bottleneck' in der Produktentwicklung?",
-        "optionen": [
-            "Eine spezielle Flasche für Wasserpausen während langer Meetings",
-            "Ein Engpass, der den gesamten Entwicklungsprozess verlangsamt",
-            "Eine Technik zur Priorisierung von User Stories im Backlog",
-            "Ein Sicherheitsrisiko in der Netzwerk-Architektur",
-            "Eine Methode zur Messung der Code-Qualität"
-        ],
-        "loesung": 1,
-        "erklaerung": "Ein Bottleneck (Flaschenhals) ist der limitierende Faktor in einem Prozess. Bei der MC-Test-App ist die **Content-Pipeline der Bottleneck**: Manuelle Erstellung dauert 6-8 Stunden pro Fragenset, was nicht skalierbar ist. Der KI-Generator in Release 2.0 löst diesen Bottleneck (5 Minuten statt 6 Stunden = 72× schneller).",
-        "gewichtung": 2,
-        "thema": "Prozessoptimierung",
-        "extended_explanation": {
-            "title": "Bottleneck-Analyse in der Praxis",
-            "content": "Ein Bottleneck erkennt man daran, dass alle anderen Prozesse auf diesen einen Schritt warten müssen. **Theory of Constraints (TOC)** besagt: Die Gesamtleistung eines Systems wird durch seinen schwächsten Punkt bestimmt. Bei der MC-Test-App war Content-Erstellung der Bottleneck mit 6-8 Stunden pro Set. Typische Bottlenecks in der Softwareentwicklung: (1) Manuelle QA-Prozesse, (2) Code-Reviews bei nur einem Senior-Dev, (3) Langsame CI/CD-Pipelines, (4) Datenbank-Performance. Die Lösung: Automatisierung (KI-Generator) oder Parallelisierung."
-        },
-        "mini_glossary": {
-            "Bottleneck": "Engpass in einem Prozess, der die Gesamtleistung des Systems limitiert",
-            "Content-Pipeline": "Prozess zur Erstellung und Veröffentlichung von Inhalten (hier: Fragensets)",
-            "Skalierbarkeit": "Fähigkeit eines Systems, mit wachsender Last umzugehen, ohne Qualitätsverlust"
-        }
-    },
-    {
-        "frage": "3. Was ist ein 'MVP' (Minimum Viable Product)?",
-        "optionen": [
-            "Der wertvollste Spieler (Most Valuable Player) im Entwicklungsteam",
-            "Eine Minimal-Version eines Produkts mit den wichtigsten Features für erste Nutzer",
-            "Ein Prototyp ohne funktionsfähigen Code, nur für Design-Tests",
-            "Die finale Version eines Produkts nach allen Tests",
-            "Ein Marketing-Video zur Produktpräsentation"
-        ],
-        "loesung": 1,
-        "erklaerung": "Ein MVP ist die kleinstmögliche Version eines Produkts, die **echten Nutzern Mehrwert bietet** und gleichzeitig **maximales Lernen ermöglicht**. Es enthält nur die absolut notwendigen Features. Die MC-Test-App v1.0 war ein MVP: Basic-Features (Tests, PDF-Export), aber ohne KI-Generator oder Monetarisierung.",
-        "gewichtung": 1,
-        "thema": "Produktentwicklung",
-        "mini_glossary": {
-            "MVP": "Minimum Viable Product - kleinstmögliche Produktversion mit Kernfunktionen für echte Nutzer",
-            "Feature": "Funktionalität oder Eigenschaft eines Produkts (z.B. PDF-Export, Admin-Panel)",
-            "Iteration": "Wiederholter Entwicklungszyklus mit Verbesserungen basierend auf Feedback"
-        }
-    },
-    {
-        "frage": "4. Was bedeutet 'Freemium' als Geschäftsmodell?",
-        "optionen": [
-            "Kostenlose Premium-Version für alle Nutzer zeitlich unbegrenzt",
-            "Basisversion kostenlos, erweiterte Features kostenpflichtig (Premium)",
-            "Nur die ersten 30 Tage kostenlos, danach verpflichtende Bezahlung",
-            "Ein Produkt, das komplett durch Werbung finanziert wird",
-            "Eine kostenlose Version nur für Studierende und Lehrkräfte"
-        ],
-        "loesung": 1,
-        "erklaerung": "Freemium kombiniert 'Free' und 'Premium': Die Basisversion ist dauerhaft kostenlos, erweiterte Features kosten Geld. Die MC-Test-App plant in Release 2.0: Free-User haben 3 KI-Generierungen/Monat, Pro-User (\\$4.99/Monat) unbegrenzt. Vorteil: Niedrige Einstiegshürde, virales Wachstum.",
-        "gewichtung": 2,
-        "thema": "Geschäftsmodelle",
-        "extended_explanation": {
-            "title": "Freemium-Strategie und Konversionsraten",
-            "content": "Freemium funktioniert durch **Conversion Funnel**: (1) Viele Free-User testen das Produkt, (2) Ein kleiner Prozentsatz (1-5%) konvertiert zu zahlenden Kunden, (3) Diese wenigen zahlen für alle. Typische Conversion-Raten: Dropbox 4%, Spotify 25% (außergewöhnlich hoch!), durchschnittlich 2-5%. Die MC-Test-App kalkuliert: 500 Free-User → 10-25 Pro-User (2-5% Conversion) für Break-Even bei \\$60/Jahr Infrastruktur-Kosten. Herausforderungen: (1) Free-User müssen echten Mehrwert bekommen, (2) Premium muss attraktiv genug sein, (3) Kosten-Kontrolle (API-Limits für Free)."
-        },
-        "mini_glossary": {
-            "Freemium": "Geschäftsmodell: Basisversion kostenlos, Premium-Features kostenpflichtig",
-            "Conversion Rate": "Prozentsatz der Nutzer, die von Free zu zahlenden Kunden werden",
-            "Break-Even": "Punkt, an dem Einnahmen und Ausgaben gleich sind (kein Gewinn, kein Verlust)"
-        }
-    },
-    {
-        "frage": "5. Was ist der 'Break-Even Point' in der Betriebswirtschaft?",
-        "optionen": [
-            "Der Zeitpunkt, an dem ein Unternehmen seinen ersten Kunden gewinnt",
-            "Der Punkt, an dem Einnahmen und Ausgaben gleich sind (Gewinnschwelle)",
-            "Die maximale Produktionsmenge, die ein Unternehmen erreichen kann",
-            "Der Moment, an dem ein Produkt technisch fertiggestellt ist",
-            "Die durchschnittliche Lebensdauer eines Produkts am Markt"
-        ],
-        "loesung": 1,
-        "erklaerung": "Der Break-Even Point (Gewinnschwelle) ist der Punkt, an dem **Einnahmen = Ausgaben**. Ab hier wird Gewinn gemacht. Die MC-Test-App erreicht Break-Even bei 10-25 Pro-Usern (à \\$4.99/Monat = \\$50-125/Monat Umsatz), um die \\$60/Jahr Railway-Infrastruktur zu finanzieren.",
-        "gewichtung": 1,
-        "thema": "Finanzplanung",
-        "mini_glossary": {
-            "Break-Even": "Gewinnschwelle - Punkt, an dem Einnahmen = Ausgaben (kein Gewinn, kein Verlust)",
-            "Umsatz": "Gesamteinnahmen aus dem Verkauf von Produkten oder Dienstleistungen",
-            "Fixkosten": "Kosten, die unabhängig von der Produktionsmenge anfallen (z.B. Server-Hosting)"
-        }
-    },
-    {
-        "frage": "6. Was bedeutet die Abkürzung 'KPI' im Management?",
-        "optionen": [
-            "Key Performance Indicator - Kennzahl zur Leistungsmessung",
-            "Knowledge and Process Integration - Wissensmanagement-System",
-            "Kunden-Prioritäts-Index - Ranking nach Wichtigkeit",
-            "Kapital-Performance-Investment - Renditekennzahl",
-            "Kontinuierlicher Prozess-Improvement - Qualitätsmanagement"
-        ],
-        "loesung": 0,
-        "erklaerung": "KPI steht für **Key Performance Indicator** (Leistungskennzahl). KPIs messen den Erfolg eines Unternehmens oder Projekts. Beispiele aus der MC-Test-App: Anzahl Fragensets (aktuell 8, Ziel Q2 2026: 50), Nutzer (Free/Pro), MRR (Monthly Recurring Revenue), KI-Generierungen/Monat.",
-        "gewichtung": 1,
-        "thema": "Management",
-        "mini_glossary": {
-            "KPI": "Key Performance Indicator - messbare Kennzahl zur Erfolgskontrolle (z.B. Umsatz, Nutzerzahl)",
-            "Metrik": "Quantitative Messgröße zur Bewertung von Leistung oder Fortschritt",
-            "Benchmark": "Vergleichswert oder Standard zur Leistungsbewertung"
-        }
-    },
-    {
-        "frage": "7. Was versteht man unter 'TCO' (Total Cost of Ownership)?",
-        "optionen": [
-            "Technology and Cloud Operations - IT-Abteilung für Cloud-Infrastruktur",
-            "Time to Customer Onboarding - Dauer bis zur Kundenaktivierung",
-            "Gesamtkosten für Besitz und Betrieb über die gesamte Lebensdauer",
-            "Technical Compliance Officer - Rolle für Datenschutz-Einhaltung",
-            "Target Cost Optimization - Methode zur Kostenreduktion"
-        ],
-        "loesung": 2,
-        "erklaerung": "TCO (Total Cost of Ownership) sind die **Gesamtkosten** für Anschaffung, Betrieb, Wartung und Entsorgung über die gesamte Lebensdauer. Für die MC-Test-App Railway-Hosting: \\$60/Jahr TCO (\\$5/Monat Hobby-Plan). TCO ist wichtiger als reine Anschaffungskosten, da laufende Kosten oft höher sind.",
-        "gewichtung": 2,
-        "thema": "Kostenrechnung",
-        "extended_explanation": {
-            "title": "TCO-Kalkulation in der Praxis",
-            "content": "TCO berücksichtigt **alle Kosten** über den gesamten Lebenszyklus: (1) **Anschaffung**: Hardware, Software-Lizenzen, Setup, (2) **Betrieb**: Hosting, Strom, Personal, Support, (3) **Wartung**: Updates, Patches, Backups, (4) **Entsorgung**: Migration, Datenlöschung. Beispiel Cloud vs. On-Premise: Cloud hat höhere laufende Kosten (\\$60/Monat), aber null Anschaffungskosten. On-Premise: Hohe Anschaffung (\\$10.000 Server), niedrige laufende Kosten (\\$50/Monat Strom), aber nach 3 Jahren veraltet. TCO-Vergleich über 5 Jahre: Cloud = \\$3.600, On-Premise = \\$13.000 (Server) + \\$3.000 (Strom) = \\$16.000. Cloud gewinnt!"
-        },
-        "mini_glossary": {
-            "TCO": "Total Cost of Ownership - Gesamtkosten über die gesamte Lebensdauer (Kauf + Betrieb + Wartung)",
-            "OPEX": "Operational Expenditure - laufende Betriebskosten (z.B. Cloud-Hosting)",
-            "CAPEX": "Capital Expenditure - einmalige Investitionskosten (z.B. Server-Kauf)"
-        }
-    },
-    {
-        "frage": "8. Was bedeutet 'MRR' im SaaS-Geschäftsmodell?",
-        "optionen": [
-            "Maximum Revenue Rate - höchstmöglicher Umsatz pro Quartal",
-            "Marketing and Retention Ratio - Kennzahl für Kundenbindung",
-            "Monthly Recurring Revenue - wiederkehrende monatliche Einnahmen",
-            "Minimum Required Resources - Mindestressourcen für Betrieb",
-            "Monthly Registration Rate - Anzahl neuer Registrierungen pro Monat"
-        ],
-        "loesung": 2,
-        "erklaerung": "MRR (Monthly Recurring Revenue) sind die **planbaren, wiederkehrenden monatlichen Einnahmen** aus Abonnements. Für die MC-Test-App: Bei 15 Pro-Usern à \\$4.99/Monat = \\$75 MRR. MRR ist wichtiger als einmalige Verkäufe, da es Planungssicherheit gibt.",
-        "gewichtung": 2,
-        "thema": "SaaS-Metriken",
-        "extended_explanation": {
-            "title": "MRR und andere SaaS-Metriken",
-            "content": "MRR ist die wichtigste Metrik für Abo-Geschäfte: **MRR = Anzahl zahlende Kunden × durchschnittlicher Preis/Monat**. Verwandte Metriken: (1) **ARR** (Annual Recurring Revenue) = MRR × 12, (2) **Churn Rate** = Prozentsatz abwandernder Kunden/Monat (Ziel: <5%), (3) **LTV** (Lifetime Value) = durchschnittlicher Umsatz pro Kunde über gesamte Lebensdauer, (4) **CAC** (Customer Acquisition Cost) = Kosten zur Gewinnung eines Neukunden. Goldene Regel: **LTV/CAC > 3** (Kunde bringt 3× mehr als Akquise kostet). Beispiel MC-Test-App: LTV = \\$4.99 × 12 Monate = \\$60, CAC = \\$0 (organisches Wachstum) → LTV/CAC = unendlich (ideal!)."
-        },
-        "mini_glossary": {
-            "MRR": "Monthly Recurring Revenue - planbare monatliche Einnahmen aus Abonnements",
-            "SaaS": "Software as a Service - Softwarebereitstellung über das Internet als Abo-Modell",
-            "Churn Rate": "Prozentsatz der Kunden, die ihr Abo pro Monat kündigen (Abwanderungsrate)"
-        }
-    },
-    {
-        "frage": "9. Was ist ein 'Product Backlog' in Scrum?",
-        "optionen": [
-            "Eine Liste aller Bugs, die im aktuellen Sprint gefunden wurden",
-            "Prioritierte Liste aller Features und Anforderungen für das Produkt",
-            "Ein Archiv bereits umgesetzter Features aus vergangenen Sprints",
-            "Die Dokumentation technischer Schulden im Code",
-            "Eine Auflistung der Ressourcen, die dem Team fehlen"
-        ],
-        "loesung": 1,
-        "erklaerung": "Der Product Backlog ist eine **priorisierte Liste** aller gewünschten Features, Bugfixes und Anforderungen für das Produkt. Der Product Owner (PO) priorisiert kontinuierlich. In jedem Sprint werden die wichtigsten Items umgesetzt. Beispiel MC-Test-App: KI-Generator (Sprint 1), Review-System (Sprint 2), Monetarisierung (Sprint 3).",
-        "gewichtung": 1,
-        "thema": "Scrum-Artefakte",
-        "mini_glossary": {
-            "Product Backlog": "Priorisierte Liste aller Features, Bugs und Anforderungen für ein Produkt",
-            "Product Owner": "Scrum-Rolle: verantwortlich für Produktvision, Backlog-Priorisierung und Stakeholder-Kommunikation",
-            "User Story": "Kurze Beschreibung eines Features aus Nutzersicht: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'"
-        }
-    },
-    {
-        "frage": "10. Was versteht man unter 'Deployment' in der Softwareentwicklung?",
-        "optionen": [
-            "Die Planung und Organisation des Entwicklungsteams",
-            "Die Bereitstellung von Software in einer Produktionsumgebung für Nutzer",
-            "Das Testen von Software auf lokalen Entwickler-Rechnern",
-            "Die Dokumentation des Quellcodes für andere Entwickler",
-            "Das Design der Benutzeroberfläche (UI/UX)"
-        ],
-        "loesung": 1,
-        "erklaerung": "Deployment bedeutet **Bereitstellung** von Software für Endnutzer. Es umfasst: Code auf Server hochladen, Datenbank migrieren, Dienste starten. Die MC-Test-App nutzt aktuell Streamlit Cloud (kostenlos, Zero-Config Deployment), plant Migration zu Railway (\\$5/Monat, bessere Performance).",
-        "gewichtung": 1,
-        "thema": "Softwareentwicklung",
-        "mini_glossary": {
-            "Deployment": "Bereitstellung von Software in einer Produktionsumgebung für Endnutzer",
-            "CI/CD": "Continuous Integration/Deployment - automatisierte Pipeline für Build, Test und Deployment",
-            "Produktionsumgebung": "Live-System, auf das echte Nutzer zugreifen (im Gegensatz zu Test-/Dev-Umgebung)"
-        }
-    },
-    {
-        "frage": "11. Was ist eine 'User Story' in der agilen Entwicklung?",
-        "optionen": [
-            "Eine detaillierte technische Spezifikation mit Code-Beispielen",
-            "Eine Kurzbeschreibung eines Features aus Sicht des Nutzers: 'Als [X] möchte ich [Y], um [Z]'",
-            "Die Biografie eines typischen Nutzers als Marketing-Persona",
-            "Eine Erfolgsgeschichte eines zufriedenen Kunden als Testimonial",
-            "Ein Protokoll über das Nutzerverhalten durch Tracking-Daten"
-        ],
-        "loesung": 1,
-        "erklaerung": "Eine User Story beschreibt ein Feature aus **Nutzersicht** im Format: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'. Beispiel: 'Als Dozent möchte ich KI-generierte Fragen, um schneller neue Tests zu erstellen'. User Stories fokussieren auf das **Warum** (Nutzen), nicht das **Wie** (Implementierung).",
-        "gewichtung": 1,
-        "thema": "Agile Methoden",
-        "mini_glossary": {
-            "User Story": "Feature-Beschreibung aus Nutzersicht: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'",
-            "Akzeptanzkriterien": "Messbare Bedingungen, wann eine User Story als erfüllt gilt",
-            "Story Points": "Relatives Maß für Komplexität/Aufwand einer User Story (z.B. Fibonacci: 1, 2, 3, 5, 8)"
-        }
-    },
-    {
-        "frage": "12. Was bedeutet 'ROI' (Return on Investment)?",
-        "optionen": [
-            "Rate of Innovation - Geschwindigkeit der Produktentwicklung",
-            "Rentabilität einer Investition: (Gewinn - Kosten) / Kosten × 100%",
-            "Risk of Interruption - Wahrscheinlichkeit von Betriebsunterbrechungen",
-            "Resource Optimization Index - Effizienz der Ressourcennutzung",
-            "Release On Integration - Zeitpunkt der Code-Zusammenführung"
-        ],
-        "loesung": 1,
-        "erklaerung": "ROI (Return on Investment) misst die **Rentabilität** einer Investition: **ROI = (Gewinn - Kosten) / Kosten × 100%**. Beispiel: Investment \\$1.000, Gewinn \\$1.500 → ROI = (\\$1.500 - \\$1.000) / \\$1.000 × 100% = 50%. Die MC-Test-App investiert \\$60/Jahr (Railway), erwartet \\$900/Jahr (75 Pro-User × \\$12) → ROI = 1.400%!",
-        "gewichtung": 2,
-        "thema": "Finanzplanung",
-        "extended_explanation": {
-            "title": "ROI-Berechnung und Interpretation",
-            "content": "ROI ist eine der wichtigsten Kennzahlen für Investitionsentscheidungen. **Berechnung**: ROI = (Gewinn - Investition) / Investition × 100%. **Interpretation**: ROI > 0% = Gewinn, ROI < 0% = Verlust, ROI = 100% = Verdopplung der Investition. **Beispiel MC-Test-App**: Investition = \\$60/Jahr (Railway), Einnahmen bei 75 Pro-Usern = \\$4.99 × 75 = \\$374/Monat = \\$4.488/Jahr. ROI = (\\$4.488 - \\$60) / \\$60 × 100% = 7.380% (außergewöhnlich hoch!). **Herausforderung**: ROI berücksichtigt nicht den Zeitfaktor. Lösung: **NPV** (Net Present Value) für mehrjährige Investments."
-        },
-        "mini_glossary": {
-            "ROI": "Return on Investment - Rentabilität einer Investition in Prozent: (Gewinn - Kosten) / Kosten × 100%",
-            "Investition": "Einsatz von Kapital oder Ressourcen mit der Erwartung eines zukünftigen Nutzens",
-            "Gewinnmarge": "Prozentsatz des Umsatzes, der als Gewinn übrig bleibt (Gewinn / Umsatz × 100%)"
-        }
-    },
-    {
-        "frage": "13. Was ist die 'Definition of Done' (DoD) in Scrum?",
-        "optionen": [
-            "Der Zeitpunkt, an dem der Product Owner das Produkt freigibt",
-            "Eine Checkliste, wann eine User Story als vollständig fertig gilt (Tests, Docs, Review)",
-            "Die finale Deadline für das gesamte Projekt",
-            "Ein Dokument, das alle Projektziele beschreibt",
-            "Die Abschlussbesprechung nach einem Sprint (Sprint Review)"
-        ],
-        "loesung": 1,
-        "erklaerung": "Die Definition of Done (DoD) ist eine **verbindliche Checkliste**, die erfüllt sein muss, damit eine User Story als 'fertig' gilt. Typische Kriterien: Code funktioniert, Unit-Tests bestanden (>80% Coverage), Dokumentation geschrieben, Code-Review erfolgt, PO-Abnahme. Erst wenn ALLE erfüllt sind, ist die Story 'Done'.",
-        "gewichtung": 2,
-        "thema": "Qualitätssicherung",
-        "extended_explanation": {
-            "title": "Definition of Done in der Praxis",
-            "content": "Die DoD verhindert 'Fast-fertig-Syndrome': Code läuft, aber keine Tests, keine Docs, nicht deployed. **Typische DoD-Checkliste**: (1) Code schreibt keine Warnings/Errors, (2) Unit-Tests geschrieben & bestanden (>80% Coverage), (3) Integration-Tests bestanden, (4) Code-Review durch mind. 1 anderen Dev, (5) Dokumentation aktualisiert (README, API-Docs), (6) PO-Abnahme (Demo), (7) Deployed auf Staging-Environment, (8) Performance-Tests bestanden (falls relevant). **Wichtig**: DoD wird vom Team gemeinsam definiert und gilt für ALLE Stories. Sie kann pro Sprint angepasst werden (z.B. höhere Coverage für kritische Module)."
-        },
-        "mini_glossary": {
-            "Definition of Done": "Verbindliche Checkliste, wann eine Aufgabe als vollständig abgeschlossen gilt",
-            "Code-Review": "Peer-Review von Code durch andere Entwickler zur Qualitätssicherung",
-            "Unit-Test": "Automatisierter Test einer einzelnen Funktion/Methode isoliert vom Rest des Systems"
-        }
-    },
-    {
-        "frage": "14. Was bedeutet 'iterativ' in der Softwareentwicklung?",
-        "optionen": [
-            "Die Software wird in einem einzigen großen Schritt fertiggestellt",
-            "Entwicklung erfolgt in wiederholten Zyklen mit schrittweisen Verbesserungen",
-            "Jeder Entwickler arbeitet isoliert an seinem eigenen Modul",
-            "Die Software wird ausschließlich durch Nutzer-Feedback gesteuert",
-            "Code wird automatisch durch KI-Tools generiert und optimiert"
-        ],
-        "loesung": 1,
-        "erklaerung": "Iterative Entwicklung bedeutet **wiederholte Zyklen** (Iterationen) mit jeweils kleinen Verbesserungen. Jede Iteration liefert funktionsfähige Software, die getestet und verbessert wird. Gegenteil: Wasserfall-Modell (alles auf einmal). Die MC-Test-App entwickelt Release 2.0 iterativ: v1.0 → v1.1 → v1.2 → v2.0 (jeweils neue Features).",
-        "gewichtung": 1,
-        "thema": "Entwicklungsmethoden",
-        "mini_glossary": {
-            "Iterativ": "Entwicklung in wiederholten Zyklen mit schrittweisen Verbesserungen",
-            "Wasserfall-Modell": "Sequenzielles Entwicklungsmodell: Anforderungen → Design → Implementierung → Test (keine Rückkehr)",
-            "Agil": "Entwicklungsphilosophie: iterativ, flexibel, nutzerorientiert, schnelles Feedback"
-        }
-    },
-    {
-        "frage": "15. Was ist ein 'Feature Flag' (Feature Toggle)?",
-        "optionen": [
-            "Eine Markierung in der Dokumentation für wichtige Features",
-            "Ein Schalter im Code, um Features dynamisch ein-/auszuschalten ohne Deployment",
-            "Eine Prioritätsliste für die nächsten zu entwickelnden Features",
-            "Ein Qualitätssiegel für besonders gut getestete Features",
-            "Eine Benachrichtigung an Nutzer über neue Features"
-        ],
-        "loesung": 1,
-        "erklaerung": "Ein Feature Flag ist ein **Schalter im Code**, der Features zur Laufzeit ein-/ausschalten kann. Vorteile: (1) Testen neuer Features mit ausgewählten Nutzern (A/B-Testing), (2) Schnelles Rollback bei Problemen, (3) Entwicklung parallel zur Produktion. Beispiel: MC-Test-App könnte KI-Generator zunächst nur für Admins freischalten (Flag: `AI_GENERATOR_ENABLED=admin_only`).",
-        "gewichtung": 2,
-        "thema": "Deployment-Strategien",
-        "extended_explanation": {
-            "title": "Feature Flags und ihre Anwendungsfälle",
-            "content": "Feature Flags (auch Feature Toggles) ermöglichen **progressive Rollouts**: (1) **Canary Release**: Neues Feature für 5% der Nutzer, bei Erfolg → 50% → 100%, (2) **A/B-Testing**: Variante A für 50%, Variante B für 50%, Metrik-Vergleich, (3) **Kill Switch**: Bei kritischen Bugs Feature sofort deaktivieren ohne neues Deployment, (4) **Trunk-Based Development**: Alle Devs committen auf `main`, unfertige Features hinter Flags. **Implementierung**: Einfach via Umgebungsvariablen (`if os.getenv('NEW_FEATURE_ENABLED'): ...`) oder Tools wie LaunchDarkly, Unleash. **Wichtig**: Alte Flags regelmäßig aufräumen (technical debt!)."
-        },
-        "mini_glossary": {
-            "Feature Flag": "Schalter im Code zum dynamischen Ein-/Ausschalten von Features ohne Deployment",
-            "A/B-Testing": "Vergleich zweier Varianten (A vs. B) mit echten Nutzern zur Optimierung",
-            "Rollback": "Zurücksetzen auf eine vorherige funktionierende Version nach einem fehlerhaften Deployment"
-        }
-    },
-    {
-        "frage": "16. Was bedeutet 'Stakeholder' im Projektmanagement?",
-        "optionen": [
-            "Nur die direkten Investoren und Geldgeber eines Projekts",
-            "Alle Personen oder Gruppen, die von einem Projekt betroffen sind oder es beeinflussen",
-            "Ausschließlich die Mitglieder des Entwicklungsteams",
-            "Nur die Endnutzer des finalen Produkts",
-            "Die externe Consulting-Firma, die das Projekt betreut"
-        ],
-        "loesung": 1,
-        "erklaerung": "Stakeholder sind **alle Personen oder Gruppen**, die ein Interesse am Projekt haben oder davon betroffen sind. Beispiele für die MC-Test-App: Studierende (Nutzer), Dozenten (Content-Creator), Entwicklungsteam, Product Owner, Investoren (bei Monetarisierung). Stakeholder-Management ist wichtig für Projekterfolg!",
-        "gewichtung": 1,
-        "thema": "Projektmanagement",
-        "mini_glossary": {
-            "Stakeholder": "Personen oder Gruppen mit Interesse am oder Einfluss auf ein Projekt",
-            "Product Owner": "Scrum-Rolle: verantwortlich für Produktvision und Kommunikation mit Stakeholdern",
-            "Requirements Engineering": "Prozess zur Ermittlung und Dokumentation von Anforderungen von Stakeholdern"
-        }
-    },
-    {
-        "frage": "17. Was ist ein 'Sprint Retrospective' in Scrum?",
-        "optionen": [
-            "Eine Präsentation der fertigen Features für Stakeholder am Sprint-Ende",
-            "Ein Meeting, in dem das Team reflektiert: Was lief gut? Was kann verbessert werden?",
-            "Die Planung des nächsten Sprints mit Auswahl der User Stories",
-            "Ein Review der Code-Qualität durch externe Auditoren",
-            "Die Überprüfung des Product Backlogs durch den Product Owner"
-        ],
-        "loesung": 1,
-        "erklaerung": "Die Sprint Retrospective ist ein **Reflexions-Meeting** am Ende jedes Sprints. Das Team bespricht: (1) Was lief gut? (2) Was lief schlecht? (3) Was können wir verbessern? Ziel: **Kontinuierliche Verbesserung** (Kaizen). Format: 'Start-Stop-Continue' (Was anfangen? Was aufhören? Was weiter machen?).",
-        "gewichtung": 1,
-        "thema": "Scrum-Events",
-        "mini_glossary": {
-            "Sprint Retrospective": "Reflexions-Meeting am Sprint-Ende zur Prozessverbesserung (Was lief gut/schlecht?)",
-            "Sprint Review": "Demo der fertigen Features für Stakeholder am Sprint-Ende",
-            "Kaizen": "Japanische Philosophie der kontinuierlichen Verbesserung in kleinen Schritten"
-        }
-    },
-    {
-        "frage": "18. Was versteht man unter 'Technical Debt' (Technische Schulden)?",
-        "optionen": [
-            "Die Kosten für externe Entwickler oder Consulting-Dienstleistungen",
-            "Suboptimaler Code oder Design-Entscheidungen, die später Mehraufwand verursachen",
-            "Finanzielle Schulden des Unternehmens für Hardware-Anschaffungen",
-            "Fehlende Dokumentation von bereits implementierten Features",
-            "Die Anzahl nicht behobener Bugs im Bug-Tracking-System"
-        ],
-        "loesung": 1,
-        "erklaerung": "Technical Debt entsteht durch **bewusste oder unbewusste Abkürzungen** im Code: Quick-Fixes, fehlende Tests, schlechte Architektur. Folge: Spätere Änderungen werden schwieriger und teurer ('Zinsen'). Beispiel: Hardcodierte Werte statt Konfiguration → später schwer änderbar. Gegenmittel: Regelmäßiges Refactoring.",
-        "gewichtung": 2,
-        "thema": "Software-Qualität",
-        "extended_explanation": {
-            "title": "Technical Debt Management",
-            "content": "Technical Debt ist wie ein Kredit: **Kurzfristig schneller, langfristig teurer**. **Arten**: (1) **Deliberate** (bewusst): 'Wir bauen jetzt schnell, refactorn später' (OK bei MVP!), (2) **Accidental** (unbewusst): Fehler durch Unerfahrenheit oder Zeitdruck (Problem!), (3) **Bit Rot**: Code veraltet durch neue Bibliotheksversionen. **Messung**: (1) Code Smells (z.B. Duplikate, lange Funktionen), (2) Test Coverage (<80% = Warnsignal), (3) SonarQube-Score. **Strategien**: (1) **20%-Regel**: 20% der Sprint-Kapazität für Tech Debt, (2) **Boy Scout Rule**: 'Leave code better than you found it', (3) **Debt Register**: Liste aller Tech Debts mit Priorität."
-        },
-        "mini_glossary": {
-            "Technical Debt": "Suboptimale Code-Entscheidungen, die später Mehraufwand verursachen ('Zinsen')",
-            "Refactoring": "Umstrukturierung von Code zur Verbesserung ohne Änderung der Funktionalität",
-            "Code Smell": "Anzeichen für schlechten Code (z.B. lange Funktionen, Duplikate, fehlende Tests)"
-        }
-    },
-    {
-        "frage": "19. Was ist ein 'API' (Application Programming Interface)?",
-        "optionen": [
-            "Eine grafische Benutzeroberfläche für Endanwender",
-            "Eine Schnittstelle, über die Software-Komponenten miteinander kommunizieren",
-            "Ein Dokument zur Beschreibung der Architektur einer Anwendung",
-            "Eine Datenbank für die Speicherung von Nutzerdaten",
-            "Ein Framework für die Entwicklung mobiler Apps"
-        ],
-        "loesung": 1,
-        "erklaerung": "Eine API (Application Programming Interface) ist eine **Schnittstelle**, über die Software-Komponenten kommunizieren. Beispiel: OpenAI API ermöglicht der MC-Test-App Zugriff auf GPT-4o für KI-Generierung. APIs definieren: Welche Funktionen verfügbar sind, welche Parameter benötigt werden, welches Format die Antwort hat (meist JSON).",
-        "gewichtung": 1,
-        "thema": "Softwarearchitektur",
-        "mini_glossary": {
-            "API": "Application Programming Interface - Schnittstelle zur Kommunikation zwischen Software-Komponenten",
-            "REST API": "Representational State Transfer - weit verbreiteter API-Stil über HTTP (GET, POST, PUT, DELETE)",
-            "JSON": "JavaScript Object Notation - textbasiertes Datenformat für APIs (leicht lesbar, strukturiert)"
-        }
-    },
-    {
-        "frage": "20. Was bedeutet 'Skalierbarkeit' (Scalability) in der IT?",
-        "optionen": [
-            "Die Fähigkeit, Software auf verschiedenen Betriebssystemen lauffähig zu machen",
-            "Die Fähigkeit eines Systems, mit wachsender Last umzugehen ohne Qualitätsverlust",
-            "Die Möglichkeit, Code in mehrere kleinere Module aufzuteilen",
-            "Die Kompatibilität mit verschiedenen Programmiersprachen",
-            "Die Geschwindigkeit, mit der neue Features entwickelt werden können"
-        ],
-        "loesung": 1,
-        "erklaerung": "Skalierbarkeit bedeutet, dass ein System **mit wachsender Last** (mehr Nutzer, mehr Daten) umgehen kann **ohne Qualitätsverlust**. Zwei Arten: (1) **Vertikal** (scale-up): Stärkere Hardware (mehr RAM, CPU), (2) **Horizontal** (scale-out): Mehr Server. Die MC-Test-App migriert zu PostgreSQL/Railway für bessere Skalierbarkeit (SQLite limitiert bei >100 gleichzeitigen Nutzern).",
-        "gewichtung": 2,
-        "thema": "Systemarchitektur",
-        "extended_explanation": {
-            "title": "Skalierbarkeit: Vertikal vs. Horizontal",
-            "content": "**Vertikale Skalierung** (Scale-Up): Stärkere Hardware für einen Server. Vorteile: Einfach (kein Code-Änderung), Nachteile: Teuer, Limit (größter Server = 1TB RAM, 128 CPU-Cores), Single Point of Failure. **Horizontale Skalierung** (Scale-Out): Mehr Server parallel. Vorteile: Unbegrenzt skalierbar, günstiger (Commodity-Hardware), ausfallsicher. Nachteile: Komplex (Load Balancing, Datenkonsistenz). **Beispiele**: SQLite = nur vertikal (1 Server), PostgreSQL = horizontal (Master-Slave-Replikation). **Cloud**: Auto-Scaling (automatisch mehr/weniger Server je nach Last). **Faustregel**: Bis 10.000 Nutzer → Vertikal OK, >100.000 → Horizontal notwendig."
-        },
-        "mini_glossary": {
-            "Skalierbarkeit": "Fähigkeit eines Systems, mit wachsender Last (Nutzer, Daten) umzugehen ohne Qualitätsverlust",
-            "Load Balancing": "Verteilung von Anfragen auf mehrere Server zur Lastverteilung",
-            "Horizontal Scaling": "Skalierung durch Hinzufügen weiterer Server (scale-out)"
-        }
+  {
+    "question": "1. Was bedeutet der Begriff 'Sprint' im agilen Projektmanagement?",
+    "options": [
+      "Eine kurze Laufübung zur Teambildung am Morgen",
+      "Ein schneller Bugfix-Prozess für kritische Produktionsfehler",
+      "Eine Zeitbox von 2-3 Wochen für die Entwicklung eines Produkt-Increments",
+      "Eine einmalige Deadline für das gesamte Projekt",
+      "Eine Technik zur Beschleunigung von Deployment-Prozessen"
+    ],
+    "answer": 2,
+    "explanation": "Ein Sprint ist eine feste Zeitbox (typischerweise 2-3 Wochen), in der ein funktionsfähiges Produkt-Increment entwickelt wird. Am Ende jedes Sprints steht potenziell auslieferbare Software. Die MC-Test-App plant Release 2.0 in 3 Sprints (6-9 Wochen Gesamtdauer).",
+    "weight": 1,
+    "topic": "Agile Methoden",
+    "mini_glossary": {
+      "Sprint": "Zeitbox von 2-3 Wochen für die Entwicklung eines funktionsfähigen Produkt-Increments in Scrum",
+      "Scrum": "Agiles Framework für iterative Produktentwicklung mit festen Rollen (PO, SM, Dev-Team)",
+      "Produkt-Increment": "Funktionsfähiges, potenziell auslieferbares Ergebnis eines Sprints"
     }
+  },
+  {
+    "question": "2. Was versteht man unter einem 'Bottleneck' in der Produktentwicklung?",
+    "options": [
+      "Eine spezielle Flasche für Wasserpausen während langer Meetings",
+      "Ein Engpass, der den gesamten Entwicklungsprozess verlangsamt",
+      "Eine Technik zur Priorisierung von User Stories im Backlog",
+      "Ein Sicherheitsrisiko in der Netzwerk-Architektur",
+      "Eine Methode zur Messung der Code-Qualität"
+    ],
+    "answer": 1,
+    "explanation": "Ein Bottleneck (Flaschenhals) ist der limitierende Faktor in einem Prozess. Bei der MC-Test-App ist die **Content-Pipeline der Bottleneck**: Manuelle Erstellung dauert 6-8 Stunden pro Fragenset, was nicht skalierbar ist. Der KI-Generator in Release 2.0 löst diesen Bottleneck (5 Minuten statt 6 Stunden = 72× schneller).",
+    "weight": 2,
+    "topic": "Prozessoptimierung",
+    "extended_explanation": {
+      "title": "Bottleneck-Analyse in der Praxis",
+      "content": "Ein Bottleneck erkennt man daran, dass alle anderen Prozesse auf diesen einen Schritt warten müssen. **Theory of Constraints (TOC)** besagt: Die Gesamtleistung eines Systems wird durch seinen schwächsten Punkt bestimmt. Bei der MC-Test-App war Content-Erstellung der Bottleneck mit 6-8 Stunden pro Set. Typische Bottlenecks in der Softwareentwicklung: (1) Manuelle QA-Prozesse, (2) Code-Reviews bei nur einem Senior-Dev, (3) Langsame CI/CD-Pipelines, (4) Datenbank-Performance. Die Lösung: Automatisierung (KI-Generator) oder Parallelisierung."
+    },
+    "mini_glossary": {
+      "Bottleneck": "Engpass in einem Prozess, der die Gesamtleistung des Systems limitiert",
+      "Content-Pipeline": "Prozess zur Erstellung und Veröffentlichung von Inhalten (hier: Fragensets)",
+      "Skalierbarkeit": "Fähigkeit eines Systems, mit wachsender Last umzugehen, ohne Qualitätsverlust"
+    }
+  },
+  {
+    "question": "3. Was ist ein 'MVP' (Minimum Viable Product)?",
+    "options": [
+      "Der wertvollste Spieler (Most Valuable Player) im Entwicklungsteam",
+      "Eine Minimal-Version eines Produkts mit den wichtigsten Features für erste Nutzer",
+      "Ein Prototyp ohne funktionsfähigen Code, nur für Design-Tests",
+      "Die finale Version eines Produkts nach allen Tests",
+      "Ein Marketing-Video zur Produktpräsentation"
+    ],
+    "answer": 1,
+    "explanation": "Ein MVP ist die kleinstmögliche Version eines Produkts, die **echten Nutzern Mehrwert bietet** und gleichzeitig **maximales Lernen ermöglicht**. Es enthält nur die absolut notwendigen Features. Die MC-Test-App v1.0 war ein MVP: Basic-Features (Tests, PDF-Export), aber ohne KI-Generator oder Monetarisierung.",
+    "weight": 1,
+    "topic": "Produktentwicklung",
+    "mini_glossary": {
+      "MVP": "Minimum Viable Product - kleinstmögliche Produktversion mit Kernfunktionen für echte Nutzer",
+      "Feature": "Funktionalität oder Eigenschaft eines Produkts (z.B. PDF-Export, Admin-Panel)",
+      "Iteration": "Wiederholter Entwicklungszyklus mit Verbesserungen basierend auf Feedback"
+    }
+  },
+  {
+    "question": "4. Was bedeutet 'Freemium' als Geschäftsmodell?",
+    "options": [
+      "Kostenlose Premium-Version für alle Nutzer zeitlich unbegrenzt",
+      "Basisversion kostenlos, erweiterte Features kostenpflichtig (Premium)",
+      "Nur die ersten 30 Tage kostenlos, danach verpflichtende Bezahlung",
+      "Ein Produkt, das komplett durch Werbung finanziert wird",
+      "Eine kostenlose Version nur für Studierende und Lehrkräfte"
+    ],
+    "answer": 1,
+    "explanation": "Freemium kombiniert 'Free' und 'Premium': Die Basisversion ist dauerhaft kostenlos, erweiterte Features kosten Geld. Die MC-Test-App plant in Release 2.0: Free-User haben 3 KI-Generierungen/Monat, Pro-User (\\$4.99/Monat) unbegrenzt. Vorteil: Niedrige Einstiegshürde, virales Wachstum.",
+    "weight": 2,
+    "topic": "Geschäftsmodelle",
+    "extended_explanation": {
+      "title": "Freemium-Strategie und Konversionsraten",
+      "content": "Freemium funktioniert durch **Conversion Funnel**: (1) Viele Free-User testen das Produkt, (2) Ein kleiner Prozentsatz (1-5%) konvertiert zu zahlenden Kunden, (3) Diese wenigen zahlen für alle. Typische Conversion-Raten: Dropbox 4%, Spotify 25% (außergewöhnlich hoch!), durchschnittlich 2-5%. Die MC-Test-App kalkuliert: 500 Free-User → 10-25 Pro-User (2-5% Conversion) für Break-Even bei \\$60/Jahr Infrastruktur-Kosten. Herausforderungen: (1) Free-User müssen echten Mehrwert bekommen, (2) Premium muss attraktiv genug sein, (3) Kosten-Kontrolle (API-Limits für Free)."
+    },
+    "mini_glossary": {
+      "Freemium": "Geschäftsmodell: Basisversion kostenlos, Premium-Features kostenpflichtig",
+      "Conversion Rate": "Prozentsatz der Nutzer, die von Free zu zahlenden Kunden werden",
+      "Break-Even": "Punkt, an dem Einnahmen und Ausgaben gleich sind (kein Gewinn, kein Verlust)"
+    }
+  },
+  {
+    "question": "5. Was ist der 'Break-Even Point' in der Betriebswirtschaft?",
+    "options": [
+      "Der Zeitpunkt, an dem ein Unternehmen seinen ersten Kunden gewinnt",
+      "Der Punkt, an dem Einnahmen und Ausgaben gleich sind (Gewinnschwelle)",
+      "Die maximale Produktionsmenge, die ein Unternehmen erreichen kann",
+      "Der Moment, an dem ein Produkt technisch fertiggestellt ist",
+      "Die durchschnittliche Lebensdauer eines Produkts am Markt"
+    ],
+    "answer": 1,
+    "explanation": "Der Break-Even Point (Gewinnschwelle) ist der Punkt, an dem **Einnahmen = Ausgaben**. Ab hier wird Gewinn gemacht. Die MC-Test-App erreicht Break-Even bei 10-25 Pro-Usern (à \\$4.99/Monat = \\$50-125/Monat Umsatz), um die \\$60/Jahr Railway-Infrastruktur zu finanzieren.",
+    "weight": 1,
+    "topic": "Finanzplanung",
+    "mini_glossary": {
+      "Break-Even": "Gewinnschwelle - Punkt, an dem Einnahmen = Ausgaben (kein Gewinn, kein Verlust)",
+      "Umsatz": "Gesamteinnahmen aus dem Verkauf von Produkten oder Dienstleistungen",
+      "Fixkosten": "Kosten, die unabhängig von der Produktionsmenge anfallen (z.B. Server-Hosting)"
+    }
+  },
+  {
+    "question": "6. Was bedeutet die Abkürzung 'KPI' im Management?",
+    "options": [
+      "Key Performance Indicator - Kennzahl zur Leistungsmessung",
+      "Knowledge and Process Integration - Wissensmanagement-System",
+      "Kunden-Prioritäts-Index - Ranking nach Wichtigkeit",
+      "Kapital-Performance-Investment - Renditekennzahl",
+      "Kontinuierlicher Prozess-Improvement - Qualitätsmanagement"
+    ],
+    "answer": 0,
+    "explanation": "KPI steht für **Key Performance Indicator** (Leistungskennzahl). KPIs messen den Erfolg eines Unternehmens oder Projekts. Beispiele aus der MC-Test-App: Anzahl Fragensets (aktuell 8, Ziel Q2 2026: 50), Nutzer (Free/Pro), MRR (Monthly Recurring Revenue), KI-Generierungen/Monat.",
+    "weight": 1,
+    "topic": "Management",
+    "mini_glossary": {
+      "KPI": "Key Performance Indicator - messbare Kennzahl zur Erfolgskontrolle (z.B. Umsatz, Nutzerzahl)",
+      "Metrik": "Quantitative Messgröße zur Bewertung von Leistung oder Fortschritt",
+      "Benchmark": "Vergleichswert oder Standard zur Leistungsbewertung"
+    }
+  },
+  {
+    "question": "7. Was versteht man unter 'TCO' (Total Cost of Ownership)?",
+    "options": [
+      "Technology and Cloud Operations - IT-Abteilung für Cloud-Infrastruktur",
+      "Time to Customer Onboarding - Dauer bis zur Kundenaktivierung",
+      "Gesamtkosten für Besitz und Betrieb über die gesamte Lebensdauer",
+      "Technical Compliance Officer - Rolle für Datenschutz-Einhaltung",
+      "Target Cost Optimization - Methode zur Kostenreduktion"
+    ],
+    "answer": 2,
+    "explanation": "TCO (Total Cost of Ownership) sind die **Gesamtkosten** für Anschaffung, Betrieb, Wartung und Entsorgung über die gesamte Lebensdauer. Für die MC-Test-App Railway-Hosting: \\$60/Jahr TCO (\\$5/Monat Hobby-Plan). TCO ist wichtiger als reine Anschaffungskosten, da laufende Kosten oft höher sind.",
+    "weight": 2,
+    "topic": "Kostenrechnung",
+    "extended_explanation": {
+      "title": "TCO-Kalkulation in der Praxis",
+      "content": "TCO berücksichtigt **alle Kosten** über den gesamten Lebenszyklus: (1) **Anschaffung**: Hardware, Software-Lizenzen, Setup, (2) **Betrieb**: Hosting, Strom, Personal, Support, (3) **Wartung**: Updates, Patches, Backups, (4) **Entsorgung**: Migration, Datenlöschung. Beispiel Cloud vs. On-Premise: Cloud hat höhere laufende Kosten (\\$60/Monat), aber null Anschaffungskosten. On-Premise: Hohe Anschaffung (\\$10.000 Server), niedrige laufende Kosten (\\$50/Monat Strom), aber nach 3 Jahren veraltet. TCO-Vergleich über 5 Jahre: Cloud = \\$3.600, On-Premise = \\$13.000 (Server) + \\$3.000 (Strom) = \\$16.000. Cloud gewinnt!"
+    },
+    "mini_glossary": {
+      "TCO": "Total Cost of Ownership - Gesamtkosten über die gesamte Lebensdauer (Kauf + Betrieb + Wartung)",
+      "OPEX": "Operational Expenditure - laufende Betriebskosten (z.B. Cloud-Hosting)",
+      "CAPEX": "Capital Expenditure - einmalige Investitionskosten (z.B. Server-Kauf)"
+    }
+  },
+  {
+    "question": "8. Was bedeutet 'MRR' im SaaS-Geschäftsmodell?",
+    "options": [
+      "Maximum Revenue Rate - höchstmöglicher Umsatz pro Quartal",
+      "Marketing and Retention Ratio - Kennzahl für Kundenbindung",
+      "Monthly Recurring Revenue - wiederkehrende monatliche Einnahmen",
+      "Minimum Required Resources - Mindestressourcen für Betrieb",
+      "Monthly Registration Rate - Anzahl neuer Registrierungen pro Monat"
+    ],
+    "answer": 2,
+    "explanation": "MRR (Monthly Recurring Revenue) sind die **planbaren, wiederkehrenden monatlichen Einnahmen** aus Abonnements. Für die MC-Test-App: Bei 15 Pro-Usern à \\$4.99/Monat = \\$75 MRR. MRR ist wichtiger als einmalige Verkäufe, da es Planungssicherheit gibt.",
+    "weight": 2,
+    "topic": "SaaS-Metriken",
+    "extended_explanation": {
+      "title": "MRR und andere SaaS-Metriken",
+      "content": "MRR ist die wichtigste Metrik für Abo-Geschäfte: **MRR = Anzahl zahlende Kunden × durchschnittlicher Preis/Monat**. Verwandte Metriken: (1) **ARR** (Annual Recurring Revenue) = MRR × 12, (2) **Churn Rate** = Prozentsatz abwandernder Kunden/Monat (Ziel: <5%), (3) **LTV** (Lifetime Value) = durchschnittlicher Umsatz pro Kunde über gesamte Lebensdauer, (4) **CAC** (Customer Acquisition Cost) = Kosten zur Gewinnung eines Neukunden. Goldene Regel: **LTV/CAC > 3** (Kunde bringt 3× mehr als Akquise kostet). Beispiel MC-Test-App: LTV = \\$4.99 × 12 Monate = \\$60, CAC = \\$0 (organisches Wachstum) → LTV/CAC = unendlich (ideal!)."
+    },
+    "mini_glossary": {
+      "MRR": "Monthly Recurring Revenue - planbare monatliche Einnahmen aus Abonnements",
+      "SaaS": "Software as a Service - Softwarebereitstellung über das Internet als Abo-Modell",
+      "Churn Rate": "Prozentsatz der Kunden, die ihr Abo pro Monat kündigen (Abwanderungsrate)"
+    }
+  },
+  {
+    "question": "9. Was ist ein 'Product Backlog' in Scrum?",
+    "options": [
+      "Eine Liste aller Bugs, die im aktuellen Sprint gefunden wurden",
+      "Prioritierte Liste aller Features und Anforderungen für das Produkt",
+      "Ein Archiv bereits umgesetzter Features aus vergangenen Sprints",
+      "Die Dokumentation technischer Schulden im Code",
+      "Eine Auflistung der Ressourcen, die dem Team fehlen"
+    ],
+    "answer": 1,
+    "explanation": "Der Product Backlog ist eine **priorisierte Liste** aller gewünschten Features, Bugfixes und Anforderungen für das Produkt. Der Product Owner (PO) priorisiert kontinuierlich. In jedem Sprint werden die wichtigsten Items umgesetzt. Beispiel MC-Test-App: KI-Generator (Sprint 1), Review-System (Sprint 2), Monetarisierung (Sprint 3).",
+    "weight": 1,
+    "topic": "Scrum-Artefakte",
+    "mini_glossary": {
+      "Product Backlog": "Priorisierte Liste aller Features, Bugs und Anforderungen für ein Produkt",
+      "Product Owner": "Scrum-Rolle: verantwortlich für Produktvision, Backlog-Priorisierung und Stakeholder-Kommunikation",
+      "User Story": "Kurze Beschreibung eines Features aus Nutzersicht: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'"
+    }
+  },
+  {
+    "question": "10. Was versteht man unter 'Deployment' in der Softwareentwicklung?",
+    "options": [
+      "Die Planung und Organisation des Entwicklungsteams",
+      "Die Bereitstellung von Software in einer Produktionsumgebung für Nutzer",
+      "Das Testen von Software auf lokalen Entwickler-Rechnern",
+      "Die Dokumentation des Quellcodes für andere Entwickler",
+      "Das Design der Benutzeroberfläche (UI/UX)"
+    ],
+    "answer": 1,
+    "explanation": "Deployment bedeutet **Bereitstellung** von Software für Endnutzer. Es umfasst: Code auf Server hochladen, Datenbank migrieren, Dienste starten. Die MC-Test-App nutzt aktuell Streamlit Cloud (kostenlos, Zero-Config Deployment), plant Migration zu Railway (\\$5/Monat, bessere Performance).",
+    "weight": 1,
+    "topic": "Softwareentwicklung",
+    "mini_glossary": {
+      "Deployment": "Bereitstellung von Software in einer Produktionsumgebung für Endnutzer",
+      "CI/CD": "Continuous Integration/Deployment - automatisierte Pipeline für Build, Test und Deployment",
+      "Produktionsumgebung": "Live-System, auf das echte Nutzer zugreifen (im Gegensatz zu Test-/Dev-Umgebung)"
+    }
+  },
+  {
+    "question": "11. Was ist eine 'User Story' in der agilen Entwicklung?",
+    "options": [
+      "Eine detaillierte technische Spezifikation mit Code-Beispielen",
+      "Eine Kurzbeschreibung eines Features aus Sicht des Nutzers: 'Als [X] möchte ich [Y], um [Z]'",
+      "Die Biografie eines typischen Nutzers als Marketing-Persona",
+      "Eine Erfolgsgeschichte eines zufriedenen Kunden als Testimonial",
+      "Ein Protokoll über das Nutzerverhalten durch Tracking-Daten"
+    ],
+    "answer": 1,
+    "explanation": "Eine User Story beschreibt ein Feature aus **Nutzersicht** im Format: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'. Beispiel: 'Als Dozent möchte ich KI-generierte Fragen, um schneller neue Tests zu erstellen'. User Stories fokussieren auf das **Warum** (Nutzen), nicht das **Wie** (Implementierung).",
+    "weight": 1,
+    "topic": "Agile Methoden",
+    "mini_glossary": {
+      "User Story": "Feature-Beschreibung aus Nutzersicht: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'",
+      "Akzeptanzkriterien": "Messbare Bedingungen, wann eine User Story als erfüllt gilt",
+      "Story Points": "Relatives Maß für Komplexität/Aufwand einer User Story (z.B. Fibonacci: 1, 2, 3, 5, 8)"
+    }
+  },
+  {
+    "question": "12. Was bedeutet 'ROI' (Return on Investment)?",
+    "options": [
+      "Rate of Innovation - Geschwindigkeit der Produktentwicklung",
+      "Rentabilität einer Investition: (Gewinn - Kosten) / Kosten × 100%",
+      "Risk of Interruption - Wahrscheinlichkeit von Betriebsunterbrechungen",
+      "Resource Optimization Index - Effizienz der Ressourcennutzung",
+      "Release On Integration - Zeitpunkt der Code-Zusammenführung"
+    ],
+    "answer": 1,
+    "explanation": "ROI (Return on Investment) misst die **Rentabilität** einer Investition: **ROI = (Gewinn - Kosten) / Kosten × 100%**. Beispiel: Investment \\$1.000, Gewinn \\$1.500 → ROI = (\\$1.500 - \\$1.000) / \\$1.000 × 100% = 50%. Die MC-Test-App investiert \\$60/Jahr (Railway), erwartet \\$900/Jahr (75 Pro-User × \\$12) → ROI = 1.400%!",
+    "weight": 2,
+    "topic": "Finanzplanung",
+    "extended_explanation": {
+      "title": "ROI-Berechnung und Interpretation",
+      "content": "ROI ist eine der wichtigsten Kennzahlen für Investitionsentscheidungen. **Berechnung**: ROI = (Gewinn - Investition) / Investition × 100%. **Interpretation**: ROI > 0% = Gewinn, ROI < 0% = Verlust, ROI = 100% = Verdopplung der Investition. **Beispiel MC-Test-App**: Investition = \\$60/Jahr (Railway), Einnahmen bei 75 Pro-Usern = \\$4.99 × 75 = \\$374/Monat = \\$4.488/Jahr. ROI = (\\$4.488 - \\$60) / \\$60 × 100% = 7.380% (außergewöhnlich hoch!). **Herausforderung**: ROI berücksichtigt nicht den Zeitfaktor. Lösung: **NPV** (Net Present Value) für mehrjährige Investments."
+    },
+    "mini_glossary": {
+      "ROI": "Return on Investment - Rentabilität einer Investition in Prozent: (Gewinn - Kosten) / Kosten × 100%",
+      "Investition": "Einsatz von Kapital oder Ressourcen mit der Erwartung eines zukünftigen Nutzens",
+      "Gewinnmarge": "Prozentsatz des Umsatzes, der als Gewinn übrig bleibt (Gewinn / Umsatz × 100%)"
+    }
+  },
+  {
+    "question": "13. Was ist die 'Definition of Done' (DoD) in Scrum?",
+    "options": [
+      "Der Zeitpunkt, an dem der Product Owner das Produkt freigibt",
+      "Eine Checkliste, wann eine User Story als vollständig fertig gilt (Tests, Docs, Review)",
+      "Die finale Deadline für das gesamte Projekt",
+      "Ein Dokument, das alle Projektziele beschreibt",
+      "Die Abschlussbesprechung nach einem Sprint (Sprint Review)"
+    ],
+    "answer": 1,
+    "explanation": "Die Definition of Done (DoD) ist eine **verbindliche Checkliste**, die erfüllt sein muss, damit eine User Story als 'fertig' gilt. Typische Kriterien: Code funktioniert, Unit-Tests bestanden (>80% Coverage), Dokumentation geschrieben, Code-Review erfolgt, PO-Abnahme. Erst wenn ALLE erfüllt sind, ist die Story 'Done'.",
+    "weight": 2,
+    "topic": "Qualitätssicherung",
+    "extended_explanation": {
+      "title": "Definition of Done in der Praxis",
+      "content": "Die DoD verhindert 'Fast-fertig-Syndrome': Code läuft, aber keine Tests, keine Docs, nicht deployed. **Typische DoD-Checkliste**: (1) Code schreibt keine Warnings/Errors, (2) Unit-Tests geschrieben & bestanden (>80% Coverage), (3) Integration-Tests bestanden, (4) Code-Review durch mind. 1 anderen Dev, (5) Dokumentation aktualisiert (README, API-Docs), (6) PO-Abnahme (Demo), (7) Deployed auf Staging-Environment, (8) Performance-Tests bestanden (falls relevant). **Wichtig**: DoD wird vom Team gemeinsam definiert und gilt für ALLE Stories. Sie kann pro Sprint angepasst werden (z.B. höhere Coverage für kritische Module)."
+    },
+    "mini_glossary": {
+      "Definition of Done": "Verbindliche Checkliste, wann eine Aufgabe als vollständig abgeschlossen gilt",
+      "Code-Review": "Peer-Review von Code durch andere Entwickler zur Qualitätssicherung",
+      "Unit-Test": "Automatisierter Test einer einzelnen Funktion/Methode isoliert vom Rest des Systems"
+    }
+  },
+  {
+    "question": "14. Was bedeutet 'iterativ' in der Softwareentwicklung?",
+    "options": [
+      "Die Software wird in einem einzigen großen Schritt fertiggestellt",
+      "Entwicklung erfolgt in wiederholten Zyklen mit schrittweisen Verbesserungen",
+      "Jeder Entwickler arbeitet isoliert an seinem eigenen Modul",
+      "Die Software wird ausschließlich durch Nutzer-Feedback gesteuert",
+      "Code wird automatisch durch KI-Tools generiert und optimiert"
+    ],
+    "answer": 1,
+    "explanation": "Iterative Entwicklung bedeutet **wiederholte Zyklen** (Iterationen) mit jeweils kleinen Verbesserungen. Jede Iteration liefert funktionsfähige Software, die getestet und verbessert wird. Gegenteil: Wasserfall-Modell (alles auf einmal). Die MC-Test-App entwickelt Release 2.0 iterativ: v1.0 → v1.1 → v1.2 → v2.0 (jeweils neue Features).",
+    "weight": 1,
+    "topic": "Entwicklungsmethoden",
+    "mini_glossary": {
+      "Iterativ": "Entwicklung in wiederholten Zyklen mit schrittweisen Verbesserungen",
+      "Wasserfall-Modell": "Sequenzielles Entwicklungsmodell: Anforderungen → Design → Implementierung → Test (keine Rückkehr)",
+      "Agil": "Entwicklungsphilosophie: iterativ, flexibel, nutzerorientiert, schnelles Feedback"
+    }
+  },
+  {
+    "question": "15. Was ist ein 'Feature Flag' (Feature Toggle)?",
+    "options": [
+      "Eine Markierung in der Dokumentation für wichtige Features",
+      "Ein Schalter im Code, um Features dynamisch ein-/auszuschalten ohne Deployment",
+      "Eine Prioritätsliste für die nächsten zu entwickelnden Features",
+      "Ein Qualitätssiegel für besonders gut getestete Features",
+      "Eine Benachrichtigung an Nutzer über neue Features"
+    ],
+    "answer": 1,
+    "explanation": "Ein Feature Flag ist ein **Schalter im Code**, der Features zur Laufzeit ein-/ausschalten kann. Vorteile: (1) Testen neuer Features mit ausgewählten Nutzern (A/B-Testing), (2) Schnelles Rollback bei Problemen, (3) Entwicklung parallel zur Produktion. Beispiel: MC-Test-App könnte KI-Generator zunächst nur für Admins freischalten (Flag: `AI_GENERATOR_ENABLED=admin_only`).",
+    "weight": 2,
+    "topic": "Deployment-Strategien",
+    "extended_explanation": {
+      "title": "Feature Flags und ihre Anwendungsfälle",
+      "content": "Feature Flags (auch Feature Toggles) ermöglichen **progressive Rollouts**: (1) **Canary Release**: Neues Feature für 5% der Nutzer, bei Erfolg → 50% → 100%, (2) **A/B-Testing**: Variante A für 50%, Variante B für 50%, Metrik-Vergleich, (3) **Kill Switch**: Bei kritischen Bugs Feature sofort deaktivieren ohne neues Deployment, (4) **Trunk-Based Development**: Alle Devs committen auf `main`, unfertige Features hinter Flags. **Implementierung**: Einfach via Umgebungsvariablen (`if os.getenv('NEW_FEATURE_ENABLED'): ...`) oder Tools wie LaunchDarkly, Unleash. **Wichtig**: Alte Flags regelmäßig aufräumen (technical debt!)."
+    },
+    "mini_glossary": {
+      "Feature Flag": "Schalter im Code zum dynamischen Ein-/Ausschalten von Features ohne Deployment",
+      "A/B-Testing": "Vergleich zweier Varianten (A vs. B) mit echten Nutzern zur Optimierung",
+      "Rollback": "Zurücksetzen auf eine vorherige funktionierende Version nach einem fehlerhaften Deployment"
+    }
+  },
+  {
+    "question": "16. Was bedeutet 'Stakeholder' im Projektmanagement?",
+    "options": [
+      "Nur die direkten Investoren und Geldgeber eines Projekts",
+      "Alle Personen oder Gruppen, die von einem Projekt betroffen sind oder es beeinflussen",
+      "Ausschließlich die Mitglieder des Entwicklungsteams",
+      "Nur die Endnutzer des finalen Produkts",
+      "Die externe Consulting-Firma, die das Projekt betreut"
+    ],
+    "answer": 1,
+    "explanation": "Stakeholder sind **alle Personen oder Gruppen**, die ein Interesse am Projekt haben oder davon betroffen sind. Beispiele für die MC-Test-App: Studierende (Nutzer), Dozenten (Content-Creator), Entwicklungsteam, Product Owner, Investoren (bei Monetarisierung). Stakeholder-Management ist wichtig für Projekterfolg!",
+    "weight": 1,
+    "topic": "Projektmanagement",
+    "mini_glossary": {
+      "Stakeholder": "Personen oder Gruppen mit Interesse am oder Einfluss auf ein Projekt",
+      "Product Owner": "Scrum-Rolle: verantwortlich für Produktvision und Kommunikation mit Stakeholdern",
+      "Requirements Engineering": "Prozess zur Ermittlung und Dokumentation von Anforderungen von Stakeholdern"
+    }
+  },
+  {
+    "question": "17. Was ist ein 'Sprint Retrospective' in Scrum?",
+    "options": [
+      "Eine Präsentation der fertigen Features für Stakeholder am Sprint-Ende",
+      "Ein Meeting, in dem das Team reflektiert: Was lief gut? Was kann verbessert werden?",
+      "Die Planung des nächsten Sprints mit Auswahl der User Stories",
+      "Ein Review der Code-Qualität durch externe Auditoren",
+      "Die Überprüfung des Product Backlogs durch den Product Owner"
+    ],
+    "answer": 1,
+    "explanation": "Die Sprint Retrospective ist ein **Reflexions-Meeting** am Ende jedes Sprints. Das Team bespricht: (1) Was lief gut? (2) Was lief schlecht? (3) Was können wir verbessern? Ziel: **Kontinuierliche Verbesserung** (Kaizen). Format: 'Start-Stop-Continue' (Was anfangen? Was aufhören? Was weiter machen?).",
+    "weight": 1,
+    "topic": "Scrum-Events",
+    "mini_glossary": {
+      "Sprint Retrospective": "Reflexions-Meeting am Sprint-Ende zur Prozessverbesserung (Was lief gut/schlecht?)",
+      "Sprint Review": "Demo der fertigen Features für Stakeholder am Sprint-Ende",
+      "Kaizen": "Japanische Philosophie der kontinuierlichen Verbesserung in kleinen Schritten"
+    }
+  },
+  {
+    "question": "18. Was versteht man unter 'Technical Debt' (Technische Schulden)?",
+    "options": [
+      "Die Kosten für externe Entwickler oder Consulting-Dienstleistungen",
+      "Suboptimaler Code oder Design-Entscheidungen, die später Mehraufwand verursachen",
+      "Finanzielle Schulden des Unternehmens für Hardware-Anschaffungen",
+      "Fehlende Dokumentation von bereits implementierten Features",
+      "Die Anzahl nicht behobener Bugs im Bug-Tracking-System"
+    ],
+    "answer": 1,
+    "explanation": "Technical Debt entsteht durch **bewusste oder unbewusste Abkürzungen** im Code: Quick-Fixes, fehlende Tests, schlechte Architektur. Folge: Spätere Änderungen werden schwieriger und teurer ('Zinsen'). Beispiel: Hardcodierte Werte statt Konfiguration → später schwer änderbar. Gegenmittel: Regelmäßiges Refactoring.",
+    "weight": 2,
+    "topic": "Software-Qualität",
+    "extended_explanation": {
+      "title": "Technical Debt Management",
+      "content": "Technical Debt ist wie ein Kredit: **Kurzfristig schneller, langfristig teurer**. **Arten**: (1) **Deliberate** (bewusst): 'Wir bauen jetzt schnell, refactorn später' (OK bei MVP!), (2) **Accidental** (unbewusst): Fehler durch Unerfahrenheit oder Zeitdruck (Problem!), (3) **Bit Rot**: Code veraltet durch neue Bibliotheksversionen. **Messung**: (1) Code Smells (z.B. Duplikate, lange Funktionen), (2) Test Coverage (<80% = Warnsignal), (3) SonarQube-Score. **Strategien**: (1) **20%-Regel**: 20% der Sprint-Kapazität für Tech Debt, (2) **Boy Scout Rule**: 'Leave code better than you found it', (3) **Debt Register**: Liste aller Tech Debts mit Priorität."
+    },
+    "mini_glossary": {
+      "Technical Debt": "Suboptimale Code-Entscheidungen, die später Mehraufwand verursachen ('Zinsen')",
+      "Refactoring": "Umstrukturierung von Code zur Verbesserung ohne Änderung der Funktionalität",
+      "Code Smell": "Anzeichen für schlechten Code (z.B. lange Funktionen, Duplikate, fehlende Tests)"
+    }
+  },
+  {
+    "question": "19. Was ist ein 'API' (Application Programming Interface)?",
+    "options": [
+      "Eine grafische Benutzeroberfläche für Endanwender",
+      "Eine Schnittstelle, über die Software-Komponenten miteinander kommunizieren",
+      "Ein Dokument zur Beschreibung der Architektur einer Anwendung",
+      "Eine Datenbank für die Speicherung von Nutzerdaten",
+      "Ein Framework für die Entwicklung mobiler Apps"
+    ],
+    "answer": 1,
+    "explanation": "Eine API (Application Programming Interface) ist eine **Schnittstelle**, über die Software-Komponenten kommunizieren. Beispiel: OpenAI API ermöglicht der MC-Test-App Zugriff auf GPT-4o für KI-Generierung. APIs definieren: Welche Funktionen verfügbar sind, welche Parameter benötigt werden, welches Format die Antwort hat (meist JSON).",
+    "weight": 1,
+    "topic": "Softwarearchitektur",
+    "mini_glossary": {
+      "API": "Application Programming Interface - Schnittstelle zur Kommunikation zwischen Software-Komponenten",
+      "REST API": "Representational State Transfer - weit verbreiteter API-Stil über HTTP (GET, POST, PUT, DELETE)",
+      "JSON": "JavaScript Object Notation - textbasiertes Datenformat für APIs (leicht lesbar, strukturiert)"
+    }
+  },
+  {
+    "question": "20. Was bedeutet 'Skalierbarkeit' (Scalability) in der IT?",
+    "options": [
+      "Die Fähigkeit, Software auf verschiedenen Betriebssystemen lauffähig zu machen",
+      "Die Fähigkeit eines Systems, mit wachsender Last umzugehen ohne Qualitätsverlust",
+      "Die Möglichkeit, Code in mehrere kleinere Module aufzuteilen",
+      "Die Kompatibilität mit verschiedenen Programmiersprachen",
+      "Die Geschwindigkeit, mit der neue Features entwickelt werden können"
+    ],
+    "answer": 1,
+    "explanation": "Skalierbarkeit bedeutet, dass ein System **mit wachsender Last** (mehr Nutzer, mehr Daten) umgehen kann **ohne Qualitätsverlust**. Zwei Arten: (1) **Vertikal** (scale-up): Stärkere Hardware (mehr RAM, CPU), (2) **Horizontal** (scale-out): Mehr Server. Die MC-Test-App migriert zu PostgreSQL/Railway für bessere Skalierbarkeit (SQLite limitiert bei >100 gleichzeitigen Nutzern).",
+    "weight": 2,
+    "topic": "Systemarchitektur",
+    "extended_explanation": {
+      "title": "Skalierbarkeit: Vertikal vs. Horizontal",
+      "content": "**Vertikale Skalierung** (Scale-Up): Stärkere Hardware für einen Server. Vorteile: Einfach (kein Code-Änderung), Nachteile: Teuer, Limit (größter Server = 1TB RAM, 128 CPU-Cores), Single Point of Failure. **Horizontale Skalierung** (Scale-Out): Mehr Server parallel. Vorteile: Unbegrenzt skalierbar, günstiger (Commodity-Hardware), ausfallsicher. Nachteile: Komplex (Load Balancing, Datenkonsistenz). **Beispiele**: SQLite = nur vertikal (1 Server), PostgreSQL = horizontal (Master-Slave-Replikation). **Cloud**: Auto-Scaling (automatisch mehr/weniger Server je nach Last). **Faustregel**: Bis 10.000 Nutzer → Vertikal OK, >100.000 → Horizontal notwendig."
+    },
+    "mini_glossary": {
+      "Skalierbarkeit": "Fähigkeit eines Systems, mit wachsender Last (Nutzer, Daten) umzugehen ohne Qualitätsverlust",
+      "Load Balancing": "Verteilung von Anfragen auf mehrere Server zur Lastverteilung",
+      "Horizontal Scaling": "Skalierung durch Hinzufügen weiterer Server (scale-out)"
+    }
+  }
 ]

@@ -383,6 +383,25 @@ def _build_question_set(
                 sanitized_glossary[sanitized_term] = sanitized_definition
             question["mini_glossary"] = sanitized_glossary
 
+        # Backwards-compatibility: populate German alias keys if missing so
+        # older code paths that still reference German keys continue to work.
+        alias_map = {
+            "question": "frage",
+            "weight": "gewichtung",
+            "topic": "thema",
+            "cognitive_level": "kognitive_stufe",
+            "options": "optionen",
+            "answer": "loesung",
+            "explanation": "erklaerung",
+        }
+        for eng, ger in alias_map.items():
+            try:
+                if eng in question and ger not in question:
+                    question[ger] = question[eng]
+            except Exception:
+                # Non-fatal: continue even if assignment fails for odd objects
+                pass
+
         questions.append(question)
 
     meta.setdefault("title", _infer_title_from_filename(filename))

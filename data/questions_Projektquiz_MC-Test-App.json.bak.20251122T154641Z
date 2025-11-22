@@ -1,0 +1,562 @@
+[
+    {
+        "frage": "1. Was ist der Hauptzweck der MC-Test-App?",
+        "optionen": [
+            "Online-Shopping für Studierende",
+            "Multiple-Choice-Tests mit LaTeX-Unterstützung für MINT-Fächer",
+            "Social-Media-Plattform für Hochschulen",
+            "Video-Streaming für Vorlesungen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die MC-Test-App ist speziell für Multiple-Choice-Tests in MINT-Fächern entwickelt worden, mit besonderem Fokus auf mathematische Formeln durch LaTeX-Unterstützung.",
+        "gewichtung": 1,
+        "thema": "Grundlagen",
+        "mini_glossary": {
+            "LaTeX": "Textsatzsystem für wissenschaftliche Dokumente, besonders für mathematische Formeln: $E = mc^2$",
+            "MINT-Fächer": "Mathematik, Informatik, Naturwissenschaften und Technik"
+        }
+    },
+    {
+        "frage": "2. Welche Python-Version ist MINDESTENS erforderlich, um die App zu betreiben?",
+        "optionen": [
+            "Python 2.7 (wie in alten Tutorials)",
+            "Python 3.6 (wie Node.js 14)",
+            "Python 3.10 (aktuell erforderlich)",
+            "Python 3.13 (neueste Version)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut INSTALLATION_ANLEITUNG.md wird Python 3.10 oder höher benötigt. Python 2.7 ist seit 2020 veraltet. Python 3.6 fehlen wichtige Features wie Type Hints.",
+        "gewichtung": 1,
+        "thema": "Installation",
+        "mini_glossary": {
+            "Python": "Programmiersprache, die für diese App verwendet wird",
+            "Version": "Versionsnummer gibt an, welche Features verfügbar sind"
+        }
+    },
+    {
+        "frage": "3. Wie authentifizieren sich Nutzer aktuell in der App?",
+        "optionen": [
+            "Mit Matrikelnummer und Geburtsdatum",
+            "Mit Pseudonymen aus einer vorgefertigten Liste (z.B. 'Albert Einstein')",
+            "Mit E-Mail und selbstgewähltem Passwort",
+            "Gar nicht, komplett anonymer Zugang"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die App nutzt Pseudonym-basierte Authentifizierung. Nutzer wählen aus einer Liste von Wissenschaftler-Namen. Dies vermeidet PII (Personally Identifiable Information) und ist DSGVO-konform.",
+        "gewichtung": 2,
+        "thema": "Features",
+        "extended_explanation": {
+            "title": "Datenschutz durch Pseudonymisierung",
+            "content": "Anstatt echte Namen oder E-Mail-Adressen zu speichern, wird für jeden Nutzer ein Pseudonym aus der Datei `data/scientists.json` verwendet. Die App speichert intern nur einen Hash des Pseudonyms, um den Fortschritt zuzuordnen. Dies ist ein zentrales Datenschutz-Feature, das die Anonymität der Nutzer gewährleistet und die Anforderungen der DSGVO erfüllt."
+        },
+        "mini_glossary": {
+            "Pseudonym": "Decknamen zur anonymen Nutzung der App",
+            "PII": "Personally Identifiable Information - persönliche Daten wie Name, E-Mail"
+        }
+    },
+    {
+        "frage": "4. Welches Pseudonym hat standardmäßig Admin-Rechte?",
+        "optionen": [
+            "Marie Curie (erste Frau mit Nobelpreis)",
+            "Isaac Newton (Erfinder der Physik)",
+            "Albert Einstein (E=mc²)",
+            "Ada Lovelace (erste Programmiererin)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut ADMIN_PANEL_ANLEITUNG.md ist 'Albert Einstein' das voreingestellte Admin-Pseudonym (konfigurierbar über MC_TEST_ADMIN_USER). Die anderen sind normale User-Pseudonyme.",
+        "gewichtung": 1,
+        "thema": "Admin-Panel",
+        "mini_glossary": {
+            "Admin-Rechte": "Erweiterte Berechtigungen für Analytics und Datenbank-Management"
+        }
+    },
+    {
+        "frage": "5. Welches Format wird für Fragensets verwendet?",
+        "optionen": [
+            "CSV-Dateien (.csv) - wie Excel-Tabellen",
+            "XML-Dateien (.xml) - strukturierte Daten",
+            "JSON-Dateien (.json) - für Versionskontrolle",
+            "YAML-Dateien (.yml) - wie Docker-Compose"
+        ],
+        "loesung": 2,
+        "erklaerung": "Fragensets werden als JSON-Dateien im Format 'questions_*.json' im data/-Ordner gespeichert. JSON ermöglicht LaTeX-Formeln, Mini-Glossare und einfache Git-Diffs.",
+        "gewichtung": 1,
+        "thema": "Fragensets",
+        "mini_glossary": {
+            "JSON": "JavaScript Object Notation - textbasiertes Datenformat",
+            "Format": "Strukturierung von Daten in einer Datei"
+        }
+    },
+    {
+        "frage": "6. Was zeigt das Dashboard im Admin-Panel unter 'Abschlussquote'?",
+        "optionen": [
+            "Prozentsatz der Nutzer, die 50%+ Punkte erreicht haben",
+            "Prozentsatz der Tests, die vollständig beendet wurden (Start bis Ende)",
+            "Durchschnittliche Punktzahl aller Nutzer in Prozent",
+            "Prozentsatz der Nutzer, die einen Test bestanden haben (>60%)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die Abschlussquote (Completion Rate) zeigt, wie viele Tests vollständig durchgeführt wurden im Vergleich zu begonnenen Tests. Eine niedrige Quote (<50%) kann auf zu lange oder zu schwere Tests hinweisen.",
+        "gewichtung": 2,
+        "thema": "Analytics",
+        "mini_glossary": {
+            "Abschlussquote": "Verhältnis von abgeschlossenen zu begonnenen Tests",
+            "Completion Rate": "Englischer Begriff für Abschlussquote"
+        }
+    },
+    {
+        "frage": "7. Welche Bibliothek wird für die PDF-Generierung verwendet?",
+        "optionen": [
+            "FPDF (leichtgewichtig, aber ohne HTML)",
+            "ReportLab (professionell, aber komplex in der Anwendung)",
+            "WeasyPrint (konvertiert HTML/CSS zu PDF)",
+            "PyPDF2 (wird nur für PDF-Manipulationen verwendet)"
+        ],
+        "loesung": 2,
+        "erklaerung": "WeasyPrint wird verwendet, um HTML in PDF zu konvertieren. Dies ermöglicht komplexe Layouts mit CSS-Styling. Die LaTeX-Formeln werden über eine externe API (quicklatex.com) als Bilder gerendert und eingebettet.",
+        "gewichtung": 2,
+        "thema": "Technologie",
+        "extended_explanation": {
+            "title": "Architektur des PDF-Exports",
+            "content": "Der PDF-Export ist ein mehrstufiger Prozess: Zuerst werden alle Testdaten gesammelt. Dann werden LaTeX-Formeln parallel über die QuickLaTeX-API in hochauflösende Bilder umgewandelt. Diese Bilder werden in ein dynamisch generiertes HTML-Dokument eingebettet, das mit CSS gestaltet wird. Schließlich konvertiert die WeasyPrint-Bibliothek dieses HTML in ein fertiges PDF. Dieser Ansatz kombiniert die Flexibilität von HTML/CSS mit der Qualität von gerenderten LaTeX-Formeln."
+        },
+        "mini_glossary": {
+            "WeasyPrint": "Python-Bibliothek für HTML-zu-PDF-Konvertierung",
+            "Bibliothek": "Wiederverwendbarer Code, der bestimmte Funktionen bereitstellt"
+        }
+    },
+    {
+        "frage": "8. Was ist der Zweck der Itemanalyse im Admin-Panel?",
+        "optionen": [
+            "Artikelpreise im Online-Shop analysieren",
+            "Qualität einzelner Fragen bewerten (Schwierigkeitsindex P, Trennschärfe Rit)",
+            "Session-Daten und Nutzerverhalten tracken",
+            "Server-Performance und Ladezeiten messen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die Itemanalyse bewertet die Qualität von Fragen anhand statistischer Metriken: Schwierigkeitsindex (P-Wert: Anteil richtiger Antworten, Ideal: 0.4-0.7) und Trennschärfe (Rit-Wert: Korrelation mit Gesamtscore, Gut: >0.3). Fragen mit P<0.1 oder P>0.95 sollten überarbeitet werden.",
+        "gewichtung": 3,
+        "thema": "Analytics",
+        "extended_explanation": {
+            "title": "Interpretation der Itemanalyse-Werte",
+            "content": "- **Schwierigkeitsindex (P):** Eine Frage mit P=0.9 (90% richtig) ist sehr leicht und testet wahrscheinlich nur Basiswissen. Eine Frage mit P=0.2 (20% richtig) ist sehr schwer. Ideal ist ein Wert zwischen 0.4 und 0.7.\n- **Trennschärfe (Rit):** Ein hoher positiver Wert (z.B. 0.4) bedeutet, dass Teilnehmer mit hoher Gesamtpunktzahl diese Frage tendenziell richtig beantworten, während Teilnehmer mit niedriger Gesamtpunktzahl sie falsch beantworten. Die Frage 'trennt' also gut. Ein negativer Wert ist ein Alarmsignal und deutet oft auf eine fehlerhafte oder missverständliche Frage hin."
+        },
+        "mini_glossary": {
+            "Schwierigkeitsindex": "P-Wert: Anteil korrekter Antworten - Ideal: 40-70%",
+            "Trennschärfe": "Rit-Wert: Korrelation zwischen Frage und Gesamtleistung - Gut: >0.3"
+        }
+    },
+    {
+        "frage": "9. Welches Feature wird in Release 2.0 eingeführt?",
+        "optionen": [
+            "Blockchain-basierte Zertifikate (NFTs)",
+            "VR-Brillen-Support für immersive Tests",
+            "KI-gestützter Fragengenerator (self-hosted DeepSeek R1)",
+            "Automatische Übersetzung in 50 Sprachen"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut KICKOFF_AGENDA.md und AI_QUESTION_GENERATOR_PLAN.md ist der KI-gestützte Fragengenerator das Hauptfeature von Release 2.0. Geplant ist die Nutzung eines self-hosted DeepSeek R1 LLM-Servers, um Kosten zu sparen und Datenschutz zu gewährleisten.",
+        "gewichtung": 2,
+        "thema": "Release 2.0",
+        "extended_explanation": {
+            "title": "Strategische Bedeutung des KI-Generators",
+            "content": "Der aktuelle Flaschenhals der App ist die manuelle Erstellung von Fragensets (6-8 Stunden pro Set). Der KI-Generator soll diesen Prozess auf ca. 5 Minuten reduzieren (72x schneller). Dies ermöglicht eine schnelle Skalierung des Contents und ist die Grundlage für das geplante Freemium-Geschäftsmodell, bei dem Nutzer eigene Fragensets generieren können."
+        },
+        "mini_glossary": {
+            "KI-Fragengenerator": "Tool zur automatischen Erstellung von MC-Fragen mittels GPT",
+            "OpenAI API": "Schnittstelle zu ChatGPT/GPT-4 für Text-Generierung"
+        }
+    },
+    {
+        "frage": "10. Wo findet der Support für technische Fragen statt?",
+        "optionen": [
+            "Discord-Server #mc-test-help",
+            "E-Mail an support@mc-test-app.de",
+            "GitHub Discussions (https://github.com/kqc-real/streamlit/discussions)",
+            "WhatsApp-Gruppe 'MC-Test Support'"
+        ],
+        "loesung": 2,
+        "erklaerung": "GitHub Discussions ist der offizielle Support-Kanal: https://github.com/kqc-real/streamlit/discussions. Vorteil: Öffentliche Q&A, von denen alle profitieren. Keine separate Discord/WhatsApp-Gruppe nötig!",
+        "gewichtung": 1,
+        "thema": "Organisation",
+        "mini_glossary": {
+            "GitHub Discussions": "Diskussionsforum direkt im GitHub-Repository"
+        }
+    },
+    {
+        "frage": "11. Was ist ein 'Distraktor' im Kontext von Multiple-Choice-Fragen?",
+        "optionen": [
+            "Ein Fehler im Quellcode der App",
+            "Eine falsche Antwortoption, die auf typischen Fehlern basiert",
+            "Ein störender Nutzer im Test-Modus",
+            "Ein Bug, der die PDF-Generierung blockiert"
+        ],
+        "loesung": 1,
+        "erklaerung": "Ein Distraktor ist eine falsche Antwortoption (A, B, C oder D), die bewusst plausibel gestaltet ist. Gute Distraktoren basieren auf typischen Denkfehlern (z.B. Vorzeichenfehler in Mathe) und werden von 10-30% der Testteilnehmer gewählt.",
+        "gewichtung": 2,
+        "thema": "Didaktik",
+        "extended_explanation": {
+            "title": "Die Kunst guter Distraktoren",
+            "content": "Die Qualität einer Multiple-Choice-Frage hängt maßgeblich von der Qualität ihrer Distraktoren ab. Ein guter Distraktor ist nicht einfach nur falsch, sondern repräsentiert einen typischen Fehler oder ein häufiges Missverständnis. Die Distraktor-Analyse im Admin-Panel hilft dabei, die Effektivität der falschen Antwortoptionen zu bewerten. Optionen, die nie gewählt werden, sind zu offensichtlich falsch und sollten durch plausiblere Alternativen ersetzt werden."
+        },
+        "mini_glossary": {
+            "Distraktor": "Falsche, aber plausible Antwortoption in MC-Fragen",
+            "Plausibel": "Glaubwürdig, nachvollziehbar - nicht offensichtlich falsch"
+        }
+    },
+    {
+        "frage": "12. Wie viele Schwierigkeitsgrade gibt es für Fragen?",
+        "optionen": [
+            "2 Stufen (Leicht, Schwer)",
+            "3 Stufen (★ Leicht, ★★ Mittel, ★★★ Schwer)",
+            "5 Stufen (wie Schulnoten 1-5)",
+            "10 Stufen (Skala von 1-10)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Es gibt 3 Schwierigkeitsgrade: ★ (Leicht/1 Punkt), ★★ (Mittel/2 Punkte), ★★★ (Schwer/3 Punkte). Dies ermöglicht ausgewogene Tests mit unterschiedlichen Anforderungsniveaus. Typische Verteilung: 30% leicht, 50% mittel, 20% schwer.",
+        "gewichtung": 1,
+        "thema": "Scoring",
+        "mini_glossary": {
+            "Gewichtung": "Punktwert einer Frage basierend auf Schwierigkeit"
+        }
+    },
+    {
+        "frage": "13. Welche Datenbank wird aktuell (Version 1.2) für die Persistenz verwendet?",
+        "optionen": [
+            "MySQL (Open-Source SQL-Server)",
+            "PostgreSQL (Enterprise-Grade)",
+            "SQLite (dateibasiert, WAL-Modus)",
+            "MongoDB (NoSQL-Datenbank)"
+        ],
+        "loesung": 2,
+        "erklaerung": "SQLite wird verwendet - eine dateibasierte SQL-Datenbank ohne Server. Ideal für lokale Anwendungen und kleine bis mittlere Nutzerzahlen. WAL-Modus (Write-Ahead Logging) ermöglicht Concurrent Reads. In Release 2.0 erfolgt Migration zu PostgreSQL!",
+        "gewichtung": 2,
+        "thema": "Technologie",
+        "mini_glossary": {
+            "SQLite": "Leichtgewichtige, dateibasierte SQL-Datenbank",
+            "Persistenz": "Dauerhafte Speicherung von Daten"
+        }
+    },
+    {
+        "frage": "14. Was macht der 'Durchschnittsvergleich' (Du vs Ø) im PDF-Export?",
+        "optionen": [
+            "Vergleicht die Dateigröße deines PDFs mit anderen",
+            "Zeigt deine Punktzahl vs. Durchschnitt aller Nutzer für dieses Fragenset",
+            "Berechnet die durchschnittliche Bearbeitungszeit aller Tests",
+            "Vergleicht deine Antworten mit den häufigsten Antworten"
+        ],
+        "loesung": 1,
+        "erklaerung": "Das 'Du vs Ø' Feature zeigt deine Leistung im Vergleich zum Durchschnitt aller Nutzer, die dieses Fragenset VOLLSTÄNDIG bearbeitet haben. Nur der beste Versuch pro Nutzer zählt (bei mehrfachen Durchläufen).",
+        "gewichtung": 2,
+        "thema": "PDF-Export",
+        "mini_glossary": {
+            "Durchschnitt (Ø)": "Arithmetisches Mittel aller Werte",
+            "Benchmark": "Vergleichswert zur Einordnung der eigenen Leistung"
+        }
+    },
+    {
+        "frage": "15. Was ist das Mini-Glossar in Fragensets?",
+        "optionen": [
+            "Eine komprimierte Version der App (Mini-Mode)",
+            "2-4 Fachbegriffe pro Frage mit Definitionen (auch mit LaTeX)",
+            "Ein separates Wörterbuch als PDF-Download",
+            "Eine automatische Zusammenfassung aller Fragen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Das Mini-Glossar ist ein neues Feature (Oktober 2025), das 2-4 Schlüsselbegriffe pro Frage definiert. Es wird im PDF-Export automatisch alphabetisch sortiert angezeigt und kann LaTeX-Formeln enthalten (z.B. $E = mc^2$ bei 'Energie').",
+        "gewichtung": 2,
+        "thema": "Features",
+        "mini_glossary": {
+            "Glossar": "Verzeichnis von Fachbegriffen mit Erklärungen",
+            "Alphabetisch": "Sortierung nach dem Alphabet (A-Z)"
+        }
+    },
+    {
+        "frage": "16. Welcher Befehl startet die App lokal?",
+        "optionen": [
+            "python app.py (Standard-Python)",
+            "streamlit run app.py (Streamlit-Server)",
+            "flask run (Flask-Framework)",
+            "npm start (Node.js/JavaScript)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Der Befehl 'streamlit run app.py' startet den Streamlit-Entwicklungsserver. Die App öffnet sich automatisch im Browser unter http://localhost:8501. 'python app.py' würde nur das Skript ausführen, aber keinen Webserver starten.",
+        "gewichtung": 1,
+        "thema": "Installation",
+        "mini_glossary": {
+            "Streamlit": "Python-Framework für schnelle Web-App-Entwicklung",
+            "localhost": "Lokaler Computer (127.0.0.1)"
+        }
+    },
+    {
+        "frage": "17. Was ist NICHT Teil des Admin-Panels?",
+        "optionen": [
+            "Dashboard mit Session-Statistiken",
+            "Itemanalyse (Schwierigkeit P, Trennschärfe Rit)",
+            "Distraktor-Analyse (Häufigkeit falscher Antworten)",
+            "Nutzer-E-Mails exportieren als CSV"
+        ],
+        "loesung": 3,
+        "erklaerung": "Die App speichert KEINE E-Mail-Adressen! Es gibt nur Pseudonyme, um Datenschutz (DSGVO) zu gewährleisten. Das Admin-Panel bietet Dashboard, Itemanalyse, Distraktor-Analyse, Feedback-Management und Datenbank-Reset - aber keinen Zugriff auf persönliche Daten.",
+        "gewichtung": 2,
+        "thema": "Admin-Panel",
+        "mini_glossary": {
+            "DSGVO": "Datenschutz-Grundverordnung - EU-Gesetz zum Schutz persönlicher Daten",
+            "Datenschutz": "Schutz von persönlichen Informationen"
+        }
+    },
+    {
+        "frage": "18. Wie viele Zeilen Code umfasst das PDF-Export-Modul (pdf_export.py)?",
+        "optionen": [
+            "~200 Zeilen (klein und übersichtlich)",
+            "~500 Zeilen (durchschnittliches Modul)",
+            "~1.050 Zeilen (eines der größten Module der App)",
+            "~1.600 Zeilen (veralteter Stand vor dem Refactoring)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut KICKOFF_AGENDA.md und FEATURE_EXPOSE.md umfasst das Modul `pdf_export.py` etwa 1.050 Zeilen. Es ist eines der größten Module der App und enthält die Logik für LaTeX-Rendering, HTML-Generierung, Durchschnittsvergleich, Glossar-Extraktion und WeasyPrint-Integration.",
+        "gewichtung": 2,
+        "thema": "Technologie",
+        "extended_explanation": {
+            "title": "Komplexität des PDF-Exports",
+            "content": "Die hohe Zeilenzahl resultiert aus der Komplexität der Aufgabe: Es müssen nicht nur Daten angezeigt, sondern auch LaTeX-Formeln über eine externe API gerendert, Durchschnittswerte aus der Datenbank berechnet, ein Glossar extrahiert und alles in ein ansprechendes HTML-Layout mit CSS umgewandelt werden, bevor WeasyPrint das finale PDF erzeugt. Die Parallelisierung des Formel-Renderings trägt ebenfalls zur Komplexität bei."
+        },
+        "mini_glossary": {
+            "Modul": "Einzelne Code-Datei mit spezifischer Funktionalität",
+            "Zeilen Code": "Maß für Umfang und Komplexität eines Programms"
+        }
+    },
+    {
+        "frage": "19. Welche Lizenz hat die MC-Test-App?",
+        "optionen": [
+            "Proprietär (geschlossen, keine Weitergabe)",
+            "GPL v3 (Copyleft, alle Änderungen müssen Open Source sein)",
+            "MIT License (permissive, freie Nutzung)",
+            "Apache 2.0 (Patent-Grant, Enterprise-freundlich)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Die App nutzt die MIT License - eine permissive Open-Source-Lizenz. Das bedeutet: Ihr dürft sie nutzen, ändern und weitergeben, auch kommerziell, solange der Copyright-Hinweis erhalten bleibt. GPL würde Copyleft erzwingen (alle Änderungen müssen Open Source sein).",
+        "gewichtung": 1,
+        "thema": "Organisation",
+        "mini_glossary": {
+            "Open Source": "Quellcode ist öffentlich einsehbar und nutzbar",
+            "MIT License": "Eine der freiesten Open-Source-Lizenzen"
+        }
+    },
+    {
+        "frage": "20. Was ist der Vorteil von WAL-Modus in SQLite?",
+        "optionen": [
+            "Schnellere SSD-Festplatte (Hardware-Upgrade)",
+            "Concurrent Reads während Writes (mehrere User gleichzeitig)",
+            "Automatische Backups alle 5 Minuten",
+            "AES-256-Verschlüsselung der Datenbank"
+        ],
+        "loesung": 1,
+        "erklaerung": "WAL (Write-Ahead Logging) ermöglicht, dass mehrere Nutzer gleichzeitig LESEN können, während einer SCHREIBT. Dies verbessert die Performance bei mehreren gleichzeitigen Nutzern erheblich. Ohne WAL würde SQLite bei jedem Write alle Reads blockieren.",
+        "gewichtung": 3,
+        "thema": "Technologie",
+        "extended_explanation": {
+            "title": "Technische Funktionsweise von WAL",
+            "content": "Im WAL-Modus werden Änderungen nicht direkt in die Haupt-Datenbankdatei geschrieben, sondern zunächst in eine separate `.db-wal`-Datei. Lesende Prozesse können weiterhin auf die unveränderte Hauptdatei zugreifen. In regelmäßigen Abständen (Checkpointing) werden die Änderungen aus der WAL-Datei dann in die Hauptdatenbank übernommen. Dies entkoppelt Lese- und Schreibvorgänge und ist entscheidend für die Skalierbarkeit von SQLite in Web-Anwendungen."
+        },
+        "mini_glossary": {
+            "WAL": "Write-Ahead Logging - Technik für bessere Datenbank-Performance",
+            "Concurrent": "Gleichzeitig, parallel ablaufend"
+        }
+    },
+    {
+        "frage": "21. Was ist laut Scrum-Präsentation der größte Bottleneck in Version 1.0?",
+        "optionen": [
+            "SQLite-Datenbank ist zu langsam für >100 User",
+            "Content-Pipeline ist 100% manuell (6-8h pro Fragenset)",
+            "PDF-Export dauert zu lange (30 Sekunden)",
+            "Streamlit Cloud hat nur 0.078 CPU-Cores"
+        ],
+        "loesung": 1,
+        "erklaerung": "Der größte Bottleneck ist die manuelle Content-Erstellung: 6-8 Stunden pro Fragenset (Fragen formulieren, LaTeX, Distraktoren, Glossar, JSON). Dies ist nicht skalierbar! Mit dem KI-Generator in v2.0 sinkt die Zeit auf 5 Minuten (72× schneller).",
+        "gewichtung": 2,
+        "thema": "Release 2.0 - Problem",
+        "mini_glossary": {
+            "Content-Pipeline": "Prozess zur Erstellung von Inhalten (hier: Fragensets)",
+            "Skalierbar": "Fähigkeit, mit wachsender Nachfrage umzugehen"
+        }
+    },
+    {
+        "frage": "22. Wie lange dauert die Entwicklung von Release 2.0 (alle 3 Sprints)?",
+        "optionen": [
+            "2-3 Wochen (1 Sprint)",
+            "4-5 Wochen (2 Sprints)",
+            "6-9 Wochen (3 Sprints à 2-3 Wochen)",
+            "12-15 Wochen (6 Sprints à 2 Wochen)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Release 2.0 umfasst 3 Sprints à 2-3 Wochen = 6-9 Wochen Gesamtdauer. Sprint 1: KI-Generator für Admin (intern), Sprint 2: Öffentlicher Zugang + Review, Sprint 3: Monetarisierung + Railway-Migration.",
+        "gewichtung": 1,
+        "thema": "Release 2.0 - Planung",
+        "mini_glossary": {
+            "Sprint": "Zeitbox von 2-3 Wochen für agile Entwicklung",
+            "Release": "Version der Software mit neuen Features"
+        }
+    },
+    {
+        "frage": "23. Welches LLM (Large Language Model) wird für den KI-Generator eingesetzt?",
+        "optionen": [
+            "Nur GPT-4o (OpenAI)",
+            "Nur Claude 3.5 Sonnet (Anthropic)",
+            "Self-hosted DeepSeek R1 (datenschutzfreundlich)",
+            "Llama 3.1 (Meta, Open-Source)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Laut AI_QUESTION_GENERATOR_PLAN.md wird ein self-hosted DeepSeek R1 LLM-Server eingesetzt. Dies spart API-Kosten (0€ vs. 50-100€/Monat), ist DSGVO-konform und vermeidet Abhängigkeiten von externen Anbietern.",
+        "gewichtung": 2,
+        "thema": "Release 2.0 - Technologie",
+        "extended_explanation": {
+            "title": "Vorteile eines Self-Hosted LLM",
+            "content": "Die Entscheidung für ein self-hosted Modell wie DeepSeek R1 anstelle von Cloud-APIs (OpenAI, Anthropic) hat strategische Gründe: 1. **Kostenkontrolle:** Keine unvorhersehbaren API-Rechnungen. 2. **Datenschutz:** Keine Daten verlassen die eigene Infrastruktur. 3. **Unabhängigkeit:** Keine Abhängigkeit von der Verfügbarkeit oder den AGB externer Anbieter. 4. **Performance:** Potenziell niedrigere Latenz, da der Server näher am Anwendungs-Server stehen kann."
+        },
+        "mini_glossary": {
+            "LLM": "Large Language Model - KI für Textgenerierung (z.B. ChatGPT)",
+            "Fallback": "Ersatzsystem, falls primäres System ausfällt"
+        }
+    },
+    {
+        "frage": "24. Wie hoch ist der geplante Preis für das Pro-Tier in Release 2.0?",
+        "optionen": [
+            "\\$2.99/Monat (Einstiegspreis)",
+            "\\$4.99/Monat (Break-Even bei 10-25 Pro-Usern)",
+            "\\$9.99/Monat (Premium-Preis)",
+            "\\$60/Jahr (jährliche Infrastruktur-Kosten)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Das Pro-Tier kostet \\$4.99/Monat. Dies ist ein Freemium-Modell: Free-User haben 3 KI-Generierungen/Monat, Pro-User unbegrenzt. Break-Even bei 10-25 Pro-Usern (bei \\$60/Jahr Railway-Infrastruktur). \\$60/Jahr sind die KOSTEN, nicht der Preis!",
+        "gewichtung": 1,
+        "thema": "Release 2.0 - Monetarisierung",
+        "mini_glossary": {
+            "Freemium": "Geschäftsmodell: Basis kostenlos, Premium kostenpflichtig",
+            "Break-Even": "Punkt, an dem Einnahmen = Ausgaben"
+        }
+    },
+    {
+        "frage": "25. Was ist Story 1.2 in Sprint 1 der Scrum-Präsentation?",
+        "optionen": [
+            "Stripe-Integration für Payments (Sprint 3)",
+            "7-Step Prompt Engineering für LLM (strukturierter Prompt)",
+            "Migration zu Railway (Sprint 3)",
+            "Review-System für Community (Sprint 2)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Story 1.2 ist '7-Step Prompt Engineering' (5 Story Points). Der strukturierte Prompt führt das LLM durch 7 Schritte: Thema → Schwierigkeit → Fragetypen → LaTeX-Integration → Distraktoren → Mini-Glossar → Erklärungen. Few-Shot-Examples verbessern die Qualität.",
+        "gewichtung": 3,
+        "thema": "Release 2.0 - Sprint 1",
+        "mini_glossary": {
+            "Story Points": "Maß für Aufwand in Scrum (Fibonacci: 1, 2, 3, 5, 8, 13)",
+            "Prompt Engineering": "Kunst, KI-Anweisungen optimal zu formulieren"
+        }
+    },
+    {
+        "frage": "26. Welche Datenbank wird nach der Migration in Sprint 3 verwendet?",
+        "optionen": [
+            "SQLite (wie bisher, keine Änderung)",
+            "MySQL (Open-Source, weit verbreitet)",
+            "PostgreSQL (Enterprise-Grade, Railway-Standard)",
+            "MongoDB (NoSQL, dokumentenbasiert)"
+        ],
+        "loesung": 2,
+        "erklaerung": "Die App migriert von SQLite zu PostgreSQL auf Railway. Vorteile: Bessere Performance (PDF-Export 30s → 8s), mehr Concurrent Users, professionelles Hosting, automatische Backups. SQLite ist nur für lokale Entwicklung ideal, nicht für Production.",
+        "gewichtung": 2,
+        "thema": "Release 2.0 - Sprint 3",
+        "mini_glossary": {
+            "PostgreSQL": "Professionelles, Open-Source SQL-Datenbanksystem",
+            "Migration": "Umzug von Daten von einem System zu einem anderen"
+        }
+    },
+    {
+        "frage": "27. Wie viele KI-Generierungen haben Free-User pro Monat?",
+        "optionen": [
+            "1 Generierung (sehr limitiert)",
+            "3 Generierungen (Freemium-Standard)",
+            "10 Generierungen (großzügig)",
+            "Unbegrenzt (wie Pro-User)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Free-User haben 3 KI-Generierungen pro Monat (Reset am 1. des Monats). Pro-User haben unbegrenzte Generierungen. Dies schützt vor API-Kosten-Explosion (GPT-4o: ~\\$0.01-0.05 pro Fragenset) und motiviert zum Upgrade auf Pro-Tier.",
+        "gewichtung": 1,
+        "thema": "Release 2.0 - Freemium",
+        "mini_glossary": {
+            "Quota": "Kontingent, begrenztes Budget (hier: Anzahl Generierungen)",
+            "API-Kosten": "Kosten pro LLM-Anfrage (GPT-4o: ca. \\$0.01-0.05/Fragenset)"
+        }
+    },
+    {
+        "frage": "28. Was ist das Community-Review-System in Sprint 2?",
+        "optionen": [
+            "Peer-Review von Code durch andere Entwickler",
+            "Up/Down-Vote für Fragensets + Auto-Publish bei >10 Upvotes (Reddit-Style)",
+            "Automatisches Grammatik-Checking mit ChatGPT",
+            "Professor muss jede einzelne Frage manuell prüfen"
+        ],
+        "loesung": 1,
+        "erklaerung": "Das Review-System funktioniert wie Reddit: User können generierte Fragensets up-/downvoten und reporten. Bei >10 Upvotes + 0 Reports wird das Set automatisch veröffentlicht (Status: draft → review → published). So entsteht Community-kuratierter Content!",
+        "gewichtung": 2,
+        "thema": "Release 2.0 - Sprint 2",
+        "mini_glossary": {
+            "Up/Down-Vote": "Bewertungssystem: Daumen hoch/runter für Qualität",
+            "Community-Review": "Qualitätssicherung durch die Nutzer-Community"
+        }
+    },
+    {
+        "frage": "29. Welche Performance-Verbesserung bringt die Railway-Migration?",
+        "optionen": [
+            "PDF-Export: 30s → 8s (bei 10 Fragen, 3.75× schneller)",
+            "PDF-Export: 30s → 20s (nur 1.5× schneller)",
+            "Keine Verbesserung, nur bessere Skalierung",
+            "PDF-Export: 30s → 2s (15× schneller)"
+        ],
+        "loesung": 0,
+        "erklaerung": "Railway bietet 0.5 CPU-Cores statt 0.078 (Streamlit Cloud). Dadurch sinkt die PDF-Generierung von 30s auf ~8s (bei 10 Fragen). Bei 50 Fragen: 90s → 25s. Das ist eine 3.6× Beschleunigung! Grund: Mehr Rechenleistung für LaTeX-Rendering.",
+        "gewichtung": 2,
+        "thema": "Release 2.0 - Performance",
+        "mini_glossary": {
+            "CPU-Cores": "Prozessorkerne - mehr Cores = schnellere Berechnungen",
+            "Streamlit Cloud": "Kostenloses, aber langsames Hosting für Streamlit-Apps"
+        }
+    },
+    {
+        "frage": "30. Was bedeutet 'Definition of Done' (DoD) im Scrum-Kontext?",
+        "optionen": [
+            "Der Product Owner ist mit dem Ergebnis zufrieden",
+            "Checkliste erfüllt: Tests, Docs, Review, PO-Abnahme (verbindlich)",
+            "Code ist in Git committed und gepusht",
+            "Sprint-Ziel wurde erreicht (Team-Consensus)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Definition of Done (DoD) ist eine Checkliste, die ALLE erfüllt sein müssen: Code funktioniert, Unit-Tests bestanden (>80% Coverage), Dokumentation geschrieben, Code-Review erfolgt, PO-Abnahme. Erst dann ist eine Story 'Done'. Nur Code committen reicht NICHT!",
+        "gewichtung": 2,
+        "thema": "Scrum-Methodik",
+        "mini_glossary": {
+            "Definition of Done": "Verbindliche Checkliste für fertige Arbeit in Scrum",
+            "PO-Abnahme": "Product Owner akzeptiert das Ergebnis"
+        }
+    },
+    {
+        "frage": "31. Wie viele Module umfasst die App aktuell (Version 1.2)?",
+        "optionen": [
+            "5 Module (~1.000 Zeilen Code)",
+            "9 Module (~3.000 Zeilen Code)",
+            "13 Module (~5.000 Zeilen Code) - veralteter Stand",
+            "20+ Module (~10.000 Zeilen Code)"
+        ],
+        "loesung": 1,
+        "erklaerung": "Die App umfasst aktuell 9 Kernmodule (app, auth, components, config, database, helpers, logic, main_view, pdf_export) mit ca. 3.000 Zeilen Code (ohne Kommentare). Die Angabe von 13 Modulen ist veraltet und stammt aus einer früheren Projektphase vor dem Refactoring.",
+        "gewichtung": 1,
+        "thema": "Release 2.0 - Architektur",
+        "extended_explanation": {
+            "title": "Modulare Architektur der App",
+            "content": "Die Aufteilung in spezialisierte Module (z.B. `database.py` für DB-Zugriffe, `pdf_export.py` für PDFs) folgt dem Prinzip der 'Separation of Concerns'. Jedes Modul hat eine klare Verantwortung. Dies macht den Code leichter verständlich, wartbar und testbar. In Release 2.0 werden voraussichtlich weitere Module wie `ai_generator.py` und `payments.py` hinzukommen."
+        },
+        "mini_glossary": {
+            "Modul": "Einzelne Python-Datei mit spezifischer Funktionalität",
+            "Codebase": "Gesamter Quellcode des Projekts"
+        }
+    }
+]

@@ -1,0 +1,767 @@
+{
+  "meta": {
+    "title": "Data Analytics I",
+    "target_audience": "Fortgeschrittene mit Grundwissen",
+    "question_count": 30,
+    "difficulty_profile": {
+      "leicht": 5,
+      "mittel": 10,
+      "schwer": 15
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 25
+  },
+  "questions": [
+    {
+      "frage": "1. Welcher der folgenden Begriffe beschreibt am besten das Ziel von `Data Leakage` in einem Machine-Learning-Kontext?",
+      "optionen": [
+        "Die unbeabsichtigte Verwendung von Daten aus der Testmenge im Trainingsprozess.",
+        "Ein Prozess zur absichtlichen Entfernung von sensiblen Daten aus dem Trainingsdatensatz.",
+        "Ein Algorithmus, der fehlende Werte in einem Datensatz automatisch imputiert.",
+        "Die Anwendung von Feature Engineering, um die Modellleistung zu steigern."
+      ],
+      "loesung": 0,
+      "erklaerung": "Data Leakage (Datenlecks) tritt auf, wenn Informationen, die nicht aus der Trainingsmenge stammen, zur Erstellung des Modells verwendet werden. Dies führt zu überoptimistischen Leistungsschätzungen und einer schlechten Generalisierung auf neue, ungesehene Daten. Eine unbeabsichtigte Verwendung von Testdaten während des Trainings ist ein klassisches Beispiel für Data Leakage.",
+      "gewichtung": 3,
+      "thema": "QUA³CK-Prozess & Data Leakage",
+      "konzept": "Data Leakage verstehen",
+      "kognitive_stufe": "Verstehen",
+      "extended_explanation": {
+        "titel": "Details zu Data Leakage",
+        "schritte": [
+          "Data Leakage ist ein schwerwiegender Fehler im ML-Workflow, der das Modell scheinbar besser macht, als es in der Realität ist.",
+          "Es kann auftreten, wenn Informationen aus der Zukunft (z.B. eine Spalte, die erst nach dem Ereignis bekannt ist) im Trainingsset verwendet werden oder wenn die Validierungsstrategie (z.B. `Cross-Validation`) nicht korrekt angewendet wird.",
+          "Um Data Leakage zu vermeiden, ist eine strikte Trennung von Trainings- und Testdaten vor jeglicher Vorverarbeitung essenziell. Alle Schritte des Workflows (wie `Feature Scaling` oder `Feature Engineering`) müssen separat auf den Trainings- und Testdaten durchgeführt werden."
+        ]
+      },
+      "mini_glossary": {
+        "Data Leakage": "Unbeabsichtigter Informationsfluss vom Testset in den Trainingsprozess (z. B. gemeinsames Fitten von Scaler oder Encoding); verfälscht Metriken und führt zu optimistischeren Ergebnissen.",
+        "Feature Engineering": "Der Prozess der Erstellung neuer Features aus bestehenden Daten, um die Vorhersagekraft eines Machine-Learning-Modells zu verbessern.",
+        "Trainingsmenge": "Der Teil eines Datensatzes, der zum Trainieren eines Machine-Learning-Modells verwendet wird."
+      }
+    },
+    {
+      "frage": "2. Was ist der Hauptunterschied zwischen **Overfitting** und **Underfitting**?",
+      "optionen": [
+        "Overfitting liegt vor, wenn das Modell zu einfach ist, während Underfitting auftritt, wenn es zu komplex ist.",
+        "Overfitting beschreibt, wie gut ein Modell auf Trainingsdaten performt, während Underfitting angibt, wie gut es sich an Testdaten anpasst.",
+        "Overfitting bedeutet, dass sich das Modell zu stark an die Trainingsdaten anpasst, während Underfitting auftritt, wenn das Modell grundlegende Muster nicht erfassen kann.",
+        "Overfitting ist die Folge eines zu kleinen Datensatzes, während Underfitting durch zu viele Daten verursacht wird."
+      ],
+      "loesung": 2,
+      "erklaerung": "Overfitting beschreibt eine Situation, in der ein Modell die Trainingsdaten 'auswendig lernt', anstatt die zugrundeliegenden Muster zu generalisieren. Dies führt zu einer ausgezeichneten Leistung auf dem Trainingsdatensatz, aber einer schlechten Leistung auf neuen, ungesehenen Daten. Underfitting hingegen beschreibt ein Modell, das zu einfach ist, um die zugrundeliegenden Muster überhaupt zu erfassen, was zu einer schlechten Leistung auf Trainings- und Testdaten führt.",
+      "gewichtung": 2,
+      "thema": "Modellbewertung & Optimierung",
+      "konzept": "Modelle mit Overfitting vs. Underfitting vergleichen",
+      "kognitive_stufe": "Analyse",
+      "extended_explanation": {
+        "titel": "Verständnis von Overfitting und Underfitting",
+        "schritte": [
+          "Overfitting kann durch ein zu komplexes Modell (z.B. zu tiefe `Decision Trees`) oder durch eine zu lange Trainingsdauer verursacht werden.",
+          "Underfitting entsteht oft, wenn das Modell nicht genügend Komplexität besitzt, um die Beziehungen in den Daten abzubilden (z.B. ein lineares Modell für nicht-lineare Daten).",
+          "Das Ziel ist es, ein Modell zu finden, das die richtige Balance zwischen beiden Extremen herstellt. Methoden wie `Regularisierung`, `Cross-Validation` und die Auswahl der richtigen Modellkomplexität sind entscheidend."
+        ]
+      },
+      "mini_glossary": {
+        "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung.",
+        "Underfitting": "Das Problem, bei dem ein Machine-Learning-Modell nicht komplex genug ist, um die grundlegenden Muster in den Trainingsdaten zu erfassen, was zu einer schlechten Leistung führt.",
+        "Regularisierung": "Techniken, die die Komplexität eines Modells reduzieren, um Overfitting zu vermeiden, indem sie große Koeffizienten bestrafen."
+      }
+    },
+    {
+      "frage": "3. Welche der folgenden Techniken ist **KEIN** Bestandteil der `Explorativen Datenanalyse` (EDA)?",
+      "optionen": [
+        "Identifikation von Ausreißern",
+        "Visualisierung von Datenverteilungen mit `Boxplots`",
+        "`Hyperparameter-Tuning` zur Modelloptimierung",
+        "Korrelationsanalyse zwischen verschiedenen Features"
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Explorative Datenanalyse (`EDA`) dient dazu, die Daten zu verstehen und ihre Eigenschaften, Muster und Anomalien zu identifizieren. Methoden wie die Visualisierung mit `Boxplots`, die Identifikation von Ausreißern oder die Korrelationsanalyse sind dabei zentrale Werkzeuge. Das `Hyperparameter-Tuning` ist jedoch ein Schritt, der erst nach der `EDA` und während des Modelltrainings erfolgt, um die Leistung des Modells zu optimieren.",
+      "gewichtung": 1,
+      "thema": "Explorative Datenanalyse (EDA)"
+    },
+    {
+      "frage": "4. Was ist ein typischer Nachteil von `Decision Trees` ohne weitere Maßnahmen?",
+      "optionen": [
+        "Sie können nicht mit numerischen Daten umgehen.",
+        "Sie neigen stark zu **Overfitting**.",
+        "Sie benötigen immer eine `GPU`-Beschleunigung.",
+        "Sie sind nicht interpretierbar."
+      ],
+      "loesung": 1,
+      "erklaerung": "`Decision Trees` können sehr komplexe und verzweigte Strukturen annehmen, die sich perfekt an die Trainingsdaten anpassen. Dies führt zu einer hohen Sensitivität gegenüber Rauschen und Ausreißern im Trainingsdatensatz, was wiederum eine starke Neigung zu Overfitting zur Folge hat. Techniken wie das Beschneiden (`Pruning`) des Baumes oder der Einsatz von Ensemble-Methoden wie `Random Forests` werden genutzt, um dieses Problem zu beheben.",
+      "gewichtung": 2,
+      "thema": "Modelle & Algorithmen",
+      "extended_explanation": {
+        "titel": "Overfitting bei `Decision Trees`",
+        "schritte": [
+          "Ein einzelner, unbeschränkter `Decision Tree` kann für jeden Datenpunkt im Trainingsset eine eigene, spezifische Regel erlernen.",
+          "Diese starke Anpassung führt dazu, dass das Modell zwar auf den Trainingsdaten eine perfekte Genauigkeit erreichen kann, aber auf neuen Daten kaum generalisiert.",
+          "Im Gegensatz dazu verwenden Ensemble-Methoden wie `Random Forests` die Aggregation vieler unkorrelierter Bäume, um die Varianz zu reduzieren und das Overfitting-Problem zu mildern."
+        ]
+      },
+      "mini_glossary": {
+        "Decision Tree": "Ein Klassifikations- oder Regressionsmodell, das durch eine baumartige Struktur Entscheidungen trifft, indem es Daten basierend auf den Werten von Features aufteilt.",
+        "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung.",
+        "Random Forest": "Ensemble vieler Entscheidungsbäume auf Bootstrap-Samples und Feature-Subsets; reduziert Varianz und Overfitting gegenüber Einzelbäumen."
+      }
+    },
+    {
+      "frage": "5. Welche der folgenden Maßnahmen erhöht die Reproduzierbarkeit von Data-Science-Projekten am effektivsten?",
+      "optionen": [
+        "Verwendung von `Jupyter Notebooks` zur Codierung",
+        "Nutzung von `Docker-Containern` zur Kapselung der Umgebung",
+        "Einsatz von `Random Forests` als Modell",
+        "Nutzung von `Excel` für die Datenanalyse"
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Reproduzierbarkeit eines Data-Science-Projekts hängt davon ab, ob Code, Daten und die gesamte Laufzeitumgebung für Dritte oder auch für den Ersteller selbst zu einem späteren Zeitpunkt wiederhergestellt werden können. `Docker-Container` kapseln alle Abhängigkeiten, Bibliotheken und das Betriebssystem, wodurch die Umgebung exakt reproduzierbar wird. `Jupyter Notebooks` können hilfreich sein, aber sie garantieren nicht die Reproduzierbarkeit der Umgebung, in der sie ausgeführt werden.",
+      "gewichtung": 2,
+      "thema": "MLOps & Werkzeuge",
+      "extended_explanation": {
+        "titel": "Reproduzierbarkeit in der Praxis",
+        "schritte": [
+          "Ein `Docker-Container` enthält alle notwendigen Komponenten, um eine Anwendung zu starten: den Code, die `Python`-Version, die Bibliotheken und die Systemkonfiguration.",
+          "Durch die Bereitstellung eines `Dockerfiles` kann jeder die exakt gleiche Umgebung auf seinem eigenen System erstellen und das Projekt so reproduzieren, wie es ursprünglich entwickelt wurde.",
+          "Dies ist besonders im `MLOps`-Kontext entscheidend, um die Konsistenz zwischen Entwicklungs-, Test- und Produktionsumgebungen zu gewährleisten."
+        ]
+      },
+      "mini_glossary": {
+        "Docker-Container": "Eine leichtgewichtige, portable und ausführbare Software-Einheit, die alles enthält, was zur Ausführung einer Anwendung benötigt wird, einschließlich Code, Laufzeitumgebung und Bibliotheken.",
+        "Reproduzierbarkeit": "Die Fähigkeit, die Ergebnisse eines Experiments oder Projekts zu einem späteren Zeitpunkt und in einer anderen Umgebung exakt zu replizieren.",
+        "MLOps": "Gesamtheit der Prozesse und Tools, die Entwicklung, Deployment und Betrieb von ML-Modellen verzahnen und überwachen (z. B. Experiment-Tracking, CI/CD, Monitoring)."
+      }
+    },
+    {
+      "frage": "6. Welche Aussage zu `Feature Engineering` ist korrekt?",
+      "optionen": [
+        "`Feature Engineering` ist ausschließlich bei Bilddaten relevant.",
+        "`Feature Engineering` kann die Modellgüte signifikant verbessern.",
+        "`Feature Engineering` ist ausschließlich Aufgabe des `Deployments`.",
+        "`Feature Engineering` ist bei linearen Modellen nicht notwendig."
+      ],
+      "loesung": 1,
+      "erklaerung": "Feature Engineering ist der Prozess der Nutzung von Domänenwissen zur Erstellung von Features, die die Modellgüte verbessern. Indem man rohe Daten in ein Format umwandelt, das für das Modell nützlicher ist, können komplexe Beziehungen für das Modell leichter erfassbar gemacht werden. Dies kann in praktisch jedem Bereich des maschinellen Lernens angewendet werden und ist oft ein entscheidender Faktor für den Erfolg eines Projekts.",
+      "gewichtung": 2,
+      "thema": "Datenvorverarbeitung & Feature Engineering",
+      "extended_explanation": {
+        "titel": "Der Wert von Feature Engineering",
+        "schritte": [
+          "Ein einfaches Beispiel für `Feature Engineering` ist die Umwandlung eines Datums in separate Spalten für `Jahr`, `Monat` und `Wochentag`.",
+          "Ein weiteres Beispiel ist die Kombination von zwei numerischen Features zu einem neuen, wie die Berechnung des BMI aus Größe und Gewicht.",
+          "Durch solche Transformationen kann das Modell Muster erkennen, die in den rohen Daten nicht offensichtlich waren, und somit seine Vorhersagekraft signifikant steigern."
+        ]
+      },
+      "mini_glossary": {
+        "Feature Engineering": "Der Prozess der Erstellung neuer, aussagekräftiger Merkmale (Features) aus bestehenden Daten, um die Leistung eines Machine-Learning-Modells zu verbessern.",
+        "Deployment": "Bereitstellung eines trainierten Modells in einer produktiven Umgebung (API, Streamlit, Batch) inklusive Infrastruktur, Skalierung und Monitoring.",
+        "Modellgüte": "Ein Maß dafür, wie gut ein Machine-Learning-Modell Vorhersagen treffen kann, oft bewertet durch Metriken wie Genauigkeit, Präzision oder F1-Score."
+      }
+    },
+    {
+      "frage": "7. Welche Methode ist am besten geeignet, um die Robustheit eines Modells gegen **Ausreißer** zu testen?",
+      "optionen": [
+        "`Cross-Validation`",
+        "Eine `ROC-AUC-Analyse`",
+        "Das Training auf synthetischen Daten",
+        "Die Visualisierung mit `Heatmaps`"
+      ],
+      "loesung": 0,
+      "erklaerung": "Ausreißer können die Leistung eines Modells stark beeinflussen. `Cross-Validation` ist eine robuste Methode, um die Stabilität eines Modells zu bewerten, indem es wiederholt auf verschiedenen Teilmengen der Daten trainiert und getestet wird. Wenn das Modell in den verschiedenen Folds, die potenziell Ausreißer enthalten, signifikant unterschiedliche Ergebnisse liefert, deutet dies auf eine mangelnde Robustheit hin.",
+      "gewichtung": 3,
+      "thema": "Modellbewertung & Optimierung",
+      "extended_explanation": {
+        "titel": "Robustheit von Modellen",
+        "schritte": [
+          "Robuste Modelle sind weniger empfindlich gegenüber kleinen Änderungen in den Daten, wie sie durch Rauschen oder Ausreißer verursacht werden können.",
+          "Neben `Cross-Validation` können auch andere Methoden wie die Verwendung von robusten Skalierungsverfahren (z.B. `RobustScaler` anstelle von `StandardScaler`) oder der Einsatz von Algorithmen, die von Natur aus weniger anfällig für Ausreißer sind (z.B. `Random Forests` im Vergleich zu linearen Modellen), die Robustheit erhöhen.",
+          "Die Robustheit ist ein wichtiges Kriterium, da reale Daten oft unvollkommen und verrauscht sind."
+        ]
+      },
+      "mini_glossary": {
+        "Cross-Validation": "Validierungstechnik, bei der Trainingsdaten in Folds geteilt werden; jedes Fold dient einmal als Validierung, wodurch die Varianz der Metrik sinkt.",
+        "Ausreißer": "Beobachtungen, die deutlich außerhalb des typischen Wertebereichs liegen und Modelle stark beeinflussen können; benötigen spezielle Behandlung.",
+        "Robustheit": "Die Fähigkeit eines Modells, stabil und zuverlässig zu funktionieren, auch wenn die Eingabedaten Rauschen, Fehlern oder Ausreißern unterliegen."
+      }
+    },
+    {
+      "frage": "8. Was ist ein typisches Symptom für **`Data Leakage`**?",
+      "optionen": [
+        "Das Modell benötigt sehr lange zum Training.",
+        "Die Trainingsgenauigkeit ist niedrig, aber die Testgenauigkeit ist hoch.",
+        "Das Modell kann keine Features verarbeiten.",
+        "Eine sehr hohe Trainings- und Testgenauigkeit, aber eine schlechte Generalisierung auf neue, ungesehene Daten."
+      ],
+      "loesung": 3,
+      "erklaerung": "Ein verräterisches Zeichen für `Data Leakage` ist, wenn ein Modell auf den Trainings- und Testdaten eine nahezu perfekte Leistung zeigt, aber in der realen Anwendung oder auf komplett neuen Daten versagt. Die Testgenauigkeit ist künstlich aufgebläht, weil das Modell unbeabsichtigt Informationen aus dem Testset während des Trainings 'gesehen' hat. Dies führt zu einer falschen Einschätzung der Modellgüte.",
+      "gewichtung": 3,
+      "thema": "QUA³CK-Prozess & Data Leakage",
+      "extended_explanation": {
+        "titel": "Symptome und Ursachen von `Data Leakage`",
+        "schritte": [
+          "Data Leakage kann subtil sein und ist oft schwer zu erkennen. Es resultiert typischerweise in einem übermäßig optimistischen Testergebnis.",
+          "Ein Beispiel ist das Vorverarbeiten des gesamten Datensatzes (Trainings- und Testset) vor dem Aufteilen. Wenn beispielsweise die `Standardisierung` oder `Imputation` von fehlenden Werten auf dem gesamten Datensatz erfolgt, 'sieht' das Modell Informationen über die Verteilung der Testdaten, was zu einer unfairen Leistung führt.",
+          "Das beste Gegenmittel ist die strikte Einhaltung der korrekten Reihenfolge: Daten aufteilen, dann vorverarbeiten."
+        ]
+      },
+      "mini_glossary": {
+        "Data Leakage": "Unbeabsichtigter Informationsfluss vom Testset in den Trainingsprozess (z. B. gemeinsames Fitten von Scaler oder Encoding); verfälscht Metriken und führt zu optimistischeren Ergebnissen.",
+        "Generalisierung": "Die Fähigkeit eines Machine-Learning-Modells, gut auf neuen, ungesehenen Daten zu funktionieren, die nicht Teil der Trainingsmenge waren.",
+        "Testgenauigkeit": "Ein Maß für die Leistung eines Modells auf den Testdaten, das angibt, wie gut das Modell auf neuen Daten generalisiert."
+      }
+    },
+    {
+      "frage": "9. Welche Bibliothek ist für das Tracking von Experimenten und Modellversionen in einem `Data Analytics` Projekt vorgesehen?",
+      "optionen": [
+        "`TensorBoard`",
+        "`MLflow`",
+        "`Matplotlib`",
+        "`Flask`"
+      ],
+      "loesung": 1,
+      "erklaerung": "`MLflow` ist eine Open-Source-Plattform, die speziell für das Management des Machine-Learning-Lebenszyklus entwickelt wurde. Ihre Hauptfunktionen sind das Experiment-Tracking, die Reproduzierbarkeit von Runs und das Modell-Deployment. Im Gegensatz dazu ist `TensorBoard` eher für die Visualisierung von `TensorFlow`-Experimenten und `Matplotlib` für die allgemeine Datenvisualisierung gedacht, während `Flask` ein Web-Framework ist.",
+      "gewichtung": 2,
+      "thema": "MLOps & Werkzeuge",
+      "extended_explanation": {
+        "titel": "Die Rolle von `MLflow` im MLOps-Kontext",
+        "schritte": [
+          "`MLflow` besteht aus vier Hauptkomponenten: `Tracking`, `Projects`, `Models` und `Model Registry`.",
+          "Das `Tracking` ermöglicht es, Parameter, Metriken und Artefakte (wie trainierte Modelle) für jeden Lauf zu protokollieren.",
+          "Die `Model Registry` bietet eine zentrale Plattform zur Verwaltung des Lebenszyklus von Modellen, von der Staging-Umgebung bis zur Produktion. All dies erleichtert die Zusammenarbeit in Teams und die Reproduzierbarkeit von Ergebnissen."
+        ]
+      },
+      "mini_glossary": {
+        "MLflow": "Open-Source-Plattform zum Nachverfolgen von ML-Experimenten, Verwalten von Modellen und Bereitstellen in Registry oder Serving.",
+        "Experiment-Tracking": "Systematische Erfassung von Trainingsläufen (Parameter, Metriken, Artefakte), um Modellversionen reproduzierbar zu vergleichen und auditierbar zu halten.",
+        "MLOps": "Gesamtheit der Prozesse und Tools, die Entwicklung, Deployment und Betrieb von ML-Modellen verzahnen und überwachen (z. B. Experiment-Tracking, CI/CD, Monitoring)."
+      }
+    },
+    {
+      "frage": "10. Was ist ein Vorteil von `Random Forests` gegenüber einzelnen `Decision Trees`?",
+      "optionen": [
+        "Sie sind immer schneller im Training.",
+        "Sie reduzieren **Overfitting** durch die Aggregation vieler Bäume.",
+        "Sie benötigen weniger Daten.",
+        "Sie können keine Klassifikation durchführen."
+      ],
+      "loesung": 1,
+      "erklaerung": "`Random Forests` sind eine Ensemble-Methode, die aus vielen einzelnen `Decision Trees` besteht. Jeder Baum wird auf einer zufälligen Teilmenge der Daten und der Features trainiert. Durch die Aggregation der Vorhersagen all dieser Bäume (z.B. durch Mehrheitsentscheidung) wird die Varianz der Vorhersagen reduziert und die Neigung zu Overfitting, die bei einzelnen Bäumen stark ausgeprägt ist, deutlich verringert.",
+      "gewichtung": 2,
+      "thema": "Modelle & Algorithmen",
+      "extended_explanation": {
+        "titel": "Ensemble-Lernen: `Random Forests`",
+        "schritte": [
+          "Ein `Random Forest` ist ein gutes Beispiel für das Konzept des `Bagging` (Bootstrap Aggregating).",
+          "Dabei wird jeder `Decision Tree` auf einem zufällig gezogenen Datensatz mit Zurücklegen trainiert (Bootstrap).",
+          "Die zufällige Auswahl der Features bei jedem Split (Random Subspace) sorgt für Unkorreliertheit der einzelnen Bäume, was die Varianzreduktion weiter fördert."
+        ]
+      },
+      "mini_glossary": {
+        "Random Forest": "Ensemble vieler Entscheidungsbäume auf Bootstrap-Samples und Feature-Subsets; reduziert Varianz und Overfitting gegenüber Einzelbäumen.",
+        "Ensemble-Lernen": "Eine Methode im Machine Learning, bei der mehrere Modelle (`Ensemble`) kombiniert werden, um eine bessere Leistung zu erzielen als ein einzelnes Modell.",
+        "Varianz": "Maß dafür, wie stark Modellvorhersagen bei Variation des Trainingssets schwanken; hohe Varianz deutet auf Überanpassung hin."
+      }
+    },
+    {
+      "frage": "11. Welche Aussage zu `K-Nearest Neighbors` (`KNN`) ist korrekt?",
+      "optionen": [
+        "`KNN` benötigt ein trainiertes Modell mit Gewichten.",
+        "`KNN` ist ein instanzbasiertes Verfahren und speichert alle Trainingsdaten.",
+        "`KNN` kann keine numerischen Features verarbeiten.",
+        "`KNN` ist robust gegenüber Ausreißern."
+      ],
+      "loesung": 1,
+      "erklaerung": "`K-Nearest Neighbors` ist ein sogenanntes instanzbasiertes oder speicherbasiertes Lernverfahren. Im Gegensatz zu Modellen wie `Decision Trees` oder linearen Modellen, die einen expliziten Algorithmus erlernen und Gewichte oder Parameter speichern, merkt sich `KNN` einfach den gesamten Trainingsdatensatz. Bei einer Vorhersage sucht es dann nur die $k$ ähnlichsten Datenpunkte im Trainingsset, um die Entscheidung zu treffen.",
+      "gewichtung": 2,
+        "thema": "Modelle & Algorithmen",
+      "extended_explanation": {
+        "titel": "Details zum `KNN`-Algorithmus",
+        "schritte": [
+          "Im `KNN`-Algorithmus gibt es keine separate 'Lernphase'. Das eigentliche 'Lernen' besteht darin, die Trainingsdaten zu speichern.",
+          "Die Berechnung der Ähnlichkeit erfolgt in der Regel über Distanzmaße wie die euklidische Distanz ($d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$) oder die Manhattandistanz.",
+          "Aus diesem Grund kann `KNN` sehr rechenintensiv werden, wenn der Datensatz sehr groß ist, da bei jeder Vorhersage die Distanz zu allen anderen Datenpunkten berechnet werden muss."
+        ]
+      },
+      "mini_glossary": {
+        "K-Nearest Neighbors (`KNN`)": "Nicht-parametrischer Klassifikator: weist einem Punkt das Mehrheitslabel der k nächsten Trainingspunkte im Feature-Raum zu (distanzbasiert).",
+        "Instanzbasiertes Lernen": "Ein Lernparadigma, bei dem das Modell alle Trainingsinstanzen speichert und Vorhersagen für neue Instanzen auf der Grundlage ihrer Ähnlichkeit mit den gespeicherten Instanzen trifft.",
+          "Euklidische Distanz": "Ein gebräuchliches Distanzmaß, das den kürzesten Abstand zwischen zwei Punkten in einem euklidischen Raum berechnet: $d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$."
+      }
+    },
+    {
+      "frage": "12. Was ist ein typischer Anwendungsfall für die `Principal Component Analysis` (`PCA`)?",
+      "optionen": [
+        "Modell-`Deployment`",
+        "Dimensionsreduktion und Visualisierung",
+        "`Hyperparameter-Tuning`",
+        "Datenaugmentation"
+      ],
+      "loesung": 1,
+      "erklaerung": "`PCA` ist ein statistisches Verfahren, das zur Dimensionsreduktion verwendet wird. Es transformiert die Daten in eine neue Basis, wobei die ersten Komponenten die größte Varianz in den Daten enthalten. Dadurch können hochdimensionale Daten in eine niedrigere Dimension (z.B. zwei oder drei Dimensionen) projiziert werden, was die Visualisierung erleichtert und die Rechenzeit für nachfolgende Modelle reduziert.",
+      "gewichtung": 2,
+      "thema": "Datenvorverarbeitung & Feature Engineering",
+      "extended_explanation": {
+        "titel": "Details zu `PCA`",
+        "schritte": [
+          "`PCA` identifiziert die Hauptkomponenten der Daten, die die Richtungen der größten Varianz darstellen.",
+          "Es wird häufig als Vorverarbeitungsschritt eingesetzt, um die Anzahl der Features zu verringern, was die Modellierung beschleunigen und das Risiko von `Overfitting` reduzieren kann (`Curse of Dimensionality`).",
+          "Die Technik ist linear und kann die ursprüngliche Varianz der Daten nicht-linear abbilden, was ein potenzieller Nachteil sein kann."
+        ]
+      },
+      "mini_glossary": {
+        "Principal Component Analysis (`PCA`)": "Eine statistische Methode zur Dimensionsreduktion, die hochdimensionale Daten in eine niedrigere Dimension projiziert, während sie die maximale Varianz behält.",
+        "Dimensionsreduktion": "Der Prozess der Verringerung der Anzahl von Features in einem Datensatz, um die Modellierung zu vereinfachen und die Leistung zu verbessern.",
+        "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung."
+      }
+    },
+    {
+      "frage": "13. Welche Rolle spielt die Standardisierung von Features bei der Anwendung von `KNN`?",
+      "optionen": [
+        "Sie ist irrelevant, da `KNN` keine Distanzen nutzt.",
+        "Sie ist wichtig, da `KNN` auf Distanzmaßen basiert.",
+        "Sie ist nur bei Textdaten notwendig.",
+        "Sie ist nur für Zielvariablen relevant."
+      ],
+        "loesung": 1,
+      "erklaerung": "`KNN` misst die Ähnlichkeit zwischen Datenpunkten anhand ihrer Distanz im Merkmalsraum. Wenn die Features unterschiedliche Skalen aufweisen (z.B. eine Spalte von 0 bis 1000 und eine andere von 0 bis 1), dominiert das Feature mit dem größeren Wertebereich die Distanzberechnung. Die Standardisierung (`Min-Max Scaling` oder `Z-Score-Normalisierung`) stellt sicher, dass alle Features einen ähnlichen Wertebereich haben und somit gleichmäßig zur Distanzmessung beitragen.",
+      "gewichtung": 2,
+      "thema": "Datenvorverarbeitung & Feature Engineering",
+      "extended_explanation": {
+        "titel": "Die Notwendigkeit von Feature-Skalierung",
+        "schritte": [
+          "Stellen Sie sich vor, Sie haben ein Feature 'Einkommen' (Werte in Tausenden) und ein Feature 'Alter' (Werte zwischen 0 und 100).",
+          "Ohne Skalierung würde die euklidische Distanz fast ausschließlich vom 'Einkommen' bestimmt werden, da die Unterschiede dort viel größer sind.",
+          "Durch die Skalierung werden beide Features auf eine ähnliche Skala gebracht, sodass ihre relativen Abstände gleichmäßig zur Berechnung der Nachbarschaft beitragen."
+        ]
+      },
+      "mini_glossary": {
+        "Standardisierung": "Ein Datenvorverarbeitungsschritt, bei dem die Werte von Features so transformiert werden, dass sie eine einheitliche Skala haben und eine Normalverteilung mit Mittelwert 0 und Standardabweichung 1 aufweisen.",
+        "KNN": "Kurzform für K-Nearest Neighbors; siehe Eintrag „K-Nearest Neighbors (`KNN`)“. ",
+        "Distanzmaß": "Eine mathematische Funktion, die den Abstand zwischen zwei Punkten oder Vektoren in einem Raum misst."
+      }
+    },
+    {
+      "frage": "14. Welche Aussage zu **`Cross-Validation`** ist korrekt?",
+      "optionen": [
+        "`Cross-Validation` dient der `Hyperparameter-Optimierung`, nicht der Modellbewertung.",
+        "`Cross-Validation` reduziert die Varianz der Modellbewertung.",
+        "`Cross-Validation` ist nur bei `Deep Learning` relevant.",
+        "`Cross-Validation` ist identisch mit `Holdout-Validierung`."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die `Cross-Validation` ist eine robuste Methode zur Modellbewertung, die die Varianz der Leistungsschätzung reduziert. Im Gegensatz zur einfachen `Holdout-Validierung`, bei der das Modell nur einmal auf einer einzelnen Testmenge bewertet wird, verwendet `Cross-Validation` mehrere Folds (Teilmengen). Das Modell wird mehrfach auf unterschiedlichen Trainings- und Testsets bewertet, und die Ergebnisse werden gemittelt. Dies führt zu einer stabileren und zuverlässigeren Schätzung der Modellgüte.",
+      "gewichtung": 2,
+      "thema": "Modellbewertung & Optimierung",
+      "extended_explanation": {
+        "titel": "Vorteile der `K-Fold Cross-Validation`",
+        "schritte": [
+          "Bei der `K-Fold Cross-Validation` wird der Datensatz in `$k$` gleich große Teile aufgeteilt.",
+          "In `$k$` aufeinanderfolgenden Iterationen wird ein Teil als Testset verwendet, während die restlichen `$k-1$` Teile zum Training dienen.",
+          "Dieser Prozess stellt sicher, dass jeder Datenpunkt sowohl im Trainings- als auch im Testset verwendet wird, was zu einer gründlicheren und zuverlässigeren Leistungsbewertung führt als bei einer einfachen Aufteilung."
+        ]
+      },
+      "mini_glossary": {
+        "Cross-Validation": "Validierungstechnik, bei der Trainingsdaten in Folds geteilt werden; jedes Fold dient einmal als Validierung, wodurch die Varianz der Metrik sinkt.",
+        "Varianz": "Maß dafür, wie stark Modellvorhersagen bei Variation des Trainingssets schwanken; hohe Varianz deutet auf Überanpassung hin.",
+        "Holdout-Validierung": "Eine einfache Methode zur Modellbewertung, bei der der Datensatz einmalig in eine Trainings- und eine Testmenge aufgeteilt wird."
+      }
+    },
+    {
+      "frage": "15. Was ist ein typischer Nachteil von linearen Modellen bei komplexen Datensätzen?",
+      "optionen": [
+        "Sie sind zu langsam.",
+        "Sie können nicht mit kategorialen Variablen umgehen.",
+        "Sie können nicht-lineare Zusammenhänge nicht abbilden.",
+        "Sie benötigen `GPU`-Beschleunigung."
+      ],
+      "loesung": 2,
+      "erklaerung": "Lineare Modelle, wie die lineare Regression oder die logistische Regression, gehen von einem linearen Zusammenhang zwischen den Features und der Zielvariablen aus. Wenn die zugrunde liegenden Daten jedoch eine nicht-lineare Beziehung aufweisen, sind diese Modelle nicht in der Lage, die komplexen Muster zu erfassen, was zu einem `Underfitting` führt. `Polynomiale Regression` oder `Decision Trees` sind Beispiele für Modelle, die besser für nicht-lineare Daten geeignet sind.",
+      "gewichtung": 1,
+      "thema": "Modelle & Algorithmen"
+    },
+    {
+      "frage": "16. Welche Aussage zu `Data Augmentation` im Kontext von `Computer Vision` ist korrekt?",
+      "optionen": [
+        "`Data Augmentation` ist nur für Textdaten sinnvoll.",
+        "`Data Augmentation` kann helfen, **Overfitting** zu reduzieren.",
+        "`Data Augmentation` verschlechtert die Modellgüte.",
+        "`Data Augmentation` ist nur im `Deployment` relevant."
+      ],
+      "loesung": 1,
+      "erklaerung": "`Data Augmentation` ist eine Technik, die die Größe und Qualität eines Trainingsdatensatzes durch die Erstellung modifizierter Versionen von Bildern künstlich erhöht. Durch Transformationen wie Rotation, Spiegelung, Skalierung oder Farbverschiebung werden neue, aber realistische Trainingsbeispiele generiert. Dies vergrößert das Trainingsset, macht das Modell robuster und hilft effektiv, `Overfitting` zu reduzieren, da das Modell weniger die spezifischen Trainingsbilder auswendig lernt.",
+      "gewichtung": 2,
+      "thema": "Datenvorverarbeitung & Feature Engineering",
+      "extended_explanation": {
+        "titel": "Anwendung von `Data Augmentation`",
+        "schritte": [
+          "Ein typisches Beispiel im `Computer Vision` ist die Erstellung von gespiegelten Versionen von Bildern. Ein Modell, das gelernt hat, eine Katze auf einem Bild zu erkennen, sollte auch in der Lage sein, die Katze zu erkennen, wenn das Bild gespiegelt wird.",
+          "Andere gängige Transformationen umfassen das Hinzufügen von zufälligem Rauschen, das Zuschneiden (`Cropping`) von Bildausschnitten oder das Ändern des Kontrasts.",
+          "Da `Data Augmentation` die Varianz der Trainingsdaten erhöht, muss das Modell robuster und generalisierungsfähiger werden."
+        ]
+      },
+      "mini_glossary": {
+        "Data Augmentation": "Gezielte Erzeugung synthetischer Varianten (z. B. Drehung, Spiegelung) zur Erweiterung des Trainingssets und Verringerung von Overfitting.",
+        "Computer Vision": "Ein Fachgebiet der Künstlichen Intelligenz, das sich mit der Entwicklung von Systemen befasst, die in der Lage sind, Informationen aus visuellen Daten wie Bildern und Videos zu interpretieren und zu verstehen.",
+        "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung."
+      }
+    },
+    {
+      "frage": "17. Was ist ein typischer Vorteil von `Transfer Learning` im Vergleich zu `Training from Scratch`?",
+      "optionen": [
+        "Schlechtere Generalisierung",
+        "Nur für tabellarische Daten geeignet",
+        "Geringerer Datenbedarf und schnellere Konvergenz",
+        "Keine Vorteile, da Modelle immer neu trainiert werden müssen"
+      ],
+      "loesung": 2,
+      "erklaerung": "`Transfer Learning` nutzt ein bereits auf einem großen Datensatz vortrainiertes Modell (z.B. auf `ImageNet`) und passt es für eine neue, verwandte Aufgabe an. Der Hauptvorteil ist, dass man nicht von Grund auf neu anfangen muss (`Training from Scratch`). Dies spart erhebliche Rechenressourcen und Zeit und ermöglicht es, gute Ergebnisse mit deutlich weniger Daten zu erzielen, da die gelernten Features aus der ursprünglichen Aufgabe wiederverwendet werden.",
+      "gewichtung": 3,
+      "thema": "Modelle & Algorithmen",
+      "extended_explanation": {
+        "titel": "Das Konzept hinter `Transfer Learning`",
+        "schritte": [
+          "Stellen Sie sich vor, ein Modell lernt, Millionen von Bildern zu klassifizieren. Dabei lernt es in den frühen Schichten, grundlegende Merkmale wie Kanten, Formen und Texturen zu erkennen.",
+          "Beim `Transfer Learning` friert man diese frühen Schichten ein und trainiert nur die letzten Schichten des Modells neu, um sich auf die spezifische, neue Aufgabe anzupassen.",
+          "Dies ist besonders nützlich bei Aufgaben, bei denen nur wenige Trainingsdaten verfügbar sind, da die bereits gelernten allgemeinen Features wiederverwendet werden können."
+        ]
+      },
+      "mini_glossary": {
+        "Transfer Learning": "Übernahme vortrainierter Modelle/Feature-Extraktoren auf neue, verwandte Aufgaben, um Trainingsaufwand und Datenbedarf zu reduzieren.",
+        "Training from Scratch": "Die Methode, ein Machine-Learning-Modell von Grund auf neu zu trainieren, ohne auf vorab gelernten Parametern aufzubauen.",
+        "ImageNet": "Ein großer visueller Datensatz, der von Forschern zur Entwicklung von Algorithmen für maschinelles Sehen verwendet wird."
+      }
+    },
+    {
+      "frage": "18. Welche Aussage zu **Hyperparametern** ist korrekt?",
+      "optionen": [
+        "`Hyperparameter` werden während des Trainings automatisch gelernt.",
+        "`Hyperparameter` müssen vor dem Training festgelegt und ggf. optimiert werden.",
+        "`Hyperparameter` sind nur bei linearen Modellen relevant.",
+        "`Hyperparameter` sind identisch mit Modellgewichten."
+      ],
+      "loesung": 1,
+      "erklaerung": "Hyperparameter sind externe Konfigurationen, die nicht aus den Daten gelernt werden. Sie müssen vor dem Trainingsprozess festgelegt werden, um zu steuern, wie das Modell lernt. Beispiele sind die Lernrate in neuronalen Netzen, die Anzahl der Bäume in einem `Random Forest` oder der Wert von $k$ in einem `KNN`-Modell. Im Gegensatz dazu sind Modellgewichte oder Parameter Werte, die der Algorithmus während des Trainings lernt.",
+      "gewichtung": 1,
+      "thema": "Modellbewertung & Optimierung"
+    },
+    {
+      "frage": "19. Was ist ein typischer Fehler bei der Modellbewertung?",
+      "optionen": [
+        "Nutzung von `Cross-Validation`",
+        "Nutzung der Testdaten für `Hyperparameter-Tuning`",
+        "Nutzung von Trainingsdaten für das Training",
+        "Nutzung von Validierungsdaten für die Modellbewertung"
+      ],
+      "loesung": 1,
+      "erklaerung": "Der zentrale Fehler bei der Modellbewertung ist die unsaubere Trennung von Daten. Die Testdaten sind für die finale, unvoreingenommene Bewertung der Modellleistung reserviert. Wenn diese Daten für das `Hyperparameter-Tuning` verwendet werden, wird die Leistung auf dem Testset künstlich optimiert, was zu einer Überbewertung der Generalisierungsfähigkeit des Modells führt. Die Testdaten müssen vollständig ungesehen bleiben, bis die Modellentwicklung abgeschlossen ist.",
+      "gewichtung": 3,
+      "thema": "Modellbewertung & Optimierung",
+      "extended_explanation": {
+        "titel": "Die Bedeutung der Datenaufteilung",
+        "schritte": [
+          "Der korrekte Workflow sieht vor, den Datensatz in drei Teile zu teilen: Trainings-, Validierungs- und Testset.",
+          "Das **Trainingsset** dient dem Lernen der Modellparameter.",
+          "Das **Validierungsset** wird für das `Hyperparameter-Tuning` verwendet, um das beste Modell zu finden.",
+          "Das **Testset** wird nur einmal am Ende verwendet, um eine ehrliche und unabhängige Schätzung der Modellgüte zu erhalten."
+        ]
+      },
+      "mini_glossary": {
+        "Hyperparameter-Tuning": "Systematische Suche nach optimalen Steuerparametern eines Modells (z. B. GridSearchCV, RandomizedSearchCV); erfolgt auf Validierungsdaten, ohne das Testset zu berühren.",
+        "Testdaten": "Ein Teil des Datensatzes, der ausschließlich zur unvoreingenommenen, finalen Bewertung der Modellleistung nach dem Training und der `Hyperparameter-Optimierung` verwendet wird.",
+        "Generalisierungsfähigkeit": "Die Fähigkeit eines Modells, eine gute Leistung auf neuen, ungesehenen Daten zu erbringen."
+      }
+    },
+    {
+      "frage": "20. Welche Aussage zu `Explainable AI` (`XAI`) ist korrekt?",
+      "optionen": [
+        "`XAI` ist nur für `Deep Learning` relevant.",
+        "`XAI` hilft, Modelle und deren Entscheidungen nachvollziehbar zu machen.",
+        "`XAI` verschlechtert die Modellgüte.",
+        "`XAI` ist nur für Bilddaten relevant."
+      ],
+      "loesung": 1,
+      "erklaerung": "`Explainable AI` (`XAI`) ist ein Sammelbegriff für Methoden, die es ermöglichen, die Ergebnisse und Entscheidungen von KI-Systemen nachvollziehbar, transparent und interpretierbar zu machen. Dies ist besonders wichtig bei komplexen Modellen, die oft als 'Black Box' gelten, um das Vertrauen der Nutzer zu gewinnen, Fehler zu identifizieren und die Modelle in kritischen Anwendungen (z.B. in der Medizin) zu validieren.",
+      "gewichtung": 2,
+      "thema": "Explainable AI (XAI)",
+      "extended_explanation": {
+        "titel": "Methoden und Nutzen von `XAI`",
+        "schritte": [
+          "Es gibt verschiedene `XAI`-Methoden, darunter globale Interpretierbarkeit (`LIME`, `SHAP`), die die Bedeutung von Features für die Gesamtvorhersage zeigen.",
+          "Lokale Interpretierbarkeit hingegen erklärt, warum eine spezifische Vorhersage für einen einzelnen Datenpunkt getroffen wurde.",
+          "Der Nutzen von `XAI` reicht von der Fehlersuche über die Einhaltung regulatorischer Anforderungen bis zur Steigerung des Nutzervertrauens, da Entscheidungen nicht mehr mysteriös, sondern verständlich sind."
+        ]
+      },
+      "mini_glossary": {
+        "Explainable AI (`XAI`)": "Methoden, die Entscheidungsprozesse komplexer Modelle verständlich machen (z. B. SHAP, LIME, Feature-Attributionen).",
+        "Black Box": "Modell, dessen Entscheidungslogik für Anwender kaum nachvollziehbar ist – etwa tiefe Netze ohne zusätzliche Interpretierbarkeit.",
+        "Interpretierbarkeit": "Die Eigenschaft eines Machine-Learning-Modells, bei dem die Ursache-Wirkungs-Beziehung zwischen den Eingaben und den Vorhersagen verstanden werden kann."
+      }
+    },
+    {
+      "frage": "21. Was ist der Unterschied zwischen der `Spearman`- und der `Pearson`-Korrelation?",
+      "optionen": [
+        "Die `Spearman`-Korrelation misst nur lineare, die `Pearson`-Korrelation misst nicht-lineare Zusammenhänge.",
+        "Die `Spearman`-Korrelation ist für kategoriale, die `Pearson`-Korrelation für numerische Daten.",
+        "Die `Spearman`-Korrelation basiert auf Rängen der Daten, während die `Pearson`-Korrelation auf der tatsächlichen Linearität basiert.",
+        "Die `Spearman`-Korrelation ist empfindlicher gegenüber Ausreißern als die `Pearson`-Korrelation."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die `Pearson`-Korrelation misst die Stärke und Richtung eines **linearen** Zusammenhangs zwischen zwei Variablen. Sie ist empfindlich gegenüber Ausreißern. Im Gegensatz dazu misst die `Spearman`-Korrelation die Stärke eines **monotonen** Zusammenhangs, indem sie die Rangfolge der Datenpunkte betrachtet. Da sie auf Rängen und nicht auf den Originalwerten basiert, ist sie robuster gegenüber Ausreißern und kann auch nicht-lineare, aber monotone Beziehungen erfassen.",
+      "gewichtung": 3,
+      "thema": "Explorative Datenanalyse (EDA)",
+      "extended_explanation": {
+        "titel": "Korrelationskoeffizienten im Detail",
+        "schritte": [
+          "Die `Pearson`-Korrelation wird als $r$ bezeichnet und liegt im Bereich von $[-1, 1]$. Ein Wert von 1 bedeutet eine perfekte positive lineare Korrelation, -1 eine perfekte negative, und 0 keine lineare Korrelation.",
+          "Die `Spearman`-Korrelation, oft als $\\rho$ (rho) bezeichnet, misst die Rangkorrelation. Wenn $x$ und $y$ monotone Funktionen voneinander sind, ist der `Spearman`-Koeffizient 1.",
+          "Für eine visuelle Veranschaulichung der Unterschiede ist es hilfreich, Streudiagramme zu betrachten: Die `Spearman`-Korrelation würde eine perfekte monotone Kurve mit einem Koeffizienten von 1 abbilden, auch wenn die `Pearson`-Korrelation, aufgrund der Nicht-Linearität, niedriger wäre."
+        ]
+      },
+      "mini_glossary": {
+        "Pearson-Korrelation": "Ein statistisches Maß für die Stärke eines linearen Zusammenhangs zwischen zwei Variablen.",
+        "Spearman-Korrelation": "Ein statistisches Maß für die Stärke eines monotonen Zusammenhangs zwischen zwei Variablen, basierend auf den Rängen der Daten.",
+        "Monotoner Zusammenhang": "Eine Beziehung zwischen zwei Variablen, bei der eine Variable kontinuierlich zunimmt, wenn die andere Variable zunimmt, oder kontinuierlich abnimmt, wenn die andere abnimmt, ohne dass die Beziehung notwendigerweise linear sein muss."
+      }
+    },
+    {
+      "frage": "22. Wie können Sie in `Python` mit der Bibliothek `Scikit-learn` die Performance eines Klassifikationsmodells umfassend evaluieren?",
+      "optionen": [
+        "Durch die alleinige Nutzung der `model.score()`-Methode.",
+        "Indem Sie nur die Trainingsgenauigkeit (`accuracy`) messen und als finale Metrik verwenden.",
+        "Durch die Erstellung einer `Confusion Matrix` und die Berechnung von Metriken wie `Precision`, `Recall` und `F1-Score`.",
+        "Indem Sie die Laufzeit des Modells messen und diese als Performance-Metrik ansehen."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die `Confusion Matrix` ist ein grundlegendes Werkzeug zur Bewertung von Klassifikationsmodellen. Aus ihr lassen sich detailliertere Metriken als die einfache Genauigkeit (`accuracy`) ableiten. `Precision` misst die Exaktheit (Wie viele der als positiv vorhergesagten sind wirklich positiv?), `Recall` misst die Vollständigkeit (Wie viele der tatsächlichen Positiven wurden erkannt?) und der `F1-Score` ist das harmonische Mittel dieser beiden, was ein ausgewogenes Bild der Modellgüte liefert.",
+      "gewichtung": 3,
+      "thema": "Modellbewertung & Optimierung",
+      "extended_explanation": {
+        "titel": "Detaillierte Evaluation von Klassifikatoren",
+        "schritte": [
+            "Die `Confusion Matrix` zeigt die vier möglichen Ausgänge einer Klassifikation: `True Positives` (TP), `True Negatives` (TN), `False Positives` (FP) und `False Negatives` (FN).",
+          "Daraus können die Metriken berechnet werden: `Precision` = $\\frac{TP}{TP+FP}$, `Recall` = $\\frac{TP}{TP+FN}$ und `F1-Score` = $2 \\times \\frac{Precision \\times Recall}{Precision + Recall}$.",
+          "Diese Metriken sind besonders wichtig bei unausgewogenen Datensätzen, bei denen die `accuracy` allein irreführend sein kann. Ein Modell, das immer die Mehrheitsklasse vorhersagt, könnte eine hohe `accuracy` haben, aber einen `Recall` von null für die Minderheitsklasse."
+        ]
+      },
+      "mini_glossary": {
+        "Confusion Matrix": "Eine Tabelle, die die Leistung eines Klassifikationsmodells visuell darstellt und die Anzahl der `True Positives`, `True Negatives`, `False Positives` und `False Negatives` zeigt.",
+        "Precision": "Ein Maß für die Genauigkeit der positiven Vorhersagen des Modells.",
+        "Recall": "Ein Maß für die Fähigkeit des Modells, alle positiven Instanzen zu identifizieren."
+      }
+    },
+    {
+      "frage": "23. Diskutieren Sie die Bedeutung von `Data Leakage` im Machine Learning und wie man es vermeiden kann.",
+      "optionen": [
+        "Es ist ein Prozess zur Datenbereinigung und wird durch `Cross-Validation` behoben.",
+        "Es ist ein Problem, das entsteht, wenn die Trainings- und Testdaten nicht strikt getrennt werden, und kann durch einen korrekten Workflow vermieden werden.",
+        "Es ist eine Technik zur Datenaugmentation, die die Modellleistung verbessert, und wird mit `MLflow` umgesetzt.",
+        "Es ist die unbeabsichtigte Verwendung von historischen Daten, die durch `Feature Engineering` behoben wird."
+      ],
+      "loesung": 1,
+      "erklaerung": "`Data Leakage` ist ein ernsthaftes Problem, das zu einer unrealistisch hohen Modellgüte führt, da das Modell Informationen aus der Testmenge oder der Zukunft 'sieht'. Die Lösung ist ein disziplinierter Workflow, bei dem die Daten vor jeglicher Vorverarbeitung in Trainings- und Testset aufgeteilt werden. Erst danach werden Skalierungs-, Imputations- oder Feature-Engineering-Schritte separat auf den beiden Datensätzen angewendet.",
+      "gewichtung": 3,
+      "thema": "QUA³CK-Prozess & Data Leakage",
+      "extended_explanation": {
+        "titel": "Wie man `Data Leakage` in der Praxis verhindert",
+        "schritte": [
+          "Das wichtigste Prinzip ist '`Split first, then pre-process`'. Teilen Sie die Daten in Trainings- und Testset auf, bevor Sie irgendwelche Transformationen anwenden.",
+          "Wenden Sie Fit-Operationen (z.B. die Berechnung von Mittelwert und Standardabweichung für die `Standardisierung`) nur auf den Trainingsdaten an. Verwenden Sie die gelernten Parameter dann, um die Testdaten zu transformieren.",
+          "Besonders vorsichtig muss man bei `TimeSeries`-Daten sein. Hier muss der Split zeitbasiert erfolgen, um zu verhindern, dass das Modell Informationen aus der Zukunft für seine Vorhersagen nutzt."
+        ]
+      },
+      "mini_glossary": {
+        "Data Leakage": "Unbeabsichtigter Informationsfluss vom Testset in den Trainingsprozess (z. B. gemeinsames Fitten von Scaler oder Encoding); verfälscht Metriken und führt zu optimistischeren Ergebnissen.",
+        "Data Pre-processing": "Alle Schritte, die zur Vorbereitung der Daten für ein Machine-Learning-Modell erforderlich sind, wie z.B. das Bereinigen, Skalieren oder Transformieren von Features.",
+        "TimeSeries-Daten": "Daten, die über die Zeit in einer bestimmten Reihenfolge gesammelt werden."
+      }
+    },
+    {
+      "frage": "24. Skizzieren Sie die Schritte zur Entwicklung einer `Streamlit`-App für ein ML-Modell, das auf tabellarischen Daten basiert.",
+      "optionen": [
+        "Installieren Sie `Streamlit` und `Scikit-learn`, laden Sie das trainierte Modell und erstellen Sie die Benutzeroberfläche (`UI`) mit `st.write()` und `st.text_input()`.",
+        "Installieren Sie `MLflow` und `Flask`, laden Sie die Daten in eine Datenbank und erstellen Sie die `UI` mit `HTML` und `CSS`.",
+        "Trainieren Sie das Modell, speichern Sie es als `.txt`-Datei und erstellen Sie eine `UI` mit `Matplotlib` und `Seaborn`.",
+        "Laden Sie die Daten in ein `Jupyter Notebook`, trainieren Sie das Modell und teilen Sie das Notebook, um die App bereitzustellen."
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Entwicklung einer `Streamlit`-App zur Bereitstellung eines ML-Modells ist ein relativ einfacher Prozess. Man beginnt mit der Installation der benötigten Bibliotheken. Anschließend lädt man das trainierte Modell in die App. Schließlich erstellt man die Benutzeroberfläche (`UI`) mit `Streamlit`s einfachen Widgets wie `st.text_input` für die Eingabe von Feature-Werten und `st.write` zur Anzeige der Vorhersagen. `Streamlit` übernimmt die gesamte Komplexität des Web-Deployments, sodass man sich auf den Code konzentrieren kann.",
+      "gewichtung": 3,
+      "thema": "MLOps & Werkzeuge",
+      "extended_explanation": {
+        "titel": "Von der Idee zur App mit `Streamlit`",
+        "schritte": [
+          "Ein typischer `Streamlit`-Workflow beginnt mit dem Python-Skript. Man lädt die Daten und das trainierte Modell (`z.B. mit joblib.load()`) am Anfang des Skripts.",
+          "Anschließend erstellt man die interaktive Benutzeroberfläche, indem man die Daten des Benutzers sammelt. Widgets wie `st.slider()`, `st.selectbox()` und `st.text_input()` sind dafür ideal.",
+          "Zuletzt wird die Vorhersagefunktion aufgerufen, und das Ergebnis wird mit `st.write()` oder anderen `Streamlit`-Funktionen angezeigt. Das Skript kann dann einfach über die Kommandozeile (`streamlit run your_app.py`) ausgeführt werden."
+        ]
+      },
+      "mini_glossary": {
+        "Streamlit": "Ein Open-Source-Framework in `Python`, das die Erstellung und Bereitstellung von interaktiven Web-Apps für Data Science und Machine Learning extrem vereinfacht.",
+        "User Interface (UI)": "Die Benutzeroberfläche, über die ein Nutzer mit einer Anwendung interagiert.",
+        "Deployment": "Bereitstellung eines trainierten Modells in einer produktiven Umgebung (API, Streamlit, Batch) inklusive Infrastruktur, Skalierung und Monitoring."
+      }
+    },
+    {
+      "frage": "25. Vergleichen Sie die Vor- und Nachteile von `Random Forests` und `K-Nearest Neighbors` für Klassifikationsaufgaben.",
+      "optionen": [
+        "`Random Forests` sind langsamer, aber robuster als `KNN`.",
+        "`Random Forests` sind sehr interpretierbar, während `KNN` eine 'Black Box' ist.",
+        "`Random Forests` sind rechenintensiv im Training, `KNN` hingegen im `Deployment`.",
+        "`Random Forests` können nicht-lineare Zusammenhänge abbilden, `KNN` ist auf lineare Probleme beschränkt."
+      ],
+      "loesung": 2,
+      "erklaerung": "`Random Forests` sind rechenintensiv während des Trainings, da sie viele `Decision Trees` erstellen und optimieren müssen. Die Vorhersagezeit ist jedoch relativ schnell. `KNN` hat keine Trainingsphase im klassischen Sinne, da es einfach alle Daten speichert. Der Rechenaufwand entsteht bei der Vorhersage (`Deployment`), da die Distanz zu allen Trainingsdatenpunkten berechnet werden muss, um die $k$ Nachbarn zu finden.",
+      "gewichtung": 3,
+      "thema": "Modelle & Algorithmen",
+      "extended_explanation": {
+        "titel": "Detaillierter Vergleich der Modelle",
+        "schritte": [
+          "`Random Forests` sind Ensemble-Methoden, die gut mit `Overfitting` umgehen, sehr gut auf großen Datensätzen performen und die Wichtigkeit der Features angeben können.",
+          "`KNN` ist sehr einfach zu verstehen und zu implementieren, leidet aber unter Skalierbarkeitsproblemen bei großen Datensätzen und ist sehr anfällig für die Wahl des richtigen Distanzmaßes und der Skalierung der Features.",
+          "Der Hauptunterschied liegt also in der Rechenintensität während des Trainings (für `Random Forests`) versus während der Vorhersage (für `KNN`), sowie in der Anfälligkeit für `Overfitting` und der Skalierbarkeit."
+        ]
+      },
+      "mini_glossary": {
+        "Random Forest": "Ensemble vieler Entscheidungsbäume auf Bootstrap-Samples und Feature-Subsets; reduziert Varianz und Overfitting gegenüber Einzelbäumen.",
+        "K-Nearest Neighbors (`KNN`)": "Nicht-parametrischer Klassifikator: weist einem Punkt das Mehrheitslabel der k nächsten Trainingspunkte im Feature-Raum zu (distanzbasiert).",
+        "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung."
+      }
+    },
+    {
+      "frage": "26. Erklären Sie, wie Sie mit `MLflow` ein Experiment-Tracking für verschiedene Modellvarianten aufsetzen würden und welche Vorteile dies bietet.",
+      "optionen": [
+        "Sie nutzen es, um das Modell in einen Docker-Container zu packen und in der Cloud zu deployen.",
+        "Sie verwenden es, um automatisch Hyperparameter zu finden und zu optimieren.",
+        "Sie initiieren einen `MLflow` Run, loggen Parameter (`mlflow.log_param()`) und Metriken (`mlflow.log_metric()`) und speichern das trainierte Modell.",
+        "Sie nutzen es, um `Python`-Bibliotheken zu installieren und die Daten zu bereinigen."
+      ],
+      "loesung": 2,
+      "erklaerung": "`MLflow` ist für das Experiment-Tracking konzipiert. Man startet einen Run (`with mlflow.start_run():`), loggt die verwendeten Hyperparameter, die gemessenen Metriken (z.B. Genauigkeit, `F1-Score`) und die erzeugten Artefakte, wie das trainierte Modell. Der Hauptvorteil ist, dass man die Ergebnisse verschiedener Modellvarianten (z.B. mit unterschiedlichen Hyperparametern) systematisch vergleichen, reproduzieren und die beste Version leicht identifizieren kann. Dies ist im `MLOps`-Kontext entscheidend für die Transparenz und Verwaltung des Modelllebenszyklus.",
+      "gewichtung": 3,
+      "thema": "MLOps & Werkzeuge",
+      "extended_explanation": {
+        "titel": "Praktisches `MLflow`-Tracking",
+        "schritte": [
+          "Ein `MLflow` Run ist ein einzelner Trainingslauf. Jeder Run wird mit einer eindeutigen ID versehen und speichert alle geloggten Informationen.",
+          "Das `MLflow` UI ermöglicht es, alle Runs zu vergleichen, indem man Metriken und Parameter in einer Tabelle oder in Graphen visualisiert.",
+          "Dies hilft, den Fortschritt zu verfolgen, Hypothesen zu testen und die Reproduzierbarkeit zu gewährleisten. Man kann einfach auf einen vorherigen Run zurückgreifen, wenn man eine bestimmte Konfiguration reproduzieren muss."
+        ]
+      },
+      "mini_glossary": {
+        "MLflow": "Open-Source-Plattform zum Nachverfolgen von ML-Experimenten, Verwalten von Modellen und Bereitstellen in Registry oder Serving.",
+        "Experiment-Tracking": "Systematische Erfassung von Trainingsläufen (Parameter, Metriken, Artefakte), um Modellversionen reproduzierbar zu vergleichen und auditierbar zu halten.",
+        "Modell-Lebenszyklus": "Die aufeinanderfolgenden Phasen im Machine Learning, von der Datenbeschaffung über die Modellentwicklung und das Training bis zur Bereitstellung, Überwachung und Wartung in der Produktion."
+      }
+    },
+    {
+      "frage": "27. Beschreiben Sie, wie Sie mit `Transfer Learning` ein `Computer-Vision`-Projekt umsetzen würden.",
+      "optionen": [
+        "Trainieren Sie ein neuronales Netzwerk von Grund auf neu auf den neuen Bilddaten.",
+        "Löschen Sie alle Schichten eines vortrainierten Modells und erstellen Sie ein völlig neues.",
+        "Wählen Sie ein vortrainiertes Modell (z.B. `ResNet`), frieren Sie die früheren Schichten ein, fügen Sie neue Schichten hinzu und trainieren Sie nur die neuen Schichten auf den neuen Daten.",
+        "Verwenden Sie ein vortrainiertes Modell ohne jegliche Anpassung für Ihre neue Aufgabe."
+      ],
+      "loesung": 2,
+      "erklaerung": "Der typische Workflow für `Transfer Learning` im `Computer Vision` sieht vor, dass man ein Modell wie `ResNet` oder `VGG16`, das auf einem großen Datensatz wie `ImageNet` vortrainiert wurde, verwendet. Da die frühen Schichten bereits gelernt haben, allgemeine Merkmale (Kanten, Texturen) zu erkennen, friert man diese ein. Man ersetzt dann die letzten Schichten (die für die Klassifikation spezifisch sind) durch neue, die für die eigene Aufgabe geeignet sind. Schließlich trainiert man nur diese neuen Schichten auf dem kleineren, spezifischen Datensatz, was den Prozess beschleunigt und Overfitting reduziert.",
+      "gewichtung": 3,
+      "thema": "Modelle & Algorithmen",
+      "extended_explanation": {
+        "titel": "Vorteile und Herausforderungen von `Transfer Learning`",
+        "schritte": [
+          "Vorteile: Signifikante Reduzierung des Rechenaufwands, der Trainingszeit und des Datenbedarfs. Ermöglicht die Nutzung hochmoderner Architekturen, ohne sie von Grund auf neu trainieren zu müssen.",
+          "Nachteile: Nicht immer ist das vortrainierte Modell für die neue Aufgabe geeignet. Manchmal müssen auch die eingefrorenen Schichten 'fein-getuned' werden, um eine optimale Leistung zu erzielen.",
+          "Das Konzept funktioniert am besten, wenn die neue Aufgabe ähnlich der ursprünglichen Aufgabe ist, für die das Modell trainiert wurde."
+        ]
+      },
+      "mini_glossary": {
+        "Transfer Learning": "Übernahme vortrainierter Modelle/Feature-Extraktoren auf neue, verwandte Aufgaben, um Trainingsaufwand und Datenbedarf zu reduzieren.",
+        "Vortrainiertes Modell": "Ein Machine-Learning-Modell, das bereits auf einem großen Datensatz trainiert wurde, bevor es für eine neue Aufgabe weiterverwendet wird.",
+        "ResNet": "Eine bekannte neuronale Netzwerkarchitektur, die oft als Basis für `Transfer Learning` in der Bildverarbeitung verwendet wird."
+      }
+    },
+    {
+      "frage": "28. Diskutieren Sie die Rolle von `Cross-Validation` und `Hyperparameter-Tuning` für die Modellgüte. Wie gehen Sie dabei praktisch vor?",
+      "optionen": [
+        "`Cross-Validation` dient nur der Datenaufteilung, `Hyperparameter-Tuning` wird manuell durchgeführt.",
+        "Beide sind voneinander unabhängige Prozesse, die nacheinander ohne Verbindung angewendet werden.",
+        "`Cross-Validation` wird verwendet, um eine robuste Schätzung der Modellgüte zu erhalten, während `Hyperparameter-Tuning` auf Basis dieser Schätzung die optimalen Parameter findet.",
+        "Das `Hyperparameter-Tuning` erfolgt ausschließlich auf den Testdaten, während `Cross-Validation` auf den Trainingsdaten durchgeführt wird."
+      ],
+      "loesung": 2,
+      "erklaerung": "`Cross-Validation` und `Hyperparameter-Tuning` sind eng miteinander verbunden. Bei der `Grid Search` oder `Randomized Search` wird `Cross-Validation` in jeder Iteration verwendet, um die Leistung eines Modells mit einem bestimmten Satz von Hyperparametern zu bewerten. Durch die Mittelung der Ergebnisse über alle Folds erhält man eine zuverlässige Schätzung der Güte. Das `Tuning`-Verfahren sucht dann systematisch nach dem besten Parametersatz, der die beste durchschnittliche Leistung über alle Folds liefert. Die Kombination beider Verfahren stellt sicher, dass man ein optimales Modell findet, dessen Leistungsschätzung nicht durch eine zufällige Aufteilung der Daten verzerrt ist.",
+      "gewichtung": 3,
+      "thema": "Modellbewertung & Optimierung",
+      "extended_explanation": {
+        "titel": "Praktische Kombination beider Techniken",
+        "schritte": [
+          "Ein typischer Ansatz ist die Verwendung von `GridSearchCV` oder `RandomizedSearchCV` aus `Scikit-learn`.",
+          "Diese Funktionen nehmen als Eingabe ein Modell, einen Parameter-Grid und die `Cross-Validation`-Strategie entgegen.",
+          "Für jede mögliche Kombination von Hyperparametern wird das Modell auf den `Cross-Validation`-Folds trainiert und bewertet, und die durchschnittliche Leistung wird aufgezeichnet. Am Ende wählt das Verfahren den Parametersatz, der die höchste mittlere Leistung erbracht hat."
+        ]
+      },
+      "mini_glossary": {
+        "Cross-Validation": "Validierungstechnik, bei der Trainingsdaten in Folds geteilt werden; jedes Fold dient einmal als Validierung, wodurch die Varianz der Metrik sinkt.",
+        "Hyperparameter-Tuning": "Systematische Suche nach optimalen Steuerparametern eines Modells (z. B. GridSearchCV, RandomizedSearchCV); erfolgt auf Validierungsdaten, ohne das Testset zu berühren.",
+        "Grid Search": "Eine Methode zur `Hyperparameter-Optimierung`, die systematisch alle möglichen Kombinationen von Hyperparameter-Werten in einem vordefinierten Raster ausprobiert."
+      }
+    },
+    {
+      "frage": "29. Analysieren Sie, wie Sie mit `Exploratory Data Analysis` (`EDA`) typische Fehlerquellen und Ausreißer in einem Datensatz identifizieren und adressieren würden.",
+      "optionen": [
+        "Indem Sie nur die Durchschnittswerte aller Spalten berechnen und vergleichen.",
+        "Durch die alleinige Anwendung eines Machine-Learning-Modells auf die Rohdaten, um Fehler zu identifizieren.",
+        "Durch Visualisierungen wie `Boxplots` und `Streudiagramme` sowie statistische Kennzahlen wie `Mittelwert`, `Median` und `Standardabweichung`.",
+        "Durch das Löschen aller Datenpunkte, die von einer Normalverteilung abweichen."
+      ],
+      "loesung": 2,
+      "erklaerung": "`EDA` ist der erste und wichtigste Schritt im `Data Analytics`-Workflow. Visuelle Werkzeuge wie `Boxplots` oder `Streudiagramme` sind besonders effektiv, um die Verteilung der Daten zu verstehen, Ausreißer zu erkennen und unerwartete Beziehungen zwischen Variablen zu identifizieren. Statistische Kennzahlen (`Mittelwert`, `Median`, etc.) helfen, diese visuellen Eindrücke quantitativ zu untermauern. Fehlerquellen wie fehlende Werte oder falsche Datentypen werden in dieser Phase ebenfalls identifiziert.",
+      "gewichtung": 3,
+      "thema": "Explorative Datenanalyse (EDA)",
+      "extended_explanation": {
+        "titel": "Der Nutzen von `EDA`",
+        "schritte": [
+          "`EDA` ist wie Detektivarbeit: Man sucht nach Hinweisen, die helfen, die Daten zu verstehen und mögliche Probleme zu identifizieren.",
+          "Ein `Boxplot` kann zum Beispiel Ausreißer visuell als Punkte außerhalb der 'Whisker' darstellen. Ein `Streudiagramm` kann unerwartete Cluster oder nicht-lineare Zusammenhänge aufzeigen.",
+          "Fehlerquellen können auch im Datenformat liegen, z.B. wenn eine numerische Spalte plötzlich Text enthält. Solche Inkonsistenzen werden oft bei der ersten Analyse der Datenstrukturen sichtbar."
+        ]
+      },
+      "mini_glossary": {
+        "Exploratory Data Analysis (`EDA`)": "Der Prozess der Untersuchung von Datensätzen, um ihre Hauptmerkmale zusammenzufassen, oft mit visuellen Methoden.",
+        "Boxplot": "Ein Diagramm, das die Verteilung eines Datensatzes über seine Quartile darstellt und oft zur Identifizierung von Ausreißern verwendet wird.",
+        "Ausreißer": "Beobachtungen, die deutlich außerhalb des typischen Wertebereichs liegen und Modelle stark beeinflussen können; benötigen spezielle Behandlung."
+      }
+    },
+    {
+      "frage": "30. Reflektieren Sie, wie `Explainable AI` (`XAI`) die Akzeptanz von ML-Modellen in Unternehmen beeinflussen kann.",
+      "optionen": [
+        "Es macht die Modelle komplexer und weniger verständlich für Nicht-Experten.",
+        "Es hilft, die Modellgüte zu reduzieren, um Fehler zu verringern.",
+        "Es ermöglicht eine erhöhte Transparenz, stärkt das Vertrauen und erleichtert die Fehlerbehebung.",
+        "Es ist ein rein akademisches Konzept ohne praktischen Nutzen in der Industrie."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Akzeptanz von ML-Modellen in Unternehmen hängt stark von ihrem Vertrauen in die Entscheidungen der Modelle ab. `XAI` bricht die 'Black-Box'-Natur vieler Modelle auf, indem es erklärt, warum eine bestimmte Vorhersage getroffen wurde. Dies schafft Transparenz und Vertrauen, was besonders in regulierten Branchen wie dem Finanz- oder Gesundheitswesen entscheidend ist. Zudem erleichtert `XAI` die Fehlersuche und hilft, Voreingenommenheiten (Bias) in den Daten oder Modellen zu erkennen und zu beheben.",
+      "gewichtung": 3,
+      "thema": "Explainable AI (XAI)",
+      "extended_explanation": {
+        "titel": "Die wirtschaftlichen und ethischen Vorteile von `XAI`",
+        "schritte": [
+          "In Branchen, in denen Entscheidungen weitreichende Konsequenzen haben (z.B. Kreditvergabe oder medizinische Diagnose), ist es oft gesetzlich vorgeschrieben, die Entscheidungsfindung zu erklären.",
+          "`XAI` hilft nicht nur bei der Einhaltung solcher Vorschriften, sondern ermöglicht es auch, die Modelle kontinuierlich zu verbessern, indem man erkennt, auf welche Features sie übermäßig reagieren oder welche Vorhersagen unlogisch sind.",
+          "Zudem kann `XAI` die Zusammenarbeit zwischen Data Scientists und Fachexperten verbessern, da beide eine gemeinsame Grundlage für die Diskussion der Modellergebnisse haben."
+        ]
+      },
+      "mini_glossary": {
+        "Explainable AI (`XAI`)": "Methoden, die Entscheidungsprozesse komplexer Modelle verständlich machen (z. B. SHAP, LIME, Feature-Attributionen).",
+        "Black Box": "Modell, dessen Entscheidungslogik für Anwender kaum nachvollziehbar ist – etwa tiefe Netze ohne zusätzliche Interpretierbarkeit.",
+        "Bias (Voreingenommenheit)": "Eine systemische Verzerrung in einem Datensatz oder Algorithmus, die zu unfairen oder diskriminierenden Ergebnissen führen kann."
+      }
+    }
+  ]
+}

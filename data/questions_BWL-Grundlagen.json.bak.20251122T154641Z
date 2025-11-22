@@ -1,0 +1,728 @@
+{
+  "meta": {
+    "title": "BWL-Grundlagen",
+    "created": "17.11.2025 10:00",
+    "modified": "17.11.2025 10:15",
+    "target_audience": "BWL-Studierende im 1. Semester",
+    "question_count": 30,
+    "difficulty_profile": {
+      "leicht": 15,
+      "mittel": 11,
+      "schwer": 4
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 25
+  },
+  "questions": [
+    {
+      "frage": "1. Welche Aussage beschreibt den Begriff Betriebswirtschaftslehre am treffendsten?",
+      "optionen": [
+        "Sie untersucht die Entscheidungen und Prozesse innerhalb einzelner Unternehmen.",
+        "Sie analysiert ausschließlich das Verhalten von Staaten auf internationalen Märkten.",
+        "Sie beschreibt die mathematische Optimierung von Produktionsfunktionen ohne Praxisbezug.",
+        "Sie befasst sich nur mit der Besteuerung von Unternehmen.",
+        "Sie ist ein anderes Wort für Volkswirtschaftslehre."
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Betriebswirtschaftslehre (BWL) fokussiert auf Entscheidungen, Prozesse und Strukturen innerhalb einzelner Betriebe bzw. Unternehmen. Volkswirtschaftliche oder staatliche Gesamtzusammenhänge gehören zur Volkswirtschaftslehre (VWL).",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe der BWL",
+      "mini_glossary": {
+        "Betriebswirtschaftslehre": "Wissenschaft von den wirtschaftlichen Entscheidungen, Strukturen und Prozessen in einzelnen Unternehmen.",
+        "Volkswirtschaftslehre": "Teil der Wirtschaftswissenschaften, der gesamtwirtschaftliche Zusammenhänge wie Märkte, Staaten und Haushalte betrachtet.",
+        "Unternehmen": "Organisatorische Einheit, die Güter oder Dienstleistungen zur Deckung von Bedürfnissen gegen Entgelt anbietet."
+      }
+    },
+    {
+      "frage": "2. Welches Ziel steht im Zentrum des erwerbswirtschaftlichen Prinzips eines Unternehmens?",
+      "optionen": [
+        "Maximierung des Absatzes bei konstanten Kosten.",
+        "Erzielen eines langfristigen Gewinns durch wirtschaftliches Handeln.",
+        "Vollständige Vermeidung von Risiken in allen Geschäftsbereichen.",
+        "Aufbau möglichst vieler Hierarchieebenen im Unternehmen.",
+        "Reduktion der Mitarbeitendenzahl unabhängig von der Auftragslage."
+      ],
+      "loesung": 1,
+      "erklaerung": "Das erwerbswirtschaftliche Prinzip zielt auf die Erwirtschaftung von Gewinn als Entlohnung für das eingesetzte Kapital ab. Risiken sollen bewusst, aber nicht vollständig vermieden, sondern kontrolliert eingegangen werden.",
+      "gewichtung": 1,
+      "thema": "Grundbegriffe der BWL",
+      "mini_glossary": {
+        "Erwerbswirtschaftliches Prinzip": "Ausrichtung eines Unternehmens auf das Erzielen von Gewinn als Entgelt für das eingesetzte Kapital.",
+        "Gewinn": "Positive Differenz zwischen Erträgen und Aufwendungen in einer Periode.",
+        "Kapital": "Finanzielle oder sachliche Mittel, die in einem Unternehmen eingesetzt werden, um Erträge zu erwirtschaften."
+      }
+    },
+    {
+      "frage": "3. Welcher Zusammenhang beschreibt das ökonomische Prinzip korrekt?",
+      "optionen": [
+        "Mit möglichst hohen Mitteln ein möglichst kleines Ziel erreichen.",
+        "Mit möglichst wenigen Mitteln ein gegebenes Ziel erreichen.",
+        "Unabhängig von den eingesetzten Mitteln immer das gleiche Ergebnis erzielen.",
+        "Nur qualitative Ziele ohne Bezug zu Ressourcen verfolgen.",
+        "Ressourcenverbrauch maximieren, um Skaleneffekte zu nutzen."
+      ],
+      "loesung": 1,
+      "erklaerung": "Das ökonomische Prinzip fordert einen effizienten Umgang mit knappen Ressourcen. In der Minimalvariante soll ein vorgegebenes Ziel mit möglichst geringem Mitteleinsatz erreicht werden.",
+      "gewichtung": 2,
+      "thema": "Grundbegriffe der BWL",
+      "extended_explanation": {
+        "titel": "Varianten des ökonomischen Prinzips",
+        "schritte": [
+          "Das ökonomische Prinzip basiert auf der Annahme knapper Ressourcen, die effizient eingesetzt werden müssen.",
+          "Beim Minimalprinzip ist das Ziel vorgegeben und der Ressourceneinsatz soll minimiert werden.",
+          "Beim Maximalprinzip sind die Mittel vorgegeben und der erzielbare Output soll maximiert werden.",
+          "Unternehmen verwenden je nach Entscheidungssituation unterschiedliche Ausprägungen des ökonomischen Prinzips."
+        ]
+      },
+      "mini_glossary": {
+        "Ökonomisches Prinzip": "Grundsatz, nach dem knappe Mittel so eingesetzt werden sollen, dass ein möglichst günstiges Verhältnis von Aufwand und Ertrag entsteht.",
+        "Minimalprinzip": "Variante des ökonomischen Prinzips, bei der ein gegebenes Ziel mit möglichst wenig Mitteleinsatz erreicht werden soll.",
+        "Maximalprinzip": "Variante des ökonomischen Prinzips, bei der mit gegebenen Mitteln ein möglichst großer Erfolg erzielt werden soll."
+      }
+    },
+    {
+      "frage": "4. Welche Gruppe wird in der BWL typischerweise als zentrale Stakeholder-Gruppe eines Unternehmens angesehen?",
+      "optionen": [
+        "Reisende ohne Beziehung zum Unternehmen.",
+        "Kapitalgebende, Mitarbeitende, Kundinnen und Kunden sowie Liefernde.",
+        "Nur die staatlichen Behörden am Unternehmenssitz.",
+        "Ausschließlich Wettbewerberinnen und Wettbewerber.",
+        "Nur der Vorstand des Unternehmens."
+      ],
+      "loesung": 1,
+      "erklaerung": "Zu den zentralen Stakeholdern eines Unternehmens zählen insbesondere Kapitalgebende, Mitarbeitende, Kundinnen und Kunden sowie Liefernde, da sie direkt von den Unternehmensentscheidungen betroffen sind.",
+      "gewichtung": 1,
+      "thema": "Ziele und Stakeholder des Unternehmens",
+      "mini_glossary": {
+        "Stakeholder": "Alle Anspruchsgruppen, die ein Interesse am Verlauf oder Ergebnis der Tätigkeit eines Unternehmens haben.",
+        "Kapitalgebende": "Personen oder Institutionen, die dem Unternehmen finanzielle Mittel zur Verfügung stellen.",
+        "Liefernde": "Unternehmen oder Personen, die Vorleistungen, Materialien oder Dienstleistungen für ein Unternehmen bereitstellen."
+      }
+    },
+    {
+      "frage": "5. Ein Unternehmen möchte seine Kundenzufriedenheit steigern, obwohl dies kurzfristig die Gewinne senkt. Welcher Zielkonflikt wird hier deutlich?",
+      "optionen": [
+        "Konflikt zwischen ökonomischen und ökologischen Zielen.",
+        "Konflikt zwischen kurzfristigen Gewinnzielen und langfristiger Marktposition.",
+        "Konflikt zwischen rechtlichen und ethischen Zielen.",
+        "Konflikt zwischen Sachzielen und technischen Zielen.",
+        "Konflikt zwischen Input- und Outputfaktoren."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Maßnahmen zur Steigerung der Kundenzufriedenheit können kurzfristig Gewinne schmälern, langfristig aber die Marktposition und Ertragskraft stärken. Dies verdeutlicht den Zielkonflikt zwischen kurzfristiger Gewinnmaximierung und langfristiger Marktorientierung.",
+      "gewichtung": 2,
+      "thema": "Ziele und Stakeholder des Unternehmens",
+      "extended_explanation": {
+        "titel": "Zielkonflikte in Unternehmen verstehen",
+        "schritte": [
+          "Unternehmensziele stehen häufig in einem Spannungsverhältnis, beispielsweise Gewinnziele gegenüber Qualitäts- oder Servicezielen.",
+          "Kurzfristige Gewinnmaximierung kann Maßnahmen verhindern, die langfristig Kundenzufriedenheit und Marktanteile fördern.",
+          "Das Management muss Zielkonflikte identifizieren und priorisieren, etwa durch strategische Planung und Kennzahlensysteme.",
+          "Ein ausgewogener Ausgleich zwischen kurz- und langfristigen Zielen ist für nachhaltigen Unternehmenserfolg entscheidend."
+        ]
+      },
+      "mini_glossary": {
+        "Kundenzufriedenheit": "Grad der Übereinstimmung zwischen den Erwartungen der Kundinnen und Kunden und der tatsächlich wahrgenommenen Leistung.",
+        "Zielkonflikt": "Situation, in der die Verbesserung eines Ziels die Erreichung eines anderen Ziels erschwert.",
+        "Marktposition": "Stellung eines Unternehmens im Vergleich zu seinen Wettbewerbern, z. B. gemessen an Marktanteilen."
+      }
+    },
+    {
+      "frage": "6. Welche Aussage beschreibt das Zielsystem eines Unternehmens zutreffend?",
+      "optionen": [
+        "Unternehmensziele stehen immer unabhängig nebeneinander und beeinflussen sich nie.",
+        "Unternehmensziele können komplementär, konkurrierend oder indifferent zueinander stehen.",
+        "Unternehmensziele dürfen ausschließlich ökonomischer Natur sein.",
+        "Unternehmensziele sind ausschließlich gesetzlich vorgegeben.",
+        "Unternehmensziele werden nur im Rechnungswesen festgelegt."
+      ],
+      "loesung": 1,
+      "erklaerung": "Unternehmensziele bilden ein Zielsystem, in dem Ziele sich gegenseitig unterstützen (komplementär), behindern (konkurrierend) oder unabhängig voneinander sein können (indifferent).",
+      "gewichtung": 2,
+      "thema": "Ziele und Stakeholder des Unternehmens",
+      "extended_explanation": {
+        "titel": "Struktur von Unternehmenszielen",
+        "schritte": [
+          "Ziele eines Unternehmens umfassen finanzielle, marktbezogene, soziale und ökologische Aspekte.",
+          "Komplementäre Ziele fördern sich gegenseitig, etwa Produktqualität und Kundenzufriedenheit.",
+          "Konkurrierende Ziele stehen im Spannungsverhältnis, zum Beispiel Kostenreduktion vs. Servicequalität.",
+          "Indifferente Ziele beeinflussen sich kaum, spielen aber dennoch im Gesamtzielsystem eine Rolle."
+        ]
+      },
+      "mini_glossary": {
+        "Zielsystem": "Gesamtheit aller Unternehmensziele und ihrer Beziehungen zueinander.",
+        "Komplementäre Ziele": "Ziele, die sich gegenseitig positiv beeinflussen.",
+        "Konkurrierende Ziele": "Ziele, deren Verfolgung die Erreichung anderer Ziele erschwert."
+      }
+    },
+    {
+      "frage": "7. Ein börsennotiertes Unternehmen richtet seine Strategie strikt an der Renditeerwartung seiner Aktionärinnen und Aktionäre aus und vernachlässigt andere Anspruchsgruppen. Welche Kritik ist aus Stakeholder-Perspektive besonders relevant?",
+      "optionen": [
+        "Es werden zu viele ökologische Ziele verfolgt.",
+        "Es werden nicht alle legitimen Interessen der wichtigen Anspruchsgruppen berücksichtigt.",
+        "Es wird zu wenig auf die Rendite des Eigenkapitals geachtet.",
+        "Es werden zu viele gesetzliche Regelungen eingehalten.",
+        "Es wird die Rolle der Wettbewerber überbetont."
+      ],
+      "loesung": 1,
+      "erklaerung": "Aus Stakeholder-Perspektive wird kritisiert, dass die ausschließliche Ausrichtung am Shareholder Value die berechtigten Interessen anderer Anspruchsgruppen wie Mitarbeitende, Kundinnen und Kunden oder Liefernde vernachlässigen kann.",
+      "gewichtung": 3,
+      "thema": "Ziele und Stakeholder des Unternehmens",
+      "extended_explanation": {
+        "titel": "Abwägung zwischen Shareholder- und Stakeholder-Orientierung",
+        "schritte": [
+          "Die Shareholder-Orientierung fokussiert auf die Maximierung des Unternehmenswerts für die Eigentümer.",
+          "Die Stakeholder-Orientierung bezieht zusätzlich die Interessen weiterer Anspruchsgruppen in die Entscheidungsfindung ein.",
+          "Eine einseitige Fokussierung auf Shareholder kann zu Konflikten mit Mitarbeitenden, Kundinnen und Kunden oder der Gesellschaft führen.",
+          "Moderne Konzepte der Corporate Governance versuchen, eine Balance zwischen beiden Ansätzen herzustellen."
+        ]
+      },
+      "mini_glossary": {
+        "Stakeholder-Ansatz": "Konzept, das die Berücksichtigung der Interessen aller wesentlichen Anspruchsgruppen eines Unternehmens fordert.",
+        "Renditeerwartung": "Erwarteter Ertrag der Kapitalgebenden im Verhältnis zum eingesetzten Kapital.",
+        "Corporate Governance": "System von Regeln, Prozessen und Strukturen zur verantwortungsvollen Leitung und Überwachung von Unternehmen."
+      }
+    },
+    {
+      "frage": "8. Welche Aufgabe gehört typischerweise zum externen Rechnungswesen eines Unternehmens?",
+      "optionen": [
+        "Erstellung von Kostenstellenberichten für interne Führungskräfte.",
+        "Aufstellung von Jahresabschluss und Lagebericht für externe Adressaten.",
+        "Berechnung von Maschinenstundensätzen für die Fertigung.",
+        "Erstellung von detaillierten Kalkulationsschemata für einzelne Aufträge.",
+        "Planung von Absatzmengen für das nächste Geschäftsjahr."
+      ],
+      "loesung": 1,
+      "erklaerung": "Das externe Rechnungswesen umfasst insbesondere die Erstellung von Jahresabschluss und gegebenenfalls Lagebericht, die sich an externe Adressaten wie Eigentümer, Gläubiger oder Behörden richten.",
+      "gewichtung": 1,
+      "thema": "Rechnungswesen und Jahresabschluss",
+      "mini_glossary": {
+        "Externes Rechnungswesen": "Teil des Rechnungswesens, der Informationen in standardisierter Form für externe Adressaten bereitstellt.",
+        "Jahresabschluss": "Rechenschaftsbericht eines Unternehmens über die Vermögens-, Finanz- und Ertragslage einer Periode.",
+        "Lagebericht": "Ergänzender Bericht, der die wirtschaftliche Lage und zukünftige Entwicklung des Unternehmens erläutert."
+      }
+    },
+    {
+      "frage": "9. Ein Unternehmen weist in der Bilanz hohe Vorräte aus. Welche betriebswirtschaftliche Fragestellung ergibt sich daraus typischerweise?",
+      "optionen": [
+        "Ob das Unternehmen genügend Mitarbeitende im Marketing beschäftigt.",
+        "Ob die Lagerbestände angemessen sind oder zu hohe Kapitalbindung verursachen.",
+        "Ob die Unternehmensleitung demokratisch gewählt wurde.",
+        "Ob die Rechtsform des Unternehmens gewechselt werden muss.",
+        "Ob die Anzahl der Hierarchieebenen reduziert werden sollte."
+      ],
+      "loesung": 1,
+      "erklaerung": "Hohe Vorräte können auf eine hohe Kapitalbindung und mögliche Absatzprobleme hinweisen. Die Analyse zielt darauf ab, Lagerbestände und Beschaffungspolitik zu überprüfen.",
+      "gewichtung": 2,
+      "thema": "Rechnungswesen und Jahresabschluss",
+      "extended_explanation": {
+        "titel": "Kapitalbindung durch Vorräte analysieren",
+        "schritte": [
+          "Vorräte binden Kapital, da sie bezahlt, aber noch nicht verkauft wurden.",
+          "Hohe Lagerbestände können auf Überproduktion, falsche Prognosen oder Absatzprobleme hinweisen.",
+          "Kennzahlen wie Lagerumschlagshäufigkeit und durchschnittliche Lagerdauer helfen bei der Beurteilung.",
+          "Ziel ist eine Balance zwischen Lieferbereitsschaft und niedriger Kapitalbindung."
+        ]
+      },
+      "mini_glossary": {
+        "Vorräte": "Bestände an Roh-, Hilfs- und Betriebsstoffen, unfertigen und fertigen Erzeugnissen oder Waren.",
+        "Kapitalbindung": "Teil des Kapitals, der vorübergehend in Vermögensgegenständen gebunden ist und nicht frei verfügbar ist.",
+        "Lagerumschlag": "Kennzahl, die angibt, wie oft der durchschnittliche Lagerbestand in einer Periode verkauft oder verbraucht wird."
+      }
+    },
+    {
+      "frage": "10. Welche Aussage beschreibt den Zweck der Gewinn- und Verlustrechnung korrekt?",
+      "optionen": [
+        "Sie stellt ausschließlich die Zahlungsströme eines Unternehmens dar.",
+        "Sie zeigt die Entwicklung des Personalbestands im Zeitablauf.",
+        "Sie ermittelt den Periodenerfolg aus Erträgen und Aufwendungen.",
+        "Sie dient nur der Steuerberechnung ohne Informationsfunktion.",
+        "Sie dokumentiert den technischen Zustand der Anlagen."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Gewinn- und Verlustrechnung dient dazu, den Erfolg einer Periode zu ermitteln, indem sie Erträge und Aufwendungen gegenüberstellt.",
+      "gewichtung": 1,
+      "thema": "Rechnungswesen und Jahresabschluss",
+      "mini_glossary": {
+        "Ertrag": "Wertzuwachs eines Unternehmens in einer Periode, zum Beispiel durch Umsatzerlöse.",
+        "Aufwand": "Wertverzehr in einer Periode, etwa durch Materialverbrauch oder Löhne.",
+        "Periodenerfolg": "Ergebnis einer Abrechnungsperiode, also Gewinn oder Verlust."
+      }
+    },
+    {
+      "frage": "11. In einem Industriebetrieb sollen die Gemeinkosten verursachungsgerecht auf Produkte verteilt werden. Welche Methode wird dafür klassisch eingesetzt?",
+      "optionen": [
+        "Statische Amortisationsrechnung.",
+        "Deckungsbeitragsrechnung.",
+        "Zuschlagskalkulation mit Kostenstellenrechnung.",
+        "Investitionsrechnung mit Kapitalwertmethode.",
+        "Dynamische Liquiditätsrechnung."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Zuschlagskalkulation in Verbindung mit einer Kostenstellenrechnung dient dazu, Gemeinkosten über Zuschlagsätze verursachungsgerecht auf Kostenträger zu verteilen.",
+      "gewichtung": 2,
+      "thema": "Kosten- und Leistungsrechnung",
+      "extended_explanation": {
+        "titel": "Gemeinkostenverteilung in der Kostenrechnung",
+        "schritte": [
+          "Gemeinkosten lassen sich nicht direkt einzelnen Produkten zuordnen und werden daher über Kostenstellen gesammelt.",
+          "In den Kostenstellen werden Zuschlagsätze gebildet, zum Beispiel auf Basis von Material- oder Fertigungseinzelkosten.",
+          "Diese Zuschlagsätze werden auf die Kostenträger (Produkte, Aufträge) angewendet, um Vollkosten zu ermitteln.",
+          "Die Genauigkeit der Verteilung hängt von der Wahl geeigneter Bezugsgrößen und Kostenstellen ab."
+        ]
+      },
+      "mini_glossary": {
+        "Gemeinkosten": "Kosten, die nicht direkt einem einzelnen Produkt zugeordnet werden können.",
+        "Kostenstelle": "Betrieblicher Bereich, in dem Kosten erfasst und weiterverrechnet werden.",
+        "Zuschlagskalkulation": "Verfahren, bei dem Gemeinkosten über Zuschlagsätze auf Einzelkosten aufgeschlagen werden."
+      }
+    },
+    {
+      "frage": "12. Ein Unternehmen erwägt, ein Produkt aus dem Sortiment zu nehmen. Welche Größe ist für diese Entscheidung in einer Deckungsbeitragsrechnung besonders bedeutsam?",
+      "optionen": [
+        "Fixkosten des gesamten Unternehmens.",
+        "Durchschnittliche Unternehmenskosten je Produkt.",
+        "Deckungsbeitrag des betreffenden Produkts.",
+        "Gesamtumsatz aller Produkte.",
+        "Bilanzsumme des Unternehmens."
+      ],
+      "loesung": 2,
+      "erklaerung": "Der Deckungsbeitrag zeigt, in welchem Umfang ein Produkt zur Deckung der Fixkosten beiträgt. Ein positiver Deckungsbeitrag kann dafür sprechen, das Produkt trotz geringer Gewinne im Sortiment zu belassen.",
+      "gewichtung": 2,
+      "thema": "Kosten- und Leistungsrechnung",
+      "extended_explanation": {
+        "titel": "Rolle des Deckungsbeitrags bei Sortimentsentscheidungen",
+        "schritte": [
+          "Der Deckungsbeitrag ergibt sich als Differenz zwischen Erlösen und variablen Kosten eines Produkts.",
+          "Fixkosten fallen kurzfristig unabhängig von der Produktionsmenge an und werden durch Deckungsbeiträge gedeckt.",
+          "Ein Produkt mit positivem Deckungsbeitrag trägt zur Fixkostendeckung und damit zur Ergebnisverbesserung bei.",
+          "Erst wenn ein Produkt keinen oder einen negativen Deckungsbeitrag liefert, ist seine Einstellung meist sinnvoll."
+        ]
+      },
+      "mini_glossary": {
+        "Deckungsbeitrag": "Differenz zwischen Erlösen und variablen Kosten eines Produkts oder einer Leistung.",
+        "Fixkosten": "Kosten, die kurzfristig unabhängig von der Beschäftigung anfallen.",
+        "Variable Kosten": "Kosten, die sich mit der Produktionsmenge verändern, etwa Materialkosten."
+      }
+    },
+    {
+      "frage": "13. Ein Unternehmen mit stark schwankender Nachfrage überlegt, ob es bestimmte Kosten in variable Kosten umwandeln sollte (zum Beispiel durch Outsourcing). Welche betriebswirtschaftliche Überlegung steht dahinter?",
+      "optionen": [
+        "Die Fixkostenbelastung soll reduziert werden, um das Risiko bei Nachfrageschwankungen zu senken.",
+        "Die Bilanzsumme soll unabhängig von der Nachfrage steigen.",
+        "Die steuerliche Belastung soll kurzfristig maximiert werden.",
+        "Die Anzahl der Kostenstellen soll steigen, um mehr Berichte zu erzeugen.",
+        "Die Unternehmensleitung möchte mehr Hierarchieebenen schaffen."
+      ],
+      "loesung": 0,
+      "erklaerung": "Durch die Umwandlung von Fix- in variable Kosten kann ein Unternehmen flexibler auf Nachfrageschwankungen reagieren und das Risiko hoher Fixkosten bei geringer Auslastung reduzieren.",
+      "gewichtung": 3,
+      "thema": "Kosten- und Leistungsrechnung",
+      "extended_explanation": {
+        "titel": "Fixkostenmanagement bei Nachfrageschwankungen",
+        "schritte": [
+          "Hohe Fixkosten führen bei Nachfrageschwankungen zu stark schwankenden Ergebnissen, da die Kosten unabhängig von der Auslastung anfallen.",
+          "Durch Outsourcing oder variable Entlohnung können Kosten teilweise in variable Kosten umgewandelt werden.",
+          "Variable Kosten passen sich besser an die tatsächliche Beschäftigung an und verringern das Risiko bei Nachfragerückgängen.",
+          "Die Entscheidung erfordert eine Abwägung zwischen Flexibilität, Kostenhöhe und Abhängigkeit von externen Partnern."
+        ]
+      },
+      "mini_glossary": {
+        "Outsourcing": "Auslagerung von Unternehmensprozessen oder -leistungen an externe Dienstleistende.",
+        "Kostenstruktur": "Aufbau der Gesamtkosten eines Unternehmens aus Fix- und variablen Kosten.",
+        "Nachfrageschwankungen": "Veränderungen der nachgefragten Mengen von Produkten oder Dienstleistungen im Zeitablauf."
+      }
+    },
+    {
+      "frage": "14. Welche Aussage zur Vollkostenrechnung ist zutreffend?",
+      "optionen": [
+        "Sie berücksichtigt nur variable Kosten eines Produkts.",
+        "Sie eignet sich besonders zur kurzfristigen Preisuntergrenzenbestimmung.",
+        "Sie weist einem Produkt sowohl Einzel- als auch Gemeinkosten zu.",
+        "Sie wird ausschließlich im externen Rechnungswesen eingesetzt.",
+        "Sie ignoriert sämtliche Gemeinkosten eines Unternehmens."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Vollkostenrechnung rechnet sowohl Einzel- als auch Gemeinkosten den Kostenträgern zu und ermittelt so Vollkosten je Einheit.",
+      "gewichtung": 1,
+      "thema": "Kosten- und Leistungsrechnung",
+      "mini_glossary": {
+        "Vollkostenrechnung": "Kostenrechnungssystem, das allen Kostenträgern sowohl Einzel- als auch Gemeinkosten zurechnet.",
+        "Kostenträger": "Objekte, für die Kosten ausgewiesen werden, etwa Produkte oder Aufträge.",
+        "Teilkostenrechnung": "Kostenrechnungssystem, das nur einen Teil der Kosten, meist die variablen Kosten, den Kostenträgern zurechnet."
+      }
+    },
+    {
+      "frage": "15. Welche Aussage beschreibt den Begriff Investition im betriebswirtschaftlichen Sinn am ehesten?",
+      "optionen": [
+        "Kurzfristige Einzahlungen aus dem Tagesgeschäft.",
+        "Langfristige Bindung finanzieller Mittel in Vermögensgegenständen.",
+        "Ausschließliche Aufnahme von Fremdkapital bei Banken.",
+        "Reduktion der Eigenkapitalbasis eines Unternehmens.",
+        "Erstellung des Jahresabschlusses durch die Buchhaltung."
+      ],
+      "loesung": 1,
+      "erklaerung": "Unter einer Investition versteht man die längerfristige Bindung finanzieller Mittel in Vermögensgegenständen, aus denen zukünftige Rückflüsse erwartet werden.",
+      "gewichtung": 1,
+      "thema": "Investition und Finanzierung",
+      "mini_glossary": {
+        "Investition": "Langfristige Verwendung von finanziellen Mitteln in Vermögensgegenständen mit dem Ziel zukünftiger Einzahlungen.",
+        "Vermögensgegenstände": "In der Bilanz ausgewiesene Positionen auf der Aktivseite, etwa Maschinen oder Gebäude.",
+        "Rückfluss": "Zukünftige Einzahlungen, die aus einer Investition resultieren."
+      }
+    },
+    {
+      "frage": "16. Ein Unternehmen vergleicht mehrere Investitionsalternativen, die unterschiedliche Ein- und Auszahlungen in den nächsten Jahren verursachen. Welche Methode eignet sich zur Berücksichtigung des Zeitwerts des Geldes?",
+      "optionen": [
+        "Kostenartenrechnung.",
+        "Statische Kostenvergleichsrechnung.",
+        "Kapitalwertmethode mit Abzinsung zukünftiger Zahlungen.",
+        "Bilanzanalyse anhand von Kennzahlen.",
+        "Qualitative Nutzwertanalyse ohne Zahlungsgrößen."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Kapitalwertmethode diskontiert zukünftige Ein- und Auszahlungen auf den heutigen Zeitpunkt und berücksichtigt damit den Zeitwert des Geldes.",
+      "gewichtung": 2,
+      "thema": "Investition und Finanzierung",
+      "extended_explanation": {
+        "titel": "Grundidee der Kapitalwertmethode",
+        "schritte": [
+          "Der Zeitwert des Geldes besagt, dass ein Euro heute mehr wert ist als ein Euro in der Zukunft.",
+          "Die Kapitalwertmethode diskontiert zukünftige Zahlungsüberschüsse mit einem Kalkulationszins auf den Entscheidungszeitpunkt.",
+          "Ein positiver Kapitalwert bedeutet, dass die Investition die geforderte Mindestverzinsung übersteigt.",
+          "Bei mehreren Alternativen wird in der Regel die Investition mit dem höchsten Kapitalwert gewählt."
+        ]
+      },
+      "mini_glossary": {
+        "Kapitalwert": "Summe der abgezinsten Ein- und Auszahlungen einer Investition.",
+        "Abzinsung": "Rechenvorgang, bei dem zukünftige Zahlungen auf einen früheren Zeitpunkt umgerechnet werden.",
+        "Kalkulationszins": "Zinssatz, mit dem zukünftige Zahlungen abgezinst werden, oft orientiert an Kapitalkosten."
+      }
+    },
+    {
+      "frage": "17. Welche Aussage beschreibt den Begriff Finanzierung korrekt?",
+      "optionen": [
+        "Finanzierung ist die Erstellung des Jahresabschlusses.",
+        "Finanzierung ist ausschließlich die Aufnahme von Bankkrediten.",
+        "Finanzierung umfasst Maßnahmen zur Beschaffung und Rückzahlung von Kapital.",
+        "Finanzierung ist nur ein anderer Begriff für Investitionsrechnung.",
+        "Finanzierung betrifft nur die Verteilung von Gewinnen."
+      ],
+      "loesung": 2,
+      "erklaerung": "Finanzierung bezeichnet alle Maßnahmen zur Beschaffung, Rückzahlung und Umschichtung von Kapital, unabhängig von der konkreten Kapitalquelle.",
+      "gewichtung": 1,
+      "thema": "Investition und Finanzierung",
+      "mini_glossary": {
+        "Finanzierung": "Beschaffung, Rückzahlung und Umschichtung von Eigen- und Fremdkapital eines Unternehmens.",
+        "Eigenfinanzierung": "Finanzierung durch Einlagen oder Gewinnthesaurierung der Eigentümer.",
+        "Fremdfinanzierung": "Finanzierung durch Kapital von Dritten, etwa Bankkredite oder Anleihen."
+      }
+    },
+    {
+      "frage": "18. Ein Unternehmen möchte seine Unabhängigkeit von Banken erhöhen und entscheidet sich, Gewinne im Unternehmen zu belassen. Welche Finanzierungsart liegt vor?",
+      "optionen": [
+        "Beteiligungsfinanzierung durch neue Gesellschafterinnen und Gesellschafter.",
+        "Kreditfinanzierung durch Liefernde.",
+        "Selbstfinanzierung durch Gewinnthesaurierung.",
+        "Leasingfinanzierung mit langfristigen Verträgen.",
+        "Factoring zur kurzfristigen Liquiditätsbeschaffung."
+      ],
+      "loesung": 2,
+      "erklaerung": "Wenn Gewinne im Unternehmen einbehalten werden, spricht man von Selbstfinanzierung durch Gewinnthesaurierung. Dies erhöht das Eigenkapital und kann die Abhängigkeit von Fremdkapital senken.",
+      "gewichtung": 3,
+      "thema": "Investition und Finanzierung",
+      "extended_explanation": {
+        "titel": "Selbstfinanzierung als Eigenkapitalquelle",
+        "schritte": [
+          "Thesaurierte Gewinne werden nicht ausgeschüttet, sondern dem Eigenkapital zugeführt.",
+          "Dadurch steigt die Eigenkapitalbasis, was die Kreditwürdigkeit und Unabhängigkeit stärken kann.",
+          "Selbstfinanzierung verursacht keine laufenden Zinszahlungen, kann aber die Renditeerwartungen der Eigentümer beeinflussen.",
+          "Unternehmen müssen abwägen, in welchem Umfang Gewinne ausgeschüttet oder einbehalten werden."
+        ]
+      },
+      "mini_glossary": {
+        "Selbstfinanzierung": "Finanzierung aus einbehaltenen Gewinnen des Unternehmens.",
+        "Gewinnthesaurierung": "Nichtausschüttung von Gewinnen und deren Einstellung in Rücklagen.",
+        "Ausschüttung": "Auszahlung von Teilen des Gewinns an die Eigentümer, etwa Dividenden."
+      }
+    },
+    {
+      "frage": "19. Welche Aussage beschreibt das Marketingverständnis in der modernen BWL am besten?",
+      "optionen": [
+        "Marketing ist vor allem Werbung im Fernsehen.",
+        "Marketing bedeutet ausschließlich Preisgestaltung.",
+        "Marketing ist eine marktorientierte Unternehmensführung, die sich an Kundenbedürfnissen ausrichtet.",
+        "Marketing ist nur für Großunternehmen relevant.",
+        "Marketing ersetzt die Produktionsplanung vollständig."
+      ],
+      "loesung": 2,
+      "erklaerung": "Marketing wird heute als umfassende marktorientierte Unternehmensführung verstanden, die alle Aktivitäten an den Bedürfnissen der Kundinnen und Kunden ausrichtet.",
+      "gewichtung": 1,
+      "thema": "Marketing-Grundlagen",
+      "mini_glossary": {
+        "Marketing": "Konzeption und Umsetzung marktorientierter Unternehmensführung, ausgerichtet an Bedürfnissen von Kundinnen und Kunden.",
+        "Marktorientierung": "Ausrichtung von Entscheidungen an Markt- und Kundenanforderungen.",
+        "Kundenbedürfnisse": "Subjektiv empfundene Mängel, deren Befriedigung durch Produkte oder Dienstleistungen angestrebt wird."
+      }
+    },
+    {
+      "frage": "20. Ein Unternehmen positioniert ein neues Produkt bewusst als hochpreisig und qualitativ hochwertig im Vergleich zur Konkurrenz. Welches Element des Marketing-Mix steht hier im Vordergrund?",
+      "optionen": [
+        "Distributionspolitik.",
+        "Preispolitik in Verbindung mit Positionierung.",
+        "Personalpolitik.",
+        "Finanzierungspolitik.",
+        "Forschungspolitik."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die bewusste Wahl eines höheren Preises in Verbindung mit einer Qualitätspositionierung gehört zur Preispolitik im Rahmen des Marketing-Mix.",
+      "gewichtung": 2,
+      "thema": "Marketing-Grundlagen",
+      "extended_explanation": {
+        "titel": "Preis und Positionierung im Marketing-Mix",
+        "schritte": [
+          "Der Marketing-Mix umfasst klassisch die Bereiche Produkt-, Preis-, Kommunikations- und Distributionspolitik.",
+          "Die Preispolitik legt Preisniveau, Rabatte und Zahlungsbedingungen fest und beeinflusst die wahrgenommene Positionierung.",
+          "Eine Hochpreisstrategie signalisiert häufig höhere Qualität, Exklusivität oder besonderen Service.",
+          "Preisentscheidungen müssen mit Produktmerkmalen, Zielgruppe und Wettbewerbssituation abgestimmt werden."
+        ]
+      },
+      "mini_glossary": {
+        "Marketing-Mix": "Kombination der zentralen Marketinginstrumente, um die Marketingziele zu erreichen.",
+        "Preispolitik": "Gestaltung von Preisen, Rabatten und Zahlungsbedingungen im Rahmen des Marketing.",
+        "Positionierung": "Bewusste Platzierung eines Angebots im Wahrnehmungsraum der Zielgruppe im Vergleich zu Wettbewerbern."
+      }
+    },
+    {
+      "frage": "21. Ein Unternehmen segmentiert seinen Markt nach Altersgruppen und Lebensstilen. Welches Marketingkonzept wird hier angewendet?",
+      "optionen": [
+        "Massenmarketing ohne Differenzierung.",
+        "Marktsegmentierung und Zielgruppenbildung.",
+        "Interne Kostenverrechnung.",
+        "Rechnungslegung nach internationalen Standards.",
+        "Hierarchische Prozessgestaltung."
+      ],
+      "loesung": 1,
+      "erklaerung": "Durch die Unterteilung des Gesamtmarkts in Alters- und Lebensstilgruppen betreibt das Unternehmen Marktsegmentierung, um gezielte Zielgruppen anzusprechen.",
+      "gewichtung": 2,
+      "thema": "Marketing-Grundlagen",
+      "extended_explanation": {
+        "titel": "Marktsegmentierung als Grundlage zielgerichteten Marketings",
+        "schritte": [
+          "Beim Gesamtmarktmarketing werden alle potenziellen Kundinnen und Kunden einheitlich angesprochen.",
+          "Marktsegmentierung teilt den Markt in relativ homogene Gruppen mit ähnlichen Bedürfnissen.",
+          "Segmentierungskriterien können demografisch, psychografisch, geografisch oder verhaltensorientiert sein.",
+          "Ausgewählte Segmente werden als Zielgruppen definiert und spezifisch bearbeitet."
+        ]
+      },
+      "mini_glossary": {
+        "Marktsegmentierung": "Aufteilung des Gesamtmarkts in Teilmärkte mit ähnlichen Merkmalen.",
+        "Zielgruppe": "Gruppe von Personen, auf die Marketingmaßnahmen gezielt ausgerichtet werden.",
+        "Psychografische Merkmale": "Eigenschaften wie Einstellungen, Werte, Lebensstile und Persönlichkeitsmerkmale."
+      }
+    },
+    {
+      "frage": "22. Welche Aussage zur Produktpolitik ist zutreffend?",
+      "optionen": [
+        "Sie beschäftigt sich ausschließlich mit der Festlegung des Verkaufspreises.",
+        "Sie umfasst Entscheidungen zu Sortiment, Qualität, Design und Serviceleistungen.",
+        "Sie ist nur im Dienstleistungssektor relevant.",
+        "Sie betrifft nur die interne Kostenstruktur.",
+        "Sie ist identisch mit der Wahl der Rechtsform."
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Produktpolitik umfasst alle Entscheidungen, die das Leistungsangebot betreffen, etwa Sortiment, Qualität, Design, Marke und Serviceleistungen.",
+      "gewichtung": 1,
+      "thema": "Marketing-Grundlagen",
+      "mini_glossary": {
+        "Produktpolitik": "Gestaltung des Leistungsprogramms eines Unternehmens, etwa in Bezug auf Qualität, Design und Sortimentsbreite.",
+        "Sortiment": "Gesamtheit der von einem Unternehmen angebotenen Produkte oder Dienstleistungen.",
+        "Serviceleistungen": "Zusätzliche Dienstleistungen, die das Produktangebot ergänzen, etwa Beratung oder Garantie."
+      }
+    },
+    {
+      "frage": "23. Welche Organisationsform beschreibt eine Gliederung des Unternehmens nach Verrichtungen, zum Beispiel Einkauf, Produktion, Vertrieb?",
+      "optionen": [
+        "Spartenorganisation nach Produkten.",
+        "Regionale Organisation nach Absatzgebieten.",
+        "Funktionale Organisation nach Aufgabenbereichen.",
+        "Matrixorganisation mit zwei gleichberechtigten Dimensionen.",
+        "Projektorganisation mit rein temporären Teams."
+      ],
+      "loesung": 2,
+      "erklaerung": "Bei der funktionalen Organisation wird das Unternehmen nach Verrichtungen wie Einkauf, Produktion oder Vertrieb gegliedert.",
+      "gewichtung": 1,
+      "thema": "Organisation und Aufbauorganisation",
+      "mini_glossary": {
+        "Funktionale Organisation": "Organisationsform, bei der nach Aufgabenbereichen wie Beschaffung, Produktion und Vertrieb gegliedert wird.",
+        "Spartenorganisation": "Gliederung des Unternehmens nach Produkten, Produktgruppen oder Geschäftsfeldern.",
+        "Matrixorganisation": "Organisationsform, in der Mitarbeitende gleichzeitig zwei Dimensionen, etwa Funktion und Produkt, zugeordnet sind."
+      }
+    },
+    {
+      "frage": "24. In einer Matrixorganisation berichtet eine Projektleitung sowohl an die funktionale Bereichsleitung als auch an die Spartenleitung. Welche Herausforderung ist typisch für diese Organisationsform?",
+      "optionen": [
+        "Es gibt nur eine Weisungsbeziehung und daher wenig Abstimmungsbedarf.",
+        "Konflikte zwischen den beiden Berichtslinien können auftreten und erfordern intensive Koordination.",
+        "Die Kommunikation ist vollständig überflüssig.",
+        "Es können keine bereichsübergreifenden Projekte durchgeführt werden.",
+        "Die Unternehmenstätigkeit wird auf eine einzige Produktlinie beschränkt."
+      ],
+      "loesung": 1,
+      "erklaerung": "In der Matrixorganisation führen zwei Weisungslinien häufig zu Konflikten, die durch klare Regeln und intensive Koordination gelöst werden müssen.",
+      "gewichtung": 2,
+      "thema": "Organisation und Aufbauorganisation",
+      "extended_explanation": {
+        "titel": "Vor- und Nachteile der Matrixorganisation",
+        "schritte": [
+          "Die Matrixorganisation kombiniert zwei Gliederungsprinzipien, etwa Funktion und Produkt.",
+          "Dies ermöglicht bereichsübergreifende Zusammenarbeit und kann die Nutzung von Spezialwissen verbessern.",
+          "Gleichzeitig entstehen potenzielle Konflikte, wenn unterschiedliche Vorgesetzte widersprüchliche Ziele verfolgen.",
+          "Erfolgreiche Matrixorganisationen benötigen klare Kompetenzregelungen und ausgeprägte Kommunikations- und Konfliktlösungsmechanismen."
+        ]
+      },
+      "mini_glossary": {
+        "Matrixorganisation": "Organisationsform mit zwei gleichberechtigten Gliederungsdimensionen, etwa Funktion und Produkt.",
+        "Dotted-Line-Reporting": "Informelle oder weniger starke Berichtslinie in einer Matrixorganisation.",
+        "Koordination": "Abstimmung von Teilaufgaben und Entscheidungen, um ein gemeinsames Ziel zu erreichen."
+      }
+    },
+    {
+      "frage": "25. Ein Unternehmen möchte die Eigenverantwortung von Mitarbeitenden fördern und Entscheidungsprozesse näher an die Kundschaft bringen. Welche Organisationsmaßnahme ist damit besonders verbunden?",
+      "optionen": [
+        "Stärkere Zentralisierung aller Entscheidungen in der Unternehmensleitung.",
+        "Aufbau zusätzlicher Hierarchieebenen zwischen Leitung und Ausführung.",
+        "Dezentralisierung und Delegation von Entscheidungsbefugnissen an untere Ebenen.",
+        "Abschaffung aller Teamstrukturen zugunsten von Einzelarbeit.",
+        "Vollständige Abschottung der Mitarbeitenden vom Kundenkontakt."
+      ],
+      "loesung": 2,
+      "erklaerung": "Durch Dezentralisierung und Delegation werden Entscheidungskompetenzen an nachgelagerte Ebenen verlagert, was Kundennähe und Eigenverantwortung fördern kann.",
+      "gewichtung": 3,
+      "thema": "Organisation und Aufbauorganisation",
+      "extended_explanation": {
+        "titel": "Dezentralisierung als Organisationsprinzip",
+        "schritte": [
+          "Zentralisierung bedeutet Bündelung von Entscheidungsbefugnissen an wenigen Stellen, meist in der Unternehmensleitung.",
+          "Dezentralisierung verlagert Entscheidungen auf nachgelagerte Ebenen, die häufig näher am Markt und an der Kundschaft sind.",
+          "Delegation erfordert klare Kompetenzregelungen, geeignete Qualifikation und Kontrollmechanismen.",
+          "Ziel ist eine schnellere, kundennähere und motivierende Entscheidungsstruktur."
+        ]
+      },
+      "mini_glossary": {
+        "Dezentralisierung": "Verlagerung von Entscheidungsbefugnissen auf untere Hierarchieebenen.",
+        "Delegation": "Übertragung von Aufgaben, Kompetenzen und Verantwortung an nachgeordnete Stellen.",
+        "Zentralisierung": "Bündelung wichtiger Entscheidungen auf höheren hierarchischen Ebenen."
+      }
+    },
+    {
+      "frage": "26. Welche Aussage beschreibt den Unterschied zwischen Aufbau- und Ablauforganisation korrekt?",
+      "optionen": [
+        "Die Aufbauorganisation regelt Prozesse, die Ablauforganisation Strukturen.",
+        "Die Aufbauorganisation ist nur in Kleinunternehmen relevant.",
+        "Die Aufbauorganisation regelt Strukturen, die Ablauforganisation regelt Prozesse.",
+        "Beide Begriffe meinen genau dasselbe.",
+        "Die Ablauforganisation betrifft ausschließlich externe Kundinnen und Kunden."
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Aufbauorganisation beschreibt die statischen Strukturen, während die Ablauforganisation die zeitliche und räumliche Gestaltung von Arbeitsprozessen regelt.",
+      "gewichtung": 1,
+      "thema": "Organisation und Aufbauorganisation",
+      "mini_glossary": {
+        "Ablauforganisation": "Gestaltung der Arbeitsprozesse in zeitlicher und räumlicher Hinsicht.",
+        "Struktur": "Relativ dauerhafte Ordnung von Einheiten und Beziehungen in einer Organisation.",
+        "Prozess": "Abfolge von Aktivitäten, die ein bestimmtes Ergebnis erzeugen."
+      }
+    },
+    {
+      "frage": "27. Welche Aussage beschreibt den Begriff Markt im betriebswirtschaftlichen Sinn zutreffend?",
+      "optionen": [
+        "Markt ist ausschließlich ein physischer Ort, an dem gehandelt wird.",
+        "Markt ist nur ein staatlich regulierter Tauschplatz.",
+        "Markt ist das Zusammentreffen von Angebot und Nachfrage nach einem Gut.",
+        "Markt ist ein anderes Wort für Lagerhalle.",
+        "Markt ist die interne Organisation eines Unternehmens."
+      ],
+      "loesung": 2,
+      "erklaerung": "Im betriebswirtschaftlichen Sinn bezeichnet der Markt das Aufeinandertreffen von Angebot und Nachfrage nach einem Gut oder einer Dienstleistung.",
+      "gewichtung": 1,
+      "thema": "Unternehmensumwelt und Markt",
+      "mini_glossary": {
+        "Markt": "Ort oder Institution, an der Angebot und Nachfrage nach Gütern oder Dienstleistungen zusammentreffen.",
+        "Angebot": "Gesamtheit der zum Kauf angebotenen Güter oder Dienstleistungen.",
+        "Nachfrage": "Wunsch, Güter oder Dienstleistungen zu erwerben, verbunden mit Kaufbereitschaft und Kaufkraft."
+      }
+    },
+    {
+      "frage": "28. Ein Unternehmen beobachtet, dass ein wichtiger Rohstoffpreis stark steigt. Zu welcher Umweltkomponente der Unternehmensumwelt ist dieses Ereignis primär zuzuordnen?",
+      "optionen": [
+        "Interne Unternehmenskultur.",
+        "Technologische Umwelt.",
+        "Ökonomische Umwelt.",
+        "Rechtliche Umwelt.",
+        "Sozio-kulturelle Umwelt."
+      ],
+      "loesung": 2,
+      "erklaerung": "Stark steigende Rohstoffpreise sind Ausdruck ökonomischer Rahmenbedingungen und gehören zur ökonomischen Umwelt eines Unternehmens.",
+      "gewichtung": 2,
+      "thema": "Unternehmensumwelt und Markt",
+      "extended_explanation": {
+        "titel": "Analyse der ökonomischen Umwelt",
+        "schritte": [
+          "Die Unternehmensumwelt umfasst unter anderem ökonomische, technologische, rechtliche und sozio-kulturelle Faktoren.",
+          "Rohstoffpreise, Zinssätze und Wechselkurse sind zentrale Elemente der ökonomischen Umwelt.",
+          "Unternehmen müssen diese Entwicklungen beobachten, da sie Kostenstrukturen und Preise beeinflussen.",
+          "Instrumente wie Szenarioanalysen helfen, auf Veränderungen der ökonomischen Umwelt vorbereitet zu sein."
+        ]
+      },
+      "mini_glossary": {
+        "Unternehmensumwelt": "Gesamtheit der externen Faktoren, die auf ein Unternehmen einwirken.",
+        "Ökonomische Umwelt": "Gesamtheit der gesamtwirtschaftlichen Rahmenbedingungen wie Konjunktur, Zinsen und Preise.",
+        "Rohstoff": "Grundmaterial, das zur Produktion von Gütern benötigt wird."
+      }
+    },
+    {
+      "frage": "29. Welche Aussage beschreibt den Begriff Wettbewerb im marktwirtschaftlichen System am besten?",
+      "optionen": [
+        "Wettbewerb bedeutet, dass es nur einen Anbieter gibt.",
+        "Wettbewerb bedeutet, dass Unternehmen ohne Leistungsdruck agieren.",
+        "Wettbewerb ist das Ringen mehrerer Anbieter um die Gunst der Nachfragenden.",
+        "Wettbewerb ist eine rein interne Angelegenheit des Unternehmens.",
+        "Wettbewerb entsteht nur in staatlich regulierten Monopolen."
+      ],
+      "loesung": 2,
+      "erklaerung": "Wettbewerb beschreibt das Ringen mehrerer Anbieter um Kundinnen und Kunden, wobei Preise, Qualität und Innovation eine Rolle spielen.",
+      "gewichtung": 1,
+      "thema": "Unternehmensumwelt und Markt",
+      "mini_glossary": {
+        "Wettbewerb": "Rivalität zwischen Anbietern um die Nachfrage auf einem Markt.",
+        "Monopol": "Marktform, in der es nur einen Anbieter für ein bestimmtes Gut gibt.",
+        "Marktwirtschaft": "Wirtschaftssystem, in dem Angebot und Nachfrage die Allokation von Ressourcen steuern."
+      }
+    },
+    {
+      "frage": "30. Welche Aussage beschreibt die Rolle des Staates in der sozialen Marktwirtschaft zutreffend?",
+      "optionen": [
+        "Der Staat zieht sich vollständig aus der Wirtschaft zurück.",
+        "Der Staat ersetzt Unternehmen bei der Produktion von Gütern vollständig.",
+        "Der Staat setzt Rahmenbedingungen und greift korrigierend ein, um Wettbewerb und soziale Sicherheit zu sichern.",
+        "Der Staat legt alle Preise direkt fest.",
+        "Der Staat übernimmt ausschließlich Marketingaufgaben für Unternehmen."
+      ],
+      "loesung": 2,
+      "erklaerung": "In der sozialen Marktwirtschaft setzt der Staat ordnungspolitische Rahmenbedingungen, schützt den Wettbewerb und sorgt über Umverteilungs- und Sicherungssysteme für soziale Ausgleichsmechanismen.",
+      "gewichtung": 1,
+      "thema": "Unternehmensumwelt und Markt",
+      "mini_glossary": {
+        "Soziale Marktwirtschaft": "Wirtschaftsordnung, die marktwirtschaftliche Effizienz mit sozialem Ausgleich verbindet.",
+        "Ordnungspolitik": "Staatliche Gestaltung der Rahmenbedingungen, innerhalb derer wirtschaftliche Aktivitäten stattfinden.",
+        "Wirtschaftsordnung": "Gesamtheit der Regeln und Institutionen, die den wirtschaftlichen Prozess in einer Volkswirtschaft prägen."
+      }
+    }
+  ]
+}

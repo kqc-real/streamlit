@@ -20,162 +20,162 @@
   },
   "questions": [
     {
-      "frage": "1. Was misst das Skalarprodukt zweier Vektoren im $\\mathbb{R}^n$?",
-      "optionen": [
+      "question": "1. Was misst das Skalarprodukt zweier Vektoren im $\\mathbb{R}^n$?",
+      "options": [
         "Die Fläche des von ihnen aufgespannten Parallelogramms.",
         "Wie stark zwei Vektoren in dieselbe Richtung zeigen.",
         "Die Anzahl ihrer linearen Abhängigkeiten.",
         "Die Determinante der Matrix aus den beiden Vektoren.",
         "Die Länge des Kreuzprodukts."
       ],
-      "loesung": 1,
-      "erklaerung": "Das Skalarprodukt ist $\\langle x,y\\rangle=\\sum_i x_i y_i$ und misst die Ausrichtung bzw. den Winkelbezug der Vektoren.",
-      "gewichtung": 1,
-      "thema": "Skalarprodukt & Norm",
+      "answer": 1,
+      "explanation": "Das Skalarprodukt ist $\\langle x,y\\rangle=\\sum_i x_i y_i$ und misst die Ausrichtung bzw. den Winkelbezug der Vektoren.",
+      "weight": 1,
+      "topic": "Skalarprodukt & Norm",
       "mini_glossary": {
         "Skalarprodukt": "Definiert als $\\langle x,y\\rangle=\\sum_i x_i y_i$; Maß für Ausrichtung.",
         "Norm": "Euklidische Länge: $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$."
       }
     },
     {
-      "frage": "2. Welche Aussage zur euklidischen Norm ist korrekt?",
-      "optionen": [
+      "question": "2. Welche Aussage zur euklidischen Norm ist korrekt?",
+      "options": [
         "Sie ist definiert als $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$.",
         "Sie ist gleich $\\sum_i x_i$.",
         "Sie ist immer 1.",
         "Sie ist das Maximum der Komponenten.",
         "Sie ist negativ für kurze Vektoren."
       ],
-      "loesung": 0,
-      "erklaerung": "Die euklidische Norm wird über das Skalarprodukt definiert: $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$.",
-      "gewichtung": 1,
-      "thema": "Skalarprodukt & Norm",
+      "answer": 0,
+      "explanation": "Die euklidische Norm wird über das Skalarprodukt definiert: $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$.",
+      "weight": 1,
+      "topic": "Skalarprodukt & Norm",
       "mini_glossary": {
         "Norm": "Länge eines Vektors, induziert durch das Skalarprodukt.",
         "Euklidischer Raum": "Standardraum mit innerem Produkt und daraus abgeleiteter Geometrie."
       }
     },
     {
-      "frage": "3. Wann sind zwei Vektoren orthogonal?",
-      "optionen": [
+      "question": "3. Wann sind zwei Vektoren orthogonal?",
+      "options": [
         "Wenn sie dieselbe Norm haben.",
         "Wenn sie linear abhängig sind.",
         "Wenn ihr Skalarprodukt Null ist.",
         "Wenn ihre Summe der Nullvektor ist.",
         "Wenn sie parallel sind."
       ],
-      "loesung": 2,
-      "erklaerung": "Orthogonalität: $x\\perp y$ genau dann, wenn $\\langle x,y\\rangle=0$.",
-      "gewichtung": 1,
-      "thema": "Orthogonalität & Unterräume",
+      "answer": 2,
+      "explanation": "Orthogonalität: $x\\perp y$ genau dann, wenn $\\langle x,y\\rangle=0$.",
+      "weight": 1,
+      "topic": "Orthogonalität & Unterräume",
       "mini_glossary": {
         "Orthogonalität": "Bedingung $\\langle x,y\\rangle=0$; rechtwinklige Ausrichtung.",
         "Orthogonales Komplement": "Alle Vektoren, die zu einem Unterraum orthogonal sind."
       }
     },
     {
-      "frage": "4. Wofür steht bei einer orthogonalen Projektion der Restvektor $r=x-Px$?",
-      "optionen": [
+      "question": "4. Wofür steht bei einer orthogonalen Projektion der Restvektor $r=x-Px$?",
+      "options": [
         "Für die Komponente von $x$ im Unterraum.",
         "Für die Rotation von $x$ um 90°.",
         "Für die Komponente von $x$ orthogonal zum Unterraum.",
         "Für die Länge von $x$.",
         "Für die Summe aller Basisvektoren."
       ],
-      "loesung": 2,
-      "erklaerung": "Bei orthogonaler Projektion gilt $r=x-Px\\perp U$ und $Px\\in U$.",
-      "gewichtung": 1,
-      "thema": "Projektionen & Projektoren",
+      "answer": 2,
+      "explanation": "Bei orthogonaler Projektion gilt $r=x-Px\\perp U$ und $Px\\in U$.",
+      "weight": 1,
+      "topic": "Projektionen & Projektoren",
       "mini_glossary": {
         "Projektor": "Lineare Abbildung mit $P^2=P$; bei orthogonaler Projektion zusätzlich $P^\\top=P$.",
         "Restvektor": "Differenz $r=x-Px$, orthogonal zum Zielunterraum."
       }
     },
     {
-      "frage": "5. Welche Eigenschaft hat eine Orthonormalbasis (ONB)?",
-      "optionen": [
+      "question": "5. Welche Eigenschaft hat eine Orthonormalbasis (ONB)?",
+      "options": [
         "Die Vektoren sind paarweise orthogonal und normiert.",
         "Die Vektoren sind alle Nullvektoren.",
         "Die Vektoren sind beliebig skaliert, aber orthogonal.",
         "Die Vektoren sind linear abhängig.",
         "Die Vektoren haben unterschiedliche Dimensionen."
       ],
-      "loesung": 0,
-      "erklaerung": "ONB: paarweise orthogonal und jeweils Norm 1; sie spannt den Raum auf.",
-      "gewichtung": 1,
-      "thema": "Gram–Schmidt",
+      "answer": 0,
+      "explanation": "ONB: paarweise orthogonal und jeweils Norm 1; sie spannt den Raum auf.",
+      "weight": 1,
+      "topic": "Gram–Schmidt",
       "mini_glossary": {
         "Gram–Schmidt": "Verfahren zur Erzeugung einer ONB aus unabhängigen Vektoren.",
         "ONB": "Orthonormalbasis; orthogonale Einheitsvektoren spannen den Raum auf."
       }
     },
     {
-      "frage": "6. Was bedeutet bei einer QR-Zerlegung die Gleichung $Q^\\top Q=I$?",
-      "optionen": [
+      "question": "6. Was bedeutet bei einer QR-Zerlegung die Gleichung $Q^\\top Q=I$?",
+      "options": [
         "Q ist invertierbar, aber nicht orthonormal.",
         "Die Spalten von Q sind orthonormal.",
         "R ist orthogonal.",
         "A ist symmetrisch.",
         "R ist diagonal."
       ],
-      "loesung": 1,
-      "erklaerung": "$Q^\\top Q=I$ bedeutet: Spalten von $Q$ sind orthonormal.",
-      "gewichtung": 1,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "$Q^\\top Q=I$ bedeutet: Spalten von $Q$ sind orthonormal.",
+      "weight": 1,
+      "topic": "QR-Zerlegung Grundlagen",
       "mini_glossary": {
         "QR-Zerlegung": "Faktorisierung $A=QR$ mit orthonormalem $Q$ und oberem Dreieck $R$.",
         "Dünnes Q": "$Q\\in\\mathbb{R}^{m\\times n}$ mit $Q^\\top Q=I_n$ für $m\\ge n$."
       }
     },
     {
-      "frage": "7. Was ist R in der QR-Zerlegung $A=QR$?",
-      "optionen": [
+      "question": "7. Was ist R in der QR-Zerlegung $A=QR$?",
+      "options": [
         "Eine untere Dreiecksmatrix.",
         "Eine obere Dreiecksmatrix.",
         "Eine Diagonalmatrix mit Einsen.",
         "Eine Permutationsmatrix.",
         "Eine Nullmatrix."
       ],
-      "loesung": 1,
-      "erklaerung": "In $A=QR$ ist $R$ eine obere Dreiecksmatrix.",
-      "gewichtung": 1,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "In $A=QR$ ist $R$ eine obere Dreiecksmatrix.",
+      "weight": 1,
+      "topic": "QR-Zerlegung Grundlagen",
       "mini_glossary": {
         "Obere Dreiecksmatrix": "Matrix mit Nullen unterhalb der Hauptdiagonalen.",
         "Rückwärtseinsetzen": "Lösen eines oberen Dreieckssystems ohne Inversion."
       }
     },
     {
-      "frage": "8. Welche Grundidee folgt bei Least Squares via QR?",
-      "optionen": [
+      "question": "8. Welche Grundidee folgt bei Least Squares via QR?",
+      "options": [
         "Direkt $A^\\top A$ invertieren.",
         "Zuerst $A=QR$ und dann $Rx=Q^\\top b$ lösen.",
         "Die rechte Seite $b$ orthogonalisieren und invertieren.",
         "Mit Vorwärtseinsetzen in $R$ starten.",
         "Zuerst eine SVD und dann $Q$ verwerfen."
       ],
-      "loesung": 1,
-      "erklaerung": "Stabil: $A=QR$, dann $y=Q^\\top b$ und Rückwärtseinsetzen in $Rx=y$.",
-      "gewichtung": 1,
-      "thema": "Least Squares via QR",
+      "answer": 1,
+      "explanation": "Stabil: $A=QR$, dann $y=Q^\\top b$ und Rückwärtseinsetzen in $Rx=y$.",
+      "weight": 1,
+      "topic": "Least Squares via QR",
       "mini_glossary": {
         "Least Squares": "Minimiert $\\|Ax-b\\|^2$; Lösung via QR: $Rx=Q^\\top b$.",
         "Residuum": "Fehlervektor $r=b-Ax$; bei Lösung orthogonal zu span$(A)$."
       }
     },
     {
-      "frage": "9. Welche Gleichungen charakterisieren einen orthogonalen Projektor $P$ auf einen Unterraum $U$ korrekt?",
-      "optionen": [
+      "question": "9. Welche Gleichungen charakterisieren einen orthogonalen Projektor $P$ auf einen Unterraum $U$ korrekt?",
+      "options": [
         "$P^2=P$ und $P^\\top=P$.",
         "$P^2=I$ und $P^\\top=-P$.",
         "$P^2=0$ und $P^\\top=P$.",
         "$P^2=P$ und $P^\\top=I$.",
         "$P^2=I$ und $P^\\top=I$."
       ],
-      "loesung": 0,
-      "erklaerung": "Orthogonaler Projektor ist idempotent und symmetrisch: $P^2=P$, $P^\\top=P$.",
-      "gewichtung": 2,
-      "thema": "Projektionen & Projektoren",
+      "answer": 0,
+      "explanation": "Orthogonaler Projektor ist idempotent und symmetrisch: $P^2=P$, $P^\\top=P$.",
+      "weight": 2,
+      "topic": "Projektionen & Projektoren",
       "extended_explanation": {
         "titel": "Eigenschaften eines Projektors",
         "schritte": [
@@ -190,18 +190,18 @@
       }
     },
     {
-      "frage": "10. Für $x\\neq 0, y\\neq 0$ gilt $\\cos\\angle(x,y)=\\dfrac{\\langle x,y\\rangle}{\\|x\\|\\,\\|y\\|}$. Welche Aussage ist korrekt?",
-      "optionen": [
+      "question": "10. Für $x\\neq 0, y\\neq 0$ gilt $\\cos\\angle(x,y)=\\dfrac{\\langle x,y\\rangle}{\\|x\\|\\,\\|y\\|}$. Welche Aussage ist korrekt?",
+      "options": [
         "Der Wert ändert sich bei Skalierung von $x$ oder $y$ nicht.",
         "Der Wert verdoppelt sich, wenn $x$ verdoppelt wird.",
         "Der Wert halbiert sich, wenn $y$ halbiert wird.",
         "Der Wert hängt von der Wahl der Basis ab.",
         "Der Wert ist immer negativ."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Kosinus-Ähnlichkeit ist skaleninvariant.",
-      "gewichtung": 2,
-      "thema": "Winkel & Cauchy-Schwarz",
+      "answer": 0,
+      "explanation": "Die Kosinus-Ähnlichkeit ist skaleninvariant.",
+      "weight": 2,
+      "topic": "Winkel & Cauchy-Schwarz",
       "extended_explanation": {
         "titel": "Skaleninvarianz der Kosinus-Ähnlichkeit",
         "schritte": [
@@ -216,18 +216,18 @@
       }
     },
     {
-      "frage": "11. Gegeben ein Einheitsvektor $u$ und ein Vektor $x$. Welche Formel gibt die Projektion von $x$ auf $\\operatorname{span}\\{u\\}$ an?",
-      "optionen": [
+      "question": "11. Gegeben ein Einheitsvektor $u$ und ein Vektor $x$. Welche Formel gibt die Projektion von $x$ auf $\\operatorname{span}\\{u\\}$ an?",
+      "options": [
         "$\\operatorname{proj}_u(x)=\\langle x,u\\rangle u$.",
         "$\\operatorname{proj}_u(x)=xu$.",
         "$\\operatorname{proj}_u(x)=\\dfrac{x}{\\langle x,u\\rangle}$.",
         "$\\operatorname{proj}_u(x)=u/x$.",
         "$\\operatorname{proj}_u(x)=\\langle u,u\\rangle x$."
       ],
-      "loesung": 0,
-      "erklaerung": "Auf eine Gerade mit Einheitsvektor $u$: $\\operatorname{proj}_u(x)=\\langle x,u\\rangle u$.",
-      "gewichtung": 2,
-      "thema": "Projektionen & Projektoren",
+      "answer": 0,
+      "explanation": "Auf eine Gerade mit Einheitsvektor $u$: $\\operatorname{proj}_u(x)=\\langle x,u\\rangle u$.",
+      "weight": 2,
+      "topic": "Projektionen & Projektoren",
       "extended_explanation": {
         "titel": "Projektion auf eine Gerade",
         "schritte": [
@@ -242,18 +242,18 @@
       }
     },
     {
-      "frage": "12. Sei $(u_1,\\dots,u_k)$ eine ONB eines Unterraums $U$. Welche Darstellung der Projektion ist korrekt?",
-      "optionen": [
+      "question": "12. Sei $(u_1,\\dots,u_k)$ eine ONB eines Unterraums $U$. Welche Darstellung der Projektion ist korrekt?",
+      "options": [
         "$\\operatorname{proj}_U(x)=\\sum_{i=1}^k \\langle x,u_i\\rangle u_i$.",
         "$\\operatorname{proj}_U(x)=\\sum_{i=1}^k x_i u_i$.",
         "$\\operatorname{proj}_U(x)=U^{-1}x$.",
         "$\\operatorname{proj}_U(x)=Ux$.",
         "$\\operatorname{proj}_U(x)=U^\\top x$."
       ],
-      "loesung": 0,
-      "erklaerung": "Projektion auf $U$ via ONB-Summenformel.",
-      "gewichtung": 2,
-      "thema": "Projektionen & Projektoren",
+      "answer": 0,
+      "explanation": "Projektion auf $U$ via ONB-Summenformel.",
+      "weight": 2,
+      "topic": "Projektionen & Projektoren",
       "extended_explanation": {
         "titel": "Matrixform der Projektion",
         "schritte": [
@@ -268,18 +268,18 @@
       }
     },
     {
-      "frage": "13. Welche Aussage zum klassischen Gram–Schmidt (CGS) ist fachlich zutreffend?",
-      "optionen": [
+      "question": "13. Welche Aussage zum klassischen Gram–Schmidt (CGS) ist fachlich zutreffend?",
+      "options": [
         "CGS ist konzeptionell einfach, aber numerisch weniger stabil.",
         "CGS ist numerisch stabiler als Householder.",
         "CGS erzeugt niemals eine ONB.",
         "CGS benötigt eine invertierbare Matrix.",
         "CGS setzt orthogonale Eingangsvektoren voraus."
       ],
-      "loesung": 0,
-      "erklaerung": "CGS liefert ONB, ist aber weniger stabil als MGS/Householder.",
-      "gewichtung": 2,
-      "thema": "Gram–Schmidt",
+      "answer": 0,
+      "explanation": "CGS liefert ONB, ist aber weniger stabil als MGS/Householder.",
+      "weight": 2,
+      "topic": "Gram–Schmidt",
       "extended_explanation": {
         "titel": "CGS vs. MGS/Householder",
         "schritte": [
@@ -294,18 +294,18 @@
       }
     },
     {
-      "frage": "14. Was beschreibt die Matrix $Q$ in $A=QR$ geometrisch am besten?",
-      "optionen": [
+      "question": "14. Was beschreibt die Matrix $Q$ in $A=QR$ geometrisch am besten?",
+      "options": [
         "Sie skaliert Achsen unabhängig.",
         "Sie ist eine orthogonale Transformation (Rotation/Spiegelung).",
         "Sie ist eine Scherung entlang der Diagonalen.",
         "Sie invertiert $A$ direkt.",
         "Sie ist stets diagonal mit Einsen."
       ],
-      "loesung": 1,
-      "erklaerung": "$Q$ erhält Längen und Winkel: Rotation/Spiegelung.",
-      "gewichtung": 2,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "$Q$ erhält Längen und Winkel: Rotation/Spiegelung.",
+      "weight": 2,
+      "topic": "QR-Zerlegung Grundlagen",
       "extended_explanation": {
         "titel": "Geometrie von Q und R",
         "schritte": [
@@ -320,18 +320,18 @@
       }
     },
     {
-      "frage": "15. Worin besteht der Vorteil von Least Squares via QR gegenüber Normalengleichungen $A^\\top A x=A^\\top b$?",
-      "optionen": [
+      "question": "15. Worin besteht der Vorteil von Least Squares via QR gegenüber Normalengleichungen $A^\\top A x=A^\\top b$?",
+      "options": [
         "Weniger Rechenaufwand in jedem Fall.",
         "Größere numerische Stabilität durch Vermeidung der Bildung von $A^\\top A$.",
         "Eine exakte Lösung für jedes überbestimmte System.",
         "Keine Orthogonalisierung erforderlich.",
         "Es benötigt keine Dreiecksmatrix."
       ],
-      "loesung": 1,
-      "erklaerung": "Die Bildung von $A^\\top A$ verschlechtert die Kondition; QR vermeidet das.",
-      "gewichtung": 2,
-      "thema": "Least Squares via QR",
+      "answer": 1,
+      "explanation": "Die Bildung von $A^\\top A$ verschlechtert die Kondition; QR vermeidet das.",
+      "weight": 2,
+      "topic": "Least Squares via QR",
       "extended_explanation": {
         "titel": "Stabilitätsaspekt",
         "schritte": [
@@ -346,18 +346,18 @@
       }
     },
     {
-      "frage": "16. Gegeben $x=(1,2,2)^\\top$ und $y=(2,0,1)^\\top$. Welche Größe hat $\\langle x,y\\rangle$?",
-      "optionen": [
+      "question": "16. Gegeben $x=(1,2,2)^\\top$ und $y=(2,0,1)^\\top$. Welche Größe hat $\\langle x,y\\rangle$?",
+      "options": [
         "2",
         "3",
         "4",
         "5",
         "6"
       ],
-      "loesung": 2,
-      "erklaerung": "$1\\cdot2+2\\cdot0+2\\cdot1=4$.",
-      "gewichtung": 2,
-      "thema": "Winkel & Cauchy-Schwarz",
+      "answer": 2,
+      "explanation": "$1\\cdot2+2\\cdot0+2\\cdot1=4$.",
+      "weight": 2,
+      "topic": "Winkel & Cauchy-Schwarz",
       "extended_explanation": {
         "titel": "Bezug zu Norm und Winkel",
         "schritte": [
@@ -372,18 +372,18 @@
       }
     },
     {
-      "frage": "17. Welche Aussage zur Restorthogonalität bei der LS-Lösung ist korrekt?",
-      "optionen": [
+      "question": "17. Welche Aussage zur Restorthogonalität bei der LS-Lösung ist korrekt?",
+      "options": [
         "Der Rest ist parallel zum Spaltenraum von $A$.",
         "Der Rest ist orthogonal zum Spaltenraum von $A$.",
         "Der Rest ist zufällig verteilt.",
         "Der Rest ist stets der Nullvektor.",
         "Der Rest ist proportional zu $b$."
       ],
-      "loesung": 1,
-      "erklaerung": "Für $x^\\star$ gilt $r=b-Ax^\\star\\perp \\operatorname{span}(A)$.",
-      "gewichtung": 2,
-      "thema": "Least Squares via QR",
+      "answer": 1,
+      "explanation": "Für $x^\\star$ gilt $r=b-Ax^\\star\\perp \\operatorname{span}(A)$.",
+      "weight": 2,
+      "topic": "Least Squares via QR",
       "extended_explanation": {
         "titel": "Charakterisierung der LS-Lösung",
         "schritte": [
@@ -398,18 +398,18 @@
       }
     },
     {
-      "frage": "18. Wodurch zeichnet sich $R$ in $A=QR$ bei vollem Spaltenrang aus?",
-      "optionen": [
+      "question": "18. Wodurch zeichnet sich $R$ in $A=QR$ bei vollem Spaltenrang aus?",
+      "options": [
         "Die Diagonalelemente sind alle Null.",
         "Die Diagonalelemente sind nicht Null.",
         "R ist symmetrisch.",
         "R ist orthogonal.",
         "R ist projektiv."
       ],
-      "loesung": 1,
-      "erklaerung": "Voller Spaltenrang impliziert nicht verschwindende Diagonale von $R$.",
-      "gewichtung": 2,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "Voller Spaltenrang impliziert nicht verschwindende Diagonale von $R$.",
+      "weight": 2,
+      "topic": "QR-Zerlegung Grundlagen",
       "extended_explanation": {
         "titel": "Implikationen für die Lösung",
         "schritte": [
@@ -424,18 +424,18 @@
       }
     },
     {
-      "frage": "19. Welche Reihenfolge der Schritte ist korrekt für Least Squares via QR?",
-      "optionen": [
+      "question": "19. Welche Reihenfolge der Schritte ist korrekt für Least Squares via QR?",
+      "options": [
         "Berechne $Q^\\top b$, zerlege $A=QR$, löse $Rx=y$.",
         "Zerlege $A=QR$, berechne $y=Q^\\top b$, löse $Rx=y$.",
         "Invertiere $R$, berechne $x=R^{-1}Q^\\top b$, überprüfe $A=QR$.",
         "Zerlege $A=QR$, löse $Qx=b$, berechne $Rx=y$.",
         "Zerlege $b=QR$, löse $Rx=Q^\\top y$."
       ],
-      "loesung": 1,
-      "erklaerung": "Standardrezept: $A=QR\\rightarrow y=Q^\\top b\\rightarrow Rx=y$.",
-      "gewichtung": 2,
-      "thema": "Least Squares via QR",
+      "answer": 1,
+      "explanation": "Standardrezept: $A=QR\\rightarrow y=Q^\\top b\\rightarrow Rx=y$.",
+      "weight": 2,
+      "topic": "Least Squares via QR",
       "extended_explanation": {
         "titel": "Algorithmische Pipeline",
         "schritte": [
@@ -450,18 +450,18 @@
       }
     },
     {
-      "frage": "20. Was liefert der modifizierte Gram–Schmidt (MGS) gegenüber klassischem GS typischerweise?",
-      "optionen": [
+      "question": "20. Was liefert der modifizierte Gram–Schmidt (MGS) gegenüber klassischem GS typischerweise?",
+      "options": [
         "Geringere numerische Stabilität.",
         "Bessere Erhaltung der Orthogonalität.",
         "Eine dichtere Matrix $R$.",
         "Eine kleinere Konditionszahl für $A$.",
         "Ein diagonales $R$."
       ],
-      "loesung": 1,
-      "erklaerung": "MGS reduziert Orthogonalitätsfehler durch Rundung.",
-      "gewichtung": 2,
-      "thema": "Gram–Schmidt",
+      "answer": 1,
+      "explanation": "MGS reduziert Orthogonalitätsfehler durch Rundung.",
+      "weight": 2,
+      "topic": "Gram–Schmidt",
       "extended_explanation": {
         "titel": "Warum MGS?",
         "schritte": [
@@ -476,18 +476,18 @@
       }
     },
     {
-      "frage": "21. Welche Aussage zur Cauchy–Schwarz-Ungleichung ist korrekt?",
-      "optionen": [
+      "question": "21. Welche Aussage zur Cauchy–Schwarz-Ungleichung ist korrekt?",
+      "options": [
         "$|\\langle x,y\\rangle|\\le \\|x\\|\\,\\|y\\|$.",
         "$|\\langle x,y\\rangle|\\ge \\|x\\|\\,\\|y\\|$.",
         "$\\langle x,y\\rangle=\\|x\\|+\\|y\\|$.",
         "$\\langle x,y\\rangle=0$ für alle $x,y$.",
         "$\\|x+y\\|\\ge \\|x\\|+\\|y\\|$."
       ],
-      "loesung": 0,
-      "erklaerung": "Cauchy–Schwarz liefert die obere Schranke für das Skalarprodukt.",
-      "gewichtung": 2,
-      "thema": "Winkel & Cauchy-Schwarz",
+      "answer": 0,
+      "explanation": "Cauchy–Schwarz liefert die obere Schranke für das Skalarprodukt.",
+      "weight": 2,
+      "topic": "Winkel & Cauchy-Schwarz",
       "extended_explanation": {
         "titel": "Folgen von Cauchy–Schwarz",
         "schritte": [
@@ -502,18 +502,18 @@
       }
     },
     {
-      "frage": "22. Wozu dienen Givens-Rotationen in der QR-Konstruktion?",
-      "optionen": [
+      "question": "22. Wozu dienen Givens-Rotationen in der QR-Konstruktion?",
+      "options": [
         "Zum Nullsetzen einzelner Einträge durch planare Rotationen.",
         "Zum Diagonalisieren symmetrischer Matrizen.",
         "Zur Permutation von Spalten.",
         "Zur Skalierung der Diagonale von R auf Eins.",
         "Zur Invertierung von A."
       ],
-      "loesung": 0,
-      "erklaerung": "Givens eliminiert gezielt Einträge unterhalb der Diagonale.",
-      "gewichtung": 2,
-      "thema": "QR-Konstruktion (Householder/Givens)",
+      "answer": 0,
+      "explanation": "Givens eliminiert gezielt Einträge unterhalb der Diagonale.",
+      "weight": 2,
+      "topic": "QR-Konstruktion (Householder/Givens)",
       "extended_explanation": {
         "titel": "Givens vs. Householder",
         "schritte": [
@@ -528,18 +528,18 @@
       }
     },
     {
-      "frage": "23. Welche Eigenschaft besitzt $Q$ bei dünnem QR für $m\\ge n$?",
-      "optionen": [
+      "question": "23. Welche Eigenschaft besitzt $Q$ bei dünnem QR für $m\\ge n$?",
+      "options": [
         "$Q\\in\\mathbb{R}^{m\\times m}$ orthogonal.",
         "$Q\\in\\mathbb{R}^{m\\times n}$ mit orthonormalen Spalten.",
         "$Q\\in\\mathbb{R}^{n\\times n}$ diagonal.",
         "$Q\\in\\mathbb{R}^{n\\times m}$ orthonormal.",
         "$Q$ ist stets symmetrisch."
       ],
-      "loesung": 1,
-      "erklaerung": "Dünnes $Q$ hat $n$ orthonormale Spalten in $\\mathbb{R}^{m}$.",
-      "gewichtung": 2,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "Dünnes $Q$ hat $n$ orthonormale Spalten in $\\mathbb{R}^{m}$.",
+      "weight": 2,
+      "topic": "QR-Zerlegung Grundlagen",
       "extended_explanation": {
         "titel": "Dünnes vs. volles Q",
         "schritte": [
@@ -554,18 +554,18 @@
       }
     },
     {
-      "frage": "24. Was gilt für die Projektion $Px$ bei $P=UU^\\top$ mit ONB-Matrix $U$?",
-      "optionen": [
+      "question": "24. Was gilt für die Projektion $Px$ bei $P=UU^\\top$ mit ONB-Matrix $U$?",
+      "options": [
         "$x-Px\\in U$",
         "$Px\\perp U$",
         "$x-Px\\perp U$",
         "$Px$ ist stets der Nullvektor",
         "$Px$ hat größere Norm als $x$"
       ],
-      "loesung": 2,
-      "erklaerung": "Der Fehler ist orthogonal zum Unterraum; $Px\\in U$.",
-      "gewichtung": 2,
-      "thema": "Projektionen & Projektoren",
+      "answer": 2,
+      "explanation": "Der Fehler ist orthogonal zum Unterraum; $Px\\in U$.",
+      "weight": 2,
+      "topic": "Projektionen & Projektoren",
       "extended_explanation": {
         "titel": "Optimalität der Projektion",
         "schritte": [
@@ -580,18 +580,18 @@
       }
     },
     {
-      "frage": "25. Welche typische Fehlerquelle bei GS/QR sollte vermieden werden?",
-      "optionen": [
+      "question": "25. Welche typische Fehlerquelle bei GS/QR sollte vermieden werden?",
+      "options": [
         "Vor der Projektion nicht zu normieren.",
         "Rückwärtseinsetzen zu verwenden.",
         "Orthogonalität zu prüfen.",
         "ONB zu konstruieren.",
         "Householder-Reflexionen zu nutzen."
       ],
-      "loesung": 0,
-      "erklaerung": "Fehlende Normalisierung führt zu falschen Projektionsanteilen.",
-      "gewichtung": 2,
-      "thema": "Typische Fehler & Numerik",
+      "answer": 0,
+      "explanation": "Fehlende Normalisierung führt zu falschen Projektionsanteilen.",
+      "weight": 2,
+      "topic": "Typische Fehler & Numerik",
       "extended_explanation": {
         "titel": "Praxisfehler",
         "schritte": [
@@ -606,18 +606,18 @@
       }
     },
     {
-      "frage": "26. Wie lässt sich $R$ bei QR aus $Q$ und $A$ gewinnen?",
-      "optionen": [
+      "question": "26. Wie lässt sich $R$ bei QR aus $Q$ und $A$ gewinnen?",
+      "options": [
         "$R=QA$",
         "$R=Q^\\top A$",
         "$R=AQ$",
         "$R=A^\\top Q$",
         "$R=QQ^\\top A$"
       ],
-      "loesung": 1,
-      "erklaerung": "Aus $A=QR$ folgt $Q^\\top A=R$.",
-      "gewichtung": 2,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "Aus $A=QR$ folgt $Q^\\top A=R$.",
+      "weight": 2,
+      "topic": "QR-Zerlegung Grundlagen",
       "extended_explanation": {
         "titel": "Ableitung von R",
         "schritte": [
@@ -632,18 +632,18 @@
       }
     },
     {
-      "frage": "27. Welche Eigenschaft bleibt unter orthogonalen Transformationen $Q$ erhalten?",
-      "optionen": [
+      "question": "27. Welche Eigenschaft bleibt unter orthogonalen Transformationen $Q$ erhalten?",
+      "options": [
         "Euklidische Norm und Winkel.",
         "Determinante bleibt 1.",
         "Rang halbiert sich.",
         "Sparsamkeit (Sparsity) nimmt zu.",
         "Eigenwerte bleiben gleich."
       ],
-      "loesung": 0,
-      "erklaerung": "Orthogonale Abbildungen erhalten innere Produkte, also Normen und Winkel.",
-      "gewichtung": 2,
-      "thema": "QR-Konstruktion (Householder/Givens)",
+      "answer": 0,
+      "explanation": "Orthogonale Abbildungen erhalten innere Produkte, also Normen und Winkel.",
+      "weight": 2,
+      "topic": "QR-Konstruktion (Householder/Givens)",
       "extended_explanation": {
         "titel": "Erhaltungsgrößen",
         "schritte": [
@@ -658,18 +658,18 @@
       }
     },
     {
-      "frage": "28. Welche Aussage zur Kosinus-Ähnlichkeit in IR/ML trifft zu?",
-      "optionen": [
+      "question": "28. Welche Aussage zur Kosinus-Ähnlichkeit in IR/ML trifft zu?",
+      "options": [
         "Sie ist sensitiv gegenüber globaler Skalierung aller Vektoren.",
         "Sie misst Ähnlichkeit unabhängig von der Norm der Vektoren.",
         "Sie erfordert orthogonale Basisvektoren.",
         "Sie entspricht der Manhattan-Distanz.",
         "Sie ist nur für $\\{0,1\\}$-Vektoren definiert."
       ],
-      "loesung": 1,
-      "erklaerung": "Kosinus-Ähnlichkeit hängt nur von der Richtung ab.",
-      "gewichtung": 2,
-      "thema": "Anwendungen & Kosinus-Ähnlichkeit",
+      "answer": 1,
+      "explanation": "Kosinus-Ähnlichkeit hängt nur von der Richtung ab.",
+      "weight": 2,
+      "topic": "Anwendungen & Kosinus-Ähnlichkeit",
       "extended_explanation": {
         "titel": "Einsatz in der Praxis",
         "schritte": [
@@ -684,18 +684,18 @@
       }
     },
     {
-      "frage": "29. Sei $A\\in\\mathbb{R}^{m\\times n}$ mit $m>n$ und vollem Spaltenrang. Welche Aussage ist korrekt?",
-      "optionen": [
+      "question": "29. Sei $A\\in\\mathbb{R}^{m\\times n}$ mit $m>n$ und vollem Spaltenrang. Welche Aussage ist korrekt?",
+      "options": [
         "Es existiert keine QR-Zerlegung.",
         "Dünnes $Q$ hat $n$ orthonormale Spalten.",
         "R ist singulär.",
         "Die LS-Lösung existiert nicht.",
         "Nur SVD ist möglich."
       ],
-      "loesung": 1,
-      "erklaerung": "Für vollen Spaltenrang existiert dünnes QR mit $Q\\in\\mathbb{R}^{m\\times n}$.",
-      "gewichtung": 2,
-      "thema": "QR-Zerlegung Grundlagen",
+      "answer": 1,
+      "explanation": "Für vollen Spaltenrang existiert dünnes QR mit $Q\\in\\mathbb{R}^{m\\times n}$.",
+      "weight": 2,
+      "topic": "QR-Zerlegung Grundlagen",
       "extended_explanation": {
         "titel": "Ranganforderungen",
         "schritte": [
@@ -710,18 +710,18 @@
       }
     },
     {
-      "frage": "30. Welche Reihenfolge beschreibt das klassische Gram–Schmidt-Verfahren für Spalten $v_j$ korrekt?",
-      "optionen": [
+      "question": "30. Welche Reihenfolge beschreibt das klassische Gram–Schmidt-Verfahren für Spalten $v_j$ korrekt?",
+      "options": [
         "$u_1=\\dfrac{v_1}{\\|v_1\\|}$, dann $w_j=v_j-\\sum_{i<j}\\langle v_j,u_i\\rangle u_i$, $u_j=\\dfrac{w_j}{\\|w_j\\|}$.",
         "$w_j=v_j+\\sum_{i<j}\\langle v_j,u_i\\rangle u_i$, $u_j=\\dfrac{v_j}{\\|v_j\\|}$.",
         "$u_j=v_j$, $w_j=\\dfrac{v_j}{\\|v_j\\|}$.",
         "$u_j=\\sum_i v_i$, $w_j=u_j$.",
         "$u_1=v_1$, $u_j=v_j$."
       ],
-      "loesung": 0,
-      "erklaerung": "Erst Orthogonalisieren zu $w_j$, dann Normieren zu $u_j$.",
-      "gewichtung": 2,
-      "thema": "Gram–Schmidt",
+      "answer": 0,
+      "explanation": "Erst Orthogonalisieren zu $w_j$, dann Normieren zu $u_j$.",
+      "weight": 2,
+      "topic": "Gram–Schmidt",
       "extended_explanation": {
         "titel": "Rezept GS",
         "schritte": [
@@ -736,18 +736,18 @@
       }
     },
     {
-      "frage": "31. Gegeben $u=\\tfrac{1}{\\sqrt{5}}(1,2)^\\top$ und $x=(3,1)^\\top$. Welche Aussage trifft zu?",
-      "optionen": [
+      "question": "31. Gegeben $u=\\tfrac{1}{\\sqrt{5}}(1,2)^\\top$ und $x=(3,1)^\\top$. Welche Aussage trifft zu?",
+      "options": [
         "$\\langle x,u\\rangle=1$ und $\\operatorname{proj}_u(x)=(1,2)^\\top$.",
         "$\\langle x,u\\rangle=\\sqrt{5}$ und $\\operatorname{proj}_u(x)=(1,2)^\\top$.",
         "$\\langle x,u\\rangle=\\sqrt{5}$ und $\\operatorname{proj}_u(x)=\\tfrac{1}{\\sqrt{5}}(1,2)^\\top$.",
         "$\\langle x,u\\rangle=5$ und $\\operatorname{proj}_u(x)=(1,2)^\\top$.",
         "$\\langle x,u\\rangle=\\tfrac{1}{\\sqrt{5}}$ und $\\operatorname{proj}_u(x)=(2,-1)^\\top$."
       ],
-      "loesung": 1,
-      "erklaerung": "$\\langle x,u\\rangle=\\tfrac{1}{\\sqrt{5}}(3\\cdot1+1\\cdot2)=\\sqrt{5}$; die Projektion ist Skalar mal $u$ und ergibt $(1,2)^\\top$.",
-      "gewichtung": 3,
-      "thema": "Skalarprodukt & Norm",
+      "answer": 1,
+      "explanation": "$\\langle x,u\\rangle=\\tfrac{1}{\\sqrt{5}}(3\\cdot1+1\\cdot2)=\\sqrt{5}$; die Projektion ist Skalar mal $u$ und ergibt $(1,2)^\\top$.",
+      "weight": 3,
+      "topic": "Skalarprodukt & Norm",
       "extended_explanation": {
         "titel": "Durchrechnen der Projektion",
         "schritte": [
@@ -762,18 +762,18 @@
       }
     },
     {
-      "frage": "32. Für $A\\in\\mathbb{R}^{m\\times n}$ mit $m>n$ und dünnem QR, $A=QR$, sei $b\\in\\mathbb{R}^m$ und $y=Q^\\top b$. Welche Bedingung garantiert eine eindeutige LS-Lösung?",
-      "optionen": [
+      "question": "32. Für $A\\in\\mathbb{R}^{m\\times n}$ mit $m>n$ und dünnem QR, $A=QR$, sei $b\\in\\mathbb{R}^m$ und $y=Q^\\top b$. Welche Bedingung garantiert eine eindeutige LS-Lösung?",
+      "options": [
         "Rang$(A)=n$ und Diagonale von $R$ ohne Nullen.",
         "Rang$(A)=m$ und $Q$ diagonal.",
         "$R$ symmetrisch positiv definit.",
         "$Q$ antisymmetrisch.",
         "$A$ orthogonal."
       ],
-      "loesung": 0,
-      "erklaerung": "Voller Spaltenrang $n$ impliziert invertierbares $R$ (eindeutiges Rückwärtseinsetzen).",
-      "gewichtung": 3,
-      "thema": "Least Squares via QR",
+      "answer": 0,
+      "explanation": "Voller Spaltenrang $n$ impliziert invertierbares $R$ (eindeutiges Rückwärtseinsetzen).",
+      "weight": 3,
+      "topic": "Least Squares via QR",
       "extended_explanation": {
         "titel": "Eindeutigkeit der Lösung",
         "schritte": [
@@ -788,18 +788,18 @@
       }
     },
     {
-      "frage": "33. Welche Aussage zur numerischen Stabilität ist korrekt?",
-      "optionen": [
+      "question": "33. Welche Aussage zur numerischen Stabilität ist korrekt?",
+      "options": [
         "Die Bildung von $A^\\top A$ verbessert die Kondition.",
         "Householder-QR ist in der Regel stabiler als klassisches GS.",
         "Givens ist ungeeignet für dünn besetzte Matrizen.",
         "QR verändert die Residuenorthogonalität.",
         "Rückwärtseinsetzen ist instabiler als Invertieren."
       ],
-      "loesung": 1,
-      "erklaerung": "Householder nutzt orthogonale Spiegelungen und ist sehr robust.",
-      "gewichtung": 3,
-      "thema": "QR-Konstruktion (Householder/Givens)",
+      "answer": 1,
+      "explanation": "Householder nutzt orthogonale Spiegelungen und ist sehr robust.",
+      "weight": 3,
+      "topic": "QR-Konstruktion (Householder/Givens)",
       "extended_explanation": {
         "titel": "Stabilitätsvergleich",
         "schritte": [
@@ -814,18 +814,18 @@
       }
     },
     {
-      "frage": "34. Sei $U=[u_1\\,u_2]$ mit ONB-Spalten in $\\mathbb{R}^3$ und $x\\in\\mathbb{R}^3$. Welche Aussage ist korrekt?",
-      "optionen": [
+      "question": "34. Sei $U=[u_1\\,u_2]$ mit ONB-Spalten in $\\mathbb{R}^3$ und $x\\in\\mathbb{R}^3$. Welche Aussage ist korrekt?",
+      "options": [
         "$x-Px$ liegt in $U$.",
         "$Px$ ist orthogonal zu $U$.",
         "$x-Px$ ist orthogonal zu $U$.",
         "$Px$ ist orthogonal zu $x$.",
         "$Px=x$ nur für $x\\perp U$."
       ],
-      "loesung": 2,
-      "erklaerung": "Der Restvektor ist orthogonal zum Unterraum; $Px\\in U$.",
-      "gewichtung": 3,
-      "thema": "Projektionen & Projektoren",
+      "answer": 2,
+      "explanation": "Der Restvektor ist orthogonal zum Unterraum; $Px\\in U$.",
+      "weight": 3,
+      "topic": "Projektionen & Projektoren",
       "extended_explanation": {
         "titel": "Struktur von $P=UU^\\top$",
         "schritte": [
@@ -840,18 +840,18 @@
       }
     },
     {
-      "frage": "35. Bei QR über Householder wird mit Reflexionen gearbeitet. Welcher Effekt wird damit erzielt?",
-      "optionen": [
+      "question": "35. Bei QR über Householder wird mit Reflexionen gearbeitet. Welcher Effekt wird damit erzielt?",
+      "options": [
         "Nullsetzen einer ganzen Unterspalte unterhalb der Diagonale in einem Schritt.",
         "Permutation der Spalten in gewünschter Reihenfolge.",
         "Diagonalisation von $A$ in einem Schritt.",
         "Berechnung der SVD direkt.",
         "Reduktion von $R$ zu einer unteren Dreiecksmatrix."
       ],
-      "loesung": 0,
-      "erklaerung": "Eine Householder-Spiegelung eliminiert alle Einträge einer Spalte unterhalb der Diagonale.",
-      "gewichtung": 3,
-      "thema": "QR-Konstruktion (Householder/Givens)",
+      "answer": 0,
+      "explanation": "Eine Householder-Spiegelung eliminiert alle Einträge einer Spalte unterhalb der Diagonale.",
+      "weight": 3,
+      "topic": "QR-Konstruktion (Householder/Givens)",
       "extended_explanation": {
         "titel": "Householder-Mechanik",
         "schritte": [
@@ -866,18 +866,18 @@
       }
     },
     {
-      "frage": "36. In der Praxis soll $R$ nicht invertiert werden. Welches Vorgehen ist korrekt?",
-      "optionen": [
+      "question": "36. In der Praxis soll $R$ nicht invertiert werden. Welches Vorgehen ist korrekt?",
+      "options": [
         "Löse $Rx=y$ per Rückwärtseinsetzen.",
         "Berechne $x=R^{-1}y$ explizit und multipliziere.",
         "Quadratiere $R$ und invertiere dann.",
         "Ersetze $R$ durch $Q$ und invertiere $Q$.",
         "Forme $R$ zu einer symmetrischen Matrix um."
       ],
-      "loesung": 0,
-      "erklaerung": "Dreieckssysteme löst man numerisch stabil per Rückwärtseinsetzen.",
-      "gewichtung": 3,
-      "thema": "Typische Fehler & Numerik",
+      "answer": 0,
+      "explanation": "Dreieckssysteme löst man numerisch stabil per Rückwärtseinsetzen.",
+      "weight": 3,
+      "topic": "Typische Fehler & Numerik",
       "extended_explanation": {
         "titel": "Warum nicht invertieren?",
         "schritte": [
@@ -892,18 +892,18 @@
       }
     },
     {
-      "frage": "37. Welche Bedingung garantiert, dass Gram–Schmidt eine ONB liefert?",
-      "optionen": [
+      "question": "37. Welche Bedingung garantiert, dass Gram–Schmidt eine ONB liefert?",
+      "options": [
         "Die Eingangsvektoren sind linear unabhängig.",
         "Die Eingangsvektoren sind orthogonal.",
         "Die Matrix ist symmetrisch.",
         "Die Vektoren haben Norm 1.",
         "Die Dimension ist $m<n$."
       ],
-      "loesung": 0,
-      "erklaerung": "GS setzt lineare Unabhängigkeit voraus; daraus wird eine ONB konstruiert.",
-      "gewichtung": 3,
-      "thema": "Gram–Schmidt",
+      "answer": 0,
+      "explanation": "GS setzt lineare Unabhängigkeit voraus; daraus wird eine ONB konstruiert.",
+      "weight": 3,
+      "topic": "Gram–Schmidt",
       "extended_explanation": {
         "titel": "Voraussetzungen für GS",
         "schritte": [
@@ -918,18 +918,18 @@
       }
     },
     {
-      "frage": "38. Welche Aussage zur Dreiecksungleichung ist korrekt und relevant für Projektionen?",
-      "optionen": [
+      "question": "38. Welche Aussage zur Dreiecksungleichung ist korrekt und relevant für Projektionen?",
+      "options": [
         "$\\|x+y\\|\\ge \\|x\\|+\\|y\\|$.",
         "$\\|x+y\\|\\le \\|x\\|+\\|y\\|$.",
         "$\\|x-y\\|=\\|x\\|\\,\\|y\\|$.",
         "$\\|x\\|=\\sum_i x_i$.",
         "$\\|x\\|=0$ nur für $x\\neq 0$."
       ],
-      "loesung": 1,
-      "erklaerung": "Dreiecksungleichung: $\\|x+y\\|\\le \\|x\\|+\\|y\\|$.",
-      "gewichtung": 3,
-      "thema": "Winkel & Cauchy-Schwarz",
+      "answer": 1,
+      "explanation": "Dreiecksungleichung: $\\|x+y\\|\\le \\|x\\|+\\|y\\|$.",
+      "weight": 3,
+      "topic": "Winkel & Cauchy-Schwarz",
       "extended_explanation": {
         "titel": "Relevanz für Fehlerabschätzungen",
         "schritte": [
@@ -944,18 +944,18 @@
       }
     },
     {
-      "frage": "39. Warum ist die QR-Zerlegung für schlecht konditionierte Spalten vorteilhaft?",
-      "optionen": [
+      "question": "39. Warum ist die QR-Zerlegung für schlecht konditionierte Spalten vorteilhaft?",
+      "options": [
         "Weil $Q$ die Kondition verschlechtert.",
         "Weil $A^\\top A$ numerisch stabiler ist.",
         "Weil orthogonale Transformationen numerisch gut konditioniert sind.",
         "Weil $R$ zufällig ist.",
         "Weil Projektionen vermieden werden."
       ],
-      "loesung": 2,
-      "erklaerung": "Orthogonale Transformationen ($Q$) erhalten Normen/Winkel und sind numerisch stabil.",
-      "gewichtung": 3,
-      "thema": "Typische Fehler & Numerik",
+      "answer": 2,
+      "explanation": "Orthogonale Transformationen ($Q$) erhalten Normen/Winkel und sind numerisch stabil.",
+      "weight": 3,
+      "topic": "Typische Fehler & Numerik",
       "extended_explanation": {
         "titel": "Numerische Robustheit",
         "schritte": [

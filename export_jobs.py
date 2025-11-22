@@ -468,8 +468,8 @@ _ANKI_FRONT_TEMPLATE = (
     "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
-    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}"
-    f"{{#Kognitive_Stufe}}<span class='meta-item'><strong>{translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')}:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
+    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}" +
+    ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + translate_ui('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
     "</div>"
     "<div class='question'>{{Frage}}</div>"
     "{{#Optionen}}<div class='options'>{{Optionen}}</div>{{/Optionen}}"
@@ -483,8 +483,8 @@ _ANKI_BACK_TEMPLATE = (
     "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
     "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
     "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
-    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}"
-    f"{{#Kognitive_Stufe}}<span class='meta-item'><strong>{translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')}:</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}"
+    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}" +
+    ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + translate_ui('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
     "</div>"
     "<div class='question-repeat'>"
     "<div class='section-title'>Frage</div>"

@@ -1,16 +1,16 @@
 [
   {
-    "frage": "6. Was ist die korrekte Darstellung der **Standardabweichung** $\\sigma$ einer diskreten Zufallsvariable $X$?",
-    "optionen": [
+    "question": "6. Was ist die korrekte Darstellung der **Standardabweichung** $\\sigma$ einer diskreten Zufallsvariable $X$?",
+    "options": [
       "$\\sigma = \\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)$",
       "$\\sigma = \\sqrt{\\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)}$",
       "$\\sigma = \\frac{1}{n} \\sum_{i=1}^{n} x_i$",
       "$\\sigma = E[X^2] + (E[X])^2$"
     ],
-    "loesung": 1,
-    "erklaerung": "Die **Standardabweichung** $\\sigma$ ist die **Wurzel** aus der **Varianz** $\\sigma^2$. Die Varianz ist der Erwartungswert der quadrierten Abweichung vom Erwartungswert $\\mu$. Die korrekte Formel ist also die Wurzel aus der Summe der gewichteten quadrierten Abweichungen.",
-    "gewichtung": 3,
-    "thema": "KaTeX & Formeln",
+    "answer": 1,
+    "explanation": "Die **Standardabweichung** $\\sigma$ ist die **Wurzel** aus der **Varianz** $\\sigma^2$. Die Varianz ist der Erwartungswert der quadrierten Abweichung vom Erwartungswert $\\mu$. Die korrekte Formel ist also die Wurzel aus der Summe der gewichteten quadrierten Abweichungen.",
+    "weight": 3,
+    "topic": "KaTeX & Formeln",
     "mini_glossary": {
       "Standardabweichung": "Ein Maß für die Streuung von Werten um den Erwartungswert $\\mu$. Sie ist die Quadratwurzel der Varianz: $\\sigma = \\sqrt{\\text{Var}(X)}$.",
       "Varianz": "Der Erwartungswert der quadrierten Abweichungen vom Mittelwert, formal: $\\sigma^2 = E[(X - \\mu)^2] = \\sum_{i=1}^{n} (x_i - \\mu)^2 P(X=x_i)$.",
@@ -18,17 +18,17 @@
     }
   },
   {
-    "frage": "7. Was ist das Ergebnis der Matrixmultiplikation $A \\cdot B$ für $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ und $B = \\begin{pmatrix} 2 & 0 \\\\ 1 & 2 \\end{pmatrix}$?",
-    "optionen": [
+    "question": "7. Was ist das Ergebnis der Matrixmultiplikation $A \\cdot B$ für $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ und $B = \\begin{pmatrix} 2 & 0 \\\\ 1 & 2 \\end{pmatrix}$?",
+    "options": [
       "$\\begin{pmatrix} 4 & 4 \\\\ 10 & 8 \\end{pmatrix}$",
       "$\\begin{pmatrix} 2 & 0 \\\\ 3 & 8 \\end{pmatrix}$",
       "$\\begin{pmatrix} 3 & 2 \\\\ 4 & 6 \\end{pmatrix}$",
       "Die Multiplikation ist nicht definiert."
     ],
-    "loesung": 0,
-    "erklaerung": "Das Element $c_{ij}$ der Ergebnismatrix $C$ wird berechnet als **Skalarprodukt** der $i$-ten Zeile von $A$ mit der $j$-ten Spalte von $B$. Zum Beispiel ist $c_{11} = 1 \\cdot 2 + 2 \\cdot 1 = 4$.",
-    "gewichtung": 2,
-    "thema": "Lineare Algebra",
+    "answer": 0,
+    "explanation": "Das Element $c_{ij}$ der Ergebnismatrix $C$ wird berechnet als **Skalarprodukt** der $i$-ten Zeile von $A$ mit der $j$-ten Spalte von $B$. Zum Beispiel ist $c_{11} = 1 \\cdot 2 + 2 \\cdot 1 = 4$.",
+    "weight": 2,
+    "topic": "Lineare Algebra",
     "extended_explanation": {
       "title": "Herleitung der Matrixmultiplikation",
       "content": "Die Berechnung erfolgt elementweise:\n* $c_{11} = (1 \\cdot 2) + (2 \\cdot 1) = 4$\n* $c_{12} = (1 \\cdot 0) + (2 \\cdot 2) = 4$\n* $c_{21} = (3 \\cdot 2) + (4 \\cdot 1) = 10$\n* $c_{22} = (3 \\cdot 0) + (4 \\cdot 2) = 8$\n\nSomit ergibt sich die Matrix $C = \\begin{pmatrix} 4 & 4 \\\\ 10 & 8 \\end{pmatrix}$."
@@ -40,17 +40,17 @@
     }
   },
   {
-    "frage": "8. Gegeben seien die Wahrscheinlichkeiten $P(A) = 0.5$, $P(B) = 0.4$ und $P(A \\cap B) = 0.2$. Was ist die bedingte Wahrscheinlichkeit $P(B|A)$?",
-    "optionen": [
+    "question": "8. Gegeben seien die Wahrscheinlichkeiten $P(A) = 0.5$, $P(B) = 0.4$ und $P(A \\cap B) = 0.2$. Was ist die bedingte Wahrscheinlichkeit $P(B|A)$?",
+    "options": [
       "$0.1$",
       "$0.25$",
       "$0.4$",
       "$0.5$"
     ],
-    "loesung": 2,
-    "erklaerung": "Die Formel für die **bedingte Wahrscheinlichkeit** lautet $P(B|A) = \\frac{P(A \\cap B)}{P(A)}$. Einsetzen der Werte ergibt $P(B|A) = \\frac{0.2}{0.5} = 0.4$.",
-    "gewichtung": 3,
-    "thema": "Wahrscheinlichkeitstheorie",
+    "answer": 2,
+    "explanation": "Die Formel für die **bedingte Wahrscheinlichkeit** lautet $P(B|A) = \\frac{P(A \\cap B)}{P(A)}$. Einsetzen der Werte ergibt $P(B|A) = \\frac{0.2}{0.5} = 0.4$.",
+    "weight": 3,
+    "topic": "Wahrscheinlichkeitstheorie",
     "extended_explanation": {
       "title": "Theoretischer Hintergrund: Satz von Bayes",
       "content": "Die bedingte Wahrscheinlichkeit $P(B|A)$ gibt die Wahrscheinlichkeit des Ereignisses $B$ an, unter der Bedingung, dass Ereignis $A$ bereits eingetreten ist. Sie ist ein fundamentaler Baustein für komplexere Theoreme wie den **Satz von Bayes**:\n\n$$P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}$$\n\nDieser Satz erlaubt es, von $P(B|A)$ auf $P(A|B)$ zu schließen, was in vielen Bereichen der Statistik und des maschinellen Lernens (z.B. bei Naive-Bayes-Klassifikatoren) von zentraler Bedeutung ist."

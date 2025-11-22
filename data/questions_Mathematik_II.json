@@ -20,18 +20,18 @@
   },
   "questions": [
     {
-      "frage": "1. Welche Aussage ist eine Folgerung aus den Vektorraumeigenschaften (und selbst kein Axiom)?",
-      "optionen": [
+      "question": "1. Welche Aussage ist eine Folgerung aus den Vektorraumeigenschaften (und selbst kein Axiom)?",
+      "options": [
         "0 \\cdot v = 0 gilt für alle Vektoren v.",
         "$\\alpha \\cdot (\\beta \\cdot v) = (\\alpha\\beta) \\cdot v$ für alle Skalare und Vektoren.",
         "$1 \\cdot v = v$ für alle Vektoren v.",
         "$\\alpha \\cdot (u+v) = \\alpha \\cdot u + \\alpha \\cdot v$ für alle u,v.",
         "$u+(-u)=0$ für alle u."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Gleichung $0 \\cdot v = 0$ folgt aus den Axiomen, ist aber selbst kein Axiom. Die anderen Aussagen sind Standardaxiome eines Vektorraums.",
-      "gewichtung": 1,
-      "thema": "LE 11: Vektorräume",
+      "answer": 0,
+      "explanation": "Die Gleichung $0 \\cdot v = 0$ folgt aus den Axiomen, ist aber selbst kein Axiom. Die anderen Aussagen sind Standardaxiome eines Vektorraums.",
+      "weight": 1,
+      "topic": "LE 11: Vektorräume",
       "mini_glossary": {
         "Vektorraumaxiome": "Axiome über $V$ und Körper $K$: $(V,+)$ ist abelsche Gruppe; Distributivität $\\alpha(u+v)=\\alpha u+\\alpha v$, $(\\alpha+\\beta)v=\\alpha v+\\beta v$; Assoziativität $\\alpha(\\beta v)=(\\alpha\\beta)v$; Einheitsgesetz $1\\cdot v=v$. Daraus folgt u.a. $0\\cdot v=0$ und $(-1)\\cdot v=-v$.",
         "Nullvektor": "Eindeutiges Element $0\\in V$ mit $v+0=v$ für alle $v\\in V$. Eindeutigkeit: Gilt $0'$ ebenfalls neutral, so $0=0'+0=0'$.",
@@ -39,18 +39,18 @@
       }
     },
     {
-      "frage": "2. Welche der folgenden Mengen ist ein Untervektorraum von $\\mathbb{R}^2$?",
-      "optionen": [
+      "question": "2. Welche der folgenden Mengen ist ein Untervektorraum von $\\mathbb{R}^2$?",
+      "options": [
         "$U=\\{(x,y)\\in\\mathbb{R}^2\\mid x=3y\\}$",
         "$U=\\{(x,y)\\in\\mathbb{R}^2\\mid x+y=1\\}$",
         "$U=\\{(x,y)\\in\\mathbb{R}^2\\mid y=x^2\\}$",
         "$U=\\{(x,y)\\in\\mathbb{R}^2\\mid x\\ge 0, y\\ge 0\\}$",
         "$U=\\{(x,y)\\in\\mathbb{R}^2\\mid x\\in\\mathbb{Z}, y\\in\\mathbb{Z}\\}$"
       ],
-      "loesung": 0,
-      "erklaerung": "Die Menge $x=3y$ ist eine durch den Ursprung verlaufende Gerade und damit abgeschlossen unter Addition und Skalarmultiplikation.",
-      "gewichtung": 1,
-      "thema": "LE 11: Vektorräume",
+      "answer": 0,
+      "explanation": "Die Menge $x=3y$ ist eine durch den Ursprung verlaufende Gerade und damit abgeschlossen unter Addition und Skalarmultiplikation.",
+      "weight": 1,
+      "topic": "LE 11: Vektorräume",
       "mini_glossary": {
         "Untervektorraum": "Nichtleere Teilmenge $U\\subseteq V$, die unter $+$ und Skalarmultiplikation abgeschlossen ist und den Nullvektor enthält; äquivalent: $\\alpha u+\\beta v\\in U$ für alle $u,v\\in U$, $\\alpha,\\beta\\in K$.",
         "Abgeschlossenheit": "Für alle $u,v\\in U$, $\\alpha\\in K$ gilt $u+v\\in U$ und $\\alpha u\\in U$. Verletzungen (z.B. Nebenbedingungen wie $x+y=1$) zerstören die Unterraumstruktur.",
@@ -58,18 +58,18 @@
       }
     },
     {
-      "frage": "3. Warum ist die Menge $P_2^*$ (Polynome genau vom Grad 2) kein Vektorraum, $P_2$ (Grad \\leq 2) aber schon?",
-      "optionen": [
+      "question": "3. Warum ist die Menge $P_2^*$ (Polynome genau vom Grad 2) kein Vektorraum, $P_2$ (Grad \\leq 2) aber schon?",
+      "options": [
         "Weil $P_2^*$ den Nullvektor (das Nullpolynom) nicht enthält.",
         "Weil $P_2^*$ nicht kommutativ addiert werden kann.",
         "Weil $P_2^*$ keine Skalarmultiplikation zulässt.",
         "Weil $P_2$ nicht abgeschlossen unter Addition ist.",
         "Weil $P_2$ die Distributivität verletzt."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Vektorraum muss den Nullvektor enthalten. In $P_2^*$ ist das Nullpolynom nicht erlaubt; damit scheitern die Axiome. $P_2$ enthält das Nullpolynom und ist abgeschlossen.",
-      "gewichtung": 2,
-      "thema": "LE 11: Vektorräume",
+      "answer": 0,
+      "explanation": "Ein Vektorraum muss den Nullvektor enthalten. In $P_2^*$ ist das Nullpolynom nicht erlaubt; damit scheitern die Axiome. $P_2$ enthält das Nullpolynom und ist abgeschlossen.",
+      "weight": 2,
+      "topic": "LE 11: Vektorräume",
       "extended_explanation": {
         "titel": "Vektorraumkriterien auf Polynommengen",
         "schritte": [
@@ -87,18 +87,18 @@
       }
     },
     {
-      "frage": "4. Welche Aussage beschreibt hinreichende und notwendige Bedingungen dafür, dass $U\\subseteq V$ ein Untervektorraum ist?",
-      "optionen": [
+      "question": "4. Welche Aussage beschreibt hinreichende und notwendige Bedingungen dafür, dass $U\\subseteq V$ ein Untervektorraum ist?",
+      "options": [
         "$0\\in U$, $u,v\\in U \\Rightarrow u+v\\in U$, $\\alpha\\in\\mathbb{R}, u\\in U \\Rightarrow \\alpha u\\in U$",
         "$U\\neq\\emptyset$, $u\\in U \\Rightarrow -u\\in U$, $\\alpha\\in\\mathbb{R} \\Rightarrow \\alpha\\in U$",
         "$1\\in U$, $u,v\\in U \\Rightarrow u+v\\in U$, $\\alpha\\in\\mathbb{R}, u\\in U \\Rightarrow \\alpha+u\\in U$",
         "$0\\in U$, $u,v\\in U \\Rightarrow u-v\\in U$, $\\alpha\\in\\mathbb{R}, u\\in U \\Rightarrow \\alpha+u\\in U$",
         "$U\\neq\\emptyset$, $u\\in U \\Rightarrow 1\\cdot u=u$, $u,v\\in U \\Rightarrow u+v\\in V$"
       ],
-      "loesung": 0,
-      "erklaerung": "Die drei Standardkriterien sind: Nullvektor enthalten, Additiv abgeschlossen, skalar abgeschlossen.",
-      "gewichtung": 2,
-      "thema": "LE 11: Vektorräume",
+      "answer": 0,
+      "explanation": "Die drei Standardkriterien sind: Nullvektor enthalten, Additiv abgeschlossen, skalar abgeschlossen.",
+      "weight": 2,
+      "topic": "LE 11: Vektorräume",
       "extended_explanation": {
         "titel": "Unterraumkriterien kompakt",
         "schritte": [
@@ -116,18 +116,18 @@
       }
     },
     {
-      "frage": "5. Welches Axiom stellt die Konsistenz der Skalarmultiplikation mit der Körpermultiplikation sicher?",
-      "optionen": [
+      "question": "5. Welches Axiom stellt die Konsistenz der Skalarmultiplikation mit der Körpermultiplikation sicher?",
+      "options": [
         "Assoziativgesetz der Skalarmultiplikation: $\\alpha\\cdot(\\beta\\cdot v)=(\\alpha\\beta)\\cdot v$",
         "Kommutativgesetz der Addition: $u+v=v+u$",
         "Neutrales Element der Skalarmultiplikation: $1\\cdot v=v$",
         "Distributivgesetz (Skalare): $(\\alpha+\\beta)\\cdot v=\\alpha\\cdot v+\\beta\\cdot v$",
         "Distributivgesetz (Vektoren): $\\alpha\\cdot(u+v)=\\alpha\\cdot u+\\alpha\\cdot v$"
       ],
-      "loesung": 0,
-      "erklaerung": "Das Assoziativgesetz der Skalarmultiplikation verbindet die Multiplikation im Körper mit der Skalarmultiplikation auf dem Vektorraum.",
-      "gewichtung": 3,
-      "thema": "LE 11: Vektorräume",
+      "answer": 0,
+      "explanation": "Das Assoziativgesetz der Skalarmultiplikation verbindet die Multiplikation im Körper mit der Skalarmultiplikation auf dem Vektorraum.",
+      "weight": 3,
+      "topic": "LE 11: Vektorräume",
       "extended_explanation": {
         "titel": "Assoziativität als Brücke zwischen Körper und Vektorraum",
         "schritte": [
@@ -145,18 +145,18 @@
       }
     },
     {
-      "frage": "6. Wie groß ist die Dimension des Vektorraums $P_3$ der Polynome vom Grad höchstens 3?",
-      "optionen": [
+      "question": "6. Wie groß ist die Dimension des Vektorraums $P_3$ der Polynome vom Grad höchstens 3?",
+      "options": [
         "4",
         "3",
         "5",
         "2",
         "1"
       ],
-      "loesung": 0,
-      "erklaerung": "Eine Basis ist beispielsweise $(1, x, x^2, x^3)$, also vier Basisvektoren.",
-      "gewichtung": 1,
-      "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
+      "answer": 0,
+      "explanation": "Eine Basis ist beispielsweise $(1, x, x^2, x^3)$, also vier Basisvektoren.",
+      "weight": 1,
+      "topic": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "mini_glossary": {
         "Dimension": "Anzahl der Basisvektoren eines Vektorraums. In endlicher Dimension ist sie invariant: Alle Basen haben dieselbe Kardinalität.",
         "Basis": "Menge linear unabhängiger Vektoren, die den Raum vollständig erzeugt. Jede Darstellung ist eindeutig.",
@@ -164,18 +164,18 @@
       }
     },
     {
-      "frage": "7. Die Vektoren $v_1=(1,0)$ und $v_2=(2,0)$ in $\\mathbb{R}^2$ sind ...",
-      "optionen": [
+      "question": "7. Die Vektoren $v_1=(1,0)$ und $v_2=(2,0)$ in $\\mathbb{R}^2$ sind ...",
+      "options": [
         "linear abhängig und spannen nicht den $\\mathbb{R}^2$ auf.",
         "linear unabhängig und bilden eine Basis.",
         "linear unabhängig, spannen aber den $\\mathbb{R}^2$ nicht auf.",
         "orthogonal und bilden daher eine Basis.",
         "linear abhängig und spannen den $\\mathbb{R}^2$ auf."
       ],
-      "loesung": 0,
-      "erklaerung": "Beide liegen auf derselben Geraden (x-Achse), sind daher abhängig und erzeugen nicht die ganze Ebene.",
-      "gewichtung": 1,
-      "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
+      "answer": 0,
+      "explanation": "Beide liegen auf derselben Geraden (x-Achse), sind daher abhängig und erzeugen nicht die ganze Ebene.",
+      "weight": 1,
+      "topic": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "mini_glossary": {
         "Lineare Abhängigkeit": "Es existieren nicht alle $0$-Koeffizienten $\\alpha_i$, so dass $\\sum\\alpha_i v_i=0$. Hier: $(2,0)=2\\cdot(1,0)$.",
         "Erzeugendensystem": "Menge, deren Linearkombinationen den gesamten Raum ergeben. Zwei kollineare Vektoren erzeugen nur eine Gerade.",
@@ -183,18 +183,18 @@
       }
     },
     {
-      "frage": "8. Wie lautet der Koordinatenvektor von $v=(3,5)$ bezüglich der Standardbasis $E=\\{(1,0),(0,1)\\}$ in $\\mathbb{R}^2$?",
-      "optionen": [
+      "question": "8. Wie lautet der Koordinatenvektor von $v=(3,5)$ bezüglich der Standardbasis $E=\\{(1,0),(0,1)\\}$ in $\\mathbb{R}^2$?",
+      "options": [
         "$(3,5)$",
         "$(5,3)$",
         "$(1,0)$",
         "$(0,1)$",
         "$(8,8)$"
       ],
-      "loesung": 0,
-      "erklaerung": "In der Standardbasis sind die Koordinaten identisch mit den Komponenten des Vektors.",
-      "gewichtung": 2,
-      "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
+      "answer": 0,
+      "explanation": "In der Standardbasis sind die Koordinaten identisch mit den Komponenten des Vektors.",
+      "weight": 2,
+      "topic": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "extended_explanation": {
         "titel": "Koordinaten in der Standardbasis",
         "schritte": [
@@ -212,18 +212,18 @@
       }
     },
     {
-      "frage": "9. Was ist unter einer Linearkombination zu verstehen?",
-      "optionen": [
+      "question": "9. Was ist unter einer Linearkombination zu verstehen?",
+      "options": [
         "Ein Vektor, der durch Skalieren und Addieren einer Menge gegebener Vektoren entsteht.",
         "Das Ergebnis des Skalarprodukts zweier Vektoren.",
         "Der Vektor, der zu allen Vektoren der Menge orthogonal ist.",
         "Die Menge aller Vektoren, die eine Basis bilden.",
         "Das Ergebnis der Multiplikation zweier Matrizen."
       ],
-      "loesung": 0,
-      "erklaerung": "Linearkombinationen sind Summen $\\sum_i \\alpha_i v_i$ mit Skalaren $\\alpha_i$ und Vektoren $v_i$.",
-      "gewichtung": 2,
-      "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
+      "answer": 0,
+      "explanation": "Linearkombinationen sind Summen $\\sum_i \\alpha_i v_i$ mit Skalaren $\\alpha_i$ und Vektoren $v_i$.",
+      "weight": 2,
+      "topic": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "extended_explanation": {
         "titel": "Linearkombinationen formal und anschaulich",
         "schritte": [
@@ -241,18 +241,18 @@
       }
     },
     {
-      "frage": "10. Welche Dimension hat das Produkt $A\\,B\\,C$, wenn $A\\in\\mathbb{R}^{3\\times 4}$, $B\\in\\mathbb{R}^{4\\times 5}$ und $C\\in\\mathbb{R}^{5\\times 2}$?",
-      "optionen": [
+      "question": "10. Welche Dimension hat das Produkt $A\\,B\\,C$, wenn $A\\in\\mathbb{R}^{3\\times 4}$, $B\\in\\mathbb{R}^{4\\times 5}$ und $C\\in\\mathbb{R}^{5\\times 2}$?",
+      "options": [
         "$3\\times 2$",
         "$4\\times 2$",
         "$3\\times 5$",
         "$5\\times 4$",
         "Das Produkt ist nicht definiert."
       ],
-      "loesung": 0,
-      "erklaerung": "Die inneren Dimensionen passen: $(3\\times4)(4\\times5)(5\\times2)\\Rightarrow 3\\times 2$.",
-      "gewichtung": 1,
-      "thema": "LE 13: Matrizen",
+      "answer": 0,
+      "explanation": "Die inneren Dimensionen passen: $(3\\times4)(4\\times5)(5\\times2)\\Rightarrow 3\\times 2$.",
+      "weight": 1,
+      "topic": "LE 13: Matrizen",
       "mini_glossary": {
         "Matrixdimension": "Eine Matrix in $\\mathbb{R}^{m\\times n}$ hat $m$ Zeilen, $n$ Spalten. Das Produkt $AB$ ist definiert, wenn die inneren Maße übereinstimmen.",
         "Kompatibilität": "Für $A\\in\\mathbb{R}^{m\\times n}$ und $B\\in\\mathbb{R}^{n\\times p}$ ergibt sich $AB\\in\\mathbb{R}^{m\\times p}$.",
@@ -260,18 +260,18 @@
       }
     },
     {
-      "frage": "11. Was ist die Einheitsmatrix $I_n$?",
-      "optionen": [
+      "question": "11. Was ist die Einheitsmatrix $I_n$?",
+      "options": [
         "Eine Diagonalmatrix mit Einsen auf der Hauptdiagonalen.",
         "Eine Matrix, die nur aus Einsen besteht.",
         "Das neutrale Element der Matrixaddition.",
         "Eine Matrix mit Determinante stets 1.",
         "Eine Matrix mit Nullen auf der Hauptdiagonalen."
       ],
-      "loesung": 0,
-      "erklaerung": "$I_n$ hat Einsen auf der Hauptdiagonalen und wirkt als neutrales Element der Matrixmultiplikation.",
-      "gewichtung": 2,
-      "thema": "LE 13: Matrizen",
+      "answer": 0,
+      "explanation": "$I_n$ hat Einsen auf der Hauptdiagonalen und wirkt als neutrales Element der Matrixmultiplikation.",
+      "weight": 2,
+      "topic": "LE 13: Matrizen",
       "extended_explanation": {
         "titel": "Rolle der Einheitsmatrix",
         "schritte": [
@@ -289,18 +289,18 @@
       }
     },
     {
-      "frage": "12. Welche Eigenschaft gilt stets für eine symmetrische Matrix $A$?",
-      "optionen": [
+      "question": "12. Welche Eigenschaft gilt stets für eine symmetrische Matrix $A$?",
+      "options": [
         "$A = A^\\top$",
         "$A = -A^\\top$",
         "$A = A^{-1}$",
         "$\\det(A)=1$",
         "$A = A^2$"
       ],
-      "loesung": 0,
-      "erklaerung": "Per Definition ist $A$ symmetrisch genau dann, wenn $A=A^\\top$.",
-      "gewichtung": 2,
-      "thema": "LE 13: Matrizen",
+      "answer": 0,
+      "explanation": "Per Definition ist $A$ symmetrisch genau dann, wenn $A=A^\\top$.",
+      "weight": 2,
+      "topic": "LE 13: Matrizen",
       "extended_explanation": {
         "titel": "Symmetrie und Konsequenzen",
         "schritte": [
@@ -318,18 +318,18 @@
       }
     },
     {
-      "frage": "13. Die Abbildung $y=A\\,x$ ist im Allgemeinen eine ...",
-      "optionen": [
+      "question": "13. Die Abbildung $y=A\\,x$ ist im Allgemeinen eine ...",
+      "options": [
         "lineare Abbildung von $x$ nach $y$.",
         "nichtlineare Abbildung von $x$ nach $y$.",
         "orthogonale Projektion von $x$ auf $y$.",
         "Determinantenberechnung von $A$.",
         "Skalarprodukt von $A$ und $x$."
       ],
-      "loesung": 0,
-      "erklaerung": "Matrix-Vektor-Multiplikation ist per Definition linear in $x$.",
-      "gewichtung": 2,
-      "thema": "LE 13: Matrizen",
+      "answer": 0,
+      "explanation": "Matrix-Vektor-Multiplikation ist per Definition linear in $x$.",
+      "weight": 2,
+      "topic": "LE 13: Matrizen",
       "extended_explanation": {
         "titel": "Linearität von $x \\mapsto A x$",
         "schritte": [
@@ -347,18 +347,18 @@
       }
     },
     {
-      "frage": "14. Welche Kombination ist stets eine wohldefinierte Operation zwischen Matrix und Vektor (bei passenden Dimensionen)?",
-      "optionen": [
+      "question": "14. Welche Kombination ist stets eine wohldefinierte Operation zwischen Matrix und Vektor (bei passenden Dimensionen)?",
+      "options": [
         "$A\\cdot v$ (Matrix-Vektor-Produkt)",
         "$A+v$ (Matrix plus Vektor)",
         "$\\det(v)$ (Determinante eines Vektors)",
         "$v\\cdot A$ (Vektor rechts mal Matrix, Spaltenvektor)",
         "$A:v$ (Matrix durch Vektor)"
       ],
-      "loesung": 0,
-      "erklaerung": "Das Matrix-Vektor-Produkt ist standardisiert; die übrigen Ausdrücke sind im Allgemeinen nicht definiert.",
-      "gewichtung": 3,
-      "thema": "LE 13: Matrizen",
+      "answer": 0,
+      "explanation": "Das Matrix-Vektor-Produkt ist standardisiert; die übrigen Ausdrücke sind im Allgemeinen nicht definiert.",
+      "weight": 3,
+      "topic": "LE 13: Matrizen",
       "extended_explanation": {
         "titel": "Zulässige Operationen präzisieren",
         "schritte": [
@@ -376,18 +376,18 @@
       }
     },
     {
-      "frage": "15. Welche Operation gehört zu den elementaren Zeilenumformungen beim Gauß-Algorithmus?",
-      "optionen": [
+      "question": "15. Welche Operation gehört zu den elementaren Zeilenumformungen beim Gauß-Algorithmus?",
+      "options": [
         "Multiplikation einer Zeile mit $c\\neq 0$",
         "Addition eines konstanten Spaltenvektors zu einer Zeile",
         "Transponieren einer einzelnen Zeile",
         "Multiplikation einer Zeile mit $0$",
         "Anhängen einer zusätzlichen Spalte"
       ],
-      "loesung": 0,
-      "erklaerung": "Die drei elementaren Operationen sind Zeilentausch, Skalierung mit $c\\neq 0$ und Addition eines Vielfachen einer Zeile zu einer anderen.",
-      "gewichtung": 1,
-      "thema": "LE 14: Lineare Gleichungssysteme (LGS)",
+      "answer": 0,
+      "explanation": "Die drei elementaren Operationen sind Zeilentausch, Skalierung mit $c\\neq 0$ und Addition eines Vielfachen einer Zeile zu einer anderen.",
+      "weight": 1,
+      "topic": "LE 14: Lineare Gleichungssysteme (LGS)",
       "mini_glossary": {
         "Gauß-Algorithmus": "Eliminationsverfahren zur Transformation eines LGS in (reduzierte) Zeilenstufenform; erhält die Lösungsmenge invariant.",
         "Zeilenumformung": "Operationen: Zeilentausch, $c\\ne 0$-Skalierung, Addition eines Vielfachen einer anderen Zeile. Alle sind durch invertierbare linke Multiplikation modellierbar.",
@@ -395,18 +395,18 @@
       }
     },
     {
-      "frage": "16. Gilt $\\operatorname{rang}(A)=\\operatorname{rang}(A|b)=n$ bei $n$ Unbekannten, was folgt für $A x=b$?",
-      "optionen": [
+      "question": "16. Gilt $\\operatorname{rang}(A)=\\operatorname{rang}(A|b)=n$ bei $n$ Unbekannten, was folgt für $A x=b$?",
+      "options": [
         "Es gibt genau eine Lösung.",
         "Es gibt keine Lösung.",
         "Es gibt unendlich viele Lösungen.",
         "Das System ist homogen.",
         "Das System ist nicht lösbar."
       ],
-      "loesung": 0,
-      "erklaerung": "Voller Rang und gleiche Ränge der erweiterten Matrix implizieren Eindeutigkeit.",
-      "gewichtung": 2,
-      "thema": "LE 14: Lineare Gleichungssysteme (LGS)",
+      "answer": 0,
+      "explanation": "Voller Rang und gleiche Ränge der erweiterten Matrix implizieren Eindeutigkeit.",
+      "weight": 2,
+      "topic": "LE 14: Lineare Gleichungssysteme (LGS)",
       "extended_explanation": {
         "titel": "Rangkriterium für Eindeutigkeit",
         "schritte": [
@@ -424,18 +424,18 @@
       }
     },
     {
-      "frage": "17. Eine Zeile $[0\\ 0\\ 0\\ |\\ 5]$ in Zeilenstufenform bedeutet ...",
-      "optionen": [
+      "question": "17. Eine Zeile $[0\\ 0\\ 0\\ |\\ 5]$ in Zeilenstufenform bedeutet ...",
+      "options": [
         "Das System ist widersprüchlich und hat keine Lösung.",
         "Die eindeutige Lösung ist $x=0, y=0, z=5$.",
         "Das System hat unendlich viele Lösungen.",
         "Nur die Nulllösung ist möglich.",
         "Die Zeile kann folgenlos entfernt werden."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Gleichung $0=5$ ist ein Widerspruch; das System ist unlösbar.",
-      "gewichtung": 2,
-      "thema": "LE 14: Lineare Gleichungssysteme (LGS)",
+      "answer": 0,
+      "explanation": "Die Gleichung $0=5$ ist ein Widerspruch; das System ist unlösbar.",
+      "weight": 2,
+      "topic": "LE 14: Lineare Gleichungssysteme (LGS)",
       "extended_explanation": {
         "titel": "Widerspruchszeile erkennen",
         "schritte": [
@@ -453,18 +453,18 @@
       }
     },
     {
-      "frage": "18. Ein LGS in Zeilenstufenform mit 3 Unbekannten besitzt 2 Pivot-Elemente und keine Widerspruchszeile. Was folgt?",
-      "optionen": [
+      "question": "18. Ein LGS in Zeilenstufenform mit 3 Unbekannten besitzt 2 Pivot-Elemente und keine Widerspruchszeile. Was folgt?",
+      "options": [
         "Unendlich viele Lösungen mit einem freien Parameter.",
         "Genau eine Lösung.",
         "Keine Lösung.",
         "Unendlich viele Lösungen mit zwei freien Parametern.",
         "Das System ist nicht lösbar."
       ],
-      "loesung": 0,
-      "erklaerung": "Mit 3 Variablen und 2 Pivoten bleibt eine freie Variable; dadurch gibt es unendlich viele Lösungen.",
-      "gewichtung": 2,
-      "thema": "LE 14: Lineare Gleichungssysteme (LGS)",
+      "answer": 0,
+      "explanation": "Mit 3 Variablen und 2 Pivoten bleibt eine freie Variable; dadurch gibt es unendlich viele Lösungen.",
+      "weight": 2,
+      "topic": "LE 14: Lineare Gleichungssysteme (LGS)",
       "extended_explanation": {
         "titel": "Pivotanzahl und Freiheitsgrade",
         "schritte": [
@@ -482,18 +482,18 @@
       }
     },
     {
-      "frage": "19. Was ist im Kontext des Gauß-Algorithmus ein Pivot-Element?",
-      "optionen": [
+      "question": "19. Was ist im Kontext des Gauß-Algorithmus ein Pivot-Element?",
+      "options": [
         "Das erste von Null verschiedene Element in einer Zeile der Stufenform.",
         "Ein Diagonalelement, das stets 0 sein muss.",
         "Das Element in der letzten Spalte der erweiterten Matrix.",
         "Ein beliebiges Element, das zum Zeilentausch verwendet wird.",
         "Das erste Element der ersten Zeile."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Pivot ist der führende Eintrag einer Zeile in Stufenform und bestimmt die Eliminationsschritte.",
-      "gewichtung": 3,
-      "thema": "LE 14: Lineare Gleichungssysteme (LGS)",
+      "answer": 0,
+      "explanation": "Ein Pivot ist der führende Eintrag einer Zeile in Stufenform und bestimmt die Eliminationsschritte.",
+      "weight": 3,
+      "topic": "LE 14: Lineare Gleichungssysteme (LGS)",
       "extended_explanation": {
         "titel": "Pivotkonzept in der Eliminationspraxis",
         "schritte": [
@@ -511,18 +511,18 @@
       }
     },
     {
-      "frage": "20. Was beschreibt ein Eigenwert $\\lambda$ einer Matrix $A$?",
-      "optionen": [
+      "question": "20. Was beschreibt ein Eigenwert $\\lambda$ einer Matrix $A$?",
+      "options": [
         "Den Skalierungsfaktor, um den ein zugehöriger Eigenvektor unter $A v$ gestreckt oder gestaucht wird.",
         "Den Winkel, um den ein Eigenvektor unter $A v$ gedreht wird.",
         "Die Anzahl linear unabhängiger Zeilen der Matrix.",
         "Die Determinante von $A$, die stets gleich $\\lambda$ ist.",
         "Einen Vektor, der zu allen Spalten von $A$ orthogonal ist."
       ],
-      "loesung": 0,
-      "erklaerung": "Per Definition gilt $A v = \\lambda v$ für einen Eigenvektor $v\\ne 0$; $\\lambda$ ist der Skalierungsfaktor.",
-      "gewichtung": 1,
-      "thema": "LE 15: Eigenwerte und Eigenvektoren",
+      "answer": 0,
+      "explanation": "Per Definition gilt $A v = \\lambda v$ für einen Eigenvektor $v\\ne 0$; $\\lambda$ ist der Skalierungsfaktor.",
+      "weight": 1,
+      "topic": "LE 15: Eigenwerte und Eigenvektoren",
       "mini_glossary": {
         "Eigenwert": "Nullstelle des charakteristischen Polynoms $\\det(A-\\lambda I)=0$; skaliert zugehörige Eigenvektoren.",
         "Eigenvektor": "Nichtnullvektor $v$ mit $A v=\\lambda v$; bestimmt Richtungen invarianten Verhaltens.",
@@ -530,18 +530,18 @@
       }
     },
     {
-      "frage": "21. Wann ist eine quadratische Matrix $A$ invertierbar?",
-      "optionen": [
+      "question": "21. Wann ist eine quadratische Matrix $A$ invertierbar?",
+      "options": [
         "Genau dann, wenn $0$ kein Eigenwert von $A$ ist.",
         "Genau dann, wenn $1$ Eigenwert von $A$ ist.",
         "Genau dann, wenn alle Eigenwerte positiv sind.",
         "Genau dann, wenn alle Eigenwerte reell sind.",
         "Genau dann, wenn $A$ symmetrisch ist."
       ],
-      "loesung": 0,
-      "erklaerung": "Invertierbarkeit entspricht $\\det(A)\\ne 0$; das ist äquivalent dazu, dass 0 kein Eigenwert ist.",
-      "gewichtung": 2,
-      "thema": "LE 15: Eigenwerte und Eigenvektoren",
+      "answer": 0,
+      "explanation": "Invertierbarkeit entspricht $\\det(A)\\ne 0$; das ist äquivalent dazu, dass 0 kein Eigenwert ist.",
+      "weight": 2,
+      "topic": "LE 15: Eigenwerte und Eigenvektoren",
       "extended_explanation": {
         "titel": "Invertierbarkeit und Spektrum",
         "schritte": [
@@ -559,18 +559,18 @@
       }
     },
     {
-      "frage": "22. Was ist das charakteristische Polynom einer $n\\times n$-Matrix $A$?",
-      "optionen": [
+      "question": "22. Was ist das charakteristische Polynom einer $n\\times n$-Matrix $A$?",
+      "options": [
         "Ein Polynom $p(\\lambda)=\\det(A-\\lambda I_n)$ vom Grad $n$, dessen Nullstellen die Eigenwerte sind.",
         "Ein Polynom in $x$ vom Grad $n$, definiert durch $A x=0$.",
         "Ein Polynom, dessen Koeffizienten die Elemente von $A$ sind.",
         "Ein Polynom vom Grad $n-1$, dessen Nullstellen die Eigenvektoren sind.",
         "Ein Polynom $\\det(A-\\lambda v)$ in einem Vektor $v$."
       ],
-      "loesung": 0,
-      "erklaerung": "Standarddefinition: $p_A(\\lambda)=\\det(A-\\lambda I_n)$; die Nullstellen sind die Eigenwerte.",
-      "gewichtung": 2,
-      "thema": "LE 15: Eigenwerte und Eigenvektoren",
+      "answer": 0,
+      "explanation": "Standarddefinition: $p_A(\\lambda)=\\det(A-\\lambda I_n)$; die Nullstellen sind die Eigenwerte.",
+      "weight": 2,
+      "topic": "LE 15: Eigenwerte und Eigenvektoren",
       "extended_explanation": {
         "titel": "Vom Polynom zur Spektralanalyse",
         "schritte": [
@@ -588,18 +588,18 @@
       }
     },
     {
-      "frage": "23. Wofür wird die Eigenwertzerlegung (z.B. PCA) in der Datenanalyse primär genutzt?",
-      "optionen": [
+      "question": "23. Wofür wird die Eigenwertzerlegung (z.B. PCA) in der Datenanalyse primär genutzt?",
+      "options": [
         "Zur Dimensionsreduktion durch Bestimmung von Hauptkomponenten (Richtungen größter Varianz).",
         "Zur Lösung beliebiger linearer Gleichungssysteme.",
         "Zur Verschlüsselung von Daten durch Basiswechsel.",
         "Zur Bestimmung des kürzesten Pfads zwischen Datenpunkten.",
         "Zur Berechnung der Determinante einer Datenmatrix."
       ],
-      "loesung": 0,
-      "erklaerung": "PCA identifiziert Hauptachsen der Varianz und reduziert die Dimension bei minimalem Informationsverlust.",
-      "gewichtung": 2,
-      "thema": "LE 15: Eigenwerte und Eigenvektoren",
+      "answer": 0,
+      "explanation": "PCA identifiziert Hauptachsen der Varianz und reduziert die Dimension bei minimalem Informationsverlust.",
+      "weight": 2,
+      "topic": "LE 15: Eigenwerte und Eigenvektoren",
       "extended_explanation": {
         "titel": "PCA in präzisen Schritten",
         "schritte": [
@@ -617,18 +617,18 @@
       }
     },
     {
-      "frage": "24. Welche der folgenden Eigenschaften ist definierend für ein euklidisches Skalarprodukt?",
-      "optionen": [
+      "question": "24. Welche der folgenden Eigenschaften ist definierend für ein euklidisches Skalarprodukt?",
+      "options": [
         "Positive Definitheit: $\\langle v,v\\rangle \\ge 0$ und $\\langle v,v\\rangle =0 \\Leftrightarrow v=0$.",
         "Assoziativität: $\\langle u,\\langle v,w\\rangle\\rangle=\\langle\\langle u,v\\rangle,w\\rangle$.",
         "Antisymmetrie: $\\langle v,w\\rangle=-\\langle w,v\\rangle$.",
         "Quadratische Homogenität: $\\langle 2v,w\\rangle=4\\langle v,w\\rangle$.",
         "Idempotenz: $\\langle v,v\\rangle=\\langle v,w\\rangle$ für alle w."
       ],
-      "loesung": 0,
-      "erklaerung": "Positive Definitheit ist (neben Linearität und Symmetrie) definierend; die anderen Aussagen sind falsch formuliert.",
-      "gewichtung": 1,
-      "thema": "LE 16: Skalarprodukt und Orthogonalität",
+      "answer": 0,
+      "explanation": "Positive Definitheit ist (neben Linearität und Symmetrie) definierend; die anderen Aussagen sind falsch formuliert.",
+      "weight": 1,
+      "topic": "LE 16: Skalarprodukt und Orthogonalität",
       "mini_glossary": {
         "Skalarprodukt": "Bilinear (in $\\mathbb{R}^n$), symmetrisch und positiv definit: $\\langle v,v\\rangle>0$ für $v\\ne 0$. Induziert Norm und Winkel.",
         "Norm": "$\\|v\\|=\\sqrt{\\langle v,v\\rangle}$; erfüllt Dreiecksungleichung und Homogenität.",
@@ -636,18 +636,18 @@
       }
     },
     {
-      "frage": "25. Was beschreibt eine Orthonormalbasis (ONB)?",
-      "optionen": [
+      "question": "25. Was beschreibt eine Orthonormalbasis (ONB)?",
+      "options": [
         "Eine Basis mit paarweise orthogonalen Vektoren und Norm $1$.",
         "Eine Basis mit Vektoren beliebiger Normen, aber paarweise orthogonal.",
         "Eine Basis, deren Vektoren die Norm $1$ haben, aber nicht orthogonal sind.",
         "Eine Menge linear abhängiger Vektoren mit Norm $1$.",
         "Eine Basis aus Vektoren mit ganzzahligen Komponenten."
       ],
-      "loesung": 0,
-      "erklaerung": "ONB bedeutet orthogonal und normiert: $\\langle e_i,e_j\\rangle=\\delta_{ij}$ und $\\|e_i\\|=1$.",
-      "gewichtung": 2,
-      "thema": "LE 16: Skalarprodukt und Orthogonalität",
+      "answer": 0,
+      "explanation": "ONB bedeutet orthogonal und normiert: $\\langle e_i,e_j\\rangle=\\delta_{ij}$ und $\\|e_i\\|=1$.",
+      "weight": 2,
+      "topic": "LE 16: Skalarprodukt und Orthogonalität",
       "extended_explanation": {
         "titel": "Warum ONB praktisch ist",
         "schritte": [
@@ -665,18 +665,18 @@
       }
     },
     {
-      "frage": "26. Wie lautet die Formel für den Winkelkosinus zwischen $v$ und $w$?",
-      "optionen": [
+      "question": "26. Wie lautet die Formel für den Winkelkosinus zwischen $v$ und $w$?",
+      "options": [
         "$\\cos(\\theta)=\\dfrac{\\langle v,w\\rangle}{\\|v\\|\\,\\|w\\|}$",
         "$\\cos(\\theta)=\\dfrac{\\langle v,w\\rangle}{\\|v\\|^2\\,\\|w\\|}$",
         "$\\cos(\\theta)=\\langle v,w\\rangle\\,\\|v\\|\\,\\|w\\|$",
         "$\\cos(\\theta)=\\dfrac{\\|v\\|\\,\\|w\\|}{\\langle v,w\\rangle}$",
         "$\\cos(\\theta)=\\dfrac{\\langle v,v\\rangle}{\\langle w,w\\rangle}$"
       ],
-      "loesung": 0,
-      "erklaerung": "Normiert man die Vektoren, ergibt sich der Winkel über $\\cos(\\theta)=\\langle v,w\\rangle/(\\|v\\|\\,\\|w\\|)$.",
-      "gewichtung": 2,
-      "thema": "LE 16: Skalarprodukt und Orthogonalität",
+      "answer": 0,
+      "explanation": "Normiert man die Vektoren, ergibt sich der Winkel über $\\cos(\\theta)=\\langle v,w\\rangle/(\\|v\\|\\,\\|w\\|)$.",
+      "weight": 2,
+      "topic": "LE 16: Skalarprodukt und Orthogonalität",
       "extended_explanation": {
         "titel": "Vom Skalarprodukt zum Winkel",
         "schritte": [
@@ -694,18 +694,18 @@
       }
     },
     {
-      "frage": "27. Wie lautet die orthogonale Projektion von $v$ auf $u\\ne 0$?",
-      "optionen": [
+      "question": "27. Wie lautet die orthogonale Projektion von $v$ auf $u\\ne 0$?",
+      "options": [
         "$\\displaystyle \\operatorname{proj}_u(v)=\\frac{\\langle v,u\\rangle}{\\langle u,u\\rangle}\\,u$",
         "$\\displaystyle \\operatorname{proj}_u(v)=\\frac{\\langle u,u\\rangle}{\\langle v,u\\rangle}\\,v$",
         "$\\displaystyle \\operatorname{proj}_u(v)=\\langle v,u\\rangle\\,u$",
         "$\\displaystyle \\operatorname{proj}_u(v)=\\frac{\\langle v,v\\rangle}{\\langle u,u\\rangle}\\,u$",
         "$\\displaystyle \\operatorname{proj}_u(v)=\\frac{\\langle u,v\\rangle}{\\|v\\|}\\,u$"
       ],
-      "loesung": 0,
-      "erklaerung": "Die Projektion entsteht durch Skalierung von $u$ mit dem Komponentenanteil $\\langle v,u\\rangle/\\langle u,u\\rangle$.",
-      "gewichtung": 3,
-      "thema": "LE 16: Skalarprodukt und Orthogonalität",
+      "answer": 0,
+      "explanation": "Die Projektion entsteht durch Skalierung von $u$ mit dem Komponentenanteil $\\langle v,u\\rangle/\\langle u,u\\rangle$.",
+      "weight": 3,
+      "topic": "LE 16: Skalarprodukt und Orthogonalität",
       "extended_explanation": {
         "titel": "Herleitung der Projektionsformel",
         "schritte": [
@@ -723,18 +723,18 @@
       }
     },
     {
-      "frage": "28. Das Gram–Schmidt-Verfahren wird angewendet auf ...",
-      "optionen": [
+      "question": "28. Das Gram–Schmidt-Verfahren wird angewendet auf ...",
+      "options": [
         "eine Menge linear unabhängiger Vektoren, um eine ONB zu erzeugen.",
         "eine Menge linear abhängiger Vektoren, um Eigenwerte zu finden.",
         "eine einzelne Matrix, um ihre Determinante zu berechnen.",
         "zwei Vektoren, um deren Skalarprodukt zu bestimmen.",
         "bereits orthogonale Vektoren, um den Rang zu erhöhen."
       ],
-      "loesung": 0,
-      "erklaerung": "Gram–Schmidt orthogonalisiert eine linear unabhängige Menge und normiert sie zur ONB.",
-      "gewichtung": 2,
-      "thema": "LE 16: Skalarprodukt und Orthogonalität",
+      "answer": 0,
+      "explanation": "Gram–Schmidt orthogonalisiert eine linear unabhängige Menge und normiert sie zur ONB.",
+      "weight": 2,
+      "topic": "LE 16: Skalarprodukt und Orthogonalität",
       "extended_explanation": {
         "titel": "Kernidee von Gram–Schmidt",
         "schritte": [
@@ -752,18 +752,18 @@
       }
     },
     {
-      "frage": "29. Wie groß ist die Summe aller Knotengrade in einem ungerichteten Graphen mit $k$ Kanten?",
-      "optionen": [
+      "question": "29. Wie groß ist die Summe aller Knotengrade in einem ungerichteten Graphen mit $k$ Kanten?",
+      "options": [
         "$2k$",
         "$k$",
         "$n\\cdot k$",
         "$n-1$",
         "$n$"
       ],
-      "loesung": 0,
-      "erklaerung": "Jede Kante trägt zu genau zwei Knotengraden bei; die Summe ist daher $2k$ (Handshaking-Lemma).",
-      "gewichtung": 1,
-      "thema": "LE 17: Graphentheorie",
+      "answer": 0,
+      "explanation": "Jede Kante trägt zu genau zwei Knotengraden bei; die Summe ist daher $2k$ (Handshaking-Lemma).",
+      "weight": 1,
+      "topic": "LE 17: Graphentheorie",
       "mini_glossary": {
         "Grad": "Anzahl der inzidenten Kanten eines Knotens; Schleifen zählen in ungerichteten Graphen typischerweise als 2.",
         "Handshaking-Lemma": "In ungerichteten Graphen gilt $\\sum_{v\\in V} \\deg(v)=2|E|$; folgt durch doppelte Zählung.",
@@ -771,18 +771,18 @@
       }
     },
     {
-      "frage": "30. Welche Repräsentation ist für dichte Graphen typischerweise speicherangemessen?",
-      "optionen": [
+      "question": "30. Welche Repräsentation ist für dichte Graphen typischerweise speicherangemessen?",
+      "options": [
         "Adjazenzmatrix mit Speicheraufwand $\\mathcal{O}(|V|^2)$",
         "Adjazenzliste mit Speicheraufwand $\\mathcal{O}(|V|+|E|)$",
         "Kantenliste mit Speicheraufwand $\\mathcal{O}(|E|)$",
         "Inzidenzmatrix mit Speicheraufwand $\\mathcal{O}(|V|\\cdot|E|)$",
         "Hash-basierte Nachbarschaft mit Speicheraufwand $\\mathcal{O}(|E|\\log|V|)$"
       ],
-      "loesung": 0,
-      "erklaerung": "Bei dichten Graphen ist $|E|\\approx |V|^2$; die Adjazenzmatrix nutzt diesen Platz systematisch.",
-      "gewichtung": 2,
-      "thema": "LE 17: Graphentheorie",
+      "answer": 0,
+      "explanation": "Bei dichten Graphen ist $|E|\\approx |V|^2$; die Adjazenzmatrix nutzt diesen Platz systematisch.",
+      "weight": 2,
+      "topic": "LE 17: Graphentheorie",
       "extended_explanation": {
         "titel": "Dichte vs. dünne Graphen",
         "schritte": [
@@ -800,18 +800,18 @@
       }
     },
     {
-      "frage": "31. Unter welcher Voraussetzung liefert der Dijkstra-Algorithmus korrekte kürzeste Wege?",
-      "optionen": [
+      "question": "31. Unter welcher Voraussetzung liefert der Dijkstra-Algorithmus korrekte kürzeste Wege?",
+      "options": [
         "Alle Kantengewichte sind nicht-negativ.",
         "Alle Kantengewichte sind gleich.",
         "Der Graph ist zusammenhängend und ungerichtet.",
         "Es existieren keine Zyklen.",
         "Der Startknoten hat minimalen Grad."
       ],
-      "loesung": 0,
-      "erklaerung": "Nicht-negative Gewichte sind erforderlich; bei negativen Kanten bricht die Korrektheit.",
-      "gewichtung": 3,
-      "thema": "LE 17: Graphentheorie",
+      "answer": 0,
+      "explanation": "Nicht-negative Gewichte sind erforderlich; bei negativen Kanten bricht die Korrektheit.",
+      "weight": 3,
+      "topic": "LE 17: Graphentheorie",
       "extended_explanation": {
         "titel": "Warum Dijkstra keine negativen Kanten verträgt",
         "schritte": [
@@ -829,18 +829,18 @@
       }
     },
     {
-      "frage": "32. Wann ist ein Graph $G=(V,E)$ zusammenhängend?",
-      "optionen": [
+      "question": "32. Wann ist ein Graph $G=(V,E)$ zusammenhängend?",
+      "options": [
         "Wenn es zwischen jedem Knotenpaar einen Pfad gibt.",
         "Wenn $|E|\\ge |V|$ gilt.",
         "Wenn der Graph keine Zyklen enthält.",
         "Wenn alle Kanten gleich gewichtet sind.",
         "Wenn jeder Knoten den gleichen Grad hat."
       ],
-      "loesung": 0,
-      "erklaerung": "Zusammenhängend bedeutet: Jedes Knotenpaar ist über eine Kantenfolge verbunden.",
-      "gewichtung": 2,
-      "thema": "LE 17: Graphentheorie",
+      "answer": 0,
+      "explanation": "Zusammenhängend bedeutet: Jedes Knotenpaar ist über eine Kantenfolge verbunden.",
+      "weight": 2,
+      "topic": "LE 17: Graphentheorie",
       "extended_explanation": {
         "titel": "Pfad-Definition der Zusammenhangseigenschaft",
         "schritte": [
@@ -858,18 +858,18 @@
       }
     },
     {
-      "frage": "33. Was ist ein Pfad in einem Graphen?",
-      "optionen": [
+      "question": "33. Was ist ein Pfad in einem Graphen?",
+      "options": [
         "Eine Knotenfolge, in der aufeinanderfolgende Knoten durch eine Kante verbunden sind.",
         "Eine Kantenmenge, die alle Knoten verbindet.",
         "Eine Folge, die am selben Knoten beginnt und endet.",
         "Die vollständige Liste der Nachbarn eines Knotens.",
         "Eine Teilmenge der Kanten ohne gemeinsame Knoten."
       ],
-      "loesung": 0,
-      "erklaerung": "Ein Pfad ist eine gültige Verbindungskette Kante-für-Kante durch den Graphen.",
-      "gewichtung": 1,
-      "thema": "LE 17: Graphentheorie",
+      "answer": 0,
+      "explanation": "Ein Pfad ist eine gültige Verbindungskette Kante-für-Kante durch den Graphen.",
+      "weight": 1,
+      "topic": "LE 17: Graphentheorie",
       "mini_glossary": {
         "Einfacher Pfad": "Pfad ohne Wiederholung von Knoten (und damit Kanten). Vermeidet Schleifen/Mehrfachbesuche.",
         "Weglänge": "Anzahl der Kanten (ungewichtet) oder Summe der Gewichte (gewichtet).",
@@ -877,18 +877,18 @@
       }
     },
     {
-      "frage": "34. Ein Graph mit $n$ Knoten ist genau dann ein Baum, wenn er ...",
-      "optionen": [
+      "question": "34. Ein Graph mit $n$ Knoten ist genau dann ein Baum, wenn er ...",
+      "options": [
         "zusammenhängend ist und $n-1$ Kanten besitzt.",
         "zyklenfrei ist und $n$ Kanten besitzt.",
         "zusammenhängend ist und $n$ Kanten besitzt.",
         "zyklenfrei ist und $n-2$ Kanten besitzt.",
         "$n$ Knoten, $n-1$ Kanten und einen Zyklus besitzt."
       ],
-      "loesung": 0,
-      "erklaerung": "Charakterisierung von Bäumen: zusammenhängend und zyklenfrei; in endlichen Graphen entspricht das $|E|=n-1$.",
-      "gewichtung": 1,
-      "thema": "LE 18: Bäume",
+      "answer": 0,
+      "explanation": "Charakterisierung von Bäumen: zusammenhängend und zyklenfrei; in endlichen Graphen entspricht das $|E|=n-1$.",
+      "weight": 1,
+      "topic": "LE 18: Bäume",
       "mini_glossary": {
         "Baum": "Zusammenhängender, zyklenfreier Graph. Alternative Charakterisierungen sind äquivalent (z.B. eindeutiger Pfad zwischen Knoten).",
         "Kantenanzahl": "Für jeden Baum gilt $|E|=|V|-1$; folgt per Induktion oder aus dem Handschlag-Lemma.",
@@ -896,18 +896,18 @@
       }
     },
     {
-      "frage": "35. Welche Aussage zu gewurzelten Bäumen trifft zu?",
-      "optionen": [
+      "question": "35. Welche Aussage zu gewurzelten Bäumen trifft zu?",
+      "options": [
         "Die Höhe ist die Anzahl der Kanten auf dem längsten Pfad von der Wurzel zu einem Blatt.",
         "Ein Blatt ist ein Knoten ohne Elternknoten.",
         "Die Tiefe eines Knotens ist die Anzahl seiner Kinder.",
         "Die Wurzel hat stets Eingangsgrad 0 und Ausgangsgrad 0.",
         "Ein Knoten kann mehrere Elternknoten haben."
       ],
-      "loesung": 0,
-      "erklaerung": "Die Höhe misst die Länge des längsten Wurzel–Blatt-Pfads in Kanten.",
-      "gewichtung": 2,
-      "thema": "LE 18: Bäume",
+      "answer": 0,
+      "explanation": "Die Höhe misst die Länge des längsten Wurzel–Blatt-Pfads in Kanten.",
+      "weight": 2,
+      "topic": "LE 18: Bäume",
       "extended_explanation": {
         "titel": "Höhe, Tiefe, Blatt präzisieren",
         "schritte": [
@@ -925,18 +925,18 @@
       }
     },
     {
-      "frage": "36. Welche Datenstruktur wird typischerweise zur Implementierung der Breitensuche (BFS) verwendet?",
-      "optionen": [
+      "question": "36. Welche Datenstruktur wird typischerweise zur Implementierung der Breitensuche (BFS) verwendet?",
+      "options": [
         "Eine Queue (Warteschlange).",
         "Ein Stack (Stapelspeicher).",
         "Eine Adjazenzmatrix.",
         "Ein binärer Suchbaum.",
         "Eine Hashtabelle."
       ],
-      "loesung": 0,
-      "erklaerung": "BFS arbeitet Ebene für Ebene und nutzt eine FIFO-Queue.",
-      "gewichtung": 2,
-      "thema": "LE 18: Bäume",
+      "answer": 0,
+      "explanation": "BFS arbeitet Ebene für Ebene und nutzt eine FIFO-Queue.",
+      "weight": 2,
+      "topic": "LE 18: Bäume",
       "extended_explanation": {
         "titel": "BFS-Mechanik in Kürze",
         "schritte": [
@@ -954,18 +954,18 @@
       }
     },
     {
-      "frage": "37. Welche Eigenschaft charakterisiert einen binären Suchbaum (BST)?",
-      "optionen": [
+      "question": "37. Welche Eigenschaft charakterisiert einen binären Suchbaum (BST)?",
+      "options": [
         "Linker Teilbaum: Werte $\\le k$, rechter Teilbaum: Werte $\\ge k$ für jeden Knoten $k$.",
         "Jeder Knoten hat entweder 0 oder 2 Kinder.",
         "Alle Blätter liegen auf gleicher Ebene.",
         "Die Knoten wurden in BFS-Reihenfolge eingefügt.",
         "Der Baum ist stets perfekt balanciert."
       ],
-      "loesung": 0,
-      "erklaerung": "BST-Ordnung: Alle Schlüssel im linken Teilbaum sind $\\le$ Schlüssel des Knotens, rechts $\\ge$.",
-      "gewichtung": 3,
-      "thema": "LE 18: Bäume",
+      "answer": 0,
+      "explanation": "BST-Ordnung: Alle Schlüssel im linken Teilbaum sind $\\le$ Schlüssel des Knotens, rechts $\\ge$.",
+      "weight": 3,
+      "topic": "LE 18: Bäume",
       "extended_explanation": {
         "titel": "BST-Ordnungsinvariante",
         "schritte": [
@@ -983,18 +983,18 @@
       }
     },
     {
-      "frage": "38. Welche Traversierung besucht die Knoten eines Baumes Ebene für Ebene?",
-      "optionen": [
+      "question": "38. Welche Traversierung besucht die Knoten eines Baumes Ebene für Ebene?",
+      "options": [
         "Breitensuche (BFS)",
         "Tiefensuche (DFS) – Preorder",
         "Tiefensuche (DFS) – Inorder",
         "Tiefensuche (DFS) – Postorder",
         "Dijkstra-Algorithmus"
       ],
-      "loesung": 0,
-      "erklaerung": "Ebenenweise Traversierung ist das Kennzeichen der BFS.",
-      "gewichtung": 1,
-      "thema": "LE 18: Bäume",
+      "answer": 0,
+      "explanation": "Ebenenweise Traversierung ist das Kennzeichen der BFS.",
+      "weight": 1,
+      "topic": "LE 18: Bäume",
       "mini_glossary": {
         "Preorder": "Reihenfolge: Wurzel, dann linker und rechter Teilbaum; nützlich für Kopieren/Serialisieren.",
         "Inorder": "Links, Wurzel, Rechts; liefert bei BSTs sortierte Folge.",
@@ -1002,18 +1002,18 @@
       }
     },
     {
-      "frage": "39. Wie viele Basisvektoren besitzt $\\mathbb{R}^n$ und was folgt für die Dimension?",
-      "optionen": [
+      "question": "39. Wie viele Basisvektoren besitzt $\\mathbb{R}^n$ und was folgt für die Dimension?",
+      "options": [
         "$n$ Basisvektoren; die Dimension ist $n$.",
         "$n-1$ Basisvektoren; die Dimension ist $n-1$.",
         "Beliebig viele Basisvektoren; die Dimension ist undefiniert.",
         "$2n$ Basisvektoren; die Dimension ist $2n$.",
         "Ein Basisvektor; die Dimension ist 1."
       ],
-      "loesung": 0,
-      "erklaerung": "Der Standardraum $\\mathbb{R}^n$ hat per Definition eine Basis mit $n$ Vektoren; damit ist die Dimension $n$.",
-      "gewichtung": 2,
-      "thema": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
+      "answer": 0,
+      "explanation": "Der Standardraum $\\mathbb{R}^n$ hat per Definition eine Basis mit $n$ Vektoren; damit ist die Dimension $n$.",
+      "weight": 2,
+      "topic": "LE 12: Lineare Unabhängigkeit, Basis, Dimension",
       "extended_explanation": {
         "titel": "Basis und Dimension im $\\mathbb{R}^n$",
         "schritte": [
@@ -1031,18 +1031,18 @@
       }
     },
     {
-      "frage": "40. Welche Aussage über die Matrixzerlegung $A=P D P^{-1}$ trifft bei diagonalisierbaren Matrizen zu?",
-      "optionen": [
+      "question": "40. Welche Aussage über die Matrixzerlegung $A=P D P^{-1}$ trifft bei diagonalisierbaren Matrizen zu?",
+      "options": [
         "Die Diagonaleinträge von $D$ sind die Eigenwerte von $A$ und die Spalten von $P$ die zugehörigen Eigenvektoren.",
         "Die Diagonaleinträge von $D$ sind die Singularwerte von $A$ und $P$ ist orthogonal.",
         "Die Matrix $P$ enthält die Zeilenvektoren von $A$ und $D$ die Spur von $A$.",
         "Die Matrix $D$ ist stets die Einheitsmatrix und $P$ beliebig.",
         "Die Zerlegung existiert nur für symmetrische Matrizen."
       ],
-      "loesung": 0,
-      "erklaerung": "Bei Diagonalisierbarkeit bilden die Eigenvektoren die Spalten von $P$, und $D$ sammelt die Eigenwerte auf der Diagonalen.",
-      "gewichtung": 3,
-      "thema": "LE 15: Eigenwerte und Eigenvektoren",
+      "answer": 0,
+      "explanation": "Bei Diagonalisierbarkeit bilden die Eigenvektoren die Spalten von $P$, und $D$ sammelt die Eigenwerte auf der Diagonalen.",
+      "weight": 3,
+      "topic": "LE 15: Eigenwerte und Eigenvektoren",
       "extended_explanation": {
         "titel": "Diagonalisierung interpretieren",
         "schritte": [
