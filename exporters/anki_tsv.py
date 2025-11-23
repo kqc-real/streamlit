@@ -208,7 +208,11 @@ def _render_extended_dict(md: MarkdownIt, data: dict[str, Any]) -> str:
     if title_html:
         parts.append(title_html)
 
-    steps_html = _render_extended_steps(md, data.get("schritte"))
+    # Accept both German 'schritte' and English 'steps' as possible keys.
+    steps_val = data.get("schritte") if isinstance(data.get("schritte"), Iterable) else (
+        data.get("steps") if isinstance(data.get("steps"), Iterable) else None
+    )
+    steps_html = _render_extended_steps(md, steps_val)
     if steps_html:
         parts.append(steps_html)
 
