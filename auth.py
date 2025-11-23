@@ -13,6 +13,7 @@ import json
 from datetime import datetime
 
 from config import AppConfig, load_scientists, QuestionSet
+from i18n.context import t
 from helpers import get_user_id_hash
 
 def log_state(event: str):
@@ -86,40 +87,54 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
         made_it_to_leaderboard = st.session_state.get("aborted_user_on_leaderboard", False)
 
         if made_it_to_leaderboard:
-            toast_message = f"🎉 Glückwunsch, {user_name}! Du hast es mit {score} Punkten ins Leaderboard geschafft!"
+            # store a structured toast so it can be localized later when
+            # the welcome screen renders (the UI locale may change).
+            toast_struct = {
+                "key": "messages.session_saved.leaderboard",
+                "params": {"user": user_name, "score": score},
+            }
+            # show an immediate transient toast in the current runtime
+            try:
+                st.toast(t(toast_struct["key"]).format(**toast_struct["params"]), icon="🏆", duration=10)
+            except Exception:
+                pass
         else:
             duration = st.session_state.get("aborted_user_duration", 0)
             recommended_duration_seconds = st.session_state.get("aborted_user_recommended_duration", 180)
 
             # Definiere die Schwellenwerte
             MIN_SCORE_FOR_LEADERBOARD = 1
-            # NEU: Mindestdauer ist 20% der empfohlenen Testzeit, aber mind. 60s
+            # Mindestdauer ist 20% der empfohlenen Testzeit, aber mind. 60s
             MIN_DURATION_FOR_LEADERBOARD = max(60, int(recommended_duration_seconds * 0.20))
 
-            # Prüfe die spezifischen Gründe
+            # Decide which reason key to use (resolve at render time)
             if score < MIN_SCORE_FOR_LEADERBOARD:
-                reason = f"da Ergebnisse mit 0 Punkten nicht gezählt werden."
+                reason_key = "messages.session_saved.reason_zero_score"
+                reason_params = {}
             elif duration < MIN_DURATION_FOR_LEADERBOARD:
                 min_duration_display = max(1, round(MIN_DURATION_FOR_LEADERBOARD / 60))
-                reason = f"da die Testzeit zu kurz war (weniger als {min_duration_display} min)."
+                reason_key = "messages.session_saved.reason_too_short"
+                reason_params = {"min_duration": min_duration_display}
             else:
-                reason = f"da die Punktzahl nicht für die Top 10 ausreichte."
-            
-            toast_message = f"Dein Ergebnis für »{user_name}« ist gespeichert, taucht aber nicht im Leaderboard auf, {reason}"
+                reason_key = "messages.session_saved.reason_not_top10"
+                reason_params = {}
 
-        # Show a transient toast (desktop/overlay) and also record a
-        # persistent banner so mobile users (where the toast can be
-        # obscured by a fullscreen dialog) still see the message inside
-        # the welcome splash or other top-level UI containers.
-        try:
-            st.toast(toast_message, icon="🏆", duration=10)
-        except Exception:
-            # Some Streamlit runtimes may not support toast; ignore.
-            pass
+            toast_struct = {
+                "key": "messages.session_saved.saved_not_on_leaderboard",
+                "params": {"user": user_name, "reason_key": reason_key, "reason_params": reason_params},
+            }
+            try:
+                # show immediate localized transient toast when possible
+                reason_text = t(reason_key).format(**reason_params) if reason_key else ""
+                st.toast(t(toast_struct["key"]).format(user=user_name, reason=reason_text), icon="🏆", duration=10)
+            except Exception:
+                pass
+
         # Ensure a persistent copy that the welcome page can render
         # inside its dialog so mobile users don't miss it.
         try:
-            st.session_state['post_session_toast'] = toast_message
+            # persist the structured message (not the formatted string)
+            st.session_state['post_session_toast'] = toast_struct
         except Exception:
             pass
         del st.session_state["session_aborted"]

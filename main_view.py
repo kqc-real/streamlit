@@ -39,6 +39,7 @@ from helpers import (
     ACTIVE_SESSION_QUERY_PARAM,
 )
 from database import update_bookmarks
+from i18n.context import t
 from user_question_sets import (
     list_user_question_sets,
     format_user_label,
@@ -1571,7 +1572,22 @@ def _render_welcome_splash():
             except Exception:
                 post_toast = None
             if post_toast:
-                st.info(post_toast)
+                # support structured persisted toasts: {key, params}
+                try:
+                    if isinstance(post_toast, dict) and "key" in post_toast:
+                        key = post_toast.get("key")
+                        params = dict(post_toast.get("params", {}) or {})
+                        # resolve nested reason key if present
+                        reason_key = params.pop("reason_key", None)
+                        reason_params = params.pop("reason_params", {}) or {}
+                        if reason_key:
+                            params["reason"] = t(reason_key).format(**(reason_params or {}))
+                        message = t(key).format(**params)
+                    else:
+                        message = str(post_toast)
+                except Exception:
+                    message = str(post_toast)
+                st.info(message)
 
             st.markdown(splash_content)
             render_locale_selector(
@@ -1596,7 +1612,20 @@ def _render_welcome_splash():
         except Exception:
             post_toast = None
         if post_toast:
-            st.info(post_toast)
+            try:
+                if isinstance(post_toast, dict) and "key" in post_toast:
+                    key = post_toast.get("key")
+                    params = dict(post_toast.get("params", {}) or {})
+                    reason_key = params.pop("reason_key", None)
+                    reason_params = params.pop("reason_params", {}) or {}
+                    if reason_key:
+                        params["reason"] = t(reason_key).format(**(reason_params or {}))
+                    message = t(key).format(**params)
+                else:
+                    message = str(post_toast)
+            except Exception:
+                message = str(post_toast)
+            st.info(message)
 
         st.markdown(splash_content)
         render_locale_selector(

@@ -276,6 +276,14 @@
         "no_preview_questions": "No questions available for the preview.",
         "markdown_dependency": "The 'markdown-it-py' package is required for the preview.",
         "streamlit_component_missing": "Streamlit components module is not available."
+        ,
+        "session_saved": {
+            "leaderboard": "🎉 Congratulations, {user}! You made it to the leaderboard with {score} points!",
+            "saved_not_on_leaderboard": "Your result for \"{user}\" was saved but will not appear on the leaderboard because {reason}.",
+            "reason_zero_score": "results with 0 points are not counted",
+            "reason_too_short": "the test duration was too short (less than {min_duration} min)",
+            "reason_not_top10": "the score did not qualify for the Top 10"
+        }
     },
     "dialogs": {
         "anki_instruction": "Guide: Anki export",

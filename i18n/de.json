@@ -275,7 +275,14 @@
         "anki_dependency": "F\u00fcr den .apkg-Export muss das Paket 'genanki' installiert sein (siehe requirements.txt).",
         "no_preview_questions": "Keine Fragen f\u00fcr die Vorschau verf\u00fcgbar.",
         "markdown_dependency": "F\u00fcr die Vorschau wird das Paket 'markdown-it-py' ben\u00f6tigt.",
-        "streamlit_component_missing": "Streamlit-Komponentenmodul ist nicht verf\u00fcgbar."
+        "streamlit_component_missing": "Streamlit-Komponentenmodul ist nicht verf\u00fcgbar.",
+        "session_saved": {
+            "leaderboard": "🎉 Glückwunsch, {user}! Du hast es mit {score} Punkten ins Leaderboard geschafft!",
+            "saved_not_on_leaderboard": "Dein Ergebnis für \"{user}\" ist gespeichert, taucht aber nicht im Leaderboard auf, {reason}.",
+            "reason_zero_score": "Ergebnisse mit 0 Punkten werden nicht gezählt",
+            "reason_too_short": "die Testzeit war zu kurz (weniger als {min_duration} min)",
+            "reason_not_top10": "die Punktzahl reichte nicht für die Top 10"
+        }
     },
     "dialogs": {
         "anki_instruction": "Anleitung: Anki-Export",

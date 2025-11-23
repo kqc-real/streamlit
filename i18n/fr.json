@@ -274,7 +274,14 @@
         "anki_dependency": "'genanki' requis pour l'export .apkg (voir requirements.txt).",
         "no_preview_questions": "Pas de questions pour l'aperçu.",
         "markdown_dependency": "'markdown-it-py' requis pour l'aperçu.",
-        "streamlit_component_missing": "Module composants Streamlit indispo."
+        "streamlit_component_missing": "Module composants Streamlit indispo.",
+        "session_saved": {
+            "leaderboard": "🎉 Félicitations, {user} ! Tu es dans le classement avec {score} points !",
+            "saved_not_on_leaderboard": "Ton résultat pour \"{user}\" a été sauvegardé mais n'apparaîtra pas dans le classement car {reason}.",
+            "reason_zero_score": "les résultats avec 0 point ne sont pas comptés",
+            "reason_too_short": "la durée du test était trop courte (moins de {min_duration} min)",
+            "reason_not_top10": "le score ne suffisait pas pour le Top 10"
+        }
     },
     "dialogs": {
         "anki_instruction": "Guide : Export Anki",
