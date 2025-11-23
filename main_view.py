@@ -1563,6 +1563,16 @@ def _render_welcome_splash():
         @dialog_func(_welcome_splash_title())
         def _welcome_dialog():
             st.markdown('<div class="splash-scroll">', unsafe_allow_html=True)
+            # If a post-session toast was persisted (e.g. session end), show it
+            # inside the welcome dialog so mobile users don't miss it.
+            post_toast = None
+            try:
+                post_toast = st.session_state.pop("post_session_toast", None)
+            except Exception:
+                post_toast = None
+            if post_toast:
+                st.info(post_toast)
+
             st.markdown(splash_content)
             render_locale_selector(
                 label=_welcome_language_label(),
@@ -1577,6 +1587,17 @@ def _render_welcome_splash():
         _welcome_dialog()
     else:
         st.markdown('<div class="splash-fallback">', unsafe_allow_html=True)
+        # Show any persisted post-session toast here as well so mobile
+        # users see the message even when the toast overlay would be
+        # obscured by a fullscreen dialog.
+        post_toast = None
+        try:
+            post_toast = st.session_state.pop("post_session_toast", None)
+        except Exception:
+            post_toast = None
+        if post_toast:
+            st.info(post_toast)
+
         st.markdown(splash_content)
         render_locale_selector(
             label=_welcome_language_label(),

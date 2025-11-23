@@ -75,10 +75,11 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
     Die UI-Logik für den Login befindet sich in `main_view.render_welcome_page`.
     """
     # log_state("Enter handle_user_session")
-    if "user_id" in st.session_state:
-        # log_state(f"User '{st.session_state.user_id}' found in session_state")
-        return st.session_state.user_id
-    
+    # Prefer showing any post-session toast first (e.g. when a test was
+    # just ended). This must run even if `user_id` is still present in
+    # the session (some flows keep the login state). Previously this
+    # check happened after the early-return and the toast could be
+    # skipped when `user_id` existed.
     if "session_aborted" in st.session_state:
         user_name = st.session_state.get("aborted_user_id", "Unbekannt")
         score = st.session_state.get("aborted_user_score", 0)
@@ -106,10 +107,28 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
             
             toast_message = f"Dein Ergebnis für »{user_name}« ist gespeichert, taucht aber nicht im Leaderboard auf, {reason}"
 
-        st.toast(toast_message, icon="🏆", duration=10)
+        # Show a transient toast (desktop/overlay) and also record a
+        # persistent banner so mobile users (where the toast can be
+        # obscured by a fullscreen dialog) still see the message inside
+        # the welcome splash or other top-level UI containers.
+        try:
+            st.toast(toast_message, icon="🏆", duration=10)
+        except Exception:
+            # Some Streamlit runtimes may not support toast; ignore.
+            pass
+        # Ensure a persistent copy that the welcome page can render
+        # inside its dialog so mobile users don't miss it.
+        try:
+            st.session_state['post_session_toast'] = toast_message
+        except Exception:
+            pass
         del st.session_state["session_aborted"]
         if "aborted_user_id" in st.session_state:
             del st.session_state["aborted_user_id"]
+
+    if "user_id" in st.session_state:
+        # log_state(f"User '{st.session_state.user_id}' found in session_state")
+        return st.session_state.user_id
 
     # log_state("Exit handle_user_session without login")
     return None
