@@ -264,7 +264,8 @@
     },
     "locales": {
         "de": "Deutsch",
-        "en": "Englisch"
+        "en": "Englisch",
+        "fr": "Französisch"
     },
     "buttons": {
         "download": "Download starten"
@@ -324,6 +325,11 @@
         "questionset_number": "(Fragenset-Nr. {n})",
         "stage_label": "Kognitive Stufe: {stage}",
         "detailed_explanation": "Detaillierte Erklärung",
+        "detailed_explanation": {
+            "title": "Titel",
+            "steps": "Schritte",
+            "content": "Inhalt"
+        },
         "bookmarks_intro": "Du hast folgende Fragen zur Wiederholung markiert:",
         "question_short": "Frage {n}",
         "meta": {

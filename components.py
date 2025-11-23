@@ -905,7 +905,7 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
 
     # Bereinige Session-State
     for key in list(st.session_state.keys()):
-        if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file":
+        if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file" and key != "active_locale":
             del st.session_state[key]
     
     st.session_state["session_aborted"] = True

@@ -264,7 +264,8 @@
     },
     "locales": {
         "de": "German",
-        "en": "English"
+        "en": "English",
+        "fr": "French"
     },
     "buttons": {
         "download": "Start download"
