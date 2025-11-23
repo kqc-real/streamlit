@@ -676,7 +676,11 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
                         extended_html += f"<h3>{_render_md(title)}</h3>"
 
                     content = extended_explanation.get("content")
-                    steps = extended_explanation.get("schritte")
+                    steps = (
+                        extended_explanation.get("schritte")
+                        if isinstance(extended_explanation.get("schritte"), list)
+                        else (extended_explanation.get("steps") if isinstance(extended_explanation.get("steps"), list) else None)
+                    )
 
                     if isinstance(steps, list) and steps:
                         extended_html += "<ol>"
@@ -3103,7 +3107,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")
                 # Jeder Schritt wird in einer eigenen Spalte gerendert, um KaTeX zu parsen
                 # und bei Bedarf scrollbar zu sein.
-                steps = erklaerung.get('schritte') or []
+                steps = (
+                    erklaerung.get('schritte')
+                    if isinstance(erklaerung.get('schritte'), list)
+                    else (erklaerung.get('steps') if isinstance(erklaerung.get('steps'), list) else [])
+                )
                 numbered = _steps_have_numbering(steps)
                 for i, schritt in enumerate(steps):
                     cols = st.columns([1, 19])
@@ -3146,7 +3154,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                         st.markdown(f"**{smart_quotes_de(title)}**")
 
                     content = extended_explanation.get("content")
-                    steps = extended_explanation.get("schritte")
+                    steps = (
+                        extended_explanation.get("schritte")
+                        if isinstance(extended_explanation.get("schritte"), list)
+                        else (extended_explanation.get("steps") if isinstance(extended_explanation.get("steps"), list) else None)
+                    )
 
                     if isinstance(steps, list) and steps:
                         numbered = _steps_have_numbering(steps)

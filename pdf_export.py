@@ -1541,7 +1541,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         if extended_explanation and isinstance(extended_explanation, dict):
             title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
             content = extended_explanation.get('content')
-            steps = extended_explanation.get('schritte') if isinstance(extended_explanation.get('schritte'), list) else None
+            steps = (
+                extended_explanation.get('schritte')
+                if isinstance(extended_explanation.get('schritte'), list)
+                else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
+            )
 
             detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
             explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
@@ -2399,7 +2403,11 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         if extended_explanation and isinstance(extended_explanation, dict):
             title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
             content = extended_explanation.get('content')
-            steps = extended_explanation.get('schritte') if isinstance(extended_explanation.get('schritte'), list) else None
+            steps = (
+                extended_explanation.get('schritte')
+                if isinstance(extended_explanation.get('schritte'), list)
+                else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
+            )
 
             detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
             explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
