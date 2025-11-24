@@ -309,7 +309,11 @@
         "bookmarks_title": "Bookmarked questions",
         "questionset_number": "(Question set no. {n})",
         "stage_label": "Cognitive stage: {stage}",
-        "detailed_explanation": "Detailed explanation",
+        "detailed_explanation": {
+            "title": "Title",
+            "steps": "Steps",
+            "content": "Content"
+        },
         "bookmarks_intro": "You marked the following questions for review:",
         "question_short": "Question {n}",
         "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:" },

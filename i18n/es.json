@@ -275,7 +275,14 @@
         "anki_dependency": "Paquete 'genanki' requerido para exportar .apkg (ver requirements.txt).",
         "no_preview_questions": "Sin preguntas para previsualizar.",
         "markdown_dependency": "Paquete 'markdown-it-py' requerido para la vista previa.",
-        "streamlit_component_missing": "Módulo de componentes Streamlit no disponible."
+        "streamlit_component_missing": "Módulo de componentes Streamlit no disponible.",
+        "session_saved": {
+            "leaderboard": "¡Felicidades, {user}! ¡Has entrado en la clasificación con {score} puntos!",
+            "saved_not_on_leaderboard": "Tu resultado para \"{user}\" se ha guardado, pero no aparecerá en la clasificación porque {reason}.",
+            "reason_zero_score": "los resultados con 0 puntos no se cuentan",
+            "reason_too_short": "la duración del test fue demasiado corta (menos de {min_duration} min)",
+            "reason_not_top10": "la puntuación no fue suficiente para el Top 10"
+        }
     },
     "dialogs": {
         "anki_instruction": "Guía: Exportar a Anki",
@@ -300,7 +307,11 @@
         "bookmarks_title": "Preguntas marcadas",
         "questionset_number": "(Set nº {n})",
         "stage_label": "Nivel cognitivo: {stage}",
-        "detailed_explanation": "Explicación detallada",
+        "detailed_explanation": {
+            "title": "Título",
+            "steps": "Pasos",
+            "content": "Contenido"
+        },
         "bookmarks_intro": "Marcaste estas preguntas para revisar:",
         "question_short": "Pregunta {n}",
         "meta": { "participant": "Participante:", "test_date": "Fecha:", "duration": "Duración:", "questionset": "Set:", "generated_at": "Generado:" },
@@ -436,40 +447,40 @@
         "export_testbericht_error": "Error generando informe: {error}",
         "summary_message": {
             "success": {
-                "top_performance": "✅ ¡Increíble! Rendimiento top.",
-                "few_errors": "💪 ¡Bien hecho! Pocos errores.",
+                "top_performance": "✅ ¡Excelente! Un rendimiento superior.",
+                "few_errors": "💪 ¡Gran trabajo! Solo unos pocos errores.",
                 "convincing": "👍 ¡Resultado convincente! Sigue así.",
-                "quality": "🎉 ¡Limpio! Calidad total."
+                "quality": "🎉 ¡Trabajo limpio! La calidad es evidente."
             },
             "good": {
-                "stable": "📈 ¡Bien! Puntuación estable.",
-                "basics": "✨ ¡Nada mal! Las bases aguantan.",
-                "potential": "💼 ¡Sólido! Hay margen de mejora.",
-                "close_gap": "🔧 ¡Buen esfuerzo! Queda poco por pulir."
+                "stable": "📈 ¡Bien hecho! Puntuación estable.",
+                "basics": "✨ ¡No está mal! Dominas lo básico.",
+                "potential": "💼 ¡Rendimiento sólido! Hay margen de mejora.",
+                "close_gap": "🔧 ¡Gran esfuerzo! Las pequeñas lagunas se pueden cerrar."
             },
             "satisfactory": {
-                "foundation": "📚 Satisfactorio. Base sólida, a profundizar.",
-                "review": "🌱 Ok. Repasa los temas clave.",
-                "average": "🔍 Regular. El modo repaso ayudará.",
-                "practice": "💡 Mitad de tabla. Practica más."
+                "foundation": "📚 Satisfactorio. Tienes la base, vale la pena profundizar.",
+                "review": "🌱 De acuerdo. Revisa los temas principales de nuevo.",
+                "average": "🔍 Promedio. El modo de revisión te puede ayudar.",
+                "practice": "💡 En la media. Con la práctica mejorarás."
             },
             "passing": {
-                "needs_improvement": "⚠️ Aprobado. Pero necesita mejora.",
-                "use_explanations": "📖 Pasaste por poco. ¡Usa las explicaciones!",
+                "needs_improvement": "⚠️ Suficiente. Necesita una mejora clara.",
+                "use_explanations": "📖 ¡Aprobado por los pelos! Usa las explicaciones.",
                 "repeat": "🎯 50-59%. Repite los temas clave.",
-                "uneven": "🔄 Irregular. El repaso mostrará los huecos."
+                "uneven": "🔄 Irregular. La revisión muestra los puntos débiles."
             },
             "insufficient": {
-                "basic": "⛔ Insuficiente. Faltan las bases.",
-                "intensive": "📕 Menos del 50%. Repetición intensiva necesaria.",
-                "review_required": "🚨 Grandes lagunas. Repaso obligatorio.",
-                "red": "🔴 Muchos fallos. Retoma el temario."
+                "basic": "⛔ Insuficiente. Todavía faltan los conceptos básicos.",
+                "intensive": "📕 Menos del 50%. Se necesita una repetición intensiva.",
+                "review_required": "🚨 Grandes lagunas. El modo de revisión es obligatorio.",
+                "red": "🔴 Muchos errores. Vuelve a estudiar el material."
             },
             "fail": {
-                "start_new": "❌ Suspenso. Empieza de cero.",
-                "systematic": "📚 Bajo 40%. Reinicia sistemáticamente.",
-                "gaps": "🆘 Grandes huecos. ¡Pide ayuda!",
-                "review": "⚠️ Muy flojo. El repaso expondrá cada fallo."
+                "start_new": "❌ Suspenso. Aprende el material desde cero.",
+                "systematic": "📚 Menos del 40%. Reinicia sistemáticamente.",
+                "gaps": "🆘 Grandes lagunas de conocimiento. ¡Pide ayuda!",
+                "review": "⚠️ Muy flojo. La revisión expone cada error."
             }
         }
     },

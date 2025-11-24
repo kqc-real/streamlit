@@ -4,7 +4,7 @@
         "subtitle": "Gère & analyse tes sets de questions"
     },
     "sidebar": {
-        "title": "Nav",
+        "title": "Navigation",
         "language": "Langue",
         "greeting": "\ud83d\udc4b **{user}**",
         "temp_set_notice": "Set temp : {label}",
@@ -97,25 +97,25 @@
         "title": "Créer un set avec l'IA",
         "intro": "Choisis un prompt pour ton export (cartes ou quiz) et copie-le dans ton IA.",
         "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)** : Top pour l'app & Anki (formules complexes, pas de limite de texte).\n- **[Kahoot](https://kahoot.com)** : Adapté aux limites Kahoot (longueur, options, temps).\n- **[arsnova.click](https://arsnova.click)** : Optimisé pour l'outil de fac (LaTeX, Markdown).",
-        "prompt_toggle_button": "\ud83d\udc41\ufe0f Afficher / Masquer",
-        "prompt_download_button": "\u2b07\ufe0f Télécharger",
+        "prompt_toggle_button": "👁️ Afficher / Masquer",
+        "prompt_download_button": "⬇️ Télécharger",
         "prompt_load_failed": "Chargement de {filename} raté.",
         "prompt_copy_button": "Copier prompt",
         "prompt_copy_success": "Copié !",
         "prompt_copy_error": "Échec copie",
         "upload_heading": "Uploader un set",
-        "upload_warning": "\u26a0\ufe0f Max 30 questions & 5 Mo.",
-        "upload_info": "\u2139\ufe0f Ton set est public. Viré après {hours}h (ou gardé {days}j si pseudo réservé).",
-        "uploader_label": "\ud83d\udcc1 Upload Fichier JSON",
-        "uploader_help": "JSON requis, max 30 questions, max 5 Mo.",
-        "upload_validate_button": "\u2705 Valider & Sauvegarder",
+        "upload_warning": "⚠️ Ton fragenset ne doit pas dépasser 30 questions et 5 Mo.",
+        "upload_info": "ℹ️ Ton set de questions est visible par tous les utilisateurs. Par défaut, les sets temporaires sont supprimés après {hours} heures ; avec un pseudonyme réservé, ils sont conservés {days} jours.",
+        "uploader_label": "📁 Uploader un set de questions au format JSON",
+        "uploader_help": "Le fichier doit correspondre au format de question de l'application, contenir au maximum 30 questions et ne pas dépasser 5 Mo.",
+        "upload_validate_button": "✅ Vérifier et enregistrer le set de questions",
         "alternative_heading": "### Autre option : Coller le JSON",
         "alternative_caption": "Colle le JSON de l'IA ici. On le formatera pour toi.",
-        "text_area_label": "\ud83d\udccb Contenu JSON",
+        "text_area_label": "📋 Contenu JSON",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
         "status_success": "{label} sauvé – {count} questions prêtes.",
         "login_required": "Connecte-toi pour commencer.",
-        "start_test_button": "\ud83d\ude80 Lancer le test",
+        "start_test_button": "🚀 Lancer le test avec ce set de questions",
         "status_unknown_error": "Erreur inconnue à la validation.",
         "close_button": "Fermer"
     },
@@ -307,7 +307,11 @@
         "bookmarks_title": "Questions marquées",
         "questionset_number": "(Set n° {n})",
         "stage_label": "Niveau cognitif : {stage}",
-        "detailed_explanation": "Explication détaillée",
+        "detailed_explanation": {
+            "title": "Titre",
+            "steps": "Étapes",
+            "content": "Contenu"
+        },
         "bookmarks_intro": "Tu as marqué ces questions pour plus tard :",
         "question_short": "Q° {n}",
         "meta": { "participant": "Participant :", "test_date": "Date :", "duration": "Durée :", "questionset": "Set :", "generated_at": "Généré le :" },
@@ -399,8 +403,8 @@
         "export_anki_expander": "\ud83d\udce6 Cartes Anki (reco)",
         "export_anki_description": "Exporte tout en deck Anki. Importe le fichier direct dans l'app.",
         "export_anki_caption": "Note : le paquet inclut style & tags. Pour le TSV, vois le guide.",
-        "export_anki_instruction_button": "\u2139\ufe0f Instructions & astuces",
-        "export_anki_preview_button": "\ud83d\uddbc\ufe0f Aperçu cartes",
+        "export_anki_instruction_button": "ℹ️ Instructions & astuces",
+        "export_anki_preview_button": "🖼️ Aperçu cartes",
         "export_anki_apkg_button": "Créer paquet Anki (.apkg)",
         "export_anki_apkg_spinner": "Création paquet Anki...",
         "export_anki_apkg_download": "\ud83d\udcbe Télécharger APKG",
@@ -443,40 +447,40 @@
         "export_testbericht_error": "Erreur génération rapport : {error}",
         "summary_message": {
             "success": {
-                "top_performance": "✅ Excellent ! Top niveau.",
-                "few_errors": "💪 Bien joué ! Peu d'erreurs.",
-                "convincing": "👍 Convaincant ! Continue.",
-                "quality": "🎉 Propre ! La qualité est là."
+                "top_performance": "✅ Exceptionnel ! Une performance de haut niveau.",
+                "few_errors": "💪 Excellent travail ! Seulement quelques erreurs.",
+                "convincing": "👍 Résultat convaincant ! Continuez comme ça.",
+                "quality": "🎉 Travail propre ! La qualité est au rendez-vous."
             },
             "good": {
-                "stable": "📈 Bien ! Score stable.",
-                "basics": "✨ Pas mal ! Les bases sont là.",
-                "potential": "💼 Solide ! Potentiel de ouf.",
-                "close_gap": "🔧 Bel effort ! T'y es presque."
+                "stable": "📈 Bien joué ! Score stable.",
+                "basics": "✨ Pas mal ! Les bases sont acquises.",
+                "potential": "💼 Performance solide ! Marge de progression.",
+                "close_gap": "🔧 Bel effort ! Les petites lacunes peuvent être comblées."
             },
             "satisfactory": {
-                "foundation": "📚 Assez bien. Bases solides, à creuser.",
-                "review": "🌱 Ok. Revois les points clés.",
-                "average": "🔍 Moyen. Le mode révision va aider.",
-                "practice": "💡 Milieu de tableau. Entraîne-toi."
+                "foundation": "📚 Satisfaisant. Les bases sont là, un approfondissement est pertinent.",
+                "review": "🌱 D'accord. Révisez à nouveau les sujets principaux.",
+                "average": "🔍 Dans la moyenne. Le mode révision peut vous aider.",
+                "practice": "💡 Milieu de tableau. Avec de la pratique, ça ira mieux."
             },
             "passing": {
-                "needs_improvement": "⚠️ Ça passe, mais faut bosser.",
-                "use_explanations": "📖 Passé de justesse. Lis les soluces !",
-                "repeat": "🎯 50-59%. Refais les thèmes importants.",
-                "uneven": "🔄 Irrégulier. La révision va t'aider."
+                "needs_improvement": "⚠️ Passable. Clairement besoin d'amélioration.",
+                "use_explanations": "📖 Passé de justesse. Utilisez les explications !",
+                "repeat": "🎯 50-59%. Répétez les sujets clés.",
+                "uneven": "🔄 Irrégulier. La révision met en évidence les points faibles."
             },
             "insufficient": {
-                "basic": "⛔ Pas assez. Manque les bases.",
-                "intensive": "📕 Moins de 50%. Révise à fond.",
-                "review_required": "🚨 Grosses lacunes. Révision obligatoire.",
-                "red": "🔴 Trop d'erreurs. Reprends tout."
+                "basic": "⛔ Insuffisant. Les bases manquent encore.",
+                "intensive": "📕 Moins de 50%. Une répétition intensive est nécessaire.",
+                "review_required": "🚨 Grosses lacunes. Le mode révision est obligatoire.",
+                "red": "🔴 Beaucoup d'erreurs. Retravaillez le matériel."
             },
             "fail": {
-                "start_new": "❌ Raté. Reprends de zéro.",
-                "systematic": "📚 Moins de 40%. Repars de la base.",
-                "gaps": "🆘 Gros trous. Demande de l'aide !",
-                "review": "⚠️ Très faible. La révision va tout montrer."
+                "start_new": "❌ Échec. Apprenez le matériel depuis le début.",
+                "systematic": "📚 Moins de 40%. Recommencez systématiquement.",
+                "gaps": "🆘 Grandes lacunes de connaissances. Demandez de l'aide !",
+                "review": "⚠️ Très faible. La révision expose chaque erreur."
             }
         }
     },
