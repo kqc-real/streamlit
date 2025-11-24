@@ -1,0 +1,917 @@
+{
+  "meta": {
+    "title": "Mathematische Grundlagen I+II (Charge 1/3)",
+    "created": "24.11.2025",
+    "target_audience": "Klausurteilnehmer 3. Semester Wirtschaftsinformatik",
+    "question_count": 33,
+    "difficulty_profile": {
+      "easy": 4,
+      "medium": 19,
+      "hard": 10
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 35
+  },
+  "questions": [
+    {
+      "question": "1. Welche der folgenden Mengenoperationen entspricht der 'Symmetrischen Differenz' $A \\Delta B$ und liefert alle Elemente, die in genau einer der beiden Mengen enthalten sind?",
+      "options": [
+        "$(A \\setminus B) \\cup (B \\setminus A)$",
+        "$(A \\cup B) \\setminus (A \\cap B)$",
+        "$(A \\cap B)^C$",
+        "$(A \\cap B) \\cup (A \\setminus B)$",
+        "Sowohl Option 1 als auch Option 2 sind korrekt."
+      ],
+      "answer": 4,
+      "explanation": "Die symmetrische Differenz enthält Elemente, die entweder nur in A oder nur in B sind. Dies lässt sich als Vereinigung der Differenzmengen oder als Vereinigung abzüglich des Schnitts darstellen.",
+      "weight": 2,
+      "topic": "LE01: Mengenlehre",
+      "concept": "Symmetrische Differenz",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Herleitung der Symmetrischen Differenz",
+        "steps": [
+          "Definition: $A \\Delta B = \\{x \\mid (x \\in A \\land x \\notin B) \\lor (x \\in B \\land x \\notin A)\\}$.",
+          "Formel 1: Dies entspricht der Vereinigung der Differenzen: $(A \\setminus B) \\cup (B \\setminus A)$.",
+          "Formel 2: Alternativ nimmt man alles ($A \\cup B$) und entfernt das Gemeinsame ($A \\cap B$).",
+          "Vergleich: Beide logischen Ausdrücke führen zur gleichen Wahrheitstabelle (XOR-Verknüpfung)."
+        ],
+        "content": "Die symmetrische Differenz entspricht dem logischen Exklusiv-Oder (XOR)."
+      },
+      "mini_glossary": {
+        "Symmetrische Differenz": "Menge aller Elemente, die in A oder B, aber nicht in beiden enthalten sind.",
+        "Differenzmenge": "Menge $A \\setminus B$ aller Elemente, die in A, aber nicht in B sind."
+      }
+    },
+    {
+      "question": "2. Gegeben sei die Menge $M = \\{1, 2, 3\\}$. Wie viele Elemente enthält die Potenzmenge $\\mathcal{P}(M)$?",
+      "options": [
+        "3",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "answer": 3,
+      "explanation": "Die Mächtigkeit der Potenzmenge einer Menge mit $n$ Elementen beträgt $2^n$. Hier ist $n=3$, also $2^3 = 8$.",
+      "weight": 1,
+      "topic": "LE01: Mengenlehre",
+      "concept": "Potenzmenge",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Potenzmenge": "Die Menge aller Teilmengen einer gegebenen Menge.",
+        "Kardinalität": "Anzahl der Elemente in einer Menge."
+      }
+    },
+    {
+      "question": "3. Welche Bedingung muss erfüllt sein, damit eine Abbildung $f: A \\to B$ als **injektiv** bezeichnet wird?",
+      "options": [
+        "Jedes Element aus $B$ wird mindestens einmal getroffen.",
+        "Jedes Element aus $B$ wird genau einmal getroffen.",
+        "Es gibt keine zwei verschiedenen Elemente in $A$, die auf dasselbe Element in $B$ abgebildet werden.",
+        "Die Menge $A$ muss mehr Elemente enthalten als die Menge $B$.",
+        "Die Abbildung muss umkehrbar sein, ohne dass $A=B$ gilt."
+      ],
+      "answer": 2,
+      "explanation": "Injektivität bedeutet 'linkseindeutig': Verschiedene Argumente liefern verschiedene Funktionswerte ($x_1 \\neq x_2 \\Rightarrow f(x_1) \\neq f(x_2)$).",
+      "weight": 2,
+      "topic": "LE02: Abbildungen",
+      "concept": "Injektivität",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Visualisierung der Injektivität",
+        "steps": [
+          "Stellen Sie sich Pfeile von Menge A nach Menge B vor.",
+          "Nicht injektiv: Zwei Pfeile von verschiedenen Startpunkten in A treffen auf denselben Zielpunkt in B (Kollision).",
+          "Injektiv: Auf jedem Punkt in B landet maximal ein Pfeil.",
+          "Formal: $f(x) = f(y) \\implies x = y$."
+        ],
+        "content": "Injektivität ist die Voraussetzung dafür, dass keine Informationen beim Abbilden 'verloren' gehen (keine Vermischung von Inputs)."
+      },
+      "mini_glossary": {
+        "Injektiv": "Jedes Element der Zielmenge wird höchstens einmal getroffen.",
+        "Surjektiv": "Jedes Element der Zielmenge wird mindestens einmal getroffen.",
+        "Bijektiv": "Die Abbildung ist sowohl injektiv als auch surjektiv."
+      }
+    },
+    {
+      "question": "4. Betrachten Sie die Implikation $A \\to B$. Welcher logische Ausdruck ist dazu äquivalent (Gesetz der Implikation)?",
+      "options": [
+        "$A \\land \\neg B$",
+        "$\\neg A \\land B$",
+        "$\\neg A \\lor B$",
+        "$B \\to A$",
+        "$A \\leftrightarrow B$"
+      ],
+      "answer": 2,
+      "explanation": "Eine Implikation $A \\to B$ ist nur dann falsch, wenn A wahr und B falsch ist. Dies ist identisch mit der Aussage $\\neg A \\lor B$.",
+      "weight": 2,
+      "topic": "LE03: Aussagenlogik",
+      "concept": "Implikation",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Wahrheitstabelle Vergleich",
+        "steps": [
+          "Fall 1 (w, w): $w \\to w$ ist wahr; $\\neg w \\lor w$ (f oder w) ist wahr.",
+          "Fall 2 (w, f): $w \\to f$ ist falsch; $\\neg w \\lor f$ (f oder f) ist falsch.",
+          "Fall 3 (f, w): $f \\to w$ ist wahr; $\\neg f \\lor w$ (w oder w) ist wahr.",
+          "Fall 4 (f, f): $f \\to f$ ist wahr; $\\neg f \\lor f$ (w oder f) ist wahr."
+        ],
+        "content": "Da die Wahrheitstabellen identisch sind, sind die Ausdrücke logisch äquivalent."
+      },
+      "mini_glossary": {
+        "Implikation": "Logische Folgerung 'Wenn A, dann B'.",
+        "Äquivalenz": "Zwei Aussagen haben stets denselben Wahrheitswert."
+      }
+    },
+    {
+      "question": "5. Wie lautet die Negation der Aussage: 'Für alle $x$ gilt: Wenn $P(x)$, dann $Q(x)$' ($\\neg \\forall x (P(x) \\to Q(x))$)?",
+      "options": [
+        "$\\forall x (P(x) \\land \\neg Q(x))$",
+        "$\\exists x (P(x) \\land \\neg Q(x))$",
+        "$\\exists x (\\neg P(x) \\lor Q(x))$",
+        "$\\forall x (\\neg P(x) \\to \\neg Q(x))$",
+        "Es existiert kein $x$, für das $P(x)$ gilt."
+      ],
+      "answer": 1,
+      "explanation": "Die Negation des Allquantors ist der Existenzquantor. Die Negation der Implikation $A \\to B$ ist $A \\land \\neg B$. Zusammen: $\\exists x (P(x) \\land \\neg Q(x))$.",
+      "weight": 3,
+      "topic": "LE04: Prädikatenlogik",
+      "concept": "Quantorennegation",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Schrittweise Negation",
+        "steps": [
+          "Ausgangsaussage: $\\neg \\forall x (P(x) \\to Q(x))$",
+          "Schritt 1 (De Morgan für Quantoren): Der Allquantor $\\forall$ wird zum Existenzquantor $\\exists$, die Negation zieht nach innen.",
+          "Zwischenergebnis: $\\exists x (\\neg (P(x) \\to Q(x)))$",
+          "Schritt 2 (Implikation auflösen): $P(x) \\to Q(x)$ ist äquivalent zu $\\neg P(x) \\lor Q(x)$.",
+          "Schritt 3 (De Morgan für Aussagen): $\\neg (\\neg P(x) \\lor Q(x))$ wird zu $P(x) \\land \\neg Q(x)$."
+        ],
+        "content": "Das Gegenbeispiel zu 'Alle P sind Q' ist: 'Es gibt mindestens ein P, das NICHT Q ist'."
+      },
+      "mini_glossary": {
+        "Allquantor": "Symbol $\\forall$, bedeutet 'für alle'.",
+        "Existenzquantor": "Symbol $\\exists$, bedeutet 'es gibt mindestens ein'."
+      }
+    },
+    {
+      "question": "6. Gegeben ist die rekursive Definition $f(n) = f(n-1) + 2$ mit dem Basisfall $f(0) = 1$. Welchen Wert hat $f(3)$?",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "answer": 2,
+      "explanation": "Wir rechnen schrittweise: $f(1)=1+2=3$, $f(2)=3+2=5$, $f(3)=5+2=7$. Es handelt sich um die ungeraden Zahlen.",
+      "weight": 2,
+      "topic": "LE05: Rekursion",
+      "concept": "Rekursionsauflösung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Trace der Rekursion",
+        "steps": [
+          "Aufruf $f(3)$ benötigt $f(2)$.",
+          "Aufruf $f(2)$ benötigt $f(1)$.",
+          "Aufruf $f(1)$ benötigt $f(0)$.",
+          "Basisfall erreicht: $f(0) = 1$.",
+          "Rückgabe (Unwind): $f(1) = 1 + 2 = 3$.",
+          "Rückgabe: $f(2) = 3 + 2 = 5$.",
+          "Endergebnis: $f(3) = 5 + 2 = 7$."
+        ],
+        "content": "Dies ist eine arithmetische Folge mit Startwert 1 und Differenz 2."
+      },
+      "mini_glossary": {
+        "Basisfall": "Die Abbruchbedingung einer Rekursion, die eine Endlosschleife verhindert.",
+        "Rekursionsschritt": "Der Teil der Funktion, der sich selbst mit veränderten Parametern aufruft."
+      }
+    },
+    {
+      "question": "7. Rechnen Sie die Dezimalzahl 13 in das Binärsystem um.",
+      "options": [
+        "$1011_2$",
+        "$1101_2$",
+        "$1110_2$",
+        "$0111_2$",
+        "$1001_2$"
+      ],
+      "answer": 1,
+      "explanation": "$13 = 8 + 4 + 1 = 1\\cdot 2^3 + 1\\cdot 2^2 + 0\\cdot 2^1 + 1\\cdot 2^0$, also $1101_2$.",
+      "weight": 1,
+      "topic": "LE05: Zahlensysteme",
+      "concept": "Basisumrechnung",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Binärsystem": "Zahlensystem zur Basis 2 (Ziffern 0 und 1).",
+        "MSB": "Most Significant Bit (höchstwertige Stelle)."
+      }
+    },
+    {
+      "question": "8. Was ist der entscheidende logische Kern beim **Induktionsschritt** ($n \\to n+1$) im Beweisverfahren der vollständigen Induktion?",
+      "options": [
+        "Man zeigt, dass die Aussage für $n=1$ wahr ist.",
+        "Man nimmt an, dass die Aussage für $n+1$ wahr ist, und folgert daraus $n$.",
+        "Man zeigt: Unter der Annahme, dass die Aussage für ein beliebiges $n$ wahr ist (IV), muss sie zwingend auch für $n+1$ wahr sein.",
+        "Man prüft die Aussage für unendlich viele Beispiele.",
+        "Man führt einen Widerspruchsbeweis durch Annahme des Gegenteils."
+      ],
+      "answer": 2,
+      "explanation": "Der Induktionsschritt nutzt die Induktionsvoraussetzung (IV), um die Gültigkeit für das nächste Glied der Kette zu beweisen (Domino-Effekt).",
+      "weight": 2,
+      "topic": "LE06: Induktion",
+      "concept": "Induktionsschritt",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Struktur der Induktion",
+        "steps": [
+          "1. Induktionsanfang (IA): Zeige $A(1)$ ist wahr.",
+          "2. Induktionsvoraussetzung (IV): Nimm an, $A(n)$ sei wahr.",
+          "3. Induktionsschluss (IS): Zeige $A(n) \\implies A(n+1)$.",
+          "Logik: Wenn der erste Stein fällt (IA) und jeder Stein den nächsten umwirft (IS), fallen alle."
+        ],
+        "content": "Fehler im Induktionsschritt sind die häufigste Ursache für falsche Beweise."
+      },
+      "mini_glossary": {
+        "Induktionsvoraussetzung": "Die Annahme, dass die Aussage für eine Zahl n gilt.",
+        "Vollständige Induktion": "Beweisverfahren für Aussagen über alle natürlichen Zahlen."
+      }
+    },
+    {
+      "question": "9. Welche Aussage über Tautologien ist korrekt?",
+      "options": [
+        "Eine Tautologie ist nur wahr, wenn alle Variablen wahr sind.",
+        "Eine Tautologie ist eine Aussage, die unabhängig von der Belegung der Variablen immer wahr ist.",
+        "Eine Tautologie ist das Gegenteil einer Äquivalenz.",
+        "Eine Tautologie ist eine Aussage, die immer falsch ist.",
+        "$A \\land \\neg A$ ist ein klassisches Beispiel für eine Tautologie."
+      ],
+      "answer": 1,
+      "explanation": "Eine Tautologie (z. B. $A \\lor \\neg A$) ist unter allen möglichen Wahrheitswertbelegungen wahr. Das Gegenteil ist die Kontradiktion .",
+      "weight": 1,
+      "topic": "LE03: Aussagenlogik",
+      "concept": "Tautologie",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Tautologie": "Allgemeingültige Aussage (immer wahr).",
+        "Kontradiktion": "Widerspruch (immer falsch)."
+      }
+    },
+    {
+      "question": "10. Betrachtet wird die Menge $A = \\{x \\in \\mathbb{Z} \\mid x^2 < 5\\}$. Welche Elemente enthält $A$?",
+      "options": [
+        "$\\{1, 2\\}$",
+        "$\\{0, 1, 2\\}$",
+        "$\\{-2, -1, 0, 1, 2\\}$",
+        "$\\{-1, 0, 1\\}$",
+        "Die Menge ist leer."
+      ],
+      "answer": 2,
+      "explanation": "Wir suchen ganze Zahlen, deren Quadrat kleiner als 5 ist. $0^2=0$, $(\\pm1)^2=1$, $(\\pm2)^2=4$. $(\\pm3)^2=9$ ist zu groß. Also $\\{-2, -1, 0, 1, 2\\}$.",
+      "weight": 2,
+      "topic": "LE01: Mengenlehre",
+      "concept": "Mengenschreibweise",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Prüfung der Kandidaten",
+        "steps": [
+          "Setze $x=0$: $0 < 5$ (Wahr)",
+          "Setze $x=1$ und $x=-1$: $1 < 5$ (Wahr)",
+          "Setze $x=2$ und $x=-2$: $4 < 5$ (Wahr)",
+          "Setze $x=3$ und $x=-3$: $9 < 5$ (Falsch)",
+          "Da $x \\in \\mathbb{Z}$ gefordert ist, sind auch negative Zahlen relevant."
+        ],
+        "content": "Häufiger Fehler: Vergessen der negativen Zahlen bei $x^2$ Bedingungen."
+      },
+      "mini_glossary": {
+        "Ganze Zahlen (Z)": "Menge {..., -2, -1, 0, 1, 2, ...}.",
+        "Beschreibende Mengenschreibweise": "Definition einer Menge durch eine Eigenschaft P(x)."
+      }
+    },
+    {
+      "question": "11. Was versteht man unter dem 'Kartesischen Produkt' $A \\times B$?",
+      "options": [
+        "Die Menge aller Summen $a+b$ mit $a \\in A, b \\in B$.",
+        "Die Menge aller Schnittmengen von Teilmengen.",
+        "Die Menge aller geordneten Paare $(a,b)$ mit $a \\in A$ und $b \\in B$.",
+        "Eine Multiplikation der Kardinalitäten $|A| \\cdot |B|$.",
+        "Die Menge aller Abbildungen von A nach B."
+      ],
+      "answer": 2,
+      "explanation": "Das kartesische Produkt ist die Menge aller Kombinationsmöglichkeiten als Paare. Es ist die Basis für Relationen und Datenbanktabellen.",
+      "weight": 1,
+      "topic": "LE02: Mengenoperationen",
+      "concept": "Kartesisches Produkt",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Kartesisches Produkt": "Menge $A \\times B = \\{(a,b) \\mid a \\in A, b \\in B\\}$.",
+        "Tupel": "Geordnete Liste von Elementen (z.B. ein Paar)."
+      }
+    },
+    {
+      "question": "12. Welche der folgenden Aussagen ist logisch äquivalent zur 'Kontraposition' von $A \\to B$?",
+      "options": [
+        "$B \\to A$",
+        "$\\neg B \\to \\neg A$",
+        "$\\neg A \\to \\neg B$",
+        "$A \\land \\neg B$",
+        "$\\neg (A \\to B)$"
+      ],
+      "answer": 1,
+      "explanation": "Die Kontraposition ('Wenn nicht B, dann nicht A') ist logisch identisch zur ursprünglichen Implikation. Dies ist die Basis des indirekten Beweises .",
+      "weight": 2,
+      "topic": "LE04: Logische Äquivalenz",
+      "concept": "Kontraposition",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Beweis der Äquivalenz",
+        "steps": [
+          "Original: $A \\to B$ ist äquivalent zu $\\neg A \\lor B$.",
+          "Kontraposition: $\\neg B \\to \\neg A$.",
+          "Umformung: $\\neg(\\neg B) \\lor \\neg A$.",
+          "Vereinfachung: $B \\lor \\neg A$, was kommutativ $\\neg A \\lor B$ entspricht."
+        ],
+        "content": "Oft ist es einfacher zu zeigen, dass aus der Falschheit der Folgerung die Falschheit der Prämisse folgt."
+      },
+      "mini_glossary": {
+        "Kontraposition": "Umkehrschluss: Aus $A \\to B$ folgt $\\neg B \\to \\neg A$.",
+        "Umkehrung": "$B \\to A$ (nicht äquivalent zu $A \\to B$!)."
+      }
+    },
+    {
+      "question": "13. Ein Beweis durch Widerspruch (reductio ad absurdum) für eine Aussage $P$ beginnt typischerweise mit welcher Annahme?",
+      "options": [
+        "Man nimmt an, dass $P$ wahr ist.",
+        "Man nimmt an, dass $P$ für $n=1$ gilt.",
+        "Man nimmt an, dass $P$ falsch ist (also $\\neg P$ wahr ist).",
+        "Man zeigt, dass $P$ eine Tautologie ist.",
+        "Man nimmt an, dass die Voraussetzungen von $P$ falsch sind."
+      ],
+      "answer": 2,
+      "explanation": "Beim Widerspruchsbeweis nimmt man das Gegenteil der zu beweisenden Aussage an und zeigt, dass dies zu einem logischen Widerspruch führt.",
+      "weight": 2,
+      "topic": "LE03: Beweismethoden",
+      "concept": "Widerspruchsbeweis",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Logische Struktur",
+        "steps": [
+          "Ziel: Zeige $P$.",
+          "Annahme: $\\neg P$.",
+          "Deduktion: Folgere daraus eine Aussage $Q$, von der wir wissen, dass sie falsch ist (z.B. $1=0$ oder $R \\land \\neg R$).",
+          "Schlussfolgerung: Da $\\neg P$ zum Widerspruch führt, muss $P$ wahr sein."
+        ],
+        "content": "Klassisches Beispiel: Beweis, dass $\\sqrt{2}$ irrational ist."
+      },
+      "mini_glossary": {
+        "Reductio ad absurdum": "Lateinisch für 'Zurückführung ins Unsinnige'.",
+        "Tertium non datur": "Satz vom ausgeschlossenen Dritten (etwas ist wahr oder falsch)."
+      }
+    },
+    {
+      "question": "14. Welche Zahlendarstellung (Basis) verwendet die Ziffern $0-9$ und die Buchstaben $A-F$?",
+      "options": [
+        "Oktalsystem (Basis 8)",
+        "Dezimalsystem (Basis 10)",
+        "Duodezimalsystem (Basis 12)",
+        "Hexadezimalsystem (Basis 16)",
+        "Base64-Kodierung"
+      ],
+      "answer": 3,
+      "explanation": "Das Hexadezimalsystem nutzt 16 Symbole: 0-9 für die Werte 0-9 und A-F für die Werte 10-15.",
+      "weight": 1,
+      "topic": "LE05: Zahlensysteme",
+      "concept": "Hexadezimal",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Hexadezimal": "Stellenwertsystem zur Basis 16.",
+        "Nibble": "Ein Halbbyte (4 Bit), entspricht genau einer Hex-Ziffer."
+      }
+    },
+    {
+      "question": "15. Gegeben seien die Mengen $A = \\{1, 2\\}$ und $B = \\{a, b, c\\}$. Wie viele verschiedene Abbildungen $f: A \\to B$ existieren insgesamt?",
+      "options": [
+        "5",
+        "6",
+        "8",
+        "9",
+        "12"
+      ],
+      "answer": 3,
+      "explanation": "Für jedes der 2 Elemente in A gibt es 3 Wahlmöglichkeiten in B. Die Gesamtzahl ist $|B|^{|A|} = 3^2 = 9$.",
+      "weight": 3,
+      "topic": "LE02: Kombinatorik",
+      "concept": "Anzahl Abbildungen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Berechnung der Möglichkeiten",
+        "steps": [
+          "Element 1 aus A kann auf a, b oder c abgebildet werden (3 Optionen).",
+          "Element 2 aus A kann ebenfalls auf a, b oder c abgebildet werden (3 Optionen).",
+          "Da die Wahlen unabhängig sind: $3 \\cdot 3 = 9$."
+        ],
+        "content": "Allgemeine Formel für die Anzahl der Funktionen von A nach B: $|B|^{|A|}$."
+      },
+      "mini_glossary": {
+        "Definitionsbereich": "Menge der Eingabewerte (hier A).",
+        "Zielbereich": "Menge der möglichen Ausgabewerte (hier B)."
+      }
+    },
+    {
+      "question": "16. Was ist das 'neutrale Element' bezüglich der Vereinigung von Mengen ($A \\cup X = A$)?",
+      "options": [
+        "Die Menge A selbst",
+        "Die Universalmenge $\\Omega$",
+        "Die leere Menge $\\emptyset$",
+        "Die Potenzmenge $\\mathcal{P}(A)$",
+        "Es gibt kein neutrales Element für die Vereinigung."
+      ],
+      "answer": 2,
+      "explanation": "Die Vereinigung einer Menge mit der leeren Menge ändert die Menge nicht: $A \\cup \\emptyset = A$. Daher ist $\\emptyset$ das neutrale Element.",
+      "weight": 2,
+      "topic": "LE02: Mengenoperationen",
+      "concept": "Neutrales Element",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Leere Menge": "Menge ohne Elemente, Symbol $\\emptyset$ oder $\\{\\}$.",
+        "Idempotenz": "$A \\cup A = A$."
+      }
+    },
+    {
+      "question": "17. Welche logische Beziehung gilt zwischen den Aussagen 'Alle Schwäne sind weiß' und 'Dieser Schwan ist schwarz'?",
+      "options": [
+        "Sie sind logisch äquivalent.",
+        "Sie bilden eine Tautologie.",
+        "Die zweite Aussage ist ein Gegenbeispiel, das die erste widerlegt.",
+        "Die zweite Aussage impliziert die erste.",
+        "Es besteht kein logischer Zusammenhang."
+      ],
+      "answer": 2,
+      "explanation": "Ein einziger Existenzbeweis des Gegenteils ('Es gibt einen schwarzen Schwan') negiert die All-Aussage ('Für alle x gilt P(x)') .",
+      "weight": 2,
+      "topic": "LE04: Prädikatenlogik",
+      "concept": "Gegenbeispiel",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Falsifikation von All-Aussagen",
+        "steps": [
+          "Aussage A: $\\forall x (S(x) \\to W(x))$ (Alle Schwäne sind weiß).",
+          "Beobachtung B: $\\exists x (S(x) \\land \\neg W(x))$ (Es gibt einen Schwan, der nicht weiß ist).",
+          "Logik: B ist die Negation von A.",
+          "Folge: Ist B wahr, muss A falsch sein."
+        ],
+        "content": "In der Wissenschaft (Popper) können Theorien oft nicht endgültig bewiesen, aber durch Gegenbeispiele widerlegt werden."
+      },
+      "mini_glossary": {
+        "Falsifikation": "Widerlegung einer Hypothese durch ein Gegenbeispiel.",
+        "All-Aussage": "Aussage über die Gesamtheit einer Menge."
+      }
+    },
+    {
+      "question": "18. Berechnen Sie den Wert des Ausdrucks $101_2 + 11_2$ im Binärsystem.",
+      "options": [
+        "$111_2$",
+        "$1000_2$",
+        "$1100_2$",
+        "$112_2$",
+        "$1010_2$"
+      ],
+      "answer": 1,
+      "explanation": "$101_2 (5) + 11_2 (3) = 8$. 8 im Binärsystem ist $1000_2$. Moment, Prüfung der Addition: $1+1=0$ (Übertrag 1). $0+1+1=0$ (Übertrag 1). $1+1=0$ (Übertrag 1). Ergebnis $1000_2$.",
+      "weight": 2,
+      "topic": "LE05: Zahlensysteme",
+      "concept": "Binärarithmetik",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Schriftliche Addition",
+        "steps": [
+          "  1 0 1",
+          "+   1 1",
+          "-------",
+          "Stelle 0: 1 + 1 = 0, Übertrag 1",
+          "Stelle 1: 0 + 1 + 1 (Übertrag) = 0, Übertrag 1",
+          "Stelle 2: 1 + 1 (Übertrag) = 0, Übertrag 1",
+          "Stelle 3: 1 (Übertrag) = 1",
+          "Ergebnis: 1000"
+        ],
+        "content": "Dies entspricht dezimal $5 + 3 = 8$."
+      },
+      "mini_glossary": {
+        "Carry": "Übertrag bei der Addition.",
+        "Halbaddierer": "Schaltung, die zwei Bits addiert."
+      }
+    },
+    {
+      "question": "19. Welche Aussage beschreibt die Eigenschaft 'Transitivität' einer Relation $R$?",
+      "options": [
+        "Für alle $x$ gilt $xRx$.",
+        "Wenn $xRy$, dann gilt auch $yRx$.",
+        "Wenn $xRy$ und $yRz$, dann gilt auch $xRz$.",
+        "Es gibt genau ein $y$ für jedes $x$ mit $xRy$.",
+        "Wenn $xRy$ und $yRx$, dann ist $x=y$."
+      ],
+      "answer": 2,
+      "explanation": "Transitivität bedeutet, dass die Beziehung über ein Zwischenglied weitergereicht wird (z.B. 'kleiner als', 'Vorfahr von').",
+      "weight": 1,
+      "topic": "LE01: Relationen",
+      "concept": "Transitivität",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Transitiv": "Kettenschluss-Eigenschaft.",
+        "Reflexiv": "Beziehung zu sich selbst.",
+        "Symmetrisch": "Beidseitige Beziehung."
+      }
+    },
+    {
+      "question": "20. Was besagt das De Morgan'sche Gesetz für die Negation einer Konjunktion $\\neg(A \\land B)$?",
+      "options": [
+        "$\\neg A \\land \\neg B$",
+        "$\\neg A \\lor \\neg B$",
+        "$A \\lor B$",
+        "$\\neg A \\land B$",
+        "$A \\land \\neg B$"
+      ],
+      "answer": 1,
+      "explanation": "Das Negieren eines UND-Ausdrucks führt dazu, dass die Teilaussagen negiert und mit ODER verknüpft werden: 'Nicht (A und B)' heißt 'Nicht A oder nicht B' .",
+      "weight": 2,
+      "topic": "LE03: Logische Äquivalenz",
+      "concept": "De Morgan",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Anschauliches Beispiel",
+        "steps": [
+          "Aussage: 'Ich esse Pizza UND ich trinke Cola'.",
+          "Negation: 'Es ist NICHT der Fall, dass ich Pizza esse und Cola trinke'.",
+          "Bedeutung: 'Ich esse KEINE Pizza ODER ich trinke KEINE Cola' (oder beides nicht).",
+          "Falsche Annahme: 'Ich esse keine Pizza und trinke keine Cola' ist zu stark."
+        ],
+        "content": "De Morgan dreht den Operator (UND <-> ODER) um, wenn die Negation in die Klammer gezogen wird."
+      },
+      "mini_glossary": {
+        "De Morgan'sche Gesetze": "Regeln zur Umformung logischer Ausdrücke mit Negation.",
+        "Konjunktion": "UND-Verknüpfung."
+      }
+    },
+    {
+      "question": "21. Welche Eigenschaft macht eine Menge zu einer 'abzählbaren' Menge?",
+      "options": [
+        "Sie hat endlich viele Elemente.",
+        "Es existiert eine bijektive Abbildung auf die natürlichen Zahlen $\\mathbb{N}$.",
+        "Sie ist eine Teilmenge der reellen Zahlen.",
+        "Sie enthält keine negativen Zahlen.",
+        "Sie lässt sich nicht ordnen."
+      ],
+      "answer": 1,
+      "explanation": "Abzählbarkeit (auch abzählbar unendlich) bedeutet, dass man die Elemente durchnummerieren kann (wie $\\mathbb{N}$, $\\mathbb{Z}$, $\\mathbb{Q}$). $\\mathbb{R}$ ist überabzählbar.",
+      "weight": 3,
+      "topic": "LE06: Unendlichkeit",
+      "concept": "Abzählbarkeit",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": {
+        "title": "Hilberts Hotel",
+        "steps": [
+          "Endliche Mengen sind trivialerweise abzählbar.",
+          "Unendliche Mengen sind abzählbar, wenn man sie in einer Liste $a_1, a_2, a_3...$ schreiben kann.",
+          "Beispiel: Ganze Zahlen $0, 1, -1, 2, -2...$ sind abzählbar.",
+          "Gegenbeispiel: Reelle Zahlen sind nicht abzählbar (Cantors Diagonalargument)."
+        ],
+        "content": "Abzählbarkeit ist zentral für die theoretische Informatik (Berechenbarkeit)."
+      },
+      "mini_glossary": {
+        "Bijektion": "Eindeutige 1-zu-1 Zuordnung.",
+        "Kardinalzahl": "Maß für die Mächtigkeit einer Menge."
+      }
+    },
+    {
+      "question": "22. Wenn $A \\subseteq B$ gilt, was ist dann das Ergebnis von $A \\setminus B$?",
+      "options": [
+        "$A$",
+        "$B$",
+        "$\\emptyset$ (Leere Menge)",
+        "$B \\setminus A$",
+        "$\\Omega$"
+      ],
+      "answer": 2,
+      "explanation": "Wenn alle Elemente von A auch in B enthalten sind, bleiben beim Entfernen der Elemente von B aus A keine Elemente übrig.",
+      "weight": 2,
+      "topic": "LE01: Mengenlehre",
+      "concept": "Teilmenge",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Logische Ableitung",
+        "steps": [
+          "Definition $A \\setminus B = \\{x \\mid x \\in A \\land x \\notin B\\}$.",
+          "Prämisse: $A \\subseteq B \\implies \\forall x (x \\in A \\to x \\in B)$.",
+          "Widerspruch: Es kann kein $x$ geben, das in A ist, aber nicht in B.",
+          "Folge: Die resultierende Menge ist leer."
+        ],
+        "content": "Grafisch im Venn-Diagramm: Der Kreis A liegt komplett in B; schneidet man B weg, verschwindet A."
+      },
+      "mini_glossary": {
+        "Teilmenge": "Jedes Element von A ist auch in B.",
+        "Echte Teilmenge": "Teilmenge, aber nicht identisch ($A \\subset B$)."
+      }
+    },
+    {
+      "question": "23. Welche der folgenden Aussagen ist für eine rekursive Funktion zwingend erforderlich, um eine Endlosschleife (Stack Overflow) zu vermeiden?",
+      "options": [
+        "Sie muss mindestens zwei Parameter haben.",
+        "Sie darf keine Rückgabewerte haben.",
+        "Sie muss einen wohldefinierten Basisfall (Abbruchbedingung) haben.",
+        "Sie muss iterativ implementiert sein.",
+        "Sie darf sich selbst nur einmal aufrufen."
+      ],
+      "answer": 2,
+      "explanation": "Ohne Basisfall ruft sich die Funktion immer weiter auf, bis der Speicher (Stack) voll ist. Der Basisfall beendet die Rekursionskette.",
+      "weight": 1,
+      "topic": "LE05: Rekursion",
+      "concept": "Basisfall",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Stack Overflow": "Speicherüberlauf durch zu viele verschachtelte Funktionsaufrufe.",
+        "Terminierung": "Eigenschaft eines Algorithmus, nach endlicher Zeit zu enden."
+      }
+    },
+    {
+      "question": "24. In Python: Was ist der Hauptunterschied zwischen einer `List` und einem `Tuple`?",
+      "options": [
+        "Listen können Strings enthalten, Tuple nicht.",
+        "Listen sind veränderlich (mutable), Tuple sind unveränderlich (immutable).",
+        "Tuple sind schneller im Zugriff, können aber nicht indiziert werden.",
+        "Listen nutzen runde Klammern, Tuple eckige.",
+        "Es gibt keinen funktionalen Unterschied."
+      ],
+      "answer": 1,
+      "explanation": "Listen (`[]`) können nach der Erstellung verändert werden (append, delete). Tuple (`()`) sind statisch und hashbar (können als Dictionary-Keys dienen) .",
+      "weight": 2,
+      "topic": "LE01: Datenstrukturen",
+      "concept": "Mutability",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": {
+        "title": "Code-Beispiel",
+        "steps": [
+          "Liste: `x = [1, 2]; x[0] = 5` -> Erlaubt.",
+          "Tuple: `y = (1, 2); y[0] = 5` -> TypeError.",
+          "Verwendung: Tuple für fixe Daten (Koordinaten, DB-Records), Listen für Sammlungen."
+        ],
+        "content": "Unveränderlichkeit (Immutability) ist wichtig für funktionale Programmierung und Hashing."
+      },
+      "mini_glossary": {
+        "Mutable": "Veränderlich nach Erzeugung.",
+        "Immutable": "Unveränderlich nach Erzeugung."
+      }
+    },
+    {
+      "question": "25. Was ist das Ergebnis der logischen Operation `True XOR True`?",
+      "options": [
+        "True",
+        "False",
+        "Undefined",
+        "1",
+        "Beides"
+      ],
+      "answer": 1,
+      "explanation": "XOR (Exklusives ODER) ist nur wahr, wenn die Operanden unterschiedlich sind. Sind beide wahr, ist das Ergebnis falsch.",
+      "weight": 1,
+      "topic": "LE03: Aussagenlogik",
+      "concept": "XOR",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "XOR": "Exklusives Oder: Entweder A oder B, nicht beide.",
+        "Halbaddierer": "Basiert auf XOR-Logik für die Summe."
+      }
+    },
+    {
+      "question": "26. Wie viele Teilmengen hat die leere Menge $\\emptyset$?",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "Unendlich viele",
+        "Nicht definiert"
+      ],
+      "answer": 1,
+      "explanation": "Die leere Menge hat 0 Elemente ($n=0$). Die Potenzmenge hat $2^0 = 1$ Element. Dieses Element ist die leere Menge selbst $\\{\\emptyset\\}$.",
+      "weight": 2,
+      "topic": "LE01: Mengenlehre",
+      "concept": "Leere Menge",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Begründung",
+        "steps": [
+          "Jede Menge ist Teilmenge von sich selbst.",
+          "Da es keine Elemente gibt, die wir auswählen oder weglassen können, gibt es nur die Option 'kein Element auswählen'.",
+          "Ergebnismenge: $\\{\\emptyset\\}$."
+        ],
+        "content": "Ein häufiges Missverständnis ist, dass die leere Menge 'nichts' ist; als Teilmenge zählt sie aber als 'ein Ding'."
+      },
+      "mini_glossary": {
+        "Singleton": "Menge mit genau einem Element.",
+        "Potenzmenge": "Menge aller Teilmengen."
+      }
+    },
+    {
+      "question": "27. Welche Aussage ist äquivalent zu $\\neg(A \\lor B)$?",
+      "options": [
+        "$\\neg A \\lor \\neg B$",
+        "$\\neg A \\land \\neg B$",
+        "$A \\land B$",
+        "$\\neg A \\to B$",
+        "$A \\lor \\neg B$"
+      ],
+      "answer": 1,
+      "explanation": "Zweites De Morgan'sches Gesetz: Die Negation einer Disjunktion (ODER) ist die Konjunktion (UND) der Negationen .",
+      "weight": 1,
+      "topic": "LE03: Logische Äquivalenz",
+      "concept": "De Morgan II",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Disjunktion": "ODER-Verknüpfung.",
+        "Konjunktion": "UND-Verknüpfung."
+      }
+    },
+    {
+      "question": "28. Eine Relation $R$ heißt 'Äquivalenzrelation', wenn sie welche drei Eigenschaften erfüllt?",
+      "options": [
+        "Reflexiv, Symmetrisch, Transitiv",
+        "Reflexiv, Antisymmetrisch, Transitiv",
+        "Irreflexiv, Symmetrisch, Transitiv",
+        "Total, Symmetrisch, Transitiv",
+        "Injektiv, Surjektiv, Bijektiv"
+      ],
+      "answer": 0,
+      "explanation": "Äquivalenzrelationen (wie 'gleich', 'kongruent', 'selber Jahrgang') partitionieren eine Menge in disjunkte Äquivalenzklassen. Dafür sind Reflexivität, Symmetrie und Transitivität nötig.",
+      "weight": 2,
+      "topic": "LE01: Relationen",
+      "concept": "Äquivalenzrelation",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": {
+        "title": "Eigenschaften im Detail",
+        "steps": [
+          "Reflexiv: $a \\sim a$ (Jeder ist gleich zu sich selbst).",
+          "Symmetrisch: $a \\sim b \\implies b \\sim a$ (Gleichheit ist keine Einbahnstraße).",
+          "Transitiv: $a \\sim b \\land b \\sim c \\implies a \\sim c$ (Kettenregel)."
+        ],
+        "content": "Im Gegensatz dazu definiert 'Antisymmetrie' eine Ordnungsrelation (z.B. $\\leq$)."
+      },
+      "mini_glossary": {
+        "Partition": "Zerlegung einer Menge in nicht-überlappende Teilmengen.",
+        "Äquivalenzklasse": "Menge aller Elemente, die zueinander äquivalent sind."
+      }
+    },
+    {
+      "question": "29. Was versteht man unter dem Begriff 'Induktionsschluss' (oder Induktionsschritt)?",
+      "options": [
+        "Die Prüfung des Startwertes $n=1$.",
+        "Die Annahme, dass die Aussage für $n$ gilt.",
+        "Die Deduktion, dass aus der Gültigkeit für $n$ die Gültigkeit für $n+1$ folgt.",
+        "Das Feststellen eines Widerspruchs.",
+        "Das Zusammenfassen des Beweises."
+      ],
+      "answer": 2,
+      "explanation": "Der Induktionsschluss ist der operative Teil des Beweises, der die Implikation $A(n) \\to A(n+1)$ zeigt.",
+      "weight": 1,
+      "topic": "LE06: Induktion",
+      "concept": "Induktionsschluss",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Induktionsschluss": "Schritt von n auf n+1.",
+        "Deduktion": "Logische Ableitung vom Allgemeinen zum Speziellen."
+      }
+    },
+    {
+      "question": "30. Welche Menge beschreibt das Intervall $[2, 5)$ in den reellen Zahlen?",
+      "options": [
+        "$\\{x \\in \\mathbb{R} \\mid 2 < x < 5$",
+        "$\\{x \\in \\mathbb{R} \\mid 2 \\le x \\le 5$",
+        "$\\{x \\in \\mathbb{R} \\mid 2 \\le x < 5$",
+        "$\\{x \\in \\mathbb{R} \\mid 2 < x \\le 5$",
+        "$\\{2, 3, 4\\}$"
+      ],
+      "answer": 2,
+      "explanation": "Die eckige Klammer $[$ bedeutet 'einschließlich' ($\\le$), die runde Klammer $)$ bedeutet 'ausschließlich' ($<$). Option 4 beschreibt ganze Zahlen, was bei $\\mathbb{R}$ falsch ist.",
+      "weight": 2,
+      "topic": "LE01: Mengenlehre",
+      "concept": "Intervalle",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Intervall-Notation",
+        "steps": [
+          "Geschlossen [a, b]: $a \\le x \\le b$.",
+          "Offen (a, b) oder ]a, b[: $a < x < b$.",
+          "Halboffen [a, b): $a \\le x < b$."
+        ],
+        "content": "Achtung bei diskreten vs. kontinuierlichen Mengen: In $\\mathbb{Z}$ wäre [2, 5) gleich {2, 3, 4}."
+      },
+      "mini_glossary": {
+        "Intervall": "Zusammenhängende Teilmenge einer geordneten Menge.",
+        "Reelle Zahlen": "Kontinuierlicher Zahlenstrahl."
+      }
+    },
+    {
+      "question": "31. Wie lautet die Negation von 'Es regnet oder es schneit' nach De Morgan?",
+      "options": [
+        "Es regnet nicht oder es schneit nicht.",
+        "Es regnet nicht und es schneit nicht.",
+        "Es regnet und es schneit nicht.",
+        "Es schneit, aber es regnet nicht.",
+        "Es regnet, wenn es nicht schneit."
+      ],
+      "answer": 1,
+      "explanation": "$\\neg (A \\lor B) \\Leftrightarrow \\neg A \\land \\neg B$. Aus 'Oder' wird 'Und', beide Teile werden verneint .",
+      "weight": 2,
+      "topic": "LE03: Aussagenlogik",
+      "concept": "De Morgan Anwendung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Sprachliche Logik",
+        "steps": [
+          "Aussage: (Regen) ODER (Schnee).",
+          "Negation: Weder (Regen) NOCH (Schnee).",
+          "Das bedeutet: (Kein Regen) UND (Kein Schnee)."
+        ],
+        "content": "Das 'Weder-Noch' im Deutschen entspricht oft $\\neg A \\land \\neg B$."
+      },
+      "mini_glossary": {
+        "Weder-noch": "Umgangssprachlich für Negation einer Disjunktion.",
+        "Logischer Operator": "Symbol zur Verknüpfung von Aussagen."
+      }
+    },
+    {
+      "question": "32. Was ist die 'Kardinalität' der Menge der natürlichen Zahlen $\\mathbb{N}$?",
+      "options": [
+        "Endlich",
+        "Abzählbar unendlich (Aleph-0)",
+        "Überabzählbar unendlich (Aleph-1)",
+        "0",
+        "Indefinit"
+      ],
+      "answer": 1,
+      "explanation": "Die natürlichen Zahlen sind der Prototyp für 'abzählbar unendlich'. Ihre Mächtigkeit wird oft mit $\\aleph_0$ (Aleph-0) bezeichnet.",
+      "weight": 3,
+      "topic": "LE06: Unendlichkeit",
+      "concept": "Kardinalität",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": {
+        "title": "Mächtigkeitsklassen",
+        "steps": [
+          "Endliche Mengen sind trivialerweise abzählbar.",
+          "Abzählbar unendlich: Gleichmächtig zu $\\mathbb{N}$ (z.B. $\\mathbb{Z}, \\mathbb{Q}$).",
+          "Überabzählbar: Mächtiger als $\\mathbb{N}$ (z.B. $\\mathbb{R}$, Potenzmenge von $\\mathbb{N}$)."
+        ],
+        "content": "Es gibt also 'verschiedene Größen' von Unendlichkeit (Cantor)."
+      },
+      "mini_glossary": {
+        "Aleph-0": "Kardinalzahl der natürlichen Zahlen.",
+        "Cantor": "Begründer der Mengenlehre."
+      }
+    },
+    {
+      "question": "33. Sei $f: \\mathbb{R} \\to \\mathbb{R}$ definiert durch $f(x) = x^2$. Warum ist diese Funktion **nicht** injektiv?",
+      "options": [
+        "Weil sie negative Werte annehmen kann.",
+        "Weil $f(2) = 4$ und $f(-2) = 4$ gilt (zwei Urbilder für ein Bild).",
+        "Weil nicht alle reellen Zahlen getroffen werden (Surjektivität fehlt).",
+        "Weil sie stetig ist.",
+        "Weil sie bei 0 ihr Minimum hat."
+      ],
+      "answer": 1,
+      "explanation": "Injektivität verlangt Eindeutigkeit der Urbilder. Da $2$ und $-2$ beide auf $4$ abbilden, ist die Bedingung $f(x)=f(y) \\implies x=y$ verletzt.",
+      "weight": 2,
+      "topic": "LE02: Abbildungen",
+      "concept": "Gegenbeispiel Injektivität",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Horizontaler Linientest",
+        "steps": [
+          "Zeichne den Graphen der Parabel $y=x^2$.",
+          "Ziehe eine horizontale Linie bei $y=4$.",
+          "Die Linie schneidet den Graphen zweimal ($x=2, x=-2$).",
+          "Schnittpunktanzahl > 1 bedeutet: Nicht injektiv."
+        ],
+        "content": "Einschränkung des Definitionsbereichs auf $\\mathbb{R}_{\\ge 0}$ würde sie injektiv machen."
+      },
+      "mini_glossary": {
+        "Urbild": "Element der Startmenge, das auf ein Zielelement abbildet.",
+        "Horizontaler Linientest": "Grafisches Verfahren zur Prüfung der Injektivität."
+      }
+    }
+  ]
+}
