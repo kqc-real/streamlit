@@ -3226,6 +3226,9 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                         st.markdown(f"**{smart_quotes_de(title)}**")
 
                     content = extended_explanation.get("content")
+                    if isinstance(content, str) and content.strip():
+                        st.markdown(smart_quotes_de(content))
+
                     steps = (
                         extended_explanation.get("schritte")
                         if isinstance(extended_explanation.get("schritte"), list)
@@ -3242,10 +3245,6 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                                 st.markdown(f"{idx}. {smart_quotes_de(item)}")
                             else:
                                 st.markdown(f"- {smart_quotes_de(step)}")
-                    elif isinstance(content, str) and content.strip():
-                        st.markdown(smart_quotes_de(content))
-                    else:
-                        st.markdown(smart_quotes_de(str(extended_explanation)))
                 else:
                     st.markdown(smart_quotes_de(str(extended_explanation)))
 

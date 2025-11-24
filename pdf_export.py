@@ -1025,6 +1025,51 @@ def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     return sorted_topics
 
 
+def _build_extended_explanation_html(frage_obj: Dict[str, Any], total_timeout: float | None = None) -> str:
+    """
+    Baut den HTML-Block für die erweiterte Erklärung aus einem Frage-Objekt.
+    Diese Funktion konsolidiert die Logik für 'generate_pdf_report' und 'generate_musterloesung_pdf'.
+    Gibt einen leeren String zurück, wenn keine gültige erweiterte Erklärung vorhanden ist.
+    """
+    extended_explanation = normalize_detailed_explanation(frage_obj.get("extended_explanation"))
+
+    if not (extended_explanation and isinstance(extended_explanation, dict)):
+        return ""
+
+    title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
+    content = extended_explanation.get('content')
+    steps = (
+        extended_explanation.get('schritte')
+        if isinstance(extended_explanation.get('schritte'), list)
+        else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
+    )
+
+    # Only render if there's something to show
+    if not (title or content or steps):
+        return ""
+
+    detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
+    explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
+    if title:
+        explanation_html += f": {_render_latex_in_html(smart_quotes_de(title), md_inline=True, total_timeout=total_timeout)}"
+    explanation_html += "</strong>"
+
+    if isinstance(content, str) and content.strip():
+        safe_content = _strip_leading_dict_prefix(content)
+        explanation_html += "<br>" + _render_latex_in_html(smart_quotes_de(safe_content), total_timeout=total_timeout)
+
+    if steps:
+        list_tag = 'ol' if _steps_have_numbering(steps) else 'ul'
+        explanation_html += f"<{list_tag} class='extended-steps'>"
+        for step in steps:
+            item = _strip_leading_numbering(step) if list_tag == 'ol' else step
+            explanation_html += f"<li>{_render_latex_in_html(smart_quotes_de(item), md_inline=True, total_timeout=total_timeout)}</li>"
+        explanation_html += f"</{list_tag}>"
+
+    explanation_html += "</div>"
+    return explanation_html
+
+
 def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) -> bytes:
     """
     Generiert einen PDF-Bericht, indem zuerst ein HTML-Dokument erstellt
@@ -1602,57 +1647,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             label = translate_ui("test_view.explanation_label", default="Erklärung:")
             html_body += f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(smart_quotes_de(erklaerung))}</div>'
 
-        extended_explanation = normalize_detailed_explanation(frage_obj.get("extended_explanation"))
-        if extended_explanation and isinstance(extended_explanation, dict):
-            title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
-            content = extended_explanation.get('content')
-            steps = (
-                extended_explanation.get('schritte')
-                if isinstance(extended_explanation.get('schritte'), list)
-                else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
-            )
-
-            detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
-            explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
-            if title:
-                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title), md_inline=True)}"
-            explanation_html += "</strong>"
-
-            if steps:
-                # Choose ordered vs unordered list depending on whether
-                # the source steps contain explicit numbering (e.g. "1. ").
-                list_tag = 'ol' if _steps_have_numbering(steps) else 'ul'
-                explanation_html += f"<{list_tag} class='extended-steps'>"
-                for step in steps:
-                    item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f"<li>{_render_latex_in_html(smart_quotes_de(item))}</li>"
-                explanation_html += f"</{list_tag}>"
-            elif isinstance(content, str) and content.strip():
-                # Defensive sanitize: strip any leading Python/JSON-like dict
-                # prefixes that may have been accidentally stored as part of
-                # the content (e.g. "{'title':...}: rest"). This prevents the
-                # raw repr from appearing as part of the title or inline text.
-                safe_content = _strip_leading_dict_prefix(content)
-                explanation_html += "<br>" + _render_latex_in_html(smart_quotes_de(safe_content))
-
-            explanation_html += "</div>"
-            html_body += explanation_html
-        else:
-            # Defensive fallback: if `extended_explanation` is missing or could
-            # not be normalized to the canonical dict form, do NOT render the
-            # raw value (which might be a Python repr stored as string).
-            # Instead prefer the standard short explanation field `erklaerung`
-            # so the PDF does not leak internal Python literals.
-            try:
-                fallback_erk = frage_obj.get("erklaerung")
-                if isinstance(fallback_erk, str) and fallback_erk.strip():
-                    detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
-                    html_body += f'<div class="explanation"><strong>{_html.escape(detailed_label)}</strong><br>'
-                    html_body += _render_latex_in_html(smart_quotes_de(fallback_erk))
-                    html_body += '</div>'
-            except Exception:
-                # Non-fatal fallback: if anything goes wrong, skip adding the block
-                pass
+        html_body += _build_extended_explanation_html(frage_obj)
         
         # Schließe Question-Box
         html_body += '</div>'
@@ -2484,36 +2479,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(smart_quotes_de(erklaerung), total_timeout=total_timeout)}</div>'
             )
 
-        # Erweiterte Erklärung
-        extended_explanation = normalize_detailed_explanation(frage.get("extended_explanation"))
-        if extended_explanation and isinstance(extended_explanation, dict):
-            title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
-            content = extended_explanation.get('content')
-            steps = (
-                extended_explanation.get('schritte')
-                if isinstance(extended_explanation.get('schritte'), list)
-                else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
-            )
-
-            detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
-            explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
-            if title:
-                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title), md_inline=True)}"
-            explanation_html += '</strong>'
-
-            if steps:
-                list_tag = 'ol' if _steps_have_numbering(steps) else 'ul'
-                explanation_html += f'<{list_tag} class="extended-steps">'
-                for step in steps:
-                    item = _strip_leading_numbering(step) if list_tag == 'ol' else step
-                    explanation_html += f'<li>{_render_latex_in_html(smart_quotes_de(item), total_timeout=total_timeout, md_inline=True)}</li>'
-                explanation_html += f'</{list_tag}>'
-            elif isinstance(content, str) and content.strip():
-                safe_content = _strip_leading_dict_prefix(content)
-                explanation_html += '<br>' + _render_latex_in_html(smart_quotes_de(safe_content), total_timeout=total_timeout)
-
-            explanation_html += '</div>'
-            html_parts.append(explanation_html)
+        html_parts.append(_build_extended_explanation_html(frage, total_timeout=total_timeout))
 
         html_parts.append('</div>')
 
