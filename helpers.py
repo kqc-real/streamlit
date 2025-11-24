@@ -230,6 +230,66 @@ def smart_quotes_de(text: str) -> str:
     return "".join(out_parts)
 
 
+def normalize_detailed_explanation(value) -> dict | None:
+    """Normalize a possibly-heterogeneous `extended_explanation` value.
+
+    Accepts strings or dicts (with German keys like 'titel'/'schritte') and
+    returns a canonical dict with keys: 'title', 'content', 'steps' or
+    `None` for empty/invalid inputs.
+    """
+    if value is None:
+        return None
+
+    # Strings become content-only objects
+    if isinstance(value, str):
+        s = value.strip()
+        return {"title": "", "content": s, "steps": None} if s else None
+
+    # Dict-like inputs: map common variants to canonical keys
+    if isinstance(value, dict):
+        title = value.get("title") or value.get("titel") or value.get("heading") or ""
+        content = value.get("content") or value.get("inhalt") or value.get("text") or None
+
+        steps_candidate = value.get("steps") or value.get("schritte") or value.get("list") or None
+
+        steps = None
+        if isinstance(steps_candidate, list):
+            # Ensure list of strings and strip entries
+            cleaned = [str(s).strip() for s in steps_candidate if s is not None and str(s).strip()]
+            steps = cleaned if cleaned else None
+        elif isinstance(steps_candidate, str):
+            # Split newline-separated steps into a list
+            parts = [p.strip() for p in re.split(r"\r?\n", steps_candidate) if p.strip()]
+            steps = parts if parts else None
+
+        # If there's no explicit content but there are other keys that might hold prose,
+        # fallback to any string-valued entry that is not title/steps.
+        if content is None:
+            for k, v in value.items():
+                if k.lower() in {"title", "titel", "steps", "schritte", "list"}:
+                    continue
+                if isinstance(v, str) and v.strip():
+                    content = v.strip()
+                    break
+
+        # Normalize empty strings to None for content
+        if isinstance(content, str):
+            content = content.strip() or None
+
+        # If nothing meaningful, return None
+        if not title and not content and not steps:
+            return None
+
+        return {"title": title, "content": content, "steps": steps}
+
+    # Fallback: try to stringify unknown types
+    try:
+        s = str(value).strip()
+        return {"title": "", "content": s, "steps": None} if s else None
+    except Exception:
+        return None
+
+
 def format_decimal_de(value: float, decimals: int = 1) -> str:
     """
     Formatiert eine Zahl mit deutscher Dezimalschreibweise.

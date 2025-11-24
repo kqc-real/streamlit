@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 import streamlit as st
 
-from helpers import sanitize_html
+from helpers import sanitize_html, normalize_detailed_explanation
 from i18n import DEFAULT_LOCALE, normalize_locale
 from i18n.context import get_locale
 
@@ -409,6 +409,22 @@ def _build_question_set(
             except Exception:
                 # Non-fatal: continue even if assignment fails for odd objects
                 pass
+
+        # Normalize any extended / detailed explanation into a canonical
+        # object shape so all renderers (PDF, UI, exporters) can rely on
+        # a consistent structure. Accept legacy keys as well.
+        try:
+            raw_ext = (
+                question.get("extended_explanation")
+                or question.get("detailed_explanation")
+                or question.get("erklaerung_detailliert")
+            )
+            normalized_ext = normalize_detailed_explanation(raw_ext)
+            if normalized_ext is not None:
+                question["extended_explanation"] = normalized_ext
+        except Exception:
+            # Don't fail loading for normalization errors; keep original value
+            pass
 
         questions.append(question)
 

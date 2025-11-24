@@ -18,7 +18,7 @@ from markdown_it import MarkdownIt
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
-from helpers import format_decimal_de, smart_quotes_de
+from helpers import format_decimal_de, smart_quotes_de, normalize_detailed_explanation
 from i18n.context import t as translate_ui
 import os
 import logging
@@ -1537,7 +1537,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             label = translate_ui("test_view.explanation_label", default="Erklärung:")
             html_body += f'<div class="explanation"><strong>{_html.escape(label)}</strong> {_render_latex_in_html(smart_quotes_de(erklaerung))}</div>'
 
-        extended_explanation = frage_obj.get("extended_explanation")
+        extended_explanation = normalize_detailed_explanation(frage_obj.get("extended_explanation"))
         if extended_explanation and isinstance(extended_explanation, dict):
             title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
             content = extended_explanation.get('content')
@@ -2399,7 +2399,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             )
 
         # Erweiterte Erklärung
-        extended_explanation = frage.get("extended_explanation")
+        extended_explanation = normalize_detailed_explanation(frage.get("extended_explanation"))
         if extended_explanation and isinstance(extended_explanation, dict):
             title = extended_explanation.get('title') or extended_explanation.get('titel') or ''
             content = extended_explanation.get('content')
