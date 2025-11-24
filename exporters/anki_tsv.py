@@ -404,6 +404,26 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     if isinstance(data, list):
         data = {"meta": {}, "questions": data}
 
+    # Defensive normalization: ensure each question's `extended_explanation`
+    # is in the canonical object shape so exporter logic can rely on it.
+    try:
+        from helpers import normalize_detailed_explanation
+        for q in data.get("questions", []):
+            try:
+                raw_ext = q.get("extended_explanation") or q.get("detailed_explanation") or q.get("erklaerung_detailliert")
+                normalized = normalize_detailed_explanation(raw_ext)
+                if normalized is None:
+                    if "extended_explanation" in q:
+                        del q["extended_explanation"]
+                else:
+                    q["extended_explanation"] = normalized
+            except Exception:
+                # Don't fail the whole export if one question is odd
+                continue
+    except Exception:
+        # If helpers cannot be imported (rare in tests), skip normalization
+        pass
+
     # Erstelle eine spezielle Markdown-Instanz für Anki.
     # WICHTIG: Wir deaktivieren die 'emphasis'-Regel explizit. Dies verhindert,
     # dass Unterstriche `_` in LaTeX-Formeln (z.B. `x_i`) fälschlicherweise

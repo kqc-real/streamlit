@@ -243,7 +243,75 @@ def normalize_detailed_explanation(value) -> dict | None:
     # Strings become content-only objects
     if isinstance(value, str):
         s = value.strip()
-        return {"title": "", "content": s, "steps": None} if s else None
+        if not s:
+            return None
+
+        # If the string itself contains a serialized object (JSON or a
+        # Python literal like "{'title': '...'}") try to parse it and
+        # continue normalization on the parsed structure. This prevents
+        # cases where a producer accidentally stored a dict as its
+        # string representation and that raw repr leaks into renderers.
+        parsed = None
+        # Try JSON first (preferred, safe for double-quoted data)
+        try:
+            import json as _json
+            if s.startswith('{') or s.startswith('['):
+                try:
+                    parsed = _json.loads(s)
+                except Exception:
+                    parsed = None
+        except Exception:
+            parsed = None
+
+        # Fallback: try Python literal parsing for single-quoted dicts
+        if parsed is None and (s.startswith('{') or s.startswith('[')):
+            try:
+                import ast
+                parsed = ast.literal_eval(s)
+            except Exception:
+                parsed = None
+
+        # Some producers accidentally stored a Python-dict-like prefix followed
+        # by a colon and the real explanation text, e.g.
+        #   "{'title': 'Titel', 'steps': 'Schritte'}: Berechnung ..."
+        # In that case try to extract a leading {...} and parse it, then
+        # treat the remainder as the 'content'. This avoids the raw Python
+        # repr appearing in PDFs and other renderers.
+        if parsed is None:
+            try:
+                m = re.match(r"^\s*(\{.*?\})\s*[:\-–—]\s*(.*)$", s, flags=re.S)
+            except Exception:
+                m = None
+            if m:
+                head, tail = m.group(1), m.group(2).strip()
+                try:
+                    # Try JSON first
+                    import json as _json
+                    try:
+                        parsed_head = _json.loads(head)
+                    except Exception:
+                        parsed_head = None
+                except Exception:
+                    parsed_head = None
+
+                if parsed_head is None:
+                    try:
+                        import ast
+                        parsed_head = ast.literal_eval(head)
+                    except Exception:
+                        parsed_head = None
+
+                if isinstance(parsed_head, dict):
+                    # Attach trailing text to content if not present
+                    if not parsed_head.get('content'):
+                        parsed_head['content'] = tail or parsed_head.get('content')
+                    parsed = parsed_head
+        # If we managed to parse a dict/list from the string, treat that
+        # as the new value and fall through to the dict handling below.
+        if isinstance(parsed, (dict, list)):
+            value = parsed
+        else:
+            return {"title": "", "content": s, "steps": None}
 
     # Dict-like inputs: map common variants to canonical keys
     if isinstance(value, dict):
@@ -272,8 +340,32 @@ def normalize_detailed_explanation(value) -> dict | None:
                     content = v.strip()
                     break
 
-        # Normalize empty strings to None for content
-        if isinstance(content, str):
+        # Coerce title/content to stable string forms. If they are complex
+        # structures (dict/list), serialize to compact JSON so we don't
+        # accidentally insert Python repr() into rendered output.
+        try:
+            import json as _json
+        except Exception:
+            _json = None
+
+        if title is None:
+            title = ""
+        elif not isinstance(title, str):
+            try:
+                title = _json.dumps(title, ensure_ascii=False) if _json else str(title)
+            except Exception:
+                title = str(title)
+        else:
+            title = title.strip()
+
+        if content is None:
+            content = None
+        elif not isinstance(content, str):
+            try:
+                content = _json.dumps(content, ensure_ascii=False) if _json else str(content)
+            except Exception:
+                content = str(content)
+        else:
             content = content.strip() or None
 
         # If nothing meaningful, return None

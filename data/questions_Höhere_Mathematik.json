@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "title": "Höhere Mathematik",
+    "created": "24.11.2025 00:00",
+    "modified": "24.11.2025 00:00",
+    "target_audience": "Klausurkandidaten",
+    "question_count": 5,
+    "difficulty_profile": {
+      "easy": 0,
+      "medium": 0,
+      "hard": 5
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 10
+  },
+  "questions": [
+    {
+      "question": "1. Betrachten Sie die Reihe $\\sum_{n=1}^{\\infty} \\frac{n}{2^n}$. Welche Aussage trifft zu?",
+      "options": [
+        "Die Reihe konvergiert und ihr Wert ist 2.",
+        "Die Reihe konvergiert und ihr Wert ist 1.",
+        "Die Reihe divergiert, weil die Folgenglieder nicht gegen 0 konvergieren.",
+        "Die Reihe ist nur bedingt konvergent, nicht aber absolut konvergent.",
+        "Die Reihe divergiert, wie der Quotiententest zeigt."
+      ],
+      "answer": 0,
+      "explanation": "Die Reihe ist eine Potenzreihe mit $x=\\tfrac{1}{2}$ und lässt sich über die Ableitung der geometrischen Reihe explizit summieren. Man erhält $\\sum_{n=1}^{\\infty} n x^{n} = \\frac{x}{(1-x)^2}$ für $|x|<1$ und damit für $x=\\tfrac{1}{2}$ den Wert 2. Die Reihe ist absolut konvergent, also insbesondere konvergent.",
+      "weight": 3,
+      "topic": "Analysis – Folgen und Reihen",
+      "concept": "Konvergenz und Summation von Reihen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Explizite Summation der Reihe",
+        "steps": [
+          "Betrachten Sie die geometrische Reihe $\\sum_{n=0}^{\\infty} x^n = \\frac{1}{1-x}$ für $|x|<1$.",
+          "Leiten Sie die Reihe gliedweise ab und erhalten Sie $\\sum_{n=1}^{\\infty} n x^{n-1} = \\frac{1}{(1-x)^2}$.",
+          "Multiplizieren Sie mit $x$ und erhalten Sie $\\sum_{n=1}^{\\infty} n x^{n} = \\frac{x}{(1-x)^2}$ für $|x|<1$.",
+          "Setzen Sie $x=\\tfrac{1}{2}$ ein und erhalten Sie $\\sum_{n=1}^{\\infty} \\frac{n}{2^n} = \\frac{1/2}{(1-1/2)^2} = 2$."
+        ],
+        "content": "Durch Ableiten und Umformen der geometrischen Reihe erhält man eine geschlossene Formel für $\\sum_{n=1}^{\\infty} n x^n$. Das Einsetzen von $x=\\tfrac{1}{2}$ liefert den konkreten Wert der gegebenen Reihe."
+      },
+      "mini_glossary": {
+        "Reihe": "Unendliche Summe der Form $\\sum_{n=1}^{\\infty} a_n$, deren Konvergenz untersucht wird.",
+        "Geometrische Reihe": "Reihe der Form $\\sum_{n=0}^{\\infty} x^n$ mit der Summenformel $\\frac{1}{1-x}$ für $|x|<1$.",
+        "Absolute Konvergenz": "Eine Reihe $\\sum a_n$ heißt absolut konvergent, wenn $\\sum |a_n|$ konvergiert.",
+        "Quotiententest": "Konvergenzkriterium, das den Grenzwert $\\lim_{n\\to\\infty} \\left|\\frac{a_{n+1}}{a_n}\\right|$ betrachtet."
+      }
+    },
+    {
+      "question": "2. Die Folge $(a_n)$ sei definiert durch $a_n = \\left(1 + \\tfrac{1}{n}\\right)^n$. Welche Aussage ist korrekt?",
+      "options": [
+        "Die Folge ist streng wachsend und konvergiert gegen $e$.",
+        "Die Folge ist streng fallend und konvergiert gegen 1.",
+        "Die Folge ist beschränkt, aber divergiert, weil sie oszilliert.",
+        "Die Folge ist unbeschränkt, da $a_n \\to \\infty$ gilt.",
+        "Die Folge konvergiert nicht, weil $\\left(1 + \\tfrac{1}{n}\\right)^n$ kein Cauchy-Folgenkandidat ist."
+      ],
+      "answer": 0,
+      "explanation": "Die Folge $a_n = \\left(1 + \\tfrac{1}{n}\\right)^n$ wird klassisch zur Definition der Eulerschen Zahl $e$ verwendet. Man kann zeigen, dass $(a_n)$ streng wachsend und nach oben durch $e$ beschränkt ist und daher gegen $e$ konvergiert.",
+      "weight": 3,
+      "topic": "Analysis – Folgen und Reihen",
+      "concept": "Konvergenz von Folgen und Definition der Eulerschen Zahl",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Konvergenzverhalten der Folge $(1 + 1/n)^n$",
+        "steps": [
+          "Zeigen Sie, dass $a_n = \\left(1 + \\tfrac{1}{n}\\right)^n$ monoton wachsend ist, etwa durch Vergleich von $a_{n+1}$ und $a_n$.",
+          "Nutzen Sie Abschätzungen wie $\\left(1 + \\tfrac{1}{n}\\right)^n < e$ für alle $n$ zur Herleitung einer oberen Schranke.",
+          "Wenden Sie das Monotonie- und Beschränktheitskriterium an, um die Konvergenz von $(a_n)$ zu folgern.",
+          "Definieren Sie $e$ als Grenzwert $\\lim_{n\\to\\infty} \\left(1 + \\tfrac{1}{n}\\right)^n$ und interpretieren Sie das Ergebnis."
+        ],
+        "content": "Die Folge $(a_n)$ ist ein Standardbeispiel für eine monoton wachsende und nach oben beschränkte Folge. Ihr Grenzwert wird als Eulersche Zahl $e$ bezeichnet und spielt eine zentrale Rolle in Analysis und Exponentialrechnung."
+      },
+      "mini_glossary": {
+        "Folge": "Abbildung $a: \\mathbb{N} \\to \\mathbb{R}$, die jedem $n$ ein Folgenglied $a_n$ zuordnet.",
+        "Monoton wachsend": "Eine Folge $(a_n)$ mit $a_{n+1} \\ge a_n$ für alle $n$.",
+        "Eulersche Zahl $e$": "Konstante $e \\approx 2{,}71828$, definiert u.a. durch $\\lim_{n\\to\\infty} \\left(1 + \\tfrac{1}{n}\\right)^n$.",
+        "Konvergenz": "Eine Folge $(a_n)$ konvergiert gegen $L$, wenn $|a_n - L|$ für großes $n$ beliebig klein wird."
+      }
+    },
+    {
+      "question": "3. Für jedes $n \\in \\mathbb{N}$ sei $f_n : [0,1] \\to \\mathbb{R}$ definiert durch $f_n(x) = x^n$. Welche Aussage beschreibt das Konvergenzverhalten von $(f_n)$ korrekt?",
+      "options": [
+        "Die Folge $(f_n)$ konvergiert punktweise auf $[0,1]$ gegen eine Grenzfunktion, aber nicht gleichmäßig auf $[0,1]$.",
+        "Die Folge $(f_n)$ konvergiert gleichmäßig auf $[0,1]$ gegen die Nullfunktion.",
+        "Die Folge $(f_n)$ konvergiert weder punktweise noch gleichmäßig auf $[0,1]$.",
+        "Die Folge $(f_n)$ konvergiert gleichmäßig auf jedem Intervall $[a,1]$ mit $0<a<1$.",
+        "Die Folge $(f_n)$ konvergiert punktweise nur in $x=0$, sonst divergiert sie."
+      ],
+      "answer": 0,
+      "explanation": "Für $x \\in [0,1)$ gilt $x^n \\to 0$, während für $x=1$ stets $f_n(1)=1$ gilt. Die Grenzfunktion ist also $f(x)=0$ für $x\\in[0,1)$ und $f(1)=1$. Diese Konvergenz ist auf $[0,1]$ nicht gleichmäßig, da die Konvergenz in der Nähe von 1 beliebig langsam wird.",
+      "weight": 3,
+      "topic": "Analysis – Folgen und Reihen",
+      "concept": "Punktweise und gleichmäßige Konvergenz von Funktionenfolgen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Punktweise vs. gleichmäßige Konvergenz für $x^n$",
+        "steps": [
+          "Untersuchen Sie zunächst für festes $x \\in [0,1)$ den Grenzwert von $x^n$ und nutzen Sie $|x|<1$.",
+          "Betrachten Sie den Sonderfall $x=1$, wo $x^n=1$ für alle $n$ gilt.",
+          "Definieren Sie die punktweise Grenzfunktion $f$ durch $f(x)=0$ für $x\\in[0,1)$ und $f(1)=1$.",
+          "Prüfen Sie die Gleichmäßigkeit: betrachten Sie $\\sup_{x\\in[0,1]} |f_n(x)-f(x)|$ und zeigen Sie, dass dieser Supremumsabstand nicht gegen 0 geht."
+        ],
+        "content": "Die Funktionenfolge $f_n(x)=x^n$ liefert ein Standardbeispiel für punktweise, aber nicht gleichmäßige Konvergenz. Besonders die Werte nahe bei $x=1$ verhindern die Gleichmäßigkeit, obwohl für alle $x<1$ eine schnelle Konvergenz gegen 0 vorliegt."
+      },
+      "mini_glossary": {
+        "Punktweise Konvergenz": "Konvergenz einer Funktionenfolge, bei der für jedes feste $x$ die Zahlenfolge $(f_n(x))$ konvergiert.",
+        "Gleichmäßige Konvergenz": "Konvergenz mit $\\sup_{x\\in D} |f_n(x)-f(x)| \\to 0$, bei der alle Stellen gleichzeitig kontrolliert werden.",
+        "Supremum": "Kleinste obere Schranke einer Menge reeller Zahlen.",
+        "Funktionenfolge": "Folge $(f_n)$ von Abbildungen mit gemeinsamer Definitionsmenge."
+      }
+    },
+    {
+      "question": "4. Ein Endomorphismus $T$ eines dreidimensionalen $\\mathbb{C}$-Vektorraums habe charakteristisches Polynom $p_T(\\lambda) = (\\lambda - 1)^2(\\lambda - 2)$. Welche Aussage ist korrekt?",
+      "options": [
+        "Der Operator $T$ ist genau dann diagonalisierbar, wenn der Eigenraum zu $\\lambda=1$ die Dimension 2 hat.",
+        "Der Operator $T$ ist stets diagonalisierbar, weil das charakteristische Polynom vollständig in Linearfaktoren zerfällt.",
+        "Der Operator $T$ ist nie diagonalisierbar, weil $\\lambda=1$ eine doppelte Nullstelle ist.",
+        "Der Operator $T$ ist genau dann diagonalisierbar, wenn der Eigenraum zu $\\lambda=2$ die Dimension 2 hat.",
+        "Der Operator $T$ ist genau dann diagonalisierbar, wenn beide Eigenräume eindimensional sind."
+      ],
+      "answer": 0,
+      "explanation": "Für einen dreidimensionalen Raum muss die Summe der Dimensionen der Eigenräume gleich 3 sein, damit eine Basis aus Eigenvektoren existiert. Da $\\lambda=2$ einfache Nullstelle ist, ist der Eigenraum zu $\\lambda=2$ immer eindimensional. Daher ist $T$ genau dann diagonalisierbar, wenn der Eigenraum zu $\\lambda=1$ die Dimension 2 hat.",
+      "weight": 3,
+      "topic": "Lineare Algebra – Eigenwerte und Diagonalisierung",
+      "concept": "Diagonalisierbarkeit und geometrische Multiplikität",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Kriterium für Diagonalisierbarkeit über dem Charakteristikum",
+        "steps": [
+          "Notieren Sie die algebraischen Multiplizitäten: $\\lambda=1$ mit Multiplikität 2, $\\lambda=2$ mit Multiplikität 1.",
+          "Nutzen Sie, dass die geometrische Multiplizität höchstens die algebraische Multiplizität erreichen kann.",
+          "Beobachten Sie, dass der Eigenraum zu $\\lambda=2$ aufgrund der einfachen Nullstelle die Dimension 1 hat.",
+          "Fordern Sie für Diagonalisierbarkeit, dass die Summe der Dimensionen der Eigenräume 3 ergibt; daraus folgt die notwendige Bedingung $\\dim E_1=2$."
+        ],
+        "content": "Die Diagonalisierbarkeit eines Endomorphismus wird durch das Verhältnis von algebraischer zu geometrischer Multiplizität bestimmt. In endlicher Dimension ist ein Operator genau dann diagonalisierbar, wenn die Summe der Dimensionen der Eigenräume der Raumdimension entspricht."
+      },
+      "mini_glossary": {
+        "Algebraische Multiplizität": "Vielfachheit einer Nullstelle im charakteristischen Polynom.",
+        "Geometrische Multiplizität": "Dimension des Eigenraums zum Eigenwert.",
+        "Diagonalisierbarkeit": "Eigenschaft eines Operators, für die es eine Basis aus Eigenvektoren gibt, in der die Darstellungsmatrix diagonal ist.",
+        "Endomorphismus": "Lineare Abbildung eines Vektorraums in sich selbst."
+      }
+    },
+    {
+      "question": "5. Gegeben sei eine Matrix $A \\in \\mathbb{C}^{n\\times n}$. Welche Aussage beschreibt den Zusammenhang zwischen Minimalpolynom $m_A$ und Diagonalisierbarkeit von $A$ korrekt?",
+      "options": [
+        "Die Matrix $A$ ist genau dann diagonalisierbar über $\\mathbb{C}$, wenn das Minimalpolynom $m_A$ sich in paarweise verschiedene Linearfaktoren zerlegen lässt.",
+        "Die Matrix $A$ ist genau dann diagonalisierbar, wenn der Grad von $m_A$ gleich $n$ ist.",
+        "Die Matrix $A$ ist genau dann diagonalisierbar, wenn $m_A$ keine Linearfaktoren besitzt.",
+        "Die Matrix $A$ ist immer diagonalisierbar, sobald ihr charakteristisches Polynom in Linearfaktoren zerfällt, unabhängig von $m_A$.",
+        "Die Matrix $A$ ist nie diagonalisierbar, wenn $m_A$ Linearfaktoren enthält."
+      ],
+      "answer": 0,
+      "explanation": "Das Minimalpolynom kodiert die Größe der Jordanklötze. Zerfällt $m_A$ in paarweise verschiedene Linearfaktoren, so sind alle Jordanklötze eindimensional und $A$ ist diagonalisierbar. Treten dagegen mehrfach dieselben Linearfaktoren im Minimalpolynom auf, existieren nichttriviale Jordanklötze und $A$ ist nicht diagonalisierbar.",
+      "weight": 3,
+      "topic": "Lineare Algebra – Eigenwerte und Diagonalisierung",
+      "concept": "Minimalpolynom und Jordansche Normalform",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Minimalpolynom als Diagonalisierbarkeitskriterium",
+        "steps": [
+          "Erinnern Sie sich, dass das Minimalpolynom $m_A$ das kleinste normierte Polynom ist, für das $m_A(A)=0$ gilt.",
+          "Nutzen Sie die Theorie der Jordanschen Normalform, nach der das Minimalpolynom die Größen der Jordanklötze bestimmt.",
+          "Zeigen Sie, dass mehrfache Linearfaktoren im Minimalpolynom genau dann auftreten, wenn Jordanklötze der Größe größer als 1 vorhanden sind.",
+          "Folgern Sie, dass $A$ genau dann diagonalisierbar ist, wenn alle Jordanklötze die Größe 1 haben, also $m_A$ nur einfache Linearfaktoren besitzt."
+        ],
+        "content": "Das Minimalpolynom enthält präzise Informationen über die innere Struktur einer Matrix im Sinne der Jordanschen Normalform. Seine Zerlegung in einfache Linearfaktoren ist äquivalent zur Existenz einer Basis, in der $A$ diagonal ist."
+      },
+      "mini_glossary": {
+        "Minimalpolynom": "Kleinstes normiertes Polynom $m_A$ mit der Eigenschaft $m_A(A)=0$.",
+        "Jordansche Normalform": "Kanonsche Normalform einer Matrix über $\\mathbb{C}$, bestehend aus Jordanklötzen.",
+        "Jordanklotz": "Block in der Jordanschen Normalform, der zu einem Eigenwert gehört und die Größe verallgemeinerter Eigenräume beschreibt.",
+        "Diagonalisierbare Matrix": "Matrix, die zu einer Diagonalmatrix ähnlich ist, d.h. $A = S D S^{-1}$ mit einer Diagonalmatrix $D$."
+      }
+    }
+  ]
+}

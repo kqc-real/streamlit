@@ -671,17 +671,21 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             extended_html = ""
             extended_explanation = preview_q.get("extended_explanation") if isinstance(preview_q, dict) else None
             if extended_explanation:
-                if isinstance(extended_explanation, dict):
-                    title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
+                # Normalize any legacy/mixed shapes to the canonical dict form
+                try:
+                    from helpers import normalize_detailed_explanation
+
+                    normalized = normalize_detailed_explanation(extended_explanation)
+                except Exception:
+                    normalized = None
+
+                if normalized and isinstance(normalized, dict):
+                    title = normalized.get("title") or normalized.get("titel") or ""
                     if title:
                         extended_html += f"<h3>{_render_md(title)}</h3>"
 
-                    content = extended_explanation.get("content")
-                    steps = (
-                        extended_explanation.get("schritte")
-                        if isinstance(extended_explanation.get("schritte"), list)
-                        else (extended_explanation.get("steps") if isinstance(extended_explanation.get("steps"), list) else None)
-                    )
+                    content = normalized.get("content")
+                    steps = normalized.get("steps")
 
                     if isinstance(steps, list) and steps:
                         extended_html += "<ol>"
@@ -691,9 +695,17 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
                     elif isinstance(content, str) and content.strip():
                         extended_html += _render_md(content)
                     else:
-                        extended_html += _render_md(str(extended_explanation))
+                        # As a last resort, fall back to rendering the original value
+                        try:
+                            extended_html += _render_md(str(extended_explanation))
+                        except Exception:
+                            extended_html += _render_md("")
                 else:
-                    extended_html += _render_md(str(extended_explanation))
+                    # If normalization failed or returned None, render the raw value safely
+                    try:
+                        extended_html += _render_md(str(extended_explanation))
+                    except Exception:
+                        extended_html += _render_md("")
 
             back_html = "<div class='anki-preview card card-back'><div class='card-container'>"
             back_html += "<div class='question-repeat'>"
@@ -3181,6 +3193,16 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
 
     # --- Optionale, detaillierte Erklärung ---
     extended_explanation = frage_obj.get("extended_explanation")
+    # Normalize legacy/mixed shapes to avoid raw Python repr leaking into UI
+    try:
+        from helpers import normalize_detailed_explanation
+
+        normalized_ext = normalize_detailed_explanation(extended_explanation)
+    except Exception:
+        normalized_ext = None
+    # Prefer the normalized representation for rendering where available
+    if normalized_ext:
+        extended_explanation = normalized_ext
     if extended_explanation:
         show_extended_key = f"show_extended_{frage_idx}"
 

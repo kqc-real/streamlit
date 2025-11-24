@@ -427,6 +427,71 @@ def _render_latex_to_image(formula: str, is_block: bool) -> str:
     _formula_cache[cache_key] = result
     return result
 
+
+def _strip_leading_dict_prefix(text: str) -> str:
+    """
+    If `text` begins with a Python/JSON-like object followed by a colon or dash,
+    extract and return the remainder after the first top-level closing brace
+    + separator. This handles cases like:
+      "{'title': 'Titel', 'steps': 'Schritte'}: Resttext..."
+
+    The implementation walks the string to find the matching closing brace
+    while respecting quotes so we don't stop on braces inside strings.
+    If no safe split is found, the original text is returned unchanged.
+    """
+    if not text or not isinstance(text, str):
+        return text
+
+    s = text.lstrip()
+    if not s.startswith('{'):
+        return text
+
+    # Walk the string to find matching top-level '}' while skipping over
+    # quoted segments to avoid mismatching braces inside strings.
+    depth = 0
+    i = 0
+    in_single = False
+    in_double = False
+    esc = False
+    while i < len(s):
+        ch = s[i]
+        if esc:
+            esc = False
+        elif ch == '\\':
+            esc = True
+        elif in_single:
+            if ch == "'":
+                in_single = False
+        elif in_double:
+            if ch == '"':
+                in_double = False
+        else:
+            if ch == "'":
+                in_single = True
+            elif ch == '"':
+                in_double = True
+            elif ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0:
+                    # Found top-level closing brace at position i
+                    j = i + 1
+                    # Skip whitespace
+                    while j < len(s) and s[j].isspace():
+                        j += 1
+                    # If next char is a separator (colon or dash variants), skip it
+                    if j < len(s) and s[j] in ':\-–—':
+                        # Skip the separator and any following whitespace
+                        k = j + 1
+                        while k < len(s) and s[k].isspace():
+                            k += 1
+                        return s[k:]
+                    break
+        i += 1
+
+    return text
+
 def _render_formulas_parallel(formulas: List[tuple], total_timeout: float | None = None) -> Dict[int, str]:
     """
     Rendert mehrere Formeln parallel für bessere Performance.
@@ -1547,10 +1612,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
             )
 
-            detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
+            detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
             explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
             if title:
-                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title))}"
+                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title), md_inline=True)}"
             explanation_html += "</strong>"
 
             if steps:
@@ -1563,10 +1628,31 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     explanation_html += f"<li>{_render_latex_in_html(smart_quotes_de(item))}</li>"
                 explanation_html += f"</{list_tag}>"
             elif isinstance(content, str) and content.strip():
-                explanation_html += "<br>" + _render_latex_in_html(smart_quotes_de(content))
+                # Defensive sanitize: strip any leading Python/JSON-like dict
+                # prefixes that may have been accidentally stored as part of
+                # the content (e.g. "{'title':...}: rest"). This prevents the
+                # raw repr from appearing as part of the title or inline text.
+                safe_content = _strip_leading_dict_prefix(content)
+                explanation_html += "<br>" + _render_latex_in_html(smart_quotes_de(safe_content))
 
             explanation_html += "</div>"
             html_body += explanation_html
+        else:
+            # Defensive fallback: if `extended_explanation` is missing or could
+            # not be normalized to the canonical dict form, do NOT render the
+            # raw value (which might be a Python repr stored as string).
+            # Instead prefer the standard short explanation field `erklaerung`
+            # so the PDF does not leak internal Python literals.
+            try:
+                fallback_erk = frage_obj.get("erklaerung")
+                if isinstance(fallback_erk, str) and fallback_erk.strip():
+                    detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
+                    html_body += f'<div class="explanation"><strong>{_html.escape(detailed_label)}</strong><br>'
+                    html_body += _render_latex_in_html(smart_quotes_de(fallback_erk))
+                    html_body += '</div>'
+            except Exception:
+                # Non-fatal fallback: if anything goes wrong, skip adding the block
+                pass
         
         # Schließe Question-Box
         html_body += '</div>'
@@ -2409,10 +2495,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 else (extended_explanation.get('steps') if isinstance(extended_explanation.get('steps'), list) else None)
             )
 
-            detailed_label = translate_ui("pdf.detailed_explanation", default="Detaillierte Erklärung")
+            detailed_label = translate_ui("test_view.extended_panel", default="Detaillierte Erklärung")
             explanation_html = f'<div class="explanation"><strong>{_html.escape(detailed_label)}'
             if title:
-                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title))}"
+                explanation_html += f": {_render_latex_in_html(smart_quotes_de(title), md_inline=True)}"
             explanation_html += '</strong>'
 
             if steps:
@@ -2423,7 +2509,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                     explanation_html += f'<li>{_render_latex_in_html(smart_quotes_de(item), total_timeout=total_timeout, md_inline=True)}</li>'
                 explanation_html += f'</{list_tag}>'
             elif isinstance(content, str) and content.strip():
-                explanation_html += '<br>' + _render_latex_in_html(smart_quotes_de(content), total_timeout=total_timeout)
+                safe_content = _strip_leading_dict_prefix(content)
+                explanation_html += '<br>' + _render_latex_in_html(smart_quotes_de(safe_content), total_timeout=total_timeout)
 
             explanation_html += '</div>'
             html_parts.append(explanation_html)
