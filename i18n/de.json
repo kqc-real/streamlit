@@ -352,7 +352,9 @@
             "total": "Gesamt"
         },
         "glossary": {
-            "title": "Mini-Glossar"
+            "title": "Mini-Glossar",
+            "intro": "Schlüsselbegriffe aus diesem Fragenset, thematisch sortiert",
+            "alt_intro": "Schlüsselbegriffe aus dem Fragenset"
         },
         "musterloesung": {
             "title": "Musterlösung"
