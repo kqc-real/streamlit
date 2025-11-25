@@ -252,7 +252,9 @@
     },
     "metadata": {
         "weight_label": "Weight",
-        "cognitive_stage": "Cognitive Stage"
+        "cognitive_stage": "Cognitive Stage",
+        "topic": "Topic",
+        "concept": "Concept"
     },
     "export": {
         "musterloesung": "Solution sample",

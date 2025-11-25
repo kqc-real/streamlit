@@ -465,10 +465,10 @@ _ANKI_CARD_CSS = """
 _ANKI_FRONT_TEMPLATE = (
     "<div class='card-container'>"
     "<div class='meta-info'>"
-    "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
-    "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
-    "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
-    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}" +
+    "{{#Fragenset_Titel}}<span class='meta-item'><strong>" + translate_ui('anki.fragenset', default='Fragenset') + ":</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
+    "{{#Thema}}<span class='meta-item'><strong>" + translate_ui('anki.thema', default='Thema') + ":</strong> {{Thema}}</span>{{/Thema}}"
+    "{{#Schwierigkeit}}<span class='meta-item'><strong>" + translate_ui('anki.schwierigkeit', default='Schwierigkeit') + ":</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
+    "{{#Konzept}}<span class='meta-item'><strong>" + translate_ui('anki.konzept', default='Konzept') + ":</strong> {{Konzept}}</span>{{/Konzept}}" +
     ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + translate_ui('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
     "</div>"
     "<div class='question'>{{Frage}}</div>"

@@ -160,8 +160,12 @@ def _map_schwierigkeit(value: Any) -> str:
     try:
         v = int(value)
     except Exception:
-        return "mittel"
-    return {1: "leicht", 2: "mittel", 3: "schwer"}.get(v, "mittel")
+        return translate_ui("pdf.difficulty.medium", default="mittel")
+    return {
+        1: translate_ui("pdf.difficulty.easy", default="leicht"),
+        2: translate_ui("pdf.difficulty.medium", default="mittel"),
+        3: translate_ui("pdf.difficulty.hard", default="schwer"),
+    }.get(v, translate_ui("pdf.difficulty.medium", default="mittel"))
 
 
 def _strip_wrapping_paragraph(html: str) -> str:
@@ -362,10 +366,23 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
 
     gloss_html = _render_glossary(md, question.get("mini_glossary"))
 
-    thema = question.get("topic", "")
+    thema_raw = question.get("topic", "")
+    if thema_raw:
+        thema_key = thema_raw.lower().replace(" ", "_")
+        thema = translate_ui(f"topics.{thema_key}", default=thema_raw)
+    else:
+        thema = ""
+
     schwierigkeit = _map_schwierigkeit(question.get("weight", ""))
-    konzept = _render_metadata_value(md, question.get("concept"))
-    konzept = _strip_wrapping_paragraph(konzept)
+    
+    konzept_raw = _render_metadata_value(md, question.get("concept"))
+    konzept_raw = _strip_wrapping_paragraph(konzept_raw)
+    if konzept_raw:
+        konzept_key = konzept_raw.lower().replace(" ", "_")
+        konzept = translate_ui(f"concepts.{konzept_key}", default=konzept_raw)
+    else:
+        konzept = ""
+
     kognitive_stufe = _render_metadata_value(md, question.get("cognitive_level"))
     kognitive_stufe = _strip_wrapping_paragraph(kognitive_stufe)
     # Normalize and translate simple stage labels so exports respect the UI locale
@@ -450,9 +467,10 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     # 2. fallback derived from the source filename (if provided)
     # 3. first question's 'thema' (best-effort)
     if not title or title == "pasted":
-        tema = meta.get("topic") or meta.get("thema")
-        if tema:
-            title = str(tema).strip()
+        tema_raw = meta.get("topic") or meta.get("thema")
+        if tema_raw:
+            tema_key = str(tema_raw).strip().lower().replace(" ", "_")
+            title = translate_ui(f"topics.{tema_key}", default=str(tema_raw).strip())
         else:
             # Prefer a human-friendly name derived from the source file
             # before falling back to the first question's 'thema'. This
@@ -465,11 +483,12 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
                 try:
                     q0 = data.get("questions", [])[0]
                     if isinstance(q0, dict):
-                        tema = q0.get("topic") or q0.get("thema")
+                        tema_raw = q0.get("topic") or q0.get("thema")
                 except Exception:
-                    tema = None
-                if tema:
-                    title = str(tema).strip()
+                    tema_raw = None
+                if tema_raw:
+                    tema_key = str(tema_raw).strip().lower().replace(" ", "_")
+                    title = translate_ui(f"topics.{tema_key}", default=str(tema_raw).strip())
 
     if not title:
         title = "MC-Test Deck"

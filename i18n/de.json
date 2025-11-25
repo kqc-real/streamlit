@@ -251,7 +251,10 @@
     },
     "metadata": {
         "weight_label": "Gewichtung",
-        "cognitive_stage": "Kognitive Stufe"
+        "cognitive_stage": "Kognitive Stufe",
+        "questionset_title": "Fragenset",
+        "topic": "Thema",
+        "concept": "Konzept"
     },
     "export": {
         "musterloesung": "Musterl\u00f6sung",
@@ -287,6 +290,12 @@
     "dialogs": {
         "anki_instruction": "Anleitung: Anki-Export",
         "anki_preview": "Anki-Kartenvorschau"
+    },
+    "anki": {
+        "fragenset": "Fragenset",
+        "thema": "Thema",
+        "schwierigkeit": "Schwierigkeit",
+        "konzept": "Konzept"
     },
     "pdf": {
         "status": {
