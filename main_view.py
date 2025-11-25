@@ -651,7 +651,8 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             if konzept_display:
                 meta_items.append(f"<span class='meta-item'><strong>Konzept:</strong> {_render_md(str(konzept_display))}</span>")
             if stage_html:
-                meta_items.append(f"<span class='meta-item'><strong>Kognitive Stufe:</strong> {stage_html}</span>")
+                translated_stage = translate_ui(f"pdf.stage_name.{stage_html}", default=stage_html)
+                meta_items.append(f"<span class='meta-item'><strong>Kognitive Stufe:</strong> {translated_stage}</span>")
 
             meta_html = "<div class='meta-info'>" + "".join(meta_items) + "</div>"
 

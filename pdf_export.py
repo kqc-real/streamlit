@@ -74,6 +74,7 @@ DEFAULT_STAGE_LABEL = "Unbekannt"
 
 _STAGE_ALIAS_MAP: Dict[str, str] = {
     "reproduktion": "Reproduktion",
+    "reproduction": "Reproduktion",
     "wissen": "Reproduktion",
     "memorieren": "Reproduktion",
     "knowledge": "Reproduktion",
@@ -82,8 +83,10 @@ _STAGE_ALIAS_MAP: Dict[str, str] = {
     "understanding": "Verständnis",
     "anwenden": "Anwendung",
     "anwendung": "Anwendung",
+    "application": "Anwendung",
     "applying": "Anwendung",
     "analyse": "Analyse",
+    "analysis": "Analyse",
     "analysieren": "Analyse",
     "analyzing": "Analyse",
 }
@@ -481,7 +484,7 @@ def _strip_leading_dict_prefix(text: str) -> str:
                     while j < len(s) and s[j].isspace():
                         j += 1
                     # If next char is a separator (colon or dash variants), skip it
-                    if j < len(s) and s[j] in ':\-–—':
+                    if j < len(s) and s[j] in ':-–—':
                         # Skip the separator and any following whitespace
                         k = j + 1
                         while k < len(s) and s[k].isspace():
@@ -1606,7 +1609,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
         html_body += '</div>'
         if has_stage_label:
-            display_stage = stage_label if stage_label != DEFAULT_STAGE_LABEL else translate_ui("pdf.stage_unknown", default="Unbekannt")
+            if stage_label == DEFAULT_STAGE_LABEL:
+                display_stage = translate_ui("pdf.stage_unknown", default="Unbekannt")
+            else:
+                display_stage = translate_ui(f"pdf.stage_name.{stage_label}", default=stage_label)
             stage_template = translate_ui("pdf.stage_label", default="Kognitive Stufe: {stage}")
             html_body += f'<div class="stage-label">{_html.escape(stage_template.format(stage=display_stage))}</div>'
         
@@ -2454,7 +2460,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         raw_stage_value = frage.get("kognitive_stufe")
         has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
         if has_stage_label:
-            display_stage = stage_label if stage_label != DEFAULT_STAGE_LABEL else translate_ui("pdf.stage_unknown", default="Unbekannt")
+            if stage_label == DEFAULT_STAGE_LABEL:
+                display_stage = translate_ui("pdf.stage_unknown", default="Unbekannt")
+            else:
+                display_stage = translate_ui(f"pdf.stage_name.{stage_label}", default=stage_label)
             stage_template = translate_ui("pdf.stage_label", default="Kognitive Stufe: {stage}")
             html_parts.append(f'<div class="stage-label">{_html.escape(stage_template.format(stage=display_stage))}</div>')
         html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
