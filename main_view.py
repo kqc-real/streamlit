@@ -2240,7 +2240,7 @@ def render_welcome_page(app_config: AppConfig):
             if recovery_secret_new:
                 if not allow_short and len(recovery_secret_new) < min_len:
                     st.warning(_welcome_pseudonym_secret_too_short(min_len))
-                secret_too_short = True
+                    secret_too_short = True
             # Expose the validation flag in session state for other handlers if needed
             st.session_state['_recovery_secret_too_short'] = secret_too_short
 
