@@ -1,0 +1,1183 @@
+{
+  "meta": {
+    "title": "Agiles Projektmanagement mit Scrum",
+    "created": "25.11.2025 10:00",
+    "modified": "25.11.2025 10:00",
+    "target_audience": "Prüfungskandidatinnen und -kandidaten",
+    "question_count": 40,
+    "difficulty_profile": {
+      "easy": 5,
+      "medium": 25,
+      "hard": 10
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 40
+  },
+  "questions": [
+    {
+      "question": "1. Wie lässt sich Scrum am treffendsten beschreiben?",
+      "options": [
+        "Ein leichtgewichtiges Framework für agiles Projektmanagement",
+        "Eine detaillierte Projektmanagementmethodik mit festen Prozessen",
+        "Ein Programmierstandard für objektorientierte Softwareentwicklung",
+        "Ein Werkzeug zur automatischen Codegenerierung",
+        "Ein Organisationsmodell für hierarchische Linienstrukturen"
+      ],
+      "answer": 0,
+      "explanation": "Scrum wird explizit als leichtgewichtiges Framework beschrieben, das Orientierung bietet, ohne alle Prozesse im Detail vorzuschreiben. Es dient der Entwicklung und dem Management komplexer Produkte in einem agilen Kontext.",
+      "weight": 1,
+      "topic": "Scrum-Grundlagen",
+      "concept": "Scrum-Definition",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Scrum": "Framework für die Entwicklung und das Management komplexer Produkte.",
+        "Framework": "Ordnungsrahmen, der Rollen, Ereignisse und Artefakte vorgibt, ohne jeden Schritt zu detaillieren.",
+        "Agiles Projektmanagement": "Projektmanagementansatz mit kurzen Iterationen, Feedback und laufender Anpassung."
+      }
+    },
+    {
+      "question": "2. Welche Aussage zu Sprints in Scrum ist korrekt?",
+      "options": [
+        "Sprints haben eine feste maximale Dauer von einem Monat.",
+        "Sprints werden nach Bedarf spontan gestartet und beendet.",
+        "Sprints werden nur zur Testphase eines Projekts verwendet.",
+        "Sprints dürfen beliebig verlängert werden, wenn das Ziel nicht erreicht wurde.",
+        "Sprints finden nur zu Projektbeginn statt."
+      ],
+      "answer": 0,
+      "explanation": "Ein Sprint ist eine feste Timebox von maximal einem Monat und meist kürzer. Innerhalb dieser Zeit entsteht mindestens ein nutzbares Inkrement, das den Qualitätskriterien entspricht.",
+      "weight": 1,
+      "topic": "Scrum-Grundlagen",
+      "concept": "Sprint-Grundlagen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Sprint": "Iterative Timebox in Scrum, in der ein fertiges Inkrement entsteht.",
+        "Timebox": "Feste maximale Dauer, die nicht überschritten wird.",
+        "Sprintziel": "Übergeordnetes Ziel, das der Sprint erfüllen soll."
+      }
+    },
+    {
+      "question": "3. Welche der folgenden Rollen ist explizit eine definierte Rolle in Scrum?",
+      "options": [
+        "Product Owner",
+        "Projektleiter",
+        "Testmanager",
+        "Architekt",
+        "Linienvorgesetzter"
+      ],
+      "answer": 0,
+      "explanation": "Scrum definiert drei Rollen: Product Owner, Scrum Master und Entwicklungsteam. Projektleiterinnen/Projektleiter und andere klassische Rollen sind im Scrum-Rollenmodell nicht vorgesehen.",
+      "weight": 1,
+      "topic": "Scrum-Grundlagen",
+      "concept": "Scrum-Rollenüberblick",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Product Owner": "Person, die für den Wert des Produkts und das Product Backlog verantwortlich ist.",
+        "Scrum-Rollen": "Product Owner, Scrum Master und Entwicklungsteam als definierte Rollen in Scrum.",
+        "Entwicklungsteam": "Interdisziplinäre Personen, die das Produktinkrement erstellen."
+      }
+    },
+    {
+      "question": "4. Was bedeutet der Begriff „inkrementell“ im Kontext von Scrum am ehesten?",
+      "options": [
+        "Lieferung von nutzbarem Mehrwert in kleinen, abgeschlossenen Teilschritten",
+        "Parallele Entwicklung mehrerer Projekte ohne Abhängigkeiten",
+        "Einmalige, große Lieferung am Projektende",
+        "Reine Dokumentationsarbeit zwischen den Sprints",
+        "Zunehmende Detailtiefe der Projektplanung zu Projektstart"
+      ],
+      "answer": 0,
+      "explanation": "Inkrementell bedeutet, dass in kurzen Iterationen jeweils ein fertiger, nutzbarer Teil des Produkts geliefert wird. So wächst das Produkt Schritt für Schritt und kann früh Mehrwert bieten.",
+      "weight": 1,
+      "topic": "Scrum-Grundlagen",
+      "concept": "Inkrementelles Arbeiten",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Inkrement": "Fertiger, nutzbarer Produktzuwachs am Ende eines Sprints.",
+        "Iterationen": "Wiederkehrende, zeitlich begrenzte Arbeitszyklen.",
+        "Mehrwert": "Zusätzlicher Nutzen für Anwenderinnen/Anwender oder Geschäft."
+      }
+    },
+    {
+      "question": "5. Was ist die zentrale Verantwortung des Scrum Masters?",
+      "options": [
+        "Er unterstützt das Team dabei, Scrum zu verstehen und anzuwenden.",
+        "Er priorisiert das Product Backlog.",
+        "Er nimmt die Abnahmetests vor und entscheidet über den Go-Live.",
+        "Er schreibt den Großteil des Codes im Projekt.",
+        "Er genehmigt Urlaubsanträge des Teams."
+      ],
+      "answer": 0,
+      "explanation": "Der Scrum Master ist vor allem als Servant Leader für das Team zuständig und unterstützt die Organisation beim Verständnis und bei der Umsetzung von Scrum. Er priorisiert weder Anforderungen noch steuert er fachliche Inhalte.",
+      "weight": 1,
+      "topic": "Scrum-Rollen",
+      "concept": "Rolle Scrum Master",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Scrum Master": "Verantwortlich für das Verständnis und die effektive Nutzung von Scrum.",
+        "Servant Leader": "Führungsverständnis, das auf dienender Unterstützung statt hierarchischer Anweisung beruht.",
+        "Impediment": "Hindernis, das den Fortschritt des Teams beeinträchtigt."
+      }
+    },
+    {
+      "question": "6. Eine Fachabteilung versucht während des laufenden Sprints, direkt Entwicklerinnen/Entwickler mit neuen, dringenden Anforderungen zu beauftragen. Wie sollte der Scrum Master in einer reifen Scrum-Organisation am besten reagieren?",
+      "options": [
+        "Er erinnert die Fachabteilung daran, dass neue Anforderungen über den Product Owner ins Product Backlog aufgenommen und für zukünftige Sprints priorisiert werden.",
+        "Er weist das Entwicklungsteam an, die neuen Anforderungen sofort umzusetzen, um die Stakeholderzufriedenheit zu sichern.",
+        "Er bittet den Product Owner, den Sprint sofort abzubrechen und mit einem neuen Sprint neu zu starten.",
+        "Er vereinbart, dass Entwicklerinnen/Entwickler außerhalb der Arbeitszeit zusätzliche Aufgaben annehmen.",
+        "Er überträgt die Verantwortung für die Priorisierung der Anforderungen an die Fachabteilung."
+      ],
+      "answer": 0,
+      "explanation": "Der Scrum Master schützt das Entwicklungsteam vor Störungen im Sprint und achtet auf die Einhaltung der Scrum-Regeln. Neue Anforderungen laufen über den Product Owner in das Product Backlog ein und werden für kommende Sprints berücksichtigt.",
+      "weight": 3,
+      "topic": "Scrum-Rollen",
+      "concept": "Schutz des Teams und Verantwortlichkeiten",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Korrekte Kanäle für Anforderungen im laufenden Sprint",
+        "steps": [
+          "Überprüfe, wer in Scrum für die Priorisierung des Product Backlogs zuständig ist.",
+          "Berücksichtige, dass der Sprint und das Sprint Backlog während der Timebox möglichst stabil bleiben sollen.",
+          "Leite ab, dass der Scrum Master auf den Product Owner und den Weg über das Product Backlog verweisen muss."
+        ],
+        "content": "Die richtige Reaktion stellt sicher, dass Anforderungen nicht am Product Owner und den vereinbarten Scrum-Prozessen vorbeigeschleust werden. So bleibt der Fokus des Teams auf dem Sprintziel und die Verantwortlichkeiten bleiben klar."
+      },
+      "mini_glossary": {
+        "Stakeholder": "Personen oder Gruppen mit Interesse am Produkt.",
+        "Product Backlog": "Geordnete Liste aller bekannten Anforderungen an das Produkt.",
+        "Sprint Backlog": "Vom Entwicklungsteam für den Sprint ausgewählte Arbeit inklusive Plan."
+      }
+    },
+    {
+      "question": "7. Das Entwicklungsteam erkennt zur Sprint-Hälfte, dass nicht alle Sprint-Backlog-Einträge fertig werden. Wie wird in Scrum typischerweise vorgegangen?",
+      "options": [
+        "Product Owner und Entwicklungsteam besprechen Anpassungen des Umfangs, ohne das Sprintziel zu gefährden.",
+        "Der Scrum Master entscheidet allein, welche Einträge entfallen.",
+        "Das Management wählt die Einträge aus, die verschoben werden.",
+        "Der Sprint wird automatisch verlängert, bis alle Einträge fertig sind.",
+        "Alle begonnenen Einträge werden unabhängig vom Aufwand auf jeden Fall fertiggestellt."
+      ],
+      "answer": 0,
+      "explanation": "Scrum setzt auf Transparenz und gemeinsame Entscheidungen. Product Owner und Entwicklungsteam suchen gemeinsam nach Möglichkeiten, Umfang anzupassen, sodass das Sprintziel erreichbar bleibt, statt den Sprint einfach zu verlängern.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
+      "concept": "Umgang mit Überlast im Sprint",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Umfangsanpassung statt Sprintverlängerung",
+        "steps": [
+          "Stelle fest, dass der Sprint eine feste Timebox ist und nicht verlängert werden sollte.",
+          "Berücksichtige, dass der Product Owner für Wert und Priorität der Einträge zuständig ist.",
+          "Wähle die Lösung, bei der Product Owner und Entwicklungsteam gemeinsam den Umfang anpassen."
+        ],
+        "content": "Die Anpassung des Umfangs ist in Scrum üblich, während die Sprintdauer konstant bleibt. So bleibt die Planbarkeit erhalten und das Sprintziel wird realistisch gestaltet."
+      },
+      "mini_glossary": {
+        "Sprintziel": "Übergeordnetes Ziel, das der Sprint erreichen soll.",
+        "Sprint Backlog": "Auswahl der Einträge aus dem Product Backlog mit Umsetzungsplan für den Sprint.",
+        "Timebox": "Feste, nicht zu überschreitende Zeitbegrenzung."
+      }
+    },
+    {
+      "question": "8. Warum sind in Scrum cross-funktionale, selbstorganisierte Teams vorgesehen?",
+      "options": [
+        "Damit das Team möglichst viele Fähigkeiten vereint, um Ende jedes Sprints ein fertiges Inkrement liefern zu können.",
+        "Damit das Management einzelne Fachrollen leichter austauschen kann.",
+        "Damit jede Person nur eine eng definierte Spezialaufgabe erledigt.",
+        "Damit Planungsaufwand vollständig entfallen kann.",
+        "Damit der Scrum Master die Arbeit direkt zuweisen kann."
+      ],
+      "answer": 0,
+      "explanation": "Cross-funktionale Teams bündeln die für das Inkrement notwendigen Fähigkeiten und können daher Ende jedes Sprints ein fertiges Produktinkrement liefern. Selbstorganisation ermöglicht es dem Team, eigenständig den besten Weg zur Zielerreichung zu finden.",
+      "weight": 2,
+      "topic": "Scrum-Rollen",
+      "concept": "Cross-funktionale, selbstorganisierte Teams",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Ziel von Cross-Funktionalität und Selbstorganisation",
+        "steps": [
+          "Überlege, welches Ziel Scrum mit den Teamstrukturen verfolgt.",
+          "Erkenne, dass alle für das Inkrement nötigen Fähigkeiten im Team vorhanden sein sollen.",
+          "Leite ab, dass Selbstorganisation dazu dient, die Umsetzung eigenverantwortlich zu gestalten."
+        ],
+        "content": "Nur option A verbindet beide Aspekte direkt mit dem Ziel eines fertigen Inkrements. Die anderen Optionen stellen Verwaltungsvorteile oder falsche Annahmen in den Vordergrund und verfehlen den Kern von Scrum."
+      },
+      "mini_glossary": {
+        "Cross-funktional": "Team vereint unterschiedliche benötigte Fähigkeiten.",
+        "Selbstorganisation": "Team entscheidet selbst, wie es die Arbeit erledigt.",
+        "Inkrement": "Fertiger Produktzuwachs, der potenziell auslieferbar ist."
+      }
+    },
+    {
+      "question": "9. Ein Team nutzt das Daily Scrum bisher als ausführliches Statusmeeting mit detaillierten Berichten an den Scrum Master. Wie sollte das Daily Scrum gemäß Scrum verstanden werden?",
+      "options": [
+        "Als 15-minütiges Event des Entwicklungsteams zur Planung der Arbeit für die nächsten 24 Stunden.",
+        "Als wöchentliche Präsentation des Projektfortschritts für das Management.",
+        "Als Gelegenheit, offene Personalfragen zu klären.",
+        "Als Moment, in dem der Scrum Master Aufgaben neu verteilt.",
+        "Als formales Reporting-Meeting für externe Stakeholder."
+      ],
+      "answer": 0,
+      "explanation": "Das Daily Scrum ist vor allem ein Planungsmeeting des Entwicklungsteams, nicht ein Statusbericht an den Scrum Master. Es ist auf maximal 15 Minuten begrenzt und fokussiert auf die nächsten 24 Stunden und das Sprintziel.",
+      "weight": 2,
+      "topic": "Scrum-Events",
+      "concept": "Daily Scrum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Zweck und Charakter des Daily Scrum",
+        "steps": [
+          "Prüfe, wer am Daily Scrum beteiligt ist und wem es dient.",
+          "Berücksichtige die Timebox von 15 Minuten und den Fokus auf das Sprintziel.",
+          "Schließe daraus, dass es um die Planung des nächsten Tages durch das Team geht, nicht um formales Reporting."
+        ],
+        "content": "Die richtige Antwort betont die Eigenverantwortung des Entwicklungsteams und den Planungscharakter des Daily Scrum. Statusberichte und Managementpräsentationen sind explizit nicht das Ziel dieses Events."
+      },
+      "mini_glossary": {
+        "Daily Scrum": "Kurzes tägliches Event des Entwicklungsteams zur Planung der nächsten 24 Stunden.",
+        "Sprintziel": "Fokus des Sprints, an dem sich Entscheidungen ausrichten.",
+        "Statusmeeting": "Meetingform, in der üblicherweise Berichte an Führungspersonen gegeben werden."
+      }
+    },
+    {
+      "question": "10. Wie unterscheidet sich das Sprint Review inhaltlich und vom Ziel her am deutlichsten von der Sprint Retrospektive?",
+      "options": [
+        "Im Sprint Review wird das Produktinkrement mit Stakeholdern inspiziert, während in der Retrospektive Prozess und Zusammenarbeit des Teams verbessert werden.",
+        "Im Sprint Review werden nur technische Probleme diskutiert, in der Retrospektive nur organisatorische.",
+        "Im Sprint Review reflektiert das Team seine Zusammenarbeit, in der Retrospektive werden ausschließlich neue Anforderungen gesammelt.",
+        "Im Sprint Review wird der nächste Sprint geplant, in der Retrospektive die Produktvision festgelegt.",
+        "Im Sprint Review werden Teamkonflikte moderiert, in der Retrospektive der Projektauftrag neu verhandelt."
+      ],
+      "answer": 0,
+      "explanation": "Das Sprint Review fokussiert auf das Produktinkrement, Feedback und mögliche Anpassungen des Product Backlogs. Die Sprint Retrospektive dient der Verbesserung von Prozess, Zusammenarbeit und Werkzeugen im Team.",
+      "weight": 3,
+      "topic": "Scrum-Events",
+      "concept": "Unterschied Review und Retrospektive",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Produktfokus versus Prozessfokus",
+        "steps": [
+          "Identifiziere, welches Event sich primär auf das Produkt und welches auf die Arbeitsweise bezieht.",
+          "Ordne Stakeholderfeedback dem Sprint Review zu, da dort das Inkrement inspiziert wird.",
+          "Ordne Reflexion von Zusammenarbeit und Prozessen der Retrospektive zu."
+        ],
+        "content": "Die korrekte Antwort trennt klar Produktinspektion und Feedback im Sprint Review von der teaminternen Arbeit an Prozess und Zusammenarbeit in der Retrospektive. Dadurch werden beide Verbesserungsrichtungen systematisch adressiert."
+      },
+      "mini_glossary": {
+        "Sprint Review": "Event zur Inspektion des Inkrements und Anpassung des Product Backlogs mit Stakeholdern.",
+        "Sprint Retrospektive": "Event zur Verbesserung von Zusammenarbeit, Prozessen und Werkzeugen.",
+        "Stakeholder": "Personen mit Interesse am Produkt, z.B. Kundinnen/Kunden oder Fachbereiche."
+      }
+    },
+    {
+      "question": "11. Welches Ergebnis sollte zwingend aus dem Sprint Planning hervorgehen?",
+      "options": [
+        "Ein Sprintziel sowie eine erste Auswahl von Product-Backlog-Einträgen und ein Plan, wie diese umgesetzt werden können.",
+        "Ein detaillierter Gantt-Plan für den gesamten Release.",
+        "Eine vollständige Risikoanalyse für das gesamte Projekt.",
+        "Eine Liste aller Bugs der letzten Version.",
+        "Ein Budgetplan für die nächsten zwölf Monate."
+      ],
+      "answer": 0,
+      "explanation": "Im Sprint Planning werden Sprintziel, ausgewählte Product-Backlog-Einträge und ein grober Umsetzungsplan erarbeitet. Langfristige Detailpläne wie Gantt-Pläne sind nicht Bestandteil dieses Events.",
+      "weight": 2,
+      "topic": "Scrum-Events",
+      "concept": "Ergebnis Sprint Planning",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Inhalte des Sprint Planning",
+        "steps": [
+          "Unterscheide zwischen kurzfristiger Sprintplanung und langfristiger Projektplanung.",
+          "Prüfe, welche Elemente laut Scrum Guide Bestandteil des Sprint Planning sind.",
+          "Wähle die Antwort, die Sprintziel, Auswahl von Einträgen und Umsetzungsplan kombiniert."
+        ],
+        "content": "Die richtige Antwort reflektiert die drei Leitfragen im Sprint Planning: Warum ist dieser Sprint wertvoll, was kann erledigt werden und wie soll die ausgewählte Arbeit erledigt werden."
+      },
+      "mini_glossary": {
+        "Sprint Planning": "Event zur Planung des kommenden Sprints.",
+        "Sprintziel": "Gemeinsamer Fokus des Sprints.",
+        "Product-Backlog-Eintrag": "Einzelner Eintrag im Product Backlog, z.B. User Story oder Bug."
+      }
+    },
+    {
+      "question": "12. Ein neues Team diskutiert, ob das Daily Scrum auf 45 Minuten verlängert werden kann, da viele Themen zu besprechen sind. Was ist die passende Scrum-konforme Empfehlung?",
+      "options": [
+        "Daily Scrum bleibt auf höchstens 15 Minuten timeboxed; zusätzliche Diskussionen werden nach Bedarf außerhalb geführt.",
+        "Daily Scrum wird auf 45 Minuten verlängert, solange alle teilnehmen.",
+        "Daily Scrum wird nur noch einmal pro Woche durchgeführt, dafür 60 Minuten.",
+        "Daily Scrum entfällt, wenn der Scrum Master verhindert ist.",
+        "Daily Scrum wird durch eine tägliche Status-E-Mail ersetzt."
+      ],
+      "answer": 0,
+      "explanation": "Das Daily Scrum ist bewusst kurz gehalten, um Fokus und Effizienz zu sichern. Vertiefende Diskussionen sollten im Anschluss oder in separaten Terminen stattfinden, nicht durch Aufweichen der Timebox.",
+      "weight": 2,
+      "topic": "Scrum-Events",
+      "concept": "Timebox Daily Scrum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Timebox respektieren, Austausch ermöglichen",
+        "steps": [
+          "Erinnere dich daran, dass das Daily Scrum auf 15 Minuten begrenzt ist.",
+          "Berücksichtige, dass Timeboxen ein zentrales Gestaltungsmittel in Scrum sind.",
+          "Leite ab, dass zusätzliche Diskussionen ausgelagert statt die Timebox vergrößert werden sollten."
+        ],
+        "content": "Die richtige Antwort verbindet die Einhaltung des Scrum-Rahmens mit pragmatischer Lösung: kurze, fokussierte Abstimmung im Daily und zusätzliche Gespräche bei Bedarf danach."
+      },
+      "mini_glossary": {
+        "Timebox": "Feste Obergrenze für die Dauer eines Events.",
+        "Daily Scrum": "Tägliches Planungsmeeting des Entwicklungsteams.",
+        "Fokus": "Ausrichtung auf das Wesentliche zur Zielerreichung."
+      }
+    },
+    {
+      "question": "13. Wofür wird das Product Backlog in Scrum primär verwendet?",
+      "options": [
+        "Als geordnete Liste aller bekannten Anforderungen und Arbeiten am Produkt.",
+        "Als Dokumentation aller erledigten Aufgaben.",
+        "Als detaillierter Projektplan mit festen Terminen.",
+        "Als Werkzeug zur Leistungsbeurteilung einzelner Teammitglieder.",
+        "Als Ersatz für technische Spezifikationen."
+      ],
+      "answer": 0,
+      "explanation": "Das Product Backlog ist die geordnete, ständig weiterentwickelte Liste aller bekannten Arbeiten am Produkt. Es ist kein klassischer Terminplan und kein Instrument zur Leistungsbeurteilung.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
+      "concept": "Product Backlog Zweck",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Funktion des Product Backlogs",
+        "steps": [
+          "Identifiziere, welche Artefakte in Scrum zur Produktsteuerung dienen.",
+          "Ordne dem Product Backlog die Rolle der geordneten Anforderungsliste zu.",
+          "Grenze es gegenüber Projektplänen und Leistungsbeurteilungsinstrumenten ab."
+        ],
+        "content": "Die richtige Antwort macht deutlich, dass das Product Backlog eine inhaltliche, werteorientierte Liste ist und kein Termin- oder Controllinginstrument."
+      },
+      "mini_glossary": {
+        "Product Backlog": "Geordnete Liste aller bekannten Anforderungen an das Produkt.",
+        "Priorisierung": "Reihenfolgeentscheidung nach Wert, Risiko und anderen Kriterien.",
+        "Artefakt": "Transparenz schaffendes Element in Scrum, z.B. Backlogs und Inkrement."
+      }
+    },
+    {
+      "question": "14. Wie beschreibt man das Verhältnis von Product Backlog und Sprint Backlog am besten in Bezug auf Verantwortung und Inhalt?",
+      "options": [
+        "Der Product Owner ist für Ordnung und Priorisierung des Product Backlogs verantwortlich, das Entwicklungsteam erstellt aus ausgewählten Einträgen den Sprint Backlog als Prognose für den Sprint.",
+        "Das Management pflegt das Product Backlog, der Scrum Master erstellt den Sprint Backlog als verbindlichen Vertrag.",
+        "Das Entwicklungsteam verwaltet beide Backlogs vollständig ohne Beteiligung des Product Owners.",
+        "Der Sprint Backlog ist eine Kopie des gesamten Product Backlogs für den aktuellen Sprint.",
+        "Beide Backlogs werden ausschließlich von externen Stakeholdern gepflegt, um Neutralität zu sichern."
+      ],
+      "answer": 0,
+      "explanation": "Der Product Owner verantwortet Inhalt und Reihenfolge des Product Backlogs. Das Entwicklungsteam wählt daraus Einträge aus und konkretisiert sie im Sprint Backlog als Plan für den aktuellen Sprint.",
+      "weight": 3,
+      "topic": "Scrum-Artefakte",
+      "concept": "Verantwortung für Product und Sprint Backlog",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Aufgabenteilung zwischen Product Owner und Entwicklungsteam",
+        "steps": [
+          "Ermittle, wer in Scrum für Wert und Reihenfolge der Anforderungen zuständig ist.",
+          "Unterscheide zwischen Produkt-Sicht (Product Backlog) und Sprint-Sicht (Sprint Backlog).",
+          "Wähle die Antwort, die diese Aufgabenteilung korrekt widerspiegelt."
+        ],
+        "content": "Die richtige Antwort verdeutlicht die Zusammenarbeit: Product Owner definiert das Was und Warum, das Entwicklungsteam gestaltet das Wie im Sprint Backlog."
+      },
+      "mini_glossary": {
+        "Product Backlog": "Zentrale, geordnete Liste der Arbeiten am Produkt.",
+        "Sprint Backlog": "Plan des Entwicklungsteams für die im Sprint zu erledigende Arbeit.",
+        "Prognose": "Vorhersage, was realistischerweise im Sprint geschafft werden kann."
+      }
+    },
+    {
+      "question": "15. Welche Aussage beschreibt ein Produktinkrement in Scrum korrekt?",
+      "options": [
+        "Es ist eine potenziell auslieferbare, nutzbare Version des Produkts, die alle Definition-of-Done-Kriterien erfüllt.",
+        "Es ist eine Sammlung von Konzeptpapieren und Entwürfen ohne lauffähige Software.",
+        "Es ist ein Zwischenstand, der nur intern kompilierbar ist.",
+        "Es ist eine Liste offener Fehler, die im nächsten Sprint behoben wird.",
+        "Es ist der Projektstatusbericht für das Management."
+      ],
+      "answer": 0,
+      "explanation": "Ein Inkrement muss die Definition of Done erfüllen und potenziell auslieferbar sein. Reine Entwürfe, unfertige Zwischenstände oder Fehlerlisten sind keine Inkremente im Sinn von Scrum.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
+      "concept": "Produktinkrement",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Merkmale eines Inkrements",
+        "steps": [
+          "Prüfe, ob das beschriebene Ergebnis nutzbar und qualitativ abgesichert ist.",
+          "Vergleiche dies mit der Definition of Done des Teams.",
+          "Schließe aus, dass Entwürfe oder reine Artefaktlisten ein Inkrement darstellen."
+        ],
+        "content": "Die korrekte Antwort betont Nutzbarkeit und Erfüllung der Qualitätskriterien, was zentrale Anforderungen an ein Inkrement in Scrum sind."
+      },
+      "mini_glossary": {
+        "Inkrement": "Potentiell auslieferbarer Produktzuwachs am Sprintende.",
+        "Definition of Done": "Gemeinsam vereinbarte Qualitätskriterien für „fertig“.",
+        "Auslieferbarkeit": "Fähigkeit, ein Produktstand real in den Einsatz zu bringen."
+      }
+    },
+    {
+      "question": "16. Was ist ein typisches Beispiel dafür, wie Transparenz der Scrum-Artefakte hergestellt wird?",
+      "options": [
+        "Product Backlog und Sprint Backlog sind für alle Beteiligten sichtbar und werden regelmäßig aktualisiert.",
+        "Nur der Scrum Master hat Zugriff auf das Sprint Backlog.",
+        "Das Product Backlog wird am Projektende einmalig veröffentlicht.",
+        "Der aktuelle Sprint Backlog wird als vertraulich eingestuft.",
+        "Transparenz wird in Scrum nicht explizit adressiert."
+      ],
+      "answer": 0,
+      "explanation": "Transparenz bedeutet, dass alle relevanten Informationen über den Zustand des Produkts und der Arbeit offen zugänglich sind. Sichtbare und gepflegte Backlogs sind ein zentrales Mittel, diese Transparenz herzustellen.",
+      "weight": 2,
+      "topic": "Scrum-Artefakte",
+      "concept": "Transparenz der Artefakte",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Transparenz als Voraussetzung für Inspektion und Anpassung",
+        "steps": [
+          "Erinnere dich, dass Transparenz eine Säule der empirischen Prozesssteuerung ist.",
+          "Prüfe, welche Antwort beschreibt, dass relevante Informationen für alle sichtbar sind.",
+          "Verwerfe Antworten, die Informationszugriff einschränken oder Transparenz ignorieren."
+        ],
+        "content": "Nur die richtige Antwort stellt sicher, dass alle Beteiligten denselben Informationsstand zu Backlogs haben und auf dieser Basis fundierte Entscheidungen treffen können."
+      },
+      "mini_glossary": {
+        "Transparenz": "Offenheit der relevanten Informationen für alle Beteiligten.",
+        "Artefakt": "Informationsobjekt in Scrum, z.B. Backlogs, Inkrement.",
+        "Inspektion": "Regelmäßige Überprüfung eines Zustands mit Blick auf Verbesserungen."
+      }
+    },
+    {
+      "question": "17. Was ist das Hauptziel der Product Backlog Refinement Aktivitäten?",
+      "options": [
+        "Product-Backlog-Einträge zu klären, zu schneiden und zu schätzen, um sie für kommende Sprints vorbereitbar zu machen.",
+        "Alle Anforderungen endgültig zu fixieren, bevor Entwicklung beginnt.",
+        "Nur technische Details zu diskutieren, ohne geschäftlichen Kontext.",
+        "Das Team zu disziplinieren, indem unfertige Arbeit sanktioniert wird.",
+        "Das Management über Verzögerungen zu informieren."
+      ],
+      "answer": 0,
+      "explanation": "Refinement dient der inhaltlichen Klärung, sinnvollen Zerlegung und groben Schätzung von Einträgen. Es ist kein einmaliger Fixierungsprozess, sondern eine laufende Aktivität.",
+      "weight": 2,
+      "topic": "Product Backlog Management",
+      "concept": "Ziel des Refinements",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Refinement zur Vorbereitung künftiger Sprints",
+        "steps": [
+          "Ordne das Refinement den laufenden Arbeiten am Product Backlog zu.",
+          "Prüfe, welche Antwort Klärung, Zuschnitt und Schätzung beschreibt.",
+          "Verwerfe Antworten, die Fixierung oder Disziplinierung betonen."
+        ],
+        "content": "Die richtige Antwort verdeutlicht Refinement als gemeinsame, fortlaufende Aktivität von Product Owner und Entwicklungsteam zur Vorbereitung künftiger Sprints."
+      },
+      "mini_glossary": {
+        "Refinement": "Laufende Überarbeitung und Detaillierung von Product-Backlog-Einträgen.",
+        "Schätzung": "Bewertung von Aufwand oder Komplexität durch das Team.",
+        "Zuschnitt": "Aufteilung großer Einträge in kleinere, besser handhabbare Einheiten."
+      }
+    },
+    {
+      "question": "18. Mehrere Stakeholder vertreten gegensätzliche Anforderungen an das Produkt und drängen auf höchste Priorität ihrer Themen. Wie geht ein kompetenter Product Owner in Scrum typischerweise damit um?",
+      "options": [
+        "Er moderiert die Interessen, trifft eine transparente Priorisierungsentscheidung im Product Backlog auf Basis von Wert, Risiko und Zielen und kommuniziert diese klar.",
+        "Er verteilt die oberste Priorität reihum, damit alle Stakeholder einmal an der Reihe sind.",
+        "Er überträgt die Entscheidung an den Scrum Master, um neutral zu bleiben.",
+        "Er priorisiert ausschließlich nach der Lautstärke der Forderungen im Review.",
+        "Er wartet ab, bis das Management schriftlich Vorgaben macht, und nimmt keine eigene Bewertung vor."
+      ],
+      "answer": 0,
+      "explanation": "Der Product Owner trägt die Verantwortung für die Wertmaximierung und Priorisierung im Product Backlog. Dazu gehört, unterschiedliche Interessen zu moderieren und auf Basis von Wert und Risiko eine bewusste Entscheidung zu treffen.",
+      "weight": 3,
+      "topic": "Product Backlog Management",
+      "concept": "Priorisierung und Stakeholdermanagement",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Product-Owner-Verantwortung bei Konflikten",
+        "steps": [
+          "Identifiziere den Product Owner als verantwortliche Person für das Product Backlog.",
+          "Berücksichtige, dass Priorisierung vor allem nach Wert und Risiko erfolgen sollte.",
+          "Wähle die Antwort, die sowohl Moderation als auch eine klare Entscheidung des Product Owners beschreibt."
+        ],
+        "content": "Die richtige Antwort zeigt den Product Owner als aktive, verantwortliche Rolle und nicht als reine Koordinationsstelle, die Entscheidungen weiterreicht oder vermeidet."
+      },
+      "mini_glossary": {
+        "Product Owner": "Verantwortlich für Wertmaximierung und Priorisierung im Product Backlog.",
+        "Business Value": "Geschäftlicher Nutzen, der aus der Umsetzung eines Eintrags entsteht.",
+        "Risiko": "Unsicherheit bezüglich Ausgang, Aufwand oder Nutzen einer Anforderung."
+      }
+    },
+    {
+      "question": "19. Welches Kriterium ist bei der Priorisierung des Product Backlogs aus Scrum-Sicht besonders wichtig?",
+      "options": [
+        "Geschätzter Nutzen bzw. Geschäftswert der Einträge in Kombination mit Risiken.",
+        "Alphabetische Reihenfolge der Anforderungen.",
+        "Anzahl der beteiligten Personen je Eintrag.",
+        "Technische Komplexität allein.",
+        "Historische Reihenfolge der Erstellung der Einträge."
+      ],
+      "answer": 0,
+      "explanation": "Scrum betont die Wertmaximierung; Geschäftswert und Risiken sind zentrale Kriterien für die Reihenfolge im Product Backlog. Reine Formalaspekte wie alphabetische Ordnung sind nicht zielführend.",
+      "weight": 2,
+      "topic": "Product Backlog Management",
+      "concept": "Priorisierungskriterien",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Wertorientierte Priorisierung",
+        "steps": [
+          "Erinnere dich daran, dass die Rolle des Product Owners auf Wertmaximierung ausgerichtet ist.",
+          "Prüfe, welche Antwort explizit Nutzen und Risiken nennt.",
+          "Schließe Antworten aus, die auf formalistische oder zufällige Kriterien setzen."
+        ],
+        "content": "Die richtige Antwort verbindet geschäftlichen Nutzen mit Risikoaspekten und deckt damit typische Priorisierungsdimensionen wie Wert, Risiko und Dringlichkeit ab."
+      },
+      "mini_glossary": {
+        "Geschäftswert": "Beitrag einer Anforderung zum Geschäftserfolg.",
+        "Priorisierung": "Reihung von Einträgen nach ausgewählten Kriterien.",
+        "Risiko": "Möglicher negativer Einfluss von Unsicherheiten auf Zielerreichung."
+      }
+    },
+    {
+      "question": "20. Welche Beschreibung eines guten Product-Backlog-Eintrags passt am besten zu Scrum-Praktiken?",
+      "options": [
+        "Klar beschrieben, verstanden, geeignet geschnitten, mit Akzeptanzkriterien versehen und grob geschätzt.",
+        "Sehr grob formuliert, damit das Team maximale Freiheit hat.",
+        "Nur in technischer Sprache gehalten, damit Fachabteilungen nicht eingreifen.",
+        "Vollständig durchdesignte Spezifikation inklusive aller Details des User Interface.",
+        "Nur mit einem kurzen Schlagwort ohne weitere Details versehen."
+      ],
+      "answer": 0,
+      "explanation": "Gute Einträge sind so beschrieben, dass sowohl Geschäftsnutzen als auch Akzeptanzkriterien und grobe Größe klar sind. Sie sind weder überdetailliert noch so vage, dass Missverständnisse vorprogrammiert sind.",
+      "weight": 2,
+      "topic": "Product Backlog Management",
+      "concept": "Qualität von Backlog-Einträgen",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Eigenschaften guter Product-Backlog-Einträge",
+        "steps": [
+          "Berücksichtige Verständlichkeit, Schnitt, Kriterien und Schätzung als Qualitätsmerkmale.",
+          "Prüfe, welche Antwort einen ausgewogenen Detaillierungsgrad beschreibt.",
+          "Schließe Antworten aus, die zu vage oder überdetailliert sind."
+        ],
+        "content": "Die richtige Antwort entspricht gängigen Merkmalen wie klarer Nutzenbeschreibung, Akzeptanzkriterien und grober Schätzung, wie sie häufig in Praxisleitlinien formuliert werden."
+      },
+      "mini_glossary": {
+        "Akzeptanzkriterien": "Bedingungen, die erfüllt sein müssen, damit ein Eintrag als fertig gilt.",
+        "Schätzung": "Grobe Bewertung von Aufwand oder Komplexität durch das Team.",
+        "User Story": "Häufig verwendetes Format für Product-Backlog-Einträge aus Anwendersicht."
+      }
+    },
+    {
+      "question": "21. Wofür werden in Scrum typischerweise Story Points verwendet?",
+      "options": [
+        "Zur relativen Schätzung von Umfang und Komplexität aus Sicht des Entwicklungsteams.",
+        "Zur exakten Umrechnung in Kalendertage.",
+        "Als Grundlage für individuelle Bonuszahlungen.",
+        "Zur Bewertung der Stakeholderzufriedenheit.",
+        "Zur Berechnung der Lizenzkosten eines Tools."
+      ],
+      "answer": 0,
+      "explanation": "Story Points sind ein relatives Maß, mit dem das Team Umfang und Schwierigkeit vergleicht. Sie sind nicht für exakte Zeitumrechnung oder individuelle Leistungsbewertung gedacht.",
+      "weight": 2,
+      "topic": "Schätzung und Planung",
+      "concept": "Zweck von Story Points",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Story Points als relatives Maß",
+        "steps": [
+          "Unterscheide zwischen relativer und absoluter Schätzung.",
+          "Berücksichtige, dass Story Points primär für das Team und seine Planung gedacht sind.",
+          "Verwerfe Antworten, die sie als Steuerungsinstrument für Geld oder Boni verwenden."
+        ],
+        "content": "Die richtige Antwort beschreibt Story Points als Werkzeug für das Team, um Aufgaben zueinander in Beziehung zu setzen, nicht als externes Controllinginstrument."
+      },
+      "mini_glossary": {
+        "Story Points": "Relatives Maß für Aufwand/Komplexität von Backlog-Einträgen.",
+        "Relative Schätzung": "Vergleich von Größenordnungen statt exakter Zeitangaben.",
+        "Velocity": "Summe der im Sprint erledigten Story Points eines Teams."
+      }
+    },
+    {
+      "question": "22. Das Management fordert, dass die Velocity des Teams jeden Sprint steigen müsse und möchte Teams anhand der Velocity vergleichen. Wie sollte ein erfahrener Scrum Master darauf reagieren?",
+      "options": [
+        "Er erläutert, dass Velocity ein Planungshilfsmittel pro Team ist, nicht zum Vergleich oder zur Leistungssteuerung gedacht, und schlägt alternative, wertorientierte Metriken vor.",
+        "Er passt Story-Point-Schätzungen nach oben an, damit die Velocity optisch steigt.",
+        "Er fordert das Team zu Überstunden auf, um die Velocity zu maximieren.",
+        "Er stimmt zu und erstellt ein Ranking der Teams nach Velocity.",
+        "Er verbietet dem Team, Story Points weiter zu verwenden."
+      ],
+      "answer": 0,
+      "explanation": "Velocity ist eine teaminterne Kenngröße und eignet sich nicht als Vergleichswert oder Zielvorgabe. Ein Scrum Master sollte ihre Bedeutung erklären und auf Kennzahlen lenken, die Wert und Ergebnisse abbilden.",
+      "weight": 3,
+      "topic": "Schätzung und Planung",
+      "concept": "Sinnvolle Nutzung von Velocity",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Velocity als Planungsgröße, nicht als Leistungskennzahl",
+        "steps": [
+          "Erinnere dich, dass Velocity aus der Summe erledigter Story Points eines Teams entsteht.",
+          "Berücksichtige, dass Teams unterschiedlich schätzen und Velocity daher nicht vergleichbar ist.",
+          "Wähle die Antwort, die Missbrauch vermeidet und wertorientierte Alternativen vorschlägt."
+        ],
+        "content": "Die richtige Antwort schützt das Team vor Kennzahlenmissbrauch und verlagert den Fokus weg von bloßen Mengen hin zu gelieferten Ergebnissen und Wert."
+      },
+      "mini_glossary": {
+        "Velocity": "Interne Kenngröße eines Teams, Summe der im Sprint erledigten Story Points.",
+        "Metrik": "Messgröße zur Beschreibung eines Sachverhalts.",
+        "Wertorientierung": "Ausrichtung der Arbeit an tatsächlich erzeugtem Nutzen."
+      }
+    },
+    {
+      "question": "23. Welche Informationen sind für ein sinnvolles Sprint Planning besonders wichtig?",
+      "options": [
+        "Priorisiertes Product Backlog, historische Velocity und Kapazität des Teams im kommenden Sprint.",
+        "Jahresbudget und langfristige Personalplanung der Organisation.",
+        "Liste aller Urlaube des Managements.",
+        "Alle technischen Details künftiger Releases in den nächsten fünf Jahren.",
+        "Verträge mit externen Dienstleistern der letzten Jahre."
+      ],
+      "answer": 0,
+      "explanation": "Für die Sprintplanung braucht das Team vor allem eine sortierte Sicht auf die wichtigsten Einträge, Erfahrungswerte aus der Vergangenheit und eine Vorstellung der verfügbaren Kapazität. Langfristige Budgetzahlen oder alte Verträge helfen dabei kaum.",
+      "weight": 2,
+      "topic": "Schätzung und Planung",
+      "concept": "Input für Sprint Planning",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Relevante Eingaben für die Sprintplanung",
+        "steps": [
+          "Überlege, welche Informationen Aufschluss darüber geben, was realistisch im Sprint erledigt werden kann.",
+          "Prüfe, welche Antwort priorisierte Anforderungen, Erfahrungswerte (Velocity) und Kapazität kombiniert.",
+          "Verwerfe Antworten, die weit vom kurzfristigen Planungshorizont entfernt sind."
+        ],
+        "content": "Die richtige Antwort bündelt genau die Informationen, die für eine realistische Prognose des Sprints erforderlich sind."
+      },
+      "mini_glossary": {
+        "Kapazität": "Verfügbare Arbeitszeit bzw. Leistungsfähigkeit des Teams im Sprint.",
+        "Velocity": "Historisch beobachtete Menge erledigter Story Points pro Sprint.",
+        "Priorisiertes Product Backlog": "Nach Wert und weiteren Kriterien geordnete Anforderungsliste."
+      }
+    },
+    {
+      "question": "24. Wie geht ein Scrum-Team sinnvoll mit sehr technisch formulierten Aufgaben um, die für die Qualität nötig sind, aber keinen direkten Business-Mehrwert ausdrücken?",
+      "options": [
+        "Es formuliert sie als Product-Backlog-Einträge mit klarer Begründung für den Wert, sodass sie gemeinsam mit dem Product Owner priorisiert werden können.",
+        "Es erledigt sie heimlich und schreibt sie nirgendwo auf.",
+        "Es verzichtet auf solche Aufgaben, weil sie nicht im Sinne der Stakeholder sind.",
+        "Es verschiebt alle solchen Aufgaben auf das Projektende.",
+        "Es lässt sie ausschließlich außerhalb der Sprints im Überstundenmodus erledigen."
+      ],
+      "answer": 0,
+      "explanation": "Auch technische Verbesserungen und Qualitätssicherungsmaßnahmen sollten im Product Backlog sichtbar sein. So können sie transparent gegen andere Einträge abgewogen und bewusst priorisiert werden.",
+      "weight": 2,
+      "topic": "Schätzung und Planung",
+      "concept": "Technische Aufgaben im Product Backlog",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Technische Qualität sichtbar machen",
+        "steps": [
+          "Erkenne, dass auch technische Arbeiten Einfluss auf Wert und Risiko haben.",
+          "Berücksichtige, dass Entscheidungen transparent im Product Backlog getroffen werden sollten.",
+          "Wähle die Antwort, die Sichtbarkeit und Priorisierung gemeinsam mit dem Product Owner ermöglicht."
+        ],
+        "content": "Die richtige Antwort verhindert versteckte Arbeit und ermöglicht bewusste Entscheidungen über technische Qualität versus andere Anforderungen."
+      },
+      "mini_glossary": {
+        "Technische Schuld": "Aufgestaute technische Probleme oder Vereinfachungen, die später Aufwand verursachen.",
+        "Qualitätssicherung": "Maßnahmen zur Sicherstellung eines definierten Qualitätsniveaus.",
+        "Product Backlog": "Zentrale Liste aller Arbeiten am Produkt, inklusive technischer Aufgaben."
+      }
+    },
+    {
+      "question": "25. Welcher Wert des Agilen Manifests passt am besten zu Scrum?",
+      "options": [
+        "Individuen und Interaktionen sind wichtiger als Prozesse und Werkzeuge.",
+        "Umfangreiche Dokumentation ist wichtiger als lauffähige Software.",
+        "Vertragsverhandlung ist wichtiger als Zusammenarbeit mit dem Kunden.",
+        "Das Befolgen eines Plans ist wichtiger als das Reagieren auf Veränderung.",
+        "Zentralisierte Steuerung ist wichtiger als Selbstorganisation."
+      ],
+      "answer": 0,
+      "explanation": "Scrum baut auf den Werten des Agilen Manifests auf, insbesondere auf dem Fokus auf Menschen und deren Zusammenarbeit. Prozesse und Werkzeuge bleiben wichtig, haben aber eine dienende Funktion.",
+      "weight": 2,
+      "topic": "Agile Werte und Prinzipien",
+      "concept": "Agile Werte und Scrum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Agile Werte als Grundlage von Scrum",
+        "steps": [
+          "Erinnere dich an die vier Werte des Agilen Manifests.",
+          "Ordne Scrum als Rahmenwerk ein, das diese Werte operationalisiert.",
+          "Wähle den Wert, der am direktesten die Bedeutung von Menschen und Zusammenarbeit betont."
+        ],
+        "content": "Die richtige Antwort spiegelt einen Kernwert des Agilen Manifests wider, den Scrum durch Rollen und Events konkret unterstützt."
+      },
+      "mini_glossary": {
+        "Agiles Manifest": "Dokument, das Werte und Prinzipien agiler Softwareentwicklung beschreibt.",
+        "Individuen und Interaktionen": "Menschen und ihre Zusammenarbeit als zentraler Erfolgsfaktor.",
+        "Prozesse und Werkzeuge": "Hilfsmittel, die die Zusammenarbeit unterstützen, aber nicht dominieren sollen."
+      }
+    },
+    {
+      "question": "26. In einem Unternehmen werden Entwicklerinnen/Entwickler stark für die Einhaltung detaillierter Prozesse bewertet, während Zusammenarbeit mit Stakeholdern wenig Beachtung findet. Welcher Konflikt mit agilen Werten zeigt sich hier am deutlichsten?",
+      "options": [
+        "Prozesse und Werkzeuge werden über Individuen und Interaktionen gestellt.",
+        "Veränderung wird über das Befolgen eines Plans gestellt.",
+        "Lauffähige Software wird über Dokumentation gestellt.",
+        "Kundenzusammenarbeit wird gegenüber Vertragsverhandlung abgewertet.",
+        "Selbstorganisation wird gegenüber Hierarchie bevorzugt."
+      ],
+      "answer": 0,
+      "explanation": "Der geschilderte Fokus legt mehr Gewicht auf Prozesskonformität als auf Zusammenarbeit. Damit wird der agile Wert verletzt, der Individuen und Interaktionen höher als Prozesse und Werkzeuge gewichtet.",
+      "weight": 3,
+      "topic": "Agile Werte und Prinzipien",
+      "concept": "Wertekonflikt Prozesse vs. Zusammenarbeit",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse des zugrunde liegenden Wertekonflikts",
+        "steps": [
+          "Identifiziere, welche Aspekte im Beispiel betont werden (Prozesse, Bewertungen).",
+          "Stelle dem die vernachlässigte Zusammenarbeit mit Stakeholdern gegenüber.",
+          "Ordne den Konflikt dem Wert „Individuen und Interaktionen über Prozesse und Werkzeuge“ zu."
+        ],
+        "content": "Die richtige Antwort benennt genau den Wert, der im beschriebenen Umfeld verletzt wird, und macht so die Diskrepanz zur agilen Haltung sichtbar."
+      },
+      "mini_glossary": {
+        "Stakeholder": "Interessengruppen, die vom Produkt betroffen sind.",
+        "Agile Werte": "Grundlegende Haltungen des Agilen Manifests.",
+        "Prozesskonformität": "Starke Ausrichtung auf die Einhaltung detaillierter Prozessvorgaben."
+      }
+    },
+    {
+      "question": "27. Was ist ein charakteristisches Merkmal von Selbstorganisation in Scrum?",
+      "options": [
+        "Das Team entscheidet eigenverantwortlich, wie es die ausgewählte Arbeit im Sprint umsetzt.",
+        "Das Management weist jedem Teammitglied konkrete Aufgaben zu.",
+        "Der Scrum Master plant alle Aufgaben im Detail vor.",
+        "Der Product Owner schreibt tägliche To-do-Listen für das Team.",
+        "Ein externer Projektleiter kontrolliert jeden Arbeitsschritt."
+      ],
+      "answer": 0,
+      "explanation": "Selbstorganisation bedeutet, dass das Team innerhalb des vereinbarten Rahmens selbst entscheidet, wie es seine Ziele erreicht. Aufgaben werden nicht zentral von außen zugewiesen.",
+      "weight": 2,
+      "topic": "Agile Werte und Prinzipien",
+      "concept": "Selbstorganisation in Scrum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Selbstorganisation vom Fremdsteuern abgrenzen",
+        "steps": [
+          "Unterscheide zwischen Entscheidungen, die vom Team selbst getroffen werden, und solchen von außen.",
+          "Prüfe, welche Antwort das Team als aktive gestaltende Instanz beschreibt.",
+          "Verwerfe Antworten, die zentrale Steuerung oder Micromanagement darstellen."
+        ],
+        "content": "Die richtige Antwort macht deutlich, dass in Scrum das Team die konkrete Umsetzung gestaltet und nicht von Management oder Rollen fremdgesteuert wird."
+      },
+      "mini_glossary": {
+        "Selbstorganisation": "Fähigkeit des Teams, Arbeit und Vorgehen eigenständig zu gestalten.",
+        "Micromanagement": "Sehr detaillierte Steuerung von außen, die Eigenverantwortung einschränkt.",
+        "Autonomie": "Grad der Unabhängigkeit bei Entscheidungen."
+      }
+    },
+    {
+      "question": "28. Welche Kombination beschreibt das Prinzip „Inspect and Adapt“ in Scrum am besten?",
+      "options": [
+        "Regelmäßige Überprüfung von Produkt und Prozess und gezielte Anpassung auf Basis der Beobachtungen.",
+        "Einmalige Planung am Projektanfang und strikte Einhaltung ohne Anpassung.",
+        "Kontinuierliches Testen ohne Anpassung des Vorgehens.",
+        "Ausschließlich informelle Gespräche ohne Entscheidungen.",
+        "Nur jährliche Audits durch externe Berater."
+      ],
+      "answer": 0,
+      "explanation": "„Inspect and Adapt“ bedeutet, Zustände regelmäßig zu prüfen und daraus konkrete Anpassungen abzuleiten. Scrum bietet dafür explizite Events wie Review und Retrospektive.",
+      "weight": 2,
+      "topic": "Agile Werte und Prinzipien",
+      "concept": "Inspect and Adapt",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Empirischer Zyklus in Scrum",
+        "steps": [
+          "Erinnere dich an die Säulen Transparenz, Inspektion und Anpassung.",
+          "Prüfe, welche Antwort sowohl Inspektion als auch Anpassung explizit nennt.",
+          "Verwerfe Antworten, die nur Beobachtung oder nur seltene Prüfungen vorsehen."
+        ],
+        "content": "Die richtige Antwort beschreibt den Kern des empirischen Arbeitens in Scrum: Regelmäßige Beobachtung und konsequente Ableitung von Änderungen."
+      },
+      "mini_glossary": {
+        "Inspect": "Zustände und Ergebnisse regelmäßig überprüfen.",
+        "Adapt": "Vorgehen oder Pläne auf Basis von Erkenntnissen anpassen.",
+        "Empirie": "Erkenntnisgewinn durch Beobachtung und Erfahrung."
+      }
+    },
+    {
+      "question": "29. Welche Aussage zur Definition of Done (DoD) ist korrekt?",
+      "options": [
+        "Sie beschreibt gemeinsame Qualitätskriterien, die gelten müssen, damit ein Product-Backlog-Eintrag als fertig gilt.",
+        "Sie ist eine individuelle Vereinbarung zwischen Product Owner und Management ohne Beteiligung des Teams.",
+        "Sie gilt nur für neue Features, nicht für Bugfixes.",
+        "Sie darf von Sprint zu Sprint spontan geändert werden, ohne dass das Team informiert wird.",
+        "Sie ist identisch mit der Definition der Product-Backlog-Einträge."
+      ],
+      "answer": 0,
+      "explanation": "Die Definition of Done ist eine gemeinsame Vereinbarung und gilt für alle Arten von Inkrementen. Sie stellt sicher, dass „fertig“ für alle Beteiligten das gleiche bedeutet.",
+      "weight": 2,
+      "topic": "Qualität und Definition of Done",
+      "concept": "Definition of Done",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Zweck der Definition of Done",
+        "steps": [
+          "Prüfe, welche Antwort Qualitätskriterien und gemeinsame Vereinbarung betont.",
+          "Berücksichtige, dass die DoD für alle Inkremente gilt, nicht nur für Features.",
+          "Verwerfe Antworten, die das Team von der Vereinbarung ausschließen oder sie beliebig machen."
+        ],
+        "content": "Die richtige Antwort beschreibt die DoD als zentrales Mittel zur Sicherstellung konsistenter Qualität und gemeinsamer Erwartungshaltung."
+      },
+      "mini_glossary": {
+        "Definition of Done": "Gemeinsame, teamweite Vereinbarung, wann Arbeit als fertig gilt.",
+        "Qualitätskriterien": "Konkret formulierte Anforderungen an das Ergebnis.",
+        "Inkrement": "Potentiell auslieferbarer Produktstand am Ende eines Sprints."
+      }
+    },
+    {
+      "question": "30. Ein Team liefert Inkremente, die zwar funktional sind, aber häufig nicht ausreichend getestet und dokumentiert wurden, weil die Zeit im Sprint knapp war. Was ist aus Scrum-Sicht die beste Reaktion?",
+      "options": [
+        "Definition of Done gemeinsam nachschärfen und realistischem Qualitätsniveau anpassen, gleichzeitig Umfang im Sprint so wählen, dass die DoD konsequent eingehalten wird.",
+        "Tests und Dokumentation dauerhaft aus der Definition of Done entfernen, um mehr Inhalt zu liefern.",
+        "Sprints pauschal verlängern, bis alles fertig ist.",
+        "Die offenen Arbeiten nach Projektende in einem separaten Testprojekt zusammenführen.",
+        "Solange liefern, bis sich Qualitätsprobleme häufen, und erst dann reagieren."
+      ],
+      "answer": 0,
+      "explanation": "Scrum setzt auf ein konsistentes Qualitätsniveau, das in der DoD festgehalten ist. Wenn das Team dieses Niveau nicht erreicht, sollte Umfang reduziert, nicht Qualität gesenkt oder die Timebox aufgeweicht werden.",
+      "weight": 3,
+      "topic": "Qualität und Definition of Done",
+      "concept": "Qualität vs. Umfang",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Qualität sichern durch DoD und realistischen Umfang",
+        "steps": [
+          "Erkenne, dass die DoD das gewünschte Qualitätsniveau abbildet.",
+          "Stelle fest, dass das Team Mühe hat, sowohl Umfang als auch Qualität zu liefern.",
+          "Leite ab, dass der Umfang an die realistische Kapazität anzupassen ist, nicht die Qualität zu senken oder Sprints zu verlängern."
+        ],
+        "content": "Die richtige Antwort hält an einem stabilen Qualitätsniveau fest und justiert den Lieferumfang, was langfristig zu verlässlicheren Inkrementen führt."
+      },
+      "mini_glossary": {
+        "DoD": "Kurzform für Definition of Done.",
+        "Qualitätsniveau": "Vereinbartes Maß an Qualität, das ein Produktstand erreichen muss.",
+        "Timebox": "Feste zeitliche Begrenzung eines Sprints."
+      }
+    },
+    {
+      "question": "31. Wie passt der Umgang mit technischer Schuld („Technical Debt“) typischerweise in Scrum?",
+      "options": [
+        "Sie wird sichtbar gemacht, als Arbeit im Product Backlog erfasst und bewusst gegen andere Einträge abgewogen.",
+        "Sie wird ignoriert, solange das Produkt funktioniert.",
+        "Sie wird ausschließlich im Daily Scrum diskutiert, aber nie geplant.",
+        "Sie darf nur außerhalb der regulären Arbeitszeit bearbeitet werden.",
+        "Sie ist kein Thema in Scrum."
+      ],
+      "answer": 0,
+      "explanation": "Scrum verlangt Transparenz; technische Schuld sollte sichtbar und planbar sein. Sie gehört ins Product Backlog, damit bewusst entschieden werden kann, wann und wie sie reduziert wird.",
+      "weight": 2,
+      "topic": "Qualität und Definition of Done",
+      "concept": "Technische Schuld in Scrum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Transparenter Umgang mit technischer Schuld",
+        "steps": [
+          "Erkenne technische Schuld als Risiko für zukünftige Entwicklung.",
+          "Berücksichtige, dass Scrum Transparenz und bewusste Priorisierung fordert.",
+          "Wähle die Antwort, die Sichtbarkeit und Planung über das Product Backlog vorsieht."
+        ],
+        "content": "Die richtige Antwort sorgt dafür, dass technische Schuld nicht unsichtbar bleibt, sondern als Teil der Produktentscheidungen mit betrachtet wird."
+      },
+      "mini_glossary": {
+        "Technische Schuld": "Bewusste oder unbewusste technische Unzulänglichkeiten, die später zusätzlichen Aufwand verursachen.",
+        "Transparenz": "Sichtbarkeit relevanter Sachverhalte für alle Beteiligten.",
+        "Risiko": "Möglicher negativer Einfluss auf zukünftige Entwicklungen."
+      }
+    },
+    {
+      "question": "32. Welche Praxis unterstützt ein Scrum-Team unmittelbar dabei, die Qualität während des Sprints hoch zu halten?",
+      "options": [
+        "Kontinuierliche Integration und automatisierte Tests, die Teil der Definition of Done sind.",
+        "Verzicht auf Code-Reviews, um Zeit zu sparen.",
+        "Sammeln aller Tests am Projektende in einer separaten Testphase.",
+        "Ausschließlich manuelle Tests durch das Management.",
+        "Keine Dokumentation, um schneller zu sein."
+      ],
+      "answer": 0,
+      "explanation": "Kontinuierliche Integration und automatisierte Tests ermöglichen frühzeitiges Feedback zur Qualität und passen gut zum inkrementellen Ansatz von Scrum. Sie sollten in der Definition of Done verankert sein.",
+      "weight": 2,
+      "topic": "Qualität und Definition of Done",
+      "concept": "Qualitätssicherung im Sprint",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Qualitätssicherung in kurzen Iterationen",
+        "steps": [
+          "Berücksichtige, dass Fehler früh erkannt und behoben werden sollen.",
+          "Prüfe, welche Praxis kontinuierliches Feedback ermöglicht.",
+          "Wähle die Antwort, die sich nahtlos in jeden Sprint integrieren lässt."
+        ],
+        "content": "Die richtige Antwort integriert Qualitätssicherung direkt in den Entwicklungsprozess, statt sie ans Ende des Projekts zu verschieben."
+      },
+      "mini_glossary": {
+        "Kontinuierliche Integration": "Regelmäßiges Zusammenführen und Testen von Codeänderungen.",
+        "Automatisierte Tests": "Tests, die durch Werkzeuge automatisiert ausgeführt werden.",
+        "Qualitätssicherung": "Systematische Maßnahmen zur Sicherstellung definierter Qualitätsstandards."
+      }
+    },
+    {
+      "question": "33. Ein Team möchte seine Arbeitsweise stärker an den empirischen Prinzipien von Scrum ausrichten. Auf welche drei Säulen sollte es dabei besonders achten?",
+      "options": [
+        "Transparenz, Inspektion und Anpassung.",
+        "Planung, Kontrolle und Dokumentation.",
+        "Hierarchie, Steuerung und Berichtswesen.",
+        "Analyse, Design und Implementierung.",
+        "Strategie, Taktik und Operative."
+      ],
+      "answer": 0,
+      "explanation": "Scrum basiert auf empirischer Prozesssteuerung mit den Säulen Transparenz, Inspektion und Anpassung. Diese ermöglichen es, aus Beobachtungen zu lernen und das Vorgehen laufend zu justieren.",
+      "weight": 2,
+      "topic": "Empirie und kontinuierliche Verbesserung",
+      "concept": "Drei Säulen von Scrum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Empirische Grundlagen von Scrum",
+        "steps": [
+          "Erinnere dich daran, dass Scrum als empirisches Rahmenwerk beschrieben wird.",
+          "Prüfe, welche Antwort Transparenz, Inspektion und Anpassung explizit benennt.",
+          "Verwerfe Antworten, die klassische Managementbegriffe statt empirischer Elemente betonen."
+        ],
+        "content": "Die richtige Antwort benennt genau die drei Säulen, die auch im Scrum Guide als Grundlage der empirischen Prozesssteuerung beschrieben werden."
+      },
+      "mini_glossary": {
+        "Transparenz": "Nachvollziehbarkeit von Informationen und Zuständen.",
+        "Inspektion": "Regelmäßige Überprüfung von Ergebnissen und Prozessen.",
+        "Anpassung": "Gezielte Änderung von Vorgehen oder Planung auf Basis von Erkenntnissen."
+      }
+    },
+    {
+      "question": "34. Ein Team stellt fest, dass es zwar regelmäßig Retrospektiven durchführt, aber beschlossene Verbesserungsmaßnahmen kaum umgesetzt werden. Wie lässt sich dieses Problem im Sinne der empirischen Prozesssteuerung am besten adressieren?",
+      "options": [
+        "Klare, kleine Verbesserungsmaßnahmen mit Verantwortlichen und Fristen definieren und deren Umsetzung in den nächsten Sprints explizit verfolgen.",
+        "Retrospektiven reduzieren, um mehr Zeit für Entwicklung zu haben.",
+        "Nur noch positive Aspekte diskutieren, um die Stimmung zu schonen.",
+        "Verbesserungsmaßnahmen ausschließlich an das Management delegieren.",
+        "Retrospektiven durch schriftliche, einmalige Umfragen ersetzen."
+      ],
+      "answer": 0,
+      "explanation": "Empirische Verbesserung lebt von der Umsetzung konkreter Maßnahmen. Kleine, erreichbare Schritte mit klarer Verantwortlichkeit erhöhen die Wahrscheinlichkeit, dass Verbesserungen tatsächlich stattfinden.",
+      "weight": 3,
+      "topic": "Empirie und kontinuierliche Verbesserung",
+      "concept": "Wirksame Retrospektiven",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Von Erkenntnissen zu konkreten Maßnahmen",
+        "steps": [
+          "Erkenne, dass das Problem nicht in der Analyse, sondern in der Umsetzung liegt.",
+          "Berücksichtige, dass kleine, konkrete Maßnahmen leichter umzusetzen und zu verfolgen sind.",
+          "Wähle die Antwort, die Verantwortlichkeiten und Nachverfolgung explizit macht."
+        ],
+        "content": "Die richtige Antwort verbindet Reflexion mit klarer Umsetzung und schafft so eine kontinuierliche Verbesserungsschleife."
+      },
+      "mini_glossary": {
+        "Retrospektive": "Scrum-Event zur Reflexion und Verbesserung der Arbeitsweise.",
+        "Kontinuierliche Verbesserung": "Laufendes, schrittweises Verbessern von Prozessen und Zusammenarbeit.",
+        "Maßnahme": "Konkret vereinbarter Schritt, um eine identifizierte Ursache zu adressieren."
+      }
+    },
+    {
+      "question": "35. Wie tragen die vier Scrum-Events gemeinsam zur kontinuierlichen Verbesserung bei?",
+      "options": [
+        "Sie schaffen regelmäßige Zeitpunkte zur Inspektion von Produkt, Fortschritt und Zusammenarbeit sowie zur Anpassung von Plan und Vorgehen.",
+        "Sie dienen hauptsächlich der detaillierten Dokumentation für Audits.",
+        "Sie ersetzen alle Formen der informellen Kommunikation.",
+        "Sie fixieren einmalige Entscheidungen, die nicht mehr geändert werden dürfen.",
+        "Sie entlasten das Team von der Verantwortung für Verbesserungen."
+      ],
+      "answer": 0,
+      "explanation": "Die Scrum-Events sind so gestaltet, dass sie Produkt, Fortschritt und Arbeitsweise regelmäßig zur Sprache bringen. Damit bilden sie zentrale Ankerpunkte für „Inspect and Adapt“. ",
+      "weight": 2,
+      "topic": "Empirie und kontinuierliche Verbesserung",
+      "concept": "Rolle der Scrum-Events",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Events als Inspektions- und Anpassungszyklen",
+        "steps": [
+          "Ordne jedem Event seinen Inspektionsschwerpunkt zu (Produkt, Plan, Prozess, täglicher Fortschritt).",
+          "Berücksichtige, dass aus diesen Inspektionen Anpassungen folgen sollen.",
+          "Wähle die Antwort, die diese gemeinsame Funktion der Events beschreibt."
+        ],
+        "content": "Die richtige Antwort macht deutlich, dass die Events nicht Selbstzweck sind, sondern systematische Schleifen zur Verbesserung darstellen."
+      },
+      "mini_glossary": {
+        "Scrum-Events": "Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospektive.",
+        "Inspektion": "Überprüfung von Produkt, Fortschritt oder Zusammenarbeit.",
+        "Anpassung": "Änderung von Plan oder Arbeitsweise auf Basis der Inspektion."
+      }
+    },
+    {
+      "question": "36. Wie sollte ein Scrum-Team mit Metriken wie Durchlaufzeit oder Anzahl erledigter Einträge umgehen?",
+      "options": [
+        "Es nutzt sie als Hinweis für Muster und Potenziale zur Verbesserung, ohne sie als starre Zielvorgaben zur Leistungssteuerung zu missbrauchen.",
+        "Es veröffentlicht Teamrankings, um Konkurrenz zu erzeugen.",
+        "Es setzt starre Zielzahlen, die unabhängig vom Kontext gelten.",
+        "Es vermeidet Metriken vollständig, um Druck zu reduzieren.",
+        "Es überlässt die Interpretation ausschließlich dem Management."
+      ],
+      "answer": 0,
+      "explanation": "Metriken können helfen, Muster zu erkennen und Hypothesen für Verbesserungen zu bilden. Werden sie jedoch als harte Zielvorgaben missbraucht, können sie unerwünschtes Verhalten fördern.",
+      "weight": 2,
+      "topic": "Empirie und kontinuierliche Verbesserung",
+      "concept": "Sinnvolle Nutzung von Metriken",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Metriken als Lern- statt Kontrollinstrument",
+        "steps": [
+          "Unterscheide zwischen Metriken zur Lernunterstützung und solchen zur Kontrolle.",
+          "Berücksichtige, dass starre Zielvorgaben Fehlanreize setzen können.",
+          "Wähle die Antwort, die Metriken kontextsensitiv und reflektiert einsetzt."
+        ],
+        "content": "Die richtige Antwort nutzt Metriken als Ausgangspunkt für Gespräche und Verbesserungen, nicht als reines Steuerungsinstrument."
+      },
+      "mini_glossary": {
+        "Metrik": "Messgröße zur quantitativen Beschreibung eines Aspekts.",
+        "Durchlaufzeit": "Zeitspanne von Beginn bis Abschluss einer Arbeitseinheit.",
+        "Fehlanpassung": "Unerwünschte Verhaltensänderung aufgrund unpassender Ziele."
+      }
+    },
+    {
+      "question": "37. Mehrere Scrum-Teams arbeiten an demselben Produkt. Welche Aussage beschreibt eine sinnvolle Koordination im Sinne agiler Skalierung?",
+      "options": [
+        "Teams synchronisieren Sprints, pflegen eine gemeinsame Produktvision und stimmen Abhängigkeiten regelmäßig ab, zum Beispiel in übergreifenden Refinements.",
+        "Jedes Team erhält eine eigene Produktvision, um unabhängig arbeiten zu können.",
+        "Nur das Management koordiniert Abhängigkeiten, Teams kommunizieren nicht direkt.",
+        "Sprints werden zeitlich versetzt, damit Teams sich nicht beeinflussen.",
+        "Product Owner werden durch eine zentrale Projektleitung vollständig ersetzt."
+      ],
+      "answer": 0,
+      "explanation": "In einem skalierten Umfeld ist eine gemeinsame Ausrichtung auf eine Produktvision und abgestimmte Sprints hilfreich. Direkte Kommunikation der Teams und abgestimmte Refinements unterstützen die Koordination.",
+      "weight": 2,
+      "topic": "Skalierung von Scrum",
+      "concept": "Koordination mehrerer Teams",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Gemeinsame Produktorientierung und Synchronisation",
+        "steps": [
+          "Berücksichtige, dass alle Teams an einem gemeinsamen Produkt arbeiten.",
+          "Prüfe, wie Synchronisation und gemeinsame Refinements helfen können.",
+          "Verwerfe Ansätze, die Kommunikation unterbinden oder Rollen ersetzen."
+        ],
+        "content": "Die richtige Antwort beschreibt eine kooperative Ausrichtung rund um eine gemeinsame Produktvision, die Abhängigkeiten sichtbar und handhabbar macht."
+      },
+      "mini_glossary": {
+        "Skalierung": "Anwendung agiler Praktiken mit mehreren Teams auf ein Produkt.",
+        "Produktvision": "Langfristige Vorstellung vom Zielzustand des Produkts.",
+        "Übergreifendes Refinement": "Refinement, an dem mehrere Teams gemeinsam teilnehmen."
+      }
+    },
+    {
+      "question": "38. In einem skalierten Umfeld mit mehreren Teams gibt es Diskussionen, ob jedes Team einen eigenen Product Owner mit eigener Prioritätenliste erhalten soll. Welche Lösung passt am besten zu einem produktorientierten, skalierten Scrum-Ansatz?",
+      "options": [
+        "Ein übergreifender Product Owner verantwortet ein gemeinsames Product Backlog, kann aber mit stellvertretenden Personen zusammenarbeiten, die bei der inhaltlichen Ausarbeitung unterstützen.",
+        "Jedes Team erhält eigene Produktziele, auch wenn es sich um dasselbe Produkt handelt.",
+        "Es wird komplett auf die Rolle Product Owner verzichtet, um Entscheidungen zu beschleunigen.",
+        "Die Priorisierung der Anforderungen wird ausschließlich vom Projektmanagement getroffen.",
+        "Jedes Team erstellt sein eigenes Product Backlog ohne Abstimmung, Überschneidungen werden später bereinigt."
+      ],
+      "answer": 0,
+      "explanation": "Ein produktorientierter Ansatz erfordert eine einheitliche Verantwortung für das Produkt und ein gemeinsames Product Backlog. Delegation an unterstützende Personen ist möglich, die Verantwortung bleibt jedoch gebündelt.",
+      "weight": 3,
+      "topic": "Skalierung von Scrum",
+      "concept": "Product Owner in skalierten Umgebungen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Zentrale Produktverantwortung trotz Delegation",
+        "steps": [
+          "Erkenne, dass ein Produkt idealerweise eine klare Verantwortlichkeit hat.",
+          "Berücksichtige, dass ein gemeinsames Product Backlog für Konsistenz sorgt.",
+          "Wähle die Antwort, die diese Verantwortung bündelt und dennoch Delegation im Detail zulässt."
+        ],
+        "content": "Die richtige Antwort vermeidet widersprüchliche Prioritäten und Produktziele, die bei mehreren unabhängigen Product Backlogs für dasselbe Produkt entstehen würden."
+      },
+      "mini_glossary": {
+        "Product Owner": "Verantwortliche Person für Produktwert und Product Backlog.",
+        "Skaliertes Scrum": "Scrum mit mehreren Teams, die an einem Produkt arbeiten.",
+        "Delegation": "Übertragung operativer Aufgaben bei Erhalt der Gesamtverantwortung."
+      }
+    },
+    {
+      "question": "39. Wie kann ein Team in einem skalierten Scrum-Umfeld Abhängigkeiten zu anderen Teams am besten handhabbar machen?",
+      "options": [
+        "Abhängigkeiten früh sichtbar machen, gemeinsam planen und nach Möglichkeit so schneiden, dass Teams möglichst unabhängig Inkremente liefern können.",
+        "Abhängigkeiten ignorieren und auf spätere Integration hoffen.",
+        "Alle Arbeit an Teams mit den wenigsten Abhängigkeiten delegieren.",
+        "Nur den Scrum Master anderer Teams über Abhängigkeiten informieren.",
+        "Abhängigkeiten ausschließlich in Managementrunden diskutieren, nicht im Team."
+      ],
+      "answer": 0,
+      "explanation": "Abhängigkeiten sollten früh identifiziert, transparent gemacht und gemeinsam geplant werden. Wo möglich, werden Backlog-Einträge so zugeschnitten, dass Teams eigenständig ein wertvolles Inkrement liefern können.",
+      "weight": 2,
+      "topic": "Skalierung von Scrum",
+      "concept": "Umgang mit Abhängigkeiten",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Abhängigkeiten sichtbar und planbar machen",
+        "steps": [
+          "Erkenne, dass Abhängigkeiten bei mehreren Teams unvermeidbar sind.",
+          "Berücksichtige, dass Transparenz und gemeinsame Planung wichtig sind.",
+          "Wähle die Antwort, die sowohl Sichtbarkeit als auch aktives Zuschnitts- und Planungsverhalten beschreibt."
+        ],
+        "content": "Die richtige Antwort nutzt typische agile Strategien wie frühzeitige Transparenz und Anpassung des Zuschnitts von Arbeitseinheiten zur Reduktion von Abhängigkeiten."
+      },
+      "mini_glossary": {
+        "Abhängigkeit": "Situation, in der ein Team auf Arbeit eines anderen Teams angewiesen ist.",
+        "Zuschnitt": "Aufteilung und Gestaltung von Arbeiten, um Abhängigkeiten zu reduzieren.",
+        "Integration": "Zusammenführen der Arbeitsergebnisse mehrerer Teams."
+      }
+    },
+    {
+      "question": "40. In einem skalierten Umfeld kommt es bei jedem Release zu Integrationsproblemen zwischen den Inkrementen der Teams. Welche Maßnahme ist im Sinne von Scrum und Empirie am wirkungsvollsten?",
+      "options": [
+        "Regelmäßige, möglichst mindestens sprinttaktende Integration der Arbeitsergebnisse aller Teams und gemeinsame Inspektion des integrierten Produkts.",
+        "Integration ausschließlich am Projektende durchführen, um Aufwand zu sparen.",
+        "Integration ganz auf ein separates Integrationsteam auslagern, das außerhalb der Sprints arbeitet.",
+        "Die Anzahl der Sprints reduzieren, damit es weniger Integrationstermine gibt.",
+        "Auf automatische Tests verzichten und nur manuelle Endtests durchführen."
+      ],
+      "answer": 0,
+      "explanation": "Häufige, frühe Integration macht Integrationsprobleme früh sichtbar und handhabbar. Gemeinsame Inspektion des integrierten Produkts erlaubt es, rechtzeitig Anpassungen vorzunehmen.",
+      "weight": 3,
+      "topic": "Skalierung von Scrum",
+      "concept": "Integration in skalierten Systemen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Frühe Integration zur Risikoreduzierung",
+        "steps": [
+          "Erkenne Integration als potenzielle Fehlerquelle bei mehreren Teams.",
+          "Berücksichtige, dass Empirie frühe Sichtbarkeit von Problemen fordert.",
+          "Wähle die Antwort, die häufige Integration und gemeinsame Inspektion des Gesamtprodukts vorsieht."
+        ],
+        "content": "Die richtige Antwort nutzt die Scrum-Logik kurzer Feedbackschleifen und überträgt sie auf die Integration in skalierten Umgebungen."
+      },
+      "mini_glossary": {
+        "Release": "Bereitstellung eines Produktstands für Nutzerinnen/Nutzer oder Kunden.",
+        "Integration": "Technisches Zusammenführen von Komponenten oder Inkrementen.",
+        "Feedbackschleife": "Zyklus aus Umsetzung, Beobachtung und Anpassung."
+      }
+    }
+  ]
+}
