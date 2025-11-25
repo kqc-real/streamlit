@@ -2200,6 +2200,14 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             pass
 
+    # Zeige eine Warnung, wenn ein Pseudonym ausgewählt wurde, aber noch kein
+    # Fragenset.
+    question_selected = st.session_state.get(
+        "selected_questions_file"
+    ) or st.session_state.get("main_view_question_file_selector")
+    if selected_name_from_user and not question_selected:
+        st.warning(_welcome_pseudonym_question_required())
+
     # Optional: Setze ein Wiederherstellungs-Geheimwort für das neu ausgewählte Pseudonym
     recovery_secret_new = None
     if selected_name_from_user:
