@@ -463,11 +463,18 @@ def _cached_transform_anki(json_payload: bytes, source_name: str) -> str:
 
 
 @st.cache_data(show_spinner=True)
-def _cached_generate_anki_apkg(selected_file: str) -> bytes:
+def _cached_generate_anki_apkg(selected_file: str, locale: str) -> bytes:
     _ensure_anki_logger_configured()
     from export_jobs import generate_anki_apkg
+    import i18n.context
 
-    return generate_anki_apkg(selected_file)
+    original_get_locale = i18n.context.get_locale
+    i18n.context.get_locale = lambda: locale
+    
+    try:
+        return generate_anki_apkg(selected_file, locale)
+    finally:
+        i18n.context.get_locale = original_get_locale
 
 
 @st.cache_data(show_spinner=False)
@@ -624,12 +631,16 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
                 options_html = "<ol type=\"A\">" + "".join(rendered_opts) + "</ol>"
 
             thema = preview_q.get("thema", "") if isinstance(preview_q, dict) else ""
-            schwierigkeit_map = {1: "leicht", 2: "mittel", 3: "schwer"}
+            schwierigkeit_map = {
+                1: translate_ui("welcome.distribution.difficulty.easy", default="leicht"),
+                2: translate_ui("welcome.distribution.difficulty.medium", default="mittel"),
+                3: translate_ui("welcome.distribution.difficulty.hard", default="schwer"),
+            }
             gewichtung_raw = preview_q.get("gewichtung", 2) if isinstance(preview_q, dict) else 2
             try:
-                schwierigkeit = schwierigkeit_map.get(int(gewichtung_raw), "mittel")
+                schwierigkeit = schwierigkeit_map.get(int(gewichtung_raw), translate_ui("welcome.distribution.difficulty.medium", default="mittel"))
             except Exception:
-                schwierigkeit = "mittel"
+                schwierigkeit = translate_ui("welcome.distribution.difficulty.medium", default="mittel")
 
             konzept_display = ""
             if isinstance(preview_q, dict):
@@ -644,15 +655,15 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
                     stage_html = _normalize_stage_label(stage_raw)
 
             meta_items = [
-                f"<span class='meta-item'><strong>🗂️ Fragenset:</strong> {meta_title}</span>",
-                f"<span class='meta-item'><strong>Thema:</strong> {thema}</span>",
-                f"<span class='meta-item'><strong>Schwierigkeit:</strong> {schwierigkeit}</span>",
+                f"<span class='meta-item'><strong>🗂️ {translate_ui('metadata.question_set', default='Fragenset')}:</strong> {meta_title}</span>",
+                f"<span class='meta-item'><strong>{translate_ui('metadata.topic', default='Thema')}:</strong> {thema}</span>",
+                f"<span class='meta-item'><strong>{translate_ui('metadata.difficulty', default='Schwierigkeit')}:</strong> {schwierigkeit}</span>",
             ]
             if konzept_display:
-                meta_items.append(f"<span class='meta-item'><strong>Konzept:</strong> {_render_md(str(konzept_display))}</span>")
+                meta_items.append(f"<span class='meta-item'><strong>{translate_ui('metadata.concept', default='Konzept')}:</strong> {_render_md(str(konzept_display))}</span>")
             if stage_html:
                 translated_stage = translate_ui(f"pdf.stage_name.{stage_html}", default=stage_html)
-                meta_items.append(f"<span class='meta-item'><strong>Kognitive Stufe:</strong> {translated_stage}</span>")
+                meta_items.append(f"<span class='meta-item'><strong>{translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')}:</strong> {translated_stage}</span>")
 
             meta_html = "<div class='meta-info'>" + "".join(meta_items) + "</div>"
 
@@ -4190,7 +4201,9 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         _summary_text("export_anki_apkg_spinner", default="Anki-Paket wird erstellt...")
                     ):
                         try:
-                            apkg_bytes = _cached_generate_anki_apkg(export_selected_file)
+                            apkg_bytes = _cached_generate_anki_apkg(
+                                export_selected_file, locale=get_locale() or "de"
+                            )
                         except ModuleNotFoundError:
                             st.info(_anki_dependency_msg())
                         except FileNotFoundError as exc:

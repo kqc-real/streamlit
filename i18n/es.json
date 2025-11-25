@@ -251,7 +251,11 @@
     },
     "metadata": {
         "weight_label": "Peso",
-        "cognitive_stage": "Nivel cognitivo"
+        "cognitive_stage": "Nivel cognitivo",
+        "topic": "Tema",
+        "concept": "Concepto",
+        "question_set": "Conjunto de preguntas",
+        "difficulty": "Dificultad"
     },
     "export": {
         "musterloesung": "Solución modelo",
@@ -287,6 +291,13 @@
     "dialogs": {
         "anki_instruction": "Guía: Exportar a Anki",
         "anki_preview": "Vista previa tarjeta Anki"
+    },
+    "anki": {
+        "fragenset": "Conjunto de preguntas",
+        "thema": "Tema",
+        "schwierigkeit": "Dificultad",
+        "konzept": "Concepto",
+        "glossary": "Glosario"
     },
     "pdf": {
         "status": { "correct": "Correcto", "wrong": "Incorrecto", "unanswered": "Sin respuesta" },

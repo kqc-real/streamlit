@@ -254,7 +254,9 @@
         "weight_label": "Weight",
         "cognitive_stage": "Cognitive Stage",
         "topic": "Topic",
-        "concept": "Concept"
+        "concept": "Concept",
+        "question_set": "Question Set",
+        "difficulty": "Difficulty"
     },
     "export": {
         "musterloesung": "Solution sample",
@@ -291,6 +293,13 @@
     "dialogs": {
         "anki_instruction": "Guide: Anki export",
         "anki_preview": "Anki card preview"
+    },
+    "anki": {
+        "fragenset": "Question Set",
+        "thema": "Topic",
+        "schwierigkeit": "Difficulty",
+        "konzept": "Concept",
+        "glossary": "Glossary"
     },
     "pdf": {
         "status": { "correct": "Correct", "wrong": "Incorrect", "unanswered": "Unanswered" },

@@ -254,7 +254,9 @@
         "cognitive_stage": "Kognitive Stufe",
         "questionset_title": "Fragenset",
         "topic": "Thema",
-        "concept": "Konzept"
+        "concept": "Konzept",
+        "question_set": "Fragenset",
+        "difficulty": "Schwierigkeit"
     },
     "export": {
         "musterloesung": "Musterl\u00f6sung",
@@ -295,7 +297,9 @@
         "fragenset": "Fragenset",
         "thema": "Thema",
         "schwierigkeit": "Schwierigkeit",
-        "konzept": "Konzept"
+        "konzept": "Konzept",
+        "kognitive_stufe": "Kognitive Stufe",
+        "glossary": "Glossar"
     },
     "pdf": {
         "status": {

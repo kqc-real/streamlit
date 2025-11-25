@@ -251,7 +251,11 @@
     },
     "metadata": {
         "weight_label": "Poids",
-        "cognitive_stage": "Niveau cognitif"
+        "cognitive_stage": "Niveau cognitif",
+        "topic": "Sujet",
+        "concept": "Concept",
+        "question_set": "Ensemble de questions",
+        "difficulty": "Difficulté"
     },
     "export": {
         "musterloesung": "Solution type",
@@ -287,6 +291,13 @@
     "dialogs": {
         "anki_instruction": "Guide : Export Anki",
         "anki_preview": "Aperçu carte Anki"
+    },
+    "anki": {
+        "fragenset": "Ensemble de questions",
+        "thema": "Sujet",
+        "schwierigkeit": "Difficulté",
+        "konzept": "Concept",
+        "glossary": "Glossaire"
     },
     "pdf": {
         "status": { "correct": "Correct", "wrong": "Faux", "unanswered": "Sans réponse" },

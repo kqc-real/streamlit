@@ -462,71 +462,50 @@ _ANKI_CARD_CSS = """
 """
 
 
-_ANKI_FRONT_TEMPLATE = (
-    "<div class='card-container'>"
-    "<div class='meta-info'>"
-    "{{#Fragenset_Titel}}<span class='meta-item'><strong>" + translate_ui('anki.fragenset', default='Fragenset') + ":</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
-    "{{#Thema}}<span class='meta-item'><strong>" + translate_ui('anki.thema', default='Thema') + ":</strong> {{Thema}}</span>{{/Thema}}"
-    "{{#Schwierigkeit}}<span class='meta-item'><strong>" + translate_ui('anki.schwierigkeit', default='Schwierigkeit') + ":</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
-    "{{#Konzept}}<span class='meta-item'><strong>" + translate_ui('anki.konzept', default='Konzept') + ":</strong> {{Konzept}}</span>{{/Konzept}}" +
-    ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + translate_ui('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
-    "</div>"
-    "<div class='question'>{{Frage}}</div>"
-    "{{#Optionen}}<div class='options'>{{Optionen}}</div>{{/Optionen}}"
-    "</div>"
-)
+def _build_anki_model(genanki_module, model_id: int, locale: str):
+    from i18n import translate
+
+    def t(key: str, default: Optional[str] = None) -> str:
+        return translate(key, locale=locale, default=default)
+
+    _ANKI_FRONT_TEMPLATE = (
+        "<div class='card-container'>"
+        "<div class='meta-info'>"
+        "{{#Fragenset_Titel}}<span class='meta-item'><strong>" + t('anki.fragenset', default='Fragenset') + ":</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
+        "{{#Thema}}<span class='meta-item'><strong>" + t('anki.thema', default='Thema') + ":</strong> {{Thema}}</span>{{/Thema}}"
+        "{{#Schwierigkeit}}<span class='meta-item'><strong>" + t('anki.schwierigkeit', default='Schwierigkeit') + ":</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
+        "{{#Konzept}}<span class='meta-item'><strong>" + t('anki.konzept', default='Konzept') + ":</strong> {{Konzept}}</span>{{/Konzept}}" +
+        ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + t('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
+        "</div>"
+        "<div class='question'>{{Frage}}</div>"
+        "{{#Optionen}}<div class='options'>{{Optionen}}</div>{{/Optionen}}"
+        "</div>"
+    )
 
 
-_ANKI_BACK_TEMPLATE = (
-    "<div class='card-container'>"
-    "<div class='meta-info'>"
-    "{{#Fragenset_Titel}}<span class='meta-item'><strong>Fragenset:</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
-    "{{#Thema}}<span class='meta-item'><strong>Thema:</strong> {{Thema}}</span>{{/Thema}}"
-    "{{#Schwierigkeit}}<span class='meta-item'><strong>Schwierigkeit:</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
-    "{{#Konzept}}<span class='meta-item'><strong>Konzept:</strong> {{Konzept}}</span>{{/Konzept}}" +
-    ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + translate_ui('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
-    "</div>"
-    "<div class='question-repeat'>"
-    "<div class='section-title'>Frage</div>"
-    "<div class='question-content'>{{Frage}}</div>"
-    "</div>"
-    "<hr id='answer'>"
-    "<div class='answer-block'>"
-    "<div class='answer-title'>Korrekte Antwort</div>"
-    "<div class='answer-content'>{{Antwort_Korrekt}}</div>"
-    "{{#Erklaerung_Basis}}<div class='section-title'>Erklärung</div><div class='explanation'>{{Erklaerung_Basis}}</div>{{/Erklaerung_Basis}}"
-    "{{#Erklaerung_Erweitert}}<div class='section-title'>Detaillierte Erklärung</div><div class='explanation'>{{Erklaerung_Erweitert}}</div>{{/Erklaerung_Erweitert}}"
-    "{{#Glossar}}<div class='section-title'>Glossar</div><div class='glossary'>{{Glossar}}</div>{{/Glossar}}"
-    "</div>"
-    "</div>"
-)
-
-
-def _determine_deck_title(raw_data: Any, selected_file: str) -> str:
-    """Ermittelt den Deck-Titel aus Metadaten oder leitet ihn vom Dateinamen ab."""
-    if isinstance(raw_data, dict):
-        meta = raw_data.get("meta") or {}
-        if isinstance(meta, dict):
-            # Bevorzuge 'title', dann 'thema'
-            title = meta.get("title") or meta.get("thema")
-            if isinstance(title, str) and title.strip():
-                return title.strip()
-
-    # Fallback auf einen bereinigten Dateinamen
-    try:
-        from user_question_sets import pretty_label_from_identifier_string
-        pretty_name = pretty_label_from_identifier_string(selected_file)
-        if pretty_name and pretty_name != "Ungenanntes Fragenset":
-            return pretty_name
-    except (ImportError, AttributeError):
-        pass
-
-    # Letzter Fallback
-    fallback_name = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ").strip()
-    return fallback_name or "MC-Test Deck"
-
-
-def _build_anki_model(genanki_module, model_id: int):
+    _ANKI_BACK_TEMPLATE = (
+        "<div class='card-container'>"
+        "<div class='meta-info'>"
+        "{{#Fragenset_Titel}}<span class='meta-item'><strong>" + t('anki.fragenset', default='Fragenset') + ":</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
+        "{{#Thema}}<span class='meta-item'><strong>" + t('anki.thema', default='Thema') + ":</strong> {{Thema}}</span>{{/Thema}}"
+        "{{#Schwierigkeit}}<span class='meta-item'><strong>" + t('anki.schwierigkeit', default='Schwierigkeit') + ":</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
+        "{{#Konzept}}<span class='meta-item'><strong>" + t('anki.konzept', default='Konzept') + ":</strong> {{Konzept}}</span>{{/Konzept}}" +
+        ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + t('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
+        "</div>"
+        "<div class='question-repeat'>"
+        "<div class='section-title'>" + t('summary_view.review_question_label', default='Frage') + "</div>"
+        "<div class='question-content'>{{Frage}}</div>"
+        "</div>"
+        "<hr id='answer'>"
+        "<div class='answer-block'>"
+        "<div class='answer-title'>" + t('summary_view.review_label_correct_answer', default='Richtige Antwort') + "</div>"
+        "<div class='answer-content'>{{Antwort_Korrekt}}</div>"
+        "{{#Erklaerung_Basis}}<div class='section-title'>" + t('summary_view.review_label_explanation', default='Erklärung') + "</div><div class='explanation'>{{Erklaerung_Basis}}</div>{{/Erklaerung_Basis}}"
+        "{{#Erklaerung_Erweitert}}<div class='section-title'>" + t('test_view.extended_panel', default='Detaillierte Erklärung') + "</div><div class='explanation'>{{Erklaerung_Erweitert}}</div>{{/Erklaerung_Erweitert}}"
+        "{{#Glossar}}<div class='section-title'>" + t('anki.glossary', default='Glossar') + "</div><div class='glossary'>{{Glossar}}</div>{{/Glossar}}"
+        "</div>"
+        "</div>"
+    )
     return genanki_module.Model(
         model_id,
         "MC-Test-Notiztyp",
@@ -557,7 +536,35 @@ def _write_apkg_package(package) -> bytes:
                 pass
 
 
-def generate_anki_apkg(selected_file: str) -> bytes:
+def _determine_deck_title(data: dict, selected_file: str) -> str:
+    """Bestimmt den Titel des Anki-Decks.
+
+    Priorität:
+    1. `meta.title` aus dem Fragenset.
+    2. `meta.name` aus dem Fragenset.
+    3. Ein "schöner" Name, der aus dem `selected_file` Bezeichner abgeleitet wird.
+    4. Ein bereinigter Dateiname als Fallback.
+    """
+    meta = data.get("meta", {}) or {}
+    title = meta.get("title") or meta.get("name")
+    if title and isinstance(title, str) and title.strip():
+        return title.strip()
+
+    # Fallback auf einen schönen Namen aus dem Dateinamen
+    try:
+        from user_question_sets import pretty_label_from_identifier_string
+        pretty_name = pretty_label_from_identifier_string(selected_file)
+        if pretty_name and pretty_name != "Ungenanntes Fragenset":
+            return pretty_name
+    except (ImportError, AttributeError):
+        pass
+
+    # Generischer Fallback
+    base = selected_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+    return base.strip() or "MC-Test-Quiz"
+
+
+def generate_anki_apkg(selected_file: str, locale: str) -> bytes:
     """Erzeugt ein Anki-.apkg-Paket für das angegebene Fragen-JSON."""
 
     try:
@@ -585,7 +592,8 @@ def generate_anki_apkg(selected_file: str) -> bytes:
     except json.JSONDecodeError as exc:
         raise ValueError("Ungültiges JSON-Format für den Anki-Export.") from exc
 
-    deck_title = _determine_deck_title(data, selected_file)
+    deck_title_data = data if isinstance(data, dict) else {}
+    deck_title = _determine_deck_title(deck_title_data, selected_file)
     deck_id = _stable_anki_id(deck_title, "deck")
     # Use a fresh/random model id to avoid colliding with an existing
     # model in the user's Anki collection (which can cause Anki to keep
@@ -593,7 +601,7 @@ def generate_anki_apkg(selected_file: str) -> bytes:
     # integer is sufficient here.
     model_id = random.randint(1, 2 ** 31 - 1)
 
-    model = _build_anki_model(genanki, model_id)
+    model = _build_anki_model(genanki, model_id, locale)
     deck = genanki.Deck(deck_id, deck_title)
 
     # genanki.Note erwartet die Klasse über das Modul
