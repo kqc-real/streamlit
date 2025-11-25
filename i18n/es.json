@@ -569,7 +569,7 @@
             "recover_failure": "Fallo: alias/secreto incorrectos.",
             "database_error": "Error BD: no se pudo iniciar sesión.",
             "test_button": "Iniciar test",
-            "question_required": "Selecciona un set primero."
+            "question_required": "Por favor, selecciona primero un conjunto de preguntas."
         }
     },
     "warnings": {

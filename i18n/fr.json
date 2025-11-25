@@ -569,7 +569,7 @@
             "recover_failure": "Échec : pseudo/secret incorrect.",
             "database_error": "Erreur BDD : impossible de lancer la session.",
             "test_button": "Lancer le test",
-            "question_required": "Choisis un set d'abord."
+            "question_required": "Veuillez d'abord sélectionner un ensemble de questions."
         }
     },
     "warnings": {

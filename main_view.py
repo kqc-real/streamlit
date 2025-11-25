@@ -2293,6 +2293,15 @@ def render_welcome_page(app_config: AppConfig):
         pseudonym_recover = st.text_input(_welcome_pseudonym_recover_pseudonym_label(), key="recover_pseudonym")
         secret_recover = st.text_input(_welcome_pseudonym_recover_secret_label(), type="password", key="recover_secret")
 
+        # Zeige eine Warnung, wenn ein Pseudonym/Geheimwort eingegeben wird,
+        # aber noch kein Fragenset ausgewählt wurde.
+        question_selected_for_recover = (
+            st.session_state.get("selected_questions_file")
+            or st.session_state.get("main_view_question_file_selector")
+        )
+        if (pseudonym_recover or secret_recover) and not question_selected_for_recover:
+            st.warning(_welcome_pseudonym_question_required())
+
         # Keep the expander open when the user types into either field so
         # the UI does not collapse on reruns triggered by widget interactions.
         try:
