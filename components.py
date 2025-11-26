@@ -902,10 +902,33 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
 
     # Entferne Session-Marker aus den Query-Parametern
     st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
+    # Determine whether the aborted user had a reserved pseudonym.
+    # If so, preserve the `user_id` and `user_id_hash` in session_state so the
+    # Sidebar can still expose reserved-user affordances like 'Meine Sessions'.
+    preserve_user_identity = False
+    try:
+        if aborted_user_id:
+            try:
+                from database import has_recovery_secret_for_pseudonym
 
-    # Bereinige Session-State
+                try:
+                    if callable(has_recovery_secret_for_pseudonym) and has_recovery_secret_for_pseudonym(aborted_user_id):
+                        preserve_user_identity = True
+                except Exception:
+                    preserve_user_identity = False
+            except Exception:
+                preserve_user_identity = False
+    except Exception:
+        preserve_user_identity = False
+
+    # Bereinige Session-State. Wenn `preserve_user_identity` True ist, behalten
+    # wir `user_id` und `user_id_hash` im Session-State; sonst entfernen wir sie
+    # wie bisher.
     for key in list(st.session_state.keys()):
         if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file" and key != "active_locale":
+            # Preserve identity keys for reserved pseudonyms
+            if preserve_user_identity and key in ("user_id", "user_id_hash"):
+                continue
             del st.session_state[key]
     
     st.session_state["session_aborted"] = True

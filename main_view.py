@@ -189,6 +189,22 @@ def _welcome_leaderboard_empty() -> str:
     )
 
 
+def _welcome_leaderboard_column_pseudonym() -> str:
+    return translate_ui("welcome.leaderboard.column.pseudonym", default="Pseudonym")
+
+
+def _welcome_leaderboard_column_date() -> str:
+    return translate_ui("welcome.leaderboard.column.date", default="Datum")
+
+
+def _welcome_leaderboard_column_duration() -> str:
+    return translate_ui("welcome.leaderboard.column.duration", default="Dauer")
+
+
+def _welcome_leaderboard_column_score() -> str:
+    return translate_ui("welcome.leaderboard.column.score", default="🏅 %")
+
+
 def _welcome_pseudonym_heading() -> str:
     return translate_ui(
         "welcome.pseudonym.heading",
@@ -401,38 +417,14 @@ _HISTORY_COLUMN_TRANSLATIONS: dict[str, tuple[str, str]] = {
 
 def _history_column_label(column_name: str) -> str:
     meta = _HISTORY_COLUMN_TRANSLATIONS.get(column_name)
-    if not meta:
-        return column_name
-    key, default = meta
-    return translate_ui(f"sidebar.history_columns.{key}", default=default)
-
-
-def _welcome_leaderboard_column_pseudonym() -> str:
-    return translate_ui(
-        "welcome.leaderboard.column.pseudonym",
-        default="👤 Pseudonym",
-    )
-
-
-def _welcome_leaderboard_column_date() -> str:
-    return translate_ui(
-        "welcome.leaderboard.column.date",
-        default="📅 Datum",
-    )
-
-
-def _welcome_leaderboard_column_duration() -> str:
-    return translate_ui(
-        "welcome.leaderboard.column.duration",
-        default="⏱️ Dauer",
-    )
-
-
-def _welcome_leaderboard_column_score() -> str:
-    return translate_ui(
-        "welcome.leaderboard.column.score",
-        default="🏅 %",
-    )
+    try:
+        if meta and isinstance(meta, tuple) and len(meta) >= 2:
+            key = meta[0]
+            default = meta[1]
+            return translate_ui(f"sidebar.history_{key}", default=default)
+    except Exception:
+        pass
+    return column_name
 
 
 def _ensure_anki_logger_configured() -> None:
@@ -1270,6 +1262,83 @@ def _render_history_table(history_rows, filename_base: str):
                                             st.session_state['selected_questions_file'] = label
                                 except Exception:
                                     st.session_state['selected_questions_file'] = row.get('questions_file') or row.get('Fragenset')
+
+                                # If the current user reserved their pseudonym, allow a forced
+                                # start of a historical set regardless of the current test state.
+                                allow_force_start = False
+                                try:
+                                    user_pseudo = st.session_state.get('user_id')
+                                    user_hash = st.session_state.get('user_id_hash')
+                                    from database import has_recovery_secret_for_pseudonym
+
+                                    # Try several variants to detect a reserved pseudonym:
+                                    # prefer explicit pseudonym, fall back to stored hash
+                                    candidates = [c for c in (user_pseudo, user_hash) if c]
+                                    # Also try computing hash from pseudonym if helper available
+                                    if not candidates and user_pseudo:
+                                        try:
+                                            from helpers import get_user_id_hash
+                                            candidates.append(get_user_id_hash(user_pseudo))
+                                        except Exception:
+                                            pass
+
+                                    for cand in candidates:
+                                        try:
+                                            if has_recovery_secret_for_pseudonym(cand):
+                                                allow_force_start = True
+                                                break
+                                        except Exception:
+                                            continue
+                                except Exception:
+                                    allow_force_start = False
+
+                                if allow_force_start:
+                                    # Best-effort: load the selected question set and
+                                    # initialize session state so the new test runs
+                                    # independently of any previous/finished test.
+                                    try:
+                                        sel = st.session_state.get('selected_questions_file')
+                                        if sel:
+                                            qset = load_questions(sel)
+                                            app_cfg = st.session_state.get('app_config') or globals().get('app_config')
+                                            try:
+                                                initialize_session_state(qset, app_cfg)
+                                            except Exception:
+                                                pass
+                                    except Exception:
+                                        pass
+
+                                    # Clear final-summary / aborted markers so main() does
+                                    # not immediately render the final-summary view.
+                                    try:
+                                        for k in [
+                                            'test_manually_ended',
+                                            'test_time_expired',
+                                            'session_aborted',
+                                            'in_final_summary',
+                                        ]:
+                                            try:
+                                                st.session_state.pop(k, None)
+                                            except Exception:
+                                                try:
+                                                    st.session_state[k] = False
+                                                except Exception:
+                                                    pass
+
+                                        # Remove end timestamps that signal a finished test
+                                        try:
+                                            st.session_state.pop('test_end_time', None)
+                                        except Exception:
+                                            pass
+                                        try:
+                                            st.session_state.pop('aborted_user_id', None)
+                                            st.session_state.pop('aborted_user_score', None)
+                                            st.session_state.pop('aborted_user_duration', None)
+                                            st.session_state.pop('aborted_user_on_leaderboard', None)
+                                        except Exception:
+                                            pass
+                                    except Exception:
+                                        pass
 
                                 # Close any active dialogs and start the test
                                 try:
