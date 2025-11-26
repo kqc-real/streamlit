@@ -1548,6 +1548,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         mime="application/pdf",
                         key="sidebar_glossary_download",
                         width="stretch",
+                        type="primary",
                     )
                 else:
                     # PDF wird erst nach Klick erzeugt
@@ -1644,6 +1645,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 mime="application/pdf",
                                 key="sidebar_glossary_download_after_gen",
                                 width="stretch",
+                                type="primary",
                             )
     except Exception:
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
@@ -2212,6 +2214,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                                 mime="application/pdf",
                                 key="sidebar_muster_download",
                                 width="stretch",
+                                type="primary",
                             )
                 else:
                     if st.sidebar.button(
@@ -2235,6 +2238,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                                 mime="application/pdf",
                                 key="sidebar_muster_download_after_gen",
                                 width="stretch",
+                                type="primary",
                             )
         except Exception:
             pass

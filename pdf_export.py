@@ -1474,6 +1474,17 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         rank_html = f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">{_html.escape(rank_label)}</div></div>'
     score_label = translate_ui('pdf.score_label', default='von {n} Punkten').format(n=max_score)
 
+    # Only show the detailed-analysis heading when there are completed
+    # test runs for this question set. `_calculate_average_stats` returns
+    # `None` when no complete sessions exist, otherwise it contains
+    # a `total_users` count. Use that to decide whether to render the
+    # section title that suggests a comparison with other tests.
+    show_detailed_analysis = bool(avg_stats and (avg_stats.get('total_users', 0) > 0))
+    detailed_heading = (
+        f'<h2 class="section-title">{_html.escape(translate_ui("pdf.detailed_analysis", default="Detaillierte Auswertung"))}</h2>'
+        if show_detailed_analysis else ''
+    )
+
     html_body = f'''
         <div class="header">
             <div class="header-content">
@@ -1528,7 +1539,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         {bookmarks_html}
         
-        <h2 class="section-title">{_html.escape(translate_ui('pdf.detailed_analysis', default='Detaillierte Auswertung'))}</h2>
+        {detailed_heading}
     '''
     
     sorted_questions = _prepare_stage_sorted_questions(questions)

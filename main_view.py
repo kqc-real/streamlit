@@ -4596,6 +4596,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             file_name=muster_download_name,
                             mime=MIME_PDF,
                             key=musterloesung_dl_key,
+                            type="primary",
                         )
                     except Exception as exc:
                         st.error(
@@ -4635,6 +4636,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 file_name=glossary_download_name,
                                 mime=MIME_PDF,
                                 key=glossar_dl_key,
+                                type="primary",
                             )
                         except Exception as exc:
                             st.error(
@@ -4677,6 +4679,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             file_name=report_download_name,
                             mime=MIME_PDF,
                             key=testbericht_dl_key,
+                            type="primary",
                         )
                     except Exception as exc:
                         st.error(
