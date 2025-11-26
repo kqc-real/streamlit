@@ -61,6 +61,11 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     st.session_state.test_time_limit = test_duration_minutes * 60
     st.session_state.test_time_expired = False
     st.session_state.question_set_meta = question_set.meta
+    # Ensure pacing UI is hidden by default for a new session
+    try:
+        st.session_state["pacing_visible"] = False
+    except Exception:
+        pass
 
     questions = list(question_set)
     for q in questions:

@@ -165,6 +165,12 @@
             "warning_seconds": "⚠️ ¡Atención, quedan pocos segundos!",
             "warning_minutes": "⚠️ ¡Ojo, solo quedan {minutes_text}!"
         },
+        "pacing": {
+            "ahead": "Adelantado",
+            "on_track": "En tiempo",
+            "slightly_behind": "Ligeramente retrasado",
+            "behind": "Estás retrasado respecto al tiempo"
+        },
         "pseudonym_welcome": "**¡Hola, {user}!** Recuerda tu alias para volver luego.",
         "question_set_change_warning": "⚠️ El set cambió, reiniciando..."
     },

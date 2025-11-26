@@ -165,6 +165,12 @@
             "warning_seconds": "⚠️ Plus que quelques secondes !",
             "warning_minutes": "⚠️ Plus que {minutes_text} !"
         },
+        "pacing": {
+            "ahead": "En avance",
+            "on_track": "Dans les temps",
+            "slightly_behind": "Légèrement en retard",
+            "behind": "Tu es en retard sur le planning"
+        },
         "pseudonym_welcome": "**Salut {user} !** Garde ton pseudo pour plus tard.",
         "question_set_change_warning": "⚠️ Changement de set, reset en cours...",
         "motivation": {

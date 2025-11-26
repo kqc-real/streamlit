@@ -51,6 +51,7 @@ from user_question_sets import (
 from pdf_export import _normalize_stage_label
 from i18n.context import get_locale, t as translate_ui
 from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector
+import pacing_helper as pacing
 
 
 DOWNLOAD_BUTTON_DEFAULT = "Download starten"
@@ -2821,6 +2822,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # If history rendering fails, silently continue - it must not break the test UI.
         pass
 
+    # Ensure pacing UI visibility flag has a safe default (hidden) on first render
+    try:
+        if "pacing_visible" not in st.session_state:
+            st.session_state["pacing_visible"] = False
+    except Exception:
+        pass
+
     # NOTE: History-open control is exposed only in the sidebar (see components.render_sidebar).
     # No inline debug banners or fallback history buttons here to keep the test view clean.
 
@@ -2835,10 +2843,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
 
+
     def _dismiss_user_qset_dialog_and_rerun() -> None:
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
             st.session_state["_needs_rerun"] = True
+
 
     # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
     num_answered = sum(
@@ -2922,7 +2932,107 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     st.error(_test_view_text("time_up_error", default="⏰ Zeit ist um!"))
                     st.rerun()
             with col2:
-                pass  # Platzhalter für Layout
+                # Timing coach UI (non-intrusive): show pacing status, small progress and recommendation
+                try:
+                    # Only show pacing UI after the user interacted once
+                    if not st.session_state.get("pacing_visible"):
+                        # keep layout stable by showing nothing in this column initially
+                        pass
+                    else:
+                        # Determine elapsed_time from start_zeit (already computed above)
+                        et = elapsed_time if 'elapsed_time' in locals() else 0
+                    # Try to obtain time_per_weight from questions meta if available
+                    tpw = None
+                    try:
+                        qmeta = getattr(questions, 'meta', None)
+                        if isinstance(qmeta, dict):
+                            tpw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
+                    except Exception:
+                        tpw = None
+                    if not tpw:
+                        tpw = {"1": 0.5, "2": 0.75, "3": 1.0}
+
+                    # Compute ideal times for the current question sequence
+                    try:
+                        # Build question list in the current presentation order (frage_indices)
+                        # so pacing reflects the actual sequence the user will see
+                        indices = st.session_state.get("frage_indices")
+                        if isinstance(indices, (list, tuple)) and len(indices) == len(questions):
+                            qlist = [questions[i] for i in indices]
+                        else:
+                            qlist = list(questions)
+                    except Exception:
+                        qlist = questions or []
+
+                    # Compute ideal times and status (do this regardless of the list coercion outcome)
+                    try:
+                        ideal_times = pacing.compute_ideal_times(qlist, tpw)
+                        # Determine the current index within the presentation order
+                        try:
+                            idx = st.session_state.get("frage_indices", []).index(frage_idx)
+                        except Exception:
+                            idx = session_local_idx if 'session_local_idx' in locals() else 0
+                        status = pacing.pacing_status(int(et), ideal_times, idx)
+                    except Exception:
+                        # Defensive defaults if pacing computation fails
+                        ideal_times = []
+                        idx = session_local_idx if 'session_local_idx' in locals() else 0
+                        status = 'green'
+
+                    # Small progress bar for overall time usage
+                    try:
+                        total_allowed = int(st.session_state.test_time_limit)
+                        pct = int(min(100, max(0, (et / max(1, total_allowed)) * 100)))
+                    except Exception:
+                        # Fallback to safe defaults
+                        total_allowed = int(st.session_state.get('test_time_limit') or 0)
+                        pct = 0
+
+                    # Render the progress indicator and the status pill only when visible
+                    try:
+                        if st.session_state.get("pacing_visible"):
+                            st.progress(pct)
+
+                            # Dark-themed, desaturated but distinct colors
+                            color_map = {
+                                "ahead": "#0B3D91",  # dark blue
+                                "green": "#006400",  # dark green
+                                "yellow": "#B45309",  # dark orange / amber
+                                "red": "#8B0000",    # dark red
+                            }
+                            color = color_map.get(status, "#16a34a")
+                            # Localized, user-friendly status messages
+                            status_text_map = {
+                                "ahead": translate_ui("test_view.pacing.ahead", default="You're ahead of schedule"),
+                                "green": translate_ui("test_view.pacing.on_track", default="On track"),
+                                "yellow": translate_ui("test_view.pacing.slightly_behind", default="Slightly behind schedule"),
+                                "red": translate_ui("test_view.pacing.behind", default="You are behind schedule"),
+                            }
+                            display_text = status_text_map.get(status, str(status).capitalize())
+                            st.markdown(
+                                f"<div style='padding:6px;border-radius:6px;background:{color};color:white;text-align:center;font-weight:600'>{display_text}</div>",
+                                unsafe_allow_html=True,
+                            )
+
+                            # Recommendation box when not on track
+                            try:
+                                buffer_min = 0
+                                if isinstance(qmeta, dict):
+                                    buffer_min = int(qmeta.get('additional_buffer_minutes', 0) or 0)
+                                rec = pacing.recommend_action(int(et), ideal_times, idx, total_allowed_seconds=total_allowed, remaining_buffer_seconds=buffer_min*60)
+                                if rec and rec.get('action') != 'on_track':
+                                    st.info(rec.get('message'))
+                            except Exception:
+                                pass
+                        else:
+                            # Keep layout stable: render nothing in this column until visible
+                            pass
+                    except Exception:
+                        # Do not disrupt the test UI if pacing UI fails
+                        pass
+                except Exception:
+                    # Do not disrupt the test UI if pacing UI fails
+                    pass
 
         # Logik für die Fortschrittsanzeige
         if num_answered == 0:
@@ -3031,6 +3141,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
                 if st.button(skip_label, key=f"skip_{frage_idx}", width="stretch"):
                     _dismiss_user_qset_dialog_from_test()
+                    # Note: pacing visibility only toggled by Antwort / Nächste Frage
                     # Verschiebe die aktuelle Frage ans Ende der Liste
                     frage_indices = st.session_state.get("frage_indices", [])
                     if frage_idx in frage_indices:
@@ -3179,6 +3290,12 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
 
 def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
     """Verarbeitet die Abgabe einer Antwort."""
+    # Mark pacing UI visible on first actual answer submission
+    try:
+        if not st.session_state.get("pacing_visible"):
+            st.session_state["pacing_visible"] = True
+    except Exception:
+        pass
     if st.session_state.get("user_qset_dialog_open"):
         close_user_qset_dialog(clear_results=False)
     # --- Rate Limiting ---
@@ -3548,7 +3665,11 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                 st.session_state.last_answered_idx = next_idx
             else:
                 st.session_state.last_answered_idx = -1
-            
+            try:
+                if not st.session_state.get("pacing_visible"):
+                    st.session_state["pacing_visible"] = True
+            except Exception:
+                pass
             st.rerun()
 
 
