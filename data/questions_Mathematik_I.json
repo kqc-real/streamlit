@@ -1,909 +1,1113 @@
-[
-  {
-    "question": "1. Was ist das Ergebnis der Mengenoperation $A \\setminus (B \\cap C)$ für die Mengen $A = \\{1, 2, 3, 4\\}$, $B = \\{3, 4, 5\\}$ und $C = \\{4, 5, 6\\}$?",
-    "options": [
-      "$\\{1, 2\\}$",
-      "$\\{1, 2, 3\\}$",
-      "$\\{1, 2, 4\\}$",
-      "$\\{3, 4\\}$"
-    ],
-    "answer": 1,
-    "explanation": "Zuerst wird die **Schnittmenge** von B und C gebildet: $B \\cap C = \\{4\\}$. Anschließend wird diese Schnittmenge von A abgezogen (**Differenzmenge**): $A \\setminus \\{4\\} = \\{1, 2, 3\\}$.",
-    "weight": 1,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "2. Eine Abbildung $f: A \\to B$ heißt **surjektiv**, wenn...",
-    "options": [
-      "jedes Element in B höchstens einmal als Funktionswert auftritt.",
-      "jedes Element in B mindestens einmal als Funktionswert auftritt.",
-      "jedes Element in A auf ein eindeutiges Element in B abgebildet wird.",
-      "die Mengen A und B gleich viele Elemente haben."
-    ],
-    "extended_explanation": {
-      "title": "Theoretischer Hintergrund: Injektivität, Surjektivität, Bijektivität",
-      "content": "Abbildungen haben wichtige Eigenschaften:\n\n- **Injektiv (linkseindeutig):** Jedes Element der Zielmenge wird **höchstens einmal** getroffen. Verschiedene Elemente der Definitionsmenge haben immer verschiedene Bilder.\n- **Surjektiv (rechtstotal):** Jedes Element der Zielmenge wird **mindestens einmal** getroffen. Die Bildmenge ist gleich der Zielmenge.\n- **Bijektiv:** Die Abbildung ist sowohl injektiv als auch surjektiv. Jedes Element der Zielmenge wird **genau einmal** getroffen. Eine solche Abbildung ist umkehrbar."
+{
+  "meta": {
+    "title": "Diskrete Mathematik",
+    "target_audience": "Fortgeschrittene mit Grundwissen",
+    "question_count": 40,
+    "difficulty_profile": {
+      "leicht": 8,
+      "mittel": 20,
+      "schwer": 12
     },
-    "answer": 1,
-    "explanation": "**Surjektivität** bedeutet, dass die **Bildmenge** von $f$ gleich der **Zielmenge** $B$ ist. Das heißt, für jedes $y \\in B$ gibt es mindestens ein $x \\in A$, sodass $f(x) = y$.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen",
-    "mini_glossary": {
-      "Surjektivität": "Eine Abbildung ist surjektiv (rechtstotal), wenn jedes Element der Zielmenge mindestens einmal als Funktionswert auftritt. Die Bildmenge entspricht der gesamten Zielmenge.",
-      "Injektivität": "Eine Abbildung ist injektiv (linkseindeutig), wenn verschiedene Elemente der Definitionsmenge stets auf verschiedene Elemente der Zielmenge abgebildet werden. Kein Element der Zielmenge wird mehrfach getroffen.",
-      "Bijektivität": "Eine Abbildung ist bijektiv, wenn sie sowohl injektiv als auch surjektiv ist. Sie ist umkehrbar und stellt eine eineindeutige Zuordnung dar."
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 9,
+    "test_duration_minutes": 40,
+    "schema_version": "2.1",
+    "last_modified": "26.11.2025",
+    "created": "26.11.2025"
+  },
+  "questions": [
+    {
+      "question": "1. Welche der folgenden Mengenoperationen ist **nicht** kommutativ, d.h., die Reihenfolge der Operanden ist entscheidend?",
+      "options": [
+        "Schnittmenge ($A \\cap B$)",
+        "Vereinigung ($A \\cup B$)",
+        "Symmetrische Differenz ($A \\Delta B$)",
+        "Differenz ($A \\setminus B$)",
+        "Kartesisches Produkt ($A \\times A$)"
+      ],
+      "answer": 3,
+      "explanation": "Die Differenzmenge ist nicht kommutativ, da im Allgemeinen $A \\setminus B \\neq B \\setminus A$ gilt. $A \\setminus B$ enthält die Elemente, die in $A$, aber **nicht** in $B$ sind, während $B \\setminus A$ die Elemente enthält, die in $B$, aber **nicht** in $A$ sind.",
+      "weight": 1,
+      "topic": "Mengenlehre und Abbildungen",
+      "mini_glossary": {
+        "Kommutativgesetz": "Eine Verknüpfung ist kommutativ, wenn das Vertauschen der Operanden das Ergebnis nicht verändert, z.B. $A \\cup B = B \\cup A$.",
+        "Schnittmenge": "Die Menge der Elemente, die sowohl in Menge $A$ als auch in Menge $B$ enthalten sind.",
+        "Vereinigung": "Die Menge der Elemente, die in Menge $A$ oder in Menge $B$ (oder in beiden) enthalten sind.",
+        "Differenzmenge": "Die Menge $A \\setminus B$ enthält alle Elemente, die in $A$, aber nicht in $B$ enthalten sind."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "2. Was ist die korrekte Definition der Potenzmenge $P(M)$ einer Menge $M$?",
+      "options": [
+        "Die Menge aller Elemente von $M$.",
+        "Die Menge, die nur die leere Menge $\\emptyset$ und $M$ selbst enthält.",
+        "Die Menge aller Teilmengen von $M$.",
+        "Die Menge aller geordneten Paare von Elementen aus $M$.",
+        "Die Menge aller Obermengen von $M$."
+      ],
+      "answer": 2,
+      "explanation": "Die Potenzmenge $P(M)$ einer Menge $M$ ist definiert als die Menge **aller** Teilmengen von $M$. Dies schließt die leere Menge $\\emptyset$ sowie die Menge $M$ selbst mit ein.",
+      "weight": 1,
+      "topic": "Mengenlehre und Abbildungen",
+      "mini_glossary": {
+        "Potenzmenge": "Die Menge aller Teilmengen einer gegebenen Grundmenge $M$. Sie wird mit $P(M)$ bezeichnet.",
+        "Teilmenge": "Eine Menge $A$ ist eine Teilmenge von $B$, wenn jedes Element von $A$ auch ein Element von $B$ ist.",
+        "Leere Menge": "Die Menge, die kein einziges Element enthält, bezeichnet mit $\\emptyset$."
+      },
+      "cognitive_level": "reproduction"
+    },
+    {
+      "question": "3. Welche logische Aussage ist äquivalent zur Implikation $A \\rightarrow B$?",
+      "options": [
+        "$A \\wedge \\neg B$",
+        "$\\neg A \\wedge B$",
+        "$\\neg A \\vee B$",
+        "$A \\vee \\neg B$",
+        "$A \\leftrightarrow B$"
+      ],
+      "answer": 2,
+      "explanation": "Die Implikation $A \\rightarrow B$ ist logisch äquivalent zu $\\neg A \\vee B$. Beide Ausdrücke sind nur dann falsch, wenn $A$ wahr und $B$ falsch ist. In allen anderen Fällen sind sie wahr.",
+      "weight": 1,
+      "topic": "Aussagen- und Prädikatenlogik",
+      "mini_glossary": {
+        "Implikation": "Eine logische Verknüpfung 'wenn A, dann B' ($A \\rightarrow B$), die nur dann falsch ist, wenn die Voraussetzung $A$ wahr und die Konsequenz $B$ falsch ist.",
+        "Logische Äquivalenz": "Zwei Aussagen sind logisch äquivalent, wenn sie für alle möglichen Belegungen ihrer Variablen mit Wahrheitswerten denselben Wahrheitswert haben.",
+        "Disjunktion": "Die ODER-Verknüpfung ($A \\vee B$), die wahr ist, wenn mindestens eine der beiden Aussagen $A$ oder $B$ wahr ist."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "4. Welche der folgenden Aussagen ist eine Tautologie?",
+      "options": [
+        "$A \\wedge \\neg A$",
+        "$A \\rightarrow \\neg A$",
+        "$A \\leftrightarrow \\neg A$",
+        "$A \\vee \\neg A$",
+        "$\\neg(A \\rightarrow A)$"
+      ],
+      "answer": 3,
+      "explanation": "Die Aussage $A \\vee \\neg A$ (Satz vom ausgeschlossenen Dritten) ist eine Tautologie, da sie für jede Belegung von $A$ (wahr oder falsch) immer wahr ist. Ist $A$ wahr, ist die ODER-Aussage wahr. Ist $A$ falsch, ist $\\neg A$ wahr, und somit ist die ODER-Aussage ebenfalls wahr.",
+      "weight": 1,
+      "topic": "Aussagen- und Prädikatenlogik",
+      "mini_glossary": {
+        "Tautologie": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen mit Wahrheitswerten immer wahr ist.",
+        "Kontradiktion": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen immer falsch ist, z.B. $A \\wedge \\neg A$.",
+        "Negation": "Die NICHT-Operation ($\\neg A$), die den Wahrheitswert einer Aussage umkehrt."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "5. Welche Bedingung ist **notwendig** für eine korrekt definierte rekursive Funktion?",
+      "options": [
+        "Die Funktion muss mindestens zwei Parameter haben.",
+        "Die Funktion muss iterativ implementierbar sein.",
+        "Die Funktion muss einen Basisfall (Abbruchbedingung) besitzen.",
+        "Die Funktion darf sich nur einmal selbst aufrufen.",
+        "Die Funktion muss immer einen numerischen Wert zurückgeben."
+      ],
+      "answer": 2,
+      "explanation": "Eine rekursive Funktion benötigt zwingend einen Basisfall (auch Abbruchbedingung genannt), um die Kette der Selbstaufrufe zu beenden und eine Endlosschleife zu verhindern.",
+      "weight": 1,
+      "topic": "Rekursion und Induktion",
+      "mini_glossary": {
+        "Rekursive Funktion": "Eine Funktion, die sich in ihrer Definition selbst aufruft. Sie besteht aus einem oder mehreren Basisfällen und einem rekursiven Schritt.",
+        "Basisfall": "Der Teil einer rekursiven Definition, der die Rekursion beendet, indem er ein Ergebnis direkt, ohne weiteren rekursiven Aufruf, zurückgibt.",
+        "Rekursionsschritt": "Der Teil einer rekursiven Definition, der das Problem auf eine kleinere Version seiner selbst zurückführt und die Funktion erneut aufruft."
+      },
+      "cognitive_level": "reproduction"
+    },
+    {
+      "question": "6. Was ist der größte gemeinsame Teiler (ggT) der Zahlen 168 und 133?",
+      "options": [
+        "1",
+        "3",
+        "7",
+        "19",
+        "21"
+      ],
+      "answer": 2,
+      "explanation": "Der ggT kann mit dem Euklidischen Algorithmus berechnet werden: $168 = 1 \\cdot 133 + 35$; $133 = 3 \\cdot 35 + 28$; $35 = 1 \\cdot 28 + 7$; $28 = 4 \\cdot 7 + 0$. Der letzte von Null verschiedene Rest ist 7, somit ist $ggT(168, 133) = 7$.",
+      "weight": 1,
+      "topic": "Zahlentheorie",
+      "mini_glossary": {
+        "Größter gemeinsamer Teiler (ggT)": "Der größte positive gemeinsame Teiler von zwei oder mehr ganzen Zahlen.",
+        "Euklidischer Algorithmus": "Ein effizientes Verfahren zur Berechnung des größten gemeinsamen Teilers zweier ganzer Zahlen durch fortgesetzte Division mit Rest.",
+        "Teilbarkeit": "Eine ganze Zahl $a$ ist durch eine ganze Zahl $b$ teilbar ($b|a$), wenn es eine ganze Zahl $q$ gibt, sodass $a=bq$ ist."
+      },
+      "cognitive_level": "reproduction"
+    },
+    {
+      "question": "7. Welche algebraische Struktur wird durch die Menge der ganzen Zahlen $\\mathbb{Z}$ zusammen mit der Addition und Multiplikation, $(\\mathbb{Z}, +, \\cdot)$, gebildet?",
+      "options": [
+        "Eine Gruppe",
+        "Ein Körper",
+        "Ein Vektorraum",
+        "Ein Ring",
+        "Eine Halbgruppe"
+      ],
+      "answer": 3,
+      "explanation": "Die ganzen Zahlen $(\\mathbb{Z}, +, \\cdot)$ bilden einen Ring. $(\\mathbb{Z}, +)$ ist eine kommutative Gruppe, die Multiplikation ist assoziativ und die Distributivgesetze gelten. Es ist jedoch kein Körper, da für die meisten Elemente (z.B. für 2) kein multiplikatives Inverses in $\\mathbb{Z}$ existiert.",
+      "weight": 1,
+      "topic": "Gruppen, Ringe, Körper",
+      "mini_glossary": {
+        "Gruppe": "Eine Menge mit einer Verknüpfung, die Assoziativität, ein neutrales Element und für jedes Element ein inverses Element aufweist.",
+        "Ring": "Eine Menge mit zwei Verknüpfungen (Addition und Multiplikation), die bezüglich der Addition eine kommutative Gruppe ist, bezüglich der Multiplikation assoziativ ist und bei der die Distributivgesetze gelten.",
+        "Körper": "Ein kommutativer Ring, in dem jedes von Null verschiedene Element ein multiplikatives Inverses besitzt."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "8. Was ist das zentrale Prinzip des asymmetrischen Kryptographieverfahrens RSA?",
+      "options": [
+        "Die Verwendung eines gemeinsamen geheimen Schlüssels für Ver- und Entschlüsselung.",
+        "Die mathematische Schwierigkeit, große Zahlen in ihre Primfaktoren zu zerlegen.",
+        "Der sichere Austausch eines Schlüssels über einen unsicheren Kanal mittels diskretem Logarithmus.",
+        "Die Erzeugung von Hash-Werten zur Sicherung der Datenintegrität.",
+        "Die Anwendung von Permutationen auf Datenblöcke, gesteuert durch einen Schlüssel."
+      ],
+      "answer": 1,
+      "explanation": "Das RSA-Verfahren basiert auf der Asymmetrie zwischen der einfachen Multiplikation zweier großer Primzahlen und der extrem rechenaufwändigen Aufgabe, das resultierende Produkt wieder in seine Primfaktoren zu zerlegen (Faktorisierungsproblem).",
+      "weight": 1,
+      "topic": "Kryptografie und IT-Sicherheit",
+      "mini_glossary": {
+        "Asymmetrische Kryptografie": "Ein Verschlüsselungsverfahren, das ein Schlüsselpaar verwendet: einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten Schlüssel zum Entschlüsseln.",
+        "RSA-Verfahren": "Ein weit verbreitetes Public-Key-Kryptosystem, dessen Sicherheit auf dem Problem der Faktorisierung großer Zahlen beruht.",
+        "Faktorisierungsproblem": "Das rechenintensive Problem, eine zusammengesetzte Zahl in ihre Primfaktoren zu zerlegen."
+      },
+      "cognitive_level": "reproduction"
+    },
+    {
+      "question": "9. Gegeben seien die Mengen $A = \\{1, 2, 3\\}$ und $B = \\{3, 4, 5\\}$. Welche Elemente enthält die symmetrische Differenz $A \\Delta B$?",
+      "options": [
+        "$\\{3\\}$",
+        "$\\{1, 2, 4, 5\\}$",
+        "$\\{1, 2, 3, 4, 5\\}$",
+        "$\\{1, 2\\}$",
+        "$\\{4, 5\\}$"
+      ],
+      "answer": 1,
+      "explanation": "Die symmetrische Differenz $A \\Delta B$ enthält alle Elemente, die in **genau einer** der beiden Mengen enthalten sind. Dies entspricht $(A \\cup B) \\setminus (A \\cap B)$. Hier ist $A \\cup B = \\{1, 2, 3, 4, 5\\}$ und $A \\cap B = \\{3\\}$. Das Ergebnis ist also $\\{1, 2, 4, 5\\}$.",
+      "weight": 2,
+      "topic": "Mengenlehre und Abbildungen",
+      "extended_explanation": {
+        "titel": "Herleitung der Symmetrischen Differenz",
+        "schritte": [
+          "Die symmetrische Differenz ist formal definiert als $A \\Delta B = (A \\setminus B) \\cup (B \\setminus A)$.",
+          "Zuerst berechnen wir die Differenz $A \\setminus B$. Diese enthält alle Elemente, die in $A$, aber nicht in $B$ sind. Für die gegebenen Mengen ist dies $\\{1, 2\\}$.",
+          "Danach berechnen wir die Differenz $B \\setminus A$. Diese enthält alle Elemente, die in $B$, aber nicht in $A$ sind. Hier ist dies $\\{4, 5\\}$.",
+          "Zuletzt bilden wir die Vereinigung dieser beiden Ergebnismengen: $\\{1, 2\\} \\cup \\{4, 5\\} = \\{1, 2, 4, 5\\}$."
+        ]
+      },
+      "mini_glossary": {
+        "Symmetrische Differenz": "Die Menge aller Elemente, die in genau einer von zwei Mengen, aber nicht in beiden gleichzeitig, enthalten sind.",
+        "Mengenlehre": "Ein Teilgebiet der Mathematik, das sich mit den Eigenschaften und Beziehungen von Mengen beschäftigt.",
+        "Grundoperationen auf Mengen": "Zu den grundlegenden Operationen gehören Vereinigung ($\\cup$), Schnittmenge ($\\cap$), Differenz ($\\setminus$) und Komplement."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "10. Eine Abbildung $f: M \\to N$ wird als 'injektiv' bezeichnet, wenn welche Bedingung erfüllt ist?",
+      "options": [
+        "Für jedes $y \\in N$ existiert mindestens ein $x \\in M$ mit $f(x) = y$.",
+        "Jedes Element in $N$ ist Bild von höchstens einem Element aus $M$.",
+        "Aus $x_1 \\neq x_2$ folgt $f(x_1) \\neq f(x_2)$ für alle $x_1, x_2 \\in M$.",
+        "Aus $f(x_1) = f(x_2)$ folgt $x_1 = x_2$ für alle $x_1, x_2 \\in M$.",
+        "Sowohl Option 3 als auch Option 4 sind korrekte Definitionen."
+      ],
+      "answer": 4,
+      "explanation": "Eine Abbildung $f$ ist injektiv, wenn verschiedene Elemente der Definitionsmenge $M$ immer auf verschiedene Elemente der Zielmenge $N$ abgebildet werden. Dies ist äquivalent zu der Aussage, dass aus $f(x_1) = f(x_2)$ zwingend $x_1 = x_2$ folgen muss. Option 3 ist ebenfalls eine korrekte Definition.",
+      "weight": 2,
+      "topic": "Mengenlehre und Abbildungen",
+      "extended_explanation": {
+        "titel": "Injektivität, Surjektivität und Bijektivität",
+        "schritte": [
+          "**Injektivität** (Eineindeutigkeit): Verschiedene Elemente aus dem Definitionsbereich haben immer verschiedene Bilder im Zielbereich. Dies schließt aus, dass zwei Pfeile auf dasselbe Ziel zeigen.",
+          "**Surjektivität** (Abbildung auf): Jedes Element der Zielmenge $N$ wird mindestens einmal getroffen. Die Bildmenge ist also gleich der Zielmenge: $f(M) = N$.",
+          "**Bijektivität** (Umkehrbare Eindeutigkeit): Eine Abbildung ist bijektiv, wenn sie sowohl injektiv als auch surjektiv ist. Dies bedeutet, dass jedes Element aus $N$ genau ein Urbild in $M$ hat, was die Existenz einer eindeutigen Umkehrabbildung $f^{-1}: N \\to M$ garantiert."
+        ]
+      },
+      "mini_glossary": {
+        "Abbildung (Funktion)": "Eine Zuordnung, die jedem Element einer Definitionsmenge $M$ genau ein Element einer Zielmenge $N$ zuweist.",
+        "Injektivität": "Die Eigenschaft einer Abbildung, bei der jedes Element der Zielmenge höchstens ein Urbild hat.",
+        "Surjektivität": "Die Eigenschaft einer Abbildung, bei der jedes Element der Zielmenge mindestens ein Urbild hat.",
+        "Urbild": "Für ein Element $y$ der Zielmenge ist das Urbild die Menge aller Elemente $x$ aus der Definitionsmenge, für die $f(x) = y$ gilt."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "11. Welcher Ausdruck ist die korrekte Kontraposition der logischen Implikation $A \\rightarrow B$?",
+      "options": [
+        "$B \\rightarrow A$ (Konversion)",
+        "$\\neg A \\rightarrow \\neg B$ (Inversion)",
+        "$\\neg B \\rightarrow \\neg A$",
+        "$A \\wedge \\neg B$",
+        "$B \\vee \\neg A$"
+      ],
+      "answer": 2,
+      "explanation": "Die Kontraposition einer Implikation $A \\rightarrow B$ lautet $\\neg B \\rightarrow \\neg A$. Eine Implikation und ihre Kontraposition sind logisch äquivalent, das heißt, sie haben immer denselben Wahrheitswert.",
+      "weight": 2,
+      "topic": "Aussagen- und Prädikatenlogik",
+      "extended_explanation": {
+        "titel": "Äquivalente Umformungen der Implikation",
+        "schritte": [
+          "Eine Implikation $A \\rightarrow B$ (z.B. 'Wenn es regnet, ist die Straße nass.') hat einen bestimmten Wahrheitswert.",
+          "Die **Konversion** $B \\rightarrow A$ ('Wenn die Straße nass ist, regnet es.') ist **nicht** äquivalent. Die Straße könnte auch aus anderen Gründen nass sein.",
+          "Die **Inversion** $\\neg A \\rightarrow \\neg B$ ('Wenn es nicht regnet, ist die Straße nicht nass.') ist ebenfalls **nicht** äquivalent.",
+          "Die **Kontraposition** $\\neg B \\rightarrow \\neg A$ ('Wenn die Straße nicht nass ist, regnet es nicht.') ist hingegen **logisch äquivalent** zur ursprünglichen Aussage."
+        ]
+      },
+      "mini_glossary": {
+        "Kontraposition": "Die logisch äquivalente Umformung einer Implikation $A \\rightarrow B$ zu $\\neg B \\rightarrow \\neg A$.",
+        "Wahrheitstabelle": "Eine Tabelle, die alle möglichen Wahrheitswerte von Teilaussagen auflistet und den daraus resultierenden Wahrheitswert einer zusammengesetzten Aussage zeigt.",
+        "Semantik": "Die Lehre von der Bedeutung. In der Logik legt die Semantik fest, wie Formeln Wahrheitswerte zugeordnet werden."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "12. Nach den De Morgan'schen Gesetzen ist der Ausdruck $\\neg(A \\vee B)$ äquivalent zu:",
+      "options": [
+        "$\\neg A \\vee \\neg B$",
+        "$A \\wedge B$",
+        "$\\neg A \\wedge \\neg B$",
+        "$A \\vee B$",
+        "$A \\rightarrow \\neg B$"
+      ],
+      "answer": 2,
+      "explanation": "Nach den De Morgan'schen Gesetzen wird bei der Negation einer Disjunktion (ODER) diese in eine Konjunktion (UND) der negierten Teilaussagen umgewandelt. Somit ist $\\neg(A \\vee B)$ äquivalent zu $\\neg A \\wedge \\neg B$.",
+      "weight": 2,
+      "topic": "Aussagen- und Prädikatenlogik",
+      "extended_explanation": {
+        "titel": "Die Gesetze von De Morgan",
+        "schritte": [
+          "Die De Morgan'schen Gesetze beschreiben, wie sich die Negation auf Konjunktionen und Disjunktionen auswirkt.",
+          "Regel 1: Die Negation einer Konjunktion ist die Disjunktion der Negationen: $\\neg(A \\wedge B) \\Leftrightarrow (\\neg A \\vee \\neg B)$.",
+          "Regel 2: Die Negation einer Disjunktion ist die Konjunktion der Negationen: $\\neg(A \\vee B) \\Leftrightarrow (\\neg A \\wedge \\neg B)$.",
+          "Diese Regeln sind fundamental für die Vereinfachung logischer Ausdrücke und gelten analog auch in der Mengenlehre für Vereinigung und Schnittmenge."
+        ]
+      },
+      "mini_glossary": {
+        "De Morgan'sche Gesetze": "Ein Paar von Transformationsregeln in der formalen Logik und Mengenlehre, die die Beziehung zwischen Negation, Konjunktion/Schnittmenge und Disjunktion/Vereinigung beschreiben.",
+        "Konjunktion": "Die UND-Verknüpfung ($A \\wedge B$), die nur dann wahr ist, wenn beide Aussagen $A$ und $B$ wahr sind.",
+        "Syntax": "In formalen Sprachen die Menge von Regeln, die festlegen, wie Symbole zu korrekten Ausdrücken (Formeln) zusammengesetzt werden dürfen."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "13. Welcher der folgenden Ausdrücke ist ein Beispiel für eine Aussage mit einem Allquantor in der Prädikatenlogik?",
+      "options": [
+        "Für alle $x \\in \\mathbb{R}$ gilt: $x^2 \\geq 0$.",
+        "Wenn $x > 5$, dann ist $x > 3$.",
+        "Es existiert ein $x \\in \\mathbb{Z}$, sodass $x^2 = 9$.",
+        "Die Menge der Primzahlen ist unendlich.",
+        "$x+y = y+x$."
+      ],
+      "answer": 0,
+      "explanation": "Der Allquantor ($\\forall$) trifft eine Aussage über alle Elemente eines bestimmten Bereichs. Die Aussage 'Für alle $x \\in \\mathbb{R}$ gilt: $x^2 \\geq 0$' ist ein klares Beispiel dafür, da sie eine Eigenschaft für jedes Element des Individuenbereichs $\\mathbb{R}$ postuliert.",
+      "weight": 2,
+      "topic": "Aussagen- und Prädikatenlogik",
+      "extended_explanation": {
+        "titel": "Quantoren in der Prädikatenlogik",
+        "schritte": [
+          "Die Prädikatenlogik erweitert die Aussagenlogik um Variablen, Prädikate und Quantoren, um Aussagen über Objekte und deren Eigenschaften zu machen.",
+          "Der **Allquantor** ($\\forall$, 'für alle') trifft eine Aussage über **alle** Elemente eines Individuenbereichs.",
+          "Der **Existenzquantor** ($\\exists$, 'es existiert') trifft eine Aussage über die **Existenz von mindestens einem** Element mit einer Eigenschaft.",
+          "Durch Quantifizierung werden freie Variablen gebunden und aus Prädikaten (Aussagefunktionen) können Aussagen (0-stellige Prädikate) gebildet werden."
+        ]
+      },
+      "mini_glossary": {
+        "Prädikatenlogik": "Ein Teilgebiet der Logik, das die interne Struktur von Aussagen mittels Prädikaten, Variablen und Quantoren analysiert.",
+        "Allquantor": "Ein Quantor, der ausdrückt, dass eine Aussage für alle Elemente eines bestimmten Bereichs gilt.",
+        "Individuenbereich": "Die Menge von Objekten, über die in einer prädikatenlogischen Aussage gesprochen wird (z.B. $\\mathbb{R}$, $\\mathbb{Z}$)."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "14. Bei der vollständigen Induktion, was ist das Ziel des Induktionsschritts?",
+      "options": [
+        "Den Induktionsanfang für $n=1$ zu beweisen.",
+        "Zu zeigen, dass die Aussage für ein beliebiges, aber festes $n$ gilt.",
+        "Aus der Annahme, dass die Aussage für $n$ gilt (Induktionsannahme), die Gültigkeit für $n+1$ herzuleiten.",
+        "Die Aussage für alle geraden Zahlen zu beweisen.",
+        "Einen Widerspruchsbeweis für die Negation der Aussage zu führen."
+      ],
+      "answer": 2,
+      "explanation": "Der Induktionsschritt ist das Kernstück des Beweises durch vollständige Induktion. Ziel ist es zu zeigen, dass **wenn** die Aussage für eine beliebige natürliche Zahl $n$ als wahr angenommen wird (Induktionsannahme), sie **dann** auch für den Nachfolger $n+1$ wahr sein muss.",
+      "weight": 2,
+      "topic": "Rekursion und Induktion",
+      "extended_explanation": {
+        "titel": "Das Beweisprinzip der vollständigen Induktion",
+        "schritte": [
+          "Die vollständige Induktion ist eine Beweismethode für Aussagen über alle natürlichen Zahlen, basierend auf dem Peano-Axiom (P4).",
+          "**1. Induktionsanfang:** Man zeigt, dass die Aussage für den Startwert (meist $n=1$) wahr ist. Dies verankert die 'Dominokette'.",
+          "**2. Induktionsannahme:** Man nimmt an, dass die Aussage für eine beliebige, aber feste natürliche Zahl $n$ gilt.",
+          "**3. Induktionsschluss:** Man beweist, dass aus der Induktionsannahme die Gültigkeit der Aussage für $n+1$ folgt. Dies zeigt, dass der nächste 'Dominostein' fällt, wenn der vorherige gefallen ist."
+        ]
+      },
+      "mini_glossary": {
+        "Vollständige Induktion": "Ein mathematisches Beweisprinzip, um eine Aussage für alle natürlichen Zahlen zu beweisen, bestehend aus Induktionsanfang und Induktionsschritt.",
+        "Induktionsanfang": "Der erste Schritt eines Induktionsbeweises, bei dem die Gültigkeit der Aussage für den kleinsten Wert (z.B. $n=1$) gezeigt wird.",
+        "Induktionsschluss": "Der zweite Schritt, bei dem gezeigt wird, dass die Gültigkeit der Aussage für $n$ die Gültigkeit für $n+1$ impliziert."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "15. Die Zahl 255 im Dezimalsystem wird im Hexadezimalsystem (Basis 16) wie dargestellt?",
+      "options": [
+        "$100$",
+        "$9B$",
+        "$F0$",
+        "$EE$",
+        "$FF$"
+      ],
+      "answer": 4,
+      "explanation": "Um eine Dezimalzahl ins Hexadezimalsystem umzurechnen, dividiert man wiederholt durch 16 und notiert die Reste. $255 \\div 16 = 15$ Rest $15$. Da 15 im Hexadezimalsystem als 'F' dargestellt wird, lautet das Ergebnis $(FF)_{16}$. Dies entspricht $15 \\cdot 16^1 + 15 \\cdot 16^0 = 240 + 15 = 255$.",
+      "weight": 2,
+      "topic": "Rekursion und Induktion",
+      "extended_explanation": {
+        "titel": "Umrechnung zwischen Zahlensystemen",
+        "schritte": [
+          "Jede natürliche Zahl lässt sich eindeutig zur Basis $b > 1$ darstellen als $n = a_m b^m + \\dots + a_1 b^1 + a_0 b^0$, wobei die Ziffern $a_i \\in \\{0, \\dots, b-1\\}$ sind.",
+          "Für die Umrechnung von Dezimal (Basis 10) in eine andere Basis $b$ wird die Zahl wiederholt durch $b$ dividiert.",
+          "Die bei den Divisionen entstehenden Reste ergeben, von unten nach oben gelesen, die Ziffern der neuen Darstellung.",
+          "Beispiel für 255 nach Basis 16: $255 \\div 16 = 15$ (Rest 15, also F), $15 \\div 16 = 0$ (Rest 15, also F). Von unten nach oben: FF."
+        ]
+      },
+      "mini_glossary": {
+        "Dezimalsystem": "Das Zahlensystem zur Basis 10, das die Ziffern 0-9 verwendet.",
+        "Hexadezimalsystem": "Das Zahlensystem zur Basis 16. Es verwendet die Ziffern 0-9 und die Buchstaben A (10) bis F (15).",
+        "Basis (Zahlensystem)": "Die feste natürliche Zahl $b > 1$, die die Anzahl der Ziffern und die Wertigkeit der Stellen in einem Stellenwertsystem festlegt."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "16. In der Modulo-Arithmetik, was ist das Ergebnis von $(13 \\cdot 20) \\pmod{11}$?",
+      "options": [
+        "0",
+        "1",
+        "5",
+        "7",
+        "9"
+      ],
+      "answer": 3,
+      "explanation": "Beim Rechnen mit Restklassen kann man die Operanden zuerst reduzieren: $13 \\equiv 2 \\pmod{11}$ und $20 \\equiv 9 \\pmod{11}$. Dann rechnet man mit den Resten: $(2 \\cdot 9) \\pmod{11} = 18 \\pmod{11} = 7$.",
+      "weight": 2,
+      "topic": "Zahlentheorie",
+      "extended_explanation": {
+        "titel": "Rechnen mit Restklassen",
+        "schritte": [
+          "Die Modulo-Arithmetik betrachtet Reste bei der Division durch eine feste Zahl $n$, das Modul.",
+          "Zwei Zahlen $a,b$ sind kongruent modulo $n$ ($a \\equiv b \\pmod{n}$), wenn sie bei Division durch $n$ denselben Rest lassen.",
+          "Ein wichtiger Satz besagt, dass die Verknüpfungen mit der Modulo-Operation verträglich sind. Das bedeutet: $(a+b) \\pmod n = ((a \\pmod n) + (b \\pmod n)) \\pmod n$.",
+          "Analog gilt für die Multiplikation: $(a \\cdot b) \\pmod n = ((a \\pmod n) \\cdot (b \\pmod n)) \\pmod n$. Dies vereinfacht Berechnungen mit großen Zahlen erheblich."
+        ]
+      },
+      "mini_glossary": {
+        "Modulo-Arithmetik": "Ein System der Arithmetik für ganze Zahlen, bei dem Zahlen 'um einen bestimmten Wert', das Modul, 'herumgewickelt' werden. Man rechnet nur mit den Resten.",
+        "Restklasse": "Die Menge aller ganzen Zahlen, die bei Division durch ein festes Modul $n$ den gleichen Rest lassen.",
+        "Kongruenz": "Zwei Zahlen $a$ und $b$ heißen kongruent modulo $n$, geschrieben $a \\equiv b \\pmod n$, wenn ihre Differenz $a-b$ durch $n$ teilbar ist."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "17. Was ist eine lineare Kongruenz?",
+      "options": [
+        "Eine Gleichung der Form $ax + b = c$.",
+        "Eine Gleichung der Form $x^2 \\equiv b \\pmod n$.",
+        "Eine Gleichung der Form $ax \\equiv b \\pmod n$.",
+        "Eine Ungleichung der Form $ax < b \\pmod n$.",
+        "Eine Gleichung, die nur im Körper der reellen Zahlen lösbar ist."
+      ],
+      "answer": 2,
+      "explanation": "Eine lineare Kongruenz ist eine Gleichung der Form $ax \\equiv b \\pmod n$, bei der $x$ die unbekannte Variable ist. Solche Gleichungen spielen eine wichtige Rolle in der Zahlentheorie und Kryptografie.",
+      "weight": 2,
+      "topic": "Zahlentheorie",
+      "extended_explanation": {
+        "titel": "Lösung linearer Kongruenzen",
+        "schritte": [
+          "Eine lineare Kongruenz $ax \\equiv b \\pmod n$ ist lösbar, genau dann, wenn der größte gemeinsame Teiler von $a$ und $n$, also $ggT(a,n)$, auch ein Teiler von $b$ ist.",
+          "Zur Lösung wird oft der erweiterte Euklidische Algorithmus verwendet. Dieser findet nicht nur den ggT, sondern auch Koeffizienten $s, t$, sodass $s \\cdot a + t \\cdot n = ggT(a,n)$.",
+          "Wenn $ggT(a, n) = 1$ ist, dann existiert ein multiplikatives Inverses $a^{-1}$ zu $a$ modulo $n$. Die Lösung der Kongruenz ist dann einfach $x \\equiv b \\cdot a^{-1} \\pmod n$."
+        ]
+      },
+      "mini_glossary": {
+        "Lineare Kongruenz": "Eine Gleichung in der Modulo-Arithmetik von der Form $ax \\equiv b \\pmod n$.",
+        "Erweiterter Euklidischer Algorithmus": "Ein Algorithmus, der zusätzlich zum ggT zweier Zahlen $a,b$ auch zwei ganze Zahlen $s,t$ berechnet, für die $s \\cdot a + t \\cdot b = ggT(a,b)$ gilt.",
+        "Multiplikatives Inverses": "In der Modulo-Arithmetik ist $a^{-1}$ das Inverse zu $a \\pmod n$, wenn gilt: $a \\cdot a^{-1} \\equiv 1 \\pmod n$."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "18. Welcher der folgenden Ringe ist ein Körper?",
+      "options": [
+        "Der Polynomring $\\mathbb{R}[x]$",
+        "Der Restklassenring $\\mathbb{Z}_6$",
+        "Der Ring der ganzen Zahlen $\\mathbb{Z}$",
+        "Der Restklassenring $\\mathbb{Z}_7$ (auch GF(7))",
+        "Der Ring der $2 \\times 2$-Matrizen über $\\mathbb{R}$"
+      ],
+      "answer": 3,
+      "explanation": "Ein Ring $\\mathbb{Z}_n$ ist genau dann ein Körper, wenn $n$ eine Primzahl ist. Da 7 eine Primzahl ist, bildet $\\mathbb{Z}_7$ einen Körper. In $\\mathbb{Z}_6$ hat beispielsweise das Element 2 kein multiplikatives Inverses, da $ggT(2, 6) \\neq 1$.",
+      "weight": 2,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Endliche Körper",
+        "schritte": [
+          "Ein Körper ist ein kommutativer Ring, in dem jedes von Null verschiedene Element ein multiplikatives Inverses hat.",
+          "Für einen Restklassenring $\\mathbb{Z}_n$ existiert ein multiplikatives Inverses zu einem Element $a$ genau dann, wenn $ggT(a, n) = 1$ ist.",
+          "Wenn $n$ eine Primzahl $p$ ist, dann ist $ggT(a, p) = 1$ für alle $a$ von $1$ bis $p-1$.",
+          "Daher haben in $\\mathbb{Z}_p$ alle von Null verschiedenen Elemente ein Inverses, was $\\mathbb{Z}_p$ zu einem Körper macht."
+        ]
+      },
+      "mini_glossary": {
+        "Polynomring": "Die Menge aller Polynome mit Koeffizienten aus einem bestimmten Ring, z.B. $\\mathbb{R}[x]$.",
+        "Restklassenring ($\\mathbb{Z}_n$)": "Die Menge der Restklassen $\\{[0], [1], \\dots, [n-1]\\}$ modulo $n$ mit Addition und Multiplikation modulo $n$.",
+        "Endlicher Körper (Galois Field)": "Ein Körper mit einer endlichen Anzahl von Elementen, z.B. die Restklassen $\\mathbb{Z}_p$ für eine Primzahl $p$. Er wird als $GF(p)$ bezeichnet."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "19. Was ist die wesentliche Eigenschaft einer Äquivalenzrelation?",
+      "options": [
+        "Sie ist nur reflexiv und symmetrisch.",
+        "Sie teilt eine Menge in eine geordnete Kette von Elementen auf.",
+        "Sie muss antisymmetrisch sein.",
+        "Sie teilt eine Menge in disjunkte Teilmengen (Äquivalenzklassen) auf.",
+        "Sie ist nur auf endlichen Mengen definiert."
+      ],
+      "answer": 3,
+      "explanation": "Eine Äquivalenzrelation ist reflexiv, symmetrisch und transitiv. Ihre fundamentale Eigenschaft ist, dass sie die zugrundeliegende Menge in eine disjunkte Zerlegung von Teilmengen, den sogenannten Äquivalenzklassen, partitioniert. Alle Elemente innerhalb einer Klasse gelten als äquivalent zueinander.",
+      "weight": 2,
+      "topic": "Mengenlehre und Abbildungen",
+      "extended_explanation": {
+        "titel": "Eigenschaften von Relationen",
+        "schritte": [
+          "**Reflexivität**: Für alle $x \\in M$ gilt $xRx$. ('Jedes Element steht in Relation zu sich selbst.')",
+          "**Symmetrie**: Wenn $xRy$, dann gilt auch $yRx$. ('Die Richtung der Relation spielt keine Rolle.')",
+          "**Transitivität**: Wenn $xRy$ und $yRz$, dann gilt auch $xRz$. ('Relationen lassen sich verketten.')",
+          "Eine Relation, die alle drei Eigenschaften erfüllt, ist eine Äquivalenzrelation. Ein klassisches Beispiel ist die Kongruenz modulo n."
+        ]
+      },
+      "mini_glossary": {
+        "Relation": "Eine Teilmenge des kartesischen Produkts $M \\times N$, die eine Beziehung zwischen Elementen von $M$ und $N$ beschreibt.",
+        "Äquivalenzrelation": "Eine reflexive, symmetrische und transitive Relation auf einer Menge.",
+        "Äquivalenzklasse": "Die Menge aller Elemente, die zu einem gegebenen Element $a$ äquivalent sind, bezeichnet als $[a]$."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "20. Was ermöglicht der Diffie-Hellman-Schlüsselaustausch?",
+      "options": [
+        "Die Verschlüsselung einer Nachricht, ohne dass der Empfänger einen Schlüssel benötigt.",
+        "Die digitale Signatur von Dokumenten, um deren Authentizität zu beweisen.",
+        "Die Erzeugung eines gemeinsamen geheimen Schlüssels über einen öffentlichen, unsicheren Kanal.",
+        "Die Faktorisierung großer Zahlen zur Brechung von RSA.",
+        "Die Kompression von Daten vor der Übertragung."
+      ],
+      "answer": 2,
+      "explanation": "Der Diffie-Hellman-Algorithmus ermöglicht es zwei Parteien (Alice und Bob), über einen unsicheren Kommunikationskanal einen gemeinsamen geheimen Schlüssel zu vereinbaren, ohne diesen Schlüssel jemals direkt zu übertragen. Die Sicherheit basiert auf der Schwierigkeit der Berechnung des diskreten Logarithmus.",
+      "weight": 2,
+      "topic": "Kryptografie und IT-Sicherheit",
+      "extended_explanation": {
+        "titel": "Funktionsweise des Diffie-Hellman-Austauschs",
+        "schritte": [
+          "Öffentlich bekannt sind eine große Primzahl $p$ und ein Erzeuger $a$ der multiplikativen Gruppe von $GF(p)$.",
+          "Alice wählt eine geheime Zahl $q_A$ und sendet $r_A = a^{q_A} \\pmod p$ an Bob.",
+          "Bob wählt eine geheime Zahl $q_B$ und sendet $r_B = a^{q_B} \\pmod p$ an Alice.",
+          "Alice berechnet den gemeinsamen Schlüssel als $K = (r_B)^{q_A} \\pmod p = (a^{q_B})^{q_A} \\pmod p$.",
+          "Bob berechnet denselben Schlüssel als $K = (r_A)^{q_B} \\pmod p = (a^{q_A})^{q_B} \\pmod p$.",
+          "Ein Angreifer, der nur $p, a, r_A, r_B$ kennt, kann $K$ nicht ohne Weiteres berechnen."
+        ]
+      },
+      "mini_glossary": {
+        "Diffie-Hellman-Schlüsselaustausch": "Ein kryptografisches Protokoll, das zwei Parteien erlaubt, einen gemeinsamen geheimen Schlüssel über einen unsicheren Kanal zu etablieren.",
+        "Diskreter Logarithmus": "Das Problem, zu gegebenem $y, a, p$ die Zahl $x$ zu finden, sodass $a^x \\equiv y \\pmod p$. Dies gilt als rechenintensiv.",
+        "Session Key": "Ein symmetrischer Schlüssel, der nur für eine einzelne Kommunikationssitzung verwendet wird und oft mittels eines asymmetrischen Verfahrens wie Diffie-Hellman ausgetauscht wird."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "21. Gegeben ist eine lineare Rekursion $a_n = 2 \\cdot a_{n-1} + 3$ mit dem Startwert $a_1 = 1$. Welchen Wert hat $a_4$?",
+      "options": [
+        "11",
+        "25",
+        "29",
+        "45",
+        "53"
+      ],
+      "answer": 2,
+      "explanation": "Die Rekursion wird schrittweise ausgewertet: $a_1 = 1$; $a_2 = 2 \\cdot a_1 + 3 = 2 \\cdot 1 + 3 = 5$; $a_3 = 2 \\cdot a_2 + 3 = 2 \\cdot 5 + 3 = 13$; $a_4 = 2 \\cdot a_3 + 3 = 2 \\cdot 13 + 3 = 29$.",
+      "weight": 2,
+      "topic": "Rekursion und Induktion",
+      "extended_explanation": {
+        "titel": "Lösung inhomogener linearer Rekursionen",
+        "schritte": [
+          "Die gegebene Rekursion ist eine inhomogene lineare Rekursion erster Ordnung der Form $a_n = \\lambda a_{n-1} + c$.",
+          "Da $\\lambda = 2 \\neq 1$, kann die geschlossene Formel $a_n = a_1 \\cdot \\lambda^{n-1} + \\frac{1-\\lambda^{n-1}}{1-\\lambda}c$ verwendet werden.",
+          "Einsetzen der Werte: $a_n = 1 \\cdot 2^{n-1} + \\frac{1-2^{n-1}}{1-2} \\cdot 3 = 2^{n-1} - (1-2^{n-1}) \\cdot 3 = 2^{n-1} - 3 + 3 \\cdot 2^{n-1} = 4 \\cdot 2^{n-1} - 3 = 2^{n+1}-3$.",
+          "Probe für $n=4$: $a_4 = 2^{4+1} - 3 = 32 - 3 = 29$."
+        ]
+      },
+      "mini_glossary": {
+        "Lineare Rekursion": "Eine Rekursionsgleichung, bei der der neue Wert als Linearkombination vorheriger Werte berechnet wird.",
+        "Inhomogene Rekursion": "Eine lineare Rekursion, die einen zusätzlichen, von $n$ abhängigen Term ($g(n) \\neq 0$) enthält.",
+        "Geschlossene Form": "Eine explizite Formel zur Berechnung des $n$-ten Glieds einer Folge, die nicht auf vorherige Glieder zurückgreift."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "22. Was ist der Binomialkoeffizient $\\binom{n}{k}$?",
+      "options": [
+        "Die Anzahl der Möglichkeiten, $k$ Elemente aus einer Menge von $n$ Elementen mit Zurücklegen auszuwählen.",
+        "Die Anzahl der Möglichkeiten, $k$ Elemente aus einer Menge von $n$ Elementen ohne Zurücklegen und mit Beachtung der Reihenfolge auszuwählen.",
+        "Die Anzahl der Möglichkeiten, $k$ Elemente aus einer Menge von $n$ Elementen ohne Zurücklegen und ohne Beachtung der Reihenfolge auszuwählen.",
+        "Das Produkt der ersten $k$ Zahlen von $n$.",
+        "Ein Koeffizient in der Taylor-Entwicklung einer Funktion."
+      ],
+      "answer": 2,
+      "explanation": "Der Binomialkoeffizient $\\binom{n}{k}$ gibt genau die Anzahl der $k$-elementigen Teilmengen einer $n$-elementigen Menge an. Dies entspricht einer Auswahl (Ziehung) ohne Zurücklegen und ohne Beachtung der Reihenfolge.",
+      "weight": 2,
+      "topic": "Kombinatorik",
+      "extended_explanation": {
+        "titel": "Formeln und Deutungen des Binomialkoeffizienten",
+        "schritte": [
+          "**Kombinatorische Deutung**: Anzahl der $k$-elementigen Teilmengen einer $n$-elementigen Menge.",
+          "**Algebraische Formel**: $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$.",
+          "**Rekursive Formel (Pascal'sches Dreieck)**: $\\binom{n}{k} = \\binom{n-1}{k-1} + \\binom{n-1}{k}$.",
+          "**Binomialsatz**: Die Koeffizienten in der Entwicklung des Binoms $(x+y)^n$ sind die Binomialkoeffizienten $\\binom{n}{k}$."
+        ]
+      },
+      "mini_glossary": {
+        "Binomialkoeffizient": "Eine mathematische Funktion, die angibt, auf wie viele verschiedene Weisen man $k$ Objekte aus einer Menge von $n$ Objekten auswählen kann.",
+        "Kombinatorik": "Ein Teilgebiet der Mathematik, das sich mit der Bestimmung der Anzahl möglicher Anordnungen oder Auswahlen von Objekten beschäftigt.",
+        "Binomialsatz": "Ein Lehrsatz der Algebra, der eine Formel für die potenzierte Summe zweier Variablen, $(x+y)^n$, angibt."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "23. Wie viele Möglichkeiten gibt es, 6 Zahlen aus 49 auszuwählen (Lotto '6 aus 49')?",
+      "options": [
+        "$49^6$",
+        "$\\frac{49!}{6!}$",
+        "$49 \\cdot 48 \\cdot 47 \\cdot 46 \\cdot 45 \\cdot 44$",
+        "$\\binom{49}{6}$",
+        "$6!$"
+      ],
+      "answer": 3,
+      "explanation": "Beim Lotto werden 6 Zahlen aus 49 ohne Zurücklegen und ohne Beachtung der Reihenfolge gezogen. Dies entspricht exakt der Definition des Binomialkoeffizienten. Die Anzahl der Möglichkeiten ist also $\\binom{49}{6} = \\frac{49!}{6!(49-6)!} = 13.983.816$.",
+      "weight": 2,
+      "topic": "Kombinatorik",
+      "extended_explanation": {
+        "titel": "Kombinatorische Grundprobleme",
+        "schritte": [
+          "**Auswahl mit Beachtung der Reihenfolge und mit Zurücklegen**: $n^k$ Möglichkeiten.",
+          "**Auswahl mit Beachtung der Reihenfolge und ohne Zurücklegen**: $\\frac{n!}{(n-k)!}$ Möglichkeiten.",
+          "**Auswahl ohne Beachtung der Reihenfolge und ohne Zurücklegen**: $\\binom{n}{k}$ Möglichkeiten (wie beim Lotto).",
+          "**Auswahl ohne Beachtung der Reihenfolge und mit Zurücklegen**: $\\binom{n+k-1}{k}$ Möglichkeiten."
+        ]
+      },
+      "mini_glossary": {
+        "Ziehen ohne Zurücklegen": "Ein Auswahlverfahren, bei dem ein einmal ausgewähltes Element nicht erneut ausgewählt werden kann.",
+        "Ziehen mit Zurücklegen": "Ein Auswahlverfahren, bei dem ein ausgewähltes Element für weitere Ziehungen wieder zur Verfügung steht.",
+        "Ohne Beachtung der Reihenfolge": "Die Anordnung der ausgewählten Elemente spielt keine Rolle; $\\{1, 2, 3\\}$ ist identisch mit $\\{3, 1, 2\\}$."
+      },
+      "cognitive_level": "understanding"
+    },
+    {
+      "question": "24. Welchen Wert hat die Determinante der Matrix $A = \\begin{pmatrix} 2 & 1 & 3 \\\\ 0 & -1 & 5 \\\\ 0 & 0 & 4 \\end{pmatrix}$?",
+      "options": [
+        "0",
+        "2",
+        "8",
+        "-8",
+        "10"
+      ],
+      "answer": 3,
+      "explanation": "Die Determinante einer oberen (oder unteren) Dreiecksmatrix ist das Produkt der Elemente auf der Hauptdiagonalen. In diesem Fall ist die Matrix bereits in oberer Dreiecksform. Die Determinante ist also $det(A) = 2 \\cdot (-1) \\cdot 4 = -8$.",
+      "weight": 2,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Determinantenberechnung",
+        "schritte": [
+          "Die Determinante ist eine wichtige Kennzahl für quadratische Matrizen, die Informationen über deren Eigenschaften (z.B. Invertierbarkeit) liefert.",
+          "Für eine $2 \\times 2$ Matrix $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ ist die Determinante $ad-bc$.",
+          "Für größere Matrizen kann die Determinante mit der Regel von Sarrus (nur für $3 \\times 3$) oder dem Laplaceschen Entwicklungssatz berechnet werden.",
+          "Eine Matrix ist genau dann invertierbar, wenn ihre Determinante ungleich Null ist."
+        ]
+      },
+      "mini_glossary": {
+        "Determinante": "Eine skalare Größe, die einer quadratischen Matrix zugeordnet wird und wichtige Eigenschaften der durch die Matrix beschriebenen linearen Abbildung kodiert.",
+        "Dreiecksmatrix": "Eine quadratische Matrix, bei der alle Einträge entweder oberhalb (obere Dreiecksmatrix) oder unterhalb (untere Dreiecksmatrix) der Hauptdiagonalen null sind.",
+        "Hauptdiagonale": "Die Diagonale einer quadratischen Matrix von links oben nach rechts unten."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "25. Eine Permutationsgruppe $S_n$ ist die Menge aller bijektiven Abbildungen der Menge $\\{1, 2, \\dots, n\\}$ auf sich selbst. Welche Aussage über $S_n$ für $n \\ge 3$ ist korrekt?",
+      "options": [
+        "Sie ist immer eine kommutative (abelsche) Gruppe.",
+        "Sie enthält genau $n$ Elemente.",
+        "Die Verknüpfung ist die Addition von Permutationen.",
+        "Sie ist im Allgemeinen nicht kommutativ.",
+        "Sie besitzt kein neutrales Element."
+      ],
+      "answer": 3,
+      "explanation": "Die Permutationsgruppe $S_n$ mit der Hintereinanderausführung von Abbildungen als Verknüpfung ist für $n \\ge 3$ im Allgemeinen **nicht** kommutativ. Zum Beispiel ist in $S_3$ die Verknüpfung der Zyklen $(1 \\ 2)$ und $(2 \\ 3)$ nicht vertauschbar: $(1 \\ 2) \\circ (2 \\ 3) = (1 \\ 2 \\ 3)$, aber $(2 \\ 3) \\circ (1 \\ 2) = (1 \\ 3 \\ 2)$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Die Symmetrische Gruppe $S_n$",
+        "schritte": [
+          "Die Menge aller Permutationen von $n$ Elementen bildet mit der Komposition (Hintereinanderausführung) als Verknüpfung eine Gruppe, die als symmetrische Gruppe $S_n$ bezeichnet wird.",
+          "Die Anzahl der Elemente (die Ordnung der Gruppe) ist $n!$.",
+          "Das neutrale Element ist die identische Abbildung, die jedes Element auf sich selbst abbildet.",
+          "Das inverse Element zu einer Permutation ist ihre Umkehrabbildung.",
+          "Nur für $n=1$ und $n=2$ ist $S_n$ kommutativ (abelsch)."
+        ]
+      },
+      "mini_glossary": {
+        "Permutationsgruppe": "Die Gruppe, die aus allen Permutationen einer Menge besteht, mit der Komposition von Abbildungen als Gruppenoperation.",
+        "Kommutative Gruppe (abelsche Gruppe)": "Eine Gruppe, deren Verknüpfung zusätzlich das Kommutativgesetz erfüllt ($a \\cdot b = b \\cdot a$).",
+        "Hintereinanderausführung": "Die Verknüpfung zweier Abbildungen $f$ und $g$ zu einer neuen Abbildung $g \\circ f$, bei der zuerst $f$ und dann $g$ angewendet wird."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "26. Ein Polynom $p(x)$ in $GF(2)[x]$ ist gegeben durch $p(x) = x^4 + x + 1$. Ist dieses Polynom irreduzibel über $GF(2)$?",
+      "options": [
+        "Ja, es hat keine Nullstellen in $GF(2)$ und ist nicht das Produkt zweier Polynome vom Grad 2.",
+        "Nein, da $x=1$ eine Nullstelle ist.",
+        "Nein, da $p(x) = (x^2+x+1)^2$.",
+        "Ja, weil sein Grad eine Primzahl + 1 ist.",
+        "Nein, da $x=0$ eine Nullstelle ist."
+      ],
+      "answer": 0,
+      "explanation": "Ein Polynom vom Grad 4 ist reduzibel, wenn es entweder eine Nullstelle (und damit einen Faktor vom Grad 1) hat oder in zwei irreduzible Polynome vom Grad 2 zerfällt. Zuerst prüfen wir auf Nullstellen in $GF(2)$: $p(0) = 1 \\neq 0$ und $p(1) = 1+1+1 = 1 \\neq 0$. Das Polynom hat also keine linearen Faktoren. Das einzige irreduzible Polynom vom Grad 2 in $GF(2)[x]$ ist $x^2+x+1$. Wir prüfen, ob $p(x)$ ein Produkt davon ist: $(x^2+x+1)(x^2+x+1) = x^4+x^2+1 \\neq p(x)$. Da $p(x)$ weder lineare Faktoren hat noch durch das einzige irreduzible quadratische Polynom teilbar ist, ist es irreduzibel.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Irreduzibilität von Polynomen über endlichen Körpern",
+        "schritte": [
+          "Ein Polynom $p(x)$ heißt irreduzibel über einem Körper $K$, wenn es nicht als Produkt zweier nicht-konstanter Polynome aus $K[x]$ geschrieben werden kann. Irreduzible Polynome sind das Analogon zu Primzahlen.",
+          "Um die Irreduzibilität eines Polynoms vom Grad 2 oder 3 zu prüfen, genügt es zu zeigen, dass es keine Nullstellen im Grundkörper hat.",
+          "Für Polynome vom Grad 4 wie hier muss zusätzlich geprüft werden, ob es als Produkt zweier irreduzibler Polynome vom Grad 2 darstellbar ist.",
+          "Irreduzible Polynome sind notwendig, um Erweiterungskörper $GF(p^n)$ zu konstruieren, die in der Kryptografie und Codierungstheorie eine große Rolle spielen."
+        ]
+      },
+      "mini_glossary": {
+        "Irreduzibles Polynom": "Ein nicht-konstantes Polynom, das nicht in das Produkt von zwei Polynomen mit geringerem Grad zerlegt werden kann.",
+        "GF(2)": "Der Galois-Körper (endliche Körper) mit zwei Elementen, {0, 1}, mit Arithmetik modulo 2.",
+        "Polynomring K[x]": "Der Ring aller Polynome mit Koeffizienten aus einem Ring (oder Körper) $K$."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "27. Der kleine Satz von Fermat besagt, dass für eine Primzahl $p$ und eine ganze Zahl $a$, die kein Vielfaches von $p$ ist, gilt: $a^{p-1} \\equiv 1 \\pmod p$. Was ist der Wert von $3^{16} \\pmod{17}$?",
+      "options": [
+        "1",
+        "3",
+        "9",
+        "16",
+        "Das lässt sich ohne Berechnung nicht sagen."
+      ],
+      "answer": 0,
+      "explanation": "Da 17 eine Primzahl ist und 3 kein Vielfaches von 17 ist, können wir den kleinen Satz von Fermat direkt anwenden. Hier ist $p=17$ und $a=3$. Der Satz besagt $a^{p-1} \\equiv 1 \\pmod p$, also $3^{17-1} \\equiv 3^{16} \\equiv 1 \\pmod{17}$.",
+      "weight": 3,
+      "topic": "Zahlentheorie",
+      "extended_explanation": {
+        "titel": "Anwendung des kleinen Satzes von Fermat",
+        "schritte": [
+          "Der kleine Satz von Fermat ist ein fundamentales Ergebnis der Zahlentheorie und bildet die Grundlage für viele Algorithmen, insbesondere in der Kryptografie (z.B. RSA).",
+          "Er ermöglicht die Vereinfachung von Potenzen in der Modulo-Arithmetik, ohne die Potenz explizit berechnen zu müssen.",
+          "Der Beweis des Satzes basiert auf der Eigenschaft, dass die Menge der Produkte $\\{1a, 2a, \\dots, (p-1)a\\}$ modulo $p$ eine Permutation der Menge $\\{1, 2, \\dots, p-1\\}$ ist."
+        ]
+      },
+      "mini_glossary": {
+        "Kleiner Satz von Fermat": "Ein Satz der Zahlentheorie, der besagt, dass für eine Primzahl $p$ und eine ganze Zahl $a$, die nicht von $p$ geteilt wird, $a^{p-1} \\equiv 1 \\pmod p$ gilt.",
+        "Primzahl": "Eine natürliche Zahl größer als 1, die nur durch 1 und sich selbst ohne Rest teilbar ist.",
+        "Modulo-Operation": "Eine mathematische Operation, die den Rest einer Division zurückgibt. $a \\pmod n$ ist der Rest, wenn $a$ durch $n$ geteilt wird."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "28. Betrachten Sie die elliptische Kurve $E$ über $GF(13)$ gegeben durch $y^2 = x^3 + 6x + 9$. Der Punkt $P=(1, 4)$ liegt auf dieser Kurve, da $4^2 = 16 \\equiv 3 \\pmod{13}$ und $1^3+6(1)+9 = 16 \\equiv 3 \\pmod{13}$. Welcher Punkt ist das Ergebnis von $2P = P+P$?",
+      "options": [
+        "$(8, 7)$",
+        "$(7, 2)$",
+        "$(1, 9)$",
+        "Der unendlich ferne Punkt $O$",
+        "$(8, 6)$"
+      ],
+      "answer": 4,
+      "explanation": "Für die Punktverdopplung $P+P$ mit $P=(x_P, y_P)$ wird zuerst der Anstieg der Tangente $m = \\frac{3x_P^2 + a}{2y_P}$ in $GF(13)$ berechnet. Mit $a=6, x_P=1, y_P=4$ ist $m = \\frac{3(1)^2+6}{2(4)} = \\frac{9}{8}$. Das Inverse von $8 \\pmod{13}$ ist $5$, da $8 \\cdot 5 = 40 \\equiv 1 \\pmod{13}$. Also ist $m=9 \\cdot 5 = 45 \\equiv 6 \\pmod{13}$. Nun die Koordinaten des Ergebnis-Punktes $R=(x_R, y_R)$: $x_R = m^2 - 2x_P = 6^2 - 2(1) = 36-2 = 34 \\equiv 8 \\pmod{13}$. $y_R = -(m(x_R-x_P)+y_P) = -(6(8-1)+4) = -(6(7)+4) = -(42+4) = -46$. Da $-46 \\equiv 6 \\pmod{13}$ ist, lautet der Punkt $(8, 6)$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Punktaddition auf Elliptischen Kurven",
+        "schritte": [
+          "Auf der Menge der Punkte einer elliptischen Kurve über einem Körper lässt sich eine additive Gruppenstruktur definieren.",
+          "Die Addition zweier verschiedener Punkte $P, Q$ wird geometrisch durch das Ziehen einer Sekante, Finden des dritten Schnittpunktes $R$ und Spiegeln dieses Punktes an der x-Achse definiert.",
+          "Die Verdopplung eines Punktes $P$ wird analog durch die Tangente an diesem Punkt definiert.",
+          "Die algebraischen Formeln für Addition und Verdopplung beinhalten nur Körperoperationen und können daher auch über endlichen Körpern wie $GF(p)$ angewendet werden, was für die Kryptografie essentiell ist."
+        ]
+      },
+      "mini_glossary": {
+        "Elliptische Kurve": "Die Lösungsmenge einer bestimmten Art von kubischer Gleichung, $y^2 = x^3 + ax + b$, zusammen mit einem 'unendlich fernen Punkt'.",
+        "Gruppenoperation auf E": "Eine speziell definierte Addition von Punkten auf einer elliptischen Kurve, die diese zu einer kommutativen Gruppe macht.",
+        "Elliptische-Kurven-Kryptografie (ECC)": "Ein Public-Key-Kryptosystem, dessen Sicherheit auf der Schwierigkeit der Berechnung des diskreten Logarithmus auf elliptischen Kurven beruht."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "29. Welchen Rang hat die folgende Matrix $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{pmatrix}$?",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "Die Matrix ist nicht quadratisch, daher ist kein Rang definierbar."
+      ],
+      "answer": 2,
+      "explanation": "Der Rang einer Matrix ist die maximale Anzahl linear unabhängiger Zeilen- oder Spaltenvektoren. Man kann den Rang mit dem Gauß-Algorithmus bestimmen, um die Matrix in Zeilenstufenform zu bringen. Zieht man die erste Zeile von der zweiten ab (multipliziert mit 4) und von der dritten (multipliziert mit 7), erhält man: $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -3 & -6 \\\\ 0 & -6 & -12 \\end{pmatrix}$. Man sieht, dass die dritte Zeile das Doppelte der zweiten Zeile ist. Zieht man also $2 \\cdot$ (Zeile 2) von Zeile 3 ab, erhält man eine Nullzeile: $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -3 & -6 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Die Matrix hat zwei Nicht-Null-Zeilen, also ist der Rang 2.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Bestimmung des Rangs einer Matrix",
+        "schritte": [
+          "Der Rang einer Matrix entspricht der Dimension des von ihren Zeilen- oder Spaltenvektoren aufgespannten Vektorraums.",
+          "Das gängigste Verfahren zur Rangbestimmung ist der Gauß'sche Algorithmus, der die Matrix durch elementare Zeilenumformungen in Zeilenstufenform überführt.",
+          "Elementare Zeilenumformungen sind: Vertauschen zweier Zeilen, Multiplikation einer Zeile mit einer Konstante $\\neq 0$ und Addition eines Vielfachen einer Zeile zu einer anderen.",
+          "Die Anzahl der Zeilen, die nach diesem Verfahren nicht ausschließlich aus Nullen bestehen, ist der Rang der Matrix."
+        ]
+      },
+      "mini_glossary": {
+        "Matrix": "Eine rechteckige Anordnung von Zahlen oder anderen mathematischen Objekten, angeordnet in Zeilen und Spalten.",
+        "Rang einer Matrix": "Die maximale Anzahl linear unabhängiger Spaltenvektoren (oder äquivalent, Zeilenvektoren) der Matrix.",
+        "Lineare Unabhängigkeit": "Eine Menge von Vektoren ist linear unabhängig, wenn sich keiner von ihnen als Linearkombination der anderen darstellen lässt.",
+        "Gauß'scher Algorithmus": "Ein systematisches Verfahren zur Lösung linearer Gleichungssysteme und zur Umformung einer Matrix in Zeilenstufenform."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "30. Sei $\\varphi: (\\mathbb{Z}, +) \\to (\\mathbb{Z}_5, \\oplus)$ ein Gruppenhomomorphismus definiert durch $\\varphi(z) = z \\pmod 5$. Was ist der Kern von $\\varphi$?",
+      "options": [
+        "$\\{0\\}$",
+        "$\\{5\\}$",
+        "$\\mathbb{Z}_5$",
+        "Die Menge aller durch 5 teilbaren Zahlen ($5\\mathbb{Z}$)",
+        "Die leere Menge $\\emptyset$"
+      ],
+      "answer": 3,
+      "explanation": "Der Kern eines Gruppenhomomorphismus $\\varphi: G \\to H$ ist die Menge aller Elemente aus $G$, die auf das neutrale Element von $H$ abgebildet werden. Das neutrale Element in $(\\mathbb{Z}_5, \\oplus)$ ist 0. Der Kern von $\\varphi$ besteht also aus allen ganzen Zahlen $z$, für die $z \\pmod 5 = 0$ gilt. Dies ist genau die Menge aller Vielfachen von 5, also $5\\mathbb{Z} = \\{\\dots, -10, -5, 0, 5, 10, \\dots\\}$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Homomorphismen und ihre Kerne",
+        "schritte": [
+          "Ein Gruppenhomomorphismus ist eine strukturerhaltende Abbildung zwischen zwei Gruppen. Sie respektiert die Gruppenoperation, d.h., $\\varphi(a \\cdot b) = \\varphi(a) \\cdot \\varphi(b)$.",
+          "Der Kern, $Ker(\\varphi)$, ist eine Untergruppe der Definitionsmenge $G$.",
+          "Ein Homomorphismus ist genau dann injektiv, wenn sein Kern nur das neutrale Element enthält, d.h., $Ker(\\varphi) = \\{e_G\\}$. Da der Kern hier mehr als nur die 0 enthält, ist dieser Homomorphismus nicht injektiv."
+        ]
+      },
+      "mini_glossary": {
+        "Homomorphismus": "Eine Abbildung zwischen zwei algebraischen Strukturen desselben Typs, die die Struktur erhält (z.B. die Verknüpfungen respektiert).",
+        "Kern eines Homomorphismus": "Die Menge der Elemente der Definitionsmenge, die auf das neutrale Element der Zielmenge abgebildet werden.",
+        "Untergruppe": "Eine Teilmenge einer Gruppe, die mit der gleichen Verknüpfung selbst wieder eine Gruppe ist."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "31. Welche Aussage über die Lösbarkeit der linearen Kongruenz $ax \\equiv b \\pmod n$ ist korrekt?",
+      "options": [
+        "Sie ist immer lösbar, wenn $a$ und $n$ teilerfremd sind.",
+        "Sie hat immer genau eine Lösung.",
+        "Sie ist nur lösbar, wenn $b$ ein Teiler von $n$ ist.",
+        "Sie hat genau $d = ggT(a,n)$ Lösungen, falls $d$ ein Teiler von $b$ ist.",
+        "Sie ist niemals lösbar, wenn $n$ eine Primzahl ist."
+      ],
+      "answer": 3,
+      "explanation": "Eine lineare Kongruenz $ax \\equiv b \\pmod n$ ist genau dann lösbar, wenn $d = ggT(a, n)$ ein Teiler von $b$ ist. Wenn diese Bedingung erfüllt ist, gibt es genau $d$ inkongruente Lösungen modulo $n$. Sind $a$ und $n$ teilerfremd ($d=1$), so existiert genau eine eindeutige Lösung.",
+      "weight": 3,
+      "topic": "Zahlentheorie",
+      "extended_explanation": {
+        "titel": "Lösbarkeitskriterium für lineare Kongruenzen",
+        "schritte": [
+          "Die Gleichung $ax \\equiv b \\pmod n$ ist äquivalent zur Diophantischen Gleichung $ax - ny = b$ für eine ganze Zahl $y$.",
+          "Eine Linearkombination von $a$ und $n$ kann nach der Bézout'schen Identität nur Vielfache von $ggT(a,n)$ ergeben.",
+          "Daraus folgt direkt, dass eine Lösung nur existieren kann, wenn $b$ ein Vielfaches von $ggT(a,n)$ ist, d.h., $ggT(a,n) | b$.",
+          "Ist diese Bedingung erfüllt, findet man eine erste Lösung $x_0$ oft mit dem erweiterten Euklidischen Algorithmus. Die Gesamtheit der $d$ Lösungen ist dann $x_0 + k \\cdot (n/d)$ für $k=0, 1, \\dots, d-1$."
+        ]
+      },
+      "mini_glossary": {
+        "Diophantische Gleichung": "Eine Gleichung, für die nur ganzzahlige Lösungen gesucht werden.",
+        "Inkongruente Lösungen": "Lösungen, die bei Division durch das Modul $n$ verschiedene Reste lassen.",
+        "Teilerfremd": "Zwei ganze Zahlen heißen teilerfremd, wenn ihr größter gemeinsamer Teiler 1 ist."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "32. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
+      "options": [
+        "Dijkstra-Algorithmus",
+        "Bellman-Ford-Algorithmus",
+        "Algorithmus von Kruskal oder Prim",
+        "Tiefensuche (DFS)",
+        "Breitensuche (BFS)"
+      ],
+      "answer": 2,
+      "explanation": "Sowohl der Algorithmus von Kruskal als auch der Algorithmus von Prim sind Standardverfahren (Greedy-Algorithmen), um einen minimalen Spannbaum zu finden. Ein minimaler Spannbaum ist ein Teilgraph, der alle Knoten verbindet, keine Zyklen enthält und die Summe der Kantengewichte minimiert.",
+      "weight": 3,
+      "topic": "Kombinatorik",
+      "extended_explanation": {
+        "titel": "Vergleich von Kruskal und Prim",
+        "schritte": [
+          "**Algorithmus von Kruskal**: Sortiert alle Kanten nach aufsteigendem Gewicht. Fügt nacheinander die Kante mit dem geringsten Gewicht hinzu, solange dadurch kein Zyklus entsteht.",
+          "**Algorithmus von Prim**: Beginnt bei einem beliebigen Knoten und lässt den Baum wachsen, indem er immer die Kante mit dem geringsten Gewicht hinzufügt, die einen Knoten im Baum mit einem Knoten außerhalb des Baumes verbindet.",
+          "Beide Algorithmen finden garantiert einen minimalen Spannbaum, ihre Effizienz hängt jedoch von der Dichte des Graphen ab."
+        ]
+      },
+      "mini_glossary": {
+        "Minimaler Spannbaum (MST)": "Ein aufspannender Baum eines kantengewichteten, ungerichteten Graphen, dessen Summe der Kantengewichte minimal ist.",
+        "Greedy-Algorithmus": "Ein Algorithmus, der in jedem Schritt die lokal optimale Entscheidung trifft in der Hoffnung, dadurch eine global optimale Lösung zu finden.",
+        "Dijkstra-Algorithmus": "Ein Algorithmus zur Findung des kürzesten Pfades von einem Startknoten zu allen anderen Knoten in einem Graphen mit nicht-negativen Kantengewichten."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "33. Beweisen Sie durch vollständige Induktion, dass für alle $n \\ge 1$ gilt: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. Welcher Ausdruck ergibt sich im Induktionsschritt bei der Umformung von $\\sum_{k=1}^{n+1} k$?",
+      "options": [
+        "$\\frac{n(n+1)}{2} + n$",
+        "$\\frac{(n+1)(n+2)}{2}$",
+        "$\\frac{n(n+1)}{2} + (n+1)$",
+        "$(n+1) \\cdot \\frac{n}{2}$",
+        "Der Beweis ist nicht durch Induktion möglich."
+      ],
+      "answer": 2,
+      "explanation": "Im Induktionsschritt will man die Gültigkeit für $n+1$ zeigen, unter der Annahme, dass die Formel für $n$ gilt. Man zerlegt die Summe: $\\sum_{k=1}^{n+1} k = (\\sum_{k=1}^{n} k) + (n+1)$. Nun setzt man die Induktionsannahme $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$ ein. Dies führt direkt zu dem Ausdruck $\\frac{n(n+1)}{2} + (n+1)$. Dieser wird dann weiter zu $\\frac{(n+1)(n+2)}{2}$ umgeformt, was dem Zielausdruck für $n+1$ entspricht.",
+      "weight": 3,
+      "topic": "Rekursion und Induktion",
+      "extended_explanation": {
+        "titel": "Der Gaußsche Summenformel-Beweis",
+        "schritte": [
+          "**Induktionsanfang (n=1):** $\\sum_{k=1}^{1} k = 1$. Die Formel ergibt $\\frac{1(1+1)}{2} = 1$. Die Aussage ist wahr.",
+          "**Induktionsannahme:** Wir nehmen an, $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$ sei wahr für ein $n \\ge 1$.",
+          "**Induktionsschluss (n -> n+1):** Wir betrachten $\\sum_{k=1}^{n+1} k = (\\sum_{k=1}^{n} k) + (n+1)$.",
+          "Einsetzen der Annahme: $= \\frac{n(n+1)}{2} + (n+1)$.",
+          "Umformen: $= \\frac{n(n+1) + 2(n+1)}{2} = \\frac{(n+1)(n+2)}{2}$.",
+          "Dies ist die zu beweisende Formel für den Fall $n+1$. Der Beweis ist abgeschlossen."
+        ]
+      },
+      "mini_glossary": {
+        "Summenformel": "Eine geschlossene Formel zur Berechnung des Wertes einer Reihe.",
+        "Induktionsbeweis": "Eine mathematische Beweistechnik, die verwendet wird, um zu beweisen, dass eine Eigenschaft für alle natürlichen Zahlen gilt.",
+        "Gaußsche Summenformel": "Die Formel für die Summe der ersten $n$ natürlichen Zahlen."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "34. Die Laufzeit eines rekursiven Algorithmus wird durch die Rekurrenzgleichung $T(n) = 2T(n/2) + \\gamma n$ mit $T(1)=\\alpha$ beschrieben. Welcher bekannten Laufzeitkomplexität entspricht die Lösung dieser Gleichung (für $n=2^m$)?",
+      "options": [
+        "$O(n)$ (linear)",
+        "$O(n^2)$ (quadratisch)",
+        "$O(\\log n)$ (logarithmisch)",
+        "$O(n \\log n)$",
+        "$O(2^n)$ (exponentiell)"
+      ],
+      "answer": 3,
+      "explanation": "Diese Rekurrenzgleichung ist typisch für Divide-and-Conquer-Algorithmen wie Merge Sort. Das Problem der Größe $n$ wird in zwei Teilprobleme der Größe $n/2$ zerlegt, und der Aufwand für das Teilen und Zusammenführen ist linear in $n$. Die Lösung dieser Rekurrenz ist von der Ordnung $O(n \\log n)$. Dies ist deutlich effizienter als eine quadratische Laufzeit ($O(n^2)$).",
+      "weight": 3,
+      "topic": "Rekursion und Induktion",
+      "extended_explanation": {
+        "titel": "Master-Theorem für Rekurrenzen",
+        "schritte": [
+          "Rekurrenzgleichungen der Form $T(n) = aT(n/b) + f(n)$ können oft mit dem Master-Theorem gelöst werden, um ihre asymptotische Komplexität zu bestimmen.",
+          "In diesem Fall ist $a=2, b=2$ und $f(n)=\\gamma n$. Wir vergleichen $n^{\\log_b a} = n^{\\log_2 2} = n^1 = n$ mit $f(n)$.",
+          "Da $f(n) = \\Theta(n^{\\log_b a})$, fällt dies unter den zweiten Fall des Master-Theorems, welcher besagt, dass die Lösung $T(n) = \\Theta(n^{\\log_b a} \\log n) = \\Theta(n \\log n)$ ist."
+        ]
+      },
+      "mini_glossary": {
+        "Rekurrenzgleichung": "Eine Gleichung, die eine Folge rekursiv definiert, d.h., jedes Folgenglied wird durch vorangehende Glieder ausgedrückt.",
+        "Laufzeitkomplexität": "Eine Beschreibung, wie die Laufzeit eines Algorithmus mit der Größe der Eingabedaten wächst. Sie wird oft mit der Big-O-Notation ausgedrückt.",
+        "Divide-and-Conquer-Algorithmus": "Ein Algorithmusparadigma, bei dem ein Problem rekursiv in kleinere, gleichartige Teilprobleme zerlegt wird, bis diese einfach gelöst und ihre Lösungen kombiniert werden können."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "35. In einem RSA-System seien die öffentlichen Schlüssel $n=55$ und $e=7$. Welcher private Schlüssel $d$ ist korrekt?",
+      "options": [
+        "3",
+        "7",
+        "13",
+        "23",
+        "40"
+      ],
+      "answer": 3,
+      "explanation": "Zuerst müssen die Primfaktoren von $n$ gefunden werden: $n=55 = 5 \\cdot 11$. Also sind $p=5$ und $q=11$. Dann wird $\\phi(n) = (p-1)(q-1) = (5-1)(11-1) = 4 \\cdot 10 = 40$ berechnet. Der private Schlüssel $d$ ist das multiplikative Inverse von $e=7$ modulo 40. Es muss also $7d \\equiv 1 \\pmod{40}$ gelten. Durch Probieren oder mit dem erweiterten Euklidischen Algorithmus findet man $d=23$, da $7 \\cdot 23 = 161 = 4 \\cdot 40 + 1$.",
+      "weight": 3,
+      "topic": "Kryptografie und IT-Sicherheit",
+      "extended_explanation": {
+        "titel": "RSA-Schlüsselerzeugung",
+        "schritte": [
+          "Wähle zwei große Primzahlen $p$ und $q$.",
+          "Berechne das Modul $n = p \\cdot q$.",
+          "Berechne den Wert der Eulerschen Phi-Funktion $\\phi(n) = (p-1)(q-1)$.",
+          "Wähle einen öffentlichen Exponenten $e$, der teilerfremd zu $\\phi(n)$ ist ($1 < e < \\phi(n)$, $ggT(e, \\phi(n))=1$).",
+          "Berechne den privaten Exponenten $d$ als multiplikatives Inverses von $e$ modulo $\\phi(n)$, sodass $e \\cdot d \\equiv 1 \\pmod{\\phi(n)}$."
+        ]
+      },
+      "mini_glossary": {
+        "RSA": "Ein Public-Key-Kryptosystem, das sowohl zur Verschlüsselung als auch für digitale Signaturen verwendet wird.",
+        "Eulersche Phi-Funktion ($\\phi(n)$)": "Gibt die Anzahl der zu $n$ teilerfremden positiven ganzen Zahlen an, die kleiner oder gleich $n$ sind.",
+        "Multiplikatives Inverses": "In der Modulo-Arithmetik ist $d$ das Inverse zu $e \\pmod{\\phi(n)}$, wenn gilt: $e \\cdot d \\equiv 1 \\pmod{\\phi(n)}$."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "36. Gegeben die Permutation $\\sigma = (1 \\ 3 \\ 2)(4 \\ 5)$ in $S_5$. Welches Ergebnis liefert die zweimalige Anwendung von $\\sigma$ auf das Element 1, also $\\sigma^2(1)$?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": 1,
+      "explanation": "Zuerst wenden wir $\\sigma$ auf 1 an: Der Zyklus $(1 \\ 3 \\ 2)$ bildet 1 auf 3 ab. Also ist $\\sigma(1) = 3$. Nun wenden wir $\\sigma$ auf das Ergebnis 3 an: Der Zyklus $(1 \\ 3 \\ 2)$ bildet 3 auf 2 ab. Also ist $\\sigma(3) = 2$. Somit ist $\\sigma^2(1) = \\sigma(\\sigma(1)) = \\sigma(3) = 2$.",
+      "weight": 3,
+      "topic": "Gruppen, Ringe, Körper",
+      "extended_explanation": {
+        "titel": "Arbeiten mit Zykelschreibweise",
+        "schritte": [
+          "Eine Permutation kann durch eine Menge von disjunkten Zyklen dargestellt werden.",
+          "Ein Zyklus $(e_1 \\ e_2 \\ \\dots \\ e_k)$ bedeutet, dass $e_1$ auf $e_2$, $e_2$ auf $e_3$, ..., und $e_k$ zurück auf $e_1$ abgebildet wird.",
+          "Elemente, die nicht in einem Zyklus vorkommen, werden auf sich selbst abgebildet (Fixpunkte).",
+          "Um $\\sigma^k$ zu berechnen, wendet man $\\sigma$ einfach $k$-mal hintereinander an. Für $\\sigma^2(1)$: $\\sigma(1) = 3$, dann $\\sigma(3)=2$."
+        ]
+      },
+      "mini_glossary": {
+        "Zyklus (Permutation)": "Eine Notation für eine Permutation, die eine Folge von Elementen beschreibt, die zyklisch aufeinander abgebildet werden.",
+        "Symmetrische Gruppe ($S_n$)": "Die Gruppe aller Permutationen von $n$ Elementen.",
+        "Disjunkte Zyklen": "Zwei Zyklen sind disjunkt, wenn sie keine gemeinsamen Elemente enthalten. Jede Permutation kann eindeutig als Produkt disjunkter Zyklen geschrieben werden."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "37. Der Chinesische Restsatz befasst sich mit der Lösbarkeit von...",
+      "options": [
+        "einzelnen linearen Gleichungen.",
+        "Systemen von linearen Kongruenzen.",
+        "quadratischen Gleichungen über endlichen Körpern.",
+        "Polynomgleichungen beliebigen Grades.",
+        "Differenzialgleichungen erster Ordnung."
+      ],
+      "answer": 1,
+      "explanation": "Der Chinesische Restsatz gibt Bedingungen für die Existenz einer Lösung eines Systems von simultanen linearen Kongruenzen an und liefert ein Verfahren zur Berechnung dieser Lösung. Voraussetzung ist, dass die Module paarweise teilerfremd sind.",
+      "weight": 3,
+      "topic": "Zahlentheorie",
+      "extended_explanation": {
+        "titel": "Anwendung des Chinesischen Restsatzes",
+        "schritte": [
+          "Ein typisches Problem ist: Finde eine Zahl $x$, die die Bedingungen $x \\equiv a_1 \\pmod{n_1}$, $x \\equiv a_2 \\pmod{n_2}$, ..., $x \\equiv a_k \\pmod{n_k}$ erfüllt.",
+          "Wenn die Module $n_1, n_2, \\dots, n_k$ paarweise teilerfremd sind, garantiert der Satz die Existenz einer eindeutigen Lösung modulo $N = n_1 n_2 \\dots n_k$.",
+          "Der Satz hat wichtige Anwendungen in der Kryptografie, insbesondere beim RSA-Verfahren, wo Berechnungen modulo einer großen Zahl durch schnellere Berechnungen modulo ihrer Primfaktoren ersetzt werden können."
+        ]
+      },
+      "mini_glossary": {
+        "Chinesischer Restsatz": "Ein Satz der Zahlentheorie, der die Lösbarkeit von Systemen simultaner Kongruenzen behandelt.",
+        "Simultane Kongruenzen": "Ein System von zwei oder mehr Kongruenzgleichungen, die alle gleichzeitig von einer Unbekannten erfüllt werden müssen.",
+        "Teilerfremd": "Zwei ganze Zahlen heißen teilerfremd, wenn ihr größter gemeinsamer Teiler 1 ist."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "38. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
+      "options": [
+        "Dijkstra-Algorithmus",
+        "Bellman-Ford-Algorithmus",
+        "Algorithmus von Kruskal oder Prim",
+        "Tiefensuche (DFS)",
+        "Breitensuche (BFS)"
+      ],
+      "answer": 2,
+      "explanation": "Sowohl der Algorithmus von Kruskal als auch der Algorithmus von Prim sind Standardverfahren (Greedy-Algorithmen), um einen minimalen Spannbaum zu finden. Ein minimaler Spannbaum ist ein Teilgraph, der alle Knoten verbindet, keine Zyklen enthält und die Summe der Kantengewichte minimiert.",
+      "weight": 3,
+      "topic": "Kombinatorik",
+      "extended_explanation": {
+        "titel": "Vergleich von Kruskal und Prim",
+        "schritte": [
+          "**Algorithmus von Kruskal**: Sortiert alle Kanten nach aufsteigendem Gewicht. Fügt nacheinander die Kante mit dem geringsten Gewicht hinzu, solange dadurch kein Zyklus entsteht.",
+          "**Algorithmus von Prim**: Beginnt bei einem beliebigen Knoten und lässt den Baum wachsen, indem er immer die Kante mit dem geringsten Gewicht hinzufügt, die einen Knoten im Baum mit einem Knoten außerhalb des Baumes verbindet.",
+          "Beide Algorithmen finden garantiert einen minimalen Spannbaum, ihre Effizienz hängt jedoch von der Dichte des Graphen ab."
+        ]
+      },
+      "mini_glossary": {
+        "Minimaler Spannbaum (MST)": "Ein aufspannender Baum eines kantengewichteten, ungerichteten Graphen, dessen Summe der Kantengewichte minimal ist.",
+        "Greedy-Algorithmus": "Ein Algorithmus, der in jedem Schritt die lokal optimale Entscheidung trifft in der Hoffnung, dadurch eine global optimale Lösung zu finden.",
+        "Dijkstra-Algorithmus": "Ein Algorithmus zur Findung des kürzesten Pfades von einem Startknoten zu allen anderen Knoten in einem Graphen mit nicht-negativen Kantengewichten."
+      },
+      "cognitive_level": "analysis"
+    },
+    {
+      "question": "39. Die Sicherheit der Elliptische-Kurven-Kryptografie (ECC) beruht auf der Schwierigkeit...",
+      "options": [
+        "der Faktorisierung des Produkts zweier großer Primzahlen.",
+        "der Lösung des Rucksackproblems.",
+        "des Problems des diskreten Logarithmus in der Gruppe der Punkte auf einer elliptischen Kurve.",
+        "der schnellen Multiplikation von Punkten auf einer elliptischen Kurve.",
+        "der Konstruktion von supersingulären Kurven."
+      ],
+      "answer": 2,
+      "explanation": "Die Sicherheit von ECC basiert auf der Schwierigkeit, zu zwei gegebenen Punkten $P$ und $Q=nP$ auf einer elliptischen Kurve den Skalar $n$ zu bestimmen. Dieses Problem wird als das Diskrete-Logarithmus-Problem auf elliptischen Kurven (ECDLP) bezeichnet und gilt als rechentechnisch sehr aufwändig.",
+      "weight": 3,
+      "topic": "Kryptografie und IT-Sicherheit",
+      "extended_explanation": {
+        "titel": "Das Diskrete-Logarithmus-Problem auf Elliptischen Kurven (ECDLP)",
+        "schritte": [
+          "Die Gruppenoperation auf einer elliptischen Kurve ist die Punktaddition. Die 'Multiplikation' eines Punktes $P$ mit einem Skalar $n$ ist als $n$-fache Addition von $P$ mit sich selbst definiert: $Q = nP = P+P+\\dots+P$.",
+          "Während die Berechnung von $Q$ aus $n$ und $P$ effizient möglich ist (z.B. mit dem Double-and-Add-Algorithmus), ist die Umkehrung – die Bestimmung von $n$ aus $P$ und $Q$ – das schwierige Problem.",
+          "Im Vergleich zum Diskreten-Logarithmus-Problem in endlichen Körpern (wie bei Diffie-Hellman) bietet ECC bei deutlich kleineren Schlüssellängen eine vergleichbare Sicherheit."
+        ]
+      },
+      "mini_glossary": {
+        "Elliptische-Kurven-Kryptografie (ECC)": "Ein Public-Key-Kryptosystem, dessen Sicherheit auf der Schwierigkeit der Berechnung des diskreten Logarithmus auf elliptischen Kurven beruht.",
+        "Skalare Multiplikation (ECC)": "Die wiederholte Addition eines Punktes auf einer elliptischen Kurve mit sich selbst.",
+        "Diskreter Logarithmus auf EC": "Das Problem, den Skalar $n$ zu finden, sodass $Q = nP$ für gegebene Punkte $P, Q$ gilt."
+      },
+      "cognitive_level": "application"
+    },
+    {
+      "question": "40. In der Graphentheorie, was ist die Definition eines Baumes?",
+      "options": [
+        "Ein Graph, in dem jeder Knoten den gleichen Grad hat.",
+        "Ein gerichteter Graph ohne Zyklen.",
+        "Ein zusammenhängender Graph ohne Zyklen.",
+        "Ein Graph, der mehr Kanten als Knoten hat.",
+        "Ein Graph, in dem jeder Knoten mit jedem anderen Knoten verbunden ist."
+      ],
+      "answer": 2,
+      "explanation": "Ein Baum ist in der Graphentheorie als ein ungerichteter, zusammenhängender Graph definiert, der keine Zyklen (Kreise) enthält.",
+      "weight": 2,
+      "topic": "Kombinatorik",
+      "extended_explanation": {
+        "titel": "Eigenschaften von Bäumen",
+        "schritte": [
+          "**Zusammenhang**: Zwischen jedem Paar von Knoten existiert ein Pfad.",
+          "**Azyklizität**: Es gibt keine geschlossenen Pfade (Zyklen). Das Entfernen einer beliebigen Kante würde den Graphen in zwei Komponenten zerlegen.",
+          "**Knoten und Kanten**: Ein Baum mit $n$ Knoten hat immer genau $n-1$ Kanten. Dies ist eine notwendige und hinreichende Bedingung für einen zusammenhängenden Graphen, ein Baum zu sein.",
+          "**Blätter**: In jedem Baum mit mindestens zwei Knoten gibt es mindestens zwei Knoten vom Grad 1, die als Blätter bezeichnet werden."
+        ]
+      },
+      "mini_glossary": {
+        "Graph": "Eine mathematische Struktur bestehend aus einer Menge von Knoten (Ecken) und einer Menge von Kanten, die Verbindungen zwischen den Knoten darstellen.",
+        "Baum": "Ein zusammenhängender, azyklischer Graph.",
+        "Zusammenhängender Graph": "Ein Graph, in dem es für jedes Paar von Knoten einen Pfad gibt, der sie verbindet.",
+        "Zyklus": "Ein Pfad in einem Graphen, der am selben Knoten beginnt und endet und dabei keinen Knoten (außer Start/Ende) mehr als einmal besucht."
+      },
+      "cognitive_level": "understanding"
     }
-  },
-  {
-    "question": "3. Welche Eigenschaft muss eine Relation $R$ auf einer Menge $M$ erfüllen, um eine **Äquivalenzrelation** zu sein?",
-    "options": [
-      "Reflexiv, symmetrisch und antisymmetrisch.",
-      "Reflexiv, antisymmetrisch und transitiv.",
-      "Reflexiv, symmetrisch und transitiv.",
-      "Symmetrisch, transitiv und total."
-    ],
-    "extended_explanation": {
-      "title": "Eigenschaften von Relationen",
-      "content": "- **Reflexiv:** Jedes Element steht in Relation zu sich selbst ($aRa$).\n- **Symmetrisch:** Wenn $aRb$ gilt, dann gilt auch $bRa$.\n- **Antisymmetrisch:** Wenn $aRb$ und $bRa$ gelten, dann muss $a=b$ sein.\n- **Transitiv:** Wenn $aRb$ und $bRc$ gelten, dann gilt auch $aRc$.\n\nEine **Äquivalenzrelation** (wie Gleichheit) ist reflexiv, symmetrisch und transitiv. Eine **Ordnungsrelation** (wie 'kleiner-gleich') ist reflexiv, antisymmetrisch und transitiv."
-    },
-    "answer": 2,
-    "explanation": "Eine **Äquivalenzrelation** muss drei Eigenschaften erfüllen: **Reflexivität** ($aRa$), **Symmetrie** ($aRb \\implies bRa$) und **Transitivität** ($aRb \\land bRc \\implies aRc$).",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen",
-    "mini_glossary": {
-      "Äquivalenzrelation": "Eine Relation, die reflexiv, symmetrisch und transitiv ist. Sie teilt eine Menge in disjunkte Äquivalenzklassen, z.B. Gleichheit oder Kongruenz.",
-      "Reflexivität": "Eine Relation $R$ ist reflexiv, wenn jedes Element zu sich selbst in Relation steht: $\\forall a: aRa$.",
-      "Symmetrie": "Eine Relation $R$ ist symmetrisch, wenn aus $aRb$ stets $bRa$ folgt.",
-      "Transitivität": "Eine Relation $R$ ist transitiv, wenn aus $aRb$ und $bRc$ stets $aRc$ folgt."
-    }
-  },
-  {
-    "question": "4. Was ist die **Kontraposition** der Aussage 'Wenn es regnet, ist die Straße nass' ($A \\implies B$)?",
-    "options": [
-      "Wenn es nicht regnet, ist die Straße nicht nass.",
-      "Wenn die Straße nass ist, hat es geregnet.",
-      "Wenn die Straße nicht nass ist, hat es nicht geregnet.",
-      "Es regnet und die Straße ist nicht nass."
-    ],
-    "answer": 2,
-    "explanation": "Die **Kontraposition** einer Implikation $A \\implies B$ ist die logisch äquivalente Aussage $\\neg B \\implies \\neg A$. In diesem Fall: 'Wenn die Straße nicht nass ist ($\\neg B$), dann hat es nicht geregnet ($\\neg A$)'",
-    "weight": 1,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "5. Welches Beweisprinzip wird angewendet, wenn man annimmt, dass eine Aussage falsch ist, und daraus einen Widerspruch herleitet?",
-    "options": [
-      "**Vollständige Induktion**",
-      "**Direkter Beweis**",
-      "**Beweis durch Widerspruch** (reductio ad absurdum)",
-      "**Beweis durch Kontraposition**"
-    ],
-    "answer": 2,
-    "explanation": "Beim **Beweis durch Widerspruch** nimmt man das Gegenteil der zu beweisenden Aussage an und zeigt, dass diese Annahme zu einem logischen Widerspruch führt. Daraus schließt man, dass die ursprüngliche Annahme falsch und die Aussage somit wahr sein muss.",
-    "weight": 2,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "6. Was ist der **Induktionsschritt** bei einem Beweis durch **vollständige Induktion**?",
-    "options": [
-      "Der Beweis der Aussage für den Startwert $n=1$ (**Induktionsanfang**).",
-      "Die Annahme, dass die Aussage für ein beliebiges, aber festes $n$ gilt (**Induktionsvoraussetzung**).",
-      "Der Beweis, dass aus der Gültigkeit der Aussage für $n$ die Gültigkeit für $n+1$ folgt.",
-      "Die Schlussfolgerung, dass die Aussage für alle natürlichen Zahlen gilt."
-    ],
-    "answer": 2,
-    "explanation": "Der **Induktionsschritt** (oder Induktionsschluss) ist der Kern des Beweises. Hier zeigt man, dass die Aussage auch für den Nachfolger $n+1$ gilt, unter der Annahme, dass sie für $n$ bereits wahr ist.",
-    "weight": 2,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "7. Welchen Wert hat $5!$ (5 **Fakultät**)?",
-    "options": [
-      "15",
-      "25",
-      "120",
-      "720"
-    ],
-    "answer": 2,
-    "explanation": "Die **Fakultät** $n!$ ist das Produkt aller natürlichen Zahlen von 1 bis $n$. Also ist $5! = 5 \\cdot 4 \\cdot 3 \\cdot 2 \\cdot 1 = 120$.",
-    "weight": 1,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "8. Wie viele Möglichkeiten gibt es, 3 Personen aus einer Gruppe von 10 auszuwählen, wenn die Reihenfolge keine Rolle spielt?",
-    "options": [
-      "30",
-      "120",
-      "720",
-      "1000"
-    ],
-    "answer": 1,
-    "explanation": "Dies ist ein klassisches Problem der **Kombinatorik** ('Kombination ohne Wiederholung'), das mit dem **Binomialkoeffizienten** $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ gelöst wird. Hier: $\\binom{10}{3} = \\frac{10!}{3!7!} = \\frac{10 \\cdot 9 \\cdot 8}{3 \\cdot 2 \\cdot 1} = 120$.",
-    "extended_explanation": {
-      "title": "Kombination vs. Permutation",
-      "content": "- **Kombination:** Die Reihenfolge spielt keine Rolle. 'Wähle 3 Personen aus 10'.\n- **Variation/Permutation:** Die Reihenfolge spielt eine Rolle. 'Wähle 3 Personen aus 10 für die Plätze 1, 2 und 3'. Hier gäbe es $10 \\cdot 9 \\cdot 8 = 720$ Möglichkeiten."
-    },
-    "weight": 2,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "9. Was ist der **größte gemeinsame Teiler** (ggT) von 105 und 70?",
-    "options": [
-      "5",
-      "7",
-      "10",
-      "35"
-    ],
-    "answer": 3,
-    "explanation": "Mit dem **Euklidischen Algorithmus**: \n1. $105 = 1 \\cdot 70 + 35$\n2. $70 = 2 \\cdot 35 + 0$\nDer letzte Rest ungleich Null ist der ggT, also 35.",
-    "extended_explanation": {
-      "title": "Alternative: Primfaktorzerlegung",
-      "content": "Man kann auch die Primfaktorzerlegung beider Zahlen bilden und die gemeinsamen Faktoren multiplizieren:\n\n- $105 = 3 \\cdot 35 = 3 \\cdot 5 \\cdot 7$\n- $70 = 7 \\cdot 10 = 2 \\cdot 5 \\cdot 7$\n\nDie gemeinsamen Faktoren sind 5 und 7. Ihr Produkt ist $5 \\cdot 7 = 35$."
-    },
-    "weight": 2,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "10. Welchen Wert hat $17 \\pmod 5$?",
-    "options": [
-      "1",
-      "2",
-      "3",
-      "4"
-    ],
-    "answer": 1,
-    "explanation": "Die **Modulo-Operation** gibt den Rest einer Division an. 17 geteilt durch 5 ist 3 mit einem Rest von 2. Also ist $17 \\pmod 5 = 2$.",
-    "weight": 1,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "11. Welche der folgenden algebraischen Strukturen ist NICHT zwingend eine **Gruppe**?",
-    "options": [
-      "$(\\mathbb{Z}, +)$ - Die ganzen Zahlen mit Addition.",
-      "$(\\mathbb{Q}\\setminus\\{0\\}, \\cdot)$ - Die rationalen Zahlen ohne Null mit Multiplikation.",
-      "$(\\mathbb{N}, +)$ - Die natürlichen Zahlen mit Addition.",
-      "Die Menge der Drehungen eines Quadrats mit Hintereinanderausführung."
-    ],
-    "answer": 2,
-    "explanation": "Eine **Gruppe** erfordert für jedes Element ein **inverses Element**. In $(\\mathbb{N}, +)$ hat z.B. die Zahl 3 kein inverses Element (-3), da -3 keine natürliche Zahl ist.",
-    "weight": 2,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "12. Was unterscheidet einen **Körper** von einem **Ring**?",
-    "options": [
-      "Ein Körper hat zwei Verknüpfungen, ein Ring nur eine.",
-      "In einem Körper ist die Multiplikation immer kommutativ.",
-      "In einem Körper besitzt jedes Element außer der Null ein multiplikatives Inverses.",
-      "Ein Ring kann keine negativen Zahlen enthalten."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Hierarchie algebraischer Strukturen",
-      "content": "Die Strukturen bauen aufeinander auf:\n\n- **Gruppe:** Eine Verknüpfung (z.B. $(\\mathbb{Z}, +)$).\n- **Ring:** Zwei Verknüpfungen, Addition und Multiplikation. Die Addition bildet eine abelsche Gruppe. (z.B. $(\\mathbb{Z}, +, \\cdot)$).\n- **Körper:** Ein kommutativer Ring, in dem zusätzlich jedes Element außer der Null ein multiplikatives Inverses hat. Dies ermöglicht die Division. (z.B. $(\\mathbb{Q}, +, \\cdot)$)."
-    },
-    "explanation": "Ein **Körper** ist ein kommutativer **Ring**, in dem zusätzlich jedes von Null verschiedene Element ein **multiplikatives Inverses** hat. Dies ermöglicht die Division. $(\\mathbb{Q}, +, \\cdot)$ ist ein Körper, $(\\mathbb{Z}, +, \\cdot)$ ist nur ein Ring.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "13. Was ist das Ergebnis der **Polynomdivision** $(x^3 - 2x^2 + 4) : (x - 2)$?",
-    "options": [
-      "$x^2 + 4$",
-      "$x^2$ mit Rest 4",
-      "$x^2 - 2$",
-      "$x^2 + x + 2$"
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Schema der Polynomdivision",
-      "content": "  $(x^3 - 2x^2 + 0x + 4) : (x - 2) = x^2$\n- $(x^3 - 2x^2)$\n  ---------------\n            $0x + 4$\n\nDer Rest ist 4. Das Ergebnis lautet also $x^2$ mit Rest 4."
-    },
-    "explanation": "Die **Polynomdivision** $(x^3 - 2x^2 + 4) : (x - 2)$ ergibt $x^2$ mit einem Rest von 4. Man kann dies auch durch Einsetzen der Nullstelle des Divisors ($x=2$) in das Polynom prüfen: $2^3 - 2 \\cdot 2^2 + 4 = 8 - 8 + 4 = 4$. Der Wert ist der Rest.",
-    "weight": 2,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "14. Welches Prinzip liegt dem **RSA-Kryptosystem** zugrunde?",
-    "options": [
-      "Das Problem der Faktorisierung großer Zahlen ist schwierig.",
-      "Das Problem des diskreten Logarithmus ist schwierig.",
-      "Symmetrische Verschlüsselung ist unsicher.",
-      "Die Berechnung von Polynomdivisionen ist aufwendig."
-    ],
-    "answer": 0,
-    "extended_explanation": {
-      "title": "Schlüsselerzeugung bei RSA (vereinfacht)",
-      "content": "1. Wähle zwei große, geheime Primzahlen $p$ und $q$.\n2. Berechne das Produkt $N = p \\cdot q$. Dieses $N$ ist Teil des öffentlichen Schlüssels.\n3. Wähle eine Zahl $e$ (öffentlicher Exponent).\n4. Berechne den privaten Exponenten $d$ so, dass $d \\cdot e \\equiv 1 \\pmod{(p-1)(q-1)}$.\n\n- **Verschlüsseln:** $C = M^e \\pmod N$\n- **Entschlüsseln:** $M = C^d \\pmod N$\n\nEin Angreifer kennt nur $N$ und $e$. Um $d$ zu finden, müsste er $N$ in $p$ und $q$ faktorisieren, was für große Zahlen praktisch unmöglich ist."
-    },
-    "explanation": "Die Sicherheit von **RSA** beruht darauf, dass es einfach ist, zwei große Primzahlen zu multiplizieren, aber extrem schwierig, das Produkt wieder in seine **Primfaktoren** zu zerlegen. Der öffentliche Schlüssel enthält das Produkt, der private die Faktoren.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "15. Was ist ein **Homomorphismus** zwischen zwei Gruppen $(G, *)$ und $(H, \\circ)$?",
-    "options": [
-      "Eine bijektive Abbildung $f: G \\to H$.",
-      "Eine Abbildung $f: G \\to H$, die die Gruppenstruktur erhält, d.h. $f(a * b) = f(a) \\circ f(b)$.",
-      "Eine Abbildung, die jedes Element auf das neutrale Element von $H$ abbildet.",
-      "Eine Abbildung, die nur für endliche Gruppen definiert ist."
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Homomorphismus vs. Isomorphismus",
-      "content": "- **Homomorphismus:** Eine strukturerhaltende Abbildung. Sie muss nicht bijektiv sein. Beispiel: Die Abbildung $f: \\mathbb{Z} \\to \\mathbb{Z}_2$, $f(x) = x \\pmod 2$ ist ein Homomorphismus von $(\\mathbb{Z}, +)$ nach $(\\mathbb{Z}_2, +)$.\n- **Isomorphismus:** Ein bijektiver Homomorphismus. Zwei isomorphe Gruppen sind strukturell identisch."
-    },
-    "explanation": "Ein **Homomorphismus** ist eine strukturerhaltende Abbildung. Das bedeutet, dass es egal ist, ob man zuerst in $G$ verknüpft und dann abbildet, oder zuerst abbildet und dann in $H$ verknüpft – das Ergebnis ist dasselbe.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "16. Was ist die **Mächtigkeit** der Potenzmenge einer Menge mit $n$ Elementen?",
-    "options": [
-      "$n^2$",
-      "$2n$",
-      "$2^n$",
-      "$n!$"
-    ],
-    "answer": 2,
-    "explanation": "Die **Mächtigkeit** (Anzahl der Elemente) der **Potenzmenge** $\\mathcal{P}(A)$ einer endlichen Menge $A$ mit $|A|=n$ Elementen ist $2^n$. Jedes Element kann entweder in einer Teilmenge enthalten sein oder nicht (2 Möglichkeiten), was bei $n$ Elementen zu $2^n$ Kombinationen führt.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "17. Welche der folgenden Relationen auf der Menge der ganzen Zahlen $\\mathbb{Z}$ ist **antisymmetrisch**?",
-    "options": [
-      "$x \\sim y \\iff x = y$",
-      "$x \\sim y \\iff x \\neq y$",
-      "$x \\sim y \\iff x \\cdot y = 1$",
-      "$x \\sim y \\iff x \\le y$"
-    ],
-    "extended_explanation": {
-      "title": "Prüfung der Antisymmetrie",
-      "content": "Wir müssen prüfen, für welche Relation gilt: $x \\sim y \\land y \\sim x \\implies x=y$.\n\n- Für $x=y$: $x=y \\land y=x \\implies x=y$. Trivialerweise wahr.\n- Für $x \\neq y$: $x \\neq y \\land y \\neq x$ impliziert nichts über $x=y$. Nicht antisymmetrisch.\n- Für $x \\cdot y = 1$: Wenn $x=1, y=1$, ist es wahr. Wenn $x=-1, y=-1$, ist es auch wahr. Gilt.\n- Für $x \\le y$: Wenn $x \\le y$ und $y \\le x$ gilt, dann muss zwangsläufig $x=y$ sein. Dies ist die Definition der Antisymmetrie für Ordnungsrelationen."
-    },
-    "answer": 3,
-    "explanation": "Eine Relation $R$ ist **antisymmetrisch**, wenn aus $aRb$ und $bRa$ folgt, dass $a=b$ sein muss. Für die Kleiner-Gleich-Relation gilt: Wenn $x \\le y$ und $y \\le x$, dann muss $x=y$ sein.",
-    "weight": 3,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "18. Was ist das **Komplement** der Menge $A = \\{1, 3, 5\\}$ bezüglich der Grundmenge $G = \\{1, 2, 3, 4, 5, 6\\}$?",
-    "options": [
-      "$\\{1, 3, 5\\}$",
-      "$\\{2, 4, 6\\}$",
-      "$\\{1, 2, 3, 4, 5, 6\\}$",
-      "$\\emptyset$"
-    ],
-    "answer": 1,
-    "explanation": "Das **Komplement** $\\bar{A}$ (oder $A^c$) einer Menge $A$ bezüglich einer Grundmenge $G$ enthält alle Elemente von $G$, die nicht in $A$ sind. Hier also $G \\setminus A = \\{2, 4, 6\\}$.",
-    "weight": 1,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "19. Was ist eine **Partition** (oder Zerlegung) einer Menge $A$?",
-    "options": [
-      "Jede beliebige Teilmenge von $A$.",
-      "Eine Menge von nicht-leeren, paarweise disjunkten Teilmengen von $A$, deren Vereinigung wieder $A$ ergibt.",
-      "Die Menge aller Elemente, die nicht in $A$ sind.",
-      "Eine geordnete Liste der Elemente von $A$."
-    ],
-    "answer": 1,
-    "explanation": "Eine **Partition** zerlegt eine Menge vollständig in sich nicht überschneidende (disjunkte) Teile. Jedes Element der ursprünglichen Menge gehört zu genau einer Teilmenge der Partition.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "20. Was ist das **Urbild** von $Y = \\{4, 9\\}$ unter der Abbildung $f: \\mathbb{N} \\to \\mathbb{N}, f(x) = x^2$?",
-    "options": [
-      "$\\{16, 81\\}$",
-      "$\\{2, 3\\}$",
-      "$\\{-3, -2, 2, 3\\}$",
-      "$\\{2\\}$"
-    ],
-    "answer": 1,
-    "explanation": "Das **Urbild** $f^{-1}(Y)$ enthält alle Elemente aus der Definitionsmenge (hier $\\mathbb{N}$), die auf Elemente in $Y$ abgebildet werden. Da $f(2)=4$ und $f(3)=9$, ist das Urbild $\\{2, 3\\}$. Negative Zahlen sind nicht in $\\mathbb{N}$.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "21. Was ist die **Wahrheitstafel** für die logische Äquivalenz $A \\iff B$?",
-    "options": [
-      "Wahr, wenn $A$ und $B$ verschieden sind.",
-      "Wahr, wenn $A$ wahr ist.",
-      "Wahr, wenn $A$ und $B$ denselben Wahrheitswert haben.",
-      "Immer falsch."
-    ],
-    "answer": 2,
-    "explanation": "Die **Äquivalenz** (genau dann, wenn) ist wahr, wenn beide Teilaussagen entweder beide wahr oder beide falsch sind. Sie ist äquivalent zu $(A \\implies B) \\land (B \\implies A)$.",
-    "weight": 2,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "22. Was ist die Negation der Aussage 'Es gibt eine schwarze Katze' ($\\exists x: S(x) \\land K(x)$)?",
-    "options": [
-      "Alle Katzen sind nicht schwarz.",
-      "Es gibt keine schwarze Katze.",
-      "Alle schwarzen Dinge sind Katzen.",
-      "Es gibt eine Katze, die nicht schwarz ist."
-    ],
-    "extended_explanation": {
-      "title": "Negation von Quantoren",
-      "content": "Die Negation eines Quantors kehrt ihn um und negiert die Aussage dahinter:\n\n- $\\neg (\\exists x: P(x)) \\equiv \\forall x: \\neg P(x)$ (Die Negation von 'es existiert' ist 'für alle gilt nicht').\n- $\\neg (\\forall x: P(x)) \\equiv \\exists x: \\neg P(x)$ (Die Negation von 'für alle' ist 'es existiert eines, für das nicht gilt').\n\nDie Negation von $\\exists x: S(x) \\land K(x)$ ist also $\\forall x: \\neg(S(x) \\land K(x))$, was nach De Morgan zu $\\forall x: (\\neg S(x) \\lor \\neg K(x))$ wird. Umgangssprachlich: 'Für alle Dinge gilt: sie sind nicht schwarz oder sie sind keine Katze', was 'Es gibt keine schwarze Katze' entspricht."
-    },
-    "answer": 1,
-    "explanation": "Die Negation einer **Existenzaussage** ist eine **Allaussage**. Die Negation von 'es existiert ein x, für das P gilt' ist 'für alle x gilt nicht P'. 'Es gibt keine schwarze Katze' ist gleichbedeutend mit 'Alle Katzen sind nicht schwarz' (wenn wir uns auf Katzen beschränken). Die formal korrekte Negation ist 'Für alle Dinge gilt: wenn es eine Katze ist, dann ist sie nicht schwarz'. Option 1 ist die beste umgangssprachliche Entsprechung.",
-    "weight": 3,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "23. Was ist eine **konjunktive Normalform (KNF)**?",
-    "options": [
-      "Eine Konjunktion von Disjunktionen von Literalen.",
-      "Eine Disjunktion von Konjunktionen von Literalen.",
-      "Eine Formel, die nur Implikationen enthält.",
-      "Eine Formel ohne Negationen."
-    ],
-    "extended_explanation": {
-      "title": "KNF vs. DNF",
-      "content": "- **KNF (Konjunktive Normalform):** Eine Konjunktion (UND) von Disjunktionen (ODER). Beispiel: $(A \\lor B) \\land (\\neg A \\lor C)$. Wird oft für Theorembeweiser (SAT-Solver) verwendet.\n- **DNF (Disjunktive Normalform):** Eine Disjunktion (ODER) von Konjunktionen (UND). Beispiel: $(A \\land B) \\lor (\\neg A \\land C)$.\n\nJede aussagenlogische Formel kann in KNF und DNF umgewandelt werden."
-    },
-    "answer": 0,
-    "explanation": "Eine Formel ist in **KNF**, wenn sie eine UND-Verknüpfung (Konjunktion) von Klauseln ist, wobei jede Klausel eine ODER-Verknüpfung (Disjunktion) von Literalen (Variablen oder deren Negation) ist. Beispiel: $(A \\lor B) \\land (\\neg A \\lor C)$.",
-    "weight": 3,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "24. Was ist eine **Schleifeninvariante** beim Testen von Programmen?",
-    "options": [
-      "Eine Bedingung, die sich bei jedem Schleifendurchlauf ändert.",
-      "Eine Bedingung, die vor dem ersten und nach jedem weiteren Schleifendurchlauf wahr ist.",
-      "Die Abbruchbedingung der Schleife.",
-      "Die Anzahl der Durchläufe einer Schleife."
-    ],
-    "extended_explanation": {
-      "title": "Beweis mit Schleifeninvarianten",
-      "content": "Um die Korrektheit einer Schleife zu beweisen, zeigt man drei Dinge:\n\n1. **Initialisierung:** Die Invariante ist vor dem ersten Schleifendurchlauf wahr.\n2. **Erhaltung:** Wenn die Invariante vor einem Durchlauf wahr ist, ist sie es auch danach.\n3. **Terminierung:** Wenn die Schleife endet, impliziert die Invariante zusammen mit der Abbruchbedingung die Korrektheit des Ergebnisses."
-    },
-    "answer": 1,
-    "explanation": "Eine **Schleifeninvariante** ist eine Eigenschaft, die ihre Gültigkeit während der gesamten Ausführung einer Schleife beibehält. Sie wird verwendet, um die Korrektheit von Algorithmen formal zu beweisen.",
-    "weight": 3,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "25. Was ist der Unterschied zwischen **Aussagenlogik** und **Prädikatenlogik**?",
-    "options": [
-      "Aussagenlogik verwendet Variablen, Prädikatenlogik nicht.",
-      "Prädikatenlogik kann über Objekte und deren Eigenschaften sprechen und Quantoren verwenden.",
-      "Aussagenlogik ist komplexer als Prädikatenlogik.",
-      "Es gibt keinen Unterschied."
-    ],
-    "answer": 1,
-    "explanation": "Die **Aussagenlogik** behandelt nur ganze Sätze als atomare Einheiten. Die **Prädikatenlogik** ist ausdrucksstärker: Sie führt Prädikate (Eigenschaften), Variablen für Objekte und Quantoren ($\\forall, \\exists$) ein, um komplexere Beziehungen zu modellieren.",
-    "weight": 2,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "26. Was ist der Fehler im folgenden **Induktionsbeweis** für 'Alle Pferde haben dieselbe Farbe'?",
-    "options": [
-      "Der Induktionsanfang für $n=1$ ist falsch.",
-      "Die Induktionsvoraussetzung ist unzulässig.",
-      "Der Induktionsschritt von $n=1$ auf $n=2$ funktioniert nicht.",
-      "Der Beweis ist korrekt."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Der Fehler im Detail",
-      "content": "Der Induktionsschritt behauptet: Wenn in jeder Menge von $k$ Pferden alle dieselbe Farbe haben, dann gilt dies auch für jede Menge von $k+1$ Pferden. Man betrachtet die ersten $k$ Pferde und die letzten $k$ Pferde. Nach Voraussetzung haben diese jeweils dieselbe Farbe. Die Argumentation besagt, dass sich diese beiden Mengen überlappen und somit alle $k+1$ Pferde dieselbe Farbe haben müssen. \n\nDieser Überlappungs-Schluss funktioniert aber erst ab $k=3$. Für den Schritt von $n=1$ auf $n=2$ sind die Teilmengen {Pferd 1} und {Pferd 2} disjunkt. Es gibt keine Überlappung, die eine gemeinsame Farbe erzwingen würde."
-    },
-    "explanation": "Der Beweis scheitert beim Übergang von einer Menge mit $n=1$ Pferd zu einer Menge mit $n=2$ Pferden. Die Argumentation, dass sich die Teilmengen überlappen, funktioniert hier nicht, da die Teilmengen disjunkt sind. Dies ist ein klassisches Beispiel für einen fehlerhaften Induktionsbeweis.",
-    "weight": 3,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "27. Was ist die **Ackermannfunktion**?",
-    "options": [
-      "Eine einfache lineare Funktion.",
-      "Eine Funktion, die nicht rekursiv definiert werden kann.",
-      "Eine berechenbare Funktion, die nicht **primitiv-rekursiv** ist.",
-      "Eine Funktion, die die Fakultät berechnet."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Primitiv-rekursiv vs. total berechenbar",
-      "content": "- **Primitiv-rekursive Funktionen:** Eine Klasse von Funktionen, die durch einfache Basisfunktionen und die Operatoren Komposition und primitive Rekursion aufgebaut werden können. Alle diese Funktionen terminieren garantiert. Die meisten 'normalen' Funktionen wie Addition oder Fakultät sind primitiv-rekursiv.\n- **Total berechenbare Funktionen (μ-rekursiv):** Eine größere Klasse, die zusätzlich den μ-Operator (Suche) erlaubt. Die Ackermannfunktion ist ein Beispiel für eine Funktion, die total berechenbar, aber nicht primitiv-rekursiv ist, weil sie 'zu schnell' wächst."
-    },
-    "explanation": "Die **Ackermannfunktion** ist ein bekanntes Beispiel aus der theoretischen Informatik. Sie ist total berechenbar, wächst aber so extrem schnell, dass sie nicht in die Klasse der **primitiv-rekursiven** Funktionen fällt.",
-    "weight": 3,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "28. Was besagt das **Schubfachprinzip** (Pigeonhole Principle)?",
-    "options": [
-      "Wenn man $n$ Objekte in $m$ Fächer verteilt und $n > m$, dann enthält mindestens ein Fach mehr als ein Objekt.",
-      "Jedes Objekt muss in genau einem Fach sein.",
-      "Die Anzahl der Objekte muss immer gleich der Anzahl der Fächer sein.",
-      "Man kann beliebig viele Objekte in einem Fach unterbringen."
-    ],
-    "answer": 0,
-    "explanation": "Das **Schubfachprinzip** ist ein einfaches, aber mächtiges kombinatorisches Prinzip. Es garantiert, dass bei der Verteilung von mehr Objekten als Fächern mindestens ein Fach eine Kollision (mehr als ein Objekt) aufweisen muss.",
-    "weight": 2,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "29. Wie viele **Permutationen** (Anordnungen) der Buchstaben des Wortes 'HAUS' gibt es?",
-    "options": [
-      "4",
-      "12",
-      "24",
-      "256"
-    ],
-    "answer": 2,
-    "explanation": "Für ein Wort mit $n$ verschiedenen Buchstaben gibt es $n!$ (**Fakultät**) mögliche Anordnungen. Für 'HAUS' mit 4 Buchstaben sind das $4! = 4 \\cdot 3 \\cdot 2 \\cdot 1 = 24$ Permutationen.",
-    "weight": 2,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "30. Was ist das **multiplikative Inverse** von 3 im Restklassenring $\\mathbb{Z}_7$?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "5"
-    ],
-    "answer": 3,
-    "extended_explanation": {
-      "title": "Anwendung des erweiterten Euklidischen Algorithmus",
-      "content": "Um das Inverse von 3 modulo 7 zu finden, suchen wir $x$ in $3x \\equiv 1 \\pmod 7$. Mit dem erweiterten Euklidischen Algorithmus für 7 und 3:\n\n1. $7 = 2 \\cdot 3 + 1$\n\nJetzt stellen wir nach dem Rest 1 um:\n$1 = 7 - 2 \\cdot 3$\n\nDiese Gleichung zeigt, dass $-2 \\cdot 3 \\equiv 1 \\pmod 7$. Da $-2 \\equiv 5 \\pmod 7$, ist 5 das multiplikative Inverse."
-    },
-    "explanation": "Gesucht ist eine Zahl $x$, sodass $3 \\cdot x \\equiv 1 \\pmod 7$. Durch Probieren findet man $3 \\cdot 5 = 15$. Da $15 \\equiv 1 \\pmod 7$ ist, ist 5 das multiplikative Inverse von 3 in $\\mathbb{Z}_7$.",
-    "weight": 3,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "31. Was ist eine **zyklische Gruppe**?",
-    "options": [
-      "Eine Gruppe, die als Diagramm einen Kreis bildet.",
-      "Eine Gruppe, die von einem einzigen Element erzeugt werden kann.",
-      "Eine Gruppe, die unendlich viele Elemente hat.",
-      "Eine Gruppe, in der die Verknüpfung nicht kommutativ ist."
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Beispiele für zyklische Gruppen",
-      "content": "- Die Gruppe der ganzen Zahlen mit der Addition $(\\mathbb{Z}, +)$ ist eine unendliche zyklische Gruppe. Sie wird von 1 (und auch von -1) erzeugt, da jede ganze Zahl durch wiederholte Addition von 1 oder -1 erreicht werden kann.\n- Die Gruppe der Restklassen modulo n mit der Addition $(\\mathbb{Z}_n, +)$ ist eine endliche zyklische Gruppe. Sie wird immer von der Restklasse [1] erzeugt."
-    },
-    "explanation": "Eine Gruppe $G$ heißt **zyklisch**, wenn es ein Element $g \\in G$ (den Erzeuger) gibt, sodass jedes andere Element in $G$ als eine Potenz von $g$ (oder ein Vielfaches, bei additiver Schreibweise) dargestellt werden kann.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "32. Was besagt der **Satz von Lagrange** in der Gruppentheorie?",
-    "options": [
-      "Jede endliche Gruppe ist abelsch.",
-      "Die Ordnung jeder Untergruppe einer endlichen Gruppe teilt die Ordnung der Gruppe.",
-      "Jede Gruppe hat mindestens eine Untergruppe.",
-      "Die Ordnung eines Elements ist immer eine Primzahl."
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Folgerungen aus dem Satz von Lagrange",
-      "content": "Der Satz hat wichtige Konsequenzen:\n\n1. Die Ordnung jedes Elements einer endlichen Gruppe teilt die Gruppenordnung. (Die Ordnung eines Elements ist die Größe der von ihm erzeugten zyklischen Untergruppe).\n2. Jede Gruppe mit einer Primzahl als Ordnung ist zyklisch und hat nur die trivialen Untergruppen."
-    },
-    "explanation": "Der **Satz von Lagrange** ist ein zentraler Satz der endlichen Gruppentheorie. Er schränkt die möglichen Größen von Untergruppen stark ein. Wenn eine Gruppe $|G|=n$ Elemente hat, kann eine Untergruppe $H$ nur eine Größe $|H|$ haben, die ein Teiler von $n$ ist.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "33. Was ist ein **irreduzibles Polynom** über einem Körper $K$?",
-    "options": [
-      "Ein Polynom, das keine Nullstellen in $K$ hat.",
-      "Ein Polynom, das sich nicht als Produkt von zwei nicht-konstanten Polynomen aus $K[x]$ schreiben lässt.",
-      "Ein Polynom vom Grad 1.",
-      "Ein Polynom, dessen Koeffizienten alle 1 sind."
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Irreduzibilität ist relativ zum Körper",
-      "content": "Die Irreduzibilität eines Polynoms hängt vom zugrundeliegenden Körper ab:\n\n- Das Polynom $p(x) = x^2 - 2$ ist irreduzibel über dem Körper der rationalen Zahlen $\\mathbb{Q}$, da seine Nullstellen ($\\pm\\sqrt{2}$) nicht rational sind.\n- Dasselbe Polynom $p(x) = x^2 - 2$ ist aber reduzibel über dem Körper der reellen Zahlen $\\mathbb{R}$, da es sich als $(x - \\sqrt{2})(x + \\sqrt{2})$ faktorisieren lässt."
-    },
-    "explanation": "**Irreduzible Polynome** sind das Analogon zu Primzahlen im Ring der Polynome. Sie sind 'unteilbar' in dem Sinne, dass sie nicht in Polynome kleineren Grades zerlegt werden können. Z.B. ist $x^2+1$ irreduzibel über $\\mathbb{R}$, aber nicht über $\\mathbb{C}$.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "34. Was ist die Grundoperation auf einer **elliptischen Kurve**, die für die Kryptographie genutzt wird?",
-    "options": [
-      "Multiplikation von Punkten.",
-      "Division von Punkten.",
-      "Addition von Punkten.",
-      "Potenzieren von Punkten."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Geometrische Interpretation der Punktaddition",
-      "content": "Die Addition zweier Punkte $P$ und $Q$ auf einer elliptischen Kurve wird geometrisch konstruiert: Man zieht eine Gerade durch $P$ und $Q$. Diese Gerade schneidet die Kurve in einem dritten Punkt, den wir $-R$ nennen. Der Punkt $R$, der durch Spiegelung von $-R$ an der x-Achse entsteht, ist das Ergebnis der Addition $P+Q=R$. Diese Operation erfüllt die Gruppenaxiome."
-    },
-    "explanation": "Auf den Punkten einer **elliptischen Kurve** lässt sich eine spezielle **Addition** definieren, die geometrisch konstruiert wird. Diese Addition bildet eine abelsche Gruppe und ist die Grundlage für kryptographische Verfahren wie ECC, die auf dem Problem des diskreten Logarithmus auf elliptischen Kurven basieren.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "35. Was ist ein **Isomorphismus** zwischen zwei Gruppen?",
-    "options": [
-      "Ein Homomorphismus, der nur surjektiv ist.",
-      "Ein Homomorphismus, der nur injektiv ist.",
-      "Ein bijektiver Homomorphismus.",
-      "Jede beliebige Abbildung zwischen den Gruppen."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Beispiel für einen Isomorphismus",
-      "content": "Betrachte die Gruppe der reellen Zahlen mit Addition $(\\mathbb{R}, +)$ und die Gruppe der positiven reellen Zahlen mit Multiplikation $(\\mathbb{R}^+, \\cdot)$. Die Exponentialfunktion $f(x) = e^x$ ist ein Isomorphismus von $(\\mathbb{R}, +)$ nach $(\\mathbb{R}^+, \\cdot)$.\n\n- **Strukturerhaltend:** $f(x+y) = e^{x+y} = e^x \\cdot e^y = f(x) \\cdot f(y)$.\n- **Bijektiv:** Die Funktion ist sowohl injektiv als auch surjektiv.\n\nDie beiden Gruppen sind also strukturell identisch."
-    },
-    "explanation": "Ein **Isomorphismus** ist ein strukturerhaltender (Homomorphismus) und bijektiver (eins-zu-eins) Zusammenhang zwischen zwei algebraischen Strukturen. Zwei isomorphe Gruppen sind aus algebraischer Sicht 'ununterscheidbar'.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "36. Was ist die **Potenzmenge** $\\mathcal{P}(A)$ der Menge $A = \\{a, b\\}$?",
-    "options": [
-      "$\\{\\{a\\}, \\{b\\}\\}$",
-      "$\\{\\emptyset, \\{a\\}, \\{b\\}\\}$",
-      "$\\{\\emptyset, \\{a\\}, \\{b\\}, \\{a, b\\}\\}$",
-      "$\\{a, b, \\{a, b\\}\\}$"
-    ],
-    "answer": 2,
-    "explanation": "Die **Potenzmenge** einer Menge $A$ ist die Menge aller Teilmengen von $A$. Für $A = \\{a, b\\}$ sind die Teilmengen die leere Menge $\\emptyset$, die einelementigen Mengen $\\{a\\}$ und $\\{b\\}$, sowie die Menge selbst $\\{a, b\\}$.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "37. Eine Abbildung $f: A \\to B$ heißt **injektiv**, wenn...",
-    "options": [
-      "jedes Element in $B$ mindestens einmal als Funktionswert auftritt.",
-      "aus $f(x_1) = f(x_2)$ immer $x_1 = x_2$ folgt.",
-      "die Menge $A$ eine Teilmenge von $B$ ist.",
-      "die Abbildung umkehrbar ist."
-    ],
-    "answer": 1,
-    "explanation": "**Injektivität** bedeutet, dass jedes Element der Zielmenge $B$ höchstens einmal als Funktionswert getroffen wird. Anders ausgedrückt: Verschiedene Elemente aus $A$ werden immer auf verschiedene Elemente in $B$ abgebildet.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "38. Was ist eine **Tautologie** in der Aussagenlogik?",
-    "options": [
-      "Eine Aussage, die immer falsch ist.",
-      "Eine Aussage, die von bestimmten Variablen abhängt.",
-      "Eine Aussage, die immer wahr ist, unabhängig von den Wahrheitswerten ihrer Variablen.",
-      "Eine Aussage, die genau zwei Variablen enthält."
-    ],
-    "answer": 2,
-    "explanation": "Eine **Tautologie** ist eine allgemeingültige Aussage. Ein klassisches Beispiel ist der 'Satz vom ausgeschlossenen Dritten': $A \\lor \\neg A$. Diese Aussage ist immer wahr, egal ob $A$ wahr oder falsch ist.",
-    "weight": 1,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "39. Welcher der folgenden Ausdrücke ist eine logische Äquivalenz nach den **De Morgan'schen Regeln**?",
-    "options": [
-      "$\\neg(A \\land B) \\equiv (\\neg A \\land \\neg B)$",
-      "$\\neg(A \\lor B) \\equiv (\\neg A \\lor \\neg B)$",
-      "$\\neg(A \\land B) \\equiv (\\neg A \\lor \\neg B)$",
-      "$\\neg(A \\implies B) \\equiv (\\neg A \\implies \\neg B)$"
-    ],
-    "answer": 2,
-    "explanation": "Die **De Morgan'schen Regeln** beschreiben, wie die Negation auf Konjunktionen und Disjunktionen wirkt. Es gilt: $\\neg(A \\land B) \\equiv (\\neg A \\lor \\neg B)$ und $\\neg(A \\lor B) \\equiv (\\neg A \\land \\neg B)$.",
-    "weight": 2,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "40. Was besagt das **Peano-Axiom** über die Nachfolgerfunktion $N(n)$ für natürliche Zahlen?",
-    "options": [
-      "Jede natürliche Zahl hat genau einen Nachfolger.",
-      "Die 0 ist Nachfolger keiner natürlichen Zahl.",
-      "Zwei verschiedene natürliche Zahlen haben verschiedene Nachfolger.",
-      "Alle oben genannten Aussagen sind Teil der Peano-Axiome."
-    ],
-    "answer": 3,
-    "extended_explanation": {
-      "title": "Das Induktionsaxiom",
-      "content": "Das wichtigste Peano-Axiom ist das Induktionsaxiom: Wenn eine Eigenschaft für die 0 gilt und wenn aus der Gültigkeit für eine Zahl $n$ immer die Gültigkeit für ihren Nachfolger $N(n)$ folgt, dann gilt die Eigenschaft für alle natürlichen Zahlen. Dieses Axiom ist die formale Grundlage für das Beweisprinzip der vollständigen Induktion."
-    },
-    "explanation": "Die **Peano-Axiome** definieren die natürlichen Zahlen. Sie beinhalten, dass 0 eine natürliche Zahl ist, jede Zahl einen eindeutigen Nachfolger hat, 0 kein Nachfolger ist und die Nachfolgerfunktion injektiv ist.",
-    "weight": 3,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "41. Die Fibonacci-Folge ist rekursiv definiert durch $f(0)=0, f(1)=1$ und $f(n) = f(n-1) + f(n-2)$ für $n > 1$. Was ist $f(6)$?",
-    "options": [
-      "5",
-      "8",
-      "13",
-      "21"
-    ],
-    "answer": 1,
-    "explanation": "Die Folge lautet: $f(0)=0, f(1)=1, f(2)=1, f(3)=2, f(4)=3, f(5)=5, f(6)=8$. Jeder Wert ist die Summe der beiden vorhergehenden.",
-    "weight": 1,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "42. Was ist die **Primfaktorzerlegung** der Zahl 60?",
-    "options": [
-      "$2 \\cdot 30$",
-      "$4 \\cdot 15$",
-      "$2^2 \\cdot 3 \\cdot 5$",
-      "$6 \\cdot 10$"
-    ],
-    "answer": 2,
-    "explanation": "Die **Primfaktorzerlegung** einer Zahl ist die Darstellung als Produkt von Primzahlen. $60 = 2 \\cdot 30 = 2 \\cdot 2 \\cdot 15 = 2^2 \\cdot 3 \\cdot 5$.",
-    "weight": 1,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "43. Was ist das Ergebnis von $(7 + 8) \\pmod{12}$ in der **Restklassenarithmetik**?",
-    "options": [
-      "15",
-      "5",
-      "3",
-      "1"
-    ],
-    "answer": 2,
-    "explanation": "$7 + 8 = 15$. Um den Rest bei Division durch 12 zu finden, berechnen wir $15 \\pmod{12}$. Da $15 = 1 \\cdot 12 + 3$, ist der Rest 3.",
-    "weight": 1,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "44. Was ist das **neutrale Element** in der Gruppe $(\\mathbb{Z}, +)$?",
-    "options": [
-      "1",
-      "0",
-      "Es gibt kein neutrales Element.",
-      "-1"
-    ],
-    "answer": 1,
-    "explanation": "Das **neutrale Element** der Addition ist die 0, da für jede ganze Zahl $a$ gilt: $a + 0 = 0 + a = a$.",
-    "weight": 1,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "45. Was ist eine **abelsche Gruppe**?",
-    "options": [
-      "Eine Gruppe mit unendlich vielen Elementen.",
-      "Eine Gruppe, in der die Verknüpfung **kommutativ** ist.",
-      "Eine Gruppe, die nur positive Zahlen enthält.",
-      "Eine Gruppe, in der jedes Element sein eigenes Inverses ist."
-    ],
-    "answer": 1,
-    "explanation": "Eine Gruppe $(G, *)$ wird als **abelsch** (oder kommutativ) bezeichnet, wenn für alle Elemente $a, b \\in G$ das Kommutativgesetz gilt: $a * b = b * a$.",
-    "weight": 2,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "46. Was ist das **kartesische Produkt** $A \\times B$ der Mengen $A = \\{1, 2\\}$ und $B = \\{x, y\\}$?",
-    "options": [
-      "$\\{(1, x), (2, y)\\}$",
-      "$\\{(1, x), (1, y), (2, x), (2, y)\\}$",
-      "$\\{1, 2, x, y\\}$",
-      "$\\{(x, 1), (y, 2)\\}$"
-    ],
-    "answer": 1,
-    "explanation": "Das **kartesische Produkt** $A \\times B$ ist die Menge aller geordneten Paare $(a, b)$, wobei $a \\in A$ und $b \\in B$. Man kombiniert jedes Element aus A mit jedem Element aus B.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "47. Eine Abbildung $f: A \\to B$, die sowohl **injektiv** als auch **surjektiv** ist, nennt man...",
-    "options": [
-      "**partiell**.",
-      "**total**.",
-      "**bijektiv**.",
-      "**reflexiv**."
-    ],
-    "answer": 2,
-    "explanation": "Eine **bijektive** Abbildung ist eine Eins-zu-eins-Entsprechung zwischen den Elementen zweier Mengen. Jedes Element der Zielmenge wird genau einmal getroffen. Solche Abbildungen sind umkehrbar.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "48. Was ist die Negation der Aussage 'Alle Vögel können fliegen' ($\"\\forall v: V(v) \\implies F(v)\"$) ?",
-    "options": [
-      "Kein Vogel kann fliegen.",
-      "Alle Vögel können nicht fliegen.",
-      "Es gibt mindestens einen Vogel, der nicht fliegen kann.",
-      "Wenn etwas nicht fliegen kann, ist es kein Vogel."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Negation von Quantoren",
-      "content": "Die Negation eines Quantors kehrt ihn um und negiert die Aussage dahinter:\n\n- $\\neg (\\forall x: P(x)) \\equiv \\exists x: \\neg P(x)$ (Die Negation von 'für alle' ist 'es existiert eines, für das nicht gilt').\n- $\\neg (\\exists x: P(x)) \\equiv \\forall x: \\neg P(x)$ (Die Negation von 'es existiert' ist 'für alle gilt nicht').\n\nDie Aussage 'Alle Vögel können fliegen' ($\"\\forall v: V(v) \\implies F(v)\"$) wird negiert zu 'Es existiert ein Vogel, der nicht fliegen kann' ($\"\\exists v: V(v) \\land \\neg F(v)\"$). "
-    },
-    "explanation": "Die Negation einer All-Aussage ist eine Existenz-Aussage. Die Negation von 'für alle gilt P' ist 'es existiert eines, für das P nicht gilt'. Also: $\\neg (\\forall v: P(v)) \\equiv \\exists v: \\neg P(v)$.",
-    "weight": 3,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "49. Was ist der Hauptzweck von **Hashing** in der Informatik?",
-    "options": [
-      "Daten zu verschlüsseln, sodass sie nicht mehr lesbar sind.",
-      "Daten zu komprimieren, um Speicherplatz zu sparen.",
-      "Eine große Datenmenge auf einen kleinen, festen Wert abzubilden, um schnellen Zugriff zu ermöglichen.",
-      "Daten alphabetisch zu sortieren."
-    ],
-    "answer": 2,
-    "extended_explanation": {
-      "title": "Anwendung: Hash-Tabellen",
-      "content": "Eine Hash-Tabelle ist eine Datenstruktur, die Hashing verwendet, um einen Index für ein Datenelement zu berechnen. Dies ermöglicht einen sehr schnellen Zugriff (im Idealfall $O(1)$) auf die Daten. Anstatt eine Liste linear zu durchsuchen, berechnet man den Hash des gesuchten Elements und findet es direkt an der entsprechenden Stelle in der Tabelle. Kollisionen (mehrere Elemente mit demselben Hash) müssen dabei separat behandelt werden."
-    },
-    "explanation": "**Hashing** wird verwendet, um Daten (z.B. einen String) auf einen Index in einer Tabelle (Hash-Tabelle) abzubilden. Dies ermöglicht einen sehr schnellen Zugriff (im Idealfall $O(1)$) auf die Daten, anstatt sie linear durchsuchen zu müssen.",
-    "weight": 2,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "50. Was ist ein **Ideal** in einem Ring $(R, +, \\cdot)$?",
-    "options": [
-      "Eine Untergruppe von $(R, +)$, die 'absorbierend' bezüglich der Multiplikation mit Ringelementen ist.",
-      "Jede beliebige Teilmenge des Rings.",
-      "Ein Element, das kein multiplikatives Inverses hat.",
-      "Ein Synonym für einen Unterring."
-    ],
-    "answer": 0,
-    "extended_explanation": {
-      "title": "Bedeutung von Idealen",
-      "content": "Ideale sind in der Ringtheorie von zentraler Bedeutung, da sie die Konstruktion von Faktorringen ermöglichen. Der Faktorring $R/I$ wird gebildet, indem man Elemente des Rings $R$ als äquivalent betrachtet, wenn ihre Differenz in dem Ideal $I$ liegt. Dies ist eine Verallgemeinerung der Konstruktion der Restklassenringe $\\mathbb{Z}_n$ aus dem Ring der ganzen Zahlen $\\mathbb{Z}$ und dem Ideal der Vielfachen von $n$."
-    },
-    "explanation": "Ein **Ideal** $I$ ist eine spezielle Untermenge eines Rings. Es muss eine Untergruppe bezüglich der Addition sein und die 'absorbierende' Eigenschaft erfüllen: Für jedes $i \\in I$ und jedes $r \\in R$ muss sowohl $r \\cdot i$ als auch $i \\cdot r$ wieder in $I$ liegen.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "51. Was ist die **Komposition** $g \\circ f$ der Abbildungen $f(x) = x+1$ und $g(x) = x^2$?",
-    "options": [
-      "$x^2 + 1$",
-      "$(x+1)^2$",
-      "$x^2 + x + 1$",
-      "$2x+1$"
-    ],
-    "answer": 1,
-    "explanation": "Die **Komposition** $(g \\circ f)(x)$ bedeutet 'wende zuerst $f$ an, dann $g$'. Also: $(g \\circ f)(x) = g(f(x)) = g(x+1) = (x+1)^2$.",
-    "weight": 2,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "52. Was ist eine **partielle Ordnung** auf einer Menge?",
-    "options": [
-      "Eine Relation, die reflexiv, symmetrisch und transitiv ist.",
-      "Eine Relation, die reflexiv, antisymmetrisch und transitiv ist.",
-      "Eine Relation, bei der jedes Element mit jedem anderen vergleichbar ist.",
-      "Eine Relation, die nur für einen Teil der Menge definiert ist."
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Partielle vs. Totale Ordnung",
-      "content": "- **Partielle Ordnung:** Nicht alle Elemente müssen miteinander vergleichbar sein. Beispiel: Die Teilbarkeitsrelation auf $\\mathbb{N}$. 3 teilt 6, aber 3 und 5 sind nicht miteinander vergleichbar.\n- **Totale (oder lineare) Ordnung:** Jedes Paar von Elementen ist miteinander vergleichbar. Beispiel: Die Kleiner-Gleich-Relation $\\le$ auf den reellen Zahlen $\\mathbb{R}$."
-    },
-    "explanation": "Eine **partielle Ordnung** (wie die Teilbarkeitsrelation 'a teilt b' auf $\\mathbb{N}$) muss **reflexiv**, **antisymmetrisch** ($aRb \\land bRa \\implies a=b$) und **transitiv** sein. Nicht alle Elemente müssen miteinander vergleichbar sein.",
-    "weight": 3,
-    "topic": "1. Mengen und Abbildungen"
-  },
-  {
-    "question": "53. Was ist eine **Kontradiktion** (Widerspruch) in der Aussagenlogik?",
-    "options": [
-      "Eine Aussage, die immer wahr ist.",
-      "Eine Aussage, die immer falsch ist, unabhängig von den Wahrheitswerten ihrer Variablen.",
-      "Eine Aussage, die wahr oder falsch sein kann.",
-      "Zwei Aussagen, die das Gleiche bedeuten."
-    ],
-    "answer": 1,
-    "explanation": "Eine **Kontradiktion** ist eine Aussage, die unter jeder möglichen Belegung ihrer Variablen falsch ist. Das klassische Beispiel ist $A \\land \\neg A$.",
-    "weight": 1,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "54. Was ist der Zweck des **Allquantors** $\\forall$ in der Prädikatenlogik?",
-    "options": [
-      "Er besagt, dass eine Eigenschaft für mindestens ein Element gilt.",
-      "Er besagt, dass eine Eigenschaft für alle Elemente eines bestimmten Bereichs gilt.",
-      "Er negiert eine Aussage.",
-      "Er verbindet zwei Aussagen mit 'oder'."
-    ],
-    "answer": 1,
-    "explanation": "Der **Allquantor** $\\forall$ (gelesen als 'für alle') wird verwendet, um Aussagen über alle Elemente einer Menge zu treffen. Z.B. bedeutet $\\forall x \\in \\mathbb{N}: x \\ge 0$, dass alle natürlichen Zahlen größer oder gleich Null sind.",
-    "weight": 2,
-    "topic": "2. Logik"
-  },
-  {
-    "question": "55. Was ist die Grundidee der **strukturellen Induktion**?",
-    "options": [
-      "Sie wird nur für Summenformeln über natürliche Zahlen verwendet.",
-      "Sie beweist Aussagen für rekursiv definierte Strukturen wie Bäume oder Listen.",
-      "Sie ist ein Synonym für den direkten Beweis.",
-      "Sie beginnt immer mit dem Induktionsanfang bei $n=0$."
-    ],
-    "extended_explanation": {
-      "title": "Beispiel: Beweis für Listen",
-      "content": "Um zu beweisen, dass eine Eigenschaft für alle Listen gilt, zeigt man:\n\n1. **Basisfall:** Die Eigenschaft gilt für die leere Liste.\n2. **Induktionsschritt:** Man nimmt an, die Eigenschaft gilt für eine Liste `tail`. Dann beweist man, dass sie auch für die neue Liste `[head | tail]` (ein neues Element `head` vorangestellt) gilt.\n\nDamit hat man die Eigenschaft für alle möglichen Listen bewiesen."
-    },
-    "answer": 1,
-    "explanation": "Die **strukturelle Induktion** ist eine Verallgemeinerung der vollständigen Induktion. Sie wird verwendet, um Eigenschaften von rekursiv definierten Objekten (wie Listen, Bäume, Formeln) zu beweisen, indem man die Eigenschaft für die Basisfälle und dann für die rekursive Konstruktion zeigt.",
-    "weight": 3,
-    "topic": "3. Natürliche Zahlen, vollständige Induktion, Rekursion"
-  },
-  {
-    "question": "56. Was besagt der **kleine Satz von Fermat**?",
-    "options": [
-      "Für jede Primzahl $p$ und jede ganze Zahl $a$ gilt $a^p \\equiv a \\pmod p$.",
-      "Die Gleichung $x^n + y^n = z^n$ hat keine ganzzahligen Lösungen für $n > 2$.",
-      "Es gibt unendlich viele Primzahlen.",
-      "Jede gerade Zahl größer als 2 ist die Summe zweier Primzahlen."
-    ],
-    "extended_explanation": {
-      "title": "Anwendung in der Kryptographie",
-      "content": "Eine wichtige Folgerung ist: Wenn $p$ eine Primzahl ist und $a$ kein Vielfaches von $p$ ist, dann gilt $a^{p-1} \\equiv 1 \\pmod p$. Diese Eigenschaft ist die Grundlage für den RSA-Algorithmus und für Primzahltests wie den Fermatschen Primzahltest."
-    },
-    "answer": 0,
-    "explanation": "Der **kleine Satz von Fermat** ist ein fundamentales Ergebnis der Zahlentheorie und eine Grundlage für viele Kryptosysteme, einschließlich RSA. Er besagt, dass für eine Primzahl $p$ die Zahl $a^p - a$ immer durch $p$ teilbar ist.",
-    "weight": 3,
-    "topic": "4. Etwas Zahlentheorie"
-  },
-  {
-    "question": "57. Was ist ein **nullteilerfreier Ring**?",
-    "options": [
-      "Ein Ring, der die Zahl 0 nicht enthält.",
-      "Ein Ring, in dem aus $a \\cdot b = 0$ folgt, dass $a=0$ oder $b=0$ sein muss.",
-      "Ein Ring, in dem jedes Element ein multiplikatives Inverses hat.",
-      "Ein Ring, in dem die Addition nicht kommutativ ist."
-    ],
-    "answer": 1,
-    "extended_explanation": {
-      "title": "Beispiele und Gegenbeispiele",
-      "content": "- **Integritätsbereiche (nullteilerfrei):** Die ganzen Zahlen $\\mathbb{Z}$, die rationalen Zahlen $\\mathbb{Q}$, die reellen Zahlen $\\mathbb{R}$.\n- **Nicht nullteilerfrei:** Der Restklassenring $\\mathbb{Z}_6$. Hier gilt $2 \\neq 0$ und $3 \\neq 0$, aber $2 \\cdot 3 = 6 \\equiv 0 \\pmod 6$. 2 und 3 sind hier Nullteiler."
-    },
-    "explanation": "Ein **nullteilerfreier Ring** (auch Integritätsbereich genannt) ist ein kommutativer Ring, in dem das Produkt zweier von Null verschiedener Elemente niemals Null ergibt. Das bekannteste Beispiel ist der Ring der ganzen Zahlen $(\\mathbb{Z}, +, \\cdot)$.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "58. Was ist die Grundidee des **Diffie-Hellman-Schlüsselaustauschs**?",
-    "options": [
-      "Zwei Parteien tauschen einen geheimen Schlüssel über einen unsicheren Kanal aus, ohne ihn jemals direkt zu senden.",
-      "Eine Partei verschlüsselt eine Nachricht mit einem öffentlichen Schlüssel, die nur mit einem privaten Schlüssel entschlüsselt werden kann.",
-      "Eine Nachricht wird mit demselben Schlüssel ver- und entschlüsselt.",
-      "Eine zentrale Autorität verteilt geheime Schlüssel an alle Kommunikationsteilnehmer."
-    ],
-    "answer": 0,
-    "extended_explanation": {
-      "title": "Mathematische Grundlage",
-      "content": "Die Sicherheit des Verfahrens beruht auf der Schwierigkeit des diskreten Logarithmus. Alice und Bob einigen sich auf eine öffentliche Primzahl $p$ und eine Basis $g$. Alice wählt ein geheimes $a$ und sendet $g^a \\pmod p$. Bob wählt ein geheimes $b$ und sendet $g^b \\pmod p$. Der gemeinsame Schlüssel ist dann $(g^b)^a = (g^a)^b = g^{ab} \\pmod p$. Ein Angreifer kennt nur $g^a$ und $g^b$ und kann daraus nur sehr schwer $a$ oder $b$ berechnen, um auf den Schlüssel zu kommen."
-    },
-    "explanation": "Beim **Diffie-Hellman-Verfahren** können zwei Parteien über einen öffentlichen Kanal einen gemeinsamen geheimen Schlüssel vereinbaren. Die Sicherheit beruht auf der Schwierigkeit, den diskreten Logarithmus zu berechnen.",
-    "weight": 3,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "59. Was ist der Unterschied zwischen **symmetrischer** und **asymmetrischer Kryptographie**?",
-    "options": [
-      "Symmetrische Verfahren sind immer sicherer als asymmetrische.",
-      "Bei symmetrischen Verfahren wird derselbe Schlüssel zum Ver- und Entschlüsseln verwendet, bei asymmetrischen ein Schlüsselpaar (public/private).",
-      "Asymmetrische Verfahren sind schneller als symmetrische.",
-      "Symmetrische Kryptographie wird für Signaturen, asymmetrische für Verschlüsselung verwendet."
-    ],
-    "answer": 1,
-    "explanation": "Das ist der fundamentale Unterschied. **Symmetrische Verfahren** (z.B. AES) sind schnell, haben aber das Problem des Schlüsselaustauschs. **Asymmetrische Verfahren** (z.B. RSA) lösen das Schlüsselproblem mit einem öffentlichen und einem privaten Schlüssel, sind aber langsamer.",
-    "weight": 2,
-    "topic": "5. Algebraische Strukturen"
-  },
-  {
-    "question": "60. Was ist eine **Hash-Kollision**?",
-    "options": [
-      "Ein Fehler, bei dem eine Hash-Funktion keine Ausgabe erzeugt.",
-      "Der Fall, dass zwei verschiedene Eingaben denselben Hash-Wert erzeugen.",
-      "Ein Verfahren, um den ursprünglichen Wert aus einem Hash-Wert wiederherzustellen.",
-      "Ein besonders sicherer Hash-Wert."
-    ],
-    "answer": 1,
-    "explanation": "Da eine Hash-Funktion eine unendlich große Eingabemenge auf eine endliche Ausgabemenge abbildet, ist es unvermeidlich, dass verschiedene Eingaben denselben Hash-Wert ergeben. Dies nennt man eine **Kollision**. Gute Hash-Funktionen sind so konzipiert, dass es extrem schwierig ist, Kollisionen gezielt zu finden.",
-    "weight": 2,
-    "topic": "4. Etwas Zahlentheorie"
-  }
-]
+  ]
+}
