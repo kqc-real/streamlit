@@ -47,6 +47,7 @@ from pdf_export import (
     generate_mini_glossary_pdf,
     generate_musterloesung_pdf,
 )
+from pdf_export import estimate_formula_render
 from user_question_sets import (
     format_user_label,
     get_user_question_set,
@@ -1573,26 +1574,14 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         width="stretch",
                         disabled=(not can_export_glossary),
                     ):
-                        # Vor der eigentlichen Generierung können wir die Anzahl der
-                        # LaTeX-Formeln im Mini-Glossar ermitteln und dem Nutzer eine
-                        # aussagekräftigere Statusmeldung anzeigen. Die Formelanzahl
-                        # hilft einzuschätzen, wie lange der Render-Vorgang dauern kann
-                        # (Formeln erfordern Remote-Requests und Bildgenerierung).
-
-                        formula_count = 0
+                        # Use shared helper to estimate unique formulas and which
+                        # are missing from the cache so we can inform the user.
                         try:
-                            for thema, terms in glossary_by_theme.items():
-                                for term, definition in terms.items():
-                                    # Zähle Block-Formeln $$...$$
-                                    formula_count += len(re.findall(r"\$\$(.*?)\$\$", term, flags=re.DOTALL))
-                                    formula_count += len(re.findall(r"\$\$(.*?)\$\$", definition, flags=re.DOTALL))
-                                    # Zähle Inline-Formeln $...$
-                                    formula_count += len(re.findall(r"\$([^$]+?)\$", term, flags=re.DOTALL))
-                                    formula_count += len(re.findall(r"\$([^$]+?)\$", definition, flags=re.DOTALL))
+                            formula_count, to_render = estimate_formula_render(list(questions))
                         except Exception:
-                            formula_count = 0
+                            formula_count, to_render = 0, 0
 
-                        if formula_count:
+                        if formula_count and to_render > 0:
                             spinner_message = _sidebar_text(
                                 "glossary_spinner_with_formulas",
                                 default=(
@@ -1607,6 +1596,17 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 "glossary_spinner_simple",
                                 default="Generiere Glossar-PDF... Dies kann bei einigen Inhalten kurz dauern.",
                             )
+
+                        # Show how many formula images will be rendered
+                        if to_render:
+                            msg = _sidebar_text(
+                                "glossary_render_count",
+                                default=(
+                                    "Es müssen ca. {count} Formelbilder gerendert werden. "
+                                    "Das kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                                ),
+                            )
+                            st.info(msg.format(count=to_render), icon="🧮")
 
                         with st.spinner(spinner_message):
                             try:

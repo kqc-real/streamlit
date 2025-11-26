@@ -996,6 +996,84 @@ def _build_glossary_html(
     return ''.join(glossary_html_parts)
 
 
+def estimate_formula_render(questions: List[Dict[str, Any]]) -> tuple[int, int]:
+    """
+    Schätzt die Anzahl einzigartiger LaTeX-Formeln in einem Fragenset und
+    wie viele davon noch gerendert werden müssen (nicht im Cache vorhanden).
+
+    Returns: (unique_formula_count, to_render_count)
+    """
+    try:
+        INLINE_PAT = re.compile(r"\$([^$]+?)\$|\\\((.*?)\\\)", flags=re.DOTALL)
+        BLOCK_PAT = re.compile(r"\$\$(.*?)\$\$|\\\[(.*?)\\\]", flags=re.DOTALL)
+
+        formulas = []
+        for frage in questions:
+            txt = frage.get("question") or frage.get("frage") or ""
+            for m in BLOCK_PAT.findall(txt):
+                # findall returns tuples for alternation groups
+                grp = next((g for g in m if g), '')
+                if grp:
+                    formulas.append(('block', grp.strip()))
+            for m in INLINE_PAT.findall(txt):
+                grp = next((g for g in m if g), '')
+                if grp:
+                    formulas.append(('inline', grp.strip()))
+
+            erk = frage.get("erklaerung") or frage.get("explanation") or ""
+            if isinstance(erk, str):
+                for m in BLOCK_PAT.findall(erk):
+                    grp = next((g for g in m if g), '')
+                    if grp:
+                        formulas.append(('block', grp.strip()))
+                for m in INLINE_PAT.findall(erk):
+                    grp = next((g for g in m if g), '')
+                    if grp:
+                        formulas.append(('inline', grp.strip()))
+
+            for opt in frage.get("optionen", []):
+                if isinstance(opt, str):
+                    for m in BLOCK_PAT.findall(opt):
+                        grp = next((g for g in m if g), '')
+                        if grp:
+                            formulas.append(('block', grp.strip()))
+                    for m in INLINE_PAT.findall(opt):
+                        grp = next((g for g in m if g), '')
+                        if grp:
+                            formulas.append(('inline', grp.strip()))
+
+        # Deduplicate while preserving order
+        unique = list(dict.fromkeys(formulas))
+        total_unique = len(unique)
+
+        # Check cache presence per formula
+        to_render = 0
+        try:
+            import hashlib as _hashlib
+            for kind, formula in unique:
+                cache_key = (formula, True if kind == 'block' else False)
+                in_memory = cache_key in _formula_cache
+                on_disk = False
+                if not in_memory and FORMULA_CACHE_DIR:
+                    try:
+                        suffix = '@block' if kind == 'block' else '@inline'
+                        h = _hashlib.sha1((formula + suffix).encode('utf-8')).hexdigest()
+                        if FORMULA_CACHE_DIR.joinpath(f"{h}.png").exists():
+                            on_disk = True
+                    except Exception:
+                        on_disk = False
+
+                if not (in_memory or on_disk):
+                    to_render += 1
+        except Exception:
+            # If anything goes wrong, return conservative estimate
+            return total_unique, total_unique
+
+        return total_unique, to_render
+    except Exception:
+        return 0, 0
+
+
 def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     """
     Analysiert die schwächsten Themen basierend auf falschen Antworten.
