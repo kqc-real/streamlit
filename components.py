@@ -2592,34 +2592,69 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
             raw_stages = pd.Series(dtype=object)
 
         def _normalize_stage(value: str) -> str:
+            """Normalize various incoming stage labels to canonical keys.
+
+            Return canonical keys (english identifiers) so translations use a
+            stable keyspace and the UI can display localized labels reliably.
+
+            Canonical keys: 'reproduction', 'understanding', 'application', 'analysis', 'unknown'
+            """
             aliases: dict[str, str] = {
-                "reproduktion": "Reproduktion",
-                "wissen": "Reproduktion",
-                "memorieren": "Reproduktion",
-                "knowledge": "Reproduktion",
-                "verstehen": "Verständnis",
-                "verständnis": "Verständnis",
-                "understanding": "Verständnis",
-                "anwenden": "Anwendung",
-                "anwendung": "Anwendung",
-                "applying": "Anwendung",
-                "analyse": "Analyse",
-                "analysieren": "Analyse",
-                "analyzing": "Analyse",
+                # Reproduction / knowledge
+                "reproduktion": "reproduction",
+                "wissen": "reproduction",
+                "memorieren": "reproduction",
+                "knowledge": "reproduction",
+                # Understanding
+                "verstehen": "understanding",
+                "verständnis": "understanding",
+                "understanding": "understanding",
+                # Application
+                "anwenden": "application",
+                "anwendung": "application",
+                "applying": "application",
+                # Analysis
+                "analyse": "analysis",
+                "analysieren": "analysis",
+                "analyzing": "analysis",
             }
             if not value:
-                return "Unbekannt"
+                return "unknown"
             key = str(value).strip().lower()
-            return aliases.get(key, value)
+            return aliases.get(key, key)
 
         normalized = raw_stages.map(_normalize_stage)
         if not normalized.empty:
             counts = normalized.value_counts()
-            bloom_order = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
-            ordered_levels = [level for level in bloom_order if level in counts]
-            ordered_levels.extend([lvl for lvl in counts.index if lvl not in ordered_levels])
+            # Use canonical keys for ordering and a German default label map for
+            # backward-compatible defaults when a translation is missing.
+            bloom_order_keys = ["reproduction", "understanding", "application", "analysis"]
+            default_label_map = {
+                "reproduction": "Reproduktion",
+                "understanding": "Verständnis",
+                "application": "Anwendung",
+                "analysis": "Analyse",
+                "unknown": "Unbekannt",
+            }
+            ordered_levels = [k for k in bloom_order_keys if k in counts]
+            ordered_levels.extend([k for k in counts.index if k not in ordered_levels])
+            # Map our canonical keys to the i18n keys used in the locale files.
+            # Locale files use German labels as keys under pdf.stage_name (e.g. 'Reproduktion').
+            canonical_to_i18n = {
+                "reproduction": "Reproduktion",
+                "understanding": "Verständnis",
+                "application": "Anwendung",
+                "analysis": "Analyse",
+            }
+
+            def _label_for(level_key: str) -> str:
+                if level_key == "unknown":
+                    return translate_ui("pdf.stage_unknown", default=default_label_map.get(level_key, "Unbekannt"))
+                i18n_key = canonical_to_i18n.get(level_key, level_key)
+                return translate_ui(f"pdf.stage_name.{i18n_key}", default=default_label_map.get(level_key, level_key))
+
             cognition_summary = ", ".join(
-                f"{translate_ui(f'pdf.stage_name.{level}', default=level)} ({counts[level]})" for level in ordered_levels
+                f"{_label_for(level)} ({counts[level]})" for level in ordered_levels
             )
             summary_parts.append(f"<br>{_distribution_summary_cognition(cognition_summary)}")
 
