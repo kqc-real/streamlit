@@ -2966,12 +2966,21 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
                     # Compute ideal times and status (do this regardless of the list coercion outcome)
                     try:
-                        ideal_times = pacing.compute_ideal_times(qlist, tpw)
+                        # Compute ideal times based on the total allowed test time so
+                        # pacing reflects the current test duration rather than per-set hints.
+                        total_allowed_seconds = int(st.session_state.get('test_time_limit', 0) or 0)
+                        if total_allowed_seconds > 0:
+                            ideal_times = pacing.compute_ideal_times_by_total(qlist, total_allowed_seconds)
+                        else:
+                            # Fallback to previous per-weight computation when no total is available
+                            ideal_times = pacing.compute_ideal_times(qlist, tpw)
+
                         # Determine the current index within the presentation order
                         try:
                             idx = st.session_state.get("frage_indices", []).index(frage_idx)
                         except Exception:
                             idx = session_local_idx if 'session_local_idx' in locals() else 0
+
                         status = pacing.pacing_status(int(et), ideal_times, idx)
                     except Exception:
                         # Defensive defaults if pacing computation fails
@@ -3024,6 +3033,24 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     st.info(rec.get('message'))
                             except Exception:
                                 pass
+                                # Small runtime check: remaining time per remaining question
+                                try:
+                                    # remaining is defined above as (len(questions) - num_answered)
+                                    remaining_questions = max(1, int(remaining))
+                                    remaining_time_calc = max(0, int(total_allowed) - int(et))
+                                    avg_per_question = remaining_time_calc / remaining_questions
+                                    # Consider approx 1 min (60s) for weight 3: allow a small tolerance
+                                    approx_60 = abs(avg_per_question - 60) <= max(3, 0.1 * 60)
+                                    label = (
+                                        f"Durchschn. verbleibende Zeit pro Frage: {int(avg_per_question)} s"
+                                    )
+                                    if approx_60:
+                                        label += " — entspricht ungefähr 1 min/Frage (Gewichtung 3)"
+                                    else:
+                                        label += " — entspricht nicht 1 min/Frage"
+                                    st.caption(label)
+                                except Exception:
+                                    pass
                         else:
                             # Keep layout stable: render nothing in this column until visible
                             pass

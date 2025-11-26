@@ -6,6 +6,7 @@ assess pacing status and produce simple action recommendations.
 These functions operate on seconds to avoid float surprises in UI code.
 """
 from typing import List, Dict, Any
+import math
 
 
 def compute_ideal_times(questions: List[dict], time_per_weight: Dict[str, float]) -> List[int]:
@@ -124,3 +125,78 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
         "required_speedup": required_speedup,
         "suggested_reduction_pct": suggested_reduction_pct,
     }
+
+
+def compute_ideal_times_by_total(questions: List[dict], total_allowed_seconds: int, min_seconds: int = 10) -> List[int]:
+    """Distribute a total allowed time (in seconds) across questions proportionally by weight.
+
+    - `questions` is a list of dicts with optional numeric `weight` (default 1).
+    - `total_allowed_seconds` is the total budget for the whole test in seconds.
+    - `min_seconds` enforces a per-question minimum (useful for tiny-weighted items).
+
+    The algorithm:
+    1. Compute raw proportional floats from weights.
+    2. Enforce `min_seconds` floor on any question whose proportional share is smaller.
+    3. If the floored/min-enforced sum exceeds the total, attempt to reduce other
+       questions down toward their minima; if that's impossible (total < n*min_seconds)
+       we return the current per-question minima (sum may exceed total).
+    4. Otherwise, convert float allocations to integers while preserving the total by
+       distributing remaining seconds according to fractional parts.
+    """
+    n = len(questions)
+    if n == 0:
+        return []
+
+    weights = [float(q.get("weight", 1)) for q in questions]
+    total_weight = sum(weights) if sum(weights) > 0 else float(n)
+
+    # initial raw allocations (floats)
+    raw = [total_allowed_seconds * (w / total_weight) for w in weights]
+
+    # enforce minimum as float
+    allocs = [r if r >= min_seconds else float(min_seconds) for r in raw]
+    sum_allocs = sum(allocs)
+
+    # If we've exceeded the budget after enforcing minima, try to reduce others
+    if sum_allocs > total_allowed_seconds:
+        reducible = sum((a - min_seconds) for a in allocs)
+        needed_reduce = sum_allocs - total_allowed_seconds
+        if reducible <= 0:
+            # cannot reduce below minima; return integer mins (sum may exceed total)
+            return [int(round(a)) for a in allocs]
+        # reduce proportionally from those above min, but not below min
+        for i in sorted(range(n), key=lambda i: allocs[i] - min_seconds, reverse=True):
+            if needed_reduce <= 0:
+                break
+            can_reduce = allocs[i] - min_seconds
+            take = min(can_reduce, needed_reduce)
+            allocs[i] -= take
+            needed_reduce -= take
+        sum_allocs = sum(allocs)
+
+    # At this point sum_allocs <= total_allowed_seconds (if reduction succeeded)
+    # Convert to integer seconds while preserving total when possible.
+    target = int(total_allowed_seconds)
+    # If sum_allocs > target due to impossibility to reduce, just round and return
+    if sum_allocs > target:
+        return [int(round(a)) for a in allocs]
+
+    floors = [int(math.floor(a)) for a in allocs]
+    floor_sum = sum(floors)
+    remainder = target - floor_sum
+
+    # Distribute the remaining seconds by largest fractional part
+    fracs = [allocs[i] - floors[i] for i in range(n)]
+    order = sorted(range(n), key=lambda i: fracs[i], reverse=True)
+    for i in order:
+        if remainder <= 0:
+            break
+        floors[i] += 1
+        remainder -= 1
+
+    # Ensure minima are respected (edge cases)
+    for i in range(n):
+        if floors[i] < min_seconds:
+            floors[i] = int(min_seconds)
+
+    return floors

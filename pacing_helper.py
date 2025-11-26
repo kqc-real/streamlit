@@ -5,6 +5,7 @@ importable as a top-level module to avoid conflicts with an existing
 `helpers.py` module in the project.
 """
 from typing import List, Dict, Any
+import math
 
 
 def compute_ideal_times(questions: List[dict], time_per_weight: Dict[str, float]) -> List[int]:
@@ -90,3 +91,56 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
         "required_speedup": required_speedup,
         "suggested_reduction_pct": suggested_reduction_pct,
     }
+
+
+def compute_ideal_times_by_total(questions: List[dict], total_allowed_seconds: int, min_seconds: int = 10) -> List[int]:
+    """Delegate-like implementation: distribute total_allowed_seconds across questions by weight.
+
+    This mirrors the logic in `helpers/pacing.py` and exists so callers importing
+    `pacing_helper` get the same API surface.
+    """
+    n = len(questions)
+    if n == 0:
+        return []
+
+    weights = [float(q.get("weight", q.get("gewichtung", 1))) for q in questions]
+    total_weight = sum(weights) if sum(weights) > 0 else float(n)
+
+    raw = [total_allowed_seconds * (w / total_weight) for w in weights]
+    allocs = [r if r >= min_seconds else float(min_seconds) for r in raw]
+    sum_allocs = sum(allocs)
+
+    if sum_allocs > total_allowed_seconds:
+        reducible = sum((a - min_seconds) for a in allocs)
+        needed_reduce = sum_allocs - total_allowed_seconds
+        if reducible <= 0:
+            return [int(round(a)) for a in allocs]
+        for i in sorted(range(n), key=lambda i: allocs[i] - min_seconds, reverse=True):
+            if needed_reduce <= 0:
+                break
+            can_reduce = allocs[i] - min_seconds
+            take = min(can_reduce, needed_reduce)
+            allocs[i] -= take
+            needed_reduce -= take
+        sum_allocs = sum(allocs)
+
+    target = int(total_allowed_seconds)
+    if sum_allocs > target:
+        return [int(round(a)) for a in allocs]
+
+    floors = [int(math.floor(a)) for a in allocs]
+    floor_sum = sum(floors)
+    remainder = target - floor_sum
+    fracs = [allocs[i] - floors[i] for i in range(n)]
+    order = sorted(range(n), key=lambda i: fracs[i], reverse=True)
+    for i in order:
+        if remainder <= 0:
+            break
+        floors[i] += 1
+        remainder -= 1
+
+    for i in range(n):
+        if floors[i] < min_seconds:
+            floors[i] = int(min_seconds)
+
+    return floors
