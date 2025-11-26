@@ -2736,7 +2736,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             if callable(dialog_fn):
 
                 @dialog_fn(
-                    translate_ui("sidebar.history_dialog_title", default="Meine Sessions")
+                    translate_ui("sidebar.history_dialog_title", default="Meine Sessions"),
+                    width="wide",
                 )
                 def _history_dialog():
                     _render_history_table(history_rows, filename_base)
