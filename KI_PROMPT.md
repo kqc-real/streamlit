@@ -85,10 +85,11 @@ cannot proceed.
 Once confirmed, perform these steps internally before outputting the JSON:
 
 1. **Blueprinting:** Create a list of questions ensuring:
-      - Total count matches request.
-      - Difficulty profile matches request.
-      - Each `topic` is used at least twice.
-      - Max 10 distinct `topic` values total.
+  - Total count matches request.
+  - Difficulty profile matches request.
+  - Each `topic` is used at least twice.
+  - Max 10 distinct `topic` values total.
+  - If a constraint (for example "each topic used at least twice") is impossible due to the requested `question_count`, minimize the number of distinct topics and record the deviation in the developer log.
 2. **Drafting:** Write the content.
       - Assign `cognitive_level` (Reproduction/Application/Analysis) matching the weight.
       - Ensure exactly one correct answer per question.
@@ -138,7 +139,25 @@ Once confirmed, perform these steps internally before outputting the JSON:
   - Check for patterns where a `$` is followed by whitespace and then punctuation (regex: `\$\s+[.,;:!?]`) — treat as an error.
   - Check inline-math bodies for single (unescaped) backslashes (regex within math: `(?<!\\)\\(?!\\)`) — treat as an error.
   - If either pattern is found, the LLM MUST deterministically correct the issue before emitting output: auto-escape backslashes, remove whitespace between closing `$` and following punctuation, and continue processing. The LLM must not return an error object; it must emit corrected JSON.
-- **Citation policy (strict — automatic stripping near formulas):**
+  -
+  ### Deterministic auto-fix rules (regex)
+
+  The LLM MUST apply these deterministic, regex-based fixes when possible *before* emitting JSON. Apply in this order and report each applied fix in an internal developer log (not part of the final JSON):
+
+  - Escape TeX backslashes inside inline math: regex (within math): `(?<!\\)\\(?!\\)` → replacement: `\\\\` (i.e. double each single backslash inside math so JSON source contains `\\`).
+  - Remove space between closing `$` and immediately following punctuation: regex `\$\s+([.,;:!?])` → replacement: `$\1`.
+  - Strip citation tokens adjacent to inline math (when they appear in the same JSON string): patterns `\[@[^\]]+\]`, `\\cite\{[^}]+\}`, and bare `\b@[A-Za-z0-9_\-]+\b` → replacement: `` (remove). If removal makes the sentence meaningless, replace the removed substring with `(background: standard literature)`.
+
+  Example (auto-fix applied):
+
+  ```text
+  Input:  "We use $E = mc^2$ [@einstein] to derive ..."
+  Auto-fixed: "We use $E = mc^2$ to derive ..."
+  ```
+
+  Record each fix as a short developer message (not included in final JSON): e.g., `fixed: questions[3].explanation - removed citation [@einstein]`
+
+  -- **Citation policy (strict — automatic stripping near formulas):**
   - Citation or bibliographic reference tokens (for example `[@citekey]`, `\\cite{...}`, or bare `@key`) MUST NOT remain in the same JSON string as inline math. If such tokens appear, the LLM MUST automatically remove them from that string before emitting JSON. Do not leave citation tokens adjacent to formulas.
 
 - **Concrete examples (for clarity & auto-fix behavior):**
@@ -189,14 +208,17 @@ Once confirmed, perform these steps internally before outputting the JSON:
 - **Correction rule (deterministic):**
   - Remove any substring matching detection patterns (for example `\bsee\b.*\b(slide|slides|chapter|section|page)\b`, `\b(as seen in|according to|in the (?:notes|slides|document|lecture))\b`, or file-like tokens `\b[\w\-/]+\.(pdf|md|pptx?|docx?)\b`) from the sentence. If removal leaves malformed punctuation or double spaces, normalize spacing and punctuation.
 
-- **Suggested neutral fallback (only if removal would make the sentence meaningless):**
+-- **Suggested neutral fallback (only if removal would make the sentence meaningless):**
   - Replace the removed reference with a neutral, generic phrase such as `(background: standard literature)` but only when necessary to preserve grammatical structure.
+  - Deterministic definition of "meaningless": after removal, if the sentence contains fewer than 4 non-stopword tokens, consider it meaningless and perform the replacement. Use this stopword heuristic set: {a, an, the, and, or, but, if, then, of, in, on, for, to, with, by, is, are, was, were, be, been, being}.
 
 - **Tone for corrections:** When you detect an issue, prefer to auto-correct (escape backslashes, remove space before punctuation) but **report** the correction in the assistant's internal log or in a developer message so humans can review.
 
 -----
 
 ## 8) Output Specification: The JSON Object
+
+OUTPUT RULE: If all deterministic checks pass, print exactly ONE Markdown fenced code block with language `json` and nothing else. If checks fail, print exactly one short human-readable bullet list of validation failures (plain text). Do not print any additional commentary.
 
 Output **ONLY** a single Markdown code block containing the JSON. No conversational text before or after.
 
@@ -244,19 +266,18 @@ Adhere to this structure.
       "concept": "string (Key concept label)",
       "cognitive_level": "string (Reproduction | Application | Analysis)",
       
-      // ONLY include 'extended_explanation' if Step 5 was YES AND weight is 2 or 3.
-      // Otherwise set to null.
-      "extended_explanation": {
-         "title": "string (Optional title)",
-         "steps": ["Step 1 string", "Step 2 string"], // Array of strings
-         "content": "string (Optional summary)"
-      },
+      // 'extended_explanation' MUST be present: set to `null` for weight==1,
+      // or an object for weight==2 or weight==3.
+      "extended_explanation": null,
+      // If present as object, shape should be:
+      // { "title": "string", "steps": ["string"], "content": "string" }
 
-      // ONLY include 'mini_glossary' if Step 6 was YES. Otherwise null.
-      "mini_glossary": {
-        "TermKey": "Definition string",
-        "TermKey2": "Definition string"
-      }
+      // 'mini_glossary' MUST be present: ordered array of 2-4 objects
+      // [{ "term": "string", "definition": "string" }, ...]
+      "mini_glossary": [
+        { "term": "TermKey", "definition": "Definition string" },
+        { "term": "TermKey2", "definition": "Definition string" }
+      ]
     }
   ]
 }
