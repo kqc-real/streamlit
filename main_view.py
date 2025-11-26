@@ -4585,7 +4585,110 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             musterloesung_btn_key = f"download_musterloesung_review_{selected_file}"
             musterloesung_dl_key = f"dl_musterloesung_direct_{selected_file}"
             if st.button(_download_button_label(), key=musterloesung_btn_key):
-                with st.spinner(_summary_text("export_musterloesung_spinner", default="Musterlösung wird erstellt...")):
+                # Count LaTeX formulas in the question set so we can warn the
+                # user if many remote renders will be required. If the cache
+                # already contains images for the formulas, skip the warning.
+                formula_count = 0
+                # reuse regex literals via constants to avoid duplication warnings
+                INLINE_MATH_RE = r"\$([^$]+?)\$"
+                BLOCK_MATH_RE = r"\$\$(.*?)\$\$"
+                try:
+                    for frage in questions:
+                        # question text
+                        txt = frage.get("question") or frage.get("frage") or ""
+                        formula_count += len(re.findall(BLOCK_MATH_RE, txt, flags=re.DOTALL))
+                        formula_count += len(re.findall(INLINE_MATH_RE, txt, flags=re.DOTALL))
+                        # explanation
+                        erk = frage.get("erklaerung") or frage.get("explanation") or ""
+                        if isinstance(erk, str):
+                            formula_count += len(re.findall(BLOCK_MATH_RE, erk, flags=re.DOTALL))
+                            formula_count += len(re.findall(INLINE_MATH_RE, erk, flags=re.DOTALL))
+                        # options
+                        for opt in frage.get("optionen", []):
+                            if isinstance(opt, str):
+                                formula_count += len(re.findall(BLOCK_MATH_RE, opt, flags=re.DOTALL))
+                                formula_count += len(re.findall(INLINE_MATH_RE, opt, flags=re.DOTALL))
+                except Exception:
+                    formula_count = 0
+
+                # Build exact list of formulas (block/inline) so we can check
+                # per-formula cache presence (disk-backed and in-memory).
+                formulas = []
+                try:
+                    for frage in questions:
+                        txt = frage.get("question") or frage.get("frage") or ""
+                        formulas.extend([('block', f.strip()) for f in re.findall(BLOCK_MATH_RE, txt, flags=re.DOTALL)])
+                        formulas.extend([('inline', f.strip()) for f in re.findall(INLINE_MATH_RE, txt, flags=re.DOTALL)])
+                        erk = frage.get("erklaerung") or frage.get("explanation") or ""
+                        if isinstance(erk, str):
+                            formulas.extend([('block', f.strip()) for f in re.findall(BLOCK_MATH_RE, erk, flags=re.DOTALL)])
+                            formulas.extend([('inline', f.strip()) for f in re.findall(INLINE_MATH_RE, erk, flags=re.DOTALL)])
+                        for opt in frage.get("optionen", []):
+                            if isinstance(opt, str):
+                                formulas.extend([('block', f.strip()) for f in re.findall(BLOCK_MATH_RE, opt, flags=re.DOTALL)])
+                                formulas.extend([('inline', f.strip()) for f in re.findall(INLINE_MATH_RE, opt, flags=re.DOTALL)])
+                except Exception:
+                    formulas = []
+
+                # Deduplicate exact formula strings (same formula repeated won't need extra renders)
+                unique_formulas = list(dict.fromkeys(formulas))
+                formula_count = len(unique_formulas)
+
+                # Check cache per-formula: in-memory `_formula_cache` OR disk file named sha1(...).png
+                to_render = 0
+                try:
+                    import hashlib as _hashlib
+                    from pdf_export import FORMULA_CACHE_DIR, _formula_cache
+                    for is_block, formula in unique_formulas:
+                        cache_key = (formula, is_block == 'block')
+                        cached = False
+                        try:
+                            if cache_key in _formula_cache:
+                                cached = True
+                        except Exception:
+                            cached = False
+
+                        if not cached and FORMULA_CACHE_DIR:
+                            try:
+                                suffix = '@block' if is_block == 'block' else '@inline'
+                                h = _hashlib.sha1((formula + suffix).encode('utf-8')).hexdigest()
+                                if FORMULA_CACHE_DIR.joinpath(f"{h}.png").exists():
+                                    cached = True
+                            except Exception:
+                                cached = False
+
+                        if not cached:
+                            to_render += 1
+                except Exception:
+                    # Fallback: conservative estimate
+                    to_render = formula_count
+
+                # Decide spinner message based on whether renders remain
+                if formula_count and to_render > 0:
+                    spinner_message = _summary_text(
+                        "export_musterloesung_spinner_with_formulas",
+                        default=(
+                            "Generiere Musterlösung-PDF — rendere {count} Formel" +
+                            ("n" if formula_count != 1 else "") +
+                            ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                        ),
+                        count=formula_count,
+                    )
+                else:
+                    spinner_message = _summary_text("export_musterloesung_spinner", default="Musterlösung wird erstellt...")
+
+                # Show estimated number of formula images that will be rendered
+                if to_render:
+                    msg = _summary_text(
+                        "export_musterloesung_render_count",
+                        default=(
+                            "Es müssen ca. {count} Formelbilder gerendert werden. "
+                            "Das kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                        ),
+                    )
+                    st.info(msg.format(count=to_render), icon="🧮")
+
+                with st.spinner(spinner_message):
                     try:
                         pdf_bytes = generate_musterloesung_pdf(
                             selected_file, list(questions), app_config
@@ -4661,7 +4764,99 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             testbericht_btn_key = f"download_testbericht_review_{selected_file}"
             testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
             if st.button(_download_button_label(), key=testbericht_btn_key):
-                with st.spinner(_summary_text("export_testbericht_spinner", default="Testbericht wird erstellt...")):
+                # Count LaTeX formulas in the question set and check cache
+                formula_count = 0
+                INLINE_MATH_RE = r"\$([^$]+?)\$"
+                BLOCK_MATH_RE = r"\$\$(.*?)\$\$"
+                try:
+                    for frage in questions:
+                        txt = frage.get("question") or frage.get("frage") or ""
+                        formula_count += len(re.findall(BLOCK_MATH_RE, txt, flags=re.DOTALL))
+                        formula_count += len(re.findall(INLINE_MATH_RE, txt, flags=re.DOTALL))
+                        erk = frage.get("erklaerung") or frage.get("explanation") or ""
+                        if isinstance(erk, str):
+                            formula_count += len(re.findall(BLOCK_MATH_RE, erk, flags=re.DOTALL))
+                            formula_count += len(re.findall(INLINE_MATH_RE, erk, flags=re.DOTALL))
+                        for opt in frage.get("optionen", []):
+                            if isinstance(opt, str):
+                                formula_count += len(re.findall(BLOCK_MATH_RE, opt, flags=re.DOTALL))
+                                formula_count += len(re.findall(INLINE_MATH_RE, opt, flags=re.DOTALL))
+                except Exception:
+                    formula_count = 0
+
+                # Build exact list of formulas (block/inline) and dedupe
+                formulas = []
+                try:
+                    for frage in questions:
+                        txt = frage.get("question") or frage.get("frage") or ""
+                        formulas.extend([('block', f.strip()) for f in re.findall(BLOCK_MATH_RE, txt, flags=re.DOTALL)])
+                        formulas.extend([('inline', f.strip()) for f in re.findall(INLINE_MATH_RE, txt, flags=re.DOTALL)])
+                        erk = frage.get("erklaerung") or frage.get("explanation") or ""
+                        if isinstance(erk, str):
+                            formulas.extend([('block', f.strip()) for f in re.findall(BLOCK_MATH_RE, erk, flags=re.DOTALL)])
+                            formulas.extend([('inline', f.strip()) for f in re.findall(INLINE_MATH_RE, erk, flags=re.DOTALL)])
+                        for opt in frage.get("optionen", []):
+                            if isinstance(opt, str):
+                                formulas.extend([('block', f.strip()) for f in re.findall(BLOCK_MATH_RE, opt, flags=re.DOTALL)])
+                                formulas.extend([('inline', f.strip()) for f in re.findall(INLINE_MATH_RE, opt, flags=re.DOTALL)])
+                except Exception:
+                    formulas = []
+
+                unique_formulas = list(dict.fromkeys(formulas))
+                formula_count = len(unique_formulas)
+
+                # Check per-formula cache presence (in-memory _formula_cache or disk)
+                to_render = 0
+                try:
+                    import hashlib as _hashlib
+                    from pdf_export import FORMULA_CACHE_DIR, _formula_cache
+                    for is_block, formula in unique_formulas:
+                        cache_key = (formula, is_block == 'block')
+                        cached = False
+                        try:
+                            if cache_key in _formula_cache:
+                                cached = True
+                        except Exception:
+                            cached = False
+
+                        if not cached and FORMULA_CACHE_DIR:
+                            try:
+                                suffix = '@block' if is_block == 'block' else '@inline'
+                                h = _hashlib.sha1((formula + suffix).encode('utf-8')).hexdigest()
+                                if FORMULA_CACHE_DIR.joinpath(f"{h}.png").exists():
+                                    cached = True
+                            except Exception:
+                                cached = False
+
+                        if not cached:
+                            to_render += 1
+                except Exception:
+                    to_render = formula_count
+
+                if formula_count and to_render > 0:
+                    spinner_message = _summary_text(
+                        "export_testbericht_spinner_with_formulas",
+                        default=(
+                            "Generiere Testbericht — rendere {count} Formel" +
+                            ("n" if formula_count != 1 else "") +
+                            ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                        ),
+                        count=formula_count,
+                    )
+                else:
+                    spinner_message = _summary_text("export_testbericht_spinner", default="Testbericht wird erstellt...")
+
+                if to_render:
+                    msg = _summary_text(
+                        "export_testbericht_render_count",
+                        default=(
+                            "Es müssen ca. {count} Formelbilder gerendert werden. "
+                            "Das kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
+                        ),
+                    )
+                    st.info(msg.format(count=to_render), icon="🧮")
+
+                with st.spinner(spinner_message):
                     try:
                         if app_config is None:
                             raise RuntimeError(
