@@ -1189,12 +1189,31 @@ def _render_history_table(history_rows, filename_base: str):
         if 'Punkte' in df_display.columns:
             df_display = df_display.rename(columns={'Punkte': 'Punkte (%)'})
 
-        # Show only a fixed number of rows in the history dialog to keep the
-        # dialog compact. The UI displays the first N rows and a caption with
-        # the shown/total counts.
-        VISIBLE_ROWS = 5
-        total_rows = len(df_display)
-        df_shown = df_display.head(VISIBLE_ROWS)
+        # Interactive control for the number of visible rows in the history
+        # dialog. Default to a compact view but allow the user to expand in
+        # steps or show all entries. The preference is stored in
+        # `st.session_state['history_visible_rows_dialog']` so it survives
+        # reruns triggered by other widgets.
+        try:
+            total_rows = len(df_display)
+            DEFAULT_VISIBLE = 5
+            key_name = 'history_visible_rows_dialog'
+            if key_name not in st.session_state:
+                st.session_state[key_name] = DEFAULT_VISIBLE
+
+            try:
+                visible = int(st.session_state.get(key_name, DEFAULT_VISIBLE) or DEFAULT_VISIBLE)
+            except Exception:
+                visible = DEFAULT_VISIBLE
+
+            visible = max(1, min(total_rows, visible))
+
+            df_shown = df_display.head(visible)
+        except Exception:
+            # Fallback: keep the previous fixed behavior
+            VISIBLE_ROWS = 5
+            total_rows = len(df_display)
+            df_shown = df_display.head(VISIBLE_ROWS)
 
         # Render the shown rows manually so we can add a per-row action button
         # (Streamlit's dataframe does not support interactive widgets per row).
@@ -1405,6 +1424,57 @@ def _render_history_table(history_rows, filename_base: str):
                 default="Showing {shown} of {total} entries.",
             ).format(shown=len(df_shown), total=total_rows)
         )
+        # Render interactive controls under the table so they are visually
+        # positioned after the data. Changing these updates
+        # `st.session_state['history_visible_rows_dialog']` and triggers a rerun.
+        try:
+            key_name = 'history_visible_rows_dialog'
+            DEFAULT_VISIBLE = 5
+            col_more, col_all, col_less = st.columns([1, 1, 1])
+            with col_more:
+                if st.button(translate_ui("sidebar.history_show_more", default="Mehr anzeigen"), key="history_more_btn_dialog"):
+                    st.session_state[key_name] = min(total_rows, (st.session_state.get(key_name, DEFAULT_VISIBLE) or DEFAULT_VISIBLE) + 5)
+                    # Ensure the history dialog re-opens after the rerun
+                    try:
+                        st.session_state['_open_history_requested'] = True
+                    except Exception:
+                        pass
+                    # Immediately rerun so the updated visible rows take effect
+                    try:
+                        rerun_fn = getattr(st, 'rerun', None) or getattr(st, 'experimental_rerun', None)
+                        if callable(rerun_fn):
+                            rerun_fn()
+                    except Exception:
+                        pass
+            with col_all:
+                if st.button(translate_ui("sidebar.history_show_all", default="Alle anzeigen"), key="history_all_btn_dialog"):
+                    st.session_state[key_name] = total_rows
+                    try:
+                        st.session_state['_open_history_requested'] = True
+                    except Exception:
+                        pass
+                    try:
+                        rerun_fn = getattr(st, 'rerun', None) or getattr(st, 'experimental_rerun', None)
+                        if callable(rerun_fn):
+                            rerun_fn()
+                    except Exception:
+                        pass
+            with col_less:
+                if st.button(translate_ui("sidebar.history_show_less", default="Weniger"), key="history_less_btn_dialog"):
+                    current = st.session_state.get(key_name, DEFAULT_VISIBLE) or DEFAULT_VISIBLE
+                    st.session_state[key_name] = max(DEFAULT_VISIBLE, current - 5)
+                    try:
+                        st.session_state['_open_history_requested'] = True
+                    except Exception:
+                        pass
+                    try:
+                        rerun_fn = getattr(st, 'rerun', None) or getattr(st, 'experimental_rerun', None)
+                        if callable(rerun_fn):
+                            rerun_fn()
+                    except Exception:
+                        pass
+        except Exception:
+            pass
     except Exception:
         st.dataframe(df_display, width="stretch", hide_index=True, height=200)
 
