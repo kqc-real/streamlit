@@ -14,7 +14,10 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 9,
-    "test_duration_minutes": 40
+    "test_duration_minutes": 40,
+    "schema_version": "2.1",
+    "last_modified": "26.11.2025",
+    "created": "26.11.2025"
   },
   "questions": [
     {
@@ -35,7 +38,8 @@
         "Schnittmenge": "Die Menge der Elemente, die sowohl in Menge $A$ als auch in Menge $B$ enthalten sind.",
         "Vereinigung": "Die Menge der Elemente, die in Menge $A$ oder in Menge $B$ (oder in beiden) enthalten sind.",
         "Differenzmenge": "Die Menge $A \\setminus B$ enthält alle Elemente, die in $A$, aber nicht in $B$ enthalten sind."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "2. Was ist die korrekte Definition der Potenzmenge $P(M)$ einer Menge $M$?",
@@ -54,7 +58,8 @@
         "Potenzmenge": "Die Menge aller Teilmengen einer gegebenen Grundmenge $M$. Sie wird mit $P(M)$ bezeichnet.",
         "Teilmenge": "Eine Menge $A$ ist eine Teilmenge von $B$, wenn jedes Element von $A$ auch ein Element von $B$ ist.",
         "Leere Menge": "Die Menge, die kein einziges Element enthält, bezeichnet mit $\\emptyset$."
-      }
+      },
+      "cognitive_level": "reproduction"
     },
     {
       "question": "3. Welche logische Aussage ist äquivalent zur Implikation $A \\rightarrow B$?",
@@ -73,7 +78,8 @@
         "Implikation": "Eine logische Verknüpfung 'wenn A, dann B' ($A \\rightarrow B$), die nur dann falsch ist, wenn die Voraussetzung $A$ wahr und die Konsequenz $B$ falsch ist.",
         "Logische Äquivalenz": "Zwei Aussagen sind logisch äquivalent, wenn sie für alle möglichen Belegungen ihrer Variablen mit Wahrheitswerten denselben Wahrheitswert haben.",
         "Disjunktion": "Die ODER-Verknüpfung ($A \\vee B$), die wahr ist, wenn mindestens eine der beiden Aussagen $A$ oder $B$ wahr ist."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "4. Welche der folgenden Aussagen ist eine Tautologie?",
@@ -92,7 +98,8 @@
         "Tautologie": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen mit Wahrheitswerten immer wahr ist.",
         "Kontradiktion": "Eine zusammengesetzte Aussage, die für alle möglichen Belegungen ihrer Teilaussagen immer falsch ist, z.B. $A \\wedge \\neg A$.",
         "Negation": "Die NICHT-Operation ($\\neg A$), die den Wahrheitswert einer Aussage umkehrt."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "5. Welche Bedingung ist **notwendig** für eine korrekt definierte rekursive Funktion?",
@@ -111,7 +118,8 @@
         "Rekursive Funktion": "Eine Funktion, die sich in ihrer Definition selbst aufruft. Sie besteht aus einem oder mehreren Basisfällen und einem rekursiven Schritt.",
         "Basisfall": "Der Teil einer rekursiven Definition, der die Rekursion beendet, indem er ein Ergebnis direkt, ohne weiteren rekursiven Aufruf, zurückgibt.",
         "Rekursionsschritt": "Der Teil einer rekursiven Definition, der das Problem auf eine kleinere Version seiner selbst zurückführt und die Funktion erneut aufruft."
-      }
+      },
+      "cognitive_level": "reproduction"
     },
     {
       "question": "6. Was ist der größte gemeinsame Teiler (ggT) der Zahlen 168 und 133?",
@@ -130,7 +138,8 @@
         "Größter gemeinsamer Teiler (ggT)": "Der größte positive gemeinsame Teiler von zwei oder mehr ganzen Zahlen.",
         "Euklidischer Algorithmus": "Ein effizientes Verfahren zur Berechnung des größten gemeinsamen Teilers zweier ganzer Zahlen durch fortgesetzte Division mit Rest.",
         "Teilbarkeit": "Eine ganze Zahl $a$ ist durch eine ganze Zahl $b$ teilbar ($b|a$), wenn es eine ganze Zahl $q$ gibt, sodass $a=bq$ ist."
-      }
+      },
+      "cognitive_level": "reproduction"
     },
     {
       "question": "7. Welche algebraische Struktur wird durch die Menge der ganzen Zahlen $\\mathbb{Z}$ zusammen mit der Addition und Multiplikation, $(\\mathbb{Z}, +, \\cdot)$, gebildet?",
@@ -149,7 +158,8 @@
         "Gruppe": "Eine Menge mit einer Verknüpfung, die Assoziativität, ein neutrales Element und für jedes Element ein inverses Element aufweist.",
         "Ring": "Eine Menge mit zwei Verknüpfungen (Addition und Multiplikation), die bezüglich der Addition eine kommutative Gruppe ist, bezüglich der Multiplikation assoziativ ist und bei der die Distributivgesetze gelten.",
         "Körper": "Ein kommutativer Ring, in dem jedes von Null verschiedene Element ein multiplikatives Inverses besitzt."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "8. Was ist das zentrale Prinzip des asymmetrischen Kryptographieverfahrens RSA?",
@@ -168,7 +178,8 @@
         "Asymmetrische Kryptografie": "Ein Verschlüsselungsverfahren, das ein Schlüsselpaar verwendet: einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten Schlüssel zum Entschlüsseln.",
         "RSA-Verfahren": "Ein weit verbreitetes Public-Key-Kryptosystem, dessen Sicherheit auf dem Problem der Faktorisierung großer Zahlen beruht.",
         "Faktorisierungsproblem": "Das rechenintensive Problem, eine zusammengesetzte Zahl in ihre Primfaktoren zu zerlegen."
-      }
+      },
+      "cognitive_level": "reproduction"
     },
     {
       "question": "9. Gegeben seien die Mengen $A = \\{1, 2, 3\\}$ und $B = \\{3, 4, 5\\}$. Welche Elemente enthält die symmetrische Differenz $A \\Delta B$?",
@@ -196,7 +207,8 @@
         "Symmetrische Differenz": "Die Menge aller Elemente, die in genau einer von zwei Mengen, aber nicht in beiden gleichzeitig, enthalten sind.",
         "Mengenlehre": "Ein Teilgebiet der Mathematik, das sich mit den Eigenschaften und Beziehungen von Mengen beschäftigt.",
         "Grundoperationen auf Mengen": "Zu den grundlegenden Operationen gehören Vereinigung ($\\cup$), Schnittmenge ($\\cap$), Differenz ($\\setminus$) und Komplement."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "10. Eine Abbildung $f: M \\to N$ wird als 'injektiv' bezeichnet, wenn welche Bedingung erfüllt ist?",
@@ -224,7 +236,8 @@
         "Injektivität": "Die Eigenschaft einer Abbildung, bei der jedes Element der Zielmenge höchstens ein Urbild hat.",
         "Surjektivität": "Die Eigenschaft einer Abbildung, bei der jedes Element der Zielmenge mindestens ein Urbild hat.",
         "Urbild": "Für ein Element $y$ der Zielmenge ist das Urbild die Menge aller Elemente $x$ aus der Definitionsmenge, für die $f(x) = y$ gilt."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "11. Welcher Ausdruck ist die korrekte Kontraposition der logischen Implikation $A \\rightarrow B$?",
@@ -252,7 +265,8 @@
         "Kontraposition": "Die logisch äquivalente Umformung einer Implikation $A \\rightarrow B$ zu $\\neg B \\rightarrow \\neg A$.",
         "Wahrheitstabelle": "Eine Tabelle, die alle möglichen Wahrheitswerte von Teilaussagen auflistet und den daraus resultierenden Wahrheitswert einer zusammengesetzten Aussage zeigt.",
         "Semantik": "Die Lehre von der Bedeutung. In der Logik legt die Semantik fest, wie Formeln Wahrheitswerte zugeordnet werden."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "12. Nach den De Morgan'schen Gesetzen ist der Ausdruck $\\neg(A \\vee B)$ äquivalent zu:",
@@ -280,7 +294,8 @@
         "De Morgan'sche Gesetze": "Ein Paar von Transformationsregeln in der formalen Logik und Mengenlehre, die die Beziehung zwischen Negation, Konjunktion/Schnittmenge und Disjunktion/Vereinigung beschreiben.",
         "Konjunktion": "Die UND-Verknüpfung ($A \\wedge B$), die nur dann wahr ist, wenn beide Aussagen $A$ und $B$ wahr sind.",
         "Syntax": "In formalen Sprachen die Menge von Regeln, die festlegen, wie Symbole zu korrekten Ausdrücken (Formeln) zusammengesetzt werden dürfen."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "13. Welcher der folgenden Ausdrücke ist ein Beispiel für eine Aussage mit einem Allquantor in der Prädikatenlogik?",
@@ -308,7 +323,8 @@
         "Prädikatenlogik": "Ein Teilgebiet der Logik, das die interne Struktur von Aussagen mittels Prädikaten, Variablen und Quantoren analysiert.",
         "Allquantor": "Ein Quantor, der ausdrückt, dass eine Aussage für alle Elemente eines bestimmten Bereichs gilt.",
         "Individuenbereich": "Die Menge von Objekten, über die in einer prädikatenlogischen Aussage gesprochen wird (z.B. $\\mathbb{R}$, $\\mathbb{Z}$)."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "14. Bei der vollständigen Induktion, was ist das Ziel des Induktionsschritts?",
@@ -336,7 +352,8 @@
         "Vollständige Induktion": "Ein mathematisches Beweisprinzip, um eine Aussage für alle natürlichen Zahlen zu beweisen, bestehend aus Induktionsanfang und Induktionsschritt.",
         "Induktionsanfang": "Der erste Schritt eines Induktionsbeweises, bei dem die Gültigkeit der Aussage für den kleinsten Wert (z.B. $n=1$) gezeigt wird.",
         "Induktionsschluss": "Der zweite Schritt, bei dem gezeigt wird, dass die Gültigkeit der Aussage für $n$ die Gültigkeit für $n+1$ impliziert."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "15. Die Zahl 255 im Dezimalsystem wird im Hexadezimalsystem (Basis 16) wie dargestellt?",
@@ -364,7 +381,8 @@
         "Dezimalsystem": "Das Zahlensystem zur Basis 10, das die Ziffern 0-9 verwendet.",
         "Hexadezimalsystem": "Das Zahlensystem zur Basis 16. Es verwendet die Ziffern 0-9 und die Buchstaben A (10) bis F (15).",
         "Basis (Zahlensystem)": "Die feste natürliche Zahl $b > 1$, die die Anzahl der Ziffern und die Wertigkeit der Stellen in einem Stellenwertsystem festlegt."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "16. In der Modulo-Arithmetik, was ist das Ergebnis von $(13 \\cdot 20) \\pmod{11}$?",
@@ -392,7 +410,8 @@
         "Modulo-Arithmetik": "Ein System der Arithmetik für ganze Zahlen, bei dem Zahlen 'um einen bestimmten Wert', das Modul, 'herumgewickelt' werden. Man rechnet nur mit den Resten.",
         "Restklasse": "Die Menge aller ganzen Zahlen, die bei Division durch ein festes Modul $n$ den gleichen Rest lassen.",
         "Kongruenz": "Zwei Zahlen $a$ und $b$ heißen kongruent modulo $n$, geschrieben $a \\equiv b \\pmod n$, wenn ihre Differenz $a-b$ durch $n$ teilbar ist."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "17. Was ist eine lineare Kongruenz?",
@@ -419,7 +438,8 @@
         "Lineare Kongruenz": "Eine Gleichung in der Modulo-Arithmetik von der Form $ax \\equiv b \\pmod n$.",
         "Erweiterter Euklidischer Algorithmus": "Ein Algorithmus, der zusätzlich zum ggT zweier Zahlen $a,b$ auch zwei ganze Zahlen $s,t$ berechnet, für die $s \\cdot a + t \\cdot b = ggT(a,b)$ gilt.",
         "Multiplikatives Inverses": "In der Modulo-Arithmetik ist $a^{-1}$ das Inverse zu $a \\pmod n$, wenn gilt: $a \\cdot a^{-1} \\equiv 1 \\pmod n$."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "18. Welcher der folgenden Ringe ist ein Körper?",
@@ -447,7 +467,8 @@
         "Polynomring": "Die Menge aller Polynome mit Koeffizienten aus einem bestimmten Ring, z.B. $\\mathbb{R}[x]$.",
         "Restklassenring ($\\mathbb{Z}_n$)": "Die Menge der Restklassen $\\{[0], [1], \\dots, [n-1]\\}$ modulo $n$ mit Addition und Multiplikation modulo $n$.",
         "Endlicher Körper (Galois Field)": "Ein Körper mit einer endlichen Anzahl von Elementen, z.B. die Restklassen $\\mathbb{Z}_p$ für eine Primzahl $p$. Er wird als $GF(p)$ bezeichnet."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "19. Was ist die wesentliche Eigenschaft einer Äquivalenzrelation?",
@@ -475,7 +496,8 @@
         "Relation": "Eine Teilmenge des kartesischen Produkts $M \\times N$, die eine Beziehung zwischen Elementen von $M$ und $N$ beschreibt.",
         "Äquivalenzrelation": "Eine reflexive, symmetrische und transitive Relation auf einer Menge.",
         "Äquivalenzklasse": "Die Menge aller Elemente, die zu einem gegebenen Element $a$ äquivalent sind, bezeichnet als $[a]$."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "20. Was ermöglicht der Diffie-Hellman-Schlüsselaustausch?",
@@ -505,7 +527,8 @@
         "Diffie-Hellman-Schlüsselaustausch": "Ein kryptografisches Protokoll, das zwei Parteien erlaubt, einen gemeinsamen geheimen Schlüssel über einen unsicheren Kanal zu etablieren.",
         "Diskreter Logarithmus": "Das Problem, zu gegebenem $y, a, p$ die Zahl $x$ zu finden, sodass $a^x \\equiv y \\pmod p$. Dies gilt als rechenintensiv.",
         "Session Key": "Ein symmetrischer Schlüssel, der nur für eine einzelne Kommunikationssitzung verwendet wird und oft mittels eines asymmetrischen Verfahrens wie Diffie-Hellman ausgetauscht wird."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "21. Gegeben ist eine lineare Rekursion $a_n = 2 \\cdot a_{n-1} + 3$ mit dem Startwert $a_1 = 1$. Welchen Wert hat $a_4$?",
@@ -533,7 +556,8 @@
         "Lineare Rekursion": "Eine Rekursionsgleichung, bei der der neue Wert als Linearkombination vorheriger Werte berechnet wird.",
         "Inhomogene Rekursion": "Eine lineare Rekursion, die einen zusätzlichen, von $n$ abhängigen Term ($g(n) \\neq 0$) enthält.",
         "Geschlossene Form": "Eine explizite Formel zur Berechnung des $n$-ten Glieds einer Folge, die nicht auf vorherige Glieder zurückgreift."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "22. Was ist der Binomialkoeffizient $\\binom{n}{k}$?",
@@ -561,7 +585,8 @@
         "Binomialkoeffizient": "Eine mathematische Funktion, die angibt, auf wie viele verschiedene Weisen man $k$ Objekte aus einer Menge von $n$ Objekten auswählen kann.",
         "Kombinatorik": "Ein Teilgebiet der Mathematik, das sich mit der Bestimmung der Anzahl möglicher Anordnungen oder Auswahlen von Objekten beschäftigt.",
         "Binomialsatz": "Ein Lehrsatz der Algebra, der eine Formel für die potenzierte Summe zweier Variablen, $(x+y)^n$, angibt."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "23. Wie viele Möglichkeiten gibt es, 6 Zahlen aus 49 auszuwählen (Lotto '6 aus 49')?",
@@ -589,7 +614,8 @@
         "Ziehen ohne Zurücklegen": "Ein Auswahlverfahren, bei dem ein einmal ausgewähltes Element nicht erneut ausgewählt werden kann.",
         "Ziehen mit Zurücklegen": "Ein Auswahlverfahren, bei dem ein ausgewähltes Element für weitere Ziehungen wieder zur Verfügung steht.",
         "Ohne Beachtung der Reihenfolge": "Die Anordnung der ausgewählten Elemente spielt keine Rolle; $\\{1, 2, 3\\}$ ist identisch mit $\\{3, 1, 2\\}$."
-      }
+      },
+      "cognitive_level": "understanding"
     },
     {
       "question": "24. Welchen Wert hat die Determinante der Matrix $A = \\begin{pmatrix} 2 & 1 & 3 \\\\ 0 & -1 & 5 \\\\ 0 & 0 & 4 \\end{pmatrix}$?",
@@ -617,7 +643,8 @@
         "Determinante": "Eine skalare Größe, die einer quadratischen Matrix zugeordnet wird und wichtige Eigenschaften der durch die Matrix beschriebenen linearen Abbildung kodiert.",
         "Dreiecksmatrix": "Eine quadratische Matrix, bei der alle Einträge entweder oberhalb (obere Dreiecksmatrix) oder unterhalb (untere Dreiecksmatrix) der Hauptdiagonalen null sind.",
         "Hauptdiagonale": "Die Diagonale einer quadratischen Matrix von links oben nach rechts unten."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "25. Eine Permutationsgruppe $S_n$ ist die Menge aller bijektiven Abbildungen der Menge $\\{1, 2, \\dots, n\\}$ auf sich selbst. Welche Aussage über $S_n$ für $n \\ge 3$ ist korrekt?",
@@ -646,7 +673,8 @@
         "Permutationsgruppe": "Die Gruppe, die aus allen Permutationen einer Menge besteht, mit der Komposition von Abbildungen als Gruppenoperation.",
         "Kommutative Gruppe (abelsche Gruppe)": "Eine Gruppe, deren Verknüpfung zusätzlich das Kommutativgesetz erfüllt ($a \\cdot b = b \\cdot a$).",
         "Hintereinanderausführung": "Die Verknüpfung zweier Abbildungen $f$ und $g$ zu einer neuen Abbildung $g \\circ f$, bei der zuerst $f$ und dann $g$ angewendet wird."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "26. Ein Polynom $p(x)$ in $GF(2)[x]$ ist gegeben durch $p(x) = x^4 + x + 1$. Ist dieses Polynom irreduzibel über $GF(2)$?",
@@ -674,7 +702,8 @@
         "Irreduzibles Polynom": "Ein nicht-konstantes Polynom, das nicht in das Produkt von zwei Polynomen mit geringerem Grad zerlegt werden kann.",
         "GF(2)": "Der Galois-Körper (endliche Körper) mit zwei Elementen, {0, 1}, mit Arithmetik modulo 2.",
         "Polynomring K[x]": "Der Ring aller Polynome mit Koeffizienten aus einem Ring (oder Körper) $K$."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "27. Der kleine Satz von Fermat besagt, dass für eine Primzahl $p$ und eine ganze Zahl $a$, die kein Vielfaches von $p$ ist, gilt: $a^{p-1} \\equiv 1 \\pmod p$. Was ist der Wert von $3^{16} \\pmod{17}$?",
@@ -701,7 +730,8 @@
         "Kleiner Satz von Fermat": "Ein Satz der Zahlentheorie, der besagt, dass für eine Primzahl $p$ und eine ganze Zahl $a$, die nicht von $p$ geteilt wird, $a^{p-1} \\equiv 1 \\pmod p$ gilt.",
         "Primzahl": "Eine natürliche Zahl größer als 1, die nur durch 1 und sich selbst ohne Rest teilbar ist.",
         "Modulo-Operation": "Eine mathematische Operation, die den Rest einer Division zurückgibt. $a \\pmod n$ ist der Rest, wenn $a$ durch $n$ geteilt wird."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "28. Betrachten Sie die elliptische Kurve $E$ über $GF(13)$ gegeben durch $y^2 = x^3 + 6x + 9$. Der Punkt $P=(1, 4)$ liegt auf dieser Kurve, da $4^2 = 16 \\equiv 3 \\pmod{13}$ und $1^3+6(1)+9 = 16 \\equiv 3 \\pmod{13}$. Welcher Punkt ist das Ergebnis von $2P = P+P$?",
@@ -729,7 +759,8 @@
         "Elliptische Kurve": "Die Lösungsmenge einer bestimmten Art von kubischer Gleichung, $y^2 = x^3 + ax + b$, zusammen mit einem 'unendlich fernen Punkt'.",
         "Gruppenoperation auf E": "Eine speziell definierte Addition von Punkten auf einer elliptischen Kurve, die diese zu einer kommutativen Gruppe macht.",
         "Elliptische-Kurven-Kryptografie (ECC)": "Ein Public-Key-Kryptosystem, dessen Sicherheit auf der Schwierigkeit der Berechnung des diskreten Logarithmus auf elliptischen Kurven beruht."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "29. Welchen Rang hat die folgende Matrix $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{pmatrix}$?",
@@ -758,7 +789,8 @@
         "Rang einer Matrix": "Die maximale Anzahl linear unabhängiger Spaltenvektoren (oder äquivalent, Zeilenvektoren) der Matrix.",
         "Lineare Unabhängigkeit": "Eine Menge von Vektoren ist linear unabhängig, wenn sich keiner von ihnen als Linearkombination der anderen darstellen lässt.",
         "Gauß'scher Algorithmus": "Ein systematisches Verfahren zur Lösung linearer Gleichungssysteme und zur Umformung einer Matrix in Zeilenstufenform."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "30. Sei $\\varphi: (\\mathbb{Z}, +) \\to (\\mathbb{Z}_5, \\oplus)$ ein Gruppenhomomorphismus definiert durch $\\varphi(z) = z \\pmod 5$. Was ist der Kern von $\\varphi$?",
@@ -785,7 +817,8 @@
         "Homomorphismus": "Eine Abbildung zwischen zwei algebraischen Strukturen desselben Typs, die die Struktur erhält (z.B. die Verknüpfungen respektiert).",
         "Kern eines Homomorphismus": "Die Menge der Elemente der Definitionsmenge, die auf das neutrale Element der Zielmenge abgebildet werden.",
         "Untergruppe": "Eine Teilmenge einer Gruppe, die mit der gleichen Verknüpfung selbst wieder eine Gruppe ist."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "31. Welche Aussage über die Lösbarkeit der linearen Kongruenz $ax \\equiv b \\pmod n$ ist korrekt?",
@@ -813,7 +846,8 @@
         "Diophantische Gleichung": "Eine Gleichung, für die nur ganzzahlige Lösungen gesucht werden.",
         "Inkongruente Lösungen": "Lösungen, die bei Division durch das Modul $n$ verschiedene Reste lassen.",
         "Teilerfremd": "Zwei ganze Zahlen heißen teilerfremd, wenn ihr größter gemeinsamer Teiler 1 ist."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "32. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
@@ -840,7 +874,8 @@
         "Minimaler Spannbaum (MST)": "Ein aufspannender Baum eines kantengewichteten, ungerichteten Graphen, dessen Summe der Kantengewichte minimal ist.",
         "Greedy-Algorithmus": "Ein Algorithmus, der in jedem Schritt die lokal optimale Entscheidung trifft in der Hoffnung, dadurch eine global optimale Lösung zu finden.",
         "Dijkstra-Algorithmus": "Ein Algorithmus zur Findung des kürzesten Pfades von einem Startknoten zu allen anderen Knoten in einem Graphen mit nicht-negativen Kantengewichten."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "33. Beweisen Sie durch vollständige Induktion, dass für alle $n \\ge 1$ gilt: $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. Welcher Ausdruck ergibt sich im Induktionsschritt bei der Umformung von $\\sum_{k=1}^{n+1} k$?",
@@ -870,7 +905,8 @@
         "Summenformel": "Eine geschlossene Formel zur Berechnung des Wertes einer Reihe.",
         "Induktionsbeweis": "Eine mathematische Beweistechnik, die verwendet wird, um zu beweisen, dass eine Eigenschaft für alle natürlichen Zahlen gilt.",
         "Gaußsche Summenformel": "Die Formel für die Summe der ersten $n$ natürlichen Zahlen."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "34. Die Laufzeit eines rekursiven Algorithmus wird durch die Rekurrenzgleichung $T(n) = 2T(n/2) + \\gamma n$ mit $T(1)=\\alpha$ beschrieben. Welcher bekannten Laufzeitkomplexität entspricht die Lösung dieser Gleichung (für $n=2^m$)?",
@@ -897,7 +933,8 @@
         "Rekurrenzgleichung": "Eine Gleichung, die eine Folge rekursiv definiert, d.h., jedes Folgenglied wird durch vorangehende Glieder ausgedrückt.",
         "Laufzeitkomplexität": "Eine Beschreibung, wie die Laufzeit eines Algorithmus mit der Größe der Eingabedaten wächst. Sie wird oft mit der Big-O-Notation ausgedrückt.",
         "Divide-and-Conquer-Algorithmus": "Ein Algorithmusparadigma, bei dem ein Problem rekursiv in kleinere, gleichartige Teilprobleme zerlegt wird, bis diese einfach gelöst und ihre Lösungen kombiniert werden können."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "35. In einem RSA-System seien die öffentlichen Schlüssel $n=55$ und $e=7$. Welcher private Schlüssel $d$ ist korrekt?",
@@ -926,7 +963,8 @@
         "RSA": "Ein Public-Key-Kryptosystem, das sowohl zur Verschlüsselung als auch für digitale Signaturen verwendet wird.",
         "Eulersche Phi-Funktion ($\\phi(n)$)": "Gibt die Anzahl der zu $n$ teilerfremden positiven ganzen Zahlen an, die kleiner oder gleich $n$ sind.",
         "Multiplikatives Inverses": "In der Modulo-Arithmetik ist $d$ das Inverse zu $e \\pmod{\\phi(n)}$, wenn gilt: $e \\cdot d \\equiv 1 \\pmod{\\phi(n)}$."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "36. Gegeben die Permutation $\\sigma = (1 \\ 3 \\ 2)(4 \\ 5)$ in $S_5$. Welches Ergebnis liefert die zweimalige Anwendung von $\\sigma$ auf das Element 1, also $\\sigma^2(1)$?",
@@ -954,7 +992,8 @@
         "Zyklus (Permutation)": "Eine Notation für eine Permutation, die eine Folge von Elementen beschreibt, die zyklisch aufeinander abgebildet werden.",
         "Symmetrische Gruppe ($S_n$)": "Die Gruppe aller Permutationen von $n$ Elementen.",
         "Disjunkte Zyklen": "Zwei Zyklen sind disjunkt, wenn sie keine gemeinsamen Elemente enthalten. Jede Permutation kann eindeutig als Produkt disjunkter Zyklen geschrieben werden."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "37. Der Chinesische Restsatz befasst sich mit der Lösbarkeit von...",
@@ -981,7 +1020,8 @@
         "Chinesischer Restsatz": "Ein Satz der Zahlentheorie, der die Lösbarkeit von Systemen simultaner Kongruenzen behandelt.",
         "Simultane Kongruenzen": "Ein System von zwei oder mehr Kongruenzgleichungen, die alle gleichzeitig von einer Unbekannten erfüllt werden müssen.",
         "Teilerfremd": "Zwei ganze Zahlen heißen teilerfremd, wenn ihr größter gemeinsamer Teiler 1 ist."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "38. Welcher Algorithmus wird verwendet, um einen minimalen Spannbaum in einem gewichteten, ungerichteten Graphen zu finden?",
@@ -1008,7 +1048,8 @@
         "Minimaler Spannbaum (MST)": "Ein aufspannender Baum eines kantengewichteten, ungerichteten Graphen, dessen Summe der Kantengewichte minimal ist.",
         "Greedy-Algorithmus": "Ein Algorithmus, der in jedem Schritt die lokal optimale Entscheidung trifft in der Hoffnung, dadurch eine global optimale Lösung zu finden.",
         "Dijkstra-Algorithmus": "Ein Algorithmus zur Findung des kürzesten Pfades von einem Startknoten zu allen anderen Knoten in einem Graphen mit nicht-negativen Kantengewichten."
-      }
+      },
+      "cognitive_level": "analysis"
     },
     {
       "question": "39. Die Sicherheit der Elliptische-Kurven-Kryptografie (ECC) beruht auf der Schwierigkeit...",
@@ -1035,7 +1076,8 @@
         "Elliptische-Kurven-Kryptografie (ECC)": "Ein Public-Key-Kryptosystem, dessen Sicherheit auf der Schwierigkeit der Berechnung des diskreten Logarithmus auf elliptischen Kurven beruht.",
         "Skalare Multiplikation (ECC)": "Die wiederholte Addition eines Punktes auf einer elliptischen Kurve mit sich selbst.",
         "Diskreter Logarithmus auf EC": "Das Problem, den Skalar $n$ zu finden, sodass $Q = nP$ für gegebene Punkte $P, Q$ gilt."
-      }
+      },
+      "cognitive_level": "application"
     },
     {
       "question": "40. In der Graphentheorie, was ist die Definition eines Baumes?",
@@ -1064,7 +1106,8 @@
         "Baum": "Ein zusammenhängender, azyklischer Graph.",
         "Zusammenhängender Graph": "Ein Graph, in dem es für jedes Paar von Knoten einen Pfad gibt, der sie verbindet.",
         "Zyklus": "Ein Pfad in einem Graphen, der am selben Knoten beginnt und endet und dabei keinen Knoten (außer Start/Ende) mehr als einmal besucht."
-      }
+      },
+      "cognitive_level": "understanding"
     }
   ]
 }

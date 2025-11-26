@@ -4595,11 +4595,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 if formula_count and to_render > 0:
                     spinner_message = _summary_text(
                         "export_musterloesung_spinner_with_formulas",
-                        default=(
-                            "Generiere Musterlösung-PDF — rendere {count} Formel" +
-                            ("n" if formula_count != 1 else "") +
-                            ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
-                        ),
+                        default="Generiere Musterlösung",
                         count=formula_count,
                     )
                 else:
@@ -4662,7 +4658,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         formula_count, to_render = 0, 0
 
                     if formula_count and to_render > 0:
-                        spinner_message = _summary_text("export_glossary_spinner_with_formulas", default="Glossar wird erstellt (Formeln werden gerendert)...")
+                        spinner_message = _summary_text("export_glossary_spinner_with_formulas", default="Glossar wird erstellt")
                     else:
                         spinner_message = _summary_text("export_glossary_spinner", default="Glossar wird erstellt...")
 
@@ -4722,11 +4718,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 if formula_count and to_render > 0:
                     spinner_message = _summary_text(
                         "export_testbericht_spinner_with_formulas",
-                        default=(
-                            "Generiere Testbericht — rendere {count} Formel" +
-                            ("n" if formula_count != 1 else "") +
-                            ". Dies kann bei vielen Formeln mehrere Sekunden bis Minuten dauern (Remote-Rendering)."
-                        ),
+                        default="Generiere Testbericht",
                         count=formula_count,
                     )
                 else:
