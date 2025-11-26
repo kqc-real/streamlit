@@ -1577,7 +1577,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # Use shared helper to estimate unique formulas and which
                         # are missing from the cache so we can inform the user.
                         try:
-                            formula_count, to_render = estimate_formula_render(list(questions))
+                            formula_count, to_render = estimate_formula_render(list(questions), locale=get_locale())
                         except Exception:
                             formula_count, to_render = 0, 0
 

@@ -996,10 +996,18 @@ def _build_glossary_html(
     return ''.join(glossary_html_parts)
 
 
-def estimate_formula_render(questions: List[Dict[str, Any]]) -> tuple[int, int]:
+def estimate_formula_render(questions: List[Dict[str, Any]], locale: Optional[str] = None) -> tuple[int, int]:
     """
     Schätzt die Anzahl einzigartiger LaTeX-Formeln in einem Fragenset und
     wie viele davon noch gerendert werden müssen (nicht im Cache vorhanden).
+
+    Optional kann ein `locale`-String (z.B. 'de' oder 'en') übergeben werden.
+    Bei lokalisierten Frageobjekten priorisiert die Funktion dann die
+    landesspezifischen Feldnamen (z.B. 'frage'/'erklaerung' für Deutsch
+    gegenüber 'question'/'explanation' für Englisch). Dies beeinflusst nur
+    die Erkennungsreihenfolge; die Rückgabe bleibt ein Tupel
+    `(unique_formula_count, to_render_count)` um Abwärtskompatibilität zu
+    gewährleisten.
 
     Returns: (unique_formula_count, to_render_count)
     """
@@ -1008,8 +1016,26 @@ def estimate_formula_render(questions: List[Dict[str, Any]]) -> tuple[int, int]:
         BLOCK_PAT = re.compile(r"\$\$(.*?)\$\$|\\\[(.*?)\\\]", flags=re.DOTALL)
 
         formulas = []
+        # Determine preferred field order depending on locale to support
+        # localized question objects. Default behavior remains backwards-compatible
+        # and checks both German and English keys.
+        lang = (locale or '').lower()
+        if lang.startswith('de'):
+            question_keys = ['frage', 'question']
+            explanation_keys = ['erklaerung', 'explanation']
+        else:
+            # default: prefer English-style keys
+            question_keys = ['question', 'frage']
+            explanation_keys = ['explanation', 'erklaerung']
         for frage in questions:
-            txt = frage.get("question") or frage.get("frage") or ""
+            # Support localized field names; prefer keys based on locale
+            txt = ''
+            for k in question_keys:
+                v = frage.get(k)
+                if isinstance(v, str) and v.strip():
+                    txt = v
+                    break
+            txt = txt or ""
             for m in BLOCK_PAT.findall(txt):
                 # findall returns tuples for alternation groups
                 grp = next((g for g in m if g), '')
@@ -1020,7 +1046,13 @@ def estimate_formula_render(questions: List[Dict[str, Any]]) -> tuple[int, int]:
                 if grp:
                     formulas.append(('inline', grp.strip()))
 
-            erk = frage.get("erklaerung") or frage.get("explanation") or ""
+            erk = ''
+            for k in explanation_keys:
+                v = frage.get(k)
+                if isinstance(v, str) and v.strip():
+                    erk = v
+                    break
+            erk = erk or ""
             if isinstance(erk, str):
                 for m in BLOCK_PAT.findall(erk):
                     grp = next((g for g in m if g), '')

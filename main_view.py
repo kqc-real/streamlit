@@ -4588,7 +4588,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 # Use shared helper to estimate formulas and missing cache
                 try:
                     from pdf_export import estimate_formula_render
-                    formula_count, to_render = estimate_formula_render(list(questions))
+                    formula_count, to_render = estimate_formula_render(list(questions), locale=get_locale())
                 except Exception:
                     formula_count, to_render = 0, 0
 
@@ -4657,7 +4657,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 if st.button(_download_button_label(), key=glossar_btn_key):
                     try:
                         from pdf_export import estimate_formula_render
-                        formula_count, to_render = estimate_formula_render(list(questions))
+                        formula_count, to_render = estimate_formula_render(list(questions), locale=get_locale())
                     except Exception:
                         formula_count, to_render = 0, 0
 
@@ -4715,7 +4715,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             if st.button(_download_button_label(), key=testbericht_btn_key):
                 try:
                     from pdf_export import estimate_formula_render
-                    formula_count, to_render = estimate_formula_render(list(questions))
+                    formula_count, to_render = estimate_formula_render(list(questions), locale=get_locale())
                 except Exception:
                     formula_count, to_render = 0, 0
 
