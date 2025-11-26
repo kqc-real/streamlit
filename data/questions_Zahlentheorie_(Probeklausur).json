@@ -1,0 +1,877 @@
+{
+  "meta": {
+    "title": "Zahlentheorie für Wirtschaftsinformatik",
+    "created": "26.11.2025 15:25",
+    "modified": "26.11.2025 15:25",
+    "target_audience": "Fortgeschrittene Wirtschaftsinformatik-Studierende",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 2,
+      "medium": 21,
+      "hard": 7
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 30
+  },
+  "questions": [
+    {
+      "question": "1. Was versteht man in der Zahlentheorie unter der Eigenschaft der 'Teilbarkeit'?",
+      "options": [
+        "Eine Zahl ist durch eine andere ohne Rest teilbar.",
+        "Eine Zahl ist größer als die andere.",
+        "Eine Zahl ist das Produkt zweier Primzahlen.",
+        "Eine Zahl lässt sich als Bruch darstellen.",
+        "Eine Zahl ist immer ungerade."
+      ],
+      "answer": 0,
+      "explanation": "Teilbarkeit bedeutet definitionsgemäß, dass bei der Division einer ganzen Zahl durch eine andere kein Rest verbleibt.",
+      "weight": 1,
+      "topic": "Teilbarkeit & Primzahlen",
+      "concept": "Definition Teilbarkeit",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Teilbarkeit": "Eigenschaft einer ganzen Zahl, sich ohne Rest durch eine andere ganze Zahl teilen zu lassen.",
+        "Ganze Zahlen": "Die Menge der Zahlen {..., -2, -1, 0, 1, 2, ...}."
+      }
+    },
+    {
+      "question": "2. Welche Aussage beschreibt eine Restklasse modulo $n$ korrekt?",
+      "options": [
+        "Die Menge aller Zahlen, die bei Division durch $n$ den gleichen Rest lassen.",
+        "Die Menge aller Teiler von $n$.",
+        "Die Menge aller Primzahlen kleiner als $n$.",
+        "Die Menge aller Vielfachen von $n$.",
+        "Die Menge aller ganzen Zahlen, die größer als $n$ sind."
+      ],
+      "answer": 0,
+      "explanation": "Eine Restklasse modulo $n$ fasst alle ganzen Zahlen zusammen, die zur selben Äquivalenzklasse gehören, also bei Division durch $n$ denselben Rest ergeben.",
+      "weight": 1,
+      "topic": "Modulo-Arithmetik",
+      "concept": "Restklassen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": {
+        "Restklasse": "Menge aller ganzen Zahlen, die bei Division durch einen Modul denselben Rest ergeben.",
+        "Modulo": "Mathematische Operation, die den Rest einer ganzzahligen Division berechnet."
+      }
+    },
+    {
+      "question": "3. Welche Darstellung entspricht der Dezimalzahl 13 im Binärsystem?",
+      "options": [
+        "1011",
+        "1101",
+        "1110",
+        "1001",
+        "1111"
+      ],
+      "answer": 1,
+      "explanation": "Die Zahl 13 setzt sich aus $8 + 4 + 1$ zusammen. Im Binärsystem entspricht dies $1 \\cdot 2^3 + 1 \\cdot 2^2 + 0 \\cdot 2^1 + 1 \\cdot 2^0$, also 1101.",
+      "weight": 2,
+      "topic": "Zahlensysteme",
+      "concept": "Binärumrechnung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Umrechnung Dezimal zu Binär",
+        "steps": [
+          "Prüfe die größte Zweierpotenz, die in 13 passt: $2^3 = 8$. (Rest 5, Bit gesetzt)",
+          "Prüfe die nächste Potenz: $2^2 = 4$. Passt in 5. (Rest 1, Bit gesetzt)",
+          "Prüfe die nächste Potenz: $2^1 = 2$. Passt nicht in 1. (Bit 0)",
+          "Prüfe die kleinste Potenz: $2^0 = 1$. Passt in 1. (Rest 0, Bit gesetzt)"
+        ],
+        "content": "Das Ergebnis ist die Folge der gesetzten Bits: 1101."
+      },
+      "mini_glossary": {
+        "Binärsystem": "Zahlensystem zur Basis 2, das nur die Ziffern 0 und 1 verwendet.",
+        "Dezimalsystem": "Zahlensystem zur Basis 10."
+      }
+    },
+    {
+      "question": "4. Wie wird die Dezimalzahl 255 im Hexadezimalsystem dargestellt?",
+      "options": [
+        "AA",
+        "100",
+        "FF",
+        "F0",
+        "EE"
+      ],
+      "answer": 2,
+      "explanation": "Im Hexadezimalsystem steht F für den Wert 15. $FF_{16} = 15 \\cdot 16^1 + 15 \\cdot 16^0 = 240 + 15 = 255$.",
+      "weight": 2,
+      "topic": "Zahlensysteme",
+      "concept": "Hexadezimalumrechnung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Hexadezimalumrechnung",
+        "steps": [
+          "Teile 255 durch 16: $255 \\div 16 = 15$ Rest 15.",
+          "Der Rest 15 entspricht im Hexadezimalsystem dem Symbol F.",
+          "Das Ergebnis der Division ist 15, was ebenfalls dem Symbol F entspricht."
+        ],
+        "content": "Zusammengesetzt ergibt sich FF."
+      },
+      "mini_glossary": {
+        "Hexadezimalsystem": "Zahlensystem zur Basis 16, verwendet Ziffern 0-9 und Buchstaben A-F.",
+        "Basis": "Die Anzahl der verschiedenen Ziffern, die ein Stellenwertsystem verwendet."
+      }
+    },
+    {
+      "question": "5. Was ist das Ergebnis der Modulo-Rechnung $27 \\pmod 6$?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": 2,
+      "explanation": "$27$ geteilt durch $6$ ist $4$ mit einem Rest von $3$, da $4 \\cdot 6 = 24$ und $27 - 24 = 3$.",
+      "weight": 2,
+      "topic": "Modulo-Arithmetik",
+      "concept": "Restberechnung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Berechnung des Modulo",
+        "steps": [
+          "Bestimme das größte Vielfache von 6, das kleiner oder gleich 27 ist: $24$.",
+          "Subtrahiere dieses Vielfache von der Ausgangszahl: $27 - 24$.",
+          "Das Ergebnis ist 3."
+        ],
+        "content": "Der Operator mod liefert den ganzzahligen Rest der Division."
+      },
+      "mini_glossary": {
+        "Modulo": "Operator, der den Rest einer Division zurückgibt.",
+        "Dividend": "Die Zahl, die geteilt wird."
+      }
+    },
+    {
+      "question": "6. Welcher ist der größte gemeinsame Teiler (ggT) der Zahlen 12 und 18?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "6",
+        "12"
+      ],
+      "answer": 3,
+      "explanation": "Die Teiler von 12 sind {1, 2, 3, 4, 6, 12}. Die Teiler von 18 sind {1, 2, 3, 6, 9, 18}. Der größte gemeinsame Wert ist 6.",
+      "weight": 2,
+      "topic": "Teilbarkeit & Primzahlen",
+      "concept": "ggT Berechnung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Ermittlung des ggT",
+        "steps": [
+          "Zerlege 12 in Primfaktoren: $2^2 \\cdot 3^1$.",
+          "Zerlege 18 in Primfaktoren: $2^1 \\cdot 3^2$.",
+          "Wähle für jeden Primfaktor die kleinste Potenz: $2^1$ und $3^1$."
+        ],
+        "content": "Multipliziere diese Faktoren: $2 \\cdot 3 = 6$."
+      },
+      "mini_glossary": {
+        "ggT": "Größter gemeinsamer Teiler zweier ganzer Zahlen.",
+        "Primfaktorzerlegung": "Darstellung einer Zahl als Produkt von Primzahlen."
+      }
+    },
+    {
+      "question": "7. Welche Funktion erfüllt der Erweiterte Euklidische Algorithmus über die reine ggT-Berechnung hinaus?",
+      "options": [
+        "Er bestimmt die Primfaktorzerlegung.",
+        "Er berechnet das kleinste gemeinsame Vielfache (kgV).",
+        "Er liefert Koeffizienten zur Darstellung des ggT als Linearkombination.",
+        "Er prüft, ob eine Zahl prim ist.",
+        "Er verschlüsselt eine Nachricht."
+      ],
+      "answer": 2,
+      "explanation": "Der erweiterte Euklidische Algorithmus berechnet neben dem ggT$(a,b)$ auch die Koeffizienten $x$ und $y$, sodass $ax + by = \\text{ggT}(a,b)$ gilt.",
+      "weight": 2,
+      "topic": "Modulo-Arithmetik",
+      "concept": "Erweiterter Euklid",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Erweiterter Euklidischer Algorithmus",
+        "steps": [
+          "Führe den Standard-Euklid-Algorithmus durch, um den ggT zu finden.",
+          "Substituiere die Reste rückwärts, um den ggT als Summe von Vielfachen der Ausgangszahlen auszudrücken."
+        ],
+        "content": "Dies ist essenziell zur Berechnung des multiplikativen Inversen in der Kryptografie."
+      },
+      "mini_glossary": {
+        "Linearkombination": "Ausdruck der Form ax + by.",
+        "Koeffizienten": "Faktoren, mit denen die Ausgangszahlen multipliziert werden."
+      }
+    },
+    {
+      "question": "8. Warum wird die Primfaktorzerlegung als Grundlage für das RSA-Verfahren genutzt?",
+      "options": [
+        "Weil die Multiplikation zweier großer Primzahlen einfach, die Rückrechnung (Faktorisierung) aber schwer ist.",
+        "Weil Primzahlen sehr selten und schwer zu finden sind.",
+        "Weil die Faktorisierung effizienter ist als die Multiplikation.",
+        "Weil Primzahlen immer ungerade sind.",
+        "Weil RSA symmetrische Schlüssel verwendet."
+      ],
+      "answer": 0,
+      "explanation": "Die Sicherheit von RSA beruht auf der Asymmetrie des Aufwands: Das Bilden des Produkts zweier großer Primzahlen ist trivial, das Zerlegen des Produkts in die Faktoren ist extrem rechenaufwendig.",
+      "weight": 2,
+      "topic": "Kryptografie",
+      "concept": "RSA-Sicherheit",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Einwegfunktionen in der Kryptografie",
+        "steps": [
+          "Wähle zwei große Primzahlen $p$ und $q$.",
+          "Berechne $N = p \\cdot q$.",
+          "Veröffentliche $N$."
+        ],
+        "content": "Ein Angreifer kennt $N$, kann aber $p$ und $q$ ohne extremen Rechenaufwand nicht ermitteln, was zur Entschlüsselung nötig wäre."
+      },
+      "mini_glossary": {
+        "Faktorisierung": "Zerlegung einer Zahl in ihre Teiler (hier Primfaktoren).",
+        "Asymmetrie": "Ungleichgewicht im Rechenaufwand zwischen Hin- und Rückweg einer Operation."
+      }
+    },
+    {
+      "question": "9. Welches mathematische Konzept ermöglicht beim Diffie-Hellman-Verfahren den Schlüsselaustausch?",
+      "options": [
+        "Die Schwierigkeit des diskreten Logarithmus in endlichen Gruppen.",
+        "Die Unmöglichkeit, Hash-Funktionen umzukehren.",
+        "Die Primfaktorzerlegung von ganzen Zahlen.",
+        "Die Unendlichkeit der natürlichen Zahlen.",
+        "Die Kommutativität der Subtraktion."
+      ],
+      "answer": 0,
+      "explanation": "Diffie-Hellman basiert auf der Schwierigkeit, den diskreten Logarithmus zu berechnen (d.h. aus $g^a \\pmod p$ das $a$ zu bestimmen), während die Potenzierung einfach ist.",
+      "weight": 2,
+      "topic": "Kryptografie",
+      "concept": "Diffie-Hellman",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Diffie-Hellman Schlüsselaustausch",
+        "steps": [
+          "Beide Parteien einigen sich auf eine Primzahl $p$ und eine Basis $g$.",
+          "Jeder wählt eine geheime Zahl ($a$ bzw. $b$) und sendet $g^a \\pmod p$ bzw. $g^b \\pmod p$.",
+          "Der gemeinsame Schlüssel wird als $(g^b)^a \\pmod p = (g^a)^b \\pmod p$ berechnet."
+        ],
+        "content": "Ein Lauscher sieht nur die Teilergebnisse, kann aber den Exponenten (Geheimnis) nicht effizient berechnen."
+      },
+      "mini_glossary": {
+        "Diskreter Logarithmus": "Das Problem, den Exponenten x in $b^x \\equiv y \\pmod m$ zu finden.",
+        "Schlüsselaustausch": "Verfahren, um über einen unsicheren Kanal ein gemeinsames Geheimnis zu etablieren."
+      }
+    },
+    {
+      "question": "10. Welche der folgenden algebraischen Strukturen muss existieren, damit man von einem 'Körper' (Field) spricht?",
+      "options": [
+        "Jedes Element außer der Null muss ein multiplikatives Inverses besitzen.",
+        "Es darf kein neutrales Element der Addition geben.",
+        "Die Multiplikation darf nicht kommutativ sein.",
+        "Es muss nur eine Verknüpfung definiert sein.",
+        "Die Menge muss endlich sein."
+      ],
+      "answer": 0,
+      "explanation": "Ein Körper ist ein Ring, in dem zusätzlich die Division (außer durch 0) möglich ist; das bedeutet, jedes Element $a \\neq 0$ besitzt ein Inverses $a^{-1}$.",
+      "weight": 2,
+      "topic": "Algebraische Strukturen",
+      "concept": "Körper-Axiome",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Definition eines Körpers",
+        "steps": [
+          "Ein Körper benötigt zwei Verknüpfungen (+ und $\\cdot$).",
+          "Er bildet eine abelsche Gruppe bezüglich Addition.",
+          "Die Elemente ohne Null bilden eine abelsche Gruppe bezüglich Multiplikation."
+        ],
+        "content": "Das entscheidende Merkmal zur Unterscheidung vom Ring ist die Existenz multiplikativer Inverser für alle Nicht-Null-Elemente."
+      },
+      "mini_glossary": {
+        "Multiplikatives Inverses": "Zahl $b$, sodass $a \\cdot b = 1$.",
+        "Algebraische Struktur": "Menge mit einer oder mehreren Verknüpfungen, die bestimmten Axiomen genügen."
+      }
+    },
+    {
+      "question": "11. Was ist das Ziel einer kryptografischen Hash-Funktion?",
+      "options": [
+        "Daten auf eine feste Länge abzubilden und Integrität prüfbar zu machen.",
+        "Daten verlustfrei zu komprimieren, um Speicher zu sparen.",
+        "Nachrichten mit einem geheimen Schlüssel zu verschlüsseln.",
+        "Zufallszahlen für Simulationen zu generieren.",
+        "Primzahlen effizient zu berechnen."
+      ],
+      "answer": 0,
+      "explanation": "Hash-Funktionen wie SHA-256 bilden beliebige Daten auf einen Fingerabdruck fester Länge ab, um Änderungen an den Daten sofort erkennbar zu machen (Datenintegrität).",
+      "weight": 2,
+      "topic": "Modulo-Arithmetik & Hash",
+      "concept": "Hash-Funktion",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Eigenschaften von Hash-Funktionen",
+        "steps": [
+          "Eingabe: Beliebig langer Datenstrom.",
+          "Ausgabe: Hash-Wert fester Länge.",
+          "Deterministisch: Gleiche Eingabe liefert gleichen Hash."
+        ],
+        "content": "Kryptografische Hash-Funktionen müssen zudem kollisionsresistent sein und dürfen nicht umkehrbar sein."
+      },
+      "mini_glossary": {
+        "Integrität": "Sicherstellung, dass Daten nicht unbemerkt verändert wurden.",
+        "Fingerabdruck": "Eindeutiger Kennwert für einen Datensatz (Hashwert)."
+      }
+    },
+    {
+      "question": "12. Welcher Schritt gehört zwingend zu einem Beweis durch vollständige Induktion?",
+      "options": [
+        "Der Induktionsschritt: Schluss von $n$ auf $n+1$.",
+        "Die Berechnung des Grenzwertes für $n$ gegen unendlich.",
+        "Das Finden eines Gegenbeispiels.",
+        "Die Widerlegung der Annahme.",
+        "Die Umwandlung in Binärcode."
+      ],
+      "answer": 0,
+      "explanation": "Die vollständige Induktion besteht aus dem Induktionsanfang (Basis) und dem Induktionsschritt, in dem gezeigt wird, dass wenn die Aussage für $n$ gilt, sie auch für $n+1$ gelten muss.",
+      "weight": 2,
+      "topic": "Induktion & Rekursion",
+      "concept": "Vollständige Induktion",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Struktur der vollständigen Induktion",
+        "steps": [
+          "Induktionsanfang (IA): Zeige Gültigkeit für die kleinste Zahl (meist $n=1$ oder $n=0$).",
+          "Induktionsvoraussetzung (IV): Nimm an, die Aussage gilt für ein beliebiges $n$.",
+          "Induktionsschritt (IS): Zeige unter Verwendung der IV, dass die Aussage dann auch für $n+1$ gilt."
+        ],
+        "content": "Dies funktioniert wie ein Dominoeffekt für alle natürlichen Zahlen."
+      },
+      "mini_glossary": {
+        "Induktionsschritt": "Logischer Schluss von einer Zahl auf die nächste.",
+        "Dominoeffekt": "Metapher für das Prinzip, dass die Wahrheit einer Aussage sich auf alle Nachfolger überträgt."
+      }
+    },
+    {
+      "question": "13. Eine rekursive Funktion muss immer was beinhalten, um nicht endlos zu laufen?",
+      "options": [
+        "Einen Basisfall (Abbruchbedingung).",
+        "Eine globale Variable.",
+        "Eine Schleife (for/while).",
+        "Mindestens drei Parameter.",
+        "Einen Pointer auf sich selbst."
+      ],
+      "answer": 0,
+      "explanation": "Jede Rekursion benötigt einen Basisfall, bei dem die Funktion einen Wert zurückgibt, ohne sich erneut selbst aufzurufen, um die Kette der Aufrufe zu beenden.",
+      "weight": 2,
+      "topic": "Induktion & Rekursion",
+      "concept": "Rekursion",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Aufbau rekursiver Funktionen",
+        "steps": [
+          "Prüfung: Ist der Basisfall erreicht?",
+          "Ja: Gebe festes Ergebnis zurück.",
+          "Nein: Rufe Funktion mit veränderten Parametern (näher am Basisfall) erneut auf."
+        ],
+        "content": "Ohne Basisfall entsteht ein 'Stack Overflow' durch unendliche Aufrufe."
+      },
+      "mini_glossary": {
+        "Basisfall": "Bedingung, die den rekursiven Abstieg beendet.",
+        "Stack Overflow": "Speicherüberlauf durch zu viele verschachtelte Funktionsaufrufe."
+      }
+    },
+    {
+      "question": "14. Warum bildet die Menge der ganzen Zahlen $\\mathbb{Z}$ mit Addition und Multiplikation keinen Körper?",
+      "options": [
+        "Weil die meisten Elemente kein multiplikatives Inverses in $\\mathbb{Z}$ haben.",
+        "Weil die Addition nicht assoziativ ist.",
+        "Weil es kein neutrales Element der Multiplikation gibt.",
+        "Weil die Menge unendlich ist.",
+        "Weil die Distributivgesetze nicht gelten."
+      ],
+      "answer": 0,
+      "explanation": "In $\\mathbb{Z}$ sind nur $1$ und $-1$ invertierbar. Für eine Zahl wie $2$ wäre das Inverse $0,5$, was aber keine ganze Zahl ist. Daher ist $\\mathbb{Z}$ nur ein Ring, kein Körper.",
+      "weight": 2,
+      "topic": "Algebraische Strukturen",
+      "concept": "Ring vs. Körper",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Fehlende Eigenschaft in $\\mathbb{Z}$",
+        "steps": [
+          "Ein Körper verlangt, dass $a \\cdot x = 1$ für jedes $a \\neq 0$ lösbar ist.",
+          "In $\\mathbb{Z}$ hat die Gleichung $2x = 1$ keine Lösung.",
+          "Daher scheitert die Körper-Eigenschaft an den fehlenden Inversen."
+        ],
+        "content": "$\\mathbb{Z}$ ist ein kommutativer Ring mit Einselement."
+      },
+      "mini_glossary": {
+        "Invertierbarkeit": "Existenz eines Elements, das verknüpft das neutrale Element ergibt.",
+        "$\\mathbb{Z}$": "Symbol für die Menge der ganzen Zahlen."
+      }
+    },
+    {
+      "question": "15. Welche Eigenschaft macht endliche Körper (Galois Fields) besonders wertvoll für die Informatik (z.B. AES, Reed-Solomon)?",
+      "options": [
+        "Rechenoperationen bleiben innerhalb eines festen, beschränkten Wertebereichs ohne Rundungsfehler.",
+        "Sie erlauben Berechnungen mit unendlich großen Zahlen.",
+        "Sie basieren ausschließlich auf Dezimalzahlen.",
+        "Sie benötigen keine Primzahlen.",
+        "Sie verwenden physikalische Zufallszahlen."
+      ],
+      "answer": 0,
+      "explanation": "In endlichen Körpern (z.B. $GF(2^8)$) sind Addition und Multiplikation so definiert, dass das Ergebnis immer ein Element des Körpers ist (kein Überlauf im klassischen Sinn, exakte Arithmetik), was ideal für Byte-Operationen ist.",
+      "weight": 2,
+      "topic": "Algebraische Strukturen",
+      "concept": "Endliche Körper",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Anwendung endlicher Körper",
+        "steps": [
+          "Daten werden als Elemente eines endlichen Körpers interpretiert.",
+          "Operationen sind oft bitweise (z.B. XOR statt Addition).",
+          "Dies garantiert Determinismus und Effizienz in Hardware."
+        ],
+        "content": "Wichtig für Fehlerkorrekturcodes und Verschlüsselung."
+      },
+      "mini_glossary": {
+        "Galois Field": "Anderer Name für einen endlichen Körper.",
+        "Rundungsfehler": "Ungenauigkeit, die bei Fließkomma-Berechnungen auftritt, aber in endlichen Körpern vermieden wird."
+      }
+    },
+    {
+      "question": "16. Was ist eine 'Kollision' bei Hash-Funktionen?",
+      "options": [
+        "Zwei verschiedene Eingabedaten erzeugen denselben Hash-Wert.",
+        "Der Hash-Wert ist länger als die Eingabe.",
+        "Die Hash-Funktion stürzt ab.",
+        "Zwei gleiche Eingaben erzeugen unterschiedliche Hash-Werte.",
+        "Der Hash-Wert enthält ungültige Zeichen."
+      ],
+      "answer": 0,
+      "explanation": "Eine Kollision tritt auf, wenn $H(x) = H(y)$ gilt, obwohl $x \\neq y$. Da der Ausgaberaum fix ist, sind Kollisionen theoretisch unvermeidbar, müssen aber praktisch unmöglich zu finden sein.",
+      "weight": 2,
+      "topic": "Modulo-Arithmetik & Hash",
+      "concept": "Hash-Kollision",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Pigeonhole-Prinzip (Schubfachprinzip)",
+        "steps": [
+          "Es gibt unendlich viele mögliche Eingaben.",
+          "Es gibt nur endlich viele mögliche Hash-Werte (z.B. $2^{256}$).",
+          "Zwangsläufig müssen sich Eingaben denselben Hash-Wert teilen."
+        ],
+        "content": "Eine gute Hash-Funktion verteilt diese Kollisionen so zufällig, dass man sie nicht gezielt erzeugen kann."
+      },
+      "mini_glossary": {
+        "Kollision": "Zusammentreffen zweier unterschiedlicher Urbilder auf demselben Bild.",
+        "Schubfachprinzip": "Logischer Schluss: Wenn $n$ Objekte auf $m < n$ Fächer verteilt werden, ist mindestens ein Fach mehrfach belegt."
+      }
+    },
+    {
+      "question": "17. Wie viele Bits werden benötigt, um die hexadezimale Ziffer 'A' darzustellen?",
+      "options": [
+        "4",
+        "2",
+        "8",
+        "16",
+        "1"
+      ],
+      "answer": 0,
+      "explanation": "Eine Hexadezimalziffer repräsentiert Werte von 0 bis 15. Um 15 ($1111_2$) darzustellen, benötigt man genau 4 Bits (ein Nibble).",
+      "weight": 2,
+      "topic": "Zahlensysteme",
+      "concept": "Speicherbedarf",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Hexadezimal und Binär",
+        "steps": [
+          "Hexadezimal ist Basis 16.",
+          "$16 = 2^4$.",
+          "Daher entspricht jede Hex-Stelle exakt 4 Binär-Stellen."
+        ],
+        "content": "'A' ist dezimal 10, binär 1010, also 4 Bits."
+      },
+      "mini_glossary": {
+        "Nibble": "Ein Halb-Byte, bestehend aus 4 Bits.",
+        "Bit": "Kleinste Informationseinheit (0 oder 1)."
+      }
+    },
+    {
+      "question": "18. Welche Bedingung muss erfüllt sein, damit eine lineare Kongruenz $ax \\equiv b \\pmod n$ lösbar ist?",
+      "options": [
+        "Der ggT$(a, n)$ muss $b$ teilen.",
+        "$a$ muss eine Primzahl sein.",
+        "$n$ muss ungerade sein.",
+        "$b$ muss größer als $n$ sein.",
+        "$a$ und $b$ müssen teilerfremd sein."
+      ],
+      "answer": 0,
+      "explanation": "Eine lineare Kongruenz hat genau dann Lösungen, wenn der größte gemeinsame Teiler von $a$ und dem Modul $n$ auch ein Teiler der Zahl $b$ ist.",
+      "weight": 2,
+      "topic": "Modulo-Arithmetik",
+      "concept": "Lösbarkeit Kongruenzen",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Lösbarkeitskriterium",
+        "steps": [
+          "Kongruenz $ax \\equiv b \\pmod n$ ist äquivalent zur Gleichung $ax + ny = b$.",
+          "Nach dem Lemma von Bézout lassen sich nur Vielfache des ggT$(a,n)$ darstellen.",
+          "Also muss $b$ ein Vielfaches von ggT$(a,n)$ sein."
+        ],
+        "content": "Ist dies nicht der Fall, gibt es kein $x$, das die Gleichung erfüllt."
+      },
+      "mini_glossary": {
+        "Kongruenz": "Gleichheit von Resten bei Division.",
+        "Lemma von Bézout": "Satz über die Darstellbarkeit des ggT als Linearkombination."
+      }
+    },
+    {
+      "question": "19. Welcher Algorithmus wird verwendet, um effizient den größten gemeinsamen Teiler zu finden?",
+      "options": [
+        "Euklidischer Algorithmus",
+        "Sieb des Eratosthenes",
+        "Gaußsches Eliminationsverfahren",
+        "Monte-Carlo-Algorithmus",
+        "Binäre Suche"
+      ],
+      "answer": 0,
+      "explanation": "Der Euklidische Algorithmus ist das Standardverfahren zur effizienten Berechnung des ggT durch wiederholte Division mit Rest.",
+      "weight": 2,
+      "topic": "Teilbarkeit & Primzahlen",
+      "concept": "Algorithmen",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Funktionsweise Euklid",
+        "steps": [
+          "Schreibe $a = q \\cdot b + r$.",
+          "Ersetze $a$ durch $b$ und $b$ durch $r$.",
+          "Wiederhole, bis $r = 0$. Der letzte Divisor ist der ggT."
+        ],
+        "content": "Dieses Verfahren ist sehr viel schneller als die Primfaktorzerlegung."
+      },
+      "mini_glossary": {
+        "Effizienz": "Maß für den Ressourcenverbrauch (Zeit/Speicher) eines Algorithmus.",
+        "Iteration": "Wiederholte Ausführung eines Rechenschritts."
+      }
+    },
+    {
+      "question": "20. Was besagt das Prinzip der asymmetrischen Verschlüsselung?",
+      "options": [
+        "Es gibt einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten zum Entschlüsseln.",
+        "Sender und Empfänger teilen sich einen einzigen geheimen Schlüssel.",
+        "Der Schlüssel wird aus dem Datum und der Uhrzeit generiert.",
+        "Es wird überhaupt kein Schlüssel verwendet, nur ein Algorithmus.",
+        "Der Schlüssel ändert sich bei jedem Zeichen."
+      ],
+      "answer": 0,
+      "explanation": "Asymmetrische Verfahren (Public-Key-Kryptografie) trennen die Schlüssel: Was mit dem öffentlichen Schlüssel verschlüsselt wurde, kann nur mit dem privaten Schlüssel entschlüsselt werden.",
+      "weight": 2,
+      "topic": "Kryptografie",
+      "concept": "Asymmetrische Verschlüsselung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Public-Key-Prinzip",
+        "steps": [
+          "Alice erzeugt ein Schlüsselpaar (Public, Private).",
+          "Alice gibt den Public Key jedem.",
+          "Bob verschlüsselt eine Nachricht mit Alices Public Key.",
+          "Nur Alice kann sie mit ihrem Private Key lesen."
+        ],
+        "content": "Dies löst das Problem des Schlüsselaustauschs."
+      },
+      "mini_glossary": {
+        "Public Key": "Öffentlicher Schlüssel, frei verteilbar.",
+        "Private Key": "Privater Schlüssel, muss geheim gehalten werden."
+      }
+    },
+    {
+      "question": "21. Welche Aussage über Primzahlen ist korrekt?",
+      "options": [
+        "Es gibt unendlich viele Primzahlen.",
+        "Die größte bekannte Primzahl hat 100 Stellen.",
+        "Alle ungeraden Zahlen sind Primzahlen.",
+        "Jede Primzahl ist durch 3 teilbar.",
+        "Primzahlen sind immer negativ."
+      ],
+      "answer": 0,
+      "explanation": "Bereits in der Antike (Satz von Euklid) wurde bewiesen, dass es unendlich viele Primzahlen gibt.",
+      "weight": 2,
+      "topic": "Teilbarkeit & Primzahlen",
+      "concept": "Unendlichkeit der Primzahlen",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Beweisidee (Euklid)",
+        "steps": [
+          "Nimm an, es gäbe nur endlich viele Primzahlen.",
+          "Multipliziere alle und addiere 1.",
+          "Die neue Zahl ist durch keine der bisherigen Primzahlen teilbar.",
+          "Also muss sie selbst prim sein oder einen neuen Primfaktor haben."
+        ],
+        "content": "Dies führt zum Widerspruch der Endlichkeitsannahme."
+      },
+      "mini_glossary": {
+        "Satz von Euklid": "Mathematischer Satz über die Unendlichkeit der Primzahlen.",
+        "Widerspruchsbeweis": "Logische Methode, bei der das Gegenteil widerlegt wird."
+      }
+    },
+    {
+      "question": "22. Wofür wird die 'Symmetrische Differenz' $A \\Delta B$ von zwei Mengen verwendet?",
+      "options": [
+        "Um Elemente zu finden, die exklusiv in A oder exklusiv in B sind (XOR-Logik).",
+        "Um die gemeinsamen Elemente zu finden.",
+        "Um beide Mengen komplett zu vereinen.",
+        "Um die leere Menge zu erzeugen.",
+        "Um Teilmengen zu zählen."
+      ],
+      "answer": 0,
+      "explanation": "Die symmetrische Differenz entspricht dem logischen Exklusiv-ODER (XOR). Sie enthält Elemente, die in A oder in B, aber nicht in beiden gleichzeitig enthalten sind.",
+      "weight": 2,
+      "topic": "Mengenlehre & Logik",
+      "concept": "Symmetrische Differenz",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Mengenoperation XOR",
+        "steps": [
+          "Nimm die Vereinigung $A \\cup B$.",
+          "Nimm den Schnitt $A \\cap B$.",
+          "Entferne den Schnitt aus der Vereinigung: $(A \\cup B) \\setminus (A \\cap B)$."
+        ],
+        "content": "Das Ergebnis ist die symmetrische Differenz."
+      },
+      "mini_glossary": {
+        "XOR": "Exclusive OR, logische Operation.",
+        "$\\Delta$": "Symbol für die symmetrische Differenz."
+      }
+    },
+    {
+      "question": "23. Welche logische Äquivalenz beschreibt die 'Kontraposition' einer Implikation $A \\to B$?",
+      "options": [
+        "$\\neg B \\to \\neg A$",
+        "$B \\to A$",
+        "$\\neg A \\to \\neg B$",
+        "$A \\land \\neg B$",
+        "$\\neg A \\lor B$"
+      ],
+      "answer": 0,
+      "explanation": "Die Kontraposition dreht die Pfeilrichtung um und negiert beide Aussagen. $A \\to B$ ist logisch identisch mit $\\neg B \\to \\neg A$.",
+      "weight": 2,
+      "topic": "Logik",
+      "concept": "Kontraposition",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Bedeutung der Kontraposition",
+        "steps": [
+          "Original: Wenn es regnet (A), wird die Straße nass (B).",
+          "Kontraposition: Wenn die Straße nicht nass ist (nicht B), regnet es nicht (nicht A)."
+        ],
+        "content": "Beide Aussagen haben denselben Wahrheitsgehalt. Das ist oft nützlich für Beweise."
+      },
+      "mini_glossary": {
+        "Implikation": "Logische Folgerung 'Wenn A, dann B'.",
+        "Negation": "Verneinung einer Aussage (nicht A)."
+      }
+    },
+    {
+      "question": "24. Analysieren Sie: Warum ist das Verfahren 'One-Time-Pad' theoretisch absolut sicher, aber praktisch kaum nutzbar?",
+      "options": [
+        "Der Schlüssel muss so lang sein wie die Nachricht und darf nur einmal verwendet werden.",
+        "Der Algorithmus ist zu rechenintensiv für moderne Computer.",
+        "Es basiert auf unsicheren Primzahlen.",
+        "Es erfordert Quantencomputer.",
+        "Es verschlüsselt nur Zahlen, keinen Text."
+      ],
+      "answer": 0,
+      "explanation": "Das One-Time-Pad bietet perfekte Sicherheit (Informationstheoretisch sicher), aber das Schlüsselmanagement ist das Problem: Man muss einen riesigen, rein zufälligen Schlüssel sicher austauschen, was genauso schwer ist wie die Nachricht selbst sicher zu übertragen.",
+      "weight": 3,
+      "topic": "Kryptografie",
+      "concept": "Sicherheitsanalyse",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse One-Time-Pad",
+        "steps": [
+          "Sicherheit: Da der Schlüssel rein zufällig ist und so lang wie die Nachricht, ist der Chiffretext ebenfalls rein zufällig (keine Muster).",
+          "Praxis-Problem: Um 1 GB Daten sicher zu übertragen, muss man vorher 1 GB Schlüssel sicher austauschen."
+        ],
+        "content": "Das löst das Problem des sicheren Kanals nicht effizient."
+      },
+      "mini_glossary": {
+        "Informationstheoretische Sicherheit": "Verschlüsselung, die auch mit unbegrenzter Rechenkraft nicht geknackt werden kann.",
+        "Schlüsselverteilungsproblem": "Die Schwierigkeit, Schlüssel sicher an die Kommunikationspartner zu bringen."
+      }
+    },
+    {
+      "question": "25. Ein RSA-System verwendet $p=3$ und $q=5$. Warum ist dieses System unsicher, selbst wenn der Algorithmus korrekt ist?",
+      "options": [
+        "Das Modul $N = 15$ ist viel zu klein und kann sofort faktorisiert werden.",
+        "3 und 5 sind keine Primzahlen.",
+        "Die Summe von $p$ und $q$ ist gerade.",
+        "RSA funktioniert nicht mit ungeraden Zahlen.",
+        "Der öffentliche Exponent $e$ kann nicht berechnet werden."
+      ],
+      "answer": 0,
+      "explanation": "Die Sicherheit von RSA hängt direkt von der Größe des Moduls $N$ ab. Mit $N = 3 \\cdot 5 = 15$ kann jeder Angreifer die Faktoren sofort erraten oder durchprobieren.",
+      "weight": 3,
+      "topic": "Kryptografie",
+      "concept": "Schlüssellänge",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse der Schlüssellänge",
+        "steps": [
+          "RSA-Sicherheit basiert auf Faktorisierungsschwierigkeit.",
+          "Kleine Zahlen sind leicht zu faktorisieren.",
+          "Reale RSA-Schlüssel nutzen Module mit 2048 oder 4096 Bits, nicht 4 Bits."
+        ],
+        "content": "Das Prinzip stimmt mathematisch, aber die Parameterwahl ist sicherheitskritisch."
+      },
+      "mini_glossary": {
+        "Brute-Force": "Ausprobieren aller Möglichkeiten.",
+        "Modul N": "Produkt der zwei Primzahlen bei RSA."
+      }
+    },
+    {
+      "question": "26. Analysieren Sie den Fehler: Jemand behauptet, dass $a \\equiv b \\pmod n$ impliziert, dass $a = b$.",
+      "options": [
+        "Falsch, $a$ und $b$ unterscheiden sich um ein Vielfaches von $n$, müssen aber nicht identisch sein.",
+        "Richtig, Modulo setzt Zahlen gleich.",
+        "Falsch, $a$ muss kleiner sein als $b$.",
+        "Falsch, das gilt nur für Primzahlen.",
+        "Richtig, in der Informatik ist $\\equiv$ dasselbe wie $=$."
+      ],
+      "answer": 0,
+      "explanation": "Kongruenz ($\\equiv$) ist eine Äquivalenzrelation, keine Identität. Beispiel: $14 \\equiv 2 \\pmod{12}$ (Uhrzeit), aber $14 \\neq 2$. Die Zahlen fallen in dieselbe 'Klasse', sind aber betragsmäßig verschieden.",
+      "weight": 3,
+      "topic": "Modulo-Arithmetik",
+      "concept": "Kongruenz vs Identität",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Unterschied Gleichheit und Kongruenz",
+        "steps": [
+          "Gleichheit ($=$): Identischer Wert.",
+          "Kongruenz ($\\equiv$): Gleicher Rest bei Division.",
+          "Beziehung: $a = b + k \\cdot n$ für ein ganzes $k$."
+        ],
+        "content": "Man verliert Informationen über die absolute Größe der Zahl, behält aber Informationen über ihre Position im Zyklus $n$."
+      },
+      "mini_glossary": {
+        "Äquivalenzrelation": "Relation, die reflexiv, symmetrisch und transitiv ist (wie 'hat gleiche Farbe').",
+        "Zyklus": "Wiederkehrende Abfolge von Werten (wie bei der Uhr)."
+      }
+    },
+    {
+      "question": "27. Warum ist das multiplikative Inverse von $a$ modulo $n$ nur dann existent, wenn ggT$(a,n) = 1$?",
+      "options": [
+        "Weil andernfalls die diophantische Gleichung $ax + ny = 1$ keine ganzzahlige Lösung hat.",
+        "Weil man durch Null teilen müsste.",
+        "Weil $n$ dann keine Primzahl ist.",
+        "Weil der Euklidische Algorithmus dann nicht terminiert.",
+        "Das ist falsch, das Inverse existiert immer."
+      ],
+      "answer": 0,
+      "explanation": "Das Inverse $x$ muss die Bedingung $ax \\equiv 1 \\pmod n$ erfüllen, also $ax + kn = 1$. Nach dem Lemma von Bézout ist 1 nur darstellbar, wenn der ggT von $a$ und $n$ die 1 teilt – also selbst 1 ist (Teilerfremdheit).",
+      "weight": 3,
+      "topic": "Modulo-Arithmetik",
+      "concept": "Existenz von Inversen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse der Invertierbarkeit",
+        "steps": [
+          "Umkehrung der Multiplikation erfordert Teilerfremdheit zum Modul.",
+          "Beispiel: $2$ hat modulo $4$ kein Inverses, da $2x \\equiv 1 \\pmod 4$ unmöglich ist (links immer gerade, rechts ungerade).",
+          "Dies ist zentral für RSA, wo $e$ teilerfremd zu $\\phi(N)$ sein muss."
+        ],
+        "content": "Ohne Teilerfremdheit gibt es 'Nullteiler' und keine eindeutige Division."
+      },
+      "mini_glossary": {
+        "Nullteiler": "Zwei Zahlen ungleich Null, deren Produkt Null ergibt (in Restklassenringen).",
+        "Diophantische Gleichung": "Gleichung, für die ganzzahlige Lösungen gesucht werden."
+      }
+    },
+    {
+      "question": "28. Analysieren Sie: Warum sind Hash-Kollisionen bei digitalen Signaturen ein Sicherheitsrisiko?",
+      "options": [
+        "Ein Angreifer könnte ein bösartiges Dokument erstellen, das denselben Hash hat wie ein harmloses signiertes Dokument.",
+        "Die Signatur wird dadurch ungültig und kann nicht mehr geprüft werden.",
+        "Der Private Key lässt sich aus der Kollision berechnen.",
+        "Das Dokument wird beim Hashen zerstört.",
+        "Die Übertragung dauert doppelt so lange."
+      ],
+      "answer": 0,
+      "explanation": "Da nur der Hash signiert wird (nicht das ganze Dokument), ist die Signatur für alle Dokumente mit demselben Hash gültig. Eine Kollision erlaubt es, die Unterschrift unter Dokument A auf das gefälschte Dokument B zu 'kopieren'.",
+      "weight": 3,
+      "topic": "Kryptografie & Hash",
+      "concept": "Angriffsszenario Kollision",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Gefahr der Kollision",
+        "steps": [
+          "Alice unterschreibt Hash(A).",
+          "Angreifer findet B mit Hash(B) = Hash(A).",
+          "Die Signatur von A passt mathematisch auch zu B."
+        ],
+        "content": "Deshalb müssen Hash-Funktionen kollisionsresistent sein (z.B. SHA-256 statt MD5)."
+      },
+      "mini_glossary": {
+        "Digitale Signatur": "Verfahren zur Sicherstellung von Authentizität und Integrität mittels Asymmetrie.",
+        "Kollisionsresistenz": "Eigenschaft, dass es praktisch unmöglich ist, zwei Eingaben mit gleichem Hash zu finden."
+      }
+    },
+    {
+      "question": "29. Beweisanalyse: Jemand versucht per Induktion zu beweisen, dass 'alle Autos dieselbe Farbe haben'. Der Induktionsschritt funktioniert logisch korrekt für $n \\to n+1$. Wo liegt der Fehler oft bei solchen Paradoxa?",
+      "options": [
+        "Der Induktionsschritt schlägt beim Übergang von $n=1$ auf $n=2$ fehl, da keine Schnittmenge der Autos existiert.",
+        "Der Induktionsanfang für $n=1$ ist falsch.",
+        "Es gibt keine Autos.",
+        "Die vollständige Induktion darf nicht auf reale Objekte angewendet werden.",
+        "Farbe ist keine mathematische Eigenschaft."
+      ],
+      "answer": 0,
+      "explanation": "Dies ist ein klassisches Induktions-Paradoxon. Das Argument 'Nimm ein Auto weg, die restlichen haben eine Farbe; tu es zurück, nimm ein anderes weg...' setzt voraus, dass die zwei Gruppen von $n$ Autos eine nicht-leere Schnittmenge haben, um die Farbeigenschaft zu übertragen. Bei 2 Autos (von 1 auf 2) versagt diese Logik.",
+      "weight": 3,
+      "topic": "Induktion",
+      "concept": "Fehleranalyse in Beweisen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Das Polya-Paradoxon",
+        "steps": [
+          "Argumentation basiert auf Überlappung der Mengen.",
+          "Bei Menge {A, B}: Gruppe 1 ist {A}, Gruppe 2 ist {B}.",
+          "Keine Überlappung $\\to$ kein Transit der Eigenschaft 'Farbe'."
+        ],
+        "content": "Ein Beweis ist nur so stark wie sein schwächstes Glied (hier der Schritt 1 zu 2)."
+      },
+      "mini_glossary": {
+        "Paradoxon": "Scheinbar logische Aussage, die zu einem Widerspruch führt.",
+        "Schnittmenge": "Menge der gemeinsamen Elemente."
+      }
+    },
+    {
+      "question": "30. Warum ist die 'Sicherheit durch Dunkelheit' (Security by Obscurity) kein valides Prinzip in der modernen Kryptografie?",
+      "options": [
+        "Weil die Sicherheit eines Systems nicht von der Geheimhaltung des Algorithmus, sondern nur des Schlüssels abhängen darf (Kerckhoffs’ Prinzip).",
+        "Weil Algorithmen immer patentiert sein müssen.",
+        "Weil Open-Source-Software unsicher ist.",
+        "Weil Geheimdienste jeden Algorithmus kennen.",
+        "Weil Computer zu schnell sind."
+      ],
+      "answer": 0,
+      "explanation": "Security by Obscurity verlässt sich darauf, dass der Angreifer nicht weiß, wie das System funktioniert. Sobald dies bekannt wird (durch Leaks oder Reverse Engineering), bricht das System zusammen. Gute Krypto ist sicher, auch wenn der Feind den Bauplan kennt.",
+      "weight": 3,
+      "topic": "IT-Sicherheit",
+      "concept": "Kerckhoffs’ Prinzip",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Kerckhoffs’ Prinzip",
+        "steps": [
+          "Annahme: Der Angreifer kennt das System vollständig.",
+          "Die einzige Unbekannte ist der Schlüssel.",
+          "Das System muss trotzdem sicher sein."
+        ],
+        "content": "Dies ermöglicht öffentliche Überprüfung (Audit) der Algorithmen zur Fehlerfindung."
+      },
+      "mini_glossary": {
+        "Security by Obscurity": "Versuch, Sicherheit durch Geheimhaltung des Funktionsprinzips zu erreichen.",
+        "Reverse Engineering": "Analyse eines Systems, um seine Funktionsweise zu verstehen."
+      }
+    }
+  ]
+}

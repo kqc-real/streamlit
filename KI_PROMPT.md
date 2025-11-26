@@ -140,6 +140,33 @@ Once confirmed, perform these steps internally before outputting the JSON:
   - Check inline-math bodies for single (unescaped) backslashes (regex within math: `(?<!\\)\\(?!\\)`) — treat as an error.
   - If either pattern is found, the LLM MUST deterministically correct the issue before emitting output: auto-escape backslashes, remove whitespace between closing `$` and following punctuation, and continue processing. The LLM must not return an error object; it must emit corrected JSON.
   -
+
+      ## Strict Output Rules (minimal, non-invasive)
+
+      - Emit exactly one fenced JSON code block and nothing else. Do not output any
+        explanatory text, comments or additional blocks before or after the single
+        JSON block.
+      - The JSON must be syntactically valid for `json.loads()` (no trailing commas,
+        no JavaScript comments). All string values must be valid JSON strings.
+      - Escape backslashes used in LaTeX: each single `\` in math must be emitted as
+        `\\` inside JSON strings (for example, `\cdot` must appear as `\\cdot` in
+        the JSON source). Preserve valid JSON escapes such as `\\`, `\"`, `\n`.
+      - `mini_glossary` MUST be an object mapping `term` → `definition`, e.g.
+        `{ "Term": "Definition", ... }`. If an array of `{term,definition}` is
+        produced, convert it deterministically to this mapping (keep the first
+        occurrence for duplicate terms). Keep 2–4 entries (truncate extras).
+      - If `meta.question_count` does not match the actual number of `questions`,
+        set `meta.question_count` = `questions.length` before emitting.
+      - If more than 30 questions are generated, truncate to the first 30.
+      - Apply fixes in this order before final emission: 1) escape LaTeX backslashes,
+        2) convert `mini_glossary` arrays→object, 3) remove trailing commas/comments.
+        Re-parse; if JSON is still invalid after these fixes, emit a short plain-text
+        bullet list (max 5 lines) of minimal failures — do NOT emit a JSON error
+        object.
+
+      These rules are intentionally short and dominant: they do not change the main
+      generation workflow but ensure the produced JSON is parseable and matches the
+      app's schema. Remove or adjust only if you intend to change the consumer code.
   ### Deterministic auto-fix rules (regex)
 
   The LLM MUST apply these deterministic, regex-based fixes when possible *before* emitting JSON. Apply in this order and report each applied fix in an internal developer log (not part of the final JSON):
