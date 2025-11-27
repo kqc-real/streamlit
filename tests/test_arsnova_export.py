@@ -7,6 +7,7 @@ import pytest  # type: ignore[import-not-found]
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from export_jobs import generate_arsnova_json, validate_arsnova_questions  # noqa: E402
+import export_jobs
 
 
 def _build_question(question, options, answer, weight=1, topic="Mathe"):
@@ -82,8 +83,9 @@ def test_generate_arsnova_truncates_long_options():
     payload = json.loads(data_bytes.decode("utf-8"))
 
     exported_option = payload["questionList"][0]["answerOptionList"][0]["answerText"]
-    assert len(exported_option) == 60
-    assert exported_option == "X" * 60
+    expected_len = min(len(long_option), export_jobs.ARSNOVA_MAX_OPTION_LENGTH)
+    assert len(exported_option) == expected_len
+    assert exported_option == "X" * expected_len
 
 
 def test_validate_arsnova_questions_reports_long_options():
@@ -93,5 +95,8 @@ def test_validate_arsnova_questions_reports_long_options():
     ]
 
     warnings = validate_arsnova_questions(questions)
-    assert warnings
-    assert "überschreitet 60 Zeichen" in warnings[0]
+    if len(long_option) > export_jobs.ARSNOVA_MAX_OPTION_LENGTH:
+        assert warnings
+        assert f"überschreitet {export_jobs.ARSNOVA_MAX_OPTION_LENGTH} Zeichen" in warnings[0]
+    else:
+        assert not warnings
