@@ -169,7 +169,13 @@
             "ahead": "Adelantado",
             "on_track": "En tiempo",
             "slightly_behind": "Ligeramente retrasado",
-            "behind": "Estás retrasado respecto al tiempo"
+            "behind": "Estás retrasado respecto al tiempo",
+            "recommend": {
+                "no_questions": "No hay preguntas.",
+                "on_track": "En tiempo.",
+                "significant_delay": "Retraso importante: considera responder rápidamente o saltar las preguntas más difíciles y volver después.",
+                "behind": "Estás retrasado respecto al tiempo. Intenta reducir el tiempo por pregunta restante en aproximadamente {pct}% ."
+            }
         },
         "pseudonym_welcome": "**¡Hola, {user}!** Recuerda tu alias para volver luego.",
         "question_set_change_warning": "⚠️ El set cambió, reiniciando..."

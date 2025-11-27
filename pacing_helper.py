@@ -6,6 +6,7 @@ importable as a top-level module to avoid conflicts with an existing
 """
 from typing import List, Dict, Any
 import math
+from i18n.context import t as translate_ui
 
 
 def compute_ideal_times(questions: List[dict], time_per_weight: Dict[str, float]) -> List[int]:
@@ -61,19 +62,22 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
                      total_allowed_seconds: int, remaining_buffer_seconds: int = 0) -> Dict[str, Any]:
     n = len(ideal_times)
     if n == 0:
-        return {"action": "on_track", "message": "No questions."}
+        return {"action": "on_track", "message": translate_ui("test_view.pacing.recommend.no_questions", default="No questions.")}
     remaining_expected = sum(ideal_times[current_index + 1:])
     remaining_questions = max(1, n - (current_index + 1))
     allowed = total_allowed_seconds + remaining_buffer_seconds
     projected_finish = elapsed_seconds + remaining_expected
     if projected_finish <= allowed:
-        return {"action": "on_track", "message": "On track."}
+        return {"action": "on_track", "message": translate_ui("test_view.pacing.recommend.on_track", default="On track.")}
     required_speedup = projected_finish / float(allowed)
     suggested_reduction_pct = max(0.0, (required_speedup - 1.0) / remaining_questions * 100.0)
     if required_speedup > 1.2:
-        msg = (
-            "Significant delay: consider quickly answering or skipping the hardest "
-            "remaining questions and return later."
+        msg = translate_ui(
+            "test_view.pacing.recommend.significant_delay",
+            default=(
+                "Significant delay: consider quickly answering or skipping the hardest "
+                "remaining questions and return later."
+            ),
         )
         return {
             "action": "skip",
@@ -81,10 +85,12 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
             "required_speedup": required_speedup,
             "suggested_reduction_pct": suggested_reduction_pct,
         }
-    msg = (
-        f"Behind schedule. Try to reduce time per remaining question by about "
-        f"{int(round(suggested_reduction_pct))}%."
+    template = translate_ui(
+        "test_view.pacing.recommend.behind",
+        default=(
+            "Behind schedule. Try to reduce time per remaining question by about {pct}%.")
     )
+    msg = template.format(pct=int(round(suggested_reduction_pct)))
     return {
         "action": "speedup",
         "message": msg,

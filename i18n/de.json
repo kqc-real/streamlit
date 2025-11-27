@@ -169,7 +169,13 @@
             "ahead": "Vorauseilend",
             "on_track": "Im Zeitplan",
             "slightly_behind": "Leicht im Rückstand",
-            "behind": "Du liegst hinter dem Zeitplan"
+            "behind": "Du liegst hinter dem Zeitplan",
+            "recommend": {
+                "no_questions": "Keine Fragen.",
+                "on_track": "Im Zeitplan.",
+                "significant_delay": "Starke Verzögerung: Versuche, die schwierigsten verbleibenden Fragen kurz zu beantworten oder zu überspringen und kehre später zurück.",
+                "behind": "Du liegst hinter dem Zeitplan. Versuche, die Zeit pro verbleibender Frage um etwa {pct}% zu reduzieren."
+            }
         },
         "pseudonym_welcome": "**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
         "question_set_change_warning": "⚠️ Fragenset gewechselt, Test wird neu initialisiert...",

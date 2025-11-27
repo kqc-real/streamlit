@@ -169,7 +169,13 @@
             "ahead": "En avance",
             "on_track": "Dans les temps",
             "slightly_behind": "Légèrement en retard",
-            "behind": "Tu es en retard sur le planning"
+            "behind": "Tu es en retard sur le planning",
+            "recommend": {
+                "no_questions": "Aucune question.",
+                "on_track": "Dans les temps.",
+                "significant_delay": "Fort retard : essayez de répondre rapidement ou de passer les questions les plus difficiles et revenez plus tard.",
+                "behind": "Tu es en retard sur le planning. Essaie de réduire le temps par question restante d'environ {pct}% ."
+            }
         },
         "pseudonym_welcome": "**Salut {user} !** Garde ton pseudo pour plus tard.",
         "question_set_change_warning": "⚠️ Changement de set, reset en cours...",
@@ -270,15 +276,7 @@
     },
     "actions": {
         "run_export": "Lancer export",
-        "reset": "Reset"
-    },
-    "locales": {
-        "de": "Allemand",
-        "en": "Anglais",
-        "fr": "Français",
-        "es": "Espagnol"
-    },
-    "buttons": {
+        "reset": "Reset",
         "download": "Télécharger"
     },
     "messages": {

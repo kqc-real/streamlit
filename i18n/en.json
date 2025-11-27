@@ -169,7 +169,13 @@
             "ahead": "You're ahead of schedule",
             "on_track": "On track",
             "slightly_behind": "Slightly behind schedule",
-            "behind": "You're behind schedule"
+            "behind": "You're behind schedule",
+            "recommend": {
+                "no_questions": "No questions.",
+                "on_track": "On track.",
+                "significant_delay": "Significant delay: consider quickly answering or skipping the hardest remaining questions and return later.",
+                "behind": "Behind schedule. Try to reduce time per remaining question by about {pct}%."
+            }
         },
         "pseudonym_welcome": "**Welcome, {user}!** Please remember your pseudonym to resume the test later.",
         "question_set_change_warning": "⚠️ Question set changed, reinitializing the test..."
