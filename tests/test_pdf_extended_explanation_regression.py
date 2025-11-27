@@ -11,7 +11,8 @@ import pdf_export
 
 def test_pdf_extended_explanation_no_python_repr():
     # Load a real question (loader applies aliases/normalization)
-    qset = load_questions('questions_Mathematik-Grundlagen_I.json', silent=True)
+    # Use an available mathematics dataset that contains explanations
+    qset = load_questions('questions_Mathematik_I.json', silent=True)
     # pick any question that has at least a short explanation or extended_explanation
     source_q = None
     for qq in qset:
