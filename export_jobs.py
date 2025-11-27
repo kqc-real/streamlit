@@ -130,7 +130,7 @@ DEFAULT_ARSNOVA_SESSION_CONFIG = {
     },
 }
 
-ARSNOVA_MAX_OPTION_LENGTH = 60
+ARSNOVA_MAX_OPTION_LENGTH = 120
 
 KAHOOT_ALLOWED_TIMERS = {5, 10, 20, 30, 60, 90, 120, 240}
 KAHOOT_MAX_QUESTIONS = 500
@@ -691,7 +691,24 @@ def _build_answer_options(options: Sequence[Any], correct_index: int) -> list[di
     for idx, raw_option in enumerate(options):
         option_text = "" if raw_option is None else str(raw_option)
         if len(option_text) > ARSNOVA_MAX_OPTION_LENGTH:
-            option_text = option_text[:ARSNOVA_MAX_OPTION_LENGTH]
+            # Truncate in a safer way: avoid leaving a trailing backslash
+            # or an unclosed LaTeX delimiter which would break rendering.
+            truncated = option_text[:ARSNOVA_MAX_OPTION_LENGTH]
+            # If truncation ends with a backslash, drop it to avoid escaping the
+            # next (missing) character in LaTeX commands.
+            while truncated.endswith("\\"):
+                truncated = truncated[:-1]
+
+            # If we truncated inside inline math (odd number of $), try to
+            # balance it by appending a closing '$' when there's space.
+            if truncated.count("$") % 2 == 1:
+                if len(truncated) < ARSNOVA_MAX_OPTION_LENGTH:
+                    truncated = truncated + "$"
+                else:
+                    # replace last char with a closing dollar to keep length
+                    truncated = truncated[:-1] + "$"
+
+            option_text = truncated
         answers.append(
             {
                 "answerText": option_text,
