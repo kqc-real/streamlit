@@ -1,0 +1,249 @@
+{
+  "meta": {
+    "title": "Mengenlehre",
+    "created": "27.11.2025 18:00",
+    "modified": "27.11.2025 18:00",
+    "target_audience": "Fortgeschrittene mit Grundwissen",
+    "question_count": 10,
+    "difficulty_profile": {
+      "easy": 3,
+      "medium": 4,
+      "hard": 3
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 15
+  },
+  "questions": [
+    {
+      "question": "1. Welche Aussage beschreibt die leere Menge korrekt?",
+      "options": [
+        "$\\emptyset \\subseteq A$",
+        "$A \\subseteq \\emptyset$",
+        "$A = \\emptyset \\cup A$",
+        "$\\emptyset = \\{\\emptyset\\}$"
+      ],
+      "answer": 2,
+      "explanation": "Die leere Menge ist neutrales Element der Vereinigungsoperation, daher gilt $A = \\emptyset \\cup A$.",
+      "weight": 1,
+      "topic": "Grundbegriffe",
+      "mini_glossary": {
+        "Leere Menge": "Menge ohne Elemente, bezeichnet mit $\\emptyset$.",
+        "Vereinigung": "Zusammenfassung aller Elemente aus beiden Mengen.",
+        "Teilmenge": "Menge $A$ ist Teilmenge von $B$, wenn alle Elemente von $A$ in $B$ liegen."
+      }
+    },
+    {
+      "question": "2. Welche Formel gibt die Potenzmenge korrekt an?",
+      "options": [
+        "$\\mathcal{P}(A) = \\{ B \\mid B \\subseteq A \\}$",
+        "$\\mathcal{P}(A) = \\{ a \\in A \\}$",
+        "$\\mathcal{P}(A) = 2^A$",
+        "$\\mathcal{P}(A) = A \\times A$"
+      ],
+      "answer": 0,
+      "explanation": "Die Potenzmenge ist die Menge aller Teilmengen einer Menge $A$.",
+      "weight": 1,
+      "topic": "Grundbegriffe",
+      "mini_glossary": {
+        "Potenzmenge": "Menge aller Teilmengen einer Menge $A$.",
+        "Teilmengenbeziehung": "Schreibweise $B \\subseteq A$ bedeutet, jedes Element von $B$ ist auch in $A$."
+      }
+    },
+    {
+      "question": "3. Welche Beziehung ist immer wahr?",
+      "options": [
+        "$A \\cap B \\subseteq A$",
+        "$A \\subseteq A \\cap B$",
+        "$A \\cup B \\subseteq A$",
+        "$A \\setminus B = B \\setminus A$"
+      ],
+      "answer": 0,
+      "explanation": "Der Schnitt $A \\cap B$ enthält nur Elemente, die in beiden Mengen vorkommen, und ist somit stets Teilmenge von $A$.",
+      "weight": 1,
+      "topic": "Operationen auf Mengen",
+      "mini_glossary": {
+        "Schnittmenge": "Menge aller Elemente, die in beiden Mengen vorkommen.",
+        "Differenzmenge": "Menge der Elemente in $A$, die nicht in $B$ enthalten sind."
+      }
+    },
+    {
+      "question": "4. Welche Gleichung beschreibt die Distributivität der Schnittmenge?",
+      "options": [
+        "$A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$",
+        "$A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$",
+        "$A \\cap (B \\cap C) = (A \\cap B) \\cup C$",
+        "$A \\cap (B \\cup C) = (A \\cap B) \\cap (A \\cap C)$"
+      ],
+      "answer": 0,
+      "explanation": "Die Distributivität des Schnitts über die Vereinigung lautet: $A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$.",
+      "weight": 2,
+      "topic": "Mengenoperationen",
+      "extended_explanation": {
+        "title": "Beweis der Distributivität",
+        "steps": [
+          "Ein Element $x$ gehört zu $A \\cap (B \\cup C)$ genau dann, wenn $x \\in A$ und ($x \\in B$ oder $x \\in C$).",
+          "Dies ist gleichbedeutend mit: ($x \\in A$ und $x \\in B$) oder ($x \\in A$ und $x \\in C$).",
+          "Daraus folgt: $x \\in (A \\cap B) \\cup (A \\cap C)$."
+        ]
+      },
+      "mini_glossary": {
+        "Distributivität": "Eigenschaft, die das Austauschen von Schnitt und Vereinigung erlaubt.",
+        "Vereinigung": "Menge aller Elemente, die in mindestens einer der Mengen enthalten sind."
+      }
+    },
+    {
+      "question": "5. Welche Formel beschreibt die symmetrische Differenz korrekt?",
+      "options": [
+        "$A \\triangle B = (A \\cup B) \\setminus (A \\cap B)$",
+        "$A \\triangle B = (A \\cap B) \\cup (A \\setminus B)$",
+        "$A \\triangle B = (A \\setminus B) \\cap (B \\setminus A)$",
+        "$A \\triangle B = (A \\cup B) \\cap (A \\cap B)$"
+      ],
+      "answer": 0,
+      "explanation": "Die symmetrische Differenz enthält alle Elemente, die nur in einer der beiden Mengen liegen.",
+      "weight": 2,
+      "topic": "Mengenoperationen",
+      "extended_explanation": {
+        "title": "Alternative Darstellungen",
+        "steps": [
+          "Die Definition lautet $A \\triangle B = (A \\setminus B) \\cup (B \\setminus A)$.",
+          "Dies lässt sich zu $(A \\cup B) \\setminus (A \\cap B)$ umformen.",
+          "Beide Darstellungen sind äquivalent."
+        ]
+      },
+      "mini_glossary": {
+        "Symmetrische Differenz": "Menge der Elemente, die in genau einer der Mengen vorkommen.",
+        "Schnitt": "Menge der gemeinsamen Elemente zweier Mengen."
+      }
+    },
+    {
+      "question": "6. Wie lautet die Potenzmengen-Kardinalität für eine endliche Menge?",
+      "options": [
+        "$|\\mathcal{P}(A)| = 2^{|A|}$",
+        "$|\\mathcal{P}(A)| = |A|^2$",
+        "$|\\mathcal{P}(A)| = |A|!$",
+        "$|\\mathcal{P}(A)| = |A| + 2$"
+      ],
+      "answer": 0,
+      "explanation": "Für jede Teilmenge kann jedes Element entweder enthalten oder nicht enthalten sein, daher $2^{|A|}$.",
+      "weight": 2,
+      "topic": "Kardinalität",
+      "extended_explanation": {
+        "title": "Begründung der Formel",
+        "steps": [
+          "Jedes Element von $A$ hat zwei Möglichkeiten: enthalten oder nicht enthalten.",
+          "Für $n = |A|$ ergibt sich $2^n$ mögliche Kombinationen.",
+          "Somit ist $|\\mathcal{P}(A)| = 2^{|A|}$."
+        ]
+      },
+      "mini_glossary": {
+        "Kardinalität": "Anzahl der Elemente einer Menge.",
+        "Potenzmenge": "Menge aller Teilmengen einer gegebenen Menge."
+      }
+    },
+    {
+      "question": "7. Welche Beziehung gilt zwischen den Mengen $A$, $B$, $C$ bei Assoziativität der Vereinigung?",
+      "options": [
+        "$(A \\cup B) \\cup C = A \\cup (B \\cup C)$",
+        "$(A \\cap B) \\cup C = A \\cap (B \\cup C)$",
+        "$(A \\cup B) \\cap C = A \\cup (B \\cap C)$",
+        "$(A \\cup B) \\cup C = (A \\cap B) \\cup C$"
+      ],
+      "answer": 0,
+      "explanation": "Die Vereinigung ist assoziativ, daher kann die Klammer beliebig gesetzt werden.",
+      "weight": 2,
+      "topic": "Mengenoperationen",
+      "extended_explanation": {
+        "title": "Beweis der Assoziativität",
+        "steps": [
+          "Für alle $x$ gilt: $x \\in (A \\cup B) \\cup C$ genau dann, wenn $x \\in A$ oder $x \\in B$ oder $x \\in C$.",
+          "Das ist identisch zu $x \\in A \\cup (B \\cup C)$.",
+          "Damit sind beide Mengen gleich."
+        ]
+      },
+      "mini_glossary": {
+        "Assoziativität": "Reihenfolge der Operation spielt keine Rolle.",
+        "Vereinigung": "Menge aller Elemente, die in mindestens einer der Mengen vorkommen."
+      }
+    },
+    {
+      "question": "8. Welche Aussage beschreibt eine Partition korrekt?",
+      "options": [
+        "$A_i \\cap A_j = \\emptyset$ für $i \\neq j$ und $\\bigcup_i A_i = M$",
+        "$A_i \\cup A_j = M$ für alle $i,j$",
+        "$A_i \\subseteq A_j$ für alle $i,j$",
+        "$\\bigcap_i A_i = M$"
+      ],
+      "answer": 0,
+      "explanation": "Eine Partition zerlegt eine Menge in disjunkte Teilmengen, deren Vereinigung die ganze Menge ergibt.",
+      "weight": 3,
+      "topic": "Strukturen",
+      "extended_explanation": {
+        "title": "Definition und Eigenschaften",
+        "steps": [
+          "Eine Partition besteht aus nichtleeren disjunkten Teilmengen.",
+          "Die Vereinigung aller Teilmengen ergibt die Ausgangsmenge.",
+          "Jedes Element gehört genau einer Teilmenge an."
+        ]
+      },
+      "mini_glossary": {
+        "Partition": "Zerlegung einer Menge in disjunkte nichtleere Teilmengen.",
+        "Disjunkt": "Zwei Mengen ohne gemeinsame Elemente."
+      }
+    },
+    {
+      "question": "9. Wie lautet die Definition einer Äquivalenzrelation?",
+      "options": [
+        "$R$ ist reflexiv, symmetrisch und transitiv",
+        "$R$ ist antisymmetrisch und transitiv",
+        "$R$ ist reflexiv und antisymmetrisch",
+        "$R$ ist symmetrisch, aber nicht reflexiv"
+      ],
+      "answer": 0,
+      "explanation": "Eine Äquivalenzrelation erfüllt Reflexivität, Symmetrie und Transitivität.",
+      "weight": 3,
+      "topic": "Relationen",
+      "extended_explanation": {
+        "title": "Charakterisierung",
+        "steps": [
+          "Reflexiv: Für alle $a$ gilt $(a,a) \\in R$.",
+          "Symmetrisch: Wenn $(a,b) \\in R$, dann $(b,a) \\in R$.",
+          "Transitiv: Wenn $(a,b)$ und $(b,c)$ in $R$, dann $(a,c)$ in $R$."
+        ]
+      },
+      "mini_glossary": {
+        "Äquivalenzrelation": "Relation, die reflexiv, symmetrisch und transitiv ist.",
+        "Relation": "Menge geordneter Paare, die eine Beziehung beschreibt."
+      }
+    },
+    {
+      "question": "10. Wie lautet die Formel für das kartesische Produkt zweier Mengen?",
+      "options": [
+        "$A \\times B = \\{ (a,b) \\mid a \\in A, b \\in B \\}$",
+        "$A \\times B = A \\cup B$",
+        "$A \\times B = \\{ a,b \\}$",
+        "$A \\times B = (A \\cap B) \\cup A$"
+      ],
+      "answer": 0,
+      "explanation": "Das kartesische Produkt ist die Menge aller geordneten Paare $(a,b)$ mit $a \\in A$ und $b \\in B$.",
+      "weight": 3,
+      "topic": "Produkte",
+      "extended_explanation": {
+        "title": "Beispielhafte Konstruktion",
+        "steps": [
+          "Für $A=\\{1,2\\}$ und $B=\\{x,y\\}$ gilt:",
+          "$A \\times B = \\{(1,x), (1,y), (2,x), (2,y)\\}$."
+        ]
+      },
+      "mini_glossary": {
+        "Kartesisches Produkt": "Menge aller geordneten Paare aus zwei Mengen.",
+        "Geordnetes Paar": "Paar $(a,b)$ mit festgelegter Reihenfolge."
+      }
+    }
+  ]
+}
