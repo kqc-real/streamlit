@@ -4505,6 +4505,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 file_name=f"anki_export_{export_file_stem}.apkg",
                                 mime="application/octet-stream",
                                 key=apkg_download_key,
+                                type="primary",
                             )
 
             with col_tsv:
