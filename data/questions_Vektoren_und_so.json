@@ -1,0 +1,519 @@
+{
+  "meta": {
+    "title": "Vektorräume, Matrizen, Eigenwerte, Graphen und Bäume",
+    "created": "27.11.2025 00:00",
+    "modified": "27.11.2025 00:00",
+    "target_audience": "Fortgeschrittene mit Grundwissen",
+    "question_count": 20,
+    "difficulty_profile": {
+      "easy": 3,
+      "medium": 15,
+      "hard": 2
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 20
+  },
+  "questions": [
+    {
+      "question": "1. Welche Menge ist ein Untervektorraum von $\\mathbb{R}^2$?",
+      "options": [
+        "$\\{(x,y)\\in\\mathbb{R}^2\\mid y=2x\\}$",
+        "$\\{(x,y)\\in\\mathbb{R}^2\\mid y=2x+1\\}$",
+        "$\\{(x,y)\\in\\mathbb{R}^2\\mid x^2+y^2=1\\}$",
+        "$\\{(x,y)\\in\\mathbb{R}^2\\mid x\\ge 0,y\\ge 0\\}$"
+      ],
+      "answer": 0,
+      "explanation": "Ein Untervektorraum von $\\mathbb{R}^2$ muss den Nullvektor enthalten und unter Addition sowie skalarer Multiplikation abgeschlossen sein. Die Menge mit Bedingung $y=2x$ erfüllt diese Eigenschaften und enthält insbesondere $(0,0)$. Die Bedingung $y=2x+1$ verletzt die Forderung, den Nullvektor zu enthalten; die Kreisscheibe $x^2+y^2=1$ und der erste Quadrant sind ebenfalls nicht unter skalarer Multiplikation abgeschlossen.",
+      "weight": 1,
+      "topic": "Vektorräume und Unterräume",
+      "mini_glossary": {
+        "Untervektorraum": "Ein Untervektorraum eines Vektorraums ist eine nichtleere Teilmenge, die unter Vektoraddition und skalarer Multiplikation abgeschlossen ist und den Nullvektor enthält.",
+        "Nullvektor": "Der Nullvektor ist der eindeutig bestimmte Vektor, der bei der Addition die anderen Vektoren unverändert lässt und bei skalarer Multiplikation immer wieder sich selbst liefert.",
+        "Abgeschlossenheit": "Eine Menge ist bezüglich einer Operation abgeschlossen, wenn die Operation auf Elemente dieser Menge angewendet wieder ein Element derselben Menge ergibt."
+      }
+    },
+    {
+      "question": "2. Welche Vektormenge ist eine Basis von $\\mathbb{R}^2$?",
+      "options": [
+        "$\\{(1,0)^T,(2,0)^T\\}$",
+        "$\\{(1,0)^T,(0,1)^T\\}$",
+        "$\\{(1,0)^T\\}$",
+        "$\\{(1,0)^T,(0,2)^T,(2,0)^T\\}$"
+      ],
+      "answer": 1,
+      "explanation": "Eine Basis von $\\mathbb{R}^2$ besteht aus genau zwei linear unabhängigen Vektoren, die den gesamten Raum aufspannen. Die Menge $\\{(1,0)^T,(0,1)^T\\}$ erfüllt beide Bedingungen. Die Paare mit mehrfachen Vielfachen desselben Vektors sind linear abhängig, und eine Menge mit nur einem Vektor kann $\\mathbb{R}^2$ nicht aufspannen.",
+      "weight": 1,
+      "topic": "Basis und Dimension",
+      "mini_glossary": {
+        "Basis": "Eine Basis eines Vektorraums ist eine Menge von Vektoren, die linear unabhängig sind und den gesamten Raum erzeugen.",
+        "Dimension": "Die Dimension eines Vektorraums ist die Anzahl der Vektoren in einer beliebigen Basis dieses Raums.",
+        "Linear unabhängig": "Vektoren sind linear unabhängig, wenn nur die triviale Linearkombination mit allen Koeffizienten gleich 0 den Nullvektor ergibt."
+      }
+    },
+    {
+      "question": "3. Welche Matrix ist die $2\\times2$-Einheitsmatrix $I_2$?",
+      "options": [
+        "$\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$",
+        "$\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$",
+        "$\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$",
+        "$\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&1\\end{pmatrix}$"
+      ],
+      "answer": 2,
+      "explanation": "Die Einheitsmatrix $I_2$ ist die $2\\times2$-Matrix mit Einsen auf der Diagonalen und Nullen sonst, also $\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$. Die anderen Matrizen besitzen entweder andere Einträge oder andere Dimensionen und können daher nicht $I_2$ sein.",
+      "weight": 1,
+      "topic": "Matrizen und Matrixoperationen",
+      "mini_glossary": {
+        "Einheitsmatrix": "Die Einheitsmatrix $I_n$ ist die $n\\times n$-Matrix mit Einsen auf der Hauptdiagonalen und Nullen sonst und wirkt als neutrales Element der Matrixmultiplikation.",
+        "Diagonale": "Die Hauptdiagonale einer quadratischen Matrix besteht aus den Einträgen mit gleichen Zeilen- und Spaltenindizes.",
+        "Quadratische Matrix": "Eine Matrix mit gleicher Anzahl von Zeilen und Spalten, also vom Typ $n\\times n$."
+      }
+    },
+    {
+      "question": "4. Welcher Vektor ist der Nullvektor in $\\mathbb{R}^3$?",
+      "options": [
+        "$\\begin{pmatrix}0\\\\0\\\\0\\\\0\\end{pmatrix}$",
+        "$\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}$",
+        "$\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$",
+        "$\\begin{pmatrix}0\\\\0\\\\0\\end{pmatrix}$"
+      ],
+      "answer": 3,
+      "explanation": "Der Nullvektor in $\\mathbb{R}^3$ hat in allen drei Komponenten den Wert 0, also $\\begin{pmatrix}0\\\\0\\\\0\\end{pmatrix}$. Ein Vektor mit vier Komponenten gehört nicht zu $\\mathbb{R}^3$, und Vektoren mit nichttrivialen Einträgen sind keine Nullvektoren.",
+      "weight": 2,
+      "topic": "Vektorräume und Unterräume",
+      "extended_explanation": {
+        "title": "Nullvektor und Dimension des Vektorraums",
+        "steps": [
+          "Ein Vektor in $\\mathbb{R}^3$ hat genau drei Komponenten, die reelle Zahlen sind.",
+          "Der Nullvektor ist dadurch charakterisiert, dass alle diese Komponenten den Wert 0 besitzen.",
+          "Vektoren mit mehr oder weniger Komponenten liegen nicht in $\\mathbb{R}^3$ und können dort kein Nullvektor sein."
+        ]
+      },
+      "mini_glossary": {
+        "Nullvektor": "Der Nullvektor ist der eindeutige Vektor mit allen Komponenten gleich 0 und ist neutrales Element der Vektoraddition.",
+        "Komponente": "Eine Komponente eines Vektors in $\\mathbb{R}^n$ ist einer der $n$ Einträge, aus denen der Vektor besteht.",
+        "Vektorraum": "Ein Vektorraum ist eine Menge von Vektoren mit definierten Operationen Addition und skalarer Multiplikation, die bestimmte Axiome erfüllen."
+      }
+    },
+    {
+      "question": "5. Welche Vektormenge bildet eine Basis von $\\mathbb{R}^3$?",
+      "options": [
+        "$\\{(1,0,0),(0,1,0),(0,0,1)\\}$",
+        "$\\{(1,0,0),(0,1,0)\\}$",
+        "$\\{(1,0,0),(2,0,0),(3,0,0),(4,0,0)\\}$",
+        "$\\{(1,0,0),(0,1,0),(1,1,0)\\}$"
+      ],
+      "answer": 0,
+      "explanation": "Eine Basis von $\\mathbb{R}^3$ besteht aus genau drei linear unabhängigen Vektoren. Die Standardbasis $\\{(1,0,0),(0,1,0),(0,0,1)\\}$ erfüllt diese Bedingung. Mengen mit weniger Vektoren können den Raum nicht aufspannen, und Mengen mit Vielfachen desselben Vektors sind linear abhängig.",
+      "weight": 2,
+      "topic": "Basis und Dimension",
+      "extended_explanation": {
+        "title": "Kriterien für eine Basis von $\\mathbb{R}^3$",
+        "steps": [
+          "Für $\\mathbb{R}^3$ muss eine Basis aus genau drei Vektoren bestehen, damit die Dimension erfüllt ist.",
+          "Diese drei Vektoren müssen linear unabhängig sein, das heißt keine Linearkombination der anderen ergeben.",
+          "Die Standardbasisvektoren in den Koordinatenrichtungen erfüllen beide Bedingungen und sind daher eine Basis."
+        ]
+      },
+      "mini_glossary": {
+        "Standardbasis": "Die Standardbasis in $\\mathbb{R}^n$ besteht aus Vektoren, die jeweils genau eine Komponente 1 und alle anderen 0 haben.",
+        "Erzeugendensystem": "Eine Menge von Vektoren, deren Linearkombinationen den gesamten Vektorraum ergeben.",
+        "Linear abhängig": "Vektoren sind linear abhängig, wenn es eine nichttriviale Linearkombination gibt, die den Nullvektor ergibt."
+      }
+    },
+    {
+      "question": "6. Welche Dimension hat $A B C$ mit $A(3\\times4),B(4\\times5),C(5\\times2)$?",
+      "options": [
+        "$4\\times2$",
+        "$3\\times2$",
+        "$5\\times2$",
+        "$10\\times2$"
+      ],
+      "answer": 1,
+      "explanation": "Beim Matrixprodukt bestimmt die innere Dimension die Verträglichkeit. Zuerst ist $A B$ vom Typ $3\\times5$, dann ergibt $(A B)C$ eine Matrix vom Typ $3\\times2$. Daher hat das Produkt $A B C$ die Dimension $3\\times2$.",
+      "weight": 2,
+      "topic": "Matrizen und Matrixoperationen",
+      "extended_explanation": {
+        "title": "Dimensionsregeln beim Matrixprodukt",
+        "steps": [
+          "Eine Matrix vom Typ $m\\times n$ kann mit einer Matrix vom Typ $n\\times p$ multipliziert werden und liefert eine Matrix vom Typ $m\\times p$.",
+          "Für $A(3\\times4)$ und $B(4\\times5)$ ergibt sich zunächst ein Produkt vom Typ $3\\times5$, weil die innere Dimension 4 übereinstimmt.",
+          "Das anschließende Produkt mit $C(5\\times2)$ liefert eine Matrix vom Typ $3\\times2$, da nun die innere Dimension 5 genutzt wird."
+        ]
+      },
+      "mini_glossary": {
+        "Matrixdimension": "Die Dimension einer Matrix wird als Anzahl der Zeilen mal Anzahl der Spalten angegeben, etwa $m\\times n$.",
+        "Matrixprodukt": "Das Matrixprodukt $A B$ ist definiert, wenn die Spaltenzahl von $A$ gleich der Zeilenzahl von $B$ ist, und ergibt eine neue Matrix.",
+        "Innere Dimension": "Die übereinstimmende Größe, die bei der Matrixmultiplikation wegfällt, meist die Anzahl der Spalten der ersten und Zeilen der zweiten Matrix."
+      }
+    },
+    {
+      "question": "7. Welche Formel definiert das Matrixprodukt $C=A B$ komponentenweise?",
+      "options": [
+        "$c_{ij}=\\sum_{k=1}^n a_{ki}b_{jk}$",
+        "$c_{ij}=\\sum_{k=1}^n a_{ij}b_{kj}$",
+        "$c_{ij}=\\sum_k a_{ik}b_{kj}$",
+        "$c_{ij}=a_{ij}+b_{ij}$"
+      ],
+      "answer": 2,
+      "explanation": "Für das Matrixprodukt $C=A B$ gilt komponentenweise $c_{ij}=\\sum_k a_{ik}b_{kj}$. Dabei laufen die Indizes so, dass die $k$-te Spalte von $A$ mit der $k$-ten Zeile von $B$ kombiniert wird. Die anderen Formeln vertauschen Indizes oder beschreiben nur eine Addition der Einträge.",
+      "weight": 2,
+      "topic": "Matrizen und Matrixoperationen",
+      "extended_explanation": {
+        "title": "Komponentenform des Matrixprodukts",
+        "steps": [
+          "Das Matrixprodukt $C=A B$ entsteht durch Skalarprodukte von Zeilen von $A$ mit Spalten von $B$.",
+          "Für das Element $c_{ij}$ wird die $i$-te Zeile von $A$ mit der $j$-ten Spalte von $B$ verknüpft, daher die Summation über $k$.",
+          "Die Formel $c_{ij}=\\sum_k a_{ik}b_{kj}$ fasst genau dieses Skalarprodukt der Zeile mit der Spalte zusammen."
+        ]
+      },
+      "mini_glossary": {
+        "Eintrag $c_{ij}$": "Das Element in der $i$-ten Zeile und $j$-ten Spalte einer Matrix $C$.",
+        "Index": "Ein Index kennzeichnet Positionen in Vektoren oder Matrizen, beispielsweise Zeilen- und Spaltennummern.",
+        "Summenzeichen": "Das Symbol $\\sum$ steht für eine endliche Summe über einen Index, etwa $\\sum_k$."
+      }
+    },
+    {
+      "question": "8. Welche Bedingung garantiert eine eindeutige Lösung von $A x=b$?",
+      "options": [
+        "$\\operatorname{rang}(A)=n-1$",
+        "$\\operatorname{rang}(A|b)>\\operatorname{rang}(A)$",
+        "$\\operatorname{rang}(A)=\\operatorname{rang}(A|b)=n+1$",
+        "$\\operatorname{rang}(A)=\\operatorname{rang}(A|b)=n$"
+      ],
+      "answer": 3,
+      "explanation": "Ein lineares Gleichungssystem $A x=b$ mit $n$ Unbekannten besitzt genau eine Lösung, wenn $\\operatorname{rang}(A)=\\operatorname{rang}(A|b)=n$ gilt. Dann ist die Koeffizientenmatrix vollen Ranges und es gibt keinen Widerspruch. Ein kleinerer Rang liefert entweder keine oder unendlich viele Lösungen.",
+      "weight": 2,
+      "topic": "Lineare Gleichungssysteme",
+      "extended_explanation": {
+        "title": "Rangbedingung für eindeutige Lösbarkeit",
+        "steps": [
+          "Die Bedingung $\\operatorname{rang}(A)=\\operatorname{rang}(A|b)$ stellt sicher, dass kein Widerspruch im System vorliegt.",
+          "Damit die Lösung eindeutig ist, muss der Rang zusätzlich gleich der Anzahl der Unbekannten $n$ sein.",
+          "In diesem Fall besitzt jede Variable ein Pivot und es bleibt keine freie Variable übrig, sodass genau eine Lösung existiert."
+        ]
+      },
+      "mini_glossary": {
+        "Rang": "Der Rang einer Matrix ist die maximale Anzahl linear unabhängiger Zeilen oder Spalten.",
+        "Erweiterte Matrix": "Die Matrix $(A|b)$ entsteht aus der Koeffizientenmatrix $A$ durch Anhängen der rechten Seite $b$ als zusätzlicher Spalte.",
+        "Eindeutige Lösung": "Ein Gleichungssystem besitzt genau eine Lösung, wenn weder Widersprüche noch freie Variablen auftreten."
+      }
+    },
+    {
+      "question": "9. Welche Zeile in Zeilenstufenform zeigt einen Widerspruch?",
+      "options": [
+        "$[0\\ 0\\ 0\\mid 5]$",
+        "$[0\\ 0\\ 0\\mid 0]$",
+        "$[0\\ 0\\ 0\\ 0\\mid 0]$",
+        "$[0\\ 1\\ 2\\mid 3]$"
+      ],
+      "answer": 0,
+      "explanation": "Die Zeile $[0\\ 0\\ 0\\mid 5]$ entspricht der Gleichung $0=5$ und ist daher ein Widerspruch. Eine Zeile mit lauter Nullen, also $[0\\ 0\\ 0\\mid 0]$, ist dagegen immer erfüllt und zeigt keine Unlösbarkeit an.",
+      "weight": 2,
+      "topic": "Lineare Gleichungssysteme",
+      "extended_explanation": {
+        "title": "Widerspruchszeilen in der Zeilenstufenform",
+        "steps": [
+          "In der Zeilenstufenform werden lineare Gleichungssysteme so umgeformt, dass die Struktur der Lösungen sichtbar wird.",
+          "Eine Zeile mit allen Koeffizienten 0, aber einer nichtnull rechten Seite, entspricht einer falschen Aussage wie $0=5$.",
+          "Eine solche Zeile bedeutet, dass das System keine Lösung mehr haben kann, da eine der Gleichungen nie erfüllt werden kann."
+        ]
+      },
+      "mini_glossary": {
+        "Zeilenstufenform": "Eine Form einer Matrix, bei der die Pivot-Elemente treppenförmig angeordnet sind und darunter Nullen stehen.",
+        "Widerspruch": "Eine Gleichung wie $0=5$, die niemals erfüllt sein kann, zeigt die Unlösbarkeit eines Systems an.",
+        "Pivot-Element": "Das erste von Null verschiedene Element einer Zeile in der Zeilenstufenform einer Matrix."
+      }
+    },
+    {
+      "question": "10. Ein LGS mit 3 Unbekannten hat 2 Pivotspalten. Wie viele freie Variablen hat es?",
+      "options": [
+        "$0$",
+        "$1$",
+        "$2$",
+        "$3$"
+      ],
+      "answer": 1,
+      "explanation": "Bei 3 Unbekannten und 2 Pivotspalten gibt es genau $3-2=1$ freie Variable. Jede Nicht-Pivotspalte steht für eine freie Variable, die als Parameter der Lösungsmenge auftreten kann.",
+      "weight": 2,
+      "topic": "Lineare Gleichungssysteme",
+      "extended_explanation": {
+        "title": "Zusammenhang zwischen Pivotspalten und freien Variablen",
+        "steps": [
+          "Die Anzahl der Pivotspalten entspricht der Anzahl der Variablen, die durch das System fest bestimmt werden.",
+          "Die Differenz zwischen der Anzahl der Unbekannten und der Anzahl der Pivotspalten liefert die Anzahl der freien Variablen.",
+          "In diesem Beispiel mit 3 Unbekannten und 2 Pivots ergibt sich daher genau eine freie Variable."
+        ]
+      },
+      "mini_glossary": {
+        "Pivotspalte": "Eine Spalte, in der sich ein Pivot-Element befindet und die eine führende Variable repräsentiert.",
+        "Freie Variable": "Eine Variable, die nicht Pivotvariable ist und daher als Parameter der Lösungsmenge gewählt werden kann.",
+        "Lösungsmenge": "Die Menge aller Vektoren, die ein lineares Gleichungssystem erfüllen."
+      }
+    },
+    {
+      "question": "11. Welche Gleichung erfüllt ein Eigenvektor $v\\neq0$ mit Eigenwert $\\lambda$?",
+      "options": [
+        "$A v=\\lambda A$",
+        "$A v=\\lambda^2 v$",
+        "$A v=\\lambda v$",
+        "$A^T v=\\lambda v$"
+      ],
+      "answer": 2,
+      "explanation": "Per Definition gilt für einen Eigenvektor $v\\neq0$ einer Matrix $A$ mit Eigenwert $\\lambda$ die Gleichung $A v=\\lambda v$. Dabei wird der Vektor nur skaliert, nicht in eine andere Richtung gedreht. Die anderen Gleichungen verändern entweder die Matrixseite oder die Potenz von $\\lambda$.",
+      "weight": 2,
+      "topic": "Eigenwerte und Eigenvektoren",
+      "extended_explanation": {
+        "title": "Definition von Eigenwert und Eigenvektor",
+        "steps": [
+          "Ein Eigenvektor $v\\neq0$ einer Matrix $A$ ist ein Vektor, der durch die Abbildung mit $A$ nur gestreckt oder gestaucht wird.",
+          "Diese Eigenschaft wird durch die Gleichung $A v=\\lambda v$ beschrieben, wobei $\\lambda$ der Eigenwert ist.",
+          "Die Richtung von $v$ bleibt erhalten, lediglich die Länge ändert sich um den Faktor $\\lambda$."
+        ]
+      },
+      "mini_glossary": {
+        "Eigenwert": "Ein Skalar $\\lambda$, für den es einen Vektor $v\\neq0$ gibt, sodass $A v=\\lambda v$ gilt.",
+        "Eigenvektor": "Ein Nichtnullvektor, der durch Anwendung einer linearen Abbildung nur skaliert, aber nicht gedreht wird.",
+        "Spektrum": "Die Menge aller Eigenwerte einer Matrix oder eines Operators."
+      }
+    },
+    {
+      "question": "12. Welche Bedingung an die Eigenwerte $\\lambda_i$ macht $A$ invertierbar?",
+      "options": [
+        "$\\lambda_1=0$",
+        "$\\lambda_i>0\\ \\forall i$",
+        "$\\lambda_i\\in\\mathbb{R}\\ \\forall i$",
+        "$\\lambda_i\\neq0\\ \\forall i$"
+      ],
+      "answer": 3,
+      "explanation": "Eine Matrix $A$ ist genau dann invertierbar, wenn 0 kein Eigenwert ist. Das bedeutet, dass für alle Eigenwerte $\\lambda_i$ gilt: $\\lambda_i\\neq0$. Ist $0$ Eigenwert, so ist die Determinante gleich 0 und die Matrix nicht invertierbar.",
+      "weight": 2,
+      "topic": "Eigenwerte und Eigenvektoren",
+      "extended_explanation": {
+        "title": "Zusammenhang zwischen Invertierbarkeit und Eigenwerten",
+        "steps": [
+          "Die Determinante einer Matrix ist das Produkt ihrer Eigenwerte, gezählt mit Vielfachheit.",
+          "Wenn 0 Eigenwert der Matrix ist, wird dieses Produkt 0 und die Determinante verschwindet.",
+          "Eine Matrix mit Determinante 0 ist singulär und damit nicht invertierbar, weshalb kein Eigenwert den Wert 0 annehmen darf."
+        ]
+      },
+      "mini_glossary": {
+        "Invertierbare Matrix": "Eine Matrix, für die es eine inverse Matrix gibt, sodass $A^{-1}A=I$ gilt.",
+        "Singuläre Matrix": "Eine Matrix ohne Inverse, typischerweise mit Determinante 0.",
+        "Determinante": "Eine skalare Größe, die einer quadratischen Matrix zugeordnet wird und unter anderem Invertierbarkeit charakterisiert."
+      }
+    },
+    {
+      "question": "13. Welche Menge enthält die Eigenwerte von $\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$?",
+      "options": [
+        "$\\{2,5\\}$",
+        "$\\{1,4\\}$",
+        "$\\{3,7\\}$",
+        "$\\{-1,10\\}$"
+      ],
+      "answer": 0,
+      "explanation": "Für $A=\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$ ergibt das charakteristische Polynom $\\det(A-\\lambda I)=\\lambda^2-7\\lambda+10=(\\lambda-2)(\\lambda-5)$. Die Eigenwerte sind daher $\\lambda=2$ und $\\lambda=5$.",
+      "weight": 3,
+      "topic": "Eigenwerte und Eigenvektoren",
+      "extended_explanation": {
+        "title": "Berechnung der Eigenwerte einer $2\\times2$-Matrix",
+        "steps": [
+          "Für eine Matrix $A$ werden Eigenwerte aus der Gleichung $\\det(A-\\lambda I)=0$ berechnet.",
+          "Bei $A=\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$ erhält man $\\det(A-\\lambda I)=(4-\\lambda)(3-\\lambda)-2$.",
+          "Ausmultiplizieren liefert $\\lambda^2-7\\lambda+10$, dessen Nullstellen bei $\\lambda=2$ und $\\lambda=5$ liegen."
+        ]
+      },
+      "mini_glossary": {
+        "Charakteristisches Polynom": "Das Polynom $p_A(\\lambda)=\\det(A-\\lambda I)$, dessen Nullstellen die Eigenwerte von $A$ sind.",
+        "Determinante": "Eine skalare Funktion, die einer quadratischen Matrix zugeordnet wird und unter anderem das Volumenbildungsverhalten beschreibt.",
+        "Diagonalisierung": "Die Darstellung einer Matrix als $A=P D P^{-1}$ mit einer Diagonalmatrix $D$ aus Eigenwerten und einer Matrix $P$ aus Eigenvektoren."
+      }
+    },
+    {
+      "question": "14. Welche Gleichung charakterisiert orthogonale Vektoren $v,w$?",
+      "options": [
+        "$\\langle v,w\\rangle=1$",
+        "$\\langle v,w\\rangle=0$",
+        "$\\langle v,v\\rangle=0$",
+        "$\\langle v,w\\rangle=\\|v\\|\\,\\|w\\|$"
+      ],
+      "answer": 1,
+      "explanation": "Zwei Vektoren $v$ und $w$ sind orthogonal, wenn ihr Skalarprodukt $\\langle v,w\\rangle=0$ ist. Die Bedingung $\\langle v,w\\rangle=\\|v\\|\\,\\|w\\|$ entspricht dagegen dem Fall, dass der Winkel zwischen den Vektoren 0 ist.",
+      "weight": 2,
+      "topic": "Skalarprodukt und Orthogonalität",
+      "extended_explanation": {
+        "title": "Orthogonalität über das Skalarprodukt",
+        "steps": [
+          "Das Skalarprodukt zweier Vektoren lässt sich geometrisch als $\\langle v,w\\rangle=\\|v\\|\\,\\|w\\|\\cos(\\theta)$ interpretieren.",
+          "Sind die Vektoren orthogonal, so ist der Winkel $\\theta=\\frac{\\pi}{2}$ und damit $\\cos(\\theta)=0$.",
+          "Daraus folgt direkt die Bedingung $\\langle v,w\\rangle=0$ für orthogonale Vektoren."
+        ]
+      },
+      "mini_glossary": {
+        "Skalarprodukt": "Eine Abbildung, die zwei Vektoren auf eine reelle Zahl abbildet und unter anderem Symmetrie und Positivität erfüllt.",
+        "Orthogonal": "Zwei Vektoren heißen orthogonal, wenn ihr Skalarprodukt gleich 0 ist.",
+        "Norm": "Die Norm $\\|v\\|$ eines Vektors ist die durch das Skalarprodukt definierte Länge, meist $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$."
+      }
+    },
+    {
+      "question": "15. Welche Formel definiert die Norm aus einem Skalarprodukt?",
+      "options": [
+        "$\\|v\\|=\\langle v,v\\rangle$",
+        "$\\|v\\|=\\sqrt{\\langle 2v,2v\\rangle}$",
+        "$\\|v\\|=\\sqrt{\\langle v,v\\rangle}$",
+        "$\\|v\\|=\\langle v,w\\rangle$"
+      ],
+      "answer": 2,
+      "explanation": "Die Norm eines Vektors wird in einem euklidischen Raum durch $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$ definiert. Damit ist die Norm stets nichtnegativ. Die anderen Ausdrücke sind entweder nur das Quadrat der Norm oder hängen von einem zweiten Vektor $w$ ab.",
+      "weight": 2,
+      "topic": "Skalarprodukt und Orthogonalität",
+      "extended_explanation": {
+        "title": "Von der Norm zum Skalarprodukt",
+        "steps": [
+          "In einem euklidischen Vektorraum ist die Norm durch das Skalarprodukt festgelegt.",
+          "Für jeden Vektor $v$ gilt $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$, womit sich die Länge geometrisch interpretieren lässt.",
+          "Diese Definition garantiert insbesondere $\\|v\\|\\ge0$ und $\\|v\\|=0$ genau dann, wenn $v=0$ ist."
+        ]
+      },
+      "mini_glossary": {
+        "Euklidischer Raum": "Ein Vektorraum mit einem euklidischen Skalarprodukt, das einen geometrischen Winkelbegriff erlaubt.",
+        "Länge": "Die Länge eines Vektors wird durch die Norm ausgedrückt und gibt den Betrag des Vektors an.",
+        "Quadrat der Norm": "Der Wert $\\|v\\|^2=\\langle v,v\\rangle$ ist oft einfacher zu berechnen als die Norm selbst."
+      }
+    },
+    {
+      "question": "16. Welche Adjazenzmatrix gehört zum Pfad $A-B-C$ auf drei Knoten?",
+      "options": [
+        "$\\begin{pmatrix}0&1&1\\\\1&0&1\\\\1&1&0\\end{pmatrix}$",
+        "$\\begin{pmatrix}0&0&0\\\\0&0&0\\\\0&0&0\\end{pmatrix}$",
+        "$\\begin{pmatrix}0&1&0\\\\0&0&1\\\\0&0&0\\end{pmatrix}$",
+        "$\\begin{pmatrix}0&1&0\\\\1&0&1\\\\0&1&0\\end{pmatrix}$"
+      ],
+      "answer": 3,
+      "explanation": "Für den Pfad $A-B-C$ in einem ungerichteten Graphen ist die Adjazenzmatrix symmetrisch mit Einsen genau an den Positionen der Kanten $A-B$ und $B-C$. Das ergibt die Matrix mit Einträgen $1$ an den Positionen $(1,2),(2,1),(2,3),(3,2)$ und Nullen sonst.",
+      "weight": 2,
+      "topic": "Graphen und kürzeste Wege",
+      "extended_explanation": {
+        "title": "Adjazenzmatrix eines Pfades auf drei Knoten",
+        "steps": [
+          "Die Zeilen und Spalten der Adjazenzmatrix werden in der Reihenfolge der Knoten, hier etwa $(A,B,C)$, angeordnet.",
+          "Für jede Kante $(u,v)$ werden die Einträge an den Positionen $(u,v)$ und $(v,u)$ auf 1 gesetzt, da der Graph ungerichtet ist.",
+          "Beim Pfad $A-B-C$ entstehen so genau die Einträge an $(1,2),(2,1),(2,3),(3,2)$, alle anderen Positionen bleiben 0."
+        ]
+      },
+      "mini_glossary": {
+        "Adjazenzmatrix": "Eine Matrixdarstellung eines Graphen, in der Eintrag $(i,j)$ anzeigt, ob zwischen Knoten $i$ und $j$ eine Kante existiert.",
+        "Pfad": "Eine Folge von Knoten, bei der aufeinanderfolgende Knoten jeweils durch eine Kante verbunden sind.",
+        "Ungerichteter Graph": "Ein Graph, in dem Kanten keine Richtung haben und damit Symmetrie in der Adjazenzmatrix erzeugen."
+      }
+    },
+    {
+      "question": "17. Gegeben ist $E=\\{(A,B),(A,C),(B,C),(B,D)\\}$. Welchen Grad hat Knoten $B$?",
+      "options": [
+        "$3$",
+        "$2$",
+        "$1$",
+        "$4$"
+      ],
+      "answer": 0,
+      "explanation": "Im ungerichteten Graphen werden für den Grad eines Knotens alle inzidenten Kanten gezählt. Zu $B$ gehören hier die Kanten $(A,B),(B,C)$ und $(B,D)$, also insgesamt 3 Kanten.",
+      "weight": 2,
+      "topic": "Graphen und kürzeste Wege",
+      "extended_explanation": {
+        "title": "Berechnung des Knotengrads in einem ungerichteten Graphen",
+        "steps": [
+          "Der Grad eines Knotens ist die Anzahl der Kanten, die an diesem Knoten anliegen.",
+          "In der Kantenmenge $E$ müssen alle Paare gezählt werden, in denen der betreffende Knoten vorkommt.",
+          "Für $B$ sind dies $(A,B),(B,C)$ und $(B,D)$, sodass der Grad von $B$ gleich 3 ist."
+        ]
+      },
+      "mini_glossary": {
+        "Grad eines Knotens": "Die Anzahl der Kanten, die an einem Knoten inzident sind.",
+        "Kantenmenge": "Die Menge aller Kanten eines Graphen, typischerweise als Paare von Knoten notiert.",
+        "Inzident": "Eine Kante ist zu einem Knoten inzident, wenn der Knoten ein Endpunkt dieser Kante ist."
+      }
+    },
+    {
+      "question": "18. Welche Gleichung charakterisiert einen Baum mit $n$ Knoten?",
+      "options": [
+        "$|E|=n$",
+        "$|E|=n-1$",
+        "$|E|=n-2$",
+        "$|E|=2n$"
+      ],
+      "answer": 1,
+      "explanation": "Ein Baum mit $n$ Knoten besitzt genau $n-1$ Kanten. Diese Eigenschaft ist gleichwertig zur Kombination aus Zusammenhang und Zyklenfreiheit im Graphen.",
+      "weight": 2,
+      "topic": "Bäume und Suchbäume",
+      "extended_explanation": {
+        "title": "Kantenanzahl in Bäumen",
+        "steps": [
+          "Ein Baum ist ein zusammenhängender, zyklenfreier Graph.",
+          "Für solche Graphen gilt, dass sie bei $n$ Knoten genau $n-1$ Kanten besitzen.",
+          "Fügt man eine weitere Kante hinzu, entsteht ein Zyklus, entfernt man eine, wird der Graph unzusammenhängend."
+        ]
+      },
+      "mini_glossary": {
+        "Baum": "Ein Graph, der zusammenhängend und zyklenfrei ist.",
+        "Zyklenfrei": "Ein Graph ist zyklenfrei, wenn es keinen geschlossenen Pfad mit mindestens einer Kante gibt.",
+        "Zusammenhängend": "Ein Graph ist zusammenhängend, wenn zwischen jedem Knotenpaar ein Pfad existiert."
+      }
+    },
+    {
+      "question": "19. Welche Folge entsteht bei Inorder-Traversierung des BST mit Einfügefolge $[10,5,15,3,7,12]$?",
+      "options": [
+        "$[10,5,3,7,15,12]$",
+        "$[3,5,10,7,12,15]$",
+        "$[3,5,7,10,12,15]$",
+        "$[15,12,10,7,5,3]$"
+      ],
+      "answer": 2,
+      "explanation": "Ein Binärer Suchbaum speichert kleinere Werte links und größere rechts. Bei Einfügen der gegebenen Folge entsteht eine Baumstruktur, deren Inorder-Traversierung die Elemente sortiert in aufsteigender Reihenfolge liefert: $[3,5,7,10,12,15]$.",
+      "weight": 3,
+      "topic": "Bäume und Suchbäume",
+      "extended_explanation": {
+        "title": "Inorder-Traversierung im Binären Suchbaum",
+        "steps": [
+          "Beim Binären Suchbaum werden beim Einfügen kleinere Werte nach links und größere nach rechts einsortiert.",
+          "Die Inorder-Traversierung besucht rekursiv linken Teilbaum, Wurzel und rechten Teilbaum.",
+          "Dadurch erscheinen die Schlüsselwerte in aufsteigender Reihenfolge, was hier zur sortierten Folge $[3,5,7,10,12,15]$ führt."
+        ]
+      },
+      "mini_glossary": {
+        "Binärer Suchbaum": "Ein binärer Baum, in dem in jedem Knoten alle Schlüssel im linken Teilbaum kleiner und im rechten Teilbaum größer sind.",
+        "Inorder-Traversierung": "Eine Tiefensuche, die zuerst den linken Teilbaum, dann den Knoten und danach den rechten Teilbaum besucht.",
+        "Traversierung": "Ein systematisches Besuchsschema, um alle Knoten eines Baumes oder Graphen zu durchlaufen."
+      }
+    },
+    {
+      "question": "20. Welche Darstellung beschreibt alle Linearkombinationen von $v_1,v_2$?",
+      "options": [
+        "$v_1+v_2$",
+        "$v_1\\times v_2$",
+        "$\\langle v_1,v_2\\rangle$",
+        "$\\alpha v_1+\\beta v_2$"
+      ],
+      "answer": 3,
+      "explanation": "Alle Linearkombinationen von $v_1$ und $v_2$ haben die Form $\\alpha v_1+\\beta v_2$ mit Skalaren $\\alpha,\\beta$. Einfache Ausdrücke wie $v_1+v_2$ sind nur spezielle Fälle und beschreiben nicht die gesamte Menge.",
+      "weight": 2,
+      "topic": "Vektorräume und Unterräume",
+      "extended_explanation": {
+        "title": "Linearkombinationen zweier Vektoren",
+        "steps": [
+          "Eine Linearkombination einer Vektormenge entsteht durch skalare Multiplikation und Addition der Vektoren.",
+          "Für zwei Vektoren $v_1,v_2$ sind alle Kombinationen von der Form $\\alpha v_1+\\beta v_2$ möglich.",
+          "Diese Menge aller Linearkombinationen von $v_1$ und $v_2$ bildet den Spannungsraum (Span) dieser Vektoren."
+        ]
+      },
+      "mini_glossary": {
+        "Linearkombination": "Ein Ausdruck der Form $\\alpha_1 v_1+\\dots+\\alpha_k v_k$ mit Skalaren $\\alpha_i$ und Vektoren $v_i$.",
+        "Span": "Der von Vektoren aufgespannte Unterraum, der aus allen ihren Linearkombinationen besteht.",
+        "Skalar": "Ein Element des zugrunde liegenden Körpers, im Standardfall eine reelle Zahl, die Vektoren skaliert."
+      }
+    }
+  ]
+}
