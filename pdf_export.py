@@ -1264,10 +1264,29 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     # Bearbeitungszeit berechnen
     start_time = st.session_state.get("test_start_time")
-    end_time = st.session_state.get("test_end_time", datetime.now())
+    # If the key exists but is set to None, fall back to now.
+    end_time = st.session_state.get("test_end_time") or datetime.now()
     duration_str = ""
-    if start_time:
-        duration = end_time - start_time
+
+    # Helper: coerce pandas.Timestamp to native datetime if necessary
+    def _to_datetime(obj):
+        if obj is None:
+            return None
+        # pandas Timestamp has to_pydatetime()
+        try:
+            if hasattr(obj, "to_pydatetime"):
+                return obj.to_pydatetime()
+        except Exception:
+            pass
+        if isinstance(obj, datetime):
+            return obj
+        return None
+
+    s_dt = _to_datetime(start_time)
+    e_dt = _to_datetime(end_time)
+
+    if s_dt and e_dt:
+        duration = e_dt - s_dt
         total_seconds = int(duration.total_seconds())
         minutes = total_seconds // 60
         seconds = total_seconds % 60
