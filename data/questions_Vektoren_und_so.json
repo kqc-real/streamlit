@@ -256,32 +256,6 @@
       }
     },
     {
-      "question": "11. Welche Gleichung erfüllt ein Eigenvektor $v\\neq0$ mit Eigenwert $\\lambda$?",
-      "options": [
-        "$A v=\\lambda A$",
-        "$A v=\\lambda^2 v$",
-        "$A v=\\lambda v$",
-        "$A^T v=\\lambda v$"
-      ],
-      "answer": 2,
-      "explanation": "Per Definition gilt für einen Eigenvektor $v\\neq0$ einer Matrix $A$ mit Eigenwert $\\lambda$ die Gleichung $A v=\\lambda v$. Dabei wird der Vektor nur skaliert, nicht in eine andere Richtung gedreht. Die anderen Gleichungen verändern entweder die Matrixseite oder die Potenz von $\\lambda$.",
-      "weight": 2,
-      "topic": "Eigenwerte und Eigenvektoren",
-      "extended_explanation": {
-        "title": "Definition von Eigenwert und Eigenvektor",
-        "steps": [
-          "Ein Eigenvektor $v\\neq0$ einer Matrix $A$ ist ein Vektor, der durch die Abbildung mit $A$ nur gestreckt oder gestaucht wird.",
-          "Diese Eigenschaft wird durch die Gleichung $A v=\\lambda v$ beschrieben, wobei $\\lambda$ der Eigenwert ist.",
-          "Die Richtung von $v$ bleibt erhalten, lediglich die Länge ändert sich um den Faktor $\\lambda$."
-        ]
-      },
-      "mini_glossary": {
-        "Eigenwert": "Ein Skalar $\\lambda$, für den es einen Vektor $v\\neq0$ gibt, sodass $A v=\\lambda v$ gilt.",
-        "Eigenvektor": "Ein Nichtnullvektor, der durch Anwendung einer linearen Abbildung nur skaliert, aber nicht gedreht wird.",
-        "Spektrum": "Die Menge aller Eigenwerte einer Matrix oder eines Operators."
-      }
-    },
-    {
       "question": "12. Welche Bedingung an die Eigenwerte $\\lambda_i$ macht $A$ invertierbar?",
       "options": [
         "$\\lambda_1=0$",
