@@ -2148,7 +2148,23 @@ def render_welcome_page(app_config: AppConfig):
             if not leaderboard_data:
                 st.info(_welcome_leaderboard_empty())
             else:
-                st.caption("📅 ?")
+                # Show the date of the most recent recorded session (if any).
+                try:
+                    import pandas as _pd
+                    from helpers import format_datetime_de
+
+                    # Collect timestamps from leaderboard rows and parse defensively
+                    dates = _pd.to_datetime(
+                        [row.get('last_test_time') for row in leaderboard_data], utc=True, errors='coerce'
+                    )
+                    last_dt = dates.max() if not dates.empty else None
+                    if last_dt is not None and not _pd.isna(last_dt):
+                        caption_date = format_datetime_de(last_dt, fmt='%d.%m.%Y')
+                    else:
+                        caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
+                except Exception:
+                    caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
+
                 scores = pd.DataFrame(leaderboard_data)
                 scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
                 # Blende Durchläufe ohne erzielte Punkte aus dem öffentlichen Leaderboard aus
@@ -2160,6 +2176,22 @@ def render_welcome_page(app_config: AppConfig):
                 
                 scores = scores[scores["duration_seconds"] >= min_duration_seconds]
                 scores = scores.reset_index(drop=True)
+
+                # Compute caption from the already-filtered scores so the
+                # displayed date matches the visible leaderboard rows.
+                try:
+                    caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
+                    if 'last_test_time' in scores.columns and not scores.empty:
+                        parsed = pd.to_datetime(scores['last_test_time'], utc=True, errors='coerce')
+                        last_dt = parsed.max()
+                        if pd.notna(last_dt):
+                            from helpers import format_datetime_de
+                            caption_date = format_datetime_de(last_dt, fmt='%d.%m.%Y')
+                except Exception:
+                    caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
+
+                if not scores.empty:
+                    st.caption(f"📅 {caption_date}")
                 if scores.empty:
                     st.info(_welcome_leaderboard_empty())
                 else:
