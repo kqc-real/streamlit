@@ -1587,9 +1587,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     # Only show the detailed-analysis heading when there are completed
     # test runs for this question set. `_calculate_average_stats` returns
     # `None` when no complete sessions exist, otherwise it contains
-    # a `total_users` count. Use that to decide whether to render the
-    # section title that suggests a comparison with other tests.
-    show_detailed_analysis = bool(avg_stats and (avg_stats.get('total_users', 0) > 0))
+    # a `total_users` count. Require more than one participant to show
+    # the comparison section (otherwise there's nothing to compare).
+    show_detailed_analysis = bool(avg_stats and (avg_stats.get('total_users', 0) > 1))
     detailed_heading = (
         f'<h2 class="section-title">{_html.escape(translate_ui("pdf.detailed_analysis", default="Detaillierte Auswertung"))}</h2>'
         if show_detailed_analysis else ''
