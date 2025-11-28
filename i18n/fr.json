@@ -170,11 +170,17 @@
             "on_track": "Dans les temps",
             "slightly_behind": "Légèrement en retard",
             "behind": "Tu es en retard sur le planning",
+            "degree": {
+                "slight": "légèrement",
+                "light": "un peu",
+                "moderate": "nettement",
+                "strong": "fortement"
+            },
             "recommend": {
                 "no_questions": "Aucune question.",
                 "on_track": "Dans les temps.",
                 "significant_delay": "Fort retard : essayez de répondre rapidement ou de passer les questions les plus difficiles et revenez plus tard.",
-                "behind": "Tu es en retard sur le planning. Essaie de réduire le temps par question restante d'environ {pct}% ."
+                "behind": "Tu es en retard sur le planning. Essaie d'accélérer {degree}."
             }
         },
         "pseudonym_welcome": "**Salut {user} !** Garde ton pseudo pour plus tard.",

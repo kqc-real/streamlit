@@ -71,6 +71,16 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
         return {"action": "on_track", "message": translate_ui("test_view.pacing.recommend.on_track", default="On track.")}
     required_speedup = projected_finish / float(allowed)
     suggested_reduction_pct = max(0.0, (required_speedup - 1.0) / remaining_questions * 100.0)
+
+    def _reduction_verb(pct: float) -> str:
+        if pct <= 5.0:
+            return translate_ui("test_view.pacing.degree.slight", default="slightly")
+        if pct <= 15.0:
+            return translate_ui("test_view.pacing.degree.light", default="a little")
+        if pct <= 35.0:
+            return translate_ui("test_view.pacing.degree.moderate", default="noticeably")
+        return translate_ui("test_view.pacing.degree.strong", default="substantially")
+
     if required_speedup > 1.2:
         msg = translate_ui(
             "test_view.pacing.recommend.significant_delay",
@@ -85,12 +95,14 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
             "required_speedup": required_speedup,
             "suggested_reduction_pct": suggested_reduction_pct,
         }
+
+    degree = _reduction_verb(suggested_reduction_pct)
     template = translate_ui(
         "test_view.pacing.recommend.behind",
         default=(
-            "Behind schedule. Try to reduce time per remaining question by about {pct}%.")
+            "Im Verzug. Versuche, das Tempo {degree} zu erhöhen."),
     )
-    msg = template.format(pct=int(round(suggested_reduction_pct)))
+    msg = template.format(pct=int(round(suggested_reduction_pct)), degree=degree)
     return {
         "action": "speedup",
         "message": msg,

@@ -170,11 +170,17 @@
             "on_track": "Im Zeitplan",
             "slightly_behind": "Leicht im Rückstand",
             "behind": "Du liegst hinter dem Zeitplan",
+            "degree": {
+                "slight": "etwas",
+                "light": "leicht",
+                "moderate": "deutlich",
+                "strong": "stark"
+            },
             "recommend": {
                 "no_questions": "Keine Fragen.",
                 "on_track": "Im Zeitplan.",
                 "significant_delay": "Starke Verzögerung: Versuche, die schwierigsten verbleibenden Fragen kurz zu beantworten oder zu überspringen und kehre später zurück.",
-                "behind": "Du liegst hinter dem Zeitplan. Versuche, die Zeit pro verbleibender Frage um etwa {pct}% zu reduzieren."
+                "behind": "Du liegst hinter dem Zeitplan. Versuche, das Tempo {degree} zu erhöhen."
             }
         },
         "pseudonym_welcome": "**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
