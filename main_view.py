@@ -3741,6 +3741,36 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         st.session_state["in_final_summary"] = True
     except Exception:
         pass
+
+    # Persist the session summary to the DB when the user reaches the final
+    # summary view. Many users close the session without a clean shutdown,
+    # leaving the session stale and preventing leaderboard/summaries from
+    # appearing. We call `recompute_session_summary` once per session_id and
+    # record a session_state flag to ensure idempotence.
+    try:
+        session_id = st.session_state.get("session_id")
+        if session_id:
+            saved_key = f"summary_saved_{session_id}"
+            if not st.session_state.get(saved_key):
+                try:
+                    # Local import to avoid circular imports at module load.
+                    from database import recompute_session_summary
+
+                    # recompute_session_summary is robust and idempotent
+                    # (INSERT OR REPLACE into `test_session_summaries`).
+                    recompute_session_summary(int(session_id))
+                    st.session_state[saved_key] = True
+                except Exception as _e:
+                    # Don't break the UI on DB errors; log for debugging.
+                    try:
+                        import traceback
+
+                        print("Error while saving session summary:")
+                        traceback.print_exc()
+                    except Exception:
+                        pass
+    except Exception:
+        pass
     # (kein lokaler import von time; Top-Level-Import wird verwendet, falls nötig)
 
     # Testdauer berechnen
