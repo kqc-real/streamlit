@@ -3503,10 +3503,8 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     
     if ist_richtig:
         punkte = gewichtung
-        st.toast(_test_view_text("correct_toast", default="Richtig!"), icon="✅")
     else:
         punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
-        st.toast(_test_view_text("wrong_toast", default="Leider falsch."), icon="❌")
 
     set_question_as_answered(frage_idx, punkte, antwort)
 
