@@ -578,9 +578,12 @@
                 "pseudonym": "\ud83d\udc64 Pseudonym",
                 "date": "\ud83d\udcc5 Date",
                 "duration": "\u23f1\ufe0f Duration"
-            }
-            ,
-            "refreshing": "Refreshing leaderboard…"
+            },
+            "refreshing": "Refreshing leaderboard…",
+            "updated": "Leaderboard refreshed",
+            "last_updated": "Last updated: {ts}",
+            "refresh_button": "Refresh",
+            "refresh_failed": "Refresh failed"
         },
         "language": {
             "label": "Choose language",

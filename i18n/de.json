@@ -617,9 +617,12 @@
                 "pseudonym": "\ud83d\udc64 Pseudonym",
                 "date": "\ud83d\udcc5 Datum",
                 "duration": "\u23f1\ufe0f Dauer"
-            }
-            ,
-            "refreshing": "Aktualisiere Rangliste…"
+            },
+            "refreshing": "Aktualisiere Rangliste…",
+            "updated": "Rangliste aktualisiert",
+            "last_updated": "Zuletzt aktualisiert: {ts}",
+            "refresh_button": "Aktualisieren",
+            "refresh_failed": "Aktualisierung fehlgeschlagen"
         },
         "language": {
             "label": "Sprache w\u00e4hlen",

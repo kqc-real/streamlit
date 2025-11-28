@@ -573,9 +573,12 @@
                 "pseudonym": "\ud83d\udc64 Alias",
                 "date": "\ud83d\udcc5 Fecha",
                 "duration": "\u23f1\ufe0f Duración"
-            }
-            ,
-            "refreshing": "Actualizando la clasificación…"
+            },
+            "refreshing": "Actualizando la clasificación…",
+            "updated": "Clasificación actualizada",
+            "last_updated": "Actualizado: {ts}",
+            "refresh_button": "Actualizar",
+            "refresh_failed": "Error al actualizar"
         },
         "language": {
             "label": "Idioma",

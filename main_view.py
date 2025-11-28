@@ -2141,6 +2141,79 @@ def render_welcome_page(app_config: AppConfig):
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions)
         leaderboard_title = _welcome_leaderboard_title(max_score_for_set)
         with st.expander(leaderboard_title, expanded=False):
+            # Visible controls: show last-updated timestamp and a manual
+            # refresh button so users always see explicit feedback when the
+            # leaderboard is refreshed. Relying solely on spinners/toasts is
+            # fragile inside expanders.
+            try:
+                last_key = f"leaderboard_last_update_{selected_file}"
+                last_ts = st.session_state.get(last_key)
+                if last_ts:
+                    try:
+                        from helpers import format_datetime_de
+                        # Parse stored ISO timestamp defensively
+                        import pandas as _pd
+                        parsed = _pd.to_datetime(last_ts, utc=True, errors='coerce')
+                        if not parsed is None and not _pd.isna(parsed):
+                            st.caption(
+                                translate_ui(
+                                    "welcome.leaderboard.last_updated",
+                                    default="Zuletzt aktualisiert: {ts}"
+                                ).format(ts=format_datetime_de(parsed, fmt='%d.%m.%Y %H:%M'))
+                            )
+                        else:
+                            st.caption(
+                                translate_ui(
+                                    "welcome.leaderboard.last_updated",
+                                    default="Zuletzt aktualisiert: {ts}"
+                                ).format(ts=str(last_ts))
+                            )
+                    except Exception:
+                        try:
+                            st.caption(translate_ui("welcome.leaderboard.last_updated", default="Zuletzt aktualisiert: {ts}").format(ts=str(last_ts)))
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+
+            # Manual refresh button (user-triggered explicit refresh)
+            try:
+                refresh_label = translate_ui("welcome.leaderboard.refresh_button", default="Aktualisieren")
+            except Exception:
+                refresh_label = "Aktualisieren"
+            try:
+                if st.button(refresh_label, key=f"btn_refresh_{selected_file}"):
+                    try:
+                        # Validate that we have an active session id to recompute.
+                        session_id = st.session_state.get("session_id")
+                        if not session_id:
+                            # No active session: perform a lightweight leaderboard
+                            # reload so users can still refresh the public top list.
+                            try:
+                                from database import get_all_logs_for_leaderboard
+                                from datetime import datetime
+                                # Trigger a fresh read of leaderboard rows for the
+                                # selected file. This does not mutate DB but forces
+                                # the UI to re-query when Streamlit reruns.
+                                _ = get_all_logs_for_leaderboard(selected_file)
+                                st.session_state[last_key] = datetime.utcnow().isoformat()
+                                st.success(translate_ui("welcome.leaderboard.updated", default="Rangliste aktualisiert"))
+                            except Exception:
+                                st.error(translate_ui("welcome.leaderboard.refresh_failed", default="Aktualisierung fehlgeschlagen"))
+                        else:
+                            from database import recompute_session_summary
+                            from datetime import datetime
+                            with st.spinner(translate_ui("welcome.leaderboard.refreshing", default="Aktualisiere Rangliste…")):
+                                ok = recompute_session_summary(int(session_id))
+                            if ok:
+                                st.session_state[last_key] = datetime.utcnow().isoformat()
+                                st.success(translate_ui("welcome.leaderboard.updated", default="Rangliste aktualisiert"))
+                            else:
+                                st.error(translate_ui("welcome.leaderboard.refresh_failed", default="Aktualisierung fehlgeschlagen"))
+                    except Exception:
+                        st.error(translate_ui("welcome.leaderboard.refresh_failed", default="Aktualisierung fehlgeschlagen"))
+            except Exception:
+                pass
             from database import get_all_logs_for_leaderboard
 
             # If the user has an active session, ensure its summary is
@@ -2150,14 +2223,43 @@ def render_welcome_page(app_config: AppConfig):
             try:
                 session_id = st.session_state.get("session_id")
                 if session_id:
-                    saved_key = f"summary_saved_{session_id}"
-                    if not st.session_state.get(saved_key):
-                        # Local import to avoid module-level cycles; keep fast
-                        # and robust — failures shouldn't break the UI.
-                        from database import recompute_session_summary
+                    # Always recompute the session summary when the expander
+                    # is opened. This ensures the leaderboard reflects the
+                    # latest answers immediately, at the cost of extra DB work.
+                    from database import recompute_session_summary
+                    # Ensure the spinner is visible for a short minimum duration
+                    # so the user notices the refresh even when the DB work is very fast.
+                    try:
+                        from time import monotonic, sleep
+                        t0 = monotonic()
                         with st.spinner(translate_ui("welcome.leaderboard.refreshing", default="Aktualisiere Rangliste…")):
                             recompute_session_summary(int(session_id))
-                        st.session_state[saved_key] = True
+                        elapsed = monotonic() - t0
+                        if elapsed < 0.3:
+                            # Small sleep to make the spinner perceptible but short.
+                            sleep(0.3 - elapsed)
+                        # Persist a last-updated timestamp so the UI can show
+                        # a visible confirmation independently of transient
+                        # toasts/spinners.
+                        try:
+                            from datetime import datetime
+                            last_key = f"leaderboard_last_update_{selected_file}"
+                            st.session_state[last_key] = datetime.utcnow().isoformat()
+                        except Exception:
+                            pass
+                        # Show a short, visible confirmation because spinners
+                        # are easy to miss when the operation is fast.
+                        try:
+                            st.toast(translate_ui("welcome.leaderboard.updated", default="Rangliste aktualisiert"))
+                        except Exception:
+                            try:
+                                st.info(translate_ui("welcome.leaderboard.updated", default="Rangliste aktualisiert"))
+                            except Exception:
+                                pass
+                    except Exception:
+                        # Fallback to simple call if time helpers are unavailable
+                        with st.spinner(translate_ui("welcome.leaderboard.refreshing", default="Aktualisiere Rangliste…")):
+                            recompute_session_summary(int(session_id))
             except Exception:
                 # Don't raise — leaderboard should still render even if DB
                 # update fails for any reason.
@@ -3442,6 +3544,16 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         points=punkte,
         is_correct=(punkte > 0)
     )
+
+    # Wenn eine neue Antwort gespeichert wurde, markieren wir die
+    # Session-Summary als veraltet, damit das Leaderboard beim nächsten
+    # Öffnen des Expanders die Zusammenfassung neu berechnet.
+    try:
+        sid = st.session_state.get('session_id')
+        if sid:
+            st.session_state.pop(f"summary_saved_{sid}", None)
+    except Exception:
+        pass
 
     # Setze das Sprung-Flag zurück, da der Nutzer nun aktiv eine Aktion ausgeführt hat.
     # Dies verhindert, dass die Erklärung nach der Antwort fälschlicherweise blockiert wird.
