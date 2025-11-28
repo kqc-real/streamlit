@@ -250,6 +250,17 @@ def create_tables():
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_id ON test_sessions (user_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_session_id ON feedback (session_id);")
+
+            # --- Neue Indizes für Performance-Optimierung ---
+            # Beschleunigt das Nachschlagen von Benutzern anhand ihres Pseudonyms (UNIQUE stellt sicher, dass es eindeutig ist)
+            conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_users_pseudonym ON users (user_pseudonym);")
+            # Beschleunigt die Sortierung der Antworten nach Zeitstempel im Admin-Panel
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_answers_timestamp ON answers (timestamp DESC);")
+            # Zusammengesetzter Index für Abfragen, die nach Benutzer UND Fragenset filtern
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_qfile ON test_sessions (user_id, questions_file);")
+            # Zusammengesetzter Index für die sortierte Testhistorie eines Benutzers
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_time ON test_sessions (user_id, start_time DESC);")
+
             # --- Neue Tabelle: Snapshot-Summaries für Sessions (Option B: robust & performant)
             conn.execute(
                 """
