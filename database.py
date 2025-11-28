@@ -1110,6 +1110,63 @@ def backfill_session_summaries(batch_size: int = 200) -> int:
         return created
 
 
+@with_db_retry
+def release_unreserved_pseudonyms() -> int:
+    """Delete user rows for pseudonyms that are not reserved and have no sessions.
+
+    Returns the number of user rows removed. A pseudonym is considered
+    "reserved" if the `users` table contains non-empty `recovery_salt` and
+    `recovery_hash` values for that row. The function is defensive: if the
+    recovery columns are not present (older schema), it treats the pseudonym
+    as unreserved.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return 0
+
+    try:
+        cursor = conn.cursor()
+
+        # Detect whether recovery columns exist in the users table
+        cursor.execute("PRAGMA table_info(users)")
+        cols = [row['name'] for row in cursor.fetchall()]
+        has_recovery_cols = ('recovery_salt' in cols) and ('recovery_hash' in cols)
+
+        # Build query defensively depending on schema
+        if has_recovery_cols:
+            q = (
+                "SELECT u.user_id FROM users u "
+                "LEFT JOIN test_sessions s ON u.user_id = s.user_id "
+                "WHERE s.session_id IS NULL "
+                "AND (u.recovery_salt IS NULL OR u.recovery_salt = '') "
+                "AND (u.recovery_hash IS NULL OR u.recovery_hash = '')"
+            )
+        else:
+            # No recovery columns present: consider any user without sessions as
+            # eligible for deletion.
+            q = (
+                "SELECT u.user_id FROM users u "
+                "LEFT JOIN test_sessions s ON u.user_id = s.user_id "
+                "WHERE s.session_id IS NULL"
+            )
+
+        cursor.execute(q)
+        rows = cursor.fetchall()
+        deleted = 0
+        with conn:
+            for r in rows:
+                try:
+                    conn.execute("DELETE FROM users WHERE user_id = ?", (r['user_id'],))
+                    deleted += 1
+                except sqlite3.Error:
+                    # skip problematic rows but continue
+                    continue
+        return deleted
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in release_unreserved_pseudonyms: {e}")
+        return 0
+
+
 # -----------------------------
 # Recovery / Secret helpers
 # -----------------------------

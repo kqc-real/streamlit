@@ -462,6 +462,9 @@ class AppConfig:
         # Days to keep temporary user question sets for reserved pseudonyms
         # Default: 14 days
         self.user_qset_reserved_retention_days: int = 14
+        # Automatically release unreserved pseudonyms that have no sessions
+        # when the welcome page runs cleanup. Default: False (disabled).
+        self.auto_release_unreserved_pseudonyms: bool = True
         # Recovery / policy defaults
         self.recovery_min_length: int = 6
         self.recovery_allow_short: bool = False
@@ -559,6 +562,16 @@ class AppConfig:
                     self.user_qset_reserved_retention_days = parsed
             except Exception:
                 pass
+
+        # Optional: enable automatic release of unused/unreserved pseudonyms
+        try:
+            auto_release = st.secrets.get("MC_AUTO_RELEASE_PSEUDONYMS", "").strip()
+        except Exception:
+            auto_release = os.getenv("MC_AUTO_RELEASE_PSEUDONYMS", "").strip()
+
+        if auto_release:
+            if str(auto_release).lower() in ("1", "true", "yes", "on"):
+                self.auto_release_unreserved_pseudonyms = True
 
         # Recovery / rate-limit from secrets/env
         try:

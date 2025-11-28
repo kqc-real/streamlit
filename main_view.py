@@ -1867,6 +1867,24 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             # UI notification failures must not break the welcome page
             pass
+        # Optionally release unreserved pseudonyms that have no sessions.
+        try:
+            if getattr(app_config, 'auto_release_unreserved_pseudonyms', False):
+                # Run the DB helper and show a one-time notice if any were released.
+                try:
+                    from database import release_unreserved_pseudonyms
+                    released = release_unreserved_pseudonyms()
+                    if released and released > 0 and not st.session_state.get('_user_pseudonym_release_notice_shown'):
+                        try:
+                            st.toast(translate_ui('welcome.pseudonym.released', default='Freigegebene Pseudonyme: {n}').format(n=released))
+                        except Exception:
+                            st.info(translate_ui('welcome.pseudonym.released', default='Freigegebene Pseudonyme: {n}').format(n=released))
+                        st.session_state['_user_pseudonym_release_notice_shown'] = True
+                except Exception:
+                    # Non-fatal: don't block welcome page on DB errors
+                    pass
+        except Exception:
+            pass
     except Exception:
         # Non-fatal: if cleanup fails, continue and list sets anyway.
         pass
