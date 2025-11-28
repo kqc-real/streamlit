@@ -250,6 +250,7 @@ def create_tables():
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_id ON test_sessions (user_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_session_id ON feedback (session_id);")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_timestamp ON feedback (timestamp DESC);")
 
             # --- Neue Indizes für Performance-Optimierung ---
             # Beschleunigt das Nachschlagen von Benutzern anhand ihres Pseudonyms (UNIQUE stellt sicher, dass es eindeutig ist)
