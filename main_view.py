@@ -2142,7 +2142,27 @@ def render_welcome_page(app_config: AppConfig):
         leaderboard_title = _welcome_leaderboard_title(max_score_for_set)
         with st.expander(leaderboard_title, expanded=False):
             from database import get_all_logs_for_leaderboard
-            
+
+            # If the user has an active session, ensure its summary is
+            # recomputed before we render the public leaderboard. This helps
+            # when users close the app without a clean shutdown and their
+            # session would otherwise be missing from the leaderboard.
+            try:
+                session_id = st.session_state.get("session_id")
+                if session_id:
+                    saved_key = f"summary_saved_{session_id}"
+                    if not st.session_state.get(saved_key):
+                        # Local import to avoid module-level cycles; keep fast
+                        # and robust — failures shouldn't break the UI.
+                        from database import recompute_session_summary
+                        with st.spinner(translate_ui("welcome.leaderboard.refreshing", default="Aktualisiere Rangliste…")):
+                            recompute_session_summary(int(session_id))
+                        st.session_state[saved_key] = True
+            except Exception:
+                # Don't raise — leaderboard should still render even if DB
+                # update fails for any reason.
+                pass
+
             leaderboard_data = get_all_logs_for_leaderboard(selected_file)
 
             if not leaderboard_data:

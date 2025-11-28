@@ -618,6 +618,8 @@
                 "date": "\ud83d\udcc5 Datum",
                 "duration": "\u23f1\ufe0f Dauer"
             }
+            ,
+            "refreshing": "Aktualisiere Rangliste…"
         },
         "language": {
             "label": "Sprache w\u00e4hlen",

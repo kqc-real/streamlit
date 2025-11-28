@@ -574,6 +574,8 @@
                 "date": "\ud83d\udcc5 Fecha",
                 "duration": "\u23f1\ufe0f Duración"
             }
+            ,
+            "refreshing": "Actualizando la clasificación…"
         },
         "language": {
             "label": "Idioma",
