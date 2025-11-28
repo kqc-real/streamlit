@@ -1112,56 +1112,106 @@ def backfill_session_summaries(batch_size: int = 200) -> int:
 
 @with_db_retry
 def release_unreserved_pseudonyms() -> int:
-    """Delete user rows for pseudonyms that are not reserved and have no sessions.
+    """
+    Löscht Benutzer, die nicht reserviert sind und deren letzte Testsitzung
+    älter als eine konfigurierte Zeitspanne ist (z.B. 24 Stunden).
+    Dies gibt Pseudonyme für die Wiederverwendung frei.
 
-    Returns the number of user rows removed. A pseudonym is considered
-    "reserved" if the `users` table contains non-empty `recovery_salt` and
-    `recovery_hash` values for that row. The function is defensive: if the
-    recovery columns are not present (older schema), it treats the pseudonym
-    as unreserved.
+    Returns:
+        Die Anzahl der freigegebenen Benutzer (Pseudonyme).
     """
     conn = get_db_connection()
     if conn is None:
         return 0
 
     try:
+        from config import AppConfig
+        app_config = AppConfig()
+        release_hours = app_config.pseudonym_release_hours
+    except Exception:
+        release_hours = 24  # Fallback
+
+    try:
         cursor = conn.cursor()
 
-        # Detect whether recovery columns exist in the users table
+        # Ermittle, ob die Wiederherstellungs-Spalten existieren
         cursor.execute("PRAGMA table_info(users)")
         cols = [row['name'] for row in cursor.fetchall()]
         has_recovery_cols = ('recovery_salt' in cols) and ('recovery_hash' in cols)
 
-        # Build query defensively depending on schema
+        # Finde alle Benutzer, die nicht reserviert sind
         if has_recovery_cols:
-            q = (
-                "SELECT u.user_id FROM users u "
-                "LEFT JOIN test_sessions s ON u.user_id = s.user_id "
-                "WHERE s.session_id IS NULL "
-                "AND (u.recovery_salt IS NULL OR u.recovery_salt = '') "
-                "AND (u.recovery_hash IS NULL OR u.recovery_hash = '')"
-            )
+            unreserved_users_q = """
+                SELECT user_id FROM users
+                WHERE (recovery_salt IS NULL OR recovery_salt = '')
+                  AND (recovery_hash IS NULL OR recovery_hash = '')
+            """
         else:
-            # No recovery columns present: consider any user without sessions as
-            # eligible for deletion.
-            q = (
-                "SELECT u.user_id FROM users u "
-                "LEFT JOIN test_sessions s ON u.user_id = s.user_id "
-                "WHERE s.session_id IS NULL"
-            )
+            unreserved_users_q = "SELECT user_id FROM users"
+        
+        cursor.execute(unreserved_users_q)
+        unreserved_user_ids = [row['user_id'] for row in cursor.fetchall()]
 
-        cursor.execute(q)
-        rows = cursor.fetchall()
-        deleted = 0
-        with conn:
-            for r in rows:
+        if not unreserved_user_ids:
+            return 0
+
+        # Finde die letzte Session-Zeit für alle Benutzer
+        # Verwende eine temporäre Tabelle für bessere Performance bei vielen Benutzern
+        cursor.execute("CREATE TEMP TABLE _last_sessions AS SELECT user_id, MAX(start_time) as last_time FROM test_sessions GROUP BY user_id")
+
+        user_ids_to_delete = []
+        for user_id in unreserved_user_ids:
+            cursor.execute("SELECT last_time FROM _last_sessions WHERE user_id = ?", (user_id,))
+            row = cursor.fetchone()
+            
+            if not row or not row['last_time']:
+                # Benutzer hat überhaupt keine Sessions, kann also gelöscht werden
+                user_ids_to_delete.append(user_id)
+                continue
+
+            # Prüfe, ob die letzte Session älter als das Limit ist
+            # Die Zeit wird als ISO-String oder 'YYYY-MM-DD HH:MM:SS' gespeichert
+            try:
+                from datetime import datetime, timedelta
+
+                last_time_str = row['last_time']
+                
+                # Versuche, verschiedene Zeitstempelformate zu parsen
+                last_session_time = None
                 try:
-                    conn.execute("DELETE FROM users WHERE user_id = ?", (r['user_id'],))
-                    deleted += 1
-                except sqlite3.Error:
-                    # skip problematic rows but continue
-                    continue
-        return deleted
+                    last_session_time = datetime.fromisoformat(last_time_str)
+                except ValueError:
+                    try:
+                        last_session_time = datetime.strptime(last_time_str, '%Y-%m-%d %H:%M:%S')
+                    except ValueError:
+                        pass # Konnte nicht geparsed werden
+
+                if last_session_time:
+                    # Normalisiere Zeitzonen, um Vergleiche sicher zu machen
+                    # Wenn der Timestamp naiv ist, nehmen wir an, er ist in UTC
+                    if last_session_time.tzinfo is None:
+                        from datetime import timezone
+                        last_session_time = last_session_time.replace(tzinfo=timezone.utc)
+                    
+                    if datetime.now(last_session_time.tzinfo) - last_session_time > timedelta(hours=release_hours):
+                        user_ids_to_delete.append(user_id)
+
+            except (ValueError, TypeError) as e:
+                print(f"Fehler beim Parsen des Zeitstempels '{row['last_time']}' für user_id {user_id}: {e}")
+                continue
+
+        deleted_count = 0
+        if user_ids_to_delete:
+            with conn:
+                placeholders = ','.join('?' for _ in user_ids_to_delete)
+                # Lösche zuerst abhängige Daten, falls Foreign Keys aktiv sind
+                cursor.execute(f"DELETE FROM test_sessions WHERE user_id IN ({placeholders})", user_ids_to_delete)
+                cursor.execute(f"DELETE FROM users WHERE user_id IN ({placeholders})", user_ids_to_delete)
+                deleted_count = cursor.rowcount
+
+        cursor.execute("DROP TABLE _last_sessions")
+        return deleted_count
+
     except sqlite3.Error as e:
         print(f"Datenbankfehler in release_unreserved_pseudonyms: {e}")
         return 0

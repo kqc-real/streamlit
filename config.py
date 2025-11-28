@@ -463,8 +463,10 @@ class AppConfig:
         # Default: 14 days
         self.user_qset_reserved_retention_days: int = 14
         # Automatically release unreserved pseudonyms that have no sessions
-        # when the welcome page runs cleanup. Default: False (disabled).
+        # when the welcome page runs cleanup. Default: True (enabled).
         self.auto_release_unreserved_pseudonyms: bool = True
+        # Hours after which an inactive, unreserved pseudonym is released.
+        self.pseudonym_release_hours: int = 0
         # Recovery / policy defaults
         self.recovery_min_length: int = 6
         self.recovery_allow_short: bool = False
