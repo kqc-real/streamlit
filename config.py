@@ -753,6 +753,7 @@ def _resolve_question_paths(filename: str) -> List[Path]:
     return unique_candidates
 
 
+@st.cache_data
 def load_questions(filename: str, silent: bool = False) -> QuestionSet:
     """Lädt ein spezifisches Fragenset aus einer JSON-Datei."""
 
