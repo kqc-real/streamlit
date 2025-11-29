@@ -265,6 +265,28 @@ Hinweis: Die App priorisiert Werte in dieser Reihenfolge: Streamlit-Secrets → 
 ├── GLOSSARY_SCHEMA.md                 # Dokumentation für Mini-Glossar in Fragensets
 ├── VISION_RELEASE_2.0.md              # Strategische Vision & Feature-Roadmap Release 2.0
 └── README.md                          # Diese Dokumentation
+```
+
+---
+
+## 📊 Repository-Größe & Statistiken
+
+**Wie groß ist dieses Repository?**
+
+| Metrik                    | Wert                |
+|---------------------------|---------------------|
+| 📦 Gesamtgröße            | ~29 MB              |
+| 📂 Git-Historie           | ~13 MB              |
+| 📄 Dateien gesamt         | ~175 Dateien        |
+| 🐍 Python-Dateien         | 42 Dateien          |
+| 📝 Markdown-Dokumentation | 67 Dateien          |
+| 🗂️ JSON-Dateien           | 36 Dateien          |
+| 💻 Python-Codezeilen      | ~15 900 Zeilen      |
+| 📁 Hauptverzeichnisse     | 13 Verzeichnisse    |
+
+**Hinweis:** Die Statistiken können sich mit der Weiterentwicklung des Projekts ändern. Die Werte gelten für den aktuellen Stand des Repositories.
+
+---
 
 ## 🧰 Developer tools (local)
 
