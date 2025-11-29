@@ -1813,37 +1813,7 @@ def render_welcome_page(app_config: AppConfig):
     # Process any queued rerun requests (set by other code paths as a fallback).
     _process_queued_rerun()
 
-    # Honor explicit language query parameter on initial load: if the URL
-    # contains ?lang=..., set the session locale accordingly and rerun so the
-    # rest of the UI renders in the requested language. This ensures manual
-    # edits to the address bar take effect immediately.
-    try:
-        params = getattr(st, "query_params", {}) or {}
-        qp = params.get("lang") or params.get("locale") or params.get("l")
-        if isinstance(qp, list):
-            qp = qp[0] if qp else None
-        if qp:
-            # Avoid unnecessary reruns: only set+rerun when the locale differs
-            from i18n.context import get_locale as _get_loc, set_locale as _set_loc
-            try:
-                current = _get_loc()
-            except Exception:
-                current = None
-            try:
-                if qp and (not current or str(qp) != str(current)):
-                    _set_loc(qp)
-                    try:
-                        # Trigger a rerun so the newly-set locale is applied
-                        rerun_fn = getattr(st, 'rerun', None) or getattr(st, 'experimental_rerun', None)
-                        if callable(rerun_fn):
-                            rerun_fn()
-                    except Exception:
-                        # If rerun fails, mark a queued rerun so it happens later
-                        st.session_state['_needs_rerun'] = True
-            except Exception:
-                pass
-    except Exception:
-        pass
+    pass
 
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
     core_question_files = list_question_files()
@@ -2768,6 +2738,55 @@ def render_welcome_page(app_config: AppConfig):
                         # Setze dieselben Session-Keys wie im normalen Start-Flow
                         st.session_state.user_id = pseudonym_recover
                         st.session_state.user_id_hash = user_id
+                        # Load persisted locale preference for reserved pseudonyms
+                        try:
+                            from database import (
+                                get_user_preference,
+                                has_recovery_secret_for_pseudonym,
+                                set_user_preference,
+                            )
+                        except Exception:
+                            get_user_preference = None
+                            has_recovery_secret_for_pseudonym = None
+                            set_user_preference = None
+                        try:
+                            user_pseudo = st.session_state.get('user_id')
+                            if (
+                                callable(has_recovery_secret_for_pseudonym)
+                                and user_pseudo
+                                and has_recovery_secret_for_pseudonym(user_pseudo)
+                            ):
+                                # Try to load a persisted preference. If present,
+                                # set the session locale accordingly.
+                                if callable(get_user_preference):
+                                    pref = get_user_preference(user_pseudo, 'locale')
+                                    if pref:
+                                        try:
+                                            from i18n.context import set_locale
+                                            set_locale(pref)
+                                        except Exception:
+                                            pass
+
+                                # Persist the current session locale as well. This
+                                # ensures that if the user selected a language
+                                # before logging in, their choice is saved for
+                                # future sessions. Best-effort: ignore DB errors.
+                                try:
+                                    if callable(set_user_preference):
+                                        try:
+                                            from i18n.context import get_locale
+                                            current_locale = get_locale()
+                                        except Exception:
+                                            current_locale = st.session_state.get('active_locale')
+                                        if current_locale:
+                                            try:
+                                                set_user_preference(user_pseudo, 'locale', current_locale)
+                                            except Exception:
+                                                pass
+                                except Exception:
+                                    pass
+                        except Exception:
+                            pass
                         # Mark that the user restored via pseudonym+secret so the
                         # sidebar history button can be shown without extra auth.
                         st.session_state.login_via_recovery = True
@@ -2836,6 +2855,53 @@ def render_welcome_page(app_config: AppConfig):
             if session_id:
                 st.session_state.user_id = user_name
                 st.session_state.user_id_hash = user_id_hash
+                # Load persisted locale preference for reserved pseudonyms and
+                # also persist the current session selection if present.
+                try:
+                    from database import (
+                        get_user_preference,
+                        has_recovery_secret_for_pseudonym,
+                        set_user_preference,
+                    )
+                except Exception:
+                    get_user_preference = None
+                    has_recovery_secret_for_pseudonym = None
+                    set_user_preference = None
+                try:
+                    user_pseudo = st.session_state.get('user_id')
+                    if (
+                        callable(has_recovery_secret_for_pseudonym)
+                        and user_pseudo
+                        and has_recovery_secret_for_pseudonym(user_pseudo)
+                    ):
+                        # Try loading any saved preference first.
+                        if callable(get_user_preference):
+                            pref = get_user_preference(user_pseudo, 'locale')
+                            if pref:
+                                try:
+                                    from i18n.context import set_locale
+                                    set_locale(pref)
+                                except Exception:
+                                    pass
+
+                        # Persist current session locale (best-effort) so that a
+                        # prior selection made before login is recorded.
+                        try:
+                            if callable(set_user_preference):
+                                try:
+                                    from i18n.context import get_locale
+                                    current_locale = get_locale()
+                                except Exception:
+                                    current_locale = st.session_state.get('active_locale')
+                                if current_locale:
+                                    try:
+                                        set_user_preference(user_pseudo, 'locale', current_locale)
+                                    except Exception:
+                                        pass
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
                 # Normal start: ensure the recovery flag is not set
                 st.session_state.login_via_recovery = False
                 st.session_state.session_id = session_id

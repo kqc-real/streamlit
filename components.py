@@ -60,22 +60,7 @@ from i18n.context import t as translate_ui, get_locale, set_locale
 
 # Helpers imported at module top; do not re-import here.
 
-_BROWSER_LOCALE_COMPONENT_KEY = "browser_locale_detector"
 _WELCOME_LOCALE_SELECTOR_KEY = "welcome_locale_selector"
-
-
-def _detect_browser_locale() -> str | None:
-    try:
-        snippet = """
-        <script>
-        const locale = navigator.language || navigator.userLanguage || '';
-        window.Streamlit.setComponentValue(locale);
-        </script>
-        """
-        return components.html(snippet, height=0, key=_BROWSER_LOCALE_COMPONENT_KEY)
-    except Exception:
-        return None
-
 
 
 def _ensure_locale_synced() -> None:
@@ -83,61 +68,12 @@ def _ensure_locale_synced() -> None:
     # and potential repeated reruns. Use a simple in-memory session flag.
     if st.session_state.get("_locale_synced"):
         return
-
-    # Priority: explicit URL parameter > browser locale
-    try:
-        params = getattr(st, "query_params", {}) or {}
-        qp_lang = None
-        if isinstance(params, dict):
-            qp_val = params.get("lang") or params.get("locale") or params.get("l")
-            if isinstance(qp_val, list):
-                qp_val = qp_val[0] if qp_val else None
-            qp_lang = qp_val
-
-        if qp_lang:
-            try:
-                set_locale(qp_lang)
-            except Exception:
-                pass
-        else:
-            try:
-                detected = _detect_browser_locale()
-                if detected:
-                    set_locale(detected)
-            except Exception:
-                pass
-    except Exception:
-        # If query params are not available, fall back to browser detection.
-        try:
-            detected = _detect_browser_locale()
-            if detected:
-                set_locale(detected)
-        except Exception:
-            pass
-
+    # Do not read language from URL query parameters; only rely on the
+    # session state and explicit user selection via the locale selector.
     st.session_state["_locale_synced"] = True
 
-    # Ensure the chosen locale is also reflected in the URL so reloads/bookmarks
-    # keep the same language. Use `st.query_params` (production API) and only
-    # update when the `lang` param is missing or different to avoid noisy
-    # assignments that may trigger extra reruns.
-    try:
-        params = getattr(st, "query_params", {}) or {}
-        current = get_locale()
-        if current and params.get("lang") != current:
-            try:
-                params["lang"] = current
-                params["locale"] = current
-                st.query_params = params
-            except Exception:
-                try:
-                    st.query_params["lang"] = current
-                    st.query_params["locale"] = current
-                except Exception:
-                    pass
-    except Exception:
-        # Ignore — environments may not expose query params in all code paths.
-        pass
+    # Locale syncing disabled for URL/query-parameter mechanisms.
+    pass
 
 
 def _locale_display_name(locale_code: str) -> str:
@@ -210,57 +146,37 @@ def render_locale_selector(label: str, help_text: str | None = None) -> str:
     )
 
     if selected_locale != current_locale:
-        new_locale = set_locale(selected_locale)
+        set_locale(selected_locale)
 
-        # Try to update Streamlit query params first (production API).
+        # Persist the chosen locale for users who have a reserved pseudonym.
+        # This avoids relying on URL params or browser storage and ensures
+        # cross-tab/device persistence when the user is identifiable.
         try:
-            params = getattr(st, "query_params", {}) or {}
-            try:
-                params["lang"] = new_locale
-                params["locale"] = new_locale
-                st.query_params = params
-            except Exception:
+            from database import has_recovery_secret_for_pseudonym, set_user_preference
+        except Exception:
+            has_recovery_secret_for_pseudonym = None
+            set_user_preference = None
+
+        try:
+            user_pseudo = st.session_state.get("user_id")
+            if (
+                callable(has_recovery_secret_for_pseudonym)
+                and callable(set_user_preference)
+                and user_pseudo
+                and has_recovery_secret_for_pseudonym(user_pseudo)
+            ):
+                # Best-effort: ignore DB errors to avoid breaking the UI flow.
                 try:
-                    st.query_params["lang"] = new_locale
-                    st.query_params["locale"] = new_locale
+                    set_user_preference(user_pseudo, "locale", selected_locale)
                 except Exception:
                     pass
         except Exception:
             pass
 
-        # Best-effort JS fallback: try to update the visible browser URL via
-        # the History API (same-origin check performed in JS). This helps in
-        # environments where `st.query_params` does not update the address bar.
-        try:
-            js = f"""
-            <script>
-            (function() {{
-                try {{
-                    const newQ = '?lang={new_locale}';
-                    const tryReplace = (win) => {{
-                        try {{ win.history.replaceState(null, '', newQ); return true; }} catch(e) {{ return false; }}
-                    }};
-                    if (window.top && window.top !== window) {{
-                        try {{
-                            if (window.top.location && window.top.location.origin === window.location.origin) {{
-                                tryReplace(window.top) || tryReplace(window);
-                            }} else {{
-                                tryReplace(window);
-                            }}
-                        }} catch(e) {{
-                            tryReplace(window);
-                        }}
-                    }} else {{
-                        tryReplace(window);
-                    }}
-                }} catch (e) {{ console.warn('URL update failed', e); }}
-            }})();
-            </script>
-            """
-            components.html(js, height=0)
-        except Exception:
-            pass
-
+        # Do not write the chosen locale into the URL query params; this
+        # mechanism is disabled because it is flaky in some hosting
+        # environments. Just trigger a rerun so the session-level locale
+        # change takes effect immediately.
         _trigger_rerun()
 
     # When running on localhost we keep a visual separator for debugging

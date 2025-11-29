@@ -287,6 +287,18 @@ def create_tables():
                 """
             )
             conn.execute("CREATE INDEX IF NOT EXISTS idx_summaries_user_time ON test_session_summaries (user_id, start_time DESC);")
+            # Table for per-user preferences (e.g. UI locale) keyed by pseudonym.
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS user_preferences (
+                    user_pseudonym TEXT NOT NULL,
+                    pref_key TEXT NOT NULL,
+                    pref_value TEXT,
+                    PRIMARY KEY (user_pseudonym, pref_key)
+                );
+                """
+            )
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_user_prefs_user ON user_preferences(user_pseudonym);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_summaries_qfile ON test_session_summaries (questions_file, start_time DESC);")
             
     except sqlite3.Error as e:
@@ -1356,6 +1368,57 @@ def has_recovery_secret_for_pseudonym(pseudonym: str) -> bool:
             # fallback: be conservative and return False
             return False
         return bool(salt and stored_hash)
+    except sqlite3.Error:
+        return False
+
+
+@with_db_retry
+def get_user_preference(user_pseudonym: str, pref_key: str) -> str | None:
+    """Retrieve a preference value for a given pseudonym and key.
+
+    Returns None if no value is set or on error.
+    """
+    if not user_pseudonym or not pref_key:
+        return None
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT pref_value FROM user_preferences WHERE user_pseudonym = ? AND pref_key = ?",
+            (user_pseudonym, pref_key),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+        try:
+            return row['pref_value'] if 'pref_value' in row.keys() else None
+        except Exception:
+            return None
+    except sqlite3.Error:
+        return None
+
+
+@with_db_retry
+def set_user_preference(user_pseudonym: str, pref_key: str, pref_value: str) -> bool:
+    """Set or replace a preference value for a given pseudonym and key.
+
+    Returns True on success, False on error.
+    """
+    if not user_pseudonym or not pref_key:
+        return False
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT OR REPLACE INTO user_preferences (user_pseudonym, pref_key, pref_value) VALUES (?, ?, ?)",
+            (user_pseudonym, pref_key, pref_value),
+        )
+        conn.commit()
+        return True
     except sqlite3.Error:
         return False
 

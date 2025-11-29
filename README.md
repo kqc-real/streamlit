@@ -219,6 +219,13 @@ Zusätzliche Secrets / Umgebungsvariablen (kurz erklärt):
 
 Hinweis: Du kannst diese Werte lokal in einer `.env` Datei setzen (z.B. für die Entwicklung) oder als Secrets in deiner Deployment-Umgebung (z. B. Streamlit Cloud). Die App liest zuerst Streamlit-Secrets, dann Umgebungsvariablen und schließlich die lokale JSON-Konfiguration `mc_test_config.json`.
 
+### 🌐 Sprache / Locale
+
+- Die App liest die Sprache nicht aus URL-Query-Parametern (z. B. `?lang=de`).
+- Sprache wird ausschließlich über den UI-Sprachselektor gesteuert und in der Session gespeichert.
+- Möchtest du das Standardverhalten ändern, passe den Default in `i18n/__init__.py` (`_DEFAULT_LOCALE`) an.
+
+
 Kurzes Beispiel: Setzen des Cleanup-Timeouts
 
 Lokale Shell (temporär für die laufende Shell):

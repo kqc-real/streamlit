@@ -25,40 +25,10 @@ def get_locale() -> str:
     state = _get_state()
     if state is None:
         # No session state available (e.g. running outside Streamlit UI). Try
-        # to honour a URL query parameter if present, otherwise fall back to
-        # the default locale. Use `st.query_params` instead of the
-        # experimental API to avoid conflicts with other parts of the app.
-        try:
-            params = getattr(st, "query_params", {}) or {}
-            for key in ("lang", "locale", "l"):
-                values = params.get(key)
-                if values:
-                    normalized_qp = normalize_locale(values[0])
-                    if normalized_qp in set(available_locales()):
-                        return normalized_qp
-        except Exception:
-            pass
+        # No session state available (e.g. running outside Streamlit UI).
+        # Do not attempt to read URL query parameters for the locale here;
+        # that mechanism is unreliable in some deployment environments.
         return DEFAULT_LOCALE
-
-    # Prefer an explicit query parameter so the locale can be fixed via the
-    # URL (e.g. `?lang=de`). This is useful when the client cannot persist
-    # the choice to localStorage.
-    try:
-        params = getattr(st, "query_params", {}) or {}
-        for key in ("lang", "locale", "l"):
-            values = params.get(key)
-            if values:
-                normalized_qp = normalize_locale(values[0])
-                if normalized_qp in set(available_locales()):
-                    try:
-                        state[LOCALE_SESSION_KEY] = normalized_qp
-                    except Exception:
-                        pass
-                    return normalized_qp
-    except Exception:
-        # Accessing `st.query_params` may raise in some environments; ignore
-        # errors and fall back to the session-based behavior.
-        pass
 
     stored = state.get(LOCALE_SESSION_KEY)
     normalized = normalize_locale(stored)
