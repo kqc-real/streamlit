@@ -22,7 +22,7 @@
     {
       "question": "1. Welche Aussage ist eine Folgerung aus den Vektorraumeigenschaften (und selbst kein Axiom)?",
       "options": [
-        "0 \\cdot v = 0 gilt für alle Vektoren v.",
+        "$0 \\cdot v = 0$ gilt für alle Vektoren v.",
         "$\\alpha \\cdot (\\beta \\cdot v) = (\\alpha\\beta) \\cdot v$ für alle Skalare und Vektoren.",
         "$1 \\cdot v = v$ für alle Vektoren v.",
         "$\\alpha \\cdot (u+v) = \\alpha \\cdot u + \\alpha \\cdot v$ für alle u,v.",
