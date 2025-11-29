@@ -1876,9 +1876,15 @@ def render_welcome_page(app_config: AppConfig):
                     released = release_unreserved_pseudonyms()
                     if released and released > 0 and not st.session_state.get('_user_pseudonym_release_notice_shown'):
                         try:
-                            st.toast(translate_ui('welcome.pseudonym.released', default='Freigegebene Pseudonyme: {n}').format(n=released))
+                            # Do not show a transient toast here; use a persistent
+                            # info box instead so the message is visible without
+                            # creating a transient notification.
+                            st.info(
+                                translate_ui('welcome.pseudonym.released', default='Freigegebene Pseudonyme: {n}').format(n=released)
+                            )
                         except Exception:
-                            st.info(translate_ui('welcome.pseudonym.released', default='Freigegebene Pseudonyme: {n}').format(n=released))
+                            # Ignore UI notification errors; do not raise.
+                            pass
                         st.session_state['_user_pseudonym_release_notice_shown'] = True
                 except Exception:
                     # Non-fatal: don't block welcome page on DB errors
