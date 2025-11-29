@@ -1846,14 +1846,21 @@ def render_welcome_page(app_config: AppConfig):
                     released = release_unreserved_pseudonyms()
                     if released and released > 0 and not st.session_state.get('_user_pseudonym_release_notice_shown'):
                         try:
-                            # Do not show a transient toast here; use a persistent
-                            # info box instead so the message is visible without
-                            # creating a transient notification.
-                            st.info(
-                                translate_ui('welcome.pseudonym.released', default='Freigegebene Pseudonyme: {n}').format(n=released)
-                            )
+                            # Previously we showed a persistent info box here to
+                            # inform about released unreserved pseudonyms. That
+                            # notification was removed per UX request because it
+                            # was noisy for users leaving sessions. Keep a
+                            # server-side log for visibility but do not render
+                            # a UI message.
+                            try:
+                                logger = globals().get('logger')
+                                if logger:
+                                    logger.info('Released unreserved pseudonyms: %s', released)
+                                else:
+                                    print(f'Released unreserved pseudonyms: {released}')
+                            except Exception:
+                                pass
                         except Exception:
-                            # Ignore UI notification errors; do not raise.
                             pass
                         st.session_state['_user_pseudonym_release_notice_shown'] = True
                 except Exception:
