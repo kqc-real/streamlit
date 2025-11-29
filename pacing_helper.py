@@ -70,7 +70,7 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
     if projected_finish <= allowed:
         return {"action": "on_track", "message": translate_ui("test_view.pacing.recommend.on_track", default="On track.")}
     required_speedup = projected_finish / float(allowed)
-    suggested_reduction_pct = max(0.0, (required_speedup - 1.0) / remaining_questions * 100.0)
+    suggested_reduction_pct = max(0.0, (required_speedup - 1.0) * 100.0)
 
     def _reduction_verb(pct: float) -> str:
         if pct <= 5.0:
@@ -81,7 +81,7 @@ def recommend_action(elapsed_seconds: int, ideal_times: List[int], current_index
             return translate_ui("test_view.pacing.degree.moderate", default="noticeably")
         return translate_ui("test_view.pacing.degree.strong", default="substantially")
 
-    if required_speedup > 1.2:
+    if required_speedup > 1.5:
         msg = translate_ui(
             "test_view.pacing.recommend.significant_delay",
             default=(

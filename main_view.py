@@ -3017,9 +3017,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
 
     def _dismiss_user_qset_dialog_and_rerun() -> None:
+        """Schließt bei Bedarf den Dialog für benutzerdefinierte Fragensets und macht die Pacing-Anzeige sichtbar."""
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
-            st.session_state["_needs_rerun"] = True
+
+        # Mache die Pacing-Anzeige sichtbar, sobald der Nutzer interagiert.
+        if not st.session_state.get("pacing_visible"):
+            st.session_state.pacing_visible = True
+        
+        st.session_state["_needs_rerun"] = True
 
 
     # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
