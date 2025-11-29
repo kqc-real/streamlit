@@ -9,7 +9,7 @@ from typing import Any, Iterable, Mapping, Optional
 
 logger = logging.getLogger(__name__)
 
-_DEFAULT_LOCALE = "de"
+_DEFAULT_LOCALE = "en"
 _LOCALE_DIR = Path(__file__).resolve().parent
 
 __all__ = [
