@@ -2603,7 +2603,24 @@ def render_welcome_page(app_config: AppConfig):
     if 'recover_pseudonym_expanded' not in st.session_state:
         st.session_state['recover_pseudonym_expanded'] = False
 
-    with st.expander(_welcome_pseudonym_recover_expander(), expanded=st.session_state.get('recover_pseudonym_expanded', False)):
+    # Keep the expander open when there is any value present in the recovery
+    # widgets (either persisted in `st.session_state` or currently typed).
+    try:
+        # Consider both persisted session values and any in-flight widget values
+        # that may exist from previous reruns. This avoids a rerun collapsing
+        # the expander when the user moves focus between the pseudonym and
+        # secret input fields (e.g. click or tab) which can trigger a rerun.
+        persisted_pseudo = st.session_state.get('recover_pseudonym')
+        persisted_secret = st.session_state.get('recover_secret')
+        expanded_default = bool(st.session_state.get('recover_pseudonym_expanded', False))
+        if persisted_pseudo and str(persisted_pseudo).strip():
+            expanded_default = True
+        if persisted_secret and str(persisted_secret).strip():
+            expanded_default = True
+    except Exception:
+        expanded_default = st.session_state.get('recover_pseudonym_expanded', False)
+
+    with st.expander(_welcome_pseudonym_recover_expander(), expanded=expanded_default):
         pseudonym_recover = st.text_input(_welcome_pseudonym_recover_pseudonym_label(), key="recover_pseudonym")
         secret_recover = st.text_input(_welcome_pseudonym_recover_secret_label(), type="password", key="recover_secret")
 
