@@ -3483,59 +3483,28 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # If the current question contains a `mini_glossary` object (map of
         # term->definition), render it inside a collapsed expander so users
         # can open contextual definitions on demand.
-        try:
-            mini_gloss = frage_obj.get('mini_glossary')
-            if isinstance(mini_gloss, dict) and mini_gloss:
-                try:
-                    title = translate_ui('mini_glossary.title', default='Mini-Glossar')
-                except Exception:
-                    title = 'Mini-Glossar'
+        if "mini_glossary" in frage_obj and frage_obj["mini_glossary"]:
+            mini_gloss = frage_obj["mini_glossary"]
+            title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
+            
+            expander_key = f"mini_glossary_open_{frage_idx}"
 
-                try:
-                    # Use a checkbox to toggle the mini-glossary so we can
-                    # programmatically close it on navigation actions.
-                    expander_key = f"mini_glossary_open_{frage_idx}"
-                    # Render a small opener button so the user can open the
-                    # mini-glossary. The actual expander is only created when
-                    # the flag is True, which makes programmatic closing
-                    # (setting the flag False) reliable.
-                    opener_key = f"open_mini_gloss_btn_{frage_idx}"
-                    if st.button(f"🔎 {title}", key=opener_key, type="secondary"):
-                        try:
-                            # Toggle the flag so the same button opens and closes
-                            _set_mini_gloss_flag(frage_idx, not st.session_state.get(expander_key, False), origin="opener-button")
-                        except Exception:
-                            pass
-                        st.experimental_rerun()
+            # Ensure the state is initialized.
+            if expander_key not in st.session_state:
+                st.session_state[expander_key] = False
+            
+            # The button toggles the expander's state.
+            if st.button(f"🔎 {title}", key=f"open_mini_gloss_btn_{frage_idx}"):
+                st.session_state[expander_key] = not st.session_state[expander_key]
+                st.rerun()
 
-                    # (debug caption removed)
-
-                    if st.session_state.get(expander_key, False):
-                        with st.expander(title, expanded=True):
-                            # Provide an explicit close control inside the
-                            # expander so users can close without answering.
-                            if st.button("Schließen", key=f"close_mini_gloss_{frage_idx}"):
-                                try:
-                                    _set_mini_gloss_flag(frage_idx, False, origin="close-button")
-                                except Exception:
-                                    pass
-                                st.experimental_rerun()
-
-                            for term, definition in mini_gloss.items():
-                                try:
-                                    st.markdown(f"- **{term}**: {definition}", unsafe_allow_html=True)
-                                except Exception:
-                                    st.write(f"{term}: {definition}")
-                except Exception:
-                    # Best-effort: don't break the question view if the
-                    # expander or rendering fails for any reason.
+            # The expander is controlled by the session state.
+            if st.session_state.get(expander_key):
+                with st.expander(title, expanded=True):
+                    glossary_terms_string = ""
                     for term, definition in mini_gloss.items():
-                        try:
-                            st.markdown(f"- **{term}**: {definition}")
-                        except Exception:
-                            st.write(f"{term}: {definition}")
-        except Exception:
-            pass
+                        glossary_terms_string += f"- **{term}**: {definition}\n"
+                    st.markdown(glossary_terms_string, unsafe_allow_html=True)
 
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
