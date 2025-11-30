@@ -455,7 +455,18 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     st.session_state.selected_questions_file = identifier
     st.session_state.session_id = session_id
     st.session_state.login_via_recovery = False
-    st.session_state.show_pseudonym_reminder = True
+    # Show the pseudonym reminder only if this pseudonym is reserved (has a recovery secret).
+    try:
+        from database import has_recovery_secret_for_pseudonym
+    except Exception:
+        has_recovery_secret_for_pseudonym = None
+    try:
+        user_label = st.session_state.get('user_id') or ''
+        if callable(has_recovery_secret_for_pseudonym) and user_label and has_recovery_secret_for_pseudonym(user_label):
+            st.session_state.show_pseudonym_reminder = True
+    except Exception:
+        # Best-effort: if the DB helper fails, do not set the reminder to avoid false positives.
+        pass
     st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
 
     initialize_session_state(questions, app_config)

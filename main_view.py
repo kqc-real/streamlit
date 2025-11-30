@@ -1816,12 +1816,33 @@ def render_welcome_page(app_config: AppConfig):
     # zeigen wir einen Hinweis zentral im Hauptbereich statt in der Sidebar.
     try:
         if st.session_state.get("show_pseudonym_reminder", False):
-            st.info(
-                translate_ui(
-                    "test_view.pseudonym_welcome",
-                    default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
-                ).format(user=st.session_state.get('user_id'))
-            )
+            # Only show this reminder for actually reserved pseudonyms.
+            show = False
+            user_label = st.session_state.get('user_id') or ''
+            # If we just set the reserve success marker, treat as reserved.
+            if st.session_state.get('reserve_success_pseudonym'):
+                show = True
+            else:
+                # Fall back to DB check (best-effort). If the DB helper is
+                # available and the current pseudonym has a recovery secret,
+                # consider it reserved.
+                try:
+                    from database import has_recovery_secret_for_pseudonym
+
+                    if user_label and has_recovery_secret_for_pseudonym(user_label):
+                        show = True
+                except Exception:
+                    pass
+
+            if show:
+                st.info(
+                    translate_ui(
+                        "test_view.pseudonym_welcome",
+                        default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
+                    ).format(user=user_label)
+                )
+
+            # Consume the one-time flag in all cases so it doesn't persist.
             del st.session_state['show_pseudonym_reminder']
     except Exception:
         pass
@@ -3039,8 +3060,20 @@ def render_welcome_page(app_config: AppConfig):
                         st.session_state.start_zeit = pd.Timestamp.now()
                     except Exception:
                         pass
-                    # Set the pseudonym reminder after initializing session state
-                    st.session_state.show_pseudonym_reminder = True
+                    # Only set the pseudonym reminder if the pseudonym is actually reserved
+                    try:
+                        from database import has_recovery_secret_for_pseudonym
+                    except Exception:
+                        has_recovery_secret_for_pseudonym = None
+                    try:
+                        user_label = user_name or st.session_state.get('user_id') or ''
+                        if st.session_state.get('reserve_success_pseudonym'):
+                            st.session_state.show_pseudonym_reminder = True
+                        elif callable(has_recovery_secret_for_pseudonym) and user_label and has_recovery_secret_for_pseudonym(user_label):
+                            st.session_state.show_pseudonym_reminder = True
+                    except Exception:
+                        # Best-effort: don't set reminder on DB failure
+                        pass
                     # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
                     try:
                         if recovery_secret_new:
@@ -3206,12 +3239,28 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             user_label = st.session_state.get('user_id') or ''
         except Exception:
             user_label = ''
-        st.info(
-            translate_ui(
-                "test_view.pseudonym_welcome",
-                default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
-            ).format(user=user_label)
-        )
+
+        # Only show the reminder for reserved pseudonyms.
+        show = False
+        if st.session_state.get('reserve_success_pseudonym'):
+            show = True
+        else:
+            try:
+                from database import has_recovery_secret_for_pseudonym
+
+                if user_label and has_recovery_secret_for_pseudonym(user_label):
+                    show = True
+            except Exception:
+                pass
+
+        if show:
+            st.info(
+                translate_ui(
+                    "test_view.pseudonym_welcome",
+                    default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
+                ).format(user=user_label)
+            )
+
         del st.session_state['show_pseudonym_reminder']
 
     # If the sidebar requested the history dialog, show it once and consume the request.
