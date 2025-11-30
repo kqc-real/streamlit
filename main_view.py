@@ -2621,6 +2621,10 @@ def render_welcome_page(app_config: AppConfig):
         expanded_default = st.session_state.get('recover_pseudonym_expanded', False)
 
     with st.expander(_welcome_pseudonym_recover_expander(), expanded=expanded_default):
+        # Plain inputs for pseudonym recovery. We intentionally do not render
+        # a separate submit button here to avoid duplicate actions. The main
+        # "Test starten" button below handles starting the test for both
+        # reserved and non-reserved pseudonyms.
         pseudonym_recover = st.text_input(_welcome_pseudonym_recover_pseudonym_label(), key="recover_pseudonym")
         secret_recover = st.text_input(_welcome_pseudonym_recover_secret_label(), type="password", key="recover_secret")
 
@@ -2847,6 +2851,10 @@ def render_welcome_page(app_config: AppConfig):
             or st.session_state.get("main_view_question_file_selector")
         )
 
+        # If a recovery attempt is in-flight (form temp values or persistent
+        # recovery keys present), hide the duplicate 'Start test' button to
+        # avoid redundancy. Otherwise render the standard pseudonym start
+        # button.
         # Deaktiviere den Button, wenn keine Auswahl möglich ist.
         if st.button(
             _welcome_pseudonym_test_button(),
@@ -2858,112 +2866,112 @@ def render_welcome_page(app_config: AppConfig):
                 or (recovery_secret_new and secret_too_short)
             ),
         ):
-            # Normalize selected pseudonym to avoid accidental surrounding whitespace
-            try:
-                user_name = (
-                    st.session_state.get('selected_pseudonym')
-                    or st.session_state.get('main_view_pseudonym_selector')
-                )
-                user_name = str(user_name).strip()
-            except Exception:
-                user_name = st.session_state.get('selected_pseudonym') or st.session_state.get('main_view_pseudonym_selector')
-            user_id_hash = get_user_id_hash(user_name)
-
-            add_user(user_id_hash, user_name)
-            selected_qfile = st.session_state.get("selected_questions_file")
-            if not selected_qfile:
-                st.error(_welcome_pseudonym_question_required())
-                return
-            session_id = start_test_session(user_id_hash, selected_qfile)
-
-            if session_id:
-                st.session_state.user_id = user_name
-                st.session_state.user_id_hash = user_id_hash
-                # Load persisted locale preference for reserved pseudonyms and
-                # also persist the current session selection if present.
+                # Normalize selected pseudonym to avoid accidental surrounding whitespace
                 try:
-                    from database import (
-                        get_user_preference,
-                        has_recovery_secret_for_pseudonym,
-                        set_user_preference,
+                    user_name = (
+                        st.session_state.get('selected_pseudonym')
+                        or st.session_state.get('main_view_pseudonym_selector')
                     )
+                    user_name = str(user_name).strip()
                 except Exception:
-                    get_user_preference = None
-                    has_recovery_secret_for_pseudonym = None
-                    set_user_preference = None
-                try:
-                    user_pseudo = st.session_state.get('user_id')
-                    if (
-                        callable(has_recovery_secret_for_pseudonym)
-                        and user_pseudo
-                        and has_recovery_secret_for_pseudonym(user_pseudo)
-                    ):
-                        # Try loading any saved preference first.
-                        if callable(get_user_preference):
-                            pref = get_user_preference(user_pseudo, 'locale')
-                            if pref:
-                                try:
-                                    from i18n.context import set_locale
-                                    set_locale(pref)
-                                except Exception:
-                                    pass
+                    user_name = st.session_state.get('selected_pseudonym') or st.session_state.get('main_view_pseudonym_selector')
+                user_id_hash = get_user_id_hash(user_name)
 
-                        # Persist current session locale (best-effort) so that a
-                        # prior selection made before login is recorded.
-                        try:
-                            if callable(set_user_preference):
-                                try:
-                                    from i18n.context import get_locale
-                                    current_locale = get_locale()
-                                except Exception:
-                                    current_locale = st.session_state.get('active_locale')
-                                if current_locale:
+                add_user(user_id_hash, user_name)
+                selected_qfile = st.session_state.get("selected_questions_file")
+                if not selected_qfile:
+                    st.error(_welcome_pseudonym_question_required())
+                    return
+                session_id = start_test_session(user_id_hash, selected_qfile)
+
+                if session_id:
+                    st.session_state.user_id = user_name
+                    st.session_state.user_id_hash = user_id_hash
+                    # Load persisted locale preference for reserved pseudonyms and
+                    # also persist the current session selection if present.
+                    try:
+                        from database import (
+                            get_user_preference,
+                            has_recovery_secret_for_pseudonym,
+                            set_user_preference,
+                        )
+                    except Exception:
+                        get_user_preference = None
+                        has_recovery_secret_for_pseudonym = None
+                        set_user_preference = None
+                    try:
+                        user_pseudo = st.session_state.get('user_id')
+                        if (
+                            callable(has_recovery_secret_for_pseudonym)
+                            and user_pseudo
+                            and has_recovery_secret_for_pseudonym(user_pseudo)
+                        ):
+                            # Try loading any saved preference first.
+                            if callable(get_user_preference):
+                                pref = get_user_preference(user_pseudo, 'locale')
+                                if pref:
                                     try:
-                                        set_user_preference(user_pseudo, 'locale', current_locale)
+                                        from i18n.context import set_locale
+                                        set_locale(pref)
                                     except Exception:
                                         pass
-                        except Exception:
-                            pass
-                except Exception:
-                    pass
-                # Normal start: ensure the recovery flag is not set
-                st.session_state.login_via_recovery = False
-                st.session_state.session_id = session_id
-                st.session_state.show_pseudonym_reminder = True
-                query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                initialize_session_state(questions, app_config)
-                try:
-                    st.session_state.test_started = True
-                    st.session_state.start_zeit = pd.Timestamp.now()
-                except Exception:
-                    pass
-                # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
-                try:
-                    if recovery_secret_new:
-                        try:
-                            normalized_recovery_secret = str(recovery_secret_new).strip()
-                        except Exception:
-                            normalized_recovery_secret = recovery_secret_new
-                        ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
-                        if ok:
-                            st.session_state['reserve_success_pseudonym'] = user_name
-                            st.session_state['reserve_success_message'] = _welcome_pseudonym_reserve_success_message()
-                        else:
-                            st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
-                except Exception as e:
-                    # Log the error server-side and make it visible for the UI reload.
-                    try:
-                        logger.exception("Error saving recovery secret for %s", user_id_hash)
+
+                            # Persist current session locale (best-effort) so that a
+                            # prior selection made before login is recorded.
+                            try:
+                                if callable(set_user_preference):
+                                    try:
+                                        from i18n.context import get_locale
+                                        current_locale = get_locale()
+                                    except Exception:
+                                        current_locale = st.session_state.get('active_locale')
+                                    if current_locale:
+                                        try:
+                                            set_user_preference(user_pseudo, 'locale', current_locale)
+                                        except Exception:
+                                            pass
+                            except Exception:
+                                pass
                     except Exception:
-                        # If logger is unavailable for any reason, fall back to st.error
+                        pass
+                    # Normal start: ensure the recovery flag is not set
+                    st.session_state.login_via_recovery = False
+                    st.session_state.session_id = session_id
+                    st.session_state.show_pseudonym_reminder = True
+                    query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                    initialize_session_state(questions, app_config)
+                    try:
+                        st.session_state.test_started = True
+                        st.session_state.start_zeit = pd.Timestamp.now()
+                    except Exception:
+                        pass
+                    # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
+                    try:
+                        if recovery_secret_new:
+                            try:
+                                normalized_recovery_secret = str(recovery_secret_new).strip()
+                            except Exception:
+                                normalized_recovery_secret = recovery_secret_new
+                            ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
+                            if ok:
+                                st.session_state['reserve_success_pseudonym'] = user_name
+                                st.session_state['reserve_success_message'] = _welcome_pseudonym_reserve_success_message()
+                            else:
+                                st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
+                    except Exception as e:
+                        # Log the error server-side and make it visible for the UI reload.
                         try:
-                            st.error(f"Error saving recovery secret: {e}")
+                            logger.exception("Error saving recovery secret for %s", user_id_hash)
                         except Exception:
-                            pass
-                    st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error_with_reason(str(e))
-                st.rerun()
-            else:
-                st.error(_welcome_pseudonym_database_error())
+                            # If logger is unavailable for any reason, fall back to st.error
+                            try:
+                                st.error(f"Error saving recovery secret: {e}")
+                            except Exception:
+                                pass
+                        st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error_with_reason(str(e))
+                    st.rerun()
+                else:
+                    st.error(_welcome_pseudonym_database_error())
 
         # Debug expander removed after verification.
 
