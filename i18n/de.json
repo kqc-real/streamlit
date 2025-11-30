@@ -413,7 +413,7 @@
         "log": { "formula_cache": "📊 PDF-Export fertig: {n} Formeln im Cache" }
     },
     "mini_glossary": {
-        "title": "Schlüsselbegriffe aus dem Fragenset \"{name}\"",
+        "title": "Schlüsselbegriffe zur Frage",
         "empty_error": "Kein Mini-Glossar in diesem Fragenset vorhanden."
     },
     "unnamed_set": "Ungenanntes Fragenset",

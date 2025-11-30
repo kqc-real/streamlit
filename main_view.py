@@ -3479,6 +3479,42 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         except Exception:
             pass
 
+        # --- Mini-Glossar (frage-spezifisch) ---
+        # If the current question contains a `mini_glossary` object (map of
+        # term->definition), render it inside a collapsed expander so users
+        # can open contextual definitions on demand.
+        try:
+            mini_gloss = frage_obj.get('mini_glossary')
+            if isinstance(mini_gloss, dict) and mini_gloss:
+                try:
+                    title = translate_ui('mini_glossary.title', default='Mini-Glossar')
+                except Exception:
+                    title = 'Mini-Glossar'
+
+                try:
+                    with st.expander(title, expanded=False):
+                        # Compact list: render each term on its own line with a
+                        # slightly smaller font so the glossary is helpful but
+                        # not visually dominant.
+                        for term, definition in mini_gloss.items():
+                            try:
+                                st.markdown(
+                                    f"<div style='font-size:0.95em; margin-bottom:6px;'><strong>{term}</strong>: {definition}</div>",
+                                    unsafe_allow_html=True,
+                                )
+                            except Exception:
+                                st.write(f"{term}: {definition}")
+                except Exception:
+                    # Best-effort: don't break the question view if the
+                    # expander or rendering fails for any reason.
+                    for term, definition in mini_gloss.items():
+                        try:
+                            st.markdown(f"- **{term}**: {definition}")
+                        except Exception:
+                            st.write(f"{term}: {definition}")
+        except Exception:
+            pass
+
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]
