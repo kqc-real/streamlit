@@ -419,6 +419,15 @@
         },
         "performance_explanation_content": "- Las barras muestran el % de puntos logrados por tema.\n- Paréntesis: (preguntas respondidas / total).\n- Con pocas respuestas, el porcentaje es menos significativo.",
         "performance_no_data_info": "Sin datos por tema. Responde al menos una pregunta para ver esto.",
+        "cognition_radar": {
+            "name": "Rendimiento por niveles cognitivos",
+            "header": "Rendimiento por niveles cognitivos",
+            "hover": {
+                "performance": "Rendimiento",
+                "achieved": "Alcanzado",
+                "questions": "Preguntas"
+            }
+        },
         "review_export_header": "Exportar resumen",
         "review_export_mode": "Formato de exportación",
         "review_export_button": "Iniciar exportación",

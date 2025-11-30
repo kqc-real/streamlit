@@ -422,6 +422,15 @@
         },
         "performance_explanation_content": "- The bars show the share of achieved points per topic (in %).\n- The parentheses behind the topic show: (answered questions / total questions).\n- When very few questions for a topic were answered, the percent values are statistically less meaningful.",
         "performance_no_data_info": "No data is available for a topic-based analysis. Answer at least one question to see topic-specific results.",
+            "cognition_radar": {
+                "name": "Performance by cognitive stages",
+                "header": "Performance by cognitive stages",
+                "hover": {
+                    "performance": "Performance",
+                    "achieved": "Achieved",
+                    "questions": "Questions"
+                }
+            },
         "review_export_header": "Export summary",
         "review_export_mode": "Export format",
         "review_export_button": "Start export",

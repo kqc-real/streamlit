@@ -4415,6 +4415,27 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 radar_fill_rgba = "rgba(21,128,61,0.20)"  # translucent green fill
 
                 fig_radar = go.Figure()
+                # Build per-stage customdata for hover (count, achieved, max, pct)
+                customdata = []
+                for stage in BLOOM_STAGE_ORDER:
+                    totals = stage_totals.get(stage, {"achieved": 0.0, "max": 0.0, "count": 0})
+                    achieved_v = totals.get('achieved', 0.0)
+                    max_v = totals.get('max', 0.0) or 0.0
+                    cnt = totals.get('count', 0)
+                    pct_v = (achieved_v / max_v * 100.0) if max_v > 0 else 0.0
+                    customdata.append([int(cnt), float(achieved_v), float(max_v), round(pct_v, 1)])
+                customdata = customdata + [customdata[0]] if customdata else []
+
+                perf_label = _summary_text("cognition_radar.hover.performance", default="Leistung")
+                achieved_label = _summary_text("cognition_radar.hover.achieved", default="Erreicht")
+                questions_label = _summary_text("cognition_radar.hover.questions", default="Fragen")
+
+                hovertemplate = (
+                    f"<b>%{{theta}}</b><br>{perf_label}: %{{customdata[3]}} %<br>"
+                    f"{achieved_label}: %{{customdata[1]:.1f}} / %{{customdata[2]:.1f}}<br>"
+                    f"{questions_label}: %{{customdata[0]}}<extra></extra>"
+                )
+
                 fig_radar.add_trace(
                     go.Scatterpolar(
                         r=r,
@@ -4424,6 +4445,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                         line=dict(color=radar_line_color, width=2),
                         fillcolor=radar_fill_rgba,
                         marker=dict(color=radar_line_color),
+                        customdata=customdata,
+                        hovertemplate=hovertemplate,
                     )
                 )
 

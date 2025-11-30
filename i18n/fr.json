@@ -411,6 +411,15 @@
         },
         "performance_explanation_content": "- Barres = % de points par sujet.\n- Parenthèses = (répondues / total).\n- Peu de réponses = % moins fiable.",
         "performance_no_data_info": "Pas de data. Réponds à une question pour voir.",
+        "cognition_radar": {
+            "name": "Performance par niveaux cognitifs",
+            "header": "Performance par niveaux cognitifs",
+            "hover": {
+                "performance": "Performance",
+                "achieved": "Atteint",
+                "questions": "Questions"
+            }
+        },
         "review_export_header": "Exporter le résumé",
         "review_export_mode": "Format d'export",
         "review_export_button": "Lancer l'export",
