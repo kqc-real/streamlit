@@ -668,7 +668,14 @@
             "recover_failure": "Wiederherstellung fehlgeschlagen: Pseudonym/Geheimwort stimmen nicht \u00fcberein.",
             "database_error": "Datenbankfehler: Konnte keine neue Test-Session starten.",
             "test_button": "Test starten",
-            "question_required": "Bitte w\u00e4hle zuerst ein Fragenset aus."
+            "question_required": "Bitte wähle zuerst ein Fragenset aus."
+        },
+        "sort_order": {
+            "label": "Fragen sortieren nach:",
+            "random": "zufällig",
+            "difficulty_asc": "von leicht nach schwer",
+            "difficulty_desc": "von schwer nach leicht",
+            "cognitive_stage": "kognitive Stufe (aufsteigend)"
         }
     },
     "warnings": {
