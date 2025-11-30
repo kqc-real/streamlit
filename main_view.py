@@ -265,7 +265,7 @@ def _welcome_pseudonym_secret_too_short(min_len: int) -> str:
 def _welcome_pseudonym_reserve_button() -> str:
     return translate_ui(
         "welcome.pseudonym.reserve_button",
-        default="Pseudonym reservieren",
+        default="Pseudonym reservieren und Test starten",
     )
 
 
@@ -279,11 +279,7 @@ def _welcome_pseudonym_reserve_success_notice() -> str:
 def _welcome_pseudonym_reserve_success_message() -> str:
     return translate_ui(
         "welcome.pseudonym.reserve_success_message",
-        default=(
-            "Pseudonym reserviert. "
-            "Merke dir das Pseudonym genau (Groß-/Kleinschreibung und Akzente). "
-            "Du musst es später exakt so eingeben."
-        ),
+        default="",
     )
 
 
@@ -2396,37 +2392,15 @@ def render_welcome_page(app_config: AppConfig):
     )
 
     # Anzeige von Nachrichten nach Rerun (z.B. erfolgreiche Reservierung)
-    # Wenn ein Pseudonym reserviert wurde, zeigen wir es hervorgehoben
-    # mit Copy-to-clipboard an (exakte Schreibweise wichtig).
+    # Wenn ein Pseudonym reserviert wurde, zeigen wir eine kurze Erfolgsmeldung.
     if st.session_state.get('reserve_success_pseudonym'):
         try:
-            pseud = st.session_state.pop('reserve_success_pseudonym')
-            # Optional: additional message stored for context
-            msg = st.session_state.pop('reserve_success_message', None)
-            st.success(msg or _welcome_pseudonym_reserve_success_notice())
-            # Escape the pseudonym for safe HTML embedding
-            try:
-                import html as _html
-                pseud_escaped = _html.escape(pseud)
-            except Exception:
-                pseud_escaped = str(pseud)
-
-            # Small HTML widget with copy button (uses browser clipboard API)
-            copy_html = f"""
-            <div style='display:flex;justify-content:center;align-items:center;gap:8px;width:100%'>
-                <div style='font-weight:600;margin-right:6px;'>{_welcome_pseudonym_copy_label()}</div>
-                <div id='pseud' style='font-family:monospace;padding:6px 10px;background:#f3f4f6;border-radius:6px;border:1px solid #e5e7eb;margin-right:6px;'>{pseud_escaped}</div>
-              <button onclick="navigator.clipboard.writeText(document.getElementById('pseud').innerText)" 
-                  onmouseover="this.style.filter='brightness(0.95)'" onmouseout="this.style.filter='none'"
-                  style='padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:#2563eb;color:#ffffff;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,0.15);'>{_welcome_pseudonym_copy_button()}</button>
-            </div>
-            """
-            # Render the small HTML; allow scripts for clipboard access in supported browsers
-            import streamlit.components.v1 as components
-            components.html(copy_html, height=48)
+            # pop but do not display the exact pseudonym here (no copy-to-clipboard)
+            st.session_state.pop('reserve_success_pseudonym')
+            # Show only the short notice; any extended message has been removed.
+            st.success(_welcome_pseudonym_reserve_success_notice())
         except Exception:
-            # Fallback to a plain success message
-            st.success(st.session_state.pop('reserve_success_message', _welcome_pseudonym_reserve_success_notice()))
+            st.success(_welcome_pseudonym_reserve_success_notice())
     if st.session_state.get('reserve_error_message'):
         st.error(st.session_state.pop('reserve_error_message'))
 
@@ -2587,14 +2561,74 @@ def render_welcome_page(app_config: AppConfig):
                         normalized_recovery_secret = recovery_secret_new
                     ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                     if ok:
-                        st.session_state['reserve_success_pseudonym'] = user_name
-                        st.session_state['reserve_success_message'] = _welcome_pseudonym_reserve_success_message()
+                        # If a question set is already selected, start the test immediately.
+                        selected_qfile = st.session_state.get("selected_questions_file")
+                        if selected_qfile:
+                            # Set session identifiers and start the session.
+                            st.session_state.user_id = user_name
+                            st.session_state.user_id_hash = user_id_hash
+                            try:
+                                from database import (
+                                    get_user_preference,
+                                    has_recovery_secret_for_pseudonym,
+                                    set_user_preference,
+                                )
+                            except Exception:
+                                get_user_preference = None
+                                has_recovery_secret_for_pseudonym = None
+                                set_user_preference = None
+                            try:
+                                user_pseudo = st.session_state.get('user_id')
+                                if (
+                                    callable(has_recovery_secret_for_pseudonym)
+                                    and user_pseudo
+                                    and has_recovery_secret_for_pseudonym(user_pseudo)
+                                ):
+                                    if callable(get_user_preference):
+                                        pref_locale = get_user_preference(user_pseudo, 'locale')
+                                        if pref_locale:
+                                            st.session_state['locale'] = pref_locale
+                            except Exception:
+                                pass
+
+                            session_id = start_test_session(user_id_hash, selected_qfile)
+                            if session_id:
+                                # Record session and mark that we started immediately
+                                st.session_state['session_id'] = session_id
+                                st.session_state['show_pseudonym_reminder'] = True
+                                try:
+                                    st.session_state.test_started = True
+                                    st.session_state.start_zeit = pd.Timestamp.now()
+                                except Exception:
+                                    pass
+                                try:
+                                    query_params = st.query_params
+                                    query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                                except Exception:
+                                    pass
+                                try:
+                                    initialize_session_state(questions, app_config)
+                                except Exception:
+                                    pass
+                                st.session_state['_reserve_started_now'] = True
+                            else:
+                                st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
+                        else:
+                            # No question set selected yet — show a short success notice.
+                            st.session_state['reserve_success_pseudonym'] = user_name
                     else:
                         st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
                 except Exception as e:
                     st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error_with_reason(str(e))
-                # Rerun so the selection list is refreshed and the reserved pseudonym is removed
-                st.rerun()
+                # If we started the session immediately, trigger a rerun once so
+                # the UI transitions into the test flow. Otherwise, rerun to
+                # refresh the selection list and show the reservation notice.
+                if st.session_state.get('_reserve_started_now'):
+                    st.rerun()
+                else:
+                    st.rerun()
+                # Clear the temporary start flag if present
+                st.session_state.pop('_reserve_started_now', None)
         # Visuelle Trennung: Divider direkt unter dem Reservieren-Button (außerhalb des Expanders)
         st.divider()
 
@@ -2954,8 +2988,58 @@ def render_welcome_page(app_config: AppConfig):
                                 normalized_recovery_secret = recovery_secret_new
                             ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                             if ok:
-                                st.session_state['reserve_success_pseudonym'] = user_name
-                                st.session_state['reserve_success_message'] = _welcome_pseudonym_reserve_success_message()
+                                # If a question set is selected, start immediately.
+                                selected_qfile = st.session_state.get("selected_questions_file")
+                                if selected_qfile:
+                                    st.session_state.user_id = user_name
+                                    st.session_state.user_id_hash = user_id_hash
+                                    try:
+                                        from database import (
+                                            get_user_preference,
+                                            has_recovery_secret_for_pseudonym,
+                                            set_user_preference,
+                                        )
+                                    except Exception:
+                                        get_user_preference = None
+                                        has_recovery_secret_for_pseudonym = None
+                                        set_user_preference = None
+                                    try:
+                                        user_pseudo = st.session_state.get('user_id')
+                                        if (
+                                            callable(has_recovery_secret_for_pseudonym)
+                                            and user_pseudo
+                                            and has_recovery_secret_for_pseudonym(user_pseudo)
+                                        ):
+                                            if callable(get_user_preference):
+                                                pref_locale = get_user_preference(user_pseudo, 'locale')
+                                                if pref_locale:
+                                                    st.session_state['locale'] = pref_locale
+                                    except Exception:
+                                        pass
+
+                                    session_id = start_test_session(user_id_hash, selected_qfile)
+                                    if session_id:
+                                        st.session_state['session_id'] = session_id
+                                        st.session_state['show_pseudonym_reminder'] = True
+                                        try:
+                                            st.session_state.test_started = True
+                                            st.session_state.start_zeit = pd.Timestamp.now()
+                                        except Exception:
+                                            pass
+                                        try:
+                                            query_params = st.query_params
+                                            query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                                        except Exception:
+                                            pass
+                                        try:
+                                            initialize_session_state(questions, app_config)
+                                        except Exception:
+                                            pass
+                                        st.session_state['_reserve_started_now'] = True
+                                    else:
+                                        st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
+                                else:
+                                    st.session_state['reserve_success_pseudonym'] = user_name
                             else:
                                 st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
                     except Exception as e:
