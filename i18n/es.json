@@ -608,7 +608,7 @@
             "reservation_placeholder": "Mi \ud83d\udd12 secreto para la reserva...",
             "secret_too_short": "\ud83d\udd12 Muy corto \u2014 mín {min_len} caracteres.",
             "reserve_button": "Reservar seudónimo y comenzar la prueba",
-            "reserve_success": "Alias reservado.",
+            "reserve_success": "Alias reservado. Ahora elige un conjunto de preguntas y comienza la prueba.",
             "reserve_success_message": "",
             "reserve_error": "Error guardando secreto. Reintenta.",
             "reserve_error_with_reason": "Error reservando: {error}",

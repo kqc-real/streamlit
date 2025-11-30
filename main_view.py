@@ -272,7 +272,10 @@ def _welcome_pseudonym_reserve_button() -> str:
 def _welcome_pseudonym_reserve_success_notice() -> str:
     return translate_ui(
         "welcome.pseudonym.reserve_success",
-        default="Pseudonym reserviert.",
+        default=(
+            "Pseudonym reserviert. "
+            "Wähle jetzt ein Fragenset aus und starte den Test."
+        ),
     )
 
 

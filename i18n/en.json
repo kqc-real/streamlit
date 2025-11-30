@@ -614,7 +614,7 @@
             "reservation_placeholder": "My \ud83d\udd12 secret for the reservation...",
             "secret_too_short": "\ud83d\udd12 Secret too short \u2014 at least {min_len} characters required.",
             "reserve_button": "Reserve pseudonym and start test",
-            "reserve_success": "Pseudonym reserved.",
+            "reserve_success": "Pseudonym reserved. Now choose a question set and start the test.",
             "reserve_success_message": "",
             "reserve_error": "Error saving the recovery secret. Please try again.",
             "reserve_error_with_reason": "Error reserving the pseudonym: {error}",

@@ -652,7 +652,7 @@
             "reservation_placeholder": "Mein \ud83d\udd12 Geheimwort f\u00fcr die Reservierung...",
             "secret_too_short": "\ud83d\udd12 Geheimwort zu kurz \u2014 mind. {min_len} Zeichen erforderlich.",
             "reserve_button": "Pseudonym reservieren und Test starten",
-            "reserve_success": "Pseudonym reserviert.",
+            "reserve_success": "Pseudonym reserviert. Wähle jetzt ein Fragenset aus und starte den Test.",
             "reserve_success_message": "",
             "reserve_error": "Fehler beim Speichern des Recovery-Geheimworts. Bitte versuche es erneut.",
             "reserve_error_with_reason": "Fehler beim Reservieren des Pseudonyms: {error}",
