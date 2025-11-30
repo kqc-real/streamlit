@@ -4371,6 +4371,23 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         # Use PDF export helpers for normalization and canonical order
         from pdf_export import _normalize_stage_label, BLOOM_STAGE_ORDER
 
+        # Only render the radar if at least one question contains a canonical
+        # cognitive stage. This avoids showing the chart for datasets that
+        # simply don't include cognitive stage metadata.
+        has_cognitive_stage = False
+        for frage in questions:
+            try:
+                normalized = _normalize_stage_label(frage.get("kognitive_stufe"))
+                if normalized in BLOOM_STAGE_ORDER:
+                    has_cognitive_stage = True
+                    break
+            except Exception:
+                continue
+
+        if not has_cognitive_stage:
+            # Skip radar rendering when no cognitive stages are present
+            has_cognitive_stage = False
+        
         # Aggregate achieved vs maximal points per bloom stage
         stage_totals = {stage: {"achieved": 0.0, "max": 0.0, "count": 0} for stage in BLOOM_STAGE_ORDER}
         for i, frage in enumerate(questions):
@@ -4466,6 +4483,23 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
                 st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
                 st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
+
+                # Short explanation expander for the radar chart (localized)
+                with st.expander(
+                    _summary_text("cognition_radar.explanation_expander", default="Über diese Auswertung (kurze Erklärung)"),
+                    expanded=False,
+                ):
+                    st.markdown(
+                        _summary_text(
+                            "cognition_radar.explanation_content",
+                            default=(
+                                "- Das Radar zeigt den Anteil korrekt erzielter Punkte pro kognitiver Stufe (Bloom).\n"
+                                "- Die Werte werden als erreichte Punkte geteilt durch die maximal möglichen Punkte für jede Stufe berechnet.\n"
+                                "- Sind nur wenige Fragen einer Stufe zugeordnet, sind die Prozentwerte weniger aussagekräftig.\n"
+                                "- Nutze das Radar, um zu erkennen, welche kognitiven Stufen mehr Übung brauchen."
+                            ),
+                        )
+                    )
             except Exception:
                 # Plotly not available or chart failed — skip radar gracefully
                 pass
