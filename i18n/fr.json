@@ -186,7 +186,7 @@
                 "behind": "Tu es en retard sur le planning. Essaie d'accélérer {degree}."
             }
         },
-        "pseudonym_welcome": "**Salut {user} !** Garde ton pseudo pour plus tard.",
+        "pseudonym_welcome": "**Salut {user} !** Note l'orthographe exacte de ton pseudonyme, telle qu'elle apparaît ici.",
         "question_set_change_warning": "⚠️ Changement de set, reset en cours...",
         "motivation": {
             "lob": {

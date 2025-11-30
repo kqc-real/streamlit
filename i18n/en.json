@@ -158,7 +158,7 @@
         "next_button": "Next question ➡️",
         "timer_metric": "⏳ Remaining time",
         "time_up_error": "⏰ Time is up!",
-        "pseudonym_welcome": "**Welcome, {user}!** Please remember your pseudonym so you can continue the test later.",
+        "pseudonym_welcome": "**Welcome, {user}!** Please remember the exact spelling of your pseudonym as shown here.",
         "question_prompt": "Choose your answer:",
         "header_total_questions": "### {count} questions total",
         "header_last_question": "### Last question",

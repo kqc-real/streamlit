@@ -186,7 +186,7 @@
                 "behind": "Estás retrasado respecto al tiempo. Intenta aumentar el ritmo {degree}."
             }
         },
-        "pseudonym_welcome": "**¡Hola, {user}!** Recuerda tu alias para volver luego.",
+        "pseudonym_welcome": "**¡Hola, {user}!** Por favor, recuerda la ortografía exacta de tu alias, tal como aparece aquí.",
         "question_set_change_warning": "⚠️ El set cambió, reiniciando..."
     },
     "motivation": {

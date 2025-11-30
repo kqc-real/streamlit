@@ -1838,7 +1838,7 @@ def render_welcome_page(app_config: AppConfig):
                 st.info(
                     translate_ui(
                         "test_view.pseudonym_welcome",
-                        default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
+                        default="**Willkommen, {user}!** Bitte merke dir die genaue Schreibweise deines Pseudonyms, so wie es hier steht.",
                     ).format(user=user_label)
                 )
 
@@ -3257,7 +3257,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.info(
                 translate_ui(
                     "test_view.pseudonym_welcome",
-                    default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
+                    default="**Willkommen, {user}!** Bitte merke dir die genaue Schreibweise deines Pseudonyms, so wie es hier steht.",
                 ).format(user=user_label)
             )
 

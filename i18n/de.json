@@ -186,7 +186,7 @@
                 "behind": "Du liegst hinter dem Zeitplan. Versuche, das Tempo {degree} zu erhöhen."
             }
         },
-        "pseudonym_welcome": "**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
+        "pseudonym_welcome": "**Willkommen, {user}!** Bitte merke dir die genaue Schreibweise deines Pseudonyms, so wie es hier steht.",
         "question_set_change_warning": "⚠️ Fragenset gewechselt, Test wird neu initialisiert...",
         "motivation": {
             "lob": {
