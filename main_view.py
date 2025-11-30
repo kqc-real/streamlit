@@ -2668,12 +2668,56 @@ def render_welcome_page(app_config: AppConfig):
         expanded_default = st.session_state.get('recover_pseudonym_expanded', False)
 
     with st.expander(_welcome_pseudonym_recover_expander(), expanded=expanded_default):
-        # Plain inputs for pseudonym recovery. We intentionally do not render
-        # a separate submit button here to avoid duplicate actions. The main
-        # "Test starten" button below handles starting the test for both
-        # reserved and non-reserved pseudonyms.
-        pseudonym_recover = st.text_input(_welcome_pseudonym_recover_pseudonym_label(), key="recover_pseudonym")
-        secret_recover = st.text_input(_welcome_pseudonym_recover_secret_label(), type="password", key="recover_secret")
+        # Use a form to avoid intermediate reruns while the user moves
+        # focus between the pseudonym and secret inputs. The form keeps
+        # typed values local until the user submits, preventing reruns.
+        pseudonym_initial = st.session_state.get('recover_pseudonym', '')
+        secret_initial = st.session_state.get('recover_secret', '')
+
+        with st.form(key="recover_form"):
+            pseudonym_temp = st.text_input(
+                _welcome_pseudonym_recover_pseudonym_label(),
+                key="recover_pseudonym_temp",
+                value=pseudonym_initial,
+            )
+            secret_temp = st.text_input(
+                _welcome_pseudonym_recover_secret_label(),
+                type="password",
+                key="recover_secret_temp",
+                value=secret_initial,
+            )
+
+            # The user must submit the form to apply the values. This avoids
+            # intermediate reruns while editing either field.
+            submitted = st.form_submit_button(label=_welcome_pseudonym_recover_button())
+
+            if submitted:
+                # Copy temporary form values into persistent session keys
+                try:
+                    st.session_state['recover_pseudonym'] = str(pseudonym_temp).strip()
+                except Exception:
+                    st.session_state['recover_pseudonym'] = pseudonym_temp
+                try:
+                    st.session_state['recover_secret'] = str(secret_temp).strip()
+                except Exception:
+                    st.session_state['recover_secret'] = secret_temp
+                # Keep the expander open after submission
+                st.session_state['recover_pseudonym_expanded'] = True
+                # Rerun so that the expander's `expanded` state (which is read
+                # before the form executes) is applied on the next render and
+                # the expander remains open reliably.
+                try:
+                    st.experimental_rerun()
+                except Exception:
+                    # If experimental rerun is unavailable, fall back to st.rerun
+                    try:
+                        st.rerun()
+                    except Exception:
+                        pass
+
+        # Expose the values (persistent) for the rest of the flow
+        pseudonym_recover = st.session_state.get('recover_pseudonym')
+        secret_recover = st.session_state.get('recover_secret')
 
         # Zeige eine Warnung, wenn ein Pseudonym/Geheimwort eingegeben wird,
         # aber noch kein Fragenset ausgewählt wurde.
