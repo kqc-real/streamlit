@@ -2431,6 +2431,7 @@ def render_welcome_page(app_config: AppConfig):
             has_stages = _has_cognitive_stages(questions)
             sort_options = {
                 "difficulty_asc": translate_ui("welcome.sort_order.difficulty_asc", default="Von leicht nach schwer"),
+                "difficulty_desc": translate_ui("welcome.sort_order.difficulty_desc", default="Von schwer nach leicht"),
                 "random": translate_ui("welcome.sort_order.random", default="Zufällig"),
             }
             if has_stages:
