@@ -3503,10 +3503,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     if st.button(f"🔎 {title}", key=opener_key, type="secondary"):
                         try:
                             # Toggle the flag so the same button opens and closes
-                            st.session_state[expander_key] = not st.session_state.get(expander_key, False)
+                            _set_mini_gloss_flag(frage_idx, not st.session_state.get(expander_key, False), origin="opener-button")
                         except Exception:
                             pass
                         st.experimental_rerun()
+
+                    # (debug caption removed)
 
                     if st.session_state.get(expander_key, False):
                         with st.expander(title, expanded=True):
@@ -3514,7 +3516,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             # expander so users can close without answering.
                             if st.button("Schließen", key=f"close_mini_gloss_{frage_idx}"):
                                 try:
-                                    st.session_state[expander_key] = False
+                                    _set_mini_gloss_flag(frage_idx, False, origin="close-button")
                                 except Exception:
                                     pass
                                 st.experimental_rerun()
@@ -3545,6 +3547,18 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         # Wir verwenden st.radio, um die Auswahl zu steuern.
         # Die `format_func` wird verwendet, um KaTeX-Formeln korrekt darzustellen.
+        # Local on_change handler: dismiss dialogs, ensure pacing visible,
+        # request a rerun, AND explicitly close the mini-glossary for this question.
+        def _radio_on_change(frage_idx=frage_idx) -> None:
+            try:
+                _dismiss_user_qset_dialog_and_rerun()
+            except Exception:
+                pass
+            try:
+                _set_mini_gloss_flag(frage_idx, False, origin="radio-on-change")
+            except Exception:
+                pass
+
         selected_index = st.radio(
             _test_view_text("question_prompt", default="Wähle deine Antwort:"),
             options=range(len(optionen)),
@@ -3553,10 +3567,25 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             disabled=is_answered,
             label_visibility="collapsed",
             format_func=lambda x: smart_quotes_de(optionen[x]),
-            on_change=_dismiss_user_qset_dialog_and_rerun,
+            on_change=_radio_on_change,
         )
 
         antwort = optionen[selected_index] if selected_index is not None else None
+
+        # If the user changed the radio selection in this run, ensure the
+        # mini-glossary is closed for this question. We store the previous
+        # selected index to detect changes across reruns.
+        try:
+            prev_key = f"radio_prev_{frage_idx}"
+            prev_selected = st.session_state.get(prev_key, None)
+            if prev_selected != selected_index:
+                st.session_state[prev_key] = selected_index
+                try:
+                    _set_mini_gloss_flag(frage_idx, False, origin="radio-detect-change")
+                except Exception:
+                    pass
+        except Exception:
+            pass
 
         # --- Logik zur Anpassung des Testflusses nach einem Sprung ---
         # Wenn wir zu einer unbeantworteten Frage springen, passen wir die Reihenfolge
@@ -3596,7 +3625,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             st.session_state.skipped_questions.append(frage_idx)
                         st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
                         try:
-                            st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                            _set_mini_gloss_flag(frage_idx, False, origin="skip-button")
                         except Exception:
                             pass
                         st.rerun()
@@ -3612,7 +3641,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 ):
                     _dismiss_user_qset_dialog_from_test()
                     try:
-                        st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                        _set_mini_gloss_flag(frage_idx, False, origin="answer-submit")
                     except Exception:
                         pass
                     # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
@@ -3737,11 +3766,24 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
 
+def _set_mini_gloss_flag(frage_idx: int, value: bool, origin: str = "unknown") -> None:
+    """Setzt das mini_glossary Flag und protokolliert die Änderung für Debugging.
+
+    Wir sammeln Änderungen in `st.session_state['_mini_gloss_debug']` als Liste
+    von Einträgen (timestamp, frage_idx, origin, prev, new).
+    """
+    try:
+        key = f"mini_glossary_open_{frage_idx}"
+        st.session_state[key] = value
+    except Exception:
+        pass
+
+
 def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
     """Verarbeitet die Abgabe einer Antwort."""
     # Ensure mini-glossary is closed immediately when an answer is submitted
     try:
-        st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+        _set_mini_gloss_flag(frage_idx, False, origin="answer-submit-handler")
     except Exception:
         pass
     # Mark pacing UI visible on first actual answer submission
@@ -4102,7 +4144,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                 except Exception:
                     pass
                 try:
-                    st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                    _set_mini_gloss_flag(frage_idx, False, origin="prev-button")
                 except Exception:
                     pass
                 st.rerun()
@@ -4137,7 +4179,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
             except Exception:
                 pass
             try:
-                st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                _set_mini_gloss_flag(frage_idx, False, origin="next-button")
             except Exception:
                 pass
             st.rerun()
