@@ -158,6 +158,7 @@
         "next_button": "Next question ➡️",
         "timer_metric": "⏳ Remaining time",
         "time_up_error": "⏰ Time is up!",
+        "pseudonym_welcome": "**Welcome, {user}!** Please remember your pseudonym so you can continue the test later.",
         "question_prompt": "Choose your answer:",
         "header_total_questions": "### {count} questions total",
         "header_last_question": "### Last question",
@@ -186,7 +187,7 @@
                 "behind": "You're behind schedule. Try to pick up the pace {degree}."
             }
         },
-        "pseudonym_welcome": "**Welcome, {user}!** Please remember your pseudonym to resume the test later.",
+        
         "question_set_change_warning": "⚠️ Question set changed, reinitializing the test..."
         ,
     "motivation": {

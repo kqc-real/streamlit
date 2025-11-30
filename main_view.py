@@ -1809,7 +1809,19 @@ def render_welcome_page(app_config: AppConfig):
     # Process any queued rerun requests (set by other code paths as a fallback).
     _process_queued_rerun()
 
-    pass
+    # Wenn ein Pseudonym-Reminder gesetzt ist (z.B. nach Reservierung),
+    # zeigen wir einen Hinweis zentral im Hauptbereich statt in der Sidebar.
+    try:
+        if st.session_state.get("show_pseudonym_reminder", False):
+            st.info(
+                translate_ui(
+                    "test_view.pseudonym_welcome",
+                    default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
+                ).format(user=st.session_state.get('user_id'))
+            )
+            del st.session_state['show_pseudonym_reminder']
+    except Exception:
+        pass
 
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
     core_question_files = list_question_files()
@@ -2595,7 +2607,6 @@ def render_welcome_page(app_config: AppConfig):
                             if session_id:
                                 # Record session and mark that we started immediately
                                 st.session_state['session_id'] = session_id
-                                st.session_state['show_pseudonym_reminder'] = True
                                 try:
                                     st.session_state.test_started = True
                                     st.session_state.start_zeit = pd.Timestamp.now()
@@ -2610,6 +2621,8 @@ def render_welcome_page(app_config: AppConfig):
                                     initialize_session_state(questions, app_config)
                                 except Exception:
                                     pass
+                                # Set the pseudonym reminder after initializing session state
+                                st.session_state['show_pseudonym_reminder'] = True
                                 st.session_state['_reserve_started_now'] = True
                             else:
                                 st.session_state['reserve_error_message'] = _welcome_pseudonym_reserve_error()
@@ -2853,7 +2866,6 @@ def render_welcome_page(app_config: AppConfig):
                         # sidebar history button can be shown without extra auth.
                         st.session_state.login_via_recovery = True
                         st.session_state.session_id = session_id
-                        st.session_state.show_pseudonym_reminder = True
                         query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                         initialize_session_state(questions, app_config)
                         # Mark test as started and set start time so the welcome
@@ -2863,6 +2875,8 @@ def render_welcome_page(app_config: AppConfig):
                             st.session_state.start_zeit = pd.Timestamp.now()
                         except Exception:
                             pass
+                        # Set the pseudonym reminder after initializing session state
+                        st.session_state.show_pseudonym_reminder = True
                         st.success(_welcome_pseudonym_recover_success())
                         st.rerun()
                     else:
@@ -2971,7 +2985,6 @@ def render_welcome_page(app_config: AppConfig):
                     # Normal start: ensure the recovery flag is not set
                     st.session_state.login_via_recovery = False
                     st.session_state.session_id = session_id
-                    st.session_state.show_pseudonym_reminder = True
                     query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                     initialize_session_state(questions, app_config)
                     try:
@@ -2979,6 +2992,8 @@ def render_welcome_page(app_config: AppConfig):
                         st.session_state.start_zeit = pd.Timestamp.now()
                     except Exception:
                         pass
+                    # Set the pseudonym reminder after initializing session state
+                    st.session_state.show_pseudonym_reminder = True
                     # Wenn der Nutzer ein Recovery-Geheimwort gesetzt hat, speichere es sicher.
                     try:
                         if recovery_secret_new:
@@ -3140,13 +3155,17 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     except Exception:
         pass
     if st.session_state.get("show_pseudonym_reminder", False):
-        st.success(
+        try:
+            user_label = st.session_state.get('user_id') or ''
+        except Exception:
+            user_label = ''
+        st.info(
             translate_ui(
                 "test_view.pseudonym_welcome",
-                default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym gut, um den Test später fortsetzen zu können.",
-            ).format(user=st.session_state.user_id)
+                default="**Willkommen, {user}!** Bitte merke dir dein Pseudonym, um den Test später fortsetzen zu können.",
+            ).format(user=user_label)
         )
-        del st.session_state.show_pseudonym_reminder
+        del st.session_state['show_pseudonym_reminder']
 
     # If the sidebar requested the history dialog, show it once and consume the request.
     try:
