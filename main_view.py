@@ -2692,157 +2692,114 @@ def render_welcome_page(app_config: AppConfig):
         expanded_default = st.session_state.get('recover_pseudonym_expanded', False)
 
     with st.expander(_welcome_pseudonym_recover_expander(), expanded=expanded_default):
-        if st.session_state.get('recover_feedback'):
-            feedback_type, message = st.session_state.pop('recover_feedback')
-            if feedback_type == 'error':
-                st.error(message)
-            else:
-                st.warning(message)
-
-        # Use a form to avoid intermediate reruns while the user moves
-        # focus between the pseudonym and secret inputs. The form keeps
-        # typed values local until the user submits, preventing reruns.
-        pseudonym_initial = st.session_state.get('recover_pseudonym', '')
-        secret_initial = st.session_state.get('recover_secret', '')
-
-        with st.form(key="recover_form"):
-            pseudonym_temp = st.text_input(
-                _welcome_pseudonym_recover_pseudonym_label(),
-                key="recover_pseudonym_temp",
-                value=pseudonym_initial,
-            )
-            secret_temp = st.text_input(
-                _welcome_pseudonym_recover_secret_label(),
-                type="password",
-                key="recover_secret_temp",
-                value=secret_initial,
-            )
-
-            # The user must submit the form to apply the values. This avoids
-            # intermediate reruns while editing either field.
-            submitted = st.form_submit_button(
-                label=_welcome_pseudonym_recover_button(),
-                type="primary",
-                width="stretch"
-            )
-
-            if submitted:
-                st.session_state['recover_pseudonym_expanded'] = True
-                pseudonym_recover = str(pseudonym_temp).strip()
-                secret_recover = str(secret_temp).strip()
-                st.session_state['recover_pseudonym'] = pseudonym_recover
-                st.session_state['recover_secret'] = secret_recover
-
-                question_selected_for_recover = (
-                    st.session_state.get("selected_questions_file")
-                    or st.session_state.get("main_view_question_file_selector")
-                )
-
-                if not question_selected_for_recover:
-                    st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_question_required())
-                    st.rerun()
-                    return
-
-                if not pseudonym_recover or not secret_recover:
-                    st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_recover_missing_fields())
-                    st.rerun()
-                    return
-
-                # Apply rate-limiting and audit logging around recovery attempts
-                try:
-                    from audit_log import check_rate_limit, log_login_attempt, reset_login_attempts
-                    from config import AppConfig
-                    cfg = AppConfig()
-                    allowed, locked_until = check_rate_limit(
-                        pseudonym_recover,
-                        max_attempts=getattr(cfg, 'rate_limit_attempts', 3),
-                        window_minutes=getattr(cfg, 'rate_limit_window_minutes', 5),
-                    )
-                    if not allowed:
-                        try:
-                            from helpers import format_datetime_de
-                            locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
-                        except Exception:
-                            locked_until_str = str(locked_until)
-                        st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_locked(locked_until_str))
-                        try:
-                            log_login_attempt(pseudonym_recover, success=False)
-                        except Exception:
-                            pass
-                        st.rerun()
-                        return
-                except Exception:
-                    # If audit subsystem fails, proceed but do not block recovery
-                    pass
-
-                user_id = verify_recovery(pseudonym_recover, secret_recover)
-                try:
-                    log_login_attempt(pseudonym_recover, success=bool(user_id))
-                    if user_id:
-                        reset_login_attempts(pseudonym_recover)
-                except Exception:
-                    pass
-
-                if user_id:
-                    selected_qfile = st.session_state.get("selected_questions_file")
-                    if not selected_qfile:
-                        st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_question_required())
-                        st.rerun()
-                        return
-
-                    session_id = start_test_session(user_id, selected_qfile)
-                    if session_id:
-                        st.session_state.user_id = pseudonym_recover
-                        st.session_state.user_id_hash = user_id
-                        try:
-                            from database import get_user_preference, has_recovery_secret_for_pseudonym, set_user_preference
-                            user_pseudo = st.session_state.get('user_id')
-                            if callable(has_recovery_secret_for_pseudonym) and user_pseudo and has_recovery_secret_for_pseudonym(user_pseudo):
-                                if callable(get_user_preference):
-                                    pref = get_user_preference(user_pseudo, 'locale')
-                                    if pref:
-                                        try:
-                                            from i18n.context import set_locale
-                                            set_locale(pref)
-                                        except Exception:
-                                            pass
-                                if callable(set_user_preference):
-                                    try:
-                                        from i18n.context import get_locale
-                                        current_locale = get_locale()
-                                    except Exception:
-                                        current_locale = st.session_state.get('active_locale')
-                                    if current_locale:
-                                        set_user_preference(user_pseudo, 'locale', current_locale)
-                        except Exception:
-                            pass
-                        st.session_state.login_via_recovery = True
-                        st.session_state.session_id = session_id
-                        query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                        initialize_session_state(questions, app_config)
-                        try:
-                            st.session_state.test_started = True
-                            st.session_state.start_zeit = pd.Timestamp.now()
-                        except Exception:
-                            pass
-                        st.session_state.show_pseudonym_reminder = True
-                        st.success(_welcome_pseudonym_recover_success())
-                        st.rerun()
-                    else:
-                        st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_database_error())
-                        st.rerun()
-                else:
-                    st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_failure())
-                    st.rerun()
-
-        # Zeige eine Warnung, wenn ein Pseudonym/Geheimwort eingegeben wird,
-        # aber noch kein Fragenset ausgewählt wurde.
         question_selected_for_recover = (
             st.session_state.get("selected_questions_file")
             or st.session_state.get("main_view_question_file_selector")
         )
-        if (st.session_state.get('recover_pseudonym') or st.session_state.get('recover_secret')) and not question_selected_for_recover:
+
+        if not question_selected_for_recover:
             st.warning(_welcome_pseudonym_question_required())
+        else:
+            if st.session_state.get('recover_feedback'):
+                feedback_type, message = st.session_state.pop('recover_feedback')
+                if feedback_type == 'error':
+                    st.error(message)
+                else:
+                    st.warning(message)
+
+            pseudonym_initial = st.session_state.get('recover_pseudonym', '')
+            secret_initial = st.session_state.get('recover_secret', '')
+
+            with st.form(key="recover_form"):
+                pseudonym_temp = st.text_input(
+                    _welcome_pseudonym_recover_pseudonym_label(),
+                    key="recover_pseudonym_temp",
+                    value=pseudonym_initial,
+                )
+                secret_temp = st.text_input(
+                    _welcome_pseudonym_recover_secret_label(),
+                    type="password",
+                    key="recover_secret_temp",
+                    value=secret_initial,
+                )
+
+                submitted = st.form_submit_button(
+                    label=_welcome_pseudonym_recover_button(),
+                    type="secondary",
+                    width="stretch"
+                )
+
+                if submitted:
+                    st.session_state['recover_pseudonym_expanded'] = True
+                    pseudonym_recover = str(pseudonym_temp).strip()
+                    secret_recover = str(secret_temp).strip()
+                    st.session_state['recover_pseudonym'] = pseudonym_recover
+                    st.session_state['recover_secret'] = secret_recover
+
+                    if not pseudonym_recover or not secret_recover:
+                        st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_recover_missing_fields())
+                        st.rerun()
+                        return
+
+                    # Apply rate-limiting and audit logging
+                    try:
+                        from audit_log import check_rate_limit, log_login_attempt, reset_login_attempts
+                        from config import AppConfig
+                        cfg = AppConfig()
+                        allowed, locked_until = check_rate_limit(
+                            pseudonym_recover,
+                            max_attempts=getattr(cfg, 'rate_limit_attempts', 3),
+                            window_minutes=getattr(cfg, 'rate_limit_window_minutes', 5),
+                        )
+                        if not allowed:
+                            from helpers import format_datetime_de
+                            locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
+                            st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_locked(locked_until_str))
+                            log_login_attempt(pseudonym_recover, success=False)
+                            st.rerun()
+                            return
+                    except Exception:
+                        pass  # Non-critical failure
+
+                    user_id = verify_recovery(pseudonym_recover, secret_recover)
+                    log_login_attempt(pseudonym_recover, success=bool(user_id))
+                    if user_id:
+                        reset_login_attempts(pseudonym_recover)
+                        selected_qfile = st.session_state.get("selected_questions_file")
+                        session_id = start_test_session(user_id, selected_qfile)
+                        if session_id:
+                            st.session_state.user_id = pseudonym_recover
+                            st.session_state.user_id_hash = user_id
+                            try:
+                                from database import get_user_preference, has_recovery_secret_for_pseudonym, set_user_preference
+                                user_pseudo = st.session_state.get('user_id')
+                                if has_recovery_secret_for_pseudonym(user_pseudo):
+                                    pref = get_user_preference(user_pseudo, 'locale')
+                                    if pref:
+                                        from i18n.context import set_locale
+                                        set_locale(pref)
+                                    
+                                    from i18n.context import get_locale
+                                    current_locale = get_locale() or st.session_state.get('active_locale')
+                                    if current_locale:
+                                        set_user_preference(user_pseudo, 'locale', current_locale)
+                            except Exception:
+                                pass # non-critical
+                            st.session_state.login_via_recovery = True
+                            st.session_state.session_id = session_id
+                            query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                            initialize_session_state(questions, app_config)
+                            st.session_state.test_started = True
+                            st.session_state.start_zeit = pd.Timestamp.now()
+                            st.session_state.show_pseudonym_reminder = True
+                            st.success(_welcome_pseudonym_recover_success())
+                            st.rerun()
+                        else:
+                            st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_database_error())
+                            st.rerun()
+                    else:
+                        st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_failure())
+                        st.rerun()
 
     _, col2, _ = st.columns([1, 3, 1])
     with col2:
