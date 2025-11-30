@@ -2692,6 +2692,13 @@ def render_welcome_page(app_config: AppConfig):
         expanded_default = st.session_state.get('recover_pseudonym_expanded', False)
 
     with st.expander(_welcome_pseudonym_recover_expander(), expanded=expanded_default):
+        if st.session_state.get('recover_feedback'):
+            feedback_type, message = st.session_state.pop('recover_feedback')
+            if feedback_type == 'error':
+                st.error(message)
+            else:
+                st.warning(message)
+
         # Use a form to avoid intermediate reruns while the user moves
         # focus between the pseudonym and secret inputs. The form keeps
         # typed values local until the user submits, preventing reruns.
@@ -2713,126 +2720,34 @@ def render_welcome_page(app_config: AppConfig):
 
             # The user must submit the form to apply the values. This avoids
             # intermediate reruns while editing either field.
-            submitted = st.form_submit_button(label=_welcome_pseudonym_recover_button())
-
-            if submitted:
-                # Copy temporary form values into persistent session keys
-                try:
-                    st.session_state['recover_pseudonym'] = str(pseudonym_temp).strip()
-                except Exception:
-                    st.session_state['recover_pseudonym'] = pseudonym_temp
-                try:
-                    st.session_state['recover_secret'] = str(secret_temp).strip()
-                except Exception:
-                    st.session_state['recover_secret'] = secret_temp
-                # Keep the expander open after submission
-                st.session_state['recover_pseudonym_expanded'] = True
-                # Rerun so that the expander's `expanded` state (which is read
-                # before the form executes) is applied on the next render and
-                # the expander remains open reliably.
-                try:
-                    st.experimental_rerun()
-                except Exception:
-                    # If experimental rerun is unavailable, fall back to st.rerun
-                    try:
-                        st.rerun()
-                    except Exception:
-                        pass
-
-        # Expose the values (persistent) for the rest of the flow
-        pseudonym_recover = st.session_state.get('recover_pseudonym')
-        secret_recover = st.session_state.get('recover_secret')
-
-        # Zeige eine Warnung, wenn ein Pseudonym/Geheimwort eingegeben wird,
-        # aber noch kein Fragenset ausgewählt wurde.
-        question_selected_for_recover = (
-            st.session_state.get("selected_questions_file")
-            or st.session_state.get("main_view_question_file_selector")
-        )
-        if (pseudonym_recover or secret_recover) and not question_selected_for_recover:
-            st.warning(_welcome_pseudonym_question_required())
-
-        # Keep the expander open when the user types into either field so
-        # the UI does not collapse on reruns triggered by widget interactions.
-        try:
-            if (pseudonym_recover and str(pseudonym_recover).strip()) or (secret_recover and str(secret_recover).strip()):
-                st.session_state['recover_pseudonym_expanded'] = True
-        except Exception:
-            pass
-
-        # Consider persisted widget values in session_state as fallback so
-        # the button enables correctly after unrelated reruns (e.g. selecting
-        # a Fragenset) that may not preserve the local variables in all flows.
-        try:
-            pseudonym_recover_val = pseudonym_recover or st.session_state.get('recover_pseudonym')
-        except Exception:
-            pseudonym_recover_val = pseudonym_recover
-        try:
-            secret_recover_val = secret_recover or st.session_state.get('recover_secret')
-        except Exception:
-            secret_recover_val = secret_recover
-
-        # Also require that a questions file is selected (widget or session key)
-        question_selected_for_recover = (
-            st.session_state.get("selected_questions_file")
-            or st.session_state.get("main_view_question_file_selector")
-        )
-
-        # Allow button enabled also when a pseudonym is already persisted
-        # (e.g. selected earlier) and a questions file is selected. This
-        # covers flows where the pseudonym was chosen elsewhere and the
-        # user re-selects a questionset — avoid forcing an extra rerun.
-        persisted_pseudonym = st.session_state.get('selected_pseudonym') or st.session_state.get('reserve_success_pseudonym')
-
-        recover_disabled = not (
-            (pseudonym_recover_val and secret_recover_val and question_selected_for_recover)
-            or (persisted_pseudonym and question_selected_for_recover)
-        )
-
-        # (Debug expander removed)
-
-        _, col2, _ = st.columns([1, 3, 1])
-        with col2:
-            # Use a dynamic key that includes the currently selected question
-            # file and pseudonym so the button widget is recreated when those
-            # values change. This ensures the `disabled` state updates
-            # immediately after the user selects a Fragenset (no manual rerun).
-            try:
-                _q = st.session_state.get('selected_questions_file') or st.session_state.get('main_view_question_file_selector') or 'none'
-            except Exception:
-                _q = 'none'
-            try:
-                _p = pseudonym_recover_val or 'none'
-            except Exception:
-                _p = 'none'
-            _btn_key = f"btn_recover_pseudonym__{_q}__{_p}"
-
-            button_pressed = st.button(
-                _welcome_pseudonym_recover_button(),
-                key=_btn_key,
+            submitted = st.form_submit_button(
+                label=_welcome_pseudonym_recover_button(),
                 type="primary",
-                disabled=recover_disabled,
-                width="stretch",
+                width="stretch"
             )
 
-        if button_pressed:
-            # Ensure expander remains open during/after the recovery attempt.
-            st.session_state['recover_pseudonym_expanded'] = True
-            # Trim whitespace that some mobile keyboards append unintentionally.
-            # Use strip() to remove leading and trailing whitespace for robust matching.
-            try:
-                pseudonym_recover = str(pseudonym_recover).strip()
-            except Exception:
-                pseudonym_recover = pseudonym_recover
-            # Also normalize the recovery secret entered for verification.
-            try:
-                secret_recover = str(secret_recover).strip()
-            except Exception:
-                secret_recover = secret_recover
+            if submitted:
+                st.session_state['recover_pseudonym_expanded'] = True
+                pseudonym_recover = str(pseudonym_temp).strip()
+                secret_recover = str(secret_temp).strip()
+                st.session_state['recover_pseudonym'] = pseudonym_recover
+                st.session_state['recover_secret'] = secret_recover
 
-            if not pseudonym_recover or not secret_recover:
-                st.warning(_welcome_pseudonym_recover_missing_fields())
-            else:
+                question_selected_for_recover = (
+                    st.session_state.get("selected_questions_file")
+                    or st.session_state.get("main_view_question_file_selector")
+                )
+
+                if not question_selected_for_recover:
+                    st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_question_required())
+                    st.rerun()
+                    return
+
+                if not pseudonym_recover or not secret_recover:
+                    st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_recover_missing_fields())
+                    st.rerun()
+                    return
+
                 # Apply rate-limiting and audit logging around recovery attempts
                 try:
                     from audit_log import check_rate_limit, log_login_attempt, reset_login_attempts
@@ -2849,24 +2764,21 @@ def render_welcome_page(app_config: AppConfig):
                             locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
                         except Exception:
                             locked_until_str = str(locked_until)
-                        st.error(_welcome_pseudonym_recover_locked(locked_until_str))
-                        # Log an audit entry for visibility
+                        st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_locked(locked_until_str))
                         try:
                             log_login_attempt(pseudonym_recover, success=False)
                         except Exception:
                             pass
-                        # do not proceed with verification
-                        pass
+                        st.rerun()
+                        return
                 except Exception:
                     # If audit subsystem fails, proceed but do not block recovery
                     pass
 
                 user_id = verify_recovery(pseudonym_recover, secret_recover)
-                # Log the attempt
                 try:
                     log_login_attempt(pseudonym_recover, success=bool(user_id))
                     if user_id:
-                        # Reset failure counter on success
                         reset_login_attempts(pseudonym_recover)
                 except Exception:
                     pass
@@ -2874,33 +2786,18 @@ def render_welcome_page(app_config: AppConfig):
                 if user_id:
                     selected_qfile = st.session_state.get("selected_questions_file")
                     if not selected_qfile:
-                        st.error(_welcome_pseudonym_question_required())
+                        st.session_state['recover_feedback'] = ('warning', _welcome_pseudonym_question_required())
+                        st.rerun()
                         return
+
                     session_id = start_test_session(user_id, selected_qfile)
                     if session_id:
-                        # Setze dieselben Session-Keys wie im normalen Start-Flow
                         st.session_state.user_id = pseudonym_recover
                         st.session_state.user_id_hash = user_id
-                        # Load persisted locale preference for reserved pseudonyms
                         try:
-                            from database import (
-                                get_user_preference,
-                                has_recovery_secret_for_pseudonym,
-                                set_user_preference,
-                            )
-                        except Exception:
-                            get_user_preference = None
-                            has_recovery_secret_for_pseudonym = None
-                            set_user_preference = None
-                        try:
+                            from database import get_user_preference, has_recovery_secret_for_pseudonym, set_user_preference
                             user_pseudo = st.session_state.get('user_id')
-                            if (
-                                callable(has_recovery_secret_for_pseudonym)
-                                and user_pseudo
-                                and has_recovery_secret_for_pseudonym(user_pseudo)
-                            ):
-                                # Try to load a persisted preference. If present,
-                                # set the session locale accordingly.
+                            if callable(has_recovery_secret_for_pseudonym) and user_pseudo and has_recovery_secret_for_pseudonym(user_pseudo):
                                 if callable(get_user_preference):
                                     pref = get_user_preference(user_pseudo, 'locale')
                                     if pref:
@@ -2909,48 +2806,43 @@ def render_welcome_page(app_config: AppConfig):
                                             set_locale(pref)
                                         except Exception:
                                             pass
-
-                                # Persist the current session locale as well. This
-                                # ensures that if the user selected a language
-                                # before logging in, their choice is saved for
-                                # future sessions. Best-effort: ignore DB errors.
-                                try:
-                                    if callable(set_user_preference):
-                                        try:
-                                            from i18n.context import get_locale
-                                            current_locale = get_locale()
-                                        except Exception:
-                                            current_locale = st.session_state.get('active_locale')
-                                        if current_locale:
-                                            try:
-                                                set_user_preference(user_pseudo, 'locale', current_locale)
-                                            except Exception:
-                                                pass
-                                except Exception:
-                                    pass
+                                if callable(set_user_preference):
+                                    try:
+                                        from i18n.context import get_locale
+                                        current_locale = get_locale()
+                                    except Exception:
+                                        current_locale = st.session_state.get('active_locale')
+                                    if current_locale:
+                                        set_user_preference(user_pseudo, 'locale', current_locale)
                         except Exception:
                             pass
-                        # Mark that the user restored via pseudonym+secret so the
-                        # sidebar history button can be shown without extra auth.
                         st.session_state.login_via_recovery = True
                         st.session_state.session_id = session_id
                         query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                         initialize_session_state(questions, app_config)
-                        # Mark test as started and set start time so the welcome
-                        # container in `render_question_view` does not reappear.
                         try:
                             st.session_state.test_started = True
                             st.session_state.start_zeit = pd.Timestamp.now()
                         except Exception:
                             pass
-                        # Set the pseudonym reminder after initializing session state
                         st.session_state.show_pseudonym_reminder = True
                         st.success(_welcome_pseudonym_recover_success())
                         st.rerun()
                     else:
-                        st.error(_welcome_pseudonym_database_error())
+                        st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_database_error())
+                        st.rerun()
                 else:
-                    st.error(_welcome_pseudonym_recover_failure())
+                    st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_failure())
+                    st.rerun()
+
+        # Zeige eine Warnung, wenn ein Pseudonym/Geheimwort eingegeben wird,
+        # aber noch kein Fragenset ausgewählt wurde.
+        question_selected_for_recover = (
+            st.session_state.get("selected_questions_file")
+            or st.session_state.get("main_view_question_file_selector")
+        )
+        if (st.session_state.get('recover_pseudonym') or st.session_state.get('recover_secret')) and not question_selected_for_recover:
+            st.warning(_welcome_pseudonym_question_required())
 
     _, col2, _ = st.columns([1, 3, 1])
     with col2:
