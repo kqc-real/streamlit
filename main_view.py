@@ -16,6 +16,7 @@ import logging
 logger = logging.getLogger(__name__)
 from typing import Any
 from pathlib import Path
+from collections import OrderedDict
 
 from config import (
     AppConfig,
@@ -52,6 +53,16 @@ from pdf_export import _normalize_stage_label
 from i18n.context import get_locale, t as translate_ui
 from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector
 import pacing_helper as pacing
+
+
+def _has_cognitive_stages(qs: QuestionSet) -> bool:
+    """Checks if any question in the set has a cognitive stage."""
+    if not qs:
+        return False
+    for q in qs:
+        if q.get("kognitive_stufe"):
+            return True
+    return False
 
 
 DOWNLOAD_BUTTON_DEFAULT = "Download starten"
@@ -2416,6 +2427,27 @@ def render_welcome_page(app_config: AppConfig):
         if not question_selected_for_render:
             st.info(_welcome_pseudonym_question_required())
         else:
+            # --- Sortierreihenfolge der Fragen ---
+            has_stages = _has_cognitive_stages(questions)
+            sort_options = {
+                "difficulty_asc": translate_ui("welcome.sort_order.difficulty_asc", default="Von leicht nach schwer"),
+                "random": translate_ui("welcome.sort_order.random", default="Zufällig"),
+            }
+            if has_stages:
+                sort_options["cognitive_stage"] = translate_ui("welcome.sort_order.cognitive_stage", default="Kognitive Stufe (aufsteigend)")
+
+            if 'question_sort_order' not in st.session_state:
+                st.session_state.question_sort_order = "random"
+
+            st.selectbox(
+                label=translate_ui("welcome.sort_order.label", default="Fragen sortieren nach:"),
+                options=list(sort_options.keys()),
+                format_func=lambda x: sort_options[x],
+                key="question_sort_order"
+            )
+
+            st.divider()
+            
             # --- Login-Formular im Hauptbereich ---
             from config import load_scientists
             from database import (

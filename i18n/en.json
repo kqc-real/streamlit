@@ -631,6 +631,13 @@
             "database_error": "Database error: could not start a new test session.",
             "test_button": "Start test",
             "question_required": "Please select a question set first."
+        },
+        "sort_order": {
+            "label": "Sort questions by:",
+            "random": "Random",
+            "difficulty_asc": "Difficulty (ascending)",
+            "difficulty_desc": "Difficulty (descending)",
+            "cognitive_stage": "Cognitive stage (ascending)"
         }
     },
     "warnings": {

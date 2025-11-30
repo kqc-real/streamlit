@@ -46,7 +46,30 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     question_count = len(question_set)
     st.session_state.beantwortet = [None] * question_count
     frage_indices = list(range(question_count))
-    random.shuffle(frage_indices)
+    
+    sort_order = st.session_state.get("question_sort_order", "random")
+
+    if sort_order == "random":
+        random.shuffle(frage_indices)
+    elif sort_order == "difficulty_asc":
+        frage_indices.sort(key=lambda i: question_set[i].get("gewichtung", 2))
+    elif sort_order == "difficulty_desc":
+        frage_indices.sort(key=lambda i: question_set[i].get("gewichtung", 2), reverse=True)
+    elif sort_order == "cognitive_stage":
+        try:
+            from pdf_export import BLOOM_STAGE_ORDER, _normalize_stage_label
+            stage_map = {stage: i for i, stage in enumerate(BLOOM_STAGE_ORDER)}
+            
+            def get_stage_index(q_idx):
+                q = question_set[q_idx]
+                stage = _normalize_stage_label(q.get("kognitive_stufe"))
+                return stage_map.get(stage, 99)
+
+            frage_indices.sort(key=get_stage_index)
+        except ImportError:
+            # Fallback to random if pdf_export is not available
+            random.shuffle(frage_indices)
+
     st.session_state.frage_indices = frage_indices
     st.session_state.initial_frage_indices = list(frage_indices)  # Stabile Kopie für Nummerierung
     st.session_state.start_zeit = None

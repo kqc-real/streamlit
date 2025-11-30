@@ -625,6 +625,13 @@
             "database_error": "Error BD: no se pudo iniciar sesión.",
             "test_button": "Iniciar test",
             "question_required": "Por favor, selecciona primero un conjunto de preguntas."
+        },
+        "sort_order": {
+            "label": "Ordenar preguntas por:",
+            "random": "Aleatorio",
+            "difficulty_asc": "Dificultad (ascendente)",
+            "difficulty_desc": "Dificultad (descendente)",
+            "cognitive_stage": "Nivel cognitivo (ascendente)"
         }
     },
     "warnings": {

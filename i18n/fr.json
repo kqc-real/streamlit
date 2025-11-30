@@ -617,6 +617,13 @@
             "database_error": "Erreur BDD : impossible de lancer la session.",
             "test_button": "Lancer le test",
             "question_required": "Veuillez d'abord sélectionner un set de questions."
+        },
+        "sort_order": {
+            "label": "Trier les questions par :",
+            "random": "Aléatoire",
+            "difficulty_asc": "Difficulté (croissante)",
+            "difficulty_desc": "Difficulté (décroissante)",
+            "cognitive_stage": "Niveau cognitif (croissant)"
         }
     },
     "warnings": {
