@@ -4366,6 +4366,89 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
 
     st.divider()
+    # --- Radar chart: Leistung nach kognitiven Stufen (Bloom) ---
+    try:
+        # Use PDF export helpers for normalization and canonical order
+        from pdf_export import _normalize_stage_label, BLOOM_STAGE_ORDER
+
+        # Aggregate achieved vs maximal points per bloom stage
+        stage_totals = {stage: {"achieved": 0.0, "max": 0.0, "count": 0} for stage in BLOOM_STAGE_ORDER}
+        for i, frage in enumerate(questions):
+            stage_label = _normalize_stage_label(frage.get("kognitive_stufe"))
+            # Only consider canonical stages; unknowns will be aggregated under DEFAULT if present
+            if stage_label not in stage_totals:
+                # Skip non-canonical stages for this radar (keeps chart focused)
+                continue
+            max_punkte = float(frage.get("gewichtung", 1) or 1)
+            pkt = st.session_state.get(f"frage_{i}_beantwortet")
+            achieved = float(max(0, pkt)) if pkt is not None else 0.0
+            stage_totals[stage_label]["achieved"] += achieved
+            stage_totals[stage_label]["max"] += max_punkte
+            stage_totals[stage_label]["count"] += 1
+
+        # Prepare data for radar: labels (translated) and percent values
+        labels = []
+        values = []
+        for stage in BLOOM_STAGE_ORDER:
+            totals = stage_totals.get(stage, {"achieved": 0.0, "max": 0.0})
+            maxv = totals.get("max", 0.0) or 0.0
+            pct = (totals.get("achieved", 0.0) / maxv * 100.0) if maxv > 0 else 0.0
+            # Translate stage label for UI
+            try:
+                translated = translate_ui(f"pdf.stage_name.{stage}", default=stage)
+            except Exception:
+                translated = stage
+            labels.append(translated)
+            values.append(round(pct, 1))
+
+        # Only render radar if we have at least one non-zero max (some questions present)
+        if any(stage_totals[s]["max"] > 0 for s in BLOOM_STAGE_ORDER):
+            try:
+                import plotly.graph_objects as go
+
+                # Radar requires the first value repeated to close the polygon
+                r = values + [values[0]]
+                theta = labels + [labels[0]]
+
+                # Style for a darker radar reminiscent of a radar screen
+                radar_line_color = "#15803d"  # dark green
+                radar_fill_rgba = "rgba(21,128,61,0.20)"  # translucent green fill
+
+                fig_radar = go.Figure()
+                fig_radar.add_trace(
+                    go.Scatterpolar(
+                        r=r,
+                        theta=theta,
+                        fill="toself",
+                        name=_summary_text("cognition_radar.name", default="Leistung nach kognitiven Stufen"),
+                        line=dict(color=radar_line_color, width=2),
+                        fillcolor=radar_fill_rgba,
+                        marker=dict(color=radar_line_color),
+                    )
+                )
+
+                fig_radar.update_layout(
+                    polar=dict(
+                        bgcolor="#071827",
+                        radialaxis=dict(visible=True, range=[0, 100], gridcolor="rgba(34,197,94,0.12)", tickcolor="#9ae6b4", tickfont=dict(color="#c7f9d4")),
+                        angularaxis=dict(gridcolor="rgba(34,197,94,0.08)", tickcolor="#c7f9d4", tickfont=dict(color="#c7f9d4")),
+                    ),
+                    paper_bgcolor="#031316",
+                    plot_bgcolor="#071827",
+                    font=dict(color="#c7f9d4"),
+                    showlegend=False,
+                    margin=dict(l=30, r=10, t=30, b=30),
+                    height=380,
+                )
+
+                st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
+                st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
+            except Exception:
+                # Plotly not available or chart failed — skip radar gracefully
+                pass
+    except Exception:
+        # Non-fatal: do not break the summary if radar data preparation fails
+        pass
     render_review_mode(questions, app_config)
     # --- PDF-Export (am Ende, nach Review) ---
     # Warnung über die Dauer
