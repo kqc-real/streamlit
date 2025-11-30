@@ -100,7 +100,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
             }
             # show an immediate transient toast in the current runtime
             try:
-                st.toast(t(toast_struct["key"]).format(**toast_struct["params"]), icon="🏆", duration=10)
+                st.toast(t(toast_struct["key"]).format(**toast_struct["params"]), icon="🏆", duration=20)
             except Exception:
                 pass
             # Ensure a persistent copy that the welcome page can render
@@ -138,7 +138,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
             try:
                 # show immediate localized transient toast when possible
                 reason_text = t(reason_key).format(**reason_params) if reason_key else ""
-                st.toast(t(toast_struct["key"]).format(user=user_name, reason=reason_text), icon="🏆", duration=10)
+                st.toast(t(toast_struct["key"]).format(user=user_name, reason=reason_text), icon="🏆", duration=20)
             except Exception:
                 pass
 
