@@ -3266,122 +3266,122 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     else:
                         # Determine elapsed_time from start_zeit (already computed above)
                         et = elapsed_time if 'elapsed_time' in locals() else 0
-                    # Try to obtain time_per_weight from questions meta if available
-                    tpw = None
-                    try:
-                        qmeta = getattr(questions, 'meta', None)
-                        if isinstance(qmeta, dict):
-                            tpw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
-                    except Exception:
+                        # Try to obtain time_per_weight from questions meta if available
                         tpw = None
-                    if not tpw:
-                        tpw = {"1": 0.5, "2": 0.75, "3": 1.0}
-
-                    # Compute ideal times for the current question sequence
-                    try:
-                        # Build question list in the current presentation order (frage_indices)
-                        # so pacing reflects the actual sequence the user will see
-                        indices = st.session_state.get("frage_indices")
-                        if isinstance(indices, (list, tuple)) and len(indices) == len(questions):
-                            qlist = [questions[i] for i in indices]
-                        else:
-                            qlist = list(questions)
-                    except Exception:
-                        qlist = questions or []
-
-                    # Compute ideal times and status (do this regardless of the list coercion outcome)
-                    try:
-                        # Compute ideal times based on the total allowed test time so
-                        # pacing reflects the current test duration rather than per-set hints.
-                        total_allowed_seconds = int(st.session_state.get('test_time_limit', 0) or 0)
-                        if total_allowed_seconds > 0:
-                            ideal_times = pacing.compute_ideal_times_by_total(qlist, total_allowed_seconds)
-                        else:
-                            # Fallback to previous per-weight computation when no total is available
-                            ideal_times = pacing.compute_ideal_times(qlist, tpw)
-
-                        # Determine the current index within the presentation order
                         try:
-                            idx = st.session_state.get("frage_indices", []).index(frage_idx)
+                            qmeta = getattr(questions, 'meta', None)
+                            if isinstance(qmeta, dict):
+                                tpw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
                         except Exception:
-                            idx = session_local_idx if 'session_local_idx' in locals() else 0
+                            tpw = None
+                        if not tpw:
+                            tpw = {"1": 0.5, "2": 0.75, "3": 1.0}
 
-                        status = pacing.pacing_status(int(et), ideal_times, idx)
-                    except Exception:
-                        # Defensive defaults if pacing computation fails
-                        ideal_times = []
-                        idx = session_local_idx if 'session_local_idx' in locals() else 0
-                        status = 'green'
+                        # Compute ideal times for the current question sequence
+                        try:
+                            # Build question list in the current presentation order (frage_indices)
+                            # so pacing reflects the actual sequence the user will see
+                            indices = st.session_state.get("frage_indices")
+                            if isinstance(indices, (list, tuple)) and len(indices) == len(questions):
+                                qlist = [questions[i] for i in indices]
+                            else:
+                                qlist = list(questions)
+                        except Exception:
+                            qlist = questions or []
 
-                    # Small progress bar for overall time usage
-                    try:
-                        total_allowed = int(st.session_state.test_time_limit)
-                        pct = int(min(100, max(0, (et / max(1, total_allowed)) * 100)))
-                    except Exception:
-                        # Fallback to safe defaults
-                        total_allowed = int(st.session_state.get('test_time_limit') or 0)
-                        pct = 0
+                        # Compute ideal times and status (do this regardless of the list coercion outcome)
+                        try:
+                            # Compute ideal times based on the total allowed test time so
+                            # pacing reflects the current test duration rather than per-set hints.
+                            total_allowed_seconds = int(st.session_state.get('test_time_limit', 0) or 0)
+                            if total_allowed_seconds > 0:
+                                ideal_times = pacing.compute_ideal_times_by_total(qlist, total_allowed_seconds)
+                            else:
+                                # Fallback to previous per-weight computation when no total is available
+                                ideal_times = pacing.compute_ideal_times(qlist, tpw)
 
-                    # Render the progress indicator and the status pill only when visible
-                    try:
-                        if st.session_state.get("pacing_visible"):
-                            st.progress(pct)
-
-                            # Dark-themed, desaturated but distinct colors
-                            color_map = {
-                                "ahead": "#0B3D91",  # dark blue
-                                "green": "#006400",  # dark green
-                                "yellow": "#B45309",  # dark orange / amber
-                                "red": "#8B0000",    # dark red
-                            }
-                            color = color_map.get(status, "#16a34a")
-                            # Localized, user-friendly status messages
-                            status_text_map = {
-                                "ahead": translate_ui("test_view.pacing.ahead", default="You're ahead of schedule"),
-                                "green": translate_ui("test_view.pacing.on_track", default="On track"),
-                                "yellow": translate_ui("test_view.pacing.slightly_behind", default="Slightly behind schedule"),
-                                "red": translate_ui("test_view.pacing.behind", default="You are behind schedule"),
-                            }
-                            display_text = status_text_map.get(status, str(status).capitalize())
-                            st.markdown(
-                                f"<div style='padding:6px;border-radius:6px;background:{color};color:white;text-align:center;font-weight:600'>{display_text}</div>",
-                                unsafe_allow_html=True,
-                            )
-
-                            # Recommendation box when not on track
+                            # Determine the current index within the presentation order
                             try:
-                                buffer_min = 0
-                                if isinstance(qmeta, dict):
-                                    buffer_min = int(qmeta.get('additional_buffer_minutes', 0) or 0)
-                                rec = pacing.recommend_action(int(et), ideal_times, idx, total_allowed_seconds=total_allowed, remaining_buffer_seconds=buffer_min*60)
-                                if rec and rec.get('action') != 'on_track':
-                                    st.info(rec.get('message'))
+                                idx = st.session_state.get("frage_indices", []).index(frage_idx)
                             except Exception:
-                                pass
-                                # Small runtime check: remaining time per remaining question
+                                idx = session_local_idx if 'session_local_idx' in locals() else 0
+
+                            status = pacing.pacing_status(int(et), ideal_times, idx)
+                        except Exception:
+                            # Defensive defaults if pacing computation fails
+                            ideal_times = []
+                            idx = session_local_idx if 'session_local_idx' in locals() else 0
+                            status = 'green'
+
+                        # Small progress bar for overall time usage
+                        try:
+                            total_allowed = int(st.session_state.test_time_limit)
+                            pct = int(min(100, max(0, (et / max(1, total_allowed)) * 100)))
+                        except Exception:
+                            # Fallback to safe defaults
+                            total_allowed = int(st.session_state.get('test_time_limit') or 0)
+                            pct = 0
+
+                        # Render the progress indicator and the status pill only when visible
+                        try:
+                            if st.session_state.get("pacing_visible") and idx > 0:
+                                st.progress(pct)
+
+                                # Dark-themed, desaturated but distinct colors
+                                color_map = {
+                                    "ahead": "#0B3D91",  # dark blue
+                                    "green": "#006400",  # dark green
+                                    "yellow": "#B45309",  # dark orange / amber
+                                    "red": "#8B0000",    # dark red
+                                }
+                                color = color_map.get(status, "#16a34a")
+                                # Localized, user-friendly status messages
+                                status_text_map = {
+                                    "ahead": translate_ui("test_view.pacing.ahead", default="You're ahead of schedule"),
+                                    "green": translate_ui("test_view.pacing.on_track", default="On track"),
+                                    "yellow": translate_ui("test_view.pacing.slightly_behind", default="Slightly behind schedule"),
+                                    "red": translate_ui("test_view.pacing.behind", default="You are behind schedule"),
+                                }
+                                display_text = status_text_map.get(status, str(status).capitalize())
+                                st.markdown(
+                                    f"<div style='padding:6px;border-radius:6px;background:{color};color:white;text-align:center;font-weight:600'>{display_text}</div>",
+                                    unsafe_allow_html=True,
+                                )
+
+                                # Recommendation box when not on track
                                 try:
-                                    # remaining is defined above as (len(questions) - num_answered)
-                                    remaining_questions = max(1, int(remaining))
-                                    remaining_time_calc = max(0, int(total_allowed) - int(et))
-                                    avg_per_question = remaining_time_calc / remaining_questions
-                                    # Consider approx 1 min (60s) for weight 3: allow a small tolerance
-                                    approx_60 = abs(avg_per_question - 60) <= max(3, 0.1 * 60)
-                                    label = (
-                                        f"Durchschn. verbleibende Zeit pro Frage: {int(avg_per_question)} s"
-                                    )
-                                    if approx_60:
-                                        label += " — entspricht ungefähr 1 min/Frage (Gewichtung 3)"
-                                    else:
-                                        label += " — entspricht nicht 1 min/Frage"
-                                    st.caption(label)
+                                    buffer_min = 0
+                                    if isinstance(qmeta, dict):
+                                        buffer_min = int(qmeta.get('additional_buffer_minutes', 0) or 0)
+                                    rec = pacing.recommend_action(int(et), ideal_times, idx, total_allowed_seconds=total_allowed, remaining_buffer_seconds=buffer_min*60)
+                                    if rec and rec.get('action') != 'on_track':
+                                        st.info(rec.get('message'))
                                 except Exception:
                                     pass
-                        else:
-                            # Keep layout stable: render nothing in this column until visible
+                                    # Small runtime check: remaining time per remaining question
+                                    try:
+                                        # remaining is defined above as (len(questions) - num_answered)
+                                        remaining_questions = max(1, int(remaining))
+                                        remaining_time_calc = max(0, int(total_allowed) - int(et))
+                                        avg_per_question = remaining_time_calc / remaining_questions
+                                        # Consider approx 1 min (60s) for weight 3: allow a small tolerance
+                                        approx_60 = abs(avg_per_question - 60) <= max(3, 0.1 * 60)
+                                        label = (
+                                            f"Durchschn. verbleibende Zeit pro Frage: {int(avg_per_question)} s"
+                                        )
+                                        if approx_60:
+                                            label += " — entspricht ungefähr 1 min/Frage (Gewichtung 3)"
+                                        else:
+                                            label += " — entspricht nicht 1 min/Frage"
+                                        st.caption(label)
+                                    except Exception:
+                                        pass
+                            else:
+                                # Keep layout stable: render nothing in this column until visible
+                                pass
+                        except Exception:
+                            # Do not disrupt the test UI if pacing UI fails
                             pass
-                    except Exception:
-                        # Do not disrupt the test UI if pacing UI fails
-                        pass
                 except Exception:
                     # Do not disrupt the test UI if pacing UI fails
                     pass

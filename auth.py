@@ -103,6 +103,13 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
                 st.toast(t(toast_struct["key"]).format(**toast_struct["params"]), icon="🏆", duration=10)
             except Exception:
                 pass
+            # Ensure a persistent copy that the welcome page can render
+            # inside its dialog so mobile users don't miss it.
+            try:
+                # persist the structured message (not the formatted string)
+                st.session_state['post_session_toast'] = toast_struct
+            except Exception:
+                pass
         else:
             duration = st.session_state.get("aborted_user_duration", 0)
             recommended_duration_seconds = st.session_state.get("aborted_user_recommended_duration", 180)
@@ -135,13 +142,6 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
             except Exception:
                 pass
 
-        # Ensure a persistent copy that the welcome page can render
-        # inside its dialog so mobile users don't miss it.
-        try:
-            # persist the structured message (not the formatted string)
-            st.session_state['post_session_toast'] = toast_struct
-        except Exception:
-            pass
         del st.session_state["session_aborted"]
         if "aborted_user_id" in st.session_state:
             del st.session_state["aborted_user_id"]
