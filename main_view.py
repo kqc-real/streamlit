@@ -3492,16 +3492,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     title = 'Mini-Glossar'
 
                 try:
-                    with st.expander(title, expanded=False):
-                        # Compact list: render each term on its own line with a
-                        # slightly smaller font so the glossary is helpful but
-                        # not visually dominant.
+                    # Use a checkbox to toggle the mini-glossary so we can
+                    # programmatically close it on navigation actions.
+                    expander_key = f"mini_glossary_open_{frage_idx}"
+                    st.checkbox(title, value=st.session_state.get(expander_key, False), key=expander_key)
+                    if st.session_state.get(expander_key, False):
+                        # Compact list: render each term on its own line.
                         for term, definition in mini_gloss.items():
                             try:
-                                st.markdown(
-                                    f"<div style='font-size:0.95em; margin-bottom:6px;'><strong>{term}</strong>: {definition}</div>",
-                                    unsafe_allow_html=True,
-                                )
+                                st.markdown(f"- **{term}**: {definition}", unsafe_allow_html=True)
                             except Exception:
                                 st.write(f"{term}: {definition}")
                 except Exception:
@@ -3575,6 +3574,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         if frage_idx not in st.session_state.skipped_questions:
                             st.session_state.skipped_questions.append(frage_idx)
                         st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
+                        try:
+                            st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                        except Exception:
+                            pass
                         st.rerun()
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
@@ -3587,6 +3590,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     disabled=(antwort is None),
                 ):
                     _dismiss_user_qset_dialog_from_test()
+                    try:
+                        st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                    except Exception:
+                        pass
                     # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
                     handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         
@@ -4068,6 +4075,10 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                     st.session_state.pop("jump_to_idx", None)
                 except Exception:
                     pass
+                try:
+                    st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+                except Exception:
+                    pass
                 st.rerun()
         next_question_container = col2
     else:
@@ -4097,6 +4108,10 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
             try:
                 if not st.session_state.get("pacing_visible"):
                     st.session_state["pacing_visible"] = True
+            except Exception:
+                pass
+            try:
+                st.session_state[f"mini_glossary_open_{frage_idx}"] = False
             except Exception:
                 pass
             st.rerun()
