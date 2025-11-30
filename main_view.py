@@ -3500,9 +3500,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     # the flag is True, which makes programmatic closing
                     # (setting the flag False) reliable.
                     opener_key = f"open_mini_gloss_btn_{frage_idx}"
-                    if st.button(f"🔎 {title}", key=opener_key, type="secondary", help=title):
+                    if st.button(f"🔎 {title}", key=opener_key, type="secondary"):
                         try:
-                            st.session_state[expander_key] = True
+                            # Toggle the flag so the same button opens and closes
+                            st.session_state[expander_key] = not st.session_state.get(expander_key, False)
                         except Exception:
                             pass
                         st.experimental_rerun()
