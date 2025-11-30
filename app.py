@@ -62,7 +62,7 @@ def main():
         # Legt den initialen Zustand der Sidebar fest.
         initial_sidebar_state="expanded"  # "collapsed" oder "expanded"
     )
-
+    
     # Setze das Locale, um eine korrekte alphabetische Sortierung von Namen
     # mit Akzenten und Umlauten zu gewährleisten (z.B. 'Erwin' bei 'E').
     # Wir probieren eine Liste von Locales durch, um die Portabilität zu erhöhen.
@@ -207,7 +207,7 @@ def main():
         current_idx = st.session_state.last_answered_idx
         # Lösche den Marker, damit beim Klick auf "Nächste Frage" normal weitergemacht wird.
         if not st.session_state.get(f"show_explanation_{current_idx}"):
-             del st.session_state.last_answered_idx
+            del st.session_state.last_answered_idx
     else:
         # Priorität 3: Finde die nächste unbeantwortete Frage
         current_idx = get_current_question_index()
