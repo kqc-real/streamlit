@@ -3475,7 +3475,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         # Render the weight/stage suffix on the same visual line as before
         try:
-            st.markdown(f"<div style='color:#888; font-size:0.9em;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
         except Exception:
             pass
 
@@ -3495,14 +3495,34 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     # Use a checkbox to toggle the mini-glossary so we can
                     # programmatically close it on navigation actions.
                     expander_key = f"mini_glossary_open_{frage_idx}"
-                    st.checkbox(title, value=st.session_state.get(expander_key, False), key=expander_key)
+                    # Render a small opener button so the user can open the
+                    # mini-glossary. The actual expander is only created when
+                    # the flag is True, which makes programmatic closing
+                    # (setting the flag False) reliable.
+                    opener_key = f"open_mini_gloss_btn_{frage_idx}"
+                    if st.button(f"🔎 {title}", key=opener_key, type="secondary", help=title):
+                        try:
+                            st.session_state[expander_key] = True
+                        except Exception:
+                            pass
+                        st.experimental_rerun()
+
                     if st.session_state.get(expander_key, False):
-                        # Compact list: render each term on its own line.
-                        for term, definition in mini_gloss.items():
-                            try:
-                                st.markdown(f"- **{term}**: {definition}", unsafe_allow_html=True)
-                            except Exception:
-                                st.write(f"{term}: {definition}")
+                        with st.expander(title, expanded=True):
+                            # Provide an explicit close control inside the
+                            # expander so users can close without answering.
+                            if st.button("Schließen", key=f"close_mini_gloss_{frage_idx}"):
+                                try:
+                                    st.session_state[expander_key] = False
+                                except Exception:
+                                    pass
+                                st.experimental_rerun()
+
+                            for term, definition in mini_gloss.items():
+                                try:
+                                    st.markdown(f"- **{term}**: {definition}", unsafe_allow_html=True)
+                                except Exception:
+                                    st.write(f"{term}: {definition}")
                 except Exception:
                     # Best-effort: don't break the question view if the
                     # expander or rendering fails for any reason.
@@ -3718,6 +3738,11 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
 
 def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
     """Verarbeitet die Abgabe einer Antwort."""
+    # Ensure mini-glossary is closed immediately when an answer is submitted
+    try:
+        st.session_state[f"mini_glossary_open_{frage_idx}"] = False
+    except Exception:
+        pass
     # Mark pacing UI visible on first actual answer submission
     try:
         if not st.session_state.get("pacing_visible"):
