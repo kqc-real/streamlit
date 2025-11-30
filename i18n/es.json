@@ -6,6 +6,9 @@
     "sidebar": {
         "title": "Nav",
         "language": "Idioma",
+        "language_expander": "Idioma",
+        "language_selector_label": "Seleccionar idioma",
+        "pseudonym_locale_assignment": "Esta configuración se asociará con tu alias reservado.",
         "greeting": "\ud83d\udc4b **{user}**",
         "temp_set_notice": "Set temporal activo: {label}",
         "reserved_pseudonym": "Este alias está reservado para ti.",

@@ -6,6 +6,9 @@
     "sidebar": {
         "title": "Navigation",
         "language": "Sprache ausw\u00e4hlen",
+        "language_expander": "Sprache",
+        "language_selector_label": "Sprache ausw\u00e4hlen",
+        "pseudonym_locale_assignment": "Diese Einstellung wird deinem reservierten Pseudonym zugeordnet.",
         "greeting": "\ud83d\udc4b **{user}**",
         "temp_set_notice": "Tempor\u00e4res Fragenset aktiviert: {label}",
         "reserved_pseudonym": "Pseudonym ist f\u00fcr dich reserviert.",

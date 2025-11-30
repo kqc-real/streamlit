@@ -922,6 +922,30 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         st.sidebar.caption(
                             _sidebar_text("pseudonym_reserved", default="Pseudonym ist für dich reserviert.")
                         )
+                        # Also expose the language selector in the sidebar for
+                        # users with a reserved pseudonym so they can persist
+                        # their preference directly to their pseudonym record.
+                        try:
+                            with st.sidebar.expander(_sidebar_text("language_expander", default="Sprache"), expanded=False):
+                                # Explain that the selection is bound to the reserved pseudonym
+                                try:
+                                    st.caption(
+                                        _sidebar_text(
+                                            "pseudonym_locale_assignment",
+                                            default="Diese Einstellung wird deinem reservierten Pseudonym zugeordnet.",
+                                        )
+                                    )
+                                except Exception:
+                                    pass
+
+                                # Reuse the same locale selector; it will persist
+                                # the selection for reserved pseudonyms.
+                                try:
+                                    render_locale_selector(_sidebar_text("language_selector_label", default="Sprache auswählen"), help_text=None)
+                                except Exception:
+                                    pass
+                        except Exception:
+                            pass
                 except Exception:
                     # DB-Check schlug fehl; nichts anzeigen
                     pass

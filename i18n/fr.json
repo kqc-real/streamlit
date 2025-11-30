@@ -6,6 +6,9 @@
     "sidebar": {
         "title": "Navigation",
         "language": "Langue",
+        "language_expander": "Langue",
+        "language_selector_label": "Choisir la langue",
+        "pseudonym_locale_assignment": "Ce réglage sera lié à votre pseudonyme réservé.",
         "greeting": "\ud83d\udc4b **{user}**",
         "temp_set_notice": "Set temp : {label}",
         "reserved_pseudonym": "Pseudo réservé.",
