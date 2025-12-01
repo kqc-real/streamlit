@@ -3,6 +3,7 @@
         "title": "Export Quiz",
         "subtitle": "Gère & analyse tes sets de questions"
     },
+    "sidebar": {
         "language": "Langue",
         "language_expander": "Langue",
         "language_selector_label": "Choisir la langue",
@@ -630,9 +631,5 @@
     "warnings": {
         "no_config": "\u26a0\ufe0f **Fichier config manquant !**\n\nL'app a besoin d'un `.env` ou `.streamlit/secrets.toml`.\n\n**En local :**\n1. Copie `.env.example` vers `.env`:\n   ```bash\n   cp .env.example .env\n   ```\n2. Redémarre l'app.\n\n**Détails :** Voir [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
     }
-    ,
-    "mini_glossary": {
-        "title": "Termes clés pour la question",
-        "empty_error": "Pas de mini-glossaire pour cette question."
-    }
+    
 }
