@@ -1395,28 +1395,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             hard_percent,
         ))
 
+    # The per-difficulty summary table was intentionally removed from the
+    # test report PDF. Keep `difficulty_rows` available for other comparisons
+    # (if needed) but do not render a dedicated difficulty HTML block here.
     difficulty_html = ""
-    if difficulty_rows:
-        difficulty_html = '<div class="difficulty-analysis">'
-        difficulty_html += f'<h3>{translate_ui("pdf.difficulty_section_title", default="Performance nach Schwierigkeit")}</h3>'
-        difficulty_html += '<table class="difficulty-table">'
-        difficulty_html += (
-            '<thead><tr>'
-            f'<th>{translate_ui("pdf.difficulty_table.header.difficulty", default="Schwierigkeit")}</th>'
-            f'<th>{translate_ui("pdf.difficulty_table.header.hits", default="Treffer")}</th>'
-            f'<th>{translate_ui("pdf.difficulty_table.header.quota", default="Quote")}</th>'
-            '</tr></thead>'
-        )
-        difficulty_html += '<tbody>'
-        for label, ratio_text, percent_value in difficulty_rows:
-            difficulty_html += (
-                f'<tr>'
-                f'<th scope="row">{label}</th>'
-                f'<td>{ratio_text}</td>'
-                f'<td class="quota-cell">{percent_value:.0f} %</td>'
-                f'</tr>'
-            )
-        difficulty_html += '</tbody></table></div>'
 
     stage_rows = []
     ordered_stages = [stage for stage in BLOOM_STAGE_ORDER if stage in stage_stats]
@@ -1717,17 +1699,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         bookmark_icon_html = '<span class="bookmark-icon">🔖</span>' if is_bookmarked else ''
         
         # Schwierigkeits-Badge basierend auf Gewichtung
+        # Note: we intentionally do not render a visual ★-badge in the per-question
+        # header of the test report PDF. The cognitive stage is shown separately
+        # (see `stage_label` below) and numeric weight should not be emphasised
+        # as a star-badge in exported PDFs.
         gewichtung = frage_obj.get("gewichtung", 1)
-        # Localize difficulty label names but keep the visual badge icons
-        diff_easy = translate_ui("pdf.difficulty.easy", default="Leicht")
-        diff_medium = translate_ui("pdf.difficulty.medium", default="Mittel")
-        diff_hard = translate_ui("pdf.difficulty.hard", default="Schwer")
-        if gewichtung == 1:
-            difficulty_badge = f'<span class="difficulty-badge easy">★ {_html.escape(diff_easy)}</span>'
-        elif gewichtung == 2:
-            difficulty_badge = f'<span class="difficulty-badge medium">★★ {_html.escape(diff_medium)}</span>'
-        else:  # gewichtung >= 3
-            difficulty_badge = f'<span class="difficulty-badge hard">★★★ {_html.escape(diff_hard)}</span>'
         
         # Hole Thema
         thema = frage_obj.get("thema", "")
@@ -1745,7 +1721,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         html_body += header_label + ' '
         qset_label = _html.escape(translate_ui("pdf.questionset_number", default="(Fragenset-Nr. {n})").format(n=original_number))
         html_body += f'<span style="color:#6c757d; font-size:9pt; font-weight:400;">{qset_label}</span> '
-        html_body += f'{difficulty_badge}'
+        # Intentionally omit per-question difficulty badge from the PDF header
         html_body += bookmark_icon_html  # Füge das Lesezeichen-Icon hinzu
         html_body += '</div>'
         if has_stage_label:
