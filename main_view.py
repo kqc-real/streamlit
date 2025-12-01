@@ -16,7 +16,6 @@ import logging
 logger = logging.getLogger(__name__)
 from typing import Any
 from pathlib import Path
-from collections import OrderedDict
 
 from config import (
     AppConfig,
@@ -1232,7 +1231,6 @@ def _render_history_table(history_rows, filename_base: str):
         # additional "Aktionen" column right after 'Fragenset'.
         header_cols = []
         # We'll always show the Datum/Fragenset columns first if present.
-        cols_layout = []
         # Build a list of visible columns in the desired order and where to
         # insert the action button column (after 'Fragenset').
         visible_order = list(df_shown.columns)
