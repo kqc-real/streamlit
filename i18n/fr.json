@@ -3,8 +3,6 @@
         "title": "Export Quiz",
         "subtitle": "Gère & analyse tes sets de questions"
     },
-    "sidebar": {
-        "title": "Navigation",
         "language": "Langue",
         "language_expander": "Langue",
         "language_selector_label": "Choisir la langue",
@@ -598,7 +596,7 @@
             "no_available": "\u26a0\ufe0f Plus de pseudos dispos. Contacte l'admin.",
             "select_label": "Prends un pseudo pour ce tour :",
             "select_placeholder": "\ud83d\udc64 Choisis un pseudo...",
-            "reservation_expander": "\ud83d\udd12 Code secret pour réserver (optionnel)",
+            "reservation_expander": "📌 Je souhaite conserver ce pseudonyme…",
             "reservation_input": "Réserver ce pseudo",
             "reservation_placeholder": "Mon \ud83d\udd12 secret...",
             "secret_too_short": "\ud83d\udd12 Trop court – min {min_len} caractères.",

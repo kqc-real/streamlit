@@ -651,7 +651,7 @@
             "no_available": "\u26a0\ufe0f Alle verf\u00fcgbaren Pseudonyme sind bereits in Verwendung. Bitte kontaktiere den Admin.",
             "select_label": "W\u00e4hle dein Pseudonym f\u00fcr diese Runde:",
             "select_placeholder": "\ud83d\udc64 Bitte ein Pseudonym ausw\u00e4hlen\u2026",
-            "reservation_expander": "\ud83d\udd12 Geheimwort f\u00fcr eine Reservierung (optional)",
+            "reservation_expander": "📌 Ich möchte dieses Pseudonym behalten…",
             "reservation_input": "Dieses Pseudonym dauerhaft f\u00fcr mich reservieren",
             "reservation_placeholder": "Mein \ud83d\udd12 Geheimwort f\u00fcr die Reservierung...",
             "secret_too_short": "\ud83d\udd12 Geheimwort zu kurz \u2014 mind. {min_len} Zeichen erforderlich.",

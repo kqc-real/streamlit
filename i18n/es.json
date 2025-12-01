@@ -606,7 +606,7 @@
             "no_available": "\u26a0\ufe0f No quedan alias. Contacta al admin.",
             "select_label": "Elige tu alias para esta ronda:",
             "select_placeholder": "\ud83d\udc64 Selecciona un alias...",
-            "reservation_expander": "\ud83d\udd12 Código secreto para reservar (opcional)",
+            "reservation_expander": "📌 Quiero conservar este seudónimo…",
             "reservation_input": "Reservar este alias para mí",
             "reservation_placeholder": "Mi \ud83d\udd12 secreto para la reserva...",
             "secret_too_short": "\ud83d\udd12 Muy corto \u2014 mín {min_len} caracteres.",

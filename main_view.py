@@ -2462,8 +2462,6 @@ def render_welcome_page(app_config: AppConfig):
                 format_func=lambda x: sort_options[x],
                 key="question_sort_order"
             )
-
-            st.divider()
             
             # --- Login-Formular im Hauptbereich ---
             from config import load_scientists
@@ -2711,8 +2709,6 @@ def render_welcome_page(app_config: AppConfig):
                             st.rerun()
                         # Clear the temporary start flag if present
                         st.session_state.pop('_reserve_started_now', None)
-                # Visuelle Trennung: Divider direkt unter dem Reservieren-Button (außerhalb des Expanders)
-                st.divider()
     
             # Wiederherstellungs-Flow: Falls ein Nutzer bereits ein Pseudonym + Geheimwort hat
             # Persist the expander open/closed state so it remains open after interactions.

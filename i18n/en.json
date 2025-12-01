@@ -612,7 +612,7 @@
             "no_available": "\u26a0\ufe0f All available pseudonyms are already in use. Please contact the admin.",
             "select_label": "Pick your pseudonym for this round:",
             "select_placeholder": "\ud83d\udc64 Please choose a pseudonym\u2026",
-            "reservation_expander": "\ud83d\udd12 Secret phrase for reserving (optional)",
+            "reservation_expander": "📌 I want to keep this pseudonym…",
             "reservation_input": "Reserve this pseudonym for me permanently",
             "reservation_placeholder": "My \ud83d\udd12 secret for the reservation...",
             "secret_too_short": "\ud83d\udd12 Secret too short \u2014 at least {min_len} characters required.",
