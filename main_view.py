@@ -3483,11 +3483,44 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 st.markdown(rest, unsafe_allow_html=True)
         except Exception:
             # Fallback: render as a single escaped line if markdown fails
-            st.markdown(f"**{frage_text_raw}** <span style='color:#888; font-size:0.9em;'>({weight_label}: {gewichtung}{stage_suffix})</span>", unsafe_allow_html=True)
+            # Use weight->cognitive-stage mapping for the display when weight is standard (1/2/3)
+            try:
+                w_int = int(gewichtung)
+            except Exception:
+                w_int = None
+
+            if w_int in (1, 2, 3):
+                _weight_to_stage = {1: "Reproduktion", 2: "Anwendung", 3: "Analyse"}
+                stage_key = _weight_to_stage.get(w_int, None)
+                if stage_key:
+                    stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
+                    cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
+                    display_meta = f"({cognitive_label}: {stage_label})"
+                else:
+                    display_meta = f"({weight_label}: {gewichtung}{stage_suffix})"
+            else:
+                display_meta = f"({weight_label}: {gewichtung}{stage_suffix})"
+
+            st.markdown(f"**{frage_text_raw}** <span style='color:#888; font-size:0.9em;'>{display_meta}</span>", unsafe_allow_html=True)
 
         # Render the weight/stage suffix on the same visual line as before
         try:
-            st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+            try:
+                w_int = int(gewichtung)
+            except Exception:
+                w_int = None
+
+            if w_int in (1, 2, 3):
+                _weight_to_stage = {1: "Reproduktion", 2: "Anwendung", 3: "Analyse"}
+                stage_key = _weight_to_stage.get(w_int, None)
+                if stage_key:
+                    stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
+                    cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
+                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({cognitive_label}: {stage_label})</div>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
         except Exception:
             pass
 
