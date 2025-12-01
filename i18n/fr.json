@@ -561,6 +561,7 @@
             "summary": {
                 "test_time": "\u23f1\ufe0f Durée : {minutes} min",
                 "difficulty": "\u26f0\ufe0f {leicht} \u00d7 facile \u00b7 {mittel} \u00d7 moyen \u00b7 {schwer} \u00d7 difficile",
+                "cognition_counts": "🧩 {repro} × Reproduction · {app} × Application · {analyse} × Analyse",
                 "cognition": "\ud83e\udde0 Niveaux cognitifs : {summary}"
             },
             "difficulty": {
