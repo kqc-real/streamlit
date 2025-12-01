@@ -3867,6 +3867,18 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
             st.session_state.celebrated_questions.append(frage_idx)
 
         st.success(_test_view_text("explanation_correct", default="Richtig! ✅"))
+    # Zeige die gegebene Antwort oberhalb der richtigen Antwort (lokalisiert)
+    try:
+        your_answer_label = _summary_text("review_label_your_answer", default="Your answer")
+        if gegebene_antwort is not None:
+            color = "#15803d" if ist_richtig else "#b91c1c"
+            st.markdown(
+                f"<span style='color:{color}; font-weight:bold;'>{your_answer_label}:</span> <span style='color:{color};'>{formatted_gegebene_antwort}</span>",
+                unsafe_allow_html=True,
+            )
+    except Exception:
+        # Best-effort: do not break explanation rendering on translation errors
+        pass
     else:
         st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
         correct_label = _test_view_text("correct_label", default="Richtig:")
@@ -4151,7 +4163,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     # (INSERT OR REPLACE into `test_session_summaries`).
                     recompute_session_summary(int(session_id))
                     st.session_state[saved_key] = True
-                except Exception as _e:
+                except Exception:
                     # Don't break the UI on DB errors; log for debugging.
                     try:
                         import traceback
