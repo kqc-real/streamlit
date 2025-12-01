@@ -3495,7 +3495,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 if stage_key:
                     stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
                     cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
-                    display_meta = f"({cognitive_label}: {stage_label})"
+                    display_meta = f"{cognitive_label}: {stage_label}"
                 else:
                     display_meta = f"({weight_label}: {gewichtung}{stage_suffix})"
             else:
@@ -3516,7 +3516,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 if stage_key:
                     stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
                     cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
-                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({cognitive_label}: {stage_label})</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>{cognitive_label}: {stage_label}</div>", unsafe_allow_html=True)
                 else:
                     st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
             else:
