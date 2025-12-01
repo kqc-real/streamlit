@@ -359,6 +359,7 @@
             "row": {
                 "overall": "Gesamtergebnis"
             },
+            "by_stage": "Nach kognitiver Stufe",
             "by_difficulty": "Nach Schwierigkeit",
             "above": "über Durchschnitt",
             "below": "unter Durchschnitt",

@@ -324,7 +324,7 @@
             "title": "Comparaison avec la moyenne",
             "table": { "header": { "level": "Niveau", "you": "Toi", "avg": "Moy.", "diff": "Diff", "difficulty": "Difficulté" } },
             "row": { "overall": "Global" },
-            "by_difficulty": "Par difficulté",
+            "by_stage": "Par niveau cognitif",
             "above": "au-dessus",
             "below": "en dessous",
             "neutral": "dans la moyenne",

@@ -1371,26 +1371,42 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         if ist_richtig:
             stage_stats[stage]["richtig"] += 1
     
-    # HTML für Schwierigkeits-Übersicht
+    # HTML für Schwierigkeits-Übersicht (sichtbare Labels als kognitive Stufen)
     difficulty_rows = []
+    # Verwende kanonische Stage-Bezeichnungen kombiniert mit lokalisierten Namen
+    canonical_english = {'reproduction': 'Reproduction', 'application': 'Application', 'analysis': 'Analysis'}
+    canonical_to_i18n = {'reproduction': 'Reproduktion', 'application': 'Anwendung', 'analysis': 'Analyse'}
+
     if difficulty_stats["easy"]["gesamt"] > 0:
         easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
+        canon = 'reproduction'
+        i18n_key = canonical_to_i18n.get(canon, canon)
+        localized_stage = translate_ui(f"pdf.stage_name.{i18n_key}", default=canonical_english.get(canon, i18n_key))
+        label = localized_stage
         difficulty_rows.append((
-            f'★ {_html.escape(translate_ui("pdf.difficulty.easy", default="Leicht"))}',
+            label,
             f'{difficulty_stats["easy"]["richtig"]}/{difficulty_stats["easy"]["gesamt"]}',
             easy_percent,
         ))
     if difficulty_stats["medium"]["gesamt"] > 0:
         medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
+        canon = 'application'
+        i18n_key = canonical_to_i18n.get(canon, canon)
+        localized_stage = translate_ui(f"pdf.stage_name.{i18n_key}", default=canonical_english.get(canon, i18n_key))
+        label = f"{canonical_english.get(canon)} / {localized_stage}"
         difficulty_rows.append((
-            f'★★ {_html.escape(translate_ui("pdf.difficulty.medium", default="Mittel"))}',
+            label,
             f'{difficulty_stats["medium"]["richtig"]}/{difficulty_stats["medium"]["gesamt"]}',
             medium_percent,
         ))
     if difficulty_stats["hard"]["gesamt"] > 0:
         hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
+        canon = 'analysis'
+        i18n_key = canonical_to_i18n.get(canon, canon)
+        localized_stage = translate_ui(f"pdf.stage_name.{i18n_key}", default=canonical_english.get(canon, i18n_key))
+        label = f"{canonical_english.get(canon)} / {localized_stage}"
         difficulty_rows.append((
-            f'★★★ {_html.escape(translate_ui("pdf.difficulty.hard", default="Schwer"))}',
+            label,
             f'{difficulty_stats["hard"]["richtig"]}/{difficulty_stats["hard"]["gesamt"]}',
             hard_percent,
         ))
@@ -1477,8 +1493,15 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             if difficulty_stats["easy"]["gesamt"] > 0 and avg_stats['avg_difficulty']['easy'] > 0:
                 easy_percent = (difficulty_stats["easy"]["richtig"] / difficulty_stats["easy"]["gesamt"] * 100)
                 easy_diff = easy_percent - avg_stats['avg_difficulty']['easy']
+                # Use canonical cognitive stage labels instead of star badges
+                canon = 'reproduction'
+                canonical_english = {'reproduction': 'Reproduction', 'application': 'Application', 'analysis': 'Analysis'}
+                canonical_to_i18n = {'reproduction': 'Reproduktion', 'application': 'Anwendung', 'analysis': 'Analyse'}
+                i18n_key = canonical_to_i18n.get(canon, canon)
+                localized_stage = translate_ui(f"pdf.stage_name.{i18n_key}", default=canonical_english.get(canon, i18n_key))
+                label = localized_stage
                 difficulty_comparison_rows.append((
-                    f'★ {translate_ui("pdf.difficulty.easy", default="Easy")}',
+                    label,
                     easy_percent,
                     avg_stats["avg_difficulty"]["easy"],
                     easy_diff,
@@ -1486,8 +1509,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             if difficulty_stats["medium"]["gesamt"] > 0 and avg_stats['avg_difficulty']['medium'] > 0:
                 medium_percent = (difficulty_stats["medium"]["richtig"] / difficulty_stats["medium"]["gesamt"] * 100)
                 medium_diff = medium_percent - avg_stats['avg_difficulty']['medium']
+                canon = 'application'
+                canonical_english = {'reproduction': 'Reproduction', 'application': 'Application', 'analysis': 'Analysis'}
+                canonical_to_i18n = {'reproduction': 'Reproduktion', 'application': 'Anwendung', 'analysis': 'Analyse'}
+                i18n_key = canonical_to_i18n.get(canon, canon)
+                localized_stage = translate_ui(f"pdf.stage_name.{i18n_key}", default=canonical_english.get(canon, i18n_key))
+                label = localized_stage
                 difficulty_comparison_rows.append((
-                    f'★★ {translate_ui("pdf.difficulty.medium", default="Medium")}',
+                    label,
                     medium_percent,
                     avg_stats["avg_difficulty"]["medium"],
                     medium_diff,
@@ -1495,8 +1524,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             if difficulty_stats["hard"]["gesamt"] > 0 and avg_stats['avg_difficulty']['hard'] > 0:
                 hard_percent = (difficulty_stats["hard"]["richtig"] / difficulty_stats["hard"]["gesamt"] * 100)
                 hard_diff = hard_percent - avg_stats['avg_difficulty']['hard']
+                canon = 'analysis'
+                canonical_english = {'reproduction': 'Reproduction', 'application': 'Application', 'analysis': 'Analysis'}
+                canonical_to_i18n = {'reproduction': 'Reproduktion', 'application': 'Anwendung', 'analysis': 'Analyse'}
+                i18n_key = canonical_to_i18n.get(canon, canon)
+                localized_stage = translate_ui(f"pdf.stage_name.{i18n_key}", default=canonical_english.get(canon, i18n_key))
+                label = localized_stage
                 difficulty_comparison_rows.append((
-                    f'★★★ {translate_ui("pdf.difficulty.hard", default="Hard")}',
+                    label,
                     hard_percent,
                     avg_stats["avg_difficulty"]["hard"],
                     hard_diff,
@@ -1504,9 +1539,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
             if difficulty_comparison_rows:
                 comparison_html += '<table class="comparison-table comparison-difficulty-table">'
-                comparison_html += f'<caption class="comparison-subtitle">{translate_ui("pdf.comparison.by_difficulty", default="Nach Schwierigkeit")}</caption>'
+                comparison_html += f'<caption class="comparison-subtitle">{translate_ui("pdf.comparison.by_stage", default="Nach kognitiver Stufe")}</caption>'
                 comparison_html += ('<thead><tr>'
-                                     f'<th>{translate_ui("pdf.comparison.table.header.difficulty", default="Schwierigkeit")}</th>'
+                                     f'<th>{translate_ui("pdf.stage_table.header.stage", default="Kognitive Stufe")}</th>'
                                      f'<th>{translate_ui("pdf.comparison.table.header.you", default="Du")}</th>'
                                      f'<th>{translate_ui("pdf.comparison.table.header.avg", default="Ø")}</th>'
                                      f'<th>{translate_ui("pdf.comparison.table.header.diff", default="Abweichung")}</th>'

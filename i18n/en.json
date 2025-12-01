@@ -336,7 +336,7 @@
             "title": "Comparison with average",
             "table": { "header": { "level": "Level", "you": "You", "avg": "Avg", "diff": "Difference", "difficulty": "Difficulty" } },
             "row": { "overall": "Overall result" },
-            "by_difficulty": "By difficulty",
+            "by_stage": "By cognitive stage",
             "above": "above average",
             "below": "below average",
             "neutral": "at average level",
@@ -644,10 +644,5 @@
     },
     "warnings": {
         "no_config": "\u26a0\ufe0f **No configuration file found!**\\n\\nThe app needs either a `.env` file or `.streamlit/secrets.toml` for configuration (admin access, QR-code URL, etc.).\\n\\n**For local installation:**\\n1. Copy `.env.example` to `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Restart the app.\\n\\n**Details:** See [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
-    }
-    ,
-    "mini_glossary": {
-        "title": "Key terms for the question",
-        "empty_error": "No mini-glossary present for this question."
     }
 }

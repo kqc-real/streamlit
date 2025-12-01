@@ -333,7 +333,7 @@
             "title": "Comparación con la media",
             "table": { "header": { "level": "Nivel", "you": "Tú", "avg": "Media", "diff": "Dif", "difficulty": "Dificultad" } },
             "row": { "overall": "Resultado global" },
-            "by_difficulty": "Por dificultad",
+            "by_stage": "Por nivel cognitivo",
             "above": "sobre la media",
             "below": "bajo la media",
             "neutral": "en la media",
@@ -639,9 +639,4 @@
     "warnings": {
         "no_config": "\u26a0\ufe0f **¡Sin archivo de config!**\\n\\nLa app necesita un `.env` o `.streamlit/secrets.toml`.\\n\\n**En local:**\\n1. Copia `.env.example` a `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Reinicia la app.\\n\\n**Detalles:** Ver [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
     }
-    ,
-    "mini_glossary": {
-        "title": "Términos clave para la pregunta",
-        "empty_error": "No hay mini-glosario para esta pregunta."
-    }
-}   
+}
