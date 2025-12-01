@@ -190,6 +190,9 @@
         
         "question_set_change_warning": "⚠️ Question set changed, reinitializing the test..."
         ,
+    "question": {
+        "show_glossary": "Look up technical terms"
+    },
     "motivation": {
         "lob": {
             "correct_very_good": "Correct! Very good.",

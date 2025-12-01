@@ -3486,26 +3486,21 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         if "mini_glossary" in frage_obj and frage_obj["mini_glossary"]:
             mini_gloss = frage_obj["mini_glossary"]
             title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
-            
-            expander_key = f"mini_glossary_open_{frage_idx}"
+            with st.expander(f"🔎 {title}"):
+                glossary_terms_string = ""
+        # --- Mini-Glossar (frage-spezifisch) ---
+        # If the current question contains a `mini_glossary` object, render a
+        # popover button to display the terms.
+        mini_gloss = frage_obj.get("mini_glossary")
+        if mini_gloss and isinstance(mini_gloss, dict):
+            popover_title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
+            with st.popover(f"🔎 {popover_title}"):
+                for term, definition in mini_gloss.items():
+                    glossary_terms_string += f"- **{term}**: {definition}\n"
+                st.markdown(glossary_terms_string, unsafe_allow_html=True)
 
-            # Ensure the state is initialized.
-            if expander_key not in st.session_state:
-                st.session_state[expander_key] = False
-            
-            # The button toggles the expander's state.
-            if st.button(f"🔎 {title}", key=f"open_mini_gloss_btn_{frage_idx}"):
-                st.session_state[expander_key] = not st.session_state[expander_key]
-                st.rerun()
-
-            # The expander is controlled by the session state.
-            if st.session_state.get(expander_key):
-                with st.expander(title, expanded=True):
-                    glossary_terms_string = ""
-                    for term, definition in mini_gloss.items():
-                        glossary_terms_string += f"- **{term}**: {definition}\n"
-                    st.markdown(glossary_terms_string, unsafe_allow_html=True)
-
+                    st.markdown(f"**{term}**: {definition}")
+        
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]

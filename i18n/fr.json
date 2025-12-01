@@ -271,6 +271,9 @@
             "other": "Autre"
         }
     },
+    "question": {
+        "show_glossary": "Consulter les termes techniques"
+    },
     "metadata": {
         "weight_label": "Poids",
         "cognitive_stage": "Niveau cognitif",

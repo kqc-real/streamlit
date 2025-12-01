@@ -189,6 +189,9 @@
         "pseudonym_welcome": "**¡Hola, {user}!** Por favor, recuerda la ortografía exacta de tu alias, tal como aparece aquí.",
         "question_set_change_warning": "⚠️ El set cambió, reiniciando..."
     },
+    "question": {
+        "show_glossary": "Consultar términos técnicos"
+    },
     "motivation": {
         "lob": {
             "correct_very_good": "¡Correcto! Muy bien.",

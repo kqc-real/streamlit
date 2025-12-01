@@ -271,6 +271,9 @@
             "other": "Sonstiges"
         }
     },
+    "question": {
+        "show_glossary": "Fachbegriffe nachschlagen"
+    },
     "metadata": {
         "weight_label": "Gewichtung",
         "cognitive_stage": "Kognitive Stufe",
@@ -414,6 +417,7 @@
     },
     "mini_glossary": {
         "title": "Schlüsselbegriffe zur Frage",
+        "expander_label": "Fachbegriffe nachschlagen",
         "empty_error": "Kein Mini-Glossar in diesem Fragenset vorhanden."
     },
     "unnamed_set": "Ungenanntes Fragenset",
