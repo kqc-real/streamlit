@@ -574,7 +574,6 @@
             "warning": "\u26a0\ufe0f The selected question set is empty or could not be loaded.",
             "summary": {
                 "test_time": "\u23f1\ufe0f Test duration: {minutes} min",
-                "difficulty": "\u26f0\ufe0f {leicht} \u00d7 easy \u00b7 {mittel} \u00d7 medium \u00b7 {schwer} \u00d7 hard",
                 "cognition": "\ud83e\udde0 Cognitive stages: {summary}"
             }
             ,

@@ -569,7 +569,6 @@
             "warning": "\u26a0\ufe0f El set seleccionado está vacío o ilegible.",
             "summary": {
                 "test_time": "\u23f1\ufe0f Duración: {minutes} min",
-                "difficulty": "\u26f0\ufe0f {leicht} \u00d7 fácil \u00b7 {mittel} \u00d7 medio \u00b7 {schwer} \u00d7 difícil",
                 "cognition": "\ud83e\udde0 Niveaux cognitivos: {summary}"
             },
             "difficulty": {

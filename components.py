@@ -2529,13 +2529,9 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
         if duration_minutes:
             summary_parts.append(_distribution_summary_test_time(int(duration_minutes)))
 
-        if difficulty_profile and isinstance(difficulty_profile, dict):
-            leicht_count = int(difficulty_profile.get('leicht', 0) or 0)
-            mittel_count = int(difficulty_profile.get('mittel', 0) or 0)
-            schwer_count = int(difficulty_profile.get('schwer', 0) or 0)
-            summary_parts.append(
-                f"<br>{_distribution_summary_difficulty(leicht_count, mittel_count, schwer_count)}"
-            )
+        # Do not render the numeric difficulty summary in the chart header
+        # (redundant with the stacked bar visuals). Keep duration and
+        # cognition summaries only.
 
         if "cognitive_level" in df_fragen.columns:
             raw_stages = df_fragen["cognitive_level"].fillna("Unbekannt")
