@@ -570,7 +570,7 @@
             "header": "\ud83d\uddc2\ufe0f Choose a question set"
         },
         "distribution": {
-            "expander": "\u2696\ufe0f Questions by topic and difficulty",
+            "expander": "\u2696\ufe0f Questions by topic and cognitive stage",
             "warning": "\u26a0\ufe0f The selected question set is empty or could not be loaded.",
             "summary": {
                 "test_time": "\u23f1\ufe0f Test duration: {minutes} min",

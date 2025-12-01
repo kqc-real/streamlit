@@ -609,7 +609,7 @@
             "header": "\ud83d\uddc2\ufe0f W\u00e4hle ein Fragenset"
         },
         "distribution": {
-            "expander": "\u2696\ufe0f Fragen nach Thema und Schwierigkeit",
+            "expander": "\u2696\ufe0f Fragen nach Thema und kognitiver Stufe",
             "warning": "\u26a0\ufe0f Das ausgew\u00e4hlte Fragenset ist leer oder konnte nicht geladen werden.",
             "summary": {
                 "test_time": "\u23f1\ufe0f Testzeit: {minutes} min",

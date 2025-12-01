@@ -565,7 +565,7 @@
             "header": "\ud83d\uddc2\ufe0f Selección de set"
         },
         "distribution": {
-            "expander": "\u2696\ufe0f Preguntas por tema y dificultad",
+            "expander": "\u2696\ufe0f Preguntas por tema y nivel cognitivo",
             "warning": "\u26a0\ufe0f El set seleccionado está vacío o ilegible.",
             "summary": {
                 "test_time": "\u23f1\ufe0f Duración: {minutes} min",
