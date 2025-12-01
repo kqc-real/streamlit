@@ -619,9 +619,9 @@
             }
             ,
             "difficulty": {
-                "easy": "Leicht",
-                "medium": "Mittel",
-                "hard": "Schwer"
+                "easy": "Reproduktion",
+                "medium": "Anwendung",
+                "hard": "Analyse"
             },
             "chart": {
                 "xaxis": "Thema",

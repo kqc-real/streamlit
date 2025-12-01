@@ -565,9 +565,9 @@
                 "cognition": "\ud83e\udde0 Niveaux cognitifs : {summary}"
             },
             "difficulty": {
-                "easy": "Facile",
-                "medium": "Moyen",
-                "hard": "Difficile"
+                "easy": "Reproduction",
+                "medium": "Application",
+                "hard": "Analyse"
             },
             "chart": {
                 "xaxis": "Sujet",

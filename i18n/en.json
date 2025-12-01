@@ -580,9 +580,9 @@
             }
             ,
             "difficulty": {
-                "easy": "Easy",
-                "medium": "Medium",
-                "hard": "Hard"
+                "easy": "Reproduction",
+                "medium": "Application",
+                "hard": "Analysis"
             },
             "chart": {
                 "xaxis": "Topic",

@@ -326,7 +326,7 @@
     },
     "pdf": {
         "status": { "correct": "Correcto", "wrong": "Incorrecto", "unanswered": "Sin respuesta" },
-        "difficulty": { "easy": "Fácil", "medium": "Medio", "hard": "Difícil" },
+        "difficulty": { "easy": "Reproducción", "medium": "Aplicación", "hard": "Análisis" },
         "stage_section_title": "Rendimiento por nivel cognitivo",
         "stage_table": { "header": { "stage": "Nivel", "hits": "Aciertos", "quota": "Cuota" } },
         "comparison": {
@@ -574,9 +574,9 @@
                 "cognition": "\ud83e\udde0 Cognitive stages: {summary}"
             },
             "difficulty": {
-                "easy": "Fácil",
-                "medium": "Medio",
-                "hard": "Difícil"
+                "easy": "Reproducción",
+                "medium": "Aplicación",
+                "hard": "Análisis"
             },
             "chart": {
                 "xaxis": "Tema",
