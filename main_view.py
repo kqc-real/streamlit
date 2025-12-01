@@ -3480,27 +3480,34 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             pass
 
         # --- Mini-Glossar (frage-spezifisch) ---
-        # If the current question contains a `mini_glossary` object (map of
-        # term->definition), render it inside a collapsed expander so users
-        # can open contextual definitions on demand.
-        if "mini_glossary" in frage_obj and frage_obj["mini_glossary"]:
-            mini_gloss = frage_obj["mini_glossary"]
-            title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
-            with st.expander(f"🔎 {title}"):
-                glossary_terms_string = ""
-        # --- Mini-Glossar (frage-spezifisch) ---
         # If the current question contains a `mini_glossary` object, render a
-        # popover button to display the terms.
-        mini_gloss = frage_obj.get("mini_glossary")
-        if mini_gloss and isinstance(mini_gloss, dict):
-            popover_title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
-            with st.popover(f"🔎 {popover_title}"):
+        # compact popover showing the term definitions. This replaces the
+        # previous expander/flag approach for a simpler, deterministic UI.
+        try:
+            mini_gloss = frage_obj.get("mini_glossary")
+            if isinstance(mini_gloss, dict) and mini_gloss:
+                try:
+                    title = translate_ui("question.show_glossary", default="Look up technical terms")
+                except Exception:
+                    title = "Look up technical terms"
+
+                glossary_terms_string = ""
                 for term, definition in mini_gloss.items():
                     glossary_terms_string += f"- **{term}**: {definition}\n"
-                st.markdown(glossary_terms_string, unsafe_allow_html=True)
 
-                    st.markdown(f"**{term}**: {definition}")
-        
+                try:
+                    with st.popover(f"🔎 {title}"):
+                        st.markdown(glossary_terms_string, unsafe_allow_html=True)
+                except Exception:
+                    # Fallback: inline render if popover is unavailable
+                    for term, definition in mini_gloss.items():
+                        try:
+                            st.markdown(f"- **{term}**: {definition}")
+                        except Exception:
+                            st.write(f"{term}: {definition}")
+        except Exception:
+            pass
+
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]
@@ -3518,10 +3525,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 _dismiss_user_qset_dialog_and_rerun()
             except Exception:
                 pass
-            try:
-                _set_mini_gloss_flag(frage_idx, False, origin="radio-on-change")
-            except Exception:
-                pass
+            # Popover-based glossary is stateless; no flag update required here.
 
         selected_index = st.radio(
             _test_view_text("question_prompt", default="Wähle deine Antwort:"),
@@ -3544,10 +3548,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             prev_selected = st.session_state.get(prev_key, None)
             if prev_selected != selected_index:
                 st.session_state[prev_key] = selected_index
-                try:
-                    _set_mini_gloss_flag(frage_idx, False, origin="radio-detect-change")
-                except Exception:
-                    pass
+                # Popover-based glossary is stateless; no flag update required here.
         except Exception:
             pass
 
@@ -3588,10 +3589,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         if frage_idx not in st.session_state.skipped_questions:
                             st.session_state.skipped_questions.append(frage_idx)
                         st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
-                        try:
-                            _set_mini_gloss_flag(frage_idx, False, origin="skip-button")
-                        except Exception:
-                            pass
+                        # Popover-based glossary is stateless; no flag update required here.
                         st.rerun()
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
@@ -3604,10 +3602,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     disabled=(antwort is None),
                 ):
                     _dismiss_user_qset_dialog_from_test()
-                    try:
-                        _set_mini_gloss_flag(frage_idx, False, origin="answer-submit")
-                    except Exception:
-                        pass
+                    # Popover-based glossary is stateless; no flag update required here.
                     # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
                     handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         
@@ -3727,29 +3722,14 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
             bookmarked_q_nrs.append(int(q_text.split('.')[0]))
         except Exception:
             bookmarked_q_nrs.append(0)
+
     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
-
-
-def _set_mini_gloss_flag(frage_idx: int, value: bool, origin: str = "unknown") -> None:
-    """Setzt das mini_glossary Flag und protokolliert die Änderung für Debugging.
-
-    Wir sammeln Änderungen in `st.session_state['_mini_gloss_debug']` als Liste
-    von Einträgen (timestamp, frage_idx, origin, prev, new).
-    """
-    try:
-        key = f"mini_glossary_open_{frage_idx}"
-        st.session_state[key] = value
-    except Exception:
-        pass
 
 
 def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
     """Verarbeitet die Abgabe einer Antwort."""
     # Ensure mini-glossary is closed immediately when an answer is submitted
-    try:
-        _set_mini_gloss_flag(frage_idx, False, origin="answer-submit-handler")
-    except Exception:
-        pass
+    # Popover-based glossary is stateless; no flag update required here.
     # Mark pacing UI visible on first actual answer submission
     try:
         if not st.session_state.get("pacing_visible"):
@@ -4107,10 +4087,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                     st.session_state.pop("jump_to_idx", None)
                 except Exception:
                     pass
-                try:
-                    _set_mini_gloss_flag(frage_idx, False, origin="prev-button")
-                except Exception:
-                    pass
+                # Popover-based glossary is stateless; no flag update required here.
                 st.rerun()
         next_question_container = col2
     else:
@@ -4142,10 +4119,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                     st.session_state["pacing_visible"] = True
             except Exception:
                 pass
-            try:
-                _set_mini_gloss_flag(frage_idx, False, origin="next-button")
-            except Exception:
-                pass
+            # Popover-based glossary is stateless; no flag update required here.
             st.rerun()
 
 

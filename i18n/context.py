@@ -58,6 +58,19 @@ def set_locale(locale: str) -> str:
             state[LOCALE_SESSION_KEY] = normalized
         except Exception:
             pass
+    # Clear the cached locale data so changes to the JSON files are picked up
+    # immediately in long-running Streamlit sessions.
+    try:
+        # Import here to avoid circular import at module load time.
+        from . import _load_locale_data
+
+        try:
+            _load_locale_data.cache_clear()
+        except Exception:
+            # If the cache is not present or clearing fails, ignore silently.
+            pass
+    except Exception:
+        pass
     return normalized
 
 
