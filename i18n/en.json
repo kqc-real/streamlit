@@ -579,14 +579,14 @@
             }
             ,
             "difficulty": {
-                "easy": "Easy",
-                "medium": "Medium",
-                "hard": "Hard"
+                "easy": "Reproduction",
+                "medium": "Application",
+                "hard": "Analysis"
             },
             "chart": {
                 "xaxis": "Topic",
                 "yaxis": "Number of questions",
-                "legend": "Difficulty"
+                "legend": "Cognitive stage"
             }
         },
         "leaderboard": {

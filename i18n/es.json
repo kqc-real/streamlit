@@ -573,14 +573,14 @@
                 "cognition": "\ud83e\udde0 Niveaux cognitivos: {summary}"
             },
             "difficulty": {
-                "easy": "Fácil",
-                "medium": "Medio",
-                "hard": "Difícil"
+                "easy": "Reproducción",
+                "medium": "Aplicación",
+                "hard": "Análisis"
             },
             "chart": {
                 "xaxis": "Tema",
                 "yaxis": "Número de preguntas",
-                "legend": "Dificultad"
+                "legend": "Nivel cognitivo"
             }
         },
         "leaderboard": {

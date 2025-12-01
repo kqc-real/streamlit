@@ -618,14 +618,14 @@
             }
             ,
             "difficulty": {
-                "easy": "Leicht",
-                "medium": "Mittel",
-                "hard": "Schwer"
+                "easy": "Reproduktion",
+                "medium": "Anwendung",
+                "hard": "Analyse"
             },
             "chart": {
                 "xaxis": "Thema",
                 "yaxis": "Anzahl der Fragen",
-                "legend": "Schwierigkeit"
+                "legend": "Kognitive Stufe"
             }
         },
         "leaderboard": {
