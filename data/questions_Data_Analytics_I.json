@@ -84,7 +84,8 @@
       "answer": 2,
       "explanation": "Die Explorative Datenanalyse (`EDA`) dient dazu, die Daten zu verstehen und ihre Eigenschaften, Muster und Anomalien zu identifizieren. Methoden wie die Visualisierung mit `Boxplots`, die Identifikation von Ausreißern oder die Korrelationsanalyse sind dabei zentrale Werkzeuge. Das `Hyperparameter-Tuning` ist jedoch ein Schritt, der erst nach der `EDA` und während des Modelltrainings erfolgt, um die Leistung des Modells zu optimieren.",
       "weight": 1,
-      "topic": "Explorative Datenanalyse (EDA)"
+      "topic": "Explorative Datenanalyse (EDA)",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Was ist ein typischer Nachteil von `Decision Trees` ohne weitere Maßnahmen?",
@@ -110,7 +111,8 @@
         "Decision Tree": "Ein Klassifikations- oder Regressionsmodell, das durch eine baumartige Struktur Entscheidungen trifft, indem es Daten basierend auf den Werten von Features aufteilt.",
         "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung.",
         "Random Forest": "Ensemble vieler Entscheidungsbäume auf Bootstrap-Samples und Feature-Subsets; reduziert Varianz und Overfitting gegenüber Einzelbäumen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Welche der folgenden Maßnahmen erhöht die Reproduzierbarkeit von Data-Science-Projekten am effektivsten?",
@@ -136,7 +138,8 @@
         "Docker-Container": "Eine leichtgewichtige, portable und ausführbare Software-Einheit, die alles enthält, was zur Ausführung einer Anwendung benötigt wird, einschließlich Code, Laufzeitumgebung und Bibliotheken.",
         "Reproduzierbarkeit": "Die Fähigkeit, die Ergebnisse eines Experiments oder Projekts zu einem späteren Zeitpunkt und in einer anderen Umgebung exakt zu replizieren.",
         "MLOps": "Gesamtheit der Prozesse und Tools, die Entwicklung, Deployment und Betrieb von ML-Modellen verzahnen und überwachen (z. B. Experiment-Tracking, CI/CD, Monitoring)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "6. Welche Aussage zu `Feature Engineering` ist korrekt?",
@@ -162,7 +165,8 @@
         "Feature Engineering": "Der Prozess der Erstellung neuer, aussagekräftiger Merkmale (Features) aus bestehenden Daten, um die Leistung eines Machine-Learning-Modells zu verbessern.",
         "Deployment": "Bereitstellung eines trainierten Modells in einer produktiven Umgebung (API, Streamlit, Batch) inklusive Infrastruktur, Skalierung und Monitoring.",
         "Modellgüte": "Ein Maß dafür, wie gut ein Machine-Learning-Modell Vorhersagen treffen kann, oft bewertet durch Metriken wie Genauigkeit, Präzision oder F1-Score."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "7. Welche Methode ist am besten geeignet, um die Robustheit eines Modells gegen **Ausreißer** zu testen?",
@@ -188,7 +192,8 @@
         "Cross-Validation": "Validierungstechnik, bei der Trainingsdaten in Folds geteilt werden; jedes Fold dient einmal als Validierung, wodurch die Varianz der Metrik sinkt.",
         "Ausreißer": "Beobachtungen, die deutlich außerhalb des typischen Wertebereichs liegen und Modelle stark beeinflussen können; benötigen spezielle Behandlung.",
         "Robustheit": "Die Fähigkeit eines Modells, stabil und zuverlässig zu funktionieren, auch wenn die Eingabedaten Rauschen, Fehlern oder Ausreißern unterliegen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "8. Was ist ein typisches Symptom für **`Data Leakage`**?",
@@ -214,7 +219,8 @@
         "Data Leakage": "Unbeabsichtigter Informationsfluss vom Testset in den Trainingsprozess (z. B. gemeinsames Fitten von Scaler oder Encoding); verfälscht Metriken und führt zu optimistischeren Ergebnissen.",
         "Generalisierung": "Die Fähigkeit eines Machine-Learning-Modells, gut auf neuen, ungesehenen Daten zu funktionieren, die nicht Teil der Trainingsmenge waren.",
         "Testgenauigkeit": "Ein Maß für die Leistung eines Modells auf den Testdaten, das angibt, wie gut das Modell auf neuen Daten generalisiert."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "9. Welche Bibliothek ist für das Tracking von Experimenten und Modellversionen in einem `Data Analytics` Projekt vorgesehen?",
@@ -240,7 +246,8 @@
         "MLflow": "Open-Source-Plattform zum Nachverfolgen von ML-Experimenten, Verwalten von Modellen und Bereitstellen in Registry oder Serving.",
         "Experiment-Tracking": "Systematische Erfassung von Trainingsläufen (Parameter, Metriken, Artefakte), um Modellversionen reproduzierbar zu vergleichen und auditierbar zu halten.",
         "MLOps": "Gesamtheit der Prozesse und Tools, die Entwicklung, Deployment und Betrieb von ML-Modellen verzahnen und überwachen (z. B. Experiment-Tracking, CI/CD, Monitoring)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. Was ist ein Vorteil von `Random Forests` gegenüber einzelnen `Decision Trees`?",
@@ -266,7 +273,8 @@
         "Random Forest": "Ensemble vieler Entscheidungsbäume auf Bootstrap-Samples und Feature-Subsets; reduziert Varianz und Overfitting gegenüber Einzelbäumen.",
         "Ensemble-Lernen": "Eine Methode im Machine Learning, bei der mehrere Modelle (`Ensemble`) kombiniert werden, um eine bessere Leistung zu erzielen als ein einzelnes Modell.",
         "Varianz": "Maß dafür, wie stark Modellvorhersagen bei Variation des Trainingssets schwanken; hohe Varianz deutet auf Überanpassung hin."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "11. Welche Aussage zu `K-Nearest Neighbors` (`KNN`) ist korrekt?",
@@ -292,7 +300,8 @@
         "K-Nearest Neighbors (`KNN`)": "Nicht-parametrischer Klassifikator: weist einem Punkt das Mehrheitslabel der k nächsten Trainingspunkte im Feature-Raum zu (distanzbasiert).",
         "Instanzbasiertes Lernen": "Ein Lernparadigma, bei dem das Modell alle Trainingsinstanzen speichert und Vorhersagen für neue Instanzen auf der Grundlage ihrer Ähnlichkeit mit den gespeicherten Instanzen trifft.",
         "Euklidische Distanz": "Ein gebräuchliches Distanzmaß, das den kürzesten Abstand zwischen zwei Punkten in einem euklidischen Raum berechnet: $d(x,y) = \\sqrt{\\sum_{i=1}^n (x_i-y_i)^2}$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Was ist ein typischer Anwendungsfall für die `Principal Component Analysis` (`PCA`)?",
@@ -318,7 +327,8 @@
         "Principal Component Analysis (`PCA`)": "Eine statistische Methode zur Dimensionsreduktion, die hochdimensionale Daten in eine niedrigere Dimension projiziert, während sie die maximale Varianz behält.",
         "Dimensionsreduktion": "Der Prozess der Verringerung der Anzahl von Features in einem Datensatz, um die Modellierung zu vereinfachen und die Leistung zu verbessern.",
         "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. Welche Rolle spielt die Standardisierung von Features bei der Anwendung von `KNN`?",
@@ -344,7 +354,8 @@
         "Standardisierung": "Ein Datenvorverarbeitungsschritt, bei dem die Werte von Features so transformiert werden, dass sie eine einheitliche Skala haben und eine Normalverteilung mit Mittelwert 0 und Standardabweichung 1 aufweisen.",
         "KNN": "Kurzform für K-Nearest Neighbors; siehe Eintrag „K-Nearest Neighbors (`KNN`)“. ",
         "Distanzmaß": "Eine mathematische Funktion, die den Abstand zwischen zwei Punkten oder Vektoren in einem Raum misst."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Welche Aussage zu **`Cross-Validation`** ist korrekt?",
@@ -370,7 +381,8 @@
         "Cross-Validation": "Validierungstechnik, bei der Trainingsdaten in Folds geteilt werden; jedes Fold dient einmal als Validierung, wodurch die Varianz der Metrik sinkt.",
         "Varianz": "Maß dafür, wie stark Modellvorhersagen bei Variation des Trainingssets schwanken; hohe Varianz deutet auf Überanpassung hin.",
         "Holdout-Validierung": "Eine einfache Methode zur Modellbewertung, bei der der Datensatz einmalig in eine Trainings- und eine Testmenge aufgeteilt wird."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Was ist ein typischer Nachteil von linearen Modellen bei komplexen Datensätzen?",
@@ -383,7 +395,8 @@
       "answer": 2,
       "explanation": "Lineare Modelle, wie die lineare Regression oder die logistische Regression, gehen von einem linearen Zusammenhang zwischen den Features und der Zielvariablen aus. Wenn die zugrunde liegenden Daten jedoch eine nicht-lineare Beziehung aufweisen, sind diese Modelle nicht in der Lage, die komplexen Muster zu erfassen, was zu einem `Underfitting` führt. `Polynomiale Regression` oder `Decision Trees` sind Beispiele für Modelle, die besser für nicht-lineare Daten geeignet sind.",
       "weight": 1,
-      "topic": "Modelle & Algorithmen"
+      "topic": "Modelle & Algorithmen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "16. Welche Aussage zu `Data Augmentation` im Kontext von `Computer Vision` ist korrekt?",
@@ -409,7 +422,8 @@
         "Data Augmentation": "Gezielte Erzeugung synthetischer Varianten (z. B. Drehung, Spiegelung) zur Erweiterung des Trainingssets und Verringerung von Overfitting.",
         "Computer Vision": "Ein Fachgebiet der Künstlichen Intelligenz, das sich mit der Entwicklung von Systemen befasst, die in der Lage sind, Informationen aus visuellen Daten wie Bildern und Videos zu interpretieren und zu verstehen.",
         "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Was ist ein typischer Vorteil von `Transfer Learning` im Vergleich zu `Training from Scratch`?",
@@ -435,7 +449,8 @@
         "Transfer Learning": "Übernahme vortrainierter Modelle/Feature-Extraktoren auf neue, verwandte Aufgaben, um Trainingsaufwand und Datenbedarf zu reduzieren.",
         "Training from Scratch": "Die Methode, ein Machine-Learning-Modell von Grund auf neu zu trainieren, ohne auf vorab gelernten Parametern aufzubauen.",
         "ImageNet": "Ein großer visueller Datensatz, der von Forschern zur Entwicklung von Algorithmen für maschinelles Sehen verwendet wird."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "18. Welche Aussage zu **Hyperparametern** ist korrekt?",
@@ -448,7 +463,8 @@
       "answer": 1,
       "explanation": "Hyperparameter sind externe Konfigurationen, die nicht aus den Daten gelernt werden. Sie müssen vor dem Trainingsprozess festgelegt werden, um zu steuern, wie das Modell lernt. Beispiele sind die Lernrate in neuronalen Netzen, die Anzahl der Bäume in einem `Random Forest` oder der Wert von $k$ in einem `KNN`-Modell. Im Gegensatz dazu sind Modellgewichte oder Parameter Werte, die der Algorithmus während des Trainings lernt.",
       "weight": 1,
-      "topic": "Modellbewertung & Optimierung"
+      "topic": "Modellbewertung & Optimierung",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "19. Was ist ein typischer Fehler bei der Modellbewertung?",
@@ -475,7 +491,8 @@
         "Hyperparameter-Tuning": "Systematische Suche nach optimalen Steuerparametern eines Modells (z. B. GridSearchCV, RandomizedSearchCV); erfolgt auf Validierungsdaten, ohne das Testset zu berühren.",
         "Testdaten": "Ein Teil des Datensatzes, der ausschließlich zur unvoreingenommenen, finalen Bewertung der Modellleistung nach dem Training und der `Hyperparameter-Optimierung` verwendet wird.",
         "Generalisierungsfähigkeit": "Die Fähigkeit eines Modells, eine gute Leistung auf neuen, ungesehenen Daten zu erbringen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "20. Welche Aussage zu `Explainable AI` (`XAI`) ist korrekt?",
@@ -501,7 +518,8 @@
         "Explainable AI (`XAI`)": "Methoden, die Entscheidungsprozesse komplexer Modelle verständlich machen (z. B. SHAP, LIME, Feature-Attributionen).",
         "Black Box": "Modell, dessen Entscheidungslogik für Anwender kaum nachvollziehbar ist – etwa tiefe Netze ohne zusätzliche Interpretierbarkeit.",
         "Interpretierbarkeit": "Die Eigenschaft eines Machine-Learning-Modells, bei dem die Ursache-Wirkungs-Beziehung zwischen den Eingaben und den Vorhersagen verstanden werden kann."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "21. Was ist der Unterschied zwischen der `Spearman`- und der `Pearson`-Korrelation?",
@@ -527,7 +545,8 @@
         "Pearson-Korrelation": "Ein statistisches Maß für die Stärke eines linearen Zusammenhangs zwischen zwei Variablen.",
         "Spearman-Korrelation": "Ein statistisches Maß für die Stärke eines monotonen Zusammenhangs zwischen zwei Variablen, basierend auf den Rängen der Daten.",
         "Monotoner Zusammenhang": "Eine Beziehung zwischen zwei Variablen, bei der eine Variable kontinuierlich zunimmt, wenn die andere Variable zunimmt, oder kontinuierlich abnimmt, wenn die andere abnimmt, ohne dass die Beziehung notwendigerweise linear sein muss."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "22. Wie können Sie in `Python` mit der Bibliothek `Scikit-learn` die Performance eines Klassifikationsmodells umfassend evaluieren?",
@@ -553,7 +572,8 @@
         "Confusion Matrix": "Eine Tabelle, die die Leistung eines Klassifikationsmodells visuell darstellt und die Anzahl der `True Positives`, `True Negatives`, `False Positives` und `False Negatives` zeigt.",
         "Precision": "Ein Maß für die Genauigkeit der positiven Vorhersagen des Modells.",
         "Recall": "Ein Maß für die Fähigkeit des Modells, alle positiven Instanzen zu identifizieren."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "23. Diskutieren Sie die Bedeutung von `Data Leakage` im Machine Learning und wie man es vermeiden kann.",
@@ -579,7 +599,8 @@
         "Data Leakage": "Unbeabsichtigter Informationsfluss vom Testset in den Trainingsprozess (z. B. gemeinsames Fitten von Scaler oder Encoding); verfälscht Metriken und führt zu optimistischeren Ergebnissen.",
         "Data Pre-processing": "Alle Schritte, die zur Vorbereitung der Daten für ein Machine-Learning-Modell erforderlich sind, wie z.B. das Bereinigen, Skalieren oder Transformieren von Features.",
         "TimeSeries-Daten": "Daten, die über die Zeit in einer bestimmten Reihenfolge gesammelt werden."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "24. Skizzieren Sie die Schritte zur Entwicklung einer `Streamlit`-App für ein ML-Modell, das auf tabellarischen Daten basiert.",
@@ -605,7 +626,8 @@
         "Streamlit": "Ein Open-Source-Framework in `Python`, das die Erstellung und Bereitstellung von interaktiven Web-Apps für Data Science und Machine Learning extrem vereinfacht.",
         "User Interface (UI)": "Die Benutzeroberfläche, über die ein Nutzer mit einer Anwendung interagiert.",
         "Deployment": "Bereitstellung eines trainierten Modells in einer produktiven Umgebung (API, Streamlit, Batch) inklusive Infrastruktur, Skalierung und Monitoring."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "25. Vergleichen Sie die Vor- und Nachteile von `Random Forests` und `K-Nearest Neighbors` für Klassifikationsaufgaben.",
@@ -631,7 +653,8 @@
         "Random Forest": "Ensemble vieler Entscheidungsbäume auf Bootstrap-Samples und Feature-Subsets; reduziert Varianz und Overfitting gegenüber Einzelbäumen.",
         "K-Nearest Neighbors (`KNN`)": "Nicht-parametrischer Klassifikator: weist einem Punkt das Mehrheitslabel der k nächsten Trainingspunkte im Feature-Raum zu (distanzbasiert).",
         "Overfitting": "Modell lernt Rauschen oder Zufallsschwankungen des Trainingssets statt der zugrunde liegenden Struktur – erkennbar an hoher Trainings-, aber niedriger Testleistung."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "26. Erklären Sie, wie Sie mit `MLflow` ein Experiment-Tracking für verschiedene Modellvarianten aufsetzen würden und welche Vorteile dies bietet.",
@@ -657,7 +680,8 @@
         "MLflow": "Open-Source-Plattform zum Nachverfolgen von ML-Experimenten, Verwalten von Modellen und Bereitstellen in Registry oder Serving.",
         "Experiment-Tracking": "Systematische Erfassung von Trainingsläufen (Parameter, Metriken, Artefakte), um Modellversionen reproduzierbar zu vergleichen und auditierbar zu halten.",
         "Modell-Lebenszyklus": "Die aufeinanderfolgenden Phasen im Machine Learning, von der Datenbeschaffung über die Modellentwicklung und das Training bis zur Bereitstellung, Überwachung und Wartung in der Produktion."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "27. Beschreiben Sie, wie Sie mit `Transfer Learning` ein `Computer-Vision`-Projekt umsetzen würden.",
@@ -683,7 +707,8 @@
         "Transfer Learning": "Übernahme vortrainierter Modelle/Feature-Extraktoren auf neue, verwandte Aufgaben, um Trainingsaufwand und Datenbedarf zu reduzieren.",
         "Vortrainiertes Modell": "Ein Machine-Learning-Modell, das bereits auf einem großen Datensatz trainiert wurde, bevor es für eine neue Aufgabe weiterverwendet wird.",
         "ResNet": "Eine bekannte neuronale Netzwerkarchitektur, die oft als Basis für `Transfer Learning` in der Bildverarbeitung verwendet wird."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "28. Diskutieren Sie die Rolle von `Cross-Validation` und `Hyperparameter-Tuning` für die Modellgüte. Wie gehen Sie dabei praktisch vor?",
@@ -709,7 +734,8 @@
         "Cross-Validation": "Validierungstechnik, bei der Trainingsdaten in Folds geteilt werden; jedes Fold dient einmal als Validierung, wodurch die Varianz der Metrik sinkt.",
         "Hyperparameter-Tuning": "Systematische Suche nach optimalen Steuerparametern eines Modells (z. B. GridSearchCV, RandomizedSearchCV); erfolgt auf Validierungsdaten, ohne das Testset zu berühren.",
         "Grid Search": "Eine Methode zur `Hyperparameter-Optimierung`, die systematisch alle möglichen Kombinationen von Hyperparameter-Werten in einem vordefinierten Raster ausprobiert."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "29. Analysieren Sie, wie Sie mit `Exploratory Data Analysis` (`EDA`) typische Fehlerquellen und Ausreißer in einem Datensatz identifizieren und adressieren würden.",
@@ -735,7 +761,8 @@
         "Exploratory Data Analysis (`EDA`)": "Der Prozess der Untersuchung von Datensätzen, um ihre Hauptmerkmale zusammenzufassen, oft mit visuellen Methoden.",
         "Boxplot": "Ein Diagramm, das die Verteilung eines Datensatzes über seine Quartile darstellt und oft zur Identifizierung von Ausreißern verwendet wird.",
         "Ausreißer": "Beobachtungen, die deutlich außerhalb des typischen Wertebereichs liegen und Modelle stark beeinflussen können; benötigen spezielle Behandlung."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "30. Reflektieren Sie, wie `Explainable AI` (`XAI`) die Akzeptanz von ML-Modellen in Unternehmen beeinflussen kann.",
@@ -761,7 +788,8 @@
         "Explainable AI (`XAI`)": "Methoden, die Entscheidungsprozesse komplexer Modelle verständlich machen (z. B. SHAP, LIME, Feature-Attributionen).",
         "Black Box": "Modell, dessen Entscheidungslogik für Anwender kaum nachvollziehbar ist – etwa tiefe Netze ohne zusätzliche Interpretierbarkeit.",
         "Bias (Voreingenommenheit)": "Eine systemische Verzerrung in einem Datensatz oder Algorithmus, die zu unfairen oder diskriminierenden Ergebnissen führen kann."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

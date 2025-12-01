@@ -35,7 +35,8 @@
         "Leere Menge": "Menge ohne Elemente, bezeichnet mit $\\emptyset$.",
         "Vereinigung": "Zusammenfassung aller Elemente aus beiden Mengen.",
         "Teilmenge": "Menge $A$ ist Teilmenge von $B$, wenn alle Elemente von $A$ in $B$ liegen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche Formel gibt die Potenzmenge korrekt an?",
@@ -52,7 +53,8 @@
       "mini_glossary": {
         "Potenzmenge": "Menge aller Teilmengen einer Menge $A$.",
         "Teilmengenbeziehung": "Schreibweise $B \\subseteq A$ bedeutet, jedes Element von $B$ ist auch in $A$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Welche Beziehung ist immer wahr?",
@@ -69,7 +71,8 @@
       "mini_glossary": {
         "Schnittmenge": "Menge aller Elemente, die in beiden Mengen vorkommen.",
         "Differenzmenge": "Menge der Elemente in $A$, die nicht in $B$ enthalten sind."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Welche Gleichung beschreibt die Distributivität der Schnittmenge?",
@@ -94,7 +97,8 @@
       "mini_glossary": {
         "Distributivität": "Eigenschaft, die das Austauschen von Schnitt und Vereinigung erlaubt.",
         "Vereinigung": "Menge aller Elemente, die in mindestens einer der Mengen enthalten sind."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Welche Formel beschreibt die symmetrische Differenz korrekt?",
@@ -119,7 +123,8 @@
       "mini_glossary": {
         "Symmetrische Differenz": "Menge der Elemente, die in genau einer der Mengen vorkommen.",
         "Schnitt": "Menge der gemeinsamen Elemente zweier Mengen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "6. Wie lautet die Potenzmengen-Kardinalität für eine endliche Menge?",
@@ -144,7 +149,8 @@
       "mini_glossary": {
         "Kardinalität": "Anzahl der Elemente einer Menge.",
         "Potenzmenge": "Menge aller Teilmengen einer gegebenen Menge."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "7. Welche Beziehung gilt zwischen den Mengen $A$, $B$, $C$ bei Assoziativität der Vereinigung?",
@@ -169,7 +175,8 @@
       "mini_glossary": {
         "Assoziativität": "Reihenfolge der Operation spielt keine Rolle.",
         "Vereinigung": "Menge aller Elemente, die in mindestens einer der Mengen vorkommen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "8. Welche Aussage beschreibt eine Partition korrekt?",
@@ -194,7 +201,8 @@
       "mini_glossary": {
         "Partition": "Zerlegung einer Menge in disjunkte nichtleere Teilmengen.",
         "Disjunkt": "Zwei Mengen ohne gemeinsame Elemente."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "9. Wie lautet die Definition einer Äquivalenzrelation?",
@@ -219,7 +227,8 @@
       "mini_glossary": {
         "Äquivalenzrelation": "Relation, die reflexiv, symmetrisch und transitiv ist.",
         "Relation": "Menge geordneter Paare, die eine Beziehung beschreibt."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "10. Wie lautet die Formel für das kartesische Produkt zweier Mengen?",
@@ -243,7 +252,8 @@
       "mini_glossary": {
         "Kartesisches Produkt": "Menge aller geordneten Paare aus zwei Mengen.",
         "Geordnetes Paar": "Paar $(a,b)$ mit festgelegter Reihenfolge."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

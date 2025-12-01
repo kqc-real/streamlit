@@ -14,7 +14,8 @@
     "extended_explanation": {
       "title": "Dimension des Nullraums",
       "content": "Nach dem Rang-Nullitätssatz gilt $\\dim(\\ker A)=n-\\operatorname{rang}(A)$. Für $\\operatorname{rang}(A)=n$ folgt $\\ker A=\\{0\\}$, sonst ist $\\dim(\\ker A)\\ge 1$ und die Lösungsmenge ist ein linearer Unterraum mit unendlich vielen Elementen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "2. Unter welcher Bedingung besitzt ein inhomogenes System $A x = b$ mindestens eine Lösung?",
@@ -32,7 +33,8 @@
     "extended_explanation": {
       "title": "Rangbedingung (Rouché–Capelli)",
       "content": "Die Lösbarkeit hängt davon ab, ob $b$ im von den Spalten von $A$ aufgespannten Bildraum liegt. Das ist äquivalent zu $\\operatorname{rang}(A)=\\operatorname{rang}([A\\,|\\,b])$."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "3. Welche Operationen sind im `Gauß`-Algorithmus zulässig, ohne die Lösungsmenge zu verändern?",
@@ -45,7 +47,8 @@
     "answer": 3,
     "explanation": "Die drei elementaren Zeilenumformungen erzeugen ein äquivalentes Gleichungssystem.",
     "weight": 1,
-    "topic": "Elementare Zeilenumformungen"
+    "topic": "Elementare Zeilenumformungen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "4. Was bedeutet ein `Pivot`-Element in einer Spalte während der Eliminationsphase?",
@@ -58,7 +61,8 @@
     "answer": 1,
     "explanation": "Ein `Pivot` ist ein von Null verschiedener Eintrag, mit dem Einträge darunter (bzw. darüber bei `Gauß`-Jordan) eliminiert werden.",
     "weight": 1,
-    "topic": "Pivot-Begriff"
+    "topic": "Pivot-Begriff",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "5. Gegeben sei $A\\in\\mathbb{R}^{m\\times n}$ mit $\\operatorname{rang}(A)=r$. Wie groß ist die Dimension der Lösungsmenge des homogenen Systems $A x = 0$?",
@@ -71,7 +75,8 @@
     "answer": 1,
     "explanation": "Nach Rang-Nullität: $\\dim(\\ker A)=n-r$.",
     "weight": 1,
-    "topic": "Rang-Nullität"
+    "topic": "Rang-Nullität",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "6. Welche Aussage zur Eindeutigkeit der Lösung von $A x = b$ ist korrekt (quadratische Matrix $A\\in\\mathbb{R}^{n\\times n}$)?",
@@ -84,7 +89,8 @@
     "answer": 1,
     "explanation": "Für quadratisches $A$ ist Eindeutigkeit äquivalent zu Invertierbarkeit, also $\\operatorname{rang}(A)=n$ (und $\\det(A)\\ne 0$).",
     "weight": 1,
-    "topic": "Eindeutigkeit der Lösung"
+    "topic": "Eindeutigkeit der Lösung",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "7. Welche Form besitzt die Lösungsmenge eines konsistenten Systems $A x = b$ mit $n$ Unbekannten und $r=\\operatorname{rang}(A)<n$?",
@@ -101,7 +107,8 @@
     "extended_explanation": {
       "title": "Partikulärlösung + Nullraum",
       "content": "Für ein konsistentes System ist jede Lösung $x=x_p+z$ mit $z\\in\\ker A$. Daher ist die Menge ein affiner Raum parallel zu $\\ker A$ mit Dimension $n-r$."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "8. Was zeigt eine Zeile der Form $[\\,0\\;0\\;\\dots\\;0\\;|\\;c\\,]$ mit $c\\ne 0$ in der reduzierten Zeilenstufenform?",
@@ -114,7 +121,8 @@
     "answer": 2,
     "explanation": "Eine Nullzeile links mit Nichtnull-Rechterseite widerspricht $A x = b$ und zeigt Inkonsistenz.",
     "weight": 1,
-    "topic": "Zeilenstufenform und Konsistenz"
+    "topic": "Zeilenstufenform und Konsistenz",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "9. Welche Spalten heißen `freie Variablen` im Kontext der Zeilenstufenform?",
@@ -127,7 +135,8 @@
     "answer": 1,
     "explanation": "Spalten ohne `Pivot` definieren Freiheitsgrade; die zugehörigen Variablen sind frei wählbar.",
     "weight": 1,
-    "topic": "Freie Variablen"
+    "topic": "Freie Variablen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "10. Warum wird `Pivoting` (z. B. partielles Pivoting) in numerischen Implementierungen des `Gauß`-Verfahrens verwendet?",
@@ -144,7 +153,8 @@
     "extended_explanation": {
       "title": "Stabilität durch Pivotwahl",
       "content": "Kleine Pivote verstärken relative Fehler bei Divisionen. Partielles Pivoting (Tausch gegen das betragsgrößte Element der Spalte) reduziert diese Effekte."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "11. In welcher Beziehung stehen Spaltenrang und Zeilenrang einer Matrix $A$?",
@@ -157,7 +167,8 @@
     "answer": 2,
     "explanation": "Spaltenrang und Zeilenrang stimmen überein; beide definieren den Rang von $A$.",
     "weight": 1,
-    "topic": "Zeilen- und Spaltenrang"
+    "topic": "Zeilen- und Spaltenrang",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "12. Welche Aussage zur `Gauß`-Jordan-Elimination ist korrekt?",
@@ -170,7 +181,8 @@
     "answer": 0,
     "explanation": "Die `Gauß`-Jordan-Elimination reduziert bis zur reduzierten Zeilenstufenform (alle Pivots = 1, darüber und darunter Nullen).",
     "weight": 1,
-    "topic": "Gauß–Jordan-Verfahren"
+    "topic": "Gauß–Jordan-Verfahren",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "13. Gegeben sei ein konsistentes System mit $\\operatorname{rang}(A)=r$ und $n$ Variablen. Wie viele freie Variablen gibt es?",
@@ -183,7 +195,8 @@
     "answer": 2,
     "explanation": "Anzahl freier Variablen = $n - r$.",
     "weight": 1,
-    "topic": "Freiheitsgrade"
+    "topic": "Freiheitsgrade",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "14. Welche Aussage über die Beziehung zwischen $A x = b$ und dem zugehörigen homogenen System $A x = 0$ ist korrekt?",
@@ -200,7 +213,8 @@
     "extended_explanation": {
       "title": "Affine Struktur",
       "content": "Ist $x_p$ eine Partikulärlösung, dann ist die gesamte Lösungsmenge $x_p+\\ker A$. Differenzen von Lösungen liegen daher im Nullraum."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "15. Welche Aussage zu `LU`-Zerlegungen ist korrekt (vorausgesetzt, sie existieren ohne Zeilenvertauschung)?",
@@ -217,7 +231,8 @@
     "extended_explanation": {
       "title": "Mehrfachrechte Seiten",
       "content": "Einmaliges Faktorisieren, danach Lösen von $L y = b$ (Vorwärtseinsetzen) und $U x = y$ (Rückwärtseinsetzen) für verschiedene $b$ spart Aufwand."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "16. Was gilt für ein unterbestimmtes System ($m<n$) mit $\\operatorname{rang}(A)=r$ und $A x = b$ konsistent?",
@@ -234,7 +249,8 @@
     "extended_explanation": {
       "title": "Freiheitsgrade",
       "content": "Mit $\\operatorname{rang}(A)=r$ gilt $\\dim(\\ker A)=n-r\\ge 1$. Die Lösungen bilden einen affinen Raum positiver Dimension."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "17. Welche Aussage trifft für überbestimmte Systeme ($m>n$) im exakten linearen Algebra-Kontext zu?",
@@ -251,7 +267,8 @@
     "extended_explanation": {
       "title": "Eindeutigkeit trotz $m>n$",
       "content": "Voller Spaltenrang impliziert Einzigkeit der Lösung, da keine freien Variablen verbleiben."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "18. Welche Eigenschaft kennzeichnet die reduzierte Zeilenstufenform (RREF) einer Matrix?",
@@ -264,7 +281,8 @@
     "answer": 0,
     "explanation": "In der RREF stehen Pivots auf 1, und die Pivotspalten haben darüber und darunter Nullen.",
     "weight": 1,
-    "topic": "RREF-Eigenschaften"
+    "topic": "RREF-Eigenschaften",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "19. Welche Aussage zur Berechnung der Inversen via `Gauß`-Jordan-Verfahren ist korrekt (für invertierbares $A\\in\\mathbb{R}^{n\\times n}$)?",
@@ -277,7 +295,8 @@
     "answer": 0,
     "explanation": "Durch Zeilenumformungen von $[A\\,|\\,I]$ auf $[I\\,|\\,A^{-1}]$ erhält man die Inverse.",
     "weight": 1,
-    "topic": "Inverse per Gauß–Jordan"
+    "topic": "Inverse per Gauß–Jordan",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "20. Welche inhaltliche Bedeutung hat $\\operatorname{rang}(A)=\\operatorname{rang}([A\\,|\\,b])=n$ für ein quadratisches System $A x = b$?",
@@ -290,6 +309,7 @@
     "answer": 2,
     "explanation": "Voller Rang $n$ bedeutet Invertierbarkeit; damit existiert genau eine Lösung $x=A^{-1}b$.",
     "weight": 1,
-    "topic": "Voller Rang und Eindeutigkeit"
+    "topic": "Voller Rang und Eindeutigkeit",
+    "cognitive_level": "Reproduktion"
   }
 ]

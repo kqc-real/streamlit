@@ -34,7 +34,8 @@
         "Überwachtes Lernen": "Paradigma mit gelabelten Beispielen, bei dem Eingaben auf Zielwerte abgebildet werden.",
         "Klassifikation": "Vorhersage diskreter Klassenlabels für Instanzen.",
         "Regression": "Vorhersage kontinuierlicher Zielwerte."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche Aussage beschreibt den Unterschied zwischen Klassifikation und Regression korrekt?",
@@ -53,7 +54,8 @@
         "Diskrete Variable": "Variable, die nur endlich oder abzählbar viele Werte annehmen kann.",
         "Kontinuierliche Variable": "Variable mit unendlich vielen möglich engen Ausprägungen.",
         "Loss-Funktion": "Zu minimierende Funktion, die Vorhersagefehler quantifiziert."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Wozu dient eine Lernkurve bei überwachtem Lernen in der Praxis?",
@@ -81,7 +83,8 @@
         "Bias": "Systematischer Fehler durch zu einfache Modellannahmen.",
         "Varianz": "Empfindlichkeit des Modells gegenüber Datenfluktuationen.",
         "Validierungsmenge": "Datenanteil zur hyperparameterfreien Modellbewertung im Training."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "4. Welche Maßnahme reduziert typischerweise Varianz bei einem überparametrisierten Modell?",
@@ -109,7 +112,8 @@
         "Kapazität": "Fähigkeit eines Modells, komplexe Muster zu repräsentieren.",
         "Overfitting": "Gutes Lernen des Trainingssets bei schlechter Generalisierung.",
         "Regularisierung": "Zusatzterm oder Technik, die zu großen Parametern entgegenwirkt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Welches Problem adressiert Label Leakage (Target Leakage) in überwachten Lernpipelines?",
@@ -137,7 +141,8 @@
         "Target Leakage": "Unzulässige Informationsübertragung vom Ziel in die Prädiktoren.",
         "Data Leakage": "Allgemeiner Informationsfluss, der die Evaluation verzerrt.",
         "Data Lineage": "Nachvollziehbarkeit der Herkunft und Verarbeitung von Daten."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "6. Welcher Zweck steht beim Clustering im Vordergrund?",
@@ -156,7 +161,8 @@
         "Clustering": "Unüberwachtes Gruppieren ähnlicher Datenpunkte.",
         "Ähnlichkeitsmaß": "Funktion zur Bewertung der Nähe zwischen Instanzen.",
         "Label": "Beobachtetes Zielattribut, das beim Clustering fehlt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Worin unterscheiden sich k-Means und DBSCAN grundlegend?",
@@ -184,7 +190,8 @@
         "Epsilon (eps)": "Radius für Nachbarschaft in DBSCAN.",
         "MinPts": "Mindestpunktezahl, um einen dichten Kernpunkt zu definieren.",
         "Zentroid": "Arithmetischer Mittelpunkt eines Clusters."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "8. Was ist ein typischer Nachteil von k-Means bei anisotropen Clusterstrukturen?",
@@ -212,7 +219,8 @@
         "Anisotropie": "Richtungsabhängige Streuung in den Daten.",
         "GMM": "Gaussian Mixture Model; modelliert Daten als Mischung normalverteilter Komponenten.",
         "Spektrales Clustering": "Clustering über Graph-Laplacian und Eigenvektoren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "9. Welcher Vorteil unterscheidet Gaussian Mixture Models (GMM) von k-Means?",
@@ -240,7 +248,8 @@
         "Kovarianzmatrix": "Matrix, die Varianzen und Kovarianzen von Merkmalen enthält.",
         "EM-Algorithmus": "Iteratives Verfahren mit Expectation- und Maximization-Schritt.",
         "Soft-Assignment": "Wahrscheinlichkeitsbasierte Zuordnung statt harter Cluster."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. Wozu wird der Silhouettenkoeffizient im Clustering genutzt?",
@@ -268,7 +277,8 @@
         "Intra-Cluster-Distanz": "Durchschnittliche Distanz eines Punktes zu Punkten im selben Cluster.",
         "Inter-Cluster-Distanz": "Distanz eines Punktes zum nächstgelegenen anderen Cluster.",
         "Clustervalidierung": "Bewertung der Güte einer Clusterlösung."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "11. Warum ist verschachtelte Kreuzvalidierung für Modell- und Hyperparameterauswahl sinnvoll?",
@@ -287,7 +297,8 @@
         "Kreuzvalidierung": "Aufteilung der Daten in Folds zum wiederholten Trainieren und Validieren.",
         "Optimierungsbias": "Überschätzung der Leistung durch Hyperparametertuning auf derselben Validationsbasis.",
         "Generalisation": "Leistung auf unabhängigen, neuen Daten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "12. Was charakterisiert Stratifizierung bei k-facher Kreuzvalidierung für Klassifikationsprobleme?",
@@ -306,7 +317,8 @@
         "Stratifizierung": "Technik zur Erhaltung der Klassenverteilung in Stichproben.",
         "k-fache CV": "Aufteilung in k Folds mit abwechselndem Training/Validieren.",
         "Klassendisbalance": "Ungleiche Häufigkeiten der Klassen im Datensatz."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "13. Welche Größe ist für die Auswahl eines Klassifikationsschwellwerts bei unausgewogenen Klassen besonders geeignet?",
@@ -334,7 +346,8 @@
         "ROC-Kurve": "Darstellung von True-Positive-Rate vs. False-Positive-Rate.",
         "Youden-Index": "Maximiert TPR − FPR zur Schwellwertwahl.",
         "Kostenmatrix": "Bewertet Fehlklassifikationen mit unterschiedlichen Kosten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Worin liegt der Unterschied zwischen ROC-AUC und PR-AUC bei starker Klassenimbalance?",
@@ -362,7 +375,8 @@
         "Precision": "Anteil korrekter Positivvorhersagen an allen Positivvorhersagen.",
         "Recall": "Anteil erkannter Positiver an allen tatsächlichen Positiven.",
         "AUC": "Fläche unter der Kurve als aggregiertes Leistungsmaß."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Was ist Data Snooping in der Modellvalidierung?",
@@ -390,7 +404,8 @@
         "Holdout-Set": "Abgesonderter Datenteil für finale Bewertung.",
         "Pipeline": "Abfolge von Verarbeitungsschritten inklusive Modell.",
         "Leckage": "Unzulässiger Informationsfluss zwischen Splits."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "16. Warum ist Feature-Skalierung für viele Modelle wichtig?",
@@ -409,7 +424,8 @@
         "Standardisierung": "Subtraktion des Mittels und Division durch die Standardabweichung.",
         "Min-Max-Skalierung": "Lineare Skalierung auf einen festen Bereich, z.B. [0,1].",
         "Distanzmaß": "Funktion zur Berechnung der Entfernung zwischen Punkten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "17. Welche Aussage zur One-Hot-Encoding-Technik trifft zu?",
@@ -428,7 +444,8 @@
         "One-Hot-Encoding": "Transformation kategorialer Werte in binäre Spalten.",
         "Dummy-Variable": "Indikatorvariable mit Werten 0/1.",
         "Ordinalkodierung": "Zuweisung geordneter Zahlen, passend nur für ordinale Merkmale."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "18. Welche Technik adressiert Multikollinearität in linearen Modellen besonders direkt?",
@@ -456,7 +473,8 @@
         "Multikollinearität": "Starke lineare Abhängigkeiten zwischen Prädiktoren.",
         "Ridge-Regression": "Lineares Modell mit L2-Strafterm.",
         "VIF": "Varianzinflationsfaktor als Maß für Multikollinearität."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Wann ist Log-Transformation numerischer Features häufig hilfreich?",
@@ -484,7 +502,8 @@
         "Schiefe": "Asymmetrie einer Verteilung um ihren Mittelwert.",
         "Box-Cox": "Parametrische Transformation zur Variansstabilisierung.",
         "Yeo-Johnson": "Log-ähnliche Transformation, die auch Null/negative Werte erlaubt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Welche Gefahr besteht bei zu aggressiver Merkmalsauswahl vor dem Split?",
@@ -512,7 +531,8 @@
         "Merkmalsselektion": "Auswahl relevanter Prädiktoren zur Verbesserung von Generalisierung und Interpretierbarkeit.",
         "Pipeline": "Gekettete Verarbeitungsschritte mit konsistentem Fitting.",
         "Informationskriterium": "Maß wie AIC/BIC zur Modell- oder Featurewahl."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "21. Welche Wirkung hat L1-Regularisierung in linearen Modellen typischerweise?",
@@ -531,7 +551,8 @@
         "L1-Regularisierung": "Strafterm proportional zur Summe der Beträge der Koeffizienten.",
         "Sparsity": "Viele Parameter sind exakt Null.",
         "Lasso": "Lineares Modell mit L1-Strafterm."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "22. Warum kann Elastic Net bei korrelierten Prädiktoren vorteilhaft sein?",
@@ -559,7 +580,8 @@
         "Elastic Net": "Kombination aus L1- und L2-Regularisierung.",
         "Shrinkage": "Verkleinerung von Koeffizienten zur Varianzreduktion.",
         "Hyperparameter": "Steuergrößen, die nicht aus den Daten gelernt werden."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Welche Erscheinung deutet bei hoher Trainingsgenauigkeit und niedriger Testgenauigkeit auf Overfitting hin?",
@@ -587,7 +609,8 @@
         "Train/Test-Gap": "Differenz zwischen Trainings- und Testgüte.",
         "Early Stopping": "Training beenden, wenn Validierungsleistung nicht mehr steigt.",
         "Datenaugmentation": "Künstliche Erweiterung der Trainingsdaten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "24. Welche Rolle spielt Dropout in neuronalen Netzen primär?",
@@ -615,7 +638,8 @@
         "Ko-Adaptation": "Übermäßige Abhängigkeit von bestimmten Merkmalskombinationen.",
         "Maskierung": "Zufälliges Nullsetzen von Aktivierungen.",
         "Regularisierung": "Techniken zur Verbesserung der Generalisierung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "25. Wie wirkt sich eine zu starke Regularisierung typischerweise auf Bias und Varianz aus?",
@@ -643,7 +667,8 @@
         "Unterfitting": "Modell ist zu einfach und lernt die Struktur nicht.",
         "Shrinkage": "Verkleinerung von Parametern durch Regularisierung.",
         "Validierung": "Datengestützte Wahl von Hyperparametern."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "26. Welche Eigenschaft unterscheidet Random Forests von einzelnen Entscheidungsbäumen wesentlich?",
@@ -662,7 +687,8 @@
         "Bagging": "Bootstrap Aggregating; Training auf Stichproben mit Zurücklegen.",
         "Feature-Sampling": "Zufällige Untermenge von Merkmalen pro Split.",
         "Ensemble": "Kombination vieler Modelle zu einer Vorhersage."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "27. Wodurch zeichnen sich Gradient-Boosting-Methoden (z.B. XGBoost) aus?",
@@ -690,7 +716,8 @@
         "Boosting": "Sequentielle Ensemblebildung zur Fehlerreduktion.",
         "Lernrate": "Skaliert den Beitrag jedes schwachen Lerners.",
         "Shrinkage": "Dämpfung der Schritte zur Stabilisierung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "28. Welche Hyperparameter beeinflussen die Komplexität eines Entscheidungsbaums direkt?",
@@ -718,7 +745,8 @@
         "Pruning": "Ex-post-Beschneidung zur Reduktion übermäßiger Tiefe.",
         "Blatt": "Terminaler Knoten, der Vorhersagen liefert.",
         "Split": "Aufteilung eines Knotens entlang eines Merkmals."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Worin besteht ein Vorteil von Extra Trees (Extremely Randomized Trees) gegenüber Random Forests?",
@@ -746,7 +774,8 @@
         "Randomisierung": "Zufallskomponenten zur Entkopplung von Basismodellen.",
         "Bias-Varianz-Trade-off": "Abwägung zwischen systematischem Fehler und Streuung.",
         "Korrelationsreduktion": "Weniger Ähnlichkeit zwischen Ensemble-Mitgliedern."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "30. Welche Strategie ist für Feature-Importance in baumbasierten Modellen robust gegenüber Skalen?",
@@ -774,7 +803,8 @@
         "Permutation-Importance": "Abfall der Modellgüte nach Zufallsdurchmischung eines Features.",
         "Gini-Importance": "Aggregierte Splitscores, potenziell verzerrt durch Kardinalität.",
         "Holdout": "Unabhängiger Datensatz für Evaluation."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "31. Welche Rolle hat die Aktivierungsfunktion ReLU in tiefen Netzen?",
@@ -793,7 +823,8 @@
         "ReLU": "Rectified Linear Unit; aktiviert mit max(0, x).",
         "Vanishing Gradient": "Abschwächung der Gradienten in tiefen Netzen.",
         "Nichtlinearität": "Eigenschaft, die komplexe Funktionen modellierbar macht."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "32. Wozu dient Batch-Normalisierung innerhalb tiefer Architekturen?",
@@ -821,7 +852,8 @@
         "Mini-Batch": "Teilmenge von Trainingsbeispielen pro Update.",
         "Affine Transformation": "Lineare Transformation mit Verschiebung.",
         "Konvergenz": "Annäherung des Trainingsverfahrens an ein Optimum."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "33. Welche Aussage beschreibt Residual Networks (ResNets) korrekt?",
@@ -849,7 +881,8 @@
         "Skip-Verbindung": "Direkte Verbindung, die Schichten überspringt.",
         "Degradationsproblem": "Leistung sinkt beim einfachen Tiefermachen.",
         "Residual": "Zu lernender Unterschied zur Identität."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "34. Welche Technik adressiert Überanpassung in tiefen Netzen zusätzlich zu Dropout wirkungsvoll?",
@@ -877,7 +910,8 @@
         "Gewichtszerfall": "L2-Strafterm auf Gewichte in Netzen.",
         "Datenaugmentation": "Stochastische Transformationen zur Datenerweiterung.",
         "Normierung": "Skalierung von Gewichten/Aktivierungen zur Stabilität."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "35. Welche Eigenschaft trifft auf Attention-Mechanismen in Sequenzmodellen zu?",
@@ -905,7 +939,8 @@
         "Self-Attention": "Attention zwischen Positionen derselben Sequenz.",
         "Transformer": "Architektur, die stark auf Attention basiert.",
         "Langzeitabhängigkeit": "Beziehung über große Sequenzdistanzen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "36. Welche Rolle spielt die Lernrate (Learning Rate) im Gradientenverfahren?",
@@ -924,7 +959,8 @@
         "Gradientenabstieg": "Iteratives Minimierungsverfahren entlang des negativen Gradienten.",
         "Lernratenplan": "Zeitliche Änderung der Lernrate, z.B. Decay oder Scheduler.",
         "Konvergenz": "Annäherung an ein Optimum der Loss-Funktion."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "37. Welche Eigenschaft unterscheidet Adam von reinem SGD ohne Momentum?",
@@ -952,7 +988,8 @@
         "Momentum": "Exponential gleitender Mittelwert der Gradienten.",
         "RMSProp": "Adaptive Methode basierend auf Gradientenquadraten.",
         "Adaptive Lernrate": "Parameterabhängige Schrittweitensteuerung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "38. Warum ist eine sorgfältige Initialisierung der Gewichte in tiefen Netzen wichtig?",
@@ -980,7 +1017,8 @@
         "He-Initialisierung": "Skalierung für ReLU-ähnliche Aktivierungen.",
         "Xavier-Initialisierung": "Skalierung für symmetrische Aktivierungen wie tanh.",
         "Fan-in/Fan-out": "Anzahl eingehender/ausgehender Verbindungen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "39. Welche Aussage trifft auf Early Stopping zu?",
@@ -1008,7 +1046,8 @@
         "Patience": "Anzahl tolerierter schlechterer Epochen vor Stop.",
         "Checkpointing": "Speichern des besten Modells während des Trainings.",
         "Validierungsmetrik": "Kennzahl auf Validierungsdaten zur Steuerung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "40. Woran erkennen Sie eine schlechte Kalibrierung probabilistischer Klassifikatoren?",
@@ -1036,7 +1075,8 @@
         "Kalibrierung": "Übereinstimmung zwischen prognostizierten Wahrscheinlichkeiten und beobachteten Häufigkeiten.",
         "Brier-Score": "Quadratischer Fehler der Wahrscheinlichkeitsvorhersage.",
         "Isotone Regression": "Monotone Kalibrierungsmethode ohne Parametrisierung."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

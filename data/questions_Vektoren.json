@@ -11,7 +11,8 @@
     "answer": 4,
     "explanation": "Ein Vektorraum muss bezüglich Addition und Skalarmultiplikation abgeschlossen sein. Polynome mit Grad ≤ 2 erfüllen dies.",
     "weight": 1,
-    "topic": "Definition Vektorraum"
+    "topic": "Definition Vektorraum",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "2. Welche Bedingung ist notwendig, damit eine Menge von Vektoren linear unabhängig ist?",
@@ -29,7 +30,8 @@
     "extended_explanation": {
       "title": "Hintergrund Lineare Unabhängigkeit",
       "content": "Formal: Vektoren v1,…,vn ∈ V sind linear unabhängig, wenn aus $a_1v_1+…+a_nv_n=0$ stets $a_1=…=a_n=0$ folgt."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "3. Welche Aussage über die Dimension eines Vektorraums ist korrekt?",
@@ -43,7 +45,8 @@
     "answer": 0,
     "explanation": "Die Dimension eines Vektorraums ist die Kardinalität einer Basis.",
     "weight": 1,
-    "topic": "Basis und Dimension"
+    "topic": "Basis und Dimension",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "4. Gegeben seien die Vektoren $v_1=(1,0,0)$, $v_2=(0,1,0)$, $v_3=(1,1,0)$ in ℝ³. Welche Aussage trifft zu?",
@@ -61,7 +64,8 @@
     "extended_explanation": {
       "title": "Herleitung",
       "content": "Die Bedingung $a_1v_1 + a_2v_2 + a_3v_3 = 0$ hat nicht nur die triviale Lösung, da $(-1)(1,0,0)+(-1)(0,1,0)+(1)(1,1,0) = 0$."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "5. Welche Abbildung ist linear?",
@@ -75,7 +79,8 @@
     "answer": 3,
     "explanation": "Lineare Abbildungen erfüllen f(u+v)=f(u)+f(v) und f(αu)=αf(u).",
     "weight": 1,
-    "topic": "Lineare Abbildungen"
+    "topic": "Lineare Abbildungen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "6. Wie viele Vektoren enthält eine Basis von ℝ⁴?",
@@ -89,7 +94,8 @@
     "answer": 3,
     "explanation": "Die Dimension von ℝ⁴ ist 4, daher besteht jede Basis aus genau 4 Vektoren.",
     "weight": 1,
-    "topic": "Basis und Dimension"
+    "topic": "Basis und Dimension",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "7. Welche Bedingung erfüllt ein Unterraum U ⊆ V?",
@@ -107,7 +113,8 @@
     "extended_explanation": {
       "title": "Erklärung Unterräume",
       "content": "Wenn $u,v ∈ U$ und $α∈ℝ$, dann gilt $u+v ∈ U$ und $αu ∈ U$. Außerdem gilt $0 ∈ U$."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "8. Welche Aussage über den Kern (Nullraum) einer linearen Abbildung ist korrekt?",
@@ -125,7 +132,8 @@
     "extended_explanation": {
       "title": "Zusatz Kern",
       "content": "Sei $f:V→W$ linear, dann ist $Ker(f)={v∈V|f(v)=0}$ ein Unterraum von V."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "9. Was gilt für die Summe zweier linearer Abbildungen f und g?",
@@ -139,7 +147,8 @@
     "answer": 4,
     "explanation": "Lineare Abbildungen sind abgeschlossen unter Addition und Skalarmultiplikation.",
     "weight": 1,
-    "topic": "Lineare Abbildungen"
+    "topic": "Lineare Abbildungen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "10. Welche Aussage über die lineare Hülle einer Menge von Vektoren ist korrekt?",
@@ -157,7 +166,8 @@
     "extended_explanation": {
       "title": "Vertiefung Lineare Hülle",
       "content": "span({v1,…,vn}) = {a1v1+…+anvn | ai ∈ ℝ}. Dies ist stets ein Unterraum."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "11. Welche Eigenschaft haben Basen in einem Vektorraum gemeinsam?",
@@ -171,7 +181,8 @@
     "answer": 3,
     "explanation": "Die Anzahl der Vektoren in einer Basis entspricht der Dimension und ist eindeutig.",
     "weight": 1,
-    "topic": "Basis und Dimension"
+    "topic": "Basis und Dimension",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "12. Welche Aussage über eine injektive lineare Abbildung f: V→W ist korrekt?",
@@ -189,7 +200,8 @@
     "extended_explanation": {
       "title": "Zusatz Injektivität",
       "content": "f ist injektiv ⇔ Ker(f) = {0}."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "13. Welche Aussage über die Dimension einer linearen Abbildung f: V→W ist korrekt?",
@@ -207,7 +219,8 @@
     "extended_explanation": {
       "title": "Rang-Nullitätssatz",
       "content": "Für f: V→W linear gilt: dim(V) = dim(Ker(f)) + dim(Im(f))."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "14. Welche Eigenschaft beschreibt lineare Unabhängigkeit am besten?",
@@ -221,7 +234,8 @@
     "answer": 0,
     "explanation": "Linear unabhängig bedeutet: $a_1v_1+…+a_nv_n=0$ impliziert $a_1=…=a_n=0$.",
     "weight": 1,
-    "topic": "Lineare Unabhängigkeit"
+    "topic": "Lineare Unabhängigkeit",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "15. Was gilt für zwei verschiedene Basen eines Vektorraums?",
@@ -235,7 +249,8 @@
     "answer": 4,
     "explanation": "Die Anzahl der Basisvektoren ist invariant und definiert die Dimension.",
     "weight": 1,
-    "topic": "Basis und Dimension"
+    "topic": "Basis und Dimension",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "16. Gegeben sei V=ℝ³ und die Vektoren v1=(1,0,0), v2=(0,1,0), v3=(0,0,1). Welche Aussage ist korrekt?",
@@ -249,7 +264,8 @@
     "answer": 1,
     "explanation": "Die drei Einheitsvektoren sind linear unabhängig und spannen den gesamten Raum auf.",
     "weight": 1,
-    "topic": "Basis in ℝ³"
+    "topic": "Basis in ℝ³",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "17. Welche Aussage über die Dimension des Bildes einer linearen Abbildung ist korrekt?",
@@ -267,7 +283,8 @@
     "extended_explanation": {
       "title": "Rang",
       "content": "Rang(f) = dim(Im(f)), wobei Im(f) die Bildmenge ist."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "18. Welche Eigenschaft hat der Nullvektor in einem Vektorraum?",
@@ -281,7 +298,8 @@
     "answer": 3,
     "explanation": "0+v=v für alle v. Damit ist 0 das neutrale Element der Addition.",
     "weight": 1,
-    "topic": "Vektorraumaxiome"
+    "topic": "Vektorraumaxiome",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "19. Welche Aussage gilt für die Koordinaten eines Vektors bezüglich einer Basis?",
@@ -299,7 +317,8 @@
     "extended_explanation": {
       "title": "Koordinatendarstellung",
       "content": "Ist B={b1,…,bn} eine Basis, dann existiert für v∈V genau ein Tupel (a1,…,an) mit v=∑ai bi."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "20. Welche Aussage über das Skalarprodukt gilt?",
@@ -317,6 +336,7 @@
     "extended_explanation": {
       "title": "Vertiefung Skalarprodukt",
       "content": "Für $⟨u,v⟩=∑u_iv_i$ gilt: $⟨u,v⟩=⟨v,u⟩$, $⟨u,u⟩≥0$, und $⟨u,u⟩=0⇔u=0$."
-    }
+    },
+    "cognitive_level": "Analyse"
   }
 ]

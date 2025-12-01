@@ -29,7 +29,8 @@
       "answer": 2,
       "explanation": "**Bias** misst die systematische Abweichung (Unteranpassung), **Varianz** die Empfindlichkeit gegenüber Datenfluktuation (Überanpassung). Gute Generalisierung erfordert ein ausgewogenes Verhältnis.",
       "weight": 1,
-      "topic": "Modellbewertung & Validierung"
+      "topic": "Modellbewertung & Validierung",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche Maßnahme reduziert **Data Leakage** in einem klassischen Analytics-Workflow am zuverlässigsten?",
@@ -55,7 +56,8 @@
       "mini_glossary": {
         "Cross-Validation": "Aufteilung der Trainingsdaten in mehrere Folds; jeder Fold dient einmal als Validierung. Reduziert Varianz der Schätzung.",
         "Data Leakage": "Unbeabsichtigter Informationsfluss von Test- auf Trainingsprozess (z. B. durch gemeinsames Fitten von Scaler), führt zu zu optimistischen Ergebnissen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "3. Wofür wird **`StandardScaler`** in `scikit-learn` primär eingesetzt?",
@@ -69,7 +71,8 @@
       "answer": 1,
       "explanation": "`StandardScaler` transformiert numerische Features auf Mittelwert 0 und Standardabweichung 1, was distanz- und gradientenbasierte Verfahren stabiler macht.",
       "weight": 1,
-      "topic": "Datenvorbereitung & EDA"
+      "topic": "Datenvorbereitung & EDA",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Welche Kennzahl ist für **binäre Klassifikation** am robustesten bei **unausgeglichenen Klassen**?",
@@ -95,7 +98,8 @@
       "mini_glossary": {
         "ROC-AUC": "Fläche unter der Receiver-Operating-Characteristic-Kurve; misst die Trennschärfe unabhängig von einer Schwelle.",
         "PR-AUC": "Fläche unter Precision-Recall-Kurve; besonders informativ bei starker Klassenimbalance."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Welche Vorteil bringt die Verwendung von **`Pipeline`** in `scikit-learn`?",
@@ -109,7 +113,8 @@
       "answer": 1,
       "explanation": "`Pipeline` bündelt Vorverarbeitung und Modell zu einem Ablauf, der konsistent trainiert und validiert wird—wichtig gegen **Data Leakage** und für Reproduzierbarkeit.",
       "weight": 1,
-      "topic": "MLOps & Reproduzierbarkeit"
+      "topic": "MLOps & Reproduzierbarkeit",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Welche Technik ist **keine** typische Komponente der **Exploratory Data Analysis (EDA)**?",
@@ -135,7 +140,8 @@
       "mini_glossary": {
         "EDA": "Explorative Analysephase zur Hypothesengenerierung und Datenprüfung.",
         "Hyperparameter-Tuning": "Systematische Suche (z. B. `GridSearchCV`) nach nicht-gelernten Steuerparametern eines Modells."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "7. Welche Maßnahme verbessert die **Robustheit gegenüber Ausreißern** in linearen Modellen am ehesten?",
@@ -161,7 +167,8 @@
       "mini_glossary": {
         "Huber-Loss": "Stückweise quadratischer/linearer Verlust; kombiniert Robustheit und Effizienz.",
         "Ridge ($L_2$)": "Quadratische Regularisierung; reduziert Varianz, aber nicht speziell Ausreißerempfindlichkeit."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "8. Welche Aussage trifft **am ehesten** auf **`PCA`** zu?",
@@ -187,7 +194,8 @@
       "mini_glossary": {
         "Erklärte Varianz": "Anteil der Gesamtvarianz, den eine Komponente abdeckt.",
         "Eigenvektor/-wert": "Richtungen und zugehörige Varianzstärken der Kovarianzmatrix."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "9. Warum ist **Feature-Scaling** für `KNN` besonders wichtig?",
@@ -201,7 +209,8 @@
       "answer": 1,
       "explanation": "`KNN` nutzt Distanzen; Features mit größeren Skalen dominieren sonst die Nachbarschaftssuche, weshalb **Standardisierung/Normalisierung** nötig ist.",
       "weight": 1,
-      "topic": "Datenvorbereitung & EDA"
+      "topic": "Datenvorbereitung & EDA",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "10. Welche Praxis ist bei **Class Imbalance** für die **Schwellenwahl** sinnvoll?",
@@ -227,7 +236,8 @@
       "mini_glossary": {
         "Youden-Index": "Maximiert Sensitivität + Spezifität − 1; liefert eine Schwellenempfehlung.",
         "Daten-Drift": "Änderung der Verteilung über die Zeit; erfordert Nachkalibrierung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "11. Welche Methode ist **keine** gängige Strategie zur **Feature-Selektion**?",
@@ -253,7 +263,8 @@
       "mini_glossary": {
         "Lasso (`L1`)": "Sparsame Regularisierung; kann Koeffizienten exakt auf 0 setzen.",
         "Stabilitätsselektion": "Wählt Features, die über Resamples hinweg konsistent wichtig sind."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Welche Aussage trifft auf **`StratifiedKFold`** am besten zu?",
@@ -267,7 +278,8 @@
       "answer": 1,
       "explanation": "`StratifiedKFold` sorgt dafür, dass die **Klassenverteilung** in jedem Fold ähnlich der Gesamtheit ist—wichtig bei Imbalance.",
       "weight": 1,
-      "topic": "Modellbewertung & Validierung"
+      "topic": "Modellbewertung & Validierung",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "13. Welche Aussage zur **Kalibrierung** von Klassifikationsmodellen ist korrekt?",
@@ -293,7 +305,8 @@
       "mini_glossary": {
         "Platt Scaling": "Sigmoid-Modell auf Scores; mappt zu Wahrscheinlichkeiten.",
         "Isotone Regression": "Monotone, nichtlineare Anpassung der Score→Proba-Abbildung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Welche Option beschreibt **`TimeSeriesSplit`** richtig?",
@@ -319,7 +332,8 @@
       "mini_glossary": {
         "Look-ahead Leakage": "Zukünftige Informationen beeinflussen Training; führt zu zu guten Schätzungen.",
         "Drift": "Systematische Verschiebung der Datenverteilung über die Zeit."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Was ist der **Hauptzweck** von **`MLflow Tracking`** im Analytics-Stack?",
@@ -345,7 +359,8 @@
       "mini_glossary": {
         "Artefakt": "Begleitobjekt eines Runs (z. B. Figure, Confusion Matrix, Modell).",
         "Run": "Einzelner Trainings-/Evaluationsdurchlauf mit Logeinträgen in `MLflow`."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Welche Aussage beschreibt **Regularisierung** korrekt?",
@@ -371,7 +386,8 @@
       "mini_glossary": {
         "Elastic Net": "Kombiniert `L1` und `L2`; kontrolliert Sparsamkeit und Glättung.",
         "Sparsamkeit": "Viele Koeffizienten exakt 0; vereinfacht das Modell."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Welche **Docker**-Praxis unterstützt **Reproduzierbarkeit** in Analytics-Projekten am stärksten?",
@@ -397,7 +413,8 @@
       "mini_glossary": {
         "Image": "Schreibgeschützte Vorlage eines Containers mit allen Abhängigkeiten.",
         "Container": "Laufende Instanz eines Images mit isolierter Umgebung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Welche Aussage beschreibt **`RandomForest`** gegenüber einem einzelnen **Decision Tree** am besten?",
@@ -423,7 +440,8 @@
       "mini_glossary": {
         "Bagging": "Parallel trainierte Modelle auf Bootstraps; Aggregation der Vorhersagen.",
         "Feature-Sampling": "Zufällige Auswahl von Merkmalen pro Split zur Entkorrelation."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welche Metrik eignet sich **besonders** zur Bewertung einer **Regression**?",
@@ -437,7 +455,8 @@
       "answer": 1,
       "explanation": "In Regressionsaufgaben sind Fehlermaße wie **`MSE`** oder `MAE` üblich; Klassifikationsmetriken wie `F1`, `Accuracy`, `ROC-AUC` sind ungeeignet.",
       "weight": 1,
-      "topic": "Modellbewertung & Validierung"
+      "topic": "Modellbewertung & Validierung",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "20. Welche Maßnahme ist zur **Erklärung** von Modellentscheidungen in tabellarischen Daten **am praktikabelsten**?",
@@ -463,7 +482,8 @@
       "mini_glossary": {
         "SHAP": "Shapley Additive Explanations; additiv zerlegbare Feature-Beiträge.",
         "LIME": "Local Interpretable Model-agnostic Explanations; lokale Linearisierung."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "21. Welche Praxis ist bei **SQL-Analysen** für Kennzahlenbildung korrekt?",
@@ -489,7 +509,8 @@
       "mini_glossary": {
         "Window Function": "Aggregation über ein gleitendes Fenster statt Gruppenverdichtung.",
         "`OVER`-Klausel": "Definiert Partition und Ordnung für Window-Berechnungen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Welche Option trifft auf **A/B-Tests** methodisch zu?",
@@ -515,7 +536,8 @@
       "mini_glossary": {
         "Power": "Wahrscheinlichkeit, einen echten Effekt zu entdecken (1−$β$).",
         "Signifikanzniveau ($α$)": "Fehlerrate 1. Art; üblicherweise 0.05."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "23. Welche Maßnahme verbessert **Reproduzierbarkeit** zusätzlich zu `Docker`?",
@@ -529,7 +551,8 @@
       "answer": 2,
       "explanation": "**Deterministische Seeds** und persistierte **Splits** sichern identische Bedingungen für Folgeruns—wichtig für Vergleichbarkeit.",
       "weight": 1,
-      "topic": "MLOps & Reproduzierbarkeit"
+      "topic": "MLOps & Reproduzierbarkeit",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "24. Wodurch unterscheidet sich **`GridSearchCV`** von **`RandomizedSearchCV`**?",
@@ -555,7 +578,8 @@
       "mini_glossary": {
         "Suchraum": "Kartesisches Produkt aller Hyperparameterbereiche.",
         "Validierungsstrategie": "Art der Datenpartitionierung während der Suche (z. B. K-Fold)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "25. Welche Strategie ist **zweckmäßig**, um **Ausreißer** **vor** dem Modelltraining zu behandeln?",
@@ -581,7 +605,8 @@
       "mini_glossary": {
         "Winsorisierung": "Beschneidet Extremwerte auf Perzentilschwellen, statt sie zu verwerfen.",
         "IQR": "Interquartilsabstand $Q3-Q1$; robustes Streuungsmaß."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "26. Welche Eigenschaft zeichnet **`LogisticRegression`** in `scikit-learn` aus?",
@@ -595,7 +620,8 @@
       "answer": 1,
       "explanation": "Die Implementierung unterstützt verschiedene **Solver** wie `liblinear`/`lbfgs`; Regularisierung ist standardmäßig aktiv (`C`).",
       "weight": 1,
-      "topic": "Modelle & Algorithmen"
+      "topic": "Modelle & Algorithmen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "27. Welche Visualisierung eignet sich **direkt** zur Diagnose von **Klassifikationsfehlern**?",
@@ -621,7 +647,8 @@
       "mini_glossary": {
         "False Positive": "Fälschlich als positiv klassifiziert.",
         "False Negative": "Fälschlich als negativ klassifiziert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "28. Welche Aussage zu **`Train/Test Split`** ist **richtig**?",
@@ -647,7 +674,8 @@
       "mini_glossary": {
         "Holdout": "Feste Aufteilung in Train/Val/Test.",
         "Leckage": "Informationsübertrag von Test in Training/Tuning."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Welche Maßnahme verbessert die **Modellüberwachung** nach Deployment?",
@@ -673,7 +701,8 @@
       "mini_glossary": {
         "SLA": "Service Level Agreement; Zielwerte für Qualität/Verfügbarkeit.",
         "Drift-Detektion": "Statistische Verfahren zum Erkennen von Verteilungsänderungen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "30. Welche Praxis ist bei **Feature-Encoding** für **Baumverfahren** sinnvoll?",
@@ -699,7 +728,8 @@
       "mini_glossary": {
         "Target-Encoding": "Ersetzt Kategorie durch aggregierte Zielstatistik (z. B. Mittelwert).",
         "Smoothing": "Mischung aus Kategorie- und Global-Statistik zur Stabilisierung."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

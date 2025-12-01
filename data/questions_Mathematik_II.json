@@ -36,7 +36,8 @@
         "Vektorraumaxiome": "Axiome über $V$ und Körper $K$: $(V,+)$ ist abelsche Gruppe; Distributivität $\\alpha(u+v)=\\alpha u+\\alpha v$, $(\\alpha+\\beta)v=\\alpha v+\\beta v$; Assoziativität $\\alpha(\\beta v)=(\\alpha\\beta)v$; Einheitsgesetz $1\\cdot v=v$. Daraus folgt u.a. $0\\cdot v=0$ und $(-1)\\cdot v=-v$.",
         "Nullvektor": "Eindeutiges Element $0\\in V$ mit $v+0=v$ für alle $v\\in V$. Eindeutigkeit: Gilt $0'$ ebenfalls neutral, so $0=0'+0=0'$.",
         "Skalarmultiplikation": "Abbildung $K\\times V\\to V$, $(\\alpha,v)\\mapsto \\alpha v$, die mit der Körpermultiplikation kompatibel ist und Linearität in beiden Argumenten gewährleistet."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche der folgenden Mengen ist ein Untervektorraum von $\\mathbb{R}^2$?",
@@ -55,7 +56,8 @@
         "Untervektorraum": "Nichtleere Teilmenge $U\\subseteq V$, die unter $+$ und Skalarmultiplikation abgeschlossen ist und den Nullvektor enthält; äquivalent: $\\alpha u+\\beta v\\in U$ für alle $u,v\\in U$, $\\alpha,\\beta\\in K$.",
         "Abgeschlossenheit": "Für alle $u,v\\in U$, $\\alpha\\in K$ gilt $u+v\\in U$ und $\\alpha u\\in U$. Verletzungen (z.B. Nebenbedingungen wie $x+y=1$) zerstören die Unterraumstruktur.",
         "Ursprung": "Der Punkt $(0,0)$; jede Unterraumgerade muss ihn enthalten, da $0\\cdot v=0\\in U$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Warum ist die Menge $P_2^*$ (Polynome genau vom Grad 2) kein Vektorraum, $P_2$ (Grad \\leq 2) aber schon?",
@@ -84,7 +86,8 @@
         "Polynomgrad": "Für $p(x)=\\sum_{i=0}^n a_i x^i$ mit $a_n\\ne 0$ ist $\\deg p=n$. Für das Nullpolynom ist $\\deg 0$ undefiniert oder $-\\infty$ (konventionsabhängig).",
         "Nullpolynom": "Polynom mit allen Koeffizienten $0$; wirkt als Nullvektor: $p+0=p$ und $\\alpha\\cdot 0=0$.",
         "Abgeschlossenheit (Polynome)": "Wenn $\\deg p,\\deg q\\le 2$, dann $\\deg(p+q)\\le 2$ und $\\deg(\\alpha p)\\le 2$; bei $P_2^*$ ist $0\\notin P_2^*$, daher kein Unterraum."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "4. Welche Aussage beschreibt hinreichende und notwendige Bedingungen dafür, dass $U\\subseteq V$ ein Untervektorraum ist?",
@@ -113,7 +116,8 @@
         "Unterraumkriterien": "Test: $U\\ne\\emptyset$ und $\\alpha u+\\beta v\\in U$ für alle $u,v\\in U$, $\\alpha,\\beta\\in K$. Daraus folgen Nullvektor und additive Inversen automatisch.",
         "Skalar": "Element des Körpers $K$; definiert die externe Multiplikation auf $V$. In $\\mathbb{R}^n$ sind Skalare reelle Zahlen.",
         "Additionsabschluss": "Für $u,v\\in U$ gilt $u+v\\in U$. Zusammen mit Skalarabschluss bildet $(U,+)$ wieder eine abelsche Gruppe."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Welches Axiom stellt die Konsistenz der Skalarmultiplikation mit der Körpermultiplikation sicher?",
@@ -142,7 +146,8 @@
         "Körper": "Algebraische Struktur $(K,+,\\cdot)$ mit kommutativer Multiplikation, Einheiten $1\\ne 0$ und Existenz multiplikativer Inverser für $\\alpha\\ne 0$. Beispiel: $\\mathbb{R},\\mathbb{C}$.",
         "Assoziativität": "Eigenschaft $a\\cdot(b\\cdot c)=(a\\cdot b)\\cdot c$. Erlaubt Umklammern ohne Wertänderung.",
         "Linearität": "Erhaltung von Addition und Skalarmultiplikation: $T(\\alpha u+\\beta v)=\\alpha T(u)+\\beta T(v)$."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "6. Wie groß ist die Dimension des Vektorraums $P_3$ der Polynome vom Grad höchstens 3?",
@@ -161,7 +166,8 @@
         "Dimension": "Anzahl der Basisvektoren eines Vektorraums. In endlicher Dimension ist sie invariant: Alle Basen haben dieselbe Kardinalität.",
         "Basis": "Menge linear unabhängiger Vektoren, die den Raum vollständig erzeugt. Jede Darstellung ist eindeutig.",
         "Polynomraum": "Vektorraum $P_n=\\{p\\mid \\deg p\\le n\\}$ mit kanonischer Basis $(1,x,\\dots,x^n)$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Die Vektoren $v_1=(1,0)$ und $v_2=(2,0)$ in $\\mathbb{R}^2$ sind ...",
@@ -180,7 +186,8 @@
         "Lineare Abhängigkeit": "Es existieren nicht alle $0$-Koeffizienten $\\alpha_i$, so dass $\\sum\\alpha_i v_i=0$. Hier: $(2,0)=2\\cdot(1,0)$.",
         "Erzeugendensystem": "Menge, deren Linearkombinationen den gesamten Raum ergeben. Zwei kollineare Vektoren erzeugen nur eine Gerade.",
         "Basis": "Minimal erzeugende, linear unabhängige Menge. In $\\mathbb{R}^2$ werden zwei nicht kollineare Vektoren benötigt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "8. Wie lautet der Koordinatenvektor von $v=(3,5)$ bezüglich der Standardbasis $E=\\{(1,0),(0,1)\\}$ in $\\mathbb{R}^2$?",
@@ -209,7 +216,8 @@
         "Standardbasis": "Kanonische Basis $((1,0),(0,1))$ in $\\mathbb{R}^2$. Allgemein: Einheitsvektoren $e_i$ in $\\mathbb{R}^n$.",
         "Koordinatenvektor": "Die eindeutigen Koeffizienten $[v]_E=(\\alpha_i)$ in der Darstellung $v=\\sum \\alpha_i e_i$.",
         "Basiswechsel": "Für Basen $E,F$ gilt $[v]_F=T^{-1}[v]_E$ mit der Übergangsmatrix $T$ (invertierbar)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "9. Was ist unter einer Linearkombination zu verstehen?",
@@ -238,7 +246,8 @@
         "Span": "Der erzeugte Unterraum $\\operatorname{span}(S)=\\{\\sum\\alpha_i v_i\\mid v_i\\in S,\\alpha_i\\in K\\}$. Minimalste Erzeuger sind Basen.",
         "Koeffizienten": "Skalare Gewichte in $\\sum \\alpha_i v_i$. Ihre Eindeutigkeit hängt von Linearunabhängigkeit ab.",
         "Linearität": "Additivität und Homogenität; zentrale Eigenschaft linearer Abbildungen und Räume."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. Welche Dimension hat das Produkt $A\\,B\\,C$, wenn $A\\in\\mathbb{R}^{3\\times 4}$, $B\\in\\mathbb{R}^{4\\times 5}$ und $C\\in\\mathbb{R}^{5\\times 2}$?",
@@ -257,7 +266,8 @@
         "Matrixdimension": "Eine Matrix in $\\mathbb{R}^{m\\times n}$ hat $m$ Zeilen, $n$ Spalten. Das Produkt $AB$ ist definiert, wenn die inneren Maße übereinstimmen.",
         "Kompatibilität": "Für $A\\in\\mathbb{R}^{m\\times n}$ und $B\\in\\mathbb{R}^{n\\times p}$ ergibt sich $AB\\in\\mathbb{R}^{m\\times p}$.",
         "Assoziativität": "Für definierte Produkte gilt $(AB)C=A(BC)$; die Klammerung beeinflusst Komplexität, nicht das Resultat."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "11. Was ist die Einheitsmatrix $I_n$?",
@@ -286,7 +296,8 @@
         "Hauptdiagonale": "Einträge $(i,i)$; bei $I_n$ alle gleich $1$. Off-Diagonalen sind $0$.",
         "Neutrales Element": "Für Multiplikation: $I A=A= A I$. Für Addition existiert das Nullmatrix-Element.",
         "Diagonalmatrix": "Nur Diagonaleinträge können ungleich 0 sein; erleichtert Inversion und Potenzieren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Welche Eigenschaft gilt stets für eine symmetrische Matrix $A$?",
@@ -315,7 +326,8 @@
         "Transponierte": "Matrix $A^\\top$ mit vertauschten Indizes: $(A^\\top)_{ij}=A_{ji}$. Spiegelt an der Hauptdiagonalen.",
         "Spektralsatz": "Für reelle symmetrische $A$ existiert eine orthogonale Diagonalisierung; garantiert reelle Eigenwerte.",
         "Eigenwert": "Skalar $\\lambda$ mit $A v=\\lambda v$; bestimmt Streckung/Stauchung entlang $v\\ne 0$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. Die Abbildung $y=A\\,x$ ist im Allgemeinen eine ...",
@@ -344,7 +356,8 @@
         "Lineare Abbildung": "Abbildung $T:V\\to W$ mit $T(\\alpha u+\\beta v)=\\alpha T(u)+\\beta T(v)$. Wird durch Wirkung auf eine Basis eindeutig festgelegt.",
         "Bildraum": "$\\operatorname{im}(A)=\\{A x\\}$; Dimension ist der Rang von $A$.",
         "Kern": "$\\ker(A)=\\{x\\mid A x=0\\}$; Dimension ist die Nullität; zusammen: Rang-Nullität."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Welche Kombination ist stets eine wohldefinierte Operation zwischen Matrix und Vektor (bei passenden Dimensionen)?",
@@ -373,7 +386,8 @@
         "Determinante": "Skalarfunktion $\\det: \\mathbb{R}^{n\\times n}\\to\\mathbb{R}$ mit $\\det(AB)=\\det(A)\\det(B)$ und $\\det(I)=1$. Nur für quadratische Matrizen definiert.",
         "Spaltenvektor": "Vektor als $n\\times 1$-Matrix; Transponieren liefert den Zeilenvektor $1\\times n$.",
         "Wohldefiniertheit": "Operation ist eindeutig und kontextfrei bestimmt; erfordert passende Strukturen und Maße."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "15. Welche Operation gehört zu den elementaren Zeilenumformungen beim Gauß-Algorithmus?",
@@ -392,7 +406,8 @@
         "Gauß-Algorithmus": "Eliminationsverfahren zur Transformation eines LGS in (reduzierte) Zeilenstufenform; erhält die Lösungsmenge invariant.",
         "Zeilenumformung": "Operationen: Zeilentausch, $c\\ne 0$-Skalierung, Addition eines Vielfachen einer anderen Zeile. Alle sind durch invertierbare linke Multiplikation modellierbar.",
         "Zeilenstufenform": "Form, in der Pivots stufenweise nach rechts wandern; in reduzierter Form stehen Pivots auf 1 und darüber/unter ihnen Nullen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "16. Gilt $\\operatorname{rang}(A)=\\operatorname{rang}(A|b)=n$ bei $n$ Unbekannten, was folgt für $A x=b$?",
@@ -421,7 +436,8 @@
         "Rang": "Maximale Anzahl linear unabhängiger Zeilen/Spalten; gleich der Dimension des Bildraums.",
         "Erweiterte Matrix": "Konkatenation $(A|b)$; vergleicht Gleichungsstruktur mit rechter Seite für Konsistenz.",
         "Eindeutige Lösung": "Exakt ein $x$ erfüllt $A x=b$; folgt bei vollem Rang ohne Widerspruchszeilen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Eine Zeile $[0\\ 0\\ 0\\ |\\ 5]$ in Zeilenstufenform bedeutet ...",
@@ -450,7 +466,8 @@
         "Zeilenstufenform": "Trianguläre Struktur mit Pivots. Eine reine Nullzeile links zeigt Redundanz; Nichtnull rechts erzeugt Widerspruch.",
         "Widerspruchszeile": "Gleichung $0=c$ mit $c\\ne 0$; macht das LGS inkonsistent.",
         "Lösungsmenge": "Leere Menge bei Inkonsistenz; sonst affine Untermenge des $\\mathbb{R}^n$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Ein LGS in Zeilenstufenform mit 3 Unbekannten besitzt 2 Pivot-Elemente und keine Widerspruchszeile. Was folgt?",
@@ -479,7 +496,8 @@
         "Pivot": "Linkester Nichtnull-Eintrag einer Zeile in Stufenform; markiert gebundene Variable.",
         "Freie Variable": "Nicht durch Pivots festgelegt; parametrisiert unendlich viele Lösungen.",
         "Parametrisierung": "Darstellung der Lösungsmenge durch Parameter, z.B. $x(t)=x_0+t v$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Was ist im Kontext des Gauß-Algorithmus ein Pivot-Element?",
@@ -508,7 +526,8 @@
         "Elimination": "Sequenz von Zeilenoperationen zur Nullung von Einträgen unter (und ggf. über) Pivotpositionen.",
         "Gebundene Variable": "Durch Pivot-Spalte festgelegt; kein Freiheitsgrad.",
         "Diagonaldominanz": "Eigenschaft $|a_{ii}|\\ge \\sum_{j\\ne i}|a_{ij}|$; verbessert Stabilität, ist aber nicht zwingend."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "20. Was beschreibt ein Eigenwert $\\lambda$ einer Matrix $A$?",
@@ -527,7 +546,8 @@
         "Eigenwert": "Nullstelle des charakteristischen Polynoms $\\det(A-\\lambda I)=0$; skaliert zugehörige Eigenvektoren.",
         "Eigenvektor": "Nichtnullvektor $v$ mit $A v=\\lambda v$; bestimmt Richtungen invarianten Verhaltens.",
         "Spektrum": "Menge aller Eigenwerte $\\sigma(A)$; beeinflusst Stabilität, Potenzen und Dynamik von $A$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "21. Wann ist eine quadratische Matrix $A$ invertierbar?",
@@ -556,7 +576,8 @@
         "Determinante": "Multiplikatives Skalar, null genau bei Singulärität; geometrisch: orientiertes Volumenverhältnis.",
         "Singulär": "Nicht invertierbar; es existiert $x\\ne 0$ mit $A x=0$; Spalten sind linear abhängig.",
         "Spektrum": "Eigenwertmenge; $0\\notin\\sigma(A)$ ist äquivalent zu Invertierbarkeit."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Was ist das charakteristische Polynom einer $n\\times n$-Matrix $A$?",
@@ -585,7 +606,8 @@
         "Charakteristisches Polynom": "Definiert als $\\det(A-\\lambda I)$; Koeffizienten sind bis auf Vorzeichen elementarsymmetrische Funktionen der Eigenwerte.",
         "Nullstelle": "Wert $\\lambda$ mit $p_A(\\lambda)=0$; erzeugt singuläres $A-\\lambda I$ und damit einen Eigenvektor.",
         "Eigenwertgleichung": "$(A-\\lambda I)v=0$; nichttriviale Lösungen existieren genau für Eigenwerte."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Wofür wird die Eigenwertzerlegung (z.B. PCA) in der Datenanalyse primär genutzt?",
@@ -614,7 +636,8 @@
         "PCA": "Hauptkomponentenanalyse: Eigenzerlegung der Kovarianz zur Projektion auf Richtungen maximaler Varianz.",
         "Kovarianzmatrix": "$C=\\tfrac{1}{m-1}(X-\\bar X)^\\top(X-\\bar X)$; symmetrisch und positiv semidefinit.",
         "Varianz": "Erwarteter quadratischer Abstand vom Mittelwert; in PCA proportional zu den Eigenwerten von $C$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "24. Welche der folgenden Eigenschaften ist definierend für ein euklidisches Skalarprodukt?",
@@ -633,7 +656,8 @@
         "Skalarprodukt": "Bilinear (in $\\mathbb{R}^n$), symmetrisch und positiv definit: $\\langle v,v\\rangle>0$ für $v\\ne 0$. Induziert Norm und Winkel.",
         "Norm": "$\\|v\\|=\\sqrt{\\langle v,v\\rangle}$; erfüllt Dreiecksungleichung und Homogenität.",
         "Orthogonalität": "$\\langle v,w\\rangle=0$ definiert rechten Winkel; orthogonale Projektionen minimieren quadratische Fehler."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "25. Was beschreibt eine Orthonormalbasis (ONB)?",
@@ -662,7 +686,8 @@
         "Kronecker-Delta": "$\\delta_{ij}=1$ für $i=j$, sonst $0$; formalisiert Orthonormalität in Matrixform $Q^\\top Q=I$.",
         "Projektion": "Lineare Abbildung $P$ mit $P^2=P$ und $\\|x-Px\\|$ minimal; orthogonal, wenn zusätzlich $P^\\top=P$.",
         "QR-Zerlegung": "Faktorisierung $A=QR$ mit orthogonalem $Q$ und oberdreieckigem $R$; entsteht z.B. via Gram–Schmidt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "26. Wie lautet die Formel für den Winkelkosinus zwischen $v$ und $w$?",
@@ -691,7 +716,8 @@
         "Norm": "Aus Skalarprodukt abgeleitet: $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$; induziert Metrik $d(x,y)=\\|x-y\\|$.",
         "Normalisierung": "Ersetzt $v$ durch $\\hat v=\\dfrac{v}{\\|v\\|}$; setzt die Länge auf 1.",
         "Winkel": "Definiert über $\\cos\\theta=\\dfrac{\\langle v,w\\rangle}{\\|v\\|\\,\\|w\\|}$; unabhängig von der Länge der Vektoren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "27. Wie lautet die orthogonale Projektion von $v$ auf $u\\ne 0$?",
@@ -720,7 +746,8 @@
         "Projektion": "Lineare Abbildung auf einen Unterraum, die jedes $v$ auf seine parallele Komponente abbildet und den Fehler orthogonal macht.",
         "Orthogonal": "Rechtwinklig im Sinne $\\langle v,w\\rangle=0$; impliziert Pythagoras $\\|v\\|^2=\\|p\\|^2+\\|v-p\\|^2$.",
         "Komponente": "Zerlegung $v=p+(v-p)$ mit $p$ parallel zu $u$; $p=\\operatorname{proj}_u(v)$."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "28. Das Gram–Schmidt-Verfahren wird angewendet auf ...",
@@ -749,7 +776,8 @@
         "Orthogonalisierung": "Verfahren, aus unabhängigen Vektoren orthogonale zu konstruieren, typischerweise durch Projektionen.",
         "ONB": "Orthonormalbasis; orthogonal und normiert, $Q^\\top Q=I$.",
         "Unterraum": "Durch eine Vektormenge erzeugte Menge aller Linearkombinationen; Gram–Schmidt liefert eine ONB dieses Unterraums."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Wie groß ist die Summe aller Knotengrade in einem ungerichteten Graphen mit $k$ Kanten?",
@@ -768,7 +796,8 @@
         "Grad": "Anzahl der inzidenten Kanten eines Knotens; Schleifen zählen in ungerichteten Graphen typischerweise als 2.",
         "Handshaking-Lemma": "In ungerichteten Graphen gilt $\\sum_{v\\in V} \\deg(v)=2|E|$; folgt durch doppelte Zählung.",
         "Ungerichteter Graph": "Kanten sind ungeordnete Paare; es existiert keine Richtung an Kanten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "30. Welche Repräsentation ist für dichte Graphen typischerweise speicherangemessen?",
@@ -797,7 +826,8 @@
         "Adjazenzmatrix": "Binäre/gewichtete $|V|\\times |V|$-Matrix; Eintrag $(i,j)$ gibt (gewichtete) Kante an.",
         "Adjazenzliste": "Für jeden Knoten eine Liste seiner Nachbarn (ggf. mit Gewichten); speichereffizient bei dünnen Graphen.",
         "Dichter Graph": "Hoher Kantenanteil relativ zu $|V|^2$; typischerweise $|E|\\approx c\\,|V|^2$ mit konstantem $c>0$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "31. Unter welcher Voraussetzung liefert der Dijkstra-Algorithmus korrekte kürzeste Wege?",
@@ -826,7 +856,8 @@
         "Greedy-Algorithmus": "Wählt lokal optimale Schritte; Korrektheit erfordert eine Monotonie-/Optimalitätsinvariante.",
         "Bellman–Ford": "Dynamische Programmierung für allgemeine Gewichte; erkennt negative Zyklen.",
         "Kürzeste Wege": "Minimiere die Summe der Kantengewichte $\\sum w(e)$ entlang eines Pfads."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "32. Wann ist ein Graph $G=(V,E)$ zusammenhängend?",
@@ -855,7 +886,8 @@
         "Pfad": "Sequenz von Knoten mit benachbarten Paaren; Länge ist Anzahl Kanten oder Gewichts-Summe.",
         "Zyklus": "Geschlossener Pfad mit Länge $\\ge 1$; in ungerichteten Graphen ohne Richtung.",
         "Komponente": "Maximal zusammenhängender Teilgraph; Graph ist zusammenhängend genau dann, wenn er eine Komponente hat."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "33. Was ist ein Pfad in einem Graphen?",
@@ -874,7 +906,8 @@
         "Einfacher Pfad": "Pfad ohne Wiederholung von Knoten (und damit Kanten). Vermeidet Schleifen/Mehrfachbesuche.",
         "Weglänge": "Anzahl der Kanten (ungewichtet) oder Summe der Gewichte (gewichtet).",
         "Teilgraph": "Graph, der aus einer Teilmenge von Knoten und/oder Kanten gebildet wird; kann Pfade isolieren."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "34. Ein Graph mit $n$ Knoten ist genau dann ein Baum, wenn er ...",
@@ -893,7 +926,8 @@
         "Baum": "Zusammenhängender, zyklenfreier Graph. Alternative Charakterisierungen sind äquivalent (z.B. eindeutiger Pfad zwischen Knoten).",
         "Kantenanzahl": "Für jeden Baum gilt $|E|=|V|-1$; folgt per Induktion oder aus dem Handschlag-Lemma.",
         "Zyklus": "Geschlossener Pfad; das Fehlen von Zyklen ist definierend für Bäume."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "35. Welche Aussage zu gewurzelten Bäumen trifft zu?",
@@ -922,7 +956,8 @@
         "Wurzel": "Ausgewählter Startknoten, von dem Eltern-Kind-Beziehungen orientiert werden.",
         "Höhe": "Maximale Tiefe eines Knotens; Anzahl der Kanten entlang des längsten Wurzel–Blatt-Pfads.",
         "Blatt": "Knoten ohne Kinder; in Suchbäumen tragen sie Datenendpunkte."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "36. Welche Datenstruktur wird typischerweise zur Implementierung der Breitensuche (BFS) verwendet?",
@@ -951,7 +986,8 @@
         "BFS": "Breitensuche; verarbeitet Knoten in aufsteigender Entfernung vom Startknoten.",
         "Queue": "First-In-First-Out-Struktur; garantiert Ebenenreihenfolge.",
         "Traversierung": "Systematische Durchquerung der Knoten/Kanten entsprechend einer Strategie (BFS/DFS)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "37. Welche Eigenschaft charakterisiert einen binären Suchbaum (BST)?",
@@ -980,7 +1016,8 @@
         "BST": "Baumstruktur mit Ordnungsinvariante; erlaubt binäre Suche entlang der Äste.",
         "In-Order": "Links–Wurzel–Rechts; gibt in einem BST die Schlüssel aufsteigend aus.",
         "Balancierung": "Techniken zur Begrenzung der Höhe (AVL, Rot-Schwarz, Splay), um Operationen effizient zu halten."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "38. Welche Traversierung besucht die Knoten eines Baumes Ebene für Ebene?",
@@ -999,7 +1036,8 @@
         "Preorder": "Reihenfolge: Wurzel, dann linker und rechter Teilbaum; nützlich für Kopieren/Serialisieren.",
         "Inorder": "Links, Wurzel, Rechts; liefert bei BSTs sortierte Folge.",
         "Postorder": "Linker und rechter Teilbaum, dann Wurzel; nützlich zum Löschen/Freeing."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "39. Wie viele Basisvektoren besitzt $\\mathbb{R}^n$ und was folgt für die Dimension?",
@@ -1028,7 +1066,8 @@
         "Standardbasis": "$e_i$ mit einer 1 an Position $i$ und sonst 0; bildet Identität $I_n$ als Spalten.",
         "Dimension": "Invariante eines endlichen Vektorraums; Anzahl Vektoren jeder Basis.",
         "Linear unabhängig": "Nur die triviale Linearkombination ergibt $0$; prüfbar über Rang einer Spaltenmatrix."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "40. Welche Aussage über die Matrixzerlegung $A=P D P^{-1}$ trifft bei diagonalisierbaren Matrizen zu?",
@@ -1057,7 +1096,8 @@
         "Diagonalisierbarkeit": "Existenz einer Eigenvektorbasis; scheitert, wenn die Summe geometrischer Vielfachheiten $<n$ ist.",
         "Spektralzerlegung": "Darstellung über Eigenwerte/-vektoren; bei Normalmatrizen existiert unitäre Diagonalisierung.",
         "Basiswechsel": "Transformation $P^{-1} A P=D$; vereinfacht $A$-Potenzen und Funktionsberechnungen $f(A)$ via $f(D)$."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

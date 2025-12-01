@@ -34,7 +34,8 @@
       "mini_glossary": {
         "Eigenwert": "Skalar $\\lambda$, der die Streckung/Spiegelung eines Eigenvektors beschreibt.",
         "Eigenvektor": "Von 0 verschiedener Vektor, der durch $A$ nur skaliert wird."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Wozu dient das charakteristische Polynom $p_A(\\lambda)=\\det(A-\\lambda I)$?",
@@ -51,7 +52,8 @@
       "mini_glossary": {
         "Determinante": "Skalar, der u.a. Nichtinvertierbarkeit anzeigt.",
         "Einheitsmatrix $I$": "Matrix mit Einsen auf der Diagonalen, sonst Nullen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Wie stehen algebraische und geometrische Vielfachheit eines Eigenwertes zueinander?",
@@ -68,7 +70,8 @@
       "mini_glossary": {
         "Algebraische Vielfachheit": "Nullstellenvielfachheit eines Eigenwerts im charakteristischen Polynom.",
         "Geometrische Vielfachheit": "Dimension des Eigenraums $\\ker(A-\\lambda I)$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Wann ist eine Matrix $A$ diagonalisierbar?",
@@ -85,7 +88,8 @@
       "mini_glossary": {
         "Eigenbasis": "Basis, die vollständig aus Eigenvektoren besteht.",
         "Ähnlichkeit": "Beziehung $A' = S^{-1}AS$; erhält Eigenwerte."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "5. Welche Aussage zum Spektralsatz für reell-symmetrische Matrizen ist korrekt?",
@@ -102,7 +106,8 @@
       "mini_glossary": {
         "Orthogonale Diagonalisierung": "Darstellung $A=QDQ^{\\top}$ mit orthogonalem $Q$.",
         "Spektralsatz": "Fundamentalsatz zum Eigenwertverhalten symmetrischer Matrizen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Welche Aussage über Dreiecks- und Diagonalmatrizen trifft zu?",
@@ -119,7 +124,8 @@
       "mini_glossary": {
         "Hauptdiagonale": "Einträge $a_{11},\\dots,a_{nn}$.",
         "Vielfachheit": "Wiederholungsanzahl eines Eigenwerts."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Welche Größe stimmt mit der Summe der Eigenwerte überein?",
@@ -136,7 +142,8 @@
       "mini_glossary": {
         "Spur": "Summe der Diagonaleinträge.",
         "Eigenwertsumme": "Summe der Eigenwerte unter Berücksichtigung der Vielfachheiten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "8. Welche Aussage zur Jordan-Normalform (JNF) ist korrekt?",
@@ -153,7 +160,8 @@
       "mini_glossary": {
         "Jordan-Block": "Block mit gleichem Eigenwert auf der Diagonalen und ggf. Einsen darüber.",
         "Generalisierter Eigenvektor": "Vektor mit $(A-\\lambda I)^k v=0$ für ein $k>1$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "9. Welche Größe bleibt bei einer Ähnlichkeitstransformation $A' = S^{-1}AS$ erhalten?",
@@ -170,7 +178,8 @@
       "mini_glossary": {
         "Ähnlichkeitsinvariante": "Größe, die unter $S^{-1}AS$ unverändert bleibt.",
         "Spektrum": "Multimenge der Eigenwerte einer Matrix."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "10. Welche Aussage zur numerischen Eigenwertberechnung ist korrekt?",
@@ -187,7 +196,8 @@
       "mini_glossary": {
         "QR-Algorithmus": "Iteratives Verfahren auf Basis der QR-Zerlegung.",
         "Stabilität": "Empfindlichkeit eines Verfahrens gegenüber Rundungsfehlern."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "11. Welches Strukturmerkmal besitzt $p_A(\\lambda)$ für eine $n\\times n$-Matrix?",
@@ -204,7 +214,8 @@
       "mini_glossary": {
         "Führender Koeffizient": "Koeffizient der höchsten Potenz.",
         "Grad": "Höchste Potenz von $\\lambda$ mit nichtverschwindendem Koeffizienten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "12. Welche Aussage zum Eigenraum $E_{\\lambda}$ ist korrekt?",
@@ -221,7 +232,8 @@
       "mini_glossary": {
         "Kern": "Menge aller Vektoren, die auf 0 abgebildet werden.",
         "Unterraum": "Nichtleere Menge, abgeschlossen unter Linearkombinationen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "13. Welche Aussage beschreibt den Zusammenhang zwischen $p_A$ und $p_{S^{-1}AS}$?",
@@ -246,7 +258,8 @@
       "mini_glossary": {
         "Ähnlichkeit": "Transformation $S^{-1}AS$ mit invertierbarem $S$.",
         "Polynominvarianz": "Unveränderlichkeit von $p_A$ unter Ähnlichkeit."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Woran scheitert Diagonalisierbarkeit typischerweise?",
@@ -271,7 +284,8 @@
       "mini_glossary": {
         "Lineare Unabhängigkeit": "Kein Vektor ist Linearkombination der anderen.",
         "Eigenbasis": "Basis aus Eigenvektoren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Welche Aussage über Eigenvektoren reell-symmetrischer Matrizen ist korrekt?",
@@ -296,7 +310,8 @@
       "mini_glossary": {
         "Orthogonalität": "Skalarprodukt ist 0.",
         "Selbstadjungiert": "Gleichheit mit der Transponierten im Reellen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Welche Eigenschaft von Dreiecksmatrizen ist für Eigenwerte entscheidend?",
@@ -321,7 +336,8 @@
       "mini_glossary": {
         "Nebendiagonale": "Diagonale von links unten nach rechts oben.",
         "Faktorisierung": "Zerlegung in Linearfaktoren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Welche Beziehung ist ein schneller Plausibilitätscheck für gefundene Eigenwerte?",
@@ -346,7 +362,8 @@
       "mini_glossary": {
         "Viète-Beziehungen": "Zusammenhang zwischen Wurzelsummen/-produkten und Polynomkoeffizienten.",
         "Determinante": "Skalar, gleich Produkt der Eigenwerte."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Welche Aussage charakterisiert Jordan-Blöcke in Bezug auf $p_A$ richtig?",
@@ -371,7 +388,8 @@
       "mini_glossary": {
         "Blockgröße": "Dimension eines Jordan-Blocks.",
         "Geometrische Vielfachheit": "Zahl der Blöcke für einen Eigenwert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welche Größe ändert sich bei einem reinen Basiswechsel der Koordinaten nicht?",
@@ -396,7 +414,8 @@
       "mini_glossary": {
         "Invariante": "Größe, die unter Transformationen erhalten bleibt.",
         "Koordinatenwechsel": "Darstellung derselben Abbildung in anderer Basis."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Welche numerische Herausforderung besteht bei der expliziten Bildung von $p_A$ für große Matrizen?",
@@ -421,7 +440,8 @@
       "mini_glossary": {
         "Kondition": "Empfindlichkeit der Lösung gegenüber Datenstörungen.",
         "Rundungsfehler": "Fehler durch endliche Maschinenarithmetik."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "21. Welche Strukturinformation enthält das konstante Glied von $p_A(\\lambda)$ (bis auf Vorzeichen)?",
@@ -446,7 +466,8 @@
       "mini_glossary": {
         "Elementarsymmetrisch": "Symmetrische Funktionen wie Summen/Produkte über Wurzeln.",
         "Konstantes Glied": "Koeffizient bei $\\lambda^0$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Welche Aussage zur Dimension der direkten Summe der Eigenräume ist korrekt?",
@@ -471,7 +492,8 @@
       "mini_glossary": {
         "Direkte Summe": "Zerlegung ohne nichttrivialen Schnitt.",
         "Eigenbasis": "Basis aus Eigenvektoren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Welche Bedingung an $P$ in $A=PDP^{-1}$ ist notwendig?",
@@ -496,7 +518,8 @@
       "mini_glossary": {
         "Invertierbarkeit": "Existenz der inversen Matrix.",
         "Übergangsmatrix": "Matrix des Basiswechsels."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "24. Welche Zusatzstruktur besitzen reell-symmetrische Matrizen in Bezug auf Eigenräume gleicher Eigenwerte?",
@@ -521,7 +544,8 @@
       "mini_glossary": {
         "Orthonormalbasis": "Orthogonale Vektoren der Norm 1.",
         "Gram–Schmidt": "Verfahren zur Orthonormalisierung."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "25. Welche Aussage zur Invarianz der Spur ist korrekt?",
@@ -546,7 +570,8 @@
       "mini_glossary": {
         "Zyklische Invarianz": "Eigenschaft $\\operatorname{tr}(XY)=\\operatorname{tr}(YX)$.",
         "Eigenwertsumme": "Summe der Eigenwerte mit Vielfachheiten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "26. Warum ist die direkte Bestimmung aller Wurzeln von $p_A$ numerisch heikel?",
@@ -571,7 +596,8 @@
       "mini_glossary": {
         "Perturbation": "Kleine Störung der Eingangsdaten.",
         "Wurzelkarte": "Abbildung von Koeffizienten auf Polynomwurzeln."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "27. Welche Identität verbindet $A$ und $p_A$ allgemein (ohne Rechnung)?",
@@ -596,7 +622,8 @@
       "mini_glossary": {
         "Cayley–Hamilton": "Fundamentalsatz: $p_A(A)=0$.",
         "Nullmatrix": "Matrix mit nur Nulleinträgen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "28. Welche Aussage zur Jordan-Form liefert das präziseste Kriterium für Nichtdiagonalisierbarkeit?",
@@ -621,7 +648,8 @@
       "mini_glossary": {
         "Diagonalblock": "Block mit nur einem Eintrag auf der Diagonale.",
         "Nichtdiagonalisierbar": "Keine Eigenbasis vorhanden."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "29. Welche Aussage über das charakteristische Polynom ist korrekt und nichttrivial?",
@@ -646,7 +674,8 @@
       "mini_glossary": {
         "Spektrum": "Multimenge der Eigenwerte.",
         "Eigenraumdimension": "Geometrische Vielfachheit eines Eigenwerts."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "30. Welche Bedingung fasst Diagonalisierbarkeit in einem Satz zusammen?",
@@ -671,7 +700,8 @@
       "mini_glossary": {
         "Direkte Summe": "Zerlegung mit trivialem Schnitt.",
         "Eigenbasis": "Basis aus Eigenvektoren über den ganzen Raum."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

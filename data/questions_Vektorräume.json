@@ -15,7 +15,8 @@
     "mini_glossary": {
       "Skalarmultiplikation": "Die Abbildung $K\\times V\\to V$, $(\\lambda,v)\\mapsto \\lambda v$, die $\\lambda(\\mu v)=(\\lambda\\mu)v$, $1v=v$, $\\lambda(v+w)=\\lambda v+\\lambda w$ und $(\\lambda+\\mu)v=\\lambda v+\\mu v$ erfüllt.",
       "Abelsche Gruppe": "Eine Gruppe $(V,+)$, in der $u+v=v+u$ gilt. In Vektorräumen ist $(V,+)$ stets abelsch; das Nullelement wird mit $0$ bzw. $\\mathbf{0}$ bezeichnet."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "2. Welche der folgenden Mengen ist mit der üblichen Addition und Skalarmultiplikation ein Untervektorraum von $\\mathbb{R}^3$?",
@@ -33,7 +34,8 @@
     "mini_glossary": {
       "Untervektorraum": "Nichtleere Teilmenge $U\\subseteq V$, die mit den Operationen von $V$ wieder ein Vektorraum ist. Charakterisierung: $u,v\\in U\\Rightarrow u+v\\in U$ und $\\lambda\\in K,u\\in U\\Rightarrow \\lambda u\\in U$.",
       "Homogene Gleichung": "Gleichung der Form $A\\,x=0$. Ihre Lösungsmenge ist stets ein Unterraum; im Beispiel ist $[1,-1,1]$ die Normale der Ebene."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "3. Wie lässt sich die Gerade durch den Ursprung in Richtung eines Vektors $v\\in\\mathbb{R}^n$ als Unterraum beschreiben?",
@@ -51,7 +53,8 @@
     "mini_glossary": {
       "Span": "$\\operatorname{span}(S)$ ist die Menge aller endlichen Linearkombinationen aus $S\\subseteq V$ und der kleinste Unterraum, der $S$ enthält.",
       "Ursprungsgerade": "Eine Gerade, die den Nullvektor enthält; sie ist immer ein Unterraum und wird von einem einzigen Richtungsvektor erzeugt."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "4. Welche Bedingung charakterisiert **lineare Unabhängigkeit** der Vektoren $v_1,\\dots,v_n$?",
@@ -69,7 +72,8 @@
     "mini_glossary": {
       "Linearkombination": "Ausdrücke der Form $\\lambda_1 v_1+\\cdots+\\lambda_n v_n$ mit $\\lambda_i\\in K$.",
       "Triviale Kombination": "Die Wahl aller Koeffizienten $\\lambda_i=0$, die stets $\\mathbf{0}$ ergibt."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "5. Welche Aussage über Basen in endlichdimensionalen Räumen ist korrekt?",
@@ -87,7 +91,8 @@
     "mini_glossary": {
       "Basis": "Eine linear unabhängige Menge $B$, die den Raum erzeugt: $\\operatorname{span}(B)=V$. Jede Darstellung $v=\\sum x_i b_i$ ist eindeutig.",
       "Dimension": "Anzahl der Basisvektoren eines endlichdimensionalen Vektorraums; wohldefiniert durch den Austauschsatz."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "6. Für die lineare Abbildung $f:\\mathbb{R}^3\\to\\mathbb{R}^2$, $f(x,y,z)=(x-y,\\,y+z)$, welche Aussage trifft zu?",
@@ -109,7 +114,8 @@
     "mini_glossary": {
       "`ker f`": "Menge aller $v$ mit $f(v)=\\mathbf{0}$. Für lineare Abbildungen ist der Kern stets ein Unterraum und misst die Nicht-Injektivität.",
       "`Im f` (Bildraum)": "Menge aller Werte $f(v)$. Dessen Dimension heißt **Rang** und erfüllt $\\dim\\ker f+\\dim\\operatorname{Im} f=\\dim\\text{Domäne}$."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "7. Welche Bedingung garantiert, dass eine lineare Abbildung $T:U\\to V$ ein Isomorphismus ist?",
@@ -131,7 +137,8 @@
     "mini_glossary": {
       "`Isomorphismus`": "Bijektive lineare Abbildung. Er erhält die gesamte lineare Struktur; Räume sind isomorph, wenn sie sich nur durch die Wahl der Basis unterscheiden.",
       "`Basiswechsel`": "Ersetzt eine Basis durch eine andere. Die Koordinaten eines Vektors transformieren sich mittels einer invertierbaren Matrix."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "8. Welche der folgenden Mengen ist eine Basis von $\\mathbb{R}^2$?",
@@ -149,7 +156,8 @@
     "mini_glossary": {
       "Lineare Abhängigkeit in $\\mathbb{R}^2$": "Zwei Vektoren sind abhängig, wenn einer ein skalares Vielfaches des anderen ist.",
       "Erzeugend": "Eine Menge $S$ erzeugt $V$, wenn jeder Vektor aus $V$ als Linearkombination von $S$ darstellbar ist."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "9. Gegeben sei die Basis $B=\\{b_1,b_2\\}$ von $\\mathbb{R}^2$ mit $b_1=(2,2)$, $b_2=(1,2)$. Welche Koordinaten hat $v=(2,1)$ bezüglich $B$?",
@@ -171,7 +179,8 @@
     "mini_glossary": {
       "`Basisdarstellung`": "Schreibe $v$ als $v=\\sum_i x_i b_i$; die $x_i$ sind die **Koordinaten** von $v$ bezüglich $B$.",
       "`Basismatrix`": "Matrix mit Spalten $b_i$. Ihre Invertierbarkeit entspricht der linearen Unabhängigkeit der Basis."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "10. Welche der folgenden Mengen ist **kein** Unterraum von $\\mathbb{R}^n$?",
@@ -193,7 +202,8 @@
     "mini_glossary": {
       "`affine Menge`": "Menge der Form $u_0+U$ mit Unterraum $U$. Sie ist unter Konvexkombinationen, aber nicht unter Skalarmultiplikation (allgemein) geschlossen.",
       "`Hyperebene`": "Menge der Lösungen von $a^\\top x=c$ mit $a\\ne\\mathbf{0}$. Für $c=0$ ist dies ein Unterraum."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "11. Für den Polynomraum $\\mathbb{R}[X]_{\\le 3}$, welche Aussage ist korrekt?",
@@ -211,7 +221,8 @@
     "mini_glossary": {
       "`\\mathbb{R}[X]_{\\le d}`": "Vektorraum der reellen Polynome vom Grad höchstens $d$; klassische Basis $\\{1,x,\\dots,x^d\\}$.",
       "Grad": "Maximaler Exponent mit nichtverschwindendem Koeffizienten. Für das Nullpolynom ist der Grad konventionsabhängig, hier irrelevant."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "12. Sei $T:V\\to W$ linear und $\\dim V=n$. Welche Gleichung verbindet $\\dim\\ker T$ und $\\dim\\operatorname{Im} T$?",
@@ -229,7 +240,8 @@
     "mini_glossary": {
       "Rang": "$\\dim\\operatorname{Im} T$. Misst die Anzahl unabhängig transportierter Freiheitsgrade.",
       "Nullität": "$\\dim\\ker T$. Misst die Anzahl kollabierender Freiheitsgrade."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "13. Für $A\\in\\mathbb{R}^{m\\times n}$ sei $T(x)=Ax$. Welche Aussage ist korrekt?",
@@ -251,7 +263,8 @@
     "mini_glossary": {
       "`Spaltenraum`": "Unterraum von $\\mathbb{R}^m$, aufgespannt von den Spalten von $A$.",
       "`Zeilenraum`": "Unterraum von $\\mathbb{R}^n$, aufgespannt von den Zeilen von $A$; sein Rang stimmt mit dem Spaltenrang überein."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "14. Gegeben sind $u,v\\in\\mathbb{R}^3$ linear unabhängig. Welche Menge beschreibt die durch $u$ und $v$ aufgespannte Ebene?",
@@ -269,7 +282,8 @@
     "mini_glossary": {
       "Ursprungsebene": "Zweidimensionaler Unterraum durch $\\mathbf{0}$ in $\\mathbb{R}^3$; entsteht als $\\operatorname{span}\\{u,v\\}$.",
       "Linear unabhängig": "Keiner der beiden ist ein skalares Vielfaches des anderen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "15. Sei $T:\\mathbb{R}^2\\to\\mathbb{R}^2$ linear mit $T(1,0)=(2,1)$ und $T(0,1)=(1,2)$. Welche Matrix stellt $T$ in der Standardbasis dar?",
@@ -287,7 +301,8 @@
     "mini_glossary": {
       "`Standardbasis`": "In $\\mathbb{R}^n$ die Vektoren $e_i$ mit einer $1$ an Stelle $i$ und sonst $0$.",
       "Darstellungsmatrix": "Matrix $[T]_{B\\to C}$, deren Spalten die Koordinaten der Bilder der Basisvektoren sind."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "16. Sei $B$ eine Basis von $V$ und $C$ eine zweite Basis. Welche Aussage über die **Basiswechselmatrix** $P$ von $B$ nach $C$ ist korrekt?",
@@ -309,7 +324,8 @@
     "mini_glossary": {
       "`[v]_B`": "Koordinatenvektor von $v$ bezüglich der Basis $B$.",
       "`Basiswechselmatrix`": "Invertierbare Matrix, die Koordinaten zwischen zwei Basen umrechnet."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "17. Welche Aussage charakterisiert die Dimension des Bildraums einer linearen Abbildung $T:\\mathbb{R}^n\\to\\mathbb{R}^m$?",
@@ -327,7 +343,8 @@
     "mini_glossary": {
       "Rang einer Matrix": "Maximale Anzahl linear unabhängiger Spalten (gleich der maximalen Anzahl unabhängiger Zeilen).",
       "Bildraum": "$\\{T(x)\\mid x\\in\\mathbb{R}^n\\}\\subseteq\\mathbb{R}^m$."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "18. Es sei $U\\subseteq V$ ein Unterraum und $v\\in V\\setminus U$. Welche Aussage ist korrekt?",
@@ -349,7 +366,8 @@
     "mini_glossary": {
       "`Austauschsatz`": "Technik, mit der unabhängige Mengen erweitert und Erzeugermengen reduziert werden, ohne die Dimension zu ändern.",
       "`Ergänzung zur Basis`": "Aus einer unabhängigen Menge durch Hinzufügen geeigneter Vektoren eine Basis bilden."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "19. Welche der folgenden Abbildungen $f:\\mathbb{R}^2\\to\\mathbb{R}^2$ ist **linear**?",
@@ -367,7 +385,8 @@
     "mini_glossary": {
       "Linearität": "Für alle $u,v$ und $\\lambda$ gilt $f(u+v)=f(u)+f(v)$ und $f(\\lambda u)=\\lambda f(u)$.",
       "Affin": "Form $f(x)=Ax+b$ mit $b\\ne 0$; nicht linear, aber häufig als Linearisierungspunkt relevant."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "20. In $\\mathbb{R}^3$ sei $T$ die Projektion auf die durch $u$ und $v$ aufgespannte Ursprungsebene entlang eines Vektors $w\\notin \\operatorname{span}\\{u,v\\}$. Welche Aussage trifft zu?",
@@ -389,6 +408,7 @@
     "mini_glossary": {
       "`Projektion`": "Lineare Abbildung mit $P^2=P$. Zerlegt den Raum in direkte Summe von Bild und Kern: $V=\\operatorname{Im}P\\oplus\\ker P$.",
       "`Direkte Summe`": "Zerlegung $V=U\\oplus W$ mit $U\\cap W=\\{\\mathbf{0}\\}$; jedes $v$ schreibt sich eindeutig als $u+w$."
-    }
+    },
+    "cognitive_level": "Analyse"
   }
 ]

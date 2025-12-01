@@ -33,7 +33,8 @@
       "mini_glossary": {
         "Modell": "Formale Abbildung von Eingaben auf Ausgaben, deren Parameter aus Daten gelernt werden.",
         "Training": "Prozess, bei dem ein Algorithmus Parameter so anpasst, dass eine Zielgröße optimiert wird."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Worin unterscheiden sich überwachtes und unüberwachtes Lernen grundlegend?",
@@ -51,7 +52,8 @@
       "mini_glossary": {
         "Label": "Beobachtetes Zielattribut, das das Modell vorhersagen soll.",
         "Clustering": "Unüberwachtes Verfahren, das ähnliche Datenpunkte in Gruppen einteilt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Was beschreibt ein Datensatz im ML-Kontext am besten?",
@@ -69,7 +71,8 @@
       "mini_glossary": {
         "Feature/Merkmal": "Messbare Eigenschaft eines Beispiels, z.B. Pixelwerte oder Textstatistiken.",
         "Beispiel/Instanz": "Ein einzelner Datenpunkt, der vom Modell verarbeitet wird."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Welche Aussage beschreibt Generalisierung korrekt?",
@@ -87,7 +90,8 @@
       "mini_glossary": {
         "Overfitting": "Anpassung an Zufälligkeiten im Training; schwache Leistung auf neuen Daten.",
         "Underfitting": "Modell ist zu einfach und erfasst die Struktur der Daten nicht hinreichend."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "5. Was ist ein Feature im Sinne von Machine Learning?",
@@ -105,7 +109,8 @@
       "mini_glossary": {
         "Skalierung": "Anpassung der Größenordnung von Merkmalen, z.B. Standardisierung.",
         "Kodierung": "Transformation kategorialer Merkmale in numerische Darstellung."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Warum wird Feature-Skalierung häufig vor dem Training durchgeführt?",
@@ -123,7 +128,8 @@
       "mini_glossary": {
         "Standardisierung": "Zentriert Merkmale (Mittel 0) und skaliert auf Varianz 1.",
         "Min-Max-Skalierung": "Skaliert Werte in einen fixen Bereich, häufig [0, 1]."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Welche Aussage zu One-Hot-Encoding trifft zu?",
@@ -141,7 +147,8 @@
       "mini_glossary": {
         "Dummy-Variable": "Binäre Spalte, die anzeigt, ob eine Kategorie vorliegt.",
         "Kategoriales Merkmal": "Merkmal mit endlicher Menge diskreter Ausprägungen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "8. Wann ist eine Log-Transformation eines Merkmals oft sinnvoll?",
@@ -159,7 +166,8 @@
       "mini_glossary": {
         "Schiefe": "Asymmetrie einer Verteilung relativ zum Mittelwert.",
         "Transformation": "Funktionale Umformung von Merkmalen zur Modellierbarkeit."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "9. Welche Modellklasse wird typischerweise für Klassifikationsaufgaben eingesetzt?",
@@ -177,7 +185,8 @@
       "mini_glossary": {
         "Klassifikation": "Vorhersage diskreter Klassenlabels.",
         "Sigmoid": "Funktion, die Werte auf den Bereich (0, 1) abbildet."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "10. Wofür werden Entscheidungsbäume im ML eingesetzt?",
@@ -195,7 +204,8 @@
       "mini_glossary": {
         "Split": "Regelbasierte Aufteilung eines Knotens entlang eines Merkmals.",
         "Blatt": "Terminaler Knoten, der eine Vorhersage liefert."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "11. Was kennzeichnet k-nächste Nachbarn (k-NN) als Lernverfahren?",
@@ -213,7 +223,8 @@
       "mini_glossary": {
         "Instanzbasiert": "Vorhersage durch Vergleich mit gespeicherten Beispielen.",
         "Distanzmaß": "Funktion zur Bewertung der Nähe zwischen Punkten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "12. Wozu dient eine lineare Regression?",
@@ -231,7 +242,8 @@
       "mini_glossary": {
         "Regression": "Vorhersage kontinuierlicher Zielvariablen.",
         "Residuum": "Differenz zwischen vorhergesagtem und beobachtetem Wert."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "13. Welche Kennzahl ist für binäre Klassifikation ein Standardmaß neben Accuracy?",
@@ -249,7 +261,8 @@
       "mini_glossary": {
         "Accuracy": "Anteil korrekter Vorhersagen an allen Beispielen.",
         "Recall": "Anteil erkannter Positiver an allen tatsächlichen Positiven."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "14. Wann ist die ROC-AUC besonders hilfreich?",
@@ -267,7 +280,8 @@
       "mini_glossary": {
         "ROC-Kurve": "Darstellung von True-Positive-Rate gegenüber False-Positive-Rate.",
         "AUC": "Fläche unter der Kurve als aggregiertes Maß."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "15. Wozu dient ein Validierungssplit während des Trainings?",
@@ -285,7 +299,8 @@
       "mini_glossary": {
         "Hyperparameter": "Steuergrößen des Lernverfahrens, die nicht aus den Daten gelernt werden.",
         "Frühes Stoppen": "Abbruch des Trainings, wenn sich die Validierungsleistung nicht mehr verbessert."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "16. Warum variiert man die Lernrate bei Gradientenverfahren?",
@@ -303,7 +318,8 @@
       "mini_glossary": {
         "Gradientenabstieg": "Iteratives Minimierungsverfahren entlang des negativen Gradienten.",
         "Scheduler": "Regel, nach der die Lernrate im Verlauf angepasst wird."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "17. Was ist ein Epochendurchlauf im Training neuronaler Netze?",
@@ -321,7 +337,8 @@
       "mini_glossary": {
         "Mini-Batch": "Teilmenge von Trainingsbeispielen pro Update.",
         "Iteration": "Ein einzelner Optimierungsschritt mit einem Mini-Batch."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "18. Welche Rolle spielt die Loss-Funktion im Training?",
@@ -339,7 +356,8 @@
       "mini_glossary": {
         "MSE": "Mean Squared Error, mittlerer quadratischer Fehler für Regression.",
         "Cross-Entropy": "Loss für Klassifikation basierend auf Wahrscheinlichkeiten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "19. Wozu dient Batch-Normalisierung in tiefen Netzen?",
@@ -365,7 +383,8 @@
       "mini_glossary": {
         "Aktivierung": "Ausgabe einer Schicht nach linearem Schritt und Nichtlinearität.",
         "Inferenz": "Anwendung eines trainierten Modells auf neue Daten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Warum ist Kreuzvalidierung nützlich?",
@@ -383,7 +402,8 @@
       "mini_glossary": {
         "Fold": "Teilmenge von Daten, die abwechselnd als Training/Validierung dient.",
         "Stratifizierung": "Erhaltung der Klassenverteilung in allen Folds."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "21. Wozu dient ein Testset im ML-Prozess?",
@@ -401,7 +421,8 @@
       "mini_glossary": {
         "Holdout": "Abgetrennter Datensatzteil, der nicht im Training verwendet wird.",
         "Leckage": "Unzulässiger Informationsfluss zwischen Splits, der Bewertungen verzerrt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "22. Warum ist Stratifizierung bei unausgewogenen Klassen wichtig?",
@@ -427,7 +448,8 @@
       "mini_glossary": {
         "Klassendisbalance": "Ungleich verteilte Klassenhäufigkeiten im Datensatz.",
         "Sampling": "Auswahlstrategie von Beispielen für Splits oder Training."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Welche Wirkung hat L2-Regularisierung typischerweise?",
@@ -445,7 +467,8 @@
       "mini_glossary": {
         "Regularisierung": "Zusatzterm oder Technik zur Kontrolle der Modellkomplexität.",
         "Gewichtsnorm": "Maß für die Größe von Modellparametern."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "24. Was ist der Hauptunterschied zwischen L1 und L2-Regularisierung?",
@@ -463,7 +486,8 @@
       "mini_glossary": {
         "Sparsity": "Viele Parameter sind exakt 0.",
         "Shrinkage": "Verkleinerung von Parametern zur Varianzreduktion."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "25. Wozu dient Dropout in neuronalen Netzen?",
@@ -481,7 +505,8 @@
       "mini_glossary": {
         "Ko-Adaptation": "Übermäßige Abhängigkeit von bestimmten Pfaden oder Merkmalen.",
         "Rate": "Anteil der im Training deaktivierten Einheiten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "26. Welche Aussage zum überwachten Lernen ist korrekt?",
@@ -499,7 +524,8 @@
       "mini_glossary": {
         "Klassifikation": "Vorhersage diskreter Klassen.",
         "Regression": "Vorhersage kontinuierlicher Zielwerte."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "27. Welche Loss-Funktion passt typischerweise zu binärer Klassifikation?",
@@ -525,7 +551,8 @@
       "mini_glossary": {
         "Kalibrierung": "Übereinstimmung zwischen vorhergesagten Wahrscheinlichkeiten und beobachteten Häufigkeiten.",
         "Schwellwert": "Grenze, ab der ein Score als positiv gilt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "28. Warum ist die Wahl geeigneter Metriken bei unausgewogenen Klassen entscheidend?",
@@ -551,7 +578,8 @@
       "mini_glossary": {
         "F1-Score": "Harmonisches Mittel aus Precision und Recall.",
         "PR-AUC": "Fläche unter der Precision-Recall-Kurve."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Was ist ein typisches Ziel unüberwachter Lernverfahren?",
@@ -569,7 +597,8 @@
       "mini_glossary": {
         "PCA": "Hauptkomponentenanalyse zur Dimensionsreduktion.",
         "Cluster": "Gruppe ähnlicher Datenpunkte im Merkmalsraum."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "30. Welche Aussage zu k-Means ist korrekt?",
@@ -595,7 +624,8 @@
       "mini_glossary": {
         "Zentroid": "Arithmetischer Mittelpunkt eines Clusters.",
         "Inertie": "Summe der quadratischen Abstände innerhalb der Cluster."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "31. Wozu dient die Silhouette in der Clusteranalyse?",
@@ -621,7 +651,8 @@
       "mini_glossary": {
         "Intra-Cluster": "Bezug auf Punkte im selben Cluster.",
         "Inter-Cluster": "Bezug auf Punkte in anderen Clustern."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "32. Welche Herausforderung entsteht bei hochdimensionalen Daten für Distanzbasen?",
@@ -647,7 +678,8 @@
       "mini_glossary": {
         "Dimensionsreduktion": "Verkleinerung der Anzahl von Merkmalen bei Erhalt wichtiger Information.",
         "Signal-Rausch-Verhältnis": "Verhältnis relevanter zu irrelevanter Variation."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "33. Welche Rolle spielt Transparenz in ML-Projekten?",
@@ -665,7 +697,8 @@
       "mini_glossary": {
         "Nachvollziehbarkeit": "Klare Dokumentation von Datenquellen, Annahmen und Modellversionen.",
         "Audit": "Systematische Prüfung von Prozessen und Ergebnissen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "34. Was beschreibt Bias im Kontext ethischer Fragestellungen am treffendsten?",
@@ -683,7 +716,8 @@
       "mini_glossary": {
         "Fairness": "Eigenschaft von Modellen, Gruppen oder Individuen nicht systematisch zu benachteiligen.",
         "Datenrepräsentativität": "Ausgewogenheit der Daten im Hinblick auf relevante Gruppen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "35. Welche Maßnahme gehört zu verantwortungsvollem Einsatz von ML-Systemen?",
@@ -709,7 +743,8 @@
       "mini_glossary": {
         "Daten-Drift": "Änderung der Eingabeverteilung über die Zeit.",
         "Konzept-Drift": "Änderung der Beziehung zwischen Eingaben und Zielwert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "36. Welche Praxis reduziert das Risiko von Datenlecks (Leakage) in ML-Pipelines?",
@@ -735,7 +770,8 @@
       "mini_glossary": {
         "Pipeline": "Gekettete Verarbeitungsschritte mit konsistentem Fit/Transform.",
         "Validierung": "Bewertung außerhalb der zum Fit genutzten Daten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "37. Welche Kennzahl ist bei stark unausgewogenen Klassen oft hilfreicher als Accuracy?",
@@ -761,7 +797,8 @@
       "mini_glossary": {
         "Precision": "Anteil korrekter Positivvorhersagen an allen Positivvorhersagen.",
         "Recall": "Anteil erkannter Positiver an allen tatsächlichen Positiven."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "38. Welche Aussage zur Schwellenwahl bei probabilistischen Klassifikatoren trifft zu?",
@@ -787,7 +824,8 @@
       "mini_glossary": {
         "Kostenmatrix": "Bewertet Fehlerarten mit unterschiedlichen Kosten.",
         "Kalibrierung": "Angleichung vorhergesagter Wahrscheinlichkeiten an Häufigkeiten."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "39. Welche Herausforderung beschreibt der Begriff Datenethik im ML-Kontext?",
@@ -813,7 +851,8 @@
       "mini_glossary": {
         "Transparenz": "Nachvollziehbarkeit von Datenflüssen und Entscheidungen.",
         "Rechtsgrundlage": "Zulässiger Grund für Erhebung und Verarbeitung von Daten."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "40. Welche Maßnahme unterstützt die Reproduzierbarkeit von ML-Experimenten am stärksten?",
@@ -839,7 +878,8 @@
       "mini_glossary": {
         "Seed": "Startwert für Zufallsprozesse zur Reproduktion.",
         "Artefakt": "Ergebnis eines Laufs, z.B. Modelldatei oder Bericht."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

@@ -10,7 +10,8 @@
     "answer": 2,
     "explanation": "Das zentrale Grundprinzip von **Scrum** ist die **Empirie**. Diese besagt, dass Wissen aus Erfahrung gewonnen und Entscheidungen auf Basis von beobachteten Ergebnissen getroffen werden. Das agile Vorgehen in kurzen, iterativen Zyklen ermöglicht es, kontinuierlich zu lernen, **Risiken zu reduzieren** und das Produkt schrittweise anzupassen. Die anderen Optionen beschreiben Ansätze, die dem traditionellen, planungsgetriebenen Projektmanagement entstammen und dem empirischen Ansatz widersprechen.",
     "weight": 1,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "2. Welche Aussage passt **NICHT** zu den **Scrum-Werten**?",
@@ -23,7 +24,8 @@
     "answer": 2,
     "explanation": "Die **Scrum-Werte** (Commitment, Fokus, Offenheit, Respekt, Mut) bilden die Grundlage für die Zusammenarbeit im Team. Das agile Prinzip betont die **Selbstorganisation** und **Selbstverantwortung** der Teammitglieder, wodurch starre Kontrolle durch eine vorgesetzte Person überflüssig wird. ",
     "weight": 1,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "3. Welche der folgenden ist **KEINE** der drei empirischen Säulen von Scrum?",
@@ -36,7 +38,8 @@
     "answer": 2,
     "explanation": "Die drei Säulen der **Empirie** in Scrum sind **Transparenz**, **Inspektion** und **Adaption** (Anpassung). Detaillierte Dokumentation im Voraus steht im Widerspruch zum agilen Grundsatz der **Iterativität** und des Lernens aus der Erfahrung.",
     "weight": 1,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "4. Wozu dienen **kurze Sprints** in einer komplexen Arbeitsumgebung?",
@@ -49,7 +52,8 @@
     "answer": 3,
     "explanation": "In komplexen Projekten sind Vorhersagen schwierig. Kurze **Sprints** reduzieren das Risiko, indem sie es dem Team ermöglichen, den Plan häufig zu überprüfen und anzupassen. Jede Iteration liefert ein potenziell auslieferbares **Inkrement**, das frühzeitig validiert werden kann. Die anderen Optionen sind typische Praktiken des traditionellen Projektmanagements.",
     "weight": 2,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "5. Welcher Ansatz ist ein geeigneter Umgang mit **Unsicherheit** im agilen Projektmanagement?",
@@ -62,7 +66,8 @@
     "answer": 3,
     "explanation": "Im agilen Vorgehen wird **Unsicherheit** nicht ignoriert, sondern aktiv gemanagt. Anstatt einen starren Plan zu verteidigen, werden Annahmen als **Hypothesen** behandelt, die in kurzen Iterationen getestet werden. Das auf Daten basierende Feedback ermöglicht eine fundierte Entscheidungsfindung.",
     "weight": 3,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "6. Was ist das primäre Ziel eines **Sprints**?",
@@ -75,7 +80,8 @@
     "answer": 2,
     "explanation": "Das Ziel eines jeden **Sprints** ist die Erstellung eines potenziell auslieferbaren **Inkrements**. Dieses **Inkrement** ist das Ergebnis der Arbeit, das alle Qualitätsanforderungen erfüllt und dem Team ermöglicht, wertvolles Feedback zu sammeln. Die anderen Optionen fokussieren auf interne Aktivitäten anstatt auf den messbaren Wert.",
     "weight": 1,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "7. Welche Aussage zu **Komplexität** trifft zu?",
@@ -88,7 +94,8 @@
     "answer": 2,
     "explanation": "In komplexen Projekten ist die vollständige Vorhersage des Endergebnisses unmöglich. Stattdessen nutzt man agile Methoden, um die Unsicherheit zu reduzieren, indem man in kurzen Zyklen **lernt und anpasst**. Ein größeres Team oder mehr Meetings erhöhen in der Regel die Komplexität und den Kommunikationsaufwand.",
     "weight": 2,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "8. Was ist ein **Anti-Pattern** im agilen Arbeiten?",
@@ -101,7 +108,8 @@
     "answer": 0,
     "explanation": "Ein **Anti-Pattern** beschreibt eine schlechte Praxis, die dem agilen Geist widerspricht. Die Fokussierung auf überfeine Vorab-Schätzungen erzeugt lediglich eine Illusion von Sicherheit, verschwendet Zeit und ist in komplexen Projekten nicht zielführend. Agiles Arbeiten strebt stattdessen nach **adaptiver Planung**.",
     "weight": 3,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "9. Welcher Nutzen entsteht durch das **Timeboxing** von Events?",
@@ -114,7 +122,8 @@
     "answer": 2,
     "explanation": "**Timeboxing** bedeutet, dass ein Event eine feste, maximale Dauer hat. Dies stellt sicher, dass alle Events des **Scrum-Frameworks** effizient ablaufen, einen klaren Fokus haben und einen regelmäßigen Takt für die Überprüfung (`Inspektion`) und Anpassung (`Adaption`) des Prozesses schaffen. ",
     "weight": 1,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "10. Was charakterisiert ein **Inspect-&-Adapt-Vorgehen**?",
@@ -127,7 +136,8 @@
     "answer": 3,
     "explanation": "Das **Inspect-&-Adapt-Vorgehen** ist das Herzstück der **Empirie**. Es beschreibt einen Prozess des kontinuierlichen Lernens und der Verbesserung. Anstatt sich an einen starren Plan zu halten, wird der Fortschritt regelmäßig überprüft und der Kurs bei Bedarf angepasst, um den bestmöglichen **Geschäftswert** zu liefern.",
     "weight": 2,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "11. Welche **Haltung** fördert Agilität am stärksten?",
@@ -140,7 +150,8 @@
     "answer": 3,
     "explanation": "Agilität beruht auf einem **Mindset**, das durch Offenheit, Anpassungsfähigkeit und eine positive Einstellung gegenüber Veränderungen geprägt ist. Statt sich auf Pläne und Meinungen zu verlassen, werden **Hypothesen** aufgestellt und durch Experimente und Daten validiert. ",
     "weight": 3,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "12. Welches ist ein sinnvolles Ergebnis eines **Sprint-Ziels**?",
@@ -153,7 +164,8 @@
     "answer": 2,
     "explanation": "Das **Sprint-Ziel** ist ein gemeinsames Commitment des **Scrum-Teams**. Es gibt dem Team eine klare Richtung für den Sprint vor und dient als Leitfaden für Entscheidungen, insbesondere wenn es um die Abwägung zwischen verschiedenen Optionen (`Trade-offs`) geht. Es ist nicht als starres Pflichtenheft zu verstehen.",
     "weight": 1,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "13. Welche Aussage zu **Transparenz** ist korrekt?",
@@ -166,7 +178,8 @@
     "answer": 3,
     "explanation": "**Transparenz** ist die erste Säule der **Empirie** in Scrum. Sie ist der Grundstein für das agile Arbeiten. Ohne Transparenz – also ohne einen offenen, verständlichen und geteilten Blick auf die Arbeit – ist es unmöglich, den Fortschritt oder das Produkt zu inspizieren und daraufhin sinnvolle Anpassungen vorzunehmen.",
     "weight": 2,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "14. Welche These zur **Komplexitätsreduktion** ist stichhaltig?",
@@ -179,7 +192,8 @@
     "answer": 0,
     "explanation": "Das agile Vorgehen zielt darauf ab, **Komplexität** zu reduzieren, indem große Probleme in kleine, handhabbare Einheiten zerlegt werden. Diese kleinen Schritte ermöglichen es, frühzeitig Feedback von Nutzern einzuholen, Annahmen zu validieren und das Risiko zu minimieren. Die anderen Optionen stehen im Widerspruch zu diesem Prinzip.",
     "weight": 3,
-    "topic": "Scrum & Grundlagen"
+    "topic": "Scrum & Grundlagen",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "15. Wer maximiert den **Wert** des Produkts?",
@@ -192,7 +206,8 @@
     "answer": 1,
     "explanation": "Der **Product Owner** ist die zentrale Schnittstelle zwischen dem **Scrum-Team** und den Stakeholdern. Seine Hauptaufgabe ist es, den **Geschäftswert** des Produkts zu maximieren, indem er sicherstellt, dass die wichtigsten und wertvollsten Aufgaben zuerst bearbeitet werden. Die anderen Rollen sind dafür nicht primär verantwortlich.",
     "weight": 1,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "16. Welche Hauptaufgabe hat der **Scrum Master**?",
@@ -205,7 +220,8 @@
     "answer": 3,
     "explanation": "Der **Scrum Master** ist als **Servant-Leader** für die Förderung und Sicherstellung des **Scrum-Frameworks** verantwortlich. Seine Hauptaufgaben umfassen das Coaching des Teams, die Beseitigung von Hindernissen, die den Arbeitsfluss behindern, und die Stärkung des agilen Mindsets in der Organisation.",
     "weight": 2,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "17. Welches Ziel hat das **Sprint Planning**?",
@@ -218,7 +234,8 @@
     "answer": 2,
     "explanation": "Das **Sprint Planning** ist ein Event, bei dem sich das **Scrum-Team** auf das **Sprint-Ziel** committet und gemeinsam einen Plan erstellt, um dieses Ziel zu erreichen. Das Team zieht hierfür die wertvollsten Einträge aus dem **Product Backlog**, die für den aktuellen **Sprint** am wichtigsten sind. ",
     "weight": 3,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "18. Wozu dient das **Daily Scrum**?",
@@ -231,7 +248,8 @@
     "answer": 3,
     "explanation": "Das **Daily Scrum** ist ein kurzes, tägliches Meeting, das dem **Entwicklungsteam** dient. Ziel ist die gegenseitige Abstimmung über den Fortschritt zum **Sprint-Ziel**, das Identifizieren von Hindernissen und die Planung der nächsten 24 Stunden, um den Fokus aufrechtzuerhalten.",
     "weight": 1,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "19. Was ist der Zweck des **Sprint Reviews**?",
@@ -244,7 +262,8 @@
     "answer": 0,
     "explanation": "Das **Sprint Review** ist ein Event, um mit den **Stakeholdern** zusammenzukommen, das geschaffene **Inkrement** zu demonstrieren und wertvolles Feedback zu sammeln. Das Ergebnis ist eine gemeinsame Basis für die zukünftige Ausrichtung des **Product Backlogs**. Es ist keine formelle Abnahme, sondern ein kollaborativer Austausch.",
     "weight": 2,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "20. Worum geht es in der **Retrospektive**?",
@@ -257,7 +276,8 @@
     "answer": 0,
     "explanation": "In der **Retrospektive** reflektiert das gesamte **Scrum-Team** den vergangenen **Sprint**. Ziel ist es, die Zusammenarbeit, die Tools und den Prozess zu **inspektieren** und **anzupassen**, um kontinuierliche Verbesserung zu ermöglichen. Es ist ein internes Team-Meeting, das sich auf den Prozess fokussiert.",
     "weight": 3,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "21. Welche Aussage zur **Verantwortung des Teams** ist korrekt?",
@@ -270,7 +290,8 @@
     "answer": 0,
     "explanation": "Das **Scrum-Team** ist **selbstorganisierend** und trifft Entscheidungen über die Ausführung der Arbeit, um das **Sprint-Ziel** zu erreichen. Dies ist ein fundamentales Prinzip agiler Methoden, das die Eigenverantwortung und das **Engagement** des Teams stärkt.",
     "weight": 1,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "22. Welche **Timebox** ist typisch für ein Scrum-Event?",
@@ -283,7 +304,8 @@
     "answer": 3,
     "explanation": "Das **Daily Scrum** ist auf maximal 15 Minuten begrenzt. Dies ist eine **Timebox**, die den Fokus auf die tägliche Abstimmung und **Planung** legt und verhindert, dass das Meeting zu einer langwierigen Statusbesprechung verkommt. Alle anderen Events haben ebenfalls **Timeboxes** im **Scrum Guide**.",
     "weight": 2,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "23. Welches Ergebnis **MUSS** ein Sprint liefern?",
@@ -296,7 +318,8 @@
     "answer": 2,
     "explanation": "Ein **Sprint** muss am Ende ein **nutzbares Inkrement** liefern, das alle Kriterien der **Definition of Done (DoD)** erfüllt und potenziell an Kunden ausgeliefert werden kann. Dies ist der Beweis für den Fortschritt und die Wertschöpfung in der Iteration.",
     "weight": 3,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "24. Welche Aussage zur **Zielklarheit** ist richtig?",
@@ -309,7 +332,8 @@
     "answer": 1,
     "explanation": "Das **Sprint-Ziel** ist die gemeinsame Absicht, die das **Scrum-Team** für den **Sprint** festlegt. Es gibt dem Team Fokus und leitet die Entscheidungen, wenn es um Abwägungen (`Trade-offs`) bei der Umsetzung geht. Es ist nicht optional, sondern ein zentrales **Commitment**.",
     "weight": 1,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "25. Wie unterstützt der **Scrum Master** das **Daily Scrum**?",
@@ -322,7 +346,8 @@
     "answer": 2,
     "explanation": "Die Rolle des **Scrum Masters** im **Daily Scrum** ist die eines **Coaches**. Er stellt sicher, dass das Team das Event effektiv nutzt, um den **Sprint-Plan** anzupassen. Die Berichterstattung an den **Scrum Master** oder das Management widerspricht dem Prinzip der **Selbstorganisation**.",
     "weight": 2,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "26. Was charakterisiert ein gutes **Review**?",
@@ -335,7 +360,8 @@
     "answer": 3,
     "explanation": "Ein erfolgreiches **Sprint Review** ist ein kollaboratives Meeting, bei dem das Team den Stakeholdern das neue **Inkrement** präsentiert. Dies ermöglicht es, wertvolles Feedback zu sammeln und **datenbasierte Entscheidungen** über die zukünftige Produktentwicklung zu treffen. Die Qualität eines Reviews bemisst sich nicht an der Länge von Präsentationen, sondern am Wert des Feedbacks.",
     "weight": 3,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "27. Wer verantwortet die **Prozesshygiene**?",
@@ -348,7 +374,8 @@
     "answer": 2,
     "explanation": "Der **Scrum Master** ist verantwortlich für die Förderung und Unterstützung des **Scrum-Frameworks**. Er coacht das Team, beseitigt Hindernisse und stellt sicher, dass der Prozess effizient und reibungslos verläuft. Er trägt somit die Verantwortung für die **Prozesshygiene**.",
     "weight": 1,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "28. Wozu dient eine klare **Rollenabgrenzung**?",
@@ -361,7 +388,8 @@
     "answer": 2,
     "explanation": "Klare Verantwortlichkeiten in agilen Teams helfen, **Konflikte** und Missverständnisse zu vermeiden. Jede Rolle hat ein spezifisches **Verantwortungsgebiet**, was die Entscheidungsfindung beschleunigt und es dem Team ermöglicht, sich auf das Erreichen des Ziels zu fokussieren, ohne in Zuständigkeitsdebatten verwickelt zu sein.",
     "weight": 2,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "29. Welche Aussage zu den **Ereignissen** (`Events`) trifft zu?",
@@ -374,7 +402,8 @@
     "answer": 0,
     "explanation": "Die **Ereignisse** im **Scrum-Framework** (`Sprint`, **Sprint Planning**, **Daily Scrum**, **Sprint Review**, **Retrospektive**) sind **Timeboxes**, die dem Team einen regelmäßigen Takt für die **Inspektion** und **Adaption** geben. Sie sind keine reinen Berichtsrunden, sondern bieten eine Struktur für das kollaborative, agile Arbeiten.",
     "weight": 3,
-    "topic": "Rollen & Events"
+    "topic": "Rollen & Events",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "30. Welches **Artefakt** bündelt ALLE verbleibenden Produktideen?",
@@ -387,7 +416,8 @@
     "answer": 1,
     "explanation": "Das **Product Backlog** ist eine dynamische, priorisierte Liste aller bekannten Anforderungen, Ideen und Wünsche für ein Produkt. Es dient als einzige, zentrale Informationsquelle für alle Arbeiten, die am Produkt vorgenommen werden müssen.",
     "weight": 1,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "31. Wofür steht die **Definition of Done (DoD)**?",
@@ -400,7 +430,8 @@
     "answer": 0,
     "explanation": "Die **Definition of Done** oder kurz **DoD** ist ein zentrales **Scrum-Artefakt**. Sie stellt ein kollektives, teamweit geteiltes und verbindliches Kriterium dar, das festlegt, wann ein **Inkrement** als potenziell auslieferbar und somit als **\"fertig\"** betrachtet werden kann. Eine individuelle oder formale Definition, die von außerhalb des Teams kommt, würde das Prinzip der **Selbstorganisation** und der gemeinsamen Verantwortung untergraben.",
     "weight": 2,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "32. Welche Aussage zum **Sprint Backlog** ist korrekt?",
@@ -413,7 +444,8 @@
     "answer": 0,
     "explanation": "Das **Sprint Backlog** ist das **Commitment** des **Entwicklerteams** für den aktuellen **Sprint**. Es besteht aus dem **Sprint-Ziel** und den **Product Backlog Items**, die das Team zur Erreichung dieses Ziels ausgewählt hat. Es ist ein dynamischer, detaillierter Plan und nicht eine starre Liste.",
     "weight": 3,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "33. Was kennzeichnet ein **‚Done‘ Inkrement**?",
@@ -426,7 +458,8 @@
     "answer": 2,
     "explanation": "Ein **Inkrement** gilt als **\"Done\"**, wenn es alle Kriterien der **Definition of Done (DoD)** erfüllt. Es muss vollständig integriert, getestet und **potenziell auslieferbar** sein. Das bedeutet, es könnte theoretisch in die Hände der Endnutzer übergeben werden, um deren Feedback zu erhalten. Dies ist die Grundlage für die **Inspektion** im **Sprint Review**.",
     "weight": 1,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "34. Was ist ein **Anti-Pattern** bei der **DoD**?",
@@ -439,7 +472,8 @@
     "answer": 2,
     "explanation": "Ein **Anti-Pattern** ist eine wiederkehrende schlechte Praxis. Eine geteilte **Definition of Done** ist essenziell für die **Transparenz** im Team. Wenn einzelne Teammitglieder versteckte Qualitätskriterien anwenden, wird die gemeinsame Verantwortung untergraben und es entsteht **Intransparenz**, die den Prozess behindert. ",
     "weight": 2,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "35. Wie unterstützt das **Product Goal**?",
@@ -452,7 +486,8 @@
     "answer": 3,
     "explanation": "Das **Product Goal** ist das **langfristige Ziel** für das Produkt. Es dient als **Commitment** für das **Product Backlog**. Es ermöglicht dem **Product Owner** und dem **Scrum-Team**, kurzfristige Entscheidungen über die Priorität der Aufgaben zu treffen, die sich an einem übergeordneten, strategischen Ziel orientieren.",
     "weight": 3,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "36. Wozu dienen die **Backlog-Transparenzregeln** (**DEEP**)?",
@@ -465,7 +500,8 @@
     "answer": 1,
     "explanation": "**DEEP** ist ein Akronym für die Qualitätsmerkmale eines gut gepflegten **Product Backlogs**: **D**etailliert genug, **E**mergent, **E**stimated (geschätzt) und **P**riorisiert. Diese Kriterien stellen sicher, dass das **Product Backlog** stets transparent, relevant und für die Planung nutzbar ist.",
     "weight": 1,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "37. Welche Aussage zur **Artefakt-Transparenz** ist richtig?",
@@ -478,7 +514,8 @@
     "answer": 0,
     "explanation": "Die drei **Scrum-Artefakte** (**Product Backlog**, **Sprint Backlog**, **Increment**) müssen **transparent** sein, d. h., sie müssen für alle Beteiligten verständlich und nachvollziehbar sein. Nur wenn der Status der Arbeit und das Ergebnis transparent sind, kann eine **sinnvolle Inspektion** und darauf aufbauend eine Anpassung erfolgen.",
     "weight": 2,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "38. Welche Beziehung zwischen **Artefakt** und **Commitment** ist korrekt?",
@@ -491,7 +528,8 @@
     "answer": 1,
     "explanation": "In **Scrum** gibt es eine klare Beziehung zwischen den drei **Artefakten** und den zugehörigen **Commitments**. Das **Product Goal** ist das langfristige Commitment für das **Product Backlog**. Das **Sprint Goal** ist das Commitment für das **Sprint Backlog**. Die **Definition of Done (DoD)** ist das Commitment für das **Increment**.",
     "weight": 3,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "39. Wozu dient eine **einheitliche DoD** historisch?",
@@ -504,7 +542,8 @@
     "answer": 3,
     "explanation": "Eine **einheitliche Definition of Done** stellt sicher, dass alle Mitglieder des **Entwicklerteams** die gleiche Vorstellung davon haben, wann eine Aufgabe wirklich abgeschlossen ist. Dies schafft eine gemeinsame Qualitätsbasis und reduziert das Risiko, dass am Ende des **Sprints** unfertige Arbeit übergeben wird.",
     "weight": 1,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "40. Was ist ein guter Indikator für **schwache Artefakte**?",
@@ -517,7 +556,8 @@
     "answer": 2,
     "explanation": "Wenn die **Scrum-Artefakte** schlecht gepflegt werden, führt dies zu **Intransparenz**. Widersprüchliche Informationen und unterschiedliche \"Wahrheiten\" im Team sind ein deutliches Zeichen dafür, dass das **Product Backlog**, das **Sprint Backlog** oder das **Increment** nicht allen Beteiligten eine klare Sicht auf den Status des Produkts geben.",
     "weight": 2,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "41. Welche Aussage zur Pflege von **Artefakten** trifft zu?",
@@ -530,7 +570,8 @@
     "answer": 2,
     "explanation": "Alle drei **Scrum-Artefakte** (`Product Backlog`, `Sprint Backlog`, `Increment`) müssen kontinuierlich gepflegt und aktualisiert werden, um ihre **Transparenz** und Relevanz zu gewährleisten. Die Arbeit an den Artefakten ist ein wesentlicher Teil der täglichen Arbeit des Teams.",
     "weight": 3,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "42. Wozu dient das **Increment** im **Review**?",
@@ -543,7 +584,8 @@
     "answer": 3,
     "explanation": "Das **Increment** ist das Ergebnis der Arbeit im **Sprint**. Im **Sprint Review** wird dieses reale, **potenziell auslieferbare Inkrement** den **Stakeholdern** präsentiert, um Feedback zu erhalten. Dies ermöglicht es dem Team, zu lernen, ob das entwickelte Produkt auch tatsächlich den Bedürfnissen der Nutzer entspricht.",
     "weight": 1,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "43. Welches **Missverständnis** ist verbreitet?",
@@ -556,7 +598,8 @@
     "answer": 1,
     "explanation": "Ein verbreitetes **Missverständnis** ist, dass die **Definition of Done (DoD)** ein statisches Dokument ist, das einmal erstellt und dann abgelegt wird. In Wirklichkeit ist sie ein lebendiger **Team-Standard**, der kontinuierlich überprüft und an die Bedürfnisse und das Umfeld des Teams angepasst wird.",
     "weight": 2,
-    "topic": "Artefakte & DoD"
+    "topic": "Artefakte & DoD",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "44. Welche Eigenschaft gehört zum Akronym **INVEST**?",
@@ -569,7 +612,8 @@
     "answer": 1,
     "explanation": "**INVEST** ist ein Akronym, das die Qualität von **User Stories** beschreibt: **I**ndependent, **N**egotiable, **V**aluable (wertorientiert), **E**stimatable (schätzbar), **S**mall (klein) und **T**estable (testbar). Eine gute User Story ist ein winziges, wertvolles, testbares Stück Arbeit.",
     "weight": 1,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "45. Was ist der Zweck von **Akzeptanzkriterien** (**AK**)?",
@@ -582,7 +626,8 @@
     "answer": 1,
     "explanation": "**Akzeptanzkriterien** sind eine Liste von Bedingungen, die eine **User Story** erfüllen muss, um vom **Product Owner** als fertig (`Done`) akzeptiert zu werden. Sie dienen der präzisen Definition der Anforderungen und helfen, die Erwartungen zwischen dem Team und den Stakeholdern abzugleichen. ",
     "weight": 2,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "46. Welche Formulierung ist **Story-konform**?",
@@ -595,7 +640,8 @@
     "answer": 3,
     "explanation": "Eine **User Story** beschreibt ein Bedürfnis aus der Perspektive des Endnutzers. Der typische Aufbau folgt dem Format: **„Als [Rolle], möchte ich [Funktion], um [Nutzen] zu erreichen.“** Dieser Fokus auf den Nutzen hilft dem Team zu verstehen, warum die Arbeit getan wird.",
     "weight": 3,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "47. Welcher Schnitt einer User Story ist typisch **vertikal**?",
@@ -608,7 +654,8 @@
     "answer": 2,
     "explanation": "Ein **vertikaler Schnitt** einer **User Story** beschreibt eine vollständige, nutzbare Funktion, die alle Ebenen des Produkts durchdringt (z. B. Benutzeroberfläche, Logik, Datenbank). Dies steht im Gegensatz zu **horizontalen Schnitten**, die sich nur auf eine technische Schicht konzentrieren und keinen unmittelbaren Mehrwert für den Endnutzer liefern. ",
     "weight": 1,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "48. Was ist ein **Anti-Pattern** bei **Akzeptanzkriterien**?",
@@ -621,7 +668,8 @@
     "answer": 1,
     "explanation": "Das **Anti-Pattern** des nachträglichen Erratens von **Akzeptanzkriterien** tritt auf, wenn die Anforderungen nicht vor der Entwicklung geklärt werden. Dies führt zu Missverständnissen, Unklarheiten und dem Risiko, dass das Team Arbeit liefert, die nicht den Erwartungen des **Product Owners** entspricht. ",
     "weight": 2,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "49. Wozu dient eine **Referenz-Story**?",
@@ -634,7 +682,8 @@
     "answer": 3,
     "explanation": "Eine **Referenz-Story** ist eine typische, gut verstandene **User Story**, die als Orientierungspunkt für die **Schätzung** anderer Stories dient. Das Team vergleicht neue Aufgaben mit der **Referenz-Story**, um eine einheitliche und relative Einschätzung des Aufwands zu ermöglichen und den **Bias** bei der Schätzung zu reduzieren.",
     "weight": 3,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "50. Welche Aussage zu **DoR** trifft zu?",
@@ -647,7 +696,8 @@
     "answer": 3,
     "explanation": "**DoR** steht für **Definition of Ready** und beschreibt die Kriterien, die eine **User Story** erfüllen muss, bevor sie vom Team in einen **Sprint** aufgenommen werden kann. Sie stellt sicher, dass die Story klar und verständlich ist, um einen reibungslosen Ablauf der Arbeit zu gewährleisten.",
     "weight": 1,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "51. Was hilft gegen **Gold Plating**?",
@@ -660,7 +710,8 @@
     "answer": 3,
     "explanation": "**Gold Plating** beschreibt die Praxis, unnötige Funktionen oder Perfektionismus in eine Aufgabe zu stecken, der keinen Mehrwert für den Kunden liefert. Dagegen hilft eine konsequente Fokussierung auf den vom **Product Owner** definierten **Nutzen** und das **Sprint-Ziel**.",
     "weight": 2,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "52. Welche Aussage zu **Beispielen** ist korrekt?",
@@ -673,7 +724,8 @@
     "answer": 0,
     "explanation": "In der agilen Entwicklung werden oft **Akzeptanzkriterien** durch konkrete **Beispiele** ergänzt. Dies hilft dem **Entwicklerteam** und dem **Product Owner**, ein einheitliches Verständnis für die Anforderungen zu entwickeln und Interpretationsspielraum zu reduzieren. Sie sind eine wertvolle Ergänzung, ersetzen aber nicht die Kriterien selbst.",
     "weight": 3,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "53. Was ist ein gutes **Story-Antimuster**?",
@@ -686,7 +738,8 @@
     "answer": 0,
     "explanation": "Ein häufiges **Anti-Pattern** bei **User Stories** ist es, die Lösung vorzuschreiben, anstatt das Problem aus der **Nutzerperspektive** zu beschreiben. Dies schränkt die Kreativität des **Entwicklerteams** ein und kann zu suboptimalen Lösungen führen. Agiles Arbeiten legt den Fokus auf den **Nutzen** (`Outcome`), nicht auf die Lösung.",
     "weight": 1,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "54. Was bedeutet **testbar** bei **Stories**?",
@@ -699,7 +752,8 @@
     "answer": 1,
     "explanation": "Die Eigenschaft **'Testable'** (`testbar`) aus dem **INVEST**-Akronym bedeutet, dass eine **User Story** so formuliert ist, dass ihre Fertigstellung objektiv überprüft werden kann. Idealerweise können die **Akzeptanzkriterien** durch automatisierte Tests verifiziert werden, was die Qualitätssicherung beschleunigt und objektiv macht.",
     "weight": 2,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "55. Welche Rolle haben **Beispiele** im **Refinement**?",
@@ -712,7 +766,8 @@
     "answer": 0,
     "explanation": "Das **Refinement** ist der Prozess der Detaillierung von **Product Backlog Items**. In diesem Prozess helfen **Beispiele**, die **Akzeptanzkriterien** zu konkretisieren und eine gemeinsame Vorstellung von der Funktionalität zu schaffen. Dies minimiert Missverständnisse und stellt sicher, dass das Team die Anforderungen vollständig versteht.",
     "weight": 3,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "56. Warum sind **kleine Stories** vorteilhaft?",
@@ -725,7 +780,8 @@
     "answer": 0,
     "explanation": "Die Zerlegung großer, komplexer Aufgaben in **kleine, unabhängige User Stories** ist ein grundlegendes agiles Prinzip. Kleine Stories können schneller umgesetzt werden, was wiederum zu schnellerem **Feedback** von Kunden, einem geringeren **Risiko** und einer besseren Vorhersagbarkeit der Lieferzeit führt.",
     "weight": 1,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "57. Wie verhindern **Akzeptanzkriterien** Überraschungen im **Review**?",
@@ -738,7 +794,8 @@
     "answer": 3,
     "explanation": "Das **Sprint Review** dient der **Inspektion** des **Inkrements** und der Sammlung von Feedback. Wenn die Erwartungen an die Funktionalität vorher nicht klar waren, kann dies zu Enttäuschungen führen. **Akzeptanzkriterien** helfen, die Erwartungen explizit zu machen und stellen sicher, dass alle Beteiligten die gleiche Vorstellung von der Fertigstellung haben.",
     "weight": 2,
-    "topic": "Stories & AK"
+    "topic": "Stories & AK",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "58. Wozu dient **DEEP** im **Backlog**?",
@@ -751,7 +808,8 @@
     "answer": 3,
     "explanation": "**DEEP** ist ein Akronym für die Qualitätsmerkmale eines gut gepflegten **Product Backlogs**: **D**etailliert genug, **E**mergent, **E**stimated (geschätzt) und **P**riorized (priorisiert). Diese Kriterien stellen sicher, dass das **Product Backlog** stets transparent, relevant und für die Planung nutzbar ist.",
     "weight": 1,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "59. Was ist **Planning Poker** primär?",
@@ -764,7 +822,8 @@
     "answer": 1,
     "explanation": "**Planning Poker** ist eine kollaborative Technik, die vom **Entwicklerteam** zum **Schätzen** des relativen Aufwands von **Product Backlog Items** genutzt wird. Das Team verwendet dabei eine Skala (oft die **Fibonacci-Folge**), um den Aufwand im Vergleich zu einer bekannten **Referenz-Story** zu bewerten.",
     "weight": 2,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "60. Wozu dient eine **Referenz-Story** beim Schätzen?",
@@ -777,7 +836,8 @@
     "answer": 3,
     "explanation": "Eine **Referenz-Story** dient als gemeinsamer, stabiler Ankerpunkt für das **Team**. Indem alle neuen Aufgaben mit dieser **Referenz** verglichen werden, kann ein einheitliches Verständnis für die Größe und Komplexität der Aufgaben geschaffen und der **Bias** bei der Schätzung reduziert werden.",
     "weight": 3,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "61. Welche Aussage zu **Story Points** stimmt?",
@@ -790,7 +850,8 @@
     "answer": 2,
     "explanation": "**Story Points** sind eine Maßeinheit, die den relativen Aufwand einer **User Story** abbildet. Sie berücksichtigen Komplexität, Unsicherheit und den reinen Arbeitsaufwand. Im Gegensatz zu Stunden sind sie nicht exakt, sondern dienen dem **Team** als Schätzgröße zur internen **Planung**.",
     "weight": 1,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "62. Was ist ein **Anti-Pattern** beim Schätzen?",
@@ -803,7 +864,8 @@
     "answer": 2,
     "explanation": "Schätzungen wie **Story Points** sind eine kollektiv erstellte Größe, die nur innerhalb des Teams für die **Planung** nützlich ist. Das Missbrauchen von **Story Points** zur individuellen Leistungsbewertung ist ein **Anti-Pattern**, das das Team demotiviert und zu verfälschten Schätzungen führt.",
     "weight": 2,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "63. Wie verbessert man die **Schätzqualität**?",
@@ -816,7 +878,8 @@
     "answer": 0,
     "explanation": "Eine Schätzung ist immer mit Unsicherheit verbunden. Um die Qualität zu verbessern, ist es entscheidend, Annahmen offen zu legen und zu überprüfen. Die Diskussion im Team über die **User Story** und das Klären von **Beispielen** trägt wesentlich zum gemeinsamen Verständnis bei und verbessert die Schätzung.",
     "weight": 3,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "64. Wozu dient das **Splitten großer Items**?",
@@ -829,7 +892,8 @@
     "answer": 1,
     "explanation": "Die Zerlegung großer, komplexer Aufgaben in **kleine, unabhängige User Stories** ist ein grundlegendes agiles Prinzip. Kleine Stories können schneller umgesetzt werden, was wiederum zu schnellerem **Feedback** von Kunden, einem geringeren **Risiko** und einer besseren Vorhersagbarkeit der Lieferzeit führt.",
     "weight": 1,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "65. Welche Größe ist für **Forecasts** nützlich?",
@@ -842,7 +906,8 @@
     "answer": 2,
     "explanation": "Die **Velocity** ist eine **empirische Kennzahl**, die die durchschnittliche Menge der abgeschlossenen **Story Points** pro Sprint misst. Sie dient dem **Scrum-Team** als Grundlage für die **Forecast-Planung** und gibt eine realistische Einschätzung darüber, wie viele Aufgaben in den nächsten Sprints voraussichtlich erledigt werden können. Sie sollte niemals als harte Zusage oder zur Leistungsbewertung verwendet werden.",
     "weight": 2,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "66. Was ist ein guter **Refinement-Indikator**?",
@@ -855,7 +920,8 @@
     "answer": 2,
     "explanation": "Ein reibungsloser Ablauf im Team wird durch ein gut gepflegtes **Product Backlog** ermöglicht. Ein guter Indikator dafür ist ein kontinuierlicher Strom von Aufgaben, die gut verstanden, bewertet und bereit für die Umsetzung sind. Große, unklare Items und schwankende Schätzungen deuten auf einen ineffizienten **Refinement-Prozess** hin.",
     "weight": 3,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "67. Wie geht man mit hoher **Unsicherheit** bei einer Schätzung um?",
@@ -868,7 +934,8 @@
     "answer": 3,
     "explanation": "Ein **Spike** ist eine spezielle Art von **User Story**, die dazu dient, Unsicherheit zu reduzieren, indem eine kleine Recherche oder ein Experiment durchgeführt wird. Anstatt eine Aufgabe blind zu schätzen, wird ein **Spike** eingeplant, um die notwendigen Informationen zu sammeln und die Unsicherheit zu minimieren, bevor die eigentliche Entwicklungsarbeit beginnt.",
     "weight": 1,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "68. Was ist das Ziel von **Schätzungen**?",
@@ -881,7 +948,8 @@
     "answer": 0,
     "explanation": "Das Hauptziel der Schätzung ist nicht, einen exakten Wert zu liefern, sondern ein **gemeinsames Verständnis** für die Komplexität und den Umfang einer Aufgabe im Team zu schaffen. Die daraus abgeleiteten Daten (`Velocity`) können für die Erstellung eines **Forecasts** verwendet werden, um eine realistische Zeitspanne für die Fertigstellung zu prognostizieren.",
     "weight": 2,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "69. Welche **Skalierungstechnik** passt?",
@@ -894,7 +962,8 @@
     "answer": 1,
     "explanation": "**T-Shirt-Sizing** ist eine Methode zur **relativen Schätzung** des Aufwands von Aufgaben. Anstelle von genauen Zahlen werden abstrakte Größen wie XS, S, M, L, XL verwendet. Diese Technik eignet sich besonders gut für die frühe **Produktplanung**, da sie eine schnelle, grobe Einschätzung des Umfangs ermöglicht.",
     "weight": 3,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "70. Was spricht gegen **Anchoring** beim **Planning Poker**?",
@@ -907,7 +976,8 @@
     "answer": 3,
     "explanation": "**Anchoring** ist ein kognitiver Bias, bei dem sich Menschen bei ihren Entscheidungen zu stark an einem Anfangswert orientieren. Beim **Planning Poker** wird dies vermieden, indem alle Teammitglieder ihre Schätzungen gleichzeitig aufdecken, um sicherzustellen, dass die Diskussion nicht durch die erste oder die ranghöchste Person beeinflusst wird.",
     "weight": 1,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "71. Wie wirkt die **Referenz-Story** über die Zeit?",
@@ -920,7 +990,8 @@
     "answer": 2,
     "explanation": "Eine **Referenz-Story** ist ein grundlegendes Instrument zur **Schätzung** in agilen Teams. Sie sollte ein relativ stabiler Ankerpunkt bleiben, um eine verlässliche Basis für den Vergleich zu bieten. Es ist jedoch sinnvoll, sie in regelmäßigen Abständen zu überprüfen und bei Bedarf neu zu kalibrieren, falls sich die Arbeitsweise des Teams ändert.",
     "weight": 2,
-    "topic": "Backlog & Schätzung"
+    "topic": "Backlog & Schätzung",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "72. Was misst ein **Sprint Burndown** sinnvoll?",
@@ -933,7 +1004,8 @@
     "answer": 2,
     "explanation": "Ein **Sprint Burndown Chart** ist eine grafische Darstellung des verbleibenden Aufwands zur Erreichung des **Sprint-Ziels**. Die Y-Achse zeigt den Aufwand (z. B. in **Story Points**), die X-Achse die Tage des Sprints. Es dient dem Team zur **Selbstorganisation** und gibt einen schnellen, transparenten Überblick über den Fortschritt.",
     "weight": 1,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "73. Wozu dient eine **Velocity-Entwicklung**?",
@@ -946,7 +1018,8 @@
     "answer": 1,
     "explanation": "Die **Velocity** ist eine **empirische Kennzahl**, die die durchschnittliche Menge an Arbeit (gemessen in **Story Points**), die ein Team pro Sprint erledigt, misst. Sie ist nicht dazu gedacht, eine exakte Prognose zu erstellen oder die Leistung zu bewerten, sondern dient als hilfreicher Trendwert für die realistische **Kapazitätsplanung**.",
     "weight": 2,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "74. Welches Risiko birgt **Velocity-Missbrauch**?",
@@ -959,7 +1032,8 @@
     "answer": 1,
     "explanation": "Wenn die **Velocity** von externen Stellen zur Leistungsbewertung genutzt wird, neigen Teams dazu, **Story Points** künstlich aufzublähen (`Gaming`), um \"gut\" auszusehen. Dies führt zu einem Verlust an **Transparenz**, schlechterer Qualität und einer Abkehr vom Fokus auf den **Kundennutzen**.",
     "weight": 3,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "75. Welche Metrik zeigt den **Fluss** am ehesten?",
@@ -972,7 +1046,8 @@
     "answer": 3,
     "explanation": "Ein **Cumulative Flow Diagram (CFD)** ist eine grafische Darstellung des Arbeitsflusses. Es zeigt, wie sich Aufgaben durch die verschiedenen Phasen des Prozesses bewegen und visualisiert wichtige Metriken wie **Work in Progress** (**WIP**), **Durchsatz** und **Wartezeiten**. Es ist ein ideales Werkzeug zur Erkennung von Engpässen.",
     "weight": 1,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "76. Wie plant man die **Sprint-Kapazität** praktikabel?",
@@ -985,7 +1060,8 @@
     "answer": 3,
     "explanation": "Die **Sprint-Kapazität** sollte realistisch geplant werden. Anstatt von einer idealen 100%igen Auslastung auszugehen, werden Puffer für unvorhergesehene Ereignisse, Abwesenheiten (z. B. Urlaub, Krankheit) und den geschätzten **Fokus** auf die geplanten Aufgaben miteinberechnet. Dies führt zu einer zuverlässigeren **Planung**.",
     "weight": 2,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "77. Was ist ein sinnvolles **Review-Signal**?",
@@ -998,7 +1074,8 @@
     "answer": 3,
     "explanation": "Ein erfolgreiches **Sprint Review** ist ein kollaboratives Meeting, bei dem das Team den Stakeholdern das neue **Inkrement** präsentiert. Dies ermöglicht es, wertvolles Feedback zu sammeln und **datenbasierte Entscheidungen** über die zukünftige Produktentwicklung zu treffen. Die Qualität eines Reviews bemisst sich nicht an der Länge von Präsentationen, sondern am Wert des Feedbacks.",
     "weight": 3,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "78. Was zeigt ein **Burn-Up-Chart** oft besser als ein **Burndown-Chart**?",
@@ -1011,7 +1088,8 @@
     "answer": 0,
     "explanation": "Ein **Burn-Up-Chart** visualisiert den Fortschritt in Richtung eines Ziels und zeigt gleichzeitig Änderungen im Gesamtumfang. Im Gegensatz zum **Burndown-Chart**, das nur den Restaufwand anzeigt, macht ein **Burn-Up-Chart** transparent, wenn zusätzliche Aufgaben oder Anforderungen hinzukommen, und ist daher besser geeignet, den wachsenden **Umfang** zu veranschaulichen.",
     "weight": 1,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "79. Welche Aussage zur **Prognosequalität** ist solide?",
@@ -1024,7 +1102,8 @@
     "answer": 1,
     "explanation": "In komplexen Umgebungen ist eine exakte Vorhersage unmöglich. Eine verlässliche **Prognose** kommuniziert stattdessen **Bandbreiten** (z. B. 80 % Wahrscheinlichkeit, dass die Aufgabe zwischen zwei und vier Wochen dauert). Diese **Forescasts** basieren auf **empirischen Daten** (wie der **Velocity**) und berücksichtigen die inhärente Unsicherheit. ",
     "weight": 2,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "80. Was ist ein **Anti-Pattern** bei **Metriken**?",
@@ -1037,7 +1116,8 @@
     "answer": 1,
     "explanation": "Die Sammlung von Kennzahlen ohne einen klaren Zweck wird als **\"Vanity Metrics\"** bezeichnet. Sie liefern keinen Mehrwert, da sie nicht dazu dienen, Hypothesen zu überprüfen oder Entscheidungen zu stützen. Ein gutes **Metrik-System** ist schlank und fokussiert sich auf wenige, relevante Kennzahlen, die dem Team und den Stakeholdern bei der Entscheidungsfindung helfen.",
     "weight": 3,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "81. Welche Ableitung aus **Daten** ist legitim?",
@@ -1050,7 +1130,8 @@
     "answer": 0,
     "explanation": "Ein Trend mit Unsicherheit ist eine legitime Ableitung, weil **Daten** aus agilen Metriken, wie der **Velocity**, als **Trends** und mit dem Wissen um ihre **Unsicherheit** interpretiert werden sollten. Sie bieten eine Orientierung für die **Planung** und **Prognose**, sind jedoch keine exakten, deterministischen Werte. Jede andere Interpretation ist ein Missbrauch der Metrik.",
     "weight": 1,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "82. Was kennzeichnet gute **Sprint-Ziele**?",
@@ -1063,7 +1144,8 @@
     "answer": 0,
     "explanation": "Ein gutes **Sprint-Ziel** ist spezifisch und messbar. Es beschreibt, welcher **Nutzen** oder welches **Outcome** am Ende des Sprints erreicht werden soll. Dies gibt dem **Entwicklerteam** eine klare Mission und dient als Leitfaden bei der täglichen Arbeit. Reine Aktivitätslisten oder generische Ziele eignen sich hierfür nicht.",
     "weight": 2,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "83. Welche Aussage zur **Planbarkeit** trifft zu?",
@@ -1076,7 +1158,8 @@
     "answer": 2,
     "explanation": "In komplexen Projekten ist die **Planbarkeit** nur über kurze Zeiträume präzise. Je weiter man in die Zukunft blickt, desto größer wird die Unsicherheit. Daher ist es in der **agilen Planung** üblich, nur den nächsten **Sprint** im Detail zu planen und für die ferne Zukunft mit größeren **Bandbreiten** und **Forecasts** zu arbeiten.",
     "weight": 3,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "84. Wie nutzt man **Metriken** verantwortungsvoll?",
@@ -1089,7 +1172,8 @@
     "answer": 2,
     "explanation": "Verantwortungsvoller Umgang mit **Metriken** bedeutet, dass sie als Werkzeuge für die kontinuierliche Verbesserung genutzt werden. Sie dienen nicht der Kontrolle von Personen, sondern der **Validierung von Hypothesen** und der Unterstützung von Entscheidungen, um den **Prozess** und das **Produkt** zu verbessern.",
     "weight": 1,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "85. Welche Visualisierung hilft bei Engpässen?",
@@ -1102,7 +1186,8 @@
     "answer": 2,
     "explanation": "**WIP** steht für **Work in Progress**. **WIP-Limits** sind eine Methode, die Anzahl der Aufgaben, die gleichzeitig in Arbeit sind, zu begrenzen. Die Visualisierung dieser Limits auf einem Board macht Engpässe sofort sichtbar und hilft dem Team, sich auf die Fertigstellung der Aufgaben zu konzentrieren, bevor neue begonnen werden.",
     "weight": 2,
-    "topic": "Planung & Metrik"
+    "topic": "Planung & Metrik",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "86. Was ist die primäre Aufgabe des **Business Value Managements** im agilen Kontext?",
@@ -1115,7 +1200,8 @@
     "answer": 1,
     "explanation": "Im agilen Projektmanagement liegt der Fokus auf der kontinuierlichen Lieferung von **geschäftlichem Wert**. Das **Business Value Management** umfasst alle Aktivitäten, die darauf abzielen, den größten Nutzen für den Kunden zu identifizieren und zu priorisieren. Dies ist die Hauptverantwortung des **Product Owners**.",
     "weight": 3,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "87. Was versteht man unter dem Begriff **‚Empowerment‘** im agilen Kontext?",
@@ -1128,7 +1214,8 @@
     "answer": 1,
     "explanation": "**Empowerment** ist ein zentrales Prinzip der agilität. Es bedeutet, dass das Management dem **agilen Team** die **Autorität** gibt, Entscheidungen über die Ausführung der Arbeit zu treffen. Dies stärkt das **Commitment** und die **Motivation** des Teams und führt zu besseren und schnelleren Ergebnissen.",
     "weight": 1,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "88. Was bedeutet **\"Iteratives und inkrementelles Vorgehen\"**?",
@@ -1141,7 +1228,8 @@
     "answer": 1,
     "explanation": "**Iteratives Vorgehen** bedeutet, dass das Produkt in sich wiederholenden Zyklen entwickelt wird. **Inkrementelles Vorgehen** bedeutet, dass in jedem Zyklus ein zusätzlicher, nutzbarer Teil zum Produkt hinzugefügt wird. Dies ermöglicht eine kontinuierliche Wertschöpfung und Anpassung an neue Erkenntnisse.",
     "weight": 2,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "89. Welcher **Stakeholder-Typ** ist für den Erfolg agiler Projekte am wichtigsten?",
@@ -1154,7 +1242,8 @@
     "answer": 1,
     "explanation": "Das **agile Manifest** betont die **aktive Einbeziehung der Stakeholder**. Indem sie regelmäßig in den **Sprint Review** und andere Events eingebunden werden, kann das Team wertvolles **Feedback** sammeln, **Risiken** minimieren und sicherstellen, dass das Produkt den tatsächlichen Bedürfnissen entspricht.",
     "weight": 2,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "90. Was ist ein **Anti-Pattern** in der agilen **Führung**?",
@@ -1167,7 +1256,8 @@
     "answer": 2,
     "explanation": "Ein **agiles Führungskonzept** basiert auf **Vertrauen** und der Befähigung des Teams zur **Selbstorganisation**. Das Übernehmen der Kontrolle und die Mikromanagement-Ansätze sind ein **Anti-Pattern**, das die **Agilität** und das **Engagement** des Teams hemmt.",
     "weight": 3,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "91. Welches **Ziel** verfolgt die **agile Kommunikation**?",
@@ -1180,7 +1270,8 @@
     "answer": 2,
     "explanation": "Das **agile Manifest** betont \"Individuen und Interaktionen\" über \"Prozesse und Werkzeuge\". Agilität fördert eine offene, direkte und **transparente Kommunikation** zwischen allen Beteiligten, um den Informationsfluss zu beschleunigen und Missverständnisse zu reduzieren. Dies ist essenziell für schnelle Entscheidungen.",
     "weight": 1,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "92. Was ist der größte Vorteil des **agilen Risikomanagements**?",
@@ -1193,7 +1284,8 @@
     "answer": 2,
     "explanation": "Das **agile Risikomanagement** ist proaktiv. Durch die **kurzen Iterationen** und regelmäßigen Feedbackschleifen werden potenzielle Probleme frühzeitig erkannt, anstatt sie am Ende des Projekts zu entdecken. Dies ermöglicht eine agile Anpassung des Plans und eine effektive Risikobewältigung.",
     "weight": 2,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "93. Was ist der primäre Fokus eines agilen Teams?",
@@ -1206,7 +1298,8 @@
     "answer": 1,
     "explanation": "Der ultimative Fokus agiler Teams liegt auf der **Wertschöpfung**. Sie streben danach, dem Kunden regelmäßig nutzbare Produkte (`Inkremente`) zu liefern, die einen echten **Mehrwert** bieten. Die Anzahl der Funktionen oder die Einhaltung eines starren Plans sind sekundär gegenüber der Wertlieferung.",
     "weight": 2,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "94. Was bedeutet **\"fail fast\"** im agilen Kontext?",
@@ -1219,7 +1312,8 @@
     "answer": 2,
     "explanation": "**\"Fail fast\"** ist ein Prinzip, das die **agile Denkweise** widerspiegelt. Es bedeutet, dass Annahmen, die nicht den Bedürfnissen des Kunden entsprechen, frühzeitig und mit geringen Kosten verworfen werden sollten. Dies ermöglicht ein schnelles **Lernen** und eine Neuausrichtung des Projekts auf einen **wertvolleren Pfad**.",
     "weight": 3,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "95. Welche Aussage beschreibt die Rolle des **Managements** im agilen Projektmanagement am besten?",
@@ -1232,7 +1326,8 @@
     "answer": 2,
     "explanation": "In agilen Organisationen verschiebt sich die Rolle des Managements von der strikten Kontrolle hin zur Befähigung. Manager dienen als **\"Enabler\"**, die dem Team die notwendigen **Ressourcen** und **Autorität** geben, um selbstorganisiert und effizient zu arbeiten. Sie unterstützen das Team bei der Beseitigung von organisatorischen Hindernissen.",
     "weight": 3,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "96. Was ist das Gegenteil von agilem Projektmanagement?",
@@ -1245,7 +1340,8 @@
     "answer": 1,
     "explanation": "Das **Wasserfall-Modell** steht im direkten Gegensatz zum agilen Projektmanagement. Während agile Methoden **iterativ und inkrementell** vorgehen und auf die Anpassung an Veränderungen Wert legen, ist das **Wasserfall-Modell** ein sequenzielles Vorgehen mit einer umfassenden **Planung** zu Beginn und einer starren Abfolge von Phasen.",
     "weight": 1,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "97. Wann ist das Wasserfall-Modell vorteilhaft?",
@@ -1258,7 +1354,8 @@
     "answer": 1,
     "explanation": "Das **Wasserfall-Modell** ist nicht per se schlecht, es ist für bestimmte Projektarten besser geeignet als agile Methoden. Für Projekte mit einem sehr **klaren und stabilen Umfang**, bei denen alle Anforderungen zu Beginn bekannt sind, kann das **Wasserfall-Modell** eine effiziente und transparente Vorgehensweise sein.",
     "weight": 2,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "98. Was bedeutet **Time-to-Market** im agilen Projektmanagement?",
@@ -1271,7 +1368,8 @@
     "answer": 2,
     "explanation": "**Time-to-Market** ist eine wichtige betriebswirtschaftliche Kennzahl, die die Geschwindigkeit misst, mit der ein Unternehmen ein neues Produkt oder eine neue Dienstleistung auf den Markt bringt. Agile Methoden zielen darauf ab, die **Time-to-Market** durch die kontinuierliche Lieferung von **Inkrementen** zu verkürzen.",
     "weight": 3,
-    "topic": "Agiles Projektmanagement"
+    "topic": "Agiles Projektmanagement",
+    "cognitive_level": "Analyse"
   },
   {
     "question": "99. Was ist der größte Vorteil von **Kanban** im Vergleich zu **Scrum**?",
@@ -1284,7 +1382,8 @@
     "answer": 2,
     "explanation": "**Kanban** ist ein agiles Framework, das sich auf die Optimierung des Arbeitsflusses konzentriert. Im Gegensatz zu **Scrum** gibt es keine festen Iterationen oder Rollen. Stattdessen nutzt **Kanban** ein Board mit **WIP-Limits** und visualisiert den Fluss der Arbeit, um Engpässe zu identifizieren und zu beseitigen. ",
     "weight": 2,
-    "topic": "Kanban"
+    "topic": "Kanban",
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "100. Was ist das primäre Ziel der **WIP-Limits** im Kanban-System?",
@@ -1297,6 +1396,7 @@
     "answer": 2,
     "explanation": "**WIP-Limits** (**Work in Progress Limits**) sind ein zentrales Element von **Kanban**. Sie beschränken die Anzahl der Aufgaben, die sich gleichzeitig in einem bestimmten Arbeitsstatus befinden dürfen. Dies fördert die Fertigstellung von Aufgaben, bevor neue begonnen werden, reduziert Kontextwechsel und verbessert somit den **Wertfluss** durch das System.",
     "weight": 2,
-    "topic": "Kanban"
+    "topic": "Kanban",
+    "cognitive_level": "Anwendung"
   }
 ]

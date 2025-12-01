@@ -36,7 +36,8 @@
         "Koeffizientenmatrix": "Matrix $A\\in\\mathbb{R}^{m\\times n}$ mit den Zahlen vor den Unbekannten; strukturiert das LGS.",
         "Unbekanntenvektor": "Spaltenvektor $x\\in\\mathbb{R}^n$ mit den Variablen $x_1,\\dots,x_n$.",
         "Rechte Seite": "Vektor $b\\in\\mathbb{R}^m$, der die konstanten Terme der Gleichungen enthält."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Was ist die erweiterte Matrix und wozu wird sie genutzt?",
@@ -55,7 +56,8 @@
         "Erweiterte Matrix": "$[A\\mid b]=\\begin{bmatrix}A & b\\end{bmatrix}$; Grundlage für den Gauß-Algorithmus.",
         "Äquivalenz": "Zeilenumformungen erhalten die Lösungsmenge; Systeme bleiben äquivalent.",
         "Darstellung": "Kompakte Schreibweise, um Rechenschritte systematisch zu notieren."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Welche Operation zählt zu den elementaren Zeilenumformungen beim Gauß-Verfahren?",
@@ -74,7 +76,8 @@
         "Zeilentausch": "Vertauschen zweier Zeilen; ändert die Lösung nicht.",
         "Skalierung": "Ersetzen $Z_k\\leftarrow c\\,Z_k$ mit $c\\ne 0$; erhält Äquivalenz.",
         "Zeilenaddition": "Ersetzen $Z_i\\leftarrow Z_i+\\lambda Z_k$; eliminiert gezielt Einträge."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Was bezeichnet man im Kontext der Zeilenstufenform als Pivot (Führungselement)?",
@@ -93,7 +96,8 @@
         "Pivot": "Führender Eintrag einer Zeile in ZSF; markiert eine gebundene Variable.",
         "Pivotspalte": "Spalte, die ein Pivot enthält; bestimmt eine führende Variable.",
         "Führende Variable": "Variable, die aus der Pivotzeile unmittelbar berechnet wird."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "5. Welche Kriterien charakterisieren die Zeilenstufenform (ZSF)?",
@@ -112,7 +116,8 @@
         "ZSF": "Zeilenstufenform; strukturiert durch rechts wandernde Pivots und Nullen darunter.",
         "Nullzeile": "Zeile aus lauter Nullen; steht in ZSF am Ende.",
         "Stufenstruktur": "Treppenförmige Anordnung der Pivots nach rechts."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Was kommt bei der reduzierten Zeilenstufenform (RREF) zusätzlich zur ZSF hinzu?",
@@ -131,7 +136,8 @@
         "RREF": "Reduzierte Zeilenstufenform; Pivots sind 1, Einträge über und unter Pivots sind 0.",
         "Skalierung": "Anpassung einer Zeile, um den Pivotwert auf 1 zu setzen.",
         "Pivotspalte": "Spalte mit Pivot; in RREF hat sie eine Einheitsstruktur."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Wann wird das Rückwärtseinsetzen angewandt und wie verläuft es grundsätzlich?",
@@ -150,7 +156,8 @@
         "Obere Dreiecksmatrix": "Matrix $U$ mit Nullen unterhalb der Diagonalen; geeignet für Rückwärtseinsetzen.",
         "Back Substitution": "Berechnung von $x_n,x_{n-1},\\dots$ sukzessive aus $U\\,x=c$.",
         "Vorwärtselimination": "Nullen unterhalb der Pivots erzeugen; führt zu $U$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "8. Welcher Rang-Relation entspricht der Fall der eindeutigen Lösung bei $n$ Unbekannten?",
@@ -169,7 +176,8 @@
         "Rouché–Capelli": "Lösbarkeit iff $\\operatorname{rang}(A)=\\operatorname{rang}([A\\mid b])$.",
         "Voller Rang": "Für $A\\in\\mathbb{R}^{m\\times n}$ ist $\\operatorname{rang}(A)=\\min\\{m,n\\}$.",
         "Eindeutigkeit": "Bei $\\operatorname{rang}(A)=n$ existiert keine freie Variable."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "9. Was zeigt eine Zeile der Form $[0\\ 0\\ \\dots\\ 0\\mid c]$ mit $c\\neq 0$ in der ZSF an?",
@@ -188,7 +196,8 @@
         "Widerspruchszeile": "Zeile $0= c$ mit $c\\ne 0$; macht das LGS inkonsistent.",
         "Konsistenz": "Existenz mindestens einer Lösung; verletzt bei $0=c\\ne 0$.",
         "ZSF-Prüfung": "Widerspruchszeilen identifizieren vor der Fallentscheidung."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "10. Wie viele freie Variablen besitzt ein lösbares LGS mit $n$ Unbekannten und Rang $r$?",
@@ -217,7 +226,8 @@
         "Freie Variable": "Nicht durch eine Pivotspalte gebunden; wird als Parameter eingeführt.",
         "Gebundene Variable": "Durch eine Pivotgleichung eindeutig bestimmbar.",
         "Affiner Raum": "Menge $x_p+U$ mit partikulärer Lösung $x_p$ und Unterraum $U$ (hier Kern von $A$)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "11. Welche Schrittfolge beschreibt die Vorwärtselimination im Gauß-Verfahren korrekt?",
@@ -246,7 +256,8 @@
         "Pivotfindung": "Suche erstes Nichtnull-Element ab aktueller Zeile in der aktiven Spalte.",
         "Zeilentausch": "Bringt das Pivot in die Arbeitszeile; verhindert Division durch 0.",
         "Elimination": "Erzeugt Nullen unterhalb des Pivots durch Zeilenaddition."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Wann ist ein Zeilentausch in der Vorwärtselimination erforderlich?",
@@ -275,7 +286,8 @@
         "Division durch 0": "Verbotene Operation; wird durch Zeilentausch vermieden.",
         "Pivotzeile": "Zeile, die das aktuelle Pivot enthält; wird nach oben geholt.",
         "Stabilität": "Empfindlichkeit gegenüber Rundungsfehlern; geeignete Pivotwahl reduziert diese."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. In einem konsistenten System mit drei Unbekannten und genau zwei Pivots ergibt sich welche Struktur der Lösungsmenge?",
@@ -304,7 +316,8 @@
         "Partikuläre Lösung": "Eine konkrete Lösung $x_p$ von $A\\,x=b$.",
         "Kern": "$\\ker(A)=\\{x\\mid A\\,x=0\\}$; liefert die Richtungen der Lösungsmenge.",
         "Affin": "Um einen Punkt verschobener Unterraum: $x_p+\\ker(A)$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Welche Bedeutung hat eine Nullzeile $[0\\ 0\\ \\dots\\ 0\\mid 0]$ in der ZSF?",
@@ -333,7 +346,8 @@
         "Nullzeile": "Zeile, deren alle Einträge null sind; trägt keinen Pivot.",
         "Rang": "Anzahl der Pivotzeilen in ZSF; Maß der Zeilen-/Spaltenunabhängigkeit.",
         "Freiheitsgrad": "Dimension der Lösungsmenge; Anzahl freier Variablen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Welche der folgenden Operationen erhält die Lösungsmenge eines LGS sicher bei?",
@@ -362,7 +376,8 @@
         "Äquivalente Systeme": "Systeme mit identischer Lösungsmenge.",
         "Invertierbarkeit": "Existenz einer Rücktransformation; garantiert die Äquivalenz.",
         "Zeilenoperation": "Operiert auf Gleichungen, nicht auf Variablenindizes."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Wie steht der Rang einer Matrix zur Anzahl der Pivots in der Zeilenstufenform?",
@@ -391,7 +406,8 @@
         "Zeilenrang": "Anzahl linear unabhängiger Zeilen; entspricht Pivotzeilen.",
         "Spaltenrang": "Anzahl linear unabhängiger Spalten; gleich dem Zeilenrang.",
         "Rang-Invarianz": "Rang bleibt unter Zeilenumformungen erhalten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Welche Aussage beschreibt das Rückwärtseinsetzen aus $U\\,x=c$ korrekt?",
@@ -420,7 +436,8 @@
         "Diagonalelement": "Eintrag $u_{kk}$ auf der Hauptdiagonalen von $U$.",
         "Obere Dreiecksmatrix": "Alle Einträge unter der Diagonale sind 0.",
         "Summationsformel": "Explizite Darstellung von $x_k$ in Abhängigkeit späterer $x_j$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Wie werden freie Variablen in einer Parametrisierung der Lösungsmenge gehandhabt?",
@@ -449,7 +466,8 @@
         "Parameter": "Frei wählbare Größe, die die Lösungsmenge durchläuft.",
         "Kernbasis": "Erzeugendensystem des $\\ker(A)$; liefert die Richtungsvektoren.",
         "Probe": "Einsetzen in $A\\,x=b$ zur Kontrolle der Korrektheit."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welche Rangrelation kennzeichnet den Fall „unendlich viele Lösungen“ korrekt?",
@@ -478,7 +496,8 @@
         "Nicht-Pivotspalte": "Spalte ohne Pivot; erzeugt eine freie Variable.",
         "Konsistenz": "Keine Widerspruchszeile; Lösungsmenge ist nicht leer.",
         "Dimension der Lösungsmenge": "Anzahl freier Variablen $=n-r$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Welche Beschreibung passt zur Indexpflege im Gauß-Verfahren?",
@@ -507,7 +526,8 @@
         "Arbeitszeile": "Aktuelle Zeile mit festgelegtem Pivot.",
         "Arbeits spalte": "Spalte, in der das Pivot gesucht wird.",
         "Abbruchkriterium": "ZSF erreicht oder Indizes außerhalb des gültigen Bereichs."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "21. Warum werden Zeilenoperationen in der erweiterten Matrix immer auf beide Teile angewendet?",
@@ -536,7 +556,8 @@
         "Äquivalenztransformation": "Operation, die die Lösungsmenge nicht ändert.",
         "Erweiterte Matrix": "Kompakte Kopplung von Struktur ($A$) und rechten Seiten ($b$).",
         "Lösungsmenge": "Menge aller $x$, die $A\\,x=b$ erfüllen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Welche Prüfungen gehören laut typischer Rechen-Checkliste zu einer sauberen Abgabe?",
@@ -565,7 +586,8 @@
         "Widerspruchszeile": "Zeile $0=c$ mit $c\\ne 0$; signalisiert Unlösbarkeit.",
         "Probe": "Validierung durch Einsetzen der Lösung.",
         "Fallunterscheidung": "Eindeutig / unendlich viele / keine Lösung anhand der Ränge."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Welche Wirkung hat das Vertauschen zweier Gleichungen im LGS (Zeilentausch in $[A\\mid b]$)?",
@@ -594,7 +616,8 @@
         "Permutation": "Neuanordnung ohne Inhaltsänderung.",
         "Äquivalenz": "Unveränderte Lösungsmenge trotz Umformung.",
         "Pivoting": "Tauschoperationen zur günstigen Pivotlage."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "24. Was bedeutet es, wenn eine Spalte in der RREF keine Pivotposition enthält?",
@@ -623,7 +646,8 @@
         "Pivotspalte": "Spalte mit Pivot (Einser in RREF).",
         "Nicht-Pivotspalte": "Spalte ohne Pivot; liefert freie Variable.",
         "RREF": "Form, in der Pivots 1 sind und in Pivotspalten sonst 0 steht."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "25. Welche Beschreibung der Lösungsmenge nutzt die Zerlegung in partikulären und homogenen Anteil korrekt?",
@@ -652,7 +676,8 @@
         "Partikuläre Lösung": "Ein spezielles $x_p$ mit $A\\,x_p=b$.",
         "Homogene Lösung": "Vektor $z$ mit $A\\,z=0$ (Element des Kerns).",
         "Affiner Unterraum": "Verschiebung eines Unterraums um einen Punkt $x_p$."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "26. Welche Eigenschaft beschreibt die Struktur der Matrix $U$ nach der Vorwärtselimination für das Rückwärtseinsetzen korrekt?",
@@ -681,7 +706,8 @@
         "Obere Dreiecksmatrix": "Matrix mit $u_{ij}=0$ für $i>j$.",
         "Hauptdiagonale": "Einträge $u_{11},u_{22},\\dots$; sollten für Rückwärtseinsetzen nicht null sein.",
         "ZSF": "Treppenform; verallgemeinert die strikte Dreiecksform."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "27. Welche Eliminationsformel wird für $i>k$ beim Nullmachen unter dem Pivot in Spalte $s$ verwendet?",
@@ -710,7 +736,8 @@
         "Eliminationsfaktor": "Quotient $a_{is}/a_{ks}$; skaliert die Pivotzeile vor der Subtraktion.",
         "Pivot": "Führendes Nichtnull-Element der Arbeitszeile.",
         "Zeilenaddition": "Ersetzen einer Zeile durch Linearkombination mit einer anderen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "28. Welche Aussage beschreibt das Rangkriterium der Unlösbarkeit korrekt?",
@@ -739,7 +766,8 @@
         "Bildraum": "$\\operatorname{im}(A)=\\{A\\,x\\}$; enthält die erreichbaren rechten Seiten.",
         "Inkonsistenz": "Kein $x$ erfüllt $A\\,x=b$; Lösungsmenge leer.",
         "Widerspruch": "Gleichung $0=c\\ne 0$ nach Zeilenumformungen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "29. Welche Aussage über die Ränge gilt stets für $A$ und die erweiterte Matrix $[A\\mid b]$?",
@@ -768,7 +796,8 @@
         "Lineare Hülle": "Alle Linearkombinationen einer Spaltenmenge; deren Dimension ist der Rang.",
         "Spaltenrang": "Dimension der Spaltenhülle; identisch mit dem Zeilenrang.",
         "Anhängen": "Bildung von $[A\\mid b]$ durch Ergänzung um eine Spalte."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "30. Welche Aussage über die Abhängigkeit von Gleichungs- und Unbekanntenanzahl ist korrekt?",
@@ -797,7 +826,8 @@
         "Maße $m,n$": "Anzahl Gleichungen ($m$) und Unbekannte ($n$).",
         "Rangschranke": "$r\\le \\min\\{m,n\\}$ begrenzt die Zahl der Pivots.",
         "Fallunterscheidung": "Nutzt Ränge statt bloßer Maße zur Entscheidung."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

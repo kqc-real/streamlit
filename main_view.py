@@ -64,6 +64,24 @@ def _has_cognitive_stages(qs: QuestionSet) -> bool:
     return False
 
 
+def _extract_stage_value(frage: dict) -> str | None:
+    """Extract the cognitive stage from a question dict.
+
+    Support multiple possible field names used across different question
+    datasets: prefer the German `kognitive_stufe`, fall back to English
+    `cognitive_level` (or other common variants).
+    """
+    if not isinstance(frage, dict):
+        return None
+    return (
+        frage.get("kognitive_stufe")
+        or frage.get("cognitive_level")
+        or frage.get("cognitiveLevel")
+        or frage.get("cognitive_level_en")
+        or frage.get("cognitive_level_de")
+    )
+
+
 DOWNLOAD_BUTTON_DEFAULT = "Download starten"
 MIME_PDF = "application/pdf"
 KAHOOT_IMPORT_RULES = [
@@ -4528,7 +4546,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         has_cognitive_stage = False
         for frage in questions:
             try:
-                normalized = _normalize_stage_label(frage.get("kognitive_stufe"))
+                raw_stage = _extract_stage_value(frage)
+                normalized = _normalize_stage_label(raw_stage)
                 if normalized in BLOOM_STAGE_ORDER:
                     has_cognitive_stage = True
                     break
@@ -4542,7 +4561,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         # Aggregate achieved vs maximal points per bloom stage
         stage_totals = {stage: {"achieved": 0.0, "max": 0.0, "count": 0} for stage in BLOOM_STAGE_ORDER}
         for i, frage in enumerate(questions):
-            stage_label = _normalize_stage_label(frage.get("kognitive_stufe"))
+            stage_label = _normalize_stage_label(_extract_stage_value(frage))
             # Only consider canonical stages; unknowns will be aggregated under DEFAULT if present
             if stage_label not in stage_totals:
                 # Skip non-canonical stages for this radar (keeps chart focused)

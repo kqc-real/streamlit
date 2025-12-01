@@ -34,7 +34,8 @@
         "Product Owner": "Die Scrum-Rolle, die für die Maximierung des Werts des Produkts verantwortlich ist, das aus der Arbeit des Entwicklungsteams resultiert.",
         "Product Backlog": "Eine geordnete Liste von allem, was für das Produkt bekannt ist und benötigt wird. Es ist die einzige Quelle für Anforderungen an jegliche Änderungen am Produkt.",
         "Geschäftswert": "Der Nutzen, den ein Unternehmen aus einem Produkt oder einer Dienstleistung zieht, oft gemessen in ROI, Kundenzufriedenheit oder Marktanteil."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche Aussage beschreibt das Highlander-Prinzip in Bezug auf die Rolle des Product Owners korrekt?",
@@ -53,7 +54,8 @@
         "Highlander-Prinzip": "Ein informeller Grundsatz in Scrum, der besagt, dass es für ein Produkt nur einen einzigen Product Owner geben kann, um unklare Zuständigkeiten und Verzögerungen zu vermeiden.",
         "Komitee": "Eine Gruppe von Personen, die gemeinsam Entscheidungen trifft. In Scrum wird dies für die Product-Owner-Rolle explizit vermieden.",
         "Stakeholder": "Jede Person oder Gruppe, die ein Interesse am Produkt hat, wie z.B. Kunden, Anwender, Management oder Sponsoren."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Was ist das Ergebnis eines Sprints?",
@@ -72,7 +74,8 @@
         "Sprint": "Eine Iteration von maximal vier Wochen, in der ein 'Done', nutzbares und potenziell auslieferbares Produktinkrement erstellt wird.",
         "Produktinkrement": "Die Summe aller Product-Backlog-Einträge, die während eines Sprints und aller vorherigen Sprints fertiggestellt wurden. Am Ende eines Sprints muss das neue Inkrement 'Done' sein.",
         "Definition of Done": "Ein gemeinsames Verständnis des Teams darüber, was es bedeutet, dass Arbeit als fertiggestellt gilt, um Transparenz und Qualität zu gewährleisten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Wie groß sollte ein Entwicklungsteam in Scrum idealerweise sein?",
@@ -91,7 +94,8 @@
         "Entwicklungsteam": "Eine Gruppe von Fachleuten, die am Ende jedes Sprints ein potenziell auslieferbares Inkrement des 'Done'-Produkts liefern. Es organisiert sich selbst und ist cross-funktional.",
         "Cross-funktional": "Das Team besitzt alle Fähigkeiten, die notwendig sind, um Produktinkremente zu erstellen, z.B. Marktanalyse, Design, Controlling, ohne auf externe Hilfe angewiesen zu sein.",
         "Selbstorganisation": "Das Team entscheidet selbst, wie es seine Arbeit am besten erledigt, anstatt von außen gesteuert zu werden."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "5. Welchem Zweck dient das Daily Scrum Meeting?",
@@ -110,7 +114,8 @@
         "Daily Scrum": "Ein tägliches 15-minütiges Meeting für das Entwicklungsteam zur Synchronisierung der Aktivitäten und zur Erstellung eines Plans für die nächsten 24 Stunden.",
         "Hindernis (Impediment)": "Alles, was das Team daran hindert, seine Arbeit zu erledigen oder es verlangsamt.",
         "Time-box": "Eine feste Zeitdauer für ein Meeting oder ein Event, die nicht überschritten werden darf. Das Daily Scrum hat eine Time-box von 15 Minuten."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Ein Projektteam in einer Unternehmensberatung nutzt Scrum, um ein neues Beratungskonzept für einen Kunden zu entwickeln. Im Sprint Planning stellt das Team fest, dass die vom Product Owner gewünschten Analysen zu umfangreich für einen Sprint sind. Was ist laut Pull-Prinzip die korrekte Vorgehensweise des Entwicklungsteams?",
@@ -137,7 +142,8 @@
         "Pull-Prinzip": "Ein Vorgehen, bei dem das Entwicklungsteam die Arbeit aus dem Product Backlog aktiv in den Sprint 'zieht', anstatt sie zugewiesen zu bekommen.",
         "Forecast (Vorhersage)": "Die Einschätzung des Entwicklungsteams, welche Funktionalität innerhalb eines Sprints geliefert werden kann. Es ist keine Garantie, sondern eine Prognose.",
         "Sprint Planning": "Das Scrum-Meeting, in dem die Arbeit für den kommenden Sprint geplant wird. Das Ergebnis ist das Sprint Backlog."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "7. Welche Aussage trifft **nicht** auf das Product Backlog zu?",
@@ -164,7 +170,8 @@
         "Priorisierung": "Der Prozess des Ordnens von Elementen (z.B. im Product Backlog) nach ihrer Wichtigkeit, um den maximalen Wert zu liefern. Dies ist die Aufgabe des Product Owners.",
         "Schätzung": "Der Prozess der Bewertung des Aufwands, der zur Fertigstellung eines Product-Backlog-Eintrags erforderlich ist. Dies ist die Aufgabe des Entwicklungsteams.",
         "User Story": "Ein gängiges Format für Product-Backlog-Einträge, das eine Anforderung aus der Perspektive eines Endbenutzers beschreibt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "8. Ein agiles Team, das eine neue Online-Banking-App entwickelt, präsentiert im Sprint-Review eine neue Überweisungsfunktion. Der wichtigste Zweck dieses Meetings ist es...",
@@ -191,7 +198,8 @@
         "Sprint-Review": "Ein informelles Meeting am Ende des Sprints, um das Inkrement zu inspizieren und das Product Backlog bei Bedarf anzupassen.",
         "Feedbackschleife": "Ein Prozess, bei dem die Ergebnisse einer Aktion erfasst und zur Änderung zukünftiger Aktionen verwendet werden. Der Sprint-Review ist eine zentrale Feedbackschleife in Scrum.",
         "Inspektion & Anpassung (Inspect & Adapt)": "Ein empirischer Grundpfeiler von Scrum. Regelmäßige Inspektion von Artefakten und Fortschritt ermöglicht Anpassungen, um Abweichungen zu minimieren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "9. Was ist die Rolle des Scrum Masters während des Daily Scrums?",
@@ -218,7 +226,8 @@
         "Scrum Master": "Die Scrum-Rolle, die dafür verantwortlich ist, Scrum zu fördern und zu unterstützen. Er hilft allen Beteiligten, die Scrum-Theorie, -Praktiken, -Regeln und -Werte zu verstehen.",
         "Servant Leader": "Ein Führungsstil, bei dem die Führungskraft sich darauf konzentriert, die Bedürfnisse des Teams zu erfüllen und ihm zu ermöglichen, sein volles Potenzial zu entfalten.",
         "Coaching": "Ein Prozess, bei dem der Scrum Master dem Team und der Organisation hilft, ihre agilen Praktiken und Denkweisen zu verbessern."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. In einer Sprint-Retrospektive stellt ein Team, das an der Optimierung eines internen Controlling-Prozesses arbeitet, fest, dass die Kommunikation mit der Finanzabteilung oft zu Verzögerungen führt. Was ist das primäre Ziel dieser Retrospektive?",
@@ -245,7 +254,8 @@
         "Sprint-Retrospektive": "Eine Gelegenheit für das Scrum-Team, sich selbst zu inspizieren und einen Plan für Verbesserungen zu erstellen, die im nächsten Sprint umgesetzt werden sollen.",
         "Kontinuierliche Verbesserung (Kaizen)": "Ein aus dem Japanischen stammendes Managementkonzept, das eine schrittweise, aber stetige Perfektionierung von Produkten oder Prozessen anstrebt.",
         "Verbesserungsmaßnahme": "Ein konkreter, umsetzbarer Schritt, den das Team im nächsten Sprint ausprobieren wird, um ein identifiziertes Problem zu lösen oder einen Prozess zu optimieren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "11. Was unterscheidet User Stories von klassischen Anforderungen in einem Lastenheft für ein BWL-Projekt?",
@@ -272,7 +282,8 @@
         "User Story": "Eine informelle, allgemeine Erklärung einer Softwarefunktion, die aus der Perspektive des Endbenutzers oder Kunden geschrieben wird.",
         "Gemeinsames Verständnis": "Ein zentrales Ziel der agilen Anforderungserhebung, bei dem es wichtiger ist, dass alle Beteiligten die gleiche Vorstellung vom Ziel haben, als eine perfekte schriftliche Spezifikation zu besitzen.",
         "Lastenheft": "Ein Dokument in klassischen Projektmanagement-Methoden, das die Gesamtheit der Anforderungen des Auftraggebers an die Lieferungen und Leistungen eines Auftragnehmers beschreibt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Welches der folgenden Prinzipien des Agilen Manifests steht im direkten Kontrast zur strikten Einhaltung eines zu Beginn des Projekts erstellten, detaillierten Projektplans?",
@@ -299,7 +310,8 @@
         "Agiles Manifest": "Ein Dokument aus dem Jahr 2001, das die zentralen Werte und Prinzipien der agilen Softwareentwicklung definiert und die Grundlage für Frameworks wie Scrum bildet.",
         "Planbefolgung": "Das strikte Festhalten an einem vordefinierten Projektplan, typisch für klassische Wasserfallmodelle.",
         "Komplexität": "Ein Zustand, in dem die Beziehung zwischen Ursache und Wirkung nicht im Voraus bekannt ist. In komplexen Umgebungen sind empirische Prozesse wie Scrum effektiver als vordefinierte Pläne."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. Ein Entwicklungsteam hat im Sprint Planning vier User Stories für die Erstellung eines Finanzreports in den Sprint aufgenommen. Was ist das Sprint Backlog?",
@@ -326,7 +338,8 @@
         "Sprint Backlog": "Die Menge der Product-Backlog-Einträge, die für den Sprint ausgewählt wurden, plus ein Plan für die Lieferung des Produktinkrements und die Realisierung des Sprint-Ziels.",
         "Taskboard": "Ein Werkzeug zur Visualisierung der Arbeit im Sprint, typischerweise mit Spalten wie 'User Story', 'ToDo', 'Doing' und 'Done'.",
         "Task": "Eine kleinere Arbeitseinheit, die notwendig ist, um eine User Story fertigzustellen. Das Zerlegen von Stories in Tasks (Task-Breakdown) ist Teil des Sprint Plannings."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Was ist eine der wichtigsten Aufgaben eines Scrum Masters in Bezug auf Hindernisse (Impediments), die im Daily Scrum identifiziert werden?",
@@ -353,7 +366,8 @@
         "Hindernis (Impediment)": "Alles, was die Arbeit des Teams an seinen Aufgaben blockiert oder verlangsamt.",
         "Beseitigung von Hindernissen": "Eine Kernaufgabe des Scrum Masters, die dazu dient, die Produktivität des Teams sicherzustellen.",
         "Flow": "Ein Zustand, in dem ein Team kontinuierlich und ohne Unterbrechungen Wert liefern kann."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Welche der folgenden Aussagen beschreibt das Konzept eines cross-funktionalen Teams im Kontext eines Projekts zur Einführung eines neuen CRM-Systems am besten?",
@@ -380,7 +394,8 @@
         "Cross-funktional": "Das Team verfügt über alle notwendigen Kompetenzen, um seine Arbeit abzuschließen, ohne von Personen außerhalb des Teams abhängig zu sein.",
         "Silo": "Eine Metapher für Abteilungen oder Gruppen in einer Organisation, die nur begrenzt mit anderen Gruppen kommunizieren oder zusammenarbeiten.",
         "Abhängigkeit (Dependency)": "Eine Situation, in der Team A nicht weiterarbeiten kann, bevor Team B eine bestimmte Aufgabe erledigt hat. Scrum-Teams versuchen, Abhängigkeiten zu minimieren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Warum ist das 'Backlog Refinement' (früher 'Grooming') ein wichtiges, wenn auch optionales Meeting in Scrum?",
@@ -407,7 +422,8 @@
         "Backlog Refinement": "Die Aktivität in Scrum, bei der Product Owner und Entwicklungsteam die Einträge im Product Backlog detaillieren, schätzen und ordnen.",
         "Epic": "Eine große User Story, die in der Regel nicht in einem einzigen Sprint umgesetzt werden kann und daher im Refinement in kleinere Stories aufgeteilt werden muss.",
         "Definition of Ready (DoR)": "Eine teaminterne Vereinbarung, die beschreibt, welche Kriterien ein Product-Backlog-Eintrag erfüllen muss, bevor er in einen Sprint aufgenommen werden kann."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. 'Laufende Software ist wichtiger als ausführliche Dokumentation' ist ein Wert des Agilen Manifests. Wie lässt sich dieser Wert auf ein Nicht-IT-Projekt, z.B. die Erstellung eines Businessplans, übertragen?",
@@ -434,7 +450,8 @@
         "Minimum Viable Product (MVP)": "Eine Version eines neuen Produkts, die es einem Team ermöglicht, mit dem geringsten Aufwand die maximale Menge an validiertem Wissen über Kunden zu sammeln.",
         "Prototyp": "Ein frühes Muster, Modell oder eine Freigabe eines Produkts, das gebaut wurde, um ein Konzept oder einen Prozess zu testen.",
         "Analyse-Paralyse": "Ein Zustand, bei dem das Überanalysieren oder Überdenken einer Situation dazu führen kann, dass niemals eine Entscheidung getroffen oder eine Aktion ausgeführt wird."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Wodurch zeichnet sich das Entwicklungsteam in Scrum aus?",
@@ -461,7 +478,8 @@
         "Entwickler": "Jedes Mitglied des Entwicklungsteams, unabhängig von seiner spezifischen Fachkompetenz (z.B. BWL, Design, IT).",
         "Hierarchie": "Eine Rangordnung oder ein System von Über- und Unterordnung, das im Scrum-Entwicklungsteam explizit vermieden wird.",
         "Kollektive Verantwortung (Collective Ownership)": "Das Prinzip, dass das gesamte Team für die Qualität und den Erfolg des Produkts verantwortlich ist, nicht nur einzelne Spezialisten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welches Scrum-Artefakt bietet die beste Transparenz über den verbleibenden Arbeitsaufwand in einem **Sprint**?",
@@ -488,7 +506,8 @@
         "Sprint-Burndown-Chart": "Eine grafische Darstellung der verbleibenden Arbeit im Verhältnis zur Zeit in einem Sprint.",
         "Release-Burnup-Chart": "Ein Diagramm, das den Fortschritt in einem gesamten Release anzeigt, nicht nur in einem einzelnen Sprint. Es zeigt den Gesamtumfang und die bereits erledigte Arbeit.",
         "Transparenz": "Einer der drei Pfeiler von Scrum. Wichtige Aspekte des Prozesses müssen für alle Verantwortlichen sichtbar sein."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Ein Product Owner für eine E-Commerce-Plattform hat über 200 Ideen und Anforderungen im Product Backlog. Welches Vorgehen ist im Sinne von Scrum am sinnvollsten?",
@@ -515,7 +534,8 @@
         "DEEP": "Ein Akronym, das die Eigenschaften eines guten Product Backlogs beschreibt: Detailed appropriately (angemessen detailliert), Estimated (geschätzt), Emergent (sich entwickelnd) und Prioritized (priorisiert).",
         "Progressive Detaillierung": "Ein Planungsansatz, bei dem die Arbeit, die in naher Zukunft ausgeführt wird, detailliert geplant wird, während die Arbeit in der ferneren Zukunft auf einer höheren Ebene geplant wird.",
         "Risikomanagement": "Der Prozess der Identifizierung, Bewertung und Kontrolle von Bedrohungen für das Kapital und die Erträge einer Organisation. In Scrum geschieht dies oft durch Priorisierung und frühes Feedback."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "21. Welche der drei Scrum-Perspektiven wird primär durch die Sprint-Retrospektive und die Beseitigung von Hindernissen durch den Scrum Master verkörpert?",
@@ -544,7 +564,8 @@
         "Produktperspektive": "Die Sichtweise in Scrum, die sich darauf konzentriert, wie Produkte durch den Fokus auf den Geschäftswert definiert und verbessert werden.",
         "Entwicklungsperspektive": "Die Sichtweise in Scrum, die beleuchtet, wie autonome Teams Produkte entwickeln.",
         "Verbesserungsperspektive": "Die Sichtweise in Scrum, die sich darauf konzentriert, wie Zusammenarbeit und Prozesse verbessert werden, indem das Team Verantwortung übernimmt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Einem Scrum-Team, das eine neue Logistik-Software einführt, wird vom Abteilungsleiter eine zusätzliche, dringende Aufgabe während des laufenden Sprints zugewiesen. Welche Reaktion des Scrum Masters und des Teams wäre am ehesten Scrum-konform?",
@@ -571,7 +592,8 @@
         "Sprint-Ziel": "Ein übergeordnetes Ziel für den Sprint, das durch die Implementierung des Sprint Backlogs erreicht werden soll. Es gibt dem Team einen roten Faden und Flexibilität bei der Umsetzung.",
         "Fokus": "Einer der fünf Scrum-Werte. Indem man sich auf nur wenige Dinge auf einmal konzentriert, arbeitet das Team effektiver und liefert bessere Ergebnisse.",
         "Sprint-Abbruch": "Eine Entscheidung des Product Owners, einen Sprint vorzeitig zu beenden. Dies ist ein sehr seltenes Ereignis und geschieht nur, wenn das Sprint-Ziel obsolet wird."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "23. Ein Unternehmen will Scrum einführen. Der CEO glaubt, der Leitsatz 'Vertrauen ist gut, Kontrolle ist besser' sei der Schlüssel zum Erfolg. Warum stellt diese Haltung eine fundamentale Herausforderung für die agile Transformation dar?",
@@ -598,7 +620,8 @@
         "Empowerment": "Die Übertragung von Verantwortung und Entscheidungsbefugnis an Mitarbeiter oder Teams, um deren Autonomie und Motivation zu steigern.",
         "Mikromanagement": "Ein Führungsstil, bei dem eine Führungskraft die Arbeit ihrer Untergebenen übermäßig detailliert beobachtet oder kontrolliert.",
         "Wertesystem": "Die Gesamtheit der Überzeugungen und Glaubenssätze, die das Verhalten einer Person oder Organisation prägen. Die Einführung von Scrum erfordert oft eine Änderung des Wertesystems."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "24. Welche Aussage über die Time-box von Scrum-Meetings ist laut Scrum Guide korrekt?",
@@ -625,7 +648,8 @@
         "Time-box": "Eine feste, maximale Zeitdauer für ein Event. Alle Scrum-Events sind time-boxed.",
         "Sprint Planning": "Meeting zum Start eines Sprints, um den Sprint zu planen. Time-box: max. 8 Stunden für einen einmonatigen Sprint.",
         "Sprint-Retrospektive": "Meeting am Ende eines Sprints zur Prozessverbesserung. Time-box: max. 3 Stunden für einen einmonatigen Sprint."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "25. Der Grundsatz 'Einfachheit – die Kunst, die Menge nicht getaner Arbeit zu maximieren' ist ein agiles Prinzip. Wie kann ein Product Owner in einem Projekt zur Entwicklung einer neuen Vertriebs-App dieses Prinzip am besten anwenden?",
@@ -652,7 +676,8 @@
         "Einfachheit": "Ein agiles Prinzip, das darauf abzielt, die Menge an unnötiger Arbeit zu maximieren, die nicht getan wird.",
         "Pareto-Prinzip (80/20-Regel)": "Eine Regel, die besagt, dass in vielen Fällen 80% der Auswirkungen auf 20% der Ursachen zurückzuführen sind. In der Produktentwicklung bedeutet dies oft, dass 20% der Funktionen 80% des Nutzens bringen.",
         "Verschwendung (Waste)": "Ein Konzept aus dem Lean Management, das alle Aktivitäten beschreibt, die Ressourcen verbrauchen, aber keinen Wert für den Kunden schaffen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "26. In einem Unternehmen wird Scrum eingeführt. Ein Projektmanager aus einem klassischen Projekt möchte wissen, wer im Scrum-Team für die Erstellung des Projektplans, die Budgetkontrolle und die Berichterstattung an das Management zuständig ist. Wie lautet die korrekte Antwort?",
@@ -681,7 +706,8 @@
         "Projektmanager": "Eine Rolle im klassischen Projektmanagement, die für die Planung, Durchführung und den Abschluss von Projekten verantwortlich ist. Diese Rolle existiert in Scrum nicht.",
         "Return on Investment (ROI)": "Eine betriebswirtschaftliche Kennzahl, die das Verhältnis zwischen dem investierten Kapital und dem erzielten Gewinn misst. Der PO versucht den ROI zu maximieren.",
         "Transparenz": "Einer der drei Pfeiler von Scrum, der sicherstellt, dass alle relevanten Informationen für alle Beteiligten leicht zugänglich und verständlich sind."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "27. Welchen Zweck hat die `Definition of Done` (DoD) in einem Scrum-Projekt?",
@@ -708,7 +734,8 @@
         "Definition of Done (DoD)": "Eine formale Beschreibung des Zustands des Inkrements, wenn es die für das Produkt erforderlichen Qualitätsmaßnahmen erfüllt.",
         "Qualitätssicherung": "Ein prozessorientierter Ansatz zur Sicherstellung, dass ein Produkt oder eine Dienstleistung die geforderten Qualitätsstandards erfüllt.",
         "Undone Work": "Arbeit, die erledigt werden muss, um einen Product-Backlog-Eintrag wirklich 'Done' zu machen, aber nicht im ursprünglichen Sprint abgeschlossen wurde. Sie stellt eine Form von technischen Schulden dar."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "28. Warum ist es wichtig, dass das Entwicklungsteam das Product Backlog schätzt und nicht der Product Owner oder der Scrum Master?",
@@ -735,7 +762,8 @@
         "Schätzung (Estimation)": "Der Prozess der Vorhersage des Aufwands, der für die Durchführung einer Arbeit erforderlich ist. In Scrum ist dies Aufgabe des Entwicklungsteams.",
         "Planning Poker": "Eine konsensbasierte Schätztechnik, die verwendet wird, um Aufwände für Product-Backlog-Einträge zu schätzen.",
         "Story Points": "Eine relative Maßeinheit in Scrum, die verwendet wird, um den Gesamtaufwand für die Implementierung eines Product-Backlog-Eintrags auszudrücken. Sie berücksichtigt Komplexität, Unsicherheit und Arbeitsmenge."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Ein Team stellt am Ende des Sprints im Sprint-Review ein Produktinkrement vor. Die Stakeholder sind jedoch unzufrieden und geben negatives Feedback. Wer ist in Scrum letztendlich für den Erfolg des Produkts und damit auch für diese Situation verantwortlich?",
@@ -762,7 +790,8 @@
         "Produkterfolg": "Das Erreichen der Geschäftsziele, die mit einem Produkt verbunden sind. Die Verantwortung hierfür liegt beim Product Owner.",
         "Stakeholder-Management": "Der Prozess der Verwaltung der Erwartungen und Anforderungen von Personen, die ein Interesse am Projekt haben. Eine Kernaufgabe des Product Owners.",
         "Wertmaximierung": "Die Hauptaufgabe des Product Owners, die darin besteht, die Arbeit des Entwicklungsteams so zu steuern, dass der größtmögliche Geschäftswert entsteht."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "30. Ein Unternehmen hat ein sehr erfolgreiches Scrum-Team. Das Management beschließt nun, die Vorgehensweise dieses Teams (Meetings, Artefakte, Teamregeln) exakt zu kopieren und als unternehmensweiten Standard für alle anderen Teams vorzuschreiben. Warum widerspricht dieses Vorgehen dem agilen Prinzip 'Inspect and Adapt'?",
@@ -789,7 +818,8 @@
         "Inspect and Adapt": "Ein empirischer Prozess, der auf Transparenz, Überprüfung und Anpassung basiert. Scrum selbst ist ein solcher Prozess, und es erwartet von den Teams, dass sie ihn auf ihre eigene Arbeit anwenden.",
         "Selbstorganisation": "Das Prinzip, dass die Personen, die der Arbeit am nächsten sind, am besten entscheiden können, wie diese erledigt werden soll. Ein Grundpfeiler von Scrum.",
         "Framework": "Ein Rahmengerüst, das eine Grundstruktur vorgibt, aber bewusst unvollständig ist und mit spezifischen Praktiken und Prozessen gefüllt werden muss. Scrum ist ein Framework, keine Methodologie."
-      }
+      },
+      "cognitive_level": "Analyse"
     }
   ]
 }

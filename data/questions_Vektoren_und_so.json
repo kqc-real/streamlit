@@ -35,7 +35,8 @@
         "Untervektorraum": "Ein Untervektorraum eines Vektorraums ist eine nichtleere Teilmenge, die unter Vektoraddition und skalarer Multiplikation abgeschlossen ist und den Nullvektor enthält.",
         "Nullvektor": "Der Nullvektor ist der eindeutig bestimmte Vektor, der bei der Addition die anderen Vektoren unverändert lässt und bei skalarer Multiplikation immer wieder sich selbst liefert.",
         "Abgeschlossenheit": "Eine Menge ist bezüglich einer Operation abgeschlossen, wenn die Operation auf Elemente dieser Menge angewendet wieder ein Element derselben Menge ergibt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche Vektormenge ist eine Basis von $\\mathbb{R}^2$?",
@@ -53,7 +54,8 @@
         "Basis": "Eine Basis eines Vektorraums ist eine Menge von Vektoren, die linear unabhängig sind und den gesamten Raum erzeugen.",
         "Dimension": "Die Dimension eines Vektorraums ist die Anzahl der Vektoren in einer beliebigen Basis dieses Raums.",
         "Linear unabhängig": "Vektoren sind linear unabhängig, wenn nur die triviale Linearkombination mit allen Koeffizienten gleich 0 den Nullvektor ergibt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Welche Matrix ist die $2\\times2$-Einheitsmatrix $I_2$?",
@@ -71,7 +73,8 @@
         "Einheitsmatrix": "Die Einheitsmatrix $I_n$ ist die $n\\times n$-Matrix mit Einsen auf der Hauptdiagonalen und Nullen sonst und wirkt als neutrales Element der Matrixmultiplikation.",
         "Diagonale": "Die Hauptdiagonale einer quadratischen Matrix besteht aus den Einträgen mit gleichen Zeilen- und Spaltenindizes.",
         "Quadratische Matrix": "Eine Matrix mit gleicher Anzahl von Zeilen und Spalten, also vom Typ $n\\times n$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Welcher Vektor ist der Nullvektor in $\\mathbb{R}^3$?",
@@ -97,7 +100,8 @@
         "Nullvektor": "Der Nullvektor ist der eindeutige Vektor mit allen Komponenten gleich 0 und ist neutrales Element der Vektoraddition.",
         "Komponente": "Eine Komponente eines Vektors in $\\mathbb{R}^n$ ist einer der $n$ Einträge, aus denen der Vektor besteht.",
         "Vektorraum": "Ein Vektorraum ist eine Menge von Vektoren mit definierten Operationen Addition und skalarer Multiplikation, die bestimmte Axiome erfüllen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Welche Vektormenge bildet eine Basis von $\\mathbb{R}^3$?",
@@ -123,7 +127,8 @@
         "Standardbasis": "Die Standardbasis in $\\mathbb{R}^n$ besteht aus Vektoren, die jeweils genau eine Komponente 1 und alle anderen 0 haben.",
         "Erzeugendensystem": "Eine Menge von Vektoren, deren Linearkombinationen den gesamten Vektorraum ergeben.",
         "Linear abhängig": "Vektoren sind linear abhängig, wenn es eine nichttriviale Linearkombination gibt, die den Nullvektor ergibt."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "6. Welche Dimension hat $A B C$ mit $A(3\\times4),B(4\\times5),C(5\\times2)$?",
@@ -149,7 +154,8 @@
         "Matrixdimension": "Die Dimension einer Matrix wird als Anzahl der Zeilen mal Anzahl der Spalten angegeben, etwa $m\\times n$.",
         "Matrixprodukt": "Das Matrixprodukt $A B$ ist definiert, wenn die Spaltenzahl von $A$ gleich der Zeilenzahl von $B$ ist, und ergibt eine neue Matrix.",
         "Innere Dimension": "Die übereinstimmende Größe, die bei der Matrixmultiplikation wegfällt, meist die Anzahl der Spalten der ersten und Zeilen der zweiten Matrix."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "7. Welche Formel definiert das Matrixprodukt $C=A B$ komponentenweise?",
@@ -175,7 +181,8 @@
         "Eintrag $c_{ij}$": "Das Element in der $i$-ten Zeile und $j$-ten Spalte einer Matrix $C$.",
         "Index": "Ein Index kennzeichnet Positionen in Vektoren oder Matrizen, beispielsweise Zeilen- und Spaltennummern.",
         "Summenzeichen": "Das Symbol $\\sum$ steht für eine endliche Summe über einen Index, etwa $\\sum_k$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "8. Welche Bedingung garantiert eine eindeutige Lösung von $A x=b$?",
@@ -201,7 +208,8 @@
         "Rang": "Der Rang einer Matrix ist die maximale Anzahl linear unabhängiger Zeilen oder Spalten.",
         "Erweiterte Matrix": "Die Matrix $(A|b)$ entsteht aus der Koeffizientenmatrix $A$ durch Anhängen der rechten Seite $b$ als zusätzlicher Spalte.",
         "Eindeutige Lösung": "Ein Gleichungssystem besitzt genau eine Lösung, wenn weder Widersprüche noch freie Variablen auftreten."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "9. Welche Zeile in Zeilenstufenform zeigt einen Widerspruch?",
@@ -227,7 +235,8 @@
         "Zeilenstufenform": "Eine Form einer Matrix, bei der die Pivot-Elemente treppenförmig angeordnet sind und darunter Nullen stehen.",
         "Widerspruch": "Eine Gleichung wie $0=5$, die niemals erfüllt sein kann, zeigt die Unlösbarkeit eines Systems an.",
         "Pivot-Element": "Das erste von Null verschiedene Element einer Zeile in der Zeilenstufenform einer Matrix."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. Ein LGS mit 3 Unbekannten hat 2 Pivotspalten. Wie viele freie Variablen hat es?",
@@ -253,7 +262,8 @@
         "Pivotspalte": "Eine Spalte, in der sich ein Pivot-Element befindet und die eine führende Variable repräsentiert.",
         "Freie Variable": "Eine Variable, die nicht Pivotvariable ist und daher als Parameter der Lösungsmenge gewählt werden kann.",
         "Lösungsmenge": "Die Menge aller Vektoren, die ein lineares Gleichungssystem erfüllen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Welche Bedingung an die Eigenwerte $\\lambda_i$ macht $A$ invertierbar?",
@@ -279,7 +289,8 @@
         "Invertierbare Matrix": "Eine Matrix, für die es eine inverse Matrix gibt, sodass $A^{-1}A=I$ gilt.",
         "Singuläre Matrix": "Eine Matrix ohne Inverse, typischerweise mit Determinante 0.",
         "Determinante": "Eine skalare Größe, die einer quadratischen Matrix zugeordnet wird und unter anderem Invertierbarkeit charakterisiert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. Welche Menge enthält die Eigenwerte von $\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$?",
@@ -305,7 +316,8 @@
         "Charakteristisches Polynom": "Das Polynom $p_A(\\lambda)=\\det(A-\\lambda I)$, dessen Nullstellen die Eigenwerte von $A$ sind.",
         "Determinante": "Eine skalare Funktion, die einer quadratischen Matrix zugeordnet wird und unter anderem das Volumenbildungsverhalten beschreibt.",
         "Diagonalisierung": "Die Darstellung einer Matrix als $A=P D P^{-1}$ mit einer Diagonalmatrix $D$ aus Eigenwerten und einer Matrix $P$ aus Eigenvektoren."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "14. Welche Gleichung charakterisiert orthogonale Vektoren $v,w$?",
@@ -331,7 +343,8 @@
         "Skalarprodukt": "Eine Abbildung, die zwei Vektoren auf eine reelle Zahl abbildet und unter anderem Symmetrie und Positivität erfüllt.",
         "Orthogonal": "Zwei Vektoren heißen orthogonal, wenn ihr Skalarprodukt gleich 0 ist.",
         "Norm": "Die Norm $\\|v\\|$ eines Vektors ist die durch das Skalarprodukt definierte Länge, meist $\\|v\\|=\\sqrt{\\langle v,v\\rangle}$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Welche Formel definiert die Norm aus einem Skalarprodukt?",
@@ -357,7 +370,8 @@
         "Euklidischer Raum": "Ein Vektorraum mit einem euklidischen Skalarprodukt, das einen geometrischen Winkelbegriff erlaubt.",
         "Länge": "Die Länge eines Vektors wird durch die Norm ausgedrückt und gibt den Betrag des Vektors an.",
         "Quadrat der Norm": "Der Wert $\\|v\\|^2=\\langle v,v\\rangle$ ist oft einfacher zu berechnen als die Norm selbst."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Welche Adjazenzmatrix gehört zum Pfad $A-B-C$ auf drei Knoten?",
@@ -383,7 +397,8 @@
         "Adjazenzmatrix": "Eine Matrixdarstellung eines Graphen, in der Eintrag $(i,j)$ anzeigt, ob zwischen Knoten $i$ und $j$ eine Kante existiert.",
         "Pfad": "Eine Folge von Knoten, bei der aufeinanderfolgende Knoten jeweils durch eine Kante verbunden sind.",
         "Ungerichteter Graph": "Ein Graph, in dem Kanten keine Richtung haben und damit Symmetrie in der Adjazenzmatrix erzeugen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Gegeben ist $E=\\{(A,B),(A,C),(B,C),(B,D)\\}$. Welchen Grad hat Knoten $B$?",
@@ -409,7 +424,8 @@
         "Grad eines Knotens": "Die Anzahl der Kanten, die an einem Knoten inzident sind.",
         "Kantenmenge": "Die Menge aller Kanten eines Graphen, typischerweise als Paare von Knoten notiert.",
         "Inzident": "Eine Kante ist zu einem Knoten inzident, wenn der Knoten ein Endpunkt dieser Kante ist."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Welche Gleichung charakterisiert einen Baum mit $n$ Knoten?",
@@ -435,7 +451,8 @@
         "Baum": "Ein Graph, der zusammenhängend und zyklenfrei ist.",
         "Zyklenfrei": "Ein Graph ist zyklenfrei, wenn es keinen geschlossenen Pfad mit mindestens einer Kante gibt.",
         "Zusammenhängend": "Ein Graph ist zusammenhängend, wenn zwischen jedem Knotenpaar ein Pfad existiert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welche Folge entsteht bei Inorder-Traversierung des BST mit Einfügefolge $[10,5,15,3,7,12]$?",
@@ -461,7 +478,8 @@
         "Binärer Suchbaum": "Ein binärer Baum, in dem in jedem Knoten alle Schlüssel im linken Teilbaum kleiner und im rechten Teilbaum größer sind.",
         "Inorder-Traversierung": "Eine Tiefensuche, die zuerst den linken Teilbaum, dann den Knoten und danach den rechten Teilbaum besucht.",
         "Traversierung": "Ein systematisches Besuchsschema, um alle Knoten eines Baumes oder Graphen zu durchlaufen."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "20. Welche Darstellung beschreibt alle Linearkombinationen von $v_1,v_2$?",
@@ -487,7 +505,8 @@
         "Linearkombination": "Ein Ausdruck der Form $\\alpha_1 v_1+\\dots+\\alpha_k v_k$ mit Skalaren $\\alpha_i$ und Vektoren $v_i$.",
         "Span": "Der von Vektoren aufgespannte Unterraum, der aus allen ihren Linearkombinationen besteht.",
         "Skalar": "Ein Element des zugrunde liegenden Körpers, im Standardfall eine reelle Zahl, die Vektoren skaliert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     }
   ]
 }

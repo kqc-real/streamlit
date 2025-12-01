@@ -35,7 +35,8 @@
         "Körper (Algebra)": "Eine algebraische Struktur mit Addition, Subtraktion, Multiplikation und Division (außer durch Null), wie z.B. die reellen Zahlen $\\mathbb{R}$ oder die komplexen Zahlen $\\mathbb{C}$.",
         "Axiom": "Eine grundlegende Annahme oder Regel, die als wahr akzeptiert wird und als Ausgangspunkt für weitere logische Schlussfolgerungen dient.",
         "Distributivität": "Eine Eigenschaft von Operationen, die besagt, wie sich eine Operation auf eine andere verteilt, z.B. $\\lambda \\cdot (u+v) = \\lambda \\cdot u + \\lambda \\cdot v$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welche der folgenden Mengen bildet **keinen** Vektorraum über $\\mathbb{R}$ mit den üblichen Operationen der Addition und Skalarmultiplikation?",
@@ -55,7 +56,8 @@
         "Polynomraum $P_n$": "Der Vektorraum aller Polynome mit Koeffizienten aus einem Körper $K$ und Grad kleiner oder gleich $n$.",
         "Matrizenraum $M_{m \\times n}(K)$": "Der Vektorraum aller $m \\times n$ Matrizen mit Einträgen aus einem Körper $K$.",
         "Funktionenraum $C[a,b]$": "Der Vektorraum aller stetigen reellwertigen Funktionen auf dem Intervall $[a,b]$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Gegeben seien die Vektoren $v_1 = (1, 0, -1)^T$ und $v_2 = (0, 1, 1)^T$ im $\\mathbb{R}^3$. Welcher der folgenden Vektoren liegt **nicht** im $\\text{span}(v_1, v_2)$?",
@@ -90,7 +92,8 @@
         "Linearkombination": "Ein Vektor, der durch Addition von Skalarvielfachen anderer Vektoren gebildet wird: $v = c_1 v_1 + \\dots + c_n v_n$.",
         "Skalar": "Ein Element des Körpers, über dem der Vektorraum definiert ist (meist eine reelle oder komplexe Zahl), das zur Skalierung von Vektoren verwendet wird.",
         "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst wieder ein Vektorraum bezüglich der geerbten Operationen ist. Sie muss den Nullvektor enthalten und abgeschlossen unter Addition und Skalarmultiplikation sein."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "4. Welche Aussage über lineare Unabhängigkeit ist **falsch**?",
@@ -120,7 +123,8 @@
         "Lineare Abhängigkeit": "Eine Menge von Vektoren ist linear abhängig, wenn mindestens ein Vektor als Linearkombination der anderen dargestellt werden kann. Formal: Es gibt $c_i$, nicht alle Null, mit $\\sum c_i v_i = 0$.",
         "Determinante": "Ein Skalarwert, der einer quadratischen Matrix zugeordnet ist und Informationen über die Invertierbarkeit der Matrix und die lineare Unabhängigkeit ihrer Spaltenvektoren liefert.",
         "Kollinear": "Zwei Vektoren sind kollinear, wenn sie auf derselben Geraden liegen, d.h., einer ist ein skalares Vielfaches des anderen."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "5. Gegeben sind die Vektoren $v_1 = (1, 2, 3)^T$, $v_2 = (0, 1, 2)^T$ und $v_3 = (-1, 0, 1)^T$ im $\\mathbb{R}^3$. Sind diese Vektoren linear unabhängig?",
@@ -153,7 +157,8 @@
         "Rang einer Matrix": "Die maximale Anzahl linear unabhängiger Zeilen- oder Spaltenvektoren der Matrix. Er entspricht der Dimension des von den Zeilen bzw. Spalten aufgespannten Raumes.",
         "Triviale Lösung": "Die Lösung eines homogenen linearen Gleichungssystems, bei der alle Variablen gleich Null sind ($c_1=c_2=\\dots=c_n=0$).",
         "Nichttriviale Lösung": "Eine Lösung eines homogenen linearen Gleichungssystems, bei der mindestens eine Variable ungleich Null ist."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "6. Was ist die **Dimension** des Vektorraums $P_4(\\mathbb{R})$, des Raums aller Polynome vom Grad höchstens 4 mit reellen Koeffizienten?",
@@ -173,7 +178,8 @@
         "Basis (eines Vektorraums)": "Eine Menge von Vektoren, die linear unabhängig ist und den gesamten Vektorraum aufspannt (Erzeugendensystem).",
         "Polynomraum $P_n(\\mathbb{R})$": "Der Vektorraum aller Polynome $a_0 + a_1 x + \\dots + a_n x^n$ mit reellen Koeffizienten $a_i$.",
         "Monom": "Ein Polynom, das nur aus einem Term besteht, typischerweise eine Potenz der Variablen wie $x^k$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Sei $V$ ein Vektorraum der Dimension $n$. Welche Aussage ist **immer** korrekt?",
@@ -204,7 +210,8 @@
         "Dimension": "Die (eindeutige) Anzahl der Vektoren in einer Basis eines Vektorraums.",
         "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
         "Austauschlemma von Steinitz": "Ein Satz, der besagt, dass in einem von $n$ Vektoren erzeugten Raum jede linear unabhängige Menge höchstens $n$ Vektoren enthält. Er beweist die Eindeutigkeit der Dimension."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "8. Welches Kriterium muss eine Teilmenge $U$ eines Vektorraums $V$ erfüllen, um ein Untervektorraum zu sein?",
@@ -224,7 +231,8 @@
         "Abgeschlossenheit": "Eine Eigenschaft einer Menge bezüglich einer Operation. Eine Menge ist abgeschlossen bzgl. einer Operation, wenn das Ergebnis der Operation auf Elemente der Menge wieder ein Element der Menge ist.",
         "Nullvektor": "Das eindeutige neutrale Element der Vektoraddition in einem Vektorraum, oft mit $0$ oder $0_V$ bezeichnet.",
         "Teilmenge": "Eine Menge $U$, deren Elemente alle auch Elemente einer größeren Menge $V$ sind, geschrieben als $U \\subseteq V$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "9. Betrachtet wird der Vektorraum $\\mathbb{R}^3$. Welche der folgenden Teilmengen ist **kein** Untervektorraum?",
@@ -255,7 +263,8 @@
         "Ebene durch den Ursprung": "Eine Teilmenge des $\\mathbb{R}^3$, die durch eine Gleichung der Form $ax+by+cz=0$ beschrieben wird oder der Span von zwei linear unabhängigen Vektoren ist.",
         "Gerade durch den Ursprung": "Eine Teilmenge des $\\mathbb{R}^n$, die aus allen skalaren Vielfachen eines einzelnen Vektors $v \\neq 0$ besteht: $\\{\\lambda v \\mid \\lambda \\in \\mathbb{R}\\}$.",
         "Einheitskugel": "Die Menge aller Punkte (Vektoren) in einem normierten Vektorraum, deren Abstand vom Ursprung kleiner oder gleich 1 ist."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. Sei $B = \\{b_1, b_2\\}$ eine Basis für $\\mathbb{R}^2$. Ein Vektor $v$ habe die Koordinaten $[v]_B = (3, -1)^T$. Was bedeutet das?",
@@ -275,7 +284,8 @@
         "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
         "Standardbasis": "Die Basis eines Koordinatenraums $\\mathbb{R}^n$ (oder $K^n$), die aus den Einheitsvektoren $e_i$ besteht, welche an der i-ten Stelle eine 1 und sonst Nullen haben.",
         "Linearkombination": "Ein Vektor $v = c_1 v_1 + \\dots + c_n v_n$, gebildet durch Addition von Skalarvielfachen anderer Vektoren."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "11. Gegeben sei die Standardbasis $E=\\{e_1, e_2\\}$ für $\\mathbb{R}^2$ und eine neue Basis $B=\\{b_1, b_2\\}$ mit $b_1 = (1, 1)^T$ und $b_2 = (1, -1)^T$. Ein Vektor $v$ hat in der Standardbasis die Koordinaten $v = (3, 5)^T$. Was ist der Koordinatenvektor $[v]_B$ von $v$ bezüglich der Basis $B$?",
@@ -309,7 +319,8 @@
         "Basiswechsel": "Der Prozess der Umrechnung der Koordinaten eines Vektors von einer Basis in eine andere.",
         "Lineares Gleichungssystem (LGS)": "Eine Menge von linearen Gleichungen mit mehreren Unbekannten, die gleichzeitig erfüllt sein sollen.",
         "Inverse Matrix": "Zu einer quadratischen Matrix $A$ die Matrix $A^{-1}$, sodass $A \\cdot A^{-1} = A^{-1} \\cdot A = I$ (Einheitsmatrix)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Sei $V$ ein Vektorraum mit $\\dim(V)=5$. Seien $U$ und $W$ Untervektorräume von $V$ mit $\\dim(U)=3$ und $\\dim(W)=4$. Was ist die **kleinstmögliche** Dimension des Schnitts $U \\cap W$?",
@@ -342,7 +353,8 @@
         "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst ein Vektorraum ist.",
         "Summenraum $U+W$": "Die Menge aller Vektoren, die sich als Summe eines Vektors aus $U$ und eines Vektors aus $W$ schreiben lassen. Es ist der kleinste Untervektorraum, der $U$ und $W$ enthält.",
         "Schnittraum $U \\cap W$": "Die Menge aller Vektoren, die sowohl in $U$ als auch in $W$ liegen. Es ist der größte Untervektorraum, der in $U$ und $W$ enthalten ist."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "13. Welche Eigenschaft muss **nicht** notwendigerweise für eine Basis $B = \\{b_1, \\dots, b_n\\}$ eines Vektorraums $V$ gelten?",
@@ -362,7 +374,8 @@
         "Lineare Unabhängigkeit": "Eigenschaft einer Menge von Vektoren, bei der keiner als Linearkombination der anderen darstellbar ist.",
         "Span (Erzeugnis)": "Die Menge aller Linearkombinationen einer Vektormenge.",
         "Orthogonalität": "Zwei Vektoren sind orthogonal, wenn ihr Skalarprodukt Null ist. Sie stehen 'senkrecht' aufeinander."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "14. Gegeben sind die Vektoren $v_1 = (1, 1)^T$ und $v_2 = (-1, 1)^T$ im $\\mathbb{R}^2$. Warum bilden sie eine Basis für $\\mathbb{R}^2$?",
@@ -382,7 +395,8 @@
         "Dimension": "Die Anzahl der Vektoren in einer Basis.",
         "Lineare Unabhängigkeit": "Kein Vektor ist Linearkombination der anderen.",
         "Orthogonal": "Vektoren, deren Skalarprodukt Null ist."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "15. Wie lautet die Standardbasis für den Vektorraum $M_{2 \\times 2}(\\mathbb{R})$ der reellen $2 \\times 2$ Matrizen?",
@@ -401,7 +415,8 @@
         "Matrizenraum $M_{m \\times n}(\\mathbb{R})$": "Der Vektorraum aller $m \\times n$ Matrizen mit reellen Einträgen.",
         "Standardbasis (Matrizen)": "Die Basis bestehend aus Matrizen $E_{ij}$, die nur an der Position $(i,j)$ den Eintrag 1 haben und sonst Nullen.",
         "Dimension (Matrizenraum)": "Für $M_{m \\times n}(\\mathbb{R})$ ist die Dimension $m \\times n$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "16. Was ist der **fundamentale Isomorphiesatz** für endlichdimensionale Vektorräume?",
@@ -429,7 +444,8 @@
         "Isomorph": "Zwei Vektorräume heißen isomorph, wenn ein Isomorphismus zwischen ihnen existiert. Sie sind strukturell äquivalent.",
         "Dimension": "Die Anzahl der Vektoren in einer Basis eines Vektorraums.",
         "Koordinatenabbildung": "Die lineare Abbildung, die einen Vektor auf seinen Koordinatenvektor bezüglich einer gewählten Basis abbildet."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "17. Welche Aussage folgt **nicht** direkt aus den Vektorraumaxiomen?",
@@ -449,7 +465,8 @@
         "Nullvektor": "Das neutrale Element der Vektoraddition.",
         "Additives Inverses": "Der Vektor $-v$, der zu $v$ addiert den Nullvektor ergibt.",
         "Skalarprodukt (Inneres Produkt)": "Eine zusätzliche Operation, die zwei Vektoren einen Skalar zuordnet und Eigenschaften wie Bilinearität, Symmetrie und positive Definitheit besitzt. Nicht Teil der Standard-Vektorraumdefinition."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "18. Ist der Vektor $w = (8, 1)^T$ eine Linearkombination der Vektoren $v_1 = (1, 2)^T$ und $v_2 = (-2, 1)^T$? Wenn ja, mit welchen Koeffizienten $c_1, c_2$?",
@@ -468,7 +485,8 @@
         "Linearkombination": "Ein Vektor $v = c_1 v_1 + \\dots + c_n v_n$, gebildet durch Addition von Skalarvielfachen anderer Vektoren.",
         "Lineares Gleichungssystem (LGS)": "Eine Menge von linearen Gleichungen, die gleichzeitig gelöst werden sollen.",
         "Koeffizienten": "Die Skalare $c_i$ in einer Linearkombination."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "19. Sei $V=\\mathbb{R}^3$. Ist die Menge $U = \\{(x, y, z)^T \\in \\mathbb{R}^3 \\mid x \\ge 0\\}$ (Vektoren im ersten Oktanten und angrenzenden Ebenen) ein Untervektorraum von $V$?",
@@ -498,7 +516,8 @@
         "Abgeschlossenheit (Addition)": "Für alle $u, w$ in der Menge liegt auch $u+w$ in der Menge.",
         "Abgeschlossenheit (Skalarmultiplikation)": "Für alle $u$ in der Menge und alle Skalare $\\lambda$ liegt auch $\\lambda u$ in der Menge.",
         "Oktant": "Einer der acht Bereiche, in die der $\\mathbb{R}^3$ durch die Koordinatenebenen geteilt wird."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Welches Konzept der linearen Algebra wird hauptsächlich bei der JPEG-Bildkompression genutzt, um von Pixelwerten zu Frequenzkoeffizienten zu wechseln?",
@@ -531,7 +550,8 @@
         "Diskrete Kosinustransformation (DCT)": "Eine Fourier-verwandte Transformation, die ein Signal (hier einen Bildblock) in seine Frequenzkomponenten zerlegt. Sie stellt einen Basiswechsel dar.",
         "Basiswechsel": "Die Umrechnung der Koordinaten eines Vektors von einer Basisdarstellung in eine andere.",
         "Quantisierung": "Ein Prozess bei der digitalen Signalverarbeitung, bei dem ein kontinuierlicher oder großer Wertebereich auf einen kleineren, diskreten Satz von Werten abgebildet wird (Rundung)."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "21. Sei $V$ ein Vektorraum und $S = \\{v_1, v_2, v_3\\}$ eine linear abhängige Menge von Vektoren in $V$. Was folgt daraus notwendigerweise?",
@@ -551,7 +571,8 @@
         "Linearkombination": "Summe von Skalarvielfachen von Vektoren.",
         "Dimension": "Anzahl der Vektoren in einer Basis.",
         "Span": "Menge aller Linearkombinationen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "22. Was ist die Dimension des Untervektorraums $U = \\text{span}((1, 0, 1)^T, (0, 1, 1)^T, (1, 1, 2)^T)$ von $\\mathbb{R}^3$?",
@@ -584,7 +605,8 @@
         "Dimension": "Die Anzahl der Vektoren in einer Basis des (Unter-)Vektorraums.",
         "Lineare Unabhängigkeit": "Kein Vektor der Menge ist als Linearkombination der anderen darstellbar.",
         "Basis": "Ein linear unabhängiges Erzeugendensystem."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Sei $\\phi: V \\to W$ ein Isomorphismus zwischen zwei Vektorräumen $V$ und $W$. Welche Aussage ist **falsch**?",
@@ -615,7 +637,8 @@
         "Lineare Abbildung": "Eine Abbildung zwischen Vektorräumen, die die Vektoraddition und Skalarmultiplikation respektiert ($\\phi(v_1+v_2)=\\phi(v_1)+\\phi(v_2)$, $\\phi(\\lambda v)=\\lambda \\phi(v)$).",
         "Bijektiv": "Eine Abbildung, die sowohl injektiv als auch surjektiv ist.",
         "Basis": "Ein linear unabhängiges Erzeugendensystem."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "24. Welches Vektorraum-Axiom stellt sicher, dass $1 \\cdot v = v$ für jeden Vektor $v$ gilt, wobei $1$ das Einselement des Skalarkörpers ist?",
@@ -635,7 +658,8 @@
         "Skalarmultiplikation": "Die Operation, einen Vektor mit einem Skalar zu multiplizieren.",
         "Skalarkörper": "Der Körper (z.B. $\\mathbb{R}$), aus dem die Skalare für die Skalarmultiplikation stammen.",
         "Einselement": "Das neutrale Element der Multiplikation im Skalarkörper, üblicherweise mit $1$ bezeichnet."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "25. Was ist die Kosinus-Ähnlichkeit zwischen den Vektoren $A = (2, 4, -1)^T$ und $B = (3, -2, 5)^T$?",
@@ -666,7 +690,8 @@
         "Skalarprodukt (Dot Product)": "Eine Operation, die zwei Vektoren einen Skalar zuordnet: $A \\cdot B = \\sum A_i B_i$. Im euklidischen Raum misst es, wie sehr die Vektoren in die gleiche Richtung zeigen.",
         "Euklidische Norm (Betrag)": "Die Länge eines Vektors im euklidischen Raum: $\\|A\\| = \\sqrt{\\sum A_i^2}$.",
         "Vektoraddition": "Die komponentenweise Addition zweier Vektoren."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "26. Welche Methode zur Prüfung der linearen Unabhängigkeit von $n$ Vektoren im $\\mathbb{R}^n$ ist im Allgemeinen **nicht** geeignet, wenn $n$ sehr groß ist (z.B. $n=1000$)?",
@@ -699,7 +724,8 @@
         "Determinante": "Ein Skalarwert einer quadratischen Matrix, der angibt, ob sie invertierbar ist.",
         "Numerische Stabilität": "Die Eigenschaft eines Algorithmus, auch bei kleinen Eingabefehlern (z.B. Rundungsfehlern) ein Ergebnis nahe der exakten Lösung zu liefern.",
         "Rechenkomplexität": "Ein Maß für den Ressourcenbedarf (Zeit oder Speicher) eines Algorithmus in Abhängigkeit von der Größe der Eingabe (hier $n$)."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "27. Sei $V$ der Vektorraum aller reellen $2 \\times 2$ Matrizen. Der Unterraum $U$ bestehe aus allen symmetrischen Matrizen ($A^T = A$) und der Unterraum $W$ aus allen schiefsymmetrischen Matrizen ($A^T = -A$). Welche Aussage ist korrekt?",
@@ -730,7 +756,8 @@
         "Schiefsymmetrische Matrix": "Eine quadratische Matrix $A$, für die $A^T = -A$ gilt (Diagonalelemente sind 0, $a_{ji}=-a_{ij}$).",
         "Transponierte Matrix $A^T$": "Die Matrix, die durch Vertauschen von Zeilen und Spalten von $A$ entsteht ($a^T_{ij} = a_{ji}$).",
         "Direkte Summe $U \\oplus W$": "Die Summe zweier Untervektorräume $U+W$, wenn ihr Schnitt nur der Nullvektor ist ($U \\cap W = \\{0\\}$). Jeder Vektor in $U \\oplus W$ hat eine eindeutige Darstellung als $u+w$ mit $u \\in U, w \\in W$."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "28. Die Anwendung von **Embeddings** in der künstlichen Intelligenz, bei der z.B. Wörter als hochdimensionale Vektoren dargestellt werden, beruht darauf, dass:",
@@ -761,7 +788,8 @@
         "Semantische Ähnlichkeit": "Die Ähnlichkeit von Wörtern oder Konzepten basierend auf ihrer Bedeutung oder ihrem Kontext.",
         "Kosinus-Ähnlichkeit": "Ein Maß für die Richtungsähnlichkeit zweier Vektoren, berechnet als Kosinus des Winkels zwischen ihnen.",
         "Hochdimensionaler Raum": "Ein Vektorraum mit vielen Dimensionen (oft hunderte oder tausende in KI-Anwendungen)."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Die **Hauptkomponentenanalyse (PCA)** ist eine Technik zur Dimensionalitätsreduktion. Was macht sie im Kern aus Sicht der linearen Algebra?",
@@ -793,7 +821,8 @@
         "Dimensionalitätsreduktion": "Der Prozess, die Anzahl der Merkmale (Dimensionen) eines Datensatzes zu verringern, während wichtige Informationen erhalten bleiben.",
         "Varianz": "Ein Maß für die Streuung von Datenpunkten um ihren Mittelwert.",
         "Orthogonale Basis": "Eine Basis, deren Vektoren paarweise orthogonal (senkrecht) zueinander stehen. Sind sie zusätzlich auf Länge 1 normiert, heißt sie Orthonormalbasis."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "30. Betrachten Sie die Vektoren $u=(1, 1, 0)^T$, $v=(1, 0, 1)^T$, $w=(0, 1, 1)^T$ im $\\mathbb{R}^3$. Welche Aussage ist korrekt?",
@@ -826,7 +855,8 @@
         "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums.",
         "Dimension": "Die Anzahl der Vektoren in einer Basis.",
         "Determinante": "Ein Skalarwert einer quadratischen Matrix. Ist er ungleich Null, sind die Spaltenvektoren linear unabhängig."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "31. Das Austauschlemma von Steinitz ist ein zentraler Satz der linearen Algebra. Was ist seine wichtigste Konsequenz für endlichdimensionale Vektorräume?",
@@ -858,7 +888,8 @@
         "Dimension": "Die eindeutige Anzahl von Vektoren in jeder Basis eines Vektorraums.",
         "Wohldefiniert": "Ein Begriff oder eine Größe ist wohldefiniert, wenn seine Definition eindeutig ist und nicht von willkürlichen Wahlen (wie der Wahl einer Basis) abhängt.",
         "Basis": "Ein linear unabhängiges Erzeugendensystem."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "32. Welches der folgenden Beispiele stellt **keinen** Vektorraum über den reellen Zahlen $\\mathbb{R}$ dar?",
@@ -888,7 +919,8 @@
         "Nullvektor": "Das neutrale Element der Vektoraddition.",
         "Untervektorraum": "Eine Teilmenge, die selbst ein Vektorraum ist.",
         "Differentialgleichung": "Eine Gleichung, die eine Funktion und ihre Ableitungen enthält."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "33. Sei $V$ ein Vektorraum über $\\mathbb{R}$ und $\\{v_1, v_2, v_3\\}$ eine Basis für $V$. Ist die Menge $\\{v_1+v_2, v_2+v_3, v_3+v_1\\}$ ebenfalls eine Basis für $V$?",
@@ -926,7 +958,8 @@
         "Lineare Unabhängigkeit": "$\\sum c_i v_i = 0 \\implies c_i = 0$ für alle $i$.",
         "Dimension": "Anzahl der Vektoren in einer Basis.",
         "Homogenes LGS": "Lineares Gleichungssystem der Form $Ax=0$."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "34. Was besagt das Vektorraumaxiom der **Assoziativität der Vektoraddition** (A2)?",
@@ -946,7 +979,8 @@
         "Vektoraddition": "Die Operation, zwei Vektoren zu addieren.",
         "Kommutativität": "Eine Eigenschaft, bei der die Reihenfolge der Operanden keine Rolle spielt: $a \\circ b = b \\circ a$.",
         "Distributivität": "Eine Eigenschaft, wie sich zwei Operationen zueinander verhalten, z.B. Multiplikation verteilt sich über Addition."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "35. Wie viele linear unabhängige Vektoren kann man maximal im Vektorraum $\\mathbb{R}^4$ finden?",
@@ -966,7 +1000,8 @@
         "Lineare Unabhängigkeit": "Eine Menge von Vektoren, bei der keiner als Linearkombination der anderen darstellbar ist.",
         "$\\mathbb{R}^n$": "Der n-dimensionale reelle Koordinatenraum.",
         "Basis": "Ein linear unabhängiges Erzeugendensystem."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "36. Gegeben sei der Vektorraum $V$ aller Funktionen $f: \\mathbb{R} \\to \\mathbb{R}$. Welche der folgenden Teilmengen ist ein Untervektorraum von $V$?",
@@ -996,7 +1031,8 @@
         "Gerade Funktion": "Eine Funktion $f$, für die $f(x) = f(-x)$ gilt (symmetrisch zur y-Achse).",
         "Ungerade Funktion": "Eine Funktion $f$, für die $f(x) = -f(-x)$ gilt (punktsymmetrisch zum Ursprung).",
         "Untervektorraum": "Teilmenge eines Vektorraums, die selbst ein Vektorraum ist."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "37. Sei $V$ der Vektorraum $\\mathbb{R}^3$. $U = \\text{span}((1,0,0)^T)$ und $W = \\text{span}((0,1,0)^T, (0,0,1)^T)$. Was ist der Summenraum $U+W$?",
@@ -1016,7 +1052,8 @@
         "Span": "Menge aller Linearkombinationen.",
         "Dimension": "Anzahl der Vektoren in einer Basis.",
         "Schnittraum $U \\cap W$": "Menge aller Vektoren, die in $U$ und $W$ liegen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "38. Wie konstruiert man typischerweise eine Basis aus einem gegebenen **Erzeugendensystem** $S$, das möglicherweise linear abhängig ist?",
@@ -1050,7 +1087,8 @@
         "Basis": "Ein linear unabhängiges Erzeugendensystem.",
         "Lineare Abhängigkeit": "Mindestens ein Vektor ist Linearkombination der anderen.",
         "Reduktionsverfahren": "Eine Methode zur Basiskonstruktion, bei der aus einem Erzeugendensystem redundante (linear abhängige) Vektoren entfernt werden."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "39. Sei $V$ ein 3-dimensionaler Vektorraum über $\\mathbb{R}$ und $f: V \\to \\mathbb{R}^2$ eine surjektive lineare Abbildung. Was ist die Dimension des Kerns von $f$ ($\\ker(f)$)?",
@@ -1086,7 +1124,8 @@
         "Bild (einer lin. Abbildung)": "Die Menge aller Vektoren im Zielraum, die als Ergebnis der Abbildung auftreten.",
         "Dimensionssatz (Rangsatz)": "Ein Satz, der die Dimension des Definitionsbereichs mit den Dimensionen von Kern und Bild in Beziehung setzt: $\\dim(V) = \\dim(\\ker f) + \\dim(\\text{Bild } f)$.",
         "Surjektiv": "Eine Abbildung, bei der jedes Element des Zielraums mindestens einmal als Funktionswert auftritt (das Bild ist der gesamte Zielraum)."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "40. In der modernen KI werden oft **Embeddings** verwendet, um z.B. Wörter oder Code-Abschnitte in hochdimensionale Vektorräume ($\\mathbb{R}^{512}$, $\\mathbb{R}^{1024}$ etc.) abzubilden. Wozu dient dieser Schritt hauptsächlich?",
@@ -1117,7 +1156,8 @@
         "Hochdimensionaler Vektorraum": "Ein Vektorraum mit vielen Dimensionen, typisch in modernen KI-Modellen.",
         "Semantik": "Die Bedeutung von Zeichen, Wörtern, Sätzen oder Code.",
         "Geometrische Nähe": "Die räumliche Nähe von Punkten (Vektoren) in einem Vektorraum, oft als Maß für Ähnlichkeit interpretiert."
-      }
+      },
+      "cognitive_level": "Anwendung"
     }
   ]
 }

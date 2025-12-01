@@ -30,7 +30,8 @@
       "answer": 0,
       "explanation": "Ungerichtete Kanten sind ungeordnete Paare von Knoten; die Struktur ist $G=(V,E)$ mit $E\\subseteq \\{\\{x,y\\}\\mid x,y\\in V\\}$.",
       "weight": 1,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Wann heißen zwei Knoten adjazent?",
@@ -43,7 +44,8 @@
       "answer": 0,
       "explanation": "Adjazenz ist strukturell definiert: $\\{x,y\\}\\in E$.",
       "weight": 1,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Welche Aussage zur Adjazenzmatrix eines ungerichteten Graphen ist korrekt?",
@@ -56,7 +58,8 @@
       "answer": 0,
       "explanation": "Ungeri chtete Kanten erscheinen als $a_{ij}=a_{ji}$; dadurch ist $A=A^\\top$.",
       "weight": 1,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Was besagt das Handshake-Lemma in ungerichteten Graphen?",
@@ -69,7 +72,8 @@
       "answer": 0,
       "explanation": "Jede Kante trägt zu genau zwei Knotengraden bei, daher die Verdopplung.",
       "weight": 1,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "5. Was ist ein Weg in einem ungerichteten Graphen?",
@@ -82,7 +86,8 @@
       "answer": 0,
       "explanation": "Ein Weg nutzt Kanten zwischen aufeinanderfolgenden Knoten ohne Knotenwiederholung.",
       "weight": 1,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Was kennzeichnet einen stark zusammenhängenden Digraphen?",
@@ -95,7 +100,8 @@
       "answer": 0,
       "explanation": "Starke Zusammenhangsdefinition fordert bidirektionale Erreichbarkeit über gerichtete Wege.",
       "weight": 1,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Wofür steht DAG?",
@@ -108,7 +114,8 @@
       "answer": 0,
       "explanation": "DAG bedeutet gerichteter azyklischer Graph, also ohne gerichtete Kreise.",
       "weight": 1,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "8. Wann ist Dijkstra korrekt?",
@@ -121,7 +128,8 @@
       "answer": 0,
       "explanation": "Die Greedy-Invariante setzt Nichtnegativität der Gewichte voraus.",
       "weight": 1,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "9. Welche Darstellung ist für dünne Graphen meist speichereffizient?",
@@ -134,7 +142,8 @@
       "answer": 0,
       "explanation": "Die Adjazenzliste speichert nur vorhandene Kanten: $\\mathcal{O}(|V|+|E|)$.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "10. Welche Eigenschaft der Adjazenzmatrix erlaubt Speicherhalbierung bei ungerichteten Graphen?",
@@ -147,7 +156,8 @@
       "answer": 0,
       "explanation": "Da $a_{ij}=a_{ji}$, reicht obere oder untere Dreiecksmatrix.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "11. Welche Aussage zur Wegreduktion ist korrekt?",
@@ -160,7 +170,8 @@
       "answer": 0,
       "explanation": "Durch Entfernen von Wiederholungen bleibt die Konnektivität der Endpunkte erhalten.",
       "weight": 2,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Wann ist ein ungerichteter Graph zusammenhängend?",
@@ -173,7 +184,8 @@
       "answer": 0,
       "explanation": "Zusammenhang ist die Wegerreichbarkeit zwischen allen Knotenpaaren.",
       "weight": 2,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. Welche Gleichung gilt in jedem endlichen Digraphen?",
@@ -186,7 +198,8 @@
       "answer": 0,
       "explanation": "Jeder Bogen zählt genau einmal zum Ausgangs- und einmal zum Eingangsgrad.",
       "weight": 2,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Welche Bedingung charakterisiert einen DAG korrekt?",
@@ -199,7 +212,8 @@
       "answer": 0,
       "explanation": "DAG schließt gerichtete Zyklen aus; Quellen und Senken existieren mindestens je einmal.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Welche Aussage zur topologischen Sortierung ist korrekt?",
@@ -212,7 +226,8 @@
       "answer": 0,
       "explanation": "Topologische Ordnung ist genau die lineare Ordnung eines DAGs.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Wie wird die Länge eines Weges in einem bewerteten Graphen definiert?",
@@ -225,7 +240,8 @@
       "answer": 0,
       "explanation": "Die Weglänge ist $w(P)=\\sum_i w(e_i)$.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Welche Datenstruktur nutzt BFS typischerweise?",
@@ -238,7 +254,8 @@
       "answer": 0,
       "explanation": "BFS arbeitet schichtweise; eine FIFO-Queue stellt die Besuchsreihenfolge sicher.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Welche Anwendung ist typisch für DFS?",
@@ -251,7 +268,8 @@
       "answer": 0,
       "explanation": "DFS liefert zeitliche Nummerierungen, mit denen Zyklen detektierbar sind.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welche Laufzeit hat BFS auf Adjazenzlisten?",
@@ -264,7 +282,8 @@
       "answer": 0,
       "explanation": "Jeder Knoten und jede Kante wird höchstens konstant oft verarbeitet.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Welche Speicherkomplexität hat die Adjazenzmatrix?",
@@ -277,7 +296,8 @@
       "answer": 0,
       "explanation": "Die Matrix ist quadratisch in der Knotenzahl.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "21. Welche Aussage zur Isomorphie ist korrekt?",
@@ -290,7 +310,8 @@
       "answer": 0,
       "explanation": "Isomorphie bewahrt Struktur, nicht die konkreten Namen oder Zeichnungen.",
       "weight": 2,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Welche Operation verletzt Planarität nicht per se?",
@@ -303,7 +324,8 @@
       "answer": 0,
       "explanation": "Umbenennung ändert die Struktur nicht; andere Schritte können Planarität zerstören.",
       "weight": 2,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Welche Aussage zu stark vs. schwach zusammenhängend ist korrekt?",
@@ -316,7 +338,8 @@
       "answer": 0,
       "explanation": "Stark ist die strengere Forderung; Ignorieren der Richtungen liefert schwachen Zusammenhang.",
       "weight": 2,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "24. Welche Aussage zur Quellenexistenz im DAG ist korrekt?",
@@ -329,7 +352,8 @@
       "answer": 0,
       "explanation": "In endlichen DAGs existieren mindestens eine Quelle und eine Senke.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "25. Welche Aussage zur Dijkstra-Relaxierung ist korrekt?",
@@ -342,7 +366,8 @@
       "answer": 0,
       "explanation": "Relaxierung verbessert Distanzschätzungen entlang einer Kante.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "26. Welche strukturelle Information liefert BFS in ungewichteten Graphen?",
@@ -355,7 +380,8 @@
       "answer": 0,
       "explanation": "BFS-Distanzen entsprechen der minimalen Kantenzahl vom Start.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "27. Welche Operation ist auf Adjazenzlisten in $\\mathcal{O}(1)$ möglich?",
@@ -368,7 +394,8 @@
       "answer": 0,
       "explanation": "Nachbarschaftstest benötigt i. d. R. Suchzeit; Iteration ist $\\mathcal{O}(\\deg(v))$.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "28. Welche Eigenschaft unterscheidet Kreis von Weg?",
@@ -381,7 +408,8 @@
       "answer": 0,
       "explanation": "Kreis ist geschlossener Weg; sonstige Aussagen sind nicht generell gültig.",
       "weight": 2,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "29. Welche Aussage zur Adjazenzliste ist korrekt?",
@@ -394,7 +422,8 @@
       "answer": 0,
       "explanation": "Für jeden Knoten eine Liste, und jede Kante erscheint (ungerichtet) in zwei Listen.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "30. Welche Laufzeit erzielt Dijkstra mit Prioritätswarteschlange (Binär-Heap) typischerweise?",
@@ -407,7 +436,8 @@
       "answer": 0,
       "explanation": "Extraktion des Minimums und Decrease-Key dominieren die Kosten.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "31. Für einen Graphen $K_4$ gilt welche Grad-Aussage?",
@@ -420,7 +450,8 @@
       "answer": 0,
       "explanation": "Im vollständigen Graphen $K_n$ hat jeder Knoten Grad $n-1$, hier 3.",
       "weight": 3,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "32. Gegeben ein Digraph mit $|E|=m$. Welche Summe entspricht sicher $m$?",
@@ -433,7 +464,8 @@
       "answer": 0,
       "explanation": "Jeder Bogen trägt zu genau einem Ausgangs- und einem Eingangsgrad bei.",
       "weight": 3,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "33. Welche Bedingung verhindert eine topologische Sortierung?",
@@ -446,7 +478,8 @@
       "answer": 0,
       "explanation": "Ein Zyklus verhindert das Auffinden einer Quelle im weiteren Prozess.",
       "weight": 3,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "34. In einem ungerichteten Graphen mit $|V|=n$ und $|E|=n-1$ ist welcher Schluss ohne Baumbezug zulässig?",
@@ -459,7 +492,8 @@
       "answer": 0,
       "explanation": "Das Handshake-Lemma liefert unabhängig von weiteren Eigenschaften die Gradsumme.",
       "weight": 3,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "35. Warum scheitert Dijkstra bei negativen Kanten?",
@@ -472,7 +506,8 @@
       "answer": 0,
       "explanation": "Eine spätere negative Kante kann einen bereits finalisierten Abstand verbessern, was die Invariante verletzt.",
       "weight": 3,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "36. Welche Eigenschaft unterscheidet stark und schwach zusammenhängende Komponenten in Digraphen?",
@@ -485,7 +520,8 @@
       "answer": 0,
       "explanation": "Starke Komponenten sind maximal bzgl. bidirektionaler Erreichbarkeit.",
       "weight": 3,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "37. Welche Aussage zur BFS-Distanz ist korrekt?",
@@ -498,7 +534,8 @@
       "answer": 0,
       "explanation": "BFS findet kürzeste Wege in der Metrik der Kantenanzahl.",
       "weight": 3,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "38. Welche Operation ist auf Adjazenzmatrix in $\\mathcal{O}(1)$ möglich?",
@@ -511,7 +548,8 @@
       "answer": 0,
       "explanation": "Zugriff auf $a_{uv}$ ist konstant; Iteration über Nachbarn kostet $\\mathcal{O}(|V|)$.",
       "weight": 3,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "39. Welche Aussage zur Komplexität von DFS auf Adjazenzlisten ist korrekt?",
@@ -524,7 +562,8 @@
       "answer": 0,
       "explanation": "Wie BFS besucht DFS jeden Knoten und jede Kante höchstens konstant oft.",
       "weight": 3,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "40. Welche Aussage zur topologischen Sortierung per Quellenentfernung ist korrekt?",
@@ -537,7 +576,8 @@
       "answer": 0,
       "explanation": "Das Steckenbleiben ohne Quelle ist genau der Hinweis auf einen gerichteten Zyklus.",
       "weight": 3,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "41. Welche Aussage zur Kantenmenge in einem ungerichteten Graphen ist korrekt?",
@@ -550,7 +590,8 @@
       "answer": 0,
       "explanation": "In ungerichteten Graphen sind Kanten ungeordnete Paare aus der Knotenmenge.",
       "weight": 1,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "42. Welche Größe wird mit $|V|$ bezeichnet?",
@@ -563,7 +604,8 @@
       "answer": 0,
       "explanation": "$|V|$ ist die Mächtigkeit der Knotenmenge.",
       "weight": 1,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "43. Woran erkennt man in der Adjazenzmatrix eines ungerichteten Graphen eine Schlinge an Knoten $v_i$?",
@@ -576,7 +618,8 @@
       "answer": 0,
       "explanation": "Eine Schlinge wird durch einen Eins-Eintrag auf der Diagonale markiert.",
       "weight": 1,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "44. Welche Aussage beschreibt einen Kreis korrekt?",
@@ -589,7 +632,8 @@
       "answer": 0,
       "explanation": "Ein Kreis ist ein geschlossener einfacher Weg.",
       "weight": 1,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "45. Was ist ein Digraph?",
@@ -602,7 +646,8 @@
       "answer": 0,
       "explanation": "Im Digraphen sind Kanten gerichtete Bögen $(x,y)\\in V\\times V$.",
       "weight": 1,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "46. Was ist eine Quelle in einem Digraphen?",
@@ -615,7 +660,8 @@
       "answer": 0,
       "explanation": "Quellen haben $d^-(v)=0$.",
       "weight": 1,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "47. Welche Kernaussage gehört zum Handshake-Lemma?",
@@ -628,7 +674,8 @@
       "answer": 0,
       "explanation": "Jede Kante trägt 2 zur Gradsumme bei.",
       "weight": 1,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "48. Welche Datenstruktur nutzt DFS typischerweise?",
@@ -641,7 +688,8 @@
       "answer": 0,
       "explanation": "DFS lässt sich natürlich über Rekursion oder expliziten Stack formulieren.",
       "weight": 1,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "49. Welche Aussage zur Adjazenzliste ist fachlich zutreffend?",
@@ -654,7 +702,8 @@
       "answer": 0,
       "explanation": "Die Nachbariteration entspricht der Anzahl der Listenelemente des Knotens.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "50. Wodurch ist ein zusammenhängender ungerichteter Graph charakterisiert?",
@@ -667,7 +716,8 @@
       "answer": 0,
       "explanation": "Zusammenhang bedeutet Wegerreichbarkeit für alle Knotenpaare.",
       "weight": 2,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "51. Welche Aussage zur Gradbilanz in Digraphen ist korrekt?",
@@ -680,7 +730,8 @@
       "answer": 0,
       "explanation": "Jeder Bogen zählt jeweils genau einmal in Ein- und Ausgangsgrade.",
       "weight": 2,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "52. Welche Aussage zur topologischen Sortierung trifft zu?",
@@ -693,7 +744,8 @@
       "answer": 0,
       "explanation": "Topologische Sortierungen sind genau für azyklische Digraphen definiert.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "53. In welchem Fall ist Dijkstra nicht zuverlässig?",
@@ -706,7 +758,8 @@
       "answer": 0,
       "explanation": "Negative Gewichte können die Greedy-Invariante brechen.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "54. Welche Information liefert BFS in ungewichteten Graphen zusätzlich zur Erreichbarkeit?",
@@ -719,7 +772,8 @@
       "answer": 0,
       "explanation": "BFS-Ebenen entsprechen minimaler Kantenzahl.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "55. Welche Operation ist mit Adjazenzmatrix besonders effizient?",
@@ -732,7 +786,8 @@
       "answer": 0,
       "explanation": "Der Zugriff auf $a_{uv}$ ist ein einfacher Indexzugriff in $\\mathcal{O}(1)$.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "56. Welche Eigenschaft unterscheidet starke von schwachen Zusammenhang in Digraphen?",
@@ -745,7 +800,8 @@
       "answer": 0,
       "explanation": "Schwach nutzt den ungerichteten Unterbau; stark fordert bidirektionale Erreichbarkeit.",
       "weight": 2,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "57. Welche Aussage über DAGs ist korrekt?",
@@ -758,7 +814,8 @@
       "answer": 0,
       "explanation": "Quellen und Senken existieren in endlichen azyklischen Digraphen.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "58. Welche Aussage zur Weglänge in bewerteten Graphen ist korrekt?",
@@ -771,7 +828,8 @@
       "answer": 0,
       "explanation": "Definition: $w(P)=\\sum_i w(e_i)$.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "59. Welche Struktur ist typisch für DFS-gestützte Zykluserkennung in Digraphen?",
@@ -784,7 +842,8 @@
       "answer": 0,
       "explanation": "Back-Edges in der DFS-Baumstruktur sind ein Zyklusindikator.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "60. Welche Speicherkomplexität hat die Adjazenzmatrix für $n$ Knoten?",
@@ -797,7 +856,8 @@
       "answer": 0,
       "explanation": "Die Matrix hat $n\\times n$ Einträge.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "61. Welche Aussage zur Isomorphie-Invarianz ist richtig?",
@@ -810,7 +870,8 @@
       "answer": 0,
       "explanation": "Isomorphie bewahrt Struktur, nicht Darstellung oder Benennung.",
       "weight": 2,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "62. Welche Eigenschaft weist auf Nicht-Toposortierbarkeit hin?",
@@ -823,7 +884,8 @@
       "answer": 0,
       "explanation": "Zyklen verhindern eine lineare Ordnung der Knoten.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "63. Welche Aussage zur Dijkstra-Relaxierung ist korrekt?",
@@ -836,7 +898,8 @@
       "answer": 0,
       "explanation": "Klassische Relaxierung: $d(v)\\leftarrow\\min\\{d(v),d(u)+w(u,v)\\}$.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "64. Welche typische Anwendung hat DFS neben Zykluserkennung?",
@@ -849,7 +912,8 @@
       "answer": 0,
       "explanation": "Algorithmen wie Tarjan und Kosaraju nutzen DFS.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "65. Welche Aussage zur Komplexität von Dijkstra mit Binär-Heap ist korrekt?",
@@ -862,7 +926,8 @@
       "answer": 0,
       "explanation": "Die dominanten Operationen sind Extract-Min und Decrease-Key.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "66. Welche Aussage zur Planarität ist korrekt formuliert?",
@@ -875,7 +940,8 @@
       "answer": 0,
       "explanation": "Planarität ist eine Eigenschaft ebener Einbettbarkeit ohne Kantenkreuzungen.",
       "weight": 2,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "67. Welche Aussage zu Komponenten ist korrekt?",
@@ -888,7 +954,8 @@
       "answer": 0,
       "explanation": "Jeder Knoten gehört genau einer Komponente an.",
       "weight": 2,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "68. Welche Darstellung ist bei dichten Graphen häufig zweckmäßig?",
@@ -901,7 +968,8 @@
       "answer": 0,
       "explanation": "Matrix-Speicher $\\mathcal{O}(|V|^2)$ passt gut zu $|E|\\approx |V|^2$.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "69. Welche Aussage zur Gradfolge eines ungerichteten Graphen ist zwingend?",
@@ -914,7 +982,8 @@
       "answer": 0,
       "explanation": "Folge des Handshake-Lemmas: Summe der Grade ist gerade.",
       "weight": 3,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "70. Welche Bedingung ist äquivalent zur Toposortierbarkeit eines Digraphen?",
@@ -927,7 +996,8 @@
       "answer": 0,
       "explanation": "Ein Digraph ist genau dann topologisch sortierbar, wenn er kein gerichteter Kreis enthält.",
       "weight": 3,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "71. In einem ungerichteten Graphen sei $|V|=n$, $|E|=\\binom{n}{2}$. Welche Aussage ist korrekt?",
@@ -940,7 +1010,8 @@
       "answer": 0,
       "explanation": "Dies ist der vollständige Graph $K_n$.",
       "weight": 3,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "72. Welche Formulierung trifft die Relaxierungsbedingung präzise?",
@@ -953,7 +1024,8 @@
       "answer": 0,
       "explanation": "Die Standard-Relaxierung verbessert $d(v)$ bei kürzerem indirekten Weg.",
       "weight": 3,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "73. Welche Aussage zur DFS-Postordnung in DAGs ist korrekt?",
@@ -966,7 +1038,8 @@
       "answer": 0,
       "explanation": "In DAGs liefert die umgekehrte Postordnung eine gültige Topo-Order.",
       "weight": 3,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "74. Welche Laufzeit hat das Durchlaufen aller Kanten mit Adjazenzliste?",
@@ -979,7 +1052,8 @@
       "answer": 0,
       "explanation": "Jede Kante wird konstant oft besucht; zusätzlich werden alle Knoten betrachtet.",
       "weight": 3,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "75. Welche Aussage zur schwachen Zusammenhangskomponente eines Digraphen ist korrekt?",
@@ -992,7 +1066,8 @@
       "answer": 0,
       "explanation": "Schwacher Zusammenhang ignoriert die Richtungen.",
       "weight": 3,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "76. Welche Bedingung ist notwendig, damit Dijkstra korrekte Distanzen liefert?",
@@ -1005,7 +1080,8 @@
       "answer": 0,
       "explanation": "Negativgewichte können finalisierte Distanzen nachträglich verbessern.",
       "weight": 3,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "77. Welche Matrixeigenschaft kann bei ungerichteten Graphen zum halbierten Speicher führen?",
@@ -1018,7 +1094,8 @@
       "answer": 0,
       "explanation": "Speicherung nur des oberen oder unteren Dreiecks genügt.",
       "weight": 3,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "78. Welche Aussage zur BFS ist korrekt, wenn alle Kanten Gewicht $1$ haben?",
@@ -1031,7 +1108,8 @@
       "answer": 0,
       "explanation": "BFS berechnet in ungewichteten Graphen kürzeste Pfade nach Anzahl Kanten.",
       "weight": 3,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "79. Welche Eigenschaft stellt sicher, dass eine topologische Sortierung existiert?",
@@ -1044,7 +1122,8 @@
       "answer": 0,
       "explanation": "Azyklizität ist notwendig und hinreichend.",
       "weight": 3,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "80. Welche Aussage zur Laufzeit von DFS auf Adjazenzlisten ist korrekt?",
@@ -1057,7 +1136,8 @@
       "answer": 0,
       "explanation": "DFS besucht jeden Knoten und jede Kante höchstens konstant oft.",
       "weight": 3,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "81. Welche Aussage zur Kantenliste eines ungerichteten Graphen ist korrekt?",
@@ -1070,7 +1150,8 @@
       "answer": 0,
       "explanation": "Die Kantenliste ist eine Aufzählung der vorhandenen Kanten als ungeordnete Paare.",
       "weight": 1,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "82. Wodurch unterscheiden sich Weg und Kantenfolge im ungerichteten Graphen?",
@@ -1083,7 +1164,8 @@
       "answer": 0,
       "explanation": "Ein einfacher Weg vermeidet Knotenwiederholungen; Kantenfolgen sind allgemeiner.",
       "weight": 1,
-      "topic": "Wege, Kreise, Zusammenhang"
+      "topic": "Wege, Kreise, Zusammenhang",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "83. Welche Aussage beschreibt einen isolierten Knoten korrekt?",
@@ -1096,7 +1178,8 @@
       "answer": 0,
       "explanation": "Isolierte Knoten haben weder ein- noch ausgehende Kanten (Grad $0$).",
       "weight": 1,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "84. Was liefert eine topologische Sortierung in einem DAG?",
@@ -1109,7 +1192,8 @@
       "answer": 0,
       "explanation": "Topo-Ordnung ordnet Knoten so, dass jeder Bogen von früh nach spät zeigt.",
       "weight": 1,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "85. Was passiert beim Ignorieren der Richtungen in einem Digraphen?",
@@ -1122,7 +1206,8 @@
       "answer": 0,
       "explanation": "Richtungen werden entfernt, Kanten bleiben; so prüft man schwachen Zusammenhang.",
       "weight": 2,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "86. Welche Aussage zur Adjazenzliste ist in Bezug auf Iteration zutreffend?",
@@ -1135,7 +1220,8 @@
       "answer": 0,
       "explanation": "Es werden genau so viele Listenelemente gelesen, wie der Knoten Nachbarn hat.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "87. Welche Bedingung garantiert, dass BFS kürzeste Wege findet?",
@@ -1148,7 +1234,8 @@
       "answer": 0,
       "explanation": "Bei einheitlichen Kosten ist die Anzahl der Kanten proportional zur Weglänge.",
       "weight": 2,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "88. Welche Formulierung eines Relaxierungsschritts ist korrekt?",
@@ -1161,7 +1248,8 @@
       "answer": 0,
       "explanation": "Relaxierung ersetzt eine größere Schätzung durch eine bessere über $(u,v)$.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "89. Welche Aussage kennzeichnet eine starke Komponente in einem Digraphen?",
@@ -1174,7 +1262,8 @@
       "answer": 0,
       "explanation": "Definition: maximale Teilmenge mit beidseitiger Erreichbarkeit.",
       "weight": 2,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "90. Welche Eigenschaft weist auf einen nichtplanaren Graphen hin (heuristisch, ohne Beweiszwang)?",
@@ -1187,7 +1276,8 @@
       "answer": 0,
       "explanation": "Planarität ist Einbettung ohne Kreuzungen; persistente Kreuzungen sind ein Indiz.",
       "weight": 2,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "91. Welche Aussage zur Adjazenzmatrix in Digraphen stimmt?",
@@ -1200,7 +1290,8 @@
       "answer": 0,
       "explanation": "Richtungen führen zu $a_{ij}\\ne a_{ji}$ im Allgemeinen.",
       "weight": 2,
-      "topic": "Repräsentationen"
+      "topic": "Repräsentationen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "92. Welche Komplexität hat Kahn’s Algorithmus (Quellenentfernung) typischerweise auf Adjazenzlisten?",
@@ -1213,7 +1304,8 @@
       "answer": 0,
       "explanation": "Jede Kante und jeder Knoten wird begrenzt oft betrachtet.",
       "weight": 2,
-      "topic": "DAG und Topologische Sortierung"
+      "topic": "DAG und Topologische Sortierung",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "93. Welche Eigenschaft der Gradfolge folgt unmittelbar aus dem Handshake-Lemma?",
@@ -1226,7 +1318,8 @@
       "answer": 0,
       "explanation": "Da die Gradsumme $2|E|$ ist (gerade), müssen ungerade Beiträge paarweise auftreten.",
       "weight": 2,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "94. Welche Aussage zu Isomorphie-Invarianten ist korrekt?",
@@ -1239,7 +1332,8 @@
       "answer": 0,
       "explanation": "Isomorphie erhält Struktur, nicht Benennung oder Darstellung.",
       "weight": 2,
-      "topic": "Grundlagen und Definitionen"
+      "topic": "Grundlagen und Definitionen",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "95. Welche Anpassung macht Dijkstra robust gegenüber unterschiedlichen Kantengewichten (ohne Negativgewichte)?",
@@ -1252,7 +1346,8 @@
       "answer": 0,
       "explanation": "Die Datenstruktur stellt sicher, dass der aktuell kleinste Kandidat effizient gewählt wird.",
       "weight": 2,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "96. Welche Operation ist auf der Adjazenzmatrix nicht effizient für dünne Graphen?",
@@ -1265,7 +1360,8 @@
       "answer": 0,
       "explanation": "Die Nachbariteration kostet $\\mathcal{O}(|V|)$ pro Knoten, ungünstig bei Dünnheit.",
       "weight": 2,
-      "topic": "Komplexität und Speicher"
+      "topic": "Komplexität und Speicher",
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "97. Welche Aussage beschreibt korrekt die DFS-Postordnung im DAG-Kontext?",
@@ -1278,7 +1374,8 @@
       "answer": 0,
       "explanation": "Ohne Rückkanten (DAG) liefert die umgekehrte Abschlussreihenfolge eine Topo-Order.",
       "weight": 3,
-      "topic": "BFS und DFS"
+      "topic": "BFS und DFS",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "98. Welche Eigenschaft ist für die Korrektheit von Dijkstra entscheidend?",
@@ -1291,7 +1388,8 @@
       "answer": 0,
       "explanation": "Nur dann bleibt die Greedy-Fixierung gültig und unverletzbar.",
       "weight": 3,
-      "topic": "Bewertete Graphen und Dijkstra"
+      "topic": "Bewertete Graphen und Dijkstra",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "99. Welche Aussage zur Zerlegung eines Digraphen in schwache Komponenten ist korrekt?",
@@ -1304,7 +1402,8 @@
       "answer": 0,
       "explanation": "Richtungen ignorieren, dann Komponenten im entstehenden ungerichteten Graphen bestimmen.",
       "weight": 3,
-      "topic": "Gerichtete Graphen"
+      "topic": "Gerichtete Graphen",
+      "cognitive_level": "Analyse"
     },
     {
       "question": "100. Welche Eigenschaft der Gradfolge folgt aus $\\sum_{v\\in V} d(v)=2|E|$?",
@@ -1317,7 +1416,8 @@
       "answer": 0,
       "explanation": "Die Gradsumme ist gerade; damit müssen ungerade Beiträge paarweise auftreten.",
       "weight": 3,
-      "topic": "Grade und Gradsumme"
+      "topic": "Grade und Gradsumme",
+      "cognitive_level": "Analyse"
     }
   ]
 }

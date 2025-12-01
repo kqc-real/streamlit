@@ -16,7 +16,8 @@
       "Sprint": "Zeitbox von 2-3 Wochen für die Entwicklung eines funktionsfähigen Produkt-Increments in Scrum",
       "Scrum": "Agiles Framework für iterative Produktentwicklung mit festen Rollen (PO, SM, Dev-Team)",
       "Produkt-Increment": "Funktionsfähiges, potenziell auslieferbares Ergebnis eines Sprints"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "2. Was versteht man unter einem 'Bottleneck' in der Produktentwicklung?",
@@ -39,7 +40,8 @@
       "Bottleneck": "Engpass in einem Prozess, der die Gesamtleistung des Systems limitiert",
       "Content-Pipeline": "Prozess zur Erstellung und Veröffentlichung von Inhalten (hier: Fragensets)",
       "Skalierbarkeit": "Fähigkeit eines Systems, mit wachsender Last umzugehen, ohne Qualitätsverlust"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "3. Was ist ein 'MVP' (Minimum Viable Product)?",
@@ -58,7 +60,8 @@
       "MVP": "Minimum Viable Product - kleinstmögliche Produktversion mit Kernfunktionen für echte Nutzer",
       "Feature": "Funktionalität oder Eigenschaft eines Produkts (z.B. PDF-Export, Admin-Panel)",
       "Iteration": "Wiederholter Entwicklungszyklus mit Verbesserungen basierend auf Feedback"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "4. Was bedeutet 'Freemium' als Geschäftsmodell?",
@@ -81,7 +84,8 @@
       "Freemium": "Geschäftsmodell: Basisversion kostenlos, Premium-Features kostenpflichtig",
       "Conversion Rate": "Prozentsatz der Nutzer, die von Free zu zahlenden Kunden werden",
       "Break-Even": "Punkt, an dem Einnahmen und Ausgaben gleich sind (kein Gewinn, kein Verlust)"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "5. Was ist der 'Break-Even Point' in der Betriebswirtschaft?",
@@ -100,7 +104,8 @@
       "Break-Even": "Gewinnschwelle - Punkt, an dem Einnahmen = Ausgaben (kein Gewinn, kein Verlust)",
       "Umsatz": "Gesamteinnahmen aus dem Verkauf von Produkten oder Dienstleistungen",
       "Fixkosten": "Kosten, die unabhängig von der Produktionsmenge anfallen (z.B. Server-Hosting)"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "6. Was bedeutet die Abkürzung 'KPI' im Management?",
@@ -119,7 +124,8 @@
       "KPI": "Key Performance Indicator - messbare Kennzahl zur Erfolgskontrolle (z.B. Umsatz, Nutzerzahl)",
       "Metrik": "Quantitative Messgröße zur Bewertung von Leistung oder Fortschritt",
       "Benchmark": "Vergleichswert oder Standard zur Leistungsbewertung"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "7. Was versteht man unter 'TCO' (Total Cost of Ownership)?",
@@ -142,7 +148,8 @@
       "TCO": "Total Cost of Ownership - Gesamtkosten über die gesamte Lebensdauer (Kauf + Betrieb + Wartung)",
       "OPEX": "Operational Expenditure - laufende Betriebskosten (z.B. Cloud-Hosting)",
       "CAPEX": "Capital Expenditure - einmalige Investitionskosten (z.B. Server-Kauf)"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "8. Was bedeutet 'MRR' im SaaS-Geschäftsmodell?",
@@ -165,7 +172,8 @@
       "MRR": "Monthly Recurring Revenue - planbare monatliche Einnahmen aus Abonnements",
       "SaaS": "Software as a Service - Softwarebereitstellung über das Internet als Abo-Modell",
       "Churn Rate": "Prozentsatz der Kunden, die ihr Abo pro Monat kündigen (Abwanderungsrate)"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "9. Was ist ein 'Product Backlog' in Scrum?",
@@ -184,7 +192,8 @@
       "Product Backlog": "Priorisierte Liste aller Features, Bugs und Anforderungen für ein Produkt",
       "Product Owner": "Scrum-Rolle: verantwortlich für Produktvision, Backlog-Priorisierung und Stakeholder-Kommunikation",
       "User Story": "Kurze Beschreibung eines Features aus Nutzersicht: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "10. Was versteht man unter 'Deployment' in der Softwareentwicklung?",
@@ -203,7 +212,8 @@
       "Deployment": "Bereitstellung von Software in einer Produktionsumgebung für Endnutzer",
       "CI/CD": "Continuous Integration/Deployment - automatisierte Pipeline für Build, Test und Deployment",
       "Produktionsumgebung": "Live-System, auf das echte Nutzer zugreifen (im Gegensatz zu Test-/Dev-Umgebung)"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "11. Was ist eine 'User Story' in der agilen Entwicklung?",
@@ -222,7 +232,8 @@
       "User Story": "Feature-Beschreibung aus Nutzersicht: 'Als [Rolle] möchte ich [Feature], um [Nutzen]'",
       "Akzeptanzkriterien": "Messbare Bedingungen, wann eine User Story als erfüllt gilt",
       "Story Points": "Relatives Maß für Komplexität/Aufwand einer User Story (z.B. Fibonacci: 1, 2, 3, 5, 8)"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "12. Was bedeutet 'ROI' (Return on Investment)?",
@@ -245,7 +256,8 @@
       "ROI": "Return on Investment - Rentabilität einer Investition in Prozent: (Gewinn - Kosten) / Kosten × 100%",
       "Investition": "Einsatz von Kapital oder Ressourcen mit der Erwartung eines zukünftigen Nutzens",
       "Gewinnmarge": "Prozentsatz des Umsatzes, der als Gewinn übrig bleibt (Gewinn / Umsatz × 100%)"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "13. Was ist die 'Definition of Done' (DoD) in Scrum?",
@@ -268,7 +280,8 @@
       "Definition of Done": "Verbindliche Checkliste, wann eine Aufgabe als vollständig abgeschlossen gilt",
       "Code-Review": "Peer-Review von Code durch andere Entwickler zur Qualitätssicherung",
       "Unit-Test": "Automatisierter Test einer einzelnen Funktion/Methode isoliert vom Rest des Systems"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "14. Was bedeutet 'iterativ' in der Softwareentwicklung?",
@@ -287,7 +300,8 @@
       "Iterativ": "Entwicklung in wiederholten Zyklen mit schrittweisen Verbesserungen",
       "Wasserfall-Modell": "Sequenzielles Entwicklungsmodell: Anforderungen → Design → Implementierung → Test (keine Rückkehr)",
       "Agil": "Entwicklungsphilosophie: iterativ, flexibel, nutzerorientiert, schnelles Feedback"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "15. Was ist ein 'Feature Flag' (Feature Toggle)?",
@@ -310,7 +324,8 @@
       "Feature Flag": "Schalter im Code zum dynamischen Ein-/Ausschalten von Features ohne Deployment",
       "A/B-Testing": "Vergleich zweier Varianten (A vs. B) mit echten Nutzern zur Optimierung",
       "Rollback": "Zurücksetzen auf eine vorherige funktionierende Version nach einem fehlerhaften Deployment"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "16. Was bedeutet 'Stakeholder' im Projektmanagement?",
@@ -329,7 +344,8 @@
       "Stakeholder": "Personen oder Gruppen mit Interesse am oder Einfluss auf ein Projekt",
       "Product Owner": "Scrum-Rolle: verantwortlich für Produktvision und Kommunikation mit Stakeholdern",
       "Requirements Engineering": "Prozess zur Ermittlung und Dokumentation von Anforderungen von Stakeholdern"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "17. Was ist ein 'Sprint Retrospective' in Scrum?",
@@ -348,7 +364,8 @@
       "Sprint Retrospective": "Reflexions-Meeting am Sprint-Ende zur Prozessverbesserung (Was lief gut/schlecht?)",
       "Sprint Review": "Demo der fertigen Features für Stakeholder am Sprint-Ende",
       "Kaizen": "Japanische Philosophie der kontinuierlichen Verbesserung in kleinen Schritten"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "18. Was versteht man unter 'Technical Debt' (Technische Schulden)?",
@@ -371,7 +388,8 @@
       "Technical Debt": "Suboptimale Code-Entscheidungen, die später Mehraufwand verursachen ('Zinsen')",
       "Refactoring": "Umstrukturierung von Code zur Verbesserung ohne Änderung der Funktionalität",
       "Code Smell": "Anzeichen für schlechten Code (z.B. lange Funktionen, Duplikate, fehlende Tests)"
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "19. Was ist ein 'API' (Application Programming Interface)?",
@@ -390,7 +408,8 @@
       "API": "Application Programming Interface - Schnittstelle zur Kommunikation zwischen Software-Komponenten",
       "REST API": "Representational State Transfer - weit verbreiteter API-Stil über HTTP (GET, POST, PUT, DELETE)",
       "JSON": "JavaScript Object Notation - textbasiertes Datenformat für APIs (leicht lesbar, strukturiert)"
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "20. Was bedeutet 'Skalierbarkeit' (Scalability) in der IT?",
@@ -413,6 +432,7 @@
       "Skalierbarkeit": "Fähigkeit eines Systems, mit wachsender Last (Nutzer, Daten) umzugehen ohne Qualitätsverlust",
       "Load Balancing": "Verteilung von Anfragen auf mehrere Server zur Lastverteilung",
       "Horizontal Scaling": "Skalierung durch Hinzufügen weiterer Server (scale-out)"
-    }
+    },
+    "cognitive_level": "Anwendung"
   }
 ]

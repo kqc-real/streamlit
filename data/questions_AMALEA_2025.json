@@ -25,7 +25,8 @@
       "**Image**": "Unveränderliches Vorlage-Artefakt für Container; beschreibt Schichten mit definierten Paket- und Versionsständen (z. B. Basisimage + Python + Bibliotheken).",
       "**Abhängigkeiten**": "Alle benötigten Komponenten einer Anwendung (Bibliotheken, Systempakete, Tools). In Docker werden sie im Image versionsgenau festgelegt.",
       "**Isolation**": "Trennung von Prozessen und Dateisystemen zwischen Container und Host bzw. zwischen Containern; verhindert Konflikte und erhöht Reproduzierbarkeit."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "2. Was ist ein DataFrame in der `pandas`-Bibliothek?",
@@ -51,7 +52,8 @@
       "**DataFrame**": "2D-Tabellenobjekt mit benannten Spalten und (optional) Index; Kernstruktur in `pandas`.",
       "**Index**": "Label-Achse für Zeilen/Spalten, über die selektiert, ausgerichtet und zusammengeführt wird.",
       "**Vektoroperation**": "Operation auf ganzen Arrays/Spalten statt elementweise Schleifen, typischerweise schneller."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "3. Was ist der Zweck eines `Dockerfile`?",
@@ -77,7 +79,8 @@
       "**Dockerfile**": "Rezeptdatei mit Befehlen wie `FROM`, `RUN`, `COPY`, die ein Image deterministisch erzeugen.",
       "**Layer**": "Cachbare Bauschicht eines Images; Änderungen invalidieren nur nachfolgende Schichten.",
       "**Image-Build**": "Prozess, der die Dockerfile-Anweisungen in ein ausführbares Image überführt."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "4. Welcher Befehl wandelt eine Zelle in einem Jupyter Notebook in eine Code-Zelle um?",
@@ -102,7 +105,8 @@
     "mini_glossary": {
       "**Command Mode**": "Jupyter-Modus für Zell-Operationen (Löschen, Typ ändern); via `Esc` aktivierbar.",
       "**Markdown-Zelle**": "Zelle für formatierte Dokumentation (Text, LaTeX, Überschriften) neben Code."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "5. Was ist der fundamentale Unterschied zwischen einem Docker-Image und einem Docker-Container?",
@@ -127,7 +131,8 @@
     "mini_glossary": {
       "**Image**": "Readonly-Vorlage mit OS-Basis, Laufzeiten und App-Dateien.",
       "**Container**": "Prozess + isoliertes Dateisystem auf Basis eines Images mit schreibbarem Top-Layer."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "6. Was ist der primäre Zweck einer `docker-compose.yml`-Datei?",
@@ -153,7 +158,8 @@
       "**Service**": "Benannter Container-Baustein in Compose (Image, Ports, Env, Volumes).",
       "**Volume**": "Persistenter Speicher, der in Services gemountet wird.",
       "**Netzwerk**": "Virtuelles Netz, über das Services per DNS-Name kommunizieren."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "7. Was ist das Kernziel der Q-Phase im QUA³CK-Modell?",
@@ -179,7 +185,8 @@
       "**Q-Phase**": "Question-Phase: präzise Problemdefinition und Zielsetzung.",
       "**Erfolgskriterien (KPIs)**": "Messgrößen, an denen Projekterfolg objektiv bewertet wird.",
       "**Stakeholder**": "Interessengruppen wie Fachbereich, IT, Management."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "8. Welche Funktion wird in `pandas` standardmäßig zum Einlesen einer CSV-Datei verwendet?",
@@ -204,7 +211,8 @@
     "mini_glossary": {
       "**CSV**": "Textformat mit zeilenweisen Datensätzen und Spaltentrennern (meist Komma/Strichpunkt).",
       "**`parse_dates`**": "Option, um Spalten als Datumsobjekte zu interpretieren."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "9. Welcher Fehler tritt typischerweise auf, wenn man in `pandas` auf eine nicht existierende Spalte zugreift?",
@@ -229,7 +237,8 @@
     "mini_glossary": {
       "**KeyError**": "Fehler bei nicht vorhandenem Schlüssel/Label in Mapping-ähnlichen Strukturen.",
       "**Schema**": "Erwartete Struktur eines DataFrames (Spaltennamen/-typen)."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "10. Was ist ein wesentlicher Unterschied zwischen `pip` und `conda` als Paketmanager?",
@@ -254,7 +263,8 @@
     "mini_glossary": {
       "**PyPI**": "Zentrale Paketquelle für Python-Bibliotheken.",
       "**Umgebung**": "Isolierter Paket- und Interpreter-Kontext mit eigener Versionslandschaft."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "11. Was ist ein zentraler Vorteil von Jupyter Notebooks für die explorative Datenanalyse?",
@@ -279,7 +289,8 @@
     "mini_glossary": {
       "**Zelle**": "Ausführungseinheit im Notebook; enthält Code oder Markdown.",
       "**Explorative Analyse**": "Hypothesenfindung und Mustererkennung vor formaler Modellierung."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "12. Was ist der primäre Anwendungsfall für Streamlit im Data-Science-Kontext?",
@@ -304,7 +315,8 @@
     "mini_glossary": {
       "**Widget**": "Interaktives UI-Element (Slider, Button) zur Parametrisierung.",
       "**Dashboard**": "Kompakte Oberfläche zur Anzeige von KPIs/Plots/Steuerung."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "13. Was unterscheidet eine Python-Liste fundamental von einem Dictionary?",
@@ -329,7 +341,8 @@
     "mini_glossary": {
       "**Liste**": "Geordnete Sammlung, zugreifbar per Integer-Index.",
       "**Dictionary**": "Hash-basiertes Mapping von Schlüsseln auf Werte (Amortisiert O(1)-Zugriff)."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "14. Mit welchem Schlüsselwort wird in Python eine Funktion definiert?",
@@ -354,7 +367,8 @@
     "mini_glossary": {
       "**`def`**": "Python-Schlüsselwort zur Definition einer Funktion.",
       "**Docstring**": "Erste String-Literal-Zeile im Body; dokumentiert Zweck und Parameter."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "15. Welchen Zweck erfüllt die Datei `requirements.txt` in einem Python-Projekt?",
@@ -379,7 +393,8 @@
     "mini_glossary": {
       "**Pinning**": "Festschreiben konkreter Paketversionen zur Reproduzierbarkeit.",
       "**Virtuelle Umgebung**": "Isolierter Python-Interpreter mit eigenem Site-Packages-Verzeichnis."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "16. Welcher Fehler tritt auf, wenn man versucht, ein nicht installiertes Python-Modul zu importieren?",
@@ -404,7 +419,8 @@
     "mini_glossary": {
       "**ModuleNotFoundError**": "Ausnahme, wenn ein importiertes Modul nicht gefunden wird.",
       "**PYTHONPATH**": "Suchpfade, in denen der Interpreter nach Modulen/Packages sucht."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "17. Was ist der Unterschied zwischen den Docker-Befehlen `ps` und `images`?",
@@ -429,7 +445,8 @@
     "mini_glossary": {
       "**`docker ps`**": "Befehl zur Anzeige laufender (mit `-a` auch gestoppter) Container.",
       "**`docker images`**": "Befehl zur Auflistung lokaler Images inkl. Tags/Größe."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "18. Was ist ein wesentlicher Vorteil von `Docker Compose` gegenüber einzelnen `docker run`-Befehlen?",
@@ -454,7 +471,8 @@
     "mini_glossary": {
       "**YAML**": "Menschenlesbares Konfigurationsformat für Compose-Dateien.",
       "**Orchestrierung**": "Koordination mehrerer Container/Services inkl. Startreihenfolge/Netzwerke."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "19. Wofür wird das `st.sidebar`-Objekt in Streamlit primär verwendet?",
@@ -479,7 +497,8 @@
     "mini_glossary": {
       "**`st.sidebar`**": "Namensraum für UI-Elemente in der linken Seitenleiste.",
       "**Widget**": "Interaktive Steuerelemente wie Slider, Selectbox, Button."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "20. Was ist der Hauptzweck des QUA³CK-Prozessmodells?",
@@ -504,7 +523,8 @@
     "mini_glossary": {
       "**QUA³CK**": "Rahmenwerk mit Phasen Question, Understanding, Algorithm/Adapting/Adjusting, Conclude, Knowledge.",
       "**MLOps**": "Praktiken zur Operationalisierung von ML (Versionierung, Deployment, Monitoring)."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "21. Welche Methode wird in `pandas` verwendet, um die ersten `n` Zeilen eines DataFrames anzuzeigen?",
@@ -529,7 +549,8 @@
     "mini_glossary": {
       "**`head()`**": "Gibt standardmäßig die ersten 5 Zeilen eines DataFrames zurück.",
       "**Profiling**": "Frühe, kurze Bestandsaufnahme von Struktur und Qualität der Daten."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "22. Was ist ein wesentlicher Vorteil der Verwendung von Funktionen in der Programmierung?",
@@ -554,7 +575,8 @@
     "mini_glossary": {
       "**Modularität**": "Zerlegung in kleine, wiederverwendbare Bausteine.",
       "**Wartbarkeit**": "Leichtigkeit, mit der Code geändert, erweitert und getestet werden kann."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "23. Was unterscheidet die Docker-Befehle `stop` und `rm`?",
@@ -579,7 +601,8 @@
     "mini_glossary": {
       "**SIGTERM/SIGKILL**": "Signale zum kontrollierten bzw. harten Beenden eines Prozesses.",
       "**Volume-Persistenz**": "Daten in Volumes bleiben über Containerlebenszyklen erhalten."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "24. Welcher Fehlertyp ist spezifisch für die falsche Verwendung von Streamlit-Widgets?",
@@ -604,7 +627,8 @@
     "mini_glossary": {
       "**`StreamlitAPIException`**": "Spezifische Ausnahme bei API-Fehlgebrauch in Streamlit.",
       "**Widget-Key**": "Eindeutige Kennung zur Zustandsverwaltung eines Widgets."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "25. Welchen Zweck erfüllt das `st.metric`-Widget in Streamlit?",
@@ -629,7 +653,8 @@
     "mini_glossary": {
       "**KPI**": "Key Performance Indicator; zentrale Kennzahl zur Zielverfolgung.",
       "**Delta**": "Differenz zum Referenzwert (z. B. Vorwoche/Monat)."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "26. Was ist ein Hauptvorteil der Verwendung von Markdown in Jupyter Notebooks?",
@@ -654,7 +679,8 @@
     "mini_glossary": {
       "**Markdown**": "Leichtgewichtige Auszeichnungssprache für formatierte Texte.",
       "**Notebook-Dokumentation**": "Narrative Beschreibung von Motivation, Methode, Ergebnis."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "27. Was ist der Unterschied zwischen `import pandas as pd` und `from pandas import *`?",
@@ -679,7 +705,8 @@
     "mini_glossary": {
       "**Alias**": "Alternativer Kurzname für ein Modul (z. B. `pd`).",
       "**Namensraum**": "Menge benannter Bezeichner; Kollisionen führen zu schwer findbaren Fehlern."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "28. Was ist der typische Anwendungsfall für `st.file_uploader` in einer Streamlit-App?",
@@ -704,7 +731,8 @@
     "mini_glossary": {
       "**File-Handle**": "Objekt, das Leseoperationen auf einer hochgeladenen Datei erlaubt.",
       "**Parsing**": "Strukturiertes Interpretieren roher Bytes in Datenstrukturen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "29. Wofür steht das Schlüsselwort `def` in Python?",
@@ -729,7 +757,8 @@
     "mini_glossary": {
       "**Funktion**": "Wiederverwendbarer Block mit Eingaben (Parameter) und optionaler Ausgabe.",
       "**`None`**": "Spezialwert für „kein Ergebnis“/leere Rückgabe in Python."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "30. Welchen Vorteil bietet Docker für die Zusammenarbeit in einem Data-Science-Team?",
@@ -754,7 +783,8 @@
     "mini_glossary": {
       "**Environment Drift**": "Schleichende Abweichung zwischen Dev/Test/Prod-Umgebungen.",
       "**Tag**": "Versionierungslabel eines Images (z. B. `v1.2.0`, `latest`)."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "31. Wie kann die Performance von Filteroperationen in `pandas` verbessert werden?",
@@ -780,7 +810,8 @@
       "**Index**": "Spezielle Achse für schnellen, labelbasierten Zugriff und Ausrichtung in `pandas`.",
       "**`.loc`**": "Labelbasierter Selektor für Zeilen/Spalten; spielt optimal mit Indexen zusammen.",
       "**dtype**": "Datentyp einer Spalte; beeinflusst Performance und Speicherverbrauch."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "32. Was ist der Hauptvorteil eines Multi-Stage-Builds in einem `Dockerfile`?",
@@ -805,7 +836,8 @@
     "mini_glossary": {
       "**Multi-Stage-Build**": "Mehrere FROM-Abschnitte im Dockerfile, die Artefakte zwischen Stages kopieren.",
       "**Artefakt**": "Erzeugtes Ergebnis des Builds (z. B. Binärdatei, Wheels), das zur Laufzeit benötigt wird."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "33. Wie wird die A³-Phase des QUA³CK-Modells im Kurs modern interpretiert?",
@@ -830,7 +862,8 @@
     "mini_glossary": {
       "**A³-Phase**": "Algorithm/Adapting/Adjusting: Modellwahl, -anpassung und -feinschliff.",
       "**Experiment-Tracking**": "Systematische Erfassung von Läufen, Parametern, Metriken und Artefakten."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "34. Wofür wird der `stratify`-Parameter in `train_test_split` verwendet?",
@@ -855,7 +888,8 @@
     "mini_glossary": {
       "**Stratifizierung**": "Aufteilung, die die Klassenverteilung in Teilmengen konstant hält.",
       "**Klassendrift**": "Verzerrung der Klassenhäufigkeiten zwischen Datensplits."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "35. Was ist der primäre Zweck des Dekorators `@st.cache_data` in Streamlit?",
@@ -880,7 +914,8 @@
     "mini_glossary": {
       "**Caching**": "Zwischenspeichern von Ergebnissen, um erneute Berechnungen zu vermeiden.",
       "**Memoization**": "Cache-Strategie basierend auf Funktionsargumenten als Schlüssel."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "36. Welches Problem wird durch die Verwendung von Docker-Volumes gelöst?",
@@ -905,7 +940,8 @@
     "mini_glossary": {
       "**Volume**": "Von Docker verwalteter, persistenter Speicher, der in Container gemountet wird.",
       "**Bind Mount**": "Direktes Mounten eines Host-Verzeichnisses in den Container."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "37. In welcher Phase des QUA³CK-Modells findet die Aktivität 'Conclude and Compare' statt?",
@@ -930,7 +966,8 @@
     "mini_glossary": {
       "**C-Phase**": "Conclude & Compare: Ergebnisbewertung und Auswahl.",
       "**Trade-off**": "Bewusster Kompromiss zwischen Zielgrößen (z. B. Genauigkeit vs. Laufzeit)."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "38. Was unterscheidet `st.session_state` von einer normalen globalen Variable in Streamlit?",
@@ -955,7 +992,8 @@
     "mini_glossary": {
       "**Rerun**": "Neu-Ausführung des Streamlit-Skripts nach Interaktionen.",
       "**Widget-Key**": "Eindeutiges Kennzeichen zur Zuordnung von UI-Elementen zum Zustand."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "39. Welches Datenformat ist oft performanter als CSV für die Speicherung großer DataFrames?",
@@ -980,7 +1018,8 @@
     "mini_glossary": {
       "**Spaltenorientiert**": "Daten werden spaltenweise gespeichert; ideal für analytische Workloads.",
       "**Schema**": "Explizite Typ-/Strukturinformation, die mit den Daten gespeichert wird."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "40. Was beschreibt der Begriff `Vektorisierung` im Kontext von `pandas`?",
@@ -1005,7 +1044,8 @@
     "mini_glossary": {
       "**Broadcasting**": "Automatisches Angleichen von Array-Shapes für Vektoroperationen.",
       "**Cython/C**": "Sprachen/Erweiterungen, in denen Performance-kritische Routinen implementiert sind."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "41. Welche MLOps-Praxis wird mit der K-Phase (Knowledge Transfer) des QUA³CK-Modells assoziiert?",
@@ -1030,7 +1070,8 @@
     "mini_glossary": {
       "**Deployment**": "Bereitstellung eines Modells als Service oder App für Nutzer/Prozesse.",
       "**Portfolio**": "Sammlung veröffentlichter Ergebnisse/Apps zur Kommunikation des Nutzens."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "42. Welchen Zweck erfüllt der Befehl `docker-compose down`?",
@@ -1055,7 +1096,8 @@
     "mini_glossary": {
       "**Compose-Projekt**": "Menge von Ressourcen, die durch eine `docker-compose.yml` definiert sind.",
       "**Teardown**": "Geordneter Abbau von laufenden Diensten und Infrastruktur."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "43. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
@@ -1080,7 +1122,8 @@
     "mini_glossary": {
       "**Label**": "Zielwert/Annotation für ein Beispiel, z. B. Klasse oder Zahl.",
       "**Clustering**": "Gruppierung ähnlicher Punkte ohne vorgegebene Klassen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "44. Welches Streamlit-Element wird zur Darstellung von Inhalten in nebeneinanderliegenden Spalten verwendet?",
@@ -1105,7 +1148,8 @@
     "mini_glossary": {
       "**`st.columns`**": "API zur Erstellung paralleler Spaltenbereiche.",
       "**Responsivität**": "Anpassungsfähigkeit des Layouts an unterschiedliche Bildschirmbreiten."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "45. Warum wird im `Dockerfile` `COPY requirements.txt .` vor `COPY . .` ausgeführt?",
@@ -1130,7 +1174,8 @@
     "mini_glossary": {
       "**Layer-Cache**": "Mechanismus, der unveränderte Bauschichten wiederverwendet.",
       "**Invalidierung**": "Neubau nachfolgender Schichten durch Änderungen in vorherigen Schritten."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "46. Was ist eine `Chained Assignment`-Warnung in `pandas`?",
@@ -1155,7 +1200,8 @@
     "mini_glossary": {
       "**SettingWithCopyWarning**": "Warnung bei möglicher Zuweisung auf eine Kopie statt Original.",
       "**`.loc`**": "Expliziter Selektor für gleichzeitiges Filtern und Zuweisen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "47. Welches Werkzeug wird im Kurs-Setup für das Experiment-Tracking eingesetzt?",
@@ -1180,7 +1226,8 @@
     "mini_glossary": {
       "**Run**": "Einzelner Trainings-/Evaluationsdurchlauf mit geloggten Informationen.",
       "**Model Registry**": "Komponente zur Versionierung und Freigabe von Modellen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "48. Was bewirkt die Taste `M` im Command Mode eines Jupyter Notebooks?",
@@ -1205,7 +1252,8 @@
     "mini_glossary": {
       "**Command Mode**": "Notebook-Modus für Struktur-Operationen an Zellen.",
       "**Kernel**": "Ausführungsumgebung des Notebooks für Codezellen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "49. Was ist der primäre Zweck der `EXPOSE`-Anweisung in einem `Dockerfile`?",
@@ -1230,7 +1278,8 @@
     "mini_glossary": {
       "**Port-Mapping**": "Bindung eines Host-Ports an einen Container-Port beim Start.",
       "**K8s Service**": "Kubernetes-Ressource, die Pods unter Ports/IPs erreichbar macht."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "50. Welche Metrik eignet sich zur Bewertung eines K-Means-Clustering-Modells, wenn die wahren Labels bekannt sind?",
@@ -1255,7 +1304,8 @@
     "mini_glossary": {
       "**Adjusted Rand Score**": "Ähnlichkeitsmaß der Clusterzuweisung, zufallskorrigiert (Bereich −1 bis 1).",
       "**Label-Permutation**": "Neubenennung von Clustern ohne Änderung der Gruppierung."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "51. Was ist ein wesentlicher Vorteil von Entscheidungsbäumen?",
@@ -1280,7 +1330,8 @@
     "mini_glossary": {
       "**White-Box**": "Modell, dessen Entscheidungslogik nachvollziehbar ist.",
       "**Blatt**": "Terminalknoten, der Vorhersagen/Klassen liefert."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "52. Was ist ein bekannter Nachteil von einzelnen Entscheidungsbäumen?",
@@ -1305,7 +1356,8 @@
     "mini_glossary": {
       "**Pruning**": "Beschneiden überkomplexer Baumteile zur Generalisierungsverbesserung.",
       "**Varianz**": "Empfindlichkeit eines Modells gegenüber Trainingsdatenfluktuationen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "53. Wie funktioniert der K-Nearest-Neighbors (KNN) Algorithmus?",
@@ -1330,7 +1382,8 @@
     "mini_glossary": {
       "**Lazy Learning**": "Kein explizites Trainingsmodell; Arbeit erfolgt bei der Vorhersage.",
       "**Distanzmetrik**": "Funktion zur Quantifizierung der Ähnlichkeit zwischen Punkten."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "54. Warum sollte der Hyperparameter `k` bei KNN für eine binäre Klassifikation ungerade gewählt werden?",
@@ -1355,7 +1408,8 @@
     "mini_glossary": {
       "**Hyperparameter**": "Nicht gelernter Parameter, der das Lernverhalten steuert.",
       "**Mehrheitsvotum**": "Entscheidung nach der häufigsten Klasse unter Nachbarn."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "55. Was ist ein typischer Anwendungsfall für K-Means Clustering?",
@@ -1380,7 +1434,8 @@
     "mini_glossary": {
       "**Zentroid**": "Mittelpunkt eines Clusters; arithmetisches Mittel seiner Punkte.",
       "**Konvergenz**": "Zustand, in dem Zuordnungen/Zentren sich nicht mehr wesentlich ändern."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "56. Was unterscheidet Supervised von Unsupervised Learning?",
@@ -1405,7 +1460,8 @@
     "mini_glossary": {
       "**Regression**": "Vorhersage kontinuierlicher Zielgrößen.",
       "**Semi-Supervised**": "Ansatz mit wenigen Labels und vielen unlabeled Beispielen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "57. Was ist ein Vorteil des KNN-Algorithmus?",
@@ -1430,7 +1486,8 @@
     "mini_glossary": {
       "**Nicht-parametrisch**": "Kein fester Funktionsansatz; Komplexität wächst mit Daten.",
       "**Entscheidungsgrenze**": "Grenzlinie/-fläche, die Klassen im Merkmalsraum trennt."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "58. Was ist ein bekannter Nachteil des KNN-Algorithmus?",
@@ -1455,7 +1512,8 @@
     "mini_glossary": {
       "**Standardisierung**": "Transformation auf Mittelwert 0 und Varianz 1.",
       "**Manhattan-Distanz**": "L₁-Distanz; Summe der Absolutdifferenzen je Dimension."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "59. Wozu dient die 'Ellbogenmethode' (Elbow Method) im Kontext von K-Means?",
@@ -1480,7 +1538,8 @@
     "mini_glossary": {
       "**WCSS**": "Summe der quadrierten Distanzen der Punkte zu ihren Zentroiden.",
       "**Grenznutzen**": "Abnehmender Zusatzgewinn bei Erhöhung von k um 1."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "60. Was repräsentiert ein interner Knoten in einem Entscheidungsbaum?",
@@ -1505,7 +1564,8 @@
     "mini_glossary": {
       "**Split**": "Aufteilung der Daten anhand einer Regel in zwei (oder mehr) Teilmengen.",
       "**Impurity**": "Unreinheit eines Knotens (z. B. Gini/Entropie) zur Split-Bewertung."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "61. Was ist ein typischer Vorteil von K-Means?",
@@ -1530,7 +1590,8 @@
     "mini_glossary": {
       "**Cluster**": "Gruppe ähnlicher Datenpunkte basierend auf einer Distanzmetrik.",
       "**Zentroid**": "Mittelwertvektor eines Clusters, um den K-Means gruppiert."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "62. Was ist ein typischer Nachteil von K-Means?",
@@ -1555,7 +1616,8 @@
     "mini_glossary": {
       "**k**": "Hyperparameter, der die Anzahl der zu findenden Cluster festlegt.",
       "**Silhouettenwert**": "Maß für Clustertrennschärfe (zwischen −1 und 1)."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "63. In welchen Anwendungsbereichen werden Entscheidungsbäume oft bevorzugt?",
@@ -1580,7 +1642,8 @@
     "mini_glossary": {
       "**White-Box**": "Modellklasse mit transparenten, erklärbaren Entscheidungen.",
       "**Auditierbarkeit**": "Fähigkeit, Modelle/Entscheidungen formell zu prüfen und zu begründen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "64. Was ist ein typischer Einsatzbereich für den KNN-Algorithmus?",
@@ -1605,7 +1668,8 @@
     "mini_glossary": {
       "**Ähnlichkeitsmaß**": "Metrik (z. B. Kosinus, euklidisch) zur Bestimmung von Nähe.",
       "**Collaborative Filtering**": "Empfehlungen aus Nutzer-zu-Nutzer- oder Item-Ähnlichkeiten."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "65. Welches Geschäftsproblem lässt sich gut mit K-Means lösen?",
@@ -1630,7 +1694,8 @@
     "mini_glossary": {
       "**RFM**": "Recency, Frequency, Monetary – Kaufverhaltensmerkmale.",
       "**Segmentierung**": "Aufteilung der Kundenbasis in homogene Gruppen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "66. Was ist ein Vorteil von Entscheidungsbäumen gegenüber KNN?",
@@ -1655,7 +1720,8 @@
     "mini_glossary": {
       "**Skalierung**": "Transformation von Merkmalen auf vergleichbare Größenordnungen.",
       "**Schwellwertsplit**": "Aufteilung eines Knotens bei `Feature ≤/ > t`."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "67. Was ist ein Vorteil von KNN gegenüber Entscheidungsbäumen?",
@@ -1680,7 +1746,8 @@
     "mini_glossary": {
       "**Nicht-parametrisch**": "Komplexität wächst mit Daten; kein fixer Modellansatz.",
       "**Entscheidungsgrenze**": "Trennfläche zwischen Klassen im Merkmalsraum."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "68. Was ist ein Vorteil von K-Means gegenüber KNN?",
@@ -1705,7 +1772,8 @@
     "mini_glossary": {
       "**Unsupervised**": "Lernen ohne Zielwerte/Labels.",
       "**Kalter Start**": "Situation ohne oder mit wenigen Labels/Historie."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "69. Was ist eine zentrale 'Best Practice' im Machine Learning?",
@@ -1730,7 +1798,8 @@
     "mini_glossary": {
       "**Baseline**": "Einfaches Referenzmodell als Untergrenze der Performance.",
       "**Cherry-Picking**": "Selektive Ergebniswahl ohne vollständige Evidenzbasis."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "70. Was besagt die 'AMALEA-Weisheit' zu den 'Big 3' Algorithmen (DT, KNN, K-Means)?",
@@ -1755,7 +1824,8 @@
     "mini_glossary": {
       "**Paradigma**": "Grundlegendes Modellierungsprinzip mit typischen Stärken/Schwächen.",
       "**Konzeptionelle Einordnung**": "Schnelles Zuordnen eines Problems zu passenden Methodenfamilien."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "71. Was ist ein grundlegendes Merkmal eines neuronalen Netzes?",
@@ -1780,7 +1850,8 @@
     "mini_glossary": {
       "**Gewicht**": "Skalar, der die Stärke einer Verbindung zwischen Neuronen bestimmt.",
       "**Aktivierung**": "Nichtlineare Funktion wie ReLU oder Sigmoid."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "72. Was ist die Hauptfunktion einer Aktivierungsfunktion in einem neuronalen Netz?",
@@ -1805,7 +1876,8 @@
     "mini_glossary": {
       "**ReLU**": "Rectified Linear Unit, `f(x)=max(0,x)`; schnell und gradientenstark.",
       "**Tanh/Sigmoid**": "S-förmige Aktivierungen mit Sättigungszonen."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "73. Was ist ein wesentlicher Vorteil der `ReLU`-Aktivierungsfunktion gegenüber `Sigmoid`?",
@@ -1830,7 +1902,8 @@
     "mini_glossary": {
       "**Vanishing Gradient**": "Gradienten werden in tiefen Netzen zu klein; Lernen stockt.",
       "**Leaky-ReLU**": "Variante mit kleiner Steigung für negative x-Werte."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "74. Was beschreibt das Backpropagation-Verfahren?",
@@ -1855,7 +1928,8 @@
     "mini_glossary": {
       "**Kettenregel**": "Regel zur Ableitung verschachtelter Funktionen.",
       "**Optimierer**": "Verfahren zur Aktualisierung der Gewichte (z. B. SGD, Adam)."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "75. Was ist eine typische Ursache für Overfitting bei neuronalen Netzen?",
@@ -1880,7 +1954,8 @@
     "mini_glossary": {
       "**Kapazität**": "Ausdrucksfähigkeit/Komplexität eines Modells.",
       "**Generalisation Gap**": "Differenz zwischen Trainings- und Validierungsleistung."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "76. Was ist `Dropout` im Kontext von Deep Learning?",
@@ -1905,7 +1980,8 @@
     "mini_glossary": {
       "**Ko-Adaptation**": "Ungewollte wechselseitige Abhängigkeit von Neuronen.",
       "**Dropout-Rate p**": "Wahrscheinlichkeit, mit der ein Neuron deaktiviert wird."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "77. Welchen Zweck erfüllt eine `Loss Function` (Verlustfunktion)?",
@@ -1930,7 +2006,8 @@
     "mini_glossary": {
       "**Kreuzentropie**": "Loss für Klassifikation mit probabilistischen Ausgaben.",
       "**MSE**": "Mean Squared Error, Standard-Loss für Regression."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "78. Was ist ein Hauptvorteil von `Batch Normalization`?",
@@ -1955,7 +2032,8 @@
     "mini_glossary": {
       "**Internal Covariate Shift**": "Schwankende Aktivierungsverteilungen zwischen Schichten.",
       "**Mini-Batch**": "Teilmenge der Trainingsdaten pro Update-Schritt."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "79. Was ist ein potenzielles Problem bei sehr tiefen neuronalen Netzen?",
@@ -1980,7 +2058,8 @@
     "mini_glossary": {
       "**Exploding Gradient**": "Zu große Gradienten verursachen instabile Gewichtsupdates.",
       "**Residual-Netz**": "Netz mit Skip-Connections zur Stabilisierung tiefer Modelle."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "80. Für welche Art von Aufgaben sind `Convolutional Neural Networks (CNNs)` besonders gut geeignet?",
@@ -2005,7 +2084,8 @@
     "mini_glossary": {
       "**Faltung (Convolution)**": "Lineare Operation mit lokalem Filter auf Nachbarschaften.",
       "**Pooling**": "Downsampling-Operation (z. B. Max-Pooling) zur Verdichtung."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "81. Was ist ein Vorteil von `Stochastic Gradient Descent (SGD)`?",
@@ -2030,7 +2110,8 @@
     "mini_glossary": {
       "**Lernrate (η)**": "Schrittweite der Gewichtsaktualisierung.",
       "**Lokales Minimum**": "Punkt, der nur gegenüber Nachbarschaft minimal ist."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "82. Welche Funktion hat ein `Hidden Layer` in einem neuronalen Netz?",
@@ -2055,7 +2136,8 @@
     "mini_glossary": {
       "**Repräsentation**": "Interne Merkmalsdarstellung, auf der die Vorhersage beruht.",
       "**Abstraktionsstufe**": "Grad der Entfernung vom Rohsignal (niedrig → hoch)."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "83. Was ist ein Nachteil der `Sigmoid`-Aktivierungsfunktion in tiefen Netzen?",
@@ -2080,7 +2162,8 @@
     "mini_glossary": {
       "**Sättigung**": "Bereich, in dem Funktionswerte kaum auf Eingaben reagieren.",
       "**Gradientenfluss**": "Transport der Ableitungen durch die Schichten."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "84. Was ist ein Vorteil des `Adam`-Optimierers gegenüber einfachem `SGD`?",
@@ -2105,7 +2188,8 @@
     "mini_glossary": {
       "**Momentum**": "Glättung der Updates über vergangene Gradienten.",
       "**RMSprop**": "Skalierung der Lernrate anhand der Gradientenvarianz."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "85. Warum wird die Technik des `Early Stopping` beim Training eingesetzt?",
@@ -2130,7 +2214,8 @@
     "mini_glossary": {
       "**Patience**": "Anzahl tolerierter schlechterer Epochen vor Abbruch.",
       "**Checkpointing**": "Speichern des jeweils besten Modellzustands."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "86. Welche Rolle spielt die `Softmax`-Funktion typischerweise in einem neuronalen Netz?",
@@ -2155,7 +2240,8 @@
     "mini_glossary": {
       "**Logit**": "Unskalierter Score einer Klasse vor Softmax.",
       "**Kreuzentropie**": "Loss, der Softmax-Wahrscheinlichkeiten gegen One-Hot-Labels optimiert."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "87. Was ist ein potenzieller Nachteil einer zu großen Lernrate?",
@@ -2180,7 +2266,8 @@
     "mini_glossary": {
       "**Divergenz**": "Auseinanderlaufen der Optimierung ohne Annäherung an ein Minimum.",
       "**LR-Schedule**": "Zeitplan zur Anpassung der Lernrate über Epochen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "88. Warum ist eine gute Gewichtsinitialisierung ('Weight Initialization') wichtig?",
@@ -2205,7 +2292,8 @@
     "mini_glossary": {
       "**Glorot/Xavier**": "Initialisierung mit Varianz ∝ 2/(fan_in+fan_out).",
       "**He-Initialisierung**": "Für ReLU-Netze; Varianz ∝ 2/fan_in."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "89. Für welche Art von Daten sind `Recurrent Neural Networks (RNNs)` besonders geeignet?",
@@ -2230,7 +2318,8 @@
     "mini_glossary": {
       "**Zustand (State)**": "Vektor, der Sequenzkontext zusammenfasst.",
       "**LSTM/GRU**": "RNN-Varianten mit Toren für stabile Langzeitabhängigkeiten."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "90. Was ist ein entscheidender Vorteil von Deep Learning gegenüber klassischen ML-Algorithmen?",
@@ -2255,7 +2344,8 @@
     "mini_glossary": {
       "**Feature Learning**": "Automatisches Lernen relevanter Merkmale aus Daten.",
       "**End-to-End**": "Direktes Mapping von Rohinput zu Ziel ohne handgefertigte Stufen."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "91. Was ist der Hauptvorteil von CNNs gegenüber Fully-Connected Networks bei der Bildverarbeitung?",
@@ -2280,7 +2370,8 @@
     "mini_glossary": {
       "**Rezeptives Feld**": "Bereich des Inputs, den ein Neuron „sieht“. ",
       "**Weight Sharing**": "Gleiche Filtergewichte an allen Positionen anwenden."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "92. Welche Eigenschaft von CNNs ermöglicht die Erkennung von Objekten unabhängig von ihrer Position im Bild?",
@@ -2305,7 +2396,8 @@
     "mini_glossary": {
       "**Translationsinvarianz**": "Merkmale bleiben bei Verschiebungen erkennbar.",
       "**Pooling**": "Verdichtung, die Lagevariationen glättet."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "93. Was ist ein `Filter` (oder Kernel) in einem Convolutional Layer?",
@@ -2330,7 +2422,8 @@
     "mini_glossary": {
       "**Kernelgröße**": "Breite × Höhe des Filters (z. B. 3×3).",
       "**Stride/Padding**": "Schrittweite des Kernels bzw. Randauffüllung."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "94. Welche Funktion hat ein `Mean-Filter` in der klassischen Bildverarbeitung?",
@@ -2355,7 +2448,8 @@
     "mini_glossary": {
       "**Blurring**": "Weichzeichnung durch Mittelung oder Faltung.",
       "**Rauschen**": "Zufällige, unerwünschte Intensitätsschwankungen im Bild."
-    }
+    },
+    "cognitive_level": "Reproduktion"
   },
   {
     "question": "95. Welche Filter werden typischerweise zur Kantendetektion eingesetzt?",
@@ -2380,7 +2474,8 @@
     "mini_glossary": {
       "**Gradient**": "Richtungsableitung der Intensität; Stärke und Richtung der Veränderung.",
       "**Kantenbild**": "Darstellung der Kantenstärke über das Bild."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "96. Was passiert, wenn ein Prewitt-Filter in x-Richtung auf ein Bild angewendet wird?",
@@ -2405,7 +2500,8 @@
     "mini_glossary": {
       "**∂I/∂x**": "Partielle Ableitung der Intensität in x-Richtung.",
       "**Richtungsfilter**": "Filter, der auf Veränderungen in einer bestimmten Achse reagiert."
-    }
+    },
+    "cognitive_level": "Anwendung"
   },
   {
     "question": "97. Warum ist `Weight Sharing` (Gewichtsteilung) in CNNs so wichtig?",
@@ -2430,7 +2526,8 @@
     "mini_glossary": {
       "**Parameterbudget**": "Gesamtanzahl trainierbarer Gewichte.",
       "**Overfitting-Risiko**": "Tendenz, Trainingsrauschen statt Muster zu lernen."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "98. Was ist eine `Feature Map` in einem CNN?",
@@ -2455,7 +2552,8 @@
     "mini_glossary": {
       "**Aktivierung**": "Ausgabe eines Neurons nach Filterung und Nichtlinearität.",
       "**Aktivierungsvolumen**": "Stack mehrerer Feature-Maps (Kanäle)."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "99. Aus welchen Layern besteht eine typische CNN-Architektur?",
@@ -2480,7 +2578,8 @@
     "mini_glossary": {
       "**Flatten**": "Operation zum Umformen von 3D-Tensors in 1D-Vektor.",
       "**Dense Layer**": "Vollständig verbundene Schicht zur Klassifikation/Regression."
-    }
+    },
+    "cognitive_level": "Analyse"
   },
   {
     "question": "100. Was unterscheidet die Filter in CNNs von klassischen Bildverarbeitungsfiltern?",
@@ -2505,6 +2604,7 @@
     "mini_glossary": {
       "**Gelerntes Filter**": "Kernmatrix, deren Werte durch Training optimiert werden.",
       "**Sobel-Filter**": "Klassischer, fest definierter Gradientfilter zur Kantendetektion."
-    }
+    },
+    "cognitive_level": "Analyse"
   }
 ]

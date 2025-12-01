@@ -34,7 +34,8 @@
         "Vektorraum": "Eine algebraische Struktur bestehend aus einer Menge von Elementen (Vektoren) und einem Körper von Skalaren, für die eine Addition und eine Skalarmultiplikation definiert sind, die bestimmte Axiome erfüllen.",
         "Axiom": "Ein als grundlegend anerkannter Lehrsatz, der keines Beweises bedarf.",
         "Skalarmultiplikation": "Eine Operation, bei der ein Vektor mit einem Skalar (einer Zahl) multipliziert wird, was zu einem neuen Vektor führt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "2. Welches der folgenden Axiome gehört **nicht** zu den Axiomen der Vektoraddition in einem Vektorraum $V$?",
@@ -53,7 +54,8 @@
         "Vektoraddition": "Eine Operation, die zwei Vektoren zu einem neuen Vektor kombiniert.",
         "Nullvektor": "Das neutrale Element der Vektoraddition, oft als $0$ oder $\\vec{0}$ dargestellt.",
         "Inverses Element": "Zu jedem Vektor $v$ gibt es ein inverses Element $-v$, sodass ihre Summe der Nullvektor ist."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "3. Was ist eine Linearkombination der Vektoren $v_1, v_2, \\dots, v_n$?",
@@ -72,7 +74,8 @@
         "Linearkombination": "Ein Ausdruck, der durch Multiplikation jedes Vektors in einer Menge mit einem Skalar und anschließende Addition der Ergebnisse gebildet wird.",
         "Vektor": "Ein Element eines Vektorraums, das oft als Pfeil mit einer bestimmten Länge und Richtung dargestellt wird.",
         "Skalar": "Ein Element eines Körpers (meist eine reelle Zahl), das zur Skalierung von Vektoren verwendet wird."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "4. Was versteht man unter dem Span (lineare Hülle) einer Menge von Vektoren $S$?",
@@ -91,7 +94,8 @@
         "Lineare Hülle (Span)": "Die Menge aller möglichen Linearkombinationen einer gegebenen Menge von Vektoren. Der Span bildet immer einen Untervektorraum.",
         "Erzeugendensystem": "Eine Menge von Vektoren, deren Span den gesamten Vektorraum ausfüllt.",
         "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst wieder ein Vektorraum ist."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "5. Eine Menge von Vektoren $\\{v_1, \\dots, v_n\\}$ heißt linear unabhängig, wenn...",
@@ -110,7 +114,8 @@
         "Lineare Unabhängigkeit": "Die Eigenschaft einer Menge von Vektoren, bei der sich keiner der Vektoren als Linearkombination der anderen darstellen lässt.",
         "Lineare Abhängigkeit": "Das Gegenteil der linearen Unabhängigkeit. Mindestens ein Vektor ist 'redundant' und kann durch die anderen ausgedrückt werden.",
         "Triviale Lösung": "Die Lösung eines linearen Gleichungssystems, bei der alle Variablen den Wert Null annehmen."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "6. Was ist eine Basis eines Vektorraums $V$?",
@@ -129,7 +134,8 @@
         "Basis": "Ein linear unabhängiges Erzeugendensystem eines Vektorraums. Eine Basis ist eine minimale Menge von Vektoren, um den gesamten Raum zu beschreiben.",
         "Erzeugendensystem": "Eine Menge von Vektoren, deren lineare Hülle (Span) der gesamte Vektorraum ist.",
         "Lineare Unabhängigkeit": "Eine Eigenschaft von Vektoren, bei der kein Vektor als Linearkombination der anderen ausgedrückt werden kann."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "7. Was gibt die Dimension eines Vektorraums an?",
@@ -146,7 +152,8 @@
       "topic": "Basis und Dimension",
       "mini_glossary": {
         "Dimension": "Die Anzahl der Vektoren in einer Basis eines Vektorraums. Man schreibt $\\dim(V)$."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "8. Was ist die Dimension des Vektorraums $\\mathbb{R}^n$?",
@@ -164,7 +171,8 @@
       "mini_glossary": {
         "R^n": "Der Vektorraum aller $n$-Tupel reeller Zahlen, oft als Spaltenvektoren geschrieben.",
         "Standardbasis": "Die einfachste Basis eines $\\mathbb{R}^n$, bestehend aus den Einheitsvektoren, die jeweils in einer Koordinate eine 1 und sonst Nullen haben."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "9. Was ist ein Untervektorraum?",
@@ -182,7 +190,8 @@
       "mini_glossary": {
         "Untervektorraum": "Eine Teilmenge eines Vektorraums, die selbst die Vektorraumaxiome erfüllt.",
         "Abgeschlossenheit": "Eine Menge ist bezüglich einer Operation abgeschlossen, wenn die Anwendung der Operation auf Elemente der Menge wieder ein Element der Menge ergibt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "10. Welches der folgenden Beispiele ist ein Untervektorraum des $\\mathbb{R}^2$?",
@@ -200,7 +209,8 @@
       "mini_glossary": {
         "Ursprung": "Der Punkt im Koordinatensystem, der dem Nullvektor entspricht.",
         "Einheitskreis": "Die Menge aller Punkte, deren Abstand zum Ursprung genau 1 beträgt."
-      }
+      },
+      "cognitive_level": "Reproduktion"
     },
     {
       "question": "11. Berechnen Sie die Linearkombination $v = 2v_1 - 3v_2$ für die Vektoren $v_1 = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$ und $v_2 = \\begin{pmatrix} -2 \\\\ 1 \\end{pmatrix}$.",
@@ -225,7 +235,8 @@
       },
       "mini_glossary": {
         "Komponentenweise Operation": "Eine Operation auf Vektoren, bei der die Berechnung für jede Komponente (z.B. x, y, z) separat durchgeführt wird."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "12. Der Span von zwei linear unabhängigen Vektoren im $\\mathbb{R}^3$ ist...",
@@ -253,7 +264,8 @@
         "Lineare Unabhängigkeit": "Zwei Vektoren sind linear unabhängig, wenn keiner ein skalares Vielfaches des anderen ist (d.h. sie zeigen in unterschiedliche Richtungen).",
         "Ebene": "Ein zweidimensionaler Unterraum eines höherdimensionalen Raums.",
         "Gerade": "Ein eindimensionaler Unterraum eines höherdimensionalen Raums."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "13. Welche der folgenden Vektormengen ist linear abhängig?",
@@ -279,7 +291,8 @@
       "mini_glossary": {
         "Kollinear": "Zwei Vektoren sind kollinear, wenn sie auf derselben Geraden liegen, d.h. einer ist ein skalares Vielfaches des anderen.",
         "Rang (Matrix)": "Die Anzahl der linear unabhängigen Zeilen oder Spalten einer Matrix. Er gibt die Dimension des von den Vektoren aufgespannten Raums an."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "14. Eine Menge von drei Vektoren im $\\mathbb{R}^2$ ist...",
@@ -302,7 +315,8 @@
           "Da der $\\mathbb{R}^2$ die Dimension 2 hat, kann eine Menge mit 3 Vektoren nicht linear unabhängig sein."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "15. Welche der folgenden Mengen bildet eine Basis für den $\\mathbb{R}^2$?",
@@ -326,7 +340,8 @@
           "Option E ist keine Basis, da jede Menge, die den Nullvektor enthält, automatisch linear abhängig ist."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "16. Der Vektor $v = \\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix}$ hat bezüglich der Basis $B = \\left\\{ \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}, \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} \\right\\}$ welche Koordinaten?",
@@ -353,7 +368,8 @@
         "Koordinatenvektor": "Der Vektor, der die Koeffizienten enthält, die zur Darstellung eines Vektors als Linearkombination einer bestimmten Basis benötigt werden.",
         "Basiswechsel": "Der Prozess der Umrechnung der Koordinaten eines Vektors von einer Basis in eine andere.",
         "Lineares Gleichungssystem": "Eine Sammlung von linearen Gleichungen, die gemeinsame Variablen haben."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "17. Welche Menge ist KEIN Untervektorraum von $P_3$ (Polynome vom Grad $\\le 3$)?",
@@ -378,7 +394,8 @@
       },
       "mini_glossary": {
         "Polynomraum (P_n)": "Der Vektorraum aller Polynome mit einem Grad von höchstens $n$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "18. Die Vektoren $v_1 = (1, 2, 3)^T$, $v_2 = (0, 1, 2)^T$ und $u_3 = (-2, 0, 1)^T$ bilden eine Basis für den $\\mathbb{R}^3$. Was ist die Determinante der Matrix, die aus diesen Vektoren als Spalten gebildet wird?",
@@ -405,7 +422,8 @@
       "mini_glossary": {
         "Determinante": "Eine spezielle Zahl, die einer quadratischen Matrix zugeordnet werden kann und Auskunft über ihre Eigenschaften gibt.",
         "Regel von Sarrus": "Eine Methode zur Berechnung der Determinante einer $3 \\times 3$-Matrix."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "19. Welcher der Vektorraumaxiome stellt sicher, dass $(V, +)$ eine abelsche (kommutative) Gruppe ist?",
@@ -431,7 +449,8 @@
       "mini_glossary": {
         "Gruppe": "Eine grundlegende algebraische Struktur mit einer Menge und einer Verknüpfung, die bestimmte Axiome erfüllt.",
         "Abelsche Gruppe": "Eine Gruppe, deren Verknüpfung kommutativ ist."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "20. Ist die Menge $U = \\left\\{ \\begin{pmatrix} x \\\\ y \\end{pmatrix} \\in \\mathbb{R}^2 : y = x^2 \\right\\}$ ein Untervektorraum von $\\mathbb{R}^2$?",
@@ -454,7 +473,8 @@
           "**3. Abgeschlossenheit Skalarmultiplikation**: Sei $u=(x, x^2)$ und $\\alpha$ ein Skalar. $\\alpha u = (\\alpha x, \\alpha x^2)$. Damit $\\alpha u$ in $U$ liegt, müsste gelten: $\\alpha x^2 = (\\alpha x)^2 = \\alpha^2 x^2$. Dies ist nur wahr für $\\alpha=0$ oder $\\alpha=1$. Also nicht allgemein erfüllt."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "21. Welche der folgenden Transformationen entspricht einem Basiswechsel in der Computergrafik?",
@@ -482,7 +502,8 @@
         "Basiswechselmatrix": "Eine Matrix, die die Umrechnung von Koordinaten von einer Basis in eine andere durchführt.",
         "Rotationsmatrix": "Eine spezielle Art von Basiswechselmatrix, die eine Drehung um den Ursprung beschreibt.",
         "Computergrafik": "Ein Teilgebiet der Informatik, das sich mit der Erzeugung und Manipulation von Bildern mithilfe von Computern befasst."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "22. Die Hauptkomponentenanalyse (PCA) im maschinellen Lernen findet eine neue Basis für einen Daten-Vektorraum. Welches Kriterium wird zur Auswahl dieser neuen Basisvektoren (Hauptkomponenten) verwendet?",
@@ -510,7 +531,8 @@
         "Hauptkomponentenanalyse (PCA)": "Ein statistisches Verfahren zur Dimensionalitätsreduktion, das eine orthogonale Transformation verwendet, um Daten in ein neues Koordinatensystem zu überführen.",
         "Varianz": "Ein statistisches Maß für die Streuung von Datenpunkten um ihren Mittelwert.",
         "Dimensionalitätsreduktion": "Der Prozess der Verringerung der Anzahl von Variablen (Dimensionen) in einem Datensatz."
-      }
+      },
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "23. Gegeben sind die Vektoren $v_1 = (1, 2, 3)^T$ und $v_2 = (0, 1, 2)^T$. Welcher der folgenden Vektoren liegt **nicht** im Span von $\\{v_1, v_2\\}$?",
@@ -533,7 +555,8 @@
           "Eine alternative Methode ist, zu prüfen, ob die Vektoren $v_1, v_2, w$ linear abhängig sind. Wenn ja, liegt $w$ im Span von $\\{v_1, v_2\\}$."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Analyse"
     },
     {
       "question": "24. Gegeben sei ein Vektorraum $V$ mit Basis $B = \\{b_1, b_2, b_3\\}$. Wenn ein Vektor $v \\in V$ die eindeutige Darstellung $v = 2b_1 - b_3$ hat, was ist sein Koordinatenvektor $[v]_B$?",
@@ -556,7 +579,8 @@
           "Der Koordinatenvektor ist also quasi die 'Adresse' des Vektors im durch die Basis definierten Koordinatensystem."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Anwendung"
     },
     {
       "question": "25. Welche der folgenden Aussagen ist eine notwendige und hinreichende Bedingung dafür, dass eine Teilmenge $U$ eines Vektorraums $V$ ein Untervektorraum ist?",
@@ -583,7 +607,8 @@
       "mini_glossary": {
         "Hinreichende Bedingung": "Eine Bedingung, aus deren Erfüllung eine bestimmte Konsequenz zwingend folgt.",
         "Notwendige Bedingung": "Eine Bedingung, die erfüllt sein muss, damit eine bestimmte Konsequenz eintreten kann."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "26. Sei $B = \\{b_1, b_2\\}$ eine Basis des $\\mathbb{R}^2$ und $C = \\{c_1, c_2\\}$ eine weitere Basis mit $c_1 = 2b_1 - b_2$ und $c_2 = b_1 + 3b_2$. Wie lautet die Basiswechselmatrix $T_{B \\leftarrow C}$?",
@@ -607,7 +632,8 @@
           "Die umgekehrte Transformation, $T_{C \\leftarrow B}$, ist einfach die Inverse der Matrix $T_{B \\leftarrow C}$."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Analyse"
     },
     {
       "question": "27. Die Menge aller $(2 \\times 2)$-Matrizen bildet einen Vektorraum $\\mathbb{R}^{2 \\times 2}$. Welche Dimension hat dieser Raum?",
@@ -632,7 +658,8 @@
       },
       "mini_glossary": {
         "Matrizenraum": "Der Vektorraum, dessen Elemente Matrizen einer bestimmten Größe sind."
-      }
+      },
+      "cognitive_level": "Analyse"
     },
     {
       "question": "28. Welches Vektorraumaxiom wird verletzt, wenn man die Vektoraddition im $\\mathbb{R}^2$ als $(x_1, y_1) + (x_2, y_2) = (x_1+x_2, 0)$ und die normale Skalarmultiplikation definiert?",
@@ -656,7 +683,8 @@
           "Die Kommutativität und Assoziativität sind hingegen erfüllt."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Analyse"
     },
     {
       "question": "29. Gegeben sind die Vektoren $v_1=(1, 2)^T$, $v_2=(-2, 1)^T$ und $w=(8, 1)^T$. Aus der Musterlösung ist bekannt, dass $w = 2v_1 - 3v_2$. Warum sind die Vektoren $v_1, v_2, w$ linear abhängig?",
@@ -679,7 +707,8 @@
           "Eine Menge von $m$ Vektoren im $\\mathbb{R}^n$ ist linear abhängig, wenn $m > n$."
         ]
       },
-      "mini_glossary": {}
+      "mini_glossary": {},
+      "cognitive_level": "Analyse"
     },
     {
       "question": "30. Der Vektorraum aller stetigen Funktionen $C([a,b])$ hat welche Dimension?",
@@ -705,7 +734,8 @@
       "mini_glossary": {
         "Stetige Funktion": "Eine Funktion, deren Graph keine Sprünge oder Lücken aufweist.",
         "Monom": "Ein Polynom mit nur einem Term, z.B. $x^k$."
-      }
+      },
+      "cognitive_level": "Anwendung"
     }
   ]
 }
