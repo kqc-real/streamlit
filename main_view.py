@@ -3921,16 +3921,18 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                 f"<span style='color:{color}; font-weight:bold;'>{your_answer_label}:</span> <span style='color:{color};'>{formatted_gegebene_antwort}</span>",
                 unsafe_allow_html=True,
             )
+            # Only show the wrong-answer notice and the correct answer when the
+            # user's answer is present and incorrect.
+            if not ist_richtig:
+                st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
+                correct_label = _test_view_text("correct_label", default="Richtig:")
+                st.markdown(
+                    f"<span style='color:#15803d; font-weight:bold;'>{correct_label}</span> {formatted_richtige_antwort}",
+                    unsafe_allow_html=True,
+                )
     except Exception:
         # Best-effort: do not break explanation rendering on translation errors
         pass
-    else:
-        st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
-        correct_label = _test_view_text("correct_label", default="Richtig:")
-        st.markdown(
-            f"<span style='color:#15803d; font-weight:bold;'>{correct_label}</span> {formatted_richtige_antwort}",
-            unsafe_allow_html=True,
-        )
 
     # Markieren und Feedback-Button gemeinsam platzieren
     action_cols = st.columns([1.2, 2, 1])
