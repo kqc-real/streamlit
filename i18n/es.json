@@ -365,6 +365,9 @@
         "log": { "formula_cache": "📊 Exportación PDF lista: {n} fórmulas en caché" },
         "page_footer": "Página {page} de {pages}",
         "stage_unknown": "Desconocido",
+        "cognition_radar": {
+            "explanation_short": "El radar muestra el porcentaje de aciertos por nivel cognitivo (Bloom).\n\nPatrones típicos:\n• Aprendizaje bulímico (pico en Reproducción): Memorización intensiva → Practicar más tareas de aplicación.\n• Perfil superficial (solo Reproducción alta): Conceptos conocidos, aplicación faltante → Añadir estudios de caso.\n• Enfoque aplicación (Aplicación alta): Buena práctica, lagunas factuales → Refrescar lo básico.\n• Fuerza analítica (Análisis alto): Resolución fuerte, lagunas fundamentales → Repasar fundamentos.\n• Equilibrado (polígono redondo): Competencia sólida → ¡Sigue así!\n• Perfil zigzag (irregular): Estrategia inconsistente → Atacar lagunas específicas."
+        },
         "stage_name": {
             "Reproduktion": "Reproducción",
             "Verständnis": "Comprensión",

@@ -414,7 +414,10 @@
         "score_label": "von {n} Punkten",
         "rank_text": " • Rang {rank}",
         "rank_label": "Ranking (Stand: {date})",
-        "log": { "formula_cache": "📊 PDF-Export fertig: {n} Formeln im Cache" }
+        "log": { "formula_cache": "📊 PDF-Export fertig: {n} Formeln im Cache" },
+        "cognition_radar": {
+            "explanation_short": "Das Radar zeigt den Anteil korrekt erzielter Punkte pro kognitiver Stufe (Bloom).\n\nTypische Muster:\n• Bulimie-Lernen (Spitze bei Reproduktion): Starkes Auswendiglernen → Mehr Anwendungsaufgaben üben.\n• Oberflächenprofil (nur Reproduktion hoch): Konzepte bekannt, Anwendung fehlt → Fallbeispiele einbauen.\n• Anwendungsfokus (Anwendung hoch): Gute Praxis, Faktenwissen lückenhaft → Grundlagen auffrischen.\n• Analysestärke (Analyse hoch): Starke Problemlösung, Basislücken → Grundlagen wiederholen.\n• Ausgewogen (rundes Polygon): Solide Kompetenz → Weiter so!\n• Zickzack-Profil (unregelmäßig): Inkonsistente Strategie → Gezielt Lücken schließen."
+        }
     },
     "mini_glossary": {
         "title": "Schlüsselbegriffe zur Frage",

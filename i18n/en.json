@@ -367,8 +367,10 @@
         "rank_label": "Ranking (as of {date})",
         "log": { "formula_cache": "📊 PDF export completed: {n} formulas cached" },
         "page_footer": "Page {page} of {pages}",
-        "stage_unknown": "Unknown"
-        ,
+        "stage_unknown": "Unknown",
+        "cognition_radar": {
+            "explanation_short": "The radar shows percent-correct per cognitive stage (Bloom).\n\nTypical patterns:\n• Cram learning (spike at Reproduction): Heavy memorization → Practice more application tasks.\n• Surface profile (only Reproduction high): Concepts known, application lacking → Add case studies.\n• Application focus (Application high): Good practice, factual gaps → Refresh basics.\n• Analytical strength (Analysis high): Strong problem-solving, foundation gaps → Review fundamentals.\n• Balanced (round polygon): Solid competence → Keep it up!\n• Zigzag profile (irregular): Inconsistent strategy → Target specific gaps."
+        },
         "stage_name": {
             "Reproduktion": "Reproduction",
             "Verständnis": "Understanding",

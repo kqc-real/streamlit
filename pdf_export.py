@@ -112,6 +112,67 @@ def _get_bloom_stage_rank(stage_label: str) -> int:
         return len(BLOOM_STAGE_ORDER)
 
 
+def _markdown_to_html(text: str) -> str:
+    """Convert simple markdown-style text to HTML for PDF rendering.
+    
+    Handles:
+    - Headers (lines ending with :)
+    - Bullet lists (• or - at start of line)
+    - Paragraphs (double newlines)
+    - Arrows (→) preserved
+    """
+    import re
+    
+    lines = text.strip().split('\n')
+    html_parts = []
+    in_list = False
+    
+    for line in lines:
+        stripped = line.strip()
+        
+        # Skip empty lines but close list if open
+        if not stripped:
+            if in_list:
+                html_parts.append('</ul>')
+                in_list = False
+            continue
+        
+        # Check if line is a bullet point
+        is_bullet = stripped.startswith('•') or stripped.startswith('- ') or stripped.startswith('* ')
+        
+        if is_bullet:
+            # Start list if not in one
+            if not in_list:
+                html_parts.append('<ul style="margin:6px 0 6px 0; padding-left:18px; list-style-type:disc;">')
+                in_list = True
+            
+            # Remove bullet marker and format
+            bullet_text = re.sub(r'^[•\-\*]\s*', '', stripped)
+            # Bold text before colon or arrow for pattern names
+            bullet_text = re.sub(r'^([^:→]+)([:\u2192])', r'<strong>\1</strong>\2', bullet_text)
+            html_parts.append(f'<li style="margin-bottom:3px;">{bullet_text}</li>')
+        
+        else:
+            # Close list if we were in one
+            if in_list:
+                html_parts.append('</ul>')
+                in_list = False
+            
+            # Check if it's a header (ends with : or is short intro text)
+            if stripped.endswith(':') or len(stripped) < 60:
+                # It's a header or intro - make it bold
+                html_parts.append(f'<p style="margin:8px 0 4px 0;"><strong>{_html.escape(stripped)}</strong></p>')
+            else:
+                # Regular paragraph
+                html_parts.append(f'<p style="margin:4px 0;">{_html.escape(stripped)}</p>')
+    
+    # Close any remaining list
+    if in_list:
+        html_parts.append('</ul>')
+    
+    return ''.join(html_parts)
+
+
 def _prepare_stage_sorted_questions(questions: List[Dict[str, Any]]) -> List[tuple[int, str, int, Dict[str, Any]]]:
     """Bereitet die Fragen-Liste nach Bloom-Stufen sortiert auf."""
     enriched: list[tuple[int, str, int, Dict[str, Any]]] = []
@@ -1529,14 +1590,37 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             values = [float(percent_value) for _, _, percent_value in stage_rows]
             radar_uri = _render_radar_svg(labels, values, size=360)
             if radar_uri:
-                stage_html += f'<div class="radar-figure" style="margin-bottom:12px; text-align:center;">'
+                stage_html += '<div class="radar-figure" style="margin-bottom:12px; text-align:center;">'
                 stage_html += f'<img src="{radar_uri}" alt="radar" style="max-width:360px; width:100%; height:auto;"/>'
                 stage_html += '</div>'
+                
+                # Add radar chart explanation with pattern interpretations (localized)
+                # Use a shorter PDF-specific key to avoid overwhelming the report
+                radar_explanation = translate_ui(
+                    "pdf.cognition_radar.explanation_short",
+                    default=(
+                        "Das Radar zeigt den Anteil korrekt erzielter Punkte pro kognitiver Stufe (Bloom).\n\n"
+                        "Typische Muster:\n"
+                        "• Bulimie-Lernen (Spitze bei Reproduktion): Starkes Auswendiglernen → Mehr Anwendungsaufgaben üben.\n"
+                        "• Oberflächenprofil (nur Reproduktion hoch): Konzepte bekannt, Anwendung fehlt → Fallbeispiele einbauen.\n"
+                        "• Anwendungsfokus (Anwendung hoch): Gute Praxis, Faktenwissen lückenhaft → Grundlagen auffrischen.\n"
+                        "• Analysestärke (Analyse hoch): Starke Problemlösung, Basislücken → Grundlagen wiederholen.\n"
+                        "• Ausgewogen (rundes Polygon): Solide Kompetenz → Weiter so!\n"
+                        "• Zickzack-Profil (unregelmäßig): Inkonsistente Strategie → Gezielt Lücken schließen."
+                    ),
+                )
+                # Convert markdown-style text to proper HTML
+                radar_explanation_html = _markdown_to_html(radar_explanation)
+                stage_html += '<div class="radar-explanation" style="margin-top:8px; margin-bottom:40px !important; padding-bottom:16px; font-size:0.85em; color:#555; text-align:left; border-bottom:1px solid #e0e0e0;">'
+                stage_html += radar_explanation_html
+                stage_html += '</div>'
+                # Add spacer between explanation and table
+                stage_html += '<div style="height:20px;"></div>'
         except Exception:
             # Non-fatal: if radar generation fails, continue without it
             pass
 
-        stage_html += '<table class="difficulty-table">'
+        stage_html += '<table class="difficulty-table" style="margin-top:16px;">'
         stage_html += (
             '<thead><tr>'
             f'<th>{translate_ui("pdf.stage_table.header.stage", default="Stufe")}</th>'

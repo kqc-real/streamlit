@@ -356,6 +356,9 @@
         "log": { "formula_cache": "📊 Export PDF : {n} formules en cache" },
         "page_footer": "Page {page}/{pages}",
         "stage_unknown": "Inconnu",
+        "cognition_radar": {
+            "explanation_short": "Le radar affiche le pourcentage de réussite par niveau cognitif (Bloom).\n\nSchémas typiques :\n• Apprentissage boulimique (pic sur Reproduction) : Mémorisation intensive → Pratiquer plus d'exercices d'application.\n• Profil superficiel (Reproduction élevée seulement) : Concepts connus, application manquante → Ajouter des études de cas.\n• Focus application (Application élevée) : Bonne pratique, lacunes factuelles → Rafraîchir les bases.\n• Force analytique (Analyse élevée) : Résolution forte, lacunes fondamentales → Réviser les fondamentaux.\n• Équilibré (polygone rond) : Compétence solide → Continuez !\n• Profil en zigzag (irrégulier) : Stratégie incohérente → Cibler les lacunes spécifiques."
+        },
         "stage_name": {
             "Reproduktion": "Reproduction",
             "Verständnis": "Compréhension",
