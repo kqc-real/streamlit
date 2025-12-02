@@ -1775,7 +1775,7 @@ def _render_welcome_splash():
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
-            if st.button(_welcome_splash_button(), type="primary"):
+            if st.button(_welcome_splash_button(), type="primary", use_container_width=True):
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
@@ -1813,7 +1813,7 @@ def _render_welcome_splash():
         )
         st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button(_welcome_splash_button(), type="primary"):
+        if st.button(_welcome_splash_button(), type="primary", use_container_width=True):
             st.session_state._welcome_splash_dismissed = True
             st.rerun()
 
