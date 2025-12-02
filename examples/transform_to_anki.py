@@ -39,7 +39,9 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
         meta = json_data.get('meta', {})
         tags = ' '.join(str(x).replace(' ', '_') for x in [meta.get('title', ''), q.get('topic', '')]).strip()
 
-        weight_val = q.get('weight', '')
+        # Map concept and cognitive stage fields (compatible with app TSV spec)
+        concept_val = q.get('concept') or q.get('konzept', '')
+        cognitive_val = q.get('cognitive_level') or q.get('kognitive_stufe', '')
 
         row = [
             frage,
@@ -50,7 +52,8 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
             '',
             meta.get('title', ''),
             q.get('topic', ''),
-            str(weight_val),
+            str(concept_val),
+            str(cognitive_val),
             tags,
         ]
         writer.writerow(row)

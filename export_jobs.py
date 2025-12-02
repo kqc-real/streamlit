@@ -367,7 +367,6 @@ _ANKI_COLUMNS: List[str] = [
     "Glossar",
     "Fragenset_Titel",
     "Thema",
-    "Schwierigkeit",
     "Konzept",
     "Kognitive_Stufe",
     "Tags_Alle",
@@ -473,7 +472,6 @@ def _build_anki_model(genanki_module, model_id: int, locale: str):
         "<div class='meta-info'>"
         "{{#Fragenset_Titel}}<span class='meta-item'><strong>" + t('anki.fragenset', default='Fragenset') + ":</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
         "{{#Thema}}<span class='meta-item'><strong>" + t('anki.thema', default='Thema') + ":</strong> {{Thema}}</span>{{/Thema}}"
-        "{{#Schwierigkeit}}<span class='meta-item'><strong>" + t('anki.schwierigkeit', default='Schwierigkeit') + ":</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
         "{{#Konzept}}<span class='meta-item'><strong>" + t('anki.konzept', default='Konzept') + ":</strong> {{Konzept}}</span>{{/Konzept}}" +
         ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + t('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
         "</div>"
@@ -488,7 +486,6 @@ def _build_anki_model(genanki_module, model_id: int, locale: str):
         "<div class='meta-info'>"
         "{{#Fragenset_Titel}}<span class='meta-item'><strong>" + t('anki.fragenset', default='Fragenset') + ":</strong> {{Fragenset_Titel}}</span>{{/Fragenset_Titel}}"
         "{{#Thema}}<span class='meta-item'><strong>" + t('anki.thema', default='Thema') + ":</strong> {{Thema}}</span>{{/Thema}}"
-        "{{#Schwierigkeit}}<span class='meta-item'><strong>" + t('anki.schwierigkeit', default='Schwierigkeit') + ":</strong> {{Schwierigkeit}}</span>{{/Schwierigkeit}}"
         "{{#Konzept}}<span class='meta-item'><strong>" + t('anki.konzept', default='Konzept') + ":</strong> {{Konzept}}</span>{{/Konzept}}" +
         ("{{#Kognitive_Stufe}}<span class='meta-item'><strong>" + t('metadata.cognitive_stage', default='Kognitive Stufe') + ":</strong> {{Kognitive_Stufe}}</span>{{/Kognitive_Stufe}}") +
         "</div>"

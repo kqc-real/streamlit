@@ -651,16 +651,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
                 options_html = "<ol type=\"A\">" + "".join(rendered_opts) + "</ol>"
 
             thema = preview_q.get("thema", "") if isinstance(preview_q, dict) else ""
-            schwierigkeit_map = {
-                1: translate_ui("welcome.distribution.difficulty.easy", default="leicht"),
-                2: translate_ui("welcome.distribution.difficulty.medium", default="mittel"),
-                3: translate_ui("welcome.distribution.difficulty.hard", default="schwer"),
-            }
-            gewichtung_raw = preview_q.get("gewichtung", 2) if isinstance(preview_q, dict) else 2
-            try:
-                schwierigkeit = schwierigkeit_map.get(int(gewichtung_raw), translate_ui("welcome.distribution.difficulty.medium", default="mittel"))
-            except Exception:
-                schwierigkeit = translate_ui("welcome.distribution.difficulty.medium", default="mittel")
+            # Difficulty (Schwierigkeit) is intentionally omitted from the Anki preview meta.
 
             konzept_display = ""
             if isinstance(preview_q, dict):
@@ -677,7 +668,6 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             meta_items = [
                 f"<span class='meta-item'><strong>🗂️ {translate_ui('metadata.question_set', default='Fragenset')}:</strong> {meta_title}</span>",
                 f"<span class='meta-item'><strong>{translate_ui('metadata.topic', default='Thema')}:</strong> {thema}</span>",
-                f"<span class='meta-item'><strong>{translate_ui('metadata.difficulty', default='Schwierigkeit')}:</strong> {schwierigkeit}</span>",
             ]
             if konzept_display:
                 meta_items.append(f"<span class='meta-item'><strong>{translate_ui('metadata.concept', default='Konzept')}:</strong> {_render_md(str(konzept_display))}</span>")

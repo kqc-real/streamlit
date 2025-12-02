@@ -285,7 +285,7 @@ def _render_options(md: MarkdownIt, options: list[Any]) -> str:
         # If original contains $...$ but rendered still contains literal $,
         # attempt a conversion fallback to normalize math tokens.
         try:
-            if isinstance(opt, str) and "$" in opt and "\(" not in rendered_inner and "$" in rendered_inner:
+            if isinstance(opt, str) and "$" in opt and r"\(" not in rendered_inner and "$" in rendered_inner:
                 converted = _convert_math_tokens(opt)
                 rendered_inner = _sanitize(render_markdown_with_math(md, converted).strip())
         except Exception:
