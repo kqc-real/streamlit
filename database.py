@@ -904,7 +904,7 @@ def recompute_session_summary(session_id: int) -> bool:
         questions_title = qs.meta.get('title') if qs else None
         meta_created = qs.meta.get('created') if qs else None
 
-        # try to resolve the user's current pseudonym (may be None)
+        # try to resolve the user's current pseudonym (may be None if user deleted)
         user_pseudonym = None
         try:
             cursor.execute("SELECT user_pseudonym FROM users WHERE user_id = ?", (user_id,))
@@ -912,7 +912,18 @@ def recompute_session_summary(session_id: int) -> bool:
             if _pu and 'user_pseudonym' in _pu.keys():
                 user_pseudonym = _pu['user_pseudonym']
         except Exception:
-            user_pseudonym = None
+            pass
+        
+        # Wenn der User nicht mehr existiert (Pseudonym recycelt), 
+        # behalte den existierenden Pseudonym aus dem Summary
+        if user_pseudonym is None:
+            try:
+                cursor.execute("SELECT user_pseudonym FROM test_session_summaries WHERE session_id = ?", (session_id,))
+                _existing = cursor.fetchone()
+                if _existing and 'user_pseudonym' in _existing.keys():
+                    user_pseudonym = _existing['user_pseudonym']
+            except Exception:
+                pass
 
         insert_sql = (
             """
@@ -1283,7 +1294,10 @@ def release_unreserved_pseudonyms() -> int:
                 cursor.execute(f"DELETE FROM bookmarks WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
                 cursor.execute(f"DELETE FROM feedback WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
                 cursor.execute(f"DELETE FROM answers WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
-                cursor.execute(f"DELETE FROM test_session_summaries WHERE user_id IN ({placeholders})", user_ids_to_delete)
+                # WICHTIG: test_session_summaries wird NICHT gelöscht!
+                # Der Leaderboard-Eintrag bleibt erhalten - der user_pseudonym
+                # ist dort bereits als Kopie gespeichert und unabhängig von
+                # der users-Tabelle.
                 cursor.execute(f"DELETE FROM test_sessions WHERE user_id IN ({placeholders})", user_ids_to_delete)
                 cursor.execute(f"DELETE FROM users WHERE user_id IN ({placeholders})", user_ids_to_delete)
                 deleted_count = cursor.rowcount

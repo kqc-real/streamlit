@@ -838,6 +838,40 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
         pass
 
     aborted_user_id = st.session_state.get("user_id")
+    
+    # If user_id is missing from session_state (e.g. after page refresh),
+    # try to recover it from the DB snapshot or test_sessions table.
+    if not aborted_user_id:
+        try:
+            sid = st.session_state.get("session_id")
+            if sid is not None:
+                from database import get_db_connection
+                conn = get_db_connection()
+                if conn:
+                    cur = conn.cursor()
+                    # First try snapshot table (has user_pseudonym)
+                    cur.execute(
+                        "SELECT user_pseudonym FROM test_session_summaries WHERE session_id = ?",
+                        (int(sid),)
+                    )
+                    row = cur.fetchone()
+                    if row and row['user_pseudonym']:
+                        aborted_user_id = row['user_pseudonym']
+                    else:
+                        # Fall back to test_sessions -> users join
+                        cur.execute(
+                            """SELECT u.user_pseudonym 
+                               FROM test_sessions ts 
+                               JOIN users u ON ts.user_id = u.user_id 
+                               WHERE ts.session_id = ?""",
+                            (int(sid),)
+                        )
+                        row = cur.fetchone()
+                        if row and row['user_pseudonym']:
+                            aborted_user_id = row['user_pseudonym']
+        except Exception:
+            pass
+
     active_file = st.session_state.get("selected_questions_file")
     has_active_user_set = isinstance(active_file, str) and active_file.startswith(USER_QUESTION_PREFIX)
 
@@ -2105,6 +2139,39 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 pass
 
             aborted_user_id = st.session_state.get("user_id")
+            
+            # If user_id is missing from session_state (e.g. after page refresh),
+            # try to recover it from the DB snapshot or test_sessions table.
+            if not aborted_user_id:
+                try:
+                    sid = st.session_state.get("session_id")
+                    if sid is not None:
+                        from database import get_db_connection
+                        conn = get_db_connection()
+                        if conn:
+                            cur = conn.cursor()
+                            # First try snapshot table (has user_pseudonym)
+                            cur.execute(
+                                "SELECT user_pseudonym FROM test_session_summaries WHERE session_id = ?",
+                                (int(sid),)
+                            )
+                            row = cur.fetchone()
+                            if row and row['user_pseudonym']:
+                                aborted_user_id = row['user_pseudonym']
+                            else:
+                                # Fall back to test_sessions -> users join
+                                cur.execute(
+                                    """SELECT u.user_pseudonym 
+                                       FROM test_sessions ts 
+                                       JOIN users u ON ts.user_id = u.user_id 
+                                       WHERE ts.session_id = ?""",
+                                    (int(sid),)
+                                )
+                                row = cur.fetchone()
+                                if row and row['user_pseudonym']:
+                                    aborted_user_id = row['user_pseudonym']
+                except Exception:
+                    pass
 
             if has_active_user_set and isinstance(active_file, str):
                 # Only the original uploader (owner) is allowed to delete the
