@@ -1260,20 +1260,9 @@ def release_unreserved_pseudonyms() -> int:
             
             if not row or not row['last_time']:
                 # Benutzer hat weder Sessions noch Summaries.
-                # Prüfe, ob der User gerade erst erstellt wurde (< 1 Stunde alt)
-                # um Race Conditions zu vermeiden
-                cursor.execute("""
-                    SELECT 1 FROM users WHERE user_id = ? 
-                    AND user_id IN (
-                        SELECT user_id FROM test_sessions
-                        UNION
-                        SELECT user_id FROM test_session_summaries
-                    )
-                """, (user_id,))
-                if cursor.fetchone():
-                    continue  # User hat doch Daten, überspringen
-                # Keine Daten gefunden - lösche nur wenn der User wirklich "verwaist" ist
-                user_ids_to_delete.append(user_id)
+                # NICHT löschen - der User könnte gerade erst erstellt worden sein
+                # und seinen ersten Test machen. Er wird später gelöscht, wenn
+                # er nach 24h immer noch keine Sessions hat.
                 continue
 
             # Prüfe, ob die letzte Session älter als das Limit ist
