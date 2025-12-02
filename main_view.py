@@ -4535,7 +4535,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
 
             # Use Streamlit's container width and provide Plotly config via `config`
-            st.plotly_chart(fig, config={"responsive": True})
+            st.plotly_chart(fig, width="content", config={"responsive": True})
         except Exception:
             # Fallback to the simple chart if Plotly is unavailable
             df_simple = df_performance.set_index("Label")[['Leistung (%)']]
@@ -4683,7 +4683,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 )
 
                 st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
-                st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
+                st.plotly_chart(fig_radar, width="stretch", config={"responsive": True})
 
                 # Short explanation expander for the radar chart (localized)
                 with st.expander(
