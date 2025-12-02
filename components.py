@@ -757,7 +757,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     """Beendet die aktuelle Test-Session, berechnet finale Werte und bereinigt den Session-Status."""
     # Berechne finale Werte vor dem Löschen der Session
-    final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
+    final_score, max_score = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
     duration_seconds = 0
     start_time = st.session_state.get("start_zeit")
     end_time = pd.Timestamp.now()
@@ -775,7 +775,14 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     recommended_duration = st.session_state.get("test_duration_minutes", 60) * 60
     min_duration_for_leaderboard = max(60, int(recommended_duration * 0.20))
 
-    if final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
+    # Compute minimum score as 40% of the maximum possible points for the set
+    try:
+        import math as _math
+        min_score_for_leaderboard = max(1, int(_math.ceil((max_score if max_score is not None else 0) * 0.4)))
+    except Exception:
+        min_score_for_leaderboard = 1
+
+    if final_score >= min_score_for_leaderboard and duration_seconds >= min_duration_for_leaderboard:
         if len(leaderboard) < 10:
             made_it_to_leaderboard = True
         else:

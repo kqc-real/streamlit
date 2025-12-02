@@ -2367,7 +2367,20 @@ def render_welcome_page(app_config: AppConfig):
                 min_duration_seconds = max(60, int(recommended_duration_minutes * 60 * 0.20))
 
                 if 'duration_seconds' in scores.columns:
-                    duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= min_duration_seconds)
+                    # Apply per-row minimum-duration threshold when available.
+                    # `get_all_logs_for_leaderboard` now supplies `allowed_min`
+                    # (minutes) for each summary row; compute the per-row
+                    # minimum seconds as 20% of that allowed_min (min 60s).
+                    try:
+                        if 'allowed_min' in scores.columns:
+                            per_row_min = scores['allowed_min'].apply(
+                                lambda m: max(60, int((m if m is not None else recommended_duration_minutes) * 60 * 0.20))
+                            )
+                            duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= per_row_min)
+                        else:
+                            duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= min_duration_seconds)
+                    except Exception:
+                        duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= min_duration_seconds)
                     scores = scores[duration_mask]
 
                 scores = scores.reset_index(drop=True)

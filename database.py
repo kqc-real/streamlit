@@ -474,6 +474,7 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                     s.start_time AS last_test_time,
                     s.total_points AS total_score,
                     s.duration_seconds AS duration_seconds,
+                    s.allowed_min AS allowed_min,
                     ROW_NUMBER() OVER(
                         PARTITION BY s.user_id
                         ORDER BY s.total_points DESC, COALESCE(s.duration_seconds, 2147483647) ASC
@@ -486,7 +487,8 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                 user_pseudonym,
                 COALESCE(total_score, 0) AS total_score,
                 last_test_time,
-                COALESCE(duration_seconds, 0) AS duration_seconds
+                COALESCE(duration_seconds, 0) AS duration_seconds,
+                COALESCE(allowed_min, 0) AS allowed_min
             FROM ranked
             WHERE rn = 1
             ORDER BY total_score DESC, duration_seconds ASC
