@@ -91,7 +91,7 @@ _STAGE_ALIAS_MAP: Dict[str, str] = {
     "analyzing": "Analyse",
 }
 
-BLOOM_STAGE_ORDER = ["Reproduktion", "Verständnis", "Anwendung", "Analyse"]
+BLOOM_STAGE_ORDER = ["Reproduktion", "Anwendung", "Analyse"]
 
 
 def _normalize_stage_label(value: Any) -> str:

@@ -2575,10 +2575,9 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
             counts = normalized.value_counts()
             # Use canonical keys for ordering and a German default label map for
             # backward-compatible defaults when a translation is missing.
-            bloom_order_keys = ["reproduction", "understanding", "application", "analysis"]
+            bloom_order_keys = ["reproduction", "application", "analysis"]
             default_label_map = {
                 "reproduction": "Reproduktion",
-                "understanding": "Verständnis",
                 "application": "Anwendung",
                 "analysis": "Analyse",
                 "unknown": "Unbekannt",
