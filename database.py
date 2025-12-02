@@ -1280,6 +1280,10 @@ def release_unreserved_pseudonyms() -> int:
             with conn:
                 placeholders = ','.join('?' for _ in user_ids_to_delete)
                 # Lösche zuerst abhängige Daten, falls Foreign Keys aktiv sind
+                cursor.execute(f"DELETE FROM bookmarks WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
+                cursor.execute(f"DELETE FROM feedback WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
+                cursor.execute(f"DELETE FROM answers WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
+                cursor.execute(f"DELETE FROM test_session_summaries WHERE user_id IN ({placeholders})", user_ids_to_delete)
                 cursor.execute(f"DELETE FROM test_sessions WHERE user_id IN ({placeholders})", user_ids_to_delete)
                 cursor.execute(f"DELETE FROM users WHERE user_id IN ({placeholders})", user_ids_to_delete)
                 deleted_count = cursor.rowcount
