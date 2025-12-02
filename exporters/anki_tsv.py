@@ -373,8 +373,6 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
     else:
         thema = ""
 
-    schwierigkeit = _map_schwierigkeit(question.get("weight", ""))
-    
     konzept_raw = _render_metadata_value(md, question.get("concept"))
     konzept_raw = _strip_wrapping_paragraph(konzept_raw)
     if konzept_raw:
@@ -394,6 +392,10 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
         pass
     tags = _build_tags(title, thema, question.get("weight", ""))
 
+    # Note: 'Schwierigkeit' (difficulty) column intentionally omitted.
+    # This exporter previously included a separate difficulty field derived
+    # from the question weight. Per product decision the Anki export and
+    # preview should no longer contain a dedicated 'Schwierigkeit' column.
     return [
         frage_field,
         options_html,
@@ -403,7 +405,6 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
         gloss_html,
         title,
         thema,
-        schwierigkeit,
         konzept,
         kognitive_stufe,
         tags,

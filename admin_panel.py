@@ -445,7 +445,7 @@ def render_question_sets_tab():
             for entry in overview_rows
         ]
     )
-    st.dataframe(df_display, hide_index=True, width="stretch")
+    st.dataframe(df_display, hide_index=True)
 
     st.subheader("Themen je Fragenset")
     for entry in overview_rows:
@@ -528,7 +528,6 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
 
         st.dataframe(
             scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]],
-            width="stretch",
             hide_index=True,
         )
 
@@ -722,7 +721,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         display_df["Trennschärfe (r_it)"] = display_df["Trennschärfe (r_it)"].map(
             lambda v: format_decimal_de(v, 2)
         )
-    st.dataframe(display_df, width="stretch", hide_index=True)
+    st.dataframe(display_df, hide_index=True)
 
     with st.expander("Glossar der Metriken"):
         st.markdown("""
@@ -772,7 +771,6 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                 st.write("Antwortverteilung:")
                 st.dataframe(
                     merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False),
-                    width="stretch",
                 )
 
                 if st.checkbox("Zeige als Balkendiagramm", key=f"distractor_chart_{frage_nr}"):
@@ -786,7 +784,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                         color="Korrekt",
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
-                    st.plotly_chart(fig, width="content", config={"responsive": True})
+                    st.plotly_chart(fig, config={"responsive": True})
 
 def render_feedback_tab():
     """Rendert den Feedback-Tab."""
@@ -888,7 +886,7 @@ def render_feedback_tab():
             
             with col2:
                 # Button, um direkt zur Frage zu springen
-                if st.button("Zur Frage", key=f"jump_feedback_{row.name}", width="stretch"):
+                if st.button("Zur Frage", key=f"jump_feedback_{row.name}"):
                     # Finde den Index der Frage im entsprechenden Fragenset
                     q_file_to_load = row['Fragenset']
                     questions_to_load = load_questions(q_file_to_load, silent=True)
@@ -911,13 +909,12 @@ def render_feedback_tab():
                         st.error("Frage konnte im Set nicht gefunden werden.")
                 
                 # Popover für die Löschbestätigung
-                with st.popover("Löschen", width="stretch"):
+                with st.popover("Löschen"):
                     st.warning("⚠️ Soll dieses Feedback wirklich gelöscht werden?")
                     if st.button(
                         "Ja, endgültig löschen",
                         key=f"del_feedback_{row['feedback_id']}",
                         type="primary",
-                        width="stretch",
                     ):
                         from database import delete_feedback
                         if delete_feedback(row['feedback_id']):
@@ -1046,7 +1043,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 showlegend=False
             )
             
-            st.plotly_chart(fig, width="content", config={"responsive": True})
+            st.plotly_chart(fig, config={"responsive": True})
     else:
         st.info("Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt.")
 

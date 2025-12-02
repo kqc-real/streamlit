@@ -535,7 +535,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     if st.button(
                         prompt_toggle_label,
                         key=view_key,
-                        width="stretch",
                     ):
                         prompt_views[prompt.filename] = not current_state
                         st.session_state["_prompt_inline_views"] = prompt_views
@@ -551,7 +550,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     mime="text/markdown",
                     key=f"user_prompt_download_{prompt.filename}",
                     disabled=prompt_empty,
-                    width="stretch",
                 )
                 safe_filename = "".join(
                     c if c.isalnum() else "_" for c in prompt.filename
@@ -656,7 +654,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 "uploader_help",
                 default="Die Datei muss dem Fragenformat der App entsprechen, darf höchstens 30 Fragen enthalten und max. 5 MB groß sein.",
             ),
-            width="stretch",
+            
         )
 
         if uploader is not None:
@@ -669,7 +667,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         if uploader and st.button(
             _dialog_text("upload_validate_button", default="✅ Fragenset prüfen und speichern"),
             key="user_qset_validate_btn",
-            width="stretch",
         ):
             payload = uploader.getvalue()
             _process_user_qset_payload(payload, uploader.name)
@@ -701,7 +698,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _dialog_text("upload_validate_button", default="✅ Fragenset prüfen und speichern"),
             key="user_qset_validate_text_btn",
             disabled=not pasted_text.strip(),
-            width="stretch",
         ):
             _process_user_qset_payload(pasted_text.encode("utf-8"), "pasted.json")
             st.session_state["user_qset_last_uploaded_name"] = "__pasted__"
@@ -734,7 +730,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     ),
                     key="user_qset_start_btn",
                     disabled=not can_start,
-                    width="stretch",
                 ):
                     _start_test_with_user_set(status["identifier"], app_config)
             else:
@@ -752,7 +747,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         if st.button(
             _dialog_text("close_button", default="Dialog schließen"),
             key="user_qset_close_btn",
-            width="stretch",
         ):
             close_user_qset_dialog(clear_results=True)
             st.rerun()
@@ -2654,7 +2648,7 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
         # Non-critical: if building the summary fails, continue without it
         pass
 
-    st.plotly_chart(fig, width="content", config={"responsive": True})
+    st.plotly_chart(fig, config={"responsive": True})
 
 
 def get_motivation_message(questions: QuestionSet, app_config: AppConfig) -> str:

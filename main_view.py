@@ -1294,7 +1294,6 @@ def _render_history_table(history_rows, filename_base: str):
                             if st.button(
                                 _history_text("start_button", default="Start"),
                                 key=btn_key,
-                                width="stretch",
                                 type='primary',
                             ):
                                 # Configure the app to start the test with the selected set.
@@ -1503,7 +1502,7 @@ def _render_history_table(history_rows, filename_base: str):
         except Exception:
             pass
     except Exception:
-        st.dataframe(df_display, width="stretch", hide_index=True, height=200)
+        st.dataframe(df_display, hide_index=True, height=200)
 
     # Center the CSV download button in the dialog width. For CSV we export
     # a human-friendly rendition: Punkte as formatted percent strings.
@@ -1786,7 +1785,7 @@ def _render_welcome_splash():
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
-            if st.button(_welcome_splash_button(), type="primary", width="stretch"):
+            if st.button(_welcome_splash_button(), type="primary"):
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
@@ -1824,7 +1823,7 @@ def _render_welcome_splash():
         )
         st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button(_welcome_splash_button(), type="primary", width="stretch"):
+        if st.button(_welcome_splash_button(), type="primary"):
             st.session_state._welcome_splash_dismissed = True
             st.rerun()
 
@@ -4535,7 +4534,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
 
             # Use Streamlit's container width and provide Plotly config via `config`
-            st.plotly_chart(fig, width="content", config={"responsive": True})
+            st.plotly_chart(fig, config={"responsive": True})
         except Exception:
             # Fallback to the simple chart if Plotly is unavailable
             df_simple = df_performance.set_index("Label")[['Leistung (%)']]
@@ -4683,7 +4682,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 )
 
                 st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
-                st.plotly_chart(fig_radar, width="stretch", config={"responsive": True})
+                st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
 
                 # Short explanation expander for the radar chart (localized)
                 with st.expander(

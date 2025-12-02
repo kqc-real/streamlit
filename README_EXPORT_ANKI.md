@@ -7,7 +7,7 @@ Die Transformation muss sowohl strukturelle Anpassungen (JSON-Flattening) als au
 ## Contract (Kurzbeschreibung)
 
 - Input: JSON-Bytes (UTF-8) mit der Form { "meta": {...}, "questions": [ { "frage": str, "optionen": [str,..], "loesung": int, "erklaerung": str, "extended_explanation": obj, "mini_glossary": obj, "thema": str, "gewichtung": int } ] }
-- Output: TSV-String (UTF-8) mit Spalten in dieser Reihenfolge: Frage, Optionen (HTML), Antwort_Korrekt, Erklaerung_Basis (HTML), Erklaerung_Erweitert (HTML), Glossar (HTML), Fragenset_Titel, Thema, Schwierigkeit, Tags_Alle.
+- Output: TSV-String (UTF-8) mit Spalten in dieser Reihenfolge: Frage, Optionen (HTML), Antwort_Korrekt, Erklaerung_Basis (HTML), Erklaerung_Erweitert (HTML), Glossar (HTML), Fragenset_Titel, Thema, Tags_Alle.
 - Fehlermodi: bei ungültigem JSON wird ein aussagekräftiger Fehler ausgegeben; bei fehlerhafter LaTeX-Syntax bleibt das Original erhalten und der Eintrag wird zur manuellen Prüfung geloggt.
 - Erfolgskriterium: erzeugte TSV kann von Anki importiert werden und enthält MathJax-kompatible Formeln.
 
@@ -104,8 +104,7 @@ Wir definieren einen neuen Anki-Notiztyp (z.B. "MC-Test-Frage"), auf den wir map
 6.  `Glossar` (HTML)
 7.  `Fragenset_Titel` (Text)
 8.  `Thema` (Text)
-9.  `Schwierigkeit` (Text)
-10. `Tags_Alle` (Text, leerzeichengetrennt für die Anki-Suche)
+9.  `Tags_Alle` (Text, leerzeichengetrennt für die Anki-Suche)
 
 ### 1.2. Kernherausforderung: Formatkonvertierung (MD & KaTeX)
 
@@ -135,8 +134,7 @@ Nach Phase 1 werden die (jetzt MathJax-enthaltenden) Strings mit einer Markdown-
 | **6. `Glossar`** | `q['mini_glossary']` | 1. Objekt in eine HTML-Definitionsliste (`<dl><dt>...</dt><dd>...</dd></dl>`) umwandeln. <br> 2. Alle Inhalte durch Phase 1 & 2 transformieren. |
 | **7. `Fragenset_Titel`**| `meta['title']` | 1. Direkte Übernahme des Werts. |
 | **8. `Thema`** | `q['thema']` | 1. Direkte Übernahme des Werts. |
-| **9. `Schwierigkeit`**| `q['gewichtung']` | 1. Mapping des numerischen Werts: `1`='leicht', `2`='mittel', `3`='schwer'. |
-| **10. `Tags_Alle`** | `meta.*` + `q.*` | 1. Strings aggregieren (z.B. `meta['title']`, `q['thema']`, `q['gewichtung']`). <br> 2. Leerzeichen *innerhalb* eines Tags durch `_` ersetzen. <br> 3. Tags durch **Leerzeichen** trennen für die Anki-Suche (z.B. `Titel_des_Tests Thema_XY Gewichtung_1`). |
+| **9. `Tags_Alle`** | `meta.*` + `q.*` | 1. Strings aggregieren (z.B. `meta['title']`, `q['thema']`). <br> 2. Leerzeichen *innerhalb* eines Tags durch `_` ersetzen. <br> 3. Tags durch **Leerzeichen** trennen für die Anki-Suche (z.B. `Titel_des_Tests Thema_XY`). |
 
 ---
 
@@ -207,7 +205,8 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
         meta = json_data.get('meta', {})
         tags = ' '.join(str(x).replace(' ', '_') for x in [meta.get('title', ''), q.get('thema', '' )]).strip()
 
-        row = [frage, options_html, correct, erklaerung, extended, '', meta.get('title', ''), q.get('thema', ''), str(q.get('gewichtung', '')), tags]
+        # Note: no separate 'Schwierigkeit' column in the TSV export anymore.
+        row = [frage, options_html, correct, erklaerung, extended, '', meta.get('title', ''), q.get('thema', ''), tags]
         writer.writerow(row)
 
     return output.getvalue()
