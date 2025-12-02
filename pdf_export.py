@@ -123,6 +123,96 @@ def _prepare_stage_sorted_questions(questions: List[Dict[str, Any]]) -> List[tup
     return enriched
 
 
+def _render_radar_svg(labels: List[str], values: List[float], size: int = 360) -> str:
+    """Render a simple radar chart as SVG and return a data URI string.
+
+    This is a lightweight renderer that avoids extra dependencies (works
+    reliably with WeasyPrint). `labels` and `values` must have the same
+    length; `values` are expected as percentages (0-100).
+    """
+    try:
+        from math import sin, cos, pi
+        from urllib.parse import quote
+    except Exception:
+        return ""
+
+    n = max(1, len(labels))
+    cx = cy = size // 2
+    outer_r = size * 0.36
+    # grid levels (percent) to draw
+    levels = [0.25, 0.5, 0.75, 1.0]
+
+    def pt(angle, radius):
+        return cx + radius * cos(angle), cy + radius * sin(angle)
+
+    angle_step = 2 * pi / n if n > 0 else 2 * pi
+
+    # Build SVG parts
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 {size} {size}">']
+    # background: use a light gray paper background for better UX on white PDFs
+    parts.append(f'<rect width="100%" height="100%" fill="#f3f4f6"/>')
+
+    # concentric distance rings (background) and polygon grid overlay
+    # On a light background use neutral grays for rings/grid and darker axes
+    ring_stroke = "#d1d5db"      # subtle gray for rings
+    grid_stroke = "#d1d5db"      # same for polygon grid
+    for lvl in levels:
+        r = outer_r * lvl
+        # draw a circular ring as distance marker
+        parts.append(f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{r:.2f}" fill="none" stroke="{ring_stroke}" stroke-width="1"/>')
+        # polygon grid (connecting points at this level) on top of rings
+        pts = []
+        for i in range(n):
+            a = -pi/2 + i * angle_step
+            x, y = pt(a, r)
+            pts.append(f'{x:.2f},{y:.2f}')
+        parts.append(f'<polygon points="{" ".join(pts)}" fill="none" stroke="{grid_stroke}" stroke-width="1"/>')
+
+    # axes: slightly darker gray so radial lines are visible on light background
+    axes_stroke = "#9ca3af"
+    for i in range(n):
+        a = -pi/2 + i * angle_step
+        x, y = pt(a, outer_r)
+        parts.append(f'<line x1="{cx}" y1="{cy}" x2="{x:.2f}" y2="{y:.2f}" stroke="{axes_stroke}" stroke-width="1"/>')
+
+    # polygon for values
+    poly_pts = []
+    for i, v in enumerate(values):
+        a = -pi/2 + i * angle_step
+        r = outer_r * max(0.0, min(1.0, v / 100.0))
+        x, y = pt(a, r)
+        poly_pts.append(f'{x:.2f},{y:.2f}')
+    if poly_pts:
+        parts.append(f'<polygon points="{" ".join(poly_pts)}" fill="rgba(21,128,61,0.20)" stroke="#15803d" stroke-width="2"/>')
+
+    # value labels for concentric rings (25/50/75/100) placed at top center
+    try:
+        ring_values = [int(l * 100) for l in levels]
+        for lvl, val in zip(levels, ring_values):
+            r = outer_r * lvl
+            vx = cx
+            vy = cy - r - 4  # small offset above the ring
+            parts.append(f'<text x="{vx:.2f}" y="{vy:.2f}" font-size="10" text-anchor="middle" fill="#0f172a">{val}</text>')
+    except Exception:
+        # If anything goes wrong with rendering number labels, skip silently
+        pass
+
+    # labels
+    for i, lab in enumerate(labels):
+        a = -pi/2 + i * angle_step
+        # position labels further out so they don't overlap the top '100' ring label
+        x, y = pt(a, outer_r * 1.22)
+        # anchor adjustment
+        anchor = 'middle'
+        # label color for light background
+        parts.append(f'<text x="{x:.2f}" y="{y:.2f}" font-size="11" text-anchor="{anchor}" fill="#0f172a">{_html.escape(str(lab))}</text>')
+
+    parts.append('</svg>')
+    svg = "".join(parts)
+    data_uri = "data:image/svg+xml;utf8," + quote(svg)
+    return data_uri
+
+
 def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days: int = 7) -> None:
     """Evict old entries from the disk formula cache.
 
@@ -1432,6 +1522,20 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     if stage_rows:
         stage_html = '<div class="difficulty-analysis">'
         stage_html += f'<h3>{translate_ui("pdf.stage_section_title", default="Performance nach kognitiver Stufe")}</h3>'
+
+        # Prepare radar image (SVG data URI) and embed above the table
+        try:
+            labels = [translate_ui(f"pdf.stage_name.{label}", default=label) for label, _, _ in stage_rows]
+            values = [float(percent_value) for _, _, percent_value in stage_rows]
+            radar_uri = _render_radar_svg(labels, values, size=360)
+            if radar_uri:
+                stage_html += f'<div class="radar-figure" style="margin-bottom:12px; text-align:center;">'
+                stage_html += f'<img src="{radar_uri}" alt="radar" style="max-width:360px; width:100%; height:auto;"/>'
+                stage_html += '</div>'
+        except Exception:
+            # Non-fatal: if radar generation fails, continue without it
+            pass
+
         stage_html += '<table class="difficulty-table">'
         stage_html += (
             '<thead><tr>'
