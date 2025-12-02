@@ -931,7 +931,7 @@ def recompute_session_summary(session_id: int) -> bool:
                 session_id, user_id, user_pseudonym, questions_file, questions_title, meta_created,
                 start_time, end_time, duration_seconds, question_count, allowed_min,
                 total_points, max_points, correct_count, percent, time_expired
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
         )
 
@@ -1242,8 +1242,16 @@ def release_unreserved_pseudonyms() -> int:
             return 0
 
         # Finde die letzte Session-Zeit für alle Benutzer
-        # Verwende eine temporäre Tabelle für bessere Performance bei vielen Benutzern
-        cursor.execute("CREATE TEMP TABLE _last_sessions AS SELECT user_id, MAX(start_time) as last_time FROM test_sessions GROUP BY user_id")
+        # Prüfe SOWOHL test_sessions ALS AUCH test_session_summaries,
+        # da test_sessions gelöscht werden können, während summaries erhalten bleiben
+        cursor.execute("""
+            CREATE TEMP TABLE _last_sessions AS 
+            SELECT user_id, MAX(last_time) as last_time FROM (
+                SELECT user_id, MAX(start_time) as last_time FROM test_sessions GROUP BY user_id
+                UNION ALL
+                SELECT user_id, MAX(start_time) as last_time FROM test_session_summaries GROUP BY user_id
+            ) GROUP BY user_id
+        """)
 
         user_ids_to_delete = []
         for user_id in unreserved_user_ids:
@@ -1251,7 +1259,20 @@ def release_unreserved_pseudonyms() -> int:
             row = cursor.fetchone()
             
             if not row or not row['last_time']:
-                # Benutzer hat überhaupt keine Sessions, kann also gelöscht werden
+                # Benutzer hat weder Sessions noch Summaries.
+                # Prüfe, ob der User gerade erst erstellt wurde (< 1 Stunde alt)
+                # um Race Conditions zu vermeiden
+                cursor.execute("""
+                    SELECT 1 FROM users WHERE user_id = ? 
+                    AND user_id IN (
+                        SELECT user_id FROM test_sessions
+                        UNION
+                        SELECT user_id FROM test_session_summaries
+                    )
+                """, (user_id,))
+                if cursor.fetchone():
+                    continue  # User hat doch Daten, überspringen
+                # Keine Daten gefunden - lösche nur wenn der User wirklich "verwaist" ist
                 user_ids_to_delete.append(user_id)
                 continue
 

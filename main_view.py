@@ -2529,51 +2529,8 @@ def render_welcome_page(app_config: AppConfig):
                     )
 
         question_selected_for_render = st.session_state.get("selected_questions_file") or st.session_state.get("main_view_question_file_selector")
-        # If the user's session flow set the 'aborted_user_on_leaderboard' flag
-        # (i.e. they got a toast claiming leaderboard membership) but we did not
-        # produce a visible public leaderboard entry, show a fallback debug
-        # expander here so they can copy relevant session values for debugging.
-        try:
-            if st.session_state.get('aborted_user_on_leaderboard'):
-                with st.expander("Debug: session thinks you're on the leaderboard", expanded=True):
-                    try:
-                        st.write('aborted_user_id', st.session_state.get('aborted_user_id'))
-                        st.write('aborted_user_score', st.session_state.get('aborted_user_score'))
-                        st.write('aborted_user_duration', st.session_state.get('aborted_user_duration'))
-                        st.write('aborted_user_recommended_duration', st.session_state.get('aborted_user_recommended_duration'))
-                        st.write('selected_questions_file', st.session_state.get('selected_questions_file'))
-                        st.write('leaderboard_last_update_key_exists', any(k.startswith('leaderboard_last_update_') for k in st.session_state.keys()))
-                    except Exception:
-                        pass
-        except Exception:
-            pass
-        # If the leaderboard expander was collapsed, users might miss the
-        # debug information. If we previously flagged that debug output is
-        # needed, render an always-visible expander here so it's easy to
-        # discover. Clear the flag afterward so it doesn't persist.
-        try:
-            flag_key = f"_leaderboard_debug_needed_{selected_file}"
-            if selected_file and st.session_state.get(flag_key):
-                with st.expander("Debug: why leaderboard is empty (visible)", expanded=True):
-                    try:
-                        st.write("raw_leaderboard_rows", len(leaderboard_data) if leaderboard_data is not None else 0)
-                        try:
-                            st.write("leaderboard_data_sample", leaderboard_data[:10])
-                        except Exception:
-                            st.write("leaderboard_data (could not slice preview)")
-                        st.write("recommended_duration_minutes", question_durations.get(selected_file, app_config.test_duration_minutes))
-                        st.write("min_duration_seconds", max(60, int(question_durations.get(selected_file, app_config.test_duration_minutes) * 60 * 0.20)))
-                    except Exception:
-                        pass
-                try:
-                    del st.session_state[flag_key]
-                except Exception:
-                    try:
-                        del st.session_state['_leaderboard_debug_needed']
-                    except Exception:
-                        pass
-        except Exception:
-            pass
+
+
         if not question_selected_for_render:
             st.info(_welcome_pseudonym_question_required())
         else:
