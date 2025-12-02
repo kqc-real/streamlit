@@ -765,8 +765,22 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
         duration_seconds = (end_time - start_time).total_seconds()
 
     # Prüfe, ob der Nutzer es ins Leaderboard schaffen wird
-    from database import get_all_logs_for_leaderboard
+    from database import get_all_logs_for_leaderboard, recompute_session_summary
     selected_file = st.session_state.get("selected_questions_file")
+
+    # Recompute and persist the current session summary first so the
+    # leaderboard decision uses the same data that will be displayed
+    # to users after the session ends. This avoids transient mismatches
+    # where the toast claims leaderboard membership but the public view
+    # (which reads from snapshots) does not yet include the session.
+    try:
+        sid = st.session_state.get("session_id")
+        if sid is not None:
+            recompute_session_summary(int(sid))
+    except Exception:
+        # Best-effort: continue even if recompute fails.
+        pass
+
     leaderboard = get_all_logs_for_leaderboard(selected_file)
     
     made_it_to_leaderboard = False
