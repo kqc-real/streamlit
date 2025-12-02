@@ -852,6 +852,11 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     # Bereinige Session-State. Wenn `preserve_user_identity` True ist, behalten
     # wir `user_id` und `user_id_hash` im Session-State; sonst entfernen wir sie
     # wie bisher.
+    # Capture the current test time limit BEFORE we wipe session_state so
+    # we can report the correct recommended duration in the post-session
+    # toast. Previously this was read after clearing the session_state and
+    # fell back to the small default (180s), producing "less than 1 min".
+    _captured_test_time_limit = st.session_state.get("test_time_limit", 180)
     for key in list(st.session_state.keys()):
         if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file" and key != "active_locale":
             # Preserve identity keys for reserved pseudonyms
@@ -864,7 +869,7 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     st.session_state["aborted_user_score"] = final_score
     st.session_state["aborted_user_duration"] = duration_seconds
     st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
-    st.session_state["aborted_user_recommended_duration"] = st.session_state.get("test_time_limit", 180)
+    st.session_state["aborted_user_recommended_duration"] = _captured_test_time_limit
     
     st.rerun()
 
@@ -2106,6 +2111,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             # oder _user_qset_preserved_notice). Wir bewahren solche internen
             # Hinweise, damit sie nach dem folgenden rerun einmalig angezeigt
             # werden können.
+            # Capture the current test time limit BEFORE removal so we can
+            # persist the recommended duration for the toast. Reading it
+            # after the cleanup fell back to the default (180s) and caused
+            # incorrect "less than 1 min" messages.
+            _captured_test_time_limit = st.session_state.get("test_time_limit", 180)
             for key in list(st.session_state.keys()):
                 if not key.startswith("_admin") and not key.startswith("_user_qset_") and key != "selected_questions_file":
                     del st.session_state[key]
@@ -2116,7 +2126,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.session_state["aborted_user_score"] = final_score
             st.session_state["aborted_user_duration"] = duration_seconds
             st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
-            st.session_state["aborted_user_recommended_duration"] = st.session_state.get("test_time_limit", 180)
+            st.session_state["aborted_user_recommended_duration"] = _captured_test_time_limit
             
             st.rerun()
 
