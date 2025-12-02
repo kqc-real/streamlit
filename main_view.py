@@ -651,7 +651,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
                 options_html = "<ol type=\"A\">" + "".join(rendered_opts) + "</ol>"
 
             thema = preview_q.get("thema", "") if isinstance(preview_q, dict) else ""
-            # Difficulty (Schwierigkeit) is intentionally omitted from the Anki preview meta.
+            # Difficulty is intentionally omitted from the Anki preview meta.
 
             konzept_display = ""
             if isinstance(preview_q, dict):

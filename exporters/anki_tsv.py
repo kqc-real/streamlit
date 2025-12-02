@@ -156,16 +156,9 @@ def _restore_math_backslash_breaks(html: str) -> str:
     return _SINGLE_MATH_BREAK.sub(r"\\\\", html)
 
 
-def _map_schwierigkeit(value: Any) -> str:
-    try:
-        v = int(value)
-    except Exception:
-        return translate_ui("pdf.difficulty.medium", default="mittel")
-    return {
-        1: translate_ui("pdf.difficulty.easy", default="leicht"),
-        2: translate_ui("pdf.difficulty.medium", default="mittel"),
-        3: translate_ui("pdf.difficulty.hard", default="schwer"),
-    }.get(v, translate_ui("pdf.difficulty.medium", default="mittel"))
+# Helper `_map_schwierigkeit` removed — Anki export no longer exposes a
+# dedicated difficulty column. Difficulty mapping remains available in
+# other modules (e.g. `pdf_export`) if needed.
 
 
 def _strip_wrapping_paragraph(html: str) -> str:
@@ -392,10 +385,10 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
         pass
     tags = _build_tags(title, thema, question.get("weight", ""))
 
-    # Note: 'Schwierigkeit' (difficulty) column intentionally omitted.
+    # Note: difficulty column intentionally omitted.
     # This exporter previously included a separate difficulty field derived
     # from the question weight. Per product decision the Anki export and
-    # preview should no longer contain a dedicated 'Schwierigkeit' column.
+    # preview should no longer contain a dedicated difficulty column.
     return [
         frage_field,
         options_html,
