@@ -466,7 +466,8 @@ class AppConfig:
         # when the welcome page runs cleanup. Default: True (enabled).
         self.auto_release_unreserved_pseudonyms: bool = True
         # Hours after which an inactive, unreserved pseudonym is released.
-        self.pseudonym_release_hours: int = 0
+        # Default: 24 hours to prevent race conditions with active sessions.
+        self.pseudonym_release_hours: int = 24
         # Recovery / policy defaults
         self.recovery_min_length: int = 6
         self.recovery_allow_short: bool = False
