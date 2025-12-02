@@ -526,6 +526,10 @@
                 "gaps": "🆘 Grandes lacunes de connaissances. Demandez de l'aide !",
                 "review": "⚠️ Très faible. La révision expose chaque erreur."
             }
+            ,
+            "leaderboard": {
+                "hidden_hint": "{count} essais masqués : durée trop courte (<{min_seconds} s) ou score insuffisant ({min_score} points)."
+            }
         }
     },
     "welcome": {

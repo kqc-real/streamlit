@@ -2337,16 +2337,75 @@ def render_welcome_page(app_config: AppConfig):
                     caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
 
                 scores = pd.DataFrame(leaderboard_data)
-                scores = scores[~((scores["total_score"] == 0) & (scores["duration_seconds"] == 0))]
-                # Blende Durchläufe ohne erzielte Punkte aus dem öffentlichen Leaderboard aus
-                scores = scores[scores["total_score"] > 0]
-                # Filtere Sessions unter 3 min heraus, um überstürzte Abgaben zu vermeiden.
-                # NEU: Mindestdauer ist 20% der empfohlenen Testzeit, aber mind. 60s
+
+                # Count rows before applying any UI filters so we can
+                # explain how many entries were hidden by the filters.
+                initial_leaderboard_rows = len(scores)
+
+                # Ensure numeric columns are numeric where possible. Keep rows
+                # with missing duration_seconds (NULL in DB) — treat them as
+                # 'unknown' rather than discarding them outright.
+                if 'duration_seconds' in scores.columns:
+                    scores['duration_seconds'] = pd.to_numeric(scores['duration_seconds'], errors='coerce')
+                else:
+                    scores['duration_seconds'] = pd.NA
+
+                if 'total_score' in scores.columns:
+                    scores['total_score'] = pd.to_numeric(scores['total_score'], errors='coerce').fillna(0)
+                else:
+                    scores['total_score'] = 0
+
+                # Remove runs where both score and duration are explicitly zero
+                scores = scores[~((scores['total_score'] == 0) & (scores['duration_seconds'] == 0))]
+                # Keep only runs with positive score
+                scores = scores[scores['total_score'] > 0]
+
+                # Minimum duration filter: require either unknown duration (keep)
+                # or duration >= min_duration_seconds. This avoids dropping valid
+                # results where duration parsing failed in the DB.
                 recommended_duration_minutes = question_durations.get(selected_file, app_config.test_duration_minutes)
                 min_duration_seconds = max(60, int(recommended_duration_minutes * 60 * 0.20))
-                
-                scores = scores[scores["duration_seconds"] >= min_duration_seconds]
+
+                if 'duration_seconds' in scores.columns:
+                    duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= min_duration_seconds)
+                    scores = scores[duration_mask]
+
                 scores = scores.reset_index(drop=True)
+
+                # Compute how many runs were hidden by the UI filters and show
+                # a concise explanation (either too short duration or below
+                # minimum score). Keep UI behavior unchanged.
+                try:
+                    final_count = len(scores)
+                    hidden_count = max(0, int(initial_leaderboard_rows - final_count))
+                    if hidden_count > 0:
+                        # Use localized string for the hidden-runs hint so it respects
+                        # the active UI locale instead of showing a hardcoded German
+                        # message. Provide the minimum score value used elsewhere.
+                        try:
+                            # Compute minimum score as 40% of the maximum possible
+                            # score for this questions set (round up). Ensure at
+                            # least 1 point required to avoid a zero threshold.
+                            import math as _math
+                            base_max = max_score_for_set if 'max_score_for_set' in locals() else 0
+                            min_score = max(1, int(_math.ceil(base_max * 0.4)))
+                            hint_tpl = translate_ui(
+                                "summary_view.summary_message.leaderboard.hidden_hint",
+                                default="{count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_seconds} s) oder nicht die Mindestpunktzahl ({min_score} Punkte) erreicht.",
+                            )
+                            st.info(hint_tpl.format(count=hidden_count, min_seconds=min_duration_seconds, min_score=min_score))
+                        except Exception:
+                            # Fallback to the previous German message when translation
+                            # lookup or formatting fails for any reason.
+                            st.info(
+                                f"{hidden_count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_duration_seconds} s) oder nicht die Mindestpunktzahl erreicht."
+                            )
+                except Exception:
+                    pass
+
+                # Debug output for empty leaderboards was removed to avoid
+                # exposing internal payloads to end users. No persistent
+                # debug file or visible expander is created here.
 
                 # Compute caption from the already-filtered scores so the
                 # displayed date matches the visible leaderboard rows.
@@ -2410,11 +2469,40 @@ def render_welcome_page(app_config: AppConfig):
 
                     # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                     icons = ["🥇", "🥈", "🥉"]
+                    import re
+
+                    def _is_hex_like(s: str) -> bool:
+                        try:
+                            if not isinstance(s, str):
+                                return False
+                            s2 = s.strip()
+                            # consider short hex fragments (at least 8 hex chars)
+                            return bool(re.fullmatch(r"[0-9a-fA-F]{8,}", s2))
+                        except Exception:
+                            return False
+
                     for i in range(len(scores)):
-                        if i < len(icons):
-                            scores.loc[i, pseudo_col] = f"{icons[i]} {scores.loc[i, pseudo_col]}"
-                        else:
-                            scores.loc[i, pseudo_col] = f"{i + 1}. {scores.loc[i, pseudo_col]}"
+                        try:
+                            name_val = scores.loc[i, pseudo_col]
+                            # Normalize placeholder hex-like names to a friendlier label
+                            if _is_hex_like(str(name_val)):
+                                display_name = f"Anonym ({str(name_val)[:10]})"
+                            else:
+                                display_name = str(name_val)
+
+                            if i < len(icons):
+                                scores.loc[i, pseudo_col] = f"{icons[i]} {display_name}"
+                            else:
+                                scores.loc[i, pseudo_col] = f"{i + 1}. {display_name}"
+                        except Exception:
+                            # Fallback to original behavior on error
+                            try:
+                                if i < len(icons):
+                                    scores.loc[i, pseudo_col] = f"{icons[i]} {scores.loc[i, pseudo_col]}"
+                                else:
+                                    scores.loc[i, pseudo_col] = f"{i + 1}. {scores.loc[i, pseudo_col]}"
+                            except Exception:
+                                pass
 
                     st.dataframe(
                         scores[[
@@ -2427,8 +2515,52 @@ def render_welcome_page(app_config: AppConfig):
                         hide_index=True,
                     )
 
-
         question_selected_for_render = st.session_state.get("selected_questions_file") or st.session_state.get("main_view_question_file_selector")
+        # If the user's session flow set the 'aborted_user_on_leaderboard' flag
+        # (i.e. they got a toast claiming leaderboard membership) but we did not
+        # produce a visible public leaderboard entry, show a fallback debug
+        # expander here so they can copy relevant session values for debugging.
+        try:
+            if st.session_state.get('aborted_user_on_leaderboard'):
+                with st.expander("Debug: session thinks you're on the leaderboard", expanded=True):
+                    try:
+                        st.write('aborted_user_id', st.session_state.get('aborted_user_id'))
+                        st.write('aborted_user_score', st.session_state.get('aborted_user_score'))
+                        st.write('aborted_user_duration', st.session_state.get('aborted_user_duration'))
+                        st.write('aborted_user_recommended_duration', st.session_state.get('aborted_user_recommended_duration'))
+                        st.write('selected_questions_file', st.session_state.get('selected_questions_file'))
+                        st.write('leaderboard_last_update_key_exists', any(k.startswith('leaderboard_last_update_') for k in st.session_state.keys()))
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+        # If the leaderboard expander was collapsed, users might miss the
+        # debug information. If we previously flagged that debug output is
+        # needed, render an always-visible expander here so it's easy to
+        # discover. Clear the flag afterward so it doesn't persist.
+        try:
+            flag_key = f"_leaderboard_debug_needed_{selected_file}"
+            if selected_file and st.session_state.get(flag_key):
+                with st.expander("Debug: why leaderboard is empty (visible)", expanded=True):
+                    try:
+                        st.write("raw_leaderboard_rows", len(leaderboard_data) if leaderboard_data is not None else 0)
+                        try:
+                            st.write("leaderboard_data_sample", leaderboard_data[:10])
+                        except Exception:
+                            st.write("leaderboard_data (could not slice preview)")
+                        st.write("recommended_duration_minutes", question_durations.get(selected_file, app_config.test_duration_minutes))
+                        st.write("min_duration_seconds", max(60, int(question_durations.get(selected_file, app_config.test_duration_minutes) * 60 * 0.20)))
+                    except Exception:
+                        pass
+                try:
+                    del st.session_state[flag_key]
+                except Exception:
+                    try:
+                        del st.session_state['_leaderboard_debug_needed']
+                    except Exception:
+                        pass
+        except Exception:
+            pass
         if not question_selected_for_render:
             st.info(_welcome_pseudonym_question_required())
         else:

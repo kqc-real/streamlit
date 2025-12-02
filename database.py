@@ -268,6 +268,7 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS test_session_summaries (
                     session_id INTEGER PRIMARY KEY,
                     user_id TEXT NOT NULL,
+                    user_pseudonym TEXT,
                     questions_file TEXT NOT NULL,
                     questions_title TEXT,
                     meta_created TEXT,
@@ -365,7 +366,27 @@ def start_test_session(user_id: str, questions_file: str) -> int | None:
                 "INSERT INTO test_sessions (user_id, questions_file, start_time) VALUES (?, ?, ?)",
                 (user_id, questions_file, start_time_str)
             )
-            return cursor.lastrowid
+            session_id = cursor.lastrowid
+            # Ensure we persist a mapping in `users` when the human-readable
+            # pseudonym is available in the current Streamlit session. Some
+            # flows start a session after the pseudonym is chosen but before
+            # the user record was inserted; this makes the mapping robust.
+            try:
+                try:
+                    user_pseudonym = st.session_state.get('user_id')
+                except Exception:
+                    user_pseudonym = None
+                if user_pseudonym:
+                    # Use INSERT OR IGNORE to avoid races with concurrent inserts
+                    conn.execute(
+                        "INSERT OR IGNORE INTO users (user_id, user_pseudonym) VALUES (?, ?)",
+                        (user_id, user_pseudonym),
+                    )
+            except Exception:
+                # Best-effort only: do not fail session creation if this insert fails
+                pass
+
+            return session_id
     except sqlite3.Error as e:
         print(f"Datenbankfehler in start_test_session: {e}")
         return None
@@ -436,30 +457,38 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
         cursor = conn.cursor()
         # Diese Abfrage verbindet Benutzer, Sessions und Antworten, um die Gesamtpunktzahl zu berechnen.
         # Die Dauer wird pro Session berechnet und dann pro Benutzer summiert, um die Gesamt-Testzeit zu erhalten.
+        # Use the precomputed `test_session_summaries` snapshots when
+        # available. This is more robust than aggregating live `test_sessions`
+        # + `answers` because sessions or answers may be removed after the
+        # summary was created. The snapshot contains `user_id`, `total_points`
+        # and `duration_seconds` which are sufficient to compute the public
+        # leaderboard. We LEFT JOIN `users` to obtain the human-friendly
+        # pseudonym and fall back to a short user_id fragment when missing.
         cursor.execute(
             """
-            WITH session_scores AS (
+            WITH ranked AS (
                 SELECT
                     s.session_id,
-                    u.user_pseudonym,
-                    s.start_time,
-                    SUM(a.points) as total_score,
-                    CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 * 60 AS INTEGER) as duration_seconds,
-                    -- Rangfolge pro User: Höchste Punktzahl, dann kürzeste Zeit
-                    ROW_NUMBER() OVER(PARTITION BY u.user_id ORDER BY SUM(a.points) DESC, CAST((JULIANDAY(MAX(a.timestamp)) - JULIANDAY(s.start_time)) * 24 * 60 * 60 AS INTEGER) ASC) as rn
-                FROM test_sessions s
-                LEFT JOIN answers a ON s.session_id = a.session_id
-                JOIN users u ON s.user_id = u.user_id
+                    s.user_id,
+                    COALESCE(s.user_pseudonym, u.user_pseudonym, SUBSTR(s.user_id, 1, 10)) AS user_pseudonym,
+                    s.start_time AS last_test_time,
+                    s.total_points AS total_score,
+                    s.duration_seconds AS duration_seconds,
+                    ROW_NUMBER() OVER(
+                        PARTITION BY s.user_id
+                        ORDER BY s.total_points DESC, COALESCE(s.duration_seconds, 2147483647) ASC
+                    ) AS rn
+                FROM test_session_summaries s
+                LEFT JOIN users u ON s.user_id = u.user_id
                 WHERE s.questions_file = ?
-                GROUP BY s.session_id, u.user_pseudonym
             )
             SELECT
                 user_pseudonym,
-                COALESCE(total_score, 0) as total_score,
-                start_time as last_test_time,
-                COALESCE(duration_seconds, 0) as duration_seconds
-            FROM session_scores
-            WHERE rn = 1 -- Nur den besten Versuch pro User
+                COALESCE(total_score, 0) AS total_score,
+                last_test_time,
+                COALESCE(duration_seconds, 0) AS duration_seconds
+            FROM ranked
+            WHERE rn = 1
             ORDER BY total_score DESC, duration_seconds ASC
             LIMIT 10
             """,
@@ -873,10 +902,20 @@ def recompute_session_summary(session_id: int) -> bool:
         questions_title = qs.meta.get('title') if qs else None
         meta_created = qs.meta.get('created') if qs else None
 
+        # try to resolve the user's current pseudonym (may be None)
+        user_pseudonym = None
+        try:
+            cursor.execute("SELECT user_pseudonym FROM users WHERE user_id = ?", (user_id,))
+            _pu = cursor.fetchone()
+            if _pu and 'user_pseudonym' in _pu.keys():
+                user_pseudonym = _pu['user_pseudonym']
+        except Exception:
+            user_pseudonym = None
+
         insert_sql = (
             """
             INSERT OR REPLACE INTO test_session_summaries (
-                session_id, user_id, questions_file, questions_title, meta_created,
+                session_id, user_id, user_pseudonym, questions_file, questions_title, meta_created,
                 start_time, end_time, duration_seconds, question_count, allowed_min,
                 total_points, max_points, correct_count, percent, time_expired
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -889,6 +928,7 @@ def recompute_session_summary(session_id: int) -> bool:
                 (
                     session_id,
                     user_id,
+                    user_pseudonym,
                     questions_file,
                     questions_title,
                     meta_created,
@@ -966,6 +1006,14 @@ def get_user_test_history(
             app_cfg = AppConfig()
         except Exception:
             app_cfg = None
+
+        # resolve pseudonym for this user once (may be None)
+        try:
+            cursor.execute("SELECT user_pseudonym FROM users WHERE user_id = ?", (user_id,))
+            _pu = cursor.fetchone()
+            user_pseudonym_for_user = _pu['user_pseudonym'] if _pu and 'user_pseudonym' in _pu.keys() else None
+        except Exception:
+            user_pseudonym_for_user = None
 
         for r in rows:
             session_id = r['session_id']
@@ -1074,6 +1122,7 @@ def get_user_test_history(
             result_row = {
                 'session_id': session_id,
                 'user_id': r['user_id'],
+                'user_pseudonym': user_pseudonym_for_user,
                 'questions_file': qfile,
                 'questions_title': questions_title,
                 'meta_created': meta_created,

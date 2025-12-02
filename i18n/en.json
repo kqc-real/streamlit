@@ -540,6 +540,10 @@
                 "gaps": "🆘 Large knowledge gaps. Ask for help!",
                 "review": "⚠️ Very weak. Review exposes every mistake."
             }
+            ,
+            "leaderboard": {
+                "hidden_hint": "{count} runs hidden: either too short duration (<{min_seconds} s) or did not reach the minimum score ({min_score} points)."
+            }
         }
     },
     "welcome": {

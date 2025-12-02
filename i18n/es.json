@@ -535,6 +535,10 @@
                 "gaps": "🆘 Grandes lagunas de conocimiento. ¡Pide ayuda!",
                 "review": "⚠️ Muy flojo. La revisión expone cada error."
             }
+            ,
+            "leaderboard": {
+                "hidden_hint": "{count} intentos ocultos: duración demasiado corta (<{min_seconds} s) o no alcanzaron la puntuación mínima ({min_score} puntos)."
+            }
         }
     },
     "welcome": {

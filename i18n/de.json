@@ -580,6 +580,10 @@
                 "gaps": "🆘 Große Wissenslücken. Hilfe holen!",
                 "review": "⚠️ Sehr schwach. Review zeigt alle Fehler."
             }
+            ,
+            "leaderboard": {
+                "hidden_hint": "{count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_seconds} s) oder nicht die Mindestpunktzahl ({min_score} Punkte) erreicht."
+            }
         }
     },
     "welcome": {
