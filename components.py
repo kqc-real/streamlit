@@ -805,6 +805,23 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     if "session_id" in st.session_state:
         update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
+    # Update the DB snapshot for this session so `duration_seconds` and
+    # other summary fields are stored atomically. This avoids relying on
+    # SQLite text-based duration calculations later which can be fragile
+    # with timezone/formatting differences.
+    try:
+        from database import recompute_session_summary
+
+        try:
+            sid = st.session_state.get("session_id")
+            if sid is not None:
+                recompute_session_summary(int(sid))
+        except Exception:
+            # Best-effort: do not fail the UI flow if DB update fails.
+            pass
+    except Exception:
+        pass
+
     aborted_user_id = st.session_state.get("user_id")
     active_file = st.session_state.get("selected_questions_file")
     has_active_user_set = isinstance(active_file, str) and active_file.startswith(USER_QUESTION_PREFIX)
@@ -2056,6 +2073,21 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             bookmarked_q_nrs = [int(_nr_from_qidx(i)) for i in st.session_state.get("bookmarked_questions", []) if _nr_from_qidx(i) is not None]
             if "session_id" in st.session_state:
                 update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+
+            # Ensure the DB snapshot for this session is up-to-date so
+            # leaderboards and admin views read a concrete `duration_seconds`
+            # value instead of recomputing it from text timestamps.
+            try:
+                from database import recompute_session_summary
+
+                try:
+                    sid = st.session_state.get("session_id")
+                    if sid is not None:
+                        recompute_session_summary(int(sid))
+                except Exception:
+                    pass
+            except Exception:
+                pass
 
             aborted_user_id = st.session_state.get("user_id")
 
