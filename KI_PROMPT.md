@@ -22,8 +22,8 @@ Execute these steps sequentially. Ask ONE question at a time. Wait for the user'
 2. **Target Audience:** "Who is the target audience?"
 3. **Count & Difficulty:** "How many questions (max 30)? Provide counts or percentages for weights 1–3 (Weight 1 = reproduction, 2 = application, 3 = analysis)."
   _Constraint:_ Enforce a maximum of 30 questions. If the user requests more, ask them to cap it at 30 or revise the request.
-1. **Answer Options:** "Choose A) 4 options, B) 5 options, or C) Variable (3–5). Reply A, B, or C."
-2. **Context Material:** "Paste or upload any external documents now, or reply 'no' to use internal knowledge."
+4. **Answer Options:** "Choose A) 4 options, B) 5 options, or C) Variable (3–5). Reply A, B, or C."
+5. **Context Material:** "Paste or upload any external documents now, or reply 'no' to use internal knowledge."
 
 **Confirmation:** After Step 5, summarize the 5 inputs and ask the user to confirm generation. DO NOT generate the JSON until the user explicitly confirms.
 
