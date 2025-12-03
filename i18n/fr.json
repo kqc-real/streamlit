@@ -629,8 +629,6 @@
         "sort_order": {
             "label": "Trier les questions par :",
             "random": "Aléatoire",
-            "difficulty_asc": "Difficulté (croissante)",
-            "difficulty_desc": "Difficulté (décroissante)",
             "cognitive_stage": "Niveau cognitif (croissant)"
         }
     },

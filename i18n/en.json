@@ -643,8 +643,6 @@
         "sort_order": {
             "label": "Sort questions by:",
             "random": "Random",
-            "difficulty_asc": "Difficulty (ascending)",
-            "difficulty_desc": "Difficulty (descending)",
             "cognitive_stage": "Cognitive stage (ascending)"
         }
     },

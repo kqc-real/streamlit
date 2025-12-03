@@ -684,8 +684,6 @@
         "sort_order": {
             "label": "Fragen sortieren nach:",
             "random": "zufällig",
-            "difficulty_asc": "von leicht nach schwer",
-            "difficulty_desc": "von schwer nach leicht",
             "cognitive_stage": "kognitive Stufe (aufsteigend)"
         }
     },

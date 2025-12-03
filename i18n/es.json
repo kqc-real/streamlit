@@ -638,8 +638,6 @@
         "sort_order": {
             "label": "Ordenar preguntas por:",
             "random": "Aleatorio",
-            "difficulty_asc": "Dificultad (ascendente)",
-            "difficulty_desc": "Dificultad (descendente)",
             "cognitive_stage": "Nivel cognitivo (ascendente)"
         }
     },
