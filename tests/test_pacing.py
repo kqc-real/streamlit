@@ -1,12 +1,21 @@
+import importlib
 import importlib.util
 import sys
+import pathlib
 
-# Import the helpers/pacing.py module by path to avoid name conflicts with an existing
-# top-level `helpers.py` module in the project.
-spec = importlib.util.spec_from_file_location("helpers.pacing", "/Users/kqc/streamlit/helpers/pacing.py")
-pacing = importlib.util.module_from_spec(spec)
-sys.modules["helpers.pacing"] = pacing
-spec.loader.exec_module(pacing)
+# Prefer package import (portable). Fall back to loading by path when import fails.
+try:
+    pacing = importlib.import_module("helpers.pacing")
+except Exception:
+    # compute repository-relative path to helpers/pacing.py
+    repo_root = pathlib.Path(__file__).resolve().parents[1]
+    pacing_path = str(repo_root / "helpers" / "pacing.py")
+    spec = importlib.util.spec_from_file_location("helpers.pacing", pacing_path)
+    if spec is None or spec.loader is None:
+        raise FileNotFoundError(f"helpers/pacing.py not found at {pacing_path}")
+    pacing = importlib.util.module_from_spec(spec)
+    sys.modules["helpers.pacing"] = pacing
+    spec.loader.exec_module(pacing)
 
 
 def make_questions(weights):
