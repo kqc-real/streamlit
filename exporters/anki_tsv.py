@@ -418,7 +418,7 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
     # Defensive normalization: ensure each question's `extended_explanation`
     # is in the canonical object shape so exporter logic can rely on it.
     try:
-        from helpers import normalize_detailed_explanation
+        from helpers.text import normalize_detailed_explanation
         for q in data.get("questions", []):
             try:
                 raw_ext = q.get("extended_explanation") or q.get("detailed_explanation") or q.get("erklaerung_detailliert")

@@ -9,7 +9,7 @@ try:
 except Exception:  # pragma: no cover - tests run without pykatex installed in some CI
     pykatex_render = None
 
-from helpers import smart_quotes_de
+from helpers.text import smart_quotes_de
 
 
 def _convert_math_tokens(content: str) -> str:

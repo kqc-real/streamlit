@@ -1,6 +1,6 @@
 import pytest
 
-import helpers
+import helpers.security as helpers_security
 
 
 class DummyHeaders(dict):
@@ -19,18 +19,18 @@ class DummyRequest:
 
 def test_is_request_from_localhost_with_loopback_ip(monkeypatch):
     request = DummyRequest(headers={"X-Forwarded-For": "127.0.0.1"})
-    monkeypatch.setattr(helpers, "_get_current_request", lambda: request)
-    monkeypatch.setattr(helpers, "_get_server_address", lambda: "localhost")
+    monkeypatch.setattr(helpers_security, "_get_current_request", lambda: request)
+    monkeypatch.setattr(helpers_security, "_get_server_address", lambda: "localhost")
 
-    assert helpers.is_request_from_localhost() is True
+    assert helpers_security.is_request_from_localhost() is True
 
 
 def test_is_request_from_localhost_with_localhost_host_header(monkeypatch):
     request = DummyRequest(headers={"Host": "localhost:8501"}, remote_ip="198.51.100.10")
-    monkeypatch.setattr(helpers, "_get_current_request", lambda: request)
-    monkeypatch.setattr(helpers, "_get_server_address", lambda: "localhost")
+    monkeypatch.setattr(helpers_security, "_get_current_request", lambda: request)
+    monkeypatch.setattr(helpers_security, "_get_server_address", lambda: "localhost")
 
-    assert helpers.is_request_from_localhost() is True
+    assert helpers_security.is_request_from_localhost() is True
 
 
 @pytest.mark.parametrize(
@@ -43,7 +43,7 @@ def test_is_request_from_localhost_with_localhost_host_header(monkeypatch):
 )
 def test_is_request_from_localhost_denies_remote_access(monkeypatch, headers, remote_ip):
     request = DummyRequest(headers=headers, remote_ip=remote_ip)
-    monkeypatch.setattr(helpers, "_get_current_request", lambda: request)
-    monkeypatch.setattr(helpers, "_get_server_address", lambda: "0.0.0.0")
+    monkeypatch.setattr(helpers_security, "_get_current_request", lambda: request)
+    monkeypatch.setattr(helpers_security, "_get_server_address", lambda: "0.0.0.0")
 
-    assert helpers.is_request_from_localhost() is False
+    assert helpers_security.is_request_from_localhost() is False

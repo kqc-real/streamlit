@@ -13,7 +13,7 @@ import sys
 # Füge das Projektverzeichnis zum Path hinzu
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from helpers import format_decimal_de
+from helpers.text import format_decimal_de
 
 def test_admin_key_loading():
     """Testet, ob Admin-Key korrekt geladen wird."""

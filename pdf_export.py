@@ -18,7 +18,7 @@ from markdown_it import MarkdownIt
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
-from helpers import format_decimal_de, smart_quotes_de, normalize_detailed_explanation
+from helpers.text import format_decimal_de, smart_quotes_de, normalize_detailed_explanation
 from i18n.context import t as translate_ui
 import os
 import logging
@@ -1345,7 +1345,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     - Batch-Verarbeitung für QuickLaTeX API
     """
     try:
-        from helpers import format_datetime_de
+        from helpers.text import format_datetime_de
         generated_at_str = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
     except Exception:
         generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
@@ -2568,7 +2568,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     try:
-        from helpers import format_datetime_de
+        from helpers.text import format_datetime_de
 
         generated_at = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y')
     except Exception:
@@ -2759,7 +2759,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     try:
-        from helpers import format_datetime_de
+        from helpers.text import format_datetime_de
 
         generated_at = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
     except Exception:

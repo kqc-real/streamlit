@@ -184,7 +184,7 @@ def render_locale_selector(label: str, help_text: str | None = None) -> str:
     return selected_locale
 
 try:
-    from helpers import get_client_ip, is_request_from_localhost, ACTIVE_SESSION_QUERY_PARAM
+    from helpers.security import get_client_ip, is_request_from_localhost, ACTIVE_SESSION_QUERY_PARAM
 except (ImportError, AttributeError):
     def get_client_ip():
         return None
@@ -232,7 +232,7 @@ def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
         if not keep_sets and not primary_check_performed:
             try:
                 try:
-                    from helpers import get_user_id_hash
+                    from helpers.text import get_user_id_hash
                 except Exception:
                     get_user_id_hash = None
 
@@ -1117,7 +1117,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # Human-readable date
                         if 'start_time' in df.columns:
                             try:
-                                from helpers import format_datetime_de
+                                from helpers.text import format_datetime_de
 
                                 # Format ISO/offset timestamps into German local time
                                 df['Datum'] = format_datetime_de(df['start_time'])

@@ -19,7 +19,7 @@ import logging
 from database import get_db_connection, with_db_retry
 
 try:
-    from helpers import get_client_ip as helpers_get_client_ip
+    from helpers.security import get_client_ip as helpers_get_client_ip
 except (ImportError, AttributeError):
     def helpers_get_client_ip():
         return None
