@@ -63,7 +63,7 @@ After the scratchpad, output the final JSON object in a single Markdown code blo
 - **LaTeX:** Use `$ ... $` for inline math.
 - **JSON Escaping (CRITICAL):**
   - Every backslash in LaTeX must be double-escaped in the JSON string value.
-  - Correct: `"formula": "$E = mc^2$"` (no backslash) or `"set": "$$\\mathbb{R}$$"` (double backslash for JSON).
+  - Correct: `"formula": "$E = mc^2$"` (no backslash) or `"set": "$\\mathbb{R}$"` (double backslash for JSON).
   - Incorrect: `"set": "$\mathbb{R}$"` (invalid JSON).
 - **Punctuation:** No whitespace between closing `$` and following punctuation (e.g., correct: `$x$.`, incorrect: `$x$ .`).
 
