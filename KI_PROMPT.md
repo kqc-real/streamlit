@@ -30,7 +30,7 @@ generation. Do not generate until the user confirms.
 
 ## 3) Required output shape & content rules
 
-- When generation runs, produce one JSON object only (in a single Markdown
+- When generation runs, produce one JSON object only (in a single
   code block). No other JSON or structured error objects are permitted.
 - For every question:
   - `mini_glossary` MUST be present: ordered array of 2–4 objects {"term","definition"}.
@@ -60,7 +60,7 @@ generation. Do not generate until the user confirms.
   meaningless, replace the reference with `(background: standard literature)`.
 1. Final JSON validity check: proper escapes, no control characters, valid UTF-8.
 
-Only if all checks pass: emit a single Markdown code block containing the full
+Only if all checks pass: emit a single code block containing the full
 JSON question-set. Do not emit any other JSON or structured error object.
 
 If any check fails and the issue is not safely auto-fixable, do NOT emit JSON.
@@ -75,11 +75,6 @@ fix before attempting to generate again.
 - Compute `test_duration_minutes` by weighting and rounding per the rules the
   app expects (round up; if ≥10 round up to next multiple of 5).
 
-Important: The assistant must not include any top-level error object inside the
-JSON output. The app consuming this JSON expects either a single valid JSON
-question-set or a short human-readable diagnostic response when generation
-cannot proceed.
-
 ## 6) Internal Generation Workflow (Invisible to User)
 
 Once confirmed, perform these steps internally before outputting the JSON:
@@ -89,10 +84,10 @@ Once confirmed, perform these steps internally before outputting the JSON:
   - Difficulty profile matches request.
   - Each `topic` is used at least twice.
   - Max 10 distinct `topic` values total.
-  - If a constraint (for example "each topic used at least twice") is impossible due to the requested `question_count`, minimize the number of distinct topics and record the deviation in the developer log.
+
 2. **Drafting:** Write the content.
-      - Assign `cognitive_level` (Reproduction/Application/Analysis) matching the weight.
-      - Ensure exactly one correct answer per question.
+  - Assign `cognitive_level` (Reproduction/Application/Analysis) matching the weight.
+  - Ensure exactly one correct answer per question.
 3. **Context Integration:** If documents were provided, extract concepts/definitions internally. **IMPORTANT:** Do not cite the file (e.g., "As seen in slide 4") in the final output. Treat the knowledge as your own.
 4. **Review:** Check against the "Content Rules" below.
 
@@ -113,7 +108,6 @@ Once confirmed, perform these steps internally before outputting the JSON:
 - **Code:** Use backticks `` `code` `` for inline code fragments.
 
 - **Math (strict rules):**
-  - Use `$...$` for inline mathematics. Use `$$...$$` only when the export target explicitly supports display math.
   - Never place sentence punctuation (.,;:!? ) immediately before or inside the closing `$`. Sentence punctuation must follow the closing `$` with no intervening space. Correct: `... $...$.` Incorrect: `... $...$ .` or `... $...$ .` (note the space).
 
 - **JSON escaping (must be enforced by the LLM when generating JSON):**
@@ -159,7 +153,7 @@ Once confirmed, perform these steps internally before outputting the JSON:
         set `meta.question_count` = `questions.length` before emitting.
       - If more than 30 questions are generated, truncate to the first 30.
       - Apply fixes in this order before final emission: 1) escape LaTeX backslashes,
-        2) convert `mini_glossary` arrays→object, 3) remove trailing commas/comments.
+        1) convert `mini_glossary` arrays→object, 3) remove trailing commas/comments.
         Re-parse; if JSON is still invalid after these fixes, emit a short plain-text
         bullet list (max 5 lines) of minimal failures — do NOT emit a JSON error
         object.
@@ -181,8 +175,6 @@ Once confirmed, perform these steps internally before outputting the JSON:
   Input:  "We use $E = mc^2$ [@einstein] to derive ..."
   Auto-fixed: "We use $E = mc^2$ to derive ..."
   ```
-
-  Record each fix as a short developer message (not included in final JSON): e.g., `fixed: questions[3].explanation - removed citation [@einstein]`
 
   -- **Citation policy (strict — automatic stripping near formulas):**
   - Citation or bibliographic reference tokens (for example `[@citekey]`, `\\cite{...}`, or bare `@key`) MUST NOT remain in the same JSON string as inline math. If such tokens appear, the LLM MUST automatically remove them from that string before emitting JSON. Do not leave citation tokens adjacent to formulas.
