@@ -47,7 +47,7 @@ from components import render_sidebar, render_admin_switch
 from i18n.context import t as translate_ui
 
 try:
-    from helpers import is_request_from_localhost
+    from helpers.security import is_request_from_localhost
 except (ImportError, AttributeError):
     def is_request_from_localhost() -> bool:
         return False

@@ -32,12 +32,12 @@ from logic import (
     get_answer_for_question,
     is_test_finished,
 )
-from helpers import (
+from helpers.text import (
     smart_quotes_de,
     get_user_id_hash,
     load_markdown_file,
-    ACTIVE_SESSION_QUERY_PARAM,
 )
+from helpers.security import ACTIVE_SESSION_QUERY_PARAM
 from database import update_bookmarks
 from i18n.context import t
 from user_question_sets import (
@@ -695,7 +695,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             if extended_explanation:
                 # Normalize any legacy/mixed shapes to the canonical dict form
                 try:
-                    from helpers import normalize_detailed_explanation
+                    from helpers.text import normalize_detailed_explanation
 
                     normalized = normalize_detailed_explanation(extended_explanation)
                 except Exception:
@@ -907,7 +907,7 @@ def _render_history_table(history_rows, filename_base: str):
             # Vectorized helpers sometimes coerce most rows to NaT; using
             # an apply-based fallback keeps the newest-first behavior while
             # ensuring each row gets a sensible display string.
-            from helpers import format_datetime_de
+            from helpers.text import format_datetime_de
 
             def _format_start_time(val):
                 try:
@@ -1312,7 +1312,7 @@ def _render_history_table(history_rows, filename_base: str):
                                     # Also try computing hash from pseudonym if helper available
                                     if not candidates and user_pseudo:
                                         try:
-                                            from helpers import get_user_id_hash
+                                            from helpers.text import get_user_id_hash
                                             candidates.append(get_user_id_hash(user_pseudo))
                                         except Exception:
                                             pass
@@ -2199,7 +2199,7 @@ def render_welcome_page(app_config: AppConfig):
                 last_ts = st.session_state.get(last_key)
                 if last_ts:
                     try:
-                        from helpers import format_datetime_de
+                        from helpers.text import format_datetime_de
                         # Parse stored ISO timestamp defensively
                         import pandas as _pd
                         parsed = _pd.to_datetime(last_ts, utc=True, errors='coerce')
@@ -2322,7 +2322,7 @@ def render_welcome_page(app_config: AppConfig):
                 # Show the date of the most recent recorded session (if any).
                 try:
                     import pandas as _pd
-                    from helpers import format_datetime_de
+                    from helpers.text import format_datetime_de
 
                     # Collect timestamps from leaderboard rows and parse defensively
                     dates = _pd.to_datetime(
@@ -2428,7 +2428,7 @@ def render_welcome_page(app_config: AppConfig):
                         parsed = pd.to_datetime(scores['last_test_time'], utc=True, errors='coerce')
                         last_dt = parsed.max()
                         if pd.notna(last_dt):
-                            from helpers import format_datetime_de
+                            from helpers.text import format_datetime_de
                             caption_date = format_datetime_de(last_dt, fmt='%d.%m.%Y')
                 except Exception:
                     caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
@@ -2459,7 +2459,7 @@ def render_welcome_page(app_config: AppConfig):
 
                     # Formatiere das Datum
                     try:
-                        from helpers import format_datetime_de
+                        from helpers.text import format_datetime_de
 
                         scores["last_test_time"] = format_datetime_de(scores["last_test_time"], fmt='%d.%m.%y')
                     except Exception:
@@ -2882,7 +2882,7 @@ def render_welcome_page(app_config: AppConfig):
                                     window_minutes=getattr(cfg, 'rate_limit_window_minutes', 5),
                                 )
                                 if not allowed:
-                                    from helpers import format_datetime_de
+                                    from helpers.text import format_datetime_de
                                     locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
                                     st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_locked(locked_until_str))
                                     log_login_attempt(pseudonym_recover, success=False)
@@ -4077,7 +4077,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     extended_explanation = frage_obj.get("extended_explanation")
     # Normalize legacy/mixed shapes to avoid raw Python repr leaking into UI
     try:
-        from helpers import normalize_detailed_explanation
+        from helpers.text import normalize_detailed_explanation
 
         normalized_ext = normalize_detailed_explanation(extended_explanation)
     except Exception:

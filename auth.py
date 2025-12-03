@@ -14,7 +14,7 @@ from datetime import datetime
 
 from config import AppConfig, load_scientists, QuestionSet
 from i18n.context import t
-from helpers import get_user_id_hash
+from helpers.text import get_user_id_hash
 
 def log_state(event: str):
     """Schreibt den aktuellen Session State zur Fehlersuche in eine Log-Datei."""

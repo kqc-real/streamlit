@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 from typing import Any, Dict, List, Tuple
 
-from helpers import sanitize_html
+from helpers.text import sanitize_html
 
 MIN_THEMA_OCCURRENCES = 2
 MAX_UNIQUE_THEMES = 10

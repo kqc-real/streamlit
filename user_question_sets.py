@@ -19,7 +19,7 @@ from config import QuestionSet, get_package_dir, USER_QUESTION_PREFIX
 from config import _build_question_set  # type: ignore[attr-defined]
 
 try:
-    from helpers import get_user_id_hash
+    from helpers.text import get_user_id_hash
 except ImportError:  # pragma: no cover - defensive fallback
     def get_user_id_hash(user_id: str | None) -> str:  # type: ignore[misc]
         return "" if user_id is None else str(abs(hash(user_id)))

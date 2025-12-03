@@ -248,6 +248,12 @@ def calculate_score(answers: dict[int, int], questions: list[dict]) -> float:
 - **Komponenten modularisieren** (siehe `components.py`)
 - **Keine Secrets im Code** (nutze `.streamlit/secrets.toml`)
 
+## **Module Layout**
+
+- **Helpers package:** Common utilities live under the `helpers/` package. Prefer importing the specific submodules to keep dependencies explicit and easier to test.
+- **Preferred imports:** Use `from helpers.text import sanitize_html` or `from helpers.security import is_request_from_localhost` instead of broad `from helpers import *`.
+- **Compatibility note:** The top-level `helpers` module currently provides a compatibility surface, but importing from `helpers.text` / `helpers.security` is the recommended, long-term approach.
+
 ### Datenbank-Regeln
 
 - **Nie direkt SQL-Strings bauen** → SQL-Injection-Gefahr

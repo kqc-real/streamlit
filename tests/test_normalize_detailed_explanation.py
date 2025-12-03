@@ -1,6 +1,6 @@
 import pytest
 
-from helpers import normalize_detailed_explanation
+from helpers.text import normalize_detailed_explanation
 
 
 def test_none_and_empty():

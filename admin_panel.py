@@ -12,7 +12,7 @@ import streamlit as st
 
 from config import AppConfig, QuestionSet, load_questions, list_question_files
 from pdf_export import generate_mini_glossary_pdf
-from helpers import format_decimal_de
+from helpers.text import format_decimal_de
 from database import (
     DATABASE_FILE,
     delete_user_results_for_qset,
@@ -513,7 +513,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         )
 
         try:
-            from helpers import format_datetime_de
+            from helpers.text import format_datetime_de
 
             scores["📅 Datum"] = format_datetime_de(scores["📅 Datum"], fmt='%d.%m.%y')
         except Exception:
@@ -868,7 +868,7 @@ def render_feedback_tab():
 
     df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row['Fragenset'], row['Frage-Nr.']), "Frage nicht gefunden"), axis=1)
     try:
-        from helpers import format_datetime_de
+        from helpers.text import format_datetime_de
 
         df_feedback['Gemeldet am'] = format_datetime_de(df_feedback['Gemeldet am'], fmt='%d.%m.%Y %H:%M')
     except Exception:
