@@ -544,7 +544,8 @@
             }
             ,
             "leaderboard": {
-                "hidden_hint": "{count} runs hidden: either too short duration (<{min_seconds} s) or did not reach the minimum score ({min_score} points)."
+                "hidden_hint_one": "{count} run hidden: either too short duration (<{min_time_pct}% of test time) or did not reach the minimum score ({min_score_pct}% of total points).",
+                "hidden_hint": "{count} runs hidden: either too short duration (<{min_time_pct}% of test time) or did not reach the minimum score ({min_score_pct}% of total points)."
             }
         }
     },

@@ -297,11 +297,11 @@
         "markdown_dependency": "'markdown-it-py' requis pour l'aperçu.",
         "streamlit_component_missing": "Module composants Streamlit indispo.",
         "session_saved": {
-            "leaderboard": "🎉 Félicitations, {user} ! Tu es dans le classement avec {score} points !",
-            "saved_not_on_leaderboard": "Ton résultat pour \"{user}\" a été sauvegardé mais n'apparaîtra pas dans le classement car {reason}.",
-            "reason_zero_score": "les résultats avec 0 point ne sont pas comptés",
-            "reason_too_short": "la durée du test était trop courte (moins de {min_duration} min)",
-            "reason_not_top10": "le score ne suffisait pas pour le Top 10"
+              "leaderboard": "🎉 Félicitations, {user} ! Tu es dans le classement avec {score} points !",
+              "saved_not_on_leaderboard": "Ton résultat pour \"{user}\" a été sauvegardé mais n'apparaîtra pas dans le classement car {reason}.",
+              "reason_zero_score": "les résultats avec 0 point ne sont pas comptés",
+              "reason_too_short": "la durée du test était trop courte (<{min_time_pct}% du temps de test) ou score insuffisant ({min_score_pct}% du total des points).",
+              "reason_not_top10": "le score ne suffisait pas pour le Top 10"
         }
     },
     "dialogs": {
@@ -531,7 +531,8 @@
             }
             ,
             "leaderboard": {
-                "hidden_hint": "{count} essais masqués : durée trop courte (<{min_seconds} s) ou score insuffisant ({min_score} points)."
+                "hidden_hint_one": "{count} essai masqué : soit durée trop courte (<{min_time_pct}% du temps du test) soit score insuffisant ({min_score_pct}% du total des points).",
+                "hidden_hint": "{count} essais masqués : soit durée trop courte (<{min_time_pct}% du temps du test) soit score insuffisant ({min_score_pct}% du total des points)."
             }
         }
     },

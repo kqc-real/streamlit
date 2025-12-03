@@ -2402,11 +2402,28 @@ def render_welcome_page(app_config: AppConfig):
                             import math as _math
                             base_max = max_score_for_set if 'max_score_for_set' in locals() else 0
                             min_score = max(1, int(_math.ceil(base_max * 0.4)))
-                            hint_tpl = translate_ui(
-                                "summary_view.summary_message.leaderboard.hidden_hint",
-                                default="{count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_seconds} s) oder nicht die Mindestpunktzahl ({min_score} Punkte) erreicht.",
-                            )
-                            st.info(hint_tpl.format(count=hidden_count, min_seconds=min_duration_seconds, min_score=min_score))
+                            # Choose singular vs. plural translation key so languages
+                            # with different singular forms (e.g. German) render
+                            # correctly: "1 Lauf" vs. "2 Läufe".
+                            key_base = "summary_view.summary_message.leaderboard.hidden_hint"
+                            if hidden_count == 1:
+                                key = key_base + "_one"
+                                default_tpl = (
+                                    "{count} Lauf ausgeblendet: entweder zu kurze Laufzeit (<{min_time_pct}% der Testzeit) "
+                                    "oder nicht die Mindestpunktzahl ({min_score_pct}% der Gesamtpunktzahl) erreicht."
+                                )
+                            else:
+                                key = key_base
+                                default_tpl = (
+                                    "{count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_time_pct}% der Testzeit) "
+                                    "oder nicht die Mindestpunktzahl ({min_score_pct}% der Gesamtpunktzahl) erreicht."
+                                )
+
+                            hint_tpl = translate_ui(key, default=default_tpl)
+                            # Provide percent values matching the i18n templates.
+                            min_time_pct = int(0.20 * 100)
+                            min_score_pct = int(0.40 * 100)
+                            st.info(hint_tpl.format(count=hidden_count, min_time_pct=min_time_pct, min_score_pct=min_score_pct))
                         except Exception:
                             # Fallback to the previous German message when translation
                             # lookup or formatting fails for any reason.

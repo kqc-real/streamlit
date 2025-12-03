@@ -585,7 +585,8 @@
             }
             ,
             "leaderboard": {
-                "hidden_hint": "{count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_seconds} s) oder nicht die Mindestpunktzahl ({min_score} Punkte) erreicht."
+                "hidden_hint_one": "{count} Lauf ausgeblendet: entweder zu kurze Laufzeit (<{min_time_pct}% der Testzeit) oder nicht die Mindestpunktzahl ({min_score_pct}% der Gesamtpunktzahl) erreicht.",
+                "hidden_hint": "{count} Läufe ausgeblendet: entweder zu kurze Laufzeit (< {min_time_pct} % der Testzeit) oder nicht die Mindestpunktzahl ({min_score_pct} % der Gesamtpunktzahl) erreicht."
             }
         }
     },

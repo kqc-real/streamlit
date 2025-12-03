@@ -540,7 +540,8 @@
             }
             ,
             "leaderboard": {
-                "hidden_hint": "{count} intentos ocultos: duración demasiado corta (<{min_seconds} s) o no alcanzaron la puntuación mínima ({min_score} puntos)."
+                "hidden_hint_one": "{count} intento oculto: duración demasiado corta (<{min_time_pct}% del tiempo de la prueba) o no alcanzaron la puntuación mínima ({min_score_pct}% del total de puntos).",
+                "hidden_hint": "{count} intentos ocultos: duración demasiado corta (<{min_time_pct}% del tiempo de la prueba) o no alcanzaron la puntuación mínima ({min_score_pct}% del total de puntos)."
             }
         }
     },
