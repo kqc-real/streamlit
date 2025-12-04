@@ -324,19 +324,25 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
         y_bottom = margin + chart_height
         # correct (green) rectangle (drawn first at bottom)
         y_c = y_bottom - h_c
-        parts.append(f'<rect x="{x}" y="{y_c:.1f}" width="{bar_w}" height="{h_c:.1f}" fill="#15803d"/>')
+        parts.append(f'<rect x="{x}" y="{y_c:.1f}" width="{bar_w}" height="{h_c:.1f}" fill="#15803d" rx="4" ry="4" stroke="#ffffff" stroke-width="0.6"/>')
         # wrong (red) rectangle stacked on top
         y_w = y_c - h_w
-        parts.append(f'<rect x="{x}" y="{y_w:.1f}" width="{bar_w}" height="{h_w:.1f}" fill="#b91c1c"/>')
+        parts.append(f'<rect x="{x}" y="{y_w:.1f}" width="{bar_w}" height="{h_w:.1f}" fill="#b91c1c" rx="4" ry="4" stroke="#ffffff" stroke-width="0.6"/>')
         # unanswered (grey) rectangle stacked on top
         y_u = y_w - h_u
-        parts.append(f'<rect x="{x}" y="{y_u:.1f}" width="{bar_w}" height="{h_u:.1f}" fill="#9ca3af"/>')
-        # percent text inside if space
+        parts.append(f'<rect x="{x}" y="{y_u:.1f}" width="{bar_w}" height="{h_u:.1f}" fill="#9ca3af" rx="4" ry="4" stroke="#ffffff" stroke-width="0.6"/>')
+
+        # percent text inside each segment if there's enough vertical space
         try:
+            # Correct label (white on green)
             if h_c > 14:
                 parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_c + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(c)}%</text>')
-            elif (h_c + h_w) > 14:
-                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_w + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(c)}%</text>')
+            # Wrong label (white on red)
+            if h_w > 14:
+                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_w + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(w)}%</text>')
+            # Unanswered label (white on grey)
+            if h_u > 14:
+                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_u + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(u)}%</text>')
         except Exception:
             pass
 
@@ -2271,10 +2277,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             legend_html_parts.append('</div>')
             legend_html = ''.join(legend_html_parts)
 
+            # small caption explaining the metric
+            caption = _html.escape(translate_ui("pdf.topic_chart.caption", default="Anteil pro Thema (100 % = alle Fragen des Themas)"))
+
             topics_chart_html = (
                 f'<div class="topic-chart">'
                 f'<h3>{_html.escape(translate_ui("pdf.topic_chart.title", default="Leistung nach Thema"))}</h3>'
                 f'{legend_html}'
+                f'<div class="topic-chart-caption">{caption}</div>'
                 f'<img src="{topic_chart_svg}" alt="Themenperformance"/>'
                 '</div>'
             )
@@ -2638,23 +2648,31 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             }}
             .topic-legend {{
                 display: flex;
-                gap: 12px;
+                flex-wrap: wrap;
+                gap: 14px 18px;
                 align-items: center;
                 margin-bottom: 8px;
             }}
             .topic-legend .legend-item {{
                 display: flex;
-                gap: 6px;
+                gap: 8px;
                 align-items: center;
                 font-size: 10pt;
                 color: #0f172a;
+                white-space: nowrap;
             }}
             .topic-legend .legend-swatch {{
                 width: 14px;
                 height: 14px;
                 display: inline-block;
                 border-radius: 3px;
-                border: 1px solid #e6e6e6;
+                border: 1px solid rgba(15,23,42,0.06);
+                box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset;
+            }}
+            .topic-chart-caption {{
+                font-size: 9pt;
+                color: #6b7280;
+                margin: 6px 0 10px 0;
             }}
             /* explanatory paragraph removed — legend provides the necessary info */
             .comparison-box {{
