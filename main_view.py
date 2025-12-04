@@ -2485,7 +2485,13 @@ def render_welcome_page(app_config: AppConfig):
                     # (minutes) for each summary row; compute the per-row
                     # minimum seconds as 20% of that allowed_min (min 60s).
                     try:
-                        if 'allowed_min' in scores.columns:
+                        # Prefer per-row `effective_allowed` (tempo-adjusted) when available.
+                        if 'effective_allowed' in scores.columns:
+                            per_row_min = scores['effective_allowed'].apply(
+                                lambda m: max(60, int((m if m is not None else recommended_duration_minutes) * 60 * 0.20))
+                            )
+                            duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= per_row_min)
+                        elif 'allowed_min' in scores.columns:
                             per_row_min = scores['allowed_min'].apply(
                                 lambda m: max(60, int((m if m is not None else recommended_duration_minutes) * tempo_factor * 60 * 0.20))
                             )
@@ -4532,6 +4538,23 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     except Exception:
         # ignore and keep existing tempo_code
         pass
+    # If still no tempo_code, try to discover from recent leaderboard/session logs
+    try:
+        if not tempo_code:
+            from database import get_all_logs_for_leaderboard
+            qfile = st.session_state.get('selected_questions_file')
+            leaderboard = get_all_logs_for_leaderboard(qfile) if qfile else []
+            user_name = st.session_state.get('user_id')
+            if leaderboard and user_name:
+                for entry in leaderboard:
+                    try:
+                        if entry.get('user_pseudonym') == user_name and entry.get('tempo'):
+                            tempo_code = entry.get('tempo')
+                            break
+                    except Exception:
+                        continue
+    except Exception:
+        pass
     tempo_code = tempo_code or 'normal'
 
     factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
@@ -4546,6 +4569,83 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         tempo_label = translate_ui(f"tempo.{tempo_code}", default=tempo_code.title())
     except Exception:
         tempo_label = tempo_code
+
+    # Determine display values (prefer explicit session selection if present)
+    try:
+        sess_tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or None
+    except Exception:
+        sess_tempo = None
+
+    if sess_tempo and sess_tempo != tempo_code:
+        try:
+            display_tempo_label = translate_ui(f"tempo.{sess_tempo}", default=sess_tempo.title())
+        except Exception:
+            display_tempo_label = sess_tempo
+        try:
+            alt_factor = factor_map.get(sess_tempo, factor)
+            display_allowed = max(1, int(allowed_min * alt_factor)) if allowed_min is not None else None
+        except Exception:
+            display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+    else:
+        display_tempo_label = tempo_label
+        display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+
+    # Debug logging: if session explicitly selected a tempo but the
+    # displayed allowed minutes do not reflect a tempo adjustment,
+    # write a compact record to `var/tempo_debug.log` for offline analysis.
+    try:
+        should_log = False
+        sess_sel = st.session_state.get('selected_tempo') or st.session_state.get('tempo')
+        # If the user explicitly selected a tempo different from 'normal'
+        # but the display_allowed equals the base allowed_min (no adjustment),
+        # that's suspicious and worth logging.
+        if sess_sel and sess_sel != 'normal':
+            base_allowed = allowed_min
+            disp_allowed = display_allowed
+            if base_allowed is not None and disp_allowed is not None and int(disp_allowed) == int(base_allowed):
+                should_log = True
+            # Also log if the translated label resolves to something that looks
+            # like 'Normal' while the session selected a different tempo.
+            try:
+                if isinstance(display_tempo_label, str) and sess_sel and sess_sel != 'normal' and 'normal' in display_tempo_label.lower():
+                    should_log = True
+            except Exception:
+                pass
+
+        if should_log:
+            import json, os, datetime
+            log_dir = os.path.join(os.path.dirname(__file__), 'var')
+            try:
+                os.makedirs(log_dir, exist_ok=True)
+            except Exception:
+                log_dir = os.path.join(os.getcwd(), 'var')
+                os.makedirs(log_dir, exist_ok=True)
+            log_file = os.path.join(log_dir, 'tempo_debug.log')
+            record = {
+                'ts': datetime.datetime.utcnow().isoformat() + 'Z',
+                'session_id': st.session_state.get('session_id'),
+                'user_id': st.session_state.get('user_id'),
+                'selected_tempo_session': st.session_state.get('selected_tempo'),
+                'selected_tempo_fallback': st.session_state.get('tempo'),
+                'tempo_code_resolved': tempo_code,
+                'tempo_label': display_tempo_label,
+                'allowed_min': allowed_min,
+                'effective_allowed': effective_allowed,
+                'display_allowed': display_allowed,
+                'questions_file': st.session_state.get('selected_questions_file'),
+            }
+            try:
+                with open(log_file, 'a', encoding='utf-8') as f:
+                    f.write(json.dumps(record, ensure_ascii=False) + '\n')
+            except Exception:
+                # last-resort print to stderr
+                try:
+                    print('TEMPO_DEBUG:', record)
+                except Exception:
+                    pass
+    except Exception:
+        # Non-fatal: don't break the UI for logging errors
+        pass
 
     # Passe den Titel an, je nachdem, wie der Test beendet wurde. Die Reihenfolge ist wichtig.
     if st.session_state.get("test_manually_ended", False):

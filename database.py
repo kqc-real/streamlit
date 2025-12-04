@@ -278,6 +278,7 @@ def create_tables():
                     duration_seconds INTEGER,
                     question_count INTEGER,
                     allowed_min INTEGER,
+                    effective_allowed INTEGER,
                     tempo TEXT,
                     total_points INTEGER,
                     max_points INTEGER,
@@ -314,6 +315,13 @@ def create_tables():
             try:
                 if 'tempo' not in cols_summ:
                     conn.execute("ALTER TABLE test_session_summaries ADD COLUMN tempo TEXT")
+                if 'effective_allowed' not in cols_summ:
+                    # add column to store tempo-adjusted allowed minutes (best-effort migration)
+                    try:
+                        conn.execute("ALTER TABLE test_session_summaries ADD COLUMN effective_allowed INTEGER")
+                    except sqlite3.OperationalError:
+                        # ignore duplicate column or other race conditions
+                        pass
             except sqlite3.Error:
                 pass
             # Table for per-user preferences (e.g. UI locale) keyed by pseudonym.
@@ -502,7 +510,8 @@ def get_all_logs_for_leaderboard(questions_file: str, tempo: str | None = None) 
                     s.start_time AS last_test_time,
                     s.total_points AS total_score,
                     s.duration_seconds AS duration_seconds,
-                    s.allowed_min AS allowed_min,
+                            s.allowed_min AS allowed_min,
+                            s.effective_allowed AS effective_allowed,
                     s.tempo AS tempo,
                     ROW_NUMBER() OVER(
                         PARTITION BY s.user_id
@@ -525,6 +534,7 @@ def get_all_logs_for_leaderboard(questions_file: str, tempo: str | None = None) 
                 last_test_time,
                 COALESCE(duration_seconds, 0) AS duration_seconds,
                 COALESCE(allowed_min, 0) AS allowed_min,
+                COALESCE(effective_allowed, 0) AS effective_allowed,
                 tempo
             FROM ranked
             WHERE rn = 1
@@ -971,39 +981,93 @@ def recompute_session_summary(session_id: int) -> bool:
         except Exception:
             tempo_val = None
 
+        # Compute tempo-adjusted allowed minutes (effective_allowed) so
+        # downstream evaluation doesn't need to guess the tempo later.
+        effective_allowed = None
+        try:
+            # Map known tempo codes to their multipliers
+            tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+            factor = tempo_factor_map.get(tempo_val, 1.0) if tempo_val is not None else 1.0
+            if allowed_min is not None:
+                effective_allowed = max(1, int(allowed_min * factor))
+            else:
+                effective_allowed = None
+        except Exception:
+            effective_allowed = None
+
         insert_sql = (
             """
             INSERT OR REPLACE INTO test_session_summaries (
                 session_id, user_id, user_pseudonym, questions_file, questions_title, meta_created,
-                start_time, end_time, duration_seconds, question_count, allowed_min, tempo,
+                start_time, end_time, duration_seconds, question_count, allowed_min, effective_allowed, tempo,
                 total_points, max_points, correct_count, percent, time_expired
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
         )
 
-        with conn:
-            conn.execute(
-                insert_sql,
-                (
-                    session_id,
-                    user_id,
-                    user_pseudonym,
-                    questions_file,
-                    questions_title,
-                    meta_created,
-                    start_time,
-                    last_answer,
-                    duration_seconds,
-                    question_count,
-                    allowed_min,
-                    tempo_val,
-                    total_points,
-                    max_points,
-                    correct_count,
-                    percent,
-                    0,
-                ),
-            )
+        try:
+            with conn:
+                conn.execute(
+                    insert_sql,
+                    (
+                        session_id,
+                        user_id,
+                        user_pseudonym,
+                        questions_file,
+                        questions_title,
+                        meta_created,
+                        start_time,
+                        last_answer,
+                        duration_seconds,
+                        question_count,
+                        allowed_min,
+                        effective_allowed,
+                        tempo_val,
+                        total_points,
+                        max_points,
+                        correct_count,
+                        percent,
+                        0,
+                    ),
+                )
+        except sqlite3.OperationalError as e:
+            # If the table is missing the `effective_allowed` column (older DBs),
+            # try to add it and retry once. This makes the migration robust.
+            msg = str(e).lower()
+            if 'no column named effective_allowed' in msg or 'has no column named effective_allowed' in msg:
+                try:
+                    with conn:
+                        conn.execute("ALTER TABLE test_session_summaries ADD COLUMN effective_allowed INTEGER")
+                    with conn:
+                        conn.execute(
+                            insert_sql,
+                            (
+                                session_id,
+                                user_id,
+                                user_pseudonym,
+                                questions_file,
+                                questions_title,
+                                meta_created,
+                                start_time,
+                                last_answer,
+                                duration_seconds,
+                                question_count,
+                                allowed_min,
+                                effective_allowed,
+                                tempo_val,
+                                total_points,
+                                max_points,
+                                correct_count,
+                                percent,
+                                0,
+                            ),
+                        )
+                except Exception:
+                    print(f"Datenbankfehler in recompute_session_summary (retry): {e}")
+                    return False
+            else:
+                print(f"Datenbankfehler in recompute_session_summary: {e}")
+                return False
 
         return True
     except sqlite3.Error as e:
