@@ -3,6 +3,25 @@
         "title": "Export Quiz",
         "subtitle": "Gère & analyse tes sets de questions"
     },
+    "tempo": {
+        "normal": "Normal",
+        "speed": "Rapide (1/2)",
+        "power": "Power (1/4)"
+    },
+    "admin": {
+        "leaderboard": {
+            "tempo": {
+                "label": "Tempo",
+                "help": "Filtrer le classement par mode de tempo",
+                "options": {
+                    "all": "Tous",
+                    "normal": "Normal",
+                    "speed": "Rapide (1/2)",
+                    "power": "Power (1/4)"
+                }
+            }
+        }
+    },
     "sidebar": {
         "language": "Langue",
         "language_expander": "Langue",
@@ -36,7 +55,8 @@
             "question_set": "Set",
             "actions": "Actions",
             "points": "Score (%)",
-            "duration": "Durée"
+            "duration": "Durée",
+            "tempo": "Tempo"
         },
         "current_set": "Set : <strong>{name}</strong>",
         "current_set_marker": "Set : {marker} <strong>{name}</strong>",
@@ -300,7 +320,7 @@
               "leaderboard": "🎉 Félicitations, {user} ! Tu es dans le classement avec {score} points !",
               "saved_not_on_leaderboard": "Ton résultat pour \"{user}\" a été sauvegardé mais n'apparaîtra pas dans le classement car {reason}.",
               "reason_zero_score": "les résultats avec 0 point ne sont pas comptés",
-              "reason_too_short": "la durée du test était trop courte (<{min_time_pct}% du temps de test) ou score insuffisant ({min_score_pct}% du total des points).",
+              "reason_too_short": "la durée du test était trop courte. Temps autorisé : {recommended_minutes} min (seuil minimum pour le classement : {min_duration} min)",
               "reason_not_top10": "le score ne suffisait pas pour le Top 10"
         }
     },
@@ -341,7 +361,7 @@
         },
         "bookmarks_intro": "Tu as marqué ces questions pour plus tard :",
         "question_short": "Q° {n}",
-        "meta": { "participant": "Participant :", "test_date": "Date :", "duration": "Durée :", "questionset": "Set :", "generated_at": "Généré le :" },
+        "meta": { "participant": "Participant :", "test_date": "Date :", "duration": "Durée :", "questionset": "Set :", "generated_at": "Généré le :", "tempo": "Tempo :", "allowed": "autorisé :" },
         "stat": { "correct": "Correct", "wrong": "Faux", "unanswered": "Sans réponse", "total": "Total" },
         "glossary": { "title": "Mini-Glossaire", "intro": "Termes clés du set, par sujet", "alt_intro": "Termes clés du set" },
         "musterloesung": { "title": "Solution type" },
@@ -381,8 +401,8 @@
             "completed": "\ud83d\ude80 Test terminé !"
         },
         "info": {
-            "time_expired": "Fini car temps écoulé. Durée : {allowed_min} min",
-            "early_finish": "Fini {early_delta} min en avance. Durée : {duration_min} min ({allowed_min} min)"
+            "time_expired": "Fini car temps écoulé. Temps autorisé ({tempo_label}) : {allowed_min} min",
+            "early_finish": "Fini {early_delta} min en avance. Durée : {duration_display}. Temps autorisé ({tempo_label}) : {allowed_min} min"
         },
         "metric_caption": "Ton score final",
         "subheader": {

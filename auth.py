@@ -80,6 +80,16 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     st.session_state.bookmarked_questions = []
     default_minutes = getattr(app_config, "test_duration_minutes", 60) if app_config else 60
     test_duration_minutes = question_set.get_test_duration_minutes(default_minutes)
+    # Apply tempo scaling if the user selected a tempo on the welcome page.
+    try:
+        tempo = st.session_state.get('selected_tempo', 'normal')
+        tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+        factor = float(tempo_factor_map.get(tempo, 1.0))
+        test_duration_minutes = int(max(1, round(test_duration_minutes * factor)))
+    except Exception:
+        # Defensive fallback: keep the original duration if anything goes wrong
+        pass
+
     st.session_state.test_duration_minutes = test_duration_minutes
     st.session_state.test_time_limit = test_duration_minutes * 60
     st.session_state.test_time_expired = False
@@ -147,9 +157,12 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
                 reason_key = "messages.session_saved.reason_zero_score"
                 reason_params = {}
             elif duration < MIN_DURATION_FOR_LEADERBOARD:
+                # min_duration_display is the rounded minute threshold shown to users
                 min_duration_display = max(1, round(MIN_DURATION_FOR_LEADERBOARD / 60))
+                # recommended_minutes is the tempo-adjusted full recommended test time in minutes
+                recommended_minutes = max(1, round(recommended_duration_seconds / 60)) if recommended_duration_seconds is not None else min_duration_display
                 reason_key = "messages.session_saved.reason_too_short"
-                reason_params = {"min_duration": min_duration_display}
+                reason_params = {"min_duration": min_duration_display, "recommended_minutes": recommended_minutes}
             else:
                 reason_key = "messages.session_saved.reason_not_top10"
                 reason_params = {}

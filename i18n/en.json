@@ -37,7 +37,8 @@
             "question_set": "Question set",
             "actions": "Actions",
             "points": "Points (%)",
-            "duration": "Duration"
+            "duration": "Duration",
+            "tempo": "Tempo"
         },
         "current_set": "Question set: <strong>{name}</strong>",
         "current_set_marker": "Question set: {marker} <strong>{name}</strong>",
@@ -301,6 +302,25 @@
     "buttons": {
         "download": "Start download"
     },
+    "tempo": {
+        "normal": "Normal",
+        "speed": "Speed (1/2)",
+        "power": "Power (1/4)"
+    },
+    "admin": {
+        "leaderboard": {
+            "tempo": {
+                "label": "Tempo",
+                "help": "Filter leaderboard by tempo mode",
+                "options": {
+                    "all": "All",
+                    "normal": "Normal",
+                    "speed": "Speed (1/2)",
+                    "power": "Power (1/4)"
+                }
+            }
+        }
+    },
     "messages": {
         "export_unavailable": "This export feature will be available soon.",
         "anki_dependency": "The 'genanki' package must be installed for the .apkg export (see requirements.txt).",
@@ -312,7 +332,7 @@
             "leaderboard": "🎉 Congratulations, {user}! You made it to the leaderboard with {score} points!",
             "saved_not_on_leaderboard": "Your result for \"{user}\" was saved but will not appear on the leaderboard because {reason}.",
             "reason_zero_score": "results with 0 points are not counted",
-            "reason_too_short": "the test duration was too short (less than {min_duration} min)",
+            "reason_too_short": "the test duration was too short. Allowed time: {recommended_minutes} min (minimum for leaderboard: {min_duration} min)",
             "reason_not_top10": "the score did not qualify for the Top 10"
         }
     },
@@ -353,7 +373,7 @@
         },
         "bookmarks_intro": "You marked the following questions for review:",
         "question_short": "Question {n}",
-        "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:" },
+        "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:", "tempo": "Tempo:", "allowed": "allowed:" },
         "stat": { "correct": "Correct", "wrong": "Incorrect", "unanswered": "Unanswered", "total": "Total" },
         "glossary": { "title": "Mini-Glossary", "intro": "Key terms from this question set, grouped by topic", "alt_intro": "Key terms from the question set" },
         "musterloesung": { "title": "Sample solution" },
@@ -393,8 +413,8 @@
             "completed": "\ud83d\ude80 Test completed!"
         },
         "info": {
-            "time_expired": "The test ended because the allotted time was exceeded. Duration: {allowed_min} min",
-            "early_finish": "You submitted {early_delta} min early. Duration: {duration_min} min (allowed: {allowed_min} min)"
+            "time_expired": "The test ended because the allotted time was exceeded. Allowed time ({tempo_label}): {allowed_min} min",
+            "early_finish": "You submitted {early_delta} min early. Duration: {duration_display}. Allowed time ({tempo_label}): {allowed_min} min"
         },
         "metric_caption": "Your final score",
         "subheader": {
@@ -640,6 +660,14 @@
             "database_error": "Database error: could not start a new test session.",
             "test_button": "Start test",
             "question_required": "Please select a question set first."
+        },
+        "tempo": {
+            "label": "Choose tempo",
+            "options": {
+                "normal": "Normal",
+                "speed": "Speed (1/2)",
+                "power": "Power (1/4)"
+            }
         },
         "sort_order": {
             "label": "Sort questions by:",

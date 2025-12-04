@@ -447,7 +447,7 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     from database import start_test_session
     from auth import initialize_session_state
 
-    session_id = start_test_session(user_hash, identifier)
+    session_id = start_test_session(user_hash, identifier, tempo=st.session_state.get('selected_tempo', 'normal'))
     if not session_id:
         st.error(_user_qset_text("session_failed", default="Es konnte keine neue Test-Session gestartet werden."))
         return
@@ -1386,10 +1386,77 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # Center the CSV download button in the dialog
                         try:
                             csv_export = df_display.drop(columns=['_duration_seconds'], errors='ignore').copy()
+                            # Add tempo-adjusted allowed minutes column when the
+                            # underlying data provides `allowed_min` or `tempo`.
+                            try:
+                                orig = df
+                                tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+                                allowed_header = translate_ui("pdf.meta.allowed", default="Erlaubt")
+                                tempo_header = translate_ui('sidebar.history_columns.tempo', default='Tempo')
+                                if 'allowed_min' in getattr(orig, 'columns', []) or 'tempo' in getattr(orig, 'columns', []):
+                                    try:
+                                        aligned = orig.loc[df_display.index]
+                                    except Exception:
+                                        aligned = orig
+
+                                    def _display_allowed_from_row(r):
+                                        try:
+                                            base = r.get('allowed_min') if isinstance(r, dict) else r['allowed_min'] if 'allowed_min' in r else None
+                                        except Exception:
+                                            base = None
+                                        if base is None:
+                                            base = getattr(app_config, 'test_duration_minutes', None)
+                                        try:
+                                            code = (r.get('tempo') if isinstance(r, dict) else r['tempo']) if ('tempo' in r if isinstance(r, dict) else 'tempo' in r) else ''
+                                        except Exception:
+                                            code = ''
+                                        code = code or ''
+                                        factor = tempo_factor_map.get(code or 'normal', 1.0)
+                                        try:
+                                            disp = int(base * factor) if base is not None else None
+                                            if disp is not None:
+                                                disp = max(1, disp)
+                                        except Exception:
+                                            disp = base
+                                        return (f"{disp} min" if disp is not None else "")
+
+                                    try:
+                                        csv_export[allowed_header] = aligned.apply(lambda r: _display_allowed_from_row(r), axis=1)
+                                    except Exception:
+                                        try:
+                                            base = getattr(app_config, 'test_duration_minutes', None)
+                                            code = ''
+                                            factor = tempo_factor_map.get(code or 'normal', 1.0)
+                                            disp = max(1, int(base * factor)) if base is not None else None
+                                            csv_export[allowed_header] = (f"{disp} min" if disp is not None else "")
+                                        except Exception:
+                                            pass
+
+                                    try:
+                                        if 'tempo' in getattr(aligned, 'columns', []):
+                                            csv_export[tempo_header] = aligned['tempo'].fillna('').values
+                                        else:
+                                            csv_export[tempo_header] = ''
+                                    except Exception:
+                                        csv_export[tempo_header] = ''
+                            except Exception:
+                                pass
                             if 'Punkte (%)' in csv_export.columns:
                                 csv_export['Punkte (%)'] = csv_export['Punkte (%)'].apply(lambda v: (f"{int(v)} %" if pd.notna(v) else "-"))
                             elif 'Punkte' in csv_export.columns:
                                 csv_export['Punkte'] = csv_export['Punkte'].apply(lambda v: (f"{int(v)} %" if pd.notna(v) else "-"))
+                            # Include tempo column in CSV export when available in the original data
+                            try:
+                                if 'tempo' in df.columns:
+                                    # Align indices between df_display and df
+                                    tempo_header = translate_ui('sidebar.history_columns.tempo', default='Tempo')
+                                    try:
+                                        csv_export[tempo_header] = df.loc[df_display.index, 'tempo'].fillna('').values
+                                    except Exception:
+                                        csv_export[tempo_header] = df.get('tempo', '')
+                            except Exception:
+                                # best-effort: ignore any failures here
+                                pass
                             csv_bytes = csv_export.to_csv(index=False).encode('utf-8')
                             c1, c2, c3 = st.columns([1, 2, 1])
                             with c2:

@@ -37,7 +37,8 @@
             "question_set": "Fragenset",
             "actions": "Aktionen",
             "points": "Punkte (%)",
-            "duration": "Dauer"
+            "duration": "Dauer",
+            "tempo": "Tempo"
         },
         "current_set": "Fragenset: <strong>{name}</strong>",
         "current_set_marker": "Fragenset: {marker} <strong>{name}</strong>",
@@ -96,6 +97,25 @@
         "skipped_disabled": "Spr\u00fcnge sind nach Abschluss deaktiviert.",
         "skipped_clear": "Alle zur\u00fccksetzen",
         "skipped_clear_help": "Setzt alle \u00fcbersprungenen Fragen zur\u00fcck, damit sie nicht mehr in dieser Liste erscheinen."
+    },
+    "tempo": {
+        "normal": "Normal",
+        "speed": "Speed (1/2)",
+        "power": "Power (1/4)"
+    },
+    "admin": {
+        "leaderboard": {
+            "tempo": {
+                "label": "Tempo",
+                "help": "Filtere Rangliste nach Tempo-Modus",
+                "options": {
+                    "all": "Alle",
+                    "normal": "Normal",
+                    "speed": "Speed (1/2)",
+                    "power": "Power (1/4)"
+                }
+            }
+        }
     },
     "dialog": {
         "title": "Fragenset mit KI erstellen",
@@ -310,7 +330,7 @@
             "leaderboard": "🎉 Glückwunsch, {user}! Du hast es mit {score} Punkten ins Leaderboard geschafft!",
             "saved_not_on_leaderboard": "Dein Ergebnis für \"{user}\" ist gespeichert, taucht aber nicht im Leaderboard auf, {reason}.",
             "reason_zero_score": "Ergebnisse mit 0 Punkten werden nicht gezählt",
-            "reason_too_short": "die Testzeit war zu kurz (weniger als {min_duration} min)",
+            "reason_too_short": "Die Testdauer war zu kurz. Erlaubte Zeit: {recommended_minutes} min (Mindestdauer für das Ranking: {min_duration} min)",
             "reason_not_top10": "die Punktzahl reichte nicht für die Top 10"
         }
     },
@@ -382,7 +402,9 @@
             "test_date": "Testdatum:",
             "duration": "Dauer:",
             "questionset": "Fragenset:",
-            "generated_at": "Stand:"
+            "generated_at": "Stand:",
+            "tempo": "Tempo:",
+            "allowed": "erlaubt:"
         },
         "stat": {
             "correct": "Richtig",
@@ -435,8 +457,8 @@
             "completed": "\ud83d\ude80 Test abgeschlossen!"
         },
         "info": {
-            "time_expired": "Der Test wurde wegen \u00dcberschreitung der Testzeit beendet. Testdauer: {allowed_min} min",
-            "early_finish": "Du hast {early_delta} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)"
+            "time_expired": "Der Test wurde wegen \u00dcberschreitung der Testzeit beendet. Erlaubte Zeit ({tempo_label}): {allowed_min} min",
+            "early_finish": "Du hast {early_delta} min vor Ablauf abgegeben. Dauer: {duration_display}. Erlaubte Zeit ({tempo_label}): {allowed_min} min"
         },
         "metric_caption": "Dein Endergebnis",
         "subheader": {

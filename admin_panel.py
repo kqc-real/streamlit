@@ -11,6 +11,7 @@ import pandas as pd
 import streamlit as st
 
 from config import AppConfig, QuestionSet, load_questions, list_question_files
+from i18n.context import t as translate_ui
 from pdf_export import generate_mini_glossary_pdf
 from helpers.text import format_decimal_de
 from database import (
@@ -480,8 +481,27 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         title = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
         st.subheader(f"{title} (max. {max_score_for_set} Punkte)")
 
-        # Nutze die optimierte DB-Funktion
-        leaderboard_data = get_all_logs_for_leaderboard(q_file)
+        # Tempo‑Filter für das Leaderboard (All / Normal / Speed / Power)
+        lb_tempo_options = {
+            'all': translate_ui('admin.leaderboard.tempo.options.all', default='Alle'),
+            'normal': translate_ui('tempo.normal', default='Normal'),
+            'speed': translate_ui('tempo.speed', default='Speed (1/2)'),
+            'power': translate_ui('tempo.power', default='Power (1/4)')
+        }
+        lb_tempo_key = f'admin_leaderboard_tempo_{q_file}'
+        if lb_tempo_key not in st.session_state:
+            st.session_state[lb_tempo_key] = 'all'
+        selected_leaderboard_tempo = st.selectbox(
+            label=translate_ui('admin.leaderboard.tempo.label', default='Tempo'),
+            options=list(lb_tempo_options.keys()),
+            format_func=lambda k: lb_tempo_options.get(k, k),
+            key=lb_tempo_key,
+            help=translate_ui('admin.leaderboard.tempo.help', default='Filtere Rangliste nach Tempo-Modus')
+        )
+        tempo_filter = None if selected_leaderboard_tempo == 'all' else selected_leaderboard_tempo
+
+        # Nutze die optimierte DB-Funktion mit Tempo‑Filter
+        leaderboard_data = get_all_logs_for_leaderboard(q_file, tempo=tempo_filter)
         if not leaderboard_data:
             st.info("Für dieses Set liegen keine Ergebnisse vor.")
             st.divider()

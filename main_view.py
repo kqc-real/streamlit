@@ -1498,6 +1498,69 @@ def _render_history_table(history_rows, filename_base: str):
     # a human-friendly rendition: Punkte as formatted percent strings.
     try:
         csv_export = df_display.copy()
+        # If the original data contains allowed/tempo info, add a
+        # localized "allowed time" column to the CSV using the
+        # tempo-adjusted value (display-time) so exports reflect the
+        # effective test duration for the chosen tempo.
+        try:
+            orig = df
+            tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+            allowed_header = translate_ui("pdf.meta.allowed", default="Erlaubt")
+            tempo_header = translate_ui('sidebar.history_columns.tempo', default='Tempo')
+            if 'allowed_min' in getattr(orig, 'columns', [] ) or 'tempo' in getattr(orig, 'columns', []):
+                # Use rows from the original df aligned to the display rows
+                try:
+                    aligned = orig.loc[df_display.index]
+                except Exception:
+                    aligned = orig
+
+                def _display_allowed_from_row(r):
+                    try:
+                        base = r.get('allowed_min') if isinstance(r, dict) else r['allowed_min'] if 'allowed_min' in r else None
+                    except Exception:
+                        base = None
+                    if base is None:
+                        base = getattr(app_config, 'test_duration_minutes', None)
+                    try:
+                        code = (r.get('tempo') if isinstance(r, dict) else r['tempo']) if ('tempo' in r if isinstance(r, dict) else 'tempo' in r) else st.session_state.get('selected_tempo') or 'normal'
+                    except Exception:
+                        code = st.session_state.get('selected_tempo') or 'normal'
+                    factor = tempo_factor_map.get(code, 1.0)
+                    try:
+                        disp = int(base * factor) if base is not None else None
+                        if disp is not None:
+                            disp = max(1, disp)
+                    except Exception:
+                        disp = base
+                    return (f"{disp} min" if disp is not None else "")
+
+                try:
+                    csv_export[allowed_header] = aligned.apply(lambda r: _display_allowed_from_row(r), axis=1)
+                except Exception:
+                    # fallback: compute a single value for all rows
+                    try:
+                        base = getattr(app_config, 'test_duration_minutes', None)
+                        code = st.session_state.get('selected_tempo') or 'normal'
+                        factor = tempo_factor_map.get(code, 1.0)
+                        disp = max(1, int(base * factor)) if base is not None else None
+                        csv_export[allowed_header] = (f"{disp} min" if disp is not None else "")
+                    except Exception:
+                        pass
+
+                # Ensure tempo column is present in CSV (human-readable code)
+                try:
+                    if 'tempo' in getattr(aligned, 'columns', []):
+                        csv_export[tempo_header] = aligned['tempo'].fillna('').values
+                    else:
+                        csv_export[tempo_header] = (st.session_state.get('selected_tempo') or '')
+                except Exception:
+                    try:
+                        csv_export[tempo_header] = (st.session_state.get('selected_tempo') or '')
+                    except Exception:
+                        pass
+        except Exception:
+            # Best-effort only; CSV export should not fail the UI
+            pass
         # If we renamed the display column, handle that name. Export should
         # contain human-friendly percent strings with a trailing '%'.
         if 'Punkte (%)' in csv_export.columns:
@@ -2173,9 +2236,21 @@ def render_welcome_page(app_config: AppConfig):
             if questions:
                 # Pass optional metadata (duration and difficulty profile) when available
                 try:
+                    # Apply tempo scaling to the displayed recommended duration so
+                    # the chart reflects the user's selected tempo immediately.
+                    try:
+                        tempo = st.session_state.get('selected_tempo', 'normal')
+                        tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+                        if 'duration' in locals() and duration is not None:
+                            scaled_duration = int(duration * tempo_factor_map.get(tempo, 1.0))
+                        else:
+                            scaled_duration = None
+                    except Exception:
+                        scaled_duration = duration if 'duration' in locals() else None
+
                     render_question_distribution_chart(
                         list(questions),
-                        duration_minutes=duration if 'duration' in locals() else None,
+                        duration_minutes=scaled_duration,
                         difficulty_profile=difficulty_profile if 'difficulty_profile' in locals() else None,
                     )
                 except Exception:
@@ -2265,6 +2340,35 @@ def render_welcome_page(app_config: AppConfig):
                 pass
             from database import get_all_logs_for_leaderboard
 
+            # Leaderboard tempo filter (All / Normal / Speed / Power)
+            try:
+                lb_tempo_options = {
+                    'all': translate_ui('welcome.leaderboard.tempo_all', default='Alle'),
+                    'normal': translate_ui('welcome.tempo.normal', default='Normal'),
+                    'speed': translate_ui('welcome.tempo.speed', default='Speed (1/2)'),
+                    'power': translate_ui('welcome.tempo.power', default='Power (1/4)'),
+                }
+            except Exception:
+                lb_tempo_options = {
+                    'all': translate_ui('welcome.leaderboard.tempo_all', default='Alle'),
+                    'normal': translate_ui('welcome.tempo.normal', default='Normal'),
+                    'speed': translate_ui('welcome.tempo.speed', default='Speed (1/2)'),
+                    'power': translate_ui('welcome.tempo.power', default='Power (1/4)'),
+                }
+
+            # Persist a separate leaderboard-specific key per questions file so
+            # users can view different leaderboards independently.
+            lb_tempo_key = f'leaderboard_tempo_{selected_file}'
+            if lb_tempo_key not in st.session_state:
+                st.session_state[lb_tempo_key] = 'all'
+
+            selected_leaderboard_tempo = st.selectbox(
+                label=translate_ui('welcome.leaderboard.tempo_label', default='Tempo'),
+                options=list(lb_tempo_options.keys()),
+                format_func=lambda k: lb_tempo_options.get(k, k),
+                key=lb_tempo_key,
+                help=translate_ui('welcome.leaderboard.tempo_help', default='Filtere Rangliste nach Tempo-Modus')
+            )
             # If the user has an active session, ensure its summary is
             # recomputed before we render the public leaderboard. This helps
             # when users close the app without a clean shutdown and their
@@ -2314,7 +2418,11 @@ def render_welcome_page(app_config: AppConfig):
                 # update fails for any reason.
                 pass
 
-            leaderboard_data = get_all_logs_for_leaderboard(selected_file)
+            # Map tempo selection to filter and to a numeric scaling factor used
+            # for computing duration thresholds shown in the UI.
+            tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+            tempo_filter = None if selected_leaderboard_tempo == 'all' else selected_leaderboard_tempo
+            leaderboard_data = get_all_logs_for_leaderboard(selected_file, tempo=tempo_filter)
 
             if not leaderboard_data:
                 st.info(_welcome_leaderboard_empty())
@@ -2364,7 +2472,12 @@ def render_welcome_page(app_config: AppConfig):
                 # or duration >= min_duration_seconds. This avoids dropping valid
                 # results where duration parsing failed in the DB.
                 recommended_duration_minutes = question_durations.get(selected_file, app_config.test_duration_minutes)
-                min_duration_seconds = max(60, int(recommended_duration_minutes * 60 * 0.20))
+                # Apply the tempo scaling when computing minimum-duration thresholds
+                try:
+                    tempo_factor = tempo_factor_map.get(selected_leaderboard_tempo, 1.0)
+                except Exception:
+                    tempo_factor = 1.0
+                min_duration_seconds = max(60, int(recommended_duration_minutes * tempo_factor * 60 * 0.20))
 
                 if 'duration_seconds' in scores.columns:
                     # Apply per-row minimum-duration threshold when available.
@@ -2374,7 +2487,7 @@ def render_welcome_page(app_config: AppConfig):
                     try:
                         if 'allowed_min' in scores.columns:
                             per_row_min = scores['allowed_min'].apply(
-                                lambda m: max(60, int((m if m is not None else recommended_duration_minutes) * 60 * 0.20))
+                                lambda m: max(60, int((m if m is not None else recommended_duration_minutes) * tempo_factor * 60 * 0.20))
                             )
                             duration_mask = scores['duration_seconds'].isna() | (scores['duration_seconds'] >= per_row_min)
                         else:
@@ -2567,6 +2680,30 @@ def render_welcome_page(app_config: AppConfig):
                 options=list(sort_options.keys()),
                 format_func=lambda x: sort_options[x],
                 key="question_sort_order"
+            )
+
+            # --- Tempo-Auswahl (für die laufende Session) ---
+            try:
+                tempo_options = {
+                    'normal': translate_ui('welcome.tempo.normal', default='Normal'),
+                    'speed': translate_ui('welcome.tempo.speed', default='Speed (1/2)'),
+                    'power': translate_ui('welcome.tempo.power', default='Power (1/4)'),
+                }
+            except Exception:
+                tempo_options = {
+                    'normal': translate_ui('welcome.tempo.normal', default='Normal'),
+                    'speed': translate_ui('welcome.tempo.speed', default='Speed (1/2)'),
+                    'power': translate_ui('welcome.tempo.power', default='Power (1/4)'),
+                }
+
+            if 'selected_tempo' not in st.session_state:
+                st.session_state['selected_tempo'] = 'normal'
+
+            st.selectbox(
+                label=translate_ui('welcome.tempo.label', default='Wähle Tempo'),
+                options=list(tempo_options.keys()),
+                format_func=lambda k: tempo_options.get(k, k),
+                key='selected_tempo'
             )
             
             # --- Login-Formular im Hauptbereich ---
@@ -2776,7 +2913,7 @@ def render_welcome_page(app_config: AppConfig):
                                     except Exception:
                                         pass
     
-                                    session_id = start_test_session(user_id_hash, selected_qfile)
+                                    session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
                                     if session_id:
                                         # Record session and mark that we started immediately
                                         st.session_state['session_id'] = session_id
@@ -2913,7 +3050,7 @@ def render_welcome_page(app_config: AppConfig):
                             if user_id:
                                 reset_login_attempts(pseudonym_recover)
                                 selected_qfile = st.session_state.get("selected_questions_file")
-                                session_id = start_test_session(user_id, selected_qfile)
+                                session_id = start_test_session(user_id, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
                                 if session_id:
                                     st.session_state.user_id = pseudonym_recover
                                     st.session_state.user_id_hash = user_id
@@ -2925,11 +3062,25 @@ def render_welcome_page(app_config: AppConfig):
                                             if pref:
                                                 from i18n.context import set_locale
                                                 set_locale(pref)
-                                            
+                                            # Load persisted tempo preference if available
+                                            try:
+                                                pref_tempo = get_user_preference(user_pseudo, 'tempo')
+                                                if pref_tempo:
+                                                    st.session_state['selected_tempo'] = pref_tempo
+                                            except Exception:
+                                                pass
+
                                             from i18n.context import get_locale
                                             current_locale = get_locale() or st.session_state.get('active_locale')
                                             if current_locale:
                                                 set_user_preference(user_pseudo, 'locale', current_locale)
+                                            # Persist the currently selected tempo (best-effort)
+                                            try:
+                                                cur_tempo = st.session_state.get('selected_tempo')
+                                                if cur_tempo:
+                                                    set_user_preference(user_pseudo, 'tempo', cur_tempo)
+                                            except Exception:
+                                                pass
                                     except Exception:
                                         pass # non-critical
                                     st.session_state.login_via_recovery = True
@@ -2994,7 +3145,7 @@ def render_welcome_page(app_config: AppConfig):
                         if not selected_qfile:
                             st.error(_welcome_pseudonym_question_required())
                             return
-                        session_id = start_test_session(user_id_hash, selected_qfile)
+                        session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
     
                         if session_id:
                             st.session_state.user_id = user_name
@@ -3027,6 +3178,14 @@ def render_welcome_page(app_config: AppConfig):
                                                 set_locale(pref)
                                             except Exception:
                                                 pass
+                                        # Load/prefill tempo preference if available
+                                        try:
+                                            if callable(get_user_preference):
+                                                pref_tempo = get_user_preference(user_pseudo, 'tempo')
+                                                if pref_tempo:
+                                                    st.session_state['selected_tempo'] = pref_tempo
+                                        except Exception:
+                                            pass
     
                                     # Persist current session locale (best-effort) so that a
                                     # prior selection made before login is recorded.
@@ -3042,6 +3201,16 @@ def render_welcome_page(app_config: AppConfig):
                                                     set_user_preference(user_pseudo, 'locale', current_locale)
                                                 except Exception:
                                                     pass
+                                            # Persist the currently selected tempo (best-effort)
+                                            try:
+                                                cur_tempo = st.session_state.get('selected_tempo')
+                                                if cur_tempo and callable(set_user_preference):
+                                                    try:
+                                                        set_user_preference(user_pseudo, 'tempo', cur_tempo)
+                                                    except Exception:
+                                                        pass
+                                            except Exception:
+                                                pass
                                     except Exception:
                                         pass
                             except Exception:
@@ -3108,7 +3277,7 @@ def render_welcome_page(app_config: AppConfig):
                                             except Exception:
                                                 pass
     
-                                            session_id = start_test_session(user_id_hash, selected_qfile)
+                                            session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
                                             if session_id:
                                                 st.session_state['session_id'] = session_id
                                                 st.session_state['show_pseudonym_reminder'] = True
@@ -4351,6 +4520,33 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     except Exception:
         allowed_min = getattr(app_config, "test_duration_minutes", None)
 
+    # Determine tempo (prefer explicit session selection, then question-set
+    # metadata, then default to 'normal') and compute the effective
+    # allowed minutes and localized label once so all messages are
+    # consistent.
+    tempo_code = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or None
+    try:
+        if not tempo_code and getattr(questions, 'meta', None):
+            meta = questions.meta
+            tempo_code = meta.get('tempo') or meta.get('selected_tempo') or tempo_code
+    except Exception:
+        # ignore and keep existing tempo_code
+        pass
+    tempo_code = tempo_code or 'normal'
+
+    factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+    factor = factor_map.get(tempo_code, 1.0)
+    try:
+        effective_allowed = max(1, int(allowed_min * factor)) if allowed_min is not None else None
+    except Exception:
+        effective_allowed = allowed_min
+
+    # localized tempo label (fallback to code)
+    try:
+        tempo_label = translate_ui(f"tempo.{tempo_code}", default=tempo_code.title())
+    except Exception:
+        tempo_label = tempo_code
+
     # Passe den Titel an, je nachdem, wie der Test beendet wurde. Die Reihenfolge ist wichtig.
     if st.session_state.get("test_manually_ended", False):
         st.header(translate_ui("summary.header.manual_end", default="⚠️ Test vorzeitig beendet"))
@@ -4363,23 +4559,69 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             st.info(
                 translate_ui(
                     "summary.info.time_expired",
-                    default="Der Test wurde wegen Überschreitung der Testzeit beendet. Testdauer: {allowed_min} min",
-                ).format(allowed_min=allowed_min)
+                    default="Der Test wurde wegen Überschreitung der Testzeit beendet. Erlaubte Zeit ({tempo_label}): {allowed_min} min",
+                ).format(allowed_min=(effective_allowed if effective_allowed is not None else allowed_min), tempo_label=tempo_label)
             )
     else:
         st.header(translate_ui("summary.header.completed", default="🚀 Test abgeschlossen!"))
         # Wenn früher abgegeben wurde, Hinweis anzeigen
-        if duration_min is not None and allowed_min and duration_min < allowed_min:
-            st.info(
-                translate_ui(
-                    "summary.info.early_finish",
-                    default="Du hast {early_delta} min vor Ablauf abgegeben. Testdauer: {duration_min} min (erlaubt: {allowed_min} min)",
-                ).format(
-                    early_delta=allowed_min - duration_min,
-                    duration_min=duration_min,
-                    allowed_min=allowed_min,
-                )
+        # Use the tempo-adjusted allowed minutes for the early-finish check
+        compare_allowed = effective_allowed if effective_allowed is not None else allowed_min
+        if duration_min is not None and compare_allowed and duration_min < compare_allowed:
+            # `effective_allowed` and `tempo_label` were computed above
+            # using the same tempo selection fallbacks so we reuse them
+            # here to keep label and numeric value in sync.
+
+            # Compute early delta using ceiling of elapsed minutes so that
+            # short durations like "0 min 30 s" don't show as 0 minutes
+            # remaining but instead count as 1 minute for the delta math.
+            try:
+                duration_minutes_ceil = duration_min if (seconds == 0) else (duration_min + 1)
+            except Exception:
+                duration_minutes_ceil = duration_min
+
+            early_delta = max(0, (effective_allowed if effective_allowed is not None else allowed_min) - (duration_minutes_ceil or 0))
+
+            # Use the human-friendly `duration_str` (minutes + seconds) in
+            # the message so very short durations are displayed clearly.
+            duration_display = duration_str or (f"{duration_min} min" if duration_min is not None else "-")
+
+            # Prefer a tempo selection stored in session_state if present
+            sess_tempo = None
+            try:
+                sess_tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo')
+            except Exception:
+                sess_tempo = None
+
+            if sess_tempo and sess_tempo != tempo_code:
+                # If the session contains an explicit tempo selection, derive label and effective allowed from it.
+                try:
+                    alt_tempo_label = translate_ui(f"tempo.{sess_tempo}", default=sess_tempo.title())
+                except Exception:
+                    alt_tempo_label = sess_tempo
+                try:
+                    alt_factor = factor_map.get(sess_tempo, factor)
+                    alt_effective_allowed = max(1, int(allowed_min * alt_factor)) if allowed_min is not None else None
+                except Exception:
+                    alt_effective_allowed = effective_allowed
+
+                display_tempo_label = alt_tempo_label
+                display_allowed = alt_effective_allowed if alt_effective_allowed is not None else (effective_allowed if effective_allowed is not None else allowed_min)
+            else:
+                display_tempo_label = tempo_label
+                display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+
+            msg = translate_ui(
+                "summary.info.early_finish",
+                default="Du hast {early_delta} min vor Ablauf abgegeben. Dauer: {duration_display}. Erlaubte Zeit ({tempo_label}): {allowed_min} min",
+            ).format(
+                early_delta=early_delta,
+                duration_display=duration_display,
+                allowed_min=display_allowed,
+                tempo_label=display_tempo_label,
             )
+
+            st.info(msg)
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],

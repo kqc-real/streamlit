@@ -1399,10 +1399,16 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     from database import get_all_logs_for_leaderboard
     leaderboard_data = get_all_logs_for_leaderboard(q_file)
     user_rank = None
+    user_tempo_from_leaderboard = None
     if leaderboard_data:
         for idx, entry in enumerate(leaderboard_data, start=1):
             if entry['user_pseudonym'] == user_name:
                 user_rank = idx
+                # capture tempo for this user's best session from leaderboard
+                try:
+                    user_tempo_from_leaderboard = entry.get('tempo')
+                except Exception:
+                    user_tempo_from_leaderboard = None
                 break
     
     rank_text = translate_ui("pdf.rank_text", default=" • Platz {rank} im Ranking").format(rank=user_rank) if user_rank else ""
@@ -1478,7 +1484,89 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     
     # NEU: Hole die Liste der markierten Fragen-Indizes
     bookmarked_indices = st.session_state.get("bookmarked_questions", [])
-    
+    # Tempo metadata for header (best-effort: prefer session-state selection)
+    try:
+        tempo_code = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or None
+    except Exception:
+        tempo_code = None
+
+    # If the session doesn't contain a tempo selection, try to read it from
+    # the question set metadata (some workflows persist the chosen tempo there).
+    try:
+        if not tempo_code and 'question_set' in locals() and question_set and getattr(question_set, 'meta', None):
+            meta = question_set.meta
+            tempo_code = meta.get('tempo') or meta.get('selected_tempo') or tempo_code
+    except Exception:
+        # ignore and keep existing tempo_code
+        pass
+
+    tempo_span = ''
+    if tempo_code:
+        try:
+            tempo_display = translate_ui(f"tempo.{tempo_code}", default='')
+            if not tempo_display:
+                # Fallback to the raw code when no translation exists
+                tempo_display = tempo_code
+        except Exception:
+            tempo_display = tempo_code
+        try:
+            tempo_span = f'<span><strong>{translate_ui("pdf.meta.tempo", default="Tempo:")}</strong> {_html.escape(str(tempo_display))}</span>'
+        except Exception:
+            tempo_span = f'<span><strong>Tempo:</strong> {_html.escape(str(tempo_display))}</span>'
+
+    # Build duration HTML fragment; include tempo label and allowed minutes when applicable
+    duration_html = ''
+    if duration_str:
+        try:
+            # Determine allowed minutes (per-question-set config or app config)
+            try:
+                if 'question_set' in locals() and question_set:
+                    allowed_min = question_set.get_test_duration_minutes(app_config.test_duration_minutes)
+                else:
+                    allowed_min = getattr(app_config, "test_duration_minutes", None)
+            except Exception:
+                allowed_min = getattr(app_config, "test_duration_minutes", None)
+
+            # Compute effective allowed minutes based on tempo
+            tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+            factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
+            try:
+                effective_allowed = int(allowed_min * factor) if allowed_min is not None else None
+                if effective_allowed is not None:
+                    effective_allowed = max(1, effective_allowed)
+            except Exception:
+                effective_allowed = allowed_min
+
+            duration_html = f'<span><strong>{translate_ui("pdf.meta.duration", default="Dauer:")}</strong> {duration_str}'
+
+            # Prepare tempo label for display
+            tempo_label = None
+            if tempo_code and tempo_code != 'normal':
+                try:
+                    tempo_label = translate_ui(f"tempo.{tempo_code}", default=tempo_code.title())
+                except Exception:
+                    tempo_label = tempo_code
+
+            # Append allowed minutes and tempo info in parentheses when available
+            if allowed_min is not None:
+                # Show the tempo-adjusted allowed minutes (effective_allowed) in the PDF header.
+                display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+                # If we already rendered a dedicated tempo span (`tempo_span`),
+                # avoid repeating the tempo label inside the parenthesized
+                # allowed-time fragment to prevent redundancy.
+                if tempo_label and (not tempo_span or not tempo_span.strip()):
+                    duration_html += f' ({translate_ui("pdf.meta.allowed", default="erlaubt:")} {display_allowed} min, {translate_ui("pdf.meta.tempo", default="Tempo:")} {_html.escape(str(tempo_label))})'
+                else:
+                    duration_html += f' ({translate_ui("pdf.meta.allowed", default="erlaubt:")} {display_allowed} min)'
+            else:
+                # fallback: if no allowed info but tempo label exists, append tempo only
+                if tempo_label:
+                    duration_html += f', {translate_ui("pdf.meta.tempo", default="Tempo:")} {_html.escape(str(tempo_label))}'
+
+            duration_html += '</span>'
+        except Exception:
+            duration_html = f'<span><strong>{translate_ui("pdf.meta.duration", default="Dauer:")}</strong> {duration_str}</span>'
+
     # Durchschnittsvergleich berechnen
     avg_stats = _calculate_average_stats(q_file, questions)
     
@@ -1827,7 +1915,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     <div class="meta-info">
                         <span><strong>{translate_ui('pdf.meta.participant', default='Teilnehmer:')}</strong> {user_name}</span>
                         <span><strong>{translate_ui('pdf.meta.test_date', default='Testdatum:')}</strong> {generated_at_str}</span>
-                        {f"<span><strong>{translate_ui('pdf.meta.duration', default='Dauer:')}</strong> {duration_str}</span>" if duration_str else ''}
+                        {tempo_span}
+                        {duration_html if duration_str else ''}
                     </div>
                 </div>
                 <div class="header-right">
@@ -2765,6 +2854,30 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     except Exception:
         generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
 
+    # Tempo metadata (best-effort)
+    try:
+        tempo_code = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or None
+    except Exception:
+        tempo_code = None
+    tempo_span = ''
+    if tempo_code:
+        try:
+            tempo_display = translate_ui(f"tempo.{tempo_code}", default='')
+            if not tempo_display:
+                # fallback map if translation missing
+                tempo_map = {
+                    'normal': translate_ui('tempo.normal', default='Normal'),
+                    'speed': translate_ui('tempo.speed', default='Speed (1/2)'),
+                    'power': translate_ui('tempo.power', default='Power (1/4)'),
+                }
+                tempo_display = tempo_map.get(tempo_code, tempo_code)
+        except Exception:
+            tempo_display = tempo_code
+        try:
+            tempo_span = f'<span><strong>{translate_ui("pdf.meta.tempo", default="Tempo:")}</strong> {_html.escape(str(tempo_display))}</span>'
+        except Exception:
+            tempo_span = f'<span><strong>Tempo:</strong> {_html.escape(str(tempo_display))}</span>'
+
     def _report(pct: int, msg: str = ""):
         try:
             if progress_callback:
@@ -2777,6 +2890,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     html_parts.append(
         f'<div class="header"><h1>{_html.escape(translate_ui("pdf.musterloesung.title", default="Musterlösung"))}</h1>'
         f'<div class="meta-info"><span><strong>{translate_ui("pdf.meta.questionset", default="Fragenset:")}</strong> {set_name}</span>'
+        f'{tempo_span}'
         f'<span><strong>{translate_ui("pdf.meta.generated_at", default="Erstellt:")}</strong> {generated_at}</span></div></div>'
     )
     html_parts.append('<div class="section">')

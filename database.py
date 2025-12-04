@@ -109,6 +109,7 @@ def create_tables():
                     user_id TEXT NOT NULL,
                     questions_file TEXT NOT NULL,
                     start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    tempo TEXT DEFAULT 'normal',
                     FOREIGN KEY (user_id) REFERENCES users (user_id)
                 );
             """)
@@ -277,6 +278,7 @@ def create_tables():
                     duration_seconds INTEGER,
                     question_count INTEGER,
                     allowed_min INTEGER,
+                    tempo TEXT,
                     total_points INTEGER,
                     max_points INTEGER,
                     correct_count INTEGER,
@@ -288,6 +290,32 @@ def create_tables():
                 """
             )
             conn.execute("CREATE INDEX IF NOT EXISTS idx_summaries_user_time ON test_session_summaries (user_id, start_time DESC);")
+            # --- Schema migration: ensure `tempo` column exists on older DBs ---
+            try:
+                cursor.execute("PRAGMA table_info(test_sessions)")
+                cols_ts = [r['name'] for r in cursor.fetchall()]
+            except Exception:
+                cols_ts = []
+
+            try:
+                if 'tempo' not in cols_ts:
+                    # Add tempo with a sensible default for existing rows
+                    conn.execute("ALTER TABLE test_sessions ADD COLUMN tempo TEXT DEFAULT 'normal'")
+            except sqlite3.Error:
+                # Best-effort migration; ignore failures on locked/readonly DBs
+                pass
+
+            try:
+                cursor.execute("PRAGMA table_info(test_session_summaries)")
+                cols_summ = [r['name'] for r in cursor.fetchall()]
+            except Exception:
+                cols_summ = []
+
+            try:
+                if 'tempo' not in cols_summ:
+                    conn.execute("ALTER TABLE test_session_summaries ADD COLUMN tempo TEXT")
+            except sqlite3.Error:
+                pass
             # Table for per-user preferences (e.g. UI locale) keyed by pseudonym.
             conn.execute(
                 """
@@ -334,7 +362,7 @@ def add_user(user_id: str, pseudonym: str):
         print(f"Datenbankfehler in add_user: {e}")
 
 @with_db_retry
-def start_test_session(user_id: str, questions_file: str) -> int | None:
+def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal') -> int | None:
     """Erstellt eine neue Test-Session für einen Benutzer und gibt die session_id zurück."""
     conn = get_db_connection()
     if conn is None:
@@ -363,8 +391,8 @@ def start_test_session(user_id: str, questions_file: str) -> int | None:
                 start_time_str = start_dt.strftime('%Y-%m-%d %H:%M:%S')
 
             cursor.execute(
-                "INSERT INTO test_sessions (user_id, questions_file, start_time) VALUES (?, ?, ?)",
-                (user_id, questions_file, start_time_str)
+                "INSERT INTO test_sessions (user_id, questions_file, start_time, tempo) VALUES (?, ?, ?, ?)",
+                (user_id, questions_file, start_time_str, tempo)
             )
             session_id = cursor.lastrowid
             # Ensure we persist a mapping in `users` when the human-readable
@@ -446,7 +474,7 @@ def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
     except sqlite3.Error as e:
         print(f"Datenbankfehler in update_bookmarks: {e}")
 
-def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
+def get_all_logs_for_leaderboard(questions_file: str, tempo: str | None = None) -> list[dict]:
     """
     Ruft aggregierte Ergebnisse für das Leaderboard für ein bestimmtes Fragenset ab.
     """
@@ -464,8 +492,8 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
         # and `duration_seconds` which are sufficient to compute the public
         # leaderboard. We LEFT JOIN `users` to obtain the human-friendly
         # pseudonym and fall back to a short user_id fragment when missing.
-        cursor.execute(
-            """
+        # Build query with optional tempo filter
+        base_query = """
             WITH ranked AS (
                 SELECT
                     s.session_id,
@@ -475,6 +503,7 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                     s.total_points AS total_score,
                     s.duration_seconds AS duration_seconds,
                     s.allowed_min AS allowed_min,
+                    s.tempo AS tempo,
                     ROW_NUMBER() OVER(
                         PARTITION BY s.user_id
                         ORDER BY s.total_points DESC, COALESCE(s.duration_seconds, 2147483647) ASC
@@ -482,20 +511,28 @@ def get_all_logs_for_leaderboard(questions_file: str) -> list[dict]:
                 FROM test_session_summaries s
                 LEFT JOIN users u ON s.user_id = u.user_id
                 WHERE s.questions_file = ?
+        """
+        params = [questions_file]
+        if tempo:
+            base_query += " AND s.tempo = ?\n"
+            params.append(tempo)
+
+        base_query += """
             )
             SELECT
                 user_pseudonym,
                 COALESCE(total_score, 0) AS total_score,
                 last_test_time,
                 COALESCE(duration_seconds, 0) AS duration_seconds,
-                COALESCE(allowed_min, 0) AS allowed_min
+                COALESCE(allowed_min, 0) AS allowed_min,
+                tempo
             FROM ranked
             WHERE rn = 1
             ORDER BY total_score DESC, duration_seconds ASC
             LIMIT 10
-            """,
-            (questions_file,)
-        )
+            """
+
+        cursor.execute(base_query, tuple(params))
         return [dict(row) for row in cursor.fetchall()]
     except sqlite3.Error as e:
         print(f"Database error in get_all_logs_for_leaderboard: {e}")
@@ -534,7 +571,8 @@ def get_all_answer_logs() -> list[dict]:
                 a.answer_text AS antwort,
                 a.points AS richtig,
                 a.timestamp AS zeit,
-                s.questions_file,
+                    s.questions_file,
+                    s.tempo AS tempo,
                 CASE WHEN b.bookmark_id IS NOT NULL THEN 1 ELSE 0 END AS markiert
             FROM answers a
             JOIN test_sessions s ON a.session_id = s.session_id
@@ -787,7 +825,7 @@ def recompute_session_summary(session_id: int) -> bool:
 
         # Load session basic info
         cursor.execute(
-            "SELECT user_id, questions_file, start_time "
+            "SELECT user_id, questions_file, start_time, tempo "
             "FROM test_sessions WHERE session_id = ?",
             (session_id,),
         )
@@ -925,13 +963,21 @@ def recompute_session_summary(session_id: int) -> bool:
             except Exception:
                 pass
 
+        # capture tempo if present on the originating session (optional)
+        tempo_val = None
+        try:
+            if s and 'tempo' in s.keys():
+                tempo_val = s['tempo']
+        except Exception:
+            tempo_val = None
+
         insert_sql = (
             """
             INSERT OR REPLACE INTO test_session_summaries (
                 session_id, user_id, user_pseudonym, questions_file, questions_title, meta_created,
-                start_time, end_time, duration_seconds, question_count, allowed_min,
+                start_time, end_time, duration_seconds, question_count, allowed_min, tempo,
                 total_points, max_points, correct_count, percent, time_expired
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
         )
 
@@ -950,6 +996,7 @@ def recompute_session_summary(session_id: int) -> bool:
                     duration_seconds,
                     question_count,
                     allowed_min,
+                    tempo_val,
                     total_points,
                     max_points,
                     correct_count,
