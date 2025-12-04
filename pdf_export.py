@@ -1437,12 +1437,128 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             pass
         if isinstance(obj, datetime):
             return obj
+        # Accept ISO-format strings (with or without timezone) and common
+        # naive datetime string formats so stored string timestamps are
+        # correctly converted when sessions were persisted as text.
+        if isinstance(obj, str):
+            try:
+                # Python 3.7+ supports fromisoformat for many ISO strings
+                return datetime.fromisoformat(obj)
+            except Exception:
+                # Try dateutil if available for broader parsing support
+                try:
+                    from dateutil import parser as _dparser
+
+                    return _dparser.isoparse(obj)
+                except Exception:
+                    # Last-resort common formats
+                    for fmt in ("%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S"):
+                        try:
+                            return datetime.strptime(obj, fmt)
+                        except Exception:
+                            continue
         return None
 
     s_dt = _to_datetime(start_time)
     e_dt = _to_datetime(end_time)
 
     if s_dt and e_dt:
+        # Normalize timezone-awareness robustly:
+        # - If one datetime is aware and the other naive, assume the naive
+        #   timestamp was recorded in the same timezone as the aware one and
+        #   attach that tzinfo to the naive value. This preserves the
+        #   original wall-clock meaning instead of dropping offsets.
+        # - If both are aware but with different zones, convert both to UTC
+        #   before subtracting to get a correct delta.
+        try:
+            s_aware = s_dt.tzinfo is not None
+            e_aware = e_dt.tzinfo is not None
+            if s_aware and not e_aware:
+                # Heuristic: try to interpret the naive end_time in multiple ways
+                # and pick the interpretation that yields a sensible (non-negative)
+                # duration. First try treating naive as UTC (common when
+                # timestamps were written without local offset), then fall back
+                # to attaching the start tzinfo if that gives a positive delta.
+                try:
+                    from datetime import timezone as _tz
+                    e_as_utc = e_dt.replace(tzinfo=_tz.utc)
+                    s_utc = s_dt.astimezone(_tz.utc)
+                    delta_utc = (e_as_utc - s_utc).total_seconds()
+                except Exception:
+                    delta_utc = None
+
+                try:
+                    e_as_local = e_dt.replace(tzinfo=s_dt.tzinfo)
+                    delta_local = (e_as_local - s_dt).total_seconds()
+                except Exception:
+                    delta_local = None
+
+                # Prefer a non-negative delta; if both non-negative choose the
+                # smaller absolute difference (more plausible). Otherwise prefer
+                # the non-negative one.
+                chosen = None
+                if delta_utc is not None and delta_utc >= 0:
+                    chosen = 'utc'
+                if delta_local is not None and delta_local >= 0:
+                    if chosen is None:
+                        chosen = 'local'
+                    else:
+                        # both non-negative -> pick smaller delta
+                        chosen = 'utc' if abs(delta_utc) <= abs(delta_local) else 'local'
+
+                if chosen == 'utc':
+                    from datetime import timezone as _tz
+                    e_dt = e_dt.replace(tzinfo=_tz.utc)
+                    # ensure s_dt is in UTC too for subtraction
+                    s_dt = s_dt.astimezone(_tz.utc)
+                elif chosen == 'local':
+                    e_dt = e_dt.replace(tzinfo=s_dt.tzinfo)
+                else:
+                    # fallback: attach start tzinfo
+                    e_dt = e_dt.replace(tzinfo=s_dt.tzinfo)
+            elif e_aware and not s_aware:
+                # Mirror the heuristic for the opposite case
+                try:
+                    from datetime import timezone as _tz
+                    s_as_utc = s_dt.replace(tzinfo=_tz.utc)
+                    e_utc = e_dt.astimezone(_tz.utc)
+                    delta_utc = (e_utc - s_as_utc).total_seconds()
+                except Exception:
+                    delta_utc = None
+
+                try:
+                    s_as_local = s_dt.replace(tzinfo=e_dt.tzinfo)
+                    delta_local = (e_dt - s_as_local).total_seconds()
+                except Exception:
+                    delta_local = None
+
+                chosen = None
+                if delta_utc is not None and delta_utc >= 0:
+                    chosen = 'utc'
+                if delta_local is not None and delta_local >= 0:
+                    if chosen is None:
+                        chosen = 'local'
+                    else:
+                        chosen = 'utc' if abs(delta_utc) <= abs(delta_local) else 'local'
+
+                if chosen == 'utc':
+                    from datetime import timezone as _tz
+                    s_dt = s_dt.replace(tzinfo=_tz.utc)
+                    e_dt = e_dt.astimezone(_tz.utc)
+                elif chosen == 'local':
+                    s_dt = s_dt.replace(tzinfo=e_dt.tzinfo)
+                else:
+                    s_dt = s_dt.replace(tzinfo=e_dt.tzinfo)
+            elif s_aware and e_aware:
+                # convert both to UTC to avoid mismatched offsets
+                try:
+                    s_dt = s_dt.astimezone(datetime.timezone.utc)
+                    e_dt = e_dt.astimezone(datetime.timezone.utc)
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
         duration = e_dt - s_dt
         total_seconds = int(duration.total_seconds())
         minutes = total_seconds // 60
@@ -1518,39 +1634,154 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     duration_html = ''
     if duration_str:
         try:
-            # Determine allowed minutes (per-question-set config or app config)
+            # Determine allowed minutes (prefer values persisted in session_state / snapshot)
+            # 1) If the session state contains an explicit tempo-adjusted value (`effective_allowed`),
+            #    prefer that — it reflects what the user actually had for this session.
+            # 2) Otherwise, fall back to per-question-set config or app config and compute
+            #    the tempo-adjusted value from `tempo_code`.
             try:
-                if 'question_set' in locals() and question_set:
-                    allowed_min = question_set.get_test_duration_minutes(app_config.test_duration_minutes)
-                else:
-                    allowed_min = getattr(app_config, "test_duration_minutes", None)
-            except Exception:
-                allowed_min = getattr(app_config, "test_duration_minutes", None)
+                sess_effective = None
+                try:
+                    sess_effective = st.session_state.get('effective_allowed')
+                except Exception:
+                    sess_effective = None
 
-            # Compute effective allowed minutes based on tempo
-            tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
-            factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
-            try:
-                effective_allowed = int(allowed_min * factor) if allowed_min is not None else None
-                if effective_allowed is not None:
-                    effective_allowed = max(1, effective_allowed)
+                sess_allowed_min = None
+                try:
+                    sess_allowed_min = st.session_state.get('allowed_min')
+                except Exception:
+                    sess_allowed_min = None
+
+                # If the session state didn't include persisted values, try to
+                # load them from the `test_session_summaries` snapshot in the DB.
+                # This ensures PDF exports generated later (admin/regeneration)
+                # still show the tempo & effective_allowed exactly as stored.
+                if (sess_effective is None or sess_allowed_min is None):
+                    try:
+                        from database import get_db_connection
+                        conn = get_db_connection()
+                        if conn is not None:
+                            cur = conn.cursor()
+                            # Prefer explicit session_id in session_state
+                            sess_id = None
+                            try:
+                                sess_id = st.session_state.get('session_id')
+                            except Exception:
+                                sess_id = None
+
+                            row = None
+                            if sess_id:
+                                cur.execute("SELECT allowed_min, effective_allowed, tempo FROM test_session_summaries WHERE session_id = ?", (int(sess_id),))
+                                row = cur.fetchone()
+
+                            # Fallback: try to match by pseudonym + start_time
+                            if row is None:
+                                try:
+                                    pseud = st.session_state.get('user_pseudonym') or st.session_state.get('user_id')
+                                    start_t = st.session_state.get('test_start_time')
+                                except Exception:
+                                    pseud = None
+                                    start_t = None
+                                if pseud and start_t:
+                                    # match approximate ISO prefix to be robust
+                                    start_prefix = str(start_t)[:19]
+                                    cur.execute("SELECT allowed_min, effective_allowed, tempo FROM test_session_summaries WHERE user_pseudonym = ? AND start_time LIKE ? ORDER BY start_time DESC LIMIT 1", (pseud, f'{start_prefix}%'))
+                                    row = cur.fetchone()
+
+                            if row:
+                                try:
+                                    if sess_allowed_min is None and row['allowed_min'] is not None:
+                                        sess_allowed_min = int(row['allowed_min'])
+                                except Exception:
+                                    pass
+                                try:
+                                    if sess_effective is None and row['effective_allowed'] is not None and str(row['effective_allowed']).strip():
+                                        sess_effective = int(row['effective_allowed'])
+                                except Exception:
+                                    pass
+                                try:
+                                    # If we didn't have a tempo_code from session_state,
+                                    # prefer the stored tempo from the snapshot.
+                                    if not tempo_code and row['tempo']:
+                                        tempo_code = row['tempo']
+                                except Exception:
+                                    pass
+                    except Exception:
+                        # ignore DB lookup failures (best-effort)
+                        pass
+
+                # Base allowed_min: prefer snapshot/session value, then question_set, then app_config
+                if sess_allowed_min is not None:
+                    allowed_min = sess_allowed_min
+                else:
+                    try:
+                        if 'question_set' in locals() and question_set:
+                            allowed_min = question_set.get_test_duration_minutes(app_config.test_duration_minutes)
+                        else:
+                            allowed_min = getattr(app_config, "test_duration_minutes", None)
+                    except Exception:
+                        allowed_min = getattr(app_config, "test_duration_minutes", None)
+
+                # If an explicit effective value was stored for the session, use it as display_allowed
+                display_allowed = None
+                if sess_effective is not None:
+                    try:
+                        display_allowed = int(sess_effective)
+                    except Exception:
+                        display_allowed = sess_effective
+
+                # Compute effective_allowed from configured allowed_min and tempo if we don't have a session value
+                tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+                factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
+                try:
+                    effective_allowed = int(allowed_min * factor) if allowed_min is not None else None
+                    if effective_allowed is not None:
+                        effective_allowed = max(1, effective_allowed)
+                except Exception:
+                    effective_allowed = allowed_min
+
+                # If no explicit session display_allowed, prefer computed effective_allowed
+                if display_allowed is None:
+                    display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+
             except Exception:
-                effective_allowed = allowed_min
+                # Best-effort fallback
+                try:
+                    allowed_min = getattr(app_config, "test_duration_minutes", None)
+                except Exception:
+                    allowed_min = None
+                tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+                factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
+                try:
+                    effective_allowed = int(allowed_min * factor) if allowed_min is not None else None
+                    if effective_allowed is not None:
+                        effective_allowed = max(1, effective_allowed)
+                except Exception:
+                    effective_allowed = allowed_min
+                display_allowed = effective_allowed if effective_allowed is not None else allowed_min
 
             duration_html = f'<span><strong>{translate_ui("pdf.meta.duration", default="Dauer:")}</strong> {duration_str}'
 
-            # Prepare tempo label for display
+            # Prepare tempo label for display (prefer explicit session selection if available)
             tempo_label = None
-            if tempo_code and tempo_code != 'normal':
+            try:
+                sess_sel_tempo = None
                 try:
-                    tempo_label = translate_ui(f"tempo.{tempo_code}", default=tempo_code.title())
+                    sess_sel_tempo = st.session_state.get('selected_tempo') or st.session_state.get('selected_tempo_session') or st.session_state.get('tempo')
                 except Exception:
-                    tempo_label = tempo_code
+                    sess_sel_tempo = None
+
+                use_tempo_code = sess_sel_tempo or tempo_code
+                if use_tempo_code and use_tempo_code != 'normal':
+                    try:
+                        tempo_label = translate_ui(f"tempo.{use_tempo_code}", default=use_tempo_code.title())
+                    except Exception:
+                        tempo_label = use_tempo_code
+            except Exception:
+                tempo_label = tempo_code
 
             # Append allowed minutes and tempo info in parentheses when available
-            if allowed_min is not None:
-                # Show the tempo-adjusted allowed minutes (effective_allowed) in the PDF header.
-                display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+            if display_allowed is not None:
                 # If we already rendered a dedicated tempo span (`tempo_span`),
                 # avoid repeating the tempo label inside the parenthesized
                 # allowed-time fragment to prevent redundancy.
@@ -1571,9 +1802,11 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     avg_stats = _calculate_average_stats(q_file, questions)
     
     # Schwierigkeits-Analyse erstellen
-    difficulty_stats = {"easy": {"richtig": 0, "gesamt": 0},
-                       "medium": {"richtig": 0, "gesamt": 0},
-                       "hard": {"richtig": 0, "gesamt": 0}}
+    difficulty_stats = {
+        "easy": {"richtig": 0, "gesamt": 0},
+        "medium": {"richtig": 0, "gesamt": 0},
+        "hard": {"richtig": 0, "gesamt": 0},
+    }
     
     for i, frage in enumerate(questions):
         gewichtung = frage.get("gewichtung", 1)
