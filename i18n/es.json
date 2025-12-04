@@ -125,6 +125,16 @@
             }
         }
     },
+    "welcome": {
+        "tempo": {
+            "label": "Elegir tempo",
+            "options": {
+                "normal": "Normal",
+                "speed": "Rápido (1/2)",
+                "power": "Power (1/4)"
+            }
+        }
+    },
     "dialog": {
         "title": "Crear set con IA",
         "intro": "Elige el prompt según tu objetivo (tarjetas o quiz) y cópialo en tu IA.",

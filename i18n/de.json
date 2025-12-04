@@ -712,6 +712,14 @@
             "test_button": "Test starten",
             "question_required": "Bitte wähle zuerst ein Fragenset aus."
         },
+        "tempo": {
+            "label": "Wähle Tempo",
+            "options": {
+                "normal": "Normal",
+                "speed": "Speed (1/2)",
+                "power": "Power (1/4)"
+            }
+        },
         "sort_order": {
             "label": "Fragen sortieren nach:",
             "random": "zufällig",

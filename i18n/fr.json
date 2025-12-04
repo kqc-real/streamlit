@@ -124,6 +124,7 @@
             }
         }
     },
+    
     "dialog": {
         "title": "Créer un set avec l'IA",
         "intro": "Choisis un prompt pour ton export (cartes ou quiz) et copie-le dans ton IA.",
@@ -654,6 +655,14 @@
             "database_error": "Erreur BDD : impossible de lancer la session.",
             "test_button": "Lancer le test",
             "question_required": "Veuillez d'abord sélectionner un set de questions."
+        },
+        "tempo": {
+            "label": "Choisir le tempo",
+            "options": {
+                "normal": "Normal",
+                "speed": "Rapide (1/2)",
+                "power": "Power (1/4)"
+            }
         },
         "sort_order": {
             "label": "Trier les questions par :",
