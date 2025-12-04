@@ -4905,87 +4905,85 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         # Create a human-friendly label but keep Thema separate for hover
         df_performance["Label"] = df_performance.apply(lambda r: f"{r['Thema']} ({int(r['Answered'])}/{int(r['Total'])})", axis=1)
 
-        # Use Plotly for better label/hover control so the (answered/total) is always visible
+        # Use Plotly to render a stacked bar chart: correct (green) + wrong (red)
         try:
             import plotly.graph_objects as go
 
-            # Prepare customdata: Thema, Answered, Total, correct, wrong, pct
-            customdata = []
+            # Build per-topic correct/wrong/unanswered percentages relative to total questions
+            labels = []
+            pct_correct = []
+            pct_wrong = []
+            pct_unanswered = []
+            answered_list = []
+            total_list = []
             for _, row in df_performance.iterrows():
                 thema = row['Thema']
+                labels.append(row['Label'])
                 answered = int(row['Answered'])
                 total = int(row['Total'])
-                # Retrieve correct/wrong counts from topic_performance
                 perf = topic_performance.get(thema, {})
                 correct = int(perf.get('correct', 0))
                 wrong = int(perf.get('wrong', 0))
-                pct = float(row['Leistung (%)'])
-                customdata.append([thema, answered, total, correct, wrong, pct])
-
-            # Short label inside/outside the bar
-            df_performance['display_text'] = df_performance.apply(
-                lambda r: f"{int(r['Leistung (%)'])} % ({int(r['Answered'])}/{int(r['Total'])})", axis=1
-            )
+                # Percentages relative to total questions so the bar always sums to 100%
+                if total > 0:
+                    pct_c = (correct / total * 100.0)
+                    pct_w = (wrong / total * 100.0)
+                    pct_u = ((total - answered) / total * 100.0)
+                else:
+                    pct_c = pct_w = pct_u = 0.0
+                pct_correct.append(pct_c)
+                pct_wrong.append(pct_w)
+                pct_unanswered.append(pct_u)
+                answered_list.append(answered)
+                total_list.append(total)
 
             fig = go.Figure()
-
-            # Determine color per bar: green >=75, orange >=50, red <50
-            
-            def color_for_pct(pct: float) -> str:
-                try:
-                    if pct >= 75:
-                        return '#15803d'  # dark green
-                    if pct >= 50:
-                        return '#b45309'  # darker amber
-                    return '#b91c1c'      # darker red
-                except Exception:
-                    return '#4b9fff'
-
-            colors = [color_for_pct(float(r)) for r in df_performance['Leistung (%)']]
-
             fig.add_trace(
                 go.Bar(
-                    x=df_performance['Label'],
-                    y=df_performance['Leistung (%)'],
-                    text=df_performance['display_text'],
-                    textposition='inside',
-                    marker_color=colors,
-                    customdata=customdata,
-                    hovertemplate=(
-                        (
-                            '<b>{topic}</b>: %{{customdata[0]}}<br>'
-                            '<b>{performance}</b>: %{{customdata[5]:.1f}} %<br>'
-                            '<b>{correct_total}</b>: %{{customdata[3]}} / %{{customdata[2]}}<br>'
-                            '<b>{wrong}</b>: %{{customdata[4]}}<br>'
-                            '<b>{answered}</b>: %{{customdata[1]}} / %{{customdata[2]}}<extra></extra>'
-                        ).format(
-                            topic=_summary_text('performance_chart.hover.topic', default='Thema'),
-                            performance=_summary_text('performance_chart.hover.performance', default='Leistung'),
-                            correct_total=_summary_text('performance_chart.hover.correct_total', default='Richtig / Gesamt'),
-                            wrong=_summary_text('performance_chart.hover.wrong', default='Falsch'),
-                            answered=_summary_text('performance_chart.hover.answered', default='Beantwortet'),
-                        )
-                    ),
+                    x=labels,
+                    y=pct_correct,
+                    name=_summary_text('performance_chart.legend.correct', default='Richtig'),
+                    marker_color='#15803d',
+                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.correct', default='Richtig')}: %{{y:.1f}} %<br>" +
+                                  f"{_summary_text('performance_chart.hover.count', default='Anzahl')}: %{{customdata[0]}} / %{{customdata[1]}}<extra></extra>",
+                    customdata=list(zip(answered_list, total_list)),
+                )
+            )
+            fig.add_trace(
+                go.Bar(
+                    x=labels,
+                    y=pct_wrong,
+                    name=_summary_text('performance_chart.legend.wrong', default='Falsch'),
+                    marker_color='#b91c1c',
+                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.wrong', default='Falsch')}: %{{y:.1f}} %<br>" +
+                                  f"{_summary_text('performance_chart.hover.count', default='Anzahl')}: %{{customdata[0]}} / %{{customdata[1]}}<extra></extra>",
+                    customdata=list(zip(answered_list, total_list)),
+                )
+            )
+            # Unanswered (grey) on top
+            fig.add_trace(
+                go.Bar(
+                    x=labels,
+                    y=pct_unanswered,
+                    name=_summary_text('performance_chart.legend.unanswered', default='Unbeantwortet'),
+                    marker_color='#9ca3af',
+                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.unanswered', default='Unbeantwortet')}: %{{y:.1f}} %<extra></extra>",
                 )
             )
 
-            # Compute y-axis top to leave room for labels
-            max_pct = float(df_performance['Leistung (%)'].max() if not df_performance.empty else 100)
-            y_top = max(105.0, max_pct * 1.12)
-
             fig.update_layout(
+                barmode='stack',
                 xaxis_tickangle=-30,
                 xaxis_title=_summary_text('performance_chart.xaxis', default='Thema (beantwortet/gesamt)'),
-                yaxis_title=_summary_text('performance_chart.yaxis', default='Leistung (%)'),
+                yaxis_title=_summary_text('performance_chart.yaxis', default='Anteil (%)'),
+                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
                 margin=dict(t=40, b=140, l=40, r=10),
-                height=400,
-                yaxis=dict(range=[0, y_top]),
+                height=420,
             )
 
-            # Use Streamlit's container width and provide Plotly config via `config`
             st.plotly_chart(fig, config={"responsive": True})
         except Exception:
-            # Fallback to the simple chart if Plotly is unavailable
+            # Fallback: show single-color percent correct bar
             df_simple = df_performance.set_index("Label")[['Leistung (%)']]
             st.bar_chart(df_simple, color="#15803d")
 

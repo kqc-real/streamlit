@@ -274,6 +274,91 @@ def _render_radar_svg(labels: List[str], values: List[float], size: int = 360) -
     return data_uri
 
 
+def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], pct_wrong: List[float], pct_unanswered: List[float] | None = None, width: int = 700, height: int = 260) -> str:
+    """Render a simple stacked vertical bar chart as SVG and return a data URI string.
+
+    `themes` : list of topic labels
+    `pct_correct` / `pct_wrong` : lists of floats (0-100) corresponding to each theme
+    The bars are drawn vertically; stack is correct (green) at bottom and wrong (red) on top.
+    """
+    try:
+        from urllib.parse import quote
+    except Exception:
+        quote = None
+
+    n = len(themes)
+    if n == 0:
+        return ""
+
+    # Layout
+    margin = 20
+    gutter = 18
+    bar_area_width = width - 2 * margin
+    # compute bar width to fit all bars with gutters
+    total_gutters = gutter * (n - 1)
+    bar_w = max(10, int((bar_area_width - total_gutters) / n))
+    chart_height = height - 2 * margin - 30  # leave space for x labels and header
+
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">']
+    parts.append(f'<rect width="100%" height="100%" fill="#ffffff"/>')
+
+    # Y axis grid lines (25/50/75/100)
+    for frac in [0.0, 0.25, 0.5, 0.75, 1.0]:
+        y = margin + (1.0 - frac) * chart_height
+        parts.append(f'<line x1="{margin}" y1="{y:.1f}" x2="{width - margin}" y2="{y:.1f}" stroke="#e5e7eb" stroke-width="1"/>')
+        parts.append(f'<text x="{margin - 6}" y="{y + 4:.1f}" font-size="10" text-anchor="end" fill="#374151">{int(frac*100)}</text>')
+
+    # Bars
+    x = margin
+    for i, theme in enumerate(themes):
+        c = max(0.0, min(100.0, float(pct_correct[i] if i < len(pct_correct) else 0.0)))
+        w = max(0.0, min(100.0, float(pct_wrong[i] if i < len(pct_wrong) else 0.0)))
+        u = 0.0
+        if pct_unanswered:
+            u = max(0.0, min(100.0, float(pct_unanswered[i] if i < len(pct_unanswered) else 0.0)))
+        # heights
+        h_c = (c / 100.0) * chart_height
+        h_w = (w / 100.0) * chart_height
+        h_u = (u / 100.0) * chart_height
+        # bottom y for the bar
+        y_bottom = margin + chart_height
+        # correct (green) rectangle (drawn first at bottom)
+        y_c = y_bottom - h_c
+        parts.append(f'<rect x="{x}" y="{y_c:.1f}" width="{bar_w}" height="{h_c:.1f}" fill="#15803d"/>')
+        # wrong (red) rectangle stacked on top
+        y_w = y_c - h_w
+        parts.append(f'<rect x="{x}" y="{y_w:.1f}" width="{bar_w}" height="{h_w:.1f}" fill="#b91c1c"/>')
+        # unanswered (grey) rectangle stacked on top
+        y_u = y_w - h_u
+        parts.append(f'<rect x="{x}" y="{y_u:.1f}" width="{bar_w}" height="{h_u:.1f}" fill="#9ca3af"/>')
+        # percent text inside if space
+        try:
+            if h_c > 14:
+                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_c + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(c)}%</text>')
+            elif (h_c + h_w) > 14:
+                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_w + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(c)}%</text>')
+        except Exception:
+            pass
+
+        # x-axis label rotated a bit
+        label_x = x + bar_w / 2
+        label_y = margin + chart_height + 20
+        parts.append(f'<text x="{label_x:.1f}" y="{label_y:.1f}" font-size="11" text-anchor="middle" fill="#0f172a">{_html.escape(str(theme))}</text>')
+
+        x += bar_w + gutter
+
+    parts.append('</svg>')
+    svg = ''.join(parts)
+
+    # Return as data URI (WeasyPrint accepts inline SVG via data URI)
+    try:
+        if quote:
+            return 'data:image/svg+xml;utf8,' + quote(svg)
+    except Exception:
+        pass
+    return svg
+
+
 def _evict_formula_cache(max_files: int = 200, max_total_mb: int = 200, ttl_days: int = 7) -> None:
     """Evict old entries from the disk formula cache.
 
@@ -2072,6 +2157,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         footer_text = translate_ui("pdf.comparison.footer", default="Based on {n} participants. Comparison data as of: {date}.")
         comparison_html += f'<p class="comparison-footer">{_html.escape(footer_text.format(n=avg_stats["total_users"], date=generated_at_str))}</p>'
         comparison_html += '</div>'
+        # Only show the detailed-analysis heading when the comparison_html exists
+        detailed_heading = f'<h2 class="section-title">{_html.escape(translate_ui("pdf.detailed_analysis", default="Detaillierte Auswertung"))}</h2>'
     
     # Mini-Glossar erstellen (nach Themen gruppiert)
     glossary_by_theme = _extract_glossary_terms(questions)
@@ -2120,6 +2207,82 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         bookmarks_html += '</ul></div>'
 
+    # Prepare topic performance chart for PDF (stacked: correct + wrong)
+    try:
+        # Aggregate correct/wrong/total per Thema similar to main UI
+        tp = {}
+        for idx, frage in enumerate(questions):
+            thema = frage.get("thema", "Allgemein")
+            if thema not in tp:
+                tp[thema] = {"correct": 0, "wrong": 0, "answered": 0, "total": 0}
+            # count total questions per topic
+            tp[thema]["total"] += 1
+            given = get_answer_for_question(idx)
+            if given is None:
+                # unanswered: don't increment answered count
+                continue
+            # count answered
+            tp[thema]["answered"] += 1
+            # Compare to solution text where possible
+            try:
+                loes = frage.get("loesung")
+                loes_text = frage["optionen"][loes] if loes is not None and "optionen" in frage else None
+                if loes_text is not None and given == loes_text:
+                    tp[thema]["correct"] += 1
+                else:
+                    tp[thema]["wrong"] += 1
+            except Exception:
+                # Fallback: treat non-matching as wrong
+                try:
+                    if given:
+                        tp[thema]["wrong"] += 1
+                except Exception:
+                    pass
+
+        themes = []
+        pct_correct = []
+        pct_wrong = []
+        pct_unanswered = []
+        for thema, vals in tp.items():
+            total_cnt = vals.get("total", 0) or 0
+            if total_cnt <= 0:
+                continue
+            themes.append(thema)
+            correct = vals.get("correct", 0)
+            wrong = vals.get("wrong", 0)
+            answered_cnt = vals.get("answered", 0) or 0
+            pct_correct.append((correct / total_cnt) * 100.0)
+            pct_wrong.append((wrong / total_cnt) * 100.0)
+            pct_unanswered.append(((total_cnt - answered_cnt) / total_cnt) * 100.0)
+
+        topic_chart_svg = _render_topic_stacked_bar_svg(themes, pct_correct, pct_wrong, pct_unanswered, width=700, height=260) if themes else ""
+        if topic_chart_svg:
+            # Build legend and explanation for the chart (static in PDF)
+            legend_items = [
+                ("#15803d", translate_ui('performance_chart.legend.correct', default='Richtig')),
+                ("#b91c1c", translate_ui('performance_chart.legend.wrong', default='Falsch')),
+                ("#9ca3af", translate_ui('performance_chart.legend.unanswered', default='Unbeantwortet')),
+            ]
+            legend_html_parts = ['<div class="topic-legend">']
+            for color, label in legend_items:
+                legend_html_parts.append(
+                    f'<div class="legend-item"><span class="legend-swatch" style="background:{color}"></span> <span class="legend-label">{_html.escape(label)}</span></div>'
+                )
+            legend_html_parts.append('</div>')
+            legend_html = ''.join(legend_html_parts)
+
+            topics_chart_html = (
+                f'<div class="topic-chart">'
+                f'<h3>{_html.escape(translate_ui("pdf.topic_chart.title", default="Leistung nach Thema"))}</h3>'
+                f'{legend_html}'
+                f'<img src="{topic_chart_svg}" alt="Themenperformance"/>'
+                '</div>'
+            )
+        else:
+            topics_chart_html = ''
+    except Exception:
+        topics_chart_html = ''
+
     # Baue den HTML-Body mit professionellem Header
     score_percent_str = format_decimal_de(prozent, 1)
     
@@ -2129,16 +2292,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         rank_html = f'<div class="stat-item"><div class="stat-value rank">#{user_rank}</div><div class="stat-label">{_html.escape(rank_label)}</div></div>'
     score_label = translate_ui('pdf.score_label', default='von {n} Punkten').format(n=max_score)
 
-    # Only show the detailed-analysis heading when there are completed
-    # test runs for this question set. `_calculate_average_stats` returns
-    # `None` when no complete sessions exist, otherwise it contains
-    # a `total_users` count. Require more than one participant to show
-    # the comparison section (otherwise there's nothing to compare).
-    show_detailed_analysis = bool(avg_stats and (avg_stats.get('total_users', 0) > 1))
-    detailed_heading = (
-        f'<h2 class="section-title">{_html.escape(translate_ui("pdf.detailed_analysis", default="Detaillierte Auswertung"))}</h2>'
-        if show_detailed_analysis else ''
-    )
+    # Detailed heading will be shown only if comparison_html (details) is present.
+    # Initialize to empty; will be set after comparison_html is constructed.
+    detailed_heading = ''
 
     html_body = f'''
         <div class="header">
@@ -2185,17 +2341,18 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             </div>
         </div>
         
+        {topics_chart_html}
         {weak_topics_html}
         
         {difficulty_html}
         
         {stage_html}
         
+        {detailed_heading}
+        
         {comparison_html}
         
         {bookmarks_html}
-        
-        {detailed_heading}
     '''
     
     sorted_questions = _prepare_stage_sorted_questions(questions)
@@ -2460,7 +2617,52 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 color: #6c757d;
                 margin-top: 5px;
             }}
-            
+
+            /* Topic stacked-bar chart */
+            .topic-chart {{
+                margin: 18px 0;
+                page-break-inside: avoid;
+            }}
+            .topic-chart h3 {{
+                font-size: 12pt;
+                margin-bottom: 8px;
+            }}
+            .topic-chart img {{
+                width: 100%;
+                max-width: 700px;
+                height: auto;
+                display: block;
+                margin: 0 auto 12px auto;
+                border: 1px solid #e6e6e6;
+                background: white;
+            }}
+            .topic-legend {{
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                margin-bottom: 8px;
+            }}
+            .topic-legend .legend-item {{
+                display: flex;
+                gap: 6px;
+                align-items: center;
+                font-size: 10pt;
+                color: #0f172a;
+            }}
+            .topic-legend .legend-swatch {{
+                width: 14px;
+                height: 14px;
+                display: inline-block;
+                border-radius: 3px;
+                border: 1px solid #e6e6e6;
+            }}
+            /* explanatory paragraph removed — legend provides the necessary info */
+            .comparison-box {{
+                page-break-inside: avoid;
+            }}
+            .section-title {{
+                page-break-after: avoid;
+            }}
             /* Weak Topics Box */
             .weak-topics {{
                 background: #fff3cd;
