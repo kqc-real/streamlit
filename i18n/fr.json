@@ -114,7 +114,15 @@
         "skipped_empty": "Aucune question sautée.",
         "skipped_disabled": "Sauts off après le test.",
         "skipped_clear": "Reset liste",
-        "skipped_clear_help": "Vide la liste des questions sautées."
+        "skipped_clear_help": "Vide la liste des questions sautées.",
+        "tempo": {
+            "label": "Choisir le tempo",
+            "options": {
+                "normal": "Normal",
+                "speed": "Rapide (1/2)",
+                "power": "Power (1/4)"
+            }
+        }
     },
     "dialog": {
         "title": "Créer un set avec l'IA",

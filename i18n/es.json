@@ -115,7 +115,15 @@
         "skipped_empty": "Ninguna pregunta saltada.",
         "skipped_disabled": "Saltos deshabilitados al finalizar.",
         "skipped_clear": "Reset lista",
-        "skipped_clear_help": "Quita las preguntas saltadas de esta lista."
+        "skipped_clear_help": "Quita las preguntas saltadas de esta lista.",
+        "tempo": {
+            "label": "Elegir tempo",
+            "options": {
+                "normal": "Normal",
+                "speed": "Rápido (1/2)",
+                "power": "Power (1/4)"
+            }
+        }
     },
     "dialog": {
         "title": "Crear set con IA",
