@@ -786,8 +786,11 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     made_it_to_leaderboard = False
     
     # Mindestdauer für dieses Fragenset berechnen
-    recommended_duration = st.session_state.get("test_duration_minutes", 60) * 60
-    min_duration_for_leaderboard = max(60, int(recommended_duration * 0.20))
+    # Prefer the session's `test_time_limit` (seconds) which already
+    # incorporates any tempo scaling applied at session start. Fallback
+    # to `test_duration_minutes` if the limit is not present.
+    recommended_duration_seconds = int(st.session_state.get("test_time_limit", st.session_state.get("test_duration_minutes", 60) * 60))
+    min_duration_for_leaderboard = max(60, int(recommended_duration_seconds * 0.20))
 
     # Compute minimum score as 40% of the maximum possible points for the set
     try:
@@ -2160,8 +2163,8 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             made_it_to_leaderboard = False
             
             # Mindestdauer für dieses Fragenset berechnen
-            recommended_duration = st.session_state.get("test_duration_minutes", 60) * 60
-            min_duration_for_leaderboard = max(60, int(recommended_duration * 0.20))
+            recommended_duration_seconds = int(st.session_state.get("test_time_limit", st.session_state.get("test_duration_minutes", 60) * 60))
+            min_duration_for_leaderboard = max(60, int(recommended_duration_seconds * 0.20))
 
             if final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
                 # Wenn das Leaderboard noch nicht voll ist, schafft man es immer.
