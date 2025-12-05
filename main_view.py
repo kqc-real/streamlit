@@ -63,7 +63,7 @@ def _inject_main_container_padding() -> None:
         st.markdown(
             """
             <style>
-            .stMainBlockContainer.block-container { padding: 2rem 1rem 2em; }
+            .stMainBlockContainer.block-container { padding: 3rem 1rem 2em; }
             </style>
             """,
             unsafe_allow_html=True,
