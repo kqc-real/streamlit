@@ -293,7 +293,8 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
     # Layout - use separate top/bottom/left paddings so scale labels don't get clipped
     margin_left = 28
     margin_top = 28
-    margin_bottom = 38
+    # Increase bottom margin to accommodate rotated x-axis labels
+    margin_bottom = 64
     gutter = 18
     bar_area_width = width - margin_left - margin_left
     # compute bar width to fit all bars with gutters
@@ -354,10 +355,15 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
         except Exception:
             pass
 
-        # x-axis label rotated a bit
+        # x-axis label rotated -45deg to avoid overlap (matches UI behavior)
         label_x = x + bar_w / 2
-        label_y = chart_top + chart_height + 20
-        parts.append(f'<text x="{label_x:.1f}" y="{label_y:.1f}" font-size="11" text-anchor="middle" fill="#0f172a">{_html.escape(str(theme))}</text>')
+        label_y = chart_top + chart_height + 26
+        safe_label = _html.escape(str(theme))
+        # Use text-anchor end so rotated labels align neatly under the bar
+        parts.append(
+            f'<text x="{label_x:.1f}" y="{label_y:.1f}" font-size="11" text-anchor="end" fill="#0f172a" '
+            f'transform="rotate(-45 {label_x:.1f} {label_y:.1f})">{safe_label}</text>'
+        )
 
         x += bar_w + gutter
 
