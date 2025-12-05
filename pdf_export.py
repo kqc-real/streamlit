@@ -291,19 +291,27 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
         return ""
 
     # Layout - use separate top/bottom/left paddings so scale labels don't get clipped
-    margin_left = 28
-    margin_top = 28
+    # Leave extra left margin so rotated first label doesn't stick out
+    # Increase substantially to avoid clipping of long first theme labels
+    margin_left = 140
+    # Keep a smaller right margin so increasing left margin doesn't expand the
+    # chart area to the right (previous code subtracted margin_left twice).
+    margin_right = 14
+    # Reduce top margin slightly to give more vertical room to the chart
+    margin_top = 24
     # Increase bottom margin to accommodate rotated x-axis labels
-    margin_bottom = 64
-    gutter = 18
-    bar_area_width = width - margin_left - margin_left
+    # (user requested more space to avoid clipping long theme names)
+    margin_bottom = 160
+    gutter = 16
+    bar_area_width = width - margin_left - margin_right
     # compute bar width to fit all bars with gutters
     total_gutters = gutter * (n - 1)
     bar_w = max(10, int((bar_area_width - total_gutters) / n))
     # leave space for x labels and header; compute chart area between top and bottom margins
     chart_top = margin_top
     chart_bottom = height - margin_bottom
-    chart_height = max(40, chart_bottom - chart_top - 18)  # ensure minimum height
+    # Make chart taller by using more of the available vertical space
+    chart_height = max(80, chart_bottom - chart_top - 18)  # ensure minimum height
 
     # allow overflow so text near edges isn't clipped when embedded
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet" style="overflow:visible">']
@@ -344,20 +352,23 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
         # percent text inside each segment if there's enough vertical space
         try:
             # Correct label (white on green)
-            if h_c > 14:
-                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_c + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(c)}%</text>')
-            # Wrong label (white on red)
-            if h_w > 14:
-                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_w + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(w)}%</text>')
-            # Unanswered label (white on grey)
-            if h_u > 14:
-                parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_u + 12:.1f}" font-size="11" text-anchor="middle" fill="#ffffff">{int(u)}%</text>')
+                # Use smaller percent labels so they don't crowd the bars in PDF
+                pct_font_size = 9
+                # Only render labels if segment is tall enough (lower threshold now)
+                if h_c > 10:
+                    parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_c + 10:.1f}" font-size="{pct_font_size}" text-anchor="middle" fill="#ffffff">{int(c)}%</text>')
+                # Wrong label (white on red)
+                if h_w > 10:
+                    parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_w + 10:.1f}" font-size="{pct_font_size}" text-anchor="middle" fill="#ffffff">{int(w)}%</text>')
+                # Unanswered label (white on grey)
+                if h_u > 10:
+                    parts.append(f'<text x="{x + bar_w/2:.1f}" y="{y_u + 10:.1f}" font-size="{pct_font_size}" text-anchor="middle" fill="#ffffff">{int(u)}%</text>')
         except Exception:
             pass
 
         # x-axis label rotated -45deg to avoid overlap (matches UI behavior)
         label_x = x + bar_w / 2
-        label_y = chart_top + chart_height + 26
+        label_y = chart_top + chart_height + 40
         safe_label = _html.escape(str(theme))
         # Use text-anchor end so rotated labels align neatly under the bar
         parts.append(
@@ -2275,7 +2286,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             pct_wrong.append((wrong / total_cnt) * 100.0)
             pct_unanswered.append(((total_cnt - answered_cnt) / total_cnt) * 100.0)
 
-        topic_chart_svg = _render_topic_stacked_bar_svg(themes, pct_correct, pct_wrong, pct_unanswered, width=700, height=260) if themes else ""
+        # Render a taller chart for PDF so labels and bars have more space
+        topic_chart_svg = _render_topic_stacked_bar_svg(themes, pct_correct, pct_wrong, pct_unanswered, width=700, height=360) if themes else ""
         if topic_chart_svg:
             # Build legend and explanation for the chart (static in PDF)
             legend_items = [
