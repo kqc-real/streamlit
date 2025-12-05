@@ -55,7 +55,7 @@ from user_question_sets import (
     save_user_question_set,
     delete_sets_for_user,
 )
-from i18n import available_locales
+from i18n import available_locales, translate
 from i18n.context import t as translate_ui, get_locale, set_locale
 
 # Helpers imported at module top; do not re-import here.
@@ -104,7 +104,28 @@ def _sidebar_progress_status(remaining: int) -> str:
 
 
 def _motivation_text(key: str, default: str, **kwargs) -> str:
-    template = translate_ui(f"motivation.{key}", default=default)
+    # Use the active session locale explicitly to avoid accidental use
+    # of the global default when the session state's locale value is
+    # present but not yet reflected by other helpers in some flows.
+    try:
+        locale_code = get_locale() or None
+    except Exception:
+        locale_code = None
+
+    # Try the primary location used in the English locale files first.
+    template = translate(f"motivation.{key}", locale=locale_code, default=None)
+    # Some locales (older/deeper structure) keep motivation strings under
+    # `test_view.motivation.*` — try that as a fallback before using the
+    # hard-coded default so German translations nested there are found.
+    if template is None or template == f"motivation.{key}":
+        alt = translate(f"test_view.motivation.{key}", locale=locale_code, default=None)
+        if alt is not None and alt != f"test_view.motivation.{key}":
+            template = alt
+
+    # Ultimately fall back to the supplied English default if no translation.
+    if template is None or template in (f"motivation.{key}", f"test_view.motivation.{key}"):
+        template = default
+
     return template.format(**kwargs) if kwargs else template
 
 
