@@ -667,7 +667,7 @@
             }
         },
         "leaderboard": {
-            "title": "\ud83c\udfc6 Aktuelle Top 10 (max. {max_score} Punkte)",
+            "title": "\ud83c\udfc6 Aktuelle Top 10",
             "empty": "Noch keine Ergebnisse f\u00fcr dieses Fragenset",
             "column": {
                 "pseudonym": "\ud83d\udc64 Pseudonym",

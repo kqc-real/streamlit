@@ -611,7 +611,7 @@
             }
         },
         "leaderboard": {
-            "title": "\ud83c\udfc6 Top 10 (max. {max_score} pts)",
+            "title": "\ud83c\udfc6 Top 10",
             "empty": "Pas encore de résultats pour ce set.",
             "column": {
                 "pseudonym": "\ud83d\udc64 Pseudo",

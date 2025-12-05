@@ -616,7 +616,7 @@
             }
         },
         "leaderboard": {
-            "title": "\ud83c\udfc6 Current Top 10 (max. {max_score} points)",
+            "title": "\ud83c\udfc6 Current Top 10",
             "empty": "No results yet for this question set",
             "column": {
                 "pseudonym": "\ud83d\udc64 Pseudonym",

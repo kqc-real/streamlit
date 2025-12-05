@@ -225,8 +225,8 @@ def _welcome_distribution_warning() -> str:
 def _welcome_leaderboard_title(max_score: int) -> str:
     return translate_ui(
         "welcome.leaderboard.title",
-        default="🏆 Aktuelle Top 10 (max. {max_score} Punkte)",
-    ).format(max_score=max_score)
+        default="🏆 Aktuelle Top 10",
+    )
 
 
 def _welcome_leaderboard_empty() -> str:
