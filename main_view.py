@@ -3994,6 +3994,20 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 del st.session_state.last_answered_idx
                             st.rerun()
 
+    # Render navigation buttons directly under the question frame so they
+    # appear immediately after the answer widget area.
+    try:
+        # Avoid showing the navigation controls for unanswered questions,
+        # which could duplicate other in-context action buttons. Only
+        # render the Prev/Next/Summary controls when the question has been
+        # answered or when a jump/review flow is active.
+        is_answered_local = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+        if is_answered_local or st.session_state.get("jump_to_idx_active"):
+            render_next_question_button(questions, frage_idx)
+    except Exception:
+        # Non-fatal: if rendering nav buttons fails, continue with motivation/explanation
+        pass
+
     # --- Motivation anzeigen (AUSSERHALB des Fragen-Containers) ---
     # Zeige die Motivation nur für die Frage, die gerade beantwortet wurde
     # Die Bedingung: last_answered_idx == frage_idx (nicht is_answered!)
@@ -4380,11 +4394,11 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
                             _handle_feedback_submission(frage_idx, frage_obj, selected_types)
                             st.rerun()  # Erzwinge einen Rerun, um den "Danke"-Text anzuzeigen
 
-    # Render the navigation buttons (next/previous/summary). Previously this
-    # was skipped when `jump_to_idx_active` was True which hid the final
-    # "Zur Testauswertung" button after a jump — keep rendering to ensure
-    # users can always navigate to the summary.
-    render_next_question_button(questions, questions.index(frage_obj))
+    # NOTE: navigation buttons were previously rendered here at the end of
+    # the explanation block. They are intentionally moved up so that the
+    # Prev/Next/Summary controls appear directly under the question frame
+    # (immediately after the answer widget area). This improves discover-
+    # ability and aligns the controls with the question content.
 
 
 
