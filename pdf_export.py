@@ -290,26 +290,34 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
     if n == 0:
         return ""
 
-    # Layout
-    margin = 20
+    # Layout - use separate top/bottom/left paddings so scale labels don't get clipped
+    margin_left = 28
+    margin_top = 28
+    margin_bottom = 38
     gutter = 18
-    bar_area_width = width - 2 * margin
+    bar_area_width = width - margin_left - margin_left
     # compute bar width to fit all bars with gutters
     total_gutters = gutter * (n - 1)
     bar_w = max(10, int((bar_area_width - total_gutters) / n))
-    chart_height = height - 2 * margin - 30  # leave space for x labels and header
+    # leave space for x labels and header; compute chart area between top and bottom margins
+    chart_top = margin_top
+    chart_bottom = height - margin_bottom
+    chart_height = max(40, chart_bottom - chart_top - 18)  # ensure minimum height
 
-    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">']
-    parts.append(f'<rect width="100%" height="100%" fill="#ffffff"/>')
+    # allow overflow so text near edges isn't clipped when embedded
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet" style="overflow:visible">']
+    parts.append('<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/>')
 
     # Y axis grid lines (25/50/75/100)
     for frac in [0.0, 0.25, 0.5, 0.75, 1.0]:
-        y = margin + (1.0 - frac) * chart_height
-        parts.append(f'<line x1="{margin}" y1="{y:.1f}" x2="{width - margin}" y2="{y:.1f}" stroke="#e5e7eb" stroke-width="1"/>')
-        parts.append(f'<text x="{margin - 6}" y="{y + 4:.1f}" font-size="10" text-anchor="end" fill="#374151">{int(frac*100)}</text>')
+        y = chart_top + (1.0 - frac) * chart_height
+        parts.append(f'<line x1="{margin_left}" y1="{y:.1f}" x2="{width - margin_left}" y2="{y:.1f}" stroke="#e5e7eb" stroke-width="1"/>')
+        # place the label slightly inward so it never touches the SVG edge
+        label_x = max(6, margin_left - 8)
+        parts.append(f'<text x="{label_x}" y="{y + 5:.1f}" font-size="10" text-anchor="end" fill="#374151">{int(frac*100)}</text>')
 
     # Bars
-    x = margin
+    x = margin_left
     for i, theme in enumerate(themes):
         c = max(0.0, min(100.0, float(pct_correct[i] if i < len(pct_correct) else 0.0)))
         w = max(0.0, min(100.0, float(pct_wrong[i] if i < len(pct_wrong) else 0.0)))
@@ -320,8 +328,8 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
         h_c = (c / 100.0) * chart_height
         h_w = (w / 100.0) * chart_height
         h_u = (u / 100.0) * chart_height
-        # bottom y for the bar
-        y_bottom = margin + chart_height
+        # bottom y for the bar (chart bottom inside margins)
+        y_bottom = chart_top + chart_height
         # correct (green) rectangle (drawn first at bottom)
         y_c = y_bottom - h_c
         parts.append(f'<rect x="{x}" y="{y_c:.1f}" width="{bar_w}" height="{h_c:.1f}" fill="#15803d" rx="4" ry="4" stroke="#ffffff" stroke-width="0.6"/>')
@@ -348,7 +356,7 @@ def _render_topic_stacked_bar_svg(themes: List[str], pct_correct: List[float], p
 
         # x-axis label rotated a bit
         label_x = x + bar_w / 2
-        label_y = margin + chart_height + 20
+        label_y = chart_top + chart_height + 20
         parts.append(f'<text x="{label_x:.1f}" y="{label_y:.1f}" font-size="11" text-anchor="middle" fill="#0f172a">{_html.escape(str(theme))}</text>')
 
         x += bar_w + gutter
