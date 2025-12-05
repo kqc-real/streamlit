@@ -54,6 +54,24 @@ from components import render_question_distribution_chart, close_user_qset_dialo
 import pacing_helper as pacing
 
 
+def _inject_main_container_padding() -> None:
+    """Inject a single padding declaration for the main container.
+
+    This deliberately uses a single CSS declaration as requested.
+    """
+    try:
+        st.markdown(
+            """
+            <style>
+            .stMainBlockContainer.block-container { padding: 2rem 1rem 2em; }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+    except Exception:
+        pass
+
+
 def _has_cognitive_stages(qs: QuestionSet) -> bool:
     """Checks if any question in the set has a cognitive stage."""
     if not qs:
@@ -1890,6 +1908,8 @@ def render_welcome_page(app_config: AppConfig):
 
     # Process any queued rerun requests (set by other code paths as a fallback).
     _process_queued_rerun()
+    # Apply single padding declaration to main container
+    _inject_main_container_padding()
 
     # Wenn ein Pseudonym-Reminder gesetzt ist (z.B. nach Reservierung),
     # zeigen wir einen Hinweis zentral im Hauptbereich statt in der Sidebar.
@@ -3397,6 +3417,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     """Rendert die Ansicht für eine einzelne Frage."""
     # Ensure any queued rerun is processed early in the interactive render path.
     _process_queued_rerun()
+    # Apply single padding declaration to main container
+    _inject_main_container_padding()
     # When rendering a question view, we are not in the final summary.
     # Clear the `in_final_summary` flag so sidebar items re-appear.
     try:
