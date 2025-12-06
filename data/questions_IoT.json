@@ -42,6 +42,14 @@
         {
           "term": "Aktor",
           "definition": "Komponente, die auf Basis von Steuersignalen physikalische Aktionen ausführt, etwa das Öffnen eines Ventils."
+        },
+        {
+          "term": "Konnektivität",
+          "definition": "Fähigkeit eines Geräts, sich mit einem Netzwerk zu verbinden und Daten auszutauschen."
+        },
+        {
+          "term": "Cyber-physisches System",
+          "definition": "System, in dem vernetzte IT-Komponenten eng mit physikalischen Prozessen gekoppelt sind."
         }
       ]
     },
@@ -69,6 +77,14 @@
         {
           "term": "Ressourcenbeschränkung",
           "definition": "Begrenzung von Ressourcen wie CPU, Speicher, Bandbreite oder Energie in einem System."
+        },
+        {
+          "term": "Mikrocontroller",
+          "definition": "Integrierter Schaltkreis, der Prozessor, Speicher und Peripherie in einem Baustein vereint und oft in IoT-Geräten eingesetzt wird."
+        },
+        {
+          "term": "Firmware",
+          "definition": "Software, die fest in einem Gerät verankert ist und dessen Grundfunktionen steuert."
         }
       ]
     },
@@ -96,6 +112,10 @@
         {
           "term": "Use Case",
           "definition": "Konkreter Anwendungsfall, der beschreibt, wie ein System von Nutzenden verwendet wird."
+        },
+        {
+          "term": "Hausautomation",
+          "definition": "Automatisierung von Funktionen im Haushalt, beispielsweise Heizung, Licht oder Rollläden."
         }
       ]
     },
@@ -123,6 +143,10 @@
         {
           "term": "Condition Monitoring",
           "definition": "Überwachung des Zustands von Maschinen und Anlagen anhand kontinuierlich erfasster Sensordaten."
+        },
+        {
+          "term": "Predictive Maintenance",
+          "definition": "Vorausschauende Wartung, bei der auf Basis von Daten prognostiziert wird, wann Wartungsmaßnahmen erforderlich sind."
         }
       ]
     },
@@ -150,6 +174,10 @@
         {
           "term": "Anwendungsschicht",
           "definition": "Schicht, in der Anwendungen und Services laufen, die die erfassten Daten nutzen."
+        },
+        {
+          "term": "Kommunikationsschicht",
+          "definition": "Schicht, die für die Übertragung von Daten zwischen Geräten und Systemkomponenten zuständig ist."
         }
       ]
     },
@@ -177,6 +205,10 @@
         {
           "term": "RFID",
           "definition": "Funktechnologie, mit der Objekte kontaktlos identifiziert und teilweise Daten übertragen werden können."
+        },
+        {
+          "term": "Gateway",
+          "definition": "Netzwerkknoten, der lokale Geräte mit entfernten Netzen oder der Cloud verbindet."
         }
       ]
     },
@@ -204,6 +236,10 @@
         {
           "term": "Protokollübersetzung",
           "definition": "Umsetzung von Daten zwischen verschiedenen Kommunikationsprotokollen."
+        },
+        {
+          "term": "Datenbündelung",
+          "definition": "Zusammenfassung mehrerer Datensätze in einer Übertragungseinheit, um Overhead zu reduzieren."
         }
       ]
     },
@@ -231,6 +267,10 @@
         {
           "term": "Periodische Übertragung",
           "definition": "Regelmäßige Sendung von Daten in festgelegten Zeitabständen."
+        },
+        {
+          "term": "Telemetrie",
+          "definition": "Fernmessung und -übertragung von Sensordaten an entfernte Systeme."
         }
       ]
     },
@@ -258,6 +298,14 @@
         {
           "term": "Publish/Subscribe",
           "definition": "Kommunikationsmuster, bei dem Sender Nachrichten an Themen (Topics) publizieren und Empfänger diese Themen abonnieren."
+        },
+        {
+          "term": "QoS",
+          "definition": "Quality of Service; bei MQTT abgestufte Liefersicherheitsstufen für Nachrichten."
+        },
+        {
+          "term": "Payload",
+          "definition": "Nutzlast einer Nachricht, also der eigentliche Dateninhalt."
         }
       ]
     },
@@ -285,6 +333,10 @@
         {
           "term": "UDP",
           "definition": "Verbindungsloses Transportprotokoll, das geringeren Overhead als TCP hat, aber keine zuverlässige Zustellung garantiert."
+        },
+        {
+          "term": "REST",
+          "definition": "Architekturstil, bei dem Ressourcen über standardisierte Operationen wie GET, POST, PUT und DELETE adressiert werden."
         }
       ]
     },
@@ -320,6 +372,10 @@
         {
           "term": "Transportschicht",
           "definition": "Schicht, die Ende-zu-Ende-Datenübertragung zwischen Anwendungen realisiert (z.B. TCP, UDP)."
+        },
+        {
+          "term": "Cloud-Plattform",
+          "definition": "Infrastruktur und Dienste, die in einem Rechenzentrum bereitgestellt und über das Internet genutzt werden."
         }
       ]
     },
@@ -355,6 +411,10 @@
         {
           "term": "Energieeffizienz",
           "definition": "Maß dafür, wie wenig Energie ein System bei gegebener Funktionalität verbraucht."
+        },
+        {
+          "term": "Datenrate",
+          "definition": "Menge an Daten, die pro Zeiteinheit übertragen wird."
         }
       ]
     },
@@ -390,6 +450,10 @@
         {
           "term": "Topic",
           "definition": "Kanal oder Thema, unter dem Nachrichten in Publish/Subscribe-Systemen veröffentlicht werden."
+        },
+        {
+          "term": "Locker gekoppelt",
+          "definition": "Architekturprinzip, bei dem Komponenten möglichst wenige Annahmen übereinander machen und unabhängig austauschbar sind."
         }
       ]
     },
@@ -417,6 +481,10 @@
         {
           "term": "Adressraum",
           "definition": "Menge aller möglichen Adressen, die ein Protokoll bereitstellen kann."
+        },
+        {
+          "term": "Adressierung",
+          "definition": "Mechanismus, mit dem Geräte im Netzwerk eindeutig identifizierbar gemacht werden."
         }
       ]
     },
@@ -444,6 +512,10 @@
         {
           "term": "HTTP",
           "definition": "Hypertext Transfer Protocol, Standardprotokoll für das Web und viele REST-APIs."
+        },
+        {
+          "term": "Ressource",
+          "definition": "Abstraktes oder konkretes Objekt, das über eine URI adressiert und manipuliert werden kann."
         }
       ]
     },
@@ -471,6 +543,10 @@
         {
           "term": "Vorverarbeitung",
           "definition": "Teilweise Analyse oder Aggregation von Rohdaten, bevor sie weitergeleitet werden."
+        },
+        {
+          "term": "Rohdaten",
+          "definition": "Unverarbeitete, ursprüngliche Messwerte oder Ereignisdaten."
         }
       ]
     },
@@ -506,6 +582,10 @@
         {
           "term": "Event-basierte Übertragung",
           "definition": "Daten werden nur bei relevanten Änderungen oder Ereignissen gesendet."
+        },
+        {
+          "term": "Datenvolumen",
+          "definition": "Menge an Daten, die übertragen oder gespeichert werden."
         }
       ]
     },
@@ -533,6 +613,10 @@
         {
           "term": "Ereignisverarbeitung",
           "definition": "Analyse und Reaktion auf eingehende Ereignisse oder Daten in Echtzeit oder nahezu Echtzeit."
+        },
+        {
+          "term": "Gerätemanagement",
+          "definition": "Verwaltung von Registrierung, Konfiguration, Überwachung und Firmware-Updates von Geräten."
         }
       ]
     },
@@ -568,6 +652,10 @@
         {
           "term": "Machine Learning",
           "definition": "Verfahren, bei denen Modelle aus Daten gelernt werden, um Vorhersagen oder Klassifikationen vorzunehmen."
+        },
+        {
+          "term": "Anomalieerkennung",
+          "definition": "Identifikation ungewöhnlicher Muster oder Abweichungen in Daten, die auf Fehler oder Störungen hinweisen können."
         }
       ]
     },
@@ -603,6 +691,10 @@
         {
           "term": "Batch-Verarbeitung",
           "definition": "Verarbeitung von Daten in größeren, zeitlich gebündelten Blöcken."
+        },
+        {
+          "term": "Echtzeit",
+          "definition": "Verarbeitung mit so geringer Verzögerung, dass Ergebnisse unmittelbar für Steuerung oder Anzeige genutzt werden können."
         }
       ]
     },
@@ -630,6 +722,10 @@
         {
           "term": "Kompromittierung",
           "definition": "Unbefugte Übernahme oder Manipulation eines Systems durch Angreifer."
+        },
+        {
+          "term": "Brute-Force-Angriff",
+          "definition": "Angriffsart, bei der Passwörter durch systematisches Ausprobieren vieler Kombinationen erraten werden."
         }
       ]
     },
@@ -665,6 +761,10 @@
         {
           "term": "Anonymisierung",
           "definition": "Verfahren, das eine Re-Identifikation einzelner Personen aus den Daten weitgehend verhindern soll."
+        },
+        {
+          "term": "Personenbezogene Daten",
+          "definition": "Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen."
         }
       ]
     },
@@ -700,6 +800,10 @@
         {
           "term": "Verschlüsselung",
           "definition": "Verfahren, das Klartext in Geheimtext umwandelt, um unbefugtes Lesen zu verhindern."
+        },
+        {
+          "term": "Schlüssel",
+          "definition": "Geheime oder öffentliche Information, die in kryptografischen Algorithmen zur Ver- oder Entschlüsselung verwendet wird."
         }
       ]
     },
@@ -735,6 +839,10 @@
         {
           "term": "Risikobetrachtung",
           "definition": "Systematische Analyse von Bedrohungen, Schwachstellen und möglichen Auswirkungen."
+        },
+        {
+          "term": "Angriffsfläche",
+          "definition": "Gesamtheit der potenziellen Angriffspunkte eines Systems."
         }
       ]
     },
@@ -762,6 +870,10 @@
         {
           "term": "Batteriebetrieb",
           "definition": "Versorgung eines Geräts ausschließlich über Batterien oder Akkus ohne dauerhafte Netzstromanbindung."
+        },
+        {
+          "term": "Wartungsaufwand",
+          "definition": "Benötigter Aufwand für Instandhaltung und Austausch von Komponenten, z.B. Batteriewechsel."
         }
       ]
     },
@@ -797,6 +909,10 @@
         {
           "term": "Schlafmodus",
           "definition": "Betriebszustand eines Mikrocontrollers, in dem Teile der Hardware abgeschaltet werden, um Energie zu sparen."
+        },
+        {
+          "term": "Funktransceiver",
+          "definition": "Funkbaustein, der sowohl senden als auch empfangen kann und häufig viel Energie verbraucht."
         }
       ]
     },
@@ -832,6 +948,10 @@
         {
           "term": "Skalierbarkeit",
           "definition": "Fähigkeit eines Systems, bei wachsender Last effizient zu bleiben und erweitert werden zu können."
+        },
+        {
+          "term": "Verbrauchsdaten",
+          "definition": "Daten, die den Energieverbrauch von Haushalten oder Anlagen über die Zeit abbilden."
         }
       ]
     },
@@ -859,6 +979,10 @@
         {
           "term": "Heterogenität",
           "definition": "Vielfalt unterschiedlicher Geräte, Protokolle und Technologien in einem System."
+        },
+        {
+          "term": "Messaging",
+          "definition": "Austausch von Nachrichten zwischen Komponenten eines verteilten Systems."
         }
       ]
     },
@@ -894,6 +1018,10 @@
         {
           "term": "Authentifizierung",
           "definition": "Überprüfung, ob eine Partei tatsächlich die behauptete Identität besitzt."
+        },
+        {
+          "term": "Schlüsselpaar",
+          "definition": "Kombination aus privatem und öffentlichem Schlüssel, die in asymmetrischer Kryptografie verwendet wird."
         }
       ]
     },
@@ -929,6 +1057,10 @@
         {
           "term": "Latenzanforderung",
           "definition": "Anforderung an die maximale tolerierte Verzögerung zwischen Ereignis und Reaktion."
+        },
+        {
+          "term": "Historische Daten",
+          "definition": "Vergangene Beobachtungen, die zur Analyse von Mustern und Trends genutzt werden."
         }
       ]
     }
