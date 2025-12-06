@@ -5164,6 +5164,36 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     height=380,
                 )
 
+                # Add triangular/mesh connectors between equal scale values to mimic
+                # the PDF's SVG triangular grid. We only connect points that lie on
+                # the defined scale levels (25/50/75/100) and only between adjacent
+                # axes so the mesh matches the PDF's visual semantics.
+                try:
+                    mesh_levels = [25, 50, 75, 100]
+                    mesh_color = "rgba(34,197,94,0.12)"  # subtle green used in PDF
+                    n_labels = len(labels)
+                    # Ensure we have label names without the duplicate closing element
+                    axis_labels = labels[:n_labels]
+                    for lvl in mesh_levels:
+                        for i in range(n_labels):
+                            j = (i + 1) % n_labels
+                            # Draw a short chord connecting the same-level point on
+                            # axis i and axis j. Using a separate scatterpolar trace
+                            # keeps the styling independent from the main polygon.
+                            fig_radar.add_trace(
+                                go.Scatterpolar(
+                                    r=[lvl, lvl],
+                                    theta=[axis_labels[i], axis_labels[j]],
+                                    mode="lines",
+                                    line=dict(color=mesh_color, width=1),
+                                    hoverinfo="skip",
+                                    showlegend=False,
+                                )
+                            )
+                except Exception:
+                    # Non-fatal: if mesh drawing fails, continue without it
+                    pass
+
                 st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
                 st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
 
