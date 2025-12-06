@@ -119,9 +119,10 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
 
     mini_glossary = question.get("mini_glossary")
     if mini_glossary is not None:
-        if not isinstance(mini_glossary, dict):
-            errors.append(f"{context}: 'mini_glossary' muss ein Objekt sein.")
-        else:
+        # Accept two common shapes for mini_glossary:
+        # 1) dict mapping term -> definition
+        # 2) list of objects [{"term": "...", "definition": "..."}, ...]
+        if isinstance(mini_glossary, dict):
             glossary_size = len(mini_glossary)
             if glossary_size and not (
                 MIN_GLOSSARY_ENTRIES <= glossary_size <= MAX_GLOSSARY_ENTRIES
@@ -132,6 +133,48 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
             for term, definition in mini_glossary.items():
                 _check_string(term, f"{context}: mini_glossary Schlüssel", errors)
                 _check_string(definition, f"{context}: mini_glossary Eintrag", errors)
+
+        elif isinstance(mini_glossary, list):
+            glossary_size = len(mini_glossary)
+            if glossary_size and not (
+                MIN_GLOSSARY_ENTRIES <= glossary_size <= MAX_GLOSSARY_ENTRIES
+            ):
+                warnings.append(
+                    f"{context}: mini_glossary enthält {glossary_size} Einträge (List-Format). Empfohlen: {MIN_GLOSSARY_ENTRIES}-{MAX_GLOSSARY_ENTRIES}."
+                )
+
+            for idx, entry in enumerate(mini_glossary, start=1):
+                entry_ctx = f"{context}: mini_glossary Eintrag {idx}"
+                if not isinstance(entry, dict):
+                    errors.append(f"{entry_ctx} muss ein Objekt sein.")
+                    continue
+
+                # Common expected shapes: {"term":"..","definition":".."} or single-key maps
+                term = None
+                definition = None
+                if 'term' in entry and 'definition' in entry:
+                    term = entry.get('term')
+                    definition = entry.get('definition')
+                elif len(entry) == 1:
+                    try:
+                        term, definition = next(iter(entry.items()))
+                    except Exception:
+                        term = None
+                        definition = None
+                else:
+                    # try alternate keys in other languages/exports
+                    term = entry.get('Begriff') or entry.get('Term') or entry.get('key') or entry.get('term')
+                    definition = entry.get('definition') or entry.get('Definition') or entry.get('def')
+
+                if term is None or definition is None:
+                    errors.append(f"{entry_ctx}: Ungültiges Glossar-Objekt. Erwartet 'term' und 'definition' oder ein einzelnes Mapping.")
+                    continue
+
+                _check_string(term, f"{entry_ctx}: Begriff", errors)
+                _check_string(definition, f"{entry_ctx}: Definition", errors)
+
+        else:
+            errors.append(f"{context}: 'mini_glossary' muss ein Objekt oder eine Liste sein.")
 
     return errors, warnings, thema or None
 
