@@ -1184,15 +1184,50 @@ def _extract_glossary_terms(
             # Fallback zu "Allgemein" wenn kein Thema
             thema = frage_obj.get("thema", "Allgemein")
             
+            # Support two common formats used in question sets:
+            # 1) dict mapping term -> definition
+            # 2) list of objects [{"term": "...", "definition": "..."}, ...]
             if isinstance(mini_gloss, dict):
                 # Initialisiere Thema, falls noch nicht vorhanden
                 if thema not in glossary_by_theme:
                     glossary_by_theme[thema] = {}
-                
+
                 # Füge alle Begriffe aus diesem mini_glossary hinzu
                 for term, definition in mini_gloss.items():
                     # Verhindere globale Duplikate
-                    if term not in seen_terms:
+                    if isinstance(term, str) and term not in seen_terms and isinstance(definition, str):
+                        glossary_by_theme[thema][term] = definition
+                        seen_terms.add(term)
+
+            elif isinstance(mini_gloss, list):
+                # List-of-objects format (common in some exports):
+                if thema not in glossary_by_theme:
+                    glossary_by_theme[thema] = {}
+
+                for entry in mini_gloss:
+                    try:
+                        if isinstance(entry, dict):
+                            # Typical shape: {"term": "Sensor", "definition": "..."}
+                            if 'term' in entry and 'definition' in entry:
+                                term = entry.get('term')
+                                definition = entry.get('definition')
+                            else:
+                                # Fallback: single-key dict mapping term->definition
+                                if len(entry) == 1:
+                                    term, definition = next(iter(entry.items()))
+                                else:
+                                    # Try common alternate keys
+                                    term = entry.get('Begriff') or entry.get('Term') or entry.get('key')
+                                    definition = entry.get('definition') or entry.get('Definition') or entry.get('def')
+                        else:
+                            # unsupported entry type
+                            term = None
+                            definition = None
+                    except Exception:
+                        term = None
+                        definition = None
+
+                    if isinstance(term, str) and isinstance(definition, str) and term and term not in seen_terms:
                         glossary_by_theme[thema][term] = definition
                         seen_terms.add(term)
     

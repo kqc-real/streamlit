@@ -1,0 +1,936 @@
+{
+  "meta": {
+    "title": "Internet of Things (IoT) – Grundlagen und Anwendungen",
+    "created": "06.12.2025 00:00",
+    "target_audience": "Studierende der Informatik",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 15,
+      "medium": 12,
+      "hard": 3
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 25
+  },
+  "questions": [
+    {
+      "question": "1. Was beschreibt den Begriff \"Internet of Things (IoT)\" am treffendsten?",
+      "options": [
+        "Ein Netzwerk aus Standarddesktop-Computern, die nur über LAN-Kabel verbunden sind",
+        "Ein Konzept, bei dem physische Objekte mit Sensoren, Aktoren und Konnektivität ausgestattet sind und Daten über das Internet austauschen",
+        "Ein spezielles soziales Netzwerk für technische Geräte",
+        "Ein proprietäres System zur Maschinensteuerung ohne Internetanbindung",
+        "Ein Cloud-Dienst, der ausschließlich zur Datensicherung von Smartphones verwendet wird"
+      ],
+      "answer": 1,
+      "explanation": "IoT bezeichnet die Vernetzung physischer Objekte, die mit Sensoren, Aktoren und Netzwerkverbindungen ausgestattet sind, um Daten zu erfassen, auszutauschen und auf dieser Basis Aktionen auszuführen. Es geht nicht nur um Computer, sondern um vielfältige Alltags- und Industrieobjekte.",
+      "weight": 1,
+      "topic": "Grundlagen des IoT",
+      "concept": "Definition IoT",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Sensor",
+          "definition": "Hardware-Komponente, die physikalische Größen wie Temperatur oder Bewegung in digitale Messwerte umwandelt."
+        },
+        {
+          "term": "Aktor",
+          "definition": "Komponente, die auf Basis von Steuersignalen physikalische Aktionen ausführt, etwa das Öffnen eines Ventils."
+        }
+      ]
+    },
+    {
+      "question": "2. Welche Eigenschaft ist typisch für ein IoT-Gerät?",
+      "options": [
+        "Es besitzt immer einen Bildschirm und eine Tastatur.",
+        "Es muss mindestens zwei Betriebssysteme gleichzeitig ausführen.",
+        "Es ist ressourcenbeschränkt und oft für einen spezifischen Zweck optimiert.",
+        "Es kann nur über ein Mobilfunknetz kommunizieren.",
+        "Es benötigt zwingend eine externe Grafikkarte."
+      ],
+      "answer": 2,
+      "explanation": "Viele IoT-Geräte sind eingebettete Systeme mit begrenzten Ressourcen wie Rechenleistung, Speicher und Energie. Sie sind meist für einen speziellen Zweck optimiert und unterscheiden sich damit von klassischen Universalrechnern.",
+      "weight": 1,
+      "topic": "Grundlagen des IoT",
+      "concept": "IoT-Geräteeigenschaften",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Eingebettetes System",
+          "definition": "Rechnersystem, das in ein technisches Umfeld integriert ist und eine spezielle Steuerungs- oder Überwachungsaufgabe erfüllt."
+        },
+        {
+          "term": "Ressourcenbeschränkung",
+          "definition": "Begrenzung von Ressourcen wie CPU, Speicher, Bandbreite oder Energie in einem System."
+        }
+      ]
+    },
+    {
+      "question": "3. Welcher der folgenden Bereiche ist ein typischer Anwendungsbereich von IoT?",
+      "options": [
+        "Textverarbeitung in Offline-Desktop-Anwendungen",
+        "Datenbankadministration in lokalen Rechenzentren ohne Netzwerkanbindung",
+        "Smart Home mit vernetzten Lampen, Thermostaten und Sensoren",
+        "Reine Offline-Spielekonsole ohne Netzwerkfunktion",
+        "Ein analoges Telefonnetz ohne digitale Komponenten"
+      ],
+      "answer": 2,
+      "explanation": "Smart-Home-Anwendungen gelten als klassischer Anwendungsbereich des IoT. Vernetzte Lampen, Thermostate und Sensoren erfassen Daten und lassen sich häufig über das Internet steuern.",
+      "weight": 1,
+      "topic": "Anwendungsfelder des IoT",
+      "concept": "Smart Home",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Smart Home",
+          "definition": "Vernetztes Zuhause, in dem Geräte wie Lampen, Heizungen und Sicherheitskomponenten miteinander und mit dem Internet verbunden sind."
+        },
+        {
+          "term": "Use Case",
+          "definition": "Konkreter Anwendungsfall, der beschreibt, wie ein System von Nutzenden verwendet wird."
+        }
+      ]
+    },
+    {
+      "question": "4. Welches Ziel wird mit IoT-Lösungen in der Industrie 4.0 typischerweise verfolgt?",
+      "options": [
+        "Ausschließlich die Erhöhung der Stromkosten in Produktionsanlagen",
+        "Komplette Abschaffung von Automatisierungstechnik",
+        "Erhöhung der Transparenz und Effizienz von Produktionsprozessen durch vernetzte Sensorik und Aktorik",
+        "Ersetzung aller Mitarbeitenden durch Papierformulare",
+        "Verzicht auf Datenerfassung, um die Systeme zu vereinfachen"
+      ],
+      "answer": 2,
+      "explanation": "In der Industrie 4.0 sollen IoT-Lösungen die Produktionsprozesse transparenter und effizienter machen, etwa durch kontinuierliche Datenerfassung, Zustandsüberwachung und automatisierte Regelung.",
+      "weight": 1,
+      "topic": "Anwendungsfelder des IoT",
+      "concept": "Industrie 4.0",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Industrie 4.0",
+          "definition": "Konzept der vernetzten, digitalisierten und weitgehend automatisierten Industrieproduktion."
+        },
+        {
+          "term": "Condition Monitoring",
+          "definition": "Überwachung des Zustands von Maschinen und Anlagen anhand kontinuierlich erfasster Sensordaten."
+        }
+      ]
+    },
+    {
+      "question": "5. Welche Schicht findet man typischerweise in einer IoT-Referenzarchitektur?",
+      "options": [
+        "Präsentationsschicht für Desktop-GUIs",
+        "Geräte- oder Wahrnehmungsschicht (Perception Layer)",
+        "Mainframe-Schicht",
+        "Nur eine monolithische Gesamtschicht ohne Abgrenzung",
+        "Druckerschicht für Ausgaben auf Papier"
+      ],
+      "answer": 1,
+      "explanation": "Viele IoT-Referenzarchitekturen unterscheiden zumindest eine Geräte- bzw. Wahrnehmungsschicht, eine Kommunikationsschicht und eine Datenverarbeitungs- oder Anwendungsschicht. Die Wahrnehmungsschicht umfasst Sensoren und Aktoren.",
+      "weight": 1,
+      "topic": "IoT-Architektur",
+      "concept": "Architekturschichten",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Perception Layer",
+          "definition": "Schicht in der IoT-Architektur, in der Sensoren und Aktoren physische Größen erfassen oder beeinflussen."
+        },
+        {
+          "term": "Anwendungsschicht",
+          "definition": "Schicht, in der Anwendungen und Services laufen, die die erfassten Daten nutzen."
+        }
+      ]
+    },
+    {
+      "question": "6. Welches Element gehört typischerweise zur Geräte- bzw. Edge-Ebene eines IoT-Systems?",
+      "options": [
+        "Ein RFID-Tag, das Sensordaten direkt erfasst",
+        "Ein zentrales Cloud-Datenlager in einem Rechenzentrum",
+        "Eine Weboberfläche eines Analyse-Dashboards",
+        "Ein Load Balancer im Core-Netzwerk eines Cloud-Providers",
+        "Ein klassischer Mainframe-Rechner im Backoffice"
+      ],
+      "answer": 0,
+      "explanation": "RFID-Tags, Sensoren, Aktoren und Mikrocontroller befinden sich typischerweise auf der Geräte- oder Edge-Ebene. Sie interagieren direkt mit der physischen Umgebung.",
+      "weight": 1,
+      "topic": "IoT-Architektur",
+      "concept": "Edge-Ebene",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Edge Computing",
+          "definition": "Datenverarbeitung nahe an der Quelle der Datenerzeugung, z.B. auf Gateways oder IoT-Geräten."
+        },
+        {
+          "term": "RFID",
+          "definition": "Funktechnologie, mit der Objekte kontaktlos identifiziert und teilweise Daten übertragen werden können."
+        }
+      ]
+    },
+    {
+      "question": "7. Welche Aussage zur Rolle von Gateways im IoT trifft typischerweise zu?",
+      "options": [
+        "Gateways werden ausschließlich zur Stromversorgung von Sensoren eingesetzt.",
+        "Gateways dienen der Protokollübersetzung und Bündelung von Daten zwischen lokalen Geräten und dem Internet oder der Cloud.",
+        "Gateways sind nur in reinen Offline-Systemen relevant.",
+        "Gateways ersetzen vollständig alle Sensoren und Aktoren im System.",
+        "Gateways sind ausschließlich grafische Benutzeroberflächen."
+      ],
+      "answer": 1,
+      "explanation": "IoT-Gateways verbinden lokale Netze mit Weitverkehrsnetzen, übernehmen Protokollübersetzung, Vorverarbeitung und Bündelung von Daten, bevor sie an Backend-Systeme weitergeleitet werden.",
+      "weight": 1,
+      "topic": "IoT-Architektur",
+      "concept": "IoT-Gateway",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Gateway",
+          "definition": "Netzwerkknoten, der zwischen unterschiedlichen Netzen oder Protokollen vermittelt und Daten weiterleitet."
+        },
+        {
+          "term": "Protokollübersetzung",
+          "definition": "Umsetzung von Daten zwischen verschiedenen Kommunikationsprotokollen."
+        }
+      ]
+    },
+    {
+      "question": "8. Ein IoT-Sensor sendet periodisch Temperaturwerte an ein Edge-Gateway. Welche Komponente ist in diesem Szenario das \"Thing\" im Sinne des Internet of Things?",
+      "options": [
+        "Das gesamte Internet",
+        "Der Cloud-Server, der später Statistiken berechnet",
+        "Der Sensor bzw. das physische Gerät, das Temperatur misst",
+        "Der Laptop eines Entwicklers",
+        "Der Router des Internetproviders"
+      ],
+      "answer": 2,
+      "explanation": "Im Kontext des IoT steht das \"Thing\" für das vernetzte physische Objekt, etwa einen Sensor, der Umgebungsdaten misst und über eine Netzwerkverbindung Daten überträgt.",
+      "weight": 1,
+      "topic": "Grundlagen des IoT",
+      "concept": "Thing-Begriff",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Thing",
+          "definition": "Physisches Objekt, das durch Sensoren, Aktoren und Netzwerkanbindung Teil des Internet of Things wird."
+        },
+        {
+          "term": "Periodische Übertragung",
+          "definition": "Regelmäßige Sendung von Daten in festgelegten Zeitabständen."
+        }
+      ]
+    },
+    {
+      "question": "9. Welches Kommunikationsprotokoll wird häufig speziell für leichtgewichtige IoT-Anwendungen eingesetzt?",
+      "options": [
+        "SMTP",
+        "MQTT",
+        "POP3",
+        "FTP",
+        "IMAP"
+      ],
+      "answer": 1,
+      "explanation": "MQTT ist ein leichtgewichtiges Publish/Subscribe-Protokoll, das speziell für ressourcenarme Geräte und unreliable Netzwerke entwickelt wurde und daher häufig im IoT eingesetzt wird.",
+      "weight": 1,
+      "topic": "Kommunikation im IoT",
+      "concept": "MQTT-Protokoll",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "MQTT",
+          "definition": "Leichtgewichtiges Message-Protokoll auf Basis von Publish/Subscribe, häufig in IoT-Szenarien genutzt."
+        },
+        {
+          "term": "Publish/Subscribe",
+          "definition": "Kommunikationsmuster, bei dem Sender Nachrichten an Themen (Topics) publizieren und Empfänger diese Themen abonnieren."
+        }
+      ]
+    },
+    {
+      "question": "10. Was ist ein typischer Vorteil von CoAP gegenüber HTTP in IoT-Szenarien?",
+      "options": [
+        "CoAP benötigt immer mehr Bandbreite als HTTP.",
+        "CoAP ist nur auf kabelgebundene Netze beschränkt.",
+        "CoAP ist für ressourcenarme Geräte optimiert und basiert typischerweise auf UDP.",
+        "CoAP erfordert zwingend eine persistente TCP-Verbindung.",
+        "CoAP bietet keine Möglichkeit, Zustände von Ressourcen abzubilden."
+      ],
+      "answer": 2,
+      "explanation": "CoAP ist ein leichtgewichtiges Protokoll, das sich für ressourcenarme Geräte eignet und meist auf UDP aufsetzt. Es bietet REST-ähnliche Methoden, ist aber effizienter als klassisches HTTP.",
+      "weight": 1,
+      "topic": "Kommunikation im IoT",
+      "concept": "CoAP vs. HTTP",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "CoAP",
+          "definition": "Constrained Application Protocol, ein leichtgewichtiges Web-Protokoll für IoT-Geräte, meist auf UDP-basis."
+        },
+        {
+          "term": "UDP",
+          "definition": "Verbindungsloses Transportprotokoll, das geringeren Overhead als TCP hat, aber keine zuverlässige Zustellung garantiert."
+        }
+      ]
+    },
+    {
+      "question": "11. Ein Unternehmen möchte Sensordaten von Maschinen an eine Cloud-Plattform übertragen. Welche Kombination von Schichten beschreibt diesen Weg am besten?",
+      "options": [
+        "Anwendungsschicht → Wahrnehmungsschicht → Transportschicht",
+        "Wahrnehmungsschicht → Netzwerk-/Transportschicht → Anwendungsschicht",
+        "Netzwerk-/Transportschicht → Wahrnehmungsschicht → Anwendungsschicht",
+        "Nur Anwendungsschicht ohne andere Schichten",
+        "Nur Wahrnehmungsschicht und Anwendungsschicht, ohne dazwischenliegende Kommunikation"
+      ],
+      "answer": 1,
+      "explanation": "Daten werden zunächst in der Wahrnehmungsschicht durch Sensoren erfasst, dann über Netzwerk- und Transportschichten übertragen und schließlich in der Anwendungsschicht verarbeitet oder visualisiert.",
+      "weight": 2,
+      "topic": "IoT-Architektur",
+      "concept": "Schichtenmodell",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Datenfluss über die IoT-Schichten",
+        "steps": [
+          "Identifiziere, wo die Daten entstehen: bei Sensoren in der Wahrnehmungsschicht.",
+          "Überlege, wie Daten physisch und logisch transportiert werden: über Netzwerk- und Transportschicht.",
+          "Bestimme, wo Daten letztlich verarbeitet und präsentiert werden: in der Anwendungsschicht."
+        ],
+        "content": "In einem IoT-System beginnt der Datenfluss typischerweise bei Sensoren in der Wahrnehmungsschicht. Diese Sensoren erfassen physikalische Größen und wandeln sie in digitale Werte um. Über Netzwerk- und Transportschicht werden die Daten an weitere Systeme, häufig Gateways oder Cloud-Plattformen, übertragen. Dort nehmen Dienste der Anwendungsschicht die Daten entgegen, speichern, analysieren und visualisieren sie. Die korrekte Reihenfolge der Schichten spiegelt somit den Weg der Daten vom physischen Objekt bis zur Auswertung wider."
+      },
+      "mini_glossary": [
+        {
+          "term": "Netzwerkschicht",
+          "definition": "Schicht, die sich um Adressierung und Weiterleitung von Paketen zwischen Knoten kümmert."
+        },
+        {
+          "term": "Transportschicht",
+          "definition": "Schicht, die Ende-zu-Ende-Datenübertragung zwischen Anwendungen realisiert (z.B. TCP, UDP)."
+        }
+      ]
+    },
+    {
+      "question": "12. Ein Studierender soll entscheiden, ob für ein batteriebetriebenes IoT-Gerät eher Wi-Fi oder ein Low-Power-WAN (z.B. LoRaWAN) genutzt werden sollte. Welche Überlegung ist hier am wichtigsten?",
+      "options": [
+        "Wi-Fi ist immer energieeffizienter als Low-Power-WAN.",
+        "Low-Power-WAN ist für batteriebetriebene, weit verteilte Sensoren oft geeigneter, da es deutlich weniger Energie verbraucht und größere Reichweiten ermöglicht.",
+        "LoRaWAN kann niemals durch Wände funken.",
+        "Wi-Fi ist grundsätzlich für Langstreckenkommunikation optimiert.",
+        "Die Entscheidung hängt ausschließlich von der Bildschirmgröße des Geräts ab."
+      ],
+      "answer": 1,
+      "explanation": "Für batteriebetriebene Sensoren mit geringer Datenrate sind Low-Power-WAN-Technologien wie LoRaWAN oft besser geeignet, da sie für sehr niedrigen Energieverbrauch und große Reichweiten optimiert sind.",
+      "weight": 2,
+      "topic": "Kommunikation im IoT",
+      "concept": "Low-Power-WAN",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Technologiewahl für batteriebetriebene IoT-Geräte",
+        "steps": [
+          "Analysiere Energiebedarf und Reichweite der Kommunikation.",
+          "Vergleiche typische Eigenschaften von Wi-Fi und Low-Power-WAN.",
+          "Wähle die Technologie, die besser zum Anwendungsprofil des Sensors passt."
+        ],
+        "content": "Batteriebetriebene IoT-Geräte sollen oft über lange Zeiträume ohne Batteriewechsel arbeiten. Wi-Fi ist auf hohe Datenraten und vergleichsweise kurze Distanzen ausgelegt und hat einen relativ hohen Energieverbrauch. Low-Power-WAN-Technologien wie LoRaWAN bieten geringere Datenraten, sind aber für sehr große Reichweiten und extrem niedrigen Energiebedarf optimiert. Deshalb sind sie für weit verteilte, stromsparende Sensoren meistens die bessere Wahl."
+      },
+      "mini_glossary": [
+        {
+          "term": "LoRaWAN",
+          "definition": "Low-Power-Wide-Area-Network-Protokoll für energiearme, weit entfernte IoT-Geräte."
+        },
+        {
+          "term": "Energieeffizienz",
+          "definition": "Maß dafür, wie wenig Energie ein System bei gegebener Funktionalität verbraucht."
+        }
+      ]
+    },
+    {
+      "question": "13. In einem Smart-Home-System senden mehrere Temperatursensoren ihre Messwerte an einen zentralen Broker, und verschiedene Dienste abonnieren diese Daten. Welches Kommunikationsmuster wird hier eingesetzt?",
+      "options": [
+        "Request/Response",
+        "Peer-to-Peer mit direkter Kopplung",
+        "Publish/Subscribe",
+        "Circuit Switching",
+        "Batch-Verarbeitung ohne Streaming"
+      ],
+      "answer": 2,
+      "explanation": "Das beschriebene Szenario entspricht dem Publish/Subscribe-Muster: Sensoren publizieren Daten an einen Broker, während Dienste die entsprechenden Topics abonnieren.",
+      "weight": 2,
+      "topic": "Kommunikation im IoT",
+      "concept": "Publish/Subscribe-Muster",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Erkennen des Publish/Subscribe-Musters",
+        "steps": [
+          "Identifiziere, ob es einen zentralen Vermittler (Broker) gibt.",
+          "Prüfe, ob Sender und Empfänger lose gekoppelt sind.",
+          "Stelle fest, ob Nachrichten an Themen (Topics) statt an konkrete Empfänger adressiert werden."
+        ],
+        "content": "Im Publish/Subscribe-Muster publizieren Datenquellen Nachrichten an einen Broker, ohne die konkreten Empfänger zu kennen. Konsumenten abonnieren Themen (Topics) und erhalten Nachrichten, die zu diesen Themen veröffentlicht werden. Dieses Muster ist typisch für MQTT-basierte IoT-Systeme und erlaubt eine flexible und lose gekoppelte Kommunikation."
+      },
+      "mini_glossary": [
+        {
+          "term": "Broker",
+          "definition": "Vermittler in einem Publish/Subscribe-System, der Nachrichten von Publishern entgegennimmt und an Subscriber verteilt."
+        },
+        {
+          "term": "Topic",
+          "definition": "Kanal oder Thema, unter dem Nachrichten in Publish/Subscribe-Systemen veröffentlicht werden."
+        }
+      ]
+    },
+    {
+      "question": "14. Warum ist IPv6 für das IoT von besonderer Bedeutung?",
+      "options": [
+        "Weil IPv6 hauptsächlich für E-Mails verwendet wird.",
+        "Weil IPv6 weniger Adressen als IPv4 bereitstellt und dadurch Konflikte reduziert.",
+        "Weil IPv6 mit seinem großen Adressraum eine direkte Adressierung sehr vieler Geräte ermöglicht.",
+        "Weil IPv6 keine Header mehr besitzt und dadurch einfacher zu analysieren ist.",
+        "Weil IPv6 die Transportprotokolle TCP und UDP abschafft."
+      ],
+      "answer": 2,
+      "explanation": "IPv6 bietet einen enorm großen Adressraum, der es ermöglicht, eine sehr große Anzahl von Geräten individuell zu adressieren. Dies ist für das IoT mit potenziell Milliarden von Geräten besonders wichtig.",
+      "weight": 1,
+      "topic": "Adressierung im IoT",
+      "concept": "IPv6 und IoT",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "IPv6",
+          "definition": "Internet Protocol Version 6 mit 128-Bit-Adressen und sehr großem Adressraum."
+        },
+        {
+          "term": "Adressraum",
+          "definition": "Menge aller möglichen Adressen, die ein Protokoll bereitstellen kann."
+        }
+      ]
+    },
+    {
+      "question": "15. Ein Entwickler möchte Sensorwerte direkt über eine REST-API abfragen. Welches Protokoll auf Anwendungsebene ist dafür am naheliegendsten?",
+      "options": [
+        "HTTP",
+        "SMTP",
+        "FTP",
+        "SNMP",
+        "DNS"
+      ],
+      "answer": 0,
+      "explanation": "REST-APIs werden typischerweise über HTTP implementiert. HTTP ist daher das naheliegendste Protokoll auf Anwendungsebene für direkte Anfragen an Ressourcendarstellungen.",
+      "weight": 1,
+      "topic": "Kommunikation im IoT",
+      "concept": "REST und HTTP",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "REST",
+          "definition": "Architekturstil, bei dem Ressourcen über standardisierte Operationen wie GET, POST, PUT und DELETE adressiert werden."
+        },
+        {
+          "term": "HTTP",
+          "definition": "Hypertext Transfer Protocol, Standardprotokoll für das Web und viele REST-APIs."
+        }
+      ]
+    },
+    {
+      "question": "16. Eine Firma möchte Sensorrohdaten nicht vollständig in die Cloud senden, sondern schon am Rand des Netzes vorverarbeiten. Wie nennt man dieses Konzept?",
+      "options": [
+        "Central Computing",
+        "Edge Computing",
+        "Inline-Printing",
+        "Batch Offloading",
+        "Mainframe Computing"
+      ],
+      "answer": 1,
+      "explanation": "Edge Computing bezeichnet die Verarbeitung von Daten nahe an deren Quelle, zum Beispiel auf Gateways oder lokalen Knoten. Dadurch werden Bandbreite und Latenz reduziert und Datenschutz kann verbessert werden.",
+      "weight": 1,
+      "topic": "Datenverarbeitung im IoT",
+      "concept": "Edge Computing",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Latenz",
+          "definition": "Zeitverzögerung zwischen der Datenerzeugung und deren Verarbeitung oder Nutzung."
+        },
+        {
+          "term": "Vorverarbeitung",
+          "definition": "Teilweise Analyse oder Aggregation von Rohdaten, bevor sie weitergeleitet werden."
+        }
+      ]
+    },
+    {
+      "question": "17. In einem IoT-System werden Messwerte zunächst auf einem Gateway aggregiert, geglättet und nur bei relevanten Änderungen an die Cloud gesendet. Welchen Vorteil bringt diese Vorgehensweise primär?",
+      "options": [
+        "Sie erhöht die benötigte Bandbreite erheblich.",
+        "Sie reduziert die Ausfallsicherheit des Systems.",
+        "Sie reduziert Datenvolumen und Bandbreitenbedarf, wodurch Kosten und Latenzen sinken können.",
+        "Sie macht die Auswertung in der Cloud unmöglich.",
+        "Sie verhindert vollständig jede Echtzeitauswertung."
+      ],
+      "answer": 2,
+      "explanation": "Durch Aggregation und Filterung am Gateway wird weniger Rohdatenverkehr in die Cloud gesendet. Das verringert Bandbreitenbedarf und Kosten und kann Latenzen reduzieren, ohne die Auswertbarkeit wesentlich zu beeinträchtigen.",
+      "weight": 2,
+      "topic": "Datenverarbeitung im IoT",
+      "concept": "Datenaggregation am Gateway",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Vorteile von Datenaggregation an der Edge",
+        "steps": [
+          "Betrachte, wo Daten erzeugt und wo sie letztlich analysiert werden.",
+          "Beurteile, welche Daten wirklich über das Netz übertragen werden müssen.",
+          "Erkenne, dass Vorverarbeitung Redundanz reduziert und Ressourcen schont."
+        ],
+        "content": "Viele Sensoren erzeugen stark redundante oder verrauschte Daten. Wenn Gateways Daten aggregieren, glätten oder nur Änderungen weiterleiten, verringert sich das Datenvolumen. Dadurch sind geringere Bandbreite und Speicher nötig, Kosten sinken, und auch Latenzen können kleiner werden. Die Cloud kann weiterhin aussagekräftige Kennzahlen verarbeiten, obwohl weniger Rohdaten übertragen werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Aggregation",
+          "definition": "Zusammenfassung mehrerer Einzelwerte zu einer kompakten Darstellung, z.B. Mittelwerten."
+        },
+        {
+          "term": "Event-basierte Übertragung",
+          "definition": "Daten werden nur bei relevanten Änderungen oder Ereignissen gesendet."
+        }
+      ]
+    },
+    {
+      "question": "18. Ein Team soll eine IoT-Plattform wählen. Welche Funktion ist für eine solche Plattform besonders typisch?",
+      "options": [
+        "Verwaltung von Postfächern für E-Mails",
+        "Verwaltung und Visualisierung von IoT-Geräten, Datenströmen und Regeln zur Ereignisverarbeitung",
+        "Bereitstellung von Office-Textverarbeitung",
+        "Rendering von 3D-Grafiken für Spiele",
+        "Simulation von Analogschaltungen ohne Schnittstellen nach außen"
+      ],
+      "answer": 1,
+      "explanation": "IoT-Plattformen bieten typischerweise Funktionen zum Geräte- und Datenmanagement, zur Ereignisverarbeitung, Integration mit anderen Diensten und Visualisierung von Messwerten.",
+      "weight": 1,
+      "topic": "IoT-Plattformen",
+      "concept": "IoT-Plattform-Funktionalität",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "IoT-Plattform",
+          "definition": "Software- oder Cloud-Plattform, die Dienste für Gerätemanagement, Datenspeicherung, Analyse und Integration für IoT-Systeme bereitstellt."
+        },
+        {
+          "term": "Ereignisverarbeitung",
+          "definition": "Analyse und Reaktion auf eingehende Ereignisse oder Daten in Echtzeit oder nahezu Echtzeit."
+        }
+      ]
+    },
+    {
+      "question": "19. In einem Condition-Monitoring-Projekt sollen Schwingungssensoren an Motoren ungewöhnliche Muster frühzeitig erkennen. Wo findet typischerweise die komplexe Mustererkennung statt?",
+      "options": [
+        "Direkt im Sensor, da dieser immer über einen Hochleistungsprozessor verfügt",
+        "Nur in der Netzwerkschicht der Router",
+        "In Edge- oder Cloud-Analysekomponenten, die genügend Rechenleistung und Speicher bieten",
+        "In einem Datei-Explorer auf einem lokalen PC",
+        "Im DNS-Server des Unternehmens"
+      ],
+      "answer": 2,
+      "explanation": "Komplexe Mustererkennung, z.B. mittels Machine Learning, erfordert meist erhebliche Rechenressourcen und findet daher typischerweise auf Edge-Gateways oder in der Cloud statt, nicht in sehr einfachen Sensoren.",
+      "weight": 2,
+      "topic": "Datenverarbeitung im IoT",
+      "concept": "Mustererkennung und ML",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Platzierung komplexer Analytik im IoT",
+        "steps": [
+          "Bewerte die Rechen- und Speicherressourcen auf der Sensorebene.",
+          "Überlege, welche Schicht ausreichend Ressourcen für komplexe Analysen bereitstellt.",
+          "Wähle Edge- oder Cloud-Komponenten für aufwändige Mustererkennung."
+        ],
+        "content": "Einfache Sensoren sind häufig stark ressourcenbeschränkt und führen vor allem Messungen und grundlegende Vorverarbeitung aus. Edge-Gateways oder Cloud-Plattformen besitzen hingegen deutlich mehr Rechenleistung und Speicher, was sie ideal für komplexe Mustererkennung und Machine-Learning-Modelle macht. Deshalb wird die eigentliche Analytik in Condition-Monitoring-Projekten meist dort platziert."
+      },
+      "mini_glossary": [
+        {
+          "term": "Condition Monitoring",
+          "definition": "Überwachung des Zustands von Maschinen auf Basis von Sensordaten, um frühzeitig Anomalien zu erkennen."
+        },
+        {
+          "term": "Machine Learning",
+          "definition": "Verfahren, bei denen Modelle aus Daten gelernt werden, um Vorhersagen oder Klassifikationen vorzunehmen."
+        }
+      ]
+    },
+    {
+      "question": "20. Eine IoT-Anwendung muss Temperaturdaten von mehreren Sensoren in nahezu Echtzeit anzeigen. Welche Art von Verarbeitung ist dafür am geeignetsten?",
+      "options": [
+        "Batch-Verarbeitung einmal täglich",
+        "Streaming-Verarbeitung eingehender Datenströme",
+        "Ausschließlich manuelle Eingabe der Daten in Tabellen",
+        "Offline-Auswertung einmal pro Jahr",
+        "Keinerlei Verarbeitung, nur Rohdatenspeicherung"
+      ],
+      "answer": 1,
+      "explanation": "Für nahezu Echtzeit-Anzeigen empfiehlt sich Streaming-Verarbeitung, bei der eingehende Daten sofort oder mit minimaler Verzögerung verarbeitet und visualisiert werden.",
+      "weight": 2,
+      "topic": "Datenverarbeitung im IoT",
+      "concept": "Stream Processing",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Echtzeit-Anforderungen und Stream Processing",
+        "steps": [
+          "Identifiziere die Latenzanforderungen der Anwendung.",
+          "Vergleiche Batch- mit Streaming-Verarbeitung.",
+          "Wähle Streaming-Verarbeitung bei Bedarf nach kontinuierlicher Aktualisierung."
+        ],
+        "content": "Wenn Temperaturdaten nahezu in Echtzeit angezeigt werden sollen, dürfen zwischen Messung und Darstellung nur geringe Verzögerungen auftreten. Batch-Verarbeitung, bei der Daten gesammelt und in großen Blöcken verarbeitet werden, passt hier nicht. Streaming-Verarbeitung verarbeitet eingehende Datenströme fortlaufend und ermöglicht aktuelle Dashboards und Alarme."
+      },
+      "mini_glossary": [
+        {
+          "term": "Streaming-Verarbeitung",
+          "definition": "Kontinuierliche Verarbeitung von Datenströmen mit geringer Latenz."
+        },
+        {
+          "term": "Batch-Verarbeitung",
+          "definition": "Verarbeitung von Daten in größeren, zeitlich gebündelten Blöcken."
+        }
+      ]
+    },
+    {
+      "question": "21. Welcher Aspekt ist ein typisches Sicherheitsrisiko im IoT?",
+      "options": [
+        "Die Verwendung starker Verschlüsselungsverfahren",
+        "Regelmäßige Softwareupdates",
+        "Ab Werk eingestellte Standardpasswörter, die nicht geändert werden",
+        "Segmentierung des Netzwerks",
+        "Verwendung von Multi-Faktor-Authentifizierung"
+      ],
+      "answer": 2,
+      "explanation": "Standardpasswörter, die nicht geändert werden, sind ein typisches Sicherheitsrisiko. Angreifer kennen solche Passwörter oft und können Geräte leicht kompromittieren.",
+      "weight": 1,
+      "topic": "Sicherheit im IoT",
+      "concept": "Standardpasswörter",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Standardpasswort",
+          "definition": "Voreingestelltes Passwort, das bei Auslieferung eines Geräts gesetzt ist und häufig öffentlich dokumentiert ist."
+        },
+        {
+          "term": "Kompromittierung",
+          "definition": "Unbefugte Übernahme oder Manipulation eines Systems durch Angreifer."
+        }
+      ]
+    },
+    {
+      "question": "22. Welche Maßnahme eignet sich besonders, um Datenschutz in einem IoT-System zu verbessern, das personenbezogene Sensordaten erfasst?",
+      "options": [
+        "Verzicht auf jede Form von Verschlüsselung",
+        "Unbegrenzte Speicherung aller Rohdaten ohne Löschkonzept",
+        "Pseudonymisierung oder Anonymisierung von Daten, wo immer möglich",
+        "Öffentliche Veröffentlichung aller Sensordaten im Internet",
+        "Speichern von Passwörtern im Klartext in den Logs"
+      ],
+      "answer": 2,
+      "explanation": "Pseudonymisierung oder Anonymisierung personenbezogener Daten kann helfen, Datenschutzrisiken zu verringern, indem direkte Bezüge zu einzelnen Personen entfernt oder erschwert werden.",
+      "weight": 2,
+      "topic": "Datenschutz im IoT",
+      "concept": "Pseudonymisierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Datenschutz durch Pseudonymisierung im IoT",
+        "steps": [
+          "Identifiziere personenbezogene oder sensible Daten.",
+          "Überlege, ob direkte Identifikatoren entfernt oder ersetzt werden können.",
+          "Wende Pseudonymisierung oder Anonymisierung an, um Rückschlussmöglichkeiten zu reduzieren."
+        ],
+        "content": "Viele IoT-Anwendungen erfassen Daten, die Rückschlüsse auf Personen zulassen, etwa Bewegungsmuster oder Gesundheitsdaten. Durch Pseudonymisierung werden direkte Identifikatoren wie Namen durch Codes ersetzt. Anonymisierung geht noch weiter und soll eine Re-Identifikation praktisch verhindern. Diese Maßnahmen reduzieren das Risiko bei Datenlecks und helfen bei der Einhaltung von Datenschutzvorgaben."
+      },
+      "mini_glossary": [
+        {
+          "term": "Pseudonymisierung",
+          "definition": "Ersetzung direkter Identifikatoren durch Kennungen, sodass Betroffene nicht mehr unmittelbar identifizierbar sind."
+        },
+        {
+          "term": "Anonymisierung",
+          "definition": "Verfahren, das eine Re-Identifikation einzelner Personen aus den Daten weitgehend verhindern soll."
+        }
+      ]
+    },
+    {
+      "question": "23. Ein IoT-Gerät soll über eine unsichere Funkverbindung Daten an einen Server senden. Welche Technik schützt die Vertraulichkeit der übertragenen Daten am direktesten?",
+      "options": [
+        "Datenkompression",
+        "Verschlüsselung der Daten vor der Übertragung",
+        "Erhöhung der Sendeleistung",
+        "Verwendung von Klartextpasswörtern",
+        "Deaktivierung aller Authentifizierungsmechanismen"
+      ],
+      "answer": 1,
+      "explanation": "Verschlüsselung sorgt dafür, dass abgefangene Daten ohne die passenden Schlüssel nicht gelesen werden können und schützt damit die Vertraulichkeit der Kommunikation.",
+      "weight": 2,
+      "topic": "Sicherheit im IoT",
+      "concept": "Verschlüsselung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Vertraulichkeit durch Verschlüsselung",
+        "steps": [
+          "Analysiere, welche Bedrohung besteht (z.B. Abhören der Funkstrecke).",
+          "Bewerte, welche Sicherheitsziele gefährdet sind (Vertraulichkeit, Integrität).",
+          "Identifiziere Verschlüsselung als Maßnahme zum Schutz der Vertraulichkeit."
+        ],
+        "content": "Auf unsicheren Übertragungswegen können Angreifer Daten leicht mitschneiden. Verschlüsselung sorgt dafür, dass die Inhalte für Dritte unlesbar bleiben, solange diese nicht über den passenden Schlüssel verfügen. In IoT-Systemen ist es daher wichtig, geeignete kryptografische Verfahren einzusetzen, die zur Rechenleistung der Geräte passen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Vertraulichkeit",
+          "definition": "Sicherheitsziel, das sicherstellen soll, dass Informationen nur von berechtigten Personen oder Systemen gelesen werden können."
+        },
+        {
+          "term": "Verschlüsselung",
+          "definition": "Verfahren, das Klartext in Geheimtext umwandelt, um unbefugtes Lesen zu verhindern."
+        }
+      ]
+    },
+    {
+      "question": "24. In einem vernetzten Gebäudemanagementsystem werden Heizungen, Jalousien und Beleuchtung über ein gemeinsames IoT-Netzwerk gesteuert. Welche Kombination von Risiken ist für dieses System besonders kritisch, wenn die Sicherheit vernachlässigt wird?",
+      "options": [
+        "Keine Gefährdung, da nur unkritische Systeme beteiligt sind",
+        "Erhöhte Papierkosten und Druckerstaus",
+        "Unbefugte Zugriffe auf Steuerfunktionen, mögliche physische Schäden und Datenschutzprobleme durch Bewegungsprofile",
+        "Lediglich eine verringerte Bildschirmauflösung auf den Bedienpanels",
+        "Nur ein minimal erhöhter Stromverbrauch ohne weitere Folgen"
+      ],
+      "answer": 2,
+      "explanation": "In Gebäudemanagementsystemen können unbefugte Zugriffe direkte physische Folgen haben, etwa falsches Heizen oder Blockieren von Jalousien. Zusätzlich können Daten zu Anwesenheit und Bewegung von Personen ausgewertet werden, was Datenschutzrisiken birgt.",
+      "weight": 3,
+      "topic": "Sicherheit und Datenschutz im IoT",
+      "concept": "Risikoanalyse IoT-Gebäudeautomation",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse von Risiken in IoT-Gebäudeautomationssystemen",
+        "steps": [
+          "Identifiziere die gesteuerten physischen Komponenten (Heizung, Jalousien, Beleuchtung).",
+          "Überlege, welche Auswirkungen ein unbefugter Zugriff auf diese Komponenten haben kann.",
+          "Beziehe zusätzlich erfasste Daten, wie Anwesenheits- oder Bewegungsinformationen, in die Datenschutzbetrachtung ein."
+        ],
+        "content": "Ein vernetztes Gebäudemanagementsystem steuert zentrale Funktionen eines Gebäudes. Wird die Sicherheit vernachlässigt, können Angreifer unbefugt Zugriff auf Heizungen, Jalousien oder Beleuchtung erhalten und so Komfort, Energieverbrauch und im Extremfall Sicherheit beeinträchtigen. Zudem erlauben Sensordaten aus solchen Systemen oft Rückschlüsse auf die Anwesenheit und Bewegungsmuster von Personen, was erhebliche Datenschutzrisiken birgt. Die Analyse muss daher sowohl physische als auch informationelle Risiken berücksichtigen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Gebäudeautomation",
+          "definition": "Automatisierte Steuerung technischer Gebäudeausrüstung wie Heizung, Lüftung, Licht und Sonnenschutz."
+        },
+        {
+          "term": "Risikobetrachtung",
+          "definition": "Systematische Analyse von Bedrohungen, Schwachstellen und möglichen Auswirkungen."
+        }
+      ]
+    },
+    {
+      "question": "25. Warum ist Energieeffizienz bei vielen IoT-Geräten ein zentraler Entwurfsfaktor?",
+      "options": [
+        "Weil alle IoT-Geräte mit Kernkraft betrieben werden",
+        "Weil viele IoT-Geräte batteriebetrieben sind oder nur begrenzt Energie zur Verfügung haben",
+        "Weil Energieverbrauch für die Funktion von IoT-Geräten keine Rolle spielt",
+        "Weil IoT-Geräte nur im ausgeschalteten Zustand Daten senden",
+        "Weil energieineffiziente Geräte leichter zu programmieren sind"
+      ],
+      "answer": 1,
+      "explanation": "Viele IoT-Geräte sind batteriebetrieben oder nur schwer mit Strom zu versorgen. Energieeffizienter Betrieb verlängert die Lebensdauer und reduziert Wartungsaufwand.",
+      "weight": 1,
+      "topic": "Energieeffizienz im IoT",
+      "concept": "Ressourcenbeschränkung Energie",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Energieeffizienz",
+          "definition": "Verhältnis zwischen erbrachter Leistung und eingesetzter Energie; hohe Effizienz bedeutet geringer Energieverbrauch pro Funktion."
+        },
+        {
+          "term": "Batteriebetrieb",
+          "definition": "Versorgung eines Geräts ausschließlich über Batterien oder Akkus ohne dauerhafte Netzstromanbindung."
+        }
+      ]
+    },
+    {
+      "question": "26. Ein Entwicklerteam plant ein IoT-System mit häufigen Funkübertragungen und hoher Messfrequenz. Welche Maßnahme trägt besonders zur Verlängerung der Batterielaufzeit bei?",
+      "options": [
+        "Erhöhung der Sendeleistung, um jede Nachricht stärker zu übertragen",
+        "Versenden aller Sensordaten in voller Auflösung ohne Filterung",
+        "Reduktion der Sendehäufigkeit durch lokale Zwischenspeicherung oder Aggregation",
+        "Verzicht auf Schlafmodi des Mikrocontrollers",
+        "Dauerhafte Aktivierung aller Funkmodule, auch wenn keine Daten anfallen"
+      ],
+      "answer": 2,
+      "explanation": "Funkübertragungen sind oft besonders energieintensiv. Durch Reduktion der Sendehäufigkeit, beispielsweise mittels Aggregation oder Event-basierter Übertragung, kann die Batterielaufzeit deutlich verlängert werden.",
+      "weight": 2,
+      "topic": "Energieeffizienz im IoT",
+      "concept": "Sendehäufigkeit und Batterielaufzeit",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Optimierung der Batterielaufzeit durch Kommunikationsreduzierung",
+        "steps": [
+          "Identifiziere energieintensive Komponenten, insbesondere Funkmodule.",
+          "Prüfe, welche Daten wirklich zeitkritisch übertragen werden müssen.",
+          "Führe lokale Pufferung, Aggregation oder Event-basiertes Senden ein."
+        ],
+        "content": "In vielen IoT-Geräten ist der Funktransceiver einer der größten Energieverbraucher. Wenn jedes einzelne Messereignis sofort gesendet wird, sinkt die Batterielaufzeit stark. Durch Aggregation oder Zwischenspeicherung können mehrere Messungen in einer Übertragung zusammengefasst oder nur relevante Änderungen gesendet werden. Dies reduziert die Gesamtanzahl der Funkübertragungen und spart Energie."
+      },
+      "mini_glossary": [
+        {
+          "term": "Messfrequenz",
+          "definition": "Anzahl der Messungen pro Zeitintervall, z.B. Messungen pro Sekunde."
+        },
+        {
+          "term": "Schlafmodus",
+          "definition": "Betriebszustand eines Mikrocontrollers, in dem Teile der Hardware abgeschaltet werden, um Energie zu sparen."
+        }
+      ]
+    },
+    {
+      "question": "27. Ein Stadtwerk plant ein IoT-basiertes Smart-Metering-System, bei dem Energiezähler in Haushalten ihren Verbrauch regelmäßig melden. Analysieren Sie, welche architektonische Entscheidung dabei besonders wichtig ist, um sowohl Skalierbarkeit als auch Datenschutz zu berücksichtigen.",
+      "options": [
+        "Alle Messwerte werden unverschlüsselt mit Klarnamen der Bewohner öffentlich ins Internet gestreamt.",
+        "Jeder Zähler baut eine dauerhafte Punkt-zu-Punkt-Verbindung zu jedem anderen Zähler auf, um Daten auszutauschen.",
+        "Eine skalierbare zentrale Plattform mit gesicherter Kommunikation und Pseudonymisierung der Verbrauchsdaten wird verwendet.",
+        "Die Daten werden ausschließlich auf Papier erfasst und niemals digitalisiert.",
+        "Es werden keine Authentifizierungsmaßnahmen implementiert, um das System zu vereinfachen."
+      ],
+      "answer": 2,
+      "explanation": "Für ein Smart-Metering-System mit vielen Zählern ist eine skalierbare Plattform mit gesicherter Kommunikation essenziell. Pseudonymisierung hilft zusätzlich, Datenschutzanforderungen zu erfüllen, ohne die Auswertbarkeit zu verlieren.",
+      "weight": 3,
+      "topic": "IoT-Anwendungsarchitekturen",
+      "concept": "Smart Metering Architektur",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse von Skalierbarkeit und Datenschutz bei Smart Metering",
+        "steps": [
+          "Bewerte die Anzahl der zu integrierenden Zähler und die Datenfrequenz.",
+          "Überlege, wie Daten zentral gesammelt und skaliert verarbeitet werden können.",
+          "Berücksichtige Datenschutzanforderungen durch geeignete Maßnahmen wie Pseudonymisierung und verschlüsselte Übertragung."
+        ],
+        "content": "Smart-Metering-Systeme erfassen Energieverbrauchsdaten vieler Haushalte. Eine skalierbare zentrale Plattform, die mit sicheren Protokollen kommuniziert, ermöglicht es, große Datenmengen zuverlässig zu verarbeiten. Gleichzeitig sind Verbrauchsdaten sensibel, da sie Rückschlüsse auf Anwesenheit und Verhalten zulassen. Pseudonymisierung und verschlüsselte Kommunikation sind daher entscheidende Architekturentscheidungen, um Skalierbarkeit mit Datenschutz in Einklang zu bringen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Smart Metering",
+          "definition": "Erfassung und Auswertung von Energieverbrauchsdaten mit intelligenten, vernetzten Zählern."
+        },
+        {
+          "term": "Skalierbarkeit",
+          "definition": "Fähigkeit eines Systems, bei wachsender Last effizient zu bleiben und erweitert werden zu können."
+        }
+      ]
+    },
+    {
+      "question": "28. Welche Aussage beschreibt treffend die Rolle von Middleware in IoT-Systemen?",
+      "options": [
+        "Middleware ist ausschließlich eine Hardwarekomponente zur Spannungsversorgung.",
+        "Middleware verbindet unterschiedliche IoT-Komponenten, abstrahiert Heterogenität und stellt gemeinsame Dienste bereit.",
+        "Middleware ersetzt alle Sensoren und Aktoren im System.",
+        "Middleware besteht nur aus Benutzeroberflächen für Endanwender.",
+        "Middleware dient nur zur Herstellung von Netzwerksteckern."
+      ],
+      "answer": 1,
+      "explanation": "Middleware-Komponenten vermitteln zwischen heterogenen Geräten, Protokollen und Anwendungen. Sie bieten Dienste wie Geräteverwaltung, Messaging, Protokollübersetzung und Datenverarbeitung.",
+      "weight": 1,
+      "topic": "IoT-Plattformen und Middleware",
+      "concept": "Middleware-Rolle",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Middleware",
+          "definition": "Software-Schicht, die zwischen Betriebssystem und Anwendungen oder zwischen verteilten Komponenten Vermittlungsfunktionen bietet."
+        },
+        {
+          "term": "Heterogenität",
+          "definition": "Vielfalt unterschiedlicher Geräte, Protokolle und Technologien in einem System."
+        }
+      ]
+    },
+    {
+      "question": "29. In einem verteilten IoT-System sollen hunderte Sensoren sicher mit einem zentralen Dienst kommunizieren. Welche Maßnahme unterstützt insbesondere die sichere Verwaltung der Sensoridentitäten?",
+      "options": [
+        "Verwendung eines gemeinsamen, festen Passworts für alle Sensoren",
+        "Einsatz von Zertifikaten oder eindeutigen Schlüsselpaaren pro Gerät",
+        "Verzicht auf jede Form von Authentifizierung",
+        "Speicherung der Identität ausschließlich in unverschlüsselten Textdateien auf den Sensoren",
+        "Abschalten der Protokollierung von Verbindungen"
+      ],
+      "answer": 1,
+      "explanation": "Zertifikate oder individuelle Schlüsselpaaren pro Gerät ermöglichen eine starke Authentifizierung und eindeutige Zuordnung von Verbindungen zu konkreten Sensoren.",
+      "weight": 2,
+      "topic": "Sicherheit im IoT",
+      "concept": "Geräteidentität und Authentifizierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Verwaltung von Geräteidentitäten mittels Zertifikaten",
+        "steps": [
+          "Identifiziere die Notwendigkeit, Geräte eindeutig zu unterscheiden.",
+          "Bewerte Sicherheitsrisiken gemeinsamer Zugangsdaten.",
+          "Nutze eindeutige kryptografische Identitäten zur sicheren Authentifizierung."
+        ],
+        "content": "In größeren IoT-Systemen ist es wichtig, dass jede Verbindung einem spezifischen Gerät eindeutig zugeordnet werden kann. Gemeinsame Passwörter sind unsicher und schwer zu verwalten. Zertifikate oder Schlüsselpaaren pro Gerät ermöglichen eine starke, skalierbare Authentifizierung und erleichtern das Sperren kompromittierter Geräte, ohne das gesamte System zu gefährden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Zertifikat",
+          "definition": "Digital signierter Nachweis, der einen öffentlichen Schlüssel mit einer Identität verknüpft."
+        },
+        {
+          "term": "Authentifizierung",
+          "definition": "Überprüfung, ob eine Partei tatsächlich die behauptete Identität besitzt."
+        }
+      ]
+    },
+    {
+      "question": "30. In einem vernetzten Verkehrsmanagementsystem liefern Sensoren an Ampeln und Fahrzeugen Daten, um Staus zu vermeiden. Analysieren Sie, welche Aufteilung der Verarbeitung zwischen Edge und Cloud sinnvoll ist, um sowohl Reaktionsgeschwindigkeit als auch langfristige Optimierung zu erreichen.",
+      "options": [
+        "Alle Entscheidungen werden ausschließlich einmal jährlich in der Cloud getroffen, während am Edge keine Auswertung erfolgt.",
+        "Alle Analysen finden ausschließlich in den Sensoren statt, ohne Datenübertragung.",
+        "Kurzfristige Entscheidungen wie Ampelschaltungen erfolgen nahe an der Quelle (Edge), während die Cloud historische Daten für langfristige Optimierungen auswertet.",
+        "Sämtliche Daten werden nur in Dateien gespeichert, ohne jemals analysiert zu werden.",
+        "Es wird keinerlei Verarbeitung durchgeführt, nur zufällige Steuerung der Ampeln."
+      ],
+      "answer": 2,
+      "explanation": "Zeitkritische Steuerungen wie Ampelphasen benötigen geringe Latenzen und eignen sich für Edge-Verarbeitung. Die Cloud kann große Datenmengen historisch analysieren, um Muster zu erkennen und Regeln langfristig zu optimieren.",
+      "weight": 3,
+      "topic": "IoT-Systemarchitektur",
+      "concept": "Edge-Cloud-Aufgabenteilung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analyse der Edge-Cloud-Aufgabenteilung im Verkehrsmanagement",
+        "steps": [
+          "Identifiziere Komponenten mit hohen Echtzeitanforderungen, etwa Ampelschaltungen.",
+          "Bestimme Aufgaben, die von historischer Datenauswertung profitieren, z.B. Mustererkennung von Staus.",
+          "Verteile die Aufgaben so, dass Edge-komponenten zeitkritische Entscheidungen treffen und die Cloud für langfristige Analysen genutzt wird."
+        ],
+        "content": "Verkehrsmanagement erfordert sowohl schnelle Reaktionen auf aktuelle Situationen als auch langfristige Optimierungen. Ampeln müssen in Sekundenbruchteilen auf Verkehrsströme reagieren, weshalb eine Verarbeitung nahe an den Sensoren, also an der Edge, sinnvoll ist. Die Cloud hingegen kann große Mengen historischer Verkehrsdaten sammeln, analysieren und daraus optimierte Steuerstrategien ableiten. Eine solche Aufgabenteilung kombiniert geringe Latenz mit tiefgehender Analyse."
+      },
+      "mini_glossary": [
+        {
+          "term": "Verkehrsmanagementsystem",
+          "definition": "System zur Erfassung und Steuerung von Verkehr, etwa durch Sensoren, Ampeln und zentrale Leitstellen."
+        },
+        {
+          "term": "Latenzanforderung",
+          "definition": "Anforderung an die maximale tolerierte Verzögerung zwischen Ereignis und Reaktion."
+        }
+      ]
+    }
+  ]
+}
