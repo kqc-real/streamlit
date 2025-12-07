@@ -2777,12 +2777,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         thema = frage_obj.get("thema", "")
         
         # Starte Question-Box mit farbigem Rahmen
-        # Insert a subtle separator before each question so the PDF shows
-        # a consistent divider line prior to every question block.
-        try:
-            html_body += '<div class="muster-concept-sep" aria-hidden="true"></div>'
-        except Exception:
-            pass
+        # Page-breaks between question boxes are controlled by CSS
+        # (use .question-box + .question-box). Remove the decorative
+        # separator here to avoid orphaned divider lines at the end
+        # of questions when explanations fall at a page boundary.
         html_body += f'<div class="question-box" style="border-left: 4px solid {border_color};">'
         
         # Status-Anzeige (Richtig, Falsch, Unbeantwortet)
@@ -3815,6 +3813,10 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     sorted_entries = _prepare_stage_sorted_questions(questions)
 
     # Nummeriere die Fragen nach Bloom-Taxonomie geordnet
+    # Use the sorted/filtered entries for all display-related counting so
+    # we don't accidentally compare the rendered index against the raw
+    # `questions` list (which may differ in length). This avoids appending
+    # the trailing separator when the last *displayed* question is reached.
     for display_num, (_, stage_label, _, frage) in enumerate(sorted_entries, start=1):
         # coarse progress report: parsing/rendering block per question
         _report(int((display_num - 1) / max(1, len(questions)) * 60), f"Verarbeite Frage {display_num}/{len(questions)}")
