@@ -504,8 +504,13 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
 
     # Ensure we don't trim away required core columns. Keep at least 6
     # columns (question, options, correct, explanation, extended, glossary).
+    # Additionally, keep the 'Konzept' column (index 8) so Anki previews
+    # and the .apkg generator always see the concept field even when many
+    # optional trailing columns are empty.
     MIN_COLUMNS = 6
-    final_cols = max(last_nonempty + 1, MIN_COLUMNS)
+    # Position (0-based) of the 'Konzept' column in the Anki column layout.
+    KONZEPT_INDEX = 8
+    final_cols = max(last_nonempty + 1, MIN_COLUMNS, KONZEPT_INDEX + 1)
 
     # Write rows with a consistent column count, trimming trailing empty
     # optional columns while preserving core fields.

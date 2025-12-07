@@ -1,0 +1,1309 @@
+{
+  "counts": {
+    "Scrum-Definition": 1,
+    "Sprint-Grundlagen": 1,
+    "Scrum-Rollenüberblick": 1,
+    "Inkrementelles Arbeiten": 1,
+    "Rolle Scrum Master": 1,
+    "Schutz des Teams und Verantwortlichkeiten": 1,
+    "Umgang mit Überlast im Sprint": 1,
+    "Cross-funktionale, selbstorganisierte Teams": 1,
+    "Daily Scrum": 1,
+    "Unterschied Review und Retrospektive": 1,
+    "Ergebnis Sprint Planning": 1,
+    "Timebox Daily Scrum": 1,
+    "Product Backlog Zweck": 1,
+    "Verantwortung für Product und Sprint Backlog": 1,
+    "Produktinkrement": 1,
+    "Transparenz der Artefakte": 1,
+    "Ziel des Refinements": 1,
+    "Priorisierung und Stakeholdermanagement": 1,
+    "Priorisierungskriterien": 1,
+    "Qualität von Backlog-Einträgen": 1,
+    "Zweck von Story Points": 1,
+    "Sinnvolle Nutzung von Velocity": 1,
+    "Input für Sprint Planning": 1,
+    "Technische Aufgaben im Product Backlog": 1,
+    "Agile Werte und Scrum": 1,
+    "Wertekonflikt Prozesse vs. Zusammenarbeit": 1,
+    "Selbstorganisation in Scrum": 1,
+    "Inspect and Adapt": 1,
+    "Definition of Done": 1,
+    "Qualität vs. Umfang": 1,
+    "Technische Schuld in Scrum": 1,
+    "Qualitätssicherung im Sprint": 1,
+    "Drei Säulen von Scrum": 1,
+    "Wirksame Retrospektiven": 1,
+    "Rolle der Scrum-Events": 1,
+    "Sinnvolle Nutzung von Metriken": 1,
+    "Koordination mehrerer Teams": 1,
+    "Product Owner in skalierten Umgebungen": 1,
+    "Umgang mit Abhängigkeiten": 1,
+    "Integration in skalierten Systemen": 1,
+    "Konvergenz und Summation von Reihen": 1,
+    "Konvergenz von Folgen und Definition der Eulerschen Zahl": 1,
+    "Punktweise und gleichmäßige Konvergenz von Funktionenfolgen": 1,
+    "Diagonalisierbarkeit und geometrische Multiplikität": 1,
+    "Minimalpolynom und Jordansche Normalform": 1,
+    "Definition IoT": 1,
+    "IoT-Geräteeigenschaften": 1,
+    "Smart Home": 1,
+    "Industrie 4.0": 1,
+    "Architekturschichten": 1,
+    "Edge-Ebene": 1,
+    "IoT-Gateway": 1,
+    "Thing-Begriff": 1,
+    "MQTT-Protokoll": 1,
+    "CoAP vs. HTTP": 1,
+    "Schichtenmodell": 1,
+    "Low-Power-WAN": 1,
+    "Publish/Subscribe-Muster": 1,
+    "IPv6 und IoT": 1,
+    "REST und HTTP": 1,
+    "Edge Computing": 1,
+    "Datenaggregation am Gateway": 1,
+    "IoT-Plattform-Funktionalität": 1,
+    "Mustererkennung und ML": 1,
+    "Stream Processing": 1,
+    "Standardpasswörter": 1,
+    "Pseudonymisierung": 1,
+    "Verschlüsselung": 1,
+    "Risikoanalyse IoT-Gebäudeautomation": 1,
+    "Ressourcenbeschränkung Energie": 1,
+    "Sendehäufigkeit und Batterielaufzeit": 1,
+    "Smart Metering Architektur": 1,
+    "Middleware-Rolle": 1,
+    "Geräteidentität und Authentifizierung": 1,
+    "Edge-Cloud-Aufgabenteilung": 1,
+    "Dokumentenklasse": 1,
+    "Dokumentenumgebung": 1,
+    "Kommentare": 1,
+    "Zeilenumbruch": 1,
+    "Schriftauszeichnung": 1,
+    "Grafik-Import": 1,
+    "Tabellensyntax": 1,
+    "Dateitypen": 1,
+    "Verzeichnisse": 1,
+    "Geschütztes Leerzeichen": 1,
+    "Kodierung": 1,
+    "Querverweise": 1,
+    "Semantische Auszeichnung": 1,
+    "Quellcode-Darstellung": 1,
+    "Align-Umgebung": 1,
+    "Float-Platzierung": 1,
+    "Befehlsdefinition": 1,
+    "Tabellenbreite": 1,
+    "Interaktive Dokumente": 1,
+    "Fußnoten": 1,
+    "Listen": 1,
+    "Mathe-Fonts": 1,
+    "BibTeX Einbindung": 1,
+    "Seitenumbruch": 1,
+    "Display-Style": 1,
+    "Hilfsdateien": 1,
+    "Captions": 1,
+    "Titelseite": 1,
+    "Verbatim": 1,
+    "Barrierefreiheit": 1,
+    "Tabellen-Merge": 1,
+    "BibLaTeX Setup": 1,
+    "Zentrierung": 1,
+    "Modulare Dokumente": 1,
+    "Mathe-Modus Fehler": 1,
+    "TOC-Tiefe": 1,
+    "Absatzeinzug": 1,
+    "PDF-Import": 1,
+    "Argumente": 1,
+    "Kompilierkette": 1,
+    "Float-Queue": 1,
+    "Sicherheit bei Makros": 1,
+    "Konsistenz": 1,
+    "Encoding-Probleme": 1,
+    "Interne Logik von Include": 1,
+    "Operatoren": 1,
+    "Lokalisierung anpassen": 1,
+    "Algorithmen-Satz": 1,
+    "Encoding Mismatch": 1,
+    "Symmetrische Differenz": 2,
+    "Potenzmenge": 1,
+    "Injektivität": 1,
+    "Implikation": 1,
+    "Quantorennegation": 1,
+    "Rekursionsauflösung": 1,
+    "Basisumrechnung": 1,
+    "Induktionsschritt": 1,
+    "Tautologie": 1,
+    "Mengenschreibweise": 1,
+    "Kartesisches Produkt": 1,
+    "Kontraposition": 2,
+    "Widerspruchsbeweis": 1,
+    "Hexadezimal": 1,
+    "Anzahl Abbildungen": 1,
+    "Neutrales Element": 1,
+    "Gegenbeispiel": 1,
+    "Binärarithmetik": 1,
+    "Transitivität": 1,
+    "De Morgan": 1,
+    "Abzählbarkeit": 1,
+    "Teilmenge": 1,
+    "Basisfall": 1,
+    "Mutability": 1,
+    "XOR": 1,
+    "Leere Menge": 1,
+    "De Morgan II": 1,
+    "Äquivalenzrelation": 1,
+    "Induktionsschluss": 1,
+    "Intervalle": 1,
+    "De Morgan Anwendung": 1,
+    "Kardinalität": 1,
+    "Gegenbeispiel Injektivität": 1,
+    "Definition Teilbarkeit": 1,
+    "Restklassen": 1,
+    "Binärumrechnung": 1,
+    "Hexadezimalumrechnung": 1,
+    "Restberechnung": 1,
+    "ggT Berechnung": 1,
+    "Erweiterter Euklid": 1,
+    "RSA-Sicherheit": 1,
+    "Diffie-Hellman": 1,
+    "Körper-Axiome": 1,
+    "Hash-Funktion": 1,
+    "Vollständige Induktion": 1,
+    "Rekursion": 1,
+    "Ring vs. Körper": 1,
+    "Endliche Körper": 1,
+    "Hash-Kollision": 1,
+    "Speicherbedarf": 1,
+    "Lösbarkeit Kongruenzen": 1,
+    "Algorithmen": 1,
+    "Asymmetrische Verschlüsselung": 1,
+    "Unendlichkeit der Primzahlen": 1,
+    "Sicherheitsanalyse": 1,
+    "Schlüssellänge": 1,
+    "Kongruenz vs Identität": 1,
+    "Existenz von Inversen": 1,
+    "Angriffsszenario Kollision": 1,
+    "Fehleranalyse in Beweisen": 1,
+    "Kerckhoffs’ Prinzip": 1
+  },
+  "samples": {
+    "Scrum-Definition": [
+      {
+        "question": "1. Wie lässt sich Scrum am treffendsten beschreiben?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Sprint-Grundlagen": [
+      {
+        "question": "2. Welche Aussage zu Sprints in Scrum ist korrekt?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Scrum-Rollenüberblick": [
+      {
+        "question": "3. Welche der folgenden Rollen ist explizit eine definierte Rolle in Scrum?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Inkrementelles Arbeiten": [
+      {
+        "question": "4. Was bedeutet der Begriff „inkrementell“ im Kontext von Scrum am ehesten?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Rolle Scrum Master": [
+      {
+        "question": "5. Was ist die zentrale Verantwortung des Scrum Masters?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Schutz des Teams und Verantwortlichkeiten": [
+      {
+        "question": "6. Eine Fachabteilung versucht während des laufenden Sprints, direkt Entwicklerinnen/Entwickler mit neuen, dringenden Anforderungen zu beauftragen. Wie sollte der Scrum Master in einer reifen Scrum-Or",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Umgang mit Überlast im Sprint": [
+      {
+        "question": "7. Das Entwicklungsteam erkennt zur Sprint-Hälfte, dass nicht alle Sprint-Backlog-Einträge fertig werden. Wie wird in Scrum typischerweise vorgegangen?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Cross-funktionale, selbstorganisierte Teams": [
+      {
+        "question": "8. Warum sind in Scrum cross-funktionale, selbstorganisierte Teams vorgesehen?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Daily Scrum": [
+      {
+        "question": "9. Ein Team nutzt das Daily Scrum bisher als ausführliches Statusmeeting mit detaillierten Berichten an den Scrum Master. Wie sollte das Daily Scrum gemäß Scrum verstanden werden?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Unterschied Review und Retrospektive": [
+      {
+        "question": "10. Wie unterscheidet sich das Sprint Review inhaltlich und vom Ziel her am deutlichsten von der Sprint Retrospektive?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Ergebnis Sprint Planning": [
+      {
+        "question": "11. Welches Ergebnis sollte zwingend aus dem Sprint Planning hervorgehen?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Timebox Daily Scrum": [
+      {
+        "question": "12. Ein neues Team diskutiert, ob das Daily Scrum auf 45 Minuten verlängert werden kann, da viele Themen zu besprechen sind. Was ist die passende Scrum-konforme Empfehlung?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Product Backlog Zweck": [
+      {
+        "question": "13. Wofür wird das Product Backlog in Scrum primär verwendet?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Verantwortung für Product und Sprint Backlog": [
+      {
+        "question": "14. Wie beschreibt man das Verhältnis von Product Backlog und Sprint Backlog am besten in Bezug auf Verantwortung und Inhalt?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Produktinkrement": [
+      {
+        "question": "15. Welche Aussage beschreibt ein Produktinkrement in Scrum korrekt?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Transparenz der Artefakte": [
+      {
+        "question": "16. Was ist ein typisches Beispiel dafür, wie Transparenz der Scrum-Artefakte hergestellt wird?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Ziel des Refinements": [
+      {
+        "question": "17. Was ist das Hauptziel der Product Backlog Refinement Aktivitäten?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Priorisierung und Stakeholdermanagement": [
+      {
+        "question": "18. Mehrere Stakeholder vertreten gegensätzliche Anforderungen an das Produkt und drängen auf höchste Priorität ihrer Themen. Wie geht ein kompetenter Product Owner in Scrum typischerweise damit um?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Priorisierungskriterien": [
+      {
+        "question": "19. Welches Kriterium ist bei der Priorisierung des Product Backlogs aus Scrum-Sicht besonders wichtig?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Qualität von Backlog-Einträgen": [
+      {
+        "question": "20. Welche Beschreibung eines guten Product-Backlog-Eintrags passt am besten zu Scrum-Praktiken?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Zweck von Story Points": [
+      {
+        "question": "21. Wofür werden in Scrum typischerweise Story Points verwendet?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Sinnvolle Nutzung von Velocity": [
+      {
+        "question": "22. Das Management fordert, dass die Velocity des Teams jeden Sprint steigen müsse und möchte Teams anhand der Velocity vergleichen. Wie sollte ein erfahrener Scrum Master darauf reagieren?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Input für Sprint Planning": [
+      {
+        "question": "23. Welche Informationen sind für ein sinnvolles Sprint Planning besonders wichtig?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Technische Aufgaben im Product Backlog": [
+      {
+        "question": "24. Wie geht ein Scrum-Team sinnvoll mit sehr technisch formulierten Aufgaben um, die für die Qualität nötig sind, aber keinen direkten Business-Mehrwert ausdrücken?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Agile Werte und Scrum": [
+      {
+        "question": "25. Welcher Wert des Agilen Manifests passt am besten zu Scrum?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Wertekonflikt Prozesse vs. Zusammenarbeit": [
+      {
+        "question": "26. In einem Unternehmen werden Entwicklerinnen/Entwickler stark für die Einhaltung detaillierter Prozesse bewertet, während Zusammenarbeit mit Stakeholdern wenig Beachtung findet. Welcher Konflikt mi",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Selbstorganisation in Scrum": [
+      {
+        "question": "27. Was ist ein charakteristisches Merkmal von Selbstorganisation in Scrum?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Inspect and Adapt": [
+      {
+        "question": "28. Welche Kombination beschreibt das Prinzip „Inspect and Adapt“ in Scrum am besten?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Definition of Done": [
+      {
+        "question": "29. Welche Aussage zur Definition of Done (DoD) ist korrekt?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Qualität vs. Umfang": [
+      {
+        "question": "30. Ein Team liefert Inkremente, die zwar funktional sind, aber häufig nicht ausreichend getestet und dokumentiert wurden, weil die Zeit im Sprint knapp war. Was ist aus Scrum-Sicht die beste Reaktion",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Technische Schuld in Scrum": [
+      {
+        "question": "31. Wie passt der Umgang mit technischer Schuld („Technical Debt“) typischerweise in Scrum?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Qualitätssicherung im Sprint": [
+      {
+        "question": "32. Welche Praxis unterstützt ein Scrum-Team unmittelbar dabei, die Qualität während des Sprints hoch zu halten?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Drei Säulen von Scrum": [
+      {
+        "question": "33. Ein Team möchte seine Arbeitsweise stärker an den empirischen Prinzipien von Scrum ausrichten. Auf welche drei Säulen sollte es dabei besonders achten?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Wirksame Retrospektiven": [
+      {
+        "question": "34. Ein Team stellt fest, dass es zwar regelmäßig Retrospektiven durchführt, aber beschlossene Verbesserungsmaßnahmen kaum umgesetzt werden. Wie lässt sich dieses Problem im Sinne der empirischen Proz",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Rolle der Scrum-Events": [
+      {
+        "question": "35. Wie tragen die vier Scrum-Events gemeinsam zur kontinuierlichen Verbesserung bei?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Sinnvolle Nutzung von Metriken": [
+      {
+        "question": "36. Wie sollte ein Scrum-Team mit Metriken wie Durchlaufzeit oder Anzahl erledigter Einträge umgehen?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Koordination mehrerer Teams": [
+      {
+        "question": "37. Mehrere Scrum-Teams arbeiten an demselben Produkt. Welche Aussage beschreibt eine sinnvolle Koordination im Sinne agiler Skalierung?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Product Owner in skalierten Umgebungen": [
+      {
+        "question": "38. In einem skalierten Umfeld mit mehreren Teams gibt es Diskussionen, ob jedes Team einen eigenen Product Owner mit eigener Prioritätenliste erhalten soll. Welche Lösung passt am besten zu einem pro",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Umgang mit Abhängigkeiten": [
+      {
+        "question": "39. Wie kann ein Team in einem skalierten Scrum-Umfeld Abhängigkeiten zu anderen Teams am besten handhabbar machen?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Integration in skalierten Systemen": [
+      {
+        "question": "40. In einem skalierten Umfeld kommt es bei jedem Release zu Integrationsproblemen zwischen den Inkrementen der Teams. Welche Maßnahme ist im Sinne von Scrum und Empirie am wirkungsvollsten?",
+        "file": "data/questions_Agiles_PM_mit_Scrum.json"
+      }
+    ],
+    "Konvergenz und Summation von Reihen": [
+      {
+        "question": "1. Betrachten Sie die Reihe $\\sum_{n=1}^{\\infty} \\frac{n}{2^n}$. Welche Aussage trifft zu?",
+        "file": "data/questions_Höhere_Mathematik.json"
+      }
+    ],
+    "Konvergenz von Folgen und Definition der Eulerschen Zahl": [
+      {
+        "question": "2. Die Folge $(a_n)$ sei definiert durch $a_n = \\left(1 + \\tfrac{1}{n}\\right)^n$. Welche Aussage ist korrekt?",
+        "file": "data/questions_Höhere_Mathematik.json"
+      }
+    ],
+    "Punktweise und gleichmäßige Konvergenz von Funktionenfolgen": [
+      {
+        "question": "3. Für jedes $n \\in \\mathbb{N}$ sei $f_n : [0,1] \\to \\mathbb{R}$ definiert durch $f_n(x) = x^n$. Welche Aussage beschreibt das Konvergenzverhalten von $(f_n)$ korrekt?",
+        "file": "data/questions_Höhere_Mathematik.json"
+      }
+    ],
+    "Diagonalisierbarkeit und geometrische Multiplikität": [
+      {
+        "question": "4. Ein Endomorphismus $T$ eines dreidimensionalen $\\mathbb{C}$-Vektorraums habe charakteristisches Polynom $p_T(\\lambda) = (\\lambda - 1)^2(\\lambda - 2)$. Welche Aussage ist korrekt?",
+        "file": "data/questions_Höhere_Mathematik.json"
+      }
+    ],
+    "Minimalpolynom und Jordansche Normalform": [
+      {
+        "question": "5. Gegeben sei eine Matrix $A \\in \\mathbb{C}^{n\\times n}$. Welche Aussage beschreibt den Zusammenhang zwischen Minimalpolynom $m_A$ und Diagonalisierbarkeit von $A$ korrekt?",
+        "file": "data/questions_Höhere_Mathematik.json"
+      }
+    ],
+    "Definition IoT": [
+      {
+        "question": "1. Was beschreibt den Begriff \"Internet of Things (IoT)\" am treffendsten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "IoT-Geräteeigenschaften": [
+      {
+        "question": "2. Welche Eigenschaft ist typisch für ein IoT-Gerät?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Smart Home": [
+      {
+        "question": "3. Welcher der folgenden Bereiche ist ein typischer Anwendungsbereich von IoT?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Industrie 4.0": [
+      {
+        "question": "4. Welches Ziel wird mit IoT-Lösungen in der Industrie 4.0 typischerweise verfolgt?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Architekturschichten": [
+      {
+        "question": "5. Welche Schicht findet man typischerweise in einer IoT-Referenzarchitektur?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Edge-Ebene": [
+      {
+        "question": "6. Welches Element gehört typischerweise zur Geräte- bzw. Edge-Ebene eines IoT-Systems?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "IoT-Gateway": [
+      {
+        "question": "7. Welche Aussage zur Rolle von Gateways im IoT trifft typischerweise zu?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Thing-Begriff": [
+      {
+        "question": "8. Ein IoT-Sensor sendet periodisch Temperaturwerte an ein Edge-Gateway. Welche Komponente ist in diesem Szenario das \"Thing\" im Sinne des Internet of Things?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "MQTT-Protokoll": [
+      {
+        "question": "9. Welches Kommunikationsprotokoll wird häufig speziell für leichtgewichtige IoT-Anwendungen eingesetzt?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "CoAP vs. HTTP": [
+      {
+        "question": "10. Was ist ein typischer Vorteil von CoAP gegenüber HTTP in IoT-Szenarien?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Schichtenmodell": [
+      {
+        "question": "11. Ein Unternehmen möchte Sensordaten von Maschinen an eine Cloud-Plattform übertragen. Welche Kombination von Schichten beschreibt diesen Weg am besten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Low-Power-WAN": [
+      {
+        "question": "12. Ein Studierender soll entscheiden, ob für ein batteriebetriebenes IoT-Gerät eher Wi-Fi oder ein Low-Power-WAN (z.B. LoRaWAN) genutzt werden sollte. Welche Überlegung ist hier am wichtigsten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Publish/Subscribe-Muster": [
+      {
+        "question": "13. In einem Smart-Home-System senden mehrere Temperatursensoren ihre Messwerte an einen zentralen Broker, und verschiedene Dienste abonnieren diese Daten. Welches Kommunikationsmuster wird hier einge",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "IPv6 und IoT": [
+      {
+        "question": "14. Warum ist IPv6 für das IoT von besonderer Bedeutung?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "REST und HTTP": [
+      {
+        "question": "15. Ein Entwickler möchte Sensorwerte direkt über eine REST-API abfragen. Welches Protokoll auf Anwendungsebene ist dafür am naheliegendsten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Edge Computing": [
+      {
+        "question": "16. Eine Firma möchte Sensorrohdaten nicht vollständig in die Cloud senden, sondern schon am Rand des Netzes vorverarbeiten. Wie nennt man dieses Konzept?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Datenaggregation am Gateway": [
+      {
+        "question": "17. In einem IoT-System werden Messwerte zunächst auf einem Gateway aggregiert, geglättet und nur bei relevanten Änderungen an die Cloud gesendet. Welchen Vorteil bringt diese Vorgehensweise primär?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "IoT-Plattform-Funktionalität": [
+      {
+        "question": "18. Ein Team soll eine IoT-Plattform wählen. Welche Funktion ist für eine solche Plattform besonders typisch?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Mustererkennung und ML": [
+      {
+        "question": "19. In einem Condition-Monitoring-Projekt sollen Schwingungssensoren an Motoren ungewöhnliche Muster frühzeitig erkennen. Wo findet typischerweise die komplexe Mustererkennung statt?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Stream Processing": [
+      {
+        "question": "20. Eine IoT-Anwendung muss Temperaturdaten von mehreren Sensoren in nahezu Echtzeit anzeigen. Welche Art von Verarbeitung ist dafür am geeignetsten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Standardpasswörter": [
+      {
+        "question": "21. Welcher Aspekt ist ein typisches Sicherheitsrisiko im IoT?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Pseudonymisierung": [
+      {
+        "question": "22. Welche Maßnahme eignet sich besonders, um Datenschutz in einem IoT-System zu verbessern, das personenbezogene Sensordaten erfasst?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Verschlüsselung": [
+      {
+        "question": "23. Ein IoT-Gerät soll über eine unsichere Funkverbindung Daten an einen Server senden. Welche Technik schützt die Vertraulichkeit der übertragenen Daten am direktesten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Risikoanalyse IoT-Gebäudeautomation": [
+      {
+        "question": "24. In einem vernetzten Gebäudemanagementsystem werden Heizungen, Jalousien und Beleuchtung über ein gemeinsames IoT-Netzwerk gesteuert. Welche Kombination von Risiken ist für dieses System besonders ",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Ressourcenbeschränkung Energie": [
+      {
+        "question": "25. Warum ist Energieeffizienz bei vielen IoT-Geräten ein zentraler Entwurfsfaktor?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Sendehäufigkeit und Batterielaufzeit": [
+      {
+        "question": "26. Ein Entwicklerteam plant ein IoT-System mit häufigen Funkübertragungen und hoher Messfrequenz. Welche Maßnahme trägt besonders zur Verlängerung der Batterielaufzeit bei?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Smart Metering Architektur": [
+      {
+        "question": "27. Ein Stadtwerk plant ein IoT-basiertes Smart-Metering-System, bei dem Energiezähler in Haushalten ihren Verbrauch regelmäßig melden. Analysieren Sie, welche architektonische Entscheidung dabei beso",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Middleware-Rolle": [
+      {
+        "question": "28. Welche Aussage beschreibt treffend die Rolle von Middleware in IoT-Systemen?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Geräteidentität und Authentifizierung": [
+      {
+        "question": "29. In einem verteilten IoT-System sollen hunderte Sensoren sicher mit einem zentralen Dienst kommunizieren. Welche Maßnahme unterstützt insbesondere die sichere Verwaltung der Sensoridentitäten?",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Edge-Cloud-Aufgabenteilung": [
+      {
+        "question": "30. In einem vernetzten Verkehrsmanagementsystem liefern Sensoren an Ampeln und Fahrzeugen Daten, um Staus zu vermeiden. Analysieren Sie, welche Aufteilung der Verarbeitung zwischen Edge und Cloud sin",
+        "file": "data/questions_IoT.json"
+      }
+    ],
+    "Dokumentenklasse": [
+      {
+        "question": "1. Welcher Befehl muss zwingend am Anfang jeder LaTeX-Datei stehen, um die Art des Dokuments festzulegen?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Dokumentenumgebung": [
+      {
+        "question": "2. In welcher Umgebung wird der eigentliche Inhalt des Dokuments geschrieben, der später im PDF sichtbar ist?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Kommentare": [
+      {
+        "question": "3. Mit welchem Zeichen werden in LaTeX Kommentare eingeleitet, die vom Compiler ignoriert werden?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Zeilenumbruch": [
+      {
+        "question": "4. Welches Zeichen wird verwendet, um einen Zeilenumbruch zu erzwingen, ohne einen neuen Absatz zu beginnen?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Schriftauszeichnung": [
+      {
+        "question": "5. Wie erzeugt man in LaTeX fetten Text?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Grafik-Import": [
+      {
+        "question": "6. Welches Paket ist essentiell, um Bilder in ein LaTeX-Dokument einzubinden?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Tabellensyntax": [
+      {
+        "question": "8. Welches Zeichen wird in Tabellen verwendet, um zur nächsten Spalte zu springen?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Dateitypen": [
+      {
+        "question": "9. Wie lautet die Dateiendung für eine Literaturdatenbank im BibTeX-Format?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Verzeichnisse": [
+      {
+        "question": "10. Was ist der Zweck des Befehls `\\tableofcontents`?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Geschütztes Leerzeichen": [
+      {
+        "question": "11. Sie möchten sicherstellen, dass zwischen 'Prof.' und 'Müller' kein Zeilenumbruch erfolgt. Welchen Befehl nutzen Sie?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Kodierung": [
+      {
+        "question": "12. Sie wollen Umlaute (ä, ö, ü) direkt im Quelltext eingeben können. Welche Kombination von Paketen ist für pdfLaTeX in der Regel notwendig?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Querverweise": [
+      {
+        "question": "13. Wie referenzieren Sie im Text korrekt auf ein Kapitel mit dem Label `sec:einleitung`?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Semantische Auszeichnung": [
+      {
+        "question": "14. Sie möchten ein Wort im Text hervorheben, indem es kursiv gesetzt wird. Welcher Befehl ist semantisch korrekt (Emphasis)?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Quellcode-Darstellung": [
+      {
+        "question": "15. Welches Paket sollten Sie verwenden, um Quellcode mit Syntax-Highlighting in Ihre Informatik-Thesis einzufügen?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Align-Umgebung": [
+      {
+        "question": "16. Was passiert, wenn Sie in einer `align`-Umgebung eine Zeile ohne `&` schreiben?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Float-Platzierung": [
+      {
+        "question": "17. Sie wollen eine Abbildung genau an der Stelle im Text platzieren, an der Sie sie definiert haben, ohne dass sie gleitet (floats). Welches Paket und welcher Parameter helfen?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Befehlsdefinition": [
+      {
+        "question": "18. Wie definieren Sie in der Präambel einen eigenen Befehl `\\zB`, der 'z. B.' mit korrektem kleinen Abstand ausgibt?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Tabellenbreite": [
+      {
+        "question": "19. Sie haben eine Tabelle mit zu vielen Spalten, die über den rechten Rand hinausragt. Welche Umgebung oder welches Paket ist am besten geeignet, um die Tabelle automatisch an die Textbreite anzupass",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Interaktive Dokumente": [
+      {
+        "question": "20. Wozu dient das Paket `hyperref` in einer digitalen Thesis vorrangig?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Fußnoten": [
+      {
+        "question": "21. Wie fügen Sie eine Fußnote in den Text ein?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Listen": [
+      {
+        "question": "22. Sie möchten eine Liste mit Aufzählungszeichen (Bullet Points) erstellen. Welche Umgebung nutzen Sie?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Mathe-Fonts": [
+      {
+        "question": "23. Wie erzeugen Sie das Symbol für die Menge der reellen Zahlen (Doppelstrich-R)?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "BibTeX Einbindung": [
+      {
+        "question": "24. Welcher Befehl ist notwendig, um ein BibTeX-Literaturverzeichnis im Dokument an der gewünschten Stelle auszugeben?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Seitenumbruch": [
+      {
+        "question": "25. Was bewirkt der Befehl `\\newpage`?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Display-Style": [
+      {
+        "question": "26. Sie möchten einen Bruch $\\frac{a}{b}$ im Inline-Text schreiben, aber er soll nicht klein gequetscht werden, sondern groß dargestellt werden. Welchen Befehl nutzen Sie?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Hilfsdateien": [
+      {
+        "question": "27. Welche Dateiendung hat die Datei, die LaTeX während des Kompilierens erzeugt, um Referenz-Informationen zu speichern?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Captions": [
+      {
+        "question": "28. Wie fügen Sie einer Abbildung (`figure`-Umgebung) eine Bildunterschrift hinzu?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Titelseite": [
+      {
+        "question": "29. Sie wollen mehrere Autoren für das Titelblatt angeben. Wie trennen Sie diese im `\\author{...}` Befehl standardkonform?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Verbatim": [
+      {
+        "question": "30. Welcher Befehl ist geeignet, um Text 'wörtlich' auszugeben (z. B. Dateinamen mit Unterstrichen), ohne dass LaTeX die Sonderzeichen interpretiert?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Barrierefreiheit": [
+      {
+        "question": "31. Sie möchten sicherstellen, dass eine Grafik im PDF auch für Screenreader zugänglich ist (Alt-Text). Welches Paket bietet hierfür Unterstützung (Tagging)?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Tabellen-Merge": [
+      {
+        "question": "32. Wie können Sie in einer Tabelle zwei Zellen horizontal verbinden (merge columns)?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "BibLaTeX Setup": [
+      {
+        "question": "33. Sie verwenden BibLaTeX. Welcher Befehl in der Präambel lädt die Ressourcendatei `quellen.bib`?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Zentrierung": [
+      {
+        "question": "34. Wie zentrieren Sie einen Textblock, ohne zusätzlichen vertikalen Abstand wie bei der `center`-Umgebung einzufügen (z. B. innerhalb einer Tabellenzelle oder eines Befehls)?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Modulare Dokumente": [
+      {
+        "question": "35. Wie können Sie LaTeX-Code auslagern, um die Hauptdatei übersichtlich zu halten?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Mathe-Modus Fehler": [
+      {
+        "question": "36. Sie erhalten den Fehler 'Missing $ inserted'. Was ist die wahrscheinlichste Ursache?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "TOC-Tiefe": [
+      {
+        "question": "37. Wie erzeugen Sie ein Inhaltsverzeichnis, das auch die 'section'-Ebene enthält, aber 'subsection' ignoriert?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Absatzeinzug": [
+      {
+        "question": "38. Welcher Befehl ist notwendig, um die automatische Einrückung des ersten Absatzes nach einer Überschrift zu verhindern (Standard in englischen Texten, aber manchmal unerwünscht)?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "PDF-Import": [
+      {
+        "question": "39. Wie fügen Sie ein PDF als ganzseitigen Anhang in Ihr Dokument ein?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Argumente": [
+      {
+        "question": "40. Sie definieren einen eigenen Befehl `\\newcommand{\\kw}[1]{\\textbf{#1}}`. Wie rufen Sie ihn auf?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Kompilierkette": [
+      {
+        "question": "41. Ihr Literaturverzeichnis zeigt '??' statt der Nummern [1], [2]. Die Log-Datei sagt 'Citation ... on page ... undefined'. Was müssen Sie tun?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Float-Queue": [
+      {
+        "question": "42. Sie binden ein Bild ein, aber es erscheint am Ende des Kapitels auf einer eigenen Seite, statt dort, wo Sie es im Code platziert haben. Warum?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Sicherheit bei Makros": [
+      {
+        "question": "43. Ein Kommilitone schickt Ihnen Code mit: `\\def\\meinBefehl{...}`. Warum wird in modernen LaTeX-Best-Practices von `\\def` abgeraten und `\\newcommand` empfohlen?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Konsistenz": [
+      {
+        "question": "44. Ihre Tabelle ist zu breit. Sie verkleinern die Schrift mit `\\small`. Was ist ein potenzieller negativer Nebeneffekt auf die Konsistenz des Dokuments?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Encoding-Probleme": [
+      {
+        "question": "45. Sie kopieren Code aus einem PDF in Ihren Editor. Beim Kompilieren erhalten Sie Fehler bei Anführungszeichen oder Minuszeichen. Was ist passiert?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Interne Logik von Include": [
+      {
+        "question": "46. Warum erzeugt `\\include{kapitel1} \\include{kapitel2}` immer einen Seitenumbruch zwischen den Kapiteln, `\\input` aber nicht?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Operatoren": [
+      {
+        "question": "47. In einer Formel wird `sin(x)` kursiv als Produkt der Variablen $s, i, n, x$ dargestellt. Wie korrigieren Sie das semantisch richtig?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Lokalisierung anpassen": [
+      {
+        "question": "48. Sie wollen in Ihrer Arbeit durchgängig 'Abb.' statt 'Abbildung' in den Captions stehen haben. Was ist der eleganteste Weg, dies bei Verwendung von `babel` (ngerman) zu ändern?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Algorithmen-Satz": [
+      {
+        "question": "49. Ein Algorithmus in Ihrer Arbeit soll als Pseudocode dargestellt werden. Warum ist die einfache `verbatim`-Umgebung dafür oft unzureichend?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Encoding Mismatch": [
+      {
+        "question": "50. Nach dem Einfügen von `\\usepackage[utf8]{inputenc}` erhalten Sie trotzdem Fehler bei Umlauten. Die Datei wurde zuvor auf einem anderen Betriebssystem erstellt. Was ist die Ursache?",
+        "file": "data/questions_LaTeX.json"
+      }
+    ],
+    "Symmetrische Differenz": [
+      {
+        "question": "1. Welche der folgenden Mengenoperationen entspricht der 'Symmetrischen Differenz' $A \\Delta B$ und liefert alle Elemente, die in genau einer der beiden Mengen enthalten sind?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      },
+      {
+        "question": "22. Wofür wird die 'Symmetrische Differenz' $A \\Delta B$ von zwei Mengen verwendet?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Potenzmenge": [
+      {
+        "question": "2. Gegeben sei die Menge $M = \\{1, 2, 3\\}$. Wie viele Elemente enthält die Potenzmenge $\\mathcal{P}(M)$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Injektivität": [
+      {
+        "question": "3. Welche Bedingung muss erfüllt sein, damit eine Abbildung $f: A \\to B$ als **injektiv** bezeichnet wird?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Implikation": [
+      {
+        "question": "4. Betrachten Sie die Implikation $A \\to B$. Welcher logische Ausdruck ist dazu äquivalent (Gesetz der Implikation)?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Quantorennegation": [
+      {
+        "question": "5. Wie lautet die Negation der Aussage: 'Für alle $x$ gilt: Wenn $P(x)$, dann $Q(x)$' ($\\neg \\forall x (P(x) \\to Q(x))$)?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Rekursionsauflösung": [
+      {
+        "question": "6. Gegeben ist die rekursive Definition $f(n) = f(n-1) + 2$ mit dem Basisfall $f(0) = 1$. Welchen Wert hat $f(3)$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Basisumrechnung": [
+      {
+        "question": "7. Rechnen Sie die Dezimalzahl 13 in das Binärsystem um.",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Induktionsschritt": [
+      {
+        "question": "8. Was ist der entscheidende logische Kern beim **Induktionsschritt** ($n \\to n+1$) im Beweisverfahren der vollständigen Induktion?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Tautologie": [
+      {
+        "question": "9. Welche Aussage über Tautologien ist korrekt?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Mengenschreibweise": [
+      {
+        "question": "10. Betrachtet wird die Menge $A = \\{x \\in \\mathbb{Z} \\mid x^2 < 5\\}$. Welche Elemente enthält $A$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Kartesisches Produkt": [
+      {
+        "question": "11. Was versteht man unter dem 'Kartesischen Produkt' $A \\times B$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Kontraposition": [
+      {
+        "question": "12. Welche der folgenden Aussagen ist logisch äquivalent zur 'Kontraposition' von $A \\to B$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      },
+      {
+        "question": "23. Welche logische Äquivalenz beschreibt die 'Kontraposition' einer Implikation $A \\to B$?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Widerspruchsbeweis": [
+      {
+        "question": "13. Ein Beweis durch Widerspruch (reductio ad absurdum) für eine Aussage $P$ beginnt typischerweise mit welcher Annahme?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Hexadezimal": [
+      {
+        "question": "14. Welche Zahlendarstellung (Basis) verwendet die Ziffern $0-9$ und die Buchstaben $A-F$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Anzahl Abbildungen": [
+      {
+        "question": "15. Gegeben seien die Mengen $A = \\{1, 2\\}$ und $B = \\{a, b, c\\}$. Wie viele verschiedene Abbildungen $f: A \\to B$ existieren insgesamt?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Neutrales Element": [
+      {
+        "question": "16. Was ist das 'neutrale Element' bezüglich der Vereinigung von Mengen ($A \\cup X = A$)?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Gegenbeispiel": [
+      {
+        "question": "17. Welche logische Beziehung gilt zwischen den Aussagen 'Alle Schwäne sind weiß' und 'Dieser Schwan ist schwarz'?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Binärarithmetik": [
+      {
+        "question": "18. Berechnen Sie den Wert des Ausdrucks $101_2 + 11_2$ im Binärsystem.",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Transitivität": [
+      {
+        "question": "19. Welche Aussage beschreibt die Eigenschaft 'Transitivität' einer Relation $R$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "De Morgan": [
+      {
+        "question": "20. Was besagt das De Morgan'sche Gesetz für die Negation einer Konjunktion $\\neg(A \\land B)$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Abzählbarkeit": [
+      {
+        "question": "21. Welche Eigenschaft macht eine Menge zu einer 'abzählbaren' Menge?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Teilmenge": [
+      {
+        "question": "22. Wenn $A \\subseteq B$ gilt, was ist dann das Ergebnis von $A \\setminus B$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Basisfall": [
+      {
+        "question": "23. Welche der folgenden Aussagen ist für eine rekursive Funktion zwingend erforderlich, um eine Endlosschleife (Stack Overflow) zu vermeiden?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Mutability": [
+      {
+        "question": "24. In Python: Was ist der Hauptunterschied zwischen einer `List` und einem `Tuple`?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "XOR": [
+      {
+        "question": "25. Was ist das Ergebnis der logischen Operation `True XOR True`?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Leere Menge": [
+      {
+        "question": "26. Wie viele Teilmengen hat die leere Menge $\\emptyset$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "De Morgan II": [
+      {
+        "question": "27. Welche Aussage ist äquivalent zu $\\neg(A \\lor B)$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Äquivalenzrelation": [
+      {
+        "question": "28. Eine Relation $R$ heißt 'Äquivalenzrelation', wenn sie welche drei Eigenschaften erfüllt?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Induktionsschluss": [
+      {
+        "question": "29. Was versteht man unter dem Begriff 'Induktionsschluss' (oder Induktionsschritt)?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Intervalle": [
+      {
+        "question": "30. Welche Menge beschreibt das Intervall $[2, 5)$ in den reellen Zahlen?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "De Morgan Anwendung": [
+      {
+        "question": "31. Wie lautet die Negation von 'Es regnet oder es schneit' nach De Morgan?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Kardinalität": [
+      {
+        "question": "32. Was ist die 'Kardinalität' der Menge der natürlichen Zahlen $\\mathbb{N}$?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Gegenbeispiel Injektivität": [
+      {
+        "question": "33. Sei $f: \\mathbb{R} \\to \\mathbb{R}$ definiert durch $f(x) = x^2$. Warum ist diese Funktion **nicht** injektiv?",
+        "file": "data/questions_Probeklausur_Mathematik_I.json"
+      }
+    ],
+    "Definition Teilbarkeit": [
+      {
+        "question": "1. Was versteht man in der Zahlentheorie unter der Eigenschaft der 'Teilbarkeit'?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Restklassen": [
+      {
+        "question": "2. Welche Aussage beschreibt eine Restklasse modulo $n$ korrekt?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Binärumrechnung": [
+      {
+        "question": "3. Welche Darstellung entspricht der Dezimalzahl 13 im Binärsystem?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Hexadezimalumrechnung": [
+      {
+        "question": "4. Wie wird die Dezimalzahl 255 im Hexadezimalsystem dargestellt?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Restberechnung": [
+      {
+        "question": "5. Was ist das Ergebnis der Modulo-Rechnung $27 \\pmod 6$?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "ggT Berechnung": [
+      {
+        "question": "6. Welcher ist der größte gemeinsame Teiler (ggT) der Zahlen 12 und 18?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Erweiterter Euklid": [
+      {
+        "question": "7. Welche Funktion erfüllt der Erweiterte Euklidische Algorithmus über die reine ggT-Berechnung hinaus?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "RSA-Sicherheit": [
+      {
+        "question": "8. Warum wird die Primfaktorzerlegung als Grundlage für das RSA-Verfahren genutzt?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Diffie-Hellman": [
+      {
+        "question": "9. Welches mathematische Konzept ermöglicht beim Diffie-Hellman-Verfahren den Schlüsselaustausch?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Körper-Axiome": [
+      {
+        "question": "10. Welche der folgenden algebraischen Strukturen muss existieren, damit man von einem 'Körper' (Field) spricht?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Hash-Funktion": [
+      {
+        "question": "11. Was ist das Ziel einer kryptografischen Hash-Funktion?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Vollständige Induktion": [
+      {
+        "question": "12. Welcher Schritt gehört zwingend zu einem Beweis durch vollständige Induktion?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Rekursion": [
+      {
+        "question": "13. Eine rekursive Funktion muss immer was beinhalten, um nicht endlos zu laufen?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Ring vs. Körper": [
+      {
+        "question": "14. Warum bildet die Menge der ganzen Zahlen $\\mathbb{Z}$ mit Addition und Multiplikation keinen Körper?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Endliche Körper": [
+      {
+        "question": "15. Welche Eigenschaft macht endliche Körper (Galois Fields) besonders wertvoll für die Informatik (z.B. AES, Reed-Solomon)?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Hash-Kollision": [
+      {
+        "question": "16. Was ist eine 'Kollision' bei Hash-Funktionen?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Speicherbedarf": [
+      {
+        "question": "17. Wie viele Bits werden benötigt, um die hexadezimale Ziffer 'A' darzustellen?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Lösbarkeit Kongruenzen": [
+      {
+        "question": "18. Welche Bedingung muss erfüllt sein, damit eine lineare Kongruenz $ax \\equiv b \\pmod n$ lösbar ist?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Algorithmen": [
+      {
+        "question": "19. Welcher Algorithmus wird verwendet, um effizient den größten gemeinsamen Teiler zu finden?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Asymmetrische Verschlüsselung": [
+      {
+        "question": "20. Was besagt das Prinzip der asymmetrischen Verschlüsselung?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Unendlichkeit der Primzahlen": [
+      {
+        "question": "21. Welche Aussage über Primzahlen ist korrekt?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Sicherheitsanalyse": [
+      {
+        "question": "24. Analysieren Sie: Warum ist das Verfahren 'One-Time-Pad' theoretisch absolut sicher, aber praktisch kaum nutzbar?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Schlüssellänge": [
+      {
+        "question": "25. Ein RSA-System verwendet $p=3$ und $q=5$. Warum ist dieses System unsicher, selbst wenn der Algorithmus korrekt ist?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Kongruenz vs Identität": [
+      {
+        "question": "26. Analysieren Sie den Fehler: Jemand behauptet, dass $a \\equiv b \\pmod n$ impliziert, dass $a = b$.",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Existenz von Inversen": [
+      {
+        "question": "27. Warum ist das multiplikative Inverse von $a$ modulo $n$ nur dann existent, wenn ggT$(a,n) = 1$?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Angriffsszenario Kollision": [
+      {
+        "question": "28. Analysieren Sie: Warum sind Hash-Kollisionen bei digitalen Signaturen ein Sicherheitsrisiko?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Fehleranalyse in Beweisen": [
+      {
+        "question": "29. Beweisanalyse: Jemand versucht per Induktion zu beweisen, dass 'alle Autos dieselbe Farbe haben'. Der Induktionsschritt funktioniert logisch korrekt für $n \\to n+1$. Wo liegt der Fehler oft bei so",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ],
+    "Kerckhoffs’ Prinzip": [
+      {
+        "question": "30. Warum ist die 'Sicherheit durch Dunkelheit' (Security by Obscurity) kein valides Prinzip in der modernen Kryptografie?",
+        "file": "data/questions_Zahlentheorie_(Probeklausur).json"
+      }
+    ]
+  }
+}

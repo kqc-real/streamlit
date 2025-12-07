@@ -173,6 +173,107 @@ def _markdown_to_html(text: str) -> str:
     return ''.join(html_parts)
 
 
+def _get_options(frage_obj: Dict[str, Any]) -> List[Any]:
+    """Return a normalized list of options for a question object.
+
+    Supports multiple schema variants: German `optionen`, English `options`
+    or generic `answers`. If the value is a dict, try to preserve ordering
+    by sorted keys (useful for A/B/C maps), otherwise return a list.
+    """
+    opts = frage_obj.get("optionen") or frage_obj.get("options") or frage_obj.get("answers") or []
+    if opts is None:
+        return []
+    # If someone provided a mapping like {'A': '...', 'B': '...'}, convert
+    # to a stable list in key order so downstream code can index by integer.
+    if isinstance(opts, dict):
+        try:
+            keys = sorted(opts.keys())
+            return [opts[k] for k in keys]
+        except Exception:
+            try:
+                return list(opts.values())
+            except Exception:
+                return []
+    if isinstance(opts, str):
+        return [opts]
+    try:
+        return list(opts)
+    except Exception:
+        return []
+
+
+def _resolve_correct_answer(frage: Dict[str, Any]) -> Optional[Any]:
+    """Resolve the canonical correct answer value for a question.
+
+    Tries these strategies in order:
+    - If `loesung` is an index and options exist, return options[index]
+    - If `answer` is an index, return options[index]
+    - If `answer` or `loesung` is a string that matches an option, return that
+    - If `loesung` is a single-letter ('A'..), map to index
+    Returns None if no reliable mapping could be found.
+    """
+    options = _get_options(frage)
+
+    # Try German `loesung` first (common in older sets)
+    if "loesung" in frage:
+        val = frage.get("loesung")
+        # integer-like
+        try:
+            idx = int(val)
+            if isinstance(options, list) and 0 <= idx < len(options):
+                return options[idx]
+        except Exception:
+            pass
+        # letter like 'A'/'B'
+        try:
+            if isinstance(val, str) and len(val.strip()) == 1 and val.strip().isalpha():
+                idx = ord(val.strip().upper()) - ord('A')
+                if 0 <= idx < len(options):
+                    return options[idx]
+        except Exception:
+            pass
+        # string match
+        try:
+            if isinstance(val, str) and isinstance(options, list):
+                for opt in options:
+                    try:
+                        if isinstance(opt, str) and opt.strip() == val.strip():
+                            return opt
+                    except Exception:
+                        continue
+        except Exception:
+            pass
+
+    # Try English `answer`
+    if "answer" in frage:
+        val = frage.get("answer")
+        try:
+            idx = int(val)
+            if isinstance(options, list) and 0 <= idx < len(options):
+                return options[idx]
+        except Exception:
+            pass
+        try:
+            if isinstance(val, str) and isinstance(options, list):
+                for opt in options:
+                    try:
+                        if isinstance(opt, str) and opt.strip() == val.strip():
+                            return opt
+                    except Exception:
+                        continue
+        except Exception:
+            pass
+
+    # Fallback: if loesung present but couldn't be mapped, return raw value
+    try:
+        if "loesung" in frage and frage.get("loesung") is not None:
+            return frage.get("loesung")
+    except Exception:
+        pass
+
+    return None
+
+
 def _prepare_stage_sorted_questions(questions: List[Dict[str, Any]]) -> List[tuple[int, str, int, Dict[str, Any]]]:
     """Bereitet die Fragen-Liste nach Bloom-Stufen sortiert auf."""
     enriched: list[tuple[int, str, int, Dict[str, Any]]] = []
@@ -1365,7 +1466,7 @@ def estimate_formula_render(questions: List[Dict[str, Any]], locale: Optional[st
                     if grp:
                         formulas.append(('inline', grp.strip()))
 
-            for opt in frage.get("optionen", []):
+            for opt in _get_options(frage):
                 if isinstance(opt, str):
                     for m in BLOCK_PAT.findall(opt):
                         grp = next((g for g in m if g), '')
@@ -1421,16 +1522,61 @@ def _analyze_weak_topics(questions: List[Dict[str, Any]]) -> List[tuple]:
     
     for i, frage_obj in enumerate(questions):
         gegebene_antwort = get_answer_for_question(i)
-        richtige_antwort = frage_obj["optionen"][frage_obj["loesung"]]
-        
-        # Nur zählen wenn Frage beantwortet wurde UND falsch war
-        if gegebene_antwort is not None and gegebene_antwort != richtige_antwort:
+
+        # Defensive: support multiple schema variants. Some datasets use
+        # German keys ('optionen', 'loesung'), others use English
+        # ('options', 'answer'). Accept either and try to derive a
+        # canonical correct answer string for comparison.
+        options = _get_options(frage_obj)
+
+        richtige_antwort = None
+
+        # Try German index key first (common in localized files)
+        if "loesung" in frage_obj:
+            try:
+                idx = int(frage_obj.get("loesung"))
+            except Exception:
+                idx = None
+            if idx is not None and isinstance(options, list) and 0 <= idx < len(options):
+                richtige_antwort = options[idx]
+
+        # Try English index/key variants
+        if richtige_antwort is None:
+            if "answer" in frage_obj:
+                val = frage_obj.get("answer")
+                # If it's numeric, treat as index
+                try:
+                    idx2 = int(val)
+                except Exception:
+                    idx2 = None
+                if idx2 is not None and isinstance(options, list) and 0 <= idx2 < len(options):
+                    richtige_antwort = options[idx2]
+                elif isinstance(val, str) and isinstance(options, list):
+                    # Try to match by string equality
+                    for opt in options:
+                        try:
+                            if isinstance(opt, str) and opt.strip() == val.strip():
+                                richtige_antwort = opt
+                                break
+                        except Exception:
+                            continue
+
+        # As a last resort, if 'loesung' is a string containing the correct
+        # answer directly, use it.
+        if richtige_antwort is None:
+            loes = frage_obj.get("loesung")
+            if isinstance(loes, str) and loes.strip():
+                richtige_antwort = loes
+
+        # Only count when we have both a given answer and a canonical correct
+        # answer to compare against.
+        if gegebene_antwort is not None and richtige_antwort is not None and gegebene_antwort != richtige_antwort:
             # Extrahiere Thema aus dem 'thema'-Feld der Frage
             topic = frage_obj.get("thema", "Allgemein")
-            
+
             # Berechne die Display-Fragennummer (wie im PDF angezeigt)
             display_number = initial_indices.index(i) + 1 if i in initial_indices else i + 1
-            
+
             if topic not in topic_errors:
                 topic_errors[topic] = []
             topic_errors[topic].append(display_number)
@@ -1566,7 +1712,16 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Statistiken berechnen
     antworten = [get_answer_for_question(i) for i in range(len(questions))]
-    richtige = sum(1 for i, ant in enumerate(antworten) if ant is not None and ant == questions[i]["optionen"][questions[i]["loesung"]])
+    richtige = 0
+    for i, ant in enumerate(antworten):
+        if ant is None:
+            continue
+        try:
+            correct_val = _resolve_correct_answer(questions[i])
+        except Exception:
+            correct_val = None
+        if correct_val is not None and ant == correct_val:
+            richtige += 1
     unbeantwortet = sum(1 for ant in antworten if ant is None)
     falsche = len(questions) - richtige - unbeantwortet
     
@@ -1644,6 +1799,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 except Exception:
                     delta_local = None
 
+        
+
                 # Prefer a non-negative delta; if both non-negative choose the
                 # smaller absolute difference (more plausible). Otherwise prefer
                 # the non-negative one.
@@ -1708,6 +1865,107 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 except Exception:
                     pass
         except Exception:
+            pass
+
+        # --- Schema normalization: ensure every question uses canonical keys ---
+        def normalize_question_schema(q: Dict[str, Any]) -> Dict[str, Any]:
+            """
+            Normalizes common alias keys between datasets so downstream code can
+            rely on canonical keys.
+
+            Canonical keys produced/ensured:
+            - 'text' (str): question text
+            - 'options' (List[str]): list of option strings
+            - 'answer' (int | str | None): index into options or answer text
+            - 'explanation' (str | None)
+            - 'extended_explanation' (dict | None)
+            - 'concept' (str | None)
+            - 'topic' (str | None)
+            - 'weight' (int | float | None)
+            - 'cognitive_level' (str | None)
+            """
+            if not isinstance(q, dict):
+                return q
+
+            # text / question
+            if 'text' not in q:
+                if 'question' in q:
+                    q['text'] = q.get('question')
+                elif 'frage' in q:
+                    q['text'] = q.get('frage')
+
+            # options (ensure list)
+            opts = None
+            for k in ('options', 'optionen', 'answers'):
+                if k in q and q.get(k) is not None:
+                    opts = q.get(k)
+                    break
+            # If options are dict-like (e.g., {'A': '...', 'B': '...'}), convert to list
+            if isinstance(opts, dict):
+                # preserve natural sorted order by key if keys like 'A','B',... exist
+                try:
+                    ordered = [opts[k] for k in sorted(opts.keys())]
+                except Exception:
+                    ordered = list(opts.values())
+                q['options'] = ordered
+            elif isinstance(opts, list):
+                q['options'] = opts
+            elif opts is None:
+                q.setdefault('options', [])
+
+            # answer / loesung
+            if 'answer' not in q:
+                if 'loesung' in q:
+                    q['answer'] = q.get('loesung')
+                elif 'antwort' in q:
+                    q['answer'] = q.get('antwort')
+
+            # explanation variants
+            if 'explanation' not in q:
+                for k in ('erklaerung', 'erklaerung_html'):
+                    if k in q:
+                        q['explanation'] = q.get(k)
+                        break
+
+            # extended explanation
+            if 'extended_explanation' not in q and 'extended_explanation' in q:
+                q['extended_explanation'] = q.get('extended_explanation')
+
+            # concept / konzept
+            if 'concept' not in q:
+                if 'konzept' in q:
+                    q['concept'] = q.get('konzept')
+
+            # topic / thema
+            if 'topic' not in q:
+                if 'topic' in q:
+                    pass
+                elif 'thema' in q:
+                    q['topic'] = q.get('thema')
+
+            # weight / gewichtung
+            if 'weight' not in q:
+                if 'weight' in q:
+                    pass
+                elif 'gewichtung' in q:
+                    q['weight'] = q.get('gewichtung')
+
+            # cognitive level variants
+            if 'cognitive_level' not in q:
+                for k in ('kognitive_stufe', 'cognitive_level', 'cognitiveLevel'):
+                    if k in q:
+                        q['cognitive_level'] = q.get(k)
+                        break
+
+            return q
+
+        # Apply normalization once (in-place) to all questions so downstream code
+        # can depend on canonical keys and avoid scattered defensive lookups.
+        try:
+            for idx, q in enumerate(questions):
+                questions[idx] = normalize_question_schema(q or {})
+        except Exception:
+            # If something unexpected happens, continue — later code is defensive too.
             pass
 
         duration = e_dt - s_dt
@@ -1962,7 +2220,40 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     for i, frage in enumerate(questions):
         gewichtung = frage.get("gewichtung", 1)
         gegebene_antwort = get_answer_for_question(i)
-        richtige_antwort = frage["optionen"][frage["loesung"]]
+
+        # Defensive resolution of the correct answer similar to _analyze_weak_topics
+        options = _get_options(frage)
+        richtige_antwort = None
+        if "loesung" in frage:
+            try:
+                idx = int(frage.get("loesung"))
+            except Exception:
+                idx = None
+            if idx is not None and isinstance(options, list) and 0 <= idx < len(options):
+                richtige_antwort = options[idx]
+
+        if richtige_antwort is None and "answer" in frage:
+            val = frage.get("answer")
+            try:
+                idx2 = int(val)
+            except Exception:
+                idx2 = None
+            if idx2 is not None and isinstance(options, list) and 0 <= idx2 < len(options):
+                richtige_antwort = options[idx2]
+            elif isinstance(val, str) and isinstance(options, list):
+                for opt in options:
+                    try:
+                        if isinstance(opt, str) and opt.strip() == val.strip():
+                            richtige_antwort = opt
+                            break
+                    except Exception:
+                        continue
+
+        if richtige_antwort is None:
+            loes = frage.get("loesung")
+            if isinstance(loes, str) and loes.strip():
+                richtige_antwort = loes
+
         ist_richtig = (gegebene_antwort == richtige_antwort)
         
         if gewichtung == 1:
@@ -1985,7 +2276,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         if not stage:
             continue
         gegebene_antwort = get_answer_for_question(i)
-        richtige_antwort = frage["optionen"][frage["loesung"]]
+        richtige_antwort = _resolve_correct_answer(frage)
         ist_richtig = (gegebene_antwort == richtige_antwort)
 
         if stage not in stage_stats:
@@ -2291,8 +2582,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             tp[thema]["answered"] += 1
             # Compare to solution text where possible
             try:
-                loes = frage.get("loesung")
-                loes_text = frage["optionen"][loes] if loes is not None and "optionen" in frage else None
+                loes_text = _resolve_correct_answer(frage)
                 if loes_text is not None and given == loes_text:
                     tp[thema]["correct"] += 1
                 else:
@@ -2441,7 +2731,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         # Bestimme Farbe und Status basierend auf richtig/falsch/unbeantwortet
         gegebene_antwort = get_answer_for_question(original_index)
-        richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
+        richtige_antwort_text = _resolve_correct_answer(frage_obj)
         
         is_unanswered = gegebene_antwort is None
         ist_richtig = not is_unanswered and (gegebene_antwort == richtige_antwort_text)
@@ -2482,6 +2772,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         thema = frage_obj.get("thema", "")
         
         # Starte Question-Box mit farbigem Rahmen
+        # Insert a subtle separator before each question so the PDF shows
+        # a consistent divider line prior to every question block.
+        try:
+            html_body += '<div class="muster-concept-sep" aria-hidden="true"></div>'
+        except Exception:
+            pass
         html_body += f'<div class="question-box" style="border-left: 4px solid {border_color};">'
         
         # Status-Anzeige (Richtig, Falsch, Unbeantwortet)
@@ -2508,11 +2804,28 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         # Thema-Badge (falls vorhanden)
         if thema:
             html_body += f'<div class="question-topic">{thema}</div>'
+        # Konzept anzeigen (falls vorhanden)
+        try:
+            concept_val = frage_obj.get("concept") or frage_obj.get("konzept")
+        except Exception:
+            concept_val = None
+        if concept_val:
+            try:
+                label = translate_ui('metadata.concept', default='Konzept')
+            except Exception:
+                label = 'Konzept'
+            html_body += f"<div style='margin-top:6px;margin-bottom:8px;color:#555;font-size:0.95em;'><strong>{_html.escape(label)}:</strong> {smart_quotes_de(str(concept_val))}</div>"
+            # Decorative separator after meta-lines to visually separate
+            # the concept line from the question text (kept aria-hidden).
+            try:
+                html_body += '<div class="muster-concept-sep" aria-hidden="true"></div>'
+            except Exception:
+                pass
         
         html_body += f'<div class="question-text">{frage_text}</div>'
 
         html_body += '<ul class="options">'
-        for option in frage_obj["optionen"]:
+        for option in _get_options(frage_obj):
             is_correct = (option == richtige_antwort_text)
             is_selected = (option == gegebene_antwort)
             
@@ -3050,6 +3363,26 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             .question-box {{ page-break-inside: avoid; }}
             .explanation {{ page-break-inside: avoid; }}
             h2, h3 {{ page-break-after: avoid; }}
+            /* Start each subsequent question on a new page in the PDF output. */
+            .question-box + .question-box {{
+                page-break-before: always;
+                break-before: page;
+            }}
+            /* Ensure the mini-glossary starts on its own page. */
+            .glossary-page-break {{
+                page-break-before: always;
+                break-before: page;
+                height: 0;
+                margin: 0;
+                padding: 0;
+            }}
+            /* A subtle separator used after certain concept lines (e.g. "Definition IoT")
+               so the reader gets a light visual break. Kept very subtle to not distract. */
+            .muster-concept-sep {{
+                height: 1px;
+                background: #e6e6e6;
+                margin: 6px 0 8px 0;
+            }}
             
             /* Glossary section: subtle dividers (admin style) */
             .glossary-section {{
@@ -3126,10 +3459,23 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     </head>
     <body>
         {html_body}
+        <div class="glossary-page-break" aria-hidden="true"></div>
         {glossary_html}
     </body>
     </html>
     '''
+
+    # Optionally dump the assembled HTML to `exports/` for inspection
+    try:
+        if os.environ.get('DUMP_PDF_HTML'):
+            dump_dir = os.path.join(os.getcwd(), 'exports')
+            os.makedirs(dump_dir, exist_ok=True)
+            safe_name = 'report_' + os.path.basename(st.session_state.get('selected_questions_file', 'questions')).replace('.json', '')
+            dump_path = os.path.join(dump_dir, f'{safe_name}.html')
+            with open(dump_path, 'w', encoding='utf-8') as fh:
+                fh.write(full_html)
+    except Exception:
+        pass
 
     # Konvertiere HTML zu PDF mit WeasyPrint (mit Optimierungen)
     # optimize_images=True reduziert Dateigröße ohne Qualitätsverlust
@@ -3368,6 +3714,59 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     except Exception:
         generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
 
+    # Ensure canonical question schema for this run too
+    def normalize_question_schema(q: Dict[str, Any]) -> Dict[str, Any]:
+        if not isinstance(q, dict):
+            return q
+        if 'text' not in q:
+            if 'question' in q:
+                q['text'] = q.get('question')
+            elif 'frage' in q:
+                q['text'] = q.get('frage')
+        opts = None
+        for k in ('options', 'optionen', 'answers'):
+            if k in q and q.get(k) is not None:
+                opts = q.get(k)
+                break
+        if isinstance(opts, dict):
+            try:
+                ordered = [opts[k] for k in sorted(opts.keys())]
+            except Exception:
+                ordered = list(opts.values())
+            q['options'] = ordered
+        elif isinstance(opts, list):
+            q['options'] = opts
+        elif opts is None:
+            q.setdefault('options', [])
+        if 'answer' not in q:
+            if 'loesung' in q:
+                q['answer'] = q.get('loesung')
+            elif 'antwort' in q:
+                q['answer'] = q.get('antwort')
+        if 'explanation' not in q:
+            for k in ('erklaerung', 'erklaerung_html'):
+                if k in q:
+                    q['explanation'] = q.get(k)
+                    break
+        if 'concept' not in q and 'konzept' in q:
+            q['concept'] = q.get('konzept')
+        if 'topic' not in q and 'thema' in q:
+            q['topic'] = q.get('thema')
+        if 'weight' not in q and 'gewichtung' in q:
+            q['weight'] = q.get('gewichtung')
+        if 'cognitive_level' not in q:
+            for k in ('kognitive_stufe', 'cognitive_level', 'cognitiveLevel'):
+                if k in q:
+                    q['cognitive_level'] = q.get(k)
+                    break
+        return q
+
+    try:
+        for i, q in enumerate(questions):
+            questions[i] = normalize_question_schema(q or {})
+    except Exception:
+        pass
+
     # Tempo metadata (best-effort)
     try:
         tempo_code = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or None
@@ -3421,23 +3820,88 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             total_timeout=total_timeout,
         )
 
+        # Insert a subtle separator before each question so the PDF shows
+        # a consistent divider line prior to every question block.
+        try:
+            html_parts.append('<div class="muster-concept-sep" aria-hidden="true"></div>')
+        except Exception:
+            pass
         html_parts.append('<div class="question">')
         q_header = translate_ui("pdf.question_header", default="Frage {current} / {total}").format(current=display_num, total=len(questions))
         html_parts.append(f'<h3>{_html.escape(q_header)}</h3>')
+
+        # Render meta-info lines (Cognitive Stage, Topic, Concept) for Musterlösung.
+        # These should be normal font-weight, light gray and NOT uppercased.
         raw_stage_value = frage.get("kognitive_stufe")
         has_stage_label = bool(raw_stage_value and str(raw_stage_value).strip())
+
+        # Stage line
         if has_stage_label:
             if stage_label == DEFAULT_STAGE_LABEL:
-                display_stage = translate_ui("pdf.stage_unknown", default="Unbekannt")
+                display_stage = translate_ui("pdf.stage_unknown", default="Unknown")
             else:
                 display_stage = translate_ui(f"pdf.stage_name.{stage_label}", default=stage_label)
-            stage_template = translate_ui("pdf.stage_label", default="Kognitive Stufe: {stage}")
-            html_parts.append(f'<div class="stage-label">{_html.escape(stage_template.format(stage=display_stage))}</div>')
+            # Use an English-friendly default label but keep translations if available
+            stage_template = translate_ui("pdf.stage_label", default="Cognitive Stage: {stage}")
+            html_parts.append(f'<div class="muster-meta-line">{_html.escape(stage_template.format(stage=display_stage))}</div>')
+
+        # Topic line (if present)
+        topic_val = frage.get("topic") or frage.get("thema") or ''
+        if topic_val:
+            topic_label = translate_ui('pdf.meta.topic', default='Topic:')
+            html_parts.append(f'<div class="muster-meta-line">{_html.escape(topic_label)} {_html.escape(str(topic_val))}</div>')
+
+        # Concept line (if present) — otherwise insert a subtle separator
+        try:
+            concept_val = frage.get("concept") or frage.get("konzept")
+        except Exception:
+            concept_val = None
+
+        # Treat blank/whitespace-only concept values as missing
+        has_concept = bool(concept_val and str(concept_val).strip())
+
+        if has_concept:
+            try:
+                c_label = translate_ui('metadata.concept', default='Concept')
+            except Exception:
+                c_label = 'Concept'
+            html_parts.append(f'<div class="muster-meta-line">{_html.escape(c_label)}: {smart_quotes_de(str(concept_val))}</div>')
+
+        # Always insert a very light separator after the meta-lines.
+        # Decorative only; keep `aria-hidden` so screen readers ignore it.
+        try:
+            html_parts.append('<div class="muster-concept-sep" aria-hidden="true"></div>')
+        except Exception:
+            # Be defensive: if appending fails for any reason, continue without crashing.
+            pass
+
         html_parts.append(f'<div class="question-text">{parsed_frage}</div>')
         html_parts.append('<ul class="options">')
 
-        correct_idx = frage.get("loesung")
-        opts = frage.get("optionen", [])
+        opts = _get_options(frage)
+        correct_idx_raw = frage.get("loesung")
+        correct_idx = None
+        try:
+            correct_idx = int(correct_idx_raw)
+        except Exception:
+            try:
+                if isinstance(correct_idx_raw, str) and len(correct_idx_raw.strip()) == 1 and correct_idx_raw.strip().isalpha():
+                    correct_idx = ord(correct_idx_raw.strip().upper()) - ord('A')
+            except Exception:
+                correct_idx = None
+        # If raw value is a string equal to an option, map to that index
+        if correct_idx is None and correct_idx_raw is not None:
+            try:
+                for i, o in enumerate(opts):
+                    try:
+                        if isinstance(o, str) and isinstance(correct_idx_raw, str) and o.strip() == correct_idx_raw.strip():
+                            correct_idx = i
+                            break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
+
         for oi, opt in enumerate(opts):
             parsed_opt = _render_latex_in_html(smart_quotes_de(opt), total_timeout=total_timeout, md_inline=True)
             if oi == correct_idx:
@@ -3464,9 +3928,12 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
 
     html_parts.append('</div>')
 
-    # Glossar anhängen
+    # Glossar anhängen — force new page before glossary
     glossary_by_theme = _extract_glossary_terms(questions)
     glossary_html = _build_glossary_html(glossary_by_theme)
+    # Ensure the mini-glossary starts on a new page in the PDF output.
+    # Decorative empty div with page-break CSS (aria-hidden for screen readers).
+    html_parts.append('<div class="glossary-page-break" aria-hidden="true"></div>')
     html_parts.append(glossary_html)
 
     # Localized footer for pages
@@ -3495,6 +3962,22 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             .meta-info span {{ display:block; font-size: 10pt; color: #555; }}
             .question {{ margin: 18px 0; padding: 12px; border:1px solid #e6eef8; border-radius:6px; background: #ffffff; }}
             .question h3 {{ margin: 0 0 8px 0; color: #1f6feb; font-size: 12pt; }}
+            /* Start each subsequent question on a new page in the PDF output.
+               Using the adjacent-sibling selector ensures the first question
+               is not prefixed by a page break, while every following `.question`
+               will start a fresh page. */
+            .question + .question {{
+                page-break-before: always;
+                break-before: page;
+            }}
+            /* Ensure the mini-glossary starts on its own page. */
+            .glossary-page-break {{
+                page-break-before: always;
+                break-before: page;
+                height: 0;
+                margin: 0;
+                padding: 0;
+            }}
             .question-text {{ margin-bottom: 8px; font-size: 11pt; }}
             /* Reset paragraph margins inside question/explanation/option containers
                to avoid large vertical gaps from Markdown-produced <p> tags. */
@@ -3511,18 +3994,33 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 padding: 0;
                 display: inline;
             }}
+            /* For the Musterlösung we render meta-info lines (stage/topic/concept)
+               as normal-weight, light-gray text (not uppercased). */
             .stage-label {{
                 font-size: 9pt;
                 color: #6b7280;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
+                text-transform: none;
+                letter-spacing: 0.02em;
                 margin-bottom: 6px;
-                font-weight: 500;
+                font-weight: 400;
             }}
             .stage-label span {{
                 color: #1f2937;
-                font-weight: 700;
+                font-weight: 600;
                 letter-spacing: normal;
+            }}
+            .muster-meta-line {{
+                font-size: 9pt;
+                color: #6b7280; /* light gray */
+                margin-bottom: 4px;
+                font-weight: 400;
+            }}
+            /* A subtle separator used after certain concept lines (e.g. "Definition IoT")
+               so the reader gets a light visual break. Kept very subtle to not distract. */
+            .muster-concept-sep {{
+                height: 1px;
+                background: #e6e6e6;
+                margin: 6px 0 8px 0;
             }}
             ul.options {{ list-style: disc; padding-left: 1.2rem; margin: 0 0 8px 0; }}
             ul.options li.option {{ padding: 4px 6px; margin-bottom:6px; background: transparent; border-radius:4px; }}
@@ -3556,6 +4054,18 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     """
 
     # Before writing PDF, report that we're starting the final render
+    # Optionally dump the assembled HTML to `exports/` for inspection
+    try:
+        if os.environ.get('DUMP_PDF_HTML'):
+            dump_dir = os.path.join(os.getcwd(), 'exports')
+            os.makedirs(dump_dir, exist_ok=True)
+            safe_name = os.path.basename(q_file).replace('.json', '')
+            dump_path = os.path.join(dump_dir, f'muster_{safe_name}.html')
+            with open(dump_path, 'w', encoding='utf-8') as fh:
+                fh.write(full_html)
+    except Exception:
+        pass
+
     _report(80, "Konvertiere HTML zu PDF")
     pdf_bytes = HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
 

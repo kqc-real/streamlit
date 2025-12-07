@@ -16,6 +16,7 @@ import logging
 logger = logging.getLogger(__name__)
 from typing import Any
 from pathlib import Path
+import html as _html
 
 from config import (
     AppConfig,
@@ -585,9 +586,10 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
         .anki-preview .card { font-family: Arial, sans-serif; font-size: 16px; color: #111; }
     .anki-preview .card { background-color: #ffffff; }
     .anki-preview .card-container { background-color: #ffffff; color: #111; }
-    .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:10px; }
-        .anki-preview .meta-item strong { color: #000; }
-        .anki-preview .question-block { margin-top: 6px; margin-bottom: 8px; font-weight: 600; color: #111; }
+    .anki-preview .meta-info { background-color: #f7f7f7; padding: 6px 10px; border-radius: 6px; margin-bottom: 6px; font-size: 0.85em; color: #555; display:flex; flex-wrap:wrap; gap:6px; }
+    .anki-preview .meta-info .meta-item { margin: 0; padding: 0; line-height: 1.15; }
+    .anki-preview .meta-item strong { color: #000; }
+    .anki-preview .question-block { margin-top: 4px; margin-bottom: 6px; font-weight: 600; color: #111; }
         .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 3.8em; margin: 0; }
         .anki-preview .options-block li { margin-bottom: 6px; }
         .anki-preview .question-repeat { margin-bottom: 12px; }
@@ -673,7 +675,14 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
 
             konzept_display = ""
             if isinstance(preview_q, dict):
-                konzept_raw = preview_q.get("konzept")
+                # Accept multiple possible field names for concept so both
+                # English- and German-keyed datasets work in the preview.
+                konzept_raw = (
+                    preview_q.get("konzept")
+                    or preview_q.get("concept")
+                    or preview_q.get("Concept")
+                    or preview_q.get("konzept_de")
+                )
                 if konzept_raw:
                     konzept_display = konzept_raw
 
@@ -3768,7 +3777,63 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 )
 
         if thema:
-            st.caption(f"{_test_view_text('topic_label', default='Thema')}: {thema}")
+            # Render topic in a compact inline block to reduce spacing
+            topic_label = _test_view_text('topic_label', default='Thema')
+            st.markdown(
+                f"<div style='color:#555; font-size:0.95em; margin:0 0 4px 0; line-height:1.15;'><strong>{topic_label}:</strong> {thema}</div>",
+                unsafe_allow_html=True,
+            )
+
+        # Show concept/konzept metadata if present on the question —
+        # also show the cognitive stage immediately after it when available.
+        try:
+            concept_val = (
+                frage_obj.get("concept")
+                or frage_obj.get("konzept")
+                or frage_obj.get("Concept")
+                or frage_obj.get("konzept_de")
+            )
+            # Determine cognitive stage label (support several possible keys)
+            raw_stage_value_local = (
+                frage_obj.get("kognitive_stufe")
+                or frage_obj.get("cognitive_level")
+                or frage_obj.get("cognitiveLevel")
+                or frage_obj.get("cognitive_level_en")
+                or frage_obj.get("cognitive_level_de")
+            )
+            stage_part = ""
+            if raw_stage_value_local and str(raw_stage_value_local).strip():
+                normalized_stage_local = _normalize_stage_label(raw_stage_value_local)
+                translated_stage_local = translate_ui(f"pdf.stage_name.{normalized_stage_local}", default=normalized_stage_local)
+                cog_label = translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')
+                stage_part = f" • {cog_label}: {translated_stage_local}"
+
+            # Render concept (if present) using compact inline styles to
+            # reduce vertical spacing between the meta lines.
+            stage_rendered = False
+            if concept_val and str(concept_val).strip():
+                label = translate_ui('metadata.concept', default='Konzept')
+                st.markdown(
+                    f"<div style='color:#555; font-size:0.95em; margin:0 0 4px 0; line-height:1.15;'><strong>{label}:</strong> {concept_val}</div>",
+                    unsafe_allow_html=True,
+                )
+
+            # Render cognitive stage on its own compact line (if present).
+            if raw_stage_value_local and str(raw_stage_value_local).strip():
+                try:
+                    cog_label = translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')
+                    normalized_stage_local = _normalize_stage_label(raw_stage_value_local)
+                    translated_stage_local = translate_ui(f"pdf.stage_name.{normalized_stage_local}", default=normalized_stage_local)
+                    st.markdown(
+                        f"<div style='color:#666; font-size:0.95em; margin:0 0 6px 0; line-height:1.12;'>{cog_label}: {translated_stage_local}</div>",
+                        unsafe_allow_html=True,
+                    )
+                    stage_rendered = True
+                except Exception:
+                    # fallback: show the raw stage value compactly
+                    st.markdown(f"<div style='color:#666; font-size:0.95em; margin:0 0 6px 0; line-height:1.12;'>{str(raw_stage_value_local)}</div>", unsafe_allow_html=True)
+        except Exception:
+            pass
         raw_stage_value = frage_obj.get("kognitive_stufe")
         stage_suffix = ""
         if raw_stage_value and str(raw_stage_value).strip():
@@ -3808,22 +3873,29 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         # Render the weight/stage suffix on the same visual line as before
         try:
-            try:
-                w_int = int(gewichtung)
-            except Exception:
-                w_int = None
-
-            if w_int in (1, 2, 3):
-                _weight_to_stage = {1: "Reproduktion", 2: "Anwendung", 3: "Analyse"}
-                stage_key = _weight_to_stage.get(w_int, None)
-                if stage_key:
-                    stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
-                    cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
-                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>{cognitive_label}: {stage_label}</div>", unsafe_allow_html=True)
-                else:
-                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+            # If we already rendered an explicit cognitive stage above, avoid
+            # rendering it again here (prevents duplicates). Otherwise fall
+            # back to weight-derived stage labels.
+            if stage_rendered:
+                # skip rendering duplicate stage/weight line
+                pass
             else:
-                st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:12px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+                try:
+                    w_int = int(gewichtung)
+                except Exception:
+                    w_int = None
+
+                if w_int in (1, 2, 3):
+                    _weight_to_stage = {1: "Reproduktion", 2: "Anwendung", 3: "Analyse"}
+                    stage_key = _weight_to_stage.get(w_int, None)
+                    if stage_key:
+                        stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
+                        cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
+                        st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>{cognitive_label}: {stage_label}</div>", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
         except Exception:
             pass
 
@@ -4229,6 +4301,40 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
             st.session_state.celebrated_questions.append(frage_idx)
 
         st.success(_test_view_text("explanation_correct", default="Richtig! ✅"))
+    # --- Konzept anzeigen (falls vorhanden) ---
+    try:
+        concept_val = frage_obj.get("concept") or frage_obj.get("konzept")
+    except Exception:
+        concept_val = None
+    if concept_val:
+        try:
+            label = translate_ui('metadata.concept', default='Konzept')
+        except Exception:
+            label = 'Konzept'
+        # small meta-line above the explanation block
+        st.markdown(
+            f"<div style='margin-top:6px;margin-bottom:8px;color:#555;font-size:0.95em;'><strong>{_html.escape(label)}:</strong> {smart_quotes_de(str(concept_val))}</div>",
+            unsafe_allow_html=True,
+        )
+        # Also show cognitive stage (Reproduction/Application/Analysis) on a new line
+        try:
+            raw_stage = (
+                frage_obj.get("kognitive_stufe")
+                or frage_obj.get("cognitive_level")
+                or frage_obj.get("cognitiveLevel")
+                or frage_obj.get("cognitive_level_en")
+                or frage_obj.get("cognitive_level_de")
+            )
+            if raw_stage and str(raw_stage).strip():
+                normalized = _normalize_stage_label(raw_stage)
+                translated = translate_ui(f"pdf.stage_name.{normalized}", default=normalized)
+                cog_label = translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')
+                st.markdown(
+                    f"<div style='margin-top:0px;margin-bottom:8px;color:#555;font-size:0.95em;'><strong>{_html.escape(cog_label)}:</strong> {_html.escape(str(translated))}</div>",
+                    unsafe_allow_html=True,
+                )
+        except Exception:
+            pass
     # Zeige die gegebene Antwort oberhalb der richtigen Antwort (lokalisiert)
     try:
         your_answer_label = _summary_text("review_label_your_answer", default="Your answer")
