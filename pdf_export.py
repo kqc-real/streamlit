@@ -998,8 +998,13 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
     
     if in_list:
         html_lines.append('</ul>')
-    
-    processed_text = ''.join(html_lines) # Verwende join ohne <br>, da p-Tags oder li-Tags für Struktur sorgen
+
+    # Preserve line breaks so Markdown block elements (like ```code```) are
+    # recognized by the Markdown renderer. Previously we concatenated lines
+    # which removed separators and caused code fences to collapse into a
+    # single inline string (e.g. "line1line2"). Joining with '\n' keeps
+    # the original structure intact for the downstream Markdown parser.
+    processed_text = '\n'.join(html_lines)
 
     # Convert basic Markdown (italic, bold, links, etc.) to HTML while
     # keeping our LaTeX placeholders intact. Protect placeholders from
