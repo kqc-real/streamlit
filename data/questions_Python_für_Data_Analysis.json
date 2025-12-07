@@ -1,0 +1,1013 @@
+{
+  "meta": {
+    "title": "Python für Data Analysis",
+    "created": "07.12.2025 15:38",
+    "target_audience": "Data Science Einsteiger mit Java-Kenntnissen",
+    "question_count": 40,
+    "difficulty_profile": {
+      "easy": 12,
+      "medium": 20,
+      "hard": 8
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 34
+  },
+  "questions": [
+    {
+      "question": "1. Welcher fundamentale Unterschied besteht zwischen Variablen in Python und Java, der für Data Science relevant ist?",
+      "options": [
+        "Python-Variablen sind statisch typisiert, Java-Variablen dynamisch.",
+        "Python ist dynamisch typisiert; Variablen sind Referenzen auf Objekte, keine festen Typ-Container.",
+        "In Python müssen Variablen immer vor der Verwendung deklariert werden.",
+        "Python erlaubt keine primitiven Datentypen wie Integer oder Float."
+      ],
+      "answer": 1,
+      "explanation": "Python ist dynamisch typisiert. Im Gegensatz zu Java, wo eine Variable `int x` nur Integer speichern kann, ist ein Variablenname in Python nur ein Label (Referenz), das auf beliebige Objekte zeigen kann.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "Dynamische Typisierung",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Dynamische Typisierung", "definition": "Typüberprüfung zur Laufzeit; Variablen sind nicht an einen Typ gebunden." },
+        { "term": "Referenz", "definition": "Verweis auf den Speicherort eines Objekts." }
+      ]
+    },
+    {
+      "question": "2. Wie wird in Python ein Code-Block (z. B. innerhalb einer Schleife) definiert?",
+      "options": [
+        "Durch geschweifte Klammern `{ }` wie in Java.",
+        "Durch das Schlüsselwort `begin` und `end`.",
+        "Durch Einrückung (Indentation).",
+        "Durch Semikolons am Zeilenende."
+      ],
+      "answer": 2,
+      "explanation": "Python nutzt Einrückungen (Whitespace), um Blöcke zu strukturieren. Dies erzwingt lesbaren Code und ersetzt die in Java üblichen geschweiften Klammern.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "Syntax & Indentation",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Indentation", "definition": "Einrückung von Codezeilen zur Strukturierung." }
+      ]
+    },
+    {
+      "question": "3. Was ist das Ergebnis des Ausdrucks `[x**2 for x in range(4)]`?",
+      "options": [
+        "Eine Fehlermeldung, da die Syntax falsch ist.",
+        "`[0, 1, 4, 9]`",
+        "`[1, 4, 9, 16]`",
+        "`{0, 1, 4, 9}`"
+      ],
+      "answer": 1,
+      "explanation": "Dies ist eine List Comprehension. `range(4)` erzeugt 0, 1, 2, 3. Das Quadrat davon ist 0, 1, 4, 9.",
+      "weight": 2,
+      "topic": "Datenstrukturen",
+      "concept": "List Comprehensions",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Auflösung der List Comprehension",
+        "steps": [
+          "Identifiziere den Generator: `range(4)` liefert die Werte 0, 1, 2, 3.",
+          "Wende die Operation an: `x**2` quadriert jeden Wert.",
+          "Berechne: 0²=0, 1²=1, 2²=4, 3²=9.",
+          "Sammle in Liste: `[0, 1, 4, 9]`."
+        ],
+        "content": "List Comprehensions bieten eine kompakte Syntax, um Listen basierend auf anderen Iterables zu erstellen, und ersetzen oft mehrzeilige For-Schleifen."
+      },
+      "mini_glossary": [
+        { "term": "List Comprehension", "definition": "Kompakte Syntax zur Erstellung von Listen." },
+        { "term": "range()", "definition": "Funktion, die eine Sequenz von Zahlen generiert." }
+      ]
+    },
+    {
+      "question": "4. Welche Bibliothek ist der De-facto-Standard für numerische Berechnungen und Arrays in Python?",
+      "options": [
+        "Pandas",
+        "NumPy",
+        "Matplotlib",
+        "Scikit-learn"
+      ],
+      "answer": 1,
+      "explanation": "NumPy (Numerical Python) ist die Basisbibliothek für effiziente Arrays und mathematische Operationen.",
+      "weight": 1,
+      "topic": "NumPy Grundlagen",
+      "concept": "Bibliotheken-Ökosystem",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "NumPy", "definition": "Bibliothek für multidimensionale Arrays und Matrizen." }
+      ]
+    },
+    {
+      "question": "5. Gegeben ist ein NumPy Array `arr = np.array([1, 2, 3])`. Was passiert bei `arr * 2`?",
+      "options": [
+        "Das Array wird dupliziert: `[1, 2, 3, 1, 2, 3]`.",
+        "Es entsteht ein Fehler, da man Arrays nicht mit Skalaren multiplizieren kann.",
+        "Jedes Element wird multipliziert: `[2, 4, 6]`.",
+        "Die Länge des Arrays wird verdoppelt."
+      ],
+      "answer": 2,
+      "explanation": "NumPy unterstützt Vektorisierung. Operationen mit Skalaren werden elementweise auf das gesamte Array angewendet (Broadcasting).",
+      "weight": 2,
+      "topic": "NumPy Operationen",
+      "concept": "Vektorisierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Vektorisierung in NumPy",
+        "steps": [
+          "NumPy erkennt die Multiplikation eines Arrays mit einem Skalar.",
+          "Der Skalar (2) wird auf jedes Element des Arrays angewendet.",
+          "Rechnung: 1*2=2, 2*2=4, 3*2=6.",
+          "Ergebnis ist ein neues Array gleicher Form."
+        ],
+        "content": "Im Gegensatz zu Java-Listen (wo man eine Schleife bräuchte) oder Python-Listen (wo `*` die Liste wiederholt), rechnet NumPy mathematisch elementweise."
+      },
+      "mini_glossary": [
+        { "term": "Vektorisierung", "definition": "Ausführung von Operationen auf ganzen Arrays ohne explizite Schleifen." },
+        { "term": "Broadcasting", "definition": "Mechanismus zur Behandlung von Arrays unterschiedlicher Form bei Operationen." }
+      ]
+    },
+    {
+      "question": "6. Sie haben ein Pandas DataFrame `df`. Mit welchem Befehl erhalten Sie eine schnelle statistische Zusammenfassung (Mittelwert, Min, Max etc.) der numerischen Spalten?",
+      "options": [
+        "`df.info()`",
+        "`df.head()`",
+        "`df.describe()`",
+        "`df.stats()`"
+      ],
+      "answer": 2,
+      "explanation": "`df.describe()` generiert deskriptive Statistiken für alle numerischen Spalten. `df.info()` zeigt Datentypen und Nicht-Null-Werte.",
+      "weight": 1,
+      "topic": "Pandas Grundlagen",
+      "concept": "Daten-Exploration",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "DataFrame", "definition": "Zweidimensionale, tabellarische Datenstruktur in Pandas." },
+        { "term": "Deskriptive Statistik", "definition": "Zusammenfassende Kennzahlen wie Mittelwert und Standardabweichung." }
+      ]
+    },
+    {
+      "question": "7. Wie wählen Sie in einem Pandas DataFrame `df` die Spalte 'Preis' aus?",
+      "options": [
+        "`df.get('Preis')`",
+        "`df['Preis']` oder `df.Preis`",
+        "`df(Preis)`",
+        "`df->Preis`"
+      ],
+      "answer": 1,
+      "explanation": "Die Standard-Syntax ist `df['Spaltenname']`. Wenn der Name keine Leerzeichen oder Sonderzeichen enthält, geht oft auch die Attribut-Schreibweise `df.Spaltenname`.",
+      "weight": 1,
+      "topic": "Pandas Grundlagen",
+      "concept": "Spalten-Selektion",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Series", "definition": "Eindimensionales Array-ähnliches Objekt, das eine Spalte repräsentiert." }
+      ]
+    },
+    {
+      "question": "8. Gegeben ist `df` mit Index 0 bis 10. Was liefert `df.iloc[0:3]`?",
+      "options": [
+        "Die Zeilen mit den Index-Labels 0, 1, 2 und 3.",
+        "Die Zeilen an den Positionen 0, 1 und 2.",
+        "Nur die Zeile an Position 3.",
+        "Eine Fehlermeldung."
+      ],
+      "answer": 1,
+      "explanation": "`iloc` arbeitet positionsbasiert (integer-location). Wie beim Python-Slicing ist der Endwert exklusiv. Es werden die Zeilen an Position 0, 1 und 2 zurückgegeben.",
+      "weight": 2,
+      "topic": "Pandas Indexing",
+      "concept": "iloc vs loc",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Funktionsweise von iloc",
+        "steps": [
+          "Verstehe `iloc`: Integer-Location (basierend auf Position, nicht Label).",
+          "Analysiere den Slice `0:3`.",
+          "Start: 0 (inklusive).",
+          "Ende: 3 (exklusiv, typisch für Python).",
+          "Ergebnis: Zeilen an Position 0, 1, 2."
+        ],
+        "content": "Dies ist ein häufiger Stolperstein für Umsteiger: `loc[0:3]` würde (bei numerischem Index) auch die 3 einschließen (Label-basiert), während `iloc` strikt Python-Slicing-Regeln folgt."
+      },
+      "mini_glossary": [
+        { "term": "iloc", "definition": "Positionsbasierte Indizierung in Pandas." },
+        { "term": "Slicing", "definition": "Ausschneiden eines Teilbereichs aus einer Sequenz." }
+      ]
+    },
+    {
+      "question": "9. Sie möchten Zeilen filtern, in denen die Spalte 'Alter' größer als 30 ist. Welcher Code ist korrekt?",
+      "options": [
+        "`df[df['Alter'] > 30]`",
+        "`df.filter('Alter' > 30)`",
+        "`df.where(Alter > 30)`",
+        "`if df['Alter'] > 30: return df`"
+      ],
+      "answer": 0,
+      "explanation": "Dies nennt man 'Boolean Indexing' oder 'Masking'. Der innere Ausdruck `df['Alter'] > 30` erzeugt eine Serie von Wahrheitswerten, die dann zum Filtern des DataFrames genutzt wird.",
+      "weight": 2,
+      "topic": "Daten-Selektion",
+      "concept": "Boolean Indexing",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Boolean Masking",
+        "steps": [
+          "Erstelle Bedingung: `df['Alter'] > 30` ergibt eine Series aus True/False.",
+          "Wende Maske an: `df[...]` nutzt diese Series.",
+          "Filterung: Nur Zeilen, wo 'True' steht, bleiben erhalten.",
+          "Ergebnis: Ein neuer DataFrame mit den gefilterten Daten."
+        ],
+        "content": "Dies ist der Standardweg in Pandas und NumPy, um Daten effizient ohne Schleifen zu filtern."
+      },
+      "mini_glossary": [
+        { "term": "Boolean Mask", "definition": "Array aus Wahrheitswerten zur Filterung von Daten." }
+      ]
+    },
+    {
+      "question": "10. Ein DataFrame enthält `NaN` Werte. Welche Methode entfernt alle Zeilen, die mindestens einen fehlenden Wert enthalten?",
+      "options": [
+        "`df.fillna(0)`",
+        "`df.dropna()`",
+        "`df.remove_nulls()`",
+        "`df.isnull()`"
+      ],
+      "answer": 1,
+      "explanation": "`dropna()` entfernt standardmäßig alle Zeilen (`axis=0`), die irgendeinen (`how='any'`) fehlenden Wert enthalten.",
+      "weight": 1,
+      "topic": "Datenbereinigung",
+      "concept": "Missing Values",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "NaN", "definition": "Not a Number; Platzhalter für fehlende Werte." },
+        { "term": "Imputation", "definition": "Ersetzen fehlender Werte (Gegenteil von Löschen)." }
+      ]
+    },
+    {
+      "question": "11. Was bewirkt `df.groupby('Kategorie')['Umsatz'].sum()`?",
+      "options": [
+        "Es sortiert die Tabelle nach Kategorie und Umsatz.",
+        "Es gruppiert die Daten nach Kategorie und berechnet die Summe der Umsatz-Spalte für jede Gruppe.",
+        "Es addiert 'Kategorie' und 'Umsatz' zusammen.",
+        "Es filtert alle Zeilen, die keinen Umsatz haben."
+      ],
+      "answer": 1,
+      "explanation": "Dies ist das 'Split-Apply-Combine' Muster. Die Daten werden nach 'Kategorie' gesplittet, und die Summen-Funktion wird auf 'Umsatz' angewendet.",
+      "weight": 2,
+      "topic": "Aggregation",
+      "concept": "Groupby",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Split-Apply-Combine",
+        "steps": [
+          "Split: Teile Daten in Gruppen basierend auf eindeutigen Werten in 'Kategorie'.",
+          "Select: Wähle die Spalte 'Umsatz' in jeder Gruppe.",
+          "Apply: Berechne die Summe für diese Spalte pro Gruppe.",
+          "Combine: Füge Ergebnisse zu neuem DataFrame/Series zusammen."
+        ],
+        "content": "Ähnlich wie `GROUP BY` in SQL ist dies essenziell für aggregierte Analysen."
+      },
+      "mini_glossary": [
+        { "term": "Aggregation", "definition": "Zusammenfassen mehrerer Werte zu einem (z. B. Summe, Mittelwert)." }
+      ]
+    },
+    {
+      "question": "12. Sie wollen eine CSV-Datei 'data.csv' einlesen. Welcher Befehl ist korrekt?",
+      "options": [
+        "`pd.read_file('data.csv')`",
+        "`pd.import_csv('data.csv')`",
+        "`pd.read_csv('data.csv')`",
+        "`new DataFrame('data.csv')`"
+      ],
+      "answer": 2,
+      "explanation": "`pd.read_csv()` ist die Standardfunktion in Pandas zum Einlesen von Comma Separated Values.",
+      "weight": 1,
+      "topic": "Datei-I/O",
+      "concept": "Datenimport",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "CSV", "definition": "Comma Separated Values; einfaches Textformat für Tabellen." }
+      ]
+    },
+    {
+      "question": "13. In einem Boxplot ist der Median als Linie eingezeichnet. Was repräsentiert die 'Box' selbst?",
+      "options": [
+        "Den Bereich von Minimum bis Maximum.",
+        "Den Interquartilsabstand (IQR), also den Bereich zwischen dem 25. und 75. Perzentil.",
+        "Die Standardabweichung vom Mittelwert.",
+        "Alle Ausreißer."
+      ],
+      "answer": 1,
+      "explanation": "Die Box in einem Boxplot spannt sich vom 1. Quartil (Q1) bis zum 3. Quartil (Q3) und enthält somit die mittleren 50% der Daten.",
+      "weight": 2,
+      "topic": "Visualisierung",
+      "concept": "Boxplot-Interpretation",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Aufbau eines Boxplots",
+        "steps": [
+          "Untere Kante der Box: Q1 (25% der Daten sind kleiner).",
+          "Obere Kante der Box: Q3 (75% der Daten sind kleiner).",
+          "Höhe der Box: IQR = Q3 - Q1.",
+          "Linie in der Box: Median (50%)."
+        ],
+        "content": "Boxplots sind ideal, um Verteilungen und Ausreißer (Punkte außerhalb der 'Whisker') schnell zu erkennen."
+      },
+      "mini_glossary": [
+        { "term": "IQR", "definition": "Interquartilsabstand; Maß für die Streuung." },
+        { "term": "Perzentil", "definition": "Wert, unterhalb dessen ein bestimmter Prozentsatz der Daten liegt." }
+      ]
+    },
+    {
+      "question": "14. Sie führen folgenden Code aus: `df['A'] = df['B']; df['A'].iloc[0] = 10`. Später stellen Sie fest, dass sich auch `df['B']` geändert hat. Warum?",
+      "options": [
+        "Das ist ein Bug in Pandas.",
+        "Pandas kopiert Daten standardmäßig immer.",
+        "Dies ist eine 'SettingWithCopy'-Situation; die Zuweisung erstellte nur eine flache Kopie (View) oder Referenz.",
+        "Spalte A und B teilen sich physikalisch immer den Speicher."
+      ],
+      "answer": 2,
+      "explanation": "In Python und Pandas führen einfache Zuweisungen oft nur zu Referenzen oder Views auf denselben Speicher. Um eine unabhängige Kopie zu erhalten, muss `.copy()` verwendet werden.",
+      "weight": 3,
+      "topic": "Pandas Internals",
+      "concept": "Views vs Copies",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Referenzverhalten analysieren",
+        "steps": [
+          "Zuweisung `df['A'] = df['B']` erstellt oft keine neuen Daten, sondern verweist auf dieselbe Series.",
+          "Änderung in 'A' greift auf denselben Speicher zu wie 'B'.",
+          "Lösung: Explizites `df['A'] = df['B'].copy()` nutzen."
+        ],
+        "content": "Dieses Verhalten ist für Java-Entwickler, die 'Call-by-Value' bei Primitiven gewohnt sind, eine häufige Fehlerquelle bei Objekten."
+      },
+      "mini_glossary": [
+        { "term": "Deep Copy", "definition": "Vollständige Kopie aller Daten und Unterobjekte." },
+        { "term": "View", "definition": "Sicht auf Daten, ohne den Speicher zu duplizieren." }
+      ]
+    },
+    {
+      "question": "15. Was ist der Hauptvorteil der Verwendung von `apply()` mit einer Lambda-Funktion gegenüber einer Iteration mit `for`-Schleife über Zeilen in Pandas?",
+      "options": [
+        "`apply()` ist immer 100x schneller als jede andere Methode.",
+        "Es ist syntaktisch kürzer und oft schneller als eine naive Python-Schleife, aber langsamer als Vektorisierung.",
+        "Es erlaubt Zugriff auf private Variablen.",
+        "Es gibt keinen Unterschied."
+      ],
+      "answer": 1,
+      "explanation": "`apply()` ist performanter als eine explizite `for`-Schleife in reinem Python, da der Loop intern in C optimiert ist, aber es ist immer noch langsamer als echte Vektorisierung (direkte Spalten-Operationen).",
+      "weight": 2,
+      "topic": "Performance",
+      "concept": "Apply vs Loops",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Performance-Hierarchie",
+        "steps": [
+          "1. Platz: Vektorisierung (NumPy/Pandas native Ops).",
+          "2. Platz: `apply()` (interner Iterator).",
+          "3. Platz: `iterrows()` (langsamer Iterator).",
+          "4. Platz: Manuelle Index-Schleife (sehr langsam)."
+        ],
+        "content": "Verwenden Sie `apply` nur, wenn keine vektorisierte Lösung (wie `df['A'] + df['B']`) möglich ist."
+      },
+      "mini_glossary": [
+        { "term": "Lambda-Funktion", "definition": "Anonyme kleine Funktion, oft inline definiert." }
+      ]
+    },
+    {
+      "question": "16. Sie haben zwei DataFrames `df1` (Kunden) und `df2` (Bestellungen). Sie wollen diese verbinden, sodass alle Kunden enthalten sind, auch wenn sie keine Bestellung haben. Welchen Join-Typ wählen Sie?",
+      "options": [
+        "Inner Join",
+        "Left Join (wenn df1 links steht)",
+        "Right Join (wenn df1 links steht)",
+        "Cross Join"
+      ],
+      "answer": 1,
+      "explanation": "Ein Left Join behält alle Schlüssel aus der linken Tabelle (`df1`) und ergänzt Daten aus der rechten Tabelle (`df2`) dort, wo Treffer sind. Sonst entstehen `NaN`.",
+      "weight": 2,
+      "topic": "Daten-Zusammenführung",
+      "concept": "Merge/Join Logik",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Join-Logik anwenden",
+        "steps": [
+          "Ziel: Alle Datensätze aus `df1` (Kunden) behalten.",
+          "Strategie: `df1` als linke Tabelle setzen.",
+          "Join-Typ: `how='left'`.",
+          "Ergebnis: Kunden ohne Bestellung haben `NaN` in den Bestellspalten."
+        ],
+        "content": "Dies entspricht `LEFT OUTER JOIN` in SQL. Ein Inner Join würde Kunden ohne Bestellung verwerfen."
+      },
+      "mini_glossary": [
+        { "term": "Merge", "definition": "Zusammenführen von DataFrames basierend auf Schlüsseln." }
+      ]
+    },
+    {
+      "question": "17. Welche Aussage zur Speicherverwaltung von Pandas 'category' Datentyp ist korrekt?",
+      "options": [
+        "Er verbraucht mehr Speicher als 'object' (String), da er Metadaten speichert.",
+        "Er ist nur für numerische Daten geeignet.",
+        "Er spart signifikant Speicher bei String-Spalten mit wenigen eindeutigen Werten (geringe Kardinalität).",
+        "Er verlangsamt Gruppierungsoperationen."
+      ],
+      "answer": 2,
+      "explanation": "Der Datentyp 'category' speichert die Strings nur einmal in einer Lookup-Tabelle und verwendet im DataFrame kleine Integer-Codes. Bei vielen Wiederholungen spart das massiv Speicher.",
+      "weight": 3,
+      "topic": "Performance & Speicher",
+      "concept": "Categorical Data",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Speicheroptimierung mit Categories",
+        "steps": [
+          "Analyse: Spalte 'Farbe' hat 1 Mio Zeilen, aber nur 'Rot', 'Grün', 'Blau'.",
+          "String (Object): Speichert 1 Mio mal den String.",
+          "Category: Speichert 3 Strings + 1 Mio kleine Integers (0, 1, 2).",
+          "Effekt: Drastische Reduktion des RAM-Verbrauchs."
+        ],
+        "content": "Zusätzlich beschleunigt 'category' oft `groupby` und Sortieroperationen."
+      },
+      "mini_glossary": [
+        { "term": "Kardinalität", "definition": "Anzahl der eindeutigen Werte in einer Menge." }
+      ]
+    },
+    {
+      "question": "18. Was ist das Ergebnis von `np.arange(0, 10, 2)`?",
+      "options": [
+        "`[0, 2, 4, 6, 8, 10]`",
+        "`[0, 2, 4, 6, 8]`",
+        "`[2, 4, 6, 8]`",
+        "`[0, 1, 2, ... 9]`"
+      ],
+      "answer": 1,
+      "explanation": "`arange(start, stop, step)` generiert Werte von Start bis exklusive Stop mit der Schrittweite Step. 10 ist exklusiv.",
+      "weight": 1,
+      "topic": "NumPy Grundlagen",
+      "concept": "Array Erstellung",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "arange", "definition": "Array Range; NumPy-Äquivalent zu Python range()." }
+      ]
+    },
+    {
+      "question": "19. Sie haben Zeitreihendaten als String '2023-01-01'. Wie konvertieren Sie die ganze Spalte effizient in echte Datumsobjekte?",
+      "options": [
+        "Mit einer For-Schleife und `datetime.parse()`.",
+        "`pd.to_datetime(df['Spalte'])`",
+        "`df['Spalte'].astype('date')`",
+        "`df.convert_objects()`"
+      ],
+      "answer": 1,
+      "explanation": "`pd.to_datetime()` ist der leistungsfähige Parser in Pandas, der ganze Spalten intelligent und schnell in Timestamp-Objekte umwandelt.",
+      "weight": 1,
+      "topic": "Datenbereinigung",
+      "concept": "Datentyp-Konvertierung",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Timestamp", "definition": "Zeitstempel-Objekt in Pandas." }
+      ]
+    },
+    {
+      "question": "20. Welche Bibliothek baut auf Matplotlib auf und bietet eine einfachere Syntax für statistische Grafiken sowie schönere Default-Styles?",
+      "options": [
+        "NumPy",
+        "Seaborn",
+        "SciPy",
+        "TensorFlow"
+      ],
+      "answer": 1,
+      "explanation": "Seaborn ist eine High-Level-Visualisierungsbibliothek, die eng mit Pandas DataFrames integriert ist und Matplotlib erweitert.",
+      "weight": 1,
+      "topic": "Visualisierung",
+      "concept": "Bibliotheken",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Seaborn", "definition": "Bibliothek für statistische Datenvisualisierung." }
+      ]
+    },
+    {
+      "question": "21. Sie analysieren Verkaufsdaten. `df.groupby('Produkt')['Umsatz'].mean()` liefert Durchschnittswerte. Aber die Ergebnisse wirken verzerrt durch einige extrem hohe Verkäufe. Welche Aggregation ist robuster gegen Ausreißer?",
+      "options": [
+        "`sum()`",
+        "`median()`",
+        "`std()`",
+        "`max()`"
+      ],
+      "answer": 1,
+      "explanation": "Der Median (Zentralwert) ist im Gegensatz zum Mittelwert (Mean) robust gegenüber extremen Ausreißern, da er nur auf der Rangfolge basiert.",
+      "weight": 3,
+      "topic": "Statistik & Analyse",
+      "concept": "Robuste Statistiken",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Median vs Mean",
+        "steps": [
+          "Szenario: Werte 1, 2, 3, 100.",
+          "Mittelwert: (106)/4 = 26.5 (stark beeinflusst durch 100).",
+          "Median: Zwischen 2 und 3 => 2.5 (repräsentiert die 'Mitte' besser).",
+          "Analyse: Nutzen Sie Median bei schiefen Verteilungen."
+        ],
+        "content": "Bei Data Science ist die Wahl der richtigen Kennzahl entscheidend für die korrekte Interpretation der Daten."
+      },
+      "mini_glossary": [
+        { "term": "Robustheit", "definition": "Unempfindlichkeit statistischer Maßzahlen gegenüber Ausreißern." }
+      ]
+    },
+    {
+      "question": "22. Was bedeutet `axis=1` in Operationen wie `df.drop('col', axis=1)` oder `df.sum(axis=1)`?",
+      "options": [
+        "Operation entlang der Zeilen (vertikal).",
+        "Operation entlang der Spalten (horizontal).",
+        "Operation auf der dritten Dimension.",
+        "Es gibt keinen Unterschied zu `axis=0`."
+      ],
+      "answer": 1,
+      "explanation": "`axis=0` bezieht sich auf den Index (Zeilen), `axis=1` bezieht sich auf die Spalten. `drop(..., axis=1)` löscht also eine Spalte.",
+      "weight": 2,
+      "topic": "Pandas Grundlagen",
+      "concept": "Achsen-Logik",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Achsen verstehen",
+        "steps": [
+          "Axis 0: Bewegt sich 'nach unten' (über Zeilen hinweg). `sum(axis=0)` summiert Spalten.",
+          "Axis 1: Bewegt sich 'nach rechts' (über Spalten hinweg). `sum(axis=1)` summiert Werte einer Zeile.",
+          "Eselsbrücke: 1 sieht aus wie ein stehender Strich (Spalte) -> beeinflusst Spalten."
+        ],
+        "content": "Die korrekte Achsenwahl ist essenziell für Aggregationen und Manipulationen."
+      },
+      "mini_glossary": [
+        { "term": "Axis", "definition": "Dimension in einem Array/DataFrame (0=Zeilen, 1=Spalten)." }
+      ]
+    },
+    {
+      "question": "23. Sie wollen zwei DataFrames vertikal untereinander hängen (konkatenieren). Welcher Befehl?",
+      "options": [
+        "`pd.merge([df1, df2])`",
+        "`pd.concat([df1, df2], axis=0)`",
+        "`pd.join(df1, df2)`",
+        "`df1.append_rows(df2)`"
+      ],
+      "answer": 1,
+      "explanation": "`pd.concat()` ist die universelle Funktion zum Aneinanderhängen. `axis=0` (Standard) stapelt vertikal, `axis=1` würde sie nebeneinander stellen.",
+      "weight": 2,
+      "topic": "Daten-Zusammenführung",
+      "concept": "Konkatenation",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Daten stapeln",
+        "steps": [
+          "Identifiziere Aufgabe: Tabellen 'untereinander' kleben.",
+          "Wähle Tool: `pd.concat()` nimmt eine Liste von Objekten.",
+          "Wähle Richtung: `axis=0` (Zeilen hinzufügen).",
+          "Prüfung: Spaltennamen sollten idealerweise übereinstimmen."
+        ],
+        "content": "`merge` ist für SQL-artige Joins (Spalten verbinden), `concat` für physisches Zusammenfügen."
+      },
+      "mini_glossary": [
+        { "term": "Konkatenation", "definition": "Verkettung von Listen oder Arrays." }
+      ]
+    },
+    {
+      "question": "24. Welche Python-Struktur entspricht am ehesten einer `HashMap` in Java?",
+      "options": [
+        "List `[]`",
+        "Tuple `()`",
+        "Dictionary `{}`",
+        "Set `{}`"
+      ],
+      "answer": 2,
+      "explanation": "Ein Dictionary (`dict`) speichert Key-Value-Paare und bietet O(1) Zugriff auf Schlüssel, genau wie eine HashMap.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "Datenstrukturen Vergleich",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Dictionary", "definition": "Ungeordnete Sammlung von Schlüssel-Wert-Paaren." }
+      ]
+    },
+    {
+      "question": "25. Ein Histogramm zeigt eine 'Linksschiefe' (left-skewed / negative skew). Wo liegt der Mittelwert im Vergleich zum Median?",
+      "options": [
+        "Mittelwert > Median",
+        "Mittelwert < Median",
+        "Mittelwert == Median",
+        "Kann man nicht sagen."
+      ],
+      "answer": 1,
+      "explanation": "Bei einer Linksschiefe (langer Schwanz nach links, zu kleinen Werten) ziehen die kleinen Ausreißer den Mittelwert nach unten. Der Median bleibt weiter rechts.",
+      "weight": 3,
+      "topic": "Statistik",
+      "concept": "Verteilungsformen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Schiefe Verteilungen",
+        "steps": [
+          "Visualisiere: Der 'Berg' ist rechts, der flache Ausläufer links.",
+          "Einfluss: Ausreißer im linken Ausläufer (sehr kleine Werte).",
+          "Mittelwert: Reagiert stark, wandert nach links.",
+          "Median: Bleibt im Zentrum der Masse (rechts vom Mittelwert)."
+        ],
+        "content": "Verstehen der Schiefe ist wichtig, um zu entscheiden, ob der Mittelwert eine gute Kennzahl ist."
+      },
+      "mini_glossary": [
+        { "term": "Skewness", "definition": "Schiefe einer Wahrscheinlichkeitsverteilung." }
+      ]
+    },
+    {
+      "question": "26. Warum ist `for row in df.iterrows(): ...` oft eine schlechte Idee bei großen Datensätzen?",
+      "options": [
+        "Es ist syntaktisch falsch.",
+        "Es ist extrem langsam, da Pandas-Optimierungen umgangen werden und für jede Zeile ein Series-Objekt erstellt wird.",
+        "Es führt zu Speicherüberlauf.",
+        "Es verändert die Daten ungewollt."
+      ],
+      "answer": 1,
+      "explanation": "`iterrows()` iteriert in Python-Geschwindigkeit und erzeugt Overhead durch Objekterstellung. Vektorisierung ist um Größenordnungen schneller.",
+      "weight": 2,
+      "topic": "Performance",
+      "concept": "Anti-Patterns",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Vermeidung von iterrows",
+        "steps": [
+          "Problem: Python-Loops sind langsam bei Millionen Durchläufen.",
+          "Problem 2: `iterrows` konvertiert jede Zeile in eine neue Series (Overhead).",
+          "Lösung: Nutze Spaltenoperationen (`df['a'] + df['b']`)."
+        ],
+        "content": "Iteration sollte in Pandas das letzte Mittel sein, nicht das erste."
+      },
+      "mini_glossary": [
+        { "term": "Overhead", "definition": "Zusätzlicher Ressourcenaufwand für Verwaltung." }
+      ]
+    },
+    {
+      "question": "27. Sie verwenden `df.pivot_table(index='Datum', columns='Produkt', values='Umsatz')`. Was passiert, wenn es für ein Datum und Produkt mehrere Umsatz-Einträge gibt?",
+      "options": [
+        "Fehler.",
+        "Es wird standardmäßig der Mittelwert (`mean`) der Werte berechnet.",
+        "Es wird der erste Wert genommen.",
+        "Es wird der letzte Wert genommen."
+      ],
+      "answer": 1,
+      "explanation": "`pivot_table` hat einen Parameter `aggfunc`, der standardmäßig auf `'mean'` gesetzt ist (anders als einfaches `pivot`, das keine Duplikate erlaubt).",
+      "weight": 2,
+      "topic": "Reshaping",
+      "concept": "Pivoting",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Pivot vs Pivot Table",
+        "steps": [
+          "Situation: Mehrere Werte pro Zelle (Datum/Produkt Kombination).",
+          "Notwendigkeit: Aggregation (Zusammenfassung).",
+          "Lösung: `pivot_table` aggregiert automatisch (default mean).",
+          "Alternative: `pivot` würde einen 'Duplicate index' Fehler werfen."
+        ],
+        "content": "Pivoting wandelt 'lange' Formate (Datenbank-Style) in 'breite' Formate (Excel-Style) um."
+      },
+      "mini_glossary": [
+        { "term": "Pivot", "definition": "Drehen von Daten; Umwandlung von Zeilenwerten in Spaltenüberschriften." }
+      ]
+    },
+    {
+      "question": "28. Welcher Datentyp wird von Pandas verwendet, um fehlende numerische Werte (NaN) zu speichern, und was ist die Konsequenz für Integer-Spalten (vor Pandas 1.0)?",
+      "options": [
+        "`null`; Integer Spalten bleiben Integer.",
+        "`NaN` (float); Integer-Spalten werden zwangsweise zu Float konvertiert.",
+        "`None`; keine Auswirkung.",
+        "`-1`; als Platzhalter."
+      ],
+      "answer": 1,
+      "explanation": "Traditionell basiert `NaN` auf dem IEEE 754 Floating Point Standard. Daher mussten Integer-Spalten mit fehlenden Werten zu Float gecastet werden (z. B. wird 5 zu 5.0).",
+      "weight": 3,
+      "topic": "Datentypen",
+      "concept": "NaN und Integers",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Das Int-NaN Problem",
+        "steps": [
+          "Ursache: Hardware-NaN existiert nur für Floats.",
+          "Effekt: Sobald ein `NaN` in eine Int-Spalte kommt, castet Pandas alles zu Float.",
+          "Neuere Lösung: Pandas führte 'Int64' (nullable int) ein, um dies zu umgehen.",
+          "Analyse: Wichtig beim Einlesen von IDs, die plötzlich Kommazahlen sind."
+        ],
+        "content": "Achten Sie darauf, wenn IDs plötzlich '.0' am Ende haben."
+      },
+      "mini_glossary": [
+        { "term": "IEEE 754", "definition": "Standard für Gleitkommaarithmetik." }
+      ]
+    },
+    {
+      "question": "29. Wie erstellen Sie eine Kopie eines DataFrames, bei der Änderungen NICHT auf das Original zurückwirken?",
+      "options": [
+        "`df2 = df`",
+        "`df2 = df.copy()`",
+        "`df2 = new DataFrame(df)`",
+        "`df2 = df[:]`"
+      ],
+      "answer": 1,
+      "explanation": "`df.copy()` erstellt eine 'Deep Copy' (standardmäßig). `df2 = df` kopiert nur die Referenz.",
+      "weight": 1,
+      "topic": "Pandas Grundlagen",
+      "concept": "Kopieren",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Assignment", "definition": "Zuweisung; in Python meist Referenzkopie." }
+      ]
+    },
+    {
+      "question": "30. Was ist der Unterschied zwischen einer Liste `[1, 2]` und einem Tupel `(1, 2)` in Python?",
+      "options": [
+        "Listen sind immutable (unveränderlich), Tupel sind mutable.",
+        "Tupel sind immutable (unveränderlich), Listen sind mutable.",
+        "Listen können nur Zahlen enthalten.",
+        "Tupel sind langsamer."
+      ],
+      "answer": 1,
+      "explanation": "Tupel sind unveränderlich (immutable). Nach der Erstellung können keine Elemente hinzugefügt oder geändert werden. Listen sind dynamisch veränderbar.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "Immutability",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Mutable", "definition": "Veränderbares Objekt." },
+        { "term": "Immutable", "definition": "Unveränderbares Objekt nach Erstellung." }
+      ]
+    },
+    {
+      "question": "31. Sie haben eine Funktion `def process(data=[]): ...`. Warum ist dieser Default-Parameter gefährlich?",
+      "options": [
+        "Leere Listen sind in Python nicht erlaubt.",
+        "Der Default-Wert wird nur einmal bei der Definition ausgewertet (mutable default argument trap). Alle Aufrufe teilen sich dieselbe Liste.",
+        "Es verursacht einen Syntaxfehler.",
+        "Die Typisierung ist unklar."
+      ],
+      "answer": 1,
+      "explanation": "Dies ist ein klassischer Python-Fallstrick. Wenn die Funktion die Liste ändert, behält sie diese Änderungen bei folgenden Aufrufen, da das Listen-Objekt nur einmal erstellt wird.",
+      "weight": 3,
+      "topic": "Python Advanced",
+      "concept": "Mutable Default Arguments",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Mutable Defaults Falle",
+        "steps": [
+          "Definition: `def f(x=[]): x.append(1); print(x)`",
+          "1. Aufruf: `f()` -> `[1]`",
+          "2. Aufruf: `f()` -> `[1, 1]` (NICHT `[1]`!)",
+          "Lösung: Nutze `def f(x=None): if x is None: x = []`"
+        ],
+        "content": "In Java gibt es dieses Verhalten nicht, da Parameter anders behandelt werden. In Python ist die Funktionsdefinition ausführbarer Code."
+      },
+      "mini_glossary": [
+        { "term": "Default Argument", "definition": "Standardwert für einen Funktionsparameter." }
+      ]
+    },
+    {
+      "question": "32. Welche Methode nutzen Sie, um Strings in einer Pandas-Series zu bearbeiten, z. B. alle auf Kleinbuchstaben zu setzen?",
+      "options": [
+        "Loop über alle Elemente.",
+        "`df['col'].str.lower()`",
+        "`df['col'].lower()`",
+        "`lower(df['col'])`"
+      ],
+      "answer": 1,
+      "explanation": "Pandas bietet den `.str` Accessor, der vektorisierte String-Operationen auf Series-Objekten ermöglicht.",
+      "weight": 2,
+      "topic": "Textverarbeitung",
+      "concept": "String Accessor",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Der .str Accessor",
+        "steps": [
+          "Problem: Methoden wie `.lower()` existieren nicht direkt auf der Series.",
+          "Lösung: Zugriff über `.str` macht String-Methoden verfügbar.",
+          "Anwendung: `series.str.upper()`, `series.str.contains()`, etc.",
+          "Vorteil: Behandelt `NaN` automatisch korrekt."
+        ],
+        "content": "Dies ist analog zum `.dt` Accessor für Datumsangaben."
+      },
+      "mini_glossary": [
+        { "term": "Accessor", "definition": "Schnittstelle für spezifische Datentyp-Funktionen (str, dt, cat)." }
+      ]
+    },
+    {
+      "question": "33. Sie plotten zwei Variablen gegeneinander und sehen eine Punktewolke, die sich um eine Gerade von unten links nach oben rechts gruppiert. Was sagt die Korrelation aus?",
+      "options": [
+        "Korrelation nahe -1.",
+        "Korrelation nahe 0.",
+        "Korrelation nahe +1.",
+        "Keine Korrelation."
+      ],
+      "answer": 2,
+      "explanation": "Eine steigende Gerade deutet auf eine starke positive lineare Beziehung hin, also einen Korrelationskoeffizienten (Pearson) nahe +1.",
+      "weight": 2,
+      "topic": "Statistik",
+      "concept": "Korrelation",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Korrelation interpretieren",
+        "steps": [
+          "Positive Steigung: Wenn X steigt, steigt Y -> Positiv.",
+          "Eng an der Linie: Starke Beziehung -> Nahe 1.",
+          "Streuung: Punktewolke -> Schwächere Korrelation.",
+          "Schlussfolgerung: +1 ist perfekt linear steigend."
+        ],
+        "content": "Korrelation impliziert keine Kausalität, beschreibt aber die Stärke des linearen Zusammenhangs."
+      },
+      "mini_glossary": [
+        { "term": "Pearson Korrelation", "definition": "Maß für den linearen Zusammenhang (-1 bis +1)." }
+      ]
+    },
+    {
+      "question": "34. Wie laden Sie ein Modul 'matplotlib.pyplot' standardkonform, um Tipparbeit zu sparen?",
+      "options": [
+        "`import matplotlib.pyplot`",
+        "`import matplotlib.pyplot as plt`",
+        "`include matplotlib.pyplot`",
+        "`from matplotlib import pyplot`"
+      ],
+      "answer": 1,
+      "explanation": "`import ... as ...` erlaubt Aliasse. `plt` ist die universelle Konvention für pyplot.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "Import Konventionen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Alias", "definition": "Kurzname für ein importiertes Modul." }
+      ]
+    },
+    {
+      "question": "35. Was passiert, wenn Sie `set([1, 2, 2, 3])` aufrufen?",
+      "options": [
+        "Ein Fehler.",
+        "Es entsteht `{1, 2, 2, 3}`.",
+        "Es entsteht `{1, 2, 3}` (Duplikate entfernt).",
+        "Es entsteht eine sortierte Liste `[1, 2, 3]`."
+      ],
+      "answer": 2,
+      "explanation": "Ein Set ist eine Menge eindeutiger Elemente. Bei der Erstellung werden Duplikate automatisch verworfen.",
+      "weight": 2,
+      "topic": "Python Datenstrukturen",
+      "concept": "Sets",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Eigenschaften von Sets",
+        "steps": [
+          "Eingabe: Liste mit Duplikaten.",
+          "Konvertierung zu Set: Prüft Hash-Werte.",
+          "Filterung: Behält jeden Hash nur einmal.",
+          "Ergebnis: Menge der Unique Values."
+        ],
+        "content": "Sets sind extrem nützlich, um schnell die Menge der eindeutigen Elemente in einer Liste zu finden."
+      },
+      "mini_glossary": [
+        { "term": "Set", "definition": "Menge eindeutiger Elemente ohne feste Ordnung." }
+      ]
+    },
+    {
+      "question": "36. Ein Machine Learning Modell zeigt auf den Trainingsdaten fast 100% Genauigkeit, aber auf den Testdaten nur 60%. Welches Problem liegt wahrscheinlich vor?",
+      "options": [
+        "Underfitting",
+        "Overfitting",
+        "Falsche Daten",
+        "Zu wenig Trainingsdaten"
+      ],
+      "answer": 1,
+      "explanation": "Overfitting (Überanpassung) bedeutet, dass das Modell die Trainingsdaten (inkl. Rauschen) 'auswendig gelernt' hat, aber nicht auf neue Daten generalisieren kann.",
+      "weight": 3,
+      "topic": "Data Science Konzepte",
+      "concept": "Overfitting",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Overfitting Diagnose",
+        "steps": [
+          "Symptom: Hohe Diskrepanz zwischen Training- und Test-Score.",
+          "Ursache: Modell ist zu komplex für die Datenmenge.",
+          "Vergleich: Wie ein Schüler, der die Lösungen auswendig lernt, aber das Konzept nicht versteht.",
+          "Gegenmaßnahme: Regularisierung, mehr Daten, einfacheres Modell."
+        ],
+        "content": "Dies ist eines der zentralen Probleme im Machine Learning."
+      },
+      "mini_glossary": [
+        { "term": "Generalisierung", "definition": "Fähigkeit eines Modells, auf unbekannten Daten gute Ergebnisse zu liefern." }
+      ]
+    },
+    {
+      "question": "37. Wie greifen Sie auf das letzte Element einer Liste `lst` zu?",
+      "options": [
+        "`lst[len(lst)]`",
+        "`lst[-1]`",
+        "`lst.last()`",
+        "`lst[end]`"
+      ],
+      "answer": 1,
+      "explanation": "Python unterstützt negative Indizierung. `-1` referenziert das letzte Element, `-2` das vorletzte usw.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "Negative Indexing",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Index", "definition": "Position eines Elements in einer Sequenz." }
+      ]
+    },
+    {
+      "question": "38. Sie haben eine Spalte mit Werten '100 USD', '200 USD'. Um damit zu rechnen, müssen Sie ' USD' entfernen und in Zahlen umwandeln. Welche Kette ist am sinnvollsten?",
+      "options": [
+        "`df['Preis'].str.replace(' USD', '').astype(float)`",
+        "`df['Preis'].replace(' USD', '').to_numeric()`",
+        "`df['Preis'].trim().int()`",
+        "Manuelle Schleife."
+      ],
+      "answer": 0,
+      "explanation": "Zuerst String-Operation (`str.replace`), um den Text zu bereinigen, dann Typ-Konvertierung (`astype`).",
+      "weight": 2,
+      "topic": "Datenbereinigung",
+      "concept": "Method Chaining",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Cleaning Pipeline",
+        "steps": [
+          "1. Zugriff auf String-Methoden: `.str`.",
+          "2. Ersetzen: `.replace(' USD', '')` entfernt Suffix.",
+          "3. Ergebnis ist immer noch String ('100').",
+          "4. Konvertierung: `.astype(float)` macht daraus Zahl (100.0)."
+        ],
+        "content": "Das Verketten von Methoden (Chaining) macht den Code lesbar und kompakt."
+      },
+      "mini_glossary": [
+        { "term": "Casting", "definition": "Änderung des Datentyps einer Variable." }
+      ]
+    },
+    {
+      "question": "39. Was ist der Unterschied zwischen `__init__` in Python und einem Konstruktor in Java?",
+      "options": [
+        "Es gibt keinen Unterschied.",
+        "`__init__` erstellt das Objekt nicht, es initialisiert es nur. Das Objekt wird vorher durch `__new__` erstellt.",
+        "`__init__` muss immer einen Rückgabewert haben.",
+        "Java hat keine Konstruktoren."
+      ],
+      "answer": 1,
+      "explanation": "Technisch gesehen ist `__new__` der Konstruktor, der den Speicher allokiert. `__init__` ist der Initialisierer, der das bereits erstellte Objekt (`self`) konfiguriert. In der Praxis wird `__init__` aber oft wie ein Konstruktor genutzt.",
+      "weight": 3,
+      "topic": "Python OOP",
+      "concept": "Objekt-Erstellung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Python Objekt-Lifecycle",
+        "steps": [
+          "1. `__new__`: Statische Methode, erstellt Instanz.",
+          "2. `__init__`: Instanzmethode, setzt Attribute.",
+          "Java: `new` Operator macht beides in einem Schritt (allokieren + Konstruktor aufrufen).",
+          "Relevanz: Wichtig bei Vererbung von unveränderlichen Typen (wie str, int)."
+        ],
+        "content": "Für die meisten Data Science Anwendungen reicht `__init__`, aber das Verständnis ist wichtig für tiefere Python-Kenntnisse."
+      },
+      "mini_glossary": [
+        { "term": "Self", "definition": "Referenz auf die aktuelle Instanz (analog zu `this` in Java)." }
+      ]
+    },
+    {
+      "question": "40. Welche Datenstruktur eignet sich am besten, um die Häufigkeit von Wörtern in einem Text zu zählen?",
+      "options": [
+        "List",
+        "Set",
+        "Dictionary (oder `collections.Counter`)",
+        "Tuple"
+      ],
+      "answer": 2,
+      "explanation": "Ein Dictionary mappt Wort -> Anzahl. `collections.Counter` ist eine spezialisierte Subklasse dafür.",
+      "weight": 2,
+      "topic": "Standard Library",
+      "concept": "Counter",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Zählen mit HashMaps",
+        "steps": [
+          "Idee: Schlüssel ist das Wort, Wert ist der Zähler.",
+          "Algorithmus: Iteriere über Text, wenn Wort existiert: count++, sonst count=1.",
+          "Python Shortcut: `Counter(wort_liste)` macht dies automatisch."
+        ],
+        "content": "In Data Science (NLP) ist das Zählen von Tokens ('Bag of Words') ein fundamentaler Schritt."
+      },
+      "mini_glossary": [
+        { "term": "NLP", "definition": "Natural Language Processing; Verarbeitung natürlicher Sprache." }
+      ]
+    }
+  ]
+}
