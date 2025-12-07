@@ -3821,9 +3821,13 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         )
 
         # Insert a subtle separator before each question so the PDF shows
-        # a consistent divider line prior to every question block.
+        # a consistent divider line prior to every question block. Only
+        # insert this separator for questions after the first so we can
+        # safely use it as a page-break anchor without creating a blank
+        # first page.
         try:
-            html_parts.append('<div class="muster-concept-sep" aria-hidden="true"></div>')
+            if display_num > 1:
+                html_parts.append('<div class="muster-concept-sep" aria-hidden="true"></div>')
         except Exception:
             pass
         html_parts.append('<div class="question">')
@@ -3963,13 +3967,16 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             .question {{ margin: 18px 0; padding: 12px; border:1px solid #e6eef8; border-radius:6px; background: #ffffff; }}
             .question h3 {{ margin: 0 0 8px 0; color: #1f6feb; font-size: 12pt; }}
             /* Start each subsequent question on a new page in the PDF output.
-               Using the adjacent-sibling selector ensures the first question
-               is not prefixed by a page break, while every following `.question`
-               will start a fresh page. */
-            .question + .question {{
+               We insert a decorative `.muster-concept-sep` before questions
+               (except the first) and use it as the page-break anchor. This
+               avoids creating an empty first page while ensuring every
+               following question starts fresh. */
+            .muster-concept-sep + .question {{
                 page-break-before: always;
                 break-before: page;
             }}
+            /* Avoid splitting a single question across pages where possible. */
+            .question {{ page-break-inside: avoid; break-inside: avoid; }}
             /* Ensure the mini-glossary starts on its own page. */
             .glossary-page-break {{
                 page-break-before: always;
