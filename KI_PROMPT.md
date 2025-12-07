@@ -159,7 +159,13 @@ Inside `<scratchpad>` you must:
    - Ensure `test_duration_minutes` is an integer (round logically if needed).
    - Document the calculation briefly in the scratchpad.
 
+6. **Final Escape Check:**
+   - Mentally scan all LaTeX strings (especially in `mini_glossary` and `options`).
+   - Confirm that EVERY LaTeX command starts with `\\` (double backslash) for JSON validity.
+   - Example check: `\det` is WRONG, `\\det` is RIGHT.
+
 **Important:**
+
 - The scratchpad may contain bullet points or short paragraphs, but no JSON object intended as the final output.
 - Do not refer to the user’s uploaded files by name in the final JSON (you may mention them in the scratchpad for yourself, but not in the generated questions).
 - After completing the scratchpad, proceed to JSON generation.
