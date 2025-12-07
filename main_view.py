@@ -3832,6 +3832,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 except Exception:
                     # fallback: show the raw stage value compactly
                     st.markdown(f"<div style='color:#666; font-size:0.95em; margin:0 0 6px 0; line-height:1.12;'>{str(raw_stage_value_local)}</div>", unsafe_allow_html=True)
+            # Persist a small marker so downstream renderers (explanation
+            # block) can avoid emitting duplicate meta-lines for the same
+            # question during the same render cycle.
+            try:
+                meta_key = f"meta_rendered_{frage_idx}"
+                if (concept_val and str(concept_val).strip()) or stage_rendered:
+                    st.session_state[meta_key] = True
+            except Exception:
+                pass
         except Exception:
             pass
         raw_stage_value = frage_obj.get("kognitive_stufe")
@@ -4303,7 +4312,13 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
         st.success(_test_view_text("explanation_correct", default="Richtig! ✅"))
     # --- Konzept anzeigen (falls vorhanden) ---
     try:
-        concept_val = frage_obj.get("concept") or frage_obj.get("konzept")
+        # If the question header already rendered meta-lines for this
+        # question, skip re-rendering here to avoid duplicates.
+        meta_key = f"meta_rendered_{frage_idx}"
+        if st.session_state.get(meta_key, False):
+            concept_val = None
+        else:
+            concept_val = frage_obj.get("concept") or frage_obj.get("konzept")
     except Exception:
         concept_val = None
     if concept_val:
