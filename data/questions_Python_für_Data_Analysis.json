@@ -1008,6 +1008,977 @@
       "mini_glossary": [
         { "term": "NLP", "definition": "Natural Language Processing; Verarbeitung natürlicher Sprache." }
       ]
+    },
+    {
+      "question": "41. Betrachten Sie folgenden Code. Was gibt er aus?\n\n```python\n1: daten = [10, 20, 30, 40, 50]\n2: print(daten[1:4])\n```",
+      "options": [
+        "`[10, 20, 30]`",
+        "`[20, 30, 40, 50]`",
+        "`[20, 30, 40]`",
+        "Einen `IndexOutOfBounds` Fehler."
+      ],
+      "answer": 2,
+      "explanation": "Python Slicing ist inklusiv beim Startindex (1 entspricht dem zweiten Element '20') und exklusiv beim Endindex (4 entspricht dem fünften Element, wird also nicht mehr eingeschlossen). Indizes sind 1, 2, 3.",
+      "weight": 1,
+      "topic": "Python Grundlagen",
+      "concept": "List Slicing",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Slicing", "definition": "Syntax `[start:stop:step]` zum Extrahieren von Teilen." }
+      ]
+    },
+    {
+      "question": "42. Welches Problem tritt in diesem Code auf?\n\n```python\n1: import pandas as pd\n2: df = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})\n3: maske = (df['A'] > 1) and (df['B'] < 5)\n```",
+      "options": [
+        "Die Syntax ist korrekt.",
+        "Python kennt kein `and`, man muss `&&` nutzen.",
+        "Für Pandas-Series muss der bitweise Operator `&` verwendet werden, da `and` mehrdeutig ist.",
+        "Die Klammern sind überflüssig und verursachen den Fehler."
+      ],
+      "answer": 2,
+      "explanation": "Der Python-Operator `and` erwartet einen einzelnen Wahrheitswert (True/False). Da Pandas-Series viele Werte enthalten, weiß Python nicht, ob die ganze Serie 'Wahr' ist. Man muss den bitweisen Operator `&` für elementweise Vergleiche nutzen.",
+      "weight": 2,
+      "topic": "Pandas Logik",
+      "concept": "Bitwise Operators",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Boolean Operators in Pandas",
+        "steps": [
+          "Problem: `and` prüft `bool(Series)`, was einen `ValueError` wirft.",
+          "Lösung: `&` führt die Operation elementweise (Zeile für Zeile) aus.",
+          "Wichtig: Klammern um die Bedingungen `(A > 1) & (B < 5)` sind zwingend wegen der Operator-Priorität."
+        ],
+        "content": "Ein klassischer Fehler für Java-Entwickler, die `&&` oder `and` gewohnt sind."
+      },
+      "mini_glossary": [
+        { "term": "Ambiguity Error", "definition": "Fehler, wenn der Wahrheitsgehalt einer Array-Struktur nicht eindeutig ist." }
+      ]
+    },
+    {
+      "question": "43. Was passiert bei der Ausführung dieses Codes?\n\n```python\n1: tupel = (1, 2, 3)\n2: tupel[1] = 5\n3: print(tupel)\n```",
+      "options": [
+        "Ausgabe: `(1, 5, 3)`",
+        "Ausgabe: `[1, 5, 3]`",
+        "TypeError: 'tuple' object does not support item assignment",
+        "Der Code läuft, aber das Tupel bleibt unverändert."
+      ],
+      "answer": 2,
+      "explanation": "Tupel sind in Python unveränderlich (immutable). Man kann Elemente nach der Erstellung nicht mehr ändern.",
+      "weight": 1,
+      "topic": "Python Datentypen",
+      "concept": "Immutability",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "TypeError", "definition": "Fehler, wenn eine Operation auf einen unpassenden Datentyp angewendet wird." }
+      ]
+    },
+    {
+      "question": "44. Finden Sie den Logikfehler in dieser Funktion:\n\n```python\n1: def add_item(item, liste=[]):\n2:     liste.append(item)\n3:     return liste\n4:\n5: print(add_item('A'))\n6: print(add_item('B'))\n```",
+      "options": [
+        "Zeile 5 gibt `['A']` aus, Zeile 6 gibt `['B']` aus.",
+        "Zeile 5 gibt `['A']` aus, Zeile 6 gibt `['A', 'B']` aus.",
+        "Es tritt ein Fehler auf, weil `liste` nicht typisiert ist.",
+        "Zeile 6 überschreibt Zeile 5, beide geben `['B']` aus."
+      ],
+      "answer": 1,
+      "explanation": "Die Liste im Default-Parameter wird nur *einmal* bei der Definition erstellt. Beide Funktionsaufrufe teilen sich dieselbe Listen-Instanz. Das zweite Element wird an die *bestehende* Liste angehängt.",
+      "weight": 3,
+      "topic": "Python Funktionen",
+      "concept": "Mutable Default Arguments",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Gefährliche Default-Werte",
+        "steps": [
+          "Definiert: `liste` wird im Speicher angelegt (ID: 123).",
+          "Aufruf 1: `add_item('A')` nutzt ID 123 -> `['A']`.",
+          "Aufruf 2: `add_item('B')` nutzt immer noch ID 123 (welche bereits `['A']` enthält) -> `['A', 'B']`.",
+          "Fix: `def add_item(item, liste=None): if liste is None: liste = []`."
+        ],
+        "content": "Dies ist anders als in Java, wo Default-Parameter so nicht existieren oder per Overloading gelöst werden."
+      },
+      "mini_glossary": [
+        { "term": "Side Effect", "definition": "Ungewollte Änderung des Zustands außerhalb des lokalen Scopes." }
+      ]
+    },
+    {
+      "question": "45. Was bewirkt dieser List-Comprehension Code?\n\n```python\n1: zahlen = [1, 2, 3, 4, 5]\n2: res = [x for x in zahlen if x % 2 == 0]\n```",
+      "options": [
+        "Er quadriert alle geraden Zahlen.",
+        "Er filtert die Liste und behält nur gerade Zahlen: `[2, 4]`.",
+        "Er erstellt eine Liste von Booleans: `[False, True, False, True, False]`.",
+        "Er gibt Syntaxfehler zurück."
+      ],
+      "answer": 1,
+      "explanation": "Der Teil `if x % 2 == 0` wirkt als Filter. Nur Elemente, die die Bedingung erfüllen, landen in der neuen Liste `res`.",
+      "weight": 2,
+      "topic": "Python Syntax",
+      "concept": "Filtering List Comprehension",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Filter-Logik",
+        "steps": [
+          "Iteration: Gehe durch `zahlen`.",
+          "Prüfung: Ist Element durch 2 teilbar?",
+          "Selektion: Wenn ja, nimm es auf.",
+          "Ergebnis: Eine neue Liste mit der Teilmenge."
+        ],
+        "content": "Dies entspricht in Java etwa: `stream().filter(x -> x % 2 == 0).collect(toList())`."
+      },
+      "mini_glossary": [
+        { "term": "Modulo", "definition": "Operator `%`, gibt den Rest einer Division zurück." }
+      ]
+    },
+    {
+      "question": "46. Warum wirft dieser Pandas-Code eine Warnung (SettingWithCopyWarning)?\n\n```python\n1: df_subset = df[df['Age'] > 50]\n2: df_subset['Status'] = 'Senior'\n```",
+      "options": [
+        "Weil 'Senior' ein String ist und 'Status' numerisch sein sollte.",
+        "Weil Pandas nicht weiß, ob `df_subset` eine Kopie oder eine Sicht (View) auf `df` ist, und die Änderung evtl. nicht im Original ankommt.",
+        "Weil man neuen Spalten keine Werte zuweisen darf.",
+        "Der Code ist syntaktisch falsch und läuft gar nicht."
+      ],
+      "answer": 1,
+      "explanation": "`df[df['Age'] > 50]` könnte eine View zurückgeben. Eine Zuweisung darauf ist riskant. Pandas warnt, dass man explizit `.copy()` nutzen sollte, wenn man eine eigene Tabelle will, oder `.loc` auf dem Original nutzen sollte.",
+      "weight": 3,
+      "topic": "Pandas Internals",
+      "concept": "SettingWithCopy",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Chained Indexing vermeiden",
+        "steps": [
+          "Schritt 1: `df[...]` erzeugt ein temporäres Objekt (View oder Copy).",
+          "Schritt 2: `['Status'] = ...` modifiziert dieses temporäre Objekt.",
+          "Konsequenz: Die Änderung geht oft verloren oder ist ineffizient.",
+          "Lösung: `df.loc[df['Age'] > 50, 'Status'] = 'Senior'`."
+        ],
+        "content": "Dies ist eine der häufigsten Warnungen in Pandas."
+      },
+      "mini_glossary": [
+        { "term": "Chained Assignment", "definition": "Zuweisung, die auf das Ergebnis einer vorherigen Indizierung folgt (z.B. `df[][]=`)." }
+      ]
+    },
+    {
+      "question": "47. Was gibt dieser Code aus?\n\n```python\n1: s = \"Python\"\n2: print(f\"{s} ist toll\")\n```",
+      "options": [
+        "`{s} ist toll`",
+        "`s ist toll`",
+        "`Python ist toll`",
+        "SyntaxError"
+      ],
+      "answer": 2,
+      "explanation": "Das `f` vor dem String aktiviert 'f-strings' (ab Python 3.6). Ausdrücke in geschweiften Klammern `{}` werden zur Laufzeit ausgewertet und eingefügt.",
+      "weight": 1,
+      "topic": "Python Syntax",
+      "concept": "String Formatting",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "f-string", "definition": "Formatierter String-Literal zur Interpolation von Variablen." }
+      ]
+    },
+    {
+      "question": "48. Was ist das Problem bei diesem Dictionary-Zugriff?\n\n```python\n1: data = {'Name': 'Max', 'Alter': 25}\n2: print(data['Adresse'])\n```",
+      "options": [
+        "Es gibt `None` aus.",
+        "Es wirft einen `KeyError`.",
+        "Es gibt einen leeren String aus.",
+        "Es wirft einen `IndexError`."
+      ],
+      "answer": 1,
+      "explanation": "Der direkte Zugriff mit eckigen Klammern `[]` auf einen nicht existierenden Schlüssel wirft in Python einen `KeyError`. Die Methode `.get('Adresse')` würde stattdessen `None` zurückgeben.",
+      "weight": 2,
+      "topic": "Python Datenstrukturen",
+      "concept": "Error Handling",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Sicherer Dictionary-Zugriff",
+        "steps": [
+          "Direktzugriff `data['key']`: Schnell, aber Fehler bei fehlendem Key.",
+          "Methode `data.get('key')`: Sicher, liefert `None` (oder Default-Wert) bei fehlendem Key.",
+          "Best Practice: Nutze `.get()`, wenn Unsicherheit über die Keys besteht."
+        ],
+        "content": "In Java Maps entspricht `.get()` eher dem sicheren Verhalten (gibt null zurück)."
+      },
+      "mini_glossary": [
+        { "term": "KeyError", "definition": "Ausnahme, wenn ein Dictionary-Schlüssel nicht gefunden wird." }
+      ]
+    },
+    {
+      "question": "49. Welche Zeile verursacht einen `IndentationError`?\n\n```python\n1: for i in range(5):\n2: print(i)\n3:     print(\"Done\")\n```",
+      "options": [
+        "Zeile 1",
+        "Zeile 2",
+        "Zeile 3",
+        "Keine, der Code ist korrekt."
+      ],
+      "answer": 1,
+      "explanation": "In Python muss der Körper einer Schleife eingerückt sein. Zeile 2 steht auf derselben Ebene wie `for` und gehört somit syntaktisch nicht zur Schleife, was aber von `for` erwartet wird.",
+      "weight": 1,
+      "topic": "Python Syntax",
+      "concept": "Indentation",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Scope", "definition": "Geltungsbereich von Variablen und Codeblöcken." }
+      ]
+    },
+    {
+      "question": "50. Sie wollen alle negativen Werte in einem NumPy-Array auf 0 setzen. Was macht dieser Code?\n\n```python\n1: import numpy as np\n2: arr = np.array([-1, 2, -3, 4])\n3: arr[arr < 0] = 0\n```",
+      "options": [
+        "Er setzt das gesamte Array auf 0, wenn irgendein Wert negativ ist.",
+        "Er funktioniert korrekt und ändert `arr` zu `[0, 2, 0, 4]`.",
+        "Er wirft einen Fehler, da Zuweisungen innerhalb von eckigen Klammern verboten sind.",
+        "Er erzeugt eine Kopie, aber das Original `arr` bleibt unverändert."
+      ],
+      "answer": 1,
+      "explanation": "Dies ist korrektes 'Boolean Masking' zur Zuweisung. `arr < 0` wählt die Indizes der negativen Werte aus, und die Zuweisung `= 0` ändert genau diese Stellen im Original-Array.",
+      "weight": 2,
+      "topic": "NumPy Operationen",
+      "concept": "Conditional Assignment",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Maskierte Zuweisung",
+        "steps": [
+          "Maske erstellen: `[-1, 2, -3, 4] < 0` -> `[True, False, True, False]`.",
+          "Indizierung: `arr[...]` wählt nur Elemente an Position 0 und 2.",
+          "Zuweisung: Setze diese auf 0.",
+          "Ergebnis: In-Place Modifikation."
+        ],
+        "content": "Dies ist viel effizienter als eine Schleife mit if-Bedingung."
+      },
+      "mini_glossary": [
+        { "term": "In-Place", "definition": "Operation ändert die Daten direkt im Speicher, ohne neue Kopie." }
+      ]
+    },
+    {
+      "question": "51. Was ist das Ergebnis dieses Vergleichs?\n\n```python\n1: x = 0.1 + 0.2\n2: print(x == 0.3)\n```",
+      "options": [
+        "`True`",
+        "`False`",
+        "`0.30000000000000004`",
+        "Fehler"
+      ],
+      "answer": 1,
+      "explanation": "Aufgrund der IEEE 754 Gleitkomma-Darstellung ist 0.1 + 0.2 in binären Systemen minimal größer als 0.3 (etwa 0.30000000000000004). Der strikte Vergleich `==` schlägt daher fehl.",
+      "weight": 3,
+      "topic": "Numerik",
+      "concept": "Floating Point Precision",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Gleitkomma-Ungenauigkeit",
+        "steps": [
+          "Problem: Binärsystem kann 0.1 nicht exakt darstellen (periodischer Bruch).",
+          "Rechnung: Summe hat minimalen Rundungsfehler.",
+          "Lösung: Nutzen Sie `np.isclose(x, 0.3)` oder prüfen Sie `abs(x - 0.3) < epsilon`."
+        ],
+        "content": "Dieses Problem existiert auch in Java (`double`), wird aber oft übersehen."
+      },
+      "mini_glossary": [
+        { "term": "Epsilon", "definition": "Sehr kleine Zahl, die als Toleranzgrenze bei Vergleichen dient." }
+      ]
+    },
+    {
+      "question": "52. Warum schlägt dieser Code fehl?\n\n```python\n1: import numpy as np\n2: a = np.array([1, 2, 3])\n3: b = np.array([1, 2])\n4: print(a + b)\n```",
+      "options": [
+        "NumPy kann Arrays nicht addieren.",
+        "ValueError: operands could not be broadcast together with shapes (3,) (2,).",
+        "Er addiert die ersten zwei Elemente und ignoriert das dritte.",
+        "Er füllt das kürzere Array mit Nullen auf."
+      ],
+      "answer": 1,
+      "explanation": "NumPy Broadcasting funktioniert nur, wenn Dimensionen kompatibel sind (gleich groß oder eine Dimension ist 1). Länge 3 und Länge 2 sind inkompatibel.",
+      "weight": 2,
+      "topic": "NumPy Fehler",
+      "concept": "Shape Mismatch",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Broadcasting Regeln",
+        "steps": [
+          "Regel: Dimensionen werden von rechts nach links verglichen.",
+          "Check: Dim 3 vs Dim 2.",
+          "Bedingung: Sind sie gleich? Nein. Ist eine davon 1? Nein.",
+          "Folge: Fehler. NumPy rät nicht, wie aufgefüllt werden soll."
+        ],
+        "content": "Shape-Fehler sind die häufigsten Fehler beim Arbeiten mit neuronalen Netzen oder Matrix-Ops."
+      },
+      "mini_glossary": [
+        { "term": "Shape", "definition": "Tupel, das die Größe der Dimensionen eines Arrays angibt." }
+      ]
+    },
+    {
+      "question": "53. Was passiert hier mit der Variable `x`?\n\n```python\n1: x = 10\n2: def change():\n3:     x = 20\n4: change()\n5: print(x)\n```",
+      "options": [
+        "Gibt `20` aus.",
+        "Gibt `10` aus.",
+        "Gibt Fehler 'UnboundLocalError'.",
+        "Gibt `None` aus."
+      ],
+      "answer": 1,
+      "explanation": "Innerhalb der Funktion `change` wird eine *neue lokale* Variable `x` erstellt (Shadowing). Die globale Variable `x` (Zeile 1) bleibt unverändert. Um global zu schreiben, müsste `global x` verwendet werden.",
+      "weight": 2,
+      "topic": "Python Scope",
+      "concept": "Variable Scope",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Local vs Global Scope",
+        "steps": [
+          "Zeile 3: `x = 20` sieht aus wie eine Zuweisung.",
+          "Python Regel: Zuweisungen im Funktionskörper erzeugen standardmäßig lokale Variablen.",
+          "Effekt: Das äußere `x` wird überdeckt, aber nicht geändert.",
+          "Resultat: `print(x)` greift auf das unveränderte äußere `x` zu."
+        ],
+        "content": "Scope-Regeln (LEGB: Local, Enclosing, Global, Built-in) sind essenziell für sauberen Code."
+      },
+      "mini_glossary": [
+        { "term": "Shadowing", "definition": "Eine Variable in einem inneren Scope hat denselben Namen wie eine äußere und verdeckt diese." }
+      ]
+    },
+    {
+      "question": "54. Sie wollen eine Liste sortieren. Was ist der Unterschied zwischen diesen beiden Zeilen?\n\n```python\n1: l1 = [3, 1, 2]\n2: l2 = l1.sort()\n3: l3 = sorted(l1)\n```",
+      "options": [
+        "Kein Unterschied.",
+        "`l1.sort()` sortiert in-place und gibt `None` zurück (l2 ist None). `sorted(l1)` erstellt eine neue sortierte Liste.",
+        "`l1.sort()` ist veraltet, man sollte nur `sorted` nutzen.",
+        "`sorted(l1)` sortiert in-place, `l1.sort()` nicht."
+      ],
+      "answer": 1,
+      "explanation": "Listen-Methoden wie `.sort()`, `.append()`, `.reverse()` ändern das Objekt direkt und geben `None` zurück. Built-in Funktionen wie `sorted()` geben ein neues Objekt zurück.",
+      "weight": 2,
+      "topic": "Python Standard Library",
+      "concept": "In-Place vs Return",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Rückgabewerte beachten",
+        "steps": [
+          "Fehlerquelle: `liste = liste.sort()` löscht die Liste (setzt sie auf None).",
+          "Korrekt: `liste.sort()` (als Anweisung) ODER `neue_liste = sorted(liste)`.",
+          "Java-Vergleich: `Collections.sort(list)` ist auch void/in-place."
+        ],
+        "content": "Wer `l2 = l1.sort()` schreibt, erlebt oft eine böse Überraschung."
+      },
+      "mini_glossary": [
+        { "term": "Void", "definition": "Rückgabetyp, der anzeigt, dass eine Funktion keinen Wert liefert." }
+      ]
+    },
+    {
+      "question": "55. Was bewirkt der folgende Code zur Fehlerbehandlung?\n\n```python\n1: try:\n2:     x = 1 / 0\n3: except ZeroDivisionError:\n4:     x = 0\n5: else:\n6:     x = 1\n```",
+      "options": [
+        "`x` wird 0.",
+        "`x` wird 1.",
+        "Der Code stürzt ab.",
+        "Der `else`-Block wird ausgeführt, bevor der Fehler auftritt."
+      ],
+      "answer": 0,
+      "explanation": "Da `1/0` einen Fehler wirft, wird der `except`-Block ausgeführt (`x=0`). Der `else`-Block in einem try-Konstrukt wird nur ausgeführt, wenn *keine* Ausnahme auftrat.",
+      "weight": 2,
+      "topic": "Flow Control",
+      "concept": "Try-Except-Else",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Der Else-Zweig in Try-Blöcken",
+        "steps": [
+          "Try: Versuche Code auszuführen.",
+          "Exception: Fehler passiert -> Springe zu Except.",
+          "Else: Kein Fehler passiert -> Führe Else aus.",
+          "Finally (hier nicht gezeigt): Wird immer ausgeführt."
+        ],
+        "content": "`else` ist nützlich, um Code auszuführen, der nur bei Erfolg laufen soll, aber nicht mehr vom Error-Handling abgedeckt werden muss."
+      },
+      "mini_glossary": [
+        { "term": "Exception Handling", "definition": "Strukturierter Umgang mit Laufzeitfehlern." }
+      ]
+    },
+    {
+      "question": "56. Ein häufiger Fehler beim Kopieren von Listen. Was gibt Zeile 4 aus?\n\n```python\n1: a = [1, 2, 3]\n2: b = a\n3: b[0] = 99\n4: print(a)\n```",
+      "options": [
+        "`[1, 2, 3]`",
+        "`[99, 2, 3]`",
+        "`[1, 2, 3, 99]`",
+        "Fehler"
+      ],
+      "answer": 1,
+      "explanation": "In Python sind Zuweisungen bei Objekten (wie Listen) nur Referenzkopien (Pointer). `a` und `b` zeigen auf denselben Speicher. Eine Änderung über `b` ist auch in `a` sichtbar.",
+      "weight": 3,
+      "topic": "Python Speicherverwaltung",
+      "concept": "References",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Referenz vs Kopie",
+        "steps": [
+          "Zeile 2: `b = a` kopiert nur die Adresse, nicht die Daten.",
+          "Analogie: Zwei Namensschilder an derselben Kiste.",
+          "Lösung für echte Kopie: `b = a[:]` oder `b = a.copy()`."
+        ],
+        "content": "Dies ist identisch zu Java-Objekt-Referenzen, aber oft verwirrend für Anfänger bei simplen Datentypen."
+      },
+      "mini_glossary": [
+        { "term": "Shallow Copy", "definition": "Kopie der Container-Struktur, Elemente bleiben Referenzen." }
+      ]
+    },
+    {
+      "question": "57. Sie nutzen `groupby` ohne eine Aggregationsfunktion. Was ist `res`?\n\n```python\n1: res = df.groupby('Kategorie')\n2: print(res)\n```",
+      "options": [
+        "Eine Fehlermeldung.",
+        "Ein DataFrame, sortiert nach Kategorie.",
+        "Ein `DataFrameGroupBy` Objekt (intermediate object).",
+        "Eine Liste von DataFrames."
+      ],
+      "answer": 2,
+      "explanation": "`groupby()` allein führt noch keine Berechnung durch. Es bereitet die Gruppierung vor (lazy evaluation) und gibt ein Zwischenobjekt zurück, auf das man `.sum()`, `.mean()` etc. anwenden muss.",
+      "weight": 2,
+      "topic": "Pandas API",
+      "concept": "Lazy Evaluation",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Das GroupBy Objekt",
+        "steps": [
+          "Aufruf: `groupby` speichert nur das Mapping (welche Zeile gehört zu welcher Gruppe).",
+          "Zweck: Warten auf Anweisung, was berechnet werden soll.",
+          "Nutzung: Man kann darüber iterieren (`for name, group in res: ...`) oder aggregieren."
+        ],
+        "content": "Ein häufiger Anfängerfehler ist zu erwarten, dass `groupby` sofort eine Tabelle zurückgibt."
+      },
+      "mini_glossary": [
+        { "term": "Lazy Evaluation", "definition": "Auswertung eines Ausdrucks erst dann, wenn das Ergebnis benötigt wird." }
+      ]
+    },
+    {
+      "question": "58. Welcher Fehler liegt hier vor?\n\n```python\n1: x, y = (10, 20, 30)\n```",
+      "options": [
+        "SyntaxError: Klammern fehlen.",
+        "ValueError: too many values to unpack (expected 2).",
+        "x wird 10, y wird 20, 30 wird ignoriert.",
+        "x wird 10, y wird (20, 30)."
+      ],
+      "answer": 1,
+      "explanation": "Dies ist 'Tuple Unpacking'. Die Anzahl der Variablen links (2) muss exakt mit der Anzahl der Elemente rechts (3) übereinstimmen, sonst gibt es einen `ValueError`.",
+      "weight": 2,
+      "topic": "Python Syntax",
+      "concept": "Unpacking",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Unpacking Regeln",
+        "steps": [
+          "Prinzip: 1-zu-1 Zuordnung.",
+          "Lösung 1: `x, y, z = ...` (3 Variablen).",
+          "Lösung 2: `x, *y = ...` (y fängt den Rest als Liste auf -> `[20, 30]`)."
+        ],
+        "content": "Unpacking ist sehr elegant, erfordert aber strikte Übereinstimmung der Länge."
+      },
+      "mini_glossary": [
+        { "term": "Unpacking", "definition": "Entpacken von Sequenzen in einzelne Variablen." }
+      ]
+    },
+    {
+      "question": "59. Was passiert bei diesem Import-Versuch?\n\n```python\n1: import pandas.DataFrame\n```",
+      "options": [
+        "Es importiert die Klasse DataFrame.",
+        "Es funktioniert, wenn Pandas installiert ist.",
+        "ModuleNotFoundError (oder ImportError), da DataFrame kein Modul, sondern eine Klasse in einem Paket ist.",
+        "Es importiert alles aus Pandas."
+      ],
+      "answer": 2,
+      "explanation": "Die Syntax `import package.module` erwartet, dass das letzte Element ein Modul (Datei/Ordner) ist. `DataFrame` ist eine Klasse. Korrekt wäre `from pandas import DataFrame`.",
+      "weight": 1,
+      "topic": "Python Imports",
+      "concept": "Import Syntax",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Package", "definition": "Ordner mit Python-Modulen und einer `__init__.py`." }
+      ]
+    },
+    {
+      "question": "60. Sie möchten eine benutzerdefinierte Funktion auf jede Zeile eines DataFrames anwenden. Welches Argument fehlt oder ist falsch?\n\n```python\n1: def my_func(row):\n2:     return row['A'] + row['B']\n3:\n4: df['C'] = df.apply(my_func)\n```",
+      "options": [
+        "Nichts fehlt.",
+        "Es muss `axis=1` angegeben werden, sonst iteriert `apply` über Spalten (axis=0).",
+        "`my_func` darf keine Argumente haben.",
+        "Pandas unterstützt keine benutzerdefinierten Funktionen."
+      ],
+      "answer": 1,
+      "explanation": "Standardmäßig ist `axis=0` (Spalten). `apply` würde `my_func` eine ganze Spalte als Series übergeben. Da `my_func` aber `row['A']` (Zeilenzugriff) erwartet, crasht es. Mit `axis=1` wird zeilenweise iteriert.",
+      "weight": 3,
+      "topic": "Pandas Advanced",
+      "concept": "Apply Axis",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Apply Richtung",
+        "steps": [
+          "Default: `apply` arbeitet vertikal (auf jeder Spalte).",
+          "Ziel: Berechnung quer über Zeilen (Spalte A + Spalte B).",
+          "Korrektur: `df.apply(my_func, axis=1)`.",
+          "Hinweis: Oft langsam, besser direkt `df['A'] + df['B']` nutzen."
+        ],
+        "content": "Die Achsen-Logik ist bei `apply` genau umgekehrt zur Intuition mancher Nutzer ('axis=1' -> bewege dich entlang der Spaltenrichtung, also Zeile für Zeile)."
+      },
+      "mini_glossary": [
+        { "term": "Row-wise", "definition": "Operation, die zeilenweise ausgeführt wird." }
+      ]
+    },
+    {
+      "question": "61. Welches Schlüsselwort fehlt, um über Schlüssel und Werte eines Dictionaries zu iterieren (analog zu `entrySet` in Java)?\n\n```python\n1: data = {'a': 1, 'b': 2}\n2: for k, v in data.__________:\n3:     print(k, v)\n```",
+      "options": [
+        "entries()",
+        "items()",
+        "keys()",
+        "values()"
+      ],
+      "answer": 1,
+      "explanation": "In Python liefert `.items()` die Schlüssel-Wert-Paare als Tupel zurück. `.entries()` existiert in Python nicht (das wäre Java-Jargon).",
+      "weight": 1,
+      "topic": "Python Datenstrukturen",
+      "concept": "Dictionary Iteration",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "items()", "definition": "Methode, die eine Ansicht der (Key, Value)-Paare eines Dictionaries liefert." }
+      ]
+    },
+    {
+      "question": "62. Ergänzen Sie den ersten Parameter der Methode, der in Python explizit genannt werden muss (anders als `this` in Java).\n\n```python\n1: class Auto:\n2:     def __init__(__________, marke):\n3:         self.marke = marke\n```",
+      "options": [
+        "this",
+        "self",
+        "auto",
+        "instance"
+      ],
+      "answer": 1,
+      "explanation": "`self` ist die konventionelle Bezeichnung für die Instanzreferenz in Python. Sie muss als erster Parameter in jeder Instanzmethode definiert werden.",
+      "weight": 1,
+      "topic": "Python OOP",
+      "concept": "Self Referenz",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "self", "definition": "Expliziter Parameter für die aktuelle Instanz (analog zu implizitem `this` in Java)." }
+      ]
+    },
+    {
+      "question": "63. Welcher Pandas-Befehl wird benötigt, um Zeilen mit fehlenden Werten zu entfernen?\n\n```python\n1: import pandas as pd\n2: df = pd.read_csv('data.csv')\n3: # Entferne Zeilen mit NaNs\n4: df_clean = df.__________()\n```",
+      "options": [
+        "delete_na",
+        "remove_nulls",
+        "dropna",
+        "fillna"
+      ],
+      "answer": 2,
+      "explanation": "`dropna()` ist die Standardmethode in Pandas, um Missing Values zu löschen. `fillna()` würde sie ersetzen.",
+      "weight": 1,
+      "topic": "Datenbereinigung",
+      "concept": "Handling Missing Data",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "dropna", "definition": "Methode zum Entfernen von fehlenden Werten." }
+      ]
+    },
+    {
+      "question": "64. Vervollständigen Sie die List Comprehension.\n\n```python\n1: values = [1, 2, 3, 4]\n2: # Quadriere alle Werte\n3: squares = [x**2 __________ values]\n```",
+      "options": [
+        "for x in",
+        "foreach x in",
+        "in",
+        "from x in"
+      ],
+      "answer": 0,
+      "explanation": "Die Syntax einer List Comprehension lautet `[ausdruck for item in iterable]`. `foreach` gibt es in Python nicht.",
+      "weight": 2,
+      "topic": "Python Syntax",
+      "concept": "List Comprehension",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Syntax-Aufbau",
+        "steps": [
+          "1. Was soll passieren? `x**2` (Ausdruck).",
+          "2. Woher kommen die Daten? `for x in values` (Schleifenkopf).",
+          "Zusammengesetzt: `[x**2 for x in values]`."
+        ],
+        "content": "List Comprehensions sind der 'pythonische' Weg, `.map()` oder Schleifen zu ersetzen."
+      },
+      "mini_glossary": [
+        { "term": "Iterable", "definition": "Objekt, über das man iterieren kann (z.B. Liste, Range)." }
+      ]
+    },
+    {
+      "question": "65. Welches Statement sorgt für ein sicheres Datei-Handling (automatisches Schließen), ähnlich wie `try-with-resources` in Java?\n\n```python\n1: __________ open('datei.txt', 'r') as f:\n2:     content = f.read()\n```",
+      "options": [
+        "try",
+        "using",
+        "with",
+        "scope"
+      ],
+      "answer": 2,
+      "explanation": "Das `with`-Statement initiiert einen Context Manager, der sicherstellt, dass die Datei am Ende des Blocks geschlossen wird, auch wenn Fehler auftreten.",
+      "weight": 2,
+      "topic": "File I/O",
+      "concept": "Context Manager",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Context Manager",
+        "steps": [
+          "Java: `try (BufferedReader br = ...) { ... }`",
+          "Python: `with open(...) as f: ...`",
+          "Funktion: Ruft automatisch `__exit__` (und damit `close`) auf."
+        ],
+        "content": "Verwenden Sie niemals `open()` ohne `with`, es sei denn, Sie haben einen sehr guten Grund."
+      },
+      "mini_glossary": [
+        { "term": "Context Manager", "definition": "Objekt, das Ressourcenverwaltung (Setup/Teardown) übernimmt." }
+      ]
+    },
+    {
+      "question": "66. Sie wollen ein 1D-Array mit 9 Elementen in eine 3x3 Matrix umwandeln. Welcher NumPy-Befehl fehlt?\n\n```python\n1: import numpy as np\n2: arr = np.arange(9)\n3: mtx = arr.__________(3, 3)\n```",
+      "options": [
+        "resize",
+        "reshape",
+        "dim",
+        "transform"
+      ],
+      "answer": 1,
+      "explanation": "`.reshape(rows, cols)` ändert die Dimensionen eines Arrays, ohne die Daten zu ändern. Die Anzahl der Elemente muss konstant bleiben.",
+      "weight": 1,
+      "topic": "NumPy",
+      "concept": "Reshaping",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Reshape", "definition": "Ändern der Form (Dimensionen) eines Arrays." }
+      ]
+    },
+    {
+      "question": "67. Welcher Code fehlt, um den Konstruktor der Elternklasse aufzurufen?\n\n```python\n1: class Tier:\n2:     def __init__(self, name): self.name = name\n3:\n4: class Hund(Tier):\n5:     def __init__(self, name, rasse):\n6:         __________(name) # Rufe Eltern-Init auf\n7:         self.rasse = rasse\n```",
+      "options": [
+        "super.__init__",
+        "super().__init__",
+        "Tier(name)",
+        "this.super(name)"
+      ],
+      "answer": 1,
+      "explanation": "In Python 3 nutzt man `super().__init__(arguments)`. Beachten Sie die Klammern nach `super`, die in Java nicht nötig sind, in Python aber eine Funktion aufrufen, die das Proxy-Objekt zurückgibt.",
+      "weight": 3,
+      "topic": "Python OOP",
+      "concept": "Inheritance",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Super() in Python",
+        "steps": [
+          "Syntax: `super()` gibt ein temporäres Objekt der Elternklasse zurück.",
+          "Aufruf: Darauf ruft man `.__init__` auf.",
+          "Unterschied Java: Java ruft `super()` (Konstruktor) direkt auf; Python ruft die Methode `__init__` auf dem Super-Objekt."
+        ],
+        "content": "Dies ist essentiell für korrekte Vererbungsketten."
+      },
+      "mini_glossary": [
+        { "term": "Super", "definition": "Built-in Funktion für den Zugriff auf Methoden der Elternklasse." }
+      ]
+    },
+    {
+      "question": "68. Vervollständigen Sie die Lambda-Funktion, um nach dem zweiten Element (Index 1) der Tupel zu sortieren.\n\n```python\n1: data = [('A', 10), ('B', 5), ('C', 20)]\n2: # Sortiere nach der Zahl\n3: data.sort(key=lambda x: __________)\n```",
+      "options": [
+        "x[0]",
+        "x[1]",
+        "x.get(1)",
+        "x->1"
+      ],
+      "answer": 1,
+      "explanation": "`x` ist hier ein Tupel, z.B. `('A', 10)`. Das zweite Element ist am Index 1. Also `x[1]`.",
+      "weight": 2,
+      "topic": "Python Funktionen",
+      "concept": "Lambda Sort",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Lambda als Key",
+        "steps": [
+          "Input: Die `sort` Funktion übergibt jedes Element der Liste an `key`.",
+          "Lambda: `lambda x: x[1]` nimmt das Tupel `x` und gibt den Wert an Index 1 zurück.",
+          "Sortierung: Python sortiert die Liste basierend auf diesen Rückgabewerten (5, 10, 20)."
+        ],
+        "content": "In Java entspricht dies `Comparator.comparing(x -> x.get(1))`."
+      },
+      "mini_glossary": [
+        { "term": "Key Argument", "definition": "Funktion, die für jedes Element einen Vergleichswert generiert." }
+      ]
+    },
+    {
+      "question": "69. Sie nutzen Matplotlib. Der Plot wurde konfiguriert, ist aber noch nicht sichtbar. Welcher Befehl fehlt am Ende?\n\n```python\n1: import matplotlib.pyplot as plt\n2: plt.plot([1, 2, 3], [4, 5, 6])\n3: __________\n```",
+      "options": [
+        "plt.render()",
+        "plt.display()",
+        "plt.show()",
+        "plt.open()"
+      ],
+      "answer": 2,
+      "explanation": "`plt.show()` ist der Befehl, um das Grafikfenster tatsächlich zu öffnen und den Plot zu rendern. In Jupyter Notebooks passiert dies oft automatisch, in Skripten ist es zwingend.",
+      "weight": 2,
+      "topic": "Visualisierung",
+      "concept": "Plot Display",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Der Show-Befehl",
+        "steps": [
+          "Konfiguration: Alle `plt.plot`, `plt.title` etc. Befehle ändern den internen Status.",
+          "Abschluss: `plt.show()` 'flusht' diesen Status auf den Bildschirm.",
+          "Blockierend: In Skripten blockiert `show()` oft die Ausführung, bis das Fenster geschlossen wird."
+        ],
+        "content": "Ohne `show()` läuft das Skript durch, ohne dass Sie etwas sehen."
+      },
+      "mini_glossary": [
+        { "term": "Backend", "definition": "Die Engine von Matplotlib, die die Pixel tatsächlich zeichnet (z.B. Qt, TkAgg)." }
+      ]
+    },
+    {
+      "question": "70. Welcher Operator fehlt, um zu prüfen, ob ein Element in einer Liste enthalten ist (Java: `contains`)?\n\n```python\n1: blacklist = [1, 5, 9]\n2: user_id = 5\n3: if user_id __________ blacklist:\n4:     print(\"Zugriff verweigert\")\n```",
+      "options": [
+        "exists in",
+        "contains",
+        "in",
+        "inside"
+      ],
+      "answer": 2,
+      "explanation": "Der `in` Operator prüft auf Mitgliedschaft. Er funktioniert für Listen, Tupel, Sets, Dictionaries (Keys) und Strings.",
+      "weight": 3,
+      "topic": "Python Syntax",
+      "concept": "Membership Operator",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Pythonic Membership Testing",
+        "steps": [
+          "Syntax: `x in container`.",
+          "Rückgabe: `True` oder `False`.",
+          "Performance: Bei Listen O(n), bei Sets/Dicts O(1).",
+          "Lesbarkeit: Liest sich fast wie englischer Satz."
+        ],
+        "content": "Vermeiden Sie manuelle Schleifen zum Suchen, nutzen Sie `in`."
+      },
+      "mini_glossary": [
+        { "term": "Membership Test", "definition": "Überprüfung, ob ein Wert Teil einer Kollektion ist." }
+      ]
+    },
+    {
+      "question": "71. Welches Schlüsselwort fehlt für die 'else if' Bedingung in Python?\n\n```python\n1: x = 10\n2: if x < 0:\n3:     print('Negativ')\n4: __________ x == 0:\n5:     print('Null')\n6: else:\n7:     print('Positiv')\n```",
+      "options": [
+        "else if",
+        "elseif",
+        "elif",
+        "elsif"
+      ],
+      "answer": 2,
+      "explanation": "Python kürzt `else if` strikt zu `elif` ab. `else if` (wie in Java) oder `elseif` (wie in PHP) verursachen einen Syntaxfehler.",
+      "weight": 1,
+      "topic": "Python Syntax",
+      "concept": "Control Flow",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Control Flow", "definition": "Steuerung des Programmablaufs durch Bedingungen und Schleifen." }
+      ]
+    },
+    {
+      "question": "72. Welches Attribut nutzen Sie, um die Dimensionen (Zeilen, Spalten) eines DataFrames abzufragen (ohne Klammern, da es keine Methode ist)?\n\n```python\n1: import pandas as pd\n2: df = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})\n3: # Ausgabe erwartet: (2, 2)\n4: print(df.__________)\n```",
+      "options": [
+        "size",
+        "shape",
+        "dim()",
+        "length"
+      ],
+      "answer": 1,
+      "explanation": "`.shape` ist ein Attribut (Property) von DataFrames und NumPy Arrays, das ein Tupel `(n_rows, n_cols)` liefert. Es wird ohne Klammern `()` aufgerufen.",
+      "weight": 1,
+      "topic": "Pandas API",
+      "concept": "DataFrame Shape",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Attribute", "definition": "Eigenschaft eines Objekts, die ohne Klammern abgerufen wird." }
+      ]
+    },
+    {
+      "question": "73. Sie definieren eine Funktion, die noch nichts tun soll (Placeholder). Welches Schlüsselwort verhindert einen `IndentationError`?\n\n```python\n1: def todo_later():\n2:     __________\n```",
+      "options": [
+        "null",
+        "continue",
+        "pass",
+        "void"
+      ],
+      "answer": 2,
+      "explanation": "`pass` ist eine Anweisung, die nichts tut (No-Op). Sie wird benötigt, weil Python leere Blöcke (anders als `{}` in Java) syntaktisch nicht erlaubt.",
+      "weight": 1,
+      "topic": "Python Syntax",
+      "concept": "Placeholder",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "pass", "definition": "Null-Operation; Platzhalter für syntaktisch notwendigen Code." }
+      ]
+    },
+    {
+      "question": "74. Welches Keyword entspricht dem Java-Wert `null`?\n\n```python\n1: result = fetch_data()\n2: if result is __________:\n3:     print('Keine Daten gefunden')\n```",
+      "options": [
+        "null",
+        "Null",
+        "nil",
+        "None"
+      ],
+      "answer": 3,
+      "explanation": "Das Python-Äquivalent zum Null-Referenztyp ist `None`. Es ist ein Singleton-Objekt und wird üblicherweise mit `is` geprüft.",
+      "weight": 1,
+      "topic": "Python Datentypen",
+      "concept": "NoneType",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Singleton", "definition": "Klasse, von der nur eine einzige Instanz existieren kann." }
+      ]
+    },
+    {
+      "question": "75. Wie greifen Sie auf die Spaltennamen eines DataFrames zu?\n\n```python\n1: df = pd.read_csv('data.csv')\n2: # Liste alle Header auf\n3: headers = df.__________\n```",
+      "options": [
+        "keys()",
+        "columns",
+        "names",
+        "header"
+      ],
+      "answer": 1,
+      "explanation": "`df.columns` liefert ein Index-Objekt mit den Spaltennamen. `keys()` funktioniert auch, ist aber weniger explizit und eher für Dictionaries typisch.",
+      "weight": 1,
+      "topic": "Pandas API",
+      "concept": "Column Access",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Index Object", "definition": "Unveränderliche Sequenz, die für Achsenbeschriftungen in Pandas genutzt wird." }
+      ]
+    },
+    {
+      "question": "76. Welches Wort fehlt, um zu prüfen, ob zwei Variablen auf *dasselbe* Objekt im Speicher zeigen (Referenzgleichheit)?\n\n```python\n1: a = [1, 2]\n2: b = a\n3: if a __________ b:\n4:     print('Identische Objekte')\n```",
+      "options": [
+        "==",
+        "equals",
+        "is",
+        "same"
+      ],
+      "answer": 2,
+      "explanation": "`is` prüft die Objekt-Identität (Speicheradresse), ähnlich wie `==` bei Objekten in Java. Der Operator `==` in Python prüft dagegen die Wertegleichheit (`equals()`).",
+      "weight": 2,
+      "topic": "Python Semantik",
+      "concept": "Identity vs Equality",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "is vs ==",
+        "steps": [
+          "Vergleich `a == b`: Haben beide den gleichen Inhalt? (Value equality).",
+          "Vergleich `a is b`: Sind es dieselben Speicheradressen? (Reference equality).",
+          "Java-Analogie: Python `is` entspricht Java `==` (bei Objekten). Python `==` entspricht Java `.equals()`."
+        ],
+        "content": "Verwenden Sie `is` hauptsächlich für Singletons wie `None`."
+      },
+      "mini_glossary": [
+        { "term": "Identity", "definition": "Eindeutige Kennung eines Objekts (meist Speicheradresse)." }
+      ]
+    },
+    {
+      "question": "77. Wie ermitteln Sie global die Länge einer Liste, eines Strings oder eines DataFrames?\n\n```python\n1: my_list = [10, 20, 30]\n2: count = __________(my_list)\n```",
+      "options": [
+        "my_list.length",
+        "my_list.size()",
+        "len",
+        "count"
+      ],
+      "answer": 2,
+      "explanation": "In Python ist `len()` eine Built-in Funktion, keine Methode des Objekts. Man ruft `len(obj)` auf, nicht `obj.len()`.",
+      "weight": 1,
+      "topic": "Python Built-ins",
+      "concept": "Length Function",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        { "term": "Built-in", "definition": "Funktion, die in Python standardmäßig verfügbar ist ohne Import." }
+      ]
+    },
+    {
+      "question": "78. Welches Keyword entfernt ein Element aus einem Dictionary oder eine Variable aus dem Speicher?\n\n```python\n1: my_dict = {'a': 1, 'b': 2}\n2: __________ my_dict['a']\n3: # Jetzt enthält my_dict nur noch {'b': 2}\n```",
+      "options": [
+        "remove",
+        "delete",
+        "del",
+        "erase"
+      ],
+      "answer": 2,
+      "explanation": "`del` ist ein Statement, das Referenzen löscht. `del my_dict['a']` entfernt den Schlüssel 'a'.",
+      "weight": 2,
+      "topic": "Python Syntax",
+      "concept": "Deletion",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Das del Statement",
+        "steps": [
+          "Dictionary: `del d['k']` löscht Key-Value-Paar.",
+          "Liste: `del l[0]` löscht Element am Index.",
+          "Variable: `del v` löscht den Variablennamen aus dem Scope."
+        ],
+        "content": "Alternativ gibt es oft `.pop()`, was den Wert vor dem Löschen noch zurückgibt."
+      },
+      "mini_glossary": [
+        { "term": "Garbage Collection", "definition": "Automatische Speicherbereinigung ungenutzter Objekte." }
+      ]
+    },
+    {
+      "question": "79. Sie wollen Code zu Debugging-Zwecken validieren. Wenn die Bedingung falsch ist, soll ein Fehler fliegen.\n\n```python\n1: x = -5\n2: __________ x >= 0, 'x muss positiv sein'\n```",
+      "options": [
+        "check",
+        "ensure",
+        "test",
+        "assert"
+      ],
+      "answer": 3,
+      "explanation": "`assert condition, message` prüft eine Bedingung. Ist sie False, wird ein `AssertionError` mit der Nachricht geworfen. Wird oft für interne Konsistenzchecks genutzt.",
+      "weight": 2,
+      "topic": "Debugging",
+      "concept": "Assertions",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Assertions nutzen",
+        "steps": [
+          "Zweck: Annahmen im Code sicherstellen.",
+          "Syntax: `assert <Bedingung>, <Fehlermeldung>`.",
+          "Verhalten: Wenn Bedingung True -> weiter. Wenn False -> Crash.",
+          "Produktion: Kann mit `-O` Flag deaktiviert werden."
+        ],
+        "content": "In Java ähnlich wie `assert condition : message;`."
+      },
+      "mini_glossary": [
+        { "term": "Assertion", "definition": "Aussage, die im Programmablauf als wahr angenommen wird." }
+      ]
+    },
+    {
+      "question": "80. Um ein Pandas DataFrame zu transponieren (Zeilen und Spalten tauschen), nutzen Sie welches Attribut?\n\n```python\n1: df = pd.DataFrame([[1, 2], [3, 4]])\n2: df_transposed = df.__________\n```",
+      "options": [
+        "transpose()",
+        "T",
+        "swapaxes()",
+        "flip()"
+      ],
+      "answer": 1,
+      "explanation": "`.T` ist der Kurz-Accessor (Property) für das Transponieren, analog zu NumPy-Matrizen. `.transpose()` existiert zwar als Methode, `.T` ist aber idiomatisch.",
+      "weight": 2,
+      "topic": "Pandas API",
+      "concept": "Transposition",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Transponieren",
+        "steps": [
+          "Ausgang: Zeilen sind Beobachtungen, Spalten sind Features.",
+          "Ziel: Features sollen Zeilen sein.",
+          "Code: `df.T` spiegelt den DataFrame an der Hauptdiagonalen.",
+          "Typ: Datentypen können sich ändern, wenn Spalten nicht uniform waren."
+        ],
+        "content": "Häufig nötig, um Daten für bestimmte Plots oder Algorithmen vorzubereiten."
+      },
+      "mini_glossary": [
+        { "term": "Transponierte Matrix", "definition": "Matrix, die durch Vertauschen von Zeilen und Spalten entsteht." }
+      ]
     }
   ]
 }

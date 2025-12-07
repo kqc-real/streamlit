@@ -196,6 +196,10 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
   - `weight = 3` → `"cognitive_level": "Analysis"`
   - This mapping is mandatory and must be consistent for every question.
 
+- **Code Question Weighting:**
+  - Syntax fill-in-the-blanks -> usually `weight = 1` (Reproduction).
+  - Predicting output or finding logic errors -> usually `weight = 2` or `3` (Application/Analysis).
+
 - **Mini Glossary:**
   - `mini_glossary` MUST be present for **every** question.
   - Each `mini_glossary` contains 1 to 4 terms. Only include terms strictly relevant to the question context:
@@ -246,6 +250,12 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
   - Avoid near-duplicate questions.
   - Ensure that, for a well-prepared learner, exactly **one option** is clearly correct.
   - Ensure that answer options are of comparable length and complexity to avoid giving clues through length.
+
+- **Code-Based Questions (Special Rules):**
+  - **Cloze Tests (Lückentext):** Include questions that ask for missing keywords, operators, or function names. Use `__________` (10 underscores) as the placeholder in the code.
+  - **Debugging/Analysis:** Include questions where the user must identify errors (syntax, logic, runtime) or predict the output of a code snippet.
+  - **Java vs. Python Context:** Since the target audience often comes from other languages (like Java), explicitly highlight differences in syntax or concepts (e.g., `null` vs `None`, `this` vs `self`, `true` vs `True`) in the explanations.
+
 </content_rules>
 
 <formatting_and_syntax>
@@ -288,6 +298,14 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
   - The final output must contain:
     - exactly one top-level JSON object matching the schema in `<output_schema>`.
   - Do not add extra top-level keys beyond those described, except where logically extended within the allowed structures (e.g., additional glossary terms).
+
+- **Code Block Formatting (CRITICAL):**
+  - **Markdown & Newlines:** When a question contains a code snippet, it MUST be enclosed in a standard Markdown code block (e.g., ```python ... ```).
+  - **Explicit Newlines:** Inside the JSON string for the question, you MUST use explicit `\n` characters to separate lines of code.
+    - *Bad:* `"question": "Code: 1: a=1 2: b=2"`
+    - *Good:* `"question": "Code:\n\n```python\n1: a = 1\n2: b = 2\n```"`
+  - **Line Numbers:** Always prepend line numbers (e.g., `1: `, `2: `) inside the code block to make referencing in options/explanations unambiguous.
+
 </formatting_and_syntax>
 
 <output_schema>
