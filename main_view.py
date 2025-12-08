@@ -4127,7 +4127,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
                         except Exception:
                             select_hint = 'Bitte wähle zuerst eine Antwort aus.'
-                        st.info(select_hint)
+                        st.info(select_hint, icon="👉")
                     # If still within the reading cooldown, show the hint and remaining seconds.
                     elif remaining_answer_cooldown > 0:
                         try:
@@ -4135,7 +4135,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         except Exception:
                             hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
                         # Show a brief toast with the remaining seconds at click time
-                        show_ephemeral_message(f"{hint} (noch {remaining_answer_cooldown}s)")
+                        show_ephemeral_message(f"{hint} (noch {remaining_answer_cooldown}s)", icon="⏳")
                     else:
                         # Proceed with the original submit action.
                         handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
