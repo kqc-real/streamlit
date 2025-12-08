@@ -944,15 +944,13 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
     # 1. Formeln extrahieren und durch Platzhalter ersetzen
     formulas = []
 
-    # Normalize literal escape sequences: if the input contains the two-character
-    # sequence "\\n" (e.g. from pasted/serialized content), convert it to an
-    # actual newline so subsequent list/paragraph and Markdown processing works.
-    try:
-        if isinstance(html_text, str) and ('\\n' in html_text or '\\r\\n' in html_text):
-            html_text = html_text.replace('\\r\\n', '\n').replace('\\n', '\n')
-    except Exception:
-        # Non-fatal: if normalization fails, continue with the original text
-        pass
+    # NOTE: normalization of literal escape sequences (e.g. turning the two-
+    # character sequence "\\n" into a real newline) must NOT run before
+    # LaTeX extraction. Doing so will accidentally turn LaTeX commands that
+    # begin with a backslash and an ASCII-letter (for example "\\nabla")
+    # into a real newline followed by the rest of the token. We therefore
+    # perform any such normalization only after formulas have been replaced
+    # by stable placeholders below.
 
     def save_block_formula(match):
         formula = match.group(1).strip()
@@ -976,6 +974,16 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
     # 2. Markdown-Formatierungen wie Listen und Zeilenumbrüche in HTML umwandeln.
     # Dies ist immer noch notwendig, da die zentrale Bereinigung kein Markdown nach HTML konvertiert.
     # Wir entfernen aber das HTML-Escaping und die manuelle Tag-Ersetzung.
+    # Normalize literal escape sequences now that LaTeX formulas are safely
+    # extracted into placeholders. This converts pasted/serialized "\\n"
+    # sequences into actual newlines without touching backslash-escapes
+    # inside formulas (which are stored separately in `formulas`).
+    try:
+        if isinstance(processed_text, str) and ('\\r\\n' in processed_text or '\\n' in processed_text):
+            processed_text = processed_text.replace('\\r\\n', '\n').replace('\\n', '\n')
+    except Exception:
+        pass
+
     lines = processed_text.split('\n')
     html_lines = []
     in_list = False

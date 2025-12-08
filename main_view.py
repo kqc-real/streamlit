@@ -3573,8 +3573,29 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     frage_text_raw = smart_quotes_de(f"{display_question_number}. {original_frage_text}")
 
     # Convert literal escaped newlines ("\\n" / "\\r\\n") into real newlines
+    # Protect LaTeX/math regions (inline $...$, display $$...$$, \(...\), \[...\])
+    # so sequences like "\\nabla" inside math are not converted into a real newline.
     if isinstance(frage_text_raw, str):
-        frage_text_raw = frage_text_raw.replace('\\r\\n', '\n').replace('\\n', '\n')
+        try:
+            import re
+
+            latex_regions = {}
+            def _placeholder(m):
+                idx = len(latex_regions)
+                key = f"__LATEX_PLACEHOLDER_{idx}__"
+                latex_regions[key] = m.group(0)
+                return key
+
+            pattern = re.compile(r"(\$\$.*?\$\$|\$.*?\$|\\\\\(.*?\\\\\)|\\\\\[.*?\\\\\])", re.DOTALL)
+            protected = pattern.sub(_placeholder, frage_text_raw)
+            protected = protected.replace('\\r\\n', '\n').replace('\\n', '\n')
+            # restore placeholders
+            for k, v in latex_regions.items():
+                protected = protected.replace(k, v)
+            frage_text_raw = protected
+        except Exception:
+            # Fallback: best-effort replace if anything goes wrong
+            frage_text_raw = frage_text_raw.replace('\\r\\n', '\n').replace('\\n', '\n')
 
     # Split off the first line (the question title) so it can be bolded while
     # preserving block-level markdown (lists, paragraphs) in the remainder.
