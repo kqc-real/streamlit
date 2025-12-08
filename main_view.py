@@ -55,6 +55,30 @@ from components import render_question_distribution_chart, close_user_qset_dialo
 import pacing_helper as pacing
 
 
+def show_ephemeral_message(message: str, seconds: float = 3.0) -> None:
+    """Show a short, inline message near the current layout and remove it after `seconds`.
+
+    This avoids relying on the global toast position which can be hard to
+    notice on large screens. It blocks briefly in the current user's session
+    while the message is visible (default 3s).
+    """
+    try:
+        placeholder = st.empty()
+        placeholder.info(message)
+        time.sleep(seconds)
+        placeholder.empty()
+    except Exception:
+        try:
+            # Fallback to toast if ephemeral placeholder fails
+            st.toast(message)
+        except Exception:
+            # Last-resort: show an info (persistent)
+            try:
+                st.info(message)
+            except Exception:
+                pass
+
+
 def _inject_main_container_padding() -> None:
     """Inject a single padding declaration for the main container.
 
@@ -3990,6 +4014,52 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         antwort = optionen[selected_index] if selected_index is not None else None
 
+        # --- Dynamic reading cooldown for the 'Antworten' button ---
+        try:
+            now_mon = time.monotonic()
+            shown_key = f"frage_{frage_idx}_shown_time_monotonic"
+            if not st.session_state.get(shown_key):
+                # record when the question was first shown to the user
+                st.session_state[shown_key] = now_mon
+
+            # Determine base seconds per weight from question-set meta (minutes -> seconds)
+            qmeta = getattr(questions, 'meta', None)
+            per_weight_raw = None
+            if isinstance(qmeta, dict):
+                per_weight_raw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
+
+            per_weight_minutes = {}
+            if isinstance(per_weight_raw, dict):
+                for k, v in per_weight_raw.items():
+                    try:
+                        kk = int(k)
+                        per_weight_minutes[kk] = float(v)
+                    except Exception:
+                        continue
+
+            # defaults (minutes)
+            if not per_weight_minutes:
+                per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+
+            gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
+            base_minutes = per_weight_minutes.get(gewichtung, per_weight_minutes.get(1, 0.5))
+            base_seconds = int(round(base_minutes * 60))
+
+            # tempo multiplier
+            tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
+            tempo = str(tempo).lower()
+            tempo_mult = 1.0
+            if tempo == 'speed':
+                tempo_mult = 0.5
+            elif tempo == 'power':
+                tempo_mult = 0.25
+
+            answer_cooldown = int(round(base_seconds * tempo_mult))
+            elapsed_since_shown = int(round(now_mon - float(st.session_state.get(shown_key, now_mon))))
+            remaining_answer_cooldown = max(0, answer_cooldown - elapsed_since_shown)
+        except Exception:
+            remaining_answer_cooldown = 0
+
         # If the user changed the radio selection in this run, ensure the
         # mini-glossary is closed for this question. We store the previous
         # selected index to detect changes across reruns.
@@ -4044,17 +4114,32 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
                 answer_label = _test_view_text("answer_button", default="Antworten")
-                if st.button(
-                    answer_label,
-                    key=f"submit_{frage_idx}",
-                    type="primary",
-                    width="stretch",
-                    disabled=(antwort is None),
-                ):
+                # The Antworten button remains visible and clickable at all times.
+                # Clicking it will show a helpful `st.info` when the user is
+                # still within the reading cooldown or hasn't selected an option.
+                # Keep the button label concise; show detailed hints via st.info on click.
+                submit_label = answer_label
+
+                if st.button(submit_label, key=f"submit_{frage_idx}", type="primary", width="stretch"):
                     _dismiss_user_qset_dialog_from_test()
-                    # Popover-based glossary is stateless; no flag update required here.
-                    # Die Logik für das Antworten wird hierhin verschoben, questions wird übergeben
-                    handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
+                    # If no option selected, inform the user.
+                    if antwort is None:
+                        try:
+                            select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
+                        except Exception:
+                            select_hint = 'Bitte wähle zuerst eine Antwort aus.'
+                        st.info(select_hint)
+                    # If still within the reading cooldown, show the hint and remaining seconds.
+                    elif remaining_answer_cooldown > 0:
+                        try:
+                            hint = translate_ui('test_view.answer_read_hint', default='Lies die Frage aufmerksam durch und alle Antwortoptionen.')
+                        except Exception:
+                            hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
+                        # Show a brief toast with the remaining seconds at click time
+                        show_ephemeral_message(f"{hint} (noch {remaining_answer_cooldown}s)")
+                    else:
+                        # Proceed with the original submit action.
+                        handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         
         else:
             # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
@@ -4202,20 +4287,9 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         pass
     if st.session_state.get("user_qset_dialog_open"):
         close_user_qset_dialog(clear_results=False)
-    # --- Rate Limiting ---
-    last_answer_time = st.session_state.get("last_answer_time", 0)
-    current_time = time.time()
-    if app_config.min_seconds_between_answers > 0 and current_time - last_answer_time < app_config.min_seconds_between_answers:
-        st.warning(
-            _test_view_text(
-                "answer_rate_limit",
-                default="⚠️ Bitte warte kurz, bevor du die nächste Antwort abgibst (Limit: {limit}s).",
-                limit=app_config.min_seconds_between_answers,
-            )
-        )
-        return
-    
-    st.session_state.last_answer_time = current_time
+    # Note: legacy global answer-rate limiting removed. Dynamic per-question
+    # reading/explanation cooldowns are enforced in the UI flow; proceed
+    # directly to answer handling.
 
     if st.session_state.start_zeit is None:
         st.session_state.start_zeit = pd.Timestamp.now()
@@ -4282,6 +4356,11 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 
     st.session_state[f"show_explanation_{frage_idx}"] = True
     st.session_state.last_answered_idx = frage_idx
+    # record when the explanation was shown (monotonic timestamp) for next-button cooldown
+    try:
+        st.session_state[f"frage_{frage_idx}_explanation_shown_time_monotonic"] = time.monotonic()
+    except Exception:
+        pass
     st.rerun()
 
 
@@ -4573,6 +4652,11 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
     im normalen Testfluss oder im neu implementierten Review-Modus befindet.
     """
     answered_indices = st.session_state.get('answered_indices', [])
+    # the question object for this index
+    try:
+        frage_obj = questions[frage_idx]
+    except Exception:
+        frage_obj = {}
     
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
@@ -4621,24 +4705,93 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                 default="Zur Testauswertung 🏁" if is_last_question_in_test else "Nächste Frage ➡️",
             )
 
-        if st.button(button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
-            if st.session_state.get("user_qset_dialog_open"):
-                close_user_qset_dialog(clear_results=False)
-            st.session_state[f"show_explanation_{frage_idx}"] = False
-            
-            if is_in_review_mode:
-                next_idx = answered_indices[current_review_pos + 1]
-                st.session_state[f"show_explanation_{next_idx}"] = True
-                st.session_state.last_answered_idx = next_idx
+        # Compute dynamic cooldown for the Next button (if explanation was shown)
+        try:
+            now_mon = time.monotonic()
+            shown_key = f"frage_{frage_idx}_explanation_shown_time_monotonic"
+            shown_time = float(st.session_state.get(shown_key, 0))
+            if shown_time:
+                # determine base seconds per weight from questions meta
+                qmeta = getattr(questions, 'meta', None)
+                per_weight_raw = None
+                if isinstance(qmeta, dict):
+                    per_weight_raw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
+                per_weight_minutes = {}
+                if isinstance(per_weight_raw, dict):
+                    for k, v in per_weight_raw.items():
+                        try:
+                            per_weight_minutes[int(k)] = float(v)
+                        except Exception:
+                            continue
+                if not per_weight_minutes:
+                    per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+                gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
+                base_minutes = per_weight_minutes.get(gewichtung, per_weight_minutes.get(1, 0.5))
+                base_seconds = int(round(base_minutes * 60))
+                tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
+                tempo = str(tempo).lower()
+                tempo_mult = 1.0
+                if tempo == 'speed':
+                    tempo_mult = 0.5
+                elif tempo == 'power':
+                    tempo_mult = 0.25
+                next_base = int(round(base_seconds * tempo_mult))
+                extra = 0
+                if frage_obj.get('erklaerung') or frage_obj.get('explanation'):
+                    extra += 10
+                if frage_obj.get('extended_explanation'):
+                    extra += 20
+                # Apply optional normalization factor to the entire cooldown
+                # (scales base + extra). This makes the factor behave as a
+                # single empirical multiplier for the perceived waiting time.
+                try:
+                    from config import AppConfig
+
+                    app_cfg = AppConfig()
+                    norm = float(getattr(app_cfg, "next_cooldown_normalization_factor", 1.0) or 1.0)
+                    if norm <= 0:
+                        norm = 1.0
+                except Exception:
+                    norm = 1.0
+                total_next_cooldown = int(round((next_base + extra) * norm))
+                elapsed = int(round(now_mon - shown_time))
+                remaining_next_cooldown = max(0, total_next_cooldown - elapsed)
             else:
-                st.session_state.last_answered_idx = -1
-            try:
-                if not st.session_state.get("pacing_visible"):
-                    st.session_state["pacing_visible"] = True
-            except Exception:
-                pass
-            # Popover-based glossary is stateless; no flag update required here.
-            st.rerun()
+                remaining_next_cooldown = 0
+        except Exception:
+            remaining_next_cooldown = 0
+
+        # When cooldown active, prepare a translated hint + remaining seconds.
+        # Keep Next button label concise; show detailed hints via st.info on click.
+        display_next_label = button_text
+
+        # The Next button remains clickable; if clicked during cooldown we show an info message.
+        if st.button(display_next_label, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
+            if remaining_next_cooldown > 0:
+                try:
+                    next_hint = translate_ui('test_view.next_read_hint', default='Lies die Erklärungen aufmerksam durch. Nur so sicherst du dir deinen Lernerfolg.')
+                except Exception:
+                    next_hint = 'Lies die Erklärungen aufmerksam durch. Nur so sicherst du dir deinen Lernerfolg.'
+                # Brief toast instead of persistent info; shows remaining seconds at click time
+                show_ephemeral_message(f"{next_hint} (noch {remaining_next_cooldown}s)")
+            else:
+                if st.session_state.get("user_qset_dialog_open"):
+                    close_user_qset_dialog(clear_results=False)
+                st.session_state[f"show_explanation_{frage_idx}"] = False
+                
+                if is_in_review_mode:
+                    next_idx = answered_indices[current_review_pos + 1]
+                    st.session_state[f"show_explanation_{next_idx}"] = True
+                    st.session_state.last_answered_idx = next_idx
+                else:
+                    st.session_state.last_answered_idx = -1
+                try:
+                    if not st.session_state.get("pacing_visible"):
+                        st.session_state["pacing_visible"] = True
+                except Exception:
+                    pass
+                # Popover-based glossary is stateless; no flag update required here.
+                st.rerun()
 
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):

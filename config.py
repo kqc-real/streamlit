@@ -455,7 +455,6 @@ class AppConfig:
         self.scoring_mode: str = "positive_only"
         self.show_top5_public: bool = True
         self.test_duration_minutes: int = 60
-        self.min_seconds_between_answers: int = 3
         # Hours after which temporary uploaded question sets are considered stale
         # and can be cleaned up from the welcome page. Default: 24 hours.
         self.user_qset_cleanup_hours: int = 24
@@ -473,6 +472,9 @@ class AppConfig:
         self.recovery_allow_short: bool = False
         self.rate_limit_attempts: int = 3
         self.rate_limit_window_minutes: int = 5
+        # Normalization factor for the "next" cooldown extras (explanation/extended)
+        # Default: 1.0 (no scaling). Values < 1.0 reduce the extra penalty empirically.
+        self.next_cooldown_normalization_factor: float = 0.5
 
         self._load_from_env_and_secrets()
         self._load_from_json()
@@ -491,20 +493,9 @@ class AppConfig:
         if not self.admin_key:
             self.admin_key = os.getenv("MC_TEST_ADMIN_KEY", "").strip()
 
-        min_seconds_str = ""
-        try:
-            min_seconds_str = st.secrets.get("MC_TEST_MIN_SECONDS_BETWEEN", "").strip()
-        except Exception:
-            pass
-        
-        if not min_seconds_str:
-            min_seconds_str = os.getenv("MC_TEST_MIN_SECONDS_BETWEEN", "").strip()
-
-        if min_seconds_str:
-            try:
-                self.min_seconds_between_answers = int(min_seconds_str)
-            except ValueError:
-                pass  # Behalte Defaultwert bei Fehler
+        # Note: legacy global answer rate-limit removed. Per-question dynamic
+        # cooldowns are handled in the UI flow (main_view). If you need a
+        # global rate limit again, reintroduce via a dedicated config key.
 
         test_duration_str = ""
         try:
@@ -618,6 +609,19 @@ class AppConfig:
             else:
                 self.recovery_allow_short = False
 
+        # Optional: normalization factor for Next-button cooldown extras
+        try:
+            norm_val = st.secrets.get("MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR", "").strip()
+        except Exception:
+            norm_val = os.getenv("MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR", "").strip()
+        if norm_val:
+            try:
+                parsed = float(norm_val)
+                if parsed > 0:
+                    self.next_cooldown_normalization_factor = parsed
+            except Exception:
+                pass
+
     def _load_from_json(self):
         """Lädt Konfiguration aus der JSON-Datei und überschreibt ggf. Defaults."""
         path = os.path.join(get_package_dir(), "mc_test_config.json")
@@ -648,6 +652,15 @@ class AppConfig:
                     pass
                 try:
                     self.rate_limit_window_minutes = int(config_data.get("rate_limit_window_minutes", self.rate_limit_window_minutes))
+                except Exception:
+                    pass
+                # Optional normalization factor override from JSON config
+                try:
+                    val = config_data.get("next_cooldown_normalization_factor", None)
+                    if val is not None:
+                        parsed = float(val)
+                        if parsed > 0:
+                            self.next_cooldown_normalization_factor = parsed
                 except Exception:
                     pass
                 # Optional cleanup hours override from JSON config

@@ -194,18 +194,19 @@ Die App wird über Umgebungsvariablen (für sensible Daten) und eine Konfigurati
 
 Für die lokale Entwicklung kannst du eine `.env`-Datei erstellen. Für das Deployment auf Streamlit Cloud müssen diese Variablen als "Secrets" im Dashboard der App hinterlegt werden.
 
-```env
+-```env
 # Beispiel für .env oder Streamlit Cloud Secrets
 MC_TEST_ADMIN_USER="dein_admin_user"
 MC_TEST_ADMIN_KEY="dein_geheimes_passwort"
-MC_TEST_MIN_SECONDS_BETWEEN="2"
 APP_URL="https://ihre-streamlit-app.streamlit.app"
 ```
 
 
 - **`MC_TEST_ADMIN_USER`**: Der Benutzername, der für den Admin-Login erforderlich ist.
 - **`MC_TEST_ADMIN_KEY`**: Das Passwort für den Admin-Login.
-- **`MC_TEST_MIN_SECONDS_BETWEEN`**: Die Mindestanzahl an Sekunden, die zwischen zwei Antworten vergehen muss. Verhindert Spam. Ein Wert von `0` deaktiviert das Limit. (Default: `3`)
+- **(Removed) `MC_TEST_MIN_SECONDS_BETWEEN`**: Legacy global answer cooldown removed. Per-question cooldowns are now handled by the UI. If you previously relied on this setting, migrate to the per-question tempo/cooldown logic.
+ - **`MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR`**: Optionaler Skalierungsfaktor für die gesamte Wartezeit, die beim Drücken von "Nächste Frage" nach dem Lesen von Erklärungen angewendet wird. Standard: `1.0` (keine Änderung). Werte < 1.0 reduzieren die gesamte Cooldown-Zeit (z. B. `0.5` halbiert `base + extras`). Setze diesen Wert in Streamlit-Secrets oder als Umgebungsvariable.
+ - **`APP_URL`**: Die URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
 - **`APP_URL`**: Die URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
 
 Zusätzliche Secrets / Umgebungsvariablen (kurz erklärt):
@@ -233,6 +234,20 @@ Lokale Shell (temporär für die laufende Shell):
 ```bash
 export MC_USER_QSET_CLEANUP_HOURS=1  # Temporäre Fragensets älter als 1 Stunde gelten als stale
 streamlit run app.py
+```
+
+Beispiel: Setzen des Normalisierungsfaktors in der Shell (temporär):
+
+```bash
+export MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR=0.5
+streamlit run app.py
+```
+
+Als Streamlit-Cloud-Secret (im Secrets-Editor):
+
+```yaml
+# Im Secrets-Editor der Streamlit-App hinzufügen
+MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR: "0.5"
 ```
 
 Als Streamlit-Cloud-Secret (YAML / UI):
