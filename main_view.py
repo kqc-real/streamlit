@@ -105,34 +105,6 @@ def _has_cognitive_stages(qs: QuestionSet) -> bool:
         if q.get("kognitive_stufe"):
             return True
     return False
-
-
-def _extract_stage_value(frage: dict) -> str | None:
-    """Extract the cognitive stage from a question dict.
-
-    Support multiple possible field names used across different question
-    datasets: prefer the German `kognitive_stufe`, fall back to English
-    `cognitive_level` (or other common variants).
-    """
-    if not isinstance(frage, dict):
-        return None
-    return (
-        frage.get("kognitive_stufe")
-        or frage.get("cognitive_level")
-        or frage.get("cognitiveLevel")
-        or frage.get("cognitive_level_en")
-        or frage.get("cognitive_level_de")
-    )
-
-
-DOWNLOAD_BUTTON_DEFAULT = "Download starten"
-MIME_PDF = "application/pdf"
-KAHOOT_IMPORT_RULES = [
-    "Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
-    "Bis zu 4 Antwortoptionen à max. 60 Zeichen",
-    "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
-    "Datei darf höchstens 500 Fragen enthalten",
-]
 from auth import initialize_session_state, is_admin_user
 
 
@@ -4805,21 +4777,35 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
                 # If the question was answered, display a localized hint that
                 # differs for correct vs incorrect answers (motivational/reflection).
                 try:
-                    answered_val = st.session_state.get(f"frage_{frage_idx}_beantwortet")
-                    if answered_val is not None:
-                        try:
-                            correct = bool(int(answered_val) > 0)
-                        except Exception:
-                            correct = bool(answered_val)
-                        key = (
-                            "test_view.next_feedback_correct"
-                            if correct
-                            else "test_view.next_feedback_incorrect"
-                        )
+                    # Determine correctness by comparing the stored answer text
+                    # to the canonical correct option (same logic as explanation).
+                    correct = False
+                    try:
+                        frage_obj_local = questions[frage_idx] if 0 <= frage_idx < len(questions) else None
+                        if frage_obj_local is not None:
+                            try:
+                                richtige_antwort_text = frage_obj_local["optionen"][frage_obj_local["loesung"]]
+                            except Exception:
+                                richtige_antwort_text = None
+                            gegebene_antwort = get_answer_for_question(frage_idx)
+                            if richtige_antwort_text is None or gegebene_antwort is None:
+                                correct = False
+                            else:
+                                correct = str(gegebene_antwort).strip() == str(richtige_antwort_text).strip()
+                    except Exception:
+                        correct = False
+
+                    # Avoid duplicate messaging: if a motivation message for this
+                    # just-answered question is present, skip the ephemeral next-feedback.
+                    if st.session_state.get("last_answered_idx") == frage_idx and st.session_state.get("last_motivation_message"):
+                        key = None
+                    else:
+                        key = ("test_view.next_feedback_correct" if correct else "test_view.next_feedback_incorrect")
+
+                    if key:
                         try:
                             msg = translate_ui(key)
                         except Exception:
-                            # Fallback plain messages in case translation fails
                             msg = (
                                 "Good choice — read the explanation to deepen your understanding."
                                 if correct

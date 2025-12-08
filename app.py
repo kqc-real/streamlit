@@ -13,6 +13,7 @@ Struktur:
 Ausführung: streamlit run app.py
 """
 import streamlit as st
+import time
 import sys
 from dotenv import load_dotenv
 import locale
@@ -199,8 +200,19 @@ def main():
     # --- 5. Logik zur Bestimmung der anzuzeigenden Frage ---
     current_idx = None
     if "jump_to_idx" in st.session_state:
-        # Priorität 1: Sprung von einem Bookmark
+        # Priorität 1: Sprung von einem Bookmark / Skip-Link
         current_idx = st.session_state.jump_to_idx
+        try:
+            # Reset the per-question shown timestamps so the UI cooling
+            # (reading / explanation cooldowns) restarts from now when the
+            # user jumps directly to a skipped/bookmarked question.
+            now_mon = time.monotonic()
+            st.session_state[f"frage_{current_idx}_shown_time_monotonic"] = now_mon
+            # Remove any prior explanation-shown timestamp so the 'Next' cooldown
+            # is not considered already started for this question.
+            st.session_state.pop(f"frage_{current_idx}_explanation_shown_time_monotonic", None)
+        except Exception:
+            pass
         del st.session_state.jump_to_idx
     elif "last_answered_idx" in st.session_state and st.session_state.get(f"show_explanation_{st.session_state.last_answered_idx}"):
         # Priorität 2: Bleibe auf der letzten Frage, um die Erklärung anzuzeigen
