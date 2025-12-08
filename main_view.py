@@ -54,8 +54,7 @@ from i18n.context import get_locale, t as translate_ui
 from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector
 import pacing_helper as pacing
 
-
-def show_ephemeral_message(message: str, seconds: float = 3.0) -> None:
+def show_ephemeral_message(message: str, seconds: float = 3.0, icon: str | None = None) -> None:
     """Show a short, inline message near the current layout and remove it after `seconds`.
 
     This avoids relying on the global toast position which can be hard to
@@ -64,17 +63,17 @@ def show_ephemeral_message(message: str, seconds: float = 3.0) -> None:
     """
     try:
         placeholder = st.empty()
-        placeholder.info(message)
+        placeholder.info(message, icon=icon)
         time.sleep(seconds)
         placeholder.empty()
     except Exception:
         try:
             # Fallback to toast if ephemeral placeholder fails
-            st.toast(message)
+            st.toast(message, icon=icon)
         except Exception:
             # Last-resort: show an info (persistent)
             try:
-                st.info(message)
+                st.info(message, icon=icon)
             except Exception:
                 pass
 
@@ -4119,13 +4118,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
                 answer_label = _test_view_text("answer_button", default="Antworten")
-                # The Antworten button remains visible and clickable at all times.
-                # Clicking it will show a helpful `st.info` when the user is
-                # still within the reading cooldown or hasn't selected an option.
-                # Keep the button label concise; show detailed hints via st.info on click.
-                submit_label = answer_label
 
-                if st.button(submit_label, key=f"submit_{frage_idx}", type="primary", width="stretch"):
+                if st.button(answer_label, key=f"submit_{frage_idx}", type="primary", width="stretch"):
                     _dismiss_user_qset_dialog_from_test()
                     # If no option selected, inform the user.
                     if antwort is None:
@@ -4766,74 +4760,33 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
         except Exception:
             remaining_next_cooldown = 0
 
-        # When cooldown active, prepare a translated hint + remaining seconds.
-        # Keep Next button label concise; show detailed hints via st.info on click.
-        display_next_label = button_text
-
         # The Next button remains clickable; if clicked during cooldown we show an info message.
-        if st.button(display_next_label, key=f"next_q_{frage_idx}", type="primary", width="stretch"):
+        if st.button(
+            button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"
+        ):
             if remaining_next_cooldown > 0:
+                # Cooldown ist aktiv: Zeige eine kurzlebige Toast-Nachricht an.
                 try:
-                    next_hint = translate_ui('test_view.next_read_hint', default='Lies die Erklärungen aufmerksam durch. Nur so sicherst du dir deinen Lernerfolg.')
+                    # Ermittle, ob die letzte Antwort korrekt war, um die richtige Nachricht anzuzeigen.
+                    correct = False
+                    last_answered_idx = st.session_state.get("last_answered_idx")
+                    if last_answered_idx is not None:
+                        punkte = st.session_state.get(f"frage_{last_answered_idx}_beantwortet")
+                        if punkte is not None and punkte > 0:
+                            correct = True
+
+                    key = "test_view.next_feedback_correct" if correct else "test_view.next_feedback_incorrect"
+                    msg_template = translate_ui(key)
+                    icon = "👍" if correct else "💡"
+                    show_ephemeral_message(f"{msg_template} (noch {remaining_next_cooldown}s)", seconds=5.0, icon=icon)
                 except Exception:
-                    next_hint = 'Lies die Erklärungen aufmerksam durch. Nur so sicherst du dir deinen Lernerfolg.'
-                # Brief toast instead of persistent info; shows remaining seconds at click time
-                show_ephemeral_message(f"{next_hint} (noch {remaining_next_cooldown}s)")
+                    # Fallback, falls die Logik fehlschlägt
+                    fallback_hint = translate_ui('test_view.next_read_hint', default='Lies die Erklärungen aufmerksam durch.')
+                    show_ephemeral_message(f"{fallback_hint} (noch {remaining_next_cooldown}s)", seconds=5.0, icon="⏳")
             else:
+                # Cooldown ist abgelaufen: Führe die normale Navigation aus.
                 if st.session_state.get("user_qset_dialog_open"):
                     close_user_qset_dialog(clear_results=False)
-
-                # Show a short contextual feedback message when advancing:
-                # If the question was answered, display a localized hint that
-                # differs for correct vs incorrect answers (motivational/reflection).
-                try:
-                    # Determine correctness by comparing the stored answer text
-                    # to the canonical correct option (same logic as explanation).
-                    correct = False
-                    try:
-                        frage_obj_local = questions[frage_idx] if 0 <= frage_idx < len(questions) else None
-                        if frage_obj_local is not None:
-                            try:
-                                richtige_antwort_text = frage_obj_local["optionen"][frage_obj_local["loesung"]]
-                            except Exception:
-                                richtige_antwort_text = None
-                            gegebene_antwort = get_answer_for_question(frage_idx)
-                            if richtige_antwort_text is None or gegebene_antwort is None:
-                                correct = False
-                            else:
-                                correct = str(gegebene_antwort).strip() == str(richtige_antwort_text).strip()
-                    except Exception:
-                        correct = False
-
-                    # Avoid duplicate messaging: if a motivation message for this
-                    # just-answered question is present, skip the ephemeral next-feedback.
-                    if st.session_state.get("last_answered_idx") == frage_idx and st.session_state.get("last_motivation_message"):
-                        key = None
-                    else:
-                        key = ("test_view.next_feedback_correct" if correct else "test_view.next_feedback_incorrect")
-
-                    if key:
-                        try:
-                            msg = translate_ui(key)
-                        except Exception:
-                            msg = (
-                                "Good choice — read the explanation to deepen your understanding."
-                                if correct
-                                else "Read the explanation carefully and identify one misconception to correct."
-                            )
-                        try:
-                            show_ephemeral_message(msg)
-                        except Exception:
-                            try:
-                                st.toast(msg)
-                            except Exception:
-                                try:
-                                    st.info(msg)
-                                except Exception:
-                                    pass
-                except Exception:
-                    # Don't block navigation on any error showing feedback
-                    pass
 
                 st.session_state[f"show_explanation_{frage_idx}"] = False
 
