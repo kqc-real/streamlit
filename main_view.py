@@ -97,6 +97,16 @@ def _inject_main_container_padding() -> None:
         pass
 
 
+DOWNLOAD_BUTTON_DEFAULT = "Download starten"
+MIME_PDF = "application/pdf"
+KAHOOT_IMPORT_RULES = [
+    "Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
+    "Bis zu 4 Antwortoptionen à max. 60 Zeichen",
+    "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
+    "Datei darf höchstens 500 Fragen enthalten",
+]
+
+
 def _has_cognitive_stages(qs: QuestionSet) -> bool:
     """Checks if any question in the set has a cognitive stage."""
     if not qs:
