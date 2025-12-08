@@ -4777,8 +4777,47 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
             else:
                 if st.session_state.get("user_qset_dialog_open"):
                     close_user_qset_dialog(clear_results=False)
+
+                # Show a short contextual feedback message when advancing:
+                # If the question was answered, display a localized hint that
+                # differs for correct vs incorrect answers (motivational/reflection).
+                try:
+                    answered_val = st.session_state.get(f"frage_{frage_idx}_beantwortet")
+                    if answered_val is not None:
+                        try:
+                            correct = bool(int(answered_val) > 0)
+                        except Exception:
+                            correct = bool(answered_val)
+                        key = (
+                            "test_view.next_feedback_correct"
+                            if correct
+                            else "test_view.next_feedback_incorrect"
+                        )
+                        try:
+                            msg = translate_ui(key)
+                        except Exception:
+                            # Fallback plain messages in case translation fails
+                            msg = (
+                                "Good choice — read the explanation to deepen your understanding."
+                                if correct
+                                else "Read the explanation carefully and identify one misconception to correct."
+                            )
+                        try:
+                            show_ephemeral_message(msg)
+                        except Exception:
+                            try:
+                                st.toast(msg)
+                            except Exception:
+                                try:
+                                    st.info(msg)
+                                except Exception:
+                                    pass
+                except Exception:
+                    # Don't block navigation on any error showing feedback
+                    pass
+
                 st.session_state[f"show_explanation_{frage_idx}"] = False
-                
+
                 if is_in_review_mode:
                     next_idx = answered_indices[current_review_pos + 1]
                     st.session_state[f"show_explanation_{next_idx}"] = True
