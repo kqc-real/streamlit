@@ -4108,6 +4108,29 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             st.session_state.skipped_questions = []
                         if frage_idx not in st.session_state.skipped_questions:
                             st.session_state.skipped_questions.append(frage_idx)
+                        # Clear the user's temporary selection so the question appears
+                        # without a preselected option when it is shown again.
+                        try:
+                            # Remove radio widget value if present
+                            rs_key = f"radio_{frage_idx}"
+                            if rs_key in st.session_state:
+                                del st.session_state[rs_key]
+                        except Exception:
+                            pass
+                        try:
+                            # Remove stored answer value if present
+                            ans_key = f"frage_{frage_idx}_antwort"
+                            if ans_key in st.session_state:
+                                del st.session_state[ans_key]
+                        except Exception:
+                            pass
+                        try:
+                            prev_key = f"radio_prev_{frage_idx}"
+                            if prev_key in st.session_state:
+                                del st.session_state[prev_key]
+                        except Exception:
+                            pass
+
                         st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
                         # Popover-based glossary is stateless; no flag update required here.
                         st.rerun()
