@@ -861,6 +861,69 @@ def delete_reserved_pseudonyms() -> int:
         return 0
 
 
+@with_db_retry
+def delete_reserved_pseudonym(pseudonym: str) -> bool:
+    """Löscht ein einzelnes reserviertes Pseudonym inkl. aller Testdaten.
+
+    Pseudonyme ohne Recovery-Secret oder der Admin-Account werden nicht gelöscht.
+    """
+    if not pseudonym:
+        return False
+
+    conn = get_db_connection()
+    if conn is None:
+        return False
+
+    try:
+        from config import AppConfig
+
+        admin_user_pseudonym = AppConfig().admin_user
+    except Exception:
+        admin_user_pseudonym = None
+
+    if admin_user_pseudonym and pseudonym == admin_user_pseudonym:
+        return False
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT user_id, user_pseudonym
+            FROM users
+            WHERE user_pseudonym = ?
+              AND recovery_salt IS NOT NULL AND recovery_salt != ''
+              AND recovery_hash IS NOT NULL AND recovery_hash != ''
+            """,
+            (pseudonym,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return False
+        try:
+            user_id = row["user_id"]
+        except Exception:
+            return False
+
+        cursor.execute("SELECT session_id FROM test_sessions WHERE user_id = ?", (user_id,))
+        session_rows = cursor.fetchall()
+        session_ids = [r["session_id"] for r in session_rows] if session_rows else []
+
+        with conn:
+            if session_ids:
+                placeholders = ",".join(["?"] * len(session_ids))
+                conn.execute(f"DELETE FROM bookmarks WHERE session_id IN ({placeholders})", session_ids)
+                conn.execute(f"DELETE FROM feedback WHERE session_id IN ({placeholders})", session_ids)
+                conn.execute(f"DELETE FROM answers WHERE session_id IN ({placeholders})", session_ids)
+                conn.execute(f"DELETE FROM test_sessions WHERE session_id IN ({placeholders})", session_ids)
+
+            conn.execute("DELETE FROM users WHERE user_id = ?", (user_id,))
+
+        return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in delete_reserved_pseudonym: {e}")
+        return False
+
+
 def get_database_dump() -> str:
     """
     Erstellt einen SQL-Dump der gesamten Datenbank als Text.
@@ -1774,7 +1837,7 @@ def get_dashboard_statistics():
         question_counts = get_question_counts()
         cursor.execute(
             """
-            SELECT 
+            SELECT
                 s.session_id,
                 s.questions_file,
                 COUNT(a.answer_id) AS answers_count

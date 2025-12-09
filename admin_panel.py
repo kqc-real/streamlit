@@ -24,6 +24,7 @@ from database import (
     get_all_logs_for_leaderboard,
     get_used_pseudonyms,
     has_recovery_secret_for_pseudonym,
+    delete_reserved_pseudonym,
     delete_reserved_pseudonyms,
     reset_all_test_data,
     set_recovery_secret,
@@ -1039,6 +1040,56 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             hide_index=True,
             use_container_width=True,
         )
+
+        with st.expander("🧹 Einzelnes reserviertes Pseudonym löschen", expanded=False):
+            try:
+                from auth import check_admin_key
+            except Exception:
+                check_admin_key = None
+
+            target_reserved = st.selectbox(
+                "Zu löschendes Pseudonym",
+                options=reserved,
+                key="delete_reserved_single_select",
+            )
+            reauth_key_single = st.text_input(
+                "Admin-Key zur Bestätigung:",
+                type="password",
+                key="delete_reserved_single_reauth",
+            )
+            confirmed_single = st.checkbox(
+                "Ich verstehe: Dieses reservierte Pseudonym wird inklusive seiner Testdaten gelöscht.",
+                key="delete_reserved_single_confirm",
+            )
+
+            if st.button("Pseudonym löschen", type="secondary"):
+                if not confirmed_single:
+                    st.warning("Bitte Checkbox zur Bestätigung aktivieren.")
+                else:
+                    admin_key_ok = True
+                    if check_admin_key is not None and getattr(app_config, "admin_key", None):
+                        admin_key_ok = check_admin_key(reauth_key_single, app_config)
+
+                    if not admin_key_ok:
+                        st.error("Falscher Admin-Key. Vorgang abgebrochen.")
+                    else:
+                        if delete_reserved_pseudonym(target_reserved):
+                            try:
+                                from audit_log import log_admin_action
+
+                                admin_user = st.session_state.get("user_id", "Unknown")
+                                log_admin_action(
+                                    admin_user,
+                                    "DELETE_RESERVED_PSEUDONYM_SINGLE",
+                                    f"Deleted reserved pseudonym: {target_reserved}",
+                                    success=True,
+                                )
+                            except Exception:
+                                pass
+                            st.success(f"Reserviertes Pseudonym '{target_reserved}' gelöscht.")
+                            st.rerun()
+                        else:
+                            st.info("Pseudonym konnte nicht gelöscht werden (evtl. kein reserviertes Secret oder bereits entfernt).")
     else:
         st.info("Keine reservierten Pseudonyme vorhanden.")
 
@@ -1207,6 +1258,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             else:
                 st.session_state["login_generator_rows"] = rows
                 st.success(f"{len(rows)} Login(s) erzeugt und reserviert.")
+                st.rerun()
 
     latest_rows = st.session_state.get("login_generator_rows")
     if latest_rows:
