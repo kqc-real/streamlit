@@ -682,7 +682,10 @@
             "updated": "Rangliste aktualisiert",
             "last_updated": "Zuletzt aktualisiert: {ts}",
             "refresh_button": "Aktualisieren",
-            "refresh_failed": "Aktualisierung fehlgeschlagen"
+            "refresh_failed": "Aktualisierung fehlgeschlagen",
+            "tempo_label": "Lerntempo",
+            "tempo_help": "Filtere Rangliste nach Lerntempo-Modus",
+            "tempo_all": "Alle"
         },
         "language": {
             "label": "Sprache w\u00e4hlen",
@@ -718,11 +721,9 @@
         },
         "tempo": {
             "label": "Wähle dein Lerntempo",
-            "options": {
-                "normal": "Normal",
-                "speed": "Schnelles Lerntempo (1/2 der normalen Zeit)",
-                "power": "Hohes Lerntempo (1/4 der normalen Zeit)"
-            }
+            "normal": "Normales Lerntempo",
+            "speed": "Schnelles Lerntempo (1/2 der normalen Zeit)",
+            "power": "Hohes Lerntempo (1/4 der normalen Zeit)"
         },
         "sort_order": {
             "label": "Fragen sortieren nach:",

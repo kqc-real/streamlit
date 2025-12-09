@@ -630,7 +630,10 @@
             "updated": "Leaderboard refreshed",
             "last_updated": "Last updated: {ts}",
             "refresh_button": "Refresh",
-            "refresh_failed": "Refresh failed"
+            "refresh_failed": "Refresh failed",
+            "tempo_label": "Learning pace",
+            "tempo_help": "Filter leaderboard by learning pace mode",
+            "tempo_all": "All"
         },
         "language": {
             "label": "Choose language",
@@ -666,11 +669,9 @@
         },
         "tempo": {
             "label": "Choose your learning pace",
-            "options": {
-                "normal": "Normal Pace",
-                "speed": "Speed Pace (1/2)",
-                "power": "Power Pace (1/4)"
-            }
+            "normal": "Normal pace",
+            "speed": "Speed pace (1/2)",
+            "power": "Power pace (1/4)"
         },
         "sort_order": {
             "label": "Sort questions by:",

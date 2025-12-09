@@ -632,11 +632,20 @@
             "updated": "Classement actualisé",
             "last_updated": "Dernière actualisation : {ts}",
             "refresh_button": "Actualiser",
-            "refresh_failed": "Actualisation échouée"
+            "refresh_failed": "Actualisation échouée",
+            "tempo_label": "Rythme d'apprentissage",
+            "tempo_help": "Filtrer le classement par rythme d'apprentissage",
+            "tempo_all": "Tout"
         },
         "language": {
             "label": "Langue",
             "help": "Ton choix sera sauvé pour la prochaine fois."
+        },
+        "tempo": {
+            "label": "Choisir le rythme d'apprentissage",
+            "normal": "Rythme normal",
+            "speed": "Rythme rapide (1/2)",
+            "power": "Rythme intensif (1/4)"
         },
         "pseudonym": {
             "heading": "\ud83d\udc64 Choisis ton pseudo",
@@ -665,14 +674,6 @@
             "database_error": "Erreur BDD : impossible de lancer la session.",
             "test_button": "Lancer le test",
             "question_required": "Veuillez d'abord sélectionner un set de questions."
-        },
-        "tempo": {
-            "label": "Choisir le rythme d'apprentissage",
-            "options": {
-                "normal": "Rythme normal",
-                "speed": "Rythme rapide (1/2)",
-                "power": "Rythme intensif (1/4)"
-            }
         },
         "sort_order": {
             "label": "Trier les questions par :",

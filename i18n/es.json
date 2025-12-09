@@ -34,7 +34,6 @@
         "pseudonym_reserved": "Este alias está reservado para ti.",
         "pseudonym_info": "\ud83d\udc64 Info alias",
         "history_button": "Mis sesiones",
-        "history_expander": "\ud83d\udcda Mis sesiones",
         "history_empty": "No hay resultados previos.",
         "history_error": "Error al cargar el historial.",
         "history_load_error": "Error al cargar el historial.",
@@ -116,16 +115,6 @@
         "skipped_disabled": "Saltos deshabilitados al finalizar.",
         "skipped_clear": "Reset lista",
         "skipped_clear_help": "Quita las preguntas saltadas de esta lista.",
-        "tempo": {
-            "label": "Elegir ritmo de aprendizaje",
-            "options": {
-                "normal": "Ritmo normal",
-                "speed": "Ritmo rápido (1/2)",
-                "power": "Ritmo intensivo (1/4)"
-            }
-        }
-    },
-    "welcome": {
         "tempo": {
             "label": "Elegir ritmo de aprendizaje",
             "options": {
@@ -644,11 +633,20 @@
             "updated": "Clasificación actualizada",
             "last_updated": "Actualizado: {ts}",
             "refresh_button": "Actualizar",
-            "refresh_failed": "Error al actualizar"
+            "refresh_failed": "Error al actualizar",
+            "tempo_label": "Ritmo de aprendizaje",
+            "tempo_help": "Filtrar el ranking por ritmo de aprendizaje",
+            "tempo_all": "Todos"
         },
         "language": {
             "label": "Idioma",
             "help": "Tu preferencia se guarda para la próxima."
+        },
+        "tempo": {
+            "label": "Elige tu ritmo de aprendizaje",
+            "normal": "Ritmo normal",
+            "speed": "Ritmo rápido (1/2)",
+            "power": "Ritmo intensivo (1/4)"
         },
         "pseudonym": {
             "heading": "\ud83d\udc64 Elige tu alias",
