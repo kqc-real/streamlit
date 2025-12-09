@@ -796,6 +796,71 @@ def reset_all_test_data():
         print(f"Datenbankfehler in reset_all_test_data: {e}")
         return False
 
+
+@with_db_retry
+def delete_reserved_pseudonyms() -> int:
+    """Löscht alle reservierten Pseudonyme (mit Recovery-Secret) inkl. aller Testdaten.
+
+    Der Admin-Benutzer wird nie gelöscht. Gibt die Anzahl der gelöschten Benutzer zurück.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return 0
+
+    try:
+        from config import AppConfig
+        admin_user_pseudonym = AppConfig().admin_user
+    except Exception:
+        admin_user_pseudonym = None
+
+    try:
+        cursor = conn.cursor()
+        params = []
+
+        base_query = (
+            "SELECT user_id, user_pseudonym FROM users "
+            "WHERE recovery_salt IS NOT NULL AND recovery_salt != '' "
+            "AND recovery_hash IS NOT NULL AND recovery_hash != ''"
+        )
+        if admin_user_pseudonym:
+            base_query += " AND user_pseudonym != ?"
+            params.append(admin_user_pseudonym)
+
+        cursor.execute(base_query, tuple(params))
+        rows = cursor.fetchall()
+        if not rows:
+            return 0
+
+        user_ids = [r["user_id"] for r in rows if r.get("user_id")]
+        if not user_ids:
+            return 0
+
+        placeholders = ",".join(["?"] * len(user_ids))
+
+        # Finde alle Sessions dieser User
+        cursor.execute(
+            f"SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders})",
+            user_ids,
+        )
+        session_rows = cursor.fetchall()
+        session_ids = [r["session_id"] for r in session_rows] if session_rows else []
+
+        with conn:
+            if session_ids:
+                s_ph = ",".join(["?"] * len(session_ids))
+                conn.execute(f"DELETE FROM bookmarks WHERE session_id IN ({s_ph})", session_ids)
+                conn.execute(f"DELETE FROM feedback WHERE session_id IN ({s_ph})", session_ids)
+                conn.execute(f"DELETE FROM answers WHERE session_id IN ({s_ph})", session_ids)
+                conn.execute(f"DELETE FROM test_sessions WHERE session_id IN ({s_ph})", session_ids)
+
+            conn.execute(f"DELETE FROM users WHERE user_id IN ({placeholders})", user_ids)
+
+        return len(user_ids)
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in delete_reserved_pseudonyms: {e}")
+        return 0
+
+
 def get_database_dump() -> str:
     """
     Erstellt einen SQL-Dump der gesamten Datenbank als Text.
@@ -962,7 +1027,7 @@ def recompute_session_summary(session_id: int) -> bool:
         except Exception:
             pass
         
-        # Wenn der User nicht mehr existiert (Pseudonym recycelt), 
+        # Wenn der User nicht mehr existiert (Pseudonym recycelt),
         # behalte den existierenden Pseudonym aus dem Summary
         if user_pseudonym is None:
             try:
@@ -1146,7 +1211,7 @@ def get_user_test_history(
             last_answer = r['last_answer']
             total_points = int(r['total_points']) if r['total_points'] is not None else 0
             correct_count = int(r['correct_count']) if r['correct_count'] is not None else 0
-            answers_count = int(r['answers_count']) if r['answers_count'] is not None else 0
+            # answers_count wird derzeit nicht benötigt, könnte aber für künftige Analysen genutzt werden.
 
             # Load question set metadata if available (cache by filename)
             qs = None
@@ -1356,7 +1421,7 @@ def release_unreserved_pseudonyms() -> int:
         # Prüfe SOWOHL test_sessions ALS AUCH test_session_summaries,
         # da test_sessions gelöscht werden können, während summaries erhalten bleiben
         cursor.execute("""
-            CREATE TEMP TABLE _last_sessions AS 
+            CREATE TEMP TABLE _last_sessions AS
             SELECT user_id, MAX(last_time) as last_time FROM (
                 SELECT user_id, MAX(start_time) as last_time FROM test_sessions GROUP BY user_id
                 UNION ALL
@@ -1391,7 +1456,7 @@ def release_unreserved_pseudonyms() -> int:
                     try:
                         last_session_time = datetime.strptime(last_time_str, '%Y-%m-%d %H:%M:%S')
                     except ValueError:
-                        pass # Konnte nicht geparsed werden
+                        pass  # Konnte nicht geparsed werden
 
                 if last_session_time:
                     # Normalisiere Zeitzonen, um Vergleiche sicher zu machen
@@ -1661,12 +1726,12 @@ def get_dashboard_statistics():
         # Durchschnittliche Punktzahl pro Fragenset
         # Berechne Gesamtpunktzahl pro Session aus answers
         cursor.execute("""
-            SELECT 
+            SELECT
                 session_totals.questions_file,
                 AVG(session_totals.session_score) as avg_score,
                 COUNT(*) as test_count
             FROM (
-                SELECT 
+                SELECT
                     s.session_id,
                     s.questions_file,
                     SUM(a.points) as session_score

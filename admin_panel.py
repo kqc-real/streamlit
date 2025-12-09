@@ -23,6 +23,9 @@ from database import (
     get_all_feedback,
     get_all_logs_for_leaderboard,
     get_used_pseudonyms,
+    has_recovery_secret_for_pseudonym,
+    delete_reserved_pseudonyms,
+    reset_all_test_data,
     set_recovery_secret,
 )
 
@@ -998,9 +1001,145 @@ def _available_pseudonyms() -> list[dict[str, str]]:
     return available
 
 
+def _used_pseudonyms() -> list[str]:
+    """Gibt alle aktuell genutzten Pseudonyme sortiert und dedupliziert zurück."""
+    used = [p.strip() for p in get_used_pseudonyms() if isinstance(p, str) and p.strip()]
+    return sorted(set(used), key=str.casefold)
+
+
+def _reserved_pseudonyms(used: list[str] | None = None) -> list[str]:
+    """Filtert Pseudonyme mit gesetztem Recovery-Secret (reserviert)."""
+    names = used if used is not None else _used_pseudonyms()
+    return [name for name in names if has_recovery_secret_for_pseudonym(name)]
+
+
 def render_login_generator_tab(app_config: AppConfig) -> None:
     """Ermöglicht das Reservieren und Exportieren freier Pseudonyme als Logins."""
     st.header("🔑 Login-Generator für reservierte Pseudonyme")
+
+    used_all = _used_pseudonyms()
+    reserved = _reserved_pseudonyms(used_all)
+
+    st.subheader("Aktuell genutzte temporäre Pseudonyme")
+    if used_all:
+        st.caption(f"{len(used_all)} Pseudonyme wurden bereits verwendet.")
+        st.dataframe(
+            pd.DataFrame({"Pseudonym": used_all}),
+            hide_index=True,
+            use_container_width=True,
+        )
+    else:
+        st.info("Noch keine Pseudonyme in Verwendung.")
+
+    st.subheader("Reservierte Pseudonyme (mit Login-Secret)")
+    if reserved:
+        st.caption(f"{len(reserved)} Pseudonyme sind aktuell reserviert.")
+        st.dataframe(
+            pd.DataFrame({"Pseudonym": reserved}),
+            hide_index=True,
+            use_container_width=True,
+        )
+    else:
+        st.info("Keine reservierten Pseudonyme vorhanden.")
+
+    with st.expander("🔴 Gefahrenzone: Alle genutzten Pseudonyme löschen", expanded=False):
+        st.warning(
+            "Löscht alle genutzten Pseudonyme inkl. zugehöriger Sessions, Antworten und Bookmarks. "
+            "Der Admin-Account bleibt erhalten."
+        )
+
+        try:
+            from auth import check_admin_key
+        except Exception:
+            check_admin_key = None
+
+        reauth_key = st.text_input(
+            "Admin-Key zur Bestätigung:", type="password", key="delete_pseudonyms_reauth"
+        )
+        confirmed = st.checkbox(
+            "Ich verstehe: Alle Test- und Pseudonymdaten (außer Admin) werden gelöscht.",
+            key="delete_pseudonyms_confirm",
+        )
+
+        if st.button("Jetzt alle genutzten Pseudonyme löschen", type="primary"):
+            if not confirmed:
+                st.warning("Bitte Checkbox zur Bestätigung aktivieren.")
+            else:
+                admin_key_ok = True
+                if check_admin_key is not None and getattr(app_config, "admin_key", None):
+                    admin_key_ok = check_admin_key(reauth_key, app_config)
+
+                if not admin_key_ok:
+                    st.error("Falscher Admin-Key. Vorgang abgebrochen.")
+                else:
+                    if reset_all_test_data():
+                        try:
+                            from audit_log import log_admin_action
+
+                            admin_user = st.session_state.get("user_id", "Unknown")
+                            log_admin_action(
+                                admin_user,
+                                "DELETE_ALL_PSEUDONYMS",
+                                "All pseudonyms and test data (except admin) deleted",
+                                success=True,
+                            )
+                        except Exception:
+                            pass
+                        st.success("Alle genutzten Pseudonyme und zugehörige Testdaten wurden gelöscht.")
+                        st.rerun()
+                    else:
+                        st.error("Löschen fehlgeschlagen. Siehe Server-Logs.")
+
+    with st.expander("🔴 Gefahrenzone: Alle reservierten Pseudonyme löschen", expanded=False):
+        st.warning(
+            "Löscht ausschließlich Pseudonyme mit gesetztem Login-Secret (reserviert) inklusive ihrer Testdaten. "
+            "Der Admin-Account bleibt erhalten."
+        )
+
+        try:
+            from auth import check_admin_key
+        except Exception:
+            check_admin_key = None
+
+        reauth_key_reserved = st.text_input(
+            "Admin-Key zur Bestätigung:",
+            type="password",
+            key="delete_reserved_pseudonyms_reauth",
+        )
+        confirmed_reserved = st.checkbox(
+            "Ich verstehe: Alle reservierten Pseudonyme und Testdaten (außer Admin) werden gelöscht.",
+            key="delete_reserved_pseudonyms_confirm",
+        )
+
+        if st.button("Reservierte Pseudonyme löschen", type="secondary"):
+            if not confirmed_reserved:
+                st.warning("Bitte Checkbox zur Bestätigung aktivieren.")
+            else:
+                admin_key_ok = True
+                if check_admin_key is not None and getattr(app_config, "admin_key", None):
+                    admin_key_ok = check_admin_key(reauth_key_reserved, app_config)
+
+                if not admin_key_ok:
+                    st.error("Falscher Admin-Key. Vorgang abgebrochen.")
+                else:
+                    deleted_count = delete_reserved_pseudonyms()
+                    if deleted_count > 0:
+                        try:
+                            from audit_log import log_admin_action
+
+                            admin_user = st.session_state.get("user_id", "Unknown")
+                            log_admin_action(
+                                admin_user,
+                                "DELETE_RESERVED_PSEUDONYMS",
+                                f"Deleted {deleted_count} reserved pseudonyms",
+                                success=True,
+                            )
+                        except Exception:
+                            pass
+                        st.success(f"{deleted_count} reservierte Pseudonym(e) gelöscht.")
+                        st.rerun()
+                    else:
+                        st.info("Keine reservierten Pseudonyme zu löschen oder Vorgang fehlgeschlagen.")
 
     available = _available_pseudonyms()
     if not available:
