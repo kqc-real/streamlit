@@ -119,8 +119,8 @@
                 "options": {
                     "all": "Alle",
                     "normal": "Normales Lerntempo",
-                    "speed": "Schnelles Lerntempo (1/2 der normalen Zeit)",
-                    "power": "Hohes Lerntempo (1/4 der normalen Zeit)"
+                    "speed": "Schnelles Lerntempo (1/2 der normalen Testzeit)",
+                    "power": "Hohes Lerntempo (1/4 der normalen Testzeit)"
                 }
             }
         }
@@ -722,8 +722,8 @@
         "tempo": {
             "label": "Wähle dein Lerntempo",
             "normal": "Normales Lerntempo",
-            "speed": "Schnelles Lerntempo (1/2 der normalen Zeit)",
-            "power": "Hohes Lerntempo (1/4 der normalen Zeit)"
+            "speed": "Schnelles Lerntempo (1/2 der normalen Testzeit)",
+            "power": "Hohes Lerntempo (1/4 der normalen Testzeit)"
         },
         "sort_order": {
             "label": "Fragen sortieren nach:",
