@@ -6,20 +6,24 @@ Verantwortlichkeiten:
 - Bereitstellung der Item-Analyse und des Leaderboards.
 """
 from pathlib import Path
+import secrets
+import string
 
 import pandas as pd
 import streamlit as st
 
-from config import AppConfig, QuestionSet, load_questions, list_question_files
+from config import AppConfig, QuestionSet, load_questions, list_question_files, load_scientists
 from i18n.context import t as translate_ui
 from pdf_export import generate_mini_glossary_pdf
-from helpers.text import format_decimal_de
+from helpers.text import format_decimal_de, get_user_id_hash
 from database import (
-    DATABASE_FILE,
+    add_user,
     delete_user_results_for_qset,
     get_all_answer_logs,
     get_all_feedback,
     get_all_logs_for_leaderboard,
+    get_used_pseudonyms,
+    set_recovery_secret,
 )
 
 
@@ -251,6 +255,7 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
             "📊 Analyse",
             "📢 Feedback",
             "📤 Export",
+            "🔑 Login-Generator",
             "⚙️ System",
             "🧠 Fragenset generieren",
             "🤖 Fragenset für Kahoot generieren",
@@ -271,18 +276,20 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     with tabs[3]:
         render_export_tab(df_filtered_logs, app_config)
     with tabs[4]:
-        render_system_tab(app_config, df_filtered_logs)
+        render_login_generator_tab(app_config)
     with tabs[5]:
-        render_general_prompt_tab()
+        render_system_tab(app_config, df_filtered_logs)
     with tabs[6]:
-        render_kahoot_prompt_tab()
+        render_general_prompt_tab()
     with tabs[7]:
-        render_arsnova_prompt_tab()
+        render_kahoot_prompt_tab()
     with tabs[8]:
-        render_mini_glossary_tab()
+        render_arsnova_prompt_tab()
     with tabs[9]:
-        render_question_sets_tab()
+        render_mini_glossary_tab()
     with tabs[10]:
+        render_question_sets_tab()
+    with tabs[11]:
         render_audit_log_tab()
 
 
@@ -964,6 +971,119 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     )
 
 
+def _generate_secret(length: int) -> str:
+    """Erzeugt ein zufälliges Secret aus Buchstaben und Ziffern."""
+    alphabet = string.ascii_letters + string.digits
+    return "".join(secrets.choice(alphabet) for _ in range(length))
+
+
+def _available_pseudonyms() -> list[dict[str, str]]:
+    """Liefert alle noch nicht vergebenen Pseudonyme mit optionalem Beitrag."""
+    scientists = load_scientists()
+    used = set(get_used_pseudonyms())
+    available: list[dict[str, str]] = []
+
+    for entry in scientists:
+        name = entry.get("name") if isinstance(entry, dict) else None
+        if not isinstance(name, str):
+            continue
+        if name in used:
+            continue
+        available.append({
+            "name": name,
+            "contribution": entry.get("contribution") if isinstance(entry, dict) else "",
+        })
+
+    available.sort(key=lambda item: item["name"].casefold())
+    return available
+
+
+def render_login_generator_tab(app_config: AppConfig) -> None:
+    """Ermöglicht das Reservieren und Exportieren freier Pseudonyme als Logins."""
+    st.header("🔑 Login-Generator für reservierte Pseudonyme")
+
+    available = _available_pseudonyms()
+    if not available:
+        st.warning(
+            "Alle Pseudonyme sind bereits vergeben. Neue Logins können erzeugt werden, sobald wieder Pseudonyme frei werden."
+        )
+        return
+
+    st.caption(f"{len(available)} Pseudonyme sind aktuell frei und können reserviert werden.")
+
+    overview_df = pd.DataFrame(available)
+    if not overview_df.empty:
+        overview_df = overview_df.rename(columns={"name": "Pseudonym", "contribution": "Beitrag"})
+        st.dataframe(overview_df, hide_index=True, use_container_width=True)
+
+    max_count = len(available)
+    default_count = min(5, max_count)
+    desired_count = int(
+        st.number_input(
+            "Anzahl der Logins", min_value=1, max_value=max_count, value=default_count, step=1
+        )
+    )
+
+    options = [p["name"] for p in available]
+    contributions = {p["name"]: p.get("contribution", "") for p in available}
+    default_selection = options[:desired_count]
+    selected_names = st.multiselect(
+        "Wähle die Pseudonyme für die Reservierung",
+        options=options,
+        default=default_selection,
+        format_func=lambda name: f"{name} ({contributions[name]})" if contributions.get(name) else name,
+        help="Nur freie Pseudonyme werden angezeigt.",
+    )
+
+    if len(selected_names) < desired_count:
+        st.info(
+            "Die Auswahl enthält weniger Pseudonyme als die gewünschte Anzahl. Passe die Anzahl an oder wähle mehr Pseudonyme aus."
+        )
+
+    secret_length = max(int(getattr(app_config, "recovery_min_length", 6) or 6), 8)
+
+    def _create_logins(selected: list[str]) -> list[dict[str, str]]:
+        rows: list[dict[str, str]] = []
+        for name in selected:
+            clean_name = name.strip()
+            if not clean_name:
+                continue
+            user_id = get_user_id_hash(clean_name)
+            add_user(user_id, clean_name)
+            secret = _generate_secret(secret_length)
+            if not set_recovery_secret(user_id, secret):
+                continue
+            rows.append({"Pseudonym": clean_name, "Login-Secret": secret})
+        return rows
+
+    if st.button("🚀 Logins erzeugen", type="primary"):
+        if not selected_names:
+            st.warning("Bitte wähle mindestens ein Pseudonym aus.")
+        elif len(selected_names) < desired_count:
+            st.warning("Wähle so viele Pseudonyme wie die gewünschte Login-Anzahl oder reduziere die Anzahl.")
+        else:
+            rows = _create_logins(selected_names[:desired_count])
+            if not rows:
+                st.error("Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl.")
+            else:
+                st.session_state["login_generator_rows"] = rows
+                st.success(f"{len(rows)} Login(s) erzeugt und reserviert.")
+
+    latest_rows = st.session_state.get("login_generator_rows")
+    if latest_rows:
+        st.subheader("Zuletzt erzeugte Logins")
+        result_df = pd.DataFrame(latest_rows)
+        st.dataframe(result_df, hide_index=True, use_container_width=True)
+        csv_data = result_df.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            "⬇️ CSV herunterladen",
+            data=csv_data,
+            file_name="reservierte_pseudonyme.csv",
+            mime="text/csv",
+            key="download_login_generator_csv",
+        )
+
+
 def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     """Rendert den System-Tab für Konfiguration und Statistiken."""
     st.header("Systemeinstellungen und Metriken")
@@ -1131,8 +1251,8 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
 def render_audit_log_tab():
     """Rendert den Audit-Log-Tab mit Filterung und Export."""
     from audit_log import (
-        get_audit_log, 
-        export_audit_log_csv, 
+        get_audit_log,
+        export_audit_log_csv,
         get_audit_statistics,
         cleanup_old_audit_logs
     )
