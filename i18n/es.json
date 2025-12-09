@@ -4,9 +4,9 @@
         "subtitle": "Gestiona y analiza tus sets"
     },
     "tempo": {
-        "normal": "Normal",
-        "speed": "Rápido (1/2)",
-        "power": "Power (1/4)"
+        "normal": "Ritmo normal",
+        "speed": "Ritmo rápido (1/2)",
+        "power": "Ritmo intensivo (1/4)"
     },
     "admin": {
         "leaderboard": {
@@ -15,9 +15,9 @@
                 "help": "Filtrar ranking por modo de tempo",
                 "options": {
                     "all": "Todos",
-                    "normal": "Normal",
-                    "speed": "Rápido (1/2)",
-                    "power": "Power (1/4)"
+                    "normal": "Ritmo normal",
+                    "speed": "Ritmo rápido (1/2)",
+                    "power": "Ritmo intensivo (1/4)"
                 }
             }
         }
@@ -57,7 +57,7 @@
             "actions": "Acciones",
             "points": "Puntos (%)",
             "duration": "Duración",
-            "tempo": "Tempo"
+            "tempo": "Ritmo de aprendizaje"
         },
         "current_set": "Set: <strong>{name}</strong>",
         "current_set_marker": "Set: {marker} <strong>{name}</strong>",
@@ -117,21 +117,21 @@
         "skipped_clear": "Reset lista",
         "skipped_clear_help": "Quita las preguntas saltadas de esta lista.",
         "tempo": {
-            "label": "Elegir tempo",
+            "label": "Elegir ritmo de aprendizaje",
             "options": {
-                "normal": "Normal",
-                "speed": "Rápido (1/2)",
-                "power": "Power (1/4)"
+                "normal": "Ritmo normal",
+                "speed": "Ritmo rápido (1/2)",
+                "power": "Ritmo intensivo (1/4)"
             }
         }
     },
     "welcome": {
         "tempo": {
-            "label": "Elegir tempo",
+            "label": "Elegir ritmo de aprendizaje",
             "options": {
-                "normal": "Normal",
-                "speed": "Rápido (1/2)",
-                "power": "Power (1/4)"
+                "normal": "Ritmo normal",
+                "speed": "Ritmo rápido (1/2)",
+                "power": "Ritmo intensivo (1/4)"
             }
         }
     },

@@ -4,9 +4,9 @@
         "subtitle": "Gère & analyse tes sets de questions"
     },
     "tempo": {
-        "normal": "Normal",
-        "speed": "Rapide (1/2)",
-        "power": "Power (1/4)"
+        "normal": "Rythme normal",
+        "speed": "Rythme rapide (1/2)",
+        "power": "Rythme intensif (1/4)"
     },
     "admin": {
         "leaderboard": {
@@ -14,10 +14,10 @@
                 "label": "Tempo",
                 "help": "Filtrer le classement par mode de tempo",
                 "options": {
-                    "all": "Tous",
-                    "normal": "Normal",
-                    "speed": "Rapide (1/2)",
-                    "power": "Power (1/4)"
+                    "all": "Tout",
+                    "normal": "Rythme normal",
+                    "speed": "Rythme rapide (1/2)",
+                    "power": "Rythme intensif (1/4)"
                 }
             }
         }
@@ -56,7 +56,7 @@
             "actions": "Actions",
             "points": "Score (%)",
             "duration": "Durée",
-            "tempo": "Tempo"
+            "tempo": "Rythme d'apprentissage"
         },
         "current_set": "Set : <strong>{name}</strong>",
         "current_set_marker": "Set : {marker} <strong>{name}</strong>",
@@ -116,11 +116,11 @@
         "skipped_clear": "Reset liste",
         "skipped_clear_help": "Vide la liste des questions sautées.",
         "tempo": {
-            "label": "Choisir le tempo",
+            "label": "Choisir le rythme d'apprentissage",
             "options": {
-                "normal": "Normal",
-                "speed": "Rapide (1/2)",
-                "power": "Power (1/4)"
+                "normal": "Rythme normal",
+                "speed": "Rythme rapide (1/2)",
+                "power": "Rythme intensif (1/4)"
             }
         }
     },
@@ -322,6 +322,12 @@
         "run_export": "Lancer export",
         "reset": "Reset",
         "download": "Télécharger"
+    },
+    "locales": {
+        "de": "Allemand",
+        "en": "Anglais",
+        "fr": "Français",
+        "es": "Espagnol"
     },
     "messages": {
         "export_unavailable": "Bientôt dispo.",
@@ -661,11 +667,11 @@
             "question_required": "Veuillez d'abord sélectionner un set de questions."
         },
         "tempo": {
-            "label": "Choisir le tempo",
+            "label": "Choisir le rythme d'apprentissage",
             "options": {
-                "normal": "Normal",
-                "speed": "Rapide (1/2)",
-                "power": "Power (1/4)"
+                "normal": "Rythme normal",
+                "speed": "Rythme rapide (1/2)",
+                "power": "Rythme intensif (1/4)"
             }
         },
         "sort_order": {
@@ -675,7 +681,7 @@
         }
     },
     "warnings": {
-        "no_config": "\u26a0\ufe0f **Fichier config manquant !**\n\nL'app a besoin d'un `.env` ou `.streamlit/secrets.toml`.\n\n**En local :**\n1. Copie `.env.example` vers `.env`:\n   ```bash\n   cp .env.example .env\n   ```\n2. Redémarre l'app.\n\n**Détails :** Voir [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+        "no_config": "\u26a0\ufe0f **Fichier config manquant !**\\n\\nL'app a besoin d'un `.env` ou `.streamlit/secrets.toml`.\\n\\n**En local :**\\n1. Copie `.env.example` vers `.env`:\\n   ```bash\\n   cp .env.example .env\\n   ```\\n2. Redémarre l'app.\\n\\n**Détails :** Voir [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
     }
     
 }

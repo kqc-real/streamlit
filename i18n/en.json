@@ -38,7 +38,7 @@
             "actions": "Actions",
             "points": "Points (%)",
             "duration": "Duration",
-            "tempo": "Tempo"
+            "tempo": "Learning Pace"
         },
         "current_set": "Question set: <strong>{name}</strong>",
         "current_set_marker": "Question set: {marker} <strong>{name}</strong>",
@@ -307,20 +307,20 @@
         "download": "Start download"
     },
     "tempo": {
-        "normal": "Normal",
-        "speed": "Speed (1/2)",
-        "power": "Power (1/4)"
+        "normal": "Normal Pace",
+        "speed": "Speed Pace (1/2)",
+        "power": "Power Pace (1/4)"
     },
     "admin": {
         "leaderboard": {
             "tempo": {
-                "label": "Tempo",
-                "help": "Filter leaderboard by tempo mode",
+                "label": "Learning Pace",
+                "help": "Filter leaderboard by learning pace mode",
                 "options": {
                     "all": "All",
-                    "normal": "Normal",
-                    "speed": "Speed (1/2)",
-                    "power": "Power (1/4)"
+                    "normal": "Normal Pace",
+                    "speed": "Speed Pace (1/2)",
+                    "power": "Power Pace (1/4)"
                 }
             }
         }
@@ -375,7 +375,7 @@
             "steps": "Steps",
             "content": "Content"
         },
-        "bookmarks_intro": "You marked the following questions for review:",
+        "bookmarks_intro": "You have marked the following questions for review:",
         "question_short": "Question {n}",
         "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:", "tempo": "Tempo:", "allowed": "allowed:" },
         "stat": { "correct": "Correct", "wrong": "Incorrect", "unanswered": "Unanswered", "total": "Total" },
@@ -666,11 +666,11 @@
             "question_required": "Please select a question set first."
         },
         "tempo": {
-            "label": "Choose tempo",
+            "label": "Choose your learning pace",
             "options": {
-                "normal": "Normal",
-                "speed": "Speed (1/2)",
-                "power": "Power (1/4)"
+                "normal": "Normal Pace",
+                "speed": "Speed Pace (1/2)",
+                "power": "Power Pace (1/4)"
             }
         },
         "sort_order": {
