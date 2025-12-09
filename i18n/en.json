@@ -15,7 +15,6 @@
         "pseudonym_reserved": "This pseudonym is reserved for you.",
         "pseudonym_info": "\ud83d\udc64 Pseudonym info",
         "history_button": "My sessions",
-        "history_expander": "\ud83d\udcda My sessions",
         "history_empty": "No previous test results found.",
         "history_error": "Error loading the history.",
         "history_load_error": "Error loading the history.",
