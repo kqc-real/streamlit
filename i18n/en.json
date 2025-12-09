@@ -38,7 +38,7 @@
             "actions": "Actions",
             "points": "Points (%)",
             "duration": "Duration",
-            "tempo": "Tempo"
+              "tempo": "Learning pace"
         },
         "current_set": "Question set: <strong>{name}</strong>",
         "current_set_marker": "Question set: {marker} <strong>{name}</strong>",
@@ -314,8 +314,8 @@
     "admin": {
         "leaderboard": {
             "tempo": {
-                "label": "Tempo",
-                "help": "Filter leaderboard by tempo mode",
+                "label": "Learning pace",
+                "help": "Filter leaderboard by learning pace mode",
                 "options": {
                     "all": "All",
                     "normal": "Normal",
@@ -377,7 +377,7 @@
         },
         "bookmarks_intro": "You marked the following questions for review:",
         "question_short": "Question {n}",
-        "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:", "tempo": "Tempo:", "allowed": "allowed:" },
+        "meta": { "participant": "Participant:", "test_date": "Test date:", "duration": "Duration:", "questionset": "Question set:", "generated_at": "Generated at:", "tempo": "Learning pace:", "allowed": "allowed:" },
         "stat": { "correct": "Correct", "wrong": "Incorrect", "unanswered": "Unanswered", "total": "Total" },
         "glossary": { "title": "Mini-Glossary", "intro": "Key terms from this question set, grouped by topic", "alt_intro": "Key terms from the question set" },
         "musterloesung": { "title": "Sample solution" },
@@ -413,9 +413,9 @@
         },
         "header": {
             "manual_end": "\u26a0\ufe0f Test ended early",
-            "time_expired": "\u23f0 Time&#8209;up!",
-            "completed": "\ud83d\ude80 Test completed!"
-        },
+                "tempo": {
+                    "label": "Learning pace",
+                    "help": "Filter leaderboard by learning pace mode",
         "info": {
             "time_expired": "The test ended because the allotted time was exceeded. Allowed time ({tempo_label}): {allowed_min} min",
             "early_finish": "You submitted {early_delta} min early. Duration: {duration_display}. Allowed time ({tempo_label}): {allowed_min} min"

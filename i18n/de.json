@@ -38,7 +38,7 @@
             "actions": "Aktionen",
             "points": "Punkte (%)",
             "duration": "Dauer",
-            "tempo": "Tempo"
+            "tempo": "Lerntempo"
         },
         "current_set": "Fragenset: <strong>{name}</strong>",
         "current_set_marker": "Fragenset: {marker} <strong>{name}</strong>",
@@ -98,7 +98,7 @@
         "skipped_clear": "Alle zur\u00fccksetzen",
         "skipped_clear_help": "Setzt alle \u00fcbersprungenen Fragen zur\u00fcck, damit sie nicht mehr in dieser Liste erscheinen.",
         "tempo": {
-            "label": "Tempo w\u00e4hlen",
+            "label": "Lerntempo w\u00e4hlen",
             "options": {
                 "normal": "Normal",
                 "speed": "Speed (1/2)",
@@ -113,9 +113,9 @@
     },
     "admin": {
         "leaderboard": {
-            "tempo": {
-                "label": "Tempo",
-                "help": "Filtere Rangliste nach Tempo-Modus",
+                "tempo": {
+                "label": "Lerntempo",
+                "help": "Filtere Rangliste nach Lerntempo-Modus",
                 "options": {
                     "all": "Alle",
                     "normal": "Normal",
@@ -415,7 +415,7 @@
             "duration": "Dauer:",
             "questionset": "Fragenset:",
             "generated_at": "Stand:",
-            "tempo": "Tempo:",
+            "tempo": "Lerntempo:",
             "allowed": "erlaubt:"
         },
         "stat": {

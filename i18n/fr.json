@@ -11,8 +11,8 @@
     "admin": {
         "leaderboard": {
             "tempo": {
-                "label": "Tempo",
-                "help": "Filtrer le classement par mode de tempo",
+                "label": "Rythme d'apprentissage",
+                "help": "Filtrer le classement par rythme d'apprentissage",
                 "options": {
                     "all": "Tous",
                     "normal": "Normal",
@@ -56,7 +56,7 @@
             "actions": "Actions",
             "points": "Score (%)",
             "duration": "Durée",
-            "tempo": "Tempo"
+            "tempo": "Rythme d'apprentissage"
         },
         "current_set": "Set : <strong>{name}</strong>",
         "current_set_marker": "Set : {marker} <strong>{name}</strong>",
@@ -116,7 +116,7 @@
         "skipped_clear": "Reset liste",
         "skipped_clear_help": "Vide la liste des questions sautées.",
         "tempo": {
-            "label": "Choisir le tempo",
+            "label": "Choisir le rythme d'apprentissage",
             "options": {
                 "normal": "Normal",
                 "speed": "Rapide (1/2)",
@@ -374,7 +374,7 @@
         },
         "bookmarks_intro": "Tu as marqué ces questions pour plus tard :",
         "question_short": "Q° {n}",
-        "meta": { "participant": "Participant :", "test_date": "Date :", "duration": "Durée :", "questionset": "Set :", "generated_at": "Généré le :", "tempo": "Tempo :", "allowed": "autorisé :" },
+        "meta": { "participant": "Participant :", "test_date": "Date :", "duration": "Durée :", "questionset": "Set :", "generated_at": "Généré le :", "tempo": "Rythme d'apprentissage :", "allowed": "autorisé :" },
         "stat": { "correct": "Correct", "wrong": "Faux", "unanswered": "Sans réponse", "total": "Total" },
         "glossary": { "title": "Mini-Glossaire", "intro": "Termes clés du set, par sujet", "alt_intro": "Termes clés du set" },
         "musterloesung": { "title": "Solution type" },
