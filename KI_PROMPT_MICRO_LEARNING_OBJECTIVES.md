@@ -66,30 +66,36 @@ Your task is to:
 
 COGNITIVE LEVELS AND VERBS
 --------------------------
-Use level-specific active verbs, and only those verbs, depending on the `"cognitive_level"`.
+Use level-specific active verbs depending on `"cognitive_level"`.
 
-If the detected language is **German**, use:
+These verb sets are **guidelines**. Prefer verbs from these sets, but you may also use closely related, level-appropriate synonyms to avoid monotonous repetition, as long as they fit the cognitive level.
 
-- For "Reproduction":
-  { "nennen", "beschreiben", "wiedergeben", "definieren", "erläutern", "erkennen" }
-- For "Application":
-  { "anwenden", "berechnen", "bestimmen", "einsetzen", "nutzen", "einordnen" }
-- For "Analysis":
-  { "analysieren", "vergleichen", "untersuchen", "begründen", "interpretieren", "herleiten" }
-
-If the detected language is **English**, use:
+If the detected language is **German**, use (and extend with close synonyms):
 
 - For "Reproduction":
-  { "name", "recall", "describe", "define", "identify", "state" }
+  { "nennen", "beschreiben", "wiedergeben", "definieren", "erläutern", "erkennen", "identifizieren", "aufzählen", "charakterisieren" }
+
 - For "Application":
-  { "apply", "compute", "calculate", "use", "determine", "solve" }
+  { "anwenden", "berechnen", "bestimmen", "einsetzen", "nutzen", "einordnen", "verwenden", "durchführen", "lösungsorientiert einsetzen" }
+
 - For "Analysis":
-  { "analyze", "compare", "examine", "reason about", "explain", "interpret" }
+  { "analysieren", "vergleichen", "untersuchen", "begründen", "interpretieren", "herleiten", "einordnen und abwägen", "strukturiert darstellen", "zusammenhänge herausarbeiten" }
+
+If the detected language is **English**, use (and extend with close synonyms):
+
+- For "Reproduction":
+  { "name", "recall", "describe", "define", "identify", "state", "list", "characterize" }
+
+- For "Application":
+  { "apply", "compute", "calculate", "use", "determine", "solve", "carry out", "employ", "implement" }
+
+- For "Analysis":
+  { "analyze", "compare", "examine", "reason about", "explain", "interpret", "differentiate", "decompose", "identify relationships" }
 
 For each micro-LO:
-- Use exactly ONE main verb from the set corresponding to the `"cognitive_level"`.
+- Use exactly ONE main verb that is appropriate for the `"cognitive_level"`.
 - Conjugate the verb correctly in the target language.
-- Ensure that the micro-LO really reflects the cognitive level (simple recall vs application vs structural analysis).
+- Ensure that the micro-LO really reflects the intended cognitive level (simple recall vs application vs structural analysis).
 
 STYLE AND LANGUAGE
 ------------------
@@ -97,62 +103,13 @@ STYLE AND LANGUAGE
 - Use the **second person singular** when appropriate:
   - German: formulate as if starting with “Du kannst …”.
   - English: formulate as if starting with “You can …”.
-- In the bullet list you DO NOT repeat “Du kannst …” / “You can …” in every bullet; they contain only the continuation.
+- Each numbered entry must be a grammatically correct, well-formed sentence fragment that can be prefixed by “Du kannst ” / “You can ” to form a complete sentence.
+- Use clear, concise, and didactically appropriate language. Avoid unnecessary repetition of phrases and avoid overly long sentences.
 
 MARKDOWN OUTPUT FORMAT
 ----------------------
-Produce ONLY a Markdown fragment, no explanations, no preface besides the required introductory sentence.
+Produce ONLY a Markdown fragment, and wrap the entire fragment in a fenced Markdown code block.
 
-1. At the very top, write a short introductory sentence that uses `meta.title` and matches the detected language:
-
-   - If language is German, write:
-     `Im Kontext des Themas **<title>** soll dir dieses Fragenset helfen, die folgenden Lernziele zu erreichen:`
-
-     where `<title>` is replaced by the value of `meta.title`.
-
-   - If language is English, write:
-     `In the context of **<title>**, this question set is designed to help you achieve the following learning objectives:`
-
-     where `<title>` is replaced by the value of `meta.title`.
-
-   Add a blank line after this sentence.
-
-2. For each cognitive level present in `questions`, create a heading:
-
-   If language is German:
-   - "Reproduction"  -> `### Reproduktion`
-   - "Application"   -> `### Anwendung`
-   - "Analysis"      -> `### Strukturelle Analyse`
-
-   If language is English:
-   - "Reproduction"  -> `### Reproduction`
-   - "Application"   -> `### Application`
-   - "Analysis"      -> `### Structural Analysis`
-
-3. Under each heading, add a bold line:
-
-   - German:  `**Du kannst …**`
-   - English: `**You can …**`
-
-4. Under that, add a Markdown bullet list of micro learning objectives for that level.
-   - Each bullet continues the sentence started by "Du kannst …" / "You can …".
-   - Example (German):
-     - `**Du kannst …**`
-       - `bei gegebenen Matrizen die Dimension des Matrixprodukts korrekt bestimmen.`
-   - Example (English):
-     - `**You can …**`
-       - `compute the gradient of a scalar function with respect to all input variables.`
-
-5. Do not output a section for a level that does not appear in the `"cognitive_level"` field of any question.
-6. Do not include any additional commentary, code fences, or prose outside this exact structure.
-
-LOGIC FOR MICRO-LO CREATION
----------------------------
-When creating each bullet:
-
-- Use `"topic"` and `"concept"` to decide what the learner operates on.
-- Use `"question"` and `"explanation"` (and `"extended_explanation"` if available) to refine the precise skill or understanding.
-- Use `meta.title` and `meta.target_audience` to calibrate technical depth and wording.
-- Do not simply restate the question; express the underlying competency as something the learner can do.
-
-Now read the following JSON object (with a "meta" section and a "questions" array) and generate ONLY the described Markdown fragment:
+- Start with:
+  ```markdown
+  ... your content ...
