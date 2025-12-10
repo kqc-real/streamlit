@@ -79,7 +79,7 @@ If the detected language is **German**, use (and extend with close synonyms):
   { "anwenden", "berechnen", "bestimmen", "einsetzen", "nutzen", "einordnen", "verwenden", "durchführen", "lösungsorientiert einsetzen" }
 
 - For "Analysis":
-  { "analysieren", "vergleichen", "untersuchen", "begründen", "interpretieren", "herleiten", "einordnen und abwägen", "strukturiert darstellen", "zusammenhänge herausarbeiten" }
+  { "analysieren", "vergleichen", "untersuchen", "begründen", "interpretieren", "herleiten", "einordnen und abwägen", "strukturiert darstellen", "Zusammenhänge herausarbeiten" }
 
 If the detected language is **English**, use (and extend with close synonyms):
 
@@ -105,11 +105,75 @@ STYLE AND LANGUAGE
   - English: formulate as if starting with “You can …”.
 - Each numbered entry must be a grammatically correct, well-formed sentence fragment that can be prefixed by “Du kannst ” / “You can ” to form a complete sentence.
 - Use clear, concise, and didactically appropriate language. Avoid unnecessary repetition of phrases and avoid overly long sentences.
+- When you need mathematical notation, write it using **standard LaTeX syntax** inside `$...$` (inline) or `$$...$$` (display). Use single backslashes (e.g. `\mathbb{R}`, not `\\mathbb{R}`), and do not wrap formulas in code spans or code blocks. The Markdown will be rendered with KaTeX/MathJax.
 
 MARKDOWN OUTPUT FORMAT
 ----------------------
-Produce ONLY a Markdown fragment, and wrap the entire fragment in a fenced Markdown code block.
+Produce ONLY a Markdown fragment, and wrap the entire fragment in a fenced Markdown code block of type `markdown`.
 
 - Start with:
+
   ```markdown
   ... your content ...
+  ```
+
+  and end with:
+
+  ```markdown
+  ```
+
+Inside the code block:
+
+1. At the very top, write a short introductory sentence that uses `meta.title` and matches the detected language:
+
+   - If language is German, write:
+     `Im Kontext des Themas **<title>** soll dir dieses Fragenset helfen, die folgenden Lernziele zu erreichen:`
+
+   - If language is English, write:
+     `In the context of **<title>**, this question set is designed to help you achieve the following learning objectives:`
+
+   where `<title>` is replaced by the value of `meta.title`.
+
+   Add a blank line after this sentence.
+
+2. For each cognitive level present in `questions`, create a heading:
+
+   If language is German:
+   - "Reproduction"  -> `### Reproduktion`
+   - "Application"   -> `### Anwendung`
+   - "Analysis"      -> `### Strukturelle Analyse`
+
+   If language is English:
+   - "Reproduction"  -> `### Reproduction`
+   - "Application"   -> `### Application`
+   - "Analysis"      -> `### Structural Analysis`
+
+3. Under each heading, add a bold line:
+
+   - German:  `**Du kannst …**`
+   - English: `**You can …**`
+
+4. Under that, add a **numbered Markdown list** of micro learning objectives for that level.
+   - Use `1.`, `2.`, `3.` etc. for each item.
+   - Each item continues the sentence started by "Du kannst …" / "You can …" and must be grammatically correct.
+   - Example (German):
+     - `**Du kannst …**`
+       - `1. bei gegebenen Matrizen die Dimension des Matrixprodukts korrekt bestimmen.`
+   - Example (English):
+     - `**You can …**`
+       - `1. compute the gradient of a scalar function with respect to all input variables.`
+
+5. Do not output a section for a level that does not appear in the `"cognitive_level"` field of any question.
+6. Do not include any additional commentary, explanatory text, or code outside the single fenced Markdown code block.
+
+LOGIC FOR MICRO-LO CREATION
+---------------------------
+When creating each numbered item:
+
+- Use `"topic"` and `"concept"` to decide what the learner operates on.
+- Use `"question"` and `"explanation"` (and `"extended_explanation"` if available) to refine the precise skill or understanding.
+- Use `meta.title` and `meta.target_audience` to calibrate technical depth and wording.
+- Do not simply restate the question; express the underlying competency as something the learner can do.
+- Ensure correct grammar and stylistic coherence within the chosen language.
+
+Now read the following JSON object (with a "meta" section and a "questions" array) and generate ONLY the described Markdown code block:
