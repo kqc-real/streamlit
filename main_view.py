@@ -2350,22 +2350,33 @@ def render_welcome_page(app_config: AppConfig):
             def _replace_block(match):
                 formula = match.group(1)
                 if _render_latex_to_image:
-                    return _render_latex_to_image(formula, is_block=True)
-                return f"<pre>{formula}</pre>"
+                    rendered = (_render_latex_to_image(formula, is_block=True) or "").strip()
+                else:
+                    rendered = f"<code>{formula}</code>"
+                return f"<div class='math-block'>{rendered}</div>"
 
             def _replace_inline(match):
                 formula = match.group(1)
                 if _render_latex_to_image:
-                    return _render_latex_to_image(formula, is_block=False)
-                return f"<code>{formula}</code>"
+                    rendered = (_render_latex_to_image(formula, is_block=False) or "").strip()
+                else:
+                    rendered = f"<code class='math-inline-code'>{formula}</code>"
+                # Falls ein Renderer unerwartet ein Block-Element liefert, zwingend inline kapseln.
+                rendered = rendered.replace("\n", " ")
+                return f"<span class='math-inline'>{rendered}</span>"
 
             md_for_render = content
             # Block formulas first
             md_for_render = re.sub(r"\$\$(.+?)\$\$", _replace_block, md_for_render, flags=re.S)
-            # Inline formulas (avoid already replaced blocks)
-            md_for_render = re.sub(r"\$(.+?)\$", _replace_inline, md_for_render)
+            # Inline formulas (avoid already replaced blocks and double dollars)
+            md_for_render = re.sub(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", _replace_inline, md_for_render)
 
             html_body = _md.markdown(md_for_render, extensions=["fenced_code", "tables", "toc"])
+            # Normalize paragraphs that contain only inline math so they don't create extra spacing.
+            try:
+                html_body = re.sub(r"<p>\s*(<span class='math-inline'>.*?</span>)\s*</p>", r"\1", html_body)
+            except Exception:
+                pass
 
             css = """
             @page {
@@ -2472,6 +2483,11 @@ def render_welcome_page(app_config: AppConfig):
             img { max-width: 100%; display: block; margin: 0.4em 0; }
             strong { color: #0b3a5c; }
             em { color: var(--muted); }
+            .math-inline { display: inline; }
+            .math-inline img { display: inline-block; vertical-align: middle; margin: 0; max-height: 1.2em; }
+            .math-inline-code { white-space: nowrap; }
+            .math-block { margin: 0.8em 0; text-align: center; }
+            .math-block img { display: inline-block; max-width: 100%; }
             """
 
             html = f"""
