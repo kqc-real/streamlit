@@ -26,6 +26,7 @@ pytest>=8.0,<9
 filelock>=3.13
 
 # Add exporter dependencies
+markdown>=3.5
 markdown-it-py>=3.0
 bleach>=6.0
 pykatex==0.1.1
