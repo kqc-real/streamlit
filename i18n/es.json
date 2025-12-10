@@ -648,6 +648,14 @@
             "speed": "Ritmo rápido (1/2)",
             "power": "Ritmo intensivo (1/4)"
         },
+        "learning_objectives": {
+            "button": "Objetivos de aprendizaje del conjunto de preguntas",
+            "dialog_title": "Objetivos de aprendizaje del conjunto de preguntas",
+            "download_pdf": "Descargar objetivos de aprendizaje en PDF",
+            "load_error": "No se pudo cargar el archivo de objetivos de aprendizaje.",
+            "pdf_unavailable": "Exportación a PDF no disponible: {error}",
+            "dialog_fallback": "Esta versión de Streamlit no admite diálogos. Mostrando el contenido en línea."
+        },
         "pseudonym": {
             "heading": "\ud83d\udc64 Elige tu alias",
             "no_available": "\u26a0\ufe0f No quedan alias. Contacta al admin.",

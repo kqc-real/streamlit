@@ -647,6 +647,14 @@
             "speed": "Rythme rapide (1/2)",
             "power": "Rythme intensif (1/4)"
         },
+        "learning_objectives": {
+            "button": "Objectifs d'apprentissage du jeu de questions",
+            "dialog_title": "Objectifs d'apprentissage du jeu de questions",
+            "download_pdf": "Télécharger les objectifs d'apprentissage en PDF",
+            "load_error": "Impossible de charger le fichier des objectifs d'apprentissage.",
+            "pdf_unavailable": "Export PDF indisponible : {error}",
+            "dialog_fallback": "Cette version de Streamlit ne gère pas les boîtes de dialogue. Contenu affiché en ligne."
+        },
         "pseudonym": {
             "heading": "\ud83d\udc64 Choisis ton pseudo",
             "no_available": "\u26a0\ufe0f Plus de pseudos dispos. Contacte l'admin.",

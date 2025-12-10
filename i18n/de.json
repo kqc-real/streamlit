@@ -725,6 +725,14 @@
             "speed": "Schnelles Lerntempo (1/2 der normalen Testzeit)",
             "power": "Hohes Lerntempo (1/4 der normalen Testzeit)"
         },
+        "learning_objectives": {
+            "button": "Lernziele zum Fragenset",
+            "dialog_title": "Lernziele zum Fragenset",
+            "download_pdf": "Lernziele als PDF herunterladen",
+            "load_error": "Die Lernziele-Datei konnte nicht geladen werden.",
+            "pdf_unavailable": "PDF-Export nicht verfügbar: {error}",
+            "dialog_fallback": "Diese Streamlit-Version unterstützt keine Dialoge. Inhalte werden inline gezeigt."
+        },
         "sort_order": {
             "label": "Fragen sortieren nach:",
             "random": "zufällig",

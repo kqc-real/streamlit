@@ -169,6 +169,48 @@ def _welcome_no_sets_info() -> str:
     )
 
 
+def _learning_objectives_button_label() -> str:
+    return translate_ui(
+        "welcome.learning_objectives.button",
+        default="Lernziele zum Fragenset",
+    )
+
+
+def _learning_objectives_dialog_title() -> str:
+    return translate_ui(
+        "welcome.learning_objectives.dialog_title",
+        default="Lernziele zum Fragenset",
+    )
+
+
+def _learning_objectives_download_label() -> str:
+    return translate_ui(
+        "welcome.learning_objectives.download_pdf",
+        default="⬇️ Lernziele als PDF",
+    )
+
+
+def _learning_objectives_load_error() -> str:
+    return translate_ui(
+        "welcome.learning_objectives.load_error",
+        default="Die Lernziele-Datei konnte nicht geladen werden.",
+    )
+
+
+def _learning_objectives_pdf_unavailable(error: str | None) -> str:
+    return translate_ui(
+        "welcome.learning_objectives.pdf_unavailable",
+        default="PDF-Export nicht verfügbar: {error}",
+    ).format(error=error or "unbekannter Fehler")
+
+
+def _learning_objectives_dialog_fallback() -> str:
+    return translate_ui(
+        "welcome.learning_objectives.dialog_fallback",
+        default="Dialog wird von dieser Streamlit-Version nicht unterstützt. Inhalte werden inline gezeigt.",
+    )
+
+
 def _welcome_session_expired_warning() -> str:
     return translate_ui(
         "welcome.warning.session_expired",
@@ -2208,6 +2250,132 @@ def render_welcome_page(app_config: AppConfig):
             except Exception:
                 st.session_state["_needs_rerun"] = True
 
+    def _find_learning_objectives_path(selected: str) -> Path | None:
+        if not selected:
+            return None
+
+        try:
+            from config import _resolve_question_paths
+        except Exception:
+            _resolve_question_paths = None
+
+        try:
+            cleaned = selected[len(USER_QUESTION_PREFIX):] if selected.startswith(USER_QUESTION_PREFIX) else selected
+            stem = Path(cleaned).name
+            if stem.lower().endswith(".json"):
+                stem = stem[: -len(".json")]
+            core = stem.replace("questions_", "")
+            lo_filename = f"questions_{core}_Learning_objectives.md"
+        except Exception:
+            return None
+
+        candidates: list[Path] = []
+        try:
+            base_dir = Path(get_package_dir())
+            candidates.append(base_dir / "data" / lo_filename)
+            candidates.append(base_dir / "data-user" / lo_filename)
+        except Exception:
+            pass
+
+        if _resolve_question_paths:
+            try:
+                for cand in _resolve_question_paths(selected):
+                    candidates.append(cand.parent / lo_filename)
+            except Exception:
+                pass
+
+        seen: set[Path] = set()
+        for cand in candidates:
+            if cand in seen:
+                continue
+            seen.add(cand)
+            try:
+                if cand.exists() and cand.is_file():
+                    return cand
+            except Exception:
+                continue
+        return None
+
+    def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tuple[bytes | None, str | None]:
+        try:
+            import markdown as _md
+            from weasyprint import HTML
+            import re
+            try:
+                from pdf_export import _render_latex_to_image
+            except Exception:
+                _render_latex_to_image = None
+
+            # Simple LaTeX replacement: $$...$$ for block, $...$ for inline
+            def _replace_block(match):
+                formula = match.group(1)
+                if _render_latex_to_image:
+                    return _render_latex_to_image(formula, is_block=True)
+                return f"<pre>{formula}</pre>"
+
+            def _replace_inline(match):
+                formula = match.group(1)
+                if _render_latex_to_image:
+                    return _render_latex_to_image(formula, is_block=False)
+                return f"<code>{formula}</code>"
+
+            md_for_render = content
+            # Block formulas first
+            md_for_render = re.sub(r"\$\$(.+?)\$\$", _replace_block, md_for_render, flags=re.S)
+            # Inline formulas (avoid already replaced blocks)
+            md_for_render = re.sub(r"\$(.+?)\$", _replace_inline, md_for_render)
+
+            html_body = _md.markdown(md_for_render, extensions=["fenced_code", "tables", "toc"])
+            html = f"""
+            <html><head><meta charset='utf-8'></head>
+            <body style='font-family: sans-serif;'>
+            {html_body}
+            </body></html>
+            """
+            base_url = str(base_path) if base_path else None
+            pdf_bytes = HTML(string=html, base_url=base_url).write_pdf(optimize_images=True)
+            return pdf_bytes, None
+        except Exception as exc:
+            try:
+                return None, str(exc)
+            except Exception:
+                return None, "unbekannter Fehler beim PDF-Export"
+
+    def _show_learning_objectives_dialog(lo_path: Path, content: str) -> None:
+        dialog_fn = getattr(st, "dialog", None) or getattr(st, "experimental_dialog", None)
+        if callable(dialog_fn):
+            @dialog_fn(_learning_objectives_dialog_title())
+            def _dialog_body():
+                st.markdown(content)
+                pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
+                if pdf_bytes:
+                    st.download_button(
+                        _learning_objectives_download_label(),
+                        data=pdf_bytes,
+                        file_name=lo_path.with_suffix(".pdf").name,
+                        mime="application/pdf",
+                        use_container_width=True,
+                        key="download_learning_objectives_pdf_dialog",
+                    )
+                else:
+                    st.caption(_learning_objectives_pdf_unavailable(pdf_err))
+            _dialog_body()
+        else:
+            st.info(_learning_objectives_dialog_fallback())
+            st.markdown(content)
+            pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
+            if pdf_bytes:
+                st.download_button(
+                    _learning_objectives_download_label(),
+                    data=pdf_bytes,
+                    file_name=lo_path.with_suffix(".pdf").name,
+                    mime="application/pdf",
+                    use_container_width=True,
+                    key="download_learning_objectives_pdf_inline",
+                )
+            else:
+                st.caption(_learning_objectives_pdf_unavailable(pdf_err))
+
     selected_choice = st.selectbox(
         _welcome_select_label(),
         options=valid_question_files,
@@ -2263,6 +2431,22 @@ def render_welcome_page(app_config: AppConfig):
         # UI blocks that check `if questions:` stay hidden.
         questions = []
 
+    # --- Lernziele-Button ---
+    if selected_file:
+        lo_path = _find_learning_objectives_path(selected_file)
+        if lo_path:
+            lo_content = load_markdown_file(str(lo_path))
+            if lo_content:
+                if st.button(
+                    _learning_objectives_button_label(),
+                    type="primary",
+                    use_container_width=True,
+                    key="learning_objectives_button",
+                ):
+                    _show_learning_objectives_dialog(lo_path, lo_content)
+            else:
+                st.warning(_learning_objectives_load_error())
+
     # --- Diagramm zur Verteilung der Fragen ---
     # Show the distribution expander only when a questions file has been selected.
     if selected_file:
@@ -2312,7 +2496,7 @@ def render_welcome_page(app_config: AppConfig):
                         # Parse stored ISO timestamp defensively
                         import pandas as _pd
                         parsed = _pd.to_datetime(last_ts, utc=True, errors='coerce')
-                        if not parsed is None and not _pd.isna(parsed):
+                        if parsed is not None and not _pd.isna(parsed):
                             st.caption(
                                 translate_ui(
                                     "welcome.leaderboard.last_updated",
@@ -2699,7 +2883,6 @@ def render_welcome_page(app_config: AppConfig):
                     )
 
         question_selected_for_render = st.session_state.get("selected_questions_file") or st.session_state.get("main_view_question_file_selector")
-
 
         if not question_selected_for_render:
             st.info(_welcome_pseudonym_question_required())

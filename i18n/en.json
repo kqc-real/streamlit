@@ -673,6 +673,14 @@
             "speed": "Speed pace (1/2)",
             "power": "Power pace (1/4)"
         },
+        "learning_objectives": {
+            "button": "Learning objectives for the question set",
+            "dialog_title": "Learning objectives for the question set",
+            "download_pdf": "Download learning objectives as PDF",
+            "load_error": "Could not load the learning objectives file.",
+            "pdf_unavailable": "PDF export unavailable: {error}",
+            "dialog_fallback": "Dialogs are not supported by this Streamlit version. Showing content inline."
+        },
         "sort_order": {
             "label": "Sort questions by:",
             "random": "Random",
