@@ -2274,6 +2274,15 @@ def render_welcome_page(app_config: AppConfig):
             base_dir = Path(get_package_dir())
             candidates.append(base_dir / "data" / lo_filename)
             candidates.append(base_dir / "data-user" / lo_filename)
+            candidates.append(base_dir / lo_filename)
+        except Exception:
+            pass
+
+        # Fallback: if the selected value itself is a path, look next to it
+        try:
+            selected_path = Path(selected)
+            if selected_path.exists():
+                candidates.append(selected_path.parent / lo_filename)
         except Exception:
             pass
 
