@@ -2265,16 +2265,23 @@ def render_welcome_page(app_config: AppConfig):
             if stem.lower().endswith(".json"):
                 stem = stem[: -len(".json")]
             core = stem.replace("questions_", "")
-            lo_filename = f"questions_{core}_Learning_objectives.md"
+            lo_filenames = [
+                f"questions_{core}_Learning_objectives.md",
+                f"questions_{core}_Learning_Objectives.md",
+            ]
         except Exception:
             return None
 
         candidates: list[Path] = []
+        def _add_candidates(base: Path) -> None:
+            for name in lo_filenames:
+                candidates.append(base / name)
+
         try:
             base_dir = Path(get_package_dir())
-            candidates.append(base_dir / "data" / lo_filename)
-            candidates.append(base_dir / "data-user" / lo_filename)
-            candidates.append(base_dir / lo_filename)
+            _add_candidates(base_dir / "data")
+            _add_candidates(base_dir / "data-user")
+            _add_candidates(base_dir)
         except Exception:
             pass
 
@@ -2282,14 +2289,38 @@ def render_welcome_page(app_config: AppConfig):
         try:
             selected_path = Path(selected)
             if selected_path.exists():
-                candidates.append(selected_path.parent / lo_filename)
+                _add_candidates(selected_path.parent)
         except Exception:
             pass
+
+        # Case-insensitive fallback: scan known dirs for a filename that matches lowercased target
+        target_lowers = {name.lower() for name in lo_filenames}
+        search_dirs = []
+        try:
+            base_dir = Path(get_package_dir())
+            search_dirs.extend([base_dir, base_dir / "data", base_dir / "data-user"])
+        except Exception:
+            pass
+        try:
+            selected_path = Path(selected)
+            if selected_path.exists():
+                search_dirs.append(selected_path.parent)
+        except Exception:
+            pass
+        for sdir in search_dirs:
+            try:
+                if sdir.is_dir():
+                    for child in sdir.iterdir():
+                        if child.is_file() and child.name.lower() in target_lowers:
+                            candidates.append(child)
+            except Exception:
+                continue
 
         if _resolve_question_paths:
             try:
                 for cand in _resolve_question_paths(selected):
-                    candidates.append(cand.parent / lo_filename)
+                    for name in lo_filenames:
+                        candidates.append(cand.parent / name)
             except Exception:
                 pass
 
