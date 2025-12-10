@@ -2515,14 +2515,17 @@ def render_welcome_page(app_config: AppConfig):
                 st.markdown(content)
                 pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
                 if pdf_bytes:
-                    st.download_button(
-                        _learning_objectives_download_label(),
-                        data=pdf_bytes,
-                        file_name=lo_path.with_suffix(".pdf").name,
-                        mime="application/pdf",
-                        use_container_width=True,
-                        key="download_learning_objectives_pdf_dialog",
-                    )
+                    center_col = st.columns([1, 1.2, 1])[1]
+                    with center_col:
+                        st.download_button(
+                            _learning_objectives_download_label(),
+                            data=pdf_bytes,
+                            file_name=lo_path.with_suffix(".pdf").name,
+                            mime="application/pdf",
+                            use_container_width=True,
+                            type="primary",
+                            key="download_learning_objectives_pdf_dialog",
+                        )
                 else:
                     st.caption(_learning_objectives_pdf_unavailable(pdf_err))
             _dialog_body()
@@ -2531,14 +2534,17 @@ def render_welcome_page(app_config: AppConfig):
             st.markdown(content)
             pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
             if pdf_bytes:
-                st.download_button(
-                    _learning_objectives_download_label(),
-                    data=pdf_bytes,
-                    file_name=lo_path.with_suffix(".pdf").name,
-                    mime="application/pdf",
-                    use_container_width=True,
-                    key="download_learning_objectives_pdf_inline",
-                )
+                center_col = st.columns([1, 1.2, 1])[1]
+                with center_col:
+                    st.download_button(
+                        _learning_objectives_download_label(),
+                        data=pdf_bytes,
+                        file_name=lo_path.with_suffix(".pdf").name,
+                        mime="application/pdf",
+                        use_container_width=True,
+                        type="primary",
+                        key="download_learning_objectives_pdf_inline",
+                    )
             else:
                 st.caption(_learning_objectives_pdf_unavailable(pdf_err))
 
