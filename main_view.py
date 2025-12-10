@@ -2494,7 +2494,7 @@ def render_welcome_page(app_config: AppConfig):
     def _show_learning_objectives_dialog(lo_path: Path, content: str) -> None:
         dialog_fn = getattr(st, "dialog", None) or getattr(st, "experimental_dialog", None)
         if callable(dialog_fn):
-            @dialog_fn(_learning_objectives_dialog_title())
+            @dialog_fn(_learning_objectives_dialog_title(), width="large")
             def _dialog_body():
                 st.markdown(content)
                 pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
