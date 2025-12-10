@@ -2326,10 +2326,120 @@ def render_welcome_page(app_config: AppConfig):
             md_for_render = re.sub(r"\$(.+?)\$", _replace_inline, md_for_render)
 
             html_body = _md.markdown(md_for_render, extensions=["fenced_code", "tables", "toc"])
+
+            css = """
+            @page {
+                size: A4;
+                margin: 2cm 2cm 2.4cm 2cm;
+            }
+            :root {
+                color-scheme: light;
+                --accent: #0b6aa2;
+                --accent-soft: #e7f3fb;
+                --text: #102a43;
+                --muted: #52606d;
+                --border: #d9e2ec;
+                --bg-strong: #f8fafc;
+            }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+                font-size: 11pt;
+                line-height: 1.65;
+                color: var(--text);
+                background: #f4f6f8;
+            }
+            main {
+                max-width: 720px;
+                margin: 0 auto;
+                background: white;
+                padding: 18px 26px 10px 26px;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                box-shadow: 0 6px 18px rgba(16, 42, 67, 0.06);
+            }
+            h1, h2, h3, h4 {
+                color: #0b3a5c;
+                margin: 0 0 0.35em 0;
+                line-height: 1.2;
+                letter-spacing: -0.01em;
+            }
+            h1 { font-size: 22pt; margin-top: 0; }
+            h2 {
+                font-size: 18pt;
+                border-bottom: 2px solid var(--border);
+                padding-bottom: 6px;
+                margin-top: 1.2em;
+            }
+            h3 { font-size: 15pt; margin-top: 1em; }
+            p { margin: 0 0 0.9em 0; color: var(--muted); }
+            ul, ol { margin: 0.2em 0 1em 1.2em; }
+            li { margin: 0.15em 0; }
+            blockquote {
+                border-left: 4px solid var(--accent);
+                margin: 0.4em 0 1em 0;
+                padding: 0.2em 1em;
+                color: var(--muted);
+                background: var(--accent-soft);
+                border-radius: 6px;
+            }
+            code {
+                font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                background: #eef2f7;
+                padding: 0.1em 0.35em;
+                border-radius: 4px;
+                font-size: 10pt;
+            }
+            pre {
+                background: #0b3a5c;
+                color: #f8fafc;
+                padding: 14px;
+                border-radius: 9px;
+                overflow-x: auto;
+                font-size: 10pt;
+                line-height: 1.5;
+                box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 0.6em 0 1.1em 0;
+                background: white;
+                border: 1px solid var(--border);
+            }
+            th, td {
+                border: 1px solid var(--border);
+                padding: 8px 10px;
+                text-align: left;
+            }
+            th {
+                background: #f0f4f8;
+                font-weight: 600;
+                color: #0b3a5c;
+            }
+            tr:nth-child(even) td { background: #f9fbfd; }
+            hr {
+                border: none;
+                border-top: 1px solid var(--border);
+                margin: 1.4em 0;
+            }
+            figure { margin: 0; }
+            figcaption {
+                font-size: 9pt;
+                color: var(--muted);
+                margin-top: 4px;
+                text-align: center;
+            }
+            img { max-width: 100%; display: block; margin: 0.4em 0; }
+            strong { color: #0b3a5c; }
+            em { color: var(--muted); }
+            """
+
             html = f"""
-            <html><head><meta charset='utf-8'></head>
-            <body style='font-family: sans-serif;'>
+            <html><head><meta charset='utf-8'><style>{css}</style></head>
+            <body>
+            <main>
             {html_body}
+            </main>
             </body></html>
             """
             base_url = str(base_path) if base_path else None
