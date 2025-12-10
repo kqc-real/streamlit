@@ -153,15 +153,27 @@ Inside the code block:
    - German:  `**Du kannst …**`
    - English: `**You can …**`
 
-4. Under that, add a **numbered Markdown list** of micro learning objectives for that level.
+4. After the bold line, insert **exactly one blank line**, and then add a **numbered Markdown list** of micro learning objectives for that level.
    - Use `1.`, `2.`, `3.` etc. for each item.
    - Each item continues the sentence started by "Du kannst …" / "You can …" and must be grammatically correct.
+   - There MUST be a blank line between the bold line and the first numbered item to ensure Markdown linters accept the list.
    - Example (German):
-     - `**Du kannst …**`
-       - `1. bei gegebenen Matrizen die Dimension des Matrixprodukts korrekt bestimmen.`
+
+     ```markdown
+     ### Reproduktion
+     **Du kannst …**
+
+     1. bei gegebenen Matrizen die Dimension des Matrixprodukts korrekt bestimmen.
+     ```
+
    - Example (English):
-     - `**You can …**`
-       - `1. compute the gradient of a scalar function with respect to all input variables.`
+
+     ```markdown
+     ### Reproduction
+     **You can …**
+
+     1. compute the gradient of a scalar function with respect to all input variables.
+     ```
 
 5. Do not output a section for a level that does not appear in the `"cognitive_level"` field of any question.
 6. Do not include any additional commentary, explanatory text, or code outside the single fenced Markdown code block.
