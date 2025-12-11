@@ -2200,6 +2200,16 @@ def render_welcome_page(app_config: AppConfig):
         label = f"{name} ({_questions_count_label(num_questions)})" if num_questions else name
         if date_str != "?":
             label += f" 📅 {date_str}"
+        # Add a Learning Objectives icon when a corresponding LO file exists
+        try:
+            from pathlib import Path
+            data_dir = Path(__file__).resolve().parent / 'data'
+            lo_name = filename.replace('.json', '') + '_Learning_Objectives.md'
+            lo_path = data_dir / lo_name
+            if lo_path.exists():
+                label = '📘 ' + label
+        except Exception:
+            pass
         return label
 
     st.markdown(
