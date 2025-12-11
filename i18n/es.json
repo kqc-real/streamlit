@@ -116,7 +116,7 @@
         "skipped_clear": "Reset lista",
         "skipped_clear_help": "Quita las preguntas saltadas de esta lista.",
         "tempo": {
-            "label": "Elegir ritmo de aprendizaje",
+            "label": "Elegir ritmo de aprendizaje:",
             "options": {
                 "normal": "Ritmo normal",
                 "speed": "Ritmo rápido (1/2)",
@@ -643,7 +643,7 @@
             "help": "Tu preferencia se guarda para la próxima."
         },
         "tempo": {
-            "label": "Elige tu ritmo de aprendizaje",
+            "label": "Elige tu ritmo de aprendizaje:",
             "normal": "Ritmo normal",
             "speed": "Ritmo rápido (1/2)",
             "power": "Ritmo intensivo (1/4)"

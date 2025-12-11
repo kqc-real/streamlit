@@ -116,7 +116,7 @@
         "skipped_clear": "Reset liste",
         "skipped_clear_help": "Vide la liste des questions sautées.",
         "tempo": {
-            "label": "Choisir le rythme d'apprentissage",
+            "label": "Choisir le rythme d'apprentissage:",
             "options": {
                 "normal": "Rythme normal",
                 "speed": "Rythme rapide (1/2)",

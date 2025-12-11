@@ -688,7 +688,7 @@
             "tempo_all": "Alle"
         },
         "language": {
-            "label": "Sprache w\u00e4hlen",
+            "label": "Sprache wählen:",
             "help": "Deine Auswahl wird im Browser gespeichert."
         },
         "pseudonym": {
@@ -720,7 +720,7 @@
             "question_required": "Bitte wähle zuerst ein Fragenset aus."
         },
         "tempo": {
-            "label": "Wähle dein Lerntempo",
+            "label": "Wähle dein Lerntempo:",
             "normal": "Normales Lerntempo",
             "speed": "Schnelles Lerntempo (1/2 der normalen Testzeit)",
             "power": "Hohes Lerntempo (1/4 der normalen Testzeit)"

@@ -636,7 +636,7 @@
             "tempo_all": "All"
         },
         "language": {
-            "label": "Choose language",
+            "label": "Choose language:",
             "help": "Your preference is stored in the browser for the next visit."
         },
         "pseudonym": {
@@ -668,7 +668,7 @@
             "question_required": "Please select a question set first."
         },
         "tempo": {
-            "label": "Choose your learning pace",
+            "label": "Choose your learning pace:",
             "normal": "Normal pace",
             "speed": "Speed pace (1/2)",
             "power": "Power pace (1/4)"

@@ -63,6 +63,9 @@ Your task is to:
      - be consistent with the overall theme `meta.title`.
 
 3. Group all questions by their `"cognitive_level"` and produce a Markdown fragment with **one section per level** that actually occurs in the data.
+4. **Within each cognitive level**, order the questions (and thus the resulting micro-LOs) by the `"topic"` field:
+   - Sort topics in ascending lexicographic order (case-insensitive).
+   - If multiple questions share the same `"topic"`, keep their relative order as they appear in the original `questions` array.
 
 COGNITIVE LEVELS AND VERBS
 --------------------------
@@ -155,12 +158,14 @@ Inside the code block:
 
 4. After the bold line, insert **exactly one blank line**, and then add a **numbered Markdown list** of micro learning objectives for that level.
    - Use `1.`, `2.`, `3.` etc. for each item.
+   - Within each cognitive level, the order of the numbered items MUST follow the sorted order of `"topic"` as described above.
    - Each item continues the sentence started by "Du kannst …" / "You can …" and must be grammatically correct.
    - There MUST be a blank line between the bold line and the first numbered item to ensure Markdown linters accept the list.
    - Example (German):
 
      ```markdown
      ### Reproduktion
+
      **Du kannst …**
 
      1. bei gegebenen Matrizen die Dimension des Matrixprodukts korrekt bestimmen.
@@ -170,6 +175,7 @@ Inside the code block:
 
      ```markdown
      ### Reproduction
+     
      **You can …**
 
      1. compute the gradient of a scalar function with respect to all input variables.
@@ -187,5 +193,6 @@ When creating each numbered item:
 - Use `meta.title` and `meta.target_audience` to calibrate technical depth and wording.
 - Do not simply restate the question; express the underlying competency as something the learner can do.
 - Ensure correct grammar and stylistic coherence within the chosen language.
+- Respect the ordering rule: for each cognitive level, first sort the corresponding questions by `"topic"` (ascending, case-insensitive), then generate the micro-LOs in exactly that order.
 
 Now read the following JSON object (with a "meta" section and a "questions" array) and generate ONLY the described Markdown code block:
