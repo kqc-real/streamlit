@@ -74,7 +74,7 @@
     {
       "question": "3. Mit welchem Zeichen werden in LaTeX Kommentare eingeleitet, die vom Compiler ignoriert werden?",
       "options": [
-        "#",
+        "\\#",
         "%",
         "//",
         "(* ... *)"
