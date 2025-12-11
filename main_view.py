@@ -2620,7 +2620,7 @@ def render_welcome_page(app_config: AppConfig):
             lo_content = load_markdown_file(str(lo_path))
             if lo_content:
                 if st.button(
-                    _learning_objectives_button_label(),
+                    '📘 ' + _learning_objectives_button_label(),
                     type="primary",
                     use_container_width=True,
                     key="learning_objectives_button",
