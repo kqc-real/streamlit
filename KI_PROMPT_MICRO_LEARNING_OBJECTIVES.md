@@ -63,9 +63,15 @@ Your task is to:
      - be consistent with the overall theme `meta.title`.
 
 3. Group all questions by their `"cognitive_level"` and produce a Markdown fragment with **one section per level** that actually occurs in the data.
-4. **Within each cognitive level**, order the questions (and thus the resulting micro-LOs) by the `"topic"` field:
-   - Sort topics in ascending lexicographic order (case-insensitive).
-   - If multiple questions share the same `"topic"`, keep their relative order as they appear in the original `questions` array.
+
+4. Within each cognitive level, **order the questions (and thus the resulting micro-LOs) by `"topic"` and `"concept"` according to conceptual complexity**:
+   - First, group questions by `"topic"`.
+   - Then, order the topics from **simpler, more basic topics** to **more advanced or composite topics** based on:
+     - your domain knowledge,
+     - signals in the question text and explanations,
+     - typical course progression for the subject.
+   - Within each topic group, order the questions by `"concept"` from **basic/fundamental concepts** to **more complex or derived concepts**.
+   - If you cannot clearly infer a complexity ordering between topics or concepts, keep their original order as they appear in the `questions` array rather than sorting lexicographically.
 
 COGNITIVE LEVELS AND VERBS
 --------------------------
@@ -158,14 +164,16 @@ Inside the code block:
 
 4. After the bold line, insert **exactly one blank line**, and then add a **numbered Markdown list** of micro learning objectives for that level.
    - Use `1.`, `2.`, `3.` etc. for each item.
-   - Within each cognitive level, the order of the numbered items MUST follow the sorted order of `"topic"` as described above.
+   - Within each cognitive level, the order of the numbered items MUST follow the ordering rule:
+     - group by `"topic"`,
+     - order topics from simpler to more complex,
+     - and within each topic order questions by `"concept"` from simpler to more complex (or keep original order if complexity cannot be clearly inferred).
    - Each item continues the sentence started by "Du kannst …" / "You can …" and must be grammatically correct.
    - There MUST be a blank line between the bold line and the first numbered item to ensure Markdown linters accept the list.
    - Example (German):
 
      ```markdown
      ### Reproduktion
-
      **Du kannst …**
 
      1. bei gegebenen Matrizen die Dimension des Matrixprodukts korrekt bestimmen.
@@ -175,7 +183,6 @@ Inside the code block:
 
      ```markdown
      ### Reproduction
-     
      **You can …**
 
      1. compute the gradient of a scalar function with respect to all input variables.
@@ -193,6 +200,9 @@ When creating each numbered item:
 - Use `meta.title` and `meta.target_audience` to calibrate technical depth and wording.
 - Do not simply restate the question; express the underlying competency as something the learner can do.
 - Ensure correct grammar and stylistic coherence within the chosen language.
-- Respect the ordering rule: for each cognitive level, first sort the corresponding questions by `"topic"` (ascending, case-insensitive), then generate the micro-LOs in exactly that order.
+- Respect the ordering rule inside each cognitive level:
+  - first group questions by `"topic"`,
+  - then order topics from basic to advanced,
+  - then within each topic order concepts from basic to advanced (or keep original question order when in doubt about complexity).
 
 Now read the following JSON object (with a "meta" section and a "questions" array) and generate ONLY the described Markdown code block:
