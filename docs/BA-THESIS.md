@@ -12,7 +12,7 @@ Parallel steht auf einem institutseigenen Server eine lokale LLM-Infrastruktur z
 Ziel der Bachelorarbeit ist die **Technik- und Qualitätsmigration** der App hin zu einer produktiv einsetzbaren, lokal gehosteten Lösung mit **lokaler LLM-gestützter Generierung von Fragensets**.  
 
 Die Arbeit umfasst:
-1. **Migration** der Streamlit-App auf den institutseigenen Server inklusive Datenbank-Backend.  
+1. **Migration** der Streamlit-App auf den institutseigenen Server inklusive Datenbank-Backend und lokaler MathJax-Instanz.  
 2. **Integration** eines lokalen LLM-Backends über Ollama.  
 3. **Prompt-Refactoring** für robuste API-Nutzung ohne Rückfragen.  
 4. **Implementierung eines strukturierten Dialogs** in Streamlit zur Erhebung aller Parameter für die Generierung.  
@@ -37,7 +37,8 @@ Damit wird der Entwicklungsprozess selbst zu einem reflektierten Bestandteil der
 - Analyse des aktuellen Hosting-Setups in der Streamlit Community Cloud.  
 - Portierung der Anwendung auf den institutseigenen Server.  
 - Einrichtung und Anbindung einer **relationalen Datenbank** (z.B. PostgreSQL).  
-- Anpassung der Konfiguration (Secrets, Umgebungsvariablen, Deployment-Strategie).  
+- Bereitstellung einer lokalen **MathJax-Instanz** zur datenschutzkonformen Formeldarstellung.
+- Anpassung der Konfiguration (Secrets, Umgebungsvariablen) und Definition einer **Deployment-Strategie mittels Docker-Compose**.  
 - Dokumentation des Deployments und der Betriebsanforderungen.
 
 ### 4.2 Lokaler LLM-Betrieb und API-Integration  
@@ -78,7 +79,7 @@ Damit wird der Entwicklungsprozess selbst zu einem reflektierten Bestandteil der
 - Reproduzierbare Testläufe mit dokumentierten Eingabeparametern.
 
 ### 4.6 Evaluationsstudie: Extern vs. Lokal  
-- Entwicklung eines **Evaluationdesigns** zur vergleichenden Beurteilung von:  
+- Entwicklung eines **Evaluationsdesigns** zur vergleichenden Beurteilung von:  
   - **Antwortqualität** (fachliche Relevanz, didaktische Angemessenheit, Verständlichkeit)  
   - **Strukturgüte** (Vollständigkeit und Konsistenz der Fragensets)  
   - **JSON-Validität** und Robustheit gegen Formatfehler  
@@ -93,7 +94,7 @@ Damit wird der Entwicklungsprozess selbst zu einem reflektierten Bestandteil der
 
 ## 5. Erwartete Ergebnisse / Deliverables  
 - Lauffähige Streamlit-App auf dem institutseigenen Server.  
-- Funktionierende Datenbankanbindung (z.B. PostgreSQL) inkl. Dokumentation.  
+- Funktionierende, via Docker-Compose orchestrierte Services (Streamlit, PostgreSQL, MathJax) inkl. Dokumentation.  
 - Integrierte lokale LLM-Nutzung über Ollama mit klar definiertem Request/Response-Format.  
 - Überarbeiteter, API-tauglicher Prompt (inkl. System-Message) für robuste, zielgerichtete Ausgabe.  
 - Implementierter Streamlit-Dialog zur Parametrisierung der Fragenset-Generierung.  
@@ -130,4 +131,4 @@ Damit wird der Entwicklungsprozess selbst zu einem reflektierten Bestandteil der
 ---
 
 **Kurzbeschreibung in einem Satz:**  
-Die Arbeit migriert die KI-gestützt entwickelte Streamlit-App „MC-Test“ auf einen institutseigenen Server mit eigener Datenbank, integriert ein lokal betriebenes LLM über Ollama zur Fragenset-Generierung, überarbeitet den Prompt- und Dialogprozess für robuste API-Ausgaben, sichert die Lösung durch Tests ab und evaluiert die Ergebnisqualität im Vergleich zu externen KI-Systemen unter expliziter Nutzung eines KI-gestützten Entwicklungsprozesses.
+Die Arbeit migriert die KI-gestützt entwickelte Streamlit-App „MC-Test“ auf einen institutseigenen Server mit eigener Datenbank und lokaler MathJax-Instanz, integriert ein lokal betriebenes LLM über Ollama zur Fragenset-Generierung, überarbeitet den Prompt- und Dialogprozess für robuste API-Ausgaben, sichert die Lösung durch Tests ab und evaluiert die Ergebnisqualität im Vergleich zu externen KI-Systemen unter expliziter Nutzung eines KI-gestützten Entwicklungsprozesses.
