@@ -5794,24 +5794,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         # Use PDF export helpers for normalization and canonical order
         from pdf_export import _normalize_stage_label, BLOOM_STAGE_ORDER
 
-        # Only render the radar if at least one question contains a canonical
-        # cognitive stage. This avoids showing the chart for datasets that
-        # simply don't include cognitive stage metadata.
-        has_cognitive_stage = False
-        for frage in questions:
-            try:
-                raw_stage = _extract_stage_value(frage)
-                normalized = _normalize_stage_label(raw_stage)
-                if normalized in BLOOM_STAGE_ORDER:
-                    has_cognitive_stage = True
-                    break
-            except Exception:
-                continue
+        def _extract_stage_value(frage):
+            return frage.get('cognitive_level') or frage.get('kognitive_stufe') or frage.get('cognitiveLevel')
 
-        if not has_cognitive_stage:
-            # Skip radar rendering when no cognitive stages are present
-            has_cognitive_stage = False
-        
         # Aggregate achieved vs maximal points per bloom stage
         stage_totals = {stage: {"achieved": 0.0, "max": 0.0, "count": 0} for stage in BLOOM_STAGE_ORDER}
         for i, frage in enumerate(questions):
@@ -5827,23 +5812,58 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             stage_totals[stage_label]["max"] += max_punkte
             stage_totals[stage_label]["count"] += 1
 
-        # Prepare data for radar: labels (translated) and percent values
-        labels = []
-        values = []
-        for stage in BLOOM_STAGE_ORDER:
-            totals = stage_totals.get(stage, {"achieved": 0.0, "max": 0.0})
-            maxv = totals.get("max", 0.0) or 0.0
-            pct = (totals.get("achieved", 0.0) / maxv * 100.0) if maxv > 0 else 0.0
-            # Translate stage label for UI
-            try:
-                translated = translate_ui(f"pdf.stage_name.{stage}", default=stage)
-            except Exception:
-                translated = stage
-            labels.append(translated)
-            values.append(round(pct, 1))
+        # If no cognitive stages have data, fall back to difficulty levels (leicht/mittel/schwer)
+        use_difficulty_fallback = not any(stage_totals[s]["max"] > 0 for s in BLOOM_STAGE_ORDER)
+        if use_difficulty_fallback:
+            # Aggregate by difficulty instead
+            difficulty_totals = {"leicht": {"achieved": 0.0, "max": 0.0}, "mittel": {"achieved": 0.0, "max": 0.0}, "schwer": {"achieved": 0.0, "max": 0.0}}
+            for i, frage in enumerate(questions):
+                gewichtung = int(frage.get("gewichtung", 1) or 1)
+                if gewichtung >= 3:
+                    diff = "schwer"
+                elif gewichtung == 2:
+                    diff = "mittel"
+                else:
+                    diff = "leicht"
+                max_punkte = float(gewichtung)
+                pkt = st.session_state.get(f"frage_{i}_beantwortet")
+                achieved = float(max(0, pkt)) if pkt is not None else 0.0
+                difficulty_totals[diff]["achieved"] += achieved
+                difficulty_totals[diff]["max"] += max_punkte
+            
+            # Prepare data for radar using difficulty
+            labels = []
+            values = []
+            difficulty_order = ["leicht", "mittel", "schwer"]
+            for diff in difficulty_order:
+                totals = difficulty_totals.get(diff, {"achieved": 0.0, "max": 0.0})
+                maxv = totals.get("max", 0.0) or 0.0
+                pct = (totals.get("achieved", 0.0) / maxv * 100.0) if maxv > 0 else 0.0
+                # Translate difficulty label
+                try:
+                    translated = translate_ui(f"welcome.distribution.difficulty.{diff}", default=diff.capitalize())
+                except Exception:
+                    translated = diff.capitalize()
+                labels.append(translated)
+                values.append(round(pct, 1))
+        else:
+            # Use cognitive stages as before
+            labels = []
+            values = []
+            for stage in BLOOM_STAGE_ORDER:
+                totals = stage_totals.get(stage, {"achieved": 0.0, "max": 0.0})
+                maxv = totals.get("max", 0.0) or 0.0
+                pct = (totals.get("achieved", 0.0) / maxv * 100.0) if maxv > 0 else 0.0
+                # Translate stage label for UI
+                try:
+                    translated = translate_ui(f"pdf.stage_name.{stage}", default=stage)
+                except Exception:
+                    translated = stage
+                labels.append(translated)
+                values.append(round(pct, 1))
 
-        # Only render radar if we have at least one non-zero max (some questions present)
-        if any(stage_totals[s]["max"] > 0 for s in BLOOM_STAGE_ORDER):
+        # Only render radar if we have data
+        if labels and values and any(v > 0 for v in values):
             try:
                 import plotly.graph_objects as go
 

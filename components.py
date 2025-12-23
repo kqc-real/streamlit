@@ -2818,6 +2818,12 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
                 f"{_label_for(level)} ({counts[level]})" for level in ordered_levels
             )
             summary_parts.append(f"<br>{_distribution_summary_cognition(cognition_summary)}")
+        else:
+            # Fallback to difficulty summary if no cognitive levels
+            leicht = (df_fragen["Schwierigkeit"] == "Leicht").sum()
+            mittel = (df_fragen["Schwierigkeit"] == "Mittel").sum()
+            schwer = (df_fragen["Schwierigkeit"] == "Schwer").sum()
+            summary_parts.append(f"<br>{_distribution_summary_difficulty(leicht, mittel, schwer)}")
 
         if summary_parts:
             summary_html = "".join(summary_parts)
