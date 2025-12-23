@@ -2648,6 +2648,47 @@ def render_welcome_page(app_config: AppConfig):
                     except Exception:
                         scaled_duration = duration if 'duration' in locals() else None
 
+                    # Calculate exact total cooldown time for the question set (before tempo scaling)
+                    from pacing_helper import compute_total_cooldown_seconds
+                    from config import AppConfig
+                    app_cfg = AppConfig()
+                    per_weight_minutes = {}
+                    qmeta = getattr(questions, 'meta', None)
+                    per_weight_raw = None
+                    if isinstance(qmeta, dict):
+                        per_weight_raw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
+                    if isinstance(per_weight_raw, dict):
+                        for k, v in per_weight_raw.items():
+                            try:
+                                kk = int(k)
+                                per_weight_minutes[kk] = float(v)
+                            except Exception:
+                                continue
+                    if not per_weight_minutes:
+                        per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+                    
+                    total_cooldown_seconds = compute_total_cooldown_seconds(
+                        list(questions), 
+                        per_weight_minutes,
+                        reading_cooldown_base_per_weight=app_cfg.reading_cooldown_base_per_weight,
+                        next_cooldown_extra_standard=app_cfg.next_cooldown_extra_standard,
+                        next_cooldown_extra_extended=app_cfg.next_cooldown_extra_extended
+                    )
+
+                    # Now apply tempo scaling to the entire duration (base + cooldowns)
+                    try:
+                        tempo = st.session_state.get('selected_tempo', 'normal')
+                        tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+                        tempo_mult = tempo_factor_map.get(tempo, 1.0)
+                        if 'duration' in locals() and duration is not None:
+                            # Total duration = base + cooldowns, then scale
+                            total_duration_minutes = duration + (total_cooldown_seconds / 60)
+                            scaled_duration = int(round(total_duration_minutes * tempo_mult))
+                        else:
+                            scaled_duration = None
+                    except Exception:
+                        scaled_duration = duration if 'duration' in locals() else None
+
                     render_question_distribution_chart(
                         list(questions),
                         duration_minutes=scaled_duration,
@@ -4047,6 +4088,35 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             else:
                                 # Fallback to previous per-weight computation when no total is available
                                 ideal_times = pacing.compute_ideal_times(qlist, tpw)
+
+                            # Add cooldowns to ideal_times to make pacing account for reading/next pauses
+                            try:
+                                from config import AppConfig
+                                app_cfg = AppConfig()
+                                for i, q in enumerate(qlist):
+                                    if i < len(ideal_times):
+                                        gewichtung = int(q.get('gewichtung', q.get('weight', 1)) or 1)
+                                        base_seconds = int(round(app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)))
+                                        
+                                        # Scale by options
+                                        optionen = q.get('optionen') or q.get('options') or []
+                                        num_options = len(optionen) if isinstance(optionen, list) else 0
+                                        option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
+                                        reading_cooldown = int(round(base_seconds * option_factor))
+                                        
+                                        # Next cooldown
+                                        next_base = base_seconds
+                                        extra = 0
+                                        if q.get('erklaerung') or q.get('explanation'):
+                                            extra += app_cfg.next_cooldown_extra_standard
+                                        if q.get('extended_explanation'):
+                                            extra += app_cfg.next_cooldown_extra_extended
+                                        next_cooldown = next_base + extra
+                                        
+                                        # Add to ideal time
+                                        ideal_times[i] += reading_cooldown + next_cooldown
+                            except Exception:
+                                pass  # If cooldown addition fails, keep original ideal_times
 
                             # Determine the current index within the presentation order
                             try:

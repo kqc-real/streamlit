@@ -162,3 +162,51 @@ def compute_ideal_times_by_total(questions: List[dict], total_allowed_seconds: i
             floors[i] = int(min_seconds)
 
     return floors
+
+
+def compute_total_cooldown_seconds(questions: List[dict], per_weight_minutes: Dict[int, float], 
+                                   reading_cooldown_base_per_weight: Dict[int, float] = None,
+                                   next_cooldown_extra_standard: int = 10,
+                                   next_cooldown_extra_extended: int = 20) -> int:
+    """
+    Compute the total cooldown time (reading + next) for a list of questions.
+    
+    This includes scaling by number of options for reading time.
+    Used for accurate test duration calculation.
+    
+    Parameters:
+    - questions: List of question dicts
+    - per_weight_minutes: Dict of weight to minutes (e.g. {1: 0.5, 2: 0.75, 3: 1.0})
+    - reading_cooldown_base_per_weight: Dict of weight to base seconds for reading (default: {1: 30, 2: 45, 3: 60})
+    - next_cooldown_extra_standard: Extra seconds for standard explanation (default: 10)
+    - next_cooldown_extra_extended: Extra seconds for extended explanation (default: 20)
+    """
+    if reading_cooldown_base_per_weight is None:
+        reading_cooldown_base_per_weight = {1: 30.0, 2: 45.0, 3: 60.0}
+    
+    total_cooldown_seconds = 0
+    for q in questions:
+        gewichtung = int(q.get('gewichtung', q.get('weight', 1)) or 1)
+        base_seconds = int(round(reading_cooldown_base_per_weight.get(gewichtung, 30.0)))
+
+        # Scale reading time by number of options (5 options = 1.0, fewer = proportionally less, min 0.6)
+        optionen = q.get('optionen') or q.get('options') or []
+        num_options = len(optionen) if isinstance(optionen, list) else 0
+        option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
+        base_seconds = int(round(base_seconds * option_factor))
+
+        # Reading cooldown (base)
+        reading_cooldown = base_seconds
+        total_cooldown_seconds += reading_cooldown
+
+        # Next cooldown (base + extra)
+        next_base = base_seconds
+        extra = 0
+        if q.get('erklaerung') or q.get('explanation'):
+            extra += next_cooldown_extra_standard
+        if q.get('extended_explanation'):
+            extra += next_cooldown_extra_extended
+        next_cooldown = next_base + extra
+        total_cooldown_seconds += next_cooldown
+
+    return total_cooldown_seconds

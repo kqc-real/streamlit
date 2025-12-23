@@ -80,12 +80,43 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     st.session_state.bookmarked_questions = []
     default_minutes = getattr(app_config, "test_duration_minutes", 60) if app_config else 60
     test_duration_minutes = question_set.get_test_duration_minutes(default_minutes)
-    # Apply tempo scaling if the user selected a tempo on the welcome page.
+
+    # Calculate exact total cooldown time for the question set (before tempo scaling)
+    from pacing_helper import compute_total_cooldown_seconds
+    from config import AppConfig
+    app_cfg = AppConfig()
+    per_weight_minutes = {}
+    qmeta = getattr(question_set, 'meta', None)
+    per_weight_raw = None
+    if isinstance(qmeta, dict):
+        per_weight_raw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
+    if isinstance(per_weight_raw, dict):
+        for k, v in per_weight_raw.items():
+            try:
+                kk = int(k)
+                per_weight_minutes[kk] = float(v)
+            except Exception:
+                continue
+    if not per_weight_minutes:
+        per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+    
+    total_cooldown_seconds = compute_total_cooldown_seconds(
+        list(question_set), 
+        per_weight_minutes,
+        reading_cooldown_base_per_weight=app_cfg.reading_cooldown_base_per_weight,
+        next_cooldown_extra_standard=app_cfg.next_cooldown_extra_standard,
+        next_cooldown_extra_extended=app_cfg.next_cooldown_extra_extended
+    )
+
+    # Add cooldowns to base duration
+    total_duration_minutes = test_duration_minutes + (total_cooldown_seconds / 60)
+
+    # Apply tempo scaling to the entire duration (base + cooldowns)
     try:
         tempo = st.session_state.get('selected_tempo', 'normal')
         tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
         factor = float(tempo_factor_map.get(tempo, 1.0))
-        test_duration_minutes = int(max(1, round(test_duration_minutes * factor)))
+        test_duration_minutes = int(max(1, round(total_duration_minutes * factor)))
     except Exception:
         # Defensive fallback: keep the original duration if anything goes wrong
         pass
