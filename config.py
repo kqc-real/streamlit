@@ -480,6 +480,8 @@ class AppConfig:
         # Cooldown configuration for next button (extra seconds for explanations)
         self.next_cooldown_extra_standard: int = 7  # seconds for explanation
         self.next_cooldown_extra_extended: int = 15  # seconds for extended explanation
+        # Threshold for panic mode (seconds per remaining question)
+        self.panic_mode_threshold_seconds: int = 15
 
         self._load_from_env_and_secrets()
         self._load_from_json()

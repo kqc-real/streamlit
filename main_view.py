@@ -4466,7 +4466,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             # Disable cooldown if time is critical
             try:
                 # Use a threshold of 15 seconds per remaining question
-                min_required_time = remaining * 15
+                threshold = getattr(app_config, "panic_mode_threshold_seconds", 15)
+                min_required_time = remaining * threshold
                 if remaining_time < min_required_time:
                     remaining_answer_cooldown = 0
                     panic_mode = True
@@ -5178,7 +5179,8 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                 elapsed = int(round(now_mon - shown_time))
                 remaining_next_cooldown = max(0, total_next_cooldown - elapsed)
 
-                min_required_time = remaining_questions * 15
+                threshold = getattr(app_cfg, "panic_mode_threshold_seconds", 15)
+                min_required_time = remaining_questions * threshold
                 if remaining_time < min_required_time:
                     remaining_next_cooldown = 0
                     st.caption("⚡ **Panic Mode:** Wartezeit übersprungen.")
