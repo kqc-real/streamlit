@@ -3,6 +3,7 @@ import importlib.util
 import sys
 import pathlib
 import streamlit as st
+from unittest.mock import patch
 
 # Prefer package imports; fall back to loading by path when import fails.
 try:
@@ -56,29 +57,31 @@ def make_question_set(minutes: int = 60, count: int = 5) -> QuestionSet:
 
 
 def test_initialize_session_state_applies_tempo():
-    # Normal tempo
-    st.session_state.clear()
-    st.session_state['selected_tempo'] = 'normal'
-    qs = make_question_set(minutes=60, count=3)
-    initialize_session_state(qs, app_config=None)
-    assert st.session_state.test_duration_minutes == 60
-    assert st.session_state.test_time_limit == 60 * 60
+    # Mock compute_total_cooldown_seconds to return 0 so we verify pure tempo scaling of the base duration
+    with patch('pacing_helper.compute_total_cooldown_seconds', return_value=0):
+        # Normal tempo
+        st.session_state.clear()
+        st.session_state['selected_tempo'] = 'normal'
+        qs = make_question_set(minutes=60, count=3)
+        initialize_session_state(qs, app_config=None)
+        assert st.session_state.test_duration_minutes == 60
+        assert st.session_state.test_time_limit == 60 * 60
 
-    # Speed (1/2)
-    st.session_state.clear()
-    st.session_state['selected_tempo'] = 'speed'
-    qs = make_question_set(minutes=60, count=3)
-    initialize_session_state(qs, app_config=None)
-    assert st.session_state.test_duration_minutes == 30
-    assert st.session_state.test_time_limit == 30 * 60
+        # Speed (1/2)
+        st.session_state.clear()
+        st.session_state['selected_tempo'] = 'speed'
+        qs = make_question_set(minutes=60, count=3)
+        initialize_session_state(qs, app_config=None)
+        assert st.session_state.test_duration_minutes == 30
+        assert st.session_state.test_time_limit == 30 * 60
 
-    # Power (1/4)
-    st.session_state.clear()
-    st.session_state['selected_tempo'] = 'power'
-    qs = make_question_set(minutes=60, count=3)
-    initialize_session_state(qs, app_config=None)
-    assert st.session_state.test_duration_minutes == 15
-    assert st.session_state.test_time_limit == 15 * 60
+        # Power (1/4)
+        st.session_state.clear()
+        st.session_state['selected_tempo'] = 'power'
+        qs = make_question_set(minutes=60, count=3)
+        initialize_session_state(qs, app_config=None)
+        assert st.session_state.test_duration_minutes == 15
+        assert st.session_state.test_time_limit == 15 * 60
 
 
 def test_start_test_session_persists_tempo():
