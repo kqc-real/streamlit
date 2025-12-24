@@ -474,9 +474,9 @@ class AppConfig:
         self.rate_limit_window_minutes: int = 5
         # Normalization factor for the "next" cooldown extras (explanation/extended)
         # Default: 1.0 (no scaling). Values < 1.0 reduce the extra penalty empirically.
-        self.next_cooldown_normalization_factor: float = 0.5
+        self.next_cooldown_normalization_factor: float = 0.3
         # Cooldown configuration for reading time (base seconds per weight, scaled by options)
-        self.reading_cooldown_base_per_weight: Dict[int, float] = {1: 20.0, 2: 30.0, 3: 40.0}  # seconds
+        self.reading_cooldown_base_per_weight: Dict[int, float] = {1: 15.0, 2: 25.0, 3: 35.0}  # seconds
         # Cooldown configuration for next button (extra seconds for explanations)
         self.next_cooldown_extra_standard: int = 7  # seconds for explanation
         self.next_cooldown_extra_extended: int = 15  # seconds for extended explanation
