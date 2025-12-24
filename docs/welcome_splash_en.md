@@ -1,8 +1,8 @@
-# Test your knowledge
+# Unleash your potential!
 
-## 🌟 Highlights
+## 🌟 Your benefits
 
-* **On-demand question sets** – pick a curated set or upload your own; every item includes weights and explanations.
-* **Countdown included** – a fixed time limit per set and instant review after submitting.
-* **Feedback in seconds** – correct answers, explanations, and a compact breakdown per topic.
-* **Exports to go** – PDF, solution sample, and exports for Anki, Kahoot & ARSnova.click!
+* **Tailored learning** – Choose curated sets or upload your own; including weights and explanations.
+* **Train for success** – Simulate exams with a countdown and receive instant feedback.
+* **Know your strengths** – Understand solutions immediately with precise explanations and topic analysis.
+* **Knowledge to go** – Take it all with you: PDF, solutions, and exports for Anki, Kahoot & ARSnova.click!

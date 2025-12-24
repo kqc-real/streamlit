@@ -1,8 +1,8 @@
-# Teste dein Wissen!
+# Entfessle dein Potenzial!
 
-## 🌟 Highlights
+## 🌟 Deine Vorteile
 
-* **Fragensets auf Abruf** – Wähle ein Set oder nutze dein eigenes; alles ist aufbereitet mit Gewichtungen und Erklärungen.
-* **Countdown inklusive** – Festes Zeitlimit pro Set und Review direkt nach der Abgabe.
-* **Feedback in Sekunden** – Richtige Antworten, Erklärungen und eine kompakte Analyse pro Thema.
-* **Export zum Mitnehmen** – PDF & Musterlösung plus Exporte nach Anki, Kahoot & ARSnova.click!
+* **Lernen nach Maß** – Wähle fertige Sets oder lade eigene hoch; inklusive Gewichtung und Erklärung.
+* **Training für den Erfolg** – Simuliere Prüfungen mit Countdown und erhalte sofortiges Feedback.
+* **Erkenne deine Stärken** – Verstehe Lösungen sofort durch präzise Erklärungen und Themen-Analysen.
+* **Wissen to go** – Nimm alles mit: PDF, Musterlösung und Exporte für Anki, Kahoot & ARSnova.click!

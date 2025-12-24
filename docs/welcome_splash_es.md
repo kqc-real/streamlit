@@ -1,8 +1,8 @@
-# Ponte a prueba
+# ¡Desata tu potencial!
 
-## 🌟 Lo mejor
+## 🌟 Tus ventajas
 
-* **Sets a la carta** – elige uno listo o sube el tuyo; todo con pesos y explicaciones.
-* **Con cronómetro** – tiempo límite fijo y revisión inmediata al terminar.
-* **Feedback al instante** – soluciones, explicaciones y desglose por tema.
-* **Exportación total** – PDF, soluciones y formatos para Anki, Kahoot y ARSnova.
+* **Aprendizaje a medida** – Elige sets listos o sube los tuyos; con pesos y explicaciones.
+* **Entrena para el éxito** – Simula exámenes con cuenta atrás y recibe feedback inmediato.
+* **Conoce tus fortalezas** – Entiende soluciones al instante con explicaciones precisas y análisis por tema.
+* **Conocimiento para llevar** – Llévatelo todo: PDF, soluciones y exportaciones para Anki, Kahoot y ARSnova.click!
