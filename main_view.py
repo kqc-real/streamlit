@@ -3947,6 +3947,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
     )
+    remaining = len(questions) - num_answered
+    
+    try:
+        if st.session_state.get("start_zeit"):
+            remaining_time = int(st.session_state.test_time_limit - (pd.Timestamp.now() - st.session_state.start_zeit).total_seconds())
+        else:
+            remaining_time = int(st.session_state.get("test_time_limit", 0))
+    except Exception:
+        remaining_time = 0
     
     # Zeige Welcome-Dialog vor dem ersten Test-Start
     # Problem: st.dialog lässt sich nicht unterdrücken wenn User X klickt
@@ -4078,7 +4087,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         except Exception:
                             qlist = questions or []
 
-                        # Compute ideal times and status (do this regardless of the list coercion outcome)
+                            # Compute ideal times and status (do this regardless of the list coercion outcome)
                         try:
                             # Compute ideal times based on the total allowed test time so
                             # pacing reflects the current test duration rather than per-set hints.
@@ -4089,47 +4098,27 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 # Fallback to previous per-weight computation when no total is available
                                 ideal_times = pacing.compute_ideal_times(qlist, tpw)
 
-                            # Add cooldowns to ideal_times to make pacing account for reading/next pauses
-                            try:
-                                from config import AppConfig
-                                app_cfg = AppConfig()
-                                for i, q in enumerate(qlist):
-                                    if i < len(ideal_times):
-                                        gewichtung = int(q.get('gewichtung', q.get('weight', 1)) or 1)
-                                        base_seconds = int(round(app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)))
-                                        
-                                        # Scale by options
-                                        optionen = q.get('optionen') or q.get('options') or []
-                                        num_options = len(optionen) if isinstance(optionen, list) else 0
-                                        option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
-                                        reading_cooldown = int(round(base_seconds * option_factor))
-                                        
-                                        # Next cooldown
-                                        next_base = base_seconds
-                                        extra = 0
-                                        if q.get('erklaerung') or q.get('explanation'):
-                                            extra += app_cfg.next_cooldown_extra_standard
-                                        if q.get('extended_explanation'):
-                                            extra += app_cfg.next_cooldown_extra_extended
-                                        next_cooldown = next_base + extra
-                                        
-                                        # Add to ideal time
-                                        ideal_times[i] += reading_cooldown + next_cooldown
-                            except Exception:
-                                pass  # If cooldown addition fails, keep original ideal_times
-
                             # Determine the current index within the presentation order
                             try:
                                 idx = st.session_state.get("frage_indices", []).index(frage_idx)
                             except Exception:
                                 idx = session_local_idx if 'session_local_idx' in locals() else 0
 
-                            status = pacing.pacing_status(int(et), ideal_times, idx)
+                            # Call pacing_status BEFORE adding cooldowns
+                            status = pacing.pacing_status(int(et), ideal_times, idx, total_allowed_seconds)
+
                         except Exception:
                             # Defensive defaults if pacing computation fails
                             ideal_times = []
                             idx = session_local_idx if 'session_local_idx' in locals() else 0
-                            status = 'green'
+                            # If time is low, show red status even if pacing calculation failed
+                            if 'total_allowed_seconds' not in locals():
+                                try:
+                                    total_allowed_seconds = int(st.session_state.get('test_time_limit', 0) or 0)
+                                except Exception:
+                                    total_allowed_seconds = 0
+                            remaining_seconds = total_allowed_seconds - int(et)
+                            status = 'red' if remaining_seconds <= 60 else 'green'
 
                         # Small progress bar for overall time usage
                         try:
@@ -4142,7 +4131,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
                         # Render the progress indicator and the status pill only when visible
                         try:
-                            if st.session_state.get("pacing_visible") and idx > 0:
+                            if st.session_state.get("pacing_visible") and idx >= 0:
                                 st.progress(pct)
 
                                 # Dark-themed, desaturated but distinct colors
@@ -4434,45 +4423,32 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         try:
             now_mon = time.monotonic()
             shown_key = f"frage_{frage_idx}_shown_time_monotonic"
-            if not st.session_state.get(shown_key):
-                # record when the question was first shown to the user
+            if shown_key not in st.session_state:
                 st.session_state[shown_key] = now_mon
 
-            # Determine base seconds per weight from question-set meta (minutes -> seconds)
-            qmeta = getattr(questions, 'meta', None)
-            per_weight_raw = None
-            if isinstance(qmeta, dict):
-                per_weight_raw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
-
-            per_weight_minutes = {}
-            if isinstance(per_weight_raw, dict):
-                for k, v in per_weight_raw.items():
-                    try:
-                        kk = int(k)
-                        per_weight_minutes[kk] = float(v)
-                    except Exception:
-                        continue
-
-            # defaults (minutes)
-            if not per_weight_minutes:
-                per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+            from config import AppConfig
+            app_cfg = AppConfig()
 
             gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
-            base_minutes = per_weight_minutes.get(gewichtung, per_weight_minutes.get(1, 0.5))
-            base_seconds = int(round(base_minutes * 60))
+            base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
 
             # tempo multiplier
             tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
             tempo = str(tempo).lower()
-            tempo_mult = 1.0
-            if tempo == 'speed':
-                tempo_mult = 0.5
-            elif tempo == 'power':
-                tempo_mult = 0.25
+            tempo_mult = {'speed': 0.5, 'power': 0.25}.get(tempo, 1.0)
 
             answer_cooldown = int(round(base_seconds * tempo_mult))
             elapsed_since_shown = int(round(now_mon - float(st.session_state.get(shown_key, now_mon))))
             remaining_answer_cooldown = max(0, answer_cooldown - elapsed_since_shown)
+
+            # Disable cooldown if time is critical
+            try:
+                # Use a threshold of 15 seconds per remaining question
+                min_required_time = remaining * 15
+                if remaining_time < min_required_time:
+                    remaining_answer_cooldown = 0
+            except Exception:
+                pass  # keep original cooldown if check fails
         except Exception:
             remaining_answer_cooldown = 0
 
@@ -4646,7 +4622,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # answered or when a jump/review flow is active.
         is_answered_local = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         if is_answered_local or st.session_state.get("jump_to_idx_active"):
-            render_next_question_button(questions, frage_idx)
+            render_next_question_button(questions, frage_idx, remaining_time, remaining)
     except Exception:
         # Non-fatal: if rendering nav buttons fails, continue with motivation/explanation
         pass
@@ -4665,7 +4641,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     
     # --- Erklärung anzeigen ---
     if st.session_state.get(f"show_explanation_{frage_idx}", False):
-        render_explanation(frage_obj, app_config, questions)
+        render_explanation(frage_obj, app_config, questions, remaining_time, remaining)
 
 
 def handle_jump_to_unanswered_question(frage_idx: int):
@@ -4815,7 +4791,7 @@ def _handle_feedback_submission(frage_idx: int, frage_obj: dict, feedback_types:
         st.toast(_test_view_text("feedback_sent", default="Feedback gesendet!"))
 
 
-def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
+def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, remaining_time: int, remaining_questions: int):
     """Rendert den Feedback- und Erklärungsblock nach einer Antwort."""
     
     # Ermittle den Index der aktuellen Frage. Dies wird an mehreren Stellen benötigt.
@@ -5078,8 +5054,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list):
     # ability and aligns the controls with the question content.
 
 
-
-def render_next_question_button(questions: QuestionSet, frage_idx: int):
+def render_next_question_button(questions: QuestionSet, frage_idx: int, remaining_time: int, remaining_questions: int):
     """
     Rendert die Navigationsbuttons ("Vorherige", "Nächste") am Ende des Erklärungsblocks.
     Passt die Button-Beschriftung und das Verhalten an, je nachdem, ob sich der Benutzer
@@ -5145,51 +5120,36 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int):
             shown_key = f"frage_{frage_idx}_explanation_shown_time_monotonic"
             shown_time = float(st.session_state.get(shown_key, 0))
             if shown_time:
-                # determine base seconds per weight from questions meta
-                qmeta = getattr(questions, 'meta', None)
-                per_weight_raw = None
-                if isinstance(qmeta, dict):
-                    per_weight_raw = qmeta.get('time_per_weight_minutes') or qmeta.get('time_per_weight')
-                per_weight_minutes = {}
-                if isinstance(per_weight_raw, dict):
-                    for k, v in per_weight_raw.items():
-                        try:
-                            per_weight_minutes[int(k)] = float(v)
-                        except Exception:
-                            continue
-                if not per_weight_minutes:
-                    per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
-                gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
-                base_minutes = per_weight_minutes.get(gewichtung, per_weight_minutes.get(1, 0.5))
-                base_seconds = int(round(base_minutes * 60))
-                tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
-                tempo = str(tempo).lower()
-                tempo_mult = 1.0
-                if tempo == 'speed':
-                    tempo_mult = 0.5
-                elif tempo == 'power':
-                    tempo_mult = 0.25
-                next_base = int(round(base_seconds * tempo_mult))
-                extra = 0
-                if frage_obj.get('erklaerung') or frage_obj.get('explanation'):
-                    extra += 10
-                if frage_obj.get('extended_explanation'):
-                    extra += 20
-                # Apply optional normalization factor to the entire cooldown
-                # (scales base + extra). This makes the factor behave as a
-                # single empirical multiplier for the perceived waiting time.
                 try:
                     from config import AppConfig
-
                     app_cfg = AppConfig()
-                    norm = float(getattr(app_cfg, "next_cooldown_normalization_factor", 1.0) or 1.0)
-                    if norm <= 0:
-                        norm = 1.0
                 except Exception:
-                    norm = 1.0
-                total_next_cooldown = int(round((next_base + extra) * norm))
+                    app_cfg = AppConfig()
+
+                gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
+                base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
+
+                tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
+                tempo_mult = {'speed': 0.5, 'power': 0.25}.get(str(tempo).lower(), 1.0)
+
+                extra = 0
+                if frage_obj.get('erklaerung') or frage_obj.get('explanation'):
+                    extra += app_cfg.next_cooldown_extra_standard
+                if frage_obj.get('extended_explanation'):
+                    extra += app_cfg.next_cooldown_extra_extended
+
+                total_base_cooldown = base_seconds + extra
+                scaled_cooldown = int(round(total_base_cooldown * tempo_mult))
+
+                norm = float(getattr(app_cfg, "next_cooldown_normalization_factor", 1.0) or 1.0)
+                total_next_cooldown = int(round(scaled_cooldown * max(0.1, norm)))
+
                 elapsed = int(round(now_mon - shown_time))
                 remaining_next_cooldown = max(0, total_next_cooldown - elapsed)
+
+                min_required_time = remaining_questions * 15
+                if remaining_time < min_required_time:
+                    remaining_next_cooldown = 0
             else:
                 remaining_next_cooldown = 0
         except Exception:

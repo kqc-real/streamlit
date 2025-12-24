@@ -21,6 +21,28 @@ def compute_ideal_times(questions: List[dict], time_per_weight: Dict[str, float]
     return res
 
 
+def compute_ideal_times_by_total(questions: List[dict], total_seconds: int) -> List[int]:
+    """Compute ideal times by distributing total test time proportionally to question weights."""
+    if not questions:
+        return []
+    
+    # Calculate total weight
+    total_weight = sum(q.get("weight", q.get("gewichtung", 1)) for q in questions)
+    if total_weight == 0:
+        total_weight = len(questions)  # fallback
+    
+    # Distribute time proportionally
+    res = []
+    for q in questions:
+        w = q.get("weight", q.get("gewichtung", 1))
+        seconds = int(round((w / total_weight) * total_seconds))
+        if seconds < 10:
+            seconds = 10
+        res.append(seconds)
+    
+    return res
+
+
 def expected_cumulative(ideal_times: List[int], index: int) -> int:
     if index < 0:
         return 0
@@ -36,11 +58,30 @@ def pacing_status(
     elapsed_seconds: int,
     ideal_times: List[int],
     current_index: int,
+    total_allowed_seconds: int,
     ahead_fraction: float = 0.05,
     min_ahead_seconds: int = 5,
     green_threshold: float = 0.10,
     yellow_threshold: float = 0.30,
 ) -> str:
+    # Check remaining time: if very low, always red
+    remaining_seconds = total_allowed_seconds - elapsed_seconds
+    if remaining_seconds <= 60:
+        return "red"
+
+    # Check if remaining time is sufficient for remaining questions (min 10s per question)
+    remaining_questions = len(ideal_times) - current_index - 1
+    min_required_seconds = remaining_questions * 10
+    if remaining_seconds < min_required_seconds:
+        return "red"
+
+    # First, check if we're projected to finish on time
+    remaining_expected = sum(ideal_times[current_index + 1:])
+    projected_finish = elapsed_seconds + remaining_expected
+    if projected_finish > total_allowed_seconds:
+        return "red"  # If projected to exceed time, always red
+
+    # Otherwise, use the per-question pacing logic
     expected = expected_cumulative(ideal_times, current_index)
     if expected <= 0:
         return "green"
@@ -51,9 +92,10 @@ def pacing_status(
     if delta < 0 and abs(delta) >= ahead_threshold_seconds:
         return "ahead"
 
-    if pct <= green_threshold:
+    # More lenient thresholds when projected to finish on time
+    if pct <= 0.25:  # green threshold increased from 0.10
         return "green"
-    if pct <= yellow_threshold:
+    if pct <= 0.50:  # yellow threshold increased from 0.30
         return "yellow"
     return "red"
 
