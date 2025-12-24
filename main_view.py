@@ -4435,6 +4435,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         antwort = optionen[selected_index] if selected_index is not None else None
 
         # --- Dynamic reading cooldown for the 'Antworten' button ---
+        panic_mode = False
         try:
             now_mon = time.monotonic()
             shown_key = f"frage_{frage_idx}_shown_time_monotonic"
@@ -4468,6 +4469,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 min_required_time = remaining * 15
                 if remaining_time < min_required_time:
                     remaining_answer_cooldown = 0
+                    panic_mode = True
             except Exception:
                 pass  # keep original cooldown if check fails
         except Exception:
@@ -4494,6 +4496,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         # --- Buttons: Antworten, Überspringen und Merken ---
         if not is_answered:
+            if panic_mode:
+                st.caption("⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.")
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
                 # Bookmark-Toggle
@@ -5177,6 +5181,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                 min_required_time = remaining_questions * 15
                 if remaining_time < min_required_time:
                     remaining_next_cooldown = 0
+                    st.caption("⚡ **Panic Mode:** Wartezeit übersprungen.")
             else:
                 remaining_next_cooldown = 0
         except Exception:
