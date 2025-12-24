@@ -39,7 +39,7 @@ from helpers.text import (
     load_markdown_file,
 )
 from helpers.security import ACTIVE_SESSION_QUERY_PARAM
-from database import update_bookmarks
+from database import update_bookmarks, get_db_connection
 from i18n.context import t
 from user_question_sets import (
     list_user_question_sets,
@@ -3840,6 +3840,21 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # Apply single padding declaration to main container
     _inject_main_container_padding()
     # When rendering a question view, we are not in the final summary.
+
+    # Ensure tempo is available in session state (recover from DB if needed)
+    # This fixes issues where the selected tempo might be lost on reload or context switch
+    if 'selected_tempo' not in st.session_state and 'session_id' in st.session_state:
+        try:
+            conn = get_db_connection()
+            if conn:
+                cur = conn.cursor()
+                cur.execute("SELECT tempo FROM test_sessions WHERE session_id = ?", (st.session_state.session_id,))
+                row = cur.fetchone()
+                if row and row['tempo']:
+                    st.session_state['selected_tempo'] = row['tempo']
+        except Exception:
+            pass
+
     # Clear the `in_final_summary` flag so sidebar items re-appear.
     try:
         if st.session_state.get("in_final_summary"):
@@ -4431,6 +4446,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
             gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
             base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
+
+            # Scale reading time by number of options (consistent with total time calc)
+            optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
+            num_options = len(optionen) if isinstance(optionen, list) else 0
+            option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
+            base_seconds = int(round(base_seconds * option_factor))
 
             # tempo multiplier
             tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
@@ -5128,6 +5149,12 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
 
                 gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
                 base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
+
+                # Scale base time by number of options (consistent with total time calc)
+                optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
+                num_options = len(optionen) if isinstance(optionen, list) else 0
+                option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
+                base_seconds = int(round(base_seconds * option_factor))
 
                 tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
                 tempo_mult = {'speed': 0.5, 'power': 0.25}.get(str(tempo).lower(), 1.0)
