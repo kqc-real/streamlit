@@ -26,7 +26,7 @@
         "language": "Langue",
         "language_expander": "Langue",
         "language_selector_label": "Choisir la langue",
-        "pseudonym_locale_assignment": "Ce réglage sera lié à votre pseudonyme réservé.",
+        "pseudonym_locale_assignment": "Ce réglage sera lié à ton pseudonyme réservé.",
         "greeting": "\ud83d\udc4b **{user}**",
         "temp_set_notice": "Set temp : {label}",
         "reserved_pseudonym": "Pseudo réservé.",
@@ -38,14 +38,14 @@
         "history_error": "Erreur chargement.",
         "history_load_error": "Erreur chargement.",
         "history_showing": "{shown}/{total} affichés.",
-        "history_csv_download": "DL le CSV",
+        "history_csv_download": "Télécharger le CSV",
         "history_csv_unavailable": "Export CSV off.",
         "history_dialog_title": "Mes sessions",
         "history_header": "Mes sessions",
         "history_unnamed_set": "Set sans nom",
         "history_start_button": "Go",
-        "history_delete_notice": "Sessions virées. Rafraîchis \"Mes sessions\".",
-        "history_delete_all_button": "🗑️ Tout virer",
+        "history_delete_notice": "Sessions supprimées. Rafraîchis \"Mes sessions\".",
+        "history_delete_all_button": "🗑️ Tout supprimer",
         "history_delete_all_warning": "Attention, ça vire tout : sessions, réponses, favoris.",
         "history_delete_confirm_button": "Supprimer",
         "history_delete_failed": "Échec.",
@@ -60,7 +60,7 @@
         },
         "current_set": "Set : <strong>{name}</strong>",
         "current_set_marker": "Set : {marker} <strong>{name}</strong>",
-        "glossary_download": "\ud83d\udcbe DL le glossaire",
+        "glossary_download": "\ud83d\udcbe Télécharger le glossaire",
         "glossary_cooldown": "Export récent. Patiente {wait}s.",
         "glossary_generate_button": "\ud83d\udcc4 Créer glossaire",
         "glossary_spinner_simple": "Génération PDF...",
@@ -92,7 +92,7 @@
         "admin_remote_warning": "\ud83d\udd12 Admin : localhost seulement.",
         "admin_remote_warning_ip": "\n\nTon IP : `{ip}`",
         "admin_mode_info": "Mode admin activé.",
-        "admin_solution_download": "\ud83d\udcbe DL la soluce",
+        "admin_solution_download": "\ud83d\udcbe Télécharger la solution",
         "admin_solution_generate": "\ud83d\udcc4 Créer PDF soluce",
         "admin_solution_success": "PDF soluce prêt.",
         "admin_back_to_test": "\u2b05\ufe0f Retour test",
@@ -108,8 +108,8 @@
         "bookmarks_empty": "Aucun favori.",
         "bookmarks_disabled": "Sauts off après le test.",
         "bookmarks_jump_help": "Aller à la question",
-        "bookmarks_remove_help": "Virer favori",
-        "bookmarks_clear": "\ud83d\uddd1\ufe0f Tout virer",
+        "bookmarks_remove_help": "Retirer favori",
+        "bookmarks_clear": "\ud83d\uddd1\ufe0f Tout effacer",
         "skipped_expander": "\u21aa\ufe0f Sautées",
         "skipped_empty": "Aucune question sautée.",
         "skipped_disabled": "Sauts off après le test.",
@@ -165,11 +165,11 @@
         "already_answered_info": "Déjà répondu.",
         "resume_button": "Reprendre",
         "summary_button": "Voir résumé 🏁",
-        "answer_read_hint": "Prenez un instant pour lire la question et toutes les options attentivement — cela renforce votre apprentissage.",
-        "next_read_hint": "Lisez l'explication attentivement et réfléchissez brièvement : pourquoi est-ce correct ? Cela consolide la mémoire.",
-        "select_answer": "Veuillez sélectionner une réponse pour que votre progression soit enregistrée.",
-        "next_feedback_correct": "Bon choix — l'explication détaille pourquoi cette réponse est correcte. Lisez-la pour approfondir votre compréhension et retenez les points clés.",
-        "next_feedback_incorrect": "Lisez attentivement l'explication et demandez-vous : pourquoi ai-je choisi une réponse incorrecte ? Identifiez une idée fausse à corriger.",
+        "answer_read_hint": "Prends un instant pour lire la question et toutes les options attentivement — cela renforce ton apprentissage.",
+        "next_read_hint": "Lis l'explication attentivement et réfléchis brièvement : pourquoi est-ce correct ? Cela consolide la mémoire.",
+        "select_answer": "Sélectionne une réponse pour que ta progression soit enregistrée.",
+        "next_feedback_correct": "Bon choix — l'explication détaille pourquoi cette réponse est correcte. Lis-la pour approfondir ta compréhension et retiens les points clés.",
+        "next_feedback_incorrect": "Lis attentivement l'explication et demande-toi : pourquoi ai-je choisi une réponse incorrecte ? Identifie une idée fausse à corriger.",
         "correct_toast": "Correct !",
         "wrong_toast": "Faux.",
         "question_number_error": "Erreur : Numéro de question HS.",
@@ -214,7 +214,7 @@
             "recommend": {
                 "no_questions": "Aucune question.",
                 "on_track": "Dans les temps.",
-                "significant_delay": "Fort retard : essayez de répondre rapidement ou de passer les questions les plus difficiles et revenez plus tard.",
+                "significant_delay": "Fort retard : essaie de répondre rapidement ou de passer les questions les plus difficiles et reviens plus tard.",
                 "behind": "Tu es en retard sur le planning. Essaie d'accélérer {degree}."
             }
         },
@@ -297,7 +297,7 @@
             "content_error": "Erreur de contenu",
             "typo": "Coquille / Grammaire",
             "unclear_question": "Question pas claire",
-            "answers_inappropriate": "Réponses pas ouf",
+            "answers_inappropriate": "Réponses inadaptées",
             "wrong_explanation": "Explication fausse/floue",
             "technical": "Bug technique",
             "other": "Autre"
@@ -396,7 +396,7 @@
         "page_footer": "Page {page}/{pages}",
         "stage_unknown": "Inconnu",
         "cognition_radar": {
-            "explanation_short": "Le radar affiche le pourcentage de réussite par niveau cognitif (Bloom).\n\nSchémas typiques :\n• Apprentissage boulimique (pic sur Reproduction) : Mémorisation intensive → Pratiquer plus d'exercices d'application.\n• Profil superficiel (Reproduction élevée seulement) : Concepts connus, application manquante → Ajouter des études de cas.\n• Focus application (Application élevée) : Bonne pratique, lacunes factuelles → Rafraîchir les bases.\n• Force analytique (Analyse élevée) : Résolution forte, lacunes fondamentales → Réviser les fondamentaux.\n• Équilibré (polygone rond) : Compétence solide → Continuez !\n• Profil en zigzag (irrégulier) : Stratégie incohérente → Cibler les lacunes spécifiques."
+            "explanation_short": "Le radar affiche le pourcentage de réussite par niveau cognitif (Bloom).\n\nSchémas typiques :\n• Apprentissage boulimique (pic sur Reproduction) : Mémorisation intensive → Pratiquer plus d'exercices d'application.\n• Profil superficiel (Reproduction élevée seulement) : Concepts connus, application manquante → Ajouter des études de cas.\n• Focus application (Application élevée) : Bonne pratique, lacunes factuelles → Rafraîchir les bases.\n• Force analytique (Analyse élevée) : Résolution forte, lacunes fondamentales → Réviser les fondamentaux.\n• Équilibré (polygone rond) : Compétence solide → Continue !\n• Profil en zigzag (irrégulier) : Stratégie incohérente → Cibler les lacunes spécifiques."
         },
         "stage_name": {
             "Reproduktion": "Reproduction",
@@ -464,7 +464,7 @@
                 "questions": "Questions"
             },
             "explanation_expander": "À propos de cette analyse (détaillé)",
-            "explanation_content": "- Le radar montre le pourcentage de réussite par niveau cognitif (taxonomie de Bloom).\n- Les valeurs sont calculées comme les points obtenus divisés par les points maximum possibles pour les questions de chaque niveau.\n- Si peu de questions appartiennent à un niveau, les pourcentages peuvent être peu fiables.\n- Utilisez ce graphique pour repérer les niveaux cognitifs qui nécessitent plus de pratique.\n\nSchémas typiques & interprétation :\n\n• Bulimie / apprentissage par coeur (pic sur \"Reproduction\") :\n  - Visuel : triangle étroit pointant vers \"Reproduction\".\n  - Interprétation : Beaucoup de mémorisation, faibles performances sur les niveaux supérieurs (application, analyse). Gains à court terme sans transfert.\n  - Recommandation : ajouter des tâches de transfert et d'application, répétition espacée, reformuler les questions pour demander une réflexion plus approfondie.\n\n• Profil superficiel (Reproduction élevé) :\n  - Visuel : base large sur Reproduction, faibles valeurs sur Application/Analyse.\n  - Interprétation : Les concepts sont connus mais l'application pratique manque.\n  - Recommandation : études de cas, exercices problèmes, activités d'explication à un pair.\n\n• Orientation application (Application élevée) :\n  - Visuel : pic vers \"Application\"; performance modérée sur les autres compétences.\n  - Interprétation : Bonnes compétences pratiques ; possibles lacunes en connaissances factuelles.\n  - Recommandation : rafraîchir les bases brièvement, puis proposer des problèmes analogues pour le transfert.\n\n• Force analytique (Analyse élevée) :\n  - Visuel : pic sur \"Analyse\", autres axes plus bas.\n  - Interprétation : Bonne capacité de résolution de problèmes ; peut manquer de faits de base.\n  - Recommandation : consolider les fondamentaux, décomposer l'analyse en étapes.\n\n• Profil équilibré (polygone arrondi) :\n  - Visuel : polygone régulier et bien rempli.\n  - Interprétation : Compétence solide et équilibrée.\n  - Recommandation : poursuivre les pratiques mixtes et cibler les petites lacunes.\n\n• Profil irrégulier / en zigzag :\n  - Visuel : fortes fluctuations entre niveaux.\n  - Interprétation : Stratégies d'apprentissage inégales ou couverture curriculaire irrégulière.\n  - Recommandation : cartographier les sujets par niveau cognitif et traiter les lacunes par sujet.\n\nRemarque de confiance :\n- Si très peu d'items par niveau existent, interpréter avec prudence ; afficher un indicateur de confiance et envisager d'ajouter plus d'items."
+            "explanation_content": "- Le radar montre le pourcentage de réussite par niveau cognitif (taxonomie de Bloom).\n- Les valeurs sont calculées comme les points obtenus divisés par les points maximum possibles pour les questions de chaque niveau.\n- Si peu de questions appartiennent à un niveau, les pourcentages peuvent être peu fiables.\n- Utilise ce graphique pour repérer les niveaux cognitifs qui nécessitent plus de pratique.\n\nSchémas typiques & interprétation :\n\n• Bulimie / apprentissage par coeur (pic sur \"Reproduction\") :\n  - Visuel : triangle étroit pointant vers \"Reproduction\".\n  - Interprétation : Beaucoup de mémorisation, faibles performances sur les niveaux supérieurs (application, analyse). Gains à court terme sans transfert.\n  - Recommandation : ajouter des tâches de transfert et d'application, répétition espacée, reformuler les questions pour demander une réflexion plus approfondie.\n\n• Profil superficiel (Reproduction élevé) :\n  - Visuel : base large sur Reproduction, faibles valeurs sur Application/Analyse.\n  - Interprétation : Les concepts sont connus mais l'application pratique manque.\n  - Recommandation : études de cas, exercices problèmes, activités d'explication à un pair.\n\n• Orientation application (Application élevée) :\n  - Visuel : pic vers \"Application\"; performance modérée sur les autres compétences.\n  - Interprétation : Bonnes compétences pratiques ; possibles lacunes en connaissances factuelles.\n  - Recommandation : rafraîchir les bases brièvement, puis proposer des problèmes analogues pour le transfert.\n\n• Force analytique (Analyse élevée) :\n  - Visuel : pic sur \"Analyse\", autres axes plus bas.\n  - Interprétation : Bonne capacité de résolution de problèmes ; peut manquer de faits de base.\n  - Recommandation : consolider les fondamentaux, décomposer l'analyse en étapes.\n\n• Profil équilibré (polygone arrondi) :\n  - Visuel : polygone régulier et bien rempli.\n  - Interprétation : Compétence solide et équilibrée.\n  - Recommandation : poursuivre les pratiques mixtes et cibler les petites lacunes.\n\n• Profil irrégulier / en zigzag :\n  - Visuel : fortes fluctuations entre niveaux.\n  - Interprétation : Stratégies d'apprentissage inégales ou couverture curriculaire irrégulière.\n  - Recommandation : cartographier les sujets par niveau cognitif et traiter les lacunes par sujet.\n\nRemarque de confiance :\n- Si très peu d'items par niveau existent, interpréter avec prudence ; afficher un indicateur de confiance et envisager d'ajouter plus d'items."
         },
         "review_export_header": "Exporter le résumé",
         "review_export_mode": "Format d'export",
@@ -535,7 +535,7 @@
             "success": {
                 "top_performance": "✅ Exceptionnel ! Une performance de haut niveau.",
                 "few_errors": "💪 Excellent travail ! Seulement quelques erreurs.",
-                "convincing": "👍 Résultat convaincant ! Continuez comme ça.",
+                "convincing": "👍 Résultat convaincant ! Continue comme ça.",
                 "quality": "🎉 Travail propre ! La qualité est au rendez-vous."
             },
             "good": {
@@ -546,26 +546,26 @@
             },
             "satisfactory": {
                 "foundation": "📚 Satisfaisant. Les bases sont là, un approfondissement est pertinent.",
-                "review": "🌱 D'accord. Révisez à nouveau les sujets principaux.",
-                "average": "🔍 Dans la moyenne. Le mode révision peut vous aider.",
+                "review": "🌱 D'accord. Révise à nouveau les sujets principaux.",
+                "average": "🔍 Dans la moyenne. Le mode révision peut t'aider.",
                 "practice": "💡 Milieu de tableau. Avec de la pratique, ça ira mieux."
             },
             "passing": {
                 "needs_improvement": "⚠️ Passable. Clairement besoin d'amélioration.",
-                "use_explanations": "📖 Passé de justesse. Utilisez les explications !",
-                "repeat": "🎯 50-59%. Répétez les sujets clés.",
+                "use_explanations": "📖 Passé de justesse. Utilise les explications !",
+                "repeat": "🎯 50-59%. Répète les sujets clés.",
                 "uneven": "🔄 Irrégulier. La révision met en évidence les points faibles."
             },
             "insufficient": {
                 "basic": "⛔ Insuffisant. Les bases manquent encore.",
                 "intensive": "📕 Moins de 50%. Une répétition intensive est nécessaire.",
                 "review_required": "🚨 Grosses lacunes. Le mode révision est obligatoire.",
-                "red": "🔴 Beaucoup d'erreurs. Retravaillez le matériel."
+                "red": "🔴 Beaucoup d'erreurs. Retravaille le matériel."
             },
             "fail": {
-                "start_new": "❌ Échec. Apprenez le matériel depuis le début.",
-                "systematic": "📚 Moins de 40%. Recommencez systématiquement.",
-                "gaps": "🆘 Grandes lacunes de connaissances. Demandez de l'aide !",
+                "start_new": "❌ Échec. Apprends le matériel depuis le début.",
+                "systematic": "📚 Moins de 40%. Recommence systématiquement.",
+                "gaps": "🆘 Grandes lacunes de connaissances. Demande de l'aide !",
                 "review": "⚠️ Très faible. La révision expose chaque erreur."
             }
             ,
@@ -681,7 +681,7 @@
             "recover_failure": "Échec : pseudo/secret incorrect.",
             "database_error": "Erreur BDD : impossible de lancer la session.",
             "test_button": "Lancer le test",
-            "question_required": "Veuillez d'abord sélectionner un set de questions."
+            "question_required": "Choisis d'abord un set de questions."
         },
         "sort_order": {
             "label": "Trier les questions par :",
