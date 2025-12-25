@@ -1,8 +1,8 @@
-# Entfessle dein Potenzial!
+# Level Up dein Wissen! 🚀
 
-## 🌟 Deine Vorteile
+## 🌟 Das bringt's dir:
 
-* **Lernen nach Maß** – Wähle fertige Sets oder lade eigene hoch; inklusive Gewichtung und Erklärung.
-* **Training für den Erfolg** – Simuliere Prüfungen mit Countdown und erhalte sofortiges Feedback.
-* **Erkenne deine Stärken** – Verstehe Lösungen sofort durch präzise Erklärungen und Themen-Analysen.
-* **Wissen to go** – Nimm alles mit: PDF, Musterlösung und Exporte für Anki, Kahoot & ARSnova.click!
+* **Lernen, wie du willst** – Nimm fertige Sets oder lade deine eigenen hoch.
+* **Real-Life Training** – Simuliere den Prüfungsstress mit Timer & direktem Feedback.
+* **Verstehe das "Warum"** – Präzise Erklärungen und Analysen zeigen dir, wo du stehst.
+* **Export-Power** – Nimm alles mit: Als PDF, für Anki, Kahoot oder arsnova.click!

@@ -1,8 +1,8 @@
-# Unleash your potential!
+# Level Up Your Knowledge! 🚀
 
-## 🌟 Your benefits
+## 🌟 Why you'll love it:
 
-* **Tailored learning** – Choose curated sets or upload your own; including weights and explanations.
-* **Train for success** – Simulate exams with a countdown and receive instant feedback.
-* **Know your strengths** – Understand solutions immediately with precise explanations and topic analysis.
-* **Knowledge to go** – Take it all with you: PDF, solutions, and exports for Anki, Kahoot & ARSnova.click!
+* **Your Rules** – Pick curated sets or upload your own files instantly.
+* **Real Exam Mode** – Race the clock and get instant feedback on your answers.
+* **Deep Insights** – Understand solutions with detailed explanations and topic analysis.
+* **Take It Away** – Export everything: PDF, Anki decks, Kahoot & arsnova.click!

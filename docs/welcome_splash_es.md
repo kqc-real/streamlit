@@ -1,8 +1,8 @@
-# ¡Desata tu potencial!
+# ¡Sube de Nivel! 🚀
 
-## 🌟 Tus ventajas
+## 🌟 Lo que te llevas:
 
-* **Aprendizaje a medida** – Elige sets listos o sube los tuyos; con pesos y explicaciones.
-* **Entrena para el éxito** – Simula exámenes con cuenta atrás y recibe feedback inmediato.
-* **Conoce tus fortalezas** – Entiende soluciones al instante con explicaciones precisas y análisis por tema.
-* **Conocimiento para llevar** – Llévatelo todo: PDF, soluciones y exportaciones para Anki, Kahoot y ARSnova.click!
+* **A tu ritmo** – Usa sets listos o sube tus propios archivos.
+* **Modo Examen** – Simula la presión con cronómetro y feedback en tiempo real.
+* **Entiende el porqué** – Explicaciones al detalle y análisis de tus puntos fuertes.
+* **Todo exportable** – Llévatelo todo: ¡PDF, Anki, Kahoot y arsnova.click!
