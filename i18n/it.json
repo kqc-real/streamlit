@@ -57,6 +57,27 @@
                     "power": "Intenso (1/4 tempo)"
                 }
             }
+        },
+        "messages": {
+            "no_answers_recorded": "Ancora nessuna risposta registrata.",
+            "no_results_for_set": "Nessun risultato disponibile per questo set.",
+            "no_answers_for_analysis": "Ancora nessuna risposta disponibile per l'analisi.",
+            "no_answers_for_questionset": "Nessuna risposta disponibile per questo set di domande.",
+            "min_participants_required": "Sono richiesti almeno 2 partecipanti per il calcolo della discriminazione.",
+            "no_answers_for_question": "Ancora nessuna risposta disponibile per questa domanda.",
+            "no_problems_reported": "Finora non sono stati segnalati problemi.",
+            "no_data_to_export": "Nessun dato disponibile per l'esportazione.",
+            "export_contains_all_data": "💡 L'esportazione contiene tutti i dati delle risposte inclusi pseudonimi utente e timestamp.",
+            "no_pseudonyms_in_use": "Ancora nessun pseudonimo in uso.",
+            "pseudonym_delete_failed": "Lo pseudonimo non ha potuto essere eliminato (eventualmente nessun segreto riservato o già rimosso).",
+            "no_reserved_pseudonyms": "Nessuno pseudonimo riservato disponibile.",
+            "no_reserved_pseudonyms_to_delete": "Nessuno pseudonimo riservato da eliminare o operazione fallita.",
+            "selection_too_small": "La selezione contiene meno pseudonimi del numero desiderato. Regola il numero o seleziona più pseudonimi.",
+            "answer_distribution": "Distribuzione delle risposte:",
+            "filter_messages": "Filtra i messaggi:",
+            "no_topics_defined": "Nessun argomento definito.",
+            "audit_log_description": "Registrazione di tutte le azioni amministratore per sicurezza e conformità",
+            "no_completed_tests": "Ancora nessun test completato disponibile. Le statistiche verranno visualizzate dopo i primi test."
         }
     },
     "sidebar": {

@@ -57,6 +57,27 @@
                     "power": "Intensivo (1/4 tiempo)"
                 }
             }
+        },
+        "messages": {
+            "no_answers_recorded": "Aún no se han registrado respuestas.",
+            "no_results_for_set": "No hay resultados disponibles para este conjunto.",
+            "no_answers_for_analysis": "Aún no hay respuestas disponibles para análisis.",
+            "no_answers_for_questionset": "No hay respuestas disponibles para este conjunto de preguntas.",
+            "min_participants_required": "Se requieren al menos 2 participantes para el cálculo de discriminación.",
+            "no_answers_for_question": "Aún no hay respuestas disponibles para esta pregunta.",
+            "no_problems_reported": "Hasta ahora no se han reportado problemas.",
+            "no_data_to_export": "No hay datos disponibles para exportar.",
+            "export_contains_all_data": "💡 La exportación contiene todos los datos de respuesta incluyendo pseudónimos de usuario y marcas de tiempo.",
+            "no_pseudonyms_in_use": "Aún no hay pseudónimos en uso.",
+            "pseudonym_delete_failed": "No se pudo eliminar el pseudónimo (posiblemente no hay secreto reservado o ya fue eliminado).",
+            "no_reserved_pseudonyms": "No hay pseudónimos reservados disponibles.",
+            "no_reserved_pseudonyms_to_delete": "No hay pseudónimos reservados para eliminar u operación fallida.",
+            "selection_too_small": "La selección contiene menos pseudónimos que el número deseado. Ajuste el número o seleccione más pseudónimos.",
+            "answer_distribution": "Distribución de respuestas:",
+            "filter_messages": "Filtrar mensajes:",
+            "no_topics_defined": "No hay temas definidos.",
+            "audit_log_description": "Registro de todas las acciones de administrador para seguridad y cumplimiento",
+            "no_completed_tests": "Aún no hay pruebas completadas disponibles. Las estadísticas se mostrarán después de las primeras pruebas."
         }
     },
     "sidebar": {

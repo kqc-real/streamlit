@@ -57,6 +57,27 @@
                     "power": "Intensif (1/4 temps)"
                 }
             }
+        },
+        "messages": {
+            "no_answers_recorded": "Aucune réponse enregistrée pour le moment.",
+            "no_results_for_set": "Aucun résultat disponible pour cet ensemble.",
+            "no_answers_for_analysis": "Aucune réponse disponible pour l'analyse pour le moment.",
+            "no_answers_for_questionset": "Aucune réponse disponible pour cet ensemble de questions.",
+            "min_participants_required": "Au moins 2 participants sont requis pour le calcul de la discrimination.",
+            "no_answers_for_question": "Aucune réponse disponible pour cette question pour le moment.",
+            "no_problems_reported": "Aucun problème n'a été signalé jusqu'à présent.",
+            "no_data_to_export": "Aucune donnée disponible pour l'exportation.",
+            "export_contains_all_data": "💡 L'export contient toutes les données de réponse incluant les pseudonymes d'utilisateur et les horodatages.",
+            "no_pseudonyms_in_use": "Aucun pseudonyme en cours d'utilisation pour le moment.",
+            "pseudonym_delete_failed": "Le pseudonyme n'a pas pu être supprimé (éventuellement pas de secret réservé ou déjà supprimé).",
+            "no_reserved_pseudonyms": "Aucun pseudonyme réservé disponible.",
+            "no_reserved_pseudonyms_to_delete": "Aucun pseudonyme réservé à supprimer ou opération échouée.",
+            "selection_too_small": "La sélection contient moins de pseudonymes que le nombre souhaité. Ajustez le nombre ou sélectionnez plus de pseudonymes.",
+            "answer_distribution": "Répartition des réponses :",
+            "filter_messages": "Filtrer les messages :",
+            "no_topics_defined": "Aucun sujet défini.",
+            "audit_log_description": "Journalisation de toutes les actions administrateur pour la sécurité et la conformité",
+            "no_completed_tests": "Aucun test terminé disponible pour le moment. Les statistiques seront affichées après les premiers tests."
         }
     },
     "sidebar": {

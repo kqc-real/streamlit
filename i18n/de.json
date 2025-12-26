@@ -160,6 +160,38 @@
                     "power": "Power (1/4 Zeit)"
                 }
             }
+        },
+        "messages": {
+            "no_answers_recorded": "Noch keine Antworten aufgezeichnet.",
+            "no_results_for_set": "Für dieses Set liegen keine Ergebnisse vor.",
+            "no_answers_for_analysis": "Noch keine Antworten für eine Analyse vorhanden.",
+            "no_answers_for_questionset": "Keine Antworten für dieses Fragenset vorhanden.",
+            "min_participants_required": "Für die Berechnung der Trennschärfe sind mindestens 2 Teilnehmer erforderlich.",
+            "no_answers_for_question": "Für diese Frage liegen noch keine Antworten vor.",
+            "no_problems_reported": "Bisher wurden keine Probleme gemeldet.",
+            "no_data_to_export": "Keine Daten zum Exportieren vorhanden.",
+            "export_contains_all_data": "💡 Der Export enthält alle Antwortdaten inklusive Nutzerpseudonymen und Zeitstempel.",
+            "no_pseudonyms_in_use": "Noch keine Pseudonyme in Verwendung.",
+            "pseudonym_delete_failed": "Pseudonym konnte nicht gelöscht werden (evtl. kein reserviertes Secret oder bereits entfernt).",
+            "no_reserved_pseudonyms": "Keine reservierten Pseudonyme vorhanden.",
+            "no_reserved_pseudonyms_to_delete": "Keine reservierten Pseudonyme zu löschen oder Vorgang fehlgeschlagen.",
+            "selection_too_small": "Die Auswahl enthält weniger Pseudonyme als die gewünschte Anzahl. Passe die Anzahl an oder wähle mehr Pseudonyme aus.",
+            "answer_distribution": "Antwortverteilung:",
+            "filter_messages": "Filtere die Meldungen:",
+            "no_topics_defined": "Keine Themen hinterlegt.",
+            "audit_log_description": "Protokollierung aller Admin-Aktionen für Sicherheit und Compliance",
+            "expanders": {
+                "reset_user_results": "Benutzerergebnisse für dieses Set zurücksetzen",
+                "metrics_glossary": "Glossar der Metriken",
+                "delete_multiple_reports": "🔴 Gefahrenzone: Mehrere Meldungen löschen",
+                "delete_single_pseudonym": "🧹 Einzelnes reserviertes Pseudonym löschen",
+                "delete_all_used_pseudonyms": "🔴 Gefahrenzone: Alle genutzten Pseudonyme löschen",
+                "delete_all_reserved_pseudonyms": "🔴 Gefahrenzone: Alle reservierten Pseudonyme löschen",
+                "delete_all_test_data": "🔴 Alle Testdaten unwiderruflich löschen",
+                "delete_old_logs": "🗑️ Alte Logs löschen (DSGVO)",
+                "about_audit_logging": "ℹ️ Über Audit-Logging"
+            },
+            "no_completed_tests": "Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt."
         }
     },
     "dialog": {

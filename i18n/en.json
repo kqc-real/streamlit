@@ -383,6 +383,22 @@
             "pseudonym_delete_failed": "Pseudonym could not be deleted (possibly no reserved secret or already removed).",
             "no_reserved_pseudonyms": "No reserved pseudonyms available.",
             "no_reserved_pseudonyms_to_delete": "No reserved pseudonyms to delete or operation failed.",
+            "selection_too_small": "The selection contains fewer pseudonyms than the desired number. Adjust the number or select more pseudonyms.",
+            "answer_distribution": "Answer distribution:",
+            "filter_messages": "Filter messages:",
+            "no_topics_defined": "No topics defined.",
+            "audit_log_description": "Logging of all admin actions for security and compliance",
+            "expanders": {
+                "reset_user_results": "Reset user results for this set",
+                "metrics_glossary": "Glossary of Metrics",
+                "delete_multiple_reports": "🔴 Danger Zone: Delete multiple reports",
+                "delete_single_pseudonym": "🧹 Delete single reserved pseudonym",
+                "delete_all_used_pseudonyms": "🔴 Danger Zone: Delete all used pseudonyms",
+                "delete_all_reserved_pseudonyms": "🔴 Danger Zone: Delete all reserved pseudonyms",
+                "delete_all_test_data": "🔴 Delete all test data irreversibly",
+                "delete_old_logs": "🗑️ Delete old logs (GDPR)",
+                "about_audit_logging": "ℹ️ About Audit Logging"
+            },
             "no_completed_tests": "No completed tests available yet. Statistics will be displayed after the first tests."
         }
     },

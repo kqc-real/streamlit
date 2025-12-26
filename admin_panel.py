@@ -466,7 +466,7 @@ def render_question_sets_tab():
             if topics:
                 st.markdown("\n".join(f"- {topic}" for topic in topics))
             else:
-                st.caption("Keine Themen hinterlegt.")
+                st.caption(translate_ui("admin.messages.no_topics_defined"))
 
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
@@ -477,7 +477,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
     all_question_files = sorted(df_all["questions_file"].unique()) if not df_all.empty and "questions_file" in df_all.columns else []
 
     if not all_question_files:
-        st.info("Noch keine Antworten aufgezeichnet.")
+        st.info(translate_ui("admin.messages.no_answers_recorded"))
         return
 
     # Iteriere über jedes einzigartige Fragenset in den Logs
@@ -514,7 +514,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         # Nutze die optimierte DB-Funktion mit Tempo‑Filter
         leaderboard_data = get_all_logs_for_leaderboard(q_file, tempo=tempo_filter)
         if not leaderboard_data:
-            st.info("Für dieses Set liegen keine Ergebnisse vor.")
+            st.info(translate_ui("admin.messages.no_results_for_set"))
             st.divider()
             continue
 
@@ -616,7 +616,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     all_logs = get_all_answer_logs()
     
     if not all_logs:
-        st.info("Noch keine Antworten für eine Analyse vorhanden.")
+        st.info(translate_ui("admin.messages.no_answers_for_analysis"))
         return
     
     df_all = pd.DataFrame(all_logs)
@@ -626,11 +626,11 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         qset_counts = df_all["questions_file"].value_counts()
         available_qsets = [qf for qf in qset_counts.index if qf and qset_counts[qf] >= 1]
     else:
-        st.info("Noch keine Antworten für eine Analyse vorhanden.")
+        st.info(translate_ui("admin.messages.no_answers_for_analysis"))
         return
     
     if not available_qsets:
-        st.info("Noch keine Antworten für eine Analyse vorhanden.")
+        st.info(translate_ui("admin.messages.no_answers_for_analysis"))
         return
     
     # Fragenset-Auswahl
@@ -663,7 +663,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     questions = load_questions(selected_qset)
     
     if df.empty:
-        st.info("Keine Antworten für dieses Fragenset vorhanden.")
+        st.info(translate_ui("admin.messages.no_answers_for_questionset"))
         return
     
     # Zeige Überschrift mit Fragenset-Info
@@ -729,7 +729,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         analysis_data.append(row)
 
     if not analysis_data:
-        st.info("Noch keine Antworten für eine Analyse vorhanden.")
+        st.info(translate_ui("admin.messages.no_answers_for_analysis"))
         return
 
     analysis_df = pd.DataFrame(analysis_data)
@@ -767,7 +767,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                 - `r_it < 0.1`: Die Frage trennt schlecht. Möglicherweise ist sie missverständlich, zu einfach/schwer oder hat einen Fehler in der Antwort.
             """)
         else:
-            st.info("Für die Berechnung der Trennschärfe sind mindestens 2 Teilnehmer erforderlich.")
+            st.info(translate_ui("admin.messages.min_participants_required"))
 
     # --- Distraktor-Analyse ---
     st.divider()
@@ -787,7 +787,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
             frage_df = df[df["frage_nr"] == frage_nr]
 
             if frage_df.empty:
-                st.info("Für diese Frage liegen noch keine Antworten vor.")
+                st.info(translate_ui("admin.messages.no_answers_for_question"))
             else:
                 answer_counts = frage_df["antwort"].value_counts().reset_index()
                 answer_counts.columns = ["Antwort", "Anzahl"]
@@ -799,7 +799,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                 correct_answer = selected_question["optionen"][selected_question["loesung"]]
                 merged_df["Korrekt"] = merged_df["Antwort"].apply(lambda x: "✅" if x == correct_answer else "")
 
-                st.write("Antwortverteilung:")
+                st.write(translate_ui("admin.messages.answer_distribution"))
                 st.dataframe(
                     merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False),
                 )
@@ -823,7 +823,7 @@ def render_feedback_tab():
     
     feedback_data = get_all_feedback()
     if not feedback_data:
-        st.info("Bisher wurden keine Probleme gemeldet.")
+        st.info(translate_ui("admin.messages.no_problems_reported"))
         return
 
     df_all_feedback = pd.DataFrame(feedback_data)
@@ -841,7 +841,7 @@ def render_feedback_tab():
     )
 
     # --- Filter für das Feedback ---
-    st.write("Filtere die Meldungen:")
+    st.write(translate_ui("admin.messages.filter_messages"))
     
     # Erstelle eine Hilfsfunktion und ein Mapping für saubere Namen
     def format_q_filename(filename):
@@ -959,12 +959,12 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     """Rendert den Export-Tab."""
     st.header(translate_ui("admin.data_export_header"))
     if df.empty:
-        st.info("Keine Daten zum Exportieren vorhanden.")
+        st.info(translate_ui("admin.messages.no_data_to_export"))
         return
 
     # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung vor Export (optional) ---
     # Hinweis: Export ist lesend und weniger kritisch, aber kann sensible Daten enthalten
-    st.info("💡 Der Export enthält alle Antwortdaten inklusive Nutzerpseudonymen und Zeitstempel.")
+    st.info(translate_ui("admin.messages.export_contains_all_data"))
     
     csv_data = df.to_csv(index=False).encode("utf-8")
     st.download_button(
@@ -1030,7 +1030,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             use_container_width=True,
         )
     else:
-        st.info("Noch keine Pseudonyme in Verwendung.")
+        st.info(translate_ui("admin.messages.no_pseudonyms_in_use"))
 
     st.subheader("Reservierte Pseudonyme (mit Login-Secret)")
     if reserved:
@@ -1089,9 +1089,9 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                             st.success(f"Reserviertes Pseudonym '{target_reserved}' gelöscht.")
                             st.rerun()
                         else:
-                            st.info("Pseudonym konnte nicht gelöscht werden (evtl. kein reserviertes Secret oder bereits entfernt).")
+                            st.info(translate_ui("admin.messages.pseudonym_delete_failed"))
     else:
-        st.info("Keine reservierten Pseudonyme vorhanden.")
+        st.info(translate_ui("admin.messages.no_reserved_pseudonyms"))
 
     with st.expander("🔴 Gefahrenzone: Alle genutzten Pseudonyme löschen", expanded=False):
         st.warning(
@@ -1190,7 +1190,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                         st.success(f"{deleted_count} reservierte Pseudonym(e) gelöscht.")
                         st.rerun()
                     else:
-                        st.info("Keine reservierten Pseudonyme zu löschen oder Vorgang fehlgeschlagen.")
+                        st.info(translate_ui("admin.messages.no_reserved_pseudonyms_to_delete"))
 
     available = _available_pseudonyms()
     if not available:
@@ -1227,7 +1227,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
     if len(selected_names) < desired_count:
         st.info(
-            "Die Auswahl enthält weniger Pseudonyme als die gewünschte Anzahl. Passe die Anzahl an oder wähle mehr Pseudonyme aus."
+            translate_ui("admin.messages.selection_too_small")
         )
 
     secret_length = max(int(getattr(app_config, "recovery_min_length", 6) or 6), 8)
@@ -1376,7 +1376,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
             
             st.plotly_chart(fig, config={"responsive": True})
     else:
-        st.info("Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt.")
+        st.info(translate_ui("admin.messages.no_completed_tests"))
 
     st.divider()
 
@@ -1449,7 +1449,7 @@ def render_audit_log_tab():
     )
     
     st.header(translate_ui("admin.audit_log_header"))
-    st.caption("Protokollierung aller Admin-Aktionen für Sicherheit und Compliance")
+    st.caption(translate_ui("admin.messages.audit_log_description"))
     
     # --- Statistiken ---
     stats = get_audit_statistics()
