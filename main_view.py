@@ -805,17 +805,17 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
 
             back_html = "<div class='anki-preview card card-back'><div class='card-container'>"
             back_html += "<div class='question-repeat'>"
-            back_html += "<div class='section-title'>Frage</div>"
+            back_html += f"<div class='section-title'>{translate_ui('anki.preview.question', default='Frage')}</div>"
             back_html += f"<div class='question-content'>{q_html}</div>"
             back_html += "</div>"
             back_html += "<hr class='anki-divider'>"
-            back_html += "<div class='section-title'>Korrekte Antwort</div>"
+            back_html += f"<div class='section-title'>{translate_ui('anki.preview.correct_answer', default='Korrekte Antwort')}</div>"
             back_html += f"<div class='answer-content'>{correct_html}</div>"
             if erklaerung_html:
-                back_html += "<div class='section-title'>Erklärung</div>"
+                back_html += f"<div class='section-title'>{translate_ui('anki.preview.explanation', default='Erklärung')}</div>"
                 back_html += f"<div class='explanation-content'>{erklaerung_html}</div>"
             if extended_html:
-                back_html += "<div class='section-title'>Detaillierte Erklärung</div>"
+                back_html += f"<div class='section-title'>{translate_ui('anki.preview.detailed_explanation', default='Detaillierte Erklärung')}</div>"
                 back_html += f"<div class='extended-content'>{extended_html}</div>"
             back_html += "</div></div>"
 
@@ -4188,13 +4188,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                         avg_per_question = remaining_time_calc / remaining_questions
                                         # Consider approx 1 min (60s) for weight 3: allow a small tolerance
                                         approx_60 = abs(avg_per_question - 60) <= max(3, 0.1 * 60)
-                                        label = (
-                                            f"Durchschn. verbleibende Zeit pro Frage: {int(avg_per_question)} s"
-                                        )
+                                        label = translate_ui(
+                                            "test_view.pacing.avg_time_per_question",
+                                            default="Durchschn. verbleibende Zeit pro Frage: {seconds} s"
+                                        ).format(seconds=int(avg_per_question))
                                         if approx_60:
-                                            label += " — entspricht ungefähr 1 min/Frage (Gewichtung 3)"
+                                            label += translate_ui("test_view.pacing.approx_1min", default=" — entspricht ungefähr 1 min/Frage (Gewichtung 3)")
                                         else:
-                                            label += " — entspricht nicht 1 min/Frage"
+                                            label += translate_ui("test_view.pacing.not_1min", default=" — entspricht nicht 1 min/Frage")
                                         st.caption(label)
                                     except Exception:
                                         pass
@@ -4471,34 +4472,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 if remaining_time < min_required_time:
                     remaining_answer_cooldown = 0
                     panic_mode = True
-            except Exception:
-                pass  # keep original cooldown if check fails
-        except Exception:
-            remaining_answer_cooldown = 0
-
-        # If the user changed the radio selection in this run, ensure the
-        # mini-glossary is closed for this question. We store the previous
-        # selected index to detect changes across reruns.
-        try:
-            prev_key = f"radio_prev_{frage_idx}"
-            prev_selected = st.session_state.get(prev_key, None)
-            if prev_selected != selected_index:
-                st.session_state[prev_key] = selected_index
-                # Popover-based glossary is stateless; no flag update required here.
-        except Exception:
-            pass
-
-        # --- Logik zur Anpassung des Testflusses nach einem Sprung ---
-        # Wenn wir zu einer unbeantworteten Frage springen, passen wir die Reihenfolge
-        # der Fragen an, damit der Test von hier aus nahtlos weitergeht.
-        # Das Flag wird danach zurückgesetzt.
-        if not is_answered and st.session_state.get("jump_to_idx_active"):
-            handle_jump_to_unanswered_question(frage_idx)
-
-        # --- Buttons: Antworten, Überspringen und Merken ---
-        if not is_answered:
-            if panic_mode:
-                st.caption("⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.")
+                st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
                 # Bookmark-Toggle
@@ -5183,7 +5157,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                 min_required_time = remaining_questions * threshold
                 if remaining_time < min_required_time:
                     remaining_next_cooldown = 0
-                    st.caption("⚡ **Panic Mode:** Wartezeit übersprungen.")
+                    st.caption(translate_ui("test_view.panic_mode_skipped", default="⚡ **Panic Mode:** Wartezeit übersprungen."))
             else:
                 remaining_next_cooldown = 0
         except Exception:

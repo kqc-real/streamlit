@@ -322,7 +322,7 @@ def render_mini_glossary_tab():
                     all_entries.append((thema, term, definition))
 
             page_size = st.slider(
-                f"Einträge pro Seite ({display_name})",
+                translate_ui("admin.glossary.entries_per_page", default="Einträge pro Seite") + f" ({display_name})",
                 min_value=5,
                 max_value=30,
                 value=10,
@@ -343,7 +343,7 @@ def render_mini_glossary_tab():
                     st.rerun()
             with col_page_info:
                 st.markdown(
-                    f"Seite **{current_page + 1}** von **{total_pages}** – {total_entries} Einträge"
+                    translate_ui("admin.glossary.page_info", default="Seite **{current}** von **{total}** – {entries} Einträge").format(current=current_page + 1, total=total_pages, entries=total_entries)
                 )
             with col_next:
                 if st.button("➡️", disabled=current_page >= total_pages - 1, key=f"next_{filename}"):
@@ -367,7 +367,7 @@ def render_mini_glossary_tab():
             generate_key = f"btn_generate_glossary_pdf_{filename}"
 
             if st.button(translate_ui("admin.glossary_generate_single_button"), key=generate_key):
-                with st.spinner("PDF wird erstellt …"):
+                with st.spinner(translate_ui("admin.glossary.pdf_generating", default="PDF wird erstellt …")):
                     try:
                         pdf_bytes = generate_mini_glossary_pdf(filename, questions)
                     except ValueError:
@@ -380,7 +380,7 @@ def render_mini_glossary_tab():
             if pdf_bytes:
                 download_name = f"mini_glossar_{display_name.replace(' ', '_')}.pdf"
                 st.download_button(
-                    "💾 PDF herunterladen",
+                    translate_ui("admin.glossary.pdf_download", default="💾 PDF herunterladen"),
                     data=pdf_bytes,
                     file_name=download_name,
                     mime="application/pdf",
@@ -424,31 +424,40 @@ def render_question_sets_tab():
 
         overview_rows.append(
             {
-                "Name": filename.replace("questions_", "").replace(".json", "").replace("_", " "),
-                "Datei": filename,
-                "Fragen": num_questions,
-                "Dauer": f"{duration} min" if duration else "–",
-                "Glossar": "Ja" if glossary_entry_count else "Nein",
-                "Glossar-Einträge": glossary_entry_count,
-                "Schwierigkeiten": " | ".join(diff_parts) if diff_parts else "–",
-                "Themen": sorted(topics),
+                translate_ui("admin.questionsets.columns.name", default="Name"): filename.replace("questions_", "").replace(".json", "").replace("_", " "),
+                translate_ui("admin.questionsets.columns.file", default="Datei"): filename,
+                translate_ui("admin.questionsets.columns.questions", default="Fragen"): num_questions,
+                translate_ui("admin.questionsets.columns.duration", default="Dauer"): f"{duration} min" if duration else "–",
+                translate_ui("admin.questionsets.columns.glossary", default="Glossar"): "Ja" if glossary_entry_count else "Nein",
+                translate_ui("admin.questionsets.columns.glossary_entries", default="Glossar-Einträge"): glossary_entry_count,
+                translate_ui("admin.questionsets.columns.difficulty", default="Schwierigkeiten"): " | ".join(diff_parts) if diff_parts else "–",
+                translate_ui("admin.questionsets.columns.topics", default="Themen"): sorted(topics),
             }
         )
 
-    st.metric("Anzahl Fragensets", len(overview_rows))
+    st.metric(translate_ui("admin.questionsets.count", default="Anzahl Fragensets"), len(overview_rows))
 
     df_display = pd.DataFrame(
         [
-            {k: entry[k] for k in ["Name", "Datei", "Fragen", "Dauer", "Glossar", "Glossar-Einträge", "Schwierigkeiten"]}
+            {k: entry[k] for k in [
+                translate_ui("admin.questionsets.columns.name", default="Name"),
+                translate_ui("admin.questionsets.columns.file", default="Datei"),
+                translate_ui("admin.questionsets.columns.questions", default="Fragen"),
+                translate_ui("admin.questionsets.columns.duration", default="Dauer"),
+                translate_ui("admin.questionsets.columns.glossary", default="Glossar"),
+                translate_ui("admin.questionsets.columns.glossary_entries", default="Glossar-Einträge"),
+                translate_ui("admin.questionsets.columns.difficulty", default="Schwierigkeiten")
+            ]}
             for entry in overview_rows
         ]
     )
     st.dataframe(df_display, hide_index=True)
 
-    st.subheader("Themen je Fragenset")
+    st.subheader(translate_ui("admin.questionsets.topics_per_set", default="Themen je Fragenset"))
     for entry in overview_rows:
-        topics = entry["Themen"]
-        with st.expander(f"{entry['Name']} – {len(topics)} Themen"):
+        topics = entry[translate_ui("admin.questionsets.columns.topics", default="Themen")]
+        name = entry[translate_ui("admin.questionsets.columns.name", default="Name")]
+        with st.expander(f"{name} – {len(topics)} {translate_ui('admin.questionsets.topics_label', default='Themen')}"):
             if topics:
                 st.markdown("\n".join(f"- {topic}" for topic in topics))
             else:
@@ -551,7 +560,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
         with st.expander(translate_ui("admin.expanders.reset_user_results")):
             user_to_reset = st.selectbox(
-                "Wähle einen Benutzer:",
+                translate_ui("admin.leaderboard.select_user", default="Wähle einen Benutzer:"),
                 options=[p for p in scores["👤 Pseudonym"]],
                 format_func=lambda x: x.split(" ", 1)[-1],  # Zeige nur den Namen ohne Rang/Icon
                 key=f"reset_user_select_{q_file}"
@@ -564,14 +573,14 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                 # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
                 from auth import check_admin_key
                 reauth_key = st.text_input(
-                    "Admin-Key zur Bestätigung:",
+                    translate_ui("admin.leaderboard.admin_key_confirm", default="Admin-Key zur Bestätigung:"),
                     type="password",
                     key=f"delete_reauth_{q_file}",
-                    help="Zur Sicherheit muss der Admin-Key erneut eingegeben werden."
+                    help=translate_ui("admin.leaderboard.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
                 )
                 
-                if st.checkbox("Ja, ich bin sicher.", key=f"reset_confirm_{q_file}"):
-                    if st.button("Ergebnisse jetzt löschen", type="primary", key=f"reset_btn_{q_file}"):
+                if st.checkbox(translate_ui("admin.leaderboard.confirm_checkbox", default="Ja, ich bin sicher."), key=f"reset_confirm_{q_file}"):
+                    if st.button(translate_ui("admin.leaderboard.delete_button", default="Ergebnisse jetzt löschen"), type="primary", key=f"reset_btn_{q_file}"):
                         # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
                         if not app_config.admin_key or check_admin_key(reauth_key, app_config):
                             if delete_user_results_for_qset(user_name_plain, q_file):
@@ -589,7 +598,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                             else:
                                 st.error(translate_ui("admin.messages.reset_user_results_error"))
                         else:
-                            st.error(translate_ui("admin.messages.reset_user_results_wrong_key"))
+                            st.error(translate_ui("admin.messages.reset_user_results_wrong_key", default="Falscher Admin-Key. Vorgang abgebrochen."))
         st.divider()
 
 
@@ -634,7 +643,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     default_qset = current_qset if current_qset in available_qsets else available_qsets[0]
     
     selected_qset = st.selectbox(
-        "Wähle Fragenset für Analyse:",
+        translate_ui("admin.analysis.select_set", default="Wähle Fragenset für Analyse:"),
         options=available_qsets,
         format_func=lambda x: qset_options[x],
         index=available_qsets.index(default_qset) if default_qset in available_qsets else 0,
@@ -701,16 +710,16 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         difficulty = (correct_answers / total_answers) * 100 if total_answers > 0 else 0
         
         row = {
-            "Frage-Nr.": frage_nr,
-            "Frage": (frage.get("question", frage.get("frage", "")).split(".", 1)[1].strip() if 
+            translate_ui("admin.analysis.columns.nr", default="Frage-Nr."): frage_nr,
+            translate_ui("admin.analysis.columns.question", default="Frage"): (frage.get("question", frage.get("frage", "")).split(".", 1)[1].strip() if 
                       "." in (frage.get("question", frage.get("frage", ""))) else frage.get("question", frage.get("frage", ""))),
-            "Antworten": total_answers,
-            "Richtig (%)": round(difficulty, 1),  # Numerischer Wert für korrektes Sortieren
+            translate_ui("admin.analysis.columns.answers", default="Antworten"): total_answers,
+            translate_ui("admin.analysis.columns.correct_pct", default="Richtig (%)"): round(difficulty, 1),  # Numerischer Wert für korrektes Sortieren
         }
         if show_correlation:
             trennschaerfe = correlations.get(frage_nr)
             # Numerischer Wert statt String für korrektes Sortieren
-            row["Trennschärfe (r_it)"] = round(trennschaerfe, 2) if pd.notna(trennschaerfe) else 0.0
+            row[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")] = round(trennschaerfe, 2) if pd.notna(trennschaerfe) else 0.0
         
         analysis_data.append(row)
 
@@ -721,21 +730,21 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     analysis_df = pd.DataFrame(analysis_data)
     
     # Sortiere den DataFrame nach der Frage-Nummer, um eine konsistente Anzeige zu gewährleisten.
-    analysis_df = analysis_df.sort_values(by="Frage-Nr.").reset_index(drop=True)
+    analysis_df = analysis_df.sort_values(by=translate_ui("admin.analysis.columns.nr", default="Frage-Nr.")).reset_index(drop=True)
     
     # Stelle sicher, dass numerische Spalten korrekt typisiert sind für Sortierung
-    analysis_df["Frage-Nr."] = pd.to_numeric(analysis_df["Frage-Nr."], errors='coerce').fillna(0).astype(int)
-    analysis_df["Antworten"] = pd.to_numeric(analysis_df["Antworten"], errors='coerce').fillna(0).astype(int)
-    analysis_df["Richtig (%)"] = pd.to_numeric(analysis_df["Richtig (%)"], errors='coerce').fillna(0.0)
-    if show_correlation and "Trennschärfe (r_it)" in analysis_df.columns:
+    analysis_df[translate_ui("admin.analysis.columns.nr", default="Frage-Nr.")] = pd.to_numeric(analysis_df[translate_ui("admin.analysis.columns.nr", default="Frage-Nr.")], errors='coerce').fillna(0).astype(int)
+    analysis_df[translate_ui("admin.analysis.columns.answers", default="Antworten")] = pd.to_numeric(analysis_df[translate_ui("admin.analysis.columns.answers", default="Antworten")], errors='coerce').fillna(0).astype(int)
+    analysis_df[translate_ui("admin.analysis.columns.correct_pct", default="Richtig (%)")] = pd.to_numeric(analysis_df[translate_ui("admin.analysis.columns.correct_pct", default="Richtig (%)")], errors='coerce').fillna(0.0)
+    if show_correlation and translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)") in analysis_df.columns:
         # Robuste Konvertierung: coerce wandelt ungültige Werte in NaN, dann fillna(0.0)
-        analysis_df["Trennschärfe (r_it)"] = pd.to_numeric(
-            analysis_df["Trennschärfe (r_it)"], errors='coerce'
+        analysis_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")] = pd.to_numeric(
+            analysis_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")], errors='coerce'
         ).fillna(0.0)
     
     display_df = analysis_df.copy()
-    if show_correlation and "Trennschärfe (r_it)" in display_df.columns:
-        display_df["Trennschärfe (r_it)"] = display_df["Trennschärfe (r_it)"].map(
+    if show_correlation and translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)") in display_df.columns:
+        display_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")] = display_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")].map(
             lambda v: format_decimal_de(v, 2)
         )
     st.dataframe(display_df, hide_index=True)
@@ -757,7 +766,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
 
     question_titles = [q.get("question", q.get("frage", "")) for q in questions]
     selected_question_title = st.selectbox(
-        "Wähle eine Frage für die Detail-Analyse:",
+        translate_ui("admin.analysis.select_question", default="Wähle eine Frage für die Detail-Analyse:"),
         options=question_titles,
         index=0
     )
@@ -786,7 +795,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                     merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False),
                 )
 
-                if st.checkbox("Zeige als Balkendiagramm", key=f"distractor_chart_{frage_nr}"):
+                if st.checkbox(translate_ui("admin.analysis.show_chart", default="Zeige als Balkendiagramm"), key=f"distractor_chart_{frage_nr}"):
                     import plotly.express as px
                     fig = px.bar(
                         merged_df,
@@ -810,16 +819,16 @@ def render_feedback_tab():
 
     df_all_feedback = pd.DataFrame(feedback_data)
     df_all_feedback.rename(columns={
-        'timestamp': 'Gemeldet am',
-        'question_nr': 'Frage-Nr.',
-        'feedback_type': 'Problem-Typ',
-        'questions_file': 'Fragenset',
-        'user_pseudonym': 'Gemeldet von'
+        'timestamp': translate_ui("admin.feedback.columns.date", default="Gemeldet am"),
+        'question_nr': translate_ui("admin.feedback.columns.question_nr", default="Frage-Nr."),
+        'feedback_type': translate_ui("admin.feedback.columns.type", default="Problem-Typ"),
+        'questions_file': translate_ui("admin.feedback.columns.set", default="Fragenset"),
+        'user_pseudonym': translate_ui("admin.feedback.columns.user", default="Gemeldet von")
     }, inplace=True)
 
     # Ersetze den technischen Standardwert durch einen verständlicheren Text für die Anzeige.
-    df_all_feedback['Problem-Typ'] = df_all_feedback['Problem-Typ'].replace(
-        'Unbekannt', 'Veraltet (ohne Typ)'
+    df_all_feedback[translate_ui("admin.feedback.columns.type", default="Problem-Typ")] = df_all_feedback[translate_ui("admin.feedback.columns.type", default="Problem-Typ")].replace(
+        'Unbekannt', translate_ui("admin.feedback.legacy_type", default="Veraltet (ohne Typ)")
     )
 
     # --- Filter für das Feedback ---
@@ -829,21 +838,21 @@ def render_feedback_tab():
     def format_q_filename(filename):
         return filename.replace("questions_", "").replace(".json", "").replace("_", " ")
 
-    unique_files = sorted(df_all_feedback['Fragenset'].unique())
+    unique_files = sorted(df_all_feedback[translate_ui("admin.feedback.columns.set", default="Fragenset")].unique())
     file_display_map = {format_q_filename(f): f for f in unique_files}
     
     col1, col2 = st.columns(2)
     with col1:
-        display_name = st.selectbox("Fragenset:", options=["Alle"] + list(file_display_map.keys()), key="feedback_qfile_filter")
+        display_name = st.selectbox(translate_ui("admin.feedback.filters.set", default="Fragenset:"), options=["Alle"] + list(file_display_map.keys()), key="feedback_qfile_filter")
         selected_q_file = file_display_map.get(display_name) if display_name != "Alle" else "Alle"
     with col2:
-        selected_f_type = st.selectbox("Problem-Typ:", options=["Alle"] + sorted(df_all_feedback['Problem-Typ'].unique()), key="feedback_type_filter")
+        selected_f_type = st.selectbox(translate_ui("admin.feedback.filters.type", default="Problem-Typ:"), options=["Alle"] + sorted(df_all_feedback[translate_ui("admin.feedback.columns.type", default="Problem-Typ")].unique()), key="feedback_type_filter")
 
     df_feedback = df_all_feedback.copy()
     if selected_q_file != "Alle":
-        df_feedback = df_feedback[df_feedback['Fragenset'] == selected_q_file]
+        df_feedback = df_feedback[df_feedback[translate_ui("admin.feedback.columns.set", default="Fragenset")] == selected_q_file]
     if selected_f_type != "Alle":
-        df_feedback = df_feedback[df_feedback['Problem-Typ'] == selected_f_type]
+        df_feedback = df_feedback[df_feedback[translate_ui("admin.feedback.columns.type", default="Problem-Typ")] == selected_f_type]
 
     # --- Gefahrenzone: Alle sichtbaren Feedbacks löschen ---
     if not df_feedback.empty:
@@ -851,8 +860,8 @@ def render_feedback_tab():
             st.warning(
                 translate_ui("admin.warnings.delete_multiple_feedback").format(count=len(df_feedback))
             )
-            if st.checkbox("Ich bin mir der Konsequenzen bewusst.", key="confirm_delete_all_feedback"):
-                if st.button(f"Ja, {len(df_feedback)} Meldungen endgültig löschen", type="primary"):
+            if st.checkbox(translate_ui("admin.feedback.confirm_awareness", default="Ich bin mir der Konsequenzen bewusst."), key="confirm_delete_all_feedback"):
+                if st.button(translate_ui("admin.feedback.delete_button", default="Ja, {count} Meldungen endgültig löschen").format(count=len(df_feedback)), type="primary"):
                     from database import delete_multiple_feedback
                     ids_to_delete = df_feedback['feedback_id'].tolist()
                     if delete_multiple_feedback(ids_to_delete):
@@ -864,7 +873,7 @@ def render_feedback_tab():
 
     # Lade alle Fragen, um den Fragentext zuzuordnen
     all_questions = {}
-    unique_files = df_feedback['Fragenset'].unique()
+    unique_files = df_feedback[translate_ui("admin.feedback.columns.set", default="Fragenset")].unique()
     for q_file in unique_files:
         questions = load_questions(q_file, silent=True)
         for q in questions:
@@ -879,14 +888,14 @@ def render_feedback_tab():
             except Exception:
                 all_questions[(q_file, q_nr)] = str(q_text)
 
-    df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row['Fragenset'], row['Frage-Nr.']), "Frage nicht gefunden"), axis=1)
+    df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row[translate_ui("admin.feedback.columns.set", default="Fragenset")], row[translate_ui("admin.feedback.columns.question_nr", default="Frage-Nr.")]), translate_ui("admin.feedback.question_not_found", default="Frage nicht gefunden")), axis=1)
     try:
         from helpers.text import format_datetime_de
 
-        df_feedback['Gemeldet am'] = format_datetime_de(df_feedback['Gemeldet am'], fmt='%d.%m.%Y %H:%M')
+        df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = format_datetime_de(df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], fmt='%d.%m.%Y %H:%M')
     except Exception:
-        df_feedback['Gemeldet am'] = pd.to_datetime(
-            df_feedback['Gemeldet am'], format='ISO8601', utc=True, errors='coerce'
+        df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = pd.to_datetime(
+            df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], format='ISO8601', utc=True, errors='coerce'
         ).dt.strftime('%d.%m.%Y %H:%M')
 
     # Ersetze das starre Dataframe durch eine interaktive Liste mit Buttons
@@ -894,14 +903,14 @@ def render_feedback_tab():
         with st.container(border=True):
             col1, col2 = st.columns([3, 1])
             with col1:
-                st.markdown(f"**Frage {row['Frage-Nr.']}:** {row['Frage']}")
-                st.caption(f"**Typ:** {row['Problem-Typ']} | **Set:** {format_q_filename(row['Fragenset'])} | **Von:** {row['Gemeldet von']} | {row['Gemeldet am']}")
+                st.markdown(f"**Frage {row[translate_ui('admin.feedback.columns.question_nr', default='Frage-Nr.')]}:** {row['Frage']}")
+                st.caption(f"**Typ:** {row[translate_ui('admin.feedback.columns.type', default='Problem-Typ')]} | **Set:** {format_q_filename(row[translate_ui('admin.feedback.columns.set', default='Fragenset')])} | **Von:** {row[translate_ui('admin.feedback.columns.user', default='Gemeldet von')]} | {row[translate_ui('admin.feedback.columns.date', default='Gemeldet am')]}")
             
             with col2:
                 # Button, um direkt zur Frage zu springen
-                if st.button("Zur Frage", key=f"jump_feedback_{row.name}"):
+                if st.button(translate_ui("admin.feedback.jump_to_question", default="Zur Frage"), key=f"jump_feedback_{row.name}"):
                     # Finde den Index der Frage im entsprechenden Fragenset
-                    q_file_to_load = row['Fragenset']
+                    q_file_to_load = row[translate_ui("admin.feedback.columns.set", default="Fragenset")]
                     questions_to_load = load_questions(q_file_to_load, silent=True)
                     def _nr_from_q(qitem):
                         try:
@@ -910,7 +919,7 @@ def render_feedback_tab():
                         except Exception:
                             return None
 
-                    target_idx = next((i for i, q in enumerate(questions_to_load) if _nr_from_q(q) == row['Frage-Nr.']), None)
+                    target_idx = next((i for i, q in enumerate(questions_to_load) if _nr_from_q(q) == row[translate_ui("admin.feedback.columns.question_nr", default="Frage-Nr.")]), None)
 
                     if target_idx is not None:
                         st.session_state.selected_questions_file = q_file_to_load
@@ -919,13 +928,13 @@ def render_feedback_tab():
                         st.session_state.show_admin_panel = False
                         st.rerun()
                     else:
-                        st.error("Frage konnte im Set nicht gefunden werden.")
+                        st.error(translate_ui("admin.feedback.question_not_found", default="Frage konnte im Set nicht gefunden werden."))
                 
                 # Popover für die Löschbestätigung
-                with st.popover("Löschen"):
+                with st.popover(translate_ui("admin.feedback.delete_popover", default="Löschen")):
                     st.warning(translate_ui("admin.warnings.confirm_delete_feedback"))
                     if st.button(
-                        "Ja, endgültig löschen",
+                        translate_ui("admin.feedback.delete_confirm", default="Ja, endgültig löschen"),
                         key=f"del_feedback_{row['feedback_id']}",
                         type="primary",
                     ):
@@ -950,7 +959,7 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     
     csv_data = df.to_csv(index=False).encode("utf-8")
     st.download_button(
-        label="⬇️ Antwort-Log herunterladen (CSV)",
+        label=translate_ui("admin.export.download_csv", default="⬇️ Antwort-Log herunterladen (CSV)"),
         data=csv_data,
         file_name="mc_test_answers.csv",
         mime="text/csv",
@@ -1003,7 +1012,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     used_all = _used_pseudonyms()
     reserved = _reserved_pseudonyms(used_all)
 
-    st.subheader("Aktuell genutzte temporäre Pseudonyme")
+    st.subheader(translate_ui("admin.login_generator.used_pseudonyms", default="Aktuell genutzte temporäre Pseudonyme"))
     if used_all:
         st.caption(f"{len(used_all)} Pseudonyme wurden bereits verwendet.")
         st.dataframe(
@@ -1014,7 +1023,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     else:
         st.info(translate_ui("admin.messages.no_pseudonyms_in_use"))
 
-    st.subheader("Reservierte Pseudonyme (mit Login-Secret)")
+    st.subheader(translate_ui("admin.login_generator.reserved_pseudonyms", default="Reservierte Pseudonyme (mit Login-Secret)"))
     if reserved:
         st.caption(f"{len(reserved)} Pseudonyme sind aktuell reserviert.")
         st.dataframe(
@@ -1030,21 +1039,21 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                 check_admin_key = None
 
             target_reserved = st.selectbox(
-                "Zu löschendes Pseudonym",
+                translate_ui("admin.login_generator.delete_select", default="Zu löschendes Pseudonym"),
                 options=reserved,
                 key="delete_reserved_single_select",
             )
             reauth_key_single = st.text_input(
-                "Admin-Key zur Bestätigung:",
+                translate_ui("admin.login_generator.admin_key", default="Admin-Key zur Bestätigung:"),
                 type="password",
                 key="delete_reserved_single_reauth",
             )
             confirmed_single = st.checkbox(
-                "Ich verstehe: Dieses reservierte Pseudonym wird inklusive seiner Testdaten gelöscht.",
+                translate_ui("admin.login_generator.confirm_single", default="Ich verstehe: Dieses reservierte Pseudonym wird inklusive seiner Testdaten gelöscht."),
                 key="delete_reserved_single_confirm",
             )
 
-            if st.button("Pseudonym löschen", type="secondary"):
+            if st.button(translate_ui("admin.login_generator.delete_button", default="Pseudonym löschen"), type="secondary"):
                 if not confirmed_single:
                     st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
                 else:
@@ -1053,7 +1062,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                         admin_key_ok = check_admin_key(reauth_key_single, app_config)
 
                     if not admin_key_ok:
-                        st.error("Falscher Admin-Key. Vorgang abgebrochen.")
+                        st.error(translate_ui("admin.login_generator.wrong_key", default="Falscher Admin-Key. Vorgang abgebrochen."))
                     else:
                         if delete_reserved_pseudonym(target_reserved):
                             try:
@@ -1086,14 +1095,14 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             check_admin_key = None
 
         reauth_key = st.text_input(
-            "Admin-Key zur Bestätigung:", type="password", key="delete_pseudonyms_reauth"
+            translate_ui("admin.login_generator.admin_key", default="Admin-Key zur Bestätigung:"), type="password", key="delete_pseudonyms_reauth"
         )
         confirmed = st.checkbox(
-            "Ich verstehe: Alle Test- und Pseudonymdaten (außer Admin) werden gelöscht.",
+            translate_ui("admin.login_generator.confirm_all_used", default="Ich verstehe: Alle Test- und Pseudonymdaten (außer Admin) werden gelöscht."),
             key="delete_pseudonyms_confirm",
         )
 
-        if st.button("Jetzt alle genutzten Pseudonyme löschen", type="primary"):
+        if st.button(translate_ui("admin.login_generator.delete_all_used_button", default="Jetzt alle genutzten Pseudonyme löschen"), type="primary"):
             if not confirmed:
                 st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
             else:
@@ -1102,7 +1111,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                     admin_key_ok = check_admin_key(reauth_key, app_config)
 
                 if not admin_key_ok:
-                    st.error("Falscher Admin-Key. Vorgang abgebrochen.")
+                    st.error(translate_ui("admin.login_generator.wrong_key", default="Falscher Admin-Key. Vorgang abgebrochen."))
                 else:
                     if reset_all_test_data():
                         try:
@@ -1133,16 +1142,16 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             check_admin_key = None
 
         reauth_key_reserved = st.text_input(
-            "Admin-Key zur Bestätigung:",
+            translate_ui("admin.login_generator.admin_key", default="Admin-Key zur Bestätigung:"),
             type="password",
             key="delete_reserved_pseudonyms_reauth",
         )
         confirmed_reserved = st.checkbox(
-            "Ich verstehe: Alle reservierten Pseudonyme und Testdaten (außer Admin) werden gelöscht.",
+            translate_ui("admin.login_generator.confirm_all_reserved", default="Ich verstehe: Alle reservierten Pseudonyme und Testdaten (außer Admin) werden gelöscht."),
             key="delete_reserved_pseudonyms_confirm",
         )
 
-        if st.button("Reservierte Pseudonyme löschen", type="secondary"):
+        if st.button(translate_ui("admin.login_generator.delete_all_reserved_button", default="Reservierte Pseudonyme löschen"), type="secondary"):
             if not confirmed_reserved:
                 st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
             else:
@@ -1151,7 +1160,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                     admin_key_ok = check_admin_key(reauth_key_reserved, app_config)
 
                 if not admin_key_ok:
-                    st.error("Falscher Admin-Key. Vorgang abgebrochen.")
+                    st.error(translate_ui("admin.login_generator.wrong_key", default="Falscher Admin-Key. Vorgang abgebrochen."))
                 else:
                     deleted_count = delete_reserved_pseudonyms()
                     if deleted_count > 0:
@@ -1190,7 +1199,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     default_count = min(5, max_count)
     desired_count = int(
         st.number_input(
-            "Anzahl der Logins", min_value=1, max_value=max_count, value=default_count, step=1
+            translate_ui("admin.login_generator.count_label", default="Anzahl der Logins"), min_value=1, max_value=max_count, value=default_count, step=1
         )
     )
 
@@ -1198,11 +1207,11 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     contributions = {p["name"]: p.get("contribution", "") for p in available}
     default_selection = options[:desired_count]
     selected_names = st.multiselect(
-        "Wähle die Pseudonyme für die Reservierung",
+        translate_ui("admin.login_generator.select_label", default="Wähle die Pseudonyme für die Reservierung"),
         options=options,
         default=default_selection,
         format_func=lambda name: f"{name} ({contributions[name]})" if contributions.get(name) else name,
-        help="Nur freie Pseudonyme werden angezeigt.",
+        help=translate_ui("admin.login_generator.select_help", default="Nur freie Pseudonyme werden angezeigt."),
     )
 
     if len(selected_names) < desired_count:
@@ -1226,7 +1235,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             rows.append({"Pseudonym": clean_name, "Login-Secret": secret})
         return rows
 
-    if st.button("🚀 Logins erzeugen", type="primary"):
+    if st.button(translate_ui("admin.login_generator.generate_button", default="🚀 Logins erzeugen"), type="primary"):
         if not selected_names:
             st.warning(translate_ui("admin.warnings.select_at_least_one_pseudonym"))
         elif len(selected_names) < desired_count:
@@ -1242,12 +1251,12 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
     latest_rows = st.session_state.get("login_generator_rows")
     if latest_rows:
-        st.subheader("Zuletzt erzeugte Logins")
+        st.subheader(translate_ui("admin.login_generator.latest_logins", default="Zuletzt erzeugte Logins"))
         result_df = pd.DataFrame(latest_rows)
         st.dataframe(result_df, hide_index=True, use_container_width=True)
         csv_data = result_df.to_csv(index=False).encode("utf-8")
         st.download_button(
-            "⬇️ CSV herunterladen",
+            translate_ui("admin.login_generator.download_csv", default="⬇️ CSV herunterladen"),
             data=csv_data,
             file_name="reservierte_pseudonyme.csv",
             mime="text/csv",
@@ -1260,26 +1269,26 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     st.header(translate_ui("admin.system_settings_header"))
 
     # --- Scoring-Modus ---
-    st.subheader("Scoring-Modus")
+    st.subheader(translate_ui("admin.system.scoring_mode", default="Scoring-Modus"))
     new_mode = st.radio(
-        "Wie sollen falsche Antworten bewertet werden?",
+        translate_ui("admin.system.scoring_question", default="Wie sollen falsche Antworten bewertet werden?"),
         options=["positive_only", "negative"],
         index=0 if app_config.scoring_mode == "positive_only" else 1,
-        format_func=lambda v: "Nur Pluspunkte (falsch = 0)"
+        format_func=lambda v: translate_ui("admin.system.scoring_positive", default="Nur Pluspunkte (falsch = 0)")
         if v == "positive_only"
-        else "Plus-Minus-Punkte (falsch = -Gewichtung)",
+        else translate_ui("admin.system.scoring_negative", default="Plus-Minus-Punkte (falsch = -Gewichtung)"),
         horizontal=True,
     )
     if new_mode != app_config.scoring_mode:
         app_config.scoring_mode = new_mode
         app_config.save()
-        st.success("Scoring-Modus gespeichert. Wird bei der nächsten Antwort aktiv.")
+        st.success(translate_ui("admin.system.scoring_saved", default="Scoring-Modus gespeichert. Wird bei der nächsten Antwort aktiv."))
         st.rerun()
 
     st.divider()
 
     # --- Erweiterte Dashboard-Statistiken ---
-    st.subheader("📊 Dashboard-Statistiken")
+    st.subheader(translate_ui("admin.system.dashboard_stats", default="📊 Dashboard-Statistiken"))
     
     from database import get_dashboard_statistics
     stats = get_dashboard_statistics()
@@ -1288,16 +1297,16 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         # Oberste Zeile: Hauptmetriken
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Abgeschlossene Tests", stats['total_tests'])
+            st.metric(translate_ui("admin.system.stats.completed_tests", default="Abgeschlossene Tests"), stats['total_tests'])
         with col2:
-            st.metric("Eindeutige Teilnehmer", stats['unique_users'])
+            st.metric(translate_ui("admin.system.stats.unique_users", default="Eindeutige Teilnehmer"), stats['unique_users'])
         with col3:
-            st.metric("Gemeldete Probleme", stats['total_feedback'])
+            st.metric(translate_ui("admin.system.stats.reported_issues", default="Gemeldete Probleme"), stats['total_feedback'])
         with col4:
             # Formatiere Dauer in MM:SS
             mins, secs = divmod(stats['avg_duration'], 60)
             duration_str = f"{int(mins):02d}:{int(secs):02d} min"
-            st.metric("Ø Testdauer", duration_str)
+            st.metric(translate_ui("admin.system.stats.avg_duration", default="Ø Testdauer"), duration_str)
         
         st.divider()
         
@@ -1306,15 +1315,15 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         with col1:
             completion_str = format_decimal_de(stats['completion_rate'], 1)
             st.metric(
-                "Abschlussquote",
+                translate_ui("admin.system.stats.completion_rate", default="Abschlussquote"),
                 f"{completion_str} %",
-                help="Prozentsatz der Tests, die vollständig beendet wurden"
+                help=translate_ui("admin.system.stats.completion_rate_help", default="Prozentsatz der Tests, die vollständig beendet wurden")
             )
         
         # Durchschnittliche Punktzahlen pro Fragenset
         if stats['avg_scores_by_qset']:
             st.divider()
-            st.subheader("📈 Durchschnittliche Leistung pro Fragenset")
+            st.subheader(translate_ui("admin.system.stats.avg_performance", default="📈 Durchschnittliche Leistung pro Fragenset"))
             
             # Bereite Daten für Chart vor
             import plotly.graph_objects as go
@@ -1361,15 +1370,15 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     st.divider()
 
     # --- Datenbank-Management ---
-    st.subheader("Datenbank-Management")
-    st.info("Lade einen kompletten SQL-Dump der Datenbank herunter. Diese Textdatei enthält die Struktur (Schema) und alle Inhalte und kann in jedem Texteditor oder SQLite-Tool geöffnet werden.")
+    st.subheader(translate_ui("admin.system.db_management", default="Datenbank-Management"))
+    st.info(translate_ui("admin.system.db_dump_info", default="Lade einen kompletten SQL-Dump der Datenbank herunter. Diese Textdatei enthält die Struktur (Schema) und alle Inhalte und kann in jedem Texteditor oder SQLite-Tool geöffnet werden."))
     
     # Importiere die Funktion hier, um zyklische Importe zu vermeiden
     from database import get_database_dump
     
     db_dump_data = get_database_dump()
     st.download_button(
-        label="⬇️ Datenbank-Dump herunterladen (.sql)",
+        label=translate_ui("admin.system.db_dump_download", default="⬇️ Datenbank-Dump herunterladen (.sql)"),
         data=db_dump_data,
         file_name="mc_test_dump.sql",
         mime="application/sql"
@@ -1377,7 +1386,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     st.divider()
 
     # --- Globaler Reset ---
-    st.subheader("Gefahrenzone")
+    st.subheader(translate_ui("admin.system.danger_zone", default="Gefahrenzone"))
     with st.expander(translate_ui("admin.expanders.delete_all_test_data")):
         st.warning(
             translate_ui("admin.warnings.delete_all_test_data")
@@ -1386,14 +1395,14 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
         from auth import check_admin_key
         reauth_key_global = st.text_input(
-            "Admin-Key zur Bestätigung:",
+            translate_ui("admin.login_generator.admin_key", default="Admin-Key zur Bestätigung:"),
             type="password",
             key="global_delete_reauth",
-            help="Zur Sicherheit muss der Admin-Key erneut eingegeben werden."
+            help=translate_ui("admin.leaderboard.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
         )
         
-        if st.checkbox("Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen.", key="global_delete_confirm"):
-            if st.button("JETZT ALLE TESTDATEN LÖSCHEN", type="primary", key="global_delete_btn"):
+        if st.checkbox(translate_ui("admin.system.delete_all_confirm", default="Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen."), key="global_delete_confirm"):
+            if st.button(translate_ui("admin.system.delete_all_button", default="JETZT ALLE TESTDATEN LÖSCHEN"), type="primary", key="global_delete_btn"):
                 # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
                 if not app_config.admin_key or check_admin_key(reauth_key_global, app_config):
                     from database import reset_all_test_data
@@ -1407,15 +1416,15 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                             "All test data deleted (CRITICAL ACTION)",
                             success=True
                         )
-                        st.success("✅ Alle Testdaten wurden zurückgesetzt.")
+                        st.success(translate_ui("admin.system.delete_all_success", default="✅ Alle Testdaten wurden zurückgesetzt."))
                         # Session-State aller Nutzer invalidieren (gute Praxis)
                         for key in list(st.session_state.keys()):
                             del st.session_state[key]
                         st.rerun()
                     else:
-                        st.error("❌ Löschen fehlgeschlagen. Überprüfe die Server-Logs.")
+                        st.error(translate_ui("admin.system.delete_all_error", default="❌ Löschen fehlgeschlagen. Überprüfe die Server-Logs."))
                 else:
-                    st.error("🔒 Falscher Admin-Key. Globales Löschen abgebrochen.")
+                    st.error(translate_ui("admin.system.delete_all_wrong_key", default="🔒 Falscher Admin-Key. Globales Löschen abgebrochen."))
 
 
 def render_audit_log_tab():
@@ -1435,58 +1444,58 @@ def render_audit_log_tab():
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Gesamt-Einträge", stats["total"])
+        st.metric(translate_ui("admin.audit.total_entries", default="Gesamt-Einträge"), stats["total"])
     with col2:
         if stats["total"] == 0:
             success_delta = None
         else:
             success_rate = stats["successful"] / stats["total"] * 100
             success_delta = f"{format_decimal_de(success_rate, 1)} %"
-        st.metric("Erfolgreich", stats["successful"], delta=success_delta)
+        st.metric(translate_ui("admin.audit.successful", default="Erfolgreich"), stats["successful"], delta=success_delta)
     with col3:
         if stats["total"] == 0:
             failed_delta = None
         else:
             failed_rate = stats["failed"] / stats["total"] * 100
             failed_delta = f"{format_decimal_de(failed_rate, 1)} %"
-        st.metric("Fehlgeschlagen", stats["failed"], delta=failed_delta)
+        st.metric(translate_ui("admin.audit.failed", default="Fehlgeschlagen"), stats["failed"], delta=failed_delta)
     
     st.divider()
     
     # --- Schnellansichten (Quick-Views) ---
     # Ermöglicht einen schnellen Blick auf relevante Aktionen wie das Cleanup der
     # temporären Fragensets. Setzt ein Session-Flag, das die späteren Filter überschreibt.
-    st.subheader("Schnellansichten")
+    st.subheader(translate_ui("admin.audit.quick_views", default="Schnellansichten"))
     col_q1, col_q2 = st.columns([1, 1])
     with col_q1:
-        if st.button("🔎 Cleanup-Events", key="audit_quick_cleanup"):
+        if st.button(translate_ui("admin.audit.quick_cleanup", default="🔎 Cleanup-Events"), key="audit_quick_cleanup"):
             st.session_state["_audit_quick_action"] = "CLEANUP_USER_QSETS"
             st.session_state["_audit_quick_limit"] = 200
     with col_q2:
-        if st.button("🔁 Alle anzeigen", key="audit_quick_clear"):
+        if st.button(translate_ui("admin.audit.show_all", default="🔁 Alle anzeigen"), key="audit_quick_clear"):
             st.session_state.pop("_audit_quick_action", None)
             st.session_state.pop("_audit_quick_limit", None)
 
     # --- Filter ---
-    st.subheader("Filter")
+    st.subheader(translate_ui("admin.audit.filter", default="Filter"))
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         # Falls eine Schnellansicht aktiv ist, verwenden wir deren Limit-Vorgabe.
         default_limit = st.session_state.get("_audit_quick_limit", 100)
-        limit = st.number_input("Anzahl Einträge", min_value=10, max_value=1000, value=default_limit, step=10)
+        limit = st.number_input(translate_ui("admin.audit.limit", default="Anzahl Einträge"), min_value=10, max_value=1000, value=default_limit, step=10)
     
     with col2:
         # User-Filter (aus Statistik)
         user_options = ["Alle"] + [u["user_id"] for u in stats["top_users"]]
-        selected_user = st.selectbox("Benutzer", user_options)
+        selected_user = st.selectbox(translate_ui("admin.audit.user", default="Benutzer"), user_options)
         user_filter = None if selected_user == "Alle" else selected_user
     
     with col3:
         # Action-Filter
         action_options = ["Alle"] + [a["action"] for a in stats["actions"]]
-        selected_action = st.selectbox("Aktion", action_options)
+        selected_action = st.selectbox(translate_ui("admin.audit.action", default="Aktion"), action_options)
         action_filter = None if selected_action == "Alle" else selected_action
 
     # Wenn eine Schnellansicht gesetzt ist, überschreibt sie die manuelle Auswahl.
@@ -1494,12 +1503,16 @@ def render_audit_log_tab():
     if quick_action:
         action_filter = quick_action
         # Wenn Quick-View aktiv ist, zeige einen Hinweis und setze das Limit falls vorhanden.
-        st.info(f"Schnellansicht aktiv: {quick_action}")
+        st.info(translate_ui("admin.audit.quick_view_active", default="Schnellansicht aktiv: {quick_action}").format(quick_action=quick_action))
         limit = st.session_state.get("_audit_quick_limit", limit)
     
     # Success-Filter
-    success_options = {"Alle": None, "Nur Erfolgreiche": True, "Nur Fehlgeschlagene": False}
-    selected_success = st.radio("Status", list(success_options.keys()), horizontal=True)
+    success_options = {
+        "Alle": None,
+        translate_ui("admin.audit.status_success", default="Nur Erfolgreiche"): True,
+        translate_ui("admin.audit.status_failed", default="Nur Fehlgeschlagene"): False
+    }
+    selected_success = st.radio(translate_ui("admin.audit.status", default="Status"), list(success_options.keys()), horizontal=True)
     success_filter = success_options[selected_success]
     
     st.divider()
@@ -1513,25 +1526,33 @@ def render_audit_log_tab():
     )
     
     if not logs:
-        st.info("📭 Keine Audit-Log-Einträge gefunden.")
+        st.info(translate_ui("admin.audit.no_entries", default="📭 Keine Audit-Log-Einträge gefunden."))
         return
     
     # --- Tabelle anzeigen ---
-    st.subheader(f"Audit-Log ({len(logs)} Einträge)")
+    st.subheader(translate_ui("admin.audit.table_header", default="Audit-Log ({len} Einträge)").format(len=len(logs)))
     
     import pandas as pd
     df = pd.DataFrame(logs)
     
     # Formatiere Spalten
     df = df[["timestamp", "user_id", "action", "success", "details"]]
-    df.columns = ["Zeitstempel", "Benutzer", "Aktion", "Erfolg", "Details"]
+    df.columns = [
+        translate_ui("admin.audit.columns.timestamp", default="Zeitstempel"),
+        translate_ui("admin.audit.columns.user", default="Benutzer"),
+        translate_ui("admin.audit.columns.action", default="Aktion"),
+        translate_ui("admin.audit.columns.success", default="Erfolg"),
+        translate_ui("admin.audit.columns.details", default="Details")
+    ]
     
     # Success als ✅/❌
-    df["Erfolg"] = df["Erfolg"].apply(lambda x: "✅" if x else "❌")
+    success_col = translate_ui("admin.audit.columns.success", default="Erfolg")
+    df[success_col] = df[success_col].apply(lambda x: "✅" if x else "❌")
     
     # Formatiere Timestamp (robust gegenüber ISO8601 mit Offset)
-    df["Zeitstempel"] = pd.to_datetime(
-        df["Zeitstempel"], format='ISO8601', utc=True, errors='coerce'
+    ts_col = translate_ui("admin.audit.columns.timestamp", default="Zeitstempel")
+    df[ts_col] = pd.to_datetime(
+        df[ts_col], format='ISO8601', utc=True, errors='coerce'
     ).dt.strftime("%Y-%m-%d %H:%M:%S")
     
     # Zeige Tabelle
@@ -1547,7 +1568,7 @@ def render_audit_log_tab():
         csv_df = export_audit_log_csv()
         csv_data = csv_df.to_csv(index=False)
         st.download_button(
-            "📥 Export als CSV",
+            translate_ui("admin.audit.export_csv", default="📥 Export als CSV"),
             data=csv_data,
             file_name=f"audit_log_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
             mime="text/csv",
@@ -1557,11 +1578,11 @@ def render_audit_log_tab():
     with col2:
         # Cleanup alte Logs
         with st.expander(translate_ui("admin.expanders.delete_old_logs")):
-            days = st.number_input("Logs älter als (Tage)", 
+            days = st.number_input(translate_ui("admin.audit.delete_older_than", default="Logs älter als (Tage)"), 
                                   min_value=30, max_value=365, value=90, step=30)
-            if st.button("Jetzt löschen", type="secondary"):
+            if st.button(translate_ui("admin.audit.delete_button", default="Jetzt löschen"), type="secondary"):
                 deleted_count = cleanup_old_audit_logs(days)
-                st.success(f"✅ {deleted_count} alte Einträge gelöscht.")
+                st.success(translate_ui("admin.audit.delete_success", default="✅ {count} alte Einträge gelöscht.").format(count=deleted_count))
                 st.rerun()
     
     # --- Info-Box ---

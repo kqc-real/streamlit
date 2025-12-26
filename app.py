@@ -85,7 +85,6 @@ def main():
         except locale.Error:
             continue  # Nächstes Locale probieren
     else:  # Wird ausgeführt, wenn die Schleife nie durch 'break' verlassen wurde
-        st.warning("Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert.")
         st.warning(translate_ui("app.warning.locale_not_found", default="Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert."))
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
@@ -115,7 +114,6 @@ def main():
         try:
             questions = load_questions(st.session_state.get("selected_questions_file"))
         except Exception as exc:
-            st.error(f"Fragenset '{st.session_state.get('selected_questions_file')}' konnte nicht geladen werden: {exc}")
             st.error(translate_ui("app.error.questionset_load_failed", default="Fragenset '{filename}' konnte nicht geladen werden: {error}").format(filename=st.session_state.get('selected_questions_file'), error=exc))
             st.stop()
 
@@ -250,7 +248,6 @@ def main():
             user_id = st.session_state.get("user_id", "")
             
             if not verify_admin_session(admin_token, user_id):
-                st.error("⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen.")
                 st.error(translate_ui("app.error.invalid_admin_session", default="⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen."))
                 st.session_state.show_admin_panel = False
                 if "admin_session_token" in st.session_state:

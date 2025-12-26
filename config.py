@@ -18,7 +18,7 @@ import streamlit as st
 
 from helpers.text import sanitize_html, normalize_detailed_explanation
 from i18n import DEFAULT_LOCALE, normalize_locale
-from i18n.context import get_locale
+from i18n.context import get_locale, t as translate_ui
 
 
 def _identity_cache_decorator(func=None, **dec_kwargs):
@@ -277,7 +277,7 @@ def _build_question_set(
                 sanitized = sanitized.replace(zw, "")
         if modified and not silent:
             st.warning(
-                f"In '{filename}' wurde potenziell unsichere HTML-Auszeichnung entfernt ({context})."
+                translate_ui("config.warning.html_sanitized", default="In '{filename}' wurde potenziell unsichere HTML-Auszeichnung entfernt ({context}).").format(filename=filename, context=context)
             )
         return sanitized
 
@@ -304,23 +304,23 @@ def _build_question_set(
         else:
             if not silent:
                 st.warning(
-                    f"Metadaten in '{filename}' wurden ignoriert, da sie nicht als Objekt vorliegen."
+                    translate_ui("config.warning.metadata_ignored", default="Metadaten in '{filename}' wurden ignoriert, da sie nicht als Objekt vorliegen.").format(filename=filename)
                 )
     elif isinstance(data, list):
         raw_questions = data
         meta = {}
     else:
-        raise ValueError("Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Liste.")
+        raise ValueError(translate_ui("config.error.invalid_json_format", default="Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Liste."))
 
     if not isinstance(raw_questions, list):
-        raise ValueError("Ungültiges JSON-Format: Das Feld 'questions' muss eine Liste enthalten.")
+        raise ValueError(translate_ui("config.error.json_list_required", default="Ungültiges JSON-Format: Das Feld 'questions' muss eine Liste enthalten."))
 
     questions: List[Dict[str, Any]] = []
     for i, raw_question in enumerate(raw_questions):
         if not isinstance(raw_question, dict):
             if not silent:
                 st.warning(
-                    f"Frage an Position {i + 1} in '{filename}' wurde übersprungen, da sie kein Objekt ist."
+                    translate_ui("config.warning.question_skipped", default="Frage an Position {pos} in '{filename}' wurde übersprungen, da sie kein Objekt ist.").format(pos=i + 1, filename=filename)
                 )
             continue
         question = dict(raw_question)
@@ -703,7 +703,7 @@ class AppConfig:
             with open(path, "w", encoding="utf-8") as f:
                 json.dump(config_data, f, indent=2)
         except IOError:
-            st.error("Konfiguration konnte nicht gespeichert werden.")
+            st.error(translate_ui("config.error.config_save_failed", default="Konfiguration konnte nicht gespeichert werden."))
 
 
 
@@ -800,7 +800,7 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
 
             if filename.startswith(USER_QUESTION_PREFIX) and isinstance(last_error, FileNotFoundError):
                 error_handler(
-                    "Das temporäre Fragenset wurde vom Ersteller entfernt. Bitte lade die Seite neu und wähle ein anderes Fragenset."
+                    translate_ui("config.error.temp_set_removed", default="Das temporäre Fragenset wurde vom Ersteller entfernt. Bitte lade die Seite neu und wähle ein anderes Fragenset.")
                 )
                 # Hinweis: Session-Flags (z.B. Anzeige-Hinweise) sollten von
                 # dem Code gesetzt werden, der das Löschen initiiert (z.B. die
@@ -808,7 +808,7 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
                 # vermeiden wir Seiteneffekte, die beim bloßen Laden einer Datei
                 # zu unbeabsichtigten UI-Nachrichten führen können.
             else:
-                error_handler(f"Fehler beim Laden von '{filename}': {last_error}")
+                error_handler(translate_ui("config.error.load_failed", default="Fehler beim Laden von '{filename}': {error}").format(filename=filename, error=last_error))
         return QuestionSet([], {}, filename)
 
     source_name = filename
@@ -823,7 +823,7 @@ def load_questions(filename: str, silent: bool = False) -> QuestionSet:
         if not silent:
             streamlit_module = sys.modules.get("streamlit", st)
             error_handler = getattr(streamlit_module, "error", _make_streamlit_noop("error"))
-            error_handler(f"Fehler in '{filename}': {exc}")
+            error_handler(translate_ui("config.error.invalid_json", default="Fehler in '{filename}': {error}").format(filename=filename, error=exc))
         return QuestionSet([], {}, filename)
 
 
@@ -855,11 +855,11 @@ def load_scientists(locale: str | None = None) -> List[Dict[str, str]]:
     """Lädt die Liste der Wissenschaftler aus der JSON-Datei für die gewünschte Sprache."""
     path = _scientists_path_for_locale(locale)
     if path is None:
-        st.error("Fehler: Wissenschaftlerliste (scientists.json) nicht gefunden.")
+        st.error(translate_ui("config.error.scientists_not_found", default="Fehler: Wissenschaftlerliste (scientists.json) nicht gefunden."))
         return []
 
     try:
         return _read_scientists_file(path)
     except (IOError, json.JSONDecodeError) as e:
-        st.error(f"Fehler beim Laden von '{os.path.basename(path)}': {e}")
+        st.error(translate_ui("config.error.scientists_load_failed", default="Fehler beim Laden von '{filename}': {error}").format(filename=os.path.basename(path), error=e))
         return []
