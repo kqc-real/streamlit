@@ -1,0 +1,697 @@
+{
+    "app": {
+        "title": "Export Quiz",
+        "subtitle": "Gestisci & Analizza Quiz"
+    },
+    "tempo": {
+        "normal": "Normale",
+        "speed": "Veloce",
+        "power": "Intenso"
+    },
+    "admin": {
+        "leaderboard": {
+            "tempo": {
+                "label": "Tempo",
+                "help": "Filtra classifica per tempo",
+                "options": {
+                    "all": "Tutti",
+                    "normal": "Normale",
+                    "speed": "Veloce (1/2 tempo)",
+                    "power": "Intenso (1/4 tempo)"
+                }
+            }
+        }
+    },
+    "sidebar": {
+        "title": "Nav",
+        "language": "Lingua",
+        "language_expander": "Lingua",
+        "language_selector_label": "Scegli lingua",
+        "pseudonym_locale_assignment": "Impostazione legata al tuo alias.",
+        "greeting": "👋 **{user}**",
+        "temp_set_notice": "Set temp attivo: {label}",
+        "reserved_pseudonym": "Alias riservato per te.",
+        "pseudonym_reserved": "Il tuo alias riservato.",
+        "pseudonym_info": "👤 Info alias",
+        "history_button": "Le mie sessioni",
+        "history_expander": "📚 Le mie sessioni",
+        "history_empty": "Nessun risultato.",
+        "history_error": "Errore caricamento.",
+        "history_load_error": "Caricamento fallito.",
+        "history_showing": "Mostrati {shown} di {total}.",
+        "history_csv_download": "Scarica CSV",
+        "history_csv_unavailable": "Export CSV inattivo.",
+        "history_dialog_title": "Le mie sessioni",
+        "history_header": "Il tuo storico",
+        "history_unnamed_set": "Set senza nome",
+        "history_start_button": "Start",
+        "history_delete_notice": "Sessioni eliminate. Aggiorna la vista.",
+        "history_delete_all_button": "🗑️ Elimina tutto",
+        "history_delete_all_warning": "Attenzione: Elimina definitivamente tutte le sessioni, risposte e preferiti.",
+        "history_delete_confirm_button": "Sì, elimina",
+        "history_delete_failed": "Eliminazione fallita.",
+        "history_delete_cancel_button": "Annulla",
+        "history_columns": {
+            "date": "Data",
+            "question_set": "Set",
+            "actions": "Azioni",
+            "points": "Punti (%)",
+            "duration": "Tempo",
+            "tempo": "Modo"
+        },
+        "current_set": "Set: <strong>{name}</strong>",
+        "current_set_marker": "Set: {marker} <strong>{name}</strong>",
+        "glossary_download": "💾 Scarica glossario",
+        "glossary_cooldown": "Export in corso. Attendi {wait}s.",
+        "glossary_generate_button": "📄 Crea glossario",
+        "glossary_spinner_simple": "Creo PDF...",
+        "glossary_spinner_with_formulas": "Creo PDF – renderizzo {count} formule (pazienta).",
+        "glossary_render_count": "Renderizzo ca. {count} formule. Ci vorrà un attimo.",
+        "glossary_success": "Glossario pronto!",
+        "glossary_no_entries": "Nessun glossario per questo set.",
+        "glossary_error": "Errore PDF: {error}",
+        "progress_line": "⏳ Stato: {status}",
+        "progress": {
+            "finished": "(Finito)",
+            "single": "(ne manca 1!)",
+            "multiple": "(ancora {remaining})"
+        },
+        "test_end": "Finisci test",
+        "score": {
+            "heading": "🎯 Il tuo Punteggio"
+        },
+        "review_back": "⬅️ Torna alla revisione",
+        "create_user_qset": "Crea set con IA",
+        "user_qset_dialog_warning": "Chiudi prima la finestra aperta.",
+        "user_qset_deleted": "Set eliminato dal creatore. Ricarica e scegline un altro.",
+        "user_qset_preserved": "I tuoi set sono al sicuro perché l'alias è riservato.",
+        "session_expander": "⚠️ Chiudi sessione",
+        "session_reserved_info": "Chiudere salva il set **{set_name}** per {days} giorni.",
+        "session_choose_new": "Scegli un nuovo alias per riprovare.",
+        "session_keep_warning": "⚠️ Punteggio salvato & test terminato.",
+        "session_end_button": "Chiudi sessione",
+        "admin_remote_warning": "🔒 Admin: solo localhost.",
+        "admin_remote_warning_ip": "\n\nIl tuo IP: `{ip}`",
+        "admin_mode_info": "Modalità admin attiva.",
+        "admin_solution_download": "💾 Scarica soluzione",
+        "admin_solution_generate": "📄 Crea Soluzione (PDF)",
+        "admin_solution_success": "Soluzione pronta!",
+        "admin_back_to_test": "⬅️ Torna al test",
+        "admin_key_missing": "⚠️ **Manca Chiave Admin!**\n\nSolo dev locale. Imposta `MC_TEST_ADMIN_KEY` in prod.",
+        "admin_open_panel": "📊 Pannello Admin (UNSAFE)",
+        "admin_expander": "🔓 Pannello Admin",
+        "admin_key_label": "Chiave Admin",
+        "admin_activate_button": "Attiva",
+        "admin_locked": "⛔ Bloccato fino a: {locked_until}",
+        "admin_wrong_key": "Chiave errata.",
+        "bookmarks_expander": "🔖 Preferiti",
+        "question_short": "D {n}",
+        "bookmarks_empty": "Nessun preferito.",
+        "bookmarks_disabled": "Salti disabilitati alla fine.",
+        "bookmarks_jump_help": "Vai alla domanda",
+        "bookmarks_remove_help": "Rimuovi",
+        "bookmarks_clear": "🗑️ Rimuovi tutto",
+        "skipped_expander": "↪️ Saltate",
+        "skipped_empty": "Nessuna saltata.",
+        "skipped_disabled": "Salti disabilitati alla fine.",
+        "skipped_clear": "Reset lista",
+        "skipped_clear_help": "Azzera la lista delle domande saltate.",
+        "tempo": {
+            "label": "Il tuo Tempo",
+            "options": {
+                "normal": "Normale",
+                "speed": "Speed (1/2 tempo)",
+                "power": "Power (1/4 tempo)"
+            }
+        }
+    },
+    "dialog": {
+        "title": "Crea set con IA",
+        "intro": "Scegli il prompt in base al tuo obiettivo (Flashcards o Quiz) e incollalo nella tua IA.",
+        "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)** : La scelta top. Perfetto per formule & carte complesse.\n- **[Kahoot](https://kahoot.com)** : Ottimizzato per i limiti di Kahoot (testo breve, tempo).\n- **[arsnova.click](https://arsnova.click)** : Ottimizzato per l'università (LaTeX, Markdown).",
+        "prompt_toggle_button": "👁️ Mostra / Nascondi",
+        "prompt_download_button": "⬇️ Scarica",
+        "prompt_load_failed": "Impossibile caricare {filename}.",
+        "prompt_copy_button": "Copia Prompt",
+        "prompt_copy_success": "Copiato!",
+        "prompt_copy_error": "Copia fallita",
+        "upload_heading": "Carica set",
+        "upload_warning": "⚠️ Max 30 domande & 5 MB.",
+        "upload_info": "ℹ️ Il tuo set è pubblico. Dura {hours}h (o {days}g se riservi l'alias).",
+        "uploader_label": "📁 Carica file JSON",
+        "uploader_help": "Formato corretto. Max 30 domande, max 5 MB.",
+        "upload_validate_button": "✅ Valida & Salva",
+        "alternative_heading": "### O: Incolla JSON",
+        "alternative_caption": "Incolla qui il JSON fornito dall'IA.",
+        "text_area_label": "📋 Contenuto JSON",
+        "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
+        "status_success": "{label} salvato – {count} domande pronte.",
+        "login_required": "Accedi prima.",
+        "start_test_button": "🚀 Andiamo",
+        "status_unknown_error": "Errore sconosciuto.",
+        "close_button": "Chiudi"
+    },
+    "user_qset": {
+        "login_required": "Accedi per iniziare.",
+        "not_found": "Set temporaneo non trovato.",
+        "no_questions": "Il set è vuoto.",
+        "session_failed": "Avvio sessione fallito."
+    },
+    "test_view": {
+        "bookmark_toggle": "🔖 Salva",
+        "skip_button": "↪️ Salta",
+        "skip_toast": "Saltata. Ci torniamo dopo.",
+        "answer_button": "Conferma",
+        "already_answered_info": "Già risposta.",
+        "resume_button": "Riprendi",
+        "summary_button": "Al riepilogo 🏁",
+        "answer_read_hint": "Prenditi tempo: leggi bene, aiuta a memorizzare.",
+        "next_read_hint": "Leggi la spiegazione: capire il 'Perché' fissa il concetto.",
+        "select_answer": "Scegli una risposta prima.",
+        "next_feedback_correct": "Grande! Guarda la spiegazione per consolidare.",
+        "next_feedback_incorrect": "Leggi la spiegazione: Perché hai sbagliato? Gli errori insegnano.",
+        "correct_toast": "Giusto!",
+        "wrong_toast": "Sbagliato.",
+        "question_number_error": "Errore: Manca numero.",
+        "feedback_sent": "Inviato!",
+        "explanation_correct": "Corretto! ✅",
+        "explanation_wrong": "Sbagliato. ❌",
+        "correct_label": "Corretta:",
+        "explanation_label": "Perché:",
+        "extended_button": "🧠 Approfondimento",
+        "extended_panel": "Deep Dive",
+        "feedback_thanks": "✔️ Grazie, controlliamo.",
+        "feedback_popover": "Segnala problema",
+        "feedback_prompt": "**Cosa non va?**",
+        "feedback_submit": "Invia",
+        "prev_question": "⬅️ Indietro",
+        "next_button_review": "Avanti ➡️",
+        "next_button_summary": "Al riepilogo 🏁",
+        "next_button": "Avanti ➡️",
+        "timer_metric": "⏳ Tempo",
+        "time_up_error": "⏰ Tempo scaduto!",
+        "question_prompt": "La tua scelta:",
+        "header_total_questions": "### {count} domande",
+        "header_last_question": "### Ultima domanda!",
+        "header_remaining_plural": "### Ne mancano {count}",
+        "header_remaining_single": "### Ne manca {count}",
+        "topic_label": "Argomento",
+        "countdown": {
+            "warning_seconds": "⚠️ Manca pochissimo!",
+            "warning_minutes": "⚠️ Solo {minutes_text}!"
+        },
+        "pacing": {
+            "ahead": "In anticipo",
+            "on_track": "In orario",
+            "slightly_behind": "Leggero ritardo",
+            "behind": "In ritardo",
+            "degree": {
+                "slight": "leggermente",
+                "light": "un po'",
+                "moderate": "parecchio",
+                "strong": "fortemente"
+            },
+            "recommend": {
+                "no_questions": "Nessuna domanda.",
+                "on_track": "Tutto ok.",
+                "significant_delay": "Ops, ritardo! Accelera o salta le difficili.",
+                "behind": "Sei in ritardo. Prova ad accelerare {degree}."
+            }
+        },
+        "pseudonym_welcome": "**Ciao {user}!** Ricorda il tuo alias esatto.",
+        "question_set_change_warning": "⚠️ Set cambiato, riavvio..."
+    },
+    "question": {
+        "show_glossary": "Vedi glossario"
+    },
+    "motivation": {
+        "lob": {
+            "correct_very_good": "Giusto! Grande.",
+            "exact_keep_it_up": "Esatto! Continua così.",
+            "correct_nicely_done": "Giusto! Ben fatto.",
+            "perfect": "Perfetto! Ci siamo.",
+            "top_exact": "Top! Proprio così.",
+            "strong_flow": "Forte! Tieni il flow.",
+            "pattern_recognized": "Grande! Pattern trovato.",
+            "concentration_holds": "Eccellente! Focus massimo.",
+            "precise_clean": "Preciso! Pulito.",
+            "class_like_that": "Classe! Si fa così.",
+            "bullseye": "Centro! Resta focus.",
+            "spotted_correctly": "Visto giusto!",
+            "direct_hit": "Colpito! Avanti.",
+            "analyzed_correct": "Analisi corretta! Forte.",
+            "maintain_focus": "Esatto! Tieni il focus.",
+            "streak_count": "🔥 {streak} di fila!",
+            "series_running": "Che serie! Non mollare.",
+            "flow_state": "In pieno flow! Vai.",
+            "streak_5": "⚡ Streak da {streak}! Impressionante.",
+            "constant_strong": "Solido! Livello pro.",
+            "streak_10": "🏅 {streak} senza errori!",
+            "flawless_focus": "Impeccabile! Focus totale."
+        },
+        "zuspruch": {
+            "learn_from_it": "Quasi – impara da questo.",
+            "mistakes_are_learning": "L'errore insegna. Vai!",
+            "close_analyze": "Vicino – analizza e prosegui.",
+            "ok_next": "Fa niente. La prossima.",
+            "reset_focus": "Tranquillo. Resetta il focus.",
+            "mistakes_happen": "Capita – vai avanti calmo.",
+            "learning_success": "Lezione imparata! Per dopo.",
+            "next_time": "La prossima la prendi.",
+            "no_problem": "Nessun problema. Concentrati.",
+            "learning_process": "Non perfetto – fa parte del gioco.",
+            "read_explanation": "Sbagliato – la spiegazione aiuta.",
+            "adjust_strategy": "Fuori – cambia strategia.",
+            "mistakes_grow": "Errore = crescita. Andiamo.",
+            "missed_but_persist": "Mancata – ma non molli.",
+            "stay_calm": "Calma. Ne arriva un'altra.",
+            "score_strong": "Score solido – un errore è nulla.",
+            "keep_rate_high": "Buon ritmo – non pensarci.",
+            "overall_performance": "Bella performance globale – continua."
+        },
+        "letzte_frage": {
+            "almost_done": "Ultima! Ci sei quasi.",
+            "nearly_goal": "Quasi al traguardo! Ancora una.",
+            "final_question": "La finale! Focus.",
+            "final_sprint": "Sprint finale! Vai.",
+            "one_more": "Ancora una – e hai finito!",
+            "finish_in_sight": "Ultimo sforzo! Traguardo in vista.",
+            "focus_once_more": "Quasi fatto! Ultimo focus.",
+            "one_from_goal": "Finale! Una domanda.",
+            "last_concentration": "Ci siamo! Ultima concentrazione.",
+            "finish_approaching": "Arrivo! Ancora una.",
+            "top_score": "Ultimo punto per il top score!",
+            "strong_run": "Gran corsa – chiudi in bellezza!",
+            "elite_result": "Risultato élite possibile – dai!"
+        },
+        "neutral": {
+            "keep_rhythm": "Tieni il ritmo.",
+            "keep_focus": "Resta focus – ce la fai.",
+            "step_by_step": "Passo dopo passo.",
+            "keep_calm": "Continua con calma.",
+            "maintain_concentration": "Mantieni la concentrazione.",
+            "stay_steady": "Resta stabile.",
+            "on_your_way": "Vai bene.",
+            "goal_in_view": "Continua – obiettivo vicino.",
+            "hang_in_there": "Tieni duro – va bene.",
+            "progress": "Avanzando."
+        }
+    },
+    "feedback_option": {
+        "content_error": "Errore di contenuto",
+        "typo": "Refuso / Grammatica",
+        "unclear_question": "Domanda confusa",
+        "answers_inappropriate": "Risposte strane",
+        "wrong_explanation": "Spiegazione errata",
+        "technical": "Problema tecnico",
+        "other": "Altro"
+    },
+    "metadata": {
+        "weight_label": "Peso",
+        "cognitive_stage": "Livello cognitivo",
+        "topic": "Argomento",
+        "concept": "Concetto",
+        "question_set": "Set",
+        "difficulty": "Difficoltà"
+    },
+    "export": {
+        "musterloesung": "Soluzione Modello",
+        "bloom_table": "Performance (Livello Cognitivo)"
+    },
+    "actions": {
+        "run_export": "Esporta",
+        "reset": "Reset"
+    },
+    "locales": {
+        "de": "Tedesco",
+        "en": "Inglese",
+        "fr": "Francese",
+        "es": "Spagnolo",
+        "it": "Italiano"
+    },
+    "buttons": {
+        "download": "Scarica"
+    },
+    "messages": {
+        "export_unavailable": "Presto disponibile.",
+        "anki_dependency": "Serve 'genanki' per .apkg (vedi requirements.txt).",
+        "no_preview_questions": "Nessuna anteprima.",
+        "markdown_dependency": "'markdown-it-py' necessario per anteprima.",
+        "streamlit_component_missing": "Componente Streamlit mancante.",
+        "session_saved": {
+            "leaderboard": "🎉 Bravo {user}! Sei in classifica ({score} pti)!",
+            "saved_not_on_leaderboard": "Risultato per \"{user}\" salvato, ma fuori classifica perché {reason}.",
+            "reason_zero_score": "0 punti non contano",
+            "reason_too_short": "Troppo veloce. Minimo: {min_duration} min (Consigliato: {recommended_minutes} min)",
+            "reason_not_top10": "fuori dalla Top 10"
+        }
+    },
+    "dialogs": {
+        "anki_instruction": "Guida: Export Anki",
+        "anki_preview": "Anteprima Anki"
+    },
+    "anki": {
+        "fragenset": "Set",
+        "thema": "Argomento",
+        "schwierigkeit": "Difficoltà",
+        "konzept": "Concetto",
+        "glossary": "Glossario"
+    },
+    "pdf": {
+        "status": { "correct": "Giusto", "wrong": "Sbagliato", "unanswered": "Vuoto" },
+        "difficulty": { "easy": "Facile", "medium": "Medio", "hard": "Difficile" },
+        "stage_section_title": "Perf (Livello Cognitivo)",
+        "stage_table": { "header": { "stage": "Livello", "hits": "Hits", "quota": "Quota" } },
+        "comparison": {
+            "title": "Vs Media",
+            "table": { "header": { "level": "Livello", "you": "Tu", "avg": "Media", "diff": "Diff", "difficulty": "Difficoltà" } },
+            "row": { "overall": "Globale" },
+            "by_stage": "Per Livello Cognitivo",
+            "above": "sopra media",
+            "below": "sotto media",
+            "neutral": "nella media",
+            "footer": "Base: {n} partecipanti. Data: {date}."
+        },
+        "question_header": "Domanda {current} / {total}",
+        "bookmarks_title": "Domande Salvate",
+        "questionset_number": "(Set n. {n})",
+        "stage_label": "Livello: {stage}",
+        "detailed_explanation": {
+            "title": "Titolo",
+            "steps": "Passaggi",
+            "content": "Contenuto"
+        },
+        "bookmarks_intro": "Le tue domande salvate:",
+        "question_short": "D {n}",
+        "meta": { "participant": "Utente:", "test_date": "Data:", "duration": "Tempo:", "questionset": "Set:", "generated_at": "Generato:", "tempo": "Tempo:", "allowed": "Limite:" },
+        "stat": { "correct": "Giusto", "wrong": "Sbagliato", "unanswered": "Vuoto", "total": "Totale" },
+        "glossary": { "title": "Mini-Glossario", "intro": "Termini chiave, per argomento", "alt_intro": "Termini del set" },
+        "musterloesung": { "title": "Soluzione Modello" },
+        "detailed_analysis": "Analisi Dettagliata",
+        "header": { "manual_end": "Terminato prima" },
+        "weak_topics": { "title": "Da migliorare", "multiple": "Domande {list}" },
+        "difficulty_section_title": "Performance per Difficoltà",
+        "difficulty_table": { "header": { "difficulty": "Difficoltà", "hits": "Hits", "quota": "Quota" } },
+        "score_label": "su {n} punti",
+        "rank_text": " • Rango {rank}",
+        "rank_label": "Classifica ({date})",
+        "log": { "formula_cache": "📊 PDF pronto: {n} formule in cache" },
+        "page_footer": "Pag {page} di {pages}",
+        "stage_unknown": "Sconosciuto",
+        "cognition_radar": {
+            "explanation_short": "Il tuo Radar Bloom (% successi per livello).\n\nProfili:\n• Crammer (Picco Riproduzione): Memoria ok, applicazione debole → Pratica il transfer.\n• Teorico: Concetti ok, pratica no → Studi di caso.\n• Pratico: Applicazione ok, teoria debole → Ripassa le basi.\n• Analista: Risoluzione ok, basi fragili → Consolida i fondamenti.\n• Equilibrato: Top, continua così!"
+        },
+        "stage_name": {
+            "Reproduktion": "Riproduzione",
+            "Verständnis": "Comprensione",
+            "Anwendung": "Applicazione",
+            "Analyse": "Analisi"
+        }
+    },
+    "mini_glossary": {
+        "title": "Termini: \"{name}\"",
+        "empty_error": "Nessun glossario."
+    },
+    "unnamed_set": "Set senza nome",
+    "summary": {
+        "prefix": {
+            "manual_end": "⚠️ Interrotto — "
+        },
+        "header": {
+            "manual_end": "⚠️ Interrotto",
+            "time_expired": "⏰ Tempo scaduto!",
+            "completed": "🚀 Test completato!"
+        },
+        "info": {
+            "time_expired": "Tempo scaduto. Limite ({tempo_label}): {allowed_min} min",
+            "early_finish": "Finito {early_delta} min prima. Tempo: {duration_display}. Limite ({tempo_label}): {allowed_min} min"
+        },
+        "metric_caption": "Punteggio Finale",
+        "subheader": {
+            "topic_performance": "Perf per Argomento"
+        }
+    },
+    "summary_view": {
+        "review_header": "🧐 Le tue Risposte",
+        "review_filter_label": "Filtro:",
+        "review_filter_all": "Tutte",
+        "review_filter_false": "Sbagliate",
+        "review_filter_true": "Giuste",
+        "review_filter_marked": "Salvate",
+        "review_filter_unanswered": "Vuote",
+        "review_question_label": "Domanda",
+        "review_label_your_answer": "La tua scelta",
+        "review_label_correct_answer": "Risposta",
+        "review_label_explanation": "Spiegazione",
+        "review_label_unanswered": "(vuota)",
+        "performance_explanation_expander": "Capire il grafico",
+        "performance_chart": {
+            "xaxis": "Argomento (risposto/totale)",
+            "yaxis": "Perf (%)",
+            "hover": {
+                "topic": "Argomento",
+                "performance": "Perf",
+                "correct_total": "Giusto / Totale",
+                "wrong": "Sbagliato",
+                "answered": "Risposto"
+            }
+        },
+        "performance_explanation_content": "- Barre = % punti per argomento.\n- Parentesi: (risposte / totale).\n- Poche domande = dato poco affidabile.",
+        "performance_no_data_info": "Dati insufficienti per analisi per argomento.",
+        "cognition_radar": {
+            "name": "Livelli Cognitivi",
+            "header": "I tuoi Livelli Cognitivi",
+            "hover": {
+                "performance": "Perf",
+                "achieved": "Punti",
+                "questions": "Domande"
+            },
+            "explanation_expander": "Spiegazione Radar (Dettagli)",
+            "explanation_content": "- Mostra punti per livello cognitivo (Bloom).\n- Valore = Punti ottenuti / Max possibile per livello.\n\nProfili & Consigli:\n\n• Crammer (Picco Riproduzione):\n  - Molta memoria, poco transfer.\n  - Consiglio: Più esercizi di applicazione.\n\n• Teorico (Riproduzione alta):\n  - Sa i concetti, fatica ad applicare.\n  - Consiglio: Studi di caso.\n\n• Pratico (Applicazione alta):\n  - Sa fare, basi teoriche deboli.\n  - Consiglio: Ripassa le definizioni.\n\n• Analista (Analisi alta):\n  - Bravo a risolvere, lacune nozionistiche.\n  - Consiglio: Consolida i fondamenti.\n\n• Equilibrato:\n  - Competenza solida.\n  - Consiglio: Continua così!\n\n• Zigzag:\n  - Irregolare.\n  - Consiglio: Cerca le lacune per argomento.\n\nNota: Servono abbastanza domande per essere affidabile."
+        },
+        "review_export_header": "Esporta",
+        "review_export_mode": "Formato",
+        "review_export_button": "Esporta",
+        "review_export_preview": "Anteprima Carte",
+        "review_export_note": "Per Kahoot, Anki o ars nova.",
+        "review_export_kahoot": "Kahoot",
+        "review_export_anki": "Anki",
+        "review_export_arsnova": "ars nova",
+        "export_header": "📦 Export",
+        "export_intro": "Scarica risultati & materiali",
+        "export_admin_select_label": "Set di export:",
+        "export_admin_select_info": "Influisce su Anki, Kahoot & ars nova.",
+        "export_admin_current_set": "Set attivo: **{set_name}**",
+        "export_admin_no_sets": "Nessun altro set.",
+        "export_anki_expander": "📦 Carte Anki (Consigliato)",
+        "export_anki_description": "Tutto in un deck Anki. Il top per memorizzare.",
+        "export_anki_caption": "Include stile & tags. Vedi guida per TSV.",
+        "export_anki_instruction_button": "ℹ️ Istruzioni",
+        "export_anki_preview_button": "🖼️ Anteprima",
+        "export_anki_apkg_button": "Crea .apkg",
+        "export_anki_apkg_spinner": "Creo .apkg...",
+        "export_anki_apkg_download": "💾 Scarica .apkg",
+        "export_anki_tsv_button": "Export TSV",
+        "export_anki_tsv_spinner": "Creo TSV...",
+        "export_anki_tsv_download": "💾 Scarica TSV",
+        "export_kahoot_download_label": "💾 Scarica Kahoot",
+        "export_kahoot_generation_error": "Errore Kahoot: {error}",
+        "export_kahoot_expander": "📦 Kahoot (Quiz Live)",
+        "export_kahoot_description": "Trasforma le domande in un Kahoot.",
+        "export_kahoot_caption": "Formato: .xlsx | [Guida Import](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)",
+        "export_kahoot_formula_warning": "Attenzione: Kahoot non supporta formule (LaTeX). La matematica sarà testo semplice.",
+        "export_kahoot_warning": "{count} avvisi Kahoot",
+        "export_kahoot_validation_error": "Validazione Kahoot fallita: {error}",
+        "export_kahoot_error": "Export bloccato – {count} errori.",
+        "export_kahoot_limits_info": "Attenzione ai limiti Kahoot. Alternative: Anki / arsnova / PDF.",
+        "export_kahoot_import_heading": "**Requisiti Kahoot:**",
+        "export_arsnova_expander": "📦 arsnova.click (Uni)",
+        "export_arsnova_description": "Export per arsnova.click (voto in aula).",
+        "export_arsnova_caption": "Formato: .json | [Info](https://arsnova.click/info/about)",
+        "export_arsnova_validation_error": "Validazione fallita: {error}",
+        "export_arsnova_warning": "{count} avvisi arsnova",
+        "export_arsnova_download_label": "💾 Scarica Quiz",
+        "export_arsnova_generation_error": "Errore Export: {error}",
+        "export_musterloesung_expander": "📄 Soluzione Modello (PDF)",
+        "export_musterloesung_description": "Tutte le risposte corrette & spiegazioni.",
+        "export_musterloesung_spinner": "Creo Soluzione...",
+        "export_musterloesung_spinner_with_formulas": "Genero Soluzione",
+        "export_musterloesung_render_count": "Renderizzo {count} formule. Pazienza.",
+        "export_musterloesung_download": "💾 Scarica PDF",
+        "export_musterloesung_error": "Errore: {error}",
+        "export_glossary_expander": "📄 Mini-Glossario (PDF)",
+        "export_glossary_description": "Lista compatta dei termini.",
+        "export_glossary_spinner": "Creo Glossario...",
+        "export_glossary_spinner_with_formulas": "Genero Glossario",
+        "export_glossary_render_count": "Renderizzo {count} formule. Pazienza.",
+        "export_glossary_download": "💾 Scarica PDF",
+        "export_glossary_error": "Errore: {error}",
+        "export_testbericht_expander": "📄 Report Test (PDF)",
+        "export_testbericht_description": "Report dettagliato con punteggio & stats.",
+        "export_testbericht_spinner": "Creo Report...",
+        "export_testbericht_spinner_with_formulas": "Genero Report",
+        "export_testbericht_render_count": "Renderizzo {count} formule. Pazienza.",
+        "export_testbericht_no_config": "Errore: manca app_config.",
+        "export_testbericht_download": "💾 Scarica Report",
+        "export_testbericht_error": "Errore: {error}",
+        "summary_message": {
+            "success": {
+                "top_performance": "✅ Eccezionale! Livello top.",
+                "few_errors": "💪 Fortissimo! Quasi zero errori.",
+                "convincing": "👍 Convincente! Continua.",
+                "quality": "🎉 Pulito! Qualità alta."
+            },
+            "good": {
+                "stable": "📈 Ben fatto! Stabile.",
+                "basics": "✨ Non male! Le basi ci sono.",
+                "potential": "💼 Solido! C'è potenziale.",
+                "close_gap": "🔧 Bell'impegno! Chiudi le lacune."
+            },
+            "satisfactory": {
+                "foundation": "📚 Soddisfacente. Approfondisci un po'.",
+                "review": "🌱 Ok. Rivedi i temi chiave.",
+                "average": "🔍 Nella media. La revisione aiuta.",
+                "practice": "💡 Metà classifica. Pratica ancora."
+            },
+            "passing": {
+                "needs_improvement": "⚠️ Passabile. C'è da lavorare.",
+                "use_explanations": "📖 Al pelo. Leggi le spiegazioni!",
+                "repeat": "🎯 50-59%. Ripeti le basi.",
+                "uneven": "🔄 Irregolare. Controlla i punti deboli."
+            },
+            "insufficient": {
+                "basic": "⛔ Insufficiente. Mancano le basi.",
+                "intensive": "📕 Sotto il 50%. Ripetizione intensiva.",
+                "review_required": "🚨 Grosse lacune. Revisione obbligatoria.",
+                "red": "🔴 Troppi errori. Riprendi il corso."
+            },
+            "fail": {
+                "start_new": "❌ Fallito. Ricomincia da capo.",
+                "systematic": "📚 Sotto il 40%. Reset totale.",
+                "gaps": "🆘 Vuoti enormi. Chiedi aiuto!",
+                "review": "⚠️ Molto debole. Tutto da rivedere."
+            },
+            "leaderboard": {
+                "hidden_hint_one": "{count} tentativo nascosto: troppo breve (<{min_time_pct}%) o punteggio troppo basso (<{min_score_pct}%).",
+                "hidden_hint": "{count} tentativi nascosti: troppo brevi (<{min_time_pct}%) o punteggi troppo bassi (<{min_score_pct}%)."
+            }
+        }
+    },
+    "welcome": {
+        "splash": {
+            "title": "🎓 MC-Test App",
+            "button": "🚀 Vai"
+        },
+        "cleanup": {
+            "toast": "{removed} set temporanei puliti.",
+            "info": "Rimossi {removed} set temporanei."
+        },
+        "errors": {
+            "no_sets": "Nessun set (es: `questions_Data.json`) trovato."
+        },
+        "info": {
+            "ensure_files": "Verifica file JSON nella cartella."
+        },
+        "warning": {
+            "session_expired": "⚠️ Sessione scaduta. Ricarica o riavvia."
+        },
+        "select": {
+            "label": "Scegli un set:",
+            "placeholder": "🗂️ Seleziona...",
+            "count_one": "{n} domanda",
+            "count_many": "{n} domande"
+        },
+        "section": {
+            "header": "🗂️ Selezione Set"
+        },
+        "distribution": {
+            "expander": "⚖️ Argomenti & Livelli Cognitivi",
+            "warning": "⚠️ Set vuoto o rotto.",
+            "summary": {
+                "test_time": "⏱️ Tempo: {minutes} min",
+                "cognition": "🧠 Livelli: {summary}"
+            },
+            "difficulty": {
+                "easy": "Riproduzione",
+                "medium": "Applicazione",
+                "hard": "Analisi"
+            },
+            "chart": {
+                "xaxis": "Argomento",
+                "yaxis": "Domande",
+                "legend": "Livello"
+            }
+        },
+        "leaderboard": {
+            "title": "🏆 Top 10",
+            "empty": "Ancora nessun risultato.",
+            "column": {
+                "pseudonym": "👤 Alias",
+                "date": "📅 Data",
+                "duration": "⏱️ Tempo"
+            },
+            "refreshing": "Caricamento...",
+            "updated": "Aggiornato",
+            "last_updated": "Al: {ts}",
+            "refresh_button": "Refresh",
+            "refresh_failed": "Aggiornamento fallito",
+            "tempo_label": "Tempo",
+            "tempo_help": "Filtro Classifica",
+            "tempo_all": "Tutti"
+        },
+        "language": {
+            "label": "Lingua:",
+            "help": "Salvato nel browser."
+        },
+        "pseudonym": {
+            "heading": "👤 Il tuo Alias",
+            "no_available": "⚠️ Alias finiti. Chiedi all'Admin.",
+            "select_label": "Il tuo alias:",
+            "select_placeholder": "👤 Scegli...",
+            "reservation_expander": "📌 Riserva alias...",
+            "reservation_input": "Riserva per sempre",
+            "reservation_placeholder": "Il mio 🔒 Segreto...",
+            "secret_too_short": "🔒 Segreto troppo corto (min {min_len}).",
+            "reserve_button": "Riserva & Start",
+            "reserve_success": "Riservato! Scegli un set.",
+            "reserve_success_message": "",
+            "reserve_error": "Errore salvataggio.",
+            "reserve_error_with_reason": "Errore riserva: {error}",
+            "copy_label": "Alias:",
+            "copy_button": "Copia",
+            "recover_expander": "Ne ho uno...",
+            "recover_pseudonym": "👤 Alias",
+            "recover_secret": "🔒 Segreto",
+            "recover_missing": "Inserisci entrambi.",
+            "recover_button": "Start",
+            "recover_locked": "Bloccato fino a {locked_until}",
+            "recover_success": "Ripristinato! Avvio...",
+            "recover_failure": "Combinazione errata.",
+            "database_error": "Errore DB: Impossibile avviare.",
+            "test_button": "Avvia Test",
+            "question_required": "Scegli un set prima."
+        },
+        "tempo": {
+            "label": "Il tuo ritmo:",
+            "normal": "Normale",
+            "speed": "Veloce (1/2)",
+            "power": "Intenso (1/4)"
+        },
+        "learning_objectives": {
+            "button": "Vedi Obiettivi",
+            "dialog_title": "Obiettivi di Apprendimento",
+            "download_pdf": "Scarica PDF",
+            "load_error": "Non caricato.",
+            "pdf_unavailable": "PDF non disponibile: {error}",
+            "dialog_fallback": "Dialoghi non supportati, mostro qui:"
+        },
+        "sort_order": {
+            "label": "Ordina per:",
+            "random": "Casuale",
+            "cognitive_stage": "Difficoltà (Livello)"
+        }
+    },
+    "warnings": {
+        "no_config": "⚠️ **Config mancante!**\n\nCrea `.env` o `.streamlit/secrets.toml`.\n\n**Locale:**\n1. `cp .env.example .env`\n2. Riavvia.\n\nVedi [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    }
+}
