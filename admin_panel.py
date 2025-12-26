@@ -1397,25 +1397,45 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                 test_counts.append(data['test_count'])
             
             # Erstelle Bar-Chart
-            fig = go.Figure(data=[
-                go.Bar(
-                    x=qsets,
-                    y=avg_scores,
-                    text=[
-                        f"{format_decimal_de(score, 1)} Pkt<br>({count} Tests)"
-                        for score, count in zip(avg_scores, test_counts)
-                    ],
-                    textposition='auto',
-                    marker_color='#15803d',
-                    customdata=[format_decimal_de(score, 2) for score in avg_scores],
-                    hovertemplate='<b>%{x}</b><br>Durchschnitt: %{customdata} Punkte<extra></extra>'
-                )
-            ])
+            bar_text_tpl = translate_ui(
+                "admin.system.avg_chart.bar_text",
+                default="{score} Pkt<br>({count} Tests)",
+            )
+            hover_tpl = translate_ui(
+                "admin.system.avg_chart.hover",
+                default="<b>{qset}</b><br>Durchschnitt: {score} Punkte",
+            )
+            fig = go.Figure(
+                data=[
+                    go.Bar(
+                        x=qsets,
+                        y=avg_scores,
+                        text=[
+                            bar_text_tpl.format(
+                                score=format_decimal_de(score, 1), count=count
+                            )
+                            for score, count in zip(avg_scores, test_counts)
+                        ],
+                        textposition="auto",
+                        marker_color="#15803d",
+                        customdata=[format_decimal_de(score, 2) for score in avg_scores],
+                        hovertemplate=hover_tpl + "<extra></extra>",
+                    )
+                ]
+            )
             
             fig.update_layout(
-                title="Durchschnittliche Punktzahl nach Fragenset",
-                xaxis_title="Fragenset",
-                yaxis_title="Durchschnittliche Punktzahl",
+                title=translate_ui(
+                    "admin.system.avg_chart.title",
+                    default="Durchschnittliche Punktzahl nach Fragenset",
+                ),
+                xaxis_title=translate_ui(
+                    "admin.system.avg_chart.xaxis", default="Fragenset"
+                ),
+                yaxis_title=translate_ui(
+                    "admin.system.avg_chart.yaxis",
+                    default="Durchschnittliche Punktzahl",
+                ),
                 height=400,
                 showlegend=False
             )

@@ -163,7 +163,14 @@
                 "avg_duration": "Ø Durata test",
                 "completion_rate": "Tasso di completamento",
                 "completion_rate_help": "Percentuale di test completati interamente",
-                "avg_performance": "📈 Performance media per set di domande"
+                "avg_performance": "📈 Performance media per set di domande",
+                "avg_chart": {
+                    "title": "Punteggio medio per set di domande",
+                    "xaxis": "Set di domande",
+                    "yaxis": "Punteggio medio",
+                    "bar_text": "{score} pt<br>({count} test)",
+                    "hover": "<b>{qset}</b><br>Media: {score} punti"
+                }
             }
         },
         "user_results": {

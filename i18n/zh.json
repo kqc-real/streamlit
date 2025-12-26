@@ -476,7 +476,14 @@
                 "avg_duration": "Ø 测试时长",
                 "completion_rate": "完成率",
                 "completion_rate_help": "完全完成的测试百分比",
-                "avg_performance": "📈 每个问题集的平均表现"
+                "avg_performance": "📈 每个问题集的平均表现",
+                "avg_chart": {
+                    "title": "按题库的平均得分",
+                    "xaxis": "题库",
+                    "yaxis": "平均得分",
+                    "bar_text": "{score} 分<br>({count} 次测试)",
+                    "hover": "<b>{qset}</b><br>平均：{score} 分"
+                }
             }
         },
         "user_results": {

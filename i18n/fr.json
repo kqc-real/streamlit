@@ -163,7 +163,14 @@
                 "avg_duration": "Ø Durée du test",
                 "completion_rate": "Taux d'achèvement",
                 "completion_rate_help": "Pourcentage de tests entièrement terminés",
-                "avg_performance": "📈 Performance moyenne par ensemble de questions"
+                "avg_performance": "📈 Performance moyenne par ensemble de questions",
+                "avg_chart": {
+                    "title": "Score moyen par ensemble de questions",
+                    "xaxis": "Ensemble de questions",
+                    "yaxis": "Score moyen",
+                    "bar_text": "{score} pts<br>({count} tests)",
+                    "hover": "<b>{qset}</b><br>Moyenne : {score} points"
+                }
             }
         },
         "user_results": {

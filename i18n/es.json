@@ -163,7 +163,14 @@
                 "avg_duration": "Ø Duración de prueba",
                 "completion_rate": "Tasa de finalización",
                 "completion_rate_help": "Porcentaje de pruebas completadas en su totalidad",
-                "avg_performance": "📈 Rendimiento promedio por conjunto de preguntas"
+                "avg_performance": "📈 Rendimiento promedio por conjunto de preguntas",
+                "avg_chart": {
+                    "title": "Puntuación promedio por conjunto",
+                    "xaxis": "Conjunto de preguntas",
+                    "yaxis": "Puntuación promedio",
+                    "bar_text": "{score} pts<br>({count} pruebas)",
+                    "hover": "<b>{qset}</b><br>Promedio: {score} puntos"
+                }
             }
         },
         "user_results": {

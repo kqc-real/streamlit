@@ -268,7 +268,14 @@
                 "avg_duration": "Ø Testdauer",
                 "completion_rate": "Abschlussquote",
                 "completion_rate_help": "Prozentsatz der Tests, die vollständig beendet wurden",
-                "avg_performance": "📈 Durchschnittliche Leistung pro Fragenset"
+                "avg_performance": "📈 Durchschnittliche Leistung pro Fragenset",
+                "avg_chart": {
+                    "title": "Durchschnittliche Punktzahl nach Fragenset",
+                    "xaxis": "Fragenset",
+                    "yaxis": "Durchschnittliche Punktzahl",
+                    "bar_text": "{score} Pkt<br>({count} Tests)",
+                    "hover": "<b>{qset}</b><br>Durchschnitt: {score} Punkte"
+                }
             }
         },
         "user_results": {

@@ -484,7 +484,14 @@
                 "avg_duration": "Ø Test Duration",
                 "completion_rate": "Completion Rate",
                 "completion_rate_help": "Percentage of tests that were fully completed",
-                "avg_performance": "📈 Average Performance per Question Set"
+                "avg_performance": "📈 Average Performance per Question Set",
+                "avg_chart": {
+                    "title": "Average Score by Question Set",
+                    "xaxis": "Question Set",
+                    "yaxis": "Average Score",
+                    "bar_text": "{score} pts<br>({count} tests)",
+                    "hover": "<b>{qset}</b><br>Average: {score} points"
+                }
             }
         },
         "user_results": {
