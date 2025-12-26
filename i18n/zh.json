@@ -114,6 +114,7 @@
         "prompt_toggle_button": "👁️ 显示 / 隐藏",
         "prompt_download_button": "⬇️ 下载",
         "prompt_load_failed": "无法加载 {filename}。",
+        "questionset_load_failed": "无法加载问题集 '{filename}'：{error}",
         "prompt_copy_button": "复制提示词",
         "prompt_copy_success": "已复制！",
         "prompt_copy_error": "复制失败",
@@ -390,7 +391,14 @@
             "no_topics_defined": "未定义主题。",
             "audit_log_description": "记录所有管理员操作以确保安全性和合规性",
             "expanders": {
+                "reset_user_results": "重置此集合的用户结果",
                 "metrics_glossary": "指标词汇表",
+                "delete_multiple_reports": "🔴 危险区：删除多个报告",
+                "delete_single_pseudonym": "🧹 删除单个保留化名",
+                "delete_all_used_pseudonyms": "🔴 危险区：删除所有已使用的化名",
+                "delete_all_reserved_pseudonyms": "🔴 危险区：删除所有保留的化名",
+                "delete_all_test_data": "🔴 不可逆转地删除所有测试数据",
+                "delete_old_logs": "🗑️ 删除旧日志（GDPR）",
                 "about_audit_logging": "ℹ️ 关于审计日志"
             },
             "no_completed_tests": "尚未有完成的测试。统计数据将在第一次测试后显示。"

@@ -113,6 +113,7 @@
         "prompt_toggle_button": "👁️ Show / Hide",
         "prompt_download_button": "⬇️ Download",
         "prompt_load_failed": "Couldn't load {filename}.",
+        "questionset_load_failed": "Failed to load questionset '{filename}': {error}",
         "prompt_copy_button": "Copy Prompt",
         "prompt_copy_success": "Copied!",
         "prompt_copy_error": "Copy failed",

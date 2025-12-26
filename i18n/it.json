@@ -78,7 +78,14 @@
             "no_topics_defined": "Nessun argomento definito.",
             "audit_log_description": "Registrazione di tutte le azioni amministratore per sicurezza e conformità",
             "expanders": {
+                "reset_user_results": "Ripristina risultati utente per questo set",
                 "metrics_glossary": "Glossario delle metriche",
+                "delete_multiple_reports": "🔴 Zona di pericolo: Elimina più report",
+                "delete_single_pseudonym": "🧹 Elimina singolo pseudonimo riservato",
+                "delete_all_used_pseudonyms": "🔴 Zona di pericolo: Elimina tutti gli pseudonimi usati",
+                "delete_all_reserved_pseudonyms": "🔴 Zona di pericolo: Elimina tutti gli pseudonimi riservati",
+                "delete_all_test_data": "🔴 Elimina tutti i dati di test in modo irreversibile",
+                "delete_old_logs": "🗑️ Elimina vecchi log (GDPR)",
                 "about_audit_logging": "ℹ️ Informazioni sul logging di audit"
             },
             "no_completed_tests": "Ancora nessun test completato disponibile. Le statistiche verranno visualizzate dopo i primi test."
@@ -239,6 +246,7 @@
         "prompt_toggle_button": "👁️ Mostra / Nascondi",
         "prompt_download_button": "⬇️ Scarica",
         "prompt_load_failed": "Impossibile caricare {filename}.",
+        "questionset_load_failed": "Impossibile caricare il set di domande '{filename}': {error}",
         "prompt_copy_button": "Copia Prompt",
         "prompt_copy_success": "Copiato!",
         "prompt_copy_error": "Copia fallita",

@@ -78,7 +78,14 @@
             "no_topics_defined": "Aucun sujet défini.",
             "audit_log_description": "Journalisation de toutes les actions administrateur pour la sécurité et la conformité",
             "expanders": {
+                "reset_user_results": "Réinitialiser les résultats utilisateur pour cet ensemble",
                 "metrics_glossary": "Glossaire des métriques",
+                "delete_multiple_reports": "🔴 Zone de danger : Supprimer plusieurs rapports",
+                "delete_single_pseudonym": "🧹 Supprimer un seul pseudonyme réservé",
+                "delete_all_used_pseudonyms": "🔴 Zone de danger : Supprimer tous les pseudonymes utilisés",
+                "delete_all_reserved_pseudonyms": "🔴 Zone de danger : Supprimer tous les pseudonymes réservés",
+                "delete_all_test_data": "🔴 Supprimer toutes les données de test de manière irréversible",
+                "delete_old_logs": "🗑️ Supprimer les anciens logs (GDPR)",
                 "about_audit_logging": "ℹ️ À propos de l'audit logging"
             },
             "no_completed_tests": "Aucun test terminé disponible pour le moment. Les statistiques seront affichées après les premiers tests."
@@ -238,6 +245,7 @@
         "prompt_toggle_button": "👁️ Afficher / Masquer",
         "prompt_download_button": "⬇️ Télécharger",
         "prompt_load_failed": "Impossible de charger {filename}.",
+        "questionset_load_failed": "Échec du chargement du jeu de questions '{filename}' : {error}",
         "prompt_copy_button": "Copier Prompt",
         "prompt_copy_success": "Copié !",
         "prompt_copy_error": "Échec copie",

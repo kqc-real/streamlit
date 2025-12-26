@@ -246,6 +246,7 @@
         "prompt_toggle_button": "👁️ Anzeigen / Verbergen",
         "prompt_download_button": "⬇️ Download",
         "prompt_load_failed": "Konnte {filename} nicht laden.",
+        "questionset_load_failed": "Fragenset '{filename}' konnte nicht geladen werden: {error}",
         "prompt_copy_button": "Prompt kopieren",
         "prompt_copy_success": "Kopiert!",
         "prompt_copy_error": "Kopieren fehlgeschlagen",

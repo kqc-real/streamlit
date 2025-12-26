@@ -6188,7 +6188,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     default_choice = available_files[0]
 
                 export_selected_file = st.selectbox(
-                    _summary_text("export_admin_select_label", default="Fragenset für den Export auswählen:"),
+                    _summary_text("export_admin_select_label", default="Select Export Set:"),
                     options=available_files,
                     index=available_files.index(default_choice),
                     format_func=_format_export_name,
@@ -6198,7 +6198,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.caption(
                     _summary_text(
                         "export_admin_select_info",
-                        default="Hinweis: Diese Auswahl wirkt sich nur auf die Exporte nach Anki, Kahoot und arsnova.click aus.",
+                        default="Affects Anki, Kahoot & ars nova.",
                     )
                 )
 
@@ -6206,19 +6206,19 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     try:
                         export_questions = list(load_questions(export_selected_file))
                     except Exception as exc:
-                        st.error(f"Fragenset '{export_selected_file}' konnte nicht geladen werden: {exc}")
+                        st.error(_summary_text("questionset_load_failed", default="Failed to load questionset '{filename}': {error}").format(filename=export_selected_file, error=exc))
                         export_selected_file = selected_file
                         export_questions = list(questions)
                 st.caption(
                     _summary_text(
                         "export_admin_current_set",
-                        default="Aktuelles Export-Set: **{set_name}**",
+                        default="Active Set: **{set_name}**",
                     ).format(
                         set_name=_format_export_name(export_selected_file)
                     )
                 )
             else:
-                st.info(_summary_text("export_admin_no_sets", default="Keine weiteren Fragensets für den Admin-Export gefunden."))
+                st.info(_summary_text("export_admin_no_sets", default="No other sets found."))
 
         with st.expander(_summary_text("export_anki_expander", default="📦 Anki-Lernkarten (empfohlen für Wiederholung)")):
             pending_instruction = st.session_state.pop("_open_anki_instruction_requested", False)
