@@ -333,6 +333,10 @@
         "generate_questionset_header": "🧠 生成问题集",
         "generate_kahoot_header": "🤖 生成 Kahoot 问题集",
         "generate_arsnova_header": "🎯 生成 ARSnova.click 问题集",
+        "expanders": {
+            "reset_user_results": "选择用户：",
+            "metrics_glossary": "指标词汇表"
+        },
         "dashboard_title": "🛠 管理员仪表板",
         "glossary_header": "📚 PDF 小词汇表",
         "glossary": {
@@ -423,7 +427,10 @@
             "select_help": "仅显示空闲化名。",
             "generate_button": "🚀 生成登录",
             "latest_logins": "最近生成的登录",
-            "download_csv": "⬇️ 下载 CSV"
+            "download_csv": "⬇️ 下载 CSV",
+            "pseudonyms_already_used": "化名已被使用。",
+            "pseudonyms_currently_in_use": "化名当前正在使用中。",
+            "pseudonyms_currently_reserved": "化名当前已保留。"
         },
         "system_settings_header": "系统设置和指标",
         "system": {

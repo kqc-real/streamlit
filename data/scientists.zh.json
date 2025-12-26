@@ -1,0 +1,970 @@
+[
+  {
+    "name": "Abdus Salam",
+    "contribution": "物理学家，因弱电相互作用理论获得诺贝尔奖 | 1979年诺贝尔物理学奖（与格拉肖和温伯格共同获得），表彰其在弱电统一理论方面的贡献"
+  },
+  {
+    "name": "Ada Lovelace",
+    "contribution": "被认为是世界上第一位计算机程序员"
+  },
+  {
+    "name": "Ada Yonath",
+    "contribution": "晶体学家，因核糖体结构测定获得诺贝尔奖 | 2009年诺贝尔化学奖，表彰其对核糖体结构和功能的研究"
+  },
+  {
+    "name": "Adam Smith",
+    "contribution": "苏格兰哲学家和经济学家，古典政治经济学的奠基人"
+  },
+  {
+    "name": "Al-Khwarizmi",
+    "contribution": "波斯数学家，他的名字演变成了“算法”（Algorithm）一词"
+  },
+  {
+    "name": "Alan C. Kay",
+    "contribution": "个人计算（Dynabook）的先驱，创造了“面向对象”这一术语"
+  },
+  {
+    "name": "Alan Turing",
+    "contribution": "理论计算机科学和人工智能之父"
+  },
+  {
+    "name": "Albert Einstein",
+    "contribution": "相对论的创立者 | 1921年诺贝尔物理学奖，表彰其发现光电效应"
+  },
+  {
+    "name": "Alexander Fleming",
+    "contribution": "青霉素的发现者 | 1945年诺贝尔生理学或医学奖，表彰其发现青霉素（与钱恩和弗洛里共同获得）"
+  },
+  {
+    "name": "Aleksandr Oparin",
+    "contribution": "生物化学家，提出了关于生命化学起源的早期假说"
+  },
+  {
+    "name": "Alexander von Humboldt",
+    "contribution": "自然科学家和探险家，作为经验科学的地理学的共同奠基人"
+  },
+  {
+    "name": "Alfred Nobel",
+    "contribution": "化学家和炸药发明者，诺贝尔奖的创立者"
+  },
+  {
+    "name": "Alfred Russel Wallace",
+    "contribution": "自然学家，独立提出了自然选择进化论"
+  },
+  {
+    "name": "Amedeo Avogadro",
+    "contribution": "化学家，提出了阿伏伽德罗定律（气体中的粒子数）"
+  },
+  {
+    "name": "Amos Tversky",
+    "contribution": "认知心理学家，与卡尼曼共同开创了行为经济学"
+  },
+  {
+    "name": "Anders Celsius",
+    "contribution": "天文学家，摄氏温标的开发者"
+  },
+  {
+    "name": "André-Marie Ampère",
+    "contribution": "物理学家和数学家，电动力学的奠基人（安培定律）"
+  },
+  {
+    "name": "Antoine Lavoisier",
+    "contribution": "化学家，被誉为现代化学之父"
+  },
+  {
+    "name": "Antonie van Leeuwenhoek",
+    "contribution": "微生物学家，改进了显微镜并发现了微生物"
+  },
+  {
+    "name": "Archimedes",
+    "contribution": "古希腊数学家、物理学家和工程师"
+  },
+  {
+    "name": "Aristotle",
+    "contribution": "古希腊哲学家和博学家，塑造了西方科学"
+  },
+  {
+    "name": "Arthur Eddington",
+    "contribution": "天体物理学家，通过经验证实了广义相对论"
+  },
+  {
+    "name": "August Kekulé",
+    "contribution": "化学家，以提出苯环结构公式而闻名"
+  },
+  {
+    "name": "Augustin-Jean Fresnel",
+    "contribution": "物理学家，波动光学和透镜物理学的先驱"
+  },
+  {
+    "name": "B. F. Skinner",
+    "contribution": "心理学家，彻底行为主义（操作性条件反射）的奠基人"
+  },
+  {
+    "name": "Barbara McClintock",
+    "contribution": "遗传学家，因发现“跳跃基因”获得诺贝尔奖 | 1983年诺贝尔生理学或医学奖，表彰其发现可移动遗传元素（转座子）"
+  },
+  {
+    "name": "Benjamin Franklin",
+    "contribution": "发明家和自然科学家，对电学做出了贡献并有多项实用发明"
+  },
+  {
+    "name": "Bernhard Riemann",
+    "contribution": "德国数学家，对微分几何和数论做出了贡献"
+  },
+  {
+    "name": "Blaise Pascal",
+    "contribution": "法国数学家、物理学家和发明家"
+  },
+  {
+    "name": "Carl Friedrich Gauss",
+    "contribution": "德国数学家，被称为“数学王子”"
+  },
+  {
+    "name": "Carl Jung",
+    "contribution": "瑞士精神病学家，分析心理学的创始人"
+  },
+  {
+    "name": "Carl Sagan",
+    "contribution": "天文学家、宇宙学家和畅销书作家"
+  },
+  {
+    "name": "Carl Linnaeus",
+    "contribution": "生物学家，现代分类学（系统学）的奠基人"
+  },
+  {
+    "name": "Carl Woese",
+    "contribution": "微生物学家，将古菌定义为生命的一个新域"
+  },
+  {
+    "name": "Carolyn Bertozzi",
+    "contribution": "化学家，因生物正交化学获得诺贝尔奖 | 2022年诺贝尔化学奖，表彰其在生物正交化学和点击化学方面的贡献（与夏普莱斯和梅尔达尔共同获得）"
+  },
+  {
+    "name": "Cecilia Payne-Gaposchkin",
+    "contribution": "天文学家，发现恒星主要由氢和氦组成"
+  },
+  {
+    "name": "Charles Babbage",
+    "contribution": "英国数学家，被誉为“计算机之父”"
+  },
+  {
+    "name": "Charles Darwin",
+    "contribution": "自然选择进化论的奠基人"
+  },
+  {
+    "name": "Chien-Shiung Wu",
+    "contribution": "物理学家，以验证宇称不守恒的吴氏实验而闻名"
+  },
+  {
+    "name": "Christian Doppler",
+    "contribution": "物理学家，多普勒效应的发现者"
+  },
+  {
+    "name": "Christiane L. Stähle",
+    "contribution": "环境科学家，对生态毒理学做出了贡献"
+  },
+  {
+    "name": "Christiane Nüsslein-Volhard",
+    "contribution": "发育生物学家，因胚胎模式形成获得诺贝尔奖 | 1995年诺贝尔生理学或医学奖，表彰其对早期胚胎发育遗传控制的研究（与威乔斯和刘易斯共同获得）"
+  },
+  {
+    "name": "Claude Shannon",
+    "contribution": "数学家和电气工程师，信息论的奠基人"
+  },
+  {
+    "name": "Daniel Bernoulli",
+    "contribution": "数学家和物理学家，以流体力学中的伯努利原理而闻名"
+  },
+  {
+    "name": "Daniel Kahneman",
+    "contribution": "心理学家和经济学家，因行为经济学研究获得诺贝尔奖 | 2002年诺贝尔经济学奖，表彰其将心理学研究成果与经济学融合，特别是在不确定性下的判断和决策方面"
+  },
+  {
+    "name": "David Baltimore",
+    "contribution": "分子生物学家，因发现逆转录酶获得诺贝尔奖 | 1975年诺贝尔生理学或医学奖，表彰其对肿瘤病毒和逆转录的研究（与杜尔贝科和特明共同获得）"
+  },
+  {
+    "name": "David Hilbert",
+    "contribution": "德国数学家，以希尔伯特23个问题而闻名"
+  },
+  {
+    "name": "Dmitri Mendeleev",
+    "contribution": "化学家，开发了元素周期表"
+  },
+  {
+    "name": "Dmitri Mendeleev",
+    "contribution": "化学家，开发了元素周期表"
+  },
+  {
+    "name": "Donald Knuth",
+    "contribution": "计算机科学家，《计算机程序设计艺术》的作者，TeX的创造者"
+  },
+  {
+    "name": "Dorothy Hodgkin",
+    "contribution": "化学家，因通过X射线分析测定结构获得诺贝尔奖 | 1964年诺贝尔化学奖，表彰其通过X射线晶体学测定重要生物分子的结构"
+  },
+  {
+    "name": "Edna Adan Ismail",
+    "contribution": "医生和活动家，改善了索马里兰医疗体系中的产科护理"
+  },
+  {
+    "name": "Edsger W. Dijkstra",
+    "contribution": "计算机科学家，对算法（如迪杰斯特拉算法）和结构化编程做出了贡献 | 1972年图灵奖，表彰其在算法基础和结构化编程方面的贡献"
+  },
+  {
+    "name": "Edward O. Wilson",
+    "contribution": "生物学家，被誉为社会生物学之父"
+  },
+  {
+    "name": "Edward Said",
+    "contribution": "文学理论家和批评家，后殖民理论的奠基人"
+  },
+  {
+    "name": "Edwin Hubble",
+    "contribution": "天文学家，证明了宇宙的膨胀（哈勃定律）"
+  },
+  {
+    "name": "Eleanor Anne Ormerod",
+    "contribution": "昆虫学家，农业害虫防治的先驱"
+  },
+  {
+    "name": "Elizabeth Blackburn",
+    "contribution": "分子生物学家，因发现端粒酶获得诺贝尔奖 | 2009年诺贝尔生理学或医学奖，表彰其发现端粒和端粒酶（与卡罗尔·格雷德和杰克·绍斯塔克共同获得）"
+  },
+  {
+    "name": "Ellen Swallow Richards",
+    "contribution": "化学家和环境先驱，家政学的创始人"
+  },
+  {
+    "name": "Emmanuelle Charpentier",
+    "contribution": "微生物学家，因开发CRISPR-Cas9基因剪刀获得诺贝尔奖 | 2020年诺贝尔化学奖，表彰其开发CRISPR-Cas9基因组编辑方法（与珍妮弗·杜德纳共同获得）"
+  },
+  {
+    "name": "Emmy Noether",
+    "contribution": "对抽象代数做出了突破性贡献（诺特定理）"
+  },
+  {
+    "name": "Enrico Fermi",
+    "contribution": "物理学家，建造了第一个核反应堆，诺贝尔奖得主 | 1938年诺贝尔物理学奖，表彰其证明了慢中子核反应"
+  },
+  {
+    "name": "Erwin Schrödinger",
+    "contribution": "物理学家，以薛定谔方程而闻名 | 1933年诺贝尔物理学奖，表彰其发现量子力学的新形式（与保罗·狄拉克共同获得）"
+  },
+  {
+    "name": "Euclid",
+    "contribution": "古希腊数学家，常被称为“几何之父”"
+  },
+  {
+    "name": "Fabiola Gianotti",
+    "contribution": "粒子物理学家，在发现希格斯玻色子期间担任CERN主任"
+  },
+  {
+    "name": "Fernand Braudel",
+    "contribution": "法国历史学家，年鉴学派的主要代表"
+  },
+  {
+    "name": "Fibonacci",
+    "contribution": "意大利数学家，以斐波那契数列而闻名"
+  },
+  {
+    "name": "Florence Bascom",
+    "contribution": "地质学家，美国构造地质学和地层学研究的先驱"
+  },
+  {
+    "name": "Florence Nightingale",
+    "contribution": "现代护理学和统计学的先驱"
+  },
+  {
+    "name": "Florence Sabin",
+    "contribution": "美国细胞生物学和免疫学的先驱"
+  },
+  {
+    "name": "Francis Crick",
+    "contribution": "分子生物学家，DNA结构的共同发现者"
+  },
+  {
+    "name": "Françoise Barré-Sinoussi",
+    "contribution": "微生物学家，因发现HIV病毒获得诺贝尔奖 | 2008年诺贝尔生理学或医学奖，表彰其发现人类免疫缺陷病毒（与吕克·蒙塔尼耶共同获得）"
+  },
+  {
+    "name": "Friedrich Hayek",
+    "contribution": "经济学家和哲学家，奥地利学派的代表人物"
+  },
+  {
+    "name": "Friedrich Nietzsche",
+    "contribution": "德国哲学家，以批判道德和宗教而闻名"
+  },
+  {
+    "name": "Fritz Haber",
+    "contribution": "化学家，哈伯-博施氨合成法的开发者"
+  },
+  {
+    "name": "Fritz Zernike",
+    "contribution": "物理学家，因开发相衬显微镜获得诺贝尔奖 | 1953年诺贝尔物理学奖，表彰其发明相衬显微镜"
+  },
+  {
+    "name": "Galileo Galilei",
+    "contribution": "日心说的支持者"
+  },
+  {
+    "name": "Geoffrey Hinton",
+    "contribution": "计算机科学家，“AI教父”，深度学习研究的先驱"
+  },
+  {
+    "name": "George Boole",
+    "contribution": "英国数学家，布尔代数的奠基人"
+  },
+  {
+    "name": "George Gamow",
+    "contribution": "物理学家，对宇宙学和核合成做出了贡献"
+  },
+  {
+    "name": "George Washington Carver",
+    "contribution": "植物学家和发明家，开发了数百种花生和红薯产品"
+  },
+  {
+    "name": "Gerald Edelman",
+    "contribution": "生物化学家/神经科学家，因抗体结构研究获得诺贝尔奖 | 1972年诺贝尔生理学或医学奖，表彰其对抗体结构的研究（与罗德尼·波特共同获得）"
+  },
+  {
+    "name": "Gertrude Elion",
+    "contribution": "药理学家，因新药开发获得诺贝尔奖 | 1988年诺贝尔生理学或医学奖，表彰其药物治疗的重要原则的发现（与希钦斯和布莱克共同获得）"
+  },
+  {
+    "name": "Gerty T. Cori",
+    "contribution": "生物化学家，因糖代谢中的科里循环获得诺贝尔奖 | 1947年诺贝尔生理学或医学奖，表彰其对糖原催化转化过程的发现（与卡尔·科里共同获得）"
+  },
+  {
+    "name": "Gottfried Wilhelm Leibniz",
+    "contribution": "德国博学家，微积分的共同发明者"
+  },
+  {
+    "name": "Grace Chisholm Young",
+    "contribution": "数学家，对分析和函数理论做出了贡献"
+  },
+  {
+    "name": "Grace Hopper",
+    "contribution": "计算机编程先驱，第一个编译器的发明者"
+  },
+  {
+    "name": "Gregor Mendel",
+    "contribution": "奥古斯丁修道士和自然学家，遗传学的奠基人"
+  },
+  {
+    "name": "Hannah Arendt",
+    "contribution": "德裔美国政治理论家，著有《极权主义的起源》"
+  },
+  {
+    "name": "Hans Christian Ørsted",
+    "contribution": "物理学家，发现了电和磁之间的关系"
+  },
+  {
+    "name": "Hans Geiger",
+    "contribution": "物理学家，发明了用于探测电离辐射的盖革计数器"
+  },
+  {
+    "name": "Hans Krebs",
+    "contribution": "生物化学家，柠檬酸循环（克雷布斯循环）的发现者"
+  },
+  {
+    "name": "Har Gobind Khorana",
+    "contribution": "分子生物学家，因遗传密码翻译研究获得诺贝尔奖 | 1968年诺贝尔生理学或医学奖，表彰其破译遗传密码及其在蛋白质合成中的作用（与霍利和尼伦伯格共同获得）"
+  },
+  {
+    "name": "Hedy Lamarr",
+    "contribution": "发明家和演员，通信中跳频技术的先驱"
+  },
+  {
+    "name": "Heidi Schellman",
+    "contribution": "实验粒子物理学家，对轻子物理学的精密测量做出了贡献"
+  },
+  {
+    "name": "Heinrich Hertz",
+    "contribution": "物理学家，证实了电磁波的存在"
+  },
+  {
+    "name": "Hermann Emil Fischer",
+    "contribution": "化学家，因有机化学研究（糖、嘌呤）获得诺贝尔奖 | 1902年诺贝尔化学奖，表彰其在糖和嘌呤合成方面的研究"
+  },
+  {
+    "name": "Hermann Muller",
+    "contribution": "遗传学家，因发现辐射诱发突变获得诺贝尔奖 | 1946年诺贝尔生理学或医学奖，表彰其发现X射线能诱发突变"
+  },
+  {
+    "name": "Hermann von Helmholtz",
+    "contribution": "物理学家和生理学家，对能量守恒、声学和感觉生理学做出了贡献"
+  },
+  {
+    "name": "Herodotus",
+    "contribution": "古希腊历史学家，常被称为“历史学之父”"
+  },
+  {
+    "name": "Hippocrates",
+    "contribution": "古代医生，被认为是医学伦理学的奠基人"
+  },
+  {
+    "name": "Humphry Davy",
+    "contribution": "化学家，分离了钠和钾等元素"
+  },
+  {
+    "name": "Hypatia",
+    "contribution": "古亚历山大城的数学家、天文学家和哲学家"
+  },
+  {
+    "name": "Ibn al-Haytham",
+    "contribution": "阿拉伯数学家和物理学家，光学的先驱"
+  },
+  {
+    "name": "Ibn Khaldun",
+    "contribution": "阿拉伯历史学家和社会学家，社会科学的早期思想家之一"
+  },
+  {
+    "name": "Immanuel Kant",
+    "contribution": "德国启蒙哲学家，著有《纯粹理性批判》"
+  },
+  {
+    "name": "Inez Fung",
+    "contribution": "大气科学家，对全球环流和碳循环模型做出了贡献"
+  },
+  {
+    "name": "Inge Lehmann",
+    "contribution": "地震学家，发现了地球的固态内核"
+  },
+  {
+    "name": "Isaac Newton",
+    "contribution": "阐述了运动定律和万有引力定律"
+  },
+  {
+    "name": "Ivan Pavlov",
+    "contribution": "生理学家，以经典条件反射研究而闻名"
+  },
+  {
+    "name": "J. Robert Oppenheimer",
+    "contribution": "理论物理学家，曼哈顿计划的科学主管"
+  },
+  {
+    "name": "James Clerk Maxwell",
+    "contribution": "物理学家，建立了麦克斯韦方程组"
+  },
+  {
+    "name": "James Lovelock",
+    "contribution": "独立科学家，以盖亚假说而闻名"
+  },
+  {
+    "name": "James Prescott Joule",
+    "contribution": "物理学家，证明了能量守恒并描述了焦耳效应"
+  },
+  {
+    "name": "James Watson",
+    "contribution": "分子生物学家，DNA结构的共同发现者"
+  },
+  {
+    "name": "Jane Goodall",
+    "contribution": "灵长类动物学家，以对黑猩猩的长期研究而闻名"
+  },
+  {
+    "name": "Jean Piaget",
+    "contribution": "发展心理学家，以其儿童认知发展理论而闻名"
+  },
+  {
+    "name": "Jean-Baptiste Lamarck",
+    "contribution": "生物学家，早期主张通过用进废退进行进化变革"
+  },
+  {
+    "name": "Jennifer Doudna",
+    "contribution": "生物化学家，因开发CRISPR-Cas9基因剪刀获得诺贝尔奖 | 2020年诺贝尔化学奖，表彰其开发CRISPR-Cas9基因组编辑方法（与埃玛纽埃尔·夏彭蒂耶共同获得）"
+  },
+  {
+    "name": "Jocelyn Bell Burnell",
+    "contribution": "天体物理学家，首批脉冲星的共同发现者"
+  },
+  {
+    "name": "Johannes Kepler",
+    "contribution": "天文学家，发现了行星运动定律"
+  },
+  {
+    "name": "John Bardeen",
+    "contribution": "美国物理学家，唯一两次获得诺贝尔物理学奖的人（晶体管、超导） | 1956年诺贝尔物理学奖，表彰其发明晶体管（与布拉顿和肖克利共同获得） | 1972年诺贝尔物理学奖，表彰其创立超导理论（BCS理论）"
+  },
+  {
+    "name": "John Dalton",
+    "contribution": "化学家和物理学家，提出了化学原子论"
+  },
+  {
+    "name": "John Goodenough",
+    "contribution": "材料科学家，锂离子电池的共同开发者，诺贝尔奖得主 | 2019年诺贝尔化学奖，表彰其开发锂离子电池（与惠廷厄姆和吉野彰共同获得）"
+  },
+  {
+    "name": "John Maynard Keynes",
+    "contribution": "英国经济学家，凯恩斯主义的命名者"
+  },
+  {
+    "name": "John McCarthy",
+    "contribution": "美国计算机科学家，创造了“人工智能”一词并发明了Lisp语言 | 1971年图灵奖，表彰其在人工智能基础方面的贡献"
+  },
+  {
+    "name": "John Snow",
+    "contribution": "流行病学先驱，确定了伦敦霍乱的污染源"
+  },
+  {
+    "name": "John von Neumann",
+    "contribution": "数学家，博弈论和冯·诺依曼计算机架构的先驱"
+  },
+  {
+    "name": "Jonas Salk",
+    "contribution": "首批有效脊髓灰质炎疫苗的开发者"
+  },
+  {
+    "name": "Joseph Lister",
+    "contribution": "外科医生，防腐外科手术的先驱"
+  },
+  {
+    "name": "Joseph Priestley",
+    "contribution": "化学家，氧气的发现者之一"
+  },
+  {
+    "name": "Judith Butler",
+    "contribution": "美国哲学家，性别理论和酷儿理论的核心人物"
+  },
+  {
+    "name": "Justus von Liebig",
+    "contribution": "化学家，被认为是有机化学和农业化学之父"
+  },
+  {
+    "name": "Jöns Jacob Berzelius",
+    "contribution": "化学家，开发了现代化学符号体系"
+  },
+  {
+    "name": "Jürgen Habermas",
+    "contribution": "德国哲学家和社会学家，法兰克福学派的主要代表"
+  },
+  {
+    "name": "Karl Landsteiner",
+    "contribution": "生物学家和医生，发现了AB0血型系统"
+  },
+  {
+    "name": "Karl Marx",
+    "contribution": "德国哲学家、经济学家和社会理论家"
+  },
+  {
+    "name": "Kary Mullis",
+    "contribution": "生物化学家，因发明聚合酶链式反应（PCR）获得诺贝尔奖 | 1993年诺贝尔化学奖，表彰其发明PCR技术"
+  },
+  {
+    "name": "Katalin Karikó",
+    "contribution": "生物化学家，疫苗开发中mRNA技术的先驱"
+  },
+  {
+    "name": "Katherine Johnson",
+    "contribution": "NASA数学家，计算了载人航天飞行的轨道"
+  },
+  {
+    "name": "Konrad Lorenz",
+    "contribution": "行为学家，因动物印刻研究获得诺贝尔奖 | 1973年诺贝尔生理学或医学奖，表彰其在个体和社会行为模式的组织和诱发方面的发现（与廷贝亨和冯·弗里施共同获得）"
+  },
+  {
+    "name": "Kurt Gödel",
+    "contribution": "逻辑学家和数学家，以不完备性定理而闻名"
+  },
+  {
+    "name": "Leonardo da Vinci",
+    "contribution": "文艺复兴时期的博学家、艺术家和发明家"
+  },
+  {
+    "name": "Leonhard Euler",
+    "contribution": "瑞士数学家，历史上最多产的数学家之一"
+  },
+  {
+    "name": "Leopold von Ranke",
+    "contribution": "德国历史学家，基于史料批判的现代历史学的奠基人"
+  },
+  {
+    "name": "Lev Vygotsky",
+    "contribution": "心理学家，社会文化发展理论的创始人"
+  },
+  {
+    "name": "Lillian Gilbreth",
+    "contribution": "工程师和心理学家，人体工程学和动作研究的先驱"
+  },
+  {
+    "name": "Linus Pauling",
+    "contribution": "化学家和和平活动家，最有影响力的化学家之一 | 1954年诺贝尔化学奖，表彰其对化学键本质的研究 | 1962年诺贝尔和平奖，表彰其反对核试验的努力"
+  },
+  {
+    "name": "Linus Torvalds",
+    "contribution": "芬兰裔美国软件开发者，Linux内核的创造者"
+  },
+  {
+    "name": "Lionel Penrose",
+    "contribution": "遗传学家和精神病学家，神经疾病遗传学的先驱研究"
+  },
+  {
+    "name": "Lise Meitner",
+    "contribution": "物理学家，核裂变的共同发现者"
+  },
+  {
+    "name": "Louis Pasteur",
+    "contribution": "巴氏杀菌法和疫苗的开发者"
+  },
+  {
+    "name": "Lynn Margulis",
+    "contribution": "生物学家，关于真核细胞起源的内共生理论的提出者"
+  },
+  {
+    "name": "Lynn White",
+    "contribution": "科学史学家，以分析技术史而闻名"
+  },
+  {
+    "name": "Mae Jemison",
+    "contribution": "医生和NASA宇航员，第一位进入太空的非裔美国女性"
+  },
+  {
+    "name": "Margaret Hamilton",
+    "contribution": "美国计算机科学家，领导了阿波罗计划的软件开发"
+  },
+  {
+    "name": "Margaret Mead",
+    "contribution": "美国文化人类学家，以其对大洋洲的研究而闻名"
+  },
+  {
+    "name": "Maria Goeppert Mayer",
+    "contribution": "物理学家，因原子核壳层模型获得诺贝尔奖 | 1963年诺贝尔物理学奖，表彰其发现原子核壳层结构（与延森共同获得）"
+  },
+  {
+    "name": "Marie Curie",
+    "contribution": "放射性研究的先驱 | 1903年诺贝尔物理学奖，表彰其对放射性现象的研究（与贝克勒尔和皮埃尔·居里共同获得）| 1911年诺贝尔化学奖，表彰其发现镭和钋"
+  },
+  {
+    "name": "Marvin Minsky",
+    "contribution": "美国计算机科学家，人工智能的联合创始人"
+  },
+  {
+    "name": "Mary Anning",
+    "contribution": "古生物学家，在英国发现了重要的化石"
+  },
+  {
+    "name": "Mary Cartwright",
+    "contribution": "数学家，非线性分析和混沌动力学的先驱"
+  },
+  {
+    "name": "Mary Leakey",
+    "contribution": "古人类学家，在人类进化方面有重要发现"
+  },
+  {
+    "name": "Mary Somerville",
+    "contribution": "数学家和科学作家，致力于普及天文学和数学知识"
+  },
+  {
+    "name": "Mary-Claire King",
+    "contribution": "遗传学家，发现了BRCA1基因，对遗传咨询做出了贡献"
+  },
+  {
+    "name": "Max Born",
+    "contribution": "德国物理学家，因量子力学工作获得诺贝尔奖 | 1954年诺贝尔物理学奖，表彰其在量子力学方面的基础研究，特别是波函数的统计解释（与瓦尔特·博特共同获得）"
+  },
+  {
+    "name": "Max Planck",
+    "contribution": "物理学家，量子论的创立者 | 1918年诺贝尔物理学奖，表彰其发现能量量子"
+  },
+  {
+    "name": "Max Weber",
+    "contribution": "德国社会学家和经济学家，现代社会学之父之一"
+  },
+  {
+    "name": "Maxwell Maltz",
+    "contribution": "整形外科医生和作家，以关于自我意象的早期著作（心理控制论）而闻名"
+  },
+  {
+    "name": "Michael Faraday",
+    "contribution": "物理学家和化学家，电磁感应的发现者"
+  },
+  {
+    "name": "Michael Servetus",
+    "contribution": "医生和自然哲学家，首次描述了肺循环"
+  },
+  {
+    "name": "Michel Foucault",
+    "contribution": "法国哲学家和历史学家，以分析权力和知识而闻名"
+  },
+  {
+    "name": "Mildred Dresselhaus",
+    "contribution": "材料科学家，碳纳米结构研究的先驱"
+  },
+  {
+    "name": "Mileva Marić",
+    "contribution": "数学家，爱因斯坦的同时代人，对早期相对论有贡献（存在争议）"
+  },
+  {
+    "name": "Milton Friedman",
+    "contribution": "经济学家，诺贝尔奖得主，货币主义的主要代表 | 1976年诺贝尔经济学奖，表彰其在消费分析、货币历史和理论以及稳定政策复杂性方面的成就"
+  },
+  {
+    "name": "Murray Gell-Mann",
+    "contribution": "物理学家，创造了“夸克”一词，对粒子物理学做出了贡献"
+  },
+  {
+    "name": "Nettie Stevens",
+    "contribution": "遗传学家，性染色体的发现者"
+  },
+  {
+    "name": "Niels Bohr",
+    "contribution": "物理学家，对理解原子结构做出了重要贡献 | 1922年诺贝尔物理学奖，表彰其在原子结构和原子辐射研究方面的贡献"
+  },
+  {
+    "name": "Niels Henrik Abel",
+    "contribution": "数学家，对分析和代数做出了突破性贡献"
+  },
+  {
+    "name": "Nikola Tesla",
+    "contribution": "交流电系统的开发者"
+  },
+  {
+    "name": "Nikolai Lobachevsky",
+    "contribution": "数学家，非欧几何的创始人之一"
+  },
+  {
+    "name": "Nicolaus Copernicus",
+    "contribution": "天文学家，提出了日心说体系"
+  },
+  {
+    "name": "Noam Chomsky",
+    "contribution": "美国语言学家、哲学家和政治活动家"
+  },
+  {
+    "name": "Otto Hahn",
+    "contribution": "化学家和诺贝尔奖得主，放射化学先驱，核裂变的发现者 | 1944年诺贝尔化学奖，表彰其发现重核裂变"
+  },
+  {
+    "name": "Otto Schott",
+    "contribution": "玻璃化学家，光学和特种技术玻璃的开发者"
+  },
+  {
+    "name": "Otto Warburg",
+    "contribution": "生物化学家，因细胞呼吸和肿瘤代谢研究获得诺贝尔奖 | 1931年诺贝尔生理学或医学奖，表彰其发现呼吸酶及其性质和作用方式"
+  },
+  {
+    "name": "Paul Dirac",
+    "contribution": "英国物理学家，量子力学之父之一 | 1933年诺贝尔物理学奖，表彰其发现量子力学的新形式（与埃尔温·薛定谔共同获得）"
+  },
+  {
+    "name": "Paul Ehrlich",
+    "contribution": "医生和免疫学家，开发了化学疗法（“魔弹”） | 1908年诺贝尔生理学或医学奖，表彰其在免疫学方面的贡献（与伊利亚·梅契尼科夫共同获得）"
+  },
+  {
+    "name": "Paul Greengard",
+    "contribution": "神经科学家，因神经细胞信号传导研究获得诺贝尔奖 | 2000年诺贝尔生理学或医学奖，表彰其发现神经系统中的信号传导（与卡尔松和坎德尔共同获得）"
+  },
+  {
+    "name": "Paul Langevin",
+    "contribution": "物理学家，开发了超声波方法并对磁学理论做出了贡献"
+  },
+  {
+    "name": "Peter Higgs",
+    "contribution": "理论物理学家，预言了希格斯机制和希格斯玻色子"
+  },
+  {
+    "name": "Pierre Bourdieu",
+    "contribution": "法国社会学家，以其社会资本和惯习理论而闻名"
+  },
+  {
+    "name": "Pythagoras",
+    "contribution": "古希腊数学家和哲学家，以勾股定理而闻名"
+  },
+  {
+    "name": "Rachel Carson",
+    "contribution": "生物学家和作家，其著作《寂静的春天》引发了环保运动"
+  },
+  {
+    "name": "Rachel Lloyd",
+    "contribution": "化学家，工业制糖化学的先驱研究员"
+  },
+  {
+    "name": "Radia Perlman",
+    "contribution": "美国计算机科学家，因发明生成树协议被称为“互联网之母”"
+  },
+  {
+    "name": "Richard Feynman",
+    "contribution": "物理学家，因量子电动力学获得诺贝尔奖 | 1965年诺贝尔物理学奖，表彰其在量子电动力学方面的基础工作（与施温格和朝永振一郎共同获得）"
+  },
+  {
+    "name": "Richard Stallman",
+    "contribution": "美国软件开发者，GNU项目和自由软件基金会的创始人"
+  },
+  {
+    "name": "Rita Levi-Montalcini",
+    "contribution": "神经科学家，因发现神经生长因子获得诺贝尔奖 | 1986年诺贝尔生理学或医学奖，表彰其发现生长因子（与斯坦利·科恩共同获得）"
+  },
+  {
+    "name": "Robert Boyle",
+    "contribution": "化学家和物理学家，以波义耳-马略特定律而闻名"
+  },
+  {
+    "name": "Robert H. Grubbs",
+    "contribution": "化学家，因烯烃复分解催化剂获得诺贝尔奖 | 2005年诺贝尔化学奖，表彰其开发了烯烃复分解反应的方法（与伊夫·肖万和理查德·施罗克共同获得）"
+  },
+  {
+    "name": "Robert Hooke",
+    "contribution": "博学家，创造了生物学中的“细胞”一词"
+  },
+  {
+    "name": "Robert Kahn",
+    "contribution": "美国计算机科学家，“互联网之父”之一（TCP/IP）"
+  },
+  {
+    "name": "Robert Koch",
+    "contribution": "医生和微生物学家，结核病和霍乱病原体的发现者"
+  },
+  {
+    "name": "Roger Penrose",
+    "contribution": "数学家和物理学家，对引力理论和奇点证明做出了贡献"
+  },
+  {
+    "name": "Rosalind Franklin",
+    "contribution": "对理解DNA结构做出了重要贡献"
+  },
+  {
+    "name": "Rosalyn Yalow",
+    "contribution": "物理学家，因开发放射免疫分析法获得诺贝尔奖 | 1977年诺贝尔生理学或医学奖，表彰其开发肽类激素的放射免疫分析法"
+  },
+  {
+    "name": "Sally Ride",
+    "contribution": "物理学家和宇航员，第一位进入太空的美国女性"
+  },
+  {
+    "name": "Satyendra Nath Bose",
+    "contribution": "印度物理学家，以玻色-爱因斯坦统计而闻名"
+  },
+  {
+    "name": "Selman Waksman",
+    "contribution": "微生物学家，发现了多种抗生素并创造了“抗生素”一词"
+  },
+  {
+    "name": "Sergei Korolev",
+    "contribution": "首席火箭工程师，苏联太空计划的核心人物"
+  },
+  {
+    "name": "Shinya Yamanaka",
+    "contribution": "干细胞研究员，因重编程成熟细胞获得诺贝尔奖 | 2012年诺贝尔生理学或医学奖，表彰其发现成熟细胞可被重编程为多能干细胞（与约翰·格登共同获得）"
+  },
+  {
+    "name": "Shirley Ann Jackson",
+    "contribution": "物理学家，在固态物理和科学管理方面做出了贡献"
+  },
+  {
+    "name": "Sigmund Freud",
+    "contribution": "奥地利医生，精神分析学的创始人"
+  },
+  {
+    "name": "Simone de Beauvoir",
+    "contribution": "法国哲学家和作家，女权主义的偶像"
+  },
+  {
+    "name": "Sofia Kovalevskaya",
+    "contribution": "数学家，偏微分方程研究的先驱"
+  },
+  {
+    "name": "Sophie Germain",
+    "contribution": "法国数学家，弹性理论和数论的先驱"
+  },
+  {
+    "name": "Srinivasa Ramanujan",
+    "contribution": "数学家，自学成才，在数论方面做出了非凡贡献"
+  },
+  {
+    "name": "Stephen Hawking",
+    "contribution": "对宇宙学和黑洞做出了贡献"
+  },
+  {
+    "name": "Subrahmanyan Chandrasekhar",
+    "contribution": "天体物理学家，因恒星结构和演化研究获得诺贝尔奖 | 1983年诺贝尔物理学奖，表彰其对恒星结构和演化的物理过程的理论研究"
+  },
+  {
+    "name": "Sune Bergström",
+    "contribution": "生物化学家，因前列腺素研究获得诺贝尔奖 | 1982年诺贝尔生理学或医学奖，表彰其在前列腺素及相关生物活性物质方面的发现（与本特·萨米埃尔松和约翰·范恩共同获得）"
+  },
+  {
+    "name": "Svante Arrhenius",
+    "contribution": "化学家，因电解质解离理论获得诺贝尔奖 | 1903年诺贝尔化学奖，表彰其提出的电解质解离理论"
+  },
+  {
+    "name": "Sylvia Earle",
+    "contribution": "海洋学家，深海探测和海洋保护的先驱"
+  },
+  {
+    "name": "Thomas Hunt Morgan",
+    "contribution": "遗传学家，遗传染色体理论的先驱"
+  },
+  {
+    "name": "Thucydides",
+    "contribution": "古希腊历史学家，科学历史学的奠基人"
+  },
+  {
+    "name": "Tim Berners-Lee",
+    "contribution": "计算机科学家，万维网发明者，图灵奖得主 | 2016年图灵奖，表彰其发明万维网、首个浏览器及相关协议和算法"
+  },
+  {
+    "name": "Tu Youyou",
+    "contribution": "药理学家，因发现抗疟疾药物青蒿素获得诺贝尔奖 | 2015年诺贝尔生理学或医学奖，表彰其发现治疗疟疾的新疗法"
+  },
+  {
+    "name": "Valentina Tereshkova",
+    "contribution": "宇航员，第一位进入太空的女性"
+  },
+  {
+    "name": "Vannevar Bush",
+    "contribution": "工程师和科学管理者，知识网络化（Memex）的远见者"
+  },
+  {
+    "name": "Vera Ivy Fischer",
+    "contribution": "应用化学先驱"
+  },
+  {
+    "name": "Vera Rubin",
+    "contribution": "星系旋转速度研究，提供了暗物质存在的证据"
+  },
+  {
+    "name": "Vilhelm Bjerknes",
+    "contribution": "气象学家，奠定了现代天气预报和流体力学的基础"
+  },
+  {
+    "name": "Vinton Cerf",
+    "contribution": "美国计算机科学家，“互联网之父”之一（TCP/IP）"
+  },
+  {
+    "name": "Walter Gilbert",
+    "contribution": "生物化学家，因DNA测序方法获得诺贝尔奖 | 1980年诺贝尔化学奖，表彰其在核酸碱基序列测定方面的贡献（与弗雷德里克·桑格共同获得）"
+  },
+  {
+    "name": "Werner Heisenberg",
+    "contribution": "物理学家，量子力学的主要奠基人之一 | 1932年诺贝尔物理学奖，表彰其创立量子力学"
+  },
+  {
+    "name": "William Thomson (Lord Kelvin)",
+    "contribution": "物理学家，定义了热力学和开尔文温标"
+  },
+  {
+    "name": "Wolfgang Pauli",
+    "contribution": "奥地利物理学家，以泡利不相容原理而闻名 | 1945年诺贝尔物理学奖，表彰其发现不相容原理（泡利原理）"
+  },
+  {
+    "name": "Yann LeCun",
+    "contribution": "计算机科学家，卷积神经网络（CNN）的先驱 | 2018年图灵奖，表彰其在深度学习方面的贡献（与本吉奥和辛顿共同获得）"
+  },
+  {
+    "name": "Yoshua Bengio",
+    "contribution": "计算机科学家，深度学习研究的先驱 | 2018年图灵奖，表彰其在深度学习方面的贡献（与辛顿和勒昆共同获得）"
+  },
+  {
+    "name": "Yuan T. Lee",
+    "contribution": "化学家，因对化学反应动力学的贡献获得诺贝尔奖 | 1986年诺贝尔化学奖，表彰其在化学基元反应动力学方面的贡献（与赫希巴赫和波拉尼共同获得）"
+  },
+  {
+    "name": "Émile Durkheim",
+    "contribution": "社会学家，现代社会学的奠基人之一"
+  },
+  {
+    "name": "Émilie du Châtelet",
+    "contribution": "数学家和物理学家，将牛顿的著作翻译成法语并进行了评注"
+  }
+]

@@ -341,6 +341,10 @@
         "generate_questionset_header": "🧠 Generate Question Set",
         "generate_kahoot_header": "🤖 Generate Kahoot Question Set",
         "generate_arsnova_header": "🎯 Generate ARSnova.click Question Set",
+        "expanders": {
+            "reset_user_results": "Select a user:",
+            "metrics_glossary": "Glossary of Metrics"
+        },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossaries as PDF",
         "glossary": {
@@ -431,7 +435,10 @@
             "select_help": "Only free pseudonyms are shown.",
             "generate_button": "🚀 Generate Logins",
             "latest_logins": "Last generated logins",
-            "download_csv": "⬇️ Download CSV"
+            "download_csv": "⬇️ Download CSV",
+            "pseudonyms_already_used": "Pseudonyms have already been used.",
+            "pseudonyms_currently_in_use": "Pseudonyms are currently in use.",
+            "pseudonyms_currently_reserved": "Pseudonyms are currently reserved."
         },
         "system_settings_header": "System Settings and Metrics",
         "system": {
