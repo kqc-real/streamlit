@@ -43,7 +43,7 @@
         "current_set": "Set: <strong>{name}</strong>",
         "current_set_marker": "Set: {marker} <strong>{name}</strong>",
         "glossary_download": "💾 Glossar laden",
-        "glossary_cooldown": "Glossar-Export läuft noch. Warte kurz ({wait} s).",
+        "glossary_cooldown": "Glossar-Export läuft. Geduld ({wait} s).",
         "glossary_generate_button": "📄 Glossar erstellen",
         "glossary_spinner_simple": "Baue Glossar-PDF...",
         "glossary_spinner_with_formulas": "Erstelle PDF – rendere {count} Formeln (kann etwas dauern).",
@@ -54,8 +54,8 @@
         "progress_line": "⏳ Status: {status}",
         "progress": {
             "finished": "(Fertig)",
-            "single": "(noch 1 Frage)",
-            "multiple": "(noch {remaining} Fragen)"
+            "single": "(nur noch 1!)",
+            "multiple": "({remaining} übrig)"
         },
         "test_end": "Test beenden",
         "score": {
@@ -193,8 +193,8 @@
         "question_prompt": "Deine Antwort:",
         "header_total_questions": "### {count} Fragen total",
         "header_last_question": "### Letzte Frage!",
-        "header_remaining_plural": "### Noch {count} Fragen",
-        "header_remaining_single": "### Noch {count} Frage",
+        "header_remaining_plural": "### Nur noch {count}",
+        "header_remaining_single": "### Nur noch eine!",
         "topic_label": "Thema",
         "countdown": {
             "warning_seconds": "⚠️ Gleich vorbei!",
@@ -270,12 +270,12 @@
                 "nearly_goal": "Fast am Ziel! Noch eine.",
                 "final_question": "Finale! Konzentriert durchziehen.",
                 "final_sprint": "Endspurt! Eine noch.",
-                "one_more": "Noch 1 – dann durch!",
+                "one_more": "Eine geht noch – dann durch!",
                 "finish_in_sight": "Letzter Sprint! Ziel in Sicht.",
                 "focus_once_more": "Gleich fertig! Nochmal Fokus.",
                 "one_from_goal": "Finale! Nur noch eine Frage.",
                 "last_concentration": "Fast geschafft! Letzte Hürde.",
-                "finish_approaching": "Finish naht! Noch 1 Frage.",
+                "finish_approaching": "Finish naht! Eine noch.",
                 "top_score": "Hol dir den letzten Punkt!",
                 "strong_run": "Starker Lauf – mach ihn fertig!",
                 "elite_result": "Top-Ergebnis möglich – Endspurt!"
