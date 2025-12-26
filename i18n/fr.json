@@ -24,6 +24,8 @@
         "generate_arsnova_header": "🎯 Générer un ensemble de questions ARSnova.click",
         "expanders": {
             "reset_user_results": "Sélectionnez un utilisateur :",
+            "admin_key": "Clé Admin pour confirmation :",
+            "confirm_checkbox": "Oui, je suis sûr.",
             "metrics_glossary": "Glossaire des métriques"
         },
         "dashboard_title": "🛠 Tableau de bord administrateur",
@@ -220,6 +222,12 @@
             "audit_log": "🔒 Journal d'audit"
         },
         "leaderboard": {
+            "columns": {
+                "pseudonym": "Pseudonyme",
+                "points": "Points",
+                "duration": "Durée",
+                "date": "Date"
+            },
             "tempo": {
                 "label": "Tempo",
                 "help": "Filtrer le classement par tempo",

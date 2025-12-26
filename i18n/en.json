@@ -343,6 +343,8 @@
         "generate_arsnova_header": "🎯 Generate ARSnova.click Question Set",
         "expanders": {
             "reset_user_results": "Select a user:",
+            "admin_key": "Admin Key for Confirmation:",
+            "confirm_checkbox": "Yes, I am sure.",
             "metrics_glossary": "Glossary of Metrics"
         },
         "dashboard_title": "🛠 Admin Dashboard",
@@ -539,6 +541,12 @@
             "audit_log": "🔒 Audit Log"
         },
         "leaderboard": {
+            "columns": {
+                "pseudonym": "Pseudonym",
+                "points": "Points",
+                "duration": "Duration",
+                "date": "Date"
+            },
             "tempo": {
                 "label": "Pace",
                 "help": "Filter leaderboard by pace",

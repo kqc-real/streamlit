@@ -335,6 +335,8 @@
         "generate_arsnova_header": "🎯 生成 ARSnova.click 问题集",
         "expanders": {
             "reset_user_results": "选择用户：",
+            "admin_key": "管理员密钥确认：",
+            "confirm_checkbox": "是的，我确定。",
             "metrics_glossary": "指标词汇表"
         },
         "dashboard_title": "🛠 管理员仪表板",
@@ -531,6 +533,12 @@
             "audit_log": "🔒 审计日志"
         },
         "leaderboard": {
+            "columns": {
+                "pseudonym": "化名",
+                "points": "分数",
+                "duration": "时长",
+                "date": "日期"
+            },
             "tempo": {
                 "label": "节奏",
                 "help": "按节奏过滤排行榜",
