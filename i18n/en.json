@@ -349,14 +349,14 @@
             "analysis": "📊 Analysis",
             "feedback": "📢 Feedback",
             "export": "📤 Export",
-            "login_generator": "🔑 Login-Generator",
+            "login_generator": "🔑 Login Generator",
             "system": "⚙️ System",
             "generate_questionset": "🧠 Generate Question Set",
             "generate_kahoot": "🤖 Generate Kahoot Question Set",
             "generate_arsnova": "🎯 Generate ARSnova.click Question Set",
             "glossary": "📚 Mini-Glossaries",
             "questionsets": "📂 Question Sets",
-            "audit_log": "🔒 Audit-Log"
+            "audit_log": "🔒 Audit Log"
         },
         "leaderboard": {
             "tempo": {
