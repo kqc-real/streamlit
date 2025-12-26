@@ -306,7 +306,8 @@
         "de": "German",
         "en": "English",
         "fr": "French",
-        "es": "Spanish"
+        "es": "Spanish",
+        "it": "Italian"
     },
     "buttons": {
         "download": "Download"
