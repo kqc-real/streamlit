@@ -5514,7 +5514,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     <div style="text-align: left;">
         <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-bottom: -5px;">{translate_ui('summary.metric_caption', default='Dein Endergebnis')}</p>
         <p style="font-size: 1.5rem; font-weight: 600;">
-            {current_score} / {max_score} Punkte 
+            {translate_ui('summary.score_display', default='{current} / {max} Punkte').format(current=current_score, max=max_score)}
             <span style="color: {color}; font-weight: bold; font-size: 1.25rem;">({int(prozent)} %)</span>
         </p>
     </div>

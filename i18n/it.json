@@ -429,6 +429,7 @@
             "early_finish": "Finito {early_delta} min prima. Tempo: {duration_display}. Limite ({tempo_label}): {allowed_min} min"
         },
         "metric_caption": "Punteggio Finale",
+        "score_display": "{current} / {max} punti",
         "subheader": {
             "topic_performance": "Perf per Argomento"
         }

@@ -429,6 +429,7 @@
             "early_finish": "提前 {early_delta} 分钟完成。时间: {duration_display}。限制 ({tempo_label}): {allowed_min} 分钟"
         },
         "metric_caption": "最终得分",
+        "score_display": "{current} / {max} 分",
         "subheader": {
             "topic_performance": "主题表现"
         }

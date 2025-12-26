@@ -478,6 +478,7 @@
             "early_finish": "Du warst {early_delta} min schneller als nötig. Zeit: {duration_display}. Limit ({tempo_label}): {allowed_min} min"
         },
         "metric_caption": "Dein Ergebnis",
+        "score_display": "{current} / {max} Punkten",
         "subheader": {
             "topic_performance": "Themen-Check"
         }

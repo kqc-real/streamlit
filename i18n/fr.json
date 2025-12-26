@@ -415,6 +415,7 @@
             "early_finish": "Fini {early_delta} min en avance. Durée : {duration_display}. Max ({tempo_label}) : {allowed_min} min"
         },
         "metric_caption": "Score Final",
+        "score_display": "{current} / {max} points",
         "subheader": {
             "topic_performance": "Perf par Sujet"
         }
