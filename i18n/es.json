@@ -77,6 +77,10 @@
             "filter_messages": "Filtrar mensajes:",
             "no_topics_defined": "No hay temas definidos.",
             "audit_log_description": "Registro de todas las acciones de administrador para seguridad y cumplimiento",
+            "expanders": {
+                "metrics_glossary": "Glosario de métricas",
+                "about_audit_logging": "ℹ️ Acerca del registro de auditoría"
+            },
             "no_completed_tests": "Aún no hay pruebas completadas disponibles. Las estadísticas se mostrarán después de las primeras pruebas."
         },
         "warnings": {

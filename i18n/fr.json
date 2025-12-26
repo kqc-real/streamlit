@@ -77,6 +77,10 @@
             "filter_messages": "Filtrer les messages :",
             "no_topics_defined": "Aucun sujet défini.",
             "audit_log_description": "Journalisation de toutes les actions administrateur pour la sécurité et la conformité",
+            "expanders": {
+                "metrics_glossary": "Glossaire des métriques",
+                "about_audit_logging": "ℹ️ À propos de l'audit logging"
+            },
             "no_completed_tests": "Aucun test terminé disponible pour le moment. Les statistiques seront affichées après les premiers tests."
         },
         "warnings": {

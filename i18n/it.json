@@ -77,6 +77,10 @@
             "filter_messages": "Filtra i messaggi:",
             "no_topics_defined": "Nessun argomento definito.",
             "audit_log_description": "Registrazione di tutte le azioni amministratore per sicurezza e conformità",
+            "expanders": {
+                "metrics_glossary": "Glossario delle metriche",
+                "about_audit_logging": "ℹ️ Informazioni sul logging di audit"
+            },
             "no_completed_tests": "Ancora nessun test completato disponibile. Le statistiche verranno visualizzate dopo i primi test."
         },
         "warnings": {

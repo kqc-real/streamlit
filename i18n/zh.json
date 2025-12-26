@@ -389,6 +389,10 @@
             "filter_messages": "过滤消息：",
             "no_topics_defined": "未定义主题。",
             "audit_log_description": "记录所有管理员操作以确保安全性和合规性",
+            "expanders": {
+                "metrics_glossary": "指标词汇表",
+                "about_audit_logging": "ℹ️ 关于审计日志"
+            },
             "no_completed_tests": "尚未有完成的测试。统计数据将在第一次测试后显示。"
         },
         "warnings": {
