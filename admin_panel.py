@@ -71,7 +71,7 @@ def _open_prompt_dialog(title: str, content: str, download_name: str) -> bool:
 
 def render_general_prompt_tab() -> None:
     """Zeigt den allgemeinen KI-Prompt für neue Fragensets."""
-    st.header("🧠 Fragenset generieren")
+    st.header(translate_ui("admin.generate_questionset_header"))
     st.markdown(
         """
         Nutze diesen Prompt in ChatGPT, Claude oder einem anderen LLM, um ein neues
@@ -129,7 +129,7 @@ def render_general_prompt_tab() -> None:
 
 def render_kahoot_prompt_tab() -> None:
     """Zeigt den Kahoot-spezifischen KI-Prompt."""
-    st.header("🤖 Fragenset für Kahoot generieren")
+    st.header(translate_ui("admin.generate_kahoot_header"))
     st.markdown(
         """
         Dieser Prompt ist speziell für Kahoot optimiert. Er stellt sicher, dass alle
@@ -183,7 +183,7 @@ def render_kahoot_prompt_tab() -> None:
 
 def render_arsnova_prompt_tab() -> None:
     """Zeigt den arsnova.click-spezifischen KI-Prompt."""
-    st.header("🎯 Fragenset für ARSnova.click generieren")
+    st.header(translate_ui("admin.generate_arsnova_header"))
     st.markdown(
         """
         Dieser Prompt führt Schritt für Schritt zu einem Fragenset, das alle
@@ -238,7 +238,7 @@ def render_arsnova_prompt_tab() -> None:
 
 def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     """Rendert das komplette Admin-Dashboard mit Tabs."""
-    st.title("🛠 Admin Dashboard")
+    st.title(translate_ui("admin.dashboard_title"))
 
     # Lade die Daten direkt aus der Datenbank
     logs = get_all_answer_logs()
@@ -255,18 +255,18 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
 
     tabs = st.tabs(
         [
-            "🏆 Leaderboard",
-            "📊 Analyse",
-            "📢 Feedback",
-            "📤 Export",
-            "🔑 Login-Generator",
-            "⚙️ System",
-            "🧠 Fragenset generieren",
-            "🤖 Fragenset für Kahoot generieren",
-            "🎯 Fragenset für ARSnova.click generieren",
-            "📚 Mini-Glossare",
-            "📂 Fragensets",
-            "🔒 Audit-Log",
+            translate_ui("admin.tabs.leaderboard"),
+            translate_ui("admin.tabs.analysis"),
+            translate_ui("admin.tabs.feedback"),
+            translate_ui("admin.tabs.export"),
+            translate_ui("admin.tabs.login_generator"),
+            translate_ui("admin.tabs.system"),
+            translate_ui("admin.tabs.generate_questionset"),
+            translate_ui("admin.tabs.generate_kahoot"),
+            translate_ui("admin.tabs.generate_arsnova"),
+            translate_ui("admin.tabs.glossary"),
+            translate_ui("admin.tabs.questionsets"),
+            translate_ui("admin.tabs.audit_log"),
         ]
     )
 
@@ -299,15 +299,15 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
 
 def render_mini_glossary_tab():
     """Ermöglicht den Export der Mini-Glossare als PDF."""
-    st.header("📚 Mini-Glossare als PDF")
+    st.header(translate_ui("admin.glossary_header"))
 
     question_files = list_question_files()
     if not question_files:
-        st.info("Keine Fragensets gefunden.")
+        st.info(translate_ui("admin.no_questionsets"))
         return
 
     st.caption(
-        "Lade ein Fragenset, prüfe die vorhandenen Mini-Glossar-Einträge und erstelle bei Bedarf ein PDF."
+        translate_ui("admin.glossary_generation_caption")
     )
 
     for filename in question_files:
@@ -380,7 +380,7 @@ def render_mini_glossary_tab():
             pdf_state_key = f"_glossary_pdf_{filename}"
             generate_key = f"btn_generate_glossary_pdf_{filename}"
 
-            if st.button("📄 Mini-Glossar als PDF erstellen", key=generate_key):
+            if st.button(translate_ui("admin.glossary_generate_single_button"), key=generate_key):
                 with st.spinner("PDF wird erstellt …"):
                     try:
                         pdf_bytes = generate_mini_glossary_pdf(filename, questions)
@@ -388,7 +388,7 @@ def render_mini_glossary_tab():
                         st.error("Dieses Fragenset enthält kein Mini-Glossar.")
                     else:
                         st.session_state[pdf_state_key] = pdf_bytes
-                        st.success("PDF erstellt. Du kannst es jetzt herunterladen.")
+                        st.success(translate_ui("admin.glossary_success"))
 
             pdf_bytes = st.session_state.get(pdf_state_key)
             if pdf_bytes:
@@ -404,7 +404,7 @@ def render_mini_glossary_tab():
 
 def render_question_sets_tab():
     """Zeigt eine Übersicht über alle verfügbaren Fragensets."""
-    st.header("📂 Übersicht aller Fragensets")
+    st.header(translate_ui("admin.questionsets_overview_header"))
 
     question_files = list_question_files()
     if not question_files:
@@ -471,7 +471,7 @@ def render_question_sets_tab():
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
     """Rendert den Leaderboard-Tab."""
-    st.header("🏆 Highscores nach Fragenset")
+    st.header(translate_ui("admin.highscores_by_questionset_header"))
 
     # Hole alle einzigartigen Fragensets aus den Logs
     all_question_files = sorted(df_all["questions_file"].unique()) if not df_all.empty and "questions_file" in df_all.columns else []
@@ -609,7 +609,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
 
 def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     """Rendert den Item-Analyse-Tab."""
-    st.header("📊 Item-Analyse")
+    st.header(translate_ui("admin.item_analysis_header"))
     
     # Hole alle Fragensets mit ausreichend Daten (mindestens 1 Antwort)
     from database import get_all_answer_logs
@@ -771,7 +771,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
 
     # --- Distraktor-Analyse ---
     st.divider()
-    st.header("Detail-Analyse: Distraktoren")
+    st.header(translate_ui("admin.distractor_analysis_header"))
 
     question_titles = [q.get("question", q.get("frage", "")) for q in questions]
     selected_question_title = st.selectbox(
@@ -819,7 +819,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
 
 def render_feedback_tab():
     """Rendert den Feedback-Tab."""
-    st.header("Gemeldete Probleme")
+    st.header(translate_ui("admin.reported_issues_header"))
     
     feedback_data = get_all_feedback()
     if not feedback_data:
@@ -957,7 +957,7 @@ def render_feedback_tab():
 
 def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     """Rendert den Export-Tab."""
-    st.header("📤 Datenexport")
+    st.header(translate_ui("admin.data_export_header"))
     if df.empty:
         st.info("Keine Daten zum Exportieren vorhanden.")
         return
@@ -1016,7 +1016,7 @@ def _reserved_pseudonyms(used: list[str] | None = None) -> list[str]:
 
 def render_login_generator_tab(app_config: AppConfig) -> None:
     """Ermöglicht das Reservieren und Exportieren freier Pseudonyme als Logins."""
-    st.header("🔑 Login-Generator für reservierte Pseudonyme")
+    st.header(translate_ui("admin.login_generator_header"))
 
     used_all = _used_pseudonyms()
     reserved = _reserved_pseudonyms(used_all)
@@ -1277,7 +1277,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
 def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     """Rendert den System-Tab für Konfiguration und Statistiken."""
-    st.header("Systemeinstellungen und Metriken")
+    st.header(translate_ui("admin.system_settings_header"))
 
     # --- Scoring-Modus ---
     st.subheader("Scoring-Modus")
@@ -1448,7 +1448,7 @@ def render_audit_log_tab():
         cleanup_old_audit_logs
     )
     
-    st.header("🔒 Audit-Log")
+    st.header(translate_ui("admin.audit_log_header"))
     st.caption("Protokollierung aller Admin-Aktionen für Sicherheit und Compliance")
     
     # --- Statistiken ---

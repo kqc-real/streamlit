@@ -321,6 +321,42 @@
         "power": "Turbo"
     },
     "admin": {
+        "generate_questionset_header": "🧠 Generate Question Set",
+        "generate_kahoot_header": "🤖 Generate Kahoot Question Set",
+        "generate_arsnova_header": "🎯 Generate ARSnova.click Question Set",
+        "dashboard_title": "🛠 Admin Dashboard",
+        "glossary_header": "📚 Mini-Glossaries as PDF",
+        "no_questionsets": "No question sets found.",
+        "glossary_caption": "PDF with mini-glossaries for all topics.",
+        "glossary_generate_button": "📄 Generate Glossaries",
+        "glossary_generate_single_button": "📄 Create Mini-Glossary as PDF",
+        "glossary_spinner": "Generating glossaries...",
+        "glossary_success": "Glossaries ready!",
+        "glossary_download_button": "💾 Download Glossaries",
+        "glossary_generation_caption": "Load a question set, check existing mini-glossary entries and create a PDF if needed.",
+        "questionsets_overview_header": "📂 Overview of all Question Sets",
+        "highscores_by_questionset_header": "🏆 Highscores by Question Set",
+        "item_analysis_header": "📊 Item Analysis",
+        "distractor_analysis_header": "Detail Analysis: Distractors",
+        "reported_issues_header": "Reported Issues",
+        "data_export_header": "📤 Data Export",
+        "login_generator_header": "🔑 Login Generator for Reserved Pseudonyms",
+        "system_settings_header": "System Settings and Metrics",
+        "audit_log_header": "🔒 Audit Log",
+        "tabs": {
+            "leaderboard": "🏆 Leaderboard",
+            "analysis": "📊 Analysis",
+            "feedback": "📢 Feedback",
+            "export": "📤 Export",
+            "login_generator": "🔑 Login-Generator",
+            "system": "⚙️ System",
+            "generate_questionset": "🧠 Generate Question Set",
+            "generate_kahoot": "🤖 Generate Kahoot Question Set",
+            "generate_arsnova": "🎯 Generate ARSnova.click Question Set",
+            "glossary": "📚 Mini-Glossaries",
+            "questionsets": "📂 Question Sets",
+            "audit_log": "🔒 Audit-Log"
+        },
         "leaderboard": {
             "tempo": {
                 "label": "Pace",
@@ -332,6 +368,22 @@
                     "power": "Power (1/4)"
                 }
             }
+        },
+        "messages": {
+            "no_answers_recorded": "No answers recorded yet.",
+            "no_results_for_set": "No results available for this set.",
+            "no_answers_for_analysis": "No answers available for analysis yet.",
+            "no_answers_for_questionset": "No answers available for this question set.",
+            "min_participants_required": "At least 2 participants are required for discrimination calculation.",
+            "no_answers_for_question": "No answers available for this question yet.",
+            "no_problems_reported": "No problems have been reported so far.",
+            "no_data_to_export": "No data available for export.",
+            "export_contains_all_data": "💡 The export contains all answer data including user pseudonyms and timestamps.",
+            "no_pseudonyms_in_use": "No pseudonyms in use yet.",
+            "pseudonym_delete_failed": "Pseudonym could not be deleted (possibly no reserved secret or already removed).",
+            "no_reserved_pseudonyms": "No reserved pseudonyms available.",
+            "no_reserved_pseudonyms_to_delete": "No reserved pseudonyms to delete or operation failed.",
+            "no_completed_tests": "No completed tests available yet. Statistics will be displayed after the first tests."
         }
     },
     "messages": {
