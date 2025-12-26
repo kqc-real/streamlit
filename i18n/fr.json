@@ -113,6 +113,20 @@
             "discrimination_high": " : La question discrimine bien entre les participants forts et faibles.",
             "discrimination_medium": " : La question discrimine de manière acceptable.",
             "discrimination_low": " : La question discrimine mal. Elle peut être confuse, trop facile/difficile ou avoir une erreur dans la réponse."
+        },
+        "prompts": {
+            "general_description": "Utilisez cette invite dans ChatGPT, Claude ou tout autre LLM pour créer un nouveau jeu de questions `questions_*.json` adapté à cette application. Copiez le texte, répondez aux questions étape par étape et enregistrez le fichier généré dans le répertoire `data/`.",
+            "general_best_results": "Actuellement, nous obtenons les meilleurs résultats avec »ChatGPT 5 Thinking Comprehensive« et »Gemini 2.5 Flash« – veuillez d'abord essayer ceux-ci.",
+            "kahoot_description": "Cette invite est spécialement optimisée pour Kahoot. Elle garantit que tous les textes de questions et options de réponses respectent les limites de Kahoot. Utilisez-la pour les équipes qui souhaitent implémenter des questions de votre contenu de cours en tant que Kahoot en direct.",
+            "arsnova_description": "Cette invite vous guide étape par étape vers un jeu de questions qui prend automatiquement en compte toutes les restrictions arsnova.click (options ≤ 60 caractères, minuteur 60 s, pas de balisage de titre). Utilisez-la pour les importations dans arsnova.click.",
+            "content_label": "Contenu de l'invite",
+            "download_markdown": "⬇️ Télécharger l'invite en Markdown",
+            "download": "⬇️ Télécharger l'invite",
+            "show": "👁️ Afficher l'invite",
+            "close_dialog": "Fermer la boîte de dialogue",
+            "general_title": "Invite IA générale",
+            "kahoot_title": "Invite IA Kahoot",
+            "arsnova_title": "Invite IA arsnova.click"
         }
     },
     "sidebar": {

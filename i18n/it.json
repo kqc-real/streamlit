@@ -113,6 +113,20 @@
             "discrimination_high": " : La domanda discrimina bene tra partecipanti forti e deboli.",
             "discrimination_medium": " : La domanda discrimina in modo accettabile.",
             "discrimination_low": " : La domanda discrimina male. Potrebbe essere confusa, troppo facile/difficile o avere un errore nella risposta."
+        },
+        "prompts": {
+            "general_description": "Usa questo prompt in ChatGPT, Claude o qualsiasi altro LLM per creare un nuovo set di domande `questions_*.json` adatto per questa app. Copia il testo, rispondi alle domande passo dopo passo e salva il file generato nella directory `data/`.",
+            "general_best_results": "Attualmente otteniamo i migliori risultati con »ChatGPT 5 Thinking Comprehensive« e »Gemini 2.5 Flash« – per favore, provali prima.",
+            "kahoot_description": "Questo prompt è specificamente ottimizzato per Kahoot. Assicura che tutti i testi delle domande e le opzioni di risposta rispettino i limiti di Kahoot. Usalo per team che desiderano implementare domande dal tuo contenuto del corso come Kahoot dal vivo.",
+            "arsnova_description": "Questo prompt ti guida passo dopo passo a un set di domande che considera automaticamente tutte le restrizioni di arsnova.click (opzioni ≤ 60 caratteri, timer 60 s, nessun markup dei titoli). Usalo per importazioni in arsnova.click.",
+            "content_label": "Contenuto del prompt",
+            "download_markdown": "⬇️ Scarica prompt come Markdown",
+            "download": "⬇️ Scarica prompt",
+            "show": "👁️ Mostra prompt",
+            "close_dialog": "Chiudi dialogo",
+            "general_title": "Prompt IA generale",
+            "kahoot_title": "Prompt IA Kahoot",
+            "arsnova_title": "Prompt IA arsnova.click"
         }
     },
     "sidebar": {

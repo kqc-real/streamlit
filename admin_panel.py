@@ -48,14 +48,14 @@ def _open_prompt_dialog(title: str, content: str, download_name: str) -> bool:
 
     def _dialog_body() -> None:
         st.text_area(
-            "Prompt-Inhalt",
+            translate_ui("admin.prompts.content_label"),
             content,
             height=500,
             label_visibility="collapsed",
             key=f"{download_name}_dialog_text",
         )
         st.download_button(
-            "⬇️ Prompt als Markdown herunterladen",
+            translate_ui("admin.prompts.download_markdown"),
             data=content.encode("utf-8"),
             file_name=download_name,
             mime="text/markdown",
@@ -73,15 +73,10 @@ def render_general_prompt_tab() -> None:
     """Zeigt den allgemeinen KI-Prompt für neue Fragensets."""
     st.header(translate_ui("admin.generate_questionset_header"))
     st.markdown(
-        """
-        Nutze diesen Prompt in ChatGPT, Claude oder einem anderen LLM, um ein neues
-        `questions_*.json`-Fragenset passend für diese App zu erstellen. Kopiere den
-        Text, beantworte die Fragen Schritt für Schritt und speichere die generierte
-        Datei anschließend im Verzeichnis `data/`.
-        """.strip()
+        translate_ui("admin.prompts.general_description")
     )
     st.info(
-        "Aktuell erzielen wir die besten Ergebnisse mit »ChatGPT 5 Thinking Umfassend« und »Gemini 2.5 Flash« – gerne zuerst damit versuchen."
+        translate_ui("admin.prompts.general_best_results")
     )
 
     prompt_content = _load_prompt_file("KI_PROMPT.md")
@@ -95,35 +90,35 @@ def render_general_prompt_tab() -> None:
     col_left, col_right = st.columns(2)
     with col_left:
         st.download_button(
-            "⬇️ Prompt herunterladen",
+            translate_ui("admin.prompts.download"),
             data=prompt_content.encode("utf-8"),
             file_name="KI_PROMPT.md",
             mime="text/markdown",
             key="download_general_prompt",
         )
     with col_right:
-        if st.button("👁️ Prompt anzeigen", key="open_general_prompt"):
+        if st.button(translate_ui("admin.prompts.show"), key="open_general_prompt"):
             needs_inline = _open_prompt_dialog(
-                "Allgemeiner KI-Prompt", prompt_content, "KI_PROMPT.md"
+                translate_ui("admin.prompts.general_title"), prompt_content, "KI_PROMPT.md"
             )
             if needs_inline:
                 st.session_state[inline_state_key] = True
 
     if st.session_state.get(inline_state_key):
         st.text_area(
-            "Allgemeiner KI-Prompt",
+            translate_ui("admin.prompts.general_title"),
             prompt_content,
             height=500,
             key="general_prompt_inline_text",
         )
         st.download_button(
-            "⬇️ Prompt als Markdown herunterladen",
+            translate_ui("admin.prompts.download_markdown"),
             data=prompt_content.encode("utf-8"),
             file_name="KI_PROMPT.md",
             mime="text/markdown",
             key="download_general_prompt_inline",
         )
-        if st.button("Dialog schließen", key="close_general_prompt_inline"):
+        if st.button(translate_ui("admin.prompts.close_dialog"), key="close_general_prompt_inline"):
             st.session_state[inline_state_key] = False
 
 
@@ -131,11 +126,7 @@ def render_kahoot_prompt_tab() -> None:
     """Zeigt den Kahoot-spezifischen KI-Prompt."""
     st.header(translate_ui("admin.generate_kahoot_header"))
     st.markdown(
-        """
-        Dieser Prompt ist speziell für Kahoot optimiert. Er stellt sicher, dass alle
-        Fragetexte und Antwortoptionen die Kahoot-Limits einhalten. Nutze ihn für
-        Teams, die Fragen aus deinen Kursinhalten als Live-Kahoot umsetzen möchten.
-        """.strip()
+        translate_ui("admin.prompts.kahoot_description")
     )
 
     prompt_content = _load_prompt_file("KI_PROMPT_KAHOOT.md")
@@ -149,35 +140,35 @@ def render_kahoot_prompt_tab() -> None:
     col_left, col_right = st.columns(2)
     with col_left:
         st.download_button(
-            "⬇️ Prompt herunterladen",
+            translate_ui("admin.prompts.download"),
             data=prompt_content.encode("utf-8"),
             file_name="KI_PROMPT_KAHOOT.md",
             mime="text/markdown",
             key="download_kahoot_prompt",
         )
     with col_right:
-        if st.button("👁️ Prompt anzeigen", key="open_kahoot_prompt"):
+        if st.button(translate_ui("admin.prompts.show"), key="open_kahoot_prompt"):
             needs_inline = _open_prompt_dialog(
-                "Kahoot KI-Prompt", prompt_content, "KI_PROMPT_KAHOOT.md"
+                translate_ui("admin.prompts.kahoot_title"), prompt_content, "KI_PROMPT_KAHOOT.md"
             )
             if needs_inline:
                 st.session_state[inline_state_key] = True
 
     if st.session_state.get(inline_state_key):
         st.text_area(
-            "Kahoot KI-Prompt",
+            translate_ui("admin.prompts.kahoot_title"),
             prompt_content,
             height=500,
             key="kahoot_prompt_inline_text",
         )
         st.download_button(
-            "⬇️ Prompt als Markdown herunterladen",
+            translate_ui("admin.prompts.download_markdown"),
             data=prompt_content.encode("utf-8"),
             file_name="KI_PROMPT_KAHOOT.md",
             mime="text/markdown",
             key="download_kahoot_prompt_inline",
         )
-        if st.button("Dialog schließen", key="close_kahoot_prompt_inline"):
+        if st.button(translate_ui("admin.prompts.close_dialog"), key="close_kahoot_prompt_inline"):
             st.session_state[inline_state_key] = False
 
 
@@ -185,12 +176,7 @@ def render_arsnova_prompt_tab() -> None:
     """Zeigt den arsnova.click-spezifischen KI-Prompt."""
     st.header(translate_ui("admin.generate_arsnova_header"))
     st.markdown(
-        """
-        Dieser Prompt führt Schritt für Schritt zu einem Fragenset, das alle
-        arsnova.click-Beschränkungen (Optionen ≤ 60 Zeichen, Timer 60 s, keine
-        Überschriften-Markup) automatisch berücksichtigt. Nutze ihn für Importe
-        in arsnova.click.
-        """.strip()
+        translate_ui("admin.prompts.arsnova_description")
     )
 
     prompt_content = _load_prompt_file("KI_PROMPT_ARSNOVA_CLICK.md")
@@ -204,35 +190,35 @@ def render_arsnova_prompt_tab() -> None:
     col_left, col_right = st.columns(2)
     with col_left:
         st.download_button(
-            "⬇️ Prompt herunterladen",
+            translate_ui("admin.prompts.download"),
             data=prompt_content.encode("utf-8"),
             file_name="KI_PROMPT_ARSNOVA_CLICK.md",
             mime="text/markdown",
             key="download_arsnova_prompt",
         )
     with col_right:
-        if st.button("👁️ Prompt anzeigen", key="open_arsnova_prompt"):
+        if st.button(translate_ui("admin.prompts.show"), key="open_arsnova_prompt"):
             needs_inline = _open_prompt_dialog(
-                "arsnova.click KI-Prompt", prompt_content, "KI_PROMPT_ARSNOVA_CLICK.md"
+                translate_ui("admin.prompts.arsnova_title"), prompt_content, "KI_PROMPT_ARSNOVA_CLICK.md"
             )
             if needs_inline:
                 st.session_state[inline_state_key] = True
 
     if st.session_state.get(inline_state_key):
         st.text_area(
-            "arsnova.click KI-Prompt",
+            translate_ui("admin.prompts.arsnova_title"),
             prompt_content,
             height=500,
             key="arsnova_prompt_inline_text",
         )
         st.download_button(
-            "⬇️ Prompt als Markdown herunterladen",
+            translate_ui("admin.prompts.download_markdown"),
             data=prompt_content.encode("utf-8"),
             file_name="KI_PROMPT_ARSNOVA_CLICK.md",
             mime="text/markdown",
             key="download_arsnova_prompt_inline",
         )
-        if st.button("Dialog schließen", key="close_arsnova_prompt_inline"):
+        if st.button(translate_ui("admin.prompts.close_dialog"), key="close_arsnova_prompt_inline"):
             st.session_state[inline_state_key] = False
 
 

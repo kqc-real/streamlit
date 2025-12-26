@@ -425,6 +425,20 @@
             "discrimination_high": "：这个问题很好地区分了强参与者和弱参与者。",
             "discrimination_medium": "：这个问题可以接受地区分。",
             "discrimination_low": "：这个问题区分度很差。可能令人困惑、太简单/困难，或答案有错误。"
+        },
+        "prompts": {
+            "general_description": "在 ChatGPT、Claude 或其他 LLM 中使用此提示，为此应用创建一个新的 `questions_*.json` 题库。复制文本，逐步回答问题，然后将生成的文件保存到 `data/` 目录中。",
+            "general_best_results": "目前我们使用 »ChatGPT 5 Thinking Comprehensive« 和 »Gemini 2.5 Flash« 获得最佳结果 – 请先尝试这些。",
+            "kahoot_description": "此提示专门针对 Kahoot 进行了优化。它确保所有问题文本和答案选项符合 Kahoot 的限制。用于希望将您的课程内容中的问题作为实时 Kahoot 实现的团队。",
+            "arsnova_description": "此提示逐步引导您创建一个题库，该题库自动考虑所有 arsnova.click 限制（选项 ≤ 60 个字符、计时器 60 秒、无标题标记）。用于导入到 arsnova.click。",
+            "content_label": "提示内容",
+            "download_markdown": "⬇️ 下载提示为 Markdown",
+            "download": "⬇️ 下载提示",
+            "show": "👁️ 显示提示",
+            "close_dialog": "关闭对话框",
+            "general_title": "通用 AI 提示",
+            "kahoot_title": "Kahoot AI 提示",
+            "arsnova_title": "arsnova.click AI 提示"
         }
     },
     "messages": {

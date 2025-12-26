@@ -223,6 +223,20 @@
             "discrimination_high": ": Die Frage trennt gut zwischen starken und schwachen Teilnehmern.",
             "discrimination_medium": ": Die Frage trennt noch akzeptabel.",
             "discrimination_low": ": Die Frage trennt schlecht. Möglicherweise ist sie missverständlich, zu einfach/schwer oder hat einen Fehler in der Antwort."
+        },
+        "prompts": {
+            "general_description": "Nutze diesen Prompt in ChatGPT, Claude oder einem anderen LLM, um ein neues `questions_*.json`-Fragenset passend für diese App zu erstellen. Kopiere den Text, beantworte die Fragen Schritt für Schritt und speichere die generierte Datei anschließend im Verzeichnis `data/`.",
+            "general_best_results": "Aktuell erzielen wir die besten Ergebnisse mit »ChatGPT 5 Thinking Umfassend« und »Gemini 2.5 Flash« – gerne zuerst damit versuchen.",
+            "kahoot_description": "Dieser Prompt ist speziell für Kahoot optimiert. Er stellt sicher, dass alle Fragetexte und Antwortoptionen die Kahoot-Limits einhalten. Nutze ihn für Teams, die Fragen aus deinen Kursinhalten als Live-Kahoot umsetzen möchten.",
+            "arsnova_description": "Dieser Prompt führt Schritt für Schritt zu einem Fragenset, das alle arsnova.click-Beschränkungen (Optionen ≤ 60 Zeichen, Timer 60 s, keine Überschriften-Markup) automatisch berücksichtigt. Nutze ihn für Importe in arsnova.click.",
+            "content_label": "Prompt-Inhalt",
+            "download_markdown": "⬇️ Prompt als Markdown herunterladen",
+            "download": "⬇️ Prompt herunterladen",
+            "show": "👁️ Prompt anzeigen",
+            "close_dialog": "Dialog schließen",
+            "general_title": "Allgemeiner KI-Prompt",
+            "kahoot_title": "Kahoot KI-Prompt",
+            "arsnova_title": "arsnova.click KI-Prompt"
         }
     },
     "dialog": {
