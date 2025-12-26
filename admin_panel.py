@@ -408,7 +408,7 @@ def render_question_sets_tab():
 
     question_files = list_question_files()
     if not question_files:
-        st.info("Keine Fragensets gefunden.")
+        st.info(translate_ui("admin.no_questionsets"))
         return
 
     overview_rows: list[dict[str, str | int]] = []
@@ -563,7 +563,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         )
 
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
-        with st.expander("Benutzerergebnisse für dieses Set zurücksetzen"):
+        with st.expander(translate_ui("admin.expanders.reset_user_results")):
             user_to_reset = st.selectbox(
                 "Wähle einen Benutzer:",
                 options=[p for p in scores["👤 Pseudonym"]],
@@ -573,7 +573,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             
             if user_to_reset:
                 user_name_plain = user_to_reset.split(" ", 1)[-1]
-                st.warning(f"⚠️ **Achtung:** Alle Ergebnisse von **{user_name_plain}** für das Fragenset **{title}** werden unwiderruflich gelöscht.")
+                st.warning(translate_ui("admin.warnings.reset_user_results").format(user_name=user_name_plain, title=title))
                 
                 # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
                 from auth import check_admin_key
@@ -754,18 +754,14 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         )
     st.dataframe(display_df, hide_index=True)
 
-    with st.expander("Glossar der Metriken"):
-        st.markdown("""
-        - **Antworten**: Gesamtzahl der abgegebenen Antworten für diese Frage.
-        - **Richtig (%)**: Prozentsatz der korrekten Antworten (Schwierigkeitsindex `p`). Ein Wert nahe 100 % bedeutet eine leichte Frage, ein Wert nahe 0 % eine schwere Frage.
-        """)
+    with st.expander(translate_ui("admin.expanders.metrics_glossary")):
+        st.markdown(translate_ui("admin.metrics_glossary.answers"))
+        st.markdown(translate_ui("admin.metrics_glossary.correct_percentage"))
         if show_correlation:
-            st.markdown("""
-            - **Trennschärfe (r_it)**: Korrelation zwischen der korrekten Beantwortung dieser Frage und dem Gesamtergebnis im Test.
-                - `r_it > 0.3`: Die Frage trennt gut zwischen starken und schwachen Teilnehmern.
-                - `0.1 < r_it < 0.3`: Die Frage trennt noch akzeptabel.
-                - `r_it < 0.1`: Die Frage trennt schlecht. Möglicherweise ist sie missverständlich, zu einfach/schwer oder hat einen Fehler in der Antwort.
-            """)
+            st.markdown(translate_ui("admin.metrics_glossary.discrimination"))
+            st.markdown(translate_ui("admin.metrics_glossary.discrimination_high"))
+            st.markdown(translate_ui("admin.metrics_glossary.discrimination_medium"))
+            st.markdown(translate_ui("admin.metrics_glossary.discrimination_low"))
         else:
             st.info(translate_ui("admin.messages.min_participants_required"))
 
@@ -865,9 +861,9 @@ def render_feedback_tab():
 
     # --- Gefahrenzone: Alle sichtbaren Feedbacks löschen ---
     if not df_feedback.empty:
-        with st.expander("🔴 Gefahrenzone: Mehrere Meldungen löschen"):
+        with st.expander(translate_ui("admin.expanders.delete_multiple_reports")):
             st.warning(
-                f"**Achtung:** Diese Aktion löscht die **{len(df_feedback)}** aktuell sichtbaren Feedback-Meldungen unwiderruflich."
+                translate_ui("admin.warnings.delete_multiple_feedback").format(count=len(df_feedback))
             )
             if st.checkbox("Ich bin mir der Konsequenzen bewusst.", key="confirm_delete_all_feedback"):
                 if st.button(f"Ja, {len(df_feedback)} Meldungen endgültig löschen", type="primary"):
@@ -941,7 +937,7 @@ def render_feedback_tab():
                 
                 # Popover für die Löschbestätigung
                 with st.popover("Löschen"):
-                    st.warning("⚠️ Soll dieses Feedback wirklich gelöscht werden?")
+                    st.warning(translate_ui("admin.warnings.confirm_delete_feedback"))
                     if st.button(
                         "Ja, endgültig löschen",
                         key=f"del_feedback_{row['feedback_id']}",
@@ -1041,7 +1037,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
             use_container_width=True,
         )
 
-        with st.expander("🧹 Einzelnes reserviertes Pseudonym löschen", expanded=False):
+        with st.expander(translate_ui("admin.expanders.delete_single_pseudonym"), expanded=False):
             try:
                 from auth import check_admin_key
             except Exception:
@@ -1064,7 +1060,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
             if st.button("Pseudonym löschen", type="secondary"):
                 if not confirmed_single:
-                    st.warning("Bitte Checkbox zur Bestätigung aktivieren.")
+                    st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
                 else:
                     admin_key_ok = True
                     if check_admin_key is not None and getattr(app_config, "admin_key", None):
@@ -1093,10 +1089,9 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     else:
         st.info(translate_ui("admin.messages.no_reserved_pseudonyms"))
 
-    with st.expander("🔴 Gefahrenzone: Alle genutzten Pseudonyme löschen", expanded=False):
+    with st.expander(translate_ui("admin.expanders.delete_all_used_pseudonyms"), expanded=False):
         st.warning(
-            "Löscht alle genutzten Pseudonyme inkl. zugehöriger Sessions, Antworten und Bookmarks. "
-            "Der Admin-Account bleibt erhalten."
+            translate_ui("admin.warnings.delete_all_used_pseudonyms")
         )
 
         try:
@@ -1114,7 +1109,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
         if st.button("Jetzt alle genutzten Pseudonyme löschen", type="primary"):
             if not confirmed:
-                st.warning("Bitte Checkbox zur Bestätigung aktivieren.")
+                st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
             else:
                 admin_key_ok = True
                 if check_admin_key is not None and getattr(app_config, "admin_key", None):
@@ -1141,10 +1136,9 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                     else:
                         st.error("Löschen fehlgeschlagen. Siehe Server-Logs.")
 
-    with st.expander("🔴 Gefahrenzone: Alle reservierten Pseudonyme löschen", expanded=False):
+    with st.expander(translate_ui("admin.expanders.delete_all_reserved_pseudonyms"), expanded=False):
         st.warning(
-            "Löscht ausschließlich Pseudonyme mit gesetztem Login-Secret (reserviert) inklusive ihrer Testdaten. "
-            "Der Admin-Account bleibt erhalten."
+            translate_ui("admin.warnings.delete_all_reserved_pseudonyms")
         )
 
         try:
@@ -1164,7 +1158,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
         if st.button("Reservierte Pseudonyme löschen", type="secondary"):
             if not confirmed_reserved:
-                st.warning("Bitte Checkbox zur Bestätigung aktivieren.")
+                st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
             else:
                 admin_key_ok = True
                 if check_admin_key is not None and getattr(app_config, "admin_key", None):
@@ -1195,7 +1189,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     available = _available_pseudonyms()
     if not available:
         st.warning(
-            "Alle Pseudonyme sind bereits vergeben. Neue Logins können erzeugt werden, sobald wieder Pseudonyme frei werden."
+            translate_ui("admin.warnings.all_pseudonyms_taken")
         )
         return
 
@@ -1248,9 +1242,9 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
     if st.button("🚀 Logins erzeugen", type="primary"):
         if not selected_names:
-            st.warning("Bitte wähle mindestens ein Pseudonym aus.")
+            st.warning(translate_ui("admin.warnings.select_at_least_one_pseudonym"))
         elif len(selected_names) < desired_count:
-            st.warning("Wähle so viele Pseudonyme wie die gewünschte Login-Anzahl oder reduziere die Anzahl.")
+            st.warning(translate_ui("admin.warnings.select_enough_pseudonyms"))
         else:
             rows = _create_logins(selected_names[:desired_count])
             if not rows:
@@ -1398,10 +1392,9 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
 
     # --- Globaler Reset ---
     st.subheader("Gefahrenzone")
-    with st.expander("🔴 Alle Testdaten unwiderruflich löschen"):
+    with st.expander(translate_ui("admin.expanders.delete_all_test_data")):
         st.warning(
-            "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer "
-            "(außer dem Admin-Account) aus der Datenbank."
+            translate_ui("admin.warnings.delete_all_test_data")
         )
         
         # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
@@ -1577,7 +1570,7 @@ def render_audit_log_tab():
     
     with col2:
         # Cleanup alte Logs
-        with st.expander("🗑️ Alte Logs löschen (DSGVO)"):
+        with st.expander(translate_ui("admin.expanders.delete_old_logs")):
             days = st.number_input("Logs älter als (Tage)", 
                                   min_value=30, max_value=365, value=90, step=30)
             if st.button("Jetzt löschen", type="secondary"):
@@ -1586,35 +1579,13 @@ def render_audit_log_tab():
                 st.rerun()
     
     # --- Info-Box ---
-    with st.expander("ℹ️ Über Audit-Logging"):
-        st.markdown("""
-        ### Was wird protokolliert?
-        
-        **Erfasste Events:**
-        - 🔐 Admin-Login (erfolgreich/fehlgeschlagen)
-        - 🗑️ Benutzer-Ergebnisse löschen
-        - ⚠️ Globale Daten-Löschung
-        - 📥 CSV-Export
-        - 🚫 Login-Blockierungen (Rate-Limiting)
-        
-        **Gespeicherte Informationen:**
-        - Zeitstempel (ISO 8601)
-        - Benutzer-ID (Pseudonym)
-        - Aktionstyp
-        - Erfolgs-Status
-        - Details (z.B. gelöschter User)
-        - IP-Adresse (wenn verfügbar)
-        
-        ### Warum Audit-Logging?
-        
-        - ✅ **Sicherheit:** Nachvollziehbarkeit bei Incidents
-        - ✅ **Compliance:** DSGVO-Audit-Trail
-        - ✅ **Forensik:** Analyse von Zugriffen
-        - ✅ **Transparenz:** Admin-Aktivitäten dokumentiert
-        
-        ### Datenschutz
-        
-        **Retention:** Logs werden nach 90 Tagen automatisch gelöscht.  
-        **Zugriff:** Nur Admin-Benutzer können Logs einsehen.  
-        **Export:** CSV-Export für externe Archivierung möglich.
-        """)
+    with st.expander(translate_ui("admin.expanders.about_audit_logging")):
+        st.markdown(translate_ui("admin.audit_logging.what_is_logged"))
+        st.markdown(translate_ui("admin.audit_logging.captured_events"))
+        st.markdown(translate_ui("admin.audit_logging.events_list"))
+        st.markdown(translate_ui("admin.audit_logging.stored_info"))
+        st.markdown(translate_ui("admin.audit_logging.info_list"))
+        st.markdown(translate_ui("admin.audit_logging.why_audit"))
+        st.markdown(translate_ui("admin.audit_logging.benefits"))
+        st.markdown(translate_ui("admin.audit_logging.privacy"))
+        st.markdown(translate_ui("admin.audit_logging.privacy_details"))

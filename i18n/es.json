@@ -78,6 +78,37 @@
             "no_topics_defined": "No hay temas definidos.",
             "audit_log_description": "Registro de todas las acciones de administrador para seguridad y cumplimiento",
             "no_completed_tests": "Aún no hay pruebas completadas disponibles. Las estadísticas se mostrarán después de las primeras pruebas."
+        },
+        "warnings": {
+            "reset_user_results": "⚠️ **Advertencia:** Todos los resultados de **{user_name}** para el conjunto de preguntas **{title}** serán eliminados permanentemente.",
+            "delete_multiple_feedback": "**Advertencia:** Esta acción elimina permanentemente los **{count}** mensajes de feedback actualmente visibles.",
+            "confirm_delete_feedback": "⚠️ ¿Debería eliminarse realmente este feedback?",
+            "confirm_checkbox_required": "Por favor, active la casilla de verificación de confirmación.",
+            "delete_all_used_pseudonyms": "Elimina todos los seudónimos utilizados incluyendo sesiones, respuestas y marcadores asociados. La cuenta de admin permanece intacta.",
+            "delete_all_reserved_pseudonyms": "Elimina exclusivamente seudónimos con secreto de inicio de sesión establecido (reservado) incluyendo sus datos de prueba. La cuenta de admin permanece intacta.",
+            "all_pseudonyms_taken": "Todos los seudónimos ya están ocupados. Se pueden crear nuevos inicios de sesión tan pronto como los seudónimos estén disponibles nuevamente.",
+            "select_at_least_one_pseudonym": "Por favor, seleccione al menos un seudónimo.",
+            "select_enough_pseudonyms": "Seleccione tantos seudónimos como el número deseado de inicios de sesión o reduzca el número.",
+            "delete_all_test_data": "⚠️ **Advertencia:** Esta acción elimina todas las respuestas registradas, sesiones y usuarios (excepto la cuenta de admin) de la base de datos."
+        },
+        "audit_logging": {
+            "what_is_logged": "### ¿Qué se registra?",
+            "captured_events": "**Eventos capturados:**",
+            "events_list": "- 🔐 Inicio de sesión de admin (exitoso/fallido)\n- 🗑️ Eliminar resultados de usuario\n- ⚠️ Eliminación global de datos\n- 📥 Exportación CSV\n- 🚫 Bloqueos de inicio de sesión (limitación de tasa)",
+            "stored_info": "**Información almacenada:**",
+            "info_list": "- Marca de tiempo (ISO 8601)\n- ID de usuario (seudónimo)\n- Tipo de acción\n- Estado de éxito\n- Detalles (ej. usuario eliminado)\n- Dirección IP (si está disponible)",
+            "why_audit": "### ¿Por qué el registro de auditoría?",
+            "benefits": "- ✅ **Seguridad:** Rastreabilidad durante incidentes\n- ✅ **Cumplimiento:** Pista de auditoría GDPR\n- ✅ **Forense:** Análisis de accesos\n- ✅ **Transparencia:** Actividades de admin documentadas",
+            "privacy": "### Protección de datos",
+            "privacy_details": "**Retención:** Los registros se eliminan automáticamente después de 90 días.\n**Acceso:** Solo los usuarios admin pueden ver los registros.\n**Exportación:** Es posible la exportación CSV para archivado externo."
+        },
+        "metrics_glossary": {
+            "answers": "**Respuestas** : Número total de respuestas dadas para esta pregunta.",
+            "correct_percentage": "**Correcto (%)** : Porcentaje de respuestas correctas (índice de dificultad ). Un valor cercano al 100 % significa una pregunta fácil, un valor cercano al 0 % significa una pregunta difícil.",
+            "discrimination": "**Discriminación (r_it)** : Correlación entre la respuesta correcta a esta pregunta y el resultado general de la prueba.",
+            "discrimination_high": " : La pregunta discrimina bien entre participantes fuertes y débiles.",
+            "discrimination_medium": " : La pregunta discrimina de manera aceptable.",
+            "discrimination_low": " : La pregunta discrimina mal. Puede ser confusa, demasiado fácil/difícil o tener un error en la respuesta."
         }
     },
     "sidebar": {
@@ -418,14 +449,38 @@
         "glossary": "Glosario"
     },
     "pdf": {
-        "status": { "correct": "Correcto", "wrong": "Incorrecto", "unanswered": "Vacío" },
-        "difficulty": { "easy": "Fácil", "medium": "Medio", "hard": "Difícil" },
+        "status": {
+            "correct": "Correcto",
+            "wrong": "Incorrecto",
+            "unanswered": "Vacío"
+        },
+        "difficulty": {
+            "easy": "Fácil",
+            "medium": "Medio",
+            "hard": "Difícil"
+        },
         "stage_section_title": "Rendimiento (Nivel Cognitivo)",
-        "stage_table": { "header": { "stage": "Nivel", "hits": "Aciertos", "quota": "Cuota" } },
+        "stage_table": {
+            "header": {
+                "stage": "Nivel",
+                "hits": "Aciertos",
+                "quota": "Cuota"
+            }
+        },
         "comparison": {
             "title": "Vs Media",
-            "table": { "header": { "level": "Nivel", "you": "Tú", "avg": "Media", "diff": "Dif", "difficulty": "Dificultad" } },
-            "row": { "overall": "Global" },
+            "table": {
+                "header": {
+                    "level": "Nivel",
+                    "you": "Tú",
+                    "avg": "Media",
+                    "diff": "Dif",
+                    "difficulty": "Dificultad"
+                }
+            },
+            "row": {
+                "overall": "Global"
+            },
             "by_stage": "Por Nivel Cognitivo",
             "above": "sobre media",
             "below": "bajo media",
@@ -443,19 +498,51 @@
         },
         "bookmarks_intro": "Tus preguntas marcadas:",
         "question_short": "P {n}",
-        "meta": { "participant": "Usuario:", "test_date": "Fecha:", "duration": "Tiempo:", "questionset": "Set:", "generated_at": "Generado:", "tempo": "Tempo:", "allowed": "Límite:" },
-        "stat": { "correct": "Correcto", "wrong": "Incorrecto", "unanswered": "Vacío", "total": "Total" },
-        "glossary": { "title": "Mini-Glosario", "intro": "Términos clave, por tema", "alt_intro": "Términos del set" },
-        "musterloesung": { "title": "Solución Modelo" },
+        "meta": {
+            "participant": "Usuario:",
+            "test_date": "Fecha:",
+            "duration": "Tiempo:",
+            "questionset": "Set:",
+            "generated_at": "Generado:",
+            "tempo": "Tempo:",
+            "allowed": "Límite:"
+        },
+        "stat": {
+            "correct": "Correcto",
+            "wrong": "Incorrecto",
+            "unanswered": "Vacío",
+            "total": "Total"
+        },
+        "glossary": {
+            "title": "Mini-Glosario",
+            "intro": "Términos clave, por tema",
+            "alt_intro": "Términos del set"
+        },
+        "musterloesung": {
+            "title": "Solución Modelo"
+        },
         "detailed_analysis": "Análisis Detallado",
-        "header": { "manual_end": "Finalizado antes" },
-        "weak_topics": { "title": "A mejorar", "multiple": "Preguntas {list}" },
+        "header": {
+            "manual_end": "Finalizado antes"
+        },
+        "weak_topics": {
+            "title": "A mejorar",
+            "multiple": "Preguntas {list}"
+        },
         "difficulty_section_title": "Rendimiento por Dificultad",
-        "difficulty_table": { "header": { "difficulty": "Dificultad", "hits": "Aciertos", "quota": "Cuota" } },
+        "difficulty_table": {
+            "header": {
+                "difficulty": "Dificultad",
+                "hits": "Aciertos",
+                "quota": "Cuota"
+            }
+        },
         "score_label": "de {n} puntos",
         "rank_text": " • Ranking {rank}",
         "rank_label": "Ranking ({date})",
-        "log": { "formula_cache": "📊 PDF listo: {n} fórmulas en caché" },
+        "log": {
+            "formula_cache": "📊 PDF listo: {n} fórmulas en caché"
+        },
         "page_footer": "Pág {page} de {pages}",
         "stage_unknown": "Desconocido",
         "cognition_radar": {

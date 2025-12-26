@@ -192,6 +192,37 @@
                 "about_audit_logging": "ℹ️ Über Audit-Logging"
             },
             "no_completed_tests": "Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt."
+        },
+        "warnings": {
+            "reset_user_results": "⚠️ **Achtung:** Alle Ergebnisse von **{user_name}** für das Fragenset **{title}** werden unwiderruflich gelöscht.",
+            "delete_multiple_feedback": "**Achtung:** Diese Aktion löscht die **{count}** aktuell sichtbaren Feedback-Meldungen unwiderruflich.",
+            "confirm_delete_feedback": "⚠️ Soll dieses Feedback wirklich gelöscht werden?",
+            "confirm_checkbox_required": "Bitte Checkbox zur Bestätigung aktivieren.",
+            "delete_all_used_pseudonyms": "Löscht alle genutzten Pseudonyme inkl. zugehöriger Sessions, Antworten und Bookmarks. Der Admin-Account bleibt erhalten.",
+            "delete_all_reserved_pseudonyms": "Löscht ausschließlich Pseudonyme mit gesetztem Login-Secret (reserviert) inklusive ihrer Testdaten. Der Admin-Account bleibt erhalten.",
+            "all_pseudonyms_taken": "Alle Pseudonyme sind bereits vergeben. Neue Logins können erzeugt werden, sobald wieder Pseudonyme frei werden.",
+            "select_at_least_one_pseudonym": "Bitte wähle mindestens ein Pseudonym aus.",
+            "select_enough_pseudonyms": "Wähle so viele Pseudonyme wie die gewünschte Login-Anzahl oder reduziere die Anzahl.",
+            "delete_all_test_data": "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer (außer dem Admin-Account) aus der Datenbank."
+        },
+        "audit_logging": {
+            "what_is_logged": "### Was wird protokolliert?",
+            "captured_events": "**Erfasste Events:**",
+            "events_list": "- 🔐 Admin-Login (erfolgreich/fehlgeschlagen)\n- 🗑️ Benutzer-Ergebnisse löschen\n- ⚠️ Globale Daten-Löschung\n- 📥 CSV-Export\n- 🚫 Login-Blockierungen (Rate-Limiting)",
+            "stored_info": "**Gespeicherte Informationen:**",
+            "info_list": "- Zeitstempel (ISO 8601)\n- Benutzer-ID (Pseudonym)\n- Aktionstyp\n- Erfolgs-Status\n- Details (z.B. gelöschter User)\n- IP-Adresse (wenn verfügbar)",
+            "why_audit": "### Warum Audit-Logging?",
+            "benefits": "- ✅ **Sicherheit:** Nachvollziehbarkeit bei Incidents\n- ✅ **Compliance:** DSGVO-Audit-Trail\n- ✅ **Forensik:** Analyse von Zugriffen\n- ✅ **Transparenz:** Admin-Aktivitäten dokumentiert",
+            "privacy": "### Datenschutz",
+            "privacy_details": "**Retention:** Logs werden nach 90 Tagen automatisch gelöscht.\n**Zugriff:** Nur Admin-Benutzer können Logs einsehen.\n**Export:** CSV-Export für externe Archivierung möglich."
+        },
+        "metrics_glossary": {
+            "answers": "**Antworten**: Gesamtzahl der abgegebenen Antworten für diese Frage.",
+            "correct_percentage": "**Richtig (%)**: Prozentsatz der korrekten Antworten (Schwierigkeitsindex ). Ein Wert nahe 100 % bedeutet eine leichte Frage, ein Wert nahe 0 % eine schwere Frage.",
+            "discrimination": "**Trennschärfe (r_it)**: Korrelation zwischen der korrekten Beantwortung dieser Frage und dem Gesamtergebnis im Test.",
+            "discrimination_high": ": Die Frage trennt gut zwischen starken und schwachen Teilnehmern.",
+            "discrimination_medium": ": Die Frage trennt noch akzeptabel.",
+            "discrimination_low": ": Die Frage trennt schlecht. Möglicherweise ist sie missverständlich, zu einfach/schwer oder hat einen Fehler in der Antwort."
         }
     },
     "dialog": {
@@ -262,8 +293,6 @@
         "question_prompt": "Deine Antwort:",
         "header_total_questions": "### {count} Fragen total",
         "header_last_question": "### Letzte Frage!",
-        "header_remaining_plural": "### Nur noch {count}",
-        "header_remaining_single": "### Nur noch eine!",
         "header_remaining_plural": "### {count} verbleibend",
         "header_remaining_single": "### Eine verbleibend!",
         "topic_label": "Thema",
@@ -515,14 +544,27 @@
             "Anwendung": "Anwendung",
             "Analyse": "Analyse"
         },
-        "header": { "manual_end": "Vorzeitig beendet" },
-        "weak_topics": { "title": "Hier gibt's Lücken", "multiple": "Fragen {list}" },
+        "header": {
+            "manual_end": "Vorzeitig beendet"
+        },
+        "weak_topics": {
+            "title": "Hier gibt's Lücken",
+            "multiple": "Fragen {list}"
+        },
         "difficulty_section_title": "Leistung nach Schwierigkeit",
-        "difficulty_table": { "header": { "difficulty": "Schwierigkeit", "hits": "Treffer", "quota": "Quote" } },
+        "difficulty_table": {
+            "header": {
+                "difficulty": "Schwierigkeit",
+                "hits": "Treffer",
+                "quota": "Quote"
+            }
+        },
         "score_label": "von {n} Punkten",
         "rank_text": " • Rang {rank}",
         "rank_label": "Ranking ({date})",
-        "log": { "formula_cache": "📊 PDF fertig: {n} Formeln gecached" },
+        "log": {
+            "formula_cache": "📊 PDF fertig: {n} Formeln gecached"
+        },
         "cognition_radar": {
             "explanation_short": "Dein Bloom-Radar zeigt korrekte Antworten pro kognitiver Stufe.\n\nMuster:\n• Bulimie-Lernen (nur Reproduktion): Fakten sitzen, Anwendung fehlt. → Übe Transfer!\n• Oberflächenwissen: Konzepte bekannt, Praxis fehlt. → Fallbeispiele machen.\n• Praktiker (Anwendung hoch): Gute Praxis, Theorielücken. → Grundlagen checken.\n• Analytiker (Analyse hoch): Problemlöser mit Basislücken. → Basics wiederholen.\n• Ausgewogen: Top, weiter so!"
         }
@@ -691,8 +733,7 @@
                 "systematic": "📚 Unter 40 %. Neustart empfohlen.",
                 "gaps": "🆘 Große Wissenslücken. Hol dir Hilfe!",
                 "review": "⚠️ Sehr schwach. Dringend aufarbeiten."
-            }
-            ,
+            },
             "leaderboard": {
                 "hidden_hint_one": "{count} Lauf ausgeblendet: zu kurz (<{min_time_pct}%) oder zu wenig Punkte (<{min_score_pct}%).",
                 "hidden_hint": "{count} Läufe ausgeblendet: zu kurz (< {min_time_pct} %) oder zu wenig Punkte ({min_score_pct} %)."
@@ -732,8 +773,7 @@
             "summary": {
                 "test_time": "⏱️ Zeit: {minutes} min",
                 "cognition": "🧠 Stufen: {summary}"
-            }
-            ,
+            },
             "difficulty": {
                 "easy": "Reproduktion",
                 "medium": "Anwendung",

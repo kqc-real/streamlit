@@ -78,6 +78,37 @@
             "no_topics_defined": "Nessun argomento definito.",
             "audit_log_description": "Registrazione di tutte le azioni amministratore per sicurezza e conformità",
             "no_completed_tests": "Ancora nessun test completato disponibile. Le statistiche verranno visualizzate dopo i primi test."
+        },
+        "warnings": {
+            "reset_user_results": "⚠️ **Attenzione:** Tutti i risultati di **{user_name}** per il set di domande **{title}** verranno eliminati definitivamente.",
+            "delete_multiple_feedback": "**Attenzione:** Questa azione elimina definitivamente i **{count}** messaggi di feedback attualmente visibili.",
+            "confirm_delete_feedback": "⚠️ Questo feedback dovrebbe davvero essere eliminato?",
+            "confirm_checkbox_required": "Si prega di attivare la casella di controllo di conferma.",
+            "delete_all_used_pseudonyms": "Elimina tutti gli pseudonimi utilizzati incluse le sessioni, risposte e segnalibri associati. L'account admin rimane intatto.",
+            "delete_all_reserved_pseudonyms": "Elimina esclusivamente gli pseudonimi con segreto di accesso impostato (riservato) incluse le loro dati di test. L'account admin rimane intatto.",
+            "all_pseudonyms_taken": "Tutti gli pseudonimi sono già occupati. Nuovi accessi possono essere creati non appena gli pseudonimi diventano nuovamente disponibili.",
+            "select_at_least_one_pseudonym": "Si prega di selezionare almeno uno pseudonimo.",
+            "select_enough_pseudonyms": "Seleziona tanti pseudonimi quanti sono il numero desiderato di accessi o riduci il numero.",
+            "delete_all_test_data": "⚠️ **Attenzione:** Questa azione elimina tutte le risposte registrate, sessioni e utenti (eccetto l'account admin) dal database."
+        },
+        "audit_logging": {
+            "what_is_logged": "### Cosa viene registrato?",
+            "captured_events": "**Eventi catturati:**",
+            "events_list": "- 🔐 Accesso admin (riuscito/fallito)\n- 🗑️ Eliminare risultati utente\n- ⚠️ Eliminazione globale dati\n- 📥 Esportazione CSV\n- 🚫 Blocchi accesso (limitazione tasso)",
+            "stored_info": "**Informazioni memorizzate:**",
+            "info_list": "- Timestamp (ISO 8601)\n- ID utente (pseudonimo)\n- Tipo azione\n- Stato successo\n- Dettagli (es. utente eliminato)\n- Indirizzo IP (se disponibile)",
+            "why_audit": "### Perché la registrazione di audit?",
+            "benefits": "- ✅ **Sicurezza:** Tracciabilità durante incidenti\n- ✅ **Conformità:** Traccia audit GDPR\n- ✅ **Forense:** Analisi accessi\n- ✅ **Trasparenza:** Attività admin documentate",
+            "privacy": "### Protezione dati",
+            "privacy_details": "**Conservazione:** I log vengono eliminati automaticamente dopo 90 giorni.\n**Accesso:** Solo utenti admin possono visualizzare i log.\n**Esportazione:** Possibile esportazione CSV per archiviazione esterna."
+        },
+        "metrics_glossary": {
+            "answers": "**Risposte** : Numero totale di risposte date per questa domanda.",
+            "correct_percentage": "**Corretto (%)** : Percentuale di risposte corrette (indice di difficoltà ). Un valore vicino al 100 % significa una domanda facile, un valore vicino allo 0 % significa una domanda difficile.",
+            "discrimination": "**Discriminazione (r_it)** : Correlazione tra la risposta corretta a questa domanda e il risultato generale del test.",
+            "discrimination_high": " : La domanda discrimina bene tra partecipanti forti e deboli.",
+            "discrimination_medium": " : La domanda discrimina in modo accettabile.",
+            "discrimination_low": " : La domanda discrimina male. Potrebbe essere confusa, troppo facile/difficile o avere un errore nella risposta."
         }
     },
     "sidebar": {
@@ -418,14 +449,38 @@
         "glossary": "Glossario"
     },
     "pdf": {
-        "status": { "correct": "Giusto", "wrong": "Sbagliato", "unanswered": "Vuoto" },
-        "difficulty": { "easy": "Facile", "medium": "Medio", "hard": "Difficile" },
+        "status": {
+            "correct": "Giusto",
+            "wrong": "Sbagliato",
+            "unanswered": "Vuoto"
+        },
+        "difficulty": {
+            "easy": "Facile",
+            "medium": "Medio",
+            "hard": "Difficile"
+        },
         "stage_section_title": "Perf (Livello Cognitivo)",
-        "stage_table": { "header": { "stage": "Livello", "hits": "Hits", "quota": "Quota" } },
+        "stage_table": {
+            "header": {
+                "stage": "Livello",
+                "hits": "Hits",
+                "quota": "Quota"
+            }
+        },
         "comparison": {
             "title": "Vs Media",
-            "table": { "header": { "level": "Livello", "you": "Tu", "avg": "Media", "diff": "Diff", "difficulty": "Difficoltà" } },
-            "row": { "overall": "Globale" },
+            "table": {
+                "header": {
+                    "level": "Livello",
+                    "you": "Tu",
+                    "avg": "Media",
+                    "diff": "Diff",
+                    "difficulty": "Difficoltà"
+                }
+            },
+            "row": {
+                "overall": "Globale"
+            },
             "by_stage": "Per Livello Cognitivo",
             "above": "sopra media",
             "below": "sotto media",
@@ -443,19 +498,51 @@
         },
         "bookmarks_intro": "Le tue domande salvate:",
         "question_short": "D {n}",
-        "meta": { "participant": "Utente:", "test_date": "Data:", "duration": "Tempo:", "questionset": "Set:", "generated_at": "Generato:", "tempo": "Tempo:", "allowed": "Limite:" },
-        "stat": { "correct": "Giusto", "wrong": "Sbagliato", "unanswered": "Vuoto", "total": "Totale" },
-        "glossary": { "title": "Mini-Glossario", "intro": "Termini chiave, per argomento", "alt_intro": "Termini del set" },
-        "musterloesung": { "title": "Soluzione Modello" },
+        "meta": {
+            "participant": "Utente:",
+            "test_date": "Data:",
+            "duration": "Tempo:",
+            "questionset": "Set:",
+            "generated_at": "Generato:",
+            "tempo": "Tempo:",
+            "allowed": "Limite:"
+        },
+        "stat": {
+            "correct": "Giusto",
+            "wrong": "Sbagliato",
+            "unanswered": "Vuoto",
+            "total": "Totale"
+        },
+        "glossary": {
+            "title": "Mini-Glossario",
+            "intro": "Termini chiave, per argomento",
+            "alt_intro": "Termini del set"
+        },
+        "musterloesung": {
+            "title": "Soluzione Modello"
+        },
         "detailed_analysis": "Analisi Dettagliata",
-        "header": { "manual_end": "Terminato prima" },
-        "weak_topics": { "title": "Da migliorare", "multiple": "Domande {list}" },
+        "header": {
+            "manual_end": "Terminato prima"
+        },
+        "weak_topics": {
+            "title": "Da migliorare",
+            "multiple": "Domande {list}"
+        },
         "difficulty_section_title": "Performance per Difficoltà",
-        "difficulty_table": { "header": { "difficulty": "Difficoltà", "hits": "Hits", "quota": "Quota" } },
+        "difficulty_table": {
+            "header": {
+                "difficulty": "Difficoltà",
+                "hits": "Hits",
+                "quota": "Quota"
+            }
+        },
         "score_label": "su {n} punti",
         "rank_text": " • Rango {rank}",
         "rank_label": "Classifica ({date})",
-        "log": { "formula_cache": "📊 PDF pronto: {n} formule in cache" },
+        "log": {
+            "formula_cache": "📊 PDF pronto: {n} formule in cache"
+        },
         "page_footer": "Pag {page} di {pages}",
         "stage_unknown": "Sconosciuto",
         "cognition_radar": {

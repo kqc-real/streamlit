@@ -400,6 +400,37 @@
                 "about_audit_logging": "ℹ️ About Audit Logging"
             },
             "no_completed_tests": "No completed tests available yet. Statistics will be displayed after the first tests."
+        },
+        "warnings": {
+            "reset_user_results": "⚠️ **Warning:** All results from **{user_name}** for the question set **{title}** will be permanently deleted.",
+            "delete_multiple_feedback": "**Warning:** This action permanently deletes the **{count}** currently visible feedback messages.",
+            "confirm_delete_feedback": "⚠️ Should this feedback really be deleted?",
+            "confirm_checkbox_required": "Please activate the confirmation checkbox.",
+            "delete_all_used_pseudonyms": "Deletes all used pseudonyms including associated sessions, answers and bookmarks. The admin account remains intact.",
+            "delete_all_reserved_pseudonyms": "Deletes exclusively pseudonyms with set login secret (reserved) including their test data. The admin account remains intact.",
+            "all_pseudonyms_taken": "All pseudonyms are already taken. New logins can be created as soon as pseudonyms become available again.",
+            "select_at_least_one_pseudonym": "Please select at least one pseudonym.",
+            "select_enough_pseudonyms": "Select as many pseudonyms as the desired number of logins or reduce the number.",
+            "delete_all_test_data": "⚠️ **Warning:** This action deletes all recorded answers, sessions and users (except the admin account) from the database."
+        },
+        "audit_logging": {
+            "what_is_logged": "### What is logged?",
+            "captured_events": "**Captured Events:**",
+            "events_list": "- 🔐 Admin login (successful/failed)\n- 🗑️ Delete user results\n- ⚠️ Global data deletion\n- 📥 CSV export\n- 🚫 Login blocks (rate limiting)",
+            "stored_info": "**Stored Information:**",
+            "info_list": "- Timestamp (ISO 8601)\n- User ID (pseudonym)\n- Action type\n- Success status\n- Details (e.g., deleted user)\n- IP address (if available)",
+            "why_audit": "### Why Audit Logging?",
+            "benefits": "- ✅ **Security:** Traceability during incidents\n- ✅ **Compliance:** GDPR audit trail\n- ✅ **Forensics:** Analysis of accesses\n- ✅ **Transparency:** Admin activities documented",
+            "privacy": "### Privacy",
+            "privacy_details": "**Retention:** Logs are automatically deleted after 90 days.\n**Access:** Only admin users can view logs.\n**Export:** CSV export possible for external archiving."
+        },
+        "metrics_glossary": {
+            "answers": "**Answers**: Total number of answers given for this question.",
+            "correct_percentage": "**Correct (%)**: Percentage of correct answers (difficulty index ). A value close to 100% means an easy question, a value close to 0% means a difficult question.",
+            "discrimination": "**Discrimination (r_it)**: Correlation between correctly answering this question and the overall test result.",
+            "discrimination_high": ": The question discriminates well between strong and weak participants.",
+            "discrimination_medium": ": The question discriminates acceptably.",
+            "discrimination_low": ": The question discriminates poorly. It may be confusing, too easy/difficult, or have an error in the answer."
         }
     },
     "messages": {
@@ -428,14 +459,38 @@
         "glossary": "Glossary"
     },
     "pdf": {
-        "status": { "correct": "Correct", "wrong": "Wrong", "unanswered": "Open" },
-        "difficulty": { "easy": "Easy", "medium": "Medium", "hard": "Hard" },
+        "status": {
+            "correct": "Correct",
+            "wrong": "Wrong",
+            "unanswered": "Open"
+        },
+        "difficulty": {
+            "easy": "Easy",
+            "medium": "Medium",
+            "hard": "Hard"
+        },
         "stage_section_title": "Performance (Cognitive Stage)",
-        "stage_table": { "header": { "stage": "Stage", "hits": "Hits", "quota": "Quota" } },
+        "stage_table": {
+            "header": {
+                "stage": "Stage",
+                "hits": "Hits",
+                "quota": "Quota"
+            }
+        },
         "comparison": {
             "title": "Vs. Average",
-            "table": { "header": { "level": "Level", "you": "You", "avg": "Avg", "diff": "Diff", "difficulty": "Difficulty" } },
-            "row": { "overall": "Overall" },
+            "table": {
+                "header": {
+                    "level": "Level",
+                    "you": "You",
+                    "avg": "Avg",
+                    "diff": "Diff",
+                    "difficulty": "Difficulty"
+                }
+            },
+            "row": {
+                "overall": "Overall"
+            },
             "by_stage": "By Cognitive Stage",
             "above": "above avg",
             "below": "below avg",
@@ -453,19 +508,51 @@
         },
         "bookmarks_intro": "Your marked questions:",
         "question_short": "Q {n}",
-        "meta": { "participant": "User:", "test_date": "Date:", "duration": "Duration:", "questionset": "Set:", "generated_at": "Generated:", "tempo": "Pace:", "allowed": "Limit:" },
-        "stat": { "correct": "Correct", "wrong": "Wrong", "unanswered": "Open", "total": "Total" },
-        "glossary": { "title": "Mini-Glossary", "intro": "Key terms, grouped by topic", "alt_intro": "Key terms from the set" },
-        "musterloesung": { "title": "Sample Solution" },
+        "meta": {
+            "participant": "User:",
+            "test_date": "Date:",
+            "duration": "Duration:",
+            "questionset": "Set:",
+            "generated_at": "Generated:",
+            "tempo": "Pace:",
+            "allowed": "Limit:"
+        },
+        "stat": {
+            "correct": "Correct",
+            "wrong": "Wrong",
+            "unanswered": "Open",
+            "total": "Total"
+        },
+        "glossary": {
+            "title": "Mini-Glossary",
+            "intro": "Key terms, grouped by topic",
+            "alt_intro": "Key terms from the set"
+        },
+        "musterloesung": {
+            "title": "Sample Solution"
+        },
         "detailed_analysis": "Detail Analysis",
-        "header": { "manual_end": "Ended early" },
-        "weak_topics": { "title": "Gaps identified", "multiple": "Questions {list}" },
+        "header": {
+            "manual_end": "Ended early"
+        },
+        "weak_topics": {
+            "title": "Gaps identified",
+            "multiple": "Questions {list}"
+        },
         "difficulty_section_title": "Performance by Difficulty",
-        "difficulty_table": { "header": { "difficulty": "Difficulty", "hits": "Hits", "quota": "Quota" } },
+        "difficulty_table": {
+            "header": {
+                "difficulty": "Difficulty",
+                "hits": "Hits",
+                "quota": "Quota"
+            }
+        },
         "score_label": "of {n} points",
         "rank_text": " • Rank {rank}",
         "rank_label": "Ranking ({date})",
-        "log": { "formula_cache": "📊 PDF ready: {n} formulas cached" },
+        "log": {
+            "formula_cache": "📊 PDF ready: {n} formulas cached"
+        },
         "page_footer": "Page {page} of {pages}",
         "stage_unknown": "Unknown",
         "cognition_radar": {
