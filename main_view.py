@@ -832,7 +832,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             all_previews_html.append(card_wrapper_html)
 
         if not all_previews_html:
-            st.info("Keine Vorschau verfügbar.")
+            st.info(translate_ui("messages.no_preview_questions"))
             return
 
         math_assets = """<script>

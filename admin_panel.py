@@ -371,7 +371,7 @@ def render_mini_glossary_tab():
                     try:
                         pdf_bytes = generate_mini_glossary_pdf(filename, questions)
                     except ValueError:
-                        st.error("Dieses Fragenset enthält kein Mini-Glossar.")
+                        st.error(translate_ui("glossary_no_entries"))
                     else:
                         st.session_state[pdf_state_key] = pdf_bytes
                         st.success(translate_ui("admin.glossary_success"))
@@ -584,12 +584,12 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                                     f"Deleted results: user={user_name_plain}, qset={q_file}",
                                     success=True
                                 )
-                                st.success(f"✅ Die Ergebnisse von {user_name_plain} wurden zurückgesetzt.")
+                                st.success(translate_ui("admin.messages.reset_user_results_success", user_name=user_name_plain))
                                 st.rerun()
                             else:
-                                st.error("❌ Fehler beim Zurücksetzen der Ergebnisse.")
+                                st.error(translate_ui("admin.messages.reset_user_results_error"))
                         else:
-                            st.error("🔒 Falscher Admin-Key. Löschung abgebrochen.")
+                            st.error(translate_ui("admin.messages.reset_user_results_wrong_key"))
         st.divider()
 
 
@@ -856,10 +856,10 @@ def render_feedback_tab():
                     from database import delete_multiple_feedback
                     ids_to_delete = df_feedback['feedback_id'].tolist()
                     if delete_multiple_feedback(ids_to_delete):
-                        st.success(f"{len(ids_to_delete)} Feedback-Meldungen wurden gelöscht.")
+                        st.success(translate_ui("admin.messages.delete_feedback_success", count=len(ids_to_delete)))
                         st.rerun()
                     else:
-                        st.error("Fehler beim Löschen der Meldungen.")
+                        st.error(translate_ui("admin.messages.delete_feedback_error"))
     st.divider()
 
     # Lade alle Fragen, um den Fragentext zuzuordnen
@@ -931,10 +931,10 @@ def render_feedback_tab():
                     ):
                         from database import delete_feedback
                         if delete_feedback(row['feedback_id']):
-                            st.toast("Feedback gelöscht.")
+                            st.toast(translate_ui("admin.messages.delete_single_feedback_success"))
                             st.rerun()
                         else:
-                            st.error("Fehler beim Löschen.")
+                            st.error(translate_ui("admin.messages.delete_single_feedback_error"))
 
 
 def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
@@ -1068,7 +1068,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                                 )
                             except Exception:
                                 pass
-                            st.success(f"Reserviertes Pseudonym '{target_reserved}' gelöscht.")
+                            st.success(translate_ui("admin.messages.delete_reserved_pseudonym_success", name=target_reserved))
                             st.rerun()
                         else:
                             st.info(translate_ui("admin.messages.pseudonym_delete_failed"))
@@ -1117,10 +1117,10 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                             )
                         except Exception:
                             pass
-                        st.success("Alle genutzten Pseudonyme und zugehörige Testdaten wurden gelöscht.")
+                        st.success(translate_ui("admin.messages.delete_all_used_pseudonyms_success"))
                         st.rerun()
                     else:
-                        st.error("Löschen fehlgeschlagen. Siehe Server-Logs.")
+                        st.error(translate_ui("admin.messages.delete_pseudonyms_failed"))
 
     with st.expander(translate_ui("admin.expanders.delete_all_reserved_pseudonyms"), expanded=False):
         st.warning(
@@ -1167,7 +1167,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                             )
                         except Exception:
                             pass
-                        st.success(f"{deleted_count} reservierte Pseudonym(e) gelöscht.")
+                        st.success(translate_ui("admin.messages.delete_reserved_pseudonyms_success", count=deleted_count))
                         st.rerun()
                     else:
                         st.info(translate_ui("admin.messages.no_reserved_pseudonyms_to_delete"))
