@@ -186,6 +186,13 @@
             "cooldown_remaining": "(还 {seconds}秒)"
         },
         "pacing": {
+            "avg_time_per_question": "每题平均剩余时间：{seconds} 秒",
+            "approx_1min": " — 约 1 分钟/题（权重 3）",
+            "not_1min": " — 不是 1 分钟/题"
+        },
+        "panic_mode_active": "⚡ **恐慌模式：** 由于时间紧迫，冷却已禁用。",
+        "panic_mode_skipped": "⚡ **恐慌模式：** 等待时间已跳过。",
+        "pacing": {
             "ahead": "提前于计划",
             "on_track": "按计划进行",
             "slightly_behind": "稍有落后",
@@ -328,6 +335,12 @@
         "generate_arsnova_header": "🎯 生成 ARSnova.click 问题集",
         "dashboard_title": "🛠 管理员仪表板",
         "glossary_header": "📚 PDF 小词汇表",
+        "glossary": {
+            "entries_per_page": "每页条目数",
+            "page_info": "第 **{current}** 页，共 **{total}** 页 – {entries} 条目",
+            "pdf_generating": "正在生成 PDF...",
+            "pdf_download": "💾 下载 PDF"
+        },
         "no_questionsets": "未找到问题集。",
         "glossary_caption": "包含所有主题的小词汇表的 PDF。",
         "glossary_generate_button": "📄 生成词汇表",
@@ -337,14 +350,138 @@
         "glossary_download_button": "💾 下载词汇表",
         "glossary_generation_caption": "加载问题集，检查现有的小词汇表条目，并在需要时创建 PDF。",
         "questionsets_overview_header": "📂 所有问题集概览",
+        "questionsets": {
+            "count": "问题集数量",
+            "topics_per_set": "每个集合的主题",
+            "topics_label": "主题",
+            "columns": {
+                "name": "名称",
+                "file": "文件",
+                "questions": "问题",
+                "duration": "时长",
+                "glossary": "词汇表",
+                "glossary_entries": "词汇表条目",
+                "difficulty": "难度",
+                "topics": "主题"
+            }
+        },
         "highscores_by_questionset_header": "🏆 按问题集划分的高分",
         "item_analysis_header": "📊 项目分析",
+        "analysis": {
+            "select_set": "选择要分析的问题集：",
+            "select_question": "选择要详细分析的问题：",
+            "show_chart": "显示为条形图",
+            "columns": {
+                "nr": "问题编号",
+                "question": "问题",
+                "answers": "答案",
+                "correct_pct": "正确率 (%)",
+                "discrimination": "区分度 (r_it)"
+            }
+        },
         "distractor_analysis_header": "详细分析：干扰项",
         "reported_issues_header": "报告的问题",
+        "feedback": {
+            "legacy_type": "旧版（无类型）",
+            "confirm_awareness": "我了解后果。",
+            "delete_button": "是的，永久删除 {count} 个报告",
+            "question_not_found": "未找到问题",
+            "jump_to_question": "跳转到问题",
+            "delete_popover": "删除",
+            "delete_confirm": "是的，永久删除",
+            "columns": {
+                "date": "报告日期",
+                "question_nr": "问题编号",
+                "type": "问题类型",
+                "set": "问题集",
+                "user": "报告人"
+            },
+            "filters": {
+                "set": "问题集：",
+                "type": "问题类型："
+            }
+        },
         "data_export_header": "📤 数据导出",
+        "export": {
+            "download_csv": "⬇️ 下载答案日志 (CSV)"
+        },
         "login_generator_header": "🔑 保留化名的登录生成器",
+        "login_generator": {
+            "used_pseudonyms": "当前使用的临时化名",
+            "reserved_pseudonyms": "保留化名（带登录密钥）",
+            "delete_select": "要删除的化名",
+            "admin_key": "管理员密钥确认：",
+            "confirm_single": "我明白：此保留化名及其测试数据将被删除。",
+            "delete_button": "删除化名",
+            "wrong_key": "管理员密钥错误。操作已取消。",
+            "confirm_all_used": "我明白：所有测试和化名数据（管理员除外）将被删除。",
+            "delete_all_used_button": "立即删除所有已使用的化名",
+            "confirm_all_reserved": "我明白：所有保留化名和测试数据（管理员除外）将被删除。",
+            "delete_all_reserved_button": "删除保留化名",
+            "count_label": "登录数量",
+            "select_label": "选择要保留的化名",
+            "select_help": "仅显示空闲化名。",
+            "generate_button": "🚀 生成登录",
+            "latest_logins": "最近生成的登录",
+            "download_csv": "⬇️ 下载 CSV"
+        },
         "system_settings_header": "系统设置和指标",
+        "system": {
+            "scoring_mode": "评分模式",
+            "scoring_question": "错误答案应如何评分？",
+            "scoring_positive": "仅正分（错误 = 0）",
+            "scoring_negative": "加减分（错误 = -权重）",
+            "scoring_saved": "评分模式已保存。将在下一个答案生效。",
+            "dashboard_stats": "📊 仪表板统计",
+            "db_management": "数据库管理",
+            "db_dump_info": "下载数据库的完整 SQL 转储。此文本文件包含结构（模式）和所有内容，可以在任何文本编辑器或 SQLite 工具中打开。",
+            "db_dump_download": "⬇️ 下载数据库转储 (.sql)",
+            "danger_zone": "危险区",
+            "delete_all_confirm": "我了解后果并希望删除所有数据。",
+            "delete_all_button": "立即删除所有测试数据",
+            "delete_all_success": "✅ 所有测试数据已重置。",
+            "delete_all_error": "❌ 删除失败。请查看服务器日志。",
+            "delete_all_wrong_key": "🔒 管理员密钥错误。全局删除已取消。",
+            "stats": {
+                "completed_tests": "已完成的测试",
+                "unique_users": "唯一参与者",
+                "reported_issues": "报告的问题",
+                "avg_duration": "Ø 测试时长",
+                "completion_rate": "完成率",
+                "completion_rate_help": "完全完成的测试百分比",
+                "avg_performance": "📈 每个问题集的平均表现"
+            }
+        },
         "audit_log_header": "🔒 审计日志",
+        "audit": {
+            "total_entries": "总条目",
+            "successful": "成功",
+            "failed": "失败",
+            "quick_views": "快速视图",
+            "quick_cleanup": "🔎 清理事件",
+            "show_all": "🔁 显示全部",
+            "filter": "过滤器",
+            "limit": "条目数量",
+            "user": "用户",
+            "action": "操作",
+            "quick_view_active": "快速视图激活：{quick_action}",
+            "status_success": "仅成功",
+            "status_failed": "仅失败",
+            "status": "状态",
+            "no_entries": "📭 未找到审计日志条目。",
+            "table_header": "审计日志 ({len} 条目)",
+            "export_csv": "📥 导出为 CSV",
+            "delete_older_than": "日志早于（天）",
+            "delete_button": "立即删除",
+            "delete_success": "✅ 已删除 {count} 个旧条目。",
+            "columns": {
+                "timestamp": "时间戳",
+                "user": "用户",
+                "action": "操作",
+                "success": "成功",
+                "details": "详情"
+            }
+        },
         "tabs": {
             "leaderboard": "🏆 排行榜",
             "analysis": "📊 分析",
@@ -363,6 +500,11 @@
             "tempo": {
                 "label": "节奏",
                 "help": "按节奏过滤排行榜",
+                "select_user": "选择用户：",
+                "admin_key_confirm": "管理员密钥确认：",
+                "admin_key_help": "为了安全起见，必须重新输入管理员密钥。",
+                "confirm_checkbox": "是的，我确定。",
+                "delete_button": "立即删除结果",
                 "options": {
                     "all": "全部",
                     "normal": "正常",
@@ -393,6 +535,7 @@
             "reset_user_results_success": "✅ {user_name} 的结果已被重置。",
             "reset_user_results_error": "❌ 重置结果时出错。",
             "reset_user_results_wrong_key": "🔒 管理员密钥错误。删除已取消。",
+            "delete_feedback_error": "删除消息时出错。",
             "delete_feedback_success": "{count} 条反馈消息已被删除。",
             "delete_feedback_error": "删除消息时出错。",
             "delete_single_feedback_success": "反馈已删除。",
@@ -486,6 +629,12 @@
         "schwierigkeit": "难度",
         "konzept": "概念",
         "glossary": "词汇表"
+        "preview": {
+            "question": "问题",
+            "correct_answer": "正确答案",
+            "explanation": "解释",
+            "detailed_explanation": "详细解释"
+        }
     },
     "pdf": {
         "status": {

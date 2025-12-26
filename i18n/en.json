@@ -4,6 +4,15 @@
         "subtitle": "Manage & Analyze Quizzes",
         "dialog_multiple_warning": "Only one dialog allowed at a time. Please close open dialogs and try again."
     },
+    "app": {
+        "warning": {
+            "locale_not_found": "No suitable locale found for correct sorting. Umlauts may be sorted incorrectly."
+        },
+        "error": {
+            "questionset_load_failed": "Question set '{filename}' could not be loaded: {error}",
+            "invalid_admin_session": "⚠️ Invalid or expired admin session. Please log in again."
+        }
+    },
     "sidebar": {
         "title": "Navigation",
         "language": "Language",
@@ -185,6 +194,13 @@
             "cooldown_remaining": "(still {seconds}s)"
         },
         "pacing": {
+            "avg_time_per_question": "Avg. remaining time per question: {seconds} s",
+            "approx_1min": " — approx. 1 min/question (weight 3)",
+            "not_1min": " — not 1 min/question"
+        },
+        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns disabled due to time pressure.",
+        "panic_mode_skipped": "⚡ **Panic Mode:** Wait time skipped.",
+        "pacing": {
             "ahead": "Ahead of schedule",
             "on_track": "On track",
             "slightly_behind": "Slightly behind",
@@ -327,6 +343,12 @@
         "generate_arsnova_header": "🎯 Generate ARSnova.click Question Set",
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossaries as PDF",
+        "glossary": {
+            "entries_per_page": "Entries per page",
+            "page_info": "Page **{current}** of **{total}** – {entries} entries",
+            "pdf_generating": "Generating PDF...",
+            "pdf_download": "💾 Download PDF"
+        },
         "no_questionsets": "No question sets found.",
         "glossary_caption": "PDF with mini-glossaries for all topics.",
         "glossary_generate_button": "📄 Generate Glossaries",
@@ -336,14 +358,138 @@
         "glossary_download_button": "💾 Download Glossaries",
         "glossary_generation_caption": "Load a question set, check existing mini-glossary entries and create a PDF if needed.",
         "questionsets_overview_header": "📂 Overview of all Question Sets",
+        "questionsets": {
+            "count": "Number of Question Sets",
+            "topics_per_set": "Topics per Set",
+            "topics_label": "Topics",
+            "columns": {
+                "name": "Name",
+                "file": "File",
+                "questions": "Questions",
+                "duration": "Duration",
+                "glossary": "Glossary",
+                "glossary_entries": "Glossary Entries",
+                "difficulty": "Difficulty",
+                "topics": "Topics"
+            }
+        },
         "highscores_by_questionset_header": "🏆 Highscores by Question Set",
         "item_analysis_header": "📊 Item Analysis",
+        "analysis": {
+            "select_set": "Select Question Set for Analysis:",
+            "select_question": "Select Question for Detail Analysis:",
+            "show_chart": "Show as Bar Chart",
+            "columns": {
+                "nr": "Question No.",
+                "question": "Question",
+                "answers": "Answers",
+                "correct_pct": "Correct (%)",
+                "discrimination": "Discrimination (r_it)"
+            }
+        },
         "distractor_analysis_header": "Detail Analysis: Distractors",
         "reported_issues_header": "Reported Issues",
+        "feedback": {
+            "legacy_type": "Legacy (no type)",
+            "confirm_awareness": "I am aware of the consequences.",
+            "delete_button": "Yes, permanently delete {count} reports",
+            "question_not_found": "Question not found",
+            "jump_to_question": "Go to Question",
+            "delete_popover": "Delete",
+            "delete_confirm": "Yes, permanently delete",
+            "columns": {
+                "date": "Reported on",
+                "question_nr": "Question No.",
+                "type": "Problem Type",
+                "set": "Question Set",
+                "user": "Reported by"
+            },
+            "filters": {
+                "set": "Question Set:",
+                "type": "Problem Type:"
+            }
+        },
         "data_export_header": "📤 Data Export",
+        "export": {
+            "download_csv": "⬇️ Download Answer Log (CSV)"
+        },
         "login_generator_header": "🔑 Login Generator for Reserved Pseudonyms",
+        "login_generator": {
+            "used_pseudonyms": "Currently used temporary pseudonyms",
+            "reserved_pseudonyms": "Reserved pseudonyms (with login secret)",
+            "delete_select": "Pseudonym to delete",
+            "admin_key": "Admin Key for Confirmation:",
+            "confirm_single": "I understand: This reserved pseudonym and its test data will be deleted.",
+            "delete_button": "Delete Pseudonym",
+            "wrong_key": "Wrong Admin Key. Operation aborted.",
+            "confirm_all_used": "I understand: All test and pseudonym data (except admin) will be deleted.",
+            "delete_all_used_button": "Delete all used pseudonyms now",
+            "confirm_all_reserved": "I understand: All reserved pseudonyms and test data (except admin) will be deleted.",
+            "delete_all_reserved_button": "Delete reserved pseudonyms",
+            "count_label": "Number of Logins",
+            "select_label": "Select pseudonyms for reservation",
+            "select_help": "Only free pseudonyms are shown.",
+            "generate_button": "🚀 Generate Logins",
+            "latest_logins": "Last generated logins",
+            "download_csv": "⬇️ Download CSV"
+        },
         "system_settings_header": "System Settings and Metrics",
+        "system": {
+            "scoring_mode": "Scoring Mode",
+            "scoring_question": "How should incorrect answers be scored?",
+            "scoring_positive": "Positive points only (wrong = 0)",
+            "scoring_negative": "Plus/Minus points (wrong = -weight)",
+            "scoring_saved": "Scoring mode saved. Active for next answer.",
+            "dashboard_stats": "📊 Dashboard Statistics",
+            "db_management": "Database Management",
+            "db_dump_info": "Download a complete SQL dump of the database. This text file contains the structure (schema) and all content and can be opened in any text editor or SQLite tool.",
+            "db_dump_download": "⬇️ Download Database Dump (.sql)",
+            "danger_zone": "Danger Zone",
+            "delete_all_confirm": "I am aware of the consequences and want to delete all data.",
+            "delete_all_button": "DELETE ALL TEST DATA NOW",
+            "delete_all_success": "✅ All test data has been reset.",
+            "delete_all_error": "❌ Deletion failed. Check server logs.",
+            "delete_all_wrong_key": "🔒 Wrong Admin Key. Global deletion aborted.",
+            "stats": {
+                "completed_tests": "Completed Tests",
+                "unique_users": "Unique Participants",
+                "reported_issues": "Reported Issues",
+                "avg_duration": "Ø Test Duration",
+                "completion_rate": "Completion Rate",
+                "completion_rate_help": "Percentage of tests that were fully completed",
+                "avg_performance": "📈 Average Performance per Question Set"
+            }
+        },
         "audit_log_header": "🔒 Audit Log",
+        "audit": {
+            "total_entries": "Total Entries",
+            "successful": "Successful",
+            "failed": "Failed",
+            "quick_views": "Quick Views",
+            "quick_cleanup": "🔎 Cleanup Events",
+            "show_all": "🔁 Show All",
+            "filter": "Filter",
+            "limit": "Number of Entries",
+            "user": "User",
+            "action": "Action",
+            "quick_view_active": "Quick View Active: {quick_action}",
+            "status_success": "Only Successful",
+            "status_failed": "Only Failed",
+            "status": "Status",
+            "no_entries": "📭 No Audit Log entries found.",
+            "table_header": "Audit Log ({len} entries)",
+            "export_csv": "📥 Export as CSV",
+            "delete_older_than": "Logs older than (days)",
+            "delete_button": "Delete Now",
+            "delete_success": "✅ {count} old entries deleted.",
+            "columns": {
+                "timestamp": "Timestamp",
+                "user": "User",
+                "action": "Action",
+                "success": "Success",
+                "details": "Details"
+            }
+        },
         "tabs": {
             "leaderboard": "🏆 Leaderboard",
             "analysis": "📊 Analysis",
@@ -362,6 +508,11 @@
             "tempo": {
                 "label": "Pace",
                 "help": "Filter leaderboard by pace",
+                "select_user": "Select User:",
+                "admin_key_confirm": "Admin Key for Confirmation:",
+                "admin_key_help": "Admin Key must be re-entered for security.",
+                "confirm_checkbox": "Yes, I am sure.",
+                "delete_button": "Delete Results Now",
                 "options": {
                     "all": "All",
                     "normal": "Normal",
@@ -392,6 +543,7 @@
             "reset_user_results_success": "✅ Results from {user_name} have been reset.",
             "reset_user_results_error": "❌ Error resetting results.",
             "reset_user_results_wrong_key": "🔒 Wrong admin key. Deletion cancelled.",
+            "delete_feedback_error": "Error deleting messages.",
             "delete_feedback_success": "{count} feedback messages have been deleted.",
             "delete_feedback_error": "Error deleting messages.",
             "delete_single_feedback_success": "Feedback deleted.",
@@ -485,6 +637,12 @@
         "schwierigkeit": "Difficulty",
         "konzept": "Concept",
         "glossary": "Glossary"
+        "preview": {
+            "question": "Question",
+            "correct_answer": "Correct Answer",
+            "explanation": "Explanation",
+            "detailed_explanation": "Detailed Explanation"
+        }
     },
     "pdf": {
         "status": {

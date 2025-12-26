@@ -4,6 +4,15 @@
         "subtitle": "Gestisci & Analizza Quiz",
         "dialog_multiple_warning": "È consentito un solo dialogo alla volta. Chiudi i dialoghi aperti e riprova."
     },
+    "app": {
+        "warning": {
+            "locale_not_found": "Nessuna locale adatta trovata per l'ordinamento corretto. Le dieresi potrebbero essere ordinate in modo errato."
+        },
+        "error": {
+            "questionset_load_failed": "Impossibile caricare il set di domande '{filename}': {error}",
+            "invalid_admin_session": "⚠️ Sessione admin non valida o scaduta. Effettua nuovamente il login."
+        }
+    },
     "tempo": {
         "normal": "Normale",
         "speed": "Veloce",
@@ -15,6 +24,12 @@
         "generate_arsnova_header": "🎯 Genera set di domande ARSnova.click",
         "dashboard_title": "🛠 Dashboard amministratore",
         "glossary_header": "📚 Mini-glossari in PDF",
+        "glossary": {
+            "entries_per_page": "Voci per pagina",
+            "page_info": "Pagina **{current}** di **{total}** – {entries} voci",
+            "pdf_generating": "Generazione PDF...",
+            "pdf_download": "💾 Scarica PDF"
+        },
         "no_questionsets": "Nessun set di domande trovato.",
         "glossary_caption": "PDF con mini-glossari per tutti gli argomenti.",
         "glossary_generate_button": "📄 Genera glossari",
@@ -24,14 +39,138 @@
         "glossary_download_button": "💾 Scarica glossari",
         "glossary_generation_caption": "Carica un set di domande, controlla le voci di mini-glossario esistenti e crea un PDF se necessario.",
         "questionsets_overview_header": "📂 Panoramica di tutti i set di domande",
+        "questionsets": {
+            "count": "Numero di set di domande",
+            "topics_per_set": "Argomenti per set",
+            "topics_label": "Argomenti",
+            "columns": {
+                "name": "Nome",
+                "file": "File",
+                "questions": "Domande",
+                "duration": "Durata",
+                "glossary": "Glossario",
+                "glossary_entries": "Voci Glossario",
+                "difficulty": "Difficoltà",
+                "topics": "Argomenti"
+            }
+        },
         "highscores_by_questionset_header": "🏆 Migliori punteggi per set di domande",
         "item_analysis_header": "📊 Analisi degli item",
+        "analysis": {
+            "select_set": "Seleziona set di domande per l'analisi:",
+            "select_question": "Seleziona domanda per analisi dettagliata:",
+            "show_chart": "Mostra come grafico a barre",
+            "columns": {
+                "nr": "N. Domanda",
+                "question": "Domanda",
+                "answers": "Risposte",
+                "correct_pct": "Corretto (%)",
+                "discrimination": "Discriminazione (r_it)"
+            }
+        },
         "distractor_analysis_header": "Analisi dettagliata: Distrattori",
         "reported_issues_header": "Problemi segnalati",
+        "feedback": {
+            "legacy_type": "Obsoleto (senza tipo)",
+            "confirm_awareness": "Sono consapevole delle conseguenze.",
+            "delete_button": "Sì, elimina definitivamente {count} segnalazioni",
+            "question_not_found": "Domanda non trovata",
+            "jump_to_question": "Vai alla domanda",
+            "delete_popover": "Elimina",
+            "delete_confirm": "Sì, elimina definitivamente",
+            "columns": {
+                "date": "Segnalato il",
+                "question_nr": "N. Domanda",
+                "type": "Tipo problema",
+                "set": "Set",
+                "user": "Segnalato da"
+            },
+            "filters": {
+                "set": "Set:",
+                "type": "Tipo problema:"
+            }
+        },
         "data_export_header": "📤 Esportazione dati",
+        "export": {
+            "download_csv": "⬇️ Scarica registro risposte (CSV)"
+        },
         "login_generator_header": "🔑 Generatore di accesso per pseudonimi riservati",
+        "login_generator": {
+            "used_pseudonyms": "Pseudonimi temporanei attualmente in uso",
+            "reserved_pseudonyms": "Pseudonimi riservati (con segreto di accesso)",
+            "delete_select": "Pseudonimo da eliminare",
+            "admin_key": "Chiave Admin per conferma:",
+            "confirm_single": "Capisco: Questo pseudonimo riservato e i suoi dati di test verranno eliminati.",
+            "delete_button": "Elimina pseudonimo",
+            "wrong_key": "Chiave Admin errata. Operazione annullata.",
+            "confirm_all_used": "Capisco: Tutti i dati di test e pseudonimi (eccetto admin) verranno eliminati.",
+            "delete_all_used_button": "Elimina tutti gli pseudonimi usati ora",
+            "confirm_all_reserved": "Capisco: Tutti gli pseudonimi riservati e i dati di test (eccetto admin) verranno eliminati.",
+            "delete_all_reserved_button": "Elimina pseudonimi riservati",
+            "count_label": "Numero di accessi",
+            "select_label": "Seleziona pseudonimi per la prenotazione",
+            "select_help": "Vengono mostrati solo pseudonimi liberi.",
+            "generate_button": "🚀 Genera accessi",
+            "latest_logins": "Ultimi accessi generati",
+            "download_csv": "⬇️ Scarica CSV"
+        },
         "system_settings_header": "Impostazioni di sistema e metriche",
+        "system": {
+            "scoring_mode": "Modalità punteggio",
+            "scoring_question": "Come devono essere valutate le risposte errate?",
+            "scoring_positive": "Solo punti positivi (errato = 0)",
+            "scoring_negative": "Punti Più/Meno (errato = -peso)",
+            "scoring_saved": "Modalità punteggio salvata. Attiva per la prossima risposta.",
+            "dashboard_stats": "📊 Statistiche Dashboard",
+            "db_management": "Gestione Database",
+            "db_dump_info": "Scarica un dump SQL completo del database. Questo file di testo contiene la struttura (schema) e tutto il contenuto e può essere aperto in qualsiasi editor di testo o strumento SQLite.",
+            "db_dump_download": "⬇️ Scarica Dump Database (.sql)",
+            "danger_zone": "Zona di Pericolo",
+            "delete_all_confirm": "Sono consapevole delle conseguenze e voglio eliminare tutti i dati.",
+            "delete_all_button": "ELIMINA TUTTI I DATI DI TEST ORA",
+            "delete_all_success": "✅ Tutti i dati di test sono stati ripristinati.",
+            "delete_all_error": "❌ Eliminazione fallita. Controlla i log del server.",
+            "delete_all_wrong_key": "🔒 Chiave Admin errata. Eliminazione globale annullata.",
+            "stats": {
+                "completed_tests": "Test completati",
+                "unique_users": "Partecipanti unici",
+                "reported_issues": "Problemi segnalati",
+                "avg_duration": "Ø Durata test",
+                "completion_rate": "Tasso di completamento",
+                "completion_rate_help": "Percentuale di test completati interamente",
+                "avg_performance": "📈 Performance media per set di domande"
+            }
+        },
         "audit_log_header": "🔒 Registro di audit",
+        "audit": {
+            "total_entries": "Totale voci",
+            "successful": "Riuscito",
+            "failed": "Fallito",
+            "quick_views": "Viste rapide",
+            "quick_cleanup": "🔎 Eventi pulizia",
+            "show_all": "🔁 Mostra tutto",
+            "filter": "Filtro",
+            "limit": "Numero voci",
+            "user": "Utente",
+            "action": "Azione",
+            "quick_view_active": "Vista rapida attiva: {quick_action}",
+            "status_success": "Solo riusciti",
+            "status_failed": "Solo falliti",
+            "status": "Stato",
+            "no_entries": "📭 Nessuna voce nel registro di audit trovata.",
+            "table_header": "Registro Audit ({len} voci)",
+            "export_csv": "📥 Esporta come CSV",
+            "delete_older_than": "Log più vecchi di (giorni)",
+            "delete_button": "Elimina ora",
+            "delete_success": "✅ {count} vecchie voci eliminate.",
+            "columns": {
+                "timestamp": "Timestamp",
+                "user": "Utente",
+                "action": "Azione",
+                "success": "Successo",
+                "details": "Dettagli"
+            }
+        },
         "tabs": {
             "leaderboard": "🏆 Classifica",
             "analysis": "📊 Analisi",
@@ -50,6 +189,11 @@
             "tempo": {
                 "label": "Tempo",
                 "help": "Filtra classifica per tempo",
+                "select_user": "Seleziona utente:",
+                "admin_key_confirm": "Chiave Admin per conferma:",
+                "admin_key_help": "La chiave Admin deve essere reinserita per sicurezza.",
+                "confirm_checkbox": "Sì, sono sicuro.",
+                "delete_button": "Elimina risultati ora",
                 "options": {
                     "all": "Tutti",
                     "normal": "Normale",
@@ -80,6 +224,7 @@
             "reset_user_results_success": "✅ I risultati di {user_name} sono stati ripristinati.",
             "reset_user_results_error": "❌ Errore durante il ripristino dei risultati.",
             "reset_user_results_wrong_key": "🔒 Chiave admin errata. Eliminazione annullata.",
+            "delete_feedback_error": "Errore durante l'eliminazione dei messaggi.",
             "delete_feedback_success": "{count} messaggi di feedback sono stati eliminati.",
             "delete_feedback_error": "Errore durante l'eliminazione dei messaggi.",
             "delete_single_feedback_success": "Feedback eliminato.",
@@ -330,6 +475,13 @@
             "cooldown_remaining": "(ancora {seconds}s)"
         },
         "pacing": {
+            "avg_time_per_question": "Tempo medio rimanente per domanda: {seconds} s",
+            "approx_1min": " — circa 1 min/domanda (peso 3)",
+            "not_1min": " — non 1 min/domanda"
+        },
+        "panic_mode_active": "⚡ **Panic Mode:** Cooldown disabilitati per mancanza di tempo.",
+        "panic_mode_skipped": "⚡ **Panic Mode:** Tempo di attesa saltato.",
+        "pacing": {
             "ahead": "In anticipo",
             "on_track": "In orario",
             "slightly_behind": "Leggero ritardo",
@@ -486,6 +638,12 @@
         "schwierigkeit": "Difficoltà",
         "konzept": "Concetto",
         "glossary": "Glossario"
+        "preview": {
+            "question": "Domanda",
+            "correct_answer": "Risposta corretta",
+            "explanation": "Spiegazione",
+            "detailed_explanation": "Spiegazione dettagliata"
+        }
     },
     "pdf": {
         "status": {

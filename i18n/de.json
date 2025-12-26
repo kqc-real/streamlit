@@ -4,6 +4,15 @@
         "subtitle": "Quizze managen & auswerten",
         "dialog_multiple_warning": "Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut."
     },
+    "app": {
+        "warning": {
+            "locale_not_found": "Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert."
+        },
+        "error": {
+            "questionset_load_failed": "Fragenset '{filename}' konnte nicht geladen werden: {error}",
+            "invalid_admin_session": "⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen."
+        }
+    },
     "sidebar": {
         "title": "Navigation",
         "language": "Sprache",
@@ -118,6 +127,12 @@
         "generate_arsnova_header": "🎯 Fragenset für ARSnova.click generieren",
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossare als PDF",
+        "glossary": {
+            "entries_per_page": "Einträge pro Seite",
+            "page_info": "Seite **{current}** von **{total}** – {entries} Einträge",
+            "pdf_generating": "PDF wird erstellt …",
+            "pdf_download": "💾 PDF herunterladen"
+        },
         "no_questionsets": "Keine Fragensets gefunden.",
         "glossary_caption": "PDF mit Mini-Glossaren für alle Themen.",
         "glossary_generate_button": "📄 Glossare erstellen",
@@ -127,14 +142,138 @@
         "glossary_download_button": "💾 Glossare laden",
         "glossary_generation_caption": "Lade ein Fragenset, prüfe die vorhandenen Mini-Glossar-Einträge und erstelle bei Bedarf ein PDF.",
         "questionsets_overview_header": "📂 Übersicht aller Fragensets",
+        "questionsets": {
+            "count": "Anzahl Fragensets",
+            "topics_per_set": "Themen je Fragenset",
+            "topics_label": "Themen",
+            "columns": {
+                "name": "Name",
+                "file": "Datei",
+                "questions": "Fragen",
+                "duration": "Dauer",
+                "glossary": "Glossar",
+                "glossary_entries": "Glossar-Einträge",
+                "difficulty": "Schwierigkeiten",
+                "topics": "Themen"
+            }
+        },
         "highscores_by_questionset_header": "🏆 Highscores nach Fragenset",
         "item_analysis_header": "📊 Item-Analyse",
+        "analysis": {
+            "select_set": "Wähle Fragenset für Analyse:",
+            "select_question": "Wähle eine Frage für die Detail-Analyse:",
+            "show_chart": "Zeige als Balkendiagramm",
+            "columns": {
+                "nr": "Frage-Nr.",
+                "question": "Frage",
+                "answers": "Antworten",
+                "correct_pct": "Richtig (%)",
+                "discrimination": "Trennschärfe (r_it)"
+            }
+        },
         "distractor_analysis_header": "Detail-Analyse: Distraktoren",
         "reported_issues_header": "Gemeldete Probleme",
+        "feedback": {
+            "legacy_type": "Veraltet (ohne Typ)",
+            "confirm_awareness": "Ich bin mir der Konsequenzen bewusst.",
+            "delete_button": "Ja, {count} Meldungen endgültig löschen",
+            "question_not_found": "Frage nicht gefunden",
+            "jump_to_question": "Zur Frage",
+            "delete_popover": "Löschen",
+            "delete_confirm": "Ja, endgültig löschen",
+            "columns": {
+                "date": "Gemeldet am",
+                "question_nr": "Frage-Nr.",
+                "type": "Problem-Typ",
+                "set": "Fragenset",
+                "user": "Gemeldet von"
+            },
+            "filters": {
+                "set": "Fragenset:",
+                "type": "Problem-Typ:"
+            }
+        },
         "data_export_header": "📤 Datenexport",
+        "export": {
+            "download_csv": "⬇️ Antwort-Log herunterladen (CSV)"
+        },
         "login_generator_header": "🔑 Login-Generator für reservierte Pseudonyme",
+        "login_generator": {
+            "used_pseudonyms": "Aktuell genutzte temporäre Pseudonyme",
+            "reserved_pseudonyms": "Reservierte Pseudonyme (mit Login-Secret)",
+            "delete_select": "Zu löschendes Pseudonym",
+            "admin_key": "Admin-Key zur Bestätigung:",
+            "confirm_single": "Ich verstehe: Dieses reservierte Pseudonym wird inklusive seiner Testdaten gelöscht.",
+            "delete_button": "Pseudonym löschen",
+            "wrong_key": "Falscher Admin-Key. Vorgang abgebrochen.",
+            "confirm_all_used": "Ich verstehe: Alle Test- und Pseudonymdaten (außer Admin) werden gelöscht.",
+            "delete_all_used_button": "Jetzt alle genutzten Pseudonyme löschen",
+            "confirm_all_reserved": "Ich verstehe: Alle reservierten Pseudonyme und Testdaten (außer Admin) werden gelöscht.",
+            "delete_all_reserved_button": "Reservierte Pseudonyme löschen",
+            "count_label": "Anzahl der Logins",
+            "select_label": "Wähle die Pseudonyme für die Reservierung",
+            "select_help": "Nur freie Pseudonyme werden angezeigt.",
+            "generate_button": "🚀 Logins erzeugen",
+            "latest_logins": "Zuletzt erzeugte Logins",
+            "download_csv": "⬇️ CSV herunterladen"
+        },
         "system_settings_header": "Systemeinstellungen und Metriken",
+        "system": {
+            "scoring_mode": "Scoring-Modus",
+            "scoring_question": "Wie sollen falsche Antworten bewertet werden?",
+            "scoring_positive": "Nur Pluspunkte (falsch = 0)",
+            "scoring_negative": "Plus-Minus-Punkte (falsch = -Gewichtung)",
+            "scoring_saved": "Scoring-Modus gespeichert. Wird bei der nächsten Antwort aktiv.",
+            "dashboard_stats": "📊 Dashboard-Statistiken",
+            "db_management": "Datenbank-Management",
+            "db_dump_info": "Lade einen kompletten SQL-Dump der Datenbank herunter. Diese Textdatei enthält die Struktur (Schema) und alle Inhalte und kann in jedem Texteditor oder SQLite-Tool geöffnet werden.",
+            "db_dump_download": "⬇️ Datenbank-Dump herunterladen (.sql)",
+            "danger_zone": "Gefahrenzone",
+            "delete_all_confirm": "Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen.",
+            "delete_all_button": "JETZT ALLE TESTDATEN LÖSCHEN",
+            "delete_all_success": "✅ Alle Testdaten wurden zurückgesetzt.",
+            "delete_all_error": "❌ Löschen fehlgeschlagen. Überprüfe die Server-Logs.",
+            "delete_all_wrong_key": "🔒 Falscher Admin-Key. Globales Löschen abgebrochen.",
+            "stats": {
+                "completed_tests": "Abgeschlossene Tests",
+                "unique_users": "Eindeutige Teilnehmer",
+                "reported_issues": "Gemeldete Probleme",
+                "avg_duration": "Ø Testdauer",
+                "completion_rate": "Abschlussquote",
+                "completion_rate_help": "Prozentsatz der Tests, die vollständig beendet wurden",
+                "avg_performance": "📈 Durchschnittliche Leistung pro Fragenset"
+            }
+        },
         "audit_log_header": "🔒 Audit-Log",
+        "audit": {
+            "total_entries": "Gesamt-Einträge",
+            "successful": "Erfolgreich",
+            "failed": "Fehlgeschlagen",
+            "quick_views": "Schnellansichten",
+            "quick_cleanup": "🔎 Cleanup-Events",
+            "show_all": "🔁 Alle anzeigen",
+            "filter": "Filter",
+            "limit": "Anzahl Einträge",
+            "user": "Benutzer",
+            "action": "Aktion",
+            "quick_view_active": "Schnellansicht aktiv: {quick_action}",
+            "status_success": "Nur Erfolgreiche",
+            "status_failed": "Nur Fehlgeschlagene",
+            "status": "Status",
+            "no_entries": "📭 Keine Audit-Log-Einträge gefunden.",
+            "table_header": "Audit-Log ({len} Einträge)",
+            "export_csv": "📥 Export als CSV",
+            "delete_older_than": "Logs älter als (Tage)",
+            "delete_button": "Jetzt löschen",
+            "delete_success": "✅ {count} alte Einträge gelöscht.",
+            "columns": {
+                "timestamp": "Zeitstempel",
+                "user": "Benutzer",
+                "action": "Aktion",
+                "success": "Erfolg",
+                "details": "Details"
+            }
+        },
         "tabs": {
             "leaderboard": "🏆 Leaderboard",
             "analysis": "📊 Analyse",
@@ -153,6 +292,11 @@
             "tempo": {
                 "label": "Tempo",
                 "help": "Ranking nach Tempo filtern",
+                "select_user": "Wähle einen Benutzer:",
+                "admin_key_confirm": "Admin-Key zur Bestätigung:",
+                "admin_key_help": "Zur Sicherheit muss der Admin-Key erneut eingegeben werden.",
+                "confirm_checkbox": "Ja, ich bin sicher.",
+                "delete_button": "Ergebnisse jetzt löschen",
                 "options": {
                     "all": "Alle",
                     "normal": "Normal",
@@ -183,6 +327,7 @@
             "reset_user_results_success": "✅ Die Ergebnisse von {user_name} wurden zurückgesetzt.",
             "reset_user_results_error": "❌ Fehler beim Zurücksetzen der Ergebnisse.",
             "reset_user_results_wrong_key": "🔒 Falscher Admin-Key. Löschung abgebrochen.",
+            "delete_feedback_error": "Fehler beim Löschen der Meldungen.",
             "delete_feedback_success": "{count} Feedback-Meldungen wurden gelöscht.",
             "delete_feedback_error": "Fehler beim Löschen der Meldungen.",
             "delete_single_feedback_success": "Feedback gelöscht.",
@@ -329,6 +474,13 @@
             "warning_minutes": "⚠️ Nur noch {minutes_text}!",
             "cooldown_remaining": "(noch {seconds}s)"
         },
+        "pacing": {
+            "avg_time_per_question": "Durchschn. verbleibende Zeit pro Frage: {seconds} s",
+            "approx_1min": " — entspricht ungefähr 1 min/Frage (Gewichtung 3)",
+            "not_1min": " — entspricht nicht 1 min/Frage"
+        },
+        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
+        "panic_mode_skipped": "⚡ **Panic Mode:** Wartezeit übersprungen.",
         "pacing": {
             "ahead": "Gut in der Zeit",
             "on_track": "Im Plan",
@@ -487,7 +639,13 @@
         "schwierigkeit": "Schwierigkeit",
         "konzept": "Konzept",
         "kognitive_stufe": "Kognitive Stufe",
-        "glossary": "Glossar"
+        "glossary": "Glossar",
+        "preview": {
+            "question": "Frage",
+            "correct_answer": "Korrekte Antwort",
+            "explanation": "Erklärung",
+            "detailed_explanation": "Detaillierte Erklärung"
+        }
     },
     "pdf": {
         "status": {
