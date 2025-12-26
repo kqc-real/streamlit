@@ -327,7 +327,9 @@
         "de": "Deutsch",
         "en": "Englisch",
         "fr": "Französisch",
-        "es": "Spanisch"
+        "es": "Spanisch",
+        "it": "Italienisch",
+        "zh": "Chinesisch"
     },
     "buttons": {
         "download": "Download"

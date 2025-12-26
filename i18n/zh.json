@@ -1,0 +1,698 @@
+{
+    "app": {
+        "title": "Quiz Export",
+        "subtitle": "管理 & 分析你的题库"
+    },
+    "tempo": {
+        "normal": "正常模式",
+        "speed": "倍速模式 (1/2 时间)",
+        "power": "冲刺模式 (1/4 时间)"
+    },
+    "admin": {
+        "leaderboard": {
+            "tempo": {
+                "label": "节奏",
+                "help": "按学习节奏筛选排行榜",
+                "options": {
+                    "all": "全部",
+                    "normal": "正常模式",
+                    "speed": "倍速模式",
+                    "power": "冲刺模式"
+                }
+            }
+        }
+    },
+    "sidebar": {
+        "title": "导航",
+        "language": "语言",
+        "language_expander": "语言",
+        "language_selector_label": "选择语言",
+        "pseudonym_locale_assignment": "此设置将与你的昵称绑定。",
+        "greeting": "👋 **{user}**",
+        "temp_set_notice": "临时题库: {label}",
+        "reserved_pseudonym": "昵称已为你保留。",
+        "pseudonym_reserved": "你的保留昵称。",
+        "pseudonym_info": "👤 昵称信息",
+        "history_button": "我的练习",
+        "history_expander": "📚 我的练习",
+        "history_empty": "暂无记录。",
+        "history_error": "加载历史失败。",
+        "history_load_error": "加载失败。",
+        "history_showing": "显示 {shown} / {total} 条。",
+        "history_csv_download": "下载 CSV",
+        "history_csv_unavailable": "CSV 导出不可用。",
+        "history_dialog_title": "我的练习",
+        "history_header": "你的历史记录",
+        "history_unnamed_set": "未命名题库",
+        "history_start_button": "开始",
+        "history_delete_notice": "记录已删除。请刷新页面。",
+        "history_delete_all_button": "🗑️ 删除所有",
+        "history_delete_all_warning": "注意：这将永久删除你所有的练习、答案和收藏。",
+        "history_delete_confirm_button": "确认删除",
+        "history_delete_failed": "删除失败。",
+        "history_delete_cancel_button": "取消",
+        "history_columns": {
+            "date": "日期",
+            "question_set": "题库",
+            "actions": "操作",
+            "points": "得分 (%)",
+            "duration": "用时",
+            "tempo": "模式"
+        },
+        "current_set": "题库: <strong>{name}</strong>",
+        "current_set_marker": "题库: {marker} <strong>{name}</strong>",
+        "glossary_download": "💾 下载词汇表",
+        "glossary_cooldown": "导出中。请等待 {wait}秒。",
+        "glossary_generate_button": "📄 生成词汇表",
+        "glossary_spinner_simple": "生成 PDF 中...",
+        "glossary_spinner_with_formulas": "生成 PDF – 正在渲染 {count} 条公式 (请稍候)。",
+        "glossary_render_count": "渲染约 {count} 条公式。可能需要一点时间。",
+        "glossary_success": "词汇表就绪！",
+        "glossary_no_entries": "此题库无可用词汇表。",
+        "glossary_error": "PDF 错误: {error}",
+        "progress_line": "⏳ 状态: {status}",
+        "progress": {
+            "finished": "(完成)",
+            "single": "(还剩 1 题)",
+            "multiple": "(还剩 {remaining} 题)"
+        },
+        "test_end": "结束测试",
+        "score": {
+            "heading": "🎯 你的得分"
+        },
+        "review_back": "⬅️ 返回回顾",
+        "create_user_qset": "AI 创建题库",
+        "user_qset_dialog_warning": "请先关闭当前对话框。",
+        "user_qset_deleted": "题库已被创建者删除。请刷新并选择其他题库。",
+        "user_qset_preserved": "你的题库很安全，因为昵称已保留。",
+        "session_expander": "⚠️ 结束会话",
+        "session_reserved_info": "结束将保存题库 **{set_name}** {days} 天。",
+        "session_choose_new": "选择新昵称以重试。",
+        "session_keep_warning": "⚠️ 得分将保存并结束测试。",
+        "session_end_button": "结束会话",
+        "admin_remote_warning": "🔒 Admin: 仅限 localhost。",
+        "admin_remote_warning_ip": "\n\n你的 IP: `{ip}`",
+        "admin_mode_info": "管理员模式已激活。",
+        "admin_solution_download": "💾 下载参考答案",
+        "admin_solution_generate": "📄 生成参考答案 (PDF)",
+        "admin_solution_success": "参考答案就绪！",
+        "admin_back_to_test": "⬅️ 返回测试",
+        "admin_key_missing": "⚠️ **无管理员密钥！**\n\n仅限本地开发。生产环境请设置 `MC_TEST_ADMIN_KEY`。",
+        "admin_open_panel": "📊 管理面板 (UNSAFE)",
+        "admin_expander": "🔓 管理面板",
+        "admin_key_label": "管理员密钥",
+        "admin_activate_button": "激活",
+        "admin_locked": "⛔ 锁定至: {locked_until}",
+        "admin_wrong_key": "密钥错误。",
+        "bookmarks_expander": "🔖 收藏题目",
+        "question_short": "第 {n} 题",
+        "bookmarks_empty": "暂无收藏。",
+        "bookmarks_disabled": "结束后无法跳转。",
+        "bookmarks_jump_help": "跳转至题目",
+        "bookmarks_remove_help": "取消收藏",
+        "bookmarks_clear": "🗑️ 清空所有",
+        "skipped_expander": "↪️ 已跳过",
+        "skipped_empty": "无跳过题目。",
+        "skipped_disabled": "结束后无法跳转。",
+        "skipped_clear": "重置列表",
+        "skipped_clear_help": "重置已跳过的题目。",
+        "tempo": {
+            "label": "你的节奏",
+            "options": {
+                "normal": "正常",
+                "speed": "倍速 (1/2 时间)",
+                "power": "冲刺 (1/4 时间)"
+            }
+        }
+    },
+    "dialog": {
+        "title": "用 AI 创建题库",
+        "intro": "选择适合你目标的提示词 (卡片或测验) 并复制到 AI 中。",
+        "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)**: 首选。适合公式 & 复杂卡片。\n- **[Kahoot](https://kahoot.com)**: 适配 Kahoot 限制 (字数, 时间)。\n- **[arsnova.click](https://arsnova.click)**: 适合高校工具 (LaTeX, Markdown)。",
+        "prompt_toggle_button": "👁️ 显示 / 隐藏",
+        "prompt_download_button": "⬇️ 下载",
+        "prompt_load_failed": "无法加载 {filename}。",
+        "prompt_copy_button": "复制提示词",
+        "prompt_copy_success": "已复制！",
+        "prompt_copy_error": "复制失败",
+        "upload_heading": "上传题库",
+        "upload_warning": "⚠️ 最多 30 题 & 5 MB。",
+        "upload_info": "ℹ️ 题库是公开的。保留时间: {hours}小时 (保留昵称则为 {days}天)。",
+        "uploader_label": "📁 上传 JSON 文件",
+        "uploader_help": "格式必须正确。最多 30 题, 最大 5 MB。",
+        "upload_validate_button": "✅ 校验并保存",
+        "alternative_heading": "### 或: 粘贴 JSON",
+        "alternative_caption": "将 AI 生成的 JSON 粘贴在此。",
+        "text_area_label": "📋 JSON 内容",
+        "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
+        "status_success": "{label} 已保存 – {count} 题就绪。",
+        "login_required": "请先登录。",
+        "start_test_button": "🚀 开始",
+        "status_unknown_error": "未知错误。",
+        "close_button": "关闭"
+    },
+    "user_qset": {
+        "login_required": "请登录以开始。",
+        "not_found": "未找到临时题库。",
+        "no_questions": "题库为空。",
+        "session_failed": "会话启动失败。"
+    },
+    "test_view": {
+        "bookmark_toggle": "🔖 收藏",
+        "skip_button": "↪️ 跳过",
+        "skip_toast": "已跳过。稍后再做。",
+        "answer_button": "提交",
+        "already_answered_info": "已作答。",
+        "resume_button": "继续",
+        "summary_button": "查看结果 🏁",
+        "answer_read_hint": "慢慢来：仔细阅读有助于记忆。",
+        "next_read_hint": "看解析：理解“为什么”才能掌握知识。",
+        "select_answer": "请先选择一个答案。",
+        "next_feedback_correct": "选得好！看解析巩固一下。",
+        "next_feedback_incorrect": "读解析：为什么错了？错误是进步的阶梯。",
+        "correct_toast": "正确！",
+        "wrong_toast": "错误。",
+        "question_number_error": "错误：缺少题号。",
+        "feedback_sent": "已发送！",
+        "explanation_correct": "正确！ ✅",
+        "explanation_wrong": "错误。 ❌",
+        "correct_label": "正确答案:",
+        "explanation_label": "解析:",
+        "extended_button": "🧠 详细解析",
+        "extended_panel": "深度解析",
+        "feedback_thanks": "✔️ 谢谢，我们会查看。",
+        "feedback_popover": "报错",
+        "feedback_prompt": "**有什么问题？**",
+        "feedback_submit": "发送",
+        "prev_question": "⬅️ 上一题",
+        "next_button_review": "下一题 ➡️",
+        "next_button_summary": "查看结果 🏁",
+        "next_button": "下一题 ➡️",
+        "timer_metric": "⏳ 时间",
+        "time_up_error": "⏰ 时间到！",
+        "question_prompt": "你的选择:",
+        "header_total_questions": "### 共 {count} 题",
+        "header_last_question": "### 最后一题！",
+        "header_remaining_plural": "### 还剩 {count} 题",
+        "header_remaining_single": "### 还剩 {count} 题",
+        "topic_label": "主题",
+        "countdown": {
+            "warning_seconds": "⚠️ 马上结束！",
+            "warning_minutes": "⚠️ 仅剩 {minutes_text}！"
+        },
+        "pacing": {
+            "ahead": "提前",
+            "on_track": "准时",
+            "slightly_behind": "稍慢",
+            "behind": "落后",
+            "degree": {
+                "slight": "轻微",
+                "light": "一点",
+                "moderate": "明显",
+                "strong": "严重"
+            },
+            "recommend": {
+                "no_questions": "无题目。",
+                "on_track": "一切正常。",
+                "significant_delay": "哎呀，太慢了！加速或跳过难题。",
+                "behind": "你落后了。试着加速 {degree}。"
+            }
+        },
+        "pseudonym_welcome": "**你好 {user}!** 请记住你的昵称。",
+        "question_set_change_warning": "⚠️ 题库变更，正在重启..."
+    },
+    "question": {
+        "show_glossary": "查阅术语"
+    },
+    "motivation": {
+        "lob": {
+            "correct_very_good": "正确！太棒了。",
+            "exact_keep_it_up": "完全正确！保持。",
+            "correct_nicely_done": "正确！干得好。",
+            "perfect": "完美！记住了。",
+            "top_exact": "顶！正解。",
+            "strong_flow": "强！保持节奏。",
+            "pattern_recognized": "好！发现规律了。",
+            "concentration_holds": "优秀！专注力满分。",
+            "precise_clean": "精准！漂亮。",
+            "class_like_that": "一流！就是这样。",
+            "bullseye": "正中红心！保持专注。",
+            "spotted_correctly": "眼光独到！",
+            "direct_hit": "命中！继续。",
+            "analyzed_correct": "分析正确！强。",
+            "maintain_focus": "没错！保持专注。",
+            "streak_count": "🔥 连对 {streak} 题！",
+            "series_running": "手感火热！别停。",
+            "flow_state": "进入心流！冲。",
+            "streak_5": "⚡ {streak} 连胜！印象深刻。",
+            "constant_strong": "稳！职业水准。",
+            "streak_10": "🏅 {streak} 题全对！",
+            "flawless_focus": "无懈可击！完美专注。"
+        },
+        "zuspruch": {
+            "learn_from_it": "差点 – 吸取教训。",
+            "mistakes_are_learning": "错误帮助学习。继续！",
+            "close_analyze": "好险 – 分析并继续。",
+            "ok_next": "没事。把握下次。",
+            "reset_focus": "别担心。重置专注。",
+            "mistakes_happen": "常有的事 – 保持冷静。",
+            "learning_success": "学到了！记住它。",
+            "next_time": "下次一定对。",
+            "no_problem": "没问题。保持专注。",
+            "learning_process": "不完美 – 这就是学习。",
+            "read_explanation": "错了 – 看解析会有帮助。",
+            "adjust_strategy": "偏了 – 调整策略。",
+            "mistakes_grow": "错误 = 成长。走起。",
+            "missed_but_persist": "没中 – 但你没放弃。",
+            "stay_calm": "冷静。下一题来了。",
+            "score_strong": "分数还很稳 – 一个错误没事。",
+            "keep_rate_high": "正确率不错 – 别灰心。",
+            "overall_performance": "整体表现很好 – 继续。"
+        },
+        "letzte_frage": {
+            "almost_done": "最后一题！快完成了。",
+            "nearly_goal": "快到了！还有一题。",
+            "final_question": "决胜题！专注。",
+            "final_sprint": "最后冲刺！走起。",
+            "one_more": "再来一题 – 就搞定了！",
+            "finish_in_sight": "终点在望！",
+            "focus_once_more": "马上结束！最后一次专注。",
+            "one_from_goal": "终局！只差一题。",
+            "last_concentration": "坚持住！最后的集中。",
+            "finish_approaching": "完成！还有一题。",
+            "top_score": "拿分冲击高分！",
+            "strong_run": "强势发挥 – 完美收官！",
+            "elite_result": "精英级成绩 – 最后一题！"
+        },
+        "neutral": {
+            "keep_rhythm": "保持节奏。",
+            "keep_focus": "保持专注 – 你能行。",
+            "step_by_step": "一步一步来。",
+            "keep_calm": "冷静继续。",
+            "maintain_concentration": "维持注意力。",
+            "stay_steady": "稳住。",
+            "on_your_way": "在路上了。",
+            "goal_in_view": "继续 – 目标在望。",
+            "hang_in_there": "坚持 – 干得不错。",
+            "progress": "正在进步。"
+        }
+    },
+    "feedback_option": {
+        "content_error": "内容错误",
+        "typo": "拼写 / 语法",
+        "unclear_question": "题目不清",
+        "answers_inappropriate": "选项不当",
+        "wrong_explanation": "解析错误",
+        "technical": "技术问题",
+        "other": "其他"
+    },
+    "metadata": {
+        "weight_label": "权重",
+        "cognitive_stage": "认知层级",
+        "topic": "主题",
+        "concept": "概念",
+        "question_set": "题库",
+        "difficulty": "难度"
+    },
+    "export": {
+        "musterloesung": "参考答案",
+        "bloom_table": "表现 (认知层级)"
+    },
+    "actions": {
+        "run_export": "导出",
+        "reset": "重置"
+    },
+    "locales": {
+        "de": "德语",
+        "en": "英语",
+        "fr": "法语",
+        "es": "西班牙语",
+        "it": "意大利语",
+        "zh": "中文"
+    },
+    "buttons": {
+        "download": "下载"
+    },
+    "messages": {
+        "export_unavailable": "即将上线。",
+        "anki_dependency": ".apkg 导出需要 'genanki' (见 requirements.txt)。",
+        "no_preview_questions": "无预览。",
+        "markdown_dependency": "预览需要 'markdown-it-py'。",
+        "streamlit_component_missing": "Streamlit 组件缺失。",
+        "session_saved": {
+            "leaderboard": "🎉 恭喜 {user}! 你上榜了 ({score} 分)!",
+            "saved_not_on_leaderboard": "\"{user}\" 的结果已保存，但未上榜，原因: {reason}。",
+            "reason_zero_score": "0 分不计入",
+            "reason_too_short": "太快了。最短: {min_duration} 分钟 (建议: {recommended_minutes} 分钟)",
+            "reason_not_top10": "未进入前 10"
+        }
+    },
+    "dialogs": {
+        "anki_instruction": "指南: Anki 导出",
+        "anki_preview": "Anki 预览"
+    },
+    "anki": {
+        "fragenset": "题库",
+        "thema": "主题",
+        "schwierigkeit": "难度",
+        "konzept": "概念",
+        "glossary": "词汇表"
+    },
+    "pdf": {
+        "status": { "correct": "正确", "wrong": "错误", "unanswered": "未答" },
+        "difficulty": { "easy": "简单", "medium": "中等", "hard": "困难" },
+        "stage_section_title": "表现 (认知层级)",
+        "stage_table": { "header": { "stage": "层级", "hits": "命中", "quota": "比率" } },
+        "comparison": {
+            "title": "对比平均值",
+            "table": { "header": { "level": "层级", "you": "你", "avg": "平均", "diff": "差值", "difficulty": "难度" } },
+            "row": { "overall": "总计" },
+            "by_stage": "按认知层级",
+            "above": "高于平均",
+            "below": "低于平均",
+            "neutral": "平均水平",
+            "footer": "基数: {n} 人。日期: {date}。"
+        },
+        "question_header": "第 {current} / {total} 题",
+        "bookmarks_title": "收藏题目",
+        "questionset_number": "(题库 No. {n})",
+        "stage_label": "层级: {stage}",
+        "detailed_explanation": {
+            "title": "标题",
+            "steps": "步骤",
+            "content": "内容"
+        },
+        "bookmarks_intro": "你的收藏:",
+        "question_short": "题 {n}",
+        "meta": { "participant": "用户:", "test_date": "日期:", "duration": "用时:", "questionset": "题库:", "generated_at": "生成于:", "tempo": "节奏:", "allowed": "限制:" },
+        "stat": { "correct": "正确", "wrong": "错误", "unanswered": "未答", "total": "总计" },
+        "glossary": { "title": "迷你词汇表", "intro": "关键术语，按主题分类", "alt_intro": "题库关键术语" },
+        "musterloesung": { "title": "参考答案" },
+        "detailed_analysis": "详细分析",
+        "header": { "manual_end": "提前结束" },
+        "weak_topics": { "title": "待改进", "multiple": "题目 {list}" },
+        "difficulty_section_title": "按难度分析",
+        "difficulty_table": { "header": { "difficulty": "难度", "hits": "命中", "quota": "比率" } },
+        "score_label": "共 {n} 分",
+        "rank_text": " • 排名 {rank}",
+        "rank_label": "排名 ({date})",
+        "log": { "formula_cache": "📊 PDF 就绪: {n} 公式缓存" },
+        "page_footer": "第 {page} / {pages} 页",
+        "stage_unknown": "未知",
+        "cognition_radar": {
+            "explanation_short": "雷达图显示各认知层级 (Bloom) 的正确率。\n\n模式:\n• 填鸭式 (记忆突起): 记忆好，应用弱 → 练习迁移。\n• 理论派: 懂概念，难应用 → 做案例分析。\n• 实战派: 应用强，理论弱 → 复习基础。\n• 分析派: 善解决，基础缺 → 巩固基础。\n• 均衡型: 棒，继续保持！"
+        },
+        "stage_name": {
+            "Reproduktion": "记忆",
+            "Verständnis": "理解",
+            "Anwendung": "应用",
+            "Analyse": "分析"
+        }
+    },
+    "mini_glossary": {
+        "title": "\"{name}\" 的术语",
+        "empty_error": "无词汇表。"
+    },
+    "unnamed_set": "未命名题库",
+    "summary": {
+        "prefix": {
+            "manual_end": "⚠️ 中断 — "
+        },
+        "header": {
+            "manual_end": "⚠️ 中断",
+            "time_expired": "⏰ 时间到！",
+            "completed": "🚀 测试完成！"
+        },
+        "info": {
+            "time_expired": "超时。限制 ({tempo_label}): {allowed_min} 分",
+            "early_finish": "提前 {early_delta} 分钟完成。用时: {duration_display}。限制 ({tempo_label}): {allowed_min} 分"
+        },
+        "metric_caption": "最终得分",
+        "subheader": {
+            "topic_performance": "主题表现"
+        }
+    },
+    "summary_view": {
+        "review_header": "🧐 答案检查",
+        "review_filter_label": "筛选:",
+        "review_filter_all": "全部",
+        "review_filter_false": "错误",
+        "review_filter_true": "正确",
+        "review_filter_marked": "收藏",
+        "review_filter_unanswered": "未答",
+        "review_question_label": "题目",
+        "review_label_your_answer": "你的选择",
+        "review_label_correct_answer": "正确答案",
+        "review_label_explanation": "解析",
+        "review_label_unanswered": "(空)",
+        "performance_explanation_expander": "图表说明",
+        "performance_chart": {
+            "xaxis": "主题 (已答/总计)",
+            "yaxis": "表现 (%)",
+            "hover": {
+                "topic": "主题",
+                "performance": "表现",
+                "correct_total": "正确 / 总计",
+                "wrong": "错误",
+                "answered": "已答"
+            }
+        },
+        "performance_explanation_content": "- 柱状图 = 每主题得分率 (%).\n- 括号: (已答 / 总题数).\n- 题目太少 = 数据不可靠。",
+        "performance_no_data_info": "数据不足，无法分析主题。",
+        "cognition_radar": {
+            "name": "认知层级",
+            "header": "你的认知层级",
+            "hover": {
+                "performance": "表现",
+                "achieved": "得分",
+                "questions": "题目"
+            },
+            "explanation_expander": "雷达图详解",
+            "explanation_content": "- 显示各认知层级 (Bloom) 的得分。\n- 数值 = 得分 / 该层级总分。\n\n模式 & 建议:\n\n• 填鸭者 (记忆突起):\n  - 死记硬背，迁移差。\n  - 建议: 多做应用题。\n\n• 理论家 (记忆高):\n  - 懂概念，难落地。\n  - 建议: 案例分析。\n\n• 实干家 (应用高):\n  - 会做，理论弱。\n  - 建议: 复习定义。\n\n• 分析师 (分析高):\n  - 善解决，基础缺。\n  - 建议: 巩固基础。\n\n• 均衡型:\n  - 能力全面。\n  - 建议: 继续保持！\n\n• 锯齿型:\n  - 不稳定。\n  - 建议: 按主题查漏补缺。\n\n注: 需足够题目才可靠。"
+        },
+        "review_export_header": "导出",
+        "review_export_mode": "格式",
+        "review_export_button": "导出",
+        "review_export_preview": "卡片预览",
+        "review_export_note": "用于 Kahoot, Anki 或 ars nova。",
+        "review_export_kahoot": "Kahoot",
+        "review_export_anki": "Anki",
+        "review_export_arsnova": "ars nova",
+        "export_header": "📦 导出",
+        "export_intro": "导出结果 & 学习资料",
+        "export_admin_select_label": "选择导出题库:",
+        "export_admin_select_info": "影响 Anki, Kahoot & ars nova。",
+        "export_admin_current_set": "当前题库: **{set_name}**",
+        "export_admin_no_sets": "无其他题库。",
+        "export_anki_expander": "📦 Anki 卡片 (推荐)",
+        "export_anki_description": "将所有题目导出为 Anki 牌组。最适合记忆。",
+        "export_anki_caption": "含样式 & 标签。TSV 见指南。",
+        "export_anki_instruction_button": "ℹ️ 说明",
+        "export_anki_preview_button": "🖼️ 预览",
+        "export_anki_apkg_button": "创建 .apkg",
+        "export_anki_apkg_spinner": "创建 .apkg...",
+        "export_anki_apkg_download": "💾 下载 .apkg",
+        "export_anki_tsv_button": "导出 TSV",
+        "export_anki_tsv_spinner": "创建 TSV...",
+        "export_anki_tsv_download": "💾 下载 TSV",
+        "export_kahoot_download_label": "💾 下载 Kahoot",
+        "export_kahoot_generation_error": "Kahoot 错误: {error}",
+        "export_kahoot_expander": "📦 Kahoot (现场 Quiz)",
+        "export_kahoot_description": "将题目转为 Kahoot。",
+        "export_kahoot_caption": "格式: .xlsx | [导入指南](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)",
+        "export_kahoot_formula_warning": "警告: Kahoot 不支持公式 (LaTeX)。数学公式将变为纯文本。",
+        "export_kahoot_warning": "{count} 条 Kahoot 提示",
+        "export_kahoot_validation_error": "Kahoot 校验失败: {error}",
+        "export_kahoot_error": "导出受阻 – {count} 个错误。",
+        "export_kahoot_limits_info": "注意 Kahoot 限制。替代方案: Anki / arsnova / PDF。",
+        "export_kahoot_import_heading": "**Kahoot 要求:**",
+        "export_arsnova_expander": "📦 arsnova.click (高校)",
+        "export_arsnova_description": "导出至 arsnova.click (课堂互动)。",
+        "export_arsnova_caption": "格式: .json | [信息](https://arsnova.click/info/about)",
+        "export_arsnova_validation_error": "校验失败: {error}",
+        "export_arsnova_warning": "{count} 条 arsnova 提示",
+        "export_arsnova_download_label": "💾 下载 Quiz",
+        "export_arsnova_generation_error": "导出错误: {error}",
+        "export_musterloesung_expander": "📄 参考答案 (PDF)",
+        "export_musterloesung_description": "所有正确答案 & 解析。",
+        "export_musterloesung_spinner": "创建答案...",
+        "export_musterloesung_spinner_with_formulas": "生成答案",
+        "export_musterloesung_render_count": "渲染约 {count} 公式。稍候。",
+        "export_musterloesung_download": "💾 下载 PDF",
+        "export_musterloesung_error": "错误: {error}",
+        "export_glossary_expander": "📄 迷你词汇表 (PDF)",
+        "export_glossary_description": "术语列表。",
+        "export_glossary_spinner": "创建词汇表...",
+        "export_glossary_spinner_with_formulas": "生成词汇表",
+        "export_glossary_render_count": "渲染约 {count} 公式。稍候。",
+        "export_glossary_download": "💾 下载 PDF",
+        "export_glossary_error": "错误: {error}",
+        "export_testbericht_expander": "📄 测试报告 (PDF)",
+        "export_testbericht_description": "详细报告含分数 & 统计。",
+        "export_testbericht_spinner": "创建报告...",
+        "export_testbericht_spinner_with_formulas": "生成报告",
+        "export_testbericht_render_count": "渲染约 {count} 公式。稍候。",
+        "export_testbericht_no_config": "错误: 缺少 app_config。",
+        "export_testbericht_download": "💾 下载报告",
+        "export_testbericht_error": "错误: {error}",
+        "summary_message": {
+            "success": {
+                "top_performance": "✅ 杰出！顶级水平。",
+                "few_errors": "💪 强！几乎无错。",
+                "convincing": "👍 令人信服！继续保持。",
+                "quality": "🎉 漂亮！质量很高。"
+            },
+            "good": {
+                "stable": "📈 干得好！发挥稳定。",
+                "basics": "✨ 不错！基础扎实。",
+                "potential": "💼 稳！还有潜力。",
+                "close_gap": "🔧 努力了！填补小漏洞。"
+            },
+            "satisfactory": {
+                "foundation": "📚 满意。基础有，需深挖。",
+                "review": "🌱 行。复习核心主题。",
+                "average": "🔍 平均。复习模式有帮助。",
+                "practice": "💡 中游。多练练。",
+            },
+            "passing": {
+                "needs_improvement": "⚠️ 勉强。需要改进。",
+                "use_explanations": "📖 险过。看解析！",
+                "repeat": "🎯 50-59%。重复重点。",
+                "uneven": "🔄 不稳。检查弱点。"
+            },
+            "insufficient": {
+                "basic": "⛔ 不及格。缺基础。",
+                "intensive": "📕 50% 以下。需要强化。",
+                "review_required": "🚨 缺口大。必须复习。",
+                "red": "🔴 错误多。重修。"
+            },
+            "fail": {
+                "start_new": "❌ 失败。从头开始。",
+                "systematic": "📚 40% 以下。完全重来。",
+                "gaps": "🆘 巨大缺口。寻求帮助！",
+                "review": "⚠️ 很弱。全面复习。"
+            },
+            "leaderboard": {
+                "hidden_hint_one": "{count} 次尝试隐藏: 太短 (<{min_time_pct}%) 或 分数太低 (<{min_score_pct}%)。",
+                "hidden_hint": "{count} 次尝试隐藏: 太短 (<{min_time_pct}%) 或 分数太低 (<{min_score_pct}%)。"
+            }
+        }
+    },
+    "welcome": {
+        "splash": {
+            "title": "🎓 测验助手",
+            "button": "🚀 开始"
+        },
+        "cleanup": {
+            "toast": "清理了 {removed} 个临时题库。",
+            "info": "删除了 {removed} 个临时题库。"
+        },
+        "errors": {
+            "no_sets": "未找到题库 (如 `questions_Data.json`)。"
+        },
+        "info": {
+            "ensure_files": "检查文件夹中的 JSON 文件。"
+        },
+        "warning": {
+            "session_expired": "⚠️ 会话过期。请刷新或重启。"
+        },
+        "select": {
+            "label": "选择题库:",
+            "placeholder": "🗂️ 选择...",
+            "count_one": "{n} 题",
+            "count_many": "{n} 题"
+        },
+        "section": {
+            "header": "🗂️ 题库选择"
+        },
+        "distribution": {
+            "expander": "⚖️ 主题 & 认知层级",
+            "warning": "⚠️ 题库空或损坏。",
+            "summary": {
+                "test_time": "⏱️ 时间: {minutes} 分钟",
+                "cognition": "🧠 层级: {summary}"
+            },
+            "difficulty": {
+                "easy": "记忆",
+                "medium": "应用",
+                "hard": "分析"
+            },
+            "chart": {
+                "xaxis": "主题",
+                "yaxis": "题目数",
+                "legend": "层级"
+            }
+        },
+        "leaderboard": {
+            "title": "🏆 Top 10",
+            "empty": "暂无结果。",
+            "column": {
+                "pseudonym": "👤 昵称",
+                "date": "📅 日期",
+                "duration": "⏱️ 时间"
+            },
+            "refreshing": "加载中...",
+            "updated": "已更新",
+            "last_updated": "时间: {ts}",
+            "refresh_button": "刷新",
+            "refresh_failed": "刷新失败",
+            "tempo_label": "节奏",
+            "tempo_help": "排行榜筛选",
+            "tempo_all": "全部"
+        },
+        "language": {
+            "label": "语言:",
+            "help": "保存在浏览器中。"
+        },
+        "pseudonym": {
+            "heading": "👤 你的昵称",
+            "no_available": "⚠️ 无可用昵称。联系管理员。",
+            "select_label": "选择昵称:",
+            "select_placeholder": "👤 选择...",
+            "reservation_expander": "📌 保留昵称...",
+            "reservation_input": "永久保留",
+            "reservation_placeholder": "我的 🔒 密令...",
+            "secret_too_short": "🔒 密令太短 (最少 {min_len})。",
+            "reserve_button": "保留 & 开始",
+            "reserve_success": "已保留！现在选择题库。",
+            "reserve_success_message": "",
+            "reserve_error": "无法保存密令。",
+            "reserve_error_with_reason": "保留错误: {error}",
+            "copy_label": "昵称:",
+            "copy_button": "复制",
+            "recover_expander": "我有昵称...",
+            "recover_pseudonym": "👤 昵称",
+            "recover_secret": "🔒 密令",
+            "recover_missing": "请输入两者。",
+            "recover_button": "开始",
+            "recover_locked": "锁定至 {locked_until}",
+            "recover_success": "已恢复！启动中...",
+            "recover_failure": "组合错误。检查密令。",
+            "database_error": "数据库错误: 无法启动。",
+            "test_button": "开始测试",
+            "question_required": "请先选择题库。"
+        },
+        "tempo": {
+            "label": "你的节奏:",
+            "normal": "正常",
+            "speed": "倍速 (1/2)",
+            "power": "冲刺 (1/4)"
+        },
+        "learning_objectives": {
+            "button": "查看学习目标",
+            "dialog_title": "学习目标",
+            "download_pdf": "下载 PDF",
+            "load_error": "无法加载目标。",
+            "pdf_unavailable": "PDF 不可用: {error}",
+            "dialog_fallback": "不支持对话框，在此显示:"
+        },
+        "sort_order": {
+            "label": "排序:",
+            "random": "随机",
+            "cognitive_stage": "难度 (层级)"
+        }
+    },
+    "warnings": {
+        "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n见 [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    }
+}

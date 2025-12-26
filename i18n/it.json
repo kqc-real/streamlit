@@ -327,7 +327,8 @@
         "en": "Inglese",
         "fr": "Francese",
         "es": "Spagnolo",
-        "it": "Italiano"
+        "it": "Italiano",
+        "zh": "Cinese"
     },
     "buttons": {
         "download": "Scarica"
