@@ -338,6 +338,10 @@
             "admin_key": "管理员密钥确认：",
             "confirm_checkbox": "是的，我确定。",
             "metrics_glossary": "指标词汇表"
+            "metrics_glossary": "指标词汇表",
+            "delete_single_pseudonym": "选择化名：",
+            "delete_all_used_pseudonyms": "删除所有已使用的化名：",
+            "delete_all_reserved_pseudonyms": "删除所有保留的化名："
         },
         "dashboard_title": "🛠 管理员仪表板",
         "glossary_header": "📚 PDF 小词汇表",
