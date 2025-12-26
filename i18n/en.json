@@ -401,7 +401,8 @@
             "delete_pseudonyms_failed": "Deletion failed. See server logs.",
             "delete_reserved_pseudonyms_success": "{count} reserved pseudonym(s) deleted.",
             "generate_logins_failed": "No logins could be generated. Please check the selection.",
-            "generate_logins_success": "{count} login(s) created and reserved."            "expanders": {
+            "generate_logins_success": "{count} login(s) created and reserved.",
+            "expanders": {
                 "reset_user_results": "Reset user results for this set",
                 "metrics_glossary": "Glossary of Metrics",
                 "delete_multiple_reports": "🔴 Danger Zone: Delete multiple reports",

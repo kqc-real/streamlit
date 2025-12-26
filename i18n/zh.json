@@ -401,7 +401,9 @@
             "delete_all_used_pseudonyms_success": "所有已使用的化名和相关测试数据已被删除。",
             "delete_pseudonyms_failed": "删除失败。请查看服务器日志。",
             "delete_reserved_pseudonyms_success": "{count} 个保留化名已删除。",
-            "generate_logins_failed": "无法生成登录。请检查选择。"            "expanders": {
+            "generate_logins_failed": "无法生成登录。请检查选择。",
+            "generate_logins_success": "已创建并保留 {count} 个登录。",
+            "expanders": {
                 "reset_user_results": "重置此集合的用户结果",
                 "metrics_glossary": "指标词汇表",
                 "delete_multiple_reports": "🔴 危险区：删除多个报告",

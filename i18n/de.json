@@ -191,7 +191,9 @@
             "delete_all_used_pseudonyms_success": "Alle genutzten Pseudonyme und zugehörige Testdaten wurden gelöscht.",
             "delete_pseudonyms_failed": "Löschen fehlgeschlagen. Siehe Server-Logs.",
             "delete_reserved_pseudonyms_success": "{count} reservierte Pseudonym(e) gelöscht.",
-            "generate_logins_failed": "Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl."            "expanders": {
+            "generate_logins_failed": "Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl.",
+            "generate_logins_success": "{count} Login(s) erstellt und reserviert.",
+            "expanders": {
                 "reset_user_results": "Benutzerergebnisse für dieses Set zurücksetzen",
                 "metrics_glossary": "Glossar der Metriken",
                 "delete_multiple_reports": "🔴 Gefahrenzone: Mehrere Meldungen löschen",

@@ -88,7 +88,9 @@
             "delete_all_used_pseudonyms_success": "Tutti gli pseudonimi usati e i dati di test associati sono stati eliminati.",
             "delete_pseudonyms_failed": "Eliminazione fallita. Vedere i log del server.",
             "delete_reserved_pseudonyms_success": "{count} pseudonimo(i) riservato(i) eliminato(i).",
-            "generate_logins_failed": "Non è stato possibile generare login. Si prega di verificare la selezione."            "expanders": {
+            "generate_logins_failed": "Non è stato possibile generare login. Si prega di verificare la selezione.",
+            "generate_logins_success": "{count} login creato/i e riservato/i.",
+            "expanders": {
                 "reset_user_results": "Ripristina risultati utente per questo set",
                 "metrics_glossary": "Glossario delle metriche",
                 "delete_multiple_reports": "🔴 Zona di pericolo: Elimina più report",
