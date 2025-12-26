@@ -872,7 +872,7 @@ window.MathJax = {
         if StreamlitAPIException and isinstance(exc, StreamlitAPIException):
             try:
                 st.warning(
-                    "Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut."
+                    translate_ui("app.dialog_multiple_warning", default="Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut.")
                 )
                 # Mark that the user requested the preview so they can retry after closing dialogs
                 try:

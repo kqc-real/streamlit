@@ -1,7 +1,8 @@
 {
     "app": {
         "title": "Export Quiz",
-        "subtitle": "Gère & analyse tes quiz"
+        "subtitle": "Gère & analyse tes quiz",
+        "dialog_multiple_warning": "Un seul dialogue autorisé à la fois. Veuillez fermer les dialogues ouverts et réessayer."
     },
     "tempo": {
         "normal": "Normal",

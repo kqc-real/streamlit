@@ -1,7 +1,8 @@
 {
     "app": {
         "title": "Quiz Export",
-        "subtitle": "Manage & Analyze Quizzes"
+        "subtitle": "Manage & Analyze Quizzes",
+        "dialog_multiple_warning": "Only one dialog allowed at a time. Please close open dialogs and try again."
     },
     "sidebar": {
         "title": "Navigation",

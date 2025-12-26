@@ -1,7 +1,8 @@
 {
     "app": {
         "title": "测验导出",
-        "subtitle": "管理和分析测验"
+        "subtitle": "管理和分析测验",
+        "dialog_multiple_warning": "同时只允许一个对话框。请关闭打开的对话框，然后重试。"
     },
     "sidebar": {
         "title": "导航",

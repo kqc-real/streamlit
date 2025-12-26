@@ -1,7 +1,8 @@
 {
     "app": {
         "title": "Quiz-Export",
-        "subtitle": "Quizze managen & auswerten"
+        "subtitle": "Quizze managen & auswerten",
+        "dialog_multiple_warning": "Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut."
     },
     "sidebar": {
         "title": "Navigation",

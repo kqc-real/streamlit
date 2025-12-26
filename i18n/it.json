@@ -1,7 +1,8 @@
 {
     "app": {
         "title": "Export Quiz",
-        "subtitle": "Gestisci & Analizza Quiz"
+        "subtitle": "Gestisci & Analizza Quiz",
+        "dialog_multiple_warning": "È consentito un solo dialogo alla volta. Chiudi i dialoghi aperti e riprova."
     },
     "tempo": {
         "normal": "Normale",
