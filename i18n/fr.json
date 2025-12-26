@@ -425,6 +425,15 @@
             "progress": "Ça avance."
         }
     },
+    "feedback_option": {
+        "content_error": "Erreur de contenu",
+        "typo": "Coquille / Grammaire",
+        "unclear_question": "Question peu claire",
+        "answers_inappropriate": "Réponses inappropriées",
+        "wrong_explanation": "Explication erronée/peu claire",
+        "technical": "Problème technique",
+        "other": "Autre"
+    },
     "metadata": {
         "weight_label": "Poids",
         "cognitive_stage": "Niveau cognitif",
@@ -446,7 +455,12 @@
         "de": "Allemand",
         "en": "Anglais",
         "fr": "Français",
-        "es": "Espagnol"
+        "es": "Espagnol",
+        "it": "Italien",
+        "zh": "Chinois"
+    },
+    "buttons": {
+        "download": "Télécharger"
     },
     "messages": {
         "export_unavailable": "Bientôt dispo.",
