@@ -430,7 +430,12 @@
             "download_csv": "⬇️ 下载 CSV",
             "pseudonyms_already_used": "化名已被使用。",
             "pseudonyms_currently_in_use": "化名当前正在使用中。",
-            "pseudonyms_currently_reserved": "化名当前已保留。"
+            "pseudonyms_currently_reserved": "化名当前已保留。",
+            "columns": {
+                "pseudonym": "化名",
+                "secret": "密钥",
+                "generated_at": "生成于"
+            }
         },
         "system_settings_header": "系统设置和指标",
         "system": {
@@ -457,6 +462,28 @@
                 "completion_rate": "完成率",
                 "completion_rate_help": "完全完成的测试百分比",
                 "avg_performance": "📈 每个问题集的平均表现"
+            }
+        },
+        "user_results": {
+            "columns": {
+                "date": "日期",
+                "set": "题库",
+                "score": "得分",
+                "duration": "时长"
+            }
+        },
+        "reserved_pseudonyms": {
+            "columns": {
+                "pseudonym": "化名",
+                "secret": "密钥",
+                "created_at": "创建于"
+            }
+        },
+        "used_pseudonyms": {
+            "columns": {
+                "pseudonym": "化名",
+                "last_active": "上次活跃",
+                "test_count": "测试数量"
             }
         },
         "audit_log_header": "🔒 审计日志",

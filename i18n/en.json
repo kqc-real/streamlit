@@ -438,7 +438,12 @@
             "download_csv": "⬇️ Download CSV",
             "pseudonyms_already_used": "Pseudonyms have already been used.",
             "pseudonyms_currently_in_use": "Pseudonyms are currently in use.",
-            "pseudonyms_currently_reserved": "Pseudonyms are currently reserved."
+            "pseudonyms_currently_reserved": "Pseudonyms are currently reserved.",
+            "columns": {
+                "pseudonym": "Pseudonym",
+                "secret": "Secret",
+                "generated_at": "Generated at"
+            }
         },
         "system_settings_header": "System Settings and Metrics",
         "system": {
@@ -465,6 +470,28 @@
                 "completion_rate": "Completion Rate",
                 "completion_rate_help": "Percentage of tests that were fully completed",
                 "avg_performance": "📈 Average Performance per Question Set"
+            }
+        },
+        "user_results": {
+            "columns": {
+                "date": "Date",
+                "set": "Set",
+                "score": "Score",
+                "duration": "Duration"
+            }
+        },
+        "reserved_pseudonyms": {
+            "columns": {
+                "pseudonym": "Pseudonym",
+                "secret": "Secret",
+                "created_at": "Created at"
+            }
+        },
+        "used_pseudonyms": {
+            "columns": {
+                "pseudonym": "Pseudonym",
+                "last_active": "Last active",
+                "test_count": "Test count"
             }
         },
         "audit_log_header": "🔒 Audit Log",

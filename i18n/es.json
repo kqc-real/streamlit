@@ -119,7 +119,12 @@
             "download_csv": "⬇️ Descargar CSV",
             "pseudonyms_already_used": "Los seudónimos ya han sido utilizados.",
             "pseudonyms_currently_in_use": "Los seudónimos están actualmente en uso.",
-            "pseudonyms_currently_reserved": "Los seudónimos están actualmente reservados."
+            "pseudonyms_currently_reserved": "Los seudónimos están actualmente reservados.",
+            "columns": {
+                "pseudonym": "Seudónimo",
+                "secret": "Secreto",
+                "generated_at": "Generado el"
+            }
         },
         "system_settings_header": "Configuración del sistema y métricas",
         "system": {
@@ -146,6 +151,28 @@
                 "completion_rate": "Tasa de finalización",
                 "completion_rate_help": "Porcentaje de pruebas completadas en su totalidad",
                 "avg_performance": "📈 Rendimiento promedio por conjunto de preguntas"
+            }
+        },
+        "user_results": {
+            "columns": {
+                "date": "Fecha",
+                "set": "Set",
+                "score": "Puntuación",
+                "duration": "Duración"
+            }
+        },
+        "reserved_pseudonyms": {
+            "columns": {
+                "pseudonym": "Seudónimo",
+                "secret": "Secreto",
+                "created_at": "Creado el"
+            }
+        },
+        "used_pseudonyms": {
+            "columns": {
+                "pseudonym": "Seudónimo",
+                "last_active": "Última actividad",
+                "test_count": "Número de pruebas"
             }
         },
         "audit_log_header": "🔒 Registro de auditoría",
