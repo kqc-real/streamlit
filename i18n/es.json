@@ -198,7 +198,8 @@
         "topic_label": "Tema",
         "countdown": {
             "warning_seconds": "⚠️ ¡Casi termina!",
-            "warning_minutes": "⚠️ ¡Solo {minutes_text}!"
+            "warning_minutes": "⚠️ ¡Solo {minutes_text}!",
+            "cooldown_remaining": "(todavía {seconds}s)"
         },
         "pacing": {
             "ahead": "Adelantado",

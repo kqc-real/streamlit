@@ -4572,7 +4572,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         except Exception:
                             hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
                         # Show a brief toast with the remaining seconds at click time
-                        show_ephemeral_message(f"{hint} (noch {remaining_answer_cooldown}s)", icon="⏳")
+                        show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
                     else:
                         # Proceed with the original submit action.
                         handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
@@ -5207,11 +5207,11 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                     key = "test_view.next_feedback_correct" if correct else "test_view.next_feedback_incorrect"
                     msg_template = translate_ui(key)
                     icon = "👍" if correct else "💡"
-                    show_ephemeral_message(f"{msg_template} (noch {remaining_next_cooldown}s)", seconds=5.0, icon=icon)
+                    show_ephemeral_message(f"{msg_template} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_next_cooldown)}", seconds=5.0, icon=icon)
                 except Exception:
                     # Fallback, falls die Logik fehlschlägt
                     fallback_hint = translate_ui('test_view.next_read_hint', default='Lies die Erklärungen aufmerksam durch.')
-                    show_ephemeral_message(f"{fallback_hint} (noch {remaining_next_cooldown}s)", seconds=5.0, icon="⏳")
+                    show_ephemeral_message(f"{fallback_hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_next_cooldown)}", seconds=5.0, icon="⏳")
             else:
                 # Cooldown ist abgelaufen: Führe die normale Navigation aus.
                 if st.session_state.get("user_qset_dialog_open"):

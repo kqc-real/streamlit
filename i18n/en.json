@@ -179,7 +179,8 @@
         "topic_label": "Topic",
         "countdown": {
             "warning_seconds": "⚠️ Almost done!",
-            "warning_minutes": "⚠️ Only {minutes_text} left!"
+            "warning_minutes": "⚠️ Only {minutes_text} left!",
+            "cooldown_remaining": "(still {seconds}s)"
         },
         "pacing": {
             "ahead": "Ahead of schedule",

@@ -197,7 +197,8 @@
         "topic_label": "Sujet",
         "countdown": {
             "warning_seconds": "⚠️ C'est bientôt fini !",
-            "warning_minutes": "⚠️ Plus que {minutes_text} !"
+            "warning_minutes": "⚠️ Plus que {minutes_text} !",
+            "cooldown_remaining": "(encore {seconds}s)"
         },
         "pacing": {
             "ahead": "En avance",

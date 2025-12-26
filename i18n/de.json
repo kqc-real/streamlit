@@ -195,10 +195,13 @@
         "header_last_question": "### Letzte Frage!",
         "header_remaining_plural": "### Nur noch {count}",
         "header_remaining_single": "### Nur noch eine!",
+        "header_remaining_plural": "### {count} verbleibend",
+        "header_remaining_single": "### Eine verbleibend!",
         "topic_label": "Thema",
         "countdown": {
             "warning_seconds": "⚠️ Gleich vorbei!",
-            "warning_minutes": "⚠️ Nur noch {minutes_text}!"
+            "warning_minutes": "⚠️ Nur noch {minutes_text}!",
+            "cooldown_remaining": "(noch {seconds}s)"
         },
         "pacing": {
             "ahead": "Gut in der Zeit",

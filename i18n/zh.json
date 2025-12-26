@@ -180,7 +180,8 @@
         "topic_label": "主题",
         "countdown": {
             "warning_seconds": "⚠️ 快完成了！",
-            "warning_minutes": "⚠️ 仅剩 {minutes_text}！"
+            "warning_minutes": "⚠️ 仅剩 {minutes_text}！",
+            "cooldown_remaining": "(还 {seconds}秒)"
         },
         "pacing": {
             "ahead": "提前于计划",
