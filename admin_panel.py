@@ -513,13 +513,21 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             st.divider()
             continue
 
+        pseudo_col = f"👤 {translate_ui('admin.leaderboard.columns.pseudonym', default='Pseudonym')}"
+        points_col = f"🏅 {translate_ui('admin.leaderboard.columns.points', default='Punkte')}"
+        date_col = f"📅 {translate_ui('admin.leaderboard.columns.date', default='Datum')}"
+        duration_col = f"⏱️ {translate_ui('admin.leaderboard.columns.duration', default='Dauer')}"
+
         scores = pd.DataFrame(leaderboard_data)
-        scores.rename(columns={
-            'user_pseudonym': '👤 Pseudonym',
-            'total_score': '🏅 Punkte',
-            'last_test_time': '📅 Datum',
-            'duration_seconds': '⏱️ Dauer'
-        }, inplace=True)
+        scores.rename(
+            columns={
+                "user_pseudonym": pseudo_col,
+                "total_score": points_col,
+                "last_test_time": date_col,
+                "duration_seconds": duration_col,
+            },
+            inplace=True,
+        )
 
         # Formatiere die Dauer als Kombination aus Minuten und Sekunden
         def format_duration(seconds):
@@ -530,38 +538,38 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             if secs or not parts:
                 parts.append(f"{int(secs)} s")
             return " ".join(parts)
-        scores['⏱️ Dauer'] = scores['⏱️ Dauer'].apply(format_duration)
+        scores[duration_col] = scores[duration_col].apply(format_duration)
 
         # Konvertiere die 'Datum'-Spalte in ein Datetime-Objekt, bevor sie formatiert wird.
         # Akzeptiere ISO8601 Strings mit Zeitzonen-Offsets robustly.
-        scores["📅 Datum"] = pd.to_datetime(
-            scores["📅 Datum"], format='ISO8601', utc=True, errors='coerce'
+        scores[date_col] = pd.to_datetime(
+            scores[date_col], format="ISO8601", utc=True, errors="coerce"
         )
 
         try:
             from helpers.text import format_datetime_de
 
-            scores["📅 Datum"] = format_datetime_de(scores["📅 Datum"], fmt='%d.%m.%y')
+            scores[date_col] = format_datetime_de(scores[date_col], fmt="%d.%m.%y")
         except Exception:
-            scores["📅 Datum"] = scores["📅 Datum"].dt.strftime('%d.%m.%y')
+            scores[date_col] = scores[date_col].dt.strftime("%d.%m.%y")
         
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
             if i < len(icons):
-                scores.loc[i, "👤 Pseudonym"] = f"{icons[i]} {scores.loc[i, '👤 Pseudonym']}"
+                scores.loc[i, pseudo_col] = f"{icons[i]} {scores.loc[i, pseudo_col]}"
             else:
-                scores.loc[i, "👤 Pseudonym"] = f"{i + 1}. {scores.loc[i, '👤 Pseudonym']}"
+                scores.loc[i, pseudo_col] = f"{i + 1}. {scores.loc[i, pseudo_col]}"
 
         st.dataframe(
-            scores[["👤 Pseudonym", "🏅 Punkte", "⏱️ Dauer", "📅 Datum"]],
+            scores[[pseudo_col, points_col, duration_col, date_col]],
             hide_index=True,
         )
 
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
         with st.expander(translate_ui("admin.expanders.reset_user_results")):
             user_to_reset = st.selectbox(
-                translate_ui("admin.leaderboard.select_user", default="Wähle einen Benutzer:"),
-                options=[p for p in scores["👤 Pseudonym"]],
+                translate_ui("admin.leaderboard.tempo.select_user", default="Wähle einen Benutzer:"),
+                options=[p for p in scores[pseudo_col]],
                 format_func=lambda x: x.split(" ", 1)[-1],  # Zeige nur den Namen ohne Rang/Icon
                 key=f"reset_user_select_{q_file}"
             )
@@ -573,14 +581,14 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                 # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
                 from auth import check_admin_key
                 reauth_key = st.text_input(
-                    translate_ui("admin.leaderboard.admin_key_confirm", default="Admin-Key zur Bestätigung:"),
+                    translate_ui("admin.leaderboard.tempo.admin_key_confirm", default="Admin-Key zur Bestätigung:"),
                     type="password",
                     key=f"delete_reauth_{q_file}",
-                    help=translate_ui("admin.leaderboard.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
+                    help=translate_ui("admin.leaderboard.tempo.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
                 )
                 
-                if st.checkbox(translate_ui("admin.leaderboard.confirm_checkbox", default="Ja, ich bin sicher."), key=f"reset_confirm_{q_file}"):
-                    if st.button(translate_ui("admin.leaderboard.delete_button", default="Ergebnisse jetzt löschen"), type="primary", key=f"reset_btn_{q_file}"):
+                if st.checkbox(translate_ui("admin.leaderboard.tempo.confirm_checkbox", default="Ja, ich bin sicher."), key=f"reset_confirm_{q_file}"):
+                    if st.button(translate_ui("admin.leaderboard.tempo.delete_button", default="Ergebnisse jetzt löschen"), type="primary", key=f"reset_btn_{q_file}"):
                         # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
                         if not app_config.admin_key or check_admin_key(reauth_key, app_config):
                             if delete_user_results_for_qset(user_name_plain, q_file):
@@ -593,7 +601,8 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
                                     f"Deleted results: user={user_name_plain}, qset={q_file}",
                                     success=True
                                 )
-                                st.success(translate_ui("admin.messages.reset_user_results_success", user_name=user_name_plain))
+                                success_tpl = translate_ui("admin.messages.reset_user_results_success", default="✅ Ergebnisse für {user_name} wurden zurückgesetzt.")
+                                st.success(success_tpl.format(user_name=user_name_plain))
                                 st.rerun()
                             else:
                                 st.error(translate_ui("admin.messages.reset_user_results_error"))
@@ -668,7 +677,11 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     num_users = df['user_id_hash'].nunique()
     
     st.markdown(f"### 📋 {qset_display_name}")
-    st.caption(f"🔢 {num_questions} Fragen  •  📝 {num_answers} Antworten  •  👥 {num_users} Teilnehmer")
+    counts_tpl = translate_ui(
+        "admin.questionsets.overview_counts_caption",
+        default="🔢 {questions} Fragen  •  📝 {answers} Antworten  •  👥 {participants} Teilnehmer",
+    )
+    st.caption(counts_tpl.format(questions=num_questions, answers=num_answers, participants=num_users))
     st.divider()
 
     # --- Erweiterte Analyse (Trennschärfe) nur bei >1 Teilnehmer ---
@@ -865,7 +878,8 @@ def render_feedback_tab():
                     from database import delete_multiple_feedback
                     ids_to_delete = df_feedback['feedback_id'].tolist()
                     if delete_multiple_feedback(ids_to_delete):
-                        st.success(translate_ui("admin.messages.delete_feedback_success", count=len(ids_to_delete)))
+                        success_tpl = translate_ui("admin.messages.delete_feedback_success")
+                        st.success(success_tpl.format(count=len(ids_to_delete)))
                         st.rerun()
                     else:
                         st.error(translate_ui("admin.messages.delete_feedback_error"))
@@ -903,8 +917,28 @@ def render_feedback_tab():
         with st.container(border=True):
             col1, col2 = st.columns([3, 1])
             with col1:
-                st.markdown(f"**Frage {row[translate_ui('admin.feedback.columns.question_nr', default='Frage-Nr.')]}:** {row['Frage']}")
-                st.caption(f"**Typ:** {row[translate_ui('admin.feedback.columns.type', default='Problem-Typ')]} | **Set:** {format_q_filename(row[translate_ui('admin.feedback.columns.set', default='Fragenset')])} | **Von:** {row[translate_ui('admin.feedback.columns.user', default='Gemeldet von')]} | {row[translate_ui('admin.feedback.columns.date', default='Gemeldet am')]}")
+                heading_tpl = translate_ui(
+                    "admin.feedback.question_heading",
+                    default="**Frage {number}:** {text}",
+                )
+                st.markdown(
+                    heading_tpl.format(
+                        number=row[translate_ui('admin.feedback.columns.question_nr', default='Frage-Nr.')],
+                        text=row["Frage"],
+                    )
+                )
+                meta_tpl = translate_ui(
+                    "admin.feedback.question_meta",
+                    default="**Typ:** {type} | **Set:** {qset} | **Von:** {user} | {date}",
+                )
+                st.caption(
+                    meta_tpl.format(
+                        type=row[translate_ui('admin.feedback.columns.type', default='Problem-Typ')],
+                        qset=format_q_filename(row[translate_ui('admin.feedback.columns.set', default='Fragenset')]),
+                        user=row[translate_ui('admin.feedback.columns.user', default='Gemeldet von')],
+                        date=row[translate_ui('admin.feedback.columns.date', default='Gemeldet am')],
+                    )
+                )
             
             with col2:
                 # Button, um direkt zur Frage zu springen
@@ -1014,7 +1048,11 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
     st.subheader(translate_ui("admin.login_generator.used_pseudonyms", default="Aktuell genutzte temporäre Pseudonyme"))
     if used_all:
-        st.caption(f"{len(used_all)} Pseudonyme wurden bereits verwendet.")
+        used_tpl = translate_ui(
+            "admin.login_generator.used_pseudonyms_caption",
+            default="{count} Pseudonyme wurden bereits verwendet.",
+        )
+        st.caption(used_tpl.format(count=len(used_all)))
         st.dataframe(
             pd.DataFrame({"Pseudonym": used_all}),
             hide_index=True,
@@ -1025,7 +1063,11 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
 
     st.subheader(translate_ui("admin.login_generator.reserved_pseudonyms", default="Reservierte Pseudonyme (mit Login-Secret)"))
     if reserved:
-        st.caption(f"{len(reserved)} Pseudonyme sind aktuell reserviert.")
+        reserved_tpl = translate_ui(
+            "admin.login_generator.reserved_pseudonyms_caption",
+            default="{count} Pseudonyme sind aktuell reserviert.",
+        )
+        st.caption(reserved_tpl.format(count=len(reserved)))
         st.dataframe(
             pd.DataFrame({"Pseudonym": reserved}),
             hide_index=True,
@@ -1077,7 +1119,8 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                                 )
                             except Exception:
                                 pass
-                            st.success(translate_ui("admin.messages.delete_reserved_pseudonym_success", name=target_reserved))
+                            success_tpl = translate_ui("admin.messages.delete_reserved_pseudonym_success", default="Reserviertes Pseudonym {name} gelöscht.")
+                            st.success(success_tpl.format(name=target_reserved))
                             st.rerun()
                         else:
                             st.info(translate_ui("admin.messages.pseudonym_delete_failed"))
@@ -1176,7 +1219,8 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
                             )
                         except Exception:
                             pass
-                        st.success(translate_ui("admin.messages.delete_reserved_pseudonyms_success", count=deleted_count))
+                        success_tpl = translate_ui("admin.messages.delete_reserved_pseudonyms_success")
+                        st.success(success_tpl.format(count=deleted_count))
                         st.rerun()
                     else:
                         st.info(translate_ui("admin.messages.no_reserved_pseudonyms_to_delete"))
@@ -1188,7 +1232,11 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
         )
         return
 
-    st.caption(f"{len(available)} Pseudonyme sind aktuell frei und können reserviert werden.")
+    available_tpl = translate_ui(
+        "admin.login_generator.available_pseudonyms_caption",
+        default="{count} Pseudonyme sind aktuell frei und können reserviert werden.",
+    )
+    st.caption(available_tpl.format(count=len(available)))
 
     overview_df = pd.DataFrame(available)
     if not overview_df.empty:
@@ -1243,10 +1291,19 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
         else:
             rows = _create_logins(selected_names[:desired_count])
             if not rows:
-                st.error("Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl.")
+                st.error(
+                    translate_ui(
+                        "admin.login_generator.generate_error",
+                        default="Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl.",
+                    )
+                )
             else:
                 st.session_state["login_generator_rows"] = rows
-                st.success(f"{len(rows)} Login(s) erzeugt und reserviert.")
+                success_tpl = translate_ui(
+                    "admin.login_generator.generate_success",
+                    default="{count} Login(s) erzeugt und reserviert.",
+                )
+                st.success(success_tpl.format(count=len(rows)))
                 st.rerun()
 
     latest_rows = st.session_state.get("login_generator_rows")

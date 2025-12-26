@@ -77,6 +77,8 @@
         "admin_mode_info": "管理员模式已激活。",
         "admin_solution_download": "💾 下载解答",
         "admin_solution_generate": "📄 生成解答 (PDF)",
+        "admin_solution_spinner": "正在生成解答 PDF...",
+        "admin_solution_error": "生成解答 PDF 时出错：{error}",
         "admin_solution_success": "解答已就绪！",
         "admin_back_to_test": "⬅️ 返回测试",
         "admin_key_missing": "⚠️ **无管理员密钥！**\n\n仅限开发环境。生产环境请设置 `MC_TEST_ADMIN_KEY`。",
@@ -360,6 +362,7 @@
         "glossary_generation_caption": "加载问题集，检查现有的小词汇表条目，并在需要时创建 PDF。",
         "questionsets_overview_header": "📂 所有问题集概览",
         "questionsets": {
+            "overview_counts_caption": "🔢 {questions} 题  •  📝 {answers} 答案  •  👥 {participants} 参与者",
             "count": "问题集数量",
             "topics_per_set": "每个集合的主题",
             "topics_label": "主题",
@@ -398,6 +401,8 @@
             "jump_to_question": "跳转到问题",
             "delete_popover": "删除",
             "delete_confirm": "是的，永久删除",
+            "question_heading": "**问题 {number}:** {text}",
+            "question_meta": "**类型:** {type} | **集合:** {qset} | **来自:** {user} | {date}",
             "columns": {
                 "date": "报告日期",
                 "question_nr": "问题编号",
@@ -417,7 +422,10 @@
         "login_generator_header": "🔑 保留化名的登录生成器",
         "login_generator": {
             "used_pseudonyms": "当前使用的临时化名",
+            "used_pseudonyms_caption": "已有 {count} 个化名被使用。",
             "reserved_pseudonyms": "保留化名（带登录密钥）",
+            "reserved_pseudonyms_caption": "当前有 {count} 个化名已被保留。",
+            "available_pseudonyms_caption": "目前有 {count} 个化名可供保留。",
             "delete_select": "要删除的化名",
             "admin_key": "管理员密钥确认：",
             "confirm_single": "我明白：此保留化名及其测试数据将被删除。",
@@ -431,6 +439,8 @@
             "select_label": "选择要保留的化名",
             "select_help": "仅显示空闲化名。",
             "generate_button": "🚀 生成登录",
+            "generate_error": "无法生成登录，请检查选择。",
+            "generate_success": "已生成并保留 {count} 个登录。",
             "latest_logins": "最近生成的登录",
             "download_csv": "⬇️ 下载 CSV",
             "pseudonyms_already_used": "化名已被使用。",
@@ -872,9 +882,12 @@
         "export_anki_apkg_button": "创建 .apkg",
         "export_anki_apkg_spinner": "正在创建 .apkg...",
         "export_anki_apkg_download": "💾 下载 .apkg",
+        "export_anki_apkg_error": "创建 Anki 包时出错：{error}",
         "export_anki_tsv_button": "导出 TSV",
         "export_anki_tsv_spinner": "正在创建 TSV...",
         "export_anki_tsv_download": "💾 下载 TSV",
+        "export_anki_tsv_error": "创建 TSV 导出时出错：{error}",
+        "export_anki_tsv_not_found": "未找到题库 \"{filename}\"。",
         "export_kahoot_download_label": "💾 下载 Kahoot",
         "export_kahoot_generation_error": "Kahoot 错误: {error}",
         "export_kahoot_expander": "📦 Kahoot (现场测验)",
@@ -954,7 +967,8 @@
             },
             "leaderboard": {
                 "hidden_hint_one": "{count} 次运行隐藏: 太短 (<{min_time_pct}%) 或得分太低 (<{min_score_pct}%)。",
-                "hidden_hint": "{count} 次运行隐藏: 太短 (<{min_time_pct}%) 或得分太低 (<{min_score_pct}%)。"
+                "hidden_hint": "{count} 次运行隐藏: 太短 (<{min_time_pct}%) 或得分太低 (<{min_score_pct}%)。",
+                "hidden_runs_fallback": "{count} 次运行被隐藏：时间太短 (<{min_duration_seconds} 秒) 或未达到最低得分。"
             }
         }
     },

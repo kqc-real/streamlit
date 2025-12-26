@@ -49,6 +49,7 @@
         "glossary_generation_caption": "Carica un set di domande, controlla le voci di mini-glossario esistenti e crea un PDF se necessario.",
         "questionsets_overview_header": "📂 Panoramica di tutti i set di domande",
         "questionsets": {
+            "overview_counts_caption": "🔢 {questions} domande  •  📝 {answers} risposte  •  👥 {participants} partecipanti",
             "count": "Numero di set di domande",
             "topics_per_set": "Argomenti per set",
             "topics_label": "Argomenti",
@@ -87,6 +88,8 @@
             "jump_to_question": "Vai alla domanda",
             "delete_popover": "Elimina",
             "delete_confirm": "Sì, elimina definitivamente",
+            "question_heading": "**Domanda {number}:** {text}",
+            "question_meta": "**Tipo:** {type} | **Set:** {qset} | **Da:** {user} | {date}",
             "columns": {
                 "date": "Segnalato il",
                 "question_nr": "N. Domanda",
@@ -106,7 +109,10 @@
         "login_generator_header": "🔑 Generatore di accesso per pseudonimi riservati",
         "login_generator": {
             "used_pseudonyms": "Pseudonimi temporanei attualmente in uso",
+            "used_pseudonyms_caption": "{count} pseudonimi sono già stati utilizzati.",
             "reserved_pseudonyms": "Pseudonimi riservati (con segreto di accesso)",
+            "reserved_pseudonyms_caption": "{count} pseudonimi sono attualmente riservati.",
+            "available_pseudonyms_caption": "{count} pseudonimi sono liberi e prenotabili.",
             "delete_select": "Pseudonimo da eliminare",
             "admin_key": "Chiave Admin per conferma:",
             "confirm_single": "Capisco: Questo pseudonimo riservato e i suoi dati di test verranno eliminati.",
@@ -120,6 +126,8 @@
             "select_label": "Seleziona pseudonimi per la prenotazione",
             "select_help": "Vengono mostrati solo pseudonimi liberi.",
             "generate_button": "🚀 Genera accessi",
+            "generate_error": "Impossibile generare gli accessi. Controlla la selezione.",
+            "generate_success": "{count} accesso/i creati e riservati.",
             "latest_logins": "Ultimi accessi generati",
             "download_csv": "⬇️ Scarica CSV",
             "pseudonyms_already_used": "Gli pseudonimi sono già stati utilizzati.",
@@ -412,6 +420,8 @@
         "admin_mode_info": "Modalità admin attiva.",
         "admin_solution_download": "💾 Scarica soluzione",
         "admin_solution_generate": "📄 Crea Soluzione (PDF)",
+        "admin_solution_spinner": "Generazione del PDF della soluzione...",
+        "admin_solution_error": "Errore durante la creazione del PDF della soluzione: {error}",
         "admin_solution_success": "Soluzione pronta!",
         "admin_back_to_test": "⬅️ Torna al test",
         "admin_key_missing": "⚠️ **Manca Chiave Admin!**\n\nSolo dev locale. Imposta `MC_TEST_ADMIN_KEY` in prod.",
@@ -881,9 +891,12 @@
         "export_anki_apkg_button": "Crea .apkg",
         "export_anki_apkg_spinner": "Creo .apkg...",
         "export_anki_apkg_download": "💾 Scarica .apkg",
+        "export_anki_apkg_error": "Errore nella creazione del pacchetto Anki: {error}",
         "export_anki_tsv_button": "Export TSV",
         "export_anki_tsv_spinner": "Creo TSV...",
         "export_anki_tsv_download": "💾 Scarica TSV",
+        "export_anki_tsv_error": "Errore nella creazione del TSV: {error}",
+        "export_anki_tsv_not_found": "Set \"{filename}\" non trovato.",
         "export_kahoot_download_label": "💾 Scarica Kahoot",
         "export_kahoot_generation_error": "Errore Kahoot: {error}",
         "export_kahoot_expander": "📦 Kahoot (Quiz Live)",
@@ -963,7 +976,8 @@
             },
             "leaderboard": {
                 "hidden_hint_one": "{count} tentativo nascosto: troppo breve (<{min_time_pct}%) o punteggio troppo basso (<{min_score_pct}%).",
-                "hidden_hint": "{count} tentativi nascosti: troppo brevi (<{min_time_pct}%) o punteggi troppo bassi (<{min_score_pct}%)."
+                "hidden_hint": "{count} tentativi nascosti: troppo brevi (<{min_time_pct}%) o punteggi troppo bassi (<{min_score_pct}%).",
+                "hidden_runs_fallback": "{count} tentativi nascosti: durata troppo breve (<{min_duration_seconds} s) o punteggio minimo non raggiunto."
             }
         }
     },

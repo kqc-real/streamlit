@@ -49,6 +49,7 @@
         "glossary_generation_caption": "Cargue un conjunto de preguntas, verifique las entradas de mini-glosario existentes y cree un PDF si es necesario.",
         "questionsets_overview_header": "📂 Resumen de todos los conjuntos de preguntas",
         "questionsets": {
+            "overview_counts_caption": "🔢 {questions} preguntas  •  📝 {answers} respuestas  •  👥 {participants} participantes",
             "count": "Número de conjuntos de preguntas",
             "topics_per_set": "Temas por conjunto",
             "topics_label": "Temas",
@@ -87,6 +88,8 @@
             "jump_to_question": "Ir a la pregunta",
             "delete_popover": "Eliminar",
             "delete_confirm": "Sí, eliminar permanentemente",
+            "question_heading": "**Pregunta {number}:** {text}",
+            "question_meta": "**Tipo:** {type} | **Set:** {qset} | **De:** {user} | {date}",
             "columns": {
                 "date": "Reportado el",
                 "question_nr": "Nº Pregunta",
@@ -106,7 +109,10 @@
         "login_generator_header": "🔑 Generador de inicio de sesión para seudónimos reservados",
         "login_generator": {
             "used_pseudonyms": "Seudónimos temporales actualmente en uso",
+            "used_pseudonyms_caption": "{count} seudónimos ya han sido utilizados.",
             "reserved_pseudonyms": "Seudónimos reservados (con secreto de inicio de sesión)",
+            "reserved_pseudonyms_caption": "{count} seudónimos están actualmente reservados.",
+            "available_pseudonyms_caption": "{count} seudónimos están libres y pueden reservarse.",
             "delete_select": "Seudónimo a eliminar",
             "admin_key": "Clave Admin para confirmación:",
             "confirm_single": "Entiendo: Este seudónimo reservado y sus datos de prueba serán eliminados.",
@@ -120,6 +126,8 @@
             "select_label": "Seleccionar seudónimos para reserva",
             "select_help": "Solo se muestran seudónimos libres.",
             "generate_button": "🚀 Generar inicios de sesión",
+            "generate_error": "No se pudieron generar los inicios de sesión. Revisa la selección.",
+            "generate_success": "{count} inicio(s) de sesión creados y reservados.",
             "latest_logins": "Últimos inicios de sesión generados",
             "download_csv": "⬇️ Descargar CSV",
             "pseudonyms_already_used": "Los seudónimos ya han sido utilizados.",
@@ -412,6 +420,8 @@
         "admin_mode_info": "Modo admin activo.",
         "admin_solution_download": "💾 Descargar solución",
         "admin_solution_generate": "📄 Crear Solución (PDF)",
+        "admin_solution_spinner": "Generando PDF de solución...",
+        "admin_solution_error": "Error al crear el PDF de la solución: {error}",
         "admin_solution_success": "¡Solución lista!",
         "admin_back_to_test": "⬅️ Volver al test",
         "admin_key_missing": "⚠️ **¡Falta Clave Admin!**\n\nSolo dev local. Configura `MC_TEST_ADMIN_KEY` en prod.",
@@ -881,9 +891,12 @@
         "export_anki_apkg_button": "Crear .apkg",
         "export_anki_apkg_spinner": "Creando .apkg...",
         "export_anki_apkg_download": "💾 Descargar .apkg",
+        "export_anki_apkg_error": "Error al crear el paquete Anki: {error}",
         "export_anki_tsv_button": "Exportar TSV",
         "export_anki_tsv_spinner": "Creando TSV...",
         "export_anki_tsv_download": "💾 Descargar TSV",
+        "export_anki_tsv_error": "Error al crear el TSV: {error}",
+        "export_anki_tsv_not_found": "No se encontró el conjunto \"{filename}\".",
         "export_kahoot_download_label": "💾 Descargar Kahoot",
         "export_kahoot_generation_error": "Error Kahoot: {error}",
         "export_kahoot_expander": "📦 Kahoot (Quiz Live)",
@@ -963,7 +976,8 @@
             },
             "leaderboard": {
                 "hidden_hint_one": "{count} intento oculto: muy corto (<{min_time_pct}%) o score bajo (<{min_score_pct}%).",
-                "hidden_hint": "{count} intentos ocultos: muy cortos (<{min_time_pct}%) o scores bajos (<{min_score_pct}%)."
+                "hidden_hint": "{count} intentos ocultos: muy cortos (<{min_time_pct}%) o scores bajos (<{min_score_pct}%).",
+                "hidden_runs_fallback": "{count} intentos ocultos: duración muy corta (<{min_duration_seconds} s) o puntuación mínima no alcanzada."
             }
         }
     },

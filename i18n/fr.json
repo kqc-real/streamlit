@@ -49,6 +49,7 @@
         "glossary_generation_caption": "Chargez un ensemble de questions, vérifiez les entrées de mini-glossaire existantes et créez un PDF si nécessaire.",
         "questionsets_overview_header": "📂 Aperçu de tous les ensembles de questions",
         "questionsets": {
+            "overview_counts_caption": "🔢 {questions} questions  •  📝 {answers} réponses  •  👥 {participants} participants",
             "count": "Nombre d'ensembles de questions",
             "topics_per_set": "Sujets par ensemble",
             "topics_label": "Sujets",
@@ -87,6 +88,8 @@
             "jump_to_question": "Aller à la question",
             "delete_popover": "Supprimer",
             "delete_confirm": "Oui, supprimer définitivement",
+            "question_heading": "**Question {number} :** {text}",
+            "question_meta": "**Type :** {type} | **Ensemble :** {qset} | **De :** {user} | {date}",
             "columns": {
                 "date": "Signalé le",
                 "question_nr": "N° Question",
@@ -106,7 +109,10 @@
         "login_generator_header": "🔑 Générateur de connexion pour pseudonymes réservés",
         "login_generator": {
             "used_pseudonyms": "Pseudonymes temporaires actuellement utilisés",
+            "used_pseudonyms_caption": "{count} pseudonymes ont déjà été utilisés.",
             "reserved_pseudonyms": "Pseudonymes réservés (avec secret de connexion)",
+            "reserved_pseudonyms_caption": "{count} pseudonymes sont actuellement réservés.",
+            "available_pseudonyms_caption": "{count} pseudonymes sont libres et peuvent être réservés.",
             "delete_select": "Pseudonyme à supprimer",
             "admin_key": "Clé Admin pour confirmation :",
             "confirm_single": "Je comprends : Ce pseudonyme réservé et ses données de test seront supprimés.",
@@ -120,6 +126,8 @@
             "select_label": "Sélectionner les pseudonymes pour la réservation",
             "select_help": "Seuls les pseudonymes libres sont affichés.",
             "generate_button": "🚀 Générer les connexions",
+            "generate_error": "Impossible de générer les connexions. Vérifiez la sélection.",
+            "generate_success": "{count} connexion(s) créées et réservées.",
             "latest_logins": "Dernières connexions générées",
             "download_csv": "⬇️ Télécharger CSV",
             "pseudonyms_already_used": "Les pseudonymes ont déjà été utilisés.",
@@ -411,6 +419,8 @@
         "admin_mode_info": "Mode admin actif.",
         "admin_solution_download": "💾 Télécharger solution",
         "admin_solution_generate": "📄 Créer Solution (PDF)",
+        "admin_solution_spinner": "Génération du PDF de solution...",
+        "admin_solution_error": "Erreur lors de la création du PDF de solution : {error}",
         "admin_solution_success": "Solution prête !",
         "admin_back_to_test": "⬅️ Retour au test",
         "admin_key_missing": "⚠️ **Pas de Clé Admin !**\n\nDev local seulement. Set `MC_TEST_ADMIN_KEY` en prod.",
@@ -881,9 +891,12 @@
         "export_anki_apkg_button": "Créer .apkg",
         "export_anki_apkg_spinner": "Création .apkg...",
         "export_anki_apkg_download": "💾 Télécharger .apkg",
+        "export_anki_apkg_error": "Erreur lors de la création du paquet Anki : {error}",
         "export_anki_tsv_button": "Export TSV",
         "export_anki_tsv_spinner": "Création TSV...",
         "export_anki_tsv_download": "💾 Télécharger TSV",
+        "export_anki_tsv_error": "Erreur lors de la création du TSV : {error}",
+        "export_anki_tsv_not_found": "Ensemble \"{filename}\" introuvable.",
         "export_kahoot_download_label": "💾 Télécharger Kahoot",
         "export_kahoot_generation_error": "Erreur Kahoot : {error}",
         "export_kahoot_expander": "📦 Kahoot (Quiz Live)",
@@ -963,7 +976,8 @@
             },
             "leaderboard": {
                 "hidden_hint_one": "{count} essai masqué : trop court (<{min_time_pct}%) ou score trop bas (<{min_score_pct}%).",
-                "hidden_hint": "{count} essais masqués : trop courts (<{min_time_pct}%) ou scores trop bas (<{min_score_pct}%)."
+                "hidden_hint": "{count} essais masqués : trop courts (<{min_time_pct}%) ou scores trop bas (<{min_score_pct}%).",
+                "hidden_runs_fallback": "{count} essais masqués : durée trop courte (<{min_duration_seconds} s) ou score minimum non atteint."
             }
         }
     },

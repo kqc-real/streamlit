@@ -2388,13 +2388,19 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                         key="sidebar_muster_generate",
                         width="stretch",
                     ):
-                        with st.spinner("Generiere Musterlösung-PDF..."):
+                        with st.spinner(_sidebar_text("admin_solution_spinner", default="Generiere Musterlösung-PDF...")):
                             try:
                                 generated = generate_musterloesung_pdf(selected_file, list(questions), app_config)
                                 st.session_state[cache_key] = generated
                                 st.sidebar.success(_sidebar_text("admin_solution_success", default="Musterlösung-PDF fertig"))
                             except Exception as e:
-                                st.error(f"Fehler beim Erzeugen der Musterlösung: {e}")
+                                st.error(
+                                    _sidebar_text(
+                                        "admin_solution_error",
+                                        default="Fehler beim Erzeugen der Musterlösung: {error}",
+                                        error=e,
+                                    )
+                                )
 
                         if st.session_state.get(cache_key):
                             st.sidebar.download_button(

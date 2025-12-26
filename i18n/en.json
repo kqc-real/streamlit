@@ -85,6 +85,8 @@
         "admin_mode_info": "Admin mode active.",
         "admin_solution_download": "💾 Download Solution",
         "admin_solution_generate": "📄 Build Solution (PDF)",
+        "admin_solution_spinner": "Generating solution PDF...",
+        "admin_solution_error": "Error creating solution PDF: {error}",
         "admin_solution_success": "Solution ready!",
         "admin_back_to_test": "⬅️ Back to Test",
         "admin_key_missing": "⚠️ **No Admin Key!**\n\nDev only. Set `MC_TEST_ADMIN_KEY` for prod.",
@@ -368,6 +370,7 @@
         "glossary_generation_caption": "Load a question set, check existing mini-glossary entries and create a PDF if needed.",
         "questionsets_overview_header": "📂 Overview of all Question Sets",
         "questionsets": {
+            "overview_counts_caption": "🔢 {questions} questions  •  📝 {answers} answers  •  👥 {participants} participants",
             "count": "Number of Question Sets",
             "topics_per_set": "Topics per Set",
             "topics_label": "Topics",
@@ -406,6 +409,8 @@
             "jump_to_question": "Go to Question",
             "delete_popover": "Delete",
             "delete_confirm": "Yes, permanently delete",
+            "question_heading": "**Question {number}:** {text}",
+            "question_meta": "**Type:** {type} | **Set:** {qset} | **From:** {user} | {date}",
             "columns": {
                 "date": "Reported on",
                 "question_nr": "Question No.",
@@ -425,7 +430,10 @@
         "login_generator_header": "🔑 Login Generator for Reserved Pseudonyms",
         "login_generator": {
             "used_pseudonyms": "Currently used temporary pseudonyms",
+            "used_pseudonyms_caption": "{count} pseudonyms have already been used.",
             "reserved_pseudonyms": "Reserved pseudonyms (with login secret)",
+            "reserved_pseudonyms_caption": "{count} pseudonyms are currently reserved.",
+            "available_pseudonyms_caption": "{count} pseudonyms are free and can be reserved.",
             "delete_select": "Pseudonym to delete",
             "admin_key": "Admin Key for Confirmation:",
             "confirm_single": "I understand: This reserved pseudonym and its test data will be deleted.",
@@ -439,6 +447,8 @@
             "select_label": "Select pseudonyms for reservation",
             "select_help": "Only free pseudonyms are shown.",
             "generate_button": "🚀 Generate Logins",
+            "generate_error": "Couldn't generate logins. Please check the selection.",
+            "generate_success": "{count} login(s) created and reserved.",
             "latest_logins": "Last generated logins",
             "download_csv": "⬇️ Download CSV",
             "pseudonyms_already_used": "Pseudonyms have already been used.",
@@ -880,9 +890,12 @@
         "export_anki_apkg_button": "Create .apkg",
         "export_anki_apkg_spinner": "Creating .apkg...",
         "export_anki_apkg_download": "💾 Download .apkg",
+        "export_anki_apkg_error": "Error creating Anki package: {error}",
         "export_anki_tsv_button": "Export TSV",
         "export_anki_tsv_spinner": "Creating TSV...",
         "export_anki_tsv_download": "💾 Download TSV",
+        "export_anki_tsv_error": "Error creating TSV export: {error}",
+        "export_anki_tsv_not_found": "Question set \"{filename}\" was not found.",
         "export_kahoot_download_label": "💾 Download Kahoot",
         "export_kahoot_generation_error": "Kahoot Error: {error}",
         "export_kahoot_expander": "📦 Kahoot (Live Quiz)",
@@ -962,7 +975,8 @@
             },
             "leaderboard": {
                 "hidden_hint_one": "{count} run hidden: too short (<{min_time_pct}%) or score too low (<{min_score_pct}%).",
-                "hidden_hint": "{count} runs hidden: too short (<{min_time_pct}%) or score too low (<{min_score_pct}%)."
+                "hidden_hint": "{count} runs hidden: too short (<{min_time_pct}%) or score too low (<{min_score_pct}%).",
+                "hidden_runs_fallback": "{count} runs hidden: duration too short (<{min_duration_seconds} s) or minimum score not reached."
             }
         }
     },

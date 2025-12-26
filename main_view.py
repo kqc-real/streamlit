@@ -2985,10 +2985,16 @@ def render_welcome_page(app_config: AppConfig):
                             min_score_pct = int(0.40 * 100)
                             st.info(hint_tpl.format(count=hidden_count, min_time_pct=min_time_pct, min_score_pct=min_score_pct))
                         except Exception:
-                            # Fallback to the previous German message when translation
-                            # lookup or formatting fails for any reason.
+                            # Fallback using localized template to avoid hard-coded text.
+                            fallback_tpl = translate_ui(
+                                "welcome.leaderboard.hidden_runs_fallback",
+                                default="{count} runs hidden: either too short (<{min_duration_seconds} s) or minimum score not reached.",
+                            )
                             st.info(
-                                f"{hidden_count} Läufe ausgeblendet: entweder zu kurze Laufzeit (<{min_duration_seconds} s) oder nicht die Mindestpunktzahl erreicht."
+                                fallback_tpl.format(
+                                    count=hidden_count,
+                                    min_duration_seconds=min_duration_seconds,
+                                )
                             )
                 except Exception:
                     pass
@@ -6395,7 +6401,13 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         except FileNotFoundError as exc:
                             st.error(str(exc))
                         except Exception as exc:
-                            st.error(f"Fehler beim Erzeugen des Anki-Pakets: {exc}")
+                            st.error(
+                                _summary_text(
+                                    "export_anki_apkg_error",
+                                    default="Error creating Anki package: {error}",
+                                    error=exc,
+                                )
+                            )
                         else:
                             st.download_button(
                                 label=_summary_text("export_anki_apkg_download", default="💾 APKG herunterladen"),
@@ -6417,13 +6429,25 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         try:
                             json_path = resolve_question_path(export_selected_file)
                             if not json_path.exists():
-                                raise FileNotFoundError(f"Fragenset '{export_selected_file}' wurde nicht gefunden.")
+                                raise FileNotFoundError(
+                                    _summary_text(
+                                        "export_anki_tsv_not_found",
+                                        default="Question set '{filename}' was not found.",
+                                        filename=export_selected_file,
+                                    )
+                                )
                             json_bytes = json_path.read_bytes()
                             tsv_content = _cached_transform_anki(json_bytes, export_selected_file)
                         except FileNotFoundError as exc:
                             st.error(str(exc))
                         except Exception as exc:
-                            st.error(f"Fehler beim Erzeugen des TSV-Exports: {exc}")
+                            st.error(
+                                _summary_text(
+                                    "export_anki_tsv_error",
+                                    default="Error creating TSV export: {error}",
+                                    error=exc,
+                                )
+                            )
                         else:
                             tsv_bytes = tsv_content.encode("utf-8")
                             st.download_button(

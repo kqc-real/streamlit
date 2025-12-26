@@ -86,6 +86,8 @@
         "admin_mode_info": "Admin-Modus aktiv.",
         "admin_solution_download": "💾 Musterlösung laden",
         "admin_solution_generate": "📄 Musterlösung (PDF) bauen",
+        "admin_solution_spinner": "Generiere Musterlösung-PDF...",
+        "admin_solution_error": "Fehler beim Erzeugen der Musterlösung: {error}",
         "admin_solution_success": "Musterlösung fertig!",
         "admin_back_to_test": "⬅️ Zurück zum Test",
         "admin_key_missing": "⚠️ **Kein Admin-Key!**\n\nNur für Dev-Umgebung. Setze `MC_TEST_ADMIN_KEY` für Prod.",
@@ -152,6 +154,7 @@
         "glossary_generation_caption": "Lade ein Fragenset, prüfe die vorhandenen Mini-Glossar-Einträge und erstelle bei Bedarf ein PDF.",
         "questionsets_overview_header": "📂 Übersicht aller Fragensets",
         "questionsets": {
+            "overview_counts_caption": "🔢 {questions} Fragen  •  📝 {answers} Antworten  •  👥 {participants} Teilnehmer",
             "count": "Anzahl Fragensets",
             "topics_per_set": "Themen je Fragenset",
             "topics_label": "Themen",
@@ -190,6 +193,8 @@
             "jump_to_question": "Zur Frage",
             "delete_popover": "Löschen",
             "delete_confirm": "Ja, endgültig löschen",
+            "question_heading": "**Frage {number}:** {text}",
+            "question_meta": "**Typ:** {type} | **Set:** {qset} | **Von:** {user} | {date}",
             "columns": {
                 "date": "Gemeldet am",
                 "question_nr": "Frage-Nr.",
@@ -209,7 +214,10 @@
         "login_generator_header": "🔑 Login-Generator für reservierte Pseudonyme",
         "login_generator": {
             "used_pseudonyms": "Aktuell genutzte temporäre Pseudonyme",
+            "used_pseudonyms_caption": "{count} Pseudonyme wurden bereits verwendet.",
             "reserved_pseudonyms": "Reservierte Pseudonyme (mit Login-Secret)",
+            "reserved_pseudonyms_caption": "{count} Pseudonyme sind aktuell reserviert.",
+            "available_pseudonyms_caption": "{count} Pseudonyme sind aktuell frei und können reserviert werden.",
             "delete_select": "Zu löschendes Pseudonym",
             "admin_key": "Admin-Key zur Bestätigung:",
             "confirm_single": "Ich verstehe: Dieses reservierte Pseudonym wird inklusive seiner Testdaten gelöscht.",
@@ -223,6 +231,8 @@
             "select_label": "Wähle die Pseudonyme für die Reservierung",
             "select_help": "Nur freie Pseudonyme werden angezeigt.",
             "generate_button": "🚀 Logins erzeugen",
+            "generate_error": "Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl.",
+            "generate_success": "{count} Login(s) erzeugt und reserviert.",
             "latest_logins": "Zuletzt erzeugte Logins",
             "download_csv": "⬇️ CSV herunterladen",
             "pseudonyms_already_used": "Pseudonyme wurden bereits verwendet.",
@@ -885,9 +895,12 @@
         "export_anki_apkg_button": "Anki-Paket (.apkg) erstellen",
         "export_anki_apkg_spinner": "Erstelle .apkg...",
         "export_anki_apkg_download": "💾 .apkg laden",
+        "export_anki_apkg_error": "Fehler beim Erzeugen des Anki-Pakets: {error}",
         "export_anki_tsv_button": "Anki-TSV exportieren",
         "export_anki_tsv_spinner": "Erstelle TSV...",
         "export_anki_tsv_download": "💾 TSV laden",
+        "export_anki_tsv_error": "Fehler beim Erzeugen des TSV-Exports: {error}",
+        "export_anki_tsv_not_found": "Fragenset \"{filename}\" wurde nicht gefunden.",
         "export_kahoot_download_label": "💾 Kahoot-Quiz laden",
         "export_kahoot_generation_error": "Kahoot-Fehler: {error}",
         "export_kahoot_expander": "📦 Kahoot (Live-Quiz)",
@@ -967,7 +980,8 @@
             },
             "leaderboard": {
                 "hidden_hint_one": "{count} Lauf ausgeblendet: zu kurz (<{min_time_pct}%) oder zu wenig Punkte (<{min_score_pct}%).",
-                "hidden_hint": "{count} Läufe ausgeblendet: zu kurz (< {min_time_pct} %) oder zu wenig Punkte ({min_score_pct} %)."
+                "hidden_hint": "{count} Läufe ausgeblendet: zu kurz (< {min_time_pct} %) oder zu wenig Punkte ({min_score_pct} %).",
+                "hidden_runs_fallback": "{count} Läufe ausgeblendet: zu kurze Laufzeit (<{min_duration_seconds} s) oder Mindestpunktzahl nicht erreicht."
             }
         }
     },
