@@ -129,7 +129,10 @@
             "reset_user_results": "Wähle einen Benutzer:",
             "admin_key": "Admin-Key zur Bestätigung:",
             "confirm_checkbox": "Ja, ich bin sicher.",
-            "metrics_glossary": "Glossar der Metriken"
+            "metrics_glossary": "Glossar der Metriken",
+            "delete_single_pseudonym": "Wähle ein Pseudonym:",
+            "delete_all_used_pseudonyms": "Alle genutzten Pseudonyme löschen:",
+            "delete_all_reserved_pseudonyms": "Alle reservierten Pseudonyme löschen:"
         },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossare als PDF",

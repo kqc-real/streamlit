@@ -345,7 +345,10 @@
             "reset_user_results": "Select a user:",
             "admin_key": "Admin Key for Confirmation:",
             "confirm_checkbox": "Yes, I am sure.",
-            "metrics_glossary": "Glossary of Metrics"
+            "metrics_glossary": "Glossary of Metrics",
+            "delete_single_pseudonym": "Select a pseudonym:",
+            "delete_all_used_pseudonyms": "Delete all used pseudonyms:",
+            "delete_all_reserved_pseudonyms": "Delete all reserved pseudonyms:"
         },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossaries as PDF",

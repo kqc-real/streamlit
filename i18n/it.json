@@ -26,7 +26,10 @@
             "reset_user_results": "Seleziona un utente:",
             "admin_key": "Chiave Admin per conferma:",
             "confirm_checkbox": "Sì, sono sicuro.",
-            "metrics_glossary": "Glossario delle metriche"
+            "metrics_glossary": "Glossario delle metriche",
+            "delete_single_pseudonym": "Seleziona uno pseudonimo:",
+            "delete_all_used_pseudonyms": "Elimina tutti gli pseudonimi usati:",
+            "delete_all_reserved_pseudonyms": "Elimina tutti gli pseudonimi riservati:"
         },
         "dashboard_title": "🛠 Dashboard amministratore",
         "glossary_header": "📚 Mini-glossari in PDF",
