@@ -4473,6 +4473,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     remaining_answer_cooldown = 0
                     panic_mode = True
                 st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
+            except Exception:
+                pass
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
                 # Bookmark-Toggle
@@ -4550,6 +4552,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     else:
                         # Proceed with the original submit action.
                         handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
+        except Exception:
+            remaining_answer_cooldown = 0
         
         else:
             # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
