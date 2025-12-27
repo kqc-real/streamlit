@@ -4427,11 +4427,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     _dismiss_user_qset_dialog_from_test()
                     handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
                     st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
+            # Skip darf nicht parallel zu Next erscheinen; in Panic-Mode bleibt er aktiv.
             with col2:
-                # Überspringen-Button (blockiert nach Beantwortung, außer im Panic-Mode)
+                # Überspringen-Button (nur sichtbar wenn unbeantwortet oder Panic-Mode)
+                answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+                render_skip = (not answered_current) or panic_mode
+                skip_disabled = answered_current and (not panic_mode)
                 skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
-                skip_disabled = (st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None) and (not panic_mode)
-                if st.button(skip_label, key=f"skip_{frage_idx}", width="stretch", disabled=skip_disabled):
+                if render_skip and st.button(skip_label, key=f"skip_{frage_idx}", width="stretch", disabled=skip_disabled):
                     _dismiss_user_qset_dialog_from_test()
                     # Note: pacing visibility only toggled by Antwort / Nächste Frage
                     # Verschiebe die aktuelle Frage ans Ende der Liste
@@ -4581,7 +4584,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # render the Prev/Next/Summary controls when the question has been
         # answered or when a jump/review flow is active.
         is_answered_local = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-        if is_answered_local or st.session_state.get("jump_to_idx_active"):
+        if (is_answered_local and not panic_mode) or st.session_state.get("jump_to_idx_active"):
             render_next_question_button(questions, frage_idx, remaining_time, remaining)
     except Exception:
         # Non-fatal: if rendering nav buttons fails, continue with motivation/explanation
