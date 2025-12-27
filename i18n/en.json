@@ -101,7 +101,7 @@
         "skipped_expander": "↪️ Skipped",
         "skipped_empty": "Nothing skipped.",
         "skipped_disabled": "Jumps disabled after finish.",
-        "skipped_clear": "Reset list",
+        "skipped_clear": "Clear list",
         "skipped_clear_help": "Resets skipped questions.",
         "tempo": {
             "label": "Pace Mode",

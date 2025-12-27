@@ -4512,33 +4512,37 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 answer_label = _test_view_text("answer_button", default="Antworten")
                 answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
                 answer_disabled = False if panic_mode else (answered_already and not panic_mode)
+                # Style: turn primary/red only once an option is selected; keep enabled otherwise.
+                answer_button_type = "primary" if antwort is not None else "secondary"
 
-                if st.button(
-                    answer_label,
-                    key=f"submit_{frage_idx}",
-                    type="primary",
-                    width="stretch",
-                    disabled=answer_disabled,
-                ):
-                    _dismiss_user_qset_dialog_from_test()
-                    # If no option selected, inform the user.
-                    if antwort is None:
-                        try:
-                            select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
-                        except Exception:
-                            select_hint = 'Bitte wähle zuerst eine Antwort aus.'
-                        st.info(select_hint, icon="👉")
-                    # If still within the reading cooldown, show the hint and remaining seconds.
-                    elif remaining_answer_cooldown > 0 and not panic_mode:
-                        try:
-                            hint = translate_ui('test_view.answer_read_hint', default='Lies die Frage aufmerksam durch und alle Antwortoptionen.')
-                        except Exception:
-                            hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
-                        # Show a brief toast with the remaining seconds at click time
-                        show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
-                    else:
-                        # Proceed with the original submit action.
-                        handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
+                # Verberge den Button, wenn eine Antwort bereits abgegeben wurde (außer im Panic-Mode)
+                if not answer_disabled:
+                    if st.button(
+                        answer_label,
+                        key=f"submit_{frage_idx}",
+                        type=answer_button_type,
+                        width="stretch",
+                        disabled=False,
+                    ):
+                        _dismiss_user_qset_dialog_from_test()
+                        # If no option selected, inform the user.
+                        if antwort is None:
+                            try:
+                                select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
+                            except Exception:
+                                select_hint = 'Bitte wähle zuerst eine Antwort aus.'
+                            st.info(select_hint, icon="👉")
+                        # If still within the reading cooldown, show the hint and remaining seconds.
+                        elif remaining_answer_cooldown > 0 and not panic_mode:
+                            try:
+                                hint = translate_ui('test_view.answer_read_hint', default='Lies die Frage aufmerksam durch und alle Antwortoptionen.')
+                            except Exception:
+                                hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
+                            # Show a brief toast with the remaining seconds at click time
+                            show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
+                        else:
+                            # Proceed with the original submit action.
+                            handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
         except Exception:
             remaining_answer_cooldown = 0
         
