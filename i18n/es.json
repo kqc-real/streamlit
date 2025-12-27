@@ -538,6 +538,11 @@
             "bookmarked": "Revisión: marcada",
             "panic": "Modo pánico"
         },
+        "onboarding_tip": {
+            "title": "Cómo navegar",
+            "body": "- Saltar: la pregunta va a la lista y vuelve luego.\n- Marcar: guarda la pregunta en la barra lateral.\n- Pánico: con poco tiempo no hay cooldown; Saltar y Enviar siguen activos.",
+            "button": "Entendido"
+        },
         "correct_toast": "¡Correcto!",
         "wrong_toast": "Incorrecto.",
         "question_number_error": "Error: Falta número.",

@@ -167,6 +167,11 @@
             "bookmarked": "审阅：已标记",
             "panic": "紧急模式"
         },
+        "onboarding_tip": {
+            "title": "如何导航",
+            "body": "- 跳过：进入列表，稍后返回。\n- 标记：把问题保存在侧边栏。\n- 紧急：时间紧时无冷却；跳过和提交仍可用。",
+            "button": "知道了"
+        },
         "correct_toast": "正确！",
         "wrong_toast": "不正确。",
         "question_number_error": "错误：缺少编号。",

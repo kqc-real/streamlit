@@ -537,6 +537,11 @@
             "bookmarked": "Review : marquée",
             "panic": "Mode panique"
         },
+        "onboarding_tip": {
+            "title": "Comment naviguer",
+            "body": "- Passer : la question va dans la liste et revient plus tard.\n- Marquer : garde la question dans la barre latérale.\n- Panique : quand le temps manque, pas de cooldown; Passer et Valider restent actifs.",
+            "button": "Compris"
+        },
         "correct_toast": "Correct !",
         "wrong_toast": "Faux.",
         "question_number_error": "Erreur : Numéro manquant.",

@@ -3942,6 +3942,19 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         _show_welcome_container(app_config)
         st.stop()  # Stoppe Ausführung komplett, bis Test gestartet
 
+    # Einmaliges Onboarding-Tip nach Teststart anzeigen
+    if st.session_state.get("test_started") and not st.session_state.get("onboarding_tip_shown"):
+        with st.container(border=True):
+            st.markdown(f"### {_test_view_text('onboarding_tip.title', default='How navigation works')}")
+            st.markdown(_test_view_text("onboarding_tip.body", default=(
+                "- Skip: moves the question to the skipped list; you'll see it again.\n"
+                "- Bookmark: keeps the question handy in the sidebar.\n"
+                "- Panic: when time is low, cooldowns are off; Skip and Submit stay active."
+            )))
+            if st.button(_test_view_text("onboarding_tip.button", default="Got it"), key="onboarding_tip_ack"):
+                st.session_state["onboarding_tip_shown"] = True
+                st.rerun()
+
     # --- Sicherheitscheck und Re-Initialisierung ---
     # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
     # aber der session_state (insb. optionen_shuffled) noch vom alten Set stammt.

@@ -538,6 +538,11 @@
             "bookmarked": "Review: Markiert",
             "panic": "Panic Mode"
         },
+        "onboarding_tip": {
+            "title": "So navigierst du",
+            "body": "- Überspringen: Frage landet in der Liste und kommt wieder.\n- Merken: Frage in der Seitenleiste parken.\n- Panic: Bei wenig Zeit sind Cooldowns aus; Überspringen & Abgeben bleiben aktiv.",
+            "button": "Verstanden"
+        },
         "correct_toast": "Richtig!",
         "wrong_toast": "Schade, falsch.",
         "question_number_error": "Fehler: Fragenummer fehlt.",

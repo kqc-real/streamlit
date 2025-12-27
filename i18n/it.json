@@ -538,6 +538,11 @@
             "bookmarked": "Review: salvata",
             "panic": "Modalità panico"
         },
+        "onboarding_tip": {
+            "title": "Come navigare",
+            "body": "- Salta: la domanda finisce in lista e torna dopo.\n- Salva: tieni la domanda nella sidebar.\n- Panico: con poco tempo niente cooldown; Salta e Invia restano attivi.",
+            "button": "Capito"
+        },
         "correct_toast": "Giusto!",
         "wrong_toast": "Sbagliato.",
         "question_number_error": "Errore: Manca numero.",
