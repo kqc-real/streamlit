@@ -4428,9 +4428,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
                     st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
             with col2:
-                # Überspringen-Button
+                # Überspringen-Button (blockiert nach Beantwortung, außer im Panic-Mode)
                 skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
-                if st.button(skip_label, key=f"skip_{frage_idx}", width="stretch"):
+                skip_disabled = (st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None) and (not panic_mode)
+                if st.button(skip_label, key=f"skip_{frage_idx}", width="stretch", disabled=skip_disabled):
                     _dismiss_user_qset_dialog_from_test()
                     # Note: pacing visibility only toggled by Antwort / Nächste Frage
                     # Verschiebe die aktuelle Frage ans Ende der Liste
@@ -4464,6 +4465,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             prev_key = f"radio_prev_{frage_idx}"
                             if prev_key in st.session_state:
                                 del st.session_state[prev_key]
+                        except Exception:
+                            pass
+                        try:
+                            shown_key = f"frage_{frage_idx}_shown_time_monotonic"
+                            st.session_state.pop(shown_key, None)
+                            st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
                         except Exception:
                             pass
 
