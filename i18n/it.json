@@ -533,6 +533,11 @@
         "select_answer": "Scegli una risposta prima.",
         "next_feedback_correct": "Grande! Guarda la spiegazione per consolidare.",
         "next_feedback_incorrect": "Leggi la spiegazione: Perché hai sbagliato? Gli errori insegnano.",
+        "review_tag": {
+            "skipped": "Review: saltata",
+            "bookmarked": "Review: salvata",
+            "panic": "Modalità panico"
+        },
         "correct_toast": "Giusto!",
         "wrong_toast": "Sbagliato.",
         "question_number_error": "Errore: Manca numero.",

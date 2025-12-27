@@ -533,6 +533,11 @@
         "select_answer": "Wähl erst eine Antwort, sonst zählt es nicht.",
         "next_feedback_correct": "Stark! Schau dir die Erklärung an, um das Wissen zu festigen.",
         "next_feedback_incorrect": "Lies die Erklärung: Warum war das falsch? Fehler sind super zum Lernen.",
+        "review_tag": {
+            "skipped": "Review: Übersprungen",
+            "bookmarked": "Review: Markiert",
+            "panic": "Panic Mode"
+        },
         "correct_toast": "Richtig!",
         "wrong_toast": "Schade, falsch.",
         "question_number_error": "Fehler: Fragenummer fehlt.",

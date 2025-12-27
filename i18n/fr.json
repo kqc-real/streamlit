@@ -532,6 +532,11 @@
         "select_answer": "Choisis une réponse d'abord.",
         "next_feedback_correct": "Bien joué ! Regarde l'explication pour consolider.",
         "next_feedback_incorrect": "Lis l'explication : Pourquoi c'était faux ? Les erreurs font progresser.",
+        "review_tag": {
+            "skipped": "Review : ignorée",
+            "bookmarked": "Review : marquée",
+            "panic": "Mode panique"
+        },
         "correct_toast": "Correct !",
         "wrong_toast": "Faux.",
         "question_number_error": "Erreur : Numéro manquant.",

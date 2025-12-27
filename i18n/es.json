@@ -533,6 +533,11 @@
         "select_answer": "Elige una respuesta primero.",
         "next_feedback_correct": "¡Buena elección! Mira la explicación para consolidar.",
         "next_feedback_incorrect": "Lee la explicación: ¿Por qué fallaste? Los errores enseñan.",
+        "review_tag": {
+            "skipped": "Revisión: omitida",
+            "bookmarked": "Revisión: marcada",
+            "panic": "Modo pánico"
+        },
         "correct_toast": "¡Correcto!",
         "wrong_toast": "Incorrecto.",
         "question_number_error": "Error: Falta número.",

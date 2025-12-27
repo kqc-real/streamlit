@@ -4007,6 +4007,31 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # Zähler für verbleibende Fragen
     remaining = len(questions) - num_answered
 
+    # Review context tag (skip vs bookmark vs panic)
+    context_label = None
+    try:
+        jump_active = st.session_state.get("jump_to_idx_active", False)
+        skipped_list = st.session_state.get("skipped_questions", [])
+        bookmarks_list = st.session_state.get("bookmarked_questions", [])
+        in_skip_review = jump_active and frage_idx in skipped_list
+        in_bm_review = jump_active and frage_idx in bookmarks_list and not in_skip_review
+        if in_skip_review:
+            context_label = translate_ui("test_view.review_tag.skipped", default="Reviewing: Skipped")
+        elif in_bm_review:
+            context_label = translate_ui("test_view.review_tag.bookmarked", default="Reviewing: Bookmarked")
+        else:
+            try:
+                threshold = getattr(app_config, "panic_mode_threshold_seconds", 15)
+                if st.session_state.get("test_time_limit", 0):
+                    elapsed_time = (pd.Timestamp.now() - st.session_state.get("start_zeit", pd.Timestamp.now())).total_seconds()
+                    remaining_time_local = max(0, int(st.session_state.get("test_time_limit", 0) - elapsed_time))
+                    if remaining_time_local < remaining * threshold:
+                        context_label = translate_ui("test_view.review_tag.panic", default="Panic mode")
+            except Exception:
+                context_label = None
+    except Exception:
+        context_label = None
+
     with st.container(border=True):
 
         # --- Countdown-Timer ---
@@ -4308,6 +4333,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 display_meta = f"({weight_label}: {gewichtung}{stage_suffix})"
 
             st.markdown(f"**{frage_text_raw}** <span style='color:#888; font-size:0.9em;'>{display_meta}</span>", unsafe_allow_html=True)
+
+        # Context tag under the title for review/panic
+        if context_label:
+            st.caption(f"**{context_label}**")
 
         # Render the weight/stage suffix on the same visual line as before
         try:
