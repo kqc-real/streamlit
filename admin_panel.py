@@ -1697,7 +1697,7 @@ def render_audit_log_tab():
     
     with col2:
         # Cleanup alte Logs
-        with st.expander(translate_ui("admin.expanders.delete_old_logs")):
+        with st.expander(translate_ui("admin.expanders.delete_old_logs", default="🗑️ Alte Logs löschen (DSGVO)")):
             days = st.number_input(translate_ui("admin.audit.delete_older_than", default="Logs älter als (Tage)"), 
                                   min_value=30, max_value=365, value=90, step=30)
             if st.button(translate_ui("admin.audit.delete_button", default="Jetzt löschen"), type="secondary"):
@@ -1706,7 +1706,7 @@ def render_audit_log_tab():
                 st.rerun()
     
     # --- Info-Box ---
-    with st.expander(translate_ui("admin.expanders.about_audit_logging")):
+    with st.expander(translate_ui("admin.expanders.about_audit_logging", default="ℹ️ About Audit Logging")):
         st.markdown(translate_ui("admin.audit_logging.what_is_logged"))
         st.markdown(translate_ui("admin.audit_logging.captured_events"))
         st.markdown(translate_ui("admin.audit_logging.events_list"))
