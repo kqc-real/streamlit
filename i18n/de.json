@@ -111,7 +111,10 @@
                 "speed": "Speed (1/2 Zeit)",
                 "power": "Power (1/4 Zeit)"
             }
-        }
+        },
+        "history_show_all": "Alle anzeigen",
+        "history_show_less": "Weniger anzeigen",
+        "history_show_more": "Mehr anzeigen"
     },
     "tempo": {
         "normal": "Normal",
@@ -129,7 +132,11 @@
             "metrics_glossary": "Glossar der Metriken",
             "delete_single_pseudonym": "Wähle ein Pseudonym:",
             "delete_all_used_pseudonyms": "Alle genutzten Pseudonyme löschen:",
-            "delete_all_reserved_pseudonyms": "Alle reservierten Pseudonyme löschen:"
+            "delete_all_reserved_pseudonyms": "Alle reservierten Pseudonyme löschen:",
+            "delete_all_test_data": "🔴 Alle Testdaten unwiderruflich löschen",
+            "delete_multiple_reports": "🔴 Gefahrenzone: Mehrere Meldungen löschen",
+            "delete_old_logs": "🗑️ Alte Logs löschen (DSGVO)",
+            "about_audit_logging": "ℹ️ Über Audit-Logging"
         },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossare als PDF",
@@ -176,6 +183,12 @@
                 "answers": "Antworten",
                 "correct_pct": "Richtig (%)",
                 "discrimination": "Trennschärfe (r_it)"
+            },
+            "distractor_chart": {
+                "title": "Antwortverteilung",
+                "xaxis": "Anzahl",
+                "yaxis": "Antwortoption",
+                "correct": "Korrekt"
             }
         },
         "distractor_analysis_header": "Detail-Analyse: Distraktoren",
@@ -272,6 +285,14 @@
                     "bar_text": "{score} Pkt<br>({count} Tests)",
                     "hover": "<b>{qset}</b><br>Durchschnitt: {score} Punkte"
                 }
+            },
+            "avg_chart": {
+                "title": "Durchschnittliche Punktzahl nach Fragenset",
+                "xaxis": "Fragenset",
+                "yaxis": "Durchschnittliche Punktzahl",
+                "legend": "Durchschnittliche Punktzahl",
+                "bar_text": "{score} Pkt<br>({count} Tests)",
+                "hover": "<b>{qset}</b><br>Durchschnitt: {score} Punkte"
             }
         },
         "user_results": {
@@ -362,7 +383,8 @@
                     "speed": "Speed (1/2 Zeit)",
                     "power": "Power (1/4 Zeit)"
                 }
-            }
+            },
+            "admin_key_help": "Zur Sicherheit muss der Admin-Key erneut eingegeben werden."
         },
         "messages": {
             "no_answers_recorded": "Noch keine Antworten aufgezeichnet.",
@@ -554,7 +576,10 @@
                 "on_track": "Passt alles.",
                 "significant_delay": "Hoppla, Zeitverzug! Mach bei schweren Fragen schneller oder überspring sie.",
                 "behind": "Du bist zurück. Versuch, das Tempo {degree} anzuziehen."
-            }
+            },
+            "approx_1min": "~1 Min",
+            "avg_time_per_question": "Ø-Zeit pro Frage",
+            "not_1min": "Unter 1 Minute"
         },
         "panic_mode_active": "⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
         "panic_mode_skipped": "⚡ **Panic Mode:** Wartezeit übersprungen.",
@@ -764,7 +789,8 @@
             "questionset": "Set:",
             "generated_at": "Erstellt am:",
             "tempo": "Tempo:",
-            "allowed": "Limit:"
+            "allowed": "Limit:",
+            "topic": "Thema"
         },
         "stat": {
             "correct": "Richtig",
@@ -812,7 +838,12 @@
         },
         "cognition_radar": {
             "explanation_short": "Dein Bloom-Radar zeigt korrekte Antworten pro kognitiver Stufe.\n\nMuster:\n• Bulimie-Lernen (nur Reproduktion): Fakten sitzen, Anwendung fehlt. → Übe Transfer!\n• Oberflächenwissen: Konzepte bekannt, Praxis fehlt. → Fallbeispiele machen.\n• Praktiker (Anwendung hoch): Gute Praxis, Theorielücken. → Grundlagen checken.\n• Analytiker (Analyse hoch): Problemlöser mit Basislücken. → Basics wiederholen.\n• Ausgewogen: Top, weiter so!"
-        }
+        },
+        "topic_chart": {
+            "caption": "Anteil pro Thema (100 % = alle Fragen des Themas)",
+            "title": "Leistung nach Thema"
+        },
+        "unnamed_set": "Unbenanntes Set"
     },
     "mini_glossary": {
         "title": "Begriffe zur Frage",
@@ -1022,7 +1053,8 @@
             "warning": "⚠️ Set leer oder defekt.",
             "summary": {
                 "test_time": "⏱️ Zeit: {minutes} min",
-                "cognition": "🧠 Stufen: {summary}"
+                "cognition": "🧠 Stufen: {summary}",
+                "difficulty": "⛰️ {leicht} × leicht · {mittel} × mittel · {schwer} × schwer"
             },
             "difficulty": {
                 "easy": "Reproduktion",
@@ -1033,7 +1065,8 @@
                 "xaxis": "Thema",
                 "yaxis": "Anzahl Fragen",
                 "legend": "Stufe"
-            }
+            },
+            "empty": "Keine Fragen zum Anzeigen."
         },
         "leaderboard": {
             "title": "🏆 Top 10",
@@ -1041,7 +1074,8 @@
             "column": {
                 "pseudonym": "👤 Pseudonym",
                 "date": "📅 Datum",
-                "duration": "⏱️ Zeit"
+                "duration": "⏱️ Zeit",
+                "score": "Punkte"
             },
             "refreshing": "Lade...",
             "updated": "Aktualisiert",
@@ -1050,7 +1084,9 @@
             "refresh_failed": "Update fehlgeschlagen",
             "tempo_label": "Tempo",
             "tempo_help": "Ranking-Filter",
-            "tempo_all": "Alle"
+            "tempo_all": "Alle",
+            "hidden_runs_fallback": "{count} Durchläufe verborgen: zu kurz (<{min_duration_seconds} s) oder Mindestscore nicht erreicht.",
+            "no_date": "unbekannt"
         },
         "language": {
             "label": "Sprache:",
@@ -1102,9 +1138,39 @@
             "label": "Sortierung:",
             "random": "Zufällig",
             "cognitive_stage": "Nach Schwierigkeit (Stufen)"
-        }
+        },
+        "scoring_default": "Standard-Bewertung: Punkte für richtige Antworten, keine Strafe.",
+        "scoring_positive": "Nur Pluspunkte (falsch = 0)",
+        "sidebar_tip": "Tipp: Nutze die Sidebar zur Navigation.",
+        "start_test_button": "Test starten",
+        "test_intro": "Wähle ein Set und starte, wenn du bereit bist."
     },
     "warnings": {
         "no_config": "⚠️ **Config fehlt!**\n\nErstelle `.env` oder `.streamlit/secrets.toml`.\n\n**Lokal:**\n1. `cp .env.example .env`\n2. Neustart.\n\nSiehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    },
+    "config": {
+        "error": {
+            "config_save_failed": "Konfiguration konnte nicht gespeichert werden.",
+            "invalid_json": "Ungültiges JSON.",
+            "invalid_json_format": "JSON muss Objekt oder Liste sein.",
+            "json_list_required": "JSON-Liste erwartet.",
+            "load_failed": "Konfiguration konnte nicht geladen werden.",
+            "scientists_load_failed": "Wissenschaftler-Liste konnte nicht geladen werden.",
+            "scientists_not_found": "Wissenschaftler-Liste nicht gefunden.",
+            "temp_set_removed": "Temporäres Set entfernt."
+        },
+        "warning": {
+            "html_sanitized": "HTML-Inhalt wurde bereinigt.",
+            "metadata_ignored": "Einige Metadaten wurden ignoriert.",
+            "question_skipped": "Eine Frage wurde wegen Fehlern übersprungen."
+        }
+    },
+    "glossary_no_entries": "Kein Glossar für dieses Set verfügbar.",
+    "performance_chart": {
+        "legend": {
+            "correct": "Richtig",
+            "wrong": "Falsch",
+            "unanswered": "Unbeantwortet"
+        }
     }
 }

@@ -107,7 +107,10 @@
                 "speed": "快速 (1/2 时间)",
                 "power": "强力 (1/4 时间)"
             }
-        }
+        },
+        "history_show_all": "显示全部",
+        "history_show_less": "显示较少",
+        "history_show_more": "显示更多"
     },
     "dialog": {
         "title": "使用 AI 创建题库",
@@ -203,7 +206,10 @@
                 "on_track": "一切顺利。",
                 "significant_delay": "哎呀，延误了！加快速度或跳过难题。",
                 "behind": "您落后了。尝试{degree}加快速度。"
-            }
+            },
+            "approx_1min": "~1 分钟",
+            "avg_time_per_question": "每题平均时间",
+            "not_1min": "少于 1 分钟"
         },
         "panic_mode_active": "⚡ **恐慌模式：** 由于时间紧迫，冷却已禁用。",
         "panic_mode_skipped": "⚡ **恐慌模式：** 等待时间已跳过。",
@@ -337,7 +343,11 @@
             "metrics_glossary": "指标词汇表",
             "delete_single_pseudonym": "选择化名：",
             "delete_all_used_pseudonyms": "删除所有已使用的化名：",
-            "delete_all_reserved_pseudonyms": "删除所有保留的化名："
+            "delete_all_reserved_pseudonyms": "删除所有保留的化名：",
+            "delete_all_test_data": "🔴 不可逆转地删除所有测试数据",
+            "delete_multiple_reports": "🔴 危险区：删除多条反馈",
+            "delete_old_logs": "🗑️ 删除旧日志（GDPR）",
+            "about_audit_logging": "ℹ️ 关于审计日志"
         },
         "dashboard_title": "🛠 管理员仪表板",
         "glossary_header": "📚 PDF 小词汇表",
@@ -384,6 +394,12 @@
                 "answers": "答案",
                 "correct_pct": "正确率 (%)",
                 "discrimination": "区分度 (r_it)"
+            },
+            "distractor_chart": {
+                "title": "答案分布",
+                "xaxis": "数量",
+                "yaxis": "回答选项",
+                "correct": "正确"
             }
         },
         "distractor_analysis_header": "详细分析：干扰项",
@@ -480,6 +496,14 @@
                     "bar_text": "{score} 分<br>({count} 次测试)",
                     "hover": "<b>{qset}</b><br>平均：{score} 分"
                 }
+            },
+            "avg_chart": {
+                "title": "按题库的平均得分",
+                "xaxis": "题库",
+                "yaxis": "平均得分",
+                "legend": "平均得分",
+                "bar_text": "{score} 分<br>({count} 次测试)",
+                "hover": "<b>{qset}</b><br>平均：{score} 分"
             }
         },
         "user_results": {
@@ -570,7 +594,8 @@
                     "speed": "快速 (1/2)",
                     "power": "强力 (1/4)"
                 }
-            }
+            },
+            "admin_key_help": "出于安全，请重新输入管理员密钥。"
         },
         "messages": {
             "no_answers_recorded": "尚未记录任何答案。",
@@ -757,7 +782,8 @@
             "questionset": "题库:",
             "generated_at": "生成于:",
             "tempo": "节奏:",
-            "allowed": "限制:"
+            "allowed": "限制:",
+            "topic": "主题"
         },
         "stat": {
             "correct": "正确",
@@ -805,7 +831,12 @@
             "Verständnis": "理解",
             "Anwendung": "应用",
             "Analyse": "分析"
-        }
+        },
+        "topic_chart": {
+            "caption": "按主题占比（100% = 该主题所有题目）",
+            "title": "按主题表现"
+        },
+        "unnamed_set": "未命名题库"
     },
     "mini_glossary": {
         "title": "\"{name}\" 中的术语",
@@ -1014,7 +1045,8 @@
             "warning": "⚠️ 题库为空或损坏。",
             "summary": {
                 "test_time": "⏱️ 时间: {minutes} 分钟",
-                "cognition": "🧠 阶段: {summary}"
+                "cognition": "🧠 阶段: {summary}",
+                "difficulty": "⛰️ {leicht} × 简单 · {mittel} × 中等 · {schwer} × 困难"
             },
             "difficulty": {
                 "easy": "复现",
@@ -1025,7 +1057,8 @@
                 "xaxis": "主题",
                 "yaxis": "问题",
                 "legend": "阶段"
-            }
+            },
+            "empty": "没有可显示的题目。"
         },
         "leaderboard": {
             "title": "🏆 前 10 名",
@@ -1033,7 +1066,8 @@
             "column": {
                 "pseudonym": "👤 化名",
                 "date": "📅 日期",
-                "duration": "⏱️ 时间"
+                "duration": "⏱️ 时间",
+                "score": "得分"
             },
             "refreshing": "正在加载...",
             "updated": "已更新",
@@ -1042,7 +1076,9 @@
             "refresh_failed": "刷新失败",
             "tempo_label": "节奏",
             "tempo_help": "排名过滤器",
-            "tempo_all": "全部"
+            "tempo_all": "全部",
+            "hidden_runs_fallback": "{count} 次运行被隐藏：太短（<{min_duration_seconds} 秒）或未达最低分。",
+            "no_date": "未知"
         },
         "language": {
             "label": "语言:",
@@ -1094,9 +1130,39 @@
             "label": "排序方式:",
             "random": "随机",
             "cognitive_stage": "难度 (阶段)"
-        }
+        },
+        "scoring_default": "默认评分：答对得分，无扣分。",
+        "scoring_positive": "仅加分（错误 = 0）",
+        "sidebar_tip": "提示：使用侧边栏导航。",
+        "start_test_button": "开始测试",
+        "test_intro": "选择题库，准备好就开始。"
     },
     "warnings": {
         "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 INSTALLATION_ANLEITUNG.md"
+    },
+    "config": {
+        "error": {
+            "config_save_failed": "无法保存配置。",
+            "invalid_json": "无效的 JSON。",
+            "invalid_json_format": "JSON 必须是对象或列表。",
+            "json_list_required": "需要 JSON 列表。",
+            "load_failed": "无法加载配置。",
+            "scientists_load_failed": "无法加载科学家列表。",
+            "scientists_not_found": "未找到科学家列表。",
+            "temp_set_removed": "临时题库已移除。"
+        },
+        "warning": {
+            "html_sanitized": "HTML 内容已净化。",
+            "metadata_ignored": "部分元数据被忽略。",
+            "question_skipped": "有题目因错误被跳过。"
+        }
+    },
+    "glossary_no_entries": "此题库暂无词汇表。",
+    "performance_chart": {
+        "legend": {
+            "correct": "正确",
+            "wrong": "错误",
+            "unanswered": "未答"
+        }
     }
 }

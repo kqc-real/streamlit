@@ -110,7 +110,10 @@
                 "speed": "Speed (1/2 time)",
                 "power": "Power (1/4 time)"
             }
-        }
+        },
+        "history_show_all": "Show all",
+        "history_show_less": "Show less",
+        "history_show_more": "Show more"
     },
     "dialog": {
         "title": "Create Set with AI",
@@ -206,7 +209,10 @@
                 "on_track": "All good.",
                 "significant_delay": "Whoops, delaying! Speed up or skip hard ones.",
                 "behind": "You're behind. Try to speed up {degree}."
-            }
+            },
+            "approx_1min": "~1 min",
+            "avg_time_per_question": "Avg. time per question",
+            "not_1min": "Less than 1 minute"
         },
         "panic_mode_active": "⚡ **Panic Mode:** Cooldowns disabled due to time pressure.",
         "panic_mode_skipped": "⚡ **Panic Mode:** Wait time skipped.",
@@ -340,7 +346,11 @@
             "metrics_glossary": "Glossary of Metrics",
             "delete_single_pseudonym": "Select a pseudonym:",
             "delete_all_used_pseudonyms": "Delete all used pseudonyms:",
-            "delete_all_reserved_pseudonyms": "Delete all reserved pseudonyms:"
+            "delete_all_reserved_pseudonyms": "Delete all reserved pseudonyms:",
+            "delete_all_test_data": "🔴 Delete all test data irreversibly",
+            "delete_multiple_reports": "🔴 Danger Zone: Delete multiple reports",
+            "delete_old_logs": "🗑️ Delete old logs (GDPR)",
+            "about_audit_logging": "ℹ️ About Audit Logging"
         },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossaries as PDF",
@@ -387,6 +397,12 @@
                 "answers": "Answers",
                 "correct_pct": "Correct (%)",
                 "discrimination": "Discrimination (r_it)"
+            },
+            "distractor_chart": {
+                "title": "Answer distribution",
+                "xaxis": "Count",
+                "yaxis": "Answer option",
+                "correct": "Correct"
             }
         },
         "distractor_analysis_header": "Detail Analysis: Distractors",
@@ -483,6 +499,14 @@
                     "bar_text": "{score} pts<br>({count} tests)",
                     "hover": "<b>{qset}</b><br>Average: {score} points"
                 }
+            },
+            "avg_chart": {
+                "title": "Average Score by Question Set",
+                "xaxis": "Question Set",
+                "yaxis": "Average Score",
+                "legend": "Average score",
+                "bar_text": "{score} pts<br>({count} tests)",
+                "hover": "<b>{qset}</b><br>Average: {score} points"
             }
         },
         "user_results": {
@@ -573,7 +597,8 @@
                     "speed": "Speed (1/2)",
                     "power": "Power (1/4)"
                 }
-            }
+            },
+            "admin_key_help": "For safety, re-enter the admin key."
         },
         "messages": {
             "no_answers_recorded": "No answers recorded yet.",
@@ -760,7 +785,8 @@
             "questionset": "Set:",
             "generated_at": "Generated:",
             "tempo": "Pace:",
-            "allowed": "Limit:"
+            "allowed": "Limit:",
+            "topic": "Topic"
         },
         "stat": {
             "correct": "Correct",
@@ -808,7 +834,12 @@
             "Verständnis": "Understanding",
             "Anwendung": "Application",
             "Analyse": "Analysis"
-        }
+        },
+        "topic_chart": {
+            "caption": "Share per topic (100% = all questions in topic)",
+            "title": "Performance by Topic"
+        },
+        "unnamed_set": "Unnamed set"
     },
     "mini_glossary": {
         "title": "Terms in \"{name}\"",
@@ -1017,7 +1048,8 @@
             "warning": "⚠️ Set empty or broken.",
             "summary": {
                 "test_time": "⏱️ Time: {minutes} min",
-                "cognition": "🧠 Stages: {summary}"
+                "cognition": "🧠 Stages: {summary}",
+                "difficulty": "⛰️ {leicht} × easy · {mittel} × medium · {schwer} × hard"
             },
             "difficulty": {
                 "easy": "Reproduction",
@@ -1028,7 +1060,8 @@
                 "xaxis": "Topic",
                 "yaxis": "Questions",
                 "legend": "Stage"
-            }
+            },
+            "empty": "No questions to display."
         },
         "leaderboard": {
             "title": "🏆 Top 10",
@@ -1036,7 +1069,8 @@
             "column": {
                 "pseudonym": "👤 Pseudonym",
                 "date": "📅 Date",
-                "duration": "⏱️ Time"
+                "duration": "⏱️ Time",
+                "score": "Score"
             },
             "refreshing": "Loading...",
             "updated": "Updated",
@@ -1045,7 +1079,9 @@
             "refresh_failed": "Refresh failed",
             "tempo_label": "Pace",
             "tempo_help": "Ranking Filter",
-            "tempo_all": "All"
+            "tempo_all": "All",
+            "hidden_runs_fallback": "{count} runs hidden: either too short (<{min_duration_seconds} s) or minimum score not reached.",
+            "no_date": "unknown"
         },
         "language": {
             "label": "Language:",
@@ -1097,9 +1133,39 @@
             "label": "Sort by:",
             "random": "Random",
             "cognitive_stage": "Difficulty (Stage)"
-        }
+        },
+        "scoring_default": "Default scoring: +points for correct, no penalty.",
+        "scoring_positive": "Positive only (wrong = 0)",
+        "sidebar_tip": "Tip: Use the sidebar to navigate.",
+        "start_test_button": "Start test",
+        "test_intro": "Choose a set and start when ready."
     },
     "warnings": {
         "no_config": "⚠️ **Config missing!**\n\nCreate `.env` or `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Restart.\n\nSee [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    },
+    "config": {
+        "error": {
+            "config_save_failed": "Config could not be saved.",
+            "invalid_json": "Invalid JSON input.",
+            "invalid_json_format": "JSON must be an object or list.",
+            "json_list_required": "Expected a JSON list.",
+            "load_failed": "Configuration could not be loaded.",
+            "scientists_load_failed": "Scientist list could not be loaded.",
+            "scientists_not_found": "Scientist list not found.",
+            "temp_set_removed": "Temporary set removed."
+        },
+        "warning": {
+            "html_sanitized": "HTML content was sanitized.",
+            "metadata_ignored": "Some metadata entries were ignored.",
+            "question_skipped": "A question was skipped due to errors."
+        }
+    },
+    "glossary_no_entries": "No glossary available for this set.",
+    "performance_chart": {
+        "legend": {
+            "correct": "Correct",
+            "wrong": "Wrong",
+            "unanswered": "Unanswered"
+        }
     }
 }

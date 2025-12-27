@@ -24,7 +24,11 @@
             "metrics_glossary": "Glossario delle metriche",
             "delete_single_pseudonym": "Seleziona uno pseudonimo:",
             "delete_all_used_pseudonyms": "Elimina tutti gli pseudonimi usati:",
-            "delete_all_reserved_pseudonyms": "Elimina tutti gli pseudonimi riservati:"
+            "delete_all_reserved_pseudonyms": "Elimina tutti gli pseudonimi riservati:",
+            "delete_all_test_data": "🔴 Elimina tutti i dati di test in modo irreversibile",
+            "delete_multiple_reports": "🔴 Zona pericolosa: elimina più segnalazioni",
+            "delete_old_logs": "🗑️ Elimina log vecchi (GDPR)",
+            "about_audit_logging": "ℹ️ Informazioni su Audit Logging"
         },
         "dashboard_title": "🛠 Dashboard amministratore",
         "glossary_header": "📚 Mini-glossari in PDF",
@@ -71,6 +75,12 @@
                 "answers": "Risposte",
                 "correct_pct": "Corretto (%)",
                 "discrimination": "Discriminazione (r_it)"
+            },
+            "distractor_chart": {
+                "title": "Distribuzione risposte",
+                "xaxis": "Quantità",
+                "yaxis": "Opzione di risposta",
+                "correct": "Corretta"
             }
         },
         "distractor_analysis_header": "Analisi dettagliata: Distrattori",
@@ -167,6 +177,14 @@
                     "bar_text": "{score} pt<br>({count} test)",
                     "hover": "<b>{qset}</b><br>Media: {score} punti"
                 }
+            },
+            "avg_chart": {
+                "title": "Punteggio medio per set di domande",
+                "xaxis": "Set di domande",
+                "yaxis": "Punteggio medio",
+                "legend": "Punteggio medio",
+                "bar_text": "{score} pt<br>({count} test)",
+                "hover": "<b>{qset}</b><br>Media: {score} punti"
             }
         },
         "user_results": {
@@ -257,7 +275,8 @@
                     "speed": "Veloce (1/2 tempo)",
                     "power": "Intenso (1/4 tempo)"
                 }
-            }
+            },
+            "admin_key_help": "Per sicurezza reinserisci la chiave admin."
         },
         "messages": {
             "no_answers_recorded": "Ancora nessuna risposta registrata.",
@@ -459,7 +478,10 @@
                 "speed": "Speed (1/2 tempo)",
                 "power": "Power (1/4 tempo)"
             }
-        }
+        },
+        "history_show_all": "Mostra tutto",
+        "history_show_less": "Mostra meno",
+        "history_show_more": "Mostra di più"
     },
     "dialog": {
         "title": "Crea set con IA",
@@ -554,7 +576,10 @@
                 "on_track": "Tutto ok.",
                 "significant_delay": "Ops, ritardo! Accelera o salta le difficili.",
                 "behind": "Sei in ritardo. Prova ad accelerare {degree}."
-            }
+            },
+            "approx_1min": "~1 min",
+            "avg_time_per_question": "Tempo medio per domanda",
+            "not_1min": "Meno di 1 minuto"
         },
         "panic_mode_active": "⚡ **Panic Mode:** Cooldown disabilitati per mancanza di tempo.",
         "panic_mode_skipped": "⚡ **Panic Mode:** Tempo di attesa saltato.",
@@ -761,7 +786,8 @@
             "questionset": "Set:",
             "generated_at": "Generato:",
             "tempo": "Tempo:",
-            "allowed": "Limite:"
+            "allowed": "Limite:",
+            "topic": "Argomento"
         },
         "stat": {
             "correct": "Giusto",
@@ -809,7 +835,12 @@
             "Verständnis": "Comprensione",
             "Anwendung": "Applicazione",
             "Analyse": "Analisi"
-        }
+        },
+        "topic_chart": {
+            "caption": "Quota per argomento (100% = tutte le domande dellargomento)",
+            "title": "Performance per argomento"
+        },
+        "unnamed_set": "Set senza nome"
     },
     "mini_glossary": {
         "title": "Termini: \"{name}\"",
@@ -1018,7 +1049,8 @@
             "warning": "⚠️ Set vuoto o rotto.",
             "summary": {
                 "test_time": "⏱️ Tempo: {minutes} min",
-                "cognition": "🧠 Livelli: {summary}"
+                "cognition": "🧠 Livelli: {summary}",
+                "difficulty": "⛰️ {leicht} × facile · {mittel} × medio · {schwer} × difficile"
             },
             "difficulty": {
                 "easy": "Riproduzione",
@@ -1029,7 +1061,8 @@
                 "xaxis": "Argomento",
                 "yaxis": "Domande",
                 "legend": "Livello"
-            }
+            },
+            "empty": "Nessuna domanda da mostrare."
         },
         "leaderboard": {
             "title": "🏆 Top 10",
@@ -1037,7 +1070,8 @@
             "column": {
                 "pseudonym": "👤 Alias",
                 "date": "📅 Data",
-                "duration": "⏱️ Tempo"
+                "duration": "⏱️ Tempo",
+                "score": "Punteggio"
             },
             "refreshing": "Caricamento...",
             "updated": "Aggiornato",
@@ -1046,7 +1080,9 @@
             "refresh_failed": "Aggiornamento fallito",
             "tempo_label": "Tempo",
             "tempo_help": "Filtro Classifica",
-            "tempo_all": "Tutti"
+            "tempo_all": "Tutti",
+            "hidden_runs_fallback": "{count} tentativi nascosti: troppo brevi (<{min_duration_seconds} s) o punteggio minimo non raggiunto.",
+            "no_date": "sconosciuto"
         },
         "language": {
             "label": "Lingua:",
@@ -1098,9 +1134,39 @@
             "label": "Ordina per:",
             "random": "Casuale",
             "cognitive_stage": "Difficoltà (Livello)"
-        }
+        },
+        "scoring_default": "Punteggio predefinito: punti per risposte corrette, nessuna penalità.",
+        "scoring_positive": "Solo punti positivi (sbagliato = 0)",
+        "sidebar_tip": "Suggerimento: usa la sidebar per navigare.",
+        "start_test_button": "Avvia test",
+        "test_intro": "Scegli un set e inizia quando sei pronto."
     },
     "warnings": {
         "no_config": "⚠️ **Config mancante!**\n\nCrea `.env` o `.streamlit/secrets.toml`.\n\n**Locale:**\n1. `cp .env.example .env`\n2. Riavvia.\n\nVedi [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    },
+    "config": {
+        "error": {
+            "config_save_failed": "Impossibile salvare la configurazione.",
+            "invalid_json": "JSON non valido.",
+            "invalid_json_format": "Il JSON deve essere un oggetto o una lista.",
+            "json_list_required": "Era richiesta una lista JSON.",
+            "load_failed": "Impossibile caricare la configurazione.",
+            "scientists_load_failed": "Impossibile caricare la lista degli scienziati.",
+            "scientists_not_found": "Lista degli scienziati non trovata.",
+            "temp_set_removed": "Set temporaneo rimosso."
+        },
+        "warning": {
+            "html_sanitized": "Contenuto HTML sanificato.",
+            "metadata_ignored": "Alcuni metadati sono stati ignorati.",
+            "question_skipped": "Una domanda è stata saltata per errori."
+        }
+    },
+    "glossary_no_entries": "Nessun glossario disponibile per questo set.",
+    "performance_chart": {
+        "legend": {
+            "correct": "Corretto",
+            "wrong": "Errato",
+            "unanswered": "Non risposto"
+        }
     }
 }
