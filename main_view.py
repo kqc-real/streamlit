@@ -4413,7 +4413,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 if remaining_time < min_required_time:
                     remaining_answer_cooldown = 0
                     panic_mode = True
-                st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
+                if panic_mode:
+                    st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
             except Exception:
                 pass
             col1, col2, col3 = st.columns([1, 1, 1])
