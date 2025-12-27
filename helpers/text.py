@@ -8,6 +8,13 @@ from html.parser import HTMLParser
 from typing import Optional, Union
 import html as _html
 
+# Reusable date/time format presets (numeric, locale-adjusted in format_datetime_locale)
+FMT_DATETIME_SECONDS = "%d.%m.%Y %H:%M:%S"
+FMT_DATETIME = "%d.%m.%Y %H:%M"
+FMT_DATETIME_SHORT_YEAR = "%d.%m.%y %H:%M"
+FMT_DATE = "%d.%m.%Y"
+FMT_DATE_SHORT = "%d.%m.%y"
+
 SAFE_HTML_TAGS = {
     "b",
     "strong",
@@ -286,7 +293,7 @@ def load_markdown_file(path: str) -> str | None:
         return None
 
 
-def format_datetime_locale(ts, fmt: str = '%d.%m.%Y %H:%M:%S', locale: str | None = None):
+def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | None = None):
     """Format timestamps according to the active UI locale.
 
     - Accepts pandas Series, pandas/py datetime, ISO strings, or epoch numbers.
@@ -306,11 +313,11 @@ def format_datetime_locale(ts, fmt: str = '%d.%m.%Y %H:%M:%S', locale: str | Non
         locale_code = "en"
 
     _STYLE_ALIASES = {
-        "%d.%m.%Y %H:%M:%S": "datetime_seconds",
-        "%d.%m.%Y %H:%M": "datetime",
-        "%d.%m.%y %H:%M": "datetime_short_year",
-        "%d.%m.%Y": "date",
-        "%d.%m.%y": "date_short",
+        FMT_DATETIME_SECONDS: "datetime_seconds",
+        FMT_DATETIME: "datetime",
+        FMT_DATETIME_SHORT_YEAR: "datetime_short_year",
+        FMT_DATE: "date",
+        FMT_DATE_SHORT: "date_short",
     }
     _STYLE_FORMATS = {
         "datetime_seconds": {
@@ -447,19 +454,21 @@ def format_datetime_locale(ts, fmt: str = '%d.%m.%Y %H:%M:%S', locale: str | Non
     except Exception:
         pass
 
-    try:
-        from babel.dates import format_datetime as _babel_format
+    # Prefer explicit format strings; only use Babel when no format was requested.
+    if fmt is None:
+        try:
+            from babel.dates import format_datetime as _babel_format
 
-        babel_style = "medium"
-        if style in ("date", "date_short"):
             babel_style = "medium"
-        elif style in ("datetime", "datetime_short_year"):
-            babel_style = "medium"
-        elif style == "datetime_seconds":
-            babel_style = "long"
-        return _babel_format(dt, format=babel_style, locale=locale_code)
-    except Exception:
-        pass
+            if style in ("date", "date_short"):
+                babel_style = "medium"
+            elif style in ("datetime", "datetime_short_year"):
+                babel_style = "medium"
+            elif style == "datetime_seconds":
+                babel_style = "long"
+            return _babel_format(dt, format=babel_style, locale=locale_code)
+        except Exception:
+            pass
 
     try:
         return dt.strftime(fmt_to_use)

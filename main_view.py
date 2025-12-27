@@ -976,10 +976,10 @@ def _render_history_table(history_rows, filename_base: str):
     # Format common columns for a friendlier display
     if 'start_time' in df.columns:
         try:
-            from helpers.text import format_datetime_locale
+            from helpers.text import format_datetime_locale, FMT_DATETIME
 
             def _format_start_time(val):
-                formatted = format_datetime_locale(val, fmt="%d.%m.%Y %H:%M")
+                formatted = format_datetime_locale(val, fmt=FMT_DATETIME)
                 return formatted if formatted else "-"
 
             df['Datum'] = df['start_time'].apply(_format_start_time)
@@ -2098,9 +2098,9 @@ def render_welcome_page(app_config: AppConfig):
             uploaded_at = info.uploaded_at
             if uploaded_at:
                 try:
-                    from helpers.text import format_datetime_locale
+                    from helpers.text import format_datetime_locale, FMT_DATETIME_SHORT_YEAR
 
-                    label += f" 📅 {format_datetime_locale(uploaded_at, fmt='%d.%m.%y %H:%M')}"
+                    label += f" 📅 {format_datetime_locale(uploaded_at, fmt=FMT_DATETIME_SHORT_YEAR)}"
                 except Exception:
                     pass
             return label
@@ -2114,9 +2114,9 @@ def render_welcome_page(app_config: AppConfig):
             meta_date = question_set.meta.get("modified") or question_set.meta.get("created")
             if meta_date:
                 try:
-                    from helpers.text import format_datetime_locale
+                    from helpers.text import format_datetime_locale, FMT_DATE_SHORT
 
-                    date_str = format_datetime_locale(meta_date, fmt="%d.%m.%y")
+                    date_str = format_datetime_locale(meta_date, fmt=FMT_DATE_SHORT)
                 except Exception:
                     try:
                         import re
@@ -2647,7 +2647,7 @@ def render_welcome_page(app_config: AppConfig):
                 last_ts = st.session_state.get(last_key)
                 if last_ts:
                     try:
-                        from helpers.text import format_datetime_locale
+                        from helpers.text import format_datetime_locale, FMT_DATETIME
                         # Parse stored ISO timestamp defensively
                         import pandas as _pd
                         parsed = _pd.to_datetime(last_ts, utc=True, errors='coerce')
@@ -2656,7 +2656,7 @@ def render_welcome_page(app_config: AppConfig):
                                 translate_ui(
                                     "welcome.leaderboard.last_updated",
                                     default="Zuletzt aktualisiert: {ts}"
-                                ).format(ts=format_datetime_locale(parsed, fmt='%d.%m.%Y %H:%M'))
+                                ).format(ts=format_datetime_locale(parsed, fmt=FMT_DATETIME))
                             )
                         else:
                             st.caption(
@@ -2803,7 +2803,7 @@ def render_welcome_page(app_config: AppConfig):
                 # Show the date of the most recent recorded session (if any).
                 try:
                     import pandas as _pd
-                    from helpers.text import format_datetime_locale
+                    from helpers.text import format_datetime_locale, FMT_DATE
 
                     # Collect timestamps from leaderboard rows and parse defensively
                     dates = _pd.to_datetime(
@@ -2811,7 +2811,7 @@ def render_welcome_page(app_config: AppConfig):
                     )
                     last_dt = dates.max() if not dates.empty else None
                     if last_dt is not None and not _pd.isna(last_dt):
-                        caption_date = format_datetime_locale(last_dt, fmt='%d.%m.%Y')
+                        caption_date = format_datetime_locale(last_dt, fmt=FMT_DATE)
                     else:
                         caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
                 except Exception:
@@ -2943,9 +2943,9 @@ def render_welcome_page(app_config: AppConfig):
                         parsed = pd.to_datetime(scores['last_test_time'], utc=True, errors='coerce')
                         last_dt = parsed.max()
                         if pd.notna(last_dt):
-                            from helpers.text import format_datetime_locale
+                            from helpers.text import format_datetime_locale, FMT_DATE
 
-                            caption_date = format_datetime_locale(last_dt, fmt='%d.%m.%Y')
+                            caption_date = format_datetime_locale(last_dt, fmt=FMT_DATE)
                 except Exception:
                     caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
 
@@ -2975,14 +2975,14 @@ def render_welcome_page(app_config: AppConfig):
 
                     # Formatiere das Datum
                     try:
-                        from helpers.text import format_datetime_locale
+                        from helpers.text import format_datetime_locale, FMT_DATE_SHORT
 
-                        scores["last_test_time"] = format_datetime_locale(scores["last_test_time"], fmt='%d.%m.%y')
+                        scores["last_test_time"] = format_datetime_locale(scores["last_test_time"], fmt=FMT_DATE_SHORT)
                     except Exception:
                         from helpers.text import format_datetime_locale
 
                         scores["last_test_time"] = scores["last_test_time"].apply(
-                            lambda v: format_datetime_locale(v, fmt='%d.%m.%y')
+                            lambda v: format_datetime_locale(v, fmt=FMT_DATE_SHORT)
                         )
 
                     # Spalten für Anzeige umbenennen
@@ -3422,8 +3422,8 @@ def render_welcome_page(app_config: AppConfig):
                                     window_minutes=getattr(cfg, 'rate_limit_window_minutes', 5),
                                 )
                                 if not allowed:
-                                    from helpers.text import format_datetime_locale
-                                    locked_until_str = format_datetime_locale(locked_until, fmt='%d.%m.%Y %H:%M')
+                                    from helpers.text import format_datetime_locale, FMT_DATETIME
+                                    locked_until_str = format_datetime_locale(locked_until, fmt=FMT_DATETIME)
                                     st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_locked(locked_until_str))
                                     log_login_attempt(pseudonym_recover, success=False)
                                     st.rerun()

@@ -547,11 +547,21 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         )
 
         try:
-            from helpers.text import format_datetime_locale
-
-            scores[date_col] = format_datetime_locale(scores[date_col], fmt="%d.%m.%y")
+            from helpers.text import format_datetime_locale, FMT_DATE_SHORT
         except Exception:
-            scores[date_col] = scores[date_col].dt.strftime("%d.%m.%y")
+            format_datetime_locale = None  # type: ignore[assignment]
+            FMT_DATE_SHORT = "%d.%m.%y"  # type: ignore[assignment]
+
+        if format_datetime_locale:
+            try:
+                scores[date_col] = format_datetime_locale(scores[date_col], fmt=FMT_DATE_SHORT)
+            except Exception:
+                scores[date_col] = format_datetime_locale(
+                    pd.to_datetime(scores[date_col], format="ISO8601", utc=True, errors="coerce"),
+                    fmt=FMT_DATE_SHORT,
+                )
+        else:
+            scores[date_col] = scores[date_col].dt.strftime(FMT_DATE_SHORT)
         
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
@@ -904,13 +914,29 @@ def render_feedback_tab():
 
     df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row[translate_ui("admin.feedback.columns.set", default="Fragenset")], row[translate_ui("admin.feedback.columns.question_nr", default="Frage-Nr.")]), translate_ui("admin.feedback.question_not_found", default="Frage nicht gefunden")), axis=1)
     try:
-        from helpers.text import format_datetime_locale
-
-        df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = format_datetime_locale(df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], fmt='%d.%m.%Y %H:%M')
+        from helpers.text import format_datetime_locale, FMT_DATETIME
     except Exception:
-        df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = pd.to_datetime(
-            df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], format='ISO8601', utc=True, errors='coerce'
-        ).dt.strftime('%d.%m.%Y %H:%M')
+        format_datetime_locale = None  # type: ignore[assignment]
+        FMT_DATETIME = "%d.%m.%Y %H:%M"  # type: ignore[assignment]
+
+    date_col_name = translate_ui("admin.feedback.columns.date", default="Gemeldet am")
+    if format_datetime_locale:
+        try:
+            df_feedback[date_col_name] = format_datetime_locale(df_feedback[date_col_name], fmt=FMT_DATETIME)
+        except Exception:
+            df_feedback[date_col_name] = format_datetime_locale(
+                pd.to_datetime(
+                    df_feedback[date_col_name],
+                    format='ISO8601',
+                    utc=True,
+                    errors='coerce'
+                ),
+                fmt=FMT_DATETIME,
+            )
+    else:
+        df_feedback[date_col_name] = pd.to_datetime(
+            df_feedback[date_col_name], format='ISO8601', utc=True, errors='coerce'
+        ).dt.strftime(FMT_DATETIME)
 
     # Ersetze das starre Dataframe durch eine interaktive Liste mit Buttons
     for _, row in df_feedback.iterrows():
