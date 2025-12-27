@@ -464,7 +464,7 @@
         "bookmarks_disabled": "Sauts désactivés après le test.",
         "bookmarks_jump_help": "Aller à la question",
         "bookmarks_remove_help": "Retirer",
-        "bookmarks_clear": "🗑️ Tout vider",
+        "bookmarks_clear": "🗑️ Vider la liste",
         "skipped_expander": "↪️ Sautées",
         "skipped_empty": "Aucune question sautée.",
         "skipped_disabled": "Sauts désactivés après le test.",
