@@ -1,10 +1,5 @@
 {
     "app": {
-        "title": "Export Quiz",
-        "subtitle": "Gère & analyse tes quiz",
-        "dialog_multiple_warning": "Un seul dialogue autorisé à la fois. Veuillez fermer les dialogues ouverts et réessayer."
-    },
-    "app": {
         "warning": {
             "locale_not_found": "Aucune locale appropriée trouvée pour le tri correct. Les trémas peuvent être mal triés."
         },
@@ -168,6 +163,7 @@
                     "title": "Score moyen par ensemble de questions",
                     "xaxis": "Ensemble de questions",
                     "yaxis": "Score moyen",
+                    "legend": "Score moyen",
                     "bar_text": "{score} pts<br>({count} tests)",
                     "hover": "<b>{qset}</b><br>Moyenne : {score} points"
                 }
@@ -200,6 +196,7 @@
             "total_entries": "Total des entrées",
             "successful": "Réussi",
             "failed": "Échoué",
+            "all_label": "Tous",
             "quick_views": "Vues rapides",
             "quick_cleanup": "🔎 Événements de nettoyage",
             "show_all": "🔁 Tout afficher",
@@ -286,7 +283,6 @@
             "reset_user_results_wrong_key": "🔒 Clé admin incorrecte. Suppression annulée.",
             "delete_feedback_error": "Erreur lors de la suppression des messages.",
             "delete_feedback_success": "{count} messages de feedback ont été supprimés.",
-            "delete_feedback_error": "Erreur lors de la suppression des messages.",
             "delete_single_feedback_success": "Feedback supprimé.",
             "delete_single_feedback_error": "Erreur lors de la suppression.",
             "delete_reserved_pseudonym_success": "Pseudonyme réservé '{name}' supprimé.",
@@ -305,6 +301,12 @@
                 "delete_all_test_data": "🔴 Supprimer toutes les données de test de manière irréversible",
                 "delete_old_logs": "🗑️ Supprimer les anciens logs (GDPR)",
                 "about_audit_logging": "ℹ️ À propos de l'audit logging"
+            },
+            "distractor_chart": {
+                "title": "Répartition des réponses",
+                "xaxis": "Nombre",
+                "yaxis": "Option de réponse",
+                "correct": "Correct"
             },
             "no_completed_tests": "Aucun test terminé disponible pour le moment. Les statistiques seront affichées après les premiers tests."
         },
@@ -536,13 +538,6 @@
             "cooldown_remaining": "(encore {seconds}s)"
         },
         "pacing": {
-            "avg_time_per_question": "Temps moyen restant par question : {seconds} s",
-            "approx_1min": " — env. 1 min/question (poids 3)",
-            "not_1min": " — pas 1 min/question"
-        },
-        "panic_mode_active": "⚡ **Mode Panique :** Délais désactivés en raison du manque de temps.",
-        "panic_mode_skipped": "⚡ **Mode Panique :** Temps d'attente ignoré.",
-        "pacing": {
             "ahead": "En avance",
             "on_track": "Dans les temps",
             "slightly_behind": "Léger retard",
@@ -560,6 +555,8 @@
                 "behind": "T'es en retard. Essaie d'accélérer {degree}."
             }
         },
+        "panic_mode_active": "⚡ **Mode Panique :** Délais désactivés en raison du manque de temps.",
+        "panic_mode_skipped": "⚡ **Mode Panique :** Temps d'attente ignoré.",
         "pseudonym_welcome": "**Salut {user} !** Retiens bien ton pseudo exact.",
         "question_set_change_warning": "⚠️ Changement de set, je redémarre..."
     },
@@ -853,6 +850,7 @@
         "review_label_unanswered": "(vide)",
         "performance_explanation_expander": "Comprendre le graphique",
         "performance_chart": {
+            "label": "{topic} ({answered}/{total})",
             "xaxis": "Sujet (répondu/total)",
             "yaxis": "Perf (%)",
             "hover": {

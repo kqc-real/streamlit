@@ -18,7 +18,7 @@ from markdown_it import MarkdownIt
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
-from helpers.text import format_decimal_de, smart_quotes_de, normalize_detailed_explanation
+from helpers.text import format_decimal_locale, smart_quotes_de, normalize_detailed_explanation
 from i18n.context import t as translate_ui
 import os
 import logging
@@ -1666,7 +1666,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         except Exception:
             generated_at_str = format_datetime_locale(datetime.now(), fmt=FMT_DATETIME)
     else:
-        generated_at_str = datetime.now().strftime(FMT_DATETIME)
+        generated_at_str = datetime.now().isoformat(timespec="minutes")
 
     # Ensure tests or environments without a fully-featured streamlit
     # module still work: provide a safe session_state dict if missing.
@@ -2415,11 +2415,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         stage_html += '<tbody>'
         for label, ratio_text, percent_value in stage_rows:
             translated_label = translate_ui(f"pdf.stage_name.{label}", default=label)
+            percent_str = format_decimal_locale(percent_value, 0)
             stage_html += (
                 f'<tr>'
                 f'<th scope="row">{_html.escape(translated_label)}</th>'
                 f'<td>{ratio_text}</td>'
-                f'<td class="quota-cell">{percent_value:.0f} %</td>'
+                f'<td class="quota-cell">{percent_str} %</td>'
                 f'</tr>'
             )
         stage_html += '</tbody></table></div>'
@@ -2449,12 +2450,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             '</tr></thead>'
         )
         comparison_html += '<tbody>'
-        diff_value_str = format_decimal_de(abs(diff_value), 1)
+        diff_value_str = format_decimal_locale(abs(diff_value), 1)
+        prozent_str = format_decimal_locale(prozent, 0)
+        avg_percent_str = format_decimal_locale(avg_stats["avg_percent"], 0)
         comparison_html += (
             f'<tr>'
             f'<th scope="row">{translate_ui("pdf.comparison.row.overall", default="Gesamtergebnis")}</th>'
-            f'<td>{prozent:.0f} %</td>'
-            f'<td>{avg_stats["avg_percent"]:.0f} %</td>'
+            f'<td>{prozent_str} %</td>'
+            f'<td>{avg_percent_str} %</td>'
             f'<td class="diff-cell {diff_class}">{diff_symbol} {diff_value_str} % {diff_phrase}</td>'
             f'</tr>'
         )
@@ -2521,12 +2524,14 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 comparison_html += '<tbody>'
                 for label, user_percent, avg_percent, diff in difficulty_comparison_rows:
                     diff_class, diff_symbol, diff_phrase = _diff_meta(diff)
-                    diff_str = format_decimal_de(abs(diff), 1)
+                    diff_str = format_decimal_locale(abs(diff), 1)
+                    user_percent_str = format_decimal_locale(user_percent, 0)
+                    avg_percent_str = format_decimal_locale(avg_percent, 0)
                     comparison_html += (
                         f'<tr>'
                         f'<th scope="row">{label}</th>'
-                        f'<td>{user_percent:.0f} %</td>'
-                        f'<td>{avg_percent:.0f} %</td>'
+                        f'<td>{user_percent_str} %</td>'
+                        f'<td>{avg_percent_str} %</td>'
                         f'<td class="diff-cell {diff_class}">{diff_symbol} {diff_str} % {diff_phrase}</td>'
                         f'</tr>'
                     )
@@ -2666,7 +2671,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         topics_chart_html = ''
 
     # Baue den HTML-Body mit professionellem Header
-    score_percent_str = format_decimal_de(prozent, 1)
+    score_percent_str = format_decimal_locale(prozent, 1)
     
     rank_html = ''
     if user_rank:
@@ -3547,7 +3552,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         except Exception:
             generated_at = format_datetime_locale(datetime.now(), fmt=FMT_DATE)
     else:
-        generated_at = datetime.now().strftime(FMT_DATE)
+        generated_at = datetime.now().date().isoformat()
     theme_items = sorted(glossary_by_theme.items(), key=lambda x: x[0].casefold())
 
     # Paginierung konfigurieren
@@ -3745,7 +3750,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         except Exception:
             generated_at = format_datetime_locale(datetime.now(), fmt=FMT_DATETIME)
     else:
-        generated_at = datetime.now().strftime(FMT_DATETIME)
+        generated_at = datetime.now().isoformat(timespec="minutes")
 
     # Ensure canonical question schema for this run too
     def normalize_question_schema(q: Dict[str, Any]) -> Dict[str, Any]:

@@ -1,10 +1,5 @@
 {
     "app": {
-        "title": "Quiz-Export",
-        "subtitle": "Quizze managen & auswerten",
-        "dialog_multiple_warning": "Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut."
-    },
-    "app": {
         "warning": {
             "locale_not_found": "Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert."
         },
@@ -273,6 +268,7 @@
                     "title": "Durchschnittliche Punktzahl nach Fragenset",
                     "xaxis": "Fragenset",
                     "yaxis": "Durchschnittliche Punktzahl",
+                    "legend": "Durchschnittliche Punktzahl",
                     "bar_text": "{score} Pkt<br>({count} Tests)",
                     "hover": "<b>{qset}</b><br>Durchschnitt: {score} Punkte"
                 }
@@ -305,6 +301,7 @@
             "total_entries": "Gesamt-Einträge",
             "successful": "Erfolgreich",
             "failed": "Fehlgeschlagen",
+            "all_label": "Alle",
             "quick_views": "Schnellansichten",
             "quick_cleanup": "🔎 Cleanup-Events",
             "show_all": "🔁 Alle anzeigen",
@@ -391,7 +388,6 @@
             "reset_user_results_wrong_key": "🔒 Falscher Admin-Key. Löschung abgebrochen.",
             "delete_feedback_error": "Fehler beim Löschen der Meldungen.",
             "delete_feedback_success": "{count} Feedback-Meldungen wurden gelöscht.",
-            "delete_feedback_error": "Fehler beim Löschen der Meldungen.",
             "delete_single_feedback_success": "Feedback gelöscht.",
             "delete_single_feedback_error": "Fehler beim Löschen.",
             "delete_reserved_pseudonym_success": "Reserviertes Pseudonym '{name}' gelöscht.",
@@ -410,6 +406,12 @@
                 "delete_all_test_data": "🔴 Alle Testdaten unwiderruflich löschen",
                 "delete_old_logs": "🗑️ Alte Logs löschen (DSGVO)",
                 "about_audit_logging": "ℹ️ Über Audit-Logging"
+            },
+            "distractor_chart": {
+                "title": "Antwortverteilung",
+                "xaxis": "Anzahl",
+                "yaxis": "Antwortoption",
+                "correct": "Korrekt"
             },
             "no_completed_tests": "Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt."
         },
@@ -537,13 +539,6 @@
             "cooldown_remaining": "(noch {seconds}s)"
         },
         "pacing": {
-            "avg_time_per_question": "Durchschn. verbleibende Zeit pro Frage: {seconds} s",
-            "approx_1min": " — entspricht ungefähr 1 min/Frage (Gewichtung 3)",
-            "not_1min": " — entspricht nicht 1 min/Frage"
-        },
-        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
-        "panic_mode_skipped": "⚡ **Panic Mode:** Wartezeit übersprungen.",
-        "pacing": {
             "ahead": "Gut in der Zeit",
             "on_track": "Im Plan",
             "slightly_behind": "Leicht zurück",
@@ -561,6 +556,8 @@
                 "behind": "Du bist zurück. Versuch, das Tempo {degree} anzuziehen."
             }
         },
+        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
+        "panic_mode_skipped": "⚡ **Panic Mode:** Wartezeit übersprungen.",
         "pseudonym_welcome": "**Hi {user}!** Merk dir dein Pseudonym genau (Schreibweise!).",
         "question_set_change_warning": "⚠️ Set gewechselt, starte neu...",
         "motivation": {
@@ -857,6 +854,7 @@
         "review_label_unanswered": "(leer)",
         "performance_explanation_expander": "Was bedeutet das Diagramm?",
         "performance_chart": {
+            "label": "{topic} ({answered}/{total})",
             "xaxis": "Thema (beantwortet/gesamt)",
             "yaxis": "Leistung (%)",
             "hover": {

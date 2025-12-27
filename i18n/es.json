@@ -1,10 +1,5 @@
 {
     "app": {
-        "title": "Export Quiz",
-        "subtitle": "Gestiona y analiza tus quiz",
-        "dialog_multiple_warning": "Solo se permite un diálogo a la vez. Por favor, cierra los diálogos abiertos e inténtalo de nuevo."
-    },
-    "app": {
         "warning": {
             "locale_not_found": "No se encontró una configuración regional adecuada para la clasificación correcta. Las diéresis pueden ordenarse incorrectamente."
         },
@@ -168,6 +163,7 @@
                     "title": "Puntuación promedio por conjunto",
                     "xaxis": "Conjunto de preguntas",
                     "yaxis": "Puntuación promedio",
+                    "legend": "Puntuación promedio",
                     "bar_text": "{score} pts<br>({count} pruebas)",
                     "hover": "<b>{qset}</b><br>Promedio: {score} puntos"
                 }
@@ -200,6 +196,7 @@
             "total_entries": "Entradas totales",
             "successful": "Exitoso",
             "failed": "Fallido",
+            "all_label": "Todos",
             "quick_views": "Vistas rápidas",
             "quick_cleanup": "🔎 Eventos de limpieza",
             "show_all": "🔁 Mostrar todo",
@@ -286,7 +283,6 @@
             "reset_user_results_wrong_key": "🔒 Clave de admin incorrecta. Eliminación cancelada.",
             "delete_feedback_error": "Error al eliminar los mensajes.",
             "delete_feedback_success": "{count} mensajes de feedback han sido eliminados.",
-            "delete_feedback_error": "Error al eliminar los mensajes.",
             "delete_single_feedback_success": "Feedback eliminado.",
             "delete_single_feedback_error": "Error al eliminar.",
             "delete_reserved_pseudonym_success": "Seudónimo reservado '{name}' eliminado.",
@@ -306,7 +302,13 @@
                 "delete_old_logs": "🗑️ Eliminar logs antiguos (GDPR)",
                 "about_audit_logging": "ℹ️ Acerca del registro de auditoría"
             },
-            "no_completed_tests": "Aún no hay pruebas completadas disponibles. Las estadísticas se mostrarán después de las primeras pruebas."
+            "no_completed_tests": "Aún no hay pruebas completadas disponibles. Las estadísticas se mostrarán después de las primeras pruebas.",
+            "distractor_chart": {
+                "title": "Distribución de respuestas",
+                "xaxis": "Cantidad",
+                "yaxis": "Opción de respuesta",
+                "correct": "Correcta"
+            }
         },
         "warnings": {
             "reset_user_results": "⚠️ **Advertencia:** Todos los resultados de **{user_name}** para el conjunto de preguntas **{title}** serán eliminados permanentemente.",
@@ -537,13 +539,6 @@
             "cooldown_remaining": "(todavía {seconds}s)"
         },
         "pacing": {
-            "avg_time_per_question": "Tiempo promedio restante por pregunta: {seconds} s",
-            "approx_1min": " — aprox. 1 min/pregunta (peso 3)",
-            "not_1min": " — no 1 min/pregunta"
-        },
-        "panic_mode_active": "⚡ **Modo Pánico:** Enfriamientos desactivados por falta de tiempo.",
-        "panic_mode_skipped": "⚡ **Modo Pánico:** Tiempo de espera omitido.",
-        "pacing": {
             "ahead": "Adelantado",
             "on_track": "En tiempo",
             "slightly_behind": "Ligero retraso",
@@ -561,6 +556,8 @@
                 "behind": "Vas tarde. Intenta acelerar {degree}."
             }
         },
+        "panic_mode_active": "⚡ **Modo Pánico:** Enfriamientos desactivados por falta de tiempo.",
+        "panic_mode_skipped": "⚡ **Modo Pánico:** Tiempo de espera omitido.",
         "pseudonym_welcome": "**¡Hola {user}!** Recuerda tu alias exacto.",
         "question_set_change_warning": "⚠️ Set cambiado, reiniciando..."
     },
@@ -853,6 +850,7 @@
         "review_label_unanswered": "(vacía)",
         "performance_explanation_expander": "Entender el gráfico",
         "performance_chart": {
+            "label": "{topic} ({answered}/{total})",
             "xaxis": "Tema (respondido/total)",
             "yaxis": "Rendimiento (%)",
             "hover": {

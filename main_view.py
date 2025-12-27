@@ -37,6 +37,7 @@ from helpers.text import (
     smart_quotes_de,
     get_user_id_hash,
     load_markdown_file,
+    format_decimal_locale,
 )
 from helpers.security import ACTIVE_SESSION_QUERY_PARAM
 from database import update_bookmarks, get_db_connection
@@ -5576,6 +5577,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # Zeige nur Themen, zu denen mindestens eine Frage beantwortet wurde,
     # und kennzeichne die Themen mit (beantwortet/gesamt), damit 100 % bei
     # sehr wenigen Fragen nicht irreführend wirkt.
+    label_tpl = _summary_text("performance_chart.label", default="{topic} ({answered}/{total})")
     performance_data = []
     for thema, scores in topic_performance.items():
         answered = scores.get('answered_count', 0)
@@ -5592,7 +5594,10 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     if performance_data:
         df_performance = pd.DataFrame(performance_data)
         # Create a human-friendly label but keep Thema separate for hover
-        df_performance["Label"] = df_performance.apply(lambda r: f"{r['Thema']} ({int(r['Answered'])}/{int(r['Total'])})", axis=1)
+        df_performance["Label"] = df_performance.apply(
+            lambda r: label_tpl.format(topic=r['Thema'], answered=int(r['Answered']), total=int(r['Total'])),
+            axis=1,
+        )
 
         # Use Plotly to render a stacked bar chart: correct (green) + wrong (red)
         try:
@@ -5626,6 +5631,10 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 answered_list.append(answered)
                 total_list.append(total)
 
+            pct_correct_str = [format_decimal_locale(p, 1) for p in pct_correct]
+            pct_wrong_str = [format_decimal_locale(p, 1) for p in pct_wrong]
+            pct_unanswered_str = [format_decimal_locale(p, 1) for p in pct_unanswered]
+
             fig = go.Figure()
             fig.add_trace(
                 go.Bar(
@@ -5633,9 +5642,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     y=pct_correct,
                     name=_summary_text('performance_chart.legend.correct', default='Richtig'),
                     marker_color='#15803d',
-                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.correct', default='Richtig')}: %{{y:.1f}} %<br>" +
+                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.correct', default='Richtig')}: %{{customdata[2]}} %<br>" +
                                   f"{_summary_text('performance_chart.hover.count', default='Anzahl')}: %{{customdata[0]}} / %{{customdata[1]}}<extra></extra>",
-                    customdata=list(zip(answered_list, total_list)),
+                    customdata=list(zip(answered_list, total_list, pct_correct_str)),
                 )
             )
             fig.add_trace(
@@ -5644,9 +5653,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     y=pct_wrong,
                     name=_summary_text('performance_chart.legend.wrong', default='Falsch'),
                     marker_color='#b91c1c',
-                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.wrong', default='Falsch')}: %{{y:.1f}} %<br>" +
+                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.wrong', default='Falsch')}: %{{customdata[2]}} %<br>" +
                                   f"{_summary_text('performance_chart.hover.count', default='Anzahl')}: %{{customdata[0]}} / %{{customdata[1]}}<extra></extra>",
-                    customdata=list(zip(answered_list, total_list)),
+                    customdata=list(zip(answered_list, total_list, pct_wrong_str)),
                 )
             )
             # Unanswered (grey) on top
@@ -5656,7 +5665,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     y=pct_unanswered,
                     name=_summary_text('performance_chart.legend.unanswered', default='Unbeantwortet'),
                     marker_color='#9ca3af',
-                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.unanswered', default='Unbeantwortet')}: %{{y:.1f}} %<extra></extra>",
+                    hovertemplate=f"%{{x}}<br>{_summary_text('performance_chart.hover.unanswered', default='Unbeantwortet')}: %{{customdata}} %<extra></extra>",
+                    customdata=pct_unanswered_str,
                 )
             )
 
@@ -5788,7 +5798,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 radar_fill_rgba = "rgba(21,128,61,0.20)"  # translucent green fill
 
                 fig_radar = go.Figure()
-                # Build per-stage customdata for hover (count, achieved, max, pct)
+                # Build per-stage customdata for hover (count, achieved, max, pct) with localized numbers
                 customdata = []
                 for stage in BLOOM_STAGE_ORDER:
                     totals = stage_totals.get(stage, {"achieved": 0.0, "max": 0.0, "count": 0})
@@ -5796,7 +5806,12 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     max_v = totals.get('max', 0.0) or 0.0
                     cnt = totals.get('count', 0)
                     pct_v = (achieved_v / max_v * 100.0) if max_v > 0 else 0.0
-                    customdata.append([int(cnt), float(achieved_v), float(max_v), round(pct_v, 1)])
+                    customdata.append([
+                        int(cnt),
+                        format_decimal_locale(achieved_v, 1),
+                        format_decimal_locale(max_v, 1),
+                        format_decimal_locale(pct_v, 1),
+                    ])
                 customdata = customdata + [customdata[0]] if customdata else []
 
                 perf_label = _summary_text("cognition_radar.hover.performance", default="Leistung")
@@ -5805,7 +5820,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
                 hovertemplate = (
                     f"<b>%{{theta}}</b><br>{perf_label}: %{{customdata[3]}} %<br>"
-                    f"{achieved_label}: %{{customdata[1]:.1f}} / %{{customdata[2]:.1f}}<br>"
+                    f"{achieved_label}: %{{customdata[1]}} / %{{customdata[2]}}<br>"
                     f"{questions_label}: %{{customdata[0]}}<extra></extra>"
                 )
 

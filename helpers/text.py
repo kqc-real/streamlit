@@ -14,6 +14,7 @@ FMT_DATETIME = "%d.%m.%Y %H:%M"
 FMT_DATETIME_SHORT_YEAR = "%d.%m.%y %H:%M"
 FMT_DATE = "%d.%m.%Y"
 FMT_DATE_SHORT = "%d.%m.%y"
+_DECIMAL_COMMA_LOCALES = {"de", "fr", "es", "it"}
 
 SAFE_HTML_TAGS = {
     "b",
@@ -279,10 +280,41 @@ def normalize_detailed_explanation(value) -> dict | None:
         return None
 
 
+def format_decimal_locale(value: float, decimals: int = 1, locale: str | None = None) -> str:
+    """Format a decimal number with locale-aware separators."""
+    try:
+        decimals = max(0, int(decimals))
+    except Exception:
+        decimals = 1
+
+    try:
+        from i18n import normalize_locale
+        from i18n.context import get_locale as _get_locale
+
+        locale_code = normalize_locale(locale or _get_locale())
+    except Exception:
+        locale_code = "en"
+
+    try:
+        from babel.numbers import format_decimal as _babel_decimal
+
+        pattern = f"#.{ '0' * decimals}" if decimals else "#"
+        return _babel_decimal(value, format=pattern, locale=locale_code)
+    except Exception:
+        pass
+
+    try:
+        formatted = f"{value:.{decimals}f}"
+    except Exception:
+        formatted = str(value)
+
+    if locale_code in _DECIMAL_COMMA_LOCALES:
+        return formatted.replace(".", ",")
+    return formatted
+
+
 def format_decimal_de(value: float, decimals: int = 1) -> str:
-    decimals = max(0, int(decimals))
-    formatted = f"{value:.{decimals}f}"
-    return formatted.replace(".", ",")
+    return format_decimal_locale(value, decimals=decimals, locale="de")
 
 
 def load_markdown_file(path: str) -> str | None:
@@ -380,10 +412,29 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
 
     berlin_tz = _resolve_tz_info()
 
+    _DAYFIRST_LOCALES = {"de", "fr", "es", "it"}
+    dayfirst_flag = locale_code in _DAYFIRST_LOCALES
+
+    def _looks_dayfirst_string(val: Any) -> bool:
+        try:
+            s = str(val)
+        except Exception:
+            return False
+        return bool(re.search(r"\d{1,2}\.\d{1,2}\.\d{2,4}", s))
+
     def _format_series(series_obj):
         if _pd is None:
             return series_obj
         try:
+            # If the series seems to contain day-first dotted dates, force dayfirst=True to avoid warnings.
+            series_dayfirst = dayfirst_flag
+            try:
+                if not series_dayfirst and _pd.api.types.is_object_dtype(series_obj):
+                    sample = series_obj.dropna().astype(str).head(5)
+                    if any(_looks_dayfirst_string(v) for v in sample):
+                        series_dayfirst = True
+            except Exception:
+                pass
             if _pd.api.types.is_numeric_dtype(series_obj):
                 # Heuristic: values above 1e12 are likely milliseconds
                 try:
@@ -393,7 +444,7 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
                     unit = "s"
                 s = _pd.to_datetime(series_obj, unit=unit, utc=True, errors="coerce")
             else:
-                s = _pd.to_datetime(series_obj, utc=True, errors="coerce")
+                s = _pd.to_datetime(series_obj, utc=True, errors="coerce", dayfirst=series_dayfirst)
             if berlin_tz is not None:
                 try:
                     s = s.dt.tz_convert(berlin_tz)
@@ -415,7 +466,8 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
                 if abs(value) > 1_000_000_000_000:
                     unit = "ms"
                 return _pd.to_datetime(value, unit=unit, utc=True, errors="coerce")
-            return _pd.to_datetime(value, utc=True, errors="coerce")
+            force_dayfirst = dayfirst_flag or _looks_dayfirst_string(value)
+            return _pd.to_datetime(value, utc=True, errors="coerce", dayfirst=force_dayfirst)
         except Exception:
             return None
 

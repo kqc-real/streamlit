@@ -188,13 +188,6 @@
             "cooldown_remaining": "(还 {seconds}秒)"
         },
         "pacing": {
-            "avg_time_per_question": "每题平均剩余时间：{seconds} 秒",
-            "approx_1min": " — 约 1 分钟/题（权重 3）",
-            "not_1min": " — 不是 1 分钟/题"
-        },
-        "panic_mode_active": "⚡ **恐慌模式：** 由于时间紧迫，冷却已禁用。",
-        "panic_mode_skipped": "⚡ **恐慌模式：** 等待时间已跳过。",
-        "pacing": {
             "ahead": "提前于计划",
             "on_track": "按计划进行",
             "slightly_behind": "稍有落后",
@@ -212,6 +205,8 @@
                 "behind": "您落后了。尝试{degree}加快速度。"
             }
         },
+        "panic_mode_active": "⚡ **恐慌模式：** 由于时间紧迫，冷却已禁用。",
+        "panic_mode_skipped": "⚡ **恐慌模式：** 等待时间已跳过。",
         "question_set_change_warning": "⚠️ 题库已更改，正在重新启动..."
     },
     "question": {
@@ -481,6 +476,7 @@
                     "title": "按题库的平均得分",
                     "xaxis": "题库",
                     "yaxis": "平均得分",
+                    "legend": "平均得分",
                     "bar_text": "{score} 分<br>({count} 次测试)",
                     "hover": "<b>{qset}</b><br>平均：{score} 分"
                 }
@@ -536,7 +532,8 @@
                 "action": "操作",
                 "success": "成功",
                 "details": "详情"
-            }
+            },
+            "all_label": "全部"
         },
         "tabs": {
             "leaderboard": "🏆 排行榜",
@@ -599,7 +596,6 @@
             "reset_user_results_wrong_key": "🔒 管理员密钥错误。删除已取消。",
             "delete_feedback_error": "删除消息时出错。",
             "delete_feedback_success": "{count} 条反馈消息已被删除。",
-            "delete_feedback_error": "删除消息时出错。",
             "delete_single_feedback_success": "反馈已删除。",
             "delete_single_feedback_error": "删除时出错。",
             "delete_reserved_pseudonym_success": "保留化名 '{name}' 已删除。",
@@ -619,7 +615,13 @@
                 "delete_old_logs": "🗑️ 删除旧日志（GDPR）",
                 "about_audit_logging": "ℹ️ 关于审计日志"
             },
-            "no_completed_tests": "尚未有完成的测试。统计数据将在第一次测试后显示。"
+            "no_completed_tests": "尚未有完成的测试。统计数据将在第一次测试后显示。",
+            "distractor_chart": {
+                "title": "答案分布",
+                "xaxis": "数量",
+                "yaxis": "回答选项",
+                "correct": "正确"
+            }
         },
         "warnings": {
             "reset_user_results": "⚠️ **警告：** **{user_name}** 在问题集 **{title}** 中的所有结果将被永久删除。",
@@ -844,6 +846,7 @@
         "review_label_unanswered": "(空)",
         "performance_explanation_expander": "这个图表是什么意思？",
         "performance_chart": {
+            "label": "{topic} ({answered}/{total})",
             "xaxis": "主题 (已答/总计)",
             "yaxis": "表现 (%)",
             "hover": {

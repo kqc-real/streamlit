@@ -15,7 +15,7 @@ import streamlit as st
 from config import AppConfig, QuestionSet, load_questions, list_question_files, load_scientists
 from i18n.context import t as translate_ui
 from pdf_export import generate_mini_glossary_pdf
-from helpers.text import format_decimal_de, get_user_id_hash
+from helpers.text import format_decimal_locale, get_user_id_hash
 from database import (
     add_user,
     delete_user_results_for_qset,
@@ -548,20 +548,11 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
 
         try:
             from helpers.text import format_datetime_locale, FMT_DATE_SHORT
-        except Exception:
-            format_datetime_locale = None  # type: ignore[assignment]
-            FMT_DATE_SHORT = "%d.%m.%y"  # type: ignore[assignment]
 
-        if format_datetime_locale:
-            try:
-                scores[date_col] = format_datetime_locale(scores[date_col], fmt=FMT_DATE_SHORT)
-            except Exception:
-                scores[date_col] = format_datetime_locale(
-                    pd.to_datetime(scores[date_col], format="ISO8601", utc=True, errors="coerce"),
-                    fmt=FMT_DATE_SHORT,
-                )
-        else:
-            scores[date_col] = scores[date_col].dt.strftime(FMT_DATE_SHORT)
+            scores[date_col] = format_datetime_locale(scores[date_col], fmt=FMT_DATE_SHORT)
+        except Exception:
+            # Best-effort fallback without localization helper
+            scores[date_col] = pd.to_datetime(scores[date_col], format="ISO8601", utc=True, errors="coerce").astype(str)
         
         icons = ["🥇", "🥈", "🥉"]
         for i in range(len(scores)):
@@ -767,9 +758,9 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     
     display_df = analysis_df.copy()
     if show_correlation and translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)") in display_df.columns:
-        display_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")] = display_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")].map(
-            lambda v: format_decimal_de(v, 2)
-        )
+        display_df[translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")] = display_df[
+            translate_ui("admin.analysis.columns.discrimination", default="Trennschärfe (r_it)")
+        ].map(lambda v: format_decimal_locale(v, 2))
     st.dataframe(display_df, hide_index=True)
 
     with st.expander(translate_ui("admin.expanders.metrics_glossary")):
@@ -820,12 +811,16 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
 
                 if st.checkbox(translate_ui("admin.analysis.show_chart", default="Zeige als Balkendiagramm"), key=f"distractor_chart_{frage_nr}"):
                     import plotly.express as px
+                    title = translate_ui("admin.analysis.distractor_chart.title", default="Antwortverteilung")
+                    x_label = translate_ui("admin.analysis.distractor_chart.xaxis", default="Anzahl")
+                    y_label = translate_ui("admin.analysis.distractor_chart.yaxis", default="Antwortoptionen")
                     fig = px.bar(
                         merged_df,
                         x="Anzahl",
                         y="Antwort",
                         orientation='h',
-                        title="Antwortverteilung",
+                        title=title,
+                        labels={"Anzahl": x_label, "Antwort": y_label, "Korrekt": translate_ui("admin.analysis.distractor_chart.correct", default="Korrekt")},
                         color="Korrekt",
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
@@ -936,7 +931,7 @@ def render_feedback_tab():
     else:
         df_feedback[date_col_name] = pd.to_datetime(
             df_feedback[date_col_name], format='ISO8601', utc=True, errors='coerce'
-        ).dt.strftime(FMT_DATETIME)
+        ).astype(str)
 
     # Ersetze das starre Dataframe durch eine interaktive Liste mit Buttons
     for _, row in df_feedback.iterrows():
@@ -1396,7 +1391,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
         # Zweite Zeile: Abschlussquote
         col1, col2 = st.columns(2)
         with col1:
-            completion_str = format_decimal_de(stats['completion_rate'], 1)
+            completion_str = format_decimal_locale(stats['completion_rate'], 1)
             st.metric(
                 translate_ui("admin.system.stats.completion_rate", default="Abschlussquote"),
                 f"{completion_str} %",
@@ -1438,14 +1433,16 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                         y=avg_scores,
                         text=[
                             bar_text_tpl.format(
-                                score=format_decimal_de(score, 1), count=count
+                                score=format_decimal_locale(score, 1),
+                                count=count
                             )
                             for score, count in zip(avg_scores, test_counts)
                         ],
                         textposition="auto",
                         marker_color="#15803d",
-                        customdata=[format_decimal_de(score, 2) for score in avg_scores],
+                        customdata=[format_decimal_locale(score, 2) for score in avg_scores],
                         hovertemplate=hover_tpl + "<extra></extra>",
+                        name=translate_ui("admin.system.avg_chart.legend", default="Average score"),
                     )
                 ]
             )
@@ -1463,7 +1460,8 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                     default="Durchschnittliche Punktzahl",
                 ),
                 height=400,
-                showlegend=False
+                showlegend=True,
+                legend_title_text=translate_ui("admin.system.avg_chart.legend", default="Average score"),
             )
             
             st.plotly_chart(fig, config={"responsive": True})
@@ -1490,7 +1488,12 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
 
     # --- Globaler Reset ---
     st.subheader(translate_ui("admin.system.danger_zone", default="Gefahrenzone"))
-    with st.expander(translate_ui("admin.expanders.delete_all_test_data")):
+    with st.expander(
+        translate_ui(
+            "admin.expanders.delete_all_test_data",
+            default="🔴 Delete all test data irreversibly",
+        )
+    ):
         st.warning(
             translate_ui("admin.warnings.delete_all_test_data")
         )
@@ -1553,14 +1556,14 @@ def render_audit_log_tab():
             success_delta = None
         else:
             success_rate = stats["successful"] / stats["total"] * 100
-            success_delta = f"{format_decimal_de(success_rate, 1)} %"
+            success_delta = f"{format_decimal_locale(success_rate, 1)} %"
         st.metric(translate_ui("admin.audit.successful", default="Erfolgreich"), stats["successful"], delta=success_delta)
     with col3:
         if stats["total"] == 0:
             failed_delta = None
         else:
             failed_rate = stats["failed"] / stats["total"] * 100
-            failed_delta = f"{format_decimal_de(failed_rate, 1)} %"
+            failed_delta = f"{format_decimal_locale(failed_rate, 1)} %"
         st.metric(translate_ui("admin.audit.failed", default="Fehlgeschlagen"), stats["failed"], delta=failed_delta)
     
     st.divider()
@@ -1584,6 +1587,11 @@ def render_audit_log_tab():
     
     col1, col2, col3 = st.columns(3)
     
+    all_label = translate_ui("admin.audit.all_label", default="Alle")
+    quick_action_labels = {
+        "CLEANUP_USER_QSETS": translate_ui("admin.audit.quick_cleanup", default="Cleanup-Events"),
+    }
+
     with col1:
         # Falls eine Schnellansicht aktiv ist, verwenden wir deren Limit-Vorgabe.
         default_limit = st.session_state.get("_audit_quick_limit", 100)
@@ -1591,22 +1599,23 @@ def render_audit_log_tab():
     
     with col2:
         # User-Filter (aus Statistik)
-        user_options = ["Alle"] + [u["user_id"] for u in stats["top_users"]]
+        user_options = [all_label] + [u["user_id"] for u in stats["top_users"]]
         selected_user = st.selectbox(translate_ui("admin.audit.user", default="Benutzer"), user_options)
-        user_filter = None if selected_user == "Alle" else selected_user
+        user_filter = None if selected_user == all_label else selected_user
     
     with col3:
         # Action-Filter
-        action_options = ["Alle"] + [a["action"] for a in stats["actions"]]
+        action_options = [all_label] + [a["action"] for a in stats["actions"]]
         selected_action = st.selectbox(translate_ui("admin.audit.action", default="Aktion"), action_options)
-        action_filter = None if selected_action == "Alle" else selected_action
+        action_filter = None if selected_action == all_label else selected_action
 
     # Wenn eine Schnellansicht gesetzt ist, überschreibt sie die manuelle Auswahl.
     quick_action = st.session_state.get("_audit_quick_action")
     if quick_action:
         action_filter = quick_action
         # Wenn Quick-View aktiv ist, zeige einen Hinweis und setze das Limit falls vorhanden.
-        st.info(translate_ui("admin.audit.quick_view_active", default="Schnellansicht aktiv: {quick_action}").format(quick_action=quick_action))
+        quick_label = quick_action_labels.get(quick_action, quick_action)
+        st.info(translate_ui("admin.audit.quick_view_active", default="Schnellansicht aktiv: {quick_action}").format(quick_action=quick_label))
         limit = st.session_state.get("_audit_quick_limit", limit)
     
     # Success-Filter
@@ -1654,9 +1663,15 @@ def render_audit_log_tab():
     
     # Formatiere Timestamp (robust gegenüber ISO8601 mit Offset)
     ts_col = translate_ui("admin.audit.columns.timestamp", default="Zeitstempel")
-    df[ts_col] = pd.to_datetime(
-        df[ts_col], format='ISO8601', utc=True, errors='coerce'
-    ).dt.strftime("%Y-%m-%d %H:%M:%S")
+    try:
+        from helpers.text import format_datetime_locale, FMT_DATETIME
+
+        df[ts_col] = format_datetime_locale(
+            pd.to_datetime(df[ts_col], format='ISO8601', utc=True, errors='coerce'),
+            fmt=FMT_DATETIME,
+        )
+    except Exception:
+        df[ts_col] = pd.to_datetime(df[ts_col], format='ISO8601', utc=True, errors='coerce').astype(str)
     
     # Zeige Tabelle
     st.dataframe(df, width="stretch", hide_index=True)

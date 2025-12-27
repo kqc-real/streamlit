@@ -13,7 +13,7 @@ import sys
 # Füge das Projektverzeichnis zum Path hinzu
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from helpers.text import format_decimal_de
+from helpers.text import format_decimal_locale
 
 def test_admin_key_loading():
     """Testet, ob Admin-Key korrekt geladen wird."""
@@ -154,7 +154,9 @@ def test_timing_attack_protection():
         end = time.perf_counter()
         avg_time = (end - start) / 1000 * 1e6  # Mikrosekunden
         timings.append(avg_time)
-        avg_time_str = format_decimal_de(avg_time, 2)
+        from helpers.text import format_decimal_locale
+
+        avg_time_str = format_decimal_locale(avg_time, 2)
         print(f"  Key '{key[:20]}...': {avg_time_str} µs")
     
     # Check, ob Zeitunterschiede minimal sind (< 20% Variation)
@@ -163,7 +165,7 @@ def test_timing_attack_protection():
         max_time = max(timings)
         variation = (max_time - min_time) / min_time * 100
         
-        variation_str = format_decimal_de(variation, 1)
+        variation_str = format_decimal_locale(variation, 1)
         print(f"\nVariation: {variation_str} %")
         if variation < 20:
             print("✅ Timing-Attack-Schutz: AKTIV (hmac.compare_digest)")

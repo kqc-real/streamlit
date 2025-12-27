@@ -1,10 +1,5 @@
 {
     "app": {
-        "title": "Quiz Export",
-        "subtitle": "Manage & Analyze Quizzes",
-        "dialog_multiple_warning": "Only one dialog allowed at a time. Please close open dialogs and try again."
-    },
-    "app": {
         "warning": {
             "locale_not_found": "No suitable locale found for correct sorting. Umlauts may be sorted incorrectly."
         },
@@ -196,13 +191,6 @@
             "cooldown_remaining": "(still {seconds}s)"
         },
         "pacing": {
-            "avg_time_per_question": "Avg. remaining time per question: {seconds} s",
-            "approx_1min": " — approx. 1 min/question (weight 3)",
-            "not_1min": " — not 1 min/question"
-        },
-        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns disabled due to time pressure.",
-        "panic_mode_skipped": "⚡ **Panic Mode:** Wait time skipped.",
-        "pacing": {
             "ahead": "Ahead of schedule",
             "on_track": "On track",
             "slightly_behind": "Slightly behind",
@@ -220,6 +208,8 @@
                 "behind": "You're behind. Try to speed up {degree}."
             }
         },
+        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns disabled due to time pressure.",
+        "panic_mode_skipped": "⚡ **Panic Mode:** Wait time skipped.",
         "question_set_change_warning": "⚠️ Set changed, restarting..."
     },
     "question": {
@@ -489,6 +479,7 @@
                     "title": "Average Score by Question Set",
                     "xaxis": "Question Set",
                     "yaxis": "Average Score",
+                    "legend": "Average score",
                     "bar_text": "{score} pts<br>({count} tests)",
                     "hover": "<b>{qset}</b><br>Average: {score} points"
                 }
@@ -522,6 +513,7 @@
             "successful": "Successful",
             "failed": "Failed",
             "quick_views": "Quick Views",
+            "all_label": "All",
             "quick_cleanup": "🔎 Cleanup Events",
             "show_all": "🔁 Show All",
             "filter": "Filter",
@@ -607,7 +599,6 @@
             "reset_user_results_wrong_key": "🔒 Wrong admin key. Deletion cancelled.",
             "delete_feedback_error": "Error deleting messages.",
             "delete_feedback_success": "{count} feedback messages have been deleted.",
-            "delete_feedback_error": "Error deleting messages.",
             "delete_single_feedback_success": "Feedback deleted.",
             "delete_single_feedback_error": "Error deleting feedback.",
             "delete_reserved_pseudonym_success": "Reserved pseudonym '{name}' deleted.",
@@ -626,6 +617,12 @@
                 "delete_all_test_data": "🔴 Delete all test data irreversibly",
                 "delete_old_logs": "🗑️ Delete old logs (GDPR)",
                 "about_audit_logging": "ℹ️ About Audit Logging"
+            },
+            "distractor_chart": {
+                "title": "Answer distribution",
+                "xaxis": "Count",
+                "yaxis": "Answer option",
+                "correct": "Correct"
             },
             "no_completed_tests": "No completed tests available yet. Statistics will be displayed after the first tests."
         },
@@ -852,6 +849,7 @@
         "review_label_unanswered": "(empty)",
         "performance_explanation_expander": "What does this chart mean?",
         "performance_chart": {
+            "label": "{topic} ({answered}/{total})",
             "xaxis": "Topic (answered/total)",
             "yaxis": "Performance (%)",
             "hover": {
