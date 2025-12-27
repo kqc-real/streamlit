@@ -888,12 +888,19 @@
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Tema (respondido/total)",
             "yaxis": "Rendimiento (%)",
+            "legend": {
+                "correct": "Correcta",
+                "wrong": "Incorrecta",
+                "unanswered": "Sin responder"
+            },
             "hover": {
                 "topic": "Tema",
                 "performance": "Rendimiento",
                 "correct_total": "Correcto / Total",
                 "wrong": "Incorrecto",
-                "answered": "Respondido"
+                "answered": "Respondido",
+                "unanswered": "Sin responder",
+                "count": "Cantidad"
             }
         },
         "performance_explanation_content": "- Barras = % puntos por tema.\n- Paréntesis: (respondidas / total).\n- Pocas preguntas = dato poco fiable.",

@@ -888,12 +888,19 @@
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Argomento (risposto/totale)",
             "yaxis": "Perf (%)",
+            "legend": {
+                "correct": "Corretta",
+                "wrong": "Sbagliata",
+                "unanswered": "Non risposta"
+            },
             "hover": {
                 "topic": "Argomento",
                 "performance": "Perf",
                 "correct_total": "Giusto / Totale",
                 "wrong": "Sbagliato",
-                "answered": "Risposto"
+                "answered": "Risposto",
+                "unanswered": "Non risposta",
+                "count": "Numero"
             }
         },
         "performance_explanation_content": "- Barre = % punti per argomento.\n- Parentesi: (risposte / totale).\n- Poche domande = dato poco affidabile.",

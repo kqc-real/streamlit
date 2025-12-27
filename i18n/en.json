@@ -887,12 +887,19 @@
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Topic (answered/total)",
             "yaxis": "Performance (%)",
+            "legend": {
+                "correct": "Correct",
+                "wrong": "Wrong",
+                "unanswered": "Unanswered"
+            },
             "hover": {
                 "topic": "Topic",
                 "performance": "Performance",
                 "correct_total": "Correct / Total",
                 "wrong": "Wrong",
-                "answered": "Answered"
+                "answered": "Answered",
+                "unanswered": "Unanswered",
+                "count": "Count"
             }
         },
         "performance_explanation_content": "- Bars = points per topic (%).\n- Brackets: (answered / total questions).\n- Few questions = less statistical significance.",

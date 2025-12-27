@@ -892,12 +892,19 @@
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Thema (beantwortet/gesamt)",
             "yaxis": "Leistung (%)",
+            "legend": {
+                "correct": "Richtig",
+                "wrong": "Falsch",
+                "unanswered": "Unbeantwortet"
+            },
             "hover": {
                 "topic": "Thema",
                 "performance": "Leistung",
                 "correct_total": "Richtig / Gesamt",
                 "wrong": "Falsch",
-                "answered": "Beantwortet"
+                "answered": "Beantwortet",
+                "unanswered": "Unbeantwortet",
+                "count": "Anzahl"
             }
         },
         "performance_explanation_content": "- Balken = erreichte Punkte pro Thema in %.\n- Klammern: (beantwortete / alle Fragen).\n- Wenig Fragen = wenig statistische Aussagekraft.",

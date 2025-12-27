@@ -884,12 +884,19 @@
             "label": "{topic} ({answered}/{total})",
             "xaxis": "主题 (已答/总计)",
             "yaxis": "表现 (%)",
+            "legend": {
+                "correct": "正确",
+                "wrong": "错误",
+                "unanswered": "未作答"
+            },
             "hover": {
                 "topic": "主题",
                 "performance": "表现",
                 "correct_total": "正确 / 总计",
                 "wrong": "错误",
-                "answered": "已答"
+                "answered": "已答",
+                "unanswered": "未作答",
+                "count": "数量"
             }
         },
         "performance_explanation_content": "- 条形 = 每个主题的得分 (%)。\n- 括号: (已答 / 总问题数)。\n- 问题少 = 统计意义较小。",

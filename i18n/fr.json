@@ -888,12 +888,19 @@
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Sujet (répondu/total)",
             "yaxis": "Perf (%)",
+            "legend": {
+                "correct": "Juste",
+                "wrong": "Faux",
+                "unanswered": "Non répondu"
+            },
             "hover": {
                 "topic": "Sujet",
                 "performance": "Perf",
                 "correct_total": "Juste / Total",
                 "wrong": "Faux",
-                "answered": "Répondu"
+                "answered": "Répondu",
+                "unanswered": "Non répondu",
+                "count": "Nombre"
             }
         },
         "performance_explanation_content": "- Barres = % points par sujet.\n- Parenthèses : (répondues / total).\n- Peu de questions = stat peu fiable.",
