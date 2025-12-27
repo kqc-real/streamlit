@@ -564,6 +564,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         st.dataframe(
             scores[[pseudo_col, points_col, duration_col, date_col]],
             hide_index=True,
+            width="stretch",
         )
 
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
@@ -807,6 +808,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                 st.write(translate_ui("admin.messages.answer_distribution"))
                 st.dataframe(
                     merged_df[["Antwort", "Anzahl", "Korrekt"]].sort_values("Anzahl", ascending=False),
+                    width="stretch",
                 )
 
                 if st.checkbox(translate_ui("admin.analysis.show_chart", default="Zeige als Balkendiagramm"), key=f"distractor_chart_{frage_nr}"):
@@ -1077,7 +1079,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
         st.dataframe(
             pd.DataFrame({"Pseudonym": used_all}),
             hide_index=True,
-            use_container_width=True,
+            width="stretch",
         )
     else:
         st.info(translate_ui("admin.messages.no_pseudonyms_in_use"))
@@ -1092,7 +1094,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
         st.dataframe(
             pd.DataFrame({"Pseudonym": reserved}),
             hide_index=True,
-            use_container_width=True,
+            width="stretch",
         )
 
         with st.expander(translate_ui("admin.expanders.delete_single_pseudonym"), expanded=False):
@@ -1262,7 +1264,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     overview_df = pd.DataFrame(available)
     if not overview_df.empty:
         overview_df = overview_df.rename(columns={"name": "Pseudonym", "contribution": "Beitrag"})
-        st.dataframe(overview_df, hide_index=True, use_container_width=True)
+        st.dataframe(overview_df, hide_index=True, width="stretch")
 
     max_count = len(available)
     default_count = min(5, max_count)
@@ -1331,7 +1333,7 @@ def render_login_generator_tab(app_config: AppConfig) -> None:
     if latest_rows:
         st.subheader(translate_ui("admin.login_generator.latest_logins", default="Zuletzt erzeugte Logins"))
         result_df = pd.DataFrame(latest_rows)
-        st.dataframe(result_df, hide_index=True, use_container_width=True)
+        st.dataframe(result_df, hide_index=True, width="stretch")
         csv_data = result_df.to_csv(index=False).encode("utf-8")
         st.download_button(
             translate_ui("admin.login_generator.download_csv", default="⬇️ CSV herunterladen"),

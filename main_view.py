@@ -1840,7 +1840,7 @@ def _render_welcome_splash():
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
-            if st.button(_welcome_splash_button(), type="primary", use_container_width=True):
+            if st.button(_welcome_splash_button(), type="primary", width="stretch"):
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
@@ -1878,7 +1878,7 @@ def _render_welcome_splash():
         )
         st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button(_welcome_splash_button(), type="primary", use_container_width=True):
+        if st.button(_welcome_splash_button(), type="primary", width="stretch"):
             st.session_state._welcome_splash_dismissed = True
             st.rerun()
 
@@ -2465,7 +2465,7 @@ def render_welcome_page(app_config: AppConfig):
                             data=pdf_bytes,
                             file_name=lo_path.with_suffix(".pdf").name,
                             mime="application/pdf",
-                            use_container_width=True,
+                            width="stretch",
                             type="primary",
                             key="download_learning_objectives_pdf_dialog",
                         )
@@ -2484,7 +2484,7 @@ def render_welcome_page(app_config: AppConfig):
                         data=pdf_bytes,
                         file_name=lo_path.with_suffix(".pdf").name,
                         mime="application/pdf",
-                        use_container_width=True,
+                        width="stretch",
                         type="primary",
                         key="download_learning_objectives_pdf_inline",
                     )
@@ -2555,7 +2555,7 @@ def render_welcome_page(app_config: AppConfig):
                 if st.button(
                     '📘 ' + _learning_objectives_button_label(),
                     type="primary",
-                    use_container_width=True,
+                    width="stretch",
                     key="learning_objectives_button",
                 ):
                     _show_learning_objectives_dialog(lo_path, lo_content)
@@ -5883,7 +5883,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     pass
 
                 st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
-                st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
+                st.plotly_chart(fig_radar, width="stretch", config={"responsive": True})
 
                 # Short explanation expander for the radar chart (localized)
                 with st.expander(
