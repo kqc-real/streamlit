@@ -4405,14 +4405,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             elapsed_since_shown = int(round(now_mon - float(st.session_state.get(shown_key, now_mon))))
             remaining_answer_cooldown = max(0, answer_cooldown - elapsed_since_shown)
 
-            # Disable cooldown if time is critical
+            # Disable cooldown if time is critical (only when a test time limit exists and remaining_time > 0)
             try:
-                # Use a threshold of 15 seconds per remaining question
                 threshold = getattr(app_config, "panic_mode_threshold_seconds", 15)
-                min_required_time = remaining * threshold
-                if remaining_time < min_required_time:
-                    remaining_answer_cooldown = 0
-                    panic_mode = True
+                if st.session_state.get("test_time_limit", 0) and remaining_time > 0:
+                    min_required_time = remaining * threshold
+                    if remaining_time < min_required_time:
+                        remaining_answer_cooldown = 0
+                        panic_mode = True
                 if panic_mode:
                     st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
             except Exception:
