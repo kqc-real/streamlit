@@ -201,19 +201,33 @@ def main():
     current_idx = None
     if "jump_to_idx" in st.session_state:
         # Priorität 1: Sprung von einem Bookmark / Skip-Link
+        # Merke den Ursprungsindex für einen robusten Rücksprung, falls noch nicht gesetzt.
+        try:
+            if "pre_jump_idx" not in st.session_state:
+                st.session_state["pre_jump_idx"] = st.session_state.get("_current_question_idx")
+        except Exception:
+            pass
         current_idx = st.session_state.jump_to_idx
         try:
             # Reset the per-question shown timestamps so the UI cooling
             # (reading / explanation cooldowns) restarts from now when the
             # user jumps directly to a skipped/bookmarked question.
-            now_mon = time.monotonic()
-            st.session_state[f"frage_{current_idx}_shown_time_monotonic"] = now_mon
+            shown_key = f"frage_{current_idx}_shown_time_monotonic"
+            if shown_key not in st.session_state:
+                st.session_state[shown_key] = time.monotonic()
             # Remove any prior explanation-shown timestamp so the 'Next' cooldown
             # is not considered already started for this question.
             st.session_state.pop(f"frage_{current_idx}_explanation_shown_time_monotonic", None)
         except Exception:
             pass
+        # Entferne den Sprungmarker nach der ersten Verarbeitung.
         del st.session_state.jump_to_idx
+    elif st.session_state.get("jump_to_idx_active"):
+        # Review-/Jump-Modus: Bleibe auf der aktuell angezeigten Frage,
+        # auch wenn Widgets einen Rerun auslösen (z.B. Radio/Antwort-Button).
+        current_idx = st.session_state.get("_current_question_idx")
+        if current_idx is None:
+            current_idx = get_current_question_index()
     elif "last_answered_idx" in st.session_state and st.session_state.get(f"show_explanation_{st.session_state.last_answered_idx}"):
         # Priorität 2: Bleibe auf der letzten Frage, um die Erklärung anzuzeigen
         current_idx = st.session_state.last_answered_idx

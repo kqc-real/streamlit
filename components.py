@@ -2549,6 +2549,12 @@ def render_bookmarks(questions: QuestionSet):
                     disabled=jumps_disabled,
                     width="stretch",
                 ):
+                    # Merke die aktuelle Frage als Rückkehrpunkt, bevor wir springen.
+                    try:
+                        st.session_state["resume_next_idx"] = st.session_state.get("_current_question_idx")
+                        st.session_state["pre_jump_idx"] = st.session_state.get("_current_question_idx")
+                    except Exception:
+                        pass
                     st.session_state["jump_to_idx"] = q_idx
                     st.session_state.jump_to_idx_active = True
                     # If the target question was already answered, show its explanation/evaluation immediately
@@ -2623,6 +2629,16 @@ def render_skipped_questions(questions: QuestionSet):
                 key=f"skip_jump_{q_idx}",
                 disabled=jumps_disabled
             ):
+                # Merke die aktuelle Frage als Rückkehrpunkt, bevor wir springen.
+                try:
+                    st.session_state["resume_next_idx"] = st.session_state.get("_current_question_idx")
+                    st.session_state["pre_jump_idx"] = st.session_state.get("_current_question_idx")
+                except Exception:
+                    pass
+                try:
+                    st.session_state["_current_question_idx"] = q_idx
+                except Exception:
+                    pass
                 st.session_state["jump_to_idx"] = q_idx
                 st.session_state.jump_to_idx_active = True
                 try:
