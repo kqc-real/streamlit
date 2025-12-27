@@ -518,9 +518,9 @@
     },
     "test_view": {
         "bookmark_toggle": "🔖 Merken",
-        "skip_button": "↪️ Später",
+        "skip_button": "↪️ Überspringen",
         "skip_toast": "Übersprungen. Kommt später wieder.",
-        "answer_button": "Einloggen",
+        "answer_button": "Antwort abgeben",
         "already_answered_info": "Schon beantwortet.",
         "resume_button": "Weiter geht's",
         "summary_button": "Zur Auswertung 🏁",

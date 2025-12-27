@@ -147,9 +147,9 @@
     },
     "test_view": {
         "bookmark_toggle": "🔖 标记",
-        "skip_button": "↪️ 稍后",
+        "skip_button": "↪️ 跳过",
         "skip_toast": "已跳过。稍后回来。",
-        "answer_button": "锁定",
+        "answer_button": "提交答案",
         "already_answered_info": "已回答。",
         "resume_button": "继续",
         "summary_button": "前往总结 🏁",

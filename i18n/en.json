@@ -150,9 +150,9 @@
     },
     "test_view": {
         "bookmark_toggle": "🔖 Mark",
-        "skip_button": "↪️ Later",
+        "skip_button": "↪️ Skip",
         "skip_toast": "Skipped. Comes back later.",
-        "answer_button": "Lock In",
+        "answer_button": "Submit answer",
         "already_answered_info": "Already answered.",
         "resume_button": "Resume",
         "summary_button": "To Summary 🏁",
