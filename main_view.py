@@ -4472,8 +4472,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             with col3:
                 # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
                 answer_label = _test_view_text("answer_button", default="Antworten")
+                answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
 
-                if st.button(answer_label, key=f"submit_{frage_idx}", type="primary", width="stretch"):
+                if st.button(
+                    answer_label,
+                    key=f"submit_{frage_idx}",
+                    type="primary",
+                    width="stretch",
+                    disabled=answered_already,
+                ):
                     _dismiss_user_qset_dialog_from_test()
                     # If no option selected, inform the user.
                     if antwort is None:
