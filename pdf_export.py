@@ -1655,8 +1655,9 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     - Batch-Verarbeitung für QuickLaTeX API
     """
     try:
-        from helpers.text import format_datetime_de
-        generated_at_str = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
+        from helpers.text import format_datetime_locale
+
+        generated_at_str = format_datetime_locale(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
     except Exception:
         generated_at_str = datetime.now().strftime('%d.%m.%Y %H:%M')
 
@@ -3528,9 +3529,9 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     try:
-        from helpers.text import format_datetime_de
+        from helpers.text import format_datetime_locale
 
-        generated_at = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y')
+        generated_at = format_datetime_locale(datetime.now().isoformat(), fmt='%d.%m.%Y')
     except Exception:
         generated_at = datetime.now().strftime("%d.%m.%Y")
     theme_items = sorted(glossary_by_theme.items(), key=lambda x: x[0].casefold())
@@ -3719,9 +3720,9 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
     set_name = set_name or translate_ui("pdf.unnamed_set", default="Ungenanntes Fragenset")
 
     try:
-        from helpers.text import format_datetime_de
+        from helpers.text import format_datetime_locale
 
-        generated_at = format_datetime_de(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
+        generated_at = format_datetime_locale(datetime.now().isoformat(), fmt='%d.%m.%Y %H:%M')
     except Exception:
         generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
 

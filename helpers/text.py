@@ -286,36 +286,189 @@ def load_markdown_file(path: str) -> str | None:
         return None
 
 
-def format_datetime_de(ts, fmt: str = '%d.%m.%Y %H:%M:%S'):
+def format_datetime_locale(ts, fmt: str = '%d.%m.%Y %H:%M:%S', locale: str | None = None):
+    """Format timestamps according to the active UI locale.
+
+    - Accepts pandas Series, pandas/py datetime, ISO strings, or epoch numbers.
+    - Tries to use Babel (if installed) for locale-aware month/day names.
+    - Falls back to per-locale strftime patterns so we still localize ordering.
+    """
     try:
         import pandas as _pd
-        from datetime import timezone
-        if isinstance(ts, _pd.Series):
-            s = _pd.to_datetime(ts, utc=True, errors='coerce')
-            try:
-                from zoneinfo import ZoneInfo
-                berlin = ZoneInfo("Europe/Berlin")
-                s = s.dt.tz_convert(berlin)
-            except Exception:
-                pass
-            formatted = s.dt.strftime(fmt)
-            return formatted.fillna("-")
-        dt = None
-        try:
-            dt = _pd.to_datetime(ts, utc=True, errors='coerce')
-        except Exception:
-            return '-'
-        if _pd.isna(dt):
-            return '-'
+    except Exception:
+        _pd = None
+
+    try:
+        from i18n import normalize_locale
+        from i18n.context import get_locale as _get_locale
+        locale_code = normalize_locale(locale or _get_locale())
+    except Exception:
+        locale_code = "en"
+
+    _STYLE_ALIASES = {
+        "%d.%m.%Y %H:%M:%S": "datetime_seconds",
+        "%d.%m.%Y %H:%M": "datetime",
+        "%d.%m.%y %H:%M": "datetime_short_year",
+        "%d.%m.%Y": "date",
+        "%d.%m.%y": "date_short",
+    }
+    _STYLE_FORMATS = {
+        "datetime_seconds": {
+            "de": "%d.%m.%Y %H:%M:%S",
+            "fr": "%d/%m/%Y %H:%M:%S",
+            "es": "%d/%m/%Y %H:%M:%S",
+            "it": "%d/%m/%Y %H:%M:%S",
+            "zh": "%Y-%m-%d %H:%M:%S",
+            "en": "%Y-%m-%d %H:%M:%S",
+        },
+        "datetime": {
+            "de": "%d.%m.%Y %H:%M",
+            "fr": "%d/%m/%Y %H:%M",
+            "es": "%d/%m/%Y %H:%M",
+            "it": "%d/%m/%Y %H:%M",
+            "zh": "%Y-%m-%d %H:%M",
+            "en": "%Y-%m-%d %H:%M",
+        },
+        "datetime_short_year": {
+            "de": "%d.%m.%y %H:%M",
+            "fr": "%d/%m/%y %H:%M",
+            "es": "%d/%m/%y %H:%M",
+            "it": "%d/%m/%y %H:%M",
+            "zh": "%y-%m-%d %H:%M",
+            "en": "%y-%m-%d %H:%M",
+        },
+        "date": {
+            "de": "%d.%m.%Y",
+            "fr": "%d/%m/%Y",
+            "es": "%d/%m/%Y",
+            "it": "%d/%m/%Y",
+            "zh": "%Y-%m-%d",
+            "en": "%Y-%m-%d",
+        },
+        "date_short": {
+            "de": "%d.%m.%y",
+            "fr": "%d/%m/%y",
+            "es": "%d/%m/%y",
+            "it": "%d/%m/%y",
+            "zh": "%y-%m-%d",
+            "en": "%y-%m-%d",
+        },
+    }
+    style = _STYLE_ALIASES.get(fmt)
+    if fmt is None:
+        style = "datetime_seconds"
+    fmt_to_use = None
+    if style:
+        fmt_to_use = _STYLE_FORMATS.get(style, {}).get(locale_code) or _STYLE_FORMATS.get(style, {}).get("en")
+    if not fmt_to_use:
+        fmt_to_use = fmt or "%Y-%m-%d %H:%M:%S"
+
+    def _resolve_tz_info():
         try:
             from zoneinfo import ZoneInfo
-            berlin = ZoneInfo("Europe/Berlin")
-            dt = dt.tz_convert(berlin)
+
+            return ZoneInfo("Europe/Berlin")
         except Exception:
-            pass
-        return dt.strftime(fmt)
+            return None
+
+    berlin_tz = _resolve_tz_info()
+
+    def _format_series(series_obj):
+        if _pd is None:
+            return series_obj
+        try:
+            if _pd.api.types.is_numeric_dtype(series_obj):
+                # Heuristic: values above 1e12 are likely milliseconds
+                try:
+                    max_val = series_obj.max()
+                    unit = "ms" if max_val and abs(max_val) > 1_000_000_000_000 else "s"
+                except Exception:
+                    unit = "s"
+                s = _pd.to_datetime(series_obj, unit=unit, utc=True, errors="coerce")
+            else:
+                s = _pd.to_datetime(series_obj, utc=True, errors="coerce")
+            if berlin_tz is not None:
+                try:
+                    s = s.dt.tz_convert(berlin_tz)
+                except Exception:
+                    pass
+            formatted = s.dt.strftime(fmt_to_use)
+            return formatted.fillna("-")
+        except Exception:
+            return series_obj
+
+    def _coerce_scalar(value):
+        if _pd is None:
+            return None
+        try:
+            if isinstance(value, _pd.Timestamp):
+                return value
+            if isinstance(value, (int, float)):
+                unit = "s"
+                if abs(value) > 1_000_000_000_000:
+                    unit = "ms"
+                return _pd.to_datetime(value, unit=unit, utc=True, errors="coerce")
+            return _pd.to_datetime(value, utc=True, errors="coerce")
+        except Exception:
+            return None
+
+    def _apply_tz(dt_obj):
+        if berlin_tz is None or dt_obj is None:
+            return dt_obj
+        try:
+            if getattr(dt_obj, "tzinfo", None) is None:
+                return dt_obj.replace(tzinfo=berlin_tz)
+            return dt_obj.astimezone(berlin_tz)
+        except Exception:
+            return dt_obj
+
+    # Series support
+    if _pd is not None and isinstance(ts, _pd.Series):
+        return _format_series(ts)
+
+    # Scalar support
+    dt = _coerce_scalar(ts)
+    if dt is None:
+        try:
+            from datetime import datetime
+
+            dt = datetime.fromisoformat(str(ts))
+        except Exception:
+            try:
+                return str(ts)
+            except Exception:
+                return "-"
+
+    if _pd is not None and _pd.isna(dt):
+        return "-"
+
+    try:
+        dt = _apply_tz(dt)
+    except Exception:
+        pass
+
+    try:
+        from babel.dates import format_datetime as _babel_format
+
+        babel_style = "medium"
+        if style in ("date", "date_short"):
+            babel_style = "medium"
+        elif style in ("datetime", "datetime_short_year"):
+            babel_style = "medium"
+        elif style == "datetime_seconds":
+            babel_style = "long"
+        return _babel_format(dt, format=babel_style, locale=locale_code)
+    except Exception:
+        pass
+
+    try:
+        return dt.strftime(fmt_to_use)
     except Exception:
         try:
             return str(ts)
         except Exception:
-            return '-'
+            return "-"
+
+
+# Backwards compatibility for existing imports
+format_datetime_de = format_datetime_locale

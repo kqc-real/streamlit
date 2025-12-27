@@ -976,84 +976,11 @@ def _render_history_table(history_rows, filename_base: str):
     # Format common columns for a friendlier display
     if 'start_time' in df.columns:
         try:
-            # Use a robust per-row formatter: some history rows contain
-            # mixed types (ISO strings with offsets, naive datetimes, ints).
-            # Vectorized helpers sometimes coerce most rows to NaT; using
-            # an apply-based fallback keeps the newest-first behavior while
-            # ensuring each row gets a sensible display string.
-            from helpers.text import format_datetime_de
+            from helpers.text import format_datetime_locale
 
             def _format_start_time(val):
-                try:
-                    if val is None or (isinstance(val, float) and pd.isna(val)):
-                        return "-"
-
-                    # Numeric types: likely epoch seconds or milliseconds
-                    if isinstance(val, (int, float)):
-                        try:
-                            # Prefer seconds if magnitude reasonable (>1e9)
-                            if abs(int(val)) > 1_000_000_000:
-                                dt = pd.to_datetime(int(val), unit='s', utc=True, errors='coerce')
-                            else:
-                                # small ints unlikely; try as seconds anyway
-                                dt = pd.to_datetime(int(val), unit='s', utc=True, errors='coerce')
-                            if pd.notna(dt):
-                                try:
-                                    from zoneinfo import ZoneInfo
-                                    dt = dt.tz_convert(ZoneInfo('Europe/Berlin'))
-                                except Exception:
-                                    pass
-                                return dt.strftime('%d.%m.%Y %H:%M')
-                        except Exception:
-                            pass
-
-                    # Strings: try helper (day-first aware), then explicit dayfirst parse,
-                    # then ISO/utc parse, then naive parse.
-                    if isinstance(val, str):
-                        try:
-                            formatted = format_datetime_de(val, fmt='%d.%m.%Y %H:%M')
-                            if formatted and formatted != '-':
-                                return formatted
-                        except Exception:
-                            pass
-
-                        # Try dayfirst aware parse (handles '25.10.2025 10:25:57')
-                        try:
-                            dt_df = pd.to_datetime(val, dayfirst=True, utc=True, errors='coerce')
-                            if pd.notna(dt_df):
-                                try:
-                                    from zoneinfo import ZoneInfo
-                                    dt_df = dt_df.tz_convert(ZoneInfo('Europe/Berlin'))
-                                except Exception:
-                                    pass
-                                return dt_df.strftime('%d.%m.%Y %H:%M')
-                        except Exception:
-                            pass
-
-                        # ISO / utc parse
-                        try:
-                            dt = pd.to_datetime(val, utc=True, errors='coerce')
-                            if pd.notna(dt):
-                                try:
-                                    from zoneinfo import ZoneInfo
-                                    dt = dt.tz_convert(ZoneInfo('Europe/Berlin'))
-                                except Exception:
-                                    pass
-                                return dt.strftime('%d.%m.%Y %H:%M')
-                        except Exception:
-                            pass
-
-                        # Last fallback: naive parse
-                        try:
-                            dt2 = pd.to_datetime(val, errors='coerce')
-                            if pd.notna(dt2):
-                                return dt2.strftime('%d.%m.%Y %H:%M')
-                        except Exception:
-                            pass
-
-                    return "-"
-                except Exception:
-                    return "-"
+                formatted = format_datetime_locale(val, fmt="%d.%m.%Y %H:%M")
+                return formatted if formatted else "-"
 
             df['Datum'] = df['start_time'].apply(_format_start_time)
         except Exception:
@@ -2171,8 +2098,9 @@ def render_welcome_page(app_config: AppConfig):
             uploaded_at = info.uploaded_at
             if uploaded_at:
                 try:
-                    ts = uploaded_at.astimezone() if uploaded_at.tzinfo else uploaded_at
-                    label += f" 📅 {ts.strftime('%d.%m.%y %H:%M')}"
+                    from helpers.text import format_datetime_locale
+
+                    label += f" 📅 {format_datetime_locale(uploaded_at, fmt='%d.%m.%y %H:%M')}"
                 except Exception:
                     pass
             return label
@@ -2180,23 +2108,27 @@ def render_welcome_page(app_config: AppConfig):
         name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
         num_questions = question_counts.get(filename)
         # Lies das Datum aus dem meta des Sets
+        date_str = "?"
         question_set = question_set_cache.get(filename)
         if question_set and question_set.meta:
             meta_date = question_set.meta.get("modified") or question_set.meta.get("created")
             if meta_date:
-                # Komprimiere das Datum auf TT.MM.YY, falls möglich
-                import re
-                date_str = meta_date
-                m = re.match(r"(\d{2})\.(\d{2})\.(\d{4})(?:[ T](\d{2}:\d{2}))?", meta_date)
-                if m:
-                    tag, monat, jahr, uhrzeit = m.groups()
-                    jahr_kurz = jahr[-2:]
-                    date_str = f"{tag}.{monat}.{jahr_kurz}"
-                    # Uhrzeit entfernen
-            else:
-                date_str = "?"
-        else:
-            date_str = "?"
+                try:
+                    from helpers.text import format_datetime_locale
+
+                    date_str = format_datetime_locale(meta_date, fmt="%d.%m.%y")
+                except Exception:
+                    try:
+                        import re
+
+                        m = re.match(r"(\d{2})\.(\d{2})\.(\d{4})(?:[ T](\d{2}:\d{2}))?", str(meta_date))
+                        if m:
+                            tag, monat, jahr, _ = m.groups()
+                            date_str = f"{tag}.{monat}.{jahr[-2:]}"
+                        else:
+                            date_str = str(meta_date)
+                    except Exception:
+                        date_str = "?"
         label = f"{name} ({_questions_count_label(num_questions)})" if num_questions else name
         if date_str != "?":
             label += f" 📅 {date_str}"
@@ -2715,7 +2647,7 @@ def render_welcome_page(app_config: AppConfig):
                 last_ts = st.session_state.get(last_key)
                 if last_ts:
                     try:
-                        from helpers.text import format_datetime_de
+                        from helpers.text import format_datetime_locale
                         # Parse stored ISO timestamp defensively
                         import pandas as _pd
                         parsed = _pd.to_datetime(last_ts, utc=True, errors='coerce')
@@ -2724,7 +2656,7 @@ def render_welcome_page(app_config: AppConfig):
                                 translate_ui(
                                     "welcome.leaderboard.last_updated",
                                     default="Zuletzt aktualisiert: {ts}"
-                                ).format(ts=format_datetime_de(parsed, fmt='%d.%m.%Y %H:%M'))
+                                ).format(ts=format_datetime_locale(parsed, fmt='%d.%m.%Y %H:%M'))
                             )
                         else:
                             st.caption(
@@ -2871,7 +2803,7 @@ def render_welcome_page(app_config: AppConfig):
                 # Show the date of the most recent recorded session (if any).
                 try:
                     import pandas as _pd
-                    from helpers.text import format_datetime_de
+                    from helpers.text import format_datetime_locale
 
                     # Collect timestamps from leaderboard rows and parse defensively
                     dates = _pd.to_datetime(
@@ -2879,7 +2811,7 @@ def render_welcome_page(app_config: AppConfig):
                     )
                     last_dt = dates.max() if not dates.empty else None
                     if last_dt is not None and not _pd.isna(last_dt):
-                        caption_date = format_datetime_de(last_dt, fmt='%d.%m.%Y')
+                        caption_date = format_datetime_locale(last_dt, fmt='%d.%m.%Y')
                     else:
                         caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
                 except Exception:
@@ -3011,8 +2943,9 @@ def render_welcome_page(app_config: AppConfig):
                         parsed = pd.to_datetime(scores['last_test_time'], utc=True, errors='coerce')
                         last_dt = parsed.max()
                         if pd.notna(last_dt):
-                            from helpers.text import format_datetime_de
-                            caption_date = format_datetime_de(last_dt, fmt='%d.%m.%Y')
+                            from helpers.text import format_datetime_locale
+
+                            caption_date = format_datetime_locale(last_dt, fmt='%d.%m.%Y')
                 except Exception:
                     caption_date = translate_ui('welcome.leaderboard.no_date', default='unbekannt')
 
@@ -3042,14 +2975,15 @@ def render_welcome_page(app_config: AppConfig):
 
                     # Formatiere das Datum
                     try:
-                        from helpers.text import format_datetime_de
+                        from helpers.text import format_datetime_locale
 
-                        scores["last_test_time"] = format_datetime_de(scores["last_test_time"], fmt='%d.%m.%y')
+                        scores["last_test_time"] = format_datetime_locale(scores["last_test_time"], fmt='%d.%m.%y')
                     except Exception:
-                        # Robustly parse ISO8601-like timestamps (including offsets)
-                        scores["last_test_time"] = pd.to_datetime(
-                            scores["last_test_time"], format='ISO8601', utc=True, errors='coerce'
-                        ).dt.strftime('%d.%m.%y')
+                        from helpers.text import format_datetime_locale
+
+                        scores["last_test_time"] = scores["last_test_time"].apply(
+                            lambda v: format_datetime_locale(v, fmt='%d.%m.%y')
+                        )
 
                     # Spalten für Anzeige umbenennen
                     pseudo_col = _welcome_leaderboard_column_pseudonym()
@@ -3488,8 +3422,8 @@ def render_welcome_page(app_config: AppConfig):
                                     window_minutes=getattr(cfg, 'rate_limit_window_minutes', 5),
                                 )
                                 if not allowed:
-                                    from helpers.text import format_datetime_de
-                                    locked_until_str = format_datetime_de(locked_until, fmt='%d.%m.%Y %H:%M')
+                                    from helpers.text import format_datetime_locale
+                                    locked_until_str = format_datetime_locale(locked_until, fmt='%d.%m.%Y %H:%M')
                                     st.session_state['recover_feedback'] = ('error', _welcome_pseudonym_recover_locked(locked_until_str))
                                     log_login_attempt(pseudonym_recover, success=False)
                                     st.rerun()

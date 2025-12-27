@@ -1141,10 +1141,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         # Human-readable date
                         if 'start_time' in df.columns:
                             try:
-                                from helpers.text import format_datetime_de
+                                from helpers.text import format_datetime_locale
 
-                                # Format ISO/offset timestamps into German local time
-                                df['Datum'] = format_datetime_de(df['start_time'])
+                                # Format timestamps into the active UI locale
+                                df['Datum'] = format_datetime_locale(df['start_time'])
                             except Exception:
                                 df['Datum'] = df['start_time']
 

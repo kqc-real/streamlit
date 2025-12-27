@@ -547,9 +547,9 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         )
 
         try:
-            from helpers.text import format_datetime_de
+            from helpers.text import format_datetime_locale
 
-            scores[date_col] = format_datetime_de(scores[date_col], fmt="%d.%m.%y")
+            scores[date_col] = format_datetime_locale(scores[date_col], fmt="%d.%m.%y")
         except Exception:
             scores[date_col] = scores[date_col].dt.strftime("%d.%m.%y")
         
@@ -904,9 +904,9 @@ def render_feedback_tab():
 
     df_feedback['Frage'] = df_feedback.apply(lambda row: all_questions.get((row[translate_ui("admin.feedback.columns.set", default="Fragenset")], row[translate_ui("admin.feedback.columns.question_nr", default="Frage-Nr.")]), translate_ui("admin.feedback.question_not_found", default="Frage nicht gefunden")), axis=1)
     try:
-        from helpers.text import format_datetime_de
+        from helpers.text import format_datetime_locale
 
-        df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = format_datetime_de(df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], fmt='%d.%m.%Y %H:%M')
+        df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = format_datetime_locale(df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], fmt='%d.%m.%Y %H:%M')
     except Exception:
         df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")] = pd.to_datetime(
             df_feedback[translate_ui("admin.feedback.columns.date", default="Gemeldet am")], format='ISO8601', utc=True, errors='coerce'
