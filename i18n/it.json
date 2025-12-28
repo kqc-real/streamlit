@@ -526,8 +526,6 @@
         "summary_button": "Al riepilogo 🏁",
         "back_to_current_question": "Torna alla domanda attuale",
         "next_skipped_question": "Vai alla prossima domanda saltata",
-        "prev_bookmarked_question": "Vai alla domanda salvata precedente",
-        "next_bookmarked_question": "Vai alla domanda salvata successiva",
         "answer_read_hint": "Prenditi tempo: leggi bene, aiuta a memorizzare.",
         "next_read_hint": "Leggi la spiegazione: capire il 'Perché' fissa il concetto.",
         "select_answer": "Scegli una risposta prima.",

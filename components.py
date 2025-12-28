@@ -2551,8 +2551,12 @@ def render_bookmarks(questions: QuestionSet):
                 ):
                     # Merke die aktuelle Frage als Rückkehrpunkt, bevor wir springen.
                     try:
-                        st.session_state["resume_next_idx"] = st.session_state.get("_current_question_idx")
-                        st.session_state["pre_jump_idx"] = st.session_state.get("_current_question_idx")
+                        current_idx = st.session_state.get("_current_question_idx")
+                        st.session_state["resume_next_idx"] = current_idx
+                        st.session_state["pre_jump_idx"] = current_idx
+                        st.session_state["jump_source"] = "bookmark"
+                        # Immer den aktuellen Laufpunkt als Rücksprungziel setzen.
+                        st.session_state["bookmark_return_idx"] = current_idx
                     except Exception:
                         pass
                     st.session_state["jump_to_idx"] = q_idx
@@ -2631,8 +2635,11 @@ def render_skipped_questions(questions: QuestionSet):
             ):
                 # Merke die aktuelle Frage als Rückkehrpunkt, bevor wir springen.
                 try:
-                    st.session_state["resume_next_idx"] = st.session_state.get("_current_question_idx")
-                    st.session_state["pre_jump_idx"] = st.session_state.get("_current_question_idx")
+                    current_idx = st.session_state.get("_current_question_idx")
+                    st.session_state["resume_next_idx"] = current_idx
+                    st.session_state["pre_jump_idx"] = current_idx
+                    st.session_state["jump_source"] = "skip"
+                    st.session_state["bookmark_return_idx"] = current_idx
                 except Exception:
                     pass
                 try:

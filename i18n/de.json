@@ -526,8 +526,6 @@
         "summary_button": "Zur Auswertung 🏁",
         "back_to_current_question": "Zur aktuellen Frage",
         "next_skipped_question": "Zur nächsten übersprungenen Frage",
-        "prev_bookmarked_question": "Zur markierten Frage davor",
-        "next_bookmarked_question": "Zur nächsten markierten Frage",
         "answer_read_hint": "Nimm dir Zeit: Lies Frage & Antworten genau – das bringt am meisten.",
         "next_read_hint": "Lies die Erklärung und verstehe das 'Warum' – so bleibt es hängen.",
         "select_answer": "Wähl erst eine Antwort, sonst zählt es nicht.",

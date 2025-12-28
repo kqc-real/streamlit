@@ -4020,14 +4020,25 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # Zähler für verbleibende Fragen
     remaining = len(questions) - num_answered
 
+    # Fallback: setze jump_source anhand der aktuellen Frage, falls es fehlt
+    try:
+        if st.session_state.get("jump_to_idx_active") and not st.session_state.get("jump_source"):
+            if frage_idx in st.session_state.get("skipped_questions", []):
+                st.session_state["jump_source"] = "skip"
+            elif frage_idx in st.session_state.get("bookmarked_questions", []):
+                st.session_state["jump_source"] = "bookmark"
+    except Exception:
+        pass
+
     # Review context tag (skip vs bookmark vs panic)
     context_label = None
     try:
         jump_active = st.session_state.get("jump_to_idx_active", False)
+        jump_source = st.session_state.get("jump_source")
         skipped_list = st.session_state.get("skipped_questions", [])
         bookmarks_list = st.session_state.get("bookmarked_questions", [])
-        in_skip_review = jump_active and frage_idx in skipped_list
-        in_bm_review = jump_active and frage_idx in bookmarks_list and not in_skip_review
+        in_skip_review = jump_active and jump_source == "skip" and frage_idx in skipped_list
+        in_bm_review = jump_active and jump_source == "bookmark" and frage_idx in bookmarks_list
         if in_skip_review:
             context_label = translate_ui("test_view.review_tag.skipped", default="Reviewing: Skipped")
         elif in_bm_review:
@@ -4557,7 +4568,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 # Style: turn primary/red only once an option is selected; keep enabled otherwise.
                 answer_button_type = "primary" if antwort is not None else "secondary"
 
-                # Verberge den Button, wenn eine Antwort bereits abgegeben wurde (außer im Panic-Mode)
+                # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
                 if not answer_disabled:
                     if st.button(
                         answer_label,
@@ -4623,6 +4634,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 # Resume to next unanswered question
                                 st.session_state["jump_to_idx"] = next_idx
                                 st.session_state.jump_to_idx_active = False
+                                st.session_state.pop("jump_source", None)
                                 try:
                                     st.session_state.pop(f"show_explanation_{next_idx}", None)
                                 except Exception:
@@ -4643,6 +4655,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 try:
                                     st.session_state.jump_to_idx_active = False
                                     st.session_state.pop("jump_to_idx", None)
+                                    st.session_state.pop("jump_source", None)
                                 except Exception:
                                     pass
                                 try:
@@ -4656,8 +4669,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # Spezielle Navigation für den Skip-Review-Modus: zurück zur aktuellen Frage
         # oder weiter zur nächsten übersprungenen Frage.
         try:
+            jump_source = st.session_state.get("jump_source")
             skipped_list = st.session_state.get("skipped_questions", [])
-            if st.session_state.get("jump_to_idx_active") and frage_idx in skipped_list:
+            if st.session_state.get("jump_to_idx_active") and jump_source == "skip" and frage_idx in skipped_list:
                 # Navigation orientiert sich an der Reihenfolge in `skipped_questions`
                 # (Queue-Logik). So hat die erste übersprungene Frage immer einen "Nächste"
                 # Button, falls weitere existieren.
@@ -4668,16 +4682,18 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     if pos + 1 < len(sorted_skipped):
                         next_skipped = sorted_skipped[pos + 1]
 
-                resume_target = (
-                    st.session_state.get("resume_next_idx")
-                    or st.session_state.get("pre_jump_idx")
-                    or st.session_state.get("_current_question_idx")
-                )
+                # Für Skip-Review immer zum aktuellen Flow zurückspringen (nächste unbeantwortete Frage),
+                # nicht zu einem evtl. markierten Kontext.
+                try:
+                    resume_target = logic.get_current_question_index()
+                except Exception:
+                    resume_target = None
                 if resume_target is None:
-                    try:
-                        resume_target = logic.get_current_question_index()
-                    except Exception:
-                        resume_target = None
+                    resume_target = (
+                        st.session_state.get("resume_next_idx")
+                        or st.session_state.get("pre_jump_idx")
+                        or st.session_state.get("_current_question_idx")
+                    )
 
                 show_resume = resume_target is not None
                 cols = st.columns(2 if next_skipped and show_resume else 1)
@@ -4693,6 +4709,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             st.session_state.jump_to_idx_active = False
                             st.session_state.pop("resume_next_idx", None)
                             st.session_state.pop("pre_jump_idx", None)
+                            st.session_state.pop("jump_source", None)
                             if resume_target is not None:
                                 st.session_state["jump_to_idx"] = resume_target
                             else:
@@ -4713,6 +4730,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             except Exception:
                                 pass
                             st.session_state["jump_to_idx"] = next_skipped
+                            st.session_state["jump_source"] = "skip"
                             st.session_state.jump_to_idx_active = True
                             st.rerun()
         except Exception:
@@ -4726,67 +4744,23 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 st.session_state.get("jump_to_idx_active")
                 and frage_idx in bookmarks
                 and frage_idx not in skipped_for_nav
-                and len(bookmarks) > 1
+                and st.session_state.get("jump_source") == "bookmark"
             ):
-                initial_indices = st.session_state.get("initial_frage_indices", [])
-                sorted_bookmarks = sorted(
-                    bookmarks,
-                    key=lambda idx: initial_indices.index(idx) if idx in initial_indices else float("inf"),
-                )
-                prev_bm = next_bm = None
-                if frage_idx in sorted_bookmarks:
-                    pos = sorted_bookmarks.index(frage_idx)
-                    if pos > 0:
-                        prev_bm = sorted_bookmarks[pos - 1]
-                    if pos + 1 < len(sorted_bookmarks):
-                        next_bm = sorted_bookmarks[pos + 1]
-
-                cols = st.columns(2)
-                if prev_bm is not None:
-                    with cols[0]:
-                        if st.button(
-                            _test_view_text("prev_bookmarked_question", default="Zur markierten Frage davor"),
-                            key=f"prev_bm_{frage_idx}",
-                            type="secondary",
-                            width="stretch",
-                        ):
-                            _dismiss_user_qset_dialog_from_test()
-                            st.session_state["jump_to_idx"] = prev_bm
-                            st.session_state.jump_to_idx_active = True
-                            try:
-                                if st.session_state.get(f"frage_{prev_bm}_beantwortet") is not None:
-                                    st.session_state[f"show_explanation_{prev_bm}"] = True
-                                    st.session_state.last_answered_idx = prev_bm
-                            except Exception:
-                                pass
-                            st.rerun()
-                if next_bm is not None:
-                    with cols[1]:
-                        if st.button(
-                            _test_view_text("next_bookmarked_question", default="Zur nächsten markierten Frage"),
-                            key=f"next_bm_{frage_idx}",
-                            type="primary",
-                            width="stretch",
-                        ):
-                            _dismiss_user_qset_dialog_from_test()
-                            st.session_state["jump_to_idx"] = next_bm
-                            st.session_state.jump_to_idx_active = True
-                            try:
-                                if st.session_state.get(f"frage_{next_bm}_beantwortet") is not None:
-                                    st.session_state[f"show_explanation_{next_bm}"] = True
-                                    st.session_state.last_answered_idx = next_bm
-                            except Exception:
-                                pass
-                            st.rerun()
+                # Keine Vorwärts/Zurück-Navigation zwischen Bookmarks mehr.
+                pass
         except Exception:
             pass
 
         # Rücksprung zur aktuellen Frage aus dem Bookmark-Review
         try:
-            if st.session_state.get("jump_to_idx_active") and frage_idx in st.session_state.get("bookmarked_questions", []):
+            if (
+                st.session_state.get("jump_to_idx_active")
+                and st.session_state.get("jump_source") == "bookmark"
+                and frage_idx in st.session_state.get("bookmarked_questions", [])
+            ):
+                # Für Bookmark-Review: zurück zur eigentlichen aktuellen Frage (vor dem Sprung)
                 resume_target = (
-                    st.session_state.get("resume_next_idx")
-                    or st.session_state.get("pre_jump_idx")
+                    st.session_state.get("bookmark_return_idx")
                     or st.session_state.get("_current_question_idx")
                 )
                 if resume_target is None:
@@ -4804,7 +4778,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         _dismiss_user_qset_dialog_from_test()
                         st.session_state.jump_to_idx_active = False
                         st.session_state.pop("resume_next_idx", None)
-                        st.session_state.pop("pre_jump_idx", None)
+                        st.session_state.pop("jump_source", None)
+                        st.session_state.pop("bookmark_return_idx", None)
                         st.session_state["jump_to_idx"] = resume_target
                         st.rerun()
         except Exception:
@@ -4813,19 +4788,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # Render navigation buttons directly under the question frame so they
     # appear immediately after the answer widget area.
     try:
-        # Avoid showing navigation controls for unanswered questions or when skip is the
-        # primary action (panic mode). Only render Prev/Next/Summary when the question
-        # is answered and we are not in panic, or when a jump/review flow is active.
+        # Generic navigation hidden when unanswered or when explicit skip/bookmark review is active.
+        jump_source = st.session_state.get("jump_source")
         is_answered_local = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-        is_current_skipped_unanswered = (
-            frage_idx in st.session_state.get("skipped_questions", [])
-            and not is_answered_local
-            and st.session_state.get("jump_to_idx_active")
-        )
-        # In panic mode, still show navigation after a question is answered so users can advance.
-        if not is_current_skipped_unanswered and (
-            is_answered_local or st.session_state.get("jump_to_idx_active")
-        ):
+        if is_answered_local and not (st.session_state.get("jump_to_idx_active") and jump_source in ("skip", "bookmark")):
             render_next_question_button(questions, frage_idx, remaining_time, remaining)
     except Exception:
         # Non-fatal: if rendering nav buttons fails, continue with motivation/explanation
@@ -4861,6 +4827,10 @@ def handle_jump_to_unanswered_question(frage_idx: int):
     st.session_state.jump_to_idx_active = False
     try:
         st.session_state.pop("jump_to_idx", None)
+    except Exception:
+        pass
+    try:
+        st.session_state.pop("jump_source", None)
     except Exception:
         pass
 
@@ -5111,8 +5081,6 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
             if st.session_state.get("user_qset_dialog_open"):
                 close_user_qset_dialog(clear_results=False)
             handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
-            # Synchronisiere den Zustand mit dem Toggle in der Frageansicht, falls vorhanden.
-            st.session_state[f"bm_toggle_{frage_idx}"] = new_bookmark_state
             st.rerun()
 
     # Erklärungstext
