@@ -64,6 +64,7 @@ def test_bookmark_review_navigation():
         {
             "jump_to_idx_active": True,
             "bookmarked_questions": [1, 2, 3],
+            "jump_source": "bookmark",
         }
     )
     vis = compute_visibility(state, frage_idx=2, remaining_time=60, remaining_questions=3)
@@ -83,6 +84,7 @@ def test_skip_review_no_next_skipped_when_last():
         {
             "jump_to_idx_active": True,
             "skipped_questions": [0],
+            "jump_source": "skip",
         }
     )
     vis = compute_visibility(state, frage_idx=0, remaining_time=60, remaining_questions=1)
