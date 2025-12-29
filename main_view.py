@@ -1761,7 +1761,7 @@ def _process_queued_rerun() -> None:
 def _welcome_splash_path() -> str:
     """Return the localized welcome splash markdown file path."""
 
-    doc_dir = Path(get_package_dir()) / "docs"
+    doc_dir = Path(get_package_dir()) / "i18n"
     locale_code = get_locale() or "de"
     localized_file = doc_dir / f"welcome_splash_{locale_code}.md"
     default_file = doc_dir / "welcome_splash.md"
