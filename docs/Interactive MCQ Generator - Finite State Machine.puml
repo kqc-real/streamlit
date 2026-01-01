@@ -1,0 +1,77 @@
+@startuml
+' Erzwingt vertikale Orientierung von oben nach unten
+top to bottom direction
+
+skinparam state {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+  FontName Arial
+  FontSize 13
+}
+skinparam note {
+  BackgroundColor LightYellow
+  BorderColor Gray
+}
+
+state "Phase 1: Interactive Configuration (Sequential Steps)" as Interaction {
+  
+  ' Definition der Zustände mit verständlichen Namen
+  state "Step 1: Define Topic\n(Subject Area)" as Step1
+  state "Step 2: Define Target Audience\n(e.g. High School/Uni)" as Step2
+  state "Step 3: Set Question Count\n& Difficulty Distribution" as Step3
+  state "Step 4: Answer Format\n(4, 5, or Mixed Options)" as Step4
+  state "Step 5: Provide Context Material\n(Uploads/RAG)" as Step5
+  state "Review & Confirmation\n(Summary)" as Confirm
+
+  ' === MAIN PATH (Strictly Vertical) ===
+  [*] -down-> Step1
+  
+  Step1 -down-> Step2 : <b>Topic Locked</b>
+  
+  Step2 -down-> Step3 : <b>Audience Set</b>
+  
+  Step3 -down-> Step4 : <b>Weights Balanced</b>
+  
+  Step4 -down-> Step5 : <b>Format Fixed</b>
+  
+  Step5 -down-> Confirm : <b>Context Processed</b>
+
+  ' === ERROR LOOPS (Solid Arrows to the side) ===
+  Step1 -right-> Step1 : [Clarify Ambiguity]
+  Step2 -right-> Step2 : [Refine Level]
+  Step3 -right-> Step3 : [Fix Math Sum]
+  Step4 -right-> Step4 : [Invalid Selection]
+  Step5 -right-> Step5 : [Retry Upload]
+
+  ' === REVISION LOOP ===
+  Confirm -up-> Step1 : User requests Revision
+}
+
+state "Phase 2: Deterministic Generation" as Generation_Phase {
+  state "Internal Planning\n(<scratchpad> Blueprinting)" as Blueprinting
+  state "Code Generation\n(Final JSON Output)" as JsonOut
+
+  Blueprinting -down-> JsonOut : <b>Plan Verified</b>
+}
+
+' Transition between Phases
+Confirm -down-> Generation_Phase : <b>User Commits ("Yes")</b>
+
+JsonOut -down-> [*] : Terminate
+
+' Notizen für Details
+note right of Step3
+  <b>Constraint:</b>
+  Easy + Medium + Hard
+  MUST equal Total Count
+end note
+
+note right of Blueprinting
+  <b>Chain-of-Thought:</b>
+  Internal monologue to
+  plan content and verify
+  logic before coding.
+end note
+
+@enduml
