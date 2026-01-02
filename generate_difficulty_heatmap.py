@@ -132,35 +132,10 @@ def create_difficulty_heatmap(questions):
         for level in cognitive_levels
     ]
     
-    # Erstelle Heatmap
-    fig = go.Figure(data=go.Heatmap(
-        z=matrix_performance,
-        x=cognitive_level_labels,
-        y=topics_sorted,
-        colorscale=[
-            [0.0, 'rgb(220, 38, 38)'],    # Rot (0%)
-            [0.5, 'rgb(251, 191, 36)'],   # Gelb (50%)
-            [1.0, 'rgb(34, 197, 94)']     # Grün (100%)
-        ],
-        zmid=50,  # Mittelpunkt bei 50%
-        zmin=0,
-        zmax=100,
-        connectgaps=False,  # Keine Interpolation zwischen Zellen
-        hovertemplate='%{customdata}<extra></extra>',
-        customdata=matrix_hover,
-        colorbar=dict(
-            title=translate_ui('heatmap.colorbar_title', default='Performance (%)'),
-            ticksuffix='%',
-            thickness=20,
-            len=0.7
-        ),
-        # Graue Farbe für None-Werte (unbeantwortete Fragen)
-        xgap=2,
-        ygap=2
-    ))
+    # Erstelle Scatter-Plot mit Kreisen statt Heatmap
+    fig = go.Figure()
     
-    # Füge Annotations für Fragenanzahl hinzu (nur bei Zellen mit Daten)
-    annotations = []
+    # Erstelle Traces für farbige Kreise
     for i, topic in enumerate(topics_sorted):
         for j, cog_level in enumerate(cognitive_levels):
             count = matrix_counts[i][j]
@@ -168,65 +143,118 @@ def create_difficulty_heatmap(questions):
             performance = matrix_performance[i][j]
             
             if count > 0:
-                # Zeige immer Anzahl beantwortet/gesamt
-                answered = count - unanswered
-                text = f"n={answered}/{count}"
-                
-                # Weiße Schrift auf allen farbigen Hintergründen
+                # Bestimme Farbe basierend auf Performance
                 if performance is None:
                     # Komplett unbeantwortet (grau)
+                    color = 'rgba(200, 200, 200, 0.5)'
                     text_color = 'rgba(0,0,0,0.7)'
                 else:
-                    # Alle Performance-Werte haben farbigen Hintergrund → weiße Schrift
+                    # Farbcodierung: Rot → Gelb → Grün
+                    if performance >= 75:
+                        color = 'rgb(34, 197, 94)'  # Grün
+                    elif performance >= 50:
+                        # Interpoliere zwischen Gelb und Grün
+                        ratio = (performance - 50) / 25
+                        color = f'rgb({int(251 - ratio * 217)}, {int(191 + ratio * 6)}, {int(36 + ratio * 58)})'
+                    else:
+                        # Interpoliere zwischen Rot und Gelb
+                        ratio = performance / 50
+                        color = f'rgb({int(220 + ratio * 31)}, {int(38 + ratio * 153)}, {int(38 - ratio * 2)})'
                     text_color = 'white'
                 
-                annotations.append(
-                    dict(
-                        x=cognitive_level_labels[j],
-                        y=topic,
-                        text=text,
-                        showarrow=False,
-                        font=dict(size=10, color=text_color, weight='bold' if unanswered > 0 else 'normal')
-                    )
-                )
-    
-    # Füge graue Rechtecke für unbeantwortete Zellen hinzu
-    shapes = []
-    for i, topic in enumerate(topics_sorted):
-        for j, cog_level in enumerate(cognitive_levels):
-            if matrix_performance[i][j] is None and matrix_counts[i][j] > 0:
-                # Graues Rechteck für komplett unbeantwortete Fragen
-                shapes.append(dict(
-                    type='rect',
-                    xref='x',
-                    yref='y',
-                    x0=j - 0.5,
-                    x1=j + 0.5,
-                    y0=i - 0.5,
-                    y1=i + 0.5,
-                    fillcolor='rgba(200, 200, 200, 0.5)',
-                    line=dict(width=0)
+                # Zeige immer Anzahl beantwortet/gesamt
+                answered = count - unanswered
+                annotation_text = f"n={answered}/{count}"
+                
+                # Kreisgröße: groß genug für Text
+                marker_size = 60  # Fixe Größe, groß genug für "n=X/Y"
+                
+                # Erstelle Kreis
+                fig.add_trace(go.Scatter(
+                    x=[j],
+                    y=[i],
+                    mode='markers+text',
+                    marker=dict(
+                        size=marker_size,
+                        color=color,
+                        line=dict(width=1, color='white')
+                    ),
+                    text=annotation_text,
+                    textposition='middle center',
+                    textfont=dict(
+                        size=10,
+                        color=text_color,
+                        family='Arial, sans-serif',
+                        weight='bold' if unanswered > 0 else 'normal'
+                    ),
+                    hovertemplate=matrix_hover[i][j] + '<extra></extra>',
+                    showlegend=False
                 ))
     
+    # Füge unsichtbaren Heatmap-Trace nur für die Colorbar hinzu
+    # Dieser Trace zeigt die native Plotly-Colorbar mit Prozentangaben
+    fig.add_trace(go.Heatmap(
+        z=[[0, 100]],  # Dummy-Daten für Farbskala
+        x=[None, None],
+        y=[None],
+        colorscale=[
+            [0, 'rgb(220, 38, 38)'],      # Rot bei 0%
+            [0.5, 'rgb(251, 191, 36)'],   # Gelb bei 50%
+            [1, 'rgb(34, 197, 94)']       # Grün bei 100%
+        ],
+        showscale=True,
+        zmin=0,
+        zmax=100,
+        colorbar=dict(
+            title=dict(
+                text='%',
+                side='right'
+            ),
+            tickvals=[0, 25, 50, 75, 100],
+            ticktext=['0%', '25%', '50%', '75%', '100%'],
+            len=0.6,
+            y=0.5,
+            yanchor='middle',
+            x=1.02,
+            xanchor='left',
+            thickness=15
+        ),
+        hoverinfo='skip',
+        showlegend=False,
+        visible=True,
+        opacity=0
+    ))
+
     fig.update_layout(
         title='',
         xaxis=dict(
             title=translate_ui('heatmap.xaxis_title', default='Kognitive Stufe'),
             side='bottom',
-            tickfont=dict(size=12)
+            tickfont=dict(size=12),
+            tickvals=list(range(len(cognitive_levels))),
+            ticktext=cognitive_level_labels,
+            showgrid=True,
+            gridcolor='rgba(255, 255, 255, 0.3)',
+            gridwidth=1,
+            zeroline=False
         ),
         yaxis=dict(
             title=translate_ui('heatmap.yaxis_title', default='Thema'),
             tickfont=dict(size=11),
-            autorange='reversed'  # Topics von oben nach unten
+            autorange='reversed',  # Topics von oben nach unten
+            tickvals=list(range(len(topics_sorted))),
+            ticktext=topics_sorted,
+            showgrid=True,
+            gridcolor='rgba(255, 255, 255, 0.3)',
+            gridwidth=1,
+            zeroline=False
         ),
-        shapes=shapes,
-        height=max(400, len(topics_sorted) * 60),  # Dynamische Höhe
+        height=max(400, len(topics_sorted) * 80),
         width=800,
         margin=dict(t=20, b=80, l=150, r=100),
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
-        annotations=annotations
+        hovermode='closest'
     )
     
     return fig
