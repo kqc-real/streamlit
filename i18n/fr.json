@@ -875,7 +875,9 @@
         "metric_caption": "Score Final",
         "score_display": "{current} / {max} points",
         "subheader": {
-            "topic_performance": "Perf par Sujet"
+            "topic_performance": "Tes Progrès d'Apprentissage par Sujet",
+            "concept_performance": "Vérification des Concepts",
+            "concept_mastery": "Ta Compréhension Conceptuelle"
         }
     },
     "summary_view": {
@@ -891,7 +893,7 @@
         "review_label_correct_answer": "Réponse",
         "review_label_explanation": "Explication",
         "review_label_unanswered": "(vide)",
-        "performance_explanation_expander": "Comprendre le graphique",
+        "performance_explanation_expander": "Comment Lire Ceci",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Sujet (répondu/total)",
@@ -911,19 +913,21 @@
                 "count": "Nombre"
             }
         },
-        "performance_explanation_content": "- Barres = % points par sujet.\n- Parenthèses : (répondues / total).\n- Peu de questions = stat peu fiable.",
-        "performance_no_data_info": "Pas assez de données pour l'analyse par sujet.",
+        "performance_explanation_content": "Cet aperçu montre où tu as construit des connaissances:\n\n- Chaque barre représente un sujet\n- Les chiffres entre parenthèses : (tentées / total questions)\n- Valeurs plus élevées = concepts bien ancrés\n- Valeurs plus basses = opportunités d'approfondissement intéressantes\n\nNote : Avec peu de questions tentées, la fiabilité est naturellement limitée.",
+        "performance_no_data_info": "Une fois que tu travailles sur des questions, tu verras ici tes progrès d'apprentissage par sujet.",
         "cognition_radar": {
-            "name": "Niveaux Cognitifs",
-            "header": "Tes Niveaux Cognitifs",
+            "name": "Niveaux Cognitifs (Bloom)",
+            "header": "Tes Processus de Pensée en un Coup d'Œil",
             "hover": {
                 "performance": "Perf",
                 "achieved": "Points",
                 "questions": "Questions"
             },
-            "explanation_expander": "Explication du Radar (Détails)",
-            "explanation_content": "- Affiche tes points par niveau cognitif (Bloom).\n- Valeur = Points obtenus / Max possible par niveau.\n\nProfils & Conseils :\n\n• Crammer (Pic Reproduction) :\n  - Beaucoup de par cœur, peu de transfert.\n  - Conseil : Fais plus d'exos d'application.\n\n• Théoricien (Reproduction haute) :\n  - Connaît le cours, peine à appliquer.\n  - Conseil : Études de cas.\n\n• Praticien (Application haute) :\n  - Sait faire, mais bases théoriques fragiles.\n  - Conseil : Revois les définitions.\n\n• Analyste (Analyse haute) :\n  - Bon résolveur, lacunes factuelles.\n  - Conseil : Consolide les fondamentaux.\n\n• Équilibré :\n  - Compétence solide.\n  - Conseil : Continue !\n\n• Zigzag :\n  - Irrégulier.\n  - Conseil : Cible tes lacunes par sujet.\n\nNote : Il faut assez de questions pour être fiable."
+            "explanation_expander": "Comment Lire Ce Diagramme",
+            "explanation_content": "Ce radar montre sur quels niveaux cognitifs tu travailles (Taxonomie de Bloom):\n\n**Aperçu des Niveaux :**\n\n• **Reproduction** = Rappeler et reproduire les connaissances\n• **Application** = Utiliser ce qui est appris dans de nouvelles situations\n• **Analyse** = Reconnaître les connexions et pénétrer les problèmes\n\n---\n\n**Profils Typiques d'Apprentissage :**\n\n🎓 **Le Théoricien**\n\nReproduction forte, application plus faible.\n\nTu connais les concepts, mais les appliquer dans des situations pratiques reste difficile.\n\n*Recommandation :* Pratique avec des études de cas et des tâches de transfert.\n\n---\n\n🔧 **Le Praticien**\n\nApplication forte, reproduction plus faible.\n\nTu travailles bien avec les connaissances, mais les fondements théoriques pourraient être renforcés.\n\n*Recommandation :* Révise les définitions et concepts clés pour la confiance.\n\n---\n\n🔍 **L'Analyste**\n\nAnalyse forte, base irrégulière.\n\nTu penses de manière holistique et reconnais bien les connexions, mais il peut y avoir des lacunes dans les fondamentaux.\n\n*Recommandation :* Vérifie systématiquement que toutes les bases sont solides.\n\n---\n\n⭐ **Le Polyvalent**\n\nProfil équilibré sur tous les niveaux.\n\nTu actives divers processus de pensée uniformément – excellent !\n\n*Recommandation :* Continue ainsi, affine où nécessaire.\n\n---\n\n**Important :** La fiabilité croît avec le nombre de questions tentées."
         },
+        "performance_column_explanation_expander": "À propos de cette analyse conceptuelle",
+        "performance_column_explanation_content": "Cette visualisation t'aide à réfléchir sur ta compréhension conceptuelle:\n\n- **Compris** (vert) : Tu as démontré une solide maîtrise de ces concepts.\n- **Non compris** (rouge) : Possibles idées fausses détectées – une opportunité d'apprentissage !\n- **Non essayé** (gris) : Concepts que tu n'as pas encore testés.\n\nAstuce : Concentre-toi particulièrement sur les zones rouges – elles révèlent où un approfondissement est bénéfique.",
         "review_export_header": "Exporter",
         "review_export_mode": "Format",
         "review_export_button": "Exporter",

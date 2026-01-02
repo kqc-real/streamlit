@@ -6,6 +6,11 @@
         "error": {
             "questionset_load_failed": "Question set '{filename}' could not be loaded: {error}",
             "invalid_admin_session": "⚠️ Invalid or expired admin session. Please log in again."
+        },
+        "status": {
+            "understood": "Understood ✓",
+            "not_attempted": "Not Attempted",
+            "not_understood": "Not Understood ✗"
         }
     },
     "sidebar": {
@@ -874,7 +879,9 @@
         "metric_caption": "Final Score",
         "score_display": "{current} / {max} points",
         "subheader": {
-            "topic_performance": "Topic Performance"
+            "topic_performance": "Topic Performance",
+            "concept_performance": "Concept Performance",
+            "concept_mastery": "Concept Understanding"
         }
     },
     "summary_view": {
@@ -890,7 +897,7 @@
         "review_label_correct_answer": "Solution",
         "review_label_explanation": "Explanation",
         "review_label_unanswered": "(empty)",
-        "performance_explanation_expander": "What does this chart mean?",
+        "performance_explanation_expander": "How to Read This",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Topic (answered/total)",
@@ -910,20 +917,21 @@
                 "count": "Count"
             }
         },
-        "performance_explanation_content": "- Bars = points per topic (%).\n- Brackets: (answered / total questions).\n- Few questions = less statistical significance.",
-        "performance_no_data_info": "Not enough data for topic analysis.",
+        "performance_explanation_content": "This overview shows where you've built knowledge:\n\n- Each bar represents a topic\n- Numbers in parentheses: (attempted / total questions)\n- Higher values = concepts are well-anchored\n- Lower values = worthwhile deepening opportunities\n\nNote: With few attempted questions, reliability is naturally limited.",
+        "performance_no_data_info": "Once you work on questions, you'll see your topic-specific learning progress here.",
         "cognition_radar": {
-            "name": "Cognitive Stages",
-            "header": "Your Cognitive Stages",
+            "name": "Cognitive Levels (Bloom)",
+            "header": "Your Thinking Processes at a Glance",
             "hover": {
                 "performance": "Performance",
                 "achieved": "Achieved",
                 "questions": "Questions"
             },
-            "explanation_expander": "Radar Explanation (Details)",
-            "explanation_content": "- Shows points per cognitive stage (Bloom).\n- Value = Achieved / Max points per stage.\n\nPatterns & Tips:\n\n• Crammer (Spike at Reproduction):\n  - High rote memory, low transfer.\n  - Tip: Do more application tasks.\n\n• Theorist (High Reproduction):\n  - Knows concepts, struggles to apply.\n  - Tip: Try case studies.\n\n• Practitioner (High Application):\n  - Good usage, theory gaps.\n  - Tip: Refresh basics.\n\n• Analyst (High Analysis):\n  - Good problem solver, foundation gaps.\n  - Tip: Consolidate fundamentals.\n\n• Balanced:\n  - Solid competence.\n  - Tip: Keep it up!\n\n• Zigzag:\n  - Inconsistent.\n  - Tip: Find specific gaps per topic.\n\nNote: Requires sufficient questions to be reliable."
+            "explanation_expander": "How to Read This Diagram",
+            "explanation_content": "This radar shows which cognitive levels you're working on (Bloom's Taxonomy):\n\n**The Levels Overview:**\n\n• **Reproduction** = Recalling and reproducing knowledge\n• **Application** = Using learned material in new situations\n• **Analysis** = Recognizing connections and penetrating problems\n\n---\n\n**Typical Learner Profiles:**\n\n🎓 **The Theorist**\n\nStrong reproduction, weaker application.\n\nYou know the concepts, but applying them in practical situations is still challenging.\n\n*Learning recommendation:* Practice with case studies and transfer tasks.\n\n---\n\n🔧 **The Practitioner**\n\nStrong application, weaker reproduction.\n\nYou work well with knowledge, but theoretical foundations could be strengthened.\n\n*Learning recommendation:* Review definitions and core concepts for confidence.\n\n---\n\n🔍 **The Analyst**\n\nStrong analysis, irregular foundation.\n\nYou think holistically and recognize connections well, but may have gaps in fundamentals.\n\n*Learning recommendation:* Systematically verify that all basics are solid.\n\n---\n\n⭐ **The All-Rounder**\n\nBalanced profile across all levels.\n\nYou activate various thinking processes evenly – excellent!\n\n*Learning recommendation:* Keep it up, fine-tune where needed.\n\n---\n\n**Important:** Reliability grows with the number of questions attempted."
         },
-        "review_export_header": "Export",
+        "performance_column_explanation_expander": "About this Concept Analysis",
+        "performance_column_explanation_content": "This visualization helps you reflect on your conceptual understanding:\n\n- **Understood** (green): You've demonstrated solid grasp of these concepts.\n- **Not Understood** (red): Possible misconceptions detected – a learning opportunity!\n- **Not Attempted** (gray): Concepts you haven't tested yet.\n\nTip: Focus especially on red areas – they reveal where deeper engagement pays off.",
         "review_export_mode": "Format",
         "review_export_button": "Export",
         "review_export_preview": "Card Preview",

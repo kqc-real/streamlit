@@ -871,7 +871,9 @@
         "metric_caption": "最终得分",
         "score_display": "{current} / {max} 分",
         "subheader": {
-            "topic_performance": "主题表现"
+            "topic_performance": "按主题学习进展",
+            "concept_performance": "概念检查",
+            "concept_mastery": "你的概念理解"
         }
     },
     "summary_view": {
@@ -887,7 +889,7 @@
         "review_label_correct_answer": "解答",
         "review_label_explanation": "解释",
         "review_label_unanswered": "(空)",
-        "performance_explanation_expander": "这个图表是什么意思？",
+        "performance_explanation_expander": "如何阅读此图",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "主题 (已答/总计)",
@@ -910,16 +912,18 @@
         "performance_explanation_content": "- 条形 = 每个主题的得分 (%)。\n- 括号: (已答 / 总问题数)。\n- 问题少 = 统计意义较小。",
         "performance_no_data_info": "数据不足以进行主题分析。",
         "cognition_radar": {
-            "name": "认知阶段",
-            "header": "您的认知阶段",
+            "name": "认知层次（Bloom）",
+            "header": "你的思维过程概览",
             "hover": {
                 "performance": "表现",
                 "achieved": "已获得",
                 "questions": "问题"
             },
-            "explanation_expander": "雷达解释 (详情)",
-            "explanation_content": "- 显示每个认知阶段 (Bloom) 的得分。\n- 值 = 获得 / 每个阶段的最大得分。\n\n模式和提示:\n\n• 填鸭式 (复现峰值):\n  - 机械记忆高，迁移低。\n  - 提示: 做更多应用任务。\n\n• 理论家 (复现高):\n  - 懂概念，应用困难。\n  - 提示: 尝试案例研究。\n\n• 实践者 (应用高):\n  - 使用好，理论差距。\n  - 提示: 刷新基础。\n\n• 分析师 (分析高):\n  - 解决问题好，基础差距。\n  - 提示: 巩固基础。\n\n• 平衡:\n  - 能力扎实。\n  - 提示: 继续保持！\n\n• 之字形:\n  - 不一致。\n  - 提示: 查找每个主题的具体差距。\n\n注意: 需要足够的问题才可靠。"
+            "explanation_expander": "如何阅读此图表",
+            "explanation_content": "此雷达图显示你正在哪些认知层次工作（布鲁姆分类法）：\n\n**层次概览：**\n\n• **再现** = 回忆和再现知识\n• **应用** = 在新情境中使用所学\n• **分析** = 识别联系和深入问题\n\n---\n\n**典型学习者画像：**\n\n🎓 **理论家**\n\n再现强，应用弱。\n\n你了解概念，但在实践情境中应用仍有挑战。\n\n*学习建议：*用案例研究和迁移任务练习。\n\n---\n\n🔧 **实践者**\n\n应用强，再现弱。\n\n你能很好地运用知识，但理论基础可以加强。\n\n*学习建议：*复习定义和核心概念以增强信心。\n\n---\n\n🔍 **分析师**\n\n分析强，基础不规则。\n\n你思维整体性强，能很好地识别联系，但基础知识可能有缺口。\n\n*学习建议：*系统性地检查所有基础是否扎实。\n\n---\n\n⭐ **全面型**\n\n所有层次均衡发展。\n\n你均衡地激活各种思维过程 – 很棒！\n\n*学习建议：*继续保持，有需要时精细调整。\n\n---\n\n**重要：**可靠性随着尝试问题数量增长。"
         },
+        "performance_column_explanation_expander": "关于这个概念分析",
+        "performance_column_explanation_content": "此可视化帮助你反思概念理解：\n\n- **已理解**（绿色）：你已展示出对这些概念的扎实掌握。\n- **未理解**（红色）：可能存在概念误解 – 这是学习机会！\n- **未尝试**（灰色）：你还未测试的概念。\n\n提示：特别关注红色区域 – 它们揭示了深入学习最有价值的地方。",
         "review_export_header": "导出",
         "review_export_mode": "格式",
         "review_export_button": "导出",

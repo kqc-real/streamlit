@@ -875,7 +875,9 @@
         "metric_caption": "Score Final",
         "score_display": "{current} / {max} puntos",
         "subheader": {
-            "topic_performance": "Rendimiento por Tema"
+            "topic_performance": "Tu Progreso de Aprendizaje por Tema",
+            "concept_performance": "Revisión de Conceptos",
+            "concept_mastery": "Tu Comprensión Conceptual"
         }
     },
     "summary_view": {
@@ -891,7 +893,7 @@
         "review_label_correct_answer": "Respuesta",
         "review_label_explanation": "Explicación",
         "review_label_unanswered": "(vacía)",
-        "performance_explanation_expander": "Entender el gráfico",
+        "performance_explanation_expander": "Cómo Leer Esto",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Tema (respondido/total)",
@@ -911,19 +913,21 @@
                 "count": "Cantidad"
             }
         },
-        "performance_explanation_content": "- Barras = % puntos por tema.\n- Paréntesis: (respondidas / total).\n- Pocas preguntas = dato poco fiable.",
-        "performance_no_data_info": "Faltan datos para análisis por tema.",
+        "performance_explanation_content": "Esta visión general muestra dónde has construido conocimiento:\n\n- Cada barra representa un tema\n- Los números entre paréntesis: (intentadas / total de preguntas)\n- Valores más altos = conceptos bien anclados\n- Valores más bajos = oportunidades valiosas para profundizar\n\nNota: Con pocas preguntas intentadas, la fiabilidad es naturalmente limitada.",
+        "performance_no_data_info": "Una vez trabajes en preguntas, verás aquí tu progreso de aprendizaje por tema.",
         "cognition_radar": {
-            "name": "Niveles Cognitivos",
-            "header": "Tus Niveles Cognitivos",
+            "name": "Niveles Cognitivos (Bloom)",
+            "header": "Tus Procesos de Pensamiento de un Vistazo",
             "hover": {
                 "performance": "Rendimiento",
                 "achieved": "Logrado",
                 "questions": "Preguntas"
             },
-            "explanation_expander": "Explicación del Radar (Detalles)",
-            "explanation_content": "- Muestra puntos por nivel cognitivo (Bloom).\n- Valor = Puntos logrados / Máx posible por nivel.\n\nPerfiles y Tips:\n\n• Crammer (Pico Reproducción):\n  - Mucha memoria, poca transferencia.\n  - Tip: Haz más ejercicios de aplicación.\n\n• Teórico (Reproducción alta):\n  - Sabe concepto, falla práctica.\n  - Tip: Estudios de caso.\n\n• Práctico (Aplicación alta):\n  - Sabe hacer, falla teoría.\n  - Tip: Repasa definiciones.\n\n• Analista (Análisis alto):\n  - Resuelve bien, lagunas factuales.\n  - Tip: Consolida fundamentos.\n\n• Equilibrado:\n  - Competencia sólida.\n  - Tip: ¡Sigue así!\n\n• Zigzag:\n  - Irregular.\n  - Tip: Busca lagunas por tema.\n\nNota: Requiere suficientes preguntas para ser fiable."
+            "explanation_expander": "Cómo Leer Este Diagrama",
+            "explanation_content": "Este radar muestra en qué niveles cognitivos estás trabajando (Taxonomía de Bloom):\n\n**Visión General de los Niveles:**\n\n• **Reproducción** = Recordar y reproducir conocimiento\n• **Aplicación** = Usar lo aprendido en nuevas situaciones\n• **Análisis** = Reconocer conexiones y penetrar problemas\n\n---\n\n**Perfiles Típicos de Aprendizaje:**\n\n🎓 **El Teórico**\n\nReproducción fuerte, aplicación más débil.\n\nConoces los conceptos, pero aplicarlos en situaciones prácticas aún es desafiante.\n\n*Recomendación:* Practica con estudios de caso y tareas de transferencia.\n\n---\n\n🔧 **El Práctico**\n\nAplicación fuerte, reproducción más débil.\n\nTrabaja bien con conocimiento, pero los fundamentos teóricos podrían fortalecerse.\n\n*Recomendación:* Revisa definiciones y conceptos básicos para confianza.\n\n---\n\n🔍 **El Analista**\n\nAnálisis fuerte, base irregular.\n\nPiensas de forma holística y reconoces conexiones bien, pero puede haber brechas en fundamentos.\n\n*Recomendación:* Verifica sistemáticamente que todos los básicos estén sólidos.\n\n---\n\n⭐ **El Equilibrado**\n\nPerfil balanceado en todos los niveles.\n\nActivas varios procesos de pensamiento uniformemente – ¡excelente!\n\n*Recomendación:* Sigue así, ajusta donde sea necesario.\n\n---\n\n**Importante:** La fiabilidad crece con el número de preguntas intentadas."
         },
+        "performance_column_explanation_expander": "Acerca de este análisis de conceptos",
+        "performance_column_explanation_content": "Esta visualización te ayuda a reflexionar sobre tu comprensión conceptual:\n\n- **Entendido** (verde): Has demostrado un dominio sólido de estos conceptos.\n- **No entendido** (rojo): Posibles conceptos erróneos detectados – ¡una oportunidad de aprendizaje!\n- **No intentado** (gris): Conceptos que aún no has probado.\n\nConsejo: Concéntrate especialmente en las áreas rojas – revelan dónde vale la pena profundizar.",
         "review_export_header": "Exportar",
         "review_export_mode": "Formato",
         "review_export_button": "Exportar",

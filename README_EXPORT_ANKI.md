@@ -6,8 +6,19 @@ Die Transformation muss sowohl strukturelle Anpassungen (JSON-Flattening) als au
 
 ## Contract (Kurzbeschreibung)
 
-- Input: JSON-Bytes (UTF-8) mit der Form { "meta": {...}, "questions": [ { "frage": str, "optionen": [str,..], "loesung": int, "erklaerung": str, "extended_explanation": obj, "mini_glossary": obj, "thema": str, "gewichtung": int } ] }
+- Input: JSON-Bytes (UTF-8) mit der Form { "meta": {...}, "questions": [ { "frage": str, "optionen": [str,..], "loesung": int, "erklaerung": str, "extended_explanation": obj, "mini_glossary": obj, "topic": str, "concept": str, "gewichtung": int } ] }
 - Output: TSV-String (UTF-8) mit Spalten in dieser Reihenfolge: Frage, Optionen (HTML), Antwort_Korrekt, Erklaerung_Basis (HTML), Erklaerung_Erweitert (HTML), Glossar (HTML), Fragenset_Titel, Thema, Tags_Alle.
+
+## JSON-Struktur und Begriffe
+
+Um Missverständnisse zu vermeiden, hier eine kurze Erklärung der zentralen Begriffe in der JSON-Struktur:
+
+- **title** (in meta): Das generalthema des gesamten Fragensets (z. B. "Physik").
+- **topic** (pro Frage): Ein Unterthema, das mehrere Fragen unterschiedlicher kognitiver Stufen umfassen kann (z. B. "Mechanik"); maximal 10 Topics pro Set.
+- **concept** (pro Frage): Das zentrale Konzept der Frage, oft eine häufig falsch interpretierte Idee (misconception, z. B. "Trägheitsgesetz").
+- **mini_glossary** (pro Frage): 1-4 Schlüsselbegriffe mit Definitionen, die in der Frage relevant sind.
+
+Diese Hierarchie stellt sicher, dass Fragen strukturiert und pädagogisch wertvoll sind.
 - Fehlermodi: bei ungültigem JSON wird ein aussagekräftiger Fehler ausgegeben; bei fehlerhafter LaTeX-Syntax bleibt das Original erhalten und der Eintrag wird zur manuellen Prüfung geloggt.
 - Erfolgskriterium: erzeugte TSV kann von Anki importiert werden und enthält MathJax-kompatible Formeln.
 

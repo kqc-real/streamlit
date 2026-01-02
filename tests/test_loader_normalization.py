@@ -15,6 +15,7 @@ def test_english_keys_map_to_german():
         "explanation": "Because arithmetic.",
         "weight": 2,
         "topic": "Math",
+        "concept": "Arithmetic",
         "cognitive_level": "apply",
     }
     qn = _single_question(q)
@@ -41,6 +42,7 @@ def test_variations_of_keys_are_mapped():
         "explanation": "Short",
         "weight": 1,
         "topic": "TopicX",
+        "concept": "Alt Concept",
         "cognitive_level": "understand",
     }
     qn = _single_question(q)
@@ -58,6 +60,8 @@ def test_german_keys_take_precedence_over_english():
         "question": "Frage EN",
         "options": ["X", "Y"],
         "answer": "X",
+        "topic": "Test",
+        "concept": "Precedence",
     }
     qn = _single_question(q)
     # textual answer should be resolved to index 0

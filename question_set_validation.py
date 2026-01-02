@@ -75,6 +75,7 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
     _check_string(question.get("question"), f"{context}: Feld 'question'", errors)
     _check_string(question.get("explanation"), f"{context}: Feld 'explanation'", errors)
     thema = _check_string(question.get("topic"), f"{context}: Feld 'topic'", errors)
+    concept = _check_string(question.get("concept"), f"{context}: Feld 'concept'", errors)
 
     optionen_raw = question.get("options")
     option_count = 0

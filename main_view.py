@@ -5955,8 +5955,42 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
         )
 
+    # --- Performance-Analyse pro Concept ---
+    # Prüfe, ob mindestens eine Frage ein 'concept' Feld hat
+    has_concepts = any(frage.get("concept") for frage in questions)
+    if has_concepts:
+        st.divider()
+        st.subheader(translate_ui("summary.subheader.concept_mastery", default="Konzeptverständnis"))
+        # --- Performance-Column-Diagramm: MC-Test-Konzept-Beherrschung ---
+        try:
+            from generate_performance_column import create_performance_column
+            fig_performance_column = create_performance_column(questions)
+            if fig_performance_column:
+                st.plotly_chart(fig_performance_column, config={"responsive": True})
+                
+                # Erklärung für das Performance-Column-Diagramm
+                with st.expander(
+                    translate_ui("summary_view.performance_column_explanation_expander", default="Über diese Auswertung"),
+                    expanded=False,
+                ):
+                    st.markdown(
+                        translate_ui("summary_view.performance_column_explanation_content", default="- Zeigt die Beherrschung von MC-Test-Konzepten in drei Kategorien.\n- **Verstanden**: Konzepte, die du gut beherrschst (hohe Erfolgsrate).\n- **Nicht versucht**: Konzepte, die noch nicht getestet wurden.\n- **Nicht verstanden**: Konzepte, die verbessert werden müssen (niedrige Erfolgsrate).\n- Nutze diese Übersicht, um gezielt Schwächen anzugehen.")
+                    )
+        except Exception as e:
+            # Fallback: falls das Diagramm nicht erstellt werden kann, zeige Fehler
+            st.error(f"Fehler beim Erstellen des Performance-Diagramms: {str(e)}")
+            import traceback
+            st.code(traceback.format_exc())
+    else:
+        st.info(
+            _summary_text(
+                "concept_performance_no_data_info",
+                default="Keine Daten für eine konzeptspezifische Analyse verfügbar.",
+            )
+        )
 
     st.divider()
+
     # --- Radar chart: Leistung nach kognitiven Stufen (Bloom) ---
     try:
         # Use PDF export helpers for normalization and canonical order

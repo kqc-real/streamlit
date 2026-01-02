@@ -10,13 +10,14 @@ from export_jobs import generate_arsnova_json, validate_arsnova_questions  # noq
 import export_jobs
 
 
-def _build_question(question, options, answer, weight=1, topic="Mathe"):
+def _build_question(question, options, answer, weight=1, topic="Mathe", concept="Beispiel"):
     return {
         "question": question,
         "options": options,
         "answer": answer,
         "weight": weight,
         "topic": topic,
+        "concept": concept,
     }
 
 
@@ -29,7 +30,7 @@ def test_generate_arsnova_json_maps_core_fields(tmp_path, monkeypatch):
             weight=2,
             topic="Test",
         ),
-        _build_question("2. Noch eine?", ["Ja", "Nein"], 0, weight=3, topic=""),
+        _build_question("2. Noch eine?", ["Ja", "Nein"], 0, weight=3, topic="", concept="Noch ein Beispiel"),
     ]
 
     data_bytes = generate_arsnova_json("questions_demo.json", questions)
@@ -47,15 +48,15 @@ def test_generate_arsnova_json_maps_core_fields(tmp_path, monkeypatch):
     assert first["timer"] == 60
     assert first["requiredForToken"] is True
     assert first["difficulty"] == 6
-    assert first["tags"] == ["Test"]
+    assert first["tags"] == ["Test", "Konzept: Beispiel"]
     assert first["multipleSelectionEnabled"] is False
     assert first["answerOptionList"][1]["isCorrect"] is True
     assert all(option["TYPE"] == "DefaultAnswerOption" for option in first["answerOptionList"])
 
     second = payload["questionList"][1]
     assert second["difficulty"] == 10
-    # Ohne Thema erwarten wir ein leeres Array
-    assert second["tags"] == []
+    # Mit Concept, aber ohne Thema erwarten wir das Concept-Tag
+    assert second["tags"] == ["Konzept: Noch ein Beispiel"]
     assert payload["sessionConfig"]["music"]["enabled"]["lobby"] is True
 
 

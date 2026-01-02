@@ -4,6 +4,15 @@
 
 Jede Frage kann ein optionales `mini_glossary` Feld enthalten, das wichtige Begriffe und deren Definitionen für diese spezifische Frage dokumentiert. Diese Einträge werden im PDF-Export gesammelt und als Nachschlagewerk am Ende angezeigt.
 
+## Begriffe-Hierarchie
+
+Um die Struktur der Fragensets zu verstehen:
+
+- **title** (in meta): Generalthema des Sets (z. B. "Mathematik").
+- **topic** (pro Frage): Unterthema, das mehrere Fragen umfassen kann (z. B. "Lineare Algebra").
+- **concept** (pro Frage): Zentrales Konzept, oft eine misconception (z. B. "Determinante").
+- **mini_glossary** (pro Frage): 1-4 Schlüsselbegriffe mit Definitionen (z. B. "Determinante": "Eine Zahl, die einer Matrix zugeordnet wird...").
+
 ## JSON-Schema
 
 ```json
@@ -13,7 +22,8 @@ Jede Frage kann ein optionales `mini_glossary` Feld enthalten, das wichtige Begr
   "loesung": 0,
   "erklaerung": "...",
   "gewichtung": 1,
-  "thema": "...",
+  "topic": "...",
+  "concept": "...",
   "mini_glossary": {
     "Begriff 1": "Definition des Begriffs 1. Kann LaTeX enthalten: $x^2$",
     "Begriff 2": "Definition des Begriffs 2.",

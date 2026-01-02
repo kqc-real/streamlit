@@ -10,7 +10,7 @@ def test_dollar_in_normal_text_is_preserved():
     payload = {
         "meta": {"title": "EdgeCases"},
         "questions": [
-            {"question": "Preis: $5", "options": ["OK"], "answer": 0, "topic": "Money", "weight": 1}
+            {"question": "Preis: $5", "options": ["OK"], "answer": 0, "topic": "Money", "concept": "Dollar in Text", "weight": 1}
         ],
     }
     b = json.dumps(payload).encode("utf-8")
@@ -25,7 +25,7 @@ def test_ambiguous_nested_delimiters_keep_display_math_and_inner_dollar():
     payload = {
         "meta": {"title": "EdgeCases"},
         "questions": [
-            {"question": "$$a $ b$$", "options": ["X"], "answer": 0, "topic": "Math", "weight": 2}
+            {"question": "$$a $ b$$", "options": ["X"], "answer": 0, "topic": "Math", "concept": "Nested Delimiters", "weight": 2}
         ],
     }
     b = json.dumps(payload).encode("utf-8")
@@ -43,6 +43,7 @@ def test_missing_meta_title_falls_back_to_source_name():
             "options": ["A"],
             "answer": 0,
             "topic": "Test",
+            "concept": "Fallback Title",
             "weight": 1,
         }
     ]

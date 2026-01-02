@@ -6,6 +6,11 @@
         "error": {
             "questionset_load_failed": "Fragenset '{filename}' konnte nicht geladen werden: {error}",
             "invalid_admin_session": "⚠️ Ungültige oder abgelaufene Admin-Session. Bitte erneut einloggen."
+        },
+        "status": {
+            "understood": "Verstanden ✓",
+            "not_attempted": "Nicht bearbeitet",
+            "not_understood": "Nicht verstanden ✗"
         }
     },
     "sidebar": {
@@ -879,7 +884,9 @@
         "metric_caption": "Dein Ergebnis",
         "score_display": "{current} / {max} Punkten",
         "subheader": {
-            "topic_performance": "Themen-Check"
+            "topic_performance": "Deine Lernfortschritte nach Themen",
+            "concept_performance": "Konzept-Check",
+            "concept_mastery": "Dein Konzeptverständnis"
         }
     },
     "summary_view": {
@@ -895,7 +902,7 @@
         "review_label_correct_answer": "Lösung",
         "review_label_explanation": "Erklärung",
         "review_label_unanswered": "(leer)",
-        "performance_explanation_expander": "Was bedeutet das Diagramm?",
+        "performance_explanation_expander": "So liest du diese Darstellung",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Thema (beantwortet/gesamt)",
@@ -915,20 +922,21 @@
                 "count": "Anzahl"
             }
         },
-        "performance_explanation_content": "- Balken = erreichte Punkte pro Thema in %.\n- Klammern: (beantwortete / alle Fragen).\n- Wenig Fragen = wenig statistische Aussagekraft.",
-        "performance_no_data_info": "Zu wenig Daten für Themen-Analyse. Mach weiter!",
+        "performance_explanation_content": "Diese Übersicht zeigt, wo du bereits Wissen aufgebaut hast:\n\n- Jeder Balken repräsentiert ein Thema\n- Die Zahlen in Klammern zeigen: (bearbeitete Fragen / Gesamtfragen)\n- Hohe Werte = Konzepte sind gut verankert\n- Niedrigere Werte = Lohnenswerte Vertiefungsmöglichkeiten\n\nHinweis: Bei wenigen bearbeiteten Fragen ist die Aussagekraft naturgemäß begrenzt.",
+        "performance_no_data_info": "Sobald du Fragen bearbeitest, siehst du hier deine themenspezifischen Lernfortschritte.",
         "cognition_radar": {
             "name": "Kognitive Stufen (Bloom)",
-            "header": "Deine kognitiven Stufen",
+            "header": "Deine Denkprozesse im Überblick",
             "hover": {
                 "performance": "Leistung",
                 "achieved": "Erreicht",
                 "questions": "Fragen"
             },
-            "explanation_expander": "Erklärung zum Radar (Details)",
-            "explanation_content": "- Zeigt deine Punkte pro kognitiver Stufe (Bloom-Taxonomie).\n- Werte = Erreichte Pkt / Max. Pkt pro Stufe.\n\nMuster & Tipps:\n\n• Bulimie-Lernen (Spitze bei Reproduktion):\n  - Viel auswendig gelernt, wenig Transfer.\n  - Tipp: Mehr Anwendungsaufgaben machen.\n\n• Theoretiker (Reproduktion hoch):\n  - Theorie sitzt, Praxis fehlt.\n  - Tipp: Fallbeispiele üben.\n\n• Praktiker (Anwendung hoch):\n  - Kannst es anwenden, aber Theorie lückenhaft.\n  - Tipp: Grundlagen kurz auffrischen.\n\n• Analytiker (Analyse hoch):\n  - Stark im Problemlösen, evtl. Lücken im Basiswissen.\n  - Tipp: Basics wiederholen.\n\n• Allrounder (Rundes Bild):\n  - Solide Kompetenz überall.\n  - Tipp: Weiter so!\n\n• Zickzack:\n  - Schwankende Leistung.\n  - Tipp: Gezielt Lücken suchen.\n\nHinweis: Bei wenigen Fragen ist die Aussagekraft begrenzt."
+            "explanation_expander": "So liest du dieses Diagramm",
+            "explanation_content": "Dieses Radar zeigt, auf welchen kognitiven Ebenen du arbeitest (nach Bloom-Taxonomie):\\n\\n**Die Stufen im Überblick:**\\n\\n• **Reproduktion** = Wissen abrufen und wiedergeben\\n• **Anwendung** = Gelerntes in neuen Situationen nutzen\\n• **Analyse** = Zusammenhänge erkennen und Probleme durchdringen\\n\\n---\\n\\n**Typische Lerner-Profile:**\\n\\n🎓 **Der Theoretiker**\\n\\nStarke Reproduktion, schwächere Anwendung.\\n\\nDu kennst die Konzepte, aber die Umsetzung in praktischen Situationen fällt noch schwer.\\n\\n*Lernempfehlung:* Übe mit Fallbeispielen und Transferaufgaben.\\n\\n---\\n\\n🔧 **Der Praktiker**\\n\\nStarke Anwendung, schwächere Reproduktion.\\n\\nDu kannst gut mit dem Wissen arbeiten, aber die theoretischen Grundlagen könnten gefestigt werden.\\n\\n*Lernempfehlung:* Wiederhole Definitionen und Kernkonzepte zur Absicherung.\\n\\n---\\n\\n🔍 **Der Analytiker**\\n\\nStarke Analyse, unregelmäßige Basis.\\n\\nDu denkst vernetzt und erkennst Zusammenhänge gut, eventuell gibt es Lücken im Grundwissen.\\n\\n*Lernempfehlung:* Prüfe systematisch, ob alle Basics sitzen.\\n\\n---\\n\\n⭐ **Der Allrounder**\\n\\nAusgewogenes Profil auf allen Stufen.\\n\\nDu aktivierst verschiedene Denkprozesse gleichmäßig – sehr gut!\\n\\n*Lernempfehlung:* Weiter so, gezielt Feinschliff bei Bedarf.\\n\\n---\\n\\n**Wichtig:** Die Aussagekraft wächst mit der Anzahl bearbeiteter Fragen."
         },
-        "review_export_header": "Export",
+        "performance_column_explanation_expander": "Über diese Konzept-Analyse",
+        "performance_column_explanation_content": "Diese Darstellung hilft dir, dein Konzeptverständnis zu reflektieren:\n\n- **Verstanden** (grün): Du hast gezeigt, dass du diese Konzepte sicher anwenden kannst.\n- **Nicht verstanden** (rot): Hier liegen möglicherweise Missverständnisse (Misconceptions) vor – eine Chance zum Lernen!\n- **Nicht bearbeitet** (grau): Diese Konzepte hast du noch nicht getestet.\n\nTipp: Konzentriere dich besonders auf die roten Bereiche – sie zeigen, wo vertiefte Auseinandersetzung lohnt.",
         "review_export_mode": "Format",
         "review_export_button": "Exportieren",
         "review_export_preview": "Vorschau (Lernkarten)",

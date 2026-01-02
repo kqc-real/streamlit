@@ -18,6 +18,7 @@ def test_code_fence_math_preserved():
                 "explanation": "Erkl.",
                 "extended_explanation": "Ext",
                 "topic": "Test",
+                "concept": "Code in Options",
                 "weight": 1
             }
         ]

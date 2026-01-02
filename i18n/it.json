@@ -875,7 +875,9 @@
         "metric_caption": "Punteggio Finale",
         "score_display": "{current} / {max} punti",
         "subheader": {
-            "topic_performance": "Perf per Argomento"
+            "topic_performance": "I tuoi Progressi di Apprendimento per Argomento",
+            "concept_performance": "Verifica dei Concetti",
+            "concept_mastery": "La tua Comprensione Concettuale"
         }
     },
     "summary_view": {
@@ -891,7 +893,7 @@
         "review_label_correct_answer": "Risposta",
         "review_label_explanation": "Spiegazione",
         "review_label_unanswered": "(vuota)",
-        "performance_explanation_expander": "Capire il grafico",
+        "performance_explanation_expander": "Come Leggere Questo",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Argomento (risposto/totale)",
@@ -911,19 +913,21 @@
                 "count": "Numero"
             }
         },
-        "performance_explanation_content": "- Barre = % punti per argomento.\n- Parentesi: (risposte / totale).\n- Poche domande = dato poco affidabile.",
-        "performance_no_data_info": "Dati insufficienti per analisi per argomento.",
+        "performance_explanation_content": "Questa panoramica mostra dove hai costruito conoscenza:\n\n- Ogni barra rappresenta un argomento\n- I numeri tra parentesi: (tentate / totale domande)\n- Valori più alti = concetti ben ancorati\n- Valori più bassi = opportunità di approfondimento interessanti\n\nNota: Con poche domande tentate, l'affidabilità è naturalmente limitata.",
+        "performance_no_data_info": "Una volta che lavori sulle domande, vedrai qui i tuoi progressi di apprendimento per argomento.",
         "cognition_radar": {
-            "name": "Livelli Cognitivi",
-            "header": "I tuoi Livelli Cognitivi",
+            "name": "Livelli Cognitivi (Bloom)",
+            "header": "I tuoi Processi di Pensiero a Colpo d'Occhio",
             "hover": {
                 "performance": "Perf",
                 "achieved": "Punti",
                 "questions": "Domande"
             },
-            "explanation_expander": "Spiegazione Radar (Dettagli)",
-            "explanation_content": "- Mostra punti per livello cognitivo (Bloom).\n- Valore = Punti ottenuti / Max possibile per livello.\n\nProfili & Consigli:\n\n• Crammer (Picco Riproduzione):\n  - Molta memoria, poco transfer.\n  - Consiglio: Più esercizi di applicazione.\n\n• Teorico (Riproduzione alta):\n  - Sa i concetti, fatica ad applicare.\n  - Consiglio: Studi di caso.\n\n• Pratico (Applicazione alta):\n  - Sa fare, basi teoriche deboli.\n  - Consiglio: Ripassa le definizioni.\n\n• Analista (Analisi alta):\n  - Bravo a risolvere, lacune nozionistiche.\n  - Consiglio: Consolida i fondamenti.\n\n• Equilibrato:\n  - Competenza solida.\n  - Consiglio: Continua così!\n\n• Zigzag:\n  - Irregolare.\n  - Consiglio: Cerca le lacune per argomento.\n\nNota: Servono abbastanza domande per essere affidabile."
+            "explanation_expander": "Come Leggere Questo Diagramma",
+            "explanation_content": "Questo radar mostra su quali livelli cognitivi stai lavorando (Tassonomia di Bloom):\n\n**Panoramica dei Livelli:**\n\n• **Riproduzione** = Richiamare e riprodurre conoscenza\n• **Applicazione** = Usare ciò che è appreso in nuove situazioni\n• **Analisi** = Riconoscere connessioni e penetrare problemi\n\n---\n\n**Profili Tipici di Apprendimento:**\n\n🎓 **Il Teorico**\n\nRiproduzione forte, applicazione più debole.\n\nConosci i concetti, ma applicarli in situazioni pratiche è ancora impegnativo.\n\n*Raccomandazione:* Pratica con studi di caso e compiti di trasferimento.\n\n---\n\n🔧 **Il Pratico**\n\nApplicazione forte, riproduzione più debole.\n\nLavori bene con la conoscenza, ma i fondamenti teorici potrebbero essere rafforzati.\n\n*Raccomandazione:* Rivedi definizioni e concetti chiave per sicurezza.\n\n---\n\n🔍 **L'Analista**\n\nAnalisi forte, base irregolare.\n\nPensi in modo olistico e riconosci bene le connessioni, ma potrebbero esserci lacune nei fondamentali.\n\n*Raccomandazione:* Verifica sistematicamente che tutte le basi siano solide.\n\n---\n\n⭐ **Il Tuttofare**\n\nProfilo equilibrato su tutti i livelli.\n\nAttivi vari processi di pensiero uniformemente – eccellente!\n\n*Raccomandazione:* Continua così, affina dove necessario.\n\n---\n\n**Importante:** L'affidabilità cresce con il numero di domande tentate."
         },
+        "performance_column_explanation_expander": "Informazioni su questa analisi concettuale",
+        "performance_column_explanation_content": "Questa visualizzazione ti aiuta a riflettere sulla tua comprensione concettuale:\n\n- **Capito** (verde): Hai dimostrato una solida padronanza di questi concetti.\n- **Non capito** (rosso): Possibili misconcezioni rilevate – un'opportunità di apprendimento!\n- **Non provato** (grigio): Concetti che non hai ancora testato.\n\nSuggerimento: Concentrati soprattutto sulle aree rosse – rivelano dove vale la pena approfondire.",
         "review_export_header": "Esporta",
         "review_export_mode": "Formato",
         "review_export_button": "Esporta",

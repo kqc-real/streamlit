@@ -75,11 +75,15 @@ def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
             f"Anzahl der Fragen ({len(questions)}) überein."
         )
 
+    # Prüfung von meta.title
+    if "title" not in meta or not isinstance(meta["title"], str) or not meta["title"].strip():
+        errors.append("meta.title muss ein nicht-leerer String sein.")
+
     # --- Prüfungen pro Frage ---
     all_themes = []
     for i, q in enumerate(questions, 1):
         # Pflichtfelder pro Frage (nun englische Schlüssel)
-        required_fields = ["question", "options", "answer", "explanation", "weight", "topic"]
+        required_fields = ["question", "options", "answer", "explanation", "weight", "topic", "concept"]
         for field in required_fields:
             if field not in q:
                 errors.append(f"Frage {i}: Pflichtfeld '{field}' fehlt.")
