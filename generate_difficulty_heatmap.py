@@ -135,7 +135,32 @@ def create_difficulty_heatmap(questions):
     # Erstelle Scatter-Plot mit Kreisen statt Heatmap
     fig = go.Figure()
     
-    # Erstelle Traces für farbige Kreise
+    # Sammle Positionen für graue Hintergrund-Kreise
+    bg_x = []
+    bg_y = []
+    for i, topic in enumerate(topics_sorted):
+        for j, cog_level in enumerate(cognitive_levels):
+            count = matrix_counts[i][j]
+            if count > 0:
+                bg_x.append(j)
+                bg_y.append(i)
+    
+    # Füge alle grauen Kreise als einen Trace hinzu (wird zuerst gezeichnet)
+    if bg_x:
+        fig.add_trace(go.Scatter(
+            x=bg_x,
+            y=bg_y,
+            mode='markers',
+            marker=dict(
+                size=48,  # Etwas größer
+                color='rgba(160, 160, 160, 0.4)',
+                line=dict(width=0)
+            ),
+            hoverinfo='skip',
+            showlegend=False
+        ))
+    
+    # Dann: Farbige Kreise darüber
     for i, topic in enumerate(topics_sorted):
         for j, cog_level in enumerate(cognitive_levels):
             count = matrix_counts[i][j]
@@ -166,10 +191,10 @@ def create_difficulty_heatmap(questions):
                 answered = count - unanswered
                 annotation_text = f"n={answered}/{count}"
                 
-                # Kreisgröße: groß genug für Text
-                marker_size = 60  # Fixe Größe, groß genug für "n=X/Y"
+                # Kreisgröße: klein genug damit sie nicht überlappen
+                marker_size = 52  # Etwas größer
                 
-                # Erstelle Kreis
+                # Erstelle farbigen Kreis
                 fig.add_trace(go.Scatter(
                     x=[j],
                     y=[i],
