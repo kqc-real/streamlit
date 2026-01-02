@@ -152,8 +152,8 @@ def create_difficulty_heatmap(questions):
             y=bg_y,
             mode='markers',
             marker=dict(
-                size=52,  # Fixe Größe (Desktop-optimiert)
-                color='rgba(160, 160, 160, 0.4)',
+                size=44,  # Kleiner, damit sich nichts berührt
+                color='rgba(160, 160, 160, 0.35)',
                 line=dict(width=0)
             ),
             hoverinfo='skip',
@@ -191,8 +191,8 @@ def create_difficulty_heatmap(questions):
                 answered = count - unanswered
                 annotation_text = f"n={answered}/{count}"
                 
-                # Kreisgröße: Fixe Größe
-                marker_size = 56  # Etwas größer als Hintergrund
+                # Kreisgröße: kleiner, damit sie sich nicht berühren
+                marker_size = 48
                 
                 # Erstelle farbigen Kreis
                 fig.add_trace(go.Scatter(
@@ -274,11 +274,12 @@ def create_difficulty_heatmap(questions):
             gridcolor='rgba(255, 255, 255, 0.3)',
             gridwidth=1,
             zeroline=False,
-            range=[len(topics_sorted) - 0.5, -0.5]
+            range=[len(topics_sorted) - 0.5, -0.5],
+            automargin=True
         ),
         height=max(400, len(topics_sorted) * 80),
         autosize=True,
-        margin=dict(t=20, b=80, l=120, r=90),
+        margin=dict(t=20, b=80, l=0, r=90),
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         hovermode='closest'
