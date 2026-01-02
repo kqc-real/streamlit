@@ -149,6 +149,12 @@ Language:
 - All human-readable content inside JSON must be in the user's language.
 - JSON keys remain in English.
 
+Terminology Hierarchy (to avoid confusion):
+- title (in meta): The general/central topic of the entire question set (from Configuration Step 1).
+- topic (per question): A sub-topic that can span multiple questions of different cognitive levels (weights 1-3); up to 10 topics per set for coverage.
+- concept (per question): The central concept of the question, often addressing a common misconception (e.g., a frequently misinterpreted term).
+- mini_glossary (per question): 1-4 key terms from the question with short definitions for clarification.
+
 Cognitive weights and levels (MANDATORY mapping):
 - weight=1 -> "cognitive_level": "Reproduction"
 - weight=2 -> "cognitive_level": "Application"
@@ -241,7 +247,7 @@ The final JSON object must follow this structure:
 {
   "meta": {
     "schema_version": "1.1",
-    "title": "string (from Configuration Step 1)",
+    "title": "string (central/general topic from Configuration Step 1)",
     "created": "DD.MM.YYYY HH:MM",
     "target_audience": "string (from Configuration Step 2)",
     "question_count": number,
