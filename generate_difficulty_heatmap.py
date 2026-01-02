@@ -152,7 +152,7 @@ def create_difficulty_heatmap(questions):
             y=bg_y,
             mode='markers',
             marker=dict(
-                size=48,  # Etwas größer
+                size=52,  # Fixe Größe (Desktop-optimiert)
                 color='rgba(160, 160, 160, 0.4)',
                 line=dict(width=0)
             ),
@@ -191,8 +191,8 @@ def create_difficulty_heatmap(questions):
                 answered = count - unanswered
                 annotation_text = f"n={answered}/{count}"
                 
-                # Kreisgröße: klein genug damit sie nicht überlappen
-                marker_size = 52  # Etwas größer
+                # Kreisgröße: Fixe Größe
+                marker_size = 56  # Etwas größer als Hintergrund
                 
                 # Erstelle farbigen Kreis
                 fig.add_trace(go.Scatter(
@@ -207,7 +207,7 @@ def create_difficulty_heatmap(questions):
                     text=annotation_text,
                     textposition='middle center',
                     textfont=dict(
-                        size=10,
+                        size=11,
                         color=text_color,
                         family='Arial, sans-serif',
                         weight='bold' if unanswered > 0 else 'normal'
@@ -261,7 +261,8 @@ def create_difficulty_heatmap(questions):
             showgrid=True,
             gridcolor='rgba(255, 255, 255, 0.3)',
             gridwidth=1,
-            zeroline=False
+            zeroline=False,
+            range=[-0.5, len(cognitive_levels) - 0.5]
         ),
         yaxis=dict(
             title=translate_ui('heatmap.yaxis_title', default='Thema'),
@@ -272,14 +273,17 @@ def create_difficulty_heatmap(questions):
             showgrid=True,
             gridcolor='rgba(255, 255, 255, 0.3)',
             gridwidth=1,
-            zeroline=False
+            zeroline=False,
+            range=[len(topics_sorted) - 0.5, -0.5]
         ),
         height=max(400, len(topics_sorted) * 80),
-        width=800,
-        margin=dict(t=20, b=80, l=150, r=100),
+        autosize=True,
+        margin=dict(t=20, b=80, l=120, r=90),
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         hovermode='closest'
     )
+    
+    return fig
     
     return fig
