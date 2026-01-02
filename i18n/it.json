@@ -895,10 +895,10 @@
         "metric_caption": "Punteggio Finale",
         "score_display": "{current} / {max} punti",
         "subheader": {
-            "topic_performance": "I tuoi Progressi di Apprendimento per Argomento",
+            "topic_performance": "Dove Sei su Ogni Argomento?",
             "concept_performance": "Verifica dei Concetti",
-            "concept_mastery": "La tua Comprensione Concettuale",
-            "difficulty_map": "Argomenti × Livelli Cognitivi"
+            "concept_mastery": "Quali Concetti Hai Padroneggiato?",
+            "difficulty_map": "La Tua Mappa delle Prestazioni"
         }
     },
     "summary_view": {
@@ -914,7 +914,7 @@
         "review_label_correct_answer": "Risposta",
         "review_label_explanation": "Spiegazione",
         "review_label_unanswered": "(vuota)",
-        "performance_explanation_expander": "Come Leggere Questo",
+        "performance_explanation_expander": "💡 Perché Questo Diagramma Ti Aiuta?",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Argomento (risposto/totale)",
@@ -934,7 +934,7 @@
                 "count": "Numero"
             }
         },
-        "performance_explanation_content": "Questa panoramica mostra dove hai costruito conoscenza:\n\n- Ogni barra rappresenta un argomento\n- I numeri tra parentesi: (tentate / totale domande)\n- Valori più alti = concetti ben ancorati\n- Valori più bassi = opportunità di approfondimento interessanti\n\nNota: Con poche domande tentate, l'affidabilità è naturalmente limitata.",
+        "performance_explanation_content": "**Come usare questo diagramma per il tuo apprendimento:**\n\n✅ **Riconosci i tuoi punti di forza** – Dove padroneggi già il contenuto con sicurezza?\n\n🎯 **Identifica le lacune** – Quali argomenti meritano più attenzione?\n\n📊 **Comprendi il contesto** – I numeri (X/Y) mostrano: tentate / totale domande\n\n🔍 **Verifica l'affidabilità** – Più domande hai tentato, più accurata è la tua immagine.\n\n💪 **Pianifica strategicamente** – Concentrati sulle aree con il maggior potenziale di apprendimento!",
         "performance_no_data_info": "Una volta che lavori sulle domande, vedrai qui i tuoi progressi di apprendimento per argomento.",
         "cognition_radar": {
             "name": "Livelli Cognitivi (Bloom)",
@@ -944,13 +944,13 @@
                 "achieved": "Punti",
                 "questions": "Domande"
             },
-            "explanation_expander": "Come Leggere Questo Diagramma",
-            "explanation_content": "Questo radar mostra su quali livelli cognitivi stai lavorando (Tassonomia di Bloom):\n\n**Panoramica dei Livelli:**\n\n• **Riproduzione** = Richiamare e riprodurre conoscenza\n• **Applicazione** = Usare ciò che è appreso in nuove situazioni\n• **Analisi** = Riconoscere connessioni e penetrare problemi\n\n---\n\n**Profili Tipici di Apprendimento:**\n\n🎓 **Il Teorico**\n\nRiproduzione forte, applicazione più debole.\n\nConosci i concetti, ma applicarli in situazioni pratiche è ancora impegnativo.\n\n*Raccomandazione:* Pratica con studi di caso e compiti di trasferimento.\n\n---\n\n🔧 **Il Pratico**\n\nApplicazione forte, riproduzione più debole.\n\nLavori bene con la conoscenza, ma i fondamenti teorici potrebbero essere rafforzati.\n\n*Raccomandazione:* Rivedi definizioni e concetti chiave per sicurezza.\n\n---\n\n🔍 **L'Analista**\n\nAnalisi forte, base irregolare.\n\nPensi in modo olistico e riconosci bene le connessioni, ma potrebbero esserci lacune nei fondamentali.\n\n*Raccomandazione:* Verifica sistematicamente che tutte le basi siano solide.\n\n---\n\n⭐ **Il Tuttofare**\n\nProfilo equilibrato su tutti i livelli.\n\nAttivi vari processi di pensiero uniformemente – eccellente!\n\n*Raccomandazione:* Continua così, affina dove necessario.\n\n---\n\n**Importante:** L'affidabilità cresce con il numero di domande tentate."
+            "explanation_expander": "💡 Perché Questo Radar Ti Aiuta?",
+            "explanation_content": "Questo radar mostra su quali livelli cognitivi stai lavorando (Tassonomia di Bloom):\n\n**Panoramica dei Livelli:**\n\n• **Riproduzione** = Richiamare e riprodurre conoscenza\n\n• **Applicazione** = Usare ciò che è appreso in nuove situazioni\n\n• **Analisi** = Riconoscere connessioni e penetrare problemi\n\n---\n\n**Profili Tipici di Apprendimento:**\n\n🎓 **Il Teorico**\n\nRiproduzione forte, applicazione più debole.\n\nConosci i concetti, ma applicarli in situazioni pratiche è ancora impegnativo.\n\n*Raccomandazione:* Pratica con studi di caso e compiti di trasferimento.\n\n---\n\n🔧 **Il Pratico**\n\nApplicazione forte, riproduzione più debole.\n\nLavori bene con la conoscenza, ma i fondamenti teorici potrebbero essere rafforzati.\n\n*Raccomandazione:* Rivedi definizioni e concetti chiave per sicurezza.\n\n---\n\n🔍 **L'Analista**\n\nAnalisi forte, base irregolare.\n\nPensi in modo olistico e riconosci bene le connessioni, ma potrebbero esserci lacune nei fondamentali.\n\n*Raccomandazione:* Verifica sistematicamente che tutte le basi siano solide.\n\n---\n\n⭐ **Il Tuttofare**\n\nProfilo equilibrato su tutti i livelli.\n\nAttivi vari processi di pensiero uniformemente – eccellente!\n\n*Raccomandazione:* Continua così, affina dove necessario.\n\n---\n\n**Importante:** L'affidabilità cresce con il numero di domande tentate."
         },
-        "performance_column_explanation_expander": "Informazioni su questa analisi concettuale",
-        "performance_column_explanation_content": "Questa visualizzazione ti aiuta a riflettere sulla tua comprensione concettuale:\n\n- **Capito** (verde): Hai dimostrato una solida padronanza di questi concetti.\n- **Non capito** (rosso): Possibili misconcezioni rilevate – un'opportunità di apprendimento!\n- **Non provato** (grigio): Concetti che non hai ancora testato.\n\nSuggerimento: Concentrati soprattutto sulle aree rosse – rivelano dove vale la pena approfondire.",
-        "difficulty_map_explanation_expander": "Come leggere questa mappa di calore",
-        "difficulty_map_explanation_content": "Questa matrice mostra le tue prestazioni per argomento e complessità cognitiva:\n\n- **Righe** = Argomenti del tuo set di domande\n- **Colonne** = Livelli cognitivi (Riproduzione → Applicazione → Analisi)\n- **Colori** mostrano ENTRAMBI gli aspetti:\n  - **Qualità**: Quante domande corrette?\n  - **Completezza**: Quante domande tentate?\n  - Verde (>75%), Giallo (50-75%), Rosso (<50%)\n- **Grigio** = Completamente non risposto\n- **n=X/Y** = Risposte/Totale\n\n**Importante:** Non risposto = 0 punti. Esempio: 2/4 risposte, corrette = 50% (giallo)!\n\n**Uso:** Identifica difficoltà E lacune. Saltare riduce la valutazione.",
+        "performance_column_explanation_expander": "💡 Perché Questa Analisi Ti Aiuta?",
+        "performance_column_explanation_content": "**Come usare questa analisi per il tuo apprendimento:**\n\n🟢 **Capito** – Puoi applicare questi concetti con sicurezza. Ottimo lavoro!\n\n🔴 **Non capito** – Probabilmente esistono misconcezioni qui. Queste sono le tue opportunità di apprendimento più preziose!\n\n⚪ **Non provato** – Non hai ancora testato questi concetti.\n\n**Il tuo prossimo passo:** Concentrati sulle aree rosse. Ti mostrano esattamente dove un impegno più profondo porta il maggior progresso di apprendimento. Risolvere le misconcezioni è spesso più efficace che accumulare nuove conoscenze!",
+        "difficulty_map_explanation_expander": "💡 Perché Questa Mappa Ti Aiuta?",
+        "difficulty_map_explanation_content": "**Come usare questa mappa per il tuo apprendimento:**\n\n🗺️ **Riconosci i modelli** – Quali argomenti sono facili o difficili per te a quale livello cognitivo?\n\n🎯 **Trova punti precisi** – Riga × Colonna = esattamente dove devi esercitarti\n\n📊 **Comprendi i colori:**\n• Verde (>75%) = Padroneggi bene quest'area\n• Giallo (50-75%) = Spazio per migliorare\n• Rosso (<50%) = Priorità per il tuo apprendimento\n• Grigio = Non ancora tentato\n\n🔍 **Nota n=X/Y** – Mostra tentate/totale domande. Il colore riflette ENTRAMBI: qualità E completezza!\n\n⚠️ **Importante:** Domande non risposte = 0 punti. Esempio: 2/4 tentate, corrette = 50% (giallo), non 100%!\n\n💡 **Il tuo vantaggio di apprendimento:** Puoi vedere a colpo d'occhio se le difficoltà sono legate all'argomento O al processo di pensiero. Questo ti aiuta a scegliere la giusta strategia di apprendimento!",
         "review_export_header": "Esporta",
         "review_export_mode": "Formato",
         "review_export_button": "Esporta",

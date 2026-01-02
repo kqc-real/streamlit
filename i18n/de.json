@@ -899,10 +899,10 @@
         "metric_caption": "Dein Ergebnis",
         "score_display": "{current} / {max} Punkten",
         "subheader": {
-            "topic_performance": "Deine Lernfortschritte nach Themen",
+            "topic_performance": "Wo stehst du bei welchem Thema?",
             "concept_performance": "Konzept-Check",
-            "concept_mastery": "Dein Konzeptverständnis",
-            "difficulty_map": "Themen × Kognitive Stufen"
+            "concept_mastery": "Welche Konzepte hast du verstanden?",
+            "difficulty_map": "Deine Performance-Landkarte"
         }
     },
     "summary_view": {
@@ -918,7 +918,7 @@
         "review_label_correct_answer": "Lösung",
         "review_label_explanation": "Erklärung",
         "review_label_unanswered": "(leer)",
-        "performance_explanation_expander": "So liest du diese Darstellung",
+        "performance_explanation_expander": "💡 Warum hilft dir dieses Diagramm?",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Thema (beantwortet/gesamt)",
@@ -938,7 +938,7 @@
                 "count": "Anzahl"
             }
         },
-        "performance_explanation_content": "Diese Übersicht zeigt, wo du bereits Wissen aufgebaut hast:\n\n- Jeder Balken repräsentiert ein Thema\n- Die Zahlen in Klammern zeigen: (bearbeitete Fragen / Gesamtfragen)\n- Hohe Werte = Konzepte sind gut verankert\n- Niedrigere Werte = Lohnenswerte Vertiefungsmöglichkeiten\n\nHinweis: Bei wenigen bearbeiteten Fragen ist die Aussagekraft naturgemäß begrenzt.",
+        "performance_explanation_content": "**So nutzt du dieses Diagramm für dein Lernen:**\n\n✅ **Erkenne deine Stärken** – Wo beherrschst du die Inhalte bereits sicher?\n\n🎯 **Identifiziere Wissenslücken** – Welche Themen verdienen mehr Aufmerksamkeit?\n\n📊 **Verstehe den Kontext** – Die Zahlen (X/Y) zeigen: bearbeitete / Gesamtfragen\n\n🔍 **Prüfe die Aussagekraft** – Je mehr Fragen du bearbeitet hast, desto verlässlicher ist dein Bild.\n\n💪 **Plane gezielt weiter** – Fokussiere dich auf die Bereiche mit dem größten Lernpotenzial!",
         "performance_no_data_info": "Sobald du Fragen bearbeitest, siehst du hier deine themenspezifischen Lernfortschritte.",
         "cognition_radar": {
             "name": "Kognitive Stufen (Bloom)",
@@ -948,13 +948,13 @@
                 "achieved": "Erreicht",
                 "questions": "Fragen"
             },
-            "explanation_expander": "So liest du dieses Diagramm",
-            "explanation_content": "Dieses Radar zeigt, auf welchen kognitiven Ebenen du arbeitest (nach Bloom-Taxonomie):\\n\\n**Die Stufen im Überblick:**\\n\\n• **Reproduktion** = Wissen abrufen und wiedergeben\\n• **Anwendung** = Gelerntes in neuen Situationen nutzen\\n• **Analyse** = Zusammenhänge erkennen und Probleme durchdringen\\n\\n---\\n\\n**Typische Lerner-Profile:**\\n\\n🎓 **Der Theoretiker**\\n\\nStarke Reproduktion, schwächere Anwendung.\\n\\nDu kennst die Konzepte, aber die Umsetzung in praktischen Situationen fällt noch schwer.\\n\\n*Lernempfehlung:* Übe mit Fallbeispielen und Transferaufgaben.\\n\\n---\\n\\n🔧 **Der Praktiker**\\n\\nStarke Anwendung, schwächere Reproduktion.\\n\\nDu kannst gut mit dem Wissen arbeiten, aber die theoretischen Grundlagen könnten gefestigt werden.\\n\\n*Lernempfehlung:* Wiederhole Definitionen und Kernkonzepte zur Absicherung.\\n\\n---\\n\\n🔍 **Der Analytiker**\\n\\nStarke Analyse, unregelmäßige Basis.\\n\\nDu denkst vernetzt und erkennst Zusammenhänge gut, eventuell gibt es Lücken im Grundwissen.\\n\\n*Lernempfehlung:* Prüfe systematisch, ob alle Basics sitzen.\\n\\n---\\n\\n⭐ **Der Allrounder**\\n\\nAusgewogenes Profil auf allen Stufen.\\n\\nDu aktivierst verschiedene Denkprozesse gleichmäßig – sehr gut!\\n\\n*Lernempfehlung:* Weiter so, gezielt Feinschliff bei Bedarf.\\n\\n---\\n\\n**Wichtig:** Die Aussagekraft wächst mit der Anzahl bearbeiteter Fragen."
+            "explanation_expander": "💡 Warum hilft dir dieses Radar?",
+            "explanation_content": "Dieses Radar zeigt, auf welchen kognitiven Ebenen du arbeitest (nach Bloom-Taxonomie):\\n\\n**Die Stufen im Überblick:**\\n\\n• **Reproduktion** = Wissen abrufen und wiedergeben\\n\\n• **Anwendung** = Gelerntes in neuen Situationen nutzen\\n\\n• **Analyse** = Zusammenhänge erkennen und Probleme durchdringen\\n\\n---\\n\\n**Typische Lerner-Profile:**\\n\\n🎓 **Der Theoretiker**\\n\\nStarke Reproduktion, schwächere Anwendung.\\n\\nDu kennst die Konzepte, aber die Umsetzung in praktischen Situationen fällt noch schwer.\\n\\n*Lernempfehlung:* Übe mit Fallbeispielen und Transferaufgaben.\\n\\n---\\n\\n🔧 **Der Praktiker**\\n\\nStarke Anwendung, schwächere Reproduktion.\\n\\nDu kannst gut mit dem Wissen arbeiten, aber die theoretischen Grundlagen könnten gefestigt werden.\\n\\n*Lernempfehlung:* Wiederhole Definitionen und Kernkonzepte zur Absicherung.\\n\\n---\\n\\n🔍 **Der Analytiker**\\n\\nStarke Analyse, unregelmäßige Basis.\\n\\nDu denkst vernetzt und erkennst Zusammenhänge gut, eventuell gibt es Lücken im Grundwissen.\\n\\n*Lernempfehlung:* Prüfe systematisch, ob alle Basics sitzen.\\n\\n---\\n\\n⭐ **Der Allrounder**\\n\\nAusgewogenes Profil auf allen Stufen.\\n\\nDu aktivierst verschiedene Denkprozesse gleichmäßig – sehr gut!\\n\\n*Lernempfehlung:* Weiter so, gezielt Feinschliff bei Bedarf.\\n\\n---\\n\\n**Wichtig:** Die Aussagekraft wächst mit der Anzahl bearbeiteter Fragen."
         },
-        "performance_column_explanation_expander": "Über diese Konzept-Analyse",
-        "performance_column_explanation_content": "Diese Darstellung hilft dir, dein Konzeptverständnis zu reflektieren:\n\n- **Verstanden** (grün): Du hast gezeigt, dass du diese Konzepte sicher anwenden kannst.\n- **Nicht verstanden** (rot): Hier liegen möglicherweise Missverständnisse (Misconceptions) vor – eine Chance zum Lernen!\n- **Nicht bearbeitet** (grau): Diese Konzepte hast du noch nicht getestet.\n\nTipp: Konzentriere dich besonders auf die roten Bereiche – sie zeigen, wo vertiefte Auseinandersetzung lohnt.",
-        "difficulty_map_explanation_expander": "So liest du diese Heatmap",
-        "difficulty_map_explanation_content": "Diese Matrix zeigt deine Performance nach Thema und kognitiver Komplexität:\n\n- **Zeilen** = Themen aus deinem Fragenset\n- **Spalten** = Kognitive Stufen (Reproduktion → Anwendung → Analyse)\n- **Farben** zeigen BEIDE Aspekte:\n  - **Qualität**: Wie viele Fragen wurden richtig beantwortet?\n  - **Vollständigkeit**: Wie viele Fragen wurden bearbeitet?\n  - Grün (>75%), Gelb (50-75%), Rot (<50%)\n- **Grau** = Komplett unbeantwortet\n- **n=X/Y** = Beantwortet/Gesamt\n\n**Wichtig:** Unbeantwortete = 0 Punkte. Beispiel: 2/4 beantwortet, beide richtig = 50% (gelb)!\n\n**Nutzen:** Identifiziere Schwierigkeiten UND Lücken. Strategisches Überspringen senkt die Bewertung.",
+        "performance_column_explanation_expander": "💡 Warum hilft dir diese Analyse?",
+        "performance_column_explanation_content": "**So nutzt du diese Analyse für dein Lernen:**\n\n🟢 **Verstanden** – Diese Konzepte kannst du sicher anwenden. Gut gemacht!\n\n🔴 **Nicht verstanden** – Hier liegen wahrscheinlich Missverständnisse (Misconceptions). Das sind deine wertvollsten Lernchancen!\n\n⚪ **Nicht bearbeitet** – Diese Konzepte hast du noch nicht getestet.\n\n**Dein nächster Schritt:** Fokussiere dich auf die roten Bereiche. Sie zeigen dir genau, wo vertiefte Auseinandersetzung den größten Lernfortschritt bringt. Misconceptions aufzulösen ist oft effektiver als neues Wissen anzuhäufen!",  
+        "difficulty_map_explanation_expander": "💡 Warum hilft dir diese Landkarte?",
+        "difficulty_map_explanation_content": "**So nutzt du diese Landkarte für dein Lernen:**\n\n🗺️ **Erkenne Muster** – Welche Themen fallen dir auf welcher Denkstufe leicht oder schwer?\n\n🎯 **Finde präzise Ansatzpunkte** – Zeile × Spalte = genau dort, wo du gezielt üben solltest\n\n📊 **Verstehe die Farben:**\n• Grün (>75%) = Du beherrschst diesen Bereich gut\n• Gelb (50-75%) = Hier ist noch Luft nach oben\n• Rot (<50%) = Priorität für dein Lernen\n• Grau = Noch nicht bearbeitet\n\n🔍 **Beachte n=X/Y** – Zeigt bearbeitete/Gesamtfragen. Die Farbe berücksichtigt BEIDE: Qualität UND Vollständigkeit!\n\n⚠️ **Wichtig:** Unbeantwortete Fragen = 0 Punkte. Beispiel: 2/4 bearbeitet, beide richtig = 50% (gelb), nicht 100%!\n\n💡 **Dein Lernvorteil:** Du siehst auf einen Blick, ob Schwierigkeiten themenbezogen ODER denkprozessbezogen sind. Das hilft dir, die richtige Lernstrategie zu wählen!",  
         "review_export_mode": "Format",
         "review_export_button": "Exportieren",
         "review_export_preview": "Vorschau (Lernkarten)",

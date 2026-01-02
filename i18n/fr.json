@@ -895,10 +895,10 @@
         "metric_caption": "Score Final",
         "score_display": "{current} / {max} points",
         "subheader": {
-            "topic_performance": "Tes Progrès d'Apprentissage par Sujet",
+            "topic_performance": "Où en Es-tu sur Chaque Sujet ?",
             "concept_performance": "Vérification des Concepts",
-            "concept_mastery": "Ta Compréhension Conceptuelle",
-            "difficulty_map": "Sujets × Niveaux Cognitifs"
+            "concept_mastery": "Quels Concepts As-tu Maîtrisés ?",
+            "difficulty_map": "Ta Carte de Performance"
         }
     },
     "summary_view": {
@@ -914,7 +914,7 @@
         "review_label_correct_answer": "Réponse",
         "review_label_explanation": "Explication",
         "review_label_unanswered": "(vide)",
-        "performance_explanation_expander": "Comment Lire Ceci",
+        "performance_explanation_expander": "💡 Pourquoi Ce Diagramme t'Aide ?",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Sujet (répondu/total)",
@@ -934,7 +934,7 @@
                 "count": "Nombre"
             }
         },
-        "performance_explanation_content": "Cet aperçu montre où tu as construit des connaissances:\n\n- Chaque barre représente un sujet\n- Les chiffres entre parenthèses : (tentées / total questions)\n- Valeurs plus élevées = concepts bien ancrés\n- Valeurs plus basses = opportunités d'approfondissement intéressantes\n\nNote : Avec peu de questions tentées, la fiabilité est naturellement limitée.",
+        "performance_explanation_content": "**Comment utiliser ce diagramme pour ton apprentissage :**\n\n✅ **Reconnais tes forces** – Où maîtrises-tu déjà le contenu avec confiance ?\n\n🎯 **Identifie les lacunes** – Quels sujets méritent plus d'attention ?\n\n📊 **Comprends le contexte** – Les chiffres (X/Y) montrent : tentées / total questions\n\n🔍 **Vérifie la fiabilité** – Plus tu as tenté de questions, plus ton image est précise.\n\n💪 **Planifie stratégiquement** – Concentre-toi sur les domaines avec le plus grand potentiel d'apprentissage !",
         "performance_no_data_info": "Une fois que tu travailles sur des questions, tu verras ici tes progrès d'apprentissage par sujet.",
         "cognition_radar": {
             "name": "Niveaux Cognitifs (Bloom)",
@@ -944,13 +944,13 @@
                 "achieved": "Points",
                 "questions": "Questions"
             },
-            "explanation_expander": "Comment Lire Ce Diagramme",
-            "explanation_content": "Ce radar montre sur quels niveaux cognitifs tu travailles (Taxonomie de Bloom):\n\n**Aperçu des Niveaux :**\n\n• **Reproduction** = Rappeler et reproduire les connaissances\n• **Application** = Utiliser ce qui est appris dans de nouvelles situations\n• **Analyse** = Reconnaître les connexions et pénétrer les problèmes\n\n---\n\n**Profils Typiques d'Apprentissage :**\n\n🎓 **Le Théoricien**\n\nReproduction forte, application plus faible.\n\nTu connais les concepts, mais les appliquer dans des situations pratiques reste difficile.\n\n*Recommandation :* Pratique avec des études de cas et des tâches de transfert.\n\n---\n\n🔧 **Le Praticien**\n\nApplication forte, reproduction plus faible.\n\nTu travailles bien avec les connaissances, mais les fondements théoriques pourraient être renforcés.\n\n*Recommandation :* Révise les définitions et concepts clés pour la confiance.\n\n---\n\n🔍 **L'Analyste**\n\nAnalyse forte, base irrégulière.\n\nTu penses de manière holistique et reconnais bien les connexions, mais il peut y avoir des lacunes dans les fondamentaux.\n\n*Recommandation :* Vérifie systématiquement que toutes les bases sont solides.\n\n---\n\n⭐ **Le Polyvalent**\n\nProfil équilibré sur tous les niveaux.\n\nTu actives divers processus de pensée uniformément – excellent !\n\n*Recommandation :* Continue ainsi, affine où nécessaire.\n\n---\n\n**Important :** La fiabilité croît avec le nombre de questions tentées."
+            "explanation_expander": "💡 Pourquoi Ce Radar t'Aide ?",
+            "explanation_content": "Ce radar montre sur quels niveaux cognitifs tu travailles (Taxonomie de Bloom):\n\n**Aperçu des Niveaux :**\n\n• **Reproduction** = Rappeler et reproduire les connaissances\n\n• **Application** = Utiliser ce qui est appris dans de nouvelles situations\n\n• **Analyse** = Reconnaître les connexions et pénétrer les problèmes\n\n---\n\n**Profils Typiques d'Apprentissage :**\n\n🎓 **Le Théoricien**\n\nReproduction forte, application plus faible.\n\nTu connais les concepts, mais les appliquer dans des situations pratiques reste difficile.\n\n*Recommandation :* Pratique avec des études de cas et des tâches de transfert.\n\n---\n\n🔧 **Le Praticien**\n\nApplication forte, reproduction plus faible.\n\nTu travailles bien avec les connaissances, mais les fondements théoriques pourraient être renforcés.\n\n*Recommandation :* Révise les définitions et concepts clés pour la confiance.\n\n---\n\n🔍 **L'Analyste**\n\nAnalyse forte, base irrégulière.\n\nTu penses de manière holistique et reconnais bien les connexions, mais il peut y avoir des lacunes dans les fondamentaux.\n\n*Recommandation :* Vérifie systématiquement que toutes les bases sont solides.\n\n---\n\n⭐ **Le Polyvalent**\n\nProfil équilibré sur tous les niveaux.\n\nTu actives divers processus de pensée uniformément – excellent !\n\n*Recommandation :* Continue ainsi, affine où nécessaire.\n\n---\n\n**Important :** La fiabilité croît avec le nombre de questions tentées."
         },
-        "performance_column_explanation_expander": "À propos de cette analyse conceptuelle",
-        "performance_column_explanation_content": "Cette visualisation t'aide à réfléchir sur ta compréhension conceptuelle:\n\n- **Compris** (vert) : Tu as démontré une solide maîtrise de ces concepts.\n- **Non compris** (rouge) : Possibles idées fausses détectées – une opportunité d'apprentissage !\n- **Non essayé** (gris) : Concepts que tu n'as pas encore testés.\n\nAstuce : Concentre-toi particulièrement sur les zones rouges – elles révèlent où un approfondissement est bénéfique.",
-        "difficulty_map_explanation_expander": "Comment lire cette carte thermique",
-        "difficulty_map_explanation_content": "Cette matrice montre tes performances par sujet et complexité cognitive:\n\n- **Lignes** = Sujets de ton jeu de questions\n- **Colonnes** = Niveaux cognitifs (Reproduction → Application → Analyse)\n- **Couleurs** montrent LES DEUX aspects :\n  - **Qualité** : Combien de questions correctes ?\n  - **Complétude** : Combien de questions tentées ?\n  - Vert (>75%), Jaune (50-75%), Rouge (<50%)\n- **Gris** = Complètement non répondu\n- **n=X/Y** = Répondues/Total\n\n**Important :** Non répondu = 0 points. Exemple : 2/4 répondues, correctes = 50% (jaune) !\n\n**Utilisation :** Identifie difficultés ET lacunes. Sauter réduit la note.",
+        "performance_column_explanation_expander": "💡 Pourquoi Cette Analyse t'Aide ?",
+        "performance_column_explanation_content": "**Comment utiliser cette analyse pour ton apprentissage :**\n\n🟢 **Compris** – Tu peux appliquer ces concepts avec confiance. Bien joué !\n\n🔴 **Non compris** – Des idées fausses existent probablement ici. Ce sont tes opportunités d'apprentissage les plus précieuses !\n\n⚪ **Non essayé** – Tu n'as pas encore testé ces concepts.\n\n**Ta prochaine étape :** Concentre-toi sur les zones rouges. Elles te montrent exactement où un engagement plus profond apporte le plus grand progrès d'apprentissage. Résoudre les idées fausses est souvent plus efficace que d'accumuler de nouvelles connaissances !",
+        "difficulty_map_explanation_expander": "💡 Pourquoi Cette Carte t'Aide ?",
+        "difficulty_map_explanation_content": "**Comment utiliser cette carte pour ton apprentissage :**\n\n🗺️ **Reconnais les modèles** – Quels sujets sont faciles ou difficiles pour toi à quel niveau cognitif ?\n\n🎯 **Trouve des points précis** – Ligne × Colonne = exactement où tu dois pratiquer\n\n📊 **Comprends les couleurs :**\n• Vert (>75%) = Tu maîtrises bien ce domaine\n• Jaune (50-75%) = Marge d'amélioration\n• Rouge (<50%) = Priorité pour ton apprentissage\n• Gris = Pas encore tenté\n\n🔍 **Note n=X/Y** – Montre tentées/total questions. La couleur reflète LES DEUX : qualité ET complétude !\n\n⚠️ **Important :** Questions non répondues = 0 points. Exemple : 2/4 tentées, correctes = 50% (jaune), pas 100% !\n\n💡 **Ton avantage d'apprentissage :** Tu peux voir d'un coup d'œil si les difficultés sont liées au sujet OU au processus de pensée. Cela t'aide à choisir la bonne stratégie d'apprentissage !",
         "review_export_header": "Exporter",
         "review_export_mode": "Format",
         "review_export_button": "Exporter",

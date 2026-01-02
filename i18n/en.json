@@ -894,9 +894,10 @@
         "metric_caption": "Final Score",
         "score_display": "{current} / {max} points",
         "subheader": {
-            "topic_performance": "Topic Performance",
-            "concept_performance": "Concept Performance",
-            "concept_mastery": "Concept Understanding"
+            "topic_performance": "Where Do You Stand on Each Topic?",
+            "concept_performance": "Concept Check",
+            "concept_mastery": "Which Concepts Have You Mastered?",
+            "difficulty_map": "Your Performance Map"
         }
     },
     "summary_view": {
@@ -912,7 +913,7 @@
         "review_label_correct_answer": "Solution",
         "review_label_explanation": "Explanation",
         "review_label_unanswered": "(empty)",
-        "performance_explanation_expander": "How to Read This",
+        "performance_explanation_expander": "💡 Why Does This Diagram Help You?",
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Topic (answered/total)",
@@ -932,7 +933,7 @@
                 "count": "Count"
             }
         },
-        "performance_explanation_content": "This overview shows where you've built knowledge:\n\n- Each bar represents a topic\n- Numbers in parentheses: (attempted / total questions)\n- Higher values = concepts are well-anchored\n- Lower values = worthwhile deepening opportunities\n\nNote: With few attempted questions, reliability is naturally limited.",
+        "performance_explanation_content": "**How to use this diagram for your learning:**\n\n✅ **Recognize your strengths** – Where do you already master the content confidently?\n\n🎯 **Identify knowledge gaps** – Which topics deserve more attention?\n\n📊 **Understand the context** – Numbers (X/Y) show: attempted / total questions\n\n🔍 **Check reliability** – The more questions you’ve attempted, the more accurate your picture.\n\n💪 **Plan strategically** – Focus on areas with the greatest learning potential!",
         "performance_no_data_info": "Once you work on questions, you'll see your topic-specific learning progress here.",
         "cognition_radar": {
             "name": "Cognitive Levels (Bloom)",
@@ -942,13 +943,13 @@
                 "achieved": "Achieved",
                 "questions": "Questions"
             },
-            "explanation_expander": "How to Read This Diagram",
-            "explanation_content": "This radar shows which cognitive levels you're working on (Bloom's Taxonomy):\n\n**The Levels Overview:**\n\n• **Reproduction** = Recalling and reproducing knowledge\n• **Application** = Using learned material in new situations\n• **Analysis** = Recognizing connections and penetrating problems\n\n---\n\n**Typical Learner Profiles:**\n\n🎓 **The Theorist**\n\nStrong reproduction, weaker application.\n\nYou know the concepts, but applying them in practical situations is still challenging.\n\n*Learning recommendation:* Practice with case studies and transfer tasks.\n\n---\n\n🔧 **The Practitioner**\n\nStrong application, weaker reproduction.\n\nYou work well with knowledge, but theoretical foundations could be strengthened.\n\n*Learning recommendation:* Review definitions and core concepts for confidence.\n\n---\n\n🔍 **The Analyst**\n\nStrong analysis, irregular foundation.\n\nYou think holistically and recognize connections well, but may have gaps in fundamentals.\n\n*Learning recommendation:* Systematically verify that all basics are solid.\n\n---\n\n⭐ **The All-Rounder**\n\nBalanced profile across all levels.\n\nYou activate various thinking processes evenly – excellent!\n\n*Learning recommendation:* Keep it up, fine-tune where needed.\n\n---\n\n**Important:** Reliability grows with the number of questions attempted."
+            "explanation_expander": "💡 Why Does This Radar Help You?",
+            "explanation_content": "This radar shows which cognitive levels you're working on (Bloom's Taxonomy):\n\n**The Levels Overview:**\n\n• **Reproduction** = Recalling and reproducing knowledge\n\n• **Application** = Using learned material in new situations\n\n• **Analysis** = Recognizing connections and penetrating problems\n\n---\n\n**Typical Learner Profiles:**\n\n🎓 **The Theorist**\n\nStrong reproduction, weaker application.\n\nYou know the concepts, but applying them in practical situations is still challenging.\n\n*Learning recommendation:* Practice with case studies and transfer tasks.\n\n---\n\n🔧 **The Practitioner**\n\nStrong application, weaker reproduction.\n\nYou work well with knowledge, but theoretical foundations could be strengthened.\n\n*Learning recommendation:* Review definitions and core concepts for confidence.\n\n---\n\n🔍 **The Analyst**\n\nStrong analysis, irregular foundation.\n\nYou think holistically and recognize connections well, but may have gaps in fundamentals.\n\n*Learning recommendation:* Systematically verify that all basics are solid.\n\n---\n\n⭐ **The All-Rounder**\n\nBalanced profile across all levels.\n\nYou activate various thinking processes evenly – excellent!\n\n*Learning recommendation:* Keep it up, fine-tune where needed.\n\n---\n\n**Important:** Reliability grows with the number of questions attempted."
         },
-        "performance_column_explanation_expander": "About this Concept Analysis",
-        "performance_column_explanation_content": "This visualization helps you reflect on your conceptual understanding:\n\n- **Understood** (green): You've demonstrated solid grasp of these concepts.\n- **Not Understood** (red): Possible misconceptions detected – a learning opportunity!\n- **Not Attempted** (gray): Concepts you haven't tested yet.\n\nTip: Focus especially on red areas – they reveal where deeper engagement pays off.",
-        "difficulty_map_explanation_expander": "How to Read This Heatmap",
-        "difficulty_map_explanation_content": "This matrix shows your performance by topic and cognitive complexity:\n\n- **Rows** = Topics from your question set\n- **Columns** = Cognitive levels (Reproduction → Application → Analysis)\n- **Colors** show BOTH aspects:\n  - **Quality**: How many questions were answered correctly?\n  - **Completeness**: How many questions were attempted?\n  - Green (>75%), Yellow (50-75%), Red (<50%)\n- **Gray** = Completely unanswered\n- **n=X/Y** = Answered/Total\n\n**Important:** Unanswered = 0 points. Example: 2/4 answered, both correct = 50% (yellow)!\n\n**Use:** Identify difficulties AND gaps. Strategic skipping lowers rating.",
+        "performance_column_explanation_expander": "💡 Why Does This Analysis Help You?",
+        "performance_column_explanation_content": "**How to use this analysis for your learning:**\n\n🟢 **Understood** – You can apply these concepts confidently. Well done!\n\n🔴 **Not understood** – Misconceptions likely exist here. These are your most valuable learning opportunities!\n\n⚪ **Not attempted** – You haven’t tested these concepts yet.\n\n**Your next step:** Focus on the red areas. They show you exactly where deeper engagement brings the greatest learning progress. Resolving misconceptions is often more effective than accumulating new knowledge!",
+        "difficulty_map_explanation_expander": "💡 Why Does This Map Help You?",
+        "difficulty_map_explanation_content": "**How to use this map for your learning:**\n\n🗺️ **Recognize patterns** – Which topics are easy or difficult for you at which cognitive level?\n\n🎯 **Find precise starting points** – Row × Column = exactly where you should practice\n\n📊 **Understand the colors:**\n• Green (>75%) = You master this area well\n• Yellow (50-75%) = Room for improvement\n• Red (<50%) = Priority for your learning\n• Gray = Not yet attempted\n\n🔍 **Note n=X/Y** – Shows attempted/total questions. Color reflects BOTH: quality AND completeness!\n\n⚠️ **Important:** Unanswered questions = 0 points. Example: 2/4 attempted, both correct = 50% (yellow), not 100%!\n\n💡 **Your learning advantage:** You can see at a glance whether difficulties are topic-related OR thinking-process-related. This helps you choose the right learning strategy!",
         "review_export_mode": "Format",
         "review_export_button": "Export",
         "review_export_preview": "Card Preview",
