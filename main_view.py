@@ -5977,10 +5977,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                         translate_ui("summary_view.performance_column_explanation_content", default="- Zeigt die Beherrschung von MC-Test-Konzepten in drei Kategorien.\n- **Verstanden**: Konzepte, die du gut beherrschst (hohe Erfolgsrate).\n- **Nicht versucht**: Konzepte, die noch nicht getestet wurden.\n- **Nicht verstanden**: Konzepte, die verbessert werden müssen (niedrige Erfolgsrate).\n- Nutze diese Übersicht, um gezielt Schwächen anzugehen.")
                     )
         except Exception as e:
-            # Fallback: falls das Diagramm nicht erstellt werden kann, zeige Fehler
-            st.error(f"Fehler beim Erstellen des Performance-Diagramms: {str(e)}")
-            import traceback
-            st.code(traceback.format_exc())
+            # Fallback: falls das Diagramm nicht erstellt werden kann, zeige nichts an
+            pass
     else:
         st.info(
             _summary_text(
