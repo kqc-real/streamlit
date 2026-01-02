@@ -11,7 +11,22 @@
             "understood": "Understood ✓",
             "not_attempted": "Not Attempted",
             "not_understood": "Not Understood ✗"
+        },
+        "cognitive": {
+            "reproduction": "Reproduction",
+            "application": "Application",
+            "analysis": "Analysis"
         }
+    },
+    "heatmap": {
+        "no_data": "No questions",
+        "questions": "Questions",
+        "performance": "Performance",
+        "answered": "Answered",
+        "unanswered": "Unanswered",
+        "colorbar_title": "Performance (%)",
+        "xaxis_title": "Cognitive Level",
+        "yaxis_title": "Topic"
     },
     "sidebar": {
         "title": "Navigation",
@@ -932,6 +947,8 @@
         },
         "performance_column_explanation_expander": "About this Concept Analysis",
         "performance_column_explanation_content": "This visualization helps you reflect on your conceptual understanding:\n\n- **Understood** (green): You've demonstrated solid grasp of these concepts.\n- **Not Understood** (red): Possible misconceptions detected – a learning opportunity!\n- **Not Attempted** (gray): Concepts you haven't tested yet.\n\nTip: Focus especially on red areas – they reveal where deeper engagement pays off.",
+        "difficulty_map_explanation_expander": "How to Read This Heatmap",
+        "difficulty_map_explanation_content": "This matrix shows your performance by topic and cognitive complexity:\n\n- **Rows** = Topics from your question set\n- **Columns** = Cognitive levels (Reproduction → Application → Analysis)\n- **Colors** show BOTH aspects:\n  - **Quality**: How many questions were answered correctly?\n  - **Completeness**: How many questions were attempted?\n  - Green (>75%), Yellow (50-75%), Red (<50%)\n- **Gray** = Completely unanswered\n- **n=X/Y** = Answered/Total\n\n**Important:** Unanswered = 0 points. Example: 2/4 answered, both correct = 50% (yellow)!\n\n**Use:** Identify difficulties AND gaps. Strategic skipping lowers rating.",
         "review_export_mode": "Format",
         "review_export_button": "Export",
         "review_export_preview": "Card Preview",

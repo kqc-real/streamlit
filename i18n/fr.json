@@ -6,7 +6,27 @@
         "error": {
             "questionset_load_failed": "Le jeu de questions '{filename}' n'a pas pu être chargé : {error}",
             "invalid_admin_session": "⚠️ Session admin invalide ou expirée. Veuillez vous reconnecter."
+        },
+        "status": {
+            "understood": "Compris ✓",
+            "not_attempted": "Non tenté",
+            "not_understood": "Non compris ✗"
+        },
+        "cognitive": {
+            "reproduction": "Reproduction",
+            "application": "Application",
+            "analysis": "Analyse"
         }
+    },
+    "heatmap": {
+        "no_data": "Aucune question",
+        "questions": "Questions",
+        "performance": "Performance",
+        "answered": "Répondues",
+        "unanswered": "Non répondues",
+        "colorbar_title": "Performance (%)",
+        "xaxis_title": "Niveau Cognitif",
+        "yaxis_title": "Sujet"
     },
     "tempo": {
         "normal": "Normal",
@@ -877,7 +897,8 @@
         "subheader": {
             "topic_performance": "Tes Progrès d'Apprentissage par Sujet",
             "concept_performance": "Vérification des Concepts",
-            "concept_mastery": "Ta Compréhension Conceptuelle"
+            "concept_mastery": "Ta Compréhension Conceptuelle",
+            "difficulty_map": "Sujets × Niveaux Cognitifs"
         }
     },
     "summary_view": {
@@ -928,6 +949,8 @@
         },
         "performance_column_explanation_expander": "À propos de cette analyse conceptuelle",
         "performance_column_explanation_content": "Cette visualisation t'aide à réfléchir sur ta compréhension conceptuelle:\n\n- **Compris** (vert) : Tu as démontré une solide maîtrise de ces concepts.\n- **Non compris** (rouge) : Possibles idées fausses détectées – une opportunité d'apprentissage !\n- **Non essayé** (gris) : Concepts que tu n'as pas encore testés.\n\nAstuce : Concentre-toi particulièrement sur les zones rouges – elles révèlent où un approfondissement est bénéfique.",
+        "difficulty_map_explanation_expander": "Comment lire cette carte thermique",
+        "difficulty_map_explanation_content": "Cette matrice montre tes performances par sujet et complexité cognitive:\n\n- **Lignes** = Sujets de ton jeu de questions\n- **Colonnes** = Niveaux cognitifs (Reproduction → Application → Analyse)\n- **Couleurs** montrent LES DEUX aspects :\n  - **Qualité** : Combien de questions correctes ?\n  - **Complétude** : Combien de questions tentées ?\n  - Vert (>75%), Jaune (50-75%), Rouge (<50%)\n- **Gris** = Complètement non répondu\n- **n=X/Y** = Répondues/Total\n\n**Important :** Non répondu = 0 points. Exemple : 2/4 répondues, correctes = 50% (jaune) !\n\n**Utilisation :** Identifie difficultés ET lacunes. Sauter réduit la note.",
         "review_export_header": "Exporter",
         "review_export_mode": "Format",
         "review_export_button": "Exporter",

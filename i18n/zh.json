@@ -2,7 +2,34 @@
     "app": {
         "title": "测验导出",
         "subtitle": "管理和分析测验",
-        "dialog_multiple_warning": "同时只允许一个对话框。请关闭打开的对话框，然后重试。"
+        "dialog_multiple_warning": "同时只允许一个对话框。请关闭打开的对话框，然后重试。",
+        "warning": {
+            "locale_not_found": "未找到合适的区域设置进行正确排序。变音符可能排序不正确。"
+        },
+        "error": {
+            "questionset_load_failed": "无法加载题库 '{filename}': {error}",
+            "invalid_admin_session": "⚠️ 管理员会话无效或已过期。请重新登录。"
+        },
+        "status": {
+            "understood": "已理解 ✓",
+            "not_attempted": "未尝试",
+            "not_understood": "未理解 ✗"
+        },
+        "cognitive": {
+            "reproduction": "再现",
+            "application": "应用",
+            "analysis": "分析"
+        }
+    },
+    "heatmap": {
+        "no_data": "无问题",
+        "questions": "问题",
+        "performance": "表现",
+        "answered": "已回答",
+        "unanswered": "未回答",
+        "colorbar_title": "表现 (%)",
+        "xaxis_title": "认知层级",
+        "yaxis_title": "主题"
     },
     "sidebar": {
         "title": "导航",
@@ -873,7 +900,8 @@
         "subheader": {
             "topic_performance": "按主题学习进展",
             "concept_performance": "概念检查",
-            "concept_mastery": "你的概念理解"
+            "concept_mastery": "你的概念理解",
+            "difficulty_map": "主题 × 认知层次"
         }
     },
     "summary_view": {
@@ -924,6 +952,8 @@
         },
         "performance_column_explanation_expander": "关于这个概念分析",
         "performance_column_explanation_content": "此可视化帮助你反思概念理解：\n\n- **已理解**（绿色）：你已展示出对这些概念的扎实掌握。\n- **未理解**（红色）：可能存在概念误解 – 这是学习机会！\n- **未尝试**（灰色）：你还未测试的概念。\n\n提示：特别关注红色区域 – 它们揭示了深入学习最有价值的地方。",
+        "difficulty_map_explanation_expander": "如何阅读此热图",
+        "difficulty_map_explanation_content": "此矩阵按主题和认知复杂度显示你的表现：\n\n- **行** = 问题集中的主题\n- **列** = 认知层次（再现 → 应用 → 分析）\n- **颜色**显示两个方面：\n  - **质量**：多少题答对？\n  - **完整性**：多少题尝试了？\n  - 绿色（>75%），黄色（50-75%），红色（<50%）\n- **灰色** = 完全未回答\n- **n=X/Y** = 已回答/总计\n\n**重要：**未回答 = 0分。例：2/4已答，都对 = 50%（黄色）！\n\n**用途：**识别困难和漏洞。跳过会降低评分。",
         "review_export_header": "导出",
         "review_export_mode": "格式",
         "review_export_button": "导出",

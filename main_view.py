@@ -5955,6 +5955,29 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
         )
 
+    # --- Multi-Dimensional Difficulty Heatmap ---
+    # Prüfe, ob mindestens eine Frage ein 'cognitive_level' Feld hat
+    has_cognitive_levels = any(frage.get("cognitive_level") for frage in questions)
+    if has_cognitive_levels:
+        st.divider()
+        st.subheader(translate_ui("summary.subheader.difficulty_map", default="Themen × Kognitive Stufen"))
+        try:
+            from generate_difficulty_heatmap import create_difficulty_heatmap
+            fig_heatmap = create_difficulty_heatmap(questions)
+            if fig_heatmap:
+                st.plotly_chart(fig_heatmap, use_container_width=True)
+                
+                # Erklärung für die Heatmap
+                with st.expander(
+                    translate_ui("summary_view.difficulty_map_explanation_expander", default="So liest du diese Heatmap"),
+                    expanded=False,
+                ):
+                    st.markdown(
+                        translate_ui("summary_view.difficulty_map_explanation_content", default="Diese Matrix zeigt deine Performance nach Thema und kognitiver Komplexität.")
+                    )
+        except Exception:
+            pass
+
     # --- Performance-Analyse pro Concept ---
     # Prüfe, ob mindestens eine Frage ein 'concept' Feld hat
     has_concepts = any(frage.get("concept") for frage in questions)

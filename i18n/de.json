@@ -11,7 +11,22 @@
             "understood": "Verstanden ✓",
             "not_attempted": "Nicht bearbeitet",
             "not_understood": "Nicht verstanden ✗"
+        },
+        "cognitive": {
+            "reproduction": "Reproduktion",
+            "application": "Anwendung",
+            "analysis": "Analyse"
         }
+    },
+    "heatmap": {
+        "no_data": "Keine Fragen",
+        "questions": "Fragen",
+        "performance": "Performance",
+        "answered": "Beantwortet",
+        "unanswered": "Unbeantwortet",
+        "colorbar_title": "Performance (%)",
+        "xaxis_title": "Kognitive Stufe",
+        "yaxis_title": "Thema"
     },
     "sidebar": {
         "title": "Navigation",
@@ -886,7 +901,8 @@
         "subheader": {
             "topic_performance": "Deine Lernfortschritte nach Themen",
             "concept_performance": "Konzept-Check",
-            "concept_mastery": "Dein Konzeptverständnis"
+            "concept_mastery": "Dein Konzeptverständnis",
+            "difficulty_map": "Themen × Kognitive Stufen"
         }
     },
     "summary_view": {
@@ -937,6 +953,8 @@
         },
         "performance_column_explanation_expander": "Über diese Konzept-Analyse",
         "performance_column_explanation_content": "Diese Darstellung hilft dir, dein Konzeptverständnis zu reflektieren:\n\n- **Verstanden** (grün): Du hast gezeigt, dass du diese Konzepte sicher anwenden kannst.\n- **Nicht verstanden** (rot): Hier liegen möglicherweise Missverständnisse (Misconceptions) vor – eine Chance zum Lernen!\n- **Nicht bearbeitet** (grau): Diese Konzepte hast du noch nicht getestet.\n\nTipp: Konzentriere dich besonders auf die roten Bereiche – sie zeigen, wo vertiefte Auseinandersetzung lohnt.",
+        "difficulty_map_explanation_expander": "So liest du diese Heatmap",
+        "difficulty_map_explanation_content": "Diese Matrix zeigt deine Performance nach Thema und kognitiver Komplexität:\n\n- **Zeilen** = Themen aus deinem Fragenset\n- **Spalten** = Kognitive Stufen (Reproduktion → Anwendung → Analyse)\n- **Farben** zeigen BEIDE Aspekte:\n  - **Qualität**: Wie viele Fragen wurden richtig beantwortet?\n  - **Vollständigkeit**: Wie viele Fragen wurden bearbeitet?\n  - Grün (>75%), Gelb (50-75%), Rot (<50%)\n- **Grau** = Komplett unbeantwortet\n- **n=X/Y** = Beantwortet/Gesamt\n\n**Wichtig:** Unbeantwortete = 0 Punkte. Beispiel: 2/4 beantwortet, beide richtig = 50% (gelb)!\n\n**Nutzen:** Identifiziere Schwierigkeiten UND Lücken. Strategisches Überspringen senkt die Bewertung.",
         "review_export_mode": "Format",
         "review_export_button": "Exportieren",
         "review_export_preview": "Vorschau (Lernkarten)",

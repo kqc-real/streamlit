@@ -6,7 +6,27 @@
         "error": {
             "questionset_load_failed": "Impossibile caricare il set di domande '{filename}': {error}",
             "invalid_admin_session": "⚠️ Sessione admin non valida o scaduta. Effettua nuovamente il login."
+        },
+        "status": {
+            "understood": "Compreso ✓",
+            "not_attempted": "Non tentato",
+            "not_understood": "Non compreso ✗"
+        },
+        "cognitive": {
+            "reproduction": "Riproduzione",
+            "application": "Applicazione",
+            "analysis": "Analisi"
         }
+    },
+    "heatmap": {
+        "no_data": "Nessuna domanda",
+        "questions": "Domande",
+        "performance": "Performance",
+        "answered": "Risposte",
+        "unanswered": "Non risposte",
+        "colorbar_title": "Performance (%)",
+        "xaxis_title": "Livello Cognitivo",
+        "yaxis_title": "Argomento"
     },
     "tempo": {
         "normal": "Normale",
@@ -877,7 +897,8 @@
         "subheader": {
             "topic_performance": "I tuoi Progressi di Apprendimento per Argomento",
             "concept_performance": "Verifica dei Concetti",
-            "concept_mastery": "La tua Comprensione Concettuale"
+            "concept_mastery": "La tua Comprensione Concettuale",
+            "difficulty_map": "Argomenti × Livelli Cognitivi"
         }
     },
     "summary_view": {
@@ -928,6 +949,8 @@
         },
         "performance_column_explanation_expander": "Informazioni su questa analisi concettuale",
         "performance_column_explanation_content": "Questa visualizzazione ti aiuta a riflettere sulla tua comprensione concettuale:\n\n- **Capito** (verde): Hai dimostrato una solida padronanza di questi concetti.\n- **Non capito** (rosso): Possibili misconcezioni rilevate – un'opportunità di apprendimento!\n- **Non provato** (grigio): Concetti che non hai ancora testato.\n\nSuggerimento: Concentrati soprattutto sulle aree rosse – rivelano dove vale la pena approfondire.",
+        "difficulty_map_explanation_expander": "Come leggere questa mappa di calore",
+        "difficulty_map_explanation_content": "Questa matrice mostra le tue prestazioni per argomento e complessità cognitiva:\n\n- **Righe** = Argomenti del tuo set di domande\n- **Colonne** = Livelli cognitivi (Riproduzione → Applicazione → Analisi)\n- **Colori** mostrano ENTRAMBI gli aspetti:\n  - **Qualità**: Quante domande corrette?\n  - **Completezza**: Quante domande tentate?\n  - Verde (>75%), Giallo (50-75%), Rosso (<50%)\n- **Grigio** = Completamente non risposto\n- **n=X/Y** = Risposte/Totale\n\n**Importante:** Non risposto = 0 punti. Esempio: 2/4 risposte, corrette = 50% (giallo)!\n\n**Uso:** Identifica difficoltà E lacune. Saltare riduce la valutazione.",
         "review_export_header": "Esporta",
         "review_export_mode": "Formato",
         "review_export_button": "Esporta",

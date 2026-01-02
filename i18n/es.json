@@ -6,7 +6,27 @@
         "error": {
             "questionset_load_failed": "No se pudo cargar el conjunto de preguntas '{filename}': {error}",
             "invalid_admin_session": "⚠️ Sesión de administrador no válida o caducada. Por favor, inicie sesión de nuevo."
+        },
+        "status": {
+            "understood": "Comprendido ✓",
+            "not_attempted": "No intentado",
+            "not_understood": "No comprendido ✗"
+        },
+        "cognitive": {
+            "reproduction": "Reproducción",
+            "application": "Aplicación",
+            "analysis": "Análisis"
         }
+    },
+    "heatmap": {
+        "no_data": "Sin preguntas",
+        "questions": "Preguntas",
+        "performance": "Rendimiento",
+        "answered": "Respondidas",
+        "unanswered": "Sin responder",
+        "colorbar_title": "Rendimiento (%)",
+        "xaxis_title": "Nivel Cognitivo",
+        "yaxis_title": "Tema"
     },
     "tempo": {
         "normal": "Normal",
@@ -877,7 +897,8 @@
         "subheader": {
             "topic_performance": "Tu Progreso de Aprendizaje por Tema",
             "concept_performance": "Revisión de Conceptos",
-            "concept_mastery": "Tu Comprensión Conceptual"
+            "concept_mastery": "Tu Comprensión Conceptual",
+            "difficulty_map": "Temas × Niveles Cognitivos"
         }
     },
     "summary_view": {
@@ -928,6 +949,8 @@
         },
         "performance_column_explanation_expander": "Acerca de este análisis de conceptos",
         "performance_column_explanation_content": "Esta visualización te ayuda a reflexionar sobre tu comprensión conceptual:\n\n- **Entendido** (verde): Has demostrado un dominio sólido de estos conceptos.\n- **No entendido** (rojo): Posibles conceptos erróneos detectados – ¡una oportunidad de aprendizaje!\n- **No intentado** (gris): Conceptos que aún no has probado.\n\nConsejo: Concéntrate especialmente en las áreas rojas – revelan dónde vale la pena profundizar.",
+        "difficulty_map_explanation_expander": "Cómo leer este mapa de calor",
+        "difficulty_map_explanation_content": "Esta matriz muestra tu rendimiento por tema y complejidad cognitiva:\n\n- **Filas** = Temas de tu conjunto de preguntas\n- **Columnas** = Niveles cognitivos (Reproducción → Aplicación → Análisis)\n- **Colores** muestran AMBOS aspectos:\n  - **Calidad**: ¿Cuántas preguntas se respondieron correctamente?\n  - **Completitud**: ¿Cuántas preguntas se intentaron?\n  - Verde (>75%), Amarillo (50-75%), Rojo (<50%)\n- **Gris** = Completamente sin responder\n- **n=X/Y** = Respondidas/Total\n\n**Importante:** Sin responder = 0 puntos. Ejemplo: 2/4 respondidas, ambas correctas = 50% (amarillo)!\n\n**Uso:** Identifica dificultades Y lagunas. Saltar reduce la calificación.",
         "review_export_header": "Exportar",
         "review_export_mode": "Formato",
         "review_export_button": "Exportar",
