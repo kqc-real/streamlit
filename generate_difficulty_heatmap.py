@@ -21,7 +21,7 @@ def create_difficulty_heatmap(questions):
     cognitive_levels_set = set()
     
     for question in questions:
-        topic = question.get('thema', 'Allgemein')
+        topic = question.get('topic') or question.get('thema') or 'Allgemein'
         cog_level = question.get('cognitive_level', 'Unknown')
         if topic:
             topics.add(topic)
@@ -64,7 +64,7 @@ def create_difficulty_heatmap(questions):
             # Finde alle Fragen für dieses Topic × Cognitive Level
             relevant_questions = [
                 (i, q) for i, q in enumerate(questions)
-                if q.get('thema', 'Allgemein') == topic 
+                if (q.get('topic') or q.get('thema') or 'Allgemein') == topic
                 and q.get('cognitive_level') == cog_level
             ]
             
@@ -232,7 +232,7 @@ def create_difficulty_heatmap(questions):
         zmax=100,
         colorbar=dict(
             title=dict(
-                text='%',
+                text='',
                 side='right'
             ),
             tickvals=[0, 25, 50, 75, 100],
@@ -255,36 +255,36 @@ def create_difficulty_heatmap(questions):
         xaxis=dict(
             title=translate_ui('heatmap.xaxis_title', default='Kognitive Stufe'),
             side='bottom',
-            tickfont=dict(size=12),
+            tickfont=dict(size=14),
             tickvals=list(range(len(cognitive_levels))),
             ticktext=cognitive_level_labels,
             showgrid=True,
-            gridcolor='rgba(255, 255, 255, 0.3)',
+            gridcolor='#cccccc',
             gridwidth=1,
             zeroline=False,
-            range=[-0.5, len(cognitive_levels) - 0.5]
+            range=[-0.5, len(cognitive_levels) - 0.5],
+            title_font=dict(size=18, family='Arial, sans-serif', color='black')
         ),
         yaxis=dict(
             title=translate_ui('heatmap.yaxis_title', default='Thema'),
-            tickfont=dict(size=11),
+            tickfont=dict(size=13),
             autorange='reversed',  # Topics von oben nach unten
             tickvals=list(range(len(topics_sorted))),
             ticktext=topics_sorted,
             showgrid=True,
-            gridcolor='rgba(255, 255, 255, 0.3)',
+            gridcolor='#cccccc',
             gridwidth=1,
             zeroline=False,
             range=[len(topics_sorted) - 0.5, -0.5],
-            automargin=True
+            title_font=dict(size=18, family='Arial, sans-serif', color='black'),
+            title_standoff=120
         ),
         height=max(400, len(topics_sorted) * 80),
         autosize=True,
-        margin=dict(t=20, b=80, l=0, r=90),
+        margin=dict(t=20, b=80, l=260, r=90),
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         hovermode='closest'
     )
-    
-    return fig
     
     return fig
