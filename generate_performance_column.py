@@ -12,25 +12,25 @@ import streamlit as st
 def create_performance_column(questions):
     """Erstellt drei separate Säulen für MC-Test Status (Grün=richtig, Rot=falsch, Grau=nicht bearbeitet) basierend auf echten Fragen und Antworten"""
     
-    # Sammle alle einzigartigen Topics aus den Fragen (passt zur Topic-Cognition-Heatmap)
-    all_topics = set()
+    # Sammle alle einzigartigen Konzepte aus den Fragen (für Concept-Performance)
+    all_concepts = set()
     for question in questions:
-        topic = question.get('topic') or question.get('thema')
-        if topic:
-            all_topics.add(topic)
+        concept = question.get('concept')
+        if concept:
+            all_concepts.add(concept)
     
-    if not all_topics:
-        return None  # Keine Topics vorhanden
+    if not all_concepts:
+        return None  # Keine Konzepte vorhanden
     
-    # Erstelle Performance-Daten pro Topic basierend auf echten Antworten
+    # Erstelle Performance-Daten pro Konzept basierend auf echten Antworten
     performance_data = []
-    for topic in sorted(all_topics):
+    for concept in sorted(all_concepts):
         answered_count = 0
         correct_count = 0
         total = 0
         
         for i, question in enumerate(questions):
-            if (question.get('topic') or question.get('thema')) == topic:
+            if question.get('concept') == concept:
                 total += 1
                 answer_key = f"frage_{i}_beantwortet"
                 if answer_key in st.session_state and st.session_state[answer_key] is not None:
@@ -40,11 +40,11 @@ def create_performance_column(questions):
         
         coverage = answered_count / total if total else 0
         if answered_count == 0 or coverage <= 0.5:
-            # Wenig bis gar nicht bearbeitet -> als "Not attempted" ausweisen
             status = 'not_attempted'
             color = 'gray'
             status_text = translate_ui('app.status.not_attempted')
-        elif correct_count / answered_count >= 0.7:
+        elif correct_count / answered_count >= 0.8:
+            # Höherer Schwellenwert, damit weniger als "understood" gelten
             status = 'correct'
             color = 'green'
             status_text = translate_ui('app.status.understood')
@@ -54,7 +54,7 @@ def create_performance_column(questions):
             status_text = translate_ui('app.status.not_understood')
         
         performance_data.append({
-            'topic': topic,
+            'concept': concept,
             'status': status,
             'color': color,
             'status_text': status_text,
@@ -71,13 +71,13 @@ def create_performance_column(questions):
     column_positions = {'correct': -1.0, 'not_attempted': 0, 'incorrect': 1.0}
     column_colors = {'correct': 'green', 'not_attempted': 'gray', 'incorrect': 'red'}
 
-    # Gruppiere nach Status und sortiere Topics alphabetisch innerhalb jeder Gruppe
+    # Gruppiere nach Status und sortiere Konzepte alphabetisch innerhalb jeder Gruppe
     status_groups = df.groupby('status')
     sorted_groups = {}
     for status in ['correct', 'not_attempted', 'incorrect']:
         if status in status_groups.groups:
             group_df = status_groups.get_group(status)
-            sorted_groups[status] = group_df.sort_values('topic', ascending=False)
+            sorted_groups[status] = group_df.sort_values('concept', ascending=False)
 
     # Berechne individuelle Höhen für jede Säule basierend auf ihren Einträgen
     column_heights = {status: len(group) for status, group in sorted_groups.items()}
@@ -89,7 +89,7 @@ def create_performance_column(questions):
     # Füge farbige Hintergrundbereiche für jede Spalte hinzu
     pastel_colors = {'correct': 'rgba(144, 238, 144, 0.3)', 'not_attempted': 'rgba(211, 211, 211, 0.3)', 'incorrect': 'rgba(255, 182, 193, 0.3)'}
     
-    spacing_factor = 0.65  # Weniger Abstand zwischen Punkten
+    spacing_factor = 1.1  # Noch mehr Abstand zwischen Punkten
 
     for status, pos in column_positions.items():
         height = column_heights.get(status, 0)
@@ -98,7 +98,7 @@ def create_performance_column(questions):
             radius = 0.15  # Radius für abgerundete Ecken
             x0, x1 = pos - 0.4, pos + 0.4
             y0 = -0.5
-            y1 = (height - 1) * spacing_factor + 0.6  # Weniger Kopfbereich
+            y1 = (height - 1) * spacing_factor + 1.0  # Mehr Kopfbereich
 
             # SVG-Pfad für Rechteck mit abgerundeten Ecken
             path = f"M {x0 + radius},{y0} L {x1 - radius},{y0} Q {x1},{y0} {x1},{y0 + radius} L {x1},{y1 - radius} Q {x1},{y1} {x1 - radius},{y1} L {x0 + radius},{y1} Q {x0},{y1} {x0},{y1 - radius} L {x0},{y0 + radius} Q {x0},{y0} {x0 + radius},{y0} Z"
@@ -129,7 +129,7 @@ def create_performance_column(questions):
                     symbol='circle',
                     line=dict(width=0)  # Keine weißen Ränder
                 ),
-                text=group_df['topic'],
+                text=group_df['concept'],
                 textposition="top center",
                 textfont=dict(size=12, color='black'),
                 hovertemplate='<b>%{text}</b><br>' +
@@ -167,7 +167,7 @@ def create_performance_column(questions):
             range=[-0.5, max(column_heights.values()) * spacing_factor + 0.7],  # Mehr Platz für Labels
             title='',
         ),
-        height=max(480, int(max(column_heights.values()) * 42)),  # Noch etwas kompakter
+        height=max(560, int(max(column_heights.values()) * 54)),  # Noch mehr vertikaler Platz pro Element
         width=1200,  # Breiter für mehr Label-Platz
         margin=dict(t=20, b=50, l=100, r=100),  # Minimaler oberer Rand
         plot_bgcolor='rgba(0,0,0,0)',  # Transparent
