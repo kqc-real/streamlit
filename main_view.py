@@ -6145,7 +6145,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                                 "- Sind nur wenige Fragen einer Stufe zugeordnet, sind die Prozentwerte weniger aussagekräftig.\n"
                                 "- Nutze das Radar, um zu erkennen, welche kognitiven Stufen mehr Übung brauchen."
                             ),
-                        )
+                        ),
+                        unsafe_allow_html=True,
                     )
             except Exception:
                 # Plotly not available or chart failed — skip radar gracefully
