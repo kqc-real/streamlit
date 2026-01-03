@@ -422,6 +422,16 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
             return False
         return bool(re.search(r"\d{1,2}\.\d{1,2}\.\d{2,4}", s))
 
+    def _looks_iso_ymd_string(val: Any) -> bool:
+        try:
+            s = str(val)
+        except Exception:
+            return False
+        # Matches 2024-12-31T23:59:59+0100 or +01:00 (with optional milliseconds/Z)
+        return bool(
+            re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})$", s)
+        )
+
     def _format_series(series_obj):
         if _pd is None:
             return series_obj
@@ -433,6 +443,8 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
                     sample = series_obj.dropna().astype(str).head(5)
                     if any(_looks_dayfirst_string(v) for v in sample):
                         series_dayfirst = True
+                    if any(_looks_iso_ymd_string(v) for v in sample):
+                        series_dayfirst = False
             except Exception:
                 pass
             if _pd.api.types.is_numeric_dtype(series_obj):
@@ -467,6 +479,8 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
                     unit = "ms"
                 return _pd.to_datetime(value, unit=unit, utc=True, errors="coerce")
             force_dayfirst = dayfirst_flag or _looks_dayfirst_string(value)
+            if _looks_iso_ymd_string(value):
+                force_dayfirst = False
             return _pd.to_datetime(value, utc=True, errors="coerce", dayfirst=force_dayfirst)
         except Exception:
             return None
