@@ -302,10 +302,3 @@ Schlüssel befinden sich in `i18n/*.json` unter den Pfaden:
 Die vier Auswertungsdiagramme bilden ein **kohärentes diagnostisches System**, das weit über einfache Punktezählung hinausgeht. Sie ermöglichen Lernenden, ein differenziertes, handlungsleitendes Verständnis ihrer Kompetenzen und Lücken zu entwickeln. Durch die Kombination von inhaltlichen, prozessualen, konzeptuellen und integrativen Perspektiven entsteht ein vollständiges Bild, das echte metakognitive Entwicklung fördert.
 
 Das Ziel ist nicht, Lernende zu bewerten, sondern sie zu **diagnostisch kompetenten Selbst-Lernern** zu machen – Menschen, die nicht nur wissen, dass sie etwas nicht können, sondern präzise verstehen, **warum** und **wo** sie ansetzen müssen, um sich zu verbessern.
-
----
-
-**Verwandte Dokumentation**:
-- [EDULEARN26_Pedagogical_Control.md](EDULEARN26_Pedagogical_Control.md) – Theoretische Grundlagen der kognitiven Transparenz
-- [GLOSSARY_SCHEMA.md](../GLOSSARY_SCHEMA.md) – Struktur der Konzepte und Mini-Glossare
-- [README.md](../README.md) – Allgemeine Anwendungsdokumentation
