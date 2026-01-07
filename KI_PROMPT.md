@@ -131,11 +131,16 @@ Internally ensure:
 3) Plan each question: topic, weight, concept; avoid duplicates.
 4) Plan option-count distribution if C was chosen.
 5) Verify test duration calculation using fixed defaults.
-6) Assign stable question_id values:
+6) **Option Length Audit (MANDATORY):**
+   - Check the character count of the correct answer vs. distractors for every single question.
+   - **Constraint:** The correct answer MUST NOT be the longest option in more than 25% of the questions.
+   - **Correction:** If the correct answer is the longest, REWRITE distractors to be longer/more detailed OR simplify the correct answer.
+   - **Variance:** Ensure all options within a single question have a visually similar length (character count variance < 20%).
+7) Assign stable question_id values:
    - unique within this JSON
    - deterministic ordering by question index
    - format: "Q001", "Q002", ... (3 digits, zero-padded)
-7) Final escape check for LaTeX/backslashes/quotes and \n in code snippets.
+8) Final escape check for LaTeX/backslashes/quotes and \n in code snippets.
 
 ### Generation Step 2: JSON Generation (OUTPUT)
 Output EXACTLY ONE thing:
@@ -149,96 +154,77 @@ Language:
 - All human-readable content inside JSON must be in the user's language.
 - JSON keys remain in English.
 
-Terminology Hierarchy (to avoid confusion):
-- title (in meta): The general/central topic of the entire question set (from Configuration Step 1).
-- topic (per question): A sub-topic that can span multiple questions of different cognitive levels (weights 1-3); up to 10 topics per set for coverage.
-- concept (per question): The central concept of the question, often addressing a common misconception (e.g., a frequently misinterpreted term).
-- mini_glossary (per question): 1-4 key terms from the question with short definitions for clarification.
+Terminology Hierarchy:
+- title (in meta): The general/central topic.
+- topic (per question): A sub-topic.
+- concept (per question): The central concept.
+- mini_glossary (per question): 1-4 key terms with definitions.
 
 Cognitive weights and levels (MANDATORY mapping):
 - weight=1 -> "cognitive_level": "Reproduction"
 - weight=2 -> "cognitive_level": "Application"
 - weight=3 -> "cognitive_level": "Analysis"
-This mapping must be consistent for every question.
-
-Code question weighting:
-- Syntax fill-in-the-blanks -> usually weight 1
-- Predicting output / finding logic errors -> usually weight 2 or 3
-
-Mini Glossary:
-- mini_glossary MUST exist for every question.
-- 1 to 4 terms, strictly relevant, no filler.
 
 Extended Explanation:
 - weight=1 -> "extended_explanation": null
-- weight=2 or 3 -> extended_explanation object:
-  {
-    "title": "string",
-    "steps": ["string", "... (2–6)"],
-    "content": "string"
-  }
-Mandatory.
+- weight=2 or 3 -> extended_explanation object (mandatory).
 
 Explanations (short):
-- explanation: 2–4 sentences in user's language; why correct is correct, optionally why distractors are wrong.
+- explanation: 2–4 sentences; why correct is correct, optionally why distractors are wrong.
 
-Distractors:
-- plausible, typical misconceptions of target audience
-- do NOT use "All of the above"/"None of the above" (or equivalents)
-- avoid trick ambiguity; exactly one clearly correct option
+Option Design Rules (CRITICAL - ANTI BIAS):
+- **Homogeneity Rule:** All options within a question must have visually similar lengths. Avoid "short distractors" vs. "long correct answer".
+- **Distractor Expansion:** If the correct answer requires specific qualifiers, conditions, or technical details, you MUST add similar (plausible but wrong) qualifiers to the distractors to match the length and complexity.
+- **No "Longest Answer" Bias:** The correct answer should ideally be of average length among the options.
+- **Plausibility:** Distractors must be typical misconceptions, not obviously wrong jokes.
+- **Avoid:** "All of the above", "None of the above".
 
-Use of context material:
-- do not reference file names, slide numbers, or “as seen in uploaded text”
-- treat context knowledge as your own understanding
+### Example of Balanced Option Design (Mental Model):
+*BAD (Length Cue):*
+Q: What is Edge Computing?
+A) Computing.
+B) Cloud storage.
+C) Edge Computing refers to the decentralized processing of data near the source to reduce latency. (Correct, obviously longest)
+D) A hard drive.
 
-Item quality:
-- one central concept per question
-- avoid near duplicates
-- option lengths should be comparable to avoid clues
+*GOOD (Balanced):*
+Q: What is Edge Computing?
+A) A centralized method where all data is transmitted to large mainframes for batch processing.
+B) A decentralized approach processing data near the source to minimize latency and bandwidth. (Correct)
+C) A cloud-first strategy that prioritizes storing strictly encrypted backups on remote servers.
+D) A local storage solution that prevents any data from ever leaving the device's internal memory.
 
-Code-Based Questions (Special Rules):
-- Cloze: use __________ (10 underscores) placeholder
-- Debugging/Analysis: find errors or predict output
-- If audience comes from other languages (e.g., Java), highlight key differences in explanations when relevant (null/None, this/self, true/True).
+Code-Based Questions:
+- Cloze: use __________ (10 underscores).
+- Debugging: find errors or predict output.
+- Highlight key language differences if relevant.
+
 </content_rules>
 
 <formatting_and_syntax>
 LaTeX for math:
 - Use $...$ inline
-- No whitespace between closing $ and punctuation (e.g., $x$.)
+- No whitespace between closing $ and punctuation.
 
 JSON escaping (CRITICAL):
 - Escape backslashes and quotes correctly.
 - Every backslash in LaTeX must be double-escaped in JSON: "\\"
-- Avoid unnecessary LaTeX.
 
 Answer index:
 - "answer" is a 0-based index into "options".
 
 Options count:
-- Respect configuration Step 4:
-  - A -> options length 4 for all questions
-  - B -> options length 5 for all questions
-  - C -> 3–5 per question (within each question consistent)
+- Respect configuration Step 4 (A/B/C).
 
 Question numbering:
-- question text must start with "n. " where n is 1-based index in questions array.
-- Ensure it matches the array position.
+- question text must start with "n. " where n is 1-based index.
 
-question_id (NEW, MANDATORY):
-- Add "question_id" to each question object.
-- Must be unique within the JSON and stable.
-- Must match the question order:
-  - first question: "Q001"
-  - second question: "Q002"
-  - ...
-- question_id is independent of the "question" text (both must still be consistent in ordering).
+question_id:
+- "Q001", "Q002", ... matching array order.
 
-Code Block Formatting (CRITICAL):
-- If a question contains a code snippet:
-  - MUST be in a Markdown code block (```python ... ```)
-  - Inside the JSON string, use explicit \n for line breaks
-  - Include line numbers inside code block: "1: ", "2: ", ...
+Code Block Formatting:
+- Code snippets inside JSON strings: use Markdown block inside the string, escape newlines as \n.
+- Include line numbers.
 </formatting_and_syntax>
 
 <output_schema>
@@ -247,9 +233,9 @@ The final JSON object must follow this structure:
 {
   "meta": {
     "schema_version": "1.1",
-    "title": "string (central/general topic from Configuration Step 1)",
+    "title": "string",
     "created": "DD.MM.YYYY HH:MM",
-    "target_audience": "string (from Configuration Step 2)",
+    "target_audience": "string",
     "question_count": number,
     "difficulty_profile": {
       "easy": number,
@@ -267,14 +253,14 @@ The final JSON object must follow this structure:
   "questions": [
     {
       "question_id": "Q001",
-      "question": "string (Must start with '1. ', '2. ' etc.)",
+      "question": "string (Start with '1. ')",
       "options": ["string", "string", "string"],
       "answer": number,
-      "explanation": "string (2–4 sentences)",
+      "explanation": "string",
       "weight": number,
       "topic": "string",
       "concept": "string",
-      "cognitive_level": "string (Reproduction | Application | Analysis)",
+      "cognitive_level": "string",
       "extended_explanation": null OR { "title": "string", "steps": ["string"], "content": "string" },
       "mini_glossary": [
         { "term": "TermKey", "definition": "Definition string" }
@@ -282,12 +268,4 @@ The final JSON object must follow this structure:
     }
   ]
 }
-
-Notes:
-- schema_version is fixed as "1.1" unless a future spec overrides it (not user).
-- time_per_weight_minutes and additional_buffer_minutes are fixed defaults unless a future spec overrides them (not user).
-- question_count must equal length of questions array.
-- easy+medium+hard must equal question_count.
-- test_duration_minutes = sum(count_i * time_per_weight_minutes[i]) + additional_buffer_minutes; round logically to an integer.
-- No control characters in strings (no unescaped newlines).
 </output_schema>
