@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import re
+import math
 from typing import Any, Dict, List, Tuple
 
 from helpers.text import sanitize_html
 
+# Konfiguration der Grenzwerte für Warnungen/Fehler
 MIN_THEMA_OCCURRENCES = 2
 MAX_UNIQUE_THEMES = 10
 MIN_GLOSSARY_ENTRIES = 2
@@ -14,10 +16,15 @@ MAX_QUESTIONS = 500
 MIN_OPTIONS_PER_QUESTION = 2
 MAX_OPTIONS_PER_QUESTION = 8
 
+# Regex um LaTeX innerhalb von Backticks zu finden (falsches Format)
 LATEX_IN_BACKTICKS_PATTERN = re.compile(r"`(\s*?\$[^`]+\$?\s*?)`|`([^`]*?\$\s*?)`")
 
 
 def _check_string(value: Any, context: str, errors: List[str]) -> str:
+    """
+    Validiert einen String: Prüft auf Existenz, leeren Inhalt und unsicheres HTML.
+    Gibt den bereinigten String zurück.
+    """
     if not isinstance(value, str) or not value.strip():
         errors.append(f"{context} muss ein nicht-leerer Text sein.")
         return ""
@@ -34,6 +41,10 @@ def _check_string(value: Any, context: str, errors: List[str]) -> str:
 
 
 def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], List[str]]:
+    """
+    Normalisiert die Eingabedaten. Akzeptiert sowohl ein reines Listen-Format
+    als auch ein Objekt mit 'questions' und 'meta' Schlüsseln.
+    """
     errors: List[str] = []
     warnings: List[str] = []
 
@@ -63,7 +74,51 @@ def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], Li
     return [], {}, errors, warnings
 
 
+def _check_distractor_homogeneity(options: List[str], correct_index: int) -> str | None:
+    """
+    NEU: Prüft auf 'Length Bias'.
+    Analysiert, ob die richtige Antwort statistisch signifikant länger oder kürzer
+    ist als die Distraktoren (falsche Antworten).
+    Nutzt den Z-Score (Standardwert > 1.5 gilt als auffällig).
+    """
+    if not options or correct_index < 0 or correct_index >= len(options):
+        return None
+    
+    # Länge der Antworten berechnen (ohne führende/trennende Leerzeichen)
+    lengths = [len(opt.strip()) for opt in options]
+    correct_len = lengths[correct_index]
+    
+    n = len(lengths)
+    if n < 2:
+        return None
+        
+    # Statistik berechnen: Mittelwert und Standardabweichung
+    mean = sum(lengths) / n
+    variance = sum((x - mean) ** 2 for x in lengths) / n
+    std_dev = math.sqrt(variance)
+    
+    # Wenn die Varianz sehr klein ist (alle Antworten fast gleich lang), ist alles gut.
+    if std_dev < 1.0:
+        return None
+        
+    # Z-Score der richtigen Antwort berechnen
+    z_score = (correct_len - mean) / std_dev
+    
+    # Warnung generieren bei statistischer Auffälligkeit (> 1.5 Sigma)
+    if z_score > 1.5:
+        return (f"Length-Bias Warnung: Die richtige Antwort ist deutlich länger "
+                f"(Z={z_score:.2f}) als die Distraktoren. Dies kann ein Lösungshinweis sein.")
+    elif z_score < -1.5:
+        return (f"Length-Bias Warnung: Die richtige Antwort ist deutlich kürzer "
+                f"(Z={z_score:.2f}) als die Distraktoren.")
+                
+    return None
+
+
 def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str], str | None]:  # noqa: C901
+    """
+    Validiert eine einzelne Frage (Felder, Typen, Logik).
+    """
     errors: List[str] = []
     warnings: List[str] = []
 
@@ -72,13 +127,16 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
         errors.append(f"{context} muss ein Objekt sein.")
         return errors, warnings, None
 
+    # Pflichtfelder prüfen
     _check_string(question.get("question"), f"{context}: Feld 'question'", errors)
     _check_string(question.get("explanation"), f"{context}: Feld 'explanation'", errors)
     thema = _check_string(question.get("topic"), f"{context}: Feld 'topic'", errors)
-    concept = _check_string(question.get("concept"), f"{context}: Feld 'concept'", errors)
 
+    # Antwortoptionen prüfen
     optionen_raw = question.get("options")
     option_count = 0
+    clean_options: List[str] = [] # Speichert bereinigte Optionen für die Analyse
+    
     if not isinstance(optionen_raw, list):
         errors.append(f"{context}: Feld 'options' muss eine Liste sein.")
     else:
@@ -92,8 +150,10 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
                 f"{context}: Enthält {option_count} Antwortoptionen. Empfohlen sind höchstens {MAX_OPTIONS_PER_QUESTION}."
             )
         for opt_idx, opt in enumerate(optionen_raw, start=1):
-            _check_string(opt, f"{context}: Option {opt_idx}", errors)
+            val = _check_string(opt, f"{context}: Option {opt_idx}", errors)
+            clean_options.append(val)
 
+    # Lösung (Index) prüfen
     loesung_raw = question.get("answer")
     loesung: int | None
     try:
@@ -108,7 +168,15 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
             errors.append(
                 f"{context}: 'answer' ({loesung}) ist kein gültiger Index für {option_count} Optionen."
             )
+        else:
+            # --- NEU: Aufruf der Homogenitäts-Prüfung ---
+            if clean_options:
+                bias_warning = _check_distractor_homogeneity(clean_options, loesung)
+                if bias_warning:
+                    warnings.append(f"{context}: {bias_warning}")
+            # ---------------------------------------------
 
+    # Gewichtung (Schwierigkeitsgrad) prüfen
     gewichtung_raw = question.get("weight")
     try:
         gewichtung = int(gewichtung_raw)  # type: ignore[arg-type]
@@ -118,11 +186,9 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
         if gewichtung not in (1, 2, 3):
             warnings.append(f"{context}: 'weight' sollte 1, 2 oder 3 sein (aktuell {gewichtung}).")
 
+    # Mini-Glossar prüfen
     mini_glossary = question.get("mini_glossary")
     if mini_glossary is not None:
-        # Accept two common shapes for mini_glossary:
-        # 1) dict mapping term -> definition
-        # 2) list of objects [{"term": "...", "definition": "..."}, ...]
         if isinstance(mini_glossary, dict):
             glossary_size = len(mini_glossary)
             if glossary_size and not (
@@ -150,9 +216,9 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
                     errors.append(f"{entry_ctx} muss ein Objekt sein.")
                     continue
 
-                # Common expected shapes: {"term":"..","definition":".."} or single-key maps
                 term = None
                 definition = None
+                # Verschiedene Schlüssel-Varianten unterstützen (Kompatibilität)
                 if 'term' in entry and 'definition' in entry:
                     term = entry.get('term')
                     definition = entry.get('definition')
@@ -163,7 +229,6 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
                         term = None
                         definition = None
                 else:
-                    # try alternate keys in other languages/exports
                     term = entry.get('Begriff') or entry.get('Term') or entry.get('key') or entry.get('term')
                     definition = entry.get('definition') or entry.get('Definition') or entry.get('def')
 
@@ -181,6 +246,7 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
 
 
 def _validate_meta(meta: Dict[str, Any], question_count: int) -> List[str]:
+    """Prüft die Metadaten des gesamten Sets."""
     warnings: List[str] = []
     if not meta:
         return warnings
@@ -201,6 +267,7 @@ def _validate_meta(meta: Dict[str, Any], question_count: int) -> List[str]:
 
 
 def _validate_additional_metadata(index: int, question: Any) -> List[str]:
+    """Prüft optionale Zusatzfelder wie Lernziele oder kognitive Level."""
     errors: List[str] = []
     for field in ("concept", "cognitive_level"):
         value = question.get(field)
@@ -211,7 +278,10 @@ def _validate_additional_metadata(index: int, question: Any) -> List[str]:
 
 
 def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
-    """Validate the raw JSON payload of a question set."""
+    """
+    Hauptfunktion: Validiert das rohe JSON eines gesamten Frage-Sets.
+    Gibt (errors, warnings) zurück.
+    """
 
     questions, meta, root_errors, root_warnings = _normalize_root(data)
     errors: List[str] = list(root_errors)
@@ -238,6 +308,7 @@ def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
         if theme:
             themes.append(theme)
 
+    # Themen-Verteilung prüfen
     if themes:
         unique_themes = set(themes)
         if len(unique_themes) > MAX_UNIQUE_THEMES:
