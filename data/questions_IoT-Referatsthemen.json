@@ -1,0 +1,985 @@
+{
+  "meta": {
+    "schema_version": "1.1",
+    "title": "IoT-Referatsthemen: Technik, Strategie und Ethik",
+    "created": "07.01.2026 06:06",
+    "target_audience": "Studierende des Maschinenbaus und Digital Engineering",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 6,
+      "medium": 12,
+      "hard": 12
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 29
+  },
+  "questions": [
+    {
+      "question_id": "Q001",
+      "question": "1. Welches architektonische Konzept wird in modernen IoT-Systemen primär eingesetzt, um Latenzen zu minimieren und Bandbreitenbedarf zu reduzieren, indem Daten nahe der Quelle verarbeitet werden?",
+      "options": [
+        "Cloud Computing",
+        "Edge Computing",
+        "Mainframe Computing",
+        "Grid Computing"
+      ],
+      "answer": 1,
+      "explanation": "Edge Computing verlagert Rechenleistung und KI-Algorithmen auf lokale Knoten nahe der Datenquelle. Dies verkürzt Reaktionszeiten drastisch und reduziert die notwendige Bandbreite im Vergleich zur reinen Cloud-Verarbeitung.",
+      "weight": 1,
+      "topic": "Edge Computing",
+      "concept": "Latenzminimierung",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Edge Computing",
+          "definition": "Dezentrale Datenverarbeitung am Rand des Netzwerks (nahe der Quelle)."
+        },
+        {
+          "term": "Latenz",
+          "definition": "Verzögerungszeit bei der Datenübertragung."
+        }
+      ]
+    },
+    {
+      "question_id": "Q002",
+      "question": "2. Ein Smart-City-Planer möchte ein Verkehrssicherheitssystem installieren, das Unfälle in Echtzeit erkennt und Ampeln sofort umschaltet. Warum ist eine reine Cloud-Architektur hierfür ungeeignet?",
+      "options": [
+        "Weil Cloud-Server generell keine Bilddaten verarbeiten können.",
+        "Weil die Latenzzeit für die Datenübertragung zur Cloud und zurück zu hoch für sicherheitskritische Echtzeitreaktionen ist.",
+        "Weil Cloud-Speicher teurer ist als lokale Hardware.",
+        "Weil Cloud-Provider keine Verschlüsselung für Verkehrsdaten anbieten."
+      ],
+      "answer": 1,
+      "explanation": "Für sicherheitskritische Echtzeit-Anwendungen (wie Verkehrssteuerung) ist die Round-Trip-Time zur Cloud oft zu lang. Edge-Verarbeitung ermöglicht sofortige Reaktionen vor Ort, ohne auf die Antwort eines entfernten Servers warten zu müssen.",
+      "weight": 2,
+      "topic": "Edge Computing",
+      "concept": "Echtzeit-Anforderungen",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Entscheidungskriterien: Edge vs. Cloud",
+        "steps": [
+          "Analyse der Zeitkritikalität: Muss die Reaktion im Millisekundenbereich erfolgen?",
+          "Bandbreitenprüfung: Können alle Rohdaten (z. B. Video) ständig hochgeladen werden?",
+          "Ausfallsicherheit: Was passiert, wenn die Internetverbindung abbricht?",
+          "Ergebnis: Bei Sicherheitsrelevanz und Echtzeitbedarf ist Edge zwingend."
+        ],
+        "content": "Verteilte Architekturen erhöhen zudem die Ausfallsicherheit (weniger Single Points of Failure) und erlauben es, sensible Rohdaten gar nicht erst das lokale Netzwerk verlassen zu lassen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Echtzeit",
+          "definition": "Verarbeitung von Daten innerhalb einer garantierten, sehr kurzen Zeitspanne."
+        }
+      ]
+    },
+    {
+      "question_id": "Q003",
+      "question": "3. Analysieren Sie die Auswirkungen von hybriden IoT-Architekturen auf den Datenschutz. Welche Aussage beschreibt den Vorteil gegenüber reinen Cloud-Lösungen am treffendsten?",
+      "options": [
+        "Hybride Architekturen eliminieren Datenschutzrisiken vollständig, da keine Daten gespeichert werden.",
+        "Sensible Rohdaten können lokal verarbeitet werden und verlassen das lokale Netzwerk nicht; nur aggregierte Metadaten werden zentral übertragen.",
+        "Die Cloud verschlüsselt Daten automatisch besser als lokale Edge-Geräte.",
+        "Datenschutzgesetze gelten nicht für Daten, die auf Edge-Geräten verarbeitet werden."
+      ],
+      "answer": 1,
+      "explanation": "Ein wesentlicher Vorteil von Edge/Hybrid-Ansätzen ist Privacy: Personenbezogene Rohdaten (z. B. Gesichter in Videostreams) können lokal analysiert und verworfen werden. Nur anonyme Ergebnisse (z. B. 'Stau erkannt') gehen in die Cloud.",
+      "weight": 3,
+      "topic": "Edge Computing",
+      "concept": "Privacy in Architectures",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Privacy by Design in Architekturen",
+        "steps": [
+          "Datenerfassung: Sensoren erfassen sensible Daten.",
+          "Lokale Verarbeitung: Edge-Knoten extrahieren relevante Informationen (Feature Extraction).",
+          "Datenminimierung: Rohdaten werden gelöscht oder lokal gehalten.",
+          "Übertragung: Nur unkritische Ergebnisse verlassen das lokale Netz."
+        ],
+        "content": "Dieses Vorgehen entspricht dem Prinzip der Datenminimierung der DSGVO und reduziert die Angriffsfläche bei Übertragungen drastisch."
+      },
+      "mini_glossary": [
+        {
+          "term": "Hybride Architektur",
+          "definition": "Kombination aus lokaler (Edge) und zentraler (Cloud) Verarbeitung."
+        },
+        {
+          "term": "Aggregierte Daten",
+          "definition": "Zusammengefasste Daten ohne individuellen Personenbezug."
+        }
+      ]
+    },
+    {
+      "question_id": "Q004",
+      "question": "4. Was versteht man unter dem Begriff 'TinyML' im Kontext von IoT-Hardware?",
+      "options": [
+        "Eine Programmiersprache speziell für kleine Datenbanken.",
+        "Das Ausführen von KI-Modellen direkt auf Mikrocontrollern mit begrenzter Leistung.",
+        "Ein sehr kleines LoRaWAN-Modul für Wearables.",
+        "Eine Cloud-Instanz für kleine Unternehmen."
+      ],
+      "answer": 1,
+      "explanation": "TinyML bezeichnet Technologien und Verfahren, um Machine-Learning-Modelle auf ressourcenbeschränkten Geräten wie Mikrocontrollern auszuführen, statt auf leistungsstarken Servern.",
+      "weight": 1,
+      "topic": "Hardware & Energieeffizienz",
+      "concept": "TinyML Definition",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "TinyML",
+          "definition": "Tiny Machine Learning; KI auf Embedded Systems."
+        },
+        {
+          "term": "Mikrocontroller",
+          "definition": "Ein Ein-Chip-Computersystem für Steuerungsaufgaben."
+        }
+      ]
+    },
+    {
+      "question_id": "Q005",
+      "question": "5. Sie entwickeln einen Sensor für einen abgelegenen Wald zur Brandfrüherkennung, wo Batteriewechsel unmöglich sind. Welche Technologie zur Energieversorgung ist am besten geeignet?",
+      "options": [
+        "Power over Ethernet (PoE)",
+        "Energy Harvesting (z. B. Solar, thermisch)",
+        "Regelmäßiger Austausch von Lithium-Ionen-Akkus",
+        "Induktives Laden durch Drohnen"
+      ],
+      "answer": 1,
+      "explanation": "Für wartungsfreie, abgelegene Sensoren ist Energy Harvesting (Energiegewinnung aus der Umgebung, z. B. Solarzellen oder Temperaturdifferenzen) oft die einzige praktikable Lösung, um jahrelangen Betrieb ohne Batteriewechsel zu sichern.",
+      "weight": 2,
+      "topic": "Hardware & Energieeffizienz",
+      "concept": "Energieversorgung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Auswahl der Energieversorgung",
+        "steps": [
+          "Anforderungsanalyse: Standort zugänglich? Stromnetz vorhanden?",
+          "Verbrauchsabschätzung: Low-Power-Design notwendig?",
+          "Lösungswahl: Wenn unzugänglich -> Energy Harvesting.",
+          "Dimensionierung: Pufferakku für dunkle/windstille Phasen einplanen."
+        ],
+        "content": "Kombiniert mit extrem sparsamen Protokollen und Sleep-Modi ermöglicht Harvesting autarke 'Install-and-Forget'-Systeme."
+      },
+      "mini_glossary": [
+        {
+          "term": "Energy Harvesting",
+          "definition": "Gewinnung kleiner Mengen elektrischer Energie aus Quellen wie Licht, Vibration oder Wärme."
+        }
+      ]
+    },
+    {
+      "question_id": "Q006",
+      "question": "6. Warum ist die Wahl eines spezialisierten IoT-Betriebssystems wie RIOT oder Zephyr für eingebettete Systeme kritischer als bei einem Standard-PC?",
+      "options": [
+        "Weil diese Systeme bessere grafische Benutzeroberflächen bieten.",
+        "Weil Standard-Betriebssysteme zu teuer sind.",
+        "Weil eingebettete Systeme extrem ressourcenbeschränkt sind (Speicher, Energie) und Echtzeitfähigkeit benötigen.",
+        "Weil nur diese Betriebssysteme WLAN unterstützen."
+      ],
+      "answer": 2,
+      "explanation": "Embedded Systems haben oft nur wenige Kilobyte RAM und müssen Jahre mit einer Batterie laufen. Spezialisierte OS (RIOT, Zephyr) sind modular, energiesparend und echtzeitfähig, was Standard-OS wie Windows oder reguläres Linux nicht leisten können.",
+      "weight": 3,
+      "topic": "Hardware & Energieeffizienz",
+      "concept": "Ressourcenbeschränkung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Analysekriterien für IoT-OS",
+        "steps": [
+          "Speicherbedarf: Passt der Kernel in den Flash-Speicher (oft < 100 KB)?",
+          "Energie: Unterstützt das OS tiefe Schlafzustände (Deep Sleep)?",
+          "Echtzeit: Kann das OS garantierte Reaktionszeiten einhalten (Real-Time)?",
+          "Konnektivität: Sind Stacks für IoT-Protokolle (CoAP, MQTT-SN) integriert?"
+        ],
+        "content": "Die falsche OS-Wahl kann dazu führen, dass die Hardware überlastet ist oder die Batterie nach wenigen Tagen leer ist."
+      },
+      "mini_glossary": [
+        {
+          "term": "RIOT / Zephyr",
+          "definition": "Open-Source-Betriebssysteme speziell für das IoT."
+        },
+        {
+          "term": "Embedded System",
+          "definition": "Eingebettetes Computersystem, das eine dedizierte Funktion erfüllt."
+        }
+      ]
+    },
+    {
+      "question_id": "Q007",
+      "question": "7. Welches Protokoll eignet sich aufgrund seines geringen Overheads besonders gut für die Machine-to-Machine (M2M) Kommunikation in instabilen Netzwerken?",
+      "options": [
+        "HTTP (Hypertext Transfer Protocol)",
+        "MQTT (Message Queuing Telemetry Transport)",
+        "FTP (File Transfer Protocol)",
+        "SMTP (Simple Mail Transfer Protocol)"
+      ],
+      "answer": 1,
+      "explanation": "MQTT ist ein leichtgewichtiges Publish/Subscribe-Protokoll. Es ist für geringe Bandbreiten und unzuverlässige Netzwerke optimiert, im Gegensatz zum textlastigen HTTP.",
+      "weight": 1,
+      "topic": "Kommunikationsprotokolle",
+      "concept": "MQTT Eigenschaften",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "MQTT",
+          "definition": "Standardprotokoll für IoT-Messaging; nutzt Publish/Subscribe."
+        },
+        {
+          "term": "Overhead",
+          "definition": "Zusätzliche Daten (Header), die zur Nutzlast hinzukommen."
+        }
+      ]
+    },
+    {
+      "question_id": "Q008",
+      "question": "8. Für ein landwirtschaftliches Projekt sollen Bodenfeuchtesensoren über eine Fläche von 10 km² verteilt werden. Es gibt keine externe Stromversorgung. Welche Funktechnologie wählen Sie?",
+      "options": [
+        "WLAN (Wi-Fi)",
+        "Bluetooth Low Energy (BLE)",
+        "LoRaWAN (Long Range Wide Area Network)",
+        "NFC (Near Field Communication)"
+      ],
+      "answer": 2,
+      "explanation": "LoRaWAN ist eine LPWAN-Technologie (Low Power Wide Area Network), die speziell für hohe Reichweiten (mehrere km) bei sehr geringem Energieverbrauch entwickelt wurde. WLAN und BLE haben zu wenig Reichweite, NFC nur wenige Zentimeter.",
+      "weight": 2,
+      "topic": "Kommunikationsprotokolle",
+      "concept": "Technologieauswahl LPWAN",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Entscheidungshilfe Funkstandards",
+        "steps": [
+          "Reichweite prüfen: 10 km² erfordert Weitbereichsfunk.",
+          "Energie prüfen: Kein Stromnetz -> Batteriebetrieb über Jahre nötig.",
+          "Datenrate prüfen: Bodenfeuchte sind nur wenige Bytes.",
+          "Ergebnis: LPWAN (LoRaWAN, Sigfox, NB-IoT) ist ideal. WLAN frisst zu viel Strom, BLE funkt zu kurz."
+        ],
+        "content": "LPWAN-Technologien tauschen Datenrate gegen Reichweite und Energieeffizienz ein."
+      },
+      "mini_glossary": [
+        {
+          "term": "LPWAN",
+          "definition": "Funknetz für hohe Reichweite und niedrigen Energieverbrauch."
+        },
+        {
+          "term": "LoRaWAN",
+          "definition": "Ein spezifisches Protokoll innerhalb der LPWAN-Familie."
+        }
+      ]
+    },
+    {
+      "question_id": "Q009",
+      "question": "9. Das 'Matter'-Protokoll wird als Lösung für die Fragmentierung im Smart Home beworben. Welches grundlegende Problem der Interoperabilität löst es technisch?",
+      "options": [
+        "Es erhöht die Reichweite von WLAN-Routern.",
+        "Es schafft einen einheitlichen Standard über IP, sodass Geräte verschiedener Hersteller (Apple, Google, Amazon) lokal ohne Cloud-Bridge kommunizieren können.",
+        "Es ersetzt das Internet durch ein lokales Intranet.",
+        "Es zwingt Hersteller, ihre Hardware-Baupläne offenzulegen."
+      ],
+      "answer": 1,
+      "explanation": "Matter löst das Problem der 'Walled Gardens', indem es eine standardisierte Anwendungsschicht auf Basis von IP (über Wi-Fi oder Thread) bereitstellt. Geräte sind so herstellerübergreifend kompatibel.",
+      "weight": 3,
+      "topic": "Kommunikationsprotokolle",
+      "concept": "Interoperabilität & Matter",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Lösung der Fragmentierung",
+        "steps": [
+          "Status Quo: Zigbee-Lampen funktionieren oft nicht mit anderen Hubs.",
+          "Problem: Proprietäre Silos (Walled Gardens).",
+          "Lösung Matter: Einheitliches Datenmodell auf IP-Basis.",
+          "Effekt: Ein Matter-Gerät funktioniert in Apple Home, Google Home und Alexa gleichzeitig."
+        ],
+        "content": "Strategisch verhindert dies Vendor Lock-in und senkt Integrationskosten für Entwickler und Nutzer."
+      },
+      "mini_glossary": [
+        {
+          "term": "Fragmentierung",
+          "definition": "Zersplitterung des Marktes in nicht kompatible Systeme."
+        },
+        {
+          "term": "Interoperabilität",
+          "definition": "Fähigkeit verschiedener Systeme, nahtlos zusammenzuarbeiten."
+        }
+      ]
+    },
+    {
+      "question_id": "Q010",
+      "question": "10. Was ist das Kernprinzip einer 'Zero-Trust-Architektur' im IoT?",
+      "options": [
+        "Man vertraut keinem Gerät oder Dienst pauschal; jede Aktion muss authentifiziert und verifiziert werden.",
+        "Man vertraut nur Geräten, die offline sind.",
+        "Man nutzt keine Firewalls mehr.",
+        "Man vertraut allen Geräten innerhalb des eigenen Firmennetzwerks."
+      ],
+      "answer": 0,
+      "explanation": "Zero Trust bedeutet 'Never trust, always verify'. Anstatt Geräten im internen Netzwerk zu vertrauen, muss sich jede Komponente bei jedem Zugriff neu ausweisen.",
+      "weight": 1,
+      "topic": "Sicherheit und Datenschutz",
+      "concept": "Zero-Trust Prinzip",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Zero Trust",
+          "definition": "Sicherheitskonzept, das keinem Teilnehmer per se vertraut."
+        }
+      ]
+    },
+    {
+      "question_id": "Q011",
+      "question": "11. Sie leiten die Entwicklung eines vernetzten Spielzeugs. Wie setzen Sie 'Security by Design' konkret um?",
+      "options": [
+        "Wir entwickeln das Produkt fertig und installieren danach eine Antiviren-Software.",
+        "Wir nutzen Standard-Passwörter wie '1234', damit Eltern sie leicht merken können.",
+        "Wir integrieren Sicherheitsfunktionen (z. B. verschlüsselte Datenspeicherung, keine Standardpasswörter) bereits in der Konzept- und Designphase.",
+        "Wir verlassen uns darauf, dass der WLAN-Router des Kunden sicher ist."
+      ],
+      "answer": 2,
+      "explanation": "Security by Design erfordert, dass Sicherheit kein nachträgliches Add-on ist, sondern integraler Bestandteil des Entwicklungsprozesses. Dazu gehören sichere Voreinstellungen und Verschlüsselung ab Werk.",
+      "weight": 2,
+      "topic": "Sicherheit und Datenschutz",
+      "concept": "Security by Design Anwendung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Umsetzung von Security by Design",
+        "steps": [
+          "Risikoanalyse vor Entwicklungsstart.",
+          "Minimierung der Angriffsfläche (unnötige Ports schließen).",
+          "Sichere Authentifizierung (keine Hardcoded Passwörter).",
+          "Update-Mechanismus für Patches einplanen."
+        ],
+        "content": "Nachträgliches 'Härten' von unsicherer Hardware ist oft unmöglich oder extrem teuer."
+      },
+      "mini_glossary": [
+        {
+          "term": "Security by Design",
+          "definition": "Berücksichtigung von Sicherheit in allen Phasen der Produktentwicklung."
+        }
+      ]
+    },
+    {
+      "question_id": "Q012",
+      "question": "12. Ab Mitte 2027 greift der Cyber Resilience Act (CRA). Welche strategische Konsequenz hat dies für den Lebenszyklus von IoT-Produkten?",
+      "options": [
+        "Hersteller müssen nur noch den Verkaufspreis regulieren.",
+        "Hersteller sind verpflichtet, Sicherheitsupdates über einen definierten Zeitraum (oft die erwartete Produktlebensdauer) bereitzustellen und Schwachstellen zu melden.",
+        "Produkte dürfen nach 2027 keine Internetverbindung mehr haben.",
+        "Der CRA betrifft nur Software, keine Hardware."
+      ],
+      "answer": 1,
+      "explanation": "Der CRA verpflichtet Hersteller zu Cybersecurity über den gesamten Lebenszyklus. Das bedeutet, sie müssen Ressourcen und Infrastruktur vorhalten, um auch Jahre nach dem Verkauf noch Patches liefern zu können.",
+      "weight": 3,
+      "topic": "Sicherheit und Datenschutz",
+      "concept": "Regulatorische Auswirkungen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Strategische Folgen des CRA",
+        "steps": [
+          "Kostenkalkulation: Wartungskosten müssen im Verkaufspreis enthalten sein.",
+          "Haftung: Bei Nichteinhaltung drohen Marktverbote und Strafen.",
+          "Prozesse: Vulnerability Management muss etabliert werden.",
+          "End-of-Life: Das Ende des Supports muss transparent kommuniziert werden."
+        ],
+        "content": "Dies beendet die Praxis von 'Fire and Forget'-Produkten, die nach dem Verkauf unsicher werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Cyber Resilience Act (CRA)",
+          "definition": "EU-Gesetzgebung für Cybersicherheit von Produkten mit digitalen Elementen."
+        },
+        {
+          "term": "Patch Management",
+          "definition": "Verwaltung und Verteilung von Software-Korrekturen."
+        }
+      ]
+    },
+    {
+      "question_id": "Q013",
+      "question": "13. Wie generieren IoT-Plattformen primär ökonomischen Mehrwert?",
+      "options": [
+        "Durch den Verkauf von Hardware-Komponenten.",
+        "Durch Netzwerkeffekte, indem sie verschiedene Akteure (Hersteller, Entwickler, Nutzer) vernetzen und Datenaustausch erleichtern.",
+        "Durch das Erhöhen der Latenzzeiten.",
+        "Indem sie Daten in Silos isolieren."
+      ],
+      "answer": 1,
+      "explanation": "Plattformen fungieren als Intermediäre. Ihr Wert steigt mit der Anzahl der Teilnehmer (Netzwerkeffekte) und der Möglichkeit, Daten und Services zwischen zuvor getrennten Parteien auszutauschen (Orchestrierung).",
+      "weight": 2,
+      "topic": "Plattformökonomie",
+      "concept": "Netzwerkeffekte",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Funktionsweise von IoT-Plattformen",
+        "steps": [
+          "Verbindung: Geräte verschiedener Hersteller andocken.",
+          "Datenaggregation: Informationen zentral sammeln.",
+          "Öffnung: APIs für Drittentwickler bereitstellen.",
+          "Wertschöpfung: Neue Services entstehen durch Kombination der Daten."
+        ],
+        "content": "Beispiel: Eine Auto-Plattform erlaubt Versicherungen und Werkstätten Zugriff auf Fahrzeugdaten (mit Zustimmung), was neue Geschäftsmodelle ermöglicht."
+      },
+      "mini_glossary": [
+        {
+          "term": "Netzwerkeffekt",
+          "definition": "Nutzen eines Netzwerks steigt mit der Zahl seiner Teilnehmer."
+        },
+        {
+          "term": "Orchestrierung",
+          "definition": "Koordination verschiedener Dienste und Datenströme."
+        }
+      ]
+    },
+    {
+      "question_id": "Q014",
+      "question": "14. Ein Unternehmen nutzt exklusiv eine proprietäre IoT-Plattform eines einzigen Anbieters für seine gesamte Produktion. Welches Risiko besteht hierbei?",
+      "options": [
+        "Vendor Lock-in (Abhängigkeit vom Anbieter)",
+        "Zu hohe Interoperabilität",
+        "Open-Source-Lizenzprobleme",
+        "Zu geringe Datensicherheit durch Transparenz"
+      ],
+      "answer": 0,
+      "explanation": "Vendor Lock-in entsteht, wenn der Wechsel zu einem anderen Anbieter durch technische Hürden oder hohe Kosten extrem erschwert wird. Das Unternehmen wird abhängig von der Preisgestaltung und Innovationskraft des einen Anbieters.",
+      "weight": 2,
+      "topic": "Plattformökonomie",
+      "concept": "Vendor Lock-in",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Risiko Vendor Lock-in",
+        "steps": [
+          "Ursache: Nutzung proprietärer Schnittstellen und Datenformate.",
+          "Folge: Datenmigration ist technisch kaum möglich.",
+          "Gefahr: Anbieter erhöht Preise oder stellt Service ein.",
+          "Gegenmaßnahme: Nutzung offener Standards und Multi-Cloud-Strategien."
+        ],
+        "content": "Strategisch sollten Unternehmen auf Portabilität ihrer Daten und standardisierte Schnittstellen (wie OPC UA) achten."
+      },
+      "mini_glossary": [
+        {
+          "term": "Vendor Lock-in",
+          "definition": "Kundenbindung durch hohe Wechselbarrieren."
+        },
+        {
+          "term": "Proprietär",
+          "definition": "Herstellerspezifisch, nicht offen standardisiert."
+        }
+      ]
+    },
+    {
+      "question_id": "Q015",
+      "question": "15. Warum fördern erfolgreiche IoT-Plattformen aktiv sogenannte 'Complementor-Ökosysteme' (Drittanbieter)?",
+      "options": [
+        "Um die Konkurrenz direkt zu überwachen.",
+        "Weil Drittanbieter die Plattform durch eigene Anwendungen innovativer und nützlicher machen, was die Attraktivität der Plattform für alle steigert.",
+        "Um die Verantwortung für Sicherheitslücken abzuwälzen.",
+        "Weil sie selbst keine Entwickler haben."
+      ],
+      "answer": 1,
+      "explanation": "In der Plattformökonomie ist Innovation oft dezentral. Indem Drittanbieter Apps oder Services auf der Plattform bauen (Complementors), steigt der Gesamtwert des Ökosystems schneller, als wenn der Plattformbetreiber alles selbst entwickeln müsste.",
+      "weight": 3,
+      "topic": "Plattformökonomie",
+      "concept": "Ökosystem-Strategie",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Strategie der Komplementoren",
+        "steps": [
+          "Plattform stellt Infrastruktur bereit.",
+          "Komplementoren füllen Lücken mit Nischenlösungen.",
+          "Nutzer finden mehr Lösungen -> mehr Nutzer kommen.",
+          "Mehr Nutzer ziehen mehr Komplementoren an (Positives Feedback)."
+        ],
+        "content": "Beispiel: Apple App Store oder industrielle Marktplätze wie Siemens MindSphere."
+      },
+      "mini_glossary": [
+        {
+          "term": "Complementor",
+          "definition": "Akteur, der ergänzende Produkte/Dienste zu einer Plattform anbietet."
+        }
+      ]
+    },
+    {
+      "question_id": "Q016",
+      "question": "16. Was ist das Ziel von 'Predictive Maintenance' in der Industrie 4.0?",
+      "options": [
+        "Maschinen erst zu reparieren, wenn sie kaputt sind.",
+        "Wartung basierend auf starren Zeitplänen durchzuführen.",
+        "Ausfälle vorherzusagen, bevor sie eintreten, um Stillstandszeiten zu minimieren.",
+        "Die Produktionsgeschwindigkeit zu verdoppeln."
+      ],
+      "answer": 2,
+      "explanation": "Predictive Maintenance nutzt Sensordaten und ML-Algorithmen, um Verschleißmuster zu erkennen. Wartung erfolgt zustandsorientiert genau dann, wenn sie nötig ist – nicht zu früh (unnötige Kosten) und nicht zu spät (Ausfall).",
+      "weight": 2,
+      "topic": "Datenanalyse und KI (AIoT)",
+      "concept": "Predictive Maintenance",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Funktionsweise Predictive Maintenance",
+        "steps": [
+          "Datenerfassung: Vibration, Temperatur, Stromaufnahme.",
+          "Analyse: Vergleich mit Normalzustand oder Fehler-Mustern.",
+          "Prognose: 'Lager fällt in 48 Stunden aus'.",
+          "Aktion: Wartung in produktionsfreier Zeit einplanen."
+        ],
+        "content": "Dies reduziert ungeplante Stillstände (Downtime) und optimiert die Ersatzteillogistik."
+      },
+      "mini_glossary": [
+        {
+          "term": "Predictive Maintenance",
+          "definition": "Vorausschauende Wartung basierend auf Datenanalyse."
+        }
+      ]
+    },
+    {
+      "question_id": "Q017",
+      "question": "17. Sie möchten KI-Modelle auf Nutzerdaten (z. B. Smart Home Sprachbefehle) trainieren, aber die Privatsphäre wahren. Welcher Ansatz eignet sich?",
+      "options": [
+        "Alle Daten unverschlüsselt in die Cloud laden.",
+        "Federated Learning (Föderiertes Lernen)",
+        "Manuelle Auswertung durch Mitarbeiter.",
+        "Verzicht auf KI."
+      ],
+      "answer": 1,
+      "explanation": "Bei Federated Learning trainieren IoT-Geräte das Modell lokal und senden nur die gelernten Parameter (Gewichts-Updates) an den Server, nicht die Rohdaten. Die Privatsphäre bleibt gewahrt.",
+      "weight": 2,
+      "topic": "Datenanalyse und KI (AIoT)",
+      "concept": "Federated Learning",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Federated Learning Prozess",
+        "steps": [
+          "Zentraler Server sendet Basis-Modell an Geräte.",
+          "Geräte trainieren lokal mit ihren privaten Daten.",
+          "Geräte senden nur Modell-Updates zurück.",
+          "Server aggregiert Updates zum verbesserten Modell."
+        ],
+        "content": "Dieser Ansatz adressiert Datenschutzbedenken und reduziert den Datentransfer-Bedarf."
+      },
+      "mini_glossary": [
+        {
+          "term": "Federated Learning",
+          "definition": "Dezentrales ML-Training ohne Austausch der Rohdaten."
+        }
+      ]
+    },
+    {
+      "question_id": "Q018",
+      "question": "18. Ein Vibrationssensor liefert plötzlich erratische Daten. Das Anomaly-Detection-Modell schlägt Alarm. Bei der Analyse stellen Sie fest, dass das Muster untypisch für einen Lagerschaden ist, aber korreliert mit dem Einschalten einer neuen benachbarten Maschine. Was ist hier passiert?",
+      "options": [
+        "Der Sensor ist defekt.",
+        "Es handelt sich um eine False Positive (Fehlalarm) durch externe Interferenzen/Umgebungsrauschen.",
+        "Das KI-Modell hat sich selbst gelöscht.",
+        "Die Maschine hat einen Virus."
+      ],
+      "answer": 1,
+      "explanation": "In realen IoT-Umgebungen beeinflussen sich Systeme gegenseitig. Das Modell hat eine Anomalie korrekt erkannt (Datenabweichung), aber die Ursache war kein interner Defekt, sondern externe Vibrationen. Dies erfordert Kontextwissen zur Interpretation.",
+      "weight": 3,
+      "topic": "Datenanalyse und KI (AIoT)",
+      "concept": "Fehleranalyse & Kontext",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Interpretation von Anomalien",
+        "steps": [
+          "Detektion: Modell meldet Abweichung.",
+          "Kontextualisierung: Was geschah zeitgleich im Umfeld?",
+          "Korrelation: Zusammenhang mit externem Event prüfen.",
+          "Anpassung: Modell nachtrainieren, um diesen Betriebszustand als 'normal' zu kennen."
+        ],
+        "content": "KI-Modelle müssen oft auf die spezifische Installationsumgebung kalibriert werden, um Fehlalarme zu vermeiden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Anomaly Detection",
+          "definition": "Erkennung von Abweichungen vom Normalzustand."
+        },
+        {
+          "term": "False Positive",
+          "definition": "Fälschlicherweise als Fehler erkannter Normalzustand."
+        }
+      ]
+    },
+    {
+      "question_id": "Q019",
+      "question": "19. Was versteht man unter einem 'Digitalen Zwilling' (Digital Twin) im Kontext von Industrie 4.0?",
+      "options": [
+        "Ein Backup der Festplatte.",
+        "Ein virtuelles Echtzeit-Abbild eines physischen Objekts oder Systems.",
+        "Ein zweites, identisches physisches Gerät als Ersatzteil.",
+        "Ein Simulationsspiel für Mitarbeiter."
+      ],
+      "answer": 1,
+      "explanation": "Ein Digitaler Zwilling ist die virtuelle Repräsentation eines Assets, die kontinuierlich mit Echtzeitdaten des physischen Objekts gefüttert wird. Er dient zur Überwachung, Simulation und Optimierung.",
+      "weight": 1,
+      "topic": "Industrielles IoT (IIoT)",
+      "concept": "Digitaler Zwilling Definition",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Digitaler Zwilling",
+          "definition": "Virtuelles Modell, das den Lebenszyklus eines physischen Objekts begleitet."
+        }
+      ]
+    },
+    {
+      "question_id": "Q020",
+      "question": "20. Welche Rolle spielt OPC UA im industriellen IoT?",
+      "options": [
+        "Es ist ein Videostreaming-Protokoll.",
+        "Es dient als standardisierte Schnittstelle zur sicheren Kommunikation zwischen Maschinen (OT) und IT-Systemen.",
+        "Es ist ein Betriebssystem für Roboter.",
+        "Es ist eine neue Programmiersprache von Microsoft."
+      ],
+      "answer": 1,
+      "explanation": "OPC UA (Open Platform Communications Unified Architecture) ist der wichtigste Standard für die Interoperabilität in der Industrie. Es ermöglicht den plattformunabhängigen Datenaustausch vom Sensor bis zum ERP-System.",
+      "weight": 2,
+      "topic": "Industrielles IoT (IIoT)",
+      "concept": "OPC UA & Interoperabilität",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "IT/OT Konvergenz mit OPC UA",
+        "steps": [
+          "Problem: Feldgeräte sprechen Feldbusse, IT spricht IP.",
+          "Lösung: OPC UA kapselt Daten semantisch.",
+          "Nutzen: IT-Systeme können Maschinendaten 'verstehen' ohne Detailwissen über den Bus.",
+          "Security: OPC UA bringt eingebaute Verschlüsselung und Zertifikate mit."
+        ],
+        "content": "Ohne Standards wie OPC UA ist die vertikale Integration (Shopfloor to Topfloor) extrem aufwendig."
+      },
+      "mini_glossary": [
+        {
+          "term": "OPC UA",
+          "definition": "Maschine-zu-Maschine Kommunikationsprotokoll für industrielle Automation."
+        },
+        {
+          "term": "OT",
+          "definition": "Operational Technology; Hardware/Software zur Steuerung physischer Geräte."
+        }
+      ]
+    },
+    {
+      "question_id": "Q021",
+      "question": "21. Ein Unternehmen besitzt alte Maschinen ohne Sensoren. Eine Analyse ergibt, dass ein Neukauf zu teuer ist. Welche Strategie ist am sinnvollsten, um dennoch IIoT-Vorteile zu nutzen?",
+      "options": [
+        "Alles manuell auf Papier protokollieren.",
+        "Retrofitting (Nachrüsten) der Anlagen mit externer Sensorik und IoT-Gateways.",
+        "Die Maschinen verschrotten, obwohl sie funktionieren.",
+        "Eine Webcam vor die Maschine stellen."
+      ],
+      "answer": 1,
+      "explanation": "Retrofitting ermöglicht es, Bestandsanlagen ('Brownfield') digital zu ertüchtigen. Durch Aufkleben von Sensoren (Vibration, Strom) und Gateways können Daten erfasst werden, ohne in die teure Maschinensteuerung eingreifen zu müssen.",
+      "weight": 3,
+      "topic": "Industrielles IoT (IIoT)",
+      "concept": "Retrofitting Strategie",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Retrofit-Analyse",
+        "steps": [
+          "Kosten-Nutzen: Neukauf (Mio. €) vs. Retrofit (Tsd. €).",
+          "Risiko: Kein Eingriff in zertifizierte Steuerungen (nur 'Listen-Only').",
+          "Umsetzung: Externe Sensorik liefert Daten parallel zur SPS.",
+          "Ergebnis: Digitalisierung ist auch mit 30 Jahre alten Maschinen möglich."
+        ],
+        "content": "Dies ist ökologisch und ökonomisch oft sinnvoller als der Austausch funktionierender Anlagen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Retrofit",
+          "definition": "Modernisierung bestehender Anlagen durch Nachrüstung neuer Komponenten."
+        },
+        {
+          "term": "Brownfield",
+          "definition": "Projektumgebung mit existierender Infrastruktur (im Ggs. zu Greenfield)."
+        }
+      ]
+    },
+    {
+      "question_id": "Q022",
+      "question": "22. Wie verändert sich das Geschäftsmodell beim Übergang vom Produktverkauf zu 'Product-as-a-Service'?",
+      "options": [
+        "Der Kunde zahlt einmalig mehr.",
+        "Der Kunde kauft das Gerät nicht, sondern zahlt für Nutzung, Verfügbarkeit oder Leistung (Abo/Pay-per-Use).",
+        "Der Hersteller kümmert sich nach Auslieferung nicht mehr um das Gerät.",
+        "Es gibt keine Hardware mehr, nur noch Software."
+      ],
+      "answer": 1,
+      "explanation": "Bei Product-as-a-Service (PaaS) bleibt das Eigentum beim Hersteller. Der Kunde zahlt laufende Gebühren. Das verschiebt den Investitionsaufwand (CAPEX) zu Betriebskosten (OPEX) für den Kunden und sichert dem Hersteller wiederkehrende Einnahmen.",
+      "weight": 2,
+      "topic": "Strategische Implikationen",
+      "concept": "Servitization",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Wandel zum Service-Modell",
+        "steps": [
+          "Traditionell: Einmalverkauf (Transaktion).",
+          "Service: Abo-Modell (Recurring Revenue).",
+          "Incentive: Hersteller hat nun Interesse an Langlebigkeit und Wartungsfreiheit.",
+          "Daten: Nutzungsprofile ermöglichen Produktverbesserungen."
+        ],
+        "content": "Beispiel: Kompressoren, bei denen man für 'Druckluft pro Kubikmeter' zahlt statt für die Maschine."
+      },
+      "mini_glossary": [
+        {
+          "term": "Servitization",
+          "definition": "Wandel vom reinen Produzenten zum Dienstleister."
+        },
+        {
+          "term": "CAPEX/OPEX",
+          "definition": "Investitionsausgaben vs. operative Ausgaben."
+        }
+      ]
+    },
+    {
+      "question_id": "Q023",
+      "question": "23. Ein Landmaschinenhersteller lizenziert anonymisierte Wetter- und Bodendaten seiner vernetzten Traktoren an Versicherungen. Welches Geschäftsmodell liegt vor?",
+      "options": [
+        "Hardware-Verkauf",
+        "Datenmonetarisierung",
+        "Freemium",
+        "Open Source"
+      ],
+      "answer": 1,
+      "explanation": "Datenmonetarisierung bedeutet, aus den gesammelten IoT-Daten direkt Umsatz zu generieren, indem Erkenntnisse oder Datensätze an Dritte verkauft werden.",
+      "weight": 2,
+      "topic": "Strategische Implikationen",
+      "concept": "Datenmonetarisierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Wert von IoT-Daten",
+        "steps": [
+          "Sammlung: Flotte von 10.000 Traktoren sammelt Umweltdaten.",
+          "Veredelung: Anonymisierung und Aggregation.",
+          "Verkauf: Dritte (Versicherungen, Saatguthersteller) zahlen für die Markteinblicke.",
+          "Ergebnis: Zusätzlicher Revenue Stream ohne neue Hardwarekosten."
+        ],
+        "content": "Wichtig ist hierbei die rechtliche Klärung der Dateneigentumsrechte mit dem Endkunden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Datenmonetarisierung",
+          "definition": "Erzeugung von Einnahmen durch Verkauf oder Nutzung von Datenvermögen."
+        }
+      ]
+    },
+    {
+      "question_id": "Q024",
+      "question": "24. Welche strategische Gefahr besteht für einen etablierten Maschinenbauer, der IoT und digitale Services ignoriert?",
+      "options": [
+        "Keine, Maschinenbau ist ein stabiles Geschäft.",
+        "Kommodifizierung: Die Hardware wird austauschbar, während die Wertschöpfung zu Software- und Plattformanbietern abwandert.",
+        "Er spart F&E-Kosten und wird profitabler.",
+        "Die Kunden werden loyaler, weil sie keine komplizierte Technik wollen."
+      ],
+      "answer": 1,
+      "explanation": "Wenn die Intelligenz und der Kundenzugang in die Software/Plattform wandern, wird die reine 'dumme' Hardware zur austauschbaren Commodity mit geringer Marge. Der Maschinenbauer verliert den direkten Kundenkontakt.",
+      "weight": 3,
+      "topic": "Strategische Implikationen",
+      "concept": "Disruption & Kommodifizierung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Risiko der Kommodifizierung",
+        "steps": [
+          "Trend: Wertschöpfung verschiebt sich zu Software/Services.",
+          "Gefahr: Wer nur 'Eisen' liefert, steht im Preiskampf.",
+          "Disruption: Neue Player (IT-Firmen) besetzen die Kundenschnittstelle.",
+          "Strategie: Eigene digitale Kompetenz aufbauen oder Partnerschaften schließen."
+        ],
+        "content": "Siehe das Beispiel Nokia vs. Apple: Hardware-Exzellenz reichte ohne Ökosystem nicht aus."
+      },
+      "mini_glossary": [
+        {
+          "term": "Kommodifizierung",
+          "definition": "Prozess, bei dem Produkte austauschbar werden und nur noch über den Preis konkurrieren."
+        }
+      ]
+    },
+    {
+      "question_id": "Q025",
+      "question": "25. Was regelt der 'Cyber Resilience Act' (CRA) der EU grundsätzlich?",
+      "options": [
+        "Die Preise für Internetanschlüsse.",
+        "Verbindliche Cybersicherheitsanforderungen für Produkte mit digitalen Elementen.",
+        "Die Recycling-Quote von Plastikgehäusen.",
+        "Die Strahlenbelastung durch 5G-Masten."
+      ],
+      "answer": 1,
+      "explanation": "Der CRA ist eine EU-Verordnung, die sicherstellt, dass Hard- und Softwareprodukte (IoT) Mindeststandards an Sicherheit erfüllen (z. B. keine Standardpasswörter, Update-Pflicht).",
+      "weight": 1,
+      "topic": "Rechtliche Aspekte",
+      "concept": "CRA Grundlagen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "EU-Verordnung",
+          "definition": "Gesetzgebungsakt der EU, der sofort in allen Mitgliedsstaaten gilt."
+        }
+      ]
+    },
+    {
+      "question_id": "Q026",
+      "question": "26. Ab August 2025 greifen Regeln der 'Radio Equipment Directive' (RED). Ein Hersteller verkauft WLAN-fähige Teddybären. Was muss er sicherstellen?",
+      "options": [
+        "Dass der Teddybär waschbar ist.",
+        "Dass das Gerät keine Netze stört, Nutzerdaten schützt und Betrugsbekämpfung unterstützt.",
+        "Dass er eine SIM-Karte hat.",
+        "Dass er nur in der EU verkauft wird."
+      ],
+      "answer": 1,
+      "explanation": "Die delegierte Verordnung zur RED erweitert die Anforderungen an Funkanlagen. Hersteller müssen nachweisen, dass ihre Geräte die Privatsphäre schützen und das Netzwerk nicht für Angriffe missbraucht werden kann.",
+      "weight": 2,
+      "topic": "Rechtliche Aspekte",
+      "concept": "RED Compliance",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "RED Anforderungen 2025",
+        "steps": [
+          "Netzwerkschutz: Gerät darf Netz nicht schädigen.",
+          "Datenschutz: Schutz personenbezogener Daten und Privatsphäre.",
+          "Betrugsschutz: Risikominimierung bei monetären Transaktionen.",
+          "Konsequenz: Ohne Compliance kein CE-Kennzeichen -> Verkaufsverbot."
+        ],
+        "content": "Dies betrifft fast alle drahtlosen IoT-Geräte."
+      },
+      "mini_glossary": [
+        {
+          "term": "Radio Equipment Directive (RED)",
+          "definition": "EU-Richtlinie für Funkanlagen."
+        }
+      ]
+    },
+    {
+      "question_id": "Q027",
+      "question": "27. Ein autonomes IoT-System verursacht einen Schaden. Die Haftungsfrage ist komplex. Welche Entwicklung im Produkthaftungsrecht zeichnet sich ab?",
+      "options": [
+        "Software wird niemals als Produkt angesehen, daher haftet niemand.",
+        "Der Nutzer ist immer schuld.",
+        "Software und digitale Dienste werden zunehmend als Teil des 'Produkts' definiert, wodurch Hersteller auch für fehlerhafte Updates oder Sicherheitslücken haften.",
+        "Autonome Systeme haben eine eigene Rechtspersönlichkeit und haften selbst."
+      ],
+      "answer": 2,
+      "explanation": "Aktuelle Reformen (z. B. neue EU-Produkthaftungsrichtlinie) stellen klar, dass Software und digitale Services haftungsrechtlich relevant sind. Hersteller haften auch für Schäden durch fehlende Sicherheitsupdates.",
+      "weight": 3,
+      "topic": "Rechtliche Aspekte",
+      "concept": "Haftung im IoT",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Wandel der Produkthaftung",
+        "steps": [
+          "Alt: Haftung für physische Defekte.",
+          "Neu: Haftung für digitale Defekte und Cyber-Unsicherheit.",
+          "Beweislast: Erleichterungen für Geschädigte bei komplexen Systemen.",
+          "Folge: Hersteller müssen Qualitätssicherung auf Software/Security ausweiten."
+        ],
+        "content": "Die Trennung zwischen Hardware (haftbar) und Software (oft ausgenommen) verschwindet."
+      },
+      "mini_glossary": [
+        {
+          "term": "Produkthaftung",
+          "definition": "Haftung des Herstellers für Schäden, die durch sein fehlerhaftes Produkt entstehen."
+        }
+      ]
+    },
+    {
+      "question_id": "Q028",
+      "question": "28. Welcher Ansatz wird als 'Green IoT' bezeichnet?",
+      "options": [
+        "Das Anmalen von Sensoren in grüner Farbe.",
+        "Strategien zur Reduktion des Energieverbrauchs und Elektroschrotts durch IoT (z. B. langlebige Hardware, Recycling, Smart Grids).",
+        "IoT-Geräte nur im Wald zu verwenden.",
+        "Die Nutzung von Atomstrom für Server."
+      ],
+      "answer": 1,
+      "explanation": "Green IoT umfasst Maßnahmen, um die Technologie selbst nachhaltiger zu machen (Hardware-Design, Recycling) und IoT zur Ressourceneinsparung in anderen Bereichen (Energieeffizienz in Gebäuden) zu nutzen.",
+      "weight": 2,
+      "topic": "Gesellschaftliche Implikationen",
+      "concept": "Green IoT",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Aspekte von Green IoT",
+        "steps": [
+          "Green in IoT: Energiesparende Protokolle, langlebige Batterien.",
+          "Green by IoT: Smart Heating spart 20% Heizenergie.",
+          "Lifecycle: Recycling von Sensoren statt Wegwerfen.",
+          "Ziel: Netto-positive Ökobilanz."
+        ],
+        "content": "Angesichts von Milliarden Geräten ist der Elektroschrott ein massives Problem, das adressiert werden muss."
+      },
+      "mini_glossary": [
+        {
+          "term": "Nachhaltigkeit",
+          "definition": "Nutzung von Ressourcen unter Bewahrung der natürlichen Regenerationsfähigkeit."
+        }
+      ]
+    },
+    {
+      "question_id": "Q029",
+      "question": "29. Ein Smart-City-Projekt zur Videoüberwachung wird gestoppt, weil Bürger protestieren. Welcher ethische Zielkonflikt wird hier deutlich?",
+      "options": [
+        "Analog vs. Digital",
+        "Sicherheit/Komfort vs. Privatsphäre/Freiheitsrechte",
+        "Strom vs. Batterie",
+        "Software vs. Hardware"
+      ],
+      "answer": 1,
+      "explanation": "IoT-Technologien im öffentlichen Raum (Kameras, Tracking) erhöhen oft die Sicherheit oder Effizienz, greifen aber tief in die Privatsphäre ein (Gefühl der Überwachung). Dieser Trade-off muss gesellschaftlich ausgehandelt werden.",
+      "weight": 2,
+      "topic": "Gesellschaftliche Implikationen",
+      "concept": "Privatsphäre vs. Sicherheit",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Ethische Abwägung",
+        "steps": [
+          "Nutzen: Verbrechensbekämpfung, Verkehrsfluss.",
+          "Kosten: Verlust der Anonymität, 'Gläserner Bürger'.",
+          "Akzeptanz: Ohne Vertrauen der Bürger scheitern Projekte (Beispiel Amsterdam).",
+          "Lösung: Transparenz und strikte Zweckbindung der Daten."
+        ],
+        "content": "Technisch machbare Lösungen sind nicht immer gesellschaftlich erwünscht."
+      },
+      "mini_glossary": [
+        {
+          "term": "Zielkonflikt",
+          "definition": "Situation, in der die Erfüllung eines Ziels ein anderes beeinträchtigt."
+        }
+      ]
+    },
+    {
+      "question_id": "Q030",
+      "question": "30. Die 'Digitale Spaltung' (Digital Divide) ist ein Problem bei der IoT-Einführung. Welche Maßnahme wirkt dem entgegen, um ländliche Gebiete nicht abzuhängen?",
+      "options": [
+        "Verbot von IoT in Städten.",
+        "Ausbau von Satelliten-IoT (z. B. Starlink) und LPWAN-Abdeckung in der Fläche.",
+        "Nutzung von Kabeln statt Funk.",
+        "Erhöhung der Preise für Sensoren."
+      ],
+      "answer": 1,
+      "explanation": "Ländliche Räume haben oft schlechte Mobilfunkabdeckung. Technologien wie Satelliten-Internet oder reichweitenstarkes LoRaWAN ermöglichen auch dort Smart Farming oder Umweltmonitoring und sichern digitale Teilhabe.",
+      "weight": 3,
+      "topic": "Gesellschaftliche Implikationen",
+      "concept": "Digitale Teilhabe",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Überwindung des Digital Divide",
+        "steps": [
+          "Problem: IoT-Lösungen konzentrieren sich auf Smart Cities.",
+          "Folge: Landwirtschaft und ländliche KMU verlieren Wettbewerbsfähigkeit.",
+          "Technik-Lösung: Kostengünstige, infrastrukturschonende Funknetze.",
+          "Politik: Förderprogramme für Breitbandausbau."
+        ],
+        "content": "Inklusion bedeutet hier, Infrastruktur bereitzustellen, damit Innovation überall stattfinden kann."
+      },
+      "mini_glossary": [
+        {
+          "term": "Digital Divide",
+          "definition": "Kluft zwischen Regionen/Gruppen mit und ohne Zugang zu digitaler Technologie."
+        }
+      ]
+    }
+  ]
+}
