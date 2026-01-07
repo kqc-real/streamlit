@@ -2765,6 +2765,10 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
         barmode="stack",
         xaxis_title=translate_ui("welcome.distribution.chart.xaxis", default="Thema"),
         yaxis_title=translate_ui("welcome.distribution.chart.yaxis", default="Anzahl der Fragen"),
+        yaxis=dict(
+            dtick=1,  # Force tick interval of 1
+            tickformat='d',  # Display as integer (no decimal places)
+        ),
         legend_title=translate_ui("welcome.distribution.chart.legend", default="Schwierigkeit"),
     )
     # If metadata provided, render it as a small heading above the chart
