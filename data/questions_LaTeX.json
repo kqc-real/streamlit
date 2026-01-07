@@ -1,13 +1,13 @@
 {
   "meta": {
-    "title": "LaTeX für wissenschaftliches Schreiben",
-    "created": "26.05.2024 10:00",
-    "target_audience": "Informatikstudierende vor der Erstellung ihrer Thesis",
-    "question_count": 50,
+    "title": "LaTeX für Informatik-Bachelorarbeiten: Grundlagen & Best Practices",
+    "created": "07.01.2026 14:30",
+    "target_audience": "Bachelor-Studierende der Informatik (vor der Thesis)",
+    "question_count": 30,
     "difficulty_profile": {
-      "easy": 10,
-      "medium": 30,
-      "hard": 10
+      "easy": 6,
+      "medium": 18,
+      "hard": 6
     },
     "time_per_weight_minutes": {
       "1": 0.5,
@@ -15,1508 +15,882 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 5,
-    "test_duration_minutes": 43
+    "test_duration_minutes": 28
   },
   "questions": [
     {
-      "question": "1. Welcher Befehl muss zwingend am Anfang jeder LaTeX-Datei stehen, um die Art des Dokuments festzulegen?",
+      "question": "1. Welches Zeichen wird in LaTeX verwendet, um einen Kommentar einzuleiten, der vom Compiler ignoriert wird?",
       "options": [
-        "\\usepackage{...}",
-        "\\begin{document}",
-        "\\documentclass{...}",
-        "\\title{...}"
+        "Das Prozentzeichen `%`",
+        "Das Hash-Zeichen `#`",
+        "Der doppelte Schrägstrich `//`",
+        "Das 'At'-Zeichen `@`"
       ],
-      "answer": 2,
-      "explanation": "Der Befehl \\documentclass{...} definiert die Dokumentenklasse (z. B. article, report, book) und ist die erste Anweisung in einem LaTeX-Quellcode.",
+      "answer": 0,
+      "explanation": "In LaTeX leitet `%` einen Zeilenkommentar ein. Alles danach bis zum Zeilenende wird ignoriert. `//` und `#` sind aus Programmiersprachen wie Java oder Python bekannt, haben in LaTeX aber andere Bedeutungen.",
       "weight": 1,
-      "topic": "Grundstruktur & Präambel",
-      "concept": "Dokumentenklasse",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
-      "mini_glossary": [
-        {
-          "term": "Präambel",
-          "definition": "Der Bereich vor \\begin{document}, in dem globale Einstellungen vorgenommen werden."
-        },
-        {
-          "term": "Klasse",
-          "definition": "Vorlage, die das grundlegende Layout bestimmt (z. B. Buch vs. Artikel)."
-        }
-      ]
-    },
-    {
-      "question": "2. In welcher Umgebung wird der eigentliche Inhalt des Dokuments geschrieben, der später im PDF sichtbar ist?",
-      "options": [
-        "preamble",
-        "document",
-        "main",
-        "body",
-        "content"
-      ],
-      "answer": 1,
-      "explanation": "Der sichtbare Inhalt wird zwischen \\begin{document} und \\end{document} platziert. Alles davor ist die Präambel.",
-      "weight": 1,
-      "topic": "Grundstruktur & Präambel",
-      "concept": "Dokumentenumgebung",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
-      "mini_glossary": [
-        {
-          "term": "Umgebung",
-          "definition": "Ein Bereich, der durch \\begin{...} und \\end{...} begrenzt wird."
-        },
-        {
-          "term": "Body",
-          "definition": "Der Hauptteil des Dokuments mit dem sichtbaren Text."
-        }
-      ]
-    },
-    {
-      "question": "3. Mit welchem Zeichen werden in LaTeX Kommentare eingeleitet, die vom Compiler ignoriert werden?",
-      "options": [
-        "\\#",
-        "%",
-        "//",
-        "(* ... *)"
-      ],
-      "answer": 1,
-      "explanation": "Das Prozentzeichen % leitet einen Kommentar ein. Der Rest der Zeile wird bei der Kompilierung ignoriert.",
-      "weight": 1,
-      "topic": "Grundstruktur & Präambel",
+      "topic": "Syntax-Grundlagen",
       "concept": "Kommentare",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
           "term": "Compiler",
-          "definition": "Programm, das den LaTeX-Code in ein Ausgabeformat (meist PDF) übersetzt."
-        },
-        {
-          "term": "Kommentar",
-          "definition": "Text im Quellcode, der nicht im fertigen Dokument erscheint."
+          "definition": "Software, die den LaTeX-Quellcode in ein PDF übersetzt (z. B. pdflatex)."
         }
       ]
     },
     {
-      "question": "4. Welches Zeichen wird verwendet, um einen Zeilenumbruch zu erzwingen, ohne einen neuen Absatz zu beginnen?",
+      "question": "2. Mit welchem Befehl wird der eigentliche Inhalt eines LaTeX-Dokuments begonnen?",
       "options": [
-        "\\newline",
-        "\\\\",
-        "\\break",
-        "Alle genannten Optionen"
+        "\\start{document}",
+        "\\begin{document}",
+        "\\init{document}",
+        "\\open{document}"
       ],
       "answer": 1,
-      "explanation": "Der Befehl \\\\ erzwingt einen harten Zeilenumbruch innerhalb eines Absatzes. \\newline bewirkt Ähnliches, \\\\ ist jedoch der gängige Kurzform-Befehl.",
+      "explanation": "Jede Umgebung in LaTeX beginnt mit `\\begin{...}` und endet mit `\\end{...}`. Der Dokumentenkörper wird zwingend von `\\begin{document}` umschlossen.",
       "weight": 1,
-      "topic": "Textformatierung",
-      "concept": "Zeilenumbruch",
+      "topic": "Dokumentenstruktur",
+      "concept": "Umgebungen",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Absatz",
-          "definition": "Ein Textblock, der in LaTeX meist durch eine Leerzeile im Code erzeugt wird."
-        },
-        {
-          "term": "Umbruch",
-          "definition": "Das Beenden der aktuellen Zeile und Beginnen einer neuen."
+          "term": "Präambel",
+          "definition": "Bereich vor \\begin{document}, in dem Pakete geladen und Einstellungen vorgenommen werden."
         }
       ]
     },
     {
-      "question": "5. Wie erzeugt man in LaTeX fetten Text?",
+      "question": "3. Welcher Befehl wird verwendet, um Text **fett** zu drucken?",
       "options": [
         "\\bold{Text}",
         "\\textbf{Text}",
         "\\bf{Text}",
-        "\\textbold{Text}"
+        "\\format[bold]{Text}"
       ],
       "answer": 1,
-      "explanation": "Der korrekte Befehl für fetten Text im Fließtext ist \\textbf{...} (text bold face).",
+      "explanation": "`\\textbf{...}` steht für 'text bold face' und ist der moderne Standardbefehl. `\\bf` ist ein veralteter Befehl aus Plain TeX/LaTeX 2.09 und sollte nicht mehr genutzt werden.",
       "weight": 1,
       "topic": "Textformatierung",
-      "concept": "Schriftauszeichnung",
+      "concept": "Schriftstile",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Schriftschnitt",
-          "definition": "Variation einer Schriftart, z. B. fett oder kursiv."
-        },
-        {
-          "term": "Formatierung",
-          "definition": "Visuelle Gestaltung von Text."
+          "term": "Semantisches Markup",
+          "definition": "Auszeichnung nach Bedeutung (z. B. \\section) statt reinem Aussehen (z. B. Fett)."
         }
       ]
     },
     {
-      "question": "6. Welches Paket ist essentiell, um Bilder in ein LaTeX-Dokument einzubinden?",
+      "question": "4. Wie werden mathematische Formeln innerhalb einer Fließtextzeile (Inline Math) üblicherweise eingeschlossen?",
       "options": [
-        "tikz",
-        "graphicx",
-        "images",
-        "figure"
+        "Zwischen zwei Dollarzeichen: $ E = mc^2 $",
+        "Zwischen zwei Prozentzeichen: % E = mc^2 %",
+        "Zwischen geschweiften Klammern: { E = mc^2 }",
+        "Zwischen eckigen Klammern: [ E = mc^2 ]"
       ],
-      "answer": 1,
-      "explanation": "Das Paket graphicx stellt den Befehl \\includegraphics bereit, der für das Einbinden externer Bilddateien notwendig ist.",
+      "answer": 0,
+      "explanation": "Das Dollarzeichen `$` schaltet in den Inline-Mathe-Modus. Alternativ ist auch `\\( ... \\)` möglich. Eckige Klammern `\\[ ... \\]` erzeugen abgesetzte Formeln (Display Math).",
       "weight": 1,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Grafik-Import",
+      "topic": "Mathematiksatz",
+      "concept": "Inline Math",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Paket",
-          "definition": "Eine Sammlung von Makros, die zusätzliche Funktionen bereitstellt."
-        },
-        {
-          "term": "Präambel-Befehl",
-          "definition": "Befehl wie \\usepackage, der vor dem Dokumentenstart steht."
+          "term": "Inline Math",
+          "definition": "Formelsatz direkt im Textfluss, ohne Zeilenumbruch."
         }
       ]
     },
     {
-      "question": "8. Welches Zeichen wird in Tabellen verwendet, um zur nächsten Spalte zu springen?",
+      "question": "5. Mit welchem Befehl laden Sie zusätzliche Funktionalitäten (Pakete) in der Präambel?",
       "options": [
-        "&",
-        "|",
-        "#",
-        "\\tab"
+        "\\include{paketname}",
+        "\\usepackage{paketname}",
+        "\\loadpackage{paketname}",
+        "\\require{paketname}"
       ],
-      "answer": 0,
-      "explanation": "Das kaufmännische Und & dient als Spaltentrennzeichen in Tabellen und Matrizen.",
+      "answer": 1,
+      "explanation": "`\\usepackage{...}` ist der Befehl, um externe Stylesyts (.sty Dateien) zu laden. `\\include` wird genutzt, um Textdateien in das Dokument einzufügen.",
       "weight": 1,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Tabellensyntax",
+      "topic": "Präambel",
+      "concept": "Pakete",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Alignment",
-          "definition": "Die Ausrichtung von Spalten (links, rechts, zentriert)."
-        },
-        {
-          "term": "Ampersand",
-          "definition": "Das Zeichen &, das als Trenner fungiert."
+          "term": "CTAN",
+          "definition": "Comprehensive TeX Archive Network; zentrales Archiv für LaTeX-Pakete."
         }
       ]
     },
     {
-      "question": "9. Wie lautet die Dateiendung für eine Literaturdatenbank im BibTeX-Format?",
+      "question": "6. Welcher Befehl erzeugt eine nummerierte Überschrift der obersten Ebene in der Klasse `scrartcl` (Artikel)?",
       "options": [
-        ".tex",
-        ".bbl",
-        ".bib",
-        ".aux"
+        "\\chapter{Überschrift}",
+        "\\section{Überschrift}",
+        "\\header{Überschrift}",
+        "\\title{Überschrift}"
       ],
-      "answer": 2,
-      "explanation": "BibTeX-Datenbanken, die die Literatureinträge enthalten, haben die Endung .bib.",
+      "answer": 1,
+      "explanation": "In Artikel-Klassen (`article`, `scrartcl`) ist `\\section` die höchste Ebene. `\\chapter` existiert nur in Report- (`scrreprt`) oder Buch-Klassen (`scrbook`). `\\title` definiert nur Metadaten.",
       "weight": 1,
-      "topic": "Literaturverzeichnis",
-      "concept": "Dateitypen",
+      "topic": "Gliederung",
+      "concept": "Sektionierung",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "BibTeX",
-          "definition": "Ein Programm und Dateiformat zur Erstellung von Literaturverzeichnissen."
-        },
-        {
-          "term": "Datenbank",
-          "definition": "Hier: Eine Textdatei, die strukturierte bibliografische Daten enthält."
+          "term": "KOMA-Script",
+          "definition": "Sammlung moderner, europäischer Dokumentenklassen (z. B. scrartcl, scrreprt)."
         }
       ]
     },
     {
-      "question": "10. Was ist der Zweck des Befehls `\\tableofcontents`?",
+      "question": "7. Sie möchten das Zeichen `&` (Ampersand) im Text darstellen. Was müssen Sie tippen?",
       "options": [
-        "Erstellt eine Tabelle mit Inhalten.",
-        "Generiert das Inhaltsverzeichnis basierend auf Überschriften.",
-        "Listet alle Abbildungen auf.",
-        "Erzeugt den Index."
+        "Einfach `&`, da es kein Sonderzeichen ist.",
+        "Den Backslash davor setzen: `\\&`",
+        "Das Zeichen in Anführungszeichen setzen: `'&'`",
+        "Den Befehl `\\ampersand` verwenden."
       ],
       "answer": 1,
-      "explanation": "Der Befehl \\tableofcontents generiert automatisch das Inhaltsverzeichnis anhand der Gliederungsbefehle (wie \\section, \\subsection).",
-      "weight": 1,
-      "topic": "Strukturierung",
-      "concept": "Verzeichnisse",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
-      "mini_glossary": [
-        {
-          "term": "TOC",
-          "definition": "Table of Contents (Inhaltsverzeichnis)."
-        },
-        {
-          "term": "Gliederung",
-          "definition": "Hierarchische Strukturierung durch Kapitel und Abschnitte."
-        }
-      ]
-    },
-    {
-      "question": "11. Sie möchten sicherstellen, dass zwischen 'Prof.' und 'Müller' kein Zeilenumbruch erfolgt. Welchen Befehl nutzen Sie?",
-      "options": [
-        "Prof.~Müller",
-        "Prof.\\,Müller",
-        "Prof.\\-Müller",
-        "Prof. Müller"
-      ],
-      "answer": 0,
-      "explanation": "Die Tilde ~ erzeugt ein geschütztes Leerzeichen. Dies verhindert einen Zeilenumbruch an dieser Stelle und sorgt für korrekten Abstand.",
+      "explanation": "`&` ist in LaTeX ein reserviertes Steuerzeichen (Spaltentrenner in Tabellen). Um es als Text auszugeben, muss es mit einem Backslash escaped werden (`\\&`). Dasselbe gilt für `%`, `$` und `_`.",
       "weight": 2,
-      "topic": "Textformatierung",
-      "concept": "Geschütztes Leerzeichen",
+      "topic": "Syntax",
+      "concept": "Escaping",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Geschütztes Leerzeichen in LaTeX",
+        "title": "Reservierte Zeichen in LaTeX",
         "steps": [
-          "Identifizieren von zusammengehörigen Wörtern (z. B. Titel und Name, Zahl und Einheit).",
-          "Ersetzen des normalen Leerzeichens durch eine Tilde ~.",
-          "Beispiel: 5~km oder Abb.~1."
+          "Identifikation: Zeichen wie #, $, %, ^, &, _, {, }, ~ sind reserviert.",
+          "Problem: Direkte Eingabe löst Befehle oder Fehler aus.",
+          "Lösung: Ein Backslash (\\) entwertet die Sonderbedeutung.",
+          "Beispiel: 'C&A' wird zu 'C\\&A'."
         ],
-        "content": "Das geschützte Leerzeichen verbindet zwei Wörter fest miteinander, sodass sie nicht durch einen automatischen Zeilenumbruch getrennt werden. Dies verbessert die Lesbarkeit typografisch erheblich."
-      },
-      "mini_glossary": [
-        {
-          "term": "Tilde",
-          "definition": "Das Zeichen ~, das in LaTeX als nicht umbrechbares Leerzeichen dient."
-        },
-        {
-          "term": "Non-breaking Space",
-          "definition": "Ein Leerzeichen, an dem kein Zeilenumbruch erfolgen darf."
-        }
-      ]
-    },
-    {
-      "question": "12. Sie wollen Umlaute (ä, ö, ü) direkt im Quelltext eingeben können. Welche Kombination von Paketen ist für pdfLaTeX in der Regel notwendig?",
-      "options": [
-        "\\usepackage[utf8]{inputenc} und \\usepackage[T1]{fontenc}",
-        "\\usepackage{german}",
-        "\\usepackage{umlaut}",
-        "\\usepackage[latin1]{inputenc}"
-      ],
-      "answer": 0,
-      "explanation": "Das Paket inputenc mit utf8 ermöglicht die Eingabe von Unicode-Zeichen, fontenc mit T1 sorgt für die korrekte interne Kodierung der Schriftart, damit Umlaute echte Glyphen sind.",
-      "weight": 2,
-      "topic": "Grundstruktur & Präambel",
-      "concept": "Kodierung",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Zeichenkodierung einrichten",
-        "steps": [
-          "Eingabekodierung festlegen: \\usepackage[utf8]{inputenc} (bei modernen Editoren Standard).",
-          "Schriftkodierung festlegen: \\usepackage[T1]{fontenc} für korrekte Silbentrennung bei Umlauten.",
-          "Sprache laden: \\usepackage[ngerman]{babel}."
-        ],
-        "content": "Ohne fontenc werden Umlaute oft aus Punkten und Basisbuchstaben zusammengesetzt, was Suchfunktionen und Silbentrennung im PDF beeinträchtigt. inputenc interpretiert die Datei-Zeichen korrekt."
-      },
-      "mini_glossary": [
-        {
-          "term": "Glyphe",
-          "definition": "Die grafische Darstellung eines Schriftzeichens."
-        },
-        {
-          "term": "Encoding",
-          "definition": "Die Zuordnung von Binärcodes zu Schriftzeichen."
-        }
-      ]
-    },
-    {
-      "question": "13. Wie referenzieren Sie im Text korrekt auf ein Kapitel mit dem Label `sec:einleitung`?",
-      "options": [
-        "Siehe Kapitel \\ref{sec:einleitung}.",
-        "Siehe Kapitel \\label{sec:einleitung}.",
-        "Siehe Kapitel \\cite{sec:einleitung}.",
-        "Siehe Kapitel \\pageref{sec:einleitung}."
-      ],
-      "answer": 0,
-      "explanation": "Mit \\ref{...} wird die Nummer des Abschnitts ausgegeben, der mit \\label{...} markiert wurde. \\cite ist für Literatur, \\pageref für Seitenzahlen.",
-      "weight": 2,
-      "topic": "Strukturierung",
-      "concept": "Querverweise",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Erstellen von Querverweisen",
-        "steps": [
-          "Ziel markieren: \\label{name} direkt nach der Überschrift oder Bildbeschriftung setzen.",
-          "Verweis einfügen: \\ref{name} an der gewünschten Textstelle nutzen.",
-          "Kompilieren: Zweimal kompilieren, damit die Referenzen aufgelöst werden."
-        ],
-        "content": "Das Label-Ref-System erlaubt dynamische Verweise. Ändert sich die Kapitelnummer, aktualisiert LaTeX den Verweis automatisch beim nächsten Kompilieren."
-      },
-      "mini_glossary": [
-        {
-          "term": "Label",
-          "definition": "Eine unsichtbare Marke im Code, auf die verwiesen werden kann."
-        },
-        {
-          "term": "Referenz",
-          "definition": "Ein Verweis auf eine Marke (Nummer oder Seite)."
-        }
-      ]
-    },
-    {
-      "question": "14. Sie möchten ein Wort im Text hervorheben, indem es kursiv gesetzt wird. Welcher Befehl ist semantisch korrekt (Emphasis)?",
-      "options": [
-        "\\textit{Wort}",
-        "\\emph{Wort}",
-        "\\it{Wort}",
-        "\\slope{Wort}"
-      ],
-      "answer": 1,
-      "explanation": "Der Befehl \\emph{...} ist der semantische Befehl für Hervorhebung. Er schaltet meist auf kursiv um, aber innerhalb von kursivem Text schaltet er zurück auf aufrecht, was \\textit nicht automatisch tut.",
-      "weight": 2,
-      "topic": "Textformatierung",
-      "concept": "Semantische Auszeichnung",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Semantik vs. Formatierung",
-        "steps": [
-          "Benutze \\textit für explizit kursive Schrift (Formatierung).",
-          "Benutze \\emph für logische Hervorhebung (Semantik).",
-          "Vorteil: \\emph passt sich dem Kontext an (z. B. aufrechtes Wort in kursivem Absatz)."
-        ],
-        "content": "LaTeX bevorzugt logisches Markup. \\emph beschreibt *was* man tun will (hervorheben), nicht *wie* es aussehen soll, was robuster ist."
-      },
-      "mini_glossary": [
-        {
-          "term": "Semantik",
-          "definition": "Die Bedeutung eines Elements, im Gegensatz zu seinem reinen Aussehen."
-        },
-        {
-          "term": "Markup",
-          "definition": "Auszeichnung von Textteilen zur Strukturierung."
-        }
-      ]
-    },
-    {
-      "question": "15. Welches Paket sollten Sie verwenden, um Quellcode mit Syntax-Highlighting in Ihre Informatik-Thesis einzufügen?",
-      "options": [
-        "verbatim",
-        "listings",
-        "code",
-        "syntax"
-      ],
-      "answer": 1,
-      "explanation": "Das Paket listings (oder alternativ minted) ist der Standard für formatierten Quellcode mit Syntax-Highlighting, Zeilennummern und Keywords.",
-      "weight": 2,
-      "topic": "Code & Informatik-Specials",
-      "concept": "Quellcode-Darstellung",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Einbinden von Code",
-        "steps": [
-          "Paket laden: \\usepackage{listings}.",
-          "Sprache setzen: \\lstset{language=Python, ...}.",
-          "Code einfügen: Entweder \\begin{lstlisting} ... \\end{lstlisting} oder \\lstinputlisting{datei.py}."
-        ],
-        "content": "Im Gegensatz zu verbatim erlaubt listings das automatische Hervorheben von Schlüsselwörtern, Kommentaren und Strings entsprechend der Programmiersprache."
-      },
-      "mini_glossary": [
-        {
-          "term": "Syntax-Highlighting",
-          "definition": "Farbliche Hervorhebung von Code-Elementen zur besseren Lesbarkeit."
-        },
-        {
-          "term": "Listing",
-          "definition": "Ein Block mit Programmcode im Dokument."
-        }
-      ]
-    },
-    {
-      "question": "16. Was passiert, wenn Sie in einer `align`-Umgebung eine Zeile ohne `&` schreiben?",
-      "options": [
-        "Die Formel wird zentriert.",
-        "Die Formel wird linksbündig ausgerichtet, aber rechts verschoben.",
-        "Die Ausrichtung orientiert sich nicht am Gleichheitszeichen der anderen Zeilen.",
-        "Es wird ein Kompilierfehler erzeugt."
-      ],
-      "answer": 2,
-      "explanation": "Das Zeichen & definiert den Ausrichtungspunkt. Fehlt es, wird die Zeile standardmäßig ausgerichtet (meist rechtsbündig zur vorherigen Spalte oder zentriert im Block), was die Optik der Gleichungsausrichtung zerstört.",
-      "weight": 2,
-      "topic": "Mathematische Formeln",
-      "concept": "Align-Umgebung",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Verwendung von align",
-        "steps": [
-          "Umgebung: \\begin{align} ... \\end{align}.",
-          "Ausrichtung: Setze & vor das Zeichen, an dem ausgerichtet werden soll (meist =).",
-          "Umbruch: Nutze \\\\ für eine neue Zeile."
-        ],
-        "content": "Die align-Umgebung aus dem amsmath-Paket richtet Formeln an den &-Symbolen untereinander aus. Ohne & fehlt der Bezugspunkt."
-      },
-      "mini_glossary": [
-        {
-          "term": "amsmath",
-          "definition": "Wichtigstes Erweiterungspaket für mathematischen Satz in LaTeX."
-        },
-        {
-          "term": "Align",
-          "definition": "Ausrichten von Gleichungen untereinander."
-        }
-      ]
-    },
-    {
-      "question": "17. Sie wollen eine Abbildung genau an der Stelle im Text platzieren, an der Sie sie definiert haben, ohne dass sie gleitet (floats). Welches Paket und welcher Parameter helfen?",
-      "options": [
-        "Paket `float` mit Parameter `[H]`",
-        "Paket `graphicx` mit Parameter `[here]`",
-        "Parameter `[h!]` ohne Zusatzpaket",
-        "Befehl `\\nonfloat`"
-      ],
-      "answer": 0,
-      "explanation": "Das Paket float stellt den Parameter [H] (großes H) zur Verfügung, der das Gleiten komplett unterbindet und die Grafik fest platziert.",
-      "weight": 2,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Float-Platzierung",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Gleitumgebungen kontrollieren",
-        "steps": [
-          "\\usepackage{float} in die Präambel einfügen.",
-          "Umgebung beginnen: \\begin{figure}[H].",
-          "Inhalt einfügen."
-        ],
-        "content": "Normalerweise sucht LaTeX die beste Position für Bilder (oben/unten auf der Seite). [H] zwingt LaTeX dazu, das Bild 'HIER' zu setzen, was aber oft zu großen Lücken am Seitenende führt."
-      },
-      "mini_glossary": [
-        {
-          "term": "Float",
-          "definition": "Ein Element (Bild/Tabelle), das von LaTeX an eine typografisch günstige Stelle verschoben werden kann."
-        },
-        {
-          "term": "Platzierungsparameter",
-          "definition": "Optionen wie h (here), t (top), b (bottom), die LaTeX Vorschläge zur Positionierung geben."
-        }
-      ]
-    },
-    {
-      "question": "18. Wie definieren Sie in der Präambel einen eigenen Befehl `\\zB`, der 'z. B.' mit korrektem kleinen Abstand ausgibt?",
-      "options": [
-        "\\newcommand{\\zB}{z.B.}",
-        "\\def\\zB{z.\\,B.}",
-        "\\newcommand{\\zB}{z.\\,B.}",
-        "\\newcommand{\\zB}{z. B.}"
-      ],
-      "answer": 2,
-      "explanation": "Der Befehl \\newcommand{\\zB}{z.\\,B.} ist korrekt. \\, erzeugt den typografisch korrekten kleinen Abstand (Spatium) zwischen Abkürzungsteilen.",
-      "weight": 2,
-      "topic": "Makros & eigene Befehle",
-      "concept": "Befehlsdefinition",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Eigene Makros definieren",
-        "steps": [
-          "Befehl: \\newcommand{\\Name}{Definition}.",
-          "Typografie: Bei Abkürzungen \\, statt normalem Leerzeichen nutzen.",
-          "Nutzung: \\zB{} oder \\zB\\  im Text verwenden, um das Leerzeichen danach zu erhalten."
-        ],
-        "content": "Eigene Befehle sorgen für Konsistenz (immer gleicher Abstand) und Schreibersparnis. \\newcommand prüft zudem, ob der Befehl schon existiert."
-      },
-      "mini_glossary": [
-        {
-          "term": "Spatium",
-          "definition": "Ein kleiner Zwischenraum, schmaler als ein normales Leerzeichen."
-        },
-        {
-          "term": "Makro",
-          "definition": "Ein benutzerdefinierter Befehl, der Code ersetzt."
-        }
-      ]
-    },
-    {
-      "question": "19. Sie haben eine Tabelle mit zu vielen Spalten, die über den rechten Rand hinausragt. Welche Umgebung oder welches Paket ist am besten geeignet, um die Tabelle automatisch an die Textbreite anzupassen?",
-      "options": [
-        "tabularx",
-        "longtable",
-        "array",
-        "minipage"
-      ],
-      "answer": 0,
-      "explanation": "Das Paket tabularx bietet die Umgebung tabularx, bei der man eine Gesamtbreite (z. B. \\textwidth) angeben kann und den Spaltentyp X für automatische Breite nutzt.",
-      "weight": 2,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Tabellenbreite",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Flexible Tabellenbreiten",
-        "steps": [
-          "\\usepackage{tabularx} laden.",
-          "\\begin{tabularx}{\\textwidth}{l X r} verwenden.",
-          "Die Spalte mit Typ X füllt den verbleibenden Platz automatisch aus und bricht den Text um."
-        ],
-        "content": "Standard-tabular passt die Spaltenbreite dem Inhalt an, was oft zu breiten Tabellen führt. tabularx passt die Spalten der vorgegebenen Tabellenbreite an."
-      },
-      "mini_glossary": [
-        {
-          "term": "Overfull hbox",
-          "definition": "Warnung, wenn Inhalt über den Seitenrand hinausragt."
-        },
-        {
-          "term": "Textwidth",
-          "definition": "Länge, die der Breite des Textbereichs entspricht."
-        }
-      ]
-    },
-    {
-      "question": "20. Wozu dient das Paket `hyperref` in einer digitalen Thesis vorrangig?",
-      "options": [
-        "Zur Verbesserung der Schriftart.",
-        "Um URLs, Zitate und Verweise im PDF anklickbar zu machen.",
-        "Zur Erstellung von Grafiken.",
-        "Zur Rechtschreibprüfung."
-      ],
-      "answer": 1,
-      "explanation": "Das Paket hyperref wandelt interne Referenzen, Zitate und URLs automatisch in Hyperlinks um und erstellt Lesezeichen im PDF-Viewer.",
-      "weight": 2,
-      "topic": "Fortgeschrittene Pakete",
-      "concept": "Interaktive Dokumente",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Das hyperref Paket",
-        "steps": [
-          "Laden: Meist als *letztes* Paket in der Präambel laden: \\usepackage{hyperref}.",
-          "Konfiguration: Farben oder Rahmen der Links können mit \\hypersetup angepasst werden.",
-          "Effekt: Inhaltsverzeichnis und Verweise werden zu Links."
-        ],
-        "content": "Für digitale Abschlussarbeiten ist hyperref Standard, da es die Navigation im Dokument erheblich erleichtert."
-      },
-      "mini_glossary": [
-        {
-          "term": "Bookmark",
-          "definition": "Navigationsleiste im PDF-Reader, die die Dokumentstruktur abbildet."
-        },
-        {
-          "term": "Hyperlink",
-          "definition": "Anklickbarer Verweis auf eine andere Stelle oder Webseite."
-        }
-      ]
-    },
-    {
-      "question": "21. Wie fügen Sie eine Fußnote in den Text ein?",
-      "options": [
-        "\\note{...}",
-        "\\foot{...}",
-        "\\footnote{...}",
-        "\\bottom{...}"
-      ],
-      "answer": 2,
-      "explanation": "Der Befehl \\footnote{Text} erzeugt eine nummerierte Fußnote am unteren Rand der Seite.",
-      "weight": 2,
-      "topic": "Textformatierung",
-      "concept": "Fußnoten",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Fußnoten setzen",
-        "steps": [
-          "Cursor an die Stelle hinter das Wort/Satzzeichen setzen.",
-          "Befehl \\footnote{Erklärender Text} einfügen.",
-          "Nicht innerhalb von Gleitumgebungen (Bildern) verwenden, da sie dort oft verschwinden (dazu \\footnotemark nutzen)."
-        ],
-        "content": "Fußnoten werden automatisch nummeriert und am Seitenende platziert."
-      },
-      "mini_glossary": [
-        {
-          "term": "Fußnote",
-          "definition": "Anmerkung am unteren Seitenrand."
-        }
-      ]
-    },
-    {
-      "question": "22. Sie möchten eine Liste mit Aufzählungszeichen (Bullet Points) erstellen. Welche Umgebung nutzen Sie?",
-      "options": [
-        "enumerate",
-        "itemize",
-        "description",
-        "list"
-      ],
-      "answer": 1,
-      "explanation": "Die Umgebung itemize erzeugt eine unnummerierte Liste (Bullet Points). enumerate erzeugt eine nummerierte Liste.",
-      "weight": 2,
-      "topic": "Strukturierung",
-      "concept": "Listen",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Listen in LaTeX",
-        "steps": [
-          "Start: \\begin{itemize}.",
-          "Element: \\item für jeden Punkt.",
-          "Ende: \\end{itemize}."
-        ],
-        "content": "Für nummerierte Schritte nutzt man enumerate. Für Begriffsdefinitionen nutzt man description."
-      },
-      "mini_glossary": [
-        {
-          "term": "Item",
-          "definition": "Ein einzelner Eintrag in einer Listen-Umgebung."
-        },
-        {
-          "term": "Bullet Point",
-          "definition": "Das Symbol vor einem Listeneintrag (z. B. Punkt oder Strich)."
-        }
-      ]
-    },
-    {
-      "question": "23. Wie erzeugen Sie das Symbol für die Menge der reellen Zahlen (Doppelstrich-R)?",
-      "options": [
-        "\\mathbb{R}",
-        "\\mathbf{R}",
-        "\\mathcal{R}",
-        "\\real"
-      ],
-      "answer": 0,
-      "explanation": "Der Befehl \\mathbb{R} (Blackboard Bold) aus dem amssymb-Paket ist das Standard-Symbol für Zahlenmengen in der Mathematik.",
-      "weight": 2,
-      "topic": "Mathematische Formeln",
-      "concept": "Mathe-Fonts",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Mathematische Schriftarten",
-        "steps": [
-          "Paket laden: \\usepackage{amssymb}.",
-          "Befehl nutzen: \\mathbb{N}, \\mathbb{Z}, \\mathbb{R} etc. innerhalb des Mathe-Modus ($...$).",
-          "Unterscheidung: \\mathcal ist für geschwungene (kalligrafische) Buchstaben."
-        ],
-        "content": "Die 'Blackboard Bold' Schriftart wird traditionell an der Tafel für Mengen verwendet (doppelter Strich)."
-      },
-      "mini_glossary": [
-        {
-          "term": "amssymb",
-          "definition": "Paket der American Mathematical Society für Symbole."
-        },
-        {
-          "term": "Blackboard Bold",
-          "definition": "Schriftstil mit Doppelstrich (Tafel-Fett)."
-        }
-      ]
-    },
-    {
-      "question": "24. Welcher Befehl ist notwendig, um ein BibTeX-Literaturverzeichnis im Dokument an der gewünschten Stelle auszugeben?",
-      "options": [
-        "\\printbibliography",
-        "\\bibliography{dateiname} und \\bibliographystyle{stil}",
-        "\\makereferences",
-        "\\insertbib"
-      ],
-      "answer": 1,
-      "explanation": "Im klassischen BibTeX-Workflow definieren \\bibliography{...} die Datei und \\bibliographystyle{...} das Aussehen. Beide sind nötig.",
-      "weight": 2,
-      "topic": "Literaturverzeichnis",
-      "concept": "BibTeX Einbindung",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "BibTeX vs. BibLaTeX",
-        "steps": [
-          "BibTeX (klassisch): \\bibliographystyle{plain} und \\bibliography{literatur} am Ende.",
-          "BibLaTeX (modern): \\printbibliography am Ende (benötigt andere Präambel-Einstellungen).",
-          "Diese Frage bezieht sich auf den klassischen BibTeX-Befehlssatz."
-        ],
-        "content": "Der Befehl \\bibliography fügt das Verzeichnis tatsächlich ein, basierend auf den im Text mit \\cite zitierten Werken."
-      },
-      "mini_glossary": [
-        {
-          "term": "Style",
-          "definition": "Definiert, wie Zitate formatiert werden (z. B. nummeriert, Autor-Jahr)."
-        }
-      ]
-    },
-    {
-      "question": "25. Was bewirkt der Befehl `\\newpage`?",
-      "options": [
-        "Startet einen neuen Absatz.",
-        "Beendet die aktuelle Seite und beginnt eine neue Spalte oder Seite.",
-        "Fügt eine leere Seite ein.",
-        "Setzt die Seitennummerierung zurück."
-      ],
-      "answer": 1,
-      "explanation": "Der Befehl \\newpage erzwingt einen Seitenumbruch an der aktuellen Stelle. Der Rest der Seite bleibt leer.",
-      "weight": 2,
-      "topic": "Textformatierung",
-      "concept": "Seitenumbruch",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Seitenumbrüche steuern",
-        "steps": [
-          "\\newpage: Harter Umbruch, Rest der Seite bleibt leer.",
-          "\\clearpage: Wie \\newpage, aber gibt zusätzlich alle wartenden Floats (Bilder) aus.",
-          "Verwendung: Z. B. vor einem neuen großen Kapitel, falls dies nicht automatisch geschieht."
-        ],
-        "content": "Oft ist \\clearpage besser geeignet als \\newpage, um sicherzustellen, dass keine Bilder in das nächste Kapitel rutschen."
-      },
-      "mini_glossary": [
-        {
-          "term": "Pagination",
-          "definition": "Die Einteilung des Dokuments in Seiten."
-        }
-      ]
-    },
-    {
-      "question": "26. Sie möchten einen Bruch $\\frac{a}{b}$ im Inline-Text schreiben, aber er soll nicht klein gequetscht werden, sondern groß dargestellt werden. Welchen Befehl nutzen Sie?",
-      "options": [
-        "\\frac{a}{b}",
-        "\\dfrac{a}{b}",
-        "\\largefrac{a}{b}",
-        "\\big{a}{b}"
-      ],
-      "answer": 1,
-      "explanation": "Der Befehl \\dfrac (display fraction) aus amsmath erzwingt die Darstellung in der Größe einer abgesetzten Formel, auch im Fließtext.",
-      "weight": 2,
-      "topic": "Mathematische Formeln",
-      "concept": "Display-Style",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Darstellungsgröße in Mathe",
-        "steps": [
-          "Inline ($...$) komprimiert Brüche und Summen, um den Zeilenabstand nicht zu zerstören.",
-          "\\dfrac erzwingt den \\displaystyle.",
-          "Vorsicht: Dies kann den Zeilenabstand unschön vergrößern."
-        ],
-        "content": "Alternativ kann man \\displaystyle am Anfang der Formelumgebung schreiben."
-      },
-      "mini_glossary": [
-        {
-          "term": "Display Style",
-          "definition": "Großzügige Darstellung von Formeln, wie sie in abgesetzten Gleichungen üblich ist."
-        }
-      ]
-    },
-    {
-      "question": "27. Welche Dateiendung hat die Datei, die LaTeX während des Kompilierens erzeugt, um Referenz-Informationen zu speichern?",
-      "options": [
-        ".log",
-        ".aux",
-        ".toc",
-        ".out"
-      ],
-      "answer": 1,
-      "explanation": "Die .aux (Auxiliary) Datei speichert Informationen über Labels, Referenzen, Zitate und TOC-Einträge für den nächsten Durchlauf.",
-      "weight": 2,
-      "topic": "Grundstruktur & Präambel",
-      "concept": "Hilfsdateien",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Funktion der .aux Datei",
-        "steps": [
-          "Erster Lauf: LaTeX schreibt Labels und Zitate in die .aux Datei.",
-          "Zweiter Lauf: LaTeX liest die .aux Datei, um Referenzen aufzulösen.",
-          "Löschen: Wenn die .aux Datei gelöscht wird, müssen Referenzen neu kompiliert werden."
-        ],
-        "content": "Deshalb sind oft mindestens zwei Kompilierdurchläufe nötig, um ?? bei Referenzen zu vermeiden."
-      },
-      "mini_glossary": [
-        {
-          "term": "Kompilierzyklus",
-          "definition": "Der Prozess des mehrfachen Ausführens von LaTeX (und BibTeX), um alle Verweise aufzulösen."
-        }
-      ]
-    },
-    {
-      "question": "28. Wie fügen Sie einer Abbildung (`figure`-Umgebung) eine Bildunterschrift hinzu?",
-      "options": [
-        "\\title{...}",
-        "\\description{...}",
-        "\\caption{...}",
-        "\\label{...}"
-      ],
-      "answer": 2,
-      "explanation": "Der Befehl \\caption{...} erzeugt die nummerierte Bildunterschrift (z. B. 'Abbildung 1: ...').",
-      "weight": 2,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Captions",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Bildunterschriften",
-        "steps": [
-          "Innerhalb der figure Umgebung.",
-          "Unter das Bild (\\includegraphics) schreiben für Unterschrift.",
-          "Über die Tabelle schreiben für Überschrift (Konvention).",
-          "\\caption{Text} verwenden."
-        ],
-        "content": "Der \\caption-Befehl inkrementiert auch den internen Zähler für Abbildungen, sodass ein nachfolgendes \\label korrekt referenziert."
-      },
-      "mini_glossary": [
-        {
-          "term": "Caption",
-          "definition": "Beschriftungstext für Gleitobjekte."
-        }
-      ]
-    },
-    {
-      "question": "29. Sie wollen mehrere Autoren für das Titelblatt angeben. Wie trennen Sie diese im `\\author{...}` Befehl standardkonform?",
-      "options": [
-        "Mit Kommas",
-        "Mit dem Befehl \\and",
-        "Mit dem Befehl \\\\",
-        "Mit dem Befehl &"
-      ],
-      "answer": 1,
-      "explanation": "Der Befehl \\and sorgt innerhalb von \\author{...} dafür, dass die Autorennamen typografisch korrekt (meist nebeneinander und zentriert) gesetzt werden.",
-      "weight": 2,
-      "topic": "Grundstruktur & Präambel",
-      "concept": "Titelseite",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Mehrere Autoren",
-        "steps": [
-          "\\author{Autor 1 \\and Autor 2 \\and Autor 3}.",
-          "LaTeX formatiert dies automatisch, oft in einer Zeile oder Spalten.",
-          "Für Adressen kann man \\thanks{...} oder spezielle Klassenoptionen nutzen."
-        ],
-        "content": "Manuelle Zeilenumbrüche oder Kommas zerstören oft das Layout der \\maketitle-Funktion."
-      },
-      "mini_glossary": [
-        {
-          "term": "Maketitle",
-          "definition": "Befehl, der die Titelseite aus den Metadaten (author, title, date) generiert."
-        }
-      ]
-    },
-    {
-      "question": "30. Welcher Befehl ist geeignet, um Text 'wörtlich' auszugeben (z. B. Dateinamen mit Unterstrichen), ohne dass LaTeX die Sonderzeichen interpretiert?",
-      "options": [
-        "\\verb|text_mit_underscore|",
-        "\\text{text_mit_underscore}",
-        "\\code{text_mit_underscore}",
-        "\\ignore{text_mit_underscore}"
-      ],
-      "answer": 0,
-      "explanation": "Der Befehl \\verb (verbatim inline) gibt den Inhalt exakt so wieder, wie er getippt wurde. Als Begrenzer können beliebige Zeichen (hier |) dienen, die nicht im Text vorkommen.",
-      "weight": 2,
-      "topic": "Code & Informatik-Specials",
-      "concept": "Verbatim",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Verbatim Text",
-        "steps": [
-          "Befehl: \\verb+Inhalt+ oder \\verb|Inhalt|.",
-          "Wirkung: Sonderzeichen wie _, %, $ werden als Text gedruckt, nicht ausgeführt.",
-          "Einschränkung: Funktioniert oft nicht innerhalb von anderen Befehlen (wie Fußnoten)."
-        ],
-        "content": "Das ist besonders nützlich für Dateinamen, URLs oder kurze Code-Schnipsel im Fließtext."
+        "content": "In Informatik-Arbeiten kommen häufig Sonderzeichen vor (z. B. in Code-Kommentaren). Es ist essenziell zu wissen, welche Zeichen escaped werden müssen, um Kompilierfehler zu vermeiden."
       },
       "mini_glossary": [
         {
           "term": "Escaping",
-          "definition": "Das Maskieren von Sonderzeichen, damit sie nicht als Befehl interpretiert werden."
+          "definition": "Verfahren, um Steuerzeichen als normalen Text darzustellen."
         }
       ]
     },
     {
-      "question": "31. Sie möchten sicherstellen, dass eine Grafik im PDF auch für Screenreader zugänglich ist (Alt-Text). Welches Paket bietet hierfür Unterstützung (Tagging)?",
+      "question": "8. Sie benötigen eine Aufzählung mit Punkten (Bullet Points). Welche Umgebung wählen Sie?",
       "options": [
-        "accessibility",
-        "tagpdf oder axessibility",
-        "screenreader",
-        "pdfx"
+        "\\begin{enumerate} ... \\end{enumerate}",
+        "\\begin{itemize} ... \\end{itemize}",
+        "\\begin{list} ... \\end{list}",
+        "\\begin{description} ... \\end{description}"
       ],
       "answer": 1,
-      "explanation": "Pakete wie tagpdf (oder axessibility für Formeln) sind Teil moderner Bestrebungen, barrierefreie PDFs (PDF/UA) mit LaTeX zu erstellen.",
+      "explanation": "`itemize` erzeugt eine unnummerierte Liste (Symbole/Punkte). `enumerate` erzeugt eine nummerierte Liste (1., 2., 3.). `description` wird für Begriffsdefinitionen genutzt.",
       "weight": 2,
-      "topic": "Fortgeschrittene Pakete",
-      "concept": "Barrierefreiheit",
+      "topic": "Listen",
+      "concept": "Itemize",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Barrierefreie PDFs",
+        "title": "Listen-Umgebungen",
         "steps": [
-          "Standard-LaTeX erzeugt PDFs, die strukturell oft schwer für Screenreader sind.",
-          "Das tagpdf-Projekt arbeitet an der Implementierung von PDF-Tagging.",
-          "Wichtig für Thesen, die veröffentlicht werden sollen."
+          "Wahl: Soll die Reihenfolge wichtig sein (Nummerierung)?",
+          "Ja -> enumerate (1., 2., 3.)",
+          "Nein -> itemize (•)",
+          "Spezialfall: Glossar-artig -> description"
         ],
-        "content": "Dies ist ein fortgeschrittenes Thema, wird aber an Universitäten zunehmend wichtiger."
+        "content": "Jeder Eintrag innerhalb dieser Umgebungen wird mit dem Befehl `\\item` eingeleitet. Verschachtelungen sind möglich (z. B. eine itemize in einer enumerate)."
       },
       "mini_glossary": [
         {
-          "term": "PDF/UA",
-          "definition": "ISO-Standard für barrierefreie PDF-Dokumente (Universal Accessibility)."
-        },
-        {
-          "term": "Tagging",
-          "definition": "Hinzufügen von Strukturinformationen zum PDF für Hilfstechnologien."
+          "term": "Environment",
+          "definition": "Ein von \\begin und \\end umschlossener Bereich mit speziellen Formatierungsregeln."
         }
       ]
     },
     {
-      "question": "32. Wie können Sie in einer Tabelle zwei Zellen horizontal verbinden (merge columns)?",
+      "question": "9. Sie möchten ein Bild `logo.png` einbinden und es auf 50% der Textbreite skalieren. Welcher Befehl ist korrekt?",
       "options": [
-        "\\multicolumn{2}{c}{Text}",
-        "\\multirow{2}{c}{Text}",
-        "\\merge{2}{Text}",
-        "\\span{2}{Text}"
-      ],
-      "answer": 0,
-      "explanation": "Der Befehl \\multicolumn{Anzahl}{Ausrichtung}{Inhalt} verbindet horizontal benachbarte Zellen.",
-      "weight": 2,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Tabellen-Merge",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Zellen verbinden",
-        "steps": [
-          "Syntax: \\multicolumn{cols}{pos}{text}.",
-          "cols: Anzahl der zu verbindenden Spalten.",
-          "pos: Ausrichtung der neuen Zelle (l, c, r).",
-          "text: Der Inhalt."
-        ],
-        "content": "Dies wird oft für Tabellenüberschriften genutzt, die über mehrere Datenspalten reichen."
-      },
-      "mini_glossary": [
-        {
-          "term": "Multirow",
-          "definition": "Analog zu Multicolumn, aber für vertikales Verbinden (benötigt Paket multirow)."
-        }
-      ]
-    },
-    {
-      "question": "33. Sie verwenden BibLaTeX. Welcher Befehl in der Präambel lädt die Ressourcendatei `quellen.bib`?",
-      "options": [
-        "\\bibliography{quellen.bib}",
-        "\\addbibresource{quellen.bib}",
-        "\\include{quellen.bib}",
-        "\\usebib{quellen.bib}"
+        "\\includegraphics{logo.png, width=0.5}",
+        "\\includegraphics[width=0.5\\textwidth]{logo.png}",
+        "\\insertimage[scale=50]{logo.png}",
+        "\\figure[width=50%]{logo.png}"
       ],
       "answer": 1,
-      "explanation": "BibLaTeX nutzt \\addbibresource{dateiname.bib} (mit Dateiendung!), im Gegensatz zum klassischen BibTeX-Befehl \\bibliography.",
+      "explanation": "Der Befehl `\\includegraphics` (aus dem Paket `graphicx`) nimmt Optionen in eckigen Klammern entgegen. `width=0.5\\textwidth` setzt die Breite relativ zum Satzspiegel.",
       "weight": 2,
-      "topic": "Literaturverzeichnis",
-      "concept": "BibLaTeX Setup",
+      "topic": "Grafiken",
+      "concept": "Bild-Einbindung",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "BibLaTeX einbinden",
+        "title": "Syntax von \\includegraphics",
         "steps": [
-          "Paket laden: \\usepackage[style=authoryear]{biblatex}.",
-          "Ressource hinzufügen: \\addbibresource{literatur.bib}.",
-          "Ausgeben: \\printbibliography im Dokument."
+          "Befehl: \\includegraphics",
+          "Optionale Parameter [ ]: Steuern Größe, Drehung, Ausschnitt.",
+          "Pflichtparameter { }: Dateiname/Pfad.",
+          "Maßeinheit: \\textwidth ist robuster als absolute cm-Angaben."
         ],
-        "content": "BibLaTeX ist flexibler als BibTeX und unterstützt UTF-8 nativ besser."
+        "content": "Bilder sollten fast immer innerhalb einer `figure`-Umgebung verwendet werden, damit sie gleiten können und eine Beschriftung (`\\caption`) erhalten."
       },
       "mini_glossary": [
         {
-          "term": "Backend",
-          "definition": "Das Programm, das die Bib-Daten sortiert (meist 'biber' für BibLaTeX)."
+          "term": "\\textwidth",
+          "definition": "Länge, die der Breite des bedruckbaren Textbereichs entspricht."
         }
       ]
     },
     {
-      "question": "34. Wie zentrieren Sie einen Textblock, ohne zusätzlichen vertikalen Abstand wie bei der `center`-Umgebung einzufügen (z. B. innerhalb einer Tabellenzelle oder eines Befehls)?",
+      "question": "10. Betrachten Sie folgende Tabellendefinition: `\\begin{tabular}{|l|c|r|}`. Was beschreibt sie?",
       "options": [
-        "\\centering",
-        "\\begin{center} ... \\end{center}",
-        "\\aligncenter",
-        "\\textcenter"
+        "Drei Spalten: linksbündig, zentriert, rechtsbündig; getrennt durch vertikale Linien.",
+        "Drei Spalten: alle zentriert; mit horizontalen Linien oben und unten.",
+        "Drei Zeilen: links, mitte, rechts; ohne jegliche Linien.",
+        "Eine Spalte, in der Text links, mittig und rechts ausgerichtet werden kann."
       ],
       "answer": 0,
-      "explanation": "Der Schalter \\centering zentriert den folgenden Inhalt innerhalb der aktuellen Gruppe, ohne vertikalen Abstand davor/danach einzufügen. Die center-Umgebung fügt Abstand ein.",
+      "explanation": "Die Buchstaben stehen für die Ausrichtung (`l`=left, `c`=center, `r`=right). Die Pipe-Symbole `|` erzeugen vertikale Trennlinien zwischen den Spalten.",
       "weight": 2,
-      "topic": "Typografie & Layout",
-      "concept": "Zentrierung",
+      "topic": "Tabellen",
+      "concept": "Spaltendefinition",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Umgebung vs. Schalter",
+        "title": "Tabellen-Präambel verstehen",
         "steps": [
-          "Umgebung (center): Fügt einen neuen Absatz und vertikalen Abstand hinzu. Gut für freistehende Inhalte.",
-          "Schalter (\\centering): Wirkt ab sofort bis zum Ende der Gruppe (z. B. Tabellenzelle, Figure). Fügt keinen Abstand hinzu.",
-          "In figure-Umgebungen ist fast immer \\centering zu bevorzugen."
+          "Buchstaben: Definieren die Anzahl und Ausrichtung der Spalten.",
+          "Trennzeichen: | erzeugt einen vertikalen Strich.",
+          "Beispiel: {|l|c|} erzeugt: | Links | Mitte |",
+          "Inhalt: Wird im Body durch & getrennt."
         ],
-        "content": "Verwendet man center innerhalb von figure, entsteht oft zu viel weißer Platz."
+        "content": "In wissenschaftlichen Arbeiten (z. B. nach APA-Style) wird oft empfohlen, auf vertikale Linien komplett zu verzichten (Paket `booktabs` nutzen), um die Lesbarkeit zu erhöhen."
       },
       "mini_glossary": [
         {
-          "term": "Scope",
-          "definition": "Der Bereich, in dem ein Befehl wirkt (meist begrenzt durch geschweifte Klammern)."
+          "term": "Tabular",
+          "definition": "Standard-Umgebung für Tabelleninhalte in LaTeX."
         }
       ]
     },
     {
-      "question": "35. Wie können Sie LaTeX-Code auslagern, um die Hauptdatei übersichtlich zu halten?",
+      "question": "11. Um auf ein Kapitel zu verweisen, nutzen Sie `\\label{sec:einfuehrung}`. Wie erzeugen Sie im Text den Verweis 'siehe Abschnitt 1'?",
       "options": [
-        "\\import{datei}",
-        "\\input{datei} oder \\include{datei}",
-        "\\copy{datei}",
-        "\\paste{datei}"
+        "siehe Abschnitt \\link{sec:einfuehrung}",
+        "siehe Abschnitt \\ref{sec:einfuehrung}",
+        "siehe Abschnitt \\cite{sec:einfuehrung}",
+        "siehe Abschnitt \\pageref{sec:einfuehrung}"
       ],
       "answer": 1,
-      "explanation": "Der Befehl \\input{datei} fügt den Inhalt der Datei direkt ein. \\include{datei} macht dasselbe, erzwingt aber einen Seitenumbruch davor und danach (gut für Kapitel).",
+      "explanation": "`\\ref` gibt die Nummer des referenzierten Objekts (Kapitel, Abbildung) aus. `\\pageref` würde die Seitenzahl ausgeben. `\\cite` ist für Literaturverweise reserviert.",
       "weight": 2,
-      "topic": "Strukturierung",
-      "concept": "Modulare Dokumente",
+      "topic": "Querverweise",
+      "concept": "Label-Ref",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Input vs. Include",
+        "title": "Das Label-Ref-System",
         "steps": [
-          "\\input{file}: Wie Copy & Paste. Kann überall genutzt werden.",
-          "\\include{file}: Nur im Hauptteil. Erzeugt eigene .aux Datei. Erlaubt \\includeonly für teilweises Kompilieren.",
-          "Für die Präambel nutzt man immer \\input."
+          "Markieren: \\label{marker} an die Stelle setzen, auf die verwiesen werden soll.",
+          "Verweisen: \\ref{marker} dort nutzen, wo die Nummer erscheinen soll.",
+          "Kompilieren: Erfordert oft zwei Durchläufe, um die Nummern aufzulösen.",
+          "Vorteil: Automatische Aktualisierung bei Änderungen der Struktur."
         ],
-        "content": "Modulare Strukturen sind für Thesen essentiell, um den Überblick zu behalten und die Kompilierzeit zu steuern."
+        "content": "Es ist Best Practice, sprechende Präfixe für Labels zu nutzen, z. B. `sec:` für Sections, `fig:` für Figuren, `tab:` für Tabellen, um den Überblick zu behalten."
       },
       "mini_glossary": [
         {
-          "term": "Modularisierung",
-          "definition": "Aufteilen eines großen Projekts in kleinere, handhabbare Dateien."
+          "term": "Querverweis",
+          "definition": "Verweis innerhalb des Dokuments auf eine andere Stelle (z. B. 'siehe Abb. 3')."
         }
       ]
     },
     {
-      "question": "36. Sie erhalten den Fehler 'Missing $ inserted'. Was ist die wahrscheinlichste Ursache?",
+      "question": "12. Wie erzeugen Sie den Bruch $\\frac{1}{2}$ im Mathematik-Modus?",
       "options": [
-        "Sie haben ein Sonderzeichen wie `_` oder `^` im normalen Text verwendet.",
-        "Sie haben vergessen, eine Zeile mit `\\\\` zu beenden.",
-        "Das Dokument hat keine `\\documentclass`.",
-        "Ein Bild wurde nicht gefunden."
+        "\\frac{1}{2}",
+        "\\over{1}{2}",
+        "\\div{1}{2}",
+        "\\fraction(1, 2)"
       ],
       "answer": 0,
-      "explanation": "Die Zeichen _ (Index) und ^ (Potenz) sind nur im Mathe-Modus erlaubt. LaTeX versucht den Fehler zu beheben, indem es annimmt, Sie hätten ein $ vergessen.",
+      "explanation": "Der Befehl `\\frac{Zähler}{Nenner}` ist der Standardbefehl für Brüche. `\\over` ist ein Low-Level TeX-Befehl, der in LaTeX vermieden werden sollte.",
       "weight": 2,
-      "topic": "Fehlersuche & Debugging",
-      "concept": "Mathe-Modus Fehler",
+      "topic": "Mathematiksatz",
+      "concept": "Brüche",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Fehleranalyse: Missing $",
+        "title": "Mathematische Strukturen",
         "steps": [
-          "Fehlermeldung lesen und Zeilennummer prüfen.",
-          "Suchen nach _ (Unterstrich) oder ^ (Dach) im Text.",
-          "Lösung: Entweder in Mathe-Modus setzen $a_b$ oder escapen \\_ für Text."
+          "Befehl: \\frac",
+          "Argument 1: Zähler (oben)",
+          "Argument 2: Nenner (unten)",
+          "Verschachtelung: \\frac{1}{1 + \\frac{1}{x}} ist problemlos möglich."
         ],
-        "content": "Dies ist einer der häufigsten Anfängerfehler, besonders bei Dateinamen im Text (z. B. daten_final.csv)."
+        "content": "Im Inline-Modus (`$`) werden Brüche oft klein dargestellt. Im Display-Modus (`\\[`) nutzen sie mehr vertikalen Platz. Alternativ kann für einfache Brüche im Fließtext auch `1/2` geschrieben werden."
       },
       "mini_glossary": [
         {
-          "term": "Escape-Sequenz",
-          "definition": "Ein Backslash gefolgt von einem Zeichen, um dessen Sonderbedeutung aufzuheben."
+          "term": "Argument",
+          "definition": "Information in geschweiften Klammern {}, die ein Befehl zur Ausführung benötigt."
         }
       ]
     },
     {
-      "question": "37. Wie erzeugen Sie ein Inhaltsverzeichnis, das auch die 'section'-Ebene enthält, aber 'subsection' ignoriert?",
+      "question": "13. Was ist der semantisch korrekte Weg, um einen neuen Absatz zu beginnen?",
       "options": [
-        "\\setcounter{tocdepth}{1}",
-        "\\tableofcontents[depth=1]",
-        "\\sectiononly",
-        "\\settocdepth{section}"
+        "Verwendung des Befehls `\\newline`.",
+        "Verwendung des Doppel-Backslash `\\\\`.",
+        "Einfügen einer Leerzeile im Quellcode.",
+        "Einfügen des Befehls `\\paragraph`."
       ],
-      "answer": 0,
-      "explanation": "Der Zähler tocdepth steuert die Tiefe des Inhaltsverzeichnisses. 1 entspricht meist section, 2 subsection usw.",
+      "answer": 2,
+      "explanation": "In LaTeX wird ein neuer Absatz durch eine oder mehrere Leerzeilen im Code erzeugt. `\\\\` erzwingt einen harten Zeilenumbruch *innerhalb* eines Absatzes, was das Blocksatz-Layout zerstört.",
       "weight": 2,
-      "topic": "Strukturierung",
-      "concept": "TOC-Tiefe",
+      "topic": "Textstruktur",
+      "concept": "Absatz",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Tiefe des Inhaltsverzeichnisses",
+        "title": "Absatz vs. Zeilenumbruch",
         "steps": [
-          "Befehl: \\setcounter{tocdepth}{n} in die Präambel.",
-          "Werte: 0=chapter, 1=section, 2=subsection.",
-          "Wirkung: Einträge tiefer als n werden nicht im TOC angezeigt."
+          "Absatz (Leerzeile): Logische Trennung von Gedanken. Erzeugt Einzug oder Abstand (je nach Einstellung).",
+          "Zeilenumbruch (\\\\): Physische Trennung. Kein Einzug, schlechter Blocksatz.",
+          "Regel: Nutze fast immer Leerzeilen, fast nie \\\\ im Fließtext."
         ],
-        "content": "Dies hilft, das Inhaltsverzeichnis bei sehr detailliert gegliederten Arbeiten übersichtlich zu halten."
-      },
-      "mini_glossary": [
-        {
-          "term": "Counter",
-          "definition": "Eine Variable in LaTeX, die eine ganze Zahl speichert (z. B. Seitennummer, Kapiteltiefe)."
-        }
-      ]
-    },
-    {
-      "question": "38. Welcher Befehl ist notwendig, um die automatische Einrückung des ersten Absatzes nach einer Überschrift zu verhindern (Standard in englischen Texten, aber manchmal unerwünscht)?",
-      "options": [
-        "\\noindent",
-        "\\noindentation",
-        "\\flat",
-        "\\leftalign"
-      ],
-      "answer": 0,
-      "explanation": "Der Befehl \\noindent am Beginn eines Absatzes unterdrückt die Einrückung. Generell steuert der Parameter \\parindent die Einrückung global.",
-      "weight": 2,
-      "topic": "Typografie & Layout",
-      "concept": "Absatzeinzug",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Absatzeinrückung",
-        "steps": [
-          "LaTeX rückt neue Absätze standardmäßig ein (außer den ersten nach einer Überschrift).",
-          "Manuell unterdrücken: \\noindent.",
-          "Global abschalten: \\setlength{\\parindent}{0pt} (aber dann sollte \\parskip erhöht werden)."
-        ],
-        "content": "Einzug ist ein wichtiges typografisches Mittel, um Absätze visuell zu trennen. Alternativ kann man Absatzabstand nutzen."
+        "content": "Ein häufiger Anfängerfehler ist die Nutzung von `\\\\`, um 'Luft' zu schaffen. Das führt zu Warnungen ('Underfull \\hbox') und unprofessionellem Layout."
       },
       "mini_glossary": [
         {
           "term": "Parindent",
-          "definition": "Länge des Einzugs der ersten Zeile eines Absatzes."
+          "definition": "Länge des Einzugs der ersten Zeile eines neuen Absatzes."
         }
       ]
     },
     {
-      "question": "39. Wie fügen Sie ein PDF als ganzseitigen Anhang in Ihr Dokument ein?",
+      "question": "14. Sie nutzen BibLaTeX für Ihre Thesis. Mit welchem Befehl zitieren Sie eine Quelle so, dass sie in Klammern steht, z. B. (Müller, 2023)?",
       "options": [
-        "\\includegraphics[page=1]{datei.pdf}",
-        "\\usepackage{pdfpages} und \\includepdf[pages=-]{datei.pdf}",
-        "\\importpdf{datei.pdf}",
-        "\\begin{pdf} ... \\end{pdf}"
+        "\\textcite{mueller23}",
+        "\\parencite{mueller23}",
+        "\\cite[klammern]{mueller23}",
+        "\\bibcite{mueller23}"
       ],
       "answer": 1,
-      "explanation": "Das Paket pdfpages und der Befehl \\includepdf sind speziell dafür gemacht, externe PDFs (auch mehrseitig) als ganze Seiten einzufügen.",
+      "explanation": "`\\parencite` (Parenthetical Cite) setzt Autor und Jahr in Klammern. `\\textcite` integriert den Autor in den Satzfluss, z. B.: Müller (2023) behauptet...",
       "weight": 2,
-      "topic": "Fortgeschrittene Pakete",
-      "concept": "PDF-Import",
+      "topic": "Zitieren",
+      "concept": "Zitierbefehle",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Ganze PDFs einbinden",
+        "title": "Wichtige BibLaTeX Befehle",
         "steps": [
-          "\\usepackage{pdfpages}.",
-          "\\includepdf[pages=-]{dokument.pdf} fügt alle Seiten ein.",
-          "pages={1,3} fügt nur Seite 1 und 3 ein."
+          "\\parencite: (Autor, Jahr) -> Für Belege am Satzende.",
+          "\\textcite: Autor (Jahr) -> Wenn der Autor Subjekt des Satzes ist.",
+          "\\cite: Gibt oft nur Autor Jahr ohne Klammern (stilabhängig).",
+          "Keys: Das Argument ist der BibTeX-Key aus der .bib-Datei."
         ],
-        "content": "Sehr nützlich für Anhänge wie Datenblätter, Original-Fragebögen oder gescannte Dokumente."
+        "content": "Die Unterscheidung zwischen `\\textcite` und `\\parencite` ist essenziell für einen guten wissenschaftlichen Schreibstil, um den Lesefluss nicht zu stören."
       },
       "mini_glossary": [
         {
-          "term": "Anhang",
-          "definition": "Teil am Ende der Arbeit für ergänzende Materialien."
+          "term": "BibTeX-Key",
+          "definition": "Eindeutiger Identifikator eines Eintrags in der Literaturdatenbank."
         }
       ]
     },
     {
-      "question": "40. Sie definieren einen eigenen Befehl `\\newcommand{\\kw}[1]{\\textbf{#1}}`. Wie rufen Sie ihn auf?",
+      "question": "15. Sie müssen in Ihrer Arbeit oft den Begriff 'Eigenwertzerlegung' schreiben und wollen Tippfehler vermeiden. Wie definieren Sie eine Abkürzung `\\ewz`?",
       "options": [
-        "\\kw{Wort}",
-        "\\kw[Wort]",
-        "\\kw Wort",
-        "\\kw(Wort)"
+        "\\def\\ewz{Eigenwertzerlegung}",
+        "\\newcommand{\\ewz}{Eigenwertzerlegung}",
+        "\\setcommand{\\ewz}{Eigenwertzerlegung}",
+        "\\var{ewz} = 'Eigenwertzerlegung'"
       ],
-      "answer": 0,
-      "explanation": "Der Befehl erwartet ein Pflichtargument ([1]), das in geschweiften Klammern {} übergeben wird.",
+      "answer": 1,
+      "explanation": "`\\newcommand{\\name}{Definition}` ist der saubere LaTeX-Weg. `\\def` ist ein TeX-Primitiv, das keine Prüfung durchführt, ob der Befehl schon existiert, und daher gefährlich sein kann.",
       "weight": 2,
-      "topic": "Makros & eigene Befehle",
-      "concept": "Argumente",
+      "topic": "Makros",
+      "concept": "Newcommand",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Befehle mit Argumenten",
+        "title": "Eigene Befehle definieren",
         "steps": [
-          "Definition: \\newcommand{\\name}[anzahl]{code}.",
-          "Verwendung im Code: #1, #2 etc.",
-          "Aufruf: \\name{arg1}{arg2}."
+          "Syntax: \\newcommand{\\befehlsname}{Was er tun soll}",
+          "Sicherheit: LaTeX prüft, ob der Befehl schon existiert (Fehler, wenn ja).",
+          "Parameter: Mit [n] können auch Befehle mit n Argumenten erstellt werden.",
+          "Nutzen: Konsistenz (z. B. Notation von Variablen) und Schreibersparnis."
         ],
-        "content": "Dies erlaubt Abstraktion. Wenn man später entscheiden möchte, dass Keywords (kw) kursiv statt fett sein sollen, ändert man nur die Definition an einer Stelle."
+        "content": "Makros sind extrem mächtig. Wenn Sie sich entscheiden, alle Vektoren doch nicht fett, sondern mit Pfeil zu schreiben, ändern Sie nur die Definition des Makros, nicht 500 Stellen im Text."
       },
       "mini_glossary": [
         {
-          "term": "Parameter",
-          "definition": "Wert, der an eine Funktion oder ein Makro übergeben wird."
-        },
-        {
-          "term": "Abstraktion",
-          "definition": "Trennung von Inhalt und Formatierung."
+          "term": "Makro",
+          "definition": "Benutzerdefinierter Befehl, der eine Abfolge von anderen Befehlen oder Text ersetzt."
         }
       ]
     },
     {
-      "question": "41. Ihr Literaturverzeichnis zeigt '??' statt der Nummern [1], [2]. Die Log-Datei sagt 'Citation ... on page ... undefined'. Was müssen Sie tun?",
+      "question": "16. Wo platziert LaTeX das Inhaltsverzeichnis, wenn Sie `\\tableofcontents` verwenden?",
       "options": [
-        "Die .bib-Datei manuell formatieren.",
-        "BibTeX (oder Biber) ausführen und dann LaTeX noch zweimal laufen lassen.",
-        "Den Befehl \\cite entfernen.",
-        "Die .log Datei löschen."
+        "Automatisch immer ganz am Anfang des Dokuments.",
+        "Genau an der Stelle, an der der Befehl im Quellcode steht.",
+        "Automatisch immer ganz am Ende des Dokuments.",
+        "In einer separaten Datei, die nicht im PDF erscheint."
       ],
       "answer": 1,
-      "explanation": "Der Fehler bedeutet, dass LaTeX die Verweise noch nicht kennt. Der Zyklus ist: LaTeX (sammelt Keys) -> BibTeX (erstellt Verzeichnis) -> LaTeX (liest Verzeichnis) -> LaTeX (löst Referenzen auf).",
-      "weight": 3,
-      "topic": "Fehlersuche & Debugging",
-      "concept": "Kompilierkette",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Undefined Citations beheben",
-        "steps": [
-          "1. pdflatex datei (Schreibt .aux).",
-          "2. bibtex datei (Liest .aux, schreibt .bbl).",
-          "3. pdflatex datei (Liest .bbl, integriert Text).",
-          "4. pdflatex datei (Korrigiert Seitenzahlen und Referenzen)."
-        ],
-        "content": "Moderne Editoren (TeXShop, Overleaf) machen dies oft automatisch ('Latexmk'), aber das Verständnis des Prozesses ist essentiell für die Fehlersuche."
-      },
-      "mini_glossary": [
-        {
-          "term": "BBL-Datei",
-          "definition": "Die von BibTeX erzeugte Datei, die den formatierten LaTeX-Code des Literaturverzeichnisses enthält."
-        },
-        {
-          "term": "Build-Prozess",
-          "definition": "Die Abfolge von Programmen, um aus dem Quellcode das PDF zu erstellen."
-        }
-      ]
-    },
-    {
-      "question": "42. Sie binden ein Bild ein, aber es erscheint am Ende des Kapitels auf einer eigenen Seite, statt dort, wo Sie es im Code platziert haben. Warum?",
-      "options": [
-        "Das Bild ist zu groß für den verbleibenden Platz auf der aktuellen Seite.",
-        "Sie haben das Paket `float` vergessen.",
-        "LaTeX sammelt Bilder immer am Ende.",
-        "Das Bildformat ist falsch."
-      ],
-      "answer": 0,
-      "explanation": "Wenn LaTeX ein Gleitobjekt (Float) nicht gemäß den Parametern (h, t, b) platzieren kann (z. B. weil 'here' nicht genug Platz ist), schiebt es das Objekt in eine Warteschlange. Wenn diese voll ist oder das Kapitel endet, werden alle 'Floats' ausgegeben.",
-      "weight": 3,
-      "topic": "Abbildungen & Tabellen",
-      "concept": "Float-Queue",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Verhalten von Gleitobjekten",
-        "steps": [
-          "Analyse: Passt das Bild physikalisch auf die Seite?",
-          "Parameter prüfen: [htbp] gibt LaTeX mehr Freiheit als nur [h].",
-          "Lösung: Bild verkleinern oder \\clearpage nutzen, um Ausgabe zu erzwingen."
-        ],
-        "content": "Ein häufiges Problem ist, dass zu strikte Platzierungswünsche ([h]) dazu führen, dass LaTeX das Bild gar nicht platzieren kann und es bis zum Schluss aufschiebt."
-      },
-      "mini_glossary": [
-        {
-          "term": "Float-Queue",
-          "definition": "Interner Speicherbereich von LaTeX für noch nicht platzierte Abbildungen/Tabellen."
-        }
-      ]
-    },
-    {
-      "question": "43. Ein Kommilitone schickt Ihnen Code mit: `\\def\\meinBefehl{...}`. Warum wird in modernen LaTeX-Best-Practices von `\\def` abgeraten und `\\newcommand` empfohlen?",
-      "options": [
-        "\\def ist langsamer.",
-        "\\def prüft nicht, ob der Befehl schon existiert, und überschreibt ihn stillschweigend.",
-        "\\def funktioniert nicht mit Mathe-Formeln.",
-        "\\def ist veraltet und wird nicht mehr unterstützt."
-      ],
-      "answer": 1,
-      "explanation": "Der Befehl \\def ist ein TeX-Primitiv, das rücksichtslos überschreibt. \\newcommand prüft auf Namenskonflikte und wirft einen Fehler, was versehentliches Zerstören von internen Befehlen verhindert.",
-      "weight": 3,
-      "topic": "Makros & eigene Befehle",
-      "concept": "Sicherheit bei Makros",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "\\def vs. \\newcommand",
-        "steps": [
-          "Risiko: Überschreiben wichtiger Befehle (z. B. \\box oder \\year) mit \\def führt zu kryptischen Fehlern.",
-          "Sicherheit: \\newcommand schützt davor ('Command already defined').",
-          "Best Practice: Immer \\newcommand (oder \\renewcommand wenn Absicht) nutzen."
-        ],
-        "content": "In der Programmierung ist Namespace-Pollution ein Problem. \\newcommand ist der Schutzmechanismus von LaTeX dagegen."
-      },
-      "mini_glossary": [
-        {
-          "term": "Primitiv",
-          "definition": "Ein grundlegender Befehl des TeX-Kerns, auf dem LaTeX aufbaut."
-        }
-      ]
-    },
-    {
-      "question": "44. Ihre Tabelle ist zu breit. Sie verkleinern die Schrift mit `\\small`. Was ist ein potenzieller negativer Nebeneffekt auf die Konsistenz des Dokuments?",
-      "options": [
-        "Die Tabelle wird unsichtbar.",
-        "Die Lesbarkeit leidet und die Schriftgröße weicht vom Fließtext ab, was unprofessionell wirken kann.",
-        "Die Seitennummerierung verschiebt sich.",
-        "Fußnoten funktionieren nicht mehr."
-      ],
-      "answer": 1,
-      "explanation": "Während technisch möglich, bricht das Verkleinern der Schrift die typografische Konsistenz. Bessere Lösungen sind Umstrukturierung der Tabelle, tabularx, Abkürzungen oder Seitendrehung (sidewaystable).",
-      "weight": 3,
-      "topic": "Typografie & Layout",
-      "concept": "Konsistenz",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Typografische Konsistenz",
-        "steps": [
-          "Problem: Inhalt passt nicht.",
-          "Schlechte Lösung: Skalieren (\\resizebox) oder Schrift verkleinern (unleserlich).",
-          "Gute Lösung: Inhalt kürzen, Spalten umbrechen, Querformat nutzen."
-        ],
-        "content": "Eine wissenschaftliche Arbeit sollte eine einheitliche Schriftgröße haben. Ausnahmen sollten sehr sparsam eingesetzt werden."
-      },
-      "mini_glossary": [
-        {
-          "term": "Sidewaystable",
-          "definition": "Umgebung aus dem Paket rotating, um eine Tabelle um 90 Grad zu drehen."
-        }
-      ]
-    },
-    {
-      "question": "45. Sie kopieren Code aus einem PDF in Ihren Editor. Beim Kompilieren erhalten Sie Fehler bei Anführungszeichen oder Minuszeichen. Was ist passiert?",
-      "options": [
-        "Das PDF war verschlüsselt.",
-        "Falsche Zeichenkodierung (z. B. 'smart quotes' oder lange Gedankenstriche statt ASCII-Zeichen).",
-        "LaTeX mag kein Copy & Paste.",
-        "Der Editor ist abgestürzt."
-      ],
-      "answer": 1,
-      "explanation": "PDFs enthalten oft typografische Anführungszeichen (” statt \") oder Bindestriche (– statt -), die im LaTeX-Quellcode (besonders in Befehlen oder Mathe) ungültig sind oder eine andere Bedeutung haben.",
-      "weight": 3,
-      "topic": "Fehlersuche & Debugging",
-      "concept": "Encoding-Probleme",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Copy & Paste Fallen",
-        "steps": [
-          "Problem erkennen: Fehler an Stellen, die optisch korrekt aussehen.",
-          "Ursache: Unterschiedliche Unicode-Zeichen (z. B. verschiedene Minus-Striche).",
-          "Lösung: Code abtippen oder Zeichen manuell durch Standard-ASCII ersetzen."
-        ],
-        "content": "Besonders tückisch ist das unsichtbare 'Non-breaking space' oder unterschiedliche Arten von Anführungszeichen, die Compiler-Fehler auslösen."
-      },
-      "mini_glossary": [
-        {
-          "term": "ASCII",
-          "definition": "Grundlegender Zeichensatz; LaTeX-Befehle basieren meist auf diesen Standardzeichen."
-        }
-      ]
-    },
-    {
-      "question": "46. Warum erzeugt `\\include{kapitel1} \\include{kapitel2}` immer einen Seitenumbruch zwischen den Kapiteln, `\\input` aber nicht?",
-      "options": [
-        "Weil `\\include` intern `\\clearpage` aufruft, um die .aux-Dateien sicher zu trennen.",
-        "Weil `\\include` für Bücher gedacht ist und `\\input` für Artikel.",
-        "Das ist ein Fehler in LaTeX.",
-        "Weil `\\input` veraltet ist."
-      ],
-      "answer": 0,
-      "explanation": "Der Befehl \\include ist dafür konzipiert, Teile selektiv zu kompilieren (\\includeonly). Damit Seitenzahlen und Referenzen konsistent bleiben, muss jeder Include auf einer neuen Seite beginnen (internes \\clearpage).",
-      "weight": 3,
+      "explanation": "LaTeX arbeitet sequenziell. Das Inhaltsverzeichnis wird exakt dort ausgegeben, wo `\\tableofcontents` aufgerufen wird (meist nach dem Titelblatt und Abstract).",
+      "weight": 2,
       "topic": "Strukturierung",
-      "concept": "Interne Logik von Include",
-      "cognitive_level": "Analysis",
+      "concept": "TOC",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Funktionsweise von Include",
+        "title": "Generierung von Verzeichnissen",
         "steps": [
-          "Vorteil: \\includeonly{kap1} spart Zeit bei großen Dokumenten.",
-          "Nachteil: Erzwingt Seitenumbruch.",
-          "Konsequenz: Nicht für kleine Schnipsel (wie Tabellen-Dateien) nutzen, dort \\input."
+          "Position: Der Befehl markiert die Ausgabestelle.",
+          "Inhalt: Basiert auf den .toc Hilfsdateien des *letzten* Laufs.",
+          "Aktualität: Änderungen an der Struktur erfordern mind. zwei Kompilier-Durchgänge.",
+          "Einträge: Alle nummerierten Sektionen landen automatisch hier."
         ],
-        "content": "Das Verständnis dieses Unterschieds ist wichtig für das Layout-Management, um unerwünschte weiße Seiten zu vermeiden."
+        "content": "Neben dem Inhaltsverzeichnis funktionieren `\\listoffigures` (Abbildungsverzeichnis) und `\\listoftables` (Tabellenverzeichnis) nach demselben Prinzip."
       },
       "mini_glossary": [
         {
-          "term": "Includeonly",
-          "definition": "Befehl in der Präambel, der bestimmt, welche \\include-Dateien tatsächlich verarbeitet werden."
+          "term": "TOC",
+          "definition": "Table of Contents (Inhaltsverzeichnis)."
         }
       ]
     },
     {
-      "question": "47. In einer Formel wird `sin(x)` kursiv als Produkt der Variablen $s, i, n, x$ dargestellt. Wie korrigieren Sie das semantisch richtig?",
+      "question": "17. Sie wollen, dass ein Abschnitt 'Anhang' zwar eine Überschrift erhält, aber keine Nummerierung und nicht im Inhaltsverzeichnis auftaucht. Welchen Befehl nutzen Sie?",
       "options": [
-        "\\text{sin}(x)",
-        "\\mathrm{sin}(x)",
-        "\\sin(x)",
-        "sin\\,(x)"
+        "\\section*{Anhang}",
+        "\\section[hidden]{Anhang}",
+        "\\nonumsection{Anhang}",
+        "\\topic{Anhang}"
+      ],
+      "answer": 0,
+      "explanation": "Der Stern `*` hinter Gliederungsbefehlen (`\\section*`, `\\chapter*`) unterdrückt die Nummerierung und den Eintrag ins Inhaltsverzeichnis.",
+      "weight": 2,
+      "topic": "Gliederung",
+      "concept": "Stern-Befehle",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Unnummerierte Sektionen",
+        "steps": [
+          "Syntax: Befehl mit Sternchen (Asterisk) suffixen.",
+          "Effekt 1: Kein Zähler (z. B. keine '5.').",
+          "Effekt 2: Kein TOC-Eintrag.",
+          "Manuelle Anpassung: Mit \\addcontentsline kann man sie trotzdem ins TOC zwingen, falls gewünscht."
+        ],
+        "content": "Typische Anwendungsfälle sind Danksagung, Eidesstattliche Erklärung oder Literaturverzeichnis-Überschriften (obwohl Pakete dies oft automatisch regeln)."
+      },
+      "mini_glossary": [
+        {
+          "term": "Asterisk",
+          "definition": "Das Sternchen-Symbol *."
+        }
+      ]
+    },
+    {
+      "question": "18. Was passiert, wenn Sie `\\begin{itemize}` schreiben, aber das entsprechende `\\end{itemize}` vergessen?",
+      "options": [
+        "LaTeX schließt die Umgebung automatisch am Dokumentenende.",
+        "Der Compiler bricht mit einem Fehler ab (z. B. 'File ended while scanning use of...').",
+        "Die Liste wird korrekt dargestellt, aber der nachfolgende Text ist eingerückt.",
+        "Nichts, LaTeX ist fehlertolerant bei Umgebungen."
+      ],
+      "answer": 1,
+      "explanation": "LaTeX-Umgebungen müssen zwingend balanciert sein. Ein fehlendes `\\end` führt zu einem fatalen Fehler, da LaTeX das Ende des Scopes sucht und bis zum Dateiende läuft.",
+      "weight": 2,
+      "topic": "Fehlersuche",
+      "concept": "Umgebungs-Fehler",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Debugging von Umgebungen",
+        "steps": [
+          "Symptom: Fehler 'File ended while scanning...' oder 'LaTeX Error: \\begin{...} on input line X ended by \\end{document}'.",
+          "Ursache: Eine Umgebung wurde geöffnet, aber nicht geschlossen.",
+          "Lösung: Suche nach dem letzten \\begin ohne passendes \\end.",
+          "Tipp: Editor-Funktionen nutzen, die schließende Tags automatisch einfügen."
+        ],
+        "content": "Dies ist einer der häufigsten Anfängerfehler. Auch Tippfehler wie `\\end{itemizee}` führen zu diesem Problem."
+      },
+      "mini_glossary": [
+        {
+          "term": "Scope",
+          "definition": "Gültigkeitsbereich einer Umgebung oder eines Befehls."
+        }
+      ]
+    },
+    {
+      "question": "19. Sie verwenden `\\begin{figure}[h]`. Was signalisiert der Parameter `[h]` dem Compiler?",
+      "options": [
+        "Die Abbildung soll 'huge' (riesig) dargestellt werden.",
+        "Die Abbildung soll 'hidden' (versteckt) sein.",
+        "Die Abbildung soll möglichst 'here' (genau hier) platziert werden.",
+        "Die Abbildung soll 'horizontal' ausgerichtet werden."
       ],
       "answer": 2,
-      "explanation": "LaTeX bietet vordefinierte Operatoren wie \\sin, \\cos, \\log. Diese werden aufrecht gesetzt und haben die korrekten Abstände zu den Argumenten.",
-      "weight": 3,
-      "topic": "Mathematische Formeln",
-      "concept": "Operatoren",
-      "cognitive_level": "Analysis",
+      "explanation": "`h` steht für 'here'. Es ist eine Bitte an den Algorithmus, das Gleitobjekt an der Stelle im Text zu platzieren, wo es im Code steht. LaTeX kann dies jedoch verweigern, wenn z. B. am Seitenende nicht genug Platz ist.",
+      "weight": 2,
+      "topic": "Gleitobjekte",
+      "concept": "Platzierung",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Mathematische Operatoren",
+        "title": "Placement Specifiers",
         "steps": [
-          "Falsch: $sin(x)$ (sieht aus wie s * i * n * x).",
-          "Richtig: $\\sin(x)$ (Operator-Schriftart, aufrecht).",
-          "Eigene Operatoren: \\DeclareMathOperator{\\meinOp}{OpName} (mit amsmath)."
+          "h (here): Hier, wenn möglich.",
+          "t (top): Oben auf der Seite.",
+          "b (bottom): Unten auf der Seite.",
+          "p (page): Auf einer eigenen Seite nur für Bilder.",
+          "! (force): Versuche Restriktionen zu lockern."
         ],
-        "content": "In der Mathematik werden Variablennamen kursiv, Funktionsnamen (Operatoren) aber aufrecht geschrieben."
+        "content": "Gleitobjekte (Floats) sind ein Kernelement von LaTeX. Sie verhindern große weiße Löcher im Text, indem sie Abbildungen dorthin verschieben, wo sie typografisch sinnvoll passen."
       },
       "mini_glossary": [
         {
-          "term": "Operator",
-          "definition": "Eine mathematische Funktion wie Sinus oder Limes, die typografisch gesondert behandelt wird."
+          "term": "Float",
+          "definition": "Objekt (Bild/Tabelle), das nicht fest im Textfluss verankert ist, sondern 'gleiten' kann."
         }
       ]
     },
     {
-      "question": "48. Sie wollen in Ihrer Arbeit durchgängig 'Abb.' statt 'Abbildung' in den Captions stehen haben. Was ist der eleganteste Weg, dies bei Verwendung von `babel` (ngerman) zu ändern?",
+      "question": "20. Welches Paket ist der De-facto-Standard, um Quellcode mit Syntax-Highlighting in LaTeX einzubinden?",
       "options": [
-        "Jedes Mal `\\caption[Abb.]{...}` schreiben.",
-        "Im Quellcode `\\renewcommand{\\figurename}{Abb.}` in der Präambel (nach Babel) einfügen.",
-        "Die Datei german.sty bearbeiten.",
-        "Ein Suchen-und-Ersetzen im PDF durchführen."
+        "\\usepackage{codecolor}",
+        "\\usepackage{listings}",
+        "\\usepackage{graphicscode}",
+        "\\usepackage{syntax}"
       ],
       "answer": 1,
-      "explanation": "Durch Umdefinieren des Makros \\figurename ändert man die Bezeichnung global. Dies muss nach dem Laden von babel geschehen (oder über \\addto\\captionsngerman).",
-      "weight": 3,
-      "topic": "Fortgeschrittene Pakete",
-      "concept": "Lokalisierung anpassen",
-      "cognitive_level": "Analysis",
+      "explanation": "`listings` ist das klassische, reine LaTeX-Paket für Code. Eine moderne Alternative ist `minted` (benötigt Python). `listings` ist jedoch robuster, da es keine externen Abhängigkeiten hat.",
+      "weight": 2,
+      "topic": "Pakete",
+      "concept": "Code-Listings",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Bezeichnungen ändern",
+        "title": "Das listings Paket",
         "steps": [
-          "Identifizieren des Namens-Makros (z. B. \\figurename, \\tablename, \\contentsname).",
-          "Umdefinieren: \\renewcommand{\\figurename}{Abb.}.",
-          "Timing: Bei babel muss dies oft innerhalb von \\addto\\captionsngerman{...} geschehen."
+          "Einbindung: \\usepackage{listings}",
+          "Konfiguration: \\lstset{language=Java, breaklines=true ...}",
+          "Nutzung: \\begin{lstlisting} ... code ... \\end{lstlisting}",
+          "Feature: Keywords werden automatisch fett/farbig markiert."
         ],
-        "content": "Dies ist viel robuster als manuelle Änderungen an jeder Abbildung und stellt Konsistenz sicher."
+        "content": "Für Informatik-Arbeiten ist dieses Paket unverzichtbar. Es unterstützt Zeilennummerierung, Rahmen und das Einlesen externer Codedateien (`\\lstinputlisting`)."
       },
       "mini_glossary": [
         {
-          "term": "Makro-Redefinition",
-          "definition": "Das Ändern der Funktionsweise oder des Inhalts eines bestehenden Befehls."
+          "term": "Syntax-Highlighting",
+          "definition": "Farbliche Hervorhebung von Schlüsselwörtern im Quellcode zur besseren Lesbarkeit."
         }
       ]
     },
     {
-      "question": "49. Ein Algorithmus in Ihrer Arbeit soll als Pseudocode dargestellt werden. Warum ist die einfache `verbatim`-Umgebung dafür oft unzureichend?",
+      "question": "21. Sie haben eine sehr lange Thesis. Warum ist es sinnvoll, `\\include{kapitel1}` statt alles in eine Datei zu schreiben?",
       "options": [
-        "Sie unterstützt keine Sonderzeichen.",
-        "Sie bietet keine Strukturierung (Einrückung, Schlüsselwörter fett, mathematische Symbole im Code).",
-        "Sie kann nicht kompiliert werden.",
-        "Sie ist auf eine Seite beschränkt."
+        "Weil LaTeX Dateien über 100 Zeilen nicht verarbeiten kann.",
+        "Weil `\\include` es erlaubt, nur ausgewählte Teile zu kompilieren (`\\includeonly`) und Zeit spart.",
+        "Weil es die PDF-Dateigröße automatisch komprimiert.",
+        "Weil man nur so Bilder verwenden kann."
       ],
       "answer": 1,
-      "explanation": "Die verbatim Umgebung gibt Text nur als Schreibmaschinen-Schrift aus. Für Algorithmen benötigt man oft mathematische Symbole ($\\leftarrow$, $\\forall$) und eine strukturierte Darstellung, was Pakete wie algorithm2e oder algorithmicx leisten.",
-      "weight": 3,
-      "topic": "Code & Informatik-Specials",
-      "concept": "Algorithmen-Satz",
-      "cognitive_level": "Analysis",
+      "explanation": "`\\include` beginnt immer eine neue Seite und erlaubt die Nutzung von `\\includeonly{...}` in der Präambel. So kann man an Kapitel 5 arbeiten und nur dieses kompilieren, ohne dass sich Seitenzahlen oder Referenzen ändern (dank `.aux` Dateien).",
+      "weight": 2,
+      "topic": "Projektstruktur",
+      "concept": "Modularisierung",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Pseudocode setzen",
+        "title": "Große Dokumente verwalten",
         "steps": [
-          "Anforderung: Mischung aus Code-Struktur und mathematischer Notation.",
-          "Lösung: Spezialpakete wie algorithm2e.",
-          "Features: Automatische Einrückung, Linien, Beschriftung 'Algorithmus 1: ...'."
+          "Struktur: Hauptdatei (main.tex) bindet Unterdateien ein.",
+          "\\input{file}: Wie Copy-Paste. Kein Seitenumbruch.",
+          "\\include{file}: Seitenumbruch davor/danach. Nutzt eigene aux-Datei.",
+          "Vorteil: Übersichtlichkeit und Geschwindigkeit beim Schreiben."
         ],
-        "content": "Informatik-Thesen benötigen oft eine abstrakte Darstellung von Algorithmen, die sauberer ist als roher Code."
+        "content": "Für Bachelorarbeiten ist die Aufteilung in Dateien pro Kapitel (Einleitung.tex, Grundlagen.tex etc.) Best Practice."
       },
       "mini_glossary": [
         {
-          "term": "Pseudocode",
-          "definition": "Beschreibung eines Algorithmus in natürlicher Sprache und Code-Strukturen, ohne Syntax einer spezifischen Sprache."
+          "term": "\\includeonly",
+          "definition": "Befehl in der Präambel, um die Kompilierung auf bestimmte include-Dateien zu beschränken."
         }
       ]
     },
     {
-      "question": "50. Nach dem Einfügen von `\\usepackage[utf8]{inputenc}` erhalten Sie trotzdem Fehler bei Umlauten. Die Datei wurde zuvor auf einem anderen Betriebssystem erstellt. Was ist die Ursache?",
+      "question": "22. Damit URLs in Ihrem Dokument klickbar sind und Querverweise als Links funktionieren, welches Paket laden Sie (meist als letztes)?",
       "options": [
-        "LaTeX unterstützt generell keine Umlaute.",
-        "Die Datei ist tatsächlich nicht in UTF-8 kodiert (sondern z. B. in ISO-8859-1 oder Windows-1252), und LaTeX interpretiert die Bytes falsch.",
+        "\\usepackage{url}",
+        "\\usepackage{clickable}",
+        "\\usepackage{hyperref}",
+        "\\usepackage{interactive}"
+      ],
+      "answer": 2,
+      "explanation": "`hyperref` verwandelt alle internen Referenzen (TOC, Zitate, Labels) und URLs in anklickbare Hyperlinks im PDF. Es sollte meist als letztes geladen werden, da es Befehle anderer Pakete umdefiniert.",
+      "weight": 2,
+      "topic": "Pakete",
+      "concept": "Hyperref",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Das hyperref Paket",
+        "steps": [
+          "Funktion: Macht Referenzen interaktiv.",
+          "Konfiguration: Farben der Links können angepasst werden (z. B. hidelinks für Druck).",
+          "Ladereihenfolge: Fast immer als letztes laden (Ausnahme: cleveref).",
+          "Zusatznutzen: Setzt PDF-Metadaten (Autor, Titel im Reader)."
+        ],
+        "content": "Ohne `hyperref` ist ein digitales PDF heute kaum benutzerfreundlich. Ein Klick im Inhaltsverzeichnis sollte direkt zum Kapitel springen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Metadaten",
+          "definition": "Daten über Daten (z. B. PDF-Titel), die nicht direkt auf der Seite gedruckt werden."
+        }
+      ]
+    },
+    {
+      "question": "23. Ihr Dokumenttitel enthält ein Datum. Welcher Befehl sorgt dafür, dass automatisch das **heutige** Datum beim Kompilieren eingesetzt wird?",
+      "options": [
+        "\\date{\\now}",
+        "\\date{\\today}",
+        "\\date{\\currentdate}",
+        "\\date{auto}"
+      ],
+      "answer": 1,
+      "explanation": "`\\today` gibt das aktuelle Datum im Format der eingestellten Sprache aus (z. B. '7. Januar 2026' bei `ngerman`).",
+      "weight": 2,
+      "topic": "Metadaten",
+      "concept": "Datum",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Datumsfunktionen",
+        "steps": [
+          "Befehl: \\today",
+          "Sprache: Hängt von babel/polyglossia ab.",
+          "Fixierung: Wenn man ein festes Datum will, schreibt man \\date{01.01.2025}.",
+          "Weglassen: \\date{} (leer) unterdrückt das Datum."
+        ],
+        "content": "Für die finale Abgabe der Thesis sollte man das Datum meist festsetzen (`\\date{...}`), damit es sich beim späteren Nachdrucken nicht ändert."
+      },
+      "mini_glossary": [
+        {
+          "term": "Babel",
+          "definition": "Paket zur Anpassung von LaTeX an verschiedene Sprachen (Silbentrennung, Datum)."
+        }
+      ]
+    },
+    {
+      "question": "24. Sie wollen in einer `align`-Umgebung (Mathe) mehrere Gleichungen untereinander am Gleichheitszeichen ausrichten. Welches Zeichen nutzen Sie als Anker?",
+      "options": [
+        "Das Gleichheitszeichen selbst `=`",
+        "Das Und-Zeichen `&`",
+        "Den Tabulator-Taste",
+        "Das Dollarzeichen `$`"
+      ],
+      "answer": 1,
+      "explanation": "In Umgebungen wie `align` (aus dem `amsmath` Paket) dient `&` als Ausrichtungsmarke. Meist schreibt man `x &= y + 2`, damit das Gleichheitszeichen an derselben horizontalen Position steht wie in der Zeile darunter.",
+      "weight": 2,
+      "topic": "Mathematiksatz",
+      "concept": "Ausrichtung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Mehrzeilige Gleichungen",
+        "steps": [
+          "Umgebung: \\begin{align} (nummeriert) oder align* (unnummeriert).",
+          "Trenner: \\\\ für neue Zeile.",
+          "Ausrichtung: & markiert die vertikale Achse.",
+          "Beispiel: a &= b \\\\ c &= d"
+        ],
+        "content": "Sauber ausgerichtete Formeln sind ein Qualitätsmerkmal. Das `&` steht typischerweise direkt vor dem Relationszeichen (`=`, `<`, `>`)."
+      },
+      "mini_glossary": [
+        {
+          "term": "amsmath",
+          "definition": "Das wichtigste Paket für anspruchsvollen Mathematiksatz in LaTeX."
+        }
+      ]
+    },
+    {
+      "question": "25. Fehlermeldung: `! Paragraph ended before \name was complete.` oder `Runaway argument?`. Was ist die wahrscheinlichste Ursache?",
+      "options": [
+        "Sie haben eine geschweifte Klammer `}` vergessen zu schließen.",
+        "Sie haben ein Bild eingefügt, das zu groß ist.",
+        "Sie haben `\\usepackage` im Dokumentenkörper verwendet.",
+        "Sie haben Umlaute ohne passendes Encoding verwendet."
+      ],
+      "answer": 0,
+      "explanation": "Dieser Fehler tritt auf, wenn ein Befehl ein Argument erwartet (z. B. `\\textbf{...`), aber der Absatz endet (durch eine Leerzeile), bevor die schließende Klammer `}` gefunden wurde.",
+      "weight": 3,
+      "topic": "Fehleranalyse",
+      "concept": "Klammerfehler",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Runaway Arguments",
+        "steps": [
+          "Mechanik: Viele Befehle sind 'short', d.h. sie erlauben keinen Absatzumbruch im Argument.",
+          "Auslöser: Vergessene schließende Klammer }.",
+          "Folge: LaTeX liest weiter, bis es auf eine Leerzeile trifft und bricht panisch ab.",
+          "Lösung: Zeile suchen, wo die Klammer fehlt (oft weiter oben als gemeldet)."
+        ],
+        "content": "Dies ist einer der kryptischsten Fehler für Anfänger. Er bedeutet fast immer: 'Du hast eine Klammer offen gelassen'."
+      },
+      "mini_glossary": [
+        {
+          "term": "Delimiter",
+          "definition": "Begrenzungszeichen wie { }, [ ] oder $ $."
+        }
+      ]
+    },
+    {
+      "question": "26. In Ihrem PDF erscheinen anstelle von Referenzen nur Fragezeichen `(??)` oder `[?]`. Es gibt keine Syntaxfehler. Was ist das Problem?",
+      "options": [
+        "Das Paket `hyperref` fehlt.",
+        "Die Labels sind falsch benannt.",
+        "LaTeX wurde nicht oft genug ausgeführt (Cross-References sind nicht aktuell).",
+        "Die `.aux` Datei ist schreibgeschützt."
+      ],
+      "answer": 2,
+      "explanation": "LaTeX benötigt mehrere Durchläufe. 1. Lauf: Schreibe Labels in `.aux` Datei. 2. Lauf: Lese `.aux` und setze Referenzen ein. Wenn `??` erscheint, muss man einfach noch einmal kompilieren.",
+      "weight": 3,
+      "topic": "Kompilierung",
+      "concept": "Mehrfach-Durchlauf",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Der LaTeX-Kompilierzyklus",
+        "steps": [
+          "Lauf 1: Sammelt Informationen (TOC, Labels, Cite-Keys) in Hilfsdateien (.aux, .toc).",
+          "Zustand: Referenzen sind im PDF noch unbekannt (??).",
+          "Lauf 2: Liest Hilfsdateien und füllt die Referenzen.",
+          "Ggf. Lauf 3: Nötig, wenn sich durch Lauf 2 die Seitenzahlen verschoben haben."
+        ],
+        "content": "Moderne Tools wie `latexmk` automatisieren diesen Prozess und rufen `pdflatex` so oft auf wie nötig."
+      },
+      "mini_glossary": [
+        {
+          "term": "Aux-Datei",
+          "definition": "Hilfsdatei, in der LaTeX Informationen für den nächsten Durchlauf zwischenspeichert."
+        }
+      ]
+    },
+    {
+      "question": "27. Sie verwenden BibLaTeX. Ihre Zitate erscheinen im PDF, aber das Literaturverzeichnis am Ende fehlt, obwohl `\\printbibliography` im Code steht. Was haben Sie wahrscheinlich vergessen?",
+      "options": [
+        "Das Programm `biber` (oder `bibtex`) wurde nicht ausgeführt.",
+        "Die `.bib` Datei liegt im falschen Ordner.",
+        "Sie haben vergessen, die Pakete zu laden.",
+        "Sie haben keine Zitate im Text verwendet."
+      ],
+      "answer": 0,
+      "explanation": "LaTeX selbst sortiert und formatiert die Literatur nicht. Es benötigt ein externes Backend-Programm (modern: `biber`, alt: `bibtex`), das die `.bib`-Datei verarbeitet und für LaTeX aufbereitet.",
+      "weight": 3,
+      "topic": "Literaturverwaltung",
+      "concept": "Toolchain",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Die Bibliografie-Toolchain",
+        "steps": [
+          "1. pdflatex: Schreibt Zitat-Requests in die .bcf/.aux Datei.",
+          "2. biber: Liest Requests, holt Daten aus .bib, sortiert, schreibt .bbl Datei.",
+          "3. pdflatex: Liest .bbl Datei und setzt das Verzeichnis.",
+          "Fehlerbild: Ohne Schritt 2 bleibt das Verzeichnis leer."
+        ],
+        "content": "Viele Editoren (TeXShop, Overleaf) machen das automatisch. Bei manueller Kompilierung oder Fehlkonfiguration ist dies die Hauptursache für fehlende Bibliografien."
+      },
+      "mini_glossary": [
+        {
+          "term": "Biber",
+          "definition": "Modernes Backend für BibLaTeX zur Verarbeitung von Literaturdaten (Unicode-fähig)."
+        }
+      ]
+    },
+    {
+      "question": "28. Eine Abbildung (`figure`) erscheint im PDF erst drei Seiten nach ihrer Definition im Quelltext, ganz am Ende des Kapitels. Was ist die Ursache?",
+      "options": [
+        "Das Bild ist zu groß für die Seite und LaTeX findet keinen geeigneten Platz ('Floating').",
+        "Der Befehl `\\includegraphics` ist fehlerhaft.",
+        "Die Bilddatei ist beschädigt.",
+        "Das Paket `graphicx` wurde nicht geladen."
+      ],
+      "answer": 0,
+      "explanation": "Gleitobjekte (Floats) dürfen verschoben werden. Wenn auf der aktuellen Seite kein Platz ist und die Parameter (`h`, `t`, `b`) keine gute Lösung bieten, schiebt LaTeX das Bild weiter, bis es passt oder erzwingt die Ausgabe am Kapitelende (`\\clearpage`).",
+      "weight": 3,
+      "topic": "Gleitobjekte",
+      "concept": "Float-Verhalten",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Float Management",
+        "steps": [
+          "Problem: Bild passt nicht 'here' [h].",
+          "Reaktion: LaTeX prüft 'top' [t] der nächsten Seite.",
+          "Stau: Wenn viele Bilder kommen, stauen sie sich auf.",
+          "Flush: Am Ende des Kapitels oder bei \\clearpage werden alle aufgestauten Bilder ausgegeben."
+        ],
+        "content": "Dies ist kein Bug, sondern ein Feature für guten Satzspiegel. Man kann es mit `\\usepackage{float}` und `[H]` erzwingen, was aber oft zu hässlichen Seitenumbrüchen führt."
+      },
+      "mini_glossary": [
+        {
+          "term": "\\clearpage",
+          "definition": "Befehl, der einen Seitenumbruch erzwingt und alle wartenden Gleitobjekte ausgibt."
+        }
+      ]
+    },
+    {
+      "question": "29. In Ihrem Dokument werden Umlaute (ä, ö, ü) als seltsame Symbole (Ã¤) dargestellt. Woran liegt das?",
+      "options": [
+        "Die Datei ist in UTF-8 kodiert, aber LaTeX erwartet Latin1 (oder umgekehrt).",
         "Sie haben das Paket `babel` vergessen.",
-        "Der Computer hat keine deutsche Tastatur."
+        "Die Schriftart unterstützt keine Umlaute.",
+        "Sie nutzen eine englische Tastatur."
       ],
-      "answer": 1,
-      "explanation": "Der Befehl inputenc teilt LaTeX mit, wie die Datei zu lesen ist. Wenn die tatsächliche Dateikodierung (Editor-Einstellung) nicht mit der Angabe im Paket übereinstimmt, kommt es zu Fehlern (Encoding Mismatch).",
+      "answer": 0,
+      "explanation": "Dies ist ein Encoding-Fehler (Mojibake). Der Editor speichert die Datei in einem Format (z. B. UTF-8), aber LaTeX wird (z. B. via `inputenc`) mitgeteilt, es sei ein anderes (z. B. ISO-8859-1). Heute ist `\\usepackage[utf8]{inputenc}` (oder nativ bei LuaLaTeX) Standard.",
       "weight": 3,
-      "topic": "Fehlersuche & Debugging",
-      "concept": "Encoding Mismatch",
+      "topic": "Encoding",
+      "concept": "Zeichensatz",
       "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Zeichenkodierung verstehen",
+        "title": "Character Encoding",
         "steps": [
-          "Prüfen: In welcher Kodierung speichert der Editor die Datei?",
-          "Anpassen: Entweder Editor auf UTF-8 stellen (empfohlen) oder inputenc Option anpassen (z. B. latin1).",
-          "Konvertieren: Tools wie iconv nutzen."
+          "Problem: Byte-Folge für 'ä' in UTF-8 sind zwei Bytes.",
+          "Interpretation: Wenn LaTeX diese zwei Bytes als Latin1 liest, sieht es zwei separate Zeichen (Ã¤).",
+          "Lösung: Editor auf UTF-8 stellen UND LaTeX auf UTF-8 stellen (seit 2018 meist Standard).",
+          "Check: Präambel \\usepackage[utf8]{inputenc} prüfen."
         ],
-        "content": "Heute ist UTF-8 Standard, aber alte Dateien oder Windows-Tools nutzen oft noch andere Kodierungen. Dies ist eine häufige Fehlerquelle bei der Zusammenarbeit."
+        "content": "Konsistentes Encoding ist die Basis für jeden Textsatz. UTF-8 ist heute der universelle Standard."
       },
       "mini_glossary": [
         {
           "term": "UTF-8",
-          "definition": "Weit verbreitete Zeichenkodierung, die fast alle Zeichen der Welt abdeckt."
-        },
+          "definition": "Weit verbreitete Zeichenkodierung, die fast alle Schriftzeichen der Welt abdeckt."
+        }
+      ]
+    },
+    {
+      "question": "30. Sie definieren `\\newcommand{\\email}{...}`. LaTeX bricht mit dem Fehler `Command \\email already defined` ab. Wie lösen Sie das Problem korrekt, wenn Sie die existierende Definition überschreiben wollen?",
+      "options": [
+        "Benutzen Sie `\\renewcommand{\\email}{...}`.",
+        "Löschen Sie den Befehl manuell aus dem LaTeX-Kernel.",
+        "Benutzen Sie `\\ignorecommand{\\email}`.",
+        "Schreiben Sie `\\force{\\email}{...}`."
+      ],
+      "answer": 0,
+      "explanation": "`\\newcommand` schützt vor versehentlichem Überschreiben existierender Befehle. Wenn man bewusst überschreiben will (z. B. weil ein Paket schon eine Definition liefert), muss `\\renewcommand` genutzt werden.",
+      "weight": 3,
+      "topic": "Makros",
+      "concept": "Redefinition",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Befehlskonflikte lösen",
+        "steps": [
+          "Situation: Name kollidiert (z. B. \\\\year, \\\\time oder Paket-Befehle).",
+          "Sicherer Weg: Neuen, einzigartigen Namen wählen (z. B. \\\\myemail).",
+          "Aggressiver Weg: \\renewcommand nutzen.",
+          "Risiko: Wenn man interne LaTeX-Befehle überschreibt, kann das Dokument kaputt gehen."
+        ],
+        "content": "Bei häufigen Begriffen (wie `\\title`, `\\author`) ist `\\renewcommand` oft nicht nötig, da diese Befehle in der Klasse speziell gehandhabt werden, aber bei eigenen Makros ist die Unterscheidung strikt."
+      },
+      "mini_glossary": [
         {
-          "term": "Encoding Mismatch",
-          "definition": "Diskrepanz zwischen tatsächlicher Speicherung und interpretierter Kodierung."
+          "term": "Kernel",
+          "definition": "Der Basissatz an Befehlen, den LaTeX von Haus aus mitbringt."
         }
       ]
     }
