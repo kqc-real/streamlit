@@ -2761,12 +2761,29 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
                 go.Bar(x=pivot.index, y=pivot[difficulty], name=display_name, marker_color=colors.get(difficulty))
             )
 
+    # Calculate maximum y-value (total questions per topic) to determine appropriate tick interval
+    try:
+        max_questions = int(pivot.sum(axis=1).max()) if not pivot.empty else 10
+        # Dynamic tick interval based on scale to avoid crowding
+        if max_questions <= 10:
+            y_dtick = 1
+        elif max_questions <= 20:
+            y_dtick = 2
+        elif max_questions <= 50:
+            y_dtick = 5
+        elif max_questions <= 100:
+            y_dtick = 10
+        else:
+            y_dtick = 20
+    except Exception:
+        y_dtick = 1
+
     fig.update_layout(
         barmode="stack",
         xaxis_title=translate_ui("welcome.distribution.chart.xaxis", default="Thema"),
         yaxis_title=translate_ui("welcome.distribution.chart.yaxis", default="Anzahl der Fragen"),
         yaxis=dict(
-            dtick=1,  # Force tick interval of 1
+            dtick=y_dtick,  # Dynamic tick interval based on question count
             tickformat='d',  # Display as integer (no decimal places)
         ),
         legend_title=translate_ui("welcome.distribution.chart.legend", default="Schwierigkeit"),
