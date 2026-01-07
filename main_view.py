@@ -4362,6 +4362,45 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         if context_label:
             st.caption(f"**{context_label}**")
 
+        # --- Mini-Glossar (frage-spezifisch) ---
+        # If the current question contains a `mini_glossary` object, render a
+        # compact popover showing the term definitions immediately after the question.
+        # Support both dict format {"term": "def"} and array format [{"term": "...", "definition": "..."}]
+        try:
+            mini_gloss = frage_obj.get("mini_glossary")
+            if mini_gloss:
+                try:
+                    title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
+                except Exception:
+                    title = "Fachbegriffe nachschlagen"
+
+                glossary_terms_string = ""
+                
+                # Handle both dict and list formats
+                if isinstance(mini_gloss, dict):
+                    # Dict format: {"term": "definition", ...}
+                    for term, definition in mini_gloss.items():
+                        glossary_terms_string += f"- **{term}**: {definition}\n"
+                elif isinstance(mini_gloss, list):
+                    # List format: [{"term": "...", "definition": "..."}, ...]
+                    for entry in mini_gloss:
+                        if isinstance(entry, dict):
+                            term = entry.get("term", "")
+                            definition = entry.get("definition", "")
+                            if term and definition:
+                                glossary_terms_string += f"- **{term}**: {definition}\n"
+
+                if glossary_terms_string:
+                    try:
+                        with st.popover(f"🔎 {title}", use_container_width=False):
+                            st.markdown(glossary_terms_string, unsafe_allow_html=True)
+                    except Exception:
+                        # Fallback: inline render if popover is unavailable
+                        with st.expander(f"🔎 {title}"):
+                            st.markdown(glossary_terms_string)
+        except Exception:
+            pass
+
         # Render the weight/stage suffix on the same visual line as before
         try:
             # If we already rendered an explicit cognitive stage above, avoid
@@ -4387,35 +4426,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
                 else:
                     st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
-        except Exception:
-            pass
-
-        # --- Mini-Glossar (frage-spezifisch) ---
-        # If the current question contains a `mini_glossary` object, render a
-        # compact popover showing the term definitions. This replaces the
-        # previous expander/flag approach for a simpler, deterministic UI.
-        try:
-            mini_gloss = frage_obj.get("mini_glossary")
-            if isinstance(mini_gloss, dict) and mini_gloss:
-                try:
-                    title = translate_ui("question.show_glossary", default="Look up technical terms")
-                except Exception:
-                    title = "Look up technical terms"
-
-                glossary_terms_string = ""
-                for term, definition in mini_gloss.items():
-                    glossary_terms_string += f"- **{term}**: {definition}\n"
-
-                try:
-                    with st.popover(f"🔎 {title}"):
-                        st.markdown(glossary_terms_string, unsafe_allow_html=True)
-                except Exception:
-                    # Fallback: inline render if popover is unavailable
-                    for term, definition in mini_gloss.items():
-                        try:
-                            st.markdown(f"- **{term}**: {definition}")
-                        except Exception:
-                            st.write(f"{term}: {definition}")
         except Exception:
             pass
 
@@ -6380,6 +6390,28 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             )
             if frage.get("erklaerung"):
                 st.markdown(f"**{explanation_label}:** {frage['erklaerung']}")
+
+            # Mini-Glossar anzeigen (support both dict and list formats)
+            try:
+                mini_gloss = frage.get("mini_glossary")
+                if mini_gloss:
+                    glossary_title = translate_ui("question.show_glossary", default="Fachbegriffe")
+                    st.markdown(f"**{glossary_title}:**")
+                    
+                    if isinstance(mini_gloss, dict):
+                        # Dict format: {"term": "definition", ...}
+                        for term, definition in mini_gloss.items():
+                            st.markdown(f"- **{term}**: {definition}")
+                    elif isinstance(mini_gloss, list):
+                        # List format: [{"term": "...", "definition": "..."}, ...]
+                        for entry in mini_gloss:
+                            if isinstance(entry, dict):
+                                term = entry.get("term", "")
+                                definition = entry.get("definition", "")
+                                if term and definition:
+                                    st.markdown(f"- **{term}**: {definition}")
+            except Exception:
+                pass
 
     # --- Exportbereich (work in progress) ---
     st.markdown("---")
