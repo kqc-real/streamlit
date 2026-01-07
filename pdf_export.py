@@ -1660,13 +1660,17 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         format_datetime_locale = None  # type: ignore[assignment]
         FMT_DATETIME = "%d.%m.%Y %H:%M"  # type: ignore[assignment]
 
+    # Always use current date/time for PDF generation
     if format_datetime_locale:
         try:
-            generated_at_str = format_datetime_locale(datetime.now().isoformat(), fmt=FMT_DATETIME)
-        except Exception:
+            # Pass datetime object directly (not ISO string) to avoid parsing issues
             generated_at_str = format_datetime_locale(datetime.now(), fmt=FMT_DATETIME)
+        except Exception:
+            # Fallback: manual formatting with German date/time format
+            generated_at_str = datetime.now().strftime("%d.%m.%Y %H:%M")
     else:
-        generated_at_str = datetime.now().isoformat(timespec="minutes")
+        # Fallback: manual formatting with German date/time format
+        generated_at_str = datetime.now().strftime("%d.%m.%Y %H:%M")
 
     # Ensure tests or environments without a fully-featured streamlit
     # module still work: provide a safe session_state dict if missing.
@@ -3748,13 +3752,17 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         format_datetime_locale = None  # type: ignore[assignment]
         FMT_DATETIME = "%d.%m.%Y %H:%M"  # type: ignore[assignment]
 
+    # Always use current date/time for PDF generation
     if format_datetime_locale:
         try:
-            generated_at = format_datetime_locale(datetime.now().isoformat(), fmt=FMT_DATETIME)
-        except Exception:
+            # Pass datetime object directly (not ISO string) to avoid parsing issues
             generated_at = format_datetime_locale(datetime.now(), fmt=FMT_DATETIME)
+        except Exception:
+            # Fallback: manual formatting with German date/time format
+            generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
     else:
-        generated_at = datetime.now().isoformat(timespec="minutes")
+        # Fallback: manual formatting with German date/time format
+        generated_at = datetime.now().strftime("%d.%m.%Y %H:%M")
 
     # Ensure canonical question schema for this run too
     def normalize_question_schema(q: Dict[str, Any]) -> Dict[str, Any]:
