@@ -2,7 +2,7 @@
   "meta": {
     "schema_version": "1.1",
     "title": "IoT-Referatsthemen: Technik, Strategie und Ethik (Stand Ende 2025)",
-    "created": "07.01.2026 08:30",
+    "created": "07.01.2026 09:00",
     "target_audience": "Studierende des Maschinenbaus und Digital Engineering",
     "question_count": 40,
     "difficulty_profile": {
@@ -21,1237 +21,1150 @@
   "questions": [
     {
       "question_id": "Q001",
-      "question": "1. Welches grundlegende architektonische Prinzip beschreibt das 'Edge Computing' im IoT-Kontext am präzisesten?",
+      "question": "1. Welches Grundprinzip beschreibt das 'Edge Computing'?",
       "options": [
-        "Die Zentralisierung aller Datenströme in einer globalen Cloud-Datenbank zur Maximierung der Speicherkapazität.",
-        "Die Verlagerung von Rechenleistung und Datenverarbeitung an den Rand des Netzwerks nahe der Datenquelle.",
-        "Die Verteilung von Rechenaufgaben auf ungenutzte Smartphones der Mitarbeiter zur Kostensenkung.",
-        "Die ausschließliche Nutzung von analogen Signalen zur Vermeidung von Cyberangriffen auf das Netzwerk."
+        "Die Datenverarbeitung findet dezentral und nahe der Datenquelle statt.",
+        "Die Datenverarbeitung erfolgt ausschließlich auf zentralen Cloud-Servern, um maximale Rechenleistung zu gewährleisten, die lokal nicht verfügbar wäre.",
+        "Die Datenverarbeitung wird auf Quantencomputer ausgelagert, die sich in hochsicheren Rechenzentren befinden und über Glasfaser angebunden sind.",
+        "Die Datenverarbeitung wird vollständig manuell durch Administratoren durchgeführt, um Sicherheitsrisiken durch automatisierte Algorithmen zu vermeiden."
       ],
-      "answer": 1,
-      "explanation": "Edge Computing verarbeitet Daten dezentral an der Quelle (Edge), um Latenzen zu senken. Dies steht im Gegensatz zur zentralen Cloud-Verarbeitung oder reinen Peer-to-Peer-Ansätzen.",
+      "answer": 0,
+      "explanation": "Edge Computing verlagert die Verarbeitung an den Rand des Netzwerks (Edge), um Latenzen zu minimieren.",
       "weight": 1,
       "topic": "Edge Computing",
-      "concept": "Definition Edge Computing",
+      "concept": "Definition",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
           "term": "Edge Computing",
-          "definition": "Verarbeitung von Daten an der Peripherie des Netzwerks."
+          "definition": "Dezentrale Datenverarbeitung."
         }
       ]
     },
     {
       "question_id": "Q002",
-      "question": "2. Warum ist eine reine Cloud-Architektur für sicherheitskritische Echtzeitanwendungen, wie eine Ampelsteuerung, oft ungeeignet?",
+      "question": "2. Warum ist Edge Computing für autonome Fahrzeuge kritischer als Cloud Computing?",
       "options": [
-        "Weil die Latenzzeit für die Datenübertragung zur Cloud für sofortige Reaktionen zu hoch ist.",
-        "Weil die Speicherkosten in der Cloud für einfache Textdaten viel zu hoch sind.",
-        "Weil Cloud-Server grundsätzlich nicht in der Lage sind, Ampelsignale zu verarbeiten.",
-        "Weil Ampeln gesetzlich verpflichtet sind, mechanisch ohne Software zu funktionieren."
+        "Weil die Latenzzeiten zur Cloud für Bremsmanöver zu lang sind.",
+        "Weil Cloud-Server grundsätzlich nicht in der Lage sind, komplexe Bilderkennungsalgorithmen in der erforderlichen Geschwindigkeit für den Straßenverkehr auszuführen.",
+        "Weil autonome Fahrzeuge gesetzlich verpflichtet sind, keinerlei Daten an externe Server zu senden, um die Privatsphäre der Insassen zu schützen.",
+        "Weil die Energiekosten für die drahtlose Übertragung von Sensordaten in die Cloud die Batteriekapazität des Fahrzeugs innerhalb weniger Minuten erschöpfen würden."
       ],
       "answer": 0,
-      "explanation": "Die physikalische Distanz zur Cloud verursacht Latenzen (Round-Trip-Time), die für Millisekunden-Entscheidungen bei Unfällen zu lang sind. Lokale Verarbeitung ist hier zwingend.",
+      "explanation": "Entscheidend ist die Latenz (Round-Trip-Time). Millisekunden entscheiden über Unfälle. Die Cloud ist zu weit weg.",
       "weight": 2,
       "topic": "Edge Computing",
-      "concept": "Latenzproblematik",
+      "concept": "Latenz",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Echtzeit-Anforderungen",
+        "title": "Latenz im Verkehr",
         "steps": [
-          "Szenario: Unfallerkennung an Kreuzung.",
-          "Problem: Cloud-Roundtrip dauert 100-500ms.",
-          "Bedarf: Reaktion in < 10ms nötig.",
-          "Lösung: Edge-Knoten entscheidet autonom."
+          "Erkennen",
+          "Planen",
+          "Handeln"
         ],
-        "content": "Sicherheitskritische Systeme dürfen nicht von instabilen Internetverbindungen abhängen."
+        "content": "Alles muss lokal passieren."
       },
       "mini_glossary": [
         {
           "term": "Latenz",
-          "definition": "Verzögerungszeit bei der Datenübertragung."
+          "definition": "Verzögerung."
         }
       ]
     },
     {
       "question_id": "Q003",
-      "question": "3. Welche Auswirkung hat eine hybride Architektur (Edge + Cloud) auf den Datenschutz sensibler Bilddaten?",
+      "question": "3. Wie verbessert eine hybride Architektur (Edge + Cloud) den Datenschutz?",
       "options": [
-        "Sie erhöht das Risiko, da Daten nun an zwei Orten gleichzeitig gestohlen werden können.",
-        "Sie ermöglicht es, personenbezogene Rohdaten lokal zu filtern und nur Anonymisiertes zu senden.",
-        "Sie zwingt den Betreiber dazu, alle Videostreams unverschlüsselt ins Internet zu stellen.",
-        "Sie verhindert jeglichen Datenschutz, da Edge-Geräte rechtlich nicht reguliert sind."
+        "Indem sensible Rohdaten lokal gefiltert und nicht gesendet werden.",
+        "Indem alle Datenströme durch eine homomorphe Verschlüsselung in der Cloud geschützt werden, die selbst vor Quantencomputern sicher ist.",
+        "Indem die Verantwortung für den Datenschutz vertraglich vollständig an den Cloud-Provider übertragen wird, der über bessere Zertifizierungen verfügt.",
+        "Indem personenbezogene Daten automatisch gelöscht werden, sobald sie das lokale Netzwerk verlassen, sofern keine explizite Einwilligung vorliegt."
       ],
-      "answer": 1,
-      "explanation": "Hybride Ansätze erlauben 'Privacy by Design': Das Gesicht wird lokal erkannt und verpixelt oder gelöscht; nur die Zählung ('Person anwesend') geht in die Cloud.",
+      "answer": 0,
+      "explanation": "Privacy by Design: Rohdaten (Video) bleiben lokal, nur Metadaten (Zählung) gehen raus.",
       "weight": 3,
       "topic": "Edge Computing",
-      "concept": "Privacy Architecture",
+      "concept": "Privacy",
       "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Datenschutz durch Architektur",
+        "title": "Privacy",
         "steps": [
-          "Erfassung: Kamera nimmt Bild auf.",
-          "Verarbeitung: Edge-KI extrahiert Metadaten.",
-          "Löschung: Bild wird sofort verworfen.",
-          "Übertragung: Nur Metadaten verlassen das Haus."
+          "Local Process",
+          "Discard",
+          "Send Meta"
         ],
-        "content": "Dies minimiert die Angriffsfläche massiv im Vergleich zum Cloud-Upload aller Rohdaten."
+        "content": "Minimiert Risiko."
       },
       "mini_glossary": [
         {
-          "term": "Hybride Architektur",
-          "definition": "Kombination aus lokaler Vorverarbeitung und zentraler Cloud."
+          "term": "Hybrid",
+          "definition": "Mix aus Edge und Cloud."
         }
       ]
     },
     {
       "question_id": "Q004",
-      "question": "4. Was versteht man unter 'TinyML' im Bereich der IoT-Hardware?",
+      "question": "4. Was unterscheidet Fog Computing von Edge Computing?",
       "options": [
-        "Das Ausführen von Machine-Learning-Modellen auf leistungsstarken Cloud-Servern.",
-        "Das Ausführen von Machine-Learning-Modellen auf ressourcenarmen Mikrocontrollern.",
-        "Das Trainieren von extrem großen Sprachmodellen auf Quantencomputern.",
-        "Das Speichern von kleinen Textdateien in einer dezentralen Blockchain."
+        "Fog ist eine Zwischenschicht im lokalen Netzwerk (LAN).",
+        "Fog Computing ist eine veraltete Marketingbezeichnung für Cloud Computing, die vor der Einführung von 5G-Netzwerken verwendet wurde.",
+        "Fog Computing beschreibt die ausschließliche Verarbeitung von Daten in wetterabhängigen Außenbereichen, wo Feuchtigkeit eine Rolle spielt.",
+        "Fog Computing nutzt analoge Signalverarbeitungstechniken, während Edge Computing rein digitale Prozessoren verwendet."
       ],
-      "answer": 1,
-      "explanation": "TinyML bringt Intelligenz auf kleinste Chips (Embedded Systems), sodass diese ohne Internetverbindung Entscheidungen treffen können (z. B. Spracherkennung).",
-      "weight": 1,
-      "topic": "Hardware & Energieeffizienz",
-      "concept": "TinyML Definition",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
+      "answer": 0,
+      "explanation": "Fog liegt zwischen Edge (Gerät) und Cloud, z.B. auf Gateways.",
+      "weight": 2,
+      "topic": "Edge Computing",
+      "concept": "Fog vs Edge",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Hierarchie",
+        "steps": [
+          "Edge",
+          "Fog",
+          "Cloud"
+        ],
+        "content": "Fog aggregiert mehrere Edges."
+      },
       "mini_glossary": [
         {
-          "term": "TinyML",
-          "definition": "KI-Inferenz auf Systemen mit wenigen Kilobyte Speicher."
+          "term": "Fog",
+          "definition": "Zwischenschicht."
         }
       ]
     },
     {
       "question_id": "Q005",
-      "question": "5. Für einen Sensor tief im Wald ist ein Batteriewechsel logistisch unmöglich. Welche Energieversorgung ist ideal?",
+      "question": "5. Was ist TinyML?",
       "options": [
-        "Der Einsatz von Energy Harvesting (z. B. Solar) zur Nutzung von Umweltenergie.",
-        "Der Einsatz von Dieselgeneratoren zur dauerhaften Stromerzeugung vor Ort.",
-        "Die Verlegung von 230V-Stromleitungen zu jedem einzelnen Baum im Wald.",
-        "Die Nutzung von Einwegbatterien mit einer garantierten Laufzeit von 2 Wochen."
+        "KI auf Mikrocontrollern.",
+        "Eine Programmiersprache für Datenbanken, die speziell für die Verwaltung von sehr kleinen Datensätzen in der Buchhaltung entwickelt wurde.",
+        "Ein neues Funkprotokoll für Smart-Home-Geräte, das eine Reichweite von wenigen Zentimetern hat und extrem wenig Energie verbraucht.",
+        "Ein Cloud-Dienst von Google zur Analyse von Textnachrichten."
       ],
       "answer": 0,
-      "explanation": "Energy Harvesting macht Sensoren energieautark, indem sie Energie aus Licht, Wärme oder Vibration gewinnen. Für unzugängliche Orte ist dies oft die einzige Option für jahrelangen Betrieb.",
-      "weight": 2,
-      "topic": "Hardware & Energieeffizienz",
-      "concept": "Energy Harvesting",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Energieautarkie",
-        "steps": [
-          "Problem: Wartung ist zu teuer/unmöglich.",
-          "Lösung: Energie aus Umgebung (Harvesting).",
-          "Speicher: Superkondensator puffert Energie.",
-          "Verbrauch: Ultra-Low-Power Design nötig."
-        ],
-        "content": "Kombiniert mit LPWAN entstehen 'Install-and-Forget'-Systeme."
-      },
+      "explanation": "Machine Learning Inferenz auf Embedded Devices.",
+      "weight": 1,
+      "topic": "Hardware",
+      "concept": "TinyML",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Energy Harvesting",
-          "definition": "Energiegewinnung aus Umweltquellen."
+          "term": "TinyML",
+          "definition": "KI auf MCU."
         }
       ]
     },
     {
       "question_id": "Q006",
-      "question": "6. Warum sind spezialisierte Betriebssysteme wie RIOT für IoT-Geräte besser geeignet als Standard-Linux?",
+      "question": "6. Wann ist Energy Harvesting sinnvoll?",
       "options": [
-        "Weil sie extrem wenig Speicher benötigen und echtzeitfähig sind.",
-        "Weil sie eine grafische Benutzeroberfläche für 4K-Monitore bieten.",
-        "Weil sie standardmäßig Office-Anwendungen vorinstalliert haben.",
-        "Weil sie ausschließlich auf Großrechnern von Banken laufen."
+        "Wenn Batteriewechsel zu teuer oder unmöglich sind.",
+        "Wenn eine ständige Verbindung zum 230V-Stromnetz vorhanden ist und die Stromkosten durch Einspeisung gesenkt werden sollen.",
+        "Wenn die Sensoren extrem viel Energie für Videostreaming benötigen und Batterien zu schwer wären.",
+        "Wenn das Gerät in einem Rechenzentrum steht und Abwärme nutzen soll."
       ],
       "answer": 0,
-      "explanation": "Standard-Betriebssysteme sind zu groß und energiehungrig für Mikrocontroller. IoT-OS wie RIOT oder Zephyr sind modular, passen in wenige Kilobyte RAM und unterstützen Deep-Sleep-Modi.",
-      "weight": 3,
-      "topic": "Hardware & Energieeffizienz",
-      "concept": "OS-Auswahl",
-      "cognitive_level": "Analysis",
+      "explanation": "Für autarke Sensoren an unzugänglichen Orten.",
+      "weight": 2,
+      "topic": "Hardware",
+      "concept": "Energy Harvesting",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "OS-Anforderungsanalyse",
+        "title": "Autarkie",
         "steps": [
-          "Hardware: MCU mit 64 KB RAM.",
-          "Linux-Kernel: Braucht > 1 MB RAM -> Passt nicht.",
-          "IoT-OS: Braucht < 10 KB RAM -> Passt.",
-          "Timing: Echtzeit für Sensor-Auslesung nötig."
+          "Ernten",
+          "Puffern",
+          "Nutzen"
         ],
-        "content": "Die Wahl des falschen OS führt zu Funktionsunfähigkeit oder sofortigem Batterie-Tod."
+        "content": "Verhindert Wartung."
       },
       "mini_glossary": [
         {
-          "term": "Echtzeitfähigkeit",
-          "definition": "Garantierte Reaktion innerhalb einer festen Zeitspanne."
+          "term": "Harvesting",
+          "definition": "Energie ernten."
         }
       ]
     },
     {
       "question_id": "Q007",
-      "question": "7. Warum eignet sich MQTT besser für instabile Mobilfunkverbindungen als HTTP?",
+      "question": "7. Warum nutzt man IoT-OS wie Zephyr statt Linux?",
       "options": [
-        "Weil MQTT einen geringen Header-Overhead hat und Verbindungsabbrüche robust handhabt.",
-        "Weil MQTT Videos in 4K-Auflösung ohne jegliche Kompression übertragen kann.",
-        "Weil MQTT von jedem Webbrowser ohne Zusatzsoftware nativ dargestellt wird.",
-        "Weil MQTT das einzige Protokoll ist, das überhaupt über Funk funktioniert."
+        "Weil sie weniger Speicher und Energie brauchen.",
+        "Weil Linux-Lizenzen für kommerzielle Produkte viel zu teuer sind und Zephyr von Microsoft gesponsert wird.",
+        "Weil Zephyr eine bessere grafische Oberfläche für Touchscreens bietet, die in modernen Smartphones verwendet wird.",
+        "Weil Linux keine Netzwerkprotokolle unterstützt."
       ],
       "answer": 0,
-      "explanation": "MQTT ist für 'Low Bandwidth, High Latency' optimiert. Es nutzt kleine Pakete und Quality-of-Service-Levels, um sicherzustellen, dass Nachrichten auch bei schlechtem Netz ankommen.",
-      "weight": 2,
-      "topic": "Kommunikationsprotokolle",
-      "concept": "MQTT Vorteile",
-      "cognitive_level": "Application",
+      "explanation": "Ressourcenbeschränkung (RAM, Energie) erzwingt schlanke OS.",
+      "weight": 3,
+      "topic": "Hardware",
+      "concept": "OS Choice",
+      "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Protokoll-Effizienz",
+        "title": "OS Wahl",
         "steps": [
-          "HTTP: Textbasiert, viele Metadaten, neue Verbindung pro Request.",
-          "MQTT: Binär, minimaler Header (2 Byte), dauerhafte Verbindung.",
-          "Effekt: Weniger Datenverbrauch, stabilere Übertragung."
+          "Ressourcen checken",
+          "Echtzeitbedarf",
+          "Wahl"
         ],
-        "content": "Ideal für Telemetrie (Zählerstände, GPS-Positionen)."
+        "content": "Linux ist zu fett für MCUs."
       },
       "mini_glossary": [
         {
-          "term": "Overhead",
-          "definition": "Zusätzliche Steuerdaten, die keine Nutzinformation sind."
+          "term": "Zephyr",
+          "definition": "RTOS."
         }
       ]
     },
     {
       "question_id": "Q008",
-      "question": "8. Welche Funktechnologie wählen Sie für Bodenfeuchtesensoren auf einem 10 km² großen Feld?",
+      "question": "8. Welche Herausforderung wächst mit der Anzahl der IoT-Geräte (17 Mrd.) am stärksten?",
       "options": [
-        "LoRaWAN, da es hohe Reichweite bei minimalem Energieverbrauch bietet.",
-        "WLAN, da es in jedem Haushalt verfügbar und sehr schnell ist.",
-        "Bluetooth, da es sich einfach mit dem Smartphone koppeln lässt.",
-        "NFC, da es extrem sicher vor Abhörmaßnahmen aus der Ferne ist."
+        "Der Energiebedarf und Elektroschrott.",
+        "Die Verfügbarkeit von IPv4-Adressen, da IPv6 noch nicht erfunden wurde.",
+        "Der Mangel an Plastik für die Gehäuseproduktion.",
+        "Die physikalische Platznot in Wohnungen."
       ],
       "answer": 0,
-      "explanation": "LoRaWAN (Long Range Wide Area Network) ist physikalisch darauf ausgelegt, kleine Datenpakete über Kilometer zu senden und dabei die Batterie jahrelang zu schonen.",
+      "explanation": "Milliarden Batterien und Geräte sind ein Umweltproblem.",
       "weight": 2,
-      "topic": "Kommunikationsprotokolle",
-      "concept": "LPWAN Auswahl",
+      "topic": "Hardware",
+      "concept": "Scale Impact",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Technologie-Selektion",
+        "title": "Skalierung",
         "steps": [
-          "Reichweite: 10 km schließt WLAN/BLE aus.",
-          "Energie: Batteriebetrieb schließt 5G/LTE oft aus.",
-          "Datenrate: Feuchtewert ist klein (wenige Bytes).",
-          "Ergebnis: LPWAN ist die optimale Kategorie."
+          "Menge",
+          "Müll",
+          "Energie"
         ],
-        "content": "Alternativen wären Sigfox oder NB-IoT."
+        "content": "Nachhaltigkeit wird Key."
       },
       "mini_glossary": [
         {
-          "term": "LoRaWAN",
-          "definition": "LPWAN-Standard für drahtlose Batteriensensoren."
+          "term": "E-Waste",
+          "definition": "Elektroschrott."
         }
       ]
     },
     {
       "question_id": "Q009",
-      "question": "9. Welches Problem im Smart Home soll der neue Standard 'Matter' lösen?",
+      "question": "9. Warum ist MQTT effizienter als HTTP?",
       "options": [
-        "Die fehlende Interoperabilität zwischen Geräten verschiedener Hersteller.",
-        "Die zu geringe Geschwindigkeit von Glasfaseranschlüssen im Haus.",
-        "Den hohen Preis von intelligenten Glühbirnen im Einzelhandel.",
-        "Die mangelnde Wasserfestigkeit von elektronischen Thermostaten."
+        "Weil es einen geringeren Header-Overhead hat.",
+        "Weil es Daten durch Quantenverschränkung überträgt, was physikalisch keine Bandbreite im herkömmlichen Sinne verbraucht.",
+        "Weil es ausschließlich Textdateien überträgt und Bilder automatisch vor dem Senden löscht.",
+        "Weil es von der NASA entwickelt wurde."
       ],
       "answer": 0,
-      "explanation": "Matter beseitigt die 'Sprachbarrieren' zwischen Apple, Google, Amazon und anderen. Es definiert eine gemeinsame Anwendungsschicht, damit Geräte herstellerübergreifend funktionieren.",
-      "weight": 3,
-      "topic": "Kommunikationsprotokolle",
-      "concept": "Matter Interoperabilität",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Strategie der Unification",
-        "steps": [
-          "Ist-Zustand: Silos (Zigbee, Z-Wave, HomeKit).",
-          "Lösung: Matter als IP-basiertes Protokoll 'on top'.",
-          "Vorteil: 'Multi-Admin' (Steuerung über Siri UND Alexa möglich).",
-          "Markt: Beschleunigt Adoption durch Wegfall von Kaufhürden."
-        ],
-        "content": "Verhindert Vendor Lock-in auf Protokollebene."
-      },
+      "explanation": "Binäres Protokoll, kleiner Header, Keep-Alive.",
+      "weight": 1,
+      "topic": "Protokolle",
+      "concept": "MQTT",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Interoperabilität",
-          "definition": "Fähigkeit verschiedener Systeme, nahtlos zusammenzuarbeiten."
+          "term": "Overhead",
+          "definition": "Zusatzdaten."
         }
       ]
     },
     {
       "question_id": "Q010",
-      "question": "10. Was ist das Kernprinzip einer 'Zero-Trust-Architektur'?",
+      "question": "10. Welches Netz für 10km Reichweite und Batteriebetrieb?",
       "options": [
-        "Vertraue niemandem, verifiziere jede Anfrage explizit.",
-        "Vertraue allen Geräten, die im internen Netzwerk sind.",
-        "Vertraue nur Geräten, die von der IT-Abteilung kommen.",
-        "Vertraue keinen Nutzern, aber vertraue allen Servern."
+        "LoRaWAN.",
+        "WLAN mit speziellen Richtantennen und Verstärkern, die allerdings eine externe Stromversorgung benötigen.",
+        "Bluetooth Low Energy im Mesh-Modus, wobei tausende Geräte als Repeater fungieren müssten.",
+        "5G-Mobilfunk im High-Band-Frequenzbereich."
       ],
       "answer": 0,
-      "explanation": "Zero Trust geht davon aus, dass das Netz bereits kompromittiert ist. Daher gibt es kein implizites Vertrauen, selbst im Intranet. Jedes Paket und jeder Zugriff wird geprüft.",
+      "explanation": "LPWAN (LoRaWAN) ist für Long Range + Low Power gebaut.",
+      "weight": 2,
+      "topic": "Protokolle",
+      "concept": "LPWAN",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Tech-Wahl",
+        "steps": [
+          "Range",
+          "Power",
+          "Data"
+        ],
+        "content": "Physikalischer Trade-off."
+      },
+      "mini_glossary": [
+        {
+          "term": "LoRaWAN",
+          "definition": "Long Range WAN."
+        }
+      ]
+    },
+    {
+      "question_id": "Q011",
+      "question": "11. Was löst 'Matter' im Smart Home?",
+      "options": [
+        "Die Interoperabilität zwischen Herstellern.",
+        "Das Problem der zu geringen WLAN-Reichweite in Stahlbetongebäuden durch Nutzung von Ultraschall.",
+        "Die hohen Kosten für Strom durch automatische Abschaltung aller Sicherungen.",
+        "Den Mangel an Fachkräften für die Installation."
+      ],
+      "answer": 0,
+      "explanation": "Einheitlicher Standard statt Walled Gardens.",
+      "weight": 3,
+      "topic": "Protokolle",
+      "concept": "Matter",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Matter",
+        "steps": [
+          "Silos",
+          "Standard",
+          "Adoption"
+        ],
+        "content": "IP-basiert über Thread/WiFi."
+      },
+      "mini_glossary": [
+        {
+          "term": "Interoperabilität",
+          "definition": "Zusammenarbeit."
+        }
+      ]
+    },
+    {
+      "question_id": "Q012",
+      "question": "12. Wozu dient CoAP?",
+      "options": [
+        "Für ressourcenarme Geräte als HTTP-Alternative.",
+        "Für die Übertragung von 4K-Videostreams in Heimkinosystemen mit Dolby Surround Sound.",
+        "Für die Kommunikation zwischen Hochfrequenzhändlern an der Börse.",
+        "Für das Mining von Kryptowährungen."
+      ],
+      "answer": 0,
+      "explanation": "Constrained Application Protocol ist wie HTTP, aber über UDP und sehr sparsam.",
+      "weight": 2,
+      "topic": "Protokolle",
+      "concept": "CoAP",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "CoAP",
+        "steps": [
+          "UDP",
+          "Binary",
+          "Rest"
+        ],
+        "content": "Für kleinste Sensoren."
+      },
+      "mini_glossary": [
+        {
+          "term": "CoAP",
+          "definition": "Protokoll."
+        }
+      ]
+    },
+    {
+      "question_id": "Q013",
+      "question": "13. Was ist Zero Trust?",
+      "options": [
+        "Kein Vertrauen, ständige Verifikation.",
+        "Ein Sicherheitsmodell, das nur Geräten vertraut, die physisch im selben Raum stehen und per Kabel verbunden sind.",
+        "Eine Firewall-Technologie, die den gesamten Datenverkehr blockiert, außer er kommt von Google.",
+        "Ein Virenscanner, der nie Updates braucht."
+      ],
+      "answer": 0,
+      "explanation": "Never trust, always verify.",
       "weight": 1,
-      "topic": "Sicherheit und Datenschutz",
+      "topic": "Security",
       "concept": "Zero Trust",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
         {
           "term": "Zero Trust",
-          "definition": "Sicherheitsmodell ohne Vertrauensvorschuss für Netzwerke."
-        }
-      ]
-    },
-    {
-      "question_id": "Q011",
-      "question": "11. Wie setzen Sie 'Security by Design' bei einem vernetzten Spielzeug um?",
-      "options": [
-        "Durch Integration von Verschlüsselung und sicherer Authentifizierung in der Entwicklungsphase.",
-        "Durch nachträgliche Installation eines Virenscanners auf dem fertigen Spielzeug.",
-        "Durch Beilegen eines Zettels, der die Eltern vor Hackerangriffen warnt.",
-        "Durch Verzicht auf jegliche Internetverbindung, um Kosten zu sparen."
-      ],
-      "answer": 0,
-      "explanation": "Sicherheit muss Teil der Architektur sein (z. B. keine Standardpasswörter, verschlüsselte Firmware), nicht ein Pflaster, das am Ende aufgeklebt wird.",
-      "weight": 2,
-      "topic": "Sicherheit und Datenschutz",
-      "concept": "Security by Design",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Sichere Entwicklung",
-        "steps": [
-          "Design: Bedrohungsanalyse (Threat Modeling).",
-          "Implementierung: Secure Coding Guidelines.",
-          "Test: Penetration Testing vor Release.",
-          "Wartung: Prozess für Sicherheitsupdates etablieren."
-        ],
-        "content": "Besonders wichtig bei Spielzeug (Kinderschutz) und Kameras."
-      },
-      "mini_glossary": [
-        {
-          "term": "Security by Design",
-          "definition": "Sicherheit als integraler Bestandteil der Produktentwicklung."
-        }
-      ]
-    },
-    {
-      "question_id": "Q012",
-      "question": "12. Was fordert die Radio Equipment Directive (RED) ab 2025 von Herstellern?",
-      "options": [
-        "Den Einbau von Schutzmechanismen für Netzwerk und Privatsphäre in Funkgeräte.",
-        "Die ausschließliche Verwendung von recycelbarem Plastik für das Gehäuse.",
-        "Die kostenlose Bereitstellung von Ersatzteilen für mindestens 10 Jahre.",
-        "Die Drosselung der Sendeleistung auf ein Minimum zur Energieeinsparung."
-      ],
-      "answer": 0,
-      "explanation": "Die RED-Erweiterung macht Cybersecurity zur Voraussetzung für das CE-Kennzeichen. Geräte dürfen das Netz nicht gefährden und müssen Nutzerdaten schützen.",
-      "weight": 2,
-      "topic": "Sicherheit und Datenschutz",
-      "concept": "RED Compliance",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Marktzugangsvoraussetzung",
-        "steps": [
-          "Regel: EU-Richtlinie 2014/53/EU (delegierte VO).",
-          "Inhalt: Schutz des Netzes, Schutz der Daten, Schutz vor Betrug.",
-          "Folge: Unsichere Geräte dürfen in der EU nicht mehr verkauft werden.",
-          "Termin: Pflicht ab August 2025."
-        ],
-        "content": "Betrifft fast alles vom Smart-TV bis zum WLAN-Teddy."
-      },
-      "mini_glossary": [
-        {
-          "term": "RED",
-          "definition": "Radio Equipment Directive (Funkanlagenrichtlinie)."
-        }
-      ]
-    },
-    {
-      "question_id": "Q013",
-      "question": "13. Welche strategische Konsequenz hat der Cyber Resilience Act (CRA) für das Lifecycle-Management?",
-      "options": [
-        "Hersteller müssen Sicherheitsupdates über die gesamte Produktlebensdauer bereitstellen.",
-        "Hersteller müssen ihre Produkte nach zwei Jahren automatisch deaktivieren lassen.",
-        "Hersteller dürfen nur noch Software ohne Hardwarekomponenten verkaufen.",
-        "Hersteller sind von jeglicher Haftung befreit, sobald das Produkt verkauft ist."
-      ],
-      "answer": 0,
-      "explanation": "Der CRA verpflichtet Hersteller, Produkte nicht nur sicher auszuliefern, sondern auch sicher zu halten. Das erfordert langfristige Ressourcen für Patch-Management und Vulnerability Disclosure.",
-      "weight": 3,
-      "topic": "Sicherheit und Datenschutz",
-      "concept": "CRA Strategie",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Ende von 'Fire and Forget'",
-        "steps": [
-          "Anforderung: Security Support Period definieren.",
-          "Prozess: Schwachstellen binnen 24h melden.",
-          "Kosten: Langfristige Wartung muss eingepreist werden.",
-          "Sanktion: Verkaufsverbote und Bußgelder."
-        ],
-        "content": "Führt zu einer Marktbereinigung von Billiganbietern ohne Supportstruktur."
-      },
-      "mini_glossary": [
-        {
-          "term": "Lifecycle-Management",
-          "definition": "Betreuung eines Produkts von der Entwicklung bis zum Recycling."
+          "definition": "Sicherheitsmodell."
         }
       ]
     },
     {
       "question_id": "Q014",
-      "question": "14. Warum ist Post-Quantum-Kryptografie für langlebige IoT-Geräte heute schon relevant?",
+      "question": "14. Was fordert die RED-Richtlinie ab 2025?",
       "options": [
-        "Weil Angreifer verschlüsselte Daten heute speichern und später mit Quantencomputern entschlüsseln könnten ('Harvest Now, Decrypt Later').",
-        "Weil Quantencomputer bereits heute in jedem Haushalt stehen und herkömmliche Passwörter in Sekunden knacken.",
-        "Weil Post-Quantum-Algorithmen viel schneller auf alter Hardware laufen als herkömmliche Verfahren.",
-        "Weil die Europäische Union die Nutzung von klassischen Computern ab 2030 vollständig verbieten wird."
+        "Cybersicherheit für Funkgeräte.",
+        "Die ausschließliche Verwendung von biologisch abbaubaren Materialien für Antennen.",
+        "Die Reduktion der Sendeleistung auf null, wenn keine Daten übertragen werden.",
+        "Kostenloses Internet für alle."
       ],
       "answer": 0,
-      "explanation": "Viele IoT-Geräte (Autos, Zähler) sind 10+ Jahre im Feld. Wenn Quantencomputer in 10 Jahren RSA brechen, sind diese Geräte unsicher. Daher muss der Schutz jetzt schon 'quantum-safe' sein.",
-      "weight": 3,
-      "topic": "Sicherheit und Datenschutz",
-      "concept": "Post-Quantum-Security",
-      "cognitive_level": "Analysis",
+      "explanation": "Schutz von Netz und Daten als Marktzugangsvoraussetzung.",
+      "weight": 2,
+      "topic": "Security",
+      "concept": "RED",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Zukunftssicherheit",
+        "title": "RED 2025",
         "steps": [
-          "Bedrohung: Shor-Algorithmus bricht Asymmetrische Krypto.",
-          "Zeitraum: Geräte leben länger als die Zeit bis zum Quantencomputer.",
-          "Maßnahme: PQC (Post-Quantum Cryptography) Standards nutzen.",
-          "Ziel: Vertraulichkeit auch in der Zukunft wahren."
+          "CE-Kennzeichen",
+          "Security-Check",
+          "Markt"
         ],
-        "content": "Krypto-Agilität (Austauschbarkeit der Algorithmen) ist das Gebot der Stunde."
+        "content": "Kein CE ohne Security."
       },
       "mini_glossary": [
         {
-          "term": "Harvest Now, Decrypt Later",
-          "definition": "Angriffsstrategie: Verschlüsselte Daten sammeln und später knacken."
+          "term": "RED",
+          "definition": "Radio Equipment Directive."
         }
       ]
     },
     {
       "question_id": "Q015",
-      "question": "15. Wie erzeugen IoT-Plattformen ökonomischen Mehrwert durch Netzwerkeffekte?",
+      "question": "15. Was ändert der Cyber Resilience Act (CRA)?",
       "options": [
-        "Indem sie verschiedene Akteure vernetzen, sodass der Nutzen für alle mit jedem neuen Teilnehmer steigt.",
-        "Indem sie die Preise für Hardwarekomponenten künstlich in die Höhe treiben.",
-        "Indem sie den Zugang zu Daten für alle Teilnehmer blockieren und exklusiv verkaufen.",
-        "Indem sie die Produktionsgeschwindigkeit von Fabriken durch Übertaktung erhöhen."
+        "Pflicht zu Updates über den Lebenszyklus.",
+        "Verbot von Software-Updates nach dem Kaufdatum, um die Geräte stabil zu halten.",
+        "Verstaatlichung aller Software-Hersteller, die Sicherheitslücken aufweisen.",
+        "Abschaffung von Passwörtern."
       ],
       "answer": 0,
-      "explanation": "Plattformen (wie App Stores oder IoT-Clouds) werden wertvoller, je mehr Nutzer und Entwickler dort sind. Daten und Services lassen sich neu kombinieren (Orchestrierung).",
-      "weight": 2,
-      "topic": "Plattformökonomie",
-      "concept": "Netzwerkeffekte",
-      "cognitive_level": "Application",
+      "explanation": "Security über die gesamte Lebensdauer, nicht nur beim Verkauf.",
+      "weight": 3,
+      "topic": "Security",
+      "concept": "CRA",
+      "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Plattform-Dynamik",
+        "title": "CRA Impact",
         "steps": [
-          "Start: Henne-Ei-Problem überwinden.",
-          "Wachstum: Mehr Geräte -> Mehr Daten.",
-          "Attraktivität: Mehr Daten -> Bessere Apps für Nutzer.",
-          "Loop: Bessere Apps -> Mehr Nutzer/Geräte."
+          "Design",
+          "Maintain",
+          "Report"
         ],
-        "content": "Erfolgreiche Plattformen werden zu Ökosystemen."
+        "content": "Kostentreiber für Hersteller."
       },
       "mini_glossary": [
         {
-          "term": "Netzwerkeffekt",
-          "definition": "Wertsteigerung eines Netzwerks durch Wachstumsgröße."
+          "term": "Lifecycle",
+          "definition": "Lebenszyklus."
         }
       ]
     },
     {
       "question_id": "Q016",
-      "question": "16. Warum sind 'Complementors' (Drittanbieter) wichtig für IoT-Plattformen?",
+      "question": "16. Warum ist Post-Quantum-Krypto wichtig?",
       "options": [
-        "Sie entwickeln innovative Anwendungen, die die Plattform für Kunden attraktiver und vielseitiger machen.",
-        "Sie übernehmen die volle rechtliche Verantwortung für alle Fehler der Plattform.",
-        "Sie zahlen hohe Strafgebühren an den Plattformbetreiber, was dessen Gewinn steigert.",
-        "Sie verhindern, dass Konkurrenten ähnliche Produkte auf den Markt bringen."
+        "Weil 'Harvest Now, Decrypt Later' Angriffe drohen.",
+        "Weil Quantencomputer herkömmliche Computer im Jahr 2026 vollständig ersetzen werden.",
+        "Weil klassische Verschlüsselung zu viel Strom verbraucht.",
+        "Weil es gesetzlich vorgeschrieben ist."
       ],
       "answer": 0,
-      "explanation": "Ein einzelner Anbieter kann nicht alle Kundenwünsche erfüllen. Drittanbieter füllen Lücken mit Speziallösungen und treiben so die Innovation des gesamten Ökosystems voran.",
+      "explanation": "Daten, die heute gespeichert werden, könnten später entschlüsselt werden.",
       "weight": 3,
-      "topic": "Plattformökonomie",
-      "concept": "Ökosystem-Innovation",
+      "topic": "Security",
+      "concept": "PQC",
       "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Offene Innovation",
+        "title": "PQC",
         "steps": [
-          "Plattform: Stellt Basis-Dienste (Konnektivität, Storage).",
-          "Complementor: Baut Nischen-App (z.B. spezifische Pumpen-Analyse).",
-          "Kunde: Bekommt Gesamtlösung aus einer Hand.",
-          "Win-Win: Plattform wächst, Complementor verdient Geld."
+          "Bedrohung",
+          "Zeitfaktor",
+          "Lösung"
         ],
-        "content": "Geschlossene Systeme verlieren oft gegen offene Ökosysteme."
+        "content": "Langzeit-Sicherheit."
       },
       "mini_glossary": [
         {
-          "term": "Complementor",
-          "definition": "Partner, der ergänzende Produkte zu einer Plattform beisteuert."
+          "term": "PQC",
+          "definition": "Post-Quantum Cryptography."
         }
       ]
     },
     {
       "question_id": "Q017",
-      "question": "17. Was ist das Risiko eines 'Vendor Lock-in' bei proprietären Plattformen?",
+      "question": "17. Was erzeugt Netzwerkeffekte auf Plattformen?",
       "options": [
-        "Die hohe Abhängigkeit erschwert einen Wechsel zu anderen Anbietern aufgrund technischer oder finanzieller Hürden.",
-        "Die Plattform könnte zu viele offene Standards nutzen, was die Sicherheit gefährdet.",
-        "Der Anbieter könnte gezwungen sein, seine Quellcodes offenzulegen.",
-        "Die Kunden könnten zu schnell zu einem günstigeren Anbieter wechseln."
+        "Die steigende Teilnehmerzahl erhöht den Nutzen.",
+        "Die Erhöhung der monatlichen Gebühren für alle Bestandskunden.",
+        "Die Reduktion der Serverkapazität zur Kosteneinsparung.",
+        "Die Exklusivität durch Begrenzung auf 100 Nutzer."
       ],
       "answer": 0,
-      "explanation": "Wer auf proprietäre APIs setzt, kann seine Daten und Prozesse später kaum migrieren. Der Anbieter kann Preise diktieren, weil der Kunde 'gefangen' ist.",
+      "explanation": "Mehr Nutzer -> Mehr Daten -> Bessere Services -> Mehr Nutzer.",
       "weight": 2,
-      "topic": "Plattformökonomie",
-      "concept": "Vendor Lock-in",
+      "topic": "Plattformen",
+      "concept": "Netzwerkeffekte",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Abhängigkeitsfalle",
+        "title": "Flywheel",
         "steps": [
-          "Einstieg: Bequem, alles aus einer Hand.",
-          "Betrieb: Tiefe Integration in eigene Prozesse.",
-          "Problem: Anbieter erhöht Preise oder stoppt Innovation.",
-          "Exit: Migration extrem teuer (Datenformate inkompatibel)."
+          "User",
+          "Data",
+          "Value"
         ],
-        "content": "Strategie: Auf Standards wie MQTT und OPC UA bestehen."
+        "content": "Skalierungseffekt."
       },
       "mini_glossary": [
         {
-          "term": "Vendor Lock-in",
-          "definition": "Kundenbindung durch hohe Wechselbarrieren."
+          "term": "Netzwerkeffekt",
+          "definition": "Wachstumsmechanik."
         }
       ]
     },
     {
       "question_id": "Q018",
-      "question": "18. Welchen Vorteil bietet Predictive Maintenance gegenüber starrer Wartung?",
+      "question": "18. Was ist Vendor Lock-in?",
       "options": [
-        "Wartung erfolgt zustandsbasiert genau dann, wenn sie nötig ist, was Ausfälle und Kosten minimiert.",
-        "Wartung wird vollständig überflüssig, da Maschinen sich selbst reparieren.",
-        "Wartung erfolgt immer am Wochenende, egal ob die Maschine defekt ist oder nicht.",
-        "Wartung wird durch billigere Ersatzteile ersetzt, die häufiger kaputtgehen dürfen."
+        "Abhängigkeit durch proprietäre Technik.",
+        "Ein Sicherheitsfeature, das den Diebstahl von Hardware verhindert.",
+        "Ein Rabattprogramm für treue Kunden.",
+        "Eine gesetzliche Vorgabe."
       ],
       "answer": 0,
-      "explanation": "Statt Teile auf Verdacht zu tauschen (zu teuer) oder auf den Defekt zu warten (zu riskant), sagt die KI den optimalen Zeitpunkt voraus. Das erhöht die Verfügbarkeit (OEE).",
+      "explanation": "Hohe Wechselkosten binden den Kunden an den Anbieter.",
       "weight": 2,
-      "topic": "Datenanalyse und KI (AIoT)",
-      "concept": "Predictive Maintenance",
+      "topic": "Plattformen",
+      "concept": "Lock-in",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Wartungsoptimierung",
+        "title": "Lock-in",
         "steps": [
-          "Daten: Vibration, Temperatur, Strom.",
-          "Modell: Lernt Verschleißkurve.",
-          "Prognose: 'Restlebensdauer < 2 Wochen'.",
-          "Aktion: Wartung im nächsten geplanten Stillstand."
+          "Proprietär",
+          "Integration",
+          "Kosten"
         ],
-        "content": "Maximaler Nutzen bei kritischen Anlagen (z. B. Turbinen)."
+        "content": "Vermeidung durch Standards."
       },
       "mini_glossary": [
         {
-          "term": "Predictive Maintenance",
-          "definition": "Vorausschauende Wartung auf Basis von Datenanalysen."
+          "term": "Lock-in",
+          "definition": "Anbieterbindung."
         }
       ]
     },
     {
       "question_id": "Q019",
-      "question": "19. Warum wird 'Federated Learning' im Smart Home zunehmend eingesetzt?",
+      "question": "19. Warum sind Complementors wichtig?",
       "options": [
-        "Um den Datenschutz zu wahren, indem KI-Modelle lokal trainiert werden, ohne Rohdaten zu teilen.",
-        "Um die Internetgeschwindigkeit durch ständigen Datenupload zu erhöhen.",
-        "Um die Rechenleistung der Cloud durch Nutzung von Heimgeräten zu steigern.",
-        "Um die Stromrechnung der Nutzer durch intensive Berechnungen zu senken."
+        "Sie erhöhen die Innovationskraft des Ökosystems.",
+        "Sie zahlen die Gehälter der Plattform-Mitarbeiter.",
+        "Sie verhindern, dass die Plattform zu schnell wächst.",
+        "Sie sind gesetzlich vorgeschrieben."
       ],
       "answer": 0,
-      "explanation": "Sensible Daten (Sprache, Video) bleiben im Haus. Nur mathematische Updates (Gradienten) für das KI-Modell werden geteilt. Das schützt die Privatsphäre.",
-      "weight": 2,
-      "topic": "Datenanalyse und KI (AIoT)",
-      "concept": "Federated Learning",
-      "cognitive_level": "Application",
+      "explanation": "Drittanbieter füllen Nischen, die die Plattform selbst nicht abdeckt.",
+      "weight": 3,
+      "topic": "Plattformen",
+      "concept": "Ecosystem",
+      "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Dezentrales Lernen",
+        "title": "Ökosystem",
         "steps": [
-          "Lokal: Smart Speaker lernt neue Wörter.",
-          "Update: Sendet nur 'Wissens-Update' an Server.",
-          "Global: Server verbessert das Modell für alle.",
-          "Privat: Niemand hört das Original-Audio."
+          "Core",
+          "Periphery",
+          "Value"
         ],
-        "content": "Adressiert das Misstrauen der Verbraucher gegenüber 'Wanzen' im Haus."
+        "content": "Innovation von außen."
       },
       "mini_glossary": [
         {
-          "term": "Federated Learning",
-          "definition": "Maschinelles Lernen ohne Zentralisierung der Trainingsdaten."
+          "term": "Complementor",
+          "definition": "Partner."
         }
       ]
     },
     {
       "question_id": "Q020",
-      "question": "20. Ein Anomaly-Detection-System schlägt Alarm, obwohl alle Einzelwerte normal scheinen. Was ist der Grund?",
+      "question": "20. Was ist Orchestrierung?",
       "options": [
-        "Es erkennt komplexe, untypische Korrelationen zwischen mehreren Werten, die auf einen Fehler hindeuten.",
-        "Es ist defekt und generiert Zufallswerte, um die Aufmerksamkeit der Bediener zu testen.",
-        "Es hat die Verbindung zum Sensor verloren und interpretiert Stille als Alarm.",
-        "Es wurde von einem Hacker manipuliert, um die Produktion zu sabotieren."
+        "Koordination von Diensten und Daten.",
+        "Das Abspielen von Musik in der Fabrikhalle.",
+        "Die manuelle Verkabelung von Servern.",
+        "Die Planung von Betriebsfeiern."
       ],
       "answer": 0,
-      "explanation": "Oft ist nicht der Einzelwert (z. B. 50°C) das Problem, sondern der Kontext (50°C bei Stillstand ist zu heiß). Multivariate KI-Modelle erkennen solche Musterabweichungen.",
-      "weight": 3,
-      "topic": "Datenanalyse und KI (AIoT)",
-      "concept": "Multivariate Anomalie",
-      "cognitive_level": "Analysis",
+      "explanation": "Zusammenspiel verschiedener Komponenten managen.",
+      "weight": 2,
+      "topic": "Plattformen",
+      "concept": "Orchestration",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Mustererkennung im Kontext",
+        "title": "Workflow",
         "steps": [
-          "Lernen: KI lernt Normalzustand (Korrelationen).",
-          "Monitor: Prüft laufende Daten gegen Modell.",
-          "Abweichung: Kombination passt nicht (Druck hoch, aber Strom niedrig).",
-          "Alarm: Hinweis auf Leckage oder Blockade."
+          "Trigger",
+          "Process",
+          "Action"
         ],
-        "content": "Erkennt Probleme, die einfache Schwellwert-Regeln übersehen."
+        "content": "Automatisierung."
       },
       "mini_glossary": [
         {
-          "term": "Anomaly Detection",
-          "definition": "Identifikation von ungewöhnlichen Mustern in Daten."
+          "term": "Orchestrierung",
+          "definition": "Koordination."
         }
       ]
     },
     {
       "question_id": "Q021",
-      "question": "21. Was ist ein 'Digitaler Zwilling' (Digital Twin)?",
+      "question": "21. Was ist Federated Learning?",
       "options": [
-        "Ein virtuelles Echtzeit-Modell eines physischen Objekts.",
-        "Ein physischer Prototyp aus dem 3D-Drucker.",
-        "Ein Backup der Festplatte einer Produktionsmaschine.",
-        "Ein zweiter Mitarbeiter, der die Maschine überwacht."
+        "Lokales Training zum Schutz der Privatsphäre.",
+        "Ein Fernstudium über das Internet.",
+        "Das Speichern aller Daten auf einem Server.",
+        "Eine Methode zur Kompression von Bildern."
       ],
       "answer": 0,
-      "explanation": "Der Zwilling lebt im Rechner und verhält sich wie das Original, gefüttert durch Live-Daten. Er dient zur Simulation und Analyse.",
-      "weight": 1,
-      "topic": "Industrielles IoT (IIoT)",
-      "concept": "Digitaler Zwilling",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
+      "explanation": "Daten verlassen das Gerät nicht, nur Updates.",
+      "weight": 2,
+      "topic": "AIoT",
+      "concept": "Federated Learning",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Privacy AI",
+        "steps": [
+          "Train Local",
+          "Share Update",
+          "Aggregate"
+        ],
+        "content": "Datenschutz."
+      },
       "mini_glossary": [
         {
-          "term": "Digitaler Zwilling",
-          "definition": "Digitales Abbild eines physischen Assets."
+          "term": "Federated",
+          "definition": "Föderiert."
         }
       ]
     },
     {
       "question_id": "Q022",
-      "question": "22. Welche Rolle spielt OPC UA in der Industrie 4.0?",
+      "question": "22. Was macht Predictive Maintenance?",
       "options": [
-        "Es dient als Standard für die sichere Kommunikation zwischen Maschinen und IT-Systemen.",
-        "Es ist eine Programmiersprache zur Steuerung von Industrierobotern.",
-        "Es ist ein Cloud-Dienst von Microsoft zur Speicherung von Excel-Tabellen.",
-        "Es ist ein Hardware-Stecker für Ethernet-Kabel in Fabriken."
+        "Wartung basierend auf Zustandsprognosen.",
+        "Wartung nach festem Kalenderplan.",
+        "Reparatur nach dem Ausfall.",
+        "Ignorieren von Fehlern."
       ],
       "answer": 0,
-      "explanation": "OPC UA ist die 'Weltsprache' der Produktion. Es ermöglicht Interoperabilität vom Sensor bis zum ERP-System, unabhängig vom Hersteller, und bringt Security mit.",
+      "explanation": "Vorhersage des Ausfalls minimiert Downtime.",
       "weight": 2,
-      "topic": "Industrielles IoT (IIoT)",
-      "concept": "OPC UA Rolle",
+      "topic": "AIoT",
+      "concept": "Predictive Maint",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Vertikale Integration",
+        "title": "Wartung",
         "steps": [
-          "Ebene 1: Maschine liefert Daten via OPC UA Server.",
-          "Ebene 2: IT-System (Client) abonniert Daten.",
-          "Modell: Daten sind semantisch beschrieben (nicht nur Bytes).",
-          "Security: Verschlüsselt und signiert."
+          "Monitor",
+          "Predict",
+          "Act"
         ],
-        "content": "Essemziell für Plug-and-Produce."
+        "content": "Effizienz."
       },
       "mini_glossary": [
         {
-          "term": "OPC UA",
-          "definition": "Kommunikationsstandard für industrielle Automation."
+          "term": "Predictive",
+          "definition": "Vorausschauend."
         }
       ]
     },
     {
       "question_id": "Q023",
-      "question": "23. Wie können alte Maschinen kostengünstig digitalisiert werden?",
+      "question": "23. Was ist Stream Processing?",
       "options": [
-        "Durch Retrofitting mit externen Sensoren und IoT-Gateways.",
-        "Durch den kompletten Austausch gegen neue Smart-Machines.",
-        "Durch manuelle Erfassung der Daten in einem Papier-Logbuch.",
-        "Durch Installation von Webcams, die auf die Anzeigen filmen."
+        "Echtzeitanalyse fließender Daten.",
+        "Das Anschauen von Filmen auf Netflix.",
+        "Das Speichern von Daten auf Bändern.",
+        "Das Drucken von Logs."
       ],
       "answer": 0,
-      "explanation": "Retrofit ist minimalinvasiv: Sensoren werden aufgeklebt, Daten per Gateway gesendet. Die alte Steuerung bleibt unberührt, aber die Daten sind digital verfügbar.",
+      "explanation": "Verarbeitung im Moment des Entstehens.",
       "weight": 2,
-      "topic": "Industrielles IoT (IIoT)",
-      "concept": "Retrofitting",
+      "topic": "AIoT",
+      "concept": "Stream Processing",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Brownfield-Digitalisierung",
+        "title": "Real-Time",
         "steps": [
-          "Ziel: Transparenz ohne Neukauf.",
-          "Technik: Vibrationssensor + Stromwandler.",
-          "Connectivity: Gateway sendet per Mobilfunk/WLAN.",
-          "Nutzen: OEE-Monitoring für 30 Jahre alte Presse."
+          "Ingest",
+          "Process",
+          "Store"
         ],
-        "content": "Wirtschaftlich oft sinnvoller als Neubau."
+        "content": "Geschwindigkeit."
       },
       "mini_glossary": [
         {
-          "term": "Retrofit",
-          "definition": "Modernisierung von Bestandsanlagen."
+          "term": "Stream",
+          "definition": "Datenstrom."
         }
       ]
     },
     {
       "question_id": "Q024",
-      "question": "24. Was bedeutet 'Servitization' für einen Maschinenbauer?",
+      "question": "24. Wie erkennt man Anomalien?",
       "options": [
-        "Der Wandel vom Produktverkauf zum Angebot von Dienstleistungen (z. B. Pay-per-Use).",
-        "Die Auslagerung des Kundendienstes an externe Callcenter im Ausland.",
-        "Die Konzentration auf den Verkauf von Ersatzteilen als Hauptumsatzquelle.",
-        "Die Abschaffung von Serviceverträgen zugunsten von Einmalzahlungen."
+        "Durch Abweichung vom gelernten Normalmuster.",
+        "Durch Würfeln.",
+        "Durch manuelles Zählen.",
+        "Durch Ignorieren der Daten."
       ],
       "answer": 0,
-      "explanation": "Statt 'Eisen' zu verkaufen, verkauft man 'Löcher' (Bohrmaschine). IoT ermöglicht die Abrechnung nach Nutzung und garantiert die Verfügbarkeit.",
-      "weight": 1,
-      "topic": "Geschäftsmodelle",
-      "concept": "Servitization",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
+      "explanation": "KI lernt Normalzustand und meldet Delta.",
+      "weight": 3,
+      "topic": "AIoT",
+      "concept": "Anomaly Detection",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Anomalie",
+        "steps": [
+          "Learn",
+          "Detect",
+          "Alert"
+        ],
+        "content": "Qualität."
+      },
       "mini_glossary": [
         {
-          "term": "Servitization",
-          "definition": "Wandel zum Dienstleistungsunternehmen."
+          "term": "Anomalie",
+          "definition": "Abweichung."
         }
       ]
     },
     {
       "question_id": "Q025",
-      "question": "25. Amazon Ring verkauft Kameras günstig und verdient an Abos. Welches Modell ist das?",
+      "question": "25. Was ist ein Digitaler Zwilling?",
       "options": [
-        "Das Razor-and-Blade-Modell (Basisprodukt günstig, Nutzung teuer).",
-        "Das Freemium-Modell (Basis kostenlos, Premium kostet).",
-        "Das Direct-to-Consumer-Modell (Verkauf ohne Zwischenhändler).",
-        "Das Lizenz-Modell (Verkauf von Patentrechten an Dritte)."
+        "Virtuelles Abbild eines physischen Assets.",
+        "Ein Backup der E-Mails.",
+        "Ein zweiter Monitor.",
+        "Ein 3D-Druck."
       ],
       "answer": 0,
-      "explanation": "Klassische Strategie: Die Hürde (Hardwarepreis) wird gesenkt, um den Kunden in das Ökosystem zu holen. Der Gewinn kommt über die Jahre durch die monatliche Cloud-Gebühr.",
-      "weight": 2,
-      "topic": "Geschäftsmodelle",
-      "concept": "Razor and Blade",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Lock-in Strategie",
-        "steps": [
-          "Schritt 1: Hardware subventionieren.",
-          "Schritt 2: Kunde installiert System.",
-          "Schritt 3: Features (Aufzeichnung) hinter Paywall.",
-          "Schritt 4: Kunde zahlt Abo, weil Wechsel zu teuer."
-        ],
-        "content": "Sichert wiederkehrende Umsätze (Recurring Revenue)."
-      },
+      "explanation": "Digitales Modell, das Echtzeitdaten nutzt.",
+      "weight": 1,
+      "topic": "IIoT",
+      "concept": "Digital Twin",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
       "mini_glossary": [
         {
-          "term": "Razor-and-Blade",
-          "definition": "Geschäftsmodell nach dem Prinzip Rasierer (günstig) und Klingen (teuer)."
+          "term": "Twin",
+          "definition": "Zwilling."
         }
       ]
     },
     {
       "question_id": "Q026",
-      "question": "26. John Deere verkauft Agrardaten an Dritte. Welches Konzept ist das?",
+      "question": "26. Wozu dient OPC UA?",
       "options": [
-        "Datenmonetarisierung durch Lizenzierung von Erkenntnissen.",
-        "Datenspende für gemeinnützige Zwecke.",
-        "Datenminimierung zur Einhaltung der DSGVO.",
-        "Datensicherheit durch Backup in der Cloud."
+        "Standardisierte M2M-Kommunikation.",
+        "Videotelefonie.",
+        "Textverarbeitung.",
+        "Webdesign."
       ],
       "answer": 0,
-      "explanation": "Daten sind das neue Öl. Wer sie hat (der Traktorhersteller), kann sie veredeln (Wetterkarten, Bodenanalysen) und als neues Produkt an Dritte verkaufen.",
+      "explanation": "Interoperabilität in der Fabrik.",
       "weight": 2,
-      "topic": "Geschäftsmodelle",
-      "concept": "Datenmonetarisierung",
+      "topic": "IIoT",
+      "concept": "OPC UA",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Wert der Daten",
+        "title": "Standard",
         "steps": [
-          "Asset: Millionen Sensordaten vom Feld.",
-          "Produkt: Präzise Ernteprognose.",
-          "Kunde: Warenterminbörse oder Versicherung.",
-          "Umsatz: Lizenzgebühr für den Datenzugriff."
+          "Connect",
+          "Secure",
+          "Communicate"
         ],
-        "content": "Erfordert aber Zustimmung der Landwirte."
+        "content": "Plattformunabhängig."
       },
       "mini_glossary": [
         {
-          "term": "Datenmonetarisierung",
-          "definition": "Geldverdienen mit Datenprodukten."
+          "term": "OPC UA",
+          "definition": "Protokoll."
         }
       ]
     },
     {
       "question_id": "Q027",
-      "question": "27. Warum ist 'Kommodifizierung' ein Risiko für reine Hardwarehersteller?",
+      "question": "27. Was ist Retrofitting?",
       "options": [
-        "Weil Hardware austauschbar wird und Margen sinken, da der Wert in die Software wandert.",
-        "Weil Hardware immer komplexer wird und Kunden sie nicht mehr bedienen können.",
-        "Weil Rohstoffpreise so stark schwanken, dass keine Kalkulation möglich ist.",
-        "Weil Softwarepatente die Produktion von Hardware unmöglich machen."
+        "Nachrüstung alter Anlagen mit IoT.",
+        "Kauf neuer Maschinen.",
+        "Abriss der Fabrik.",
+        "Einstellung neuer Mitarbeiter."
       ],
       "answer": 0,
-      "explanation": "Wenn 'jedes Gerät' vernetzt ist, zählt nicht mehr das Gerät, sondern der Service darauf. Wer nur 'Blech' liefert, steht im Preiskampf gegen Billiganbieter.",
-      "weight": 3,
-      "topic": "Geschäftsmodelle",
-      "concept": "Kommodifizierung",
-      "cognitive_level": "Analysis",
+      "explanation": "Sensoren an alte Maschinen bauen (Brownfield).",
+      "weight": 2,
+      "topic": "IIoT",
+      "concept": "Retrofit",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Wertverschiebung",
+        "title": "Update",
         "steps": [
-          "Früher: Gute Mechanik = Hoher Preis.",
-          "Heute: Mechanik ist Standard (Commodity).",
-          "Zukunft: Intelligente Steuerung = Hoher Preis.",
-          "Strategie: Hardware mit digitalen Services aufladen."
+          "Sensor",
+          "Gateway",
+          "Cloud"
         ],
-        "content": "Verhindert den Abstieg zum austauschbaren Zulieferer."
+        "content": "Kosteneffizient."
       },
       "mini_glossary": [
         {
-          "term": "Kommodifizierung",
-          "definition": "Verlust von Alleinstellungsmerkmalen, Produkt wird Massenware."
+          "term": "Retrofit",
+          "definition": "Nachrüstung."
         }
       ]
     },
     {
       "question_id": "Q028",
-      "question": "28. Wie ändert die neue Produkthaftungsrichtlinie die Verantwortung für Software?",
+      "question": "28. Was regelt RAMI 4.0?",
       "options": [
-        "Software gilt als Teil des Produkts; Hersteller haften auch für Schäden durch Sicherheitslücken.",
-        "Software wird als Dienstleistung gesehen und ist von der Haftung komplett ausgenommen.",
-        "Software-Entwickler haften persönlich mit ihrem Privatvermögen für jeden Bug.",
-        "Software muss vor dem Verkauf von einer staatlichen Behörde geprüft werden."
+        "Architekturmodell für Industrie 4.0.",
+        "Arbeitszeiten.",
+        "Materialpreise.",
+        "Urlaubsanspruch."
       ],
       "answer": 0,
-      "explanation": "Der Gesetzgeber schließt das Schlupfloch. Ein unsicheres Update, das Schaden verursacht, wird behandelt wie eine gebrochene Achse. Haftung folgt der Funktion, nicht der Physik.",
-      "weight": 3,
-      "topic": "Rechtliche Aspekte",
-      "concept": "Produkthaftung",
-      "cognitive_level": "Analysis",
+      "explanation": "Referenzarchitekturmodell Industrie 4.0.",
+      "weight": 2,
+      "topic": "IIoT",
+      "concept": "RAMI",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Haftung für Code",
+        "title": "Struktur",
         "steps": [
-          "Prinzip: Wer Profit macht, trägt Risiko.",
-          "Neuerung: Cyber-Risiko ist Produktfehler.",
-          "Folge: Beweislastumkehr zugunsten des Geschädigten.",
-          "Impact: QM muss Cybersecurity abdecken."
+          "Layer",
+          "Life Cycle",
+          "Hierarchy"
         ],
-        "content": "Erhöht den Druck zu Secure Software Development."
+        "content": "Ordnung."
       },
       "mini_glossary": [
         {
-          "term": "Produkthaftung",
-          "definition": "Haftung für Schäden durch fehlerhafte Produkte."
+          "term": "RAMI",
+          "definition": "Modell."
         }
       ]
     },
     {
       "question_id": "Q029",
-      "question": "29. Welcher ethische Konflikt stoppte das Smart-City-Projekt in Amsterdam?",
+      "question": "29. Was ist Servitization?",
       "options": [
-        "Der Konflikt zwischen öffentlicher Sicherheit und dem Recht auf Privatsphäre.",
-        "Der Konflikt zwischen Autofahrern und Fahrradfahrern im Stadtzentrum.",
-        "Der Konflikt zwischen Denkmalschutz und moderner Architektur.",
-        "Der Konflikt zwischen verschiedenen Mobilfunkanbietern um Antennenstandorte."
+        "Wandel vom Produkt zum Service.",
+        "Verbesserung des Kantinenessens.",
+        "Reinigung der Büros.",
+        "Verkauf von Hardware."
       ],
       "answer": 0,
-      "explanation": "Bürger wehrten sich gegen die 'Verdatung' ihres Verhaltens. Das Sicherheitsversprechen wog den gefühlten Freiheitsverlust durch Überwachung nicht auf.",
-      "weight": 3,
-      "topic": "Gesellschaftliche Implikationen",
-      "concept": "Ethischer Zielkonflikt",
-      "cognitive_level": "Analysis",
+      "explanation": "Product-as-a-Service Geschäftsmodelle.",
+      "weight": 2,
+      "topic": "Strategie",
+      "concept": "Servitization",
+      "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Akzeptanzgrenzen",
+        "title": "Wandel",
         "steps": [
-          "Intention: Effizienz und Sicherheit.",
-          "Wahrnehmung: Überwachung und Kontrolle.",
-          "Reaktion: Protest und Stopp.",
-          "Learning: Bürger früh einbinden, Transparenz schaffen."
+          "Product",
+          "Service",
+          "Outcome"
         ],
-        "content": "Technikakzeptanz ist kein Selbstläufer."
+        "content": "Recurring Revenue."
       },
       "mini_glossary": [
         {
-          "term": "Privatsphäre",
-          "definition": "Schutz vor staatlicher oder privater Ausforschung."
+          "term": "Servitization",
+          "definition": "Dienstleistung."
         }
       ]
     },
     {
       "question_id": "Q030",
-      "question": "30. Was bedeutet 'Green IoT' in der Praxis?",
+      "question": "30. Was ist Datenmonetarisierung?",
       "options": [
-        "Nachhaltige Hardware (Recycling) und Ressourceneinsparung durch IoT-Anwendungen.",
-        "Die ausschließliche Nutzung von grünem Strom für alle Rechenzentren weltweit.",
-        "Das Verbot von Plastikgehäusen für alle elektronischen Kleingeräte.",
-        "Die automatische Abschaltung des Internets in der Nacht zum Stromsparen."
+        "Verkauf von Datenprodukten.",
+        "Bezahlen mit Daten.",
+        "Löschen von Daten.",
+        "Verschlüsseln von Daten."
       ],
       "answer": 0,
-      "explanation": "Es geht um den doppelten Hebel: Die Geräte selbst müssen sauberer werden (weniger Müll), aber vor allem helfen sie, große Systeme (Städte, Fabriken) effizienter zu machen.",
+      "explanation": "Umsatz durch Daten (z.B. Wetterdaten verkaufen).",
       "weight": 2,
-      "topic": "Gesellschaftliche Implikationen",
-      "concept": "Green IoT",
+      "topic": "Strategie",
+      "concept": "Monetarisierung",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Nachhaltigkeits-Hebel",
+        "title": "Wert",
         "steps": [
-          "Footprint: Energieverbrauch der Sensoren minimieren.",
-          "Handprint: Energieeinsparung durch intelligente Steuerung maximieren.",
-          "Ziel: Positive Gesamtbilanz.",
-          "Beispiel: Smart Heating spart mehr CO2 als der Thermostat bei Herstellung kostet."
+          "Collect",
+          "Refine",
+          "Sell"
         ],
-        "content": "Schlüsseltechnologie für den Klimaschutz."
+        "content": "Neuer Revenue Stream."
       },
       "mini_glossary": [
         {
-          "term": "Green IoT",
-          "definition": "Ökologisch nachhaltiges Internet der Dinge."
+          "term": "Monetarisierung",
+          "definition": "Zu Geld machen."
         }
       ]
     },
     {
       "question_id": "Q031",
-      "question": "31. Wie hilft IoT gegen den 'Digital Divide' in ländlichen Regionen?",
+      "question": "31. Was ist Kommodifizierung?",
       "options": [
-        "Durch Nutzung von Satelliten-IoT und LPWAN für Konnektivität ohne teuren Breitbandausbau.",
-        "Durch kostenlose Verteilung von Smartphones an alle Landwirte.",
-        "Durch Verpflichtung der Telekom, Glasfaser zu jedem Baum zu legen.",
-        "Durch Entwicklung von Offline-Apps, die kein Internet benötigen."
+        "Austauschbarkeit von Hardware.",
+        "Veredelung von Rohstoffen.",
+        "Bau von Kommoden.",
+        "Programmierstil."
       ],
       "answer": 0,
-      "explanation": "Wo kein 5G ist, helfen Technologien wie Starlink oder LoRaWAN. Sie bringen 'Low-Cost'-Konnektivität auf den Acker und ermöglichen digitale Teilhabe (Smart Farming) auch abseits der Städte.",
-      "weight": 2,
-      "topic": "Gesellschaftliche Implikationen",
-      "concept": "Digital Divide",
-      "cognitive_level": "Application",
+      "explanation": "Hardware wird Massenware, Wert wandert in Software.",
+      "weight": 3,
+      "topic": "Strategie",
+      "concept": "Commodity",
+      "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Brückentechnologie",
+        "title": "Risiko",
         "steps": [
-          "Problem: Weiße Flecken auf der Landkarte.",
-          "Lösung: Infrastrukturarme Funktechnologien.",
-          "Anwendung: Bodenfeuchtemessung, Tierortung.",
-          "Effekt: Wettbewerbsfähigkeit des ländlichen Raums sichern."
+          "Standard",
+          "Preisdruck",
+          "Verlust"
         ],
-        "content": "Verhindert die digitale Spaltung zwischen Stadt und Land."
+        "content": "Differenzierung nötig."
       },
       "mini_glossary": [
         {
-          "term": "Digital Divide",
-          "definition": "Ungleicher Zugang zu digitalen Technologien."
+          "term": "Commodity",
+          "definition": "Massenware."
         }
       ]
     },
     {
       "question_id": "Q032",
-      "question": "32. Welche Funktion hat Blockchain im IoT-Identity-Management?",
+      "question": "32. Was ist Razor-and-Blade?",
       "options": [
-        "Dezentrale, fälschungssichere Speicherung von Geräteidentitäten ohne zentrale Authority.",
-        "Verschlüsselung von Nutzdaten zur Reduktion der Bandbreite.",
-        "Beschleunigung der Datenbankzugriffe durch Verteilung auf viele Knoten.",
-        "Generierung von Kryptowährungen zur Finanzierung des Stromverbrauchs."
+        "Günstige Hardware, teurer Service.",
+        "Verkauf von Rasierern.",
+        "Teure Hardware, kostenloser Service.",
+        "Tauschhandel."
       ],
       "answer": 0,
-      "explanation": "Blockchain bietet ein unveränderbares Register ('Ledger'). Geräte können sich dort registrieren. Andere Maschinen können die Echtheit prüfen, ohne einem zentralen Server vertrauen zu müssen.",
+      "explanation": "Lock-in Modell (z.B. Drucker + Tinte).",
       "weight": 2,
-      "topic": "Sicherheit und Datenschutz",
-      "concept": "Blockchain Identity",
+      "topic": "Strategie",
+      "concept": "Business Model",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Self-Sovereign Identity",
+        "title": "Modell",
         "steps": [
-          "Gerät erzeugt Schlüsselpaar.",
-          "Public Key kommt in die Blockchain.",
-          "Gerät signiert Nachrichten.",
-          "Empfänger prüft Signatur gegen Blockchain.",
-          "Vorteil: Kein Single Point of Failure."
+          "Invest",
+          "Hook",
+          "Earn"
         ],
-        "content": "Erhöht Resilienz in verteilten Systemen."
+        "content": "Kundenbindung."
       },
       "mini_glossary": [
         {
-          "term": "Blockchain",
-          "definition": "Verteilte, kryptografisch verkettete Datenbank."
+          "term": "Razor",
+          "definition": "Rasierer."
         }
       ]
     },
     {
       "question_id": "Q033",
-      "question": "33. Warum ist 'Stream Processing' bei 90 Zettabyte Datenvolumen wichtig?",
+      "question": "33. Wer haftet nach neuer Richtlinie für Softwarefehler?",
       "options": [
-        "Weil es Daten in Echtzeit analysiert und filtert, bevor sie gespeichert werden müssen.",
-        "Weil Festplatten heute teurer sind als Prozessoren und Speicherplatz fehlt.",
-        "Weil alte Datenbanken mit der Menge an Nullen und Einsen nicht klarkommen.",
-        "Weil Streaming-Dienste wie Netflix diese Technologie vorgeschrieben haben."
+        "Der Hersteller.",
+        "Der Programmierer.",
+        "Der Kunde.",
+        "Niemand."
       ],
       "answer": 0,
-      "explanation": "Man kann nicht alles speichern ('Store then Process'). Stream Processing ('Process then Store') analysiert den Datenstrom im Flug, extrahiert den Wert und verwirft den Rest. Das spart Storage und ermöglicht Sofort-Reaktion.",
-      "weight": 2,
-      "topic": "Datenanalyse und KI (AIoT)",
-      "concept": "Stream Processing",
-      "cognitive_level": "Application",
+      "explanation": "Software ist Produkt -> Produkthaftung.",
+      "weight": 3,
+      "topic": "Recht",
+      "concept": "Haftung",
+      "cognitive_level": "Analysis",
       "extended_explanation": {
-        "title": "Umgang mit Datenflut",
+        "title": "Recht",
         "steps": [
-          "Input: Millionen Events pro Sekunde.",
-          "Engine: Filtert, aggregiert, alarmiert (in-memory).",
-          "Output: Nur relevante Events landen in der DB.",
-          "Tools: Apache Kafka, Spark Streaming."
+          "Fehler",
+          "Schaden",
+          "Haftung"
         ],
-        "content": "Einzige Chance, Big Data in Fast Data zu verwandeln."
+        "content": "Update-Pflicht."
       },
       "mini_glossary": [
         {
-          "term": "Stream Processing",
-          "definition": "Verarbeitung von Datenströmen in Echtzeit."
+          "term": "Haftung",
+          "definition": "Verantwortung."
         }
       ]
     },
     {
       "question_id": "Q034",
-      "question": "34. Wie unterscheidet sich 'Fog Computing' von 'Edge Computing'?",
+      "question": "34. Was verlangt die DSGVO?",
       "options": [
-        "Fog ist die Infrastruktur-Schicht (LAN) zwischen Gerät und Cloud; Edge ist direkt am Gerät.",
-        "Fog ist ein Marketingbegriff von Cisco und bedeutet exakt dasselbe wie Cloud.",
-        "Fog Computing findet nur draußen statt, Edge Computing nur drinnen.",
-        "Fog Computing nutzt analoge Signale, Edge Computing nutzt digitale Signale."
+        "Privacy by Design.",
+        "Verbot von Daten.",
+        "Veröffentlichung aller Daten.",
+        "Nutzung von US-Servern."
       ],
       "answer": 0,
-      "explanation": "Edge ist ganz außen (Sensor). Fog ('Nebel') hängt tiefer, aber noch lokal (Router, Gateway). Der Nebel ist näher am Boden als die Wolke (Cloud). Es ist eine hierarchische Abstufung.",
+      "explanation": "Datenschutz durch Technikgestaltung.",
       "weight": 2,
-      "topic": "Edge Computing",
-      "concept": "Fog vs Edge",
+      "topic": "Recht",
+      "concept": "DSGVO",
       "cognitive_level": "Application",
       "extended_explanation": {
-        "title": "Verarbeitungsebenen",
+        "title": "Compliance",
         "steps": [
-          "Device (Edge): Millisekunden-Reaktion.",
-          "Fog (Node): Aggregation, lokale Analyse (Sekunden).",
-          "Cloud: Globales Training, Langzeitspeicher (Minuten/Stunden)."
+          "Minimierung",
+          "Schutz",
+          "Rechte"
         ],
-        "content": "Fog verbindet die Vorteile von lokaler Nähe und etwas mehr Rechenpower."
+        "content": "Bußgelder."
       },
       "mini_glossary": [
         {
-          "term": "Fog Computing",
-          "definition": "Dezentrale Computing-Schicht im lokalen Netzwerk."
+          "term": "DSGVO",
+          "definition": "Datenschutzgesetz."
         }
       ]
     },
     {
       "question_id": "Q035",
-      "question": "35. Was ist das Ziel von RAMI 4.0?",
+      "question": "35. Was regelt der AI Act?",
       "options": [
-        "Ein gemeinsames Koordinatensystem für Industrie-4.0-Standards zu schaffen.",
-        "Eine neue Programmiersprache für alle Maschinen weltweit einzuführen.",
-        "Die Produktion von RAM-Speicherbausteinen in Europa zu fördern.",
-        "Ein Gesetz zur Regulierung von Arbeitszeiten in der Industrie zu verabschieden."
+        "Risikoklassifizierung von KI.",
+        "Verbot von Robotern.",
+        "Förderung von KI.",
+        "Steuer auf KI."
       ],
       "answer": 0,
-      "explanation": "RAMI sortiert das Chaos. Es hilft Ingenieuren, Standards (wie OPC UA) und Assets (wie Motoren) in einem dreidimensionalen Modell (Hierarchie, Lifecycle, Layer) korrekt einzuordnen.",
+      "explanation": "Regulierung von KI nach Risiko.",
       "weight": 2,
-      "topic": "Industrielles IoT (IIoT)",
-      "concept": "RAMI 4.0",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Ordnungsrahmen",
-        "steps": [
-          "Achse 1: Hierarchy Levels (IEC 62264).",
-          "Achse 2: Life Cycle & Value Stream (IEC 62890).",
-          "Achse 3: Layers (Geschäft bis Asset).",
-          "Nutzen: Interoperabilität durch klare Verortung."
-        ],
-        "content": "Basis für die Normungsarbeit der Plattform Industrie 4.0."
+      "topic": "Recht",
+        "concept": "AI Act",
+        "cognitive_level": "Application",
+        "extended_explanation": {
+          "title": "KI Recht",
+          "steps": ["Risiko", "Pflicht", "Verbot"],
+          "content": "EU-Gesetz."
+        },
+        "mini_glossary": [{"term": "AI Act", "definition": "KI-Gesetz."}]
       },
-      "mini_glossary": [
-        {
-          "term": "RAMI 4.0",
-          "definition": "Referenzarchitekturmodell Industrie 4.0."
-        }
-      ]
-    },
-    {
-      "question_id": "Q036",
-      "question": "36. Warum ist Interoperabilität (z. B. Matter) für den Smart-Home-Markt entscheidend?",
-      "options": [
-        "Weil Kunden frustriert sind, wenn Geräte verschiedener Marken nicht zusammenarbeiten.",
-        "Weil es gesetzlich verboten ist, inkompatible Geräte zu verkaufen.",
-        "Weil interoperable Geräte grundsätzlich weniger Strom verbrauchen.",
-        "Weil Hersteller so Lizenzgebühren an die EU zahlen müssen."
-      ],
-      "answer": 0,
-      "explanation": "Marktfragmentierung bremst Adoption. Wenn die Lampe nicht zum Schalter passt, kauft der Kunde nichts. Matter schafft Vertrauen: 'Es funktioniert einfach'.",
-      "weight": 2,
-      "topic": "Kommunikationsprotokolle",
-      "concept": "Marktakzeptanz",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Überwindung von Hürden",
-        "steps": [
-          "Problem: Walled Gardens (Silos).",
-          "Lösung: Gemeinsamer Standard.",
-          "Effekt: Größerer Gesamtmarkt für alle.",
-          "Vergleich: Wie USB für Peripheriegeräte."
+      {
+        "question_id": "Q036",
+        "question": "36. Was ist Compliance?",
+        "options": [
+          "Einhaltung von Regeln.",
+          "Komplizierte Technik.",
+          "Beschwerdemanagement.",
+          "Vertragsbruch."
         ],
-        "content": "Kooperation auf Standardebene, Wettbewerb auf Produktebene."
+        "answer": 0,
+        "explanation": "Regeleinhaltung (Gesetze, Normen).",
+        "weight": 2,
+        "topic": "Recht",
+        "concept": "Compliance",
+        "cognitive_level": "Application",
+        "extended_explanation": {
+          "title": "Regeln",
+          "steps": ["Check", "Act", "Audit"],
+          "content": "Rechtssicherheit."
+        },
+        "mini_glossary": [{"term": "Compliance", "definition": "Regeleinhaltung."}]
       },
-      "mini_glossary": [
-        {
-          "term": "Interoperabilität",
-          "definition": "Zusammenarbeit unterschiedlicher Systeme."
-        }
-      ]
-    },
-    {
-      "question_id": "Q037",
-      "question": "37. Warum ist 'Data Governance' in IoT-Ökosystemen ein Konfliktthema?",
-      "options": [
-        "Weil unklar ist, wem die Maschinendaten gehören und wer sie nutzen darf.",
-        "Weil Daten physikalisch schwer zu transportieren sind.",
-        "Weil Hacker immer bessere Governance-Regeln schreiben als Firmen.",
-        "Weil Governance-Regeln die Internetgeschwindigkeit verlangsamen."
-      ],
-      "answer": 0,
-      "explanation": "Der Maschinenbauer will Daten zur Optimierung, der Kunde will keine Betriebsgeheimnisse preisgeben. Ohne klare Regeln (Verträge, technische Schranken) scheitert die Kooperation.",
-      "weight": 3,
-      "topic": "Plattformökonomie",
-      "concept": "Data Governance",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Regelwerk für Daten",
-        "steps": [
-          "Definition: Wer darf was?",
-          "Technik: Zugriffsrechte (IAM).",
-          "Recht: Datennutzungsverträge.",
-          "Ziel: Vertrauensvoller Datenaustausch."
+      {
+        "question_id": "Q037",
+        "question": "37. Was ist ein ethischer Zielkonflikt bei Smart Cities?",
+        "options": [
+          "Sicherheit vs. Privatsphäre.",
+          "Auto vs. Bahn.",
+          "Tag vs. Nacht.",
+          "Alt vs. Neu."
         ],
-        "content": "Daten sind ein Vermögenswert, der geschützt werden muss."
+        "answer": 0,
+        "explanation": "Überwachung bringt Sicherheit, kostet aber Freiheit.",
+        "weight": 3,
+        "topic": "Ethik",
+        "concept": "Konflikt",
+        "cognitive_level": "Analysis",
+        "extended_explanation": {
+          "title": "Trade-off",
+          "steps": ["Nutzen", "Kosten", "Abwägung"],
+          "content": "Akzeptanzproblem."
+        },
+        "mini_glossary": [{"term": "Ethik", "definition": "Moral."}]
       },
-      "mini_glossary": [
-        {
-          "term": "Data Governance",
-          "definition": "Management von Verfügbarkeit, Integrität und Sicherheit von Daten."
-        }
-      ]
-    },
-    {
-      "question_id": "Q038",
-      "question": "38. Was unterscheidet präventive von prädiktiver Instandhaltung?",
-      "options": [
-        "Präventiv folgt festen Zeitplänen, prädiktiv folgt dem berechneten Zustand.",
-        "Präventiv ist immer teurer als ein Neukauf der Maschine.",
-        "Prädiktiv nutzt Wahrsager, präventiv nutzt Ingenieure.",
-        "Es gibt keinen Unterschied, es sind Synonyme."
-      ],
-      "answer": 0,
-      "explanation": "Präventiv: Ölwechsel alle 10.000 km (egal ob nötig). Prädiktiv: Ölwechsel, wenn der Sensor sagt 'Öl ist schlecht'. Prädiktiv nutzt die Lebensdauer besser aus.",
-      "weight": 2,
-      "topic": "Datenanalyse und KI (AIoT)",
-      "concept": "Wartungsstrategien",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Effizienzsprung",
-        "steps": [
-          "Zeitbasiert: Sicher, aber verschwenderisch.",
-          "Zustandsbasiert: Reagiert auf Messwert.",
-          "Vorhersagebasiert: Plant optimalen Zeitpunkt.",
-          "Ziel: Zero Downtime bei minimalen Kosten."
+      {
+        "question_id": "Q038",
+        "question": "38. Was ist Green IoT?",
+        "options": [
+          "Nachhaltigkeit durch und im IoT.",
+          "Grüne Farbe.",
+          "Gartenarbeit.",
+          "Solarzellen."
         ],
-        "content": "Datenanalyse macht den Unterschied."
+        "answer": 0,
+        "explanation": "Green in IoT (Hardware) + Green by IoT (Effizienz).",
+        "weight": 2,
+        "topic": "Ethik",
+        "concept": "Green IoT",
+        "cognitive_level": "Application",
+        "extended_explanation": {
+          "title": "Eco",
+          "steps": ["Save Energy", "Recycle", "Optimize"],
+          "content": "Klimaschutz."
+        },
+        "mini_glossary": [{"term": "Green", "definition": "Grün."}]
       },
-      "mini_glossary": [
-        {
-          "term": "Präventive Instandhaltung",
-          "definition": "Vorbeugende Wartung nach Plan."
-        }
-      ]
-    },
-    {
-      "question_id": "Q039",
-      "question": "39. Wie optimiert IoT die Supply Chain nachhaltig?",
-      "options": [
-        "Durch Echtzeit-Tracking zur Vermeidung von Leerkilometern und Verderb.",
-        "Durch Einsatz von Drohnen, die Pakete einzeln fliegen.",
-        "Durch Abschaffung von Lagerhäusern zugunsten von LKWs.",
-        "Durch Erhöhung der Fahrgeschwindigkeit der Transporter."
-      ],
-      "answer": 0,
-      "explanation": "Wissen, wo die Ware ist und wie es ihr geht (Temperatur), verhindert Müll (verdorbene Lebensmittel) und unnötige Fahrten. Das senkt den CO2-Fußabdruck der Logistik.",
-      "weight": 2,
-      "topic": "Gesellschaftliche Implikationen",
-      "concept": "Supply Chain Efficiency",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Intelligente Logistik",
-        "steps": [
-          "Sichtbarkeit: End-to-End Tracking.",
-          "Qualität: Condition Monitoring.",
-          "Effizienz: Dynamisches Routing.",
-          "Nachhaltigkeit: Ressourcen schonen."
+      {
+        "question_id": "Q039",
+        "question": "39. Wie löst man den Digital Divide?",
+        "options": [
+          "Satelliten-IoT für ländliche Räume.",
+          "Kabel verlegen.",
+          "Smartphones verschenken.",
+          "Schulen schließen."
         ],
-        "content": "Logistik wird vom Kostenfaktor zum Wettbewerbsvorteil."
+        "answer": 0,
+        "explanation": "Technik für Orte ohne Infrastruktur.",
+        "weight": 2,
+        "topic": "Ethik",
+        "concept": "Digital Divide",
+        "cognitive_level": "Application",
+        "extended_explanation": {
+          "title": "Zugang",
+          "steps": ["Lücke", "Tech", "Chance"],
+          "content": "Teilhabe."
+        },
+        "mini_glossary": [{"term": "Divide", "definition": "Spaltung."}]
       },
-      "mini_glossary": [
-        {
-          "term": "Supply Chain",
-          "definition": "Lieferkette."
-        }
-      ]
-    },
-    {
-      "question_id": "Q040",
-      "question": "40. Ein Spielzeughersteller speichert Kinderstimmen unverschlüsselt. Welches Prinzip verletzt er?",
-      "options": [
-        "Privacy by Design und DSGVO-Vorgaben zum Schutz Minderjähriger.",
-        "Das Prinzip der Gewinnmaximierung durch Datenverkauf.",
-        "Die technische Richtlinie für Mikrofonempfindlichkeit.",
-        "Das Urheberrecht der Kinder an ihren eigenen Liedern."
-      ],
-      "answer": 0,
-      "explanation": "Datenschutz muss eingebaut sein. Kinder sind besonders schutzbedürftig (Art. 8 DSGVO). Unverschlüsselte Speicherung ist grob fahrlässig und illegal.",
-      "weight": 2,
-      "topic": "Sicherheit und Datenschutz",
-      "concept": "Privacy Violation",
-      "cognitive_level": "Application",
-      "extended_explanation": {
-        "title": "Kinder-Datenschutz",
-        "steps": [
-          "Risiko: Datenleck.",
-          "Schaden: Identitätsdiebstahl, Profilbildung.",
-          "Pflicht: Hohe Sicherheitsstandards, elterliche Zustimmung.",
-          "Verstoß: Drastische Bußgelder."
+      {
+        "question_id": "Q040",
+        "question": "40. Was ist Algorithmic Bias?",
+        "options": [
+          "Vorurteile in KI-Entscheidungen.",
+          "Ein Softwarefehler.",
+          "Ein Virus.",
+          "Ein Feature."
         ],
-        "content": "Sicherheit ist kein Feature, sondern Pflicht."
-      },
-      "mini_glossary": [
-        {
-          "term": "Privacy by Design",
-          "definition": "Datenschutz durch Technikgestaltung."
-        }
-      ]
-    }
-  ]
-}
+        "answer": 0,
+        "explanation": "Diskriminierung durch Trainingsdaten.",
+        "weight": 3,
+        "topic": "Ethik",
+        "concept": "Bias",
+        "cognitive_level": "Analysis",
+        "extended_explanation": {
+          "title": "Fairness",
+          "steps": ["Data", "Train", "Result"],
+          "content": "Ethik in KI."
+        },
+        "mini_glossary": [{"term": "Bias", "definition": "Verzerrung."}]
+      }
+    ]
+  }
+  

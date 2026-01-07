@@ -3546,13 +3546,17 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
         format_datetime_locale = None  # type: ignore[assignment]
         FMT_DATE = "%d.%m.%Y"  # type: ignore[assignment]
 
+    # Always use current date/time for PDF generation
     if format_datetime_locale:
         try:
-            generated_at = format_datetime_locale(datetime.now().isoformat(), fmt=FMT_DATE)
-        except Exception:
+            # Pass datetime object directly (not ISO string) to avoid parsing issues
             generated_at = format_datetime_locale(datetime.now(), fmt=FMT_DATE)
+        except Exception:
+            # Fallback: manual formatting with German date format
+            generated_at = datetime.now().strftime("%d.%m.%Y")
     else:
-        generated_at = datetime.now().date().isoformat()
+        # Fallback: manual formatting with German date format
+        generated_at = datetime.now().strftime("%d.%m.%Y")
     theme_items = sorted(glossary_by_theme.items(), key=lambda x: x[0].casefold())
 
     # Paginierung konfigurieren
