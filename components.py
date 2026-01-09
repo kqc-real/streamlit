@@ -104,23 +104,17 @@ def _sidebar_progress_status(remaining: int) -> str:
 
 
 def _motivation_text(key: str, default: str, **kwargs) -> str:
-    # Use the active session locale explicitly to avoid accidental use
-    # of the global default when the session state's locale value is
-    # present but not yet reflected by other helpers in some flows.
+    # Force the session locale to avoid falling back to the global default prematurely.
     try:
         locale_code = get_locale() or None
     except Exception:
         locale_code = None
 
-    # Some locales keep motivation strings nested under `test_view.motivation`
-    # (e.g., German). Check this location first before falling back to the
-    # top-level `motivation.*` keys that the English locale uses.
-    template = translate(f"test_view.motivation.{key}", locale=locale_code, default=None)
-    if template is None or template == f"test_view.motivation.{key}":
-        template = translate(f"motivation.{key}", locale=locale_code, default=None)
+    # Motivation strings are stored under the top-level `motivation.*` keys.
+    template = translate(f"motivation.{key}", locale=locale_code, default=None)
 
     # Ultimately fall back to the supplied English default if no translation.
-    if template is None or template in (f"motivation.{key}", f"test_view.motivation.{key}"):
+    if template is None or template == f"motivation.{key}":
         template = default
 
     return template.format(**kwargs) if kwargs else template

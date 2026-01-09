@@ -17,7 +17,7 @@
             "application": "Aplicación",
             "analysis": "Análisis"
         }
-            "explanation_content": "Este radar muestra en qué niveles cognitivos trabajas (taxonomía de Bloom):<br><br>**Niveles en resumen:**<br><br>• **Reproducción** = recordar y repetir conocimiento<br><br>• **Aplicación** = usar lo aprendido en nuevas situaciones<br><br>• **Análisis** = ver conexiones y profundizar problemas<br><br>---<br><br>**Perfiles típicos:**<br><br>🎓 **El Teórico**<br><br>Fuerte en reproducción, débil en aplicación.<br><br>Conoces los conceptos, pero aplicarlos en la práctica cuesta.<br><br>*Recomendación:* practica con casos y ejercicios de transferencia.<br><br>---<br><br>🔧 **El Práctico**<br><br>Fuerte en aplicación, débil en reproducción.<br><br>Trabajas bien con el conocimiento, pero faltan bases teóricas sólidas.<br><br>*Recomendación:* repasa definiciones y conceptos clave.<br><br>---<br><br>🔍 **El Analista**<br><br>Fuerte en análisis, base irregular.<br><br>Piensas en red y ves conexiones, pero puede haber vacíos de base.<br><br>*Recomendación:* verifica que las bases estén completas.<br><br>---<br><br>⭐ **El Todoterreno**<br><br>Perfil equilibrado en todos los niveles.<br><br>Activás distintos procesos de pensamiento por igual – ¡genial!<br><br>*Recomendación:* sigue así, ajusta donde haga falta.<br><br>---<br><br>**Importante:** La fiabilidad crece con el número de preguntas respondidas."
+    },
     "heatmap": {
         "no_data": "Sin preguntas",
         "questions": "Preguntas",
