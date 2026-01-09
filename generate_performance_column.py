@@ -9,6 +9,16 @@ import plotly.graph_objects as go
 from i18n.context import t as translate_ui
 import streamlit as st
 
+def _format_label_for_display(label: str, max_chars: int = 24) -> str:
+    """Truncate long labels with an ellipsis for compact chart display."""
+    if not label:
+        return ""
+    s = str(label).strip()
+    if len(s) <= max_chars:
+        return s
+    return s[: max_chars - 1] + "…"
+
+
 def create_performance_column(questions):
     """Erstellt drei separate Säulen für MC-Test Status (Grün=richtig, Rot=falsch, Grau=nicht bearbeitet) basierend auf echten Fragen und Antworten"""
     
@@ -118,6 +128,8 @@ def create_performance_column(questions):
 
             # Verwende individuelle y-Positionen für jede Säule mit größerem Abstand
             y_pos = [i * spacing_factor for i in range(len(group_df))]
+            display_labels = [_format_label_for_display(c) for c in group_df['concept'].tolist()]
+            full_labels = group_df['concept'].tolist()
 
             fig.add_trace(go.Scatter(
                 x=[column_positions[status]] * len(group_df),  # Säulen nebeneinander
@@ -129,14 +141,19 @@ def create_performance_column(questions):
                     symbol='circle',
                     line=dict(width=0)  # Keine weißen Ränder
                 ),
-                text=group_df['concept'],
+                text=display_labels,
                 textposition="top center",
                 textfont=dict(size=12, color='black'),
-                hovertemplate='<b>%{text}</b><br>' +
+                hovertemplate='<b>%{customdata[3]}</b><br>' +
                               'Status: %{customdata[0]}<br>' +
                               'Antworten: %{customdata[1]}/%{customdata[2]}<br>' +
                               '<extra></extra>',
-                customdata=group_df[['status_text', 'answered', 'total']],
+                customdata=pd.DataFrame({
+                    "status_text": group_df["status_text"],
+                    "answered": group_df["answered"],
+                    "total": group_df["total"],
+                    "concept_full": full_labels,
+                }),
                 showlegend=False,
                 name=status
             ))

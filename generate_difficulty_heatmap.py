@@ -9,6 +9,14 @@ import plotly.graph_objects as go
 from i18n.context import t as translate_ui
 import streamlit as st
 
+def _ellipsize(label: str, max_chars: int = 28) -> str:
+    if not label:
+        return ""
+    s = str(label).strip()
+    if len(s) <= max_chars:
+        return s
+    return s[: max_chars - 1] + "…"
+
 
 def create_difficulty_heatmap(questions):
     """
@@ -47,6 +55,7 @@ def create_difficulty_heatmap(questions):
         return None
     
     topics_sorted = sorted(topics)
+    topics_display = [_ellipsize(t) for t in topics_sorted]
     
     # Erstelle Matrix für Performance und Counts
     matrix_performance = []
@@ -270,7 +279,7 @@ def create_difficulty_heatmap(questions):
             tickfont=dict(size=13),
             autorange='reversed',  # Topics von oben nach unten
             tickvals=list(range(len(topics_sorted))),
-            ticktext=topics_sorted,
+            ticktext=topics_display,
             showgrid=True,
             gridcolor='#cccccc',
             gridwidth=1,
