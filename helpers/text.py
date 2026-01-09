@@ -319,9 +319,23 @@ def format_decimal_de(value: float, decimals: int = 1) -> str:
 
 def load_markdown_file(path: str) -> str | None:
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            return f.read()
-    except (OSError, UnicodeDecodeError):
+        raw = None
+        with open(path, "rb") as f:
+            raw = f.read()
+        if raw is None:
+            return None
+
+        # Prefer UTF-8, but tolerate common variants/legacy encodings so
+        # Learning Objectives Markdown files created on different systems
+        # still load in the app.
+        for enc in ("utf-8", "utf-8-sig", "cp1252", "latin-1"):
+            try:
+                return raw.decode(enc)
+            except UnicodeDecodeError:
+                continue
+        # Last resort: return a best-effort UTF-8 decode to avoid failing UI.
+        return raw.decode("utf-8", errors="replace")
+    except OSError:
         return None
 
 
