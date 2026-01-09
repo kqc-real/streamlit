@@ -77,8 +77,8 @@ def create_performance_column(questions):
         
     df = pd.DataFrame(performance_data)
 
-    # Positionen für die drei Säulen (breiter auseinander für Labels)
-    column_positions = {'correct': -1.0, 'not_attempted': 0, 'incorrect': 1.0}
+    # Positionen für die drei Säulen (breiter auseinander für bessere Lesbarkeit)
+    column_positions = {'correct': -1.2, 'not_attempted': 0, 'incorrect': 1.2}
     column_colors = {'correct': 'green', 'not_attempted': 'gray', 'incorrect': 'red'}
 
     # Gruppiere nach Status und sortiere Konzepte alphabetisch innerhalb jeder Gruppe
@@ -97,7 +97,11 @@ def create_performance_column(questions):
 
     # ZUERST: Füge alle Shapes hinzu (Hintergründe und Linien)
     # Füge farbige Hintergrundbereiche für jede Spalte hinzu
-    pastel_colors = {'correct': 'rgba(144, 238, 144, 0.3)', 'not_attempted': 'rgba(211, 211, 211, 0.3)', 'incorrect': 'rgba(255, 182, 193, 0.3)'}
+    pastel_colors = {
+        'correct': 'rgba(144, 238, 144, 0.3)',
+        'not_attempted': 'rgba(211, 211, 211, 0.3)',
+        'incorrect': 'rgba(255, 182, 193, 0.3)',
+    }
     
     spacing_factor = 1.1  # Noch mehr Abstand zwischen Punkten
 
@@ -106,7 +110,8 @@ def create_performance_column(questions):
         if height > 0:  # Nur Hintergrund für Spalten mit Einträgen
             # Erstelle ein Rechteck mit abgerundeten Ecken als Pfad
             radius = 0.15  # Radius für abgerundete Ecken
-            x0, x1 = pos - 0.4, pos + 0.4
+            # Wider columns for readability (labels + less cramped visuals)
+            x0, x1 = pos - 0.58, pos + 0.58
             y0 = -0.5
             y1 = (height - 1) * spacing_factor + 1.0  # Mehr Kopfbereich
 
@@ -166,9 +171,9 @@ def create_performance_column(questions):
             showticklabels=True,
             showline=False,  # Keine Achsenlinien
             zeroline=False,  # Keine Null-Linien
-            range=[-1.5, 1.5],  # Mehr Platz für breitere Säulen
+            range=[-1.9, 1.9],  # Mehr Platz für breitere Säulen
             title='',
-            tickvals=[-1.0, 0, 1.0],
+            tickvals=[-1.2, 0, 1.2],
             ticktext=[
                 translate_ui('app.status.understood'),
                 translate_ui('app.status.not_attempted'),
