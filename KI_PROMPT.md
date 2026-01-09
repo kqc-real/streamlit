@@ -211,7 +211,7 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
 
 - **Mini Glossary:**
   - `mini_glossary` MUST be present for **every** question.
-  - Each `mini_glossary` contains 1 to 4 terms. Only include terms strictly relevant to the question context:
+  - Each `mini_glossary` contains 1 to 4 terms. Include all technical/domain terms that appear or are implied in the question stem, `topic`, `concept`, and in both explanations (short + extended). No filler terms.
     ```json
     "mini_glossary": [
       { "term": "TermKey1", "definition": "Definition string 1" },
@@ -248,12 +248,13 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
     - "None of the above"
     - or their equivalents in other languages.
   - Avoid trick questions or unfair ambiguity.
-  - **Anforderungen an Antwortmöglichkeiten (Distraktoren):**
-    1. **Homogenität der Länge:** Alle Antwortmöglichkeiten (A, B, C, D) müssen visuell und wortanzahlmäßig etwa gleich lang sein. Vermeide, dass die richtige Antwort signifikant länger oder detaillierter ist als die falschen.
-    2. **Grammatikalische Äquivalenz:** Alle Optionen müssen grammatikalisch nahtlos an den Frage-Stamm anschließen.
-    3. **Plausibilität:** Distraktoren dürfen nicht offensichtlich unsinnig sein. Sie sollen typische Fehlkonzepte (Misconceptions) abbilden.
-    4. **Fachsprachliche Dichte:** Verwende in den Distraktoren das gleiche Niveau an Fachbegriffen wie in der richtigen Lösung.
-    5. **Vermeidung von 'All-Inklusive'-Wörtern:** Vermeide in Distraktoren Wörter wie "nie", "immer", "alle", da diese oft auf falsche Antworten hindeuten.
+   - **Requirements for answer options (distractors):**
+     1. **Length homogeneity:** All options must be roughly equal in visual/word length. The correct option must not be noticeably longer or more detailed.
+     2. **Grammatical fit:** All options must fit grammatically onto the question stem.
+     3. **Plausibility:** Distractors must be plausible and reflect common misconceptions, not nonsense.
+     4. **Technical density:** Use the same level of technical terminology as the correct option.
+     5. **Avoid absolute “giveaways”:** Avoid words like “always”, “never”, “all” that act as clues.
+     6. **Mirror the syntactic pattern:** Distractors must mirror the syntactic pattern of the correct option (same tense, person, sentence structure). If the correct option contains a subordinate clause or similar structure, all distractors must use an equivalent clause structure.
 
 - **Use of context material:**
   - Do not reference provided file names, slide numbers, or phrases like "as seen in the uploaded text" in the final questions or explanations.
@@ -266,7 +267,7 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
   - Ensure that answer options are of comparable length and complexity to avoid giving clues through length.
 
 - **Code-Based Questions (Special Rules):**
-  - **Cloze Tests (Lückentext):** Include questions that ask for missing keywords, operators, or function names. Use `__________` (10 underscores) as the placeholder in the code.
+  - **Cloze tests:** Include questions that ask for missing keywords, operators, or function names. Use `__________` (10 underscores) as the placeholder in the code.
   - **Debugging/Analysis:** Include questions where the user must identify errors (syntax, logic, runtime) or predict the output of a code snippet.
   - **Java vs. Python Context:** Since the target audience often comes from other languages (like Java), explicitly highlight differences in syntax or concepts (e.g., `null` vs `None`, `this` vs `self`, `true` vs `True`) in the explanations.
 
