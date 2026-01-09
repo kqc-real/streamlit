@@ -136,7 +136,7 @@ Inside `<scratchpad>` you must:
      - `difficulty_profile.hard` = count of weight 3 questions.
 
 2. **Define coverage topics:**
-   - List the main topics/sub-concepts you will cover (max **10** distinct topics).
+   - List the main topics/sub-concepts you will cover (max **10–15** distinct topics; do not exceed 15).
    - Keep them short.
    - Make sure they match the exam topic and the target audience level.
 
