@@ -112,15 +112,12 @@ def _motivation_text(key: str, default: str, **kwargs) -> str:
     except Exception:
         locale_code = None
 
-    # Try the primary location used in the English locale files first.
-    template = translate(f"motivation.{key}", locale=locale_code, default=None)
-    # Some locales (older/deeper structure) keep motivation strings under
-    # `test_view.motivation.*` — try that as a fallback before using the
-    # hard-coded default so German translations nested there are found.
-    if template is None or template == f"motivation.{key}":
-        alt = translate(f"test_view.motivation.{key}", locale=locale_code, default=None)
-        if alt is not None and alt != f"test_view.motivation.{key}":
-            template = alt
+    # Some locales keep motivation strings nested under `test_view.motivation`
+    # (e.g., German). Check this location first before falling back to the
+    # top-level `motivation.*` keys that the English locale uses.
+    template = translate(f"test_view.motivation.{key}", locale=locale_code, default=None)
+    if template is None or template == f"test_view.motivation.{key}":
+        template = translate(f"motivation.{key}", locale=locale_code, default=None)
 
     # Ultimately fall back to the supplied English default if no translation.
     if template is None or template in (f"motivation.{key}", f"test_view.motivation.{key}"):
