@@ -33,7 +33,7 @@ You receive a single JSON object with the following structure:
       "topic": "string (chapter/subtopic)",
       "concept": "string (key concept label)",
       "cognitive_level": "string ('Reproduction' | 'Application' | 'Analysis', consistent with weight)",
-      "extended_explanation": null or string,
+      "extended_explanation": null or string or object,
       "mini_glossary": [
         { "term": "TermKey", "definition": "Definition string" }
       ]
@@ -53,7 +53,8 @@ Your task is to:
 1. Determine the **dominant language** of the question set based on the `"question"`, `"topic"`, `"concept"` and `"explanation"` fields:
    - If the questions are mainly in German, assume German.
    - If mainly in English, assume English.
-   - Use the most frequent language among the question texts.
+   - Use the most frequent language among the question texts (the `"question"` field). Use `"topic"`, `"concept"`, and `"explanation"` only as tie-breakers.
+   - If still ambiguous, default to the language of `meta.target_audience`.
 
 2. For each entry in `questions`, derive **one micro learning objective** that describes what a learner can do when they can correctly answer that question.
    - The micro-LO should:
@@ -61,6 +62,12 @@ Your task is to:
      - be aligned with `"cognitive_level"`,
      - be at a reasonable depth for `meta.target_audience`,
      - be consistent with the overall theme `meta.title`.
+   - Additional constraints (MANDATORY):
+     - Create exactly ONE micro-LO per question (no splitting).
+     - Use exactly ONE main verb (no verb chains like “identify and explain”; no “and/or” combining two actions).
+     - Do not mention option letters (A/B/C/D), the numeric answer index, or “correct option”.
+     - Prefer terminology that occurs in the question itself or in `mini_glossary` (if present).
+     - Keep each micro-LO concise (aim for one line; avoid multi-clause sentences unless unavoidable).
 
 3. Group all questions by their `"cognitive_level"` and produce a Markdown fragment with **one section per level** that actually occurs in the data.
 
@@ -71,7 +78,9 @@ Your task is to:
      - signals in the question text and explanations,
      - typical course progression for the subject.
    - Within each topic group, order the questions by `"concept"` from **basic/fundamental concepts** to **more complex or derived concepts**.
-   - If you cannot clearly infer a complexity ordering between topics or concepts, keep their original order as they appear in the `questions` array rather than sorting lexicographically.
+   - If you cannot clearly infer a complexity ordering between topics or concepts:
+     - Keep their original order as they appear in the `questions` array (stable order).
+     - Do NOT sort lexicographically.
 
 COGNITIVE LEVELS AND VERBS
 --------------------------
@@ -113,6 +122,9 @@ STYLE AND LANGUAGE
   - German: formulate as if starting with “Du kannst …”.
   - English: formulate as if starting with “You can …”.
 - Each numbered entry must be a grammatically correct, well-formed sentence fragment that can be prefixed by “Du kannst ” / “You can ” to form a complete sentence.
+- Each numbered entry MUST start with a verb form that fits after “Du kannst …” / “You can …”:
+  - German: infinitive (“… anwenden”, “… erklären”, “… vergleichen”).
+  - English: base form (“… apply”, “… explain”, “… compare”).
 - Use clear, concise, and didactically appropriate language. Avoid unnecessary repetition of phrases and avoid overly long sentences.
 - When you need mathematical notation, write it using **standard LaTeX syntax** inside `$...$` (inline) or `$$...$$` (display). Use single backslashes (e.g. `\mathbb{R}`, not `\\mathbb{R}`), and do not wrap formulas in code spans or code blocks. The Markdown will be rendered with KaTeX/MathJax.
 
@@ -197,7 +209,12 @@ When creating each numbered item:
 
 - Use `"topic"` and `"concept"` to decide what the learner operates on.
 - Use `"question"` and `"explanation"` (and `"extended_explanation"` if available) to refine the precise skill or understanding.
+- If `"extended_explanation"` is an object, treat its `title`, `content`, and `steps` as additional explanatory text (do not mention these field names in the output).
 - Use `meta.title` and `meta.target_audience` to calibrate technical depth and wording.
+- Prefer one of these micro-LO templates (pick one per item; do not output the template text):
+  - “<verb> <object> in order to <intended outcome>.” (English)
+  - “<verb> <object>, um <intended outcome> zu <verb/noun phrase>.” (German)
+  - If the “in order to/um” clause would introduce a second main verb, drop it and keep only “<verb> <object> …”.
 - Do not simply restate the question; express the underlying competency as something the learner can do.
 - Ensure correct grammar and stylistic coherence within the chosen language.
 - Respect the ordering rule inside each cognitive level:
