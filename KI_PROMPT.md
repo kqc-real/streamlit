@@ -211,7 +211,7 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
 
 - **Mini Glossary:**
   - `mini_glossary` MUST be present for **every** question.
-  - Each `mini_glossary` contains 1 to 4 terms. Include all technical/domain terms that appear or are implied in the question stem, `topic`, `concept`, and in both explanations (short + extended). No filler terms.
+  - Each `mini_glossary` must include all relevant technical/domain terms that appear or are implied in the question stem, `topic`, `concept`, and in both explanations (short + extended). Use a hard cap of **6–10 terms** per question (prefer 6; never exceed 10). No filler terms.
     ```json
     "mini_glossary": [
       { "term": "TermKey1", "definition": "Definition string 1" },
@@ -254,7 +254,7 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
      3. **Plausibility:** Distractors must be plausible and reflect common misconceptions, not nonsense.
      4. **Technical density:** Use the same level of technical terminology as the correct option.
      5. **Avoid absolute “giveaways”:** Avoid words like “always”, “never”, “all” that act as clues.
-     6. **Mirror the syntactic pattern:** Distractors must mirror the syntactic pattern of the correct option (same tense, person, sentence structure). If the correct option contains a subordinate clause or similar structure, all distractors must use an equivalent clause structure.
+     6. **Mirror the syntactic pattern (when feasible):** Mirror the syntactic pattern of the correct option (same tense, person, sentence structure) when feasible; prioritize plausibility and unambiguity over perfect structural mirroring. If the correct option contains a subordinate clause or similar structure, aim for equivalent clause structure across distractors when it does not reduce clarity.
 
 - **Use of context material:**
   - Do not reference provided file names, slide numbers, or phrases like "as seen in the uploaded text" in the final questions or explanations.
@@ -332,7 +332,7 @@ The final JSON object must follow this structure (types and required fields):
 {
   "meta": {
     "title": "string (from Configuration Step 1)",
-    "created": "DD.MM.YYYY HH:MM",
+    "created": "DD.MM.YYYY HH:MM (system current local time)",
     "target_audience": "string (from Configuration Step 2)",
     "question_count": "number (total count of questions)",
     "difficulty_profile": {
@@ -356,7 +356,8 @@ The final JSON object must follow this structure (types and required fields):
       "explanation": "string (Short explanation, 2–4 sentences)",
       "weight": "number (1, 2, or 3)",
       "topic": "string (Chapter/Subtopic)",
-      "concept": "string (Key concept label)",
+      "topic": "string (Question-set domain subtopic)",
+      "concept": "string (Core technical term OR a widely known misconception label)",
       "cognitive_level": "string (Reproduction | Application | Analysis, consistent with weight)",
       "extended_explanation": null,
       "mini_glossary": [
@@ -369,6 +370,7 @@ The final JSON object must follow this structure (types and required fields):
 Notes:
 
 - time_per_weight_minutes and additional_buffer_minutes are fixed defaults and must be used as given for duration calculations unless explicitly overridden by a future specification (not by the user).
+- `meta.created` MUST use the system current local time and the `DD.MM.YYYY HH:MM` format.
 - Ensure that question_count equals the length of the questions array.
 - Ensure that difficulty_profile.easy + difficulty_profile.medium + difficulty_profile.hard equals question_count.
 - Ensure the JSON contains NO control characters within strings (like unescaped newlines).
