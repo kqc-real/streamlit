@@ -4362,45 +4362,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         if context_label:
             st.caption(f"**{context_label}**")
 
-        # --- Mini-Glossar (frage-spezifisch) ---
-        # If the current question contains a `mini_glossary` object, render a
-        # compact popover showing the term definitions immediately after the question.
-        # Support both dict format {"term": "def"} and array format [{"term": "...", "definition": "..."}]
-        try:
-            mini_gloss = frage_obj.get("mini_glossary")
-            if mini_gloss:
-                try:
-                    title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
-                except Exception:
-                    title = "Fachbegriffe nachschlagen"
-
-                glossary_terms_string = ""
-                
-                # Handle both dict and list formats
-                if isinstance(mini_gloss, dict):
-                    # Dict format: {"term": "definition", ...}
-                    for term, definition in mini_gloss.items():
-                        glossary_terms_string += f"- **{term}**: {definition}\n"
-                elif isinstance(mini_gloss, list):
-                    # List format: [{"term": "...", "definition": "..."}, ...]
-                    for entry in mini_gloss:
-                        if isinstance(entry, dict):
-                            term = entry.get("term", "")
-                            definition = entry.get("definition", "")
-                            if term and definition:
-                                glossary_terms_string += f"- **{term}**: {definition}\n"
-
-                if glossary_terms_string:
-                    try:
-                        with st.popover(f"🔎 {title}", use_container_width=False):
-                            st.markdown(glossary_terms_string, unsafe_allow_html=True)
-                    except Exception:
-                        # Fallback: inline render if popover is unavailable
-                        with st.expander(f"🔎 {title}"):
-                            st.markdown(glossary_terms_string)
-        except Exception:
-            pass
-
         # Render the weight/stage suffix on the same visual line as before
         try:
             # If we already rendered an explicit cognitive stage above, avoid
@@ -5137,6 +5098,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
         normalized_ext = normalize_detailed_explanation(extended_explanation)
     except Exception:
         normalized_ext = None
+
     # Prefer the normalized representation for rendering where available
     if normalized_ext:
         extended_explanation = normalized_ext
@@ -5184,6 +5146,33 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
                                 st.markdown(f"- {smart_quotes_de(step)}")
                 else:
                     st.markdown(smart_quotes_de(str(extended_explanation)))
+
+    # --- Mini-Glossar (hinter Erklärung) ---
+    try:
+        mini_gloss = frage_obj.get("mini_glossary")
+        if mini_gloss:
+            glossary_title = translate_ui("question.show_glossary", default="Fachbegriffe nachschlagen")
+            glossary_lines = []
+            if isinstance(mini_gloss, dict):
+                for term, definition in mini_gloss.items():
+                    if term and definition:
+                        glossary_lines.append(f"- **{term}**: {definition}")
+            elif isinstance(mini_gloss, list):
+                for entry in mini_gloss:
+                    if isinstance(entry, dict):
+                        term = entry.get("term", "")
+                        definition = entry.get("definition", "")
+                        if term and definition:
+                            glossary_lines.append(f"- **{term}**: {definition}")
+
+            if glossary_lines:
+                try:
+                    with st.expander(f"🔎 {glossary_title}"):
+                        st.markdown("\n".join(glossary_lines), unsafe_allow_html=True)
+                except Exception:
+                    pass
+    except Exception:
+        pass
 
     # --- Feedback-Mechanismus ---
     _FEEDBACK_OPTION_KEYS = [
