@@ -3823,7 +3823,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     can_edit = admin_access_granted or is_owner
 
     if can_edit:
-        label = "✏️ Frage verwalten" if is_owner else "✏️ Frage verwalten (Admin)"
+        label_key = "admin.manage_question_owner" if is_owner else "admin.manage_question_admin"
+        default_label = "✏️ Frage verwalten" if is_owner else "✏️ Frage verwalten (Admin)"
+        label = translate_ui(label_key, default=default_label)
         # Keep expander open if requested (e.g. after save/delete)
         is_expanded = st.session_state.pop("_keep_admin_expander_open", False)
         with st.expander(label, expanded=is_expanded):
@@ -3843,11 +3845,16 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 
                 q_json = json.dumps(q_clean, indent=2, ensure_ascii=False)
                 
-                new_json_str = st.text_area("JSON bearbeiten", value=q_json, height=300, key=f"edit_q_{frage_idx}")
+                new_json_str = st.text_area(
+                    translate_ui("admin.edit_json_label", default="JSON bearbeiten"),
+                    value=q_json, 
+                    height=300, 
+                    key=f"edit_q_{frage_idx}"
+                )
                 
                 col_save, col_promote = st.columns([1, 1])
                 with col_save:
-                    if st.button("💾 Speichern & Aktualisieren", key=f"save_q_{frage_idx}"):
+                    if st.button(translate_ui("admin.save_button", default="💾 Speichern & Aktualisieren"), key=f"save_q_{frage_idx}"):
                         try:
                             new_q_data = json.loads(new_json_str)
                             
@@ -3880,14 +3887,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     load_questions.clear()
                                 reset_question_state(frage_idx)
                                 
-                                st.success("Gespeichert! Aktualisiere...")
+                                st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
                                 st.session_state["_keep_admin_expander_open"] = True
                                 time.sleep(0.5)
                                 st.rerun()
                             else:
-                                st.error("Quelldatei nicht gefunden.")
+                                st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
                         except Exception as e:
-                            st.error(f"Fehler beim Speichern: {e}")
+                            st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
 
                 # Button zum Übernehmen in den Core-Datenbestand (für alle Sets verfügbar)
                 selected_file = st.session_state.get("selected_questions_file")
@@ -3926,7 +3933,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
                     if show_promote:
                         with col_promote:
-                            if st.button("🚀 Nach 'data' übernehmen", key=f"promote_q_{frage_idx}", help="Kopiert das Set nach data/ und erstellt vorher ein Backup."):
+                            if st.button(
+                                translate_ui("admin.promote_button", default="🚀 Nach 'data' übernehmen"), 
+                                key=f"promote_q_{frage_idx}", 
+                                help=translate_ui("admin.promote_help", default="Kopiert das Set nach data/ und erstellt vorher ein Backup.")
+                            ):
                                 try:
                                     import shutil
                                     import os
@@ -3968,7 +3979,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                         if dest_path.exists():
                                             # Verhindere Fehler, wenn Quelle und Ziel identisch sind
                                             if src_path.resolve() == dest_path.resolve():
-                                                st.info(f"Die Datei existiert bereits in data/ als {new_filename}. (Backup wurde erstellt: {backup_name})")
+                                                st.info(translate_ui("admin.promote_exists_info", default="Die Datei existiert bereits in data/ als {new_filename}. (Backup wurde erstellt: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
                                             else:
                                                 dest_backup = data_dir / f"{dest_path.stem}_pre_overwrite_{timestamp}{dest_path.suffix}"
                                                 shutil.copy2(dest_path, dest_backup)
@@ -3982,7 +3993,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                     except Exception:
                                                         pass
                                                 
-                                                st.success(f"Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})")
+                                                st.success(translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
                                         else:
                                             shutil.copy2(src_path, dest_path)
                                             
@@ -3993,19 +4004,24 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                 except Exception:
                                                     pass
                                             
-                                            st.success(f"Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})")
+                                            st.success(translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
                                     else:
-                                        st.error("Quelldatei nicht gefunden.")
+                                        st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
                                 except Exception as e:
-                                    st.error(f"Fehler bei der Übernahme: {e}")
+                                    st.error(translate_ui("admin.promote_error", default="Fehler bei der Übernahme: {e}").format(e=e))
 
                 # --- DELETE QUESTION ---
                 st.divider()
-                if st.button("🗑️ Frage löschen", key=f"del_q_init_{frage_idx}", type="secondary", help="Löscht diese Frage unwiderruflich aus dem Set."):
+                if st.button(
+                    translate_ui("admin.delete_button", default="🗑️ Frage löschen"), 
+                    key=f"del_q_init_{frage_idx}", 
+                    type="secondary", 
+                    help=translate_ui("admin.delete_help", default="Löscht diese Frage unwiderruflich aus dem Set.")
+                ):
                      st.session_state[f"confirm_del_{frage_idx}"] = True
                 
                 if st.session_state.get(f"confirm_del_{frage_idx}"):
-                    st.warning("Bist du sicher? Diese Frage wird sofort gelöscht.")
+                    st.warning(translate_ui("admin.delete_confirm_warning", default="Bist du sicher? Diese Frage wird sofort gelöscht."))
                     col_yes, col_no = st.columns(2)
                     with col_yes:
                         def _delete_question():
@@ -4045,23 +4061,23 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                         initialize_session_state(new_qs, app_config)
                                         
                                         st.session_state[f"confirm_del_{frage_idx}"] = False
-                                        st.session_state["_delete_success_msg"] = "Frage gelöscht."
+                                        st.session_state["_delete_success_msg"] = translate_ui("admin.delete_success", default="Frage gelöscht.")
                                         st.session_state["_keep_admin_expander_open"] = True
                                     else:
-                                        st.session_state["_delete_error_msg"] = "Index-Fehler beim Löschen."
+                                        st.session_state["_delete_error_msg"] = translate_ui("admin.delete_index_error", default="Index-Fehler beim Löschen.")
                                 else:
-                                    st.session_state["_delete_error_msg"] = "Datei nicht gefunden."
+                                    st.session_state["_delete_error_msg"] = translate_ui("admin.delete_file_not_found", default="Datei nicht gefunden.")
                             except Exception as e:
-                                st.session_state["_delete_error_msg"] = f"Fehler beim Löschen: {e}"
+                                st.session_state["_delete_error_msg"] = translate_ui("admin.delete_exception", default="Fehler beim Löschen: {e}").format(e=e)
 
-                        st.button("Ja, löschen", key=f"del_q_yes_{frage_idx}", type="primary", on_click=_delete_question)
+                        st.button(translate_ui("admin.delete_yes", default="Ja, löschen"), key=f"del_q_yes_{frage_idx}", type="primary", on_click=_delete_question)
 
                     with col_no:
                         def _cancel_del():
                             st.session_state[f"confirm_del_{frage_idx}"] = False
-                        st.button("Abbrechen", key=f"del_q_no_{frage_idx}", on_click=_cancel_del)
+                        st.button(translate_ui("admin.delete_cancel", default="Abbrechen"), key=f"del_q_no_{frage_idx}", on_click=_cancel_del)
             except Exception as e:
-                st.error(f"Fehler im Editor: {e}")
+                st.error(translate_ui("admin.editor_error", default="Fehler im Editor: {e}").format(e=e))
     # --- END ADMIN EDIT ---
 
     # When rendering a question view, we are not in the final summary.
