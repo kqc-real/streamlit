@@ -646,7 +646,7 @@
       ]
     },
     {
-      "question": "16. Ein verteiltes System erlebt eine Partition. Welche Aussage ist im Sinne des CAP-Theorems am passendsten?",
+      "question": "16. Ein System erlebt eine Partition. Welche Aussage ist im Sinne des CAP-Theorems am passendsten?",
       "options": [
         "Bei Partitionstoleranz muss ein System zwischen Konsistenz und Verfügbarkeit abwägen, weil nicht beides gleichzeitig garantiert werden kann.",
         "Bei Partitionstoleranz muss ein System zwischen Konsistenz und Verfügbarkeit abwägen, weil beides gleichzeitig garantiert werden kann.",
@@ -661,13 +661,13 @@
       "cognitive_level": "Analysis",
       "extended_explanation": {
         "title": "CAP-Theorem unter Partitionen",
+        "content": "Unter Netzwerkpartitionen sind vollständige Garantien schwer. Systeme müssen entscheiden, ob sie lieber konsistente Antworten liefern (und dann ggf. Requests ablehnen) oder lieber verfügbar bleiben (und dann ggf. inkonsistente Zustände zulassen). Diese Entscheidung sollte aus den Anforderungen und Fehlertoleranzen abgeleitet werden.",
         "steps": [
           "Nimm Partitionstoleranz als realistische Anforderung in verteilten Systemen an.",
           "Entscheide, ob Konsistenz oder Verfügbarkeit im Partition-Fall wichtiger ist.",
           "Passe Datenmodell und Client-Verhalten an die gewählte Priorität an.",
           "Dokumentiere die Semantik, damit Nutzer die Tradeoffs verstehen."
-        ],
-        "content": "Unter Netzwerkpartitionen sind vollständige Garantien schwer. Systeme müssen entscheiden, ob sie lieber konsistente Antworten liefern (und dann ggf. Requests ablehnen) oder lieber verfügbar bleiben (und dann ggf. inkonsistente Zustände zulassen). Diese Entscheidung sollte aus den Anforderungen und Fehlertoleranzen abgeleitet werden."
+        ]
       },
       "mini_glossary": [
         {

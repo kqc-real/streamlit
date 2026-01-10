@@ -3863,8 +3863,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             from config import _resolve_question_paths
                             paths = _resolve_question_paths(selected_file)
                             
-                            if paths:
-                                file_path = paths[0]
+                            file_path = next((p for p in paths if p.exists()), None)
+                            
+                            if file_path:
                                 with open(file_path, "r", encoding="utf-8") as f:
                                     full_data = json.load(f)
                                 
@@ -3945,8 +3946,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     from config import _resolve_question_paths, get_package_dir
                                     
                                     paths = _resolve_question_paths(selected_file)
-                                    if paths and paths[0].exists():
-                                        src_path = paths[0]
+                                    src_path = next((p for p in paths if p.exists()), None)
+                                    if src_path:
                                         
                                         # 1. Backup erstellen
                                         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -3993,7 +3994,17 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                     except Exception:
                                                         pass
                                                 
+                                                # Cache leeren und Auswahl auf die neue Datei setzen
+                                                if hasattr(st, "cache_data"):
+                                                    st.cache_data.clear()
+                                                from config import load_questions
+                                                if hasattr(load_questions, "clear"):
+                                                    load_questions.clear()
+                                                st.session_state["selected_questions_file"] = new_filename
+                                                
                                                 st.success(translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
+                                                time.sleep(0.5)
+                                                st.rerun()
                                         else:
                                             shutil.copy2(src_path, dest_path)
                                             
@@ -4003,8 +4014,18 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                     src_path.unlink()
                                                 except Exception:
                                                     pass
+                                                
+                                                # Cache leeren und Auswahl auf die neue Datei setzen
+                                                if hasattr(st, "cache_data"):
+                                                    st.cache_data.clear()
+                                                from config import load_questions
+                                                if hasattr(load_questions, "clear"):
+                                                    load_questions.clear()
+                                                st.session_state["selected_questions_file"] = new_filename
                                             
                                             st.success(translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
+                                            time.sleep(0.5)
+                                            st.rerun()
                                     else:
                                         st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
                                 except Exception as e:
@@ -4028,8 +4049,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             try:
                                 from config import _resolve_question_paths
                                 paths = _resolve_question_paths(selected_file)
-                                if paths:
-                                    file_path = paths[0]
+                                file_path = next((p for p in paths if p.exists()), None)
+                                
+                                if file_path:
                                     with open(file_path, "r", encoding="utf-8") as f:
                                         full_data = json.load(f)
                                     
