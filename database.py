@@ -215,7 +215,27 @@ def create_tables():
 
             # Migration: Füge optionale Spalten für Recovery (salt + hash) hinzu,
             # damit Nutzer ein Geheimwort zum späteren Wiederherstellen hinterlegen können.
-            if 'recovery_salt' not in columns:
+            # Zuerst Spalten der users-Tabelle laden (nicht feedback-Tabelle verwenden!)
+            try:
+                cursor.execute("PRAGMA table_info(users)")
+                u_rows = cursor.fetchall()
+            except sqlite3.Error:
+                u_rows = []
+
+            user_columns = []
+            for info in u_rows:
+                name = None
+                try:
+                    if hasattr(info, 'keys') and 'name' in info.keys():
+                        name = info['name']
+                    elif isinstance(info, (list, tuple)) and len(info) > 1:
+                        name = info[1]
+                except Exception:
+                    name = None
+                if name:
+                    user_columns.append(name)
+
+            if 'recovery_salt' not in user_columns:
                 try:
                     conn.execute("ALTER TABLE users ADD COLUMN recovery_salt TEXT;")
                 except sqlite3.OperationalError as e:
@@ -224,7 +244,7 @@ def create_tables():
                     else:
                         raise
 
-            if 'recovery_hash' not in columns:
+            if 'recovery_hash' not in user_columns:
                 try:
                     conn.execute("ALTER TABLE users ADD COLUMN recovery_hash TEXT;")
                 except sqlite3.OperationalError as e:

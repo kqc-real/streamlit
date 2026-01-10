@@ -7,6 +7,9 @@ Verantwortlichkeiten:
 - Laden des Nutzerfortschritts aus den Log-Daten.
 """
 import importlib
+import random
+import config
+import json
 
 
 def _st_module():
@@ -93,3 +96,78 @@ def set_question_as_answered(frage_idx: int, punkte: int, antwort: str):
                 ao.append(punkte > 0)
         except Exception:
             pass
+
+
+def reset_question_state(frage_idx: int):
+    """
+    Löscht den Cache (Antwortstatus) für eine Frage und aktualisiert die Optionen.
+    Wird benötigt, wenn ein Admin die Frage zur Laufzeit editiert.
+    """
+    print(f"DEBUG: reset_question_state({frage_idx}) aufgerufen")
+    st = _st_module()
+    if st is None:
+        return
+
+    state = getattr(st, "session_state", None)
+    if state is None:
+        return
+
+    # 1. Antwort-Status und Widget-State löschen
+    keys_to_delete = [
+        f"frage_{frage_idx}_beantwortet",
+        f"frage_{frage_idx}_antwort",
+        f"radio_{frage_idx}",
+        f"radio_prev_{frage_idx}"
+    ]
+    for key in keys_to_delete:
+        if key in state:
+            del state[key]
+
+    # Cache leeren (immer, unabhängig vom State)
+    if hasattr(st, "cache_data") and hasattr(st.cache_data, "clear"):
+        st.cache_data.clear()
+    if hasattr(config.load_questions, "clear"):
+        config.load_questions.clear()
+
+    # 2. Optionen aktualisieren (optionen_shuffled)
+    if "selected_questions_file" in state and "optionen_shuffled" in state:
+        try:
+            
+            q_file = state["selected_questions_file"]
+            
+            # Robustes Neuladen direkt von der Datei (umgeht Cache-Probleme)
+            from config import _resolve_question_paths, _build_question_set
+            paths = _resolve_question_paths(q_file)
+            found_path = next((p for p in paths if p.exists()), None)
+            
+            if found_path:
+                print(f"DEBUG: Lese Fragen aus {found_path}")
+                with open(found_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                qs = _build_question_set(data, q_file, silent=True)
+
+                if qs and 0 <= frage_idx < len(qs):
+                    q = qs[frage_idx]
+                    # Canonical key 'options' preferred, fallback to 'optionen'
+                    opts = q.get("options") or q.get("optionen") or []
+                    
+                    if isinstance(opts, list):
+                        new_opts = list(opts)
+                        random.shuffle(new_opts)
+                        
+                        if frage_idx < len(state["optionen_shuffled"]):
+                            # Erstelle eine echte Kopie der Liste, damit Streamlit die Änderung erkennt
+                            current_list = list(state["optionen_shuffled"])
+                            current_list[frage_idx] = new_opts
+                            state["optionen_shuffled"] = current_list
+                            
+                            st.success(f"Optionen für Frage {frage_idx + 1} aktualisiert!")
+                            print(f"DEBUG: Optionen für Frage {frage_idx} erfolgreich aktualisiert.")
+                else:
+                    st.warning(f"Frage {frage_idx + 1} nicht im neu geladenen Set gefunden.")
+            else:
+                st.error(f"Datei nicht gefunden: {q_file}")
+
+        except Exception as e:
+            print(f"reset_question_state error: {e}")
+            st.error(f"Fehler beim Aktualisieren der Optionen: {e}")

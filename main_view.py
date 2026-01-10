@@ -7,6 +7,7 @@ Verantwortlichkeiten:
 """
 import streamlit as st
 import pandas as pd
+import json
 import time
 import re
 import locale
@@ -52,8 +53,9 @@ from user_question_sets import (
 )
 from pdf_export import _normalize_stage_label
 from i18n.context import get_locale, t as translate_ui
-from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector
+from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector, is_owner_of_user_qset
 import pacing_helper as pacing
+from session_manager import verify_admin_session
 
 def show_ephemeral_message(message: str, seconds: float = 3.0, icon: str | None = None) -> None:
     """Show a short, inline message near the current layout and remove it after `seconds`.
@@ -3780,6 +3782,265 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _process_queued_rerun()
     # Apply single padding declaration to main container
     _inject_main_container_padding()
+
+    if st.session_state.get("_delete_success_msg"):
+        st.success(st.session_state.pop("_delete_success_msg"))
+    if st.session_state.get("_delete_error_msg"):
+        st.error(st.session_state.pop("_delete_error_msg"))
+
+    # --- ADMIN EDIT FEATURE ---
+    # Ermöglicht das direkte Bearbeiten der Frage im JSON-Format
+    user_id = st.session_state.get("user_id")
+    
+    # Prüfe Admin-Berechtigung und Session-Gültigkeit
+    is_admin = user_id and is_admin_user(user_id, app_config)
+    
+    # Admin-Zugriff gewähren, wenn kein Key konfiguriert ist ODER eine gültige Session vorliegt.
+    # Unabhängig davon, ob das Admin-Panel gerade angezeigt wird (globaler Zugriff).
+    admin_access_granted = False
+    if is_admin:
+        if not app_config.admin_key:
+            admin_access_granted = True
+        else:
+            token = st.session_state.get("admin_session_token")
+            if verify_admin_session(token, user_id):
+                admin_access_granted = True
+
+    # Check ownership for user sets
+    is_owner = False
+    selected_file = st.session_state.get("selected_questions_file")
+    if selected_file and str(selected_file).startswith(USER_QUESTION_PREFIX):
+        user_hash = st.session_state.get("user_id_hash")
+        if is_owner_of_user_qset(selected_file, user_id, user_hash):
+            is_owner = True
+
+    can_edit = admin_access_granted or is_owner
+
+    if can_edit:
+        label = "✏️ Frage verwalten" if is_owner else "✏️ Frage verwalten (Admin)"
+        # Keep expander open if requested (e.g. after save/delete)
+        is_expanded = st.session_state.pop("_keep_admin_expander_open", False)
+        with st.expander(label, expanded=is_expanded):
+            try:
+                # Aktuelle Frage als JSON laden
+                q_data = questions[frage_idx]
+                
+                # Bereinige redundante deutsche Keys für den Editor, um Verwirrung zu vermeiden
+                # und die Datei sauber zu halten (Single Source of Truth).
+                q_clean = q_data.copy()
+                redundant_keys = [
+                    "frage", "optionen", "loesung", "erklaerung", 
+                    "gewichtung", "thema", "kognitive_stufe"
+                ]
+                for k in redundant_keys:
+                    q_clean.pop(k, None)
+                
+                q_json = json.dumps(q_clean, indent=2, ensure_ascii=False)
+                
+                new_json_str = st.text_area("JSON bearbeiten", value=q_json, height=300, key=f"edit_q_{frage_idx}")
+                
+                col_save, col_promote = st.columns([1, 1])
+                with col_save:
+                    if st.button("💾 Speichern & Aktualisieren", key=f"save_q_{frage_idx}"):
+                        try:
+                            new_q_data = json.loads(new_json_str)
+                            
+                            # Datei laden und speichern
+                            selected_file = st.session_state.get("selected_questions_file")
+                            from config import _resolve_question_paths
+                            paths = _resolve_question_paths(selected_file)
+                            
+                            if paths:
+                                file_path = paths[0]
+                                with open(file_path, "r", encoding="utf-8") as f:
+                                    full_data = json.load(f)
+                                
+                                # Frage im Datensatz aktualisieren
+                                if isinstance(full_data, dict) and "questions" in full_data:
+                                    full_data["questions"][frage_idx] = new_q_data
+                                elif isinstance(full_data, list):
+                                    full_data[frage_idx] = new_q_data
+                                    
+                                with open(file_path, "w", encoding="utf-8") as f:
+                                    json.dump(full_data, f, indent=2, ensure_ascii=False)
+                                    
+                                # Cache invalidieren und UI aktualisieren
+                                from logic import reset_question_state
+                                # Explizit Cache leeren für sofortiges Update
+                                if hasattr(st, "cache_data"):
+                                    st.cache_data.clear()
+                                from config import load_questions
+                                if hasattr(load_questions, "clear"):
+                                    load_questions.clear()
+                                reset_question_state(frage_idx)
+                                
+                                st.success("Gespeichert! Aktualisiere...")
+                                st.session_state["_keep_admin_expander_open"] = True
+                                time.sleep(0.5)
+                                st.rerun()
+                            else:
+                                st.error("Quelldatei nicht gefunden.")
+                        except Exception as e:
+                            st.error(f"Fehler beim Speichern: {e}")
+
+                # Button zum Übernehmen in den Core-Datenbestand (für alle Sets verfügbar)
+                selected_file = st.session_state.get("selected_questions_file")
+                if selected_file:
+                    show_promote = True
+                    try:
+                        from config import _resolve_question_paths, get_package_dir
+                        paths = _resolve_question_paths(selected_file)
+                        if paths and paths[0].exists():
+                            src_path = paths[0]
+                            data_dir = Path(get_package_dir()) / "data"
+                            
+                            current_title = questions.meta.get('title', '')
+                            if current_title:
+                                safe_title = "".join([c for c in current_title if c.isalnum() or c in (' ', '-', '_')]).strip().replace(' ', '_')
+                                new_filename = f"questions_{safe_title}.json"
+                            else:
+                                stem = src_path.stem
+                                if stem.startswith("questions_"):
+                                    new_filename = f"{stem}.json"
+                                else:
+                                    new_filename = f"questions_{stem}.json"
+                            
+                            dest_path = data_dir / new_filename
+                            
+                            if src_path.resolve() == dest_path.resolve():
+                                show_promote = False
+                            elif dest_path.exists():
+                                try:
+                                    if src_path.read_bytes() == dest_path.read_bytes():
+                                        show_promote = False
+                                except Exception:
+                                    pass
+                    except Exception:
+                        pass
+
+                    if show_promote:
+                        with col_promote:
+                            if st.button("🚀 Nach 'data' übernehmen", key=f"promote_q_{frage_idx}", help="Kopiert das Set nach data/ und erstellt vorher ein Backup."):
+                                try:
+                                    import shutil
+                                    import os
+                                    from datetime import datetime
+                                    from config import _resolve_question_paths, get_package_dir
+                                    
+                                    paths = _resolve_question_paths(selected_file)
+                                    if paths and paths[0].exists():
+                                        src_path = paths[0]
+                                        
+                                        # 1. Backup erstellen
+                                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                                        backup_name = f"{src_path.stem}_backup_{timestamp}{src_path.suffix}"
+                                        backup_path = src_path.parent / backup_name
+                                        shutil.copy2(src_path, backup_path)
+                                        
+                                        # 2. Ziel-Dateinamen bestimmen
+                                        try:
+                                            with open(src_path, 'r', encoding='utf-8') as f:
+                                                content = json.load(f)
+                                            title = content.get('meta', {}).get('title', '')
+                                            if title:
+                                                safe_title = "".join([c for c in title if c.isalnum() or c in (' ', '-', '_')]).strip().replace(' ', '_')
+                                                new_filename = f"questions_{safe_title}.json"
+                                            else:
+                                                stem = src_path.stem
+                                                if stem.startswith("questions_"):
+                                                    new_filename = f"{stem}.json"
+                                                else:
+                                                    new_filename = f"questions_{stem}.json"
+                                        except Exception:
+                                            new_filename = f"questions_{src_path.stem}.json"
+                                        
+                                        # 3. Kopieren nach data/
+                                        data_dir = Path(get_package_dir()) / "data"
+                                        dest_path = data_dir / new_filename
+                                        
+                                        # Falls Ziel existiert, auch dort Backup machen (Sicherheit)
+                                        if dest_path.exists():
+                                            # Verhindere Fehler, wenn Quelle und Ziel identisch sind
+                                            if src_path.resolve() == dest_path.resolve():
+                                                st.info(f"Die Datei existiert bereits in data/ als {new_filename}. (Backup wurde erstellt: {backup_name})")
+                                            else:
+                                                dest_backup = data_dir / f"{dest_path.stem}_pre_overwrite_{timestamp}{dest_path.suffix}"
+                                                shutil.copy2(dest_path, dest_backup)
+                                                shutil.copy2(src_path, dest_path)
+                                                st.success(f"Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})")
+                                        else:
+                                            shutil.copy2(src_path, dest_path)
+                                            st.success(f"Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})")
+                                    else:
+                                        st.error("Quelldatei nicht gefunden.")
+                                except Exception as e:
+                                    st.error(f"Fehler bei der Übernahme: {e}")
+
+                # --- DELETE QUESTION ---
+                st.divider()
+                if st.button("🗑️ Frage löschen", key=f"del_q_init_{frage_idx}", type="secondary", help="Löscht diese Frage unwiderruflich aus dem Set."):
+                     st.session_state[f"confirm_del_{frage_idx}"] = True
+                
+                if st.session_state.get(f"confirm_del_{frage_idx}"):
+                    st.warning("Bist du sicher? Diese Frage wird sofort gelöscht.")
+                    col_yes, col_no = st.columns(2)
+                    with col_yes:
+                        def _delete_question():
+                            try:
+                                from config import _resolve_question_paths
+                                paths = _resolve_question_paths(selected_file)
+                                if paths:
+                                    file_path = paths[0]
+                                    with open(file_path, "r", encoding="utf-8") as f:
+                                        full_data = json.load(f)
+                                    
+                                    q_list = None
+                                    if isinstance(full_data, dict) and "questions" in full_data:
+                                        q_list = full_data["questions"]
+                                    elif isinstance(full_data, list):
+                                        q_list = full_data
+                                    
+                                    if q_list is not None and 0 <= frage_idx < len(q_list):
+                                        q_list.pop(frage_idx)
+                                        if isinstance(full_data, dict) and "meta" in full_data:
+                                            if "question_count" in full_data["meta"]:
+                                                full_data["meta"]["question_count"] = len(q_list)
+                                        
+                                        with open(file_path, "w", encoding="utf-8") as f:
+                                            json.dump(full_data, f, indent=2, ensure_ascii=False)
+                                        
+                                        if hasattr(st, "cache_data"):
+                                            st.cache_data.clear()
+                                        from config import load_questions
+                                        if hasattr(load_questions, "clear"):
+                                            load_questions.clear()
+                                        
+                                        # Re-Initialize session state to prevent infinite rerun loops
+                                        # and ensure indices match the new question set.
+                                        new_qs = load_questions(selected_file)
+                                        from auth import initialize_session_state
+                                        initialize_session_state(new_qs, app_config)
+                                        
+                                        st.session_state[f"confirm_del_{frage_idx}"] = False
+                                        st.session_state["_delete_success_msg"] = "Frage gelöscht."
+                                        st.session_state["_keep_admin_expander_open"] = True
+                                    else:
+                                        st.session_state["_delete_error_msg"] = "Index-Fehler beim Löschen."
+                                else:
+                                    st.session_state["_delete_error_msg"] = "Datei nicht gefunden."
+                            except Exception as e:
+                                st.session_state["_delete_error_msg"] = f"Fehler beim Löschen: {e}"
+
+                        st.button("Ja, löschen", key=f"del_q_yes_{frage_idx}", type="primary", on_click=_delete_question)
+
+                    with col_no:
+                        def _cancel_del():
+                            st.session_state[f"confirm_del_{frage_idx}"] = False
+                        st.button("Abbrechen", key=f"del_q_no_{frage_idx}", on_click=_cancel_del)
+            except Exception as e:
+                st.error(f"Fehler im Editor: {e}")
+    # --- END ADMIN EDIT ---
+
     # When rendering a question view, we are not in the final summary.
 
     # Reset per-question timing markers when navigating to a different question so

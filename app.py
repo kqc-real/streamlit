@@ -32,7 +32,7 @@ if _parent_dir not in sys.path:
 
 from config import AppConfig, load_questions
 from database import init_database
-from auth import handle_user_session, is_admin_user
+from auth import handle_user_session, is_admin_user, initialize_session_state
 from logic import (
     get_current_question_index,
     is_test_finished,
@@ -112,7 +112,13 @@ def main():
     questions = []
     if "selected_questions_file" in st.session_state and st.session_state.get("selected_questions_file"):
         try:
-            questions = load_questions(st.session_state.get("selected_questions_file"))
+            # Prefer absolute path if provided to avoid stale cache collisions
+            sel_path = st.session_state.get("selected_questions_file_path")
+            try:
+                load_questions.clear()
+            except Exception:
+                pass
+            questions = load_questions(sel_path or st.session_state.get("selected_questions_file"))
         except Exception as exc:
             st.error(translate_ui("app.error.questionset_load_failed", default="Fragenset '{filename}' konnte nicht geladen werden: {error}").format(filename=st.session_state.get('selected_questions_file'), error=exc))
             st.stop()
