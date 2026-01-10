@@ -25,3 +25,8 @@ var/
 
 # User-spezifische temporäre Fragensets
 data-user/
+
+# Automatische Backups beim Überschreiben von Fragensets
+data/*_pre_overwrite_*.json
+data/*_backup_*.json
+data-user/*_backup_*.json

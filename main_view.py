@@ -1989,6 +1989,12 @@ def render_welcome_page(app_config: AppConfig):
         # Non-fatal: if cleanup fails, continue and list sets anyway.
         pass
     user_question_sets = list_user_question_sets()
+    
+    # Filter out backup files from user sets to prevent them from appearing in the menu
+    user_question_sets = [
+        info for info in user_question_sets
+        if "_backup_" not in info.identifier and "_pre_overwrite_" not in info.identifier
+    ]
 
     def _user_sort_key(info):
         try:
@@ -3967,9 +3973,26 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                 dest_backup = data_dir / f"{dest_path.stem}_pre_overwrite_{timestamp}{dest_path.suffix}"
                                                 shutil.copy2(dest_path, dest_backup)
                                                 shutil.copy2(src_path, dest_path)
+                                                
+                                                # Falls Quelle ein temporäres User-Set war, löschen (Verschieben statt Kopieren),
+                                                # damit es nicht doppelt in der Liste erscheint.
+                                                if src_path.parent.name == "data-user":
+                                                    try:
+                                                        src_path.unlink()
+                                                    except Exception:
+                                                        pass
+                                                
                                                 st.success(f"Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})")
                                         else:
                                             shutil.copy2(src_path, dest_path)
+                                            
+                                            # Falls Quelle ein temporäres User-Set war, löschen (Verschieben statt Kopieren)
+                                            if src_path.parent.name == "data-user":
+                                                try:
+                                                    src_path.unlink()
+                                                except Exception:
+                                                    pass
+                                            
                                             st.success(f"Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})")
                                     else:
                                         st.error("Quelldatei nicht gefunden.")

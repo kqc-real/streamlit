@@ -720,11 +720,9 @@ def list_question_files() -> List[str]:
     files = []
     for f in os.listdir(data_dir):
         if f.startswith("questions_") and f.endswith(".json"):
-            # Backup-Dateien (pre_overwrite) ignorieren, damit sie nicht im Menü erscheinen
-            if "_pre_overwrite_" in f:
-            # Backup-Dateien (pre_overwrite/backup) ignorieren, damit sie nicht im Menü erscheinen
-                if "_pre_overwrite_" in f or "_backup_" in f:
-                    continue
+            # Backup-Dateien (pre_overwrite/backup) ignorieren
+            if "_pre_overwrite_" in f or "_backup_" in f:
+                continue
             # Normalisiere zu NFC (composed form)
             normalized = unicodedata.normalize("NFC", f)
             files.append(normalized)
