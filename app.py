@@ -109,6 +109,17 @@ def main():
     # der Placeholder auf der Welcome-Seite nie sichtbar war. Stattdessen lassen
     # wir `main_view.render_welcome_page` die Auswahl vornehmen und erst nach
     # einer aktiven Wahl das Questions-Objekt laden.
+    if st.session_state.pop("_force_questions_reload", False):
+        try:
+            if hasattr(st, "cache_data"):
+                st.cache_data.clear()
+        except Exception:
+            pass
+        try:
+            load_questions.clear()
+        except Exception:
+            pass
+
     questions = []
     if "selected_questions_file" in st.session_state and st.session_state.get("selected_questions_file"):
         try:

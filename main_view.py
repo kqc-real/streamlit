@@ -15,6 +15,7 @@ import math
 import logic
 import logging
 logger = logging.getLogger(__name__)
+import datetime as _dt
 from typing import Any
 from pathlib import Path
 import html as _html
@@ -2697,22 +2698,20 @@ def render_welcome_page(app_config: AppConfig):
                             # reload so users can still refresh the public top list.
                             try:
                                 from database import get_all_logs_for_leaderboard
-                                from datetime import datetime
                                 # Trigger a fresh read of leaderboard rows for the
                                 # selected file. This does not mutate DB but forces
                                 # the UI to re-query when Streamlit reruns.
                                 _ = get_all_logs_for_leaderboard(selected_file)
-                                st.session_state[last_key] = datetime.utcnow().isoformat()
+                                st.session_state[last_key] = _dt.datetime.utcnow().isoformat()
                                 st.success(translate_ui("welcome.leaderboard.updated", default="Rangliste aktualisiert"))
                             except Exception:
                                 st.error(translate_ui("welcome.leaderboard.refresh_failed", default="Aktualisierung fehlgeschlagen"))
                         else:
                             from database import recompute_session_summary
-                            from datetime import datetime
                             with st.spinner(translate_ui("welcome.leaderboard.refreshing", default="Aktualisiere Rangliste…")):
                                 ok = recompute_session_summary(int(session_id))
                             if ok:
-                                st.session_state[last_key] = datetime.utcnow().isoformat()
+                                st.session_state[last_key] = _dt.datetime.utcnow().isoformat()
                                 st.success(translate_ui("welcome.leaderboard.updated", default="Rangliste aktualisiert"))
                             else:
                                 st.error(translate_ui("welcome.leaderboard.refresh_failed", default="Aktualisierung fehlgeschlagen"))
@@ -2777,9 +2776,8 @@ def render_welcome_page(app_config: AppConfig):
                         # a visible confirmation independently of transient
                         # toasts/spinners.
                         try:
-                            from datetime import datetime
                             last_key = f"leaderboard_last_update_{selected_file}"
-                            st.session_state[last_key] = datetime.utcnow().isoformat()
+                            st.session_state[last_key] = _dt.datetime.utcnow().isoformat()
                         except Exception:
                             pass
                         # Show a short, visible confirmation because spinners
@@ -3830,7 +3828,82 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         label = translate_ui(label_key, default=default_label)
         # Expander default: closed. Keep open only when `_keep_admin_expander_open` is set by actions.
         is_expanded = st.session_state.get("_keep_admin_expander_open", False)
+        # Common keys reused across badges, debug panel and editor actions
+        widget_key = f"edit_q_{frage_idx}"
+        override_key = f"edit_q_override_{frage_idx}"
+        saved_flag_key = f"save_success_{frage_idx}"
+        last_saved_key = f"save_last_saved_{frage_idx}"
+        last_saved_ts_key = f"save_last_saved_ts_{frage_idx}"
+        needs_promote_key = f"needs_promote_{frage_idx}"
+        promote_done_key = f"promote_last_ts_{frage_idx}"
+        promote_done_saved_key = f"promote_last_saved_ts_{frage_idx}"
+        warn_key = f"save_q_{frage_idx}_warnings"
+        warn_snapshot_key = f"{warn_key}_text"
 
+        # Small header badges for the current question so the user sees status
+        try:
+            # Inject CSS for badges once (supports dark mode via prefers-color-scheme)
+            if not st.session_state.get("_admin_badge_css_injected"):
+                st.markdown(
+                    """
+                    <style>
+                    .admin-badges {display:flex;gap:8px;align-items:center;margin-bottom:8px}
+                    .admin-badge{padding:6px 10px;border-radius:6px;text-align:center;font-weight:600}
+                    .admin-badge--saved{background:#e6ffed;color:#064}
+                    .admin-badge--needs{background:#fff0f0;color:#900}
+                    .admin-badge--promoted{background:#e6ffed;color:#064}
+                    @media (prefers-color-scheme: dark){
+                        .admin-badge--saved{background:#023;color:#b7f7c9}
+                        .admin-badge--needs{background:#3a0000;color:#ffb3b3}
+                        .admin-badge--promoted{background:#023;color:#b7f7c9}
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                st.session_state["_admin_badge_css_injected"] = True
+            saved_ts = st.session_state.get(last_saved_ts_key)
+            needs_promote = st.session_state.get(needs_promote_key, False)
+            promote_ts = st.session_state.get(promote_done_key)
+            promote_saved_ts = st.session_state.get(promote_done_saved_key)
+            warn_list = st.session_state.get(warn_key) or []
+
+            if saved_ts or needs_promote or promote_ts or warn_list:
+                # render badges inline in a single horizontal row
+                parts = []
+                if saved_ts:
+                    parts.append(
+                        f"<div class='admin-badge admin-badge--saved'>✅ {translate_ui('admin.last_saved', default='Letzter Speicherzeitpunkt')}<br><small>{saved_ts}</small></div>"
+                    )
+                if warn_list:
+                    warn_items = "<br>".join(f"- {w}" for w in warn_list)
+                    parts.append(
+                        f"<div class='admin-badge admin-badge--needs'>⚠️ {translate_ui('admin.save_validation_warnings', default='Validierungswarnungen')}<br><small>{warn_items}</small></div>"
+                    )
+                if needs_promote:
+                    parts.append(
+                        f"<div class='admin-badge admin-badge--needs'>🚨 {translate_ui('admin.needs_promote', default='Noch nicht in Hauptsammlung')}</div>"
+                    )
+                elif promote_ts or promote_saved_ts:
+                    # prefer formatted promote timestamp when available
+                    if promote_saved_ts:
+                        readable = promote_saved_ts
+                    else:
+                        try:
+                            readable = _dt.datetime.fromtimestamp(float(promote_ts)).strftime("%Y-%m-%d %H:%M:%S")
+                        except Exception:
+                            readable = str(promote_ts)
+                    parts.append(
+                        f"<div class='admin-badge admin-badge--promoted'>✅ {translate_ui('admin.promoted', default='In Hauptsammlung übernommen')}:<br><small>{readable}</small></div>"
+                    )
+
+                html = "<div class='admin-badges'>" + "".join(parts) + "</div>"
+                st.markdown(html, unsafe_allow_html=True)
+        except Exception:
+            # don't fail the UI if badge rendering errors
+            pass
+
+        # --- Temporary debug panel (dev only) ---
         # Expander is opened when `_keep_admin_expander_open` is set by actions.
         # Clearing this flag is performed explicitly by the user (via the Close button).
         # If a promote action set a message, show it here (outside the expander)
@@ -3859,35 +3932,44 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 
                 q_json = json.dumps(q_clean, indent=2, ensure_ascii=False)
 
-                # Prepare widget keys
-                override_key = f"edit_q_override_{frage_idx}"
-                widget_key = f"edit_q_{frage_idx}"
-
-                # Inline action buttons (Save / Force-save on warnings / Reset / Cancel / Close)
-                col_save_btn, col_reset_btn, col_cancel_btn, col_close_btn = st.columns([1,1,1,1])
+                # Inline action buttons (Save / Reset / Cancel)
+                col_save_btn, col_reset_btn, col_cancel_btn = st.columns([1,1,1])
                 with col_save_btn:
                     # read current editor content from session (or fallback to computed JSON)
                     editor_text = st.session_state.get(widget_key, q_json)
+                    saved_text = st.session_state.get(last_saved_key)
+                    warn_list = st.session_state.get(warn_key) or []
+                    warn_snapshot = st.session_state.get(warn_snapshot_key)
 
-                    # Track last-saved content, timestamp and save-success flag so we can style the button
-                    saved_flag_key = f"save_success_{frage_idx}"
-                    last_saved_key = f"save_last_saved_{frage_idx}"
-                    last_saved_ts_key = f"save_last_saved_ts_{frage_idx}"
+                    # If we somehow lost the stored saved text but the saved flag is still set,
+                    # clear all badges so a new change starts clean.
+                    if st.session_state.get(saved_flag_key) and saved_text is None:
+                        st.session_state.pop(saved_flag_key, None)
+                        st.session_state.pop(last_saved_key, None)
+                        st.session_state.pop(last_saved_ts_key, None)
+                        st.session_state.pop(needs_promote_key, None)
+                        st.session_state.pop(promote_done_key, None)
+                        st.session_state.pop(promote_done_saved_key, None)
+                        saved_text = None
+                    # If content changed since warnings were stored, clear warnings snapshot/state
+                    if warn_list and warn_snapshot and warn_snapshot != editor_text:
+                        st.session_state.pop(warn_key, None)
+                        st.session_state.pop(warn_snapshot_key, None)
+                        warn_list = []
+
                     # If the editor content changed since the last saved value, clear success flag
-                    if st.session_state.get(last_saved_key) and st.session_state.get(last_saved_key) != editor_text:
+                    if saved_text and saved_text != editor_text:
                         st.session_state.pop(saved_flag_key, None)
                         st.session_state.pop(last_saved_key, None)
                         st.session_state.pop(last_saved_ts_key, None)
                         # If content changed after a save, it no longer needs promote
-                        needs_promote_key = f"needs_promote_{frage_idx}"
                         st.session_state.pop(needs_promote_key, None)
                         # also clear any promote-success timestamp so the Promote checkmark is removed
-                        st.session_state.pop(f"promote_last_ts_{frage_idx}", None)
-                        st.session_state.pop(f"promote_last_saved_ts_{frage_idx}", None)
+                        st.session_state.pop(promote_done_key, None)
+                        st.session_state.pop(promote_done_saved_key, None)
 
                     # Always render the verify/save button as secondary per UX requirement
                     btn_type = "secondary"
-                    # show a checkmark in the label when saved
                     base_label = translate_ui("admin.save_button", default="💾 Speichern & Aktualisieren")
                     saved_prefix = "✅ " if st.session_state.get(saved_flag_key) else ""
                     if st.button(saved_prefix + base_label, key=f"save_q_{frage_idx}", type=btn_type):
@@ -3918,7 +4000,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 else:
                                     temp_full = new_q_data
 
-                                # Validate before writing
+                                errors = []
+                                warnings = []
                                 try:
                                     from question_set_validation import validate_question_set_data
                                     errors, warnings = validate_question_set_data(temp_full, locale=get_locale())
@@ -3931,15 +4014,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     for err in errors:
                                         st.error(f"- {err}")
                                     st.session_state["_keep_admin_expander_open"] = True
-                                elif warnings:
-                                    # Store warnings in session and require explicit confirmation
-                                    st.warning(translate_ui("admin.save_validation_warnings", default="Validierungswarnungen gefunden:"))
-                                    for w in warnings:
-                                        st.warning(f"- {w}")
-                                    st.session_state[f"save_q_{frage_idx}_warnings"] = warnings
-                                    st.session_state["_keep_admin_expander_open"] = True
                                 else:
-                                    # No errors/warnings -> write immediately
+                                    # No errors -> write immediately (warnings will be shown as badge)
                                     with open(file_path, "w", encoding="utf-8") as f:
                                         json.dump(temp_full, f, indent=2, ensure_ascii=False)
 
@@ -3951,73 +4027,53 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     if hasattr(load_questions, "clear"):
                                         load_questions.clear()
                                     reset_question_state(frage_idx)
+                                    try:
+                                        refreshed = load_questions(selected_file, silent=True)
+                                        if refreshed and 0 <= frage_idx < len(refreshed):
+                                            try:
+                                                if hasattr(questions, "questions") and isinstance(questions.questions, list):
+                                                    questions.questions[frage_idx] = refreshed[frage_idx]
+                                            except Exception:
+                                                pass
+                                        st.session_state["_force_questions_reload"] = True
+                                    except Exception:
+                                        pass
 
                                     st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
                                     # mark successful save and remember the saved content + timestamp
-                                    from datetime import datetime
                                     st.session_state[saved_flag_key] = True
                                     # store the exact editor text so equality checks remain stable
                                     st.session_state[last_saved_key] = editor_text
                                     # ensure the widget shows the exact editor content after rerun
                                     st.session_state[widget_key] = editor_text
-                                    st.session_state[last_saved_ts_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                    st.session_state[last_saved_ts_key] = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                    # Update in-memory QuestionSet so the edit is visible immediately
+                                    try:
+                                        if hasattr(questions, "questions") and isinstance(questions.questions, list):
+                                            questions.questions[frage_idx] = new_q_data
+                                    except Exception:
+                                        pass
                                     st.session_state["_keep_admin_expander_open"] = True
-                                    # mark that this saved change needs to be promoted to `data/`
-                                    st.session_state[f"needs_promote_{frage_idx}"] = True
-                                    st.session_state.pop(f"save_q_{frage_idx}_warnings", None)
+                                    # Mark promote state: only needed for user/temp sets, not for core data sets
+                                    in_data_dir = bool(file_path and file_path.parent.name == "data")
+                                    if in_data_dir:
+                                        st.session_state.pop(needs_promote_key, None)
+                                    else:
+                                        st.session_state[needs_promote_key] = True
+                                    # Persist warnings (for badge) or clear if none
+                                    if warnings:
+                                        st.session_state[warn_key] = warnings
+                                        st.session_state[warn_snapshot_key] = editor_text
+                                    else:
+                                        st.session_state.pop(warn_key, None)
+                                        st.session_state.pop(warn_snapshot_key, None)
                                     time.sleep(0.5)
                                     st.rerun()
                         except Exception as e:
                             st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
 
                     # If there are pending warnings for this question, allow force-save
-                    warn_key = f"save_q_{frage_idx}_warnings"
-                    if st.session_state.get(warn_key):
-                        if st.button(translate_ui("admin.save_force_button", default="Trotz Warnungen speichern"), key=f"force_save_q_{frage_idx}"):
-                            try:
-                                # Re-load file and write the edited content (force)
-                                selected_file = st.session_state.get("selected_questions_file")
-                                from config import _resolve_question_paths
-                                paths = _resolve_question_paths(selected_file)
-                                file_path = next((p for p in paths if p.exists()), None)
-                                if file_path:
-                                    with open(file_path, "r", encoding="utf-8") as f:
-                                        full_data = json.load(f)
-
-                                    if isinstance(full_data, dict) and "questions" in full_data:
-                                        full_data["questions"][frage_idx] = json.loads(editor_text)
-                                    elif isinstance(full_data, list):
-                                        full_data[frage_idx] = json.loads(editor_text)
-
-                                    with open(file_path, "w", encoding="utf-8") as f:
-                                        json.dump(full_data, f, indent=2, ensure_ascii=False)
-
-                                    from logic import reset_question_state
-                                    if hasattr(st, "cache_data"):
-                                        st.cache_data.clear()
-                                    from config import load_questions
-                                    if hasattr(load_questions, "clear"):
-                                        load_questions.clear()
-                                    reset_question_state(frage_idx)
-
-                                    st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
-                                    # mark successful force-save and remember the saved content + timestamp
-                                    from datetime import datetime
-                                    st.session_state[saved_flag_key] = True
-                                    st.session_state[last_saved_key] = editor_text
-                                    # ensure the widget shows the exact editor content after rerun
-                                    st.session_state[widget_key] = editor_text
-                                    st.session_state[last_saved_ts_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                                    # mark that this saved change needs to be promoted to `data/`
-                                    st.session_state[f"needs_promote_{frage_idx}"] = True
-                                    st.session_state.pop(warn_key, None)
-                                    st.session_state["_keep_admin_expander_open"] = True
-                                    time.sleep(0.5)
-                                    st.rerun()
-                                else:
-                                    st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
-                            except Exception as e:
-                                st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
+                    # If warnings are pending, repurpose the save button to force-save in one click
 
                 with col_reset_btn:
                     # Reset to source-file original
@@ -4030,8 +4086,24 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             if not file_path:
                                 st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
                             else:
-                                with open(file_path, "r", encoding="utf-8") as f:
+                                # Prefer restoring from the newest backup if available
+                                backup_candidates = sorted(
+                                    file_path.parent.glob(f"{file_path.stem}_backup_*{file_path.suffix}"),
+                                    key=lambda p: p.stat().st_mtime,
+                                    reverse=True,
+                                )
+                                reset_source = backup_candidates[0] if backup_candidates else file_path
+
+                                with open(reset_source, "r", encoding="utf-8") as f:
                                     full_data = json.load(f)
+
+                                # If we used a backup, restore the main file from it
+                                if reset_source != file_path:
+                                    import shutil
+                                    try:
+                                        shutil.copy2(reset_source, file_path)
+                                    except Exception:
+                                        pass
 
                                 if isinstance(full_data, dict) and "questions" in full_data:
                                     orig_q = full_data["questions"][frage_idx]
@@ -4040,8 +4112,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 else:
                                     orig_q = full_data
 
+                                # Update the in-memory QuestionSet so the UI uses the original content
                                 try:
-                                    questions[frage_idx] = orig_q
+                                    if hasattr(questions, "questions") and isinstance(questions.questions, list):
+                                        questions.questions[frage_idx] = orig_q
+                                    else:
+                                        questions[frage_idx] = orig_q
                                 except Exception:
                                     pass
 
@@ -4053,6 +4129,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 # set editor session value directly so the widget will show it when created
                                 st.session_state[widget_key] = json.dumps(q_clean2, indent=2, ensure_ascii=False)
                                 st.success(translate_ui("admin.reset_success", default="Auf die Original-JSON in der Quelldatei zurückgesetzt."))
+                                # Clear warnings/snapshots after a reset
+                                st.session_state.pop(warn_key, None)
+                                st.session_state.pop(warn_snapshot_key, None)
+                                st.session_state["_force_questions_reload"] = True
                                 st.session_state["_keep_admin_expander_open"] = True
                         except Exception as e:
                             st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
@@ -4062,11 +4142,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     if st.button(translate_ui("admin.cancel_button", default="Abbrechen"), key=f"cancel_q_{frage_idx}"):
                         # set the editor session value to the original JSON and close expander
                         st.session_state[widget_key] = q_json
+                        st.session_state.pop(warn_key, None)
+                        st.session_state.pop(warn_snapshot_key, None)
                         st.session_state["_keep_admin_expander_open"] = False
 
-                with col_close_btn:
-                    if st.button(translate_ui("admin.close_expander_button", default="Schließen"), key=f"close_expander_{frage_idx}"):
-                        st.session_state["_keep_admin_expander_open"] = False
 
                 # If an external override marker exists (set by other code), move it into the widget key
                 if override_key in st.session_state:
@@ -4138,6 +4217,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             
                             if src_path.resolve() == dest_path.resolve():
                                 show_promote = False
+                                # Already in core collection: clear promote-needed badge; keep promote state unchanged
+                                st.session_state.pop(needs_promote_key, None)
                             elif dest_path.exists():
                                 try:
                                     if src_path.read_bytes() == dest_path.read_bytes():
@@ -4148,31 +4229,24 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         pass
 
                     # If a promote was recently performed, keep the promote control visible
-                    promote_done_key = f"promote_last_ts_{frage_idx}"
                     if st.session_state.get(promote_done_key):
                         show_promote = True
 
                     if show_promote:
                         with col_promote:
-                            needs_promote_key = f"needs_promote_{frage_idx}"
                             needs_promote = st.session_state.get(needs_promote_key, False)
-                            promote_done_key = f"promote_last_ts_{frage_idx}"
                             promote_done = bool(st.session_state.get(promote_done_key))
                             promote_label = ("✅ " if promote_done else "") + translate_ui("admin.promote_button", default="🚀 Nach 'data' übernehmen")
                             promote_type = "primary" if needs_promote else "secondary"
-
-                            # (promotion caption removed)
 
                             if st.button(
                                 promote_label,
                                 key=f"promote_q_{frage_idx}",
                                 type=promote_type,
-                                help=translate_ui("admin.promote_help", default="Kopiert das Set nach data/ und erstellt vorher ein Backup.")
                             ):
                                 try:
                                     import shutil
                                     import os
-                                    from datetime import datetime
                                     from config import _resolve_question_paths, get_package_dir
                                     
                                     paths = _resolve_question_paths(selected_file)
@@ -4180,7 +4254,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     if src_path:
                                         
                                         # 1. Backup erstellen
-                                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                                        timestamp = _dt.datetime.now().strftime("%Y%m%d_%H%M%S")
                                         backup_name = f"{src_path.stem}_backup_{timestamp}{src_path.suffix}"
                                         backup_path = src_path.parent / backup_name
                                         shutil.copy2(src_path, backup_path)
@@ -4210,7 +4284,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                         if dest_path.exists():
                                             # Verhindere Fehler, wenn Quelle und Ziel identisch sind
                                             if src_path.resolve() == dest_path.resolve():
-                                                st.info(translate_ui("admin.promote_exists_info", default="Die Datei existiert bereits in data/ als {new_filename}. (Backup wurde erstellt: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
+                                                st.session_state.pop(needs_promote_key, None)
+                                                st.session_state[promote_done_key] = time.time()
+                                                saved_ts = st.session_state.get(last_saved_ts_key) or _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                                st.session_state[promote_done_saved_key] = saved_ts
+                                                st.session_state["_keep_admin_expander_open"] = True
+                                                time.sleep(0.5)
+                                                st.rerun()
                                             else:
                                                 dest_backup = data_dir / f"{dest_path.stem}_pre_overwrite_{timestamp}{dest_path.suffix}"
                                                 shutil.copy2(dest_path, dest_backup)
@@ -4234,9 +4314,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                 
                                                 # clear the 'needs promote' marker because the set is now in data/
                                                 st.session_state.pop(needs_promote_key, None)
-                                                st.session_state[f"promote_last_ts_{frage_idx}"] = time.time()
+                                                st.session_state[promote_done_key] = time.time()
+                                                st.session_state[promote_done_saved_key] = time.strftime("%Y-%m-%d %H:%M:%S")
                                                 msg = translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name)
                                                 # promotion completed (no UI toast/banner shown per request)
+                                                st.session_state["_keep_admin_expander_open"] = True
                                                 time.sleep(0.5)
                                                 st.rerun()
                                         else:
@@ -4255,13 +4337,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                 from config import load_questions
                                                 if hasattr(load_questions, "clear"):
                                                     load_questions.clear()
-                                                st.session_state["selected_questions_file"] = new_filename
+                                            st.session_state["selected_questions_file"] = new_filename
                                             
                                             # clear the 'needs promote' marker because the set is now in data/
                                             st.session_state.pop(needs_promote_key, None)
-                                            st.session_state[f"promote_last_ts_{frage_idx}"] = time.time()
+                                            st.session_state[promote_done_key] = time.time()
+                                            st.session_state[promote_done_saved_key] = time.strftime("%Y-%m-%d %H:%M:%S")
                                             msg = translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name)
                                             # promotion completed (no UI toast/banner shown per request)
+                                            st.session_state["_keep_admin_expander_open"] = True
                                             time.sleep(0.5)
                                             st.rerun()
                                     else:
