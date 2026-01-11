@@ -3875,45 +3875,113 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     if st.button(translate_ui("admin.save_button", default="💾 Speichern & Aktualisieren"), key=f"save_q_{frage_idx}"):
                         try:
                             new_q_data = json.loads(new_json_str)
-                            
-                            # Datei laden und speichern
+
+                            # Datei laden
                             selected_file = st.session_state.get("selected_questions_file")
                             from config import _resolve_question_paths
                             paths = _resolve_question_paths(selected_file)
-                            
                             file_path = next((p for p in paths if p.exists()), None)
-                            
-                            if file_path:
+
+                            if not file_path:
+                                st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
+                            else:
                                 with open(file_path, "r", encoding="utf-8") as f:
                                     full_data = json.load(f)
-                                
-                                # Frage im Datensatz aktualisieren
+
+                                # Prepare an in-memory version of the dataset with the edited question
                                 if isinstance(full_data, dict) and "questions" in full_data:
-                                    full_data["questions"][frage_idx] = new_q_data
+                                    temp_full = dict(full_data)
+                                    temp_questions = list(full_data["questions"])
+                                    temp_questions[frage_idx] = new_q_data
+                                    temp_full["questions"] = temp_questions
                                 elif isinstance(full_data, list):
-                                    full_data[frage_idx] = new_q_data
-                                    
-                                with open(file_path, "w", encoding="utf-8") as f:
-                                    json.dump(full_data, f, indent=2, ensure_ascii=False)
-                                    
-                                # Cache invalidieren und UI aktualisieren
-                                from logic import reset_question_state
-                                # Explizit Cache leeren für sofortiges Update
-                                if hasattr(st, "cache_data"):
-                                    st.cache_data.clear()
-                                from config import load_questions
-                                if hasattr(load_questions, "clear"):
-                                    load_questions.clear()
-                                reset_question_state(frage_idx)
-                                
-                                st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
-                                st.session_state["_keep_admin_expander_open"] = True
-                                time.sleep(0.5)
-                                st.rerun()
-                            else:
-                                st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
+                                    temp_full = list(full_data)
+                                    temp_full[frage_idx] = new_q_data
+                                else:
+                                    temp_full = new_q_data
+
+                                # Validate before writing
+                                try:
+                                    from question_set_validation import validate_question_set_data
+                                    errors, warnings = validate_question_set_data(temp_full)
+                                except Exception:
+                                    errors, warnings = ["Validierung konnte nicht ausgeführt werden."], []
+
+                                if errors:
+                                    st.error(translate_ui("admin.save_validation_errors", default="Validierungsfehler verhindern das Speichern:"))
+                                    for err in errors:
+                                        st.error(f"- {err}")
+                                    st.session_state["_keep_admin_expander_open"] = True
+                                elif warnings:
+                                    # Store warnings in session and require explicit confirmation
+                                    st.warning(translate_ui("admin.save_validation_warnings", default="Validierungswarnungen gefunden:"))
+                                    for w in warnings:
+                                        st.warning(f"- {w}")
+                                    st.session_state[f"save_q_{frage_idx}_warnings"] = warnings
+                                    st.session_state["_keep_admin_expander_open"] = True
+                                    # Render a confirm button below (user must click again to force-save)
+                                else:
+                                    # No errors/warnings -> write immediately
+                                    with open(file_path, "w", encoding="utf-8") as f:
+                                        json.dump(temp_full, f, indent=2, ensure_ascii=False)
+
+                                    # Cache invalidieren und UI aktualisieren
+                                    from logic import reset_question_state
+                                    if hasattr(st, "cache_data"):
+                                        st.cache_data.clear()
+                                    from config import load_questions
+                                    if hasattr(load_questions, "clear"):
+                                        load_questions.clear()
+                                    reset_question_state(frage_idx)
+
+                                    st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
+                                    st.session_state["_keep_admin_expander_open"] = True
+                                    # Clear any previous warnings state
+                                    st.session_state.pop(f"save_q_{frage_idx}_warnings", None)
+                                    time.sleep(0.5)
+                                    st.rerun()
                         except Exception as e:
                             st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
+
+                    # If there are pending warnings for this question, allow force-save
+                    warn_key = f"save_q_{frage_idx}_warnings"
+                    if st.session_state.get(warn_key):
+                        if st.button(translate_ui("admin.save_force_button", default="Trotz Warnungen speichern"), key=f"force_save_q_{frage_idx}"):
+                            try:
+                                # Re-load file and write the edited content (force)
+                                selected_file = st.session_state.get("selected_questions_file")
+                                from config import _resolve_question_paths
+                                paths = _resolve_question_paths(selected_file)
+                                file_path = next((p for p in paths if p.exists()), None)
+                                if file_path:
+                                    with open(file_path, "r", encoding="utf-8") as f:
+                                        full_data = json.load(f)
+
+                                    if isinstance(full_data, dict) and "questions" in full_data:
+                                        full_data["questions"][frage_idx] = json.loads(new_json_str)
+                                    elif isinstance(full_data, list):
+                                        full_data[frage_idx] = json.loads(new_json_str)
+
+                                    with open(file_path, "w", encoding="utf-8") as f:
+                                        json.dump(full_data, f, indent=2, ensure_ascii=False)
+
+                                    from logic import reset_question_state
+                                    if hasattr(st, "cache_data"):
+                                        st.cache_data.clear()
+                                    from config import load_questions
+                                    if hasattr(load_questions, "clear"):
+                                        load_questions.clear()
+                                    reset_question_state(frage_idx)
+
+                                    st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
+                                    st.session_state.pop(warn_key, None)
+                                    st.session_state["_keep_admin_expander_open"] = True
+                                    time.sleep(0.5)
+                                    st.rerun()
+                                else:
+                                    st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
+                            except Exception as e:
+                                st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
 
                 # Button zum Übernehmen in den Core-Datenbestand (für alle Sets verfügbar)
                 selected_file = st.session_state.get("selected_questions_file")
