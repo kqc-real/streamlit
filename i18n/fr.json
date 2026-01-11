@@ -394,10 +394,10 @@
             "kahoot_title": "Invite IA Kahoot",
             "arsnova_title": "Invite IA arsnova.click"
         },
-        "manage_question_owner": "✏️ Gérer la question",
-        "manage_question_admin": "✏️ Gérer la question (Admin)",
+        "manage_question_owner": "✏️ Assurance Qualité (Human-in-the-Loop)",
+        "manage_question_admin": "✏️ Assurance Qualité (Admin)",
         "edit_json_label": "Modifier JSON",
-        "save_button": "💾 Enregistrer & Mettre à jour",
+        "save_button": "💾 Vérifier & Enregistrer",
         "save_success": "Enregistré ! Mise à jour...",
         "source_file_not_found": "Fichier source introuvable.",
         "save_error": "Erreur lors de l'enregistrement : {e}",

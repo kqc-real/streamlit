@@ -732,10 +732,10 @@
             "kahoot_title": "Kahoot AI 提示",
             "arsnova_title": "arsnova.click AI 提示"
         },
-        "manage_question_owner": "✏️ 管理问题",
-        "manage_question_admin": "✏️ 管理问题 (管理员)",
+        "manage_question_owner": "✏️ 质量保证 (人机协同)",
+        "manage_question_admin": "✏️ 质量保证 (管理员)",
         "edit_json_label": "编辑 JSON",
-        "save_button": "💾 保存并更新",
+        "save_button": "💾 验证并保存",
         "save_success": "已保存！正在更新...",
         "source_file_not_found": "未找到源文件。",
         "save_error": "保存时出错：{e}",

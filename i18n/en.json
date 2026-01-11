@@ -728,10 +728,10 @@
             "kahoot_title": "Kahoot AI Prompt",
             "arsnova_title": "arsnova.click AI Prompt"
         },
-        "manage_question_owner": "✏️ Manage Question",
-        "manage_question_admin": "✏️ Manage Question (Admin)",
+        "manage_question_owner": "✏️ Quality Assurance (Human-in-the-Loop)",
+        "manage_question_admin": "✏️ Quality Assurance (Admin)",
         "edit_json_label": "Edit JSON",
-        "save_button": "💾 Save & Update",
+        "save_button": "💾 Verify & Save",
         "save_success": "Saved! Updating...",
         "source_file_not_found": "Source file not found.",
         "save_error": "Error saving: {e}",
