@@ -3,7 +3,7 @@
     "title": "Big Data",
     "created": "09.01.2026 00:00",
     "target_audience": "Informatikstudierende",
-    "question_count": 20,
+    "question_count": 19,
     "difficulty_profile": {
       "easy": 2,
       "medium": 12,
@@ -728,49 +728,6 @@
         {
           "term": "Metadatenkatalog",
           "definition": "Verzeichnis, das Datenbestände beschreibt, auffindbar macht und Governance unterstützt."
-        }
-      ]
-    },
-    {
-      "question": "18. Ein Modell verschlechtert sich im Betrieb, obwohl der Code unverändert ist. Welche Analyse ist am passendsten?",
-      "options": [
-        "Monitoring auf Data Drift und Concept Drift einführen, um Veränderungen der Eingabedaten und der Zielbeziehung zu erkennen.",
-        "Monitoring auf Data Drift und Concept Drift einführen, um Veränderungen der Eingabedaten und der Zielbeziehung zu verhindern.",
-        "Monitoring auf Data Drift ohne Concept Drift einführen, um Veränderungen der Eingabedaten und der Zielbeziehung zu erkennen.",
-        "Monitoring auf Data Drift ohne Concept Drift einführen, um Veränderungen der Eingabedaten und der Zielbeziehung zu verhindern."
-      ],
-      "answer": 0,
-      "explanation": "Modelle können schlechter werden, wenn sich die Datenverteilung (Data Drift) oder die Beziehung zwischen Features und Ziel (Concept Drift) ändert. Monitoring macht diese Veränderungen sichtbar und unterstützt Gegenmaßnahmen. Drift zu „verhindern“ ist meist nicht realistisch, sondern man erkennt und reagiert.",
-      "weight": 3,
-      "topic": "ML Operations",
-      "concept": "Drift",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Drift als Ursache für Modellabfall",
-        "steps": [
-          "Überwache Data Drift, um Verteilungsänderungen der Eingabedaten zu erkennen.",
-          "Überwache Concept Drift, um Änderungen der Zielbeziehung zu erkennen.",
-          "Nutze Monitoring, um Schwellenwerte und Alarme zu definieren.",
-          "Plane Re-Training oder Anpassungen, wenn Drift die Performance beeinflusst."
-        ],
-        "content": "Im Betrieb ändern sich Umgebungen: Nutzerverhalten, Sensoren oder Prozesse. Data Drift zeigt, dass sich Inputs verschieben, Concept Drift zeigt, dass die „Bedeutung“ der Inputs für das Ziel kippt. Monitoring liefert die Diagnosebasis, um Retraining, Feature-Anpassung oder Modellwechsel begründet auszulösen."
-      },
-      "mini_glossary": [
-        {
-          "term": "Data Drift",
-          "definition": "Änderung der Verteilung von Eingabedaten im Vergleich zur Trainingsphase."
-        },
-        {
-          "term": "Concept Drift",
-          "definition": "Änderung der Beziehung zwischen Eingabedaten und Zielvariable über Zeit."
-        },
-        {
-          "term": "Monitoring",
-          "definition": "Kontinuierliche Messung und Überwachung von Daten- und Modellmetriken im Betrieb."
-        },
-        {
-          "term": "Feature",
-          "definition": "Eingangsmerkmal/Variable, die als Input für ein Modell genutzt wird."
         }
       ]
     },

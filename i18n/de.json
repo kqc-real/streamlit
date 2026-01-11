@@ -505,6 +505,8 @@
         "manage_question_owner": "✏️ Qualitätssicherung (Set‑Ersteller — temporäre Sets, Human-in-the-Loop)",
         "manage_question_admin": "✏️ Qualitätssicherung (Admin — Hauptsammlung / Core‑Sets)",
         "edit_json_label": "Erweiterte Bearbeitung (JSON)",
+        "json_schema_help_title": "💡 Hilfe: Fragenschema bearbeiten",
+        "json_schema_help_text": "Kurz & klar:\n\nÄndere nur den Text WERT — also den Inhalt zwischen den Anführungszeichen *nach* dem Doppelpunkt.\nNicht ändern: Feldnamen, Klammern, Kommas oder die Struktur.\n\nBeispiel (nur das markierte ändern):\n\"question\": \"Was ist 2+2?\"  ← hier darfst du den Text zwischen den Anführungszeichen ändern\n\nWichtig:\n- Ändere nur Inhalte in den Anführungszeichen (z. B. \"question\": \"Neuer Fragetext\").\n- Nicht ändern: Feldnamen (z. B. \"question\"), Listenstruktur (\"options\": [...] ), Zahlenfelder (\"answer\": 0).\n- Nach dem Speichern: kurz testen, ob die Frage noch funktioniert.\n\nBei Unsicherheit: lieber nur Tippfehler korrigieren oder Feedback senden.",
         "save_button": "💾 Speichern & Prüfen",
         "save_success": "Gespeichert. Bitte die Ansicht aktualisieren...",
         "source_file_not_found": "Originaldatei nicht gefunden.",

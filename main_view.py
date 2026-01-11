@@ -3851,6 +3851,24 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     height=300, 
                     key=f"edit_q_{frage_idx}"
                 )
+
+                # Help for non-technical users: how to read/edit the question JSON
+                help_title = translate_ui("admin.json_schema_help_title", default="💡 Hilfe: Fragenschema bearbeiten")
+                with st.expander(help_title, expanded=False):
+                    st.markdown(
+                        translate_ui(
+                            "admin.json_schema_help_text",
+                            default=(
+                                "Kurze Anleitung für das Fragenschema:\n\n"
+                                "- Du siehst hier die Frage im JSON-Format. Ändere nur sichtbare Texte: Frage, Antworttext oder Erklärung.\n"
+                                "- Verändere bitte nicht die JSON-Struktur (keine eckigen/geschweiften Klammern entfernen).\n"
+                                "- Achte darauf, dass die Anzahl der Antwortoptionen gleich bleibt und die korrekte Antwort weiterhin markiert ist.\n"
+                                "- Wenn du unsicher bist, korrigiere nur Tippfehler im Text oder schreibe in das Feedback.\n"
+                                "- Nach dem Speichern: Teste das Set kurz, um sicherzugehen, dass alles noch funktioniert.\n\n"
+                                "Bei Fragen wende dich an den Kurs-Verantwortlichen."
+                            )
+                        )
+                    )
                 
                 col_save, col_promote = st.columns([1, 1])
                 with col_save:
