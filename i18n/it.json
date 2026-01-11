@@ -394,8 +394,8 @@
             "kahoot_title": "Prompt IA Kahoot",
             "arsnova_title": "Prompt IA arsnova.click"
         },
-        "manage_question_owner": "✏️ Controllo Qualità (Human-in-the-Loop)",
-        "manage_question_admin": "✏️ Controllo Qualità (Admin)",
+        "manage_question_owner": "✏️ Controllo qualità (creatore del set — set temporanei, Human-in-the-Loop)",
+        "manage_question_admin": "✏️ Controllo qualità (Admin — raccolta principale / Core‑sets)",
         "edit_json_label": "Modifica JSON",
         "save_button": "💾 Verifica & Salva",
         "save_success": "Salvato! Aggiornamento...",

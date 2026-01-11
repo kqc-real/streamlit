@@ -394,8 +394,8 @@
             "kahoot_title": "Solicitud IA Kahoot",
             "arsnova_title": "Solicitud IA arsnova.click"
         },
-        "manage_question_owner": "✏️ Garantía de Calidad (Human-in-the-Loop)",
-        "manage_question_admin": "✏️ Garantía de Calidad (Admin)",
+        "manage_question_owner": "✏️ Garantía de calidad (creador del set — sets temporales, Human-in-the-Loop)",
+        "manage_question_admin": "✏️ Garantía de calidad (Admin — colección principal / Core‑sets)",
         "edit_json_label": "Editar JSON",
         "save_button": "💾 Verificar y Guardar",
         "save_success": "¡Guardado! Actualizando...",

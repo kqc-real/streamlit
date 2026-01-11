@@ -732,8 +732,8 @@
             "kahoot_title": "Kahoot AI 提示",
             "arsnova_title": "arsnova.click AI 提示"
         },
-        "manage_question_owner": "✏️ 质量保证 (人机协同)",
-        "manage_question_admin": "✏️ 质量保证 (管理员)",
+        "manage_question_owner": "✏️ 质量保证（创建者 — 临时题库，Human-in-the-Loop）",
+        "manage_question_admin": "✏️ 质量保证（管理员 — 主集合 / 核心题库）",
         "edit_json_label": "编辑 JSON",
         "save_button": "💾 验证并保存",
         "save_success": "已保存！正在更新...",
