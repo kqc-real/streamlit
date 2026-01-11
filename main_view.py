@@ -3984,6 +3984,61 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             except Exception as e:
                                 st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
 
+                    # Cancel / Revert edits button: restore original JSON and close expander
+                    # Reset to source-file original
+                    if st.button(translate_ui("admin.reset_button", default="Zurücksetzen"), key=f"reset_q_{frage_idx}"):
+                        try:
+                            selected_file = st.session_state.get("selected_questions_file")
+                            from config import _resolve_question_paths
+                            paths = _resolve_question_paths(selected_file)
+                            file_path = next((p for p in paths if p.exists()), None)
+                            if not file_path:
+                                st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
+                            else:
+                                with open(file_path, "r", encoding="utf-8") as f:
+                                    full_data = json.load(f)
+
+                                if isinstance(full_data, dict) and "questions" in full_data:
+                                    orig_q = full_data["questions"][frage_idx]
+                                elif isinstance(full_data, list):
+                                    orig_q = full_data[frage_idx]
+                                else:
+                                    orig_q = full_data
+
+                                # update in-memory and the editor text area
+                                try:
+                                    questions[frage_idx] = orig_q
+                                except Exception:
+                                    pass
+
+                                q_clean2 = orig_q.copy() if isinstance(orig_q, dict) else orig_q
+                                if isinstance(q_clean2, dict):
+                                    for k in redundant_keys:
+                                        q_clean2.pop(k, None)
+
+                                st.session_state[f"edit_q_{frage_idx}"] = json.dumps(q_clean2, indent=2, ensure_ascii=False)
+                                st.success(translate_ui("admin.reset_success", default="Auf die Original-JSON in der Quelldatei zurückgesetzt."))
+                                st.session_state["_keep_admin_expander_open"] = True
+                                try:
+                                    st.rerun()
+                                except Exception:
+                                    pass
+                        except Exception as e:
+                            st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
+
+                    # Cancel / Revert edits button: restore original JSON and close expander
+                    if st.button(translate_ui("admin.cancel_button", default="Abbrechen"), key=f"cancel_q_{frage_idx}"):
+                        try:
+                            # revert the text area value to the original cleaned JSON
+                            st.session_state[f"edit_q_{frage_idx}"] = q_json
+                        except Exception:
+                            pass
+                        st.session_state["_keep_admin_expander_open"] = False
+                        try:
+                            st.rerun()
+                        except Exception:
+                            pass
+
                 # Button zum Übernehmen in den Core-Datenbestand (für alle Sets verfügbar)
                 selected_file = st.session_state.get("selected_questions_file")
                 if selected_file:
