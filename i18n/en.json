@@ -737,6 +737,7 @@
         "save_success": "Saved! Updating...",
         "source_file_not_found": "Source file not found.",
         "save_error": "Error saving: {e}",
+        "validation_failed_to_run": "Validation could not be executed.",
         "save_validation_errors": "Validation errors prevent saving:",
         "save_validation_warnings": "Validation warnings found:",
         "save_force_button": "Save despite warnings",
@@ -1240,4 +1241,52 @@
             "unanswered": "Unanswered"
         }
     }
+
+    ,"validator": {
+        "errors": {
+            "field_must_be_non_empty_text": "{0} must be a non-empty text.",
+            "unsafe_html_tags": "{0}: Unsafe HTML tags are not allowed.",
+            "latex_in_backticks": "{0}: LaTeX must not be inside backticks.",
+            "missing_questions": "Top-level key 'questions' is missing.",
+            "questions_not_list": "'questions' must be a list.",
+            "invalid_json_format": "Invalid JSON format: expected object with 'questions' or a list of questions.",
+            "question_must_be_object": "{0} must be an object.",
+            "options_must_be_list": "{0}: 'options' must be a list.",
+            "min_options_required": "{0}: At least {1} answer options are required.",
+            "answer_must_be_int": "{0}: 'answer' must be an integer.",
+            "answer_not_negative": "{0}: 'answer' must not be negative.",
+            "answer_index_invalid": "{0}: 'answer' is not a valid index for the options.",
+            "weight_must_be_int": "{0}: 'weight' must be an integer.",
+            "weight_must_be_int": "{0}: 'weight' must be an integer.",
+            "invalid_glossary_object": "{0}: Invalid glossary object. Expected 'term' and 'definition' or a single mapping."
+        },
+        "warnings": {
+            "weight_should_be_123": "{0}: 'weight' should be 1, 2 or 3 (currently {1}).",
+            "mini_glossary_size": "{0}: mini_glossary contains {1} entries. Recommended: {2}-{3}.",
+            "meta_question_count_not_number": "meta.question_count is not a number and was ignored.",
+            "meta_count_mismatch": "meta.question_count ({0}) does not match actual count ({1}).",
+            "theme_occurrences": "Theme '{0}' appears only {1}× (recommended at least {2}×)."
+        }
+        ,"context": {
+            "question": "Question {0}"
+        }
+        ,"labels": {
+            "field_question": "Field 'question'",
+            "field_explanation": "Field 'explanation'",
+            "field_topic": "Field 'topic'",
+            "field_options": "Field 'options'",
+            "option": "Option {0}",
+            "field_answer": "Field 'answer'",
+            "field_weight": "Field 'weight'",
+            "mini_glossary_key": "Glossary key",
+            "mini_glossary_entry": "Glossary entry",
+            "field_concept": "Field 'concept'",
+            "field_cognitive_level": "Field 'cognitive_level'"
+        }
+    }
 }
+
+
+
+
+

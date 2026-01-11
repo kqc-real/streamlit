@@ -403,6 +403,7 @@
         "save_success": "Salvato! Aggiornamento...",
         "source_file_not_found": "File sorgente non trovato.",
         "save_error": "Errore durante il salvataggio: {e}",
+        "validation_failed_to_run": "Impossibile eseguire la convalida.",
         "save_validation_errors": "Errori di convalida impediscono il salvataggio:",
         "save_validation_warnings": "Avvisi di convalida rilevati:",
         "save_force_button": "Salva nonostante gli avvisi",
@@ -1241,5 +1242,47 @@
             "wrong": "Errato",
             "unanswered": "Non risposto"
         }
+    }
+
+    ,"validator": {
+        "errors": {
+            "field_must_be_non_empty_text": "{0} deve essere un testo non vuoto.",
+            "unsafe_html_tags": "{0}: I tag HTML non sicuri non sono consentiti.",
+            "latex_in_backticks": "{0}: Il LaTeX non deve essere racchiuso tra backticks.",
+            "missing_questions": "La chiave di primo livello 'questions' manca.",
+            "questions_not_list": "'questions' deve essere una lista.",
+            "invalid_json_format": "Formato JSON non valido: atteso un oggetto con 'questions' o una lista di domande.",
+            "question_must_be_object": "{0} deve essere un oggetto.",
+            "options_must_be_list": "{0}: 'options' deve essere una lista.",
+            "min_options_required": "{0}: Sono richieste almeno {1} opzioni di risposta.",
+            "answer_must_be_int": "{0}: 'answer' deve essere un numero intero.",
+            "answer_not_negative": "{0}: 'answer' non deve essere negativo.",
+            "answer_index_invalid": "{0}: 'answer' non è un indice valido per le opzioni.",
+            "weight_must_be_int": "{0}: 'peso' deve essere un numero intero.",
+            "invalid_glossary_object": "{0}: Oggetto glossario non valido. Previsti 'term' e 'definition' o una mappatura singola."
+        },
+        "warnings": {
+            "weight_should_be_123": "{0}: 'peso' dovrebbe essere 1, 2 o 3 (attualmente {1}).",
+            "mini_glossary_size": "{0}: mini_glossary contiene {1} voci. Raccomandato: {2}-{3}.",
+            "meta_question_count_not_number": "meta.question_count non è un numero ed è stato ignorato.",
+            "meta_count_mismatch": "meta.question_count ({0}) non corrisponde al conteggio reale ({1}).",
+            "theme_occurrences": "Tema '{0}' appare solo {1}× (consigliato almeno {2}×)."
+        }
+            ,"context": {
+                "question": "Domanda {0}"
+            }
+            ,"labels": {
+                "field_question": "Campo 'question'",
+                "field_explanation": "Campo 'explanation'",
+                "field_topic": "Campo 'topic'",
+                "field_options": "Campo 'options'",
+                "option": "Opzione {0}",
+                "field_answer": "Campo 'answer'",
+                "field_weight": "Campo 'peso'",
+                "mini_glossary_key": "Chiave del glossario",
+                "mini_glossary_entry": "Voce del glossario",
+                "field_concept": "Campo 'concept'",
+                "field_cognitive_level": "Campo 'cognitive_level'"
+            }
     }
 }

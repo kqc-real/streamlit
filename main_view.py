@@ -3903,9 +3903,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 # Validate before writing
                                 try:
                                     from question_set_validation import validate_question_set_data
-                                    errors, warnings = validate_question_set_data(temp_full)
+                                    errors, warnings = validate_question_set_data(temp_full, locale=get_locale())
                                 except Exception:
-                                    errors, warnings = ["Validierung konnte nicht ausgeführt werden."], []
+                                    errors = [translate_ui("admin.validation_failed_to_run", default="Validation could not be executed.")]
+                                    warnings = []
 
                                 if errors:
                                     st.error(translate_ui("admin.save_validation_errors", default="Validierungsfehler verhindern das Speichern:"))

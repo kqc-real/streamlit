@@ -741,6 +741,7 @@
         "save_success": "已保存！正在更新...",
         "source_file_not_found": "未找到源文件。",
         "save_error": "保存时出错：{e}",
+        "validation_failed_to_run": "无法执行验证。",
         "save_validation_errors": "验证错误，阻止保存：",
         "save_validation_warnings": "发现验证警告：",
         "save_force_button": "忽略警告并保存",
@@ -1244,5 +1245,47 @@
             "wrong": "错误",
             "unanswered": "未答"
         }
+    }
+
+    ,"validator": {
+        "errors": {
+            "field_must_be_non_empty_text": "{0} 必须是非空文本。",
+            "unsafe_html_tags": "{0}：不允许不安全的 HTML 标签。",
+            "latex_in_backticks": "{0}：LaTeX 不应出现在反引号中。",
+            "missing_questions": "顶级键 'questions' 丢失。",
+            "questions_not_list": "'questions' 必须是数组。",
+            "invalid_json_format": "无效的 JSON 格式：预期包含 'questions' 的对象或问题列表。",
+            "question_must_be_object": "{0} 必须是对象。",
+            "options_must_be_list": "{0}：'options' 必须是数组。",
+            "min_options_required": "{0}：至少需要 {1} 个选项。",
+            "answer_must_be_int": "{0}：'answer' 必须是整数。",
+            "answer_not_negative": "{0}：'answer' 不得为负值。",
+            "answer_index_invalid": "{0}：'answer' 不是有效的选项索引。",
+            "weight_must_be_int": "{0}：'权重' 必须是整数。",
+            "invalid_glossary_object": "{0}：无效的词汇表对象。期望 'term' 和 'definition' 或单个映射。"
+        },
+        "warnings": {
+            "weight_should_be_123": "{0}：'权重' 应为 1、2 或 3（当前为 {1}）。",
+            "mini_glossary_size": "{0}：mini_glossary 包含 {1} 条目。建议：{2}-{3}。",
+            "meta_question_count_not_number": "meta.question_count 不是数字，已被忽略。",
+            "meta_count_mismatch": "meta.question_count ({0}) 与实际数量 ({1}) 不符。",
+            "theme_occurrences": "主题 '{0}' 仅出现 {1}×（建议至少 {2}×）。"
+        }
+    		,"context": {
+    			"question": "问题 {0}"
+    		}
+    		,"labels": {
+    			"field_question": "字段 'question'",
+    			"field_explanation": "字段 'explanation'",
+    			"field_topic": "字段 'topic'",
+    			"field_options": "字段 'options'",
+    			"option": "选项 {0}",
+    			"field_answer": "字段 'answer'",
+    			"field_weight": "字段 '权重'",
+    			"mini_glossary_key": "词汇表键",
+    			"mini_glossary_entry": "词汇表条目",
+    			"field_concept": "字段 'concept'",
+    			"field_cognitive_level": "字段 'cognitive_level'"
+    		}
     }
 }

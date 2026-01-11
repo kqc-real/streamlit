@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import re
 import math
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Callable
 
 from helpers.text import sanitize_html
+from i18n import translate
 
 # Konfiguration der Grenzwerte für Warnungen/Fehler
 MIN_THEMA_OCCURRENCES = 2
@@ -20,27 +21,27 @@ MAX_OPTIONS_PER_QUESTION = 8
 LATEX_IN_BACKTICKS_PATTERN = re.compile(r"`(\s*?\$[^`]+\$?\s*?)`|`([^`]*?\$\s*?)`")
 
 
-def _check_string(value: Any, context: str, errors: List[str]) -> str:
+def _check_string(value: Any, context: str, errors: List[str], tr: Callable[[str, str], str]) -> str:
     """
     Validiert einen String: Prüft auf Existenz, leeren Inhalt und unsicheres HTML.
     Gibt den bereinigten String zurück.
     """
     if not isinstance(value, str) or not value.strip():
-        errors.append(f"{context} muss ein nicht-leerer Text sein.")
+        errors.append(tr("validator.errors.field_must_be_non_empty_text", "{0} muss ein nicht-leerer Text sein.", context))
         return ""
     sanitized, modified = sanitize_html(value)
     sanitized = sanitized.strip()
     if modified:
-        errors.append(f"{context}: Unsichere HTML-Tags sind nicht erlaubt.")
+        errors.append(tr("validator.errors.unsafe_html_tags", "{0}: Unsichere HTML-Tags sind nicht erlaubt.", context))
     if not sanitized:
         errors.append(f"{context} darf nach dem Bereinigen nicht leer sein.")
         return ""
     if LATEX_IN_BACKTICKS_PATTERN.search(sanitized):
-        errors.append(f"{context}: LaTeX darf nicht in Backticks stehen.")
+        errors.append(tr("validator.errors.latex_in_backticks", "{0}: LaTeX darf nicht in Backticks stehen.", context))
     return sanitized
 
 
-def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], List[str]]:
+def _normalize_root(data: Any, tr: Callable[[str, str], str]) -> Tuple[List[Any], Dict[str, Any], List[str], List[str]]:
     """
     Normalisiert die Eingabedaten. Akzeptiert sowohl ein reines Listen-Format
     als auch ein Objekt mit 'questions' und 'meta' Schlüsseln.
@@ -51,10 +52,10 @@ def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], Li
     if isinstance(data, dict):
         questions = data.get("questions")
         if questions is None:
-            errors.append("Top-Level-Schlüssel 'questions' fehlt.")
+            errors.append(tr("validator.errors.missing_questions", "Top-Level-Schlüssel 'questions' fehlt."))
             return [], {}, errors, warnings
         if not isinstance(questions, list):
-            errors.append("'questions' muss eine Liste sein.")
+            errors.append(tr("validator.errors.questions_not_list", "'questions' muss eine Liste sein."))
             return [], {}, errors, warnings
 
         raw_meta = data.get("meta")
@@ -70,7 +71,7 @@ def _normalize_root(data: Any) -> Tuple[List[Any], Dict[str, Any], List[str], Li
     if isinstance(data, list):
         return data, {}, errors, warnings
 
-    errors.append("Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Fragenliste.")
+    errors.append(tr("validator.errors.invalid_json_format", "Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Fragenliste."))
     return [], {}, errors, warnings
 
 
@@ -115,22 +116,26 @@ def _check_distractor_homogeneity(options: List[str], correct_index: int) -> str
     return None
 
 
-def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str], str | None]:  # noqa: C901
+def _validate_question(index: int, question: Any, tr: Callable[[str, str], str]) -> Tuple[List[str], List[str], str | None]:  # noqa: C901
     """
     Validiert eine einzelne Frage (Felder, Typen, Logik).
     """
     errors: List[str] = []
     warnings: List[str] = []
 
-    context = f"Frage {index}"
+    # Use a translatable context label (e.g. 'Question {0}' for English)
+    context = tr("validator.context.question", "Frage {0}", index)
     if not isinstance(question, dict):
-        errors.append(f"{context} muss ein Objekt sein.")
+        errors.append(tr("validator.errors.question_must_be_object", "{0} muss ein Objekt sein.", context))
         return errors, warnings, None
 
-    # Pflichtfelder prüfen
-    _check_string(question.get("question"), f"{context}: Feld 'question'", errors)
-    _check_string(question.get("explanation"), f"{context}: Feld 'explanation'", errors)
-    thema = _check_string(question.get("topic"), f"{context}: Feld 'topic'", errors)
+    # Pflichtfelder prüfen (verwende lokalisierte Feldlabel)
+    field_q = tr("validator.labels.field_question", "Feld 'question'")
+    _check_string(question.get("question"), f"{context}: {field_q}", errors, tr)
+    field_ex = tr("validator.labels.field_explanation", "Feld 'explanation'")
+    _check_string(question.get("explanation"), f"{context}: {field_ex}", errors, tr)
+    field_topic = tr("validator.labels.field_topic", "Feld 'topic'")
+    thema = _check_string(question.get("topic"), f"{context}: {field_topic}", errors, tr)
 
     # Antwortoptionen prüfen
     optionen_raw = question.get("options")
@@ -138,19 +143,20 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
     clean_options: List[str] = [] # Speichert bereinigte Optionen für die Analyse
     
     if not isinstance(optionen_raw, list):
-        errors.append(f"{context}: Feld 'options' muss eine Liste sein.")
+        field_opts = tr("validator.labels.field_options", "Feld 'options'")
+        errors.append(tr("validator.errors.options_must_be_list", "{0}: {1} muss eine Liste sein.", context, field_opts))
     else:
         option_count = len(optionen_raw)
         if option_count < MIN_OPTIONS_PER_QUESTION:
-            errors.append(
-                f"{context}: Mindestens {MIN_OPTIONS_PER_QUESTION} Antwortoptionen erforderlich."
-            )
+            # reuse field_opts label when reporting
+            errors.append(tr("validator.errors.min_options_required", "{0}: Mindestens {1} Antwortoptionen erforderlich.", context, MIN_OPTIONS_PER_QUESTION))
         if option_count > MAX_OPTIONS_PER_QUESTION:
             warnings.append(
                 f"{context}: Enthält {option_count} Antwortoptionen. Empfohlen sind höchstens {MAX_OPTIONS_PER_QUESTION}."
             )
         for opt_idx, opt in enumerate(optionen_raw, start=1):
-            val = _check_string(opt, f"{context}: Option {opt_idx}", errors)
+            opt_label = tr("validator.labels.option", "Option {0}", opt_idx)
+            val = _check_string(opt, f"{context}: {opt_label}", errors, tr)
             clean_options.append(val)
 
     # Lösung (Index) prüfen
@@ -159,15 +165,16 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
     try:
         loesung = int(loesung_raw)  # type: ignore[arg-type]
     except (TypeError, ValueError):
-        errors.append(f"{context}: Feld 'answer' muss eine Ganzzahl sein.")
+        field_ans = tr("validator.labels.field_answer", "Feld 'answer'")
+        errors.append(tr("validator.errors.answer_must_be_int", "{0}: {1} muss eine Ganzzahl sein.", context, field_ans))
         loesung = None
     else:
         if loesung < 0:
-            errors.append(f"{context}: 'answer' darf nicht negativ sein.")
+            field_ans = tr("validator.labels.field_answer", "Feld 'answer'")
+            errors.append(tr("validator.errors.answer_not_negative", "{0}: {1} darf nicht negativ sein.", context, field_ans))
         elif option_count and loesung >= option_count:
-            errors.append(
-                f"{context}: 'answer' ({loesung}) ist kein gültiger Index für {option_count} Optionen."
-            )
+            field_ans = tr("validator.labels.field_answer", "Feld 'answer'")
+            errors.append(tr("validator.errors.answer_index_invalid", "{0}: {1} ({2}) ist kein gültiger Index für {3} Optionen.", context, field_ans, loesung, option_count))
         else:
             # --- NEU: Aufruf der Homogenitäts-Prüfung ---
             if clean_options:
@@ -181,10 +188,12 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
     try:
         gewichtung = int(gewichtung_raw)  # type: ignore[arg-type]
     except (TypeError, ValueError):
-        errors.append(f"{context}: Feld 'gewichtung' muss eine Ganzzahl sein.")
+        field_w = tr("validator.labels.field_weight", "Feld 'weight'")
+        errors.append(tr("validator.errors.weight_must_be_int", "{0}: {1} muss eine Ganzzahl sein.", context, field_w))
     else:
         if gewichtung not in (1, 2, 3):
-            warnings.append(f"{context}: 'weight' sollte 1, 2 oder 3 sein (aktuell {gewichtung}).")
+            field_w = tr("validator.labels.field_weight", "Feld 'weight'")
+            warnings.append(tr("validator.warnings.weight_should_be_123", "{0}: {1} sollte 1, 2 oder 3 sein (aktuell {2}).", context, field_w, gewichtung))
 
     # Mini-Glossar prüfen
     mini_glossary = question.get("mini_glossary")
@@ -194,24 +203,23 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
             if glossary_size and not (
                 MIN_GLOSSARY_ENTRIES <= glossary_size <= MAX_GLOSSARY_ENTRIES
             ):
-                warnings.append(
-                    f"{context}: mini_glossary enthält {glossary_size} Einträge. Empfohlen: {MIN_GLOSSARY_ENTRIES}-{MAX_GLOSSARY_ENTRIES}."
-                )
+                warnings.append(tr("validator.warnings.mini_glossary_size", "{0}: mini_glossary enthält {1} Einträge. Empfohlen: {2}-{3}.", context, glossary_size, MIN_GLOSSARY_ENTRIES, MAX_GLOSSARY_ENTRIES))
+            key_label = tr("validator.labels.mini_glossary_key", "Glossar-Schlüssel")
+            entry_label = tr("validator.labels.mini_glossary_entry", "Glossar-Eintrag")
             for term, definition in mini_glossary.items():
-                _check_string(term, f"{context}: mini_glossary Schlüssel", errors)
-                _check_string(definition, f"{context}: mini_glossary Eintrag", errors)
+                _check_string(term, f"{context}: {key_label}", errors, tr)
+                _check_string(definition, f"{context}: {entry_label}", errors, tr)
 
         elif isinstance(mini_glossary, list):
             glossary_size = len(mini_glossary)
             if glossary_size and not (
                 MIN_GLOSSARY_ENTRIES <= glossary_size <= MAX_GLOSSARY_ENTRIES
             ):
-                warnings.append(
-                    f"{context}: mini_glossary enthält {glossary_size} Einträge (List-Format). Empfohlen: {MIN_GLOSSARY_ENTRIES}-{MAX_GLOSSARY_ENTRIES}."
-                )
+                warnings.append(tr("validator.warnings.mini_glossary_size", "{0}: mini_glossary enthält {1} Einträge (List-Format). Empfohlen: {2}-{3}.", context, glossary_size, MIN_GLOSSARY_ENTRIES, MAX_GLOSSARY_ENTRIES))
 
             for idx, entry in enumerate(mini_glossary, start=1):
-                entry_ctx = f"{context}: mini_glossary Eintrag {idx}"
+                entry_label = tr("validator.labels.mini_glossary_entry", "Glossar-Eintrag")
+                entry_ctx = f"{context}: {entry_label} {idx}"
                 if not isinstance(entry, dict):
                     errors.append(f"{entry_ctx} muss ein Objekt sein.")
                     continue
@@ -233,11 +241,13 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
                     definition = entry.get('definition') or entry.get('Definition') or entry.get('def')
 
                 if term is None or definition is None:
-                    errors.append(f"{entry_ctx}: Ungültiges Glossar-Objekt. Erwartet 'term' und 'definition' oder ein einzelnes Mapping.")
+                    errors.append(tr("validator.errors.invalid_glossary_object", "{0}: Ungültiges Glossar-Objekt. Erwartet 'term' und 'definition' oder ein einzelnes Mapping.", entry_ctx))
                     continue
 
-                _check_string(term, f"{entry_ctx}: Begriff", errors)
-                _check_string(definition, f"{entry_ctx}: Definition", errors)
+                term_label = tr("validator.labels.mini_glossary_key", "Begriff")
+                def_label = tr("validator.labels.mini_glossary_entry", "Definition")
+                _check_string(term, f"{entry_ctx}: {term_label}", errors, tr)
+                _check_string(definition, f"{entry_ctx}: {def_label}", errors, tr)
 
         else:
             errors.append(f"{context}: 'mini_glossary' muss ein Objekt oder eine Liste sein.")
@@ -245,7 +255,7 @@ def _validate_question(index: int, question: Any) -> Tuple[List[str], List[str],
     return errors, warnings, thema or None
 
 
-def _validate_meta(meta: Dict[str, Any], question_count: int) -> List[str]:
+def _validate_meta(meta: Dict[str, Any], question_count: int, tr: Callable[[str, str], str]) -> List[str]:
     """Prüft die Metadaten des gesamten Sets."""
     warnings: List[str] = []
     if not meta:
@@ -256,34 +266,43 @@ def _validate_meta(meta: Dict[str, Any], question_count: int) -> List[str]:
         try:
             meta_count = int(value)
         except (TypeError, ValueError):
-            warnings.append("meta.question_count ist keine Zahl und wurde ignoriert.")
+            warnings.append(tr("validator.warnings.meta_question_count_not_number", "meta.question_count ist keine Zahl und wurde ignoriert."))
         else:
             if meta_count != question_count:
-                warnings.append(
-                    f"meta.question_count ({meta_count}) stimmt nicht mit der tatsächlichen Anzahl ({question_count}) überein."
-                )
+                warnings.append(tr("validator.warnings.meta_count_mismatch", "meta.question_count ({0}) stimmt nicht mit der tatsächlichen Anzahl ({1}) überein.", meta_count, question_count))
 
     return warnings
 
 
-def _validate_additional_metadata(index: int, question: Any) -> List[str]:
+def _validate_additional_metadata(index: int, question: Any, tr: Callable[[str, str], str]) -> List[str]:
     """Prüft optionale Zusatzfelder wie Lernziele oder kognitive Level."""
     errors: List[str] = []
     for field in ("concept", "cognitive_level"):
         value = question.get(field)
         if value is None:
             continue
-        _check_string(value, f"Frage {index}: Feld '{field}'", errors)
+        _check_string(value, f"Frage {index}: Feld '{field}'", errors, tr)
     return errors
 
 
-def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
+def validate_question_set_data(data: Any, locale: str | None = None) -> Tuple[List[str], List[str]]:
     """
     Hauptfunktion: Validiert das rohe JSON eines gesamten Frage-Sets.
     Gibt (errors, warnings) zurück.
     """
 
-    questions, meta, root_errors, root_warnings = _normalize_root(data)
+    # tr helper uses the provided locale to translate message keys
+    def tr(key: str, default: str, *fmt_args) -> str:
+        try:
+            val = translate(key, locale=locale, default=default)
+        except Exception:
+            val = default
+        try:
+            return val.format(*fmt_args)
+        except Exception:
+            return val
+
+    questions, meta, root_errors, root_warnings = _normalize_root(data, tr)
     errors: List[str] = list(root_errors)
     warnings: List[str] = list(root_warnings)
 
@@ -301,10 +320,10 @@ def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
 
     themes: List[str] = []
     for index, question in enumerate(questions, start=1):
-        q_errors, q_warnings, theme = _validate_question(index, question)
+        q_errors, q_warnings, theme = _validate_question(index, question, tr)
         errors.extend(q_errors)
         warnings.extend(q_warnings)
-        errors.extend(_validate_additional_metadata(index, question))
+        errors.extend(_validate_additional_metadata(index, question, tr))
         if theme:
             themes.append(theme)
 
@@ -318,10 +337,8 @@ def validate_question_set_data(data: Any) -> Tuple[List[str], List[str]]:
         for theme in unique_themes:
             occurrences = themes.count(theme)
             if occurrences < MIN_THEMA_OCCURRENCES:
-                warnings.append(
-                    f"Thema '{theme}' kommt nur {occurrences}× vor (empfohlen: mindestens {MIN_THEMA_OCCURRENCES}×)."
-                )
+                warnings.append(tr("validator.warnings.theme_occurrences", "Thema '{0}' kommt nur {1}× vor (empfohlen: mindestens {2}×).", theme, occurrences, MIN_THEMA_OCCURRENCES))
 
-    warnings.extend(_validate_meta(meta, len(questions)))
+    warnings.extend(_validate_meta(meta, len(questions), tr))
 
     return errors, warnings

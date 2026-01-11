@@ -511,6 +511,7 @@
         "save_success": "Gespeichert. Bitte die Ansicht aktualisieren...",
         "source_file_not_found": "Originaldatei nicht gefunden.",
         "save_error": "Speichern fehlgeschlagen: {e}",
+        "validation_failed_to_run": "Validierung konnte nicht ausgeführt werden.",
         "save_validation_errors": "Validierungsfehler verhindern das Speichern:",
         "save_validation_warnings": "Validierungswarnungen gefunden:",
         "save_force_button": "Trotz Warnungen speichern",
@@ -1243,6 +1244,47 @@
             "goal_in_view": "Ziel im Blick.",
             "hang_in_there": "Dranbleiben – läuft.",
             "progress": "Fortschritt zählt."
+        }
+    },
+    "validator": {
+        "errors": {
+            "field_must_be_non_empty_text": "{0} muss ein nicht-leerer Text sein.",
+            "unsafe_html_tags": "{0}: Unsichere HTML-Tags sind nicht erlaubt.",
+            "latex_in_backticks": "{0}: LaTeX darf nicht in Backticks stehen.",
+            "missing_questions": "Top-Level-Schlüssel 'questions' fehlt.",
+            "questions_not_list": "'questions' muss eine Liste sein.",
+            "invalid_json_format": "Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Fragenliste.",
+            "question_must_be_object": "{0} muss ein Objekt sein.",
+            "options_must_be_list": "{0}: Feld 'options' muss eine Liste sein.",
+            "min_options_required": "{0}: Mindestens {1} Antwortoptionen erforderlich.",
+            "answer_must_be_int": "{0}: Feld 'answer' muss eine Ganzzahl sein.",
+            "answer_not_negative": "{0}: 'answer' darf nicht negativ sein.",
+            "answer_index_invalid": "{0}: 'answer' ist kein gültiger Index für die Optionen.",
+            "weight_must_be_int": "{0}: Feld 'gewichtung' muss eine Ganzzahl sein.",
+            "invalid_glossary_object": "{0}: Ungültiges Glossar-Objekt. Erwartet 'term' und 'definition' oder ein einzelnes Mapping."
+        },
+        "warnings": {
+            "weight_should_be_123": "{0}: 'weight' sollte 1, 2 oder 3 sein (aktuell {1}).",
+            "mini_glossary_size": "{0}: mini_glossary enthält {1} Einträge. Empfohlen: {2}-{3}.",
+            "meta_question_count_not_number": "meta.question_count ist keine Zahl und wurde ignoriert.",
+            "meta_count_mismatch": "meta.question_count ({0}) stimmt nicht mit der tatsächlichen Anzahl ({1}) überein.",
+            "theme_occurrences": "Thema '{0}' kommt nur {1}× vor (empfohlen: mindestens {2}×)."
+        }
+        ,"context": {
+            "question": "Frage {0}"
+        }
+        ,"labels": {
+            "field_question": "Feld 'question'",
+            "field_explanation": "Feld 'explanation'",
+            "field_topic": "Feld 'topic'",
+            "field_options": "Feld 'options'",
+            "option": "Option {0}",
+            "field_answer": "Feld 'answer'",
+            "field_weight": "Feld 'weight'",
+            "mini_glossary_key": "Glossar-Schlüssel",
+            "mini_glossary_entry": "Glossar-Eintrag",
+            "field_concept": "Feld 'concept'",
+            "field_cognitive_level": "Feld 'cognitive_level'"
         }
     }
 }

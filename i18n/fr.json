@@ -403,6 +403,7 @@
         "save_success": "Enregistré ! Mise à jour...",
         "source_file_not_found": "Fichier source introuvable.",
         "save_error": "Erreur lors de l'enregistrement : {e}",
+        "validation_failed_to_run": "La validation n'a pas pu être exécutée.",
         "save_validation_errors": "Des erreurs de validation empêchent la sauvegarde :",
         "save_validation_warnings": "Des avertissements de validation ont été trouvés :",
         "save_force_button": "Enregistrer malgré les avertissements",
@@ -1240,6 +1241,47 @@
             "correct": "Correct",
             "wrong": "Faux",
             "unanswered": "Non répondu"
+        }
+    },
+    "validator": {
+        "errors": {
+            "field_must_be_non_empty_text": "{0} doit être un texte non vide.",
+            "unsafe_html_tags": "{0}: Les balises HTML non sécurisées ne sont pas autorisées.",
+            "latex_in_backticks": "{0}: Le LaTeX ne doit pas être entre backticks.",
+            "missing_questions": "La clé de premier niveau 'questions' est manquante.",
+            "questions_not_list": "'questions' doit être une liste.",
+            "invalid_json_format": "Format JSON invalide : attendu un objet avec 'questions' ou une liste de questions.",
+            "question_must_be_object": "{0} doit être un objet.",
+            "options_must_be_list": "{0} : 'options' doit être une liste.",
+            "min_options_required": "{0} : Au moins {1} options de réponse sont requises.",
+            "answer_must_be_int": "{0} : 'answer' doit être un entier.",
+            "answer_not_negative": "{0} : 'answer' ne doit pas être négatif.",
+            "answer_index_invalid": "{0} : 'answer' n'est pas un index valide pour les options.",
+            "weight_must_be_int": "{0} : 'poids' doit être un entier.",
+            "invalid_glossary_object": "{0} : Objet de glossaire invalide. Attendu 'term' et 'definition' ou un mapping unique."
+        },
+        "warnings": {
+            "weight_should_be_123": "{0} : 'poids' devrait être 1, 2 ou 3 (actuellement {1}).",
+            "mini_glossary_size": "{0} : mini_glossary contient {1} entrées. Recommandé : {2}-{3}.",
+            "meta_question_count_not_number": "meta.question_count n'est pas un nombre et a été ignoré.",
+            "meta_count_mismatch": "meta.question_count ({0}) ne correspond pas au nombre réel ({1}).",
+            "theme_occurrences": "Thème '{0}' n'apparaît que {1}× (recommandé au moins {2}×)."
+        }
+        ,"context": {
+            "question": "Question {0}"
+        }
+        ,"labels": {
+            "field_question": "Champ 'question'",
+            "field_explanation": "Champ 'explanation'",
+            "field_topic": "Champ 'topic'",
+            "field_options": "Champ 'options'",
+            "option": "Option {0}",
+            "field_answer": "Champ 'answer'",
+            "field_weight": "Champ 'weight'",
+            "mini_glossary_key": "Clé du glossaire",
+            "mini_glossary_entry": "Entrée du glossaire",
+            "field_concept": "Champ 'concept'",
+            "field_cognitive_level": "Champ 'cognitive_level'"
         }
     }
 }
