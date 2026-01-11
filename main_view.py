@@ -3822,12 +3822,26 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
     can_edit = admin_access_granted or is_owner
 
+    # (promotion feedback removed) — no top-level banner/toast is shown here
+
     if can_edit:
         label_key = "admin.manage_question_owner" if is_owner else "admin.manage_question_admin"
         default_label = "✏️ Frage verwalten" if is_owner else "✏️ Frage verwalten (Admin)"
         label = translate_ui(label_key, default=default_label)
-        # Keep expander open if requested (e.g. after save/delete)
-        is_expanded = st.session_state.pop("_keep_admin_expander_open", False)
+        # Expander default: closed. Keep open only when `_keep_admin_expander_open` is set by actions.
+        is_expanded = st.session_state.get("_keep_admin_expander_open", False)
+
+        # Expander is opened when `_keep_admin_expander_open` is set by actions.
+        # Clearing this flag is performed explicitly by the user (via the Close button).
+        # If a promote action set a message, show it here (outside the expander)
+        if st.session_state.get("admin_promote_message"):
+            msg = st.session_state.get("admin_promote_message")
+            cols = st.columns([9,1])
+            with cols[0]:
+                st.success(msg, icon="✅")
+            with cols[1]:
+                if st.button(translate_ui("admin.promote_dismiss", default="OK"), key="admin_promote_dismiss"):
+                    st.session_state.pop("admin_promote_message", None)
         with st.expander(label, expanded=is_expanded):
             try:
                 # Aktuelle Frage als JSON laden
@@ -3844,37 +3858,41 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     q_clean.pop(k, None)
                 
                 q_json = json.dumps(q_clean, indent=2, ensure_ascii=False)
-                
-                new_json_str = st.text_area(
-                    translate_ui("admin.edit_json_label", default="JSON bearbeiten"),
-                    value=q_json, 
-                    height=300, 
-                    key=f"edit_q_{frage_idx}"
-                )
 
-                # Help for non-technical users: how to read/edit the question JSON
-                help_title = translate_ui("admin.json_schema_help_title", default="💡 Hilfe: Fragenschema bearbeiten")
-                with st.expander(help_title, expanded=False):
-                    st.markdown(
-                        translate_ui(
-                            "admin.json_schema_help_text",
-                            default=(
-                                "Kurze Anleitung für das Fragenschema:\n\n"
-                                "- Du siehst hier die Frage im JSON-Format. Ändere nur sichtbare Texte: Frage, Antworttext oder Erklärung.\n"
-                                "- Verändere bitte nicht die JSON-Struktur (keine eckigen/geschweiften Klammern entfernen).\n"
-                                "- Achte darauf, dass die Anzahl der Antwortoptionen gleich bleibt und die korrekte Antwort weiterhin markiert ist.\n"
-                                "- Wenn du unsicher bist, korrigiere nur Tippfehler im Text oder schreibe in das Feedback.\n"
-                                "- Nach dem Speichern: Teste das Set kurz, um sicherzugehen, dass alles noch funktioniert.\n\n"
-                                "Bei Fragen wende dich an den Kurs-Verantwortlichen."
-                            )
-                        )
-                    )
-                
-                col_save, col_promote = st.columns([1, 1])
-                with col_save:
-                    if st.button(translate_ui("admin.save_button", default="💾 Speichern & Aktualisieren"), key=f"save_q_{frage_idx}"):
+                # Prepare widget keys
+                override_key = f"edit_q_override_{frage_idx}"
+                widget_key = f"edit_q_{frage_idx}"
+
+                # Inline action buttons (Save / Force-save on warnings / Reset / Cancel / Close)
+                col_save_btn, col_reset_btn, col_cancel_btn, col_close_btn = st.columns([1,1,1,1])
+                with col_save_btn:
+                    # read current editor content from session (or fallback to computed JSON)
+                    editor_text = st.session_state.get(widget_key, q_json)
+
+                    # Track last-saved content, timestamp and save-success flag so we can style the button
+                    saved_flag_key = f"save_success_{frage_idx}"
+                    last_saved_key = f"save_last_saved_{frage_idx}"
+                    last_saved_ts_key = f"save_last_saved_ts_{frage_idx}"
+                    # If the editor content changed since the last saved value, clear success flag
+                    if st.session_state.get(last_saved_key) and st.session_state.get(last_saved_key) != editor_text:
+                        st.session_state.pop(saved_flag_key, None)
+                        st.session_state.pop(last_saved_key, None)
+                        st.session_state.pop(last_saved_ts_key, None)
+                        # If content changed after a save, it no longer needs promote
+                        needs_promote_key = f"needs_promote_{frage_idx}"
+                        st.session_state.pop(needs_promote_key, None)
+                        # also clear any promote-success timestamp so the Promote checkmark is removed
+                        st.session_state.pop(f"promote_last_ts_{frage_idx}", None)
+                        st.session_state.pop(f"promote_last_saved_ts_{frage_idx}", None)
+
+                    # Always render the verify/save button as secondary per UX requirement
+                    btn_type = "secondary"
+                    # show a checkmark in the label when saved
+                    base_label = translate_ui("admin.save_button", default="💾 Speichern & Aktualisieren")
+                    saved_prefix = "✅ " if st.session_state.get(saved_flag_key) else ""
+                    if st.button(saved_prefix + base_label, key=f"save_q_{frage_idx}", type=btn_type):
                         try:
-                            new_q_data = json.loads(new_json_str)
+                            new_q_data = json.loads(editor_text)
 
                             # Datei laden
                             selected_file = st.session_state.get("selected_questions_file")
@@ -3920,7 +3938,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                         st.warning(f"- {w}")
                                     st.session_state[f"save_q_{frage_idx}_warnings"] = warnings
                                     st.session_state["_keep_admin_expander_open"] = True
-                                    # Render a confirm button below (user must click again to force-save)
                                 else:
                                     # No errors/warnings -> write immediately
                                     with open(file_path, "w", encoding="utf-8") as f:
@@ -3936,8 +3953,17 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     reset_question_state(frage_idx)
 
                                     st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
+                                    # mark successful save and remember the saved content + timestamp
+                                    from datetime import datetime
+                                    st.session_state[saved_flag_key] = True
+                                    # store the exact editor text so equality checks remain stable
+                                    st.session_state[last_saved_key] = editor_text
+                                    # ensure the widget shows the exact editor content after rerun
+                                    st.session_state[widget_key] = editor_text
+                                    st.session_state[last_saved_ts_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                     st.session_state["_keep_admin_expander_open"] = True
-                                    # Clear any previous warnings state
+                                    # mark that this saved change needs to be promoted to `data/`
+                                    st.session_state[f"needs_promote_{frage_idx}"] = True
                                     st.session_state.pop(f"save_q_{frage_idx}_warnings", None)
                                     time.sleep(0.5)
                                     st.rerun()
@@ -3959,9 +3985,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                         full_data = json.load(f)
 
                                     if isinstance(full_data, dict) and "questions" in full_data:
-                                        full_data["questions"][frage_idx] = json.loads(new_json_str)
+                                        full_data["questions"][frage_idx] = json.loads(editor_text)
                                     elif isinstance(full_data, list):
-                                        full_data[frage_idx] = json.loads(new_json_str)
+                                        full_data[frage_idx] = json.loads(editor_text)
 
                                     with open(file_path, "w", encoding="utf-8") as f:
                                         json.dump(full_data, f, indent=2, ensure_ascii=False)
@@ -3975,6 +4001,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     reset_question_state(frage_idx)
 
                                     st.success(translate_ui("admin.save_success", default="Gespeichert! Aktualisiere..."))
+                                    # mark successful force-save and remember the saved content + timestamp
+                                    from datetime import datetime
+                                    st.session_state[saved_flag_key] = True
+                                    st.session_state[last_saved_key] = editor_text
+                                    # ensure the widget shows the exact editor content after rerun
+                                    st.session_state[widget_key] = editor_text
+                                    st.session_state[last_saved_ts_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                    # mark that this saved change needs to be promoted to `data/`
+                                    st.session_state[f"needs_promote_{frage_idx}"] = True
                                     st.session_state.pop(warn_key, None)
                                     st.session_state["_keep_admin_expander_open"] = True
                                     time.sleep(0.5)
@@ -3984,7 +4019,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             except Exception as e:
                                 st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
 
-                    # Cancel / Revert edits button: restore original JSON and close expander
+                with col_reset_btn:
                     # Reset to source-file original
                     if st.button(translate_ui("admin.reset_button", default="Zurücksetzen"), key=f"reset_q_{frage_idx}"):
                         try:
@@ -4005,7 +4040,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 else:
                                     orig_q = full_data
 
-                                # update in-memory and the editor text area
                                 try:
                                     questions[frage_idx] = orig_q
                                 except Exception:
@@ -4016,28 +4050,67 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                     for k in redundant_keys:
                                         q_clean2.pop(k, None)
 
-                                st.session_state[f"edit_q_{frage_idx}"] = json.dumps(q_clean2, indent=2, ensure_ascii=False)
+                                # set editor session value directly so the widget will show it when created
+                                st.session_state[widget_key] = json.dumps(q_clean2, indent=2, ensure_ascii=False)
                                 st.success(translate_ui("admin.reset_success", default="Auf die Original-JSON in der Quelldatei zurückgesetzt."))
                                 st.session_state["_keep_admin_expander_open"] = True
-                                try:
-                                    st.rerun()
-                                except Exception:
-                                    pass
                         except Exception as e:
                             st.error(translate_ui("admin.save_error", default="Fehler beim Speichern: {e}").format(e=e))
 
+                with col_cancel_btn:
                     # Cancel / Revert edits button: restore original JSON and close expander
                     if st.button(translate_ui("admin.cancel_button", default="Abbrechen"), key=f"cancel_q_{frage_idx}"):
-                        try:
-                            # revert the text area value to the original cleaned JSON
-                            st.session_state[f"edit_q_{frage_idx}"] = q_json
-                        except Exception:
-                            pass
+                        # set the editor session value to the original JSON and close expander
+                        st.session_state[widget_key] = q_json
                         st.session_state["_keep_admin_expander_open"] = False
-                        try:
-                            st.rerun()
-                        except Exception:
-                            pass
+
+                with col_close_btn:
+                    if st.button(translate_ui("admin.close_expander_button", default="Schließen"), key=f"close_expander_{frage_idx}"):
+                        st.session_state["_keep_admin_expander_open"] = False
+
+                # If an external override marker exists (set by other code), move it into the widget key
+                if override_key in st.session_state:
+                    st.session_state[widget_key] = st.session_state.pop(override_key)
+
+                # Use any existing widget session value or fall back to the computed JSON
+                initial_value = st.session_state.get(widget_key, q_json)
+
+                # IMPORTANT: do not pass `value=` when the widget key already exists in
+                # `st.session_state` — Streamlit forbids setting the widget value via the
+                # Session State API if the widget was created with a default `value`.
+                if widget_key in st.session_state:
+                    new_json_str = st.text_area(
+                        translate_ui("admin.edit_json_label", default="JSON bearbeiten"),
+                        height=300,
+                        key=widget_key,
+                    )
+                else:
+                    new_json_str = st.text_area(
+                        translate_ui("admin.edit_json_label", default="JSON bearbeiten"),
+                        value=initial_value,
+                        height=300,
+                        key=widget_key,
+                    )
+
+                # Help for non-technical users: how to read/edit the question JSON
+                help_title = translate_ui("admin.json_schema_help_title", default="💡 Hilfe: Fragenschema bearbeiten")
+                with st.expander(help_title, expanded=False):
+                    st.markdown(
+                        translate_ui(
+                            "admin.json_schema_help_text",
+                            default=(
+                                "Kurze Anleitung für das Fragenschema:\n\n"
+                                "- Du siehst hier die Frage im JSON-Format. Ändere nur sichtbare Texte: Frage, Antworttext oder Erklärung.\n"
+                                "- Verändere bitte nicht die JSON-Struktur (keine eckigen/geschweiften Klammern entfernen).\n"
+                                "- Achte darauf, dass die Anzahl der Antwortoptionen gleich bleibt und die korrekte Antwort weiterhin markiert ist.\n"
+                                "- Wenn du unsicher bist, korrigiere nur Tippfehler im Text oder schreibe in das Feedback.\n"
+                                "- Nach dem Speichern: Teste das Set kurz, um sicherzugehen, dass alles noch funktioniert.\n\n"
+                                "Bei Fragen wende dich an den Kurs-Verantwortlichen."
+                            )
+                        )
+                    )
+                
+                col_dummy, col_promote = st.columns([1, 1])
 
                 # Button zum Übernehmen in den Core-Datenbestand (für alle Sets verfügbar)
                 selected_file = st.session_state.get("selected_questions_file")
@@ -4074,11 +4147,26 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     except Exception:
                         pass
 
+                    # If a promote was recently performed, keep the promote control visible
+                    promote_done_key = f"promote_last_ts_{frage_idx}"
+                    if st.session_state.get(promote_done_key):
+                        show_promote = True
+
                     if show_promote:
                         with col_promote:
+                            needs_promote_key = f"needs_promote_{frage_idx}"
+                            needs_promote = st.session_state.get(needs_promote_key, False)
+                            promote_done_key = f"promote_last_ts_{frage_idx}"
+                            promote_done = bool(st.session_state.get(promote_done_key))
+                            promote_label = ("✅ " if promote_done else "") + translate_ui("admin.promote_button", default="🚀 Nach 'data' übernehmen")
+                            promote_type = "primary" if needs_promote else "secondary"
+
+                            # (promotion caption removed)
+
                             if st.button(
-                                translate_ui("admin.promote_button", default="🚀 Nach 'data' übernehmen"), 
-                                key=f"promote_q_{frage_idx}", 
+                                promote_label,
+                                key=f"promote_q_{frage_idx}",
+                                type=promote_type,
                                 help=translate_ui("admin.promote_help", default="Kopiert das Set nach data/ und erstellt vorher ein Backup.")
                             ):
                                 try:
@@ -4144,7 +4232,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                     load_questions.clear()
                                                 st.session_state["selected_questions_file"] = new_filename
                                                 
-                                                st.success(translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
+                                                # clear the 'needs promote' marker because the set is now in data/
+                                                st.session_state.pop(needs_promote_key, None)
+                                                st.session_state[f"promote_last_ts_{frage_idx}"] = time.time()
+                                                msg = translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name)
+                                                # promotion completed (no UI toast/banner shown per request)
                                                 time.sleep(0.5)
                                                 st.rerun()
                                         else:
@@ -4165,7 +4257,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                                     load_questions.clear()
                                                 st.session_state["selected_questions_file"] = new_filename
                                             
-                                            st.success(translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name))
+                                            # clear the 'needs promote' marker because the set is now in data/
+                                            st.session_state.pop(needs_promote_key, None)
+                                            st.session_state[f"promote_last_ts_{frage_idx}"] = time.time()
+                                            msg = translate_ui("admin.promote_success", default="Set erfolgreich nach data/{new_filename} übernommen! (Backup: {backup_name})").format(new_filename=new_filename, backup_name=backup_name)
+                                            # promotion completed (no UI toast/banner shown per request)
                                             time.sleep(0.5)
                                             st.rerun()
                                     else:

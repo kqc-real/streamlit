@@ -3,7 +3,7 @@
     "title": "Big Data",
     "created": "09.01.2026 00:00",
     "target_audience": "Informatikstudierende",
-    "question_count": 19,
+    "question_count": 18,
     "difficulty_profile": {
       "easy": 2,
       "medium": 12,
@@ -87,7 +87,7 @@
       ]
     },
     {
-      "question": "3. Du speicherst halbstrukturierte Logdaten für spätere Analysen. Welche Ablage ist am geeignetsten?",
+      "question": "3. Du halbstrukturierte Logdaten für spätere Analysen. Welche Ablage ist am geeignetsten?",
       "options": [
         "Logs im Object Storage, gespeichert als Parquet, mit Schema-on-read für flexible Auswertung.",
         "Logs im Object Storage, gespeichert als Parquet, mit Schema-on-write für flexible Auswertung.",
@@ -102,13 +102,13 @@
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Warum diese Ablage für Logs funktioniert",
+        "content": "Logs ändern sich häufig, daher passt Schema-on-read gut zum Log-Charakter. Parquet reduziert I/O und beschleunigt Analysen, besonders bei selektiven Abfragen. Object Storage bietet Skalierung ohne komplexe Clusterverwaltung für reine Speicherung.",
         "steps": [
           "Wähle Object Storage, wenn du skalierbar und kosteneffizient speichern willst.",
           "Nutze Parquet, um Analysen durch spaltenorientierte Speicherung effizient zu machen.",
           "Setze Schema-on-read ein, wenn Logfelder sich im Zeitverlauf ändern.",
           "Definiere Auswertungs-Schemata in der Analyse, nicht beim Schreiben."
-        ],
-        "content": "Logs ändern sich häufig, daher passt Schema-on-read gut zum Log-Charakter. Parquet reduziert I/O und beschleunigt Analysen, besonders bei selektiven Abfragen. Object Storage bietet Skalierung ohne komplexe Clusterverwaltung für reine Speicherung."
+        ]
       },
       "mini_glossary": [
         {
@@ -130,7 +130,7 @@
       ]
     },
     {
-      "question": "4. Du willst in Apache Kafka die Reihenfolge von Ereignissen pro Nutzer erhalten. Welche Konfiguration ist am passendsten?",
+      "question": "4. Du in Apache Kafka die Reihenfolge von Ereignissen pro Nutzer erhalten. Welche Konfiguration ist am passendsten?",
       "options": [
         "Apache Kafka so nutzen, dass der Key pro Nutzer gesetzt wird, damit alle Events pro Nutzer in einer Partition landen und Ordering erhalten bleibt.",
         "Apache Kafka so nutzen, dass der Key pro Nutzer zufällig gesetzt wird, damit alle Events pro Nutzer in einer Partition landen und Ordering erhalten bleibt.",
@@ -145,13 +145,13 @@
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Ordering pro Nutzer in Kafka",
+        "content": "Kafka garantiert die Reihenfolge pro Partition, nicht über Partitionen hinweg. Deshalb ist ein stabiler Key die typische Lösung, wenn Ordering pro Entität (z. B. Nutzer) nötig ist. So bleiben Events pro Nutzer geordnet, während andere Nutzer parallel verarbeitet werden können.",
         "steps": [
           "Nutze Kafka-Partitionen als Ordering-Grenze.",
           "Setze den Key stabil auf die Nutzer-ID, damit Routing deterministisch bleibt.",
           "Vermeide zufällige Keys, weil sie Events über Partitionen verteilen.",
           "Plane die Partition-Anzahl so, dass sie Parallelität erlaubt, ohne Ordering-Anforderungen zu verletzen."
-        ],
-        "content": "Kafka garantiert die Reihenfolge pro Partition, nicht über Partitionen hinweg. Deshalb ist ein stabiler Key die typische Lösung, wenn Ordering pro Entität (z. B. Nutzer) nötig ist. So bleiben Events pro Nutzer geordnet, während andere Nutzer parallel verarbeitet werden können."
+        ]
       },
       "mini_glossary": [
         {
@@ -517,7 +517,7 @@
       ]
     },
     {
-      "question": "13. Du willst in Elasticsearch häufig Aggregationen über große Datenmengen ausführen. Welche Konfiguration ist am geeignetsten?",
+      "question": "13. Du in Elasticsearch häufig Aggregationen über große Datenmengen ausführen. Welche Konfiguration ist am geeignetsten?",
       "options": [
         "Elasticsearch so modellieren, dass das Mapping Aggregation-geeignete Felder definiert und der Inverted Index effiziente Abfragen unterstützt.",
         "Elasticsearch so modellieren, dass das Mapping Aggregation-geeignete Felder definiert und der Inverted Index ineffiziente Abfragen unterstützt.",
@@ -532,13 +532,13 @@
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Aggregationen in Elasticsearch effizient machen",
+        "content": "Elasticsearch lebt von korrekter Feldmodellierung. Wenn das Mapping Aggregationsfelder sauber definiert, können Aggregationen effizient ausgeführt werden, während der Inverted Index Filter und Suche beschleunigt. Unpassende Feldtypen führen zu teuren Workarounds oder unbrauchbaren Ergebnissen.",
         "steps": [
           "Definiere im Mapping, welche Felder für Aggregation gedacht sind.",
           "Nutze den Inverted Index für schnelle Filterung vor der Aggregation.",
           "Vermeide ungeeignete Feldtypen für Aggregationen.",
           "Teste Aggregationen mit realistischen Query-Patterns und Datenvolumen."
-        ],
-        "content": "Elasticsearch lebt von korrekter Feldmodellierung. Wenn das Mapping Aggregationsfelder sauber definiert, können Aggregationen effizient ausgeführt werden, während der Inverted Index Filter und Suche beschleunigt. Unpassende Feldtypen führen zu teuren Workarounds oder unbrauchbaren Ergebnissen."
+        ]
       },
       "mini_glossary": [
         {
@@ -704,13 +704,13 @@
       "cognitive_level": "Analysis",
       "extended_explanation": {
         "title": "Warum Lakehouse ein Brückenkonzept ist",
+        "content": "Ein reiner Data Lake ist flexibel, aber kann ohne zusätzliche Mechanismen in Governance und Konsistenz schwächeln. Lakehouse adressiert genau diese Lücke durch ACID-ähnliche Semantik und Katalogisierung. So können Daten kuratiert, nachvollziehbar und analytisch nutzbar werden, ohne die Flexibilität vollständig aufzugeben.",
         "steps": [
           "Nutze Data Lake als flexible Ablage für Roh- und Kurationsdaten.",
           "Füge ACID-Eigenschaften hinzu, um konsistente Tabellen-Operationen zu ermöglichen.",
           "Setze einen Metadatenkatalog ein, um Governance und Auffindbarkeit zu verbessern.",
           "Bewerte, ob Warehouse-Anforderungen (z. B. SLAs) durch das Lakehouse erfüllt werden."
-        ],
-        "content": "Ein reiner Data Lake ist flexibel, aber kann ohne zusätzliche Mechanismen in Governance und Konsistenz schwächeln. Lakehouse adressiert genau diese Lücke durch ACID-ähnliche Semantik und Katalogisierung. So können Daten kuratiert, nachvollziehbar und analytisch nutzbar werden, ohne die Flexibilität vollständig aufzugeben."
+        ]
       },
       "mini_glossary": [
         {
@@ -728,49 +728,6 @@
         {
           "term": "Metadatenkatalog",
           "definition": "Verzeichnis, das Datenbestände beschreibt, auffindbar macht und Governance unterstützt."
-        }
-      ]
-    },
-    {
-      "question": "19. Du verteilst Daten auf Shards. Welche Aussage ist am passendsten, wenn du Hotspots vermeiden willst und gleichmäßige Last anstrebst?",
-      "options": [
-        "Hash-Sharding statt Range-Sharding wählen, weil Hash-Sharding Hotspot-Risiken reduziert und gleichmäßige Verteilung fördert.",
-        "Hash-Sharding statt Range-Sharding wählen, weil Hash-Sharding Hotspot-Risiken erhöht und gleichmäßige Verteilung fördert.",
-        "Range-Sharding statt Hash-Sharding wählen, weil Range-Sharding Hotspot-Risiken reduziert und gleichmäßige Verteilung fördert.",
-        "Range-Sharding statt Hash-Sharding wählen, weil Range-Sharding Hotspot-Risiken erhöht und gleichmäßige Verteilung fördert."
-      ],
-      "answer": 0,
-      "explanation": "Hash-Sharding verteilt Keys typischerweise gleichmäßiger und reduziert Hotspots bei sequentiellen oder konzentrierten Key-Bereichen. Range-Sharding ist gut für Range-Queries, kann aber Hotspots erzeugen, wenn bestimmte Ranges sehr aktiv sind. Die richtige Wahl hängt von Query-Pattern ab, aber für Hotspot-Vermeidung ist Hash oft vorteilhaft.",
-      "weight": 3,
-      "topic": "Distributed Systems",
-      "concept": "Sharding Tradeoff",
-      "cognitive_level": "Analysis",
-      "extended_explanation": {
-        "title": "Sharding: Verteilung vs. Range-Queries",
-        "steps": [
-          "Bewerte, ob Hotspots durch ungleichmäßige Key-Verteilung entstehen.",
-          "Nutze Hash-Sharding, wenn gleichmäßige Verteilung Priorität hat.",
-          "Nutze Range-Sharding, wenn Range-Queries zentral sind und du Hotspots kontrollieren kannst.",
-          "Teste Verteilung und Last mit realistischen Zugriffsmustern."
-        ],
-        "content": "Hash-Sharding verteilt Daten anhand eines Hashes und erzeugt typischerweise gleichmäßige Shard-Auslastung. Range-Sharding gruppiert zusammenhängende Keys, was Range-Queries erleichtert, aber Hotspots begünstigen kann. Deshalb ist die Entscheidung ein Tradeoff zwischen Zugriffsmustern und Lastverteilung."
-      },
-      "mini_glossary": [
-        {
-          "term": "Sharding",
-          "definition": "Horizontale Partitionierung, bei der Daten auf mehrere Shards/Partitionen verteilt werden."
-        },
-        {
-          "term": "Hash-Sharding",
-          "definition": "Sharding, bei dem eine Hashfunktion den Ziel-Shard bestimmt, oft mit gleichmäßiger Verteilung."
-        },
-        {
-          "term": "Range-Sharding",
-          "definition": "Sharding, bei dem zusammenhängende Key-Bereiche einem Shard zugeordnet werden."
-        },
-        {
-          "term": "Hotspot",
-          "definition": "Überlastung eines Shards/Knotens durch ungleichmäßige Daten- oder Zugriffskonzentration."
         }
       ]
     },
