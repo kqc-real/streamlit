@@ -35,11 +35,11 @@ def _load_prompt_file(filename: str) -> str:
     """Return prompt content from the given markdown file."""
     prompt_path = Path(__file__).resolve().parent / filename
     if not prompt_path.exists():
-        return f"Datei {filename} nicht gefunden."
+        return translate_ui("admin.prompts.file_not_found", default=f"Datei {filename} nicht gefunden.")
     try:
         return prompt_path.read_text(encoding="utf-8")
     except OSError as exc:
-        return f"Prompt konnte nicht geladen werden ({exc})."
+        return translate_ui("admin.prompts.load_failed", default=f"Prompt konnte nicht geladen werden ({exc}).")
 
 
 def _open_prompt_dialog(title: str, content: str, download_name: str) -> bool:

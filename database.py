@@ -9,6 +9,7 @@ import hashlib
 import binascii
 import secrets
 from config import get_package_dir, get_question_counts
+from i18n.context import t
 
 # Fallback für ältere Streamlit-Versionen ohne caching-Decoratoren
 def _identity_cache_decorator(func=None, **dec_kwargs):
@@ -72,7 +73,7 @@ def with_db_retry(func):
                         delay *= 2  # Exponential backoff
                         continue
                     else:
-                        st.error("Die Datenbank ist momentan stark ausgelastet. Bitte versuche es später erneut.")
+                        st.error(t("database.overloaded", default="Die Datenbank ist momentan stark ausgelastet. Bitte versuche es später erneut."))
                         print(f"Datenbankfehler nach {max_retries} Versuchen: {e}")
                         # Gib einen neutralen Wert zurück, um einen App-Absturz zu verhindern
                         return None if "start_test_session" in func.__name__ else False

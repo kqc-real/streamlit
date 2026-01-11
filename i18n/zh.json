@@ -730,6 +730,8 @@
             "close_dialog": "关闭对话框",
             "general_title": "通用 AI 提示",
             "kahoot_title": "Kahoot AI 提示",
+            "file_not_found": "File {filename} not found.",
+            "load_failed": "Prompt could not be loaded ({error}).",
             "arsnova_title": "arsnova.click AI 提示"
         },
         "manage_question_owner": "✏️ 质量保证（创建者 — 临时题库，Human-in-the-Loop）",
@@ -1287,5 +1289,17 @@
     			"field_concept": "字段 'concept'",
     			"field_cognitive_level": "字段 'cognitive_level'"
     		}
+    },
+    "database": {
+        "overloaded": "The database is currently heavily loaded. Please try again later."
+    },
+    "validate_sets": {
+        "errors": {
+            "invalid_json": "Invalid JSON: {error}",
+            "could_not_read": "Could not read file: {error}"
+        },
+        "warnings": {
+            "missing_top_level_keys": "Top-level keys \"meta\" and \"questions\" must exist; further checks skipped for this file."
+        }
     }
 }

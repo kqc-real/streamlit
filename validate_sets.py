@@ -21,6 +21,7 @@ import json
 import re
 from pathlib import Path
 import logging
+from i18n import translate
 
 # Configure a simple logger for this CLI script so messages are visible when
 # the script is run directly. Keep formatting minimal to match previous prints.
@@ -56,10 +57,13 @@ def validate_question_set(filepath: Path) -> tuple[list[str], list[str]]:
         with open(filepath, "r", encoding="utf-8") as f:
             data = json.load(f)
     except json.JSONDecodeError as e:
-        errors.append(f"Ungültiges JSON: {e}")
+        # Localized error message
+        msg = translate("validate_sets.errors.invalid_json", default="Ungültiges JSON: {error}")
+        errors.append(msg.format(error=e))
         return errors, warnings
     except Exception as e:
-        errors.append(f"Konnte Datei nicht lesen: {e}")
+        msg = translate("validate_sets.errors.could_not_read", default="Konnte Datei nicht lesen: {error}")
+        errors.append(msg.format(error=e))
         return errors, warnings
 
     # --- Meta-Prüfungen ---

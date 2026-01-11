@@ -726,7 +726,9 @@
             "close_dialog": "Close Dialog",
             "general_title": "General AI Prompt",
             "kahoot_title": "Kahoot AI Prompt",
-            "arsnova_title": "arsnova.click AI Prompt"
+            "arsnova_title": "arsnova.click AI Prompt",
+            "file_not_found": "File {filename} not found.",
+            "load_failed": "Prompt could not be loaded ({error})."
         },
         "manage_question_owner": "✏️ Quality Assurance (Set creator — temporary sets, Human-in-the-Loop)",
         "manage_question_admin": "✏️ Quality Assurance (Admin — main collection / Core sets)",
@@ -1240,9 +1242,8 @@
             "wrong": "Wrong",
             "unanswered": "Unanswered"
         }
-    }
-
-    ,"validator": {
+    },
+    "validator": {
         "errors": {
             "field_must_be_non_empty_text": "{0} must be a non-empty text.",
             "unsafe_html_tags": "{0}: Unsafe HTML tags are not allowed.",
@@ -1257,7 +1258,6 @@
             "answer_not_negative": "{0}: 'answer' must not be negative.",
             "answer_index_invalid": "{0}: 'answer' is not a valid index for the options.",
             "weight_must_be_int": "{0}: 'weight' must be an integer.",
-            "weight_must_be_int": "{0}: 'weight' must be an integer.",
             "invalid_glossary_object": "{0}: Invalid glossary object. Expected 'term' and 'definition' or a single mapping."
         },
         "warnings": {
@@ -1266,11 +1266,11 @@
             "meta_question_count_not_number": "meta.question_count is not a number and was ignored.",
             "meta_count_mismatch": "meta.question_count ({0}) does not match actual count ({1}).",
             "theme_occurrences": "Theme '{0}' appears only {1}× (recommended at least {2}×)."
-        }
-        ,"context": {
+        },
+        "context": {
             "question": "Question {0}"
-        }
-        ,"labels": {
+        },
+        "labels": {
             "field_question": "Field 'question'",
             "field_explanation": "Field 'explanation'",
             "field_topic": "Field 'topic'",
@@ -1283,10 +1283,17 @@
             "field_concept": "Field 'concept'",
             "field_cognitive_level": "Field 'cognitive_level'"
         }
+    },
+    "database": {
+        "overloaded": "The database is currently heavily loaded. Please try again later."
+    },
+    "validate_sets": {
+        "errors": {
+            "invalid_json": "Invalid JSON: {error}",
+            "could_not_read": "Could not read file: {error}"
+        },
+        "warnings": {
+            "missing_top_level_keys": "Top-level keys \"meta\" and \"questions\" must exist; further checks skipped for this file."
+        }
     }
 }
-
-
-
-
-

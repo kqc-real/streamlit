@@ -392,7 +392,9 @@
             "close_dialog": "Chiudi dialogo",
             "general_title": "Prompt IA generale",
             "kahoot_title": "Prompt IA Kahoot",
-            "arsnova_title": "Prompt IA arsnova.click"
+            "arsnova_title": "Prompt IA arsnova.click",
+            "file_not_found": "File {filename} not found.",
+            "load_failed": "Prompt could not be loaded ({error})."
         },
         "manage_question_owner": "✏️ Controllo qualità (creatore del set — set temporanei, Human-in-the-Loop)",
         "manage_question_admin": "✏️ Controllo qualità (Admin — raccolta principale / Core‑sets)",
@@ -1284,5 +1286,17 @@
                 "field_concept": "Campo 'concept'",
                 "field_cognitive_level": "Campo 'cognitive_level'"
             }
+    },
+    "database": {
+        "overloaded": "The database is currently heavily loaded. Please try again later."
+    },
+    "validate_sets": {
+        "errors": {
+            "invalid_json": "Invalid JSON: {error}",
+            "could_not_read": "Could not read file: {error}"
+        },
+        "warnings": {
+            "missing_top_level_keys": "Top-level keys \"meta\" and \"questions\" must exist; further checks skipped for this file."
+        }
     }
 }

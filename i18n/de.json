@@ -500,7 +500,9 @@
             "close_dialog": "Dialog schließen",
             "general_title": "Allgemeiner KI-Prompt",
             "kahoot_title": "Kahoot KI-Prompt",
-            "arsnova_title": "arsnova.click KI-Prompt"
+            "arsnova_title": "arsnova.click KI-Prompt",
+            "file_not_found": "Datei {filename} nicht gefunden.",
+            "load_failed": "Prompt konnte nicht geladen werden ({error})."
         },
         "manage_question_owner": "✏️ Qualitätssicherung (Set‑Ersteller — temporäre Sets, Human-in-the-Loop)",
         "manage_question_admin": "✏️ Qualitätssicherung (Admin — Hauptsammlung / Core‑Sets)",
@@ -1269,11 +1271,11 @@
             "meta_question_count_not_number": "meta.question_count ist keine Zahl und wurde ignoriert.",
             "meta_count_mismatch": "meta.question_count ({0}) stimmt nicht mit der tatsächlichen Anzahl ({1}) überein.",
             "theme_occurrences": "Thema '{0}' kommt nur {1}× vor (empfohlen: mindestens {2}×)."
-        }
-        ,"context": {
+        },
+        "context": {
             "question": "Frage {0}"
-        }
-        ,"labels": {
+        },
+        "labels": {
             "field_question": "Feld 'question'",
             "field_explanation": "Feld 'explanation'",
             "field_topic": "Feld 'topic'",
@@ -1285,6 +1287,18 @@
             "mini_glossary_entry": "Glossar-Eintrag",
             "field_concept": "Feld 'concept'",
             "field_cognitive_level": "Feld 'cognitive_level'"
+        }
+    },
+    "database": {
+        "overloaded": "Die Datenbank ist momentan stark ausgelastet. Bitte versuche es später erneut."
+    },
+    "validate_sets": {
+        "errors": {
+            "invalid_json": "Ungültiges JSON: {error}",
+            "could_not_read": "Konnte Datei nicht lesen: {error}"
+        },
+        "warnings": {
+            "missing_top_level_keys": "Top-Level-Keys \"meta\" und \"questions\" müssen existieren. Weitere Prüfungen für diese Datei werden übersprungen."
         }
     }
 }
