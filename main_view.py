@@ -349,6 +349,24 @@ def _welcome_pseudonym_select_label() -> str:
     )
 
 
+def _welcome_pseudonym_count(count: int) -> str:
+    try:
+        n = int(count)
+    except Exception:
+        n = 0
+    if n == 1:
+        return translate_ui("welcome.pseudonym.count_one", default="{n} frei").format(n=n)
+    return translate_ui("welcome.pseudonym.count_many", default="{n} frei").format(n=n)
+
+
+def _welcome_pseudonym_select_label_with_count(count: int) -> str:
+    base = _welcome_pseudonym_select_label()
+    return translate_ui(
+        "welcome.pseudonym.select_label_with_count",
+        default="{base} ({count})",
+    ).format(base=base, count=_welcome_pseudonym_count(count))
+
+
 def _welcome_pseudonym_select_placeholder() -> str:
     return translate_ui(
         "welcome.pseudonym.select_placeholder",
@@ -3210,14 +3228,14 @@ def render_welcome_page(app_config: AppConfig):
                         st.session_state['main_view_pseudonym_selector'] = st.session_state['selected_pseudonym']
                 except Exception:
                     pass
-    
+
                 selected_name_from_user = st.selectbox(
-                    _welcome_pseudonym_select_label(),
+                    _welcome_pseudonym_select_label_with_count(len(options)),
                     options=options,
                     index=None,
                     placeholder=_welcome_pseudonym_select_placeholder(),
                     format_func=format_scientist,
-                    label_visibility="collapsed",
+                    label_visibility="visible",
                     key="main_view_pseudonym_selector",
                 )
     
