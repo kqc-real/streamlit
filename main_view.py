@@ -3792,6 +3792,20 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     if st.session_state.get("_delete_error_msg"):
         st.error(st.session_state.pop("_delete_error_msg"))
 
+    # Ensure expander is closed and previous warnings cleared when switching questions
+    try:
+        prev_idx = st.session_state.get("_current_question_idx")
+        if prev_idx != frage_idx:
+            st.session_state["_keep_admin_expander_open"] = False
+            if prev_idx is not None:
+                st.session_state.pop(f"save_q_{prev_idx}_warnings", None)
+                st.session_state.pop(f"save_q_{prev_idx}_warnings_text", None)
+            st.session_state["_current_question_idx"] = frage_idx
+            st.session_state[f"frage_{frage_idx}_shown_time_monotonic"] = time.monotonic()
+            st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
+    except Exception:
+        pass
+
     # --- ADMIN EDIT FEATURE ---
     # Ermöglicht das direkte Bearbeiten der Frage im JSON-Format
     user_id = st.session_state.get("user_id")
@@ -3876,9 +3890,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         f"<div class='admin-badge admin-badge--saved'>✅ {translate_ui('admin.last_saved', default='Letzter Speicherzeitpunkt')}<br><small>{saved_ts}</small></div>"
                     )
                 if warn_list:
-                    warn_items = "<br>".join(f"- {w}" for w in warn_list)
                     parts.append(
-                        f"<div class='admin-badge admin-badge--needs'>⚠️ {translate_ui('admin.save_validation_warnings', default='Validierungswarnungen')}<br><small>{warn_items}</small></div>"
+                        f"<div class='admin-badge admin-badge--needs'>⚠️ {translate_ui('admin.save_validation_warnings', default='Validierungswarnungen')} ({len(warn_list)})</div>"
                     )
                 if needs_promote:
                     parts.append(
@@ -3899,6 +3912,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
                 html = "<div class='admin-badges'>" + "".join(parts) + "</div>"
                 st.markdown(html, unsafe_allow_html=True)
+                if warn_list:
+                    with st.expander(translate_ui('admin.save_validation_warnings', default='Validierungswarnungen'), expanded=False):
+                        for w in warn_list:
+                            st.write(f"- {w}")
         except Exception:
             # don't fail the UI if badge rendering errors
             pass
@@ -3981,7 +3998,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     saved_prefix = "✅ " if st.session_state.get(saved_flag_key) else ""
                     if st.button(saved_prefix + base_label, key=f"save_q_{frage_idx}", type=btn_type):
                         try:
-                            new_q_data = json.loads(editor_text)
+                            new_q_data = json.loads(editor_text, strict=False)
 
                             # Datei laden
                             selected_file = st.session_state.get("selected_questions_file")
@@ -4448,15 +4465,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
     # Reset per-question timing markers when navigating to a different question so
     # cooldowns start fresh for the newly shown question (including jumps/skips).
-    try:
-        prev_idx = st.session_state.get("_current_question_idx")
-        if prev_idx != frage_idx:
-            st.session_state["_current_question_idx"] = frage_idx
-            st.session_state[f"frage_{frage_idx}_shown_time_monotonic"] = time.monotonic()
-            st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
-    except Exception:
-        pass
-
     # Ensure tempo is available in session state (recover from DB if needed)
     # This fixes issues where the selected tempo might be lost on reload or context switch
     if 'selected_tempo' not in st.session_state and 'session_id' in st.session_state:
