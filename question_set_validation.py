@@ -129,8 +129,27 @@ def _validate_question(index: int, question: Any, tr: Callable[[str, str], str])
     errors: List[str] = []
     warnings: List[str] = []
 
-    # Use a translatable context label (e.g. 'Question {0}' for English)
-    context = tr("validator.context.question", "Frage {0}", index)
+    def _build_context() -> str:
+        # Prefer a short snippet from the question text for clearer, shuffle-agnostic warnings
+        try:
+            q_text = question.get("question")
+            if isinstance(q_text, str) and q_text.strip():
+                snippet = " ".join(q_text.strip().split())
+                max_len = 70
+                if len(snippet) > max_len:
+                    snippet = snippet[: max_len - 3].rstrip() + "..."
+                return f"\"{snippet}\""
+        except Exception:
+            pass
+        try:
+            topic = question.get("topic")
+            if isinstance(topic, str) and topic.strip():
+                return f"[{topic.strip()}]"
+        except Exception:
+            pass
+        return tr("validator.context.question", "Frage {0}", index)
+
+    context = _build_context()
     if not isinstance(question, dict):
         errors.append(tr("validator.errors.question_must_be_object", "{0} muss ein Objekt sein.", context))
         return errors, warnings, None
