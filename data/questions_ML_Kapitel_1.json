@@ -3,7 +3,7 @@
     "title": "Machine Learning",
     "created": "12.01.2026 14:30",
     "target_audience": "Bachelorstudierende der Wirtschaftsinformatik",
-    "question_count": 8,
+    "question_count": 20,
     "difficulty_profile": {
       "easy": 3,
       "medium": 18,
@@ -15,7 +15,7 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 5,
-    "test_duration_minutes": 29
+    "test_duration_minutes": 24
   },
   "questions": [
     {
@@ -27,7 +27,7 @@
         "Die Fähigkeit, große Datenmengen zu speichern"
       ],
       "answer": 0,
-      "explanation": "Arthur Samuel definierte 1959 Machine Learning als das Fachgebiet, das Computern die Fähigkeit zu lernen verleiht, ohne explizit programmiert zu werden. Dies ist eine grundlegende und weithin anerkannte Definition. Die anderen Optionen beschreiben entweder unrealistische Ziele oder einfache Datenspeicherung.",
+      "explanation": "Arthur Samuel definierte 1959 Machine Learning als das Fachgebiet, das Computern die Fähigkeit zu lernen verleiht, ohne explizit programmiert zu werden. Dies ist eine grundlegende und weithin anerkannte Definition.",
       "weight": 1,
       "topic": "Definition Machine Learning",
       "concept": "Arthur Samuel Definition",
@@ -68,7 +68,7 @@
         "Produktionsdatensatz"
       ],
       "answer": 0,
-      "explanation": "Die vom System verwendeten Lernbeispiele werden als Trainingsdatensatz bezeichnet. Jedes einzelne Trainingsbeispiel nennt man einen Trainingsdatenpunkt oder eine Instanz. Der Trainingsdatensatz ist die Grundlage für den Lernprozess.",
+      "explanation": "Die vom System verwendeten Lernbeispiele werden als Trainingsdatensatz bezeichnet. Jedes einzelne Trainingsbeispiel nennt man einen Trainingsdatenpunkt oder eine Instanz.",
       "weight": 1,
       "topic": "Grundbegriffe ML",
       "concept": "Trainingsdatensatz",
@@ -102,7 +102,49 @@
       ]
     },
     {
-      "question": "3. Ein Spamfilter wird mit Beispielen für Spam-E-Mails und gewöhnlichen E-Mails trainiert. Um welche Art von Machine Learning handelt es sich?",
+      "question": "3. Welche Zuordnung zwischen Gewicht und Cognitive Level ist korrekt?",
+      "options": [
+        "Gewicht 1 = Reproduktion, Gewicht 2 = Anwendung, Gewicht 3 = Analyse",
+        "Gewicht 1 = Anwendung, Gewicht 2 = Analyse, Gewicht 3 = Reproduktion",
+        "Gewicht 1 = Analyse, Gewicht 2 = Reproduktion, Gewicht 3 = Anwendung",
+        "Gewicht 1 = Reproduktion, Gewicht 2 = Analyse, Gewicht 3 = Anwendung"
+      ],
+      "answer": 0,
+      "explanation": "Die korrekte Zuordnung ist: Gewicht 1 entspricht Reproduktion (einfaches Wiedergeben von Wissen), Gewicht 2 entspricht Anwendung (Wissen in neuen Situationen anwenden) und Gewicht 3 entspricht Analyse (komplexe Zusammenhänge verstehen und bewerten).",
+      "weight": 1,
+      "topic": "Lernzieltaxonomie",
+      "concept": "Cognitive Level",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Cognitive Level",
+          "definition": "Die kognitive Komplexitätsstufe einer Lernaufgabe nach Bloom's Taxonomie"
+        },
+        {
+          "term": "Reproduktion",
+          "definition": "Einfaches Wiedergeben von gelerntem Wissen ohne tieferes Verständnis"
+        },
+        {
+          "term": "Anwendung",
+          "definition": "Gelerntes Wissen in neuen Situationen oder Kontexten einsetzen"
+        },
+        {
+          "term": "Analyse",
+          "definition": "Komplexe Zusammenhänge verstehen, bewerten und Schlussfolgerungen ziehen"
+        },
+        {
+          "term": "Gewicht",
+          "definition": "Numerischer Wert zur Kennzeichnung der Schwierigkeit einer Aufgabe"
+        },
+        {
+          "term": "Bloom'sche Taxonomie",
+          "definition": "Hierarchisches Modell von Lernzielen nach kognitiver Komplexität"
+        }
+      ]
+    },
+    {
+      "question": "4. Ein Spamfilter wird mit Beispielen für Spam-E-Mails und gewöhnlichen E-Mails trainiert. Um welche Art von Machine Learning handelt es sich?",
       "options": [
         "Überwachtes Lernen (Klassifikation)",
         "Unüberwachtes Lernen (Clustering)",
@@ -110,7 +152,7 @@
         "Teilüberwachtes Lernen"
       ],
       "answer": 0,
-      "explanation": "Ein Spamfilter ist ein typisches Beispiel für überwachtes Lernen, speziell eine Klassifikationsaufgabe. Das System erhält gelabelte Trainingsdaten (Spam vs. Ham) und lernt, neue E-Mails korrekt zu klassifizieren. Die Labels werden von Nutzern bereitgestellt.",
+      "explanation": "Ein Spamfilter ist ein typisches Beispiel für überwachtes Lernen, speziell eine Klassifikationsaufgabe. Das System erhält gelabelte Trainingsdaten (Spam vs. Ham) und lernt, neue E-Mails korrekt zu klassifizieren.",
       "weight": 2,
       "topic": "Überwachtes Lernen",
       "concept": "Klassifikation",
@@ -153,7 +195,7 @@
       ]
     },
     {
-      "question": "4. Welches der folgenden Szenarien ist ein typisches Beispiel für überwachtes Lernen?",
+      "question": "5. Welches der folgenden Szenarien ist ein typisches Beispiel für überwachtes Lernen?",
       "options": [
         "Vorhersage von Autopreisen basierend auf Kilometerstand und Alter",
         "Gruppierung von Blogbesuchern nach ähnlichem Verhalten",
@@ -169,13 +211,13 @@
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Regression als überwachte Lernaufgabe",
-        "content": "Regression unterscheidet sich von Klassifikation dadurch, dass sie kontinuierliche Werte vorhersagt statt Kategorien. Bei der Autopreisvorhersage sind die Targets (Preise) numerische Werte. Das Modell lernt die Beziehung zwischen Eingabemerkmalen und Ausgabewert aus den Trainingsdaten. Gruppierung von Besuchern wäre Clustering (unüberwacht), Anomalieerkennung ist ebenfalls unüberwacht, und Robotertraining durch Belohnungen ist Reinforcement Learning.",
         "steps": [
           "Sammle Trainingsdaten mit Merkmalen (Kilometerstand, Alter) und bekannten Preisen.",
           "Trainiere ein Regressionsmodell, das die Beziehung zwischen Merkmalen und Preis lernt.",
           "Das Modell findet die Parameter, die den Vorhersagefehler minimieren.",
           "Verwende das trainierte Modell, um Preise für neue Autos vorherzusagen."
-        ]
+        ],
+        "content": "Regression unterscheidet sich von Klassifikation dadurch, dass sie kontinuierliche Werte vorhersagt statt Kategorien. Bei der Autopreisvorhersage sind die Targets (Preise) numerische Werte. Das Modell lernt die Beziehung zwischen Eingabemerkmalen und Ausgabewert aus den Trainingsdaten. Gruppierung von Besuchern wäre Clustering (unüberwacht), Anomalieerkennung ist ebenfalls unüberwacht, und Robotertraining durch Belohnungen ist Reinforcement Learning."
       },
       "mini_glossary": [
         {
@@ -202,20 +244,7 @@
           "term": "Reinforcement Learning",
           "definition": "Lernverfahren, bei dem ein Agent durch Belohnungen und Strafen lernt"
         }
-      ],
-      "frage": "4. Welches der folgenden Szenarien ist ein typisches Beispiel für überwachtes Lernen?",
-      "gewichtung": 2,
-      "thema": "Überwachtes Lernen",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "Vorhersage von Autopreisen basierend auf Kilometerstand und Alter",
-        "Gruppierung von Blogbesuchern nach ähnlichem Verhalten",
-        "Erkennung ungewöhnlicher Muster in Netzwerkdaten",
-        "Training eines Roboters, durch Belohnungen laufen zu lernen",
-        "Komprimierung hochdimensionaler Daten in 2D-Darstellung"
-      ],
-      "loesung": 0,
-      "erklaerung": "Die Vorhersage von Autopreisen ist eine Regressionsaufgabe im überwachten Lernen, da das Modell mit Beispielen trainiert wird, bei denen sowohl die Merkmale (Kilometerstand, Alter) als auch die Targets (Preise) bekannt sind. Die anderen Optionen beschreiben unüberwachtes Lernen oder Reinforcement Learning."
+      ]
     },
     {
       "question": "6. Sie haben Daten über Besucher Ihres Blogs und möchten ähnliche Besucher gruppieren. Welcher Ansatz ist geeignet?",
@@ -226,7 +255,7 @@
         "Lineare Regression mit Besuchermerkmalen"
       ],
       "answer": 0,
-      "explanation": "Clustering ist die richtige Wahl für das Gruppieren ähnlicher Besucher ohne vorgegebene Kategorien. Es handelt sich um unüberwachtes Lernen, da keine Labels vorhanden sind. Der Algorithmus findet selbstständig Gruppen mit ähnlichen Eigenschaften, z.B. Teenager, die Comics mögen, versus erwachsene Science-Fiction-Fans.",
+      "explanation": "Clustering ist die richtige Wahl für das Gruppieren ähnlicher Besucher ohne vorgegebene Kategorien. Es handelt sich um unüberwachtes Lernen, da keine Labels vorhanden sind. Der Algorithmus findet selbstständig Gruppen mit ähnlichen Eigenschaften.",
       "weight": 2,
       "topic": "Unüberwachtes Lernen",
       "concept": "Clustering",
@@ -239,7 +268,7 @@
           "Besucher werden automatisch in homogene Gruppen eingeteilt.",
           "Die entdeckten Cluster können für zielgerichtetes Marketing genutzt werden."
         ],
-        "content": "Clustering ist ideal, wenn Sie keine vordefinierten Kategorien haben, sondern natürliche Gruppierungen in den Daten finden möchten. Im Gegensatz zur Klassifikation (überwachtes Lernen), wo Sie dem Modell sagen 'dies ist Gruppe A, dies ist Gruppe B', entdeckt Clustering selbstständig, welche Besucher zusammengehören. Dies ist besonders wertvoll für Marktsegmentierung und Personalisierung, da es unerwartete Besuchergruppen aufdecken kann."
+        "content": "Clustering ist ideal, wenn Sie keine vordefinierten Kategorien haben, sondern natürliche Gruppierungen in den Daten finden möchten. Im Gegensatz zur Klassifikation (überwachtes Lernen), wo Sie dem Modell sagen 'dies ist Gruppe A, dies ist Gruppe B', entdeckt Clustering selbstständig, welche Besucher zusammengehören. Dies ist besonders wertvoll für Marktsegmentierung und Personalisierung."
       },
       "mini_glossary": [
         {
@@ -269,7 +298,7 @@
       ]
     },
     {
-      "question": "6. Ein Modell muss sich sehr schnell an Änderungen anpassen (z.B. neue Muster im Aktienmarkt erkennen). Welcher Ansatz ist am besten geeignet?",
+      "question": "7. Ein Modell muss sich sehr schnell an Änderungen anpassen (z.B. neue Muster im Aktienmarkt erkennen). Welcher Ansatz ist am besten geeignet?",
       "options": [
         "Online-Learning mit hoher Lernrate",
         "Batch-Learning mit täglichem Training",
@@ -278,20 +307,20 @@
         "Offline-Learning ohne regelmäßige Updates"
       ],
       "answer": 0,
-      "explanation": "Online-Learning mit hoher Lernrate ist optimal für sich schnell ändernde Umgebungen. Das System lernt inkrementell aus neuen Daten und passt sich sofort an. Eine hohe Lernrate ermöglicht schnelle Anpassung an neue Muster, birgt aber das Risiko, alte Muster zu vergessen. Batch-Learning wäre zu träge für schnelle Marktänderungen.",
+      "explanation": "Online-Learning mit hoher Lernrate ist optimal für sich schnell ändernde Umgebungen. Das System lernt inkrementell aus neuen Daten und passt sich sofort an. Eine hohe Lernrate ermöglicht schnelle Anpassung an neue Muster.",
       "weight": 2,
       "topic": "Online-Learning",
       "concept": "Lernrate",
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Online-Learning für dynamische Umgebungen",
-        "content": "Online-Learning eignet sich perfekt für volatile Umgebungen wie Finanzmärkte, wo sich Muster täglich ändern können. Anders als Batch-Learning, das den gesamten Datensatz neu trainieren muss, lernt Online-Learning kontinuierlich dazu. Die Lernrate ist dabei kritisch: Eine hohe Rate ermöglicht schnelle Anpassung, kann aber zu Instabilität führen. Eine niedrige Rate macht das System träge. Für schnell wechselnde Muster ist eine höhere Lernrate trotz des Risikos vorzuziehen.",
         "steps": [
           "Neue Daten werden kontinuierlich oder in Mini-Batches eingespeist.",
           "Das Modell aktualisiert sich nach jedem Lernschritt inkrementell.",
           "Eine hohe Lernrate sorgt für schnelle Anpassung an neue Muster.",
           "Das System kann in Echtzeit auf Marktveränderungen reagieren."
-        ]
+        ],
+        "content": "Online-Learning eignet sich perfekt für volatile Umgebungen wie Finanzmärkte, wo sich Muster täglich ändern können. Anders als Batch-Learning, das den gesamten Datensatz neu trainieren muss, lernt Online-Learning kontinuierlich dazu. Die Lernrate ist dabei kritisch: Eine hohe Rate ermöglicht schnelle Anpassung, kann aber zu Instabilität führen. Für schnell wechselnde Muster ist eine höhere Lernrate trotz des Risikos vorzuziehen."
       },
       "mini_glossary": [
         {
@@ -321,7 +350,7 @@
       ]
     },
     {
-      "question": "7. Ihr Modell erreicht 95% Genauigkeit auf den Trainingsdaten, aber nur 70% auf neuen Daten. Was ist das Problem?",
+      "question": "8. Ihr Modell erreicht 95% Genauigkeit auf den Trainingsdaten, aber nur 70% auf neuen Daten. Was ist das Problem?",
       "options": [
         "Das Modell overfittet die Trainingsdaten",
         "Das Modell underfittet die Trainingsdaten",
@@ -329,20 +358,20 @@
         "Das Modell hat zu wenige Parameter"
       ],
       "answer": 0,
-      "explanation": "Die große Diskrepanz zwischen Trainings- und Testgenauigkeit ist ein klassisches Zeichen für Overfitting. Das Modell hat die Trainingsdaten zu gut gelernt, einschließlich Rauschen und Ausreißer, und kann deshalb nicht gut auf neue Daten verallgemeinern. Bei Underfitting wäre die Genauigkeit auf beiden Datensätzen niedrig.",
+      "explanation": "Die große Diskrepanz zwischen Trainings- und Testgenauigkeit ist ein klassisches Zeichen für Overfitting. Das Modell hat die Trainingsdaten zu gut gelernt, einschließlich Rauschen und Ausreißer, und kann deshalb nicht gut auf neue Daten verallgemeinern.",
       "weight": 2,
       "topic": "Overfitting",
       "concept": "Verallgemeinerungsfehler",
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Overfitting erkennen und beheben",
-        "content": "Overfitting tritt auf, wenn ein Modell zu komplex für die verfügbaren Daten ist. Es memoriert die Trainingsdaten perfekt, inklusive zufälliger Muster und Rauschen. Bei neuen Daten versagt es, weil diese zufälligen Muster nicht reproduzierbar sind. Im Gegensatz dazu zeigt Underfitting schlechte Leistung auf beiden Datensätzen. Nicht-repräsentative Daten würden zu systematischen Fehlern führen, aber nicht zu so extremer Diskrepanz. Die Lösung ist Regularisierung, Vereinfachung des Modells oder mehr Trainingsdaten.",
         "steps": [
           "Vergleiche die Modellleistung auf Trainings- und Testdaten.",
           "Große Diskrepanz deutet auf Overfitting hin.",
           "Das Modell hat Rauschen statt Muster gelernt.",
           "Lösungen: Regularisierung, mehr Daten, einfacheres Modell."
-        ]
+        ],
+        "content": "Overfitting tritt auf, wenn ein Modell zu komplex für die verfügbaren Daten ist. Es memoriert die Trainingsdaten perfekt, inklusive zufälliger Muster und Rauschen. Bei neuen Daten versagt es, weil diese zufälligen Muster nicht reproduzierbar sind. Im Gegensatz dazu zeigt Underfitting schlechte Leistung auf beiden Datensätzen. Die Lösung ist Regularisierung, Vereinfachung des Modells oder mehr Trainingsdaten."
       },
       "mini_glossary": [
         {
@@ -372,7 +401,7 @@
       ]
     },
     {
-      "question": "8. Sie trainieren ein komplexes Modell, das die Trainingsdaten overfittet. Welche Maßnahme würde das Problem am effektivsten beheben?",
+      "question": "9. Sie trainieren ein komplexes Modell, das die Trainingsdaten overfittet. Welche Maßnahme würde das Problem am effektivsten beheben?",
       "options": [
         "Regularisierung einführen oder verstärken",
         "Die Lernrate deutlich erhöhen",
@@ -381,20 +410,20 @@
         "Die Modellkomplexität weiter erhöhen"
       ],
       "answer": 0,
-      "explanation": "Regularisierung ist die effektivste Methode gegen Overfitting. Sie erzwingt Restriktionen für das Modell und vereinfacht es, wodurch es weniger anfällig für das Lernen von Rauschen wird. Die Erhöhung der Lernrate, mehr Features oder höhere Komplexität würden das Problem verschlimmern. Weniger Trainingsdaten sind kontraproduktiv.",
+      "explanation": "Regularisierung ist die effektivste Methode gegen Overfitting. Sie erzwingt Restriktionen für das Modell und vereinfacht es, wodurch es weniger anfällig für das Lernen von Rauschen wird. Die Erhöhung der Lernrate, mehr Features oder höhere Komplexität würden das Problem verschlimmern.",
       "weight": 2,
       "topic": "Regularisierung",
       "concept": "Overfitting-Vermeidung",
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Regularisierung zur Overfitting-Prävention",
-        "content": "Regularisierung ist eine fundamentale Technik zur Overfitting-Bekämpfung. Bei linearen Modellen könnte man beispielsweise die Parametergrößen beschränken. Dies zwingt das Modell, einfachere Muster zu lernen, die eher auf neue Daten verallgemeinern. Die Stärke der Regularisierung wird über Hyperparameter kontrolliert. Zu viel Regularisierung führt zu Underfitting, zu wenig lässt Overfitting zu. Alternative Maßnahmen sind: mehr Trainingsdaten sammeln, Features reduzieren oder ein einfacheres Modell wählen.",
         "steps": [
           "Regularisierung fügt dem Modell Restriktionen hinzu.",
           "Sie begrenzt die Komplexität und Flexibilität des Modells.",
           "Das Modell kann nicht mehr jedes Detail der Trainingsdaten lernen.",
           "Die Balance zwischen Fitting und Verallgemeinerung wird verbessert."
-        ]
+        ],
+        "content": "Regularisierung ist eine fundamentale Technik zur Overfitting-Bekämpfung. Bei linearen Modellen könnte man beispielsweise die Parametergrößen beschränken. Dies zwingt das Modell, einfachere Muster zu lernen, die eher auf neue Daten verallgemeinern. Die Stärke der Regularisierung wird über Hyperparameter kontrolliert. Alternative Maßnahmen sind: mehr Trainingsdaten sammeln, Features reduzieren oder ein einfacheres Modell wählen."
       },
       "mini_glossary": [
         {
@@ -420,6 +449,570 @@
         {
           "term": "Restriktion",
           "definition": "Einschränkung, die dem Modell auferlegt wird"
+        }
+      ]
+    },
+    {
+      "question": "10. Welche Technik gehört zum Feature Engineering?",
+      "options": [
+        "Extraktion von Merkmalen durch Kombination vorhandener Features",
+        "Erhöhung der Lernrate des Algorithmus",
+        "Aufteilung der Daten in Trainings- und Testsets",
+        "Anpassung der Regularisierungsstärke"
+      ],
+      "answer": 0,
+      "explanation": "Feature Engineering umfasst die Entwicklung, Auswahl und Extraktion von Merkmalen. Die Extraktion kombiniert vorhandene Merkmale zu neuen, nützlicheren Features. Die anderen Optionen betreffen Hyperparameter-Tuning, Datenaufteilung oder Modellkonfiguration.",
+      "weight": 2,
+      "topic": "Feature Engineering",
+      "concept": "Merkmalsextraktion",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Feature Engineering für bessere Modelle",
+        "content": "Feature Engineering ist oft entscheidender für den Modellerfolg als die Wahl des Algorithmus. Die Extraktion kombiniert mehrere Features zu einem, z.B. kann 'Kilometerstand' und 'Alter' eines Autos zu 'Abnutzung' kombiniert werden. Dies reduziert Dimensionalität und kann Muster klarer machen. Gutes Feature Engineering kann die Modellleistung dramatisch verbessern.",
+        "steps": [
+          "Analysiere vorhandene Merkmale auf Korrelationen und Redundanzen.",
+          "Kombiniere korrelierende Features zu aussagekräftigeren Merkmalen.",
+          "Erstelle neue Features durch Transformation oder Aggregation.",
+          "Wähle die relevantesten Features für das Training aus."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Feature Engineering",
+          "definition": "Prozess der Entwicklung, Auswahl und Transformation von Merkmalen"
+        },
+        {
+          "term": "Feature-Extraktion",
+          "definition": "Kombination vorhandener Merkmale zu neuen, aussagekräftigeren Features"
+        },
+        {
+          "term": "Feature-Selektion",
+          "definition": "Auswahl der nützlichsten Merkmale aus vorhandenen Features"
+        },
+        {
+          "term": "Dimensionsreduktion",
+          "definition": "Verringerung der Anzahl von Merkmalen unter Beibehaltung wichtiger Informationen"
+        },
+        {
+          "term": "Korrelation",
+          "definition": "Statistische Beziehung zwischen zwei Merkmalen"
+        },
+        {
+          "term": "Redundanz",
+          "definition": "Überflüssige Information, die bereits in anderen Features enthalten ist"
+        }
+      ]
+    },
+    {
+      "question": "11. Ein k-nächste-Nachbarn-Algorithmus vergleicht neue Instanzen mit bekannten Beispielen anhand eines Ähnlichkeitsmaßes. Um welche Lernart handelt es sich?",
+      "options": [
+        "Instanzbasiertes Lernen",
+        "Modellbasiertes Lernen",
+        "Batch-Learning",
+        "Reinforcement Learning"
+      ],
+      "answer": 0,
+      "explanation": "k-nächste-Nachbarn ist ein klassisches Beispiel für instanzbasiertes Lernen. Das System lernt die Trainingsbeispiele auswendig und verallgemeinert durch Vergleich neuer Instanzen mit gespeicherten Beispielen mittels eines Ähnlichkeitsmaßes.",
+      "weight": 2,
+      "topic": "Instanzbasiertes Lernen",
+      "concept": "k-nächste-Nachbarn",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Instanzbasiertes vs. Modellbasiertes Lernen",
+        "content": "Instanzbasiertes Lernen unterscheidet sich fundamental von modellbasiertem Lernen. Während modellbasierte Verfahren Parameter lernen und ein abstraktes Modell erstellen, speichert instanzbasiertes Lernen einfach alle Beispiele und nutzt Ähnlichkeitsvergleiche zur Vorhersage. k-NN ist computationally aufwändiger bei der Vorhersage, benötigt aber kein zeitintensives Training.",
+        "steps": [
+          "Das System speichert alle Trainingsinstanzen im Gedächtnis.",
+          "Bei einer neuen Instanz werden die k ähnlichsten Trainingsbeispiele gefunden.",
+          "Ein Ähnlichkeitsmaß (z.B. Euklidische Distanz) bestimmt die Nachbarschaft.",
+          "Die Vorhersage basiert auf den Labels der nächsten Nachbarn."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Instanzbasiertes Lernen",
+          "definition": "Lernverfahren, das Trainingsbeispiele speichert und durch Ähnlichkeitsvergleiche verallgemeinert"
+        },
+        {
+          "term": "k-nächste-Nachbarn",
+          "definition": "Algorithmus, der die k ähnlichsten Trainingsbeispiele zur Vorhersage nutzt"
+        },
+        {
+          "term": "Ähnlichkeitsmaß",
+          "definition": "Metrik zur Bestimmung der Nähe zwischen Datenpunkten"
+        },
+        {
+          "term": "Modellbasiertes Lernen",
+          "definition": "Lernverfahren, das ein parametrisiertes Modell aus Daten erstellt"
+        },
+        {
+          "term": "Euklidische Distanz",
+          "definition": "Geometrisches Abstandsmaß zwischen zwei Punkten im Raum"
+        },
+        {
+          "term": "Verallgemeinerung",
+          "definition": "Fähigkeit eines Modells, auf neue, ungesehene Daten korrekt zu reagieren"
+        }
+      ]
+    },
+    {
+      "question": "13. Ihre Trainingsdaten enthalten 5% fehlende Werte für das Merkmal 'Alter'. Was ist KEINE sinnvolle Strategie?",
+      "options": [
+        "Alle fehlenden Werte mit dem Maximum ersetzen",
+        "Das Merkmal komplett ignorieren",
+        "Datenpunkte mit fehlenden Werten entfernen",
+        "Fehlende Werte mit dem Median ergänzen"
+      ],
+      "answer": 0,
+      "explanation": "Das Ersetzen fehlender Werte mit dem Maximum ist keine sinnvolle Strategie, da es die Daten verzerrt und unrealistische Annahmen trifft. Die anderen Strategien sind legitime Ansätze: Merkmal ignorieren, Zeilen entfernen oder mit statistischen Kennwerten wie dem Median ergänzen.",
+      "weight": 2,
+      "topic": "Datenqualität",
+      "concept": "Fehlende Werte",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Umgang mit fehlenden Werten",
+        "steps": [
+          "Analysiere, wie viele Werte fehlen und ob ein Muster erkennbar ist.",
+          "Entscheide, ob das Merkmal wichtig genug ist, um beibehalten zu werden.",
+          "Wähle eine sinnvolle Strategie: Imputation mit Median/Mittelwert oder Zeilen löschen.",
+          "Vermeide willkürliche Ersetzungen, die die Datenverteilung verzerren."
+        ],
+        "content": "Fehlende Werte sind ein häufiges Problem in realen Datensätzen. Sinnvolle Strategien sind: Zeilen mit fehlenden Werten entfernen (bei wenigen Fällen), das gesamte Merkmal ignorieren (wenn zu viele Werte fehlen), oder Imputation mit statistischen Kennwerten wie Median oder Mittelwert. Das Ersetzen mit dem Maximum ist problematisch, da es die Verteilung stark verzerrt und unrealistische Werte erzeugt. Bei 5% fehlenden Werten ist Median-Imputation oder Zeilenlöschung meist optimal."
+      },
+      "mini_glossary": [
+        {
+          "term": "Fehlende Werte",
+          "definition": "Datenpunkte, bei denen bestimmte Merkmale nicht erfasst wurden"
+        },
+        {
+          "term": "Imputation",
+          "definition": "Prozess des Ersetzens fehlender Werte durch geschätzte Werte"
+        },
+        {
+          "term": "Median",
+          "definition": "Mittlerer Wert einer sortierten Datenreihe, robust gegen Ausreißer"
+        },
+        {
+          "term": "Mittelwert",
+          "definition": "Durchschnittswert aller Datenpunkte eines Merkmals"
+        },
+        {
+          "term": "Datenbereinigung",
+          "definition": "Prozess der Identifikation und Korrektur von Datenfehlern"
+        },
+        {
+          "term": "Datenverteilung",
+          "definition": "Statistische Beschreibung, wie Werte eines Merkmals verteilt sind"
+        }
+      ]
+    },
+    {
+      "question": "14. Ein System soll ungewöhnliche Kreditkartentransaktionen erkennen, die auf Betrug hindeuten. Welche ML-Aufgabe ist dies?",
+      "options": [
+        "Anomalieerkennung (unüberwacht)",
+        "Binäre Klassifikation (überwacht)",
+        "Regression",
+        "Clustering"
+      ],
+      "answer": 0,
+      "explanation": "Die Betrugserkennung ist typischerweise eine Anomalieerkennungsaufgabe. Das System wird hauptsächlich mit normalen Transaktionen trainiert und lernt, diese zu erkennen. Neue, ungewöhnliche Transaktionen werden dann als potenzielle Anomalien identifiziert.",
+      "weight": 2,
+      "topic": "Unüberwachtes Lernen",
+      "concept": "Anomalieerkennung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Anomalieerkennung für Betrugserkennung",
+        "steps": [
+          "Das System wird hauptsächlich mit normalen Transaktionen trainiert.",
+          "Es lernt die Charakteristika gewöhnlicher Transaktionen.",
+          "Bei neuen Transaktionen bewertet es, wie stark sie vom Normalen abweichen.",
+          "Stark abweichende Transaktionen werden als potenzielle Betrugsfälle markiert."
+        ],
+        "content": "Anomalieerkennung ist ideal für Betrugserkennung, da betrügerische Transaktionen selten sind und sich ständig ändern. Anders als bei überwachter Klassifikation, die viele gelabelte Betrugsbeispiele benötigt, lernt Anomalieerkennung hauptsächlich aus normalen Daten. Das System erkennt dann Abweichungen vom Normalen. Dies ist robuster gegen neue Betrugsmuster. Ähnliche Aufgaben sind: Produktionsfehler erkennen, Netzwerkintrusion entdecken oder medizinische Anomalien identifizieren."
+      },
+      "mini_glossary": [
+        {
+          "term": "Anomalieerkennung",
+          "definition": "Identifikation von Datenpunkten, die signifikant von der Norm abweichen"
+        },
+        {
+          "term": "Novelty Detection",
+          "definition": "Erkennung neuer Instanzen, die anders als Trainingsbeispiele sind"
+        },
+        {
+          "term": "Ausreißer",
+          "definition": "Datenpunkte, die deutlich von anderen Beobachtungen abweichen"
+        },
+        {
+          "term": "Normale Instanz",
+          "definition": "Datenpunkt, der dem typischen Muster im Trainingsdatensatz entspricht"
+        },
+        {
+          "term": "Betrug",
+          "definition": "Betrügerische oder unerlaubte Nutzung, hier von Kreditkarten"
+        },
+        {
+          "term": "Abweichung",
+          "definition": "Grad der Unterschiedlichkeit von einem erwarteten Muster"
+        }
+      ]
+    },
+    {
+      "question": "15. Sie haben ein Modell zur Bilderkennung mit selbstüberwachtem Lernen vortrainiert. Was ist der nächste sinnvolle Schritt?",
+      "options": [
+        "Das Modell für eine spezifische Aufgabe feintunen",
+        "Das Modell sofort in Produktion bringen",
+        "Das Modell komplett neu trainieren",
+        "Das Modell nur für Anomalieerkennung verwenden",
+        "Mehr selbstüberwachtes Training durchführen"
+      ],
+      "answer": 0,
+      "explanation": "Nach dem selbstüberwachten Vortraining sollte das Modell für die eigentliche Zielaufgabe feingetuned werden. Dies nennt man Transfer Learning. Das Modell hat bereits gelernt, Bildmerkmale zu erkennen, muss aber noch auf die spezifische Aufgabe (z.B. Haustiererkennung) angepasst werden.",
+      "weight": 2,
+      "topic": "Selbstüberwachtes Lernen",
+      "concept": "Transfer Learning",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Selbstüberwachtes Lernen und Transfer Learning",
+        "steps": [
+          "Vortraining mit selbstüberwachtem Lernen (z.B. Bildreparatur) auf großen Datenmengen.",
+          "Das Modell lernt allgemeine Merkmale und Muster in den Daten.",
+          "Feintuning des Modells auf einen kleineren, gelabelten Datensatz für die Zielaufgabe.",
+          "Das Modell passt sein Wissen an die spezifische Aufgabe an."
+        ],
+        "content": "Selbstüberwachtes Lernen generiert Labels automatisch aus ungelabelten Daten (z.B. maskierte Bildteile wiederherstellen). Das vortrainierte Modell hat bereits nützliches Wissen über Bildstrukturen erworben. Durch Transfer Learning wird dieses Wissen auf die Zielaufgabe übertragen. Dies ist besonders wertvoll, wenn für die Zielaufgabe nur wenige gelabelte Daten verfügbar sind. Das Modell benötigt dann deutlich weniger spezifische Trainingsdaten, um gute Ergebnisse zu erzielen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Selbstüberwachtes Lernen",
+          "definition": "Lernverfahren, das Labels automatisch aus ungelabelten Daten generiert"
+        },
+        {
+          "term": "Transfer Learning",
+          "definition": "Übertragung von Wissen aus einer Aufgabe auf eine andere"
+        },
+        {
+          "term": "Vortraining",
+          "definition": "Initiales Training eines Modells auf einer vorbereitenden Aufgabe"
+        },
+        {
+          "term": "Feintuning",
+          "definition": "Anpassung eines vortrainierten Modells an eine spezifische Zielaufgabe"
+        },
+        {
+          "term": "Zielaufgabe",
+          "definition": "Die eigentliche Aufgabe, die gelöst werden soll"
+        },
+        {
+          "term": "Gelabelter Datensatz",
+          "definition": "Daten mit bekannten, korrekten Ausgaben für überwachtes Lernen"
+        }
+      ]
+    },
+    {
+      "question": "16. Wofür wird der Validierungsdatensatz verwendet?",
+      "options": [
+        "Zur Auswahl des besten Modells und Hyperparameter-Tuning",
+        "Zum Training des finalen Modells",
+        "Zur finalen Bewertung des Verallgemeinerungsfehlers",
+        "Zur Erhöhung der Trainingsdatenmenge"
+      ],
+      "answer": 0,
+      "explanation": "Der Validierungsdatensatz wird verwendet, um verschiedene Modelle und Hyperparameter zu vergleichen und das beste auszuwählen. Der Testdatensatz dient der finalen Bewertung. Das Training erfolgt auf dem Trainingsdatensatz. Nach der Modellauswahl wird das finale Modell mit allen Trainingsdaten (inkl. Validierung) neu trainiert.",
+      "weight": 2,
+      "topic": "Validierung",
+      "concept": "Validierungsdatensatz",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Rolle des Validierungsdatensatzes",
+        "steps": [
+          "Teile Daten in Training, Validierung und Test auf (z.B. 60/20/20).",
+          "Trainiere verschiedene Modelle auf dem Trainingsdatensatz.",
+          "Bewerte und vergleiche sie auf dem Validierungsdatensatz.",
+          "Wähle das beste Modell, trainiere es neu mit Training+Validierung, und teste es final."
+        ],
+        "content": "Der Validierungsdatensatz löst ein wichtiges Problem: Wenn Sie Hyperparameter direkt auf dem Testdatensatz optimieren würden, würde das Modell auf diese Daten overfitting betreiben. Die drei Datensätze haben klare Rollen: Training zum Lernen der Parameter, Validierung zur Modellauswahl und Hyperparameter-Tuning, Test zur unvoreingenommenen finalen Bewertung. Hold-out-Validierung nutzt einen festen Validierungssatz, Kreuzvalidierung teilt die Daten in mehrere Folds für robustere Bewertung."
+      },
+      "mini_glossary": [
+        {
+          "term": "Validierungsdatensatz",
+          "definition": "Zurückgehaltene Daten zur Bewertung und Auswahl von Modellen"
+        },
+        {
+          "term": "Hold-out-Validierung",
+          "definition": "Methode, die einen festen Teil der Daten zur Validierung reserviert"
+        },
+        {
+          "term": "Hyperparameter-Tuning",
+          "definition": "Prozess der Optimierung von Algorithmus-Parametern"
+        },
+        {
+          "term": "Modellauswahl",
+          "definition": "Entscheidung zwischen verschiedenen Modelltypen oder -konfigurationen"
+        },
+        {
+          "term": "Kreuzvalidierung",
+          "definition": "Validierungsmethode mit mehreren Trainings-Validierungs-Aufteilungen"
+        },
+        {
+          "term": "Testdatensatz",
+          "definition": "Daten für die finale, unvoreingenommene Bewertung des Modells"
+        }
+      ]
+    },
+    {
+      "question": "17. Bei Online-Learning steuert die Lernrate, wie schnell sich das System anpasst. Was ist der Nachteil einer sehr hohen Lernrate?",
+      "options": [
+        "Das System ist anfällig für Rauschen",
+        "Das System lernt zu langsam",
+        "Das System benötigt mehr Speicherplatz",
+        "Das System kann nicht inkrementell lernen",
+        "Das System wird zu komplex"
+      ],
+      "answer": 0,
+      "explanation": "Eine sehr hohe Lernrate führt dazu, dass sich das System schnell auf neue Daten einstellt, aber dabei alte Muster vergisst. Außerdem ist es anfälliger für Rauschen und Ausreißer in den neuen Daten, da diese einen zu großen Einfluss auf das Modell haben.",
+      "weight": 2,
+      "topic": "Online-Learning",
+      "concept": "Lernraten-Abwägung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Balance der Lernrate im Online-Learning",
+        "steps": [
+          "Eine hohe Lernrate ermöglicht schnelle Anpassung an neue Muster.",
+          "Sie führt aber zum Vergessen alter, möglicherweise noch relevanter Muster.",
+          "Rauschen und Ausreißer in neuen Daten haben überproportionalen Einfluss.",
+          "Eine niedrige Lernrate macht das System träger, aber stabiler."
+        ],
+        "content": "Die Lernrate ist ein kritischer Hyperparameter im Online-Learning. Eine hohe Rate bedeutet, dass jeder neue Datenpunkt das Modell stark verändert - gut für schnell wechselnde Umgebungen, aber riskant bei verrauschten Daten. Das System kann instabil werden und auf zufällige Schwankungen überreagieren. Eine niedrige Rate macht das System robust gegen Rauschen, aber träge bei echten Änderungen. Die optimale Lernrate hängt von der Volatilität der Umgebung und der Datenqualität ab. Oft verwendet man adaptive Lernraten, die sich im Laufe der Zeit anpassen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Lernrate",
+          "definition": "Hyperparameter, der die Stärke jeder Modellanpassung steuert"
+        },
+        {
+          "term": "Katastrophales Vergessen",
+          "definition": "Phänomen, bei dem neue Daten altes Wissen überschreiben"
+        },
+        {
+          "term": "Trägheit",
+          "definition": "Widerstand eines Systems gegen Änderungen"
+        },
+        {
+          "term": "Adaptive Lernrate",
+          "definition": "Lernrate, die sich dynamisch an die Situation anpasst"
+        },
+        {
+          "term": "Stabilität",
+          "definition": "Eigenschaft eines Systems, robust gegen Rauschen zu sein"
+        },
+        {
+          "term": "Volatilität",
+          "definition": "Grad der Schwankungen oder Änderungen in den Daten"
+        }
+      ]
+    },
+    {
+      "question": "18. Dimensionsreduktion kann helfen, Trainingsdaten zu vereinfachen. Welcher Vorteil ist dabei NICHT zu erwarten?",
+      "options": [
+        "Das Modell wird leistungsfähiger",
+        "Das Training wird schneller",
+        "Die Daten benötigen weniger Speicherplatz",
+        "Das Risiko für Overfitting wird reduziert"
+      ],
+      "answer": 0,
+      "explanation": "Dimensionsreduktion macht Modelle nicht komplexer, sondern vereinfacht die Daten. Die Vorteile sind: schnelleres Training (weniger Features), weniger Speicherbedarf und reduziertes Overfitting-Risiko (durch Entfernung redundanter oder irrelevanter Merkmale). In manchen Fällen verbessert sich auch die Modellqualität.",
+      "weight": 2,
+      "topic": "Dimensionsreduktion",
+      "concept": "Vorteile der Vereinfachung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Dimensionsreduktion im ML-Workflow",
+        "steps": [
+          "Identifiziere korrelierende oder redundante Merkmale in den Daten.",
+          "Wende Dimensionsreduktion an, um Features zu kombinieren oder zu eliminieren.",
+          "Trainiere das Modell auf den vereinfachten Daten.",
+          "Profitiere von schnellerem Training und oft besserer Verallgemeinerung."
+        ],
+        "content": "Dimensionsreduktion ist eine wichtige Vorverarbeitungstechnik. Sie kombiniert korrelierende Features (z.B. Kilometerstand und Alter zu Abnutzung) oder eliminiert irrelevante. Dies reduziert die Komplexität des Lernproblems, nicht des Modells selbst. Vorteile: Schnelleres Training durch weniger Berechnungen, weniger Speicherbedarf, reduziertes Overfitting-Risiko durch Entfernung von Rauschen. Manchmal verbessert sich die Modellqualität, da irrelevante Features entfernt werden. Verbreitete Techniken sind PCA (Principal Component Analysis) und t-SNE für Visualisierung."
+      },
+      "mini_glossary": [
+        {
+          "term": "Dimensionsreduktion",
+          "definition": "Verringerung der Anzahl von Merkmalen unter Beibehaltung wichtiger Information"
+        },
+        {
+          "term": "PCA",
+          "definition": "Principal Component Analysis, Methode zur linearen Dimensionsreduktion"
+        },
+        {
+          "term": "Redundante Merkmale",
+          "definition": "Features, die ähnliche oder duplizierte Information enthalten"
+        },
+        {
+          "term": "Vorverarbeitung",
+          "definition": "Transformationsschritte vor dem eigentlichen Training"
+        },
+        {
+          "term": "Feature-Raum",
+          "definition": "Mehrdimensionaler Raum, der von allen Merkmalen aufgespannt wird"
+        },
+        {
+          "term": "Informationsverlust",
+          "definition": "Verlust von Datendetails durch Vereinfachung"
+        }
+      ]
+    },
+    {
+      "question": "19. In der Studie zur US-Präsidentschaftswahl 1936 führte die Stichprobenmethode zu falschen Vorhersagen. Was war das Hauptproblem?",
+      "options": [
+        "Stichprobenverzerrung durch nicht-repräsentative Datenerhebung",
+        "Die Stichprobe war zu groß",
+        "Es wurde ein falscher ML-Algorithmus verwendet",
+        "Die Daten waren zu aktuell"
+      ],
+      "answer": 0,
+      "explanation": "Das Problem war Stichprobenverzerrung: Die Umfrage nutzte Telefonbücher und Abonnentenlisten, wodurch wohlhabendere Menschen überrepräsentiert waren. Zudem antworteten nur 25% (Schweigeverzerrung). Die Stichprobengröße war nicht das Problem - sie war sogar sehr groß (2,4 Millionen).",
+      "weight": 2,
+      "topic": "Datenqualität",
+      "concept": "Stichprobenverzerrung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Stichprobenverzerrung und ihre Folgen",
+        "steps": [
+          "Die Erhebungsmethode bevorzugte bestimmte Bevölkerungsgruppen (Wohlhabende).",
+          "Niedrige Rücklaufquote führte zu Schweigeverzerrung.",
+          "Die Stichprobe war nicht repräsentativ für die Gesamtbevölkerung.",
+          "Das resultierende Modell machte systematisch falsche Vorhersagen."
+        ],
+        "content": "Stichprobenverzerrung ist eine der größten Gefahren im Machine Learning. Eine große Stichprobe hilft nicht, wenn die Erhebungsmethode fehlerhaft ist. Im Wahljahr 1936 waren Telefone und Magazine Luxusgüter, daher waren ärmere Wähler unterrepräsentiert. Dies zeigt: Die Qualität der Daten ist wichtiger als die Quantität. Moderne ML-Systeme leiden unter ähnlichen Problemen, z.B. wenn YouTube-Suchen für Trainingsdaten genutzt werden, was zu Überrepräsentation beliebter Inhalte führt. Die Lösung: Sorgfältige Planung der Datenerhebung und Überprüfung auf Repräsentativität."
+      },
+      "mini_glossary": [
+        {
+          "term": "Stichprobenverzerrung",
+          "definition": "Systematischer Fehler durch nicht-repräsentative Datenerhebung"
+        },
+        {
+          "term": "Schweigeverzerrung",
+          "definition": "Verzerrung durch niedrige Rücklaufquoten oder selektive Teilnahme"
+        },
+        {
+          "term": "Repräsentativität",
+          "definition": "Eigenschaft einer Stichprobe, die Grundgesamtheit gut abzubilden"
+        },
+        {
+          "term": "Erhebungsmethode",
+          "definition": "Verfahren zur Sammlung von Daten"
+        },
+        {
+          "term": "Systematischer Fehler",
+          "definition": "Vorhersehbare, nicht-zufällige Abweichung in eine Richtung"
+        },
+        {
+          "term": "Grundgesamtheit",
+          "definition": "Die vollständige Menge aller zu untersuchenden Objekte"
+        }
+      ]
+    },
+    {
+      "question": "20. Ein Batch-Learning-Modell zur Spam-Erkennung verliert mit der Zeit an Qualität, obwohl es anfangs gut funktionierte. Was ist die wahrscheinlichste Ursache?",
+      "options": [
+        "Model Rot durch sich ändernde Spam-Muster",
+        "Das Modell hat zu viele Parameter",
+        "Die ursprünglichen Trainingsdaten waren fehlerhaft",
+        "Das Modell verwendet die falsche Kostenfunktion",
+        "Der Trainingsdatensatz war zu klein"
+      ],
+      "answer": 0,
+      "explanation": "Model Rot (oder Data Drift) tritt auf, wenn sich die Datenverteilung in der realen Welt ändert, während das Modell statisch bleibt. Spammer passen ihre Strategien an, um Filter zu umgehen. Die Lösung ist regelmäßiges Neutraining mit aktuellen Daten.",
+      "weight": 2,
+      "topic": "Batch-Learning",
+      "concept": "Model Rot",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Model Rot und kontinuierliche Aktualisierung",
+        "steps": [
+          "Das Modell wird initial mit Daten eines bestimmten Zeitraums trainiert.",
+          "Die Welt ändert sich: Spammer entwickeln neue Taktiken.",
+          "Das statische Modell kann die neuen Muster nicht erkennen.",
+          "Regelmäßiges Neutraining mit aktuellen Daten ist erforderlich."
+        ],
+        "content": "Model Rot ist ein fundamentales Problem bei statischen Modellen. Die Qualität verschlechtert sich im Laufe der Zeit, weil sich die Welt verändert. Bei Spamfiltern entwickeln Spammer ständig neue Techniken. Bei Empfehlungssystemen ändern sich Nutzerinteressen. Bei Finanzmodellen ändern sich Marktbedingungen. Die Lösung: Regelmäßiges Retraining, idealerweise automatisiert. Die Frequenz hängt von der Änderungsrate ab: Täglich für volatile Bereiche wie Finanzen, wöchentlich oder monatlich für stabilere Domänen. Monitoring der Modellqualität ist essentiell, um Rot frühzeitig zu erkennen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Model Rot",
+          "definition": "Qualitätsverlust eines Modells durch Veränderung der Datenverteilung über Zeit"
+        },
+        {
+          "term": "Data Drift",
+          "definition": "Veränderung der statistischen Eigenschaften von Daten über Zeit"
+        },
+        {
+          "term": "Concept Drift",
+          "definition": "Veränderung der Beziehung zwischen Features und Target"
+        },
+        {
+          "term": "Statisches Modell",
+          "definition": "Modell, das nach dem Training nicht mehr aktualisiert wird"
+        },
+        {
+          "term": "Retraining",
+          "definition": "Erneutes Training eines Modells mit aktuellen Daten"
+        },
+        {
+          "term": "Monitoring",
+          "definition": "Überwachung der Modellleistung im Produktivbetrieb"
+        }
+      ]
+    },
+    {
+      "question": "21. Bei der Hold-out-Validierung wird ein Teil der Trainingsdaten zurückgehalten. Was passiert nach der Modellauswahl mit diesem Validierungsdatensatz?",
+      "options": [
+        "Er wird mit den Trainingsdaten kombiniert",
+        "Er wird verworfen und nicht mehr verwendet",
+        "Er wird zum neuen Testdatensatz",
+        "Er wird für weitere Hyperparameter-Optimierung genutzt"
+      ],
+      "answer": 0,
+      "explanation": "Nach der Modellauswahl wird das beste Modell mit dem vollständigen Trainingsdatensatz (Training + Validierung) neu trainiert, um das finale Modell zu erhalten. Dies maximiert die verfügbaren Trainingsdaten für das Produktionsmodell. Der separate Testdatensatz dient dann der finalen Bewertung.",
+      "weight": 2,
+      "topic": "Validierung",
+      "concept": "Hold-out-Validierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Kompletter Hold-out-Validierungs-Workflow",
+        "steps": [
+          "Teile Daten in Training, Validierung und Test (z.B. 60%, 20%, 20%).",
+          "Trainiere verschiedene Modelle auf Training, bewerte auf Validierung.",
+          "Wähle das beste Modell basierend auf Validierungs-Performance.",
+          "Trainiere dieses Modell neu mit Training+Validierung, teste final auf Test."
+        ],
+        "content": "Die Hold-out-Validierung folgt einem klaren Workflow: Zuerst werden verschiedene Modellvarianten nur mit dem Trainingsdatensatz trainiert und auf dem Validierungsdatensatz evaluiert. Das beste Modell wird ausgewählt. Nun ist die Modellauswahl abgeschlossen, und wir können den Validierungsdatensatz wieder für Training nutzen. Das finale Modell wird mit allen verfügbaren Daten (Training + Validierung) trainiert, um maximale Leistung zu erreichen. Erst dann erfolgt die finale, unvoreingenommene Bewertung auf dem Testdatensatz, der bis dahin völlig unberührt blieb."
+      },
+      "mini_glossary": [
+        {
+          "term": "Hold-out-Validierung",
+          "definition": "Validierungsmethode mit einem fest zurückgehaltenen Datensatz"
+        },
+        {
+          "term": "Finales Modell",
+          "definition": "Das für Produktion bestimmte, vollständig trainierte Modell"
+        },
+        {
+          "term": "Drei-Wege-Split",
+          "definition": "Aufteilung in Training, Validierung und Test"
+        },
+        {
+          "term": "Unvoreingenommene Bewertung",
+          "definition": "Evaluation auf Daten, die nie für Training oder Auswahl genutzt wurden"
+        },
+        {
+          "term": "Produktionsmodell",
+          "definition": "Das im realen Einsatz verwendete Modell"
+        },
+        {
+          "term": "Datensatz-Aufteilung",
+          "definition": "Strategie zur Aufteilung von Daten in verschiedene Subsets"
         }
       ]
     }
