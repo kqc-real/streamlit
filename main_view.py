@@ -3919,7 +3919,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             try:
                 # Aktuelle Frage als JSON laden
                 q_data = questions[frage_idx]
-                
+                orig_q_key = f"orig_q_full_{frage_idx}"
+                if orig_q_key not in st.session_state:
+                    try:
+                        # store a deep copy to avoid mutation across reruns
+                        st.session_state[orig_q_key] = json.loads(json.dumps(q_data))
+                    except Exception:
+                        st.session_state[orig_q_key] = q_data
+
                 # Bereinige redundante deutsche Keys für den Editor, um Verwirrung zu vermeiden
                 # und die Datei sauber zu halten (Single Source of Truth).
                 q_clean = q_data.copy()
@@ -4086,31 +4093,46 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             if not file_path:
                                 st.error(translate_ui("admin.source_file_not_found", default="Quelldatei nicht gefunden."))
                             else:
-                                # Prefer restoring from the newest backup if available
-                                backup_candidates = sorted(
-                                    file_path.parent.glob(f"{file_path.stem}_backup_*{file_path.suffix}"),
-                                    key=lambda p: p.stat().st_mtime,
-                                    reverse=True,
-                                )
-                                reset_source = backup_candidates[0] if backup_candidates else file_path
+                                # Prefer restoring from the original snapshot stored when the editor opened
+                                orig_q = st.session_state.get(orig_q_key)
+                                if orig_q is None:
+                                    # Fallback: newest backup, then current file
+                                    backup_candidates = sorted(
+                                        file_path.parent.glob(f"{file_path.stem}_backup_*{file_path.suffix}"),
+                                        key=lambda p: p.stat().st_mtime,
+                                        reverse=True,
+                                    )
+                                    reset_source = backup_candidates[0] if backup_candidates else file_path
 
-                                with open(reset_source, "r", encoding="utf-8") as f:
-                                    full_data = json.load(f)
+                                    with open(reset_source, "r", encoding="utf-8") as f:
+                                        full_data = json.load(f)
 
-                                # If we used a backup, restore the main file from it
-                                if reset_source != file_path:
-                                    import shutil
-                                    try:
-                                        shutil.copy2(reset_source, file_path)
-                                    except Exception:
-                                        pass
+                                    # If we used a backup, restore the main file from it
+                                    if reset_source != file_path:
+                                        import shutil
+                                        try:
+                                            shutil.copy2(reset_source, file_path)
+                                        except Exception:
+                                            pass
 
-                                if isinstance(full_data, dict) and "questions" in full_data:
-                                    orig_q = full_data["questions"][frage_idx]
-                                elif isinstance(full_data, list):
-                                    orig_q = full_data[frage_idx]
+                                    if isinstance(full_data, dict) and "questions" in full_data:
+                                        orig_q = full_data["questions"][frage_idx]
+                                    elif isinstance(full_data, list):
+                                        orig_q = full_data[frage_idx]
+                                    else:
+                                        orig_q = full_data
                                 else:
-                                    orig_q = full_data
+                                    # Also reload full_data from current file to write back the snapshot
+                                    with open(file_path, "r", encoding="utf-8") as f:
+                                        full_data = json.load(f)
+
+                                # Write the original question back to the file
+                                if isinstance(full_data, dict) and "questions" in full_data:
+                                    full_data["questions"][frage_idx] = orig_q
+                                elif isinstance(full_data, list):
+                                    full_data[frage_idx] = orig_q
+                                with open(file_path, "w", encoding="utf-8") as f:
+                                    json.dump(full_data, f, indent=2, ensure_ascii=False)
 
                                 # Update the in-memory QuestionSet so the UI uses the original content
                                 try:
@@ -4205,13 +4227,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             current_title = questions.meta.get('title', '')
                             if current_title:
                                 safe_title = "".join([c for c in current_title if c.isalnum() or c in (' ', '-', '_')]).strip().replace(' ', '_')
-                                new_filename = f"questions_{safe_title}.json"
+                                base_name = safe_title
                             else:
                                 stem = src_path.stem
-                                if stem.startswith("questions_"):
-                                    new_filename = f"{stem}.json"
-                                else:
-                                    new_filename = f"questions_{stem}.json"
+                                base_name = stem[len("questions_"):] if stem.startswith("questions_") else stem
+                            new_filename = f"questions_{base_name}.json"
                             
                             dest_path = data_dir / new_filename
                             
@@ -4266,15 +4286,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                             title = content.get('meta', {}).get('title', '')
                                             if title:
                                                 safe_title = "".join([c for c in title if c.isalnum() or c in (' ', '-', '_')]).strip().replace(' ', '_')
-                                                new_filename = f"questions_{safe_title}.json"
+                                                base_name = safe_title
                                             else:
                                                 stem = src_path.stem
-                                                if stem.startswith("questions_"):
-                                                    new_filename = f"{stem}.json"
-                                                else:
-                                                    new_filename = f"questions_{stem}.json"
+                                                base_name = stem[len("questions_"):] if stem.startswith("questions_") else stem
+                                            new_filename = f"questions_{base_name}.json"
                                         except Exception:
-                                            new_filename = f"questions_{src_path.stem}.json"
+                                            stem = src_path.stem
+                                            base_name = stem[len("questions_"):] if stem.startswith("questions_") else stem
+                                            new_filename = f"questions_{base_name}.json"
                                         
                                         # 3. Kopieren nach data/
                                         data_dir = Path(get_package_dir()) / "data"
