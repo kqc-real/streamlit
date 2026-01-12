@@ -1130,9 +1130,12 @@
         },
         "select": {
             "label": "选择题库:",
-            "placeholder": "🗂️ 选择一个题库...",
+            "placeholder": "🗂️ 请选择...",
             "count_one": "{n} 个问题",
-            "count_many": "{n} 个问题"
+            "count_many": "{n} 个问题",
+            "sets_one": "{n} 个题库",
+            "sets_many": "{n} 个题库",
+            "label_with_counts": "{base}（{sets}，{questions}）"
         },
         "section": {
             "header": "🗂️ 题库选择"

@@ -1127,9 +1127,12 @@
         },
         "select": {
             "label": "Scegli un set:",
-            "placeholder": "🗂️ Seleziona...",
+            "placeholder": "🗂️ Scegli...",
             "count_one": "{n} domanda",
-            "count_many": "{n} domande"
+            "count_many": "{n} domande",
+            "sets_one": "{n} set",
+            "sets_many": "{n} set",
+            "label_with_counts": "{base} ({sets}, {questions})"
         },
         "section": {
             "header": "🗂️ Selezione Set"

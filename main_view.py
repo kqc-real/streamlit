@@ -238,7 +238,7 @@ def _welcome_select_label() -> str:
 
 
 def _welcome_select_placeholder() -> str:
-    return translate_ui("welcome.select.placeholder", default="🗂️ Bitte ein Fragenset auswählen…")
+    return translate_ui("welcome.select.placeholder", default="🗂️ Bitte auswählen...")
 
 
 def _questions_count_label(count: int) -> str:
@@ -254,6 +254,30 @@ def _questions_count_label(count: int) -> str:
     if n == 1:
         return translate_ui("welcome.select.count_one", default="{n} Frage").format(n=n)
     return translate_ui("welcome.select.count_many", default="{n} Fragen").format(n=n)
+
+
+def _sets_count_label(count: int) -> str:
+    """Localized label for number of sets."""
+    try:
+        n = int(count)
+    except Exception:
+        n = 0
+
+    if n == 1:
+        return translate_ui("welcome.select.sets_one", default="{n} Set").format(n=n)
+    return translate_ui("welcome.select.sets_many", default="{n} Sets").format(n=n)
+
+
+def _welcome_select_label_with_counts(total_sets: int, total_questions: int) -> str:
+    base = _welcome_select_label()
+    return translate_ui(
+        "welcome.select.label_with_counts",
+        default="{base} ({sets}, {questions})",
+    ).format(
+        base=base,
+        sets=_sets_count_label(total_sets),
+        questions=_questions_count_label(total_questions),
+    )
 
 
 def _welcome_section_header() -> str:
@@ -2500,13 +2524,17 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 st.caption(_learning_objectives_pdf_unavailable(pdf_err))
 
+    total_sets = len(valid_question_files)
+    total_questions = sum(question_counts.get(fname, 0) for fname in valid_question_files)
+    select_label = _welcome_select_label_with_counts(total_sets, total_questions)
+
     selected_choice = st.selectbox(
-        _welcome_select_label(),
+        select_label,
         options=valid_question_files,
         index=None,  # Render with no preselected index so the placeholder / clear affordance appears
         format_func=format_filename,
         key="main_view_question_file_selector",
-        label_visibility="collapsed",
+        label_visibility="visible",
         placeholder=_welcome_select_placeholder(),
         on_change=_on_question_select,
     )
