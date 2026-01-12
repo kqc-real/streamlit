@@ -745,12 +745,21 @@
         "save_error": "Error saving: {e}",
         "validation_failed_to_run": "Validation could not be executed.",
         "save_validation_errors": "Validation errors prevent saving:",
-        "save_validation_warnings": "Validation warnings found:",
+        "save_validation_warnings": "Validation warnings",
+        "warnings": {
+            "length_bias": "Length bias / distractors",
+            "options": "Answer options",
+            "themes": "Topic distribution",
+            "meta": "Meta/field warnings",
+            "other": "Other"
+        },
         "save_force_button": "Save despite warnings",
         "promote_button": "🚀 Publish to main collection",
         "promote_help": "Copies the set into the main collection and creates a backup first. This publishes the set to the official collection.",
         "promote_exists_info": "A file named {new_filename} already exists in the main collection. The existing file was backed up as {backup_name} and has been replaced with your file.",
         "last_saved": "Last saved: {ts}",
+        "needs_promote": "Not yet in main collection",
+        "promoted": "Published to main collection",
         "promote_success": "Set successfully published to main collection as {new_filename}! (Backup: {backup_name})",
         "promote_error": "Error promoting: {e}",
         "delete_button": "🗑️ Delete Question",
@@ -1270,7 +1279,13 @@
             "mini_glossary_size": "{0}: mini_glossary contains {1} entries. Recommended: {2}-{3}.",
             "meta_question_count_not_number": "meta.question_count is not a number and was ignored.",
             "meta_count_mismatch": "meta.question_count ({0}) does not match actual count ({1}).",
-            "theme_occurrences": "Theme '{0}' appears only {1}× (recommended at least {2}×)."
+            "theme_occurrences": "Theme '{0}' appears only {1}× (recommended at least {2}×).",
+            "meta_not_object": "'meta' was ignored because it is not an object.",
+            "too_many_options": "{0}: Contains {1} answer options. Recommended maximum is {2}.",
+            "length_bias_long": "Length bias: the correct answer is much longer (Z={0:.2f}) than the distractors; this may hint at the solution.",
+            "length_bias_short": "Length bias: the correct answer is much shorter (Z={0:.2f}) than the distractors; this may hint at the solution.",
+            "too_many_questions": "The question set contains {0} questions. Recommended maximum is {1}.",
+            "too_many_themes": "{0} distinct themes found. Recommended maximum is {1}."
         },
         "context": {
             "question": "Question {0}"

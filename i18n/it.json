@@ -410,12 +410,21 @@
         "save_error": "Errore durante il salvataggio: {e}",
         "validation_failed_to_run": "Impossibile eseguire la convalida.",
         "save_validation_errors": "Errori di convalida impediscono il salvataggio:",
-        "save_validation_warnings": "Avvisi di convalida rilevati:",
+        "save_validation_warnings": "Avvisi di convalida",
+        "warnings": {
+            "length_bias": "Bias di lunghezza / distrattori",
+            "options": "Opzioni di risposta",
+            "themes": "Distribuzione dei temi",
+            "meta": "Avvisi meta/campi",
+            "other": "Altro"
+        },
         "save_force_button": "Salva nonostante gli avvisi",
         "promote_button": "🚀 Pubblica nella raccolta principale",
         "promote_help": "Copia il set nella raccolta principale e crea prima un backup. Questo pubblica il set nella collezione ufficiale.",
         "promote_exists_info": "Esiste già un file chiamato {new_filename} nella raccolta principale. Il file esistente è stato salvato come {backup_name} ed è stato sostituito con il tuo file.",
         "last_saved": "Ultimo salvataggio: {ts}",
+        "needs_promote": "Non ancora nella raccolta principale",
+        "promoted": "Pubblicato nella raccolta principale",
         "promote_success": "Set pubblicato con successo nella raccolta principale come {new_filename}! (Backup: {backup_name})",
         "promote_error": "Errore durante la promozione: {e}",
         "delete_button": "🗑️ Elimina domanda",
@@ -1273,7 +1282,13 @@
             "mini_glossary_size": "{0}: mini_glossary contiene {1} voci. Raccomandato: {2}-{3}.",
             "meta_question_count_not_number": "meta.question_count non è un numero ed è stato ignorato.",
             "meta_count_mismatch": "meta.question_count ({0}) non corrisponde al conteggio reale ({1}).",
-            "theme_occurrences": "Tema '{0}' appare solo {1}× (consigliato almeno {2}×)."
+            "theme_occurrences": "Tema '{0}' appare solo {1}× (consigliato almeno {2}×).",
+            "meta_not_object": "'meta' è stato ignorato perché non è un oggetto.",
+            "too_many_options": "{0}: contiene {1} opzioni di risposta. Massimo consigliato: {2}.",
+            "length_bias_long": "Bias di lunghezza: la risposta corretta è molto più lunga (Z={0:.2f}) dei distrattori; può suggerire la soluzione.",
+            "length_bias_short": "Bias di lunghezza: la risposta corretta è molto più corta (Z={0:.2f}) dei distrattori; può suggerire la soluzione.",
+            "too_many_questions": "Il set contiene {0} domande. Massimo consigliato: {1}.",
+            "too_many_themes": "Trovati {0} temi diversi. Massimo consigliato: {1}."
         }
             ,"context": {
                 "question": "Domanda {0}"

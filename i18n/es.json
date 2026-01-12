@@ -410,12 +410,21 @@
         "save_error": "Error al guardar: {e}",
         "validation_failed_to_run": "No se pudo ejecutar la validación.",
         "save_validation_errors": "Errores de validación impiden guardar:",
-        "save_validation_warnings": "Se encontraron advertencias de validación:",
+        "save_validation_warnings": "Advertencias de validación",
+        "warnings": {
+            "length_bias": "Sesgo de longitud / distractores",
+            "options": "Opciones de respuesta",
+            "themes": "Distribución de temas",
+            "meta": "Advertencias de meta/campos",
+            "other": "Otras"
+        },
         "save_force_button": "Guardar a pesar de las advertencias",
         "promote_button": "🚀 Publicar en la colección principal",
         "promote_help": "Copia el set en la colección principal y crea primero una copia de seguridad. Esto publica el set en la colección oficial.",
         "promote_exists_info": "Ya existe un archivo llamado {new_filename} en la colección principal. Hemos creado una copia de seguridad del archivo existente como {backup_name} y lo hemos reemplazado con tu archivo.",
         "last_saved": "Última guardado: {ts}",
+        "needs_promote": "Aún no en la colección principal",
+        "promoted": "Publicado en la colección principal",
         "promote_success": "¡Set publicado con éxito en la colección principal como {new_filename}! (Copia de seguridad: {backup_name})",
         "promote_error": "Error al promover: {e}",
         "delete_button": "🗑️ Eliminar pregunta",
@@ -1273,7 +1282,13 @@
             "mini_glossary_size": "{0}: mini_glossary contiene {1} entradas. Recomendado: {2}-{3}.",
             "meta_question_count_not_number": "meta.question_count no es un número y fue ignorado.",
             "meta_count_mismatch": "meta.question_count ({0}) no coincide con el recuento real ({1}).",
-            "theme_occurrences": "Tema '{0}' aparece solo {1}× (recomendado al menos {2}×)."
+            "theme_occurrences": "Tema '{0}' aparece solo {1}× (recomendado al menos {2}×).",
+            "meta_not_object": "'meta' se ignoró porque no es un objeto.",
+            "too_many_options": "{0}: Contiene {1} opciones de respuesta. Máximo recomendado: {2}.",
+            "length_bias_long": "Sesgo de longitud: la respuesta correcta es mucho más larga (Z={0:.2f}) que los distractores; puede dar una pista.",
+            "length_bias_short": "Sesgo de longitud: la respuesta correcta es mucho más corta (Z={0:.2f}) que los distractores; puede dar una pista.",
+            "too_many_questions": "El set contiene {0} preguntas. Máximo recomendado: {1}.",
+            "too_many_themes": "Se encontraron {0} temas diferentes. Máximo recomendado: {1}."
         }
         ,"context": {
             "question": "Pregunta {0}"

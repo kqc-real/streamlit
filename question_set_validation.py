@@ -9,13 +9,13 @@ from helpers.text import sanitize_html
 from i18n import translate
 
 # Konfiguration der Grenzwerte für Warnungen/Fehler
-MIN_THEMA_OCCURRENCES = 2
-MAX_UNIQUE_THEMES = 10
+MIN_THEMA_OCCURRENCES = 1
+MAX_UNIQUE_THEMES = 12
 MIN_GLOSSARY_ENTRIES = 2
-MAX_GLOSSARY_ENTRIES = 4
-MAX_QUESTIONS = 500
-MIN_OPTIONS_PER_QUESTION = 2
-MAX_OPTIONS_PER_QUESTION = 8
+MAX_GLOSSARY_ENTRIES = 6
+MAX_QUESTIONS = 100
+MIN_OPTIONS_PER_QUESTION = 3
+MAX_OPTIONS_PER_QUESTION = 5
 
 # Regex um LaTeX innerhalb von Backticks zu finden (falsches Format)
 LATEX_IN_BACKTICKS_PATTERN = re.compile(r"`(\s*?\$[^`]+\$?\s*?)`|`([^`]*?\$\s*?)`")
@@ -64,7 +64,7 @@ def _normalize_root(data: Any, tr: Callable[[str, str], str]) -> Tuple[List[Any]
         elif isinstance(raw_meta, dict):
             meta = dict(raw_meta)
         else:
-            warnings.append("'meta' wurde ignoriert, da es kein Objekt ist.")
+            warnings.append(tr("validator.warnings.meta_not_object", "'meta' wurde ignoriert, da es kein Objekt ist."))
             meta = {}
         return questions, meta, errors, warnings
 
@@ -75,7 +75,7 @@ def _normalize_root(data: Any, tr: Callable[[str, str], str]) -> Tuple[List[Any]
     return [], {}, errors, warnings
 
 
-def _check_distractor_homogeneity(options: List[str], correct_index: int) -> str | None:
+def _check_distractor_homogeneity(options: List[str], correct_index: int, tr) -> str | None:
     """
     NEU: Prüft auf 'Length Bias'.
     Analysiert, ob die richtige Antwort statistisch signifikant länger oder kürzer
@@ -107,11 +107,17 @@ def _check_distractor_homogeneity(options: List[str], correct_index: int) -> str
     
     # Warnung generieren bei statistischer Auffälligkeit (> 1.5 Sigma)
     if z_score > 1.5:
-        return (f"Length-Bias Warnung: Die richtige Antwort ist deutlich länger "
-                f"(Z={z_score:.2f}) als die Distraktoren. Dies kann ein Lösungshinweis sein.")
+        return tr(
+            "validator.warnings.length_bias_long",
+            "Length-Bias: Die richtige Antwort ist deutlich länger (Z={0:.2f}) als die Distraktoren. Dies kann ein Lösungshinweis sein.",
+            z_score,
+        )
     elif z_score < -1.5:
-        return (f"Length-Bias Warnung: Die richtige Antwort ist deutlich kürzer "
-                f"(Z={z_score:.2f}) als die Distraktoren.")
+        return tr(
+            "validator.warnings.length_bias_short",
+            "Length-Bias: Die richtige Antwort ist deutlich kürzer (Z={0:.2f}) als die Distraktoren. Dies kann ein Lösungshinweis sein.",
+            z_score,
+        )
                 
     return None
 
@@ -152,7 +158,13 @@ def _validate_question(index: int, question: Any, tr: Callable[[str, str], str])
             errors.append(tr("validator.errors.min_options_required", "{0}: Mindestens {1} Antwortoptionen erforderlich.", context, MIN_OPTIONS_PER_QUESTION))
         if option_count > MAX_OPTIONS_PER_QUESTION:
             warnings.append(
-                f"{context}: Enthält {option_count} Antwortoptionen. Empfohlen sind höchstens {MAX_OPTIONS_PER_QUESTION}."
+                tr(
+                    "validator.warnings.too_many_options",
+                    "{0}: Enthält {1} Antwortoptionen. Empfohlen sind höchstens {2}.",
+                    context,
+                    option_count,
+                    MAX_OPTIONS_PER_QUESTION,
+                )
             )
         for opt_idx, opt in enumerate(optionen_raw, start=1):
             opt_label = tr("validator.labels.option", "Option {0}", opt_idx)
@@ -178,7 +190,7 @@ def _validate_question(index: int, question: Any, tr: Callable[[str, str], str])
         else:
             # --- NEU: Aufruf der Homogenitäts-Prüfung ---
             if clean_options:
-                bias_warning = _check_distractor_homogeneity(clean_options, loesung)
+                bias_warning = _check_distractor_homogeneity(clean_options, loesung, tr)
                 if bias_warning:
                     warnings.append(f"{context}: {bias_warning}")
             # ---------------------------------------------
@@ -314,9 +326,14 @@ def validate_question_set_data(data: Any, locale: str | None = None) -> Tuple[Li
         return errors, warnings
 
     if len(questions) > MAX_QUESTIONS:
-        warnings.append(
-            f"Das Fragenset enthält {len(questions)} Fragen. Empfohlen sind höchstens {MAX_QUESTIONS}."
-        )
+            warnings.append(
+                tr(
+                    "validator.warnings.too_many_questions",
+                    "Das Fragenset enthält {0} Fragen. Empfohlen sind höchstens {1}.",
+                    len(questions),
+                    MAX_QUESTIONS,
+                )
+            )
 
     themes: List[str] = []
     for index, question in enumerate(questions, start=1):
@@ -332,7 +349,12 @@ def validate_question_set_data(data: Any, locale: str | None = None) -> Tuple[Li
         unique_themes = set(themes)
         if len(unique_themes) > MAX_UNIQUE_THEMES:
             warnings.append(
-                f"Es wurden {len(unique_themes)} unterschiedliche Themen gefunden. Empfohlen sind höchstens {MAX_UNIQUE_THEMES}."
+                tr(
+                    "validator.warnings.too_many_themes",
+                    "Es wurden {0} unterschiedliche Themen gefunden. Empfohlen sind höchstens {1}.",
+                    len(unique_themes),
+                    MAX_UNIQUE_THEMES,
+                )
             )
         for theme in unique_themes:
             occurrences = themes.count(theme)

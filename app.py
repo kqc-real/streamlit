@@ -255,6 +255,13 @@ def main():
         # Priorität 3: Finde die nächste unbeantwortete Frage
         current_idx = get_current_question_index()
 
+    # Helper to ensure the in-question admin editor expander is closed when leaving the question view
+    def _close_admin_editor():
+        try:
+            st.session_state["_keep_admin_expander_open"] = False
+        except Exception:
+            pass
+
     # --- 5. Rendere die passende Hauptansicht basierend auf der Priorität ---
     
     # Priorität 1: Admin-Panel anzeigen
@@ -285,6 +292,7 @@ def main():
                     del st.session_state["admin_session_token"]
                 st.rerun()
         
+        _close_admin_editor()
         render_admin_panel(app_config, questions)
     # Priorität 2: Test ist beendet (und keine Detailanzeige mehr offen)
     # Wenn das Review/Erklärungs-Overlay für die letzte beantwortete Frage
@@ -293,18 +301,21 @@ def main():
     # finale Zusammenfassung automatisch.
     # If the test time expired, show the final summary immediately (override any open overlays)
     elif st.session_state.get("test_time_expired", False):
+        _close_admin_editor()
         render_final_summary(questions, app_config)
     elif st.session_state.get("test_manually_ended", False) or (is_test_finished(questions) and not (
         "last_answered_idx" in st.session_state
         and st.session_state.get(f"show_explanation_{st.session_state.last_answered_idx}")
     )):
         # Wenn der Test beendet ist und kein Erklärungsoverlay offen, zeige die Zusammenfassung.
+        _close_admin_editor()
         render_final_summary(questions, app_config)
     # Priorität 3: Eine spezifische Frage anzeigen (entweder die letzte Antwort oder die nächste offene)
     elif current_idx is not None:
         render_question_view(questions, current_idx, app_config)
     else:
         # Fallback, falls kein Zustand zutrifft (sollte selten passieren)
+        _close_admin_editor()
         st.rerun()
 
 

@@ -519,12 +519,21 @@
         "save_error": "Speichern fehlgeschlagen: {e}",
         "validation_failed_to_run": "Validierung konnte nicht ausgeführt werden.",
         "save_validation_errors": "Validierungsfehler verhindern das Speichern:",
-        "save_validation_warnings": "Validierungswarnungen gefunden:",
+        "save_validation_warnings": "Warnungen",
+        "warnings": {
+            "length_bias": "Längen-Bias / Distraktoren",
+            "options": "Antwortoptionen",
+            "themes": "Themenverteilung",
+            "meta": "Meta-/Feld-Warnungen",
+            "other": "Sonstige"
+        },
         "save_force_button": "Trotz Warnungen speichern",
         "promote_button": "🚀 In die Hauptsammlung übernehmen",
         "promote_help": "Kopiert das Set in die Hauptsammlung. Vorher wird automatisch eine Sicherung erstellt.",
         "promote_exists_info": "In der Hauptsammlung existiert bereits eine Datei mit dem Namen {new_filename}. Die vorhandene Datei wurde als {backup_name} gesichert und durch deine Datei ersetzt.",
         "last_saved": "Zuletzt gespeichert: {ts}",
+        "needs_promote": "Noch nicht in Hauptsammlung",
+        "promoted": "In Hauptsammlung übernommen",
         "promote_success": "Set in die Hauptsammlung übernommen ({new_filename}). Sicherung: {backup_name}",
         "promote_error": "Übernahme fehlgeschlagen: {e}",
         "delete_button": "🗑️ Frage entfernen",
@@ -1275,7 +1284,13 @@
             "mini_glossary_size": "{0}: mini_glossary enthält {1} Einträge. Empfohlen: {2}-{3}.",
             "meta_question_count_not_number": "meta.question_count ist keine Zahl und wurde ignoriert.",
             "meta_count_mismatch": "meta.question_count ({0}) stimmt nicht mit der tatsächlichen Anzahl ({1}) überein.",
-            "theme_occurrences": "Thema '{0}' kommt nur {1}× vor (empfohlen: mindestens {2}×)."
+            "theme_occurrences": "Thema '{0}' kommt nur {1}× vor (empfohlen: mindestens {2}×).",
+            "meta_not_object": "'meta' wurde ignoriert, da es kein Objekt ist.",
+            "too_many_options": "{0}: Enthält {1} Antwortoptionen. Empfohlen sind höchstens {2}.",
+            "length_bias_long": "Length-Bias: Die richtige Antwort ist deutlich länger (Z={0:.2f}) als die Distraktoren. Dies kann ein Lösungshinweis sein.",
+            "length_bias_short": "Length-Bias: Die richtige Antwort ist deutlich kürzer (Z={0:.2f}) als die Distraktoren. Dies kann ein Lösungshinweis sein.",
+            "too_many_questions": "Das Fragenset enthält {0} Fragen. Empfohlen sind höchstens {1}.",
+            "too_many_themes": "Es wurden {0} unterschiedliche Themen gefunden. Empfohlen sind höchstens {1}."
         },
         "context": {
             "question": "Frage {0}"

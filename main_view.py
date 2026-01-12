@@ -3891,7 +3891,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     )
                 if warn_list:
                     parts.append(
-                        f"<div class='admin-badge admin-badge--needs'>⚠️ {translate_ui('admin.save_validation_warnings', default='Validierungswarnungen')} ({len(warn_list)})</div>"
+                        f"<div class='admin-badge admin-badge--needs'>⚠️ {translate_ui('admin.save_validation_warnings', default='Warnungen')} ({len(warn_list)})</div>"
                     )
                 if needs_promote:
                     parts.append(
@@ -3913,9 +3913,33 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 html = "<div class='admin-badges'>" + "".join(parts) + "</div>"
                 st.markdown(html, unsafe_allow_html=True)
                 if warn_list:
+                    grouped = {
+                        translate_ui("admin.warnings.length_bias", default="Längen-Bias / Distraktoren"): [],
+                        translate_ui("admin.warnings.options", default="Antwortoptionen"): [],
+                        translate_ui("admin.warnings.themes", default="Themenverteilung"): [],
+                        translate_ui("admin.warnings.meta", default="Meta/Feld-Warnungen"): [],
+                        translate_ui("admin.warnings.other", default="Sonstige"): [],
+                    }
+                    for w in warn_list:
+                        wl = w.lower()
+                        if "length-bias" in wl or "länger" in wl or "kürzer" in wl or "distraktoren" in wl:
+                            grouped[translate_ui("admin.warnings.length_bias", default="Längen-Bias / Distraktoren")].append(w)
+                        elif "optionen" in wl or "options" in wl:
+                            grouped[translate_ui("admin.warnings.options", default="Antwortoptionen")].append(w)
+                        elif "thema" in wl or "themen" in wl:
+                            grouped[translate_ui("admin.warnings.themes", default="Themenverteilung")].append(w)
+                        elif "meta" in wl or "mini_glossary" in wl or "weight" in wl:
+                            grouped[translate_ui("admin.warnings.meta", default="Meta/Feld-Warnungen")].append(w)
+                        else:
+                            grouped[translate_ui("admin.warnings.other", default="Sonstige")].append(w)
+
                     with st.expander(translate_ui('admin.save_validation_warnings', default='Validierungswarnungen'), expanded=False):
-                        for w in warn_list:
-                            st.write(f"- {w}")
+                        for title, items in grouped.items():
+                            if not items:
+                                continue
+                            st.markdown(f"**{title}**")
+                            for w in items:
+                                st.write(f"- {w}")
         except Exception:
             # don't fail the UI if badge rendering errors
             pass

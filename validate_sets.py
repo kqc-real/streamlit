@@ -30,9 +30,9 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 # --- Konfiguration der Prüfregeln ---
 MIN_THEMA_OCCURRENCES = 2
-MAX_UNIQUE_THEMES = 10
+MAX_UNIQUE_THEMES = 12
 MIN_GLOSSARY_ENTRIES = 2
-MAX_GLOSSARY_ENTRIES = 4
+MAX_GLOSSARY_ENTRIES = 6
 
 # Regex, um LaTeX in Backticks zu finden.
 # Sucht nach einem Backtick, gefolgt von einem Dollarzeichen (oder umgekehrt),

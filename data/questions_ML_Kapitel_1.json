@@ -202,7 +202,20 @@
           "term": "Reinforcement Learning",
           "definition": "Lernverfahren, bei dem ein Agent durch Belohnungen und Strafen lernt"
         }
-      ]
+      ],
+      "frage": "4. Welches der folgenden Szenarien ist ein typisches Beispiel für überwachtes Lernen?",
+      "gewichtung": 2,
+      "thema": "Überwachtes Lernen",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Vorhersage von Autopreisen basierend auf Kilometerstand und Alter",
+        "Gruppierung von Blogbesuchern nach ähnlichem Verhalten",
+        "Erkennung ungewöhnlicher Muster in Netzwerkdaten",
+        "Training eines Roboters, durch Belohnungen laufen zu lernen",
+        "Komprimierung hochdimensionaler Daten in 2D-Darstellung"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Vorhersage von Autopreisen ist eine Regressionsaufgabe im überwachten Lernen, da das Modell mit Beispielen trainiert wird, bei denen sowohl die Merkmale (Kilometerstand, Alter) als auch die Targets (Preise) bekannt sind. Die anderen Optionen beschreiben unüberwachtes Lernen oder Reinforcement Learning."
     },
     {
       "question": "6. Sie haben Daten über Besucher Ihres Blogs und möchten ähnliche Besucher gruppieren. Welcher Ansatz ist geeignet?",
