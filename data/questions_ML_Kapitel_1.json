@@ -3,7 +3,7 @@
     "title": "Machine Learning",
     "created": "12.01.2026 14:30",
     "target_audience": "Bachelorstudierende der Wirtschaftsinformatik",
-    "question_count": 20,
+    "question_count": 28,
     "difficulty_profile": {
       "easy": 3,
       "medium": 18,
@@ -15,7 +15,7 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 5,
-    "test_duration_minutes": 24
+    "test_duration_minutes": 25
   },
   "questions": [
     {
@@ -1013,6 +1013,427 @@
         {
           "term": "Datensatz-Aufteilung",
           "definition": "Strategie zur Aufteilung von Daten in verschiedene Subsets"
+        }
+      ]
+    },
+    {
+      "question": "24. Das No-Free-Lunch-Theorem besagt, dass es ohne Annahmen über die Daten keinen Grund gibt, ein Modell einem anderen vorzuziehen. Was bedeutet dies für die Praxis?",
+      "options": [
+        "Man muss sinnvolle Annahmen treffen und mehrere Modelle evaluieren",
+        "Alle Modelle sind gleich gut, die Wahl ist irrelevant",
+        "Man sollte immer das komplexeste Modell wählen",
+        "Machine Learning funktioniert in der Praxis nicht"
+      ],
+      "answer": 0,
+      "explanation": "Das NFL-Theorem bedeutet, dass kein universell bestes Modell existiert. In der Praxis treffen wir Annahmen über die Datenstruktur (z.B. linear, nichtlinear, zeitabhängig) und evaluieren eine Auswahl sinnvoller Modelle. Die Kunst liegt darin, gute Annahmen zu treffen.",
+      "weight": 3,
+      "topic": "Theoretische Grundlagen",
+      "concept": "No-Free-Lunch-Theorem",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Praktische Implikationen des No-Free-Lunch-Theorems",
+        "steps": [
+          "Erkenne, dass kein Algorithmus für alle Probleme optimal ist.",
+          "Analysiere die Daten und triff fundierte Annahmen über ihre Struktur.",
+          "Wähle eine Gruppe plausibler Modelle basierend auf diesen Annahmen.",
+          "Evaluiere diese Modelle empirisch und wähle das beste für deine spezifische Aufgabe."
+        ],
+        "content": "Das No-Free-Lunch-Theorem ist theoretisch wichtig, aber praktisch kein Hindernis. Es besagt lediglich, dass ohne jegliche Vorannahmen alle Algorithmen gleich gut sind - gemittelt über alle möglichen Probleme. In der Realität haben wir aber immer Vorannahmen: Bilder haben räumliche Struktur (→ CNNs), Texte haben sequenzielle Struktur (→ RNNs/Transformers), Finanzdaten haben Trends (→ Zeitreihenmodelle). Die Modellwahl basiert auf Domänenwissen. Dann evaluieren wir empirisch, welches am besten funktioniert. Dies ist effizienter als blindes Ausprobieren aller Algorithmen."
+      },
+      "mini_glossary": [
+        {
+          "term": "No-Free-Lunch-Theorem",
+          "definition": "Theorem, dass kein Algorithmus für alle Probleme optimal ist"
+        },
+        {
+          "term": "Induktive Verzerrung",
+          "definition": "Vorannahmen, die ein Lernalgorithmus über die Datenstruktur trifft"
+        },
+        {
+          "term": "Domänenwissen",
+          "definition": "Fachwissen über den spezifischen Anwendungsbereich"
+        },
+        {
+          "term": "Empirische Evaluation",
+          "definition": "Bewertung von Modellen durch praktische Experimente"
+        },
+        {
+          "term": "Universeller Algorithmus",
+          "definition": "Hypothetischer Algorithmus, der für alle Probleme optimal wäre (existiert nicht)"
+        },
+        {
+          "term": "Modellpriorisierung",
+          "definition": "Auswahl vielversprechender Modelle basierend auf Annahmen"
+        }
+      ]
+    },
+    {
+      "question": "25. Ein Reinforcement-Learning-Agent soll einen Roboter steuern. Er beobachtet die Umgebung, wählt Aktionen und erhält Belohnungen. Was muss der Agent lernen?",
+      "options": [
+        "Eine Policy, die in jeder Situation die Aktion mit höchster erwarteter Belohnung wählt",
+        "Die exakte Abfolge aller möglichen Aktionen",
+        "Nur die Aktionen, die sofortige Belohnungen bringen",
+        "Ein überwachtes Klassifikationsmodell für Zustände",
+        "Die Umgebung perfekt zu imitieren"
+      ],
+      "answer": 0,
+      "explanation": "Der Agent muss eine Policy lernen - eine Strategie, die für jede Situation die beste Aktion definiert. Diese maximiert die kumulative Belohnung über Zeit, nicht nur sofortige Belohnungen. Dies unterscheidet RL von überwachtem Lernen, wo direkte Labels vorliegen.",
+      "weight": 3,
+      "topic": "Reinforcement Learning",
+      "concept": "Policy Learning",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Policy Learning im Reinforcement Learning",
+        "steps": [
+          "Der Agent startet mit einer zufälligen oder initialen Policy.",
+          "Er führt Aktionen aus und beobachtet Belohnungen und neue Zustände.",
+          "Er lernt, welche Aktionen in welchen Situationen langfristig am besten sind.",
+          "Die Policy wird iterativ verbessert, um die erwartete kumulative Belohnung zu maximieren.",
+          "Exploration vs. Exploitation: Balance zwischen Ausprobieren und Nutzen bekannter guter Aktionen."
+        ],
+        "content": "Reinforcement Learning unterscheidet sich fundamental von überwachtem Lernen. Es gibt keine expliziten Labels für 'richtige' Aktionen, nur verzögerte Belohnungssignale. Der Agent muss eine Policy lernen - eine Funktion, die Zustände auf Aktionen abbildet. Die Herausforderung ist das Credit-Assignment-Problem: Welche vergangene Aktion war für eine spätere Belohnung verantwortlich? AlphaGo lernte beispielsweise durch Selbstspiel eine Policy, die gewinnende Züge identifiziert. Die Policy berücksichtigt langfristige Konsequenzen, nicht nur sofortige Belohnungen. Dies macht RL ideal für sequenzielle Entscheidungsprobleme wie Robotersteuerung, Spielstrategien oder Ressourcenoptimierung."
+      },
+      "mini_glossary": [
+        {
+          "term": "Policy",
+          "definition": "Strategie, die Zustände auf Aktionen abbildet im RL"
+        },
+        {
+          "term": "Agent",
+          "definition": "Das lernende System, das in einer Umgebung agiert"
+        },
+        {
+          "term": "Belohnung",
+          "definition": "Feedback-Signal, das der Agent für seine Aktionen erhält"
+        },
+        {
+          "term": "Kumulative Belohnung",
+          "definition": "Summe aller Belohnungen über einen Zeitraum"
+        },
+        {
+          "term": "Credit Assignment",
+          "definition": "Problem, vergangene Aktionen mit späteren Belohnungen zu verknüpfen"
+        },
+        {
+          "term": "Exploration-Exploitation",
+          "definition": "Abwägung zwischen Ausprobieren neuer und Nutzen bekannter Aktionen"
+        }
+      ]
+    },
+    {
+      "question": "26. Beim selbstüberwachten Lernen wird ein Modell trainiert, maskierte Bildteile wiederherzustellen. Warum ist dies nützlich, wenn Ihr eigentliches Ziel Bildklassifikation ist?",
+      "options": [
+        "Das Modell lernt allgemeine Bildmerkmale, die später für Klassifikation genutzt werden können",
+        "Bildreparatur ist identisch mit Klassifikation",
+        "Es ist nicht nützlich, man sollte direkt klassifizieren",
+        "Das Modell wird dadurch automatisch zum besten Klassifikator",
+        "Es vermeidet die Notwendigkeit von Testdaten"
+      ],
+      "answer": 0,
+      "explanation": "Selbstüberwachtes Vortraining lehrt das Modell, Bildstrukturen, Objekte und Zusammenhänge zu verstehen. Dieses Wissen wird dann via Transfer Learning auf die Klassifikationsaufgabe übertragen. Das Modell benötigt dann weniger gelabelte Daten für gute Klassifikationsleistung.",
+      "weight": 3,
+      "topic": "Selbstüberwachtes Lernen",
+      "concept": "Representational Learning",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Selbstüberwachtes Lernen für Repräsentationen",
+        "steps": [
+          "Phase 1: Trainiere mit selbstüberwachter Aufgabe (Bildreparatur) auf großen ungelabelten Daten.",
+          "Das Modell lernt, um Bilder zu reparieren, Objektgrenzen, Texturen und Kontexte zu verstehen.",
+          "Phase 2: Passe das Modell für Klassifikation an (Finetuning).",
+          "Das vortrainierte Wissen über Bildstrukturen beschleunigt das Lernen enorm.",
+          "Resultat: Gute Klassifikation mit weniger gelabelten Daten."
+        ],
+        "content": "Selbstüberwachtes Lernen ist eine mächtige Technik für dateneffizientes Training. Um ein maskiertes Katzenbild korrekt zu vervollständigen, muss das Modell verstehen, wie Katzen aussehen - es darf kein Hundegesicht einfügen. Dieses implizite Wissen über verschiedene Objektkategorien ist genau das, was für Klassifikation benötigt wird. Der Vorteil: Vortraining benötigt keine Labels, nur Rohdaten. Die gelernte Repräsentation ist eine komprimierte, bedeutungsvolle Darstellung der Bilder. Beim Finetuning muss das Modell nur noch die Abbildung zwischen dieser Repräsentation und den Klassenlabels lernen - viel einfacher als von Grund auf. Diese Technik revolutioniert NLP (BERT, GPT) und Computer Vision."
+      },
+      "mini_glossary": [
+        {
+          "term": "Selbstüberwachtes Lernen",
+          "definition": "Lernverfahren, das Labels automatisch aus den Daten generiert"
+        },
+        {
+          "term": "Repräsentation",
+          "definition": "Interne, bedeutungsvolle Darstellung von Daten durch ein Modell"
+        },
+        {
+          "term": "Vortraining",
+          "definition": "Initiales Training auf einer Hilfsaufgabe vor der Hauptaufgabe"
+        },
+        {
+          "term": "Finetuning",
+          "definition": "Anpassung eines vortrainierten Modells an eine spezifische Zielaufgabe"
+        },
+        {
+          "term": "Dateneffizienz",
+          "definition": "Fähigkeit, mit wenigen Daten gute Ergebnisse zu erzielen"
+        },
+        {
+          "term": "Maskierung",
+          "definition": "Verbergen von Teilen der Eingabedaten als Lernaufgabe"
+        }
+      ]
+    },
+    {
+      "question": "27. Ein Modell hat 5% Fehler auf Training und 15% auf Test. Sie sammeln mehr Daten, trainieren neu, und erhalten 4% auf Training, aber immer noch 15% auf Test. Was sollten Sie als Nächstes versuchen?",
+      "options": [
+        "Regularisierung reduzieren oder Modellkomplexität erhöhen",
+        "Noch mehr Trainingsdaten sammeln",
+        "Regularisierung verstärken",
+        "Das Modell vereinfachen",
+        "Die Lernrate verringern"
+      ],
+      "answer": 0,
+      "explanation": "Mehr Daten haben den Trainingsfehler gesenkt, aber nicht den Testfehler - das Modell underfittet möglicherweise. Trotz niedrigem Trainingsfehler ist die Lücke zu Test groß (Overfitting-Zeichen), aber da zusätzliche Daten nicht halfen, ist das Modell zu eingeschränkt. Komplexität erhöhen oder Regularisierung reduzieren könnte helfen.",
+      "weight": 3,
+      "topic": "Fehleranalyse",
+      "concept": "Bias-Variance-Diagnose",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Systematische Fehleranalyse und Gegenmaßnahmen",
+        "steps": [
+          "Analysiere: Training 5%→4%, Test konstant 15% → Mehr Daten helfen Training, nicht Test.",
+          "Hypothese: Das Modell ist zu restringiert (hoher Bias) ODER hat noch Overfitting.",
+          "Da mehr Daten den Testfehler nicht senkten, ist das Modell vermutlich zu simpel.",
+          "Lösung: Erhöhe Modellkapazität oder reduziere Regularisierung.",
+          "Experimentiere: Teste verschiedene Architekturen und überwache Train/Test-Fehler."
+        ],
+        "content": "Diese Situation erfordert sorgfältige Diagnose. Die Lücke zwischen Training (4%) und Test (15%) deutet auf Overfitting hin, aber normalerweise würden mehr Daten das verbessern. Da dies nicht geschah, hat das Modell möglicherweise nicht genug Kapazität, um die zugrunde liegenden Muster zu lernen. Es ist zu stark regularisiert oder zu einfach. Die Lösung: Erhöhe die Modellkomplexität (mehr Layer, mehr Parameter) oder reduziere Regularisierung. Dann wieder mit mehr Daten trainieren. Dies illustriert, dass mehr Daten nicht immer die Lösung sind - manchmal braucht man ein leistungsfähigeres Modell. Der iterative Prozess aus Diagnose, Hypothese, Experiment und Evaluation ist zentral im ML."
+      },
+      "mini_glossary": [
+        {
+          "term": "Trainingsfehler",
+          "definition": "Fehlerrate des Modells auf Trainingsdaten"
+        },
+        {
+          "term": "Testfehler",
+          "definition": "Fehlerrate des Modells auf ungesehenen Testdaten"
+        },
+        {
+          "term": "Generalization Gap",
+          "definition": "Differenz zwischen Trainings- und Testfehler"
+        },
+        {
+          "term": "Modellkapazität",
+          "definition": "Fähigkeit eines Modells, komplexe Funktionen zu approximieren"
+        },
+        {
+          "term": "Iterative Verbesserung",
+          "definition": "Schrittweise Optimierung durch wiederholte Experimente"
+        },
+        {
+          "term": "Diagnose",
+          "definition": "Analyse der Modellleistung zur Identifikation von Problemen"
+        }
+      ]
+    },
+    {
+      "question": "28. Sie optimieren Hyperparameter, indem Sie viele Modelle trainieren und jedes auf dem Testdatensatz evaluieren. Das beste Modell erreicht 92% auf Test. Im Produktivbetrieb erreicht es nur 78%. Was ist schiefgelaufen?",
+      "options": [
+        "Overfitting auf den Testdatensatz durch wiederholte Evaluation",
+        "Der Testdatensatz war zu klein",
+        "Das Modell wurde falsch implementiert",
+        "Die Produktivdaten sind fehlerhaft",
+        "Das Training war unvollständig"
+      ],
+      "answer": 0,
+      "explanation": "Durch wiederholtes Testen vieler Modelle auf dem Testdatensatz haben Sie indirekt auf diesen Datensatz overfittet. Der Testdatensatz sollte nur für finale Evaluation genutzt werden. Für Hyperparameter-Tuning sollte ein separater Validierungsdatensatz verwendet werden.",
+      "weight": 3,
+      "topic": "Validierung",
+      "concept": "Test Set Leakage",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Data Leakage durch Testdatensatz-Missbrauch",
+        "steps": [
+          "Problem: Testdatensatz wurde für Modellauswahl verwendet.",
+          "Durch viele Evaluierungen wurde implizit auf Test-Eigenschaften optimiert.",
+          "Der Testdatensatz ist 'verbraucht' - keine unvoreingenommene Schätzung mehr möglich.",
+          "Lösung: Nutze drei Datensätze - Training, Validierung (für Auswahl), Test (nur einmal).",
+          "Der Testdatensatz bleibt bis zur finalen Evaluation komplett unberührt."
+        ],
+        "content": "Dies ist ein klassischer Fall von Data Leakage durch Testdatensatz-Missbrauch. Jedes Mal, wenn Sie ein Modell auf dem Testdatensatz evaluieren und basierend darauf Entscheidungen treffen, nutzen Sie Information aus diesem Datensatz. Nach vielen Iterationen haben Sie effektiv Hyperparameter gewählt, die speziell für diesen Testdatensatz gut funktionieren - aber nicht notwendigerweise für neue Daten. Die 92% sind eine übermäßig optimistische Schätzung. Die korrekte Vorgehensweise: Training für Parameter, Validierung für Hyperparameter und Modellauswahl, Test nur einmal für finale Bewertung. Der Testdatensatz ist Ihr einziges Fenster zur wahren Generalisierungsleistung - einmal 'verbraucht', ist er wertlos."
+      },
+      "mini_glossary": [
+        {
+          "term": "Data Leakage",
+          "definition": "Unbeabsichtigter Informationsfluss aus Test/Validierung ins Training"
+        },
+        {
+          "term": "Test Set Contamination",
+          "definition": "Verunreinigung des Testdatensatzes durch wiederholte Nutzung"
+        },
+        {
+          "term": "Überoptimistische Schätzung",
+          "definition": "Zu positive Bewertung durch methodische Fehler"
+        },
+        {
+          "term": "Unvoreingenommene Evaluation",
+          "definition": "Bewertung auf Daten, die nie für Optimierung genutzt wurden"
+        },
+        {
+          "term": "Drei-Datensatz-Strategie",
+          "definition": "Trennung in Training, Validierung und Test"
+        },
+        {
+          "term": "Hyperparameter-Overfitting",
+          "definition": "Überanpassung der Hyperparameter an Validierungs-/Testdaten"
+        }
+      ]
+    },
+    {
+      "question": "26. Sie haben 10.000 gelabelte und 1 Million ungelabelte Bilder. Welcher Ansatz nutzt beide Datenquellen am effektivsten?",
+      "options": [
+        "Teilüberwachtes Lernen: Clustering auf allen Daten, dann überwachtes Lernen",
+        "Nur die 10.000 gelabelten Bilder verwenden",
+        "Alle 1 Million Bilder zufällig labeln",
+        "Nur die 1 Million ungelabelten Bilder für Clustering nutzen"
+      ],
+      "answer": 0,
+      "explanation": "Teilüberwachtes Lernen kombiniert beide Datenquellen optimal: Unüberwachte Methoden (z.B. Clustering) nutzen alle Daten zur Strukturfindung, dann werden Labels propagiert oder überwachtes Lernen auf der entdeckten Struktur angewendet. Dies nutzt die große Menge ungelabelter Daten sinnvoll aus.",
+      "weight": 3,
+      "topic": "Teilüberwachtes Lernen",
+      "concept": "Semi-Supervised Learning",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Teilüberwachtes Lernen für dateneffizientes Training",
+        "content": "Teilüberwachtes Lernen ist perfekt, wenn gelabelte Daten rar, aber ungelabelte Daten reichlich vorhanden sind - ein häufiges Szenario in der Praxis. Der Ansatz kombiniert das Beste beider Welten: Die große Menge ungelabelter Daten hilft, die Datenstruktur zu verstehen (z.B. dass bestimmte Bilder zusammengehören), während die wenigen Labels diese Struktur mit Bedeutung versehen. Im Fotobeispiel könnte ein Cluster Katzenbilder enthalten - sobald ein paar davon gelabelt sind, können alle anderen im Cluster ebenfalls als Katzen identifiziert werden. Dies ist effizienter als nur mit 10.000 Beispielen zu trainieren oder die Million ungelabelter Bilder zu ignorieren. Moderne Ansätze kombinieren dies oft mit selbstüberwachtem Vortraining.",
+        "steps": [
+          "Wende unüberwachtes Clustering auf alle 1.01 Millionen Bilder an.",
+          "Identifiziere Cluster ähnlicher Bilder basierend auf visuellen Merkmalen.",
+          "Nutze die 10.000 Labels, um Cluster zu annotieren (Label-Propagation).",
+          "Trainiere ein überwachtes Modell, das von der Clusterstruktur profitiert.",
+          "Alternative: Nutze ungelabelte Daten für selbstüberwachtes Vortraining."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Teilüberwachtes Lernen",
+          "definition": "Kombination aus unüberwachten und überwachten Methoden bei gemischten Daten"
+        },
+        {
+          "term": "Label-Propagation",
+          "definition": "Verbreitung von Labels auf ähnliche ungelabelte Instanzen"
+        },
+        {
+          "term": "Semi-Supervised Learning",
+          "definition": "Englischer Begriff für teilüberwachtes Lernen"
+        },
+        {
+          "term": "Pseudo-Labeling",
+          "definition": "Automatisches Zuweisen von Labels zu ungelabelten Daten basierend auf Modellvorhersagen"
+        },
+        {
+          "term": "Konsistenz-Regularisierung",
+          "definition": "Technik, die fordert, dass ähnliche Eingaben ähnliche Ausgaben produzieren"
+        },
+        {
+          "term": "Co-Training",
+          "definition": "Methode, bei der mehrere Modelle sich gegenseitig trainieren"
+        }
+      ]
+    },
+    {
+      "question": "22. Ein lineares Modell zeigt schlechte Leistung auf Training UND Test (beide ~60% Genauigkeit). Ein komplexes neuronales Netz erreicht 99% auf Training, aber nur 65% auf Test. Was sollten Sie tun?",
+      "options": [
+        "Ein Modell mittlerer Komplexität wählen und Regularisierung anwenden",
+        "Das neuronale Netz verwenden, da es höhere Trainingsgenauigkeit hat",
+        "Das lineare Modell verwenden, da es keine Overfitting-Probleme hat",
+        "Mehr Trainingsdaten sammeln und das lineare Modell beibehalten",
+        "Die Lernrate für das neuronale Netz erhöhen"
+      ],
+      "answer": 0,
+      "explanation": "Das lineare Modell underfittet (schlechte Performance auf beiden Sets), das neuronale Netz overfittet stark (große Diskrepanz). Die beste Lösung ist ein Modell mittlerer Komplexität mit Regularisierung, das die richtige Balance zwischen Unter- und Overfitting findet.",
+      "weight": 3,
+      "topic": "Bias-Variance-Tradeoff",
+      "concept": "Modellkomplexität",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Diagnose und Behandlung von Fitting-Problemen",
+        "steps": [
+          "Analysiere die Leistung auf Training und Test separat.",
+          "Lineares Modell: Beide schlecht → Underfitting, zu einfach.",
+          "Neuronales Netz: Training perfekt, Test schlecht → Overfitting, zu komplex.",
+          "Wähle mittlere Komplexität mit Regularisierung für optimale Balance.",
+          "Experimentiere mit verschiedenen Architekturen und Regularisierungsstärken."
+        ],
+        "content": "Diese Situation illustriert den Bias-Variance-Tradeoff perfekt. Das lineare Modell hat hohen Bias (systematische Fehler durch zu starke Vereinfachung) - es kann die Datenstruktur nicht erfassen. Das neuronale Netz hat hohe Varianz (Überanpassung an Trainingsdaten) - es lernt Rauschen statt Muster. Die Lösung liegt in der Mitte: Ein Modell, das komplex genug ist, um die echten Muster zu lernen, aber einfach genug oder ausreichend regularisiert, um nicht zu overfitting. Optionen sind: polynomielle Regression, Random Forests, oder ein kleineres neuronales Netz mit Dropout/Regularisierung."
+      },
+      "mini_glossary": [
+        {
+          "term": "Bias-Variance-Tradeoff",
+          "definition": "Abwägung zwischen Modellvereinfachung und Flexibilität"
+        },
+        {
+          "term": "Hoher Bias",
+          "definition": "Systematische Fehler durch zu starke Vereinfachung des Modells"
+        },
+        {
+          "term": "Hohe Varianz",
+          "definition": "Starke Reaktion auf kleine Änderungen in Trainingsdaten, führt zu Overfitting"
+        },
+        {
+          "term": "Modellkomplexität",
+          "definition": "Maß für die Flexibilität und Ausdruckskraft eines Modells"
+        },
+        {
+          "term": "Dropout",
+          "definition": "Regularisierungstechnik für neuronale Netze durch zufälliges Deaktivieren von Neuronen"
+        },
+        {
+          "term": "Optimale Balance",
+          "definition": "Sweet Spot zwischen Unter- und Overfitting für beste Verallgemeinerung"
+        }
+      ]
+    },
+    {
+      "question": "30. Ein polynomielles Modell höheren Grades erreicht perfekte Genauigkeit auf Trainingsdaten, versagt aber bei neuen Daten. Gleichzeitig würde ein lineares Modell beide Datensätze schlecht fitten. Was ist die fundamentale Herausforderung?",
+      "options": [
+        "Die Balance zwischen Modellkomplexität und Generalisierungsfähigkeit zu finden",
+        "Genug Trainingsdaten zu sammeln",
+        "Den richtigen Algorithmus aus der Literatur zu wählen",
+        "Die Rechenleistung für komplexe Modelle bereitzustellen",
+        "Fehler in den Daten zu identifizieren und zu korrigieren"
+      ],
+      "answer": 0,
+      "explanation": "Die fundamentale Herausforderung ist der Bias-Variance-Tradeoff: Ein zu einfaches Modell (linear) underfittet, ein zu komplexes (hohes Polynom) overfittet. Man muss die optimale Komplexität finden, die echte Muster lernt, aber nicht auf Rauschen overfittet. Dies ist eine Kernherausforderung im ML.",
+      "weight": 3,
+      "topic": "Fundamentale ML-Konzepte",
+      "concept": "Bias-Variance-Tradeoff",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Der zentrale Tradeoff im Machine Learning",
+        "steps": [
+          "Zu einfache Modelle (hoher Bias) können die Datenstruktur nicht erfassen.",
+          "Zu komplexe Modelle (hohe Varianz) lernen Rauschen statt Muster.",
+          "Die optimale Modellkomplexität liegt zwischen diesen Extremen.",
+          "Regularisierung und Validierung helfen, diesen Sweet Spot zu finden.",
+          "Es ist ein fundamentales Problem ohne universelle Lösung - erfordert Experimentieren."
+        ],
+        "content": "Dies ist DAS zentrale Problem im Machine Learning: Wie finde ich ein Modell, das komplex genug ist, um echte Muster zu lernen, aber einfach genug, um auf neue Daten zu verallgemeinern? Ein lineares Modell macht starke Annahmen (Linearität) - zu stark für die meisten realen Probleme. Ein Polynom 20. Grades kann beliebige Kurven fitten - zu flexibel, es lernt auch zufälliges Rauschen. Die Kunst ist, die richtige Balance zu finden. Werkzeuge dafür sind: Kreuzvalidierung zur Bewertung verschiedener Komplexitäten, Regularisierung zur kontrollierten Vereinfachung, und Lernkurven zur Diagnose. Mehr Daten helfen komplexeren Modellen, aber lösen das fundamentale Problem nicht. Dies ist auch die Antwort auf das No-Free-Lunch-Theorem: Wir wählen Modelle basierend auf Annahmen über die Problemstruktur und finden empirisch die beste Balance."
+      },
+      "mini_glossary": [
+        {
+          "term": "Bias-Variance-Tradeoff",
+          "definition": "Grundlegende Abwägung zwischen Vereinfachung und Flexibilität von Modellen"
+        },
+        {
+          "term": "Sweet Spot",
+          "definition": "Optimaler Punkt zwischen Unter- und Overfitting"
+        },
+        {
+          "term": "Modellkomplexität",
+          "definition": "Grad der Flexibilität eines Modells, Muster zu lernen"
+        },
+        {
+          "term": "Generalisierung",
+          "definition": "Fähigkeit, auf neue Daten korrekt zu reagieren"
+        },
+        {
+          "term": "Lernkurven",
+          "definition": "Darstellung von Trainings- und Validierungsfehler in Abhängigkeit von Trainingsdatenmenge"
+        },
+        {
+          "term": "Fundamentaler Tradeoff",
+          "definition": "Unvermeidliche Abwägung zwischen konkurrierenden Zielen"
         }
       ]
     }
