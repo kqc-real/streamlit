@@ -6,8 +6,8 @@
     "question_count": 28,
     "difficulty_profile": {
       "easy": 3,
-      "medium": 18,
-      "hard": 9
+      "medium": 17,
+      "hard": 8
     },
     "time_per_weight_minutes": {
       "1": 0.5,
@@ -30,6 +30,7 @@
       "explanation": "Arthur Samuel definierte 1959 Machine Learning als das Fachgebiet, das Computern die Fähigkeit zu lernen verleiht, ohne explizit programmiert zu werden. Dies ist eine grundlegende und weithin anerkannte Definition.",
       "weight": 1,
       "topic": "Definition Machine Learning",
+      "topic": "Grundlagen Machine Learning",
       "concept": "Arthur Samuel Definition",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -71,6 +72,7 @@
       "explanation": "Die vom System verwendeten Lernbeispiele werden als Trainingsdatensatz bezeichnet. Jedes einzelne Trainingsbeispiel nennt man einen Trainingsdatenpunkt oder eine Instanz.",
       "weight": 1,
       "topic": "Grundbegriffe ML",
+      "topic": "Grundlagen Machine Learning",
       "concept": "Trainingsdatensatz",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -113,6 +115,7 @@
       "explanation": "Die korrekte Zuordnung ist: Gewicht 1 entspricht Reproduktion (einfaches Wiedergeben von Wissen), Gewicht 2 entspricht Anwendung (Wissen in neuen Situationen anwenden) und Gewicht 3 entspricht Analyse (komplexe Zusammenhänge verstehen und bewerten).",
       "weight": 1,
       "topic": "Lernzieltaxonomie",
+      "topic": "Grundlagen Machine Learning",
       "concept": "Cognitive Level",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -310,6 +313,7 @@
       "explanation": "Online-Learning mit hoher Lernrate ist optimal für sich schnell ändernde Umgebungen. Das System lernt inkrementell aus neuen Daten und passt sich sofort an. Eine hohe Lernrate ermöglicht schnelle Anpassung an neue Muster.",
       "weight": 2,
       "topic": "Online-Learning",
+      "topic": "Lernparadigmen",
       "concept": "Lernrate",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -361,6 +365,7 @@
       "explanation": "Die große Diskrepanz zwischen Trainings- und Testgenauigkeit ist ein klassisches Zeichen für Overfitting. Das Modell hat die Trainingsdaten zu gut gelernt, einschließlich Rauschen und Ausreißer, und kann deshalb nicht gut auf neue Daten verallgemeinern.",
       "weight": 2,
       "topic": "Overfitting",
+      "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Verallgemeinerungsfehler",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -413,6 +418,7 @@
       "explanation": "Regularisierung ist die effektivste Methode gegen Overfitting. Sie erzwingt Restriktionen für das Modell und vereinfacht es, wodurch es weniger anfällig für das Lernen von Rauschen wird. Die Erhöhung der Lernrate, mehr Features oder höhere Komplexität würden das Problem verschlimmern.",
       "weight": 2,
       "topic": "Regularisierung",
+      "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Overfitting-Vermeidung",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -464,6 +470,7 @@
       "explanation": "Feature Engineering umfasst die Entwicklung, Auswahl und Extraktion von Merkmalen. Die Extraktion kombiniert vorhandene Merkmale zu neuen, nützlicheren Features. Die anderen Optionen betreffen Hyperparameter-Tuning, Datenaufteilung oder Modellkonfiguration.",
       "weight": 2,
       "topic": "Feature Engineering",
+      "topic": "Daten & Features",
       "concept": "Merkmalsextraktion",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -515,6 +522,7 @@
       "explanation": "k-nächste-Nachbarn ist ein klassisches Beispiel für instanzbasiertes Lernen. Das System lernt die Trainingsbeispiele auswendig und verallgemeinert durch Vergleich neuer Instanzen mit gespeicherten Beispielen mittels eines Ähnlichkeitsmaßes.",
       "weight": 2,
       "topic": "Instanzbasiertes Lernen",
+      "topic": "Überwachtes Lernen",
       "concept": "k-nächste-Nachbarn",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -566,6 +574,7 @@
       "explanation": "Das Ersetzen fehlender Werte mit dem Maximum ist keine sinnvolle Strategie, da es die Daten verzerrt und unrealistische Annahmen trifft. Die anderen Strategien sind legitime Ansätze: Merkmal ignorieren, Zeilen entfernen oder mit statistischen Kennwerten wie dem Median ergänzen.",
       "weight": 2,
       "topic": "Datenqualität",
+      "topic": "Daten & Features",
       "concept": "Fehlende Werte",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -669,6 +678,7 @@
       "explanation": "Nach dem selbstüberwachten Vortraining sollte das Modell für die eigentliche Zielaufgabe feingetuned werden. Dies nennt man Transfer Learning. Das Modell hat bereits gelernt, Bildmerkmale zu erkennen, muss aber noch auf die spezifische Aufgabe (z.B. Haustiererkennung) angepasst werden.",
       "weight": 2,
       "topic": "Selbstüberwachtes Lernen",
+      "topic": "Fortgeschrittene Lernmethoden",
       "concept": "Transfer Learning",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -772,6 +782,7 @@
       "explanation": "Eine sehr hohe Lernrate führt dazu, dass sich das System schnell auf neue Daten einstellt, aber dabei alte Muster vergisst. Außerdem ist es anfälliger für Rauschen und Ausreißer in den neuen Daten, da diese einen zu großen Einfluss auf das Modell haben.",
       "weight": 2,
       "topic": "Online-Learning",
+      "topic": "Lernparadigmen",
       "concept": "Lernraten-Abwägung",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -823,6 +834,7 @@
       "explanation": "Dimensionsreduktion macht Modelle nicht komplexer, sondern vereinfacht die Daten. Die Vorteile sind: schnelleres Training (weniger Features), weniger Speicherbedarf und reduziertes Overfitting-Risiko (durch Entfernung redundanter oder irrelevanter Merkmale). In manchen Fällen verbessert sich auch die Modellqualität.",
       "weight": 2,
       "topic": "Dimensionsreduktion",
+      "topic": "Daten & Features",
       "concept": "Vorteile der Vereinfachung",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -874,6 +886,7 @@
       "explanation": "Das Problem war Stichprobenverzerrung: Die Umfrage nutzte Telefonbücher und Abonnentenlisten, wodurch wohlhabendere Menschen überrepräsentiert waren. Zudem antworteten nur 25% (Schweigeverzerrung). Die Stichprobengröße war nicht das Problem - sie war sogar sehr groß (2,4 Millionen).",
       "weight": 2,
       "topic": "Datenqualität",
+      "topic": "Daten & Features",
       "concept": "Stichprobenverzerrung",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -926,6 +939,7 @@
       "explanation": "Model Rot (oder Data Drift) tritt auf, wenn sich die Datenverteilung in der realen Welt ändert, während das Modell statisch bleibt. Spammer passen ihre Strategien an, um Filter zu umgehen. Die Lösung ist regelmäßiges Neutraining mit aktuellen Daten.",
       "weight": 2,
       "topic": "Batch-Learning",
+      "topic": "Lernparadigmen",
       "concept": "Model Rot",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1028,6 +1042,7 @@
       "explanation": "Das NFL-Theorem bedeutet, dass kein universell bestes Modell existiert. In der Praxis treffen wir Annahmen über die Datenstruktur (z.B. linear, nichtlinear, zeitabhängig) und evaluieren eine Auswahl sinnvoller Modelle. Die Kunst liegt darin, gute Annahmen zu treffen.",
       "weight": 3,
       "topic": "Theoretische Grundlagen",
+      "topic": "Grundlagen Machine Learning",
       "concept": "No-Free-Lunch-Theorem",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1080,6 +1095,7 @@
       "explanation": "Der Agent muss eine Policy lernen - eine Strategie, die für jede Situation die beste Aktion definiert. Diese maximiert die kumulative Belohnung über Zeit, nicht nur sofortige Belohnungen. Dies unterscheidet RL von überwachtem Lernen, wo direkte Labels vorliegen.",
       "weight": 3,
       "topic": "Reinforcement Learning",
+      "topic": "Lernparadigmen",
       "concept": "Policy Learning",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1133,6 +1149,7 @@
       "explanation": "Selbstüberwachtes Vortraining lehrt das Modell, Bildstrukturen, Objekte und Zusammenhänge zu verstehen. Dieses Wissen wird dann via Transfer Learning auf die Klassifikationsaufgabe übertragen. Das Modell benötigt dann weniger gelabelte Daten für gute Klassifikationsleistung.",
       "weight": 3,
       "topic": "Selbstüberwachtes Lernen",
+      "topic": "Fortgeschrittene Lernmethoden",
       "concept": "Representational Learning",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1186,6 +1203,7 @@
       "explanation": "Mehr Daten haben den Trainingsfehler gesenkt, aber nicht den Testfehler - das Modell underfittet möglicherweise. Trotz niedrigem Trainingsfehler ist die Lücke zu Test groß (Overfitting-Zeichen), aber da zusätzliche Daten nicht halfen, ist das Modell zu eingeschränkt. Komplexität erhöhen oder Regularisierung reduzieren könnte helfen.",
       "weight": 3,
       "topic": "Fehleranalyse",
+      "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Bias-Variance-Diagnose",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1291,6 +1309,7 @@
       "explanation": "Teilüberwachtes Lernen kombiniert beide Datenquellen optimal: Unüberwachte Methoden (z.B. Clustering) nutzen alle Daten zur Strukturfindung, dann werden Labels propagiert oder überwachtes Lernen auf der entdeckten Struktur angewendet. Dies nutzt die große Menge ungelabelter Daten sinnvoll aus.",
       "weight": 3,
       "topic": "Teilüberwachtes Lernen",
+      "topic": "Fortgeschrittene Lernmethoden",
       "concept": "Semi-Supervised Learning",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1344,6 +1363,7 @@
       "explanation": "Das lineare Modell underfittet (schlechte Performance auf beiden Sets), das neuronale Netz overfittet stark (große Diskrepanz). Die beste Lösung ist ein Modell mittlerer Komplexität mit Regularisierung, das die richtige Balance zwischen Unter- und Overfitting findet.",
       "weight": 3,
       "topic": "Bias-Variance-Tradeoff",
+      "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Modellkomplexität",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1397,6 +1417,7 @@
       "explanation": "Die fundamentale Herausforderung ist der Bias-Variance-Tradeoff: Ein zu einfaches Modell (linear) underfittet, ein zu komplexes (hohes Polynom) overfittet. Man muss die optimale Komplexität finden, die echte Muster lernt, aber nicht auf Rauschen overfittet. Dies ist eine Kernherausforderung im ML.",
       "weight": 3,
       "topic": "Fundamentale ML-Konzepte",
+      "topic": "Grundlagen Machine Learning",
       "concept": "Bias-Variance-Tradeoff",
       "cognitive_level": "Analysis",
       "extended_explanation": {
