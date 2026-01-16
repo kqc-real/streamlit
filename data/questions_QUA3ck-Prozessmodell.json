@@ -3,11 +3,11 @@
     "title": "Das QUA³CK-Prozessmodell für Data-Science-Projekte",
     "created": "16.01.2026 14:30",
     "target_audience": "Studierende im Kurs Machine Learning",
-    "question_count": 15,
+    "question_count": 20,
     "difficulty_profile": {
       "easy": 2,
       "medium": 9,
-      "hard": 4
+      "hard": 9
     },
     "time_per_weight_minutes": {
       "1": 0.5,
@@ -15,7 +15,7 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 5,
-    "test_duration_minutes": 10
+    "test_duration_minutes": 20
   },
   "questions": [
     {
@@ -771,6 +771,271 @@
         {
           "term": "AMALEA 2025",
           "definition": "Kursansatz, der QUA³CK mit modernen MLOps-Praktiken kombiniert, um Studierenden praxisrelevante Fähigkeiten zu vermitteln."
+        }
+      ]
+    },
+    {
+      "question": "16. Die EDA im Iris-Projekt zeigte, dass Setosa linear separierbar ist, während Versicolor und Virginica leichte Überlappungen aufweisen. Analysieren Sie: Welche Implikation hat dies für die Modellwahl und erwartete Performance?",
+      "options": [
+        "Einfache lineare Modelle könnten für Setosa vs. Rest ausreichen, aber Versicolor vs. Virginica erfordert komplexere Entscheidungsgrenzen",
+        "Alle drei Klassen benötigen zwingend Deep Learning mit neuronalen Netzen",
+        "Die Überlappung macht eine Klassifikation grundsätzlich unmöglich",
+        "Clustering-Algorithmen wie K-Means sind für überlappende Klassen immer besser als überwachte Methoden",
+        "Die Überlappung hat keine Auswirkung auf Modellwahl oder Performance"
+      ],
+      "answer": 0,
+      "explanation": "Die lineare Separierbarkeit von Setosa bedeutet, dass selbst einfache Modelle (z.B. logistische Regression) diese Klasse perfekt von den anderen trennen können. Die Überlappung zwischen Versicolor und Virginica erfordert jedoch komplexere Entscheidungsgrenzen, die z.B. Decision Trees oder KNN gut modellieren können. Diese EDA-Erkenntnis sollte die Modellwahl in der A³-Phase informieren.",
+      "weight": 3,
+      "topic": "Phase U: Understanding",
+      "concept": "Datencharakteristika",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Von Datenstruktur zu Modellarchitektur",
+        "steps": [
+          "Lineare Separierbarkeit erkennen: Setosa ist durch eine einfache Hyperebene von den anderen trennbar",
+          "Überlappungsbereiche quantifizieren: Versicolor und Virginica haben gemeinsame Regionen im Merkmalsraum",
+          "Modellkomplexität ableiten: One-vs-Rest-Strategien könnten unterschiedliche Komplexität pro Binärproblem benötigen",
+          "Performance-Erwartungen setzen: Perfekte Genauigkeit unwahrscheinlich aufgrund inhärenter Überlappung",
+          "Fehleranalyse vorbereiten: Missklassifikationen werden primär zwischen Versicolor und Virginica auftreten"
+        ],
+        "content": "Diese Analyse verbindet U-Phase (Datenverständnis) mit A³-Phase (Modellierung) und C-Phase (Evaluation). Die EDA zeigt nicht nur 'wie die Daten aussehen', sondern gibt strategische Hinweise für die gesamte Modellentwicklung. Die erreichte Accuracy von 97,8 Prozent (nicht 100 Prozent) ist konsistent mit der beobachteten Überlappung. Moderne Ansätze wie Ensemble-Methoden könnten hier helfen, indem sie verschiedene Modelle für verschiedene Klassenpaare kombinieren. Diese mehrschichtige Analyse exemplifiziert die Tiefe, die QUA³CK als strukturiertes Framework ermöglicht."
+      },
+      "mini_glossary": [
+        {
+          "term": "Lineare Separierbarkeit",
+          "definition": "Eigenschaft von Daten, bei der Klassen durch eine Hyperebene (Gerade, Ebene) vollständig getrennt werden können."
+        },
+        {
+          "term": "Entscheidungsgrenze",
+          "definition": "Die Grenze im Merkmalsraum, die verschiedene Klassen voneinander trennt."
+        },
+        {
+          "term": "Überlappung",
+          "definition": "Bereiche im Merkmalsraum, wo Datenpunkte verschiedener Klassen ähnliche Merkmalswerte haben."
+        },
+        {
+          "term": "One-vs-Rest",
+          "definition": "Strategie zur Mehrkl assenklassifikation, bei der für jede Klasse ein binäres Problem 'Klasse vs. alle anderen' gelöst wird."
+        },
+        {
+          "term": "Hyperebene",
+          "definition": "Geometrisches Objekt, das einen Raum in zwei Bereiche teilt, Grundlage linearer Klassifikatoren."
+        },
+        {
+          "term": "Inhärente Überlappung",
+          "definition": "Natürliche, unvermeidbare Überschneidungen in Daten, die eine Obergrenze für mögliche Accuracy setzen."
+        }
+      ]
+    },
+    {
+      "question": "17. Bewerten Sie den vollständigen QUA³CK-Workflow für ein hypothetisches Projekt zur medizinischen Bildklassifikation (z.B. Tumordetektion). In welcher Phase würden die größten Herausforderungen auftreten und warum?",
+      "options": [
+        "In der Q-Phase aufgrund komplexer ethischer und regulatorischer Anforderungen sowie kritischer Fehlerkosten",
+        "In der U-Phase wegen der Größe medizinischer Bilddatensätze",
+        "In der A³-Phase, da Deep Learning-Modelle schwer zu trainieren sind",
+        "In der C-Phase durch die Vielzahl verfügbarer Metriken",
+        "In der K-Phase aufgrund fehlender Cloud-Infrastruktur"
+      ],
+      "answer": 0,
+      "explanation": "Medizinische Anwendungen haben besondere Herausforderungen in der Q-Phase: ethische Überlegungen (Patientendaten, Bias), regulatorische Anforderungen (FDA, CE-Zertifizierung), extreme Asymmetrie der Fehlerkosten (False Negatives können lebensbedrohlich sein) und komplexe Stakeholder-Landschaft (Ärzte, Patienten, Behörden). Eine unzureichende Q-Phase würde hier zum Scheitern führen, selbst bei technisch exzellenter Umsetzung.",
+      "weight": 3,
+      "topic": "QUA³CK Gesamtprozess",
+      "concept": "Domänenspezifische Herausforderungen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Kritische Erfolgsfaktoren im medizinischen Kontext",
+        "steps": [
+          "Ethik und Compliance definieren: DSGVO, Patienteneinwilligung, Bias-Vermeidung in Trainingsdaten",
+          "Asymmetrische Fehlerkosten modellieren: False Negatives (übersehene Tumore) vs. False Positives (unnötige Biopsien)",
+          "Stakeholder-Anforderungen balancieren: Ärzte brauchen Erklärbarkeit, Patienten Sicherheit, Kliniken Effizienz",
+          "Regulatorische Pfade planen: Welche Zertifizierungen sind nötig? Welche Validierungsstudien gefordert?",
+          "Success-Metriken sorgfältig wählen: Sensitivität (Recall) ist oft wichtiger als Accuracy"
+        ],
+        "content": "Dieses Szenario zeigt, dass technische Exzellenz in A³ und C nicht ausreicht, wenn die Grundlage (Q) fehlerhaft ist. Im medizinischen Bereich könnten selbst 99 Prozent Accuracy unzureichend sein, wenn die verbleibenden 1 Prozent kritische Fälle sind. Die Q-Phase muss dies antizipieren und entsprechende Metriken (z.B. Recall > 99,5 Prozent für bestimmte Tumortypen) sowie Validierungsstrategien (externe Validierung an mehreren Kliniken) definieren. Dies exemplifiziert, warum QUA³CK die Q-Phase als Fundament betont: Sie legt fest, was 'Erfolg' bedeutet, und beeinflusst alle nachfolgenden Phasen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Ethische Anforderungen",
+          "definition": "Moralische und rechtliche Verpflichtungen bei der Verarbeitung sensibler Daten wie Patienteninformationen."
+        },
+        {
+          "term": "Regulatorische Anforderungen",
+          "definition": "Gesetzliche und behördliche Vorgaben wie FDA-Zulassung oder CE-Kennzeichnung für medizinische Software."
+        },
+        {
+          "term": "Asymmetrische Fehlerkosten",
+          "definition": "Situation, in der verschiedene Fehlertypen (FP vs. FN) stark unterschiedliche Konsequenzen haben."
+        },
+        {
+          "term": "Bias in Trainingsdaten",
+          "definition": "Systematische Verzerrungen in Daten, z.B. Unterrepräsentation bestimmter Patientengruppen."
+        },
+        {
+          "term": "Externe Validierung",
+          "definition": "Bewertung eines Modells auf Daten aus anderen Quellen/Kliniken zur Sicherstellung der Generalisierung."
+        },
+        {
+          "term": "Stakeholder-Landschaft",
+          "definition": "Die Gesamtheit aller Beteiligten mit unterschiedlichen Interessen und Anforderungen an das System."
+        }
+      ]
+    },
+    {
+      "question": "18. Analysieren Sie die Interdependenzen zwischen den QUA³CK-Phasen: Wenn in der U-Phase festgestellt wird, dass die verfügbaren Daten die in Q definierten KPIs unmöglich erreichen lassen, welche Strategie ist am sinnvollsten?",
+      "options": [
+        "Iterativ zur Q-Phase zurückkehren und KPIs basierend auf Datenlage anpassen oder Datenbeschaffung neu planen",
+        "Mit unrealistischen KPIs fortfahren und in der C-Phase erklären, warum sie nicht erreicht wurden",
+        "Die U-Phase überspringen und direkt mit der Modellierung beginnen",
+        "Das gesamte Projekt abbrechen, da QUA³CK keine Iterationen erlaubt",
+        "Nur synthetische Daten generieren, um die ursprünglichen KPIs zu erreichen"
+      ],
+      "answer": 0,
+      "explanation": "QUA³CK ist iterativ, nicht strikt sequenziell. Wenn die U-Phase zeigt, dass die Datenlage die KPIs nicht unterstützt, muss zur Q-Phase zurückgekehrt werden, um entweder realistischere KPIs zu definieren oder die Datenbeschaffungsstrategie anzupassen. Dies verhindert, dass Ressourcen in ein zum Scheitern verurteiltes Projekt investiert werden. Flexibilität bei der Phasendurchführung ist ein Kernprinzip agiler Data-Science-Methodik.",
+      "weight": 3,
+      "topic": "Prozess-Interdependenzen",
+      "concept": "Iterative Anpassung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Iterative und adaptive Prozessführung",
+        "steps": [
+          "Problem erkennen: U-Phase deckt Diskrepanz zwischen Datenanforderungen und -verfügbarkeit auf",
+          "Impact bewerten: Können KPIs mit vorhandenen Daten prinzipiell erreicht werden?",
+          "Optionen entwickeln: A) KPIs anpassen, B) mehr/bessere Daten beschaffen, C) Problem neu definieren",
+          "Stakeholder einbeziehen: Entscheidung über Neuausrichtung kommunizieren und Konsens erreichen",
+          "Q-Phase revidieren: Angepasste Problemstellung und KPIs dokumentieren, dann U-Phase wiederholen"
+        ],
+        "content": "Diese Situation illustriert einen wichtigen Aspekt des QUA³CK-Modells: Es ist ein Leitfaden, kein Dogma. Die lineare Darstellung (Q→U→A³→C→K) dient der Klarheit, aber reale Projekte erfordern oft Rückschritte und Iterationen. Die 85-87 Prozent Scheiternrate entsteht oft, weil Teams stur am ursprünglichen Plan festhalten, obwohl frühe Phasen Unvereinbarkeiten aufdecken. QUA³CK ermutigt zu frühem, strukturiertem Scheitern: Lieber in der U-Phase erkennen, dass ein Projekt nicht realisierbar ist, als nach Monaten in der K-Phase feststellen, dass niemand das Ergebnis nutzen kann. Diese Agilität ist kompatibel mit modernen Projektmanagement-Ansätzen und unterscheidet QUA³CK von rigiden Wasserfall-Modellen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Iterative Methodik",
+          "definition": "Ansatz, bei dem Phasen bei Bedarf wiederholt und angepasst werden, nicht strikt linear durchlaufen."
+        },
+        {
+          "term": "Interdependenzen",
+          "definition": "Wechselseitige Abhängigkeiten zwischen verschiedenen Projektphasen."
+        },
+        {
+          "term": "Datenbeschaffung",
+          "definition": "Prozess zur Akquisition zusätzlicher oder qualitativ besserer Daten für das ML-Projekt."
+        },
+        {
+          "term": "Realistische KPIs",
+          "definition": "Erfolgsmetriken, die basierend auf verfügbaren Ressourcen und Daten tatsächlich erreichbar sind."
+        },
+        {
+          "term": "Frühes Scheitern",
+          "definition": "Konzept, Probleme möglichst früh zu identifizieren, um Ressourcenverschwendung zu vermeiden."
+        },
+        {
+          "term": "Agile Data Science",
+          "definition": "Flexible, iterative Herangehensweise an DS-Projekte im Gegensatz zu starren Wasserfall-Modellen."
+        }
+      ]
+    },
+    {
+      "question": "19. Im Kursmaterial wird betont, dass die Wahl von Erfolgsmetriken in der Q-Phase kritisch ist. Kritisch analysiert: Warum ist Accuracy oft eine unzureichende Metrik, und unter welchen Bedingungen sollte sie durch Recall oder Precision ersetzt werden?",
+      "options": [
+        "Accuracy ignoriert Klassenungleichgewichte und unterschiedliche Fehlerkosten; Recall bei kritischen False Negatives, Precision bei kritischen False Positives",
+        "Accuracy ist immer die beste Metrik für alle Klassifikationsprobleme",
+        "Recall und Precision sind veraltet und sollten nie verwendet werden",
+        "Accuracy sollte nur bei Regressionsproblemen verwendet werden",
+        "Die Wahl der Metrik hat keinen Einfluss auf den Projekterfolg"
+      ],
+      "answer": 0,
+      "explanation": "Accuracy misst nur den Gesamtanteil korrekter Vorhersagen und kann bei unbalancierten Daten irreführend sein (z.B. 95 Prozent Accuracy bei 95 Prozent negativer Klasse durch 'immer negativ' vorhersagen). Recall ist wichtig, wenn False Negatives kritisch sind (z.B. Krankheitsdetektion), Precision wenn False Positives teuer sind (z.B. Marketing-Kampagnen). Die richtige Metrik hängt vom Business-Kontext ab.",
+      "weight": 3,
+      "topic": "Phase Q: Question",
+      "concept": "Metriken-Kritik",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Kontextabhängige Metrikwahl",
+        "steps": [
+          "Accuracy-Limitation erkennen: Bei 1 Prozent positiver Klasse erreicht 'immer negativ' 99 Prozent Accuracy, aber 0 Prozent Recall",
+          "Fehlerkosten analysieren: Was kostet ein False Negative vs. False Positive im spezifischen Kontext?",
+          "Recall priorisieren: Bei medizinischer Diagnose, Betrugserkennung, Sicherheitssystemen (Kosten von FN >> Kosten von FP)",
+          "Precision priorisieren: Bei Spam-Filtern, Empfehlungssystemen, Marketing (Kosten von FP >> Kosten von FN)",
+          "F1-Score erwägen: Wenn beide Fehlertypen etwa gleich kritisch sind, harmonisches Mittel nutzen"
+        ],
+        "content": "Diese Diskussion zeigt, dass die Q-Phase nicht nur formale Fragen beantwortet ('Welches Problem?'), sondern tiefes Domänenwissen und Business-Verständnis erfordert. Die Wahl zwischen Accuracy, Recall und Precision ist keine technische, sondern eine strategische Entscheidung mit direktem Impact auf Modellentwicklung (A³) und -auswahl (C). Im Iris-Projekt war Accuracy angemessen, da alle Klassen gleich häufig und gleichwertig sind. In realen Anwendungen ist dies selten der Fall. Moderne MLOps-Praktiken erlauben Multi-Metrik-Tracking, aber die primäre Metrik zur Entscheidungsfindung muss in Q definiert werden und den tatsächlichen Geschäftswert reflektieren."
+      },
+      "mini_glossary": [
+        {
+          "term": "Accuracy",
+          "definition": "Anteil aller korrekten Vorhersagen; kann bei unbalancierten Daten irreführend sein."
+        },
+        {
+          "term": "Recall",
+          "definition": "Anteil der korrekt identifizierten positiven Instanzen an allen tatsächlich positiven; wichtig bei kritischen False Negatives."
+        },
+        {
+          "term": "Precision",
+          "definition": "Anteil der korrekt als positiv klassifizierten an allen als positiv vorhergesagten; wichtig bei kritischen False Positives."
+        },
+        {
+          "term": "Klassenungleichgewicht",
+          "definition": "Situation, in der eine Klasse deutlich häufiger vorkommt als andere, macht Accuracy problematisch."
+        },
+        {
+          "term": "Business-Kontext",
+          "definition": "Die spezifischen Anforderungen und Rahmenbedingungen des Anwendungsfalls, die Metrikwahl bestimmen."
+        },
+        {
+          "term": "Multi-Metrik-Tracking",
+          "definition": "Gleichzeitige Protokollierung mehrerer Metriken in MLOps-Systemen für umfassende Modellbewertung."
+        }
+      ]
+    },
+    {
+      "question": "20. Synthese: Ein Startup plant ein ML-Projekt für personalisierte Produktempfehlungen. Entwickeln Sie eine QUA³CK-basierte Strategie für die ersten drei Phasen (Q, U, A³) und begründen Sie, wie MLOps-Integration den Prozess verbessern würde.",
+      "options": [
+        "Q: KPIs definieren (Click-Through-Rate, Conversion); U: User-Behavior-Analyse; A³: Collaborative Filtering + Content-Based mit MLFlow-Tracking",
+        "Direkt mit Deep Learning beginnen ohne Problemdefinition oder Datenanalyse",
+        "Nur die K-Phase durchführen und ein vorgefertigtes Modell deployen",
+        "Ausschließlich auf manuelle Empfehlungen durch Experten setzen",
+        "Q, U und A³ gleichzeitig ohne Struktur durchführen"
+      ],
+      "answer": 0,
+      "explanation": "Eine strukturierte Strategie würde in Q konkrete, messbare KPIs definieren (z.B. Click-Through-Rate > 5 Prozent, Conversion-Rate > 2 Prozent), in U das User-Verhalten und Produktattribute analysieren (Kaufhistorie, Produktkategorien, Seasonality), und in A³ verschiedene Ansätze testen (Collaborative Filtering, Content-Based, Hybrid) mit MLFlow-Tracking für systematische Evaluierung. MLOps ermöglicht kontinuierliche Verbesserung und A/B-Testing in Produktion.",
+      "weight": 3,
+      "topic": "QUA³CK Gesamtanwendung",
+      "concept": "End-to-End Planung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Vollständige QUA³CK-Strategie für Empfehlungssystem",
+        "steps": [
+          "Q-Phase: Problem präzisieren (personalisierte Empfehlungen zur Umsatzsteigerung), Zielgruppe (E-Commerce-Nutzer), KPIs (CTR, Conversion, Revenue per User), Deployment (API + Web-Integration)",
+          "U-Phase: User-Behavior-Logs analysieren (Clickstreams, Kaufhistorie), Produktdaten erkunden (Kategorien, Preise, Attribute), Saisonalität und Trends identifizieren",
+          "A³-Phase: Collaborative Filtering (User-Item-Matrix), Content-Based (Produktattribute), Matrix Factorization, Deep Learning (Neural Collaborative Filtering) testen",
+          "MLOps-Integration: MLFlow für Experiment-Tracking aller Ansätze, Online-Evaluation mit A/B-Tests, kontinuierliches Retraining bei Konzeptdrift",
+          "C+K-Vorbereitung: Modellvergleich via Dashboard, beste Variante als REST-API deployen, Monitoring für Performance-Degradation"
+        ],
+        "content": "Dieses Szenario demonstriert die Anwendbarkeit von QUA³CK über den akademischen Kontext hinaus. Empfehlungssysteme haben spezifische Herausforderungen (Cold-Start-Problem, Feedback-Loops, Konzeptdrift), die in jeder Phase adressiert werden müssen. Die MLOps-Integration ist hier besonders wertvoll: Im Gegensatz zu statischen Modellen (wie Iris-Klassifikation) erfordern Empfehlungssysteme kontinuierliches Retraining bei sich änderndem User-Verhalten. MLFlow ermöglicht Versionierung, Rollback und graduelle Rollouts. Dies exemplifiziert die Skalierbarkeit des QUA³CK-Ansatzes: Die Grundprinzipien (strukturierte Phasen, klare Metriken, systematische Evaluierung) bleiben gleich, aber die konkrete Umsetzung passt sich dem Anwendungsfall an."
+      },
+      "mini_glossary": [
+        {
+          "term": "Collaborative Filtering",
+          "definition": "Empfehlungsalgorithmus basierend auf Ähnlichkeiten zwischen Nutzern oder Items ohne Attributinformation."
+        },
+        {
+          "term": "Content-Based Filtering",
+          "definition": "Empfehlungsansatz basierend auf Produkt- oder Content-Attributen und Nutzerpräferenzen."
+        },
+        {
+          "term": "Click-Through-Rate",
+          "definition": "Metrik für den Anteil der Nutzer, die auf eine Empfehlung klicken (Klicks / Impressions)."
+        },
+        {
+          "term": "A/B-Testing",
+          "definition": "Experimentelle Methode zum Vergleich zweier Varianten durch zufällige Nutzeraufteilung."
+        },
+        {
+          "term": "Konzeptdrift",
+          "definition": "Veränderung der statistischen Eigenschaften der Zielvariable über Zeit, erfordert Modell-Retraining."
+        },
+        {
+          "term": "Cold-Start-Problem",
+          "definition": "Herausforderung bei Empfehlungssystemen für neue Nutzer oder Items ohne historische Daten."
         }
       ]
     }
