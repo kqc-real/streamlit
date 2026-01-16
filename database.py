@@ -9,6 +9,7 @@ import hashlib
 import binascii
 import secrets
 from config import get_package_dir, get_question_counts
+from pacing_helper import compute_total_cooldown_seconds
 from i18n.context import t
 
 # Fallback für ältere Streamlit-Versionen ohne caching-Decoratoren
@@ -1086,16 +1087,54 @@ def recompute_session_summary(session_id: int) -> bool:
         if max_points and max_points > 0:
             percent = (total_points / max_points) * 100
 
-        # allowed_min from QuestionSet
+        # allowed_min from QuestionSet (cooldown-aware)
         allowed_min = None
+        base_total_minutes = None
+        base_minutes = None
         try:
             app_cfg = AppConfig()
             if qs:
-                allowed_min = qs.get_test_duration_minutes(
-                    app_cfg.test_duration_minutes
+                base_minutes = qs.get_test_duration_minutes(app_cfg.test_duration_minutes)
+            else:
+                base_minutes = getattr(app_cfg, "test_duration_minutes", None)
+
+            if base_minutes is not None:
+                per_weight_minutes: dict[int, float] = {}
+                try:
+                    qmeta = getattr(qs, "meta", None)
+                    per_weight_raw = None
+                    if isinstance(qmeta, dict):
+                        per_weight_raw = qmeta.get("time_per_weight_minutes") or qmeta.get("time_per_weight")
+                    if isinstance(per_weight_raw, dict):
+                        for k, v in per_weight_raw.items():
+                            try:
+                                per_weight_minutes[int(k)] = float(v)
+                            except Exception:
+                                continue
+                except Exception:
+                    per_weight_minutes = {}
+                if not per_weight_minutes:
+                    per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+
+                cooldown_seconds = compute_total_cooldown_seconds(
+                    list(qs) if qs else [],
+                    per_weight_minutes,
+                    reading_cooldown_base_per_weight=app_cfg.reading_cooldown_base_per_weight,
+                    next_cooldown_extra_standard=app_cfg.next_cooldown_extra_standard,
+                    next_cooldown_extra_extended=app_cfg.next_cooldown_extra_extended,
                 )
+                base_total_minutes = base_minutes + (cooldown_seconds / 60.0)
+                allowed_min = int(max(1, round(base_total_minutes)))
         except Exception:
             allowed_min = None
+            base_total_minutes = None
+
+        # Fallback: if cooldown computation failed, retain at least the base minutes
+        if allowed_min is None and base_minutes is not None and base_total_minutes is None:
+            try:
+                allowed_min = int(max(1, round(base_minutes)))
+            except Exception:
+                allowed_min = None
 
         # title and meta.created
         questions_title = qs.meta.get('title') if qs else None
@@ -1137,10 +1176,9 @@ def recompute_session_summary(session_id: int) -> bool:
             # Map known tempo codes to their multipliers
             tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
             factor = tempo_factor_map.get(tempo_val, 1.0) if tempo_val is not None else 1.0
-            if allowed_min is not None:
-                effective_allowed = max(1, int(allowed_min * factor))
-            else:
-                effective_allowed = None
+            minutes_for_effective = base_total_minutes if base_total_minutes is not None else allowed_min
+            if minutes_for_effective is not None:
+                effective_allowed = max(1, int(round(float(minutes_for_effective) * factor)))
         except Exception:
             effective_allowed = None
 

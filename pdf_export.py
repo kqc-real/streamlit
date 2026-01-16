@@ -18,6 +18,7 @@ from markdown_it import MarkdownIt
 
 from logic import get_answer_for_question, calculate_score
 from config import AppConfig
+from pacing_helper import compute_total_cooldown_seconds
 from helpers.text import format_decimal_locale, smart_quotes_de, normalize_detailed_explanation
 from i18n.context import t as translate_ui
 import os
@@ -1644,6 +1645,55 @@ def _build_extended_explanation_html(frage_obj: Dict[str, Any], total_timeout: f
     return explanation_html
 
 
+def _cooldown_adjusted_total_minutes(
+    questions: List[Dict[str, Any]],
+    app_config: AppConfig,
+    question_set: Any | None = None,
+) -> float | None:
+    """
+    Compute the base test duration (in minutes) including cooldowns for reading/next.
+    Mirrors the logic used during session initialization so PDFs reflect the real limit.
+    """
+    try:
+        # Base minutes from question set or app config
+        if question_set:
+            base_minutes = question_set.get_test_duration_minutes(app_config.test_duration_minutes)
+        else:
+            base_minutes = getattr(app_config, "test_duration_minutes", None)
+        if base_minutes is None:
+            return None
+
+        # Resolve per-weight minute configuration from metadata when available
+        per_weight_minutes: Dict[int, float] = {}
+        try:
+            qmeta = getattr(question_set, "meta", None) if question_set else None
+            per_weight_raw = None
+            if isinstance(qmeta, dict):
+                per_weight_raw = qmeta.get("time_per_weight_minutes") or qmeta.get("time_per_weight")
+            if isinstance(per_weight_raw, dict):
+                for k, v in per_weight_raw.items():
+                    try:
+                        per_weight_minutes[int(k)] = float(v)
+                    except Exception:
+                        continue
+        except Exception:
+            # If metadata parsing fails, fall back to defaults below
+            per_weight_minutes = {}
+        if not per_weight_minutes:
+            per_weight_minutes = {1: 0.5, 2: 0.75, 3: 1.0}
+
+        total_cooldown_seconds = compute_total_cooldown_seconds(
+            list(questions),
+            per_weight_minutes,
+            reading_cooldown_base_per_weight=app_config.reading_cooldown_base_per_weight,
+            next_cooldown_extra_standard=app_config.next_cooldown_extra_standard,
+            next_cooldown_extra_extended=app_config.next_cooldown_extra_extended,
+        )
+        return base_minutes + (total_cooldown_seconds / 60.0)
+    except Exception:
+        return None
+
+
 def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) -> bytes:
     """
     Generiert einen PDF-Bericht, indem zuerst ein HTML-Dokument erstellt
@@ -2068,131 +2118,125 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     duration_html = ''
     if duration_str:
         try:
-            # Determine allowed minutes (prefer values persisted in session_state / snapshot)
-            # 1) If the session state contains an explicit tempo-adjusted value (`effective_allowed`),
-            #    prefer that — it reflects what the user actually had for this session.
-            # 2) Otherwise, fall back to per-question-set config or app config and compute
-            #    the tempo-adjusted value from `tempo_code`.
+            # Determine allowed minutes with cooldowns (prefer live session data)
+            session_limit_minutes = None
             try:
+                ttl_seconds = st.session_state.get("test_time_limit")
+                if ttl_seconds:
+                    session_limit_minutes = max(1, int(round(float(ttl_seconds) / 60.0)))
+            except Exception:
+                session_limit_minutes = None
+            if session_limit_minutes is None:
+                try:
+                    sess_duration_min = st.session_state.get("test_duration_minutes")
+                    if sess_duration_min is not None:
+                        session_limit_minutes = max(1, int(round(float(sess_duration_min))))
+                except Exception:
+                    pass
+
+            sess_effective = None
+            sess_allowed_min = None
+            try:
+                sess_effective = st.session_state.get('effective_allowed')
+            except Exception:
                 sess_effective = None
-                try:
-                    sess_effective = st.session_state.get('effective_allowed')
-                except Exception:
-                    sess_effective = None
-
+            try:
+                sess_allowed_min = st.session_state.get('allowed_min')
+            except Exception:
                 sess_allowed_min = None
+
+            # If the session state didn't include persisted values, try to
+            # load them from the `test_session_summaries` snapshot in the DB.
+            if (sess_effective is None or sess_allowed_min is None) or tempo_code is None:
                 try:
-                    sess_allowed_min = st.session_state.get('allowed_min')
-                except Exception:
-                    sess_allowed_min = None
-
-                # If the session state didn't include persisted values, try to
-                # load them from the `test_session_summaries` snapshot in the DB.
-                # This ensures PDF exports generated later (admin/regeneration)
-                # still show the tempo & effective_allowed exactly as stored.
-                if (sess_effective is None or sess_allowed_min is None):
-                    try:
-                        from database import get_db_connection
-                        conn = get_db_connection()
-                        if conn is not None:
-                            cur = conn.cursor()
-                            # Prefer explicit session_id in session_state
+                    from database import get_db_connection
+                    conn = get_db_connection()
+                    if conn is not None:
+                        cur = conn.cursor()
+                        # Prefer explicit session_id in session_state
+                        sess_id = None
+                        try:
+                            sess_id = st.session_state.get('session_id')
+                        except Exception:
                             sess_id = None
-                            try:
-                                sess_id = st.session_state.get('session_id')
-                            except Exception:
-                                sess_id = None
 
-                            row = None
-                            if sess_id:
-                                cur.execute("SELECT allowed_min, effective_allowed, tempo FROM test_session_summaries WHERE session_id = ?", (int(sess_id),))
+                        row = None
+                        if sess_id:
+                            cur.execute("SELECT allowed_min, effective_allowed, tempo FROM test_session_summaries WHERE session_id = ?", (int(sess_id),))
+                            row = cur.fetchone()
+
+                        # Fallback: try to match by pseudonym + start_time
+                        if row is None:
+                            try:
+                                pseud = st.session_state.get('user_pseudonym') or st.session_state.get('user_id')
+                                start_t = st.session_state.get('test_start_time')
+                            except Exception:
+                                pseud = None
+                                start_t = None
+                            if pseud and start_t:
+                                # match approximate ISO prefix to be robust
+                                start_prefix = str(start_t)[:19]
+                                cur.execute("SELECT allowed_min, effective_allowed, tempo FROM test_session_summaries WHERE user_pseudonym = ? AND start_time LIKE ? ORDER BY start_time DESC LIMIT 1", (pseud, f'{start_prefix}%'))
                                 row = cur.fetchone()
 
-                            # Fallback: try to match by pseudonym + start_time
-                            if row is None:
-                                try:
-                                    pseud = st.session_state.get('user_pseudonym') or st.session_state.get('user_id')
-                                    start_t = st.session_state.get('test_start_time')
-                                except Exception:
-                                    pseud = None
-                                    start_t = None
-                                if pseud and start_t:
-                                    # match approximate ISO prefix to be robust
-                                    start_prefix = str(start_t)[:19]
-                                    cur.execute("SELECT allowed_min, effective_allowed, tempo FROM test_session_summaries WHERE user_pseudonym = ? AND start_time LIKE ? ORDER BY start_time DESC LIMIT 1", (pseud, f'{start_prefix}%'))
-                                    row = cur.fetchone()
+                        if row:
+                            try:
+                                if sess_allowed_min is None and row['allowed_min'] is not None:
+                                    sess_allowed_min = int(row['allowed_min'])
+                            except Exception:
+                                pass
+                            try:
+                                if sess_effective is None and row['effective_allowed'] is not None and str(row['effective_allowed']).strip():
+                                    sess_effective = int(row['effective_allowed'])
+                            except Exception:
+                                pass
+                            try:
+                                # If we didn't have a tempo_code from session_state,
+                                # prefer the stored tempo from the snapshot.
+                                if not tempo_code and row['tempo']:
+                                    tempo_code = row['tempo']
+                            except Exception:
+                                pass
+                except Exception:
+                    # ignore DB lookup failures (best-effort)
+                    pass
 
-                            if row:
-                                try:
-                                    if sess_allowed_min is None and row['allowed_min'] is not None:
-                                        sess_allowed_min = int(row['allowed_min'])
-                                except Exception:
-                                    pass
-                                try:
-                                    if sess_effective is None and row['effective_allowed'] is not None and str(row['effective_allowed']).strip():
-                                        sess_effective = int(row['effective_allowed'])
-                                except Exception:
-                                    pass
-                                try:
-                                    # If we didn't have a tempo_code from session_state,
-                                    # prefer the stored tempo from the snapshot.
-                                    if not tempo_code and row['tempo']:
-                                        tempo_code = row['tempo']
-                                except Exception:
-                                    pass
-                    except Exception:
-                        # ignore DB lookup failures (best-effort)
-                        pass
+            question_set_obj = question_set if 'question_set' in locals() else None
+            cooldown_total_minutes = _cooldown_adjusted_total_minutes(questions, app_config, question_set_obj)
 
-                # Base allowed_min: prefer snapshot/session value, then question_set, then app_config
-                if sess_allowed_min is not None:
-                    allowed_min = sess_allowed_min
-                else:
-                    try:
-                        if 'question_set' in locals() and question_set:
-                            allowed_min = question_set.get_test_duration_minutes(app_config.test_duration_minutes)
-                        else:
-                            allowed_min = getattr(app_config, "test_duration_minutes", None)
-                    except Exception:
+            # Base allowed_min: prefer cooldown-aware computation, then snapshot/session value, then question_set, then app_config
+            if cooldown_total_minutes is not None:
+                allowed_min = int(max(1, round(cooldown_total_minutes)))
+            elif sess_allowed_min is not None:
+                allowed_min = sess_allowed_min
+            else:
+                try:
+                    if question_set_obj:
+                        allowed_min = question_set_obj.get_test_duration_minutes(app_config.test_duration_minutes)
+                    else:
                         allowed_min = getattr(app_config, "test_duration_minutes", None)
-
-                # If an explicit effective value was stored for the session, use it as display_allowed
-                display_allowed = None
-                if sess_effective is not None:
-                    try:
-                        display_allowed = int(sess_effective)
-                    except Exception:
-                        display_allowed = sess_effective
-
-                # Compute effective_allowed from configured allowed_min and tempo if we don't have a session value
-                tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
-                factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
-                try:
-                    effective_allowed = int(allowed_min * factor) if allowed_min is not None else None
-                    if effective_allowed is not None:
-                        effective_allowed = max(1, effective_allowed)
                 except Exception:
-                    effective_allowed = allowed_min
-
-                # If no explicit session display_allowed, prefer computed effective_allowed
-                if display_allowed is None:
-                    display_allowed = effective_allowed if effective_allowed is not None else allowed_min
-
-            except Exception:
-                # Best-effort fallback
-                try:
                     allowed_min = getattr(app_config, "test_duration_minutes", None)
-                except Exception:
-                    allowed_min = None
-                tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
-                factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
+
+            tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
+            factor = tempo_factor_map.get(tempo_code or 'normal', 1.0)
+
+            # If an explicit effective value was stored for the session, use it as display_allowed
+            display_allowed = None
+            if session_limit_minutes is not None:
+                display_allowed = session_limit_minutes
+            elif cooldown_total_minutes is not None:
+                display_allowed = int(max(1, round(cooldown_total_minutes * factor)))
+            elif sess_effective is not None:
                 try:
-                    effective_allowed = int(allowed_min * factor) if allowed_min is not None else None
-                    if effective_allowed is not None:
-                        effective_allowed = max(1, effective_allowed)
+                    display_allowed = int(sess_effective)
                 except Exception:
-                    effective_allowed = allowed_min
-                display_allowed = effective_allowed if effective_allowed is not None else allowed_min
+                    display_allowed = sess_effective
+            elif allowed_min is not None:
+                try:
+                    display_allowed = int(max(1, round(float(allowed_min) * factor)))
+                except Exception:
+                    display_allowed = allowed_min
 
             duration_html = f'<span><strong>{translate_ui("pdf.meta.duration", default="Dauer:")}</strong> {duration_str}'
 
