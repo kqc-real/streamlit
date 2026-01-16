@@ -219,6 +219,7 @@ def _compute_recommended_duration_minutes(
             minutes_for_question = per_question
         else:
             minutes_for_question = default_weight_minutes.get(gewichtung, 2.5)
+            minutes_for_question = default_weight_minutes.get(gewichtung, 0.75)
         total_minutes += minutes_for_question
 
     total_minutes += buffer_minutes
