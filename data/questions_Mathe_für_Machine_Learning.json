@@ -15,7 +15,8 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 3,
-    "test_duration_minutes": 26
+    "test_duration_minutes": 26,
+    "language": "de"
   },
   "questions": [
     {
@@ -34,7 +35,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Dimension", "definition": "Größe einer Matrix (Zeilen x Spalten)." }
+        {
+          "term": "Dimension",
+          "definition": "Größe einer Matrix (Zeilen x Spalten)."
+        }
       ]
     },
     {
@@ -53,7 +57,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Gradient", "definition": "Vektor der partiellen Ableitungen erster Ordnung." }
+        {
+          "term": "Gradient",
+          "definition": "Vektor der partiellen Ableitungen erster Ordnung."
+        }
       ]
     },
     {
@@ -80,7 +87,10 @@
         "content": "Dies ist entscheidend für die Analyse von Kostenfunktionen und deren Minima."
       },
       "mini_glossary": [
-        { "term": "Eigenwert", "definition": "Skalar $\\lambda$, für den $Av = \\lambda v$ gilt." }
+        {
+          "term": "Eigenwert",
+          "definition": "Skalar $\\lambda$, für den $Av = \\lambda v$ gilt."
+        }
       ]
     },
     {
@@ -99,7 +109,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "L2-Norm", "definition": "Euklidische Länge eines Vektors." }
+        {
+          "term": "L2-Norm",
+          "definition": "Euklidische Länge eines Vektors."
+        }
       ]
     },
     {
@@ -126,7 +139,10 @@
         "content": "Im Machine Learning ist dies der Grundbaustein für Backpropagation."
       },
       "mini_glossary": [
-        { "term": "Partielle Ableitung", "definition": "Ableitung einer Funktion mehrerer Variablen nach einer einzigen Variablen." }
+        {
+          "term": "Partielle Ableitung",
+          "definition": "Ableitung einer Funktion mehrerer Variablen nach einer einzigen Variablen."
+        }
       ]
     },
     {
@@ -154,7 +170,10 @@
         "content": "Dies ist der mathematische Kern der Principal Component Analysis (PCA)."
       },
       "mini_glossary": [
-        { "term": "PCA", "definition": "Hauptkomponentenanalyse; Verfahren zur Dimensionsreduktion." }
+        {
+          "term": "PCA",
+          "definition": "Hauptkomponentenanalyse; Verfahren zur Dimensionsreduktion."
+        }
       ]
     },
     {
@@ -173,8 +192,14 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Posterior", "definition": "Wahrscheinlichkeit nach Berücksichtigung neuer Daten ($P(A|B)$)." },
-        { "term": "Prior", "definition": "Vorwissen/A-priori-Wahrscheinlichkeit ($P(A)$)." }
+        {
+          "term": "Posterior",
+          "definition": "Wahrscheinlichkeit nach Berücksichtigung neuer Daten ($P(A|B)$)."
+        },
+        {
+          "term": "Prior",
+          "definition": "Vorwissen/A-priori-Wahrscheinlichkeit ($P(A)$)."
+        }
       ]
     },
     {
@@ -202,7 +227,10 @@
         "content": "Orthogonalität ist wichtig für unkorrelierte Features und Basiswechsel."
       },
       "mini_glossary": [
-        { "term": "Skalarprodukt", "definition": "Inneres Produkt zweier Vektoren, ergibt eine Zahl." }
+        {
+          "term": "Skalarprodukt",
+          "definition": "Inneres Produkt zweier Vektoren, ergibt eine Zahl."
+        }
       ]
     },
     {
@@ -228,7 +256,10 @@
         "content": "Dies ist die Basisoperation in jedem Neural Network Layer ($W \\cdot x$)."
       },
       "mini_glossary": [
-        { "term": "Dot Product", "definition": "Skalarprodukt von Zeilenvektor und Spaltenvektor." }
+        {
+          "term": "Dot Product",
+          "definition": "Skalarprodukt von Zeilenvektor und Spaltenvektor."
+        }
       ]
     },
     {
@@ -257,7 +288,10 @@
         "content": "In hochdimensionalen Räumen (Deep Learning) sind Sattelpunkte ein größeres Problem als lokale Minima."
       },
       "mini_glossary": [
-        { "term": "Hesse-Matrix", "definition": "Matrix der zweiten partiellen Ableitungen." }
+        {
+          "term": "Hesse-Matrix",
+          "definition": "Matrix der zweiten partiellen Ableitungen."
+        }
       ]
     },
     {
@@ -285,7 +319,10 @@
         "content": "Der Erwartungswert ist das theoretische Mittel einer Zufallsvariablen."
       },
       "mini_glossary": [
-        { "term": "Erwartungswert", "definition": "Mittelwert einer Zufallsvariablen gewichtet nach Wahrscheinlichkeit." }
+        {
+          "term": "Erwartungswert",
+          "definition": "Mittelwert einer Zufallsvariablen gewichtet nach Wahrscheinlichkeit."
+        }
       ]
     },
     {
@@ -304,7 +341,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Lineare Unabhängigkeit", "definition": "Ein Vektor lässt sich nicht als Linearkombination der anderen darstellen." }
+        {
+          "term": "Lineare Unabhängigkeit",
+          "definition": "Ein Vektor lässt sich nicht als Linearkombination der anderen darstellen."
+        }
       ]
     },
     {
@@ -323,7 +363,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Kovarianz", "definition": "Maß für den gemeinsamen linearen Zusammenhang zweier Variablen." }
+        {
+          "term": "Kovarianz",
+          "definition": "Maß für den gemeinsamen linearen Zusammenhang zweier Variablen."
+        }
       ]
     },
     {
@@ -351,7 +394,10 @@
         "content": "Standardpraxis bei Maximum Likelihood Estimation (MLE) und Cross-Entropy Loss."
       },
       "mini_glossary": [
-        { "term": "Underflow", "definition": "Zahl ist zu klein, um im Computer präzise dargestellt zu werden, wird zu 0." }
+        {
+          "term": "Underflow",
+          "definition": "Zahl ist zu klein, um im Computer präzise dargestellt zu werden, wird zu 0."
+        }
       ]
     },
     {
@@ -377,7 +423,10 @@
         "content": "Der häufigste Fehler in Python-ML-Code ist die Verwechslung dieser beiden Operationen."
       },
       "mini_glossary": [
-        { "term": "Broadcasting", "definition": "NumPy-Mechanismus, um Arrays unterschiedlicher Größe elementweise zu verknüpfen." }
+        {
+          "term": "Broadcasting",
+          "definition": "NumPy-Mechanismus, um Arrays unterschiedlicher Größe elementweise zu verknüpfen."
+        }
       ]
     },
     {
@@ -396,7 +445,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Trace", "definition": "Summe der Diagonalelemente." }
+        {
+          "term": "Trace",
+          "definition": "Summe der Diagonalelemente."
+        }
       ]
     },
     {
@@ -424,7 +476,10 @@
         "content": "Lineare Regression und SVMs basieren auf konvexen Optimierungsproblemen."
       },
       "mini_glossary": [
-        { "term": "Globales Minimum", "definition": "Tiefster Punkt der gesamten Funktion, nicht nur einer Umgebung." }
+        {
+          "term": "Globales Minimum",
+          "definition": "Tiefster Punkt der gesamten Funktion, nicht nur einer Umgebung."
+        }
       ]
     },
     {
@@ -443,7 +498,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Singulär", "definition": "Nicht invertierbare Matrix ($\\det = 0$)." }
+        {
+          "term": "Singulär",
+          "definition": "Nicht invertierbare Matrix ($\\det = 0$)."
+        }
       ]
     },
     {
@@ -471,7 +529,10 @@
         "content": "Die Methode der kleinsten Quadrate (Least Squares) ist ein Spezialfall von MLE unter Annahme normalverteilter Fehler."
       },
       "mini_glossary": [
-        { "term": "Likelihood", "definition": "Wahrscheinlichkeit der Daten als Funktion der Parameter." }
+        {
+          "term": "Likelihood",
+          "definition": "Wahrscheinlichkeit der Daten als Funktion der Parameter."
+        }
       ]
     },
     {
@@ -490,7 +551,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Lineare Abbildung", "definition": "Funktion zwischen Vektorräumen, die Addition und Skalarmultiplikation erhält." }
+        {
+          "term": "Lineare Abbildung",
+          "definition": "Funktion zwischen Vektorräumen, die Addition und Skalarmultiplikation erhält."
+        }
       ]
     },
     {
@@ -518,7 +582,10 @@
         "content": "Ohne die Kettenregel könnten wir keine tiefen Netze trainieren."
       },
       "mini_glossary": [
-        { "term": "Backpropagation", "definition": "Algorithmus zur effizienten Berechnung von Gradienten in Graphen/Netzen." }
+        {
+          "term": "Backpropagation",
+          "definition": "Algorithmus zur effizienten Berechnung von Gradienten in Graphen/Netzen."
+        }
       ]
     },
     {
@@ -546,7 +613,10 @@
         "content": "L1 erzeugt 'Sparsity' (dünnbesetzte Vektoren), L2 verhindert nur extrem große Werte."
       },
       "mini_glossary": [
-        { "term": "Sparsity", "definition": "Eigenschaft, dass viele Einträge eines Vektors null sind." }
+        {
+          "term": "Sparsity",
+          "definition": "Eigenschaft, dass viele Einträge eines Vektors null sind."
+        }
       ]
     },
     {
@@ -573,7 +643,10 @@
         "content": "Dies ist relevant beim Verständnis von Permutationsmatrizen."
       },
       "mini_glossary": [
-        { "term": "Permutation", "definition": "Vertauschung von Elementen/Reihenfolgen." }
+        {
+          "term": "Permutation",
+          "definition": "Vertauschung von Elementen/Reihenfolgen."
+        }
       ]
     },
     {
@@ -601,7 +674,10 @@
         "content": "Mathematische Definitionen schließen triviale Fälle oft aus, um Eindeutigkeit zu wahren."
       },
       "mini_glossary": [
-        { "term": "Trivial", "definition": "Offensichtlich, einfach, oder ohne Informationsgehalt (wie die Lösung x=0)." }
+        {
+          "term": "Trivial",
+          "definition": "Offensichtlich, einfach, oder ohne Informationsgehalt (wie die Lösung x=0)."
+        }
       ]
     },
     {
@@ -620,7 +696,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Inverse Matrix", "definition": "Matrix $A^{-1}$, für die gilt $A A^{-1} = I$." }
+        {
+          "term": "Inverse Matrix",
+          "definition": "Matrix $A^{-1}$, für die gilt $A A^{-1} = I$."
+        }
       ]
     },
     {
@@ -649,7 +728,10 @@
         "content": "Newton-Verfahren nutzt zusätzlich die Approximation zweiter Ordnung (Hesse-Matrix)."
       },
       "mini_glossary": [
-        { "term": "Linearisierung", "definition": "Annäherung einer nicht-linearen Funktion durch eine lineare Funktion." }
+        {
+          "term": "Linearisierung",
+          "definition": "Annäherung einer nicht-linearen Funktion durch eine lineare Funktion."
+        }
       ]
     },
     {
@@ -677,8 +759,14 @@
         "content": "Dies ist der erste Schritt der PCA."
       },
       "mini_glossary": [
-        { "term": "Sample", "definition": "Ein Datenpunkt/Beobachtung (Zeile)." },
-        { "term": "Feature", "definition": "Merkmal/Eigenschaft (Spalte)." }
+        {
+          "term": "Sample",
+          "definition": "Ein Datenpunkt/Beobachtung (Zeile)."
+        },
+        {
+          "term": "Feature",
+          "definition": "Merkmal/Eigenschaft (Spalte)."
+        }
       ]
     },
     {
@@ -706,7 +794,10 @@
         "content": "Grundlage für Support Vector Machines (SVM) und viele Regularisierungsverfahren."
       },
       "mini_glossary": [
-        { "term": "Constraint", "definition": "Einschränkung/Nebenbedingung, die die Lösung erfüllen muss." }
+        {
+          "term": "Constraint",
+          "definition": "Einschränkung/Nebenbedingung, die die Lösung erfüllen muss."
+        }
       ]
     },
     {
@@ -734,7 +825,10 @@
         "content": "Broadcasting in Python erlaubt manchmal b als Skalar, aber mathematisch ist es ein Vektor."
       },
       "mini_glossary": [
-        { "term": "Bias", "definition": "Verschiebungsparameter (Intercept) in einem linearen Modell." }
+        {
+          "term": "Bias",
+          "definition": "Verschiebungsparameter (Intercept) in einem linearen Modell."
+        }
       ]
     },
     {
@@ -762,7 +856,10 @@
         "content": "Dies führte zur Popularität von ReLU (Rectified Linear Unit), deren Ableitung 1 ist (für x>0)."
       },
       "mini_glossary": [
-        { "term": "Sättigung", "definition": "Bereich einer Funktion, in dem sie sich kaum noch ändert." }
+        {
+          "term": "Sättigung",
+          "definition": "Bereich einer Funktion, in dem sie sich kaum noch ändert."
+        }
       ]
     }
   ]

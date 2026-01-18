@@ -1069,6 +1069,7 @@
             "placeholder": "z. B. \"Mathe\" oder \"Scrum\"",
             "no_results": "Keine Treffer für \"{term}\" – zeige alle Fragensets."
         },
+        "languages_available": "Sprachen der Fragensets: {languages}",
         "section": {
             "header": "🗂️ Set-Auswahl"
         },
@@ -1171,6 +1172,14 @@
         "sidebar_tip": "Tipp: Nutze die Sidebar zur Navigation.",
         "start_test_button": "Test starten",
         "test_intro": "Wähle ein Set und starte, wenn du bereit bist."
+    },
+    "languages": {
+        "de": "deutsch",
+        "en": "englisch",
+        "es": "spanisch",
+        "fr": "französisch",
+        "it": "italienisch",
+        "zh": "chinesisch"
     },
     "warnings": {
         "no_config": "⚠️ **Config fehlt!**\n\nErstelle `.env` oder `.streamlit/secrets.toml`.\n\n**Lokal:**\n1. `cp .env.example .env`\n2. Neustart.\n\nSiehe [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"

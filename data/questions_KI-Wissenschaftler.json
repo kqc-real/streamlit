@@ -1,422 +1,427 @@
-[
-  {
-    "question": "1. Wofür ist Geoffrey Hinton, oft als \"Pate der KI\" bezeichnet, am bekanntesten?",
-    "options": [
-      "Die Erfindung der Programmiersprache Lisp.",
-      "Seine Pionierarbeit bei neuronalen Netzen und Deep Learning, insbesondere bei Backpropagation.",
-      "Die Entwicklung des ersten Schachcomputers Deep Blue.",
-      "Die Formulierung der Theorie der Support Vector Machines."
-    ],
-    "answer": 1,
-    "explanation": "Geoffrey Hinton hat maßgeblich zur Popularisierung des Backpropagation-Algorithmus beigetragen und grundlegende Konzepte für tiefe neuronale Netze entwickelt, was die moderne KI-Revolution einleitete.",
-    "weight": 2,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Anwendung"
+{
+  "meta": {
+    "language": "de"
   },
-  {
-    "question": "2. Welchen entscheidenden Beitrag leistete Yann LeCun zur Bilderkennung?",
-    "options": [
-      "Die Entwicklung des K-Means-Clustering-Algorithmus.",
-      "Die Erfindung der Convolutional Neural Networks (CNNs).",
-      "Die Schaffung des ImageNet-Datensatzes.",
-      "Die Entwicklung des PageRank-Algorithmus."
-    ],
-    "answer": 1,
-    "explanation": "Yann LeCun ist der Erfinder der Convolutional Neural Networks (CNNs), einer Architektur, die die Bilderkennung revolutionierte, indem sie lernbare Filter zur Merkmalsextraktion einsetzt. Sein LeNet-5 war ein früher Meilenstein.",
-    "weight": 2,
-    "topic": "Deep Learning",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "3. Welches Forschungsgebiet hat Yoshua Bengio maßgeblich mitgeprägt?",
-    "options": [
-      "Symbolische KI und Expertensysteme.",
-      "Probabilistische grafische Modelle und neuronale Sprachmodelle.",
-      "Robotik und autonome Fahrzeuge.",
-      "Quantencomputing."
-    ],
-    "answer": 1,
-    "explanation": "Yoshua Bengio, einer der drei \"Paten der KI\", leistete fundamentale Beiträge zu Deep-Learning-Techniken, insbesondere im Bereich der Verarbeitung natürlicher Sprache (NLP) durch die Entwicklung von neuronalen Sprachmodellen und Aufmerksamkeitsmechanismen.",
-    "weight": 2,
-    "topic": "Deep Learning",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "4. Was ist der \"Turing-Test\", den Alan Turing vorschlug?",
-    "options": [
-      "Ein Test zur Messung der Rechengeschwindigkeit eines Computers.",
-      "Ein Test, bei dem ein Mensch beurteilt, ob sein Gesprächspartner ein Mensch oder eine Maschine ist.",
-      "Ein mathematisches Verfahren zur Lösung des Halteproblems.",
-      "Ein Test zur Überprüfung der Sicherheit von Verschlüsselungsalgorithmen."
-    ],
-    "answer": 1,
-    "explanation": "Der Turing-Test ist ein Vorschlag zur Bestimmung, ob eine Maschine ein dem Menschen gleichwertiges Denkvermögen aufweist. Eine KI besteht den Test, wenn ein menschlicher Fragesteller nicht zuverlässig entscheiden kann, ob die Antworten von einem Menschen oder einer Maschine stammen.",
-    "weight": 1,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Reproduktion"
-  },
-  {
-    "question": "5. Wer prägte den Begriff 'Künstliche Intelligenz' und organisierte die Dartmouth Conference 1956?",
-    "options": [
-      "Alan Turing",
-      "Claude Shannon",
-      "John McCarthy",
-      "Marvin Minsky"
-    ],
-    "answer": 2,
-    "explanation": "John McCarthy prägte 1955 den Begriff \"Artificial Intelligence\" und war einer der Hauptorganisatoren der Dartmouth Conference, die als Geburtsstunde der KI als eigenständiges Forschungsfeld gilt. Er erfand auch die Programmiersprache Lisp.",
-    "weight": 2,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "6. Welches Konzept ist untrennbar mit dem Namen Marvin Minsky verbunden?",
-    "options": [
-      "Die Theorie der \"Gesellschaft des Geistes\" (Society of Mind).",
-      "Die Entwicklung des World Wide Web.",
-      "Die Entdeckung der DNA-Struktur.",
-      "Die Erfindung der relationalen Datenbank."
-    ],
-    "answer": 0,
-    "explanation": "Marvin Minsky, Mitbegründer des MIT AI Lab, schlug in seinem Buch \"The Society of Mind\" vor, dass Intelligenz nicht aus einem einzigen Prinzip, sondern aus der Interaktion vieler einfacher, nicht-intelligenter Agenten entsteht.",
-    "weight": 3,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "7. Wofür ist Fei-Fei Li, eine führende KI-Forscherin, besonders bekannt?",
-    "options": [
-      "Die Entwicklung des AlphaGo-Algorithmus.",
-      "Ihre Arbeit an autonomen Drohnen.",
-      "Die Schaffung des ImageNet-Datensatzes und der zugehörigen Challenge.",
-      "Die Erfindung der Programmiersprache Python."
-    ],
-    "answer": 2,
-    "explanation": "Fei-Fei Li war die treibende Kraft hinter ImageNet, einem riesigen, gelabelten Bilddatensatz. Die jährliche ImageNet-Challenge beschleunigte die Entwicklung von Deep-Learning-Modellen für die Bilderkennung dramatisch.",
-    "weight": 2,
-    "topic": "Deep Learning",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "8. Welchen Beitrag leistete Ian Goodfellow zur KI-Forschung?",
-    "options": [
-      "Die Entwicklung von Reinforcement Learning.",
-      "Die Erfindung der Generative Adversarial Networks (GANs).",
-      "Die Formulierung der Support Vector Machines.",
-      "Die Schaffung des TensorFlow-Frameworks."
-    ],
-    "answer": 1,
-    "explanation": "Ian Goodfellow ist der Erfinder der Generative Adversarial Networks (GANs). Dieses Konzept, bei dem zwei neuronale Netze (ein Generator und ein Diskriminator) gegeneinander antreten, hat die Erzeugung realistischer Bilder, Töne und Texte revolutioniert.",
-    "weight": 3,
-    "topic": "Deep Learning",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "9. Wer gilt als einer der Väter des Reinforcement Learning und ist Co-Autor des Standardwerks 'Reinforcement Learning: An Introduction'?",
-    "options": [
-      "Andrew Ng",
-      "Richard Sutton",
-      "Jürgen Schmidhuber",
-      "Demis Hassabis"
-    ],
-    "answer": 1,
-    "explanation": "Richard Sutton ist eine Schlüsselfigur in der Entwicklung des Reinforcement Learning. Sein Buch, gemeinsam mit Andrew Barto verfasst, ist das grundlegende Lehrbuch in diesem Bereich und hat Generationen von Forschern geprägt.",
-    "weight": 2,
-    "topic": "Reinforcement Learning",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "10. Welches Unternehmen wurde von Demis Hassabis mitgegründet und später von Google übernommen?",
-    "options": [
-      "OpenAI",
-      "Boston Dynamics",
-      "DeepMind",
-      "NVIDIA"
-    ],
-    "answer": 2,
-    "explanation": "Demis Hassabis ist Mitbegründer von DeepMind, einem britischen KI-Unternehmen, das für die Entwicklung von AlphaGo bekannt ist. DeepMind wurde 2014 von Google akquiriert und ist heute eine führende Forschungseinrichtung im Bereich KI.",
-    "weight": 2,
-    "topic": "Reinforcement Learning",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "11. Wofür ist Andrej Karpathy bekannt, insbesondere aus seiner Zeit bei Tesla?",
-    "options": [
-      "Für die Entwicklung von Sprachassistenten.",
-      "Als Director of AI, der die Entwicklung des Autopiloten auf Basis von Computer Vision leitete.",
-      "Für die Erforschung von Quanten-KI-Algorithmen.",
-      "Für die Gestaltung der Benutzeroberfläche von Tesla-Fahrzeugen."
-    ],
-    "answer": 1,
-    "explanation": "Andrej Karpathy war als Director of AI bei Tesla maßgeblich für die Entwicklung der Computer-Vision-Systeme verantwortlich, die dem Autopiloten zugrunde liegen. Seine Arbeit konzentrierte sich auf die Verarbeitung von Kameradaten durch neuronale Netze.",
-    "weight": 2,
-    "topic": "Anwendungen der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "12. Welcher Forscher und sein Team entwickelten 2012 das neuronale Netz 'AlexNet', das die ImageNet-Challenge gewann und die Deep-Learning-Revolution auslöste?",
-    "options": [
-      "Yann LeCun",
-      "Yoshua Bengio",
-      "Alex Krizhevsky",
-      "Jürgen Schmidhuber"
-    ],
-    "answer": 2,
-    "explanation": "Alex Krizhevsky, zusammen mit Ilya Sutskever und Geoffrey Hinton, entwickelte AlexNet. Der bahnbrechende Sieg bei der ImageNet-Challenge 2012 mit einem tiefen Faltungsnetzwerk (CNN) gilt als Wendepunkt, der Deep Learning ins Rampenlicht rückte.",
-    "weight": 3,
-    "topic": "Deep Learning",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "13. Wer gilt als Erfinder des Perzeptrons, eines der ersten Modelle eines künstlichen neuronalen Netzes?",
-    "options": [
-      "Frank Rosenblatt",
-      "Marvin Minsky",
-      "John von Neumann",
-      "Norbert Wiener"
-    ],
-    "answer": 0,
-    "explanation": "Frank Rosenblatt entwickelte 1957 das Perzeptron, einen Algorithmus für die überwachte Klassifizierung. Es war eines der ersten künstlichen neuronalen Netze und legte den Grundstein für die spätere Forschung in diesem Bereich.",
-    "weight": 3,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "14. Welcher Informatiker ist für seine grundlegenden Arbeiten zu Bayes'schen Netzen und kausaler Inferenz bekannt?",
-    "options": [
-      "Geoffrey Hinton",
-      "Judea Pearl",
-      "Sebastian Thrun",
-      "Andrew Ng"
-    ],
-    "answer": 1,
-    "explanation": "Judea Pearl, ein Turing-Preisträger, revolutionierte die KI durch die Entwicklung probabilistischer Ansätze, insbesondere durch Bayes'sche Netze. Seine Arbeit ermöglichte es, mit Unsicherheit umzugehen und kausale Zusammenhänge zu modellieren.",
-    "weight": 3,
-    "topic": "Probabilistische KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "15. Wer war eine treibende Kraft hinter dem selbstfahrenden Auto \"Stanley\", das 2005 die DARPA Grand Challenge gewann?",
-    "options": [
-      "Elon Musk",
-      "Andrej Karpathy",
-      "Sebastian Thrun",
-      "Yann LeCun"
-    ],
-    "answer": 2,
-    "explanation": "Sebastian Thrun leitete das Team der Stanford University, das mit dem Roboterauto \"Stanley\" die DARPA Grand Challenge gewann. Später gründete er Google X, wo das Projekt für selbstfahrende Autos (heute Waymo) gestartet wurde.",
-    "weight": 2,
-    "topic": "Anwendungen der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "16. Wer ist Mitbegründer von Coursera und bekannt für seine Online-Kurse, die Millionen von Menschen in KI und Machine Learning eingeführt haben?",
-    "options": [
-      "Fei-Fei Li",
-      "Andrew Ng",
-      "Jeff Dean",
-      "Ian Goodfellow"
-    ],
-    "answer": 1,
-    "explanation": "Andrew Ng ist nicht nur ein führender KI-Forscher, sondern auch ein herausragender Pädagoge. Seine Online-Kurse auf Plattformen wie Coursera haben maßgeblich zur Demokratisierung des Wissens über maschinelles Lernen beigetragen.",
-    "weight": 1,
-    "topic": "KI-Bildung",
-    "cognitive_level": "Reproduktion"
-  },
-  {
-    "question": "17. Welcher Forscher ist für seine frühen und einflussreichen Arbeiten an Long Short-Term Memory (LSTM) Netzwerken bekannt?",
-    "options": [
-      "Jürgen Schmidhuber",
-      "Yoshua Bengio",
-      "Geoffrey Hinton",
-      "Yann LeCun"
-    ],
-    "answer": 0,
-    "explanation": "Jürgen Schmidhuber und sein Student Sepp Hochreiter entwickelten 1997 die LSTM-Architektur. LSTMs sind eine spezielle Art von rekurrierenden neuronalen Netzen (RNNs), die das 'Vanishing Gradient'-Problem lösen und für die Verarbeitung langer Sequenzen entscheidend sind.",
-    "weight": 3,
-    "topic": "Deep Learning",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "18. Wer war der Schöpfer von \"ELIZA\", einem der ersten Chatbots, der eine Konversation simulierte?",
-    "options": [
-      "Joseph Weizenbaum",
-      "John McCarthy",
-      "Alan Turing",
-      "Noam Chomsky"
-    ],
-    "answer": 0,
-    "explanation": "Joseph Weizenbaum entwickelte in den 1960er Jahren \"ELIZA\". Das Programm simulierte eine Psychotherapeutin, indem es einfache Mustererkennung und Umformulierungen nutzte. Es gilt als ein früher Meilenstein in der Verarbeitung natürlicher Sprache.",
-    "weight": 2,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "19. Wer gilt als \"Vater der Informationstheorie\" und legte damit die mathematischen Grundlagen für die digitale Kommunikation und Datenkompression?",
-    "options": [
-      "John von Neumann",
-      "Alan Turing",
-      "Claude Shannon",
-      "Norbert Wiener"
-    ],
-    "answer": 2,
-    "explanation": "Claude Shannons bahnbrechende Arbeit \"A Mathematical Theory of Communication\" (1948) begründete die Informationstheorie. Er definierte das \"Bit\" als Grundeinheit der Information und schuf die theoretische Basis für die gesamte digitale Welt.",
-    "weight": 2,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "20. Welcher Nobelpreisträger und KI-Pionier entwickelte zusammen mit Allen Newell den \"Logic Theorist\", das erste Programm, das zur Nachahmung menschlicher Problemlösungsfähigkeiten entwickelt wurde?",
-    "options": [
-      "John Nash",
-      "Daniel Kahneman",
-      "Herbert A. Simon",
-      "Max Planck"
-    ],
-    "answer": 2,
-    "explanation": "Herbert A. Simon, ein Ökonom und Kognitionswissenschaftler, war zusammen mit Allen Newell eine Schlüsselfigur der frühen KI. Ihr Programm \"Logic Theorist\" (1956) konnte mathematische Theoreme beweisen und gilt als eines der ersten Programme der künstlichen Intelligenz.",
-    "weight": 3,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "21. Wer ist der leitende Wissenschaftler bei OpenAI und war maßgeblich an der Entwicklung von Modellen wie GPT-3 und DALL-E beteiligt?",
-    "options": [
-      "Andrej Karpathy",
-      "Ian Goodfellow",
-      "Ilya Sutskever",
-      "Jeff Dean"
-    ],
-    "answer": 2,
-    "explanation": "Ilya Sutskever, ein Schüler von Geoffrey Hinton und Mitentwickler von AlexNet, ist Mitbegründer und Chefwissenschaftler von OpenAI. Er hat die Forschung geleitet, die zu den bahnbrechenden großen Sprach- und Bildmodellen des Unternehmens führte.",
-    "weight": 2,
-    "topic": "Deep Learning",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "22. Welcher Forscher von DeepMind war der leitende Entwickler von \"AlphaGo\", dem Programm, das den Go-Weltmeister Lee Sedol besiegte?",
-    "options": [
-      "David Silver",
-      "Richard Sutton",
-      "Demis Hassabis",
-      "Shane Legg"
-    ],
-    "answer": 0,
-    "explanation": "David Silver war der leitende Forscher des \"AlphaGo\"-Projekts bei DeepMind. Seine Arbeit kombinierte Deep Learning mit Monte-Carlo-Baumsuche und Reinforcement Learning, was zu dem historischen Sieg führte.",
-    "weight": 3,
-    "topic": "Reinforcement Learning",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "23. Wer ist eine Schlüsselfigur bei Google AI, bekannt für seine Arbeit an großen verteilten Systemen wie MapReduce und TensorFlow?",
-    "options": [
-      "Sanjay Ghemawat",
-      "Andrew Ng",
-      "Jeff Dean",
-      "Sergey Brin"
-    ],
-    "answer": 2,
-    "explanation": "Jeff Dean ist eine Legende bei Google und leitet heute Google AI. Er war entscheidend an der Entwicklung von Googles interner Infrastruktur für Big Data (MapReduce, BigTable) und dem Deep-Learning-Framework TensorFlow beteiligt.",
-    "weight": 2,
-    "topic": "Anwendungen der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "24. Welcher Turing-Preisträger ist bekannt für seine Arbeit an der \"Von-Neumann-Architektur\", die die Grundlage moderner Computer bildet, und für seine Beiträge zur Spieltheorie?",
-    "options": [
-      "Alan Turing",
-      "John von Neumann",
-      "Charles Babbage",
-      "Konrad Zuse"
-    ],
-    "answer": 1,
-    "explanation": "John von Neumann war ein Universalgelehrter. Sein Konzept einer Computerarchitektur mit gespeichertem Programm ist die Basis fast aller heutigen Computer. Seine Arbeit in der Spieltheorie hatte ebenfalls großen Einfluss auf die KI und Ökonomie.",
-    "weight": 2,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Anwendung"
-  },
-  {
-    "question": "25. Wer ist ein führender Forscher im Bereich des Unsupervised Learning und Autor des einflussreichen Lehrbuchs \"Pattern Recognition and Machine Learning\"?",
-    "options": [
-      "Christopher Bishop",
-      "Michael I. Jordan",
-      "Vladimir Vapnik",
-      "Trevor Hastie"
-    ],
-    "answer": 0,
-    "explanation": "Christopher Bishops Buch \"Pattern Recognition and Machine Learning\" (PRML) ist ein Standardwerk, das eine probabilistische Perspektive auf das maschinelle Lernen bietet und Generationen von Studenten und Forschern geprägt hat.",
-    "weight": 3,
-    "topic": "KI-Bildung",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "26. Welcher Forscher ist eine zentrale Figur in der statistischen Sicht auf das maschinelle Lernen und hat viele einflussreiche Forscher betreut?",
-    "options": [
-      "Yann LeCun",
-      "Michael I. Jordan",
-      "Geoffrey Hinton",
-      "Jürgen Schmidhuber"
-    ],
-    "answer": 1,
-    "explanation": "Michael I. Jordan von der UC Berkeley ist einer der einflussreichsten Forscher an der Schnittstelle von Statistik und maschinellem Lernen. Er hat die probabilistische und statistische Fundierung des Feldes maßgeblich vorangetrieben.",
-    "weight": 3,
-    "topic": "Probabilistische KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "27. Wer entwickelte zusammen mit Jeff Dean das MapReduce-Programmiermodell bei Google?",
-    "options": [
-      "Larry Page",
-      "Sanjay Ghemawat",
-      "Urs Hölzle",
-      "Eric Schmidt"
-    ],
-    "answer": 1,
-    "explanation": "Sanjay Ghemawat und Jeff Dean sind als Duo für viele der grundlegenden Infrastruktur-Systeme bei Google verantwortlich, darunter MapReduce, BigTable, Spanner und TensorFlow. MapReduce war ein entscheidender Schritt für die Verarbeitung massiver Datenmengen.",
-    "weight": 3,
-    "topic": "Anwendungen der KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "28. Welcher Forscher ist bekannt für seine Arbeit an \"Boltzmann-Maschinen\" und \"Hopfield-Netzen\"?",
-    "options": [
-      "Terry Sejnowski",
-      "Marvin Minsky",
-      "Frank Rosenblatt",
-      "Judea Pearl"
-    ],
-    "answer": 0,
-    "explanation": "Terry Sejnowski, zusammen mit Geoffrey Hinton, entwickelte die Boltzmann-Maschine, ein frühes stochastisches rekurrierendes neuronales Netz. Seine Arbeit an der Schnittstelle von Neurowissenschaft und KI ist von großer Bedeutung.",
-    "weight": 3,
-    "topic": "Pioniere der KI",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "29. Wer ist ein aufstrebender Forscher, bekannt für seine Arbeit an Deep Unsupervised Learning und als Professor an der University of Toronto und bei Apple?",
-    "options": [
-      "Ian Goodfellow",
-      "Andrej Karpathy",
-      "Ruslan Salakhutdinov",
-      "Alex Krizhevsky"
-    ],
-    "answer": 2,
-    "explanation": "Ruslan Salakhutdinov ist ein führender Experte für Deep Learning, insbesondere für unüberwachtes Lernen und generative Modelle. Er ist bekannt für seine Arbeit an Deep Belief Networks und leitet heute die KI-Forschung bei Apple.",
-    "weight": 3,
-    "topic": "Deep Learning",
-    "cognitive_level": "Analyse"
-  },
-  {
-    "question": "30. Wer gilt als einer der Väter der \"Support Vector Machines (SVMs)\"?",
-    "options": [
-      "Vladimir Vapnik",
-      "Geoffrey Hinton",
-      "Yann LeCun",
-      "Judea Pearl"
-    ],
-    "answer": 0,
-    "explanation": "Vladimir Vapnik entwickelte zusammen mit Alexey Chervonenkis die Theorie der statistischen Lerntheorie (VC-Theorie) und darauf aufbauend die Support Vector Machines, einen leistungsstarken und theoretisch fundierten Klassifikationsalgorithmus.",
-    "weight": 3,
-    "topic": "Klassische ML-Algorithmen",
-    "cognitive_level": "Analyse"
-  }
-]
+  "questions": [
+    {
+      "question": "1. Wofür ist Geoffrey Hinton, oft als \"Pate der KI\" bezeichnet, am bekanntesten?",
+      "options": [
+        "Die Erfindung der Programmiersprache Lisp.",
+        "Seine Pionierarbeit bei neuronalen Netzen und Deep Learning, insbesondere bei Backpropagation.",
+        "Die Entwicklung des ersten Schachcomputers Deep Blue.",
+        "Die Formulierung der Theorie der Support Vector Machines."
+      ],
+      "answer": 1,
+      "explanation": "Geoffrey Hinton hat maßgeblich zur Popularisierung des Backpropagation-Algorithmus beigetragen und grundlegende Konzepte für tiefe neuronale Netze entwickelt, was die moderne KI-Revolution einleitete.",
+      "weight": 2,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "2. Welchen entscheidenden Beitrag leistete Yann LeCun zur Bilderkennung?",
+      "options": [
+        "Die Entwicklung des K-Means-Clustering-Algorithmus.",
+        "Die Erfindung der Convolutional Neural Networks (CNNs).",
+        "Die Schaffung des ImageNet-Datensatzes.",
+        "Die Entwicklung des PageRank-Algorithmus."
+      ],
+      "answer": 1,
+      "explanation": "Yann LeCun ist der Erfinder der Convolutional Neural Networks (CNNs), einer Architektur, die die Bilderkennung revolutionierte, indem sie lernbare Filter zur Merkmalsextraktion einsetzt. Sein LeNet-5 war ein früher Meilenstein.",
+      "weight": 2,
+      "topic": "Deep Learning",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "3. Welches Forschungsgebiet hat Yoshua Bengio maßgeblich mitgeprägt?",
+      "options": [
+        "Symbolische KI und Expertensysteme.",
+        "Probabilistische grafische Modelle und neuronale Sprachmodelle.",
+        "Robotik und autonome Fahrzeuge.",
+        "Quantencomputing."
+      ],
+      "answer": 1,
+      "explanation": "Yoshua Bengio, einer der drei \"Paten der KI\", leistete fundamentale Beiträge zu Deep-Learning-Techniken, insbesondere im Bereich der Verarbeitung natürlicher Sprache (NLP) durch die Entwicklung von neuronalen Sprachmodellen und Aufmerksamkeitsmechanismen.",
+      "weight": 2,
+      "topic": "Deep Learning",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "4. Was ist der \"Turing-Test\", den Alan Turing vorschlug?",
+      "options": [
+        "Ein Test zur Messung der Rechengeschwindigkeit eines Computers.",
+        "Ein Test, bei dem ein Mensch beurteilt, ob sein Gesprächspartner ein Mensch oder eine Maschine ist.",
+        "Ein mathematisches Verfahren zur Lösung des Halteproblems.",
+        "Ein Test zur Überprüfung der Sicherheit von Verschlüsselungsalgorithmen."
+      ],
+      "answer": 1,
+      "explanation": "Der Turing-Test ist ein Vorschlag zur Bestimmung, ob eine Maschine ein dem Menschen gleichwertiges Denkvermögen aufweist. Eine KI besteht den Test, wenn ein menschlicher Fragesteller nicht zuverlässig entscheiden kann, ob die Antworten von einem Menschen oder einer Maschine stammen.",
+      "weight": 1,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Reproduktion"
+    },
+    {
+      "question": "5. Wer prägte den Begriff 'Künstliche Intelligenz' und organisierte die Dartmouth Conference 1956?",
+      "options": [
+        "Alan Turing",
+        "Claude Shannon",
+        "John McCarthy",
+        "Marvin Minsky"
+      ],
+      "answer": 2,
+      "explanation": "John McCarthy prägte 1955 den Begriff \"Artificial Intelligence\" und war einer der Hauptorganisatoren der Dartmouth Conference, die als Geburtsstunde der KI als eigenständiges Forschungsfeld gilt. Er erfand auch die Programmiersprache Lisp.",
+      "weight": 2,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "6. Welches Konzept ist untrennbar mit dem Namen Marvin Minsky verbunden?",
+      "options": [
+        "Die Theorie der \"Gesellschaft des Geistes\" (Society of Mind).",
+        "Die Entwicklung des World Wide Web.",
+        "Die Entdeckung der DNA-Struktur.",
+        "Die Erfindung der relationalen Datenbank."
+      ],
+      "answer": 0,
+      "explanation": "Marvin Minsky, Mitbegründer des MIT AI Lab, schlug in seinem Buch \"The Society of Mind\" vor, dass Intelligenz nicht aus einem einzigen Prinzip, sondern aus der Interaktion vieler einfacher, nicht-intelligenter Agenten entsteht.",
+      "weight": 3,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "7. Wofür ist Fei-Fei Li, eine führende KI-Forscherin, besonders bekannt?",
+      "options": [
+        "Die Entwicklung des AlphaGo-Algorithmus.",
+        "Ihre Arbeit an autonomen Drohnen.",
+        "Die Schaffung des ImageNet-Datensatzes und der zugehörigen Challenge.",
+        "Die Erfindung der Programmiersprache Python."
+      ],
+      "answer": 2,
+      "explanation": "Fei-Fei Li war die treibende Kraft hinter ImageNet, einem riesigen, gelabelten Bilddatensatz. Die jährliche ImageNet-Challenge beschleunigte die Entwicklung von Deep-Learning-Modellen für die Bilderkennung dramatisch.",
+      "weight": 2,
+      "topic": "Deep Learning",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "8. Welchen Beitrag leistete Ian Goodfellow zur KI-Forschung?",
+      "options": [
+        "Die Entwicklung von Reinforcement Learning.",
+        "Die Erfindung der Generative Adversarial Networks (GANs).",
+        "Die Formulierung der Support Vector Machines.",
+        "Die Schaffung des TensorFlow-Frameworks."
+      ],
+      "answer": 1,
+      "explanation": "Ian Goodfellow ist der Erfinder der Generative Adversarial Networks (GANs). Dieses Konzept, bei dem zwei neuronale Netze (ein Generator und ein Diskriminator) gegeneinander antreten, hat die Erzeugung realistischer Bilder, Töne und Texte revolutioniert.",
+      "weight": 3,
+      "topic": "Deep Learning",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "9. Wer gilt als einer der Väter des Reinforcement Learning und ist Co-Autor des Standardwerks 'Reinforcement Learning: An Introduction'?",
+      "options": [
+        "Andrew Ng",
+        "Richard Sutton",
+        "Jürgen Schmidhuber",
+        "Demis Hassabis"
+      ],
+      "answer": 1,
+      "explanation": "Richard Sutton ist eine Schlüsselfigur in der Entwicklung des Reinforcement Learning. Sein Buch, gemeinsam mit Andrew Barto verfasst, ist das grundlegende Lehrbuch in diesem Bereich und hat Generationen von Forschern geprägt.",
+      "weight": 2,
+      "topic": "Reinforcement Learning",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "10. Welches Unternehmen wurde von Demis Hassabis mitgegründet und später von Google übernommen?",
+      "options": [
+        "OpenAI",
+        "Boston Dynamics",
+        "DeepMind",
+        "NVIDIA"
+      ],
+      "answer": 2,
+      "explanation": "Demis Hassabis ist Mitbegründer von DeepMind, einem britischen KI-Unternehmen, das für die Entwicklung von AlphaGo bekannt ist. DeepMind wurde 2014 von Google akquiriert und ist heute eine führende Forschungseinrichtung im Bereich KI.",
+      "weight": 2,
+      "topic": "Reinforcement Learning",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "11. Wofür ist Andrej Karpathy bekannt, insbesondere aus seiner Zeit bei Tesla?",
+      "options": [
+        "Für die Entwicklung von Sprachassistenten.",
+        "Als Director of AI, der die Entwicklung des Autopiloten auf Basis von Computer Vision leitete.",
+        "Für die Erforschung von Quanten-KI-Algorithmen.",
+        "Für die Gestaltung der Benutzeroberfläche von Tesla-Fahrzeugen."
+      ],
+      "answer": 1,
+      "explanation": "Andrej Karpathy war als Director of AI bei Tesla maßgeblich für die Entwicklung der Computer-Vision-Systeme verantwortlich, die dem Autopiloten zugrunde liegen. Seine Arbeit konzentrierte sich auf die Verarbeitung von Kameradaten durch neuronale Netze.",
+      "weight": 2,
+      "topic": "Anwendungen der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "12. Welcher Forscher und sein Team entwickelten 2012 das neuronale Netz 'AlexNet', das die ImageNet-Challenge gewann und die Deep-Learning-Revolution auslöste?",
+      "options": [
+        "Yann LeCun",
+        "Yoshua Bengio",
+        "Alex Krizhevsky",
+        "Jürgen Schmidhuber"
+      ],
+      "answer": 2,
+      "explanation": "Alex Krizhevsky, zusammen mit Ilya Sutskever und Geoffrey Hinton, entwickelte AlexNet. Der bahnbrechende Sieg bei der ImageNet-Challenge 2012 mit einem tiefen Faltungsnetzwerk (CNN) gilt als Wendepunkt, der Deep Learning ins Rampenlicht rückte.",
+      "weight": 3,
+      "topic": "Deep Learning",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "13. Wer gilt als Erfinder des Perzeptrons, eines der ersten Modelle eines künstlichen neuronalen Netzes?",
+      "options": [
+        "Frank Rosenblatt",
+        "Marvin Minsky",
+        "John von Neumann",
+        "Norbert Wiener"
+      ],
+      "answer": 0,
+      "explanation": "Frank Rosenblatt entwickelte 1957 das Perzeptron, einen Algorithmus für die überwachte Klassifizierung. Es war eines der ersten künstlichen neuronalen Netze und legte den Grundstein für die spätere Forschung in diesem Bereich.",
+      "weight": 3,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "14. Welcher Informatiker ist für seine grundlegenden Arbeiten zu Bayes'schen Netzen und kausaler Inferenz bekannt?",
+      "options": [
+        "Geoffrey Hinton",
+        "Judea Pearl",
+        "Sebastian Thrun",
+        "Andrew Ng"
+      ],
+      "answer": 1,
+      "explanation": "Judea Pearl, ein Turing-Preisträger, revolutionierte die KI durch die Entwicklung probabilistischer Ansätze, insbesondere durch Bayes'sche Netze. Seine Arbeit ermöglichte es, mit Unsicherheit umzugehen und kausale Zusammenhänge zu modellieren.",
+      "weight": 3,
+      "topic": "Probabilistische KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "15. Wer war eine treibende Kraft hinter dem selbstfahrenden Auto \"Stanley\", das 2005 die DARPA Grand Challenge gewann?",
+      "options": [
+        "Elon Musk",
+        "Andrej Karpathy",
+        "Sebastian Thrun",
+        "Yann LeCun"
+      ],
+      "answer": 2,
+      "explanation": "Sebastian Thrun leitete das Team der Stanford University, das mit dem Roboterauto \"Stanley\" die DARPA Grand Challenge gewann. Später gründete er Google X, wo das Projekt für selbstfahrende Autos (heute Waymo) gestartet wurde.",
+      "weight": 2,
+      "topic": "Anwendungen der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "16. Wer ist Mitbegründer von Coursera und bekannt für seine Online-Kurse, die Millionen von Menschen in KI und Machine Learning eingeführt haben?",
+      "options": [
+        "Fei-Fei Li",
+        "Andrew Ng",
+        "Jeff Dean",
+        "Ian Goodfellow"
+      ],
+      "answer": 1,
+      "explanation": "Andrew Ng ist nicht nur ein führender KI-Forscher, sondern auch ein herausragender Pädagoge. Seine Online-Kurse auf Plattformen wie Coursera haben maßgeblich zur Demokratisierung des Wissens über maschinelles Lernen beigetragen.",
+      "weight": 1,
+      "topic": "KI-Bildung",
+      "cognitive_level": "Reproduktion"
+    },
+    {
+      "question": "17. Welcher Forscher ist für seine frühen und einflussreichen Arbeiten an Long Short-Term Memory (LSTM) Netzwerken bekannt?",
+      "options": [
+        "Jürgen Schmidhuber",
+        "Yoshua Bengio",
+        "Geoffrey Hinton",
+        "Yann LeCun"
+      ],
+      "answer": 0,
+      "explanation": "Jürgen Schmidhuber und sein Student Sepp Hochreiter entwickelten 1997 die LSTM-Architektur. LSTMs sind eine spezielle Art von rekurrierenden neuronalen Netzen (RNNs), die das 'Vanishing Gradient'-Problem lösen und für die Verarbeitung langer Sequenzen entscheidend sind.",
+      "weight": 3,
+      "topic": "Deep Learning",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "18. Wer war der Schöpfer von \"ELIZA\", einem der ersten Chatbots, der eine Konversation simulierte?",
+      "options": [
+        "Joseph Weizenbaum",
+        "John McCarthy",
+        "Alan Turing",
+        "Noam Chomsky"
+      ],
+      "answer": 0,
+      "explanation": "Joseph Weizenbaum entwickelte in den 1960er Jahren \"ELIZA\". Das Programm simulierte eine Psychotherapeutin, indem es einfache Mustererkennung und Umformulierungen nutzte. Es gilt als ein früher Meilenstein in der Verarbeitung natürlicher Sprache.",
+      "weight": 2,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "19. Wer gilt als \"Vater der Informationstheorie\" und legte damit die mathematischen Grundlagen für die digitale Kommunikation und Datenkompression?",
+      "options": [
+        "John von Neumann",
+        "Alan Turing",
+        "Claude Shannon",
+        "Norbert Wiener"
+      ],
+      "answer": 2,
+      "explanation": "Claude Shannons bahnbrechende Arbeit \"A Mathematical Theory of Communication\" (1948) begründete die Informationstheorie. Er definierte das \"Bit\" als Grundeinheit der Information und schuf die theoretische Basis für die gesamte digitale Welt.",
+      "weight": 2,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "20. Welcher Nobelpreisträger und KI-Pionier entwickelte zusammen mit Allen Newell den \"Logic Theorist\", das erste Programm, das zur Nachahmung menschlicher Problemlösungsfähigkeiten entwickelt wurde?",
+      "options": [
+        "John Nash",
+        "Daniel Kahneman",
+        "Herbert A. Simon",
+        "Max Planck"
+      ],
+      "answer": 2,
+      "explanation": "Herbert A. Simon, ein Ökonom und Kognitionswissenschaftler, war zusammen mit Allen Newell eine Schlüsselfigur der frühen KI. Ihr Programm \"Logic Theorist\" (1956) konnte mathematische Theoreme beweisen und gilt als eines der ersten Programme der künstlichen Intelligenz.",
+      "weight": 3,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "21. Wer ist der leitende Wissenschaftler bei OpenAI und war maßgeblich an der Entwicklung von Modellen wie GPT-3 und DALL-E beteiligt?",
+      "options": [
+        "Andrej Karpathy",
+        "Ian Goodfellow",
+        "Ilya Sutskever",
+        "Jeff Dean"
+      ],
+      "answer": 2,
+      "explanation": "Ilya Sutskever, ein Schüler von Geoffrey Hinton und Mitentwickler von AlexNet, ist Mitbegründer und Chefwissenschaftler von OpenAI. Er hat die Forschung geleitet, die zu den bahnbrechenden großen Sprach- und Bildmodellen des Unternehmens führte.",
+      "weight": 2,
+      "topic": "Deep Learning",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "22. Welcher Forscher von DeepMind war der leitende Entwickler von \"AlphaGo\", dem Programm, das den Go-Weltmeister Lee Sedol besiegte?",
+      "options": [
+        "David Silver",
+        "Richard Sutton",
+        "Demis Hassabis",
+        "Shane Legg"
+      ],
+      "answer": 0,
+      "explanation": "David Silver war der leitende Forscher des \"AlphaGo\"-Projekts bei DeepMind. Seine Arbeit kombinierte Deep Learning mit Monte-Carlo-Baumsuche und Reinforcement Learning, was zu dem historischen Sieg führte.",
+      "weight": 3,
+      "topic": "Reinforcement Learning",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "23. Wer ist eine Schlüsselfigur bei Google AI, bekannt für seine Arbeit an großen verteilten Systemen wie MapReduce und TensorFlow?",
+      "options": [
+        "Sanjay Ghemawat",
+        "Andrew Ng",
+        "Jeff Dean",
+        "Sergey Brin"
+      ],
+      "answer": 2,
+      "explanation": "Jeff Dean ist eine Legende bei Google und leitet heute Google AI. Er war entscheidend an der Entwicklung von Googles interner Infrastruktur für Big Data (MapReduce, BigTable) und dem Deep-Learning-Framework TensorFlow beteiligt.",
+      "weight": 2,
+      "topic": "Anwendungen der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "24. Welcher Turing-Preisträger ist bekannt für seine Arbeit an der \"Von-Neumann-Architektur\", die die Grundlage moderner Computer bildet, und für seine Beiträge zur Spieltheorie?",
+      "options": [
+        "Alan Turing",
+        "John von Neumann",
+        "Charles Babbage",
+        "Konrad Zuse"
+      ],
+      "answer": 1,
+      "explanation": "John von Neumann war ein Universalgelehrter. Sein Konzept einer Computerarchitektur mit gespeichertem Programm ist die Basis fast aller heutigen Computer. Seine Arbeit in der Spieltheorie hatte ebenfalls großen Einfluss auf die KI und Ökonomie.",
+      "weight": 2,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Anwendung"
+    },
+    {
+      "question": "25. Wer ist ein führender Forscher im Bereich des Unsupervised Learning und Autor des einflussreichen Lehrbuchs \"Pattern Recognition and Machine Learning\"?",
+      "options": [
+        "Christopher Bishop",
+        "Michael I. Jordan",
+        "Vladimir Vapnik",
+        "Trevor Hastie"
+      ],
+      "answer": 0,
+      "explanation": "Christopher Bishops Buch \"Pattern Recognition and Machine Learning\" (PRML) ist ein Standardwerk, das eine probabilistische Perspektive auf das maschinelle Lernen bietet und Generationen von Studenten und Forschern geprägt hat.",
+      "weight": 3,
+      "topic": "KI-Bildung",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "26. Welcher Forscher ist eine zentrale Figur in der statistischen Sicht auf das maschinelle Lernen und hat viele einflussreiche Forscher betreut?",
+      "options": [
+        "Yann LeCun",
+        "Michael I. Jordan",
+        "Geoffrey Hinton",
+        "Jürgen Schmidhuber"
+      ],
+      "answer": 1,
+      "explanation": "Michael I. Jordan von der UC Berkeley ist einer der einflussreichsten Forscher an der Schnittstelle von Statistik und maschinellem Lernen. Er hat die probabilistische und statistische Fundierung des Feldes maßgeblich vorangetrieben.",
+      "weight": 3,
+      "topic": "Probabilistische KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "27. Wer entwickelte zusammen mit Jeff Dean das MapReduce-Programmiermodell bei Google?",
+      "options": [
+        "Larry Page",
+        "Sanjay Ghemawat",
+        "Urs Hölzle",
+        "Eric Schmidt"
+      ],
+      "answer": 1,
+      "explanation": "Sanjay Ghemawat und Jeff Dean sind als Duo für viele der grundlegenden Infrastruktur-Systeme bei Google verantwortlich, darunter MapReduce, BigTable, Spanner und TensorFlow. MapReduce war ein entscheidender Schritt für die Verarbeitung massiver Datenmengen.",
+      "weight": 3,
+      "topic": "Anwendungen der KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "28. Welcher Forscher ist bekannt für seine Arbeit an \"Boltzmann-Maschinen\" und \"Hopfield-Netzen\"?",
+      "options": [
+        "Terry Sejnowski",
+        "Marvin Minsky",
+        "Frank Rosenblatt",
+        "Judea Pearl"
+      ],
+      "answer": 0,
+      "explanation": "Terry Sejnowski, zusammen mit Geoffrey Hinton, entwickelte die Boltzmann-Maschine, ein frühes stochastisches rekurrierendes neuronales Netz. Seine Arbeit an der Schnittstelle von Neurowissenschaft und KI ist von großer Bedeutung.",
+      "weight": 3,
+      "topic": "Pioniere der KI",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "29. Wer ist ein aufstrebender Forscher, bekannt für seine Arbeit an Deep Unsupervised Learning und als Professor an der University of Toronto und bei Apple?",
+      "options": [
+        "Ian Goodfellow",
+        "Andrej Karpathy",
+        "Ruslan Salakhutdinov",
+        "Alex Krizhevsky"
+      ],
+      "answer": 2,
+      "explanation": "Ruslan Salakhutdinov ist ein führender Experte für Deep Learning, insbesondere für unüberwachtes Lernen und generative Modelle. Er ist bekannt für seine Arbeit an Deep Belief Networks und leitet heute die KI-Forschung bei Apple.",
+      "weight": 3,
+      "topic": "Deep Learning",
+      "cognitive_level": "Analyse"
+    },
+    {
+      "question": "30. Wer gilt als einer der Väter der \"Support Vector Machines (SVMs)\"?",
+      "options": [
+        "Vladimir Vapnik",
+        "Geoffrey Hinton",
+        "Yann LeCun",
+        "Judea Pearl"
+      ],
+      "answer": 0,
+      "explanation": "Vladimir Vapnik entwickelte zusammen mit Alexey Chervonenkis die Theorie der statistischen Lerntheorie (VC-Theorie) und darauf aufbauend die Support Vector Machines, einen leistungsstarken und theoretisch fundierten Klassifikationsalgorithmus.",
+      "weight": 3,
+      "topic": "Klassische ML-Algorithmen",
+      "cognitive_level": "Analyse"
+    }
+  ]
+}

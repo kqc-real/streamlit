@@ -256,6 +256,24 @@ def _welcome_search_no_results(term: str) -> str:
     ).format(term=term)
 
 
+def _welcome_languages_available(label: str) -> str:
+    return translate_ui(
+        "welcome.languages_available",
+        default="Sprachen der Fragensets: {languages}",
+    ).format(languages=label)
+
+
+def _welcome_language_names_map() -> dict[str, str]:
+    return {
+        "de": translate_ui("languages.de", default="deutsch"),
+        "en": translate_ui("languages.en", default="englisch"),
+        "es": translate_ui("languages.es", default="spanisch"),
+        "fr": translate_ui("languages.fr", default="französisch"),
+        "it": translate_ui("languages.it", default="italienisch"),
+        "zh": translate_ui("languages.zh", default="chinesisch"),
+    }
+
+
 def _questions_count_label(count: int) -> str:
     """Return a localized label for a question count, handling singular/plural.
 
@@ -2215,6 +2233,32 @@ def render_welcome_page(app_config: AppConfig):
         f"<h3 style='text-align: center;'>{_welcome_section_header()}</h3>",
         unsafe_allow_html=True,
     )
+
+    # Verfügbare Sprachen der Fragensets anzeigen
+    language_counts: dict[str, int] = {}
+    for fname in valid_question_files:
+        qs = question_set_cache.get(fname)
+        lang = None
+        try:
+            if qs and isinstance(getattr(qs, "meta", None), dict):
+                lang = qs.meta.get("language")
+        except Exception:
+            lang = None
+        if not lang:
+            lang = "de"
+        lang_norm = str(lang).strip() or "de"
+        language_counts[lang_norm] = language_counts.get(lang_norm, 0) + 1
+    lang_names = _welcome_language_names_map()
+    languages_label_parts = []
+    for lang, count in sorted(language_counts.items()):
+        name = lang_names.get(lang.lower(), lang)
+        if count > 1:
+            languages_label_parts.append(f"{name} ({count})")
+        else:
+            languages_label_parts.append(name)
+    languages_label = ", ".join(languages_label_parts)
+    if languages_label:
+        st.caption(_welcome_languages_available(languages_label))
 
     # Schnellsuche über Titel/Slug
     search_term = st.text_input(

@@ -1139,6 +1139,7 @@
             "placeholder": "es. \"mate\" o \"scrum\"",
             "no_results": "Nessun risultato per \"{term}\" – mostro tutti i set."
         },
+        "languages_available": "Lingue disponibili: {languages}",
         "section": {
             "header": "🗂️ Selezione Set"
         },
@@ -1244,6 +1245,14 @@
     },
     "warnings": {
         "no_config": "⚠️ **Config mancante!**\n\nCrea `.env` o `.streamlit/secrets.toml`.\n\n**Locale:**\n1. `cp .env.example .env`\n2. Riavvia.\n\nVedi [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    },
+    "languages": {
+        "de": "tedesco",
+        "en": "inglese",
+        "es": "spagnolo",
+        "fr": "francese",
+        "it": "italiano",
+        "zh": "cinese"
     },
     "config": {
         "error": {

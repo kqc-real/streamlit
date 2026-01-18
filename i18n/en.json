@@ -1137,6 +1137,7 @@
             "placeholder": "e.g. \"math\" or \"scrum\"",
             "no_results": "No matches for \"{term}\" – showing all sets."
         },
+        "languages_available": "Available languages: {languages}",
         "section": {
             "header": "🗂️ Set Selection"
         },
@@ -1242,6 +1243,14 @@
     },
     "warnings": {
         "no_config": "⚠️ **Config missing!**\n\nCreate `.env` or `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Restart.\n\nSee [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+    },
+    "languages": {
+        "de": "German",
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
+        "zh": "Chinese"
     },
     "config": {
         "error": {

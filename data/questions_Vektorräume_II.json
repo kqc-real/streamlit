@@ -14,7 +14,8 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 8.75,
-    "test_duration_minutes": 30
+    "test_duration_minutes": 30,
+    "language": "de"
   },
   "questions": [
     {

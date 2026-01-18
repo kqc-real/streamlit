@@ -17,7 +17,8 @@
     "test_duration_minutes": 40,
     "schema_version": "2.1",
     "last_modified": "26.11.2025",
-    "created": "26.11.2025"
+    "created": "26.11.2025",
+    "language": "de"
   },
   "questions": [
     {

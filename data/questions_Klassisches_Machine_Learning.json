@@ -14,7 +14,8 @@
       "2": 0.75,
       "3": 1.0
     },
-    "test_duration_minutes": 10
+    "test_duration_minutes": 10,
+    "language": "de"
   },
   "questions": [
     {

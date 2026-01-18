@@ -1142,6 +1142,7 @@
             "placeholder": "例如 \"math\" 或 \"scrum\"",
             "no_results": "未找到 \"{term}\" 的匹配项 — 显示全部题库。"
         },
+        "languages_available": "可用语言：{languages}",
         "section": {
             "header": "🗂️ 题库选择"
         },
@@ -1247,6 +1248,14 @@
     },
     "warnings": {
         "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 INSTALLATION_ANLEITUNG.md"
+    },
+    "languages": {
+        "de": "德语",
+        "en": "英语",
+        "es": "西班牙语",
+        "fr": "法语",
+        "it": "意大利语",
+        "zh": "中文"
     },
     "config": {
         "error": {

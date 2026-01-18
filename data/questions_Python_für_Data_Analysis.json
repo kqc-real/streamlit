@@ -15,7 +15,8 @@
       "3": 1.0
     },
     "additional_buffer_minutes": 5,
-    "test_duration_minutes": 64
+    "test_duration_minutes": 64,
+    "language": "de"
   },
   "questions": [
     {
@@ -34,8 +35,14 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Dynamische Typisierung", "definition": "Typüberprüfung zur Laufzeit; Variablen sind nicht an einen Typ gebunden." },
-        { "term": "Referenz", "definition": "Verweis auf den Speicherort eines Objekts." }
+        {
+          "term": "Dynamische Typisierung",
+          "definition": "Typüberprüfung zur Laufzeit; Variablen sind nicht an einen Typ gebunden."
+        },
+        {
+          "term": "Referenz",
+          "definition": "Verweis auf den Speicherort eines Objekts."
+        }
       ]
     },
     {
@@ -54,7 +61,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Indentation", "definition": "Einrückung von Codezeilen zur Strukturierung." }
+        {
+          "term": "Indentation",
+          "definition": "Einrückung von Codezeilen zur Strukturierung."
+        }
       ]
     },
     {
@@ -82,8 +92,14 @@
         "content": "List Comprehensions bieten eine kompakte Syntax, um Listen basierend auf anderen Iterables zu erstellen, und ersetzen oft mehrzeilige For-Schleifen."
       },
       "mini_glossary": [
-        { "term": "List Comprehension", "definition": "Kompakte Syntax zur Erstellung von Listen." },
-        { "term": "range()", "definition": "Funktion, die eine Sequenz von Zahlen generiert." }
+        {
+          "term": "List Comprehension",
+          "definition": "Kompakte Syntax zur Erstellung von Listen."
+        },
+        {
+          "term": "range()",
+          "definition": "Funktion, die eine Sequenz von Zahlen generiert."
+        }
       ]
     },
     {
@@ -102,7 +118,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "NumPy", "definition": "Bibliothek für multidimensionale Arrays und Matrizen." }
+        {
+          "term": "NumPy",
+          "definition": "Bibliothek für multidimensionale Arrays und Matrizen."
+        }
       ]
     },
     {
@@ -130,8 +149,14 @@
         "content": "Im Gegensatz zu Java-Listen (wo man eine Schleife bräuchte) oder Python-Listen (wo `*` die Liste wiederholt), rechnet NumPy mathematisch elementweise."
       },
       "mini_glossary": [
-        { "term": "Vektorisierung", "definition": "Ausführung von Operationen auf ganzen Arrays ohne explizite Schleifen." },
-        { "term": "Broadcasting", "definition": "Mechanismus zur Behandlung von Arrays unterschiedlicher Form bei Operationen." }
+        {
+          "term": "Vektorisierung",
+          "definition": "Ausführung von Operationen auf ganzen Arrays ohne explizite Schleifen."
+        },
+        {
+          "term": "Broadcasting",
+          "definition": "Mechanismus zur Behandlung von Arrays unterschiedlicher Form bei Operationen."
+        }
       ]
     },
     {
@@ -150,8 +175,14 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "DataFrame", "definition": "Zweidimensionale, tabellarische Datenstruktur in Pandas." },
-        { "term": "Deskriptive Statistik", "definition": "Zusammenfassende Kennzahlen wie Mittelwert und Standardabweichung." }
+        {
+          "term": "DataFrame",
+          "definition": "Zweidimensionale, tabellarische Datenstruktur in Pandas."
+        },
+        {
+          "term": "Deskriptive Statistik",
+          "definition": "Zusammenfassende Kennzahlen wie Mittelwert und Standardabweichung."
+        }
       ]
     },
     {
@@ -170,7 +201,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Series", "definition": "Eindimensionales Array-ähnliches Objekt, das eine Spalte repräsentiert." }
+        {
+          "term": "Series",
+          "definition": "Eindimensionales Array-ähnliches Objekt, das eine Spalte repräsentiert."
+        }
       ]
     },
     {
@@ -199,8 +233,14 @@
         "content": "Dies ist ein häufiger Stolperstein für Umsteiger: `loc[0:3]` würde (bei numerischem Index) auch die 3 einschließen (Label-basiert), während `iloc` strikt Python-Slicing-Regeln folgt."
       },
       "mini_glossary": [
-        { "term": "iloc", "definition": "Positionsbasierte Indizierung in Pandas." },
-        { "term": "Slicing", "definition": "Ausschneiden eines Teilbereichs aus einer Sequenz." }
+        {
+          "term": "iloc",
+          "definition": "Positionsbasierte Indizierung in Pandas."
+        },
+        {
+          "term": "Slicing",
+          "definition": "Ausschneiden eines Teilbereichs aus einer Sequenz."
+        }
       ]
     },
     {
@@ -228,7 +268,10 @@
         "content": "Dies ist der Standardweg in Pandas und NumPy, um Daten effizient ohne Schleifen zu filtern."
       },
       "mini_glossary": [
-        { "term": "Boolean Mask", "definition": "Array aus Wahrheitswerten zur Filterung von Daten." }
+        {
+          "term": "Boolean Mask",
+          "definition": "Array aus Wahrheitswerten zur Filterung von Daten."
+        }
       ]
     },
     {
@@ -247,8 +290,14 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "NaN", "definition": "Not a Number; Platzhalter für fehlende Werte." },
-        { "term": "Imputation", "definition": "Ersetzen fehlender Werte (Gegenteil von Löschen)." }
+        {
+          "term": "NaN",
+          "definition": "Not a Number; Platzhalter für fehlende Werte."
+        },
+        {
+          "term": "Imputation",
+          "definition": "Ersetzen fehlender Werte (Gegenteil von Löschen)."
+        }
       ]
     },
     {
@@ -276,7 +325,10 @@
         "content": "Ähnlich wie `GROUP BY` in SQL ist dies essenziell für aggregierte Analysen."
       },
       "mini_glossary": [
-        { "term": "Aggregation", "definition": "Zusammenfassen mehrerer Werte zu einem (z. B. Summe, Mittelwert)." }
+        {
+          "term": "Aggregation",
+          "definition": "Zusammenfassen mehrerer Werte zu einem (z. B. Summe, Mittelwert)."
+        }
       ]
     },
     {
@@ -295,7 +347,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "CSV", "definition": "Comma Separated Values; einfaches Textformat für Tabellen." }
+        {
+          "term": "CSV",
+          "definition": "Comma Separated Values; einfaches Textformat für Tabellen."
+        }
       ]
     },
     {
@@ -323,8 +378,14 @@
         "content": "Boxplots sind ideal, um Verteilungen und Ausreißer (Punkte außerhalb der 'Whisker') schnell zu erkennen."
       },
       "mini_glossary": [
-        { "term": "IQR", "definition": "Interquartilsabstand; Maß für die Streuung." },
-        { "term": "Perzentil", "definition": "Wert, unterhalb dessen ein bestimmter Prozentsatz der Daten liegt." }
+        {
+          "term": "IQR",
+          "definition": "Interquartilsabstand; Maß für die Streuung."
+        },
+        {
+          "term": "Perzentil",
+          "definition": "Wert, unterhalb dessen ein bestimmter Prozentsatz der Daten liegt."
+        }
       ]
     },
     {
@@ -351,8 +412,14 @@
         "content": "Dieses Verhalten ist für Java-Entwickler, die 'Call-by-Value' bei Primitiven gewohnt sind, eine häufige Fehlerquelle bei Objekten."
       },
       "mini_glossary": [
-        { "term": "Deep Copy", "definition": "Vollständige Kopie aller Daten und Unterobjekte." },
-        { "term": "View", "definition": "Sicht auf Daten, ohne den Speicher zu duplizieren." }
+        {
+          "term": "Deep Copy",
+          "definition": "Vollständige Kopie aller Daten und Unterobjekte."
+        },
+        {
+          "term": "View",
+          "definition": "Sicht auf Daten, ohne den Speicher zu duplizieren."
+        }
       ]
     },
     {
@@ -380,7 +447,10 @@
         "content": "Verwenden Sie `apply` nur, wenn keine vektorisierte Lösung (wie `df['A'] + df['B']`) möglich ist."
       },
       "mini_glossary": [
-        { "term": "Lambda-Funktion", "definition": "Anonyme kleine Funktion, oft inline definiert." }
+        {
+          "term": "Lambda-Funktion",
+          "definition": "Anonyme kleine Funktion, oft inline definiert."
+        }
       ]
     },
     {
@@ -408,7 +478,10 @@
         "content": "Dies entspricht `LEFT OUTER JOIN` in SQL. Ein Inner Join würde Kunden ohne Bestellung verwerfen."
       },
       "mini_glossary": [
-        { "term": "Merge", "definition": "Zusammenführen von DataFrames basierend auf Schlüsseln." }
+        {
+          "term": "Merge",
+          "definition": "Zusammenführen von DataFrames basierend auf Schlüsseln."
+        }
       ]
     },
     {
@@ -436,7 +509,10 @@
         "content": "Zusätzlich beschleunigt 'category' oft `groupby` und Sortieroperationen."
       },
       "mini_glossary": [
-        { "term": "Kardinalität", "definition": "Anzahl der eindeutigen Werte in einer Menge." }
+        {
+          "term": "Kardinalität",
+          "definition": "Anzahl der eindeutigen Werte in einer Menge."
+        }
       ]
     },
     {
@@ -455,7 +531,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "arange", "definition": "Array Range; NumPy-Äquivalent zu Python range()." }
+        {
+          "term": "arange",
+          "definition": "Array Range; NumPy-Äquivalent zu Python range()."
+        }
       ]
     },
     {
@@ -474,7 +553,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Timestamp", "definition": "Zeitstempel-Objekt in Pandas." }
+        {
+          "term": "Timestamp",
+          "definition": "Zeitstempel-Objekt in Pandas."
+        }
       ]
     },
     {
@@ -493,7 +575,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Seaborn", "definition": "Bibliothek für statistische Datenvisualisierung." }
+        {
+          "term": "Seaborn",
+          "definition": "Bibliothek für statistische Datenvisualisierung."
+        }
       ]
     },
     {
@@ -521,7 +606,10 @@
         "content": "Bei Data Science ist die Wahl der richtigen Kennzahl entscheidend für die korrekte Interpretation der Daten."
       },
       "mini_glossary": [
-        { "term": "Robustheit", "definition": "Unempfindlichkeit statistischer Maßzahlen gegenüber Ausreißern." }
+        {
+          "term": "Robustheit",
+          "definition": "Unempfindlichkeit statistischer Maßzahlen gegenüber Ausreißern."
+        }
       ]
     },
     {
@@ -548,7 +636,10 @@
         "content": "Die korrekte Achsenwahl ist essenziell für Aggregationen und Manipulationen."
       },
       "mini_glossary": [
-        { "term": "Axis", "definition": "Dimension in einem Array/DataFrame (0=Zeilen, 1=Spalten)." }
+        {
+          "term": "Axis",
+          "definition": "Dimension in einem Array/DataFrame (0=Zeilen, 1=Spalten)."
+        }
       ]
     },
     {
@@ -576,7 +667,10 @@
         "content": "`merge` ist für SQL-artige Joins (Spalten verbinden), `concat` für physisches Zusammenfügen."
       },
       "mini_glossary": [
-        { "term": "Konkatenation", "definition": "Verkettung von Listen oder Arrays." }
+        {
+          "term": "Konkatenation",
+          "definition": "Verkettung von Listen oder Arrays."
+        }
       ]
     },
     {
@@ -595,7 +689,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Dictionary", "definition": "Ungeordnete Sammlung von Schlüssel-Wert-Paaren." }
+        {
+          "term": "Dictionary",
+          "definition": "Ungeordnete Sammlung von Schlüssel-Wert-Paaren."
+        }
       ]
     },
     {
@@ -623,7 +720,10 @@
         "content": "Verstehen der Schiefe ist wichtig, um zu entscheiden, ob der Mittelwert eine gute Kennzahl ist."
       },
       "mini_glossary": [
-        { "term": "Skewness", "definition": "Schiefe einer Wahrscheinlichkeitsverteilung." }
+        {
+          "term": "Skewness",
+          "definition": "Schiefe einer Wahrscheinlichkeitsverteilung."
+        }
       ]
     },
     {
@@ -650,7 +750,10 @@
         "content": "Iteration sollte in Pandas das letzte Mittel sein, nicht das erste."
       },
       "mini_glossary": [
-        { "term": "Overhead", "definition": "Zusätzlicher Ressourcenaufwand für Verwaltung." }
+        {
+          "term": "Overhead",
+          "definition": "Zusätzlicher Ressourcenaufwand für Verwaltung."
+        }
       ]
     },
     {
@@ -678,7 +781,10 @@
         "content": "Pivoting wandelt 'lange' Formate (Datenbank-Style) in 'breite' Formate (Excel-Style) um."
       },
       "mini_glossary": [
-        { "term": "Pivot", "definition": "Drehen von Daten; Umwandlung von Zeilenwerten in Spaltenüberschriften." }
+        {
+          "term": "Pivot",
+          "definition": "Drehen von Daten; Umwandlung von Zeilenwerten in Spaltenüberschriften."
+        }
       ]
     },
     {
@@ -706,7 +812,10 @@
         "content": "Achten Sie darauf, wenn IDs plötzlich '.0' am Ende haben."
       },
       "mini_glossary": [
-        { "term": "IEEE 754", "definition": "Standard für Gleitkommaarithmetik." }
+        {
+          "term": "IEEE 754",
+          "definition": "Standard für Gleitkommaarithmetik."
+        }
       ]
     },
     {
@@ -725,7 +834,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Assignment", "definition": "Zuweisung; in Python meist Referenzkopie." }
+        {
+          "term": "Assignment",
+          "definition": "Zuweisung; in Python meist Referenzkopie."
+        }
       ]
     },
     {
@@ -744,8 +856,14 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Mutable", "definition": "Veränderbares Objekt." },
-        { "term": "Immutable", "definition": "Unveränderbares Objekt nach Erstellung." }
+        {
+          "term": "Mutable",
+          "definition": "Veränderbares Objekt."
+        },
+        {
+          "term": "Immutable",
+          "definition": "Unveränderbares Objekt nach Erstellung."
+        }
       ]
     },
     {
@@ -773,7 +891,10 @@
         "content": "In Java gibt es dieses Verhalten nicht, da Parameter anders behandelt werden. In Python ist die Funktionsdefinition ausführbarer Code."
       },
       "mini_glossary": [
-        { "term": "Default Argument", "definition": "Standardwert für einen Funktionsparameter." }
+        {
+          "term": "Default Argument",
+          "definition": "Standardwert für einen Funktionsparameter."
+        }
       ]
     },
     {
@@ -801,7 +922,10 @@
         "content": "Dies ist analog zum `.dt` Accessor für Datumsangaben."
       },
       "mini_glossary": [
-        { "term": "Accessor", "definition": "Schnittstelle für spezifische Datentyp-Funktionen (str, dt, cat)." }
+        {
+          "term": "Accessor",
+          "definition": "Schnittstelle für spezifische Datentyp-Funktionen (str, dt, cat)."
+        }
       ]
     },
     {
@@ -829,7 +953,10 @@
         "content": "Korrelation impliziert keine Kausalität, beschreibt aber die Stärke des linearen Zusammenhangs."
       },
       "mini_glossary": [
-        { "term": "Pearson Korrelation", "definition": "Maß für den linearen Zusammenhang (-1 bis +1)." }
+        {
+          "term": "Pearson Korrelation",
+          "definition": "Maß für den linearen Zusammenhang (-1 bis +1)."
+        }
       ]
     },
     {
@@ -848,7 +975,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Alias", "definition": "Kurzname für ein importiertes Modul." }
+        {
+          "term": "Alias",
+          "definition": "Kurzname für ein importiertes Modul."
+        }
       ]
     },
     {
@@ -876,7 +1006,10 @@
         "content": "Sets sind extrem nützlich, um schnell die Menge der eindeutigen Elemente in einer Liste zu finden."
       },
       "mini_glossary": [
-        { "term": "Set", "definition": "Menge eindeutiger Elemente ohne feste Ordnung." }
+        {
+          "term": "Set",
+          "definition": "Menge eindeutiger Elemente ohne feste Ordnung."
+        }
       ]
     },
     {
@@ -904,7 +1037,10 @@
         "content": "Dies ist eines der zentralen Probleme im Machine Learning."
       },
       "mini_glossary": [
-        { "term": "Generalisierung", "definition": "Fähigkeit eines Modells, auf unbekannten Daten gute Ergebnisse zu liefern." }
+        {
+          "term": "Generalisierung",
+          "definition": "Fähigkeit eines Modells, auf unbekannten Daten gute Ergebnisse zu liefern."
+        }
       ]
     },
     {
@@ -923,7 +1059,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Index", "definition": "Position eines Elements in einer Sequenz." }
+        {
+          "term": "Index",
+          "definition": "Position eines Elements in einer Sequenz."
+        }
       ]
     },
     {
@@ -951,7 +1090,10 @@
         "content": "Das Verketten von Methoden (Chaining) macht den Code lesbar und kompakt."
       },
       "mini_glossary": [
-        { "term": "Casting", "definition": "Änderung des Datentyps einer Variable." }
+        {
+          "term": "Casting",
+          "definition": "Änderung des Datentyps einer Variable."
+        }
       ]
     },
     {
@@ -979,7 +1121,10 @@
         "content": "Für die meisten Data Science Anwendungen reicht `__init__`, aber das Verständnis ist wichtig für tiefere Python-Kenntnisse."
       },
       "mini_glossary": [
-        { "term": "Self", "definition": "Referenz auf die aktuelle Instanz (analog zu `this` in Java)." }
+        {
+          "term": "Self",
+          "definition": "Referenz auf die aktuelle Instanz (analog zu `this` in Java)."
+        }
       ]
     },
     {
@@ -1006,7 +1151,10 @@
         "content": "In Data Science (NLP) ist das Zählen von Tokens ('Bag of Words') ein fundamentaler Schritt."
       },
       "mini_glossary": [
-        { "term": "NLP", "definition": "Natural Language Processing; Verarbeitung natürlicher Sprache." }
+        {
+          "term": "NLP",
+          "definition": "Natural Language Processing; Verarbeitung natürlicher Sprache."
+        }
       ]
     },
     {
@@ -1025,7 +1173,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Slicing", "definition": "Syntax `[start:stop:step]` zum Extrahieren von Teilen." }
+        {
+          "term": "Slicing",
+          "definition": "Syntax `[start:stop:step]` zum Extrahieren von Teilen."
+        }
       ]
     },
     {
@@ -1052,7 +1203,10 @@
         "content": "Ein klassischer Fehler für Java-Entwickler, die `&&` oder `and` gewohnt sind."
       },
       "mini_glossary": [
-        { "term": "Ambiguity Error", "definition": "Fehler, wenn der Wahrheitsgehalt einer Array-Struktur nicht eindeutig ist." }
+        {
+          "term": "Ambiguity Error",
+          "definition": "Fehler, wenn der Wahrheitsgehalt einer Array-Struktur nicht eindeutig ist."
+        }
       ]
     },
     {
@@ -1071,7 +1225,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "TypeError", "definition": "Fehler, wenn eine Operation auf einen unpassenden Datentyp angewendet wird." }
+        {
+          "term": "TypeError",
+          "definition": "Fehler, wenn eine Operation auf einen unpassenden Datentyp angewendet wird."
+        }
       ]
     },
     {
@@ -1099,7 +1256,10 @@
         "content": "Dies ist anders als in Java, wo Default-Parameter so nicht existieren oder per Overloading gelöst werden."
       },
       "mini_glossary": [
-        { "term": "Side Effect", "definition": "Ungewollte Änderung des Zustands außerhalb des lokalen Scopes." }
+        {
+          "term": "Side Effect",
+          "definition": "Ungewollte Änderung des Zustands außerhalb des lokalen Scopes."
+        }
       ]
     },
     {
@@ -1127,7 +1287,10 @@
         "content": "Dies entspricht in Java etwa: `stream().filter(x -> x % 2 == 0).collect(toList())`."
       },
       "mini_glossary": [
-        { "term": "Modulo", "definition": "Operator `%`, gibt den Rest einer Division zurück." }
+        {
+          "term": "Modulo",
+          "definition": "Operator `%`, gibt den Rest einer Division zurück."
+        }
       ]
     },
     {
@@ -1155,7 +1318,10 @@
         "content": "Dies ist eine der häufigsten Warnungen in Pandas."
       },
       "mini_glossary": [
-        { "term": "Chained Assignment", "definition": "Zuweisung, die auf das Ergebnis einer vorherigen Indizierung folgt (z.B. `df[][]=`)." }
+        {
+          "term": "Chained Assignment",
+          "definition": "Zuweisung, die auf das Ergebnis einer vorherigen Indizierung folgt (z.B. `df[][]=`)."
+        }
       ]
     },
     {
@@ -1174,7 +1340,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "f-string", "definition": "Formatierter String-Literal zur Interpolation von Variablen." }
+        {
+          "term": "f-string",
+          "definition": "Formatierter String-Literal zur Interpolation von Variablen."
+        }
       ]
     },
     {
@@ -1201,7 +1370,10 @@
         "content": "In Java Maps entspricht `.get()` eher dem sicheren Verhalten (gibt null zurück)."
       },
       "mini_glossary": [
-        { "term": "KeyError", "definition": "Ausnahme, wenn ein Dictionary-Schlüssel nicht gefunden wird." }
+        {
+          "term": "KeyError",
+          "definition": "Ausnahme, wenn ein Dictionary-Schlüssel nicht gefunden wird."
+        }
       ]
     },
     {
@@ -1220,7 +1392,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Scope", "definition": "Geltungsbereich von Variablen und Codeblöcken." }
+        {
+          "term": "Scope",
+          "definition": "Geltungsbereich von Variablen und Codeblöcken."
+        }
       ]
     },
     {
@@ -1248,7 +1423,10 @@
         "content": "Dies ist viel effizienter als eine Schleife mit if-Bedingung."
       },
       "mini_glossary": [
-        { "term": "In-Place", "definition": "Operation ändert die Daten direkt im Speicher, ohne neue Kopie." }
+        {
+          "term": "In-Place",
+          "definition": "Operation ändert die Daten direkt im Speicher, ohne neue Kopie."
+        }
       ]
     },
     {
@@ -1275,7 +1453,10 @@
         "content": "Dieses Problem existiert auch in Java (`double`), wird aber oft übersehen."
       },
       "mini_glossary": [
-        { "term": "Epsilon", "definition": "Sehr kleine Zahl, die als Toleranzgrenze bei Vergleichen dient." }
+        {
+          "term": "Epsilon",
+          "definition": "Sehr kleine Zahl, die als Toleranzgrenze bei Vergleichen dient."
+        }
       ]
     },
     {
@@ -1303,7 +1484,10 @@
         "content": "Shape-Fehler sind die häufigsten Fehler beim Arbeiten mit neuronalen Netzen oder Matrix-Ops."
       },
       "mini_glossary": [
-        { "term": "Shape", "definition": "Tupel, das die Größe der Dimensionen eines Arrays angibt." }
+        {
+          "term": "Shape",
+          "definition": "Tupel, das die Größe der Dimensionen eines Arrays angibt."
+        }
       ]
     },
     {
@@ -1331,7 +1515,10 @@
         "content": "Scope-Regeln (LEGB: Local, Enclosing, Global, Built-in) sind essenziell für sauberen Code."
       },
       "mini_glossary": [
-        { "term": "Shadowing", "definition": "Eine Variable in einem inneren Scope hat denselben Namen wie eine äußere und verdeckt diese." }
+        {
+          "term": "Shadowing",
+          "definition": "Eine Variable in einem inneren Scope hat denselben Namen wie eine äußere und verdeckt diese."
+        }
       ]
     },
     {
@@ -1358,7 +1545,10 @@
         "content": "Wer `l2 = l1.sort()` schreibt, erlebt oft eine böse Überraschung."
       },
       "mini_glossary": [
-        { "term": "Void", "definition": "Rückgabetyp, der anzeigt, dass eine Funktion keinen Wert liefert." }
+        {
+          "term": "Void",
+          "definition": "Rückgabetyp, der anzeigt, dass eine Funktion keinen Wert liefert."
+        }
       ]
     },
     {
@@ -1386,7 +1576,10 @@
         "content": "`else` ist nützlich, um Code auszuführen, der nur bei Erfolg laufen soll, aber nicht mehr vom Error-Handling abgedeckt werden muss."
       },
       "mini_glossary": [
-        { "term": "Exception Handling", "definition": "Strukturierter Umgang mit Laufzeitfehlern." }
+        {
+          "term": "Exception Handling",
+          "definition": "Strukturierter Umgang mit Laufzeitfehlern."
+        }
       ]
     },
     {
@@ -1413,7 +1606,10 @@
         "content": "Dies ist identisch zu Java-Objekt-Referenzen, aber oft verwirrend für Anfänger bei simplen Datentypen."
       },
       "mini_glossary": [
-        { "term": "Shallow Copy", "definition": "Kopie der Container-Struktur, Elemente bleiben Referenzen." }
+        {
+          "term": "Shallow Copy",
+          "definition": "Kopie der Container-Struktur, Elemente bleiben Referenzen."
+        }
       ]
     },
     {
@@ -1440,7 +1636,10 @@
         "content": "Ein häufiger Anfängerfehler ist zu erwarten, dass `groupby` sofort eine Tabelle zurückgibt."
       },
       "mini_glossary": [
-        { "term": "Lazy Evaluation", "definition": "Auswertung eines Ausdrucks erst dann, wenn das Ergebnis benötigt wird." }
+        {
+          "term": "Lazy Evaluation",
+          "definition": "Auswertung eines Ausdrucks erst dann, wenn das Ergebnis benötigt wird."
+        }
       ]
     },
     {
@@ -1467,7 +1666,10 @@
         "content": "Unpacking ist sehr elegant, erfordert aber strikte Übereinstimmung der Länge."
       },
       "mini_glossary": [
-        { "term": "Unpacking", "definition": "Entpacken von Sequenzen in einzelne Variablen." }
+        {
+          "term": "Unpacking",
+          "definition": "Entpacken von Sequenzen in einzelne Variablen."
+        }
       ]
     },
     {
@@ -1486,7 +1688,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Package", "definition": "Ordner mit Python-Modulen und einer `__init__.py`." }
+        {
+          "term": "Package",
+          "definition": "Ordner mit Python-Modulen und einer `__init__.py`."
+        }
       ]
     },
     {
@@ -1514,7 +1719,10 @@
         "content": "Die Achsen-Logik ist bei `apply` genau umgekehrt zur Intuition mancher Nutzer ('axis=1' -> bewege dich entlang der Spaltenrichtung, also Zeile für Zeile)."
       },
       "mini_glossary": [
-        { "term": "Row-wise", "definition": "Operation, die zeilenweise ausgeführt wird." }
+        {
+          "term": "Row-wise",
+          "definition": "Operation, die zeilenweise ausgeführt wird."
+        }
       ]
     },
     {
@@ -1533,7 +1741,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "items()", "definition": "Methode, die eine Ansicht der (Key, Value)-Paare eines Dictionaries liefert." }
+        {
+          "term": "items()",
+          "definition": "Methode, die eine Ansicht der (Key, Value)-Paare eines Dictionaries liefert."
+        }
       ]
     },
     {
@@ -1552,7 +1763,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "self", "definition": "Expliziter Parameter für die aktuelle Instanz (analog zu implizitem `this` in Java)." }
+        {
+          "term": "self",
+          "definition": "Expliziter Parameter für die aktuelle Instanz (analog zu implizitem `this` in Java)."
+        }
       ]
     },
     {
@@ -1571,7 +1785,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "dropna", "definition": "Methode zum Entfernen von fehlenden Werten." }
+        {
+          "term": "dropna",
+          "definition": "Methode zum Entfernen von fehlenden Werten."
+        }
       ]
     },
     {
@@ -1598,7 +1815,10 @@
         "content": "List Comprehensions sind der 'pythonische' Weg, `.map()` oder Schleifen zu ersetzen."
       },
       "mini_glossary": [
-        { "term": "Iterable", "definition": "Objekt, über das man iterieren kann (z.B. Liste, Range)." }
+        {
+          "term": "Iterable",
+          "definition": "Objekt, über das man iterieren kann (z.B. Liste, Range)."
+        }
       ]
     },
     {
@@ -1625,7 +1845,10 @@
         "content": "Verwenden Sie niemals `open()` ohne `with`, es sei denn, Sie haben einen sehr guten Grund."
       },
       "mini_glossary": [
-        { "term": "Context Manager", "definition": "Objekt, das Ressourcenverwaltung (Setup/Teardown) übernimmt." }
+        {
+          "term": "Context Manager",
+          "definition": "Objekt, das Ressourcenverwaltung (Setup/Teardown) übernimmt."
+        }
       ]
     },
     {
@@ -1644,7 +1867,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Reshape", "definition": "Ändern der Form (Dimensionen) eines Arrays." }
+        {
+          "term": "Reshape",
+          "definition": "Ändern der Form (Dimensionen) eines Arrays."
+        }
       ]
     },
     {
@@ -1671,7 +1897,10 @@
         "content": "Dies ist essentiell für korrekte Vererbungsketten."
       },
       "mini_glossary": [
-        { "term": "Super", "definition": "Built-in Funktion für den Zugriff auf Methoden der Elternklasse." }
+        {
+          "term": "Super",
+          "definition": "Built-in Funktion für den Zugriff auf Methoden der Elternklasse."
+        }
       ]
     },
     {
@@ -1698,7 +1927,10 @@
         "content": "In Java entspricht dies `Comparator.comparing(x -> x.get(1))`."
       },
       "mini_glossary": [
-        { "term": "Key Argument", "definition": "Funktion, die für jedes Element einen Vergleichswert generiert." }
+        {
+          "term": "Key Argument",
+          "definition": "Funktion, die für jedes Element einen Vergleichswert generiert."
+        }
       ]
     },
     {
@@ -1725,7 +1957,10 @@
         "content": "Ohne `show()` läuft das Skript durch, ohne dass Sie etwas sehen."
       },
       "mini_glossary": [
-        { "term": "Backend", "definition": "Die Engine von Matplotlib, die die Pixel tatsächlich zeichnet (z.B. Qt, TkAgg)." }
+        {
+          "term": "Backend",
+          "definition": "Die Engine von Matplotlib, die die Pixel tatsächlich zeichnet (z.B. Qt, TkAgg)."
+        }
       ]
     },
     {
@@ -1753,7 +1988,10 @@
         "content": "Vermeiden Sie manuelle Schleifen zum Suchen, nutzen Sie `in`."
       },
       "mini_glossary": [
-        { "term": "Membership Test", "definition": "Überprüfung, ob ein Wert Teil einer Kollektion ist." }
+        {
+          "term": "Membership Test",
+          "definition": "Überprüfung, ob ein Wert Teil einer Kollektion ist."
+        }
       ]
     },
     {
@@ -1772,7 +2010,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Control Flow", "definition": "Steuerung des Programmablaufs durch Bedingungen und Schleifen." }
+        {
+          "term": "Control Flow",
+          "definition": "Steuerung des Programmablaufs durch Bedingungen und Schleifen."
+        }
       ]
     },
     {
@@ -1791,7 +2032,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Attribute", "definition": "Eigenschaft eines Objekts, die ohne Klammern abgerufen wird." }
+        {
+          "term": "Attribute",
+          "definition": "Eigenschaft eines Objekts, die ohne Klammern abgerufen wird."
+        }
       ]
     },
     {
@@ -1810,7 +2054,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "pass", "definition": "Null-Operation; Platzhalter für syntaktisch notwendigen Code." }
+        {
+          "term": "pass",
+          "definition": "Null-Operation; Platzhalter für syntaktisch notwendigen Code."
+        }
       ]
     },
     {
@@ -1829,7 +2076,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Singleton", "definition": "Klasse, von der nur eine einzige Instanz existieren kann." }
+        {
+          "term": "Singleton",
+          "definition": "Klasse, von der nur eine einzige Instanz existieren kann."
+        }
       ]
     },
     {
@@ -1848,7 +2098,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Index Object", "definition": "Unveränderliche Sequenz, die für Achsenbeschriftungen in Pandas genutzt wird." }
+        {
+          "term": "Index Object",
+          "definition": "Unveränderliche Sequenz, die für Achsenbeschriftungen in Pandas genutzt wird."
+        }
       ]
     },
     {
@@ -1875,7 +2128,10 @@
         "content": "Verwenden Sie `is` hauptsächlich für Singletons wie `None`."
       },
       "mini_glossary": [
-        { "term": "Identity", "definition": "Eindeutige Kennung eines Objekts (meist Speicheradresse)." }
+        {
+          "term": "Identity",
+          "definition": "Eindeutige Kennung eines Objekts (meist Speicheradresse)."
+        }
       ]
     },
     {
@@ -1894,7 +2150,10 @@
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
       "mini_glossary": [
-        { "term": "Built-in", "definition": "Funktion, die in Python standardmäßig verfügbar ist ohne Import." }
+        {
+          "term": "Built-in",
+          "definition": "Funktion, die in Python standardmäßig verfügbar ist ohne Import."
+        }
       ]
     },
     {
@@ -1921,7 +2180,10 @@
         "content": "Alternativ gibt es oft `.pop()`, was den Wert vor dem Löschen noch zurückgibt."
       },
       "mini_glossary": [
-        { "term": "Garbage Collection", "definition": "Automatische Speicherbereinigung ungenutzter Objekte." }
+        {
+          "term": "Garbage Collection",
+          "definition": "Automatische Speicherbereinigung ungenutzter Objekte."
+        }
       ]
     },
     {
@@ -1949,7 +2211,10 @@
         "content": "In Java ähnlich wie `assert condition : message;`."
       },
       "mini_glossary": [
-        { "term": "Assertion", "definition": "Aussage, die im Programmablauf als wahr angenommen wird." }
+        {
+          "term": "Assertion",
+          "definition": "Aussage, die im Programmablauf als wahr angenommen wird."
+        }
       ]
     },
     {
@@ -1977,7 +2242,10 @@
         "content": "Häufig nötig, um Daten für bestimmte Plots oder Algorithmen vorzubereiten."
       },
       "mini_glossary": [
-        { "term": "Transponierte Matrix", "definition": "Matrix, die durch Vertauschen von Zeilen und Spalten entsteht." }
+        {
+          "term": "Transponierte Matrix",
+          "definition": "Matrix, die durch Vertauschen von Zeilen und Spalten entsteht."
+        }
       ]
     }
   ]
