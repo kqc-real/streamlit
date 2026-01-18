@@ -1,43 +1,97 @@
-Im Kontext des Themas **IoT-Referatsthemen: Technik, Strategie und Ethik** soll dir dieses Fragenset helfen, die folgenden Lernziele zu erreichen:
+# Übergeordnete Lernziele: IoT-Referatsthemen: Grundlagen, Protokolle und Sicherheit
+
+## MQTT und Publish-Subscribe-Architektur
+**Das MQTT-Protokoll und seine Funktionsweise verstehen**
+
+Du verstehst, dass MQTT das Publish-Subscribe-Muster verwendet, um Geräte über einen zentralen Broker zu entkoppeln. Du erkennst, dass dieses Architekturmuster effizienter für instabile Netzwerke ist als das klassische Request-Response-Muster und kannst die Rolle des Brokers als Vermittler zwischen Publishern und Subscribern beschreiben.
+
+---
+
+## IoT-Hardware-Komponenten
+**Sensoren und Aktoren unterscheiden und ihre Rollen verstehen**
+
+Du kannst die grundlegenden Hardware-Komponenten eines IoT-Systems unterscheiden: Sensoren erfassen physikalische Messgrößen aus der Umgebung, während Aktoren digitale Steuerbefehle in physische Aktionen umsetzen. Du verstehst, dass beide Komponenten als Transducer (Wandler) fungieren, jedoch in entgegengesetzten Richtungen.
+
+---
+
+## Edge Computing vs. Cloud Computing
+**Die Vorteile dezentraler Datenverarbeitung erkennen**
+
+Du verstehst, dass Edge Computing die Datenverarbeitung nahe an der Quelle der Datenerzeugung verlagert, statt alle Daten zentral in entfernten Rechenzentren zu verarbeiten. Du erkennst die Vorteile: Reduktion von Latenzzeiten, Bandbreitennutzung und Kosten, besonders bei datenintensiven Anwendungen.
+
+---
+
+## IoT-Netzwerktechnologien kontextabhängig auswählen
+**Passende Protokolle basierend auf Reichweite, Energie und Datenrate wählen**
+
+Du kannst IoT-Netzwerktechnologien anhand der Anforderungen auswählen: LoRaWAN für große Reichweiten bei geringem Energieverbrauch und niedriger Datenrate, WLAN für hohe Datenraten bei begrenzter Reichweite, Bluetooth Low Energy für kurze Distanzen mit Energieeffizienz. Du verstehst das Konzept von LPWAN (Low-Power Wide-Area Networks) für batteriebetriebene Sensoren über große Flächen.
+
+---
+
+## Netzwerktopologien und Ausfallsicherheit
+**Mesh-Netzwerke als robuste Alternative zu Stern-Topologien verstehen**
+
+Du verstehst, dass Mesh-Topologien höhere Ausfallsicherheit bieten, da Geräte Nachrichten untereinander weiterleiten können und alternative Routen bei Ausfällen automatisch gefunden werden. Du erkennst den Gegensatz zur Stern-Topologie, bei der der Ausfall des zentralen Hubs (Single Point of Failure) zum Totalausfall führt.
+
+---
+
+## IT-Sicherheit: CIA-Triade im IoT-Kontext
+**Die Schutzziele Vertraulichkeit, Integrität und Verfügbarkeit anwenden**
+
+Du kannst die drei Schutzziele der CIA-Triade auf IoT-Szenarien anwenden: Vertraulichkeit (Confidentiality) wird durch Klartextübertragung verletzt, Integrität (Integrity) durch unbemerkte Datenveränderung, Verfügbarkeit (Availability) durch Systemausfälle. Du erkennst, dass Klartextübertragung per HTTP primär die Vertraulichkeit gefährdet, da Dritte die Daten mitlesen können.
+
+---
+
+## IoT-spezifische Sicherheitsrisiken
+**Die besonderen Gefahren von Standard-Passwörtern und Botnets verstehen**
+
+Du verstehst, warum IoT-Geräte besonders anfällig für Angriffe sind: Sie sind oft direkt mit dem Internet verbunden, schwer patchbar (headless devices ohne Updates) und werden mit Standard-Passwörtern ausgeliefert. Du erkennst die Gefahr von Botnets wie Mirai, die automatisiert das Internet nach solchen Geräten scannen.
+
+---
+
+## Architekturen für High-Volume IoT-Daten
+**Edge Computing für datenintensive Anwendungen begründen**
+
+Du kannst analysieren, wann Edge-Computing-Architekturen notwendig sind: bei extrem hohen Datenraten (z.B. 10 GB/s bei Vibrationssensoren), wo Cloud-Übertragung zu teuer wäre, Latenz kritisch ist oder Echtzeitreaktionen erforderlich sind. Du verstehst das Konzept der Vorverarbeitung am Edge, um nur "Smart Data" statt "Big Data" zu übertragen.
+
+---
+
+## Netzwerksegmentierung als Sicherheitsprinzip
+**Die Notwendigkeit der Trennung von IoT-Geräten und sensiblen Systemen verstehen**
+
+Du kannst analysieren, warum IoT-Geräte in separaten Netzwerksegmenten (VLANs) betrieben werden sollten, um "Lateral Movement" von Angreifern zu verhindern. Du verstehst das Zero-Trust-Prinzip, das davon ausgeht, dass Geräte kompromittiert werden können, und erkennst, wie Segmentierung den "Blast Radius" eines Angriffs begrenzt.
+
+---
+
+## IPv6 als Zukunft des IoT
+**Die Notwendigkeit von IPv6 für Massive IoT begründen**
+
+Du kannst die Limitierung von IPv4 (ca. 4,3 Milliarden Adressen) analysieren und verstehst, warum IPv6 mit 128-Bit-Adressen für IoT-Szenarien mit Milliarden von Geräten zwingend erforderlich ist. Du erkennst, dass IPv6 echte End-to-End-Konnektivität ermöglicht, während IPv4 auf komplexe NAT-Workarounds angewiesen ist.
+
+---
+
+# Detaillierte Lernziele
+
+Im Kontext des Themas **IoT-Referatsthemen: Grundlagen, Protokolle und Sicherheit** soll dir dieses Fragenset helfen, die folgenden detaillierten Lernziele zu erreichen:
 
 ### Reproduktion
 **Du kannst …**
 
-1. definieren, was unter TinyML im Kontext von eingebetteten Systemen zu verstehen ist.
-2. das Konzept des Edge Computing als Methode zur dezentralen Datenverarbeitung nahe der Quelle beschreiben.
-3. erklären, warum sich das MQTT-Protokoll besonders für die Machine-to-Machine-Kommunikation in instabilen Netzwerken eignet.
-4. wiedergeben, was ein Digitaler Zwilling im Kontext der Industrie 4.0 ist und welche Funktion er erfüllt.
-5. das Kernprinzip der Zero-Trust-Architektur („Never trust, always verify“) im IoT-Kontext nennen.
-6. den grundlegenden Regelungsgegenstand des Cyber Resilience Act (CRA) der EU identifizieren.
+1. das Publish-Subscribe-Muster als Architektur von MQTT benennen
+2. die Hauptaufgabe eines Aktors als Umwandlung elektrischer Signale in physische Aktionen beschreiben
+3. Edge Computing als dezentrale Datenverarbeitung nahe an der Quelle definieren
 
 ### Anwendung
 **Du kannst …**
 
-1. für einen autarken Sensorstandort die geeignete Energieversorgungstechnologie (z. B. Energy Harvesting) auswählen.
-2. herleiten, warum bei sicherheitskritischen Echtzeitanwendungen Edge Computing gegenüber reinen Cloud-Lösungen zu bevorzugen ist.
-3. die passende Funktechnologie (z. B. LoRaWAN) für ein Szenario mit hoher Reichweitenanforderung und begrenzter Energie auswählen.
-4. das Prinzip „Security by Design“ konkret auf den Entwicklungsprozess eines IoT-Produkts anwenden.
-5. die Rolle von OPC UA als Standard für die Interoperabilität zwischen OT- und IT-Systemen einordnen.
-6. den Nutzen von Predictive Maintenance zur Vermeidung von Maschinenausfällen in der Industrie 4.0 beschreiben.
-7. Federated Learning als datenschutzfreundliche Methode zum Trainieren von KI-Modellen auf dezentralen Geräten identifizieren.
-8. erläutern, wie IoT-Plattformen durch Netzwerkeffekte und Orchestrierung ökonomischen Mehrwert schaffen.
-9. das Risiko eines Vendor Lock-in bei der Nutzung proprietärer IoT-Plattformen erkennen.
-10. erklären, wie sich Erlösmodelle beim Übergang vom Produktverkauf zu „Product-as-a-Service“ verändern.
-11. das Geschäftsmodell der Datenmonetarisierung am Beispiel der Lizenzierung von IoT-Daten identifizieren.
-12. die Anforderungen der Radio Equipment Directive (RED) an die Cybersicherheit von funkfähigen Produkten anwenden.
-13. Maßnahmen und Ziele von Green IoT zur Verbesserung der Nachhaltigkeit benennen.
-14. ethische Zielkonflikte zwischen Sicherheit und Privatsphäre bei IoT-Überwachungsprojekten erkennen.
+1. LoRaWAN für batteriebetriebene Sensoren mit hoher Reichweite und niedriger Datenrate auswählen
+2. Mesh-Topologie zur Erhöhung der Ausfallsicherheit bei Smart-Home-Systemen einsetzen
+3. bei Klartextübertragung per HTTP die Verletzung der Vertraulichkeit (CIA-Triade) identifizieren
+4. das erhöhte Risiko von Standard-Passwörtern bei IoT-Geräten durch direkte Internetanbindung und fehlende Updates erkennen
 
 ### Strukturelle Analyse
 **Du kannst …**
 
-1. analysieren, warum spezialisierte Betriebssysteme (wie RIOT oder Zephyr) für ressourcenbeschränkte IoT-Hardware notwendig sind.
-2. untersuchen, wie hybride IoT-Architekturen durch lokale Datenvorverarbeitung den Datenschutz verbessern.
-3. beurteilen, wie das Matter-Protokoll technische Hürden der Fragmentierung und Interoperabilität im Smart Home überwindet.
-4. Anomalien in Sensordaten im Kontext externer Einflüsse interpretieren, um Fehlalarme von echten Defekten zu unterscheiden.
-5. eine Retrofitting-Strategie als ökonomisch sinnvolle Alternative zur Neuanschaffung von Maschinen bewerten.
-6. analysieren, warum die Einbindung von Drittanbietern (Komplementoren) die Innovationskraft und Attraktivität einer IoT-Plattform steigert.
-7. die Gefahr der Kommodifizierung für reine Hardwarehersteller im Zeitalter digitaler Services analysieren.
-8. die strategischen Konsequenzen des Cyber Resilience Act für den gesamten Lebenszyklus und das Patch-Management von Produkten ableiten.
-9. die rechtlichen Entwicklungen der Produkthaftung in Bezug auf Softwarefehler und Sicherheitslücken bei IoT-Systemen bewerten.
-10. Maßnahmen zur Überwindung der digitalen Spaltung (Digital Divide) im Kontext ländlicher IoT-Implementierungen erörtern.
+1. Edge-Computing-Architekturen für High-Volume-Datenströme (z.B. Predictive Maintenance) begründen und Bandbreiten-/Latenz-/Kostenprobleme reiner Cloud-Lösungen ableiten
+2. die Notwendigkeit der Netzwerksegmentierung (VLANs) analysieren, um Lateral Movement nach Kompromittierung eines IoT-Geräts zu verhindern
+3. IPv6 als zwingende Voraussetzung für Massive IoT durch Vergleich der Adressräume von IPv4 (32-Bit) und IPv6 (128-Bit) begründen und NAT-Limitierungen ableiten
