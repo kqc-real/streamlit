@@ -2190,12 +2190,15 @@ def render_welcome_page(app_config: AppConfig):
                     pass
             return label
 
-        name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
+        base_name = filename.replace("questions_", "").replace(".json", "").replace("_", " ")
         num_questions = question_counts.get(filename)
-        # Lies das Datum aus dem meta des Sets
+        # Lies das Datum und bevorzugt den Meta-Titel
         date_str = "?"
         question_set = question_set_cache.get(filename)
         if question_set and question_set.meta:
+            meta_title = question_set.meta.get("title")
+            if meta_title:
+                base_name = str(meta_title)
             meta_date = question_set.meta.get("modified") or question_set.meta.get("created")
             if meta_date:
                 try:
@@ -2214,7 +2217,7 @@ def render_welcome_page(app_config: AppConfig):
                             date_str = str(meta_date)
                     except Exception:
                         date_str = "?"
-        label = f"{name} ({_questions_count_label(num_questions)})" if num_questions else name
+        label = f"{base_name} ({_questions_count_label(num_questions)})" if num_questions else base_name
         if date_str != "?":
             label += f" 📅 {date_str}"
         # Add a Learning Objectives icon when a corresponding LO file exists
