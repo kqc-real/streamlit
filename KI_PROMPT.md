@@ -340,6 +340,7 @@ The final JSON object must follow this structure (types and required fields):
       "medium": "number (count of questions with weight = 2)",
       "hard": "number (count of questions with weight = 3)"
     },
+    "language": "string (ISO 639-1 code, e.g., 'de', 'en', 'es')",
     "time_per_weight_minutes": {
       "1": 0.5,
       "2": 0.75,
