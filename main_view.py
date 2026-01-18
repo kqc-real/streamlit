@@ -2619,6 +2619,7 @@ def render_welcome_page(app_config: AppConfig):
     if search_term:
         term_norm = _normalize_for_search(search_term)
         filtered_question_files = []
+        lang_names = _welcome_language_names_map()
         for fname in valid_question_files:
             candidates = [fname]
             try:
@@ -2630,6 +2631,24 @@ def render_welcome_page(app_config: AppConfig):
                 candidates.append(format_filename(fname))
             except Exception:
                 pass
+            # Add meta-based fields to search: title/topic/language
+            qs_meta = {}
+            try:
+                qs = question_set_cache.get(fname)
+                if qs and isinstance(getattr(qs, "meta", None), dict):
+                    qs_meta = qs.meta or {}
+            except Exception:
+                qs_meta = {}
+            for key in ("title", "topic"):
+                val = qs_meta.get(key)
+                if val:
+                    candidates.append(val)
+            lang_val = qs_meta.get("language")
+            if lang_val:
+                candidates.append(str(lang_val))
+                pretty_lang = lang_names.get(str(lang_val).lower())
+                if pretty_lang:
+                    candidates.append(pretty_lang)
             haystack = " ".join(str(c) for c in candidates if c)
             if term_norm in _normalize_for_search(haystack):
                 filtered_question_files.append(fname)
