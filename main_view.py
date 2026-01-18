@@ -2618,43 +2618,46 @@ def render_welcome_page(app_config: AppConfig):
     filtered_question_files = list(valid_question_files)
     if search_term:
         term_norm = _normalize_for_search(search_term)
-        filtered_question_files = []
-        lang_names = _welcome_language_names_map()
-        for fname in valid_question_files:
-            candidates = [fname]
-            try:
-                stem = Path(fname).stem
-                candidates.extend([stem, stem.replace("questions_", ""), fname.replace("questions_", "")])
-            except Exception:
-                pass
-            try:
-                candidates.append(format_filename(fname))
-            except Exception:
-                pass
-            # Add meta-based fields to search: title/topic/language
-            qs_meta = {}
-            try:
-                qs = question_set_cache.get(fname)
-                if qs and isinstance(getattr(qs, "meta", None), dict):
-                    qs_meta = qs.meta or {}
-            except Exception:
+        if len(term_norm) < 3:
+            st.info(translate_ui("welcome.search.too_short", default="Bitte mindestens 3 Zeichen für die Suche eingeben."))
+        else:
+            filtered_question_files = []
+            lang_names = _welcome_language_names_map()
+            for fname in valid_question_files:
+                candidates = [fname]
+                try:
+                    stem = Path(fname).stem
+                    candidates.extend([stem, stem.replace("questions_", ""), fname.replace("questions_", "")])
+                except Exception:
+                    pass
+                try:
+                    candidates.append(format_filename(fname))
+                except Exception:
+                    pass
+                # Add meta-based fields to search: title/topic/language
                 qs_meta = {}
-            for key in ("title", "topic"):
-                val = qs_meta.get(key)
-                if val:
-                    candidates.append(val)
-            lang_val = qs_meta.get("language")
-            if lang_val:
-                candidates.append(str(lang_val))
-                pretty_lang = lang_names.get(str(lang_val).lower())
-                if pretty_lang:
-                    candidates.append(pretty_lang)
-            haystack = " ".join(str(c) for c in candidates if c)
-            if term_norm in _normalize_for_search(haystack):
-                filtered_question_files.append(fname)
-        if not filtered_question_files:
-            st.info(_welcome_search_no_results(search_term))
-            filtered_question_files = list(valid_question_files)
+                try:
+                    qs = question_set_cache.get(fname)
+                    if qs and isinstance(getattr(qs, "meta", None), dict):
+                        qs_meta = qs.meta or {}
+                except Exception:
+                    qs_meta = {}
+                for key in ("title", "topic"):
+                    val = qs_meta.get(key)
+                    if val:
+                        candidates.append(val)
+                lang_val = qs_meta.get("language")
+                if lang_val:
+                    candidates.append(str(lang_val))
+                    pretty_lang = lang_names.get(str(lang_val).lower())
+                    if pretty_lang:
+                        candidates.append(pretty_lang)
+                haystack = " ".join(str(c) for c in candidates if c)
+                if term_norm in _normalize_for_search(haystack):
+                    filtered_question_files.append(fname)
+            if not filtered_question_files:
+                st.info(_welcome_search_no_results(search_term))
+                filtered_question_files = list(valid_question_files)
 
     # Preserve aktuell ausgewähltes Set, auch wenn es nicht dem Filter entspricht
     select_options = list(filtered_question_files)

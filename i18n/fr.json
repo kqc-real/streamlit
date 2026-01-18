@@ -1137,7 +1137,8 @@
         "search": {
             "label": "🔎 Recherche rapide (titre/slug)",
             "placeholder": "ex. \"maths\" ou \"scrum\"",
-            "no_results": "Aucun résultat pour \"{term}\" – tous les sets sont affichés."
+            "no_results": "Aucun résultat pour \"{term}\" – tous les sets sont affichés.",
+            "too_short": "Merci d’entrer au moins 3 caractères pour chercher."
         },
         "languages_available": "Langues disponibles : {languages}",
         "section": {
