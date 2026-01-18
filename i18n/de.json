@@ -1064,6 +1064,11 @@
             "sets_many": "{n} Fragensets",
             "label_with_counts": "{base} ({sets}, {questions})"
         },
+        "search": {
+            "label": "🔎 Schnellsuche (Titel/Slug)",
+            "placeholder": "z. B. \"Mathe\" oder \"Scrum\"",
+            "no_results": "Keine Treffer für \"{term}\" – zeige alle Fragensets."
+        },
         "section": {
             "header": "🗂️ Set-Auswahl"
         },

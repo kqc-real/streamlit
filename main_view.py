@@ -241,6 +241,21 @@ def _welcome_select_placeholder() -> str:
     return translate_ui("welcome.select.placeholder", default="🗂️ Bitte auswählen...")
 
 
+def _welcome_search_label() -> str:
+    return translate_ui("welcome.search.label", default="🔎 Schnellsuche (Titel/Slug)")
+
+
+def _welcome_search_placeholder() -> str:
+    return translate_ui("welcome.search.placeholder", default="z. B. 'Mathe' oder 'Scrum'")
+
+
+def _welcome_search_no_results(term: str) -> str:
+    return translate_ui(
+        "welcome.search.no_results",
+        default="Keine Treffer für \"{term}\" – zeige alle Fragensets.",
+    ).format(term=term)
+
+
 def _questions_count_label(count: int) -> str:
     """Return a localized label for a question count, handling singular/plural.
 
@@ -2201,6 +2216,14 @@ def render_welcome_page(app_config: AppConfig):
         unsafe_allow_html=True,
     )
 
+    # Schnellsuche über Titel/Slug
+    search_term = st.text_input(
+        _welcome_search_label(),
+        key="welcome_quicksearch",
+        placeholder=_welcome_search_placeholder(),
+        help=None,
+    ).strip()
+
     # Allow no selection on first load: show a placeholder prompting the user
     current_selection = st.session_state.get("selected_questions_file", None)
 
@@ -2542,13 +2565,46 @@ def render_welcome_page(app_config: AppConfig):
             else:
                 st.caption(_learning_objectives_pdf_unavailable(pdf_err))
 
-    total_sets = len(valid_question_files)
-    total_questions = sum(question_counts.get(fname, 0) for fname in valid_question_files)
+    def _normalize_for_search(text: str) -> str:
+        base = str(text or "").lower()
+        base = base.replace("_", " ")
+        base = re.sub(r"\s+", " ", base)
+        return base.strip()
+
+    filtered_question_files = list(valid_question_files)
+    if search_term:
+        term_norm = _normalize_for_search(search_term)
+        filtered_question_files = []
+        for fname in valid_question_files:
+            candidates = [fname]
+            try:
+                stem = Path(fname).stem
+                candidates.extend([stem, stem.replace("questions_", ""), fname.replace("questions_", "")])
+            except Exception:
+                pass
+            try:
+                candidates.append(format_filename(fname))
+            except Exception:
+                pass
+            haystack = " ".join(str(c) for c in candidates if c)
+            if term_norm in _normalize_for_search(haystack):
+                filtered_question_files.append(fname)
+        if not filtered_question_files:
+            st.info(_welcome_search_no_results(search_term))
+            filtered_question_files = list(valid_question_files)
+
+    # Preserve aktuell ausgewähltes Set, auch wenn es nicht dem Filter entspricht
+    select_options = list(filtered_question_files)
+    if current_selection and current_selection not in select_options:
+        select_options = [current_selection, *select_options]
+
+    total_sets = len(select_options)
+    total_questions = sum(question_counts.get(fname, 0) for fname in select_options)
     select_label = _welcome_select_label_with_counts(total_sets, total_questions)
 
     selected_choice = st.selectbox(
         select_label,
-        options=valid_question_files,
+        options=select_options,
         index=None,  # Render with no preselected index so the placeholder / clear affordance appears
         format_func=format_filename,
         key="main_view_question_file_selector",
@@ -3052,7 +3108,6 @@ def render_welcome_page(app_config: AppConfig):
 
                     # Dekoriere die Top 3 mit Icons und nummeriere den Rest
                     icons = ["🥇", "🥈", "🥉"]
-                    import re
 
                     def _is_hex_like(s: str) -> bool:
                         try:

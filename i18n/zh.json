@@ -1137,6 +1137,11 @@
             "sets_many": "{n} 个题库",
             "label_with_counts": "{base}（{sets}，{questions}）"
         },
+        "search": {
+            "label": "🔎 快速搜索（标题/slug）",
+            "placeholder": "例如 \"math\" 或 \"scrum\"",
+            "no_results": "未找到 \"{term}\" 的匹配项 — 显示全部题库。"
+        },
         "section": {
             "header": "🗂️ 题库选择"
         },

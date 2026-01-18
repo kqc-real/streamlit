@@ -1134,6 +1134,11 @@
             "sets_many": "{n} sets",
             "label_with_counts": "{base} ({sets}, {questions})"
         },
+        "search": {
+            "label": "🔎 Búsqueda rápida (título/slug)",
+            "placeholder": "p. ej. \"matemáticas\" o \"scrum\"",
+            "no_results": "Sin coincidencias para \"{term}\" – se muestran todos los sets."
+        },
         "section": {
             "header": "🗂️ Selección de Set"
         },
