@@ -21,7 +21,7 @@
     },
     "questions": [
         {
-            "question": "1. Welche Schritte gehören zu den Hauptphasen eines Machine-Learning-Projekts?",
+            "question": "1. In einem E-Commerce-Churn-Projekt: Welche Hauptphasen durchläufst du typischerweise in einem Machine-Learning-Projekt von der Problemdefinition bis zum Betrieb?",
             "options": [
                 "Problemdefinition, Datenbeschaffung, Exploration, Vorbereitung, Modelltraining",
                 "Definiere Variablen, Schreibe Funktionen, Teste Implementation, Deploye die Anwendung",
@@ -61,7 +61,7 @@
             ]
         },
         {
-            "question": "2. Was misst der RMSE (Root Mean Square Error)?",
+            "question": "2. Für ein Regressionsmodell zu Immobilienpreisen: Was beschreibt der RMSE im Hinblick auf die Vorhersagefehler?",
             "options": [
                 "Die typische Größe des Vorhersagefehlers mit höherer Gewichtung großer Fehler",
                 "Die Anzahl der korrekt klassifizierten Datenpunkte in der gesamten Testmenge",
@@ -101,7 +101,7 @@
             ]
         },
         {
-            "question": "3. Was ist der Hauptzweck der fit()-Methode in Scikit-Learn?",
+            "question": "3. In einer sklearn-Pipeline für Klassifikation: Wofür nutzt du die fit()-Methode eines Estimators?",
             "options": [
                 "Parameter aus Trainingsdaten zu lernen",
                 "Vorhersagen für komplett neue unbekannte Daten zu treffen",
@@ -141,7 +141,7 @@
             ]
         },
         {
-            "question": "4. Warum ist stratifiziertes Sampling sinnvoller als einfaches Zufallssampling?",
+            "question": "4. Bei einer Kreditrisiko-Analyse: Warum setzt du auf stratifiziertes Sampling statt reines Zufallssampling?",
             "options": [
                 "Es sorgt für repräsentative Verteilung wichtiger Kategorien",
                 "Es reduziert die Größe des benötigten Testdatensatzes um die Hälfte",
@@ -181,7 +181,7 @@
             ]
         },
         {
-            "question": "5. Warum sollte der Testdatensatz vor Modellauswahl nicht betrachtet werden?",
+            "question": "5. In einer ML-Studie mit fest definiertem Testset: Weshalb solltest du den Testdatensatz vor der Modellauswahl nicht inspizieren?",
             "options": [
                 "Um Data-Snooping-Bias zu vermeiden",
                 "Weil der Testdatensatz zu groß ist",
@@ -221,7 +221,7 @@
             ]
         },
         {
-            "question": "6. Welche Strategie ist am besten für numerisches Merkmal mit Rechtsschiefe und Ausreißern?",
+            "question": "6. In einem Healthcare-Datensatz mit Laborwerten: Welche Imputationsstrategie wählst du für ein rechtsschiefes numerisches Merkmal mit Ausreißern?",
             "options": [
                 "strategy='median', weil robust",
                 "strategy='mean', weil präziser",
@@ -261,7 +261,7 @@
             ]
         },
         {
-            "question": "7. Wann OneHotEncoder statt OrdinalEncoder?",
+            "question": "7. Bei Produktkategorien in einem Retail-Datensatz: Wann bevorzugst du OneHotEncoder gegenüber OrdinalEncoder?",
             "options": [
                 "Wenn keine natürliche Ordnung",
                 "Bei über 100 Kategorien",
@@ -301,7 +301,7 @@
             ]
         },
         {
-            "question": "8. Wann StandardScaler statt MinMaxScaler?",
+            "question": "8. Für numerische Sensor-Features in IoT: In welcher Situation ist der StandardScaler die passendere Wahl gegenüber dem MinMaxScaler?",
             "options": [
                 "Bei Ausreißern",
                 "Bei Bereich 0-1 Pflicht",
@@ -341,7 +341,7 @@
             ]
         },
         {
-            "question": "9. Pipeline-Reihenfolge für numerische Daten?",
+            "question": "9. In einer Preprocessing-Pipeline für tabellarische Daten: Welche Reihenfolge von Schritten setzt du für numerische Features sinnvoll um?",
             "options": [
                 "Imputer, Transformer, Scaler, Estimator",
                 "Scaler, Estimator, Imputer, Transformer",
@@ -381,7 +381,7 @@
             ]
         },
         {
-            "question": "10. Wie verarbeitet ColumnTransformer unterschiedliche Datentypen?",
+            "question": "10. Bei gemischten Merkmalen (numerisch und kategorisch): Wie nutzt du den ColumnTransformer, um unterschiedliche Datentypen gemeinsam zu verarbeiten?",
             "options": [
                 "Wendet Transformer spaltenspezifisch an",
                 "Konvertiert alle in gleichen Typ",
@@ -421,7 +421,7 @@
             ]
         },
         {
-            "question": "11. Was bewirkt random_state in train_test_split()?",
+            "question": "11. Beim Aufsetzen eines reproduzierbaren Experiments: Welche Wirkung hat der Parameter random_state in train_test_split()?",
             "options": [
                 "Macht Aufteilung reproduzierbar",
                 "Erhöht Trainingsgeschwindigkeit",
@@ -461,7 +461,7 @@
             ]
         },
         {
-            "question": "12. Was zeigt feature_importances_ bei RandomForest?",
+            "question": "12. In einem RandomForest-Klassifikationsprojekt: Was drückt das Attribut feature_importances_ über die Merkmale aus?",
             "options": [
                 "Feature-Wichtigkeit im Modell",
                 "Anzahl fehlender Werte",
@@ -501,7 +501,7 @@
             ]
         },
         {
-            "question": "13. Korrelationsmatrix zur Merkmalsauswahl?",
+            "question": "13. Für Feature-Screening in einem DataFrame: Wie unterstützt dich eine Korrelationsmatrix bei der Merkmalsauswahl?",
             "options": [
                 "Korrelation zum Target prüfen",
                 "Entferne alle korrelierten Merkmale",
@@ -541,7 +541,7 @@
             ]
         },
         {
-            "question": "14. Strategie für fehlende Werte in kategorischen Merkmalen?",
+            "question": "14. Bei Umfragen mit kategorischen Antworten: Welche Strategie setzt du zum Auffüllen fehlender Kategorien ein?",
             "options": [
                 "strategy='most_frequent'",
                 "strategy='median'",
@@ -581,7 +581,7 @@
             ]
         },
         {
-            "question": "15. Wann Log-Transformation anwenden?",
+            "question": "15. Für ein Umsatz-Feature in einem Business-Dataset: Wann setzt du eine Log-Transformation auf numerische Werte ein?",
             "options": [
                 "Bei Rechtschiefe (positive Werte)",
                 "Bei bereits perfekter Normalverteilung",
@@ -621,7 +621,7 @@
             ]
         },
         {
-            "question": "16. FunctionTransformer erstellen?",
+            "question": "16. Wenn du eine eigene Feature-Funktion nutzen willst: Wie bindest du eine Python-Funktion als Transformer in eine Pipeline ein?",
             "options": [
                 "FunctionTransformer nutzen",
                 "Komplette Klasse schreiben",
@@ -661,7 +661,7 @@
             ]
         },
         {
-            "question": "17. Hauptzweck von k-facher Kreuzvalidierung?",
+            "question": "17. Bei begrenzter Datenmenge in einem Experiment: Welchen Nutzen hat k-fache Kreuzvalidierung für die Bewertung eines Modells?",
             "options": [
                 "Robustere Qualitätsschätzung",
                 "Automatisches Hyperparameter-Tuning",
@@ -701,7 +701,7 @@
             ]
         },
         {
-            "question": "18. Hyperparameter-Grid für GridSearchCV?",
+            "question": "18. Beim Hyperparameter-Tuning einer Pipeline: Wie definierst du das param_grid für GridSearchCV?",
             "options": [
                 "Dictionary: Parameter zu Listen",
                 "Eine einfache Liste von Werten",
@@ -741,7 +741,7 @@
             ]
         },
         {
-            "question": "19. Overfitting-Erkennung bei Trainings- vs. Validierungsfehler?",
+            "question": "19. Beim Vergleich von Train- und Validierungsfehlern: Woran erkennst du Overfitting anhand der Fehlerraten?",
             "options": [
                 "Training-Fehler klein, Val-Fehler groß",
                 "Beide gleich",
@@ -781,7 +781,7 @@
             ]
         },
         {
-            "question": "20. Metrik für Regression bei Ausreißern?",
+            "question": "20. In einem Regressionsprojekt mit Business-KPIs: Welche Metrik eignet sich besonders, wenn Ausreißer zu erwarten sind?",
             "options": [
                 "MAE (Mean Absolute Error)",
                 "RMSE (ignoriert Ausreißer)",
@@ -821,7 +821,7 @@
             ]
         },
         {
-            "question": "21. Warum Random Forests besser als einzelne Bäume?",
+            "question": "21. Beim Vergleich einzelner Entscheidungsbäume mit Ensembles: Weshalb liefern Random Forests oft robustere Ergebnisse als ein einzelner Baum?",
             "options": [
                 "Mittelung vieler Bäume",
                 "Benötigen weniger Daten",
@@ -861,7 +861,7 @@
             ]
         },
         {
-            "question": "22. Fehler im Code?\n\n1: imputer = SimpleImputer(strategy='median')\n2: X_scaled = StandardScaler().fit_transform(X)\n3: X_imputed = imputer.fit_transform(X_scaled)",
+            "question": "22. In einer Preprocessing-Pipeline für numerische Features: Welcher Fehler steckt in einer Reihenfolge \"Skalieren, dann Imputieren\"?",
             "options": [
                 "Skalierung vor Imputation - fehlende Werte zuerst",
                 "SimpleImputer nicht mit StandardScaler kombinierbar",
@@ -901,7 +901,7 @@
             ]
         },
         {
-            "question": "23. Bei einem Betrugserkennungs-Datensatz (99% legal, 1% Betrug) erreicht ein Modell 99% Accuracy. Warum ist dies problematisch?",
+            "question": "23. In einem Fraud-Detection-Projekt: Warum ist eine Accuracy von 99% bei starker Klassendissbalance irreführend?",
             "options": [
                 "Modell rät immer Mehrheitsklasse ('legal') ohne Lernen",
                 "Accuracy kann bei binärer Klassifikation nicht 99% erreichen",
@@ -941,7 +941,7 @@
             ]
         },
         {
-            "question": "24. Lernkurven zeigen hohen Fehler auf Trainings- und Validierungsdaten, die sich annähern. Welches Problem liegt vor?",
+            "question": "24. In einem Experiment mit Lernkurven-Analyse: Was deutet auf Unterfitting hin, wenn du Trainings- und Validierungsfehler vergleichst?",
             "options": [
                 "High Bias (Underfitting)",
                 "High Variance (Overfitting)",
@@ -981,7 +981,7 @@
             ]
         },
         {
-            "question": "25. Welches Risiko besteht, wenn Feature Selection auf dem gesamten Datensatz VOR dem Train-Test-Split durchgeführt wird?",
+            "question": "25. Beim Feature-Selection-Schritt in einem ML-Workflow: Warum darf die Auswahl nicht vor dem Train/Valid-Split erfolgen?",
             "options": [
                 "Data Leakage: Testdaten beeinflussen Auswahl",
                 "Underfitting: Zu wenige Features werden gewählt",
@@ -1021,7 +1021,7 @@
             ]
         },
         {
-            "question": "26. Warum ist Target Encoding ohne Regularisierung auf Trainingsdaten gefährlich?",
+            "question": "26. Beim Target Encoding für Marketing-Kategorien: Weshalb birgt Target Encoding ohne Regularisierung Leakage-Risiken?",
             "options": [
                 "Führt zu extremem Overfitting (Target Leakage)",
                 "Erzeugt immer NaN-Werte bei neuen Kategorien",
@@ -1061,7 +1061,7 @@
             ]
         },
         {
-            "question": "27. Gradient Boosting vs. Random Forest: Welches Verfahren ist empfindlicher gegenüber Rauschen (Noise)?",
+            "question": "27. Im Vergleich zweier Ensemble-Methoden: Wodurch unterscheidet sich Gradient Boosting in seiner Empfindlichkeit von Random Forests?",
             "options": [
                 "Gradient Boosting: overfittet auf Rauschen/Fehler",
                 "Random Forest, da die Bäume sehr tief wachsen",
@@ -1101,7 +1101,7 @@
             ]
         },
         {
-            "question": "28. Medizinisches Screening (Krankheit erkennen): Welche Metrik optimieren, um Kranke nicht zu übersehen?",
+            "question": "28. Bei einem medizinischen Screening-Modell: Welche Gütemaßzahl priorisierst du, um möglichst keine Kranken zu übersehen?",
             "options": [
                 "Recall (Sensitivität)",
                 "Precision (Genauigkeit)",
@@ -1141,7 +1141,7 @@
             ]
         },
         {
-            "question": "29. Wann ist Nested Cross-Validation (verschachtelte Kreuzvalidierung) notwendig?",
+            "question": "29. Für eine faire Performance-Schätzung mit Tuning: Warum nutzt du Nested Cross-Validation, wenn Hyperparameter optimiert werden?",
             "options": [
                 "Kombination: Tuning & unverzerrte Evaluation",
                 "Wenn der Datensatz extrem groß ist (> 1 TB)",
@@ -1181,7 +1181,7 @@
             ]
         },
         {
-            "question": "30. Auswirkung von PCA auf unskalierten Daten (z.B. Gehalt=50000, Alter=30)?",
+            "question": "30. In einer PCA-Analyse eines Finanz-Datensatzes: Welche Auswirkung hat fehlende Skalierung vor der PCA auf die Komponenten?",
             "options": [
                 "Gehalt (große Varianz) dominiert die PCA",
                 "PCA funktioniert technisch nicht (Error)",
