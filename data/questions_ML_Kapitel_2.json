@@ -718,7 +718,7 @@
                 "title": "param_grid korrekt definieren",
                 "steps": [
                     "Dictionary bauen: {'param': [Werte]}",
-                    "Pipelines mit <step>__<param> adressieren",
+                    "Pipelines mit step__param adressieren",
                     "Wertebereiche realistisch begrenzen",
                     "cv/scoring n passend setzen",
                     "Parallelisierung nutzen (n_jobs)"
@@ -732,7 +732,7 @@
                 },
                 {
                     "term": "Pipeline-Notation",
-                    "definition": "Parameter in Pipelines mit <step>__<param> adressieren."
+                    "definition": "Parameter in Pipelines mit step__param adressieren."
                 },
                 {
                     "term": "Kartesisches Produkt",
