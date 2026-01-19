@@ -1,0 +1,996 @@
+{
+  "meta": {
+    "title": "LaTeX for Beginners",
+    "created": "10.03.2026 12:00",
+    "target_audience": "Bachelor-Studierende (Abschlussarbeit, LaTeX-Neulinge)",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 6,
+      "medium": 18,
+      "hard": 6
+    },
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 28
+  },
+  "questions": [
+    {
+      "question": "1. Welches Zeichen leitet in LaTeX einen Kommentar ein?",
+      "options": [
+        "Das Prozentzeichen %",
+        "Das Et-Zeichen &",
+        "Das Rautezeichen #"
+      ],
+      "answer": 0,
+      "explanation": "Mit % beginnt in LaTeX ein Zeilenkommentar; alles rechts davon wird ignoriert. Zeichen wie & oder # haben andere Bedeutungen in Tabellen bzw. Makros.",
+      "weight": 1,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Kommentare",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Kommentar",
+          "definition": "Text, den der Compiler ignoriert."
+        },
+        {
+          "term": "Compilerlauf",
+          "definition": "Durchgang, in dem LaTeX den Code verarbeitet."
+        }
+      ]
+    },
+    {
+      "question": "2. Mit welchem Befehl startet der Dokumentenkörper?",
+      "options": [
+        "\\begin{document}",
+        "\\start{document}",
+        "\\open{document}"
+      ],
+      "answer": 0,
+      "explanation": "\\begin{document} leitet den Inhalt ein; vorher liegt die Präambel. \\start oder \\open sind keine LaTeX-Standardbefehle.",
+      "weight": 1,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Umgebungen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Präambel",
+          "definition": "Bereich vor \\begin{document} für Pakete und Einstellungen."
+        },
+        {
+          "term": "Umgebung",
+          "definition": "Block mit \\begin{...} und \\end{...}."
+        }
+      ]
+    },
+    {
+      "question": "3. Welcher Befehl erzeugt eine Abschnittsüberschrift in Artikeln?",
+      "options": [
+        "\\section{Titel}",
+        "\\chapter{Titel}",
+        "\\header{Titel}"
+      ],
+      "answer": 0,
+      "explanation": "In article/scrartcl ist \\section die höchste Ebene. \\chapter gibt es in book/report; \\header ist kein Standardbefehl.",
+      "weight": 1,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Sektionen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Section",
+          "definition": "Überschriftsebene in Artikeln."
+        },
+        {
+          "term": "KOMA-Script",
+          "definition": "Moderne Dokumentklassen wie scrartcl."
+        }
+      ]
+    },
+    {
+      "question": "4. Wie markierst du Inline-Mathe im Text?",
+      "options": [
+        "Mit eckigen Klammern ([ ... ])",
+        "Mit Prozentzeichen (% ... %)",
+        "Mit Dollar-Begrenzern ($ ... $)"
+      ],
+      "answer": 2,
+      "explanation": "Inline-Mathe wird mit $ ... $ (oder äquivalent \\( ... \\)) gesetzt. Prozentzeichen oder eckige Klammern aktivieren keinen Math-Modus.",
+      "weight": 1,
+      "topic": "Mathematiksatz",
+      "concept": "Inline-Math",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Math-Modus",
+          "definition": "LaTeX-Modus für Formelsatz."
+        },
+        {
+          "term": "Delimiter",
+          "definition": "Begrenzungszeichen, die einen Modus öffnen/schließen."
+        }
+      ]
+    },
+    {
+      "question": "5. Welcher Befehl lädt Pakete in der Präambel?",
+      "options": [
+        "\\usepackage{paket}",
+        "\\include{paket}",
+        "\\loadpkg{paket}"
+      ],
+      "answer": 0,
+      "explanation": "\\usepackage lädt Pakete in der Präambel. \\include fügt Dateien ein; \\loadpkg ist kein Standard.",
+      "weight": 1,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Paketladen",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Paket",
+          "definition": "Erweiterung, die Befehle/Layouts bereitstellt."
+        },
+        {
+          "term": "Präambel",
+          "definition": "Einstellungsbereich vor dem Dokument."
+        }
+      ]
+    },
+    {
+      "question": "6. Welche Sprache stellt \\usepackage[ngerman]{babel} ein?",
+      "options": [
+        "Deutsch (neue Rechtschreibung)",
+        "Britisches Englisch",
+        "Französisch"
+      ],
+      "answer": 0,
+      "explanation": "Option ngerman aktiviert deutsche Silbentrennung und Datumsformate nach neuer Rechtschreibung. Die anderen Sprachen erfordern en- oder french-Optionen.",
+      "weight": 1,
+      "topic": "Sprache & Typografie",
+      "concept": "babel",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "babel",
+          "definition": "Paket für Lokalisierung von Trennung und Datum."
+        },
+        {
+          "term": "Silbentrennung",
+          "definition": "Automatische Worttrennung am Zeilenende."
+        }
+      ]
+    },
+    {
+      "question": "7. Wie bindest du eine Grafik ein und setzt die Breite auf 60% des Textbreitenmaßes?",
+      "options": [
+        "\\includegraphics[width=0.6\\textwidth]{bild.png}",
+        "\\includegraphics[scale=0.6]{bild.png}",
+        "\\includegraphics[height=0.6\\textheight]{bild.png}",
+        "\\includegraphics[angle=60]{bild.png}"
+      ],
+      "answer": 0,
+      "explanation": "\\includegraphics mit Option width=0.6\\textwidth setzt die Breite relativ zum Satzspiegel. Die anderen Varianten sind ungültig oder keine Standardbefehle.",
+      "weight": 2,
+      "topic": "Grafiken & Floats",
+      "concept": "includegraphics",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Grafiken skalieren",
+        "steps": [
+          "graphicx in der Präambel laden",
+          "figure-Umgebung nutzen für Gleiten und Caption",
+          "width in Relation zur \\textwidth angeben",
+          "Caption vor Label setzen"
+        ],
+        "content": "Breitenangaben mit \\textwidth sind stabil bei Layoutänderungen. Alternativen wie height oder scale sind möglich."
+      },
+      "mini_glossary": [
+        {
+          "term": "graphicx",
+          "definition": "Paket für Grafikbefehle."
+        },
+        {
+          "term": "figure",
+          "definition": "Gleitobjekt für Abbildungen mit Beschriftung."
+        }
+      ]
+    },
+    {
+      "question": "8. In einer Tabelle soll Text am Gleichheitszeichen ausgerichtet werden. Welches Zeichen setzt du vor die Ausrichtungsspalte in align?",
+      "options": [
+        "Das Und-Zeichen &",
+        "Das Gleichheitszeichen =",
+        "Den senkrechten Strich |",
+        "Die Tilde ~"
+      ],
+      "answer": 0,
+      "explanation": "In align markiert & die Ausrichtungsstelle, z. B. x &= y. Gleichheitszeichen stehen selbst hinter dem Anker.",
+      "weight": 2,
+      "topic": "Mathematiksatz",
+      "concept": "Ausrichtung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Align nutzen",
+        "steps": [
+          "amsmath laden",
+          "Zeile: x &= y + 1",
+          "Zeilenumbruch mit \\\\ setzen",
+          "Gleiche Anzahl & pro Zeile halten"
+        ],
+        "content": "Ohne & erfolgt keine Spaltenausrichtung; zu viele oder zu wenige & erzeugen Fehler."
+      },
+      "mini_glossary": [
+        {
+          "term": "amsmath",
+          "definition": "Paket für erweiterten Formelsatz."
+        },
+        {
+          "term": "Align-Umgebung",
+          "definition": "Mehrzeilige Formel mit Spaltenausrichtung."
+        }
+      ]
+    },
+    {
+      "question": "9. Wie verknüpfst du Caption und Label korrekt in einer Abbildung?",
+      "options": [
+        "Caption zuerst, dann \\label im figure",
+        "\\label vor \\caption setzen",
+        "\\label außerhalb der figure schreiben",
+        "\\caption in die Präambel legen"
+      ],
+      "answer": 0,
+      "explanation": "Die Referenz greift auf die letzte Nummer; deshalb kommt \\label direkt nach \\caption im gleichen float. Außerhalb des floats funktioniert die Referenz nicht korrekt.",
+      "weight": 2,
+      "topic": "Referenzen & Querverweise",
+      "concept": "Label/Caption",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Label richtig setzen",
+        "steps": [
+          "figure beginnen",
+          "Grafik einfügen",
+          "Caption setzen",
+          "Label direkt danach",
+          "Dann referenzieren mit \\ref"
+        ],
+        "content": "Falsche Reihenfolge führt zu falschen Nummern in \\ref-Ausgaben."
+      },
+      "mini_glossary": [
+        {
+          "term": "Caption",
+          "definition": "Beschriftung eines Floats."
+        },
+        {
+          "term": "Label",
+          "definition": "Anker für Verweise wie \\ref."
+        }
+      ]
+    },
+    {
+      "question": "10. Welche Umgebung verwendest du für eine einfache Liste mit Bullet-Points?",
+      "options": [
+        "itemize",
+        "enumerate",
+        "description",
+        "listings"
+      ],
+      "answer": 0,
+      "explanation": "itemize erzeugt unnummerierte Aufzählungen. enumerate nummeriert, description ist für Begriff-Definition-Paare, listings formatiert Code.",
+      "weight": 2,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Aufzählung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Listenwahl",
+        "steps": [
+          "Prüfen: nummeriert oder nicht",
+          "Für Bullet-Points: itemize",
+          "Für Zahlen: enumerate",
+          "Für Glossare: description"
+        ],
+        "content": "Konsistenz der Listenform erhöht die Lesbarkeit von Abschlussarbeiten."
+      },
+      "mini_glossary": [
+        {
+          "term": "Aufzählung",
+          "definition": "Liste von Punkten oder Aussagen."
+        },
+        {
+          "term": "Umgebung",
+          "definition": "LaTeX-Block mit begin/end."
+        }
+      ]
+    },
+    {
+      "question": "11. Wie setzt du den Literatur-Backend-Lauf bei BibLaTeX korrekt auf?",
+      "options": [
+        "Mit biber nach pdflatex laufen",
+        "Nur einmal pdflatex starten",
+        "bibtex statt biber bei biblatex nutzen",
+        "Einfach erneut kompilieren ohne Backend"
+      ],
+      "answer": 0,
+      "explanation": "Bei biblatex mit biber: pdflatex → biber → pdflatex → pdflatex. Nur pdflatex reicht nicht; bibtex passt nicht zum biblatex-Backend.",
+      "weight": 2,
+      "topic": "Literatur & Zitate",
+      "concept": "biber-Lauf",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Kompilierreihenfolge",
+        "steps": [
+          "pdflatex zum Erzeugen der .aux/.bcf",
+          "biber zum Auswerten der Literatur",
+          "pdflatex zur Einbindung der Zitate",
+          "pdflatex zur Stabilisierung der Referenzen"
+        ],
+        "content": "Ohne biber bleiben Zitate leer oder zeigen Platzhalter wie [?]."
+      },
+      "mini_glossary": [
+        {
+          "term": "biber",
+          "definition": "Backend zur Literaturverarbeitung für biblatex."
+        },
+        {
+          "term": "biblatex",
+          "definition": "Paket zur Literaturverwaltung und Zitierstilen."
+        }
+      ]
+    },
+    {
+      "question": "12. Wie erzeugst du den Bruch \\$\\frac{1}{2}\\$ im Mathemodus?",
+      "options": [
+        "\\\\frac{1}{2}",
+        "\\\\half{1}{2}",
+        "\\\\divfrac{1}{2}"
+      ],
+      "answer": 0,
+      "explanation": "\\\\frac{Zähler}{Nenner} ist der Standardbefehl. Die anderen Varianten sind keine LaTeX-Standards.",
+      "weight": 2,
+      "topic": "Mathematiksatz",
+      "concept": "Bruch",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Brüche setzen",
+        "steps": [
+          "Math-Modus öffnen",
+          "Befehl \\frac nutzen",
+          "Optionale Klammern für größere Ausdehnung im Display-Modus",
+          "Bei Inline-Math auf Zeilenhöhe achten"
+        ],
+        "content": "Im Inline-Modus werden Brüche kleiner dargestellt; bei Bedarf auf Display-Modus wechseln."
+      },
+      "mini_glossary": [
+        {
+          "term": "Bruch",
+          "definition": "Darstellung von Division mit Zähler/Nenner."
+        },
+        {
+          "term": "Display-Math",
+          "definition": "Abgesetzter Formelsatz mit \\[ ... \\]."
+        }
+      ]
+    },
+    {
+      "question": "13. Wie vermeidest du, dass ein Float (figure) ans Dokumentende springt?",
+      "options": [
+        "Breite sinnvoll wählen und [htbp] setzen",
+        "Immer [H] aus dem float-Paket nutzen",
+        "Caption weglassen",
+        "Label weglassen"
+      ],
+      "answer": 0,
+      "explanation": "[htbp] lässt dem Algorithmus Platzierungsspielraum; passende Breite hilft. [H] erzwingt Positionen, kann aber unschöne Umbrüche erzeugen.",
+      "weight": 2,
+      "topic": "Grafiken & Floats",
+      "concept": "Float-Placement",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Float-Strategie",
+        "steps": [
+          "figure verwenden",
+          "Sinnvolle Größe wählen",
+          "Platzierungsoption [htbp] setzen",
+          "Nicht zu viele Floats hintereinander stapeln"
+        ],
+        "content": "Gleitobjekte optimieren den Satzspiegel; übermäßiges Erzwingen führt zu Layoutproblemen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Float",
+          "definition": "Gleitobjekt wie figure oder table."
+        },
+        {
+          "term": "Satzspiegel",
+          "definition": "Bedruckbarer Bereich der Seite."
+        }
+      ]
+    },
+    {
+      "question": "14. Wie setzt du eine feste Seitengeometrie für deine Thesis?",
+      "options": [
+        "\\usepackage[a4paper,margin=2.5cm]{geometry}",
+        "\\geometry{paper=a4,margin=25}",
+        "\\setlayout{a4,25mm}"
+      ],
+      "answer": 0,
+      "explanation": "Das geometry-Paket mit Optionen a4paper und margin=2.5cm setzt eine gängige Abschlussarbeits-Geometrie. Die anderen Varianten sind keine Standardaufrufe.",
+      "weight": 2,
+      "topic": "Grundlagen & Struktur",
+      "concept": "geometry",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Seitenränder setzen",
+        "steps": [
+          "geometry laden",
+          "Papierformat und Ränder angeben",
+          "Optionen zentral in der Präambel halten",
+          "Bei Vorgaben der Hochschule anpassen"
+        ],
+        "content": "Zentrale Steuerung über geometry vermeidet manuelle Abstände im Dokument."
+      },
+      "mini_glossary": [
+        {
+          "term": "geometry",
+          "definition": "Paket zur Steuerung von Seitenlayout und Rändern."
+        },
+        {
+          "term": "A4",
+          "definition": "Standardpapierformat in Europa."
+        }
+      ]
+    },
+    {
+      "question": "15. Wie referenzierst du eine Abbildung mit Label fig:logo im Text?",
+      "options": [
+        "Siehe Abbildung \\ref{fig:logo}",
+        "Siehe Abbildung fig:logo",
+        "Siehe \\label{fig:logo}"
+      ],
+      "answer": 0,
+      "explanation": "\\ref{fig:logo} erzeugt die Nummer der markierten Abbildung. Das Label selbst wird nicht angezeigt; \\label ist nur zur Definition da.",
+      "weight": 2,
+      "topic": "Referenzen & Querverweise",
+      "concept": "ref",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Referenzen nutzen",
+        "steps": [
+          "Label im Float setzen",
+          "Im Text mit \\ref referenzieren",
+          "Optional \\autoref aus hyperref nutzen",
+          "Vorher Kompilate aktualisieren"
+        ],
+        "content": "Korrekte Labels vermeiden manuelle Nummern, die bei Änderungen veralten."
+      },
+      "mini_glossary": [
+        {
+          "term": "Label-Präfix",
+          "definition": "Schema wie fig:, tab:, eq: für Ordnung."
+        },
+        {
+          "term": "hyperref",
+          "definition": "Paket für klickbare Referenzen."
+        }
+      ]
+    },
+    {
+      "question": "16. Wie verhinderst du, dass % in normalem Text als Kommentar wirkt?",
+      "options": [
+        "Mit \\% schreiben",
+        "Mit %% doppeln",
+        "Mit {%%} kapseln"
+      ],
+      "answer": 0,
+      "explanation": "Ein Backslash entwertet die Sonderbedeutung: \\% gibt ein Prozentzeichen im Text aus. Doppelte oder geklammerte Prozentzeichen lösen trotzdem Kommentare aus.",
+      "weight": 2,
+      "topic": "Sprache & Typografie",
+      "concept": "Sonderzeichen",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Sonderzeichen escapen",
+        "steps": [
+          "Prüfen, ob Zeichen reserviert ist",
+          "Mit Backslash entwerten",
+          "In Code-Listings ggf. andere Umgebungen nutzen",
+          "Bei URLs auf hyperref achten"
+        ],
+        "content": "Reservierte Zeichen ohne Escape führen zu Fehlermeldungen oder abgeschnittenem Text."
+      },
+      "mini_glossary": [
+        {
+          "term": "Escape",
+          "definition": "Vorangestellter Backslash entwertet ein Steuerzeichen."
+        },
+        {
+          "term": "Reserviertes Zeichen",
+          "definition": "Zeichen mit Steuerfunktion in LaTeX, z. B. %, &, _."
+        }
+      ]
+    },
+    {
+      "question": "17. Wie bindest du Quellcode mit Syntax-Highlighting ohne Python-Abhängigkeit ein?",
+      "options": [
+        "Mit listings-Paket und \\begin{lstlisting}",
+        "Mit minted-Paket ohne Abhängigkeiten",
+        "Mit \\codeblock direkt in LaTeX"
+      ],
+      "answer": 0,
+      "explanation": "listings bietet integriertes Highlighting ohne externe Tools. minted benötigt Python/Pygments, \\codeblock ist kein Standard.",
+      "weight": 2,
+      "topic": "Grundlagen & Struktur",
+      "concept": "listings",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Code einbinden",
+        "steps": [
+          "listings in Präambel laden",
+          "Sprache mit language=... setzen",
+          "Optionen für Zeilennummern/Farbe wählen",
+          "Code in lstlisting-Umgebung einfügen"
+        ],
+        "content": "Für Bachelorarbeiten ohne Shell-Zugriff ist listings meist unkomplizierter als minted."
+      },
+      "mini_glossary": [
+        {
+          "term": "listings",
+          "definition": "Paket für Quellcode-Darstellung in LaTeX."
+        },
+        {
+          "term": "Syntax-Highlighting",
+          "definition": "Farbliches Hervorheben von Schlüsselwörtern."
+        }
+      ]
+    },
+    {
+      "question": "18. Wann setzt du \\clearpage ein?",
+      "options": [
+        "Um alle Floats auszugeben, bevor ein neuer Abschnitt beginnt",
+        "Um die Schriftgröße lokal zu ändern",
+        "Um den Mathemodus zu starten"
+      ],
+      "answer": 0,
+      "explanation": "\\clearpage schiebt noch nicht platzierte Floats aufs Blatt und beginnt danach eine neue Seite. Schriftgrößen und Math-Modus betreffen andere Befehle.",
+      "weight": 2,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Seitenumbruch",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Floats flushen",
+        "steps": [
+          "Viele offene Floats erkennen",
+          "Mit \\clearpage alle ausgeben lassen",
+          "Neue Seite startet danach",
+          "Sparsam einsetzen, um Layout zu wahren"
+        ],
+        "content": "In langen Kapiteln kann \\clearpage helfen, gestapelte Abbildungen aufzuräumen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Float-Stau",
+          "definition": "Nicht platzierte Gleitobjekte, die ans Dokumentende wandern."
+        },
+        {
+          "term": "Seitenumbruch",
+          "definition": "Erzwungene neue Seite im Satz."
+        }
+      ]
+    },
+    {
+      "question": "19. Wie vermeidest du '?' bei Referenzen nach dem Kompilieren?",
+      "options": [
+        "Mehrfach kompilieren (pdflatex → biber/bibtex → pdflatex → pdflatex)",
+        "Hyperref entfernen",
+        "Alle Labels in Großbuchstaben schreiben"
+      ],
+      "answer": 0,
+      "explanation": "Referenzen werden erst im zweiten/dritten Lauf aufgelöst. Mehrfaches Kompilieren (und ggf. biber) beseitigt Platzhalter. Hyperref oder Großbuchstaben lösen das Problem nicht.",
+      "weight": 2,
+      "topic": "Referenzen & Querverweise",
+      "concept": "Kompilatlaufe",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Ref-Probleme lösen",
+        "steps": [
+          "Ersten Lauf ausführen",
+          "Backend (biber/bibtex) laufen lassen",
+          "Weitere Läufe für Referenzen",
+          "Warnungen im Log prüfen"
+        ],
+        "content": "Platzhalter ?? bedeuten fehlende Aktualisierung der Hilfsdateien."
+      },
+      "mini_glossary": [
+        {
+          "term": "Aux-Datei",
+          "definition": "Hilfsdatei, in der Nummern/Labels gespeichert werden."
+        },
+        {
+          "term": "Backend",
+          "definition": "Programm zur Literaturverarbeitung (biber/bibtex)."
+        }
+      ]
+    },
+    {
+      "question": "20. Wie fügst du ein automatisch generiertes Inhaltsverzeichnis ein?",
+      "options": [
+        "\\tableofcontents nach \\begin{document}",
+        "Manuell mit \\section-Liste",
+        "\\contentslist in der Präambel"
+      ],
+      "answer": 0,
+      "explanation": "\\tableofcontents erzeugt das Inhaltsverzeichnis an der Stelle im Dokument. Manuelle Listen sind fehleranfällig; \\contentslist ist kein Standardbefehl.",
+      "weight": 2,
+      "topic": "Grundlagen & Struktur",
+      "concept": "Inhaltsverzeichnis",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "TOC einfügen",
+        "steps": [
+          "Nach \\begin{document} platzieren",
+          "Einträge kommen aus \\section etc.",
+          "Mehrfach kompilieren für Nummern",
+          "Platzwahl im Layout beachten"
+        ],
+        "content": "Das TOC sollte nach Titelseite/Abstract stehen und aktualisiert sich automatisch bei Kompilierung."
+      },
+      "mini_glossary": [
+        {
+          "term": "TOC",
+          "definition": "Table of Contents, Inhaltsverzeichnis."
+        },
+        {
+          "term": "Gliederungsebene",
+          "definition": "section, subsection usw."
+        }
+      ]
+    },
+    {
+      "question": "21. Warum sollten Labels ein Präfix wie fig: oder tab: haben?",
+      "options": [
+        "Zur Vermeidung von Kollisionen und für klare Gruppierung",
+        "Weil LaTeX sonst nicht kompiliert",
+        "Weil Präfixe das Layout ändern"
+      ],
+      "answer": 0,
+      "explanation": "Präfixe ordnen Labels und vermeiden doppelte Namen. LaTeX kompiliert auch ohne, aber Ordnung und Lesbarkeit leiden.",
+      "weight": 2,
+      "topic": "Referenzen & Querverweise",
+      "concept": "Label-Strategie",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Label-Konventionen",
+        "steps": [
+          "Präfix nach Objekt wählen",
+          "Konsistente Benennung im Projekt",
+          "Keine Leerzeichen verwenden",
+          "Label direkt bei Caption platzieren"
+        ],
+        "content": "Saubere Label-Namen vereinfachen Suche, Debugging und Kooperation."
+      },
+      "mini_glossary": [
+        {
+          "term": "Label-Präfix",
+          "definition": "Namensschema zur Kennzeichnung von Objektarten."
+        },
+        {
+          "term": "Kollision",
+          "definition": "Zwei gleiche Label-Namen, die Verweise stören."
+        }
+      ]
+    },
+    {
+      "question": "22. Wie stellst du sicher, dass deutsche Anführungszeichen korrekt gesetzt werden?",
+      "options": [
+        "Mit csquotes und \\enquote{...}",
+        "Mit einfachen ASCII-Anführungen \" \"",
+        "Mit << und >> wie in Französisch"
+      ],
+      "answer": 0,
+      "explanation": "csquotes mit \\enquote erzeugt sprachabhängige Anführungen (für ngerman die typischen „ “). ASCII-Quotes oder französische Guillemets passen nicht.",
+      "weight": 2,
+      "topic": "Sprache & Typografie",
+      "concept": "csquotes",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Anführungen korrekt setzen",
+        "steps": [
+          "csquotes laden",
+          "Sprache über babel/polyglossia steuern",
+          "Mit \\enquote zitieren",
+          "Bei Sprachwechseln passen sich Zeichen an"
+        ],
+        "content": "Saubere Anführungszeichen sind wichtig für formale Arbeiten und Lesbarkeit."
+      },
+      "mini_glossary": [
+        {
+          "term": "Anführungszeichen",
+          "definition": "Typografische Zeichen zum Kennzeichnen von Zitaten."
+        },
+        {
+          "term": "csquotes",
+          "definition": "Paket für sprachabhängige Quotes."
+        }
+      ]
+    },
+    {
+      "question": "23. Wie gehst du bei einem Overfull \\hbox-Warnhinweis vor?",
+      "options": [
+        "Umbruch erlauben (\\- oder \\linebreak setzen)",
+        "Warnung ignorieren, da sie harmlos ist",
+        "Alle Wörter mit \\textbf markieren"
+      ],
+      "answer": 0,
+      "explanation": "Overfull-Warnungen bedeuten zu lange Zeilen. Durch manuelle Trennung oder Umbruchhilfen kann die Zeile passen. Ignorieren lässt das Layout überstehen.",
+      "weight": 3,
+      "topic": "Fehlersuche & Debugging",
+      "concept": "Overfull hbox",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Zeilenüberlauf beheben",
+        "steps": [
+          "Log nach Overfull-Warnungen prüfen",
+          "Lange Wörter mit \\- trennbar machen",
+          "Notfalls \\linebreak einfügen",
+          "Seitengeometrie nur im Notfall ändern"
+        ],
+        "content": "Gezielte Trennstellen sind besser als generelle Layoutänderungen und erhalten die Lesbarkeit."
+      },
+      "mini_glossary": [
+        {
+          "term": "Overfull \\hbox",
+          "definition": "Zeile läuft über den Satzspiegel hinaus."
+        },
+        {
+          "term": "Trennstelle",
+          "definition": "Manuell gesetzte Silbentrennung."
+        }
+      ]
+    },
+    {
+      "question": "24. Was tust du, wenn ein align-Block den Fehler 'Too many &' ausgibt?",
+      "options": [
+        "Gleiche Anzahl & pro Zeile sicherstellen",
+        "Mehr & setzen, damit alle Spalten gefüllt sind",
+        "Alle & entfernen, damit nichts ausrichtet"
+      ],
+      "answer": 0,
+      "explanation": "Jede Zeile im align braucht dieselbe Anzahl &. Zu viele führen zu Fehlern, zu wenige zu Verschiebungen.",
+      "weight": 3,
+      "topic": "Mathematiksatz",
+      "concept": "Align-Fehler",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Align debuggen",
+        "steps": [
+          "Zeilen prüfen",
+          "Gleich viele & setzen",
+          "Fehlerstellen im Log suchen",
+          "Bei komplexen Formeln cases oder split nutzen"
+        ],
+        "content": "Symmetrische &-Positionen halten Spalten sauber ausgerichtet und verhindern Compilerfehler."
+      },
+      "mini_glossary": [
+        {
+          "term": "Align",
+          "definition": "Formelumgebung mit Spaltenausrichtung."
+        },
+        {
+          "term": "Logdatei",
+          "definition": "Compiler-Ausgabe mit Warnungen/Fehlern."
+        }
+      ]
+    },
+    {
+      "question": "25. Wie behebst du fehlende Literaturangaben trotz vorhandener \\printbibliography?",
+      "options": [
+        "biber/bibtex laufen lassen und erneut kompilieren",
+        "Das Literaturverzeichnis manuell schreiben",
+        "Alle \\cite durch \\ref ersetzen"
+      ],
+      "answer": 0,
+      "explanation": "Ohne Backend-Lauf werden Zitate nicht aufgelöst. biber/bibtex generieren die Daten, danach muss erneut kompiliert werden.",
+      "weight": 3,
+      "topic": "Literatur & Zitate",
+      "concept": "Backend-Lauf",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Fehlendes Verzeichnis fixen",
+        "steps": [
+          "biblatex/biber korrekt konfigurieren",
+          "pdflatex → biber → pdflatex → pdflatex ausführen",
+          "Log auf Fehler prüfen",
+          "Pfad zur .bib-Datei kontrollieren"
+        ],
+        "content": "Falsche Reihenfolge oder fehlender Backend-Aufruf führt zu leeren Verzeichnissen und [?]-Platzhaltern."
+      },
+      "mini_glossary": [
+        {
+          "term": "Backend",
+          "definition": "Programm zur Literaturauswertung (biber/bibtex)."
+        },
+        {
+          "term": "printbibliography",
+          "definition": "Befehl zum Ausgeben der Literatur."
+        }
+      ]
+    },
+    {
+      "question": "26. Wie gehst du vor, wenn viele Abbildungen ans Dokumentende wandern?",
+      "options": [
+        "Float-Optionen variieren und Abstände reduzieren",
+        "Alle Abbildungen auf eine Seite zwingen",
+        "Labels entfernen"
+      ],
+      "answer": 0,
+      "explanation": "Mit [htbp] und angepassten Breiten lassen sich Floats besser platzieren. Zwangsplatzierung auf einer Seite verschlechtert Layout; Labels sind nicht das Problem.",
+      "weight": 3,
+      "topic": "Grafiken & Floats",
+      "concept": "Float-Stau",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Float-Stau lösen",
+        "steps": [
+          "Breite/Bildgröße prüfen",
+          "Platzierungsoptionen variieren",
+          "\\clearpage sparsam einsetzen",
+          "Zu viele Floats hintereinander vermeiden"
+        ],
+        "content": "Ein ausgewogenes Float-Layout verhindert unschöne Leerräume und Ansammlungen am Dokumentende."
+      },
+      "mini_glossary": [
+        {
+          "term": "Float-Queue",
+          "definition": "Warteschlange noch nicht platzierter Gleitobjekte."
+        },
+        {
+          "term": "htbp",
+          "definition": "Platzierungsoptionen here/top/bottom/page."
+        }
+      ]
+    },
+    {
+      "question": "27. Was prüfst du zuerst bei 'Undefined control sequence' im Log?",
+      "options": [
+        "Fehlendes Paket oder Tippfehler im Befehl",
+        "Papierformat in geometry",
+        "Falsche Seitenränder"
+      ],
+      "answer": 0,
+      "explanation": "Nicht erkannte Befehle deuten auf fehlende Pakete oder Tippfehler hin. Layoutoptionen sind dafür nicht verantwortlich.",
+      "weight": 3,
+      "topic": "Fehlersuche & Debugging",
+      "concept": "Undefined control sequence",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Fehlerquelle eingrenzen",
+        "steps": [
+          "Befehlsnamen prüfen",
+          "Benötigtes Paket laden",
+          "Logzeile und Zeilennummer beachten",
+          "Nach minimalem Beispiel testen"
+        ],
+        "content": "Ein Minimalbeispiel hilft, Paketabhängigkeiten oder Tippfehler schnell aufzudecken."
+      },
+      "mini_glossary": [
+        {
+          "term": "Minimalbeispiel",
+          "definition": "Kurzer Code, der den Fehler reproduziert."
+        },
+        {
+          "term": "Control sequence",
+          "definition": "LaTeX-Befehl, der mit Backslash beginnt."
+        }
+      ]
+    },
+    {
+      "question": "28. Warum erzeugt falsche Sprachwahl bei babel falsche Silbentrennung?",
+      "options": [
+        "Weil die Trennmuster an die Sprache gekoppelt sind",
+        "Weil babel Schriftarten lädt",
+        "Weil babel Seitenränder setzt"
+      ],
+      "answer": 0,
+      "explanation": "babel nutzt Sprachmuster für Trennung und Datum. Falsche Sprache → falsche Trennmuster. Schriften/Ränder steuert babel nicht.",
+      "weight": 3,
+      "topic": "Sprache & Typografie",
+      "concept": "Silbentrennung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Sprache korrekt setzen",
+        "steps": [
+          "babel/polyglossia konfigurieren",
+          "Option ngerman für Deutsch nutzen",
+          "Keine Mischung widersprüchlicher Optionen",
+          "Nach Kompilat prüfen"
+        ],
+        "content": "Falsche Trennmuster wirken sofort auf den Satz aus und müssen früh korrigiert werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Trennmuster",
+          "definition": "Sprachspezifische Regeln zur Silbentrennung."
+        },
+        {
+          "term": "Lokalisierung",
+          "definition": "Anpassung von Sprache, Datum, Zitatstilen."
+        }
+      ]
+    },
+    {
+      "question": "29. Was bedeutet die Warnung 'Label(s) may have changed. Rerun to get cross-references right.'?",
+      "options": [
+        "Noch einmal kompilieren, damit Referenzen aktualisiert werden",
+        "Die Labels sind ungültig und müssen gelöscht werden",
+        "Man darf keine Labels mehr setzen"
+      ],
+      "answer": 0,
+      "explanation": "Die Warnung fordert zu einem weiteren Lauf auf, damit Referenzen stimmen. Labels müssen nicht gelöscht werden.",
+      "weight": 3,
+      "topic": "Referenzen & Querverweise",
+      "concept": "Rekompilierung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Warnungen verstehen",
+        "content": "Mehrere Läufe sind typisch in LaTeX, um Register und Referenzen konsistent zu halten.",
+        "steps": [
+          "Warnung lesen",
+          "Erneut kompilieren",
+          "Backend-Läufe beachten",
+          "Referenzen prüfen"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Cross-Reference",
+          "definition": "Verweis auf nummerierte Objekte im Dokument."
+        },
+        {
+          "term": "Rekompilierung",
+          "definition": "Zusätzlicher Lauf zur Aktualisierung der Hilfsdateien."
+        }
+      ]
+    },
+    {
+      "question": "30. Wie reagierst du auf den Fehler 'Runaway argument?' in der Logdatei?",
+      "options": [
+        "Nach einer fehlenden schließenden Klammer suchen",
+        "Alle Pakete neu installieren",
+        "Alle Labels umbenennen"
+      ],
+      "answer": 0,
+      "explanation": "Runaway argument deutet auf nicht geschlossene Klammern/Argumente hin. Paketinstallation oder Labelnamen sind nicht die Ursache.",
+      "weight": 3,
+      "topic": "Fehlersuche & Debugging",
+      "concept": "Runaway argument",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Klammerfehler fixen",
+        "steps": [
+          "Logzeile und Kontext prüfen",
+          "Letzten Befehl mit Argument ansehen",
+          "Fehlende } oder ] schließen",
+          "Minimalbeispiel testen"
+        ],
+        "content": "Unbalancierte Klammern stoppen den Compiler; gezieltes Schließen behebt den Fehler."
+      },
+      "mini_glossary": [
+        {
+          "term": "Argument",
+          "definition": "Parameter, den ein Befehl erwartet."
+        },
+        {
+          "term": "Logdatei",
+          "definition": "Datei mit Compiler-Meldungen."
+        }
+      ]
+    }
+  ]
+}
