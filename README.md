@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
-Interaktive Multiple-Choice-App mit schnellem Feedback, Pseudonym-Login, Itemanalyse und PDF-Exports. Über 40 Fragensets (JSON + Markdown-Learning-Objectives) sind enthalten; weitere lassen sich hochladen oder per KI-Generator erstellen.
+Interaktive Multiple-Choice-App mit schnellem Feedback, Pseudonym-Login, Itemanalyse und PDF-Exports. 40+ Fragensets (JSON + Learning-Objectives) sind enthalten; weitere lassen sich hochladen oder per KI-Generator erstellen.
 
 ## Inhalt
 - [Schnellstart](#-schnellstart)
@@ -18,52 +18,19 @@ Interaktive Multiple-Choice-App mit schnellem Feedback, Pseudonym-Login, Itemana
 
 ## 🚀 Schnellstart
 
-**📖 Installationsanleitungen für Einsteiger/innen**
-- https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_MAC_ANLEITUNG.md
-- https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_WINDOWS_ANLEITUNG.md
-- https://github.com/kqc-real/streamlit/blob/main/INSTALLATION_VS-CODE_SSH-AUTHENTIFIZIERUNG.md
-
-Diese Schritt-für-Schritt-Anleitungen erklären alles von Grund auf:
-- Python & Git installieren (Windows & Mac)
-- App herunterladen und starten
-- Häufige Probleme und Lösungen
-- **Perfekt für BWL-Studierende ohne IT-Kenntnisse!**
-
-**Admin-Panel lokal testen?**
-→ **[🔐 Admin-Panel Anleitung für Kursteilnehmer/innen](ADMIN_PANEL_ANLEITUNG.md)**
-
-Diese Anleitung zeigt dir:
-- Wie du als "Albert Einstein" Admin-Rechte erhältst
-- Was du im Admin-Panel alles tun kannst (Analytics, Itemanalyse, Feedback)
-- Wie Itemanalyse und Distraktor-Analyse funktionieren
-- **Perfekt für Projektmitglieder, die alle Features verstehen wollen!**
+Installationsguides: [Mac](INSTALLATION_MAC_ANLEITUNG.md) · [Windows](INSTALLATION_WINDOWS_ANLEITUNG.md) · [VS Code SSH](INSTALLATION_VS-CODE_SSH-AUTHENTIFIZIERUNG.md)  
+Admin-Panel testen: [🔐 Anleitung](ADMIN_PANEL_ANLEITUNG.md)
 
 ---
 
 ## 🚀 Übersicht
 
-Diese App ist ein vollständiger MC-Test für Kursinhalte, entwickelt mit Streamlit.
-Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge, Zeitlimit und einem integrierten Feedback-System zur kontinuierlichen Verbesserung der Fragen.
-Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung.
-
-### Hauptfunktionen (Stand 2026-01)
-
-| Kategorie      | Funktion                                                                                           |
-|----------------|----------------------------------------------------------------------------------------------------|
-| Zugang         | Pseudonym-Login (anonym, keine Registrierung)                                                      |
-| Fragen         | Zufällige Reihenfolge, Gewichtung je Frage, strikte Trennung nach Fragenset                        |
-| Fragenset      | Auswahl aus 40+ Sets (`questions_*.json`) inkl. Learning-Objectives; Upload temporärer User-Sets   |
-| Suche & Filter | Schnellsuche (Titel/Slug/Meta), Sprachenhinweis über `meta.language`, Tags/Counts                  |
-| Scoring        | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                                |
-| Feedback       | Sofortiges Ergebnis mit Erklärungen, erweiterten Erklärungen und Mini-Glossaren                    |
-| Navigation     | Markieren, Überspringen, Seitenleisten-Navigation, Panic Mode schaltet Cooldowns sofort ab         |
-| Fortschritt    | Pro Pseudonym/Fragenset in SQLite gespeichert, inkl. temporärer User-Fragensets                    |
-| Zeitlimit      | Optional per Fragenset-Meta oder `MC_TEST_DURATION_MINUTES` (Default 60 Min; leer = kein Limit)    |
-| Leaderboard    | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                               |
-| Analyse        | Itemanalyse, Distraktor-Analyse, Feedback-Management                                               |
-| PDF-Export     | Report mit LaTeX-Rendering, Durchschnittsvergleich, Mini-Glossar, Bookmarks                       |
-| Exporte        | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                          |
-| Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback, Exporte, Prompts, KI-Generator                 |
+- Pseudonym-Login, zufällige Fragenreihenfolge, Gewichtung pro Frage.
+- Schnellsuche (Titel/Slug/Meta), Sprachenhinweis aus `meta.language`, 40+ Fragensets + Upload temporärer User-Sets.
+- Scoring: Nur-Plus oder Plus/Minus; Zeitlimit optional pro Set oder via `MC_TEST_DURATION_MINUTES` (Default 60, leer/0 = kein Limit).
+- Navigation: Markieren, Überspringen, Seitenleiste; Panic Mode schaltet alle Cooldowns sofort ab.
+- Feedback/Erklärungen, Mini-Glossare, erweiterte Erklärungen; Item- & Distraktor-Analyse, Leaderboard.
+- Exporte: PDF (LaTeX, Glossar, Bookmarks), CSV aller Antworten, DB-Dump; Admin-Panel für Analytics, Feedback, KI-Generator.
 
 ## ❓ Fragenset-Schema
 
