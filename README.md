@@ -1,11 +1,18 @@
 # 📝 MC-Test Streamlit App
 
-[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?b├─main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
+[![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
-Eine interaktive Multiple-Choice-Lern- und Selbsttest-App.
-Sie bietet schnelles Feedback, Fortschrittsverfolgung und aggregierte Ergebnisse für verschiedene Fragensets.
-Die App ist modular aufgebaut und nutzt eine SQLite-Datenbank zur persistenten Speicherung von Testergebnissen.
-Die App verfügt über ein integriertes Feedback-System, das es Nutzern ermöglicht, Probleme mit Fragen zu melden, und Admins, dieses Feedback zu verwalten.
+Interaktive Multiple-Choice-App mit schnellem Feedback, Pseudonym-Login, Itemanalyse und PDF-Exports. Über 40 Fragensets (JSON + Markdown-Learning-Objectives) sind enthalten; weitere lassen sich hochladen oder per KI-Generator erstellen.
+
+## Inhalt
+- [Schnellstart](#-schnellstart)
+- [Übersicht](#-übersicht)
+- [Hauptfunktionen](#-hauptfunktionen-stand-2026-01)
+- [Fragenset-Schema](#-fragenset-schema)
+- [Sicherheitsfeatures](#-security-features)
+- [Voraussetzungen](#-voraussetzungen)
+- [Installation & Start](#-installation-und-start)
+- [Konfiguration](#-konfiguration)
 
 ---
 
@@ -39,24 +46,24 @@ Diese App ist ein vollständiger MC-Test für Kursinhalte, entwickelt mit Stream
 Sie ermöglicht anonyme Tests mit Pseudonymen, zufälliger Fragenreihenfolge, Zeitlimit und einem integrierten Feedback-System zur kontinuierlichen Verbesserung der Fragen.
 Perfekt für Bildungsumgebungen, Selbstlernphasen oder zur Prüfungsvorbereitung.
 
-### Hauptfunktionen
+### Hauptfunktionen (Stand 2026-01)
 
-| Kategorie      | Funktion                                                                                      |
-|----------------|-----------------------------------------------------------------------------------------------|
-| Zugang         | Pseudonym-Login (anonym, keine Registrierung)                                                 |
-| Fragen         | Zufällige Reihenfolge, Gewichtung je Frage, strikte Trennung nach Fragenset                   |
-| Fragenset      | Dynamische Auswahl verschiedener Fragensets (`questions_*.json`)                               |
-| Scoring-Modi   | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                            |
-| Feedback       | Sofortiges Ergebnis mit optionalen, detaillierten Erklärungen zu Theorie und Herleitung       |
-| Navigation     | Fragen können markiert und übersprungen werden, mit direkter Navigation über die Seitenleiste |
-| Fortschritt    | Fortschritt wird pro Pseudonym und Fragenset in einer SQLite-Datenbank gespeichert            |
-| Zeitlimit      | Optionales 60-Minuten-Fenster                                                                 |
-| Feedback       | Nutzer können Probleme mit Fragen melden (inhaltlich, technisch etc.)                         |
-| Leaderboard    | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                           |
-| Analyse & Wartung | Itemanalyse, Distraktor-Analyse, Verwaltung von gemeldetem Feedback                         |
-| PDF-Export     | Professioneller Report mit LaTeX-Rendering, Durchschnittsvergleich, Mini-Glossar, Bookmarks   |
-| Export         | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                      |
-| Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback-Management, Export und Systemeinstellungen  |
+| Kategorie      | Funktion                                                                                           |
+|----------------|----------------------------------------------------------------------------------------------------|
+| Zugang         | Pseudonym-Login (anonym, keine Registrierung)                                                      |
+| Fragen         | Zufällige Reihenfolge, Gewichtung je Frage, strikte Trennung nach Fragenset                        |
+| Fragenset      | Auswahl aus 40+ Sets (`questions_*.json`) inkl. Learning-Objectives; Upload temporärer User-Sets   |
+| Suche & Filter | Schnellsuche (Titel/Slug/Meta), Sprachenhinweis über `meta.language`, Tags/Counts                  |
+| Scoring        | "Nur +Punkte" (falsch = 0) oder "+/- Punkte" (falsch = -Gewichtung)                                |
+| Feedback       | Sofortiges Ergebnis mit Erklärungen, erweiterten Erklärungen und Mini-Glossaren                    |
+| Navigation     | Markieren, Überspringen, Seitenleisten-Navigation, Panic Mode schaltet Cooldowns sofort ab         |
+| Fortschritt    | Pro Pseudonym/Fragenset in SQLite gespeichert, inkl. temporärer User-Fragensets                    |
+| Zeitlimit      | Optional per Fragenset-Meta oder `MC_TEST_DURATION_MINUTES` (Default 60 Min; leer = kein Limit)    |
+| Leaderboard    | Öffentliches Top‑10 (pro Fragenset); vollständige Ansicht für Admin                               |
+| Analyse        | Itemanalyse, Distraktor-Analyse, Feedback-Management                                               |
+| PDF-Export     | Report mit LaTeX-Rendering, Durchschnittsvergleich, Mini-Glossar, Bookmarks                       |
+| Exporte        | CSV-Download aller Antworten und SQL-Dump der Datenbank über Admin-Panel                          |
+| Admin-Panel    | Passwortgeschützter Bereich für Analyse, Feedback, Exporte, Prompts, KI-Generator                 |
 
 ## ❓ Fragenset-Schema
 
@@ -70,7 +77,7 @@ Die App lädt Fragensets aus JSON-Dateien im `data/questions_*.json`-Format. Jed
   "explanation": "Warum Antwort C korrekt ist",
   "weight": 1,
   "topic": "Traversierung: BFS",
-  "concept": "BFS visitation order",
+ "concept": "BFS visitation order",
   "cognitive_level": "Application"
 }
 ```
@@ -78,6 +85,7 @@ Die App lädt Fragensets aus JSON-Dateien im `data/questions_*.json`-Format. Jed
 - `concept` beschreibt das didaktische Ziel der Frage (z. B. „BFS visitation order" oder „Pivot table filtering").
 - `cognitive_level` orientiert sich an Taxonomien wie Bloom oder SOLO (z. B. "Knowledge", "Understanding", "Application", "Analysis").
 - Beide Felder dürfen optional leer sein, aber wir empfehlen, sie für jede Frage zu pflegen, damit Exporte und Analytics die Lernziele besser gruppieren können.
+- Meta-Felder (empfohlen): `title`, `created`/`modified`, `test_duration_minutes` (Zeitlimit pro Set), `language` (ISO-639-1, z. B. `de`), `difficulty_profile`, `time_per_weight_minutes`, `additional_buffer_minutes`.
 
 Für Contributors und Admins gilt:
 
@@ -87,13 +95,12 @@ Für Contributors und Admins gilt:
 
 Mehr Details (z. B. Mini-Glossar, Extended Explanation) findest du im `data/questions_*.json`-Format und dem `GLOSSARY_SCHEMA.md`.
 
-### Neuere Features (seit v1.2)
+### Aktuelle Ergänzungen
 
-- Musterlösung (PDF): Admins können jetzt eine formatierte Musterlösung mit allen korrekten Antworten, ausführlichen Erklärungen und angehängtem Mini-Glossar erzeugen. Die Musterlösung rendert LaTeX-Formeln als hochwertige PNGs und hebt korrekte Optionen hervor.
-- Nutzer-Download: Nach Abschluss eines Tests steht den Nutzer/innen ebenfalls eine Musterlösung zum Download zur Verfügung (sinnvollerweise nur zum Lernen). Die UI zeigt eine Kurzinfo, dass die Musterlösung prüfungsrelevant ist und nicht geteilt werden sollte.
-- Robustere Formel-Rendering-Pipeline: Formeln werden parallel gerendert (ThreadPool) mit einem konfigurierbaren Gesamt-Timeout; ausgefallene oder zu langsame Renderings werden durch Platzhalter ersetzt, damit ein Export nicht ewig hängt.
-- Per-User Export-Cache: Um wiederholte Anfragen schnell zu bedienen, werden erzeugte Musterlösungen temporär im Session-Cache (`st.session_state`) zwischengespeichert und beim erneuten Download sofort ausgeliefert.
-- Zeitabschätzung & Probe-Rendering: Bei PDF-Exporten mit Formeln wird optional ein Probe-Rendering durchgeführt, um die voraussichtliche Gesamtdauer anzugeben.
+- Musterlösung (PDF) inkl. Mini-Glossar, Hervorhebung korrekter Optionen, LaTeX-Rendering mit Parallelisierung/Timeouts.
+- Schnellsuche auf der Startseite (Titel/Slug/Meta) inkl. Sprachenhinweis; temporäre User-Fragensets werden beim Laden bereinigt (Cleanup konfigurierbar).
+- Panic Mode: Sobald verbleibende Zeit < Fragen * Schwellenwert, sind Cooldowns für Antworten/Nächste-Frage deaktiviert.
+- KI-Generator/Prompts im Admin-Panel; Upload/JSON-Paste für eigene Fragensets mit Validierung und Zeitlimit-Cleanup.
 
 ### Formel-Cache (Disk) & automatische Eviction
 
@@ -116,7 +123,7 @@ Empfehlung: Setze konservative Limits für Cloud-Deploys (z. B. FORMULA_CACHE_MA
 
 ---
 
-## � Security Features
+## 🔐 Security Features
 
 Die MC-Test-App implementiert **Enterprise-Grade Security** über drei aufeinander aufbauende Phasen:
 
@@ -156,9 +163,9 @@ Die MC-Test-App implementiert **Enterprise-Grade Security** über drei aufeinand
 
 ---
 
-## �📋 Voraussetzungen
+## 📋 Voraussetzungen
 
-- **Python:** Version 3.9 oder höher.
+- **Python:** 3.10–3.12 (empfohlen 3.12).
 - **Abhängigkeiten:** Installiere via `pip install -r requirements.txt`.
 
 ---
@@ -178,7 +185,7 @@ Die MC-Test-App implementiert **Enterprise-Grade Security** über drei aufeinand
     ```
 4.  Öffne [http://localhost:8501](http://localhost:8501) im Browser.
 
-### Deployment (z.B. Streamlit Cloud)
+### Deployment (z. B. Streamlit Cloud)
 
 1.  Verbinde dein GitHub-Repository mit deinem Streamlit-Cloud-Konto.
 2.  Deploye die App.
@@ -194,7 +201,7 @@ Die App wird über Umgebungsvariablen (für sensible Daten) und eine Konfigurati
 
 Für die lokale Entwicklung kannst du eine `.env`-Datei erstellen. Für das Deployment auf Streamlit Cloud müssen diese Variablen als "Secrets" im Dashboard der App hinterlegt werden.
 
--```env
+```env
 # Beispiel für .env oder Streamlit Cloud Secrets
 MC_TEST_ADMIN_USER="dein_admin_user"
 MC_TEST_ADMIN_KEY="dein_geheimes_passwort"
@@ -202,16 +209,14 @@ APP_URL="https://ihre-streamlit-app.streamlit.app"
 ```
 
 
-- **`MC_TEST_ADMIN_USER`**: Der Benutzername, der für den Admin-Login erforderlich ist.
-- **`MC_TEST_ADMIN_KEY`**: Das Passwort für den Admin-Login.
-- **(Removed) `MC_TEST_MIN_SECONDS_BETWEEN`**: Legacy global answer cooldown removed. Per-question cooldowns are now handled by the UI. If you previously relied on this setting, migrate to the per-question tempo/cooldown logic.
- - **`MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR`**: Optionaler Skalierungsfaktor für die gesamte Wartezeit, die beim Drücken von "Nächste Frage" nach dem Lesen von Erklärungen angewendet wird. Standard: `1.0` (keine Änderung). Werte < 1.0 reduzieren die gesamte Cooldown-Zeit (z. B. `0.5` halbiert `base + extras`). Setze diesen Wert in Streamlit-Secrets oder als Umgebungsvariable.
- - **`APP_URL`**: Die URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
-- **`APP_URL`**: Die URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
+- **`MC_TEST_ADMIN_USER`**: Benutzername für den Admin-Login.
+- **`MC_TEST_ADMIN_KEY`**: Passwort für den Admin-Login.
+- **`MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR`**: Optionaler Skalierungsfaktor für die gesamte Wartezeit beim Klick auf „Nächste Frage“ nach dem Lesen von Erklärungen. Standard: `1.0` (keine Änderung). Werte < 1.0 reduzieren die Cooldown-Zeit (z. B. `0.5` halbiert `base + extras`).
+- **`APP_URL`**: URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
 
 Zusätzliche Secrets / Umgebungsvariablen (kurz erklärt):
 
-- **`MC_TEST_DURATION_MINUTES`**: Optionaler Default für die Testdauer (in Minuten) wenn nicht im Fragenset-Meta angegeben. (Default: `60`)
+- **`MC_TEST_DURATION_MINUTES`**: Optionaler Default für die Testdauer (in Minuten) wenn nicht im Fragenset-Meta angegeben. (Default: `60`; leer/0 = kein Zeitlimit)
 - **`MC_USER_QSET_CLEANUP_HOURS`**: Wie viele Stunden temporäre, von Nutzern hochgeladene Fragensets als "stale" gelten und automatisch beim Laden der Startseite entfernt werden können. (Default: `24`)
 - **`MC_RATE_LIMIT_ATTEMPTS`**: Anzahl erlaubter fehlgeschlagener Login-/Wiederherstellungs-Versuche bevor Rate-Limiting greift. (Default: `3`)
 - **`MC_RATE_LIMIT_WINDOW_MINUTES`**: Fenstergröße in Minuten für das Rate-Limit. (Default: `5`)
