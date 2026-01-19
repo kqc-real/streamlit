@@ -6182,38 +6182,45 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                 except Exception:
                     app_cfg = AppConfig()
 
-                gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
-                base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
-
-                # Scale base time by number of options (consistent with total time calc)
-                optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
-                num_options = len(optionen) if isinstance(optionen, list) else 0
-                option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
-                base_seconds = int(round(base_seconds * option_factor))
-
-                tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
-                tempo_mult = {'speed': 0.5, 'power': 0.25}.get(str(tempo).lower(), 1.0)
-
-                extra = 0
-                if frage_obj.get('erklaerung') or frage_obj.get('explanation'):
-                    extra += app_cfg.next_cooldown_extra_standard
-                if frage_obj.get('extended_explanation'):
-                    extra += app_cfg.next_cooldown_extra_extended
-
-                total_base_cooldown = base_seconds + extra
-                scaled_cooldown = int(round(total_base_cooldown * tempo_mult))
-
-                norm = float(getattr(app_cfg, "next_cooldown_normalization_factor", 1.0) or 1.0)
-                total_next_cooldown = int(round(scaled_cooldown * max(0.1, norm)))
-
-                elapsed = int(round(now_mon - shown_time))
-                remaining_next_cooldown = max(0, total_next_cooldown - elapsed)
-
-                threshold = getattr(app_cfg, "panic_mode_threshold_seconds", 15)
-                min_required_time = remaining_questions * threshold
-                if remaining_time < min_required_time:
+                if panic_mode:
                     remaining_next_cooldown = 0
-                    st.caption(translate_ui("test_view.panic_mode_skipped", default="⚡ **Panic Mode:** Wartezeit übersprungen."))
+                    try:
+                        st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
+                    except Exception:
+                        pass
+                else:
+                    gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
+                    base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
+
+                    # Scale base time by number of options (consistent with total time calc)
+                    optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
+                    num_options = len(optionen) if isinstance(optionen, list) else 0
+                    option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
+                    base_seconds = int(round(base_seconds * option_factor))
+
+                    tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
+                    tempo_mult = {'speed': 0.5, 'power': 0.25}.get(str(tempo).lower(), 1.0)
+
+                    extra = 0
+                    if frage_obj.get('erklaerung') or frage_obj.get('explanation'):
+                        extra += app_cfg.next_cooldown_extra_standard
+                    if frage_obj.get('extended_explanation'):
+                        extra += app_cfg.next_cooldown_extra_extended
+
+                    total_base_cooldown = base_seconds + extra
+                    scaled_cooldown = int(round(total_base_cooldown * tempo_mult))
+
+                    norm = float(getattr(app_cfg, "next_cooldown_normalization_factor", 1.0) or 1.0)
+                    total_next_cooldown = int(round(scaled_cooldown * max(0.1, norm)))
+
+                    elapsed = int(round(now_mon - shown_time))
+                    remaining_next_cooldown = max(0, total_next_cooldown - elapsed)
+
+                    threshold = getattr(app_cfg, "panic_mode_threshold_seconds", 15)
+                    min_required_time = remaining_questions * threshold
+                    if remaining_time < min_required_time:
+                        remaining_next_cooldown = 0
+                        st.caption(translate_ui("test_view.panic_mode_skipped", default="⚡ **Panic Mode:** Wartezeit übersprungen."))
             else:
                 remaining_next_cooldown = 0
         except Exception:
