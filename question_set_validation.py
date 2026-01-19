@@ -60,15 +60,17 @@ def _normalize_root(data: Any, tr: Callable[[str, str], str]) -> Tuple[List[Any]
 
         raw_meta = data.get("meta")
         if raw_meta is None:
+            errors.append(tr("validator.errors.missing_meta", "Top-Level-Schlüssel 'meta' fehlt (mindestens Sprache erforderlich)."))
             meta: Dict[str, Any] = {}
         elif isinstance(raw_meta, dict):
             meta = dict(raw_meta)
         else:
-            warnings.append(tr("validator.warnings.meta_not_object", "'meta' wurde ignoriert, da es kein Objekt ist."))
+            errors.append(tr("validator.errors.meta_not_object", "'meta' muss ein Objekt sein."))
             meta = {}
         return questions, meta, errors, warnings
 
     if isinstance(data, list):
+        errors.append(tr("validator.errors.list_without_meta", "Erforderlich ist ein Objekt mit 'questions' (Liste) und 'meta' (Objekt). Reines Listenformat wird nicht mehr unterstützt."))
         return data, {}, errors, warnings
 
     errors.append(tr("validator.errors.invalid_json_format", "Ungültiges JSON-Format: Erwartet Objekt mit 'questions' oder eine Fragenliste."))
@@ -286,14 +288,28 @@ def _validate_question(index: int, question: Any, tr: Callable[[str, str], str])
     return errors, warnings, thema or None
 
 
-def _validate_meta(meta: Dict[str, Any], question_count: int, tr: Callable[[str, str], str]) -> List[str]:
+def _validate_meta(meta: Dict[str, Any], question_count: int, tr: Callable[[str, str], str]) -> Tuple[List[str], List[str]]:
     """Prüft die Metadaten des gesamten Sets."""
+    errors: List[str] = []
     warnings: List[str] = []
-    if not meta:
-        return warnings
 
-    value = meta.get("question_count")
-    if value is not None:
+    if meta is None or not isinstance(meta, dict):
+        errors.append(tr("validator.errors.meta_required", "Top-Level 'meta' fehlt oder ist ungültig (Objekt erforderlich)."))
+        return errors, warnings
+
+    if not meta:
+        errors.append(tr("validator.errors.meta_required_minimal", "Top-Level 'meta' fehlt: mindestens 'language' (ISO-639-1) muss gesetzt sein."))
+        return errors, warnings
+
+    language = meta.get("language")
+    if not isinstance(language, str) or not language.strip():
+        errors.append(tr("validator.errors.meta_language_missing", "meta.language muss gesetzt sein (ISO-639-1, z. B. 'de')."))
+
+    # Frageanzahl (Konsistenz)
+    if "question_count" not in meta:
+        warnings.append(tr("validator.warnings.meta_question_count_missing", "meta.question_count fehlt; wird empfohlen für Konsistenzprüfungen."))
+    else:
+        value = meta.get("question_count")
         try:
             meta_count = int(value)
         except (TypeError, ValueError):
@@ -302,7 +318,65 @@ def _validate_meta(meta: Dict[str, Any], question_count: int, tr: Callable[[str,
             if meta_count != question_count:
                 warnings.append(tr("validator.warnings.meta_count_mismatch", "meta.question_count ({0}) stimmt nicht mit der tatsächlichen Anzahl ({1}) überein.", meta_count, question_count))
 
-    return warnings
+    # difficulty_profile prüfen, falls vorhanden
+    if "difficulty_profile" in meta:
+        profile = meta.get("difficulty_profile")
+        if not isinstance(profile, dict):
+            warnings.append(tr("validator.warnings.meta_difficulty_profile_not_object", "meta.difficulty_profile ist kein Objekt und wird ignoriert."))
+        else:
+            sum_profile = 0
+            for key in ("easy", "medium", "hard"):
+                val = profile.get(key)
+                try:
+                    intval = int(val)
+                except (TypeError, ValueError):
+                    warnings.append(tr("validator.warnings.meta_difficulty_invalid", "meta.difficulty_profile.{0} ist keine Zahl.", key))
+                    continue
+                if intval < 0:
+                    warnings.append(tr("validator.warnings.meta_difficulty_negative", "meta.difficulty_profile.{0} darf nicht negativ sein.", key))
+                sum_profile += max(intval, 0)
+            if sum_profile and sum_profile != question_count:
+                warnings.append(tr("validator.warnings.meta_difficulty_mismatch", "meta.difficulty_profile summiert sich zu {0}, erwartet {1}.", sum_profile, question_count))
+
+    # Zeit/Duration-Parameter (optional, aber Konsistenz prüfen)
+    if "test_duration_minutes" in meta:
+        try:
+            val = float(meta.get("test_duration_minutes"))
+            if val <= 0:
+                warnings.append(tr("validator.warnings.meta_duration_non_positive", "meta.test_duration_minutes sollte > 0 sein."))
+        except (TypeError, ValueError):
+            warnings.append(tr("validator.warnings.meta_duration_not_number", "meta.test_duration_minutes ist keine Zahl."))
+
+    if "additional_buffer_minutes" in meta:
+        try:
+            val = float(meta.get("additional_buffer_minutes"))
+            if val < 0:
+                warnings.append(tr("validator.warnings.meta_buffer_negative", "meta.additional_buffer_minutes darf nicht negativ sein."))
+        except (TypeError, ValueError):
+            warnings.append(tr("validator.warnings.meta_buffer_not_number", "meta.additional_buffer_minutes ist keine Zahl."))
+
+    if "time_per_weight_minutes" in meta:
+        tpw = meta.get("time_per_weight_minutes")
+        if not isinstance(tpw, dict):
+            warnings.append(tr("validator.warnings.meta_time_per_weight_not_object", "meta.time_per_weight_minutes ist kein Objekt und wird ignoriert."))
+        else:
+            for key in ("1", "2", "3"):
+                val = tpw.get(key) if key in tpw else tpw.get(int(key)) if isinstance(tpw, dict) else None
+                if val is None:
+                    warnings.append(tr("validator.warnings.meta_time_per_weight_missing", "meta.time_per_weight_minutes.{0} fehlt.", key))
+                    continue
+                try:
+                    fval = float(val)
+                    if fval <= 0:
+                        warnings.append(tr("validator.warnings.meta_time_per_weight_non_positive", "meta.time_per_weight_minutes.{0} sollte > 0 sein.", key))
+                except (TypeError, ValueError):
+                    warnings.append(tr("validator.warnings.meta_time_per_weight_not_number", "meta.time_per_weight_minutes.{0} ist keine Zahl.", key))
+
+    # Titel ist empfehlenswert für Exporte
+    if not meta.get("title"):
+        warnings.append(tr("validator.warnings.meta_title_missing", "meta.title fehlt (empfohlen für Exporte/Anzeige)."))
+
+    return errors, warnings
 
 
 def _validate_additional_metadata(index: int, question: Any, tr: Callable[[str, str], str]) -> List[str]:
@@ -380,6 +454,8 @@ def validate_question_set_data(data: Any, locale: str | None = None) -> Tuple[Li
             if occurrences < MIN_THEMA_OCCURRENCES:
                 warnings.append(tr("validator.warnings.theme_occurrences", "Thema '{0}' kommt nur {1}× vor (empfohlen: mindestens {2}×).", theme, occurrences, MIN_THEMA_OCCURRENCES))
 
-    warnings.extend(_validate_meta(meta, len(questions), tr))
+    meta_errors, meta_warnings = _validate_meta(meta, len(questions), tr)
+    errors.extend(meta_errors)
+    warnings.extend(meta_warnings)
 
     return errors, warnings

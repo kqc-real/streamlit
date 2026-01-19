@@ -34,33 +34,65 @@ Admin-Panel testen: [🔐 Anleitung](ADMIN_PANEL_ANLEITUNG.md)
 
 ## ❓ Fragenset-Schema
 
-Die App lädt Fragensets aus JSON-Dateien im `data/questions_*.json`-Format. Jede Frage benötigt die folgenden Kernfelder:
+Die App lädt Fragensets aus JSON-Dateien im `data/questions_*.json`-Format. Erwartet wird ein Objekt mit:
+
+- `questions`: Liste von Fragen
+- `meta`: Objekt mit Basis-Metadaten (erforderlich, mindestens `language`)
+
+### Pflichtfelder je Frage
+
+- `question`: String (nicht leer)
+- `options`: Liste mit **3–5** Strings
+- `answer`: Ganzzahl, 0-basierter Index in `options`
+- `explanation`: String (nicht leer)
+- `topic`: String (nicht leer)
+- `weight`: Ganzzahl 1, 2 oder 3 (empfohlen, abweichende Werte erzeugen Warnungen)
+
+### Optionale Felder je Frage
+
+- `concept`: String (klares Lernziel/Konzept)
+- `cognitive_level`: String (z. B. „Reproduction“, „Application“, „Analysis“)
+- `mini_glossary`: Objekt oder Liste mit Begriff/Definition; empfohlen **2–6** Einträge, max. 10 (App-Features nutzen das Glossar intensiv)
+- `extended_explanation`: erlaubt; Schema siehe `KI_PROMPT.md` und `GLOSSARY_SCHEMA.md`
+
+### Meta (erforderlich)
+
+- `language` (ISO-639-1, z. B. `de`) – Pflicht
+- Empfohlen: `title`, `question_count` (wird auf Konsistenz geprüft), `difficulty_profile` (easy/medium/hard), `test_duration_minutes`, `time_per_weight_minutes`, `additional_buffer_minutes`, `created`/`modified`
+
+### Minimales Beispiel
 
 ```json
 {
-  "question": "Text der Frage",
-  "options": ["Option A", "Option B", "Option C", "Option D"],
-  "answer": 2,
-  "explanation": "Warum Antwort C korrekt ist",
-  "weight": 1,
-  "topic": "Traversierung: BFS",
- "concept": "BFS visitation order",
-  "cognitive_level": "Application"
+  "meta": {
+    "language": "de",
+    "question_count": 1,
+    "difficulty_profile": {"easy": 0, "medium": 1, "hard": 0}
+  },
+  "questions": [
+    {
+      "question": "1. Was ist die BFS-Besuchreihenfolge ab Knoten A?",
+      "options": ["A B C D", "A C B D", "A D B C"],
+      "answer": 0,
+      "explanation": "BFS besucht erst alle direkten Nachbarn in Einfügereihenfolge.",
+      "weight": 2,
+      "topic": "Graph Traversal",
+      "concept": "BFS visitation order"
+    }
+  ]
 }
 ```
 
-- `concept` beschreibt das didaktische Ziel der Frage (z. B. „BFS visitation order" oder „Pivot table filtering").
-- `cognitive_level` orientiert sich an Taxonomien wie Bloom oder SOLO (z. B. "Knowledge", "Understanding", "Application", "Analysis").
-- Beide Felder dürfen optional leer sein, aber wir empfehlen, sie für jede Frage zu pflegen, damit Exporte und Analytics die Lernziele besser gruppieren können.
-- Meta-Felder (empfohlen): `title`, `created`/`modified`, `test_duration_minutes` (Zeitlimit pro Set), `language` (ISO-639-1, z. B. `de`), `difficulty_profile`, `time_per_weight_minutes`, `additional_buffer_minutes`.
+### Empfehlungen für Contributors/Admins
 
-Für Contributors und Admins gilt:
+1. **Konsistente Terminologie** für `topic`/`concept`/`cognitive_level`, damit Exporte und Analytics sauber gruppieren.
+2. **Meta pflegen:** `language` ist Pflicht; `question_count`/`difficulty_profile` sollten mit der tatsächlichen Anzahl/Verteilung übereinstimmen.
+3. **Plausible Distraktoren:** 3–5 Optionen ähnlicher Länge; kein „Alle/Keine der oben genannten“.
+4. **Mini-Glossar pflegen:** 2–6 relevante Begriffe pro Frage, keine Füllwörter.
+5. **Validierung:** `python validate_sets.py` ausführen, bevor ein Fragenset committet wird; prüft Pflichtfelder, Optionslänge, Answer-Index, Glossargröße, Gewichtungen u. a.
+6. **LaTeX/Markdown:** Keine LaTeX-Ausdrücke in Backticks; bei Bedarf korrekt escapen (`\\`).
 
-1. **Konsistente Werte**: Verwende eine feste Terminologie, damit Dashboards und Exporte aussagekräftige Gruppen bilden.
-2. **Kurze, präzise Texte**: Halte `konzept`/`kognitive_stufe` auf Satz- oder Schlagwortlänge, keine ausführlichen Erklärungen.
-3. **Validierung**: Führe `python validate_sets.py` aus, bevor du ein Fragenset committest; das Skript prüft die üblichen Felder inklusive `konzept` und `kognitive_stufe`.
-
-Mehr Details (z. B. Mini-Glossar, Extended Explanation) findest du im `data/questions_*.json`-Format und dem `GLOSSARY_SCHEMA.md`.
+Hinweis: Ältere Fragensets können unvollständige Meta-Daten haben (z. B. kein Datum) und erscheinen dann ohne Datum im Auswahlmenü. Neue Fragensets sollten alle Meta-Felder sauber pflegen (`language`, `question_count`, `difficulty_profile`, ggf. `created`/`modified`), damit UI und Exporte korrekt funktionieren.
 
 ### Aktuelle Ergänzungen
 
@@ -323,40 +355,18 @@ PYTHONPATH=. python3 tools/print_cooldowns.py
 
 ## 🧭 Hinweise zum Prompting (für AI / Text‑Generierung)
 
-Kleine, aber wichtige Regel für alle Prompts, die in diese App (oder in Templates) eingespeist werden:
-
-- Verwende echte Leerzeilen / Absätze. Gib niemals die zwei Zeichen Backslash + n (`"\\n"`) als Ersatz für einen Zeilenumbruch aus.
-- Korrekt: eine echte leere Zeile zwischen zwei Absätzen.
-- Nicht verwenden: der Literal‑String `"\\n"` (Backslash + n).
-
-Beispiel (nicht so):
-
-```
-Ergebnis:\n\n- Punkt 1\n- Punkt 2
-```
-
-Beispiel (richtig):
-
-```
-Ergebnis:
-
-- Punkt 1
-- Punkt 2
-```
-
-Warum das wichtig ist:
-- Manche Modelle liefern `"\\n"` anstelle echter Zeilenumbrüche — das bricht Markdown/HTML‑Rendering und macht die Ausgabe schwer lesbar.
-- Eine kurze Nachbearbeitung der Modell‑Antworten (Sanitizer) ist zusätzlich empfehlenswert, siehe `helpers.py`.
-
-Short note (EN): Use real blank lines, not the literal string "\\n". This avoids escaped newline artifacts in Markdown/HTML output.
-
-
-Hinweis: Die generierten Artefakte landen in `exports/` und werden in `.gitignore` ausgeschlossen, damit sie nicht versehentlich in Git landen.
-```
+- Folge strikt dem 5‑Schritte-Konfig-Flow aus `KI_PROMPT.md`: 1) Thema, 2) Zielgruppe, 3) Fragenanzahl + Verteilung Gewichte 1–3, 4) Optionsanzahl (A/B/C), 5) Kontextmaterial. Immer nur eine Frage stellen, Unklarheiten zuerst klären.
+- Vor der Generierung: Zusammenfassung der 5 Konfigs in Nutzersprache anzeigen und explizit Bestätigung abwarten („ja/yes“). Keinen JSON ausgeben, bevor bestätigt wurde.
+- Sprache: Nutzer*innen-Sprache für Inhalte, JSON-Schlüssel bleiben Englisch. Gewichte → kognitive Stufen zwingend: 1=Reproduction, 2=Application, 3=Analysis; `answer` ist 0-basiert.
+- Blueprinting vor JSON: `<scratchpad>` mit Planung (Verteilung, Themen, Optionenzahl bei C, Dauerberechnung). Danach genau ein ```json```-Block, kein weiterer Text.
+- Schema-Pflicht: Fragen mit führender Nummer `"1. "`, Optionsanzahl gemäß A/B/C, `difficulty_profile` = Summe der Gewichte, `test_duration_minutes` aus `time_per_weight_minutes` (Standard: 0.5/0.75/1.0) + Buffer 5.
+- Qualitätsregeln: Distraktoren plausibel und ähnlich lang, kein „All/None of the above“. Mini-Glossar pro Frage (6–10 sinnvolle Terme). `extended_explanation`: `null` bei Gewicht 1, Objekt mit 2–6 Schritten bei Gewicht 2/3.
+- Code/LaTeX: Code immer mit ```lang``` und Zeilennummern innerhalb des JSON-Strings (`\n` nutzen); LaTeX doppelt escapen (`\\det`), Inline-Math `$...$`. Echte Leerzeilen statt des Literal-Strings `"\\n"`.
+- Artefakte landen in `exports/` und sind `.gitignore`-geschützt.
 
 ---
 
-## �🛠️ Administration & Wartung
+## 🛠️ Administration & Wartung
 
 ### Admin-Bereich
 
