@@ -34,7 +34,17 @@
             "topic": "ML-Projekt & Grundlagen",
             "concept": "ML-Lebenszyklus",
             "cognitive_level": "Reproduction",
-            "extended_explanation": null,
+            "extended_explanation": {
+                "title": "ML-Lebenszyklus kompakt",
+                "steps": [
+                    "Problem sauber eingrenzen und Erfolgsmessung festlegen",
+                    "Daten beschaffen, profilieren, Datenqualität prüfen",
+                    "Aufbereiten: säubern, imputieren, kodieren, skalieren",
+                    "Modell trainieren, validieren, hyperparametern",
+                    "Deployen, überwachen, mit Feedback iterieren"
+                ],
+                "content": "Der Lebenszyklus ist iterativ: Nach jedem Deploy folgen Monitoring, Fehleranalyse und erneutes Training, sobald Daten oder Rahmenbedingungen sich ändern."
+            },
             "mini_glossary": [
                 {
                     "term": "ML-Lebenszyklus",
@@ -64,7 +74,17 @@
             "topic": "Evaluierung",
             "concept": "RMSE",
             "cognitive_level": "Reproduction",
-            "extended_explanation": null,
+            "extended_explanation": {
+                "title": "RMSE verstehen",
+                "steps": [
+                    "Vorhersagefehler je Beobachtung berechnen",
+                    "Fehler quadrieren (große Fehler stärker gewichten)",
+                    "Alle quadrierten Fehler mitteln",
+                    "Wurzel ziehen, um Einheiten wie das Target zu erhalten",
+                    "Interpretation: typische Fehlergröße bei Ausreißer-Sensitivität"
+                ],
+                "content": "RMSE ist gut für symmetrische Fehlerverteilungen und wenn große Ausreißer besonders relevant sind; bei starken Ausreißern alternativ MAE prüfen."
+            },
             "mini_glossary": [
                 {
                     "term": "RMSE",
@@ -94,7 +114,17 @@
             "topic": "ML-Projekt & Grundlagen",
             "concept": "Estimator",
             "cognitive_level": "Reproduction",
-            "extended_explanation": null,
+            "extended_explanation": {
+                "title": "fit vs. predict/transform",
+                "steps": [
+                    "fit(): Parameter aus Trainingsdaten lernen",
+                    "predict(): nach fit() Vorhersagen erzeugen",
+                    "transform(): nach fit() Features wandeln",
+                    "fit_transform(): Training + Transformation in einem Schritt",
+                    "Kein Split/Evaluierung in fit() unterbringen"
+                ],
+                "content": "Ein Estimator darf erst nach fit() für neue Daten genutzt werden. Validierung (score) und Splits passieren außerhalb der fit()-Methode."
+            },
             "mini_glossary": [
                 {
                     "term": "fit()",
@@ -125,14 +155,15 @@
             "concept": "Stratified Sampling",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Stratifiziertes Sampling",
+                "title": "Stratifizierung richtig einsetzen",
                 "steps": [
-                    "Zufallssampling birgt Risiko",
-                    "Stratifizierung teilt in Strata",
-                    "Proportionales Sampling",
-                    "Repräsentative Testmengen"
+                    "Relevante Schichten definieren (z. B. Zielklassen)",
+                    "Anteilsverteilung in Gesamtpopulation bestimmen",
+                    "Train/Test so ziehen, dass Anteile je Schicht erhalten bleiben",
+                    "Bei CV: stratify-Parameter setzen",
+                    "Nachher prüfen, ob Verteilungen konsistent sind"
                 ],
-                "content": "Wichtig bei stark korrelierten Merkmalen."
+                "content": "Stratifiziertes Sampling verhindert, dass Minderheitsklassen im Testset fehlen und liefert stabilere Metriken, besonders bei Klassendissbalance."
             },
             "mini_glossary": [
                 {
@@ -164,14 +195,15 @@
             "concept": "Test Set Contamination",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Data Snooping Bias",
+                "title": "Testset schützen",
                 "steps": [
-                    "Mustererkennung unbewusst",
-                    "Beeinflusst Modellwahl",
-                    "Indirektes Overfitting",
-                    "Zu optimistische Schätzung"
+                    "Testset erst nach Modellauswahl öffnen",
+                    "Alle Entscheidungen auf Train/Valid treffen",
+                    "Kein Feature Engineering auf Basis des Testsets",
+                    "Nur einmalige finale Schätzung auf Test ausführen",
+                    "Scores dokumentieren und reproduzierbar halten"
                 ],
-                "content": "Testdatensatz wie versiegelte Box behandeln."
+                "content": "Das Testset ist der Stellvertreter für unbekannte Daten. Jeder vorzeitige Blick führt zu optimistischen Schätzungen (Data-Snooping)."
             },
             "mini_glossary": [
                 {
@@ -203,14 +235,15 @@
             "concept": "SimpleImputer",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Imputation",
+                "title": "Robuste Imputation bei Schiefe",
                 "steps": [
-                    "Symmetrie: Median ≈ Mean",
-                    "Rechtsschiefe: Mean > Median",
-                    "Ausreißer verschieben Mean",
-                    "Median robuster"
+                    "Verteilung prüfen (Histogramm/Quantile)",
+                    "Bei Schiefe: Median statt Mean verwenden",
+                    "Ausreißer nicht trimmen, wenn sie plausibel sind",
+                    "Imputation spaltenweise in Pipeline verankern",
+                    "Skalierung erst nach der Imputation"
                 ],
-                "content": "Bei Rechtsschiefe Median bevorzugen."
+                "content": "Der Median ist robust gegenüber langen rechten Schwänzen und erhält die Lage der Verteilung besser als der Mittelwert."
             },
             "mini_glossary": [
                 {
@@ -242,14 +275,15 @@
             "concept": "OneHotEncoder",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Encoding-Wahl",
+                "title": "Encoding-Wahl leiten",
                 "steps": [
-                    "Nominal: keine Ordnung",
-                    "Ordinal: Rangordnung",
-                    "OrdinalEncoder impliziert Ordnung",
-                    "OneHot: gleichwertig"
+                    "Nominale Kategorien: One-Hot verwenden",
+                    "Ordinale Kategorien: OrdinalEncoder mit definierter Rangfolge",
+                    "Hohe Kardinalität: ggf. Target/Hash-Encodings prüfen",
+                    "NaNs vorher imputieren oder handle_unknown setzen",
+                    "Pipeline nutzen, um späteren Leakage zu vermeiden"
                 ],
-                "content": "OneHot vermeidet falsche Ähnlichkeiten."
+                "content": "One-Hot vermeidet Scheinhierarchien; OrdinalEncoder ist nur sinnvoll, wenn die Reihenfolge fachlich begründet ist."
             },
             "mini_glossary": [
                 {
@@ -283,12 +317,13 @@
             "extended_explanation": {
                 "title": "Scaler-Vergleich",
                 "steps": [
-                    "MinMax: fester Bereich",
-                    "Ausreißer quetschen Werte",
-                    "Standard: zentriert, normiert",
-                    "Weniger Ausreißer-anfällig"
+                    "MinMax auf [0,1] pressen, empfindlich bei Ausreißern",
+                    "StandardScaler zentriert und normiert, toleranter",
+                    "RobustScaler nutzt Median/IQR für starke Ausreißer",
+                    "Scaler immer nach Imputation anwenden",
+                    "Scaler-Fit auf Training, dann Transform auf Train/Test"
                 ],
-                "content": "StandardScaler ist Standard für die meisten ML-Algorithmen."
+                "content": "Wähle MinMax, wenn ein fixer Bereich nötig ist (z. B. NN), sonst StandardScaler; bei extremen Ausreißern RobustScaler erwägen."
             },
             "mini_glossary": [
                 {
@@ -320,14 +355,15 @@
             "concept": "Reihenfolge",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Pipeline-Logik",
+                "title": "Pipeline-Reihenfolge merken",
                 "steps": [
-                    "Imputer zuerst",
-                    "Dann Transformation",
-                    "Dann Skalierung",
-                    "Estimator am Ende"
+                    "Fehlende Werte imputieren (sonst brechen Transformer)",
+                    "Optionale Feature-Transformationen (z. B. Log)",
+                    "Skalieren/Kodieren für Modellverträglichkeit",
+                    "Estimator trainieren",
+                    "Konsistenz: Pipeline fit auf Train, dann predict auf Test"
                 ],
-                "content": "Reihenfolge verhindert Fehler."
+                "content": "Eine saubere Reihenfolge vermeidet NaN-Fehler und stellt sicher, dass Preprocessing-Schritte identisch auf Train und Test angewandt werden."
             },
             "mini_glossary": [
                 {
@@ -359,14 +395,15 @@
             "concept": "Mixed Types",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "ColumnTransformer",
+                "title": "ColumnTransformer als Schaltzentrale",
                 "steps": [
-                    "Triplets definieren",
-                    "Transformer auf Spalten",
-                    "Horizontale Konkatenation",
-                    "remainder-Parameter"
+                    "Numerische und kategoriale Spalten definieren",
+                    "Je Spaltengruppe eigene Pipeline (Imputer, Scaler, Encoder)",
+                    "remainder steuert, was mit Restspalten passiert",
+                    "Ausgaben werden horizontal konkateniert",
+                    "In Gesamt-Pipeline mit Estimator kombinieren"
                 ],
-                "content": "Zentral für gemischte Datentypen."
+                "content": "ColumnTransformer erlaubt gemischte Datentypen elegant zu handhaben, ohne separate DataFrames manuell auszurichten."
             },
             "mini_glossary": [
                 {
@@ -398,14 +435,15 @@
             "concept": "Random State",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Reproduzierbarkeit",
+                "title": "Reproduzierbarkeit sichern",
                 "steps": [
-                    "Ohne Seed variabel",
-                    "Nicht vergleichbar",
-                    "random_state setzt Seed",
-                    "Identische Folge"
+                    "random_state/seed einmal festlegen",
+                    "Gleiche Seeds in allen Splits/Algorithmen nutzen",
+                    "Pipelines, CV und Models mit Seed konfigurieren",
+                    "Ergebnisse dokumentieren (Seed + Versionen)",
+                    "Trotzdem Varianz durch andere Faktoren beachten"
                 ],
-                "content": "Essenziell für Nachvollziehbarkeit."
+                "content": "Ein konstanter Seed macht Splits und Modelle vergleichbar; für finale Robustheit kann man zusätzlich mehrere Seeds mitteln."
             },
             "mini_glossary": [
                 {
@@ -437,14 +475,15 @@
             "concept": "Wichtigkeit",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Feature Importance",
+                "title": "Feature Importance richtig lesen",
                 "steps": [
-                    "Basiert auf Gini-Reduktion",
-                    "Wichtige Features reduzieren Unsicherheit",
-                    "Summe = 1.0",
-                    "Niedrige entfernen"
+                    "Werte stammen aus Impurity-Reduktion je Split",
+                    "Summieren sich zu 1.0 pro Modell",
+                    "Hohe Werte = starker Beitrag zur Vorhersage",
+                    "Korrelierte Features teilen sich Wichtigkeit",
+                    "Mit Permutation Importance gegenprüfen"
                 ],
-                "content": "Nützlich für Interpretation."
+                "content": "Nutze Importance für Interpretation und Feature-Selektion nur in Kombination mit Validierung, um Verzerrungen durch Korrelationen zu vermeiden."
             },
             "mini_glossary": [
                 {
@@ -476,14 +515,15 @@
             "concept": "Pearson",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Korrelation",
+                "title": "Korrelationsmatrix nutzen",
                 "steps": [
-                    "Berechne mit df.corr()",
-                    "Sortiere nach Ziel",
-                    "Hohe Werte = stark",
-                    "Feature-Engineering-Hinweis"
+                    "Matrix mit df.corr() berechnen",
+                    "Spalte zum Target sortieren (stärkste oben)",
+                    "Sehr hohe Feature-Feature-Korrelation prüfen",
+                    "Redundante Merkmale ggf. droppen",
+                    "Lineare Beziehungen im Hinterkopf behalten"
                 ],
-                "content": "Nur lineare Zusammenhänge."
+                "content": "Pearson deckt nur lineare Zusammenhänge auf; für Nichtlinearitäten ggf. Spearman/Kendall oder Modell-basierte Wichtigkeiten ergänzen."
             },
             "mini_glossary": [
                 {
@@ -515,14 +555,15 @@
             "concept": "Most Frequent",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Kategorisch",
+                "title": "Kategorische Imputation",
                 "steps": [
-                    "Keine Ordnung",
-                    "Mean/Median undefiniert",
-                    "most_frequent: häufigste",
-                    "Alternative: constant"
+                    "Fehlende Kategorien als own class (constant) oder Modus füllen",
+                    "Verteilung prüfen, ob Modus zu Verzerrung führt",
+                    "Imputation pro Spalte in Pipeline ablegen",
+                    "Nach Encoding prüfen, ob Dummy-Fallen verhindert sind",
+                    "Bei High-Cardinality ggf. rare categories bündeln"
                 ],
-                "content": "Häufigste verzerrt am wenigsten."
+                "content": "Für Kategorien sind mean/median unsinnig; Mode oder ein explizites 'missing'-Label erhalten Struktur, ohne Scheinskalierung einzuführen."
             },
             "mini_glossary": [
                 {
@@ -554,14 +595,15 @@
             "concept": "Log",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Log-Transformation",
+                "title": "Log-Transformation anwenden",
                 "steps": [
-                    "Rechtsschiefe: langer Schwanz",
-                    "Log komprimiert große Werte",
-                    "Symmetrischer",
-                    "ML bevorzugt Symmetrie"
+                    "Nur für positive, rechtsschiefe Features",
+                    "Vorher Offset hinzufügen, falls Nullen vorkommen",
+                    "Nach Log ggf. StandardScaler nutzen",
+                    "Effekt per Histogramm/QQ-Plot prüfen",
+                    "Transformation im Inferenzpfad beibehalten"
                 ],
-                "content": "Standard bei Power-Law."
+                "content": "Log stabilisiert Varianz und reduziert Heavy Tails; bei Nullen hilft log1p, bei negativen Werten besser andere Transformationen wählen."
             },
             "mini_glossary": [
                 {
@@ -593,14 +635,15 @@
             "concept": "FunctionTransformer",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "FunctionTransformer",
+                "title": "FunctionTransformer sinnvoll einsetzen",
                 "steps": [
-                    "Python-Funktion definieren",
-                    "FunctionTransformer erstellen",
-                    "Optional: inverse_func",
-                    "In Pipeline nutzen"
+                    "Kleine Python-Funktion für Feature-Logik schreiben",
+                    "FunctionTransformer(func=..., inverse_func optional)",
+                    "validate=False für NumPy/Array-Speed setzen, falls passend",
+                    "In ColumnTransformer/Pipeline einbinden",
+                    "Reproduzierbarkeit durch seeds/params sicherstellen"
                 ],
-                "content": "Einfacher als eigene Klasse."
+                "content": "FunctionTransformer ist ideal für einfache, zustandslose Transformationen (z. B. Log1p, Custom-Ratios), ohne eine Klasse zu bauen."
             },
             "mini_glossary": [
                 {
@@ -632,14 +675,15 @@
             "concept": "k-fold",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Kreuzvalidierung",
+                "title": "k-fold CV aufsetzen",
                 "steps": [
-                    "Teile in k Folds",
-                    "Trainiere k Modelle",
-                    "k Scores erhalten",
-                    "Mittelwert und Std"
+                    "k wählen (typisch 5 oder 10)",
+                    "Optional stratify für Klassifikation",
+                    "Shuffle=True für zufällige Folds",
+                    "Scores mitteln und Streuung berichten",
+                    "Bei Tuning: inner/outer Splits trennen"
                 ],
-                "content": "Effizienter als einfacher Split."
+                "content": "k-fold glättet zufällige Split-Effekte. Bei kleiner Datenmenge liefert LOOCV mehr Varianz, bei großer Menge reichen 5–10 Folds."
             },
             "mini_glossary": [
                 {
@@ -671,14 +715,15 @@
             "concept": "GridSearchCV",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Parameter-Grid",
+                "title": "param_grid korrekt definieren",
                 "steps": [
-                    "Dictionary erstellen",
-                    "Keys: Parameternamen",
-                    "Values: Listen",
-                    "Pipeline-Syntax nutzen"
+                    "Dictionary bauen: {'param': [Werte]}",
+                    "Pipelines mit <step>__<param> adressieren",
+                    "Wertebereiche realistisch begrenzen",
+                    "cv/scoring n passend setzen",
+                    "Parallelisierung nutzen (n_jobs)"
                 ],
-                "content": "Testet alle Kombinationen."
+                "content": "GridSearch testet das kartesische Produkt aller Listen. Für große Suchräume lieber RandomizedSearch oder Bayesische Optimierung nutzen."
             },
             "mini_glossary": [
                 {
@@ -710,14 +755,15 @@
             "concept": "Error-Analyse",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Overfitting",
+                "title": "Overfitting erkennen",
                 "steps": [
-                    "Trainiere und evaluiere",
-                    "Niedriger Trainingsfehler",
-                    "Hoher Validierungsfehler",
-                    "Große Differenz = Overfitting"
+                    "Train-Score sehr hoch, Val-Score deutlich schlechter",
+                    "Fehlerdifferenz groß = hohe Varianz",
+                    "Lernkurven prüfen (Konvergenz?)",
+                    "Regularisierung/Dropout/Pruning erwägen",
+                    "Mehr Daten oder Datenaugmentation nutzen"
                 ],
-                "content": "Gegenmaßnahmen: mehr Daten, Regularisierung."
+                "content": "Overfitting bedeutet memorieren statt generalisieren; Gegenmaßnahmen reduzieren Modellkomplexität oder erhöhen Datenvielfalt."
             },
             "mini_glossary": [
                 {
@@ -749,14 +795,15 @@
             "concept": "MAE",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "RMSE vs. MAE",
+                "title": "MAE vs. RMSE wählen",
                 "steps": [
-                    "RMSE quadriert Fehler",
-                    "MAE nutzt Absolutwerte",
-                    "Bei Normalverteilung RMSE",
-                    "Bei Ausreißern MAE"
+                    "MAE: lineare Fehler, robust gegen Ausreißer",
+                    "RMSE: quadriert, betont große Fehler",
+                    "Datenverteilung analysieren",
+                    "Business-Kosten großer Fehler berücksichtigen",
+                    "Metrik konsistent reporten"
                 ],
-                "content": "Metrik-Wahl vom Anwendungsfall abhängig."
+                "content": "Bei Ausreißern oder asymmetrischen Kosten ist MAE oft sinnvoller; RMSE passt, wenn große Fehler überproportional wichtig sind."
             },
             "mini_glossary": [
                 {
@@ -788,14 +835,15 @@
             "concept": "Random Forest",
             "cognitive_level": "Application",
             "extended_explanation": {
-                "title": "Ensemble-Effekt",
+                "title": "Warum Random Forests robust sind",
                 "steps": [
-                    "Viele Bäume trainieren",
-                    "Zufällige Feature-Subsets",
-                    "Averaging",
-                    "Fehler kompensieren sich"
+                    "Viele Bäume auf Bootstrap-Samples trainieren",
+                    "Zufällige Feature-Subsets je Split fördern Diversität",
+                    "Averaging reduziert Varianz und Overfitting",
+                    "Weniger Hyperparameter-sensitiv als Boosting",
+                    "Out-of-Bag-Fehler als schnelle Validierung nutzen"
                 ],
-                "content": "Weisheit der Masse reduziert Overfitting."
+                "content": "Ein einzelner Baum hat hohe Varianz; das Ensemble mittelt diese aus. Dennoch sollten Tiefe und Anzahl Bäume begrenzt werden."
             },
             "mini_glossary": [
                 {
@@ -827,14 +875,15 @@
             "concept": "Reihenfolge",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Debugging",
+                "title": "Preprocessing-Reihenfolge fixen",
                 "steps": [
-                    "Schritte identifizieren",
-                    "Voraussetzungen prüfen",
-                    "StandardScaler braucht keine NaN",
-                    "Imputer vor Scaler"
+                    "Fehlende Werte füllen (Imputer)",
+                    "Optionale Transformationen anwenden",
+                    "Skalieren erst danach",
+                    "Estimator zuletzt trainieren",
+                    "Alles in eine Pipeline packen"
                 ],
-                "content": "Klassischer Reihenfolge-Fehler."
+                "content": "StandardScaler scheitert an NaN; deshalb muss Imputation vor Skalierung stehen. Mit einer Pipeline werden Schritte konsistent gehalten."
             },
             "mini_glossary": [
                 {
@@ -866,15 +915,15 @@
             "concept": "Imbalanced Data",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Accuracy Paradox",
+                "title": "Accuracy-Paradox bei Imbalance",
                 "steps": [
-                    "Klasse 0: 990 Fälle",
-                    "Klasse 1: 10 Fälle",
-                    "Vorhersage 'Alles 0': 990 richtig",
-                    "Accuracy = 99%",
-                    "Recall für Klasse 1 = 0%"
+                    "Baseline berechnen: Mehrheitsklasse vorhersagen",
+                    "Accuracy kann hoch sein, obwohl Minderheit verfehlt",
+                    "Wichtige Metriken: Recall/Precision/F1/AUC",
+                    "Klassengewichte oder Resampling nutzen",
+                    "Konfusionsmatrix prüfen"
                 ],
-                "content": "Nutze Precision/Recall/F1 oder ROC-AUC."
+                "content": "Bei 1% Betrug bedeutet 99% Accuracy oft, dass kein Betrugsfall erkannt wird. Erfolg muss an Recall/Precision gemessen werden."
             },
             "mini_glossary": [
                 {
@@ -906,14 +955,15 @@
             "concept": "Bias-Variance Tradeoff",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Lernkurven-Analyse",
+                "title": "Bias/Underfitting erkennen",
                 "steps": [
-                    "High Bias: Modell zu einfach",
-                    "High Variance: Große Lücke Train/Val",
-                    "Konvergenz bei hohem Fehler",
-                    "Lösung: Komplexeres Modell"
+                    "Hohe Fehler auf Train und Valid",
+                    "Mehr Daten helfen kaum",
+                    "Komplexität erhöhen (Features/Modell)",
+                    "Regularisierung lockern",
+                    "Featurization und Hyperparameter neu denken"
                 ],
-                "content": "Mehr Daten helfen bei High Bias oft nicht."
+                "content": "Hoher Bias bedeutet, das Modell kann Muster nicht erfassen. Lösung: mehr Kapazität oder bessere Features statt nur mehr Daten."
             },
             "mini_glossary": [
                 {
@@ -945,14 +995,15 @@
             "concept": "Data Leakage",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Methodischer Fehler",
+                "title": "Feature Selection ohne Leakage",
                 "steps": [
-                    "Auswahl nutzt alle Daten",
-                    "Testdaten nicht mehr unabhängig",
-                    "Modell 'sieht' Zielvariable indirekt",
-                    "Validierung wertlos"
+                    "Selektion nur auf Trainingsanteilen je Fold",
+                    "In Pipeline/ColumnTransformer integrieren",
+                    "Keine globale Auswahl vor dem Split",
+                    "CV verwenden, um Stabilität zu prüfen",
+                    "Mit Permutation testen, ob Nutzen echt ist"
                 ],
-                "content": "Feature Selection muss innerhalb der Pipeline/Training erfolgen."
+                "content": "Selektierst du Features vor dem Split, fließt Testwissen ins Modell. Korrekt ist die Auswahl innerhalb jedes CV-Folds."
             },
             "mini_glossary": [
                 {
@@ -984,14 +1035,15 @@
             "concept": "Target Encoding",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Target Leakage",
+                "title": "Target Encoding absichern",
                 "steps": [
-                    "Kategorie durch Mean(Target) ersetzt",
-                    "Bei 1 Sample pro Kategorie: Perfekte Korrelation",
-                    "Modell lernt Mapping auswendig",
-                    "Lösung: Smoothing / CV"
+                    "Encoding je Fold auf Trainingsdaten fitten",
+                    "Smoothing oder Noise gegen Overfitting nutzen",
+                    "Leckage vermeiden: niemals auf Gesamtdatensatz fitten",
+                    "Hyperparameter (min_samples/alpha) abstimmen",
+                    "Mit CV-Metriken validieren"
                 ],
-                "content": "Mächtig, aber risikoreich."
+                "content": "Target Encoding ist mächtig, aber leckt leicht. Cross-validated Encoding oder Regularisierung verhindert künstlich hohe Scores."
             },
             "mini_glossary": [
                 {
@@ -1025,12 +1077,13 @@
             "extended_explanation": {
                 "title": "Boosting vs. Bagging",
                 "steps": [
-                    "RF (Bagging): Reduziert Varianz",
-                    "GB (Boosting): Reduziert Bias",
-                    "Boosting lernt Residuals",
-                    "Rauschen = hohes Residual"
+                    "Boosting: sequenziell, korrigiert Residuen",
+                    "Sensibel auf Lernrate/Tiefe, anfällig für Rauschen",
+                    "Bagging (RF): parallel, mittelt Bäume",
+                    "Robuster gegen Ausreißer, weniger Tuning nötig",
+                    "Einsatz je nach Datenqualität wählen"
                 ],
-                "content": "Boosting neigt bei Noise zu Overfitting."
+                "content": "Gradient Boosting liefert oft bessere Spitzenleistung, erfordert aber sorgfältiges Tuning; Random Forest ist stabiler out-of-the-box."
             },
             "mini_glossary": [
                 {
@@ -1062,14 +1115,15 @@
             "concept": "Metrik-Auswahl",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Kostenmatrix",
+                "title": "Screening-Metrik wählen",
                 "steps": [
-                    "FN: Kranker wird heimgeschickt (Fatal)",
-                    "FP: Gesunder wird getestet (Kosten)",
-                    "Recall = TP / (TP + FN)",
-                    "Maximiere Recall"
+                    "Recall/Sensitivität maximieren (FN minimieren)",
+                    "Schwelle senken, wenn Recall zu niedrig",
+                    "Precision überwachen, um Ressourcen zu schonen",
+                    "AUC/PR-Curves betrachten",
+                    "Kosten/Nutzen mit Domäne abstimmen"
                 ],
-                "content": "Business-Kontext bestimmt Metrik."
+                "content": "Beim Screening ist das Verpassen positiver Fälle kritisch. Hoher Recall ist Pflicht, Precision wird über Schwellen und Follow-up optimiert."
             },
             "mini_glossary": [
                 {
@@ -1101,14 +1155,15 @@
             "concept": "Nested CV",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "Nested CV",
+                "title": "Nested CV für faire Schätzung",
                 "steps": [
-                    "Inner Loop: Parameter-Tuning",
-                    "Outer Loop: Performance-Schätzung",
-                    "Verhindert Information Leakage",
-                    "Realistischere Fehlerrate"
+                    "Äußerer Loop liefert Test-Folds",
+                    "Innerer Loop tuned Hyperparameter",
+                    "Modell pro äußerem Fold neu trainieren",
+                    "Resultate über äußere Folds mitteln",
+                    "Komplex, aber vermeidet Optimismus-Bias"
                 ],
-                "content": "Goldstandard bei kleinen Daten."
+                "content": "Nested CV trennt Tuning und Bewertung strikt. So erhält man eine realistischere Schätzung, wenn Hyperparameter-Suche involviert ist."
             },
             "mini_glossary": [
                 {
@@ -1140,14 +1195,15 @@
             "concept": "PCA Scaling",
             "cognitive_level": "Analysis",
             "extended_explanation": {
-                "title": "PCA und Skalierung",
+                "title": "PCA nur mit Skalierung",
                 "steps": [
-                    "PCA sucht Richtung max. Varianz",
-                    "Varianz ist skalenabhängig",
-                    "Große Zahlen = Große Varianz",
-                    "StandardScaler ist Pflicht"
+                    "Features vor PCA standardisieren",
+                    "Große Skalen sonst dominant",
+                    "PCA auf Trainingsdaten fitten",
+                    "Transform auf Train/Test konsistent",
+                    "Varianzanteile/Explained Variance prüfen"
                 ],
-                "content": "Skalierung muss vor PCA erfolgen."
+                "content": "Ohne Skalierung verzerrt eine große Einheit die Hauptkomponenten. Mit StandardScaler + PCA erhält man sinnvolle, vergleichbare Achsen."
             },
             "mini_glossary": [
                 {
