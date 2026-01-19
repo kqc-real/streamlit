@@ -76,8 +76,9 @@ Die App cached gerenderte LaTeX-Formel-Bilder als PNG-Dateien auf der lokalen Fe
 Konfigurierbare Umgebungsvariablen:
 
 - FORMULA_CACHE_DIR: Pfad zum Cache-Verzeichnis (Standard: ./var/formula_cache)
-- FORMULA_CACHE_MAX_FILES: Maximale Anzahl Dateien im Cache (Standard: 200)
-- FORMULA_CACHE_MAX_MB: Maximale Gesamtgröße des Caches in MiB (Standard: 200)
+- FORMULA_RENDER_PARALLEL: Anzahl paralleler Render-Jobs für Formeln (Standard: 6)
+- FORMULA_CACHE_MAX_FILES: Maximale Anzahl Dateien im Cache (Standard: 100)
+- FORMULA_CACHE_MAX_MB: Maximale Gesamtgröße des Caches in MiB (Standard: 50)
 - FORMULA_CACHE_TTL_DAYS: Lebensdauer von Cache-Dateien in Tagen (Standard: 7)
 
 Verhalten:
@@ -92,34 +93,14 @@ Empfehlung: Setze konservative Limits für Cloud-Deploys (z. B. FORMULA_CACHE_MA
 
 ## 🔐 Security Features
 
-Die MC-Test-App implementiert **Enterprise-Grade Security** über drei aufeinander aufbauende Phasen:
+Die MC-Test-App setzt auf folgende Sicherheitsmaßnahmen (Versionen werden hier bewusst nicht aufgelistet):
 
-### Phase 1: Quick Wins (v1.1.0)
-- ⚠️ **Empty Admin-Key Warnings**: Warnung bei unsicherem Admin-Passwort
-- 🔄 **Re-Authentication**: Passwortabfrage vor kritischen Operationen (Löschen, Export)
-
-### Phase 2: Server-Side Session Validation (v1.2.0)
-- 🔐 **Cryptographic Tokens**: Sichere Session-Tokens mit `secrets.token_urlsafe(32)`
-- 🔒 **SHA-256 Hashing**: Keine Klartext-Passwörter im Session State
-- ⏱️ **Session Timeouts**: Automatische Abmeldung nach 2 Stunden Inaktivität
-- 🧵 **Thread-Safe**: Sichere Concurrent-Access mit Threading-Locks
-
-### Phase 3: Audit-Logging & Rate-Limiting (v1.3.0) ⭐ **NEU**
-- 📊 **SQLite-Based Audit-Logging**: Alle Admin-Aktionen persistent geloggt
-  - Login-Versuche (erfolg/fehlgeschlagen)
-  - Delete-Operationen (User-Daten, Global)
-  - CSV-Exports
-  - CRITICAL Actions markiert
-- 🚫 **Rate-Limiting**: Brute-Force-Schutz
-  - 3 fehlgeschlagene Login-Versuche → 5 Minuten Sperre
-  - Automatisches Reset nach erfolgreichem Login
-  - Anzeige der Sperr-Zeit
-- 📈 **Admin Dashboard**: Neuer "🔒 Audit-Log" Tab
-  - Statistiken: Gesamt-Aktionen, Success/Fail-Raten
-  - Filter: User, Action-Typ, Erfolg-Status, Limit
-  - CSV-Export für forensische Analyse
-- 🗑️ **DSGVO-Compliance**: Automatische Löschung nach 90 Tagen
-- 🌍 **IP-Tracking**: Optional Client-IP-Logging (wenn verfügbar)
+- Kryptographische Session-Tokens (`secrets.token_urlsafe(32)`) mit serverseitigem SHA-256-Hashing (user_id + admin_key + token) statt Klartext im Session-State; Re-Auth vor kritischen Aktionen.
+- Session-Handling mit Inaktivitäts-Timeout (2 Stunden) und Threading-Locks für sicheren Concurrent Access.
+- Rate-Limiting für Login/Wiederherstellung (z. B. 3 Fehlversuche → temporäre Sperre, Reset nach Erfolg).
+- SQLite-basiertes Audit-Logging aller Admin-Aktionen inkl. Erfolg/Fehlschlag, CSV-Export und Dashboard-Statistiken.
+- DSGVO-orientierte Aufbewahrung via Cleanup-Tool (empfohlen: 90 Tage) und optionales Client-IP-Tracking.
+- Warnungen bei leerem/unsicherem Admin-Key.
 
 **Security Level:** 🛡️ **VERY HIGH (Enterprise-Grade)**
 
@@ -178,19 +159,28 @@ APP_URL="https://ihre-streamlit-app.streamlit.app"
 
 - **`MC_TEST_ADMIN_USER`**: Benutzername für den Admin-Login.
 - **`MC_TEST_ADMIN_KEY`**: Passwort für den Admin-Login.
-- **`MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR`**: Optionaler Skalierungsfaktor für die gesamte Wartezeit beim Klick auf „Nächste Frage“ nach dem Lesen von Erklärungen. Standard: `1.0` (keine Änderung). Werte < 1.0 reduzieren die Cooldown-Zeit (z. B. `0.5` halbiert `base + extras`).
+- **`MC_NEXT_COOLDOWN_NORMALIZATION_FACTOR`**: Optionaler Skalierungsfaktor für die Wartezeit beim Klick auf „Nächste Frage“ nach dem Lesen von Erklärungen. Standard: `0.3` (reduziert die Extras); Werte < 1.0 verkürzen die Cooldowns weiter.
 - **`APP_URL`**: URL der Streamlit-App für den QR-Code im PDF-Export. (Default: `https://mc-test-amalea.streamlit.app`)
 
 Zusätzliche Secrets / Umgebungsvariablen (kurz erklärt):
 
 - **`MC_TEST_DURATION_MINUTES`**: Optionaler Default für die Testdauer (in Minuten) wenn nicht im Fragenset-Meta angegeben. (Default: `60`; leer/0 = kein Zeitlimit)
 - **`MC_USER_QSET_CLEANUP_HOURS`**: Wie viele Stunden temporäre, von Nutzern hochgeladene Fragensets als "stale" gelten und automatisch beim Laden der Startseite entfernt werden können. (Default: `24`)
+- **`MC_USER_QSET_RESERVED_RETENTION_DAYS`**: Aufbewahrungsdauer (Tage) für temporäre Sets reservierter Pseudonyme. (Default: `14`)
+- **`MC_AUTO_RELEASE_PSEUDONYMS`**: Bei `1/true` werden unreservierte Pseudonyme nach Inaktivität automatisch freigegeben. (Default: aktiviert)
 - **`MC_RATE_LIMIT_ATTEMPTS`**: Anzahl erlaubter fehlgeschlagener Login-/Wiederherstellungs-Versuche bevor Rate-Limiting greift. (Default: `3`)
 - **`MC_RATE_LIMIT_WINDOW_MINUTES`**: Fenstergröße in Minuten für das Rate-Limit. (Default: `5`)
 - **`MC_RECOVERY_MIN_LENGTH`**: Minimale Länge für ein Wiederherstellungs-Geheimwort (Default: `6`).
 - **`MC_RECOVERY_ALLOW_SHORT`**: Falls gesetzt auf `1`/`true`, werden kürzere Wiederherstellungs-Geheimwörter erlaubt.
+- **`EXPORT_COOLDOWN_SECONDS`**: Wartezeit nach einem Export im Admin-Panel (Default: `300` Sekunden).
+- **`EXPORT_JOB_WORKERS`**: Anzahl paralleler Export-Worker im Export-Job-Skript (Default: `2`).
+- **`EXPORTS_DIR`**: Zielverzeichnis für Exporte im Export-Job-Skript (Default: `./exports`).
+- **`ARSNOVA_MAX_OPTION_LENGTH`**: Max. Antwortlänge für ARSnova-Export (Default: `120` Zeichen).
+- **`BENCH_EXPORTS_N`**: Anzahl PDF-Exporte im Benchmark-Skript (Default: `5`).
 
 Hinweis: Du kannst diese Werte lokal in einer `.env` Datei setzen (z.B. für die Entwicklung) oder als Secrets in deiner Deployment-Umgebung (z. B. Streamlit Cloud). Die App liest zuerst Streamlit-Secrets, dann Umgebungsvariablen und schließlich die lokale JSON-Konfiguration `mc_test_config.json`.
+
+`mc_test_config.json` (nicht-sensitiv, wird zuletzt ausgewertet) kann u. a. folgende Felder enthalten: `scoring_mode`, `show_top5_public`, `test_duration_minutes`, `recovery_min_length`, `recovery_allow_short`, `rate_limit_attempts`, `rate_limit_window_minutes`, `next_cooldown_normalization_factor`, `user_qset_cleanup_hours`, `user_qset_reserved_retention_days`.
 
 ### 🌐 Sprache / Locale
 
@@ -237,28 +227,46 @@ Hinweis: Die App priorisiert Werte in dieser Reihenfolge: Streamlit-Secrets → 
 
 ```
 .
-├── .github/                # GitHub Actions Workflows (CI/CD)
-├── .streamlit/             # Streamlit-Konfiguration (z.B. Themes)
-├── data/                   # Enthält JSON-Dateien (Fragensets, Pseudonyme)
-├── db/                     # Speichert die SQLite-Datenbankdatei
-├── tests/                  # Pytest-Tests für die Anwendungslogik
-├── .env.example            # Beispiel für Umgebungsvariablen
-├── admin_panel.py          # Logik für das Admin-Panel
-├── app.py                  # Haupt-Anwendungsskript
-├── auth.py                 # Authentifizierung und Session-Management
-├── components.py           # Wiederverwendbare UI-Komponenten
-├── config.py               # Laden der Konfiguration und Fragensets
-├── database.py             # Datenbankinteraktionen (SQLite)
-├── helpers.py              # Kleine Hilfsfunktionen
-├── logic.py                # Kernlogik der App (Scoring, etc.)
-├── main_view.py            # UI-Logik für die Hauptansichten
-├── pdf_export.py           # PDF-Report-Generierung mit LaTeX & Mini-Glossar
-├── requirements.txt        # Python-Abhängigkeiten
-├── AI_QUESTION_GENERATOR_PLAN.md      # Plan für KI-basierte Fragenset-Generierung
-├── DEPLOYMENT_FEASIBILITY_STUDY.md    # Infrastruktur & Kostenanalyse (Streamlit/Cloudflare)
-├── GLOSSARY_SCHEMA.md                 # Dokumentation für Mini-Glossar in Fragensets
-├── VISION_RELEASE_2.0.md              # Strategische Vision & Feature-Roadmap Release 2.0
-└── README.md                          # Diese Dokumentation
+├── .github/                 # CI/CD Workflows
+├── .streamlit/              # Streamlit-Themes/Config
+├── artifacts/               # Export-Artefakte & Beispiel-SVGs
+├── data/                    # Fragensets (JSON), Pseudonyme, Glossare
+├── data-user/               # Temporäre User-Uploads (bereinigbar)
+├── db/                      # SQLite-Datenbank(en) + Test-WALs
+├── docs/                    # Slides, Handouts, Feasibility-Studien
+├── examples/                # Beispiel-Configs/Prompts
+├── exporters/               # Export-Logik (Anki, CSV, PDF-Helfer)
+├── helpers/                 # Hilfsfunktionen (PDF, Caching, Validierung)
+├── i18n/                    # Sprachdateien und Defaults
+├── orga/                    # Orga-Dokumente & KI-Nutzungsguides
+├── scripts/                 # Build/CI-Helper (z.B. Key-Extraktion)
+├── teams/                   # Team-/Stakeholder-Material
+├── tests/                   # Pytest-Suite
+├── tools/                   # Lokale Dev-Skripte (Bench, Cache, Export)
+├── var/                     # Cache-Verzeichnisse (z.B. Formel-Cache)
+├── .env.example             # Beispiel-Env (nicht eingecheckter .env)
+├── mc_test_config.json      # Nicht-sensitive Default-Konfiguration
+├── anki_serif.apkg          # Beispiel-Anki-Deck
+├── logo.jpg                 # Logo der App
+├── admin_panel.py           # Admin-Panel inkl. Audit/Ratelimit
+├── app.py                   # Streamlit-Einstiegspunkt
+├── auth.py                  # Authentifizierung & Session-Management
+├── components.py            # Wiederverwendbare UI-Komponenten
+├── config.py                # Laden der Konfiguration und Fragensets
+├── database.py              # SQLite-Interaktionen
+├── logic.py                 # Kernlogik (Scoring, Navigation, Status)
+├── main_view.py             # UI-Logik für die Hauptansichten
+├── pdf_export.py            # PDF-Report-Generierung mit LaTeX & Glossar
+├── pacing_helper.py         # Pace-/Cooldown-Helfer
+├── session_manager.py       # Session-State-Verwaltung
+├── question_set_validation.py# Validierung von Fragensets
+├── validate_sets.py         # CLI-Validator für Fragensets
+├── requirements.txt         # Python-Abhängigkeiten
+├── AI_QUESTION_GENERATOR_PLAN.md   # Plan für KI-basierte Fragenset-Generierung
+├── DEPLOYMENT_FEASIBILITY_STUDY.md # Infrastruktur & Kostenanalyse
+├── GLOSSARY_SCHEMA.md              # Mini-Glossar-Schema
+├── VISION_RELEASE_2.0.md           # Strategische Vision & Roadmap
+└── README.md                       # Diese Dokumentation
 ```
 
 ---
@@ -269,16 +277,16 @@ Hinweis: Die App priorisiert Werte in dieser Reihenfolge: Streamlit-Secrets → 
 
 | Metrik                    | Wert                |
 |---------------------------|---------------------|
-| 📦 Gesamtgröße            | ~29 MB              |
-| 📂 Git-Historie           | ~13 MB              |
-| 📄 Dateien gesamt         | ~175 Dateien        |
-| 🐍 Python-Dateien         | 42 Dateien          |
-| 📝 Markdown-Dokumentation | 67 Dateien          |
-| 🗂️ JSON-Dateien           | 36 Dateien          |
-| 💻 Python-Codezeilen      | ~15 900 Zeilen      |
-| 📁 Hauptverzeichnisse     | 13 Verzeichnisse    |
+| 📦 Gesamtgröße            | ~535 MB             |
+| 📂 Git-Historie           | ~513 MB             |
+| 📄 Dateien gesamt         | 313 Dateien         |
+| 🐍 Python-Dateien         | 100 Dateien         |
+| 📝 Markdown-Dokumentation | 107 Dateien         |
+| 🗂️ JSON-Dateien           | 60 Dateien          |
+| 💻 Python-Codezeilen      | ~33 200 Zeilen      |
+| 📁 Hauptverzeichnisse     | 17 Verzeichnisse    |
 
-**Hinweis:** Die Statistiken können sich mit der Weiterentwicklung des Projekts ändern. Die Werte gelten für den aktuellen Stand des Repositories.
+**Hinweis:** Messung: tracked Dateien (~21 MB) plus `.git` (~513 MB) → ~535 MB Gesamtgröße; lokale `.venv`-/Cache-Ordner sind nicht berücksichtigt. Die Statistiken können sich mit der Weiterentwicklung des Projekts ändern.
 
 ---
 
@@ -289,6 +297,8 @@ Es gibt kleine Hilfs-Skripte zum Testen und Benchmarking im Ordner `tools/`:
 - `tools/test_evict.py` — Erzeugt Dummy-Dateien im Cache (`var/formula_cache`) und testet die Eviction-Routine.
 - `tools/run_export_test.py` — Führt einen einzelnen Musterlösungs-Export durch und schreibt das PDF nach `exports/`.
 - `tools/benchmark_exports.py` — Führe N Exporte hintereinander aus (Standard N=5) und schreibe eine `exports/benchmark_summary.txt`.
+- `tools/check_export_stems.py` — Prüft die Dateinamen-Generierung für Exporte (Slug-Logik wie in der App).
+- `tools/print_cooldowns.py` — Druckt alle Cooldown-Varianten pro Gewichtung/Tempo mit aktuellem Normalisierungsfaktor.
 
 Beispiele:
 
@@ -301,6 +311,12 @@ PYTHONPATH=. python3 tools/run_export_test.py
 
 # Benchmark with 5 runs
 BENCH_EXPORTS_N=5 PYTHONPATH=. python3 tools/benchmark_exports.py
+
+# Check export filename stems (slug logic)
+PYTHONPATH=. python3 tools/check_export_stems.py
+
+# Inspect cooldown table with current normalization
+PYTHONPATH=. python3 tools/print_cooldowns.py
 ```
 
 ---
