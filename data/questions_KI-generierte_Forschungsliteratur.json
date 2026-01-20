@@ -790,12 +790,12 @@
       "cognitive_level": "Application",
       "extended_explanation": {
         "title": "Regex-Prüfung korrekt interpretieren",
+        "content": "Beim Automatisieren von Referenzchecks ist es wichtig, die Rückgabewerte von Bibliotheken korrekt zu interpretieren. Sonst entstehen stille Logikfehler.",
         "steps": [
           "re.match liefert Match-Objekt oder None.",
           "Truthiness unterscheidet sich von einem echten bool.",
           "Für saubere Checks: `return re.match(...) is not None`."
-        ],
-        "content": "Beim Automatisieren von Referenzchecks ist es wichtig, die Rückgabewerte von Bibliotheken korrekt zu interpretieren. Sonst entstehen stille Logikfehler."
+        ]
       },
       "mini_glossary": [
         {
