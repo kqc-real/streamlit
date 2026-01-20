@@ -22,9 +22,9 @@
     {
       "question": "1. Was bedeutet „Halluzination“ bei KI-Textgeneratoren im wissenschaftlichen Kontext?",
       "options": [
-        "Die KI erzeugt plausible, aber faktisch falsche Aussagen oder Quellen.",
-        "Die KI komprimiert Texte verlustfrei ohne Informationsverlust.",
-        "Die KI erkennt Plagiate in jeder Sprache zuverlässig."
+        "KI liefert plausible, aber falsche Aussagen oder Quellen.",
+        "KI komprimiert Texte verlustfrei und ohne Verzerrung.",
+        "KI erkennt Plagiate in jeder Sprache automatisch und sicher."
       ],
       "answer": 0,
       "explanation": "Als Halluzination bezeichnet man, wenn ein Modell überzeugend klingende Inhalte produziert, die nicht durch echte Daten oder Quellen gedeckt sind. In der Literaturarbeit ist das besonders riskant bei Zitaten, Zahlen und Referenzen.",
@@ -104,9 +104,9 @@
     {
       "question": "3. Wofür steht eine DOI in einer Quellenangabe typischerweise?",
       "options": [
-        "Für eine persistente Kennung, die eine Publikation dauerhaft identifizierbar macht.",
-        "Für ein Dateiformat, das nur in wissenschaftlichen Datenbanken genutzt wird.",
-        "Für eine Qualitätsstufe, die automatisch durch KI vergeben wird."
+        "Kennung, die eine Publikation dauerhaft eindeutig identifiziert.",
+        "Dateiformat, das nur in Fach- oder Forschungsdatenbanken genutzt wird.",
+        "Qualitätsstufe, die automatisch durch eine KI vergeben wird."
       ],
       "answer": 0,
       "explanation": "Eine DOI ist eine eindeutige, dauerhafte Kennung für digitale Publikationen. Sie hilft, Quellen zuverlässig zu finden und auf Existenz und Version zu prüfen.",
@@ -145,9 +145,9 @@
     {
       "question": "4. Was ist das Hauptziel von PRISMA bei systematischen Reviews?",
       "options": [
-        "Transparente, standardisierte Dokumentation des Such- und Auswahlprozesses.",
-        "Automatische Generierung des Abstracts durch ein KI-Tool.",
-        "Ersetzen von Screening und Qualitätsbewertung durch KI."
+        "PRISMA dokumentiert Suche und Auswahl transparent und klar.",
+        "PRISMA erstellt ein Abstract automatisch mit einem KI-Tool für dich.",
+        "PRISMA ersetzt Screening und Qualitätsbewertung vollständig durch KI."
       ],
       "answer": 0,
       "explanation": "PRISMA liefert Leitlinien, um Suchstrategie, Ein- und Ausschluss sowie Auswahl nachvollziehbar zu dokumentieren. Dadurch werden Reviews transparenter und besser reproduzierbar.",
@@ -186,7 +186,7 @@
     {
       "question": "5. Was beschreibt „Publikationsbias“ am treffendsten?",
       "options": [
-        "Studien mit positiven oder signifikanten Ergebnissen werden eher veröffentlicht als Nullbefunde.",
+        "Positive Ergebnisse erscheinen häufiger als Nullbefunde.",
         "Jede Studie wird automatisch mehrfach in Datenbanken indexiert.",
         "Peer Review verhindert systematische Verzerrungen vollständig."
       ],
@@ -227,10 +227,10 @@
     {
       "question": "6. Du bekommst von einem KI-Tool eine Literaturliste. Eine Referenz wirkt verdächtig (ungewöhnlicher Journalname, keine DOI). Was ist der beste nächste Schritt?",
       "options": [
-        "Die Referenz zitieren, wenn sie thematisch gut passt.",
-        "Journal und Artikel in Fachdatenbanken verifizieren und ggf. den Volltext prüfen.",
-        "Die Referenz ignorieren, weil KI-Tools grundsätzlich unzuverlässig sind.",
-        "Die Referenz nur in den Anhang kopieren und ohne Prüfung zitieren."
+        "Referenz ohne Prüfung zitieren, wenn sie thematisch gut passt.",
+        "Journal und Artikel in Datenbanken prüfen, Volltext ansehen.",
+        "Referenz ignorieren, weil KI-Tools generell unzuverlässig sind.",
+        "Referenz nur in den Anhang kopieren und trotzdem zitieren."
       ],
       "answer": 1,
       "explanation": "Bei verdächtigen Referenzen solltest du zuerst Existenz und Seriosität prüfen: Gibt es das Journal, stimmt die Bibliografie, ist der Volltext auffindbar? Thematische Passung ersetzt keine Verifikation.",
@@ -277,10 +277,10 @@
     {
       "question": "7. Ein KI-Tool liefert eine Kernaussage und behauptet, sie sei „direkt zitiert“. Was ist für die Bachelorarbeit die richtige Vorgehensweise?",
       "options": [
-        "Das Zitat übernehmen, wenn es plausibel klingt.",
-        "Das Zitat im Originalpaper (PDF) finden und Wortlaut sowie Kontext prüfen.",
-        "Nur den Abstract prüfen, der Kontext ist in der Regel egal.",
-        "Das Zitat nur in Sekundärquellen suchen, nicht im Originalpaper."
+        "Zitat übernehmen, wenn es plausibel klingt, ohne Original zu prüfen.",
+        "Zitat im Original-PDF suchen und Wortlaut sowie Kontext prüfen.",
+        "Nur den Abstract lesen und den Kontext im Volltext ignorieren.",
+        "Zitat nur in Sekundärquellen suchen, nicht im Originalpaper."
       ],
       "answer": 1,
       "explanation": "Auch wenn ein Tool „direktes Zitat“ behauptet, musst du Wortlaut und Kontext in der Primärquelle prüfen. Ohne Originalnachweis riskierst du Fehlzitate oder aus dem Kontext gerissene Aussagen.",
@@ -327,8 +327,8 @@
     {
       "question": "8. Deine Suche liefert in einem KI-Tool viel zu viele Treffer („Over-retrieval“). Welche Anpassung passt am besten zur Reduktionsstrategie?",
       "options": [
-        "Den Zeitraum eingrenzen und spezifischere Inklusionskriterien definieren.",
-        "Alle Filter entfernen, um keine relevanten Studien zu verpassen.",
+        "Zeitraum eingrenzen und spezifischere Inklusionskriterien nutzen.",
+        "Alle Filter entfernen, damit garantiert nichts übersehen wird.",
         "Nur Preprints zulassen, weil sie kürzer und schneller zu lesen sind."
       ],
       "answer": 0,
@@ -426,9 +426,9 @@
     {
       "question": "10. Du planst den Einsatz von KI-Tools entlang des Forschungsprozesses. Welche Zuordnung ist am passendsten?",
       "options": [
-        "Exploration: Überblick/Lücken; Analyse: strukturierte Extraktion; Endphase: Quellen prüfen und dokumentieren.",
+        "Exploration: Überblick/Lücken; Analyse: Extraktion; Endphase: Quellen prüfen und dokumentieren.",
         "Exploration: nur Zitierformatierung; Analyse: nur Rechtschreibung; Endphase: Themenfindung.",
-        "Exploration: Qualitätsbewertung ersetzen; Analyse: Peer Review ersetzen; Endphase: Autorschaft automatisieren.",
+        "Exploration: Qualitätsbewertung ersetzen; Analyse: Peer Review ersetzen; Endphase: Autorschaft per KI.",
         "Exploration: nur Formatierung; Analyse: nur Layout; Endphase: nur Rechtschreibung."
       ],
       "answer": 0,
@@ -476,11 +476,11 @@
     {
       "question": "11. Ein „Consensus Meter“ zeigt 90% Zustimmung zu einer binären Aussage. Was ist die beste Interpretation für deine Arbeit?",
       "options": [
-        "Nur ein Indikator; eigenes Screening und Prüfung der Primärstudien sind nötig.",
+        "Nur Indikator; Screening und Primärprüfung bleiben nötig.",
         "Beweis, der jede weitere Qualitätsprüfung komplett überflüssig macht.",
         "Bedeutet automatisch, dass alle Studien methodisch einwandfrei sind.",
         "Prozentzahl als exakte Effektgröße übernehmen und ohne Kontext berichten.",
-        "Nur den Mittelwert der Studien zitieren, ohne Methoden oder Daten zu prüfen."
+        "Nur den Mittelwert zitieren, ohne Methoden oder Daten zu prüfen."
       ],
       "answer": 0,
       "explanation": "Ein hoher Konsenswert kann Orientierung geben, ist aber anfällig für Verzerrungen (z. B. Publikationsbias) und sagt nichts über die Qualität einzelner Studien aus. Daher musst du Primärstudien prüfen und die Evidenz kritisch bewerten.",
@@ -527,10 +527,10 @@
     {
       "question": "12. Du willst einen systematischen Review schreiben und nutzt KI fürs Screening. Welche Praxis bleibt trotzdem zwingend wichtig?",
       "options": [
-        "Mindestens zwei unabhängige Reviewer, die Ein-/Ausschlussentscheidungen prüfen.",
+        "Mindestens zwei Reviewer lassen Ein- und Ausschluss prüfen.",
         "Nur ein Reviewer, weil die KI bereits vorgefiltert hat.",
-        "Nur die am häufigsten zitierten Studien, weil sie sicher korrekt sind.",
-        "Screening nur anhand von Titeln durchführen, Abstracts sind optional."
+        "Nur die meistzitierten Studien berücksichtigen, sie sind sicher korrekt.",
+        "Screening nur nach Titeln, Abstracts sind höchstens optional."
       ],
       "answer": 0,
       "explanation": "Auch mit KI-Unterstützung bleibt Dual-Screening zentral, um Fehler und Bias bei der Studienauswahl zu reduzieren. KI kann vorsortieren, ersetzt aber nicht die unabhängige menschliche Entscheidung.",
@@ -577,11 +577,11 @@
     {
       "question": "13. Du extrahierst mit KI aus 20 Studien die Ergebnisse. Welche Information solltest du zusätzlich manuell prüfen, um die Aussagekraft zu bewerten?",
       "options": [
-        "Design, Stichprobengröße und Interessenkonflikte prüfen.",
-        "Nur die Anzahl der Autoren und die Länge des Abstracts.",
-        "Nur ob die Studie Open Access verfügbar ist.",
-        "Ob die Studie ein schickes Diagramm im Abstract hat.",
-        "Ob die Studie in Social Media stark geteilt wird."
+        "Design, Stichprobe und Interessenkonflikte kontrollieren.",
+        "Autorenzahl und Abstract-Länge vergleichen, sonst nichts.",
+        "Prüfen, ob die Studie Open Access ist, sonst nichts.",
+        "Schauen, ob ein Diagramm im Abstract steht und das bewerten.",
+        "Prüfen, ob die Studie in Social Media stark geteilt wird."
       ],
       "answer": 0,
       "explanation": "Ergebnisse ohne Kontext sind gefährlich: Design, Stichprobe und mögliche Interessenkonflikte beeinflussen die Belastbarkeit. KI kann extrahieren, aber die Bewertung der Qualität bleibt deine Aufgabe.",
@@ -678,10 +678,10 @@
     {
       "question": "15. Eine Studie, die du zitieren möchtest, wurde möglicherweise zurückgezogen (retracted). Was ist der sinnvollste Umgang?",
       "options": [
-        "Retraktion prüfen, eingeordnet oder gar nicht nutzen, mit Hinweis.",
-        "Die Studie trotzdem zitieren, weil sie bereits oft zitiert wurde.",
+        "Retraktion prüfen, einordnen oder die Studie gar nicht nutzen.",
+        "Studie trotzdem zitieren, weil sie oft zitiert wurde.",
         "Retraktionen ignorieren, weil sie nur formale Fehler betreffen.",
-        "Die Studie nur dann prüfen, wenn der Betreuer explizit nachfragt."
+        "Studie nur prüfen, wenn der Betreuer ausdrücklich nachfragt."
       ],
       "answer": 0,
       "explanation": "Retraktionen können auf gravierende Probleme hindeuten (z. B. fehlerhafte Daten). Vor dem Zitieren solltest du den Status prüfen und, falls relevant, entweder verzichten oder die Retraktion explizit einordnen.",
@@ -778,9 +778,9 @@
     {
       "question": "17. Du schreibst ein kleines Skript, um DOIs in einer Liste zu erkennen:\n\n```python\n1: import re\n2: def is_doi(s):\n3:     return re.match(r\"10.\\\\d{4,9}/.+\", s)\n4:\n5: print(is_doi(\"10.1000/xyz\"))\n```\nWelche Aussage ist korrekt?",
       "options": [
-        "Die Ausgabe ist ein Match-Objekt (truthy), nicht zwingend ein boolescher Wert.",
-        "Die Ausgabe ist immer True oder False, weil re.match bool zurückgibt.",
-        "Die Ausgabe ist None, weil DOIs immer mit \"doi:\" beginnen."
+        "Ausgabe ist ein Match-Objekt (truthy), kein boolescher Wert.",
+        "re.match liefert ein Match-Objekt oder None, nicht direkt True/False.",
+        "Ausgabe ist None, weil DOIs zwingend mit \"doi:\" beginnen."
       ],
       "answer": 0,
       "explanation": "re.match liefert ein Match-Objekt oder None. In Python ist ein Match-Objekt truthy, aber nicht identisch mit dem booleschen Wert True. Für klare Logik würde man z. B. `is not None` prüfen.",
@@ -827,10 +827,10 @@
     {
       "question": "18. Du brauchst für einen sicherheitskritischen Abschnitt in der Bachelorarbeit besonders robuste Evidenz. Welche Auswahl ist am angemessensten?",
       "options": [
-        "Peer-reviewte Studien priorisieren und Preprints nur ergänzend mit klarer Kennzeichnung nutzen.",
-        "Nur Preprints nutzen, weil sie aktueller sind.",
-        "Nur Blogposts nutzen, weil sie verständlicher sind.",
-        "Nur Studien mit vielen Autor:innen priorisieren, weil das Qualität signalisiert."
+        "Peer-reviewte Studien priorisieren, Preprints nur markiert ergänzen.",
+        "Nur Preprints nutzen, weil sie aktueller und schnell verfügbar sind.",
+        "Nur Blogposts nutzen, weil sie leichter zu lesen sind und reichen.",
+        "Nur viele Autor:innen priorisieren, weil das automatisch Qualität zeigt."
       ],
       "answer": 0,
       "explanation": "Für robuste Evidenz solltest du peer-reviewte Publikationen priorisieren. Preprints können helfen, aktuelle Trends zu sehen, müssen aber hinsichtlich Qualität und Stabilität vorsichtiger behandelt und klar gekennzeichnet werden.",
@@ -877,10 +877,10 @@
     {
       "question": "19. Du kombinierst KI-gestützte Recherche mit klassischen Methoden. Welche Kombination ist am plausibelsten für hohe Qualität?",
       "options": [
-        "KI für Überblick/Extraktion; Datenbanken für Vollständigkeit und Qualität.",
-        "KI für alles, klassische Methoden nur als Backup bei Internetproblemen.",
-        "Klassische Methoden nur für Abstracts, KI nur für Zitationen.",
-        "KI nur für Volltexte, klassische Methoden nur für Schlagwörter."
+        "KI für Überblick und Extraktion, DBs für Qualität und Vollständigkeit.",
+        "KI für alles nutzen, Datenbanken nur als Backup bei Internetproblemen.",
+        "Klassische Methoden nur für Abstracts, KI nur für Zitationen einsetzen.",
+        "KI nur für Volltexte, klassische Methoden nur für Schlagwörter nutzen."
       ],
       "answer": 0,
       "explanation": "Die Kombination nutzt die Stärken beider Welten: KI hilft beim schnellen Überblick und bei der strukturierten Extraktion, während klassische Datenbanken und manuelle Checks Vollständigkeit und Verifikation sichern.",
@@ -927,10 +927,10 @@
     {
       "question": "20. Du nutzt eine KI-Suche, die „Threads“ unterstützt (Kontext bleibt erhalten). Wofür ist das am nützlichsten?",
       "options": [
-        "Für iteratives Verfeinern der Suche und nachvollziehbares Nachverfolgen verwandter Fragen.",
-        "Für das automatische Ersetzen aller Quellen durch neuere Quellen.",
-        "Für das Erzeugen identischer Suchergebnisse unabhängig von der Fragestellung.",
-        "Threads nutzen, um Ergebnisse zu „merken“, ohne Suchschritte zu dokumentieren."
+        "Threads für iteratives Verfeinern und nachvollziehbare Suche nutzen.",
+        "Threads ersetzen automatisch alle Quellen durch neuere Quellen.",
+        "Threads erzeugen identische Ergebnisse unabhängig von der Frage.",
+        "Threads merken Ergebnisse, ohne Suchschritte dokumentieren zu müssen."
       ],
       "answer": 0,
       "explanation": "Thread-basierte Recherche hilft, Suchanfragen iterativ zu verbessern und verwandte Perspektiven strukturiert zu verfolgen. Das unterstützt ein systematisches Vorgehen statt zufälligem „Herumklicken“.",
@@ -977,10 +977,10 @@
     {
       "question": "21. Du speicherst gefundene Papers in thematischen Sammlungen („Collections“). Was ist der wichtigste Nutzen für die Bachelorarbeit?",
       "options": [
-        "Bessere Nachvollziehbarkeit und Organisation entlang von Kapiteln, Relevanz und Projektphasen.",
-        "Automatische Qualitätssteigerung der gespeicherten Papers durch das Tool.",
-        "Vermeidung jeder manuellen Literaturverwaltung.",
-        "Collections dienen primär dazu, automatisch ein fertiges Kapitel zu generieren."
+        "Collections ordnen Quellen klar nach Kapiteln, Relevanz und Projektphasen.",
+        "Collections steigern automatisch die Qualität der gespeicherten Papers.",
+        "Collections sparen jegliche manuelle Literaturverwaltung vollständig ein.",
+        "Collections erzeugen automatisch ein fertiges Kapitel ohne weiteren Aufwand."
       ],
       "answer": 0,
       "explanation": "Sammlungen helfen, Literatur strukturiert zu organisieren und später nachvollziehbar zu berichten, warum etwas relevant war. Sie ersetzen keine Qualitätsprüfung, erleichtern aber Workflow und Zitiermanagement.",
@@ -1027,11 +1027,11 @@
     {
       "question": "22. Eine KI schlägt dir ein Journal vor, das sehr schnell publiziert und extrem hohe Acceptance Rates bewirbt. Was ist eine sinnvolle Reaktion?",
       "options": [
-        "Journal-Seriosität prüfen (Indexierung, Editorial Board, Peer-Review-Prozess) und ggf. ausschließen.",
-        "Journal bevorzugen, weil schnelle Publikation ein Qualitätsmerkmal ist.",
-        "Journal ignorieren, weil alle Journals gleichwertig sind.",
-        "Das Journal wählen, weil es eine schicke Website und viele Schlagwörter hat.",
-        "Das Journal wählen, wenn es in keiner Datenbank gelistet ist, um „Nischenliteratur“ zu finden."
+        "Journal-Seriosität prüfen (Indexierung, Board, Review) und ggf. ablehnen.",
+        "Journal bevorzugen, weil schnelle Publikation als Qualitätsmerkmal gilt.",
+        "Journal ignorieren, weil alle Journals angeblich gleichwertig sind.",
+        "Journal wählen, weil die Website schick ist und viele Schlagwörter zeigt.",
+        "Journal wählen, wenn es in keiner Datenbank gelistet ist, um Nischen zu finden."
       ],
       "answer": 0,
       "explanation": "Ungewöhnlich schnelle Publikation und aggressive Marketingversprechen können Hinweise auf fragwürdige Journals sein. Vor Nutzung solltest du Indexierung, Peer-Review-Transparenz und Reputation prüfen.",
@@ -1079,9 +1079,9 @@
       "question": "23. Du lässt dir von einer KI einen „Related Work“-Abschnitt vorschlagen. Was ist die beste Vorgehensweise, um ihn nutzbar zu machen?",
       "options": [
         "Struktur nutzen, aber jede Quelle und Aussage im Original prüfen.",
-        "Den Abschnitt direkt übernehmen, um Zeit zu sparen.",
-        "Nur die Überschriften übernehmen und alle Quellen weglassen.",
-        "Nur die Literaturüberschrift nutzen und auf Belege verzichten."
+        "Abschnitt direkt übernehmen und keine eigenen Prüfungen vornehmen.",
+        "Nur Überschriften übernehmen und alle Quellen komplett weglassen.",
+        "Nur die Literaturüberschrift verwenden und auf Belege verzichten."
       ],
       "answer": 0,
       "explanation": "KI kann beim Strukturieren und Clustern helfen, aber Quellen und Inhalte müssen verifiziert werden. Sonst riskierst du erfundene Referenzen oder falsche Zusammenfassungen.",
@@ -1178,10 +1178,10 @@
     {
       "question": "25. Du findest zu deiner Fragestellung mehrere Studien mit widersprüchlichen Ergebnissen. Wie nutzt du KI am sinnvollsten, ohne Autonomie zu verlieren?",
       "options": [
-        "KI für strukturierte Extraktion von Methoden/Populationen nutzen und die Unterschiede selbst analysieren.",
-        "KI bitten, das „richtige“ Ergebnis auszuwählen und das dann übernehmen.",
-        "KI bitten, eine Mehrheitsmeinung zu bilden und die Details ignorieren.",
-        "KI die widersprüchlichen Studien zusammenfassen lassen und die Tabelle ungeprüft übernehmen."
+        "KI für Methoden/Populationen extrahieren, Unterschiede selbst analysieren.",
+        "KI bitten, das \"richtige\" Ergebnis auszuwählen und das übernehmen.",
+        "KI bitten, eine Mehrheitsmeinung zu bilden und Details zu ignorieren.",
+        "KI die widersprüchlichen Studien zusammenfassen lassen und ungeprüft übernehmen."
       ],
       "answer": 0,
       "explanation": "Bei Widersprüchen kann KI helfen, Informationen strukturiert zu extrahieren (Design, Stichprobe, Outcomes). Die eigentliche Interpretation—warum Ergebnisse differieren—musst du selbst leisten.",
@@ -1228,10 +1228,10 @@
     {
       "question": "26. Du findest 30 Studien, alle mit positiven Effekten; eine KI-Metrik zeigt 95% Zustimmung. Welche kritische Gesamteinschätzung ist am angemessensten?",
       "options": [
-        "Trotz hoher Zustimmung Bias, Methodenqualität und Übertragbarkeit prüfen, bevor du Schluss ziehst.",
-        "Bei 30 Studien ist das Ergebnis automatisch gesichert und muss nicht weiter geprüft werden.",
+        "Trotz hoher Zustimmung Bias, Methoden und Übertragbarkeit prüfen.",
+        "Bei 30 Studien ist das Ergebnis automatisch gesichert.",
         "Hohe Zustimmung beweist, dass keine Interessenkonflikte vorliegen.",
-        "Den Mittelwert aller Effektgrößen ohne Heterogenitätsprüfung als Schluss nehmen.",
+        "Mittelwert aller Effekte ohne Heterogenität als Schluss nehmen.",
         "Die Anzahl der Studien als einziges Qualitätskriterium verwenden."
       ],
       "answer": 0,
@@ -1279,10 +1279,10 @@
     {
       "question": "27. Du vermutest, dass ein Paper (oder mehrere) aus einer „Paper Mill“ stammen könnte. Welche Indiz-Kombination ist am aussagekräftigsten?",
       "options": [
-        "Mehrere Indizien: unplausible Referenzen, inkonsistente Methoden/Resultate und KI-Muster.",
-        "Viele Autoren und ein langer Abstract, sonst keine weiteren Auffälligkeiten.",
-        "Eine hohe Zitierzahl allein, weil das automatisch Manipulation bedeutet.",
-        "Ein einziges Tippfehler-Indiz reicht aus, um sicher von einer Paper Mill auszugehen.",
+        "Mehrere Indizien prüfen: Referenzen, Methoden und KI-Spuren gemeinsam.",
+        "Viele Autoren und langer Abstract, sonst keine Auffälligkeiten.",
+        "Hohe Zitierzahl allein, weil das automatisch Manipulation bedeutet.",
+        "Ein Tippfehler reicht aus, um sicher von einer Paper Mill auszugehen.",
         "Nur das PDF-Layout bewerten; Inhalte und Daten sind zweitrangig."
       ],
       "answer": 0,
