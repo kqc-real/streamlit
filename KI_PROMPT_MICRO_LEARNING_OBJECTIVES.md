@@ -67,7 +67,6 @@ OUTPUT FORMAT
 Single markdown code block:
 ```markdown
 # Übergeordnete Lernziele: <title>
-[English: # Overarching Learning Objectives: <title>]
 
 ## <Cluster 1>
 **<Bold objective statement>**
@@ -79,27 +78,24 @@ Single markdown code block:
 [Repeat for 5-10 clusters]
 
 # Detaillierte Lernziele
-[English: # Detailed Learning Objectives]
 
 Im Kontext des Themas **<title>** soll dir dieses Fragenset helfen, die folgenden detaillierten Lernziele zu erreichen:
-[English: In the context of **<title>**, this question set is designed to help you achieve the following detailed learning objectives:]
 
 ### Reproduktion
-[English: ### Reproduction]
+
 **Du kannst …**
-[English: **You can …**]
 
 1. <infinitive verb> <object/concept>
 2. ...
 
 ### Anwendung
-[English: ### Application]
+
 **Du kannst …**
 
 1. ...
 
 ### Strukturelle Analyse
-[English: ### Structural Analysis]
+
 **Du kannst …**
 
 1. ...
