@@ -99,10 +99,10 @@
       "options": [
         "Mit eckigen Klammern ([ ... ])",
         "Mit Prozentzeichen (% ... %)",
-        "Mit $...$"
+        "Mit Dollar-Begrenzern, z. B. \\$...\\$"
       ],
       "answer": 2,
-      "explanation": "Inline-Mathe wird mit $ ... $ (oder äquivalent \\( ... \\)) gesetzt. Prozentzeichen oder eckige Klammern aktivieren keinen Math-Modus.",
+      "explanation": "Inline-Mathe wird mit Dollar-Begrenzern geöffnet und geschlossen, z. B. \\$...\\$ (oder \\(...\\)). Prozentzeichen oder eckige Klammern aktivieren keinen Math-Modus.",
       "weight": 1,
       "topic": "Mathematiksatz",
       "concept": "Inline-Math",
@@ -145,10 +145,10 @@
       ]
     },
     {
-      "question": "6. Welche Sprache stellt \\usepackage[ngerman]{babel} ein?",
+      "question": "6. Welche Sprache aktivierst du in babel mit der Option ngerman?",
       "options": [
-        "Deutsch (ngerman)",
-        "Britisches Englisch",
+        "Deutsch (neue Rechtschreibung)",
+        "Englisch (britisch)",
         "Französisch"
       ],
       "answer": 0,
@@ -242,7 +242,7 @@
     {
       "question": "9. Wie verknüpfst du Caption und Label korrekt in einer Abbildung?",
       "options": [
-        "Caption, dann \\label im figure",
+        "Caption zuerst, dann \\label im figure",
         "\\label vor \\caption setzen",
         "\\label außerhalb der figure schreiben",
         "\\caption in die Präambel legen"
@@ -346,7 +346,7 @@
       ]
     },
     {
-      "question": "12. Wie erzeugst du den Bruch \\$\\frac{1}{2}\\$ im Mathemodus?",
+      "question": "12. Wie erzeugst du den Bruch $\\frac{1}{2}$ im Mathemodus?",
       "options": [
         "\\\\frac{1}{2}",
         "\\\\half{1}{2}",
@@ -375,17 +375,17 @@
         },
         {
           "term": "Display-Math",
-          "definition": "Abgesetzter Formelsatz mit \\[ ... \\]."
+          "definition": "Abgesetzter Formelsatz mit \\[ ... \\] (Backslash vor jeder eckigen Klammer)."
         }
       ]
     },
     {
       "question": "13. Wie vermeidest du, dass ein Float (figure) ans Dokumentende springt?",
       "options": [
-        "Breite anpassen und [htbp] setzen",
-        "Immer [H] aus dem float-Paket nutzen",
-        "Caption weglassen",
-        "Label weglassen"
+        "Breite sinnvoll wählen und [htbp] setzen",
+        "Immer [H] aus dem float-Paket erzwingen",
+        "Caption weglassen und nur die Grafik einfügen",
+        "Label weglassen und später referenzieren"
       ],
       "answer": 0,
       "explanation": "[htbp] lässt dem Algorithmus Platzierungsspielraum; passende Breite hilft. [H] erzwingt Positionen, kann aber unschöne Umbrüche erzeugen.",
@@ -451,12 +451,12 @@
     {
       "question": "15. Wie referenzierst du eine Abbildung mit Label fig:logo im Text?",
       "options": [
-        "Siehe \\ref{fig:logo}",
-        "Siehe Abbildung fig:logo",
+        "Siehe Abbildung \\ref{fig:logo}",
+        "Siehe fig:logo im Text",
         "Siehe \\label{fig:logo}"
       ],
       "answer": 0,
-      "explanation": "\\ref{fig:logo} erzeugt die Nummer der markierten Abbildung. Das Label selbst wird nicht angezeigt; \\label ist nur zur Definition da.",
+      "explanation": "\\ref{fig:logo} erzeugt die Nummer der markierten Abbildung (optional mit vorangestelltem 'Abbildung'). Das Label selbst wird nicht angezeigt; \\label ist nur zur Definition da.",
       "weight": 2,
       "topic": "Referenzen & Querverweise",
       "concept": "ref",
@@ -485,12 +485,12 @@
     {
       "question": "16. Wie verhinderst du, dass % in normalem Text als Kommentar wirkt?",
       "options": [
-        "Mit \\%",
+        "Mit \\\\%",
         "Mit %% doppeln",
         "Mit {%%} kapseln"
       ],
       "answer": 0,
-      "explanation": "Ein Backslash entwertet die Sonderbedeutung: \\% gibt ein Prozentzeichen im Text aus. Doppelte oder geklammerte Prozentzeichen lösen trotzdem Kommentare aus.",
+      "explanation": "Ein doppelter Backslash vor dem Prozentzeichen (\\\\%) entwertet die Sonderbedeutung. Doppelte oder geklammerte Prozentzeichen lösen trotzdem Kommentare aus.",
       "weight": 2,
       "topic": "Sprache & Typografie",
       "concept": "Sonderzeichen",
@@ -859,9 +859,9 @@
     {
       "question": "27. Was prüfst du zuerst bei 'Undefined control sequence' im Log?",
       "options": [
-        "Paket oder Tippfehler prüfen",
-        "Papierformat in geometry kontrollieren",
-        "Falsche Seitenränder"
+        "Paket laden oder Tippfehler korrigieren",
+        "Papierformat oder geometry-Optionen prüfen",
+        "Seitenränder oder Layoutpakete kontrollieren"
       ],
       "answer": 0,
       "explanation": "Nicht erkannte Befehle deuten auf fehlende Pakete oder Tippfehler hin. Layoutoptionen sind dafür nicht verantwortlich.",
@@ -927,9 +927,9 @@
     {
       "question": "29. Was bedeutet die Warnung 'Label(s) may have changed. Rerun to get cross-references right.'?",
       "options": [
-        "Ein weiterer Lauf aktualisiert Referenzen",
-        "Die Labels sind ungültig und müssen gelöscht werden",
-        "Man darf keine Labels mehr setzen"
+        "Noch einmal kompilieren, damit Referenzen aktualisiert werden",
+        "Alle Labels löschen und neu anlegen, bevor man weiter kompiliert",
+        "Keine neuen Labels mehr setzen, sonst schlägt der nächste Lauf fehl"
       ],
       "answer": 0,
       "explanation": "Die Warnung fordert zu einem weiteren Lauf auf, damit Referenzen stimmen. Labels müssen nicht gelöscht werden.",
