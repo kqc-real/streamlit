@@ -60,7 +60,7 @@ Im Kontext des Themas **LaTeX für Einsteiger/innen - Abschlussarbeit** soll dir
 2. den Beginn des Dokumentenkörpers als `\begin{document}` identifizieren
 3. Paketladebefehle mit `\usepackage{...}` angeben
 4. Abschnittsüberschriften in article mit `\section{...}` kennzeichnen
-5. Inline-Mathematik mit `$...$` begrenzen
+5. Inline-Mathematik mit Math-Begrenzern kennzeichnen, z. B. einleitendes und schließendes Dollarzeichen
 6. die Sprachoption `ngerman` im `babel`-Paket der neuen Rechtschreibung zuordnen
 
 ### Anwendung
