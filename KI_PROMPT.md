@@ -248,13 +248,14 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
     - "None of the above"
     - or their equivalents in other languages.
   - Avoid trick questions or unfair ambiguity.
-   - **Requirements for answer options (distractors):**
-     1. **Length homogeneity:** All options must be roughly equal in visual/word length. The correct option must not be noticeably longer or more detailed.
-     2. **Grammatical fit:** All options must fit grammatically onto the question stem.
-     3. **Plausibility:** Distractors must be plausible and reflect common misconceptions, not nonsense.
-     4. **Technical density:** Use the same level of technical terminology as the correct option.
-     5. **Avoid absolute “giveaways”:** Avoid words like “always”, “never”, “all” that act as clues.
-     6. **Mirror the syntactic pattern (when feasible):** Mirror the syntactic pattern of the correct option (same tense, person, sentence structure) when feasible; prioritize plausibility and unambiguity over perfect structural mirroring. If the correct option contains a subordinate clause or similar structure, aim for equivalent clause structure across distractors when it does not reduce clarity.
+  - **Requirements for answer options (distractors):**
+    1. **Length homogeneity (strict):** All options must be within roughly ±10–15 characters of each other. The correct option must **never** be the uniquely longest; if precision requires length, either shorten it or add a neutral, parallel clause to the distractors to balance lengths.
+    2. **Consistent sentence frame:** Use the same sentence frame/verb tense across all options; do not mix noun phrases with full sentences in the same item. Start options with the same syntactic pattern whenever feasible.
+    3. **Grammatical fit:** All options must fit grammatically onto the question stem.
+    4. **Plausibility:** Distractors must be plausible and reflect common misconceptions, not nonsense.
+    5. **Technical density:** Use the same level of technical terminology as the correct option.
+    6. **Avoid absolute “giveaways”:** Avoid words like “always”, “never”, “all” that act as clues.
+    7. **Pattern check before output:** Before emitting JSON, compare option lengths; if the correct option is the longest or much shorter, rephrase/trim or pad with a neutral qualifier (e.g., “im Text”, “im Dokument”) to even out lengths without changing meaning.
 
 - **Use of context material:**
   - Do not reference provided file names, slide numbers, or phrases like "as seen in the uploaded text" in the final questions or explanations.
