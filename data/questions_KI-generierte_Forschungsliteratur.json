@@ -1,0 +1,1483 @@
+{
+  "meta": {
+    "title": "KI-generierte Forschungsliteratur",
+    "created": "20.01.2026 07:18",
+    "target_audience": "Informatikstudierende in ihrer Bachelorarbeit",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 5,
+      "medium": 18,
+      "hard": 7
+    },
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 28
+  },
+  "questions": [
+    {
+      "question": "1. Was bedeutet „Halluzination“ bei KI-Textgeneratoren im wissenschaftlichen Kontext?",
+      "options": [
+        "Die KI erzeugt plausible, aber faktisch falsche Aussagen oder Quellen.",
+        "Die KI komprimiert Texte verlustfrei ohne Informationsverlust.",
+        "Die KI erkennt Plagiate in jeder Sprache zuverlässig."
+      ],
+      "answer": 0,
+      "explanation": "Als Halluzination bezeichnet man, wenn ein Modell überzeugend klingende Inhalte produziert, die nicht durch echte Daten oder Quellen gedeckt sind. In der Literaturarbeit ist das besonders riskant bei Zitaten, Zahlen und Referenzen.",
+      "weight": 1,
+      "topic": "Grundbegriffe & Risiken",
+      "concept": "KI-Halluzination",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Halluzination",
+          "definition": "Generierung plausibler, aber falscher Inhalte durch ein KI-System."
+        },
+        {
+          "term": "KI-Textgenerator",
+          "definition": "Modell, das Text auf Basis gelernter Muster erzeugt."
+        },
+        {
+          "term": "Quelle",
+          "definition": "Nachprüfbarer Ursprung einer Aussage (z. B. Paper, Datensatz)."
+        },
+        {
+          "term": "Zitat",
+          "definition": "Wörtliche oder sinngemäße Übernahme aus einer Quelle."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Aktives Prüfen einer Aussage in Primärquellen."
+        },
+        {
+          "term": "Wissenschaftlicher Kontext",
+          "definition": "Arbeitsumfeld mit Anforderungen an Nachvollziehbarkeit und Belege."
+        }
+      ]
+    },
+    {
+      "question": "2. Was ist ein „Preprint“?",
+      "options": [
+        "Ein öffentlich verfügbares Manuskript vor dem Peer Review.",
+        "Ein Artikel, der bereits peer-reviewt und final publiziert ist.",
+        "Ein automatisch erzeugtes Literaturverzeichnis eines Tools."
+      ],
+      "answer": 0,
+      "explanation": "Preprints sind Manuskripte, die vor der Begutachtung veröffentlicht werden. Sie können sehr aktuell sein, aber ihre Qualität ist noch nicht durch Peer Review abgesichert.",
+      "weight": 1,
+      "topic": "Publikationsformen & Qualität",
+      "concept": "Preprint",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Preprint",
+          "definition": "Manuskriptversion vor dem Peer Review."
+        },
+        {
+          "term": "Peer Review",
+          "definition": "Begutachtung eines Manuskripts durch Fachkolleg:innen."
+        },
+        {
+          "term": "Journalartikel",
+          "definition": "In einer Zeitschrift veröffentlichter Beitrag."
+        },
+        {
+          "term": "Versionierung",
+          "definition": "Unterschiedliche Fassungen eines Dokuments über die Zeit."
+        },
+        {
+          "term": "Qualitätssicherung",
+          "definition": "Prozesse zur Prüfung von Methoden und Ergebnissen."
+        },
+        {
+          "term": "Publikationsstatus",
+          "definition": "Ob und wie ein Beitrag veröffentlicht/begutachtet wurde."
+        }
+      ]
+    },
+    {
+      "question": "3. Wofür steht eine DOI in einer Quellenangabe typischerweise?",
+      "options": [
+        "Für eine persistente Kennung, die eine Publikation dauerhaft identifizierbar macht.",
+        "Für ein Dateiformat, das nur in wissenschaftlichen Datenbanken genutzt wird.",
+        "Für eine Qualitätsstufe, die automatisch durch KI vergeben wird."
+      ],
+      "answer": 0,
+      "explanation": "Eine DOI ist eine eindeutige, dauerhafte Kennung für digitale Publikationen. Sie hilft, Quellen zuverlässig zu finden und auf Existenz und Version zu prüfen.",
+      "weight": 1,
+      "topic": "Zitieren & Transparenz",
+      "concept": "DOI",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "DOI",
+          "definition": "Digital Object Identifier; dauerhafte Kennung für digitale Publikationen."
+        },
+        {
+          "term": "Persistent",
+          "definition": "Bleibt stabil, auch wenn sich die URL ändert."
+        },
+        {
+          "term": "Metadaten",
+          "definition": "Strukturierte Angaben zu einer Publikation (Autor, Titel, Jahr)."
+        },
+        {
+          "term": "Referenz",
+          "definition": "Literaturangabe, die auf eine Quelle verweist."
+        },
+        {
+          "term": "Version",
+          "definition": "Konkrete Fassung einer Publikation."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Prüfen, ob die Quelle existiert und passt."
+        }
+      ]
+    },
+    {
+      "question": "4. Was ist das Hauptziel von PRISMA bei systematischen Reviews?",
+      "options": [
+        "Transparente, standardisierte Dokumentation des Such- und Auswahlprozesses.",
+        "Automatische Generierung des Abstracts durch ein KI-Tool.",
+        "Ersetzen von Screening und Qualitätsbewertung durch KI."
+      ],
+      "answer": 0,
+      "explanation": "PRISMA liefert Leitlinien, um Suchstrategie, Ein- und Ausschluss sowie Auswahl nachvollziehbar zu dokumentieren. Dadurch werden Reviews transparenter und besser reproduzierbar.",
+      "weight": 1,
+      "topic": "Systematische Reviews & Protokolle",
+      "concept": "PRISMA",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "PRISMA",
+          "definition": "Leitlinie für Reporting systematischer Reviews."
+        },
+        {
+          "term": "Systematischer Review",
+          "definition": "Strukturiertes Vorgehen zur Evidenzsynthese."
+        },
+        {
+          "term": "Suchstrategie",
+          "definition": "Definierte Vorgehensweise zur Literaturrecherche."
+        },
+        {
+          "term": "Screening",
+          "definition": "Sichtung und Auswahl relevanter Studien."
+        },
+        {
+          "term": "Reproduzierbarkeit",
+          "definition": "Möglichkeit, den Prozess mit gleichen Ergebnissen zu wiederholen."
+        },
+        {
+          "term": "Dokumentation",
+          "definition": "Nachvollziehbares Festhalten von Entscheidungen und Schritten."
+        }
+      ]
+    },
+    {
+      "question": "5. Was beschreibt „Publikationsbias“ am treffendsten?",
+      "options": [
+        "Studien mit positiven oder signifikanten Ergebnissen werden eher veröffentlicht als Nullbefunde.",
+        "Jede Studie wird automatisch mehrfach in Datenbanken indexiert.",
+        "Peer Review verhindert systematische Verzerrungen vollständig."
+      ],
+      "answer": 0,
+      "explanation": "Publikationsbias bedeutet, dass bestimmte Ergebnisse (oft positive) häufiger publiziert werden als Null- oder negative Befunde. Das kann den Eindruck eines „Konsenses“ verzerren, wenn nur veröffentlichte Studien betrachtet werden.",
+      "weight": 1,
+      "topic": "Bias & Evidenzbewertung",
+      "concept": "Publikationsbias",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Publikationsbias",
+          "definition": "Verzerrung durch selektive Veröffentlichung bestimmter Ergebnisse."
+        },
+        {
+          "term": "Nullbefund",
+          "definition": "Ergebnis ohne statistisch signifikanten Effekt."
+        },
+        {
+          "term": "Signifikant",
+          "definition": "Statistischer Begriff; Ergebnis gilt unter einem Schwellenwert als auffällig."
+        },
+        {
+          "term": "Evidenzlage",
+          "definition": "Gesamtheit relevanter Studien und Ergebnisse zu einer Frage."
+        },
+        {
+          "term": "Konsens",
+          "definition": "Mehrheitliche Unterstützung einer Aussage in der Literatur."
+        },
+        {
+          "term": "Verzerrung",
+          "definition": "Systematischer Fehler, der Schlussfolgerungen beeinflusst."
+        }
+      ]
+    },
+    {
+      "question": "6. Du bekommst von einem KI-Tool eine Literaturliste. Eine Referenz wirkt verdächtig (ungewöhnlicher Journalname, keine DOI). Was ist der beste nächste Schritt?",
+      "options": [
+        "Die Referenz zitieren, wenn sie thematisch gut passt.",
+        "Journal und Artikel in Fachdatenbanken verifizieren und ggf. den Volltext prüfen.",
+        "Die Referenz ignorieren, weil KI-Tools grundsätzlich unzuverlässig sind.",
+        "Die Referenz nur in den Anhang kopieren und ohne Prüfung zitieren."
+      ],
+      "answer": 1,
+      "explanation": "Bei verdächtigen Referenzen solltest du zuerst Existenz und Seriosität prüfen: Gibt es das Journal, stimmt die Bibliografie, ist der Volltext auffindbar? Thematische Passung ersetzt keine Verifikation.",
+      "weight": 2,
+      "topic": "Quellenprüfung & Integrität",
+      "concept": "Quellenverifikation",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Prüfroutine für verdächtige Referenzen",
+        "steps": [
+          "Metadaten (Autor, Jahr, Titel, Journal) gegen eine unabhängige Datenbank abgleichen.",
+          "Falls vorhanden DOI/Publisher-Link öffnen und Volltext oder Landing-Page prüfen.",
+          "Wenn nichts auffindbar ist: Referenz nicht verwenden und die KI-Ausgabe als fehlerhaft markieren."
+        ],
+        "content": "Die robusteste Strategie ist ein Abgleich über unabhängige Quellen (z. B. Datenbanken, Verlag). Erst wenn Identität und Zugriff klar sind, ist Zitieren vertretbar."
+      },
+      "mini_glossary": [
+        {
+          "term": "Verifikation",
+          "definition": "Unabhängiges Prüfen von Aussagen/Referenzen."
+        },
+        {
+          "term": "Metadaten",
+          "definition": "Autor, Titel, Jahr, Journal usw. einer Publikation."
+        },
+        {
+          "term": "DOI",
+          "definition": "Persistente Kennung zur eindeutigen Identifikation."
+        },
+        {
+          "term": "Publisherseite",
+          "definition": "Offizielle Landing-Page eines Verlags/Journals."
+        },
+        {
+          "term": "Fachdatenbank",
+          "definition": "Kuratiertes Suchsystem für wissenschaftliche Literatur."
+        },
+        {
+          "term": "Seriosität",
+          "definition": "Grad an Vertrauenswürdigkeit eines Publikationskanals."
+        }
+      ]
+    },
+    {
+      "question": "7. Ein KI-Tool liefert eine Kernaussage und behauptet, sie sei „direkt zitiert“. Was ist für die Bachelorarbeit die richtige Vorgehensweise?",
+      "options": [
+        "Das Zitat übernehmen, wenn es plausibel klingt.",
+        "Das Zitat im Originalpaper (PDF) finden und Wortlaut sowie Kontext prüfen.",
+        "Nur den Abstract prüfen, der Kontext ist in der Regel egal.",
+        "Das Zitat nur in Sekundärquellen suchen, nicht im Originalpaper."
+      ],
+      "answer": 1,
+      "explanation": "Auch wenn ein Tool „direktes Zitat“ behauptet, musst du Wortlaut und Kontext in der Primärquelle prüfen. Ohne Originalnachweis riskierst du Fehlzitate oder aus dem Kontext gerissene Aussagen.",
+      "weight": 2,
+      "topic": "Zitieren & Transparenz",
+      "concept": "Primärquellenprüfung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "So validierst du KI-Zitate",
+        "steps": [
+          "Originalpaper öffnen und die zitierte Passage per Suche/Scrollen auffinden.",
+          "Prüfen, ob der Wortlaut exakt stimmt und ob Einschränkungen (Limitationen) genannt werden.",
+          "Erst dann zitieren und ggf. paraphrasieren statt wörtlich zu übernehmen."
+        ],
+        "content": "Die zentrale Schutzmaßnahme gegen Halluzinationen und Fehlkontext ist die Prüfung in der Primärquelle. Das gilt für wörtliche Zitate und für Zahlen/Ergebnisse gleichermaßen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Primärquelle",
+          "definition": "Originalstudie oder Originaldokument."
+        },
+        {
+          "term": "Zitat",
+          "definition": "Wörtliche Übernahme einer Passage."
+        },
+        {
+          "term": "Kontext",
+          "definition": "Umgebende Argumentation/Limitierungen einer Aussage."
+        },
+        {
+          "term": "Paraphrase",
+          "definition": "Sinngemäße Wiedergabe in eigenen Worten."
+        },
+        {
+          "term": "KI-Tool",
+          "definition": "Software, die Recherche/Zusammenfassungen unterstützt."
+        },
+        {
+          "term": "Fehlzitat",
+          "definition": "Falsche oder verzerrte Wiedergabe einer Quelle."
+        }
+      ]
+    },
+    {
+      "question": "8. Deine Suche liefert in einem KI-Tool viel zu viele Treffer („Over-retrieval“). Welche Anpassung passt am besten zur Reduktionsstrategie?",
+      "options": [
+        "Den Zeitraum eingrenzen und spezifischere Inklusionskriterien definieren.",
+        "Alle Filter entfernen, um keine relevanten Studien zu verpassen.",
+        "Nur Preprints zulassen, weil sie kürzer und schneller zu lesen sind."
+      ],
+      "answer": 0,
+      "explanation": "Bei zu vielen Treffern hilft mehr Präzision: Zeitraum, Population, Studientyp und Ein-/Ausschlusskriterien enger fassen. Filter entfernen erhöht meist die Menge weiter und verschlechtert die Handhabbarkeit.",
+      "weight": 2,
+      "topic": "Suchstrategie & Workflow",
+      "concept": "Precision vs. Recall",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Over-retrieval systematisch reduzieren",
+        "steps": [
+          "Forschungsfrage schärfen (Population, Intervention, Outcome).",
+          "Zeitraum/Studientyp filtern und Ein-/Ausschlusskriterien konkretisieren.",
+          "Ergebnisse stichprobenartig prüfen, dann iterativ weiter verfeinern."
+        ],
+        "content": "Over-retrieval ist ein Steuerungsproblem der Suchstrategie. Durch gezielte Einschränkungen steigt die Präzision, ohne dass du blind relevante Literatur verlierst."
+      },
+      "mini_glossary": [
+        {
+          "term": "Over-retrieval",
+          "definition": "Zu viele Treffer, geringe Präzision."
+        },
+        {
+          "term": "Präzision",
+          "definition": "Anteil relevanter Treffer an allen Treffern."
+        },
+        {
+          "term": "Recall",
+          "definition": "Anteil gefundener relevanter Studien an allen relevanten Studien."
+        },
+        {
+          "term": "Inklusionskriterium",
+          "definition": "Bedingung, unter der eine Studie aufgenommen wird."
+        },
+        {
+          "term": "Exklusionskriterium",
+          "definition": "Bedingung, unter der eine Studie ausgeschlossen wird."
+        },
+        {
+          "term": "Studientyp",
+          "definition": "Kategorie wie RCT, Beobachtungsstudie, Review."
+        }
+      ]
+    },
+    {
+      "question": "9. Deine Suche findet kaum Treffer („Under-retrieval“). Welche Maßnahme ist am sinnvollsten?",
+      "options": [
+        "Begriffe verallgemeinern und verwandte Konzepte/Synonyme aufnehmen.",
+        "Die Suchfrage weiter verengen, um die Trefferzahl zu senken.",
+        "Nur nach Journal-Impact filtern, um mehr Treffer zu bekommen.",
+        "Nur nach einem einzelnen exakten Keyword suchen und Synonyme vermeiden."
+      ],
+      "answer": 0,
+      "explanation": "Bei Under-retrieval solltest du die Suche erweitern: allgemeinere Suchbegriffe, Synonyme und verwandte Konzepte erhöhen den Recall. Weiteres Verengen verschlimmert das Problem.",
+      "weight": 2,
+      "topic": "Suchstrategie & Workflow",
+      "concept": "Recall-Erhöhung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Under-retrieval erhöhen",
+        "steps": [
+          "Synonyme, Oberbegriffe und alternative Schreibweisen sammeln.",
+          "Recherchezeitraum erweitern und ggf. auch Preprints/graue Literatur einbeziehen.",
+          "Erste Treffer als Seed nutzen und deren Referenzlisten/„Related work“ auswerten."
+        ],
+        "content": "Wenn zu wenig gefunden wird, ist die Suchabdeckung zu eng. Eine kontrollierte Erweiterung erhöht die Chance, relevante Kernliteratur zu identifizieren."
+      },
+      "mini_glossary": [
+        {
+          "term": "Under-retrieval",
+          "definition": "Zu wenige Treffer, niedriger Recall."
+        },
+        {
+          "term": "Recall",
+          "definition": "Vollständigkeit der gefundenen relevanten Literatur."
+        },
+        {
+          "term": "Synonym",
+          "definition": "Alternativer Begriff mit ähnlicher Bedeutung."
+        },
+        {
+          "term": "Seed-Paper",
+          "definition": "Startpublikation, von der aus weiter recherchiert wird."
+        },
+        {
+          "term": "Graue Literatur",
+          "definition": "Nicht-traditionell publizierte Quellen (Reports, Thesen)."
+        },
+        {
+          "term": "Recherchezeitraum",
+          "definition": "Zeitfenster, in dem gesucht wird."
+        }
+      ]
+    },
+    {
+      "question": "10. Du planst den Einsatz von KI-Tools entlang des Forschungsprozesses. Welche Zuordnung ist am passendsten?",
+      "options": [
+        "Exploration: Überblick/Lücken; Analyse: strukturierte Extraktion; Endphase: Quellen prüfen und dokumentieren.",
+        "Exploration: nur Zitierformatierung; Analyse: nur Rechtschreibung; Endphase: Themenfindung.",
+        "Exploration: Qualitätsbewertung ersetzen; Analyse: Peer Review ersetzen; Endphase: Autorschaft automatisieren.",
+        "Exploration: nur Formatierung; Analyse: nur Layout; Endphase: nur Rechtschreibung."
+      ],
+      "answer": 0,
+      "explanation": "KI-Tools können besonders bei Orientierung, schneller Sichtung und strukturierter Extraktion helfen, aber nicht die Verantwortung und Verifikation ersetzen. In der Endphase ist das Prüfen von Zitaten und Kernaussagen zentral.",
+      "weight": 2,
+      "topic": "Suchstrategie & Workflow",
+      "concept": "Tool-Phasenmodell",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "KI sinnvoll im Workflow platzieren",
+        "steps": [
+          "In der Exploration KI für Überblick, Keywords und Forschungslücken nutzen.",
+          "In der Analyse KI für Extraktion/Tabellen einsetzen, aber kritisch prüfen.",
+          "Zum Schluss Verifikation und saubere Dokumentation priorisieren."
+        ],
+        "content": "Die größte Wirkung entsteht, wenn KI dort eingesetzt wird, wo sie Geschwindigkeit bringt, und dort begrenzt wird, wo methodische Strenge nötig ist."
+      },
+      "mini_glossary": [
+        {
+          "term": "Exploration",
+          "definition": "Phase der Themenfindung und Orientierung."
+        },
+        {
+          "term": "Datenextraktion",
+          "definition": "Herausziehen von Methoden/Ergebnissen aus Studien."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Prüfen von Zitaten, Zahlen und Aussagen in Originalquellen."
+        },
+        {
+          "term": "Workflow",
+          "definition": "Abfolge von Arbeitsschritten im Forschungsprozess."
+        },
+        {
+          "term": "Synthese",
+          "definition": "Zusammenführen von Erkenntnissen aus mehreren Quellen."
+        },
+        {
+          "term": "Methodische Strenge",
+          "definition": "Einhaltung formaler Standards (z. B. Screening, Qualität)."
+        }
+      ]
+    },
+    {
+      "question": "11. Ein „Consensus Meter“ zeigt 90% Zustimmung zu einer binären Aussage. Was ist die beste Interpretation für deine Arbeit?",
+      "options": [
+        "Nur ein Indikator; eigenes Screening und Prüfung der Primärstudien sind nötig.",
+        "Beweis, der jede weitere Qualitätsprüfung komplett überflüssig macht.",
+        "Bedeutet automatisch, dass alle Studien methodisch einwandfrei sind.",
+        "Prozentzahl als exakte Effektgröße übernehmen und ohne Kontext berichten.",
+        "Nur den Mittelwert der Studien zitieren, ohne Methoden oder Daten zu prüfen."
+      ],
+      "answer": 0,
+      "explanation": "Ein hoher Konsenswert kann Orientierung geben, ist aber anfällig für Verzerrungen (z. B. Publikationsbias) und sagt nichts über die Qualität einzelner Studien aus. Daher musst du Primärstudien prüfen und die Evidenz kritisch bewerten.",
+      "weight": 2,
+      "topic": "Bias & Evidenzbewertung",
+      "concept": "Consensus Meter",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Konsens-Metriken richtig verwenden",
+        "steps": [
+          "Konsens als Einstieg nutzen, nicht als Endpunkt.",
+          "Einzelstudien auf Design, Stichprobe und Bias prüfen.",
+          "Kontroverse/fehlende Literatur (z. B. graue Literatur) aktiv berücksichtigen."
+        ],
+        "content": "Metriken sind Zusammenfassungen, keine Qualitätsgarantien. Für eine Bachelorarbeit zählt die nachvollziehbare Begründung anhand geprüfter Quellen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Consensus Meter",
+          "definition": "Visualisierung, wie stark Literatur eine binäre Aussage unterstützt/ablehnt."
+        },
+        {
+          "term": "Binäre Aussage",
+          "definition": "Fragestellung mit Ja/Nein-Charakter."
+        },
+        {
+          "term": "Publikationsbias",
+          "definition": "Überrepräsentation positiver/signifikanter Studien."
+        },
+        {
+          "term": "Primärstudie",
+          "definition": "Einzelne Originalstudie."
+        },
+        {
+          "term": "Qualitätsbewertung",
+          "definition": "Bewertung von Methodik und Verzerrungsrisiken."
+        },
+        {
+          "term": "Evidenz",
+          "definition": "Belege aus Studien, die eine Aussage stützen."
+        }
+      ]
+    },
+    {
+      "question": "12. Du willst einen systematischen Review schreiben und nutzt KI fürs Screening. Welche Praxis bleibt trotzdem zwingend wichtig?",
+      "options": [
+        "Mindestens zwei unabhängige Reviewer, die Ein-/Ausschlussentscheidungen prüfen.",
+        "Nur ein Reviewer, weil die KI bereits vorgefiltert hat.",
+        "Nur die am häufigsten zitierten Studien, weil sie sicher korrekt sind.",
+        "Screening nur anhand von Titeln durchführen, Abstracts sind optional."
+      ],
+      "answer": 0,
+      "explanation": "Auch mit KI-Unterstützung bleibt Dual-Screening zentral, um Fehler und Bias bei der Studienauswahl zu reduzieren. KI kann vorsortieren, ersetzt aber nicht die unabhängige menschliche Entscheidung.",
+      "weight": 2,
+      "topic": "Systematische Reviews & Protokolle",
+      "concept": "Dual-Screening",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "KI im Screening: was nicht wegfällt",
+        "steps": [
+          "Ein-/Ausschlusskriterien vorab festlegen.",
+          "Zwei Personen screenen unabhängig und lösen Konflikte nachvollziehbar.",
+          "KI-Ausgaben als Hilfsmittel dokumentieren, nicht als Entscheidungsträger."
+        ],
+        "content": "Methodische Standards sichern die Validität des Reviews. KI kann Zeit sparen, aber die Kernanforderungen an Transparenz und Unabhängigkeit bleiben bestehen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Screening",
+          "definition": "Sichtung und Auswahl von Studien nach Kriterien."
+        },
+        {
+          "term": "Dual-Screening",
+          "definition": "Unabhängige Sichtung durch mindestens zwei Personen."
+        },
+        {
+          "term": "Inklusion",
+          "definition": "Aufnahme einer Studie in die Analyse."
+        },
+        {
+          "term": "Exklusion",
+          "definition": "Ausschluss einer Studie aus der Analyse."
+        },
+        {
+          "term": "Systematischer Review",
+          "definition": "Protokolliertes Verfahren zur Evidenzsynthese."
+        },
+        {
+          "term": "Bias",
+          "definition": "Systematische Verzerrung in Auswahl oder Interpretation."
+        }
+      ]
+    },
+    {
+      "question": "13. Du extrahierst mit KI aus 20 Studien die Ergebnisse. Welche Information solltest du zusätzlich manuell prüfen, um die Aussagekraft zu bewerten?",
+      "options": [
+        "Design, Stichprobengröße und Interessenkonflikte prüfen.",
+        "Nur die Anzahl der Autoren und die Länge des Abstracts.",
+        "Nur ob die Studie Open Access verfügbar ist.",
+        "Ob die Studie ein schickes Diagramm im Abstract hat.",
+        "Ob die Studie in Social Media stark geteilt wird."
+      ],
+      "answer": 0,
+      "explanation": "Ergebnisse ohne Kontext sind gefährlich: Design, Stichprobe und mögliche Interessenkonflikte beeinflussen die Belastbarkeit. KI kann extrahieren, aber die Bewertung der Qualität bleibt deine Aufgabe.",
+      "weight": 2,
+      "topic": "Bias & Evidenzbewertung",
+      "concept": "Methodische Qualität",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Qualität neben Ergebnissen prüfen",
+        "steps": [
+          "Studiendesign identifizieren (z. B. RCT vs. Beobachtung).",
+          "Stichprobe, Messmethoden und statistische Robustheit prüfen.",
+          "Interessenkonflikte/Finanzierung und Limitationen berücksichtigen."
+        ],
+        "content": "Extraktion liefert Datenpunkte; die Interpretation erfordert Qualitätskriterien. Ohne diese Prüfung können scheinbar klare Effekte irreführend sein."
+      },
+      "mini_glossary": [
+        {
+          "term": "Studiendesign",
+          "definition": "Art der Studie, die interne Validität beeinflusst."
+        },
+        {
+          "term": "Stichprobengröße",
+          "definition": "Anzahl der untersuchten Einheiten/Teilnehmenden."
+        },
+        {
+          "term": "Interessenkonflikt",
+          "definition": "Konflikt zwischen wissenschaftlichem Ziel und eigenen/externen Interessen."
+        },
+        {
+          "term": "Interne Validität",
+          "definition": "Wie gut ein kausaler Schluss innerhalb der Studie gerechtfertigt ist."
+        },
+        {
+          "term": "Limitation",
+          "definition": "Einschränkung, die Ergebnisse relativiert."
+        },
+        {
+          "term": "Datenextraktion",
+          "definition": "Strukturiertes Sammeln von Informationen aus Studien."
+        }
+      ]
+    },
+    {
+      "question": "14. Du nutzt KI-Tools intensiv für Recherche und erste Textentwürfe. Was ist die beste Praxis für wissenschaftliche Integrität in der Bachelorarbeit?",
+      "options": [
+        "Toolnutzung offenlegen und zentrale Inhalte selbst verifizieren.",
+        "Die Tool-Nutzung verschweigen, weil es nur ein Hilfsmittel ist.",
+        "KI-Ausgaben wörtlich übernehmen, solange sie nicht wie ein Plagiat aussehen.",
+        "Nur die Prompts speichern, die Quellen müssen nicht geprüft werden."
+      ],
+      "answer": 0,
+      "explanation": "Transparenz über Tools und deren Einsatz sowie Verifikation zentraler Aussagen sind Kernprinzipien verantwortungsvollen KI-Einsatzes. Verschweigen oder ungeprüftes Übernehmen gefährdet Nachvollziehbarkeit und Korrektheit.",
+      "weight": 2,
+      "topic": "Zitieren & Transparenz",
+      "concept": "Transparenzprinzip",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "KI-Nutzung korrekt offenlegen",
+        "steps": [
+          "Dokumentiere Tool, Version/Datum und Zweck (z. B. Suchbegriffe, Extraktion).",
+          "Übernehme Verantwortung: prüfe Kernaussagen, Zahlen und Zitate in Primärquellen.",
+          "Formuliere eigene Synthese und kennzeichne KI-Unterstützung gemäß Leitlinien."
+        ],
+        "content": "In wissenschaftlichen Arbeiten zählt Nachvollziehbarkeit. Transparenz und Verifikation reduzieren das Risiko von Fehlern und stärken die Glaubwürdigkeit deiner Arbeit."
+      },
+      "mini_glossary": [
+        {
+          "term": "Transparenz",
+          "definition": "Offenlegung von Methoden, Tools und Entscheidungen."
+        },
+        {
+          "term": "Akademische Integrität",
+          "definition": "Einhaltung wissenschaftlicher und ethischer Standards."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Überprüfung zentraler Inhalte anhand Originalquellen."
+        },
+        {
+          "term": "Synthese",
+          "definition": "Eigenständiges Zusammenführen und Einordnen von Ergebnissen."
+        },
+        {
+          "term": "Tool-Disclosure",
+          "definition": "Angabe, welche KI-Tools wie genutzt wurden."
+        },
+        {
+          "term": "Autonomie",
+          "definition": "Eigenständiges Denken statt Delegation an Tools."
+        }
+      ]
+    },
+    {
+      "question": "15. Eine Studie, die du zitieren möchtest, wurde möglicherweise zurückgezogen (retracted). Was ist der sinnvollste Umgang?",
+      "options": [
+        "Retraktion prüfen, eingeordnet oder gar nicht nutzen, mit Hinweis.",
+        "Die Studie trotzdem zitieren, weil sie bereits oft zitiert wurde.",
+        "Retraktionen ignorieren, weil sie nur formale Fehler betreffen.",
+        "Die Studie nur dann prüfen, wenn der Betreuer explizit nachfragt."
+      ],
+      "answer": 0,
+      "explanation": "Retraktionen können auf gravierende Probleme hindeuten (z. B. fehlerhafte Daten). Vor dem Zitieren solltest du den Status prüfen und, falls relevant, entweder verzichten oder die Retraktion explizit einordnen.",
+      "weight": 2,
+      "topic": "Quellenprüfung & Integrität",
+      "concept": "Retraktion",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Retraktionen sicher handhaben",
+        "steps": [
+          "Retraktionshinweise in Datenbanken/Journalseiten prüfen.",
+          "Ursache der Retraktion verstehen (Daten, Ethik, Fehler).",
+          "Entscheiden: nicht nutzen oder nur als Negativbeispiel mit Kennzeichnung."
+        ],
+        "content": "Eine Retraktion verändert den Vertrauensstatus einer Quelle. Für saubere wissenschaftliche Arbeit musst du das explizit berücksichtigen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Retraktion",
+          "definition": "Offizieller Rückzug einer Publikation."
+        },
+        {
+          "term": "Korrekturhinweis",
+          "definition": "Erratum/Correction; Hinweis auf nachträgliche Änderungen."
+        },
+        {
+          "term": "Zitierwürdigkeit",
+          "definition": "Ob eine Quelle als Beleg geeignet ist."
+        },
+        {
+          "term": "Datenintegrität",
+          "definition": "Zuverlässigkeit und Unverfälschtheit der Daten."
+        },
+        {
+          "term": "Nachvollziehbarkeit",
+          "definition": "Transparente Begründung von Quellenentscheidungen."
+        },
+        {
+          "term": "Literaturdatenbank",
+          "definition": "System zur Suche und Statusprüfung von Publikationen."
+        }
+      ]
+    },
+    {
+      "question": "16. In folgendem BibTeX-Eintrag fehlt ein Feld, das für eine eindeutige Auffindbarkeit oft besonders hilfreich ist:\n\n```bibtex\n1: @article{smith2023,\n2:   title={A Study on X},\n3:   author={Smith, A.},\n4:   journal={Journal of Y},\n5:   year={2023},\n6:   __________ = {10.1234/example.2023.001}\n7: }\n```",
+      "options": [
+        "doi",
+        "isbn",
+        "issn",
+        "url"
+      ],
+      "answer": 0,
+      "explanation": "Bei Zeitschriftenartikeln ist die DOI eine besonders nützliche, persistente Kennung für die eindeutige Identifikation. ISBN/ISSN beziehen sich auf Bücher bzw. Zeitschriften, nicht auf den einzelnen Artikel.",
+      "weight": 2,
+      "topic": "Referenzmanagement & DOIs",
+      "concept": "BibTeX/DOI-Feld",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Warum gerade die DOI hilft",
+        "steps": [
+          "DOI ist artikel-spezifisch und persistent.",
+          "Sie erleichtert Verifikation in Datenbanken und beim Verlag.",
+          "Für BibTeX wird sie typischerweise im Feld 'doi' abgelegt."
+        ],
+        "content": "In der Praxis ist die DOI der schnellste Weg, einen Artikel zuverlässig wiederzufinden. Deshalb ist sie in Literaturdaten und beim Abgleich besonders wertvoll."
+      },
+      "mini_glossary": [
+        {
+          "term": "BibTeX",
+          "definition": "Format zur Verwaltung bibliografischer Daten (oft in LaTeX)."
+        },
+        {
+          "term": "Feld",
+          "definition": "Schlüssel in einem BibTeX-Eintrag, z. B. year, journal, doi."
+        },
+        {
+          "term": "DOI",
+          "definition": "Persistente Kennung für einen konkreten Artikel."
+        },
+        {
+          "term": "ISSN",
+          "definition": "Kennnummer einer Zeitschrift als Publikationsreihe."
+        },
+        {
+          "term": "ISBN",
+          "definition": "Kennnummer eines Buches/Monographie."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Prüfen der Quelle über unabhängige Systeme."
+        }
+      ]
+    },
+    {
+      "question": "17. Du schreibst ein kleines Skript, um DOIs in einer Liste zu erkennen:\n\n```python\n1: import re\n2: def is_doi(s):\n3:     return re.match(r\"10.\\\\d{4,9}/.+\", s)\n4:\n5: print(is_doi(\"10.1000/xyz\"))\n```\nWelche Aussage ist korrekt?",
+      "options": [
+        "Die Ausgabe ist ein Match-Objekt (truthy), nicht zwingend ein boolescher Wert.",
+        "Die Ausgabe ist immer True oder False, weil re.match bool zurückgibt.",
+        "Die Ausgabe ist None, weil DOIs immer mit \"doi:\" beginnen."
+      ],
+      "answer": 0,
+      "explanation": "re.match liefert ein Match-Objekt oder None. In Python ist ein Match-Objekt truthy, aber nicht identisch mit dem booleschen Wert True. Für klare Logik würde man z. B. `is not None` prüfen.",
+      "weight": 2,
+      "topic": "Referenzmanagement & DOIs",
+      "concept": "Regex-Validierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Regex-Prüfung korrekt interpretieren",
+        "steps": [
+          "re.match liefert Match-Objekt oder None.",
+          "Truthiness unterscheidet sich von einem echten bool.",
+          "Für saubere Checks: `return re.match(...) is not None`."
+        ],
+        "content": "Beim Automatisieren von Referenzchecks ist es wichtig, die Rückgabewerte von Bibliotheken korrekt zu interpretieren. Sonst entstehen stille Logikfehler."
+      },
+      "mini_glossary": [
+        {
+          "term": "DOI",
+          "definition": "Kennung im Format 10.xxxx/… für Publikationen."
+        },
+        {
+          "term": "Regex",
+          "definition": "Regulärer Ausdruck zur Mustererkennung in Strings."
+        },
+        {
+          "term": "re.match",
+          "definition": "Funktion, die am Stringanfang nach einem Muster sucht."
+        },
+        {
+          "term": "Match-Objekt",
+          "definition": "Objekt mit Details zum gefundenen Muster."
+        },
+        {
+          "term": "Truthiness",
+          "definition": "Regel, wann ein Objekt in if-Bedingungen als wahr gilt."
+        },
+        {
+          "term": "Validierung",
+          "definition": "Prüfung, ob Daten ein erwartetes Format erfüllen."
+        }
+      ]
+    },
+    {
+      "question": "18. Du brauchst für einen sicherheitskritischen Abschnitt in der Bachelorarbeit besonders robuste Evidenz. Welche Auswahl ist am angemessensten?",
+      "options": [
+        "Peer-reviewte Studien priorisieren und Preprints nur ergänzend mit klarer Kennzeichnung nutzen.",
+        "Nur Preprints nutzen, weil sie aktueller sind.",
+        "Nur Blogposts nutzen, weil sie verständlicher sind.",
+        "Nur Studien mit vielen Autor:innen priorisieren, weil das Qualität signalisiert."
+      ],
+      "answer": 0,
+      "explanation": "Für robuste Evidenz solltest du peer-reviewte Publikationen priorisieren. Preprints können helfen, aktuelle Trends zu sehen, müssen aber hinsichtlich Qualität und Stabilität vorsichtiger behandelt und klar gekennzeichnet werden.",
+      "weight": 2,
+      "topic": "Publikationsformen & Qualität",
+      "concept": "Review-Status",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Evidenz nach Review-Status gewichten",
+        "steps": [
+          "Peer-reviewed Literatur als Basis nutzen, wenn Qualitätsanforderungen hoch sind.",
+          "Preprints als Frühindikator betrachten und stärker verifizieren.",
+          "In der Arbeit Review-Status und Unsicherheiten transparent machen."
+        ],
+        "content": "Review-Status ist kein perfektes Qualitätsmaß, aber ein nützlicher Filter. Für belastbare Aussagen zählt zusätzlich die konkrete Methodik jeder Studie."
+      },
+      "mini_glossary": [
+        {
+          "term": "Peer Review",
+          "definition": "Begutachtung durch Fachkolleg:innen vor Publikation."
+        },
+        {
+          "term": "Review-Status",
+          "definition": "Ob eine Publikation peer-reviewt ist oder nicht."
+        },
+        {
+          "term": "Preprint",
+          "definition": "Vorabveröffentlichung ohne Peer Review."
+        },
+        {
+          "term": "Evidenz",
+          "definition": "Belege zur Stützung einer Aussage."
+        },
+        {
+          "term": "Kennzeichnung",
+          "definition": "Explizites Markieren von Unsicherheiten/Status in der Arbeit."
+        },
+        {
+          "term": "Robustheit",
+          "definition": "Widerstandsfähigkeit der Schlussfolgerung gegen Fehler/Bias."
+        }
+      ]
+    },
+    {
+      "question": "19. Du kombinierst KI-gestützte Recherche mit klassischen Methoden. Welche Kombination ist am plausibelsten für hohe Qualität?",
+      "options": [
+        "KI für Überblick/Extraktion; Datenbanken für Vollständigkeit und Qualität.",
+        "KI für alles, klassische Methoden nur als Backup bei Internetproblemen.",
+        "Klassische Methoden nur für Abstracts, KI nur für Zitationen.",
+        "KI nur für Volltexte, klassische Methoden nur für Schlagwörter."
+      ],
+      "answer": 0,
+      "explanation": "Die Kombination nutzt die Stärken beider Welten: KI hilft beim schnellen Überblick und bei der strukturierten Extraktion, während klassische Datenbanken und manuelle Checks Vollständigkeit und Verifikation sichern.",
+      "weight": 2,
+      "topic": "Suchstrategie & Workflow",
+      "concept": "Synergie KI + Tradition",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Warum Hybrid-Strategien besser sind",
+        "steps": [
+          "KI beschleunigt Orientierung und Voranalyse.",
+          "Traditionelle Systeme liefern Abdeckung, stabile Metadaten und Volltexte.",
+          "Manuelle Prüfung reduziert Halluzinations- und Bias-Risiken."
+        ],
+        "content": "Eine reine KI-Strategie riskiert Lücken und ungeprüfte Fehler. Hybrid-Workflows sind in der Praxis meist effizienter und belastbarer."
+      },
+      "mini_glossary": [
+        {
+          "term": "Hybrid-Workflow",
+          "definition": "Kombination aus KI-Tools und traditionellen Methoden."
+        },
+        {
+          "term": "Abdeckung",
+          "definition": "Wie vollständig eine Suche die relevante Literatur erfasst."
+        },
+        {
+          "term": "Google Scholar",
+          "definition": "Beispiel für klassisches Suchsystem zur Verifikation."
+        },
+        {
+          "term": "Fachdatenbank",
+          "definition": "Kuratiertes System für Fachliteratur."
+        },
+        {
+          "term": "Datenextraktion",
+          "definition": "Strukturiertes Herausziehen von Infos aus Studien."
+        },
+        {
+          "term": "Qualitätssicherung",
+          "definition": "Maßnahmen zur Reduktion von Fehlern und Bias."
+        }
+      ]
+    },
+    {
+      "question": "20. Du nutzt eine KI-Suche, die „Threads“ unterstützt (Kontext bleibt erhalten). Wofür ist das am nützlichsten?",
+      "options": [
+        "Für iteratives Verfeinern der Suche und nachvollziehbares Nachverfolgen verwandter Fragen.",
+        "Für das automatische Ersetzen aller Quellen durch neuere Quellen.",
+        "Für das Erzeugen identischer Suchergebnisse unabhängig von der Fragestellung.",
+        "Threads nutzen, um Ergebnisse zu „merken“, ohne Suchschritte zu dokumentieren."
+      ],
+      "answer": 0,
+      "explanation": "Thread-basierte Recherche hilft, Suchanfragen iterativ zu verbessern und verwandte Perspektiven strukturiert zu verfolgen. Das unterstützt ein systematisches Vorgehen statt zufälligem „Herumklicken“.",
+      "weight": 2,
+      "topic": "Suchstrategie & Workflow",
+      "concept": "Iterative Recherche",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Threads produktiv nutzen",
+        "steps": [
+          "Startfrage klar formulieren und erste Ergebnisse sichten.",
+          "Neue Schlüsselbegriffe aus Treffern ableiten und Anfrage anpassen.",
+          "Verwandte Subfragen in separaten Threads verfolgen und dokumentieren."
+        ],
+        "content": "Iterative Suche ist ein Kernprinzip guter Recherche. Persistenter Kontext kann helfen, Änderungen nachvollziehbar zu machen, ersetzt aber keine Dokumentation."
+      },
+      "mini_glossary": [
+        {
+          "term": "Thread",
+          "definition": "Fortlaufender Recherchekontext innerhalb eines Tools."
+        },
+        {
+          "term": "Iterativ",
+          "definition": "Schrittweise, wiederholt verfeinernd."
+        },
+        {
+          "term": "Schlüsselbegriff",
+          "definition": "Wichtiger Suchterm, der aus Literatur abgeleitet wird."
+        },
+        {
+          "term": "Subfrage",
+          "definition": "Teilfragestellung zur Fokussierung eines Aspekts."
+        },
+        {
+          "term": "Dokumentation",
+          "definition": "Festhalten von Suchschritten und Entscheidungen."
+        },
+        {
+          "term": "Suchstrategie",
+          "definition": "Geplanter Ansatz zur Literaturrecherche."
+        }
+      ]
+    },
+    {
+      "question": "21. Du speicherst gefundene Papers in thematischen Sammlungen („Collections“). Was ist der wichtigste Nutzen für die Bachelorarbeit?",
+      "options": [
+        "Bessere Nachvollziehbarkeit und Organisation entlang von Kapiteln, Relevanz und Projektphasen.",
+        "Automatische Qualitätssteigerung der gespeicherten Papers durch das Tool.",
+        "Vermeidung jeder manuellen Literaturverwaltung.",
+        "Collections dienen primär dazu, automatisch ein fertiges Kapitel zu generieren."
+      ],
+      "answer": 0,
+      "explanation": "Sammlungen helfen, Literatur strukturiert zu organisieren und später nachvollziehbar zu berichten, warum etwas relevant war. Sie ersetzen keine Qualitätsprüfung, erleichtern aber Workflow und Zitiermanagement.",
+      "weight": 2,
+      "topic": "Suchstrategie & Workflow",
+      "concept": "Collections",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Collections als Arbeitsgedächtnis",
+        "steps": [
+          "Collections nach Kapiteln/Fragestellungen strukturieren.",
+          "Tags/Notizen für Relevanz und Ausschlussgründe pflegen.",
+          "Beim Schreiben gezielt aus Collections zitieren und verifizieren."
+        ],
+        "content": "Gute Organisation reduziert Suchaufwand und erhöht die Konsistenz des Literaturteils. Zudem unterstützt sie Transparenz, wenn du deine Auswahl begründen musst."
+      },
+      "mini_glossary": [
+        {
+          "term": "Collection",
+          "definition": "Thematische Sammlung/Ordner für Publikationen."
+        },
+        {
+          "term": "Tagging",
+          "definition": "Markieren von Items mit Schlagworten."
+        },
+        {
+          "term": "Relevanzkriterium",
+          "definition": "Regel, warum ein Paper wichtig ist."
+        },
+        {
+          "term": "Projektphase",
+          "definition": "Abschnitt im Workflow (Exploration, Analyse, Schreiben)."
+        },
+        {
+          "term": "Zitiermanagement",
+          "definition": "Verwalten von Referenzen und Zitationsformaten."
+        },
+        {
+          "term": "Nachvollziehbarkeit",
+          "definition": "Dritte können deine Auswahlentscheidungen verstehen."
+        }
+      ]
+    },
+    {
+      "question": "22. Eine KI schlägt dir ein Journal vor, das sehr schnell publiziert und extrem hohe Acceptance Rates bewirbt. Was ist eine sinnvolle Reaktion?",
+      "options": [
+        "Journal-Seriosität prüfen (Indexierung, Editorial Board, Peer-Review-Prozess) und ggf. ausschließen.",
+        "Journal bevorzugen, weil schnelle Publikation ein Qualitätsmerkmal ist.",
+        "Journal ignorieren, weil alle Journals gleichwertig sind.",
+        "Das Journal wählen, weil es eine schicke Website und viele Schlagwörter hat.",
+        "Das Journal wählen, wenn es in keiner Datenbank gelistet ist, um „Nischenliteratur“ zu finden."
+      ],
+      "answer": 0,
+      "explanation": "Ungewöhnlich schnelle Publikation und aggressive Marketingversprechen können Hinweise auf fragwürdige Journals sein. Vor Nutzung solltest du Indexierung, Peer-Review-Transparenz und Reputation prüfen.",
+      "weight": 3,
+      "topic": "Publikationsformen & Qualität",
+      "concept": "Predatory Journals (Analyse)",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Prüfschritte für Journal-Seriosität",
+        "steps": [
+          "Indexierung in anerkannten Datenbanken prüfen.",
+          "Transparenz von Peer Review, Gebühren und Editorial Board bewerten.",
+          "Bei starken Red Flags: Quelle nicht als Evidenzbasis verwenden."
+        ],
+        "content": "Nicht jede publizierte Studie ist gleich vertrauenswürdig. Journal-Qualität ist ein Filter, ersetzt aber auch hier nicht die Prüfung der konkreten Studie."
+      },
+      "mini_glossary": [
+        {
+          "term": "Predatory Journal",
+          "definition": "Publikationskanal mit fragwürdigen Standards, oft gegen Gebühren."
+        },
+        {
+          "term": "Indexierung",
+          "definition": "Aufnahme in Datenbanken wie Scopus/OpenAlex o. Ä."
+        },
+        {
+          "term": "Editorial Board",
+          "definition": "Herausgeber:innen und Gutachterstruktur einer Zeitschrift."
+        },
+        {
+          "term": "Acceptance Rate",
+          "definition": "Anteil angenommener Einreichungen."
+        },
+        {
+          "term": "Peer-Review-Prozess",
+          "definition": "Begutachtungsverfahren vor Publikation."
+        },
+        {
+          "term": "Red Flag",
+          "definition": "Warnsignal für potenziell problematische Qualität."
+        }
+      ]
+    },
+    {
+      "question": "23. Du lässt dir von einer KI einen „Related Work“-Abschnitt vorschlagen. Was ist die beste Vorgehensweise, um ihn nutzbar zu machen?",
+      "options": [
+        "Struktur nutzen, aber jede Quelle und Aussage im Original prüfen.",
+        "Den Abschnitt direkt übernehmen, um Zeit zu sparen.",
+        "Nur die Überschriften übernehmen und alle Quellen weglassen.",
+        "Nur die Literaturüberschrift nutzen und auf Belege verzichten."
+      ],
+      "answer": 0,
+      "explanation": "KI kann beim Strukturieren und Clustern helfen, aber Quellen und Inhalte müssen verifiziert werden. Sonst riskierst du erfundene Referenzen oder falsche Zusammenfassungen.",
+      "weight": 2,
+      "topic": "Zitieren & Transparenz",
+      "concept": "Related Work Validierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "KI-Entwürfe in belastbare Texte verwandeln",
+        "steps": [
+          "Abschnitt als Hypothese/Outline betrachten, nicht als fertigen Text.",
+          "Alle genannten Quellen auf Existenz prüfen und Kernaussagen gegenlesen.",
+          "Eigenständig umformulieren und saubere Zitate setzen."
+        ],
+        "content": "Der Mehrwert von KI liegt oft in Struktur und Ideen, nicht in garantierter Faktentreue. Deine Arbeit wird belastbar durch Verifikation und eigene Synthese."
+      },
+      "mini_glossary": [
+        {
+          "term": "Related Work",
+          "definition": "Kapitel, das relevante Vorarbeiten zusammenfasst."
+        },
+        {
+          "term": "Themencluster",
+          "definition": "Gruppe von Arbeiten mit ähnlichem Fokus."
+        },
+        {
+          "term": "Kernaussage",
+          "definition": "Zentrale Behauptung/Ergebnis einer Quelle."
+        },
+        {
+          "term": "Primärtext",
+          "definition": "Originaltext einer Quelle, z. B. PDF."
+        },
+        {
+          "term": "Outline",
+          "definition": "Grobstruktur/Gliederung eines Abschnitts."
+        },
+        {
+          "term": "Synthese",
+          "definition": "Eigenständiges Zusammenführen und Einordnen."
+        }
+      ]
+    },
+    {
+      "question": "24. Du paraphrasierst eine KI-Zusammenfassung eines Papers in eigenen Worten. Was ist korrekt?",
+      "options": [
+        "Originalpaper zitieren und die Aussage dort verifizieren.",
+        "Du musst nur die KI zitieren, weil sie den Text erzeugt hat.",
+        "Du musst nichts zitieren, weil es deine eigenen Worte sind.",
+        "Du zitierst die KI nur dann, wenn sie einen DOI nennt."
+      ],
+      "answer": 0,
+      "explanation": "Auch bei Paraphrasen bleibt das Originalpaper die Quelle der Information und muss zitiert werden. Zusätzlich solltest du prüfen, ob die KI-Zusammenfassung den Inhalt korrekt wiedergibt.",
+      "weight": 2,
+      "topic": "Zitieren & Transparenz",
+      "concept": "Paraphrase & Quellenpflicht",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Was du zitierst und was du offenlegst",
+        "steps": [
+          "Inhaltlich zitierst du die Primärquelle (das Paper).",
+          "KI-Nutzung ggf. separat transparent machen (Methodenteil/Anhang).",
+          "Paraphrasen immer gegen die Originalpassage prüfen."
+        ],
+        "content": "Zitation dient der Rückverfolgbarkeit der Evidenz. KI kann beim Formulieren helfen, ändert aber nicht den Ursprung der wissenschaftlichen Aussage."
+      },
+      "mini_glossary": [
+        {
+          "term": "Paraphrase",
+          "definition": "Wiedergabe in eigenen Worten."
+        },
+        {
+          "term": "Zitation",
+          "definition": "Formale Angabe der Informationsquelle."
+        },
+        {
+          "term": "Primärquelle",
+          "definition": "Ursprüngliches Paper, aus dem die Information stammt."
+        },
+        {
+          "term": "KI-Zusammenfassung",
+          "definition": "Von einem Tool generierte Inhaltskurzfassung."
+        },
+        {
+          "term": "Quellenpflicht",
+          "definition": "Pflicht, genutzte Quellen korrekt anzugeben."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Prüfen, ob die paraphrasierte Aussage stimmt."
+        }
+      ]
+    },
+    {
+      "question": "25. Du findest zu deiner Fragestellung mehrere Studien mit widersprüchlichen Ergebnissen. Wie nutzt du KI am sinnvollsten, ohne Autonomie zu verlieren?",
+      "options": [
+        "KI für strukturierte Extraktion von Methoden/Populationen nutzen und die Unterschiede selbst analysieren.",
+        "KI bitten, das „richtige“ Ergebnis auszuwählen und das dann übernehmen.",
+        "KI bitten, eine Mehrheitsmeinung zu bilden und die Details ignorieren.",
+        "KI die widersprüchlichen Studien zusammenfassen lassen und die Tabelle ungeprüft übernehmen."
+      ],
+      "answer": 0,
+      "explanation": "Bei Widersprüchen kann KI helfen, Informationen strukturiert zu extrahieren (Design, Stichprobe, Outcomes). Die eigentliche Interpretation—warum Ergebnisse differieren—musst du selbst leisten.",
+      "weight": 3,
+      "topic": "Bias & Evidenzbewertung",
+      "concept": "Widerspruchsanalyse",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Widersprüche systematisch auflösen",
+        "steps": [
+          "Mit KI eine Vergleichstabelle erzeugen (Design, Population, Messung, Bias).",
+          "Stichprobengröße, Interventionen und Kontextunterschiede identifizieren.",
+          "Eigene Schlussfolgerung mit Belegen und Unsicherheiten formulieren."
+        ],
+        "content": "Autonomie heißt nicht „ohne Tools“, sondern „ohne Delegation der Kernentscheidung“. KI kann strukturieren, du bewertest und begründest."
+      },
+      "mini_glossary": [
+        {
+          "term": "Autonomie",
+          "definition": "Eigenständige Analyse und Urteilsbildung."
+        },
+        {
+          "term": "Widerspruch",
+          "definition": "Konfliktierende Ergebnisse in der Literatur."
+        },
+        {
+          "term": "Vergleichstabelle",
+          "definition": "Strukturierte Gegenüberstellung von Studienmerkmalen."
+        },
+        {
+          "term": "Outcome",
+          "definition": "Gemessene Zielvariable einer Studie."
+        },
+        {
+          "term": "Bias",
+          "definition": "Verzerrung, die Ergebnisse systematisch beeinflusst."
+        },
+        {
+          "term": "Synthese",
+          "definition": "Zusammenführen zu einer begründeten Gesamtsicht."
+        }
+      ]
+    },
+    {
+      "question": "26. Du findest 30 Studien, alle mit positiven Effekten; eine KI-Metrik zeigt 95% Zustimmung. Welche kritische Gesamteinschätzung ist am angemessensten?",
+      "options": [
+        "Trotz hoher Zustimmung Bias, Methodenqualität und Übertragbarkeit prüfen, bevor du Schluss ziehst.",
+        "Bei 30 Studien ist das Ergebnis automatisch gesichert und muss nicht weiter geprüft werden.",
+        "Hohe Zustimmung beweist, dass keine Interessenkonflikte vorliegen.",
+        "Den Mittelwert aller Effektgrößen ohne Heterogenitätsprüfung als Schluss nehmen.",
+        "Die Anzahl der Studien als einziges Qualitätskriterium verwenden."
+      ],
+      "answer": 0,
+      "explanation": "Ein scheinbar eindeutiger Konsens kann durch Publikationsbias, selektive Reporting-Praktiken oder systematische Designschwächen verzerrt sein. Du musst die Qualität der Einzelstudien, Interessenkonflikte und die Übertragbarkeit auf deinen Kontext analysieren.",
+      "weight": 3,
+      "topic": "Bias & Evidenzbewertung",
+      "concept": "Konsens vs. Qualität",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Warum „viel Zustimmung“ nicht gleich „starke Evidenz“ ist",
+        "steps": [
+          "Prüfe, ob Nullbefunde fehlen könnten (Publikationsbias, graue Literatur).",
+          "Bewerte Design, Stichprobe und Bias-Risiken jeder Studie.",
+          "Analysiere Kontext und Übertragbarkeit auf deine Forschungsfrage."
+        ],
+        "content": "Evidenzstärke entsteht aus Qualität, Konsistenz und Kontextpassung—nicht nur aus der Anzahl positiver Studien oder einer aggregierten Metrik."
+      },
+      "mini_glossary": [
+        {
+          "term": "Publikationsbias",
+          "definition": "Überrepräsentation positiver/signifikanter Studien."
+        },
+        {
+          "term": "Konsens-Metrik",
+          "definition": "Aggregierte Anzeige von Unterstützung/Ablehnung in Literatur."
+        },
+        {
+          "term": "Methodische Qualität",
+          "definition": "Güte von Design, Durchführung und Auswertung."
+        },
+        {
+          "term": "Übertragbarkeit",
+          "definition": "Passung von Studienkontext/Population zu deiner Fragestellung."
+        },
+        {
+          "term": "Interessenkonflikt",
+          "definition": "Einfluss durch Finanzierung oder Eigeninteressen."
+        },
+        {
+          "term": "Evidenzstärke",
+          "definition": "Wie belastbar eine Schlussfolgerung ist."
+        }
+      ]
+    },
+    {
+      "question": "27. Du vermutest, dass ein Paper (oder mehrere) aus einer „Paper Mill“ stammen könnte. Welche Indiz-Kombination ist am aussagekräftigsten?",
+      "options": [
+        "Mehrere Indizien: unplausible Referenzen, inkonsistente Methoden/Resultate und KI-Muster.",
+        "Viele Autoren und ein langer Abstract, sonst keine weiteren Auffälligkeiten.",
+        "Eine hohe Zitierzahl allein, weil das automatisch Manipulation bedeutet.",
+        "Ein einziges Tippfehler-Indiz reicht aus, um sicher von einer Paper Mill auszugehen.",
+        "Nur das PDF-Layout bewerten; Inhalte und Daten sind zweitrangig."
+      ],
+      "answer": 0,
+      "explanation": "Paper-Mill-Produkte fallen oft durch inkonsistente Methoden, schwer prüfbare Daten und auffällige Muster bei Referenzen oder Abbildungen auf. Ein einzelnes Signal reicht selten; eine Indiz-Kombination ist aussagekräftiger.",
+      "weight": 3,
+      "topic": "Quellenprüfung & Integrität",
+      "concept": "Paper Mills",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Mehrere Indizien statt Einzelheuristik",
+        "steps": [
+          "Referenzen und Datenzugänglichkeit prüfen (Existenz, Nachvollziehbarkeit).",
+          "Methoden/Ergebnisse auf Konsistenz und Plausibilität analysieren.",
+          "Bei starken Red Flags: zusätzliche Quellen suchen oder Studie ausschließen."
+        ],
+        "content": "Die Diagnose ist probabilistisch: Je mehr unabhängige Warnsignale zusammenkommen, desto vorsichtiger solltest du die Quelle gewichten oder komplett ausklammern."
+      },
+      "mini_glossary": [
+        {
+          "term": "Paper Mill",
+          "definition": "Akteur, der (teils gefälschte) wissenschaftliche Manuskripte produziert."
+        },
+        {
+          "term": "Datenzugänglichkeit",
+          "definition": "Ob Daten/Code/Materialien verfügbar und prüfbar sind."
+        },
+        {
+          "term": "Plausibilität",
+          "definition": "Ob Methoden und Ergebnisse logisch zusammenpassen."
+        },
+        {
+          "term": "Referenzintegrität",
+          "definition": "Ob Referenzen real, passend und konsistent sind."
+        },
+        {
+          "term": "Red Flag",
+          "definition": "Warnsignal für mögliche Manipulation."
+        },
+        {
+          "term": "Forschungsintegrität",
+          "definition": "Ethische und methodische Zuverlässigkeit wissenschaftlicher Arbeit."
+        }
+      ]
+    },
+    {
+      "question": "28. Du möchtest einen KI-gestützten systematischen Review planen. Welche Protokoll-Komponente reduziert am stärksten das Risiko, dass KI-Ausgaben deine Auswahl verzerren?",
+      "options": [
+        "Vorab Ein-/Ausschlusskriterien, dokumentierte Suche und Analyseplan festlegen.",
+        "Eine möglichst offene Suchfrage ohne Kriterien, damit die KI frei explorieren kann.",
+        "Nur eine Liste der verwendeten Tools ohne Beschreibung der Anwendung.",
+        "Nur die Ergebniszusammenfassung der KI speichern, das reicht als Protokoll.",
+        "Kriterien nachträglich anpassen, wenn die KI „bessere“ Papers findet."
+      ],
+      "answer": 0,
+      "explanation": "Vorab definierte Kriterien und eine dokumentierte Suche verhindern, dass du nachträglich unbemerkt selektierst. Dual-Screening mit Konfliktlösung schafft zusätzlich Kontrolle über KI-bedingte Vorsortierungen.",
+      "weight": 3,
+      "topic": "Systematische Reviews & Protokolle",
+      "concept": "Review-Protokoll",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Protokoll als Anti-Bias-Instrument",
+        "steps": [
+          "Kriterien und Suchstrings vorab festlegen und versionieren.",
+          "KI-Vorsortierung nur als Hilfe einsetzen, Entscheidungskriterien bleiben menschlich.",
+          "Dual-Screening mit dokumentierter Konfliktlösung durchführen."
+        ],
+        "content": "Ein Protokoll macht Entscheidungen prüfbar und reduziert „moving goalposts“. Gerade bei KI-Unterstützung schützt das vor verdeckter Selektion."
+      },
+      "mini_glossary": [
+        {
+          "term": "Protokoll",
+          "definition": "Vorabplan eines Reviews (Frage, Kriterien, Methoden)."
+        },
+        {
+          "term": "Ein-/Ausschlusskriterien",
+          "definition": "Regeln für Aufnahme oder Ausschluss von Studien."
+        },
+        {
+          "term": "Suchstrategie",
+          "definition": "Definierte Suchstrings, Datenbanken und Filter."
+        },
+        {
+          "term": "Dual-Screening",
+          "definition": "Unabhängige Sichtung durch mindestens zwei Personen."
+        },
+        {
+          "term": "Selektionsbias",
+          "definition": "Verzerrung durch nicht-neutrale Auswahl von Studien."
+        },
+        {
+          "term": "Versionierung",
+          "definition": "Nachvollziehbares Ändern und Speichern von Protokollständen."
+        }
+      ]
+    },
+    {
+      "question": "29. Welche Transparenz-Angabe ist für eine Bachelorarbeit am informativsten, wenn du KI-Tools genutzt hast?",
+      "options": [
+        "Tool, Zweck, Eingaben/Parameter und selbst geprüfte Teile offen angeben.",
+        "Nur der Toolname, weil Details für Leser:innen nicht relevant sind.",
+        "Keine Angabe, solange du die Ergebnisse umformuliert hast.",
+        "Nur die Anzahl der KI-Nutzungen nennen, ohne Kontext oder Zweck.",
+        "Die Offenlegung durch eine allgemeine Fußnote „KI wurde genutzt“ ersetzen."
+      ],
+      "answer": 0,
+      "explanation": "Transparenz bedeutet nicht nur „Tool genutzt“, sondern wie und wofür. Besonders wichtig ist, welche Outputs du übernommen hast und wie du zentrale Aussagen und Zitate verifiziert hast.",
+      "weight": 3,
+      "topic": "Zitieren & Transparenz",
+      "concept": "Transparenzbericht",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Was eine gute KI-Offenlegung ausmacht",
+        "steps": [
+          "Beschreibe Tool, Zeitraum/Version und Einsatzpunkte im Workflow.",
+          "Nenne Inputs/Parameter (z. B. Suchbegriffe, Filter, Extraktionsfragen).",
+          "Dokumentiere Verifikationsschritte und Grenzen der KI-Ausgaben."
+        ],
+        "content": "Je präziser die Offenlegung, desto besser kann man deine Arbeit nachvollziehen und reproduzieren. Das stärkt die wissenschaftliche Glaubwürdigkeit."
+      },
+      "mini_glossary": [
+        {
+          "term": "Transparenzbericht",
+          "definition": "Dokumentation, wie Methoden/Tools eingesetzt wurden."
+        },
+        {
+          "term": "Parameter",
+          "definition": "Einstellungen, die das Tool-Verhalten steuern."
+        },
+        {
+          "term": "Prompt",
+          "definition": "Eingabe/Anweisung an ein KI-System."
+        },
+        {
+          "term": "Verifikation",
+          "definition": "Prüfen zentraler Inhalte in Primärquellen."
+        },
+        {
+          "term": "Reproduzierbarkeit",
+          "definition": "Andere können dein Vorgehen nachvollziehen und nachstellen."
+        },
+        {
+          "term": "Workflow",
+          "definition": "Abfolge von Recherche-, Analyse- und Schreibschritten."
+        }
+      ]
+    },
+    {
+      "question": "30. Du bekommst folgende KI-generierte Referenz:\n\n```text\n1: Doe, J. (2022). \"Neural Truthfulness in LLMs\". International Journal of AI Facts, 12(7), 101-115.\n2: DOI: 10.5555/ijaf.2022.12345\n```\nWelche Analyse ist am besten geeignet, um das Risiko einer erfundenen Quelle zu minimieren?",
+      "options": [
+        "DOI und Journal in Datenbanken nachschlagen und Band/Heft/Seiten abgleichen.",
+        "Nur den DOI-String auf ein Regex-Muster prüfen; wenn er passt, ist die Quelle echt.",
+        "Die Referenz übernehmen, weil sie formal korrekt formatiert ist.",
+        "Nur den Titel googeln; wenn ein Blogpost ihn erwähnt, ist es ausreichend."
+      ],
+      "answer": 0,
+      "explanation": "Formatkorrektheit reicht nicht: KI kann plausible Metadaten erfinden. Ein Abgleich von DOI, Journal-Existenz und Metadaten in unabhängigen Systemen ist die robuste Minimierungsstrategie.",
+      "weight": 3,
+      "topic": "Quellenprüfung & Integrität",
+      "concept": "Erfundene Referenzen",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Von Formatprüfung zu Existenzprüfung",
+        "steps": [
+          "Journal und Artikel in mindestens einer unabhängigen Datenbank suchen.",
+          "DOI-Landing-Page beim Verlag prüfen und Metadaten abgleichen.",
+          "Bei Nichtauffindbarkeit: Quelle nicht nutzen und alternative Belege suchen."
+        ],
+        "content": "Regex-Checks prüfen nur Syntax, nicht Realität. Existenz- und Konsistenzchecks über unabhängige Quellen sind notwendig, um Halluzinationen zu entlarven."
+      },
+      "mini_glossary": [
+        {
+          "term": "Referenz",
+          "definition": "Bibliografische Angabe zu einer Quelle."
+        },
+        {
+          "term": "Metadatenkonsistenz",
+          "definition": "Übereinstimmung von Jahr, Band, Heft, Seiten, DOI etc."
+        },
+        {
+          "term": "Syntaxprüfung",
+          "definition": "Prüfung, ob ein String ein erwartetes Format hat."
+        },
+        {
+          "term": "Existenzprüfung",
+          "definition": "Prüfung, ob eine Quelle tatsächlich auffindbar ist."
+        },
+        {
+          "term": "Unabhängige Datenbank",
+          "definition": "Externes System zur Verifikation (z. B. bibliografisch)."
+        },
+        {
+          "term": "Halluzination",
+          "definition": "KI-erzeugte, aber faktisch falsche Referenz/Inhalte."
+        }
+      ]
+    }
+  ]
+}
