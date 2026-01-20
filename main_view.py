@@ -2574,13 +2574,14 @@ def render_welcome_page(app_config: AppConfig):
     def _show_learning_objectives_dialog(lo_path: Path, content: str) -> None:
         dialog_fn = getattr(st, "dialog", None) or getattr(st, "experimental_dialog", None)
         if callable(dialog_fn):
-            @dialog_fn(_learning_objectives_dialog_title(), width="large")
+            @dialog_fn(_learning_objectives_dialog_title(), width="medium")
             def _dialog_body():
-                st.markdown(content)
+                content_col = st.columns([0.08, 0.84, 0.08])[1]
+                with content_col:
+                    st.markdown(content)
                 pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
                 if pdf_bytes:
-                    center_col = st.columns([1, 1.2, 1])[1]
-                    with center_col:
+                    with content_col:
                         st.download_button(
                             _learning_objectives_download_label(),
                             data=pdf_bytes,
@@ -2591,15 +2592,17 @@ def render_welcome_page(app_config: AppConfig):
                             key="download_learning_objectives_pdf_dialog",
                         )
                 else:
-                    st.caption(_learning_objectives_pdf_unavailable(pdf_err))
+                    with content_col:
+                        st.caption(_learning_objectives_pdf_unavailable(pdf_err))
             _dialog_body()
         else:
             st.info(_learning_objectives_dialog_fallback())
-            st.markdown(content)
+            content_col = st.columns([0.08, 0.84, 0.08])[1]
+            with content_col:
+                st.markdown(content)
             pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
             if pdf_bytes:
-                center_col = st.columns([1, 1.2, 1])[1]
-                with center_col:
+                with content_col:
                     st.download_button(
                         _learning_objectives_download_label(),
                         data=pdf_bytes,
@@ -2610,7 +2613,8 @@ def render_welcome_page(app_config: AppConfig):
                         key="download_learning_objectives_pdf_inline",
                     )
             else:
-                st.caption(_learning_objectives_pdf_unavailable(pdf_err))
+                with content_col:
+                    st.caption(_learning_objectives_pdf_unavailable(pdf_err))
 
     def _normalize_for_search(text: str) -> str:
         base = str(text or "").lower()
