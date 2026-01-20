@@ -22,7 +22,7 @@
     {
       "question": "1. Welches Zeichen leitet in LaTeX einen Kommentar ein?",
       "options": [
-        "Das Prozentzeichen %",
+        "Prozentzeichen %",
         "Das Et-Zeichen &",
         "Das Rautezeichen #"
       ],
@@ -48,8 +48,8 @@
       "question": "2. Mit welchem Befehl startet der Dokumentenkörper?",
       "options": [
         "\\begin{document}",
-        "\\start{document}",
-        "\\open{document}"
+        "\\start{document} zum Starten",
+        "\\open{document} zum Starten"
       ],
       "answer": 0,
       "explanation": "\\begin{document} leitet den Inhalt ein; vorher liegt die Präambel. \\start oder \\open sind keine LaTeX-Standardbefehle.",
@@ -73,8 +73,8 @@
       "question": "3. Welcher Befehl erzeugt eine Abschnittsüberschrift in Artikeln?",
       "options": [
         "\\section{Titel}",
-        "\\chapter{Titel}",
-        "\\header{Titel}"
+        "\\chapter{Titel} (book/report)",
+        "\\header{Titel} (kein Standard)"
       ],
       "answer": 0,
       "explanation": "In article/scrartcl ist \\section die höchste Ebene. \\chapter gibt es in book/report; \\header ist kein Standardbefehl.",
@@ -99,7 +99,7 @@
       "options": [
         "Mit eckigen Klammern ([ ... ])",
         "Mit Prozentzeichen (% ... %)",
-        "Mit Dollar-Begrenzern ($ ... $)"
+        "Mit $...$"
       ],
       "answer": 2,
       "explanation": "Inline-Mathe wird mit $ ... $ (oder äquivalent \\( ... \\)) gesetzt. Prozentzeichen oder eckige Klammern aktivieren keinen Math-Modus.",
@@ -122,7 +122,7 @@
     {
       "question": "5. Welcher Befehl lädt Pakete in der Präambel?",
       "options": [
-        "\\usepackage{paket}",
+        "\\usepackage",
         "\\include{paket}",
         "\\loadpkg{paket}"
       ],
@@ -147,7 +147,7 @@
     {
       "question": "6. Welche Sprache stellt \\usepackage[ngerman]{babel} ein?",
       "options": [
-        "Deutsch (neue Rechtschreibung)",
+        "Deutsch (ngerman)",
         "Britisches Englisch",
         "Französisch"
       ],
@@ -242,7 +242,7 @@
     {
       "question": "9. Wie verknüpfst du Caption und Label korrekt in einer Abbildung?",
       "options": [
-        "Caption zuerst, dann \\label im figure",
+        "Caption, dann \\label im figure",
         "\\label vor \\caption setzen",
         "\\label außerhalb der figure schreiben",
         "\\caption in die Präambel legen"
@@ -382,7 +382,7 @@
     {
       "question": "13. Wie vermeidest du, dass ein Float (figure) ans Dokumentende springt?",
       "options": [
-        "Breite sinnvoll wählen und [htbp] setzen",
+        "Breite anpassen und [htbp] setzen",
         "Immer [H] aus dem float-Paket nutzen",
         "Caption weglassen",
         "Label weglassen"
@@ -417,9 +417,9 @@
     {
       "question": "14. Wie setzt du eine feste Seitengeometrie für deine Thesis?",
       "options": [
-        "\\usepackage[a4paper,margin=2.5cm]{geometry}",
-        "\\geometry{paper=a4,margin=25}",
-        "\\setlayout{a4,25mm}"
+        "geometry: a4paper, margin=2.5cm",
+        "\\geometry{paper=a4, margin=25mm}",
+        "\\setlayout{a4, 25mm Ränder}"
       ],
       "answer": 0,
       "explanation": "Das geometry-Paket mit Optionen a4paper und margin=2.5cm setzt eine gängige Abschlussarbeits-Geometrie. Die anderen Varianten sind keine Standardaufrufe.",
@@ -451,7 +451,7 @@
     {
       "question": "15. Wie referenzierst du eine Abbildung mit Label fig:logo im Text?",
       "options": [
-        "Siehe Abbildung \\ref{fig:logo}",
+        "Siehe \\ref{fig:logo}",
         "Siehe Abbildung fig:logo",
         "Siehe \\label{fig:logo}"
       ],
@@ -485,7 +485,7 @@
     {
       "question": "16. Wie verhinderst du, dass % in normalem Text als Kommentar wirkt?",
       "options": [
-        "Mit \\% schreiben",
+        "Mit \\%",
         "Mit %% doppeln",
         "Mit {%%} kapseln"
       ],
@@ -519,7 +519,7 @@
     {
       "question": "17. Wie bindest du Quellcode mit Syntax-Highlighting ohne Python-Abhängigkeit ein?",
       "options": [
-        "Mit listings-Paket und \\begin{lstlisting}",
+        "Mit listings und \\begin{lstlisting}",
         "Mit minted-Paket ohne Abhängigkeiten",
         "Mit \\codeblock direkt in LaTeX"
       ],
@@ -553,7 +553,7 @@
     {
       "question": "18. Wann setzt du \\clearpage ein?",
       "options": [
-        "Um alle Floats auszugeben, bevor ein neuer Abschnitt beginnt",
+        "Floats vor neuem Abschnitt räumen",
         "Um die Schriftgröße lokal zu ändern",
         "Um den Mathemodus zu starten"
       ],
@@ -587,7 +587,7 @@
     {
       "question": "19. Wie vermeidest du '?' bei Referenzen nach dem Kompilieren?",
       "options": [
-        "Mehrfach kompilieren (pdflatex → biber/bibtex → pdflatex → pdflatex)",
+        "Mehrfach kompilieren inkl. Backend",
         "Hyperref entfernen",
         "Alle Labels in Großbuchstaben schreiben"
       ],
@@ -621,7 +621,7 @@
     {
       "question": "20. Wie fügst du ein automatisch generiertes Inhaltsverzeichnis ein?",
       "options": [
-        "\\tableofcontents nach \\begin{document}",
+        "\\tableofcontents einsetzen",
         "Manuell mit \\section-Liste",
         "\\contentslist in der Präambel"
       ],
@@ -655,7 +655,7 @@
     {
       "question": "21. Warum sollten Labels ein Präfix wie fig: oder tab: haben?",
       "options": [
-        "Zur Vermeidung von Kollisionen und für klare Gruppierung",
+        "Präfixe setzen für klare Labels",
         "Weil LaTeX sonst nicht kompiliert",
         "Weil Präfixe das Layout ändern"
       ],
@@ -694,7 +694,7 @@
         "Mit << und >> wie in Französisch"
       ],
       "answer": 0,
-      "explanation": "csquotes mit \\enquote erzeugt sprachabhängige Anführungen (für ngerman die typischen „ “). ASCII-Quotes oder französische Guillemets passen nicht.",
+      "explanation": "csquotes mit \\enquote erzeugt sprachabhängige Anführungen (für ngerman die typischen deutschen Anführungszeichen). ASCII-Quotes oder französische Guillemets passen nicht.",
       "weight": 2,
       "topic": "Sprache & Typografie",
       "concept": "csquotes",
@@ -723,7 +723,7 @@
     {
       "question": "23. Wie gehst du bei einem Overfull \\hbox-Warnhinweis vor?",
       "options": [
-        "Umbruch erlauben (\\- oder \\linebreak setzen)",
+        "Umbruch erlauben, z. B. mit \\-",
         "Warnung ignorieren, da sie harmlos ist",
         "Alle Wörter mit \\textbf markieren"
       ],
@@ -791,7 +791,7 @@
     {
       "question": "25. Wie behebst du fehlende Literaturangaben trotz vorhandener \\printbibliography?",
       "options": [
-        "biber/bibtex laufen lassen und erneut kompilieren",
+        "biber/bibtex ausführen und neu bauen",
         "Das Literaturverzeichnis manuell schreiben",
         "Alle \\cite durch \\ref ersetzen"
       ],
@@ -825,8 +825,8 @@
     {
       "question": "26. Wie gehst du vor, wenn viele Abbildungen ans Dokumentende wandern?",
       "options": [
-        "Float-Optionen variieren und Abstände reduzieren",
-        "Alle Abbildungen auf eine Seite zwingen",
+        "Float-Optionen anpassen, Abstände reduzieren",
+        "Alle Abbildungen auf eine Seite zwingen (starr)",
         "Labels entfernen"
       ],
       "answer": 0,
@@ -859,8 +859,8 @@
     {
       "question": "27. Was prüfst du zuerst bei 'Undefined control sequence' im Log?",
       "options": [
-        "Fehlendes Paket oder Tippfehler im Befehl",
-        "Papierformat in geometry",
+        "Paket oder Tippfehler prüfen",
+        "Papierformat in geometry kontrollieren",
         "Falsche Seitenränder"
       ],
       "answer": 0,
@@ -893,8 +893,8 @@
     {
       "question": "28. Warum erzeugt falsche Sprachwahl bei babel falsche Silbentrennung?",
       "options": [
-        "Weil die Trennmuster an die Sprache gekoppelt sind",
-        "Weil babel Schriftarten lädt",
+        "Trennmuster hängen von der Sprache ab",
+        "Weil babel zusätzliche Schriftarten lädt",
         "Weil babel Seitenränder setzt"
       ],
       "answer": 0,
@@ -927,7 +927,7 @@
     {
       "question": "29. Was bedeutet die Warnung 'Label(s) may have changed. Rerun to get cross-references right.'?",
       "options": [
-        "Noch einmal kompilieren, damit Referenzen aktualisiert werden",
+        "Ein weiterer Lauf aktualisiert Referenzen",
         "Die Labels sind ungültig und müssen gelöscht werden",
         "Man darf keine Labels mehr setzen"
       ],
@@ -961,8 +961,8 @@
     {
       "question": "30. Wie reagierst du auf den Fehler 'Runaway argument?' in der Logdatei?",
       "options": [
-        "Nach einer fehlenden schließenden Klammer suchen",
-        "Alle Pakete neu installieren",
+        "Fehlende schließende Klammer suchen",
+        "Alle Pakete neu installieren (hilft nicht)",
         "Alle Labels umbenennen"
       ],
       "answer": 0,
