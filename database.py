@@ -280,6 +280,43 @@ def create_tables():
             conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_users_pseudonym ON users (user_pseudonym);")
             # Beschleunigt die Sortierung der Antworten nach Zeitstempel im Admin-Panel
             conn.execute("CREATE INDEX IF NOT EXISTS idx_answers_timestamp ON answers (timestamp DESC);")
+
+            # --- Dedupe / unique index for answers per (session_id, question_nr) ---
+            # If there are duplicate rows for the same (session_id, question_nr) we
+            # remove all but the latest attempt (by timestamp) and then create a
+            # unique index to prevent future duplicates. This is a best-effort,
+            # idempotent migration step and tolerates older databases that might
+            # contain duplicates.
+            try:
+                cursor.execute(
+                    "SELECT session_id, question_nr, COUNT(*) as c FROM answers GROUP BY session_id, question_nr HAVING c > 1"
+                )
+                dupes = cursor.fetchall()
+                if dupes:
+                    print(f"Found {len(dupes)} duplicate answer groups; consolidating to latest per question.")
+                for d in dupes:
+                    sid = d['session_id']
+                    qn = d['question_nr']
+                    # Keep the latest answer (by timestamp, tie-breaker by answer_id) and delete others
+                    cursor.execute(
+                        """
+                        DELETE FROM answers
+                        WHERE answer_id NOT IN (
+                            SELECT answer_id FROM answers
+                            WHERE session_id = ? AND question_nr = ?
+                            ORDER BY timestamp DESC, answer_id DESC
+                            LIMIT 1
+                        )
+                        AND session_id = ? AND question_nr = ?
+                        """,
+                        (sid, qn, sid, qn),
+                    )
+                # Now create a unique index to prevent future duplicates.
+                conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_answers_session_question ON answers (session_id, question_nr);")
+            except Exception as e:
+                # Migration best-effort: log and continue without failing the whole init
+                print(f"Warning: could not dedupe/create unique index on answers: {e}")
+
             # Zusammengesetzter Index für Abfragen, die nach Benutzer UND Fragenset filtern
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_qfile ON test_sessions (user_id, questions_file);")
             # Zusammengesetzter Index für die sortierte Testhistorie eines Benutzers
@@ -451,18 +488,28 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal')
 
 @with_db_retry
 def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool):
-    """Speichert die Antwort eines Nutzers in der Datenbank."""
+    """Speichert die Antwort eines Nutzers in der Datenbank.
+
+    Verwende ein UPSERT (ON CONFLICT ... DO UPDATE) auf (session_id, question_nr),
+    damit schnelle Doppel‑Submits oder Reruns nicht mehrere Zeilen anlegen.
+    """
     conn = get_db_connection()
     if conn is None:
         return
     try:
         with conn:
+            # Use CURRENT_TIMESTAMP to update the timestamp when overwriting
             conn.execute(
                 """
-                INSERT INTO answers (session_id, question_nr, answer_text, points, is_correct)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO answers (session_id, question_nr, answer_text, points, is_correct, timestamp)
+                VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                ON CONFLICT(session_id, question_nr) DO UPDATE SET
+                    answer_text = excluded.answer_text,
+                    points = excluded.points,
+                    is_correct = excluded.is_correct,
+                    timestamp = CURRENT_TIMESTAMP
                 """,
-                (session_id, question_nr, answer_text, points, is_correct)
+                (session_id, question_nr, answer_text, points, 1 if is_correct else 0),
             )
     except sqlite3.Error as e:
         print(f"Datenbankfehler in save_answer: {e}")
