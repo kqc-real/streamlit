@@ -998,12 +998,14 @@ def recompute_session_summary(session_id: int) -> bool:
         start_time = s['start_time']
 
         # Aggregate answers
+        # NOTE: use per-question aggregation (best attempt per question) to avoid
+        # double-counting when multiple answers exist for the same question
+        # within one session (e.g. changed answers, retries). We still compute
+        # a quick timestamp/answers_count aggregate for metadata.
         cursor.execute(
             """
             SELECT
                 MAX(timestamp) as last_answer,
-                COALESCE(SUM(points), 0) as total_points,
-                SUM(CASE WHEN is_correct THEN 1 ELSE 0 END) as correct_count,
                 COUNT(answer_id) as answers_count
             FROM answers
             WHERE session_id = ?
@@ -1011,17 +1013,51 @@ def recompute_session_summary(session_id: int) -> bool:
             (session_id,),
         )
 
-        agg = cursor.fetchone()
+        ts_agg = cursor.fetchone()
         last_answer = None
+        answers_count = 0
+        if ts_agg:
+            if 'last_answer' in ts_agg.keys():
+                last_answer = ts_agg['last_answer']
+            if ts_agg['answers_count'] is not None:
+                answers_count = int(ts_agg['answers_count'])
+
+        # Per-question aggregation: take the best points per question and
+        # whether any attempt for that question was correct. This prevents
+        # SUM(points) from exceeding the logical max_points for the set.
+        cursor.execute(
+            """
+            SELECT question_nr,
+                   MAX(points) AS best_points,
+                   MAX(CASE WHEN is_correct THEN 1 ELSE 0 END) AS any_correct
+            FROM answers
+            WHERE session_id = ?
+            GROUP BY question_nr
+            """,
+            (session_id,),
+        )
+
+        rows = cursor.fetchall()
         total_points = 0
         correct_count = 0
-        if agg:
-            if 'last_answer' in agg.keys():
-                last_answer = agg['last_answer']
-            if agg['total_points'] is not None:
-                total_points = int(agg['total_points'])
-            if agg['correct_count'] is not None:
-                correct_count = int(agg['correct_count'])
+        if rows:
+            for r in rows:
+                try:
+                    if r['best_points'] is not None:
+                        total_points += int(r['best_points'])
+                except Exception:
+                    try:
+                        total_points += int(r[1])
+                    except Exception:
+                        pass
+                try:
+                    if r['any_correct'] is not None:
+                        correct_count += int(r['any_correct'])
+                except Exception:
+                    try:
+                        correct_count += int(r[2])
+                    except Exception:
+                        pass
 
         # Load question set metadata to compute max_points and question_count
         from config import load_questions, AppConfig
