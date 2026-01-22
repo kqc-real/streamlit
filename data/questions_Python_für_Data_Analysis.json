@@ -16,7 +16,21 @@
     },
     "additional_buffer_minutes": 5,
     "test_duration_minutes": 64,
-    "language": "de"
+    "language": "de",
+    "topics": [
+      "Python Grundlagen",
+      "Datenstrukturen",
+      "NumPy",
+      "Pandas Grundlagen",
+      "Datenbereinigung",
+      "Aggregation & Groupby",
+      "Datei-I/O",
+      "Visualisierung",
+      "Performance & Best Practices",
+      "Analyse & Statistik"
+    ],
+    "version": "1.1",
+    "updated": "2026-01-22"
   },
   "questions": [
     {
@@ -113,7 +127,7 @@
       "answer": 1,
       "explanation": "NumPy (Numerical Python) ist die Basisbibliothek für effiziente Arrays und mathematische Operationen.",
       "weight": 1,
-      "topic": "NumPy Grundlagen",
+      "topic": "NumPy",
       "concept": "Bibliotheken-Ökosystem",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -135,7 +149,7 @@
       "answer": 2,
       "explanation": "NumPy unterstützt Vektorisierung. Operationen mit Skalaren werden elementweise auf das gesamte Array angewendet (Broadcasting).",
       "weight": 2,
-      "topic": "NumPy Operationen",
+      "topic": "NumPy",
       "concept": "Vektorisierung",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -218,7 +232,7 @@
       "answer": 1,
       "explanation": "`iloc` arbeitet positionsbasiert (integer-location). Wie beim Python-Slicing ist der Endwert exklusiv. Es werden die Zeilen an Position 0, 1 und 2 zurückgegeben.",
       "weight": 2,
-      "topic": "Pandas Indexing",
+      "topic": "Pandas Grundlagen",
       "concept": "iloc vs loc",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -254,7 +268,7 @@
       "answer": 0,
       "explanation": "Dies nennt man 'Boolean Indexing' oder 'Masking'. Der innere Ausdruck `df['Alter'] > 30` erzeugt eine Serie von Wahrheitswerten, die dann zum Filtern des DataFrames genutzt wird.",
       "weight": 2,
-      "topic": "Daten-Selektion",
+      "topic": "Datei-I/O",
       "concept": "Boolean Indexing",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -311,7 +325,7 @@
       "answer": 1,
       "explanation": "Dies ist das 'Split-Apply-Combine' Muster. Die Daten werden nach 'Kategorie' gesplittet, und die Summen-Funktion wird auf 'Umsatz' angewendet.",
       "weight": 2,
-      "topic": "Aggregation",
+      "topic": "Aggregation & Groupby",
       "concept": "Groupby",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -399,7 +413,7 @@
       "answer": 2,
       "explanation": "In Python und Pandas führen einfache Zuweisungen oft nur zu Referenzen oder Views auf denselben Speicher. Um eine unabhängige Kopie zu erhalten, muss `.copy()` verwendet werden.",
       "weight": 3,
-      "topic": "Pandas Internals",
+      "topic": "Pandas Grundlagen",
       "concept": "Views vs Copies",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -433,7 +447,7 @@
       "answer": 1,
       "explanation": "`apply()` ist performanter als eine explizite `for`-Schleife in reinem Python, da der Loop intern in C optimiert ist, aber es ist immer noch langsamer als echte Vektorisierung (direkte Spalten-Operationen).",
       "weight": 2,
-      "topic": "Performance",
+      "topic": "Performance & Best Practices",
       "concept": "Apply vs Loops",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -464,7 +478,7 @@
       "answer": 1,
       "explanation": "Ein Left Join behält alle Schlüssel aus der linken Tabelle (`df1`) und ergänzt Daten aus der rechten Tabelle (`df2`) dort, wo Treffer sind. Sonst entstehen `NaN`.",
       "weight": 2,
-      "topic": "Daten-Zusammenführung",
+      "topic": "Python Grundlagen",
       "concept": "Merge/Join Logik",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -495,7 +509,7 @@
       "answer": 2,
       "explanation": "Der Datentyp 'category' speichert die Strings nur einmal in einer Lookup-Tabelle und verwendet im DataFrame kleine Integer-Codes. Bei vielen Wiederholungen spart das massiv Speicher.",
       "weight": 3,
-      "topic": "Performance & Speicher",
+      "topic": "Performance & Best Practices",
       "concept": "Categorical Data",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -526,7 +540,7 @@
       "answer": 1,
       "explanation": "`arange(start, stop, step)` generiert Werte von Start bis exklusive Stop mit der Schrittweite Step. 10 ist exklusiv.",
       "weight": 1,
-      "topic": "NumPy Grundlagen",
+      "topic": "NumPy",
       "concept": "Array Erstellung",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -592,7 +606,7 @@
       "answer": 1,
       "explanation": "Der Median (Zentralwert) ist im Gegensatz zum Mittelwert (Mean) robust gegenüber extremen Ausreißern, da er nur auf der Rangfolge basiert.",
       "weight": 3,
-      "topic": "Statistik & Analyse",
+      "topic": "Analyse & Statistik",
       "concept": "Robuste Statistiken",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -653,7 +667,7 @@
       "answer": 1,
       "explanation": "`pd.concat()` ist die universelle Funktion zum Aneinanderhängen. `axis=0` (Standard) stapelt vertikal, `axis=1` würde sie nebeneinander stellen.",
       "weight": 2,
-      "topic": "Daten-Zusammenführung",
+      "topic": "Python Grundlagen",
       "concept": "Konkatenation",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -706,7 +720,7 @@
       "answer": 1,
       "explanation": "Bei einer Linksschiefe (langer Schwanz nach links, zu kleinen Werten) ziehen die kleinen Ausreißer den Mittelwert nach unten. Der Median bleibt weiter rechts.",
       "weight": 3,
-      "topic": "Statistik",
+      "topic": "Analyse & Statistik",
       "concept": "Verteilungsformen",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -737,7 +751,7 @@
       "answer": 1,
       "explanation": "`iterrows()` iteriert in Python-Geschwindigkeit und erzeugt Overhead durch Objekterstellung. Vektorisierung ist um Größenordnungen schneller.",
       "weight": 2,
-      "topic": "Performance",
+      "topic": "Performance & Best Practices",
       "concept": "Anti-Patterns",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -767,7 +781,7 @@
       "answer": 1,
       "explanation": "`pivot_table` hat einen Parameter `aggfunc`, der standardmäßig auf `'mean'` gesetzt ist (anders als einfaches `pivot`, das keine Duplikate erlaubt).",
       "weight": 2,
-      "topic": "Reshaping",
+      "topic": "Aggregation & Groupby",
       "concept": "Pivoting",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -798,7 +812,7 @@
       "answer": 1,
       "explanation": "Traditionell basiert `NaN` auf dem IEEE 754 Floating Point Standard. Daher mussten Integer-Spalten mit fehlenden Werten zu Float gecastet werden (z. B. wird 5 zu 5.0).",
       "weight": 3,
-      "topic": "Datentypen",
+      "topic": "Datenbereinigung",
       "concept": "NaN und Integers",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -877,7 +891,7 @@
       "answer": 1,
       "explanation": "Dies ist ein klassischer Python-Fallstrick. Wenn die Funktion die Liste ändert, behält sie diese Änderungen bei folgenden Aufrufen, da das Listen-Objekt nur einmal erstellt wird.",
       "weight": 3,
-      "topic": "Python Advanced",
+      "topic": "Python Grundlagen",
       "concept": "Mutable Default Arguments",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -908,7 +922,7 @@
       "answer": 1,
       "explanation": "Pandas bietet den `.str` Accessor, der vektorisierte String-Operationen auf Series-Objekten ermöglicht.",
       "weight": 2,
-      "topic": "Textverarbeitung",
+      "topic": "Datenbereinigung",
       "concept": "String Accessor",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -939,7 +953,7 @@
       "answer": 2,
       "explanation": "Eine steigende Gerade deutet auf eine starke positive lineare Beziehung hin, also einen Korrelationskoeffizienten (Pearson) nahe +1.",
       "weight": 2,
-      "topic": "Statistik",
+      "topic": "Analyse & Statistik",
       "concept": "Korrelation",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -992,7 +1006,7 @@
       "answer": 2,
       "explanation": "Ein Set ist eine Menge eindeutiger Elemente. Bei der Erstellung werden Duplikate automatisch verworfen.",
       "weight": 2,
-      "topic": "Python Datenstrukturen",
+      "topic": "Datenstrukturen",
       "concept": "Sets",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1023,7 +1037,7 @@
       "answer": 1,
       "explanation": "Overfitting (Überanpassung) bedeutet, dass das Modell die Trainingsdaten (inkl. Rauschen) 'auswendig gelernt' hat, aber nicht auf neue Daten generalisieren kann.",
       "weight": 3,
-      "topic": "Data Science Konzepte",
+      "topic": "Analyse & Statistik",
       "concept": "Overfitting",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1107,7 +1121,7 @@
       "answer": 1,
       "explanation": "Technisch gesehen ist `__new__` der Konstruktor, der den Speicher allokiert. `__init__` ist der Initialisierer, der das bereits erstellte Objekt (`self`) konfiguriert. In der Praxis wird `__init__` aber oft wie ein Konstruktor genutzt.",
       "weight": 3,
-      "topic": "Python OOP",
+      "topic": "Python Grundlagen",
       "concept": "Objekt-Erstellung",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1138,7 +1152,7 @@
       "answer": 2,
       "explanation": "Ein Dictionary mappt Wort -> Anzahl. `collections.Counter` ist eine spezialisierte Subklasse dafür.",
       "weight": 2,
-      "topic": "Standard Library",
+      "topic": "Datenstrukturen",
       "concept": "Counter",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1190,7 +1204,7 @@
       "answer": 2,
       "explanation": "Der Python-Operator `and` erwartet einen einzelnen Wahrheitswert (True/False). Da Pandas-Series viele Werte enthalten, weiß Python nicht, ob die ganze Serie 'Wahr' ist. Man muss den bitweisen Operator `&` für elementweise Vergleiche nutzen.",
       "weight": 2,
-      "topic": "Pandas Logik",
+      "topic": "Pandas Grundlagen",
       "concept": "Bitwise Operators",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1220,7 +1234,7 @@
       "answer": 2,
       "explanation": "Tupel sind in Python unveränderlich (immutable). Man kann Elemente nach der Erstellung nicht mehr ändern.",
       "weight": 1,
-      "topic": "Python Datentypen",
+      "topic": "Python Grundlagen",
       "concept": "Immutability",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -1242,7 +1256,7 @@
       "answer": 1,
       "explanation": "Die Liste im Default-Parameter wird nur *einmal* bei der Definition erstellt. Beide Funktionsaufrufe teilen sich dieselbe Listen-Instanz. Das zweite Element wird an die *bestehende* Liste angehängt.",
       "weight": 3,
-      "topic": "Python Funktionen",
+      "topic": "Python Grundlagen",
       "concept": "Mutable Default Arguments",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1273,7 +1287,7 @@
       "answer": 1,
       "explanation": "Der Teil `if x % 2 == 0` wirkt als Filter. Nur Elemente, die die Bedingung erfüllen, landen in der neuen Liste `res`.",
       "weight": 2,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Filtering List Comprehension",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1304,7 +1318,7 @@
       "answer": 1,
       "explanation": "`df[df['Age'] > 50]` könnte eine View zurückgeben. Eine Zuweisung darauf ist riskant. Pandas warnt, dass man explizit `.copy()` nutzen sollte, wenn man eine eigene Tabelle will, oder `.loc` auf dem Original nutzen sollte.",
       "weight": 3,
-      "topic": "Pandas Internals",
+      "topic": "Pandas Grundlagen",
       "concept": "SettingWithCopy",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1335,7 +1349,7 @@
       "answer": 2,
       "explanation": "Das `f` vor dem String aktiviert 'f-strings' (ab Python 3.6). Ausdrücke in geschweiften Klammern `{}` werden zur Laufzeit ausgewertet und eingefügt.",
       "weight": 1,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "String Formatting",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -1357,7 +1371,7 @@
       "answer": 1,
       "explanation": "Der direkte Zugriff mit eckigen Klammern `[]` auf einen nicht existierenden Schlüssel wirft in Python einen `KeyError`. Die Methode `.get('Adresse')` würde stattdessen `None` zurückgeben.",
       "weight": 2,
-      "topic": "Python Datenstrukturen",
+      "topic": "Datenstrukturen",
       "concept": "Error Handling",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1387,7 +1401,7 @@
       "answer": 1,
       "explanation": "In Python muss der Körper einer Schleife eingerückt sein. Zeile 2 steht auf derselben Ebene wie `for` und gehört somit syntaktisch nicht zur Schleife, was aber von `for` erwartet wird.",
       "weight": 1,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Indentation",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -1409,7 +1423,7 @@
       "answer": 1,
       "explanation": "Dies ist korrektes 'Boolean Masking' zur Zuweisung. `arr < 0` wählt die Indizes der negativen Werte aus, und die Zuweisung `= 0` ändert genau diese Stellen im Original-Array.",
       "weight": 2,
-      "topic": "NumPy Operationen",
+      "topic": "NumPy",
       "concept": "Conditional Assignment",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1440,7 +1454,7 @@
       "answer": 1,
       "explanation": "Aufgrund der IEEE 754 Gleitkomma-Darstellung ist 0.1 + 0.2 in binären Systemen minimal größer als 0.3 (etwa 0.30000000000000004). Der strikte Vergleich `==` schlägt daher fehl.",
       "weight": 3,
-      "topic": "Numerik",
+      "topic": "Analyse & Statistik",
       "concept": "Floating Point Precision",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1470,7 +1484,7 @@
       "answer": 1,
       "explanation": "NumPy Broadcasting funktioniert nur, wenn Dimensionen kompatibel sind (gleich groß oder eine Dimension ist 1). Länge 3 und Länge 2 sind inkompatibel.",
       "weight": 2,
-      "topic": "NumPy Fehler",
+      "topic": "NumPy",
       "concept": "Shape Mismatch",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1501,7 +1515,7 @@
       "answer": 1,
       "explanation": "Innerhalb der Funktion `change` wird eine *neue lokale* Variable `x` erstellt (Shadowing). Die globale Variable `x` (Zeile 1) bleibt unverändert. Um global zu schreiben, müsste `global x` verwendet werden.",
       "weight": 2,
-      "topic": "Python Scope",
+      "topic": "Python Grundlagen",
       "concept": "Variable Scope",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1532,7 +1546,7 @@
       "answer": 1,
       "explanation": "Listen-Methoden wie `.sort()`, `.append()`, `.reverse()` ändern das Objekt direkt und geben `None` zurück. Built-in Funktionen wie `sorted()` geben ein neues Objekt zurück.",
       "weight": 2,
-      "topic": "Python Standard Library",
+      "topic": "Python Grundlagen",
       "concept": "In-Place vs Return",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1562,7 +1576,7 @@
       "answer": 0,
       "explanation": "Da `1/0` einen Fehler wirft, wird der `except`-Block ausgeführt (`x=0`). Der `else`-Block in einem try-Konstrukt wird nur ausgeführt, wenn *keine* Ausnahme auftrat.",
       "weight": 2,
-      "topic": "Flow Control",
+      "topic": "Python Grundlagen",
       "concept": "Try-Except-Else",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1593,7 +1607,7 @@
       "answer": 1,
       "explanation": "In Python sind Zuweisungen bei Objekten (wie Listen) nur Referenzkopien (Pointer). `a` und `b` zeigen auf denselben Speicher. Eine Änderung über `b` ist auch in `a` sichtbar.",
       "weight": 3,
-      "topic": "Python Speicherverwaltung",
+      "topic": "Python Grundlagen",
       "concept": "References",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1623,7 +1637,7 @@
       "answer": 2,
       "explanation": "`groupby()` allein führt noch keine Berechnung durch. Es bereitet die Gruppierung vor (lazy evaluation) und gibt ein Zwischenobjekt zurück, auf das man `.sum()`, `.mean()` etc. anwenden muss.",
       "weight": 2,
-      "topic": "Pandas API",
+      "topic": "Pandas Grundlagen",
       "concept": "Lazy Evaluation",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1653,7 +1667,7 @@
       "answer": 1,
       "explanation": "Dies ist 'Tuple Unpacking'. Die Anzahl der Variablen links (2) muss exakt mit der Anzahl der Elemente rechts (3) übereinstimmen, sonst gibt es einen `ValueError`.",
       "weight": 2,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Unpacking",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1683,7 +1697,7 @@
       "answer": 2,
       "explanation": "Die Syntax `import package.module` erwartet, dass das letzte Element ein Modul (Datei/Ordner) ist. `DataFrame` ist eine Klasse. Korrekt wäre `from pandas import DataFrame`.",
       "weight": 1,
-      "topic": "Python Imports",
+      "topic": "Python Grundlagen",
       "concept": "Import Syntax",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -1705,7 +1719,7 @@
       "answer": 1,
       "explanation": "Standardmäßig ist `axis=0` (Spalten). `apply` würde `my_func` eine ganze Spalte als Series übergeben. Da `my_func` aber `row['A']` (Zeilenzugriff) erwartet, crasht es. Mit `axis=1` wird zeilenweise iteriert.",
       "weight": 3,
-      "topic": "Pandas Advanced",
+      "topic": "Pandas Grundlagen",
       "concept": "Apply Axis",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1736,7 +1750,7 @@
       "answer": 1,
       "explanation": "In Python liefert `.items()` die Schlüssel-Wert-Paare als Tupel zurück. `.entries()` existiert in Python nicht (das wäre Java-Jargon).",
       "weight": 1,
-      "topic": "Python Datenstrukturen",
+      "topic": "Datenstrukturen",
       "concept": "Dictionary Iteration",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -1758,7 +1772,7 @@
       "answer": 1,
       "explanation": "`self` ist die konventionelle Bezeichnung für die Instanzreferenz in Python. Sie muss als erster Parameter in jeder Instanzmethode definiert werden.",
       "weight": 1,
-      "topic": "Python OOP",
+      "topic": "Python Grundlagen",
       "concept": "Self Referenz",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -1802,7 +1816,7 @@
       "answer": 0,
       "explanation": "Die Syntax einer List Comprehension lautet `[ausdruck for item in iterable]`. `foreach` gibt es in Python nicht.",
       "weight": 2,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "List Comprehension",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1832,7 +1846,7 @@
       "answer": 2,
       "explanation": "Das `with`-Statement initiiert einen Context Manager, der sicherstellt, dass die Datei am Ende des Blocks geschlossen wird, auch wenn Fehler auftreten.",
       "weight": 2,
-      "topic": "File I/O",
+      "topic": "Datei-I/O",
       "concept": "Context Manager",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1884,7 +1898,7 @@
       "answer": 1,
       "explanation": "In Python 3 nutzt man `super().__init__(arguments)`. Beachten Sie die Klammern nach `super`, die in Java nicht nötig sind, in Python aber eine Funktion aufrufen, die das Proxy-Objekt zurückgibt.",
       "weight": 3,
-      "topic": "Python OOP",
+      "topic": "Python Grundlagen",
       "concept": "Inheritance",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -1914,7 +1928,7 @@
       "answer": 1,
       "explanation": "`x` ist hier ein Tupel, z.B. `('A', 10)`. Das zweite Element ist am Index 1. Also `x[1]`.",
       "weight": 2,
-      "topic": "Python Funktionen",
+      "topic": "Python Grundlagen",
       "concept": "Lambda Sort",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -1974,7 +1988,7 @@
       "answer": 2,
       "explanation": "Der `in` Operator prüft auf Mitgliedschaft. Er funktioniert für Listen, Tupel, Sets, Dictionaries (Keys) und Strings.",
       "weight": 3,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Membership Operator",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -2005,7 +2019,7 @@
       "answer": 2,
       "explanation": "Python kürzt `else if` strikt zu `elif` ab. `else if` (wie in Java) oder `elseif` (wie in PHP) verursachen einen Syntaxfehler.",
       "weight": 1,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Control Flow",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -2027,7 +2041,7 @@
       "answer": 1,
       "explanation": "`.shape` ist ein Attribut (Property) von DataFrames und NumPy Arrays, das ein Tupel `(n_rows, n_cols)` liefert. Es wird ohne Klammern `()` aufgerufen.",
       "weight": 1,
-      "topic": "Pandas API",
+      "topic": "Pandas Grundlagen",
       "concept": "DataFrame Shape",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -2049,7 +2063,7 @@
       "answer": 2,
       "explanation": "`pass` ist eine Anweisung, die nichts tut (No-Op). Sie wird benötigt, weil Python leere Blöcke (anders als `{}` in Java) syntaktisch nicht erlaubt.",
       "weight": 1,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Placeholder",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -2071,7 +2085,7 @@
       "answer": 3,
       "explanation": "Das Python-Äquivalent zum Null-Referenztyp ist `None`. Es ist ein Singleton-Objekt und wird üblicherweise mit `is` geprüft.",
       "weight": 1,
-      "topic": "Python Datentypen",
+      "topic": "Python Grundlagen",
       "concept": "NoneType",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -2093,7 +2107,7 @@
       "answer": 1,
       "explanation": "`df.columns` liefert ein Index-Objekt mit den Spaltennamen. `keys()` funktioniert auch, ist aber weniger explizit und eher für Dictionaries typisch.",
       "weight": 1,
-      "topic": "Pandas API",
+      "topic": "Pandas Grundlagen",
       "concept": "Column Access",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -2115,7 +2129,7 @@
       "answer": 2,
       "explanation": "`is` prüft die Objekt-Identität (Speicheradresse), ähnlich wie `==` bei Objekten in Java. Der Operator `==` in Python prüft dagegen die Wertegleichheit (`equals()`).",
       "weight": 2,
-      "topic": "Python Semantik",
+      "topic": "Python Grundlagen",
       "concept": "Identity vs Equality",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -2145,7 +2159,7 @@
       "answer": 2,
       "explanation": "In Python ist `len()` eine Built-in Funktion, keine Methode des Objekts. Man ruft `len(obj)` auf, nicht `obj.len()`.",
       "weight": 1,
-      "topic": "Python Built-ins",
+      "topic": "Python Grundlagen",
       "concept": "Length Function",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -2167,7 +2181,7 @@
       "answer": 2,
       "explanation": "`del` ist ein Statement, das Referenzen löscht. `del my_dict['a']` entfernt den Schlüssel 'a'.",
       "weight": 2,
-      "topic": "Python Syntax",
+      "topic": "Python Grundlagen",
       "concept": "Deletion",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -2197,7 +2211,7 @@
       "answer": 3,
       "explanation": "`assert condition, message` prüft eine Bedingung. Ist sie False, wird ein `AssertionError` mit der Nachricht geworfen. Wird oft für interne Konsistenzchecks genutzt.",
       "weight": 2,
-      "topic": "Debugging",
+      "topic": "Python Grundlagen",
       "concept": "Assertions",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -2228,7 +2242,7 @@
       "answer": 1,
       "explanation": "`.T` ist der Kurz-Accessor (Property) für das Transponieren, analog zu NumPy-Matrizen. `.transpose()` existiert zwar als Methode, `.T` ist aber idiomatisch.",
       "weight": 2,
-      "topic": "Pandas API",
+      "topic": "Pandas Grundlagen",
       "concept": "Transposition",
       "cognitive_level": "Application",
       "extended_explanation": {
