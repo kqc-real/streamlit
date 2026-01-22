@@ -1,4 +1,57 @@
-Im Kontext des Themas **Python für Data Analysis (Komplettset)** soll dir dieses Fragenset helfen, die folgenden Lernziele zu erreichen:
+# Übergeordnete Lernziele: Python für Data Analysis (Komplettset)
+
+## **Python-Grundlagen & Syntax**
+**Beschreiben der grundlegenden Syntax, Datentypen und Kontrollstrukturen in Python.**
+
+Du kannst die Unterschiede zwischen statischer und dynamischer Typisierung erklären, Einrückungen und Kontrollstrukturen korrekt nutzen sowie gängige Built-ins (z. B. `len()`, `None`, `pass`) sicher anwenden. Diese Grundlage ermöglicht dir, Lesbarkeit und Korrektheit von Analyse-Skripten sicherzustellen.
+
+---
+
+## **Datenstrukturen & Speicherverhalten**
+**Analysieren von Python-Containern, Referenzverhalten und Kopien.**
+
+Du kannst Listen, Tupel, Dictionaries und Sets in Aufbau und Verhalten unterscheiden, das Referenz- versus Kopierverhalten erklären und geeignete Kopierstrategien (z. B. `copy()`, flache vs. tiefe Kopien) wählen, um unerwünschte Nebeneffekte zu vermeiden.
+
+---
+
+## **NumPy — Numerik & Vektorisierung**
+**Anwenden und optimieren numerischer Operationen mit NumPy.**
+
+Du kannst Arrays erstellen und umformen (`reshape()`, `arange()`), Vektorisierung statt expliziter Schleifen einsetzen und Broadcasting- sowie Dimensionalitätsprobleme erkennen, um effiziente numerische Berechnungen durchzuführen.
+
+---
+
+## **Pandas — Laden, Selektion & Transformation**
+**Anwenden von DataFrame-Operationen für Auswahl, Aggregation und Umformung.**
+
+Du kannst CSVs laden (`pd.read_csv()`), Spalten/Zeilen selektieren (`.iloc`, `.columns`, `.shape`), `groupby`, `pivot_table` und `concat` nutzen sowie `apply()`, `.str`-Accessor und Method Chaining einsetzen, um Daten für Analysen vorzubereiten.
+
+---
+
+## **Datenbereinigung & Qualitätssicherung**
+**Bereinigen von Datensätzen und Umgang mit fehlenden Werten und Typproblemen.**
+
+Du kannst fehlende Werte entfernen oder behandeln (`dropna()`), Datentypkonvertierungen (z. B. `pd.to_datetime()`) durchführen, die Auswirkungen von `NaN` auf Typen (z. B. Int→Float) erklären und `SettingWithCopyWarning` sowie mutable default pitfalls vermeiden.
+
+---
+
+## **Visualisierung & Interpretation**
+**Erzeugen und interpretieren statistischer Visualisierungen.**
+
+Du kannst mit Matplotlib/Seaborn Plots erstellen (z. B. Scatterplots, Boxplots), Achsen- und Darstellungsoptionen korrekt verwenden (`plt.show()`), und aus Verteilungen/Korrelationen Schlüsse ziehen (z. B. IQR, Median vs. Mittelwert, Streuung).
+
+---
+
+## **Analyse, Performance & Best Practices**
+**Diagnostizieren von Fehlern, Performance-Problemen und korrekter Programmstruktur.**
+
+Du kannst Performance-Fallen (z. B. `iterrows()` vs. vektorisierte Alternativen) identifizieren, Overfitting grob diagnostizieren, Ausnahme-Handling (`try-except-else`) sinnvoll einsetzen und objektorientierte Initialisierung (`__init__`, `super()`) sowie Scope-/Mutable-Default-Fallstricke korrekt handhaben.
+
+---
+
+# Detaillierte Lernziele
+
+Im Kontext des Themas **Python für Data Analysis (Komplettset)** soll dir dieses Fragenset helfen, die folgenden detaillierten Lernziele zu erreichen:
 
 ### Reproduktion
 
@@ -27,12 +80,12 @@ Im Kontext des Themas **Python für Data Analysis (Komplettset)** soll dir diese
 21. die Methode `.items()` benennen, um über Schlüssel und Werte eines Dictionaries zu iterieren.
 22. die Bedeutung des Parameters `self` in Instanzmethoden von Klassen wiedergeben.
 23. die Methode `dropna()` zur Bereinigung von Datensätzen mit `NaN`-Werten benennen.
-24. die Methode `reshape()` identifizieren, um die Dimensionen eines NumPy-Arrays zu ändern.
+24. die Methode `reshape()` identifizieren, um die Dimensionen eines NumPy-Array zu ändern.
 25. das Schlüsselwort `elif` zur Definition mehrfacher Bedingungen in Kontrollstrukturen nennen.
-26. das Attribut `.shape` verwenden, um die Dimensionen eines DataFrames abzufragen.
+26. das Attribut `.shape` verwenden, um die Dimensionen eines DataFrame abzufragen.
 27. das Schlüsselwort `pass` als Platzhalter für leere Codeblöcke identifizieren.
 28. `None` als das Python-Äquivalent zum `null`-Wert in Java benennen.
-29. das Attribut `.columns` nutzen, um auf die Spaltennamen eines DataFrames zuzugreifen.
+29. das Attribut `.columns` nutzen, um auf die Spaltennamen eines DataFrame zuzugreifen.
 30. die Built-in Funktion `len()` verwenden, um die Länge von Sequenzen global zu ermitteln.
 
 ### Anwendung
