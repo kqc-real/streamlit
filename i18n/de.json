@@ -574,6 +574,8 @@
         "login_required": "Bitte erst anmelden, dann starten.",
         "start_test_button": "🚀 Loslegen",
         "status_unknown_error": "Unbekannter Fehler im Set.",
+        "status_error_hint": "Speichern fehlgeschlagen. Details öffnen.",
+        "status_error_title": "❌ Fehlerdetails anzeigen",
         "close_button": "Schließen",
         "learning_objectives_heading": "Lernziele erzeugen und hochladen",
         "learning_objectives_caption": "Nutze im Tab \"Fragenset\" den Lernziele-Prompt im Prompt-Expander, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",

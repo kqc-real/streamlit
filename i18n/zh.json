@@ -167,6 +167,8 @@
         "login_required": "请先登录。",
         "start_test_button": "🚀 开始",
         "status_unknown_error": "未知题库错误。",
+        "status_error_hint": "保存失败。展开查看详情。",
+        "status_error_title": "❌ 查看错误详情",
         "close_button": "关闭",
         "learning_objectives_heading": "生成并上传学习目标",
         "learning_objectives_caption": "在“Fragenset”选项卡使用学习目标提示词，提交给外部 AI（如 ChatGPT 或 Gemini），生成 Markdown，然后在此上传。",

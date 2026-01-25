@@ -574,6 +574,8 @@
         "login_required": "Inicia sesión primero.",
         "start_test_button": "🚀 Vamos",
         "status_unknown_error": "Error desconocido.",
+        "status_error_hint": "Guardado falló. Abre los detalles.",
+        "status_error_title": "❌ Ver detalles del error",
         "close_button": "Cerrar",
         "learning_objectives_heading": "Crear y subir objetivos de aprendizaje",
         "learning_objectives_caption": "Usa el prompt de objetivos en la pestaña «Fragenset», mándalo a una IA externa (p. ej. ChatGPT o Gemini), genera el Markdown y súbelo aquí.",

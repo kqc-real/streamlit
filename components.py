@@ -785,15 +785,27 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     ):
                         _start_test_with_user_set(status["identifier"], app_config)
                 else:
-                    st.error(
-                        status.get(
-                            "error",
-                            _dialog_text(
-                                "status_unknown_error",
-                                default="Unbekannter Fehler beim Prüfen des Fragensets.",
-                            ),
+                    err_msg = status.get(
+                        "error",
+                        _dialog_text(
+                            "status_unknown_error",
+                            default="Unbekannter Fehler beim Prüfen des Fragensets.",
+                        ),
+                    )
+                    st.warning(
+                        _dialog_text(
+                            "status_error_hint",
+                            default="Speichern fehlgeschlagen. Details öffnen.",
                         )
                     )
+                    with st.expander(
+                        _dialog_text(
+                            "status_error_title",
+                            default="❌ Fehlerdetails anzeigen",
+                        ),
+                        expanded=False,
+                    ):
+                        st.code(err_msg, language="text")
 
         with tabs[1]:
             status = st.session_state.get("user_qset_last_result")

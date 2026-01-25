@@ -163,6 +163,8 @@
         "login_required": "Please log in first.",
         "start_test_button": "🚀 Let's go",
         "status_unknown_error": "Unknown set error.",
+        "status_error_hint": "Save failed. Open details.",
+        "status_error_title": "❌ Show error details",
         "close_button": "Close",
         "learning_objectives_heading": "Create and upload learning objectives",
         "learning_objectives_caption": "Use the learning-objectives prompt in the \"Fragenset\" tab, send it to an external AI (e.g. ChatGPT or Gemini), generate Markdown, and upload it here.",

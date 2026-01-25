@@ -574,6 +574,8 @@
         "login_required": "Accedi prima.",
         "start_test_button": "🚀 Andiamo",
         "status_unknown_error": "Errore sconosciuto.",
+        "status_error_hint": "Salvataggio fallito. Apri i dettagli.",
+        "status_error_title": "❌ Mostra i dettagli dell'errore",
         "close_button": "Chiudi",
         "learning_objectives_heading": "Crea e carica gli obiettivi formativi",
         "learning_objectives_caption": "Usa il prompt degli obiettivi nell’etichetta «Fragenset», invialo a un’IA esterna (es. ChatGPT o Gemini), fatti generare il Markdown e caricalo qui.",

@@ -573,6 +573,8 @@
         "login_required": "Connecte-toi d'abord.",
         "start_test_button": "🚀 C'est parti",
         "status_unknown_error": "Erreur inconnue.",
+        "status_error_hint": "Échec de l’enregistrement. Voir les détails.",
+        "status_error_title": "❌ Afficher les détails de l’erreur",
         "close_button": "Fermer",
         "learning_objectives_heading": "Créer et téléverser les objectifs d’apprentissage",
         "learning_objectives_caption": "Utilise le prompt des objectifs dans l’onglet « Fragenset », envoie-le à une IA externe (p. ex. ChatGPT ou Gemini), fais générer le Markdown, puis téléverse-le ici.",
