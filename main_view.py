@@ -54,7 +54,13 @@ from user_question_sets import (
 )
 from pdf_export import _normalize_stage_label
 from i18n.context import get_locale, t as translate_ui
-from components import render_question_distribution_chart, close_user_qset_dialog, render_locale_selector, is_owner_of_user_qset
+from components import (
+    render_question_distribution_chart,
+    close_user_qset_dialog,
+    render_locale_selector,
+    is_owner_of_user_qset,
+    _render_user_qset_dialog,
+)
 import pacing_helper as pacing
 from session_manager import verify_admin_session
 
@@ -1862,106 +1868,184 @@ def _render_welcome_splash():
         st.session_state._welcome_splash_dismissed = True
         return
 
-    st.markdown(
-        """
-        <style>
-        [data-testid="stDialogContent"] .splash-scroll {
-            max-height: 420px;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-        }
-        .splash-fallback {
-            max-height: 420px;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    dialog_func = getattr(st, "dialog", None)
-    if callable(dialog_func):
-
-        @dialog_func(_welcome_splash_title())
-        def _welcome_dialog():
-            st.markdown('<div class="splash-scroll">', unsafe_allow_html=True)
-            # If a post-session toast was persisted (e.g. session end), show it
-            # inside the welcome dialog so mobile users don't miss it.
-            post_toast = None
-            try:
-                post_toast = st.session_state.pop("post_session_toast", None)
-            except Exception:
-                post_toast = None
-            if post_toast:
-                # support structured persisted toasts: {key, params}
-                try:
-                    if isinstance(post_toast, dict) and "key" in post_toast:
-                        key = post_toast.get("key")
-                        params = dict(post_toast.get("params", {}) or {})
-                        # resolve nested reason key if present
-                        reason_key = params.pop("reason_key", None)
-                        reason_params = params.pop("reason_params", {}) or {}
-                        if reason_key:
-                            params["reason"] = t(reason_key).format(**(reason_params or {}))
-                        message = t(key).format(**params)
-                    else:
-                        message = str(post_toast)
-                except Exception:
-                    message = str(post_toast)
-                st.info(message)
-
-            st.markdown(splash_content)
-            render_locale_selector(
-                label=_welcome_language_label(),
-                help_text=_welcome_language_help(),
-            )
-            st.markdown('</div>', unsafe_allow_html=True)
-
-            if st.button(_welcome_splash_button(), type="primary", width="stretch"):
-                st.session_state._welcome_splash_dismissed = True
-                st.rerun()
-
-        _welcome_dialog()
-    else:
-        st.markdown('<div class="splash-fallback">', unsafe_allow_html=True)
-        # Show any persisted post-session toast here as well so mobile
-        # users see the message even when the toast overlay would be
-        # obscured by a fullscreen dialog.
-        post_toast = None
-        try:
-            post_toast = st.session_state.pop("post_session_toast", None)
-        except Exception:
-            post_toast = None
-        if post_toast:
-            try:
-                if isinstance(post_toast, dict) and "key" in post_toast:
-                    key = post_toast.get("key")
-                    params = dict(post_toast.get("params", {}) or {})
-                    reason_key = params.pop("reason_key", None)
-                    reason_params = params.pop("reason_params", {}) or {}
-                    if reason_key:
-                        params["reason"] = t(reason_key).format(**(reason_params or {}))
-                    message = t(key).format(**params)
-                else:
-                    message = str(post_toast)
-            except Exception:
-                message = str(post_toast)
-            st.info(message)
-
+    with st.container(border=True):
         st.markdown(splash_content)
         render_locale_selector(
             label=_welcome_language_label(),
             help_text=_welcome_language_help(),
         )
-        st.markdown('</div>', unsafe_allow_html=True)
 
-        if st.button(_welcome_splash_button(), type="primary", width="stretch"):
-            st.session_state._welcome_splash_dismissed = True
-            st.rerun()
+        col_left, col_right = st.columns(2)
+        with col_left:
+            if st.button(
+                translate_ui("welcome.splash.choose_set", default="📂 Fragenset auswählen"),
+                type="secondary",
+                use_container_width=True,
+            ):
+                st.session_state._welcome_flow = "choose_set"
+                st.session_state._flow_launched = False
+                st.session_state._pseudonym_dialog_open = True
+                st.session_state.pop("user_qset_dialog_open", None)
+                st.session_state.pop("_question_select_dialog_open", None)
+                st.session_state._welcome_splash_dismissed = True
+                st.rerun()
+        with col_right:
+            if st.button(
+                translate_ui("welcome.splash.create_ai", default="🤖 Fragenset mit KI erstellen"),
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state._welcome_flow = "create_ai"
+                st.session_state._flow_launched = False
+                st.session_state._pseudonym_dialog_open = True
+                st.session_state.pop("selected_questions_file", None)
+                st.session_state.pop("main_view_question_file_selector", None)
+                st.session_state.pop("question_distribution_expanded", None)
+                st.session_state.pop("_question_select_dialog_open", None)
+                st.session_state.pop("user_qset_dialog_open", None)
+                st.session_state.pop("_active_dialog", None)
+                st.session_state._welcome_splash_dismissed = True
+                st.rerun()
 
-        st.stop()
+        return
 
+
+def _render_pseudonym_gate_dialog(app_config: AppConfig):
+    """Zeigt einen kompakten Dialog zur Pseudonym-Auswahl (temporär oder reserviert)."""
+
+    from config import load_scientists
+    from database import add_user, get_used_pseudonyms, set_recovery_secret, verify_recovery
+
+    def _render_body():
+        st.caption(
+            translate_ui(
+                "welcome.pseudonym.dialog_intro",
+                default="Wähle ein freies Pseudonym. Optional kannst du ein Login-Secret setzen, um es zu reservieren.",
+            )
+        )
+
+        scientists = load_scientists()
+        used = get_used_pseudonyms()
+        available = [s for s in scientists if isinstance(s.get("name"), str) and s["name"] not in used]
+
+        if app_config.admin_user:
+            admin_scientist = next((s for s in scientists if s.get("name") == app_config.admin_user), None)
+            if admin_scientist and admin_scientist not in available:
+                available.append(admin_scientist)
+
+        available.sort(key=lambda s: locale.strxfrm(s["name"]))
+        options = [s["name"] for s in available]
+        scientist_map = {s.get("name"): s.get("contribution") for s in scientists if isinstance(s.get("name"), str)}
+
+        def _fmt(name: str) -> str:
+            contrib = scientist_map.get(name, "")
+            return f"{name} ({contrib})" if contrib else name
+
+        if not options:
+            st.warning(_welcome_pseudonym_no_available_warning())
+            return
+
+        selected_name = st.selectbox(
+            _welcome_pseudonym_select_label_with_count(len(options)),
+            options=options,
+            index=None,
+            placeholder=_welcome_pseudonym_select_placeholder(),
+            format_func=_fmt,
+            key="pseudonym_dialog_selector",
+        )
+
+        # Optional Secret zur Reservierung
+        secret = st.text_input(
+            _welcome_pseudonym_reservation_label(),
+            type="password",
+            max_chars=32,
+            placeholder=_welcome_pseudonym_reservation_placeholder(),
+            key="pseudonym_dialog_secret",
+        )
+
+        # Mindestlänge prüfen
+        try:
+            min_len = int(getattr(app_config, "recovery_min_length", 6))
+            allow_short = bool(getattr(app_config, "recovery_allow_short", False))
+        except Exception:
+            min_len = 6
+            allow_short = False
+
+        secret_too_short = False
+        if secret and (not allow_short) and len(secret) < min_len:
+            st.warning(_welcome_pseudonym_secret_too_short(min_len))
+            secret_too_short = True
+
+        disabled = (not selected_name) or secret_too_short
+        if st.button(
+            translate_ui("welcome.pseudonym.dialog_start", default="Start"),
+            type="primary",
+            use_container_width=True,
+            disabled=disabled,
+            key="pseudonym_dialog_start_btn",
+        ):
+            try:
+                user_name = str(selected_name).strip()
+                user_id_hash = get_user_id_hash(user_name)
+                add_user(user_id_hash, user_name)
+                st.session_state['selected_pseudonym'] = user_name
+                st.session_state['main_view_pseudonym_selector'] = user_name
+                st.session_state['user_id'] = user_name
+                st.session_state['user_id_hash'] = user_id_hash
+
+                if secret:
+                    normalized_secret = str(secret).strip()
+                    ok = set_recovery_secret(user_id_hash, normalized_secret)
+                    if not ok:
+                        st.error(_welcome_pseudonym_reserve_error())
+                        return
+                st.session_state['_pseudonym_dialog_open'] = False
+                st.session_state['_pseudonym_ready'] = True
+                st.rerun()
+            except Exception as exc:
+                st.error(_welcome_pseudonym_reserve_error_with_reason(str(exc)))
+
+        # Wiederherstellung: „Ich habe bereits ein Pseudonym“
+        with st.expander(_welcome_pseudonym_recover_expander(), expanded=False):
+            rec_pseudo = st.text_input(
+                _welcome_pseudonym_recover_pseudonym_label(),
+                key="pseudonym_dialog_recover_name",
+            )
+            rec_secret = st.text_input(
+                _welcome_pseudonym_recover_secret_label(),
+                type="password",
+                key="pseudonym_dialog_recover_secret",
+            )
+
+            if st.button(
+                _welcome_pseudonym_recover_button(),
+                type="secondary",
+                use_container_width=True,
+                disabled=not (rec_pseudo and rec_secret),
+                key="pseudonym_dialog_recover_btn",
+            ):
+                try:
+                    user_name = str(rec_pseudo).strip()
+                    secret_val = str(rec_secret).strip()
+                    user_hash = verify_recovery(user_name, secret_val)
+                    if not user_hash:
+                        st.error(_welcome_pseudonym_recover_failure())
+                        return
+
+                    st.session_state['selected_pseudonym'] = user_name
+                    st.session_state['main_view_pseudonym_selector'] = user_name
+                    st.session_state['user_id'] = user_name
+                    st.session_state['user_id_hash'] = user_hash
+                    st.session_state['_pseudonym_dialog_open'] = False
+                    st.session_state['_pseudonym_ready'] = True
+                    st.success(_welcome_pseudonym_recover_success())
+                    st.rerun()
+                except Exception as exc:
+                    st.error(_welcome_pseudonym_reserve_error_with_reason(str(exc)))
+
+    # Immer inline rendern, um Mehrfach-Dialog-Konflikte zu vermeiden.
+    st.subheader(_welcome_pseudonym_heading())
+    _render_body()
 
 
 
@@ -2007,6 +2091,73 @@ def render_welcome_page(app_config: AppConfig):
             del st.session_state['show_pseudonym_reminder']
     except Exception:
         pass
+
+    # Splash (zwingt zur Flow-Wahl und Pseudonym-Gate)
+    _render_welcome_splash()
+    if not st.session_state.get("_welcome_splash_dismissed", False):
+        st.stop()
+
+    # Pseudonym-Gate: niemand gelangt ohne Pseudonym in die App.
+    user_has_pseudonym = bool(
+        st.session_state.get("user_id")
+        or st.session_state.get("selected_pseudonym")
+        or st.session_state.get("main_view_pseudonym_selector")
+    )
+
+    # Falls über die Splash-CTA ein Flow gewählt wurde, öffne das Pseudonym-Dialog.
+    if not user_has_pseudonym:
+        # Reset Flow-Zustände, damit ein neuer Einstieg sauber funktioniert.
+        st.session_state["_flow_launched"] = False
+        st.session_state["_welcome_flow"] = st.session_state.get("_welcome_flow")  # keep last intent if set
+        st.session_state.pop("_question_select_dialog_open", None)
+        st.session_state.pop("user_qset_dialog_open", None)
+        st.session_state["_pseudonym_dialog_open"] = True
+    if st.session_state.get("_pseudonym_dialog_open"):
+        # Verhindere Mehrfach-Dialogs: schließe ggf. andere Dialog-Flags bevor wir öffnen.
+        st.session_state.pop("user_qset_dialog_open", None)
+        st.session_state.pop("_question_select_dialog_open", None)
+        _render_pseudonym_gate_dialog(app_config)
+    else:
+        st.session_state["_pseudonym_dialog_open"] = False
+    if not user_has_pseudonym:
+        return
+
+    # Reset zum Splash anstoßen, wenn der KI-Dialog bewusst beendet wurde
+    if st.session_state.pop("_reset_to_splash", False):
+        for key in [
+            "user_id",
+            "user_id_hash",
+            "selected_pseudonym",
+            "main_view_pseudonym_selector",
+            "session_id",
+            "selected_questions_file",
+            "main_view_question_file_selector",
+            "question_distribution_expanded",
+        ]:
+            st.session_state.pop(key, None)
+        st.session_state["_welcome_splash_dismissed"] = False
+        st.session_state["_welcome_flow"] = None
+        st.session_state["_last_welcome_flow"] = None
+        st.session_state["_flow_launched"] = False
+        st.rerun()
+
+    # Nach Pseudonymwahl den gewünschten Flow starten.
+    flow_choice = st.session_state.get("_welcome_flow")
+    if flow_choice and user_has_pseudonym and not st.session_state.get("_flow_launched"):
+        if flow_choice == "create_ai":
+            st.session_state["user_qset_dialog_open"] = True
+            st.session_state["_active_dialog"] = "user_qset"
+            st.session_state["_force_inline_user_qset"] = True
+        elif flow_choice == "choose_set":
+            st.session_state["_question_select_dialog_open"] = True
+        st.session_state["_flow_launched"] = True
+        st.session_state["_last_welcome_flow"] = flow_choice
+        st.session_state["_welcome_flow"] = None
+        # Beim AI-Flow sicherstellen, dass kein altes Set automatisch startet
+        if flow_choice == "create_ai":
+            st.session_state.pop("selected_questions_file", None)
+            st.session_state.pop("main_view_question_file_selector", None)
+            st.session_state.pop("question_distribution_expanded", None)
 
     # --- Fragenset-Vorauswahl (Session-State + Query-Parameter) ---
     core_question_files = list_question_files()
@@ -2118,10 +2269,88 @@ def render_welcome_page(app_config: AppConfig):
     # user to actively choose a Fragenset (similar UX to the pseudonym selectbox).
 
     selected_file = st.session_state.get("selected_questions_file")
+    user_has_pseudonym = bool(st.session_state.get("selected_pseudonym") or st.session_state.get("main_view_pseudonym_selector"))
+
+    # Wenn der KI-Flow aktiv ist, rendere ausschließlich den KI-Dialog und blocke die alte Set-Auswahl.
+    last_flow = st.session_state.get("_last_welcome_flow")
+    if last_flow == "create_ai":
+        st.session_state["_force_inline_user_qset"] = True
+        st.session_state["user_qset_dialog_open"] = True
+        st.session_state["_active_dialog"] = "user_qset"
+        st.session_state.pop("selected_questions_file", None)
+        st.session_state.pop("main_view_question_file_selector", None)
+        st.session_state.pop("question_distribution_expanded", None)
+        try:
+            from components import _render_user_qset_dialog
+            _render_user_qset_dialog(app_config)
+        except Exception:
+            pass
+        st.stop()
+
+    # CTA: eigener Fragenset ohne Vorauswahl
+    cta_col_left, cta_col_right = st.columns([1, 1])
+    with cta_col_left:
+        if st.button(
+            translate_ui("welcome.create_own_set", default="🧠 Eigenen Fragenset erstellen"),
+            key="welcome_create_own_set_btn",
+            disabled=not user_has_pseudonym,
+        ):
+            try:
+                st.session_state.pop("selected_questions_file", None)
+                st.session_state.pop("main_view_question_file_selector", None)
+                st.session_state.pop("question_distribution_expanded", None)
+                # Auto-Login mit dem gewählten Pseudonym, falls noch nicht gesetzt
+                user_name = st.session_state.get('selected_pseudonym') or st.session_state.get('main_view_pseudonym_selector')
+                if user_name:
+                    user_name = str(user_name).strip()
+                    try:
+                        user_id_hash = get_user_id_hash(user_name)
+                    except Exception:
+                        user_id_hash = None
+                    if user_id_hash:
+                        try:
+                            add_user(user_id_hash, user_name)
+                        except Exception:
+                            pass
+                        st.session_state['user_id'] = user_name
+                        st.session_state['user_id_hash'] = user_id_hash
+                st.session_state["user_qset_dialog_open"] = True
+                st.session_state["_active_dialog"] = "user_qset"
+            except Exception:
+                pass
+    with cta_col_right:
+        st.caption(
+            translate_ui(
+                "welcome.create_own_set_hint",
+                default="Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
+            )
+        )
+
+    if not selected_file:
+        # Empty state: kein Fragenset aktiv
+        st.info(
+            translate_ui(
+                "welcome.empty_state",
+                default="Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erstellen.",
+            )
+        )
+        st.button(
+            translate_ui("welcome.empty_state_select", default="📂 Vorhandenes Fragenset wählen"),
+            key="welcome_empty_select_btn",
+            on_click=lambda: None,
+        )
+        # Continue to render selection below so user can choose or create.
+
+    # Falls der User den KI-Dialog explizit geöffnet hat (z. B. über den CTA),
+    # rendere ihn hier direkt auf der Welcome-Seite.
+    try:
+        if st.session_state.get("user_qset_dialog_open"):
+            _render_user_qset_dialog(app_config)
+    except Exception:
+        pass
     # Do not force a selection here; allow the welcome UI to prompt the user.
     if selected_file:
         _sync_questions_query_param(selected_file)
-    _render_welcome_splash()
     # (Note) Sidebar rendering is handled by `components.render_sidebar`.
 
     # --- Auswahl des Fragensets (mit Filterung) ---
@@ -2231,6 +2460,45 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             pass
         return label
+
+    # Dialog: Fragenset-Auswahl (falls Flow "choose_set" gewählt wurde).
+    def _render_question_select_dialog():
+        dialog_func = getattr(st, "dialog", None)
+        if not callable(dialog_func):
+            return
+
+        @dialog_func(translate_ui("welcome.select.label", default="Wähle ein Set:"), width="large")
+        def _select_dialog():
+            st.caption(
+                translate_ui(
+                    "welcome.empty_state_select",
+                    default="📂 Vorhandenes Fragenset wählen",
+                )
+            )
+            selected = st.selectbox(
+                translate_ui("welcome.select.label", default="Wähle ein Set:"),
+                options=valid_question_files,
+                index=None,
+                format_func=format_filename,
+                key="question_select_dialog",
+            )
+            if st.button(
+                translate_ui("welcome.select.start_button", default="Start"),
+                type="primary",
+                use_container_width=True,
+                disabled=not bool(selected),
+                key="question_select_dialog_start",
+            ):
+                if selected:
+                    st.session_state["selected_questions_file"] = selected
+                    st.session_state["main_view_question_file_selector"] = selected
+                    st.session_state["_question_select_dialog_open"] = False
+                    st.session_state["_welcome_flow"] = None
+                    st.session_state["_flow_launched"] = False
+                    st.rerun()
+
+    if st.session_state.get("_question_select_dialog_open"):
+        _render_question_select_dialog()
 
     st.markdown(
         f"<h3 style='text-align: center;'>{_welcome_section_header()}</h3>",
@@ -3227,10 +3495,9 @@ def render_welcome_page(app_config: AppConfig):
                     )
 
         question_selected_for_render = st.session_state.get("selected_questions_file") or st.session_state.get("main_view_question_file_selector")
+        question_selected_flag = bool(question_selected_for_render)
 
-        if not question_selected_for_render:
-            st.info(_welcome_pseudonym_question_required())
-        else:
+        if question_selected_flag:
             # --- Sortierreihenfolge der Fragen ---
             has_stages = _has_cognitive_stages(questions)
             sort_options = {
@@ -3272,7 +3539,10 @@ def render_welcome_page(app_config: AppConfig):
                 format_func=lambda k: tempo_options.get(k, k),
                 key='selected_tempo'
             )
-            
+        else:
+            st.info(_welcome_pseudonym_question_required())
+
+        with st.container():
             # --- Login-Formular im Hauptbereich ---
             from config import load_scientists
             from database import (
@@ -3672,30 +3942,30 @@ def render_welcome_page(app_config: AppConfig):
                 secret_too_short = st.session_state.get('_recovery_secret_too_short', False)
                 # Determine effective widget/session selections to make the disabled
                 # computation robust across reruns and after clearing/reselecting.
-                pseudonym_selected = (
-                    st.session_state.get('selected_pseudonym')
-                    or st.session_state.get('main_view_pseudonym_selector')
-                )
-                question_selected = (
-                    st.session_state.get("selected_questions_file")
-                    or st.session_state.get("main_view_question_file_selector")
-                )
-    
-                # If a recovery attempt is in-flight (form temp values or persistent
-                # recovery keys present), hide the duplicate 'Start test' button to
-                # avoid redundancy. Otherwise render the standard pseudonym start
-                # button.
-                # Deaktiviere den Button, wenn keine Auswahl möglich ist.
-                if st.button(
-                    _welcome_pseudonym_test_button(),
-                    type="primary",
-                    width="stretch",
-                    disabled=bool(
-                        (not pseudonym_selected)
-                        or (not question_selected)
-                        or (recovery_secret_new and secret_too_short)
-                    ),
-                ):
+            pseudonym_selected = (
+                st.session_state.get('selected_pseudonym')
+                or st.session_state.get('main_view_pseudonym_selector')
+            )
+            question_selected = (
+                st.session_state.get("selected_questions_file")
+                or st.session_state.get("main_view_question_file_selector")
+            )
+
+            # If a recovery attempt is in-flight (form temp values or persistent
+            # recovery keys present), hide the duplicate 'Start test' button to
+            # avoid redundancy. Otherwise render the standard pseudonym start
+            # button.
+            # Deaktiviere den Button, wenn keine Auswahl möglich ist.
+            if st.button(
+                _welcome_pseudonym_test_button(),
+                type="primary",
+                width="stretch",
+                disabled=bool(
+                    (not pseudonym_selected)
+                    or (not question_selected)
+                    or (recovery_secret_new and secret_too_short)
+                ),
+            ):
                         # Normalize selected pseudonym to avoid accidental surrounding whitespace
                         try:
                             user_name = (

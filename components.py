@@ -376,12 +376,13 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
     return caption_text
 
 
-def close_user_qset_dialog(clear_results: bool = False, clear_active_toast: bool = False) -> None:
+def close_user_qset_dialog(clear_results: bool = False, clear_active_toast: bool = False, reset_to_splash: bool = False) -> None:
     """Close the user question-set upload dialog and optionally clear status.
 
     Parameters:
     - clear_results: remove `user_qset_last_result` and `user_qset_last_uploaded_name` from session_state.
     - clear_active_toast: remove `user_qset_active_toast` from session_state.
+    - reset_to_splash: mark that we should return to the splash (logout flow).
 
     This helper centralizes the small session_state mutations that multiple
     callsites previously duplicated. It's intentionally conservative and
@@ -395,6 +396,10 @@ def close_user_qset_dialog(clear_results: bool = False, clear_active_toast: bool
 
     try:
         st.session_state["user_qset_dialog_open"] = False
+    except Exception:
+        pass
+    try:
+        st.session_state["_force_inline_user_qset"] = False
     except Exception:
         pass
 
@@ -411,6 +416,16 @@ def close_user_qset_dialog(clear_results: bool = False, clear_active_toast: bool
     if clear_active_toast:
         try:
             st.session_state.pop("user_qset_active_toast", None)
+        except Exception:
+            pass
+
+    if reset_to_splash:
+        try:
+            st.session_state["_reset_to_splash"] = True
+            st.session_state["_last_welcome_flow"] = None
+            st.session_state["_welcome_flow"] = None
+            st.session_state["_flow_launched"] = False
+            st.session_state["_welcome_splash_dismissed"] = False
         except Exception:
             pass
 
@@ -507,8 +522,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         return
     st.session_state["_active_dialog"] = "user_qset"
 
-    @st.dialog(_dialog_text("title", default="Fragenset mit KI erstellen"), width="wide")
-    def _dialog() -> None:
+    def _render_body() -> None:
         st.markdown(
             _dialog_text(
                 "intro",
@@ -912,10 +926,35 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _dialog_text("close_button", default="Dialog schließen"),
             key="user_qset_close_btn",
         ):
-            close_user_qset_dialog(clear_results=True)
+            close_user_qset_dialog(clear_results=True, reset_to_splash=True)
             st.rerun()
 
-    _dialog()
+    force_inline = st.session_state.get("_force_inline_user_qset", False)
+
+    if force_inline:
+        with st.container(border=True):
+            st.subheader(_dialog_text("title", default="Fragenset mit KI erstellen"))
+            _render_body()
+    else:
+        @st.dialog(_dialog_text("title", default="Fragenset mit KI erstellen"), width="wide")
+        def _dialog() -> None:
+            # Deaktiviert den Standard-Schließen-Button (X) des Dialogs, damit nur unser eigener
+            # "Dialog schließen"-Button den Flow beendet.
+            st.markdown(
+                """
+                <style>
+                [data-testid="stDialog"] button[aria-label="Close"] {
+                    display: none !important;
+                }
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
+            # Dialog liefert kein explizites close-callback; setze Status vor Render-Ende.
+            st.session_state["_active_dialog"] = "user_qset"
+            _render_body()
+
+        _dialog()
 
 
 def _end_test_session(questions: QuestionSet, app_config: AppConfig):

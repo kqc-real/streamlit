@@ -1065,7 +1065,9 @@
     "welcome": {
         "splash": {
             "title": "🎓 MC-Test App",
-            "button": "🚀 Starten"
+            "button": "🚀 Starten",
+            "choose_set": "📂 Fragenset auswählen",
+            "create_ai": "🤖 Fragenset mit KI erstellen"
         },
         "cleanup": {
             "toast": "{removed} temporäre Sets aufgeräumt.",
@@ -1087,13 +1089,22 @@
             "count_many": "{n} Fragen",
             "sets_one": "{n} Fragenset",
             "sets_many": "{n} Fragensets",
-            "label_with_counts": "{base} ({sets}, {questions})"
+            "label_with_counts": "{base} ({sets}, {questions})",
+            "start_button": "Start"
         },
         "search": {
             "label": "🔎 Schnellsuche (Titel/Slug)",
             "placeholder": "z. B. \"Mathe\" oder \"Scrum\"",
             "no_results": "Keine Treffer für \"{term}\" – zeige alle Fragensets.",
             "too_short": "Bitte mindestens 3 Zeichen für die Suche eingeben."
+        },
+        "create_own_set": "🧠 Eigenen Fragenset erstellen",
+        "create_own_set_hint": "Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
+        "empty_state": "Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erstellen.",
+        "empty_state_select": "📂 Vorhandenes Fragenset wählen",
+        "pseudonym": {
+            "dialog_intro": "Wähle ein freies Pseudonym. Optional kannst du es mit einem Login-Secret reservieren.",
+            "dialog_start": "Start"
         },
         "languages_available": "Sprachen der Fragensets: {languages}",
         "section": {

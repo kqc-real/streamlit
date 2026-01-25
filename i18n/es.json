@@ -1135,7 +1135,9 @@
     "welcome": {
         "splash": {
             "title": "🎓 App MC-Test",
-            "button": "🚀 Vamos"
+            "button": "🚀 Vamos",
+            "choose_set": "📂 Elegir un set",
+            "create_ai": "🤖 Crear un set con IA"
         },
         "cleanup": {
             "toast": "{removed} sets temporales limpiados.",
@@ -1157,7 +1159,16 @@
             "count_many": "{n} preguntas",
             "sets_one": "{n} set",
             "sets_many": "{n} sets",
-            "label_with_counts": "{base} ({sets}, {questions})"
+            "label_with_counts": "{base} ({sets}, {questions})",
+            "start_button": "Start"
+        },
+        "create_own_set": "🧠 Crear tu propio set de preguntas",
+        "create_own_set_hint": "Elige solo tu seudónimo; luego sube o pega el JSON.",
+        "empty_state": "Ningún set activo. Elige uno existente o crea el tuyo.",
+        "empty_state_select": "📂 Elegir un set existente",
+        "pseudonym": {
+            "dialog_intro": "Elige un seudónimo libre. Opcional: reserva con un secreto de inicio de sesión.",
+            "dialog_start": "Start"
         },
         "search": {
             "label": "🔎 Búsqueda rápida (título/slug)",

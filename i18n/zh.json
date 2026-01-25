@@ -1138,7 +1138,9 @@
     "welcome": {
         "splash": {
             "title": "🎓 MC-Test App",
-            "button": "🚀 开始"
+            "button": "🚀 开始",
+            "choose_set": "📂 选择题库",
+            "create_ai": "🤖 用 AI 创建题库"
         },
         "cleanup": {
             "toast": "清理了 {removed} 个临时题库。",
@@ -1160,7 +1162,16 @@
             "count_many": "{n} 个问题",
             "sets_one": "{n} 个题库",
             "sets_many": "{n} 个题库",
-            "label_with_counts": "{base}（{sets}，{questions}）"
+            "label_with_counts": "{base}（{sets}，{questions}）",
+            "start_button": "Start"
+        },
+        "create_own_set": "🧠 创建你自己的题库",
+        "create_own_set_hint": "只需选择化名；然后上传或粘贴 JSON。",
+        "empty_state": "当前没有激活的题库。选择已有题库或创建自己的题库。",
+        "empty_state_select": "📂 选择现有题库",
+        "pseudonym": {
+            "dialog_intro": "选择一个未被占用的化名。可选：设置登录密钥以保留它。",
+            "dialog_start": "Start"
         },
         "search": {
             "label": "🔎 快速搜索（标题/slug）",
