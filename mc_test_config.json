@@ -1,5 +1,7 @@
 {
   "scoring_mode": "positive_only",
   "show_top5_public": true,
-  "test_duration_minutes": 60
+  "test_duration_minutes": 60,
+  "user_qset_reserved_retention_days": 42,
+  "user_qset_cleanup_hours": 48
 }
