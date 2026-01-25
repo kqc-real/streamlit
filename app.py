@@ -150,29 +150,11 @@ def main():
         render_welcome_page(app_config)
         st.stop()
 
-    # Falls ein Pseudonym existiert, ein Fragenset gewählt wurde, aber noch
-    # keine Session gestartet ist, automatisch eine neue Testsitzung starten.
-    if (
-        st.session_state.get("selected_questions_file")
-        and not st.session_state.get("session_id")
-    ):
-        try:
-            user_name = st.session_state.get("user_id") or ""
-            user_hash = st.session_state.get("user_id_hash") or get_user_id_hash(user_name)
-            st.session_state["user_id_hash"] = user_hash
-            tempo = st.session_state.get("selected_tempo", "normal")
-            session_id = start_test_session(user_hash, st.session_state["selected_questions_file"], tempo=tempo)
-            if session_id:
-                st.session_state["session_id"] = session_id
-                initialize_session_state(questions, app_config)
-                st.session_state["test_started"] = True
-                st.session_state["start_zeit"] = pd.Timestamp.now()
-                try:
-                    st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                except Exception:
-                    pass
-        except Exception:
-            pass
+    # Falls noch keine Testsitzung gestartet wurde, zeige weiterhin die Welcome-Page
+    # (mit Set-Features) und warte auf den expliziten Start-Button.
+    if not st.session_state.get("session_id") or not st.session_state.get("test_started"):
+        render_welcome_page(app_config)
+        st.stop()
 
     # --- 3. Hauptanwendung für eingeloggte Benutzer ---
     # Lade Fortschritt, entscheide ob die finale Zusammenfassung gezeigt wird,

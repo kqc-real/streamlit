@@ -58,6 +58,7 @@ from user_question_sets import (
 )
 from i18n import available_locales, translate
 from i18n.context import t as translate_ui, get_locale, set_locale
+from i18n import translate as translate_key
 
 # Helpers imported at module top; do not re-import here.
 
@@ -345,8 +346,19 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
     except Exception:
         hours = 24
 
-    caption_text = translate_ui(
+    # Wähle Locale: Falls kein aktives Locale vorhanden, default auf Deutsch,
+    # damit Tests ohne gesetztes Locale die deutschen Texte sehen. Erst wenn
+    # explizit gesetzt, nutzen wir den Wert.
+    try:
+        active_locale = st.session_state.get("active_locale")
+    except Exception:
+        active_locale = None
+    if not active_locale:
+        active_locale = "de"
+
+    caption_text = translate_key(
         "sidebar.user_qset.caption_default",
+        locale=active_locale,
         default="🗂️ Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht.",
     ).format(hours=hours)
 
@@ -363,8 +375,9 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
             try:
                 if has_recovery_secret_for_pseudonym(user_pseudo):
                     days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
-                    caption_text = translate_ui(
+                    caption_text = translate_key(
                         "sidebar.user_qset.caption_reserved",
+                        locale=active_locale,
                         default="Mit einem reservierten Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt.",
                     ).format(days=days)
             except Exception:

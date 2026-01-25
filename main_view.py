@@ -2149,7 +2149,7 @@ def render_welcome_page(app_config: AppConfig):
             st.session_state["_active_dialog"] = "user_qset"
             st.session_state["_force_inline_user_qset"] = True
         elif flow_choice == "choose_set":
-            st.session_state["_question_select_dialog_open"] = True
+            st.session_state["_question_select_dialog_open"] = False
         st.session_state["_flow_launched"] = True
         st.session_state["_last_welcome_flow"] = flow_choice
         st.session_state["_welcome_flow"] = None
@@ -2287,46 +2287,48 @@ def render_welcome_page(app_config: AppConfig):
             pass
         st.stop()
 
-    # CTA: eigener Fragenset ohne Vorauswahl
-    cta_col_left, cta_col_right = st.columns([1, 1])
-    with cta_col_left:
-        if st.button(
-            translate_ui("welcome.create_own_set", default="🧠 Eigenen Fragenset erstellen"),
-            key="welcome_create_own_set_btn",
-            disabled=not user_has_pseudonym,
-        ):
-            try:
-                st.session_state.pop("selected_questions_file", None)
-                st.session_state.pop("main_view_question_file_selector", None)
-                st.session_state.pop("question_distribution_expanded", None)
-                # Auto-Login mit dem gewählten Pseudonym, falls noch nicht gesetzt
-                user_name = st.session_state.get('selected_pseudonym') or st.session_state.get('main_view_pseudonym_selector')
-                if user_name:
-                    user_name = str(user_name).strip()
-                    try:
-                        user_id_hash = get_user_id_hash(user_name)
-                    except Exception:
-                        user_id_hash = None
-                    if user_id_hash:
+    last_flow = st.session_state.get("_last_welcome_flow")
+    if last_flow != "choose_set":
+        # CTA: eigener Fragenset ohne Vorauswahl
+        cta_col_left, cta_col_right = st.columns([1, 1])
+        with cta_col_left:
+            if st.button(
+                translate_ui("welcome.create_own_set", default="🧠 Eigenen Fragenset erstellen"),
+                key="welcome_create_own_set_btn",
+                disabled=not user_has_pseudonym,
+            ):
+                try:
+                    st.session_state.pop("selected_questions_file", None)
+                    st.session_state.pop("main_view_question_file_selector", None)
+                    st.session_state.pop("question_distribution_expanded", None)
+                    # Auto-Login mit dem gewählten Pseudonym, falls noch nicht gesetzt
+                    user_name = st.session_state.get('selected_pseudonym') or st.session_state.get('main_view_pseudonym_selector')
+                    if user_name:
+                        user_name = str(user_name).strip()
                         try:
-                            add_user(user_id_hash, user_name)
+                            user_id_hash = get_user_id_hash(user_name)
                         except Exception:
-                            pass
-                        st.session_state['user_id'] = user_name
-                        st.session_state['user_id_hash'] = user_id_hash
-                st.session_state["user_qset_dialog_open"] = True
-                st.session_state["_active_dialog"] = "user_qset"
-            except Exception:
-                pass
-    with cta_col_right:
-        st.caption(
-            translate_ui(
-                "welcome.create_own_set_hint",
-                default="Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
+                            user_id_hash = None
+                        if user_id_hash:
+                            try:
+                                add_user(user_id_hash, user_name)
+                            except Exception:
+                                pass
+                            st.session_state['user_id'] = user_name
+                            st.session_state['user_id_hash'] = user_id_hash
+                    st.session_state["user_qset_dialog_open"] = True
+                    st.session_state["_active_dialog"] = "user_qset"
+                except Exception:
+                    pass
+        with cta_col_right:
+            st.caption(
+                translate_ui(
+                    "welcome.create_own_set_hint",
+                    default="Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
+                )
             )
-        )
 
-    if not selected_file:
+    if not selected_file and last_flow != "choose_set":
         # Empty state: kein Fragenset aktiv
         st.info(
             translate_ui(
@@ -3539,10 +3541,42 @@ def render_welcome_page(app_config: AppConfig):
                 format_func=lambda k: tempo_options.get(k, k),
                 key='selected_tempo'
             )
+            # --- Start-Button (nach Auswahl) ---
+            user_name = st.session_state.get("user_id")
+            can_start = user_name and question_selected_for_render and not st.session_state.get("session_id")
+            _, start_col, _ = st.columns([1, 2, 1])
+            with start_col:
+                if st.button(
+                    translate_ui("welcome.start_test_button", default="🚀 Test beginnen"),
+                    type="primary",
+                    disabled=not bool(can_start),
+                    key="welcome_start_after_select",
+                    use_container_width=True,
+                ):
+                    try:
+                        # Lokaler Import, um zyklische Abhängigkeiten zu vermeiden
+                        from database import start_test_session, add_user as db_add_user
+                        user_hash = st.session_state.get("user_id_hash") or get_user_id_hash(user_name)
+                        st.session_state["user_id_hash"] = user_hash
+                        db_add_user(user_hash, user_name)
+                        tempo = st.session_state.get("selected_tempo", "normal")
+                        session_id = start_test_session(user_hash, question_selected_for_render, tempo=tempo)
+                        if session_id:
+                            st.session_state["session_id"] = session_id
+                            initialize_session_state(questions, app_config)
+                            st.session_state["test_started"] = True
+                            st.session_state["start_zeit"] = pd.Timestamp.now()
+                            try:
+                                st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                            except Exception:
+                                pass
+                            st.rerun()
+                    except Exception:
+                        st.error(translate_ui("welcome.pseudonym.database_error", default="Fehler beim Starten des Tests."))
         else:
             st.info(_welcome_pseudonym_question_required())
 
-        with st.container():
+        if False:
             # --- Login-Formular im Hauptbereich ---
             from config import load_scientists
             from database import (
