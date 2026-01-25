@@ -549,7 +549,7 @@
     },
     "dialog": {
         "title": "Fragenset mit KI erstellen",
-        "intro": "Wähl den passenden Prompt für dein Ziel (Lernkarten oder Quizze) und kopier ihn in deine KI.",
+        "intro": "Nutze die Prompts im Tab \"Fragenset\", gib sie an deine KI (z. B. ChatGPT oder Gemini), lass MC-Fragenset und optionale Lernziele erzeugen und lade anschließend JSON bzw. Markdown in den passenden Tabs hoch.",
         "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)**: Top-Wahl für diese App. Perfekt für Formeln & komplexe Karten.\n- **[Kahoot](https://kahoot.com)**: Optimiert für Kahoot-Limits (kurze Texte, Zeitlimits).\n- **[arsnova.click](https://arsnova.click)**: Ideal für das Hochschul-Tool (Markdown, LaTeX).",
         "prompt_toggle_button": "👁️ Anzeigen / Verbergen",
         "prompt_download_button": "⬇️ Download",
@@ -561,6 +561,7 @@
         "upload_heading": "Set hochladen",
         "upload_warning": "⚠️ Max. 30 Fragen & 5 MB erlaubt.",
         "upload_info": "ℹ️ Dein Set ist öffentlich. Temporäre Sets leben {hours} Std (oder {days} Tage mit reserviertem Pseudonym).",
+        "uploader_mode": "Wie möchtest du dein Fragenset hinzufügen?",
         "uploader_label": "📁 JSON-Datei hochladen",
         "uploader_help": "Format muss passen. Max 30 Fragen, max 5 MB.",
         "upload_validate_button": "✅ Prüfen & Speichern",
@@ -568,11 +569,20 @@
         "alternative_caption": "Paste den JSON-Output deiner KI einfach hier rein.",
         "text_area_label": "📋 JSON-Inhalt",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
+        "clear_text_button": "🧹 Inhalt leeren",
         "status_success": "{label} gesichert – {count} Fragen startklar.",
         "login_required": "Bitte erst anmelden, dann starten.",
         "start_test_button": "🚀 Loslegen",
         "status_unknown_error": "Unbekannter Fehler im Set.",
-        "close_button": "Schließen"
+        "close_button": "Schließen",
+        "learning_objectives_heading": "Lernziele erzeugen und hochladen",
+        "learning_objectives_caption": "Nutze im Tab \"Fragenset\" den Lernziele-Prompt im Prompt-Expander, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
+        "learning_objectives_hint_save_first": "Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
+        "learning_objectives_uploader": "📘 Lernziele als Markdown hochladen",
+        "learning_objectives_help": "Wir benennen automatisch passend zum Fragenset.",
+        "learning_objectives_save_button": "💾 Lernziele speichern",
+        "learning_objectives_success": "Lernziele gespeichert als {filename}. Sie werden im Lernziele-Button deines Fragensets angezeigt.",
+        "learning_objectives_error": "Lernziele konnten nicht gespeichert werden: {error}"
     },
     "user_qset": {
         "login_required": "Bitte anmelden zum Starten.",

@@ -138,7 +138,7 @@
     },
     "dialog": {
         "title": "Create Set with AI",
-        "intro": "Pick the prompt matching your goal (Flashcards or Quizzes) and copy it to your AI.",
+        "intro": "Use the prompts in the \"Fragenset\" tab, send them to your AI (e.g. ChatGPT or Gemini) to create the MC set and optional learning objectives, then upload/paste the JSON and upload the Markdown in the matching tabs.",
         "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)**: Top choice. Best for formulas & complex cards.\n- **[Kahoot](https://kahoot.com)**: Tuned for Kahoot limits (text length, time).\n- **[arsnova.click](https://arsnova.click)**: Optimized for the uni tool (Markdown, LaTeX).",
         "prompt_toggle_button": "👁️ Show / Hide",
         "prompt_download_button": "⬇️ Download",
@@ -150,6 +150,7 @@
         "upload_heading": "Upload Set",
         "upload_warning": "⚠️ Max 30 questions & 5 MB allowed.",
         "upload_info": "ℹ️ Your set is public. Temp sets last {hours} hrs (or {days} days if reserved).",
+        "uploader_mode": "How do you want to add your set?",
         "uploader_label": "📁 Upload JSON file",
         "uploader_help": "Must match format. Max 30 questions, max 5 MB.",
         "upload_validate_button": "✅ Validate & Save",
@@ -157,11 +158,20 @@
         "alternative_caption": "Paste the JSON output from your AI here.",
         "text_area_label": "📋 JSON Content",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
+        "clear_text_button": "🧹 Clear content",
         "status_success": "{label} saved – {count} questions ready.",
         "login_required": "Please log in first.",
         "start_test_button": "🚀 Let's go",
         "status_unknown_error": "Unknown set error.",
-        "close_button": "Close"
+        "close_button": "Close",
+        "learning_objectives_heading": "Create and upload learning objectives",
+        "learning_objectives_caption": "Use the learning-objectives prompt in the \"Fragenset\" tab, send it to an external AI (e.g. ChatGPT or Gemini), generate Markdown, and upload it here.",
+        "learning_objectives_hint_save_first": "Save your question set first, then upload the learning objectives.",
+        "learning_objectives_uploader": "📘 Upload learning objectives (Markdown)",
+        "learning_objectives_help": "We auto-name the file to match your set.",
+        "learning_objectives_save_button": "💾 Save learning objectives",
+        "learning_objectives_success": "Learning objectives saved as {filename}. They appear via the learning objectives button for your set.",
+        "learning_objectives_error": "Could not save learning objectives: {error}"
     },
     "user_qset": {
         "login_required": "Log in to start.",

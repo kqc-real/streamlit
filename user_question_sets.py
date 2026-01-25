@@ -67,6 +67,7 @@ PROMPT_FILES: List[tuple[str, str]] = [
     ("Anki-Prompt", "KI_PROMPT.md"),
     ("Kahoot-Prompt", "KI_PROMPT_KAHOOT.md"),
     ("arsnova.click-Prompt", "KI_PROMPT_ARSNOVA_CLICK.md"),
+    ("Lernziele-Prompt", "KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md"),
 ]
 
 

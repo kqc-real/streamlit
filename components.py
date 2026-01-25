@@ -38,8 +38,9 @@ import html
 import logging
 import re
 from datetime import datetime
+from pathlib import Path
 
-from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX
+from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX, get_package_dir
 from logic import calculate_score, is_test_finished
 from database import update_bookmarks
 from pdf_export import (
@@ -507,71 +508,122 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         st.markdown(
             _dialog_text(
                 "intro",
-                default="Wähle den Prompt, der zu deinem späteren Exportziel (Lernkarten oder Quizze) passt, und kopiere ihn in deine KI-Umgebung.",
+                default="Nutze KI-Prompts, speichere dein Fragenset und hänge bei Bedarf Lernziele als Markdown an.",
             )
         )
-        st.markdown(
-            _dialog_text(
-                "prompt_guide",
-                default=(
-                    "- **[Anki](https://apps.ankiweb.net/)**-Prompt: Erste Wahl für diese MC-Test-App und optimal für das Erstellen von Anki-Lernkarten mit anspruchsvoller Formel-Formatierung und ohne Textlängenbeschränkungen.\n"
-                    "- **[Kahoot](https://kahoot.com)**-Prompt: Speziell auf die Import-Restriktionen von Kahoot abgestimmt (Textlängen, MC-Optionen, Zeitlimits).\n"
-                    "- **[arsnova.click](https://arsnova.click)**-Prompt: Optimiert für das an Hochschulen populäre Audience-Response-Tool (LaTeX-Formeln, Markdown)."
-                ),
-            )
-        )
+
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
-        prompt_toggle_label = _dialog_text("prompt_toggle_button", default="👁️ Anzeigen / Verbergen")
         prompt_download_label = _dialog_text("prompt_download_button", default="⬇️ Download")
         copy_button_label = _dialog_text("prompt_copy_button", default="Prompt kopieren")
         copy_status_success = _dialog_text("prompt_copy_success", default="Kopiert!")
         copy_status_error = _dialog_text("prompt_copy_error", default="Fehler beim Kopieren")
-        for prompt in prompt_resources:
-            st.markdown(f"**{prompt.title}**")
-            view_col, download_col = st.columns([2, 1])
-            prompt_empty = not prompt.content.strip()
 
-            with view_col:
-                if prompt_empty:
-                    st.warning(
-                        _dialog_text(
-                            "prompt_load_failed",
-                            default="{filename} konnte nicht geladen werden.",
-                            filename=prompt.filename,
-                        )
+        def _process_user_qset_payload(payload: bytes, source_name: str) -> None:
+            """Store a user-provided question set and surface status in the session."""
+            try:
+                info = save_user_question_set(
+                    st.session_state.get("user_id", ""),
+                    payload,
+                    source_name,
+                )
+                st.session_state.pop("user_qset_lo_result", None)
+                st.session_state["user_qset_last_result"] = {
+                    "success": True,
+                    "identifier": info.identifier,
+                    "label": format_user_label(info),
+                    "question_count": len(info.question_set),
+                }
+                st.session_state["selected_questions_file"] = info.identifier
+            except ValueError as exc:
+                st.session_state["user_qset_last_result"] = {
+                    "success": False,
+                    "error": str(exc),
+                }
+            except Exception as exc:  # pragma: no cover - unexpected issues
+                st.session_state["user_qset_last_result"] = {
+                    "success": False,
+                    "error": f"Fehler beim Speichern: {exc}",
+                }
+
+        def _derive_learning_objectives_filename(identifier: str) -> Path:
+            cleaned = identifier[len(USER_QUESTION_PREFIX):] if identifier.startswith(USER_QUESTION_PREFIX) else identifier
+            stem = Path(cleaned).stem
+            core = stem.replace("questions_", "")
+            base_dir = Path(get_package_dir()) / "data-user"
+            base_dir.mkdir(parents=True, exist_ok=True)
+            return base_dir / f"questions_{core}_Learning_Objectives.md"
+
+        def _save_learning_objectives(upload, identifier: str) -> tuple[bool, str]:
+            try:
+                raw = upload.getvalue()
+                if not raw:
+                    return False, "Die Datei ist leer."
+                if len(raw) > 50 * 1024:
+                    return False, "Die Datei ist größer als 50 KB."
+                try:
+                    text = raw.decode("utf-8")
+                except Exception:
+                    return False, "Datei konnte nicht als UTF-8 gelesen werden."
+                if not text.strip():
+                    return False, "Das Markdown enthält keinen Inhalt."
+                has_heading = False
+                for line in text.splitlines():
+                    if re.match(r"\s*#+\s+\S", line):
+                        has_heading = True
+                        break
+                if not has_heading:
+                    return False, "Es wurde keine Überschrift (Markdown '# ...') gefunden."
+
+                target_path = _derive_learning_objectives_filename(identifier)
+                target_path.write_text(text, encoding="utf-8")
+                return True, target_path.name
+            except Exception as exc:
+                try:
+                    return False, str(exc)
+                except Exception:
+                    return False, "Unbekannter Fehler beim Speichern der Lernziele."
+
+        tabs = st.tabs(["Fragenset", "Lernziele (optional)"])
+
+        with tabs[0]:
+            with st.expander("Prompts anzeigen", expanded=False):
+                st.markdown(
+                    _dialog_text(
+                        "prompt_guide",
+                        default="Wähle einen Prompt, erstelle das Fragenset in deiner KI und lade es hier hoch oder füge es ein.",
                     )
-                else:
-                    view_key = f"user_prompt_view_toggle_{prompt.filename}"
-                    current_state = bool(prompt_views.get(prompt.filename))
-                    if st.button(
-                        prompt_toggle_label,
-                        key=view_key,
-                    ):
-                        prompt_views[prompt.filename] = not current_state
-                        st.session_state["_prompt_inline_views"] = prompt_views
-
-                    if prompt_views.get(prompt.filename):
-                        st.code(prompt.content, language="markdown")
-
-            with download_col:
-                st.download_button(
-                    prompt_download_label,
-                    prompt.content.encode("utf-8"),
-                    file_name=prompt.filename,
-                    mime="text/markdown",
-                    key=f"user_prompt_download_{prompt.filename}",
-                    disabled=prompt_empty,
                 )
-                safe_filename = "".join(
-                    c if c.isalnum() else "_" for c in prompt.filename
-                )
-                copy_button_id = f"copy_prompt_btn_{safe_filename}"
-                copy_status_id = f"copy_prompt_status_{safe_filename}"
-                escaped_copy_label = html.escape(copy_button_label)
-                escaped_copy_success = html.escape(copy_status_success)
-                escaped_copy_error = html.escape(copy_status_error)
-                copy_html = f"""
+                for prompt in prompt_resources:
+                    prompt_empty = not prompt.content.strip()
+                    with st.expander(f"📄 {prompt.title}", expanded=False):
+                        if prompt_empty:
+                            st.warning(
+                                _dialog_text(
+                                    "prompt_load_failed",
+                                    default="{filename} konnte nicht geladen werden.",
+                                    filename=prompt.filename,
+                                )
+                            )
+                        else:
+                            view_key = f"user_prompt_view_toggle_{prompt.filename}"
+                            if prompt_views.get(prompt.filename) is None:
+                                prompt_views[prompt.filename] = False
+                            if st.toggle("Anzeigen", key=view_key, value=prompt_views.get(prompt.filename)):
+                                prompt_views[prompt.filename] = True
+                                st.code(prompt.content, language="markdown")
+                            else:
+                                prompt_views[prompt.filename] = False
+
+                        cols = st.columns(2)
+                        with cols[0]:
+                            safe_filename = "".join(c if c.isalnum() else "_" for c in prompt.filename)
+                            copy_button_id = f"copy_prompt_btn_{safe_filename}"
+                            copy_status_id = f"copy_prompt_status_{safe_filename}"
+                            escaped_copy_label = html.escape(copy_button_label)
+                            escaped_copy_success = html.escape(copy_status_success)
+                            escaped_copy_error = html.escape(copy_status_error)
+                            copy_html = f"""
 <div style="display:flex; align-items:center; gap:0.5rem;">
     <button id="{copy_button_id}" type="button" style="font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;">{escaped_copy_label}</button>
     <span id="{copy_status_id}" style="opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;">{escaped_copy_success}</span>
@@ -595,165 +647,218 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 }})();
 </script>
 """
-                st.components.v1.html(copy_html, height=90, scrolling=False)
+                            st.components.v1.html(copy_html, height=80, scrolling=False)
+                        with cols[1]:
+                            st.download_button(
+                                prompt_download_label,
+                                prompt.content.encode("utf-8"),
+                                file_name=prompt.filename,
+                                mime="text/markdown",
+                                key=f"user_prompt_download_{prompt.filename}",
+                                disabled=prompt_empty,
+                            )
 
-        st.markdown("---")
-        st.subheader(_dialog_text("upload_heading", default="Fragenset hochladen"))
-        st.warning(
-            _dialog_text(
-                "upload_warning",
-                default="⚠️ Dein Fragenset darf maximal 30 Fragen enthalten und höchstens 5 MB groß sein.",
-            )
-        )
-        # Inform the uploader about retention policy. Use the configured
-        # cleanup hours and reserved-pseudonym retention days from AppConfig
-        # so the message stays accurate when configuration changes.
-        try:
-            hours = int(getattr(app_config, "user_qset_cleanup_hours", 24))
-        except Exception:
-            hours = 24
-        try:
-            days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
-        except Exception:
-            days = 14
-
-        st.info(
-            _dialog_text(
-                "upload_info",
-                default=(
-                    "ℹ️ Dein Fragenset ist für alle Nutzer sichtbar. Standardmäßig werden temporäre Fragensets nach {hours} Stunden gelöscht; bei einem reservierten Pseudonym werden sie {days} Tage lang aufbewahrt."
-                ),
-                hours=hours,
-                days=days,
-            )
-        )
-
-        def _process_user_qset_payload(payload: bytes, source_name: str) -> None:
-            """Store a user-provided question set and surface status in the session."""
             try:
-                info = save_user_question_set(
-                    st.session_state.get("user_id", ""),
-                    payload,
-                    source_name,
+                hours = int(getattr(app_config, "user_qset_cleanup_hours", 24))
+            except Exception:
+                hours = 24
+            try:
+                days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
+            except Exception:
+                days = 14
+
+            st.caption(
+                _dialog_text(
+                    "upload_info",
+                    default="Fragensets werden nach {hours} Stunden (reservierte Pseudonyme: {days} Tage) aufgeräumt.",
+                    hours=hours,
+                    days=days,
                 )
-                st.session_state["user_qset_last_result"] = {
-                    "success": True,
-                    "identifier": info.identifier,
-                    "label": format_user_label(info),
-                    "question_count": len(info.question_set),
-                }
-                st.session_state["selected_questions_file"] = info.identifier
-            except ValueError as exc:
-                st.session_state["user_qset_last_result"] = {
-                    "success": False,
-                    "error": str(exc),
-                }
-            except Exception as exc:  # pragma: no cover - unexpected issues
-                st.session_state["user_qset_last_result"] = {
-                    "success": False,
-                    "error": f"Fehler beim Speichern: {exc}",
-                }
-
-        uploader = st.file_uploader(
-            _dialog_text(
-                "uploader_label",
-                default="📁 Fragenset als JSON-Datei hochladen",
-            ),
-            type=["json"],
-            key="user_qset_uploader",
-            accept_multiple_files=False,
-            help=_dialog_text(
-                "uploader_help",
-                default="Die Datei muss dem Fragenformat der App entsprechen, darf höchstens 30 Fragen enthalten und max. 5 MB groß sein.",
-            ),
-            
-        )
-
-        if uploader is not None:
-            if st.session_state.get("user_qset_last_uploaded_name") != uploader.name:
-                st.session_state.pop("user_qset_last_result", None)
-                st.session_state["user_qset_last_uploaded_name"] = uploader.name
-        else:
-            st.session_state.pop("user_qset_last_uploaded_name", None)
-
-        if uploader and st.button(
-            _dialog_text("upload_validate_button", default="✅ Fragenset prüfen und speichern"),
-            key="user_qset_validate_btn",
-        ):
-            payload = uploader.getvalue()
-            _process_user_qset_payload(payload, uploader.name)
-
-        st.markdown(_dialog_text("alternative_heading", default="### Alternative: JSON-Inhalt einfügen"))
-        st.caption(
-            _dialog_text(
-                "alternative_caption",
-                default="Kopiere den JSON-Text deiner KI direkt hier hinein. Wir speichern daraus eine valide .json-Datei.",
             )
-        )
 
-        def _clear_user_qset_status() -> None:
-            st.session_state.pop("user_qset_last_result", None)
-            st.session_state.pop("user_qset_last_uploaded_name", None)
+            input_mode = st.radio(
+                _dialog_text(
+                    "uploader_mode",
+                    default="Wie möchtest du dein Fragenset hinzufügen?",
+                ),
+                options=["upload", "paste"],
+                format_func=lambda x: "📁 Datei hochladen" if x == "upload" else "📋 JSON einfügen",
+                horizontal=True,
+                key="user_qset_mode",
+            )
 
-        pasted_text = st.text_area(
-            _dialog_text("text_area_label", default="📋 JSON-Inhalt"),
-            key="user_qset_pasted_json",
-            height=260,
-            placeholder=_dialog_text(
-                "text_area_placeholder",
-                default='{"meta": {...}, "questions": [...]}',
-            ),
-            on_change=_clear_user_qset_status,
-        )
+            def _clear_user_qset_status() -> None:
+                st.session_state.pop("user_qset_last_result", None)
+                st.session_state.pop("user_qset_last_uploaded_name", None)
 
-        if st.button(
-            _dialog_text("upload_validate_button", default="✅ Fragenset prüfen und speichern"),
-            key="user_qset_validate_text_btn",
-            disabled=not pasted_text.strip(),
-        ):
-            _process_user_qset_payload(pasted_text.encode("utf-8"), "pasted.json")
-            st.session_state["user_qset_last_uploaded_name"] = "__pasted__"
-
-        status = st.session_state.get("user_qset_last_result")
-        if status:
-            if status.get("success"):
-                st.success(
+            if input_mode == "upload":
+                uploader = st.file_uploader(
                     _dialog_text(
-                        "status_success",
-                        default="{label} gespeichert – {count} Fragen bereit.",
-                        label=status['label'],
-                        count=status['question_count'],
+                        "uploader_label",
+                        default="📁 Fragenset als JSON-Datei hochladen",
+                    ),
+                    type=["json"],
+                    key="user_qset_uploader",
+                    accept_multiple_files=False,
+                    help=_dialog_text(
+                        "uploader_help",
+                        default="Max. 30 Fragen pro Fragenset, maximal 5 MB Dateigröße.",
+                    ),
+                )
+
+                if uploader is not None:
+                    if st.session_state.get("user_qset_last_uploaded_name") != uploader.name:
+                        _clear_user_qset_status()
+                        st.session_state["user_qset_last_uploaded_name"] = uploader.name
+                else:
+                    st.session_state.pop("user_qset_last_uploaded_name", None)
+
+                if uploader and st.button(
+                    _dialog_text("upload_validate_button", default="✅ Fragenset speichern"),
+                    key="user_qset_validate_btn",
+                ):
+                    payload = uploader.getvalue()
+                    _process_user_qset_payload(payload, uploader.name)
+            else:
+                st.caption(
+                    _dialog_text(
+                        "alternative_caption",
+                        default="Kopiere den JSON-Text deiner KI hier hinein.",
                     )
                 )
-                can_start = bool(
-                    st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+                pasted_text = st.text_area(
+                    _dialog_text("text_area_label", default="📋 JSON-Inhalt"),
+                    key="user_qset_pasted_json",
+                    height=220,
+                    placeholder=_dialog_text(
+                        "text_area_placeholder",
+                        default='{"meta": {...}, "questions": [...]}',
+                    ),
+                    on_change=_clear_user_qset_status,
                 )
-                if not can_start:
-                    st.info(
+                def _clear_pasted_text() -> None:
+                    st.session_state["user_qset_pasted_json"] = ""
+                    _clear_user_qset_status()
+                st.button(
+                    _dialog_text("clear_text_button", default="🧹 Inhalt leeren"),
+                    key="user_qset_clear_text_btn",
+                    type="secondary",
+                    on_click=_clear_pasted_text,
+                )
+
+                if st.button(
+                    _dialog_text("upload_validate_button", default="✅ Fragenset speichern"),
+                    key="user_qset_validate_text_btn",
+                    disabled=not pasted_text.strip(),
+                ):
+                    _process_user_qset_payload(pasted_text.encode("utf-8"), "pasted.json")
+                    st.session_state["user_qset_last_uploaded_name"] = "__pasted__"
+
+            status = st.session_state.get("user_qset_last_result")
+            if status:
+                if status.get("success"):
+                    st.success(
                         _dialog_text(
-                            "login_required",
-                            default="Bitte melde dich an, bevor du den Test startest.",
+                            "status_success",
+                            default="{label} gespeichert – {count} Fragen bereit.",
+                            label=status['label'],
+                            count=status['question_count'],
                         )
                     )
-                if st.button(
-                    _dialog_text(
-                        "start_test_button",
-                        default="🚀 Test mit diesem Fragenset starten",
-                    ),
-                    key="user_qset_start_btn",
-                    disabled=not can_start,
-                ):
-                    _start_test_with_user_set(status["identifier"], app_config)
-            else:
-                st.error(
-                    status.get(
-                        "error",
+                    can_start = bool(
+                        st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+                    )
+                    if not can_start:
+                        st.info(
+                            _dialog_text(
+                                "login_required",
+                                default="Bitte melde dich an, bevor du den Test startest.",
+                            )
+                        )
+                    if st.button(
                         _dialog_text(
-                            "status_unknown_error",
-                            default="Unbekannter Fehler beim Prüfen des Fragensets.",
+                            "start_test_button",
+                            default="🚀 Test mit diesem Fragenset starten",
                         ),
+                        key="user_qset_start_btn",
+                        disabled=not can_start,
+                    ):
+                        _start_test_with_user_set(status["identifier"], app_config)
+                else:
+                    st.error(
+                        status.get(
+                            "error",
+                            _dialog_text(
+                                "status_unknown_error",
+                                default="Unbekannter Fehler beim Prüfen des Fragensets.",
+                            ),
+                        )
+                    )
+
+        with tabs[1]:
+            status = st.session_state.get("user_qset_last_result")
+            lo_status = st.session_state.get("user_qset_lo_result")
+            st.subheader(_dialog_text("learning_objectives_heading", default="Lernziele erzeugen und hochladen"))
+            st.caption(
+                _dialog_text(
+                    "learning_objectives_caption",
+                    default="Nutze im Tab 'Fragenset' den Lernziele-Prompt im Prompt-Expander, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
+                )
+            )
+            lo_disabled = not (status and status.get("success"))
+            if lo_disabled:
+                st.info(
+                    _dialog_text(
+                        "learning_objectives_hint_save_first",
+                        default="Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
                     )
                 )
+            lo_uploader = st.file_uploader(
+                _dialog_text(
+                    "learning_objectives_uploader",
+                    default="📘 Lernziele als Markdown hochladen",
+                ),
+                type=["md"],
+                key="user_qset_learning_objectives_uploader",
+                accept_multiple_files=False,
+                disabled=lo_disabled,
+                help=_dialog_text(
+                    "learning_objectives_help",
+                    default="Wir benennen automatisch passend zum Fragenset.",
+                ),
+            )
+            if lo_uploader is not None and not lo_disabled:
+                if st.button(
+                    _dialog_text(
+                        "learning_objectives_save_button",
+                        default="💾 Lernziele speichern",
+                    ),
+                    key="user_qset_lo_save_btn",
+                ):
+                    success, detail = _save_learning_objectives(lo_uploader, status["identifier"])
+                    st.session_state["user_qset_lo_result"] = {
+                        "success": success,
+                        "detail": detail,
+                    }
+                    lo_status = st.session_state["user_qset_lo_result"]
+
+            if lo_status:
+                if lo_status.get("success"):
+                    st.success(
+                        _dialog_text(
+                            "learning_objectives_success",
+                            default="Lernziele gespeichert als {filename}. Sie werden im Lernziele-Button deines Fragensets angezeigt.",
+                            filename=lo_status.get("detail"),
+                        )
+                    )
+                else:
+                    st.error(
+                        _dialog_text(
+                            "learning_objectives_error",
+                            default="Lernziele konnten nicht gespeichert werden: {error}",
+                            error=lo_status.get("detail"),
+                        )
+                    )
 
         st.divider()
         if st.button(

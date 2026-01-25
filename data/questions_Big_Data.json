@@ -20,7 +20,7 @@
   },
   "questions": [
     {
-      "question": "1. Welche Aussage beschreibt „Big Data“ am treffendsten?",
+      "question": "1. Welche Aussage beschreibt \"Big Data\" am treffendsten?",
       "options": [
         "Daten, die wegen Umfang und Vielfalt nur mit skalierbarer Verarbeitung sinnvoll nutzbar sind.",
         "Daten, die wegen geringer Vielfalt nur mit manueller Verarbeitung sinnvoll nutzbar sind.",
@@ -96,7 +96,7 @@
         "Logs im Object Storage, gespeichert als Klartext, mit Schema-on-write für flexible Auswertung."
       ],
       "answer": 0,
-      "explanation": "Parquet ist für analytische Abfragen effizient und Object Storage ist skalierbar. Für Logs ist Schema-on-read oft passend, weil Felder sich ändern können. Die anderen Optionen sind entweder ineffizient (Klartext) oder widersprüchlich (Schema-on-write als „flexibel“).",
+      "explanation": "Parquet ist für analytische Abfragen effizient und Object Storage ist skalierbar. Für Logs ist Schema-on-read oft passend, weil Felder sich ändern können. Die anderen Optionen sind entweder ineffizient (Klartext) oder widersprüchlich (Schema-on-write als \"flexibel\").",
       "weight": 2,
       "topic": "Storage",
       "concept": "Analytische Ablage",
