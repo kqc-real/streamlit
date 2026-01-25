@@ -168,6 +168,8 @@
         "start_test_button": "🚀 开始",
         "status_unknown_error": "未知题库错误。",
         "status_error_hint": "保存失败。展开查看详情。",
+        "status_error_friendly_json": "无法处理文件。请检查 JSON 语法（结构、引号、逗号）。",
+        "status_error_friendly_generic": "保存失败。请检查输入或重试。",
         "status_error_title": "❌ 查看错误详情",
         "close_button": "关闭",
         "learning_objectives_heading": "生成并上传学习目标",

@@ -6,8 +6,8 @@
     "question_count": 18,
     "difficulty_profile": {
       "easy": 2,
-      "medium": 12,
-      "hard": 6
+      "medium": 11,
+      "hard": 5
     },
     "time_per_weight_minutes": {
       "1": 0.5,
@@ -419,7 +419,7 @@
         },
         {
           "term": "Watermark",
-          "definition": "Schätzwert/Marker, bis zu welchem Event-Time-Zeitpunkt Events als „weitgehend vollständig“ gelten."
+          "definition": "Schätzwert/Marker, bis zu welchem Event-Time-Zeitpunkt Events als \"weitgehend vollständig\" gelten."
         },
         {
           "term": "Late Events",
@@ -741,7 +741,7 @@
         "Differential Privacy nutzt Rauschen ohne Privacy Budget, um Utility zu entfernen und individuelle Beiträge zu schützen."
       ],
       "answer": 0,
-      "explanation": "Differential Privacy fügt kontrolliertes Rauschen hinzu und steuert den Schutz über ein Privacy Budget. Ziel ist ein sinnvolles Gleichgewicht zwischen Utility und Datenschutz. Ohne Budget fehlt eine klare Steuerung der Schutzstärke, und „Utility entfernen“ ist nicht das Ziel.",
+      "explanation": "Differential Privacy fügt kontrolliertes Rauschen hinzu und steuert den Schutz über ein Privacy Budget. Ziel ist ein sinnvolles Gleichgewicht zwischen Utility und Datenschutz. Ohne Budget fehlt eine klare Steuerung der Schutzstärke, und \"Utility entfernen\" ist nicht das Ziel.",
       "weight": 3,
       "topic": "Privacy",
       "concept": "Differential Privacy",
@@ -767,7 +767,7 @@
         },
         {
           "term": "Privacy Budget",
-          "definition": "Parameter, der die Gesamtmenge an „Datenschutzverbrauch“ über Abfragen beschreibt und die Schutzstärke steuert."
+          "definition": "Parameter, der die Gesamtmenge an \"Datenschutzverbrauch\" über Abfragen beschreibt und die Schutzstärke steuert."
         },
         {
           "term": "Utility",

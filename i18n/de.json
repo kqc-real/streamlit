@@ -575,6 +575,8 @@
         "start_test_button": "🚀 Loslegen",
         "status_unknown_error": "Unbekannter Fehler im Set.",
         "status_error_hint": "Speichern fehlgeschlagen. Details öffnen.",
+        "status_error_friendly_json": "Die Datei konnte nicht verarbeitet werden. Bitte JSON prüfen (gültige Struktur, Anführungszeichen, Kommata).",
+        "status_error_friendly_generic": "Speichern fehlgeschlagen. Bitte Eingabe prüfen oder erneut versuchen.",
         "status_error_title": "❌ Fehlerdetails anzeigen",
         "close_button": "Schließen",
         "learning_objectives_heading": "Lernziele erzeugen und hochladen",

@@ -575,6 +575,8 @@
         "start_test_button": "🚀 Vamos",
         "status_unknown_error": "Error desconocido.",
         "status_error_hint": "Guardado falló. Abre los detalles.",
+        "status_error_friendly_json": "No se pudo procesar el archivo. Revisa la sintaxis JSON (estructura, comillas, comas).",
+        "status_error_friendly_generic": "Guardado falló. Revisa tu entrada o inténtalo de nuevo.",
         "status_error_title": "❌ Ver detalles del error",
         "close_button": "Cerrar",
         "learning_objectives_heading": "Crear y subir objetivos de aprendizaje",

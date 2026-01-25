@@ -792,12 +792,20 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             default="Unbekannter Fehler beim Prüfen des Fragensets.",
                         ),
                     )
-                    st.warning(
-                        _dialog_text(
-                            "status_error_hint",
-                            default="Speichern fehlgeschlagen. Details öffnen.",
-                        )
+                    err_msg_lower = str(err_msg).lower()
+                    is_json_error = any(
+                        marker in err_msg_lower for marker in ["json", "expecting value", "expecting ','", "decode", "unterminated"]
                     )
+                    friendly = _dialog_text(
+                        "status_error_friendly_json" if is_json_error else "status_error_friendly_generic",
+                        default="Die Datei konnte nicht verarbeitet werden. Bitte JSON prüfen (gültige Struktur, Anführungszeichen, Kommata)."
+                        if is_json_error
+                        else "Speichern fehlgeschlagen. Bitte Eingabe prüfen oder erneut versuchen.",
+                    )
+                    st.warning(
+                        _dialog_text("status_error_hint", default="Speichern fehlgeschlagen. Details öffnen.")
+                    )
+                    st.error(friendly)
                     with st.expander(
                         _dialog_text(
                             "status_error_title",

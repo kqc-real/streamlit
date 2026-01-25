@@ -574,6 +574,8 @@
         "start_test_button": "🚀 C'est parti",
         "status_unknown_error": "Erreur inconnue.",
         "status_error_hint": "Échec de l’enregistrement. Voir les détails.",
+        "status_error_friendly_json": "Impossible de traiter le fichier. Vérifie la syntaxe JSON (structure, guillemets, virgules).",
+        "status_error_friendly_generic": "Enregistrement échoué. Vérifie ta saisie ou réessaie.",
         "status_error_title": "❌ Afficher les détails de l’erreur",
         "close_button": "Fermer",
         "learning_objectives_heading": "Créer et téléverser les objectifs d’apprentissage",

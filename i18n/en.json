@@ -164,6 +164,8 @@
         "start_test_button": "🚀 Let's go",
         "status_unknown_error": "Unknown set error.",
         "status_error_hint": "Save failed. Open details.",
+        "status_error_friendly_json": "Could not process the file. Please check JSON syntax (structure, quotes, commas).",
+        "status_error_friendly_generic": "Save failed. Please check your input and try again.",
         "status_error_title": "❌ Show error details",
         "close_button": "Close",
         "learning_objectives_heading": "Create and upload learning objectives",
