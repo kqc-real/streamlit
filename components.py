@@ -345,7 +345,10 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
     except Exception:
         hours = 24
 
-    caption_text = f"🗂️ Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht."
+    caption_text = translate_ui(
+        "sidebar.user_qset.caption_default",
+        default="🗂️ Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht.",
+    ).format(hours=hours)
 
     if not user_pseudo:
         return caption_text
@@ -360,9 +363,10 @@ def get_user_qset_retention_caption(is_user_set: bool, user_pseudo: str | None, 
             try:
                 if has_recovery_secret_for_pseudonym(user_pseudo):
                     days = int(getattr(app_config, "user_qset_reserved_retention_days", 14))
-                    caption_text = (
-                        f"Mit einem reservierten Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt."
-                    )
+                    caption_text = translate_ui(
+                        "sidebar.user_qset.caption_reserved",
+                        default="Mit einem reservierten Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt.",
+                    ).format(days=days)
             except Exception:
                 # DB-check failed -> leave default caption
                 pass
@@ -584,10 +588,13 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 except Exception:
                     return False, "Unbekannter Fehler beim Speichern der Lernziele."
 
-        tabs = st.tabs(["Fragenset", "Lernziele (optional)"])
+        tabs = st.tabs([
+            _dialog_text("tab_questionset", default="Fragenset"),
+            _dialog_text("tab_learning_objectives", default="Lernziele (optional)"),
+        ])
 
         with tabs[0]:
-            with st.expander("Prompts anzeigen", expanded=False):
+            with st.expander(_dialog_text("prompt_expander_title", default="Prompts anzeigen"), expanded=False):
                 st.markdown(
                     _dialog_text(
                         "prompt_guide",
@@ -676,13 +683,15 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
             )
 
+            upload_label = _dialog_text("uploader_mode_upload", default="📁 Datei hochladen")
+            paste_label = _dialog_text("uploader_mode_paste", default="📋 JSON einfügen")
             input_mode = st.radio(
                 _dialog_text(
                     "uploader_mode",
                     default="Wie möchtest du dein Fragenset hinzufügen?",
                 ),
                 options=["upload", "paste"],
-                format_func=lambda x: "📁 Datei hochladen" if x == "upload" else "📋 JSON einfügen",
+                format_func=lambda x: upload_label if x == "upload" else paste_label,
                 horizontal=True,
                 key="user_qset_mode",
             )
@@ -768,6 +777,24 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     can_start = bool(
                         st.session_state.get("user_id") and st.session_state.get("user_id_hash")
                     )
+                    lo_status = st.session_state.get("user_qset_lo_result")
+                    lo_uploaded = bool(lo_status and lo_status.get("success"))
+                    allow_without_lo = st.session_state.get("_user_qset_allow_without_lo", False)
+                    if not lo_uploaded:
+                        st.info(
+                            _dialog_text(
+                                "lo_optional_info",
+                                default="Optional: Lade jetzt Lernziele im Tab \"Lernziele\" hoch oder bestätige, dass du ohne startest.",
+                            )
+                        )
+                        st.checkbox(
+                            _dialog_text(
+                                "lo_skip_checkbox",
+                                default="Ohne Lernziele starten",
+                            ),
+                            key="_user_qset_allow_without_lo",
+                        )
+                        allow_without_lo = st.session_state.get("_user_qset_allow_without_lo", False)
                     if not can_start:
                         st.info(
                             _dialog_text(
@@ -781,7 +808,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             default="🚀 Test mit diesem Fragenset starten",
                         ),
                         key="user_qset_start_btn",
-                        disabled=not can_start,
+                        disabled=not can_start or (not lo_uploaded and not allow_without_lo),
                     ):
                         _start_test_with_user_set(status["identifier"], app_config)
                 else:
