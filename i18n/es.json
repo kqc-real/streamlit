@@ -593,8 +593,13 @@
         "learning_objectives_heading": "Crear y subir objetivos de aprendizaje",
         "learning_objectives_caption": "Usa el prompt de objetivos en la pestaña «Fragenset», mándalo a una IA externa (p. ej. ChatGPT o Gemini), genera el Markdown y súbelo aquí.",
         "learning_objectives_hint_save_first": "Primero guarda tu set de preguntas, luego sube los objetivos.",
+        "learning_objectives_mode": "¿Cómo quieres añadir los objetivos de aprendizaje?",
+        "learning_objectives_upload_label": "📁 Subir archivo",
+        "learning_objectives_paste_label": "📋 Pegar Markdown",
+        "learning_objectives_paste_caption": "Pega aquí los objetivos de aprendizaje en Markdown.",
         "learning_objectives_uploader": "📘 Subir objetivos de aprendizaje (Markdown)",
         "learning_objectives_help": "Nombramos el archivo automáticamente para que coincida con tu set.",
+        "learning_objectives_clear_button": "🧹 Limpiar contenido",
         "learning_objectives_save_button": "💾 Guardar objetivos",
         "learning_objectives_success": "Objetivos guardados como {filename}. Aparecerán en el botón de objetivos de tu set.",
         "learning_objectives_error": "No se pudieron guardar los objetivos: {error}"

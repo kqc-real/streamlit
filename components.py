@@ -585,9 +585,8 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             base_dir.mkdir(parents=True, exist_ok=True)
             return base_dir / f"questions_{core}_Learning_Objectives.md"
 
-        def _save_learning_objectives(upload, identifier: str) -> tuple[bool, str]:
+        def _save_learning_objectives_content(raw: bytes, identifier: str) -> tuple[bool, str]:
             try:
-                raw = upload.getvalue()
                 if not raw:
                     return False, "Die Datei ist leer."
                 if len(raw) > 50 * 1024:
@@ -614,6 +613,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     return False, str(exc)
                 except Exception:
                     return False, "Unbekannter Fehler beim Speichern der Lernziele."
+
+        def _save_learning_objectives(upload, identifier: str) -> tuple[bool, str]:
+            return _save_learning_objectives_content(upload.getvalue(), identifier)
 
         tabs = st.tabs([
             _dialog_text("tab_questionset", default="Fragenset"),
@@ -880,6 +882,18 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
             )
             lo_disabled = not (status and status.get("success"))
+            lo_upload_label = _dialog_text("learning_objectives_upload_label", default="📁 Datei hochladen")
+            lo_paste_label = _dialog_text("learning_objectives_paste_label", default="📋 Markdown einfügen")
+            lo_mode = st.radio(
+                _dialog_text(
+                    "learning_objectives_mode",
+                    default="Wie möchtest du die Lernziele hinzufügen?",
+                ),
+                options=["upload", "paste"],
+                format_func=lambda x: lo_upload_label if x == "upload" else lo_paste_label,
+                horizontal=True,
+                key="user_qset_lo_mode",
+            )
             if lo_disabled:
                 st.info(
                     _dialog_text(
@@ -887,29 +901,75 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         default="Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
                     )
                 )
-            lo_uploader = st.file_uploader(
-                _dialog_text(
-                    "learning_objectives_uploader",
-                    default="📘 Lernziele als Markdown hochladen",
-                ),
-                type=["md"],
-                key="user_qset_learning_objectives_uploader",
-                accept_multiple_files=False,
-                disabled=lo_disabled,
-                help=_dialog_text(
-                    "learning_objectives_help",
-                    default="Wir benennen automatisch passend zum Fragenset.",
-                ),
-            )
-            if lo_uploader is not None and not lo_disabled:
+            if lo_mode == "upload":
+                lo_uploader = st.file_uploader(
+                    _dialog_text(
+                        "learning_objectives_uploader",
+                        default="📘 Lernziele als Markdown hochladen",
+                    ),
+                    type=["md"],
+                    key="user_qset_learning_objectives_uploader",
+                    accept_multiple_files=False,
+                    disabled=lo_disabled,
+                    help=_dialog_text(
+                        "learning_objectives_help",
+                        default="Wir benennen automatisch passend zum Fragenset.",
+                    ),
+                )
+                if lo_uploader is not None:
+                    if st.session_state.get("user_qset_lo_last_uploaded") != lo_uploader.name:
+                        st.session_state.pop("user_qset_lo_result", None)
+                        st.session_state["user_qset_lo_last_uploaded"] = lo_uploader.name
+                else:
+                    st.session_state.pop("user_qset_lo_last_uploaded", None)
+                if lo_uploader is not None and not lo_disabled:
+                    if st.button(
+                        _dialog_text(
+                            "learning_objectives_save_button",
+                            default="💾 Lernziele speichern",
+                        ),
+                        key="user_qset_lo_save_btn",
+                    ):
+                        success, detail = _save_learning_objectives(lo_uploader, status["identifier"])
+                        st.session_state["user_qset_lo_result"] = {
+                            "success": success,
+                            "detail": detail,
+                        }
+                        lo_status = st.session_state["user_qset_lo_result"]
+            else:
+                st.caption(
+                    _dialog_text(
+                        "learning_objectives_paste_caption",
+                        default="Füge die Lernziele als Markdown hier ein.",
+                    )
+                )
+                pasted_lo = st.text_area(
+                    _dialog_text("learning_objectives_paste_label", default="📋 Markdown einfügen"),
+                    key="user_qset_learning_objectives_paste",
+                    height=180,
+                    disabled=lo_disabled,
+                    on_change=lambda: st.session_state.pop("user_qset_lo_result", None),
+                )
+                def _clear_lo_paste() -> None:
+                    st.session_state["user_qset_learning_objectives_paste"] = ""
+                    st.session_state.pop("user_qset_lo_result", None)
+                st.button(
+                    _dialog_text("learning_objectives_clear_button", default="🧹 Inhalt leeren"),
+                    key="user_qset_lo_clear_btn",
+                    type="secondary",
+                    disabled=lo_disabled,
+                    on_click=_clear_lo_paste,
+                )
                 if st.button(
                     _dialog_text(
                         "learning_objectives_save_button",
                         default="💾 Lernziele speichern",
                     ),
-                    key="user_qset_lo_save_btn",
+                    key="user_qset_lo_save_text_btn",
+                    disabled=lo_disabled or not pasted_lo.strip(),
                 ):
-                    success, detail = _save_learning_objectives(lo_uploader, status["identifier"])
+                    raw = pasted_lo.encode("utf-8")
+                    success, detail = _save_learning_objectives_content(raw, status["identifier"])
                     st.session_state["user_qset_lo_result"] = {
                         "success": success,
                         "detail": detail,

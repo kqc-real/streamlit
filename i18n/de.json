@@ -593,8 +593,13 @@
         "learning_objectives_heading": "Lernziele erzeugen und hochladen",
         "learning_objectives_caption": "Nutze im Tab \"Fragenset\" den Lernziele-Prompt im Prompt-Expander, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
         "learning_objectives_hint_save_first": "Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
+        "learning_objectives_mode": "Wie möchtest du die Lernziele hinzufügen?",
+        "learning_objectives_upload_label": "📁 Datei hochladen",
+        "learning_objectives_paste_label": "📋 Markdown einfügen",
+        "learning_objectives_paste_caption": "Füge die Lernziele als Markdown hier ein.",
         "learning_objectives_uploader": "📘 Lernziele als Markdown hochladen",
         "learning_objectives_help": "Wir benennen automatisch passend zum Fragenset.",
+        "learning_objectives_clear_button": "🧹 Inhalt leeren",
         "learning_objectives_save_button": "💾 Lernziele speichern",
         "learning_objectives_success": "Lernziele gespeichert als {filename}. Sie werden im Lernziele-Button deines Fragensets angezeigt.",
         "learning_objectives_error": "Lernziele konnten nicht gespeichert werden: {error}"
