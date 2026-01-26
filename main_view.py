@@ -1954,14 +1954,25 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             key="pseudonym_dialog_selector",
         )
 
-        # Optional Secret zur Reservierung
+        admin_selected = bool(app_config.admin_user and selected_name == app_config.admin_user)
+
+        # Optional Secret zur Reservierung (für das Admin-Pseudonym deaktiviert)
+        secret_disabled = admin_selected
+        placeholder = (
+            translate_ui("welcome.pseudonym.admin_no_secret", default="Für dieses Pseudonym kann kein Secret gesetzt werden.")
+            if admin_selected
+            else _welcome_pseudonym_reservation_placeholder()
+        )
         secret = st.text_input(
             _welcome_pseudonym_reservation_label(),
             type="password",
             max_chars=32,
-            placeholder=_welcome_pseudonym_reservation_placeholder(),
+            placeholder=placeholder,
             key="pseudonym_dialog_secret",
+            disabled=secret_disabled,
         )
+        if admin_selected:
+            secret = ""
 
         # Mindestlänge prüfen
         try:
@@ -2024,6 +2035,9 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                 disabled=not (rec_pseudo and rec_secret),
                 key="pseudonym_dialog_recover_btn",
             ):
+                if app_config.admin_user and rec_pseudo == app_config.admin_user:
+                    st.error(translate_ui("welcome.pseudonym.admin_recover_blocked", default="Dieses Pseudonym kann nicht über ein Secret wiederhergestellt werden. Bitte direkt auswählen."))
+                    return
                 try:
                     user_name = str(rec_pseudo).strip()
                     secret_val = str(rec_secret).strip()

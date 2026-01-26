@@ -1251,6 +1251,7 @@
             "recover_failure": "Wrong combo. Check secret.",
             "database_error": "DB Error: Can't start session.",
             "test_button": "Start Test",
+            "admin_no_secret": "This pseudonym can't have a secret.",
             "question_required": "Select a set first."
         },
         "tempo": {

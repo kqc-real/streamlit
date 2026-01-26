@@ -8,6 +8,7 @@ import os
 import hashlib
 import binascii
 import secrets
+from helpers.text import get_user_id_hash
 from config import get_package_dir, get_question_counts
 from pacing_helper import compute_total_cooldown_seconds
 from i18n.context import t
@@ -1725,6 +1726,14 @@ def set_recovery_secret(user_id: str, secret_plain: str) -> bool:
 
     Stores salt and derived hash in users table. Returns True on success.
     """
+    # Protect the admin pseudonym: do not allow setting/overwriting its recovery secret
+    try:
+        from config import AppConfig
+        admin_hash = get_user_id_hash(AppConfig().admin_user)
+        if admin_hash and user_id == admin_hash:
+            return False
+    except Exception:
+        pass
     if not secret_plain:
         return False
     # Enforce configured minimum length unless explicitly allowed

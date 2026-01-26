@@ -1183,6 +1183,7 @@
             "recover_failure": "Falsche Kombi. Check das Geheimwort.",
             "database_error": "DB-Fehler: Session-Start nicht möglich.",
             "test_button": "Test starten",
+            "admin_no_secret": "Für dieses Pseudonym kann kein Geheimwort gesetzt werden.",
             "question_required": "Erst Set wählen."
         },
         "tempo": {
