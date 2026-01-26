@@ -189,11 +189,12 @@ def _rtf_to_text(source: str) -> str:
     return "".join(out)
 
 
-def _sanitize_json_text(text: str) -> str:
+def _sanitize_json_text(text: str, *, replace_smart_quotes: bool = True) -> str:
     cleaned = text.replace("\r\n", "\n").replace("\r", "\n")
     if _looks_like_rtf(cleaned):
         cleaned = _rtf_to_text(cleaned)
-    cleaned = cleaned.translate(SMART_CHAR_MAP)
+    if replace_smart_quotes:
+        cleaned = cleaned.translate(SMART_CHAR_MAP)
     cleaned = cleaned.replace("\xa0", " ")
     for marker in ZERO_WIDTH_CHARS:
         cleaned = cleaned.replace(marker, "")
@@ -290,13 +291,18 @@ def _load_question_set_from_payload(payload: bytes, source_name: str) -> Questio
             except UnicodeDecodeError as inner_exc:
                 raise ValueError("Die Datei muss UTF-8 oder Windows-1252 kodiert sein.") from inner_exc
 
-    text = _sanitize_json_text(text)
+    raw_text = text
+    text = _sanitize_json_text(text, replace_smart_quotes=False)
     if not text:
         raise ValueError("Die Datei enthält keinen JSON-Inhalt.")
     try:
         data = json.loads(text)
     except json.JSONDecodeError as exc:
-        raise ValueError(f"Ungültige JSON-Datei: {exc}") from exc
+        text_with_smart_quotes = _sanitize_json_text(raw_text, replace_smart_quotes=True)
+        try:
+            data = json.loads(text_with_smart_quotes)
+        except json.JSONDecodeError as fallback_exc:
+            raise ValueError(f"Ungültige JSON-Datei: {fallback_exc}") from fallback_exc
 
     try:
         question_set = _build_question_set(data, source_name, silent=True)

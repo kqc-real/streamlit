@@ -1,0 +1,761 @@
+{
+  "meta": {
+    "title": "IoT: Protokolle & Konnektivität",
+    "created": "26.01.2026 18:06",
+    "target_audience": "Ingenieure",
+    "question_count": 15,
+    "difficulty_profile": {
+      "easy": 3,
+      "medium": 8,
+      "hard": 4
+    },
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 17
+  },
+  "questions": [
+    {
+      "question": "1. Im Kontext des „IoT-Trilemmas“ müssen Ingenieure stets Kompromisse eingehen. Welche drei Parameter stehen hierbei in einer direkten Wechselwirkung und lassen sich physikalisch nicht gleichzeitig maximieren?",
+      "options": [
+        "Reichweite, Datenrate, Batterielaufzeit",
+        "Sicherheit, Latenzzeit, Anschaffungskosten",
+        "Netzwerktopologie, Frequenzband, Protokoll-Overhead",
+        "Verschlüsselung, CPU-Taktung, Speichergröße"
+      ],
+      "answer": 0,
+      "explanation": "Das IoT-Trilemma besagt, dass hohe Reichweite, hohe Datenrate und lange Batterielaufzeit physikalisch konkurrierende Ziele sind. Eine Technologie kann meist nur zwei dieser Faktoren optimieren, oft auf Kosten des dritten.",
+      "weight": 1,
+      "topic": "Grundlagen der IoT-Konnektivität",
+      "concept": "IoT-Trilemma",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "IoT-Trilemma",
+          "definition": "Konflikt zwischen Reichweite, Geschwindigkeit und Energieeffizienz."
+        },
+        {
+          "term": "Latenz",
+          "definition": "Verzögerung zwischen Senden und Empfangen."
+        },
+        {
+          "term": "Overhead",
+          "definition": "Zusätzliche Daten für Protokollsteuerung."
+        },
+        {
+          "term": "Topologie",
+          "definition": "Struktur der Vernetzung (z. B. Stern, Mesh)."
+        },
+        {
+          "term": "Batterielaufzeit",
+          "definition": "Betriebsdauer eines Geräts ohne externe Stromquelle."
+        },
+        {
+          "term": "Physik",
+          "definition": "Naturwissenschaftliche Basis der Funkübertragung."
+        }
+      ]
+    },
+    {
+      "question": "2. Welches Transportprotokoll und welches Architekturmodell verwendet CoAP (Constrained Application Protocol) primär?",
+      "options": [
+        "UDP als Transport und REST-Architektur",
+        "TCP als Transport und Publish/Subscribe-Modell",
+        "TCP als Transport und REST-Architektur",
+        "UDP als Transport und SOAP-Messaging"
+      ],
+      "answer": 0,
+      "explanation": "CoAP wurde entwickelt, um die Prinzipien des Webs (REST) auf kleine Geräte zu übertragen. Es nutzt typischerweise UDP, um den Overhead gering zu halten, und verwendet HTTP-ähnliche Methoden wie GET und PUT.",
+      "weight": 1,
+      "topic": "Anwendungsschicht-Protokolle",
+      "concept": "CoAP Architektur",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "CoAP",
+          "definition": "Constrained Application Protocol; leichtgewichtig, web-nah."
+        },
+        {
+          "term": "REST",
+          "definition": "Representational State Transfer; Architekturstil des Webs."
+        },
+        {
+          "term": "UDP",
+          "definition": "User Datagram Protocol; verbindungslos, geringer Overhead."
+        },
+        {
+          "term": "TCP",
+          "definition": "Transmission Control Protocol; verbindungsorientiert, zuverlässig."
+        },
+        {
+          "term": "SOAP",
+          "definition": "Simple Object Access Protocol; älteres, XML-basiertes Protokoll."
+        },
+        {
+          "term": "Publish/Subscribe",
+          "definition": "Nachrichtenverteilung über Themen (Topics)."
+        }
+      ]
+    },
+    {
+      "question": "3. Worin liegt der fundamentale architektonische Unterschied zwischen einem Zigbee-Netzwerk und einem Thread-Netzwerk bezüglich der Adressierung?",
+      "options": [
+        "Thread ist nativ IPv6-basiert; Zigbee benötigt ein Gateway zur Übersetzung.",
+        "Zigbee nutzt TCP/IP bis zum Endgerät; Thread nutzt proprietäre Adressen.",
+        "Thread erfordert zwingend eine Stern-Topologie; Zigbee ist immer ein Mesh.",
+        "Zigbee unterstützt kein Mesh-Networking; Thread basiert auf Bluetooth."
+      ],
+      "answer": 0,
+      "explanation": "Thread setzt auf 6LoWPAN und IPv6, wodurch jedes Gerät direkt im IP-Adressraum ansprechbar ist (Routing statt Übersetzung). Zigbee hingegen verwendet einen eigenen Stack, der an der Grenze zum IP-Netzwerk durch einen Hub/Gateway übersetzt werden muss.",
+      "weight": 1,
+      "topic": "Lokale Netzwerke",
+      "concept": "Thread vs. Zigbee",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "IPv6",
+          "definition": "Internet Protocol Version 6; bietet riesigen Adressraum."
+        },
+        {
+          "term": "6LoWPAN",
+          "definition": "IPv6 over Low-Power Wireless Personal Area Networks."
+        },
+        {
+          "term": "Gateway",
+          "definition": "Komponente zur Protokollübersetzung."
+        },
+        {
+          "term": "Border Router",
+          "definition": "Router, der Thread-Mesh mit dem IP-Netz verbindet."
+        },
+        {
+          "term": "Mesh",
+          "definition": "Vermaschtes Netz, in dem Knoten Daten weiterleiten."
+        },
+        {
+          "term": "Stack",
+          "definition": "Summe der Protokollschichten."
+        }
+      ]
+    },
+    {
+      "question": "4. Sie entwerfen ein System, bei dem ein Sensor Messwerte liefert, die gleichzeitig von einem Dashboard, einer Datenbank und einem Alarm-Dienst verarbeitet werden müssen. Die Netzverbindung ist stabil. Welches Protokoll eignet sich aufgrund seiner Architektur am besten?",
+      "options": [
+        "MQTT, da das Publish/Subscribe-Muster die Daten einfach an mehrere Abonnenten verteilt.",
+        "CoAP, da es durch UDP-Multicast die Daten am sichersten an alle verteilt.",
+        "HTTP, da jeder Dienst den Sensor per Polling individuell abfragen kann.",
+        "Modbus TCP, da es der Standard für parallele Datenbankverbindungen ist."
+      ],
+      "answer": 0,
+      "explanation": "MQTT ist ideal für 1-zu-n-Szenarien. Der Sensor publiziert die Daten einmal an einen Broker, und dieser verteilt sie an alle Dienste (Dashboard, DB, Alarm), die das Topic abonniert haben. Polling (HTTP) wäre hier ineffizient.",
+      "weight": 2,
+      "topic": "Protokoll-Auswahl",
+      "concept": "Publish/Subscribe Muster",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Entscheidungshilfe: MQTT vs. HTTP/CoAP",
+        "steps": [
+          "Anforderung analysieren: Ein Sender, viele Empfänger (1:n).",
+          "Architektur prüfen: Bei HTTP müsste jeder Empfänger den Sensor anfragen (hohe Last am Sensor).",
+          "Lösung wählen: MQTT entkoppelt Sender und Empfänger über den Broker.",
+          "Vorteil: Der Sensor kennt die Empfänger nicht; er sendet nur einmal."
+        ],
+        "content": "In Szenarien, in denen Daten von einer Quelle an mehrere Senken verteilt werden müssen ('Fan-out'), ist das Publish/Subscribe-Pattern von MQTT architektonisch überlegen. Es minimiert die Last auf dem ressourcenbeschränkten Endgerät, da die Verteilungslast auf den Broker im Backend verlagert wird."
+      },
+      "mini_glossary": [
+        {
+          "term": "Broker",
+          "definition": "Zentrale Vermittlungsstelle bei MQTT."
+        },
+        {
+          "term": "Polling",
+          "definition": "Periodisches Abfragen von Werten durch den Client."
+        },
+        {
+          "term": "Subscriber",
+          "definition": "Empfänger, der Nachrichten zu einem Thema abonniert."
+        },
+        {
+          "term": "Fan-out",
+          "definition": "Verteilung einer Nachricht an viele Empfänger."
+        },
+        {
+          "term": "Latenz",
+          "definition": "Zeitverzögerung bei der Datenübertragung."
+        },
+        {
+          "term": "Topic",
+          "definition": "Themenpfad, unter dem Nachrichten veröffentlicht werden."
+        }
+      ]
+    },
+    {
+      "question": "5. Ein batteriebetriebenes Gerät soll sich in ein existierendes Firmen-WLAN integrieren, muss aber Jahre mit einer Batterie auskommen. Welches Feature von Wi-Fi 6 (802.11ax) ist für diesen Anwendungsfall entscheidend?",
+      "options": [
+        "Target Wake Time (TWT)",
+        "Orthogonal Frequency-Division Multiple Access (OFDMA)",
+        "WPA3 Verschlüsselung",
+        "1024-QAM Modulation"
+      ],
+      "answer": 0,
+      "explanation": "Target Wake Time (TWT) erlaubt es dem Access Point und dem Gerät, feste Aufwachzeiten auszuhandeln. Das Funkmodul kann dazwischen komplett in den Schlafmodus gehen, was den Energieverbrauch massiv senkt und WLAN für Batteri-Sensoren tauglich macht.",
+      "weight": 2,
+      "topic": "Lokale Netzwerke",
+      "concept": "Wi-Fi 6 TWT",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Funktionsweise von TWT",
+        "steps": [
+          "Problem: Klassisches WLAN erfordert häufiges 'Hören' auf Baken (Beacons).",
+          "Lösung: Mit TWT vereinbaren AP und Client einen Zeitplan.",
+          "Effekt: Der Client schaltet das Radio komplett ab, bis die vereinbarte Zeit erreicht ist.",
+          "Resultat: Drastisch reduzierte 'Idle'-Stromaufnahme."
+        ],
+        "content": "Vor Wi-Fi 6 galt WLAN als zu energiehungrig für langlebige Batteriesensoren. Durch TWT (Target Wake Time) wird dieses Paradigma geändert, da Geräte nun deterministisch schlafen können, statt ständig den Kanal auf Datenverkehr prüfen zu müssen."
+      },
+      "mini_glossary": [
+        {
+          "term": "TWT",
+          "definition": "Target Wake Time; Energiesparmechanismus in Wi-Fi 6."
+        },
+        {
+          "term": "Access Point",
+          "definition": "Zentraler Zugangspunkt im WLAN."
+        },
+        {
+          "term": "Beacon",
+          "definition": "Synchronisationssignal im WLAN."
+        },
+        {
+          "term": "OFDMA",
+          "definition": "Verfahren zur effizienten Bandbreitennutzung."
+        },
+        {
+          "term": "Modulation",
+          "definition": "Verfahren zur Anpassung von Signalen (z. B. QAM)."
+        },
+        {
+          "term": "Idle",
+          "definition": "Leerlaufzustand eines Geräts."
+        }
+      ]
+    },
+    {
+      "question": "6. Für die Überwachung von Wasserzählern in tiefen Kellern über ein Stadtgebiet hinweg wird eine Technologie gesucht. Es soll keine eigene Gateway-Infrastruktur aufgebaut werden, sondern ein vorhandenes Provider-Netz genutzt werden. Welche Technologie ist die passendste Wahl?",
+      "options": [
+        "NB-IoT",
+        "LoRaWAN",
+        "Wi-Fi 6",
+        "Zigbee"
+      ],
+      "answer": 0,
+      "explanation": "NB-IoT nutzt lizenziertes Mobilfunkspektrum und bietet hervorragende Gebäudedurchdringung ('Deep Indoor'). Da es über Mobilfunkprovider bereitgestellt wird, entfällt der Aufbau eigener Gateways (im Gegensatz zu LoRaWAN, wenn man kein öffentliches Netz nutzt).",
+      "weight": 2,
+      "topic": "Weitbereichsnetze (LPWAN)",
+      "concept": "NB-IoT vs. LoRaWAN",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Auswahlkriterien für LPWAN",
+        "steps": [
+          "Anforderung 1: Tiefe Keller (hohe Dämpfung). -> NB-IoT hat hier Vorteile.",
+          "Anforderung 2: Keine eigene Infrastruktur. -> Mobilfunk (Managed Service).",
+          "Abgrenzung: LoRaWAN erfordert oft eigene Gateways oder Abhängigkeit von Community-Netzen.",
+          "Entscheidung: NB-IoT erfüllt alle Kriterien durch Provider-SLA."
+        ],
+        "content": "NB-IoT ist speziell für stationäre Sensoren mit schwierigen Empfangsbedingungen konzipiert. Es nutzt schmalbandige LTE-Technik und wiederholte Übertragungen, um Signale auch durch dicke Betonwände zu bringen, was es ideal für Smart Metering in Kellern macht."
+      },
+      "mini_glossary": [
+        {
+          "term": "NB-IoT",
+          "definition": "Narrow Band IoT; Mobilfunkstandard für Sensoren."
+        },
+        {
+          "term": "Deep Indoor",
+          "definition": "Empfang tief im Gebäudeinneren (z. B. Keller)."
+        },
+        {
+          "term": "Provider",
+          "definition": "Telekommunikationsanbieter (Infrastrukturbetreiber)."
+        },
+        {
+          "term": "SLA",
+          "definition": "Service Level Agreement; Dienstgütevereinbarung."
+        },
+        {
+          "term": "Gateway",
+          "definition": "Verbindungspunkt zwischen Sensornetz und Internet."
+        },
+        {
+          "term": "Lizenziertes Spektrum",
+          "definition": "Frequenzbereiche, die exklusiv Providern gehören."
+        }
+      ]
+    },
+    {
+      "question": "7. Ein Kunde benötigt Videoüberwachung an mobilen Robotern. LPWAN ist zu langsam, aber volles 5G ist zu teuer und die Module sind zu groß. Welche Mobilfunk-Technologieklasse adressiert genau diese „Mittelklasse“ (Mid-Tier)?",
+      "options": [
+        "5G RedCap (Reduced Capability)",
+        "LTE-M (Cat-M1)",
+        "LoRaWAN Klasse C",
+        "Sigfox"
+      ],
+      "answer": 0,
+      "explanation": "5G RedCap (Reduced Capability) schließt die Lücke zwischen High-End 5G und Low-End LPWAN. Es bietet Datenraten im Bereich von 85–150 Mbps, was für Video reicht, ist aber günstiger und energiesparender als 'volles' 5G.",
+      "weight": 2,
+      "topic": "Weitbereichsnetze (Mobilfunk)",
+      "concept": "5G RedCap Positionierung",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Positionierung von RedCap",
+        "steps": [
+          "Problem: LPWAN (kbps) reicht nicht für Video. 5G eMBB (Gbps) ist Overkill.",
+          "Lösung: RedCap reduziert Antennenanzahl und Bandbreite.",
+          "Ziel: Balance zwischen Leistung (~100 Mbps) und Kosten/Größe.",
+          "Einsatz: Wearables, Videoüberwachung, industrielle Telematik."
+        ],
+        "content": "RedCap (Release 17) wurde definiert, um IoT-Anwendungen zu bedienen, die zwar mehr Leistung als einfache Sensoren brauchen, aber nicht die Komplexität und Kosten von High-Speed-Smartphones rechtfertigen."
+      },
+      "mini_glossary": [
+        {
+          "term": "RedCap",
+          "definition": "Reduced Capability; 5G-Standard für mittlere Anforderungen."
+        },
+        {
+          "term": "Mid-Tier",
+          "definition": "Mittleres Leistungssegment im IoT."
+        },
+        {
+          "term": "LPWAN",
+          "definition": "Low Power Wide Area Network (langsam, weit)."
+        },
+        {
+          "term": "Latenz",
+          "definition": "Verzögerung der Datenübertragung."
+        },
+        {
+          "term": "Bandbreite",
+          "definition": "Datenübertragungsrate (Menge pro Zeit)."
+        },
+        {
+          "term": "Release 17",
+          "definition": "Spezifikationsversion des 3GPP-Standards."
+        }
+      ]
+    },
+    {
+      "question": "8. Welchen Hauptvorteil bietet der Einsatz von MQTT Sparkplug B in einer industriellen Fertigungsumgebung gegenüber „rohem“ MQTT?",
+      "options": [
+        "Es standardisiert die Topic-Struktur und Payload, um Interoperabilität im „Unified Namespace“ zu sichern.",
+        "Es erhöht die Datenübertragungsrate durch Kompression auf Transportebene signifikant.",
+        "Es ersetzt den TCP-Handshake durch UDP, um die Echtzeitfähigkeit für Roboter zu garantieren.",
+        "Es verschlüsselt die Daten automatisch Ende-zu-Ende ohne Zertifikate."
+      ],
+      "answer": 0,
+      "explanation": "Rohes MQTT definiert nicht, wie der Inhalt (Payload) aussieht. Sparkplug B legt genau fest, wie Topics und Datenformate aussehen müssen. Das ermöglicht Plug-and-Play zwischen Maschinen verschiedener Hersteller in einem zentralen Datenraum (Unified Namespace).",
+      "weight": 2,
+      "topic": "Interoperabilität & Industrie",
+      "concept": "MQTT Sparkplug B",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Warum Sparkplug B?",
+        "steps": [
+          "Problem: MQTT ist 'payload-agnostisch' (versteht den Inhalt nicht).",
+          "Folge: Jeder Hersteller kocht sein eigenes Süppchen bei den Datenformaten.",
+          "Lösung: Sparkplug B definiert ein festes Schema für Topics und Metadaten.",
+          "Nutzen: Maschinen verstehen sich gegenseitig sofort (semantische Interoperabilität)."
+        ],
+        "content": "Ohne Sparkplug ist MQTT nur ein Transportrohr. Mit Sparkplug wird es zu einer Sprache, die es ermöglicht, komplexe Industrieprozesse in einem 'Unified Namespace' abzubilden, auf den alle Systeme (SCADA, MES, Cloud) zugreifen können."
+      },
+      "mini_glossary": [
+        {
+          "term": "Sparkplug B",
+          "definition": "Spezifikation für MQTT in der Industrie."
+        },
+        {
+          "term": "Unified Namespace",
+          "definition": "Zentrale Struktur aller Echtzeitdaten eines Unternehmens."
+        },
+        {
+          "term": "Payload",
+          "definition": "Nutzdaten innerhalb eines Pakets."
+        },
+        {
+          "term": "Interoperabilität",
+          "definition": "Fähigkeit zur Zusammenarbeit verschiedener Systeme."
+        },
+        {
+          "term": "SCADA",
+          "definition": "System zur Überwachung und Steuerung technischer Prozesse."
+        },
+        {
+          "term": "Semantik",
+          "definition": "Bedeutung der Daten (nicht nur der Wert, sondern was er ist)."
+        }
+      ]
+    },
+    {
+      "question": "9. Sie entwickeln einen sehr einfachen Sensor mit einem Mikrocontroller, der zu schwach für Standard-AES/TLS-Verschlüsselung ist. Welcher vom NIST im Jahr 2025 finalisierte Standard bietet hierfür eine Lösung?",
+      "options": [
+        "Ascon (Lightweight Cryptography)",
+        "RSA-4096 (Public Key Infrastructure)",
+        "IPsec mit IKEv2",
+        "SHA-3 (Secure Hash Algorithm)"
+      ],
+      "answer": 0,
+      "explanation": "Ascon wurde vom NIST speziell als Standard für „Lightweight Cryptography“ ausgewählt. Er ist für ressourcenbeschränkte Geräte optimiert, die nicht genügend Leistung für die schweren Algorithmen klassischer IT-Sicherheit haben.",
+      "weight": 2,
+      "topic": "Sicherheit im IoT",
+      "concept": "Lightweight Cryptography (Ascon)",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Schutz für kleine Geräte",
+        "steps": [
+          "Herausforderung: Standard-Krypto (AES, RSA) braucht viel RAM und Rechenzeit.",
+          "Risiko: Kleine Sensoren werden oft unverschlüsselt betrieben.",
+          "Lösung: Ascon bietet authentifizierte Verschlüsselung bei minimalem Ressourcenbedarf.",
+          "Status: Offizieller NIST-Standard seit 2025."
+        ],
+        "content": "Sicherheit darf keine Frage der Rechenleistung sein. Mit Ascon gibt es nun einen standardisierten Algorithmus, der auch auf 8-Bit- oder 16-Bit-Mikrocontrollern effizient läuft und somit die Sicherheitslücke am 'Edge' des IoT schließt."
+      },
+      "mini_glossary": [
+        {
+          "term": "NIST",
+          "definition": "US-Behörde für Standards und Technologie."
+        },
+        {
+          "term": "Ascon",
+          "definition": "Algorithmus-Familie für leichtgewichtige Kryptografie."
+        },
+        {
+          "term": "AES",
+          "definition": "Advanced Encryption Standard (der 'große' Standard)."
+        },
+        {
+          "term": "Mikrocontroller",
+          "definition": "Ein-Chip-Computersystem für Steuerungsaufgaben."
+        },
+        {
+          "term": "Authentifizierung",
+          "definition": "Nachweis der Identität (Echtheit)."
+        },
+        {
+          "term": "RAM",
+          "definition": "Arbeitsspeicher (Random Access Memory)."
+        }
+      ]
+    },
+    {
+      "question": "10. Ein Smart-Home-Hersteller möchte sicherstellen, dass seine Geräte lokal (ohne Cloud) und herstellerübergreifend mit Apple-, Google- und Amazon-Hubs funktionieren. Welcher Standard auf Anwendungsebene realisiert dies?",
+      "options": [
+        "Matter",
+        "MQTT-SN",
+        "LoRaWAN",
+        "Profibus"
+      ],
+      "answer": 0,
+      "explanation": "Matter ist der Interoperabilitätsstandard für das Smart Home. Er definiert ein gemeinsames Datenmodell auf IP-Basis, das über Wi-Fi, Thread oder Ethernet läuft und lokale Steuerung ohne Cloud-Zwang ermöglicht.",
+      "weight": 2,
+      "topic": "Interoperabilität & Smart Home",
+      "concept": "Matter Standard",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Das Versprechen von Matter",
+        "steps": [
+          "Problem: Fragmentierung (Gerät A geht nur mit App B).",
+          "Lösung: Matter als universelle 'Sprache' über dem IP-Layer.",
+          "Vorteil: Lokale Kommunikation reduziert Latenz und erhöht Privatsphäre.",
+          "Voraussetzung: Basiert auf IPv6 (via Wi-Fi oder Thread)."
+        ],
+        "content": "Matter bricht die 'Walled Gardens' auf, indem es festlegt, wie ein Gerät (z. B. Lampe) seine Fähigkeiten kommuniziert. Da es IP-basiert ist, abstrahiert es von der darunterliegenden Funktechnik, solange diese IP transportieren kann."
+      },
+      "mini_glossary": [
+        {
+          "term": "Matter",
+          "definition": "Standard für Smart-Home-Kompatibilität."
+        },
+        {
+          "term": "Walled Garden",
+          "definition": "Geschlossenes Ökosystem eines Herstellers."
+        },
+        {
+          "term": "IP-Basis",
+          "definition": "Nutzung von Internet Protocol zur Kommunikation."
+        },
+        {
+          "term": "Latenz",
+          "definition": "Verzögerungszeit."
+        },
+        {
+          "term": "Hub",
+          "definition": "Zentraler Steuerknoten im Smart Home."
+        },
+        {
+          "term": "Cloud-Zwang",
+          "definition": "Notwendigkeit einer Internetverbindung zum Betrieb."
+        }
+      ]
+    },
+    {
+      "question": "11. Warum kann CoAP in einem Szenario mit extrem instabiler Verbindung und teuren Datenkosten (z. B. Satellit) Vorteile gegenüber MQTT haben, obwohl MQTT oft effizienter wirkt?",
+      "options": [
+        "CoAP nutzt UDP, was keinen Verbindungsaufbau-Overhead (Handshake) erzeugt und bei Verbindungsabbrüchen keine Neuverbindungskosten verursacht.",
+        "CoAP komprimiert die Daten automatisch mit ZIP, was die Paketgröße halbiert.",
+        "CoAP garantiert durch Blockchain-Technologie die Datenintegrität ohne Neuübertragung.",
+        "MQTT benötigt zwingend IPv6, was über Satellit nicht verfügbar ist."
+      ],
+      "answer": 0,
+      "explanation": "MQTT (TCP) muss bei jedem Verbindungsabbruch den 3-Wege-Handshake neu durchführen, was Daten und Zeit kostet (Ping-Pong). CoAP (UDP) feuert einzelne Pakete ab; geht eines verloren, wird nur dieses wiederholt, ohne eine ganze Session neu aufzubauen.",
+      "weight": 2,
+      "topic": "Protokoll-Vergleich",
+      "concept": "TCP vs. UDP Overhead",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Verbindungskosten: TCP vs. UDP",
+        "steps": [
+          "Szenario: Instabiles Netz führt zu ständigen Abbrüchen.",
+          "MQTT (TCP): Muss nach jedem Abbruch Verbindung neu aushandeln (SYN, SYN-ACK, ACK) -> Teuer.",
+          "CoAP (UDP): Sendet einfach Nachricht. Kein Verbindungsstatus im Netz.",
+          "Fazit: In hoch-dynamischen/verlustbehafteten Netzen ist UDP oft 'billiger'."
+        ],
+        "content": "Während MQTT in stabilen Netzen durch die stehende Verbindung extrem effizient ist, kehrt sich dieser Vorteil in instabilen Netzen um. Der Overhead des ständigen Wiederaufbaus von TCP-Verbindungen kann bei Satellitenlinks die Datenkosten treiben."
+      },
+      "mini_glossary": [
+        {
+          "term": "Handshake",
+          "definition": "Begrüßungsprozess zum Aufbau einer Verbindung."
+        },
+        {
+          "term": "Overhead",
+          "definition": "Daten, die nicht Nutzlast sind (Header, Handshakes)."
+        },
+        {
+          "term": "TCP",
+          "definition": "Verbindungsorientiertes Protokoll (braucht Handshake)."
+        },
+        {
+          "term": "UDP",
+          "definition": "Verbindungsloses Protokoll (Fire-and-Forget)."
+        },
+        {
+          "term": "Satelliten-IoT",
+          "definition": "Konnektivität über Weltraum-Infrastruktur."
+        },
+        {
+          "term": "Session",
+          "definition": "Dauer einer logischen Verbindung."
+        }
+      ]
+    },
+    {
+      "question": "12. In einer technischen Analyse wird behauptet: „Bei geringer Paketverlustrate hat MQTT oft eine geringere Latenz als UDP-basierte Protokolle wie CoAP, obwohl TCP mehr Overhead hat.“ Worauf basiert diese Analyse?",
+      "options": [
+        "Der TCP-Stack wird meist im Kernel effizienter gehandhabt (Flow Control) als eine Application-Layer-Implementierung über UDP.",
+        "MQTT nutzt eine spezielle Hardware-Beschleunigung, die bei CoAP-Chips fehlt.",
+        "UDP-Pakete werden von Routern im Internet grundsätzlich mit niedrigerer Priorität behandelt als TCP.",
+        "Die Paketgröße von MQTT ist aufgrund fehlender Header immer kleiner als die von CoAP."
+      ],
+      "answer": 0,
+      "explanation": "Dies ist ein tieferes technisches Detail: Betriebssysteme optimieren TCP (Kernel Space) extrem gut. Ein UDP-Protokoll muss Zuverlässigkeit (Retries, Flow Control) im User Space (Anwendung) nachbauen, was oft langsamer ist als der optimierte Kernel-Code von TCP – solange das Netz stabil ist.",
+      "weight": 3,
+      "topic": "System-Analyse",
+      "concept": "Latenz-Analyse TCP vs. UDP",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Kernel vs. User Space Performance",
+        "steps": [
+          "Beobachtung: TCP wirkt schwerfällig, ist aber hochoptimiert.",
+          "Mechanik: Flusskontrolle und Retransmission laufen im OS-Kernel (schnell).",
+          "Vergleich: CoAP muss 'Reliability' im Anwendungscode (User Space) regeln (langsamerer Kontextwechsel).",
+          "Bedingung: Gilt nur, wenn keine massiven Paketverluste die TCP-Verbindung blockieren (Head-of-Line Blocking)."
+        ],
+        "content": "Studien zeigen, dass die theoretischen Nachteile von TCP (Handshake, Header) in der Praxis durch die hocheffiziente Verarbeitung im Betriebssystem-Kernel kompensiert werden können, solange die Verbindungsqualität gut ist."
+      },
+      "mini_glossary": [
+        {
+          "term": "Kernel Space",
+          "definition": "Privilegierter Speicherbereich des Betriebssystems."
+        },
+        {
+          "term": "User Space",
+          "definition": "Speicherbereich für Anwendungsprogramme."
+        },
+        {
+          "term": "Flow Control",
+          "definition": "Steuerung der Datenmenge, um Überlastung zu vermeiden."
+        },
+        {
+          "term": "Latenz",
+          "definition": "Verzögerung."
+        },
+        {
+          "term": "Stack",
+          "definition": "Implementierung der Protokollschichten."
+        },
+        {
+          "term": "Packet Loss",
+          "definition": "Verlust von Datenpaketen auf dem Übertragungsweg."
+        }
+      ]
+    },
+    {
+      "question": "13. Analysieren Sie das Skalierungsverhalten von Bluetooth Mesh (Managed Flooding) im Vergleich zu Thread (Routing) in einem sehr großen Sensornetzwerk mit hoher Telemetrie-Dichte. Was ist die zu erwartende Konsequenz?",
+      "options": [
+        "BLE Mesh bricht in der Leistung ein, da das Flooding-Verfahren durch redundante Weiterleitungen die Bandbreite 'verstopft'.",
+        "Thread wird instabil, da die Routing-Tabellen auf den Mikrocontrollern zu viel Speicher verbrauchen.",
+        "Beide skalieren linear gleich gut, da sie auf derselben physikalischen Schicht (2,4 GHz) arbeiten.",
+        "BLE Mesh ist effizienter, weil Routing-Updates in Thread mehr Overhead erzeugen als Flooding."
+      ],
+      "answer": 0,
+      "explanation": "Flooding bedeutet, dass Nachrichten von vielen Knoten 'blind' wiederholt werden. In kleinen Netzen (Licht an/aus) ist das robust. In großen Netzen mit vielen Daten (Telemetrie) führt diese Redundanz zu einem 'Broadcast Storm', der die verfügbare Bandbreite schnell sättigt. Routing (Thread) sendet gezielt und spart Kapazität.",
+      "weight": 3,
+      "topic": "Netzwerk-Architektur",
+      "concept": "Flooding vs. Routing Skalierung",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Skalierungsgrenzen von Flooding",
+        "steps": [
+          "Prinzip Flooding (BLE): Nachricht wird an alle Nachbarn geflutet -> Exponentielle Vervielfachung.",
+          "Prinzip Routing (Thread): Nachricht nimmt einen definierten Pfad -> Lineare Belastung.",
+          "Szenario 'Viel Traffic': Flooding verbraucht die 'Airtime' für Redundanz.",
+          "Folge: Kollisionen steigen, Durchsatz sinkt drastisch."
+        ],
+        "content": "Während Managed Flooding die Installation vereinfacht (keine Routenplanung), ist es physikalisch ineffizient für datenintensive Anwendungen. Routing-Protokolle wie Thread investieren Rechenleistung in die Pfadfindung, um die kostbare Funk-Bandbreite zu schonen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Flooding",
+          "definition": "Fluten des Netzwerks mit Nachrichten."
+        },
+        {
+          "term": "Routing",
+          "definition": "Gezielte Weiterleitung über den besten Pfad."
+        },
+        {
+          "term": "Telemetrie",
+          "definition": "Übertragung von Messwerten."
+        },
+        {
+          "term": "Bandbreite",
+          "definition": "Verfügbare Übertragungskapazität."
+        },
+        {
+          "term": "Redundanz",
+          "definition": "Mehrfaches Vorhandensein derselben Information."
+        },
+        {
+          "term": "Skalierbarkeit",
+          "definition": "Fähigkeit, bei Wachstum leistungsfähig zu bleiben."
+        }
+      ]
+    },
+    {
+      "question": "14. Sie müssen ein System entwerfen, bei dem ein Server (Backend) stets den aktuellen Zustand einer Ressource auf einem Batterie-Sensor kennen muss. Warum ist der CoAP-Mechanismus „Observe“ hierarchisch effizienter als HTTP-Polling?",
+      "options": [
+        "Der Server abonniert die Ressource einmal; danach pusht der Sensor Updates nur bei Zustandsänderung, was unnötige Anfragen eliminiert.",
+        "Observe erlaubt dem Server, den Sensor zwangsweise aufzuwecken (Wake-on-LAN), um Daten sofort abzurufen.",
+        "Observe komprimiert die Daten stärker als HTTP, ändert aber nichts an der Häufigkeit der Übertragungen.",
+        "Beim Polling muss der Sensor dauerhaft wach bleiben, während Observe komplett passiv ohne Senden funktioniert."
+      ],
+      "answer": 0,
+      "explanation": "Beim Polling fragt der Server ständig: „Gibt es was Neues?“ – meistens lautet die Antwort „Nein“ (Energieverschwendung). Bei CoAP Observe dreht sich die Logik um: Der Server sagt einmal „Sag mir Bescheid, wenn sich was ändert“. Der Sensor schweigt, bis ein Ereignis eintritt.",
+      "weight": 3,
+      "topic": "Anwendungsschicht-Optimierung",
+      "concept": "CoAP Observe Pattern",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Polling vs. Event-Driven",
+        "steps": [
+          "Polling: Periodische Anfragen (z. B. alle 10s).",
+          "Nachteil: 99% der Anfragen sind nutzlos (keine Änderung) -> Radio muss trotzdem senden/empfangen.",
+          "Lösung Observe: Eine Registrierung, danach nur noch Event-Updates.",
+          "Energiebilanz: Das Radio wird nur aktiviert, wenn wirklich Information übertragen wird."
+        ],
+        "content": "Das Observe-Muster transformiert das Request/Response-Modell von REST in ein ereignisgesteuertes Modell. Dies ist für batteriebetriebene Sensoren essenziell, da jede unnötige Aktivierung des Funkmoduls (TX/RX) die Lebensdauer um Tage oder Wochen verkürzen kann."
+      },
+      "mini_glossary": [
+        {
+          "term": "Observe",
+          "definition": "CoAP-Erweiterung zur Ressourcen-Beobachtung."
+        },
+        {
+          "term": "Push",
+          "definition": "Aktives Senden von Daten durch den Erzeuger."
+        },
+        {
+          "term": "Polling",
+          "definition": "Wiederholtes Abfragen durch den Empfänger."
+        },
+        {
+          "term": "Ressource",
+          "definition": "Datenobjekt (z. B. Temperaturwert) im REST-Modell."
+        },
+        {
+          "term": "Event",
+          "definition": "Ereignis (z. B. Wertänderung)."
+        },
+        {
+          "term": "TX/RX",
+          "definition": "Transmit/Receive (Senden/Empfangen)."
+        }
+      ]
+    },
+    {
+      "question": "15. Eine Gemeinde plant ein flächendeckendes Sensornetzwerk. Die Vorgaben sind: 1. Keine laufenden Vertragskosten pro Gerät (OpEx). 2. Volle Hoheit über die Gateways und Daten. 3. Reichweite > 5km. Welche architekturelle Entscheidung ist zwingend?",
+      "options": [
+        "Aufbau eines privaten LoRaWAN-Netzes im unlizenzierten Spektrum.",
+        "Nutzung von NB-IoT über einen großen Mobilfunkanbieter.",
+        "Einsatz eines Mesh-Netzwerks auf Wi-Fi-Basis über die Dächer.",
+        "Nutzung von 5G RedCap Campus-Netzwerken im mmWave-Bereich."
+      ],
+      "answer": 0,
+      "explanation": "Die Anforderung 'Keine laufenden Kosten' und 'Volle Hoheit' schließt NB-IoT/LTE-M (Provider-abhängig) aus. Wi-Fi schafft keine 5km. Nur LoRaWAN erlaubt den Aufbau eines 'Private Network', bei dem man die Gateways selbst besitzt und im kostenlosen ISM-Band funkt.",
+      "weight": 3,
+      "topic": "Strategische Netzwerkplanung",
+      "concept": "Private vs. Public Network",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Make or Buy: LoRaWAN vs. Mobilfunk",
+        "steps": [
+          "Kriterium 1: OpEx (Betriebskosten). Mobilfunk = monatliche Gebühr. LoRaWAN (privat) = 0€ (nur Strom/Wartung).",
+          "Kriterium 2: Reichweite. Wi-Fi scheidet aus.",
+          "Kriterium 3: Hoheit. Bei NB-IoT besitzt der Provider das Netz. Bei LoRaWAN gehört das Gateway der Gemeinde.",
+          "Schlussfolgerung: LoRaWAN ist die einzige Option für ein autarkes, weitreichendes Netz."
+        ],
+        "content": "Die Entscheidung zwischen Public (NB-IoT) und Private (LoRaWAN) ist oft eine ökonomische und politische. Wer Unabhängigkeit und Fixkosten-Vermeidung priorisiert, muss die Infrastrukturinvestition (Gateways) tätigen und nutzt dafür lizenzfreie Frequenzen."
+      },
+      "mini_glossary": [
+        {
+          "term": "OpEx",
+          "definition": "Operational Expenditures (laufende Betriebskosten)."
+        },
+        {
+          "term": "ISM-Band",
+          "definition": "Lizenzfreier Frequenzbereich (Industrial, Scientific, Medical)."
+        },
+        {
+          "term": "Hoheit",
+          "definition": "Kontrolle und Besitz über die Infrastruktur."
+        },
+        {
+          "term": "Private Network",
+          "definition": "Netzwerk im eigenen Besitz und Betrieb."
+        },
+        {
+          "term": "LoRaWAN",
+          "definition": "Long Range Wide Area Network."
+        },
+        {
+          "term": "mmWave",
+          "definition": "Millimeterwellen (sehr hohe 5G-Frequenzen, kurze Reichweite)."
+        }
+      ]
+    }
+  ]
+}
