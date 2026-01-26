@@ -1253,6 +1253,7 @@
             "recover_failure": "Combinación errónea.",
             "database_error": "Error BD: No se puede iniciar.",
             "test_button": "Iniciar Test",
+            "dialog_start_choose_set": "Continuar a la selección de set",
             "admin_no_secret": "Este alias no puede tener clave secreta.",
             "question_required": "Elige un set primero."
         },

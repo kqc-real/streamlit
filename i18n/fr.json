@@ -1253,6 +1253,7 @@
             "recover_failure": "Mauvaise combi.",
             "database_error": "Erreur BDD : Session impossible.",
             "test_button": "Lancer le test",
+            "dialog_start_choose_set": "Continuer vers le choix du set",
             "admin_no_secret": "Ce pseudonyme ne peut pas avoir de secret.",
             "question_required": "Choisis un set d'abord."
         },

@@ -1253,6 +1253,7 @@
             "recover_failure": "Combinazione errata.",
             "database_error": "Errore DB: Impossibile avviare.",
             "test_button": "Avvia Test",
+            "dialog_start_choose_set": "Continua alla scelta del set",
             "admin_no_secret": "Per questo alias non è possibile impostare un secret.",
             "question_required": "Scegli un set prima."
         },

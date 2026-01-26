@@ -1256,6 +1256,7 @@
             "recover_failure": "组合错误。检查秘密。",
             "database_error": "数据库错误: 无法启动会话。",
             "test_button": "开始测试",
+            "dialog_start_choose_set": "继续选择题库",
             "admin_no_secret": "此代号无法设置密钥。",
             "question_required": "先选择一个题库。"
         },

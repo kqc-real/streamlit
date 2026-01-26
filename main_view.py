@@ -521,7 +521,9 @@ def _welcome_pseudonym_recover_missing_fields() -> str:
     )
 
 
-def _welcome_pseudonym_recover_button() -> str:
+def _welcome_pseudonym_recover_button(start_label: str | None = None) -> str:
+    if start_label:
+        return start_label
     return translate_ui(
         "welcome.pseudonym.recover_button",
         default="Mit dem reservierten Pseudonym Test starten",
@@ -1987,34 +1989,10 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             st.warning(_welcome_pseudonym_secret_too_short(min_len))
             secret_too_short = True
 
-        disabled = (not selected_name) or secret_too_short
-        if st.button(
-            translate_ui("welcome.pseudonym.dialog_start", default="Start"),
-            type="primary",
-            use_container_width=True,
-            disabled=disabled,
-            key="pseudonym_dialog_start_btn",
-        ):
-            try:
-                user_name = str(selected_name).strip()
-                user_id_hash = get_user_id_hash(user_name)
-                add_user(user_id_hash, user_name)
-                st.session_state['selected_pseudonym'] = user_name
-                st.session_state['main_view_pseudonym_selector'] = user_name
-                st.session_state['user_id'] = user_name
-                st.session_state['user_id_hash'] = user_id_hash
-
-                if secret:
-                    normalized_secret = str(secret).strip()
-                    ok = set_recovery_secret(user_id_hash, normalized_secret)
-                    if not ok:
-                        st.error(_welcome_pseudonym_reserve_error())
-                        return
-                st.session_state['_pseudonym_dialog_open'] = False
-                st.session_state['_pseudonym_ready'] = True
-                st.rerun()
-            except Exception as exc:
-                st.error(_welcome_pseudonym_reserve_error_with_reason(str(exc)))
+        flow_choice_for_label = st.session_state.get("_welcome_flow") or st.session_state.get("_last_welcome_flow")
+        start_label = translate_ui("welcome.pseudonym.dialog_start", default="Start")
+        if flow_choice_for_label == "choose_set":
+            start_label = translate_ui("welcome.pseudonym.dialog_start_choose_set", default="Weiter zur Set-Auswahl")
 
         # Wiederherstellung: „Ich habe bereits ein Pseudonym“
         with st.expander(_welcome_pseudonym_recover_expander(), expanded=False):
@@ -2029,7 +2007,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             )
 
             if st.button(
-                _welcome_pseudonym_recover_button(),
+                _welcome_pseudonym_recover_button(start_label),
                 type="secondary",
                 use_container_width=True,
                 disabled=not (rec_pseudo and rec_secret),
@@ -2056,6 +2034,35 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                     st.rerun()
                 except Exception as exc:
                     st.error(_welcome_pseudonym_reserve_error_with_reason(str(exc)))
+
+        disabled = (not selected_name) or secret_too_short
+        if st.button(
+            start_label,
+            type="primary",
+            use_container_width=True,
+            disabled=disabled,
+            key="pseudonym_dialog_start_btn",
+        ):
+            try:
+                user_name = str(selected_name).strip()
+                user_id_hash = get_user_id_hash(user_name)
+                add_user(user_id_hash, user_name)
+                st.session_state['selected_pseudonym'] = user_name
+                st.session_state['main_view_pseudonym_selector'] = user_name
+                st.session_state['user_id'] = user_name
+                st.session_state['user_id_hash'] = user_id_hash
+
+                if secret:
+                    normalized_secret = str(secret).strip()
+                    ok = set_recovery_secret(user_id_hash, normalized_secret)
+                    if not ok:
+                        st.error(_welcome_pseudonym_reserve_error())
+                        return
+                st.session_state['_pseudonym_dialog_open'] = False
+                st.session_state['_pseudonym_ready'] = True
+                st.rerun()
+            except Exception as exc:
+                st.error(_welcome_pseudonym_reserve_error_with_reason(str(exc)))
 
     # Immer inline rendern, um Mehrfach-Dialog-Konflikte zu vermeiden.
     st.subheader(_welcome_pseudonym_heading())
