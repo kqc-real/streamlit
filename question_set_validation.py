@@ -324,9 +324,17 @@ def _validate_meta(meta: Dict[str, Any], question_count: int, tr: Callable[[str,
         if not isinstance(profile, dict):
             warnings.append(tr("validator.warnings.meta_difficulty_profile_not_object", "meta.difficulty_profile ist kein Objekt und wird ignoriert."))
         else:
+            # Akzeptiere deutsche Aliasse (leicht/mittel/schwer) und mappe auf easy/medium/hard,
+            # damit temporäre Fragensets ohne Warnung durch die Validierung kommen.
+            resolved: dict[str, Any] = {}
+            for eng, alias in (("easy", "leicht"), ("medium", "mittel"), ("hard", "schwer")):
+                val = profile.get(eng)
+                if val is None and alias in profile:
+                    val = profile.get(alias)
+                resolved[eng] = val
+
             sum_profile = 0
-            for key in ("easy", "medium", "hard"):
-                val = profile.get(key)
+            for key, val in resolved.items():
                 try:
                     intval = int(val)
                 except (TypeError, ValueError):
