@@ -551,7 +551,7 @@
         "history_show_more": "Afficher plus"
     },
     "dialog": {
-        "title": "Créer un set avec l'IA",
+        "title": "Créer un set et des objectifs d’apprentissage avec l’IA",
         "intro": "Choisis le prompt adapté à ton objectif (Cartes ou Quiz) et copie-le dans ton IA.",
         "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)** : Le top choix. Parfait pour les formules & cartes complexes.\n- **[Kahoot](https://kahoot.com)** : Calibré pour les limites Kahoot (texte court, temps).\n- **[arsnova.click](https://arsnova.click)** : Optimisé pour l'outil universitaire (LaTeX, Markdown).",
         "prompt_toggle_button": "👁️ Afficher / Masquer",
@@ -563,6 +563,7 @@
         "prompt_copy_error": "Échec copie",
         "tab_questionset": "Fragenset",
         "tab_learning_objectives": "Objectifs (optionnel)",
+        "questionset_heading": "Téléverser le set de questions",
         "prompt_expander_title": "Afficher les prompts",
         "upload_heading": "Uploader un set",
         "upload_warning": "⚠️ Max 30 questions & 5 Mo.",
@@ -589,7 +590,7 @@
         "lo_optional_info": "Optionnel : Téléverse les objectifs dans l’onglet « Lernziele » ou confirme que tu démarres sans.",
         "lo_skip_checkbox": "Démarrer sans objectifs d’apprentissage",
         "close_button": "Fermer",
-        "learning_objectives_heading": "Créer et téléverser les objectifs d’apprentissage",
+        "learning_objectives_heading": "Téléverser les objectifs d’apprentissage",
         "learning_objectives_caption": "Utilise le prompt des objectifs dans l’onglet « Fragenset », envoie-le à une IA externe (p. ex. ChatGPT ou Gemini), fais générer le Markdown, puis téléverse-le ici.",
         "learning_objectives_hint_save_first": "Enregistre d’abord ton ensemble de questions, puis téléverse les objectifs.",
         "learning_objectives_mode": "Comment souhaites-tu ajouter les objectifs d’apprentissage ?",

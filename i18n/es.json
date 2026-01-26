@@ -552,7 +552,7 @@
         "history_show_more": "Mostrar más"
     },
     "dialog": {
-        "title": "Crear set con IA",
+        "title": "Crear set y objetivos de aprendizaje con IA",
         "intro": "Elige el prompt según tu objetivo (Tarjetas o Quiz) y pégalo en tu IA.",
         "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)** : La mejor opción. Ideal para fórmulas y tarjetas complejas.\n- **[Kahoot](https://kahoot.com)** : Ajustado a los límites de Kahoot (texto corto, tiempo).\n- **[arsnova.click](https://arsnova.click)** : Optimizado para la herramienta universitaria (LaTeX, Markdown).",
         "prompt_toggle_button": "👁️ Mostrar / Ocultar",
@@ -564,6 +564,7 @@
         "prompt_copy_error": "Error al copiar",
         "tab_questionset": "Fragenset",
         "tab_learning_objectives": "Objetivos (opcional)",
+        "questionset_heading": "Subir set de preguntas",
         "prompt_expander_title": "Mostrar prompts",
         "upload_heading": "Subir set",
         "upload_warning": "⚠️ Máx 30 preguntas y 5 MB.",
@@ -590,7 +591,7 @@
         "lo_optional_info": "Opcional: Sube los objetivos en la pestaña «Lernziele» o confirma que quieres empezar sin ellos.",
         "lo_skip_checkbox": "Empezar sin objetivos de aprendizaje",
         "close_button": "Cerrar",
-        "learning_objectives_heading": "Crear y subir objetivos de aprendizaje",
+        "learning_objectives_heading": "Subir objetivos de aprendizaje",
         "learning_objectives_caption": "Usa el prompt de objetivos en la pestaña «Fragenset», mándalo a una IA externa (p. ej. ChatGPT o Gemini), genera el Markdown y súbelo aquí.",
         "learning_objectives_hint_save_first": "Primero guarda tu set de preguntas, luego sube los objetivos.",
         "learning_objectives_mode": "¿Cómo quieres añadir los objetivos de aprendizaje?",

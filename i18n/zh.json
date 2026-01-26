@@ -145,7 +145,7 @@
         "history_show_more": "显示更多"
     },
     "dialog": {
-        "title": "使用 AI 创建题库",
+        "title": "使用 AI 创建题库与学习目标",
         "intro": "选择符合您目标的提示词（抽认卡或测验）并将其复制到您的 AI。",
         "prompt_guide": "- **Anki**: 首选。最适合公式和复杂卡片。\n- **Kahoot**: 针对 Kahoot 限制（文本长度、时间）进行了调整。\n- **arsnova.click**: 针对大学工具（Markdown, LaTeX）进行了优化。",
         "prompt_toggle_button": "👁️ 显示 / 隐藏",
@@ -157,6 +157,7 @@
         "prompt_copy_error": "复制失败",
         "tab_questionset": "Fragenset",
         "tab_learning_objectives": "学习目标（可选）",
+        "questionset_heading": "上传题库",
         "prompt_expander_title": "显示提示词",
         "upload_heading": "上传题库",
         "upload_warning": "⚠️ 允许最多 30 个问题和 5 MB。",
@@ -183,7 +184,7 @@
         "lo_optional_info": "可选：在“Lernziele”选项卡上传学习目标，或确认直接开始。",
         "lo_skip_checkbox": "不上传学习目标直接开始",
         "close_button": "关闭",
-        "learning_objectives_heading": "生成并上传学习目标",
+        "learning_objectives_heading": "上传学习目标",
         "learning_objectives_caption": "在“Fragenset”选项卡使用学习目标提示词，提交给外部 AI（如 ChatGPT 或 Gemini），生成 Markdown，然后在此上传。",
         "learning_objectives_hint_save_first": "请先保存题集，然后再上传学习目标。",
         "learning_objectives_mode": "如何添加学习目标？",

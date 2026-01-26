@@ -141,7 +141,7 @@
         "history_show_more": "Show more"
     },
     "dialog": {
-        "title": "Create Set with AI",
+        "title": "Create Set & Learning Objectives with AI",
         "intro": "Use the prompts in the \"Fragenset\" tab, send them to your AI (e.g. ChatGPT or Gemini) to create the MC set and optional learning objectives, then upload/paste the JSON and upload the Markdown in the matching tabs.",
         "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)**: Top choice. Best for formulas & complex cards.\n- **[Kahoot](https://kahoot.com)**: Tuned for Kahoot limits (text length, time).\n- **[arsnova.click](https://arsnova.click)**: Optimized for the uni tool (Markdown, LaTeX).",
         "prompt_toggle_button": "👁️ Show / Hide",
@@ -153,6 +153,7 @@
         "prompt_copy_error": "Copy failed",
         "tab_questionset": "Question set",
         "tab_learning_objectives": "Learning objectives (optional)",
+        "questionset_heading": "Upload Question Set",
         "prompt_expander_title": "Show prompts",
         "upload_heading": "Upload Set",
         "upload_warning": "⚠️ Max 30 questions & 5 MB allowed.",
@@ -179,7 +180,7 @@
         "lo_optional_info": "Optional: Upload learning objectives in the \"Lernziele\" tab or confirm you want to start without them.",
         "lo_skip_checkbox": "Start without learning objectives",
         "close_button": "Close",
-        "learning_objectives_heading": "Create and upload learning objectives",
+        "learning_objectives_heading": "Upload Learning Objectives",
         "learning_objectives_caption": "Use the learning-objectives prompt in the \"Fragenset\" tab, send it to an external AI (e.g. ChatGPT or Gemini), generate Markdown, and upload it here.",
         "learning_objectives_hint_save_first": "Save your question set first, then upload the learning objectives.",
         "learning_objectives_mode": "How do you want to add the learning objectives?",

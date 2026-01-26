@@ -623,6 +623,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         ])
 
         with tabs[0]:
+            st.subheader(_dialog_text("questionset_heading", default="Upload Question Set"))
             with st.expander(_dialog_text("prompt_expander_title", default="Prompts anzeigen"), expanded=False):
                 st.markdown(
                     _dialog_text(
