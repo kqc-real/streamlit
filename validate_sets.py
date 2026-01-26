@@ -13,6 +13,8 @@ Zweck:
 
 Ausführung:
     python validate_sets.py
+    python validate_sets.py data/questions_IoT:_Protokolle_&_Konnektivität.json
+    python validate_sets.py data/questions_*.json
 
 Das Skript gibt einen Exit-Code > 0 zurück, wenn Fehler gefunden wurden,
 und ist somit für CI/CD-Pipelines geeignet.
@@ -21,6 +23,8 @@ import json
 import re
 from pathlib import Path
 import logging
+import sys
+import glob
 from i18n import translate
 
 # Configure a simple logger for this CLI script so messages are visible when
@@ -155,11 +159,28 @@ def main():
     all_files_ok = True
     total_errors = 0
     total_warnings = 0
-
-    question_files = sorted(list(data_dir.glob("questions_*.json")))
+    args = [arg for arg in sys.argv[1:] if arg.strip()]
+    if args:
+        question_files: list[Path] = []
+        for arg in args:
+            if any(ch in arg for ch in ["*", "?", "["]):
+                for match in glob.glob(arg):
+                    question_files.append(Path(match))
+                continue
+            candidate = Path(arg)
+            if candidate.is_dir():
+                question_files.extend(candidate.glob("questions_*.json"))
+                continue
+            question_files.append(candidate)
+        question_files = sorted({path.resolve() for path in question_files})
+    else:
+        question_files = sorted(list(data_dir.glob("questions_*.json")))
 
     if not question_files:
-        logger.error("Keine Fragenset-Dateien (questions_*.json) im 'data'-Verzeichnis gefunden.")
+        if args:
+            logger.error("Keine Fragenset-Dateien für die angegebenen Pfade gefunden.")
+        else:
+            logger.error("Keine Fragenset-Dateien (questions_*.json) im 'data'-Verzeichnis gefunden.")
         return
 
     logger.info(f"Starte Validierung für {len(question_files)} Fragensets...\n")

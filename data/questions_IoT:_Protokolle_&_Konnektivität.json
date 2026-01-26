@@ -30,7 +30,7 @@
       "answer": 0,
       "explanation": "Das IoT-Trilemma besagt, dass hohe Reichweite, hohe Datenrate und lange Batterielaufzeit physikalisch konkurrierende Ziele sind. Eine Technologie kann meist nur zwei dieser Faktoren optimieren, oft auf Kosten des dritten.",
       "weight": 1,
-      "topic": "Grundlagen der IoT-Konnektivität",
+      "topic": "Grundlagen & Protokollauswahl",
       "concept": "IoT-Trilemma",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -67,12 +67,12 @@
         "UDP als Transport und REST-Architektur",
         "TCP als Transport und Publish/Subscribe-Modell",
         "TCP als Transport und REST-Architektur",
-        "UDP als Transport und SOAP-Messaging"
+        "UDP als Transport und SOAP-Messaging-Stack"
       ],
       "answer": 0,
       "explanation": "CoAP wurde entwickelt, um die Prinzipien des Webs (REST) auf kleine Geräte zu übertragen. Es nutzt typischerweise UDP, um den Overhead gering zu halten, und verwendet HTTP-ähnliche Methoden wie GET und PUT.",
       "weight": 1,
-      "topic": "Anwendungsschicht-Protokolle",
+      "topic": "Systemanalyse & Performance",
       "concept": "CoAP Architektur",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -106,7 +106,7 @@
     {
       "question": "3. Worin liegt der fundamentale architektonische Unterschied zwischen einem Zigbee-Netzwerk und einem Thread-Netzwerk bezüglich der Adressierung?",
       "options": [
-        "Thread ist nativ IPv6-basiert; Zigbee benötigt ein Gateway zur Übersetzung.",
+        "Thread ist IPv6-basiert; Zigbee braucht ein Gateway.",
         "Zigbee nutzt TCP/IP bis zum Endgerät; Thread nutzt proprietäre Adressen.",
         "Thread erfordert zwingend eine Stern-Topologie; Zigbee ist immer ein Mesh.",
         "Zigbee unterstützt kein Mesh-Networking; Thread basiert auf Bluetooth."
@@ -114,7 +114,7 @@
       "answer": 0,
       "explanation": "Thread setzt auf 6LoWPAN und IPv6, wodurch jedes Gerät direkt im IP-Adressraum ansprechbar ist (Routing statt Übersetzung). Zigbee hingegen verwendet einen eigenen Stack, der an der Grenze zum IP-Netzwerk durch einen Hub/Gateway übersetzt werden muss.",
       "weight": 1,
-      "topic": "Lokale Netzwerke",
+      "topic": "Lokale Netze & Mesh",
       "concept": "Thread vs. Zigbee",
       "cognitive_level": "Reproduction",
       "extended_explanation": null,
@@ -148,7 +148,7 @@
     {
       "question": "4. Sie entwerfen ein System, bei dem ein Sensor Messwerte liefert, die gleichzeitig von einem Dashboard, einer Datenbank und einem Alarm-Dienst verarbeitet werden müssen. Die Netzverbindung ist stabil. Welches Protokoll eignet sich aufgrund seiner Architektur am besten?",
       "options": [
-        "MQTT, da das Publish/Subscribe-Muster die Daten einfach an mehrere Abonnenten verteilt.",
+        "MQTT, weil Publish/Subscribe mehrere Empfänger parallel versorgt.",
         "CoAP, da es durch UDP-Multicast die Daten am sichersten an alle verteilt.",
         "HTTP, da jeder Dienst den Sensor per Polling individuell abfragen kann.",
         "Modbus TCP, da es der Standard für parallele Datenbankverbindungen ist."
@@ -156,7 +156,7 @@
       "answer": 0,
       "explanation": "MQTT ist ideal für 1-zu-n-Szenarien. Der Sensor publiziert die Daten einmal an einen Broker, und dieser verteilt sie an alle Dienste (Dashboard, DB, Alarm), die das Topic abonniert haben. Polling (HTTP) wäre hier ineffizient.",
       "weight": 2,
-      "topic": "Protokoll-Auswahl",
+      "topic": "Grundlagen & Protokollauswahl",
       "concept": "Publish/Subscribe Muster",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -201,13 +201,13 @@
       "options": [
         "Target Wake Time (TWT)",
         "Orthogonal Frequency-Division Multiple Access (OFDMA)",
-        "WPA3 Verschlüsselung",
-        "1024-QAM Modulation"
+        "WPA3 Verschlüsselung (Sicherheit)",
+        "1024-QAM Modulation (hoher Datendurchsatz)"
       ],
       "answer": 0,
       "explanation": "Target Wake Time (TWT) erlaubt es dem Access Point und dem Gerät, feste Aufwachzeiten auszuhandeln. Das Funkmodul kann dazwischen komplett in den Schlafmodus gehen, was den Energieverbrauch massiv senkt und WLAN für Batteri-Sensoren tauglich macht.",
       "weight": 2,
-      "topic": "Lokale Netzwerke",
+      "topic": "Lokale Netze & Mesh",
       "concept": "Wi-Fi 6 TWT",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -258,7 +258,7 @@
       "answer": 0,
       "explanation": "NB-IoT nutzt lizenziertes Mobilfunkspektrum und bietet hervorragende Gebäudedurchdringung ('Deep Indoor'). Da es über Mobilfunkprovider bereitgestellt wird, entfällt der Aufbau eigener Gateways (im Gegensatz zu LoRaWAN, wenn man kein öffentliches Netz nutzt).",
       "weight": 2,
-      "topic": "Weitbereichsnetze (LPWAN)",
+      "topic": "Sicherheit",
       "concept": "NB-IoT vs. LoRaWAN",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -302,14 +302,14 @@
       "question": "7. Ein Kunde benötigt Videoüberwachung an mobilen Robotern. LPWAN ist zu langsam, aber volles 5G ist zu teuer und die Module sind zu groß. Welche Mobilfunk-Technologieklasse adressiert genau diese „Mittelklasse“ (Mid-Tier)?",
       "options": [
         "5G RedCap (Reduced Capability)",
-        "LTE-M (Cat-M1)",
-        "LoRaWAN Klasse C",
-        "Sigfox"
+        "LTE-M (Cat-M1, stromsparend, IoT-optimiert)",
+        "LoRaWAN Klasse C (LPWAN, hohe Reichweite, geringe Datenrate)",
+        "Sigfox (ultra-niedrige Datenrate, schmalbandig, LPWAN)"
       ],
       "answer": 0,
       "explanation": "5G RedCap (Reduced Capability) schließt die Lücke zwischen High-End 5G und Low-End LPWAN. Es bietet Datenraten im Bereich von 85–150 Mbps, was für Video reicht, ist aber günstiger und energiesparender als 'volles' 5G.",
       "weight": 2,
-      "topic": "Weitbereichsnetze (Mobilfunk)",
+      "topic": "Weitbereichsnetze",
       "concept": "5G RedCap Positionierung",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -352,7 +352,7 @@
     {
       "question": "8. Welchen Hauptvorteil bietet der Einsatz von MQTT Sparkplug B in einer industriellen Fertigungsumgebung gegenüber „rohem“ MQTT?",
       "options": [
-        "Es standardisiert die Topic-Struktur und Payload, um Interoperabilität im „Unified Namespace“ zu sichern.",
+        "Es standardisiert Topics und Payload für Interoperabilität.",
         "Es erhöht die Datenübertragungsrate durch Kompression auf Transportebene signifikant.",
         "Es ersetzt den TCP-Handshake durch UDP, um die Echtzeitfähigkeit für Roboter zu garantieren.",
         "Es verschlüsselt die Daten automatisch Ende-zu-Ende ohne Zertifikate."
@@ -360,7 +360,7 @@
       "answer": 0,
       "explanation": "Rohes MQTT definiert nicht, wie der Inhalt (Payload) aussieht. Sparkplug B legt genau fest, wie Topics und Datenformate aussehen müssen. Das ermöglicht Plug-and-Play zwischen Maschinen verschiedener Hersteller in einem zentralen Datenraum (Unified Namespace).",
       "weight": 2,
-      "topic": "Interoperabilität & Industrie",
+      "topic": "Interoperabilität & Standards",
       "concept": "MQTT Sparkplug B",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -405,13 +405,13 @@
       "options": [
         "Ascon (Lightweight Cryptography)",
         "RSA-4096 (Public Key Infrastructure)",
-        "IPsec mit IKEv2",
-        "SHA-3 (Secure Hash Algorithm)"
+        "IPsec mit IKEv2 und Zertifikats-Handshake",
+        "SHA-3 (Secure Hash Algorithm, nur Hashing)"
       ],
       "answer": 0,
       "explanation": "Ascon wurde vom NIST speziell als Standard für „Lightweight Cryptography“ ausgewählt. Er ist für ressourcenbeschränkte Geräte optimiert, die nicht genügend Leistung für die schweren Algorithmen klassischer IT-Sicherheit haben.",
       "weight": 2,
-      "topic": "Sicherheit im IoT",
+      "topic": "Sicherheit",
       "concept": "Lightweight Cryptography (Ascon)",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -462,7 +462,7 @@
       "answer": 0,
       "explanation": "Matter ist der Interoperabilitätsstandard für das Smart Home. Er definiert ein gemeinsames Datenmodell auf IP-Basis, das über Wi-Fi, Thread oder Ethernet läuft und lokale Steuerung ohne Cloud-Zwang ermöglicht.",
       "weight": 2,
-      "topic": "Interoperabilität & Smart Home",
+      "topic": "Interoperabilität & Standards",
       "concept": "Matter Standard",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -505,7 +505,7 @@
     {
       "question": "11. Warum kann CoAP in einem Szenario mit extrem instabiler Verbindung und teuren Datenkosten (z. B. Satellit) Vorteile gegenüber MQTT haben, obwohl MQTT oft effizienter wirkt?",
       "options": [
-        "CoAP nutzt UDP, was keinen Verbindungsaufbau-Overhead (Handshake) erzeugt und bei Verbindungsabbrüchen keine Neuverbindungskosten verursacht.",
+        "CoAP nutzt UDP ohne Handshake und vermeidet Neuverbindungen.",
         "CoAP komprimiert die Daten automatisch mit ZIP, was die Paketgröße halbiert.",
         "CoAP garantiert durch Blockchain-Technologie die Datenintegrität ohne Neuübertragung.",
         "MQTT benötigt zwingend IPv6, was über Satellit nicht verfügbar ist."
@@ -513,7 +513,7 @@
       "answer": 0,
       "explanation": "MQTT (TCP) muss bei jedem Verbindungsabbruch den 3-Wege-Handshake neu durchführen, was Daten und Zeit kostet (Ping-Pong). CoAP (UDP) feuert einzelne Pakete ab; geht eines verloren, wird nur dieses wiederholt, ohne eine ganze Session neu aufzubauen.",
       "weight": 2,
-      "topic": "Protokoll-Vergleich",
+      "topic": "Anwendungsschicht-Protokolle",
       "concept": "TCP vs. UDP Overhead",
       "cognitive_level": "Application",
       "extended_explanation": {
@@ -556,7 +556,7 @@
     {
       "question": "12. In einer technischen Analyse wird behauptet: „Bei geringer Paketverlustrate hat MQTT oft eine geringere Latenz als UDP-basierte Protokolle wie CoAP, obwohl TCP mehr Overhead hat.“ Worauf basiert diese Analyse?",
       "options": [
-        "Der TCP-Stack wird meist im Kernel effizienter gehandhabt (Flow Control) als eine Application-Layer-Implementierung über UDP.",
+        "TCP läuft oft effizienter im Kernel als UDP-Logik in Apps.",
         "MQTT nutzt eine spezielle Hardware-Beschleunigung, die bei CoAP-Chips fehlt.",
         "UDP-Pakete werden von Routern im Internet grundsätzlich mit niedrigerer Priorität behandelt als TCP.",
         "Die Paketgröße von MQTT ist aufgrund fehlender Header immer kleiner als die von CoAP."
@@ -564,7 +564,7 @@
       "answer": 0,
       "explanation": "Dies ist ein tieferes technisches Detail: Betriebssysteme optimieren TCP (Kernel Space) extrem gut. Ein UDP-Protokoll muss Zuverlässigkeit (Retries, Flow Control) im User Space (Anwendung) nachbauen, was oft langsamer ist als der optimierte Kernel-Code von TCP – solange das Netz stabil ist.",
       "weight": 3,
-      "topic": "System-Analyse",
+      "topic": "Systemanalyse & Performance",
       "concept": "Latenz-Analyse TCP vs. UDP",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -607,7 +607,7 @@
     {
       "question": "13. Analysieren Sie das Skalierungsverhalten von Bluetooth Mesh (Managed Flooding) im Vergleich zu Thread (Routing) in einem sehr großen Sensornetzwerk mit hoher Telemetrie-Dichte. Was ist die zu erwartende Konsequenz?",
       "options": [
-        "BLE Mesh bricht in der Leistung ein, da das Flooding-Verfahren durch redundante Weiterleitungen die Bandbreite 'verstopft'.",
+        "BLE Mesh skaliert schlecht: Flooding erzeugt Redundanzen und verstopft Bandbreite.",
         "Thread wird instabil, da die Routing-Tabellen auf den Mikrocontrollern zu viel Speicher verbrauchen.",
         "Beide skalieren linear gleich gut, da sie auf derselben physikalischen Schicht (2,4 GHz) arbeiten.",
         "BLE Mesh ist effizienter, weil Routing-Updates in Thread mehr Overhead erzeugen als Flooding."
@@ -615,7 +615,7 @@
       "answer": 0,
       "explanation": "Flooding bedeutet, dass Nachrichten von vielen Knoten 'blind' wiederholt werden. In kleinen Netzen (Licht an/aus) ist das robust. In großen Netzen mit vielen Daten (Telemetrie) führt diese Redundanz zu einem 'Broadcast Storm', der die verfügbare Bandbreite schnell sättigt. Routing (Thread) sendet gezielt und spart Kapazität.",
       "weight": 3,
-      "topic": "Netzwerk-Architektur",
+      "topic": "Lokale Netze & Mesh",
       "concept": "Flooding vs. Routing Skalierung",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -658,7 +658,7 @@
     {
       "question": "14. Sie müssen ein System entwerfen, bei dem ein Server (Backend) stets den aktuellen Zustand einer Ressource auf einem Batterie-Sensor kennen muss. Warum ist der CoAP-Mechanismus „Observe“ hierarchisch effizienter als HTTP-Polling?",
       "options": [
-        "Der Server abonniert die Ressource einmal; danach pusht der Sensor Updates nur bei Zustandsänderung, was unnötige Anfragen eliminiert.",
+        "Server abonniert einmal; Sensor sendet Updates nur bei Änderung und spart Anfragen.",
         "Observe erlaubt dem Server, den Sensor zwangsweise aufzuwecken (Wake-on-LAN), um Daten sofort abzurufen.",
         "Observe komprimiert die Daten stärker als HTTP, ändert aber nichts an der Häufigkeit der Übertragungen.",
         "Beim Polling muss der Sensor dauerhaft wach bleiben, während Observe komplett passiv ohne Senden funktioniert."
@@ -666,7 +666,7 @@
       "answer": 0,
       "explanation": "Beim Polling fragt der Server ständig: „Gibt es was Neues?“ – meistens lautet die Antwort „Nein“ (Energieverschwendung). Bei CoAP Observe dreht sich die Logik um: Der Server sagt einmal „Sag mir Bescheid, wenn sich was ändert“. Der Sensor schweigt, bis ein Ereignis eintritt.",
       "weight": 3,
-      "topic": "Anwendungsschicht-Optimierung",
+      "topic": "Anwendungsschicht-Protokolle",
       "concept": "CoAP Observe Pattern",
       "cognitive_level": "Analysis",
       "extended_explanation": {
@@ -709,7 +709,7 @@
     {
       "question": "15. Eine Gemeinde plant ein flächendeckendes Sensornetzwerk. Die Vorgaben sind: 1. Keine laufenden Vertragskosten pro Gerät (OpEx). 2. Volle Hoheit über die Gateways und Daten. 3. Reichweite > 5km. Welche architekturelle Entscheidung ist zwingend?",
       "options": [
-        "Aufbau eines privaten LoRaWAN-Netzes im unlizenzierten Spektrum.",
+        "Privates LoRaWAN im unlizenzierten Spektrum aufbauen.",
         "Nutzung von NB-IoT über einen großen Mobilfunkanbieter.",
         "Einsatz eines Mesh-Netzwerks auf Wi-Fi-Basis über die Dächer.",
         "Nutzung von 5G RedCap Campus-Netzwerken im mmWave-Bereich."
@@ -717,7 +717,7 @@
       "answer": 0,
       "explanation": "Die Anforderung 'Keine laufenden Kosten' und 'Volle Hoheit' schließt NB-IoT/LTE-M (Provider-abhängig) aus. Wi-Fi schafft keine 5km. Nur LoRaWAN erlaubt den Aufbau eines 'Private Network', bei dem man die Gateways selbst besitzt und im kostenlosen ISM-Band funkt.",
       "weight": 3,
-      "topic": "Strategische Netzwerkplanung",
+      "topic": "Weitbereichsnetze",
       "concept": "Private vs. Public Network",
       "cognitive_level": "Analysis",
       "extended_explanation": {
