@@ -1,81 +1,136 @@
 # 🤖 Agent Instructions: MC-Test-App
 
-Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Dies ist eine Streamlit-Anwendung für Multiple-Choice-Tests im Hochschulkontext (BWL/MINT). Nutze die folgenden Kontextinformationen, um präzisen Code und hilfreiche Antworten zu generieren.
+Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten und Code-Aenderungen sollen zuverlaessig, nachvollziehbar und fuer Studierende ohne IT-Vorkenntnisse verstaendlich sein. Die UI-Sprache ist **Deutsch**.
 
-## 1. Projekt-Kontext & Tech Stack
+## 1) Mission & Grundregeln
 
-- **Art:** Web-Applikation für Self-Assessments und Klausurvorbereitung.
-- **Framework:** [Streamlit](https://streamlit.io/) (Python).
-- **Sprache:** Python 3.12 (⚠️ **Wichtig:** Python 3.14 wird explizit nicht unterstützt, siehe Installationsanleitungen).
-- **Datenhaltung:** SQLite (`data/mc_test_data.db`) für User-Sessions/Statistiken; Markdown-Dateien für Frageninhalte.
-- **Zielgruppe:** Studierende (oft ohne IT-Hintergrund) und Dozenten.
+- **Ziel:** Multiple-Choice-Fragensets pflegen, verbessern, validieren und passende Lernziele erstellen.
+- **Klarheit:** Formulierungen kurz und eindeutig; keine Fachjargon-Orgie.
+- **Sicherheit:** Keine echten Personendaten verwenden, keine API-Keys hardcoden.
+- **Transparenz:** KI als Assistent nutzen (siehe `KI_NUTZUNG_GUIDE.md`).
 
-## 2. Repository-Struktur
+## 2) Tech-Stack & Rahmenbedingungen
 
-- **`app.py`**: Der Haupteinstiegspunkt der Streamlit-App.
-- **`data/`**:
-  - Enthält die Fragenkataloge als Markdown-Dateien (z. B. `questions_Mathe_...md`).
-  - Enthält die SQLite-Datenbank.
-- **`orga/`**: Organisatorische Dokumente (z. B. `KI_NUTZUNG_GUIDE.md`).
-- **`requirements.txt`**: Python-Abhängigkeiten.
+- **Framework:** Streamlit (Python 3.12). **Python 3.14 ist nicht unterstuetzt.**
+- **Datenhaltung:** SQLite (`data/mc_test_data.db`) fuer Sessions/Statistiken.
+- **Frageninhalte:** JSON-/Markdown-Dateien im Ordner `data/`.
 
-## 3. Coding-Richtlinien & Konventionen
+## 3) Repository-Struktur (relevant)
 
-### 3.1 Streamlit-Spezifika
-- Nutze `st.session_state` intensiv für den Statuserhalt über Reruns hinweg (z. B. aktueller Fragenindex, gegebene Antworten).
-- Verwende `@st.cache_data` für das Laden der Fragen und schwere Berechnungen.
-- UI-Sprache ist **Deutsch**.
+- `app.py`: Einstiegspunkt der Streamlit-App.
+- `data/`: Fragensets (`questions_*.json`), Lernziele (`*_Learning_Objectives.md`), DB.
+- `orga/`: organisatorische Dokumente.
+- `requirements.txt`: Abhaengigkeiten.
 
-### 3.2 Fragen-Format (Markdown)
-Fragen werden in Markdown-Dateien definiert. Wenn du neue Fragen generierst oder parst, achte auf die Struktur, die in den Lernziel-Dateien (`Learning_Objectives.md`) impliziert ist:
-- **Kategorien:** Reproduktion, Anwendung, Strukturelle Analyse (Bloom'sche Taxonomie).
-- **Inhalt:** Fragenkontext, Frage, Antwortoptionen, korrekte Antwort, Erklärung.
+## 4) Fragenformat & Schema (JSON)
 
-### 3.3 Anki-Export
-Das Projekt legt großen Wert auf den Export zu Anki.
-- **Format:** `.apkg` (via `genanki`) oder `.tsv`.
-- **HTML/CSS:** Karten nutzen spezifisches HTML/CSS.
-  - Container: `<div class="card-container">`
-  - Frage: `<div class="question">`
-  - Antworten: `<div class="answer-content">`
-  - Styling: Siehe `ANLEITUNG_ANKI_IMPORT.md` für das CSS-Schema.
-- **LaTeX:** Formeln müssen für Anki kompatibel sein (MathJax/KaTeX).
+Pflichtfelder pro Frage (siehe `validate_sets.py`):
+- `question`, `options`, `answer`, `explanation`, `weight`, `topic`, `concept`
 
-### 3.4 Admin-Panel & Sicherheit
-- **Authentifizierung:**
-  - Lokal (`.env` hat `MC_TEST_ADMIN_KEY=""`): Login als "Albert Einstein" ohne Passwort möglich.
-  - Cloud: Erfordert Passwort aus `st.secrets`.
-- **Features:** Itemanalyse (Schwierigkeit, Trennschärfe), Distraktor-Analyse, Feedback-Management.
+Empfohlen/optional:
+- `cognitive_level` (Reproduktion/Anwendung/Strukturelle Analyse)
+- `mini_glossary` (2-6 Eintraege)
+- `extended_explanation` (falls vorhanden, inhaltlich konsistent halten)
 
-## 4. Verhaltensregeln für den Agenten
+Validierungs-Hinweise:
+- `answer` ist **0-basiert** und muss innerhalb der `options` liegen.
+- `weight` in {1,2,3}.
+- `meta.title` und `meta.question_count` muessen passen.
 
-1.  **Benutzerfreundlichkeit:** Erklärungen müssen für BWL-Studierende ohne IT-Vorkenntnisse verständlich sein (siehe Tonfall in `INSTALLATION_WINDOWS_ANLEITUNG.md`).
-2.  **Sicherheit:**
-    -   Niemals echte Personendaten in Beispielen verwenden.
-    -   Keine API-Keys hardcoden.
-3.  **KI-Transparenz:** Halte dich an den `KI_NUTZUNG_GUIDE.md`. Fördere das Verständnis, statt nur Lösungen zu liefern ("KI als Assistent, nicht als Ersatz").
-4.  **Fehlerbehandlung:** Wenn User Probleme mit Ports (8501) oder Pfaden (Leerzeichen) haben, beziehe dich auf die Troubleshooting-Sektionen der Installationsanleitungen.
+## 5) Cognitive-Level Taxonomie (kurz & verbindlich)
 
-## 5. Wichtige Workflows
+- **Reproduktion (Recall):** Fakten/Definitionen. Verben: nennen, benennen, beschreiben, definieren, identifizieren, wiedergeben, angeben.
+- **Anwendung (Use in context):** Rechnen, zuordnen, bestimmen, erkennen im Kontext. Verben: anwenden, berechnen, bestimmen, zuordnen, auswählen, einsetzen, erkennen.
+- **Strukturelle Analyse (Reasoning):** Begruenden, beurteilen, diagnostizieren. Verben: analysieren, begruenden, bewerten, diagnostizieren, herleiten, ableiten.
 
-### Neue Fragen hinzufügen
-Wenn der User neue Fragen erstellen möchte:
-1.  Prüfe das Lernziel (Reproduktion/Anwendung/Analyse).
-2.  Erstelle die Frage im Markdown-Format oder JSON-Format, passend zum Parser der App.
-3.  Stelle sicher, dass eine Erklärung (`explanation`) und eine korrekte Antwort dabei sind.
+## 6) Lernziele (Micro-LOs)
 
-### Datenbank-Reset
-Der Reset ist destruktiv. Wenn danach gefragt wird, weise auf das Backup der `.db` Datei hin, wie in `ADMIN_PANEL_ANLEITUNG.md` beschrieben.
+Erstellung strikt nach `KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`:
+- **Ein Lernziel pro Frage**.
+- **Ein Verb pro Ziel** (keine Verbketten).
+- **Level korrekt waehlen** (Reproduktion/Anwendung/Strukturelle Analyse).
+- **Clustering:** 5-10 uebergeordnete Ziele.
+- **Sortierung:** Themenbloecke logisch von einfach zu komplex.
+- Datei: `data/questions_<Set>_Learning_Objectives.md`.
 
-### Installation Support
-- **Windows:** Python Installer von python.org, "Add to PATH" ist kritisch.
-- **Mac:** Homebrew oder Installer, `python3` vs `python` Befehl beachten.
-- **Allgemein:** `pip install -r requirements.txt` ist obligatorisch.
+## 7) Markdown-Fragenformat (falls genutzt)
 
-## 6. Bekannte Stolpersteine
-- **Python 3.14:** Verursacht Kompatibilitätsprobleme. Empfehle immer Python 3.12.
-- **Pfad-Leerzeichen:** Führen oft zu Fehlern in der Kommandozeile -> Anführungszeichen nutzen.
-- **PDF-Export:** Benötigt `GTK3` Bibliotheken (Pango/Cairo) auf dem Host-System.
+- Anleitung: `ANLEITUNG_MARKDOWN_BEARBEITEN.md`.
+- Struktur strikt einhalten (Kontext/Frage/Antworten/korrekt/Erklaerung).
+- Mathe immer in `$...$` oder `$$...$$`, kein LaTeX in Backticks.
+
+## 8) Systematischer Workflow: Fragensatz optimieren
+
+Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
+1. **Schema-Check:** JSON lesen und `python validate_sets.py data/<set>.json`.
+2. **Pflichtfelder ergaenzen:** `concept` fuellen (bei Bedarf = `topic`), `meta` korrekt setzen.
+3. **Langen-Bias reduzieren:** Korrekte Antwort nicht systematisch laenger/kuerzer als Distraktoren.
+4. **Glossar ausbalancieren:** `mini_glossary` auf 2-6 Eintraege pro Frage bringen.
+5. **Lernziele erzeugen:** Datei `data/questions_<Set>_Learning_Objectives.md` erstellen.
+6. **Lernziele justieren:** Cluster und Detailziele thematisch ordnen; Verben pruefen.
+7. **Cognitive-Level syncen:** `cognitive_level` im JSON mit Lernzielen abgleichen.
+8. **Finale Validierung:** `python validate_sets.py data/<set>.json` und Warnungen minimieren.
+
+## 9) QA & Tests
+
+- **Bei Fragen-JSON:** Immer `python validate_sets.py data/<set>.json`.
+- **Bei Codeaenderungen:** Relevante Tests aus `tests/` ausfuehren. Wenn unklar, mindestens `pytest -q`.
+
+## 10) Definition of Done (DoD) fuer Fragensets
+
+- JSON ist valide; `validate_sets.py` liefert **0 Fehler**.
+- `concept` vorhanden; `mini_glossary` 2-6 Eintraege.
+- Laengen-Bias erkennbar reduziert.
+- Lernziele erstellt, strukturiert, pro Frage genau 1 Ziel.
+- `cognitive_level` ist konsistent zu Lernzielen.
+- Keine LaTeX/HTML-Fehler (z. B. `<`/`>` in Formeln).
+
+## 11) Dateinamen & Konventionen
+
+- Neues Set: `data/questions_<Set>.json`.
+- Lernziele: `data/questions_<Set>_Learning_Objectives.md`.
+- Set-Namen konsistent halten (keine stillen Umbenennungen).
+
+## 12) Export & LaTeX/HTML
+
+- Export: `.apkg` (genanki) oder `.tsv`.
+- HTML/CSS-Struktur:
+  - `<div class="card-container">`
+  - `<div class="question">`
+  - `<div class="answer-content">`
+- LaTeX-Regeln:
+  - Kein `<`/`>` in Formeln (verwende `\\langle`/`\\rangle`).
+  - Kein LaTeX in Backticks.
+
+## 13) Admin-Panel, Datenbank & Sicherheit
+
+- Lokal: `.env` mit `MC_TEST_ADMIN_KEY=""` erlaubt Login als "Albert Einstein".
+- Cloud: Passwort aus `st.secrets`.
+- **DB-Reset ist destruktiv:** immer auf Backup hinweisen (siehe `ADMIN_PANEL_ANLEITUNG.md`).
+
+## 14) Release/Changelog
+
+- Releases/Changelog nur auf explizite Anfrage bearbeiten.
+- Bei Release: `CHANGELOG.md` und ggf. passende Release-Notes aktualisieren.
+
+## 15) Fragenqualitaet & Verteilung
+
+- Verteilung: Themen nicht zu stark zerfasern, Wiederholungen vermeiden.
+- Schwierigkeit: `meta.difficulty_profile` respektieren.
+- Distraktoren: plausibel, gleichartige Laenge, keine offensichtlichen Eliminationshinweise.
+- Keine "Trick"-Antworten ohne fachliche Begruendung.
+
+## 16) Sprachstil
+
+- Deutsch, klar und knapp.
+- Keine Mehrdeutigkeit; eindeutige Fachbegriffe.
+- Erklaerungen: sachlich, kurz, auf Studierende zugeschnitten.
+
+## 17) Troubleshooting
+
+- **Port 8501:** Hinweise aus Installationsanleitungen nutzen.
+- **Pfad-Leerzeichen:** In der Shell Anfuehrungszeichen nutzen.
+- **PDF-Export:** benoetigt GTK3 (Pango/Cairo) auf dem Host-System.
 
 ---
 
