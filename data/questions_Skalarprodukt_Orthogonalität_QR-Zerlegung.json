@@ -37,16 +37,17 @@
         "Skalarprodukt": "Definiert als $\\langle x,y\\rangle=\\sum_i x_i y_i$; Maß für Ausrichtung.",
         "Norm": "Euklidische Länge: $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Skalarprodukt & Norm"
     },
     {
       "question": "2. Welche Aussage zur euklidischen Norm ist korrekt?",
       "options": [
-        "Sie ist definiert als $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$.",
-        "Sie ist gleich $\\sum_i x_i$.",
-        "Sie ist immer 1.",
-        "Sie ist das Maximum der Komponenten.",
-        "Sie ist negativ für kurze Vektoren."
+        "Definiert als $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$.",
+        "Sie ist die Summe der Komponenten $\\sum_i x_i$.",
+        "Sie ist fuer alle Vektoren gleich 1.",
+        "Sie ist der Betrag der groessten Komponente.",
+        "Sie kann bei kurzen Vektoren negativ sein."
       ],
       "answer": 0,
       "explanation": "Die euklidische Norm wird über das Skalarprodukt definiert: $\\|x\\|=\\sqrt{\\langle x,x\\rangle}$.",
@@ -56,7 +57,8 @@
         "Norm": "Länge eines Vektors, induziert durch das Skalarprodukt.",
         "Euklidischer Raum": "Standardraum mit innerem Produkt und daraus abgeleiteter Geometrie."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Skalarprodukt & Norm"
     },
     {
       "question": "3. Wann sind zwei Vektoren orthogonal?",
@@ -70,21 +72,22 @@
       "answer": 2,
       "explanation": "Orthogonalität: $x\\perp y$ genau dann, wenn $\\langle x,y\\rangle=0$.",
       "weight": 1,
-      "topic": "Orthogonalität & Unterräume",
+      "topic": "Skalarprodukt & Norm",
       "mini_glossary": {
         "Orthogonalität": "Bedingung $\\langle x,y\\rangle=0$; rechtwinklige Ausrichtung.",
         "Orthogonales Komplement": "Alle Vektoren, die zu einem Unterraum orthogonal sind."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Skalarprodukt & Norm"
     },
     {
       "question": "4. Wofür steht bei einer orthogonalen Projektion der Restvektor $r=x-Px$?",
       "options": [
-        "Für die Komponente von $x$ im Unterraum.",
-        "Für die Rotation von $x$ um 90°.",
-        "Für die Komponente von $x$ orthogonal zum Unterraum.",
+        "Für die Komponente von $x$ im Unterraum $U$.",
+        "Für eine 90°-Rotation von $x$.",
+        "Für die orthogonale Komponente zu $U$.",
         "Für die Länge von $x$.",
-        "Für die Summe aller Basisvektoren."
+        "Für die Summe aller Basisvektoren von $U$."
       ],
       "answer": 2,
       "explanation": "Bei orthogonaler Projektion gilt $r=x-Px\\perp U$ und $Px\\in U$.",
@@ -94,7 +97,8 @@
         "Projektor": "Lineare Abbildung mit $P^2=P$; bei orthogonaler Projektion zusätzlich $P^\\top=P$.",
         "Restvektor": "Differenz $r=x-Px$, orthogonal zum Zielunterraum."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Projektionen & Projektoren"
     },
     {
       "question": "5. Welche Eigenschaft hat eine Orthonormalbasis (ONB)?",
@@ -113,7 +117,8 @@
         "Gram–Schmidt": "Verfahren zur Erzeugung einer ONB aus unabhängigen Vektoren.",
         "ONB": "Orthonormalbasis; orthogonale Einheitsvektoren spannen den Raum auf."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Gram–Schmidt"
     },
     {
       "question": "6. Was bedeutet bei einer QR-Zerlegung die Gleichung $Q^\\top Q=I$?",
@@ -132,7 +137,8 @@
         "QR-Zerlegung": "Faktorisierung $A=QR$ mit orthonormalem $Q$ und oberem Dreieck $R$.",
         "Dünnes Q": "$Q\\in\\mathbb{R}^{m\\times n}$ mit $Q^\\top Q=I_n$ für $m\\ge n$."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "7. Was ist R in der QR-Zerlegung $A=QR$?",
@@ -151,7 +157,8 @@
         "Obere Dreiecksmatrix": "Matrix mit Nullen unterhalb der Hauptdiagonalen.",
         "Rückwärtseinsetzen": "Lösen eines oberen Dreieckssystems ohne Inversion."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "8. Welche Grundidee folgt bei Least Squares via QR?",
@@ -170,7 +177,8 @@
         "Least Squares": "Minimiert $\\|Ax-b\\|^2$; Lösung via QR: $Rx=Q^\\top b$.",
         "Residuum": "Fehlervektor $r=b-Ax$; bei Lösung orthogonal zu span$(A)$."
       },
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Least Squares via QR"
     },
     {
       "question": "9. Welche Gleichungen charakterisieren einen orthogonalen Projektor $P$ auf einen Unterraum $U$ korrekt?",
@@ -197,7 +205,8 @@
         "Projektor": "Lineare Abbildung mit $P^2=P$; bei orthogonaler Projektion zusätzlich $P^\\top=P$.",
         "Optimalität": "$Px$ minimiert $\\|x-z\\|$ über $z\\in U$."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Projektionen & Projektoren"
     },
     {
       "question": "10. Für $x\\neq 0, y\\neq 0$ gilt $\\cos\\angle(x,y)=\\dfrac{\\langle x,y\\rangle}{\\|x\\|\\,\\|y\\|}$. Welche Aussage ist korrekt?",
@@ -224,7 +233,8 @@
         "Kosinus-Ähnlichkeit": "$\\cos=\\dfrac{\\langle x,y\\rangle}{\\|x\\|\\,\\|y\\|}$; vergleicht Richtungen.",
         "Normierung": "Skalieren auf gleiche Länge, um Richtungen zu vergleichen."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Winkel & Cauchy-Schwarz"
     },
     {
       "question": "11. Gegeben ein Einheitsvektor $u$ und ein Vektor $x$. Welche Formel gibt die Projektion von $x$ auf $\\operatorname{span}\\{u\\}$ an?",
@@ -251,16 +261,17 @@
         "Einheitsvektor": "Vektor mit Norm 1.",
         "Restorthogonalität": "$x-\\operatorname{proj}_u(x)\\perp u$."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Projektionen & Projektoren"
     },
     {
       "question": "12. Sei $(u_1,\\dots,u_k)$ eine ONB eines Unterraums $U$. Welche Darstellung der Projektion ist korrekt?",
       "options": [
         "$\\operatorname{proj}_U(x)=\\sum_{i=1}^k \\langle x,u_i\\rangle u_i$.",
-        "$\\operatorname{proj}_U(x)=\\sum_{i=1}^k x_i u_i$.",
-        "$\\operatorname{proj}_U(x)=U^{-1}x$.",
-        "$\\operatorname{proj}_U(x)=Ux$.",
-        "$\\operatorname{proj}_U(x)=U^\\top x$."
+        "$\\operatorname{proj}_U(x)=\\sum_{i=1}^k x_i u_i$ (nur Koordinaten von $x$).",
+        "$\\operatorname{proj}_U(x)=U^{-1}x$ (falls $U$ quadratisch).",
+        "$\\operatorname{proj}_U(x)=Ux$ (ohne Projektion).",
+        "$\\operatorname{proj}_U(x)=U^\\top x$ (liefert nur Koordinaten)."
       ],
       "answer": 0,
       "explanation": "Projektion auf $U$ via ONB-Summenformel.",
@@ -278,12 +289,13 @@
         "Projektormatrix": "Für ONB $U$ gilt $P=UU^\\top$.",
         "Eindeutigkeit": "Die orthogonale Projektion ist eindeutig."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Projektionen & Projektoren"
     },
     {
       "question": "13. Welche Aussage zum klassischen Gram–Schmidt (CGS) ist fachlich zutreffend?",
       "options": [
-        "CGS ist konzeptionell einfach, aber numerisch weniger stabil.",
+        "CGS ist einfach, aber numerisch instabiler.",
         "CGS ist numerisch stabiler als Householder.",
         "CGS erzeugt niemals eine ONB.",
         "CGS benötigt eine invertierbare Matrix.",
@@ -305,13 +317,14 @@
         "MGS": "Modifizierter Gram–Schmidt; numerisch stabiler als CGS.",
         "Householder": "Spiegelungsverfahren zur robusten QR-Konstruktion."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Gram–Schmidt"
     },
     {
       "question": "14. Was beschreibt die Matrix $Q$ in $A=QR$ geometrisch am besten?",
       "options": [
         "Sie skaliert Achsen unabhängig.",
-        "Sie ist eine orthogonale Transformation (Rotation/Spiegelung).",
+        "Eine orthogonale Transformation.",
         "Sie ist eine Scherung entlang der Diagonalen.",
         "Sie invertiert $A$ direkt.",
         "Sie ist stets diagonal mit Einsen."
@@ -332,13 +345,14 @@
         "Orthogonale Matrix": "Erfüllt $Q^\\top Q=I$; erhält Normen/Winkel.",
         "Scherung": "Lineare Verzerrung, die Winkel verändert."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "15. Worin besteht der Vorteil von Least Squares via QR gegenüber Normalengleichungen $A^\\top A x=A^\\top b$?",
       "options": [
         "Weniger Rechenaufwand in jedem Fall.",
-        "Größere numerische Stabilität durch Vermeidung der Bildung von $A^\\top A$.",
+        "Stabiler, da $A^\\top A$ nicht gebildet wird.",
         "Eine exakte Lösung für jedes überbestimmte System.",
         "Keine Orthogonalisierung erforderlich.",
         "Es benötigt keine Dreiecksmatrix."
@@ -359,7 +373,8 @@
         "Kondition": "Empfindlichkeit der Lösung gegenüber Datenstörungen.",
         "Normalengleichungen": "Form $A^\\top A x=A^\\top b$; oft schlechter konditioniert."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Strukturelle Analyse",
+      "concept": "Least Squares via QR"
     },
     {
       "question": "16. Gegeben $x=(1,2,2)^\\top$ und $y=(2,0,1)^\\top$. Welche Größe hat $\\langle x,y\\rangle$?",
@@ -386,7 +401,8 @@
         "Cauchy–Schwarz": "$|\\langle x,y\\rangle|\\le \\|x\\|\\,\\|y\\|$.",
         "Winkel": "Definiert über den Kosinus der normierten Projektion."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Winkel & Cauchy-Schwarz"
     },
     {
       "question": "17. Welche Aussage zur Restorthogonalität bei der LS-Lösung ist korrekt?",
@@ -413,13 +429,14 @@
         "Spaltenraum": "Von den Spaltenvektoren aufgespannter Unterraum.",
         "Residuum": "Fehlervektor zwischen Beobachtung und Modell."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Least Squares via QR"
     },
     {
       "question": "18. Wodurch zeichnet sich $R$ in $A=QR$ bei vollem Spaltenrang aus?",
       "options": [
         "Die Diagonalelemente sind alle Null.",
-        "Die Diagonalelemente sind nicht Null.",
+        "Diagonalelemente $\\neq 0$.",
         "R ist symmetrisch.",
         "R ist orthogonal.",
         "R ist projektiv."
@@ -440,7 +457,8 @@
         "Voller Spaltenrang": "Spalten sind linear unabhängig.",
         "Rang": "Dimension des Spalten- oder Zeilenraums."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "19. Welche Reihenfolge der Schritte ist korrekt für Least Squares via QR?",
@@ -467,7 +485,8 @@
         "Rückwärtseinsetzen": "Start bei letzter Gleichung, dann aufwärts.",
         "Orthogonale Transformation": "Erhält innere Produkte."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Least Squares via QR"
     },
     {
       "question": "20. Was liefert der modifizierte Gram–Schmidt (MGS) gegenüber klassischem GS typischerweise?",
@@ -494,7 +513,8 @@
         "Rundungsfehler": "Numerische Abweichungen durch endliche Darstellung.",
         "Orthogonalitätsverlust": "Abnahme der rechtwinkligen Ausrichtung durch Fehler."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Gram–Schmidt"
     },
     {
       "question": "21. Welche Aussage zur Cauchy–Schwarz-Ungleichung ist korrekt?",
@@ -521,12 +541,13 @@
         "Dreiecksungleichung": "$\\|x+y\\|\\le \\|x\\|+\\|y\\|$.",
         "Inneres Produkt": "Allgemeiner Begriff für Skalarprodukt."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Winkel & Cauchy-Schwarz"
     },
     {
       "question": "22. Wozu dienen Givens-Rotationen in der QR-Konstruktion?",
       "options": [
-        "Zum Nullsetzen einzelner Einträge durch planare Rotationen.",
+        "Einzelne Eintraege per Rotation auf 0 setzen.",
         "Zum Diagonalisieren symmetrischer Matrizen.",
         "Zur Permutation von Spalten.",
         "Zur Skalierung der Diagonale von R auf Eins.",
@@ -548,13 +569,14 @@
         "Givens-Rotation": "2D-Rotation zur gezielten Elimination eines Eintrags.",
         "Householder-Reflexion": "Spiegelung an Hyperebenen zur Nullsetzung ganzer Unterspalten."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "QR-Konstruktion (Householder/Givens)"
     },
     {
       "question": "23. Welche Eigenschaft besitzt $Q$ bei dünnem QR für $m\\ge n$?",
       "options": [
         "$Q\\in\\mathbb{R}^{m\\times m}$ orthogonal.",
-        "$Q\\in\\mathbb{R}^{m\\times n}$ mit orthonormalen Spalten.",
+        "$Q\\in\\mathbb{R}^{m\\times n}$, Spalten orthonormal.",
         "$Q\\in\\mathbb{R}^{n\\times n}$ diagonal.",
         "$Q\\in\\mathbb{R}^{n\\times m}$ orthonormal.",
         "$Q$ ist stets symmetrisch."
@@ -575,7 +597,8 @@
         "Volles Q": "Quadratisch und orthogonal, $m\\times m$.",
         "Dünnes Q": "$m\\times n$ mit $n$ orthonormalen Spalten."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "24. Was gilt für die Projektion $Px$ bei $P=UU^\\top$ mit ONB-Matrix $U$?",
@@ -602,7 +625,8 @@
         "Eindeutigkeit": "Orthogonale Projektion ist eindeutig bestimmt.",
         "Bild und Kern": "Bild($P$) ist $U$, Kern($P$) ist $U^\\perp$."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Projektionen & Projektoren"
     },
     {
       "question": "25. Welche typische Fehlerquelle bei GS/QR sollte vermieden werden?",
@@ -629,7 +653,8 @@
         "Normalisierung": "Skalieren auf Norm 1.",
         "Konditionszahl": "Maß für numerische Empfindlichkeit."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Typische Fehler & Numerik"
     },
     {
       "question": "26. Wie lässt sich $R$ bei QR aus $Q$ und $A$ gewinnen?",
@@ -656,7 +681,8 @@
         "Orthogonalität von Q": "$Q^\\top Q=I$.",
         "Dreieckssystem": "Lineares System mit Dreiecksstruktur."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "27. Welche Eigenschaft bleibt unter orthogonalen Transformationen $Q$ erhalten?",
@@ -683,7 +709,8 @@
         "Orthogonale Abbildung": "Erhält Längen und Winkel.",
         "Isometrie": "Abbildung, die Abstände erhält."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "QR-Konstruktion (Householder/Givens)"
     },
     {
       "question": "28. Welche Aussage zur Kosinus-Ähnlichkeit in IR/ML trifft zu?",
@@ -697,7 +724,7 @@
       "answer": 1,
       "explanation": "Kosinus-Ähnlichkeit hängt nur von der Richtung ab.",
       "weight": 2,
-      "topic": "Anwendungen & Kosinus-Ähnlichkeit",
+      "topic": "Winkel & Cauchy-Schwarz",
       "extended_explanation": {
         "titel": "Einsatz in der Praxis",
         "schritte": [
@@ -710,13 +737,14 @@
         "TF–IDF": "Gewichtung von Termen zur Vektorisierung von Dokumenten.",
         "Feature-Vektor": "Numerische Repräsentation eines Objekts."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Winkel & Cauchy-Schwarz"
     },
     {
       "question": "29. Sei $A\\in\\mathbb{R}^{m\\times n}$ mit $m>n$ und vollem Spaltenrang. Welche Aussage ist korrekt?",
       "options": [
         "Es existiert keine QR-Zerlegung.",
-        "Dünnes $Q$ hat $n$ orthonormale Spalten.",
+        "$Q$ hat $n$ orthonormale Spalten.",
         "R ist singulär.",
         "Die LS-Lösung existiert nicht.",
         "Nur SVD ist möglich."
@@ -737,16 +765,17 @@
         "Voller Rang": "Maximale Anzahl linear unabhängiger Spalten.",
         "Eindeutigkeit": "LS-Lösung ist eindeutig bei vollem Spaltenrang."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "QR-Zerlegung Grundlagen"
     },
     {
       "question": "30. Welche Reihenfolge beschreibt das klassische Gram–Schmidt-Verfahren für Spalten $v_j$ korrekt?",
       "options": [
-        "$u_1=\\dfrac{v_1}{\\|v_1\\|}$, dann $w_j=v_j-\\sum_{i<j}\\langle v_j,u_i\\rangle u_i$, $u_j=\\dfrac{w_j}{\\|w_j\\|}$.",
+        "GS: $w_j=v_j-\\sum_{i<j}\\langle v_j,u_i\\rangle u_i$, $u_j=w_j/\\|w_j\\|$.",
         "$w_j=v_j+\\sum_{i<j}\\langle v_j,u_i\\rangle u_i$, $u_j=\\dfrac{v_j}{\\|v_j\\|}$.",
-        "$u_j=v_j$, $w_j=\\dfrac{v_j}{\\|v_j\\|}$.",
-        "$u_j=\\sum_i v_i$, $w_j=u_j$.",
-        "$u_1=v_1$, $u_j=v_j$."
+        "$u_j=v_j$ und danach $w_j=v_j/\\|v_j\\|$ (ohne Orthogonalisierung).",
+        "$u_j=\\sum_i v_i$ und dann $w_j=u_j$ (keine Normierung).",
+        "$u_1=v_1$ und fuer alle $j$ gilt $u_j=v_j$ (keine Korrektur)."
       ],
       "answer": 0,
       "explanation": "Erst Orthogonalisieren zu $w_j$, dann Normieren zu $u_j$.",
@@ -764,7 +793,8 @@
         "Projektion": "Anteil eines Vektors in einer Richtung/Unterraum.",
         "Normierung": "Teilen durch die Länge, um Einheitsvektor zu erhalten."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Gram–Schmidt"
     },
     {
       "question": "31. Gegeben $u=\\tfrac{1}{\\sqrt{5}}(1,2)^\\top$ und $x=(3,1)^\\top$. Welche Aussage trifft zu?",
@@ -791,16 +821,17 @@
         "Projektion auf Gerade": "$\\operatorname{proj}_u(x)=\\langle x,u\\rangle u$ für Einheitsvektor $u$.",
         "Orthogonalitätsbedingung": "Restvektor steht senkrecht zur Zielrichtung."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Anwendung",
+      "concept": "Skalarprodukt & Norm"
     },
     {
       "question": "32. Für $A\\in\\mathbb{R}^{m\\times n}$ mit $m>n$ und dünnem QR, $A=QR$, sei $b\\in\\mathbb{R}^m$ und $y=Q^\\top b$. Welche Bedingung garantiert eine eindeutige LS-Lösung?",
       "options": [
-        "Rang$(A)=n$ und Diagonale von $R$ ohne Nullen.",
-        "Rang$(A)=m$ und $Q$ diagonal.",
-        "$R$ symmetrisch positiv definit.",
+        "Rang$(A)=n$ und $R$ hat volle Diagonale.",
+        "Rang$(A)=m$ und $Q$ ist diagonal.",
+        "$R$ symmetrisch positiv definit (nicht erforderlich).",
         "$Q$ antisymmetrisch.",
-        "$A$ orthogonal."
+        "$A$ orthogonal (bei $m>n$ nicht moeglich)."
       ],
       "answer": 0,
       "explanation": "Voller Spaltenrang $n$ impliziert invertierbares $R$ (eindeutiges Rückwärtseinsetzen).",
@@ -818,7 +849,8 @@
         "Rangbedingung": "Voller Spaltenrang $n$ sichert Eindeutigkeit.",
         "Rückwärtseinsetzen": "Stabiles Lösen von $Rx=y$."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Strukturelle Analyse",
+      "concept": "Least Squares via QR"
     },
     {
       "question": "33. Welche Aussage zur numerischen Stabilität ist korrekt?",
@@ -845,7 +877,8 @@
         "Kondition": "Numerische Empfindlichkeit eines Problems.",
         "Orthogonale Transformation": "Erhält Normen und verbessert Stabilität."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Strukturelle Analyse",
+      "concept": "QR-Konstruktion (Householder/Givens)"
     },
     {
       "question": "34. Sei $U=[u_1\\,u_2]$ mit ONB-Spalten in $\\mathbb{R}^3$ und $x\\in\\mathbb{R}^3$. Welche Aussage ist korrekt?",
@@ -872,12 +905,13 @@
         "Bild($P$)": "Gleich dem Unterraum $U$.",
         "Kern($P$)": "Gleich $U^\\perp$."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Anwendung",
+      "concept": "Projektionen & Projektoren"
     },
     {
       "question": "35. Bei QR über Householder wird mit Reflexionen gearbeitet. Welcher Effekt wird damit erzielt?",
       "options": [
-        "Nullsetzen einer ganzen Unterspalte unterhalb der Diagonale in einem Schritt.",
+        "Eine ganze Unterspalte in einem Schritt nullen.",
         "Permutation der Spalten in gewünschter Reihenfolge.",
         "Diagonalisation von $A$ in einem Schritt.",
         "Berechnung der SVD direkt.",
@@ -899,7 +933,8 @@
         "Hyperebene": "Allgemeinisierte Ebene in höherer Dimension.",
         "Reflexion": "Spiegelung eines Vektors an einer Hyperebene."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Anwendung",
+      "concept": "QR-Konstruktion (Householder/Givens)"
     },
     {
       "question": "36. In der Praxis soll $R$ nicht invertiert werden. Welches Vorgehen ist korrekt?",
@@ -926,12 +961,13 @@
         "Explizite Inversion": "Direktes Berechnen der Inversen; zu vermeiden.",
         "Numerische Stabilität": "Robustheit gegen kleine Datenänderungen."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Anwendung",
+      "concept": "Typische Fehler & Numerik"
     },
     {
       "question": "37. Welche Bedingung garantiert, dass Gram–Schmidt eine ONB liefert?",
       "options": [
-        "Die Eingangsvektoren sind linear unabhängig.",
+        "Eingangsvektoren linear unabhängig.",
         "Die Eingangsvektoren sind orthogonal.",
         "Die Matrix ist symmetrisch.",
         "Die Vektoren haben Norm 1.",
@@ -953,7 +989,8 @@
         "Lineare Unabhängigkeit": "Kein Vektor ist Linearkombination der anderen.",
         "Orthogonalisierung": "Herstellen rechtwinkliger Richtungen."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Reproduktion",
+      "concept": "Gram–Schmidt"
     },
     {
       "question": "38. Welche Aussage zur Dreiecksungleichung ist korrekt und relevant für Projektionen?",
@@ -980,14 +1017,15 @@
         "Minkowski-Ungleichung": "Allgemeine Form der Dreiecksungleichung für Normen.",
         "Euklidische Norm": "Aus dem Skalarprodukt induzierte Norm."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Reproduktion",
+      "concept": "Winkel & Cauchy-Schwarz"
     },
     {
       "question": "39. Warum ist die QR-Zerlegung für schlecht konditionierte Spalten vorteilhaft?",
       "options": [
         "Weil $Q$ die Kondition verschlechtert.",
         "Weil $A^\\top A$ numerisch stabiler ist.",
-        "Weil orthogonale Transformationen numerisch gut konditioniert sind.",
+        "Orthogonale Transformationen sind stabil.",
         "Weil $R$ zufällig ist.",
         "Weil Projektionen vermieden werden."
       ],
@@ -1007,7 +1045,8 @@
         "Schlechte Kondition": "Kleine Datenänderungen erzeugen große Lösungsschwankungen.",
         "Orthogonales Q": "Erhält Normen und verbessert die Stabilität."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Strukturelle Analyse",
+      "concept": "Typische Fehler & Numerik"
     }
   ]
 }
