@@ -1,21 +1,28 @@
 {
   "meta": {
-    "language": "de"
+    "language": "de",
+    "title": "Matrizen",
+    "question_count": 20
   },
   "questions": [
     {
       "question": "1. Was ist eine Matrix?",
       "options": [
-        "Eine geordnete Liste von Zahlen in einer Zeile",
-        "Eine rechteckige Anordnung von Zahlen oder Elementen in Zeilen und Spalten",
-        "Eine unendliche Menge von Zahlen",
-        "Eine Folge von Vektoren"
+        "Eine geordnete Liste von Zahlen in nur einer Zeile",
+        "Eine rechteckige Anordnung von Zahlen in Zeilen und Spalten",
+        "Eine unendliche Menge von Zahlen ohne feste Struktur",
+        "Eine Folge von Vektoren in fester Reihenfolge"
       ],
       "answer": 1,
       "explanation": "Eine Matrix ist definiert als eine rechteckige Anordnung von Zahlen in Zeilen und Spalten.",
       "weight": 1,
       "topic": "Grundlagen",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Grundlagen",
+      "mini_glossary": {
+        "Matrix": "Eine rechteckige Anordnung von Zahlen oder Elementen in Zeilen und Spalten.",
+        "Zeile/Spalte": "Horizontale bzw. vertikale Anordnung von Elementen in einer Matrix."
+      }
     },
     {
       "question": "2. Wann können zwei Matrizen addiert werden?",
@@ -29,21 +36,31 @@
       "explanation": "Matrizen können nur addiert werden, wenn sie dieselbe Dimension besitzen, also gleich viele Zeilen und Spalten haben.",
       "weight": 1,
       "topic": "Addition",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Addition",
+      "mini_glossary": {
+        "Matrixaddition": "Addition zweier Matrizen gleicher Dimension durch elementweises Addieren.",
+        "Dimension": "Anzahl der Zeilen und Spalten einer Matrix."
+      }
     },
     {
       "question": "3. Welche Aussage trifft auf die Multiplikation zweier Matrizen A und B zu?",
       "options": [
-        "A und B müssen dieselbe Anzahl von Zeilen haben",
-        "Die Anzahl der Spalten von A muss gleich der Anzahl der Zeilen von B sein",
-        "A muss quadratisch sein",
-        "B muss eine Einheitsmatrix sein"
+        "A und B müssen gleich viele Zeilen haben",
+        "Spaltenzahl von A = Zeilenzahl von B",
+        "A muss quadratisch sein, sonst ist das Produkt unmöglich",
+        "B muss eine Einheitsmatrix sein, sonst geht es nicht"
       ],
       "answer": 1,
       "explanation": "Für die Multiplikation zweier Matrizen muss die Spaltenanzahl von A mit der Zeilenanzahl von B übereinstimmen.",
       "weight": 1,
       "topic": "Multiplikation",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Multiplikation",
+      "mini_glossary": {
+        "Matrixprodukt": "Multiplikation zweier Matrizen mit kompatiblen Dimensionen.",
+        "Kompatibilität": "Spaltenzahl der ersten Matrix = Zeilenzahl der zweiten Matrix."
+      }
     },
     {
       "question": "4. Was versteht man unter der transponierten Matrix $A^T$ einer Matrix $A$?",
@@ -57,7 +74,12 @@
       "explanation": "Die Transponierte einer Matrix entsteht durch Vertauschen der Zeilen und Spalten von $A$.",
       "weight": 1,
       "topic": "Transponieren",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Transponieren",
+      "mini_glossary": {
+        "Transposition": "Vertauschen von Zeilen und Spalten einer Matrix.",
+        "Hauptdiagonale": "Eintraege mit gleichen Zeilen- und Spaltenindizes."
+      }
     },
     {
       "question": "5. Welche Größe hat das Produkt einer $5\\times 3$-Matrix mit einer $3\\times 4$-Matrix?",
@@ -71,7 +93,12 @@
       "explanation": "Das Produkt hat so viele Zeilen wie die erste und so viele Spalten wie die zweite Matrix, hier $5\\times 4$.",
       "weight": 1,
       "topic": "Multiplikation",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Anwendung",
+      "concept": "Multiplikation",
+      "mini_glossary": {
+        "Produktdimension": "Groesse des Produkts: Zeilen der ersten, Spalten der zweiten Matrix.",
+        "Matrixgroesse": "Format einer Matrix als m x n."
+      }
     },
     {
       "question": "6. Was passiert, wenn man eine transponierte Matrix nochmals transponiert, also $(A^T)^T$?",
@@ -89,29 +116,39 @@
         "title": "Eigenschaften der Transposition",
         "content": "Die Transponierte einer Matrix ist eine Spiegelung an der Hauptdiagonalen. Somit kehrt die Transposition diese Spiegelung um, wodurch die ursprüngliche Matrix entsteht."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Transponieren",
+      "mini_glossary": {
+        "Transponierte": "Die transponierte Matrix $A^T$ mit vertauschten Zeilen/Spalten.",
+        "Doppelte Transposition": "Zweimaliges Transponieren liefert wieder die Ausgangsmatrix."
+      }
     },
     {
       "question": "7. Kann eine nicht quadratische Matrix invertiert werden?",
       "options": [
         "Ja, jede Matrix hat eine Inverse",
-        "Nein, nur quadratische Matrizen können invertierbar sein",
+        "Nein, nur quadratische Matrizen sind invertierbar",
         "Ja, wenn die Determinante null ist",
-        "Nein, wenn sie eine Einheitsmatrix ist"
+        "Nein, nur Einheitsmatrizen sind invertierbar"
       ],
       "answer": 1,
       "explanation": "Eine Matrix ist nur invertierbar, wenn sie quadratisch ist und die Determinante ungleich null ist.",
       "weight": 2,
       "topic": "Inverse",
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Inverse",
+      "mini_glossary": {
+        "Invertierbar": "Eine Matrix ist invertierbar, wenn eine Inverse existiert.",
+        "Determinante": "Skalar, der u.a. die Invertierbarkeit anzeigt."
+      }
     },
     {
       "question": "8. Wie berechnet man die Inverse einer Matrix $A$ mit dem Gauß-Algorithmus?",
       "options": [
-        "Man erweitert $A$ um die Einheitsmatrix und formt $A$ zur Einheitsmatrix um",
-        "Man berechnet die Determinante von $A$",
+        "A mit I erweitern und per Zeilenumformung zu I machen",
+        "Man berechnet die Determinante von A und kehrt sie um",
         "Man multipliziert $A$ mit einem Vektor",
-        "Man transponiert $A$"
+        "Man transponiert A und nennt das Ergebnis die Inverse"
       ],
       "answer": 0,
       "explanation": "Zur Berechnung der Inversen erweitert man $A$ um die Einheitsmatrix und bringt $A$ durch elementare Zeilenumformungen in die Einheitsmatrix. Die erweiterte Seite wird dann zur Inversen.",
@@ -121,21 +158,31 @@
         "title": "Schritte des Gauß-Algorithmus zur Inversenberechnung",
         "content": "Der Gauß-Algorithmus transformiert mittels Zeilenoperationen die Matrix $A$ in die Einheitsmatrix. Gleichzeitig ändern sich die Elemente der erweiterten Matrix und bilden am Ende die Inverse."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Anwendung",
+      "concept": "Inverse",
+      "mini_glossary": {
+        "Gauß-Algorithmus": "Zeilenumformungen zur Loesung von Gleichungssystemen.",
+        "Einheitsmatrix": "Quadratische Matrix mit Einsen auf der Hauptdiagonalen."
+      }
     },
     {
       "question": "9. Was ist die Determinante einer Matrix?",
       "options": [
-        "Ein Skalar, der die Multiplikation zweier Matrizen beschreibt",
-        "Ein Wert, der angibt, ob eine quadratische Matrix invertierbar ist",
-        "Eine Matrix mit allen Einsen",
+        "Ein Skalar, der Eigenschaften der Matrix zusammenfasst",
+        "Ein Wert, der die Invertierbarkeit anzeigt",
+        "Eine Matrix mit lauter Einsen",
         "Das Produkt aller Elemente der Matrix"
       ],
       "answer": 1,
       "explanation": "Die Determinante ist ein Wert, der angibt, ob die Matrix invertierbar ist (Determinante ≠ 0) oder singulär ist.",
       "weight": 2,
       "topic": "Determinante",
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Determinante",
+      "mini_glossary": {
+        "Determinante": "Skalarwert, der Eigenschaften einer quadratischen Matrix beschreibt.",
+        "Singulaer": "Matrix mit Determinante 0, also nicht invertierbar."
+      }
     },
     {
       "question": "10. Wie berechnet man die Determinante einer $2\\times2$-Matrix $\\left( \\begin{smallmatrix}a & b \\\\ c & d \\end{smallmatrix} \\right)$?",
@@ -149,7 +196,12 @@
       "explanation": "Die Determinante einer $2\\times2$-Matrix ist $ad - bc$.",
       "weight": 1,
       "topic": "Determinante",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Determinante",
+      "mini_glossary": {
+        "2x2-Determinante": "Formel $ad-bc$ fuer $\\begin{pmatrix} a & b \\ c & d \\end{pmatrix}$.",
+        "Determinante": "Skalar zur Charakterisierung quadratischer Matrizen."
+      }
     },
     {
       "question": "11. Wie lautet die Regel zur Multiplikation einer Matrix mit einer reellen Zahl $r$?",
@@ -162,8 +214,13 @@
       "answer": 1,
       "explanation": "Beim Skalarmultiplikation mit $r$ wird jedes Element der Matrix einzeln mit $r$ multipliziert.",
       "weight": 1,
-      "topic": "Skalarmultiplikation",
-      "cognitive_level": "Reproduktion"
+      "topic": "Multiplikation",
+      "cognitive_level": "Reproduktion",
+      "concept": "Multiplikation",
+      "mini_glossary": {
+        "Skalarmultiplikation": "Multiplikation jeder Matrixkomponente mit einem Skalar.",
+        "Skalar": "Eine reelle Zahl, mit der Vektoren oder Matrizen multipliziert werden."
+      }
     },
     {
       "question": "12. Welche Aussage trifft auf die Multiplikation einer Matrix mit einem Vektor zu?",
@@ -176,22 +233,32 @@
       "answer": 0,
       "explanation": "Ein Vektor ist eine Matrix mit genau einer Spalte. Die Multiplikation ist möglich, wenn die Anzahl der Spalten der Matrix gleich der Anzahl der Elemente im Vektor ist.",
       "weight": 1,
-      "topic": "Vektor-Matrix Multiplikation",
-      "cognitive_level": "Reproduktion"
+      "topic": "Multiplikation",
+      "cognitive_level": "Reproduktion",
+      "concept": "Multiplikation",
+      "mini_glossary": {
+        "Spaltenvektor": "Vektor als Matrix mit genau einer Spalte.",
+        "Matrix-Vektor-Produkt": "Produkt einer Matrix mit einem Vektor kompatibler Laenge."
+      }
     },
     {
       "question": "13. Was ist eine Einheitsmatrix?",
       "options": [
-        "Eine Matrix mit allen Nullen",
-        "Eine quadratische Matrix mit Einsen auf der Hauptdiagonalen und Nullen sonst",
-        "Eine Matrix, die keine Inverse besitzt",
-        "Eine Matrix mit gleichen Elementen"
+        "Eine Matrix mit ausschließlich Nullen in allen Einträgen",
+        "Matrix mit Einsen auf der Hauptdiagonale, sonst Nullen",
+        "Eine Matrix ohne Inverse (singulär)",
+        "Eine Matrix, deren Einträge alle gleich sind"
       ],
       "answer": 1,
       "explanation": "Die Einheitsmatrix ist eine spezielle quadratische Matrix mit Einsen auf der Hauptdiagonalen und Nullen an allen anderen Stellen.",
       "weight": 1,
       "topic": "Grundlagen",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Grundlagen",
+      "mini_glossary": {
+        "Einheitsmatrix": "Quadratische Matrix mit Einsen auf der Hauptdiagonalen und Nullen sonst.",
+        "Hauptdiagonale": "Eintraege $a_{ii}$ einer Matrix."
+      }
     },
     {
       "question": "14. Welche Eigenschaft hat eine symmetrische Matrix $A$?",
@@ -204,8 +271,13 @@
       "answer": 0,
       "explanation": "Eine Matrix $A$ ist symmetrisch, wenn sie gleich ihrer transponierten Matrix ist, also $A^T = A$.",
       "weight": 2,
-      "topic": "Symmetrische Matrizen",
-      "cognitive_level": "Anwendung"
+      "topic": "Transponieren",
+      "cognitive_level": "Reproduktion",
+      "concept": "Transponieren",
+      "mini_glossary": {
+        "Symmetrische Matrix": "Matrix, die gleich ihrer Transponierten ist.",
+        "Transponierte": "Matrix, deren Zeilen und Spalten vertauscht wurden."
+      }
     },
     {
       "question": "15. Welche der folgenden Aussagen trifft auf die Addition von Matrizen zu?",
@@ -219,31 +291,41 @@
       "explanation": "Die Addition von Matrizen ist kommutativ, das heißt, man kann die Reihenfolge der Matrizen beim Addieren vertauschen.",
       "weight": 1,
       "topic": "Addition",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Addition",
+      "mini_glossary": {
+        "Kommutativitaet": "Reihenfolge der Addition spielt keine Rolle: $A+B=B+A$.",
+        "Matrixaddition": "Elementweises Addieren zweier Matrizen gleicher Dimension."
+      }
     },
     {
       "question": "16. Wie können Matrizen zur Lösung von linearen Gleichungssystemen verwendet werden?",
       "options": [
-        "Indem man die Koeffizienten in eine Matrix schreibt und dann deren Inverse zur Lösung nutzt",
+        "Man schreibt das System als $Ax=b$ und nutzt $A^{-1}$",
         "Matrizen können nicht für lineare Gleichungen genutzt werden",
-        "Man löst sie nur durch Addition",
-        "Durch Verwendung der Determinante"
+        "Man löst sie nur durch Addition der Gleichungen",
+        "Nur über die Determinante der Koeffizientenmatrix"
       ],
       "answer": 0,
       "explanation": "Lineare Gleichungssysteme können in Matrixform geschrieben und gelöst werden, indem man die Inverse der Koeffizientenmatrix benutzt.",
       "weight": 3,
-      "topic": "Anwendungen",
+      "topic": "Inverse",
       "extended_explanation": {
         "title": "Lösung linearer Gleichungssysteme mit Matrizen",
         "content": "Ein lineares Gleichungssystem $Ax = b$ lässt sich lösen, wenn $A$ invertierbar ist, durch $x = A^{-1}b$. Dies ist besonders in der numerischen Mathematik wichtig."
       },
-      "cognitive_level": "Analyse"
+      "cognitive_level": "Anwendung",
+      "concept": "Inverse",
+      "mini_glossary": {
+        "Lineares Gleichungssystem": "System von Gleichungen, das als $Ax=b$ geschrieben wird.",
+        "Koeffizientenmatrix": "Matrix der Koeffizienten in $Ax=b$."
+      }
     },
     {
       "question": "17. Kann man Matrizen dividieren?",
       "options": [
         "Ja, durch elementweise Division",
-        "Nein, Division ist nicht definiert, stattdessen verwendet man die Inverse",
+        "Nein, Division ist nicht definiert; man nutzt die Inverse",
         "Ja, indem man die Determinanten dividiert",
         "Ja, durch Multiplikation mit dem Transponierten"
       ],
@@ -251,12 +333,17 @@
       "explanation": "Eine Division von Matrizen existiert nicht. Stattdessen multipliziert man mit der inversen Matrix.",
       "weight": 1,
       "topic": "Grundlagen",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Grundlagen",
+      "mini_glossary": {
+        "Inverse": "Matrix $A^{-1}$ mit $AA^{-1}=I$.",
+        "Division": "Fuer Matrizen nicht definiert; stattdessen Inversen nutzen."
+      }
     },
     {
       "question": "18. Welche Voraussetzung muss eine Matrix erfüllen, damit sie invertierbar ist?",
       "options": [
-        "Sie muss quadratisch sein und eine Determinante ungleich null besitzen",
+        "Quadratisch und Determinante $\\neq 0$",
         "Sie muss rechteckig sein",
         "Alle Elemente müssen positiv sein",
         "Sie darf keine Nullen enthalten"
@@ -265,7 +352,12 @@
       "explanation": "Für die Invertierbarkeit muss die Matrix quadratisch sein, und ihre Determinante darf nicht null sein.",
       "weight": 2,
       "topic": "Inverse",
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Reproduktion",
+      "concept": "Inverse",
+      "mini_glossary": {
+        "Invertierbarkeit": "Eigenschaft, dass eine Inverse existiert.",
+        "Determinante": "Muss ungleich null sein fuer Invertierbarkeit."
+      }
     },
     {
       "question": "19. Was ist eine Nullmatrix?",
@@ -279,12 +371,17 @@
       "explanation": "Eine Nullmatrix enthält ausschließlich Nullen als Einträge.",
       "weight": 1,
       "topic": "Grundlagen",
-      "cognitive_level": "Reproduktion"
+      "cognitive_level": "Reproduktion",
+      "concept": "Grundlagen",
+      "mini_glossary": {
+        "Nullmatrix": "Matrix, deren Eintraege alle 0 sind.",
+        "Nullelement": "Neutrales Element der Addition bei Matrizen."
+      }
     },
     {
       "question": "20. Bei der Multiplikation zweier Matrizen wird welcher Wert überall summiert?",
       "options": [
-        "Das Skalarprodukt der jeweiligen Zeile der ersten Matrix mit der jeweiligen Spalte der zweiten Matrix",
+        "Das Skalarprodukt einer Zeile von $A$ mit einer Spalte von $B$",
         "Nur die Diagonalelemente werden multipliziert",
         "Nur die erste Zeile und erste Spalte werden betrachtet",
         "Die Summe aller Elemente der beiden Matrizen"
@@ -297,7 +394,12 @@
         "title": "Berechnung der Elemente des Matrixprodukts",
         "content": "Für $C = A \\times B$ wird das Element $c_{ij}$ berechnet als $c_{ij} = \\sum_k a_{ik} b_{kj}$. Dies ist das Skalarprodukt der $i$-ten Zeile von $A$ mit der $j$-ten Spalte von $B$."
       },
-      "cognitive_level": "Anwendung"
+      "cognitive_level": "Anwendung",
+      "concept": "Multiplikation",
+      "mini_glossary": {
+        "Skalarprodukt": "Summe der Produkte entsprechender Komponenten.",
+        "Matrixprodukt": "Berechnung von $C=AB$ ueber Zeile-mal-Spalte."
+      }
     }
   ]
 }
