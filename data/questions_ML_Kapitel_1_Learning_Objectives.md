@@ -4,7 +4,7 @@
 
 **Du verstehst die fundamentalen Konzepte, Definitionen und theoretischen Grundlagen des Machine Learning.**
 
-Du kannst die historische Entwicklung des Feldes nachvollziehen, beginnend mit Arthur Samuels wegweisender Definition von 1959, die Machine Learning als die Fähigkeit von Computern beschreibt, zu lernen ohne explizit programmiert zu werden. Du verstehst zentrale theoretische Konzepte wie das No-Free-Lunch-Theorem und den Bias-Variance-Tradeoff, die dir helfen, die Grenzen und Möglichkeiten von ML-Systemen realistisch einzuschätzen. Du kennst die verschiedenen kognitiven Komplexitätsstufen (Reproduktion, Anwendung, Analyse) und kannst diese auf Lernaufgaben anwenden.
+Du kannst die historische Entwicklung des Feldes nachvollziehen, beginnend mit Arthur Samuels wegweisender Definition von 1959, die Machine Learning als die Fähigkeit von Computern beschreibt, zu lernen ohne explizit programmiert zu werden. Du verstehst zentrale theoretische Konzepte wie das No-Free-Lunch-Theorem und den Bias-Variance-Tradeoff, die dir helfen, die Grenzen und Möglichkeiten von ML-Systemen realistisch einzuschätzen.
 
 ---
 
@@ -50,7 +50,6 @@ Im Kontext des Themas **Machine Learning** soll dir dieses Fragenset helfen, die
 
 1. die Definition von Machine Learning nach Arthur Samuel (1959) wiedergeben.
 2. den Begriff "Trainingsdatensatz" korrekt benennen.
-3. die Zuordnung zwischen Gewicht und Cognitive Level beschreiben.
 
 ### Anwendung
 

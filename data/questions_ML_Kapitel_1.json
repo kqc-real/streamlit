@@ -103,48 +103,6 @@
       ]
     },
     {
-      "question": "3. Welche Zuordnung zwischen Gewicht und Cognitive Level ist korrekt?",
-      "options": [
-        "Gewicht 1 = Reproduktion, Gewicht 2 = Anwendung, Gewicht 3 = Analyse",
-        "Gewicht 1 = Anwendung, Gewicht 2 = Analyse, Gewicht 3 = Reproduktion",
-        "Gewicht 1 = Analyse, Gewicht 2 = Reproduktion, Gewicht 3 = Anwendung",
-        "Gewicht 1 = Reproduktion, Gewicht 2 = Analyse, Gewicht 3 = Anwendung"
-      ],
-      "answer": 0,
-      "explanation": "Die korrekte Zuordnung ist: Gewicht 1 entspricht Reproduktion (einfaches Wiedergeben von Wissen), Gewicht 2 entspricht Anwendung (Wissen in neuen Situationen anwenden) und Gewicht 3 entspricht Analyse (komplexe Zusammenhänge verstehen und bewerten).",
-      "weight": 1,
-      "topic": "Grundlagen Machine Learning",
-      "concept": "Cognitive Level",
-      "cognitive_level": "Reproduction",
-      "extended_explanation": null,
-      "mini_glossary": [
-        {
-          "term": "Cognitive Level",
-          "definition": "Die kognitive Komplexitätsstufe einer Lernaufgabe nach Bloom's Taxonomie"
-        },
-        {
-          "term": "Reproduktion",
-          "definition": "Einfaches Wiedergeben von gelerntem Wissen ohne tieferes Verständnis"
-        },
-        {
-          "term": "Anwendung",
-          "definition": "Gelerntes Wissen in neuen Situationen oder Kontexten einsetzen"
-        },
-        {
-          "term": "Analyse",
-          "definition": "Komplexe Zusammenhänge verstehen, bewerten und Schlussfolgerungen ziehen"
-        },
-        {
-          "term": "Gewicht",
-          "definition": "Numerischer Wert zur Kennzeichnung der Schwierigkeit einer Aufgabe"
-        },
-        {
-          "term": "Bloom'sche Taxonomie",
-          "definition": "Hierarchisches Modell von Lernzielen nach kognitiver Komplexität"
-        }
-      ]
-    },
-    {
       "question": "4. Ein Spamfilter wird mit Beispielen für Spam-E-Mails und gewöhnlichen E-Mails trainiert. Um welche Art von Machine Learning handelt es sich?",
       "options": [
         "Überwachtes Lernen (Klassifikation)",
