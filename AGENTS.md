@@ -119,6 +119,10 @@ Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
 - Schwierigkeit: `meta.difficulty_profile` respektieren.
 - Distraktoren: plausibel, gleichartige Laenge, keine offensichtlichen Eliminationshinweise.
 - Keine "Trick"-Antworten ohne fachliche Begruendung.
+- **Korrektheitscheck:** Die als korrekt indizierte Option fachlich pruefen.
+- **Distraktor-Niveau:** Distraktoren auf gleichem semantischen Niveau wie die korrekte Option halten, aber klar falsch.
+- **Erklaerungen:** `explanation` studierendenfreundlich, kurz und klar.
+- **Erweiterte Erklaerungen:** `extended_explanation` (falls vorhanden) ausfuehrlicher und leicht verstaendlich formulieren.
 
 ## 16) Sprachstil
 
