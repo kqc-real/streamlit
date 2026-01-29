@@ -3,7 +3,7 @@
     "title": "Machine Learning: Kapitel 1",
     "created": "12.01.2026 14:30",
     "target_audience": "Bachelorstudierende der Wirtschaftsinformatik",
-    "question_count": 28,
+    "question_count": 27,
     "difficulty_profile": {
       "easy": 3,
       "medium": 17,
@@ -32,7 +32,7 @@
       "weight": 1,
       "topic": "Grundlagen Machine Learning",
       "concept": "Arthur Samuel Definition",
-      "cognitive_level": "Reproduction",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": null,
       "mini_glossary": [
         {
@@ -73,7 +73,7 @@
       "weight": 1,
       "topic": "Grundlagen Machine Learning",
       "concept": "Trainingsdatensatz",
-      "cognitive_level": "Reproduction",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": null,
       "mini_glossary": [
         {
@@ -103,7 +103,7 @@
       ]
     },
     {
-      "question": "4. Ein Spamfilter wird mit Beispielen für Spam-E-Mails und gewöhnlichen E-Mails trainiert. Um welche Art von Machine Learning handelt es sich?",
+      "question": "3. Ein Spamfilter wird mit Beispielen für Spam-E-Mails und gewöhnlichen E-Mails trainiert. Um welche Art von Machine Learning handelt es sich?",
       "options": [
         "Überwachtes Lernen (Klassifikation)",
         "Unüberwachtes Lernen (Clustering)",
@@ -115,7 +115,7 @@
       "weight": 2,
       "topic": "Überwachtes Lernen",
       "concept": "Klassifikation",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Spamfilter als überwachte Klassifikation",
         "content": "Überwachtes Lernen erfordert gelabelte Daten, bei denen die gewünschte Ausgabe bekannt ist. Der Spamfilter ist das klassische Beispiel: Nutzer markieren E-Mails als Spam oder Ham, und das System lernt daraus. Anders als beim unüberwachten Lernen, wo das System selbstständig Muster finden muss, oder beim Reinforcement Learning, wo ein Agent durch Belohnungen lernt, hat der Spamfilter klare Vorgaben durch die Labels.",
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "question": "5. Welches der folgenden Szenarien ist ein typisches Beispiel für überwachtes Lernen?",
+      "question": "4. Welches der folgenden Szenarien ist ein typisches Beispiel für überwachtes Lernen?",
       "options": [
         "Vorhersage von Autopreisen basierend auf Kilometerstand und Alter",
         "Gruppierung von Blogbesuchern nach ähnlichem Verhalten",
@@ -167,7 +167,7 @@
       "weight": 2,
       "topic": "Überwachtes Lernen",
       "concept": "Regression",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Regression als überwachte Lernaufgabe",
         "steps": [
@@ -206,7 +206,7 @@
       ]
     },
     {
-      "question": "6. Sie haben Daten über Besucher Ihres Blogs und möchten ähnliche Besucher gruppieren. Welcher Ansatz ist geeignet?",
+      "question": "5. Sie haben Daten über Besucher Ihres Blogs und möchten ähnliche Besucher gruppieren. Welcher Ansatz ist geeignet?",
       "options": [
         "Clustering-Algorithmus (unüberwachtes Lernen)",
         "Logistische Regression (überwachtes Lernen)",
@@ -218,7 +218,7 @@
       "weight": 2,
       "topic": "Unüberwachtes Lernen",
       "concept": "Clustering",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Clustering zur Besuchersegmentierung",
         "steps": [
@@ -257,7 +257,7 @@
       ]
     },
     {
-      "question": "7. Ein Modell muss sich sehr schnell an Änderungen anpassen (z.B. neue Muster im Aktienmarkt erkennen). Welcher Ansatz ist am besten geeignet?",
+      "question": "6. Ein Modell muss sich sehr schnell an Änderungen anpassen (z.B. neue Muster im Aktienmarkt erkennen). Welcher Ansatz ist am besten geeignet?",
       "options": [
         "Online-Learning mit hoher Lernrate",
         "Batch-Learning mit täglichem Training",
@@ -270,7 +270,7 @@
       "weight": 2,
       "topic": "Lernparadigmen",
       "concept": "Lernrate",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Online-Learning für dynamische Umgebungen",
         "steps": [
@@ -309,7 +309,7 @@
       ]
     },
     {
-      "question": "8. Ihr Modell erreicht 95% Genauigkeit auf den Trainingsdaten, aber nur 70% auf neuen Daten. Was ist das Problem?",
+      "question": "7. Ihr Modell erreicht 95% Genauigkeit auf den Trainingsdaten, aber nur 70% auf neuen Daten. Was ist das Problem?",
       "options": [
         "Das Modell overfittet die Trainingsdaten",
         "Das Modell underfittet die Trainingsdaten",
@@ -321,7 +321,7 @@
       "weight": 2,
       "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Verallgemeinerungsfehler",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Overfitting erkennen und beheben",
         "steps": [
@@ -360,7 +360,7 @@
       ]
     },
     {
-      "question": "9. Sie trainieren ein komplexes Modell, das die Trainingsdaten overfittet. Welche Maßnahme würde das Problem am effektivsten beheben?",
+      "question": "8. Sie trainieren ein komplexes Modell, das die Trainingsdaten overfittet. Welche Maßnahme würde das Problem am effektivsten beheben?",
       "options": [
         "Regularisierung einführen oder verstärken",
         "Die Lernrate deutlich erhöhen",
@@ -373,7 +373,7 @@
       "weight": 2,
       "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Overfitting-Vermeidung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Regularisierung zur Overfitting-Prävention",
         "steps": [
@@ -412,10 +412,10 @@
       ]
     },
     {
-      "question": "10. Welche Technik gehört zum Feature Engineering?",
+      "question": "9. Welche Technik gehört zum Feature Engineering?",
       "options": [
-        "Extraktion von Merkmalen durch Kombination vorhandener Features",
-        "Erhöhung der Lernrate des Algorithmus",
+        "Kombination vorhandener Features zu neuen Merkmalen",
+        "Anpassung der Lernrate des Algorithmus",
         "Aufteilung der Daten in Trainings- und Testsets",
         "Anpassung der Regularisierungsstärke"
       ],
@@ -424,7 +424,7 @@
       "weight": 2,
       "topic": "Daten & Features",
       "concept": "Merkmalsextraktion",
-      "cognitive_level": "Application",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": {
         "title": "Feature Engineering für bessere Modelle",
         "content": "Feature Engineering ist oft entscheidender für den Modellerfolg als die Wahl des Algorithmus. Die Extraktion kombiniert mehrere Features zu einem, z.B. kann 'Kilometerstand' und 'Alter' eines Autos zu 'Abnutzung' kombiniert werden. Dies reduziert Dimensionalität und kann Muster klarer machen. Gutes Feature Engineering kann die Modellleistung dramatisch verbessern.",
@@ -463,7 +463,7 @@
       ]
     },
     {
-      "question": "11. Ein k-nächste-Nachbarn-Algorithmus vergleicht neue Instanzen mit bekannten Beispielen anhand eines Ähnlichkeitsmaßes. Um welche Lernart handelt es sich?",
+      "question": "10. Ein k-nächste-Nachbarn-Algorithmus vergleicht neue Instanzen mit bekannten Beispielen anhand eines Ähnlichkeitsmaßes. Um welche Lernart handelt es sich?",
       "options": [
         "Instanzbasiertes Lernen",
         "Modellbasiertes Lernen",
@@ -475,7 +475,7 @@
       "weight": 2,
       "topic": "Überwachtes Lernen",
       "concept": "k-nächste-Nachbarn",
-      "cognitive_level": "Application",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": {
         "title": "Instanzbasiertes vs. Modellbasiertes Lernen",
         "content": "Instanzbasiertes Lernen unterscheidet sich fundamental von modellbasiertem Lernen. Während modellbasierte Verfahren Parameter lernen und ein abstraktes Modell erstellen, speichert instanzbasiertes Lernen einfach alle Beispiele und nutzt Ähnlichkeitsvergleiche zur Vorhersage. k-NN ist computationally aufwändiger bei der Vorhersage, benötigt aber kein zeitintensives Training.",
@@ -514,7 +514,7 @@
       ]
     },
     {
-      "question": "13. Ihre Trainingsdaten enthalten 5% fehlende Werte für das Merkmal 'Alter'. Was ist KEINE sinnvolle Strategie?",
+      "question": "11. Ihre Trainingsdaten enthalten 5% fehlende Werte für das Merkmal 'Alter'. Was ist KEINE sinnvolle Strategie?",
       "options": [
         "Alle fehlenden Werte mit dem Maximum ersetzen",
         "Das Merkmal komplett ignorieren",
@@ -526,7 +526,7 @@
       "weight": 2,
       "topic": "Daten & Features",
       "concept": "Fehlende Werte",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Umgang mit fehlenden Werten",
         "steps": [
@@ -565,19 +565,19 @@
       ]
     },
     {
-      "question": "14. Ein System soll ungewöhnliche Kreditkartentransaktionen erkennen, die auf Betrug hindeuten. Welche ML-Aufgabe ist dies?",
+      "question": "12. Ein System soll ungewöhnliche Kreditkartentransaktionen erkennen, die auf Betrug hindeuten. Welche ML-Aufgabe ist dies?",
       "options": [
         "Anomalieerkennung (unüberwacht)",
-        "Binäre Klassifikation (überwacht)",
-        "Regression",
-        "Clustering"
+        "Binäre Klassifikation mit gelabelten Betrugsfällen",
+        "Regression der Schadenshöhe",
+        "Clustering ähnlicher Transaktionen"
       ],
       "answer": 0,
       "explanation": "Die Betrugserkennung ist typischerweise eine Anomalieerkennungsaufgabe. Das System wird hauptsächlich mit normalen Transaktionen trainiert und lernt, diese zu erkennen. Neue, ungewöhnliche Transaktionen werden dann als potenzielle Anomalien identifiziert.",
       "weight": 2,
       "topic": "Unüberwachtes Lernen",
       "concept": "Anomalieerkennung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Anomalieerkennung für Betrugserkennung",
         "steps": [
@@ -616,7 +616,7 @@
       ]
     },
     {
-      "question": "15. Sie haben ein Modell zur Bilderkennung mit selbstüberwachtem Lernen vortrainiert. Was ist der nächste sinnvolle Schritt?",
+      "question": "13. Sie haben ein Modell zur Bilderkennung mit selbstüberwachtem Lernen vortrainiert. Was ist der nächste sinnvolle Schritt?",
       "options": [
         "Das Modell für eine spezifische Aufgabe feintunen",
         "Das Modell sofort in Produktion bringen",
@@ -629,7 +629,7 @@
       "weight": 2,
       "topic": "Fortgeschrittene Lernmethoden",
       "concept": "Transfer Learning",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Selbstüberwachtes Lernen und Transfer Learning",
         "steps": [
@@ -668,7 +668,7 @@
       ]
     },
     {
-      "question": "16. Wofür wird der Validierungsdatensatz verwendet?",
+      "question": "14. Wofür wird der Validierungsdatensatz verwendet?",
       "options": [
         "Zur Auswahl des besten Modells und Hyperparameter-Tuning",
         "Zum Training des finalen Modells",
@@ -680,7 +680,7 @@
       "weight": 2,
       "topic": "Validierung",
       "concept": "Validierungsdatensatz",
-      "cognitive_level": "Application",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": {
         "title": "Rolle des Validierungsdatensatzes",
         "steps": [
@@ -719,7 +719,7 @@
       ]
     },
     {
-      "question": "17. Bei Online-Learning steuert die Lernrate, wie schnell sich das System anpasst. Was ist der Nachteil einer sehr hohen Lernrate?",
+      "question": "15. Bei Online-Learning steuert die Lernrate, wie schnell sich das System anpasst. Was ist der Nachteil einer sehr hohen Lernrate?",
       "options": [
         "Das System ist anfällig für Rauschen",
         "Das System lernt zu langsam",
@@ -732,7 +732,7 @@
       "weight": 2,
       "topic": "Lernparadigmen",
       "concept": "Lernraten-Abwägung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Balance der Lernrate im Online-Learning",
         "steps": [
@@ -771,7 +771,7 @@
       ]
     },
     {
-      "question": "17. Dimensionsreduktion kann helfen, Trainingsdaten zu vereinfachen. Welcher Vorteil ist dabei NICHT zu erwarten?",
+      "question": "16. Dimensionsreduktion kann helfen, Trainingsdaten zu vereinfachen. Welcher Vorteil ist dabei NICHT zu erwarten?",
       "options": [
         "Das Modell wird leistungsfähiger",
         "Das Training wird schneller",
@@ -783,7 +783,7 @@
       "weight": 2,
       "topic": "Daten & Features",
       "concept": "Vorteile der Vereinfachung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Dimensionsreduktion im ML-Workflow",
         "content": "Dimensionsreduktion ist eine wichtige Vorverarbeitungstechnik. Sie kombiniert korrelierende Features (z.B. Kilometerstand und Alter zu Abnutzung) oder eliminiert irrelevante. Dies reduziert die Komplexität des Lernproblems, nicht des Modells selbst. Vorteile: Schnelleres Training durch weniger Berechnungen, weniger Speicherbedarf, reduziertes Overfitting-Risiko durch Entfernung von Rauschen. Manchmal verbessert sich die Modellqualität, da irrelevante Features entfernt werden. Verbreitete Techniken sind PCA (Principal Component Analysis) und t-SNE für Visualisierung.",
@@ -822,19 +822,19 @@
       ]
     },
     {
-      "question": "19. In der Studie zur US-Präsidentschaftswahl 1936 führte die Stichprobenmethode zu falschen Vorhersagen. Was war das Hauptproblem?",
+      "question": "17. In der Studie zur US-Präsidentschaftswahl 1936 führte die Stichprobenmethode zu falschen Vorhersagen. Was war das Hauptproblem?",
       "options": [
-        "Stichprobenverzerrung durch nicht-repräsentative Datenerhebung",
-        "Die Stichprobe war zu groß",
-        "Es wurde ein falscher ML-Algorithmus verwendet",
-        "Die Daten waren zu aktuell"
+        "Nicht-repräsentative Stichprobe (Bias)",
+        "Stichprobe war zu groß und damit teuer",
+        "Falscher Algorithmus trotz guter Daten",
+        "Daten waren zeitlich verzerrt"
       ],
       "answer": 0,
       "explanation": "Das Problem war Stichprobenverzerrung: Die Umfrage nutzte Telefonbücher und Abonnentenlisten, wodurch wohlhabendere Menschen überrepräsentiert waren. Zudem antworteten nur 25% (Schweigeverzerrung). Die Stichprobengröße war nicht das Problem - sie war sogar sehr groß (2,4 Millionen).",
       "weight": 2,
       "topic": "Daten & Features",
       "concept": "Stichprobenverzerrung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Stichprobenverzerrung und ihre Folgen",
         "steps": [
@@ -873,7 +873,7 @@
       ]
     },
     {
-      "question": "20. Ein Batch-Learning-Modell zur Spam-Erkennung verliert mit der Zeit an Qualität, obwohl es anfangs gut funktionierte. Was ist die wahrscheinlichste Ursache?",
+      "question": "18. Ein Batch-Learning-Modell zur Spam-Erkennung verliert mit der Zeit an Qualität, obwohl es anfangs gut funktionierte. Was ist die wahrscheinlichste Ursache?",
       "options": [
         "Model Rot durch sich ändernde Spam-Muster",
         "Das Modell hat zu viele Parameter",
@@ -886,7 +886,7 @@
       "weight": 2,
       "topic": "Lernparadigmen",
       "concept": "Model Rot",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Model Rot und kontinuierliche Aktualisierung",
         "steps": [
@@ -925,7 +925,7 @@
       ]
     },
     {
-      "question": "21. Bei der Hold-out-Validierung wird ein Teil der Trainingsdaten zurückgehalten. Was passiert nach der Modellauswahl mit diesem Validierungsdatensatz?",
+      "question": "19. Bei der Hold-out-Validierung wird ein Teil der Trainingsdaten zurückgehalten. Was passiert nach der Modellauswahl mit diesem Validierungsdatensatz?",
       "options": [
         "Er wird mit den Trainingsdaten kombiniert",
         "Er wird verworfen und nicht mehr verwendet",
@@ -937,7 +937,7 @@
       "weight": 2,
       "topic": "Validierung",
       "concept": "Hold-out-Validierung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": {
         "title": "Kompletter Hold-out-Validierungs-Workflow",
         "steps": [
@@ -976,7 +976,7 @@
       ]
     },
     {
-      "question": "24. Das No-Free-Lunch-Theorem besagt, dass es ohne Annahmen über die Daten keinen Grund gibt, ein Modell einem anderen vorzuziehen. Was bedeutet dies für die Praxis?",
+      "question": "20. Das No-Free-Lunch-Theorem besagt, dass es ohne Annahmen über die Daten keinen Grund gibt, ein Modell einem anderen vorzuziehen. Was bedeutet dies für die Praxis?",
       "options": [
         "Man muss sinnvolle Annahmen treffen und mehrere Modelle evaluieren",
         "Alle Modelle sind gleich gut, die Wahl ist irrelevant",
@@ -988,7 +988,7 @@
       "weight": 3,
       "topic": "Grundlagen Machine Learning",
       "concept": "No-Free-Lunch-Theorem",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "extended_explanation": {
         "title": "Praktische Implikationen des No-Free-Lunch-Theorems",
         "steps": [
@@ -1027,20 +1027,20 @@
       ]
     },
     {
-      "question": "25. Ein Reinforcement-Learning-Agent soll einen Roboter steuern. Er beobachtet die Umgebung, wählt Aktionen und erhält Belohnungen. Was muss der Agent lernen?",
+      "question": "21. Ein Reinforcement-Learning-Agent soll einen Roboter steuern. Er beobachtet die Umgebung, wählt Aktionen und erhält Belohnungen. Was muss der Agent lernen?",
       "options": [
-        "Eine Policy, die in jeder Situation die Aktion mit höchster erwarteter Belohnung wählt",
-        "Die exakte Abfolge aller möglichen Aktionen",
-        "Nur die Aktionen, die sofortige Belohnungen bringen",
-        "Ein überwachtes Klassifikationsmodell für Zustände",
-        "Die Umgebung perfekt zu imitieren"
+        "Eine Policy, die den erwarteten Reward maximiert",
+        "Die exakte Abfolge aller Aktionen pro Episode",
+        "Nur kurzfristig belohnte Aktionen",
+        "Ein überwachtes Modell für Zustände",
+        "Die Umgebung vollständig zu imitieren"
       ],
       "answer": 0,
       "explanation": "Der Agent muss eine Policy lernen - eine Strategie, die für jede Situation die beste Aktion definiert. Diese maximiert die kumulative Belohnung über Zeit, nicht nur sofortige Belohnungen. Dies unterscheidet RL von überwachtem Lernen, wo direkte Labels vorliegen.",
       "weight": 3,
       "topic": "Lernparadigmen",
       "concept": "Policy Learning",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": {
         "title": "Policy Learning im Reinforcement Learning",
         "steps": [
@@ -1080,12 +1080,12 @@
       ]
     },
     {
-      "question": "26. Beim selbstüberwachten Lernen wird ein Modell trainiert, maskierte Bildteile wiederherzustellen. Warum ist dies nützlich, wenn Ihr eigentliches Ziel Bildklassifikation ist?",
+      "question": "22. Beim selbstüberwachten Lernen wird ein Modell trainiert, maskierte Bildteile wiederherzustellen. Warum ist dies nützlich, wenn Ihr eigentliches Ziel Bildklassifikation ist?",
       "options": [
-        "Das Modell lernt allgemeine Bildmerkmale, die später für Klassifikation genutzt werden können",
+        "Es lernt allgemeine Bildmerkmale für spätere Klassifikation",
         "Bildreparatur ist identisch mit Klassifikation",
         "Es ist nicht nützlich, man sollte direkt klassifizieren",
-        "Das Modell wird dadurch automatisch zum besten Klassifikator",
+        "Das Modell wird automatisch zum besten Klassifikator",
         "Es vermeidet die Notwendigkeit von Testdaten"
       ],
       "answer": 0,
@@ -1093,7 +1093,7 @@
       "weight": 3,
       "topic": "Fortgeschrittene Lernmethoden",
       "concept": "Representational Learning",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "extended_explanation": {
         "title": "Selbstüberwachtes Lernen für Repräsentationen",
         "steps": [
@@ -1133,20 +1133,20 @@
       ]
     },
     {
-      "question": "27. Ein Modell hat 5% Fehler auf Training und 15% auf Test. Sie sammeln mehr Daten, trainieren neu, und erhalten 4% auf Training, aber immer noch 15% auf Test. Was sollten Sie als Nächstes versuchen?",
+      "question": "23. Ein Modell hat 5% Fehler auf Training und 15% auf Test. Sie sammeln mehr Daten, trainieren neu, und erhalten 4% auf Training, aber immer noch 15% auf Test. Was sollten Sie als Nächstes versuchen?",
       "options": [
         "Regularisierung reduzieren oder Modellkomplexität erhöhen",
         "Noch mehr Trainingsdaten sammeln",
-        "Regularisierung verstärken",
-        "Das Modell vereinfachen",
-        "Die Lernrate verringern"
+        "Regularisierung verstärken oder Modell vereinfachen",
+        "Die Lernrate stark erhöhen",
+        "Features zufällig entfernen"
       ],
-      "answer": 0,
-      "explanation": "Mehr Daten haben den Trainingsfehler gesenkt, aber nicht den Testfehler - das Modell underfittet möglicherweise. Trotz niedrigem Trainingsfehler ist die Lücke zu Test groß (Overfitting-Zeichen), aber da zusätzliche Daten nicht halfen, ist das Modell zu eingeschränkt. Komplexität erhöhen oder Regularisierung reduzieren könnte helfen.",
+      "answer": 2,
+      "explanation": "Die Testfehler bleiben hoch, während der Trainingsfehler sehr niedrig ist. Das deutet auf hohe Varianz hin. Eine sinnvolle nächste Maßnahme ist daher, das Modell zu vereinfachen oder die Regularisierung zu verstärken.",
       "weight": 3,
       "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Bias-Variance-Diagnose",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "extended_explanation": {
         "title": "Systematische Fehleranalyse und Gegenmaßnahmen",
         "steps": [
@@ -1186,20 +1186,20 @@
       ]
     },
     {
-      "question": "28. Sie optimieren Hyperparameter, indem Sie viele Modelle trainieren und jedes auf dem Testdatensatz evaluieren. Das beste Modell erreicht 92% auf Test. Im Produktivbetrieb erreicht es nur 78%. Was ist schiefgelaufen?",
+      "question": "24. Sie optimieren Hyperparameter, indem Sie viele Modelle trainieren und jedes auf dem Testdatensatz evaluieren. Das beste Modell erreicht 92% auf Test. Im Produktivbetrieb erreicht es nur 78%. Was ist schiefgelaufen?",
       "options": [
-        "Overfitting auf den Testdatensatz durch wiederholte Evaluation",
-        "Der Testdatensatz war zu klein",
-        "Das Modell wurde falsch implementiert",
-        "Die Produktivdaten sind fehlerhaft",
-        "Das Training war unvollständig"
+        "Testdatensatz übernutzt (Test-Leakage)",
+        "Testdatensatz war zu klein",
+        "Modell wurde falsch implementiert",
+        "Produktivdaten sind fehlerhaft",
+        "Training war unvollständig"
       ],
       "answer": 0,
       "explanation": "Durch wiederholtes Testen vieler Modelle auf dem Testdatensatz haben Sie indirekt auf diesen Datensatz overfittet. Der Testdatensatz sollte nur für finale Evaluation genutzt werden. Für Hyperparameter-Tuning sollte ein separater Validierungsdatensatz verwendet werden.",
       "weight": 3,
       "topic": "Validierung",
       "concept": "Test Set Leakage",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Data Leakage durch Testdatensatz-Missbrauch",
         "steps": [
@@ -1239,19 +1239,19 @@
       ]
     },
     {
-      "question": "26. Sie haben 10.000 gelabelte und 1 Million ungelabelte Bilder. Welcher Ansatz nutzt beide Datenquellen am effektivsten?",
+      "question": "25. Sie haben 10.000 gelabelte und 1 Million ungelabelte Bilder. Welcher Ansatz nutzt beide Datenquellen am effektivsten?",
       "options": [
-        "Teilüberwachtes Lernen: Clustering auf allen Daten, dann überwachtes Lernen",
+        "Teilüberwachtes Lernen mit Pseudo-Labels",
         "Nur die 10.000 gelabelten Bilder verwenden",
         "Alle 1 Million Bilder zufällig labeln",
-        "Nur die 1 Million ungelabelten Bilder für Clustering nutzen"
+        "Nur die 1 Million Bilder für Clustering nutzen"
       ],
       "answer": 0,
       "explanation": "Teilüberwachtes Lernen kombiniert beide Datenquellen optimal: Unüberwachte Methoden (z.B. Clustering) nutzen alle Daten zur Strukturfindung, dann werden Labels propagiert oder überwachtes Lernen auf der entdeckten Struktur angewendet. Dies nutzt die große Menge ungelabelter Daten sinnvoll aus.",
       "weight": 3,
       "topic": "Fortgeschrittene Lernmethoden",
       "concept": "Semi-Supervised Learning",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Anwendung",
       "extended_explanation": {
         "title": "Teilüberwachtes Lernen für dateneffizientes Training",
         "content": "Teilüberwachtes Lernen ist perfekt, wenn gelabelte Daten rar, aber ungelabelte Daten reichlich vorhanden sind - ein häufiges Szenario in der Praxis. Der Ansatz kombiniert das Beste beider Welten: Die große Menge ungelabelter Daten hilft, die Datenstruktur zu verstehen (z.B. dass bestimmte Bilder zusammengehören), während die wenigen Labels diese Struktur mit Bedeutung versehen. Im Fotobeispiel könnte ein Cluster Katzenbilder enthalten - sobald ein paar davon gelabelt sind, können alle anderen im Cluster ebenfalls als Katzen identifiziert werden. Dies ist effizienter als nur mit 10.000 Beispielen zu trainieren oder die Million ungelabelter Bilder zu ignorieren. Moderne Ansätze kombinieren dies oft mit selbstüberwachtem Vortraining.",
@@ -1291,7 +1291,7 @@
       ]
     },
     {
-      "question": "22. Ein lineares Modell zeigt schlechte Leistung auf Training UND Test (beide ~60% Genauigkeit). Ein komplexes neuronales Netz erreicht 99% auf Training, aber nur 65% auf Test. Was sollten Sie tun?",
+      "question": "26. Ein lineares Modell zeigt schlechte Leistung auf Training UND Test (beide ~60% Genauigkeit). Ein komplexes neuronales Netz erreicht 99% auf Training, aber nur 65% auf Test. Was sollten Sie tun?",
       "options": [
         "Ein Modell mittlerer Komplexität wählen und Regularisierung anwenden",
         "Das neuronale Netz verwenden, da es höhere Trainingsgenauigkeit hat",
@@ -1304,7 +1304,7 @@
       "weight": 3,
       "topic": "Modelloptimierung & Fehleranalyse",
       "concept": "Modellkomplexität",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "extended_explanation": {
         "title": "Diagnose und Behandlung von Fitting-Problemen",
         "steps": [
@@ -1344,20 +1344,20 @@
       ]
     },
     {
-      "question": "30. Ein polynomielles Modell höheren Grades erreicht perfekte Genauigkeit auf Trainingsdaten, versagt aber bei neuen Daten. Gleichzeitig würde ein lineares Modell beide Datensätze schlecht fitten. Was ist die fundamentale Herausforderung?",
+      "question": "27. Ein polynomielles Modell höheren Grades erreicht perfekte Genauigkeit auf Trainingsdaten, versagt aber bei neuen Daten. Gleichzeitig würde ein lineares Modell beide Datensätze schlecht fitten. Was ist die fundamentale Herausforderung?",
       "options": [
-        "Die Balance zwischen Modellkomplexität und Generalisierungsfähigkeit zu finden",
-        "Genug Trainingsdaten zu sammeln",
-        "Den richtigen Algorithmus aus der Literatur zu wählen",
-        "Die Rechenleistung für komplexe Modelle bereitzustellen",
-        "Fehler in den Daten zu identifizieren und zu korrigieren"
+        "Bias-Variance-Tradeoff",
+        "Mehr Trainingsdaten sammeln",
+        "Algorithmus aus der Literatur wählen",
+        "Mehr Rechenleistung bereitstellen",
+        "Datenfehler finden und korrigieren"
       ],
       "answer": 0,
       "explanation": "Die fundamentale Herausforderung ist der Bias-Variance-Tradeoff: Ein zu einfaches Modell (linear) underfittet, ein zu komplexes (hohes Polynom) overfittet. Man muss die optimale Komplexität finden, die echte Muster lernt, aber nicht auf Rauschen overfittet. Dies ist eine Kernherausforderung im ML.",
       "weight": 3,
       "topic": "Grundlagen Machine Learning",
       "concept": "Bias-Variance-Tradeoff",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "extended_explanation": {
         "title": "Der zentrale Tradeoff im Machine Learning",
         "steps": [

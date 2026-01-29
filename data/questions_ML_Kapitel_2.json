@@ -1,1224 +1,1224 @@
 {
-    "meta": {
-        "title": "Machine-Learning: Kapitel 2",
-        "created": "18.01.2026 14:35",
-        "modified": "19.01.2026 05:50",
-        "target_audience": "Studierende der Wirtschaftsinformatik",
-        "question_count": 30,
-        "difficulty_profile": {
-            "easy": 3,
-            "medium": 18,
-            "hard": 9
-        },
-        "language": "de",
-        "time_per_weight_minutes": {
-            "1": 0.5,
-            "2": 0.75,
-            "3": 1.0
-        },
-        "additional_buffer_minutes": 5,
-        "test_duration_minutes": 29
+  "meta": {
+    "title": "Machine-Learning: Kapitel 2",
+    "created": "18.01.2026 14:35",
+    "modified": "19.01.2026 05:50",
+    "target_audience": "Studierende der Wirtschaftsinformatik",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 3,
+      "medium": 18,
+      "hard": 9
     },
-    "questions": [
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 29
+  },
+  "questions": [
+    {
+      "question": "1. In einem E-Commerce-Churn-Projekt: Welche Hauptphasen durchläufst du typischerweise in einem Machine-Learning-Projekt von der Problemdefinition bis zum Betrieb?",
+      "options": [
+        "Problemdefinition, Datenbeschaffung, Exploration, Vorbereitung, Modelltraining",
+        "Definiere Variablen, Schreibe Funktionen, Teste Implementation, Deploye die Anwendung",
+        "Installiere Bibliotheken, Lade Datasets, Erstelle Visualisierungen, Exportiere Ergebnisse",
+        "Sammle Requirements, Designe Datenbank, Implementiere Services, Teste Komponenten"
+      ],
+      "answer": 0,
+      "explanation": "Ein ML-Projekt startet mit klarer Problemdefinition, danach folgen Datenbeschaffung, Exploration, Bereinigung/Aufbereitung, Modelltraining samt Evaluierung und erst am Ende das Deployment; die anderen Optionen beschreiben generische Software- oder Visualisierungsschritte ohne ML-spezifischen Lebenszyklus.",
+      "weight": 1,
+      "topic": "ML-Projekt & Grundlagen",
+      "concept": "ML-Lebenszyklus",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": {
+        "title": "ML-Lebenszyklus kompakt",
+        "steps": [
+          "Problem sauber eingrenzen und Erfolgsmessung festlegen",
+          "Daten beschaffen, profilieren, Datenqualität prüfen",
+          "Aufbereiten: säubern, imputieren, kodieren, skalieren",
+          "Modell trainieren, validieren, hyperparametern",
+          "Deployen, überwachen, mit Feedback iterieren"
+        ],
+        "content": "Der Lebenszyklus ist iterativ: Nach jedem Deploy folgen Monitoring, Fehleranalyse und erneutes Training, sobald Daten oder Rahmenbedingungen sich ändern."
+      },
+      "mini_glossary": [
         {
-            "question": "1. In einem E-Commerce-Churn-Projekt: Welche Hauptphasen durchläufst du typischerweise in einem Machine-Learning-Projekt von der Problemdefinition bis zum Betrieb?",
-            "options": [
-                "Problemdefinition, Datenbeschaffung, Exploration, Vorbereitung, Modelltraining",
-                "Definiere Variablen, Schreibe Funktionen, Teste Implementation, Deploye die Anwendung",
-                "Installiere Bibliotheken, Lade Datasets, Erstelle Visualisierungen, Exportiere Ergebnisse",
-                "Sammle Requirements, Designe Datenbank, Implementiere Services, Teste Komponenten"
-            ],
-            "answer": 0,
-            "explanation": "Ein ML-Projekt startet mit klarer Problemdefinition, danach folgen Datenbeschaffung, Exploration, Bereinigung/Aufbereitung, Modelltraining samt Evaluierung und erst am Ende das Deployment; die anderen Optionen beschreiben generische Software- oder Visualisierungsschritte ohne ML-spezifischen Lebenszyklus.",
-            "weight": 1,
-            "topic": "ML-Projekt & Grundlagen",
-            "concept": "ML-Lebenszyklus",
-            "cognitive_level": "Reproduction",
-            "extended_explanation": {
-                "title": "ML-Lebenszyklus kompakt",
-                "steps": [
-                    "Problem sauber eingrenzen und Erfolgsmessung festlegen",
-                    "Daten beschaffen, profilieren, Datenqualität prüfen",
-                    "Aufbereiten: säubern, imputieren, kodieren, skalieren",
-                    "Modell trainieren, validieren, hyperparametern",
-                    "Deployen, überwachen, mit Feedback iterieren"
-                ],
-                "content": "Der Lebenszyklus ist iterativ: Nach jedem Deploy folgen Monitoring, Fehleranalyse und erneutes Training, sobald Daten oder Rahmenbedingungen sich ändern."
-            },
-            "mini_glossary": [
-                {
-                    "term": "ML-Lebenszyklus",
-                    "definition": "Sequenz aus Problemdefinition, Datenaufbereitung, Training/Evaluierung und Deployment eines Modells."
-                },
-                {
-                    "term": "Datenvorbereitung",
-                    "definition": "Bereinigen, Imputieren, Kodieren und Skalieren, damit Algorithmen robuste Muster erkennen."
-                },
-                {
-                    "term": "Deployment",
-                    "definition": "Übergabe des trainierten Modells in eine Produktiv- oder Nutzungsumgebung."
-                }
-            ]
+          "term": "ML-Lebenszyklus",
+          "definition": "Sequenz aus Problemdefinition, Datenaufbereitung, Training/Evaluierung und Deployment eines Modells."
         },
         {
-            "question": "2. Für ein Regressionsmodell zu Immobilienpreisen: Was beschreibt der RMSE im Hinblick auf die Vorhersagefehler?",
-            "options": [
-                "Die typische Größe des Vorhersagefehlers mit höherer Gewichtung großer Fehler",
-                "Die Anzahl der korrekt klassifizierten Datenpunkte in der gesamten Testmenge",
-                "Die benötigte Rechenzeit für Vorhersagen auf dem gesamten Validierungsdatensatz",
-                "Die statistische Korrelation zwischen allen Eingabemerkmalen und der Zielvariable"
-            ],
-            "answer": 0,
-            "explanation": "RMSE misst die typische Größe der Vorhersagefehler, wobei große Abweichungen durch Quadrieren stärker bestraft werden; er wird für Regression genutzt und ist in derselben Einheit wie das Target.",
-            "weight": 1,
-            "topic": "Evaluierung",
-            "concept": "RMSE",
-            "cognitive_level": "Reproduction",
-            "extended_explanation": {
-                "title": "RMSE verstehen",
-                "steps": [
-                    "Vorhersagefehler je Beobachtung berechnen",
-                    "Fehler quadrieren (große Fehler stärker gewichten)",
-                    "Alle quadrierten Fehler mitteln",
-                    "Wurzel ziehen, um Einheiten wie das Target zu erhalten",
-                    "Interpretation: typische Fehlergröße bei Ausreißer-Sensitivität"
-                ],
-                "content": "RMSE ist gut für symmetrische Fehlerverteilungen und wenn große Ausreißer besonders relevant sind; bei starken Ausreißern alternativ MAE prüfen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "RMSE",
-                    "definition": "Wurzel der mittleren quadratischen Fehler – empfindlich gegenüber großen Ausreißern."
-                },
-                {
-                    "term": "MSE",
-                    "definition": "Mean Squared Error, Basis des RMSE; quadriert Differenzen und mittelt sie."
-                },
-                {
-                    "term": "Skalierung",
-                    "definition": "RMSE ist in Target-Einheiten, daher intuitiv interpretierbar (z. B. Euro, Grad)."
-                }
-            ]
+          "term": "Datenvorbereitung",
+          "definition": "Bereinigen, Imputieren, Kodieren und Skalieren, damit Algorithmen robuste Muster erkennen."
         },
         {
-            "question": "3. In einer sklearn-Pipeline für Klassifikation: Wofür nutzt du die fit()-Methode eines Estimators?",
-            "options": [
-                "Parameter aus Trainingsdaten zu lernen",
-                "Vorhersagen für komplett neue unbekannte Daten zu treffen",
-                "Den gesamten Datensatz in Trainings- und Testdaten aufzuteilen",
-                "Die endgültige Qualität des Modells auf Testdaten zu berechnen"
-            ],
-            "answer": 0,
-            "explanation": "fit() passt den Estimator an die Trainingsdaten an und lernt seine Parameter; predict() oder transform() kommen erst danach, Splitten oder Evaluieren gehört nicht in fit().",
-            "weight": 1,
-            "topic": "ML-Projekt & Grundlagen",
-            "concept": "Estimator",
-            "cognitive_level": "Reproduction",
-            "extended_explanation": {
-                "title": "fit vs. predict/transform",
-                "steps": [
-                    "fit(): Parameter aus Trainingsdaten lernen",
-                    "predict(): nach fit() Vorhersagen erzeugen",
-                    "transform(): nach fit() Features wandeln",
-                    "fit_transform(): Training + Transformation in einem Schritt",
-                    "Kein Split/Evaluierung in fit() unterbringen"
-                ],
-                "content": "Ein Estimator darf erst nach fit() für neue Daten genutzt werden. Validierung (score) und Splits passieren außerhalb der fit()-Methode."
-            },
-            "mini_glossary": [
-                {
-                    "term": "fit()",
-                    "definition": "Trainingsschritt eines Estimators, der Modellparameter aus Daten ableitet."
-                },
-                {
-                    "term": "Estimator",
-                    "definition": "sklearn-Objekt mit fit/predict oder fit/transform Schnittstelle."
-                },
-                {
-                    "term": "predict()",
-                    "definition": "Nutzt gelernte Parameter, um Vorhersagen auf neuen Daten zu erzeugen."
-                }
-            ]
-        },
-        {
-            "question": "4. Bei einer Kreditrisiko-Analyse: Warum setzt du auf stratifiziertes Sampling statt reines Zufallssampling?",
-            "options": [
-                "Es sorgt für repräsentative Verteilung wichtiger Kategorien",
-                "Es reduziert die Größe des benötigten Testdatensatzes um die Hälfte",
-                "Es eliminiert automatisch sämtliche Ausreißer aus dem Datensatz",
-                "Es beschleunigt das Training um mehrere Größenordnungen"
-            ],
-            "answer": 0,
-            "explanation": "Stratifiziertes Sampling sichert, dass wichtige Klassen/Strata proportional in Train/Test enthalten sind und verhindert damit Verzerrungen; zufälliges Sampling kann seltene Gruppen unterrepräsentieren.",
-            "weight": 2,
-            "topic": "Datenaufbereitung",
-            "concept": "Stratified Sampling",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Stratifizierung richtig einsetzen",
-                "steps": [
-                    "Relevante Schichten definieren (z. B. Zielklassen)",
-                    "Anteilsverteilung in Gesamtpopulation bestimmen",
-                    "Train/Test so ziehen, dass Anteile je Schicht erhalten bleiben",
-                    "Bei CV: stratify-Parameter setzen",
-                    "Nachher prüfen, ob Verteilungen konsistent sind"
-                ],
-                "content": "Stratifiziertes Sampling verhindert, dass Minderheitsklassen im Testset fehlen und liefert stabilere Metriken, besonders bei Klassendissbalance."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Stratified Sampling",
-                    "definition": "Stichprobe, die Verteilungen von Schichten (z. B. Klassen) proportional erhält."
-                },
-                {
-                    "term": "Klassendissbalance",
-                    "definition": "Unausgewogene Zielverteilung, die ohne Strata zu Bias in Train/Test führt."
-                },
-                {
-                    "term": "Repräsentativität",
-                    "definition": "Eigenschaft einer Stichprobe, die Populationseigenschaften gut abzubilden."
-                }
-            ]
-        },
-        {
-            "question": "5. In einer ML-Studie mit fest definiertem Testset: Weshalb solltest du den Testdatensatz vor der Modellauswahl nicht inspizieren?",
-            "options": [
-                "Um Data-Snooping-Bias zu vermeiden",
-                "Weil der Testdatensatz zu groß ist",
-                "Damit Daten nicht gelöscht werden",
-                "Um Speicherplatz zu sparen"
-            ],
-            "answer": 0,
-            "explanation": "Wer den Testdatensatz vorab nutzt, lässt Informationen in die Modellwahl einfließen und überschätzt die echte Generalisierung (Data-Snooping); der Testset muss bis zum Schluss unangetastet bleiben.",
-            "weight": 2,
-            "topic": "Datenaufbereitung",
-            "concept": "Test Set Contamination",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Testset schützen",
-                "steps": [
-                    "Testset erst nach Modellauswahl öffnen",
-                    "Alle Entscheidungen auf Train/Valid treffen",
-                    "Kein Feature Engineering auf Basis des Testsets",
-                    "Nur einmalige finale Schätzung auf Test ausführen",
-                    "Scores dokumentieren und reproduzierbar halten"
-                ],
-                "content": "Das Testset ist der Stellvertreter für unbekannte Daten. Jeder vorzeitige Blick führt zu optimistischen Schätzungen (Data-Snooping)."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Test Set Contamination",
-                    "definition": "Verunreinigung, wenn Testwissen in Training/Modellwahl einfließt und Ergebnisse schönt."
-                },
-                {
-                    "term": "Data Snooping",
-                    "definition": "Frühes Anschauen oder Nutzen des Testsets, das zu optimistischen Scores führt."
-                },
-                {
-                    "term": "Generalisierung",
-                    "definition": "Fähigkeit des Modells, auf wirklich neuen Daten gut zu performen."
-                }
-            ]
-        },
-        {
-            "question": "6. In einem Healthcare-Datensatz mit Laborwerten: Welche Imputationsstrategie wählst du für ein rechtsschiefes numerisches Merkmal mit Ausreißern?",
-            "options": [
-                "strategy='median', weil robust",
-                "strategy='mean', weil präziser",
-                "strategy='most_frequent' für Kategorien",
-                "strategy='constant' mit 0"
-            ],
-            "answer": 0,
-            "explanation": "Bei rechtsschiefen numerischen Features mit Ausreißern ist der Median als Imputation robuster als der Mittelwert, weil Extremwerte ihn kaum verschieben; most_frequent/constant passen hier nicht.",
-            "weight": 2,
-            "topic": "Datenaufbereitung",
-            "concept": "SimpleImputer",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Robuste Imputation bei Schiefe",
-                "steps": [
-                    "Verteilung prüfen (Histogramm/Quantile)",
-                    "Bei Schiefe: Median statt Mean verwenden",
-                    "Ausreißer nicht trimmen, wenn sie plausibel sind",
-                    "Imputation spaltenweise in Pipeline verankern",
-                    "Skalierung erst nach der Imputation"
-                ],
-                "content": "Der Median ist robust gegenüber langen rechten Schwänzen und erhält die Lage der Verteilung besser als der Mittelwert."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Median-Imputation",
-                    "definition": "Ersetzt fehlende Werte durch den Median und bleibt unempfindlich gegenüber Ausreißern."
-                },
-                {
-                    "term": "Rechtsschiefe",
-                    "definition": "Verteilung mit langem rechten Schwanz, bei der Mean > Median liegt."
-                },
-                {
-                    "term": "Robustheit",
-                    "definition": "Eigenschaft, dass eine Kennzahl sich durch extreme Einzelwerte kaum verändert."
-                }
-            ]
-        },
-        {
-            "question": "7. Bei Produktkategorien in einem Retail-Datensatz: Wann bevorzugst du OneHotEncoder gegenüber OrdinalEncoder?",
-            "options": [
-                "Wenn keine natürliche Ordnung",
-                "Bei über 100 Kategorien",
-                "Bei alphabetischer Sortierbarkeit",
-                "Bei nur zwei Werten"
-            ],
-            "answer": 0,
-            "explanation": "OneHotEncoder wird bei nominalen Kategorien ohne natürliche Ordnung eingesetzt, damit das Modell keine künstliche Rangfolge interpretiert; OrdinalEncoder kodiert implizit eine Ordnung und ist nur dort passend.",
-            "weight": 2,
-            "topic": "Feature Engineering",
-            "concept": "OneHotEncoder",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Encoding-Wahl leiten",
-                "steps": [
-                    "Nominale Kategorien: One-Hot verwenden",
-                    "Ordinale Kategorien: OrdinalEncoder mit definierter Rangfolge",
-                    "Hohe Kardinalität: ggf. Target/Hash-Encodings prüfen",
-                    "NaNs vorher imputieren oder handle_unknown setzen",
-                    "Pipeline nutzen, um späteren Leakage zu vermeiden"
-                ],
-                "content": "One-Hot vermeidet Scheinhierarchien; OrdinalEncoder ist nur sinnvoll, wenn die Reihenfolge fachlich begründet ist."
-            },
-            "mini_glossary": [
-                {
-                    "term": "One-Hot-Encoding",
-                    "definition": "Erzeugt pro Kategorie eine Binärspalte, vermeidet Scheinskalierung."
-                },
-                {
-                    "term": "Ordinal-Encoding",
-                    "definition": "Mappt Kategorien auf Zahlen und impliziert dadurch eine Reihenfolge."
-                },
-                {
-                    "term": "Nominal vs. Ordinal",
-                    "definition": "Nominal = keine Rangfolge, Ordinal = geordnete Kategorien (z. B. S/M/L)."
-                }
-            ]
-        },
-        {
-            "question": "8. Für numerische Sensor-Features in IoT: In welcher Situation ist der StandardScaler die passendere Wahl gegenüber dem MinMaxScaler?",
-            "options": [
-                "Bei Ausreißern",
-                "Bei Bereich 0-1 Pflicht",
-                "Bei nur positiven Werten",
-                "Bei Normalverteilung"
-            ],
-            "answer": 0,
-            "explanation": "StandardScaler zentriert und skaliert auf Mittelwert 0, Std 1 und ist weniger anfällig für Ausreißer als MinMaxScaler, der alle Werte in einen festen Bereich quetscht; MinMax ist sinnvoll, wenn ein 0–1-Intervall Pflicht ist.",
-            "weight": 2,
-            "topic": "Feature Engineering",
-            "concept": "StandardScaler",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Scaler-Vergleich",
-                "steps": [
-                    "MinMax auf [0,1] pressen, empfindlich bei Ausreißern",
-                    "StandardScaler zentriert und normiert, toleranter",
-                    "RobustScaler nutzt Median/IQR für starke Ausreißer",
-                    "Scaler immer nach Imputation anwenden",
-                    "Scaler-Fit auf Training, dann Transform auf Train/Test"
-                ],
-                "content": "Wähle MinMax, wenn ein fixer Bereich nötig ist (z. B. NN), sonst StandardScaler; bei extremen Ausreißern RobustScaler erwägen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "StandardScaler",
-                    "definition": "Skaliert Merkmale auf Mittelwert 0 und Standardabweichung 1."
-                },
-                {
-                    "term": "MinMaxScaler",
-                    "definition": "Skaliert Merkmale in einen festen Bereich, meist [0,1], empfindlich bei Ausreißern."
-                },
-                {
-                    "term": "RobustScaler",
-                    "definition": "Alternative mit Median/IQR, noch unempfindlicher gegenüber Ausreißern."
-                }
-            ]
-        },
-        {
-            "question": "9. In einer Preprocessing-Pipeline für tabellarische Daten: Welche Reihenfolge von Schritten setzt du für numerische Features sinnvoll um?",
-            "options": [
-                "Imputer, Transformer, Scaler, Estimator",
-                "Scaler, Estimator, Imputer, Transformer",
-                "Estimator, Scaler, Imputer, Transformer",
-                "Transformer, Estimator, Scaler, Imputer"
-            ],
-            "answer": 0,
-            "explanation": "Gute Pipeline-Reihenfolge: Fehlende Werte zuerst imputieren, dann optionale Transformationen (z. B. Log), danach skalieren und am Ende den Estimator trainieren; andersherum scheitern viele Transformer an NaNs oder falschen Skalen.",
-            "weight": 2,
-            "topic": "Pipelines",
-            "concept": "Reihenfolge",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Pipeline-Reihenfolge merken",
-                "steps": [
-                    "Fehlende Werte imputieren (sonst brechen Transformer)",
-                    "Optionale Feature-Transformationen (z. B. Log)",
-                    "Skalieren/Kodieren für Modellverträglichkeit",
-                    "Estimator trainieren",
-                    "Konsistenz: Pipeline fit auf Train, dann predict auf Test"
-                ],
-                "content": "Eine saubere Reihenfolge vermeidet NaN-Fehler und stellt sicher, dass Preprocessing-Schritte identisch auf Train und Test angewandt werden."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Pipeline",
-                    "definition": "Gekettete Schritte aus Preprocessing und Modell, die konsistent train/test angewendet werden."
-                },
-                {
-                    "term": "Imputation vor Skalierung",
-                    "definition": "Scaler können keine NaN verarbeiten, deshalb zuerst Werte auffüllen."
-                },
-                {
-                    "term": "Estimator",
-                    "definition": "Letztes Pipeline-Element, das das eigentliche Modell trainiert."
-                }
-            ]
-        },
-        {
-            "question": "10. Bei gemischten Merkmalen (numerisch und kategorisch): Wie nutzt du den ColumnTransformer, um unterschiedliche Datentypen gemeinsam zu verarbeiten?",
-            "options": [
-                "Wendet Transformer spaltenspezifisch an",
-                "Konvertiert alle in gleichen Typ",
-                "Entfernt nicht-numerische Spalten",
-                "Splittet in mehrere DataFrames"
-            ],
-            "answer": 0,
-            "explanation": "ColumnTransformer erlaubt spaltenspezifische Pipelines und führt deren Ausgaben wieder zusammen; so können numerische und kategoriale Features parallel passend behandelt werden.",
-            "weight": 2,
-            "topic": "Pipelines",
-            "concept": "Mixed Types",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "ColumnTransformer als Schaltzentrale",
-                "steps": [
-                    "Numerische und kategoriale Spalten definieren",
-                    "Je Spaltengruppe eigene Pipeline (Imputer, Scaler, Encoder)",
-                    "remainder steuert, was mit Restspalten passiert",
-                    "Ausgaben werden horizontal konkateniert",
-                    "In Gesamt-Pipeline mit Estimator kombinieren"
-                ],
-                "content": "ColumnTransformer erlaubt gemischte Datentypen elegant zu handhaben, ohne separate DataFrames manuell auszurichten."
-            },
-            "mini_glossary": [
-                {
-                    "term": "ColumnTransformer",
-                    "definition": "Orchestriert mehrere Transformer für definierte Spalten-Subsets."
-                },
-                {
-                    "term": "remainder",
-                    "definition": "Steuert, ob nicht zugewiesene Spalten gedroppt oder unverändert angehängt werden."
-                },
-                {
-                    "term": "Heterogene Daten",
-                    "definition": "Datensätze mit gemischten Typen (numerisch/kategorisch), die getrennte Pfade brauchen."
-                }
-            ]
-        },
-        {
-            "question": "11. Beim Aufsetzen eines reproduzierbaren Experiments: Welche Wirkung hat der Parameter random_state in train_test_split()?",
-            "options": [
-                "Macht Aufteilung reproduzierbar",
-                "Erhöht Trainingsgeschwindigkeit",
-                "Entfernt Ausreißer",
-                "Balanciert Klassen"
-            ],
-            "answer": 0,
-            "explanation": "random_state setzt den Seed der Pseudozufallsquelle, sodass Splits reproduzierbar werden und Ergebnisse vergleichbar sind; an Trainingstempo oder Klassenbalance ändert er nichts.",
-            "weight": 2,
-            "topic": "ML-Projekt & Grundlagen",
-            "concept": "Random State",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Reproduzierbarkeit sichern",
-                "steps": [
-                    "random_state/seed einmal festlegen",
-                    "Gleiche Seeds in allen Splits/Algorithmen nutzen",
-                    "Pipelines, CV und Models mit Seed konfigurieren",
-                    "Ergebnisse dokumentieren (Seed + Versionen)",
-                    "Trotzdem Varianz durch andere Faktoren beachten"
-                ],
-                "content": "Ein konstanter Seed macht Splits und Modelle vergleichbar; für finale Robustheit kann man zusätzlich mehrere Seeds mitteln."
-            },
-            "mini_glossary": [
-                {
-                    "term": "random_state",
-                    "definition": "Seed-Parameter, der deterministische Zufallsfolgen erzeugt."
-                },
-                {
-                    "term": "Reproduzierbarkeit",
-                    "definition": "Gleiche Eingaben führen bei gleichem Seed zu identischen Splits/Modellen."
-                },
-                {
-                    "term": "Pseudozufall",
-                    "definition": "Algorithmisch erzeugter Zufall, der über Seeds kontrolliert wird."
-                }
-            ]
-        },
-        {
-            "question": "12. In einem RandomForest-Klassifikationsprojekt: Was drückt das Attribut feature_importances_ über die Merkmale aus?",
-            "options": [
-                "Feature-Wichtigkeit im Modell",
-                "Anzahl fehlender Werte",
-                "Rechenzeit pro Merkmal",
-                "Korrelation zwischen Merkmalen"
-            ],
-            "answer": 0,
-            "explanation": "feature_importances_ gibt an, wie stark ein Feature zur Impurity-Reduktion beiträgt; die Werte summieren sich zu 1 und eignen sich für Interpretation, nicht jedoch als alleinige Eliminationsgrundlage.",
-            "weight": 2,
-            "topic": "Modelle",
-            "concept": "Wichtigkeit",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Feature Importance richtig lesen",
-                "steps": [
-                    "Werte stammen aus Impurity-Reduktion je Split",
-                    "Summieren sich zu 1.0 pro Modell",
-                    "Hohe Werte = starker Beitrag zur Vorhersage",
-                    "Korrelierte Features teilen sich Wichtigkeit",
-                    "Mit Permutation Importance gegenprüfen"
-                ],
-                "content": "Nutze Importance für Interpretation und Feature-Selektion nur in Kombination mit Validierung, um Verzerrungen durch Korrelationen zu vermeiden."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Feature Importance",
-                    "definition": "Gewicht eines Features für das Modell, meist aus Impurity-Reduktion abgeleitet."
-                },
-                {
-                    "term": "Gini/Entropy",
-                    "definition": "Unreinheitsmaße, deren Reduktion in Bäumen die Wichtigkeit bestimmt."
-                },
-                {
-                    "term": "Permutation Importance",
-                    "definition": "Modellagnostische Alternative, misst Performance-Verlust beim Zufallstausch."
-                }
-            ]
-        },
-        {
-            "question": "13. Für Feature-Screening in einem DataFrame: Wie unterstützt dich eine Korrelationsmatrix bei der Merkmalsauswahl?",
-            "options": [
-                "Korrelation zum Target prüfen",
-                "Entferne alle korrelierten Merkmale",
-                "Sortiere alphabetisch",
-                "Berechne nur Kovarianz"
-            ],
-            "answer": 0,
-            "explanation": "Eine Korrelationsmatrix hilft, starke lineare Zusammenhänge zum Target aufzudecken; komplett korrelierte Features untereinander können dagegen zu Redundanz führen und sollten geprüft werden.",
-            "weight": 2,
-            "topic": "Feature Engineering",
-            "concept": "Pearson",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Korrelationsmatrix nutzen",
-                "steps": [
-                    "Matrix mit df.corr() berechnen",
-                    "Spalte zum Target sortieren (stärkste oben)",
-                    "Sehr hohe Feature-Feature-Korrelation prüfen",
-                    "Redundante Merkmale ggf. droppen",
-                    "Lineare Beziehungen im Hinterkopf behalten"
-                ],
-                "content": "Pearson deckt nur lineare Zusammenhänge auf; für Nichtlinearitäten ggf. Spearman/Kendall oder Modell-basierte Wichtigkeiten ergänzen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Pearson-Korrelation",
-                    "definition": "Maß für lineare Beziehung (-1 bis +1) zwischen zwei Variablen."
-                },
-                {
-                    "term": "Multikollinearität",
-                    "definition": "Starke Korrelation zwischen Features, die Modelle instabil machen kann."
-                },
-                {
-                    "term": "Zielvariable",
-                    "definition": "Label/Target, dessen Zusammenhang mit Features analysiert wird."
-                }
-            ]
-        },
-        {
-            "question": "14. Bei Umfragen mit kategorischen Antworten: Welche Strategie setzt du zum Auffüllen fehlender Kategorien ein?",
-            "options": [
-                "strategy='most_frequent'",
-                "strategy='median'",
-                "Zeilen mit fehlenden Werten löschen",
-                "strategy='mean'"
-            ],
-            "answer": 0,
-            "explanation": "Für kategoriale Merkmale sind mean/median nicht definiert; daher füllt man fehlende Werte meist mit dem häufigsten Wert oder einem festen Platzhalter, um die Verteilung wenig zu verzerren.",
-            "weight": 2,
-            "topic": "Datenaufbereitung",
-            "concept": "Most Frequent",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Kategorische Imputation",
-                "steps": [
-                    "Fehlende Kategorien als own class (constant) oder Modus füllen",
-                    "Verteilung prüfen, ob Modus zu Verzerrung führt",
-                    "Imputation pro Spalte in Pipeline ablegen",
-                    "Nach Encoding prüfen, ob Dummy-Fallen verhindert sind",
-                    "Bei High-Cardinality ggf. rare categories bündeln"
-                ],
-                "content": "Für Kategorien sind mean/median unsinnig; Mode oder ein explizites 'missing'-Label erhalten Struktur, ohne Scheinskalierung einzuführen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Modus-Imputation",
-                    "definition": "Ersetzt Missing-Werte in Kategorien mit dem häufigsten Auftreten."
-                },
-                {
-                    "term": "Platzhalter-Konstante",
-                    "definition": "Alternativ ein definierter Wert (z. B. 'missing'), um Information zu erhalten."
-                },
-                {
-                    "term": "Kategorische Variable",
-                    "definition": "Diskretes Merkmal ohne numerische Ordnung (nominal oder ordinal)."
-                }
-            ]
-        },
-        {
-            "question": "15. Für ein Umsatz-Feature in einem Business-Dataset: Wann setzt du eine Log-Transformation auf numerische Werte ein?",
-            "options": [
-                "Bei Rechtschiefe (positive Werte)",
-                "Bei bereits perfekter Normalverteilung",
-                "Bei negativen Merkmalen",
-                "Bei Ganzzahlen"
-            ],
-            "answer": 0,
-            "explanation": "Bei rechtsschiefen, positiven Merkmalen komprimiert die Log-Transformation große Werte, macht die Verteilung symmetrischer und stabilisiert Varianz; sie ist nicht für negative oder Null-Werte geeignet.",
-            "weight": 2,
-            "topic": "Feature Engineering",
-            "concept": "Log",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Log-Transformation anwenden",
-                "steps": [
-                    "Nur für positive, rechtsschiefe Features",
-                    "Vorher Offset hinzufügen, falls Nullen vorkommen",
-                    "Nach Log ggf. StandardScaler nutzen",
-                    "Effekt per Histogramm/QQ-Plot prüfen",
-                    "Transformation im Inferenzpfad beibehalten"
-                ],
-                "content": "Log stabilisiert Varianz und reduziert Heavy Tails; bei Nullen hilft log1p, bei negativen Werten besser andere Transformationen wählen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Log-Transformation",
-                    "definition": "Anwenden eines Logarithmus auf ein Merkmal, um Skalen zu komprimieren."
-                },
-                {
-                    "term": "Varianzstabilisierung",
-                    "definition": "Reduziert Spannweite und macht Modelle weniger empfindlich für Ausreißer."
-                },
-                {
-                    "term": "Power-Law/Heavy Tail",
-                    "definition": "Verteilungen mit wenigen sehr großen Werten, die durch Log geglättet werden."
-                }
-            ]
-        },
-        {
-            "question": "16. Wenn du eine eigene Feature-Funktion nutzen willst: Wie bindest du eine Python-Funktion als Transformer in eine Pipeline ein?",
-            "options": [
-                "FunctionTransformer nutzen",
-                "Komplette Klasse schreiben",
-                "Ist deprecated",
-                "Nur vordefinierte Funktionen"
-            ],
-            "answer": 0,
-            "explanation": "Der FunctionTransformer kapselt eine beliebige Python-Funktion als Transformer, ohne eigene Klasse schreiben zu müssen; optional kann eine inverse_func definiert werden.",
-            "weight": 2,
-            "topic": "Pipelines",
-            "concept": "FunctionTransformer",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "FunctionTransformer sinnvoll einsetzen",
-                "steps": [
-                    "Kleine Python-Funktion für Feature-Logik schreiben",
-                    "FunctionTransformer(func=..., inverse_func optional)",
-                    "validate=False für NumPy/Array-Speed setzen, falls passend",
-                    "In ColumnTransformer/Pipeline einbinden",
-                    "Reproduzierbarkeit durch seeds/params sicherstellen"
-                ],
-                "content": "FunctionTransformer ist ideal für einfache, zustandslose Transformationen (z. B. Log1p, Custom-Ratios), ohne eine Klasse zu bauen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "FunctionTransformer",
-                    "definition": "Wrapper, der eine Funktion in die sklearn-Transformer-Schnittstelle einpasst."
-                },
-                {
-                    "term": "inverse_func",
-                    "definition": "Optionale Rücktransformation, z. B. für Log/Exp-Paare."
-                },
-                {
-                    "term": "Stateless",
-                    "definition": "FunctionTransformer speichert typischerweise keine gelernten Parameter."
-                }
-            ]
-        },
-        {
-            "question": "17. Bei begrenzter Datenmenge in einem Experiment: Welchen Nutzen hat k-fache Kreuzvalidierung für die Bewertung eines Modells?",
-            "options": [
-                "Robustere Qualitätsschätzung",
-                "Automatisches Hyperparameter-Tuning",
-                "Trainingsgeschwindigkeit erhöhen",
-                "Ausreißer eliminieren"
-            ],
-            "answer": 0,
-            "explanation": "k-fache Kreuzvalidierung erzeugt k unabhängige Train/Valid-Splits und mittelt die Scores, wodurch Ausreißereffekte eines einzelnen Splits reduziert werden; Hyperparameter-Tuning kommt separat hinzu.",
-            "weight": 2,
-            "topic": "Modelltraining & Optimierung",
-            "concept": "k-fold",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "k-fold CV aufsetzen",
-                "steps": [
-                    "k wählen (typisch 5 oder 10)",
-                    "Optional stratify für Klassifikation",
-                    "Shuffle=True für zufällige Folds",
-                    "Scores mitteln und Streuung berichten",
-                    "Bei Tuning: inner/outer Splits trennen"
-                ],
-                "content": "k-fold glättet zufällige Split-Effekte. Bei kleiner Datenmenge liefert LOOCV mehr Varianz, bei großer Menge reichen 5–10 Folds."
-            },
-            "mini_glossary": [
-                {
-                    "term": "k-fold CV",
-                    "definition": "Daten werden in k Folds aufgeteilt, jeder Fold wird einmal als Validation genutzt."
-                },
-                {
-                    "term": "Varianz der Schätzung",
-                    "definition": "Mehrere Folds liefern stabilere Mittelwerte als ein einzelner Split."
-                },
-                {
-                    "term": "Shuffle/Stratify",
-                    "definition": "Optionen, um Reihenfolge zufällig zu mischen und Klassenverteilung zu erhalten."
-                }
-            ]
-        },
-        {
-            "question": "18. Beim Hyperparameter-Tuning einer Pipeline: Wie definierst du das param_grid für GridSearchCV?",
-            "options": [
-                "Dictionary: Parameter zu Listen",
-                "Eine einfache Liste von Werten",
-                "NumPy-Array",
-                "String mit Namen"
-            ],
-            "answer": 0,
-            "explanation": "GridSearchCV erwartet ein Dictionary, dessen Schlüssel Parameternamen (inkl. Pipeline-Präfix) und dessen Werte Listen möglicher Einstellungen sind; daraus werden alle Kombinationen getestet.",
-            "weight": 2,
-            "topic": "Modelltraining & Optimierung",
-            "concept": "GridSearchCV",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "param_grid korrekt definieren",
-                "steps": [
-                    "Dictionary bauen: {'param': [Werte]}",
-                    "Pipelines mit step__param adressieren",
-                    "Wertebereiche realistisch begrenzen",
-                    "cv/scoring n passend setzen",
-                    "Parallelisierung nutzen (n_jobs)"
-                ],
-                "content": "GridSearch testet das kartesische Produkt aller Listen. Für große Suchräume lieber RandomizedSearch oder Bayesische Optimierung nutzen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "param_grid",
-                    "definition": "Dictionary: {param: [Werte]}, definiert den Suchraum für GridSearchCV."
-                },
-                {
-                    "term": "Pipeline-Notation",
-                    "definition": "Parameter in Pipelines mit step__param adressieren."
-                },
-                {
-                    "term": "Kartesisches Produkt",
-                    "definition": "GridSearch prüft jede Parameterkombination aus den Wertelisten."
-                }
-            ]
-        },
-        {
-            "question": "19. Beim Vergleich von Train- und Validierungsfehlern: Woran erkennst du Overfitting anhand der Fehlerraten?",
-            "options": [
-                "Training-Fehler klein, Val-Fehler groß",
-                "Beide gleich",
-                "Validierungsfehler ist deutlich niedriger",
-                "Beide sehr hoch"
-            ],
-            "answer": 0,
-            "explanation": "Sehr niedriger Trainingsfehler bei deutlich höherem Validierungsfehler weist auf Overfitting hin: Das Modell memoriert Trainingsmuster, verallgemeinert aber schlecht; Gegenmaßnahmen sind Regularisierung oder mehr Daten.",
-            "weight": 2,
-            "topic": "Modelltraining & Optimierung",
-            "concept": "Error-Analyse",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Overfitting erkennen",
-                "steps": [
-                    "Train-Score sehr hoch, Val-Score deutlich schlechter",
-                    "Fehlerdifferenz groß = hohe Varianz",
-                    "Lernkurven prüfen (Konvergenz?)",
-                    "Regularisierung/Dropout/Pruning erwägen",
-                    "Mehr Daten oder Datenaugmentation nutzen"
-                ],
-                "content": "Overfitting bedeutet memorieren statt generalisieren; Gegenmaßnahmen reduzieren Modellkomplexität oder erhöhen Datenvielfalt."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Overfitting",
-                    "definition": "Modell passt sich zu stark an Trainingsdaten an und verliert Generalisierung."
-                },
-                {
-                    "term": "Bias-Variance",
-                    "definition": "Overfitting = niedriger Bias, hohe Varianz der Fehler über Splits."
-                },
-                {
-                    "term": "Regularisierung",
-                    "definition": "Techniken wie L1/L2 oder Frühstopp, die die Modellkomplexität begrenzen."
-                }
-            ]
-        },
-        {
-            "question": "20. In einem Regressionsprojekt mit Business-KPIs: Welche Metrik eignet sich besonders, wenn Ausreißer zu erwarten sind?",
-            "options": [
-                "MAE (Mean Absolute Error)",
-                "RMSE (ignoriert Ausreißer)",
-                "Accuracy",
-                "Precision und Recall"
-            ],
-            "answer": 0,
-            "explanation": "MAE nutzt Absolutwerte und reagiert weniger auf Ausreißer als RMSE, das große Fehler quadriert; daher ist MAE die robustere Regressionsmetrik bei Extremwerten.",
-            "weight": 2,
-            "topic": "Evaluierung",
-            "concept": "MAE",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "MAE vs. RMSE wählen",
-                "steps": [
-                    "MAE: lineare Fehler, robust gegen Ausreißer",
-                    "RMSE: quadriert, betont große Fehler",
-                    "Datenverteilung analysieren",
-                    "Business-Kosten großer Fehler berücksichtigen",
-                    "Metrik konsistent reporten"
-                ],
-                "content": "Bei Ausreißern oder asymmetrischen Kosten ist MAE oft sinnvoller; RMSE passt, wenn große Fehler überproportional wichtig sind."
-            },
-            "mini_glossary": [
-                {
-                    "term": "MAE",
-                    "definition": "Mean Absolute Error, mittlere absolute Abweichung, ausreißerrobust."
-                },
-                {
-                    "term": "RMSE",
-                    "definition": "Root Mean Square Error, gewichtet große Fehler stärker durch Quadrieren."
-                },
-                {
-                    "term": "Ausreißerrobustheit",
-                    "definition": "Eigenschaft einer Metrik, nicht von wenigen Extremwerten dominiert zu werden."
-                }
-            ]
-        },
-        {
-            "question": "21. Beim Vergleich einzelner Entscheidungsbäume mit Ensembles: Weshalb liefern Random Forests oft robustere Ergebnisse als ein einzelner Baum?",
-            "options": [
-                "Mittelung vieler Bäume",
-                "Benötigen weniger Daten",
-                "Sind schneller",
-                "Nur kategorische Features"
-            ],
-            "answer": 0,
-            "explanation": "Random Forests mitteln viele zufällige Entscheidungsbäume (Bootstrap + Feature-Subsets) und senken so die Varianz und das Overfitting-Risiko, während ein einzelner Baum stark schwanken kann.",
-            "weight": 2,
-            "topic": "Modelle",
-            "concept": "Random Forest",
-            "cognitive_level": "Application",
-            "extended_explanation": {
-                "title": "Warum Random Forests robust sind",
-                "steps": [
-                    "Viele Bäume auf Bootstrap-Samples trainieren",
-                    "Zufällige Feature-Subsets je Split fördern Diversität",
-                    "Averaging reduziert Varianz und Overfitting",
-                    "Weniger Hyperparameter-sensitiv als Boosting",
-                    "Out-of-Bag-Fehler als schnelle Validierung nutzen"
-                ],
-                "content": "Ein einzelner Baum hat hohe Varianz; das Ensemble mittelt diese aus. Dennoch sollten Tiefe und Anzahl Bäume begrenzt werden."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Bagging",
-                    "definition": "Bootstrap-Aggregation: Modelle auf Stichproben trainieren und mitteln."
-                },
-                {
-                    "term": "Feature-Subsampling",
-                    "definition": "Zufällige Auswahl von Features je Split erhöht Diversität der Bäume."
-                },
-                {
-                    "term": "Varianzreduktion",
-                    "definition": "Durch Mittelung werden zufällige Fehler einzelner Modelle geglättet."
-                }
-            ]
-        },
-        {
-            "question": "22. In einer Preprocessing-Pipeline für numerische Features: Welcher Fehler steckt in einer Reihenfolge \"Skalieren, dann Imputieren\"?",
-            "options": [
-                "Skalierung vor Imputation - fehlende Werte zuerst",
-                "SimpleImputer nicht mit StandardScaler kombinierbar",
-                "strategy 'median' nicht für skalierte Daten",
-                "fit_transform() nicht auf skalierten Daten"
-            ],
-            "answer": 0,
-            "explanation": "Die Skalierung vor der Imputation schlägt fehl, weil StandardScaler keine NaN verarbeiten kann; fehlende Werte müssen zuerst imputiert, danach skaliert und erst dann modelliert werden.",
-            "weight": 3,
-            "topic": "Pipelines",
-            "concept": "Reihenfolge",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Preprocessing-Reihenfolge fixen",
-                "steps": [
-                    "Fehlende Werte füllen (Imputer)",
-                    "Optionale Transformationen anwenden",
-                    "Skalieren erst danach",
-                    "Estimator zuletzt trainieren",
-                    "Alles in eine Pipeline packen"
-                ],
-                "content": "StandardScaler scheitert an NaN; deshalb muss Imputation vor Skalierung stehen. Mit einer Pipeline werden Schritte konsistent gehalten."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Pipeline-Reihenfolge",
-                    "definition": "Imputation → Transformation → Skalierung → Modell, um Abhängigkeiten einzuhalten."
-                },
-                {
-                    "term": "StandardScaler",
-                    "definition": "Benötigt vollständige numerische Werte, kein Umgang mit NaN."
-                },
-                {
-                    "term": "SimpleImputer",
-                    "definition": "Erster Schritt, der fehlende Werte ersetzt, damit nachfolgende Schritte laufen."
-                }
-            ]
-        },
-        {
-            "question": "23. In einem Fraud-Detection-Projekt: Warum ist eine Accuracy von 99% bei starker Klassendissbalance irreführend?",
-            "options": [
-                "Modell rät immer Mehrheitsklasse ('legal') ohne Lernen",
-                "Accuracy kann bei binärer Klassifikation nicht 99% erreichen",
-                "Das Modell hat zwangsläufig Overfitting auf die Betrugsfälle",
-                "Die Rechenzeit für die Evaluierung ist bei Accuracy zu hoch"
-            ],
-            "answer": 0,
-            "explanation": "99% Accuracy bei 1% Betrug bedeutet, dass das Modell fast immer 'legal' vorhersagt und die Betrugsfälle verfehlt; bei starker Klassendissbalance sind Precision/Recall oder F1 aussagekräftiger.",
-            "weight": 3,
-            "topic": "Evaluierung",
-            "concept": "Imbalanced Data",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Accuracy-Paradox bei Imbalance",
-                "steps": [
-                    "Baseline berechnen: Mehrheitsklasse vorhersagen",
-                    "Accuracy kann hoch sein, obwohl Minderheit verfehlt",
-                    "Wichtige Metriken: Recall/Precision/F1/AUC",
-                    "Klassengewichte oder Resampling nutzen",
-                    "Konfusionsmatrix prüfen"
-                ],
-                "content": "Bei 1% Betrug bedeutet 99% Accuracy oft, dass kein Betrugsfall erkannt wird. Erfolg muss an Recall/Precision gemessen werden."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Accuracy Paradox",
-                    "definition": "Hohe Genauigkeit bei unausgewogenen Daten kann wertlos sein."
-                },
-                {
-                    "term": "Klassendissbalance",
-                    "definition": "Sehr ungleiche Klassenhäufigkeiten, die triviale Mehrheitsmodelle begünstigen."
-                },
-                {
-                    "term": "Precision/Recall",
-                    "definition": "Metriken, die Fehlalarme vs. Treffer bei seltenen Klassen besser bewerten."
-                }
-            ]
-        },
-        {
-            "question": "24. In einem Experiment mit Lernkurven-Analyse: Was deutet auf Unterfitting hin, wenn du Trainings- und Validierungsfehler vergleichst?",
-            "options": [
-                "High Bias (Underfitting)",
-                "High Variance (Overfitting)",
-                "Data Leakage",
-                "Zu viele Features"
-            ],
-            "answer": 0,
-            "explanation": "Hohe Fehler auf Train und Validierung, die sich durch mehr Daten nicht verbessern, deuten auf hohes Bias/Unterfitting hin; das Modell ist zu simpel oder falsch spezifiziert, nicht auf zu wenig Daten zurückzuführen.",
-            "weight": 3,
-            "topic": "Modelltraining & Optimierung",
-            "concept": "Bias-Variance Tradeoff",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Bias/Underfitting erkennen",
-                "steps": [
-                    "Hohe Fehler auf Train und Valid",
-                    "Mehr Daten helfen kaum",
-                    "Komplexität erhöhen (Features/Modell)",
-                    "Regularisierung lockern",
-                    "Featurization und Hyperparameter neu denken"
-                ],
-                "content": "Hoher Bias bedeutet, das Modell kann Muster nicht erfassen. Lösung: mehr Kapazität oder bessere Features statt nur mehr Daten."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Unterfitting",
-                    "definition": "Modell ist zu einfach und erfasst Muster nicht – hoher Trainingsfehler."
-                },
-                {
-                    "term": "Bias-Variance-Trade-off",
-                    "definition": "Hohes Bias = systematischer Fehler, oft durch zu geringe Komplexität."
-                },
-                {
-                    "term": "Kapazität erhöhen",
-                    "definition": "Mehr Features, komplexere Modelle oder bessere Features zur Senkung des Bias."
-                }
-            ]
-        },
-        {
-            "question": "25. Beim Feature-Selection-Schritt in einem ML-Workflow: Warum darf die Auswahl nicht vor dem Train/Valid-Split erfolgen?",
-            "options": [
-                "Data Leakage: Testdaten beeinflussen Auswahl",
-                "Underfitting: Zu wenige Features werden gewählt",
-                "Laufzeitfehler: Split funktioniert nicht mehr",
-                "Unbalancierte Klassenverteilung im Split"
-            ],
-            "answer": 0,
-            "explanation": "Wenn Feature Selection vor dem Train/Valid-Split erfolgt, nutzt sie Wissen aus dem gesamten Datensatz und leakt Information in das Modell; Selektion muss innerhalb des CV-Folds/Pipelines passieren.",
-            "weight": 3,
-            "topic": "Pipelines",
-            "concept": "Data Leakage",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Feature Selection ohne Leakage",
-                "steps": [
-                    "Selektion nur auf Trainingsanteilen je Fold",
-                    "In Pipeline/ColumnTransformer integrieren",
-                    "Keine globale Auswahl vor dem Split",
-                    "CV verwenden, um Stabilität zu prüfen",
-                    "Mit Permutation testen, ob Nutzen echt ist"
-                ],
-                "content": "Selektierst du Features vor dem Split, fließt Testwissen ins Modell. Korrekt ist die Auswahl innerhalb jedes CV-Folds."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Data Leakage",
-                    "definition": "Information aus Valid/Test fließt ins Training und macht Scores künstlich besser."
-                },
-                {
-                    "term": "Feature Selection",
-                    "definition": "Auswahl relevanter Merkmale muss nur auf Trainingsanteilen erfolgen."
-                },
-                {
-                    "term": "Train/Valid-Split",
-                    "definition": "Aufteilung, die strikt getrennt bleiben muss, inklusive aller Preprocessing-Schritte."
-                }
-            ]
-        },
-        {
-            "question": "26. Beim Target Encoding für Marketing-Kategorien: Weshalb birgt Target Encoding ohne Regularisierung Leakage-Risiken?",
-            "options": [
-                "Führt zu extremem Overfitting (Target Leakage)",
-                "Erzeugt immer NaN-Werte bei neuen Kategorien",
-                "Verändert die statistische Verteilung der Zielvariable",
-                "Ist rechenintensiver als OneHot-Encoding"
-            ],
-            "answer": 0,
-            "explanation": "Target Encoding auf dem vollen Datensatz mischt Zielwerte in die Kodierung und verursacht massives Leakage; Regularisierung (z. B. CV-Splits, Smoothing) oder innerhalb von Folds verhindert das.",
-            "weight": 3,
-            "topic": "Feature Engineering",
-            "concept": "Target Encoding",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Target Encoding absichern",
-                "steps": [
-                    "Encoding je Fold auf Trainingsdaten fitten",
-                    "Smoothing oder Noise gegen Overfitting nutzen",
-                    "Leckage vermeiden: niemals auf Gesamtdatensatz fitten",
-                    "Hyperparameter (min_samples/alpha) abstimmen",
-                    "Mit CV-Metriken validieren"
-                ],
-                "content": "Target Encoding ist mächtig, aber leckt leicht. Cross-validated Encoding oder Regularisierung verhindert künstlich hohe Scores."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Target Encoding",
-                    "definition": "Ersetzt Kategorien durch Zielmittelwerte und birgt Leakage-Risiko."
-                },
-                {
-                    "term": "Regularisierung",
-                    "definition": "Techniken wie CV-basiertes Encoding oder Smoothing begrenzen Overfitting."
-                },
-                {
-                    "term": "Leakage-Schutz",
-                    "definition": "Encoding stets innerhalb von Train-Folds berechnen, nie auf Gesamt- oder Testdaten."
-                }
-            ]
-        },
-        {
-            "question": "27. Im Vergleich zweier Ensemble-Methoden: Wodurch unterscheidet sich Gradient Boosting in seiner Empfindlichkeit von Random Forests?",
-            "options": [
-                "Gradient Boosting: overfittet auf Rauschen/Fehler",
-                "Random Forest, da die Bäume sehr tief wachsen",
-                "Beide sind gleichermaßen robust durch Ensemble-Technik",
-                "Keines, da Rauschen beim Bagging ignoriert wird"
-            ],
-            "answer": 0,
-            "explanation": "Gradient Boosting baut sequentiell schwache Bäume auf Residuen und reagiert empfindlicher auf Lernrate, Baumtiefe und Ausreißer; Random Forest mittelt parallele Bäume und ist robuster.",
-            "weight": 3,
-            "topic": "Modelle",
-            "concept": "Ensemble-Vergleich",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Boosting vs. Bagging",
-                "steps": [
-                    "Boosting: sequenziell, korrigiert Residuen",
-                    "Sensibel auf Lernrate/Tiefe, anfällig für Rauschen",
-                    "Bagging (RF): parallel, mittelt Bäume",
-                    "Robuster gegen Ausreißer, weniger Tuning nötig",
-                    "Einsatz je nach Datenqualität wählen"
-                ],
-                "content": "Gradient Boosting liefert oft bessere Spitzenleistung, erfordert aber sorgfältiges Tuning; Random Forest ist stabiler out-of-the-box."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Gradient Boosting",
-                    "definition": "Additives Ensemble, das Fehler der Vorgänger-Bäume iterativ korrigiert."
-                },
-                {
-                    "term": "Learning Rate",
-                    "definition": "Steuert Schrittweite im Boosting, zu hoch führt zu Overfitting."
-                },
-                {
-                    "term": "Random Forest",
-                    "definition": "Bagging-Ensemble paralleler Bäume, meist weniger hyperparameter-sensibel."
-                }
-            ]
-        },
-        {
-            "question": "28. Bei einem medizinischen Screening-Modell: Welche Gütemaßzahl priorisierst du, um möglichst keine Kranken zu übersehen?",
-            "options": [
-                "Recall (Sensitivität)",
-                "Precision (Genauigkeit)",
-                "Accuracy",
-                "Specificity"
-            ],
-            "answer": 0,
-            "explanation": "Bei Screening-Aufgaben zählt das Minimieren von False Negatives, daher wird primär die Sensitivität/Recall optimiert; Precision ist zweitrangig, solange möglichst kein Kranker übersehen wird.",
-            "weight": 3,
-            "topic": "Evaluierung",
-            "concept": "Metrik-Auswahl",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Screening-Metrik wählen",
-                "steps": [
-                    "Recall/Sensitivität maximieren (FN minimieren)",
-                    "Schwelle senken, wenn Recall zu niedrig",
-                    "Precision überwachen, um Ressourcen zu schonen",
-                    "AUC/PR-Curves betrachten",
-                    "Kosten/Nutzen mit Domäne abstimmen"
-                ],
-                "content": "Beim Screening ist das Verpassen positiver Fälle kritisch. Hoher Recall ist Pflicht, Precision wird über Schwellen und Follow-up optimiert."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Recall/Sensitivität",
-                    "definition": "Anteil der tatsächlich Positiven, die korrekt erkannt werden (FN-Vermeidung)."
-                },
-                {
-                    "term": "False Negative",
-                    "definition": "Kranker wird als gesund eingestuft – im Screening besonders kritisch."
-                },
-                {
-                    "term": "Precision",
-                    "definition": "Anteil der als positiv klassifizierten Fälle, die tatsächlich positiv sind."
-                }
-            ]
-        },
-        {
-            "question": "29. Für eine faire Performance-Schätzung mit Tuning: Warum nutzt du Nested Cross-Validation, wenn Hyperparameter optimiert werden?",
-            "options": [
-                "Kombination: Tuning & unverzerrte Evaluation",
-                "Wenn der Datensatz extrem groß ist (> 1 TB)",
-                "Um Overfitting während des Trainings zu erzwingen",
-                "Nur bei Deep Learning Modellen"
-            ],
-            "answer": 0,
-            "explanation": "Nested Cross-Validation wird genutzt, wenn Hyperparameter-Tuning betrieben wird und man einen unverzerrten Performance-Schätzer braucht: innerer CV zum Tuning, äußerer CV zur fairen Bewertung.",
-            "weight": 3,
-            "topic": "Modelltraining & Optimierung",
-            "concept": "Nested CV",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "Nested CV für faire Schätzung",
-                "steps": [
-                    "Äußerer Loop liefert Test-Folds",
-                    "Innerer Loop tuned Hyperparameter",
-                    "Modell pro äußerem Fold neu trainieren",
-                    "Resultate über äußere Folds mitteln",
-                    "Komplex, aber vermeidet Optimismus-Bias"
-                ],
-                "content": "Nested CV trennt Tuning und Bewertung strikt. So erhält man eine realistischere Schätzung, wenn Hyperparameter-Suche involviert ist."
-            },
-            "mini_glossary": [
-                {
-                    "term": "Nested CV",
-                    "definition": "Verschachtelte Schleife: innen Tuning, außen Performance-Schätzung."
-                },
-                {
-                    "term": "Optimismus-Bias",
-                    "definition": "Ohne Nesting überschätzt man die Güte, weil Tuning auf denselben Splits evaluiert wird."
-                },
-                {
-                    "term": "Outer vs. Inner Fold",
-                    "definition": "Äußerer Fold hält Testdaten zurück, innerer foldet für Hyperparameter-Suche."
-                }
-            ]
-        },
-        {
-            "question": "30. In einer PCA-Analyse eines Finanz-Datensatzes: Welche Auswirkung hat fehlende Skalierung vor der PCA auf die Komponenten?",
-            "options": [
-                "Gehalt (große Varianz) dominiert die PCA",
-                "PCA funktioniert technisch nicht (Error)",
-                "PCA skaliert automatisch intern",
-                "Keine Auswirkung, da PCA kovarianzbasiert ist"
-            ],
-            "answer": 0,
-            "explanation": "Ohne Skalierung dominiert eine großskalige Variable (z. B. Gehalt) die PCA-Varianz und verzerrt die Komponenten; alle Features müssen vorher standardisiert werden, damit PCA sinnvolle Strukturen findet.",
-            "weight": 3,
-            "topic": "Datenaufbereitung",
-            "concept": "PCA Scaling",
-            "cognitive_level": "Analysis",
-            "extended_explanation": {
-                "title": "PCA nur mit Skalierung",
-                "steps": [
-                    "Features vor PCA standardisieren",
-                    "Große Skalen sonst dominant",
-                    "PCA auf Trainingsdaten fitten",
-                    "Transform auf Train/Test konsistent",
-                    "Varianzanteile/Explained Variance prüfen"
-                ],
-                "content": "Ohne Skalierung verzerrt eine große Einheit die Hauptkomponenten. Mit StandardScaler + PCA erhält man sinnvolle, vergleichbare Achsen."
-            },
-            "mini_glossary": [
-                {
-                    "term": "PCA",
-                    "definition": "Lineare Projektion auf Hauptkomponenten, die Varianz maximieren."
-                },
-                {
-                    "term": "Skalierungspflicht",
-                    "definition": "PCA setzt vergleichbare Skalen voraus, sonst dominiert die größte Einheit."
-                },
-                {
-                    "term": "Hauptkomponente",
-                    "definition": "Richtung maximaler Varianz im Merkmalraum, berechnet nach Standardisierung."
-                }
-            ]
+          "term": "Deployment",
+          "definition": "Übergabe des trainierten Modells in eine Produktiv- oder Nutzungsumgebung."
         }
-    ]
+      ]
+    },
+    {
+      "question": "2. Für ein Regressionsmodell zu Immobilienpreisen: Was beschreibt der RMSE im Hinblick auf die Vorhersagefehler?",
+      "options": [
+        "Die typische Größe des Vorhersagefehlers mit höherer Gewichtung großer Fehler",
+        "Die Anzahl der korrekt klassifizierten Datenpunkte in der gesamten Testmenge",
+        "Die benötigte Rechenzeit für Vorhersagen auf dem gesamten Validierungsdatensatz",
+        "Die statistische Korrelation zwischen allen Eingabemerkmalen und der Zielvariable"
+      ],
+      "answer": 0,
+      "explanation": "RMSE misst die typische Größe der Vorhersagefehler, wobei große Abweichungen durch Quadrieren stärker bestraft werden; er wird für Regression genutzt und ist in derselben Einheit wie das Target.",
+      "weight": 1,
+      "topic": "Evaluierung",
+      "concept": "RMSE",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": {
+        "title": "RMSE verstehen",
+        "steps": [
+          "Vorhersagefehler je Beobachtung berechnen",
+          "Fehler quadrieren (große Fehler stärker gewichten)",
+          "Alle quadrierten Fehler mitteln",
+          "Wurzel ziehen, um Einheiten wie das Target zu erhalten",
+          "Interpretation: typische Fehlergröße bei Ausreißer-Sensitivität"
+        ],
+        "content": "RMSE ist gut für symmetrische Fehlerverteilungen und wenn große Ausreißer besonders relevant sind; bei starken Ausreißern alternativ MAE prüfen."
+      },
+      "mini_glossary": [
+        {
+          "term": "RMSE",
+          "definition": "Wurzel der mittleren quadratischen Fehler – empfindlich gegenüber großen Ausreißern."
+        },
+        {
+          "term": "MSE",
+          "definition": "Mean Squared Error, Basis des RMSE; quadriert Differenzen und mittelt sie."
+        },
+        {
+          "term": "Skalierung",
+          "definition": "RMSE ist in Target-Einheiten, daher intuitiv interpretierbar (z. B. Euro, Grad)."
+        }
+      ]
+    },
+    {
+      "question": "3. In einer sklearn-Pipeline für Klassifikation: Wofür nutzt du die fit()-Methode eines Estimators?",
+      "options": [
+        "Parameter aus Trainingsdaten zu lernen",
+        "Vorhersagen für komplett neue unbekannte Daten zu treffen",
+        "Den gesamten Datensatz in Trainings- und Testdaten aufzuteilen",
+        "Die endgültige Qualität des Modells auf Testdaten zu berechnen"
+      ],
+      "answer": 0,
+      "explanation": "fit() passt den Estimator an die Trainingsdaten an und lernt seine Parameter; predict() oder transform() kommen erst danach, Splitten oder Evaluieren gehört nicht in fit().",
+      "weight": 1,
+      "topic": "ML-Projekt & Grundlagen",
+      "concept": "Estimator",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": {
+        "title": "fit vs. predict/transform",
+        "steps": [
+          "fit(): Parameter aus Trainingsdaten lernen",
+          "predict(): nach fit() Vorhersagen erzeugen",
+          "transform(): nach fit() Features wandeln",
+          "fit_transform(): Training + Transformation in einem Schritt",
+          "Kein Split/Evaluierung in fit() unterbringen"
+        ],
+        "content": "Ein Estimator darf erst nach fit() für neue Daten genutzt werden. Validierung (score) und Splits passieren außerhalb der fit()-Methode."
+      },
+      "mini_glossary": [
+        {
+          "term": "fit()",
+          "definition": "Trainingsschritt eines Estimators, der Modellparameter aus Daten ableitet."
+        },
+        {
+          "term": "Estimator",
+          "definition": "sklearn-Objekt mit fit/predict oder fit/transform Schnittstelle."
+        },
+        {
+          "term": "predict()",
+          "definition": "Nutzt gelernte Parameter, um Vorhersagen auf neuen Daten zu erzeugen."
+        }
+      ]
+    },
+    {
+      "question": "4. Bei einer Kreditrisiko-Analyse: Warum setzt du auf stratifiziertes Sampling statt reines Zufallssampling?",
+      "options": [
+        "Es sorgt für repräsentative Verteilung wichtiger Kategorien",
+        "Es reduziert die Größe des benötigten Testdatensatzes um die Hälfte",
+        "Es eliminiert automatisch sämtliche Ausreißer aus dem Datensatz",
+        "Es beschleunigt das Training um mehrere Größenordnungen"
+      ],
+      "answer": 0,
+      "explanation": "Stratifiziertes Sampling sichert, dass wichtige Klassen/Strata proportional in Train/Test enthalten sind und verhindert damit Verzerrungen; zufälliges Sampling kann seltene Gruppen unterrepräsentieren.",
+      "weight": 2,
+      "topic": "Datenaufbereitung",
+      "concept": "Stratified Sampling",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Stratifizierung richtig einsetzen",
+        "steps": [
+          "Relevante Schichten definieren (z. B. Zielklassen)",
+          "Anteilsverteilung in Gesamtpopulation bestimmen",
+          "Train/Test so ziehen, dass Anteile je Schicht erhalten bleiben",
+          "Bei CV: stratify-Parameter setzen",
+          "Nachher prüfen, ob Verteilungen konsistent sind"
+        ],
+        "content": "Stratifiziertes Sampling verhindert, dass Minderheitsklassen im Testset fehlen und liefert stabilere Metriken, besonders bei Klassendissbalance."
+      },
+      "mini_glossary": [
+        {
+          "term": "Stratified Sampling",
+          "definition": "Stichprobe, die Verteilungen von Schichten (z. B. Klassen) proportional erhält."
+        },
+        {
+          "term": "Klassendissbalance",
+          "definition": "Unausgewogene Zielverteilung, die ohne Strata zu Bias in Train/Test führt."
+        },
+        {
+          "term": "Repräsentativität",
+          "definition": "Eigenschaft einer Stichprobe, die Populationseigenschaften gut abzubilden."
+        }
+      ]
+    },
+    {
+      "question": "5. In einer ML-Studie mit fest definiertem Testset: Weshalb solltest du den Testdatensatz vor der Modellauswahl nicht inspizieren?",
+      "options": [
+        "Um Data-Snooping-Bias zu vermeiden",
+        "Weil der Testdatensatz zu groß ist",
+        "Damit Daten nicht gelöscht werden",
+        "Um Speicherplatz zu sparen"
+      ],
+      "answer": 0,
+      "explanation": "Wer den Testdatensatz vorab nutzt, lässt Informationen in die Modellwahl einfließen und überschätzt die echte Generalisierung (Data-Snooping); der Testset muss bis zum Schluss unangetastet bleiben.",
+      "weight": 2,
+      "topic": "Datenaufbereitung",
+      "concept": "Test Set Contamination",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Testset schützen",
+        "steps": [
+          "Testset erst nach Modellauswahl öffnen",
+          "Alle Entscheidungen auf Train/Valid treffen",
+          "Kein Feature Engineering auf Basis des Testsets",
+          "Nur einmalige finale Schätzung auf Test ausführen",
+          "Scores dokumentieren und reproduzierbar halten"
+        ],
+        "content": "Das Testset ist der Stellvertreter für unbekannte Daten. Jeder vorzeitige Blick führt zu optimistischen Schätzungen (Data-Snooping)."
+      },
+      "mini_glossary": [
+        {
+          "term": "Test Set Contamination",
+          "definition": "Verunreinigung, wenn Testwissen in Training/Modellwahl einfließt und Ergebnisse schönt."
+        },
+        {
+          "term": "Data Snooping",
+          "definition": "Frühes Anschauen oder Nutzen des Testsets, das zu optimistischen Scores führt."
+        },
+        {
+          "term": "Generalisierung",
+          "definition": "Fähigkeit des Modells, auf wirklich neuen Daten gut zu performen."
+        }
+      ]
+    },
+    {
+      "question": "6. In einem Healthcare-Datensatz mit Laborwerten: Welche Imputationsstrategie wählst du für ein rechtsschiefes numerisches Merkmal mit Ausreißern?",
+      "options": [
+        "strategy='median', weil robust",
+        "strategy='mean', weil präziser",
+        "strategy='most_frequent' für Kategorien",
+        "strategy='constant' mit 0"
+      ],
+      "answer": 0,
+      "explanation": "Bei rechtsschiefen numerischen Features mit Ausreißern ist der Median als Imputation robuster als der Mittelwert, weil Extremwerte ihn kaum verschieben; most_frequent/constant passen hier nicht.",
+      "weight": 2,
+      "topic": "Datenaufbereitung",
+      "concept": "SimpleImputer",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Robuste Imputation bei Schiefe",
+        "steps": [
+          "Verteilung prüfen (Histogramm/Quantile)",
+          "Bei Schiefe: Median statt Mean verwenden",
+          "Ausreißer nicht trimmen, wenn sie plausibel sind",
+          "Imputation spaltenweise in Pipeline verankern",
+          "Skalierung erst nach der Imputation"
+        ],
+        "content": "Der Median ist robust gegenüber langen rechten Schwänzen und erhält die Lage der Verteilung besser als der Mittelwert."
+      },
+      "mini_glossary": [
+        {
+          "term": "Median-Imputation",
+          "definition": "Ersetzt fehlende Werte durch den Median und bleibt unempfindlich gegenüber Ausreißern."
+        },
+        {
+          "term": "Rechtsschiefe",
+          "definition": "Verteilung mit langem rechten Schwanz, bei der Mean > Median liegt."
+        },
+        {
+          "term": "Robustheit",
+          "definition": "Eigenschaft, dass eine Kennzahl sich durch extreme Einzelwerte kaum verändert."
+        }
+      ]
+    },
+    {
+      "question": "7. Bei Produktkategorien in einem Retail-Datensatz: Wann bevorzugst du OneHotEncoder gegenüber OrdinalEncoder?",
+      "options": [
+        "Wenn keine natürliche Ordnung",
+        "Bei über 100 Kategorien",
+        "Bei alphabetischer Sortierbarkeit",
+        "Bei nur zwei Werten"
+      ],
+      "answer": 0,
+      "explanation": "OneHotEncoder wird bei nominalen Kategorien ohne natürliche Ordnung eingesetzt, damit das Modell keine künstliche Rangfolge interpretiert; OrdinalEncoder kodiert implizit eine Ordnung und ist nur dort passend.",
+      "weight": 2,
+      "topic": "Feature Engineering",
+      "concept": "OneHotEncoder",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Encoding-Wahl leiten",
+        "steps": [
+          "Nominale Kategorien: One-Hot verwenden",
+          "Ordinale Kategorien: OrdinalEncoder mit definierter Rangfolge",
+          "Hohe Kardinalität: ggf. Target/Hash-Encodings prüfen",
+          "NaNs vorher imputieren oder handle_unknown setzen",
+          "Pipeline nutzen, um späteren Leakage zu vermeiden"
+        ],
+        "content": "One-Hot vermeidet Scheinhierarchien; OrdinalEncoder ist nur sinnvoll, wenn die Reihenfolge fachlich begründet ist."
+      },
+      "mini_glossary": [
+        {
+          "term": "One-Hot-Encoding",
+          "definition": "Erzeugt pro Kategorie eine Binärspalte, vermeidet Scheinskalierung."
+        },
+        {
+          "term": "Ordinal-Encoding",
+          "definition": "Mappt Kategorien auf Zahlen und impliziert dadurch eine Reihenfolge."
+        },
+        {
+          "term": "Nominal vs. Ordinal",
+          "definition": "Nominal = keine Rangfolge, Ordinal = geordnete Kategorien (z. B. S/M/L)."
+        }
+      ]
+    },
+    {
+      "question": "8. Für numerische Sensor-Features in IoT: In welcher Situation ist der StandardScaler die passendere Wahl gegenüber dem MinMaxScaler?",
+      "options": [
+        "Bei Ausreißern",
+        "Bei Bereich 0-1 Pflicht",
+        "Bei nur positiven Werten",
+        "Bei Normalverteilung"
+      ],
+      "answer": 0,
+      "explanation": "StandardScaler zentriert und skaliert auf Mittelwert 0, Std 1 und ist weniger anfällig für Ausreißer als MinMaxScaler, der alle Werte in einen festen Bereich quetscht; MinMax ist sinnvoll, wenn ein 0–1-Intervall Pflicht ist.",
+      "weight": 2,
+      "topic": "Feature Engineering",
+      "concept": "StandardScaler",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Scaler-Vergleich",
+        "steps": [
+          "MinMax auf [0,1] pressen, empfindlich bei Ausreißern",
+          "StandardScaler zentriert und normiert, toleranter",
+          "RobustScaler nutzt Median/IQR für starke Ausreißer",
+          "Scaler immer nach Imputation anwenden",
+          "Scaler-Fit auf Training, dann Transform auf Train/Test"
+        ],
+        "content": "Wähle MinMax, wenn ein fixer Bereich nötig ist (z. B. NN), sonst StandardScaler; bei extremen Ausreißern RobustScaler erwägen."
+      },
+      "mini_glossary": [
+        {
+          "term": "StandardScaler",
+          "definition": "Skaliert Merkmale auf Mittelwert 0 und Standardabweichung 1."
+        },
+        {
+          "term": "MinMaxScaler",
+          "definition": "Skaliert Merkmale in einen festen Bereich, meist [0,1], empfindlich bei Ausreißern."
+        },
+        {
+          "term": "RobustScaler",
+          "definition": "Alternative mit Median/IQR, noch unempfindlicher gegenüber Ausreißern."
+        }
+      ]
+    },
+    {
+      "question": "9. In einer Preprocessing-Pipeline für tabellarische Daten: Welche Reihenfolge von Schritten setzt du für numerische Features sinnvoll um?",
+      "options": [
+        "Imputer, Transformer, Scaler, Estimator",
+        "Scaler, Estimator, Imputer, Transformer",
+        "Estimator, Scaler, Imputer, Transformer",
+        "Transformer, Estimator, Scaler, Imputer"
+      ],
+      "answer": 0,
+      "explanation": "Gute Pipeline-Reihenfolge: Fehlende Werte zuerst imputieren, dann optionale Transformationen (z. B. Log), danach skalieren und am Ende den Estimator trainieren; andersherum scheitern viele Transformer an NaNs oder falschen Skalen.",
+      "weight": 2,
+      "topic": "Pipelines",
+      "concept": "Reihenfolge",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Pipeline-Reihenfolge merken",
+        "steps": [
+          "Fehlende Werte imputieren (sonst brechen Transformer)",
+          "Optionale Feature-Transformationen (z. B. Log)",
+          "Skalieren/Kodieren für Modellverträglichkeit",
+          "Estimator trainieren",
+          "Konsistenz: Pipeline fit auf Train, dann predict auf Test"
+        ],
+        "content": "Eine saubere Reihenfolge vermeidet NaN-Fehler und stellt sicher, dass Preprocessing-Schritte identisch auf Train und Test angewandt werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Pipeline",
+          "definition": "Gekettete Schritte aus Preprocessing und Modell, die konsistent train/test angewendet werden."
+        },
+        {
+          "term": "Imputation vor Skalierung",
+          "definition": "Scaler können keine NaN verarbeiten, deshalb zuerst Werte auffüllen."
+        },
+        {
+          "term": "Estimator",
+          "definition": "Letztes Pipeline-Element, das das eigentliche Modell trainiert."
+        }
+      ]
+    },
+    {
+      "question": "10. Bei gemischten Merkmalen (numerisch und kategorisch): Wie nutzt du den ColumnTransformer, um unterschiedliche Datentypen gemeinsam zu verarbeiten?",
+      "options": [
+        "Wendet Transformer spaltenspezifisch an",
+        "Konvertiert alle in gleichen Typ",
+        "Entfernt nicht-numerische Spalten",
+        "Splittet in mehrere DataFrames"
+      ],
+      "answer": 0,
+      "explanation": "ColumnTransformer erlaubt spaltenspezifische Pipelines und führt deren Ausgaben wieder zusammen; so können numerische und kategoriale Features parallel passend behandelt werden.",
+      "weight": 2,
+      "topic": "Pipelines",
+      "concept": "Mixed Types",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "ColumnTransformer als Schaltzentrale",
+        "steps": [
+          "Numerische und kategoriale Spalten definieren",
+          "Je Spaltengruppe eigene Pipeline (Imputer, Scaler, Encoder)",
+          "remainder steuert, was mit Restspalten passiert",
+          "Ausgaben werden horizontal konkateniert",
+          "In Gesamt-Pipeline mit Estimator kombinieren"
+        ],
+        "content": "ColumnTransformer erlaubt gemischte Datentypen elegant zu handhaben, ohne separate DataFrames manuell auszurichten."
+      },
+      "mini_glossary": [
+        {
+          "term": "ColumnTransformer",
+          "definition": "Orchestriert mehrere Transformer für definierte Spalten-Subsets."
+        },
+        {
+          "term": "remainder",
+          "definition": "Steuert, ob nicht zugewiesene Spalten gedroppt oder unverändert angehängt werden."
+        },
+        {
+          "term": "Heterogene Daten",
+          "definition": "Datensätze mit gemischten Typen (numerisch/kategorisch), die getrennte Pfade brauchen."
+        }
+      ]
+    },
+    {
+      "question": "11. Beim Aufsetzen eines reproduzierbaren Experiments: Welche Wirkung hat der Parameter random_state in train_test_split()?",
+      "options": [
+        "Macht Aufteilung reproduzierbar",
+        "Erhöht Trainingsgeschwindigkeit",
+        "Entfernt Ausreißer",
+        "Balanciert Klassen"
+      ],
+      "answer": 0,
+      "explanation": "random_state setzt den Seed der Pseudozufallsquelle, sodass Splits reproduzierbar werden und Ergebnisse vergleichbar sind; an Trainingstempo oder Klassenbalance ändert er nichts.",
+      "weight": 2,
+      "topic": "ML-Projekt & Grundlagen",
+      "concept": "Random State",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Reproduzierbarkeit sichern",
+        "steps": [
+          "random_state/seed einmal festlegen",
+          "Gleiche Seeds in allen Splits/Algorithmen nutzen",
+          "Pipelines, CV und Models mit Seed konfigurieren",
+          "Ergebnisse dokumentieren (Seed + Versionen)",
+          "Trotzdem Varianz durch andere Faktoren beachten"
+        ],
+        "content": "Ein konstanter Seed macht Splits und Modelle vergleichbar; für finale Robustheit kann man zusätzlich mehrere Seeds mitteln."
+      },
+      "mini_glossary": [
+        {
+          "term": "random_state",
+          "definition": "Seed-Parameter, der deterministische Zufallsfolgen erzeugt."
+        },
+        {
+          "term": "Reproduzierbarkeit",
+          "definition": "Gleiche Eingaben führen bei gleichem Seed zu identischen Splits/Modellen."
+        },
+        {
+          "term": "Pseudozufall",
+          "definition": "Algorithmisch erzeugter Zufall, der über Seeds kontrolliert wird."
+        }
+      ]
+    },
+    {
+      "question": "12. In einem RandomForest-Klassifikationsprojekt: Was drückt das Attribut feature_importances_ über die Merkmale aus?",
+      "options": [
+        "Feature-Wichtigkeit im Modell",
+        "Anzahl fehlender Werte",
+        "Rechenzeit pro Merkmal",
+        "Korrelation zwischen Merkmalen"
+      ],
+      "answer": 0,
+      "explanation": "feature_importances_ gibt an, wie stark ein Feature zur Impurity-Reduktion beiträgt; die Werte summieren sich zu 1 und eignen sich für Interpretation, nicht jedoch als alleinige Eliminationsgrundlage.",
+      "weight": 2,
+      "topic": "Modelle",
+      "concept": "Wichtigkeit",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Feature Importance richtig lesen",
+        "steps": [
+          "Werte stammen aus Impurity-Reduktion je Split",
+          "Summieren sich zu 1.0 pro Modell",
+          "Hohe Werte = starker Beitrag zur Vorhersage",
+          "Korrelierte Features teilen sich Wichtigkeit",
+          "Mit Permutation Importance gegenprüfen"
+        ],
+        "content": "Nutze Importance für Interpretation und Feature-Selektion nur in Kombination mit Validierung, um Verzerrungen durch Korrelationen zu vermeiden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Feature Importance",
+          "definition": "Gewicht eines Features für das Modell, meist aus Impurity-Reduktion abgeleitet."
+        },
+        {
+          "term": "Gini/Entropy",
+          "definition": "Unreinheitsmaße, deren Reduktion in Bäumen die Wichtigkeit bestimmt."
+        },
+        {
+          "term": "Permutation Importance",
+          "definition": "Modellagnostische Alternative, misst Performance-Verlust beim Zufallstausch."
+        }
+      ]
+    },
+    {
+      "question": "13. Für Feature-Screening in einem DataFrame: Wie unterstützt dich eine Korrelationsmatrix bei der Merkmalsauswahl?",
+      "options": [
+        "Korrelation zum Target prüfen",
+        "Entferne alle korrelierten Merkmale",
+        "Sortiere alphabetisch",
+        "Berechne nur Kovarianz"
+      ],
+      "answer": 0,
+      "explanation": "Eine Korrelationsmatrix hilft, starke lineare Zusammenhänge zum Target aufzudecken; komplett korrelierte Features untereinander können dagegen zu Redundanz führen und sollten geprüft werden.",
+      "weight": 2,
+      "topic": "Feature Engineering",
+      "concept": "Pearson",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Korrelationsmatrix nutzen",
+        "steps": [
+          "Matrix mit df.corr() berechnen",
+          "Spalte zum Target sortieren (stärkste oben)",
+          "Sehr hohe Feature-Feature-Korrelation prüfen",
+          "Redundante Merkmale ggf. droppen",
+          "Lineare Beziehungen im Hinterkopf behalten"
+        ],
+        "content": "Pearson deckt nur lineare Zusammenhänge auf; für Nichtlinearitäten ggf. Spearman/Kendall oder Modell-basierte Wichtigkeiten ergänzen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Pearson-Korrelation",
+          "definition": "Maß für lineare Beziehung (-1 bis +1) zwischen zwei Variablen."
+        },
+        {
+          "term": "Multikollinearität",
+          "definition": "Starke Korrelation zwischen Features, die Modelle instabil machen kann."
+        },
+        {
+          "term": "Zielvariable",
+          "definition": "Label/Target, dessen Zusammenhang mit Features analysiert wird."
+        }
+      ]
+    },
+    {
+      "question": "14. Bei Umfragen mit kategorischen Antworten: Welche Strategie setzt du zum Auffüllen fehlender Kategorien ein?",
+      "options": [
+        "strategy='most_frequent'",
+        "strategy='median'",
+        "Zeilen mit fehlenden Werten löschen",
+        "strategy='mean'"
+      ],
+      "answer": 0,
+      "explanation": "Für kategoriale Merkmale sind mean/median nicht definiert; daher füllt man fehlende Werte meist mit dem häufigsten Wert oder einem festen Platzhalter, um die Verteilung wenig zu verzerren.",
+      "weight": 2,
+      "topic": "Datenaufbereitung",
+      "concept": "Most Frequent",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Kategorische Imputation",
+        "steps": [
+          "Fehlende Kategorien als own class (constant) oder Modus füllen",
+          "Verteilung prüfen, ob Modus zu Verzerrung führt",
+          "Imputation pro Spalte in Pipeline ablegen",
+          "Nach Encoding prüfen, ob Dummy-Fallen verhindert sind",
+          "Bei High-Cardinality ggf. rare categories bündeln"
+        ],
+        "content": "Für Kategorien sind mean/median unsinnig; Mode oder ein explizites 'missing'-Label erhalten Struktur, ohne Scheinskalierung einzuführen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Modus-Imputation",
+          "definition": "Ersetzt Missing-Werte in Kategorien mit dem häufigsten Auftreten."
+        },
+        {
+          "term": "Platzhalter-Konstante",
+          "definition": "Alternativ ein definierter Wert (z. B. 'missing'), um Information zu erhalten."
+        },
+        {
+          "term": "Kategorische Variable",
+          "definition": "Diskretes Merkmal ohne numerische Ordnung (nominal oder ordinal)."
+        }
+      ]
+    },
+    {
+      "question": "15. Für ein Umsatz-Feature in einem Business-Dataset: Wann setzt du eine Log-Transformation auf numerische Werte ein?",
+      "options": [
+        "Bei Rechtschiefe (positive Werte)",
+        "Bei bereits perfekter Normalverteilung",
+        "Bei negativen Merkmalen",
+        "Bei Ganzzahlen"
+      ],
+      "answer": 0,
+      "explanation": "Bei rechtsschiefen, positiven Merkmalen komprimiert die Log-Transformation große Werte, macht die Verteilung symmetrischer und stabilisiert Varianz; sie ist nicht für negative oder Null-Werte geeignet.",
+      "weight": 2,
+      "topic": "Feature Engineering",
+      "concept": "Log",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Log-Transformation anwenden",
+        "steps": [
+          "Nur für positive, rechtsschiefe Features",
+          "Vorher Offset hinzufügen, falls Nullen vorkommen",
+          "Nach Log ggf. StandardScaler nutzen",
+          "Effekt per Histogramm/QQ-Plot prüfen",
+          "Transformation im Inferenzpfad beibehalten"
+        ],
+        "content": "Log stabilisiert Varianz und reduziert Heavy Tails; bei Nullen hilft log1p, bei negativen Werten besser andere Transformationen wählen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Log-Transformation",
+          "definition": "Anwenden eines Logarithmus auf ein Merkmal, um Skalen zu komprimieren."
+        },
+        {
+          "term": "Varianzstabilisierung",
+          "definition": "Reduziert Spannweite und macht Modelle weniger empfindlich für Ausreißer."
+        },
+        {
+          "term": "Power-Law/Heavy Tail",
+          "definition": "Verteilungen mit wenigen sehr großen Werten, die durch Log geglättet werden."
+        }
+      ]
+    },
+    {
+      "question": "16. Wenn du eine eigene Feature-Funktion nutzen willst: Wie bindest du eine Python-Funktion als Transformer in eine Pipeline ein?",
+      "options": [
+        "FunctionTransformer nutzen",
+        "Komplette Klasse schreiben",
+        "Ist deprecated",
+        "Nur vordefinierte Funktionen"
+      ],
+      "answer": 0,
+      "explanation": "Der FunctionTransformer kapselt eine beliebige Python-Funktion als Transformer, ohne eigene Klasse schreiben zu müssen; optional kann eine inverse_func definiert werden.",
+      "weight": 2,
+      "topic": "Pipelines",
+      "concept": "FunctionTransformer",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "FunctionTransformer sinnvoll einsetzen",
+        "steps": [
+          "Kleine Python-Funktion für Feature-Logik schreiben",
+          "FunctionTransformer(func=..., inverse_func optional)",
+          "validate=False für NumPy/Array-Speed setzen, falls passend",
+          "In ColumnTransformer/Pipeline einbinden",
+          "Reproduzierbarkeit durch seeds/params sicherstellen"
+        ],
+        "content": "FunctionTransformer ist ideal für einfache, zustandslose Transformationen (z. B. Log1p, Custom-Ratios), ohne eine Klasse zu bauen."
+      },
+      "mini_glossary": [
+        {
+          "term": "FunctionTransformer",
+          "definition": "Wrapper, der eine Funktion in die sklearn-Transformer-Schnittstelle einpasst."
+        },
+        {
+          "term": "inverse_func",
+          "definition": "Optionale Rücktransformation, z. B. für Log/Exp-Paare."
+        },
+        {
+          "term": "Stateless",
+          "definition": "FunctionTransformer speichert typischerweise keine gelernten Parameter."
+        }
+      ]
+    },
+    {
+      "question": "17. Bei begrenzter Datenmenge in einem Experiment: Welchen Nutzen hat k-fache Kreuzvalidierung für die Bewertung eines Modells?",
+      "options": [
+        "Robustere Qualitätsschätzung",
+        "Automatisches Hyperparameter-Tuning",
+        "Trainingsgeschwindigkeit erhöhen",
+        "Ausreißer eliminieren"
+      ],
+      "answer": 0,
+      "explanation": "k-fache Kreuzvalidierung erzeugt k unabhängige Train/Valid-Splits und mittelt die Scores, wodurch Ausreißereffekte eines einzelnen Splits reduziert werden; Hyperparameter-Tuning kommt separat hinzu.",
+      "weight": 2,
+      "topic": "Modelltraining & Optimierung",
+      "concept": "k-fold",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "k-fold CV aufsetzen",
+        "steps": [
+          "k wählen (typisch 5 oder 10)",
+          "Optional stratify für Klassifikation",
+          "Shuffle=True für zufällige Folds",
+          "Scores mitteln und Streuung berichten",
+          "Bei Tuning: inner/outer Splits trennen"
+        ],
+        "content": "k-fold glättet zufällige Split-Effekte. Bei kleiner Datenmenge liefert LOOCV mehr Varianz, bei großer Menge reichen 5–10 Folds."
+      },
+      "mini_glossary": [
+        {
+          "term": "k-fold CV",
+          "definition": "Daten werden in k Folds aufgeteilt, jeder Fold wird einmal als Validation genutzt."
+        },
+        {
+          "term": "Varianz der Schätzung",
+          "definition": "Mehrere Folds liefern stabilere Mittelwerte als ein einzelner Split."
+        },
+        {
+          "term": "Shuffle/Stratify",
+          "definition": "Optionen, um Reihenfolge zufällig zu mischen und Klassenverteilung zu erhalten."
+        }
+      ]
+    },
+    {
+      "question": "18. Beim Hyperparameter-Tuning einer Pipeline: Wie definierst du das param_grid für GridSearchCV?",
+      "options": [
+        "Dictionary: Parameter-Namen zu Wertelisten",
+        "Liste von Werten ohne Parameter-Namen",
+        "NumPy-Array ohne Schluessel",
+        "String mit allen Parameter-Namen"
+      ],
+      "answer": 0,
+      "explanation": "GridSearchCV erwartet ein Dictionary, dessen Schlüssel Parameternamen (inkl. Pipeline-Präfix) und dessen Werte Listen möglicher Einstellungen sind; daraus werden alle Kombinationen getestet.",
+      "weight": 2,
+      "topic": "Modelltraining & Optimierung",
+      "concept": "GridSearchCV",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "param_grid korrekt definieren",
+        "steps": [
+          "Dictionary bauen: {'param': [Werte]}",
+          "Pipelines mit step__param adressieren",
+          "Wertebereiche realistisch begrenzen",
+          "cv/scoring n passend setzen",
+          "Parallelisierung nutzen (n_jobs)"
+        ],
+        "content": "GridSearch testet das kartesische Produkt aller Listen. Für große Suchräume lieber RandomizedSearch oder Bayesische Optimierung nutzen."
+      },
+      "mini_glossary": [
+        {
+          "term": "param_grid",
+          "definition": "Dictionary: {param: [Werte]}, definiert den Suchraum für GridSearchCV."
+        },
+        {
+          "term": "Pipeline-Notation",
+          "definition": "Parameter in Pipelines mit step__param adressieren."
+        },
+        {
+          "term": "Kartesisches Produkt",
+          "definition": "GridSearch prüft jede Parameterkombination aus den Wertelisten."
+        }
+      ]
+    },
+    {
+      "question": "19. Beim Vergleich von Train- und Validierungsfehlern: Woran erkennst du Overfitting anhand der Fehlerraten?",
+      "options": [
+        "Trainingsfehler niedrig, Validierungsfehler hoch",
+        "Trainingsfehler und Validierungsfehler gleich",
+        "Validierungsfehler deutlich niedriger",
+        "Beide Fehler sehr hoch"
+      ],
+      "answer": 0,
+      "explanation": "Sehr niedriger Trainingsfehler bei deutlich höherem Validierungsfehler weist auf Overfitting hin: Das Modell memoriert Trainingsmuster, verallgemeinert aber schlecht; Gegenmaßnahmen sind Regularisierung oder mehr Daten.",
+      "weight": 2,
+      "topic": "Modelltraining & Optimierung",
+      "concept": "Error-Analyse",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Overfitting erkennen",
+        "steps": [
+          "Train-Score sehr hoch, Val-Score deutlich schlechter",
+          "Fehlerdifferenz groß = hohe Varianz",
+          "Lernkurven prüfen (Konvergenz?)",
+          "Regularisierung/Dropout/Pruning erwägen",
+          "Mehr Daten oder Datenaugmentation nutzen"
+        ],
+        "content": "Overfitting bedeutet memorieren statt generalisieren; Gegenmaßnahmen reduzieren Modellkomplexität oder erhöhen Datenvielfalt."
+      },
+      "mini_glossary": [
+        {
+          "term": "Overfitting",
+          "definition": "Modell passt sich zu stark an Trainingsdaten an und verliert Generalisierung."
+        },
+        {
+          "term": "Bias-Variance",
+          "definition": "Overfitting = niedriger Bias, hohe Varianz der Fehler über Splits."
+        },
+        {
+          "term": "Regularisierung",
+          "definition": "Techniken wie L1/L2 oder Frühstopp, die die Modellkomplexität begrenzen."
+        }
+      ]
+    },
+    {
+      "question": "20. In einem Regressionsprojekt mit Business-KPIs: Welche Metrik eignet sich besonders, wenn Ausreißer zu erwarten sind?",
+      "options": [
+        "MAE (Mean Absolute Error)",
+        "RMSE (ignoriert Ausreißer)",
+        "Accuracy",
+        "Precision und Recall"
+      ],
+      "answer": 0,
+      "explanation": "MAE nutzt Absolutwerte und reagiert weniger auf Ausreißer als RMSE, das große Fehler quadriert; daher ist MAE die robustere Regressionsmetrik bei Extremwerten.",
+      "weight": 2,
+      "topic": "Evaluierung",
+      "concept": "MAE",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "MAE vs. RMSE wählen",
+        "steps": [
+          "MAE: lineare Fehler, robust gegen Ausreißer",
+          "RMSE: quadriert, betont große Fehler",
+          "Datenverteilung analysieren",
+          "Business-Kosten großer Fehler berücksichtigen",
+          "Metrik konsistent reporten"
+        ],
+        "content": "Bei Ausreißern oder asymmetrischen Kosten ist MAE oft sinnvoller; RMSE passt, wenn große Fehler überproportional wichtig sind."
+      },
+      "mini_glossary": [
+        {
+          "term": "MAE",
+          "definition": "Mean Absolute Error, mittlere absolute Abweichung, ausreißerrobust."
+        },
+        {
+          "term": "RMSE",
+          "definition": "Root Mean Square Error, gewichtet große Fehler stärker durch Quadrieren."
+        },
+        {
+          "term": "Ausreißerrobustheit",
+          "definition": "Eigenschaft einer Metrik, nicht von wenigen Extremwerten dominiert zu werden."
+        }
+      ]
+    },
+    {
+      "question": "21. Beim Vergleich einzelner Entscheidungsbäume mit Ensembles: Weshalb liefern Random Forests oft robustere Ergebnisse als ein einzelner Baum?",
+      "options": [
+        "Mittelung vieler Bäume",
+        "Benötigen weniger Daten",
+        "Sind schneller",
+        "Nur kategorische Features"
+      ],
+      "answer": 0,
+      "explanation": "Random Forests mitteln viele zufällige Entscheidungsbäume (Bootstrap + Feature-Subsets) und senken so die Varianz und das Overfitting-Risiko, während ein einzelner Baum stark schwanken kann.",
+      "weight": 2,
+      "topic": "Modelle",
+      "concept": "Random Forest",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Warum Random Forests robust sind",
+        "steps": [
+          "Viele Bäume auf Bootstrap-Samples trainieren",
+          "Zufällige Feature-Subsets je Split fördern Diversität",
+          "Averaging reduziert Varianz und Overfitting",
+          "Weniger Hyperparameter-sensitiv als Boosting",
+          "Out-of-Bag-Fehler als schnelle Validierung nutzen"
+        ],
+        "content": "Ein einzelner Baum hat hohe Varianz; das Ensemble mittelt diese aus. Dennoch sollten Tiefe und Anzahl Bäume begrenzt werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Bagging",
+          "definition": "Bootstrap-Aggregation: Modelle auf Stichproben trainieren und mitteln."
+        },
+        {
+          "term": "Feature-Subsampling",
+          "definition": "Zufällige Auswahl von Features je Split erhöht Diversität der Bäume."
+        },
+        {
+          "term": "Varianzreduktion",
+          "definition": "Durch Mittelung werden zufällige Fehler einzelner Modelle geglättet."
+        }
+      ]
+    },
+    {
+      "question": "22. In einer Preprocessing-Pipeline für numerische Features: Welcher Fehler steckt in einer Reihenfolge \"Skalieren, dann Imputieren\"?",
+      "options": [
+        "Skalierung vor Imputation - fehlende Werte zuerst",
+        "SimpleImputer nicht mit StandardScaler kombinierbar",
+        "strategy 'median' nicht für skalierte Daten",
+        "fit_transform() nicht auf skalierten Daten"
+      ],
+      "answer": 0,
+      "explanation": "Die Skalierung vor der Imputation schlägt fehl, weil StandardScaler keine NaN verarbeiten kann; fehlende Werte müssen zuerst imputiert, danach skaliert und erst dann modelliert werden.",
+      "weight": 3,
+      "topic": "Pipelines",
+      "concept": "Reihenfolge",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Preprocessing-Reihenfolge fixen",
+        "steps": [
+          "Fehlende Werte füllen (Imputer)",
+          "Optionale Transformationen anwenden",
+          "Skalieren erst danach",
+          "Estimator zuletzt trainieren",
+          "Alles in eine Pipeline packen"
+        ],
+        "content": "StandardScaler scheitert an NaN; deshalb muss Imputation vor Skalierung stehen. Mit einer Pipeline werden Schritte konsistent gehalten."
+      },
+      "mini_glossary": [
+        {
+          "term": "Pipeline-Reihenfolge",
+          "definition": "Imputation → Transformation → Skalierung → Modell, um Abhängigkeiten einzuhalten."
+        },
+        {
+          "term": "StandardScaler",
+          "definition": "Benötigt vollständige numerische Werte, kein Umgang mit NaN."
+        },
+        {
+          "term": "SimpleImputer",
+          "definition": "Erster Schritt, der fehlende Werte ersetzt, damit nachfolgende Schritte laufen."
+        }
+      ]
+    },
+    {
+      "question": "23. In einem Fraud-Detection-Projekt: Warum ist eine Accuracy von 99% bei starker Klassendissbalance irreführend?",
+      "options": [
+        "Modell rät immer Mehrheitsklasse ('legal') ohne Lernen",
+        "Accuracy kann bei binärer Klassifikation nicht 99% erreichen",
+        "Das Modell hat zwangsläufig Overfitting auf die Betrugsfälle",
+        "Die Rechenzeit für die Evaluierung ist bei Accuracy zu hoch"
+      ],
+      "answer": 0,
+      "explanation": "99% Accuracy bei 1% Betrug bedeutet, dass das Modell fast immer 'legal' vorhersagt und die Betrugsfälle verfehlt; bei starker Klassendissbalance sind Precision/Recall oder F1 aussagekräftiger.",
+      "weight": 3,
+      "topic": "Evaluierung",
+      "concept": "Imbalanced Data",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Accuracy-Paradox bei Imbalance",
+        "steps": [
+          "Baseline berechnen: Mehrheitsklasse vorhersagen",
+          "Accuracy kann hoch sein, obwohl Minderheit verfehlt",
+          "Wichtige Metriken: Recall/Precision/F1/AUC",
+          "Klassengewichte oder Resampling nutzen",
+          "Konfusionsmatrix prüfen"
+        ],
+        "content": "Bei 1% Betrug bedeutet 99% Accuracy oft, dass kein Betrugsfall erkannt wird. Erfolg muss an Recall/Precision gemessen werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "Accuracy Paradox",
+          "definition": "Hohe Genauigkeit bei unausgewogenen Daten kann wertlos sein."
+        },
+        {
+          "term": "Klassendissbalance",
+          "definition": "Sehr ungleiche Klassenhäufigkeiten, die triviale Mehrheitsmodelle begünstigen."
+        },
+        {
+          "term": "Precision/Recall",
+          "definition": "Metriken, die Fehlalarme vs. Treffer bei seltenen Klassen besser bewerten."
+        }
+      ]
+    },
+    {
+      "question": "24. In einem Experiment mit Lernkurven-Analyse: Was deutet auf Unterfitting hin, wenn du Trainings- und Validierungsfehler vergleichst?",
+      "options": [
+        "High Bias (Underfitting)",
+        "High Variance (Overfitting)",
+        "Data Leakage",
+        "Zu viele Features"
+      ],
+      "answer": 0,
+      "explanation": "Hohe Fehler auf Train und Validierung, die sich durch mehr Daten nicht verbessern, deuten auf hohes Bias/Unterfitting hin; das Modell ist zu simpel oder falsch spezifiziert, nicht auf zu wenig Daten zurückzuführen.",
+      "weight": 3,
+      "topic": "Modelltraining & Optimierung",
+      "concept": "Bias-Variance Tradeoff",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Bias/Underfitting erkennen",
+        "steps": [
+          "Hohe Fehler auf Train und Valid",
+          "Mehr Daten helfen kaum",
+          "Komplexität erhöhen (Features/Modell)",
+          "Regularisierung lockern",
+          "Featurization und Hyperparameter neu denken"
+        ],
+        "content": "Hoher Bias bedeutet, das Modell kann Muster nicht erfassen. Lösung: mehr Kapazität oder bessere Features statt nur mehr Daten."
+      },
+      "mini_glossary": [
+        {
+          "term": "Unterfitting",
+          "definition": "Modell ist zu einfach und erfasst Muster nicht – hoher Trainingsfehler."
+        },
+        {
+          "term": "Bias-Variance-Trade-off",
+          "definition": "Hohes Bias = systematischer Fehler, oft durch zu geringe Komplexität."
+        },
+        {
+          "term": "Kapazität erhöhen",
+          "definition": "Mehr Features, komplexere Modelle oder bessere Features zur Senkung des Bias."
+        }
+      ]
+    },
+    {
+      "question": "25. Beim Feature-Selection-Schritt in einem ML-Workflow: Warum darf die Auswahl nicht vor dem Train/Valid-Split erfolgen?",
+      "options": [
+        "Data Leakage: Testdaten beeinflussen Auswahl",
+        "Underfitting: Zu wenige Features werden gewählt",
+        "Laufzeitfehler: Split funktioniert nicht mehr",
+        "Unbalancierte Klassenverteilung im Split"
+      ],
+      "answer": 0,
+      "explanation": "Wenn Feature Selection vor dem Train/Valid-Split erfolgt, nutzt sie Wissen aus dem gesamten Datensatz und leakt Information in das Modell; Selektion muss innerhalb des CV-Folds/Pipelines passieren.",
+      "weight": 3,
+      "topic": "Pipelines",
+      "concept": "Data Leakage",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Feature Selection ohne Leakage",
+        "steps": [
+          "Selektion nur auf Trainingsanteilen je Fold",
+          "In Pipeline/ColumnTransformer integrieren",
+          "Keine globale Auswahl vor dem Split",
+          "CV verwenden, um Stabilität zu prüfen",
+          "Mit Permutation testen, ob Nutzen echt ist"
+        ],
+        "content": "Selektierst du Features vor dem Split, fließt Testwissen ins Modell. Korrekt ist die Auswahl innerhalb jedes CV-Folds."
+      },
+      "mini_glossary": [
+        {
+          "term": "Data Leakage",
+          "definition": "Information aus Valid/Test fließt ins Training und macht Scores künstlich besser."
+        },
+        {
+          "term": "Feature Selection",
+          "definition": "Auswahl relevanter Merkmale muss nur auf Trainingsanteilen erfolgen."
+        },
+        {
+          "term": "Train/Valid-Split",
+          "definition": "Aufteilung, die strikt getrennt bleiben muss, inklusive aller Preprocessing-Schritte."
+        }
+      ]
+    },
+    {
+      "question": "26. Beim Target Encoding für Marketing-Kategorien: Weshalb birgt Target Encoding ohne Regularisierung Leakage-Risiken?",
+      "options": [
+        "Führt zu extremem Overfitting (Target Leakage)",
+        "Erzeugt immer NaN-Werte bei neuen Kategorien",
+        "Verändert die statistische Verteilung der Zielvariable",
+        "Ist rechenintensiver als OneHot-Encoding"
+      ],
+      "answer": 0,
+      "explanation": "Target Encoding auf dem vollen Datensatz mischt Zielwerte in die Kodierung und verursacht massives Leakage; Regularisierung (z. B. CV-Splits, Smoothing) oder innerhalb von Folds verhindert das.",
+      "weight": 3,
+      "topic": "Feature Engineering",
+      "concept": "Target Encoding",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Target Encoding absichern",
+        "steps": [
+          "Encoding je Fold auf Trainingsdaten fitten",
+          "Smoothing oder Noise gegen Overfitting nutzen",
+          "Leckage vermeiden: niemals auf Gesamtdatensatz fitten",
+          "Hyperparameter (min_samples/alpha) abstimmen",
+          "Mit CV-Metriken validieren"
+        ],
+        "content": "Target Encoding ist mächtig, aber leckt leicht. Cross-validated Encoding oder Regularisierung verhindert künstlich hohe Scores."
+      },
+      "mini_glossary": [
+        {
+          "term": "Target Encoding",
+          "definition": "Ersetzt Kategorien durch Zielmittelwerte und birgt Leakage-Risiko."
+        },
+        {
+          "term": "Regularisierung",
+          "definition": "Techniken wie CV-basiertes Encoding oder Smoothing begrenzen Overfitting."
+        },
+        {
+          "term": "Leakage-Schutz",
+          "definition": "Encoding stets innerhalb von Train-Folds berechnen, nie auf Gesamt- oder Testdaten."
+        }
+      ]
+    },
+    {
+      "question": "27. Im Vergleich zweier Ensemble-Methoden: Wodurch unterscheidet sich Gradient Boosting in seiner Empfindlichkeit von Random Forests?",
+      "options": [
+        "Gradient Boosting: overfittet auf Rauschen/Fehler",
+        "Random Forest, da die Bäume sehr tief wachsen",
+        "Beide sind gleichermaßen robust durch Ensemble-Technik",
+        "Keines, da Rauschen beim Bagging ignoriert wird"
+      ],
+      "answer": 0,
+      "explanation": "Gradient Boosting baut sequentiell schwache Bäume auf Residuen und reagiert empfindlicher auf Lernrate, Baumtiefe und Ausreißer; Random Forest mittelt parallele Bäume und ist robuster.",
+      "weight": 3,
+      "topic": "Modelle",
+      "concept": "Ensemble-Vergleich",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Boosting vs. Bagging",
+        "steps": [
+          "Boosting: sequenziell, korrigiert Residuen",
+          "Sensibel auf Lernrate/Tiefe, anfällig für Rauschen",
+          "Bagging (RF): parallel, mittelt Bäume",
+          "Robuster gegen Ausreißer, weniger Tuning nötig",
+          "Einsatz je nach Datenqualität wählen"
+        ],
+        "content": "Gradient Boosting liefert oft bessere Spitzenleistung, erfordert aber sorgfältiges Tuning; Random Forest ist stabiler out-of-the-box."
+      },
+      "mini_glossary": [
+        {
+          "term": "Gradient Boosting",
+          "definition": "Additives Ensemble, das Fehler der Vorgänger-Bäume iterativ korrigiert."
+        },
+        {
+          "term": "Learning Rate",
+          "definition": "Steuert Schrittweite im Boosting, zu hoch führt zu Overfitting."
+        },
+        {
+          "term": "Random Forest",
+          "definition": "Bagging-Ensemble paralleler Bäume, meist weniger hyperparameter-sensibel."
+        }
+      ]
+    },
+    {
+      "question": "28. Bei einem medizinischen Screening-Modell: Welche Gütemaßzahl priorisierst du, um möglichst keine Kranken zu übersehen?",
+      "options": [
+        "Recall (Sensitivität)",
+        "Precision (Genauigkeit)",
+        "Accuracy",
+        "Specificity"
+      ],
+      "answer": 0,
+      "explanation": "Bei Screening-Aufgaben zählt das Minimieren von False Negatives, daher wird primär die Sensitivität/Recall optimiert; Precision ist zweitrangig, solange möglichst kein Kranker übersehen wird.",
+      "weight": 3,
+      "topic": "Evaluierung",
+      "concept": "Metrik-Auswahl",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Screening-Metrik wählen",
+        "steps": [
+          "Recall/Sensitivität maximieren (FN minimieren)",
+          "Schwelle senken, wenn Recall zu niedrig",
+          "Precision überwachen, um Ressourcen zu schonen",
+          "AUC/PR-Curves betrachten",
+          "Kosten/Nutzen mit Domäne abstimmen"
+        ],
+        "content": "Beim Screening ist das Verpassen positiver Fälle kritisch. Hoher Recall ist Pflicht, Precision wird über Schwellen und Follow-up optimiert."
+      },
+      "mini_glossary": [
+        {
+          "term": "Recall/Sensitivität",
+          "definition": "Anteil der tatsächlich Positiven, die korrekt erkannt werden (FN-Vermeidung)."
+        },
+        {
+          "term": "False Negative",
+          "definition": "Kranker wird als gesund eingestuft – im Screening besonders kritisch."
+        },
+        {
+          "term": "Precision",
+          "definition": "Anteil der als positiv klassifizierten Fälle, die tatsächlich positiv sind."
+        }
+      ]
+    },
+    {
+      "question": "29. Für eine faire Performance-Schätzung mit Tuning: Warum nutzt du Nested Cross-Validation, wenn Hyperparameter optimiert werden?",
+      "options": [
+        "Kombination: Tuning & unverzerrte Evaluation",
+        "Wenn der Datensatz extrem groß ist (> 1 TB)",
+        "Um Overfitting während des Trainings zu erzwingen",
+        "Nur bei Deep Learning Modellen"
+      ],
+      "answer": 0,
+      "explanation": "Nested Cross-Validation wird genutzt, wenn Hyperparameter-Tuning betrieben wird und man einen unverzerrten Performance-Schätzer braucht: innerer CV zum Tuning, äußerer CV zur fairen Bewertung.",
+      "weight": 3,
+      "topic": "Modelltraining & Optimierung",
+      "concept": "Nested CV",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Nested CV für faire Schätzung",
+        "steps": [
+          "Äußerer Loop liefert Test-Folds",
+          "Innerer Loop tuned Hyperparameter",
+          "Modell pro äußerem Fold neu trainieren",
+          "Resultate über äußere Folds mitteln",
+          "Komplex, aber vermeidet Optimismus-Bias"
+        ],
+        "content": "Nested CV trennt Tuning und Bewertung strikt. So erhält man eine realistischere Schätzung, wenn Hyperparameter-Suche involviert ist."
+      },
+      "mini_glossary": [
+        {
+          "term": "Nested CV",
+          "definition": "Verschachtelte Schleife: innen Tuning, außen Performance-Schätzung."
+        },
+        {
+          "term": "Optimismus-Bias",
+          "definition": "Ohne Nesting überschätzt man die Güte, weil Tuning auf denselben Splits evaluiert wird."
+        },
+        {
+          "term": "Outer vs. Inner Fold",
+          "definition": "Äußerer Fold hält Testdaten zurück, innerer foldet für Hyperparameter-Suche."
+        }
+      ]
+    },
+    {
+      "question": "30. In einer PCA-Analyse eines Finanz-Datensatzes: Welche Auswirkung hat fehlende Skalierung vor der PCA auf die Komponenten?",
+      "options": [
+        "Gehalt (große Varianz) dominiert die PCA",
+        "PCA funktioniert technisch nicht (Error)",
+        "PCA skaliert automatisch intern",
+        "Keine Auswirkung, da PCA kovarianzbasiert ist"
+      ],
+      "answer": 0,
+      "explanation": "Ohne Skalierung dominiert eine großskalige Variable (z. B. Gehalt) die PCA-Varianz und verzerrt die Komponenten; alle Features müssen vorher standardisiert werden, damit PCA sinnvolle Strukturen findet.",
+      "weight": 3,
+      "topic": "Datenaufbereitung",
+      "concept": "PCA Scaling",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "PCA nur mit Skalierung",
+        "steps": [
+          "Features vor PCA standardisieren",
+          "Große Skalen sonst dominant",
+          "PCA auf Trainingsdaten fitten",
+          "Transform auf Train/Test konsistent",
+          "Varianzanteile/Explained Variance prüfen"
+        ],
+        "content": "Ohne Skalierung verzerrt eine große Einheit die Hauptkomponenten. Mit StandardScaler + PCA erhält man sinnvolle, vergleichbare Achsen."
+      },
+      "mini_glossary": [
+        {
+          "term": "PCA",
+          "definition": "Lineare Projektion auf Hauptkomponenten, die Varianz maximieren."
+        },
+        {
+          "term": "Skalierungspflicht",
+          "definition": "PCA setzt vergleichbare Skalen voraus, sonst dominiert die größte Einheit."
+        },
+        {
+          "term": "Hauptkomponente",
+          "definition": "Richtung maximaler Varianz im Merkmalraum, berechnet nach Standardisierung."
+        }
+      ]
+    }
+  ]
 }
