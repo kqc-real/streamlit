@@ -7063,12 +7063,6 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             )
         )
 
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric(_summary_text("confidence_metric_sure_correct", default="Sicher & richtig"), confidence_counts["sure_correct"])
-        c2.metric(_summary_text("confidence_metric_sure_wrong", default="Sicher & falsch"), confidence_counts["sure_wrong"])
-        c3.metric(_summary_text("confidence_metric_unsure_correct", default="Unsicher & richtig"), confidence_counts["unsure_correct"])
-        c4.metric(_summary_text("confidence_metric_unsure_wrong", default="Unsicher & falsch"), confidence_counts["unsure_wrong"])
-
         sure_label = _summary_text("confidence_label_sure", default="Sicher")
         unsure_label = _summary_text("confidence_label_unsure", default="Unsicher")
         correct_label = _summary_text("confidence_label_correct", default="Richtig")
