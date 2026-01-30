@@ -221,6 +221,266 @@ def _learning_objectives_dialog_fallback() -> str:
     )
 
 
+def _find_learning_objectives_path(selected: str) -> Path | None:
+    if not selected:
+        return None
+
+    try:
+        from config import _resolve_question_paths
+    except Exception:
+        _resolve_question_paths = None
+
+    try:
+        cleaned = selected[len(USER_QUESTION_PREFIX):] if selected.startswith(USER_QUESTION_PREFIX) else selected
+        stem = Path(cleaned).name
+        if stem.lower().endswith(".json"):
+            stem = stem[: -len(".json")]
+        core = stem.replace("questions_", "")
+        lo_filenames = [
+            f"questions_{core}_Learning_objectives.md",
+            f"questions_{core}_Learning_Objectives.md",
+        ]
+    except Exception:
+        return None
+
+    candidates: list[Path] = []
+
+    def _add_candidates(base: Path) -> None:
+        for name in lo_filenames:
+            candidates.append(base / name)
+
+    try:
+        base_dir = Path(get_package_dir())
+        _add_candidates(base_dir / "data")
+        _add_candidates(base_dir / "data-user")
+        _add_candidates(base_dir)
+    except Exception:
+        pass
+
+    # Fallback: if the selected value itself is a path, look next to it
+    try:
+        selected_path = Path(selected)
+        if selected_path.exists():
+            _add_candidates(selected_path.parent)
+    except Exception:
+        pass
+
+    # Case-insensitive fallback: scan known dirs for a filename that matches lowercased target
+    target_lowers = {name.lower() for name in lo_filenames}
+    search_dirs = []
+    try:
+        base_dir = Path(get_package_dir())
+        search_dirs.extend([base_dir, base_dir / "data", base_dir / "data-user"])
+    except Exception:
+        pass
+    try:
+        selected_path = Path(selected)
+        if selected_path.exists():
+            search_dirs.append(selected_path.parent)
+    except Exception:
+        pass
+    for sdir in search_dirs:
+        try:
+            if sdir.is_dir():
+                for child in sdir.iterdir():
+                    if child.is_file() and child.name.lower() in target_lowers:
+                        candidates.append(child)
+        except Exception:
+            continue
+
+    if _resolve_question_paths:
+        try:
+            for cand in _resolve_question_paths(selected):
+                for name in lo_filenames:
+                    candidates.append(cand.parent / name)
+        except Exception:
+            pass
+
+    seen: set[Path] = set()
+    for cand in candidates:
+        if cand in seen:
+            continue
+        seen.add(cand)
+        try:
+            if cand.exists() and cand.is_file():
+                return cand
+        except Exception:
+            continue
+    return None
+
+
+def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tuple[bytes | None, str | None]:
+    try:
+        import markdown as _md
+        from weasyprint import HTML
+        import re
+        try:
+            from pdf_export import _render_latex_to_image
+        except Exception:
+            _render_latex_to_image = None
+
+        # Simple LaTeX replacement: $$...$$ for block, $...$ for inline
+        def _replace_block(match):
+            formula = match.group(1)
+            if _render_latex_to_image:
+                rendered = (_render_latex_to_image(formula, is_block=True) or "").strip()
+            else:
+                rendered = f"<code>{formula}</code>"
+            return f"<div class='math-block'>{rendered}</div>"
+
+        def _replace_inline(match):
+            formula = match.group(1)
+            if _render_latex_to_image:
+                rendered = (_render_latex_to_image(formula, is_block=False) or "").strip()
+            else:
+                rendered = f"<code class='math-inline-code'>{formula}</code>"
+            # Falls ein Renderer unerwartet ein Block-Element liefert, zwingend inline kapseln.
+            rendered = rendered.replace("\n", " ")
+            return f"<span class='math-inline'>{rendered}</span>"
+
+        md_for_render = content
+        # Block formulas first
+        md_for_render = re.sub(r"\$\$(.+?)\$\$", _replace_block, md_for_render, flags=re.S)
+        # Inline formulas (avoid already replaced blocks and double dollars)
+        md_for_render = re.sub(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", _replace_inline, md_for_render)
+
+        html_body = _md.markdown(md_for_render, extensions=["fenced_code", "tables", "toc"])
+        # Normalize paragraphs that contain only inline math so they don't create extra spacing.
+        try:
+            html_body = re.sub(r"<p>\s*(<span class='math-inline'>.*?</span>)\s*</p>", r"\1", html_body)
+        except Exception:
+            pass
+
+        css = """
+        @page {
+            size: A4;
+            margin: 2cm 2cm 2.4cm 2cm;
+        }
+        :root {
+            color-scheme: light;
+            --accent: #0b6aa2;
+            --accent-soft: #e7f3fb;
+            --text: #102a43;
+            --muted: #52606d;
+            --border: #d9e2ec;
+            --bg-strong: #f8fafc;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.65;
+            color: var(--text);
+            background: #f4f6f8;
+        }
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            background: white;
+            padding: 18px 26px 10px 26px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(16, 42, 67, 0.06);
+        }
+        h1, h2, h3, h4 {
+            color: #0b3a5c;
+            margin: 0 0 0.35em 0;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+        h1 { font-size: 22pt; margin-top: 0; }
+        h2 {
+            font-size: 18pt;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+            margin-top: 1.2em;
+        }
+        h3 { font-size: 15pt; margin-top: 1em; }
+        p { margin: 0 0 0.9em 0; color: var(--muted); }
+        ul, ol { margin: 0.2em 0 1em 1.2em; }
+        li { margin: 0.15em 0; }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            margin: 0.4em 0 1em 0;
+            padding: 0.2em 1em;
+            color: var(--muted);
+            background: var(--accent-soft);
+            border-radius: 6px;
+        }
+        code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            background: #eef2f7;
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+            font-size: 10pt;
+        }
+        pre {
+            background: #0b3a5c;
+            color: #f8fafc;
+            padding: 14px;
+            border-radius: 9px;
+            overflow-x: auto;
+            font-size: 10pt;
+            line-height: 1.5;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0.6em 0 1.1em 0;
+            background: white;
+            border: 1px solid var(--border);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background: #f0f4f8;
+            font-weight: 600;
+            color: #0b3a5c;
+        }
+        tr:nth-child(even) td { background: #f9fbfd; }
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 1.4em 0;
+        }
+        figure { margin: 0; }
+        figcaption {
+            font-size: 9pt;
+            color: var(--muted);
+            margin-top: 4px;
+            text-align: center;
+        }
+        img { max-width: 100%; display: block; margin: 0.4em 0; }
+        strong { color: #0b3a5c; }
+        em { color: var(--muted); }
+        .math-inline { display: inline; }
+        .math-inline img { display: inline-block; vertical-align: middle; margin: 0; max-height: 1.2em; }
+        .math-inline-code { white-space: nowrap; }
+        .math-block { margin: 0.8em 0; text-align: center; }
+        .math-block img { display: inline-block; max-width: 100%; }
+        """
+
+        html = f"""
+        <html><head><meta charset='utf-8'><style>{css}</style></head>
+        <body>
+        <main>
+        {html_body}
+        </main>
+        </body></html>
+        """
+        base_url = str(base_path) if base_path else None
+        pdf_bytes = HTML(string=html, base_url=base_url).write_pdf(optimize_images=True)
+        return pdf_bytes, None
+    except Exception as exc:
+        try:
+            return None, str(exc)
+        except Exception:
+            return None, "unbekannter Fehler beim PDF-Export"
+
+
 def _welcome_session_expired_warning() -> str:
     return translate_ui(
         "welcome.warning.session_expired",
@@ -2604,263 +2864,6 @@ def render_welcome_page(app_config: AppConfig):
                 st.experimental_rerun()
             except Exception:
                 st.session_state["_needs_rerun"] = True
-
-    def _find_learning_objectives_path(selected: str) -> Path | None:
-        if not selected:
-            return None
-
-        try:
-            from config import _resolve_question_paths
-        except Exception:
-            _resolve_question_paths = None
-
-        try:
-            cleaned = selected[len(USER_QUESTION_PREFIX):] if selected.startswith(USER_QUESTION_PREFIX) else selected
-            stem = Path(cleaned).name
-            if stem.lower().endswith(".json"):
-                stem = stem[: -len(".json")]
-            core = stem.replace("questions_", "")
-            lo_filenames = [
-                f"questions_{core}_Learning_objectives.md",
-                f"questions_{core}_Learning_Objectives.md",
-            ]
-        except Exception:
-            return None
-
-        candidates: list[Path] = []
-        def _add_candidates(base: Path) -> None:
-            for name in lo_filenames:
-                candidates.append(base / name)
-
-        try:
-            base_dir = Path(get_package_dir())
-            _add_candidates(base_dir / "data")
-            _add_candidates(base_dir / "data-user")
-            _add_candidates(base_dir)
-        except Exception:
-            pass
-
-        # Fallback: if the selected value itself is a path, look next to it
-        try:
-            selected_path = Path(selected)
-            if selected_path.exists():
-                _add_candidates(selected_path.parent)
-        except Exception:
-            pass
-
-        # Case-insensitive fallback: scan known dirs for a filename that matches lowercased target
-        target_lowers = {name.lower() for name in lo_filenames}
-        search_dirs = []
-        try:
-            base_dir = Path(get_package_dir())
-            search_dirs.extend([base_dir, base_dir / "data", base_dir / "data-user"])
-        except Exception:
-            pass
-        try:
-            selected_path = Path(selected)
-            if selected_path.exists():
-                search_dirs.append(selected_path.parent)
-        except Exception:
-            pass
-        for sdir in search_dirs:
-            try:
-                if sdir.is_dir():
-                    for child in sdir.iterdir():
-                        if child.is_file() and child.name.lower() in target_lowers:
-                            candidates.append(child)
-            except Exception:
-                continue
-
-        if _resolve_question_paths:
-            try:
-                for cand in _resolve_question_paths(selected):
-                    for name in lo_filenames:
-                        candidates.append(cand.parent / name)
-            except Exception:
-                pass
-
-        seen: set[Path] = set()
-        for cand in candidates:
-            if cand in seen:
-                continue
-            seen.add(cand)
-            try:
-                if cand.exists() and cand.is_file():
-                    return cand
-            except Exception:
-                continue
-        return None
-
-    def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tuple[bytes | None, str | None]:
-        try:
-            import markdown as _md
-            from weasyprint import HTML
-            import re
-            try:
-                from pdf_export import _render_latex_to_image
-            except Exception:
-                _render_latex_to_image = None
-
-            # Simple LaTeX replacement: $$...$$ for block, $...$ for inline
-            def _replace_block(match):
-                formula = match.group(1)
-                if _render_latex_to_image:
-                    rendered = (_render_latex_to_image(formula, is_block=True) or "").strip()
-                else:
-                    rendered = f"<code>{formula}</code>"
-                return f"<div class='math-block'>{rendered}</div>"
-
-            def _replace_inline(match):
-                formula = match.group(1)
-                if _render_latex_to_image:
-                    rendered = (_render_latex_to_image(formula, is_block=False) or "").strip()
-                else:
-                    rendered = f"<code class='math-inline-code'>{formula}</code>"
-                # Falls ein Renderer unerwartet ein Block-Element liefert, zwingend inline kapseln.
-                rendered = rendered.replace("\n", " ")
-                return f"<span class='math-inline'>{rendered}</span>"
-
-            md_for_render = content
-            # Block formulas first
-            md_for_render = re.sub(r"\$\$(.+?)\$\$", _replace_block, md_for_render, flags=re.S)
-            # Inline formulas (avoid already replaced blocks and double dollars)
-            md_for_render = re.sub(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", _replace_inline, md_for_render)
-
-            html_body = _md.markdown(md_for_render, extensions=["fenced_code", "tables", "toc"])
-            # Normalize paragraphs that contain only inline math so they don't create extra spacing.
-            try:
-                html_body = re.sub(r"<p>\s*(<span class='math-inline'>.*?</span>)\s*</p>", r"\1", html_body)
-            except Exception:
-                pass
-
-            css = """
-            @page {
-                size: A4;
-                margin: 2cm 2cm 2.4cm 2cm;
-            }
-            :root {
-                color-scheme: light;
-                --accent: #0b6aa2;
-                --accent-soft: #e7f3fb;
-                --text: #102a43;
-                --muted: #52606d;
-                --border: #d9e2ec;
-                --bg-strong: #f8fafc;
-            }
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 11pt;
-                line-height: 1.65;
-                color: var(--text);
-                background: #f4f6f8;
-            }
-            main {
-                max-width: 720px;
-                margin: 0 auto;
-                background: white;
-                padding: 18px 26px 10px 26px;
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                box-shadow: 0 6px 18px rgba(16, 42, 67, 0.06);
-            }
-            h1, h2, h3, h4 {
-                color: #0b3a5c;
-                margin: 0 0 0.35em 0;
-                line-height: 1.2;
-                letter-spacing: -0.01em;
-            }
-            h1 { font-size: 22pt; margin-top: 0; }
-            h2 {
-                font-size: 18pt;
-                border-bottom: 2px solid var(--border);
-                padding-bottom: 6px;
-                margin-top: 1.2em;
-            }
-            h3 { font-size: 15pt; margin-top: 1em; }
-            p { margin: 0 0 0.9em 0; color: var(--muted); }
-            ul, ol { margin: 0.2em 0 1em 1.2em; }
-            li { margin: 0.15em 0; }
-            blockquote {
-                border-left: 4px solid var(--accent);
-                margin: 0.4em 0 1em 0;
-                padding: 0.2em 1em;
-                color: var(--muted);
-                background: var(--accent-soft);
-                border-radius: 6px;
-            }
-            code {
-                font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-                background: #eef2f7;
-                padding: 0.1em 0.35em;
-                border-radius: 4px;
-                font-size: 10pt;
-            }
-            pre {
-                background: #0b3a5c;
-                color: #f8fafc;
-                padding: 14px;
-                border-radius: 9px;
-                overflow-x: auto;
-                font-size: 10pt;
-                line-height: 1.5;
-                box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
-            }
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                margin: 0.6em 0 1.1em 0;
-                background: white;
-                border: 1px solid var(--border);
-            }
-            th, td {
-                border: 1px solid var(--border);
-                padding: 8px 10px;
-                text-align: left;
-            }
-            th {
-                background: #f0f4f8;
-                font-weight: 600;
-                color: #0b3a5c;
-            }
-            tr:nth-child(even) td { background: #f9fbfd; }
-            hr {
-                border: none;
-                border-top: 1px solid var(--border);
-                margin: 1.4em 0;
-            }
-            figure { margin: 0; }
-            figcaption {
-                font-size: 9pt;
-                color: var(--muted);
-                margin-top: 4px;
-                text-align: center;
-            }
-            img { max-width: 100%; display: block; margin: 0.4em 0; }
-            strong { color: #0b3a5c; }
-            em { color: var(--muted); }
-            .math-inline { display: inline; }
-            .math-inline img { display: inline-block; vertical-align: middle; margin: 0; max-height: 1.2em; }
-            .math-inline-code { white-space: nowrap; }
-            .math-block { margin: 0.8em 0; text-align: center; }
-            .math-block img { display: inline-block; max-width: 100%; }
-            """
-
-            html = f"""
-            <html><head><meta charset='utf-8'><style>{css}</style></head>
-            <body>
-            <main>
-            {html_body}
-            </main>
-            </body></html>
-            """
-            base_url = str(base_path) if base_path else None
-            pdf_bytes = HTML(string=html, base_url=base_url).write_pdf(optimize_images=True)
-            return pdf_bytes, None
-        except Exception as exc:
-            try:
-                return None, str(exc)
-            except Exception:
-                return None, "unbekannter Fehler beim PDF-Export"
 
     def _show_learning_objectives_dialog(lo_path: Path, content: str) -> None:
         dialog_fn = getattr(st, "dialog", None) or getattr(st, "experimental_dialog", None)
@@ -8115,6 +8118,50 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 default="Fehler beim Erzeugen des arsnova.click-Exports: {error}",
                             ).format(error=e)
                         )
+
+        # Lernziele (PDF) – nur anzeigen, wenn auf der Welcome-Seite verfügbar
+        lo_path = None
+        lo_content = None
+        if selected_file:
+            try:
+                lo_path = _find_learning_objectives_path(selected_file)
+                if lo_path:
+                    lo_content = load_markdown_file(str(lo_path))
+            except Exception:
+                lo_path = None
+                lo_content = None
+
+        if lo_path and lo_content:
+            with st.expander(_summary_text(
+                "export_learning_objectives_expander",
+                default="📄 Lernziele (PDF)",
+            )):
+                st.markdown(_summary_text(
+                    "export_learning_objectives_description",
+                    default="Lade die Lernziele dieses Fragensets als PDF herunter.",
+                ))
+                lo_btn_key = f"download_learning_objectives_review_{selected_file}"
+                lo_dl_key = f"dl_learning_objectives_{selected_file}"
+                if st.button(_download_button_label(), key=lo_btn_key):
+                    with st.spinner(_summary_text(
+                        "export_learning_objectives_spinner",
+                        default="Lernziele werden erstellt...",
+                    )):
+                        pdf_bytes, pdf_err = _learning_objectives_pdf(lo_content, lo_path.parent)
+                    if pdf_bytes:
+                        st.download_button(
+                            label=_summary_text(
+                                "export_learning_objectives_download",
+                                default="💾 Lernziele herunterladen",
+                            ),
+                            data=pdf_bytes,
+                            file_name=lo_path.with_suffix(".pdf").name,
+                            mime=MIME_PDF,
+                            key=lo_dl_key,
+                            type="primary",
+                        )
+                    else:
+                        st.caption(_learning_objectives_pdf_unavailable(pdf_err))
 
         # Musterlösung
         with st.expander(_summary_text(
