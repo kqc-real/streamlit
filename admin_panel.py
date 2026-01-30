@@ -5,7 +5,6 @@ Verantwortlichkeiten:
 - Rendern der verschiedenen Admin-Tabs (Analyse, Export, System).
 - Bereitstellung der Item-Analyse und des Leaderboards.
 """
-from pathlib import Path
 import secrets
 import string
 
@@ -29,199 +28,6 @@ from database import (
     reset_all_test_data,
     set_recovery_secret,
 )
-
-
-def _load_prompt_file(filename: str) -> str:
-    """Return prompt content from the given markdown file."""
-    prompt_path = Path(__file__).resolve().parent / filename
-    if not prompt_path.exists():
-        return translate_ui("admin.prompts.file_not_found", default=f"Datei {filename} nicht gefunden.")
-    try:
-        return prompt_path.read_text(encoding="utf-8")
-    except OSError as exc:
-        return translate_ui("admin.prompts.load_failed", default=f"Prompt konnte nicht geladen werden ({exc}).")
-
-
-def _open_prompt_dialog(title: str, content: str, download_name: str) -> bool:
-    """Versucht, den Prompt in einem Dialog zu öffnen. Gibt True zurück, wenn Inline-Fallback nötig ist."""
-    dialog_api = getattr(st, "experimental_dialog", None)
-
-    def _dialog_body() -> None:
-        st.text_area(
-            translate_ui("admin.prompts.content_label"),
-            content,
-            height=500,
-            label_visibility="collapsed",
-            key=f"{download_name}_dialog_text",
-        )
-        st.download_button(
-            translate_ui("admin.prompts.download_markdown"),
-            data=content.encode("utf-8"),
-            file_name=download_name,
-            mime="text/markdown",
-            key=f"download_{download_name}_dialog",
-        )
-
-    if callable(dialog_api):
-        dialog_api(title)(_dialog_body)
-        return False
-
-    return True
-
-
-def render_general_prompt_tab() -> None:
-    """Zeigt den allgemeinen KI-Prompt für neue Fragensets."""
-    st.header(translate_ui("admin.generate_questionset_header"))
-    st.markdown(
-        translate_ui("admin.prompts.general_description")
-    )
-    st.info(
-        translate_ui("admin.prompts.general_best_results")
-    )
-
-    prompt_content = _load_prompt_file("KI_PROMPT.md")
-    if prompt_content.startswith("Prompt konnte") or prompt_content.startswith("Datei"):
-        st.error(prompt_content)
-        return
-
-    inline_state_key = "_show_inline_general_prompt"
-    st.session_state.setdefault(inline_state_key, False)
-
-    col_left, col_right = st.columns(2)
-    with col_left:
-        st.download_button(
-            translate_ui("admin.prompts.download"),
-            data=prompt_content.encode("utf-8"),
-            file_name="KI_PROMPT.md",
-            mime="text/markdown",
-            key="download_general_prompt",
-        )
-    with col_right:
-        if st.button(translate_ui("admin.prompts.show"), key="open_general_prompt"):
-            needs_inline = _open_prompt_dialog(
-                translate_ui("admin.prompts.general_title"), prompt_content, "KI_PROMPT.md"
-            )
-            if needs_inline:
-                st.session_state[inline_state_key] = True
-
-    if st.session_state.get(inline_state_key):
-        st.text_area(
-            translate_ui("admin.prompts.general_title"),
-            prompt_content,
-            height=500,
-            key="general_prompt_inline_text",
-        )
-        st.download_button(
-            translate_ui("admin.prompts.download_markdown"),
-            data=prompt_content.encode("utf-8"),
-            file_name="KI_PROMPT.md",
-            mime="text/markdown",
-            key="download_general_prompt_inline",
-        )
-        if st.button(translate_ui("admin.prompts.close_dialog"), key="close_general_prompt_inline"):
-            st.session_state[inline_state_key] = False
-
-
-def render_kahoot_prompt_tab() -> None:
-    """Zeigt den Kahoot-spezifischen KI-Prompt."""
-    st.header(translate_ui("admin.generate_kahoot_header"))
-    st.markdown(
-        translate_ui("admin.prompts.kahoot_description")
-    )
-
-    prompt_content = _load_prompt_file("KI_PROMPT_KAHOOT.md")
-    if prompt_content.startswith("Prompt konnte") or prompt_content.startswith("Datei"):
-        st.error(prompt_content)
-        return
-
-    inline_state_key = "_show_inline_kahoot_prompt"
-    st.session_state.setdefault(inline_state_key, False)
-
-    col_left, col_right = st.columns(2)
-    with col_left:
-        st.download_button(
-            translate_ui("admin.prompts.download"),
-            data=prompt_content.encode("utf-8"),
-            file_name="KI_PROMPT_KAHOOT.md",
-            mime="text/markdown",
-            key="download_kahoot_prompt",
-        )
-    with col_right:
-        if st.button(translate_ui("admin.prompts.show"), key="open_kahoot_prompt"):
-            needs_inline = _open_prompt_dialog(
-                translate_ui("admin.prompts.kahoot_title"), prompt_content, "KI_PROMPT_KAHOOT.md"
-            )
-            if needs_inline:
-                st.session_state[inline_state_key] = True
-
-    if st.session_state.get(inline_state_key):
-        st.text_area(
-            translate_ui("admin.prompts.kahoot_title"),
-            prompt_content,
-            height=500,
-            key="kahoot_prompt_inline_text",
-        )
-        st.download_button(
-            translate_ui("admin.prompts.download_markdown"),
-            data=prompt_content.encode("utf-8"),
-            file_name="KI_PROMPT_KAHOOT.md",
-            mime="text/markdown",
-            key="download_kahoot_prompt_inline",
-        )
-        if st.button(translate_ui("admin.prompts.close_dialog"), key="close_kahoot_prompt_inline"):
-            st.session_state[inline_state_key] = False
-
-
-def render_arsnova_prompt_tab() -> None:
-    """Zeigt den arsnova.click-spezifischen KI-Prompt."""
-    st.header(translate_ui("admin.generate_arsnova_header"))
-    st.markdown(
-        translate_ui("admin.prompts.arsnova_description")
-    )
-
-    prompt_content = _load_prompt_file("KI_PROMPT_ARSNOVA_CLICK.md")
-    if prompt_content.startswith("Prompt konnte") or prompt_content.startswith("Datei"):
-        st.error(prompt_content)
-        return
-
-    inline_state_key = "_show_inline_arsnova_prompt"
-    st.session_state.setdefault(inline_state_key, False)
-
-    col_left, col_right = st.columns(2)
-    with col_left:
-        st.download_button(
-            translate_ui("admin.prompts.download"),
-            data=prompt_content.encode("utf-8"),
-            file_name="KI_PROMPT_ARSNOVA_CLICK.md",
-            mime="text/markdown",
-            key="download_arsnova_prompt",
-        )
-    with col_right:
-        if st.button(translate_ui("admin.prompts.show"), key="open_arsnova_prompt"):
-            needs_inline = _open_prompt_dialog(
-                translate_ui("admin.prompts.arsnova_title"), prompt_content, "KI_PROMPT_ARSNOVA_CLICK.md"
-            )
-            if needs_inline:
-                st.session_state[inline_state_key] = True
-
-    if st.session_state.get(inline_state_key):
-        st.text_area(
-            translate_ui("admin.prompts.arsnova_title"),
-            prompt_content,
-            height=500,
-            key="arsnova_prompt_inline_text",
-        )
-        st.download_button(
-            translate_ui("admin.prompts.download_markdown"),
-            data=prompt_content.encode("utf-8"),
-            file_name="KI_PROMPT_ARSNOVA_CLICK.md",
-            mime="text/markdown",
-            key="download_arsnova_prompt_inline",
-        )
-        if st.button(translate_ui("admin.prompts.close_dialog"), key="close_arsnova_prompt_inline"):
-            st.session_state[inline_state_key] = False
-
-
 def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     """Rendert das komplette Admin-Dashboard mit Tabs."""
     st.title(translate_ui("admin.dashboard_title"))
@@ -247,9 +53,6 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
             translate_ui("admin.tabs.export"),
             translate_ui("admin.tabs.login_generator"),
             translate_ui("admin.tabs.system"),
-            translate_ui("admin.tabs.generate_questionset"),
-            translate_ui("admin.tabs.generate_kahoot"),
-            translate_ui("admin.tabs.generate_arsnova"),
             translate_ui("admin.tabs.glossary"),
             translate_ui("admin.tabs.questionsets"),
             translate_ui("admin.tabs.audit_log"),
@@ -270,16 +73,10 @@ def render_admin_panel(app_config: AppConfig, questions: QuestionSet):
     with tabs[5]:
         render_system_tab(app_config, df_filtered_logs)
     with tabs[6]:
-        render_general_prompt_tab()
-    with tabs[7]:
-        render_kahoot_prompt_tab()
-    with tabs[8]:
-        render_arsnova_prompt_tab()
-    with tabs[9]:
         render_mini_glossary_tab()
-    with tabs[10]:
+    with tabs[7]:
         render_question_sets_tab()
-    with tabs[11]:
+    with tabs[8]:
         render_audit_log_tab()
 
 

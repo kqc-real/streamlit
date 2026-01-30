@@ -400,9 +400,6 @@
         "power": "Turbo"
     },
     "admin": {
-        "generate_questionset_header": "🧠 Generate Question Set",
-        "generate_kahoot_header": "🤖 Generate Kahoot Question Set",
-        "generate_arsnova_header": "🎯 Generate ARSnova.click Question Set",
         "expanders": {
             "reset_user_results": "Select a user:",
             "admin_key": "Admin Key for Confirmation:",
@@ -633,9 +630,6 @@
             "export": "📤 Export",
             "login_generator": "🔑 Login Generator",
             "system": "⚙️ System",
-            "generate_questionset": "🧠 Generate Question Set",
-            "generate_kahoot": "🤖 Generate Kahoot Question Set",
-            "generate_arsnova": "🎯 Generate ARSnova.click Question Set",
             "glossary": "📚 Mini-Glossaries",
             "questionsets": "📂 Question Sets",
             "audit_log": "🔒 Audit Log"
@@ -745,22 +739,6 @@
             "discrimination_high": ": The question discriminates well between strong and weak participants.",
             "discrimination_medium": ": The question discriminates acceptably.",
             "discrimination_low": ": The question discriminates poorly. It may be confusing, too easy/difficult, or have an error in the answer."
-        },
-        "prompts": {
-            "general_description": "Use this prompt in ChatGPT, Claude or any other LLM to create a new `questions_*.json` set suitable for this app. Copy the text, answer the questions step by step and save the generated file afterwards in the `data/` directory.",
-            "general_best_results": "Currently we achieve the best results with »ChatGPT 5 Thinking Comprehensive« and »Gemini 2.5 Flash« – please try these first.",
-            "kahoot_description": "This prompt is specifically optimized for Kahoot. It ensures that all question texts and answer options comply with Kahoot's limits. Use it for teams who want to implement questions from your course content as a live Kahoot.",
-            "arsnova_description": "This prompt guides you step by step to a question set that automatically takes into account all arsnova.click restrictions (options ≤ 60 characters, timer 60s, no heading markup). Use it for imports into arsnova.click.",
-            "content_label": "Prompt Content",
-            "download_markdown": "⬇️ Download Prompt as Markdown",
-            "download": "⬇️ Download Prompt",
-            "show": "👁️ Show Prompt",
-            "close_dialog": "Close Dialog",
-            "general_title": "General AI Prompt",
-            "kahoot_title": "Kahoot AI Prompt",
-            "arsnova_title": "arsnova.click AI Prompt",
-            "file_not_found": "File {filename} not found.",
-            "load_failed": "Prompt could not be loaded ({error})."
         },
         "manage_question_owner": "✏️ Quality Assurance (Set creator — temporary sets, Human-in-the-Loop)",
         "manage_question_admin": "✏️ Quality Assurance (Admin — main collection / Core sets)",

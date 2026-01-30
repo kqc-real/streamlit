@@ -404,9 +404,6 @@
         "power": "强力"
     },
     "admin": {
-        "generate_questionset_header": "🧠 生成问题集",
-        "generate_kahoot_header": "🤖 生成 Kahoot 问题集",
-        "generate_arsnova_header": "🎯 生成 ARSnova.click 问题集",
         "expanders": {
             "reset_user_results": "选择用户：",
             "admin_key": "管理员密钥确认：",
@@ -637,9 +634,6 @@
             "export": "📤 导出",
             "login_generator": "🔑 登录生成器",
             "system": "⚙️ 系统",
-            "generate_questionset": "🧠 生成问题集",
-            "generate_kahoot": "🤖 生成 Kahoot 问题集",
-            "generate_arsnova": "🎯 生成 ARSnova.click 问题集",
             "glossary": "📚 小词汇表",
             "questionsets": "📂 问题集",
             "audit_log": "🔒 审计日志"
@@ -749,22 +743,6 @@
             "discrimination_high": "：这个问题很好地区分了强参与者和弱参与者。",
             "discrimination_medium": "：这个问题可以接受地区分。",
             "discrimination_low": "：这个问题区分度很差。可能令人困惑、太简单/困难，或答案有错误。"
-        },
-        "prompts": {
-            "general_description": "在 ChatGPT、Claude 或其他 LLM 中使用此提示，为此应用创建一个新的 `questions_*.json` 题库。复制文本，逐步回答问题，然后将生成的文件保存到 `data/` 目录中。",
-            "general_best_results": "目前我们使用 »ChatGPT 5 Thinking Comprehensive« 和 »Gemini 2.5 Flash« 获得最佳结果 – 请先尝试这些。",
-            "kahoot_description": "此提示专门针对 Kahoot 进行了优化。它确保所有问题文本和答案选项符合 Kahoot 的限制。用于希望将您的课程内容中的问题作为实时 Kahoot 实现的团队。",
-            "arsnova_description": "此提示逐步引导您创建一个题库，该题库自动考虑所有 arsnova.click 限制（选项 ≤ 60 个字符、计时器 60 秒、无标题标记）。用于导入到 arsnova.click。",
-            "content_label": "提示内容",
-            "download_markdown": "⬇️ 下载提示为 Markdown",
-            "download": "⬇️ 下载提示",
-            "show": "👁️ 显示提示",
-            "close_dialog": "关闭对话框",
-            "general_title": "通用 AI 提示",
-            "kahoot_title": "Kahoot AI 提示",
-            "file_not_found": "File {filename} not found.",
-            "load_failed": "Prompt could not be loaded ({error}).",
-            "arsnova_title": "arsnova.click AI 提示"
         },
         "manage_question_owner": "✏️ 质量保证（创建者 — 临时题库，Human-in-the-Loop）",
         "manage_question_admin": "✏️ 质量保证（管理员 — 主集合 / 核心题库）",
