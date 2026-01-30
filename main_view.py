@@ -49,6 +49,7 @@ from user_question_sets import (
     format_user_label,
     resolve_question_path,
     get_user_question_set,
+    is_user_question_identifier,
     # Cleanup stale temporary user uploads so they are not offered on the welcome page
     cleanup_stale_user_question_sets,
 )
@@ -7681,6 +7682,77 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
             else:
                 st.info(_summary_text("export_admin_no_sets", default="No other sets found."))
+
+        # Temporäre Fragensets (aus data-user) als JSON exportieren
+        export_is_temp = bool(export_selected_file and is_user_question_identifier(export_selected_file))
+        if export_is_temp:
+            with st.expander(_summary_text(
+                "export_user_qset_expander",
+                default="🧩 Temporäres Fragenset (JSON)",
+            )):
+                st.markdown(_summary_text(
+                    "export_user_qset_description",
+                    default="Lade die ursprüngliche JSON-Datei deines temporären Fragensets herunter.",
+                ))
+                cleanup_hours = 24
+                reserved_days = 14
+                if app_config is not None:
+                    try:
+                        cleanup_hours = int(getattr(app_config, "user_qset_cleanup_hours", cleanup_hours))
+                    except Exception:
+                        cleanup_hours = 24
+                    try:
+                        reserved_days = int(getattr(app_config, "user_qset_reserved_retention_days", reserved_days))
+                    except Exception:
+                        reserved_days = 14
+                st.info(
+                    _summary_text(
+                        "export_user_qset_retention",
+                        default=(
+                            "Hinweis: Temporäre Fragensets werden nach {hours} Stunden gelöscht. "
+                            "Reservierte Pseudonyme bleiben bis zu {days} Tage erhalten."
+                        ),
+                    ).format(hours=cleanup_hours, days=reserved_days)
+                )
+                st.caption(_summary_text(
+                    "export_user_qset_source_hint",
+                    default="Du kannst diese Quelldatei später wieder importieren.",
+                ))
+
+                json_btn_key = f"download_user_qset_json_{export_selected_file}"
+                json_dl_key = f"dl_user_qset_json_{export_selected_file}"
+                if st.button(_download_button_label(), key=json_btn_key):
+                    try:
+                        json_path = resolve_question_path(export_selected_file)
+                        if not json_path.exists():
+                            raise FileNotFoundError(
+                                _summary_text(
+                                    "export_user_qset_not_found",
+                                    default="Quelldatei nicht gefunden.",
+                                )
+                            )
+                        json_bytes = json_path.read_bytes()
+                        download_name = json_path.name
+                        if not download_name.lower().endswith(".json"):
+                            download_name = f"{download_name}.json"
+                    except Exception as exc:
+                        st.error(
+                            _summary_text(
+                                "export_user_qset_error",
+                                default="Fehler beim Laden der Quelldatei: {error}",
+                            ).format(error=exc)
+                        )
+                    else:
+                        st.download_button(
+                            label=_summary_text(
+                                "export_user_qset_download_label",
+                                default="💾 JSON herunterladen",
+                            ),
+                            data=json_bytes,
+                            file_name=download_name,
+                            mime="application/json",
+                            key=json_dl_key,
+                        )
 
         with st.expander(_summary_text("export_anki_expander", default="📦 Anki-Lernkarten (empfohlen für Wiederholung)")):
             pending_instruction = st.session_state.pop("_open_anki_instruction_requested", False)
