@@ -5663,8 +5663,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 # In Panic-Mode always allow immediate actions.
                 remaining_answer_cooldown = 0
                 st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
-            col1, col2, col3 = st.columns([1, 1, 1])
-            with col1:
+            meta_col1, meta_col2 = st.columns([1, 1])
+            with meta_col1:
                 # Bookmark-Toggle
                 is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
                 bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
@@ -5674,7 +5674,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
                     st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
             # Skip darf nicht parallel zu Next erscheinen; in Panic-Mode bleibt er aktiv.
-            with col2:
+            with meta_col2:
                 # Überspringen-Button (nur sichtbar wenn unbeantwortet oder Panic-Mode)
                 answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
                 skipped_list = st.session_state.get("skipped_questions", [])
@@ -5730,42 +5730,56 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
                         # Popover-based glossary is stateless; no flag update required here.
                         st.rerun()
-            with col3:
-                # Antworten-Button (nur aktiv, wenn eine Option gewählt wurde)
-                answer_label = _test_view_text("answer_button", default="Antworten")
-                answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-                answer_disabled = False if panic_mode else (answered_already and not panic_mode)
-                # Style: turn primary/red only once an option is selected; keep enabled otherwise.
-                answer_button_type = "primary" if antwort is not None else "secondary"
+            # Antwort-Buttons (sicher/unsicher) – nur aktiv, wenn unbeantwortet
+            answer_label_unsure = _test_view_text("answer_button_unsure", default="🤔 Unsicher antworten")
+            answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
+            answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+            answer_disabled = False if panic_mode else (answered_already and not panic_mode)
+            # Style: turn primary only once an option is selected; keep enabled otherwise.
+            answer_button_type = "primary" if antwort is not None else "secondary"
 
-                # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
-                if not answer_disabled:
+            def _handle_answer_click(confidence: str) -> None:
+                _dismiss_user_qset_dialog_from_test()
+                # If no option selected, inform the user.
+                if antwort is None:
+                    try:
+                        select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
+                    except Exception:
+                        select_hint = 'Bitte wähle zuerst eine Antwort aus.'
+                    st.info(select_hint, icon="👉")
+                # If still within the reading cooldown, show the hint and remaining seconds.
+                elif remaining_answer_cooldown > 0 and not panic_mode:
+                    try:
+                        hint = translate_ui('test_view.answer_read_hint', default='Lies die Frage aufmerksam durch und alle Antwortoptionen.')
+                    except Exception:
+                        hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
+                    # Show a brief toast with the remaining seconds at click time
+                    show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
+                else:
+                    # Proceed with the original submit action.
+                    handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions, confidence=confidence)
+
+            # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
+            if not answer_disabled:
+                answer_cols = st.columns(2)
+                with answer_cols[0]:
                     if st.button(
-                        answer_label,
-                        key=f"submit_{frage_idx}",
+                        answer_label_unsure,
+                        key=f"submit_unsure_{frage_idx}",
                         type=answer_button_type,
                         width="stretch",
                         disabled=False,
                     ):
-                        _dismiss_user_qset_dialog_from_test()
-                        # If no option selected, inform the user.
-                        if antwort is None:
-                            try:
-                                select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
-                            except Exception:
-                                select_hint = 'Bitte wähle zuerst eine Antwort aus.'
-                            st.info(select_hint, icon="👉")
-                        # If still within the reading cooldown, show the hint and remaining seconds.
-                        elif remaining_answer_cooldown > 0 and not panic_mode:
-                            try:
-                                hint = translate_ui('test_view.answer_read_hint', default='Lies die Frage aufmerksam durch und alle Antwortoptionen.')
-                            except Exception:
-                                hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
-                            # Show a brief toast with the remaining seconds at click time
-                            show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
-                        else:
-                            # Proceed with the original submit action.
-                            handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions)
+                        _handle_answer_click("unsure")
+                with answer_cols[1]:
+                    if st.button(
+                        answer_label_sure,
+                        key=f"submit_sure_{frage_idx}",
+                        type=answer_button_type,
+                        width="stretch",
+                        disabled=False,
+                    ):
+                        _handle_answer_click("sure")
         except Exception:
             remaining_answer_cooldown = 0
         
@@ -6033,7 +6047,7 @@ def handle_bookmark_toggle(frage_idx: int, new_state: bool, questions: list):
     update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
 
 
-def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list):
+def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_config: AppConfig, questions: list, confidence: str | None = None):
     """Verarbeitet die Abgabe einer Antwort."""
     # Ensure mini-glossary is closed immediately when an answer is submitted
     # Popover-based glossary is stateless; no flag update required here.
@@ -6051,6 +6065,11 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
 
     if st.session_state.start_zeit is None:
         st.session_state.start_zeit = pd.Timestamp.now()
+
+    try:
+        st.session_state[f"frage_{frage_idx}_confidence"] = confidence
+    except Exception:
+        pass
 
     richtige_antwort_text = frage_obj["optionen"][frage_obj["loesung"]]
     ist_richtig = antwort == richtige_antwort_text
@@ -6101,7 +6120,8 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
         question_nr=frage_nr,
         answer_text=antwort,
         points=punkte,
-        is_correct=(punkte > 0)
+        is_correct=(punkte > 0),
+        confidence=confidence,
     )
 
     # Wenn eine neue Antwort gespeichert wurde, markieren wir die
@@ -6993,6 +7013,130 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             _summary_text("summary_message.fail.review", default="⚠️ Sehr schwach. Review zeigt alle Fehler."),
         ]
         _choose_and_render(messages, st.error)
+
+    # --- Selbsteinschätzung / Kalibrierung ---
+    try:
+        from database import get_answers_for_session
+        session_id = st.session_state.get("session_id")
+    except Exception:
+        session_id = None
+        get_answers_for_session = None  # type: ignore[assignment]
+
+    confidence_counts = {
+        "sure_correct": 0,
+        "sure_wrong": 0,
+        "unsure_correct": 0,
+        "unsure_wrong": 0,
+    }
+    try:
+        if session_id and callable(get_answers_for_session):
+            answers = get_answers_for_session(int(session_id))
+            for row in answers:
+                conf = row.get("confidence") if isinstance(row, dict) else None
+                if not conf:
+                    continue
+                conf_norm = str(conf).strip().lower()
+                if conf_norm not in ("sure", "unsure"):
+                    continue
+                is_correct = row.get("is_correct") if isinstance(row, dict) else None
+                correct = bool(is_correct)
+                if conf_norm == "sure":
+                    if correct:
+                        confidence_counts["sure_correct"] += 1
+                    else:
+                        confidence_counts["sure_wrong"] += 1
+                else:
+                    if correct:
+                        confidence_counts["unsure_correct"] += 1
+                    else:
+                        confidence_counts["unsure_wrong"] += 1
+    except Exception:
+        pass
+
+    total_confidence = sum(confidence_counts.values())
+    if total_confidence > 0:
+        st.subheader(_summary_text("confidence_header", default="🧭 Selbsteinschätzung & Kalibrierung"))
+        st.caption(_summary_text("confidence_description", default="Vergleicht dein Gefühl mit dem Ergebnis."))
+        st.caption(
+            _summary_text("confidence_total", default="Erfasst: {count} Antworten mit Selbsteinschätzung.").format(
+                count=total_confidence
+            )
+        )
+
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric(_summary_text("confidence_metric_sure_correct", default="Sicher & richtig"), confidence_counts["sure_correct"])
+        c2.metric(_summary_text("confidence_metric_sure_wrong", default="Sicher & falsch"), confidence_counts["sure_wrong"])
+        c3.metric(_summary_text("confidence_metric_unsure_correct", default="Unsicher & richtig"), confidence_counts["unsure_correct"])
+        c4.metric(_summary_text("confidence_metric_unsure_wrong", default="Unsicher & falsch"), confidence_counts["unsure_wrong"])
+
+        sure_label = _summary_text("confidence_label_sure", default="Sicher")
+        unsure_label = _summary_text("confidence_label_unsure", default="Unsicher")
+        correct_label = _summary_text("confidence_label_correct", default="Richtig")
+        wrong_label = _summary_text("confidence_label_wrong", default="Falsch")
+        try:
+            import plotly.graph_objects as go
+
+            # Positive = calibrated (sure+correct, unsure+wrong), negative = miscalibrated
+            z = [
+                [confidence_counts["sure_correct"], -confidence_counts["sure_wrong"]],
+                [-confidence_counts["unsure_correct"], confidence_counts["unsure_wrong"]],
+            ]
+            text_vals = [
+                [str(confidence_counts["sure_correct"]), str(confidence_counts["sure_wrong"])],
+                [str(confidence_counts["unsure_correct"]), str(confidence_counts["unsure_wrong"])],
+            ]
+
+            max_abs = max(1, max(abs(v) for row in z for v in row))
+            heatmap = go.Heatmap(
+                z=z,
+                x=[correct_label, wrong_label],
+                y=[sure_label, unsure_label],
+                text=text_vals,
+                texttemplate="%{text}",
+                textfont={"color": "white"},
+                colorscale=[
+                    [0.0, "#dc2626"],
+                    [0.5, "#9ca3af"],
+                    [1.0, "#16a34a"],
+                ],
+                zmin=-max_abs,
+                zmax=max_abs,
+                showscale=False,
+                hovertemplate="%{y} / %{x}: %{text}<extra></extra>",
+            )
+            fig = go.Figure(data=[heatmap])
+            fig.update_layout(
+                height=220,
+                margin=dict(l=10, r=10, t=10, b=10),
+                xaxis=dict(title="", side="top"),
+                yaxis=dict(title=""),
+            )
+            st.plotly_chart(fig, use_container_width=True)
+        except Exception:
+            try:
+                matrix_df = pd.DataFrame(
+                    {
+                        correct_label: [confidence_counts["sure_correct"], confidence_counts["unsure_correct"]],
+                        wrong_label: [confidence_counts["sure_wrong"], confidence_counts["unsure_wrong"]],
+                    },
+                    index=[sure_label, unsure_label],
+                )
+                st.table(matrix_df)
+            except Exception:
+                pass
+
+        if confidence_counts["sure_wrong"] > 0:
+            st.warning(
+                _summary_text("confidence_overconfidence", default="Übervertrauen: {count}× sicher, aber falsch.").format(
+                    count=confidence_counts["sure_wrong"]
+                )
+            )
+        if confidence_counts["unsure_correct"] > 0:
+            st.info(
+                _summary_text("confidence_underconfidence", default="Untervertrauen: {count}× unsicher, aber richtig.").format(
+                    count=confidence_counts["unsure_correct"]
+                )
+            )
 
     # --- Performance-Analyse pro Thema ---
     st.subheader(translate_ui("summary.subheader.topic_performance", default="Deine Leistung nach Themen"))

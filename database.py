@@ -126,6 +126,7 @@ def create_tables():
                     answer_text TEXT NOT NULL,
                     points INTEGER NOT NULL,
                     is_correct BOOLEAN NOT NULL,
+                    confidence TEXT,
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (session_id) REFERENCES test_sessions (session_id)
                 );
@@ -263,6 +264,33 @@ def create_tables():
                     # Wenn mehrere Prozesse gleichzeitig starten, kann es zu einem
                     # race-condition kommen und SQLite meldet 'duplicate column name'.
                     # Das ist ignorierebar, wir wollen idempotentes Verhalten.
+                    if 'duplicate column name' in str(e).lower():
+                        pass
+                    else:
+                        raise
+
+            # Migration: Confidence-Spalte in answers ergänzen
+            try:
+                cursor.execute("PRAGMA table_info(answers)")
+                a_rows = cursor.fetchall()
+            except sqlite3.Error:
+                a_rows = []
+            answer_columns = []
+            for info in a_rows:
+                name = None
+                try:
+                    if hasattr(info, 'keys') and 'name' in info.keys():
+                        name = info['name']
+                    elif isinstance(info, (list, tuple)) and len(info) > 1:
+                        name = info[1]
+                except Exception:
+                    name = None
+                if name:
+                    answer_columns.append(name)
+            if 'confidence' not in answer_columns:
+                try:
+                    conn.execute("ALTER TABLE answers ADD COLUMN confidence TEXT;")
+                except sqlite3.OperationalError as e:
                     if 'duplicate column name' in str(e).lower():
                         pass
                     else:
@@ -488,7 +516,7 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal')
         return None
 
 @with_db_retry
-def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool):
+def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool, confidence: str | None = None):
     """Speichert die Antwort eines Nutzers in der Datenbank.
 
     Verwende ein UPSERT (ON CONFLICT ... DO UPDATE) auf (session_id, question_nr),
@@ -502,15 +530,16 @@ def save_answer(session_id: int, question_nr: int, answer_text: str, points: int
             # Use CURRENT_TIMESTAMP to update the timestamp when overwriting
             conn.execute(
                 """
-                INSERT INTO answers (session_id, question_nr, answer_text, points, is_correct, timestamp)
-                VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                INSERT INTO answers (session_id, question_nr, answer_text, points, is_correct, confidence, timestamp)
+                VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
                 ON CONFLICT(session_id, question_nr) DO UPDATE SET
                     answer_text = excluded.answer_text,
                     points = excluded.points,
                     is_correct = excluded.is_correct,
+                    confidence = excluded.confidence,
                     timestamp = CURRENT_TIMESTAMP
                 """,
-                (session_id, question_nr, answer_text, points, 1 if is_correct else 0),
+                (session_id, question_nr, answer_text, points, 1 if is_correct else 0, confidence),
             )
     except sqlite3.Error as e:
         print(f"Datenbankfehler in save_answer: {e}")
@@ -649,6 +678,7 @@ def get_all_answer_logs() -> list[dict]:
                 u.user_pseudonym AS user_id_plain,
                 a.question_nr AS frage_nr,
                 a.answer_text AS antwort,
+                a.confidence AS confidence,
                 a.points AS richtig,
                 a.timestamp AS zeit,
                     s.questions_file,
@@ -679,7 +709,7 @@ def get_answers_for_session(session_id: int) -> list[dict]:
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT question_nr, answer_text, points, is_correct, timestamp
+            SELECT question_nr, answer_text, points, is_correct, confidence, timestamp
             FROM answers
             WHERE session_id = ?
             ORDER BY question_nr
