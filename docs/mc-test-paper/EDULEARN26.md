@@ -94,7 +94,9 @@ Die Itemgenerierung wird durch einen kontextoptimierten Systemanweisungssatz ges
 
 MC-Test verwendet einen endlichen Zustandsworkflow mit drei Phasen. (1) **Konfiguration:** Das Modell sammelt Parameter schrittweise und fragt nach expliziter Bestätigung. Erfragt werden Thema, Zielgruppe, Itemanzahl, Schwierigkeits- und Gewichtsprofil, Optionsformat sowie optionaler curricularer Kontext. (2) **Interne Blaupausenerstellung:** Das Modell führt eine interne Konsistenzprüfung durch, etwa ob Schwierigkeitsgewichte dem angeforderten Profil entsprechen und Options- sowie Antworteinschränkungen erfüllbar sind, ohne Zwischenschritte offenzulegen. (3) **Schema-gesteuerte Ausgabe:** Das Modell gibt ein einzelnes, strikt parsbares JSON-Objekt zurück, das explizite Escape- und Formatierungsregeln befolgt, einschließlich stabiler `question_ids` und einer `schema_version` für Vorwärtskompatibilität. Der Workflow ist in Abb. 1 dargestellt.
 
-![Abb. 1: Endlicher Zustandsworkflow der Itemgenerierung.](fsm_workflow.svg)
+![](images/fsm_workflow.png)
+
+Abb. 1: Endlicher Zustandsworkflow der Itemgenerierung.
 
 Für Robustheit über Cloud- und lokale Backends hinweg wird das JSON einer automatisierten Schema- und semantischen Validierung unterzogen. Geprüft werden erforderliche Felder, eindeutige Optionen und gültige Antwortindizes. Optional folgt eine Reparaturschleife, die das Modell zu minimalen Änderungen auffordert, wenn Verstöße erkannt werden.
 
@@ -110,31 +112,41 @@ Die vier Ansichten bilden einen diagnostischen Trichter von Überblick zu Detail
 
 Abb. 2 zeigt das Themenleistungsdiagramm, das Ergebnisse nach Themenbereich aggregiert, etwa Regression, Klassifikation oder Evaluation. Jeder gestapelte Balken zeigt korrekte, inkorrekte und unbeantwortete Items; die x-Achsenbeschriftungen berichten beantwortet/gesamt, um das Beweisvolumen anzuzeigen. Diese Ansicht hebt Themen hervor, die Förderung benötigen, und Themen, die möglicherweise übersprungen wurden.
 
-![Abb. 2: Themenleistungsdiagramm (Beispiel).](thematic_competence_bar.svg)
+![](images/thematic_competence_bar.png)
+
+Abb. 2: Themenleistungsdiagramm (Beispiel).
 
 ### 4.2 Kognitives Radardiagramm
 
 Abb. 3 zeigt das kognitive Radardiagramm, das Leistung über die drei Stufen zusammenfasst. Es zeigt an, ob Lernende hauptsächlich Fakten abrufen oder Wissen übertragen und damit argumentieren können. Ausgewogene Formen deuten auf gleichmäßige Entwicklung hin; starke Asymmetrien heben gezielte Entwicklungszonen hervor. Zur Reflexion werden charakteristische Muster interpretativen, nicht-diagnostischen Lernendenarchetypen zugeordnet, etwa Theoretiker, Praktiker und Analytiker.
 
-![Abb. 3: Kognitives Radardiagramm (Beispielprofil).](theorist_radar.svg)
+| | | |
+|---|---|---|
+| ![](images/crammer_radar.png) | ![](images/practitioner_radar.png) | ![](images/theorist_radar.png) |
+
+Abb. 3: Kognitives Radardiagramm (Beispielprofile).
 
 ### 4.3 Konzeptbeherrschungsspalten
 
 Abb. 4 zeigt die Konzeptbeherrschungsspalten. MC-Test gruppiert Items nach getaggten Konzepten, etwa Kreuzvalidierung oder Regularisierung, und klassifiziert jedes Konzept als verstanden, nicht verstanden oder nicht versucht. Ein Konzept gilt als verstanden, wenn mindestens 70 % seiner Items korrekt sind; andernfalls wird es markiert, um Missverständnisse sichtbar zu machen, ohne einzelne Items überzuinterpretieren. Diese Mikroebenen-Ansicht verwandelt Testergebnisse in konkrete Lernziele.
 
-![Abb. 4: Konzeptbeherrschungsspalten (Beispiel).](concept_performance.svg)
+![](images/concept_performance.png)
+
+Abb. 4: Konzeptbeherrschungsspalten (Beispiel).
 
 ### 4.4 Themen-×-Kognitiv-Heatmap
 
 Abb. 5 zeigt die Themen-×-Kognitiv-Heatmap, die Themen (Zeilen) und kognitive Stufen (Spalten) kombiniert. Zellen kodieren Leistung und Beweisvolumen: Unbeantwortete Items zählen als 0, und jede Zelle berichtet beantwortet/gesamt. Dies entmutigt strategisches Überspringen und hilft Lernenden zu lokalisieren, ob Schwierigkeiten themenspezifisch oder stufenspezifisch sind.
 
-![Abb. 5: Themen-×-Kognitiv-Heatmap (Beispiel).](topic_cognition_heatmap.svg)
+![](images/topic_cognition_heatmap.png)
+
+Abb. 5: Themen-×-Kognitiv-Heatmap (Beispiel).
 
 Zusammen sind die Ansichten orthogonal. Themenleistung zeigt, was abgedeckt wurde; das Radar zeigt, wie der Lernende über Stufen hinweg abschneidet; die Heatmap verknüpft beide; und Konzeptbeherrschung zoomt in feinkörnige Ziele. Triangulation reduziert blinde Flecken und kann strategische Verhaltensweisen wie das Überspringen höherstufiger Items offenbaren.
 
-Abb. 6 zeigt eine exemplarische UI‑Ansicht der Plattform.
+![](images/screenshot_mc-test-app.png)
 
-![Abb. 6: Exemplarische UI‑Ansicht von MC‑Test.](ui_example.png)
+Abb. 6: Exemplarische UI‑Ansicht von MC‑Test.
 
 ### 4.5 Feedback und Erklärungen
 
@@ -186,7 +198,9 @@ Um die Benutzererfahrung (UX) und technische Akzeptanz der Plattform zu validier
 
 Nach der Adjektiv‑Bewertungsskala von Bangor et al. [15] liegt der mittlere SUS‑Score von MC‑Test in der Kategorie „OK“, was auf gute Akzeptanz hindeutet. Abb. 7 zeigt individuelle Scores im Verhältnis zu Akzeptabilitätsbändern („Acceptable“, „Good“, „Excellent“) und weist eine linksschief verteilte Verteilung aus. Die meisten Teilnehmenden bewerteten das System als einfach zu bedienen, mit einigen niedrigeren Ausreißern.
 
-![Abb. 7: SUS-Score-Verteilung der Pilotstudie.](sus_score_distribution.svg)
+![](images/sus_score_distribution.png)
+
+Abb. 7: SUS-Score-Verteilung der Pilotstudie.
 
 Wichtig ist, dass SUS primär wahrgenommene Usability erfasst; es etabliert keine Lernvorteile oder Verhaltenseffekte. Diese Aspekte werden in nachfolgenden Studien unter Verwendung logbasierter Schnellraten‑Indikatoren, Lernendenfeedback zu Fairness und Autonomie sowie, soweit möglich, Lernergebnismaßen untersucht.
 
