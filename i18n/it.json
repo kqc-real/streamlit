@@ -1085,7 +1085,7 @@
         "export_testbericht_no_config": "Errore: manca app_config.",
         "export_testbericht_download": "💾 Scarica PDF report",
         "export_testbericht_error": "Errore: {error}",
-        "confidence_header": "🧭 Fiducia e calibrazione",
+        "confidence_header": "🧭 Sensazione vs. risultato",
         "confidence_description": "Confronta la tua sensazione con il risultato.",
         "confidence_total": "Registrate: {count} risposte con autovalutazione.",
         "confidence_metric_sure_correct": "Sicuro e corretto",
@@ -1098,6 +1098,11 @@
         "confidence_label_wrong": "Sbagliato",
         "confidence_overconfidence": "Eccesso di fiducia: {count}× sicuro ma sbagliato.",
         "confidence_underconfidence": "Sottostima: {count}× incerto ma corretto.",
+        "confidence_overconfidence_hint": "Eccesso di fiducia: {percent}% delle valutazioni erano sicure ma sbagliate. Consiglio: prenditi un po’ più di tempo per verificare.",
+        "confidence_underconfidence_hint": "Sottostima: {percent}% delle valutazioni erano incerte ma corrette. Consiglio: fidati un po’ di più del tuo sapere.",
+        "confidence_calibration_good": "La tua sensazione coincide bene: {percent}%.",
+        "confidence_calibration_low": "La tua sensazione coincide poco: {percent}%.",
+        "confidence_totals_caption": "Totali: Sicuro {sure} | Incerto {unsure} | Corretto {correct} | Sbagliato {wrong}",
         "summary_message": {
             "success": {
                 "top_performance": "✅ Eccezionale! Livello top.",

@@ -1088,7 +1088,7 @@
         "export_testbericht_no_config": "错误: 缺少 app_config。",
         "export_testbericht_download": "💾 下载报告 PDF",
         "export_testbericht_error": "错误: {error}",
-        "confidence_header": "🧭 自我把握与校准",
+        "confidence_header": "🧭 感觉 vs. 结果",
         "confidence_description": "比较你的把握感与结果。",
         "confidence_total": "已记录：{count} 次带有把握感的回答。",
         "confidence_metric_sure_correct": "确定且正确",
@@ -1101,6 +1101,11 @@
         "confidence_label_wrong": "错误",
         "confidence_overconfidence": "过度自信：{count} 次“确定”但错误。",
         "confidence_underconfidence": "不自信：{count} 次“不确定”但正确。",
+        "confidence_overconfidence_hint": "过度自信：{percent}% 的判断是“确定但错误”。建议：多花一点时间检查。",
+        "confidence_underconfidence_hint": "不自信：{percent}% 的判断是“不确定但正确”。建议：多相信自己的知识。",
+        "confidence_calibration_good": "你的感觉匹配得很好：{percent}%。",
+        "confidence_calibration_low": "你的感觉匹配较少：{percent}%。",
+        "confidence_totals_caption": "合计：确定 {sure} | 不确定 {unsure} | 正确 {correct} | 错误 {wrong}",
         "summary_message": {
             "success": {
                 "top_performance": "✅ 杰出！顶尖水平。",

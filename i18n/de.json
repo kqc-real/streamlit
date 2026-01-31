@@ -1015,7 +1015,7 @@
         "export_testbericht_no_config": "Fehler: app_config fehlt.",
         "export_testbericht_download": "💾 Testbericht-PDF herunterladen",
         "export_testbericht_error": "Fehler: {error}",
-        "confidence_header": "🧭 Selbsteinschätzung & Kalibrierung",
+        "confidence_header": "🧭 Gefühl vs. Ergebnis",
         "confidence_description": "Vergleicht dein Gefühl mit dem Ergebnis.",
         "confidence_total": "Erfasst: {count} Antworten mit Selbsteinschätzung.",
         "confidence_metric_sure_correct": "Sicher & richtig",
@@ -1028,6 +1028,11 @@
         "confidence_label_wrong": "Falsch",
         "confidence_overconfidence": "Übervertrauen: {count}× sicher, aber falsch.",
         "confidence_underconfidence": "Untervertrauen: {count}× unsicher, aber richtig.",
+        "confidence_overconfidence_hint": "Übervertrauen: {percent}% deiner Einschätzungen waren sicher, aber falsch. Tipp: nimm dir kurz mehr Prüfzeit.",
+        "confidence_underconfidence_hint": "Untervertrauen: {percent}% deiner Einschätzungen waren unsicher, aber richtig. Tipp: vertraue deinem Wissen etwas mehr.",
+        "confidence_calibration_good": "Einschätzung passt gut: {percent}%.",
+        "confidence_calibration_low": "Einschätzung passt selten: {percent}%.",
+        "confidence_totals_caption": "Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
         "summary_message": {
             "success": {
                 "top_performance": "✅ Stark! Echte Top-Performance.",

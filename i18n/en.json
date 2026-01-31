@@ -1083,7 +1083,7 @@
         "export_testbericht_no_config": "Error: app_config missing.",
         "export_testbericht_download": "💾 Download report PDF",
         "export_testbericht_error": "Error: {error}",
-        "confidence_header": "🧭 Confidence & Calibration",
+        "confidence_header": "🧭 Feeling vs. Result",
         "confidence_description": "Compares your feeling with the outcome.",
         "confidence_total": "Captured: {count} answers with confidence.",
         "confidence_metric_sure_correct": "Sure & correct",
@@ -1096,6 +1096,11 @@
         "confidence_label_wrong": "Wrong",
         "confidence_overconfidence": "Overconfidence: {count}× sure but wrong.",
         "confidence_underconfidence": "Underconfidence: {count}× unsure but correct.",
+        "confidence_overconfidence_hint": "Overconfidence: {percent}% of your ratings were sure but wrong. Tip: take a little more checking time.",
+        "confidence_underconfidence_hint": "Underconfidence: {percent}% of your ratings were unsure but correct. Tip: trust your knowledge a bit more.",
+        "confidence_calibration_good": "Your feeling fits well: {percent}%.",
+        "confidence_calibration_low": "Your feeling fits rarely: {percent}%.",
+        "confidence_totals_caption": "Totals: Sure {sure} | Unsure {unsure} | Correct {correct} | Wrong {wrong}",
         "summary_message": {
             "success": {
                 "top_performance": "✅ Outstanding! Top tier.",

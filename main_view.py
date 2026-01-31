@@ -7014,7 +7014,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
         ]
         _choose_and_render(messages, st.error)
 
-    # --- Selbsteinschätzung / Kalibrierung ---
+    # --- Selbsteinschätzung / Gefühl vs. Ergebnis ---
     try:
         from database import get_answers_for_session
         session_id = st.session_state.get("session_id")
@@ -7055,7 +7055,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
     total_confidence = sum(confidence_counts.values())
     if total_confidence > 0:
-        st.subheader(_summary_text("confidence_header", default="🧭 Selbsteinschätzung & Kalibrierung"))
+        st.subheader(_summary_text("confidence_header", default="🧭 Gefühl vs. Ergebnis"))
         st.caption(_summary_text("confidence_description", default="Vergleicht dein Gefühl mit dem Ergebnis."))
         st.caption(
             _summary_text("confidence_total", default="Erfasst: {count} Antworten mit Selbsteinschätzung.").format(
@@ -7071,14 +7071,16 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             import plotly.graph_objects as go
 
             # Positive = calibrated (sure+correct, unsure+wrong), negative = miscalibrated
+            counts = [
+                [confidence_counts["sure_correct"], confidence_counts["sure_wrong"]],
+                [confidence_counts["unsure_correct"], confidence_counts["unsure_wrong"]],
+            ]
             z = [
                 [confidence_counts["sure_correct"], -confidence_counts["sure_wrong"]],
                 [-confidence_counts["unsure_correct"], confidence_counts["unsure_wrong"]],
             ]
-            text_vals = [
-                [str(confidence_counts["sure_correct"]), str(confidence_counts["sure_wrong"])],
-                [str(confidence_counts["unsure_correct"]), str(confidence_counts["unsure_wrong"])],
-            ]
+            text_vals = [[str(v) for v in row] for row in counts]
+            pct_vals = [[(v / total_confidence * 100.0) for v in row] for row in counts]
 
             max_abs = max(1, max(abs(v) for row in z for v in row))
             heatmap = go.Heatmap(
@@ -7086,6 +7088,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 x=[correct_label, wrong_label],
                 y=[sure_label, unsure_label],
                 text=text_vals,
+                customdata=pct_vals,
                 texttemplate="%{text}",
                 textfont={"color": "white"},
                 colorscale=[
@@ -7096,7 +7099,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 zmin=-max_abs,
                 zmax=max_abs,
                 showscale=False,
-                hovertemplate="%{y} / %{x}: %{text}<extra></extra>",
+                hovertemplate="%{y} / %{x}: %{text} (%{customdata:.0f}%)<extra></extra>",
             )
             fig = go.Figure(data=[heatmap])
             fig.update_layout(
@@ -7119,18 +7122,63 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             except Exception:
                 pass
 
-        if confidence_counts["sure_wrong"] > 0:
-            st.warning(
-                _summary_text("confidence_overconfidence", default="Übervertrauen: {count}× sicher, aber falsch.").format(
-                    count=confidence_counts["sure_wrong"]
+        try:
+            sure_total = confidence_counts["sure_correct"] + confidence_counts["sure_wrong"]
+            unsure_total = confidence_counts["unsure_correct"] + confidence_counts["unsure_wrong"]
+            correct_total = confidence_counts["sure_correct"] + confidence_counts["unsure_correct"]
+            wrong_total = confidence_counts["sure_wrong"] + confidence_counts["unsure_wrong"]
+            st.caption(
+                _summary_text(
+                    "confidence_totals_caption",
+                    default="Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
+                ).format(
+                    sure=sure_total,
+                    unsure=unsure_total,
+                    correct=correct_total,
+                    wrong=wrong_total,
                 )
             )
-        if confidence_counts["unsure_correct"] > 0:
-            st.info(
-                _summary_text("confidence_underconfidence", default="Untervertrauen: {count}× unsicher, aber richtig.").format(
-                    count=confidence_counts["unsure_correct"]
-                )
+        except Exception:
+            pass
+
+        try:
+            overconfidence_pct = confidence_counts["sure_wrong"] / total_confidence if total_confidence else 0.0
+            underconfidence_pct = confidence_counts["unsure_correct"] / total_confidence if total_confidence else 0.0
+            calibrated_pct = (
+                (confidence_counts["sure_correct"] + confidence_counts["unsure_wrong"]) / total_confidence
+                if total_confidence else 0.0
             )
+            hint_threshold = 0.2
+            if overconfidence_pct >= hint_threshold:
+                st.warning(
+                    _summary_text(
+                        "confidence_overconfidence_hint",
+                        default="Übervertrauen: {percent}% deiner Einschätzungen waren sicher, aber falsch. Tipp: nimm dir kurz mehr Prüfzeit.",
+                    ).format(percent=int(round(overconfidence_pct * 100)))
+                )
+            if underconfidence_pct >= hint_threshold:
+                st.info(
+                    _summary_text(
+                        "confidence_underconfidence_hint",
+                        default="Untervertrauen: {percent}% deiner Einschätzungen waren unsicher, aber richtig. Tipp: vertraue deinem Wissen etwas mehr.",
+                    ).format(percent=int(round(underconfidence_pct * 100)))
+                )
+            if calibrated_pct >= 0.8:
+                st.success(
+                    _summary_text(
+                        "confidence_calibration_good",
+                        default="Einschätzung passt gut: {percent}%.",
+                    ).format(percent=int(round(calibrated_pct * 100)))
+                )
+            elif calibrated_pct <= 0.5:
+                st.warning(
+                    _summary_text(
+                        "confidence_calibration_low",
+                        default="Einschätzung passt selten: {percent}%.",
+                    ).format(percent=int(round(calibrated_pct * 100)))
+                )
+        except Exception:
+            pass
 
     # --- Performance-Analyse pro Thema ---
     st.subheader(translate_ui("summary.subheader.topic_performance", default="Deine Leistung nach Themen"))
