@@ -78,7 +78,7 @@ Der Kern ist ein striktes JSON-Datenmodell, dessen Schema-Auszug in Abb. 1 gezei
 - `weight` (1–3) und `cognitive_level` (Reproduktion, Anwendung, Analyse)
 - `mini_glossary`: Kontextuelle Definitionen zur Unterstützung von Just-in-Time-Lernen
 - `rationales`: Detaillierte Erklärungen, warum jede Option korrekt oder inkorrekt ist
-- Antwort‑Selbsteinschätzung in den Kategorien sicher und unsicher zur metakognitiven Analyse auf Itemebene
+- Antwort‑Selbsteinschätzung vor der Abgabe in den Kategorien sicher und unsicher zur metakognitiven Analyse und Kalibrierung auf Itemebene
 
 ### 3.4 Taxonomie kognitiver Stufen für KI-generierte MCQs
 
@@ -126,6 +126,8 @@ Zusammen sind die Ansichten orthogonal. Themenleistung zeigt, was abgedeckt wurd
 
 Für komplexe Items werden Erklärungen um schrittweise Argumentation erweitert. Zur Unterstützung des Vokabularewerbs wird ein zweistufiges Glossarkonzept verwendet: ein Mini-Glossar-Feld für sofortige Hilfe und ein zusammenfassendes PDF-Glossar für die Nachbetrachtung.
 
+Zusätzlich können Lernziele und der Testbericht als PDF exportiert werden. Diese Artefakte bündeln Ergebnisse, Begründungen und Lernziele und dienen der nachgelagerten Reflexion und Planung der nächsten Lernschritte.
+
 ### 4.6 Pädagogische Kontrolle: Wartezeiten und Panikmodus
 
 MC-Test steuert die Taktung, um Lesen und Reflexion zu fördern und impulsive Antworten abzuschrecken. Die Taktungsinterventionen werden als Designhypothesen behandelt und ihre Verhaltenseffekte empirisch evaluiert, statt eine erzwungene tiefe Verarbeitung zu behaupten.
@@ -136,7 +138,7 @@ Das System überwacht die verbleibende Zeit pro Frage. Fällt sie unter einen Sc
 
 ### 4.7 Itemdiagnostik über Konfidenz-Matrix
 
-Ergänzend zu lernendenzentrierten Dashboards stellt MC-Test eine instruktorenseitige Itemdiagnostik bereit. Pro Frage kann eine kumulierte Konfidenz‑Matrix angezeigt werden, die die Kategorien sicher und unsicher mit richtig und falsch kombiniert. Die Darstellung macht potenziell problematische Items sichtbar. Hohe Anteile der Kategorie sicher und falsch weisen auf Missverständnisse oder fehlerhafte Lösungsschlüssel hin. Die Aggregation schließt Autoreneinschätzungen aus, um Verzerrungen zu reduzieren. Der Zugriff ist rollenbasiert. Admins sehen die Matrix stets. Autorinnen und Autoren temporärer Sets sehen sie nur in der aktiven Session oder, bei reserviertem Pseudonym, innerhalb der Löschfrist.
+Ergänzend zu lernendenzentrierten Dashboards stellt MC-Test eine instruktorenseitige Itemdiagnostik bereit. Pro Frage kann eine kumulierte Konfidenz‑Matrix angezeigt werden, die die Kategorien sicher und unsicher mit richtig und falsch kombiniert. Die Darstellung macht potenziell problematische Items sichtbar und unterstützt die Diagnose von Fehlkalibrierung, etwa wenn hohe Anteile sicher und falsch auf Missverständnisse oder fehlerhafte Lösungsschlüssel hinweisen. Die Aggregation schließt Autoreneinschätzungen aus, um Verzerrungen zu reduzieren. Der Zugriff ist rollenbasiert. Admins sehen die Matrix stets. Autorinnen und Autoren temporärer Sets sehen sie nur in der aktiven Session oder, bei reserviertem Pseudonym, innerhalb der Löschfrist.
 
 ## 5. IMPLEMENTIERUNG UND MIGRATION ZU LOKALEM LLM-BACKEND
 
