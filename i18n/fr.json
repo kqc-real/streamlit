@@ -906,6 +906,15 @@
                 "quota": "Quota"
             }
         },
+        "confidence": {
+            "title": "Impression vs. résultat",
+            "caption": "À quel point ton impression correspond aux résultats.",
+            "sure": "Sûr",
+            "unsure": "Peu sûr",
+            "correct": "Correct",
+            "wrong": "Faux",
+            "totals": "Totaux : Sûr {sure} | Peu sûr {unsure} | Correct {correct} | Faux {wrong}"
+        },
         "score_label": "sur {n} points",
         "rank_text": " • Rang {rank}",
         "rank_label": "Classement ({date})",

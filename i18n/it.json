@@ -906,6 +906,15 @@
                 "quota": "Quota"
             }
         },
+        "confidence": {
+            "title": "Sensazione vs. risultato",
+            "caption": "Quanto la tua sensazione coincide con i risultati.",
+            "sure": "Sicuro",
+            "unsure": "Insicuro",
+            "correct": "Corretto",
+            "wrong": "Errato",
+            "totals": "Totali: Sicuro {sure} | Insicuro {unsure} | Corretto {correct} | Errato {wrong}"
+        },
         "score_label": "su {n} punti",
         "rank_text": " • Rango {rank}",
         "rank_label": "Classifica ({date})",

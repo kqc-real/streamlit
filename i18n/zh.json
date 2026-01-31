@@ -909,6 +909,15 @@
                 "quota": "配额"
             }
         },
+        "confidence": {
+            "title": "感觉 vs. 结果",
+            "caption": "你的感觉与结果的吻合度。",
+            "sure": "确信",
+            "unsure": "不确定",
+            "correct": "正确",
+            "wrong": "错误",
+            "totals": "合计：确信 {sure} | 不确定 {unsure} | 正确 {correct} | 错误 {wrong}"
+        },
         "score_label": "{n} 分",
         "rank_text": " • 排名 {rank}",
         "rank_label": "排名 ({date})",

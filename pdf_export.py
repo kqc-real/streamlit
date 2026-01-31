@@ -1799,6 +1799,109 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             richtige += 1
     unbeantwortet = sum(1 for ant in antworten if ant is None)
     falsche = len(questions) - richtige - unbeantwortet
+
+    # --- Confidence / Gefühl vs. Ergebnis (optional) ---
+    confidence_html = ""
+    try:
+        from database import get_answers_for_session
+    except Exception:
+        get_answers_for_session = None  # type: ignore[assignment]
+
+    confidence_counts = {
+        "sure_correct": 0,
+        "sure_wrong": 0,
+        "unsure_correct": 0,
+        "unsure_wrong": 0,
+    }
+    try:
+        session_id = st.session_state.get("session_id")
+        if session_id and callable(get_answers_for_session):
+            answers = get_answers_for_session(int(session_id))
+            for row in answers:
+                conf = row.get("confidence") if isinstance(row, dict) else None
+                if not conf:
+                    continue
+                conf_norm = str(conf).strip().lower()
+                if conf_norm not in ("sure", "unsure"):
+                    continue
+                is_correct = row.get("is_correct") if isinstance(row, dict) else None
+                correct = bool(is_correct)
+                if conf_norm == "sure":
+                    if correct:
+                        confidence_counts["sure_correct"] += 1
+                    else:
+                        confidence_counts["sure_wrong"] += 1
+                else:
+                    if correct:
+                        confidence_counts["unsure_correct"] += 1
+                    else:
+                        confidence_counts["unsure_wrong"] += 1
+    except Exception:
+        pass
+
+    total_confidence = sum(confidence_counts.values())
+    if total_confidence > 0:
+        conf_title = translate_ui("pdf.confidence.title", default="Gefühl vs. Ergebnis")
+        conf_caption = translate_ui("pdf.confidence.caption", default="So gut passt dein Gefühl zu den Ergebnissen.")
+        sure_label = translate_ui("pdf.confidence.sure", default="Sicher")
+        unsure_label = translate_ui("pdf.confidence.unsure", default="Unsicher")
+        correct_label = translate_ui("pdf.confidence.correct", default="Richtig")
+        wrong_label = translate_ui("pdf.confidence.wrong", default="Falsch")
+        totals_tpl = translate_ui(
+            "pdf.confidence.totals",
+            default="Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
+        )
+        sure_total = confidence_counts["sure_correct"] + confidence_counts["sure_wrong"]
+        unsure_total = confidence_counts["unsure_correct"] + confidence_counts["unsure_wrong"]
+        correct_total = confidence_counts["sure_correct"] + confidence_counts["unsure_correct"]
+        wrong_total = confidence_counts["sure_wrong"] + confidence_counts["unsure_wrong"]
+        totals_text = totals_tpl.format(
+            sure=sure_total,
+            unsure=unsure_total,
+            correct=correct_total,
+            wrong=wrong_total,
+        )
+
+        def _cell(count: int, good: bool) -> tuple[str, str]:
+            pct = int(round(count / total_confidence * 100.0)) if total_confidence else 0
+            cls = "good" if good else "bad"
+            if count == 0:
+                cls = "neutral"
+            return f"{count} ({pct}%)", cls
+
+        sc_text, sc_cls = _cell(confidence_counts["sure_correct"], True)
+        sw_text, sw_cls = _cell(confidence_counts["sure_wrong"], False)
+        uc_text, uc_cls = _cell(confidence_counts["unsure_correct"], False)
+        uw_text, uw_cls = _cell(confidence_counts["unsure_wrong"], True)
+
+        confidence_html = f'''
+            <div class="confidence-box">
+                <h3>{_html.escape(conf_title)}</h3>
+                <div class="confidence-caption">{_html.escape(conf_caption)}</div>
+                <table class="confidence-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>{_html.escape(correct_label)}</th>
+                            <th>{_html.escape(wrong_label)}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>{_html.escape(sure_label)}</th>
+                            <td class="confidence-cell {sc_cls}">{_html.escape(sc_text)}</td>
+                            <td class="confidence-cell {sw_cls}">{_html.escape(sw_text)}</td>
+                        </tr>
+                        <tr>
+                            <th>{_html.escape(unsure_label)}</th>
+                            <td class="confidence-cell {uc_cls}">{_html.escape(uc_text)}</td>
+                            <td class="confidence-cell {uw_cls}">{_html.escape(uw_text)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="confidence-totals">{_html.escape(totals_text)}</div>
+            </div>
+        '''
     
     # Bearbeitungszeit berechnen
     start_time = st.session_state.get("test_start_time")
@@ -2775,6 +2878,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 {rank_html}
             </div>
         </div>
+
+        {confidence_html}
         
         {topics_chart_html}
         {weak_topics_html}
@@ -3072,6 +3177,71 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 font-size: 9pt;
                 color: #6c757d;
                 margin-top: 5px;
+            }}
+
+            /* Confidence Box */
+            .confidence-box {{
+                background: #f8fafc;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 18px 22px;
+                margin: 18px 0 24px 0;
+                page-break-inside: avoid;
+            }}
+            .confidence-box h3 {{
+                margin: 0 0 6px 0;
+                font-size: 12pt;
+                color: #1f2937;
+                font-weight: 600;
+            }}
+            .confidence-caption {{
+                font-size: 9.5pt;
+                color: #6b7280;
+                margin-bottom: 10px;
+            }}
+            .confidence-table {{
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 10pt;
+                background: white;
+                border: 1px solid #e2e8f0;
+            }}
+            .confidence-table thead th {{
+                background: #eef2f7;
+                color: #1f2937;
+                font-weight: 600;
+                padding: 6px 10px;
+                text-align: center;
+            }}
+            .confidence-table tbody th {{
+                background: #f8fafc;
+                font-weight: 600;
+                padding: 6px 10px;
+                text-align: left;
+            }}
+            .confidence-table tbody td {{
+                padding: 6px 10px;
+                text-align: center;
+            }}
+            .confidence-cell {{
+                font-weight: 600;
+            }}
+            .confidence-cell.good {{
+                background: #ecfdf3;
+                color: #15803d;
+            }}
+            .confidence-cell.bad {{
+                background: #fef2f2;
+                color: #b91c1c;
+            }}
+            .confidence-cell.neutral {{
+                background: #f1f5f9;
+                color: #475569;
+            }}
+            .confidence-totals {{
+                margin-top: 8px;
+                font-size: 9pt;
+                color: #4b5563;
             }}
 
             /* Topic stacked-bar chart */

@@ -844,6 +844,15 @@
                 "quota": "Quote"
             }
         },
+        "confidence": {
+            "title": "Gefühl vs. Ergebnis",
+            "caption": "So gut passt dein Gefühl zu den Ergebnissen.",
+            "sure": "Sicher",
+            "unsure": "Unsicher",
+            "correct": "Richtig",
+            "wrong": "Falsch",
+            "totals": "Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}"
+        },
         "score_label": "von {n} Punkten",
         "rank_text": " • Rang {rank}",
         "rank_label": "Ranking ({date})",

@@ -905,6 +905,15 @@
                 "quota": "Quota"
             }
         },
+        "confidence": {
+            "title": "Feeling vs. result",
+            "caption": "How well your feeling matches the results.",
+            "sure": "Sure",
+            "unsure": "Unsure",
+            "correct": "Correct",
+            "wrong": "Wrong",
+            "totals": "Totals: Sure {sure} | Unsure {unsure} | Correct {correct} | Wrong {wrong}"
+        },
         "score_label": "of {n} points",
         "rank_text": " • Rank {rank}",
         "rank_label": "Ranking ({date})",
