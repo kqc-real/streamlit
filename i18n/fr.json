@@ -913,7 +913,11 @@
             "unsure": "Peu sûr",
             "correct": "Correct",
             "wrong": "Faux",
-            "totals": "Totaux : Sûr {sure} | Peu sûr {unsure} | Correct {correct} | Faux {wrong}"
+            "totals": "Totaux : Sûr {sure} | Peu sûr {unsure} | Correct {correct} | Faux {wrong}",
+            "hint_overconfidence": "Surconfiance : {percent}% de tes jugements étaient sûrs mais faux. Conseil : prends un peu plus de temps pour vérifier.",
+            "hint_underconfidence": "Sous‑confiance : {percent}% de tes jugements étaient peu sûrs mais corrects. Conseil : fais un peu plus confiance à ton savoir.",
+            "hint_calibration_good": "Ton impression correspond bien : {percent}%.",
+            "hint_calibration_low": "Ton impression correspond rarement : {percent}%."
         },
         "score_label": "sur {n} points",
         "rank_text": " • Rang {rank}",

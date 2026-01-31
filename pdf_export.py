@@ -1874,6 +1874,56 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         uc_text, uc_cls = _cell(confidence_counts["unsure_correct"], False)
         uw_text, uw_cls = _cell(confidence_counts["unsure_wrong"], True)
 
+        hints_html = ""
+        try:
+            overconfidence_pct = confidence_counts["sure_wrong"] / total_confidence if total_confidence else 0.0
+            underconfidence_pct = confidence_counts["unsure_correct"] / total_confidence if total_confidence else 0.0
+            calibrated_pct = (
+                (confidence_counts["sure_correct"] + confidence_counts["unsure_wrong"]) / total_confidence
+                if total_confidence else 0.0
+            )
+            hint_threshold = 0.2
+            hints: list[tuple[str, str]] = []
+            if overconfidence_pct >= hint_threshold:
+                hints.append((
+                    "warn",
+                    translate_ui(
+                        "pdf.confidence.hint_overconfidence",
+                        default="Übervertrauen: {percent}% deiner Einschätzungen waren sicher, aber falsch. Tipp: nimm dir kurz mehr Prüfzeit.",
+                    ).format(percent=int(round(overconfidence_pct * 100))),
+                ))
+            if underconfidence_pct >= hint_threshold:
+                hints.append((
+                    "info",
+                    translate_ui(
+                        "pdf.confidence.hint_underconfidence",
+                        default="Untervertrauen: {percent}% deiner Einschätzungen waren unsicher, aber richtig. Tipp: vertraue deinem Wissen etwas mehr.",
+                    ).format(percent=int(round(underconfidence_pct * 100))),
+                ))
+            if calibrated_pct >= 0.8:
+                hints.append((
+                    "good",
+                    translate_ui(
+                        "pdf.confidence.hint_calibration_good",
+                        default="Einschätzung passt gut: {percent}%.",
+                    ).format(percent=int(round(calibrated_pct * 100))),
+                ))
+            elif calibrated_pct <= 0.5:
+                hints.append((
+                    "warn",
+                    translate_ui(
+                        "pdf.confidence.hint_calibration_low",
+                        default="Einschätzung passt selten: {percent}%.",
+                    ).format(percent=int(round(calibrated_pct * 100))),
+                ))
+            if hints:
+                hints_html = '<ul class="confidence-hints">'
+                for cls, text in hints:
+                    hints_html += f'<li class="confidence-hint {cls}">{_html.escape(text)}</li>'
+                hints_html += '</ul>'
+        except Exception:
+            hints_html = ""
+
         confidence_html = f'''
             <div class="confidence-box">
                 <h3>{_html.escape(conf_title)}</h3>
@@ -1900,6 +1950,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     </tbody>
                 </table>
                 <div class="confidence-totals">{_html.escape(totals_text)}</div>
+                {hints_html}
             </div>
         '''
     
@@ -3242,6 +3293,24 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 margin-top: 8px;
                 font-size: 9pt;
                 color: #4b5563;
+            }}
+            .confidence-hints {{
+                margin: 10px 0 0 0;
+                padding-left: 18px;
+                font-size: 9.5pt;
+                color: #374151;
+            }}
+            .confidence-hint {{
+                margin: 4px 0;
+            }}
+            .confidence-hint.good {{
+                color: #15803d;
+            }}
+            .confidence-hint.warn {{
+                color: #b45309;
+            }}
+            .confidence-hint.info {{
+                color: #2563eb;
             }}
 
             /* Topic stacked-bar chart */

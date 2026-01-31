@@ -913,7 +913,11 @@
             "unsure": "Inseguro",
             "correct": "Correcto",
             "wrong": "Incorrecto",
-            "totals": "Totales: Seguro {sure} | Inseguro {unsure} | Correcto {correct} | Incorrecto {wrong}"
+            "totals": "Totales: Seguro {sure} | Inseguro {unsure} | Correcto {correct} | Incorrecto {wrong}",
+            "hint_overconfidence": "Exceso de confianza: {percent}% de tus juicios fueron seguros pero incorrectos. Consejo: tómate un poco más de tiempo para comprobar.",
+            "hint_underconfidence": "Falta de confianza: {percent}% de tus juicios fueron inseguros pero correctos. Consejo: confía un poco más en tu conocimiento.",
+            "hint_calibration_good": "Tu sensación coincide bien: {percent}%.",
+            "hint_calibration_low": "Tu sensación coincide pocas veces: {percent}%."
         },
         "score_label": "de {n} puntos",
         "rank_text": " • Ranking {rank}",

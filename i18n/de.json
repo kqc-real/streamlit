@@ -851,7 +851,11 @@
             "unsure": "Unsicher",
             "correct": "Richtig",
             "wrong": "Falsch",
-            "totals": "Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}"
+            "totals": "Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
+            "hint_overconfidence": "Übervertrauen: {percent}% deiner Einschätzungen waren sicher, aber falsch. Tipp: nimm dir kurz mehr Prüfzeit.",
+            "hint_underconfidence": "Untervertrauen: {percent}% deiner Einschätzungen waren unsicher, aber richtig. Tipp: vertraue deinem Wissen etwas mehr.",
+            "hint_calibration_good": "Einschätzung passt gut: {percent}%.",
+            "hint_calibration_low": "Einschätzung passt selten: {percent}%."
         },
         "score_label": "von {n} Punkten",
         "rank_text": " • Rang {rank}",

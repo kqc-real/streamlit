@@ -912,7 +912,11 @@
             "unsure": "Unsure",
             "correct": "Correct",
             "wrong": "Wrong",
-            "totals": "Totals: Sure {sure} | Unsure {unsure} | Correct {correct} | Wrong {wrong}"
+            "totals": "Totals: Sure {sure} | Unsure {unsure} | Correct {correct} | Wrong {wrong}",
+            "hint_overconfidence": "Overconfidence: {percent}% of your judgments were sure but wrong. Tip: take a bit more checking time.",
+            "hint_underconfidence": "Underconfidence: {percent}% of your judgments were unsure but correct. Tip: trust your knowledge a bit more.",
+            "hint_calibration_good": "Your feeling matches well: {percent}%.",
+            "hint_calibration_low": "Your feeling rarely matches: {percent}%."
         },
         "score_label": "of {n} points",
         "rank_text": " • Rank {rank}",

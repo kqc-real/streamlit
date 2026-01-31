@@ -916,7 +916,11 @@
             "unsure": "不确定",
             "correct": "正确",
             "wrong": "错误",
-            "totals": "合计：确信 {sure} | 不确定 {unsure} | 正确 {correct} | 错误 {wrong}"
+            "totals": "合计：确信 {sure} | 不确定 {unsure} | 正确 {correct} | 错误 {wrong}",
+            "hint_overconfidence": "过度自信：{percent}% 的判断是确信但错误。建议：多花一点时间核对。",
+            "hint_underconfidence": "信心不足：{percent}% 的判断是不确定但正确。建议：更相信你的知识。",
+            "hint_calibration_good": "感觉很匹配：{percent}%。",
+            "hint_calibration_low": "感觉匹配较少：{percent}%。"
         },
         "score_label": "{n} 分",
         "rank_text": " • 排名 {rank}",
