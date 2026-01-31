@@ -60,7 +60,7 @@ MC-Test wurde für formative Bewertung in MINT-Kursen konzipiert. Zentrale Anfor
 - **Kognitive Transparenz:** Items müssen nach kognitiver Stufe klassifiziert sein.
 - **Umsetzbares Feedback:** Erklärungen müssen an Lernziele anknüpfen.
 - **Prüfungsbereitschaft:** Unterstützung für Zeitmanagementfähigkeiten.
-- **Didaktische Kontrolle:** Lehrende müssen Kontrolle über Itemqualität behalten.
+- **Didaktische Kontrolle:** Lehrende müssen Kontrolle über Itemqualität behalten, inkl. itemdiagnostischer Hinweise (z. B. Konfidenz-Muster), um missverständliche Items gezielt zu überarbeiten.
 
 ### 3.2 Systemarchitektur
 
@@ -78,6 +78,7 @@ Der Kern ist ein striktes JSON-Datenmodell, dessen Schema-Auszug in Abb. 1 gezei
 - `weight` (1-3) und `cognitive_level` (Reproduktion, Anwendung, Analyse)
 - `mini_glossary`: Kontextuelle Definitionen zur Unterstützung von Just-in-Time-Lernen
 - `rationales`: Detaillierte Erklärungen, warum jede Option korrekt oder inkorrekt ist
+- **Antwort-Selbsteinschätzung (sicher/unsicher)** zur metakognitiven Analyse auf Itemebene
 
 ### 3.4 Taxonomie kognitiver Stufen für KI-generierte MCQs
 
@@ -133,6 +134,10 @@ Die pädagogische Kontrollschicht bietet drei Mechanismen. **Pre-Answer-Wartezei
 
 Das System überwacht die verbleibende Zeit pro verbleibende Frage. Fällt sie unter einen Schwellenwert (z. B. <15 s pro Frage), überschreibt der Panikmodus Wartezeiten, sodass Lernende den Versuch beenden können. Da feste Taktung manche Lernende benachteiligen kann (z. B. Nutzer von Hilfstechnologien oder Studierende mit Nachteilsausgleich), sind alle Wartezeiten pro Kurs konfigurierbar und können deaktiviert oder angepasst werden. Kurz gesagt: Der Panikmodus priorisiert Fertigstellung und Fairness bei hohem Zeitdruck.
 
+### 4.7 Itemdiagnostik über Konfidenz-Matrix
+
+Neben lernendenzentrierten Dashboards unterstützt MC-Test eine instruktorenseitige Itemdiagnostik: Für jede Frage kann eine kumulierte Konfidenz-Matrix (sicher/unsicher × richtig/falsch) angezeigt werden. So werden problematische Items sichtbar (z. B. hohe „sicher & falsch“-Anteile deuten auf Missverständnisse oder fehlerhafte Schlüssel). Die Aggregation schließt Autoreneinschätzungen aus, um Verzerrungen zu vermeiden. Zugriff ist rollenbasiert: Admins sehen die Matrix stets; Autoren temporärer Sets nur in der aktiven Session bzw. bei reserviertem Pseudonym innerhalb der Löschfrist.
+
 ## 5. IMPLEMENTIERUNG UND MIGRATION ZU LOKALEM LLM-BACKEND
 
 Die Plattform wurde von kommerziellen Cloud-APIs zu einem institutionellen Server mit lokalem LLM-Backend (Ollama) migriert, um Datenschutz und Nachhaltigkeit zu adressieren.
@@ -142,6 +147,7 @@ Die Plattform wurde von kommerziellen Cloud-APIs zu einem institutionellen Serve
 - **Nachhaltigkeit:** On-Premises-Hosting mindert die Kosten und Rate-Limits kommerzieller API-Nutzung.
 - **Datenminimierung und Logging:** Wir speichern nur, was wir für Bewertung und Analysen benötigen (Antworten, Zeitstempel, aggregierte Punktzahlen) plus minimale operative Metadaten und Sicherheits-Audit-Logs. Prompts vermeiden persönliche Identifikatoren, und das lokale Deployment hält sowohl Studierendendaten als auch Prompt-Logik innerhalb der institutionellen Umgebung. Zugriff auf Logs und Datenbanken ist auf autorisiertes Personal beschränkt; Aufbewahrungsrichtlinien begrenzen die Speicherdauer.
 - **Anonymität und Pseudonyme:** MC-Test unterstützt anonyme Teilnahme ohne persönliche Konten. Lernende wählen ein Pseudonym aus einer vordefinierten Liste (z. B. Nobel-/Turing-Preisträger), um Sitzungsdaten für Fortschrittsanzeigen und aggregierte Analysen konsistent zu halten, ohne reale Identifikation zu ermöglichen (Abb. 6).
+- **Rollenbasierte Einsicht:** Itemdiagnostische Aggregationen (z. B. Konfidenz-Matrizen) sind nur für Admins und Autoren sichtbar; reguläre Lernende sehen keine Aggregationen.
 - **Open-Source-Verfügbarkeit:** Zur Unterstützung von Transparenz und Reproduzierbarkeit wird die MC-Test-Streamlit-Anwendung unter MIT-Lizenz veröffentlicht und ist auf GitHub öffentlich verfügbar (https://github.com/kqc-real/streamlit). Das Repository enthält Deployment- und Konfigurationsdokumentation (z. B. Docker Compose) sowie die schema-gesteuerten Artefakte, die in der lokalen Inferenz-Pipeline verwendet werden.
 
 ## 6. EVALUIERUNGSDESIGN UND AUSBLICK
@@ -151,6 +157,8 @@ Die Plattform wurde von kommerziellen Cloud-APIs zu einem institutionellen Serve
 Wir planen Piloteinsätze in MINT-Modulen. Wir sammeln Systemlogs (Taktungsentscheidungen, kognitive Profile, Antwortzeiten), Vor-/Nach-Fragebögen zu metakognitivem Bewusstsein und wahrgenommener Nützlichkeit sowie Interviews. Als Nächstes führen wir vergleichende Designs (A/B oder phasenweise Einführung) durch, um zu testen, ob pädagogische Kontrolle Schnellrate-Indikatoren reduziert und Lernstrategien oder Lernergebnisse verändert. Wir prüfen auch Labelstabilität (Doppelcodierung) und berichten grundlegende Itemstatistiken zur Unterstützung psychometrischer Interpretation.
 
 Wir leiten Schnellrate-Indikatoren aus Logs ab (z. B. Antwortzeiten unter itemspezifischen Schwellenwerten, Low-Effort-Antwortraten pro Lernendem und Antwortzeitveränderungen vor/nach Taktung) [8], [9]. Wir vergleichen Bedingungen (Taktung an/aus; gestaffelte Einführung), kontrollieren für Itemschwierigkeit und Position und untersuchen nachgelagertes Verhalten wie Feedback-Betrachtungszeit und Optionsprüfung.
+
+Zusätzlich planen wir, kumulierte Konfidenz-Muster (z. B. „sicher & falsch“) als Itemdiagnostik-Indikatoren zu analysieren und mit klassischen Itemstatistiken zu triangulieren, um potenziell missverständliche Items früh zu markieren.
 
 Um lernendenzentrierte Analysen interpretierbar zu halten, behandeln wir kognitive Stufenlabels als messbare Designannahme. Wir codieren daher Labels mit einer Rubrik doppelt und berichten Interrater-Übereinstimmung (prozentuale Übereinstimmung, Cohens Kappa). Zusätzlich berechnen wir grundlegende Itemstatistiken (Schwierigkeit, Diskrimination), um Items niedriger Qualität oder mehrdeutige Items zu markieren, bevor kognitive Profile im großen Maßstab interpretiert werden.
 
