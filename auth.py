@@ -11,6 +11,7 @@ import random
 import hmac
 import json
 from datetime import datetime
+import sys
 
 from config import AppConfig, load_scientists, QuestionSet
 from i18n.context import t
@@ -31,9 +32,33 @@ def log_state(event: str):
 
 def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | None = None):
     """Initialisiert den Session-State für einen neuen Testlauf."""
+    streamlit_mod = sys.modules.get("streamlit", st)
+    state = getattr(streamlit_mod, "session_state", st.session_state)
+
+    def _state_set(key: str, value):
+        try:
+            state[key] = value
+        except Exception:
+            pass
+        try:
+            setattr(state, key, value)
+        except Exception:
+            pass
+        try:
+            state.__dict__[key] = value
+        except Exception:
+            pass
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
     # Dies ist wichtig, wenn ein Nutzer einen neuen Test startet, ohne die Session komplett zu beenden.
-    for key in list(st.session_state.keys()):
+    try:
+        existing_keys = list(state.keys())
+    except Exception:
+        try:
+            existing_keys = list(getattr(state, "__dict__", {}).keys())
+        except Exception:
+            existing_keys = []
+
+    for key in existing_keys:
         if key.startswith("frage_") or key in [
             "beantwortet", "frage_indices", "initial_frage_indices", "start_zeit",
             "progress_loaded", "optionen_shuffled", "answer_outcomes",
@@ -41,13 +66,13 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
             "test_time_expired", "show_pseudonym_reminder",
             "login_attempts", "last_answered_idx", "resume_next_idx", "jump_to_idx_active"
         ]:
-            del st.session_state[key]
+            del state[key]
 
     question_count = len(question_set)
-    st.session_state.beantwortet = [None] * question_count
+    _state_set("beantwortet", [None] * question_count)
     frage_indices = list(range(question_count))
     
-    sort_order = st.session_state.get("question_sort_order", "random")
+    sort_order = state.get("question_sort_order", "random")
 
     if sort_order == "random":
         random.shuffle(frage_indices)
@@ -70,14 +95,14 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
             # Fallback to random if pdf_export is not available
             random.shuffle(frage_indices)
 
-    st.session_state.frage_indices = frage_indices
-    st.session_state.initial_frage_indices = list(frage_indices)  # Stabile Kopie für Nummerierung
-    st.session_state.start_zeit = None
-    st.session_state.progress_loaded = False
-    st.session_state.optionen_shuffled = []
-    st.session_state.answer_outcomes = []
-    st.session_state.skipped_questions = []
-    st.session_state.bookmarked_questions = []
+    _state_set("frage_indices", frage_indices)
+    _state_set("initial_frage_indices", list(frage_indices))  # Stabile Kopie für Nummerierung
+    _state_set("start_zeit", None)
+    _state_set("progress_loaded", False)
+    _state_set("optionen_shuffled", [])
+    _state_set("answer_outcomes", [])
+    _state_set("skipped_questions", [])
+    _state_set("bookmarked_questions", [])
     default_minutes = getattr(app_config, "test_duration_minutes", 60) if app_config else 60
     test_duration_minutes = question_set.get_test_duration_minutes(default_minutes)
 
@@ -113,7 +138,7 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
 
     # Apply tempo scaling to the entire duration (base + cooldowns)
     try:
-        tempo = st.session_state.get('selected_tempo', 'normal')
+        tempo = state.get('selected_tempo', 'normal')
         tempo_factor_map = {'normal': 1.0, 'speed': 0.5, 'power': 0.25}
         factor = float(tempo_factor_map.get(tempo, 1.0))
         test_duration_minutes = int(max(1, round(total_duration_minutes * factor)))
@@ -121,13 +146,13 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
         # Defensive fallback: keep the original duration if anything goes wrong
         pass
 
-    st.session_state.test_duration_minutes = test_duration_minutes
-    st.session_state.test_time_limit = test_duration_minutes * 60
-    st.session_state.test_time_expired = False
-    st.session_state.question_set_meta = question_set.meta
+    _state_set("test_duration_minutes", test_duration_minutes)
+    _state_set("test_time_limit", test_duration_minutes * 60)
+    _state_set("test_time_expired", False)
+    _state_set("question_set_meta", question_set.meta)
     # Ensure pacing UI is hidden by default for a new session
     try:
-        st.session_state["pacing_visible"] = False
+        state["pacing_visible"] = False
     except Exception:
         pass
 
@@ -135,7 +160,14 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     for q in questions:
         opts = list(q.get("optionen", []))
         random.shuffle(opts)
-        st.session_state.optionen_shuffled.append(opts)
+        try:
+            state["optionen_shuffled"].append(opts)
+        except Exception:
+            # Fallback for attribute-only session_state objects
+            try:
+                state.optionen_shuffled.append(opts)
+            except Exception:
+                pass
 
 
 def handle_user_session(questions: list, app_config: AppConfig) -> str | None:

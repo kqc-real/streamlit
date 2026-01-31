@@ -721,6 +721,60 @@ def get_answers_for_session(session_id: int) -> list[dict]:
         print(f"Datenbankfehler in get_answers_for_session: {e}")
         return []
 
+
+def get_confidence_counts_for_questionset(questions_file: str, exclude_user_id: str | None = None) -> dict[int, dict]:
+    """
+    Return cumulative confidence counts per question for a given question set.
+
+    Counts are grouped by question_nr and split into:
+    sure_correct, sure_wrong, unsure_correct, unsure_wrong.
+    Optionally exclude all answers from a specific user_id (hash) to avoid bias.
+    """
+    conn = get_db_connection()
+    if conn is None:
+        return {}
+    try:
+        cursor = conn.cursor()
+        base_query = """
+            SELECT
+                a.question_nr AS question_nr,
+                SUM(CASE WHEN a.confidence = 'sure' AND a.is_correct = 1 THEN 1 ELSE 0 END) AS sure_correct,
+                SUM(CASE WHEN a.confidence = 'sure' AND a.is_correct = 0 THEN 1 ELSE 0 END) AS sure_wrong,
+                SUM(CASE WHEN a.confidence = 'unsure' AND a.is_correct = 1 THEN 1 ELSE 0 END) AS unsure_correct,
+                SUM(CASE WHEN a.confidence = 'unsure' AND a.is_correct = 0 THEN 1 ELSE 0 END) AS unsure_wrong
+            FROM answers a
+            JOIN test_sessions s ON a.session_id = s.session_id
+            WHERE s.questions_file = ?
+              AND a.confidence IN ('sure', 'unsure')
+        """
+        params: list = [questions_file]
+        if exclude_user_id:
+            base_query += " AND s.user_id != ?"
+            params.append(exclude_user_id)
+        base_query += " GROUP BY a.question_nr"
+
+        cursor.execute(base_query, tuple(params))
+        rows = cursor.fetchall()
+        result: dict[int, dict] = {}
+        for row in rows:
+            try:
+                q_nr = int(row["question_nr"])
+            except Exception:
+                try:
+                    q_nr = int(row[0])
+                except Exception:
+                    continue
+            result[q_nr] = {
+                "sure_correct": int(row["sure_correct"] or 0),
+                "sure_wrong": int(row["sure_wrong"] or 0),
+                "unsure_correct": int(row["unsure_correct"] or 0),
+                "unsure_wrong": int(row["unsure_wrong"] or 0),
+            }
+        return result
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_confidence_counts_for_questionset: {e}")
+        return {}
+
 def get_all_feedback() -> list[dict]:
     """
     Ruft alle Feedbacks aus der Datenbank für das Admin-Panel ab.

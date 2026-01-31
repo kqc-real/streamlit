@@ -566,6 +566,18 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     "question_count": len(info.question_set),
                 }
                 st.session_state["selected_questions_file"] = info.identifier
+                try:
+                    owner_sets = st.session_state.get("_temp_qset_owner_session", [])
+                    if not isinstance(owner_sets, list):
+                        try:
+                            owner_sets = list(owner_sets)
+                        except Exception:
+                            owner_sets = []
+                    if info.identifier not in owner_sets:
+                        owner_sets.append(info.identifier)
+                    st.session_state["_temp_qset_owner_session"] = owner_sets
+                except Exception:
+                    pass
             except ValueError as exc:
                 st.session_state["user_qset_last_result"] = {
                     "success": False,

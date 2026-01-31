@@ -843,6 +843,88 @@ def _summary_text(key: str, default: str, **kwargs) -> str:
     return template.format(**kwargs) if kwargs else template
 
 
+def _extract_question_number(frage_obj: dict) -> int | None:
+    """Extract the numeric question id used for DB storage (e.g., '1.' -> 1)."""
+    try:
+        q_num_src = frage_obj.get("question", frage_obj.get("frage", ""))
+        return int(str(q_num_src).split(".", 1)[0])
+    except Exception:
+        return None
+
+
+def _get_confidence_counts_cached(questions_file: str, exclude_user_id: str | None = None) -> dict[int, dict]:
+    """Return cached cumulative confidence counts per question (short TTL)."""
+    if not questions_file:
+        return {}
+    cache_key = f"_conf_matrix_cache_{questions_file}_{exclude_user_id or 'none'}"
+    ts_key = f"{cache_key}_ts"
+    now = time.time()
+    try:
+        if cache_key in st.session_state:
+            last_ts = st.session_state.get(ts_key, 0)
+            if isinstance(last_ts, (int, float)) and (now - last_ts) < 30:
+                return st.session_state.get(cache_key, {}) or {}
+    except Exception:
+        pass
+
+    try:
+        from database import get_confidence_counts_for_questionset
+    except Exception:
+        return {}
+
+    try:
+        data = get_confidence_counts_for_questionset(questions_file, exclude_user_id)
+    except Exception:
+        data = {}
+    try:
+        st.session_state[cache_key] = data
+        st.session_state[ts_key] = now
+    except Exception:
+        pass
+    return data or {}
+
+
+def _resolve_author_hash_from_meta(meta: dict | None) -> str | None:
+    """Resolve the uploader hash from question set metadata."""
+    if not isinstance(meta, dict):
+        return None
+    try:
+        val = meta.get("uploaded_by_hash")
+        if val:
+            return str(val)
+    except Exception:
+        pass
+    try:
+        val = meta.get("uploaded_by")
+        if val:
+            return get_user_id_hash(str(val))
+    except Exception:
+        pass
+    return None
+
+
+def _should_show_confidence_matrix(
+    admin_access_granted: bool,
+    is_author: bool,
+    is_reserved_author: bool,
+    selected_file: str | None,
+    owner_session_sets: list | None,
+) -> bool:
+    """Decide whether the cumulative confidence matrix is visible."""
+    if admin_access_granted:
+        return True
+    if not is_author:
+        return False
+    if is_reserved_author:
+        return True
+    if not selected_file:
+        return False
+    try:
+        return selected_file in (owner_session_sets or [])
+    except Exception:
+        return False
+
+
 def _history_text(key: str, default: str, **kwargs) -> str:
     template = translate_ui(f"sidebar.history_{key}", default=default)
     return template.format(**kwargs) if kwargs else template
@@ -5780,6 +5862,149 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         disabled=False,
                     ):
                         _handle_answer_click("sure")
+
+            # --- Kumulierte Konfidenzmatrix (nur Admin / Autoren) ---
+            try:
+                selected_file = st.session_state.get("selected_questions_file")
+                user_pseudo = st.session_state.get("user_id")
+                user_hash = st.session_state.get("user_id_hash")
+                is_user_set = bool(selected_file) and str(selected_file).startswith(USER_QUESTION_PREFIX)
+                is_author = False
+                if is_user_set and user_pseudo:
+                    try:
+                        is_author = is_owner_of_user_qset(selected_file, user_pseudo, user_hash)
+                    except Exception:
+                        is_author = False
+
+                is_reserved = False
+                if is_author:
+                    try:
+                        from database import has_recovery_secret_for_pseudonym
+                    except Exception:
+                        has_recovery_secret_for_pseudonym = None
+                    try:
+                        if callable(has_recovery_secret_for_pseudonym) and user_pseudo:
+                            is_reserved = bool(has_recovery_secret_for_pseudonym(user_pseudo))
+                    except Exception:
+                        is_reserved = False
+
+                owner_sets = st.session_state.get("_temp_qset_owner_session", [])
+                show_matrix = _should_show_confidence_matrix(
+                    admin_access_granted,
+                    is_author,
+                    is_reserved,
+                    selected_file,
+                    owner_sets,
+                )
+
+                if show_matrix and selected_file:
+                    author_hash = None
+                    try:
+                        qmeta = st.session_state.get("question_set_meta") or {}
+                        author_hash = _resolve_author_hash_from_meta(qmeta if isinstance(qmeta, dict) else None)
+                    except Exception:
+                        author_hash = None
+
+                    counts_by_question = _get_confidence_counts_cached(selected_file, author_hash)
+                    q_nr = _extract_question_number(frage_obj)
+                    counts = counts_by_question.get(q_nr) if q_nr is not None else None
+                    if counts and sum(counts.values()) > 0:
+                        title = _test_view_text(
+                            "confidence_matrix_title",
+                            default="Konfidenzmatrix (kumuliert)",
+                        )
+                        caption = _test_view_text(
+                            "confidence_matrix_caption",
+                            default="Kumuliert aus allen bisherigen Einschätzungen – ohne Autorbeiträge.",
+                        )
+                        st.markdown(f"**{title}**")
+                        st.caption(caption)
+
+                        try:
+                            sure_label = _summary_text("confidence_label_sure", default="Sicher")
+                            unsure_label = _summary_text("confidence_label_unsure", default="Unsicher")
+                            correct_label = _summary_text("confidence_label_correct", default="Richtig")
+                            wrong_label = _summary_text("confidence_label_wrong", default="Falsch")
+                            sc = int(counts.get("sure_correct", 0))
+                            sw = int(counts.get("sure_wrong", 0))
+                            uc = int(counts.get("unsure_correct", 0))
+                            uw = int(counts.get("unsure_wrong", 0))
+                            total_conf = sc + sw + uc + uw
+                            counts_matrix = [[sc, sw], [uc, uw]]
+                            # Positive = calibrated, negative = miscalibrated
+                            z = [[sc, -sw], [-uc, uw]]
+                            pct_vals = [[(v / total_conf * 100.0) for v in row] for row in counts_matrix]
+                            text_vals = [[str(v) for v in row] for row in counts_matrix]
+                            max_abs = max(abs(v) for row in z for v in row) or 1
+
+                            import plotly.graph_objects as go
+
+                            heatmap = go.Heatmap(
+                                z=z,
+                                x=[correct_label, wrong_label],
+                                y=[sure_label, unsure_label],
+                                text=text_vals,
+                                customdata=pct_vals,
+                                texttemplate="%{text}",
+                                textfont={"color": "white"},
+                                colorscale=[
+                                    [0.0, "#dc2626"],
+                                    [0.5, "#9ca3af"],
+                                    [1.0, "#16a34a"],
+                                ],
+                                zmin=-max_abs,
+                                zmax=max_abs,
+                                showscale=False,
+                                hovertemplate="%{y} / %{x}: %{text} (%{customdata:.0f}%)<extra></extra>",
+                            )
+                            fig = go.Figure(data=[heatmap])
+                            fig.update_layout(
+                                height=220,
+                                margin=dict(l=10, r=10, t=10, b=10),
+                                xaxis=dict(title="", side="top"),
+                                yaxis=dict(title=""),
+                            )
+                            st.plotly_chart(fig, use_container_width=True)
+                        except Exception:
+                            try:
+                                matrix_df = pd.DataFrame(
+                                    {
+                                        correct_label: [counts.get("sure_correct", 0), counts.get("unsure_correct", 0)],
+                                        wrong_label: [counts.get("sure_wrong", 0), counts.get("unsure_wrong", 0)],
+                                    },
+                                    index=[sure_label, unsure_label],
+                                )
+                                st.table(matrix_df)
+                            except Exception:
+                                pass
+
+                        try:
+                            sure_total = counts.get("sure_correct", 0) + counts.get("sure_wrong", 0)
+                            unsure_total = counts.get("unsure_correct", 0) + counts.get("unsure_wrong", 0)
+                            correct_total = counts.get("sure_correct", 0) + counts.get("unsure_correct", 0)
+                            wrong_total = counts.get("sure_wrong", 0) + counts.get("unsure_wrong", 0)
+                            st.caption(
+                                _summary_text(
+                                    "confidence_totals_caption",
+                                    default="Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
+                                ).format(
+                                    sure=sure_total,
+                                    unsure=unsure_total,
+                                    correct=correct_total,
+                                    wrong=wrong_total,
+                                )
+                            )
+                        except Exception:
+                            pass
+                    else:
+                        st.caption(
+                            _test_view_text(
+                                "confidence_matrix_empty",
+                                default="Noch keine Einschätzungen vorhanden.",
+                            )
+                        )
+            except Exception:
+                pass
         except Exception:
             remaining_answer_cooldown = 0
         
