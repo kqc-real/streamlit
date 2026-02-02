@@ -1,5 +1,11 @@
 __pycache__/
 .DS_Store
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.vscode/
+.idea/
 literatur/
 
 # Environment variables (lokale Konfiguration)
