@@ -7,7 +7,7 @@ Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten u
 - **Ziel:** Multiple-Choice-Fragensets pflegen, verbessern, validieren und passende Lernziele erstellen.
 - **Klarheit:** Formulierungen kurz und eindeutig; keine Fachjargon-Orgie.
 - **Sicherheit:** Keine echten Personendaten verwenden, keine API-Keys hardcoden.
-- **Transparenz:** KI als Assistent nutzen (siehe `KI_PROMPT.md`).
+- **Transparenz:** KI als Assistent nutzen (siehe `prompts/KI_PROMPT.md`).
 
 ## 2) Tech-Stack & Rahmenbedingungen
 
@@ -53,7 +53,7 @@ Validierungs-Hinweise (zusammengefuehrt aus `validate_sets.py` und `question_set
 
 ## 6) Lernziele (Micro-LOs)
 
-Erstellung strikt nach `KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`:
+Erstellung strikt nach `prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`:
 - **Ein Lernziel pro Frage**.
 - **Ein Verb pro Ziel** (keine Verbketten).
 - **Level korrekt waehlen** (Reproduktion/Anwendung/Strukturelle Analyse).
@@ -113,7 +113,7 @@ Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
 
 - Lokal: `.env` mit `MC_TEST_ADMIN_KEY=""` erlaubt Login als "Albert Einstein".
 - Cloud: Passwort aus `st.secrets`.
-- **DB-Reset ist destruktiv:** immer auf Backup hinweisen (siehe `ADMIN_PANEL_ANLEITUNG.md`).
+- **DB-Reset ist destruktiv:** immer auf Backup hinweisen (siehe `docs/ADMIN_PANEL_ANLEITUNG.md`).
 
 ## 14) Release/Changelog
 

@@ -407,7 +407,7 @@ def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str
 def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) -> str:
     """Transform JSON bytes (app format) to a TSV string for Anki import.
 
-    Contract: see `README_EXPORT_ANKI.md`.
+    Contract: see `docs/README_EXPORT_ANKI.md`.
     """
     data = json.loads(json_bytes.decode("utf-8"))
     # Support legacy files that contain a top-level list of questions

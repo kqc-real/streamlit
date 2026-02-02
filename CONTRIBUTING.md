@@ -35,7 +35,7 @@ Es gibt viele Möglichkeiten, zur MC-Test-App beizutragen:
 
 ### 3. **Features entwickeln** ✨
 - Schaue in die [Issues](https://github.com/kqc-real/streamlit/issues)
-- Arbeite an der [Vision 2.0 Roadmap](VISION_RELEASE_2.0.md)
+- Arbeite an der Vision 2.0 Roadmap (Datei entfernt)
 - Schlage eigene Features vor
 
 ### 4. **Dokumentation verbessern** 📚
@@ -472,13 +472,13 @@ Bei dringenden Fragen: **KQC direkt ansprechen** (z.B. im Kurs)
 ## 🎯 Was als Nächstes?
 
 ### Für Anfänger 🌱
-1. **Lese die [Installation-Anleitung](INSTALLATION_ANLEITUNG.md)**
+1. **Lese die [Installation-Anleitung](docs/installation/INSTALLATION_ANLEITUNG.md)**
 2. **Erstelle dein erstes Fragenset** (kleines Thema, 5-10 Fragen)
 3. **Finde einen kleinen Bug** und melde ihn
 4. **Reviewe einen PR** und lerne vom Code anderer
 
 ### Für Fortgeschrittene 🚀
-1. **Schau in die [Vision 2.0](VISION_RELEASE_2.0.md)**
+1. **Schau in die Vision 2.0 (Datei entfernt)**
 2. **Implementiere ein Feature** aus dem Backlog
 3. **Schreibe Unit-Tests** für bestehenden Code
 4. **Verbessere die Dokumentation** (z.B. API-Docs)

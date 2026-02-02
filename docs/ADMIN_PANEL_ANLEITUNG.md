@@ -313,7 +313,7 @@ Macht vorher ein **Backup der Datenbank!**
 **Dokumentation:**
 - `README.md` – Vollständige Feature-Übersicht
 - `FEATURE_EXPOSE.md` – Technische Details zum Admin-Panel (Abschnitt 5)
-- `AI_QUESTION_GENERATOR_PLAN.md` – Was ihr in Release 2.0 bauen werdet
+- (entfernt) Konzeptpapier zum KI-Generator – ursprünglich für Release 2.0 geplant
 
 **Fragen im Kurs:**
 

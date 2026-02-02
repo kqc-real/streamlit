@@ -995,11 +995,11 @@ def _cached_generate_anki_apkg(selected_file: str, locale: str) -> bytes:
 
 @st.cache_data(show_spinner=False)
 def _load_anki_instruction_md() -> str:
-    instruction_path = Path(get_package_dir()) / "ANLEITUNG_ANKI_IMPORT.md"
+    instruction_path = Path(get_package_dir()) / "docs" / "ANLEITUNG_ANKI_IMPORT.md"
     try:
         return instruction_path.read_text(encoding="utf-8")
     except FileNotFoundError:
-        return "Anleitung konnte nicht geladen werden. Bitte prüfen Sie die Datei 'ANLEITUNG_ANKI_IMPORT.md'."
+        return "Anleitung konnte nicht geladen werden. Bitte prüfen Sie die Datei 'docs/ANLEITUNG_ANKI_IMPORT.md'."
     except Exception as exc:  # pragma: no cover - defensive guard for unexpected I/O issues
         return f"Beim Laden der Anki-Anleitung ist ein Fehler aufgetreten: {exc}"
 

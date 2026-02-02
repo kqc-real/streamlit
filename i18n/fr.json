@@ -1314,7 +1314,7 @@
         "test_intro": "Choisis un set et lance-toi quand tu es prêt."
     },
     "warnings": {
-        "no_config": "⚠️ **Config manquante !**\n\nCrée `.env` ou `.streamlit/secrets.toml`.\n\n**Local :**\n1. `cp .env.example .env`\n2. Redémarre.\n\nVoir [INSTALLATION_ANLEITUNG.md](INSTALLATION_ANLEITUNG.md)"
+        "no_config": "⚠️ **Config manquante !**\n\nCrée `.env` ou `.streamlit/secrets.toml`.\n\n**Local :**\n1. `cp .env.example .env`\n2. Redémarre.\n\nVoir [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
     },
     "languages": {
         "de": "allemand",

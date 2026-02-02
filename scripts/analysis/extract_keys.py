@@ -2,6 +2,11 @@ import json
 import os
 from glob import glob
 
+"""
+Run from repo root:
+  python scripts/analysis/extract_keys.py
+"""
+
 def extract_metadata_keys():
     topics = set()
     concepts = set()

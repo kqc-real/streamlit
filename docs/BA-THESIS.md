@@ -6,7 +6,7 @@ Die Streamlit-App **„MC-Test“** wird derzeit in der Streamlit Community Clou
 
 Die App ist **weitgehend KI-gestützt entwickelt worden**. Der überwiegende Teil des Python-Codes und der zugehörigen Komponenten wurde durch iterative KI-Generierung erstellt (Größenordnung ca. 99 Prozent), mit einem Gesamtaufwand von etwa 80 Stunden KI-gestützter Entwicklungszeit. Dieses Vorgehen war ein Experiment, ob mit modernen KI-gestützten Entwicklungsansätzen („Vibe-Coding“) eine professionelle, produktive Anwendung mit realem Nutzwert entstehen kann. Das Ergebnis erreicht ein Niveau, das früher typischerweise eine eigenständige Bachelorarbeit zur vollständigen manuellen Entwicklung erfordert hätte.
 
-Parallel steht auf einem institutseigenen Server eine lokale LLM-Infrastruktur zur Verfügung, u.a. über **Ollama**, sodass verschiedene Modelle (z.B. **DeepSeek R1**) lokal ausführbar sind. Der bisherige Prompt zur Generierung von Fragensets (`KI_PROMPT.md`: https://github.com/kqc-real/streamlit/blob/main/KI_PROMPT.md) wurde bislang an externe KI-Dienste (z.B. ChatGPT, Gemini) übergeben.
+Parallel steht auf einem institutseigenen Server eine lokale LLM-Infrastruktur zur Verfügung, u.a. über **Ollama**, sodass verschiedene Modelle (z.B. **DeepSeek R1**) lokal ausführbar sind. Der bisherige Prompt zur Generierung von Fragensets (`prompts/KI_PROMPT.md`: https://github.com/kqc-real/streamlit/blob/main/prompts/KI_PROMPT.md) wurde bislang an externe KI-Dienste (z.B. ChatGPT, Gemini) übergeben.
 
 ## 2. Zielsetzung  
 Ziel der Bachelorarbeit ist die **Technik- und Qualitätsmigration** der App hin zu einer produktiv einsetzbaren, lokal gehosteten Lösung mit **lokaler LLM-gestützter Generierung von Fragensets**.  
@@ -48,7 +48,7 @@ Damit wird der Entwicklungsprozess selbst zu einem reflektierten Bestandteil der
 - Integration der lokalen LLM-Aufrufe in den bestehenden Generierungsworkflow.
 
 ### 4.3 Prompt-Refactoring für lokale Modelle  
-- Analyse des bisherigen Prompts `KI_PROMPT.md` und des bisherigen externen Workflows.  
+- Analyse des bisherigen Prompts `prompts/KI_PROMPT.md` und des bisherigen externen Workflows.  
 - Überarbeitung der **System-Message/Manager-Message** für lokale LLMs mit folgenden Anforderungen:  
   - Explizite Übermittlung von Kontextinformationen, die das Modell nicht automatisch kennt  
     (z.B. Datum/Uhrzeit, sofern für die Generierungslogik relevant).  

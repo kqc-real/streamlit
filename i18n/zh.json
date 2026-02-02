@@ -1317,7 +1317,7 @@
         "test_intro": "选择题库，准备好就开始。"
     },
     "warnings": {
-        "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 INSTALLATION_ANLEITUNG.md"
+        "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 docs/installation/INSTALLATION_ANLEITUNG.md"
     },
     "languages": {
         "de": "德语",

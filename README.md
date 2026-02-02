@@ -64,12 +64,12 @@ Terminology: "Vibe Coding" was coined by Andrej Karpathy in an X post on Feb 2, 
 ## Quick start
 
 Installation guides:
-- [Mac](INSTALLATION_MAC_ANLEITUNG.md)
-- [Windows](INSTALLATION_WINDOWS_ANLEITUNG.md)
-- [VS Code SSH](INSTALLATION_VS-CODE_SSH-AUTHENTIFIZIERUNG.md)
+- [Mac](docs/installation/INSTALLATION_MAC_ANLEITUNG.md)
+- [Windows](docs/installation/INSTALLATION_WINDOWS_ANLEITUNG.md)
+- [VS Code SSH](docs/installation/INSTALLATION_VS-CODE_SSH-AUTHENTIFIZIERUNG.md)
 
 Admin panel:
-- [Admin guide](ADMIN_PANEL_ANLEITUNG.md)
+- [Admin guide](docs/ADMIN_PANEL_ANLEITUNG.md)
 
 ---
 
@@ -108,12 +108,12 @@ MC-Test supports two workflows:
 - **PDF exports** (LaTeX-rendering, glossary, bookmarks).
 - **CSV export** of answers.
 - **DB export/dump** for analysis and archival.
-- **Anki export (.apkg)** for spaced repetition (see `README_EXPORT_ANKI.md`).
+- **Anki export (.apkg)** for spaced repetition (see `docs/README_EXPORT_ANKI.md`).
 
 ### Content library & extensibility
 - 40+ question sets included (`data/questions_*.json`).
 - Upload/paste your own sets (validated); optional cleanup for temporary user sets.
-- Optional **AI generator** & prompts in the admin panel (see `KI_PROMPT.md`).
+- Optional **AI generator** & prompts in the admin panel (see `prompts/KI_PROMPT.md`).
 
 ---
 
@@ -141,7 +141,7 @@ Validation:
 ### Optional fields per question
 - `cognitive_level` (e.g., "Reproduktion", "Anwendung", "Strukturelle Analyse")
 - `mini_glossary` (object or list of term/definition; recommended **2–6**, max 10)
-- `extended_explanation` (optional; see `KI_PROMPT.md` and `GLOSSARY_SCHEMA.md`)
+- `extended_explanation` (optional; see `prompts/KI_PROMPT.md` and `docs/GLOSSARY_SCHEMA.md`)
 
 ### Required meta fields
 - `language` (ISO-639-1, e.g., `de`) — **required**
@@ -274,13 +274,12 @@ streamlit run app.py
 ├── data/                    # question sets, pseudonyms, glossaries
 ├── data-user/               # temporary user uploads (cleanable)
 ├── db/                      # SQLite DB(s)
-├── docs/                    # slides, handouts, studies
+├── docs/                    # docs, guides, studies
 ├── examples/                # example configs/prompts
 ├── exporters/               # export logic (Anki, CSV, PDF helpers)
 ├── helpers/                 # utilities (PDF, caching, validation)
 ├── i18n/                    # localization
-├── orga/                    # organizational docs & AI usage guides
-├── scripts/                 # build/CI helpers
+├── scripts/                 # one-off utilities
 ├── tools/                   # local dev tools (bench, cache, export)
 ├── var/                     # caches (e.g., formula cache)
 ├── admin_panel.py           # admin panel
@@ -298,13 +297,15 @@ streamlit run app.py
 
 ## Developer tools (local)
 
-Helpful scripts in `tools/`:
+Helpful scripts in `tools/` (canonical CLI tools; `scripts/` is for one-off utilities):
 
 - `tools/test_evict.py` — cache eviction smoke test
 - `tools/run_export_test.py` — run one sample export to `exports/`
 - `tools/benchmark_exports.py` — run N exports and write summary
 - `tools/check_export_stems.py` — verify export file naming/slug logic
 - `tools/print_cooldowns.py` — print cooldown table for current config
+- `tools/create_prompt.py` — regenerate `prompts/KI_PROMPT.md`
+- `tools/generate_bar_svg.py`, `tools/generate_heatmap.py`, `tools/generate_radar_svgs.py` — chart helpers (manual runs)
 
 Examples:
 ```bash

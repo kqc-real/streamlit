@@ -1,6 +1,11 @@
 import json
 import sys
 
+"""
+Run from repo root:
+  python scripts/i18n/check_keys.py
+"""
+
 def get_all_keys(data, prefix=""):
     keys = set()
     if isinstance(data, dict):

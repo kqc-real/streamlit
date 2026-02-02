@@ -5,7 +5,7 @@ This script simulates a finished session for each tempo, calls the PDF
 generation helper and writes a CSV row showing tempo and tempo-adjusted
 allowed minutes. It also prints quick DB checks and the debug log tail.
 
-Run from repo root: `python scripts/verify_tempo_end_to_end.py`
+Run from repo root: `python scripts/repro/verify_tempo_end_to_end.py`
 """
 import os
 import sys

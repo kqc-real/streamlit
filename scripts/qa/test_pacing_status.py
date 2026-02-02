@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Test script for pacing status validation
+Test script for pacing status validation.
+
+Run from repo root:
+  python scripts/qa/test_pacing_status.py
 """
 
 import sys

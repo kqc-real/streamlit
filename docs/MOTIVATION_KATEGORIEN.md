@@ -302,4 +302,4 @@ letzte_frage_phrases.append("Neuer Endspurt-Text!")
 **Erstellt:** 2025-10-08  
 **Version:** 1.0  
 **Autor:** KQC Team  
-**Datei:** `MOTIVATION_KATEGORIEN.md`
+**Datei:** `docs/MOTIVATION_KATEGORIEN.md`

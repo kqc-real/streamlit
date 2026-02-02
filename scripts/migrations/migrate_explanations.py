@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-scripts/migrate_explanations.py
+scripts/migrations/migrate_explanations.py
 
 Scan question JSON files and normalize `extended_explanation` fields
 using the same normalization rules as `helpers.normalize_detailed_explanation`.

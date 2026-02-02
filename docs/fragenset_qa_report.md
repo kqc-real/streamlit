@@ -7,9 +7,9 @@ Kurzfassung
 - Kernelemente: ein CLI-Validierer (`validate_sets.py`), modulare Validator-Funktionen (`question_set_validation.py`) und Upload-/Temporär-Handling (`user_question_sets.py`).
 
 **Quellen**
-- Validierungs-Logik: [question_set_validation.py](question_set_validation.py#L1-L400)
-- CLI-Validierung / Batch-Checks: [validate_sets.py](validate_sets.py#L1-L400)
-- Upload, Sanitisierung, Forbidden-Checks, temporäre Speicherung: [user_question_sets.py](user_question_sets.py#L1-L400)
+- Validierungs-Logik: [question_set_validation.py](../question_set_validation.py)
+- CLI-Validierung / Batch-Checks: [validate_sets.py](../validate_sets.py)
+- Upload, Sanitisierung, Forbidden-Checks, temporäre Speicherung: [user_question_sets.py](../user_question_sets.py)
 
 **Ablauf / Procedure (aktuell)**
 1. Offline / CI-Batch: `validate_sets.py` iteriert über `data/questions_*.json`, führt syntaktische (JSON) und inhaltliche Prüfungen durch (Pflichtfelder, meta.title, meta.question_count, LaTeX-in-Backticks, Glossargrößen, Themenverteilung) und liefert Exit-Code zur CI-Integration.
@@ -100,4 +100,3 @@ print('warnings', warnings)
 
 ---
 Bericht erstellt von: Team-Analyse (automatisch generiert)
-

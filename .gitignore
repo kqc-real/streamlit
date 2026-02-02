@@ -30,3 +30,6 @@ data-user/
 data/*_pre_overwrite_*.json
 data/*_backup_*.json
 data-user/*_backup_*.json
+
+# Temporäre Ablage
+tmp_hold/

@@ -6,7 +6,7 @@ This script is non-destructive: it makes timestamped backups of each
 file it modifies (`.bak.YYYYmmddTHHMMSS` and a `.bak` copy) before
 writing the converted file in-place.
 
-Usage: python3 scripts/convert_question_sets.py [--dry-run] [path...]
+Usage: python3 scripts/migrations/convert_question_sets.py [--dry-run] [path...]
 
 If no paths are provided the script processes all files matching
 `data/questions_*.json`.

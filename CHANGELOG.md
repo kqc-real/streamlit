@@ -251,7 +251,7 @@ Test Coverage:         Core: 100%, Integration: 80%
 
 ### 📚 Documentation
 
-- **PASSWORT_ABFRAGE_ERKLAERUNG.md**: User-Guide
+- **docs/PASSWORT_ABFRAGE_ERKLAERUNG.md**: User-Guide
 - **SECURITY_HOTFIX_MISSING_REAUTH.md**: Technische Analyse
 - **SECURITY_PHASE1_SUMMARY.md**: Zusammenfassung
 
@@ -341,9 +341,9 @@ Erste stabile Version der MC-Test-App mit vollständigem Feature-Set.
 
 - `README.md` (18KB): Hauptdokumentation mit LLM-Prompt für Fragenset-Erstellung
 - `FEATURE_EXPOSE.md` (31KB): Umfassende Feature-Dokumentation (10 Abschnitte)
-- `GLOSSARY_SCHEMA.md` (3.4KB): JSON-Schema und Guidelines für Mini-Glossar
-- `AI_QUESTION_GENERATOR_PLAN.md` (55KB): Konzept für KI-Generator (v2.0.0 Preview)
-- `DEPLOYMENT_FEASIBILITY_STUDY.md` (29KB): Infrastruktur-Optionen und TCO-Analyse
+- `docs/GLOSSARY_SCHEMA.md` (3.4KB): JSON-Schema und Guidelines für Mini-Glossar
+- (entfernt) Konzeptpapier zum KI-Generator (v2.0.0 Preview)
+- `docs/DEPLOYMENT_FEASIBILITY_STUDY.md` (29KB): Infrastruktur-Optionen und TCO-Analyse
 - `VISION_RELEASE_2.0.md` (30KB): Strategische Roadmap für zukünftige Releases
 - `SCRUM_PRESENTATION_V2.0.md` (39KB): Sprint-Planning für Version 2.0.0
 - `CHANGELOG.md`: Diese Datei

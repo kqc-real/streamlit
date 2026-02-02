@@ -1,5 +1,10 @@
 import os
 
+"""
+Run from repo root:
+  python tools/create_prompt.py
+"""
+
 # Der korrigierte, linter-valide Inhalt der Markdown-Datei
 content = r"""# SYSTEM PROMPT: Interactive MCQ Generator (5-step, JSON-only)
 
@@ -314,7 +319,7 @@ Adhere to this structure.
 ```
 """
 
-filename = "KI_PROMPT.md"
+filename = "prompts/KI_PROMPT.md"
 
 with open(filename, "w", encoding="utf-8") as f:
     f.write(content)
