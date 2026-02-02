@@ -36,6 +36,14 @@ Validierungs-Hinweise:
 - `answer` ist **0-basiert** und muss innerhalb der `options` liegen.
 - `weight` in {1,2,3}.
 - `meta.title` und `meta.question_count` muessen passen.
+- Top-Level: `meta` und `questions` sind Pflicht (kein reines Listenformat).
+- `meta.language` ist Pflicht (ISO-639-1, z. B. `de`).
+- `options`: Liste mit 3–5 Eintraegen.
+- `question`/`explanation`/`topic`: nicht-leere Strings.
+- `mini_glossary`: Objekt oder Liste; Eintraege werden validiert.
+- LaTeX nicht in Backticks; `<` und `>` in LaTeX vermeiden (nutze `\\langle`/`\\rangle`).
+- Themenverteilung: max. 12 Themen, jedes Thema mind. 1×.
+- `meta.difficulty_profile`, `meta.time_per_weight_minutes`, `meta.test_duration_minutes` werden geprueft (Warnungen).
 
 ## 5) Cognitive-Level Taxonomie (kurz & verbindlich)
 
