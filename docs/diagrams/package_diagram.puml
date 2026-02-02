@@ -1,0 +1,22 @@
+@startuml
+top to bottom direction
+hide empty members
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+package "examples"
+package "exporters"
+package "helpers"
+package "i18n"
+package "root"
+
+"examples" --> "helpers"
+"exporters" --> "examples"
+"exporters" --> "helpers"
+"exporters" --> "i18n"
+"exporters" --> "root"
+"helpers" --> "i18n"
+"root" --> "exporters"
+"root" --> "helpers"
+"root" --> "i18n"
+@enduml

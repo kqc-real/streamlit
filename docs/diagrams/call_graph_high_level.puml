@@ -1,0 +1,67 @@
+@startuml
+top to bottom direction
+hide empty members
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "exporters" {
+  component "exporters/anki_tsv.py" as N8
+}
+
+package "root" {
+  component "admin_panel.py" as N1
+  component "app.py" as N2
+  component "auth.py" as N3
+  component "components.py" as N4
+  component "config.py" as N5
+  component "database.py" as N6
+  component "export_jobs.py" as N7
+  component "logic.py" as N9
+  component "main_view.py" as N10
+  component "pdf_export.py" as N11
+  component "question_set_validation.py" as N12
+  component "user_question_sets.py" as N13
+}
+
+N1 --> N3
+N1 --> N5
+N1 --> N6
+N1 --> N11
+N2 --> N1
+N2 --> N3
+N2 --> N4
+N2 --> N5
+N2 --> N6
+N2 --> N9
+N2 --> N10
+N3 --> N5
+N3 --> N11
+N4 --> N3
+N4 --> N5
+N4 --> N6
+N4 --> N9
+N4 --> N11
+N4 --> N13
+N6 --> N5
+N7 --> N5
+N7 --> N8
+N7 --> N13
+N8 --> N11
+N9 --> N5
+N10 --> N3
+N10 --> N4
+N10 --> N5
+N10 --> N6
+N10 --> N7
+N10 --> N8
+N10 --> N9
+N10 --> N11
+N10 --> N12
+N10 --> N13
+N11 --> N5
+N11 --> N6
+N11 --> N9
+N11 --> N13
+N13 --> N5
+N13 --> N6
+@enduml
