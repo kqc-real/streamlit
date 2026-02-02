@@ -31,7 +31,7 @@ if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
 from config import AppConfig, load_questions
-from database import init_database, upsert_user_heartbeat
+from database import init_database
 from auth import handle_user_session, is_admin_user, initialize_session_state
 from logic import (
     get_current_question_index,
@@ -53,6 +53,12 @@ try:
     from helpers.security import is_request_from_localhost
 except (ImportError, AttributeError):
     def is_request_from_localhost() -> bool:
+        return False
+
+try:
+    from database import upsert_user_heartbeat
+except Exception:
+    def upsert_user_heartbeat(*_args, **_kwargs) -> bool:
         return False
 
 
