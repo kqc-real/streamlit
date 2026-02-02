@@ -185,6 +185,12 @@
                 "avg_duration": "Ø Durée du test",
                 "completion_rate": "Taux d'achèvement",
                 "completion_rate_help": "Pourcentage de tests entièrement terminés",
+                "active_users_header": "👥 Utilisateurs actifs",
+                "active_users_last_hour": "Dernière heure",
+                "active_users_today": "Aujourd'hui",
+                "active_users_last_7_days": "7 derniers jours",
+                "active_users_last_month": "Dernier mois",
+                "active_users_total": "Total",
                 "avg_performance": "📈 Performance moyenne par ensemble de questions",
                 "avg_chart": {
                     "title": "Score moyen par ensemble de questions",

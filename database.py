@@ -2104,3 +2104,49 @@ def get_dashboard_statistics():
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_dashboard_statistics: {e}")
         return None
+
+
+def get_active_user_counts():
+    """Liefert aktive Nutzer pro Zeitraum basierend auf test_sessions.start_time."""
+    conn = get_db_connection()
+    if conn is None:
+        return None
+
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """
+            SELECT
+                COUNT(DISTINCT CASE WHEN ts >= datetime('now','localtime','-1 hour') THEN user_id END) AS last_hour,
+                COUNT(DISTINCT CASE WHEN date(ts) = date('now','localtime') THEN user_id END) AS today,
+                COUNT(DISTINCT CASE WHEN ts >= datetime('now','localtime','-7 days') THEN user_id END) AS last_7_days,
+                COUNT(DISTINCT CASE WHEN ts >= datetime('now','localtime','-1 month') THEN user_id END) AS last_month,
+                COUNT(DISTINCT user_id) AS total
+            FROM (
+                SELECT
+                    user_id,
+                    datetime(replace(substr(start_time, 1, 19), 'T', ' ')) AS ts
+                FROM test_sessions
+                WHERE start_time IS NOT NULL
+            ) t
+            """
+        )
+        row = cursor.fetchone()
+        if row is None:
+            return {
+                "last_hour": 0,
+                "today": 0,
+                "last_7_days": 0,
+                "last_month": 0,
+                "total": 0,
+            }
+        return {
+            "last_hour": int(row["last_hour"] or 0),
+            "today": int(row["today"] or 0),
+            "last_7_days": int(row["last_7_days"] or 0),
+            "last_month": int(row["last_month"] or 0),
+            "total": int(row["total"] or 0),
+        }
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_active_user_counts: {e}")
+        return None

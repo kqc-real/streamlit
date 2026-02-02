@@ -185,6 +185,12 @@
                 "avg_duration": "Ø Duración de prueba",
                 "completion_rate": "Tasa de finalización",
                 "completion_rate_help": "Porcentaje de pruebas completadas en su totalidad",
+                "active_users_header": "👥 Usuarios activos",
+                "active_users_last_hour": "Última hora",
+                "active_users_today": "Hoy",
+                "active_users_last_7_days": "Últimos 7 días",
+                "active_users_last_month": "Último mes",
+                "active_users_total": "Total",
                 "avg_performance": "📈 Rendimiento promedio por conjunto de preguntas",
                 "avg_chart": {
                     "title": "Puntuación promedio por conjunto",

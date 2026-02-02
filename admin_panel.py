@@ -1167,10 +1167,10 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     # --- Erweiterte Dashboard-Statistiken ---
     st.subheader(translate_ui("admin.system.dashboard_stats", default="📊 Dashboard-Statistiken"))
     
-    from database import get_dashboard_statistics
+    from database import get_active_user_counts, get_dashboard_statistics
     stats = get_dashboard_statistics()
     
-    if stats and stats['total_tests'] > 0:
+    if stats is not None:
         # Oberste Zeile: Hauptmetriken
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -1186,7 +1186,39 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
             st.metric(translate_ui("admin.system.stats.avg_duration", default="Ø Testdauer"), duration_str)
         
         st.divider()
-        
+
+        active_counts = get_active_user_counts()
+        if active_counts is not None:
+            st.subheader(translate_ui("admin.system.stats.active_users_header", default="👥 Aktive Nutzer"))
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.metric(
+                    translate_ui("admin.system.stats.active_users_last_hour", default="Letzte Stunde"),
+                    active_counts["last_hour"],
+                )
+            with col2:
+                st.metric(
+                    translate_ui("admin.system.stats.active_users_today", default="Heute"),
+                    active_counts["today"],
+                )
+            with col3:
+                st.metric(
+                    translate_ui("admin.system.stats.active_users_last_7_days", default="Letzte 7 Tage"),
+                    active_counts["last_7_days"],
+                )
+            with col4:
+                st.metric(
+                    translate_ui("admin.system.stats.active_users_last_month", default="Letzter Monat"),
+                    active_counts["last_month"],
+                )
+            with col5:
+                st.metric(
+                    translate_ui("admin.system.stats.active_users_total", default="Insgesamt"),
+                    active_counts["total"],
+                )
+
+        st.divider()
+
         # Zweite Zeile: Abschlussquote
         col1, col2 = st.columns(2)
         with col1:

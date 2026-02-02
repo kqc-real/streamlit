@@ -298,6 +298,12 @@
                 "avg_duration": "Ø Testdauer",
                 "completion_rate": "Abschlussquote",
                 "completion_rate_help": "Prozentsatz der Tests, die vollständig beendet wurden",
+                "active_users_header": "👥 Aktive Nutzer",
+                "active_users_last_hour": "Letzte Stunde",
+                "active_users_today": "Heute",
+                "active_users_last_7_days": "Letzte 7 Tage",
+                "active_users_last_month": "Letzter Monat",
+                "active_users_total": "Insgesamt",
                 "avg_performance": "📈 Durchschnittliche Leistung pro Fragenset",
                 "avg_chart": {
                     "title": "Durchschnittliche Punktzahl nach Fragenset",

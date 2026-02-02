@@ -185,6 +185,12 @@
                 "avg_duration": "Ø Durata test",
                 "completion_rate": "Tasso di completamento",
                 "completion_rate_help": "Percentuale di test completati interamente",
+                "active_users_header": "👥 Utenti attivi",
+                "active_users_last_hour": "Ultima ora",
+                "active_users_today": "Oggi",
+                "active_users_last_7_days": "Ultimi 7 giorni",
+                "active_users_last_month": "Ultimo mese",
+                "active_users_total": "Totale",
                 "avg_performance": "📈 Performance media per set di domande",
                 "avg_chart": {
                     "title": "Punteggio medio per set di domande",

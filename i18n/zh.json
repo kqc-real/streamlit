@@ -560,6 +560,12 @@
                 "avg_duration": "Ø 测试时长",
                 "completion_rate": "完成率",
                 "completion_rate_help": "完全完成的测试百分比",
+                "active_users_header": "👥 活跃用户",
+                "active_users_last_hour": "最近一小时",
+                "active_users_today": "今天",
+                "active_users_last_7_days": "最近7天",
+                "active_users_last_month": "最近一个月",
+                "active_users_total": "总计",
                 "avg_performance": "📈 每个问题集的平均表现",
                 "avg_chart": {
                     "title": "按题库的平均得分",

@@ -556,6 +556,12 @@
                 "avg_duration": "Ø Test Duration",
                 "completion_rate": "Completion Rate",
                 "completion_rate_help": "Percentage of tests that were fully completed",
+                "active_users_header": "👥 Active Users",
+                "active_users_last_hour": "Last Hour",
+                "active_users_today": "Today",
+                "active_users_last_7_days": "Last 7 Days",
+                "active_users_last_month": "Last Month",
+                "active_users_total": "Total",
                 "avg_performance": "📈 Average Performance per Question Set",
                 "avg_chart": {
                     "title": "Average Score by Question Set",
