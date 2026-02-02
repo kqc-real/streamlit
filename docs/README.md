@@ -13,3 +13,6 @@
 
 ## Diagramme
 - UML & Grafiken: [docs/diagrams/](diagrams/)
+
+## Releases
+- Release Notes 2.0.0: [docs/RELEASE_NOTES_2.0.md](RELEASE_NOTES_2.0.md)

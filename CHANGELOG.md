@@ -11,6 +11,35 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 - Noch keine Einträge.
 
+## [2.0.0] - 2026-02-02
+
+### Added
+- Diagnostik: kumulative Konfidenz-Matrix inkl. Auswertungshinweisen.
+- Konfidenz-Assessment & Hinweise im PDF-Report (Over-/Underconfidence).
+- Panikmodus zum temporären Deaktivieren von Cooldowns bei Zeitdruck.
+- Exporte: Kahoot-XLSX, arsnova.click, JSON-Export für temporäre Fragensets.
+- Lernziele: PDF-Export für Lernziele (mehrsprachig).
+- Upload-Flow: temporäre Fragensets mit Retention-Policy, Ownership-Checks und Cleanup.
+- Validierung: Length-Bias-Prüfung, erweiterte Meta-Checks, bessere Fehlertexte.
+- Internationalisierung: neue/erweiterte Lokalisierungen (ES/FR/IT/ZH) + Welcome-Splash.
+- Dokumentation: EDULEARN26-Paper, Docs-Index, Installations-Uebersicht, UML-Diagramme.
+
+### Changed
+- Schema: kanonische englische Keys in Fragensets (kompatible Mappings, Migrationstools).
+- PDF-Export: robustere LaTeX-/Math-Behandlung, Caching und Rendering-Optimierungen.
+- Session-Logik: stabilere Summary-Berechnung (per-Question Aggregation, Dedup).
+- UI/UX: Navigation, Dialoge, Labels und Admin-Workflows ueberarbeitet.
+- Repo-Struktur: Prompts in `prompts/`, Dokus in `docs/`, Tools/Scripts bereinigt.
+- CI: Syntax-Check (`python -m compileall -q .`) vor Tests.
+
+### Removed
+- Veraltete/duplizierte Hilfsskripte, ungenutzte Diagramme/Artefakte.
+- Verwaiste Planungs-Dokumente/Verweise (z. B. entfernte Vision 2.0-Datei).
+
+### Breaking
+- Frage-Schema-Migration auf kanonische englische Keys kann alte Sets brechen (Migration nutzen).
+- Pfade zu Docs/Prompts wurden geaendert. Externe Links und lokale Skriptpfade ggf. anpassen.
+
 ## [1.4.0] - 2025-11-03
 
 ### Added
