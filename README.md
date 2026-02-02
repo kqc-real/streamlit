@@ -20,10 +20,17 @@ Note: This codebase is largely developed and tested with AI agents in the spirit
 
 Terminology: "Vibe Coding" was coined by Andrej Karpathy in an X post on Feb 2, 2025 (see [original post](https://x.com/karpathy/status/1886192184808149383)).
 
+### EDULEARN26 Paper (in review)
+
+- **Paper:** [docs/mc-test-paper/EDULEARN26.md](docs/mc-test-paper/EDULEARN26.md)
+- **Kurzfassung (DE):** Das Paper stellt MC-Test als formative MC-Plattform mit schema-gebundener LLM-Itemgenerierung, lernendenzentrierten Dashboards und Pacing-Mechanismen vor, berichtet eine erste SUS-Usability-Studie (N = 20, Mittelwert 70,38) und beschreibt die Migration auf ein lokales LLM-Backend (Ollama) zur Wahrung der Datenhoheit.
+- **Short summary (US-EN):** The paper presents MC-Test as a formative MC platform with schema-bound LLM item generation, learner-facing dashboards, and pacing mechanisms; reports an initial SUS usability study (N = 20, mean 70.38); and describes migration to a local LLM backend (Ollama) to keep data in-house.
+
 ## Table of contents
 - [📝 MC-Test](#-mc-test)
   - [Projektkontext (DE)](#projektkontext-de)
   - [Project context (EN)](#project-context-en)
+  - [EDULEARN26 Paper (in review)](#edulearn26-paper-in-review)
   - [Table of contents](#table-of-contents)
   - [Quick start](#quick-start)
   - [What MC-Test does](#what-mc-test-does)
