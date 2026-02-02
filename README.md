@@ -73,6 +73,7 @@ Admin panel:
 
 Documentation index:
 - [docs/README.md](docs/README.md)
+- Release: https://github.com/kqc-real/streamlit/releases/tag/v2.0.0
 
 ---
 
