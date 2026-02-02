@@ -7,19 +7,19 @@ Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten u
 - **Ziel:** Multiple-Choice-Fragensets pflegen, verbessern, validieren und passende Lernziele erstellen.
 - **Klarheit:** Formulierungen kurz und eindeutig; keine Fachjargon-Orgie.
 - **Sicherheit:** Keine echten Personendaten verwenden, keine API-Keys hardcoden.
-- **Transparenz:** KI als Assistent nutzen (siehe `KI_NUTZUNG_GUIDE.md`).
+- **Transparenz:** KI als Assistent nutzen (siehe `KI_PROMPT.md`).
 
 ## 2) Tech-Stack & Rahmenbedingungen
 
-- **Framework:** Streamlit (Python 3.12). **Python 3.14 ist nicht unterstuetzt.**
-- **Datenhaltung:** SQLite (`data/mc_test_data.db`) fuer Sessions/Statistiken.
+- **Framework:** Streamlit (Python 3.10–3.12). **Python 3.14 ist nicht unterstuetzt.**
+- **Datenhaltung:** SQLite (`db/mc_test_data.db`) fuer Sessions/Statistiken.
 - **Frageninhalte:** JSON-/Markdown-Dateien im Ordner `data/`.
 
 ## 3) Repository-Struktur (relevant)
 
 - `app.py`: Einstiegspunkt der Streamlit-App.
-- `data/`: Fragensets (`questions_*.json`), Lernziele (`*_Learning_Objectives.md`), DB.
-- `orga/`: organisatorische Dokumente.
+- `data/`: Fragensets (`questions_*.json`), Lernziele (`*_Learning_Objectives.md`).
+- `db/`: SQLite-DB (`mc_test_data.db`).
 - `requirements.txt`: Abhaengigkeiten.
 
 ## 4) Fragenformat & Schema (JSON)
@@ -55,7 +55,6 @@ Erstellung strikt nach `KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`:
 
 ## 7) Markdown-Fragenformat (falls genutzt)
 
-- Anleitung: `ANLEITUNG_MARKDOWN_BEARBEITEN.md`.
 - Struktur strikt einhalten (Kontext/Frage/Antworten/korrekt/Erklaerung).
 - Mathe immer in `$...$` oder `$$...$$`, kein LaTeX in Backticks.
 
