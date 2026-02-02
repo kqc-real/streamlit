@@ -1,0 +1,25 @@
+@startuml
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+start
+:Dialog "Fragenset erstellen" oeffnen;
+:Upload oder JSON einfuegen;
+:Sanitizing (RTF, Smart Quotes, Zero-Width);
+:JSON parsen;
+
+if (Validierung ok?) then (ja)
+  :Temporäres Set speichern (data-user/);
+  :Set im Selector anzeigen;
+  :Session starten;
+  :Nach Session: Cleanup gemaess Retention;
+else (nein)
+  :Fehler/Warnungen anzeigen;
+  :Korrektur durch Nutzer;
+endif
+
+stop
+@enduml

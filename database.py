@@ -298,6 +298,9 @@ def create_tables():
 
             # Indizes zur Beschleunigung von Abfragen
             conn.execute("CREATE INDEX IF NOT EXISTS idx_answers_session_id ON answers (session_id);")
+            conn.execute(
+                "CREATE INDEX IF NOT EXISTS idx_answers_session_conf_qn ON answers (session_id, confidence, question_nr);"
+            )
             conn.execute("CREATE INDEX IF NOT EXISTS idx_bookmarks_session_question ON bookmarks (session_id, question_nr);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_user_id ON test_sessions (user_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")

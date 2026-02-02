@@ -1,0 +1,28 @@
+@startuml
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+start
+:Export-Dialog oeffnen;
+:Exporttyp waehlen (PDF/Anki/Kahoot/arsnova/JSON);
+:Metadaten & Fragen laden;
+
+if (PDF?) then (ja)
+  :PDF rendern;
+elseif (Anki?) then (ja)
+  :TSV/APKG erzeugen;
+elseif (Kahoot?) then (ja)
+  :XLSX erzeugen;
+elseif (arsnova?) then (ja)
+  :JSON erzeugen;
+else (JSON)
+  :JSON exportieren;
+endif
+
+:Datei bereitstellen;
+:Download anbieten;
+stop
+@enduml

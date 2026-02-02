@@ -1,0 +1,32 @@
+@startuml
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+start
+:App starten;
+:Benutzer/Pseudonym waehlen;
+:Fragenset waehlen;
+:Session starten;
+
+while (Weitere Frage?) is (ja)
+  :Frage anzeigen;
+  :Cooldown/Reflexionsfenster;
+  :Antwort erfassen;
+  :Antwort speichern;
+endwhile (nein)
+
+:Session beenden;
+:Summary berechnen;
+:Ergebnisse anzeigen;
+
+if (Export gewuenscht?) then (ja)
+  :Exporttyp waehlen;
+  :Export erzeugen;
+  :Download anbieten;
+endif
+
+stop
+@enduml

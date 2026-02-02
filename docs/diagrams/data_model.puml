@@ -1,0 +1,110 @@
+@startuml
+hide circle
+skinparam linetype ortho
+skinparam shadowing false
+
+class "users" as users <<entity>> {
+  * user_id : TEXT
+  --
+  user_pseudonym : TEXT (unique)
+  recovery_salt : TEXT
+  recovery_hash : TEXT
+}
+
+class "test_sessions" as sessions <<entity>> {
+  * session_id : INTEGER
+  --
+  user_id : TEXT
+  questions_file : TEXT
+  start_time : TIMESTAMP
+  tempo : TEXT
+}
+
+class "answers" as answers <<entity>> {
+  * answer_id : INTEGER
+  --
+  session_id : INTEGER
+  question_nr : INTEGER
+  answer_text : TEXT
+  points : INTEGER
+  is_correct : BOOLEAN
+  confidence : TEXT
+  timestamp : TIMESTAMP
+}
+
+class "bookmarks" as bookmarks <<entity>> {
+  * bookmark_id : INTEGER
+  --
+  session_id : INTEGER
+  question_nr : INTEGER
+}
+
+class "feedback" as feedback <<entity>> {
+  * feedback_id : INTEGER
+  --
+  session_id : INTEGER
+  question_nr : INTEGER
+  feedback_type : TEXT
+  timestamp : TIMESTAMP
+}
+
+class "test_session_summaries" as summaries <<entity>> {
+  * session_id : INTEGER
+  --
+  user_id : TEXT
+  user_pseudonym : TEXT
+  questions_file : TEXT
+  questions_title : TEXT
+  meta_created : TEXT
+  start_time : TEXT
+  end_time : TEXT
+  duration_seconds : INTEGER
+  question_count : INTEGER
+  allowed_min : INTEGER
+  effective_allowed : INTEGER
+  tempo : TEXT
+  total_points : INTEGER
+  max_points : INTEGER
+  correct_count : INTEGER
+  percent : REAL
+  time_expired : BOOLEAN
+  exported : BOOLEAN
+  created_at : TIMESTAMP
+}
+
+class "user_preferences" as prefs <<entity>> {
+  * user_pseudonym : TEXT
+  * pref_key : TEXT
+  --
+  pref_value : TEXT
+}
+
+class "admin_audit_log" as audit_log <<entity>> {
+  * id : INTEGER
+  --
+  timestamp : TEXT
+  user_id : TEXT
+  action : TEXT
+  details : TEXT
+  ip_address : TEXT
+  success : BOOLEAN
+}
+
+class "admin_login_attempts" as login_attempts <<entity>> {
+  * id : INTEGER
+  --
+  user_id : TEXT
+  timestamp : TEXT
+  success : BOOLEAN
+  ip_address : TEXT
+  locked_until : TEXT
+}
+
+users "1" -- "0..*" sessions : user_id
+sessions "1" -- "0..*" answers : session_id
+sessions "1" -- "0..*" bookmarks : session_id
+sessions "1" -- "0..*" feedback : session_id
+sessions "1" -- "0..1" summaries : session_id
+users "1" -- "0..*" prefs : user_pseudonym (soft)
+
+@enduml
