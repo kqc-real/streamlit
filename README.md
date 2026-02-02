@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kqc-real/streamlit/actions/workflows/ci.yml)
 
-**MC-Test** is an open-source (MIT) web platform for **formative multiple-choice practice** and **MCQ item quality assurance**. It supports pseudonymous access (no account), fast feedback with explanations and mini-glossaries, learner-facing analytics, pacing controls (incl. panic mode), and exports (PDF/CSV/DB). The repository also includes 40+ example question sets and tools to validate and generate new sets (incl. an optional AI generator in the admin panel).
+**MC-Test** is an open-source (MIT) web platform for **formative multiple-choice practice** and **MCQ item quality assurance**. It supports pseudonymous access (no account), fast feedback with explanations and mini-glossaries, learner-facing analytics, pacing controls (incl. panic mode), and exports (PDF/CSV/DB/Anki). The repository also includes 40+ example question sets and tools to validate and generate new sets (incl. an optional AI generator in the admin panel).
 
 **Live demo (reference instance):** https://mc-test.streamlit.app
 
@@ -71,6 +71,7 @@ MC-Test supports two workflows:
 - **PDF exports** (LaTeX-rendering, glossary, bookmarks).
 - **CSV export** of answers.
 - **DB export/dump** for analysis and archival.
+- **Anki export (.apkg)** for spaced repetition (see `README_EXPORT_ANKI.md`).
 
 ### Content library & extensibility
 - 40+ question sets included (`data/questions_*.json`).
@@ -84,8 +85,12 @@ MC-Test supports two workflows:
 MC-Test loads question sets from JSON files like `data/questions_*.json`.
 
 Top-level object:
-- `meta` (required; at minimum `language`)
+- `meta` (required; includes `language`, `title`, `question_count`)
 - `questions` (required list)
+
+Validation:
+- `validate_sets.py` enforces required fields and meta consistency.
+- `question_set_validation.py` adds option-count checks and additional data-quality warnings.
 
 ### Required fields per question
 - `question` (string, non-empty)
@@ -94,19 +99,20 @@ Top-level object:
 - `explanation` (string, non-empty)
 - `topic` (string, non-empty)
 - `weight` (integer, typically 1/2/3; other values produce warnings)
+- `concept` (string, non-empty)
 
 ### Optional fields per question
-- `concept` (string; learning objective / concept)
-- `cognitive_level` (e.g., "Reproduction", "Application", "Analysis")
+- `cognitive_level` (e.g., "Reproduktion", "Anwendung", "Strukturelle Analyse")
 - `mini_glossary` (object or list of term/definition; recommended **2–6**, max 10)
 - `extended_explanation` (optional; see `KI_PROMPT.md` and `GLOSSARY_SCHEMA.md`)
 
 ### Required meta fields
 - `language` (ISO-639-1, e.g., `de`) — **required**
+- `title` (string, non-empty)
+- `question_count` (integer; must match number of questions)
 
 Recommended meta fields:
-- `title`, `created`, `modified`
-- `question_count` (checked for consistency)
+- `created`, `modified`
 - `difficulty_profile` (easy/medium/hard)
 - `test_duration_minutes` and related pacing/time fields
 
@@ -115,6 +121,7 @@ Recommended meta fields:
 ```json
 {
   "meta": {
+    "title": "Graph Traversal Basics",
     "language": "de",
     "question_count": 1,
     "difficulty_profile": {"easy": 0, "medium": 1, "hard": 0}
