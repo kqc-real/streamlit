@@ -8,19 +8,49 @@
 
 ---
 
+## Projektkontext (DE)
+
+Hinweis: Dieser Code wird weitgehend mit KI-Agenten im Sinne von Karpathy's "Vibe Coding" entwickelt und getestet, unter der Supervision des Product Owners (Klaus Quibeldey-Cirkel). Es handelt sich um ein deutschsprachiges Lehrprojekt in den Informatikkursen der IU Internationale Hochschule. Daher sind Code-Kommentare und die meisten Dokumente im Repository auf Deutsch. Im nächsten Kurs "Software-Qualitätsmanagement" soll das gesamte Repository ins Englische überführt werden.
+
+"Vibe Coding" wurde von Andrej Karpathy in einem X-Post am 02.02.2025 geprägt (siehe [Originalpost](https://x.com/karpathy/status/1886192184808149383)).
+
+## Project context (EN)
+
+Note: This codebase is largely developed and tested with AI agents in the spirit of Karpathy's "Vibe Coding", under the supervision of the Product Owner (Klaus Quibeldey-Cirkel). It is a German-language teaching project in the Computer Science courses at IU International University of Applied Sciences. Therefore, code comments and most documents in the repository are in German. In the next course, "Software Quality Management", the entire repository is planned to be translated into English.
+
+Terminology: "Vibe Coding" was coined by Andrej Karpathy in an X post on Feb 2, 2025 (see [original post](https://x.com/karpathy/status/1886192184808149383)).
+
 ## Table of contents
-- [Quick start](#quick-start)
-- [What MC-Test does](#what-mc-test-does)
-- [Core features](#core-features)
-- [Question set schema](#question-set-schema)
-- [Safety & privacy notes](#safety--privacy-notes)
-- [Requirements](#requirements)
-- [Install & run](#install--run)
-- [Configuration](#configuration)
-- [Project structure](#project-structure)
-- [Developer tools](#developer-tools-local)
-- [Administration](#administration--maintenance)
-- [Contributing](#contributing)
+- [📝 MC-Test](#-mc-test)
+  - [Projektkontext (DE)](#projektkontext-de)
+  - [Project context (EN)](#project-context-en)
+  - [Table of contents](#table-of-contents)
+  - [Quick start](#quick-start)
+  - [What MC-Test does](#what-mc-test-does)
+  - [Core features](#core-features)
+    - [Learner experience](#learner-experience)
+    - [Analytics \& diagnostics](#analytics--diagnostics)
+    - [Exports](#exports)
+    - [Content library \& extensibility](#content-library--extensibility)
+  - [Question set schema](#question-set-schema)
+    - [Required fields per question](#required-fields-per-question)
+    - [Optional fields per question](#optional-fields-per-question)
+    - [Required meta fields](#required-meta-fields)
+    - [Minimal example](#minimal-example)
+    - [Contributor recommendations](#contributor-recommendations)
+  - [Safety \& privacy notes](#safety--privacy-notes)
+  - [Requirements](#requirements)
+  - [Install \& run](#install--run)
+    - [Local run](#local-run)
+    - [Deployment (e.g., Streamlit Cloud)](#deployment-eg-streamlit-cloud)
+  - [Configuration](#configuration)
+    - [Minimal secrets example (.env or Streamlit Cloud)](#minimal-secrets-example-env-or-streamlit-cloud)
+  - [Project structure](#project-structure)
+  - [Developer tools (local)](#developer-tools-local)
+  - [Administration \& maintenance](#administration--maintenance)
+    - [Admin access](#admin-access)
+    - [Run tests](#run-tests)
+  - [Contributing](#contributing)
 
 ---
 
