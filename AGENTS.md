@@ -24,7 +24,7 @@ Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten u
 
 ## 4) Fragenformat & Schema (JSON)
 
-Pflichtfelder pro Frage (siehe `validate_sets.py`):
+Pflichtfelder pro Frage (siehe `validate_sets.py` / `question_set_validation.py`):
 - `question`, `options`, `answer`, `explanation`, `weight`, `topic`, `concept`
 
 Empfohlen/optional:
@@ -32,18 +32,18 @@ Empfohlen/optional:
 - `mini_glossary` (2-6 Eintraege)
 - `extended_explanation` (falls vorhanden, inhaltlich konsistent halten)
 
-Validierungs-Hinweise:
+Validierungs-Hinweise (zusammengefuehrt aus `validate_sets.py` und `question_set_validation.py`):
 - `answer` ist **0-basiert** und muss innerhalb der `options` liegen.
 - `weight` in {1,2,3}.
 - `meta.title` und `meta.question_count` muessen passen.
 - Top-Level: `meta` und `questions` sind Pflicht (kein reines Listenformat).
-- `meta.language` ist Pflicht (ISO-639-1, z. B. `de`).
-- `options`: Liste mit 3–5 Eintraegen.
+- `meta.language` ist Pflicht (ISO-639-1, z. B. `de`) — Pruefung in `question_set_validation.py`.
+- `options`: Liste mit 3–5 Eintraegen — Pruefung in `question_set_validation.py`.
 - `question`/`explanation`/`topic`: nicht-leere Strings.
 - `mini_glossary`: Objekt oder Liste; Eintraege werden validiert.
 - LaTeX nicht in Backticks; `<` und `>` in LaTeX vermeiden (nutze `\\langle`/`\\rangle`).
-- Themenverteilung: max. 12 Themen, jedes Thema mind. 1×.
-- `meta.difficulty_profile`, `meta.time_per_weight_minutes`, `meta.test_duration_minutes` werden geprueft (Warnungen).
+- Themenverteilung: max. 12 Themen; Mindest-Vorkommen je Thema ist je nach Validator unterschiedlich (1× in `question_set_validation.py`, 2× in `validate_sets.py`).
+- `meta.difficulty_profile`, `meta.time_per_weight_minutes`, `meta.test_duration_minutes` werden geprueft (Warnungen in `question_set_validation.py`).
 
 ## 5) Cognitive-Level Taxonomie (kurz & verbindlich)
 
