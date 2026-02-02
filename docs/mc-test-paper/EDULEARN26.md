@@ -108,7 +108,7 @@ Das Ergebnis ist strikt JSON-konform. Dadurch lassen sich nachgelagerte Checks a
 
 Der Workflow ist in Abb. 1 dargestellt.
 
-![](images/fsm_workflow.png)
+![](images/fsm_workflow_current.png)
 
 *Abb. 1. Endlicher Zustandsworkflow der Itemgenerierung.*
 
