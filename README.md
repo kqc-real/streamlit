@@ -190,10 +190,7 @@ MC-Test is designed for **formative practice and item QA**. If you use it for su
 - **Pseudonymous usage** helps reduce unnecessary personal data collection.
 - **Admin functions** log actions to support transparency and auditability.
 - **Retention** can be managed via cleanup tooling (e.g., 90 days recommended, context-dependent).
-- For security implementation details see:
-  - [SECURITY_PHASE3_SUMMARY.md](SECURITY_PHASE3_SUMMARY.md)
-  - [CHANGELOG_SECURITY_PHASE3.md](CHANGELOG_SECURITY_PHASE3.md)
-  - [PHASE3_ABSCHLUSS.md](PHASE3_ABSCHLUSS.md)
+ 
 
 ---
 
