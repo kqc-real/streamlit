@@ -191,6 +191,15 @@ def create_tables():
                 );
             """)
 
+            # Tabelle für Heartbeats (aktuell aktive Nutzer)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS user_heartbeats (
+                    user_id TEXT PRIMARY KEY,
+                    session_id INTEGER,
+                    last_seen TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+
             # --- Schema-Migration für bestehende Datenbanken ---
             # Prüfe, ob die Spalte 'feedback_type' in der 'feedback'-Tabelle existiert.
             # Robust gegen unerwartete PRAGMA-Rückgaben (leere/tupelartige Zeilen) und
@@ -306,6 +315,7 @@ def create_tables():
             conn.execute("CREATE INDEX IF NOT EXISTS idx_test_sessions_questions_file ON test_sessions (questions_file);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_session_id ON feedback (session_id);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_feedback_timestamp ON feedback (timestamp DESC);")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_heartbeats_last_seen ON user_heartbeats (last_seen DESC);")
 
             # --- Neue Indizes für Performance-Optimierung ---
             # Beschleunigt das Nachschlagen von Benutzern anhand ihres Pseudonyms (UNIQUE stellt sicher, dass es eindeutig ist)
@@ -2149,4 +2159,52 @@ def get_active_user_counts():
         }
     except sqlite3.Error as e:
         print(f"Datenbankfehler in get_active_user_counts: {e}")
+        return None
+
+
+def upsert_user_heartbeat(user_id: str, session_id: int | None = None) -> bool:
+    """Speichert oder aktualisiert den Heartbeat eines Nutzers."""
+    if not user_id:
+        return False
+    conn = get_db_connection()
+    if conn is None:
+        return False
+    try:
+        with conn:
+            conn.execute(
+                """
+                INSERT INTO user_heartbeats (user_id, session_id, last_seen)
+                VALUES (?, ?, CURRENT_TIMESTAMP)
+                ON CONFLICT(user_id)
+                DO UPDATE SET
+                    session_id = excluded.session_id,
+                    last_seen = excluded.last_seen
+                """,
+                (user_id, session_id),
+            )
+        return True
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in upsert_user_heartbeat: {e}")
+        return False
+
+
+def get_current_user_count(window_minutes: int = 5) -> int | None:
+    """Zählt Nutzer mit Heartbeat im angegebenen Zeitfenster (in Minuten)."""
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT COUNT(*) AS total
+            FROM user_heartbeats
+            WHERE datetime(last_seen) >= datetime('now', ?)
+            """,
+            (f"-{int(window_minutes)} minutes",),
+        )
+        row = cursor.fetchone()
+        return int(row["total"] or 0) if row else 0
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_current_user_count: {e}")
         return None

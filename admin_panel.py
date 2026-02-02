@@ -1167,7 +1167,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
     # --- Erweiterte Dashboard-Statistiken ---
     st.subheader(translate_ui("admin.system.dashboard_stats", default="📊 Dashboard-Statistiken"))
     
-    from database import get_active_user_counts, get_dashboard_statistics
+    from database import get_active_user_counts, get_current_user_count, get_dashboard_statistics
     stats = get_dashboard_statistics()
     
     if stats is not None:
@@ -1186,6 +1186,20 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
             st.metric(translate_ui("admin.system.stats.avg_duration", default="Ø Testdauer"), duration_str)
         
         st.divider()
+
+        current_count = get_current_user_count()
+        if current_count is not None:
+            st.metric(
+                translate_ui(
+                    "admin.system.stats.current_users",
+                    default="Aktuell online (Heartbeat, 5 Min)",
+                ),
+                current_count,
+                help=translate_ui(
+                    "admin.system.stats.current_users_help",
+                    default="Gezählt werden Nutzer mit Heartbeat in den letzten 5 Minuten.",
+                ),
+            )
 
         active_counts = get_active_user_counts()
         if active_counts is not None:

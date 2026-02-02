@@ -64,6 +64,12 @@ CREATE TABLE IF NOT EXISTS feedback (
   FOREIGN KEY (session_id) REFERENCES test_sessions (session_id)
 );
 
+CREATE TABLE IF NOT EXISTS user_heartbeats (
+  user_id TEXT PRIMARY KEY,
+  session_id INTEGER,
+  last_seen TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS test_session_summaries (
   session_id INTEGER PRIMARY KEY,
   user_id TEXT NOT NULL,
@@ -107,6 +113,7 @@ CREATE INDEX IF NOT EXISTS idx_test_sessions_user_qfile ON test_sessions (user_i
 CREATE INDEX IF NOT EXISTS idx_test_sessions_user_time ON test_sessions (user_id, start_time DESC);
 CREATE INDEX IF NOT EXISTS idx_feedback_session_id ON feedback (session_id);
 CREATE INDEX IF NOT EXISTS idx_feedback_timestamp ON feedback (timestamp DESC);
+CREATE INDEX IF NOT EXISTS idx_heartbeats_last_seen ON user_heartbeats (last_seen DESC);
 CREATE INDEX IF NOT EXISTS idx_summaries_user_time ON test_session_summaries (user_id, start_time DESC);
 CREATE INDEX IF NOT EXISTS idx_summaries_qfile ON test_session_summaries (questions_file, start_time DESC);
 CREATE INDEX IF NOT EXISTS idx_user_prefs_user ON user_preferences(user_pseudonym);

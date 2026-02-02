@@ -298,6 +298,8 @@
                 "avg_duration": "Ø Testdauer",
                 "completion_rate": "Abschlussquote",
                 "completion_rate_help": "Prozentsatz der Tests, die vollständig beendet wurden",
+                "current_users": "Aktuell online (Heartbeat, 5 Min)",
+                "current_users_help": "Gezählt werden Nutzer mit Heartbeat in den letzten 5 Minuten.",
                 "active_users_header": "👥 Aktive Nutzer",
                 "active_users_last_hour": "Letzte Stunde",
                 "active_users_today": "Heute",

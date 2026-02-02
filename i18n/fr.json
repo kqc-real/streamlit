@@ -185,6 +185,8 @@
                 "avg_duration": "Ø Durée du test",
                 "completion_rate": "Taux d'achèvement",
                 "completion_rate_help": "Pourcentage de tests entièrement terminés",
+                "current_users": "En ligne (Heartbeat, 5 min)",
+                "current_users_help": "Comptabilise les utilisateurs avec un heartbeat sur les 5 dernières minutes.",
                 "active_users_header": "👥 Utilisateurs actifs",
                 "active_users_last_hour": "Dernière heure",
                 "active_users_today": "Aujourd'hui",

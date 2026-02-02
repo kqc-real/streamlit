@@ -560,6 +560,8 @@
                 "avg_duration": "Ø 测试时长",
                 "completion_rate": "完成率",
                 "completion_rate_help": "完全完成的测试百分比",
+                "current_users": "当前在线（心跳，5 分钟）",
+                "current_users_help": "统计过去 5 分钟内有心跳的用户。",
                 "active_users_header": "👥 活跃用户",
                 "active_users_last_hour": "最近一小时",
                 "active_users_today": "今天",

@@ -31,7 +31,7 @@ if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
 from config import AppConfig, load_questions
-from database import init_database
+from database import init_database, upsert_user_heartbeat
 from auth import handle_user_session, is_admin_user, initialize_session_state
 from logic import (
     get_current_question_index,
@@ -143,6 +143,17 @@ def main():
         # handle_user_session rendert die Login-Seite, hier abbrechen.
         render_welcome_page(app_config)
         st.stop()
+
+    # Heartbeat: nur alle 30s aktualisieren, um DB-Last zu reduzieren
+    try:
+        now_ts = time.time()
+        last_hb = st.session_state.get("_last_heartbeat_at", 0)
+        if now_ts - last_hb >= 30:
+            user_key = st.session_state.get("user_id_hash") or get_user_id_hash(str(user_id))
+            upsert_user_heartbeat(user_key, st.session_state.get("session_id"))
+            st.session_state["_last_heartbeat_at"] = now_ts
+    except Exception:
+        pass
 
     # Ohne aktives Fragenset oder leer geladenes Set: zurück zur Welcome-Page,
     # auch wenn bereits ein Pseudonym gesetzt ist.
