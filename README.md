@@ -71,6 +71,9 @@ Installation guides:
 Admin panel:
 - [Admin guide](docs/ADMIN_PANEL_ANLEITUNG.md)
 
+Documentation index:
+- [docs/README.md](docs/README.md)
+
 ---
 
 ## What MC-Test does

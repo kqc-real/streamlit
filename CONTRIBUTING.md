@@ -9,6 +9,7 @@ Dieses Projekt ist ein **studentisches Open-Source-Projekt** und lebt von eurer 
 ## 📋 Inhaltsverzeichnis
 
 - [Wie kann ich beitragen?](#wie-kann-ich-beitragen)
+- [Release (Kurzfassung)](#release-kurzfassung)
 - [Entwicklungsumgebung einrichten](#entwicklungsumgebung-einrichten)
 - [Workflow für Contributions](#workflow-für-contributions)
 - [Code-Standards](#code-standards)
@@ -37,6 +38,12 @@ Es gibt viele Möglichkeiten, zur MC-Test-App beizutragen:
 - Schaue in die [Issues](https://github.com/kqc-real/streamlit/issues)
 - Arbeite an der Vision 2.0 Roadmap (Datei entfernt)
 - Schlage eigene Features vor
+
+---
+
+## 📦 Release (Kurzfassung)
+
+Siehe [docs/RELEASE_PROCESS.md](docs/RELEASE_PROCESS.md).
 
 ### 4. **Dokumentation verbessern** 📚
 - Ergänze Beispiele in der Anleitung

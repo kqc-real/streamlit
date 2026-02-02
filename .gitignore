@@ -13,6 +13,7 @@ data/*.db
 data/*.db-shm
 data/*.db-wal
 test_audit_log.db*
+.coverage
 
 # Streamlit Secrets (sensible Produktiv-Daten)
 .streamlit/secrets.toml
