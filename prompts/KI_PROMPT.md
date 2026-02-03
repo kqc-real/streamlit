@@ -143,7 +143,7 @@ Inside `<scratchpad>` you must:
 3. **Plan the questions:**
    - Assign each planned question to:
      - a topic/sub-concept,
-     - a weight (1/2/3) and corresponding cognitive level (weight 1 = Reproduction, weight 2 = Application, weight 3 = Analysis),
+     - a weight (1/2/3) and corresponding cognitive level (weight 1 = Reproduction, weight 2 = Application, weight 3 = Analysis; if the user's language is German, use Reproduktion/Anwendung/Strukturelle Analyse in the final JSON),
      - and a rough idea of what concept it will test.
    - Ensure there is no significant repetition (avoid near-duplicate questions).
    - If the user selected "Variable (3–5)" options (C), plan a reasonable distribution of option counts per question (3 to 5 options each).
@@ -157,7 +157,10 @@ Inside `<scratchpad>` you must:
    - Use the provided `time_per_weight_minutes` values and the count of questions per weight.
    - Compute total duration:
      - `sum(weight_i_count * time_per_weight_minutes[i]) + additional_buffer_minutes`
-   - Ensure `test_duration_minutes` is an integer (round logically if needed).
+   - Rounding rules (strict):
+     1) Add `additional_buffer_minutes` (use default 5 if missing).
+     2) Round to a full minute.
+     3) If the result is **>= 10**, round **up** to the next multiple of 5.
    - Document the calculation briefly in the scratchpad.
 
 6. **Final Escape Check:**
@@ -200,9 +203,14 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
   - JSON keys remain strictly in English.
 
 - **Cognitive weights and levels (MANDATORY mapping):**
-  - `weight = 1` → `"cognitive_level": "Reproduction"`
-  - `weight = 2` → `"cognitive_level": "Application"`
-  - `weight = 3` → `"cognitive_level": "Analysis"`
+  - If the user's language is German:
+    - `weight = 1` → `"cognitive_level": "Reproduktion"`
+    - `weight = 2` → `"cognitive_level": "Anwendung"`
+    - `weight = 3` → `"cognitive_level": "Strukturelle Analyse"`
+  - Otherwise:
+    - `weight = 1` → `"cognitive_level": "Reproduction"`
+    - `weight = 2` → `"cognitive_level": "Application"`
+    - `weight = 3` → `"cognitive_level": "Analysis"`
   - This mapping is mandatory and must be consistent for every question.
 
 - **Code Question Weighting:**
@@ -348,7 +356,7 @@ The final JSON object must follow this structure (types and required fields):
       "3": 1.0
     },
     "additional_buffer_minutes": 5,
-    "test_duration_minutes": "number (total minutes, computed and rounded logically)"
+    "test_duration_minutes": "number (total minutes; add buffer, round to full minute; if >=10 round up to next multiple of 5)"
   },
   "questions": [
     {
@@ -360,7 +368,7 @@ The final JSON object must follow this structure (types and required fields):
       "topic": "string (Chapter/Subtopic)",
       "topic": "string (Question-set domain subtopic)",
       "concept": "string (Core technical term OR a widely known misconception label)",
-      "cognitive_level": "string (Reproduction | Application | Analysis, consistent with weight)",
+      "cognitive_level": "string (German: Reproduktion | Anwendung | Strukturelle Analyse; otherwise Reproduction | Application | Analysis; consistent with weight)",
       "extended_explanation": null,
       "mini_glossary": [
         { "term": "TermKey", "definition": "Definition string" }

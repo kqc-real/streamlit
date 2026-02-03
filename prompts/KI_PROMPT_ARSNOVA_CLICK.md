@@ -193,6 +193,7 @@ Fülle die `meta`-Sektion basierend auf den generierten Fragen. WICHTIG: Das Fel
     * `answer`: (integer) 0-basierter Index der korrekten Option im `options`-Array.
     * `explanation`: (string) Standarderklärung zur Lösung.
     * `weight`: (integer) 1, 2 oder 3.
+    * `cognitive_level`: (string) MUSS zur Gewichtung passen. Deutsch: `1 → "Reproduktion"`, `2 → "Anwendung"`, `3 → "Strukturelle Analyse"`. Andere Sprachen: `Reproduction`/`Application`/`Analysis`.
     * `topic`: (string) Unterthema oder Kapitel (z.B. "Normalisierung", "Agile Methoden").
     * `extended_explanation`: (object, optional) **Nur** generieren, wenn in Schritt 5 mit 'Ja' beantwortet. Muss die Struktur `{ "title": "...", "steps": [...] }` haben.
       * `steps`: (array of strings) Sätze ohne führende "Schritt x"-Präfixe.
@@ -222,6 +223,7 @@ Führe vor der finalen JSON-Ausgabe eine Selbstprüfung durch:
 2.  **Struktur:** Es enthält exakt die Top-Level-Keys `meta` und `questions`.
 3.  **Metadaten-Konsistenz:** `meta.question_count` entspricht `questions.length`. `meta.difficulty_profile` spiegelt exakt die tatsächlichen `weight`-Werte in der `questions`-Liste wider.
 4.  **Zeitberechnung:** `meta.test_duration_minutes` ist eine positive Ganzzahl, die korrekt nach den oben genannten Regeln berechnet wurde.
+5.  **Cognitive-Level:** `cognitive_level` ist bei jeder Frage gesetzt und entspricht der Gewichtung (1/2/3).
 5.  **Lösbarkeit:** Jede Frage hat genau eine korrekte `answer`, deren Index auf ein valides Element in `options` verweist.
 6.  **Optionalität:** Optionale Felder (`extended_explanation`, `mini_glossary`) sind nur enthalten, wenn sie in Schritt 5/6 beauftragt wurden und nicht leer sind.
 7.  **Faktentreue:** Alle Erklärungen und Definitionen basieren auf etablierten Fakten.

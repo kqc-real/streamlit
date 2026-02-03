@@ -1,0 +1,1505 @@
+{
+  "meta": {
+    "title": "Machine Learning: Kapitel 3",
+    "created": "03.02.2026 13:41",
+    "target_audience": "Studierende im Bachelorkurs \"Machine Learning\"",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 6,
+      "medium": 18,
+      "hard": 6
+    },
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 30
+  },
+  "questions": [
+    {
+      "question": "1. Welche Form (shape) hat das Feature-Array X, wenn der MNIST-Datensatz mit as_frame=False geladen wurde?",
+      "options": [
+        "(70000, 784)",
+        "(784, 70000)",
+        "(70000, 28, 28)",
+        "(60000, 784)"
+      ],
+      "answer": 0,
+      "explanation": "Bei MNIST werden 70.000 Bilder als flache Vektoren gespeichert, daher hat X die Form (70000, 784). 784 entspricht 28×28 Pixeln pro Bild. Die anderen Formen vertauschen Achsen oder mischen Trainings-/Gesamtgröße.",
+      "weight": 1,
+      "topic": "Kapitel 3 – MNIST & Datenladen",
+      "subtopic": "Datensatz & Repräsentation",
+      "concept": "MNIST",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "MNIST",
+          "definition": "Datensatz mit 70.000 handschriftlichen Ziffernbildern (0–9) als Standardbeispiel für Klassifikation."
+        },
+        {
+          "term": "Feature",
+          "definition": "Eingabemerkmal eines Datenpunkts; bei MNIST typischerweise Pixelintensitäten."
+        },
+        {
+          "term": "Label",
+          "definition": "Zielkategorie, die vorhergesagt werden soll (z.B. die Ziffer 0–9)."
+        },
+        {
+          "term": "as_frame",
+          "definition": "Parameter, der bestimmt, ob Daten als Pandas-Objekte (True) oder als NumPy-Arrays (False) zurückgegeben werden."
+        },
+        {
+          "term": "NumPy-Array",
+          "definition": "Datenstruktur für numerische Arrays in Python; unterstützt Vektor- und Matrixoperationen."
+        },
+        {
+          "term": "Shape",
+          "definition": "Tupel, das die Dimensionen eines Arrays angibt, z.B. (Anzahl_Datenpunkte, Anzahl_Merkmale)."
+        }
+      ]
+    },
+    {
+      "question": "2. Welche Funktionsfamilie in sklearn.datasets erzeugt typischerweise synthetische (künstliche) Datensätze für Tests?",
+      "options": [
+        "make_* Funktionen",
+        "fetch_* Funktionen",
+        "load_* Funktionen"
+      ],
+      "answer": 0,
+      "explanation": "make_* erzeugt künstliche Datensätze (z.B. für Tests oder Demonstrationen). fetch_* lädt reale Datensätze aus dem Netz, und load_* lädt kleine, mitgelieferte Beispieldatensätze lokal.",
+      "weight": 1,
+      "topic": "Kapitel 3 – MNIST & Datenladen",
+      "subtopic": "Datensatz & Repräsentation",
+      "concept": "make_*",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "sklearn.datasets",
+          "definition": "Modul in Scikit-Learn zum Laden, Herunterladen und Erzeugen von Datensätzen."
+        },
+        {
+          "term": "make_*",
+          "definition": "Funktionspräfix für Generatoren, die synthetische Datensätze erstellen."
+        },
+        {
+          "term": "fetch_*",
+          "definition": "Funktionspräfix für Loader, die reale Datensätze aus externen Quellen herunterladen."
+        },
+        {
+          "term": "load_*",
+          "definition": "Funktionspräfix für Loader, die kleine, mitgelieferte Spiel-Datensätze lokal laden."
+        },
+        {
+          "term": "synthetischer Datensatz",
+          "definition": "Künstlich erzeugte Daten, die reale Daten nachbilden sollen, oft für Tests."
+        },
+        {
+          "term": "Scikit-Learn",
+          "definition": "Python-Bibliothek für Machine Learning mit einheitlichen APIs für Modelle und Tools."
+        }
+      ]
+    },
+    {
+      "question": "3. Warum kann die Genauigkeit (Accuracy) bei stark unbalancierten Datensätzen ein irreführendes Qualitätsmaß sein?",
+      "options": [
+        "Weil die Mehrheitsklasse dominiert",
+        "Weil nur Positive gezählt werden",
+        "Weil True Negatives ignoriert werden",
+        "Weil sie nur bei Regression gilt"
+      ],
+      "answer": 0,
+      "explanation": "Bei unbalancierten Daten kann ein Modell durch ständiges Vorhersagen der häufigen Klasse eine hohe Accuracy erreichen, ohne die seltene Klasse gut zu erkennen. Deshalb betrachtet man oft zusätzlich Metriken wie Präzision, Recall oder die Konfusionsmatrix.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "Kreuzvalidierung & Baselines",
+      "concept": "Accuracy-Falle",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Warum Accuracy täuschen kann",
+        "steps": [
+          "Prüfe die Klassenverteilung im Datensatz.",
+          "Überlege eine triviale Baseline (z.B. immer negativ).",
+          "Vergleiche Accuracy mit Präzision/Recall oder einer Konfusionsmatrix."
+        ],
+        "content": "Wenn die positive Klasse selten ist, reicht es oft, die Mehrheitsklasse vorherzusagen, um scheinbar gute Accuracy zu bekommen. Erst feinere Metriken zeigen, ob das Modell die seltene Klasse wirklich erkennt."
+      },
+      "mini_glossary": [
+        {
+          "term": "Accuracy",
+          "definition": "Anteil korrekter Vorhersagen an allen Vorhersagen."
+        },
+        {
+          "term": "unbalanciert",
+          "definition": "Klassenverteilung ist stark schief; einige Klassen treten viel häufiger auf als andere."
+        },
+        {
+          "term": "Mehrheitsklasse",
+          "definition": "Die Klasse, die im Datensatz am häufigsten vorkommt."
+        },
+        {
+          "term": "Baseline",
+          "definition": "Ein einfaches Referenzmodell (z.B. Dummy), gegen das man komplexere Modelle vergleicht."
+        },
+        {
+          "term": "Konfusionsmatrix",
+          "definition": "Tabelle, die True/False Positives/Negatives zählt und Fehlerarten sichtbar macht."
+        },
+        {
+          "term": "Recall",
+          "definition": "Sensitivität; Anteil der tatsächlich Positiven, die korrekt erkannt wurden."
+        }
+      ]
+    },
+    {
+      "question": "4. Betrachte den Code:\n\n```python\n1: scores = cross_val_score(sgd_clf, X_train, y_train, cv=3, scoring='accuracy')\n```\nWas bedeutet die Angabe cv=3 in diesem Aufruf am besten?",
+      "options": [
+        "Daten werden in 3 Folds geteilt",
+        "Modell läuft über 3 Epochen",
+        "Features werden auf 3 reduziert",
+        "Klassen werden auf 3 begrenzt",
+        "Lernrate wird durch 3 geteilt"
+      ],
+      "answer": 0,
+      "explanation": "cv=3 steht für 3-fache Kreuzvalidierung: Die Daten werden in drei Folds aufgeteilt, und das Modell wird dreimal trainiert und jeweils auf dem anderen Fold bewertet. Das liefert eine stabilere Schätzung als ein einzelner Split.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "Kreuzvalidierung & Baselines",
+      "concept": "cross_val_score",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Interpretation von cv",
+        "steps": [
+          "Teile die Trainingsdaten in k Folds.",
+          "Trainiere k-mal auf k−1 Folds.",
+          "Bewerte jeweils auf dem verbleibenden Fold und aggregiere die Scores."
+        ],
+        "content": "Der Parameter cv bestimmt, wie viele Folds (k) in der k-fachen Kreuzvalidierung verwendet werden. Bei cv=3 entstehen drei Trainings-/Validierungsdurchläufe, deren Scores typischerweise gemittelt werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "cross_val_score",
+          "definition": "Scikit-Learn-Funktion zur Bewertung eines Modells mit Kreuzvalidierung."
+        },
+        {
+          "term": "cv",
+          "definition": "Parameter, der die Anzahl der Folds (oder ein CV-Schema) für Kreuzvalidierung angibt."
+        },
+        {
+          "term": "Fold",
+          "definition": "Teilmenge der Daten, die in Kreuzvalidierung abwechselnd zum Trainieren oder Validieren genutzt wird."
+        },
+        {
+          "term": "Kreuzvalidierung",
+          "definition": "Verfahren zur robusteren Modellbewertung durch mehrere Trainings-/Validierungs-Splits."
+        },
+        {
+          "term": "Trainingsdaten",
+          "definition": "Daten, mit denen ein Modell seine Parameter lernt."
+        },
+        {
+          "term": "Validierung",
+          "definition": "Bewertung eines Modells auf Daten, die nicht zum Fitten verwendet wurden."
+        }
+      ]
+    },
+    {
+      "question": "5. Was beschreibt die Sensitivität (Recall) eines binären Klassifikators am besten?",
+      "options": [
+        "Anteil erkannter Positiver",
+        "Anteil korrekter Vorhersagen",
+        "Anteil korrekter Negativer"
+      ],
+      "answer": 0,
+      "explanation": "Recall (Sensitivität) misst, wie viele der tatsächlich positiven Fälle als positiv erkannt werden. Accuracy betrachtet dagegen alle Fälle, und die Spezifität fokussiert auf korrekt erkannte Negative.",
+      "weight": 1,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "Präzision/Recall/F1",
+      "concept": "Recall",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Recall",
+          "definition": "Sensitivität; TP/(TP+FN), also Anteil der tatsächlich Positiven, die erkannt werden."
+        },
+        {
+          "term": "Sensitivität",
+          "definition": "Synonym für Recall; auch Trefferquote oder True-Positive-Rate (TPR)."
+        },
+        {
+          "term": "binäre Klassifikation",
+          "definition": "Klassifikation mit genau zwei Klassen, oft positiv vs. negativ."
+        },
+        {
+          "term": "True Positive (TP)",
+          "definition": "Positiver Fall wird korrekt als positiv vorhergesagt."
+        },
+        {
+          "term": "False Negative (FN)",
+          "definition": "Positiver Fall wird fälschlich als negativ vorhergesagt."
+        },
+        {
+          "term": "Accuracy",
+          "definition": "Anteil aller korrekt klassifizierten Fälle (TP+TN)/Gesamt."
+        }
+      ]
+    },
+    {
+      "question": "6. In der Formel für Relevanz (Präzision) gilt Präzision = TP / (TP + ?). Welche Größe ergänzt TP im Nenner?",
+      "options": [
+        "FP (False Positives)",
+        "FN (False Negatives)",
+        "TN (True Negatives)",
+        "Support (Anzahl Fälle)"
+      ],
+      "answer": 0,
+      "explanation": "Präzision setzt die korrekt als positiv erkannten Fälle (TP) ins Verhältnis zu allen als positiv vorhergesagten Fällen, also TP+FP. False Negatives stehen dagegen im Nenner von Recall.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "Präzision/Recall/F1",
+      "concept": "Präzision",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Herleitung der Präzision",
+        "steps": [
+          "Zähle alle als positiv vorhergesagten Fälle.",
+          "Davon sind TP korrekt und FP falsch positiv.",
+          "Bilde TP/(TP+FP)."
+        ],
+        "content": "Präzision beantwortet die Frage: ‚Wenn das Modell positiv sagt, wie oft stimmt das?‘ Deshalb liegt im Nenner die Gesamtzahl der positiven Vorhersagen, also True Positives plus False Positives."
+      },
+      "mini_glossary": [
+        {
+          "term": "Präzision",
+          "definition": "Relevanz; Anteil der positiven Vorhersagen, die korrekt sind: TP/(TP+FP)."
+        },
+        {
+          "term": "True Positive (TP)",
+          "definition": "Fall ist positiv und wird positiv vorhergesagt."
+        },
+        {
+          "term": "False Positive (FP)",
+          "definition": "Fall ist negativ, wird aber fälschlich positiv vorhergesagt."
+        },
+        {
+          "term": "Nenner",
+          "definition": "Unterer Teil eines Bruchs; bestimmt hier die Menge, auf die normiert wird."
+        },
+        {
+          "term": "positive Vorhersage",
+          "definition": "Modell sagt ‚positiv‘ für einen Datenpunkt."
+        },
+        {
+          "term": "Relevanz",
+          "definition": "Deutsches Wort im Text für Präzision; beschreibt die Zuverlässigkeit positiver Vorhersagen."
+        }
+      ]
+    },
+    {
+      "question": "7. Betrachte den folgenden Code:\n\n```python\n1: y_scores = cross_val_predict(sgd_clf, X_train, y_train_5, cv=3,\n2:                             method=__________)\n```\nWelche Zeichenkette muss anstelle von __________ eingesetzt werden, um die Scores der Entscheidungsfunktion zu erhalten?",
+      "options": [
+        "Methode: decision_function (Score)",
+        "Methode: predict_log_proba (Log-Prob.)",
+        "Methode: predict_proba (Prob. je Klasse)",
+        "Methode: predict (Labelausgabe)",
+        "Methode: score (CV-Score je Fold)"
+      ],
+      "answer": 0,
+      "explanation": "Um Schwellenwerte zu variieren, braucht man kontinuierliche Scores statt harter Klassenlabels. Dafür liefert method='decision_function' die Entscheidungswerte pro Instanz. (Hinweis für Java-Umsteiger: In Python gibt es None statt null und True statt true.)",
+      "weight": 2,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "Schwellenwerte & Scores",
+      "concept": "decision_function",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Warum decision_function?",
+        "steps": [
+          "cross_val_predict kann verschiedene Ausgaben zurückgeben.",
+          "Mit method='decision_function' erhältst du Scores.",
+          "Diese Scores erlauben Schwellenwert-basierte Vorhersagen."
+        ],
+        "content": "Für Präzision/Recall-Kurven oder die Wahl eines Schwellwerts braucht man eine Rangfolge bzw. Score pro Datenpunkt. Die Entscheidungsfunktion liefert genau diese Scores, ohne sofort auf True/False zu reduzieren."
+      },
+      "mini_glossary": [
+        {
+          "term": "cross_val_predict",
+          "definition": "Erzeugt Vorhersagen per Kreuzvalidierung, oft für Fehleranalyse oder Metriken."
+        },
+        {
+          "term": "method",
+          "definition": "Parameter von cross_val_predict, der festlegt, welche Modellmethode aufgerufen wird."
+        },
+        {
+          "term": "decision_function",
+          "definition": "Methode vieler Klassifikatoren, die einen kontinuierlichen Score pro Instanz liefert."
+        },
+        {
+          "term": "Score",
+          "definition": "Numerischer Wert, der die ‚Positivität‘ oder Klassenzugehörigkeit ausdrückt."
+        },
+        {
+          "term": "Schwellwert",
+          "definition": "Grenzwert, ab dem ein Score als positive Vorhersage interpretiert wird."
+        },
+        {
+          "term": "Klassenlabel",
+          "definition": "Diskrete Ausgabe eines Klassifikators, z.B. True/False oder '5'/'nicht-5'."
+        }
+      ]
+    },
+    {
+      "question": "8. Was passiert typischerweise, wenn man bei einem binären Klassifikator den Entscheidungsschwellenwert erhöht?",
+      "options": [
+        "Präzision steigt, Recall sinkt",
+        "Präzision sinkt, Recall steigt",
+        "Präzision und Recall steigen",
+        "Präzision und Recall bleiben gleich"
+      ],
+      "answer": 0,
+      "explanation": "Ein höherer Schwellenwert macht das Modell ‚vorsichtiger‘: Es sagt seltener positiv und produziert oft weniger False Positives, wodurch die Präzision steigt. Gleichzeitig werden mehr echte Positive übersehen, wodurch der Recall sinkt.",
+      "weight": 1,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "Schwellenwerte & Scores",
+      "concept": "Schwellwert",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Schwellwert",
+          "definition": "Grenzwert, ab dem ein Score als positive Klasse interpretiert wird."
+        },
+        {
+          "term": "Präzision",
+          "definition": "Anteil korrekter positiver Vorhersagen: TP/(TP+FP)."
+        },
+        {
+          "term": "Recall",
+          "definition": "Anteil erkannter positiver Fälle: TP/(TP+FN)."
+        },
+        {
+          "term": "Trade-off",
+          "definition": "Kompromiss zwischen zwei Zielen, die nicht gleichzeitig maximiert werden können."
+        },
+        {
+          "term": "False Positive (FP)",
+          "definition": "Negativer Fall wird fälschlich als positiv vorhergesagt."
+        },
+        {
+          "term": "False Negative (FN)",
+          "definition": "Positiver Fall wird fälschlich als negativ vorhergesagt."
+        }
+      ]
+    },
+    {
+      "question": "9. Bei precision_recall_curve(...) hat das Array precisions typischerweise ein Element mehr als thresholds. Warum?",
+      "options": [
+        "Zusatzpunkt für unendlichen Threshold",
+        "Weil Thresholds doppelt gezählt sind",
+        "Weil Recall monoton verlaufen muss",
+        "Weil Präzision linear verlaufen würde"
+      ],
+      "answer": 0,
+      "explanation": "precision_recall_curve fügt am Ende einen Punkt hinzu, der einem extrem hohen (praktisch unendlichen) Schwellenwert entspricht. Dadurch werden eine letzte Präzision von 0 und ein letzter Recall von 1 ergänzt, was die Kurve sauber abschließt.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "PR- und ROC-Kurven",
+      "concept": "precision_recall_curve",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Array-Längen verstehen",
+        "steps": [
+          "thresholds enthält echte Schwellwerte aus den Scores.",
+          "Die Kurve benötigt Endpunkte für die Darstellung.",
+          "Daher werden Präzision/Recall um einen Punkt ergänzt."
+        ],
+        "content": "Die PR-Kurve basiert auf diskreten Schwellenwerten, die aus den Scores entstehen. Für eine vollständige Kurve ergänzt Scikit-Learn zusätzlich einen Endpunkt, der einem unendlich hohen Schwellenwert entspricht."
+      },
+      "mini_glossary": [
+        {
+          "term": "precision_recall_curve",
+          "definition": "Funktion, die Präzision und Recall für viele Schwellenwerte berechnet."
+        },
+        {
+          "term": "Thresholds",
+          "definition": "Schwellenwerte, die zur Umwandlung von Scores in Klassenlabels genutzt werden."
+        },
+        {
+          "term": "Endpunkt",
+          "definition": "Zusätzlicher Punkt, der eine Kurve in der Darstellung abschließt."
+        },
+        {
+          "term": "PR-Kurve",
+          "definition": "Kurve, die Präzision gegen Recall über alle Schwellenwerte aufträgt."
+        },
+        {
+          "term": "Score",
+          "definition": "Kontinuierlicher Wert, der zur Rangordnung von Vorhersagen dient."
+        },
+        {
+          "term": "unendlicher Threshold",
+          "definition": "Gedanklicher Grenzwert, bei dem praktisch keine Instanz mehr als positiv gilt."
+        }
+      ]
+    },
+    {
+      "question": "10. In einem Anwendungsfall ist die positive Klasse sehr selten, und falsch Positive sind besonders problematisch. Welche Kurve ist als erste Wahl sinnvoll?",
+      "options": [
+        "Man nutzt die PR-Kurve",
+        "Man nutzt die ROC-Kurve",
+        "Man nutzt F1 je Schwelle",
+        "Man nutzt Accuracy je Fold",
+        "Man nutzt Loss je Epoch"
+      ],
+      "answer": 0,
+      "explanation": "Bei seltenen Positiven und wenn falsch Positive wichtig sind, ist die Precision-Recall-Kurve oft aussagekräftiger als die ROC-Kurve. Sie zeigt direkt den Trade-off zwischen Präzision und Recall in der relevanten Region.",
+      "weight": 3,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "PR- und ROC-Kurven",
+      "concept": "PR-Kurve",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Kurvenwahl begründen",
+        "steps": [
+          "Prüfe, ob die positive Klasse selten ist.",
+          "Bewerte, ob FP oder FN teurer sind.",
+          "Wähle PR bei seltenen Positiven oder FP-Fokus; sonst eher ROC."
+        ],
+        "content": "ROC-Kurven können bei stark unbalancierten Daten gut aussehen, weil viele True Negatives leicht zu erreichen sind. PR-Kurven fokussieren stärker auf die Qualität der positiven Vorhersagen und sind daher in solchen Szenarien oft informativer."
+      },
+      "mini_glossary": [
+        {
+          "term": "positive Klasse",
+          "definition": "Die Klasse von besonderem Interesse, z.B. ‚Betrug‘ oder ‚Krank‘."
+        },
+        {
+          "term": "falsch Positiv (FP)",
+          "definition": "Negativer Fall wird als positiv klassifiziert."
+        },
+        {
+          "term": "ROC-Kurve",
+          "definition": "Kurve von TPR gegen FPR über alle Schwellenwerte."
+        },
+        {
+          "term": "PR-Kurve",
+          "definition": "Kurve von Präzision gegen Recall über alle Schwellenwerte."
+        },
+        {
+          "term": "Unbalance",
+          "definition": "Stark ungleiche Klassenhäufigkeiten im Datensatz."
+        },
+        {
+          "term": "Trade-off",
+          "definition": "Kompromiss zwischen zwei konkurrierenden Zielen (z.B. Präzision vs. Recall)."
+        }
+      ]
+    },
+    {
+      "question": "11. Welche ROC-AUC entspricht typischerweise einem völlig zufälligen Klassifikator?",
+      "options": [
+        "0.5",
+        "1.0",
+        "0.0"
+      ],
+      "answer": 0,
+      "explanation": "Ein Zufallsklassifikator liegt im Mittel auf der Diagonalen der ROC-Kurve und hat eine AUC von 0,5. 1,0 wäre perfekt, 0,0 entspräche systematisch falscher Ranking-Reihenfolge.",
+      "weight": 1,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "PR- und ROC-Kurven",
+      "concept": "ROC AUC",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "ROC",
+          "definition": "Receiver Operating Characteristic; Kurve von TPR gegen FPR."
+        },
+        {
+          "term": "AUC",
+          "definition": "Area Under the Curve; Flächenmaß zur Zusammenfassung einer Kurve."
+        },
+        {
+          "term": "ROC-AUC",
+          "definition": "AUC der ROC-Kurve; misst die Ranking-Qualität eines Klassifikators."
+        },
+        {
+          "term": "Zufallsklassifikator",
+          "definition": "Modell, das zufällig entscheidet; dient als Referenz."
+        },
+        {
+          "term": "Diagonale",
+          "definition": "Linie von (0,0) nach (1,1) in der ROC; entspricht Zufall."
+        },
+        {
+          "term": "Ranking",
+          "definition": "Sortierung von Instanzen nach Score; Grundlage für ROC/PR-Kurven."
+        }
+      ]
+    },
+    {
+      "question": "12. Was beschreibt die Falsch-positiv-Rate (FPR) in der ROC-Analyse am treffendsten?",
+      "options": [
+        "Anteil negativer Fälle als positiv",
+        "Anteil positiver Fälle als negativ",
+        "Anteil korrekt positiver Fälle (TPR)",
+        "Anteil korrekt negativer Fälle (TNR)"
+      ],
+      "answer": 0,
+      "explanation": "Die FPR ist der Anteil negativer Datenpunkte, die fälschlicherweise als positiv klassifiziert werden. Sie ist gleich eins minus Spezifität (bzw. eins minus TNR) und steigt oft, wenn man den Schwellenwert senkt.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Qualitätsmaße",
+      "subtopic": "PR- und ROC-Kurven",
+      "concept": "FPR",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "FPR einordnen",
+        "steps": [
+          "Identifiziere die negativen Fälle.",
+          "Zähle, wie viele davon als positiv vorhergesagt wurden (FP).",
+          "Berechne FPR = FP/(FP+TN)."
+        ],
+        "content": "In der ROC-Kurve steht die FPR auf der x-Achse. Sie misst, wie oft das Modell ‚falsch Alarm‘ schlägt, bezogen auf alle tatsächlich negativen Fälle."
+      },
+      "mini_glossary": [
+        {
+          "term": "FPR",
+          "definition": "False Positive Rate; FP/(FP+TN), Anteil negativer Fälle, die fälschlich positiv werden."
+        },
+        {
+          "term": "False Positive (FP)",
+          "definition": "Negativer Fall wird als positiv vorhergesagt."
+        },
+        {
+          "term": "True Negative (TN)",
+          "definition": "Negativer Fall wird korrekt als negativ vorhergesagt."
+        },
+        {
+          "term": "TNR",
+          "definition": "True Negative Rate; TN/(TN+FP), auch Spezifität."
+        },
+        {
+          "term": "Spezifität",
+          "definition": "Anteil korrekt erkannter negativer Fälle; gleich TNR."
+        },
+        {
+          "term": "ROC-Kurve",
+          "definition": "Kurve von TPR (y) gegen FPR (x) für viele Schwellenwerte."
+        }
+      ]
+    },
+    {
+      "question": "13. Bei der One-versus-One-Strategie (OvO) werden für N Klassen N(N-1)/2 binäre Klassifikatoren trainiert. Wie viele sind es bei N=10?",
+      "options": [
+        "45",
+        "10",
+        "20",
+        "55",
+        "90"
+      ],
+      "answer": 0,
+      "explanation": "Bei OvO wird jedes Klassenpaar mit einem eigenen binären Modell unterschieden. Für 10 Klassen ergibt das 10·9/2 = 45 Klassifikatoren. Das ist deutlich mehr als bei OvR, wo es nur 10 Modelle wären.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikatoren mit mehreren Kategorien",
+      "subtopic": "Multiclass Strategien",
+      "concept": "One-versus-One",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "OvO-Klassifikatoren zählen",
+        "steps": [
+          "Setze N=10 in N(N−1)/2 ein.",
+          "Berechne 10·9/2.",
+          "Interpretiere das Ergebnis als Anzahl der Paar-Klassifikatoren."
+        ],
+        "content": "OvO trainiert für jedes ungeordnete Klassenpaar genau einen binären Klassifikator. Deshalb wächst die Anzahl quadratisch mit der Klassenzahl und beträgt bei 10 Klassen 45."
+      },
+      "mini_glossary": [
+        {
+          "term": "OvO",
+          "definition": "One-versus-One; Strategie für Multiclass, die pro Klassenpaar einen binären Klassifikator trainiert."
+        },
+        {
+          "term": "binärer Klassifikator",
+          "definition": "Modell mit zwei Ausgabeklassen, z.B. positiv/negativ."
+        },
+        {
+          "term": "Multiclass",
+          "definition": "Klassifikation mit mehr als zwei Klassen."
+        },
+        {
+          "term": "N(N-1)/2",
+          "definition": "Formel für die Anzahl ungeordneter Paare aus N Elementen."
+        },
+        {
+          "term": "OvR",
+          "definition": "One-versus-Rest; trainiert pro Klasse einen Detektor gegen alle anderen."
+        },
+        {
+          "term": "Skalierung",
+          "definition": "Wie Rechenaufwand mit Daten- oder Klassenzahl wächst; OvO wächst mit N²."
+        }
+      ]
+    },
+    {
+      "question": "14. Wofür ist das Attribut classes_ eines trainierten Scikit-Learn-Klassifikators typischerweise zuständig?",
+      "options": [
+        "Reihenfolge der Klassenlabels",
+        "Ablage der Trainingsfeatures",
+        "Zwischenspeicher der Gradienten"
+      ],
+      "answer": 0,
+      "explanation": "classes_ enthält die (sortierte) Liste der Klassenlabels in der Reihenfolge, die das Modell intern verwendet. Das ist wichtig, um Indizes aus decision_function oder predict_proba korrekt auf Labels abzubilden.",
+      "weight": 1,
+      "topic": "Kapitel 3 – Klassifikatoren mit mehreren Kategorien",
+      "subtopic": "Multiclass Strategien",
+      "concept": "classes_",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "classes_",
+          "definition": "Attribut vieler Scikit-Learn-Klassifikatoren; listet die Klassenlabels in fester Reihenfolge auf."
+        },
+        {
+          "term": "Label",
+          "definition": "Kategorie, die ein Modell vorhersagt, z.B. '0' bis '9'."
+        },
+        {
+          "term": "Index",
+          "definition": "Position in einem Array; muss oft über classes_ in ein Label übersetzt werden."
+        },
+        {
+          "term": "decision_function",
+          "definition": "Gibt Scores zurück, deren Reihenfolge zu classes_ passt."
+        },
+        {
+          "term": "predict_proba",
+          "definition": "Gibt Klassenwahrscheinlichkeiten zurück, geordnet nach classes_."
+        },
+        {
+          "term": "Scikit-Learn API",
+          "definition": "Einheitliches Schnittstellenkonzept (fit/predict/score) über Modelle hinweg."
+        }
+      ]
+    },
+    {
+      "question": "15. Betrachte den Code:\n\n```python\n1: from sklearn.multiclass import OneVsRestClassifier\n2: from sklearn.svm import SVC\n3: ovr_clf = OneVsRestClassifier(SVC(random_state=42))\n4: ovr_clf.fit(X_train[:2000], y_train[:2000])\n5: n = len(ovr_clf.estimators_)\n```\nWie groß ist n bei einem Datensatz mit 10 Klassen typischerweise?",
+      "options": [
+        "10",
+        "45",
+        "1",
+        "100"
+      ],
+      "answer": 0,
+      "explanation": "Bei OvR wird genau ein binäres Modell pro Klasse trainiert. Für 10 Klassen sind das 10 Detektoren, daher hat estimators_ typischerweise Länge 10.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikatoren mit mehreren Kategorien",
+      "subtopic": "Multiclass Strategien",
+      "concept": "One-versus-Rest",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "OvR abschätzen",
+        "steps": [
+          "Bestimme die Anzahl der Klassen.",
+          "OvR trainiert pro Klasse ein Modell.",
+          "Die Anzahl der estimators_ entspricht daher der Klassenzahl."
+        ],
+        "content": "One-vs-Rest skaliert linear mit der Klassenzahl, weil jede Klasse gegen den Rest unterschieden wird. Das ist oft einfacher als OvO, wenn die Basisalgorithmen gut mit großen Trainingsmengen skalieren."
+      },
+      "mini_glossary": [
+        {
+          "term": "OvR",
+          "definition": "One-versus-Rest; Strategie, die pro Klasse einen binären Klassifikator trainiert."
+        },
+        {
+          "term": "estimator",
+          "definition": "Ein einzelnes trainiertes Modell in Scikit-Learn (z.B. ein binärer Klassifikator)."
+        },
+        {
+          "term": "estimators_",
+          "definition": "Liste der einzelnen Modelle innerhalb eines Metaklassifikators wie OneVsRestClassifier."
+        },
+        {
+          "term": "Klassenanzahl",
+          "definition": "Anzahl möglicher Kategorien im Ziel, z.B. 10 Ziffern bei MNIST."
+        },
+        {
+          "term": "binärer Detektor",
+          "definition": "Klassifikator, der ‚diese Klasse‘ vs. ‚nicht diese Klasse‘ entscheidet."
+        },
+        {
+          "term": "Metaklassifikator",
+          "definition": "Wrapper, der mehrere Basis-Modelle zu einer Multiclass-Strategie kombiniert."
+        }
+      ]
+    },
+    {
+      "question": "16. Ein SVC wird direkt auf 10 Klassen trainiert und Scikit-Learn nutzt intern OvO. Wie viele Scores liefert decision_function(...) pro Instanz typischerweise zurück (wie im Kapitel beschrieben)?",
+      "options": [
+        "10",
+        "45",
+        "1",
+        "2",
+        "9"
+      ],
+      "answer": 0,
+      "explanation": "Obwohl intern 45 Paar-Klassifikatoren trainiert werden, gibt decision_function für SVC in diesem Setting einen Score pro Klasse zurück. Die Klasse mit dem höchsten Score (argmax) wird vorhergesagt.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikatoren mit mehreren Kategorien",
+      "subtopic": "Multiclass Strategien",
+      "concept": "decision_function (Multiclass)",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Scores interpretieren",
+        "steps": [
+          "Beachte: intern kann OvO viele Modelle trainieren.",
+          "Für die Vorhersage wird pro Klasse ein aggregierter Score bereitgestellt.",
+          "Wähle das Label mit argmax über diese Scores."
+        ],
+        "content": "In Multiclass-Szenarien liefert decision_function oft ein Score-Array, dessen Reihenfolge zu classes_ passt. Für SVC wird im beschriebenen Beispiel ein Score pro Klasse zurückgegeben, auch wenn intern viele Paar-Entscheidungen getroffen werden."
+      },
+      "mini_glossary": [
+        {
+          "term": "SVC",
+          "definition": "Support Vector Classifier in Scikit-Learn; kann binär oder über Strategien auch Multiclass."
+        },
+        {
+          "term": "decision_function",
+          "definition": "Gibt einen Score zurück, der zur Klassenzuweisung genutzt wird."
+        },
+        {
+          "term": "Score pro Klasse",
+          "definition": "Ein Wert je Klasse, der angibt, wie gut die Instanz zur Klasse passt."
+        },
+        {
+          "term": "argmax",
+          "definition": "Index des größten Werts in einem Array; entspricht hier der gewählten Klasse."
+        },
+        {
+          "term": "OvO",
+          "definition": "One-versus-One; intern pro Klassenpaar ein Modell."
+        },
+        {
+          "term": "classes_",
+          "definition": "Klassenreihenfolge, die zu den zurückgegebenen Scores passt."
+        }
+      ]
+    },
+    {
+      "question": "17. Welches Multiclass-Verfahren nutzt Scikit-Learn typischerweise, wenn ein SGDClassifier auf 10 Klassen trainiert wird?",
+      "options": [
+        "OvR (One-vs-Rest)",
+        "OvO (One-vs-One)",
+        "Bagging (Ensemble)"
+      ],
+      "answer": 0,
+      "explanation": "Für SGDClassifier wird bei Multiclass-Aufgaben typischerweise One-versus-Rest verwendet: Es werden 10 binäre Klassifikatoren trainiert, jeweils eine Klasse gegen den Rest. Das erkennt man daran, dass decision_function einen Score pro Klasse zurückgibt.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikatoren mit mehreren Kategorien",
+      "subtopic": "Multiclass Strategien",
+      "concept": "SGDClassifier (Multiclass)",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "SGDClassifier und Multiclass",
+        "steps": [
+          "Erkenne, ob der Basisalgorithmus binär ist.",
+          "Bei 10 Klassen werden Wrapper-Strategien genutzt.",
+          "Für SGD ist meist OvR die Standardwahl."
+        ],
+        "content": "Viele lineare Klassifikatoren sind ursprünglich binär. Scikit-Learn erweitert sie für mehrere Klassen meist über OvR, weil das Training effizient und unkompliziert ist."
+      },
+      "mini_glossary": [
+        {
+          "term": "SGDClassifier",
+          "definition": "Linearer Klassifikator, der stochastisches Gradientenverfahren nutzt; effizient für große Datensätze."
+        },
+        {
+          "term": "Multiclass",
+          "definition": "Klassifikation mit mehr als zwei Klassen."
+        },
+        {
+          "term": "OvR",
+          "definition": "One-versus-Rest; pro Klasse ein binärer Klassifikator."
+        },
+        {
+          "term": "decision_function",
+          "definition": "Score-Ausgabe, die in Multiclass oft ein Array mit einem Wert pro Klasse ist."
+        },
+        {
+          "term": "binär",
+          "definition": "Mit zwei Klassen; viele Algorithmen sind ursprünglich binär."
+        },
+        {
+          "term": "Wrapper-Strategie",
+          "definition": "Technik, die mehrere binäre Modelle kombiniert, um Multiclass zu lösen."
+        }
+      ]
+    },
+    {
+      "question": "18. Nach dem Skalieren der Eingabedaten mit StandardScaler steigt die Accuracy des SGD-Klassifikators deutlich. Welche Erklärung ist am plausibelsten?",
+      "options": [
+        "Skalierung stabilisiert die Optimierung",
+        "Skalierung erhöht die Bildauflösung",
+        "Skalierung verdoppelt die Datenmenge künstlich",
+        "Skalierung entfernt alle Ausreißer"
+      ],
+      "answer": 0,
+      "explanation": "Lineare Modelle, die mit Gradientenverfahren trainiert werden, profitieren oft von ähnlich skalierten Features, weil die Optimierung dann besser konditioniert ist. StandardScaler bringt Features auf vergleichbare Skalen, was die Lernrate effektiver macht und zu besseren Entscheidungsgrenzen führen kann.",
+      "weight": 3,
+      "topic": "Kapitel 3 – Klassifikatoren mit mehreren Kategorien",
+      "subtopic": "Feature-Skalierung",
+      "concept": "StandardScaler",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Warum Skalierung hilft",
+        "steps": [
+          "Überlege, wie Gradientenabstieg auf Feature-Skalen reagiert.",
+          "Skaliere Features auf ähnliche Varianz/Größenordnung.",
+          "Bewerte, ob das Training stabiler und schneller konvergiert."
+        ],
+        "content": "Ohne Skalierung können wenige große Featurewerte die Optimierung dominieren, während kleine Features kaum berücksichtigt werden. Standardisierung reduziert dieses Problem, sodass das Modell Gewichte ausgewogener lernt."
+      },
+      "mini_glossary": [
+        {
+          "term": "StandardScaler",
+          "definition": "Transformer, der Features auf Mittelwert 0 und Varianz 1 standardisiert."
+        },
+        {
+          "term": "Feature-Skalierung",
+          "definition": "Vorverarbeitung, die Featurewerte auf vergleichbare Größenordnungen bringt."
+        },
+        {
+          "term": "Gradientenverfahren",
+          "definition": "Optimierungsverfahren, das Parameter entlang des Gradienten einer Loss-Funktion anpasst."
+        },
+        {
+          "term": "Konditionierung",
+          "definition": "Eigenschaft eines Optimierungsproblems; schlechte Kondition erschwert stabiles Lernen."
+        },
+        {
+          "term": "lineares Modell",
+          "definition": "Modell, das einen Score als gewichtete Summe der Features berechnet."
+        },
+        {
+          "term": "Entscheidungsgrenze",
+          "definition": "Grenze im Feature-Raum, die Klassen voneinander trennt."
+        }
+      ]
+    },
+    {
+      "question": "19. Betrachte den Code:\n\n```python\n1: ConfusionMatrixDisplay.from_predictions(y_train, y_train_pred,\n2:                                         normalize='pred', values_format='.0%')\n```\nWie wird die Konfusionsmatrix durch normalize='pred' normalisiert?",
+      "options": [
+        "Nach Spaltensumme der Vorhersagen",
+        "Nach Zeilensumme der echten Klassen",
+        "Nach Gesamtsumme aller Einträge",
+        "Nach Feature-Summen des Inputs",
+        "Nach Batch-Größen des Trainings"
+      ],
+      "answer": 0,
+      "explanation": "normalize='pred' normalisiert nach den vorhergesagten Labels, also nach Spalten. So sieht man z.B., welcher Anteil der als ‚5‘ vorhergesagten Fälle in Wahrheit andere Klassen waren.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Fehleranalyse",
+      "subtopic": "Konfusionsmatrix",
+      "concept": "normalize='pred'",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Normalisierung interpretieren",
+        "steps": [
+          "Frage: Worauf soll jede Spalte/Zeile aufsummieren?",
+          "Bei 'pred' wird nach Vorhersage normalisiert.",
+          "Damit werden Fehlzuordnungen aus Sicht der Vorhersage sichtbar."
+        ],
+        "content": "Je nach Fragestellung ist eine andere Normalisierung sinnvoll: Zeilen zeigen Fehler pro wahrer Klasse, Spalten zeigen Fehler pro vorhergesagter Klasse. normalize='pred' entspricht der Spalten-Normalisierung."
+      },
+      "mini_glossary": [
+        {
+          "term": "ConfusionMatrixDisplay",
+          "definition": "Scikit-Learn-Hilfsklasse zum Visualisieren einer Konfusionsmatrix."
+        },
+        {
+          "term": "Konfusionsmatrix",
+          "definition": "Matrix, die wahre Labels (Zeilen) und vorhergesagte Labels (Spalten) gegenüberstellt."
+        },
+        {
+          "term": "Normalisierung",
+          "definition": "Teilen durch eine Summe, um Anteile/Prozente statt absolute Zahlen zu erhalten."
+        },
+        {
+          "term": "Spaltensumme",
+          "definition": "Summe über eine Spalte; hier: alle Fälle mit demselben vorhergesagten Label."
+        },
+        {
+          "term": "Vorhersage",
+          "definition": "Output des Modells, z.B. das vorhergesagte Klassenlabel."
+        },
+        {
+          "term": "Fehlerquote",
+          "definition": "Anteil von Fällen, die falsch klassifiziert wurden, bezogen auf eine Basis."
+        }
+      ]
+    },
+    {
+      "question": "20. Warum setzt man bei der Fehleranalyse sample_weight = (y_pred != y_true) und plottet dann die Konfusionsmatrix damit?",
+      "options": [
+        "Korrekte Fälle werden ausgeblendet",
+        "Klassennamen werden neu sortiert",
+        "Scores werden zu Klassenlabels gemacht"
+      ],
+      "answer": 0,
+      "explanation": "Durch dieses sample_weight erhalten korrekte Vorhersagen Gewicht 0, falsche Vorhersagen Gewicht 1. In der normalisierten Darstellung werden so die Fehlertypen deutlich sichtbarer, weil die Hauptdiagonale nicht mehr dominiert.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Fehleranalyse",
+      "subtopic": "Konfusionsmatrix",
+      "concept": "sample_weight",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Fehler sichtbar machen",
+        "steps": [
+          "Erzeuge ein Gewicht pro Instanz (1 für Fehler, 0 für korrekt).",
+          "Plotte die Konfusionsmatrix mit sample_weight.",
+          "Interpretiere die Matrix als Verteilung der Fehlerarten."
+        ],
+        "content": "Ohne Gewichtung sind Konfusionsmatrizen oft von korrekten Vorhersagen dominiert. Mit sample_weight lassen sich Fehlklassifikationen isolieren, was gezieltere Verbesserungen ermöglicht."
+      },
+      "mini_glossary": [
+        {
+          "term": "sample_weight",
+          "definition": "Gewichtung pro Datenpunkt, die in vielen Scikit-Learn-Funktionen berücksichtigt werden kann."
+        },
+        {
+          "term": "Fehleranalyse",
+          "definition": "Untersuchung, welche Arten von Fehlern ein Modell macht, um Verbesserungen abzuleiten."
+        },
+        {
+          "term": "Hauptdiagonale",
+          "definition": "Diagonale einer Konfusionsmatrix; enthält die korrekten Vorhersagen."
+        },
+        {
+          "term": "normalisieren",
+          "definition": "Skalieren einer Matrix auf Anteile/Prozente, z.B. pro Zeile oder Spalte."
+        },
+        {
+          "term": "y_true",
+          "definition": "Wahre Labels im Datensatz."
+        },
+        {
+          "term": "y_pred",
+          "definition": "Vorhergesagte Labels eines Modells."
+        }
+      ]
+    },
+    {
+      "question": "21. Bei multilabel f1_score(..., average='macro') vs. average='weighted': Welche Aussage ist korrekt?",
+      "options": [
+        "macro gewichtet alle Labels gleich",
+        "weighted gewichtet alle Labels gleich",
+        "macro nutzt nur die größte Klasse",
+        "weighted ignoriert den Support komplett"
+      ],
+      "answer": 0,
+      "explanation": "macro mittelt die F1-Scores der Labels ungewichtet, sodass jedes Label gleich wichtig ist. weighted berücksichtigt den Support (Häufigkeit) der Labels und spiegelt damit eher die dominante Datenverteilung wider.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Labels",
+      "subtopic": "Multilabel Evaluation & Chains",
+      "concept": "macro vs weighted",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Averaging wählen",
+        "steps": [
+          "Bestimme, ob jedes Label gleich wichtig ist.",
+          "Wenn ja: macro verwenden.",
+          "Wenn Häufigkeit zählen soll: weighted verwenden."
+        ],
+        "content": "Bei multilabel/multiclass hängt die Mittelwertbildung davon ab, ob seltene Labels gleich stark zählen sollen. macro behandelt jedes Label gleich, weighted folgt der Häufigkeit im Datensatz."
+      },
+      "mini_glossary": [
+        {
+          "term": "multilabel",
+          "definition": "Jede Instanz kann mehrere Labels gleichzeitig haben, z.B. [groß, ungerade]."
+        },
+        {
+          "term": "F1-Score",
+          "definition": "Harmonischer Mittelwert von Präzision und Recall; hoch nur wenn beide hoch sind."
+        },
+        {
+          "term": "average",
+          "definition": "Parameter, der festlegt, wie Scores über Labels/Klassen gemittelt werden."
+        },
+        {
+          "term": "macro",
+          "definition": "Ungewichtetes Mittel über Labels/Klassen."
+        },
+        {
+          "term": "weighted",
+          "definition": "Gewichtetes Mittel, bei dem jedes Label entsprechend seines Supports zählt."
+        },
+        {
+          "term": "Support",
+          "definition": "Anzahl der Instanzen, die zu einem Label/einer Klasse gehören."
+        }
+      ]
+    },
+    {
+      "question": "22. Du bewertest einen multilabel Klassifikator, aber ein Label tritt viel häufiger auf als die anderen. Du willst, dass der Gesamtscore diese Häufigkeiten widerspiegelt. Welche Einstellung ist am passendsten?",
+      "options": [
+        "average='weighted'",
+        "average='macro'",
+        "average='micro'",
+        "nur Accuracy als Kennzahl",
+        "nur AUC als Kennzahl"
+      ],
+      "answer": 0,
+      "explanation": "Wenn ein Label deutlich häufiger ist und du die Häufigkeiten im Gesamtscore berücksichtigen möchtest, ist weighted sinnvoll. Dabei wird der Beitrag jedes Labels nach seinem Support gewichtet; seltene Labels beeinflussen den Score entsprechend weniger.",
+      "weight": 3,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Labels",
+      "subtopic": "Multilabel Evaluation & Chains",
+      "concept": "Support-Gewichtung",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Begründete Metrik-Wahl",
+        "steps": [
+          "Analysiere die Label-Häufigkeiten (Support).",
+          "Entscheide, ob seltene Labels gleich wichtig sein sollen.",
+          "Wähle weighted, wenn Häufigkeit die Aggregation bestimmen soll."
+        ],
+        "content": "Bei stark unterschiedlichem Support kann macro ein seltenes Label genauso stark zählen wie ein häufiges. weighted passt besser, wenn der Gesamtscore die typische Datenverteilung abbilden soll."
+      },
+      "mini_glossary": [
+        {
+          "term": "multilabel",
+          "definition": "Aufgabe, bei der mehrere Labels pro Instanz gleichzeitig vorhergesagt werden."
+        },
+        {
+          "term": "Support",
+          "definition": "Häufigkeit eines Labels in den Daten; Anzahl zugehöriger Instanzen."
+        },
+        {
+          "term": "weighted average",
+          "definition": "Mittelwertbildung, die Labels entsprechend ihres Supports gewichtet."
+        },
+        {
+          "term": "macro average",
+          "definition": "Mittelwertbildung, die alle Labels gleich gewichtet."
+        },
+        {
+          "term": "Gesamtscore",
+          "definition": "Aggregierte Kennzahl, die mehrere Label-Scores zu einer Zahl zusammenfasst."
+        },
+        {
+          "term": "Metrik",
+          "definition": "Zahl zur Qualitätsbewertung eines Modells, z.B. F1, AUC oder Accuracy."
+        }
+      ]
+    },
+    {
+      "question": "23. Welche Aussage charakterisiert eine Multilabel-Klassifikation korrekt?",
+      "options": [
+        "Mehrere Labels pro Instanz möglich",
+        "Genau ein Label pro Instanz möglich",
+        "Nur kontinuierliche Targets erlaubt"
+      ],
+      "answer": 0,
+      "explanation": "Bei Multilabel-Klassifikation kann ein Datenpunkt mehrere Tags gleichzeitig erhalten (z.B. ‚groß‘ und ‚ungerade‘). Das unterscheidet sich von Multiclass, wo genau eine von vielen Klassen gewählt wird.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Labels",
+      "subtopic": "Multilabel Grundlagen",
+      "concept": "Multilabel",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Multilabel abgrenzen",
+        "steps": [
+          "Frage: Kann eine Instanz mehrere Kategorien gleichzeitig haben?",
+          "Wenn ja, ist es Multilabel.",
+          "Wenn genau eine Kategorie gewählt wird, ist es Multiclass."
+        ],
+        "content": "Multilabel erweitert binäre Outputs auf mehrere Dimensionen: Für jedes Label wird separat entschieden. Dadurch können mehrere True-Werte in der Ausgabe gleichzeitig auftreten."
+      },
+      "mini_glossary": [
+        {
+          "term": "Multilabel",
+          "definition": "Problem, bei dem mehrere binäre Labels gleichzeitig vorhergesagt werden."
+        },
+        {
+          "term": "Tag",
+          "definition": "Label/Markierung, die einer Instanz zugewiesen werden kann."
+        },
+        {
+          "term": "Multiclass",
+          "definition": "Problem, bei dem genau eine Klasse aus mehreren ausgewählt wird."
+        },
+        {
+          "term": "binär",
+          "definition": "Zweiwertig (True/False oder 0/1); häufig pro Label in Multilabel-Aufgaben."
+        },
+        {
+          "term": "Output-Vektor",
+          "definition": "Vorhersage als Vektor, der mehrere Labels (Dimensionen) enthält."
+        },
+        {
+          "term": "Instanz",
+          "definition": "Ein einzelner Datenpunkt, z.B. ein Bild oder eine E-Mail."
+        }
+      ]
+    },
+    {
+      "question": "24. Warum kann ein ClassifierChain bei Multilabel-Aufgaben hilfreich sein?",
+      "options": [
+        "Er modelliert Label-Abhängigkeiten",
+        "Er entfernt Features automatisch",
+        "Er macht nur eine Klasse pro Instanz",
+        "Er ersetzt Kreuzvalidierung komplett"
+      ],
+      "answer": 0,
+      "explanation": "Ein ClassifierChain nutzt Vorhersagen früherer Labels als zusätzliche Eingaben für spätere Labels. So können Abhängigkeiten zwischen Labels (z.B. ‚groß‘ beeinflusst ‚ungerade‘) besser erfasst werden als bei völlig unabhängigen Modellen pro Label.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Labels",
+      "subtopic": "Multilabel Evaluation & Chains",
+      "concept": "Label-Abhängigkeiten",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Idee der Kette",
+        "steps": [
+          "Trainiere ein Modell pro Label in einer Reihenfolge.",
+          "Gib Vorhersagen früherer Modelle als zusätzliche Features weiter.",
+          "Nutze so Korrelationen zwischen Labels."
+        ],
+        "content": "Unabhängige Modelle pro Label können Korrelationen nicht nutzen. Eine Kette verknüpft die Modelle so, dass spätere Entscheidungen Information über frühere Labels erhalten."
+      },
+      "mini_glossary": [
+        {
+          "term": "ClassifierChain",
+          "definition": "Scikit-Learn-Ansatz, der mehrere binäre Klassifikatoren in einer Kette für Multilabel verbindet."
+        },
+        {
+          "term": "Label-Abhängigkeit",
+          "definition": "Zusammenhang zwischen Labels, z.B. wenn bestimmte Labels gemeinsam häufiger auftreten."
+        },
+        {
+          "term": "Feature",
+          "definition": "Eingabemerkmal; in einer Kette werden auch vorhergesagte Labels zu Features."
+        },
+        {
+          "term": "Reihenfolge",
+          "definition": "Abfolge der Modelle in der Kette; beeinflusst, welche Vorhersagen weitergereicht werden."
+        },
+        {
+          "term": "Korrelation",
+          "definition": "Statistischer Zusammenhang; hier zwischen Labels."
+        },
+        {
+          "term": "Multilabel",
+          "definition": "Aufgabe mit mehreren Labels pro Instanz."
+        }
+      ]
+    },
+    {
+      "question": "25. Beim Training einer ClassifierChain kann man cv setzen, sodass für die weitergereichten Labels ‚saubere‘ Vorhersagen genutzt werden. Was ist der wichtigste Grund dafür?",
+      "options": [
+        "Leckage im Training vermeiden",
+        "Mehr neue Features zu erzeugen",
+        "Die Klassenanzahl zu erhöhen",
+        "Den Datensatz zu sortieren",
+        "Das Modell zu determinieren"
+      ],
+      "answer": 0,
+      "explanation": "Wenn man beim Training perfekte (wahre) Labels in die Kette einspeist, kann das die Leistung unrealistisch erscheinen lassen, weil spätere Modelle Informationen bekommen, die sie im Einsatz nicht hätten. Mit cv werden out-of-fold Vorhersagen erzeugt, die näher an der realen Situation liegen und Trainings-Leckage reduzieren.",
+      "weight": 3,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Labels",
+      "subtopic": "Multilabel Evaluation & Chains",
+      "concept": "Training Leakage",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "cv in der Kette verstehen",
+        "steps": [
+          "Identifiziere, welche Inputs ein späteres Modell erhält.",
+          "Prüfe, ob diese Inputs im Training unrealistisch ‚zu gut‘ sind.",
+          "Nutze cv, um out-of-fold Vorhersagen als Inputs zu erzeugen."
+        ],
+        "content": "Cross-validated Vorhersagen verhindern, dass ein Modell indirekt ‚die Antworten‘ sieht. Dadurch wird die Kette robuster bewertet und näher an der späteren Nutzung trainiert."
+      },
+      "mini_glossary": [
+        {
+          "term": "cv",
+          "definition": "Kreuzvalidierungsparameter; hier genutzt, um out-of-fold Vorhersagen zu erzeugen."
+        },
+        {
+          "term": "out-of-fold",
+          "definition": "Vorhersagen für Datenpunkte, die in einem CV-Split nicht zum Training gehörten."
+        },
+        {
+          "term": "Leckage",
+          "definition": "Unerlaubtes Nutzen von Informationen beim Training, die zur Einsatzzeit nicht verfügbar sind."
+        },
+        {
+          "term": "ClassifierChain",
+          "definition": "Kette von Klassifikatoren, die Label-Vorhersagen weiterreicht."
+        },
+        {
+          "term": "Trainingsrealismus",
+          "definition": "Eigenschaft, dass Trainingsbedingungen der späteren Nutzung möglichst ähnlich sind."
+        },
+        {
+          "term": "Einsatzzeit",
+          "definition": "Zeitpunkt der Anwendung des Modells auf neue, unbekannte Daten."
+        }
+      ]
+    },
+    {
+      "question": "26. Was beschreibt eine Klassifikation mit mehreren Ausgaben (multioutput) am besten?",
+      "options": [
+        "Mehrere Outputs pro Instanz",
+        "Mehrere Modelle pro Feature",
+        "Nur zwei Klassen pro Output"
+      ],
+      "answer": 0,
+      "explanation": "Bei Multioutput-Klassifikation gibt es mehrere Ausgabevariablen pro Datenpunkt, und jede Ausgabe kann mehrere Kategorien annehmen. Ein Beispiel ist die Vorhersage vieler Pixelintensitäten gleichzeitig, wobei jedes Pixel als eigenes Label betrachtet wird.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Ausgaben",
+      "subtopic": "Multioutput & Denoising",
+      "concept": "Multioutput",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Multioutput einordnen",
+        "steps": [
+          "Unterscheide zwischen Anzahl der Labels und Anzahl der Ausgaben.",
+          "Bei Multioutput hat jede Instanz viele Zielkomponenten.",
+          "Jede Komponente kann mehr als zwei Werte haben."
+        ],
+        "content": "Multioutput ist eine Verallgemeinerung von Multilabel: Statt nur True/False pro Label können die Zielkomponenten mehrere Kategorien enthalten, und es gibt viele Zielkomponenten gleichzeitig."
+      },
+      "mini_glossary": [
+        {
+          "term": "Multioutput",
+          "definition": "Lernaufgabe mit mehreren Zielausgaben pro Instanz."
+        },
+        {
+          "term": "Ausgabevariable",
+          "definition": "Ein einzelner Zielwert (eine Komponente) der Modellvorhersage."
+        },
+        {
+          "term": "Kategorie",
+          "definition": "Diskreter Wert, den ein Output annehmen kann, z.B. 0–255."
+        },
+        {
+          "term": "Instanz",
+          "definition": "Ein Datenpunkt; hier z.B. ein Bild."
+        },
+        {
+          "term": "Multilabel",
+          "definition": "Mehrere binäre Labels pro Instanz; Spezialfall von Multioutput."
+        },
+        {
+          "term": "Pixelintensität",
+          "definition": "Helligkeitswert eines Pixels; bei Graustufen typischerweise 0 bis 255."
+        }
+      ]
+    },
+    {
+      "question": "27. Betrachte den Ausschnitt aus dem Denoising-Beispiel:\n\n```python\n1: noise = rnd.randint(0, 100, (len(X_train), 784))\n2: X_train_mod = X_train + noise\n3: y_train_mod = X_train\n```\nWas ist in diesem Setup y_train_mod?",
+      "options": [
+        "Das saubere Originalbild",
+        "Das verrauschte Eingabebild",
+        "Die Ziffernklasse 0–9",
+        "Ein zufälliger Vektor"
+      ],
+      "answer": 0,
+      "explanation": "Im Setup wird Rauschen zu den Eingaben addiert, aber als Ziel wird das ursprüngliche (saubere) Bild verwendet. Das Modell lernt also eine Abbildung von verrauscht → sauber, wobei jedes Pixel als Zielkomponente fungiert.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Ausgaben",
+      "subtopic": "Multioutput & Denoising",
+      "concept": "Denoising-Ziel",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Input vs. Target trennen",
+        "steps": [
+          "Erkenne, wo Rauschen hinzugefügt wird (Input).",
+          "Suche, was als y gesetzt wird (Target).",
+          "Interpretiere das Ziel als Rekonstruktion des sauberen Bilds."
+        ],
+        "content": "Beim Denoising ist das Ziel nicht die Ziffernklasse, sondern das saubere Bild. Daher ist y_train_mod im Beispiel das Array der Originalbilder ohne Rauschen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Denoising",
+          "definition": "Entfernen von Rauschen aus Signalen/Bildern durch Lernen einer Rekonstruktionsfunktion."
+        },
+        {
+          "term": "Input",
+          "definition": "Eingabe X für das Modell; hier das verrauschte Bild."
+        },
+        {
+          "term": "Target",
+          "definition": "Ziel y für das Modell; hier das saubere Bild."
+        },
+        {
+          "term": "Rauschen",
+          "definition": "Zufällige Störung, die den Input verfälscht."
+        },
+        {
+          "term": "Rekonstruktion",
+          "definition": "Wiederherstellung eines ‚sauberen‘ Signals aus einer gestörten Beobachtung."
+        },
+        {
+          "term": "Pixel",
+          "definition": "Bildpunkt; kleinste Einheit eines Rasterbilds."
+        }
+      ]
+    },
+    {
+      "question": "28. Im Multioutput-Beispiel sollen Pixelintensitäten (0–255) vorhergesagt werden. Welche Einordnung beschreibt die Situation am besten?",
+      "options": [
+        "Grenzfall: eher Regression-nah",
+        "Klarer Fall: reine Regression hier",
+        "Klarer Fall: nur Multiclass",
+        "Klarer Fall: nur Clustering",
+        "Klarer Fall: nur Ranking"
+      ],
+      "answer": 0,
+      "explanation": "Obwohl die Zielwerte diskret (0–255) sind, ähneln sie inhaltlich kontinuierlichen Intensitäten, weshalb die Abgrenzung zu Regression unscharf sein kann. Gleichzeitig kann man es formal als Multioutput-Klassifikation modellieren, weil jede Intensität als Kategorie interpretiert werden kann.",
+      "weight": 3,
+      "topic": "Kapitel 3 – Klassifikation mit mehreren Ausgaben",
+      "subtopic": "Multioutput & Denoising",
+      "concept": "Klassifikation vs Regression",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Einordnung begründen",
+        "steps": [
+          "Prüfe, ob Targets Kategorien oder Größen sind.",
+          "Diskrete Intensitäten können als Kategorien modelliert werden.",
+          "Inhaltlich sind Intensitäten jedoch wertartig, daher ist es ein Grenzfall."
+        ],
+        "content": "Viele ML-Probleme lassen sich auf unterschiedliche Weise formulieren. Bei Pixelintensitäten ist die Interpretation als Kategorie möglich, aber die Bedeutung ist eher ‚Wert‘. Deshalb ist die Grenze zwischen Klassifikation und Regression hier fließend."
+      },
+      "mini_glossary": [
+        {
+          "term": "Multioutput",
+          "definition": "Mehrere Zielausgaben pro Instanz, z.B. ein Wert pro Pixel."
+        },
+        {
+          "term": "Pixelintensität",
+          "definition": "Helligkeitswert eines Pixels, typischerweise 0–255 in Graustufen."
+        },
+        {
+          "term": "diskret",
+          "definition": "Nur bestimmte Werte sind möglich; nicht beliebig viele Zwischenwerte."
+        },
+        {
+          "term": "Regression",
+          "definition": "Vorhersage von numerischen Werten statt Kategorien."
+        },
+        {
+          "term": "Klassifikation",
+          "definition": "Vorhersage von Kategorien (Labels) statt kontinuierlichen Werten."
+        },
+        {
+          "term": "Problemformulierung",
+          "definition": "Wie man ein Lernproblem mathematisch und algorithmisch beschreibt (z.B. als Klassifikation oder Regression)."
+        }
+      ]
+    },
+    {
+      "question": "29. Was ist ein erwarteter Effekt von Data Augmentation bei Bildklassifikation (z.B. durch leichte Verschiebungen/Rotationen)?",
+      "options": [
+        "Bessere Generalisierung des Modells",
+        "Schnellere Inferenz der Modelle",
+        "Stabilere Score-Kalibrierung im Betrieb"
+      ],
+      "answer": 0,
+      "explanation": "Durch Data Augmentation wird das Modell mit realistischen Varianten der Trainingsbeispiele konfrontiert und lernt robustere Merkmale. Das führt häufig zu besserer Generalisierung auf neue Daten, während Inferenzzeit und Kalibrierung nicht automatisch profitieren.",
+      "weight": 2,
+      "topic": "Kapitel 3 – Fehleranalyse",
+      "subtopic": "Fehleranalyse & Verbesserungen",
+      "concept": "Data Augmentation",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Warum Augmentation hilft",
+        "steps": [
+          "Erzeuge plausible Varianten der Trainingsdaten.",
+          "Trainiere das Modell auf der erweiterten Datenmenge.",
+          "Erwarte Robustheit gegenüber kleinen Transformationen."
+        ],
+        "content": "Augmentation vergrößert effektiv den Trainingsdatensatz und zwingt das Modell, invarianten Eigenschaften mehr Gewicht zu geben. Dadurch sinkt häufig die Empfindlichkeit gegenüber kleinen Verschiebungen oder Drehungen."
+      },
+      "mini_glossary": [
+        {
+          "term": "Data Augmentation",
+          "definition": "Künstliche Vergrößerung des Trainingsdatensatzes durch plausible Transformationen."
+        },
+        {
+          "term": "Generalisation",
+          "definition": "Fähigkeit eines Modells, auf neuen Daten gut zu funktionieren."
+        },
+        {
+          "term": "Transformation",
+          "definition": "Änderung eines Bilds, z.B. Verschiebung, Rotation oder leichte Verzerrung."
+        },
+        {
+          "term": "Robustheit",
+          "definition": "Stabilität der Vorhersage gegenüber kleinen Änderungen am Input."
+        },
+        {
+          "term": "Kalibrierung",
+          "definition": "Wie gut vorhergesagte Wahrscheinlichkeiten (oder Scores) die tatsächliche Trefferhäufigkeit widerspiegeln."
+        },
+        {
+          "term": "Trainingsdatensatz",
+          "definition": "Datenmenge, auf der das Modell gelernt wird."
+        }
+      ]
+    },
+    {
+      "question": "30. Eine normalisierte Konfusionsmatrix zeigt: Viele unterschiedliche Ziffern werden fälschlich als ‚8‘ vorhergesagt. Welche Maßnahme ist am zielgerichtetsten, um dieses Problem anzugehen?",
+      "options": [
+        "Schleifen als Feature ergänzen",
+        "Mehr Epochen weitertrainieren lassen",
+        "Alle 8er aus Daten entfernen",
+        "Random Seed häufig wechseln"
+      ],
+      "answer": 0,
+      "explanation": "Wenn viele Klassen als 8 verwechselt werden, fehlt dem Modell oft ein Merkmal, das ‚8-ähnliche‘ Muster besser unterscheidet. Ein gezieltes Feature wie die Anzahl geschlossener Schleifen kann die Trennbarkeit erhöhen; reine Trainingsdauer oder Seed-Wechsel adressieren die Ursache nicht.",
+      "weight": 3,
+      "topic": "Kapitel 3 – Fehleranalyse",
+      "subtopic": "Fehleranalyse & Verbesserungen",
+      "concept": "Feature Engineering",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Vom Fehler zur Maßnahme",
+        "content": "Fehleranalyse soll konkrete, testbare Verbesserungen liefern. Wenn eine Klasse als ‚Sammelbecken‘ für Fehlzuordnungen erscheint, helfen oft gezielte Merkmale oder zusätzliche Beispiele von ‚8-ähnlichen Nicht-8ern‘, um die Entscheidungsgrenze zu schärfen.",
+        "steps": [
+          "Identifiziere die häufigste Fehlklasse (hier: 8).",
+          "Hypothesiere, welches Muster die Verwechslung erklärt.",
+          "Füge Merkmale oder Daten hinzu, die genau diese Verwechslungen reduzieren."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Konfusionsmatrix",
+          "definition": "Matrix, die zeigt, wie oft wahre Klassen als welche Klassen vorhergesagt wurden."
+        },
+        {
+          "term": "Normalisierung",
+          "definition": "Umrechnung in Anteile/Prozente, z.B. pro Zeile oder Spalte."
+        },
+        {
+          "term": "Fehlklassifikation",
+          "definition": "Falsche Vorhersage: vorhergesagte Klasse entspricht nicht der wahren Klasse."
+        },
+        {
+          "term": "Feature Engineering",
+          "definition": "Konstruktion neuer Merkmale, die dem Modell relevante Struktur sichtbar machen."
+        },
+        {
+          "term": "Schleife",
+          "definition": "Geschlossene Rundung im Ziffernbild; 8 typischerweise zwei geschlossene Schleifen."
+        },
+        {
+          "term": "Trennbarkeit",
+          "definition": "Wie gut sich Klassen im Merkmalsraum voneinander unterscheiden lassen."
+        }
+      ]
+    }
+  ]
+}
