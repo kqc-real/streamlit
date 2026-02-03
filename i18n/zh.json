@@ -501,7 +501,16 @@
         },
         "data_export_header": "📤 数据导出",
         "export": {
-            "download_csv": "⬇️ 下载答案日志 (CSV)"
+            "download_csv": "⬇️ 下载答案日志 (CSV)",
+            "csv_header": "答题记录 (CSV)",
+            "question_sets_header": "题集下载",
+            "question_set_select": "选择题集",
+            "download_json": "💾 下载题集 (JSON)",
+            "json_missing": "未找到该题集的 JSON 文件。",
+            "download_lo_md": "💾 下载学习目标 (Markdown)",
+            "lo_md_error": "学习目标无法加载。",
+            "lo_md_missing": "未找到学习目标文件。",
+            "no_question_sets": "未找到题集。"
         },
         "login_generator_header": "🔑 保留化名的登录生成器",
         "login_generator": {
@@ -1072,6 +1081,10 @@
         "export_kahoot_error": "导出受阻 – {count} 个错误。",
         "export_kahoot_limits_info": "注意 Kahoot 限制。替代方案: Anki / arsnova / PDF。",
         "export_kahoot_import_heading": "**Kahoot 要求:**",
+        "export_kahoot_rule_question_length": "题目文字最多 95 字符，不允许格式/图片",
+        "export_kahoot_rule_option_length": "最多 4 个选项，每个最多 60 字符",
+        "export_kahoot_rule_time_limits": "时间限制仅 5/10/20/30/60/90/120/240 秒",
+        "export_kahoot_rule_max_questions": "文件最多 500 题",
         "export_arsnova_expander": "📣 arsnova.click（现场反馈）",
         "export_arsnova_description": "用于现场投票。导出为 .json。",
         "export_arsnova_caption": "格式: .json | [arsnova.click 信息](https://arsnova.click/info/about)",
@@ -1079,6 +1092,8 @@
         "export_arsnova_warning": "arsnova 的 {count} 个提示",
         "export_arsnova_download_label": "💾 下载 arsnova 文件",
         "export_arsnova_generation_error": "导出错误: {error}",
+        "export_arsnova_option_too_long": "{label}: 选项 {index} 超过 {max} 字符（当前 {length}）。",
+        "export_kahoot_question_too_long": "{label}: 题目文字为 {length} 字符（最大 {max}）。",
         "export_user_qset_expander": "🧩 保存临时题集（JSON）",
         "export_user_qset_description": "在自动删除前保存原始文件。",
         "export_user_qset_retention": "提示：临时题集会在 {hours} 小时后删除。使用保留化名的用户，其临时题集最多保留 {days} 天。",
@@ -1208,10 +1223,6 @@
         "create_own_set_hint": "只需选择化名；然后上传或粘贴 JSON。",
         "empty_state": "当前没有激活的题库。选择已有题库或创建自己的题库。",
         "empty_state_select": "📂 选择现有题库",
-        "pseudonym": {
-            "dialog_intro": "选择一个未被占用的化名。可选：设置登录密钥以保留它。",
-            "dialog_start": "Start"
-        },
         "search": {
             "label": "🔎 快速搜索（标题/slug）",
             "placeholder": "例如 \"math\" 或 \"scrum\"",
@@ -1268,6 +1279,8 @@
         },
         "pseudonym": {
             "heading": "👤 您的化名",
+            "dialog_intro": "选择一个空闲化名。可选：设置登录密钥以进行保留。",
+            "dialog_start": "Start",
             "no_available": "⚠️ 没有剩余化名。询问管理员。",
             "select_label": "选择您的化名:",
             "select_placeholder": "👤 请选择...",

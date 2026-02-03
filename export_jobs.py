@@ -835,7 +835,15 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
             option_text = "" if opt is None else str(opt)
             if len(option_text) > ARSNOVA_MAX_OPTION_LENGTH:
                 warnings.append(
-                    f"{label}: Antwort {opt_idx} überschreitet {ARSNOVA_MAX_OPTION_LENGTH} Zeichen (aktuell {len(option_text)})."
+                    translate_ui(
+                        "export_arsnova_option_too_long",
+                        default="{label}: Antwort {index} überschreitet {max} Zeichen (aktuell {length}).",
+                    ).format(
+                        label=label,
+                        index=opt_idx,
+                        max=ARSNOVA_MAX_OPTION_LENGTH,
+                        length=len(option_text),
+                    )
                 )
 
     return warnings
@@ -866,7 +874,14 @@ def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], lis
 
         if len(question_text) > KAHOOT_MAX_QUESTION_LENGTH:
             errors.append(
-                f"{label}: Fragetext hat {len(question_text)} Zeichen (max. {KAHOOT_MAX_QUESTION_LENGTH})."
+                translate_ui(
+                    "export_kahoot_question_too_long",
+                    default="{label}: Fragetext hat {length} Zeichen (max. {max}).",
+                ).format(
+                    label=label,
+                    length=len(question_text),
+                    max=KAHOOT_MAX_QUESTION_LENGTH,
+                )
             )
 
         optionen = question.get("options")

@@ -109,12 +109,27 @@ def _inject_main_container_padding() -> None:
 
 DOWNLOAD_BUTTON_DEFAULT = "Download starten"
 MIME_PDF = "application/pdf"
-KAHOOT_IMPORT_RULES = [
-    "Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
-    "Bis zu 4 Antwortoptionen à max. 60 Zeichen",
-    "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
-    "Datei darf höchstens 500 Fragen enthalten",
-]
+
+
+def _kahoot_import_rules() -> list[str]:
+    return [
+        _summary_text(
+            "export_kahoot_rule_question_length",
+            default="Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
+        ),
+        _summary_text(
+            "export_kahoot_rule_option_length",
+            default="Bis zu 4 Antwortoptionen à max. 60 Zeichen",
+        ),
+        _summary_text(
+            "export_kahoot_rule_time_limits",
+            default="Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
+        ),
+        _summary_text(
+            "export_kahoot_rule_max_questions",
+            default="Datei darf höchstens 500 Fragen enthalten",
+        ),
+    ]
 
 
 def _has_cognitive_stages(qs: QuestionSet) -> bool:
@@ -991,32 +1006,6 @@ def _cached_generate_anki_apkg(selected_file: str, locale: str) -> bytes:
         return generate_anki_apkg(selected_file, locale)
     finally:
         i18n.context.get_locale = original_get_locale
-
-
-@st.cache_data(show_spinner=False)
-def _load_anki_instruction_md() -> str:
-    instruction_path = Path(get_package_dir()) / "docs" / "ANLEITUNG_ANKI_IMPORT.md"
-    try:
-        return instruction_path.read_text(encoding="utf-8")
-    except FileNotFoundError:
-        return "Anleitung konnte nicht geladen werden. Bitte prüfen Sie die Datei 'docs/ANLEITUNG_ANKI_IMPORT.md'."
-    except Exception as exc:  # pragma: no cover - defensive guard for unexpected I/O issues
-        return f"Beim Laden der Anki-Anleitung ist ein Fehler aufgetreten: {exc}"
-
-
-def _open_anki_instruction_dialog() -> None:
-    content = _load_anki_instruction_md()
-
-    @st.dialog(translate_ui("dialogs.anki_instruction"), width="large")
-    def _show_anki_instruction_dialog() -> None:
-        st.markdown(content)
-
-    st.session_state["_active_dialog"] = "anki_instruction"
-    try:
-        _show_anki_instruction_dialog()
-    finally:
-        if st.session_state.get("_active_dialog") == "anki_instruction":
-            st.session_state["_active_dialog"] = None
 
 
 def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> None:
@@ -2265,7 +2254,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
         st.caption(
             translate_ui(
                 "welcome.pseudonym.dialog_intro",
-                default="Wähle ein freies Pseudonym. Optional kannst du ein Login-Secret setzen, um es zu reservieren.",
+                default="Choose a free pseudonym. Optionally, you can set a login secret to reserve it.",
             )
         )
 
@@ -8525,7 +8514,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             default="**Import-Bedingungen (Kahoot):**",
                         )
                     ) +
-                    "\n".join(f"• {rule}" for rule in KAHOOT_IMPORT_RULES)
+                    "\n".join(f"• {rule}" for rule in _kahoot_import_rules())
                 )
 
             button_disabled = bool(kahoot_errors)

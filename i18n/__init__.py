@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 import logging
-from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Optional
 
@@ -11,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 _DEFAULT_LOCALE = "en"
 _LOCALE_DIR = Path(__file__).resolve().parent
+_LOCALE_CACHE: dict[str, tuple[float | None, Mapping[str, Any]]] = {}
 
 __all__ = [
     "DEFAULT_LOCALE",
@@ -27,7 +27,6 @@ def normalize_locale(locale: Optional[str]) -> str:
     return cleaned.split("_")[0]
 
 
-@lru_cache(maxsize=None)
 def _load_locale_data(locale: str) -> Mapping[str, Any]:
     locale_file = _LOCALE_DIR / f"{locale}.json"
     if not locale_file.is_file():
@@ -35,14 +34,40 @@ def _load_locale_data(locale: str) -> Mapping[str, Any]:
         return {}
 
     try:
-        return json.loads(locale_file.read_text(encoding="utf-8"))
+        mtime = locale_file.stat().st_mtime
+    except OSError:
+        mtime = None
+
+    if mtime is not None:
+        cached = _LOCALE_CACHE.get(locale)
+        if cached and cached[0] == mtime:
+            return cached[1]
+
+    try:
+        data = json.loads(locale_file.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         logger.warning(
             "Failed to decode locale file %s: %s",
             locale_file.name,
             exc,
         )
-        return {}
+        data = {}
+
+    if mtime is None:
+        try:
+            mtime = locale_file.stat().st_mtime
+        except OSError:
+            mtime = None
+
+    _LOCALE_CACHE[locale] = (mtime, data)
+    return data
+
+
+def _clear_locale_cache() -> None:
+    _LOCALE_CACHE.clear()
+
+
+_load_locale_data.cache_clear = _clear_locale_cache
 
 
 def _lookup_key(data: Mapping[str, Any], key: str) -> Optional[Any]:

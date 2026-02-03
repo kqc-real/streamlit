@@ -126,7 +126,16 @@
         },
         "data_export_header": "📤 Exportación de datos",
         "export": {
-            "download_csv": "⬇️ Descargar registro de respuestas (CSV)"
+            "download_csv": "⬇️ Descargar registro de respuestas (CSV)",
+            "csv_header": "Registro de respuestas (CSV)",
+            "question_sets_header": "Descargas de conjuntos de preguntas",
+            "question_set_select": "Seleccionar conjunto de preguntas",
+            "download_json": "💾 Descargar conjunto (JSON)",
+            "json_missing": "No se encontró el archivo JSON de este conjunto.",
+            "download_lo_md": "💾 Descargar objetivos de aprendizaje (Markdown)",
+            "lo_md_error": "No se pudieron cargar los objetivos de aprendizaje.",
+            "lo_md_missing": "No se encontró el archivo de objetivos de aprendizaje.",
+            "no_question_sets": "No se encontraron conjuntos de preguntas."
         },
         "login_generator_header": "🔑 Generador de inicio de sesión para seudónimos reservados",
         "login_generator": {
@@ -1069,6 +1078,10 @@
         "export_kahoot_error": "Exportación bloqueada – {count} errores.",
         "export_kahoot_limits_info": "Cuidado con los límites de Kahoot. Alternativas: Anki / arsnova / PDF.",
         "export_kahoot_import_heading": "**Requisitos Kahoot:**",
+        "export_kahoot_rule_question_length": "Texto de la pregunta máx. 95 caracteres, sin formato/imágenes",
+        "export_kahoot_rule_option_length": "Hasta 4 opciones, máx. 60 caracteres cada una",
+        "export_kahoot_rule_time_limits": "Límite de tiempo solo 5/10/20/30/60/90/120/240 s",
+        "export_kahoot_rule_max_questions": "El archivo puede contener como máximo 500 preguntas",
         "export_arsnova_expander": "📣 arsnova.click (feedback en vivo)",
         "export_arsnova_description": "Para votaciones en directo. Exporta .json.",
         "export_arsnova_caption": "Formato: .json | [Info arsnova.click](https://arsnova.click/info/about)",
@@ -1076,6 +1089,8 @@
         "export_arsnova_warning": "{count} avisos arsnova",
         "export_arsnova_download_label": "💾 Descargar archivo arsnova",
         "export_arsnova_generation_error": "Error Export: {error}",
+        "export_arsnova_option_too_long": "{label}: La respuesta {index} supera {max} caracteres (actual {length}).",
+        "export_kahoot_question_too_long": "{label}: El texto de la pregunta tiene {length} caracteres (máx. {max}).",
         "export_user_qset_expander": "🧩 Guardar set temporal (JSON)",
         "export_user_qset_description": "Guarda el archivo original antes de que se elimine automáticamente.",
         "export_user_qset_retention": "Nota: los sets temporales se eliminan después de {hours} horas. Los sets temporales de personas con seudónimo reservado se conservan hasta {days} días.",
@@ -1205,10 +1220,6 @@
         "create_own_set_hint": "Elige solo tu seudónimo; luego sube o pega el JSON.",
         "empty_state": "Ningún set activo. Elige uno existente o crea el tuyo.",
         "empty_state_select": "📂 Elegir un set existente",
-        "pseudonym": {
-            "dialog_intro": "Elige un seudónimo libre. Opcional: reserva con un secreto de inicio de sesión.",
-            "dialog_start": "Start"
-        },
         "search": {
             "label": "🔎 Búsqueda rápida (título/slug)",
             "placeholder": "p. ej. \"matemáticas\" o \"scrum\"",
@@ -1265,6 +1276,8 @@
         },
         "pseudonym": {
             "heading": "👤 Tu Alias",
+            "dialog_intro": "Elige un seudónimo libre. Opcionalmente puedes establecer un secreto de inicio de sesión para reservarlo.",
+            "dialog_start": "Start",
             "no_available": "⚠️ Sin alias libres. Pregunta al Admin.",
             "select_label": "Tu alias:",
             "select_placeholder": "👤 Selecciona...",

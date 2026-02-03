@@ -239,7 +239,16 @@
         },
         "data_export_header": "📤 Datenexport",
         "export": {
-            "download_csv": "⬇️ Antwort-Log herunterladen (CSV)"
+            "download_csv": "⬇️ Antwort-Log herunterladen (CSV)",
+            "csv_header": "Antwort-Log (CSV)",
+            "question_sets_header": "Fragenset-Downloads",
+            "question_set_select": "Fragenset auswählen",
+            "download_json": "💾 Fragenset (JSON) herunterladen",
+            "json_missing": "JSON-Datei für dieses Fragenset nicht gefunden.",
+            "download_lo_md": "💾 Lernziele (Markdown) herunterladen",
+            "lo_md_error": "Lernziele konnten nicht geladen werden.",
+            "lo_md_missing": "Keine Lernziele-Datei gefunden.",
+            "no_question_sets": "Keine Fragensets gefunden."
         },
         "login_generator_header": "🔑 Login-Generator für reservierte Pseudonyme",
         "login_generator": {
@@ -999,6 +1008,10 @@
         "export_kahoot_error": "Export blockiert – {count} Fehler.",
         "export_kahoot_limits_info": "Beachte die Kahoot-Limits. Alternativen: Anki / arsnova / PDF.",
         "export_kahoot_import_heading": "**Kahoot Bedingungen:**",
+        "export_kahoot_rule_question_length": "Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
+        "export_kahoot_rule_option_length": "Bis zu 4 Antwortoptionen à max. 60 Zeichen",
+        "export_kahoot_rule_time_limits": "Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
+        "export_kahoot_rule_max_questions": "Datei darf höchstens 500 Fragen enthalten",
         "export_arsnova_expander": "📣 arsnova.click (Live-Feedback)",
         "export_arsnova_description": "Für Live-Abstimmungen. Export als .json.",
         "export_arsnova_caption": "Format: .json | [arsnova.click Infos](https://arsnova.click/info/about)",
@@ -1006,6 +1019,8 @@
         "export_arsnova_warning": "{count} Hinweise für arsnova",
         "export_arsnova_download_label": "💾 arsnova-Datei herunterladen",
         "export_arsnova_generation_error": "Fehler beim Export: {error}",
+        "export_arsnova_option_too_long": "{label}: Antwort {index} überschreitet {max} Zeichen (aktuell {length}).",
+        "export_kahoot_question_too_long": "{label}: Fragetext hat {length} Zeichen (max. {max}).",
         "export_user_qset_expander": "🧩 Temporäres Fragenset sichern (JSON)",
         "export_user_qset_description": "Sichere die Originaldatei, bevor sie automatisch gelöscht wird.",
         "export_user_qset_retention": "Hinweis: Temporäre Fragensets werden nach {hours} Stunden gelöscht. Temporäre Fragensets von Personen mit reserviertem Pseudonym bleiben bis zu {days} Tage erhalten.",
@@ -1141,10 +1156,6 @@
         "create_own_set_hint": "Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
         "empty_state": "Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erstellen.",
         "empty_state_select": "📂 Vorhandenes Fragenset wählen",
-        "pseudonym": {
-            "dialog_intro": "Wähle ein freies Pseudonym. Optional kannst du es mit einem Login-Secret reservieren.",
-            "dialog_start": "Start"
-        },
         "languages_available": "Sprachen der Fragensets: {languages}",
         "section": {
             "header": "🗂️ Set-Auswahl"
@@ -1195,6 +1206,8 @@
         },
         "pseudonym": {
             "heading": "👤 Dein Pseudonym",
+            "dialog_intro": "Wähle ein freies Pseudonym. Optional kannst du ein Login-Secret setzen, um es zu reservieren.",
+            "dialog_start": "Start",
             "no_available": "⚠️ Keine Pseudonyme frei. Frag den Admin.",
             "select_label": "Wähle dein Pseudonym:",
             "select_placeholder": "👤 Bitte auswählen...",

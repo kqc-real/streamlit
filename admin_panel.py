@@ -803,14 +803,147 @@ def render_feedback_tab():
 def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
     """Rendert den Export-Tab."""
     st.header(translate_ui("admin.data_export_header"))
-    if df.empty:
-        st.info(translate_ui("admin.messages.no_data_to_export"))
-        return
 
     # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung vor Export (optional) ---
     # Hinweis: Export ist lesend und weniger kritisch, aber kann sensible Daten enthalten
     st.info(translate_ui("admin.messages.export_contains_all_data"))
-    
+
+    # --- Fragenset-Downloads (JSON + Lernziele als Markdown) ---
+    st.subheader(translate_ui("admin.export.question_sets_header", default="Fragenset-Downloads"))
+
+    try:
+        from pathlib import Path
+        from config import list_question_files, USER_QUESTION_PREFIX, get_package_dir
+        from user_question_sets import list_user_question_sets, resolve_question_path, format_user_label
+    except Exception:
+        list_question_files = None  # type: ignore[assignment]
+        list_user_question_sets = None  # type: ignore[assignment]
+        resolve_question_path = None  # type: ignore[assignment]
+        format_user_label = None  # type: ignore[assignment]
+        USER_QUESTION_PREFIX = "user::"  # type: ignore[assignment]
+        get_package_dir = None  # type: ignore[assignment]
+
+    def _format_set_label(identifier: str) -> str:
+        if identifier.startswith(USER_QUESTION_PREFIX) and format_user_label:
+            try:
+                info = next((i for i in list_user_question_sets() if i.identifier == identifier), None)
+                if info:
+                    return f"👤 {format_user_label(info)}"
+            except Exception:
+                pass
+        return identifier.replace(USER_QUESTION_PREFIX, "").replace("questions_", "").replace(".json", "").replace("_", " ")
+
+    def _find_learning_objectives_path_admin(selected: str) -> Path | None:
+        if not selected:
+            return None
+        try:
+            cleaned = selected[len(USER_QUESTION_PREFIX):] if selected.startswith(USER_QUESTION_PREFIX) else selected
+            stem = Path(cleaned).name
+            if stem.lower().endswith(".json"):
+                stem = stem[: -len(".json")]
+            core = stem.replace("questions_", "")
+            lo_filenames = [
+                f"questions_{core}_Learning_objectives.md",
+                f"questions_{core}_Learning_Objectives.md",
+            ]
+        except Exception:
+            return None
+
+        candidates: list[Path] = []
+        try:
+            base_dir = Path(get_package_dir()) if get_package_dir else None
+            if base_dir:
+                candidates.extend([base_dir / "data", base_dir / "data-user", base_dir])
+        except Exception:
+            pass
+
+        # If selected is a path, check its parent
+        try:
+            selected_path = Path(selected)
+            if selected_path.exists():
+                candidates.append(selected_path.parent)
+        except Exception:
+            pass
+
+        for base in candidates:
+            try:
+                for name in lo_filenames:
+                    cand = base / name
+                    if cand.exists() and cand.is_file():
+                        return cand
+            except Exception:
+                continue
+        return None
+
+    available_files: list[str] = []
+    try:
+        if list_question_files:
+            available_files.extend(list_question_files())
+    except Exception:
+        pass
+    try:
+        if list_user_question_sets:
+            user_sets = list_user_question_sets()
+            available_files = [info.identifier for info in user_sets] + available_files
+    except Exception:
+        pass
+
+    if available_files:
+        selected_export = st.selectbox(
+            translate_ui("admin.export.question_set_select", default="Fragenset auswählen"),
+            options=available_files,
+            format_func=_format_set_label,
+            key="admin_export_questionset_select",
+        )
+        json_bytes = None
+        json_name = None
+        if resolve_question_path and selected_export:
+            try:
+                json_path = resolve_question_path(selected_export)
+                if json_path.exists():
+                    json_bytes = json_path.read_bytes()
+                    json_name = json_path.name if json_path.suffix.lower() == ".json" else f"{json_path.name}.json"
+            except Exception:
+                json_bytes = None
+                json_name = None
+
+        if json_bytes and json_name:
+            st.download_button(
+                label=translate_ui("admin.export.download_json", default="💾 Fragenset (JSON) herunterladen"),
+                data=json_bytes,
+                file_name=json_name,
+                mime="application/json",
+                key="admin_export_qset_json",
+            )
+        else:
+            st.warning(translate_ui("admin.export.json_missing", default="JSON-Datei für dieses Fragenset nicht gefunden."))
+
+        lo_path = _find_learning_objectives_path_admin(selected_export)
+        if lo_path and lo_path.exists():
+            try:
+                lo_bytes = lo_path.read_bytes()
+            except Exception:
+                lo_bytes = None
+            if lo_bytes:
+                st.download_button(
+                    label=translate_ui("admin.export.download_lo_md", default="💾 Lernziele (Markdown) herunterladen"),
+                    data=lo_bytes,
+                    file_name=lo_path.name,
+                    mime="text/markdown",
+                    key="admin_export_qset_lo_md",
+                )
+            else:
+                st.warning(translate_ui("admin.export.lo_md_error", default="Lernziele konnten nicht geladen werden."))
+        else:
+            st.caption(translate_ui("admin.export.lo_md_missing", default="Keine Lernziele-Datei gefunden."))
+    else:
+        st.info(translate_ui("admin.export.no_question_sets", default="Keine Fragensets gefunden."))
+
+    st.subheader(translate_ui("admin.export.csv_header", default="Antwort-Log (CSV)"))
+    if df.empty:
+        st.info(translate_ui("admin.messages.no_data_to_export"))
+        return
+
     csv_data = df.to_csv(index=False).encode("utf-8")
     st.download_button(
         label=translate_ui("admin.export.download_csv", default="⬇️ Antwort-Log herunterladen (CSV)"),
