@@ -1756,10 +1756,25 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Prüfen, ob der Test vorzeitig beendet wurde
     test_manually_ended = st.session_state.get("test_manually_ended", False)
+    current_mode = st.session_state.get('selected_mode', 'exam')
+
     header_title = set_name
     header_subtitle = ""
+    subtitle_parts = []
+
+    if current_mode == 'practice':
+        mode_text = translate_ui("pdf.header.mode.practice", default="Übungsbericht")
+        subtitle_parts.append(f'<span class="header-mode">{_html.escape(mode_text)}</span>')
+    else:
+        mode_text = translate_ui("pdf.header.mode.exam", default="Testbericht")
+        subtitle_parts.append(f'<span class="header-mode">{_html.escape(mode_text)}</span>')
+
     if test_manually_ended:
-        header_subtitle = f'<p class="header-subtitle">({_html.escape(translate_ui("pdf.header.manual_end", default="Test vorzeitig beendet"))})</p>'
+        manual_text = translate_ui("pdf.header.manual_end", default="Test vorzeitig beendet")
+        subtitle_parts.append(f'<span class="header-warning"> ({_html.escape(manual_text)})</span>')
+
+    if subtitle_parts:
+        header_subtitle = f'<p class="header-subtitle">{"".join(subtitle_parts)}</p>'
 
     current_score, max_score = calculate_score(
         [st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))],
@@ -3162,8 +3177,12 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             .header-subtitle {{
                 font-size: 12pt;
                 font-weight: 500;
-                color: #ffc107;
+                color: #e2e8f0;
                 margin: 4px 0 0 0;
+            }}
+            .header-warning {{
+                color: #ffc107;
+                font-weight: 600;
             }}
             .meta-info {{
                 display: flex;

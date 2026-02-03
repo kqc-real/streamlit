@@ -1117,12 +1117,16 @@
         "export_glossary_download": "💾 Descargar PDF del glosario",
         "export_glossary_error": "Error: {error}",
         "export_testbericht_expander": "📊 Informe de test (PDF)",
+        "export_testbericht_expander.exam": "📄 Informe de Prueba (PDF)",
+        "export_testbericht_expander.practice": "📄 Informe de Práctica (PDF)",
         "export_testbericht_description": "Tu resultado con puntuación y tiempos.",
         "export_testbericht_spinner": "Creando Informe...",
         "export_testbericht_spinner_with_formulas": "Generando Informe",
         "export_testbericht_render_count": "Renderizando {count} fórmulas. Paciencia.",
         "export_testbericht_no_config": "Error: falta app_config.",
         "export_testbericht_download": "💾 Descargar PDF del informe",
+        "export_testbericht_download.exam": "💾 Descargar Informe de Prueba",
+        "export_testbericht_download.practice": "💾 Descargar Informe de Práctica",
         "export_testbericht_error": "Error: {error}",
         "confidence_header": "🧭 Sensación vs. resultado",
         "confidence_description": "Compara tu sensación con el resultado.",
@@ -1332,6 +1336,10 @@
         "scoring_positive": "Solo puntos positivos (incorrecto = 0)",
         "sidebar_tip": "Consejo: usa la barra lateral para navegar.",
         "start_test_button": "Iniciar test",
+        "start_button": {
+            "exam": "🚀 Iniciar Examen",
+            "practice": "🚀 Iniciar Práctica"
+        },
         "test_intro": "Elige un set y empieza cuando estés listo."
     },
     "warnings": {

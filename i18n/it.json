@@ -1117,12 +1117,16 @@
         "export_glossary_download": "💾 Scarica PDF glossario",
         "export_glossary_error": "Errore: {error}",
         "export_testbericht_expander": "📊 Report test (PDF)",
+        "export_testbericht_expander.exam": "📄 Rapporto di Test (PDF)",
+        "export_testbericht_expander.practice": "📄 Rapporto di Esercitazione (PDF)",
         "export_testbericht_description": "Risultati con punteggio e tempi.",
         "export_testbericht_spinner": "Creo Report...",
         "export_testbericht_spinner_with_formulas": "Genero Report",
         "export_testbericht_render_count": "Renderizzo {count} formule. Pazienza.",
         "export_testbericht_no_config": "Errore: manca app_config.",
         "export_testbericht_download": "💾 Scarica PDF report",
+        "export_testbericht_download.exam": "💾 Scarica Rapporto di Test",
+        "export_testbericht_download.practice": "💾 Scarica Rapporto di Esercitazione",
         "export_testbericht_error": "Errore: {error}",
         "confidence_header": "🧭 Sensazione vs. risultato",
         "confidence_description": "Confronta la tua sensazione con il risultato.",
@@ -1332,6 +1336,10 @@
         "scoring_positive": "Solo punti positivi (sbagliato = 0)",
         "sidebar_tip": "Suggerimento: usa la sidebar per navigare.",
         "start_test_button": "Avvia test",
+        "start_button": {
+            "exam": "🚀 Avvia Test",
+            "practice": "🚀 Avvia Esercitazione"
+        },
         "test_intro": "Scegli un set e inizia quando sei pronto."
     },
     "warnings": {

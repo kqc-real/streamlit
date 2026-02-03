@@ -1120,12 +1120,16 @@
         "export_glossary_download": "💾 下载术语表 PDF",
         "export_glossary_error": "错误: {error}",
         "export_testbericht_expander": "📊 测试报告（PDF）",
+        "export_testbericht_expander.exam": "📄 测试报告 (PDF)",
+        "export_testbericht_expander.practice": "📄 练习报告 (PDF)",
         "export_testbericht_description": "你的结果，含得分与用时统计。",
         "export_testbericht_spinner": "正在创建报告...",
         "export_testbericht_spinner_with_formulas": "正在生成报告",
         "export_testbericht_render_count": "正在渲染约 {count} 个公式。请稍候。",
         "export_testbericht_no_config": "错误: 缺少 app_config。",
         "export_testbericht_download": "💾 下载报告 PDF",
+        "export_testbericht_download.exam": "💾 下载测试报告",
+        "export_testbericht_download.practice": "💾 下载练习报告",
         "export_testbericht_error": "错误: {error}",
         "confidence_header": "🧭 感觉 vs. 结果",
         "confidence_description": "比较你的把握感与结果。",
@@ -1335,6 +1339,10 @@
         "scoring_positive": "仅加分（错误 = 0）",
         "sidebar_tip": "提示：使用侧边栏导航。",
         "start_test_button": "开始测试",
+        "start_button": {
+            "exam": "🚀 开始测试",
+            "practice": "🚀 开始练习"
+        },
         "test_intro": "选择题库，准备好就开始。"
     },
     "warnings": {

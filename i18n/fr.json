@@ -1117,12 +1117,16 @@
         "export_glossary_download": "💾 Télécharger PDF du glossaire",
         "export_glossary_error": "Erreur : {error}",
         "export_testbericht_expander": "📊 Rapport de test (PDF)",
+        "export_testbericht_expander.exam": "📄 Rapport de Test (PDF)",
+        "export_testbericht_expander.practice": "📄 Rapport d'Exercice (PDF)",
         "export_testbericht_description": "Tes résultats avec score et temps.",
         "export_testbericht_spinner": "Création Rapport...",
         "export_testbericht_spinner_with_formulas": "Génération Rapport",
         "export_testbericht_render_count": "Rendu de {count} formules. Patience.",
         "export_testbericht_no_config": "Erreur : app_config manquant.",
         "export_testbericht_download": "💾 Télécharger PDF du rapport",
+        "export_testbericht_download.exam": "💾 Télécharger le Rapport de Test",
+        "export_testbericht_download.practice": "💾 Télécharger le Rapport d'Exercice",
         "export_testbericht_error": "Erreur : {error}",
         "confidence_header": "🧭 Ressenti vs. résultat",
         "confidence_description": "Compare ton ressenti au résultat.",
@@ -1332,6 +1336,10 @@
         "scoring_positive": "Points positifs uniquement (faux = 0)",
         "sidebar_tip": "Astuce : utilise la barre latérale pour naviguer.",
         "start_test_button": "Commencer le test",
+        "start_button": {
+            "exam": "🚀 Démarrer le Test",
+            "practice": "🚀 Démarrer l'Exercice"
+        },
         "test_intro": "Choisis un set et lance-toi quand tu es prêt."
     },
     "warnings": {

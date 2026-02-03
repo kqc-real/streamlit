@@ -3637,13 +3637,30 @@ def render_welcome_page(app_config: AppConfig):
                 format_func=lambda k: tempo_options.get(k, k),
                 key='selected_tempo'
             )
+
+            # --- Modus-Auswahl (Prüfung vs. Übung) ---
+            mode_options = {
+                'exam': translate_ui('welcome.mode.exam', default="🏆 Prüfungs-Modus (Timer, Leaderboard)"),
+                'practice': translate_ui('welcome.mode.practice', default="🧘 Übungs-Modus (Kein Timer, sofortiges Feedback)")
+            }
+            if 'selected_mode' not in st.session_state:
+                st.session_state['selected_mode'] = 'exam'
+            
+            st.radio(translate_ui('welcome.mode.label', default="Modus:"), options=list(mode_options.keys()), format_func=lambda x: mode_options[x], key='selected_mode')
+
             # --- Start-Button (nach Auswahl) ---
             user_name = st.session_state.get("user_id")
             can_start = user_name and question_selected_for_render and not st.session_state.get("session_id")
             _, start_col, _ = st.columns([1, 2, 1])
             with start_col:
+                mode = st.session_state.get("selected_mode", "exam")
+                if mode == 'practice':
+                    start_btn_label = translate_ui("welcome.start_button.practice", default="🚀 Übung starten")
+                else:
+                    start_btn_label = translate_ui("welcome.start_button.exam", default="🚀 Test starten")
+
                 if st.button(
-                    translate_ui("welcome.start_test_button", default="🚀 Test beginnen"),
+                    start_btn_label,
                     type="primary",
                     disabled=not bool(can_start),
                     key="welcome_start_after_select",
@@ -3656,7 +3673,8 @@ def render_welcome_page(app_config: AppConfig):
                         st.session_state["user_id_hash"] = user_hash
                         db_add_user(user_hash, user_name)
                         tempo = st.session_state.get("selected_tempo", "normal")
-                        session_id = start_test_session(user_hash, question_selected_for_render, tempo=tempo)
+                        mode = st.session_state.get("selected_mode", "exam")
+                        session_id = start_test_session(user_hash, question_selected_for_render, tempo=tempo, mode=mode)
                         if session_id:
                             st.session_state["session_id"] = session_id
                             initialize_session_state(questions, app_config)
@@ -4017,7 +4035,8 @@ def render_welcome_page(app_config: AppConfig):
                             if user_id:
                                 reset_login_attempts(pseudonym_recover)
                                 selected_qfile = st.session_state.get("selected_questions_file")
-                                session_id = start_test_session(user_id, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
+                                mode = st.session_state.get("selected_mode", "exam")
+                                session_id = start_test_session(user_id, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'), mode=mode)
                                 if session_id:
                                     st.session_state.user_id = pseudonym_recover
                                     st.session_state.user_id_hash = user_id
@@ -4112,7 +4131,8 @@ def render_welcome_page(app_config: AppConfig):
                         if not selected_qfile:
                             st.error(_welcome_pseudonym_question_required())
                             return
-                        session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
+                        mode = st.session_state.get("selected_mode", "exam")
+                        session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'), mode=mode)
     
                         if session_id:
                             st.session_state.user_id = user_name
@@ -4244,7 +4264,8 @@ def render_welcome_page(app_config: AppConfig):
                                             except Exception:
                                                 pass
     
-                                            session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'))
+                                            mode = st.session_state.get("selected_mode", "exam")
+                                            session_id = start_test_session(user_id_hash, selected_qfile, tempo=st.session_state.get('selected_tempo', 'normal'), mode=mode)
                                             if session_id:
                                                 st.session_state['session_id'] = session_id
                                                 st.session_state['show_pseudonym_reminder'] = True
@@ -4344,8 +4365,14 @@ def _show_welcome_container(app_config: AppConfig):
 
         st.markdown("<br>", unsafe_allow_html=True)
 
+        mode = st.session_state.get("selected_mode", "exam")
+        if mode == 'practice':
+            start_label = translate_ui("welcome.start_button.practice", default="🚀 Übung starten")
+        else:
+            start_label = translate_ui("welcome.start_button.exam", default="🚀 Test starten")
+
         if st.button(
-            translate_ui("welcome.start_test_button", default="🚀 Test beginnen"),
+            start_label,
             type="primary",
             width="stretch",
         ):
@@ -5077,6 +5104,19 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         except Exception:
             pass
 
+    # Ensure mode is available in session state (recover from DB if needed)
+    if 'selected_mode' not in st.session_state and 'session_id' in st.session_state:
+        try:
+            conn = get_db_connection()
+            if conn:
+                cur = conn.cursor()
+                cur.execute("SELECT mode FROM test_sessions WHERE session_id = ?", (st.session_state.session_id,))
+                row = cur.fetchone()
+                if row and row['mode']:
+                    st.session_state['selected_mode'] = row['mode']
+        except Exception:
+            pass
+
     # Clear the `in_final_summary` flag so sidebar items re-appear.
     try:
         if st.session_state.get("in_final_summary"):
@@ -5326,6 +5366,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     except Exception:
         context_label = None
 
+    current_mode = st.session_state.get('selected_mode', 'exam')
+
+    if num_answered == 0:
+        if current_mode == 'exam':
+            st.info(translate_ui("test_view.mode_info.exam", default="🏆 **Prüfungs-Modus:** Die Zeit läuft! Feedback gibt es erst am Ende."))
+        else:
+            st.success(translate_ui("test_view.mode_info.practice", default="🧘 **Übungs-Modus:** Kein Zeitdruck. Sofortiges Feedback nach jeder Frage."))
+
     with st.container(border=True):
 
         # --- Countdown-Timer ---
@@ -5342,7 +5390,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
              test_time_limit = getattr(app_config, "test_duration_minutes", 60) * 60
              st.session_state.test_time_limit = test_time_limit
 
-        if start_zeit:
+        # Timer logic: only check/show in exam mode
+        if start_zeit and current_mode == 'exam':
             elapsed_time = (pd.Timestamp.now() - start_zeit).total_seconds()
             remaining_time = int(test_time_limit - elapsed_time)
 
@@ -5845,25 +5894,37 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
             # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
             if not answer_disabled:
-                answer_cols = st.columns([1, 1])
-                with answer_cols[0]:
+                if current_mode == 'exam':
+                    # Im Prüfungsmodus nur ein einfacher "Antworten"-Button ohne Unsicher-Option
                     if st.button(
-                        answer_label_unsure,
-                        key=f"submit_unsure_{frage_idx}",
-                        type=answer_button_type,
+                        translate_ui("test_view.submit_button", default="Antworten"),
+                        key=f"submit_exam_{frage_idx}",
+                        type="primary",
                         width="stretch",
                         disabled=False,
                     ):
-                        _handle_answer_click("unsure")
-                with answer_cols[1]:
-                    if st.button(
-                        answer_label_sure,
-                        key=f"submit_sure_{frage_idx}",
-                        type=answer_button_type,
-                        width="stretch",
-                        disabled=False,
-                    ):
-                        _handle_answer_click("sure")
+                        _handle_answer_click(None)
+                else:
+                    # Im Übungsmodus die differenzierten Buttons
+                    answer_cols = st.columns([1, 1])
+                    with answer_cols[0]:
+                        if st.button(
+                            answer_label_unsure,
+                            key=f"submit_unsure_{frage_idx}",
+                            type=answer_button_type,
+                            width="stretch",
+                            disabled=False,
+                        ):
+                            _handle_answer_click("unsure")
+                    with answer_cols[1]:
+                        if st.button(
+                            answer_label_sure,
+                            key=f"submit_sure_{frage_idx}",
+                            type=answer_button_type,
+                            width="stretch",
+                            disabled=False,
+                        ):
+                            _handle_answer_click("sure")
 
             # --- Kumulierte Konfidenzmatrix (nur Admin / Autoren) ---
             try:
@@ -5899,7 +5960,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     owner_sets,
                 )
 
-                if show_matrix and selected_file:
+                if show_matrix and selected_file and current_mode != 'exam':
                     author_hash = None
                     try:
                         qmeta = st.session_state.get("question_set_meta") or {}
@@ -6217,12 +6278,17 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         st.session_state.get("last_answered_idx") == frage_idx
         and "last_motivation_message" in st.session_state
         and st.session_state.last_motivation_message
+        and current_mode != 'exam'
     ):
         st.markdown(st.session_state.last_motivation_message, unsafe_allow_html=True)
     
     # --- Erklärung anzeigen ---
     if st.session_state.get(f"show_explanation_{frage_idx}", False):
-        render_explanation(frage_obj, app_config, questions, remaining_time, remaining)
+        # Im Prüfungsmodus kein sofortiges Feedback während des Tests
+        if current_mode == 'exam' and not is_test_finished(questions):
+            st.info(translate_ui("test_view.answer_saved", default="Antwort gespeichert."))
+        else:
+            render_explanation(frage_obj, app_config, questions, remaining_time, remaining)
 
 
 def handle_jump_to_unanswered_question(frage_idx: int):
@@ -8756,16 +8822,22 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             )
 
         # Testbericht
-        with st.expander(_summary_text(
-            "export_testbericht_expander",
-            default="📄 Testbericht (PDF mit deinem Ergebnis)",
-        )):
+        current_mode = st.session_state.get('selected_mode', 'exam')
+        if current_mode == 'practice':
+            expander_label = _summary_text("export_testbericht_expander.practice", default="📄 Übungsbericht (PDF)")
+            download_label = _summary_text("export_testbericht_download.practice", default="💾 Übungsbericht herunterladen")
+        else:
+            expander_label = _summary_text("export_testbericht_expander.exam", default="📄 Testbericht (PDF)")
+            download_label = _summary_text("export_testbericht_download.exam", default="💾 Testbericht herunterladen")
+
+        with st.expander(expander_label):
             st.markdown(_summary_text(
                 "export_testbericht_description",
                 default="Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.",
             ))
+            report_type_slug = "uebungsbericht" if current_mode == 'practice' else "testbericht"
             report_download_name = (
-                f"testbericht_{selected_file_stem}_{user_name_file}.pdf"
+                f"{report_type_slug}_{selected_file_stem}_{user_name_file}.pdf"
             )
             testbericht_btn_key = f"download_testbericht_review_{selected_file}"
             testbericht_dl_key = f"dl_testbericht_direct_{selected_file}"
@@ -8808,7 +8880,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             list(questions), app_config
                         )
                         st.download_button(
-                            label=_summary_text("export_testbericht_download", default="💾 Testbericht herunterladen"),
+                            label=download_label,
                             data=pdf_bytes,
                             file_name=report_download_name,
                             mime=MIME_PDF,

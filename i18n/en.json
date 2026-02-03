@@ -1115,12 +1115,16 @@
         "export_glossary_download": "💾 Download glossary PDF",
         "export_glossary_error": "Error: {error}",
         "export_testbericht_expander": "📊 Test Report (PDF)",
+        "export_testbericht_expander.exam": "📄 Test Report (PDF)",
+        "export_testbericht_expander.practice": "📄 Practice Report (PDF)",
         "export_testbericht_description": "Your results with score and time stats.",
         "export_testbericht_spinner": "Creating Report...",
         "export_testbericht_spinner_with_formulas": "Building Report",
         "export_testbericht_render_count": "Rendering approx. {count} formulas. Wait a sec.",
         "export_testbericht_no_config": "Error: app_config missing.",
         "export_testbericht_download": "💾 Download report PDF",
+        "export_testbericht_download.exam": "💾 Download Test Report",
+        "export_testbericht_download.practice": "💾 Download Practice Report",
         "export_testbericht_error": "Error: {error}",
         "confidence_header": "🧭 Feeling vs. Result",
         "confidence_description": "Compares your feeling with the outcome.",
@@ -1330,6 +1334,10 @@
         "scoring_positive": "Positive only (wrong = 0)",
         "sidebar_tip": "Tip: Use the sidebar to navigate.",
         "start_test_button": "Start test",
+        "start_button": {
+            "exam": "🚀 Start Test",
+            "practice": "🚀 Start Practice"
+        },
         "test_intro": "Choose a set and start when ready."
     },
     "warnings": {

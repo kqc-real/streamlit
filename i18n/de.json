@@ -850,7 +850,11 @@
             "Analyse": "Analyse"
         },
         "header": {
-            "manual_end": "Vorzeitig beendet"
+            "manual_end": "Vorzeitig beendet",
+            "mode": {
+                "exam": "Testbericht",
+                "practice": "Übungsbericht"
+            }
         },
         "weak_topics": {
             "title": "Hier gibt's Lücken",
@@ -1047,12 +1051,16 @@
         "export_glossary_download": "💾 Glossar-PDF herunterladen",
         "export_glossary_error": "Fehler: {error}",
         "export_testbericht_expander": "📊 Testbericht (PDF)",
+        "export_testbericht_expander.exam": "📄 Testbericht (PDF)",
+        "export_testbericht_expander.practice": "📄 Übungsbericht (PDF)",
         "export_testbericht_description": "Dein Ergebnis mit Punkten und Zeitstatistiken.",
         "export_testbericht_spinner": "Erstelle Bericht...",
         "export_testbericht_spinner_with_formulas": "Baue Bericht",
         "export_testbericht_render_count": "Rendere ca. {count} Formeln. Bitte warten.",
         "export_testbericht_no_config": "Fehler: app_config fehlt.",
         "export_testbericht_download": "💾 Testbericht-PDF herunterladen",
+        "export_testbericht_download.exam": "💾 Testbericht herunterladen",
+        "export_testbericht_download.practice": "💾 Übungsbericht herunterladen",
         "export_testbericht_error": "Fehler: {error}",
         "confidence_header": "🧭 Gefühl vs. Ergebnis",
         "confidence_description": "Vergleicht dein Gefühl mit dem Ergebnis.",
@@ -1262,6 +1270,10 @@
         "scoring_positive": "Nur Pluspunkte (falsch = 0)",
         "sidebar_tip": "Tipp: Nutze die Sidebar zur Navigation.",
         "start_test_button": "Test starten",
+        "start_button": {
+            "exam": "🚀 Test starten",
+            "practice": "🚀 Übung starten"
+        },
         "test_intro": "Wähle ein Set und starte, wenn du bereit bist."
     },
     "languages": {

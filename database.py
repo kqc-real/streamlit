@@ -113,6 +113,7 @@ def create_tables():
                     questions_file TEXT NOT NULL,
                     start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     tempo TEXT DEFAULT 'normal',
+                    mode TEXT DEFAULT 'exam',
                     FOREIGN KEY (user_id) REFERENCES users (user_id)
                 );
             """)
@@ -381,6 +382,7 @@ def create_tables():
                     allowed_min INTEGER,
                     effective_allowed INTEGER,
                     tempo TEXT,
+                    mode TEXT,
                     total_points INTEGER,
                     max_points INTEGER,
                     correct_count INTEGER,
@@ -453,6 +455,34 @@ def init_database():
     db_dir = os.path.dirname(DATABASE_FILE)
     os.makedirs(db_dir, exist_ok=True)
     create_tables()
+    
+    # --- Migration: Spalte 'mode' nachträglich hinzufügen ---
+    conn = get_db_connection()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            
+            # Prüfe test_sessions
+            cursor.execute("PRAGMA table_info(test_sessions)")
+            cols_ts = [r['name'] for r in cursor.fetchall()]
+            if 'mode' not in cols_ts:
+                try:
+                    with conn:
+                        conn.execute("ALTER TABLE test_sessions ADD COLUMN mode TEXT DEFAULT 'exam'")
+                except sqlite3.Error:
+                    pass
+
+            # Prüfe test_session_summaries
+            cursor.execute("PRAGMA table_info(test_session_summaries)")
+            cols_summ = [r['name'] for r in cursor.fetchall()]
+            if 'mode' not in cols_summ:
+                try:
+                    with conn:
+                        conn.execute("ALTER TABLE test_session_summaries ADD COLUMN mode TEXT DEFAULT 'exam'")
+                except sqlite3.Error:
+                    pass
+        except Exception as e:
+            print(f"Fehler bei der Migration (mode): {e}")
 
 
 @with_db_retry
@@ -471,7 +501,7 @@ def add_user(user_id: str, pseudonym: str):
         print(f"Datenbankfehler in add_user: {e}")
 
 @with_db_retry
-def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal') -> int | None:
+def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal', mode: str = 'exam') -> int | None:
     """Erstellt eine neue Test-Session für einen Benutzer und gibt die session_id zurück."""
     conn = get_db_connection()
     if conn is None:
@@ -500,8 +530,8 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal')
                 start_time_str = start_dt.strftime('%Y-%m-%d %H:%M:%S')
 
             cursor.execute(
-                "INSERT INTO test_sessions (user_id, questions_file, start_time, tempo) VALUES (?, ?, ?, ?)",
-                (user_id, questions_file, start_time_str, tempo)
+                "INSERT INTO test_sessions (user_id, questions_file, start_time, tempo, mode) VALUES (?, ?, ?, ?, ?)",
+                (user_id, questions_file, start_time_str, tempo, mode)
             )
             session_id = cursor.lastrowid
             # Ensure we persist a mapping in `users` when the human-readable
@@ -631,7 +661,7 @@ def get_all_logs_for_leaderboard(questions_file: str, tempo: str | None = None) 
                     ) AS rn
                 FROM test_session_summaries s
                 LEFT JOIN users u ON s.user_id = u.user_id
-                WHERE s.questions_file = ?
+                WHERE s.questions_file = ? AND (s.mode IS NULL OR s.mode = 'exam')
         """
         params = [questions_file]
         if tempo:
@@ -1130,7 +1160,7 @@ def recompute_session_summary(session_id: int) -> bool:
 
         # Load session basic info
         cursor.execute(
-            "SELECT user_id, questions_file, start_time, tempo "
+            "SELECT user_id, questions_file, start_time, tempo, mode "
             "FROM test_sessions WHERE session_id = ?",
             (session_id,),
         )
@@ -1141,6 +1171,7 @@ def recompute_session_summary(session_id: int) -> bool:
         user_id = s['user_id']
         questions_file = s['questions_file']
         start_time = s['start_time']
+        mode = s['mode'] if 'mode' in s.keys() else 'exam'
 
         # Aggregate answers
         # NOTE: use per-question aggregation (best attempt per question) to avoid
@@ -1366,10 +1397,10 @@ def recompute_session_summary(session_id: int) -> bool:
         insert_sql = (
             """
             INSERT OR REPLACE INTO test_session_summaries (
-                session_id, user_id, user_pseudonym, questions_file, questions_title, meta_created,
+                session_id, user_id, user_pseudonym, questions_file, questions_title, meta_created, mode,
                 start_time, end_time, duration_seconds, question_count, allowed_min, effective_allowed, tempo,
                 total_points, max_points, correct_count, percent, time_expired
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
         )
 
@@ -1384,6 +1415,7 @@ def recompute_session_summary(session_id: int) -> bool:
                         questions_file,
                         questions_title,
                         meta_created,
+                        mode,
                         start_time,
                         last_answer,
                         duration_seconds,
@@ -1416,6 +1448,7 @@ def recompute_session_summary(session_id: int) -> bool:
                                 questions_file,
                                 questions_title,
                                 meta_created,
+                                mode,
                                 start_time,
                                 last_answer,
                                 duration_seconds,

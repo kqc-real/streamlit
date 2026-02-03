@@ -1088,7 +1088,10 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     except Exception:
         min_score_for_leaderboard = 1
 
-    if final_score >= min_score_for_leaderboard and duration_seconds >= min_duration_for_leaderboard:
+    # Check mode: only exam mode qualifies for leaderboard
+    current_mode = st.session_state.get('selected_mode', 'exam')
+
+    if current_mode == 'exam' and final_score >= min_score_for_leaderboard and duration_seconds >= min_duration_for_leaderboard:
         if len(leaderboard) < 10:
             made_it_to_leaderboard = True
         else:
@@ -2455,7 +2458,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             recommended_duration_seconds = int(st.session_state.get("test_time_limit", st.session_state.get("test_duration_minutes", 60) * 60))
             min_duration_for_leaderboard = max(60, int(recommended_duration_seconds * 0.20))
 
-            if final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
+            # Check mode: only exam mode qualifies for leaderboard
+            current_mode = st.session_state.get('selected_mode', 'exam')
+
+            if current_mode == 'exam' and final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:
                 # Wenn das Leaderboard noch nicht voll ist, schafft man es immer.
                 if len(leaderboard) < 10:
                     made_it_to_leaderboard = True
