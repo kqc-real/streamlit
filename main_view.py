@@ -8155,10 +8155,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         )
 
         with st.expander(_summary_text("export_anki_expander", default="📦 Anki-Lernkarten (empfohlen für Wiederholung)")):
-            pending_instruction = st.session_state.pop("_open_anki_instruction_requested", False)
-            if pending_instruction:
-                _open_anki_instruction_dialog()
-
             st.markdown(
                 _summary_text(
                     "export_anki_description",
@@ -8169,20 +8165,9 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             st.caption(
                 _summary_text(
                     "export_anki_caption",
-                    default="Hinweis: Das Anki-Paket enthält bereits Layout, Styling und Tags. Für den TSV-Export findest du alle Schritte in der ausführlichen Anleitung.",
+                    default="Enthält Layout, Styles & Tags. TSV ist für CSV-Import.",
                 )
             )
-            instruction_button_key = f"open_anki_instruction_{export_selected_file}"
-            if st.button(
-                _summary_text("export_anki_instruction_button", default="ℹ️ Anleitung & Tipps anzeigen"),
-                key=instruction_button_key,
-            ):
-                st.session_state["_open_anki_instruction_requested"] = True
-                st.session_state["user_qset_dialog_open"] = False
-                if st.session_state.get("_active_dialog") == "user_qset":
-                    st.session_state["_active_dialog"] = None
-                st.rerun()
-
             preview_button_key = f"open_anki_preview_{export_selected_file}"
             if st.button(
                 _summary_text("export_anki_preview_button", default="🖼️ Kartenvorschau anzeigen"),
@@ -8333,80 +8318,78 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             apkg_download_key = f"dl_anki_apkg_{export_selected_file}"
             tsv_download_key = f"dl_anki_tsv_{export_selected_file}"
 
-            col_apkg, col_tsv = st.columns(2)
-            with col_apkg:
-                if st.button(
-                    _summary_text("export_anki_apkg_button", default="Anki-Paket (.apkg) erstellen"),
-                    key=apkg_button_key,
+            if st.button(
+                _summary_text("export_anki_apkg_button", default="Anki-Paket (.apkg) erstellen"),
+                key=apkg_button_key,
+            ):
+                with st.spinner(
+                    _summary_text("export_anki_apkg_spinner", default="Anki-Paket wird erstellt...")
                 ):
-                    with st.spinner(
-                        _summary_text("export_anki_apkg_spinner", default="Anki-Paket wird erstellt...")
-                    ):
-                        try:
-                            apkg_bytes = _cached_generate_anki_apkg(
-                                export_selected_file, locale=get_locale() or "de"
+                    try:
+                        apkg_bytes = _cached_generate_anki_apkg(
+                            export_selected_file, locale=get_locale() or "de"
+                        )
+                    except ModuleNotFoundError:
+                        st.info(_anki_dependency_msg())
+                    except FileNotFoundError as exc:
+                        st.error(str(exc))
+                    except Exception as exc:
+                        st.error(
+                            _summary_text(
+                                "export_anki_apkg_error",
+                                default="Error creating Anki package: {error}",
+                                error=exc,
                             )
-                        except ModuleNotFoundError:
-                            st.info(_anki_dependency_msg())
-                        except FileNotFoundError as exc:
-                            st.error(str(exc))
-                        except Exception as exc:
-                            st.error(
-                                _summary_text(
-                                    "export_anki_apkg_error",
-                                    default="Error creating Anki package: {error}",
-                                    error=exc,
-                                )
-                            )
-                        else:
-                            st.download_button(
-                                label=_summary_text("export_anki_apkg_download", default="💾 APKG herunterladen"),
-                                data=apkg_bytes,
-                                file_name=f"anki_export_{export_file_stem}.apkg",
-                                mime="application/octet-stream",
-                                key=apkg_download_key,
-                                type="primary",
-                            )
+                        )
+                    else:
+                        st.download_button(
+                            label=_summary_text("export_anki_apkg_download", default="💾 APKG herunterladen"),
+                            data=apkg_bytes,
+                            file_name=f"anki_export_{export_file_stem}.apkg",
+                            mime="application/octet-stream",
+                            key=apkg_download_key,
+                            type="primary",
+                        )
 
-            with col_tsv:
-                if st.button(
-                    _summary_text("export_anki_tsv_button", default="Anki-TSV exportieren"),
-                    key=tsv_button_key,
+            if st.button(
+                _summary_text("export_anki_tsv_button", default="Anki-TSV exportieren"),
+                key=tsv_button_key,
+            ):
+                with st.spinner(
+                    _summary_text("export_anki_tsv_spinner", default="Anki-TSV wird erstellt...")
                 ):
-                    with st.spinner(
-                        _summary_text("export_anki_tsv_spinner", default="Anki-TSV wird erstellt...")
-                    ):
-                        try:
-                            json_path = resolve_question_path(export_selected_file)
-                            if not json_path.exists():
-                                raise FileNotFoundError(
-                                    _summary_text(
-                                        "export_anki_tsv_not_found",
-                                        default="Question set '{filename}' was not found.",
-                                        filename=export_selected_file,
-                                    )
-                                )
-                            json_bytes = json_path.read_bytes()
-                            tsv_content = _cached_transform_anki(json_bytes, export_selected_file)
-                        except FileNotFoundError as exc:
-                            st.error(str(exc))
-                        except Exception as exc:
-                            st.error(
+                    try:
+                        json_path = resolve_question_path(export_selected_file)
+                        if not json_path.exists():
+                            raise FileNotFoundError(
                                 _summary_text(
-                                    "export_anki_tsv_error",
-                                    default="Error creating TSV export: {error}",
-                                    error=exc,
+                                    "export_anki_tsv_not_found",
+                                    default="Question set '{filename}' was not found.",
+                                    filename=export_selected_file,
                                 )
                             )
-                        else:
-                            tsv_bytes = tsv_content.encode("utf-8")
-                            st.download_button(
-                                label=_summary_text("export_anki_tsv_download", default="💾 TSV herunterladen"),
-                                data=tsv_bytes,
-                                file_name=f"anki_export_{export_file_stem}.tsv",
-                                mime="text/tab-separated-values",
-                                key=tsv_download_key,
+                        json_bytes = json_path.read_bytes()
+                        tsv_content = _cached_transform_anki(json_bytes, export_selected_file)
+                    except FileNotFoundError as exc:
+                        st.error(str(exc))
+                    except Exception as exc:
+                        st.error(
+                            _summary_text(
+                                "export_anki_tsv_error",
+                                default="Error creating TSV export: {error}",
+                                error=exc,
                             )
+                        )
+                    else:
+                        tsv_bytes = tsv_content.encode("utf-8")
+                        st.download_button(
+                            label=_summary_text("export_anki_tsv_download", default="💾 TSV herunterladen"),
+                            data=tsv_bytes,
+                            file_name=f"anki_export_{export_file_stem}.tsv",
+                            mime="text/tab-separated-values",
+                            key=tsv_download_key,
+                            type="secondary",
+                        )
 
         # Kahoot
         def handle_kahoot_export():
