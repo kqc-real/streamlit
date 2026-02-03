@@ -289,7 +289,22 @@
         },
         "panic_mode_active": "⚡ **恐慌模式：** 由于时间紧迫，冷却已禁用。",
         "panic_mode_skipped": "⚡ **恐慌模式：** 等待时间已跳过。",
-        "question_set_change_warning": "⚠️ 题库已更改，正在重新启动..."
+        "question_set_change_warning": "⚠️ 题库已更改，正在重新启动...",
+        "feedback_option": {
+            "content_error": "内容错误",
+            "typo": "错别字 / 语法",
+            "unclear_question": "问题不清楚",
+            "answers_inappropriate": "答案不合适",
+            "wrong_explanation": "解释错误/不清楚",
+            "technical": "技术问题",
+            "other": "其他"
+        },
+        "mode_info": {
+            "exam": "🏆 **考试模式：** 计时开始！反馈将在最后显示。",
+            "practice": "🧘 **练习模式：** 没有时间压力。每道题后立即显示反馈。"
+        },
+        "answer_saved": "答案已保存。",
+        "submit_button": "提交回答"
     },
     "question": {
         "show_glossary": "查找术语"
@@ -366,15 +381,6 @@
             "hang_in_there": "坚持住 – 做得好。",
             "progress": "正在进步。"
         }
-    },
-    "feedback_option": {
-        "content_error": "内容错误",
-        "typo": "错别字 / 语法",
-        "unclear_question": "问题不清楚",
-        "answers_inappropriate": "答案不合适",
-        "wrong_explanation": "解释错误/不清楚",
-        "technical": "技术问题",
-        "other": "其他"
     },
     "metadata": {
         "weight_label": "权重",
@@ -1343,7 +1349,12 @@
             "exam": "🚀 开始测试",
             "practice": "🚀 开始练习"
         },
-        "test_intro": "选择题库，准备好就开始。"
+        "test_intro": "选择题库，准备好就开始。",
+        "mode": {
+            "label": "模式：",
+            "exam": "🏆 考试模式 (计时，排行榜)",
+            "practice": "🧘 练习模式 (无计时，即时反馈)"
+        }
     },
     "warnings": {
         "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 docs/installation/INSTALLATION_ANLEITUNG.md"

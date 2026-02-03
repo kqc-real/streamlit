@@ -700,7 +700,13 @@
             "wrong_explanation": "Erklärung falsch/unverständlich",
             "technical": "Technik-Problem",
             "other": "Sonstiges"
-        }
+        },
+        "mode_info": {
+            "exam": "🏆 **Prüfungs-Modus:** Die Zeit läuft! Feedback gibt es erst am Ende.",
+            "practice": "🧘 **Übungs-Modus:** Kein Zeitdruck. Sofortiges Feedback nach jeder Frage."
+        },
+        "answer_saved": "Antwort gespeichert.",
+        "submit_button": "Antworten"
     },
     "question": {
         "show_glossary": "Begriffe nachschlagen"
@@ -1274,7 +1280,12 @@
             "exam": "🚀 Test starten",
             "practice": "🚀 Übung starten"
         },
-        "test_intro": "Wähle ein Set und starte, wenn du bereit bist."
+        "test_intro": "Wähle ein Set und starte, wenn du bereit bist.",
+        "mode": {
+            "label": "Modus:",
+            "exam": "🏆 Prüfungs-Modus (Timer, Leaderboard)",
+            "practice": "🧘 Übungs-Modus (Kein Timer, sofortiges Feedback)"
+        }
     },
     "languages": {
         "de": "deutsch",

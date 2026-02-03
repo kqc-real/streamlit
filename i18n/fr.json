@@ -690,7 +690,22 @@
         "panic_mode_active": "⚡ **Mode Panique :** Délais désactivés en raison du manque de temps.",
         "panic_mode_skipped": "⚡ **Mode Panique :** Temps d'attente ignoré.",
         "pseudonym_welcome": "**Salut {user} !** Retiens bien ton pseudo exact.",
-        "question_set_change_warning": "⚠️ Changement de set, je redémarre..."
+        "question_set_change_warning": "⚠️ Changement de set, je redémarre...",
+        "feedback_option": {
+            "content_error": "Erreur de contenu",
+            "typo": "Coquille / Grammaire",
+            "unclear_question": "Question peu claire",
+            "answers_inappropriate": "Réponses inappropriées",
+            "wrong_explanation": "Explication erronée/peu claire",
+            "technical": "Problème technique",
+            "other": "Autre"
+        },
+        "mode_info": {
+            "exam": "🏆 **Mode Examen :** Le temps tourne ! Les résultats seront affichés à la fin.",
+            "practice": "🧘 **Mode Entraînement :** Pas de pression. Feedback immédiat après chaque question."
+        },
+        "answer_saved": "Réponse enregistrée.",
+        "submit_button": "Répondre"
     },
     "question": {
         "show_glossary": "Voir glossaire"
@@ -767,15 +782,6 @@
             "hang_in_there": "Tiens bon – ça va bien.",
             "progress": "Ça avance."
         }
-    },
-    "feedback_option": {
-        "content_error": "Erreur de contenu",
-        "typo": "Coquille / Grammaire",
-        "unclear_question": "Question peu claire",
-        "answers_inappropriate": "Réponses inappropriées",
-        "wrong_explanation": "Explication erronée/peu claire",
-        "technical": "Problème technique",
-        "other": "Autre"
     },
     "metadata": {
         "weight_label": "Poids",
@@ -1340,7 +1346,12 @@
             "exam": "🚀 Démarrer le Test",
             "practice": "🚀 Démarrer l'Exercice"
         },
-        "test_intro": "Choisis un set et lance-toi quand tu es prêt."
+        "test_intro": "Choisis un set et lance-toi quand tu es prêt.",
+        "mode": {
+            "label": "Mode :",
+            "exam": "🏆 Mode Examen (Minuteur, Classement)",
+            "practice": "🧘 Mode Entraînement (Pas de minuteur, feedback immédiat)"
+        }
     },
     "warnings": {
         "no_config": "⚠️ **Config manquante !**\n\nCrée `.env` ou `.streamlit/secrets.toml`.\n\n**Local :**\n1. `cp .env.example .env`\n2. Redémarre.\n\nVoir [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"

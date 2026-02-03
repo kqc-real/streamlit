@@ -285,7 +285,22 @@
         },
         "panic_mode_active": "⚡ **Panic Mode:** Cooldowns disabled due to time pressure.",
         "panic_mode_skipped": "⚡ **Panic Mode:** Wait time skipped.",
-        "question_set_change_warning": "⚠️ Set changed, restarting..."
+        "question_set_change_warning": "⚠️ Set changed, restarting...",
+        "feedback_option": {
+            "content_error": "Content error",
+            "typo": "Typo / Grammar",
+            "unclear_question": "Question unclear",
+            "answers_inappropriate": "Answers inappropriate",
+            "wrong_explanation": "Explanation wrong/unclear",
+            "technical": "Technical issue",
+            "other": "Other"
+        },
+        "mode_info": {
+            "exam": "🏆 **Exam Mode:** The clock is ticking! Feedback will be shown at the end.",
+            "practice": "🧘 **Practice Mode:** No time pressure. Immediate feedback after every question."
+        },
+        "answer_saved": "Answer saved.",
+        "submit_button": "Submit Answer"
     },
     "question": {
         "show_glossary": "Lookup Terms"
@@ -362,15 +377,6 @@
             "hang_in_there": "Hang in there – doing well.",
             "progress": "Making progress."
         }
-    },
-    "feedback_option": {
-        "content_error": "Content error",
-        "typo": "Typo / Grammar",
-        "unclear_question": "Question unclear",
-        "answers_inappropriate": "Answers inappropriate",
-        "wrong_explanation": "Explanation wrong/unclear",
-        "technical": "Technical issue",
-        "other": "Other"
     },
     "metadata": {
         "weight_label": "Weight",
@@ -1338,7 +1344,12 @@
             "exam": "🚀 Start Test",
             "practice": "🚀 Start Practice"
         },
-        "test_intro": "Choose a set and start when ready."
+        "test_intro": "Choose a set and start when ready.",
+        "mode": {
+            "label": "Mode:",
+            "exam": "🏆 Exam Mode (Timer, Leaderboard)",
+            "practice": "🧘 Practice Mode (No timer, immediate feedback)"
+        }
     },
     "warnings": {
         "no_config": "⚠️ **Config missing!**\n\nCreate `.env` or `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Restart.\n\nSee [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"

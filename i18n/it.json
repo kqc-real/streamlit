@@ -691,7 +691,22 @@
         "panic_mode_active": "⚡ **Panic Mode:** Cooldown disabilitati per mancanza di tempo.",
         "panic_mode_skipped": "⚡ **Panic Mode:** Tempo di attesa saltato.",
         "pseudonym_welcome": "**Ciao {user}!** Ricorda il tuo alias esatto.",
-        "question_set_change_warning": "⚠️ Set cambiato, riavvio..."
+        "question_set_change_warning": "⚠️ Set cambiato, riavvio...",
+        "feedback_option": {
+            "content_error": "Errore di contenuto",
+            "typo": "Refuso / Grammatica",
+            "unclear_question": "Domanda confusa",
+            "answers_inappropriate": "Risposte strane",
+            "wrong_explanation": "Spiegazione errata",
+            "technical": "Problema tecnico",
+            "other": "Altro"
+        },
+        "mode_info": {
+            "exam": "🏆 **Modalità Esame:** Il tempo scorre! I risultati verranno mostrati alla fine.",
+            "practice": "🧘 **Modalità Esercitazione:** Nessuna pressione. Feedback immediato dopo ogni domanda."
+        },
+        "answer_saved": "Risposta salvata.",
+        "submit_button": "Rispondi"
     },
     "question": {
         "show_glossary": "Vedi glossario"
@@ -768,15 +783,6 @@
             "hang_in_there": "Tieni duro – va bene.",
             "progress": "Avanzando."
         }
-    },
-    "feedback_option": {
-        "content_error": "Errore di contenuto",
-        "typo": "Refuso / Grammatica",
-        "unclear_question": "Domanda confusa",
-        "answers_inappropriate": "Risposte strane",
-        "wrong_explanation": "Spiegazione errata",
-        "technical": "Problema tecnico",
-        "other": "Altro"
     },
     "metadata": {
         "weight_label": "Peso",
@@ -1340,7 +1346,12 @@
             "exam": "🚀 Avvia Test",
             "practice": "🚀 Avvia Esercitazione"
         },
-        "test_intro": "Scegli un set e inizia quando sei pronto."
+        "test_intro": "Scegli un set e inizia quando sei pronto.",
+        "mode": {
+            "label": "Modalità:",
+            "exam": "🏆 Modalità Esame (Timer, Classifica)",
+            "practice": "🧘 Modalità Esercitazione (Niente timer, feedback immediato)"
+        }
     },
     "warnings": {
         "no_config": "⚠️ **Config mancante!**\n\nCrea `.env` o `.streamlit/secrets.toml`.\n\n**Locale:**\n1. `cp .env.example .env`\n2. Riavvia.\n\nVedi [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
