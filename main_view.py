@@ -2209,7 +2209,7 @@ def _render_welcome_splash():
             help_text=_welcome_language_help(),
         )
 
-        col_left, col_right = st.columns(2)
+        col_left, col_right = st.columns([1, 1])
         with col_left:
             if st.button(
                 translate_ui("welcome.splash.choose_set", default="📂 Fragenset auswählen"),
@@ -5329,11 +5329,24 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     with st.container(border=True):
 
         # --- Countdown-Timer ---
-        if st.session_state.start_zeit and not is_test_finished(questions):
-            elapsed_time = (pd.Timestamp.now() - st.session_state.start_zeit).total_seconds()
-            remaining_time = int(st.session_state.test_time_limit - elapsed_time)
+        # Safety: ensure start_zeit is set if test is running (fixes missing timer on question 1)
+        start_zeit = st.session_state.get("start_zeit")
+        if not start_zeit:
+            start_zeit = pd.Timestamp.now()
+            st.session_state.start_zeit = start_zeit
+            st.session_state.test_started = True
 
-            col1, col2 = st.columns(2)
+        # Safety: ensure test_time_limit is set
+        test_time_limit = st.session_state.get("test_time_limit")
+        if not test_time_limit:
+             test_time_limit = getattr(app_config, "test_duration_minutes", 60) * 60
+             st.session_state.test_time_limit = test_time_limit
+
+        if start_zeit:
+            elapsed_time = (pd.Timestamp.now() - start_zeit).total_seconds()
+            remaining_time = int(test_time_limit - elapsed_time)
+
+            col1, col2 = st.columns([1, 1])
             with col1:
                 if remaining_time > 0:
                     minutes, seconds = divmod(remaining_time, 60)
@@ -5832,7 +5845,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
             # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
             if not answer_disabled:
-                answer_cols = st.columns(2)
+                answer_cols = st.columns([1, 1])
                 with answer_cols[0]:
                     if st.button(
                         answer_label_unsure,
@@ -6705,7 +6718,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
     prev_button_visible = is_in_review_mode and current_review_pos > 0
 
     if prev_button_visible:
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns([1, 1])
         with col1:
             prev_label = _test_view_text("prev_question", default="⬅️ Vorherige Frage")
             if st.button(prev_label, key=f"prev_q_{frage_idx}", type="secondary", width="stretch"):
