@@ -14,6 +14,7 @@ import streamlit as st
 from config import AppConfig, QuestionSet, load_questions, list_question_files, load_scientists
 from i18n.context import t as translate_ui
 from pdf_export import generate_mini_glossary_pdf
+from user_question_sets import pretty_label_from_identifier_string
 from helpers.text import format_decimal_locale, get_user_id_hash
 from database import (
     add_user,
@@ -219,9 +220,13 @@ def render_question_sets_tab():
             if count:
                 diff_parts.append(f"{count} × {label}")
 
+        name = meta.get("title") or meta.get("thema")
+        if not name:
+            name = pretty_label_from_identifier_string(filename)
+
         overview_rows.append(
             {
-                translate_ui("admin.questionsets.columns.name", default="Name"): filename.replace("questions_", "").replace(".json", "").replace("_", " "),
+                translate_ui("admin.questionsets.columns.name", default="Name"): name,
                 translate_ui("admin.questionsets.columns.file", default="Datei"): filename,
                 translate_ui("admin.questionsets.columns.questions", default="Fragen"): num_questions,
                 translate_ui("admin.questionsets.columns.duration", default="Dauer"): f"{duration} min" if duration else "–",
@@ -281,7 +286,10 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         questions_for_set = load_questions(q_file)
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
         
-        title = q_file.replace("questions_", "").replace(".json", "").replace("_", " ")
+        title = questions_for_set.meta.get("title") or questions_for_set.meta.get("thema")
+        if not title:
+            title = pretty_label_from_identifier_string(q_file)
+
         st.subheader(f"{title} (max. {max_score_for_set} Punkte)")
 
         # Tempo‑Filter für das Leaderboard (All / Normal / Speed / Power)
@@ -441,7 +449,14 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
     
     # Formatiere Namen für Anzeige
     def format_qset_name(qfile):
-        name = qfile.replace("questions_", "").replace(".json", "").replace("_", " ")
+        # Versuche Titel aus Meta zu laden
+        try:
+            qs = load_questions(qfile, silent=True)
+            name = qs.meta.get("title") or qs.meta.get("thema")
+        except Exception:
+            name = None
+        if not name:
+            name = pretty_label_from_identifier_string(qfile)
         count = qset_counts[qfile]
         return f"{name} ({count} Antworten)"
     
@@ -470,7 +485,10 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         return
     
     # Zeige Überschrift mit Fragenset-Info
-    qset_display_name = selected_qset.replace("questions_", "").replace(".json", "").replace("_", " ")
+    qset_display_name = questions.meta.get("title") or questions.meta.get("thema")
+    if not qset_display_name:
+        qset_display_name = pretty_label_from_identifier_string(selected_qset)
+
     num_questions = len(questions)
     num_answers = len(df)
     num_users = df['user_id_hash'].nunique()
