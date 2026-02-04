@@ -1231,6 +1231,7 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     st.session_state["aborted_user_duration"] = duration_seconds
     st.session_state["aborted_user_on_leaderboard"] = made_it_to_leaderboard
     st.session_state["aborted_user_recommended_duration"] = _captured_test_time_limit
+    st.session_state["aborted_user_mode"] = current_mode
     
     st.rerun()
 

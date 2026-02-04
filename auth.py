@@ -206,7 +206,7 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
                 st.session_state['post_session_toast'] = toast_struct
             except Exception:
                 pass
-        else:
+        elif st.session_state.get("aborted_user_mode", "exam") == "exam":
             duration = st.session_state.get("aborted_user_duration", 0)
             recommended_duration_seconds = st.session_state.get("aborted_user_recommended_duration", 180)
 
@@ -244,6 +244,8 @@ def handle_user_session(questions: list, app_config: AppConfig) -> str | None:
         del st.session_state["session_aborted"]
         if "aborted_user_id" in st.session_state:
             del st.session_state["aborted_user_id"]
+        if "aborted_user_mode" in st.session_state:
+            del st.session_state["aborted_user_mode"]
 
     if "user_id" in st.session_state:
         # log_state(f"User '{st.session_state.user_id}' found in session_state")
