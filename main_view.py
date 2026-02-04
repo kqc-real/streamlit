@@ -3655,9 +3655,9 @@ def render_welcome_page(app_config: AppConfig):
             with start_col:
                 mode = st.session_state.get("selected_mode", "exam")
                 if mode == 'practice':
-                    start_btn_label = translate_ui("welcome.start_button.practice", default="🚀 Übung starten")
+                    start_btn_label = translate_ui("welcome.start_button.practice", default="🧘 Übung starten")
                 else:
-                    start_btn_label = translate_ui("welcome.start_button.exam", default="🚀 Test starten")
+                    start_btn_label = translate_ui("welcome.start_button.exam", default="🏆 Test starten")
 
                 if st.button(
                     start_btn_label,
@@ -4367,9 +4367,9 @@ def _show_welcome_container(app_config: AppConfig):
 
         mode = st.session_state.get("selected_mode", "exam")
         if mode == 'practice':
-            start_label = translate_ui("welcome.start_button.practice", default="🚀 Übung starten")
+            start_label = translate_ui("welcome.start_button.practice", default="🧘 Übung starten")
         else:
-            start_label = translate_ui("welcome.start_button.exam", default="🚀 Test starten")
+            start_label = translate_ui("welcome.start_button.exam", default="🏆 Test starten")
 
         if st.button(
             start_label,

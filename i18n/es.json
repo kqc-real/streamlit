@@ -1343,8 +1343,8 @@
         "sidebar_tip": "Consejo: usa la barra lateral para navegar.",
         "start_test_button": "Iniciar test",
         "start_button": {
-            "exam": "🚀 Iniciar Examen",
-            "practice": "🚀 Iniciar Práctica"
+            "exam": "🏆 Iniciar Examen",
+            "practice": "🧘 Iniciar Práctica"
         },
         "test_intro": "Elige un set y empieza cuando estés listo.",
         "mode": {

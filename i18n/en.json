@@ -1341,8 +1341,8 @@
         "sidebar_tip": "Tip: Use the sidebar to navigate.",
         "start_test_button": "Start test",
         "start_button": {
-            "exam": "🚀 Start Test",
-            "practice": "🚀 Start Practice"
+            "exam": "🏆 Start Test",
+            "practice": "🧘 Start Practice"
         },
         "test_intro": "Choose a set and start when ready.",
         "mode": {

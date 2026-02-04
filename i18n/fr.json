@@ -1343,8 +1343,8 @@
         "sidebar_tip": "Astuce : utilise la barre latérale pour naviguer.",
         "start_test_button": "Commencer le test",
         "start_button": {
-            "exam": "🚀 Démarrer le Test",
-            "practice": "🚀 Démarrer l'Exercice"
+            "exam": "🏆 Démarrer le Test",
+            "practice": "🧘 Démarrer l'Exercice"
         },
         "test_intro": "Choisis un set et lance-toi quand tu es prêt.",
         "mode": {
